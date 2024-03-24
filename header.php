@@ -447,10 +447,9 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
         <div class="top_level row">
 				<div class="left_side">
 					<div id="avatar"></div>
-					<?php
-		//echo $get->username($ir['userid']); ?><br />
+				<br />
 					<strong><span style='font-size:17px;'>Level <?php
-		echo ($ir['level'], ''); ?></span></strong>
+		echo ($ir['level']); ?></span></strong>
 				</div>
 				<div class="center_side">
 					<div id="links">
