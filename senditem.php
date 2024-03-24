@@ -2,7 +2,8 @@
 include 'header.php';?>
 <div class='box_top'>Send Item</div>
 						<div class='box_middle'>
-							<div class='pad'><?php
+							<div class='pad'>
+                                <?php
 if (!isset($_GET['id']))
     error("You haven't picked an item.");
 
@@ -58,7 +59,7 @@ if ($user_class->level > 4) {
 }
 print "</td></tr></table>"; // Close the table
 
-include 'footer.php';
+require 'footer.php';
 function error($msg) {
     echo Message($msg);
     include 'footer.php';
