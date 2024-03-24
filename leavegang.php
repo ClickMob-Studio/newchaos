@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Leave Gang</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 $gang_class = new Gang($user_class->gang);
 if ($gang_class->leader == $user_class->id) {
     echo Message("Leaders can't leave their own gang.");
@@ -14,7 +19,7 @@ if ($user_class->gang == 0) {
     die();
 }
 echo "
-<tr><td class='contentspacer'></td></tr><tr><td class='contenthead'>Leave Gang</td></tr>
+
 <tr><td class='contentcontent'>Are you sure you wish to leave your gang?<br /><br />
 <a href='leavegang.php?x=leave'>Continue</a><br />
 <a href='gang.php'>No thanks!</a>
