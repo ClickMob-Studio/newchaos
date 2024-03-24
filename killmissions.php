@@ -61,7 +61,7 @@ print "
 <hr>";
 ?>
 <style>
-    floaty1{
+    .floaty1{
     display: block;
     width: 97%;
     margin: 0 auto;
@@ -91,8 +91,7 @@ if (mysql_fetch_array($check)) {
     $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
 
     print "<div class=\"doingMission\">
-<br><span class='floaty12'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />
-<br />
+
 
 <table id='newtables' class='altcolors' style='margin:auto;'>
    <tr>
