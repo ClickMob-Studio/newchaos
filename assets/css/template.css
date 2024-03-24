@@ -3,12 +3,12 @@ body {
 	padding: 0;
 	font-size: 12px;
 	font-family: 'Open Sans';
-	background: url(../images/Layout/Ingame/blue_bg.png) repeat;
+	background: url(..../images/Layout/Ingame/blue_bg.png) repeat;
 }
 
 @font-face {
 	font-family: 'Custom';
-	src: url(../images/Layout/Ingame/FTY.ttf);
+	src: url(..../images/Layout/Ingame/FTY.ttf);
 }
 
 .wrap {
@@ -23,10 +23,10 @@ table { margin: auto; }
 
 #outer {
 	min-height: 750px;
-	background: url(../images/Layout/Ingame/background.jpg) top center no-repeat;
+	background: url(..../images/Layout/Ingame/background.jpg) top center no-repeat;
 }
 #inner {
-	background: url(../images/Layout/Ingame/outer_bg.png) top center no-repeat;
+	background: url(..../images/Layout/Ingame/outer_bg.png) top center no-repeat;
 }
 
 
@@ -35,7 +35,7 @@ table { margin: auto; }
 #main_box { }
 #main_box .top_level {
 	height: 150px;
-	background: url(../images/Layout/Ingame/main_box_bg_01.png) bottom center no-repeat;
+	background: url(..../images/Layout/Ingame/main_box_bg_01.png) bottom center no-repeat;
 }
 #main_box .top_level .left_side {
 	float: left;
@@ -48,7 +48,7 @@ table { margin: auto; }
 	margin: 0 auto;
 	width: 57px;
 	height: 58px;
-	background: url(/images/Layout/Ingame/avatar.png) no-repeat;
+	background: url(../images/Layout/Ingame/avatar.png) no-repeat;
 }
 #main_box .top_level .left_side a {
 	font-family: 'Custom';
@@ -88,7 +88,7 @@ table { margin: auto; }
 	height: 50px;
 	line-height: 50px;
 	text-align: right;
-	background: url(../images/logo.png) no-repeat;
+	background: url(..../images/logo.png) no-repeat;
 }
 #main_box .top_level .center_side  #logo a {
 	text-decoration: none;
@@ -119,7 +119,7 @@ table { margin: auto; }
 }
 #main_box .red_bar {
 	height: 77px;
-	background: url(/images/Layout/Ingame/main_box_bg_02.png) no-repeat;
+	background: url(../images/Layout/Ingame/main_box_bg_02.png) no-repeat;
 }
 #main_box .red_bar #announcement_section {
 	float: left;
@@ -139,7 +139,7 @@ table { margin: auto; }
 	text-decoration: none;
 	text-align: center;
 	font-weight: bold;
-	background: url(/images/Layout/Ingame/red_bar_box.png) no-repeat;
+	background: url(../images/Layout/Ingame/red_bar_box.png) no-repeat;
 }
 #main_box .red_bar #announcement_section a:hover {
 	color: #ffeded;
@@ -179,7 +179,7 @@ table { margin: auto; }
 	line-height: 27px;
 	text-align: center;
 	font-size: 10px;
-	background: url(/images/Layout/Ingame/stat_white_block.png) no-repeat;
+	background: url(../images/Layout/Ingame/stat_white_block.png) no-repeat;
 }
 #main_box .red_bar #stat_section .stats  .red {
 	color: #c00005;
@@ -205,7 +205,7 @@ table { margin: auto; }
 	color: #ffeded;
 	text-align: center;
 	font-size: 11px;
-	background: url(/images/Layout/Ingame/red_bar_box.png) no-repeat;
+	background: url(../images/Layout/Ingame/red_bar_box.png) no-repeat;
 }
 #main_box .red_bar #link_section #link_box a {
 	color: #f0a5a5;
@@ -217,7 +217,7 @@ table { margin: auto; }
 }
 #main_box .content {
 	min-height: 450px;
-	background: url(/images/Layout/Ingame/main_box_bg_03.png) repeat-y;
+	background: url(../images/Layout/Ingame/main_box_bg_03.png) repeat-y;
 }
 #main_box .content .menu_side {
 	float: left;
@@ -243,7 +243,7 @@ table { margin: auto; }
 	color: #fff;
 	text-decoration: none;
 	text-shadow: 1px 0 1px #5f5f5f;
-	background: url(/images/Layout/Ingame/menu_bg.png) top center no-repeat;
+	background: url(../images/Layout/Ingame/menu_bg.png) top center no-repeat;
 }
 #main_box .content .menu_side ul.mainmenu li a:hover {
 	background-position: bottom center;
@@ -266,13 +266,13 @@ table { margin: auto; }
 	font-weight: bold;
 	color: #fff;
 	text-indent: 10px;
-	background: url(/images/Layout/Ingame/content_box_bg_01.png) no-repeat;
+	background: url(../images/Layout/Ingame/content_box_bg_01.png) no-repeat;
 }
 #main_box .content .content_side .box .box_middle {
 	width: 668px;
 	line-height: 22px;
 	color: #666;
-	background: url(/images/Layout/Ingame/content_box_bg_02.png) repeat-y;
+	background: url(../images/Layout/Ingame/content_box_bg_02.png) repeat-y;
 }
 #main_box .content .content_side .box .box_middle .pad {
 	padding: 5px 10px;
@@ -280,15 +280,15 @@ table { margin: auto; }
 #main_box .content .content_side .box .box_bottom {
 	width: 668px;
 	height: 16px;
-	background: url(/images/Layout/Ingame/content_box_bg_03.png) no-repeat;
+	background: url(../images/Layout/Ingame/content_box_bg_03.png) no-repeat;
 }
 #main_box .bottom_content {
 	height: 18px;
-	background: url(/images/Layout/Ingame/main_box_bg_05.png) no-repeat;
+	background: url(../images/Layout/Ingame/main_box_bg_05.png) no-repeat;
 }
 #main_box .black_box {
 	min-height: 50px;
-	background: url(/images/Layout/Ingame/main_box_bg_06.png) repeat-y;
+	background: url(../images/Layout/Ingame/main_box_bg_06.png) repeat-y;
 }
 #main_box .black_box #text {
 	float: left;
@@ -328,7 +328,7 @@ table { margin: auto; }
 }
 #main_box .bottom_black_box {
 	height: 15px;
-	background: url(/images/Layout/Ingame/main_box_bg_07.png) no-repeat;
+	background: url(../images/Layout/Ingame/main_box_bg_07.png) no-repeat;
 }
 
 
