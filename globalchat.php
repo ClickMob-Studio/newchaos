@@ -11,7 +11,14 @@ if ($user_class->fbitime > 0) {
 }
 
 
-    echo "<script type='module'>
+    echo "
+    <script>
+    function addBB(text) {
+        var textarea = document.getElementById('msgtxt');
+        textarea.value += text;
+    }
+    
+    <script type='module'>
     import { EmojiButton } from 'https://unpkg.com/@joeattardi/emoji-button@4.3.0/dist/index.js';
 
 const picker = new EmojiButton({
@@ -140,29 +147,29 @@ echo'
 
 echo'<div class="floaty" style="margin-bottom:-10px;">';
     echo'<div class="flexcont">';
-        echo'<div class="flexele forumhover" onclick="addasmiley(\'[b][/b]\', 4);return false;">';
+        echo'<div class="flexele forumhover" onclick="addBB(\'[b][/b]\', 4);return false;">';
             echo'[b]';
         echo'</div>';
-        echo'<div class="flexele forumhover" onclick="addasmiley(\'[u][/u]\', 4);return false;">';
+        echo'<div class="flexele forumhover" onclick="addBB(\'[u][/u]\', 4);return false;">';
             echo'[u]';
         echo'</div>';
-        echo'<div class="flexele forumhover" onclick="addasmiley(\'[i][/i]\', 4);return false;">';
+        echo'<div class="flexele forumhover" onclick="addBB(\'[i][/i]\', 4);return false;">';
             echo'[i]';
         echo'</div>';
-        echo'<div class="flexele forumhover" onclick="addasmiley(\'[s][/s]\', 4);return false;">';
+        echo'<div class="flexele forumhover" onclick="addBB(\'[s][/s]\', 4);return false;">';
             echo'[s]';
         echo'</div>';
-        echo'<div class="flexele forumhover" onclick="addasmiley(\'[url][/url]\', 6);return false;">';
+        echo'<div class="flexele forumhover" onclick="addBB(\'[url][/url]\', 6);return false;">';
             echo'[url]';
         echo'</div>';
-        echo'<div class="flexele forumhover" onclick="addasmiley(\'[img][/img]\', 6);return false;">';
+        echo'<div class="flexele forumhover" onclick="v(\'[img][/img]\', 6);return false;">';
             echo'[img]';
         echo'</div>';
-echo'<div class="flexele forumhover" onclick="addasmiley(\'[tag][/tag]\', 6);return false;">';
+echo'<div class="flexele forumhover" onclick="addBB(\'[tag][/tag]\', 6);return false;">';
             echo'[tag]';
         echo'</div>';
 
-        echo'<div class="flexele forumhover" onclick="addasmiley(\'[youtube][/youtube]\', 10);return false;">';
+        echo'<div class="flexele forumhover" onclick="addBB(\'[youtube][/youtube]\', 10);return false;">';
             echo'[youtube]';
         echo'</div>';
         echo'<div id="semojis" class="flexele forumhover" onclick="return showemojis();" style="display:' , ($user_class->hideemojis) ? 'block' : 'none' , ';flex:2;">';
