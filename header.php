@@ -57,7 +57,10 @@ $user_class = new User($uid);
 if ($uid == 1) {
     $user_class->admin = 1;
 }
-
+$queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
+$statementOnline = $db->prepare($queryOnline);
+$statementOnline->execute();
+$usersOnline = $statementOnline->rowCount();
 
 
 if ($user_class->gang == 0 && $user_class->cur_gangcrime != 0) {
@@ -448,6 +451,8 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 				<div class="left_side">
 					<div id="avatar"></div>
 				<br />
+                <div id="username">
+                    <strong><span style='font-size:17px;'>Username <!_-username-_!></span></strong>
 					<strong><span style='font-size:17px;'>Level <!_-level-_!></span></strong>
 				</div>
 				<div class="center_side">
@@ -460,7 +465,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						<a href="/todo.php"><strong>To Do List</strong></a>
 					</div>
 					<div id="logo">
-						<a href="/usersonline.php"><?php echo $count ?> Online Players</a>
+						<a href="/usersonline.php"><?php echo $usersOnline ?> Online Players</a>
 					</div>
 				</div>
 				<div class="right_side">
