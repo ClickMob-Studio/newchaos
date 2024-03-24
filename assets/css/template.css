@@ -254,11 +254,11 @@ table { margin: auto; }
 	float: left;
 	width: 675px;
 }
-#main_box .content .content_side .box {
+.box {
 	margin-top: 15px;
 	width: 668px;
 }
-#main_box .content .content_side .box .box_top {
+.box_top {
 	width: 668px;
 	height: 42px;
 	line-height: 40px;
@@ -268,7 +268,7 @@ table { margin: auto; }
 	text-indent: 10px;
 	background: url(../images/Layout/Ingame/content_box_bg_01.png) no-repeat;
 }
-#main_box .content .content_side .box .box_middle {
+.box_middle {
 	width: 668px;
 	line-height: 22px;
 	color: #666;

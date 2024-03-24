@@ -261,7 +261,7 @@ a:focus {color: #ffffffbf;}
     height: 67px;
     background: url(/images/content_bg_01.png) no-repeat;
 }
-#main .top .pad {
+.top .pad {
     padding: 16px 0 0 37px;
 }
 #main .top #search_box {
