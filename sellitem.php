@@ -69,12 +69,10 @@ if (isset($_POST['submit'])) { //if they confirm they want to sell it
 
     Take_Item($_GET['id'], $user_class->id, $_POST['amount']);
     echo Message("You have sold ".$_POST['amount']." x " . $worked['itemname'] . " for $" . prettynum($price) . ".<br /><br /><a href='inventory.php'>Back to Inventory</a>");
-
-    // Display the sell price in a div
-    echo "<div class='sell-price'>Sell Price: $" . prettynum($price) . "</div>";
-
     include 'footer.php';
     die();
+
+    
 }
 ?>
 <tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Sell Item</td></tr>
