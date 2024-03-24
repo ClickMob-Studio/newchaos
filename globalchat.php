@@ -14,7 +14,7 @@ if ($user_class->fbitime > 0) {
     echo "
     <script>
     function addBB(text) {
-        var textarea = document.getElementById('msgtxt');
+        var textarea = document.getElementById('msgtext');
         textarea.value += text;
     }
     </script>
