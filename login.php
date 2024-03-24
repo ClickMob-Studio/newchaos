@@ -37,16 +37,16 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         // }
         $_SESSION["id"] = $worked['id'];
         // Prepare and execute query to delete existing sessions
-      $deleteQuery = "DELETE FROM sessions WHERE userid = ?";
-      $deleteStatement = $db->prepare($deleteQuery);
-      $deleteStatement->bind_param("i", $worked['id']);
-      $deleteStatement->execute();
+//       $deleteQuery = "DELETE FROM sessions WHERE userid = ?";
+//       $deleteStatement = $db->prepare($deleteQuery);
+//       $deleteStatement->bind_param("i", $worked['id']);
+//       $deleteStatement->execute();
 
-// Prepare and execute query to insert new session
-    $insertQuery = "INSERT INTO sessions VALUES (?, ?, 'emptyfornow')";
-    $insertStatement = $db->prepare($insertQuery);
-    $insertStatement->bind_param("is", $worked['id'], $_COOKIE['PHPSESSID']);
-    $insertStatement->execute();
+// // Prepare and execute query to insert new session
+//     $insertQuery = "INSERT INTO sessions VALUES (?, ?, 'emptyfornow')";
+//     $insertStatement = $db->prepare($insertQuery);
+//     $insertStatement->bind_param("is", $worked['id'], $_COOKIE['PHPSESSID']);
+//     $insertStatement->execute();
         header('Location: index.php');
     } else {
         $_SESSION['failmessage'] = 'Invalid username or password';
