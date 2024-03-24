@@ -37,7 +37,7 @@ $result = mysql_query("UPDATE `grpgusers` SET `grank` = '1', `gangleader` = '1' 
 	$leader .= "</select></td>";
 ?>
 <tr><td class="contentcontent">
-<table width="50%" border="0" align="left">
+<table width="50%" border="0" style="margin:0 auto;">
 <form method='post'>
 <tr>
 <?php echo $leader; ?>
