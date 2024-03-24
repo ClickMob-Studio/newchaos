@@ -2377,7 +2377,7 @@ foreach ($rows as $row) {
     gendivs($row, 'loans', null, ($subtype != '') ? $subtype : $type, 1);
 }
 // if ($user_class->id == 1) {
-echo '<div class="floaty"><p class="text-14">Specials</p>';
+echo '<div class="floaty"><h1>Specials</h1>';
 if ($user_class->donate_token > 0) {
     echo image_popup('css/newgame/items/donate_boost.png', 156) . '<br/>';
     echo '<span class="text-14">x' . $user_class->donate_token . '</span><br/>';
@@ -2398,7 +2398,7 @@ foreach ($master as $header => $var)
     if (isset($$var)) {
         // genHead($header);
         echo '<div class="floaty">';
-        echo '<b>' . $header . '</b>';
+        echo '<h1>' . $header . '</h1>';
         echo '<hr />';
         echo '<div class="flexcont" border = "thick solid #0000FF"; style="text-align:center;position: relative;flex-flow:row wrap;">';
         echo $$var;
