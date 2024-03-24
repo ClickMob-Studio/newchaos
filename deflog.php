@@ -1,9 +1,17 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Defense Log Log</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 if ($user_class->gang != 0) {
     $gang_class = New Gang($user_class->gang);
     if (isset($_GET['delete']))
         mysql_query("DELETE FROM deflog WHERE gangid = $gang_class->id");
+        $start = isset($_GET['page']) ? ($_GET['page'] - 1) * 30 : 0;
+        $result = mysql_query("SELECT * from deflog WHERE gangid = $gang_class->id ORDER BY timestamp DESC LIMIT $start,30");
+        if(mysql_num_rows($result)){
     ?>
     <center><a href="?delete"><button class="ycbutton">Delete Defense Log</button></a></center>
     <table id="newtables" style="width:100%;">
@@ -17,8 +25,7 @@ if ($user_class->gang != 0) {
             <th>Respect</th>
         </tr>
         <?php
-        $start = isset($_GET['page']) ? ($_GET['page'] - 1) * 30 : 0;
-        $result = mysql_query("SELECT * from deflog WHERE gangid = $gang_class->id ORDER BY timestamp DESC LIMIT $start,30");
+      
         while ($row = mysql_fetch_array($result)) {
             $attacker = new User($row['attacker']);
             $defender = new User($row['defender']);
@@ -49,6 +56,9 @@ if ($user_class->gang != 0) {
                 print "</b>";
         }
         print"</td></tr>";
+    }else{
+        echo 'No logs found';
+    }
     } else {
         echo Message("You aren't in a gang.");
     }
