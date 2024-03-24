@@ -95,7 +95,7 @@ print "
     }
     </style>
 <?php
-echo "<span class='floaty1'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />";
+echo "<span class='floaty1'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />
 
 
 <div class=\"hundred centered\">";
