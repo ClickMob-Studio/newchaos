@@ -12,7 +12,7 @@ if ($user_class->gang != 0) {
         mysql_query("DELETE FROM attlog WHERE gangid = $gang_class->id");
         $start = isset($_GET['page']) ? ($_GET['page'] - 1) * 30 : 0;
         $result = mysql_query("SELECT * from attlog WHERE gangid = $gang_class->id ORDER BY timestamp DESC LIMIT $start,30");
-        if(mysql_num_rows($result))
+        if(mysql_num_rows($result)){
    ?>
     <center><a href="?delete"><button class="ycbutton">Delete Attack Log</button></a></center>
     <table id="newtables" style="width:100%;">
