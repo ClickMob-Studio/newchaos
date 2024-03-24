@@ -440,7 +440,104 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 </script>
 </head>
 <body>
-
+<div id="outer" class="wrap">
+	<div id="inner" class="wrap">
+		<div id="header" class="row"></div>
+		<div id="main_box" class="row">
+        <div class="top_level row">
+				<div class="left_side">
+					<div id="avatar"></div>
+					<?php
+		echo $get->username($ir['userid']); ?><br />
+					<strong><span style='font-size:17px;'>Level <?php
+		echo money_formatter($ir['level'], ''); ?></span></strong>
+				</div>
+				<div class="center_side">
+					<div id="links">
+						<a href="/mailbox.php">Mail (<?php echo $ir['new_mail'] ?>)</a> -
+						<a href="/events.php">Events(<?php echo $ir['new_events'] ?>)</a> -
+						<a href="/forums.php">Forum</a> -
+						<a href="/helptutorial.php">Help</a> -
+						<a href="/changelog.php"><strong>Change Log</strong></a>
+						<a href="/todo.php"><strong>To Do List</strong></a>
+					</div>
+					<div id="logo">
+						<a href="/usersonline.php"><?php echo $count ?> Online Players</a>
+					</div>
+				</div>
+				<div class="right_side">
+					<div class="info_slot">
+						<span><?php echo $money
+?></span>
+						Cash
+					</div>
+					<div class="info_slot">
+						<span><?php echo $crystals
+?></span>
+						Points
+					</div>
+					<div class="info_slot">
+						<span><?php echo ($ir['bankmoney'] >= 0) ? money_Formatter($ir['bankmoney']) : 'No Account'; ?></span>
+						Bank
+					</div>
+					<div class="info_slot">
+						<span><?php echo $ir['credits'] ?></span>
+						Credits
+					</div>
+					<div class="spacer"></div>
+				</div>
+				<div class="spacer"></div>
+			</div>
+			<div class="red_bar row">
+				<div id="stat_section">
+					<div class="stats">
+						<div class="l-text">ENERGY</div><div class="r-text"><?php echo $ir['energy'] ?>/<?php echo $ir['maxenergy'] ?></div>
+						<div class="spacer"></div>
+						<div style="background: url(../images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
+							<div class="stat-bar">
+								<div style="background: url(../images/yellow-stat-bar.png) no-repeat;height: 8px;width:<?php echo $enperc ?>%;"></div>
+							</div>
+						</div>
+					</div>
+					<div class="stats">
+						<div class="l-text">NERVE</div><div class="r-text"><?php echo $ir['brave'] ?>/<?php echo $ir['maxbrave'] ?></div>
+						<div class="spacer"></div>
+						<div style="background: url(../images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
+							<div class="stat-bar">
+								<div style="background: url(../images/yellow-stat-bar.png) no-repeat;height: 8px;width:<?php echo $brperc ?>%;"></div>
+							</div>
+						</div>
+					</div>
+					<div class="stats">
+						<div class="l-text">HP</div><div class="r-text"><?php echo $ir['hp'] ?>/<?php echo $ir['maxhp'] ?></div>
+						<div class="spacer"></div>
+						<div style="background: url(../images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
+							<div class="stat-bar">
+								<div style="background: url(../images/yellow-stat-bar.png) no-repeat;height: 8px;width:<?php echo $hpperc ?>%;"></div>
+							</div>
+						</div>
+					</div>
+					<div class="stats">
+						<div class="l-text">RAGE</div><div class="r-text"><?php echo $wiperc ?>%</div>
+						<div class="spacer"></div>
+						<div style="background: url(../images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
+							<div class="stat-bar">
+								<div style="background: url(../images/red-stat-bar.png) no-repeat;height: 8px;width:<?php echo $wiperc ?>%;"></div>
+							</div>
+						</div>
+					</div>
+					<div class="spacer"></div>
+				</div>
+				<div id="link_section">
+					<div id="link_box">
+						<a href="/vote.php">Vote</a> || <a href="/donate.php">Donate</a> || <a href="/logout.php">Logout</a>
+					</div>
+				</div>
+				<div class="spacer"></div>
+			</div>
+			<div class="content row">
+				<div class="menu_side">
+					<ul class="mainmenu">
 
     <?php
     echo '<center>';
