@@ -39,13 +39,13 @@ if (!$row) {
     header('Location: index.php');
     exit();
 }
-if ($row['sessionid'] != $_COOKIE['PHPSESSID'] && $_SESSION['id'] != 0) {
-    $sessid = $_SESSION['id'];
-    session_unset();
-    session_destroy();
-    header('Location: index.php');
-    exit();
-}
+// if ($row['sessionid'] != $_COOKIE['PHPSESSID'] && $_SESSION['id'] != 0) {
+//     $sessid = $_SESSION['id'];
+//     session_unset();
+//     session_destroy();
+//     header('Location: index.php');
+//     exit();
+// }
 
 if (isset($_GET['action']) && $_GET['action'] == "logout") {
     session_destroy();
