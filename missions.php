@@ -1,6 +1,10 @@
 <?php
 include "header.php";
-
+?>
+<div class='box_top'>Missions</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 if (isset($_GET['do'])) {
     $do = abs(intval($_GET['do']));
     $mission = mysql_query("SELECT * FROM mission WHERE id={$do}");

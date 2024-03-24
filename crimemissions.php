@@ -1,5 +1,12 @@
 <?php
 include "header.php";
+
+?>
+
+<div class='box_top'>Crime Missions</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 if (isset($_GET['do'])) {
     $do = abs(intval($_GET['do']));
     // if ($do != 1 && $do != 2 && $do != 3 && $do != 4 && $do != 5 && $do != 6  && $do != 7 && $do != 8 && $do != 9 && $do != 10 && $do != 11 && $do != 12 && $do != 13 && $do != 14 )
