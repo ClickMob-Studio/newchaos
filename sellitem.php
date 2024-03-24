@@ -87,7 +87,7 @@ if (isset($_POST['submit'])) { //if they confirm they want to sell it
                <form method="post">
                 <input type="number" name="amount" id="amount" max="<?php echo $howmany;?>" oninput="updateSellPrice()">
                 <br>
-                <button name="submit">Sell</button>
+                <input type="submit" name="submit" value="submit">
               </form>
             </tr>
         </table>
