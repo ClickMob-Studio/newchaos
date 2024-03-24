@@ -466,22 +466,22 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 				</div>
 				<div class="right_side">
 					<div class="info_slot">
-						<span><?php echo $money
+						<span>$<?php echo number_format($user_class->money);
 ?></span>
 						Cash
 					</div>
 					<div class="info_slot">
-						<span><?php echo $crystals
+						<span><?php echo number_format($user_class->points);
 ?></span>
 						Points
 					</div>
 					<div class="info_slot">
-						<span><?php echo ($ir['bankmoney'] >= 0) ? ($ir['bankmoney']) : 'No Account'; ?></span>
+						<span><?php echo ($user_class->bank >= 0) ? ('$'.number_format($user_class->bank)) : 'No Account'; ?></span>
 						Bank
 					</div>
 					<div class="info_slot">
-						<span><?php echo $ir['credits'] ?></span>
-						Credits
+						<span><?php echo number_format($user_class->credits); ?></span>
+						Gold
 					</div>
 					<div class="spacer"></div>
 				</div>
