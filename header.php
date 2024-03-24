@@ -873,7 +873,7 @@ if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'VIPstore.php
     </style>
 
     <div class="vertical-text-slider floaty12">
-    <div class="flex-container">
+    
 
                  <div class="slider-frame">
                 <ul class="slides" style="list-style-type: none; width:100%">
@@ -922,7 +922,7 @@ if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'VIPstore.php
                 </ul>
             </div>
         </div>
-    </div>
+ 
 </div>
 
 <div class="vertical-text-slider floaty12" id="message-container">
