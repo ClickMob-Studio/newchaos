@@ -491,7 +491,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 			<div class="red_bar row">
 				<div id="stat_section">
 					<div class="stats">
-						<div class="l-text">ENERGY</div><div class="r-text"><!_-formenergy-_!></div>
+						<div class="l-text">ENERGY</div><div class="r-text"><?php echo $user_class->energy;?> / <?php echo $user_class->maxenergy;?></div>
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
@@ -500,7 +500,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						</div>
 					</div>
 					<div class="stats">
-						<div class="l-text">NERVE</div><div class="r-text"><!_-formnerve-_!></div>
+						<div class="l-text">NERVE</div><div class="r-text"><?php echo $user_class->nerver;?> / <?php echo $user_class->maxnerve;?></div>
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
@@ -509,7 +509,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						</div>
 					</div>
 					<div class="stats">
-						<div class="l-text">HP</div><div class="r-text"><!_-formhp-_!></div>
+						<div class="l-text">HP</div><div class="r-text"><?php echo $user_class->hp; ?> / <?php echo $user_class->maxhp;?></div>
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
@@ -518,7 +518,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						</div>
 					</div>
 					<div class="stats">
-						<div class="l-text">Awake</div><div class="r-text"><!_-formawake-_!>%</div>
+						<div class="l-text">Awake</div><div class="r-text"><?php echo $user_class->awake;?> / <?php echo $user_class->maxawake; ?></div>
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
