@@ -1059,6 +1059,3 @@ anticheat();
 ?>
 
 <div class='box'>
-<div class='box_top'></div>
-						<div class='box_middle'>
-							<div class='pad'>

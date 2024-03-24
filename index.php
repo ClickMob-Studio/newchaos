@@ -1,8 +1,11 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+
 include 'header.php';
+?>
+<div class='box_top'>General Information</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 
 
 if ($user_class->firstlogin1 == 0) {
