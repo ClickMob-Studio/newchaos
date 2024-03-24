@@ -1,5 +1,10 @@
     <?php
 include 'header.php';
+?>
+<div class='box_top'>Global Chat</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 
 if ($user_class->fbitime > 0) {
     diefun("You can't communicate if you're in FBI Jail!");
