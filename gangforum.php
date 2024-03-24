@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Gang Forum</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 if ($user_class->gang == 0) {
     echo Message("You aren't in a gang.");
     include 'footer.php';
