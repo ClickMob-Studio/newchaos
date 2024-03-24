@@ -80,7 +80,7 @@ if ($user_class->lastpayment < time() - 86400) {
     $db->execute(array(
         $user_class->id
     ));
-    Send_event($user_class->id, "Daily Login Bonus: <font color=yellow><b>250 Points</b></font>");
+    Send_event($user_class->id, "Daily Login Bonus: <font color=red><b>250 Points</b></font>");
 }
 if (isset($_GET['spend'])) {
     if ($_GET['spend'] == "refenergy") {
@@ -370,7 +370,7 @@ $petJailDisplay = $petJailCount > 0 ? "<span style='color:red;'>$petJailDisplay<
         $buffer = str_replace("<!_-events-_!>", prettynum($events), $buffer);
     }
     if ($tickets > 0) {
-        $buffer = str_replace("<!_-tickets-_!>", "<font color='yellow'><b>" . prettynum($tickets) . "</b></font>", $buffer);
+        $buffer = str_replace("<!_-tickets-_!>", "<font color='red'><b>" . prettynum($tickets) . "</b></font>", $buffer);
     } else {
         $buffer = str_replace("<!_-tickets-_!>", prettynum($tickets), $buffer);
     }
@@ -880,9 +880,9 @@ if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'VIPstore.php
                     $result = mysql_query("SELECT a.* FROM ads a WHERE ( SELECT (`timestamp` +(`displaymins` * 60)) FROM ads WHERE ads.id = a.id ) > UNIX_TIMESTAMP()");
                     if (!mysql_num_rows($result)) {
 
-                        $_messages = ['Invite your friends to play and receive <font color=yellow>50 Gold</font> for every friend that plays. Hurry and start inviting now!',
+                        $_messages = ['Invite your friends to play and receive <font color=red>50 Gold</font> for every friend that plays. Hurry and start inviting now!',
                             'For every friend you successfully refer, you\'ll earn <font color=red>50 Gold</font> Spread the word and let\'s play together!',
-                            'Attention all players! Invite your friends to join in on the fun. <font color=yellow>50 Gold</font> reward for every successful referral'
+                            'Attention all players! Invite your friends to join in on the fun. <font color=red>50 Gold</font> reward for every successful referral'
                         ];
 
                         $ref_message = $_messages[array_rand($_messages)];
