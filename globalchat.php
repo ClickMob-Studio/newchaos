@@ -25,7 +25,7 @@ const picker = new EmojiButton({
 const trigger = document.querySelector('#trigger');
 const textarea = document.querySelector('#reply')
 
-function insertAtCaret(text, textarea) {
+function addasmiley(text, textarea) {
     textarea.focus();
     textarea.setRangeText(
       text,
@@ -36,7 +36,7 @@ function insertAtCaret(text, textarea) {
 }
 
 picker.on('emoji', selection => {
-    insertAtCaret(selection.emoji, textarea);
+    addasmiley(selection.emoji, textarea);
     textarea.focus()
 });
 
@@ -140,29 +140,29 @@ echo'
 
 echo'<div class="floaty" style="margin-bottom:-10px;">';
     echo'<div class="flexcont">';
-        echo'<div class="flexele forumhover" onclick="insertAtCaret(\'[b][/b]\', 4);return false;">';
+        echo'<div class="flexele forumhover" onclick="addasmiley(\'[b][/b]\', 4);return false;">';
             echo'[b]';
         echo'</div>';
-        echo'<div class="flexele forumhover" onclick="insertAtCaret(\'[u][/u]\', 4);return false;">';
+        echo'<div class="flexele forumhover" onclick="addasmiley(\'[u][/u]\', 4);return false;">';
             echo'[u]';
         echo'</div>';
-        echo'<div class="flexele forumhover" onclick="insertAtCaret(\'[i][/i]\', 4);return false;">';
+        echo'<div class="flexele forumhover" onclick="addasmiley(\'[i][/i]\', 4);return false;">';
             echo'[i]';
         echo'</div>';
-        echo'<div class="flexele forumhover" onclick="insertAtCaret(\'[s][/s]\', 4);return false;">';
+        echo'<div class="flexele forumhover" onclick="addasmiley(\'[s][/s]\', 4);return false;">';
             echo'[s]';
         echo'</div>';
-        echo'<div class="flexele forumhover" onclick="insertAtCaret(\'[url][/url]\', 6);return false;">';
+        echo'<div class="flexele forumhover" onclick="addasmiley(\'[url][/url]\', 6);return false;">';
             echo'[url]';
         echo'</div>';
-        echo'<div class="flexele forumhover" onclick="insertAtCaret(\'[img][/img]\', 6);return false;">';
+        echo'<div class="flexele forumhover" onclick="addasmiley(\'[img][/img]\', 6);return false;">';
             echo'[img]';
         echo'</div>';
-echo'<div class="flexele forumhover" onclick="insertAtCaret(\'[tag][/tag]\', 6);return false;">';
+echo'<div class="flexele forumhover" onclick="addasmiley(\'[tag][/tag]\', 6);return false;">';
             echo'[tag]';
         echo'</div>';
 
-        echo'<div class="flexele forumhover" onclick="insertAtCaret(\'[youtube][/youtube]\', 10);return false;">';
+        echo'<div class="flexele forumhover" onclick="addasmiley(\'[youtube][/youtube]\', 10);return false;">';
             echo'[youtube]';
         echo'</div>';
         echo'<div id="semojis" class="flexele forumhover" onclick="return showemojis();" style="display:' , ($user_class->hideemojis) ? 'block' : 'none' , ';flex:2;">';
