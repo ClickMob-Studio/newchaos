@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 ?>
-<div class='box_top'>Put On Market</div>
+<div class='box_top'>Item Market</div>
 						<div class='box_middle'>
 							<div class='pad'>
 
@@ -35,7 +35,6 @@ if (isset($_POST['market'])){
 	header("Location: itemmarket.php");
 	die();
 }
-genHead("Item Market");
 		echo'<form method="post">';
 			echo'<table id="newtables" style="margin:auto;width:50%">';
 				echo'<tr>';
