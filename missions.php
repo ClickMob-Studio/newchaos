@@ -65,7 +65,7 @@ if (isset($_GET['do'])) {
 }
 $q2 = mysql_query("SELECT * FROM mission WHERE category = 0 ORDER BY id ASC ");
 $msgg = (isset($msgg)) ? $msgg : "";
-print $msgg;
+print "<div class='floaty1'>".$msgg."</div>";
 
 print "
 <div class='contenthead floaty'>
@@ -76,10 +76,30 @@ print "
 <hr>
 
 
-<hr>
+<hr>";
+?>
+<style>
+    .floaty1{
+    display: block;
+    width: 97%;
+    margin: 0 auto;
+    margin-right: 10px;
+    color: #000;
+    /* width: 72%; */
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10px !important;
+    box-shadow: 0px 2px 10px rgba(93, 93, 93, 1);
+    padding: 5px 5px 4px;
+    margin-bottom: 10px;
+    }
+    </style>
+<?php
+echo "<span class='floaty1'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />";
 
 
 <div class=\"hundred centered\">";
+
 $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
 if (mysql_fetch_array($check)) {
     $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
@@ -91,8 +111,6 @@ if (mysql_fetch_array($check)) {
     $currenttime = time();
     $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
     print "<div class=\"doingMission\">
-<br><font color=yellow>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</font><br />
-<br />
 
 <div><a href='?cancel' style='font-weight:800;color:red'>Cancel Current Mission</a></div>
 
