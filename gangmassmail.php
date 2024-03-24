@@ -7,7 +7,7 @@ include "header.php";?>
 if (!$user_class->gang) {
     die("You're not in a gang.");
 }
-print "<div class='container'><h3>Gang Mass Mail</h3><
+print "
 <form method='post' name='message'>";
 $q     = mysql_query("SELECT id FROM grpgusers WHERE gang=$user_class->gang");
 $count = 1;
