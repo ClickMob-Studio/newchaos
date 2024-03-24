@@ -2268,7 +2268,7 @@ function druggie($num)
 }
 if (check_items(105) || check_items(106) || check_items(107) || $user_class->eqweapon == 105 || $user_class->eqarmor == 106 || $user_class->eqshoes == 107)
     echo '<br /><a href="customitems.php" style="color:#00ff00;font-weight:bold;font-size:20px;"> &gt; You can rename your custom items by clicking this link. &lt; </a><br />';
-genHead("<h4>Equipped</h4>");
+genHead("<h1>Equipped</h1>");
 echo '<hr>';
 echo '<table width="100%">';
 echo '<tr>';
@@ -2409,7 +2409,7 @@ include 'footer.php';
 function gendivs($row, $type, $sell = null, $subtype = null, $loan = null)
 {
     global $$type;
-    $$type .= '<div class="flexele" style="flex-basis:25%;margin-bottom:12px;margin-top:12px;">';
+    $$type .= '<span class="flexele" style="flex-basis:25%;margin-bottom:12px;margin-top:12px;">';
     $$type .= image_popup($row['image'], $row['id']);
     $$type .= '<br />';
     $$type .= item_popup($row['itemname'], $row['id']) . ' [x' . $row['quantity'] . ']';
@@ -2475,5 +2475,5 @@ if ($row['id'] == 167)
         $$type .= ($loan) ? '&loaned=1' : '';
         $$type .= '">Equip</a> ';
     }
-    $$type .= '</div>';
+    $$type .= '</span>';
 }
