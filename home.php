@@ -55,7 +55,10 @@ $users24 = $statementOnline24->rowCount();
                 <div id="error_area">
                     <?php 
                     if(isset($_SESSION['failmessage'])){
-                        echo $_SESSION['failmessage'];
+                        echo '<div class="warning-msg">
+                        <i class="fa fa-warning"></i>
+                        '.$_SESSION['failmessage'].'
+                      </div>';
                         unset($_SESSION['failmessage']);
                     }
                     ?>
