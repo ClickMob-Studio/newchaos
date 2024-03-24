@@ -37,7 +37,7 @@ if(!isset($_GET['reset'])){
 		$err = mysql_fetch_array(mysql_query("DELETE FROM searches WHERE id = {$_POST['searchid']} AND userid = $user_class->id"));
 }
 
-genHead("Search");
+
 echo"
 <script>
 	if(window.history.replaceState) {
