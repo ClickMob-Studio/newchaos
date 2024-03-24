@@ -449,6 +449,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 				<br />
             
                     <strong><span style='font-size:17px;'><?php echo $user_class->formattedname; ?></span></strong>
+                    <br>
 					<strong><span style='font-size:17px;'>Level <!_-level-_!></span></strong>
 				</div>
 				<div class="center_side">
@@ -490,38 +491,38 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 			<div class="red_bar row">
 				<div id="stat_section">
 					<div class="stats">
-						<div class="l-text">ENERGY</div><div class="r-text"><?php echo $ir['energy'] ?>/<?php echo $ir['maxenergy'] ?></div>
+						<div class="l-text">ENERGY</div><div class="r-text"><!_-formenergy-_!></div>
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
-								<div style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<?php echo $enperc ?>%;"></div>
+								<div style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<!_-energyperc-_!>%;"></div>
 							</div>
 						</div>
 					</div>
 					<div class="stats">
-						<div class="l-text">NERVE</div><div class="r-text"><?php echo $ir['brave'] ?>/<?php echo $ir['maxbrave'] ?></div>
+						<div class="l-text">NERVE</div><div class="r-text"><!_-formnerve-_!></div>
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
-								<div style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<?php echo $brperc ?>%;"></div>
+								<div style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<!_-nerveperc-_!>%"></div>
 							</div>
 						</div>
 					</div>
 					<div class="stats">
-						<div class="l-text">HP</div><div class="r-text"><?php echo $ir['hp'] ?>/<?php echo $ir['maxhp'] ?></div>
+						<div class="l-text">HP</div><div class="r-text"><!_-formhp-_!></div>
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
-								<div style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<?php echo $hpperc ?>%;"></div>
+								<div style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<!_-hpperc-_!>%;"></div>
 							</div>
 						</div>
 					</div>
 					<div class="stats">
-						<div class="l-text">RAGE</div><div class="r-text"><?php echo $wiperc ?>%</div>
+						<div class="l-text">Awake</div><div class="r-text"><!_-formawake-_!>%</div>
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
-								<div style="background: url(../assets/images/red-stat-bar.png) no-repeat;height: 8px;width:<?php echo $wiperc ?>%;"></div>
+								<div style="background: url(../assets/images/red-stat-bar.png) no-repeat;height: 8px;width:<!_-awakeperc-_!>%;"></div>
 							</div>
 						</div>
 					</div>
