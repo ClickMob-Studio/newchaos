@@ -2409,6 +2409,7 @@ include 'footer.php';
 function gendivs($row, $type, $sell = null, $subtype = null, $loan = null)
 {
     global $$type;
+    $$type .= '<div class="flex-container">';
     $$type .= '<span class="flexele" style="flex-basis:25%;margin-bottom:12px;margin-top:12px;">';
     $$type .= image_popup($row['image'], $row['id']);
     $$type .= '<br />';
@@ -2485,4 +2486,5 @@ function gendivs($row, $type, $sell = null, $subtype = null, $loan = null)
     }
 
     $$type .= '</span>';
+    $$type .= '</div>'; // Close flex-container
 }
