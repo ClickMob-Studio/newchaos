@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 ?>
-<div class='box_top'>Manage Gang</div>
+<div class='box_top'>Manage Members</div>
 						<div class='box_middle'>
 							<div class='pad'>
                                 <?php
