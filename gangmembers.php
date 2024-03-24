@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Gang Members</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 $gang_class = new Gang($user_class->gang);
 if ($user_class->gang == 0) {
     echo Message("You aren't in a gang.");
