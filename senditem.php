@@ -1,6 +1,6 @@
 <?php
 include 'header.php';?>
-<div class='box_top'>Inventory</div>
+<div class='box_top'>Send Item</div>
 						<div class='box_middle'>
 							<div class='pad'><?php
 if (!isset($_GET['id']))
@@ -31,7 +31,7 @@ if (isset($_POST['submit'])) {
     echo Message("You have sent [x{$_POST['amnt']}] {$worked['itemname']} to $person->formattedname.");
     Send_Event($person->id, "[-_USERID_-] has sent you [x{$_POST['amnt']}] {$worked['itemname']}.", $user_class->id);
 }
-print '<tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Send item</td></tr>
+print '<table><tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Send item</td></tr>
 <tr><td class="contentcontent">';
 if ($user_class->level <= 4)
     print '<center><font size="3px"><font color=lime>You must be at least level 5 to send items</font><br></center>';
