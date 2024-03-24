@@ -452,15 +452,15 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 				</div>
 				<div class="center_side">
 					<div id="links">
-						<a href="/mailbox.php">Mail (<!_-mail-_!>)</a> -
+						<a href="pms.php?view=inbox">Mail (<!_-mail-_!>)</a> -
 						<a href="/events.php">Events(<!_-events-_!>)</a> -
-						<a href="/forums.php">Forum</a> -
-						<a href="/helptutorial.php">Help</a> -
-						<a href="/changelog.php"><strong>Change Log</strong></a>
-						<a href="/todo.php"><strong>To Do List</strong></a>
+						<a href="/forum.php">Forum</a> -
+						<a href="/news.php">News</a> -
+						<a href="/gameupdates.php"><strong>Updates</strong></a>
+						<a href="/VIPstore.php"><strong>Vip Store</strong></a>
 					</div>
 					<div id="logo">
-						<a href="/usersonline.php"><?php echo $usersOnline ?> Online Players</a>
+						<a href="/online.php"><?php echo $usersOnline ?> Online Players</a>
 					</div>
 				</div>
 				<div class="right_side">
@@ -528,7 +528,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 				</div>
 				<div id="link_section">
 					<div id="link_box">
-						<a href="/vote.php">Vote</a> || <a href="/donate.php">Donate</a> || <a href="/logout.php">Logout</a>
+						<a href="/vote.php">Vote</a> || <a href="/VIPstore.php">Donate</a> || <a href="/index.php?action=logout">Logout</a>
 					</div>
 				</div>
 				<div class="spacer"></div>
@@ -537,12 +537,21 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 				<div class="menu_side">
 					<ul class="mainmenu">
                     <hr />
-<li><a href='preferences.php'>Preferences</a></li>
-<li><a href='preport.php'>Player Report</a></li>
-<li><a href='helptutorial.php'>Help Tutorial</a></li>
-<li><a href='gamerules.php'>Game Rules</a></li>
-<li><a href='viewuser.php?u={$ir['userid']}'>My Profile</a></li>
-<li><a href='logout.php'>Logout</a></li>
+<li><a href='search.php'>Search Players</a></li>
+<li><a href='globalchat.php'>Chat</a></li>
+<li><a href='city.php'><!_-cityname-_!></a></li>
+<li><a href='missions.php'>Missions</a></li>
+<li><a href='inventory.php'>Inventory</a></li>
+<li><a href='raids.php'>Raids</a></li>
+<li><a href='backalley.php'>Backalley</a></li>
+<li><a href='gang.php'>Gang</a></li>
+<li><a href='bank.php'>Bank</a></li>
+<li><a href='jail.php'>Jail (<!_-jail-_!>)</a> </li>
+<li><a href='hospital.php'>hospital (<!_-hospital-_!>) </a></li>
+<li><a href='crime.php'>Crimes</a> </li>
+<li><a href='newcrimes.php'>Speed Crimes</a> </li>
+<li><a href='gym.php'>Gym</a> </li>
+<li><a href='preferences.php'>Edit Account</a> </li>
 
 </ul>
 				</div>
