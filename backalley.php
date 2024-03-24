@@ -2,7 +2,11 @@
 
 session_start();
 include 'header.php';
-
+?>
+<div class='box_top'>BackAlley</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 // When the CheckOut POST request is made
 if (isset($_POST['CheckOut'])) {
     if ($user_class->hospital > 0) {
@@ -26,7 +30,7 @@ if (isset($_POST['CheckOut'])) {
 if (isset($_GET['use']) && $_GET['use'] == 'yes') {
     if (isset($_SESSION['action_done'])) {
         // Inform the user that refreshing to perform the action again is not allowed
-        echo 'You cannot submit this form on refresh.';
+        echo Message('You cannot submit this form on refresh.');
 
         // Clear the session flag to allow future actions
         unset($_SESSION['action_done']);
@@ -243,8 +247,7 @@ if ($user_class->hospital > 0) {
 ?>
 
 		<div class="floaty">
-			Back Alley
-			<hr />
+
 			&bull; <font color="red">Welcome to the BackAlley!<br />
 			&bull; <font color="white">You will battle against different opponents.<br />
             &bull; <font color="red">But will you take the risk when its 20% energy per attack<br />
