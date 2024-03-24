@@ -1,13 +1,10 @@
 <?php
 include 'header.php';
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
-
-// if ($user_class->id == 174) {
-//     $user_class = new User(84);
-// }
-
+?>
+<div class='box_top'>Inventory</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 
 if (isset($_POST['move_to_cabinet'])) {
     $itemid = intval($_POST['itemid']);
