@@ -549,20 +549,8 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 				</div>
 				<div class="content_side">
 </div>
-<div class='box'>
-<div class='box_top'></div>
-						<div class='box_middle'>
-							<div class='pad'>";
 
     <?php
-
-
-
-
-
-
-
- 
 
 
 $time = time();
@@ -1068,3 +1056,9 @@ function microtime_float()
 }
 
 anticheat();
+?>
+
+<div class='box'>
+<div class='box_top'></div>
+						<div class='box_middle'>
+							<div class='pad'>
