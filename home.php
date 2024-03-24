@@ -22,7 +22,7 @@ $users24 = $statementOnline24->rowCount();
     <meta name="robots" content="All">
     <title>Chaos City - Free Online Web RPG</title>
     <link href="assets/css/login.css" type="text/css" rel="stylesheet" />
-    <link href="assets/css/game.css?v=1" type="text/css" rel="stylesheet" />
+    <link href="assets/css/game.css?v=2" type="text/css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="favicon.ico">
 </head>
 <body>
