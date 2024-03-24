@@ -1,8 +1,5 @@
 <?php
 session_start();
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 include 'dbcon.php';
 
 // Get client's IP address
@@ -44,18 +41,18 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
     if ($stored_username == $given_username && ($worked['password'] == $password || $worked['password'] == $password2)) {
         if ($worked['ban/freeze'] == 1 || $ban > 0 || $ipban > 0) {
             $_SESSION['failmessage'] = 'Your account has been banned';
-            header('Location: index.php');
+            header('Location: /index.php');
             exit();
         }
         $_SESSION["id"] = $worked['id'];
         // Using PDO to perform queries
         $db->query("DELETE FROM sessions WHERE userid={$worked['id']}");
         $db->query("INSERT INTO sessions VALUES({$worked['id']},'{$_COOKIE['PHPSESSID']}','emptyfornow')");
-        header('Location: index.php');
+        header('Location: /index.php');
         exit();
     } else {
         $_SESSION['failmessage'] = 'Invalid username or password';
-        header('Location: home.php');
+        header('Location: /home.php');
         exit();
     }
 } else {
