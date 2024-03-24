@@ -150,7 +150,9 @@ echo'
         flex: 1;
         text-align:center;
         padding:10px;
-        
+    }
+    .flexcont{
+        text-align: center;
     }
     </style>
 <?php
