@@ -1,8 +1,11 @@
 <?php
 include "header.php";
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+?>
+
+<div class='box_top'>Gang Gifrs</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 // Define the gifts and their cost
 $gifts = array(
   'Thank You' => 250,
