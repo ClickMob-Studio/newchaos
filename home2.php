@@ -42,7 +42,7 @@
 				<div id="login_panel">
 					<h3>:: Login Panel ::</h3>
 					 
-					<form method="POST"  action="authenticate.php">
+					<form method="POST"  action="login.php">
 						<input type="text" class="login" value="" name="username" placeholder="Username" />
 						<input type="password" class="login" value=""  name="password" placeholder="Password" />
 						<input type='hidden' name="verf" value='{$login_csrf}' />
