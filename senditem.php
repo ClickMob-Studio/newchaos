@@ -31,7 +31,8 @@ if (isset($_POST['submit'])) {
     echo Message("You have sent [x{$_POST['amnt']}] {$worked['itemname']} to $person->formattedname.");
     Send_Event($person->id, "[-_USERID_-] has sent you [x{$_POST['amnt']}] {$worked['itemname']}.", $user_class->id);
 }
-print '<table><tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Send item</td></tr>
+print '<table>'; // Add this line to open the table
+print '<tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Send item</td></tr>
 <tr><td class="contentcontent">';
 if ($user_class->level <= 4)
     print '<center><font size="3px"><font color=lime>You must be at least level 5 to send items</font><br></center>';
@@ -55,7 +56,8 @@ if ($user_class->level > 4) {
     </form>
     ";
 }
-print "</td></tr></table>";
+print "</td></tr></table>"; // Close the table
+
 include 'footer.php';
 function error($msg) {
     echo Message($msg);
