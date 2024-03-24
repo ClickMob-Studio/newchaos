@@ -858,14 +858,18 @@ if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'VIPstore.php
     .floaty12{
         margin: 0 auto;
     margin-right: 10px;
-
+    color:#000;
     width: 72%;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0px 2px 10px rgba(93, 93, 93, 1);
     padding: 5px 5px 4px;
     margin-bottom:10px;
-    }</style>
+    }
+    .floaty12 a:link {
+  color: #000;
+}
+    </style>
 
     <div class="vertical-text-slider floaty12">
     <div class="flex-container">
