@@ -11,12 +11,12 @@ include 'header.php';
             <th>Time</th>
         </tr>
         <?php
-		$db->query("SELECT * FROM gangevents WHERE gang = ? ORDER BY timesent DESC LIMIT 30");
-		$db->execute(array(
+		$r = $db->query("SELECT * FROM gangevents WHERE gang = ? ORDER BY timesent DESC LIMIT 30");
+		$r->execute(array(
 			$user_class->gang
 		));
-        if($db->rowCount()){
-		$rows = $db->fetch_row();
+        if($r->rowCount()){
+		$rows = $r->fetch_row();
 		foreach($rows as $row){
 			$extra_user = new User($row['extra']);
 			$text = str_replace('[-_USERID_-]', $extra_user->formattedname, $row['text']);
