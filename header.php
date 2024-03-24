@@ -881,7 +881,7 @@ if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'VIPstore.php
                     if (!mysql_num_rows($result)) {
 
                         $_messages = ['Invite your friends to play and receive <font color=yellow>50 Gold</font> for every friend that plays. Hurry and start inviting now!',
-                            'For every friend you successfully refer, you\'ll earn <font color=yellow>50 Gold</font> Spread the word and let\'s play together!',
+                            'For every friend you successfully refer, you\'ll earn <font color=red>50 Gold</font> Spread the word and let\'s play together!',
                             'Attention all players! Invite your friends to join in on the fun. <font color=yellow>50 Gold</font> reward for every successful referral'
                         ];
 
