@@ -1,6 +1,7 @@
 <?php
 include 'dbcon.php';
 session_start();
+var_dump($_SESSION);
 // Query to get users online in the last hour
 $queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
 $statementOnline = $db->prepare($queryOnline);
