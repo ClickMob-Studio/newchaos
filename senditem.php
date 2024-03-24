@@ -55,7 +55,7 @@ if ($user_class->level > 4) {
     </form>
     ";
 }
-print "</td></tr>";
+print "</td></tr></table>";
 include 'footer.php';
 function error($msg) {
     echo Message($msg);
