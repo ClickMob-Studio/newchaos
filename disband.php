@@ -1,7 +1,12 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Disband Gang</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 $gang_class = new Gang($user_class->gang);
-include("gangheaders.php");
+
 if ($user_class->gang == 0) {
     echo Message("You aren't in a gang.");
     include("footer.php");
@@ -55,4 +60,5 @@ if ($gang_class->leader == $user_class->id) {
     include 'footer.php';
     die();
 }
+include("gangheaders.php");
 include 'footer.php';
