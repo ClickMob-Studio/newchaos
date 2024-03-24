@@ -16,11 +16,11 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $query = "SELECT * FROM grpgusers WHERE loginame = ?";
      $statement = $db->prepare($query);
     $statement->execute([$username]);
-//     $worked = $statement->fetch(PDO::FETCH_ASSOC);
-//     $banQuery = "SELECT * FROM bans WHERE id = ? AND (type = 'freeze' OR type = 'perm')";
-//     $banStatement = $db->prepare($banQuery);
-//     $banStatement->execute([$worked['id']]);
-//     $ban = $banStatement->rowCount();
+     $worked = $statement->fetch(PDO::FETCH_ASSOC);
+     $banQuery = "SELECT * FROM bans WHERE id = ? AND (type = 'freeze' OR type = 'perm')";
+     $banStatement = $db->prepare($banQuery);
+     $banStatement->execute([$worked['id']]);
+     $ban = $banStatement->rowCount();
 //     $ipBanQuery = "SELECT * FROM ip_bans WHERE ip = ?";
 //     $ipBanStatement = $db->prepare($ipBanQuery);
 //     $ipBanStatement->execute([$IP]);
