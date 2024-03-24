@@ -30,31 +30,31 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
      $stored_username = strtolower($worked['loginame']);
      $given_username = strtolower($username);
 
-//     if ($stored_username == $given_username && ($worked['password'] == $password || $worked['password'] == $password2)) {
-//         if ($worked['ban/freeze'] == 1 || $ban > 0 || $ipban > 0) {
-//             $_SESSION['failmessage'] = 'Your account has been banned';
-//             header('Location: index.php');
-//         }
-//         $_SESSION["id"] = $worked['id'];
-//         // Prepare and execute query to delete existing sessions
-//       $deleteQuery = "DELETE FROM sessions WHERE userid = ?";
-//       $deleteStatement = $db->prepare($deleteQuery);
-//       $deleteStatement->bind_param("i", $worked['id']);
-//       $deleteStatement->execute();
+    if ($stored_username == $given_username && ($worked['password'] == $password || $worked['password'] == $password2)) {
+        if ($worked['ban/freeze'] == 1 || $ban > 0 || $ipban > 0) {
+            $_SESSION['failmessage'] = 'Your account has been banned';
+            header('Location: index.php');
+        }
+        $_SESSION["id"] = $worked['id'];
+        // Prepare and execute query to delete existing sessions
+      $deleteQuery = "DELETE FROM sessions WHERE userid = ?";
+      $deleteStatement = $db->prepare($deleteQuery);
+      $deleteStatement->bind_param("i", $worked['id']);
+      $deleteStatement->execute();
 
-// // Prepare and execute query to insert new session
-//     $insertQuery = "INSERT INTO sessions VALUES (?, ?, 'emptyfornow')";
-//     $insertStatement = $db->prepare($insertQuery);
-//     $insertStatement->bind_param("is", $worked['id'], $_COOKIE['PHPSESSID']);
-//     $insertStatement->execute();
-//         header('Location: index.php');
-//     } else {
-//         $_SESSION['failmessage'] = 'Invalid username or password';
-//         header('Location: index.php');
-//     }
-// } else {
-// 	$_SESSION['failmessage'] = 'You have not entered a username or password.';
-//     header('Location: index.php');
+// Prepare and execute query to insert new session
+    $insertQuery = "INSERT INTO sessions VALUES (?, ?, 'emptyfornow')";
+    $insertStatement = $db->prepare($insertQuery);
+    $insertStatement->bind_param("is", $worked['id'], $_COOKIE['PHPSESSID']);
+    $insertStatement->execute();
+        header('Location: index.php');
+    } else {
+        $_SESSION['failmessage'] = 'Invalid username or password';
+        header('Location: index.php');
+    }
+} else {
+	$_SESSION['failmessage'] = 'You have not entered a username or password.';
+    header('Location: index.php');
 }
 function fuzzehCrypt($pass) {
     return crypt($pass, '$6$rounds=5000$awrgwrnuBUIEF89243t89bNFAEb942$');
