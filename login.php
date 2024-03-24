@@ -21,32 +21,17 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
      $banStatement = $db->prepare($banQuery);
      $banStatement->execute([$worked['id']]);
      $ban = $banStatement->rowCount();
-    // $ipBanQuery = "SELECT * FROM ip_bans WHERE ip = ?";
-    //  $ipBanStatement = $db->prepare($ipBanQuery);
-    //  $ipBanStatement->execute([$IP]);
-    //  $ipban = $ipBanStatement->rowCount();
-
      //Lowercase username stored and given, then perform check of equality (bypass capitol letters)
      $stored_username = strtolower($worked['loginame']);
      $given_username = strtolower($username);
 
     if ($stored_username == $given_username && ($worked['password'] == $password || $worked['password'] == $password2)) {
-        // if ($worked['ban/freeze'] == 1 || $ban > 0 || $ipban > 0) {
-        //     $_SESSION['failmessage'] = 'Your account has been banned';
-        //     header('Location: index.php');
-        // }
+         if ($worked['ban/freeze'] == 1 || $ban > 0 || $ipban > 0) {
+             $_SESSION['failmessage'] = 'Your account has been banned';
+             header('Location: index.php');
+         }
         $_SESSION["id"] = $worked['id'];
-        // Prepare and execute query to delete existing sessions
-//       $deleteQuery = "DELETE FROM sessions WHERE userid = ?";
-//       $deleteStatement = $db->prepare($deleteQuery);
-//       $deleteStatement->bind_param("i", $worked['id']);
-//       $deleteStatement->execute();
 
-// // Prepare and execute query to insert new session
-//     $insertQuery = "INSERT INTO sessions VALUES (?, ?, 'emptyfornow')";
-//     $insertStatement = $db->prepare($insertQuery);
-//     $insertStatement->bind_param("is", $worked['id'], $_COOKIE['PHPSESSID']);
-//     $insertStatement->execute();
         header('Location: index.php');
     } else {
         $_SESSION['failmessage'] = 'Invalid username or password';
