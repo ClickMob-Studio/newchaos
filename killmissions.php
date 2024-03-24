@@ -73,7 +73,7 @@ if (mysql_fetch_array($check)) {
     $currenttime = time();
     $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
     print "<div class=\"doingMission\">
-<br><font color=yellow>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</font><br />
+<br><span class='floaty12'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />
 <br />
 
 <table id='newtables' class='altcolors' style='margin:auto;'>
