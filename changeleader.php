@@ -1,12 +1,17 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Change Leader</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 $gang_class = new Gang($user_class->gang);
 if ($user_class->gang == 0) {
 echo Message("You aren't in a gang.");
 include 'footer.php';
 die();
 }
-include("gangheaders.php");
+
 if($gang_class->leader != $user_class->id)
 {
 echo Message("You don't have permission to be here!");
@@ -31,7 +36,6 @@ $result = mysql_query("UPDATE `grpgusers` SET `grank` = '1', `gangleader` = '1' 
 	}
 	$leader .= "</select></td>";
 ?>
-<tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Change Leader</td></tr>
 <tr><td class="contentcontent">
 <table width="50%" border="0" align="left">
 <form method='post'>
@@ -45,5 +49,6 @@ $result = mysql_query("UPDATE `grpgusers` SET `grank` = '1', `gangleader` = '1' 
 </table>
 </td></tr>
 <?php
+include("gangheaders.php");
 include 'footer.php';
 ?>
