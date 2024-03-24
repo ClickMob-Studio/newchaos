@@ -20,7 +20,6 @@ if ($user_class->firstlogin1 == 0) {
 
 
 echo '<div class="contenthead floaty">';
-echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"><h4>General Information</h4></span>';
 	echo '<table id="newtables" style="width:100%;">';
 		echo '<tr>';
 			echo '<th width="10%">Name:</td>';
@@ -63,7 +62,11 @@ echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; 
 	echo '</table>';
 echo '</div>';
 echo '<div class="contenthead floaty">';
-echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"><h4>Stat Information</h4></span>';	echo '<table id="newtables" style="width:100%;">';
+echo '</div></div>';
+?>
+<div class='box_top'>Stat Information</div>
+						<div class='box_middle'>
+							<div class='pad'><?php
 		echo '<tr>';
 			echo '<th width="15%">Strength:</td>';
 			echo '<td>' . prettynum($user_class->strength) . '</td>';
@@ -83,7 +86,12 @@ echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; 
 	echo '</table>';
 echo '</div>';
 echo '<div class="contenthead floaty">';
-echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"><h4>Modded Stats Information</h4></span>';	echo '<table id="newtables" style="width:100%;">';
+?>
+</div></div>
+<div class='box_top'> Modded Stat Information</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 		echo '<tr>';
 			echo '<th width="15%">Modded Strength:</td>';
 			echo '<td width="25%">' . prettynum($user_class->moddedstrength) . '</td>';
@@ -99,7 +107,13 @@ echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; 
 	echo '</table>';
 echo '</div>';
 echo '<div class="contenthead floaty">';
-echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"><h4>Battle Statistics</h4></span>';	echo '<table id="newtables" style="width:100%;">';
+	?>
+</div>
+</div>
+<div class='box_top'> Battle Statistics</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 		echo '<tr>';
 			echo '<th width="10%">Won:</td>';
 			echo '<td width="30%">' . prettynum($user_class->battlewon) . '</td>';
@@ -115,7 +129,12 @@ echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; 
 	echo '</table>';
 echo '</div>';
 echo '<div class="contenthead floaty">';
-echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"><h4>Crime Rankings</h4></span>';	echo '<table id="newtables" style="width:100%;">';
+?>
+</div></div>
+<div class='box_top'> Crime Ranking</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 		echo '<tr>';
 			echo '<th width="10%">Succeeded:</td>';
 			echo '<td width="30%">' . prettynum($user_class->crimesucceeded) . '</td>';
@@ -148,11 +167,6 @@ echo '<table id="newtables" style="width:100%;">';
 
 
 echo '</div>';
-
-
-
-
-
 
 
 echo '<div class="contenthead floaty">';
