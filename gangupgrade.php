@@ -289,7 +289,6 @@ if ($user_class->gang != 0) {
                 
                 
              <div class="info-box">
-    <h4>Gang Cash Upgrades</h4>
     <p>Enhance your gang's capabilities by upgrading your gangs upgrades with points</p>
 </div>
 <div class="upgrade-container">
