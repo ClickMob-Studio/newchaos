@@ -3,12 +3,12 @@ body {
 	padding: 0;
 	font-size: 12px;
 	font-family: 'Open Sans';
-	background: url(..../images/Layout/Ingame/blue_bg.png) repeat;
+	background: url(../images/Layout/Ingame/blue_bg.png) repeat;
 }
 
 @font-face {
 	font-family: 'Custom';
-	src: url(..../images/Layout/Ingame/FTY.ttf);
+	src: url(../images/Layout/Ingame/FTY.ttf);
 }
 
 .wrap {
@@ -23,10 +23,10 @@ table { margin: auto; }
 
 #outer {
 	min-height: 750px;
-	background: url(..../images/Layout/Ingame/background.jpg) top center no-repeat;
+	background: url(../images/Layout/Ingame/background.jpg) top center no-repeat;
 }
 #inner {
-	background: url(..../images/Layout/Ingame/outer_bg.png) top center no-repeat;
+	background: url(../images/Layout/Ingame/outer_bg.png) top center no-repeat;
 }
 
 
@@ -35,7 +35,7 @@ table { margin: auto; }
 #main_box { }
 #main_box .top_level {
 	height: 150px;
-	background: url(..../images/Layout/Ingame/main_box_bg_01.png) bottom center no-repeat;
+	background: url(../images/Layout/Ingame/main_box_bg_01.png) bottom center no-repeat;
 }
 #main_box .top_level .left_side {
 	float: left;
@@ -88,7 +88,7 @@ table { margin: auto; }
 	height: 50px;
 	line-height: 50px;
 	text-align: right;
-	background: url(..../images/logo.png) no-repeat;
+	background: url(../images/logo.png) no-repeat;
 }
 #main_box .top_level .center_side  #logo a {
 	text-decoration: none;
