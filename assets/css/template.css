@@ -250,7 +250,7 @@ table { margin: auto; }
 	color: #f5cecf;
 	text-shadow: 1px 0 1px #5d0003;
 }
-#main_box .content .content_side {
+.content .content_side {
 	float: left;
 	width: 675px;
 }
@@ -274,10 +274,10 @@ table { margin: auto; }
 	color: #666;
 	background: url(../images/Layout/Ingame/content_box_bg_02.png) repeat-y;
 }
-#main_box .content .content_side .box .box_middle .pad {
+.box_middle .pad {
 	padding: 5px 10px;
 }
-#main_box .content .content_side .box .box_bottom {
+.box .box_bottom {
 	width: 668px;
 	height: 16px;
 	background: url(../images/Layout/Ingame/content_box_bg_03.png) no-repeat;

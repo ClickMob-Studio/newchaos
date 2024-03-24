@@ -412,7 +412,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 		echo ucwords(str_replace($headFind, $headRepl, str_replace('.php', '', $self))); ?> - <?php
 		echo $set['game_name']; ?></title>
 <link href="assets/css/game.css?v1" type="text/css" rel="stylesheet" />
-<link type="text/css" rel="stylesheet" href="assets/css/template.css?v2"  />
+<link type="text/css" rel="stylesheet" href="assets/css/template.css?v3"  />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//js.pusher.com/2.2/pusher.min.js"></script>
 <script type="text/javascript" language="javascript" src="/gradient.js"></script>
