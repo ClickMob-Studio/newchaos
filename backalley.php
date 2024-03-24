@@ -145,9 +145,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 		<div class="floaty">
-			Back Alley
-
-			<hr />
         <?php
         echo $itext . "<br />";
         if ($randout == 1) {
