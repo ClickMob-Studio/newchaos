@@ -1,6 +1,10 @@
 <?php
 include 'header.php';
-
+?>
+<div class='box_top'>Search Players</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 if(!isset($_GET['reset'])){
 	if (isset($_POST['newsearch'])) {
 		$params = mysql_real_escape_string($_COOKIE['searching']);
