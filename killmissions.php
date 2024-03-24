@@ -78,6 +78,7 @@ print "
     }
     </style>
 <?php
+if($timeleft > time())
 echo "<span class='floaty1'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />";
 echo "<div class=\"hundred centered\">";
 $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
