@@ -1,128 +1,80 @@
 <?php
-include 'dbcon.php';
-include 'database/pdo_class.php';
-include "classes.php";
-include "codeparser.php";
+include 'pdo.php';
 
+// Query to get users online in the last hour
+$queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
+$statementOnline = $db->prepare($queryOnline);
+$statementOnline->execute();
+$usersOnline = $statementOnline->rowCount();
+
+// Query to get users online in the last 24 hours
+$queryOnline24 = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 86400 ORDER BY lastactive DESC";
+$statementOnline24 = $db->prepare($queryOnline24);
+$statementOnline24->execute();
+$users24 = $statementOnline24->rowCount();
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title><?php echo $metatitle; ?></title>
-  <?php if (!empty($metadesc)) echo '<meta name="description" content="'.$metadesc.'">'; ?>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <link rel="stylesheet" type="text/css" href="css/new_login.css" />
-  
-  <script charset="UTF-8" src="//web.webpushs.com/js/push/947a2f1e5f99b261b9a784c688fe9be3_1.js" async></script>
 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="lang" content="english">
+    <meta name="robots" content="All">
+    <title>Chaos City - Free Online Web RPG</title>
+    <link href="assets/css/login.css" type="text/css" rel="stylesheet" />
+    <link href="assets/css/game.css" type="text/css" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="favicon.ico">
 </head>
 <body>
-    
+<div id="outer" class="wrap">
+    <div id="top_bar" class="wrap">
+        <div style="float:left;color:#910503;margin-left:5px;">
+            <strong>Users Online: <?php echo $usersOnline; ?></strong> |
+            <strong>Users Online in last 24 hours: <?php echo $users24; ?></strong>
+        </div>
+        <a href="login.php">Homepage</a> <a href="register.php">Create an account</a> <a href="tos.php">Terms of Service</a>
+    </div>
+    <div id="main" class="row">
+        <div id="header" class="row">
 
-<div class="container">
-  <div class="login-header">
-    <h2>        <center><img src="/mlordsimages/logologin.png"></center>
-</h2>
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h4><center><font color=green><?php echo get_users_online(); ?></font></span> Players Online</center></h4>
-  </div>
-  <form class="form-signin" method="post" action="login.php">
-    <div class="form-group">
-      <label for="inputUsername">Username</label>
-      <input type="text" id="inputUsername" name="username" class="form-control" placeholder="Username">
+        </div>
+        <div id="content" class="row">
+            <div id="left_side">
+                <h2>Welcome to Chaos City!</h2>
+                Chaos City is a Massively Multiplayer Online Role Playing Game, MMORPG for short.<br /><br />
+                In this game, you play the role of a mobster who is leading a life of crime and deception.
+                Join gangs and team up with your friends to kick ass, or go your own way.
+                The choices are endless.<br /><br />
+                <strong>Contact us at <a style='color:black;text-decoration:none;' href="mailto:support@chaoscityrpg.com">support@chaoscityrpg.com</a></strong><br /><br />
+
+                <!-- <strong style='color:red;'>Countdown To beta Launch (<small>11/11/2016</small>)</strong><br /> -->
+                <!-- <strong><span id="countdown" style="font-size:25px;"></span></strong><br /><br />-->
+            </div>
+
+            <div id="right_side">
+                <div id="error_area"></div>
+                <div id="login_panel">
+                    <h3>:: Login Panel ::</h3>
+
+                    <form method="POST"  action="login.php">
+                        <input type="text" class="login" value="" name="username" placeholder="Username" />
+                        <input type="password" class="login" value=""  name="password" placeholder="Password" />
+                        <input type="submit" id="submit" name="submit" class="log_btn" value="Login" />
+                    </form>
+                    <a href="resend.php">Forgot Password?</a>
+                </div>
+            </div>
+            <div class="spacer"></div>
+        </div>
+
+
+        <div id="bottom_content" class="row"></div>
     </div>
-    <div class="form-group">
-      <label for="inputPassword">Password</label>
-      <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+    <div id="footer" class="row">
+        <span>Chaos City</span><br />
+        &copy; 2015+ . All Rights Reserved.<br />
+        <a href="">Privacy Policy.</a> <a href="">Terms of Services.</a> <a href="">Help Tutorial.</a> <a href="">Staff	</a>
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">LOGIN</button>
-  </form>
-  <div class="footer">
-    <div class="game-description">
-      <h4>ABOUT MAFIA LORDS       <a href="https://discord.gg/KF79HVpVQD" target="_blank"><img src="mlordsimages/Discordlogo899.png" alt="Discord" class="discord-logo"></a>
-</h4>
-      <p>Mafia Lords is a Fast growing new text based MMORPG. Dominate the city, Train up and Become the strongest Mafialord? Think you got what it takes?</p>
-      <p><font color=yellow>We are currently at the Pre-Registration stage, Register now for an Exclusive Bonus!</font></p>
-      
-      <a href="register.php" class="glowing-link">
-      <img src="mlordsimages/registernow.png" alt="Register">
-    </a>
-    </div>
-    
-  </div>
 </div>
 </body>
 </html>
-    </td>
-  </tr>
-</table>
-
-</a>
-
-</div>
-
-  </form>
-</div>
-
-<!-- Players Online -->
-
-
-<!-- Leaderboards Section -->
-<div class="contenthead floaty">
-  <div style="display: flex; justify-content: center;">
-    <!-- Last 5 Active Players -->
-    <div class="contenthead floaty">
-    <table class="styled-table">
-      <?php
-      $db->query("SELECT id, lastactive FROM grpgusers ORDER BY lastactive DESC LIMIT 15");
-      $rows = $db->fetch_row();
-      $i = 1;
-      echo '<thead><tr><th colspan="3">Last Active Players</th></tr></thead>';
-      echo '<tbody>';
-      foreach($rows as $row){
-        echo '<tr><td>' . $i++ . '.</td><td>' . formatName($row['id']) . '</td><td>'.howLongAgo($row['lastactive']).'</td></tr>';
-      }
-      echo '</tbody>';
-      ?>
-    </table>
-    </div>
-    
-    <!-- Top 5 Highest Leveled Players -->
-    <div class="contenthead floaty">
-    <table class="styled-table">
-      <?php
-      $db->query("SELECT id, level FROM grpgusers WHERE admin <> 1 ORDER BY level DESC LIMIT 15");
-      $rows = $db->fetch_row();
-      $i = 1;
-      echo '<thead><tr><th colspan="3">Top 15 Highest Leveled Players</th></tr></thead>';
-      echo '<tbody>';
-      foreach($rows as $row){
-        echo '<tr><td>' . $i++ . '.</td><td>' . formatName($row['id']) . '</td><td>'.$row['level'].'</td></tr>';
-      }
-      echo '</tbody>';
-      ?>
-    </table>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-<script>
-  setInterval(function() {
-    $.post("ajax_onlineusers.php", {"page" : "home"}, function(data) {
-      $('.online-count').html(data.count + ' Players Online');
-      // Update the leaderboards here if needed
-    }, 'json');
-  }, 5000);
-</script>
-</body>
-</html>
-
