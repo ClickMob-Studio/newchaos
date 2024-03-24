@@ -388,3 +388,19 @@ table { margin: auto; }
   background-color: #FFBABA;
 }
 
+input[type=submit] {
+    cursor: pointer;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 5px;
+    border: none;
+    background: #2a2729;
+    text-transform: uppercase;
+    color: #bcbcbc;
+    font-size: 11px;
+    box-shadow: 0 0 3px #000000;
+}
