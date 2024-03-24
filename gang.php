@@ -63,6 +63,9 @@ print "</table>
         </tr>
     </table>
 </form>
+";
+if($gang_class->description){
+    echo "
 <table id='newtables' style='width:100%;'>
     <tr>
         <th>Gang Private Page</th>
@@ -71,6 +74,7 @@ print "</table>
         <td>" . BBCodeParse(strip_tags($gang_class->description)) . "</td>
     </tr>
 </table>";
+}
 include("gangheaders.php");
 include 'footer.php';
 ?>
