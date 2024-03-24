@@ -2,7 +2,7 @@
 session_start();
 if(!empty($_POST['tos'])) die();
 
-mysql_select_db('mafialor_game', mysql_connect('localhost', 'mafialor_game', 'mickeybraden321'));
+mysql_select_db('game', mysql_connect('localhost', 'chaoscity_co', '3lrKBlrfMGl2ic14'));
 $password = $_POST['pass'];
 $conpass = $_POST['conpass'];
 $username = mysql_real_escape_string($_POST['username']);

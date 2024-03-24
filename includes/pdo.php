@@ -2,9 +2,9 @@
 if(!isset($_SESSION))
 	session_start();
 define('DB_HOST', 'localhost');
-define('DB_USER', 'mafialor_game');
-define('DB_PASS', 'mickeybraden321');
-define('DB_NAME', 'mafialor_game');
+define('DB_USER', 'chaoscity_co');
+define('DB_PASS', '3lrKBlrfMGl2ic14');
+define('DB_NAME', 'game');
 class database {
 	protected $last_query;
 	protected $conn;

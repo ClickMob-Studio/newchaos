@@ -7,7 +7,7 @@ include "database/pdo_class.php";
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
 
-mysql_select_db('mafialor_game', mysql_connect('localhost', 'mafialor_game', 'mickeybraden321'));
+mysql_select_db('game', mysql_connect('localhost', 'chaoscity_co', '3lrKBlrfMGl2ic14'));
 
 $query = "SELECT * FROM user_logs ORDER BY timestamp DESC LIMIT 10";
 $result = mysql_query($query);

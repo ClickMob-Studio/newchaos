@@ -1,11 +1,11 @@
 <?php
 
 (PHP_SAPI !== 'cli' || isset($_SERVER['HTTP_USER_AGENT'])) && die('');
-$link = mysql_connect('127.0.0.1', 'mafialor_game', 'mickeybraden321');
+$link = mysql_connect('127.0.0.1', 'chaoscity_co', '3lrKBlrfMGl2ic14');
 if (!$link) {
     die('Could not connect: ' . mysql_error());
 }
-mysql_select_db("mafialor_game");
+mysql_select_db("game");
 
 // include 'dbcon.php';
 // include 'classes.php';
