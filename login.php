@@ -31,10 +31,10 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
      $given_username = strtolower($username);
 
     if ($stored_username == $given_username && ($worked['password'] == $password || $worked['password'] == $password2)) {
-        if ($worked['ban/freeze'] == 1 || $ban > 0 || $ipban > 0) {
-            $_SESSION['failmessage'] = 'Your account has been banned';
-            header('Location: index.php');
-        }
+        // if ($worked['ban/freeze'] == 1 || $ban > 0 || $ipban > 0) {
+        //     $_SESSION['failmessage'] = 'Your account has been banned';
+        //     header('Location: index.php');
+        // }
         $_SESSION["id"] = $worked['id'];
         // Prepare and execute query to delete existing sessions
       $deleteQuery = "DELETE FROM sessions WHERE userid = ?";
