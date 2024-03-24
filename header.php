@@ -1,5 +1,8 @@
 <?php
-error_reporting(0);
+if(!$_SESSION['id']){
+    header('Location:home.php');
+    exit;
+}
 $useMobileHeader = isset($_COOKIE['useMobileHeader']) ? $_COOKIE['useMobileHeader'] : false;
 
 
