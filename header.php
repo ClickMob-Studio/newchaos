@@ -447,7 +447,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 				<div class="left_side">
 					<div id="avatar"></div>
 				<br />
-                <div id="username">
+            
                     <strong><span style='font-size:17px;'><?php echo $user_class->formattedname; ?></span></strong>
 					<strong><span style='font-size:17px;'>Level <!_-level-_!></span></strong>
 				</div>
