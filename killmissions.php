@@ -72,6 +72,7 @@ if (mysql_fetch_array($check)) {
     $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>{$usermission['busts']}/{$miss['busts']}</font>" : "<font color='green'>{$miss['busts']}/{$miss['busts']}</font>";
     $currenttime = time();
     $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
+    echo "<span class='floaty12'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />"
     print "<div class=\"doingMission\">
 <br><span class='floaty12'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />
 <br />
