@@ -149,6 +149,8 @@ echo'
     .flexele{
         flex: 1;
         text-align:center;
+        padding:10px;
+        
     }
     </style>
 <?php
