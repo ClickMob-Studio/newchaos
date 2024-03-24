@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Gang House</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 $gang_class = new Gang($user_class->gang);
 if ($user_class->gang == 0)
     diefun("You aren't in a gang.");
@@ -62,7 +67,6 @@ if (isset($_GET['buy'])) {
     }
 }
 echo "<div class='contenthead floaty'>";
-echo "   <span style='margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;'><h4>Gang Housing</h4></span>";
 
 echo "Your gang currently has <b>$" . prettynum($gang_class->moneyvault) . "</b> to buy a gang house.";
 if ($gang_class->ghouse > 0) {
