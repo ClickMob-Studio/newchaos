@@ -62,7 +62,7 @@ echo '<div class="contenthead floaty">';
 	echo '</table>';
 echo '</div>';
 echo '<div class="contenthead floaty">';
-echo '</div></div>';
+echo '</div></div></div>';
 ?>
 <div class='box_top'>Stat Information</div>
 						<div class='box_middle'>
@@ -87,7 +87,7 @@ echo '</div></div>';
 echo '</div>';
 echo '<div class="contenthead floaty">';
 ?>
-</div></div>
+</div></div></div>
 <div class='box_top'> Modded Stat Information</div>
 						<div class='box_middle'>
 							<div class='pad'>
@@ -108,6 +108,7 @@ echo '<div class="contenthead floaty">';
 echo '</div>';
 echo '<div class="contenthead floaty">';
 	?>
+</div>
 </div>
 </div>
 <div class='box_top'> Battle Statistics</div>
