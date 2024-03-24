@@ -146,7 +146,7 @@ echo'
    </div>';
 
 echo'<div class="floaty" style="margin-bottom:-10px;">';
-    echo'<div class="flexcont">';
+    echo'<div class="flexcont" style="flex: 1;">';
         echo'<span class="flexele forumhover" onclick="addBB(\'[b][/b]\', 4);return false;">';
             echo'[b]';
         echo'</span>';
