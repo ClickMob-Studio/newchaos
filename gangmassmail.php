@@ -67,6 +67,6 @@ if (isset($_POST['msgtext'])) {
     }
     print Message("Messages sent out!");
 }
-
+echo "</div>";
 include "footer.php";
 ?>
