@@ -537,6 +537,17 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 			<div class="content row">
 				<div class="menu_side">
 					<ul class="mainmenu">
+                    <hr />
+<li><a href='preferences.php'>Preferences</a></li>
+<li><a href='preport.php'>Player Report</a></li>
+<li><a href='helptutorial.php'>Help Tutorial</a></li>
+<li><a href='gamerules.php'>Game Rules</a></li>
+<li><a href='viewuser.php?u={$ir['userid']}'>My Profile</a></li>
+<li><a href='logout.php'>Logout</a></li>
+
+</ul>
+				</div>
+				<div class="content_side">
 
     <?php
     echo '<center>';
