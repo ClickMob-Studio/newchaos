@@ -393,10 +393,9 @@ $petJailDisplay = $petJailCount > 0 ? "<span style='color:red;'>$petJailDisplay<
 ob_start("callback");
 
 
-$queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
-$statementOnline = $db->prepare($queryOnline);
-$statementOnline->execute();
-$usersOnline = $statementOnline->rowCount();
+$queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
+
+$usersOnline = mysql_num_rows($queryOnline);
 
 $activeRaidsQuery = "SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE completed = 0"; // Replace 'end_time' with the actual column name that represents when the raid ends
 $activeRaidsResult = mysql_query($activeRaidsQuery);
