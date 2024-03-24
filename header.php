@@ -448,13 +448,12 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 				<div class="left_side">
 					<div id="avatar"></div>
 				<br />
-					<strong><span style='font-size:17px;'>Level <?php
-		echo ($ir['level']); ?></span></strong>
+					<strong><span style='font-size:17px;'>Level <!_-level-_!></span></strong>
 				</div>
 				<div class="center_side">
 					<div id="links">
-						<a href="/mailbox.php">Mail (<?php echo $ir['new_mail'] ?>)</a> -
-						<a href="/events.php">Events(<?php echo $ir['new_events'] ?>)</a> -
+						<a href="/mailbox.php">Mail (<!_-mail-_!>)</a> -
+						<a href="/events.php">Events(<!_-events-_!>)</a> -
 						<a href="/forums.php">Forum</a> -
 						<a href="/helptutorial.php">Help</a> -
 						<a href="/changelog.php"><strong>Change Log</strong></a>
