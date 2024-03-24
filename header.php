@@ -410,6 +410,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 		echo $set['game_name']; ?></title>
 <link href="assets/css/games.css?v3" type="text/css" rel="stylesheet" />
 <link type="text/css" rel="stylesheet" href="assets/css/template.css?v7"  />
+<script src="js/java.js?12" type="text/javascript"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//js.pusher.com/2.2/pusher.min.js"></script>
 <script type="text/javascript" language="javascript" src="/gradient.js"></script>
