@@ -492,36 +492,36 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 					<div class="stats">
 						<div class="l-text">ENERGY</div><div class="r-text"><?php echo $ir['energy'] ?>/<?php echo $ir['maxenergy'] ?></div>
 						<div class="spacer"></div>
-						<div style="background: url(../images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
+						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
-								<div style="background: url(../images/yellow-stat-bar.png) no-repeat;height: 8px;width:<?php echo $enperc ?>%;"></div>
+								<div style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<?php echo $enperc ?>%;"></div>
 							</div>
 						</div>
 					</div>
 					<div class="stats">
 						<div class="l-text">NERVE</div><div class="r-text"><?php echo $ir['brave'] ?>/<?php echo $ir['maxbrave'] ?></div>
 						<div class="spacer"></div>
-						<div style="background: url(../images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
+						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
-								<div style="background: url(../images/yellow-stat-bar.png) no-repeat;height: 8px;width:<?php echo $brperc ?>%;"></div>
+								<div style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<?php echo $brperc ?>%;"></div>
 							</div>
 						</div>
 					</div>
 					<div class="stats">
 						<div class="l-text">HP</div><div class="r-text"><?php echo $ir['hp'] ?>/<?php echo $ir['maxhp'] ?></div>
 						<div class="spacer"></div>
-						<div style="background: url(../images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
+						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
-								<div style="background: url(../images/yellow-stat-bar.png) no-repeat;height: 8px;width:<?php echo $hpperc ?>%;"></div>
+								<div style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<?php echo $hpperc ?>%;"></div>
 							</div>
 						</div>
 					</div>
 					<div class="stats">
 						<div class="l-text">RAGE</div><div class="r-text"><?php echo $wiperc ?>%</div>
 						<div class="spacer"></div>
-						<div style="background: url(../images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
+						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
-								<div style="background: url(../images/red-stat-bar.png) no-repeat;height: 8px;width:<?php echo $wiperc ?>%;"></div>
+								<div style="background: url(../assets/images/red-stat-bar.png) no-repeat;height: 8px;width:<?php echo $wiperc ?>%;"></div>
 							</div>
 						</div>
 					</div>
