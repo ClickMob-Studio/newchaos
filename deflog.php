@@ -7,8 +7,10 @@ include 'header.php';
                                 <?php
 if ($user_class->gang != 0) {
     $gang_class = New Gang($user_class->gang);
-    if (isset($_GET['delete']))
+    if (isset($_GET['delete'])){
         mysql_query("DELETE FROM deflog WHERE gangid = $gang_class->id");
+        echo Message('You have delete the defense log');
+    }
         $start = isset($_GET['page']) ? ($_GET['page'] - 1) * 30 : 0;
         $result = mysql_query("SELECT * from deflog WHERE gangid = $gang_class->id ORDER BY timestamp DESC LIMIT $start,30");
         if(mysql_num_rows($result)){
