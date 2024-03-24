@@ -860,7 +860,7 @@ if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'VIPstore.php
     margin-right: 10px;
 
     width: 72%;
-    background-color: #aca8a8;
+    background-color: #fff;
     border-radius: 10px;
     box-shadow: 0px 2px 10px rgba(93, 93, 93, 1);
     padding: 5px 5px 4px;
