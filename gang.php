@@ -24,7 +24,8 @@ if (isset($_GET['remove'])) {
 
 $csrf = md5(uniqid(rand(), TRUE));
 $_SESSION['csrf'] = $csrf;
-
+$targetlist = mysql_query("SELECT t.*,hospital FROM gangtargetlist t JOIN grpgusers g ON userid = g.id WHERE gangid = $user_class->gang");
+if(mysql_num_rows($targetlist)){
 print "
 <table style='width:87%;table-layout:fixed;' id='newtables'>
     <tr>
@@ -33,7 +34,7 @@ print "
         <th>Links</th>
         <th style='width:5%;'>Hos</th>
     </tr>";
-$targetlist = mysql_query("SELECT t.*,hospital FROM gangtargetlist t JOIN grpgusers g ON userid = g.id WHERE gangid = $user_class->gang");
+
 while ($target = mysql_fetch_array($targetlist)) {
     print "
     <tr>
@@ -44,6 +45,7 @@ while ($target = mysql_fetch_array($targetlist)) {
         <td>{$target['hospital']} Mins</td>
     </tr>
     ";
+}
 }
 print "</table>
 <form method='post'>
