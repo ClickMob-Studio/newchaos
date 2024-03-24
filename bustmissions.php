@@ -70,7 +70,7 @@ print "
     }
     </style>
 <?php
-
+echo "
 <div class=\"hundred centered\">";
 $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
 if (mysql_fetch_array($check)) {
