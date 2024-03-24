@@ -1,0 +1,7 @@
+Array
+(
+    [direction] => South
+    [description] => <strong style='color:red;'>Tripped and fell, injuring yourself. Now you are in the hospital.</strong>
+    [turnsLeft] => You have 10 turns left to search the streets.
+    [searchResult] => <p><strong>Search Result:</strong><br>You walked South.<br><strong style='color:red;'>Tripped and fell, injuring yourself. Now you are in the hospital.</strong></p>
+)

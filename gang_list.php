@@ -1,0 +1,51 @@
+<?php
+include 'header.php';
+?>
+<style>
+.table > tbody > tr:nth-child(odd){
+				background: #000;
+			}
+</style>
+ 
+<div class="contenthead floaty">
+<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
+<h4>Gang List</h4></span>
+<table id="newtables" style="width:100%;">
+<td align="center" class="td"><b>Rank</b></td>
+<td align="center" class="td"><b>Gang</b></td>
+<td align="center" class="td"><b>Level</b></td>
+<td align="center" class="td"><b>Respect</b></td>
+
+
+<td align="center" class="td"><b>Tax</b></td>
+<td align="center" class="td"><b>Members</b></td>
+<td align="center" class="td"><b>Leader</b></td>
+</tr>
+<?php
+$result = mysql_query("SELECT * FROM `gangs` ORDER BY `level` DESC LIMIT 50");
+$rank = 1;
+	while($line = mysql_fetch_array($result)) {
+		$gang = New Gang($line['id']);
+		if($gang->members == 0)
+			continue;
+		$gang_leader = new User($line['leader']);
+		echo "
+		<tr>
+		<td width='10%'>".$rank."</td>
+		<td width='40%'>".$gang->formattedname."</td>
+		<td width='10%'>".$gang->level."</td>
+		<td width='10%'>".$gang->respect."</td>
+
+		<td width='10%'>".$gang->tax."%</td>
+		<td width='12%'>".$gang->members."</td>
+		<td width='15%'>".$gang_leader->formattedname."</td>
+		</tr>
+		";
+		$rank++;
+	}
+?>
+</table>
+</div></tr></td>
+<?php
+include 'footer.php';
+?>

@@ -1,0 +1,286 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Open Sans';
+	font-size: 12px;
+	background: #000 url(http://themafialife.com/themafialife.png) top center no-repeat;
+}
+
+.wrap {
+	width: 100%;
+}
+.row {
+	margin: 0 auto;
+	width: 772px;
+}
+
+#outer { }
+
+/* Header Styles */
+
+#header {
+	margin-top: 50px;
+	height: 135px;
+}
+#header #logo {
+	float: left;
+	height: 90px;
+	background: url(http://themafialife.com/themafialife.png) no-repeat;
+}
+#header #navi {
+	float: right;
+	width: 173px;
+}
+#header #navi a {
+	display: block;
+	margin: 5px 0;
+	width: 173px;
+	height: 34px;
+	line-height: 34px;
+	text-align: center;
+	font-weight: bold;
+	text-decoration: none;
+	color: #72695a;
+	font-size: 14px;
+	background: url(http://themafialife.com/css/images/navi_link.png) no-repeat;
+}
+#header #navi a:hover {
+	opacity: .65;
+	color: #ab9f8d;
+}
+
+
+/* Main Styles */
+
+#main_area { }
+#main_area .top {
+	height: 31px;
+	background: url(http://themafialife.com/css/images/main_box_bg_01.png) no-repeat;
+}
+#main_area .middle {
+	min-height: 350px;
+	background: url(http://themafialife.com/css/images/main_box_bg_02.png) repeat-y;
+}
+#main_area .middle .pad {
+	padding: 0 35px 0 35px;;
+}
+#main_area .middle .left_side {
+	float: left;
+	width: 480px;
+	color: #a4a4a4;
+	line-height: 22px;
+}
+#main_area .middle h2 {
+	margin: 0;
+	line-height: 40px;
+	font-size: 30px;
+	color: #b44719;
+	text-transform: uppercase;
+}
+#main_area .middle .divider {
+	margin: 5px 0;
+	height: 0;
+	width: 100%;
+	line-height: 23px;
+	border-bottom: 2px dotted #b44719;
+}
+#main_area .middle .statistics {
+	margin:0 30px;
+}
+#main_area .middle .news_slot {
+	padding: 10px 0 5px 0;
+	width: 100%;
+	color: #8a8686;
+	border-bottom: 1px solid #353535;
+}
+#main_area .middle .news_slot span.time {
+	display: block;
+	color: #595959;
+}
+#main_area .middle .news_slot a {
+	display: block;
+	color: #826257;
+	text-decoration: none;
+}
+#main_area .middle .news_slot a:hover {
+	color: #8a8686;
+}
+#main_area .middle .right_side {
+	float: right;
+	width: 200px;
+}
+#main_area .middle .right_side #login_panel {
+	width: 197px;
+	height: 303px;
+	color: #393939;
+	text-align: center;
+	background: url(http://themafialife.com/css/images/login_box.png) no-repeat;
+}
+#main_area .middle .right_side #login_panel .padding  {
+	padding: 7px;
+}
+#main_area .middle .right_side #login_panel input.user_box {
+	margin: 5px 0;
+	width: 182px;
+	height: 27px;
+	line-height: 27px;
+	text-indent: 35px;
+	color: #9f9375;
+	border: none;
+	outline: none;
+	background: url(http://themafialife.com/css/images/user_box.png) no-repeat;
+}
+#main_area .middle .right_side #login_panel input.pass_box {
+	margin: 5px 0;
+	width: 182px;
+	height: 27px;
+	line-height: 27px;
+	text-indent: 35px;
+	color: #9f9375;
+	border: none;
+	outline: none;
+	background: url(http://themafialife.com/css/images/password_box.png) no-repeat;
+}
+#main_area .middle .right_side #login_panel input.login {
+	cursor: pointer;
+	margin: 5px 0 10px 0;
+	width: 180px;
+	height: 28px;
+	line-height: 26px;
+	text-align: center;
+	color: #fff;
+	border: none;
+	outline: none;
+	background: url(http://themafialife.com/css/images/orange_btn.png) no-repeat;
+}
+#main_area .middle .right_side #login_panel input.login:hover {
+	opacity: .65;
+}
+#main_area .middle .right_side #login_panel .divider {
+	margin: 5px 0;
+	height: 0;
+	width: 100%;
+	border-bottom: 1px solid #393939;
+}
+#main_area .middle .right_side #login_panel a {
+	color: #393939;
+	font-style: italic;
+	font-size: 11px;
+	line-height: 30px;
+	text-decoration: none;
+}
+#main_area .middle .right_side #login_panel a:hover {
+	color: #747474;
+}
+#main_area .middle .right_side #login_panel a.register {
+	display: block;
+	margin: 0 auto;
+	margin-top: 15px;
+	width: 179px;
+	height: 89px;
+	background: url(http://themafialife.com/css/images/register_btn.png) no-repeat;
+}
+#main_area .middle .right_side #login_panel a.register:hover {
+	opacity: .65;
+}
+#main_area .middle .right_side #screenshot_container {
+	width: 100%;
+}
+#main_area .middle .right_side #screenshot_container a.ss {
+	display: block;
+	float: left;
+	margin: 5px 10px 5px 0;
+	width: 88px;
+	height: 74px;
+	background: url(http://themafialife.com/css/images/ss_ico.png) no-repeat;
+}
+#main_area .middle .right_side #screenshot_container a.ss:hover {
+	opacity: .65;
+}
+#main_area .bottom {
+	height: 166px;
+	background: url(http://themafialife.com/css/images/footer.png) no-repeat;
+}
+
+/* Register Styles */
+
+#main_area .middle a.tos {
+	color: #fff;
+	text-decoration: none;
+}
+#main_area .middle a.tos:hover {
+	color: #a4a4a4;
+}
+#main_area .middle input.register_btn {
+	cursor: pointer;
+	margin: 5px 0 10px 0;
+	width: 453px;
+	height: 43px;
+	color: #fff;
+	line-height: 39px;
+	text-align: center;
+	border: none;
+	outline: none;
+	background: url(http://themafialife.com/css/images/create_account_btn.png) no-repeat;
+}
+#main_area .middle input.register_btn:hover {
+	opacity: .65;
+	text-shadow: 1px 0px 1px #000;
+}
+#main_area .middle input.register {
+	margin: 5px 27px 2px 0;
+	float: left;
+	width: 212px;
+	height: 42px;
+	line-height: 42px;
+	text-indent: 7px;
+	border: none;
+	outline: none;
+	color: #747474;
+	background: url(http://themafialife.com/css/images/register_input.png) no-repeat;
+}
+#main_area .middle  span.gender {
+	line-height: 50px;
+	margin-right: 15px;
+}
+#main_area .middle select.register {
+	width: 147px;
+	background: none;
+	color: #918c88;
+	border: 1px solid #918c88;
+	line-height: 40px;
+	outline: none;
+}
+#main_area .middle select.register option {
+	color: #918c88;
+	background: none;
+}
+.spacer {
+	clear: both;
+}
+.flexcont{
+	display:flex;
+}
+.flexele{
+	flex: 1;
+	background:rgba(0,0,0,0.6);
+	border-radius:10px;
+	padding:15px;
+	height:190px;
+	margin:5px;
+}
+.flexele2 {
+	flex: 1;
+	background:rgba(0,0,0,0.6);
+	border-radius:10px;
+	padding:15px;
+	margin:5px;
+}
+
+.flexele2 a {
+	display: inline!important;
+}
+
+.mtable tr td:nth-child(3) {
+    width: 30%;
+}

@@ -1,0 +1,57 @@
+<?php
+include 'header.php';
+if ($user_class->gang != 0) {
+    $gang_class = New Gang($user_class->gang);
+    if (isset($_GET['delete']))
+        mysql_query("DELETE FROM deflog WHERE gangid = $gang_class->id");
+    ?>
+    <center><a href="?delete"><button class="ycbutton">Delete Defense Log</button></a></center>
+    <table id="newtables" style="width:100%;">
+        <tr>
+            <th>Time</th>
+            <th>Attacker</th>
+            <th>Defender</th>
+            <th>Winner</th>
+            <th>Gang EXP</th>
+            <th>Online?</th>
+            <th>Respect</th>
+        </tr>
+        <?php
+        $start = isset($_GET['page']) ? ($_GET['page'] - 1) * 30 : 0;
+        $result = mysql_query("SELECT * from deflog WHERE gangid = $gang_class->id ORDER BY timestamp DESC LIMIT $start,30");
+        while ($row = mysql_fetch_array($result)) {
+            $attacker = new User($row['attacker']);
+            $defender = new User($row['defender']);
+            $winner = new User($row['winner']);
+            $active = ($row['active'] == "1") ? "<font color=green>[Online]</font>" : "<font color=red>[Offline]</font>";
+            $time = date("M d, Y g:ia", $row['timestamp']);
+            echo "
+            <tr>
+                <td width='28%'>" . $time . "</td>
+                <td width='20%'>" . $attacker->formattedname . "</td>
+                <td width='20%'>" . $defender->formattedname . "</td>
+                <td width='20%'>" . $winner->formattedname . "</td>
+                <td width='12%'>" . prettynum($row['gangexp']) . "</td>
+                <td>" . $active . "</td>
+                <td>" . (($row['respect'] == 0) ? 0 : (($row['defender'] == $row['winner']) ? '+' : '-') . $row['respect']) . "</td>
+            </tr>";
+        }
+        echo "</table>";
+        $count = mysql_fetch_array(mysql_query("SELECT count(*) AS count FROM deflog WHERE gangid = $gang_class->id"));
+        $count = (($count['count'] / 30) > 30) ? 30 : ($count['count'] / 30);
+        for ($i = 1; $i <= $count; $i++) {
+            if ($i == 1)
+                print "Pages: ";
+            if (isset($_GET['page']) && $i == $_GET['page'])
+                print "<b>";
+            print " <a href='?page=$i'>[$i]</a> ";
+            if (isset($_GET['page']) && $i == $_GET['page'])
+                print "</b>";
+        }
+        print"</td></tr>";
+    } else {
+        echo Message("You aren't in a gang.");
+    }
+    include("gangheaders.php");
+    include 'footer.php';
+    ?>

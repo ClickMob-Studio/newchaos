@@ -1,0 +1,54 @@
+<?php
+require "headertest.php";
+
+if($user_class->id != 286){
+    exit;
+}
+?>
+<h1>Total Income</h1>
+<?php
+
+$sql = "SELECT user_id, SUM(paymentamount) AS totalSpent FROM ipn GROUP BY payeremail ORDER BY totalSpent DESC LIMIT 1";
+$resultBiggestDonor = mysql_query($sql);
+
+// Check if there are any rows
+if (mysql_num_rows($resultBiggestDonor) > 0) {
+    $rowBiggestDonor = mysql_fetch_assoc($resultBiggestDonor);
+    $biggestDonor = $rowBiggestDonor["user_id"];
+    $highestAmount = $rowBiggestDonor["totalSpent"];
+} else {
+    $biggestDonor = "No data";
+    $highestAmount = 0;
+}
+
+// Fetch data from the database
+$sql = "SELECT * FROM ipn ORDER BY `id` ASC";
+$result = mysql_query($sql);
+
+// Check if there are any rows
+if (mysql_num_rows($result) > 0) {
+    // Initialize variables for total income and fees
+    $totalIncome = 0;
+    $totalFees = 0;
+
+    // Output table header
+    echo "<table border='1'><tr><th>ID</th><th>Date</th><th>Credits Bought</th><th>Payment Amount</th><th>Transaction ID</th><th>Payer Email</th><th>User</th></tr>";
+
+    // Output data from rows
+    while($row = mysql_fetch_assoc($result)) {
+        echo "<tr><td>" . $row["id"]. "</td><td>" . date('Y-m-d H:i:s',$row["date"]). "</td><td>" . $row["creditsbought"]. "</td><td>$" . $row["paymentamount"]. "</td><td>" . $row["txnid"]. "</td><td>" . $row["payeremail"]. "</td><td>" . formatName($row["user_id"]). "</td></tr>";
+
+        // Update total income and fees
+        $totalIncome += $row["paymentamount"];
+        $totalFees += $row["fees"];  // Make sure to replace "fees" with the actual column name for fees in your table
+    }
+
+    // Output table footer with totals
+    echo "<tr><td colspan='6'>Total Income</td><td>$".$totalIncome."</td><td colspan='7'></td></tr></table>";
+    echo "<table><tr><td colspan='8'></td><td>Biggest Donor</td><td>".formatName($biggestDonor)."</td><td>Amount Spent</td><td>$".$highestAmount."</td></tr></table>";
+
+} else {
+    echo "0 results";
+}
+require "footer.php";
+

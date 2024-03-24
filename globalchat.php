@@ -1,0 +1,375 @@
+    <?php
+include 'header.php';
+
+if ($user_class->fbitime > 0) {
+    diefun("You can't communicate if you're in FBI Jail!");
+}
+
+
+if ($user_class->id == 0) {
+
+    echo "<script type='module'>
+    import { EmojiButton } from 'https://unpkg.com/@joeattardi/emoji-button@4.3.0/dist/index.js';
+
+const picker = new EmojiButton({
+    theme: 'dark',
+    emojiSize: '20px',
+    emojisPerRow: 18,
+    rows: 4,
+    showVariants: false,
+    position: 'bottom'
+});
+const trigger = document.querySelector('#trigger');
+const textarea = document.querySelector('#reply')
+
+function insertAtCaret(text, textarea) {
+    textarea.focus();
+    textarea.setRangeText(
+      text,
+      textarea.selectionStart,
+      textarea.selectionEnd,
+      'end'
+    )
+}
+
+picker.on('emoji', selection => {
+    insertAtCaret(selection.emoji, textarea);
+    textarea.focus()
+});
+
+trigger.addEventListener('click', () => picker.togglePicker(trigger));
+</script>";
+}
+
+if(isset($_GET['gcban']) && $_GET['conf'] == $_SESSION['security']){
+    if($user_class->admin || $user_class->gm || $user_class->cm){
+        $db->query("SELECT id FROM grpgusers WHERE id = ? AND admin = 0 AND gm = 0");
+        $db->execute(array(
+            $_GET['gcban']
+        ));
+        $id = $db->fetch_single();
+        if(empty($id) || $id <= 0)
+            diefun("Invalid id number. Ban failed.");
+        $db->query("INSERT INTO bans VALUES('', ?, ?, ?, ?)");
+        $db->execute(array(
+            $id,
+            $user_class->id,
+            'gc',
+            60
+        ));
+        diefun(formatName($id). " has been banned for 60 minutes. If the user needs a more severe punishment, use a mail ban.");
+    }
+}
+if(isset($_GET['delgc'])){
+    if($user_class->admin || $user_class->gm || $user_class->cm){
+        $db->query("DELETE FROM globalchat WHERE id = ?");
+        $db->execute(array(
+            $_GET['delgc']
+        ));
+    }
+}
+
+$db->query("SELECT days FROM bans WHERE id = ? AND type = 'gc'");
+$db->execute(array(
+    $user_class->id
+));
+if($mins = $db->fetch_single())
+    diefun("You are banned from global chat for $mins minutes.");
+$_SESSION['security'] = rand(1000000000,2000000000);
+$db->query("SELECT id FROM globalchat ORDER BY id DESC");
+$db->execute();
+$lastid = $db->fetch_row(true);
+$db->query("SELECT * FROM bans WHERE `type` = 'mail' AND id = $user_class->id");
+$db->execute();
+if ($db->num_rows()) {
+    $r = $db->fetch_row(true);
+    diefun("&nbsp;You have been mail banned for " . prettynum($r['days']) . " days.");
+}
+if ($user_class->level < 2 && $user_class->prestige == 0)
+    diefun("You must be level 2 to use this feature.");
+$lastid = (!empty($lastid['id'])) ? $lastid['id'] : 0;
+print <<<TEXT
+<script>
+var lastGmailID = $lastid;
+syncGmail();
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Function to handle click events on like and dislike buttons
+    function handleRating(event) {
+        var button = event.target;
+        var action = button.getAttribute('data-action');
+        var postId = button.getAttribute('data-id');
+
+
+    // Test log
+    console.log("Rating button clicked: Action - " + action + ", Post ID - " + postId);
+
+
+
+        // AJAX request to server
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'ajax_gc.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            if (this.status === 200) {
+                // Handle response here
+                console.log(this.responseText);
+            }
+        };
+        xhr.send('action=' + action + '&post_id=' + postId);
+    }
+
+    // Add event listeners to all like and dislike buttons
+    var ratingButtons = document.querySelectorAll('.rating-btn');
+    ratingButtons.forEach(function(button) {
+        button.addEventListener('click', handleRating);
+    });
+});
+</script>
+
+TEXT;
+echo'
+    <div id="gccontainer" style="margin:0; padding:10px;">
+        ' . gcTalking() . '
+   </div>';
+
+echo'<div class="floaty" style="margin-bottom:-10px;">';
+    echo'<div class="flexcont">';
+        echo'<div class="flexele forumhover" onclick="insertAtCursor(\'[b][/b]\', 4);return false;">';
+            echo'[b]';
+        echo'</div>';
+        echo'<div class="flexele forumhover" onclick="insertAtCursor(\'[u][/u]\', 4);return false;">';
+            echo'[u]';
+        echo'</div>';
+        echo'<div class="flexele forumhover" onclick="insertAtCursor(\'[i][/i]\', 4);return false;">';
+            echo'[i]';
+        echo'</div>';
+        echo'<div class="flexele forumhover" onclick="insertAtCursor(\'[s][/s]\', 4);return false;">';
+            echo'[s]';
+        echo'</div>';
+        echo'<div class="flexele forumhover" onclick="insertAtCursor(\'[url][/url]\', 6);return false;">';
+            echo'[url]';
+        echo'</div>';
+        echo'<div class="flexele forumhover" onclick="insertAtCursor(\'[img][/img]\', 6);return false;">';
+            echo'[img]';
+        echo'</div>';
+echo'<div class="flexele forumhover" onclick="insertAtCursor(\'[tag][/tag]\', 6);return false;">';
+            echo'[tag]';
+        echo'</div>';
+
+        echo'<div class="flexele forumhover" onclick="insertAtCursor(\'[youtube][/youtube]\', 10);return false;">';
+            echo'[youtube]';
+        echo'</div>';
+        echo'<div id="semojis" class="flexele forumhover" onclick="return showemojis();" style="display:' , ($user_class->hideemojis) ? 'block' : 'none' , ';flex:2;">';
+            echo'Show Emojis';
+        echo'</div>';
+        echo'<div id="hemojis" class="flexele forumhover" onclick="return hideemojis();" style="display:' , ($user_class->hideemojis) ? 'none' : 'block' , ';flex:2;">';
+            echo'Hide Emojis';
+        echo'</div>';
+    echo'</div>';
+    echo'<hr style="border:0;border-top:thin solid #333;" />';
+    echo'<form name="message">';
+        echo'<textarea autofocus name="msgtext" id="reply" oninput="typing();" style="width:90%;height:125px;"></textarea><br />';
+        echo'<input type="submit" name="submit" onclick="return sendGmail();" value="Post" />';
+    echo'</form>';
+    if ($user_class->id == 1) {
+        echo '
+        <button id="trigger">😎</button>
+        <input type="text">';
+    }
+    echo'<div id="emojis" style="display:' , ($user_class->hideemojis) ? 'none' : 'block' , ';">';
+        emotes();
+    echo'</div>';
+    echo'</div>';
+
+echo'<style>';
+echo'#chatdiv img{';
+    echo'height: auto;';
+    echo'max-width: 500px;';
+echo'}';
+echo '
+    span.likes, span.dislikes {
+        margin-right: 10px;
+        padding: 0px 8px;
+    }
+    i.fa-thumbs-down  {
+        transform: rotateY(180deg);
+    }
+    ';
+echo'</style>';
+echo'<div id="chat_block">';
+
+$db->query("UPDATE grpgusers SET globalchat = 0 WHERE id = $user_class->id");
+$db->execute();
+$db->query("SELECT * from globalchat ORDER BY timesent DESC LIMIT 80");
+$rows = $db->fetch_row();
+foreach ($rows as $row) {
+
+        $db->query("SELECT COUNT(*) FROM chat_rating WHERE post_id = ? AND rating_action = 'like'");
+        $db->execute(
+            array(
+                $row['id']
+            )
+        );
+        $likes = $db->fetch_single();
+
+        $db->query("SELECT COUNT(*) FROM chat_rating WHERE post_id = ? AND rating_action = 'dislike'");
+        $db->execute(
+            array(
+                $row['id']
+            )
+        );
+        $dislikes = $db->fetch_single();
+
+        $db->query("SELECT * FROM chat_rating WHERE user_id = $user_class->id AND post_id = ? AND rating_action='like'");
+        $db->execute(
+            array(
+                $row['id']
+            )
+        );
+        $userLiked = $db->fetch_single();
+
+        $db->query("SELECT * FROM chat_rating WHERE user_id = $user_class->id AND post_id = ? AND rating_action='dislike'");
+        $db->execute(
+            array(
+                $row['id']
+            )
+        );
+        $userDisliked = $db->fetch_single();
+
+    if(!$m->get('tavcache.'.$row['playerid'])){
+        $reply_class = new User($row['playerid']);
+        $array = array(
+            'name' => $reply_class->formattedname,
+            'avatar' => $reply_class->avatar,
+            'admin' => $reply_class->admin,
+            'gm' => $reply_class->gm
+        );
+        $m->set('tavcache.'.$row['playerid'], $array, 60);
+    } else
+        $array = $m->get('tavcache.'.$row['playerid']);
+    $avatar = ($array['avatar'] != "") ? $array['avatar'] : "/images/no-avatar.png";
+    $quotetext=str_replace(array('\'','"'),array('\\\'','&quot;'),$row['body']);
+    echo'<div class="floaty">';
+        echo'<div class="flexcont" style="text-align:center;">';
+            echo'<div class="flexele">';
+                echo howlongago($row['timesent']) . ' ago';
+            echo'</div>';
+            echo'<div class="flexele">';
+                echo (($user_class->admin || $user_class->gm || $user_class->cm) && (!$array['admin'] && !$array['gm'])) ? '<a href="?gcban=' . $row['playerid'] . '&conf=' . $_SESSION['security'] . '">Ban User</a>' : '';
+            echo'</div>';
+            echo'<div class="flexele">';
+                echo ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $row['id'] . '">Delete Post</a>' : '';
+            echo'</div>';
+            echo'<div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $row['playerid'] . ']' . str_replace(array("\n","\r"),array('','\n'),$quotetext) . '[/quote]\\n\\n\');">';
+                echo 'Quote';
+            echo'</div>';
+            $likeIcon = ($userLiked == 0) ? 'far' : 'fas';
+            $dislikeIcon = ($userDisliked == 0) ? 'far' : 'fas';
+            $likeAction = ($userLiked == 0) ? 'like' : 'unlike';
+            $dislikeAction = ($userDisliked == 0) ? 'dislike' : 'undislike';
+
+            if ($user_class->id == 1) {
+
+                // $likes = $dislikes = $likeCount = $dislikeCount = null;
+                // $likeStr = $dislikeStr = '';
+                // $db->query("SELECT user_id FROM chat_rating WHERE post_id = ? AND rating_action = 'like'");
+                // $db->execute(
+                //     array(
+                //         $row['id']
+                //     )
+                // );
+                // $likes = $db->fetch_row();
+                // $likeCount = count($likes);
+
+                // $names = array();
+                // foreach ($likes as $like) {
+                //     $db->query("SELECT username FROM grpgusers WHERE id = ?");
+                //     $db->execute(
+                //         array(
+                //             $like['user_id']
+                //         )
+                //     );
+                //     $names[] = $db->fetch_single();
+                // }
+
+                // $likeStr = implode('&#10;', $names);
+
+                // $db->query("SELECT user_id FROM chat_rating WHERE post_id = ? AND rating_action = 'dislike'");
+                // $db->execute(
+                //     array(
+                //         $row['id']
+                //     )
+                // );
+                // $dislikes = $db->fetch_row();
+                // $dislikeCount = count($dislikes);
+
+                // $names = array();
+                // foreach ($dislikes as $dislike) {
+                //     $db->query("SELECT username FROM grpgusers WHERE id = ?");
+                //     $db->execute(
+                //         array(
+                //             $dislike['user_id']
+                //         )
+                //     );
+                //     $names[] = $db->fetch_single();
+                // }
+
+                // $dislikeStr = implode('&#10;', $names);
+
+                // echo '<style>
+                //     button {
+                //         background:none;
+                //         outline:none;
+                //         border:none;
+                //         padding:0;
+                //     }
+                //     .likes, .dislikes {
+                //         margin: 10px;
+                //         font-size: 14px;
+                //         color: #ffffffbf;
+                //         cursor: default!important;
+                //     }</style>';
+                // echo '<div class="flexele"><button aria-label="Like!" class="rating-btn2" data-action="' . $likeAction . '" data-id=' .$row['id'] . ' data-balloon-pos="up"><i class="' . $likeIcon . ' fa-thumbs-up"></i></button>';
+                // echo '<button class="likes" data-balloon-pos="up" data-balloon-break aria-label="' . $likeStr . '">' . $likeCount . '</button><button aria-label="Dislike!" class="rating-btn2" data-action="' . $dislikeAction . '" data-id=' .$row['id'] . ' data-balloon-pos="up"><i class="' . $dislikeIcon . ' fa-thumbs-down"></i></button><button class="dislikes" data-balloon-pos="up" data-balloon-break aria-label="' . $dislikeStr . '">' . $dislikeCount . '</button></div>';
+                // echo '<div class="flexele"><i class="' . $likeIcon . ' fa-thumbs-up rating-btn like" data-action="' . $likeAction . '" data-id=' .$row['id'] . '></i><span class="likes">' . $likes . '</span><i class="' . $dislikeIcon . ' fa-thumbs-down rating-btn dislike" data-action="' . $dislikeAction . '" data-id=' .$row['id'] . '></i><span class="dislikes">' . $dislikes . '</span></div>';
+                echo '<div class="flexele"><i class="' . $likeIcon . ' fa-thumbs-up rating-btn like" data-action="' . $likeAction . '" data-id=' .$row['id'] . '></i><span class="likes">' . $likes . '</span><i class="' . $dislikeIcon . ' fa-thumbs-down rating-btn dislike" data-action="' . $dislikeAction . '" data-id=' .$row['id'] . '></i><span class="dislikes">' . $dislikes . '</span></div>';
+            } else {
+                echo '<div class="flexele"><i class="' . $likeIcon . ' fa-thumbs-up rating-btn like" data-action="' . $likeAction . '" data-id=' .$row['id'] . '></i><span class="likes">' . $likes . '</span><i class="' . $dislikeIcon . ' fa-thumbs-down rating-btn dislike" data-action="' . $dislikeAction . '" data-id=' .$row['id'] . '></i><span class="dislikes">' . $dislikes . '</span></div>';
+            }
+
+
+
+
+        echo'</div>';
+        echo'<hr style="border:0;border-top:thin solid #333;" />';
+        echo'<div class="flexcont">';
+            echo'<div class="flexele" style="border-right:thin solid #333;text-align:center;">';
+                echo'<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666" />';
+                echo'<br />';
+                if($row['playerid'] > 0){
+                echo $array['name'];
+                }else{
+                    echo '<span style="color:red">System</span>';
+                }
+            echo'</div>';
+            echo'<div class="flexele" style="flex:3;padding:10px;">';
+                echo BBCodeParse(stripslashes($row['body']));
+            echo'</div>';
+        echo'</div>';
+    echo'</div>';
+
+
+}
+
+
+print"</div>";
+
+
+
+
+include("footer.php");
+?>

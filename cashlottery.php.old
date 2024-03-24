@@ -1,0 +1,67 @@
+<?php
+include 'header.php';
+diefun('Update in process - please check back shortly');
+
+$tickCost = 25000;
+
+if (isset($_GET['buy']) && $_GET['buy'] == "ticket") {
+
+    $db->query("SELECT count(*) FROM cashlottery WHERE userid = ?");
+    $db->execute(array(
+        $user_class->id
+    ));
+
+    $numlotto = $db->fetch_single();
+
+    if ($numlotto >= 50)
+        diefun("You have already bought 50 tickets today.");
+    if ($user_class->money < $tickCost)
+        diefun("You need " . prettynum($tickCost, 1) . " to buy a ticket.");
+
+    $user_class->money -= $tickCost;
+    $db->query("INSERT INTO cashlottery (userid) VALUES (?)");
+    $db->execute(array(
+        $user_class->id
+    ));
+
+    $db->query("UPDATE grpgusers SET money = money - ? WHERE id = ?");
+    $db->execute(array(
+        $tickCost,
+        $user_class->id
+    ));
+
+    echo Message("You have bought a lottery ticket.");
+}
+
+echo'<h3>The Lottery</h3>';
+	echo'<hr>';
+echo""
+ . "<center>Do you want to buy a ticket for the daily lottery?<br />"
+ . "You can buy <span style='color:red;font-weight:bold;'>50</span> tickets a day for <span style='color:red;font-weight:bold;'>" . prettynum($tickCost, 1) . "</span> a ticket.<br />"
+ . "The more people that enter, the more that the winner will win.<br />"
+ . " If your ticket is drawn at the end of the day, you win all of the ticket revenue!
+     <br><br><a href='?buy=ticket'><button>Buy Ticket</button></a><br /><br />";
+$db->query("SELECT COUNT(*) FROM cashlottery");
+$db->execute();
+$numlotto = $db->fetch_single();
+$amountlotto = $numlotto * $tickCost;
+echo "There have been <span style='color:red;font-weight:bold;'>" . prettynum($numlotto) . "</span> Lotto Tickets bought today.<br>";
+echo "Lotto is currently worth <span style='color:red;font-weight:bold;'>" . prettynum($amountlotto,1) . "</span>.";
+echo""
+ . "<table id='newtables'>"
+ . "<tr>"
+ . "<th>Winner</th>"
+ . "<th>Won?</th>"
+ . "</tr>";
+$db->query("SELECT * FROM mlottowinners ORDER BY id DESC LIMIT 31");
+$db->execute();
+$rows = $db->fetch_row();
+foreach ($rows as $row)
+    echo""
+    . "<tr>"
+    . "<td>" . formatName($row['userid']) . "</td>"
+    . "<td>" . number_format($row['won']) . "</td>"
+    . "</tr>";
+echo '</table></td></tr>';
+include 'footer.php';
+?>

@@ -1,0 +1,9 @@
+<?php
+include 'header.php';
+?>
+<script src="//static.miniclipcdn.com/js/game-embed.js"></script>
+<!-- Place this code where you'd like the game to appear -->
+<div class="miniclip-game-embed" data-game-name="8-ball-pool-multiplayer" data-theme="0" data-width="750" data-height="520" data-language="en"><a href="http://www.miniclip.com/games/8-ball-pool-multiplayer/">Play 8 Ball Pool</a></div>
+<?php
+include 'footer.php';
+?>

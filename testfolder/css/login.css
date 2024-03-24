@@ -1,0 +1,113 @@
+body{
+	font-family:helvetica,arial,geneva,sans-serif;
+	color:white;
+	background:url('../images/newlogin/login-bg.png');
+	background-size:100% 100%;
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+	background-color:#000;
+	text-align:left;
+	font-size:10pt;
+	line-height:150%;
+	line-height:150%;
+}
+footer{
+	height:50px;
+	width:100%;
+	text-align:center;
+	background:rgba(0,0,0,0.6);
+	color:#fff;
+	position:fixed;
+	bottom:0;
+	padding: 0;
+	left:0px;
+}
+#content{
+	background: rgba(25, 25, 25, .75);
+	border-radius: 10px;
+	margin:auto;
+	width:875px;
+}
+a{
+	text-decoration:none;
+	color:#fff;
+	padding-right:5px;
+}
+#logo{
+	margin:0 auto;
+	height:116px;
+	width: 203px;
+	background:url('../themafialife.png');
+	background-size: 100%;
+}
+#logo-text{
+	margin:0 auto;
+	height:35px;
+	width: 400px;
+	background:url('/images/newlogin/login-logotext.png');
+	background-size: 100%;
+	background-repeat:no-repeat;
+}
+#button-login{
+	margin-right:10px;
+	border:0;
+	float:right;
+	background:url('../images/newlogin/btn-login.png');
+	width:120px;
+	height:40px;
+}
+.textbox{
+	background:#0e0e0e;
+	color:#fff;
+	border:2px solid #303030;
+	border-radius:10px 0;
+	height:25px;
+	width:275px;
+}
+.contain{
+	height:190px;
+	width:317px;
+	float:right;
+	display:inline-block;
+	margin:10px;
+}
+.flexcont{
+	display:flex;
+}
+.flexele{
+	flex: 2;
+	background:rgba(0,0,0,0.6);
+	border-radius:10px;
+	padding:15px;
+	height:150px;
+	margin:5px;
+}
+.flexele2 {
+	flex: 1;
+	background:rgba(0,0,0,0.6);
+	border-radius:10px;
+	padding:15px;
+	margin:5px;
+}
+table{
+	width:100%;
+}
+table th{
+	background:url('../images/hgrad6.png');
+	background-repeat:repeat-x;
+	height:25px;
+	text-align:center;
+}
+table td{
+	height:25px;
+	background:rgba(75,75,75,.125);
+	border:#303030 solid thin;
+	text-align:left;
+}
+img:hover{
+	z-index:2;
+	transform: scale(.75);
+	position:absolute;
+	top: 5%;
+	left: -5%;
+}

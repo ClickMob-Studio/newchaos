@@ -1,0 +1,1675 @@
+body {
+    background: url(images/cityblackbg.jpg) repeat-x #000;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #cecece;
+    height:100%;
+}
+
+a:active,
+a:hover,
+a:link,
+a:visited {
+    text-decoration: none
+}
+
+a:hover {
+    text-decoration: none
+}
+
+table,
+td,
+tr {
+    font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    overflow: hidden
+}
+
+.buttoncityuse {
+    border: 1px solid #cecece;
+    box-shadow: inset rgba(255, 255, 255, .1) 1px 1px 0;
+    background: linear-gradient(to bottom, gray 0, darkgray 100%);
+    padding:5px;
+    width:70px;
+    color:#111;
+    text-align:center;
+    height:15px;
+    display:inline;
+    border-radius:5px;
+    font-weight:bold;
+}
+
+.statunlock {
+    background:linear-gradient(to bottom,limegreen 0,#006400 100%);
+    padding:10px;
+    width:50px;
+    color:lawngreen;
+    display:inline;
+    border:1px limegreen solid;
+    border-radius:10px;
+    
+}
+.statlock {
+    background:linear-gradient(to bottom,#fff 0,#cecece 100%);
+    padding:10px;
+    width:50px;
+    color:#555;
+    display:inline;
+    border-radius:10px;
+    border:1px #222 solid;
+    
+}
+img {
+    border: none
+}
+
+textarea {
+    font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif
+}
+
+.update {
+    padding: 20px 20px 20px 20px;
+    width: 100%;
+    background-color: #66000c
+}
+
+.darkfont {
+    color: #999;
+    text-shadow: 1px 1px #000
+}
+
+.spacer {
+    padding-left: 5px
+}
+
+.otd {
+    background-image: url(images/bg.jpg);
+    background-repeat: repeat-x;
+    background-color: #222;
+    border-bottom: 1px solid #222
+}
+
+.otd td {
+    text-align: center
+}
+
+.containerbar3 {
+    margin: 0 auto;
+    padding: 0 10px;
+    width: 100%
+}
+
+.navBar3 {
+    background-image: url(/images/bodybg.jpg);
+    background-repeat: repeat-x;
+    background-color: #000;
+    border: 1px solid #333
+}
+
+.navv3 {
+    margin: 0 -10px;
+    padding: 0 10px;
+    list-style: none;
+    display: flex;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch
+}
+
+.container1 {
+    height: auto;
+    overflow: hidden
+}
+
+.left {
+    width: 180px;
+    float: left;
+    background: #aafed6
+}
+
+.right {
+    float: none;
+    background: #111;
+    width: 500px;
+    overflow: hidden
+}
+
+.navv3 {
+    margin: 0 -10px;
+    padding: 0 10px;
+    list-style: none;
+    display: flex;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch
+}
+
+.navv3>li>a {
+    padding: 3px 20px;
+    display: block;
+    color: rgba(255, 255, 255, .8);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 10px
+}
+
+.navv3>li>a:visited {
+    color: rgba(255, 255, 255, .1)
+}
+
+.navv3>li>a:hover {
+    color: red
+}
+
+.containerbar2 {
+    width: 95%
+}
+
+.navBar2 {
+    background-image: url(/images/bodybg.jpg);
+    background-repeat: repeat-x;
+    background-color: #000;
+    border: 1px solid #333;
+    float: left
+}
+
+.navv2 {
+    padding: 0 10px;
+    list-style: none;
+    display: flex;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch
+}
+
+.navv2>li>a {
+    padding: 3px 20px;
+    display: block;
+    color: rgba(255, 255, 255, .8);
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 10px
+}
+
+.navv2>li>a:visited {
+    color: rgba(255, 255, 255, .1)
+}
+
+.navv2>li>a:hover {
+    color: red
+}
+
+.vertical-icond {
+    float: right;
+    margin-right: 20px;
+    margin-top: -25px
+}
+
+.vertical-icon {
+    float: left;
+    margin-left: 20px;
+    margin-top: 10px
+}
+
+.vertical-menu {
+    width: 100%;
+    list-style: none
+}
+
+.vertical-menu a {
+    background-image: url(/images/blockstripes.png);
+    border: 1px solid #000;
+    display: block;
+    padding: 10px 50px;
+    text-decoration: none;
+    color: #fff
+}
+
+.vertical-menu a:hover {
+    background-image: url(/images/bggray.png);
+    border: 1px solid #222
+}
+
+.submenu,
+.vertical-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0
+}
+
+.vertical-menu li:hover .submenu {
+    display: block;
+    max-height: 200px
+}
+
+.submenu a {
+    background-image: url(/images/bggray.png);
+    border: 1px solid #222
+}
+
+.submenu a:hover {
+    background-color: #666
+}
+
+.submenu {
+    overflow-x: scroll;
+    max-height: 0;
+    -webkit-transition: all .5s ease-out
+}
+
+.maingame {
+    background-image: url(/images/blockbg.jpg);
+    border: 1px solid #222;
+    border-radius: 10px;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    box-shadow: inset rgba(255, 255, 255, .15) 0 1px 1px, rgba(0, 0, 0, .8) 2px 0 5px
+}
+
+.mainmenu {
+    float: left;
+    border-radius: 5px;
+    width: 100%;
+    display:flex;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    border: 1px solid #222;
+    background-color:#222;
+    box-shadow: inset rgba(255, 255, 255, .1) 1px 1px 0
+}
+
+.containerbar {
+    margin: 0 auto;
+    width: 100%
+}
+
+.navBar {
+    align-items: center;
+    margin-top: 5px;
+    margin-right: 10px
+}
+
+::-webkit-scrollbar {
+    height: 5px;
+    width: 5px
+}
+
+::-webkit-scrollbar-track {
+    background: #111;
+    -moz-box-shadow: inset 0 0 10px #000;
+    -webkit-box-shadow: inset 0 0 10px #000;
+    box-shadow: inset 0 0 10px #000;
+    border-radius: 10px
+}
+
+::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 10px
+}
+
+.navv {
+    margin: 0 auto;
+    padding: 0 5px;
+    list-style: none;
+    display: flex;
+}
+
+.navv>li>a {
+    padding: 5px;
+    width: 100%;
+    border: 1px solid #222;
+    display: flex;
+    color: rgba(255, 255, 255, .8);
+    text-decoration: none;
+    font-size: 10px;
+    background: linear-gradient(to bottom, #1b1b1b 0, #000 100%)
+}
+
+.navv>li>a:visited {
+    color: rgba(255, 255, 255, .1)
+}
+
+.navv>li>a:hover {
+    color: red;
+    width: 100%
+}
+
+.unmasked {
+    font-size: 12px;
+    font-weight: 700;
+    font-family: Arial #000
+}
+
+.masked {
+    background: url(https://www.mafiamobi.com//images/pcodKjRLi.jpg) repeat, #fff;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: Arial #000;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-animation-name: masked-animation;
+    -webkit-animation-duration: 40s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear
+}
+
+@-webkit-keyframes masked-animation {
+    0% {
+        background-position: left bottom
+    }
+    100% {
+        background-position: right bottom
+    }
+}
+
+.regular {
+    border: 2px solid #333;
+    padding: 10px;
+    margin: 10px 0 10px 0
+}
+
+.regularchat {
+    background-color: #333;
+    border: 1px solid #222;
+    padding: 10px
+}
+
+.form {
+    text-align: center
+}
+
+.chk-box {
+    vertical-align: middle;
+    align: auto;
+    margin-right: 5px
+}
+
+h2,
+h3 {
+    font-size: large
+}
+
+.table2 {
+    margin: 0 auto
+}
+
+.line {
+    width: 100%;
+    border: 2px solid #490e0e
+}
+
+.linkitem {
+    padding: 5px 4px 2px 4px;
+    background-color: #333;
+    border: 1px solid #555;
+    border-radius: 2px
+}
+
+.table {
+    background: #1e2830;
+    margin: 0 auto;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #181f25;
+    border: 1px solid #555;
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: #181f25;
+    border: 1px solid #555;
+}
+
+.table3 {
+    background-color: transparent;
+    margin: 0 auto
+}
+
+.table td {
+    background-color: transparent;
+    padding: 5px
+}
+.table3 td {
+    background-color: transparent
+}
+
+td .alt {
+    background-color: transparent;
+    height: 2px
+}
+
+td .h {
+    background-repeat: repeat-x;
+    font-weight: 700;
+    background-color: #222
+}
+
+.table th {
+    background-repeat: repeat-x;
+    font-weight: 700;
+    padding: 5px;
+    background: linear-gradient(to bottom, #181f25 0, #0c1013 100%);
+}
+
+.btable {
+    text-align: center;
+    width: 100%;
+    height: 100%
+}
+
+.link {
+    background-color: #dfdfdf;
+    width: 90%;
+    height: 30px
+}
+
+img {
+    max-width: 600px;
+    max-height: 650px
+}
+
+.statbar {
+    background-color: #000;
+    border: 2px solid #490e0e
+}
+
+.statbar td {
+    text-align: center
+}
+
+.icontable {
+    border: 1px solid #222;
+    border-radius: 10px;
+    height: 65px
+}
+
+.icontable td {
+    text-align: center
+}
+
+a.icon {
+    padding: 15px 5px 5px 5px;
+    background-color: #000;
+    border: 1px solid #222;
+    border-radius: 5px
+}
+
+a.icondonate {
+    padding: 10px 5px 10px 5px;
+    background-color: #210000;
+    border: 1px solid #750202;
+    border-radius: 5px
+}
+
+.explorelink {
+    padding: 10px 5px 10px 5px;
+    font-size: 12px;
+    color: #fff;
+    text-align: left
+}
+
+.redtable21 {
+    background-image: url(/images/blockicon.jpg);
+    background-repeat: repeat-x;
+    background-color: #000;
+    border: 1px solid #333
+}
+
+.redtable21 td {
+    text-align: center
+}
+
+.levelbarexp {
+    -moz-box-shadow: inset 0 0 10px #111;
+    -webkit-box-shadow: inset 0 0 10px #111;
+    box-shadow: inset 0 0 10px #000;
+    background-color: #192128;
+    border: 1px solid #11171c;
+}
+
+.expspace {
+    display: inline;
+}
+.experiencebare {
+    background-color:orange;
+    float:left;
+}
+.experiencebar2 {
+    background-color:cyan;
+    float:left;
+}
+.experiencebar3 {
+    background-color:darkred;
+    float:left;
+}
+.experiencebar1 {
+    background-color:orange;
+    float:left;
+}
+.experiencebar {
+    background-color:limegreen;
+    background-repeat: repeat-x;
+    float:left;
+}
+.box55 {
+    -moz-box-shadow: inset 0 0 10px #111;
+    -webkit-box-shadow: inset 0 0 10px #111;
+    box-shadow: inset 0 0 10px #000;
+    align-items: center;
+    background:rgba(0, 0, 0, 0.4);
+    text-align: left;
+    border-radius: 6px;
+    padding-left: 10px;
+    border: 1px solid #111
+}
+.box1 {
+    -moz-box-shadow: inset 0 0 10px #141a1f;
+    -webkit-box-shadow: inset 0 0 10px #141a1f;
+    box-shadow: inset 0 0 10px #141a1f;
+    align-items: center;
+    padding-left: 10px;
+    border: 1px solid #141a1f;
+}
+
+.userinfo1 {
+}
+.logobar1 {
+    background: url(/images/bg2.jpg) repeat-x #1e1e1e;
+    padding: 5px;
+    border-radius:5px;
+    border:1px #444 solid;
+    width: 100%
+}
+
+.statictopbarlogo {
+    background: url(/images/newheader/titlebannerm.png) repeat-x #010407;
+    padding: 5px;
+    width: 100%
+}
+
+
+
+.newyorkbg {
+    background: url(/images/newyorkbg.png) top repeat-x fixed #010407;
+    padding: 5px;
+    width: 100%
+}
+
+.bostonbg {
+    background: url(/images/bostonbg.png) top repeat-x fixed #010407;
+    padding: 5px;
+    width: 100%
+}
+
+.calibg {
+    background: url(/images/cali.png) top repeat-x fixed #010407;
+    padding: 5px;
+    width: 100%
+}
+
+
+
+.london {
+    background: url(/images/london.png) top repeat-x fixed #010407;
+    padding: 5px;
+    width: 100%
+}
+
+.russia {
+    background: url(/images/russia.png) top repeat-x fixed #010407;
+    padding: 5px;
+    width: 100%
+}
+.italy {
+    background: url(/images/italy.png) top repeat-x fixed #010407;
+    padding: 5px;
+    width: 100%
+}
+.afghan {
+    background: url(/images/afghan.png) top repeat-x fixed #010407;
+    padding: 5px;
+    width: 100%
+}
+
+.notif {
+    background-color: red;
+    padding:2px;
+    font-weight:bold;
+    color:#fff;
+    border-radius:5px;
+    border: 1px solid #222
+}
+.tokyo {
+    background: url(/images/tokyo.png) top repeat-x fixed #010407;
+    padding: 5px;
+    width: 100%;
+}
+.belgrade {
+    background: url(/images/belgrade.png) top repeat-x fixed #010407;
+    padding: 5px;
+    width: 100%;
+}
+
+
+.round {
+    -moz-box-shadow: 3px 3px 5px 6px #000;
+    -webkit-box-shadow: 3px 3px 5px 6px #000;
+    box-shadow: 3px 3px 5px 6px #000;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px
+}
+
+.buttoncityd {
+    border: 1px solid red;
+    box-shadow: inset rgba(255, 255, 255, .1) 1px 1px 0;
+    background: linear-gradient(to bottom, red 0, darkred 100%);
+    padding:5px;
+    width:70px;
+    text-align:center;
+    height:15px;
+    display:inline;
+    border-radius:5px;
+    font-weight:bold;
+}
+
+.buttoncityb {
+    color:#000;
+    border: 1px solid yellow;
+    box-shadow: inset rgba(255, 255, 255, .1) 1px 1px 0;
+    background: linear-gradient(to bottom, orange 0, gold 100%);
+    padding:5px;
+    display:inline;
+    width:70px;
+    height:15px;
+    text-align:center;
+    border-radius:5px;
+    font-weight:bold;
+}
+.buttoncity2 {
+    color:#000;
+    border: 1px solid yellow;
+    box-shadow: inset rgba(255, 255, 255, .1) 1px 1px 0;
+    background: linear-gradient(to bottom, orange 0, gold 100%);
+    padding:5px;
+    width:70px;
+    height:15px;
+    text-align:center;
+    border-radius:5px;
+    font-weight:bold;
+}
+.buttoncity {
+    border: 1px solid red;
+    box-shadow: inset rgba(255, 255, 255, .1) 1px 1px 0;
+    background: linear-gradient(to bottom, red 0, darkred 100%);
+    padding:5px;
+    width:70px;
+    text-align:center;
+    height:15px;
+    border-radius:5px;
+    font-weight:bold;
+}
+
+.dp {
+    float: left;
+    margin-right: 10px;
+}
+
+.expbarlevel {
+    border-radius: 6px;
+    border: 1px solid #000;
+    padding: 4px;
+    box-shadow: inset rgba(255, 255, 255, .15) 0 1px 1px, rgba(0, 0, 0, .8) 2px 0 5px;
+    background: url(/images/blockstripes.png) top repeat-x;
+    background-repeat: repeat-x;
+    background-color: #111
+}
+.topbar1 {
+    align-items: center;
+    border-radius: 6px;
+    border: 1px solid #000;
+    padding: 4px;
+    box-shadow: inset rgba(255, 255, 255, .15) 0 1px 1px, rgba(0, 0, 0, .8) 2px 0 5px;
+    background: url(/images/bg_bar2.gif) repeat-x #0c0c0e;
+}
+.graytable {
+    align-items: center;
+    border: 1px solid #000;
+    padding: 4px;
+    box-shadow: inset rgba(255, 255, 255, .15) 0 1px 1px, rgba(0, 0, 0, .8) 2px 0 5px;
+    background-color:#242e37;
+}
+.graytable2 {
+    align-items: center;
+    border: 1px solid #000;
+    padding: 4px;
+    box-shadow: inset rgba(255, 255, 255, .15) 0 1px 1px, rgba(0, 0, 0, .8) 2px 0 5px;
+    background-color:#2d3a47;
+}
+.redtable {
+    background-image: url(/images/tdredbg.png);
+    background-repeat: repeat-x;
+    background-color: #000;
+    border: 1px solid #490e0e
+}
+
+.redtable td {
+    text-align: center;
+}
+
+.blacktable {
+    background-image: url(/images/tdblackbg.png);
+    background-repeat: repeat-x;
+    background-color: #000;
+    border: 1px solid #222;
+}
+
+.blacktable td {
+    text-align: center
+}
+.lotteryt {
+    background-color: #333;
+}
+
+.lotteryt td {
+    background:linear-gradient(to bottom,#222 0,#111 100%);
+    background-repeat: repeat-x;
+    text-align: center;
+}
+.bluetable {
+    background-image: url(/images/tdbluebg.png);
+    background-repeat: repeat-x;
+    background-color: #000;
+    border: 1px solid #05143b
+}
+
+.bluetable td {
+    text-align: center
+}
+
+.bluetable1 {
+    background-color: #111;
+    border: 1px solid #05143b
+}
+
+.bluetable1 td {
+    text-align: center
+}
+
+.bluetable12 {
+    background-image: url(/images/BGCOM.gif);
+    background-repeat: repeat-x;
+    background-color: #111;
+    border: 1px solid #111
+}
+
+.bluetable12 td {
+    text-align: center
+}
+
+.smallred {
+    color: red
+}
+
+.silver {
+    color: #666
+}
+
+.footer {
+    margin: 10px 0 20px 0;
+    color: #666;
+    font-size: 12px
+}
+
+.bank,
+.preferences {
+    float: left;
+    padding: 0 0 0 5px;
+    font-size: 12px;
+    color: #999;
+    font-weight: 400
+}
+
+.bank a {
+    color: #3c3
+}
+
+.bank2 {
+    color: #fff
+}
+
+a.cash:active,
+a.cash:hover,
+a.cash:link,
+a.cash:visited {
+    color: #3c3;
+    font-size: 12px;
+    font-weight: 400
+}
+
+a.datetime:active,
+a.datetime:hover,
+a.datetime:link,
+a.datetime:visited {
+    font-size: 11px;
+    color: #999;
+    font-weight: 400
+}
+
+.userinfo {
+    float: left;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    padding: 0 5px 0 0
+}
+
+.padding {
+    padding: 50px 0 0 0
+}
+
+.progress1 {
+    float: left;
+    font-size: 12px;
+    color: #ffffa0;
+    text-align: center;
+    padding: 0 5px 0 0
+}
+
+.progress {
+    font-size: 9px;
+    color: #fff;
+    text-align: center;
+    margin-left: 70px
+}
+
+iframe {
+    border: none
+}
+
+.crystallink {
+    font-size: 12px;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0 0 10px;
+    background-color: #111;
+    border: 1px solid #f90;
+    border-radius: 5px
+}
+
+.money {
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    font-weight: 700;
+    font-family: Helvetica
+}
+
+.diamonds {
+    float: right;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0 0 10px
+}
+
+.infobuy {
+    font-size: 11px;
+    color: #999
+}
+
+.info1 {
+    font-size: 12px;
+    color: #999
+}
+
+.buy {
+    font-size: 12px;
+    color: #fff;
+    text-align: center;
+    padding: 5px 5px 5px 5px;
+    background-color: #111;
+    border: 1px solid #f90;
+    border-radius: 5px
+}
+
+.exp1 a {
+    font-size: 12px;
+    color: #fff;
+    text-align: center;
+    padding: 10px 5px 0 0
+}
+
+.exp {
+    float: right;
+    font-size: 11px;
+    color: #fff;
+    text-align: center;
+    padding: 10px 5px 0 0
+}
+
+.levelenergy {
+    background-image: url(/images/energy_icon.gif);
+    font-size: 12px;
+    color: #66cdaa;
+    font-weight: 700
+}
+
+.level {
+    font-size: 10px;
+    color: #fff;
+    background-color: #222;
+    padding: 3px 3px;
+    border: 1px solid #f90;
+    font-weight: 700
+}
+
+.infoupgrade {
+    font-size: 11px;
+    color: #dc143c;
+    font-weight: 700;
+    background: -webkit-linear-gradient(gold, #fff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent
+}
+
+.infocrystal {
+    font-size: 12px;
+    color: #fff;
+    text-align: center;
+    padding: 5px 5px 5px 5px;
+    background-color: #111;
+    border: 1px solid #f90;
+    border-radius: 5px
+}
+
+.infocrystals {
+    float: right;
+    font-size: 11px;
+    color: #999
+}
+
+.infotime {
+    font-size: 9px;
+    color: #fff
+}
+
+.infoexp {
+    font-size: 11px;
+    color: #fff;
+    text-align: center;
+    width: 40%;
+    background-color: #222;
+    border: 1px #333 solid;
+    text-shadow: 1px 1px #000;
+    font-weight: 700;
+    float: right
+}
+
+.info {
+    font-size: 12px;
+    color: #999
+}
+
+.responsive-image {
+    height: auto;
+    width: 100%
+}
+
+.dinfo {
+    font-size: 11px;
+    color: #666
+}
+
+.dinfo2 {
+    font-size: 11px;
+    color: #fff
+}
+
+.dinfo3 {
+    font-size: 11px;
+    color: orange
+}
+
+.statistic {
+    width: 100%;
+    background-image: url(/images/bgbar2.png);
+    background-color: #000;
+    background-repeat: repeat-x;
+    border-bottom: 1px solid rgba(255, 255, 255, .3)
+}
+
+
+
+.statictop {
+    height: 100%;
+    background-image: url(/images/barrepeater.png);
+    background-color: #000;
+    width: 100%;
+    padding: 0 0 5px 0
+}
+
+.statictopbar {
+    height: 100%;
+    border-bottom: 1px solid #111;
+    width: 100%;
+    padding: 0 0 5px 0
+}
+
+div.static {
+    width: 100%;
+    background-image: url(/images/tdredbg.png);
+    background-repeat: repeat-x;
+    background-color: #000;
+    border-bottom: 1px solid #490e0e;
+    padding: 0 0 5px 0
+}
+
+div#topdiv {
+    margin-bottom: 5px
+}
+
+.current {
+    font-size: 12px;
+    color: FFFFFF;
+    font-weight: 700
+}
+
+.max {
+    font-size: 13px;
+    color: #999
+}
+
+#topdiv a {
+    color: #fff
+}
+
+.bluediv {
+    font-size: x-small
+}
+
+.bluediv2 {
+    font-size: x-small
+}
+
+.notifications {
+    width: 100%;
+    margin-top: 15px
+}
+
+.notification {
+    margin: auto;
+    font-size: x-small;
+    float: left;
+    width: 50%;
+    text-align: center
+}
+
+.notification img {
+    margin: 0 5px 0 5px;
+    border: none
+}
+
+a.nlink {
+    padding: 11px 4px 2px 4px;
+    background-color: #333;
+    border: 1px solid #f90;
+    border-radius: 5px
+}
+
+a.nlink2 {
+    padding: 11px 4px 2px 4px;
+    background-color: #333;
+    border: 1px solid #555;
+    border-radius: 5px
+}
+
+.clear {
+    clear: both
+}
+
+.help3 {
+    background-color: red;
+    padding: 5px;
+    margin: 5px;
+    color: #fff;
+    display: block
+}
+
+.help2 {
+    border: 2px solid #d78100;
+    padding: 5px;
+    margin: 5px;
+    color: red;
+    display: block
+}
+
+.help {
+    background-color: #d78100;
+    border: 1px solid #f60;
+    padding: 5px;
+    margin: 5px;
+    color: #000;
+    display: block
+}
+
+.help a {
+    color: #600;
+    text-decoration: underline;
+    font-weight: 700
+}
+
+.notice {
+    background-color: #111;
+    border: 1px solid #000;
+    padding: 5px;
+    margin: 5px;
+    color: #000;
+    font-weight: 700;
+    color: red;
+    display: block
+}
+
+.jail {
+    display: inline-block;
+    width: 125px;
+    height: 90px;
+    background: url(/images/town/jail.png) no-repeat;
+    vertical-align: top;
+    text-align: right;
+    color: #fff;
+    padding: 20px 25px 0 0;
+    margin-bottom: 5px
+}
+
+.hospital {
+    display: inline-block;
+    width: 125px;
+    height: 90px;
+    background: url(/images/town/hospital.png) no-repeat;
+    vertical-align: top;
+    text-align: right;
+    color: #fff;
+    padding: 20px 25px 0 0;
+    margin-bottom: 5px
+}
+
+.crimebox {
+    border: 2px solid #333;
+    border-bottom: none;
+    margin: 10px 0 10px 0;
+    width: auto;
+    padding: 0
+}
+
+.crimetype {
+    background-repeat: repeat-x;
+    font-weight: 700;
+    padding: 5px 0 5px 0;
+    background-color: #222;
+    background-image: url(/images/tdblackbg.png)
+}
+
+.crime {
+    padding: 10px;
+    width: auto;
+    border-bottom: 2px solid #333
+}
+
+.crime_info {
+    float: left;
+    text-align: left;
+    padding: 8px 10px 8px 10px;
+    font-size: smaller
+}
+
+.crime_info .title {
+    font-weight: 700;
+    font-size: normal;
+    margin-bottom: 5px;
+    display: block
+}
+
+.crime_cost {
+    float: left;
+    vertical-align: middle;
+    text-align: center;
+    font-weight: 700;
+    font-size: large;
+    color: #fff;
+    width: 30%;
+    padding: 5px 2px 5px 2px
+}
+
+.crime_cost input {
+    font-size: small
+}
+
+.crime_info .crystals {
+    color: #f88b8b;
+    font-weight: 700
+}
+
+.crime_info .loot {
+    color: #fff;
+    background-color: #900
+}
+
+.loot {
+    color: #fff;
+    background-color: #900
+}
+
+.housebox {
+    border: 2px solid #333;
+    margin: 10px 0 10px 0;
+    width: auto;
+    padding: 0 0 10px 0
+}
+
+.housetype {
+    background-repeat: repeat-x;
+    font-weight: 700;
+    padding: 5px 0 5px 0;
+    background-color: #222;
+    background-image: url(/images/tdblackbg.png)
+}
+
+.house {
+    padding: 10px;
+    width: auto
+}
+
+.house_icon {
+    float: left;
+    padding: 0
+}
+
+.house_info {
+    float: left;
+    text-align: left;
+    width: auto;
+    width: 65%;
+    padding: 8px 0 8px 8px
+}
+
+.house_info .title {
+    font-weight: 700;
+    font-size: larger;
+    padding: 5px 0 0 0;
+    display: block
+}
+
+.current_house {
+    float: left;
+    text-align: left;
+    width: auto;
+    width: 100%;
+    padding: 8px 0 8px 8px
+}
+
+.current_house .title {
+    font-weight: 700;
+    font-size: larger;
+    padding: 5px 0 0 0;
+    display: block
+}
+
+.house_cost {
+    float: left;
+    vertical-align: middle;
+    text-align: center;
+    font-weight: 700;
+    font-size: larger;
+    color: #fff;
+    width: 30%;
+    padding: 10px 2px 5px 2px
+}
+
+.house_cost input {
+    font-size: small;
+    margin: 0
+}
+
+.house_cost .sellprice {
+    font-size: 9px
+}
+
+.stats {
+    background-color: transparent;
+    margin: 10px 0 10px 0;
+    width: auto;
+    padding: 0 0 10px 0
+}
+
+.stattype {
+    color: gray;
+    font-weight: 700;
+    font-size: 20px;
+    padding: 5px 0 5px 0
+}
+
+.stat:nth-child(even) {
+    padding: 10px;
+    background-image: url(/images/blockstripes.png);
+    border: 1px solid #333;
+    width: 250px;
+    margin: 0 auto;
+    text-align: left
+}
+
+.stat:nth-child(odd) {
+    padding: 10px;
+    background-color: #222;
+    width: 250px;
+    margin: 0 auto;
+    text-align: left
+}
+
+span.current {
+    color: #fff;
+    font-weight: 700
+}
+
+span.currentbar {
+    color: #fff;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 5px 5px 5px 5px
+}
+
+span.currentmail {
+    border-radius: 5px;
+    background-color: #dc143c;
+    color: #fff;
+    font-weight: 700;
+    font-size: 10px;
+    padding: 5px 5px 5px 5px
+}
+
+.feed {
+    
+        align-items: center;
+    border-radius: 5px;
+    border: 1px solid #000;
+    padding: 8px;
+    box-shadow: inset rgba(255, 255, 255, .15) 0 1px 1px, rgba(0, 0, 0, .8) 2px 0 5px;
+    background: url(/images/barrepeat-new.png) #000 top repeat-x;
+    text-align: left;
+    color: #cecece;
+}
+
+.feed p {
+    margin: 10px 0 10px 0;
+    padding: 10px;
+    color: #cecece;
+}
+
+.mail4 {
+    background-color: #222;
+    border: 1px solid #333;
+    padding: 10px;
+    text-align: left;
+    margin-bottom: 10px
+}
+
+.mail4 p {
+    margin: 10px 0 10px 0;
+    padding: 25px;
+    color: #fff;
+    background-color: #333;
+    border: 1px dashed #333
+}
+
+.mailupdate {
+    border: 1px solid #333;
+    padding: 10px;
+    text-align: left;
+    margin-bottom: 10px
+}
+
+.mailupdate p {
+    margin: 10px 0 10px 0;
+    padding: 25px;
+    color: #fff;
+    background-color: #111;
+    border: 1px solid #333
+}
+
+.mail3 {
+    background-image: url(/images/blockstripes.png);
+    border: 1px solid #333;
+    padding: 10px;
+    text-align: left;
+    margin-bottom: 10px
+}
+
+.mail3 p {
+    margin: 10px 0 10px 0;
+    padding: 25px;
+    color: #fff;
+    background-color: #111;
+    border: 1px solid #333
+}
+
+.mail {
+    border: 1px solid #333;
+    padding: 10px;
+    text-align: left;
+    margin-bottom: 10px
+}
+
+.mail p {
+    margin: 10px 0 10px 0;
+    padding: 10px;
+    background-color: #333;
+    color: #fff
+}
+
+.sent {
+    color: #666
+}
+
+.weapons {
+    border: 2px solid #333;
+    margin: 10px 0 10px 0;
+    width: auto;
+    padding: 0 0 10px 0
+}
+
+.weapon2 {
+    padding: 5px;
+    width: auto;
+    margin: 10px;
+    border: 2px solid #222;
+    background-image: url(/images/BGCOM.gif)
+}
+
+.weapon3 {
+    padding: 5px;
+    width: auto;
+    margin: 10px;
+    border: 2px solid #333;
+    background-image: url(/images/bodybg.jpg)
+}
+
+.weapon {
+    padding: 5px;
+    width: auto;
+    margin: 10px;
+    border: 2px solid #333;
+    background-color: #18191b
+}
+
+.title {
+    font-weight: 700;
+    font-size: small;
+    margin-top: 5px
+}
+
+.weaponheader {
+    background-repeat: repeat-x;
+    font-weight: 700;
+    padding: 5px 0 5px 0;
+    background-color: #222;
+    background-image: url(/images/tdblackbg.png)
+}
+
+.weapons h4 {
+    font-weight: 400;
+    color: #555
+}
+
+.attack,
+.defense {
+    font-size: small;
+    color: #555
+}
+
+.count {
+    color: #39c;
+    font-size: small
+}
+
+.attackbox {
+    width: auto;
+    text-align: center;
+    margin: 0 auto;
+    padding: 20px 0 20px 0
+}
+
+.attackweapon {
+    display: inline-block;
+    width: 120px;
+    text-align: center;
+    padding: 0 20px 0 20px
+}
+
+.gamecard {
+    border: 2px solid #333;
+    margin: 10px 0 10px 0;
+    width: auto;
+    padding: 0 0 10px 0
+}
+
+.gamecardtype {
+    background-repeat: repeat-x;
+    font-weight: 700;
+    padding: 5px 0 5px 0;
+    background-color: #222;
+    background-image: url(/images/tdblackbg.png)
+}
+
+.orange {
+    color: orange
+}
+
+.badgenote {
+    font-size: 10px;
+    padding: 8px 0 8px 0;
+    text-transform: uppercase;
+    color: #666
+}
+
+.badgefade img {
+    opacity: .1
+}
+
+.nav-glyphish-example .ui-btn {
+    padding-top: 0!important
+}
+
+.nav-glyphish-example .ui-btn:after {
+    width: 30px!important;
+    height: 30px!important;
+    margin-left: -15px!important;
+    box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    -webkit-box-shadow: none!important;
+    -webkit-border-radius: 0!important;
+    border-radius: 0!important
+}
+
+#chat:after {
+    background: url(https://cityofmafia.com//images/knuckle.png) 50% 50% no-repeat;
+    background-size: 24px 22px
+}
+
+#email:after {
+    background: url(https://cityofmafia.com//images/knuckle.png) 50% 50% no-repeat;
+    background-size: 24px 16px
+}
+
+#login:after {
+    background: url(https://cityofmafia.com//images/knuckle.png) 50% 50% no-repeat;
+    background-size: 12px 26px
+}
+
+#beer:after {
+    background: url(https://cityofmafia.com//images/knuckle.png) 50% 50% no-repeat;
+    background-size: 22px 27px
+}
+
+#coffee:after {
+    background: url(https://cityofmafia.com//images/knuckle.png) 50% 50% no-repeat;
+    background-size: 20px 24px
+}
+
+#skull:after {
+    background: url(https://cityofmafia.com//images/knuckle.png) 50% 50% no-repeat;
+    background-size: 22px 24px
+}
+
+.scroll-wrapper {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: scroll
+}
+
+.sub {
+    border: 1px solid #222;
+    width: 80%;
+    border-radius: 5px;
+    font-size: 12px;
+    padding: 10px;
+    margin-bottom: 10px
+}
+
+.head {
+    font-size: 16px;
+    background-color: #000;
+    background-image: url(/images/bg_bar2.gif);
+    border: thin #222 solid;
+    background-repeat: repeat-x;
+    border-radius: 5px;
+    color: #da0000;
+    font-family: tahoma;
+    text-align: center;
+    height: 40px;
+    line-height: 40px
+}
+
+#pagecontent {
+    margin: 0 auto
+}
+
+.credittable {
+    color: #222;
+    margin: 0 auto;
+}
+
+.credittable tbody tr:nth-child(even) {
+    background-color: #fff;
+    color: #222;
+    text-align: center;
+    border: 2px solid #111
+}
+
+.credittable tbody tr:nth-child(odd) {
+    background-color: #cecece;
+    text-align: center;
+    color: #222;
+    border: 2px solid #111
+}

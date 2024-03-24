@@ -1,0 +1,85 @@
+<?php
+include "ajax_header.php";
+mysql_select_db('mafialor_game', mysql_connect('localhost', 'mafialor_game', 'mickeybraden321'));
+$user_class = new User($_SESSION['id']);
+$gangid = $user_class->gang;
+$q = mysql_query("SELECT * FROM gmusers WHERE userid = {$_SESSION['id']}");
+$r = mysql_fetch_array($q);
+$typing = isset($r['typing']) ? $r['typing'] : 0;
+mysql_query("REPLACE INTO gmusers (userid, typing, lastseen, gang) VALUES ({$_SESSION['id']}, $typing, unix_timestamp(), {$r['gang']})");
+mysql_query("DELETE FROM gmusers WHERE lastseen < unix_timestamp() - 30");
+if (isset($_POST['msg'])) {
+    $avatar = $user_class->avatar;
+    $msg = $_POST['msg'];
+    $msg = strip_tags($msg);
+    $msg = nl2br($msg);
+    $msg = addslashes($msg);
+    mysql_query("UPDATE grpgusers SET gangmail = 1 WHERE gang = $gangid");
+    $result = mysql_query("INSERT INTO `gangmail` (`gangid`, `playerid`, `timesent`, `subject`, `body`) VALUES ('$gangid' ,'{$_SESSION['id']}', unix_timestamp(), 'whocares', '$msg')");
+    $newid = mysql_insert_id();
+    print gcTalking(1, $gangid) . "|-|-|" . $newid . "|-|-|";
+    $quotetext = str_replace(array('\'','"'), array('\\\'','&quot;'), $msg);
+	echo'<div class="floaty">';
+		echo'<div class="flexcont" style="text-align:center;">';
+			echo'<div class="flexele">';
+				echo 'NOW!';
+			echo'</div>';
+			echo'<div class="flexele">';
+			echo'</div>';
+			echo'<div class="flexele">';
+			echo'</div>';
+			echo'<div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $user_class->id . ']' . str_replace(array("\n","\r"),array('','\n'),$quotetext) . '[/quote]\\n\\n\');">';
+				echo 'Quote';
+			echo'</div>';
+		echo'</div>';
+		echo'<hr style="border:0;border-top:thin solid #333;" />';
+		echo'<div class="flexcont">';
+			echo'<div class="flexele" style="border-right:thin solid #333;text-align:center;">';
+				echo'<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666" />';
+				echo'<br />';
+				echo $user_class->formattedname;
+			echo'</div>';
+			echo'<div class="flexele" style="flex:3;padding:10px;">';
+				echo BBCodeParse(stripslashes($msg));
+			echo'</div>';
+		echo'</div>';
+	echo'</div>';
+} elseif (isset($_GET['lastID'])) {
+    $result = mysql_query("UPDATE `grpgusers` SET `gangmail` = '0' WHERE `id` = '{$_SESSION['id']}'");
+    $result = mysql_query("SELECT * from `gangmail` WHERE `gangid` = '$user_class->gang' AND gmailid>{$_GET['lastID']} ORDER BY `timesent`");
+    $lastid = mysql_fetch_array(mysql_query("SELECT gmailid FROM gangmail WHERE gangid = $user_class->gang ORDER BY gmailid DESC"));
+    if ($lastid['gmailid'] == $_GET['lastID'])
+        die(gcTalking(1, $gangid));
+    print gcTalking(1, $gangid) . "|-|-|" . $lastid['gmailid'] . "|-|-|";
+    while ($row = mysql_fetch_array($result)) {
+        $reply_class = new User($row['playerid']);
+        $avatar = ($reply_class->avatar != "") ? $reply_class->avatar : "/images/no-avatar.png";
+		$quotetext = str_replace(array('\'','"'), array('\\\'','&quot;'), $row['body']);
+		echo'<div class="floaty">';
+			echo'<div class="flexcont" style="text-align:center;">';
+				echo'<div class="flexele">';
+					echo 'NOW!';
+				echo'</div>';
+				echo'<div class="flexele">';
+				echo'</div>';
+				echo'<div class="flexele">';
+				echo'</div>';
+				echo'<div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $reply_class->id . ']' . str_replace(array("\n","\r"),array('','\n'), $quotetext) . '[/quote]\\n\\n\');">';
+					echo 'Quote';
+				echo'</div>';
+			echo'</div>';
+			echo'<hr style="border:0;border-top:thin solid #333;" />';
+			echo'<div class="flexcont">';
+				echo'<div class="flexele" style="border-right:thin solid #333;text-align:center;">';
+					echo'<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666" />';
+					echo'<br />';
+					echo $reply_class->formattedname;
+				echo'</div>';
+				echo'<div class="flexele" style="flex:3;padding:10px;">';
+					echo BBCodeParse(stripslashes($row['body']));
+				echo'</div>';
+			echo'</div>';
+		echo'</div>';
+    }
+}
+?>
