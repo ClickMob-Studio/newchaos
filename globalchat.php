@@ -11,8 +11,6 @@ if ($user_class->fbitime > 0) {
 }
 
 
-if ($user_class->id == 0) {
-
     echo "<script type='module'>
     import { EmojiButton } from 'https://unpkg.com/@joeattardi/emoji-button@4.3.0/dist/index.js';
 
@@ -44,7 +42,6 @@ picker.on('emoji', selection => {
 
 trigger.addEventListener('click', () => picker.togglePicker(trigger));
 </script>";
-}
 
 if(isset($_GET['gcban']) && $_GET['conf'] == $_SESSION['security']){
     if($user_class->admin || $user_class->gm || $user_class->cm){
