@@ -132,7 +132,7 @@ if ($user_class->gang != 0) {
         }
     }
     ?>
-    <tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Upgrade</td></tr>
+
     <tr><td class="contentcontent">
         <table width='100%'>
             <form method='post'>
@@ -153,7 +153,6 @@ if ($user_class->gang != 0) {
                 <style>
                     /* Styles borrowed from auction_house.php for consistency */
                     .info-box {
-    background-color: #2f2f2f;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
     padding: 5px 20px;
@@ -172,7 +171,6 @@ if ($user_class->gang != 0) {
     padding: 20px;
     margin: 20px auto;
     width: calc(100% - 40px);
-    background-color: #1e1e1e;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
@@ -183,7 +181,6 @@ if ($user_class->gang != 0) {
     padding: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     margin-bottom: 20px;
-    background-color: #222;
     border-radius: 10px;
     box-sizing: border-box;
     display: flex;
