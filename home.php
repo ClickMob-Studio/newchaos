@@ -1,5 +1,5 @@
 <?php
-include 'pdo.php';
+include 'database/pdo_class.php';
 
 // Query to get users online in the last hour
 $queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
