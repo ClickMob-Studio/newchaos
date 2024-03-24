@@ -264,6 +264,7 @@ table { margin: auto; }
 	line-height: 40px;
 	font-size: 14px;
 	font-weight: bold;
+	margin-left: 250px;
 	color: #fff;
 	text-indent: 10px;
 	background: url(../images/Layout/Ingame/content_box_bg_01.png) no-repeat;
@@ -272,6 +273,7 @@ table { margin: auto; }
 	width: 668px;
 	line-height: 22px;
 	color: #666;
+	margin-left: 250px;
 	background: url(../images/Layout/Ingame/content_box_bg_02.png) repeat-y;
 }
 .box_middle .pad {
@@ -280,6 +282,7 @@ table { margin: auto; }
 .box .box_bottom {
 	width: 668px;
 	height: 16px;
+	margin-left: 250px;
 	background: url(../images/Layout/Ingame/content_box_bg_03.png) no-repeat;
 }
 #main_box .bottom_content {
