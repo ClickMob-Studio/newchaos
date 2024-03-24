@@ -778,9 +778,6 @@ if (!empty($messages)) {
     }
     if (!empty($messagesHtml)) {
         echo 'var messageContainer = document.getElementById("message-container");';
-        echo 'messageContainer.style.display = "flex";'; // Use flexbox for side by side display
-        echo 'messageContainer.style.alignItems = "center";'; // Center align items for a better look
-        echo 'messageContainer.style.justifyContent = "center";'; // Center the content horizontally
         echo 'var messagesElement = document.createElement("div");'; // Create a new div for messages
         echo 'messagesElement.innerHTML = ' . $messagesHtml . ';'; // Set the inner HTML of the div
         echo 'document.getElementById("messages").appendChild(messagesElement);'; // Append the div to the container
