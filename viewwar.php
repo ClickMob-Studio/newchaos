@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Gang Wars</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
+
 if ($user_class->gang != 0) {
     $gang_class = new Gang($user_class->gang);
     $wars = CheckGangWar($user_class->gang);

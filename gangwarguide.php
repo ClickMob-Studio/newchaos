@@ -1,6 +1,9 @@
 <?php
 include 'header.php';
 ?>
+<div class='box_top'>Gang War Guide</div>
+						<div class='box_middle'>
+							<div class='pad'>
 <tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Gang War Guide</td></tr>
 <tr><td class="contentcontent">
         <i><b>Welcome to the Gang War guide. Please read carefully.</b></i><br /><br />
