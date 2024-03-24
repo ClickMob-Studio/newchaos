@@ -32,13 +32,13 @@ $db->query("SELECT * FROM sessions WHERE userid = ?");
 $db->execute(array(
     $_SESSION['id']
 ));
-$IP = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
-$row = $db->fetch_row(true);
-if (!$row) {
-    session_destroy();
-    header('Location: index.php');
-    exit();
-}
+// $IP = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+// $row = $db->fetch_row(true);
+// if (!$row) {
+//     session_destroy();
+//     header('Location: index.php');
+//     exit();
+// }
 // if ($row['sessionid'] != $_COOKIE['PHPSESSID'] && $_SESSION['id'] != 0) {
 //     $sessid = $_SESSION['id'];
 //     session_unset();
