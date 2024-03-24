@@ -95,8 +95,7 @@ $admin_ids = array_map(function($a) {
 </div>
 <br>
 <div class="contenthead floaty">
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h4>City links</h4></span>
+<h1>City links</h1>
 
 
  <div class='divider'></div>
@@ -190,7 +189,7 @@ $admin_ids = array_map(function($a) {
 </div>
 <br>
 <div class="contenthead floaty">
-        <h4>Leaderboards</h4>
+        <h1>Leaderboards</h1>
 <div style="display: flex; flex-wrap: wrap;">
     <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
         <?php if ($king_result): ?>
