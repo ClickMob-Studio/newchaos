@@ -550,6 +550,9 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 				<div class="content_side">
 </div>
 <div class='box'>
+<div class='box_top'></div>
+						<div class='box_middle'>
+							<div class='pad'>";
 
     <?php
 
