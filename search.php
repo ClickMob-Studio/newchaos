@@ -225,23 +225,7 @@ if (isset($_POST['id'])) {
 				print_r($sql);
 				echo "</pre>";
 			}
-			echo '<style>
-.aha {
-  padding: 5px 10px; /* Adjust the padding to your preference */
-  background-color: #333;
-  color: #fff; /* Text color */
-  text-decoration: none; /* Removes underline from links */
-  border: none;
-  border-radius: 4px; /* Rounded corners */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
-  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
-}
-
-.aha:hover {
-  background-color: #444; /* Slightly lighter color on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Larger shadow for hover effect */
-}
-</style>';
+			
 		// Determine the limit based on user_class->rmdays
 $limit = ($user_class->rmdays > 0) ? 20 : 10;
 
