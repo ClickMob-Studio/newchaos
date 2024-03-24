@@ -2421,53 +2421,61 @@ function gendivs($row, $type, $sell = null, $subtype = null, $loan = null)
         $$type .= '<br />';
     }
     $$type .= $sell;
-    if ($type == "consumable" && $row['id'] != 155  && $row['id'] != 195 && $row['id'] != 156 && $row['id'] != 157 && $row['id'] != 194 && $row['id'] != 158 && $row['id'] != 159  && $row['id'] != 165 && $row['id'] != 167)
-        $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Use</a> ';
-if ($type == "rare" && $row['id'] != 155  && $row['id'] != 195 && $row['id'] != 209 && $row['id'] != 231 && $row['id'] != 210 && $row['id'] != 250 && $row['id'] != 211 && $row['id'] != 229  && $row['id'] != 230 && $row['id'] != 212 &&  $row['id'] != 156 && $row['id'] != 194 && $row['id'] != 68 && $row['id'] != 69 && $row['id'] != 157 && $row['id'] != 158 && $row['id'] != 159  && $row['id'] != 165 && $row['id'] != 167)
-        $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Use</a> ';
 
-    if (!$loan && $row['id'] != 155  && $row['id'] != 195 && $row['id'] != 156 && $row['id'] != 194 && $row['id'] != 157 && $row['id'] != 158 && $row['id'] != 159  && $row['id'] != 165 && $row['id'] != 167)
+    // Add buttons conditionally based on item id and type
+    $buttonHtml = '';
+    if (in_array($row['id'], [155, 195, 156, 157, 194, 158, 159, 165, 167])) {
+        switch ($row['id']) {
+            case 155:
+                $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Share The Love</a> ';
+                break;
+            case 194:
+                $buttonHtml .= ' <a class="button-sm" href="raids.php">Use Speedup</a> ';
+                break;
+            case 195:
+                $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Trick Or Treat</a> ';
+                break;
+            case 156:
+                $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Share</a> ';
+                break;
+            case 157:
+                $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Send Egg</a> ';
+                break;
+            case 158:
+                $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Independence!</a> ';
+                break;
+            case 159:
+                $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Send Rayz</a> ';
+                break;
+            case 165:
+                $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Send Ghosts</a> ';
+                break;
+            case 167:
+                $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Send Christmas Present</a> ';
+                break;
+        }
+    }
+
+    // Append buttons if condition is met
+    if (!empty($buttonHtml)) {
+        $$type .= $buttonHtml;
+    }
+
+    // Add other buttons based on type and loan condition
+    if ($type == "consumable" && !in_array($row['id'], [155, 195, 156, 157, 194, 158, 159, 165, 167])) {
+        $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Use</a> ';
+    }
+    if ($type == "rare" && !in_array($row['id'], [155, 195, 209, 231, 210, 250, 211, 229, 230, 212, 156, 194, 68, 69, 157, 158, 159, 165, 167])) {
+        $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Use</a> ';
+    }
+    if (!$loan && !in_array($row['id'], [155, 195, 156, 194, 157, 158, 159, 165, 167])) {
         $$type .= ' <a class="button-sm" href="putonmarket.php?id=' . $row['id'] . '">Market</a> ';
-
-    if ($row['id'] != 155  && $row['id'] != 195 && $row['id'] != 157 && $row['id'] != 194 && $row['id'] != 156 && $row['id'] != 158 && $row['id'] != 159 && $row['id'] != 167)
+    }
+    if (!in_array($row['id'], [155, 195, 157, 194, 156, 158, 159, 167])) {
         $$type .= ' <a class="button-sm" href="senditem.php?id=' . $row['id'] . '">Send</a> ';
+    }
 
-    if ($row['id'] == 155)
-        $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Share The Love</a> ';
-if ($row['id'] == 194)
-        $$type .= ' <a class="button-sm" href="raids.php">Use Speedup</a> ';
-
-
-  if ($row['id'] == 195)
-        $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Trick Or Treat</a> ';
-
-
-
-    if ($row['id'] == 156)
-        $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Share</a> ';
-if ($row['id'] == 157)
-        $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Send Egg</a> ';
-if ($row['id'] == 158)
-        $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Independance!</a> ';
-if ($row['id'] == 159)
-        $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Send Rayz</a> ';
-if ($row['id'] == 165)
-        $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Send Ghosts</a> ';
-if ($row['id'] == 167)
-        $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Send Christmas Present</a> ';
-
-
-
-
-
-
-
-
-
-    echo "<div style='display:none;'>";
-    echo $subtype . " " . $type;
-    echo "</div>";
-
+    // Equipment buttons
     if (in_array($type, array('weapon', 'armor', 'shoes')) || in_array($subtype, array('weapon', 'armor', 'shoes'))) {
         $$type .= ' <a class="button-sm" href="equip.php?eq=';
         $$type .= (!empty($subtype)) ? $subtype : $type;
@@ -2475,5 +2483,6 @@ if ($row['id'] == 167)
         $$type .= ($loan) ? '&loaned=1' : '';
         $$type .= '">Equip</a> ';
     }
+
     $$type .= '</span>';
 }
