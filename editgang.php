@@ -11,6 +11,11 @@ $validtax = array(
     70
 );
 include 'header.php';
+?>
+<div class='box_top'>Edit Gang</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 $gang_class = new Gang($user_class->gang);
 if ($user_class->gang == 0)
     error("You aren't in a gang.");
@@ -58,7 +63,7 @@ if (isset($_POST['submit'])) {
         error($error);
 }
 print "
-<tr><td class='contentspacer'></td></tr><tr><td class='contenthead'>Edit Gang</td></tr>
+
 <tr><td class='contentcontent'>
     <form method='post'>
         <table width='100%' border='0'>
