@@ -860,6 +860,7 @@ if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'VIPstore.php
     margin-right: 10px;
     color:#000;
     width: 72%;
+    text-align: center;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0px 2px 10px rgba(93, 93, 93, 1);
@@ -924,7 +925,7 @@ if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'VIPstore.php
     </div>
 </div>
 
-<div class="vertical-text-slider floaty12" id="message-container" style="display: block;">
+<div class="vertical-text-slider floaty12" id="message-container">
     <ul id="messages" style="list-style-type: none;">
        
     </ul>
