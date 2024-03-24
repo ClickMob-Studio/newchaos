@@ -1,7 +1,7 @@
     <?php
 include 'header.php';
 ?>
-<div class='box_top'>Global Chat</div>
+<div class='box_top'>Global chat</div>
 						<div class='box_middle'>
 							<div class='pad'>
 <?php
@@ -143,29 +143,29 @@ echo'
 
 echo'<div class="floaty" style="margin-bottom:-10px;">';
     echo'<div class="flexcont">';
-        echo'<div class="flexele forumhover" onclick="insertAtCursor(\'[b][/b]\', 4);return false;">';
+        echo'<div class="flexele forumhover" onclick="insertAtCaret(\'[b][/b]\', 4);return false;">';
             echo'[b]';
         echo'</div>';
-        echo'<div class="flexele forumhover" onclick="insertAtCursor(\'[u][/u]\', 4);return false;">';
+        echo'<div class="flexele forumhover" onclick="insertAtCaret(\'[u][/u]\', 4);return false;">';
             echo'[u]';
         echo'</div>';
-        echo'<div class="flexele forumhover" onclick="insertAtCursor(\'[i][/i]\', 4);return false;">';
+        echo'<div class="flexele forumhover" onclick="insertAtCaret(\'[i][/i]\', 4);return false;">';
             echo'[i]';
         echo'</div>';
-        echo'<div class="flexele forumhover" onclick="insertAtCursor(\'[s][/s]\', 4);return false;">';
+        echo'<div class="flexele forumhover" onclick="insertAtCaret(\'[s][/s]\', 4);return false;">';
             echo'[s]';
         echo'</div>';
-        echo'<div class="flexele forumhover" onclick="insertAtCursor(\'[url][/url]\', 6);return false;">';
+        echo'<div class="flexele forumhover" onclick="insertAtCaret(\'[url][/url]\', 6);return false;">';
             echo'[url]';
         echo'</div>';
-        echo'<div class="flexele forumhover" onclick="insertAtCursor(\'[img][/img]\', 6);return false;">';
+        echo'<div class="flexele forumhover" onclick="insertAtCaret(\'[img][/img]\', 6);return false;">';
             echo'[img]';
         echo'</div>';
-echo'<div class="flexele forumhover" onclick="insertAtCursor(\'[tag][/tag]\', 6);return false;">';
+echo'<div class="flexele forumhover" onclick="insertAtCaret(\'[tag][/tag]\', 6);return false;">';
             echo'[tag]';
         echo'</div>';
 
-        echo'<div class="flexele forumhover" onclick="insertAtCursor(\'[youtube][/youtube]\', 10);return false;">';
+        echo'<div class="flexele forumhover" onclick="insertAtCaret(\'[youtube][/youtube]\', 10);return false;">';
             echo'[youtube]';
         echo'</div>';
         echo'<div id="semojis" class="flexele forumhover" onclick="return showemojis();" style="display:' , ($user_class->hideemojis) ? 'block' : 'none' , ';flex:2;">';
