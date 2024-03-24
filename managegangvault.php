@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Manage Gang Vault</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 if (!$user_class->gang) {
     diefun("You are not in a gang.");
 }
