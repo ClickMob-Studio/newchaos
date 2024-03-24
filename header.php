@@ -860,6 +860,7 @@ if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'VIPstore.php
     color: white;
     padding: 20px;
     border-radius: 10px;
+    width:100$;
     box-shadow: 0px 2px 10px rgba(93, 93, 93, 1);
     padding: 4px 5px 4px;
     margin-bottom: 20px;
@@ -891,12 +892,11 @@ if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'VIPstore.php
                         ?>
                         <li class="slide">
                             <div class="slide-content">
-                            <div class="info-msg">
-                            <i class="fa fa-info-circle"></i>
+                            
                                 <!-- <span>Remember - All Referrals using your referral ID will reward you with 50 Credits! Help Spread the word of our launch!</span> -->
                                 <span><a href="refer.php"><?= $ref_message ?></a></span>
                             </div>
-                            </div>
+                            
                         </li>
                         <?php
                     } else {
