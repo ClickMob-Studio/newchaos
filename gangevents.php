@@ -15,7 +15,7 @@ include 'header.php';
 		
         if(mysql_num_rows($r)){
 		
-        while($rows = mysql_fetch_assoc($r)){
+        while($rows = mysql_fetch_array($r)){
 			$extra_user = new User($row['extra']);
 			$text = str_replace('[-_USERID_-]', $extra_user->formattedname, $row['text']);
 			echo'<tr>';
