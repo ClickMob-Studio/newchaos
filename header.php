@@ -869,12 +869,8 @@ if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'VIPstore.php
 
     <div class="vertical-text-slider floaty12">
     <div class="flex-container">
-            <div class="slider-icon">
+
                 <a href="/shoutbox.php"><img width="16" height="16" src="/css/images/icons/loudspeaker_32.png" alt="Smart Ads" /></a>
-            </div>
-
-
-
             <div class="slider-frame">
                 <ul class="slides" style="list-style-type: none; width:100%">
 
