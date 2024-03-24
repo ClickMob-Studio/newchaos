@@ -1,5 +1,9 @@
 <?php
-include "header.php";
+include "header.php";?>
+<div class='box_top'>Gang Mass Mail</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 if (!$user_class->gang) {
     die("You're not in a gang.");
 }
@@ -61,7 +65,7 @@ if (isset($_POST['msgtext'])) {
     while ($y = mysql_fetch_array($yyy)) {
         mysql_query("INSERT INTO pms VALUES('',{$y['id']},$user_class->id,unix_timestamp(),'$subject','$message',0,1,0,0,0,0,0)");
     }
-    print "Messages sent out!";
+    print Message("Messages sent out!");
 }
 include "footer.php";
 ?>
