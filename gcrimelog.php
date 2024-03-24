@@ -1,7 +1,16 @@
 <?php
 include 'header.php';
+?>
+
+<div class='box_top'>Gang Crime Log</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
+
 if ($user_class->gang != 0) {
     $gang_class = new Gang($user_class->gang);
+    $result = mysql_query("SELECT * from gcrimelog WHERE gangid = $gang_class->id ORDER BY timestamp DESC");
+    if(mysql_num_rows($result)){
     ?>
     <table id="newtables" style="width:100%;table-layout:fixed;">
         <tr>
@@ -14,7 +23,7 @@ if ($user_class->gang != 0) {
             <th>Time</th>
         </tr>
         <?php
-        $result = mysql_query("SELECT * from gcrimelog WHERE gangid = $gang_class->id ORDER BY timestamp DESC");
+       
         while ($row = mysql_fetch_array($result)) {
             if ($row['gangid'] == $gang_class->id) {
                 $extra = new User($row['userid']);
@@ -32,6 +41,9 @@ if ($user_class->gang != 0) {
     </table>
     </td></tr>
     <?php
+    }else{
+        echo 'No logs found';
+    }
 } else {
     echo Message("You aren't in a gang.");
 }
