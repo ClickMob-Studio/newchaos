@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Sell Item</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                <?php
 if ($_GET['id'] == "") {
     echo Message("You haven't picked an item.");
     include 'footer.php';
