@@ -9,16 +9,22 @@ if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
   $IP = $_SERVER['REMOTE_ADDR'];
 }
 
-if ($_POST['username'] != NULL & $_POST['password'] != NULL) {
-    $username = mysql_real_escape_string($_POST['username']);
-    $password = sha1(mysql_real_escape_string($_POST['password']));
+if (isset($_POST['username']) && isset($_POST['password'])) {
+    $username = $_POST['username'];
+    $password = sha1($_POST['password']);
     $password2 = fuzzehCrypt($password);
-    $result = mysql_query("SELECT * FROM grpgusers WHERE loginame LIKE '$username'") or die(Message("Sorry, your username and password combination are invalid."));
-    $worked = mysql_fetch_array($result);
-    $ban1 = mysql_query("SELECT * FROM bans WHERE id = '{$worked['id']}' AND (type = 'freeze' OR type = 'perm')");
-    $ban = mysql_num_rows($ban1);
-    $q = mysql_query("SELECT * FROM ip_bans WHERE = {$IP}");
-    $ipban = mysql_num_rows($q);
+    $query = "SELECT * FROM grpgusers WHERE loginame = ?";
+    $statement = $db->prepare($query);
+    $statement->execute([$username]);
+    $worked = $statement->fetch(PDO::FETCH_ASSOC);
+    $banQuery = "SELECT * FROM bans WHERE id = ? AND (type = 'freeze' OR type = 'perm')";
+    $banStatement = $db->prepare($banQuery);
+    $banStatement->execute([$worked['id']]);
+    $ban = $banStatement->rowCount();
+    $ipBanQuery = "SELECT * FROM ip_bans WHERE ip = ?";
+    $ipBanStatement = $db->prepare($ipBanQuery);
+    $ipBanStatement->execute([$IP]);
+    $ipban = $ipBanStatement->rowCount();
 
     //Lowercase username stored and given, then perform check of equality (bypass capitol letters)
     $stored_username = strtolower($worked['loginame']);
@@ -30,8 +36,17 @@ if ($_POST['username'] != NULL & $_POST['password'] != NULL) {
             header('Location: index.php');
         }
         $_SESSION["id"] = $worked['id'];
-        mysql_query("DELETE FROM sessions WHERE userid={$worked['id']}");
-        mysql_query("INSERT INTO sessions VALUES({$worked['id']},'{$_COOKIE['PHPSESSID']}','emptyfornow')");
+        // Prepare and execute query to delete existing sessions
+      $deleteQuery = "DELETE FROM sessions WHERE userid = ?";
+      $deleteStatement = $db->prepare($deleteQuery);
+      $deleteStatement->bind_param("i", $worked['id']);
+      $deleteStatement->execute();
+
+// Prepare and execute query to insert new session
+    $insertQuery = "INSERT INTO sessions VALUES (?, ?, 'emptyfornow')";
+    $insertStatement = $db->prepare($insertQuery);
+    $insertStatement->bind_param("is", $worked['id'], $_COOKIE['PHPSESSID']);
+    $insertStatement->execute();
         header('Location: index.php');
     } else {
         $_SESSION['failmessage'] = 'Invalid username or password';
