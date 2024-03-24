@@ -59,8 +59,25 @@ print "
 </div>
 
 <hr>";
-
-echo "<span class='floaty12'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />";
+?>
+<style>
+    floaty1{
+    display: block;
+    width: 97%;
+    margin: 0 auto;
+    margin-right: 10px;
+    color: #000;
+    /* width: 72%; */
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10px !important;
+    box-shadow: 0px 2px 10px rgba(93, 93, 93, 1);
+    padding: 5px 5px 4px;
+    margin-bottom: 10px;
+    }
+    </style>
+<?php
+echo "<span class='floaty1'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />";
 echo "<div class=\"hundred centered\">";
 $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
 if (mysql_fetch_array($check)) {
