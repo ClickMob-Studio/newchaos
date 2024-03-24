@@ -1,6 +1,5 @@
 <?php
 include 'header.php';
-include("gangheaders.php");
 ?>
 <div class='box_top'>Gang Events</div>
 						<div class='box_middle'>
@@ -32,5 +31,7 @@ include("gangheaders.php");
         ?>
     </table>
 <?php
+include("gangheaders.php");
+
 include 'footer.php';
 ?>
