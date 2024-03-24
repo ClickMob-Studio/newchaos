@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Gang Contest</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 $db->query("SELECT leader FROM gangs WHERE id = ?");
 $db->execute(array(
 	$user_class->gang
