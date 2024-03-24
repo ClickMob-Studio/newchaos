@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Gang Invite</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 $gang_class = new Gang($user_class->gang);
 $user_rank = new GangRank($user_class->grank);
 if ($user_rank->invite != 1 && $user_class->admin != 1)
