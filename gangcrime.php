@@ -1,5 +1,9 @@
 <?php
-include 'header.php';
+include 'header.php';?>
+<div class='box_top'>Manage Gang Crime</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 if ($user_class->gang != 0) {
     $user_rank = new GangRank($user_class->grank);
     if ($user_rank->crime != 1 && !$user_class->admin)
