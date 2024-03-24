@@ -57,10 +57,6 @@ $user_class = new User($uid);
 if ($uid == 1) {
     $user_class->admin = 1;
 }
-$queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
-$statementOnline = $db->prepare($queryOnline);
-$statementOnline->execute();
-$usersOnline = $statementOnline->rowCount();
 
 
 if ($user_class->gang == 0 && $user_class->cur_gangcrime != 0) {
