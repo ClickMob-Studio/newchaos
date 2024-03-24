@@ -96,7 +96,7 @@ print "
     }
     </style>
 <?php
-echo 
+echo "
 
 
 <div class=\"hundred centered\">";
