@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Put On Market</div>
+						<div class='box_middle'>
+							<div class='pad'>
+
+<?php
 $id = security($_GET['id']);
 $howmany = Check_Item($id, $user_class->id);
 $db->query("SELECT * FROM items WHERE id = ?");
