@@ -33,7 +33,9 @@ if (isset($_POST['submit'])) {
     Send_Event($person->id, "[-_USERID_-] has sent you [x{$_POST['amnt']}] {$worked['itemname']}.", $user_class->id);
 }
 
-print '<tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Send item</td></tr>
+print '
+<p>Here you can send items to other users, you can only send items once you reach level 5</p>
+<tr><td class="contentspacer"></td></tr>
 <tr><td class="contentcontent">';
 if ($user_class->level <= 4)
     print '<center><font size="3px"><font color=lime>You must be at least level 5 to send items</font><br></center>';
