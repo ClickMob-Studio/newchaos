@@ -21,10 +21,10 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
      $banStatement = $db->prepare($banQuery);
      $banStatement->execute([$worked['id']]);
      $ban = $banStatement->rowCount();
-    $ipBanQuery = "SELECT * FROM ip_bans WHERE ip = ?";
-     $ipBanStatement = $db->prepare($ipBanQuery);
-     $ipBanStatement->execute([$IP]);
-     $ipban = $ipBanStatement->rowCount();
+    // $ipBanQuery = "SELECT * FROM ip_bans WHERE ip = ?";
+    //  $ipBanStatement = $db->prepare($ipBanQuery);
+    //  $ipBanStatement->execute([$IP]);
+    //  $ipban = $ipBanStatement->rowCount();
 
      //Lowercase username stored and given, then perform check of equality (bypass capitol letters)
      $stored_username = strtolower($worked['loginame']);
