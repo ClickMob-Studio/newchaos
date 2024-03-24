@@ -1,6 +1,10 @@
 <?php
 include 'header.php';
-
+?>
+<div class='box_top'>Gang Forum</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 $gang_class = New Gang($user_class->gang);
 
 include("gangheaders.php");
