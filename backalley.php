@@ -256,12 +256,8 @@ if ($user_class->hospital > 0) {
         </center>
 </div>
 </div>
-    </td>
-    </tr>
-    <head>
-    <!-- other elements like title, link, meta -->
-   
-</head>
+
+
 
     <?php
 }
