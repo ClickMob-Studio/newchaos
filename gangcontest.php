@@ -42,7 +42,7 @@ foreach($members as $member){
 		));
     }
 }
-echo'<a href="?reset" style="color:yellow;font-size:1.5em;">[Reset]</a> - ';
+echo'<a href="?reset" style="color:orange;font-size:1.5em;">[Reset]</a> - ';
 echo'<a href="?" style="color:yellow;font-size:1.5em;">[Regular]</a> - ';
 echo'<a href="?totals" style="color:yellow;font-size:1.5em;">[Totals]</a> - ';
 echo'<a href="?presnap" style="color:yellow;font-size:1.5em;">[Snapshots]</a><br />';
