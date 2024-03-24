@@ -58,10 +58,10 @@ print "
     <div><a href='/missions.php' class='link-red'>Mission Sets</a> &nbsp;&nbsp;&nbsp; <a href='/killmissions.php' class='link-red'>Kill Missions</a> &nbsp;&nbsp;&nbsp; <a href='/bustmissions.php' class='link-red'>Bust Missions</a> &nbsp;&nbsp;&nbsp; <a href='/crimemissions.php' class='link-red'>Crime Missions</a></div>
 </div>
 
-<hr>
+<hr>";
 
 echo "<span class='floaty12'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />";
-<div class=\"hundred centered\">";
+echo "<div class=\"hundred centered\">";
 $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
 if (mysql_fetch_array($check)) {
     $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
