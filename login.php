@@ -14,7 +14,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $password = sha1($_POST['password']);
     $password2 = fuzzehCrypt($password);
     $query = "SELECT * FROM grpgusers WHERE loginame = ?";
-//     $statement = $db->prepare($query);
+     $statement = $db->prepare($query);
 //     $statement->execute([$username]);
 //     $worked = $statement->fetch(PDO::FETCH_ASSOC);
 //     $banQuery = "SELECT * FROM bans WHERE id = ? AND (type = 'freeze' OR type = 'perm')";
