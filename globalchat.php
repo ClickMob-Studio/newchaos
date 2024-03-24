@@ -144,9 +144,16 @@ echo'
     <div id="gccontainer" style="margin:0; padding:10px;">
         ' . gcTalking() . '
    </div>';
-
+?>
+<style>
+    .flexele{
+        flex: 1;
+        text-align:center;
+    }
+    </style>
+<?php
 echo'<div class="floaty" style="margin-bottom:-10px;">';
-    echo'<div class="flexcont" style="flex: 1;">';
+    echo'<div class="flexcont">';
         echo'<span class="flexele forumhover" onclick="addBB(\'[b][/b]\', 4);return false;">';
             echo'[b]';
         echo'</span>';
