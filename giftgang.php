@@ -77,7 +77,7 @@ $totalMembers = count($gangMembers);
             Send_event($memberId, "[-_USERID_-] sent you [x$qty] " . pluralize($index, $qty) . "! $note", $user_class->id);
         }
 
-        echo '<div id="success">You have sent [x' . $qty . '] ' . pluralize($index, $qty) . ' to all members of your gang.</div>';
+        echo Message('You have sent [x' . $qty . '] ' . pluralize($index, $qty) . ' to all members of your gang.');
     }
 }
 
