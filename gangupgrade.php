@@ -242,7 +242,7 @@ if ($user_class->gang != 0) {
 /* Styles for empty stars with a white border */
 .star-empty:before {
     content: '\2605'; /* Unicode star */
-    color: white; /* Empty stars will be white */
+    color: black; /* Empty stars will be white */
     -webkit-text-stroke: 2px white; /* White border for Webkit browsers */
     text-stroke: 2px white; /* Standard property for text border, if supported */
 }
@@ -312,7 +312,7 @@ if ($user_class->gang != 0) {
     <?php
     for ($i = 1; $i <= 10; $i++) {
         // Set star color to white by default, use green for current star level or below
-        $starColor = ($i <= $current_star_level) ? 'green' : 'white';
+        $starColor = ($i <= $current_star_level) ? 'green' : 'black';
         $starStyle = "color: $starColor; font-size: 20px; background-color: transparent;";
 
         // Check if the tooltip for this star level exists in the $tooltips array for the current $key
