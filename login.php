@@ -28,18 +28,18 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     if ($stored_username == $given_username && ($worked['password'] == $password || $worked['password'] == $password2)) {
          if ($worked['ban/freeze'] == 1 || $ban > 0 || $ipban > 0) {
              $_SESSION['failmessage'] = 'Your account has been banned';
-             header('Location: index.php');
+             header('Location: home.php');
          }
         $_SESSION["id"] = $worked['id'];
 
         header('Location: index.php');
     } else {
         $_SESSION['failmessage'] = 'Invalid username or password';
-        header('Location: index.php');
+        header('Location: home.php');
     }
 } else {
 	$_SESSION['failmessage'] = 'You have not entered a username or password.';
-    header('Location: index.php');
+    header('Location: home.php');
 }
 function fuzzehCrypt($pass) {
     return crypt($pass, '$6$rounds=5000$awrgwrnuBUIEF89243t89bNFAEb942$');
