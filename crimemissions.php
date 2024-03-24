@@ -53,6 +53,7 @@ if (isset($_GET['do'])) {
 }
 $q2 = mysql_query("SELECT * FROM mission WHERE category = 2 ORDER BY id ASC ");
 $msgg = (isset($msgg)) ? $msgg : "";
+if(isset($msgg))
 print "<div class='floaty1'>".$msgg."</div>";
 print "
 <div class='contenthead floaty'>
