@@ -1,6 +1,8 @@
 <?php
 session_start();
 include 'dbcon.php';
+
+// Get client's IP address
 if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
   $IP = $_SERVER['HTTP_CLIENT_IP'];
 } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -9,18 +11,30 @@ if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
   $IP = $_SERVER['REMOTE_ADDR'];
 }
 
-if ($_POST['username'] != NULL & $_POST['password'] != NULL) {
-    $username = mysql_real_escape_string($_POST['username']);
-    $password = sha1(mysql_real_escape_string($_POST['password']));
+if (!empty($_POST['username']) && !empty($_POST['password'])) {
+    $username = $_POST['username'];
+    $password = sha1($_POST['password']); // You might need to use a better hashing algorithm than sha1
     $password2 = fuzzehCrypt($password);
-    $result = mysql_query("SELECT * FROM grpgusers WHERE loginame LIKE '$username'") or die(Message("Sorry, your username and password combination are invalid."));
-    $worked = mysql_fetch_array($result);
-    $ban1 = mysql_query("SELECT * FROM bans WHERE id = '{$worked['id']}' AND (type = 'freeze' OR type = 'perm')");
-    $ban = mysql_num_rows($ban1);
-    $q = mysql_query("SELECT * FROM ip_bans WHERE = {$IP}");
-    $ipban = mysql_num_rows($q);
 
-    //Lowercase username stored and given, then perform check of equality (bypass capitol letters)
+    // Prepare and execute query to fetch user details
+    $query = "SELECT * FROM grpgusers WHERE loginame LIKE ?";
+    $statement = $db->prepare($query);
+    $statement->execute([$username]);
+    $worked = $statement->fetch(PDO::FETCH_ASSOC);
+
+    // Prepare and execute query to check if user is banned
+    $banQuery = "SELECT * FROM bans WHERE id = ? AND (type = 'freeze' OR type = 'perm')";
+    $banStatement = $db->prepare($banQuery);
+    $banStatement->execute([$worked['id']]);
+    $ban = $banStatement->rowCount();
+
+    // Prepare and execute query to check if IP is banned
+    $ipBanQuery = "SELECT * FROM ip_bans WHERE ip = ?";
+    $ipBanStatement = $db->prepare($ipBanQuery);
+    $ipBanStatement->execute([$IP]);
+    $ipban = $ipBanStatement->rowCount();
+
+    //Lowercase username stored and given, then perform check of equality (bypass capital letters)
     $stored_username = strtolower($worked['loginame']);
     $given_username = strtolower($username);
 
@@ -28,21 +42,27 @@ if ($_POST['username'] != NULL & $_POST['password'] != NULL) {
         if ($worked['ban/freeze'] == 1 || $ban > 0 || $ipban > 0) {
             $_SESSION['failmessage'] = 'Your account has been banned';
             header('Location: index.php');
+            exit();
         }
         $_SESSION["id"] = $worked['id'];
-        mysql_query("DELETE FROM sessions WHERE userid={$worked['id']}");
-        mysql_query("INSERT INTO sessions VALUES({$worked['id']},'{$_COOKIE['PHPSESSID']}','emptyfornow')");
+        // Using PDO to perform queries
+        $db->query("DELETE FROM sessions WHERE userid={$worked['id']}");
+        $db->query("INSERT INTO sessions VALUES({$worked['id']},'{$_COOKIE['PHPSESSID']}','emptyfornow')");
         header('Location: index.php');
+        exit();
     } else {
         $_SESSION['failmessage'] = 'Invalid username or password';
-        header('Location: index.php');
+        header('Location: home.php');
+        exit();
     }
 } else {
-	$_SESSION['failmessage'] = 'You have not entered a username or password.';
-    header('Location: index.php');
+    $_SESSION['failmessage'] = 'You have not entered a username or password.';
+    header('Location: home.php');
+    exit();
 }
+
+// Function to mimic the fuzzehCrypt function (you might need to adjust this according to your needs)
 function fuzzehCrypt($pass) {
     return crypt($pass, '$6$rounds=5000$awrgwrnuBUIEF89243t89bNFAEb942$');
 }
 ?>
-

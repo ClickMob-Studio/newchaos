@@ -1,6 +1,6 @@
 <?php
 include 'dbcon.php';
-
+session_start();
 // Query to get users online in the last hour
 $queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
 $statementOnline = $db->prepare($queryOnline);
@@ -52,7 +52,14 @@ $users24 = $statementOnline24->rowCount();
             </div>
 
             <div id="right_side">
-                <div id="error_area"></div>
+                <div id="error_area">
+                    <?php 
+                    if(isset($_SESSION['failmessage'])){
+                        echo $_SESSION['failmessage'];
+                        unset($_SESSION['failmessage']);
+                    }
+                    ?>
+                </div>
                 <div id="login_panel">
                     <h3>:: Login Panel ::</h3>
 
