@@ -7,7 +7,7 @@ include 'header.php';
 <?php
 $gang_class = New Gang($user_class->gang);
 
-include("gangheaders.php");
+
 
 if ($user_class->gang == 0) {
     echo Message("You aren't in a gang.");
@@ -408,5 +408,6 @@ if ($worked22['locked'] != 1) {
 
             <?php
         }
+        include("gangheaders.php");
         include("footer.php");
         ?>
