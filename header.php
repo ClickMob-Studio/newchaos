@@ -448,9 +448,9 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 				<div class="left_side">
 					<div id="avatar"></div>
 					<?php
-		echo $get->username($ir['userid']); ?><br />
+		//echo $get->username($ir['userid']); ?><br />
 					<strong><span style='font-size:17px;'>Level <?php
-		echo money_formatter($ir['level'], ''); ?></span></strong>
+		echo ($ir['level'], ''); ?></span></strong>
 				</div>
 				<div class="center_side">
 					<div id="links">
@@ -477,7 +477,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						Points
 					</div>
 					<div class="info_slot">
-						<span><?php echo ($ir['bankmoney'] >= 0) ? money_Formatter($ir['bankmoney']) : 'No Account'; ?></span>
+						<span><?php echo ($ir['bankmoney'] >= 0) ? ($ir['bankmoney']) : 'No Account'; ?></span>
 						Bank
 					</div>
 					<div class="info_slot">
