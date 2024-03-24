@@ -54,7 +54,7 @@ echo"
 		<div class='flexele'>
 			<form method='post'>
 				<input type='hidden' name='actsearch' value='1' />
-					<table id='newtables' style='margin:auto;'>
+					<table id='table' class='table' style='margin:auto;'>
 						<tr>
 							<th>ID:</th>
 			<div id='searchResults'></div>				<td><input type='text' name='id' value='{$search['id']}'></td>
@@ -210,7 +210,7 @@ if (isset($_POST['id'])) {
     else if ($search['online'] == 2)
         $sql .= " AND lastactive < '{$time}' ";
     echo '
-		<table id="newtables" style="width:100%;">
+		<table id="newtables" class="table" style="width:100%;">
 			<tr>
 				<th width="40%">Name</th>
 				<th>Level</th>
