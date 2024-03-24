@@ -182,7 +182,6 @@ if ($uid != 0) {
         $user_class->id
     ));
 }
-
 function callback($buffer)
 {
     global $user_class, $db, $m;
@@ -218,8 +217,7 @@ if (!$petJailCount) {
     $petJailCount = $db->fetch_single();
     $m->set('pJailCount', $petJailCount, false, 1);
 }
-$queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
-$usersOnline = mysql_num_rows($queryOnline);
+
 
 
     if (!$m->get('clockin.' . $user_class->id)) {
@@ -393,13 +391,12 @@ $petJailDisplay = $petJailCount > 0 ? "<span style='color:red;'>$petJailDisplay<
 
 }
 ob_start("callback");
-$cet = filemtime('/var/www/html/css/newgamecss.css');
-$jet = filemtime('/var/www/html/js/java.js');
-
-if (empty($metatitle)) 
 
 
-
+$queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
+$statementOnline = $db->prepare($queryOnline);
+$statementOnline->execute();
+$usersOnline = $statementOnline->rowCount();
 
 $activeRaidsQuery = "SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE completed = 0"; // Replace 'end_time' with the actual column name that represents when the raid ends
 $activeRaidsResult = mysql_query($activeRaidsQuery);
