@@ -182,6 +182,7 @@ if ($uid != 0) {
         $user_class->id
     ));
 }
+
 function callback($buffer)
 {
     global $user_class, $db, $m;
@@ -217,7 +218,10 @@ if (!$petJailCount) {
     $petJailCount = $db->fetch_single();
     $m->set('pJailCount', $petJailCount, false, 1);
 }
-
+$queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
+$statementOnline = $db->prepare($queryOnline);
+$statementOnline->execute();
+$usersOnline = $statementOnline->rowCount();
 
 
     if (!$m->get('clockin.' . $user_class->id)) {
