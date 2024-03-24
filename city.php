@@ -1,5 +1,13 @@
 <?php
 include 'header.php';
+
+?>
+
+<div class='box_top'>Welcome to <!_-cityname-_!></div>
+						<div class='box_middle'>
+							<div class='pad'>
+
+                            <?php
 $db->query("SELECT * FROM luckyboxes WHERE playerid = ?");
 $db->execute(array(
     $user_class->id
@@ -50,9 +58,6 @@ $admin_ids = array_map(function($a) {
 <br>
 <div class="contenthead floaty">
     
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-    
-    <h4>Welcome to <!_-cityname-_!></h4></span>
 
 
 <div class="vip-container" style="display: flex; justify-content: space-around; align-items: flex-start;">
