@@ -14,7 +14,7 @@ include 'header.php';
 		$r = mysql_query("SELECT * FROM gangevents WHERE gang = ".$user_class->gang." ORDER BY timesent DESC LIMIT 30");
 		
         if(mysql_num_rows($r)){
-		$rows = mysql_fetch_array($r);
+		$rows = mysql_fetch_assoc($r);
 		foreach($rows as $row){
 			$extra_user = new User($row['extra']);
 			$text = str_replace('[-_USERID_-]', $extra_user->formattedname, $row['text']);
