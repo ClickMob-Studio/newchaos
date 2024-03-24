@@ -1,5 +1,10 @@
 <?php
-include 'header.php';
+include 'header.php';?>
+
+<div class='box_top'>Gang Manage Applications</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 $gang_class = new Gang($user_class->gang);
 $time = time();
 if ($user_class->gang == 0 && $user_class->admin == 0) {
@@ -44,6 +49,8 @@ if (isset($_GET['user']) && $_GET['x'] == 0) {
         $result = mysql_query("DELETE FROM gangapps WHERE applicant = {$_GET['user']} AND gangid = $gang");
     }
 }
+$result23 = mysql_query("SELECT * FROM gangapps WHERE gangid = $gang ORDER BY date DESC");
+if(mysql_num_rows($result23)){
 echo "
 <tr><td class='contentcontent'>
     <table id='newtables' style='width:100%;table-layout:fixed;'>
@@ -56,7 +63,7 @@ echo "
             <th>Decline</th>
         </tr>
 ";
-$result23 = mysql_query("SELECT * FROM gangapps WHERE gangid = $gang ORDER BY date DESC");
+
 while ($line = mysql_fetch_array($result23)) {
     $gang_app = new User($line['applicant']);
     echo "
@@ -66,6 +73,9 @@ while ($line = mysql_fetch_array($result23)) {
             <td><a href='manageapps.php?user={$gang_app->id}&x=0'>Decline</a></td></td>
         </tr>
     ";
+}
+}else{
+    echo "No applications found";
 }
 print"</table>";
 include("gangheaders.php");
