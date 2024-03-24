@@ -1,5 +1,8 @@
 <?php
-include 'header.php';
+include 'header.php';?>
+<div class='box_top'>Inventory</div>
+						<div class='box_middle'>
+							<div class='pad'><?php
 if (!isset($_GET['id']))
     error("You haven't picked an item.");
 
