@@ -279,7 +279,7 @@ table { margin: auto; }
 .box_middle .pad {
 	padding: 5px 10px;
 }
-.box .box_bottom {
+.box_bottom {
 	width: 668px;
 	height: 16px;
 	margin-left: 250px;
