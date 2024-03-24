@@ -1,0 +1,210 @@
+body {
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	font-family: 'Open Sans';
+	background: url(http://w3theory.com/clients/WC/images/blue_bg.png) repeat;
+}
+
+@font-face {
+	font-family: 'Custom';
+	src: url(http://www.w3theory.com/clients/WC/fonts/FTY.ttf);
+}
+
+.wrap {
+	width: 100%;
+}
+.row {
+	margin: 0 auto;
+	width: 726px;
+}
+
+
+#outer {
+	min-height: 750px;
+	background: url(http://w3theory.com/clients/WC/images/background.jpg) top center no-repeat;
+}
+
+/* Top Bar Styles */
+
+#top_bar {
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	background: #2b2729;
+	box-shadow: 1px 0 0 #d4cbc3;
+}
+#top_bar a {
+	color: #838383;
+	text-decoration: none;
+	padding: 0 10px;
+	font-size: 11px;
+	text-transform: uppercase;
+}
+#top_bar a:hover {
+	color: #cccccc;
+}
+
+
+/* Main Styles */
+
+#main { }
+#main #header {
+	height: 231px;
+	background: url(http://w3theory.com/clients/WC/images/login/login_bg_01.png) no-repeat;
+}
+#main #header #online {
+	width: 250px;
+	text-align: center;
+	padding: 160px 0 0 43px;
+	color: #7d7d7d;
+	font-weight: bold;
+}
+#main #content {
+	background: url(http://w3theory.com/clients/WC/images/login/login_bg_02.png) repeat-y;
+}
+#main #content #left_side {
+	float: left;
+	margin: 0 0 0 90px;
+	padding: 10px 0 15px 0;
+	width: 350px;
+	line-height: 22px;
+	color: #4a4a4a;
+}
+#main #content #left_side  h2 {
+	color: #7f4144;
+	font-size: 32px;
+	font-family: 'Custom';
+	line-height: 45px;
+	margin: 0;
+	padding: 0;
+	font-weight: normal;
+}
+#main #content #left_side input.register {
+	margin-top: 10px;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	text-indent: 7px;
+	background: #e4dcd0;
+	border-radius: 5px;
+	border: 2px solid #fff;
+	box-shadow: 0 0 2px #c0b3a9;
+	color: #7b7770;
+	outline: none;
+}
+#main #content #left_side input.create {	
+	cursor: pointer;
+	margin-top: 15px;
+	width: 100%;
+	line-height: 35px;
+	text-align: center;
+	font-weight: bold;
+	color: #fff;
+	background: #df6565;
+	border-radius: 5px;
+	box-shadow: 0 3px 0 #8c1e1e;
+	border: none;
+	outline: none;
+}
+#main #content #left_side input.create:hover {
+	background: #676767;
+	box-shadow: 0 3px 0 #2a2a2a;
+}
+#main #content #right_side {
+	float: right;
+	padding-top: 15px;
+	margin: 0 80px 0 0;
+	width: 185px;
+}
+#main #content #right_side  #login_panel {
+	width: 180px;
+	background: #fbf9f7;
+	border-radius: 5px;
+	box-shadow: 0 0 5px #e9e0d9;
+	text-align: center;
+}
+#main #content #right_side  #login_panel h3 {
+	font-family: 'Custom';
+	margin: 0;
+	padding: 10px 0;
+	color: #aba59b;
+	font-size: 20px;
+	line-height: 32px;
+	text-align: center;
+	font-weight: normal;
+}
+#main #content #right_side  #login_panel input.login {
+	margin: 0 0 10px 0px;
+	width: 163px;
+	text-align: left;
+	height: 34px;
+	line-height: 34px;
+	text-indent: 8px;
+	border: none;
+	outline: none;
+	color: #535353;
+	background: url(http://w3theory.com/clients/WC/images/login/login_input.png) no-repeat;
+}
+#main #content #right_side  #login_panel input.log_btn {
+	cursor: pointer;
+	margin: 0 auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 0 10px;
+	line-height: 24px;
+	text-align: center;
+	border-radius: 5px;
+	border: none;
+	background: #2a2729;
+	text-transform: uppercase;
+	color: #bcbcbc;
+	font-size: 11px;
+	box-shadow: 0 0 3px #000000;
+}
+#main #content #right_side  #login_panel input.log_btn:hover
+{
+	color: #ff9ca2;
+	background: #c53941;
+	box-shadow: 0 0 3px #b41e27;
+}
+#main #content #right_side  #login_panel a {
+	padding: 15px 0;
+	font-family: 'Custom';
+	line-height: 40px;
+	font-size: 15px;
+	color: #7b7770;
+	text-decoration: none;
+}
+#main #content #right_side  #login_panel a:hover {
+	color: #2a2729;
+}
+#main #bottom_content {
+	height: 83px;
+	background: url(http://w3theory.com/clients/WC/images/login/login_bg_03.png) no-repeat;
+}
+	
+/* Footer Styles */
+
+#footer { 
+	text-align: center;
+	line-height: 24px;
+	color: #373737;
+}
+#footer span {
+	font-size: 35px;
+	color: #373737;
+	line-height: 45px;
+	font-weight: bold;
+}
+#footer a {
+	color: #373737;
+	text-decoration: none;
+}
+#footer a:hover {
+	color: #f8f1eb;
+}
+	
+.spacer {
+	clear: both;
+}
