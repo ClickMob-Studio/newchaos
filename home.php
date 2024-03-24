@@ -1,4 +1,9 @@
 <?php
+include 'dbcon.php';
+include 'database/pdo_class.php';
+include "classes.php";
+include "codeparser.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
