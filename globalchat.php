@@ -17,7 +17,7 @@ if ($user_class->fbitime > 0) {
         var textarea = document.getElementById('msgtxt');
         textarea.value += text;
     }
-    
+    </script>
     <script type='module'>
     import { EmojiButton } from 'https://unpkg.com/@joeattardi/emoji-button@4.3.0/dist/index.js';
 
@@ -376,7 +376,6 @@ foreach ($rows as $row) {
 
 
 print"</div>";
-
 
 
 
