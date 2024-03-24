@@ -218,10 +218,8 @@ if (!$petJailCount) {
     $petJailCount = $db->fetch_single();
     $m->set('pJailCount', $petJailCount, false, 1);
 }
-$queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
-$statementOnline = $db->prepare($queryOnline);
-$statementOnline->execute();
-$usersOnline = $statementOnline->rowCount();
+$queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
+$usersOnline = mysql_num_rows($queryOnline);
 
 
     if (!$m->get('clockin.' . $user_class->id)) {
