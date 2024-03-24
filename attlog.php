@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+
+<div class='box_top'>Attack Log</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 if ($user_class->gang != 0) {
     $gang_class = New Gang($user_class->gang);
     if (isset($_GET['delete']))

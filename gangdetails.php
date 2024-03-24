@@ -2,7 +2,7 @@
 include 'header.php';
 ?>
 
-<div class='box_top'>Gang</div>
+<div class='box_top'>Gang Details</div>
 						<div class='box_middle'>
 							<div class='pad'>
 <?php
