@@ -255,6 +255,7 @@ table { margin: auto; }
 	width: 675px;
 }
 .box {
+	min-height: 500px;
 	margin-top: 15px;
 	width: 668px;
 }
