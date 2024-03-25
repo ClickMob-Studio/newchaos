@@ -1,7 +1,10 @@
 <?php
 include 'header.php';
 ?>
-<td class="contentspacer"></td></tr><td class="contenthead">Spy</td></tr><tr>
+<div class='box_top'>Mug</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                
     <td class="contentcontent">	<table width="100%">
             <?php
             if ($_GET['id'] != "") {

@@ -1,6 +1,11 @@
 <?php
 
 include 'header.php';
+?>
+<div class='box_top'>Attack</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 $_SESSION['lastattack'] = ($_SESSION['lastattack'] == "") ? time() : $_SESSION['lastattack'];
 
 // echo '<script>

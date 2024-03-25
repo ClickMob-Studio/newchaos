@@ -1,8 +1,10 @@
 <?php
 include 'header.php';
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+?>
+<div class='box_top'>Display Cabinet</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 
 $notification = "";  // this will store our notification message
 
@@ -144,7 +146,7 @@ if ($viewing_userid == $user_class->id) {
 <style>
 /* Main content style */
 .main-content {
-    background-color: #333; /* Dark background */
+   
     color: #fff; /* White text for contrast */
     border: 2px solid #666; /* Border around the main content */
     border-radius: 10px; /* Rounded corners */
@@ -221,7 +223,6 @@ if ($viewing_userid == $user_class->id) {
 }
 
 .transaction-table th {
-    background-color: #333; /* Slightly different background for headers */
     color: #eee; /* Lighter text for headers */
     font-weight: bold;
 }

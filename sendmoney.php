@@ -1,5 +1,9 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Send Money</div><div class='box_middle'>
+							<div class='pad'>
+                                <?php
 if ($_POST['sendmoney'] != "" && $user_class->level > 24) {
     // Verify integers
     $_POST['amount'] = (isset($_POST['amount']) && is_numeric($_POST['amount'])) ? intval($_POST['amount']) : 0;
@@ -52,9 +56,7 @@ if ($_POST['sendmoney2'] != "" && $user_class->level > 24) {
     }
 }
 ?>
-<h3>Send Money</h3>
-</tr>
-<hr>
+
 <tr>
     <td class="contentcontent">
         <?php
@@ -62,8 +64,8 @@ if ($_POST['sendmoney2'] != "" && $user_class->level > 24) {
         ?>
             <center>
                 <font size="3px">
-                    <font color=lime>You must be at least level 25 to send money<br>
-                        <font color=lime>You must be Registered for 1 day before sending money</font>
+                    <font color=orange>You must be at least level 25 to send money<br>
+                        <font color=orange>You must be Registered for 1 day before sending money</font>
                     </font>
             </center>
         <?php

@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Mug</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
+
 $attack_person = new User($_GET['mug']);
 $gang_class = new Gang($user_class->gang);
 // Only modify city for special NPCs or characters, if intended

@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Send Points</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 if ($_POST['sendpoints'] != "" && $user_class->level > 9) {
     // Verify integers
     $_POST['amount'] = (isset($_POST['amount']) && is_numeric($_POST['amount'])) ? intval($_POST['amount']) : 0;
@@ -49,14 +54,13 @@ if ($_POST['sendpoints2'] != "" && $user_class->level > 9) {
     }
 }
 ?>
-<h3>Send Points</h3></tr>
-<hr>
+
 <tr><div class="contentcontent">
     <tr>
         <?php
         if ($user_class->level <= "24") {
             ?>
-        <center><font size="3px"><font color=lime>You must be at least level 10 to send points<br><font size="3px"><font color=lime>You must be Registered for 1 day before sending points</font></b></font></font></center>
+        <center><font size="3px"><font color=orange>You must be at least level 10 to send points<br><font size="3px"><font color=orange>You must be Registered for 1 day before sending points</font></b></font></font></center>
         <?php
     }
     ?>
