@@ -1,6 +1,10 @@
 <?php
 include 'header.php';
-echo '<h3>Jail</h3>';
+?>
+<div class='box_top'>Jail</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 
 // if ($user_class->id == 151) {
 // 	echo "Your access to the Jail has been temporarily suspended";
@@ -12,7 +16,7 @@ if ($user_class->hospital > 0) {
     diefun('You are currently in Hospital!');
 }
 
-echo 'Click on a cell to bust the mobster out.';
+echo Message('Click on a cell to bust the mobster out.');
 $pre = ($user_class->jail) ? '<a onclick="bail()">Bribe Warden (' . ceil($user_class->jail / 60) . ' Points)</a>' : '<br />';
 echo '<div class="result floaty">' . $pre . '</div>';
 echo '<script>
