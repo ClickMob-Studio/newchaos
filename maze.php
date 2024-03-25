@@ -445,14 +445,6 @@ echo "<style>
     border-bottom: 1px solid #444;
 }
 
-#newtables tr:hover, #usertables tr:hover {
-    background-color: #2d2c2c;
-}
-
-#newtables tr:nth-child(odd), #usertables tr:nth-child(odd) {
-    background-color: #312f2f;
-}
-
 /* Responsive table adjustments */
 @media (max-width: 768px) {
     #newtables, #usertables {
