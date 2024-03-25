@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+?>
+<div class='box_top'>Store</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 if (isset($_POST['qty'])) {
     $qty = security($_POST['qty']);
 	$item = security($_POST['item']);
@@ -51,7 +57,7 @@ foreach($rows as $row){
 	if($lasttype != $thistype && $lasttype != '')
 		echo'</div>';
 	if($lasttype != $thistype)
-		echo'<div class="floaty"><font color=white>' . $thistype . ' Store</font>';
+		echo'<div class="floaty"><h1>' . $thistype . ' Store</h1>';
 	$lasttype = $thistype;
 	echo'<hr style="border:0;border-bottom:thin solid #fff;" />';
 	echo'<div style="display:flex;">';
