@@ -892,41 +892,41 @@ $city = $profile_class->cityname;
             <table id='profile_table' style='width:100%; color: black;'>
 
             <tr>
-                <th colspan='2' style='background-color: #333; padding: 10px; border-radius: 5px;'><h4 style='color: black;'>Additional Stats</h4></th>
+                <th colspan='2' style=' padding: 10px; border-radius: 5px;'><h4 style='color: black;'>Additional Stats</h4></th>
             </tr>
  <tr>
-                <th style='background-color: #333; padding: 10px; border-radius: 5px;'>Gender:</th>
-                <td style='background-color: #333; padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->gender) . "</td>
+                <th style=' padding: 10px; border-radius: 5px;'>Gender:</th>
+                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->gender) . "</td>
             </tr>
 
             <tr>
-                <th style='background-color: #333; padding: 10px; border-radius: 5px;'>User HP:</th>
-                <td style='background-color: #333; padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->formattedhp) . "</td>
+                <th style=' padding: 10px; border-radius: 5px;'>User HP:</th>
+                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->formattedhp) . "</td>
             </tr>
             <tr>
-                <th style='background-color: #333; padding: 10px; border-radius: 5px;'>Back Alley Wins:</th>
-                <td style='background-color: #333; padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->backalleywins) . "</td>
+                <th style=' padding: 10px; border-radius: 5px;'>Back Alley Wins:</th>
+                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->backalleywins) . "</td>
             </tr>
             <tr>
-                <th style='background-color: #333; padding: 10px; border-radius: 5px;'>House:</th>
-                <td style='background-color: #333; padding: 10px; border-radius: 5px;'><a href='house.php'>" . str_replace('[x]', $rel_user->formattedname2, $profile_class->housename) . "<br>" . $houseImage . "</a></td>
+                <th style=' padding: 10px; border-radius: 5px;'>House:</th>
+                <td style=' padding: 10px; border-radius: 5px;'><a href='house.php'>" . str_replace('[x]', $rel_user->formattedname2, $profile_class->housename) . "<br>" . $houseImage . "</a></td>
             </tr>
             <tr>
-                <th style='background-color: #333; padding: 10px; border-radius: 5px;'>Busts:</th>
-                <td style='background-color: #333; padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->busts) . "</td>
+                <th style=' padding: 10px; border-radius: 5px;'>Busts:</th>
+                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->busts) . "</td>
             </tr>
  <tr>
-                <th style='background-color: #333; padding: 10px; border-radius: 5px;'>Jobs:</th>
-                <td style='background-color: #333; padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->jobcis) . "</td>
+                <th style=' padding: 10px; border-radius: 5px;'>Jobs:</th>
+                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->jobcis) . "</td>
             </tr>
             <tr>
-                <th style='background-color: #333; padding: 10px; border-radius: 5px;'>Mug Stats:</th>
-                <td style='background-color: #333; padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->mugsucceeded) . " / " . prettynum($profile_class->muggedmoney, 1) . "
+                <th style=' padding: 10px; border-radius: 5px;'>Mug Stats:</th>
+                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->mugsucceeded) . " / " . prettynum($profile_class->muggedmoney, 1) . "
 </td>
             </tr>
 <tr>
-                <th style='background-color: #333; padding: 10px; border-radius: 5px;'>Location:</th>
-                <td style='background-color: #333; padding: 10px; border-radius: 5px;'>$city</td>
+                <th style=' padding: 10px; border-radius: 5px;'>Location:</th>
+                <td style=' padding: 10px; border-radius: 5px;'>$city</td>
             </tr>
 
 
@@ -941,7 +941,7 @@ $city = $profile_class->cityname;
 
         echo "<style>
     .contenthead {
-  background-color: #333;
+  
   color: black;
   border-radius: 10px;
   padding: 20px;
