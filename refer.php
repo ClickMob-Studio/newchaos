@@ -1,6 +1,9 @@
 <?php
 include 'header.php';
 ?>
+<div class='box_top'>Referral</div>
+						<div class='box_middle'>
+							<div class='pad'>
 <style>
 /* Base styling */
 body {

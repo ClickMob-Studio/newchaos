@@ -52,7 +52,7 @@ box-shadow: 0 0 10px 3px rgba(105, 105, 105, 0.5); /* Dark grey glow effect */
 .direction-button {
     background-color: #333333; /* Primary color */
     border: none;
-    color: white;
+    color: black;
     padding: 12px 24px; /* Larger button size */
     text-align: center;
     text-decoration: none;
@@ -68,7 +68,7 @@ box-shadow: 0 0 10px 3px rgba(105, 105, 105, 0.5); /* Dark grey glow effect */
 .direction-button:hover {
     background-color: #444444; /* Slightly darker color on hover */
     border: none;
-    color: white;
+    color: black;
     padding: 12px 24px; /* Larger button size */
     text-align: center;
     text-decoration: none;
@@ -80,7 +80,7 @@ box-shadow: 0 0 10px 3px rgba(105, 105, 105, 0.5); /* Dark grey glow effect */
     box-shadow: 0 0 10px #ffdf00; /* Enhanced gold glow on hover, but consider keeping the spread the same */
 }
 .contenthead.floaty.common {
-    border: 1px solid rgba(255, 255, 255, 1); /* White border */
+    border: 1px solid rgba(255, 255, 255, 1); /* black border */
 }
 
 .contenthead.floaty.uncommon {
@@ -99,11 +99,12 @@ box-shadow: 0 0 10px 3px rgba(105, 105, 105, 0.5); /* Dark grey glow effect */
 </style>
 <?php
 include 'header.php';
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+?>
+<div class='box_top'>Maze</div>
+						<div class='box_middle'>
+							<div class='pad'>
 
-
+<?php
 if ($user_class->cityturns <= 0) {
     echo "You have no turns left to search the streets!";
     include 'footer.php';
@@ -305,7 +306,7 @@ break;
 echo '
 
     <div class="contenthead floaty" style="width: 100%;">
-    <h4>Welcome to the MAZE!</h4>
+
         <div class="contenthead floaty" style="width: 100%;">
     <p>Here you can find Money,Points, Items and Gold whilst randomly searching.
     Below is the potential items you can find when searching, Displaying all different rarity types</p>
@@ -335,7 +336,7 @@ echo '
 
     <!-- First table for Common items -->
     <div class="contenthead floaty common" style="padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 50%;">
-        <h4><font color=white>Common Items</font></h4>
+        <h4><font color=black>Common Items</font></h4>
         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
                 <img src="mafialordsicons/diamondstone.png" width="50" height="50" alt="Diamond Stone">
@@ -427,14 +428,12 @@ echo "<style>
     border-collapse: collapse;
     margin: 20px auto;
     padding: 0;
-    background-color: #312f2f;
-    color: #ffffff;
+  
     font-family: 'Arial', sans-serif;
 }
 
 #newtables th, #usertables th {
-    background-color: #2d2c2c;
-    color: #ffffff;
+
     padding: 10px;
     text-align: left;
     font-weight: normal;
@@ -478,37 +477,17 @@ echo "<style>
 /* Style for tabs */
 .tab {
   overflow: hidden;
-  background-color: #333333;
+
   text-align: center; /* Center the tabs */
 }
 
-.tab button {
-  background-color: #403D3D;
-  float: none; /* Center the buttons */
-  display: inline-block; /* Make the buttons align in the center */
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  transition: 0.3s;
-  font-size: 17px;
-  color: #fff; /* Add text color for buttons */
-}
-
-.tab button:hover {
-  background-color: #464040;
-}
-
-.tab button.active {
-  background-color: #424040;
-}
 
 .tabcontent {
   display: none;
   padding: 6px 12px;
   border: 1px solid #403D3D;
   border-top: none;
-  background-color: #333333; /* Background color for the content */
+ 
   color: #000; /* Text color for the content */
 }
 </style>";
