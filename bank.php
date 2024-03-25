@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 ?>
-<div class='box_top'>Gang Mass Mail</div>
+<div class='box_top'>Bank</div>
 						<div class='box_middle'>
 							<div class='pad'>
 <style>
@@ -70,7 +70,7 @@ input[type="text"]{
     padding: 10px;
     margin: 5px;
     border: 1px solid #444;
-    color: #fff;
+    color: #000;
     border-radius: 5px;
     text-align: center; /* Center text inside inputs */
 }
@@ -118,7 +118,7 @@ if (isset($_POST['sdeposit'])) {
             echo $notice;
         }
     } else {
-        echo "You do not have access to this persons money!";
+        echo Message("You do not have access to this persons money!");
     }
     include 'footer.php';
     die();
