@@ -20,8 +20,7 @@ $targetDateMilliseconds = strtotime('March 31, 2024 17:00:00') * 1000;
 
 /* General styling for all containers */
 .prize-container, .milestone-container, .table-container {
-    background-color: #333; /* Sets a uniform background color */
-    color: white; /* Text color for readability */
+   
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 2px 10px rgba(93, 93, 93, 1);
@@ -99,8 +98,7 @@ table.myTable tr:nth-child(even) {
     background-color: #3b3b3b;
 }
 .reward-box {
-    background-color: #333; /* Dark background for each reward */
-    color: white; /* Light text color */
+    
     padding: 10px;
     margin: 0 10px; /* Horizontal spacing between reward boxes */
     display: inline-block; /* Allows side-by-side layout */
@@ -297,3 +295,4 @@ while ($row = mysql_fetch_assoc($result)) {
 echo '</table>';
 echo '</div>';
 
+require "footer.php";
