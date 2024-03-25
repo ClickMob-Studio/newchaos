@@ -1036,7 +1036,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <ul>
                   <li>40,000 Points</li>
 
-                              <b><span style="color:#FFFFFF"><?php echo'' . $user_class->limiteditems1 . '' ?> / 50 Remaining</span></b>
+                              <b><span style="color:orange"><?php echo'' . $user_class->limiteditems1 . '' ?> / 50 Remaining</span></b>
             </ul>
 
             <h4>Purchase now for only<br><a href="VIPstore.php?buy=limitedpack"><button class="gold-button"><img src="https://mafialords.com/mafialordsicons/goldbar.png"></img>250</button></a></h4>
@@ -1049,7 +1049,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <li>450,000 Points</li>
 
 
-                  <b><span style="color:#FFFFFF"><?php echo'' . $user_class->limiteditems2 . '' ?> / 10 Remaining</span></b>
+                  <b><span style="color:orange"><?php echo'' . $user_class->limiteditems2 . '' ?> / 10 Remaining</span></b>
             </ul>
             <h4>Purchase now for only<br><a href="VIPstore.php?buy=limitedpack2"><button class="gold-button"><img src="https://mafialords.com/mafialordsicons/goldbar.png"></img>2,500</button></a></h4>
         </div>
@@ -1061,7 +1061,7 @@ document.addEventListener("DOMContentLoaded", function() {
                    <li>5,000,000 Points</li>
 
                
-                <b><span style="color:#FFFFFF"><?php echo'' . $user_class->limiteditems3 . '' ?> / 5 Remaining</span></b>
+                <b><span style="color:orange"><?php echo'' . $user_class->limiteditems3 . '' ?> / 5 Remaining</span></b>
             </ul>
             <h4>Purchase now for only<br><a href="VIPstore.php?buy=limitedpack3"><button class="gold-button"><img src="https://mafialords.com/mafialordsicons/goldbar.png"></img>25,000</button></a></h4>
         </div>
