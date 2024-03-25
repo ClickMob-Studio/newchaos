@@ -318,12 +318,12 @@ echo '
     </div>
 </div>
 
-<div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for both tables -->
+<div style=" justify-content: center; gap: 20px;"> <!-- Flex container for both tables -->
 
     <!-- First table for Common items -->
     <div class="contenthead floaty common" style="padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 50%;">
         <h4><font color=black>Common Items</font></h4>
-        <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
+        <div style=" justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
                 <img src="mafialordsicons/diamondstone.png" width="50" height="50" alt="Diamond Stone">
             </div>
@@ -342,7 +342,7 @@ echo '
     <!-- Second table for Uncommon items -->
     <div class="contenthead floaty uncommon" style="padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 50%;">
         <h4><font color=green>Uncommon Items</font></h4>
-        <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Similar setup for Uncommon items -->
+        <div style=" justify-content: center; gap: 20px;"> <!-- Similar setup for Uncommon items -->
             <!-- Uncommon item images go here, similar to the common items section -->
             <!-- Example: -->
              <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
@@ -360,12 +360,12 @@ echo '
         </div>
     </div>
 </div>
-<div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for both tables -->
+<div style=" justify-content: center; gap: 20px;"> <!-- Flex container for both tables -->
 
     <!-- First table for Common items -->
     <div class="contenthead floaty rare" style="padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 50%;">
         <h4><font color=gold>Rare Item Finds</font></h4>
-        <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
+        <div style=" justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
                 <img src="css/images/NewGameImages/mugprotection.png" width="50" height="50" alt="Diamond Stone">
             </div>
@@ -384,7 +384,7 @@ echo '
     <!-- Second table for Uncommon items -->
     <div class="contenthead floaty super-rare" style="padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 50%;">
         <h4><font color=red>Super Rare Finds</font></h4>
-        <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Similar setup for Uncommon items -->
+        <div style=" justify-content: center; gap: 20px;"> <!-- Similar setup for Uncommon items -->
             <!-- Uncommon item images go here, similar to the common items section -->
             <!-- Example: -->
              <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 0, 0, 0.6); border-radius: 8px;">
