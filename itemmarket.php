@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+	
+	<div class='box_top'>item Market</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 if ($_POST['buy']) {
 	$id = security($_POST['id']);
 	$qty = security($_POST['qty']);
