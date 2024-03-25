@@ -146,8 +146,7 @@ if ($viewing_userid == $user_class->id) {
 <style>
 /* Main content style */
 .main-content {
-   
-    color: #fff; /* White text for contrast */
+
     border: 2px solid #666; /* Border around the main content */
     border-radius: 10px; /* Rounded corners */
     padding: 20px; /* Some spacing inside */
