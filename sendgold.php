@@ -49,7 +49,6 @@ print '
     </tr>
   </table>
 </form>
-</div>
 ';
 include 'footer.php';
 function error($msg) {
