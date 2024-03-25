@@ -420,12 +420,6 @@ foreach ($chunks as $inner_rows) {
 }
 
 
-
-
-
-// End of crimes container
-echo '</div>';
-
 // Include the footer
 include 'footer.php';
 ?>
