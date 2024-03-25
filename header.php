@@ -184,7 +184,7 @@ if ($uid != 0) {
 }
 $q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");
 $hosp = mysql_num_rows($q);
-$e = mysql_query("SELECT viewed FROM events WHERE `to` = $user_class->id AND viewed = 1"):
+$e = mysql_query("SELECT viewed FROM events WHERE `to` = $user_class->id AND viewed = 1");
 $ev = mysql_num_rows($e);
 $q = mysql_query("SELECT `id` FROM grpgusers WHERE jail > 0");
 $ja = mysql_num_rows($q);
