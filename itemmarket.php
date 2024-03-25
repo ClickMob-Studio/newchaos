@@ -59,8 +59,7 @@ if ($_POST['buy']) {
         echo Message("You have bought a " . $row['itemname'] . "for $p.");
     }
 }
-echo'<h3>Item Market</h3>';
-	echo'<hr>';
+
 echo'<div class="floaty">';
 	
 	echo'<table id="newtables" style="width:100%;">';
