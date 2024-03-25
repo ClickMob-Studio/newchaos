@@ -78,10 +78,17 @@ $targetDateMilliseconds = strtotime('March 31, 2024 17:00:00') * 1000;
 
 /* Table element styling */
 table.myTable {
-    width: 100%; /* Full width of their container */
+    width: 90%; /* Full width of their container */
+    margin:0 auto;
     border-collapse: collapse; /* Collapses border spacing */
 }
-
+.flex-container {
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
 table.myTable th, table.myTable td {
     text-align: left;
     padding: 8px;
