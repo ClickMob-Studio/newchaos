@@ -119,7 +119,7 @@ echo "<script>var targetDate = $targetDate * 1000; // Convert to milliseconds fo
 echo'<div class="contenthead floaty">';
 echo'    <h4>Welcome to MafiaLords Raid and Attack contest</h4>';
 echo'    <p>This is your chance to win some amazing prizes! All you need to do'; echo'is win more Raids and Attacks than your fellow players.</p>';
-echo'    <p><span style="color: yellow;">Note: Obtain Bonus points to your counter when Summoning Bosses.</span></p>';
+echo'    <p><span style="color: gold;">Note: Obtain Bonus points to your counter when Summoning Bosses.</span></p>';
 echo '<h4><font color=orange>Both Competitions will end in</font> <div id="countdownTimer" style="color: #FF0000; font-size: 20px;"></div></h4>';
 
 echo'        <!-- Timer will be displayed here -->';
@@ -190,7 +190,7 @@ echo '- <font color=gold>250 Raid event points</font>: 100,000 Points<br>';
 echo '- <font color=orange>500 Raid event points</font>: 125,000 Points<br>';
 echo '- <font color=green>750 Raid event points</font>: 150,000 Points<br>';
 echo '- <font color=red>1,000 Raid event points</font>: 200,000 Points<br>';
-echo '- <font color=yellow>1,250 Raid event points</font>: 250,000 Points<br>';
+echo '- <font color=gold>1,250 Raid event points</font>: 250,000 Points<br>';
 echo 'This Competition Will end on the 31st of March 2024 at 5pm (Game Time)';
 echo '</div>'; // Close prize-container
 
