@@ -206,9 +206,7 @@ if ($printcaptcha != "") {
 
 <div class="contenthead floaty">
 <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"></span>
-    <h4>TRAINING CENTER</h4></span>
 
-<hr>
 
     <br /><span class='notice'></span><br /><br />
     </table>
