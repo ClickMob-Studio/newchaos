@@ -53,9 +53,15 @@
      border:1px solid #f2c779;
  }
  .notice {
-     background:#e3f7fc url('../images/notice.png') no-repeat 10px 50%;
-     border:1px solid #8ed9f6;
- }
+    background-color: #111;
+    border: 1px solid #000;
+    padding: 5px;
+    margin: 5px;
+    color: #000;
+    font-weight: 700;
+    color: red;
+    display: block
+}
  
  
  a:visited,a:active,a:hover,a:link {
