@@ -1,10 +1,15 @@
 <?php
 include 'header.php';
+
 security($_GET['id']);
 
 $profile_class = new User($_GET['id']);
 
-
+?>
+<div class='box_top'><?php echo $profile_class->formattedname;?>'s Profile</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 
 
 
@@ -222,7 +227,7 @@ if (isset($_GET['rate']) && $_GET['rate'] == "up") {
             if($user_class->id == 9 && $profile_class->id == 21){
                 Send_Event(21, "You have been rated <span style='color:#00FF00;'><b>the hottest girlfriend</b></span> by " . $user_class->formattedname . ". Rate them back? <a href='profiles.php?id=$user_class->id&rate=up'><img src='images/up.png'></img></a> : <a href='profiles.php?id=$user_class->id&rate=down'><img src='images/down.png'></img></a>", 9);
             } else {
-                Send_Event($profile_class->id, "You have been Rated <font color=white><b>UP</b></font> By " . $user_class->formattedname . ". Rate them back? <a href='profiles.php?id=$user_class->id&rate=up'><img src='images/up.png'></img></a> : <a href='profiles.php?id=$user_class->id&rate=down'><img src='images/down.png'></img></a> ", $point_user->id);
+                Send_Event($profile_class->id, "You have been Rated <font color=black><b>UP</b></font> By " . $user_class->formattedname . ". Rate them back? <a href='profiles.php?id=$user_class->id&rate=up'><img src='images/up.png'></img></a> : <a href='profiles.php?id=$user_class->id&rate=down'><img src='images/down.png'></img></a> ", $point_user->id);
             }
             echo Message("You have rated " . $profile_class->formattedname . " <font color=green>Up</font>");
             $profile_class->rating = $profile_class->rating + 1;
@@ -653,7 +658,6 @@ $rel = "Dating " . $rel_user->formattedname2 . " (" . $rel_user->relationshipday
 }
 .cabinet-item {
     flex-basis: calc(25% - 20px); 
-    background-color: #444; 
     border: 2px solid #555;
     border-radius: 10px;
     overflow: hidden;
@@ -669,8 +673,7 @@ $rel = "Dating " . $rel_user->formattedname2 . " (" . $rel_user->relationshipday
   #profile_table {
     border-collapse: separate;
     border-spacing: 10px; /* Adds spacing around each table cell */
-    background-color: #333131; /* Updated background color */
-    color: white; /* Sets text color to white for better readability */
+    color: black; /* Sets text color to black for better readability */
     width: 100%; /* Ensures the table stretches to the width of its container */
     margin: 20px 0; /* Adds some space around the table */
 }
@@ -680,29 +683,18 @@ $rel = "Dating " . $rel_user->formattedname2 . " (" . $rel_user->relationshipday
     text-decoration: none; /* Removes underline from links */
 }
 
-#profile_table td, #profile_table th {
-    font-size: 1.05em;
-    border: 2px solid #312d2d; /* Updated border color */
-    text-align: center;
-    padding: 10px; /* Adds padding inside cells for spacing */
-    background-color: #333131; /* Ensures cells have the same background color as the table */
-}
 
-#profile_table th {
-    background-color: #312d2d; /* Slightly darker background for table headers for a subtle contrast */
-}
 
 .status {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    background-color: #333131; /* Dark theme background for status bar, matching the table */
     font-size: 1.2em;
     border: 2px solid #312d2d; /* Adjust border color for consistency with the table */
     padding: 10px; /* Adds padding for spacing */
     margin: 10px 0; /* Adds margin around the status bar */
-    color: white; /* Ensures text color is white */
+    color: black; /* Ensures text color is black */
 }
 
 .status_item {
@@ -768,10 +760,10 @@ $rel = "Dating " . $rel_user->formattedname2 . " (" . $rel_user->relationshipday
                     <g>
                         <g>
                             <g>
-                                <path fill='white' d='M346.663,272.382v39.011c0,5.892,4.776,10.669,10.669,10.669s10.669-4.776,10.669-10.669v-39.009
+                                <path fill='black' d='M346.663,272.382v39.011c0,5.892,4.776,10.669,10.669,10.669s10.669-4.776,10.669-10.669v-39.009
                                     c6.366-3.697,10.669-10.573,10.669-18.451c0-11.762-9.572-21.331-21.337-21.331c-11.764,0-21.335,9.569-21.335,21.331
                                     C335.997,261.809,340.297,268.685,346.663,272.382z'/>
-                                <path fill='white' d='M511.999,96.001V10.669C511.999,4.777,507.222,0,501.33,0H10.67C4.777,0,0.001,4.777,0.001,10.669v85.332
+                                <path fill='black' d='M511.999,96.001V10.669C511.999,4.777,507.222,0,501.33,0H10.67C4.777,0,0.001,4.777,0.001,10.669v85.332
                                     c0,5.284,3.846,9.661,8.889,10.509v341.649c-5.043,0.848-8.889,5.223-8.889,10.509v42.664C0.001,507.223,4.777,512,10.67,512
                                     H501.33c5.891,0,10.669-4.777,10.669-10.669v-42.664c0-5.284-3.846-9.66-8.889-10.509V106.51
                                     C508.153,105.661,511.999,101.286,511.999,96.001z M490.662,490.663H21.338v-21.327h469.323V490.663z M76.446,288v159.999H30.228
@@ -782,9 +774,9 @@ $rel = "Dating " . $rel_user->formattedname2 . " (" . $rel_user->relationshipday
                                     h46.216V186.663z M414.219,368.001v79.998h-46.218v-79.998H414.219z M346.663,368.001v79.998h-46.219v-79.998H346.663z
                                     M481.772,288.001v159.998h-46.216v-90.667c0-0.015-0.002-0.027-0.002-0.042v-69.29H481.772z M435.555,266.662v-69.329v-90.662
                                     h46.218v159.992H435.555z M490.662,85.332H21.338V21.337h469.323V85.332z'/>
-                                <path fill='white' d='M87.565,64.001h57.771c5.892,0,10.669-4.776,10.669-10.669c0-5.89-4.776-10.669-10.669-10.669H87.565
+                                <path fill='black' d='M87.565,64.001h57.771c5.892,0,10.669-4.776,10.669-10.669c0-5.89-4.776-10.669-10.669-10.669H87.565
                                     c-5.891,0-10.669,4.779-10.669,10.669C76.897,59.225,81.674,64.001,87.565,64.001z'/>
-                                <path fill='white' d='M56.668,64.006h0.254c5.892,0,10.669-4.776,10.669-10.669c0-5.89-4.775-10.669-10.669-10.669h-0.254
+                                <path fill='black' d='M56.668,64.006h0.254c5.892,0,10.669-4.776,10.669-10.669c0-5.89-4.775-10.669-10.669-10.669h-0.254
                                     c-5.892,0-10.669,4.779-10.669,10.669C45.999,59.229,50.775,64.006,56.668,64.006z'/>
                             </g>
                         </g>
@@ -864,7 +856,7 @@ $city = $profile_class->cityname;
 
         <!-- Right Profile Box -->
         <div class='profile-stats' style='flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; background-color: #222;'>
-            <table id='profile_table' style='width:100%; color: white;'>
+            <table id='profile_table' style='width:100%; color: black;'>
 
                 <!-- Existing Stats -->
                 <tr>
@@ -897,10 +889,10 @@ $city = $profile_class->cityname;
 
     <!-- Additional Profile Content Box -->
    <div class='profile-stats' style='flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; background-color: #222;'>
-            <table id='profile_table' style='width:100%; color: white;'>
+            <table id='profile_table' style='width:100%; color: black;'>
 
             <tr>
-                <th colspan='2' style='background-color: #333; padding: 10px; border-radius: 5px;'><h4 style='color: white;'>Additional Stats</h4></th>
+                <th colspan='2' style='background-color: #333; padding: 10px; border-radius: 5px;'><h4 style='color: black;'>Additional Stats</h4></th>
             </tr>
  <tr>
                 <th style='background-color: #333; padding: 10px; border-radius: 5px;'>Gender:</th>
@@ -950,7 +942,7 @@ $city = $profile_class->cityname;
         echo "<style>
     .contenthead {
   background-color: #333;
-  color: white;
+  color: black;
   border-radius: 10px;
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -968,7 +960,7 @@ $city = $profile_class->cityname;
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow at the top */
     padding: 15px; /* Consistent padding from .floaty */
-    color: white; /* Light text */
+    color: black; /* Light text */
 }
 
 
@@ -989,7 +981,7 @@ $city = $profile_class->cityname;
     padding: 20px;
     border: 4px solid #3b3b3b; /* Slightly lighter than #333 for a subtle border */
     border-radius: 10px; /* Rounded corners */
-    color: #fff; /* White text color */
+    color: #fff; /* black text color */
     font-family: 'Arial', sans-serif; /* Modern font */
     margin: 5px;
 }
@@ -1254,7 +1246,7 @@ if ($profile_class->profilewall == 1) {
     echo "</div>
     <div class='profile_button' style='margin-top: 10px;'>
         <input type='text' size='30' maxlength='60' name='msg' id='reply' />
-        <button id='msgbutton' style='white-space: nowrap;' onclick='postOnWall();'>Post Message</button>
+        <button id='msgbutton' style='black-space: nowrap;' onclick='postOnWall();'>Post Message</button>
     </div>
     </div>";
 }
