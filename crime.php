@@ -420,6 +420,9 @@ foreach ($chunks as $inner_rows) {
 }
 
 
+echo '</div>';
+
+echo '</div>';
 // Include the footer
 include 'footer.php';
 ?>
