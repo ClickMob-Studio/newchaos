@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>MailBox</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
   $db->query("UPDATE grpgusers SET diamonds = 0 WHERE id = ?");
 $db->execute(array(
     $user_class->id
