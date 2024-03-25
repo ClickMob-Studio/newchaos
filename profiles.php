@@ -850,7 +850,7 @@ $city = $profile_class->cityname;
         </div>
 
         <!-- Right Profile Box -->
-        <div class='profile-stats' style='flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; background-color: #222;'>
+        <div class='profile-stats' style='flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; '>
             <table id='profile_table' style='width:100%; color: black;'>
 
                 <!-- Existing Stats -->
@@ -883,7 +883,7 @@ $city = $profile_class->cityname;
     </div>
 
     <!-- Additional Profile Content Box -->
-   <div class='profile-stats' style='flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; background-color: #222;'>
+   <div class='profile-stats' style='flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; '>
             <table id='profile_table' style='width:100%; color: black;'>
 
             <tr>
@@ -965,7 +965,7 @@ $city = $profile_class->cityname;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
   margin: 5px;
       border: 4px solid #3b3b3b; /* Slightly lighter than #333 for a subtle border */
-  background-color: #222; /* Slightly different background for contrast */
+   /* Slightly different background for contrast */
   border-radius: 10px; /* Rounded corners for the profile boxes */
 }
 .profile-stats-container {
