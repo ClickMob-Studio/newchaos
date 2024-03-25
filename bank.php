@@ -311,7 +311,7 @@ echo Message($notice) ." <br /><br />
             <th><h4>Bank:</h4></th>
             <td><h4><font color=green>$$user_class->bank</font></h4></td>
             <th><h4>Points Bank:</h4></th>
-            <td><h4><font color=white>$user_class->pbank</font></h4></td>
+            <td><h4><font color=black>$user_class->pbank</font></h4></td>
         </tr>
         <tr>
             <th><h4>Daily Interest:</h4></th>
