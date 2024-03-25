@@ -182,7 +182,7 @@ if ($uid != 0) {
         $user_class->id
     ));
 }
-$q = mysql_query("SELECT `id` FROM pets WHERE hospital > 0");
+$q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");
 $hosp = mysql_num_rows($q);
 function callback($buffer)
 {
