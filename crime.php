@@ -341,7 +341,7 @@ if ($crimeRankResult) {
             ));
         }
     } else {
-        echo Message("<B>You don't have enough nerve for that crime.<br /><br /><br /><br /><a href='crime.php'></a>");
+        echo Message("<B>You don't have enough nerve for that crime.<a href='crime.php'></a>");
     }
 }
 
