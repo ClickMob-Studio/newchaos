@@ -184,6 +184,8 @@ if ($uid != 0) {
 }
 $q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");
 $hosp = mysql_num_rows($q);
+$e = mysql_query("SELECT viewed FROM events WHERE `to` = $user_class->id AND viewed = 1"):
+$ev = mysql_num_rows($e);
 $q = mysql_query("SELECT `id` FROM grpgusers WHERE jail > 0");
 $ja = mysql_num_rows($q);
 function callback($buffer)
@@ -458,7 +460,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 				<div class="center_side">
 					<div id="links">
 						<a href="pms.php?view=inbox">Mail (<!_-mail-_!>)</a> -
-						<a href="/events.php">Events(<!_-events-_!>)</a> -
+						<a href="/events.php">Events(<?php echo $ev; ?>)</a> -
 						<a href="/forum.php">Forum</a> -
 						<a href="/news.php">News</a> -
 						<a href="/gameupdates.php"><strong>Updates</strong></a>
