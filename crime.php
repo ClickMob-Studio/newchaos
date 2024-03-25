@@ -341,7 +341,7 @@ if ($crimeRankResult) {
             ));
         }
     } else {
-        echo "<B>You don't have enough nerve for that crime.<br /><br /><br /><br /><a href='crime.php'></a>";
+        echo Message("<B>You don't have enough nerve for that crime.<br /><br /><br /><br /><a href='crime.php'></a>");
     }
 }
 
@@ -359,7 +359,7 @@ $worked = mysql_fetch_array($result2);
 // Output relevant message if double EXP payout is active
 if ($worked['Time'] > 0) {
     $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
-    echo '<br><br><span class="pulsate" style="color:green;font-weight:bold;display:block;text-align:center;font-size:1.3em;">Crimes are currently giving Double EXP Payouts You have  <font color=white>' . $_tt . '</font>  left!!</span><br />';
+    echo Message('<br><br><span class="pulsate" style="color:green;font-weight:bold;display:block;text-align:center;font-size:1.3em;">Crimes are currently giving Double EXP Payouts You have  <font color=orange>' . $_tt . '</font>  left!!</span><br />');
 }
 
 // Function to determine the number of stars based on crime count
