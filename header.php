@@ -426,12 +426,12 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 		var output=(what.toString().length==1)? "0"+what : what
 		return output
 	}
-	function displaytime() {
-		serverdate.setSeconds(serverdate.getSeconds()+1)
-		var datestring=montharray[serverdate.getMonth()]+" "+padlength(serverdate.getDate())+", "+serverdate.getFullYear()
-		var timestring=padlength(serverdate.getHours())+":"+padlength(serverdate.getMinutes())+":"+padlength(serverdate.getSeconds())
-		document.getElementById("servertime").innerHTML=datestring+" Server Time: "+timestring
-	}
+	// function displaytime() {
+	// 	serverdate.setSeconds(serverdate.getSeconds()+1)
+	// 	var datestring=montharray[serverdate.getMonth()]+" "+padlength(serverdate.getDate())+", "+serverdate.getFullYear()
+	// 	var timestring=padlength(serverdate.getHours())+":"+padlength(serverdate.getMinutes())+":"+padlength(serverdate.getSeconds())
+	// 	document.getElementById("servertime").innerHTML=datestring+" Server Time: "+timestring
+	// }
 	window.onload=function() {
 		setInterval("displaytime()", 1000)
 	}
