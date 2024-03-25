@@ -1511,7 +1511,7 @@ echo '</div>';
 echo '</div>';
 echo '</div>';
 echo '</div>';
-echo '</div>';
+
 
 
 include 'footer.php';
