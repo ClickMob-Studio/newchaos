@@ -301,8 +301,8 @@ $exp = round($exp * $bonusExperienceMultiplier, 2);
             if ($gtax > 0) {
                 $message .= " (Gang Tax: \${$gtax})";
             }
-            $message .= "<br /><br />You have {$user_class->nerve} nerve left!";
-            echo "<div class='success-message'>$message</div>";
+            $message .= "<br /><br /><h1>You have {$user_class->nerve} nerve left!</h1>";
+            echo Message("<div class='success-message'>$message</div>");
 
 
 
