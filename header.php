@@ -184,6 +184,8 @@ if ($uid != 0) {
 }
 $q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");
 $hosp = mysql_num_rows($q);
+$q = mysql_query("SELECT `id` FROM grpgusers WHERE jail > 0");
+$ja = mysql_num_rows($q);
 function callback($buffer)
 {
     global $user_class, $db, $m;
@@ -549,7 +551,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 <li><a href='backalley.php'>Backalley</a></li>
 <li><a href='gang.php'>Gang</a></li>
 <li><a href='bank.php'>Bank</a></li>
-<li><a href='jail.php'>Jail (<!_-jail-_!>)</a> </li>
+<li><a href='jail.php'>Jail (<?php echo $ja; ?>)</a> </li>
 <li><a href='hospital.php'>hospital (<?php echo $hosp; ?>) </a></li>
 <li><a href='crime.php'>Crimes</a> </li>
 <li><a href='newcrimes.php'>Speed Crimes</a> </li>
