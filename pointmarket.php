@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+	
+    <div class='box_top'>Points Market</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 if($user_class->level < 10 && $user_class->prestige < 1)
     diefun("You must be level 10 or higher to use the points market.");
 
@@ -300,8 +306,6 @@ if (isset($_POST['buy'])) {
 
     }
 }
-echo'<center><h3>Points Market</h3></center>';
-    echo'<hr>';
 
     if ($user_class->rmdays == 0) {
         echo '<div class="floaty" style="width:99%; text-align:center">
