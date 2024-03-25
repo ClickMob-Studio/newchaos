@@ -432,9 +432,9 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 	// 	var timestring=padlength(serverdate.getHours())+":"+padlength(serverdate.getMinutes())+":"+padlength(serverdate.getSeconds())
 	// 	document.getElementById("servertime").innerHTML=datestring+" Server Time: "+timestring
 	// }
-	window.onload=function() {
-		setInterval("displaytime()", 1000)
-	}
+	// window.onload=function() {
+	// 	setInterval("displaytime()", 1000)
+	// }
 </script>
 </head>
 <body>
