@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Hospital</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                        <?php
 if ($_GET['buy'] == "hospital") {
    $cost = $user_class->level * 300;
    echo Message("Are you sure you want to buy out of hospital for $cost? <br><a href='emergencyroom.php?buy=hospitalyes'>Continue</a><br /><a href='rmstore.php'>No thanks!</a>");
@@ -23,8 +28,7 @@ if ($_GET['buy'] == "hospitalyes") {
    } else
       echo Message("You don't have enough money in the bank. You need $$cost");
 }
-?>
-<tr><td class='contentspacer'></td></tr><tr><h3>Hospital</h3><hr>     <?php
+?><?php
 if ($user_class->hospital != "0" && ($user_class->hhow != "bombed" && $user_class->hhow != "abombed")) {
    $cost = $user_class->level * 300;
    echo "- <a href='hospital.php?buy=hospitalyes'><font color=red><b>Buy Out for $$cost<b></font></a></br></br>";
@@ -123,7 +127,7 @@ if ($people > 0) {
    if ($currentpage < $totalpages)
       echo " <a href='?page=$totalpages'>>></a> ";
 } else
-   echo "</table><br /><center><font color=white>Nobody is in the Hospital</font></center>";
+   echo "</table><br /><center><font color=black>Nobody is in the Hospital</font></center>";
 ?>
 </td></tr>
 <?php
