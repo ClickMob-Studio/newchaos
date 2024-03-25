@@ -1,15 +1,16 @@
 <?php
 include 'header.php';
-error_reporting(0);
-ini_set('display_errors', 0);
 ?>
+<div class='box_top'>Gang Mass Mail</div>
+						<div class='box_middle'>
+							<div class='pad'>
 <style>
+    
 .upgrade-package {
     flex: 0 1 calc(50% - 20px); /* Keep as is, ensures two items per row */
     padding: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
     margin-bottom: 20px; /* Ensure there's space at the bottom */
-    background-color: #222;
     border-radius: 10px;
     box-sizing: border-box;
     display: flex;
@@ -65,11 +66,10 @@ hr {
     margin-top: 20px;
 }
 
-input[type="text"], input[type="submit"] {
+input[type="text"]{
     padding: 10px;
     margin: 5px;
     border: 1px solid #444;
-    background-color: #222;
     color: #fff;
     border-radius: 5px;
     text-align: center; /* Center text inside inputs */
@@ -81,9 +81,6 @@ input[type="submit"] {
     color: #ccc; /* Light grey text */
 }
 
-input[type="submit"]:hover {
-    background-color: #444; /* Slightly lighter grey on hover */
-}
 
 /* Responsive design */
 @media (max-width: 600px) {
