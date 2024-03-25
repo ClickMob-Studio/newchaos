@@ -65,7 +65,7 @@ $targetDateMilliseconds = strtotime('March 31, 2024 17:00:00') * 1000;
 /* Full-width containers on smaller screens */
 @media screen and (max-width: 768px) {
     .prize-container, .milestone-container, .table-container {
-        width: 100%;
+        width: 90%;
         margin: 10px 0;
         display: block; /* Stacks containers */
     }
@@ -78,7 +78,7 @@ $targetDateMilliseconds = strtotime('March 31, 2024 17:00:00') * 1000;
 
 /* Table element styling */
 table.myTable {
-    width: 90%; /* Full width of their container */
+    width: 100%; /* Full width of their container */
     margin:0 auto;
     border-collapse: collapse; /* Collapses border spacing */
 }
@@ -250,7 +250,7 @@ echo '</div>';
 echo '<div class="right-side" style="display: flex;">'; // Add flex display for side-by-side layout
 
 // First leaderboard table
-echo '<div class="table-container" style="width: 100%;">'; // Set width to 100% to stretch across the right side
+echo '<div class="table-container" style="width: 90%;">'; // Set width to 100% to stretch across the right side
 echo '<table width="100%" cellpadding="4" cellspacing="0" class="myTable">';
 echo '<tr><th>Rank</th><th>Username</th><th>RaidEvent Points</th></tr>';
 
@@ -275,7 +275,7 @@ echo '</table>';
 echo '</div>'; // Closing the container for the first table
 
 // Second leaderboard table
-echo '<div class="table-container" style="width: 100%;">'; // Set width to 100% to stretch across the right side
+echo '<div class="table-container" style="width: 90%;">'; // Set width to 100% to stretch across the right side
 echo '<table width="100%" cellpadding="4" cellspacing="0" class="myTable">';
 echo '<tr><th>Rank</th><th>Username</th><th>Kills</th></tr>';
 $query = "SELECT id, username, killcomp1 FROM grpgusers ORDER BY killcomp1 DESC LIMIT 50";
