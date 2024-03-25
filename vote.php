@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Vote</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 $sites = array(
 
    "mpogtop" => "http://mpogtop.com/in/1707777893",
