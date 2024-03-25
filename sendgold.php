@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Send Gold</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 if (isset($_POST['sendcredits']))
     error("
     Are you sure you want to send " . prettynum($_POST['amount']) . " GOLD to " . formatName($_POST['theirid']) . "?<br /><br />
