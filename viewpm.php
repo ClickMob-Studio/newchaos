@@ -112,5 +112,10 @@ if (!empty($_GET['id'])) {
         }
     }
 }
+?>
+                            </div>
+                        </div>
+</div>
+<?php
 include 'footer.php';
 ?>
