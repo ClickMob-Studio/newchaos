@@ -1,6 +1,13 @@
 <?php
 include 'header.php';
 $m->set('lastcrimeload.'.$user_class->id, time());
+?>
+<div class='box_top'>Gym</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
+
+
 if ($user_class->hospital > 0) {
     echo Message("You can't train at the gym if you are in the hospital.");
     include 'footer.php';
@@ -194,7 +201,6 @@ if ($printcaptcha != "") {
     </script>
     <br>
     <style>
-        input,button{background:#0e0e0e;color:#FFF;border:#303030 medium solid;text-slign:center}
         .refills{background:#0e0e0e;color:#FFF;border:#303030 medium solid;color:#FFF;padding:3px;}
     </style>
 
