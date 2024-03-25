@@ -315,7 +315,7 @@ if (isset($_POST['buy'])) {
 
 
     echo '<h3>Create Order</h3>';
-    echo'<div class="floaty" style="width:50%;">';
+    echo'<div class="floaty" >';
     echo '<form method="post">';
         echo'<table style="margin:auto;text-align:center;">';
             echo'<tr>';
@@ -338,7 +338,7 @@ if (isset($_POST['buy'])) {
     echo'</div>';
 
     echo '<h3 style="margin-bottom:0px">Sell Orders</h3><span>Players who are selling points</span>';
-        echo'<div class="floaty" style="width:85%;">';
+        echo'<div class="floaty" >';
                         echo'<table id="newtables" style="margin:auto;width:100%;">';
                 echo'<tr>';
                     echo'<th>Seller</th>';
@@ -379,7 +379,7 @@ if (isset($_POST['buy'])) {
     echo '<hr>';
 
     echo '<h3 style="margin-bottom:0px">Buy Orders</h3><span>Players who wish to buy points</span>';
-    echo'<div class="floaty" style="width:85%;">';
+    echo'<div class="floaty" >';
     echo'<table id="newtables" style="margin:auto;width:100%;">';
 echo'<tr>';
 echo'<th>Buyer</th>';
