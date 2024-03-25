@@ -182,9 +182,8 @@ if ($uid != 0) {
         $user_class->id
     ));
 }
-$db->query("SELECT count(id) FROM pets WHERE hospital <> 0");
-$db->execute();
-$hosp =$db->fetch_single();
+$q = mysql_query("SELECT `id` FROM pets WHERE hospital > 0");
+$hosp = mysql_num_rows($q);
 function callback($buffer)
 {
     global $user_class, $db, $m;
