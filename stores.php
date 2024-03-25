@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 ?>
-?>
+
 <div class='box_top'>Store</div>
 						<div class='box_middle'>
 							<div class='pad'>
