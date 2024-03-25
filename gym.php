@@ -17,7 +17,7 @@ if ($user_class->hospital > 0) {
 <style>
      @media only screen and (max-width: 750px) {
       .btna {
-        white-space: normal; /* Allow text to wrap within buttons */
+        black-space: normal; /* Allow text to wrap within buttons */
         word-wrap: break-word; /* Break words that exceed the width */
         max-width: 100px;
     }
@@ -188,7 +188,7 @@ if ($printcaptcha != "") {
 }
         function refill(att) {
             $(".notice").html("<img src='images/ajax-loader.gif?' />");
-            
+
             $.post("ajax_supergym.php", {'att': att, 'what': 'refill'}, function (callback) {
                 var info = callback.split("|");
                 $(".notice").html(info[0]);
@@ -209,9 +209,7 @@ if ($printcaptcha != "") {
 
 <div class="contenthead floaty">
 <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"></span>
-
-
-    <br /><span class='notice' style="display:none"></span><br /><br />
+<span class='notice' style="display:none"></span>
     </table>
     
     <table class="responsive" width="100%" align="center">
@@ -257,8 +255,8 @@ if ($printcaptcha != "") {
             <td align="center" style="padding-bottom: 10px;"><button onclick="refill('both');">Refill Both</button></td>
         </tr>
         <tr>
-            <td align="center" style="padding-bottom: 10px;" colspan='3'><span style='color:white;font-weight:bold;'>Super Trains: Click and hold on your desired train, then hold <font color=red>[Enter]</font> button for Super fast trains.<br>You can turn auto refills on</font> <font color=red><a href="preferences.php?refills">[Here]</a></font><br>
-            <center><span style="color:white;">  Click <a href="gym2.php">[Here]</a> for Mobile Gym use</span></a></center><br>
+            <td align="center" style="padding-bottom: 10px;" colspan='3'><span style='color:black;font-weight:bold;'>Super Trains: Click and hold on your desired train, then hold <font color=red>[Enter]</font> button for Super fast trains.<br>You can turn auto refills on</font> <font color=red><a href="preferences.php?refills">[Here]</a></font><br>
+            <center><span style="color:black;">  Click <a href="gym2.php">[Here]</a> for Mobile Gym use</span></a></center><br>
 
 </tr>
     </table>
