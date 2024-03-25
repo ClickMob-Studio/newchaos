@@ -950,7 +950,7 @@ $city = $profile_class->cityname;
 
 .profile_container {
     margin-top: 14px;
-    border: 4px solid #3b3b3b; /* Slightly lighter than #333 for a subtle border */
+     /* Slightly lighter than #333 for a subtle border */
  /* Dark background */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow at the top */
@@ -964,7 +964,7 @@ $city = $profile_class->cityname;
   padding: 18px;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
   margin: 5px;
-      border: 4px solid #3b3b3b; /* Slightly lighter than #333 for a subtle border */
+       /* Slightly lighter than #333 for a subtle border */
    /* Slightly different background for contrast */
   border-radius: 10px; /* Rounded corners for the profile boxes */
 }
@@ -974,7 +974,7 @@ $city = $profile_class->cityname;
     max-width: 300px; /* Adjust as needed */
     background: #333; /* Dark background */
     padding: 20px;
-    border: 4px solid #3b3b3b; /* Slightly lighter than #333 for a subtle border */
+     /* Slightly lighter than #333 for a subtle border */
     border-radius: 10px; /* Rounded corners */
     color: #fff; /* black text color */
     font-family: 'Arial', sans-serif; /* Modern font */
