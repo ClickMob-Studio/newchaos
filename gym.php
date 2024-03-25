@@ -146,8 +146,7 @@ if ($printcaptcha != "") {
     <script type="text/javascript">
        function trainrefill(stat) {
     var isMegaTrainChecked = $('#mega_train').is(':checked') ? 'yes' : 'no';
-    $(".notice").css("display", "block");
-
+    $(".notice").css("display", "block"); // Display the notice
     $(".notice").html("<img src='images/ajax-loader.gif?' />");
     $.post("ajax_supergym.php", {
         'amnt': $('#' + stat).val(),
@@ -168,6 +167,7 @@ if ($printcaptcha != "") {
 }
        function train(stat) {
     var isMegaTrainChecked = $('#mega_train').is(':checked') ? 'yes' : 'no';
+    $(".notice").css("display", "block"); // Display the notice
     $(".notice").html("<img src='images/ajax-loader.gif?' />");
     $.post("ajax_supergym.php", {
         'amnt': $('#' + stat).val(),
@@ -188,6 +188,7 @@ if ($printcaptcha != "") {
 }
         function refill(att) {
             $(".notice").html("<img src='images/ajax-loader.gif?' />");
+            
             $.post("ajax_supergym.php", {'att': att, 'what': 'refill'}, function (callback) {
                 var info = callback.split("|");
                 $(".notice").html(info[0]);
