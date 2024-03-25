@@ -836,11 +836,6 @@ $city = $profile_class->cityname;
 
  echo "
 <div class='contenthead floaty'>
-    
-    <span style='margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;'>
-        <h4>Welcome to <font color=yellow>[" . $profile_class->id . "]</font> " . $profile_class->formattedname . "'s Profile</h4>
-    </span>
-
     <div class='profile-container' style='display: flex; justify-content: space-around; align-items: flex-start;'>
         <!-- Left Profile Box -->
         <div class='profile-package' style='flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;'>
@@ -956,7 +951,7 @@ $city = $profile_class->cityname;
 .profile_container {
     margin-top: 14px;
     border: 4px solid #3b3b3b; /* Slightly lighter than #333 for a subtle border */
-    background-color: #222; /* Dark background */
+ /* Dark background */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow at the top */
     padding: 15px; /* Consistent padding from .floaty */
@@ -1155,7 +1150,7 @@ $city = $profile_class->cityname;
     /* Add other hover effects as necessary */
     
      .profile_comment {
-        background-color: #222; /* Replace with your desired background color */
+     /* Replace with your desired background color */
         color: #fff; /* This is for the text color */
         border-radius: 4px; /* Adjust as necessary for rounded corners */
         padding: 10px; /* Add some padding inside the comments */
