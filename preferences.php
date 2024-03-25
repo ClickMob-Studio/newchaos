@@ -1,6 +1,11 @@
 <?php
 $ignoreslashes = 1;
 include 'header.php';
+?>
+<div class='box_top'>Preferences</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 echo'<div class="floaty">';
     echo'<table style="width:100%;table-layout:fixed;text-align:center;font-weight:bold;">';
         echo'<tr style="line-height:25px;">';
