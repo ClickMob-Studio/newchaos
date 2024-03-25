@@ -1,5 +1,10 @@
  <?php
 include 'header.php';
+?>
+<div class='box_top'>Events</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 
 $result2 = mysql_query("UPDATE `events` SET `viewed` = '2' WHERE `to`=$user_class->id");
 if (isset($_GET['deleteall']) && $_GET['deleteall'] == 1) {
@@ -19,8 +24,7 @@ if (isset($_GET['delete']) && $_GET['delete'] != "") {
 
 <hr>
 <div class="contenthead floaty">
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h4>Your Events</h4></span><table id="newtables" style="width:100%; text-align: left;">
+<table id="newtables" style="width:100%; text-align: left;">
 <tr>
 <th><b>Description</b></th>
 <th><b>Recieved</b></th>

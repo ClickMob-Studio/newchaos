@@ -2,6 +2,10 @@
 include 'header.php';
 
 ?>
+<div class='box_top'>Game Updates</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                
 <style>
       @media only screen and (max-width: 750px) {
 .left{

@@ -1,6 +1,11 @@
 <?php
 include 'header.php';
 include 'includes/pagination.class.php';
+?>
+<div class='box_top'>News</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 $db->query("UPDATE grpgusers SET news = 0 WHERE id = ?");
 $db->execute(array(
 	$user_class->id

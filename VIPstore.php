@@ -1,8 +1,10 @@
 <?php
 include 'header.php';
 ?>
-
-<?php $result = mysql_query("SELECT * FROM `rmstore` WHERE `limiteditems1` != '9999'");
+<div class='box_top'>VIP Store</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php $result = mysql_query("SELECT * FROM `rmstore` WHERE `limiteditems1` != '9999'");
 while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
     $limiteditems1 = $limiteditems1 + $line['limiteditems1'];
 }
@@ -942,13 +944,13 @@ if ($user_class->donate_token > 0) {
 }
 
 // Display information
-echo '<center><font size="3px" color="white">$1 = <img src="https://mafialords.com/mafialordsicons/goldbar.png"></img><font color=yellow><b>10</font></center>';
-echo '<center><font color=white>Your GOLD balance is:</font> <span style="color:yellow;font-weight:bold;"><img src="https://mafialords.com/mafialordsicons/goldbar.png"></img>' . $user_class->credits . ' </size></center></span><br />';
+echo '<center><font size="3px" color="black">$1 = <img src="https://mafialords.com/mafialordsicons/goldbar.png"></img><font color=yellow><b>10</font></center>';
+echo '<center><font color=black>Your GOLD balance is:</font> <span style="color:yellow;font-weight:bold;"><img src="https://mafialords.com/mafialordsicons/goldbar.png"></img>' . $user_class->credits . ' </size></center></span><br />';
 
 echo '<center>';
 ?>
 <span id="creditDisplay">
-    <font color='white'>For a donation of $<span id="donationAmount">0</span>, you will receive 
+    <font color='black'>For a donation of $<span id="donationAmount">0</span>, you will receive 
     <font color=yellow><b id="creditsAmount">0</b></font> <img src="https://mafialords.com/mafialordsicons/goldbar.png"></img>
     </font>
 </span>
@@ -1154,7 +1156,7 @@ document.addEventListener("DOMContentLoaded", function() {
         </tr>
         <tr>
             <td style="text-align: center;">
-                <a href="VIPstore.php?buy=7daygrad" style="display: inline-block; padding: 10px 20px; background-color: #333; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY NOW</a>
+                <a href="VIPstore.php?buy=7daygrad" style="display: inline-block; padding: 10px 20px; background-color:  color: black; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY NOW</a>
 
             </td>
         </tr>
@@ -1166,7 +1168,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <style>
 .gradient-text {
     font-size: 24px; /* Adjust the font size as needed */
-    background: linear-gradient(to right, red, white, orange, red); /* Transition from red, through white and orange, back to red */
+    background: linear-gradient(to right, red, black, orange, red); /* Transition from red, through black and orange, back to red */
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -1178,7 +1180,7 @@ document.addEventListener("DOMContentLoaded", function() {
     display: inline-block;
     padding: 10px 20px;
     background-color: #111111; /* Dark grey background */
-    color: white; /* White text */
+    color: black; /* black text */
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
@@ -1210,8 +1212,8 @@ document.addEventListener("DOMContentLoaded", function() {
 }
 
 .new-shop-item {
-    background-color: #333; /* Dark background */
-    color: white; /* Light text */
+    background-color:  /* Dark background */
+    color: black; /* Light text */
     padding: 20px;
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
@@ -1222,7 +1224,7 @@ document.addEventListener("DOMContentLoaded", function() {
 }
 
 .new-shop-item--img h5, .new-shop-item--price span {
-    color: white; /* Gold color for emphasis */
+    color: black; /* Gold color for emphasis */
     font-weight: bold;
 }
 
@@ -1259,8 +1261,8 @@ document.addEventListener("DOMContentLoaded", function() {
 }
 
 .vip-package {
-    background-color: #333; /* Dark background */
-    color: white; /* Light text */
+    background-color:  /* Dark background */
+    color: black; /* Light text */
     padding: 20px;
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
@@ -1374,8 +1376,8 @@ document.addEventListener("DOMContentLoaded", function() {
 echo '<h4>By donating to Mafia Lords you are agreeing to the following terms:</h4>';
 echo '<hr>';
 echo '<ul class="donate_rules">';
-echo '<li><font color=white>Strictly NO Refunds</li>';
-echo '<li><font color=white>If you do not receive your package, please contact support.</li>';
+echo '<li><font color=black>Strictly NO Refunds</li>';
+echo '<li><font color=black>If you do not receive your package, please contact support.</li>';
 echo '<li>Purchasing packages does not mean you can break the game rules, your account will still be Banned!</li>';
 echo '<li>If you try refunding your money through paypal, we will ban your account.</li>';
 echo '</div>';
