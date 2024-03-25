@@ -184,7 +184,8 @@ if ($uid != 0) {
 }
 $db->query("SELECT count(id) FROM pets WHERE hospital <> 0");
 $db->execute();
-$hosp = $db->fetch_single();
+$hosp =$db->fetch_single();
+function callback($buffer)
 {
     global $user_class, $db, $m;
     if (!$m->get('hosCount')) {
@@ -550,7 +551,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 <li><a href='gang.php'>Gang</a></li>
 <li><a href='bank.php'>Bank</a></li>
 <li><a href='jail.php'>Jail (<!_-jail-_!>)</a> </li>
-<li><a href='hospital.php'>hospital (<?php echo $hosp; ?>) </a></li>
+<li><a href='hospital.php'>hospital (<?php echo $m->get('hosCount'); ?>) </a></li>
 <li><a href='crime.php'>Crimes</a> </li>
 <li><a href='newcrimes.php'>Speed Crimes</a> </li>
 <li><a href='gym.php'>Gym</a> </li>
