@@ -49,21 +49,7 @@ box-shadow: 0 0 10px 3px rgba(105, 105, 105, 0.5); /* Dark grey glow effect */
         border-radius: 8px;
     }
     
-.direction-button {
-    background-color: #333333; /* Primary color */
-    border: none;
-    color: black;
-    padding: 12px 24px; /* Larger button size */
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px; /* Larger font size */
-    margin: 10px 5px; /* Spacing between buttons */
-    cursor: pointer;
-    border-radius: 5px; /* Rounded corners */
-    box-shadow: 0 0 10px #ffd700; /* Initial glow */
-    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for background and glow effect */
-}
+
 
 .direction-button:hover {
     background-color: #444444; /* Slightly darker color on hover */
