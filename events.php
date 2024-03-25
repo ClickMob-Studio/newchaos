@@ -104,6 +104,7 @@ if ($currentpage < $totalpages)
 </tr>
 </table>
 </td></tr>
+</div>
 <?php
 include 'footer.php';
 function gangName($id){
