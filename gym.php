@@ -256,7 +256,7 @@ if ($printcaptcha != "") {
         </tr>
         <tr>
             <td align="center" style="padding-bottom: 10px;" colspan='3'><span style='color:black;font-weight:bold;'>Super Trains: Click and hold on your desired train, then hold <font color=red>[Enter]</font> button for Super fast trains.<br>You can turn auto refills on</font> <font color=red><a href="preferences.php?refills">[Here]</a></font><br>
-            <center><span style="color:black;">  Click <a href="gym2.php">[Here]</a> for Mobile Gym use</span></a></center><br>
+           
 
 </tr>
     </table>
