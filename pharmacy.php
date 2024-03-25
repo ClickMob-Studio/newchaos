@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+	
+	<div class='box_top'>General Pharmacy</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 if (isset($_POST['qty'])) {
     $qty = security($_POST['qty']);
 	$item = security($_POST['item']);
@@ -30,7 +36,7 @@ $db->query("SELECT * FROM items WHERE (heal > 0 || reduce > 0) && buyable = 1");
 $db->execute();
 $rows = $db->fetch_row();
 echo '<div class="contenthead floaty">';
-echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"><h4>General Pharmacy</h4></span>';
+
 foreach(array_chunk($rows, 2) as $subrows){
 	echo'<hr style="border:0;border-bottom:thin solid #333;" />';
 	echo'<div style="display:flex;">';
