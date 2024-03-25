@@ -146,6 +146,7 @@ if ($printcaptcha != "") {
     <script type="text/javascript">
        function trainrefill(stat) {
     var isMegaTrainChecked = $('#mega_train').is(':checked') ? 'yes' : 'no';
+    $(".notice").style.display="block";
     $(".notice").html("<img src='images/ajax-loader.gif?' />");
     $.post("ajax_supergym.php", {
         'amnt': $('#' + stat).val(),
@@ -208,7 +209,7 @@ if ($printcaptcha != "") {
 <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"></span>
 
 
-    <br /><span class='notice'></span><br /><br />
+    <br /><span class='notice' style="display:none"></span><br /><br />
     </table>
     
     <table class="responsive" width="100%" align="center">
