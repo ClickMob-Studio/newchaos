@@ -1,7 +1,12 @@
 <?php
 error_reporting(0);
 include 'header.php';
+?>
 
+<div class='box_top'>Speed Crimes</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 
 if ($user_class->fbitime > 0) {
     diefun("You can't do crimes if you're in FBI Jail!");
