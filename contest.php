@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Contest</div>
+						<div class='box_middle'>
+							<div class='pad'><?php
+
 date_default_timezone_set('Europe/London'); // This will automatically account for BST as well.
 
 // Target date and time for 31st March at 5 PM UK time
