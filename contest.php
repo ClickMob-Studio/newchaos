@@ -88,15 +88,6 @@ table.myTable th, table.myTable td {
     border: 1px solid #444; /* Borders for cells */
 }
 
-/* Header style */
-table.myTable th {
-    background-color: #444; /* Header background */
-}
-
-/* Zebra striping for table rows */
-table.myTable tr:nth-child(even) {
-    background-color: #3b3b3b;
-}
 .reward-box {
     
     padding: 10px;
