@@ -1136,7 +1136,7 @@ $city = $profile_class->cityname;
 
 .action {
     background: #333; /* Example background color */
-    color: #fff; /* Example text color */
+    color: #fff !important; /* Example text color */
     padding: 5px 10px; /* Reduced padding for smaller height, but maintain horizontal padding for comfort */
     text-align: center;
     border-radius: 4px; /* Rounded corners */
