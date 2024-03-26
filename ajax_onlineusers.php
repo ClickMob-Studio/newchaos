@@ -37,7 +37,11 @@ if ($_POST['page'] == 'online') {
         );
     }
 
-    echo '<table id="newtables" style="width:100%;">
+    echo '
+<div class="box_top">
+<div class="box_middle">
+<div class="pad">
+<table id="newtables" style="width:100%;">
             <tr>
                 <th colspan="9">Mobsters Online</th>
             </tr>
@@ -54,14 +58,14 @@ if ($_POST['page'] == 'online') {
             </tr>';
 
     foreach ($store as $user) {
-if($user_class->nightvision > 1){
+        if($user_class->nightvision > 1){
 //get city name
-$query = mysql_query("SELECT name FROM cities WHERE id = ".$user['cityid']);
-$result = mysql_fetch_assoc($query);
-$city = $result['name'];
-}else{
-$city = $user['cityname'];
-}
+            $query = mysql_query("SELECT name FROM cities WHERE id = ".$user['cityid']);
+            $result = mysql_fetch_assoc($query);
+            $city = $result['name'];
+        }else{
+            $city = $user['cityname'];
+        }
 
         $formatted_money = '$' . (floor($user['money']) == $user['money'] ? number_format($user['money'], 0, '.', ',') : number_format($user['money'], 2, '.', ','));
 
@@ -98,7 +102,14 @@ $city = $user['cityname'];
     foreach($rows2 as $row){
         $html .= '<tr><td>' . $i++ . '.</td><td>' . formatName($row['id']) . '</td><td style="text-align:center;">'.howLongAgo($row['lastactive']).'</td></tr>';
     }
-    $html .= '</table>';
+    $html .= '</table>
+
+</div>
+
+</div>
+</div>
+';
+
 
     echo json_encode(array('count' => $online, 'html' => $html));
 
