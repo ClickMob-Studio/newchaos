@@ -411,9 +411,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title><?php
-		echo ucwords(str_replace($headFind, $headRepl, str_replace('.php', '', $self))); ?> - <?php
-		echo $set['game_name']; ?></title>
+<title>Chaos City RPG</title>
 <link href="assets/css/games.css?v4" type="text/css" rel="stylesheet" />
 <link type="text/css" rel="stylesheet" href="assets/css/template.css?v10"  />
 <script src="js/java.js?12" type="text/javascript"></script>
