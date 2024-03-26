@@ -1,6 +1,11 @@
 <?php
 include "header.php";
-
+?>
+	
+	<div class='box_top'>Prestige</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 // General message for users trying to prestige before reaching level 1000
 
 // Allow access if the user is an admin or their level is >= 1000
@@ -13,9 +18,8 @@ include "header.php";
 
 echo '<style>
 .content-area {
-    background-color: #333; /* Dark background for the content area */
+    
     padding: 20px;
-    color: #fff; /* Light text color for contrast */
     border-radius: 5px;
     margin-bottom: 20px;
 }
@@ -23,8 +27,6 @@ echo '<style>
 table#newtables {
     width: 100%;
     margin: auto;
-    background-color: #222; /* Slightly lighter than the content area for a subtle effect */
-    color: #fff;
     border-spacing: 0;
     border-collapse: collapse;
 }
@@ -41,8 +43,7 @@ table#newtables tr:nth-child(even) {
 .progress-container {
     width: 100%; /* Full width of the container */
     height: 25px; /* Maintain the original height */
-    background-color: #535353; /* Light grey background for contrast */
-    border-radius: 5px;
+     border-radius: 5px;
     overflow: hidden;
     margin: 20px auto; /* Center the bar and add some vertical spacing */
 }
@@ -138,8 +139,6 @@ $bonusPercentage = $prestigeLevel * 20;
 
 // Start the table for prestige badges
 echo '<div class="contenthead floaty">';
-
-echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"><h4>Prestige</h4></span>';
 
 
 // Existing content starts here

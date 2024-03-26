@@ -400,7 +400,6 @@ $tradesResult = mysql_query($tradesQuery);
 <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
 <h4>Crafter</h4></span>
     <div class="shopkeeper-section">
-        <img src="/css/images/NewGameImages/crafter.png" alt="Shopkeeper" class="shopkeeper-image">
         <div class="shopkeeper-description">
             <h2>Welcome to the Crafting Station!</h2>
             <p>Here at the crafting, you can exchange items you've collected on your adventures for rare and powerful goods. Our friendly shopkeeper has a keen eye for value and will offer you the best deals for your treasures. Take a look and see what wonders await!</p>
