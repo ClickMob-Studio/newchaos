@@ -16,7 +16,7 @@ if ($user_class->polled1active == 1) {
         ?>
         <tr valign="top"><td class="contentspacer"></td></tr><tr valign="top"><div class="contenthead">Poll</div></tr>
         <tr valign="top"><div class="contentcontent">
-            Welcome to the poll. We want to know what you want here at Mafia Lords, and to do this we open a poll! You will be granted 20 points if you answer the poll truthfully.<br /><br />
+            Welcome to the poll. We want to know what you want here at Chaos City, and to do this we open a poll! You will be granted 20 points if you answer the poll truthfully.<br /><br />
             <u><b>Question:&nbsp;</b><i>What level do you believe you should be able to prestige at?</i></u><br /><br />
             <form method="post">
                 <?php

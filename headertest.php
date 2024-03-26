@@ -514,7 +514,7 @@ echo '<script src="js/main.js"></script>';
             // $('.progress-bar-heart').attr('style', 'width:' + results[5] + '%');
 
             if (results[2] > 0) {
-                document.title = "(" + results[2] + ") Mafia Lords";
+                document.title = "(" + results[2] + ") Chaos City";
             }
         });
     }

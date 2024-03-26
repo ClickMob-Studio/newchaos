@@ -935,7 +935,7 @@ $donperc = $donperc >= 100 ? 100 : $donperc;
 
 echo '<div class="flexcont" style="align-items:stretch;">';
 echo '<div class="flexele floaty" style="margin:3px;">';
-echo '<h4><font color=yellow>Make a Donation to Mafia Lords</font></h4>';
+echo '<h4><font color=yellow>Make a Donation to Chaos City</font></h4>';
 echo'<hr>';
 echo'<br>';
 
@@ -1373,7 +1373,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <?php
     echo '<div class="floaty" style="margin:3px;">';
-echo '<h4>By donating to Mafia Lords you are agreeing to the following terms:</h4>';
+echo '<h4>By donating to Chaos City you are agreeing to the following terms:</h4>';
 echo '<hr>';
 echo '<ul class="donate_rules">';
 echo '<li><font color=black>Strictly NO Refunds</li>';

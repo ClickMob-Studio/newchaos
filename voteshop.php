@@ -23,7 +23,7 @@ genHead("<h4><center>Vote Shop - You currently have <span style='color:#3ab997;f
 <h4>Vote Shop</h4></span>
 
 
-Welcome to the vote shop, Voting at Mafia Lords has never been more Vital! We appreciate your support!<br />
+Welcome to the vote shop, Voting at Chaos City has never been more Vital! We appreciate your support!<br />
 Each vote helps improve our rank on each of these sites, You can accumulate Vote Tokens
 by voting and overtime can get your hands on some of these great packages!<br /><br />
 <table id="newtables">
