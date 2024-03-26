@@ -65,7 +65,7 @@ echo <<<TEXT
 			<td style='background:none;'><small><b>Cash:</b> {$mo} dollars<br /><br />Simply guess if the next card is valued higher or lower.<br />If you lose, you lose $10,000.<br />If you win, you win $5,000.<br />Ace is high and 2's are low.<br />Ties go to the game.</small></td>
 		</tr>
 		<tr style='background:none;'>
-			<td style='background:none;'><img src="images/{$cardtypeb}/{$cardvalueb}.gif" /></td>
+			<td style='background:none;'><img src="images/Slots 2/{$cardvalueb}.gif" /></td>
 		</tr>
 		<tr style='background:none;'>	
 			<th style='background:none;'>
