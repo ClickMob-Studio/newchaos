@@ -89,7 +89,7 @@ if (!$m->get('24hour')) {
 <div class="box_middle">
     <div class="pad">
         <?php
-echo '<div class="contenthead floaty">';
+echo '<div>';
 echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"><h4>Players Online</h4></span>';
 
 echo '<table id="newtables" style="width:100%;">
