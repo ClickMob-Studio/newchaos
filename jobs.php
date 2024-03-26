@@ -16,10 +16,8 @@ $db->execute(array(
     $user_class->id
 ));
 if(!$db->num_rows()){
-    $db->query("INSERT INTO jobinfo VALUES (userid, total, points) VALUES (?, 0, 0, 0)");
-    $db->execute(array(
-        $user_class->id
-    ));
+    mysql_query("INSERT INTO jobinfo VALUES (userid, total, points) VALUES (".$user_class->id.", 0, 0, 0)");
+   
     $jobinfo['userid'] = $user_class->id;
     $jobinfo['dailyClockins'] = $jobinfo['lastClockin'] = $jobinfo['addedPercent'] = 0;
 } else
