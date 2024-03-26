@@ -61,14 +61,14 @@ $msgtext = "
 You have been credited 3 free T1 VIP Days
 
 Hello PLAYER!
-Thankyou for choosing us at ML. 
+Thank you for choosing us at CC. 
 Please Pop any game suggestions into our new Suggestions box!
 
-Goodluck and a warm welcome to MafiaLords! [/center]
+Good luck and a warm welcome to Chaos City! [/center]
 
-ML Staff.";
+CC Staff.";
 $parent = ($_POST['parent'] != 0) ? $_POST['parent'] : floor(time() / (uniqid(rand(1, 20), true) + uniqid(rand(1, 200))) - rand(100, 1000));
-$subject = "Welcome to Mafia Lords - <font color=ywllow>Please Read</font>";
+$subject = "Welcome to Chaos City - <font color=ywllow>Please Read</font>";
 ;
 $msgtext = strip_tags($msgtext);
 $msgtext = nl2br($msgtext);
