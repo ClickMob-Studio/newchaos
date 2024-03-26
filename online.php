@@ -55,7 +55,7 @@ $(document).on("mouseleave", "#div1 tr", function() {
     isHovering = false;
 });
 
-get_olu();
+//get_olu();
 </script>';
 
 require 'footer.php';
@@ -83,55 +83,78 @@ if (!$m->get('24hour')) {
     $m->set('24hour', $store, 10);
 }
 
-?>
 
-<div class="box_top">Online</div>
-<div class="box_middle">
-    <div class="pad">
-        <?php
-echo '<div>';
-echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"><h4>Players Online</h4></span>';
+echo '
+<div class="box_top">
+    <div class="box_middle">
+        <div class="pad">
+            <table id="newtables" style="width:100%;">
+                <tr>
+                    <th colspan="9">Mobsters Online</th>
+                </tr>
+                <tr>
+                    <th>Avatar</th>
+                    <th>id</th>
+                    <th>Mobster</th>
+                    <th>Money</th>
+                    <th>Type</th>
+                    <th>Gang</th>
+                    <th>Level</th>
+                    <th>City</th>
+                    <th>Last Active</th>
+                </tr>';
 
-echo '<table id="newtables" style="width:100%;">
-               <tr>
-            <th>Avatar</th>
-            <th>id</th>
-            <th>Mobster</th>
-            <th>Type</th>
-            <th>Gang</th>
-            <th>Level</th>
-            <th>City</th>
-            <th>Last Active</th>
-        </tr>';
+                foreach ($store as $user) {
+                if($user_class->nightvision > 1){
+                //get city name
+                $query = mysql_query("SELECT name FROM cities WHERE id = ".$user['cityid']);
+                $result = mysql_fetch_assoc($query);
+                $city = $result['name'];
+                }else{
+                $city = $user['cityname'];
+                }
 
-$users = $m->get('24hour');
-foreach ($users as $user) {
-if($user_class->nightvision > 1){
-//get city name
-$query = mysql_query("SELECT name FROM cities WHERE id = ".$user['cityid']);
-$result = mysql_fetch_assoc($query);
-$city = $result['name'];
-}else{
-$city = $user['cityname'];
-}
+                $formatted_money = '$' . (floor($user['money']) == $user['money'] ? number_format($user['money'], 0, '.', ',') : number_format($user['money'], 2, '.', ','));
 
-    echo "<tr>
-            <td><img src='{$user['avatar']}' height='50' width='50'></td>
-            <td><b><i>{$user['id']}</i></b></td>
-            <td>{$user['formattedname']}</td>
-            <td>{$user['type']}</td>
-            <td>{$user['formattedgang']}</td>
-            <td>{$user['level']}</td>
-            <td>{$city}</td>
-            <td>{$user['lastactive']}</td>
-        </tr>";
-}
+                // Determine the CSS class based on hospital and jail status
+                $row_class = '';
+                if ($user['hospital']) {
+                $row_class = 'inHospital'; // CSS class for users in hospital
+                } elseif ($user['jail']) {
+                $row_class = 'inJail';     // CSS class for users in jail
+                }
 
-echo '</table></td></tr></div>';
-?>
+                echo "<tr class='{$row_class}'>
+                    <td><img src='{$user['avatar']}' height='50' width='50'></td>
+                    <td><b><i>{$user['id']}</i></b></td>
+                    <td>{$user['formattedname']}</td>
+                    <td>{$formatted_money}</td>
+                    <td>{$user['type']}</td>
+                    <td>{$user['formattedgang']}</td>
+                    <td>{$user['level']}</td>
+                    <td>{$city}</td>
+                    <td>{$user['lastactive']}</td>
+                </tr>";
+                }
+
+                echo '</table></td></tr>';
+
+            } else if ($_POST['page'] == 'home') {
+
+            $db->query("SELECT id, lastactive FROM grpgusers ORDER BY lastactive DESC LIMIT 5");
+            $rows2 = $db->fetch_row();
+
+            $html ='<table class="mtable" style="margin:auto;width:100%;text-align:left;"><tr><th colspan="3">Last 5 Active Players</th></tr>';
+                $i = 1;
+                foreach($rows2 as $row){
+                $html .= '<tr><td>' . $i++ . '.</td><td>' . formatName($row['id']) . '</td><td style="text-align:center;">'.howLongAgo($row['lastactive']).'</td></tr>';
+                }
+                $html .= '</table>
+
+        </div>
 
     </div>
 </div>
-<?php
+';
 include 'footer.php';
 ?>
