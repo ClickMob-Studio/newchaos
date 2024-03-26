@@ -1,6 +1,10 @@
 <?php
 include 'header.php';
-
+?>
+<div class='box_top'>Travel</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 if ($user_class->jail > 0)
     diefun("You can't travel while in Prison!");
 if ($user_class->hospital > 0)

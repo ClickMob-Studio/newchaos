@@ -1,6 +1,10 @@
     <?php
     include("header.php");
-
+    ?>
+    <div class='box_top'>Hitlist</div>
+                            <div class='box_middle'>
+                                <div class='pad'>
+                                    <?php
     // if ($user_class->id == 174) {
     //     $user_class = new User(296);
     // }
@@ -9,9 +13,7 @@
 
         $ref = $_SERVER['HTTP_REFERER'];
         $id = $_GET['target'];
-      //  if ($ref == "" || $ref != "https://mafialords.com/hitlist.php") {
-        //    diefun("Invalid Request - Please ensure you are attacking from the Hitlist page");
-       // }
+
 
         security($_POST['bounty'], 'num');
         $bounty = $_POST['bounty'];
@@ -182,7 +184,7 @@
     genHead("New Hit");
     echo "
 
-            -<i>The hit reason must not contain anything that violates the Mafialords ToS.</i><br /><br />
+            -<i>The hit reason must not contain anything that violates the ToS.</i><br /><br />
             -<i>The hitlist will cost $1,000 times the level of the player. The minimum bounty however is $50,000 regardless of the targets level.</i><br /><br />
             <table id='newtables' style='margin:0 auto;width:40%;'>
                 <form method='post' action='hitlist.php'>

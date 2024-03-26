@@ -1,6 +1,10 @@
 <?php
 include 'header.php';
-
+?>
+<div class='box_top'>Points Den</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 $cost = array();
 
 $energyBoost = $user_class->energyboost;

@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>University</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 if (CheckCourse($user_class->id)== 0) {
     if (isset($_GET['start'])) {
         $start = security($_GET['start']);
@@ -33,10 +38,8 @@ if (CheckCourse($user_class->id)== 0) {
             echo Message("Thats not a real course.");
     }
 echo '<div class="contenthead floaty">';
-echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h4>UNIVERSITY</h4></span>';
 		
-		echo'&bull; Welcome to the ML College! <br />';
+		echo'&bull; Welcome to the CC College! <br />';
 		echo'&bull;Here you can choose courses to take over a period of time to gain Strength, Speed, Defense and Diplomas. <br />';
 		echo'&bull;Each course will require a certain number of diplomas and will cost some money.<br />';
 		echo'<br />';
