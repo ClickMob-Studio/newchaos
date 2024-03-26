@@ -2,13 +2,13 @@
 include 'header.php';
 ?>
 	
-	<div class='box_top'>Top Rated</div>
+	<div class='box_top'>Rated</div>
 						<div class='box_middle'>
 							<div class='pad'>
 								
  
 <div class="contenthead floaty">
-
+<h1>Top Rated</h1>
 <table id="newtables" style="width:100%;">
             <tr>
                 <td><b>Rank</b></td>
@@ -32,10 +32,10 @@ include 'header.php';
             ?>
         </table>
     </td></tr>
- 
+        </div>
 <div class="contenthead floaty">
 <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h4>Bottom Rated</h4></span>
+<h1>Bottom Rated</h1></span>
 <table id="newtables" style="width:100%;">
             <tr>
                 <td><b>Rank</b></td>
@@ -59,6 +59,7 @@ include 'header.php';
             ?>
     </td></tr>
 </table>
+        </div>
 <?php
 include 'footer.php';
 ?>
