@@ -459,6 +459,7 @@ foreach ($active_raids as $raid) {
 
 echo "</div>"; // Close box_middle
 echo "</div>"; // Close pad
+echo "<div class='box_bottom'></div>";
 echo "</div>"; // Close active-raids-grid
 ?>
 
@@ -512,6 +513,25 @@ function showTooltip(event, element) {
     }, 2000);
 }
 </script>
+
+<br /><br />
+<div class="box_top">Current Statistics</div>
+<div class="pad">
+    <?php
+    // Fetch the user's raid stats
+    $stats_query = "SELECT raidtokens, raidwins, raidlosses, raidsjoined, raidshosted FROM grpgusers WHERE id = " . $user_class->id;
+    $stats_result = mysql_query($stats_query);
+    $user_stats = mysql_fetch_assoc($stats_result);
+
+    echo "<h3>Raid Wins:<font color=red>" . $user_stats['raidwins'] . "</h3></font>";
+    echo "<h3>Raid Losses:<font color=red> " . $user_stats['raidlosses'] . "</h3></font>";
+    echo "<h3>Raids Joined:<font color=red> " . $user_stats['raidsjoined'] . "</h3></font>";
+    echo "<h3>Raids Hosted:<font color=red> " . $user_stats['raidshosted'] . "</h3></font>";
+    ?>
+</div>
+<div class="box_bottom"></div>
+<br /><br />
+
 <div class="container" style="display: flex;">
     <div class="contenthead floaty" style="width: 50%; box-sizing: border-box; margin-right: 10px;">
         <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
