@@ -2,7 +2,12 @@
 include 'header.php';
 
 ?>
-
+<style>
+    .contenthead{
+        width: 90%;
+    margin: 0 auto;
+    }
+    </style>
 <div class='box_top'>Welcome to <!_-cityname-_!></div>
 						<div class='box_middle'>
 							<div class='pad'>
