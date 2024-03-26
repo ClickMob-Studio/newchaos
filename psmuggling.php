@@ -111,9 +111,7 @@ $resultMessage = '<div style="text-align: center; padding: 15px; border: 1px sol
 
 
 <div class="contenthead floaty">
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h4>Points Smuggling </h4></span>
-<table id="newtables" style="width:100%;">
+
 
 <div id="resultMessage">
     <?php echo $resultMessage; ?>
