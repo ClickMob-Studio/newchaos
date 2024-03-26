@@ -60,8 +60,6 @@ if ($_POST['lower'] != "" && $_POST['higher'] == "") {
 }
 $mo = prettynum($user_class->money, 1);
 echo <<<TEXT
-<h3>Hi-Lo</h3>
-	<hr>
 	<table id='newtables' style='background:none;width:50%;'>
 		<tr style='background:none;'>
 			<td style='background:none;'><small><b>Cash:</b> {$mo} dollars<br /><br />Simply guess if the next card is valued higher or lower.<br />If you lose, you lose $10,000.<br />If you win, you win $5,000.<br />Ace is high and 2's are low.<br />Ties go to the game.</small></td>
