@@ -178,24 +178,24 @@ $metadesc = 'Chaos City Text-Based Mafia Game - Free Online Multiplayer MMORPG';
 
                         <div class="form-group">
                             <label for="username" class="form-label">Username:</label>
-                            <input class="form-control" type="text" id="username" onBlur="checkUsername(1);" name="username" />
+                            <input class="login" type="text" id="username" onBlur="checkUsername(1);" name="username" />
 
                         </div>
 
                         <div class="form-group">
                             <label for="email" class="form-label">Email:</label>
-                            <input type="email" id="email" name="email" onBlur="checkEmail();" class="form-control" required>
+                            <input type="email" id="email" name="email" onBlur="checkEmail();" class="login" required>
                         </div>
 
                         <div class="form-group">
                             <label for="pass" class="form-label">Password:</label>
-                            <input type="password" id="pass" name="pass" onBlur="checkPassword();" class="form-control" required>
+                            <input type="password" id="pass" name="pass" onBlur="checkPassword();" class="login" required>
                         </div>
 
                         <!-- Confirm Password -->
                         <div class="form-group">
                             <label for="conpass" class="form-label">Confirm Password:</label>
-                            <input type="password" id="conpass" name="conpass" onBlur="checkConfPassword();" class="form-control" required>
+                            <input type="password" id="conpass" name="conpass" onBlur="checkConfPassword();" class="login" required>
                         </div>
 
                         <!-- Gender -->
