@@ -1,5 +1,11 @@
 <?php
 include "header.php";
+?>
+	
+	<div class='box_top'>The Doors</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 if ($user_class->jail > 0) {
     echo Message("You cant do the doors  while in prison.");
     include 'footer.php';
@@ -63,8 +69,7 @@ if ($chance == 5) {
 ?>
  
 <div class="contenthead floaty">
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h4>The Doors</h4></span>
+
 <center>Make your choice of which door to open<br />It may be nice....it may be nasty....<br />The only way to find out is to open it up. You can search behind the doors 5 times each day<br /> <br /><br></center>
 <center>
     <table width="600" border="0">
@@ -77,6 +82,7 @@ if ($chance == 5) {
     </table>
     <br /><br />
 </center></td></tr>
+</div>
 <?php
 include 'footer.php';
 ?>

@@ -183,6 +183,6 @@ while ($mm = mysql_fetch_array($ml)) {
     $text = explode(',', $mm['text']);
     print "<tr><td>&bull;&nbsp;&nbsp;" . str_replace('[x]', formatName($text[1]), $text[0]) . "</td><td>" . date('m/d/y g:i a', $mm['timestamp']) . "</td></tr>\n<tr><td><br /></td></tr>\n";
 }
-print "</table></div></div></div></div></div></div>";
+print "</table></div></div> ";
 include "footer.php";
 ?>
