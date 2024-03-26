@@ -1,5 +1,12 @@
 <?php
 include "header.php";
+
+?>
+	
+	<div class='box_top'>Points Smuggling</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 $places = array(
     'America',
     'Canada',
@@ -131,6 +138,7 @@ $resultMessage = '<div style="text-align: center; padding: 15px; border: 1px sol
     }
     ?>
 </table>
+</div>
 
 <?php
 include 'footer.php';
