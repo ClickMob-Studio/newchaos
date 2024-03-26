@@ -20,18 +20,18 @@ $cardtypeb = $_SESSION['cardtypeb'];
 $cardvalueb = $_SESSION['cardvalueb'];
 if ($_POST['higher']) {
     if ($user_class->money < 10000) {
-        echo 'You don\'t have enough money to play high low.';
-        die();
+        diefun('You don\'t have enough money to play high low.');
+       
     }
     $showa = 1;
     if ($cardvalueb < $valuecc) {
         $user_class->money += 5000;
         $result = mysql_query("UPDATE grpgusers SET money = $user_class->money WHERE id=$user_class->id");
-        echo 'You got it right and won $5,000!';
+        echo Message('You got it right and won $5,000!');
     } else {
         $user_class->money -= 10000;
         $result = mysql_query("UPDATE grpgusers SET money = $user_class->money WHERE id=$user_class->id");
-        echo 'Sorry. You got it wrong and lost $10,000.';
+        echo Message('Sorry. You got it wrong and lost $10,000.');
     }
     $_SESSION['cardtypeb'] = $typecc;
     $_SESSION['cardvalueb'] = $valuecc;
@@ -40,18 +40,18 @@ if ($_POST['higher']) {
 }
 if ($_POST['lower'] != "" && $_POST['higher'] == "") {
     if ($user_class->money < 10000) {
-        echo 'You don\'t have enough money to play high low.';
-        die();
+        diefun('You don\'t have enough money to play high low.');
+       
     }
     $showa = 1;
     if ($cardvalueb > $valuecc) {
         $user_class->money += 5000;
         $result = mysql_query("UPDATE grpgusers SET money = $user_class->money WHERE id=$user_class->id");
-        echo 'You got it right and won $5,000!';
+        echo Message('You got it right and won $5,000!');
     } else {
         $user_class->money -= 10000;
         $result = mysql_query("UPDATE grpgusers SET money = $user_class->money WHERE id=$user_class->id");
-        echo 'Sorry. You got it wrong and lost $10,000.';
+        echo Message('Sorry. You got it wrong and lost $10,000.');
     }
     $_SESSION['cardtypeb'] = $typecc;
     $_SESSION['cardvalueb'] = $valuecc;
