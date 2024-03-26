@@ -1,5 +1,11 @@
 <?php
 include "header.php";
+?>
+	
+	<div class='box_top'>High Low</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 $typecc = rand(1, 4);
 $valuecc = rand(2, 14);
 if ($cardvalueb == $valuecc)
