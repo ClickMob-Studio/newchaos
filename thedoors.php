@@ -1,5 +1,11 @@
 <?php
 include "header.php";
+?>
+	
+	<div class='box_top'>The Doors</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 if ($user_class->jail > 0) {
     echo Message("You cant do the doors  while in prison.");
     include 'footer.php';
