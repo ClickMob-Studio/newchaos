@@ -845,7 +845,7 @@ $city = $profile_class->cityname;
             <p>Player Rating: " . $ratingHTML . "</p>
             <p>Level: " . $profile_class->level . "</p>
             <p>Type: " . $profile_class->type . "</p>
-            <p>Location: <a href='bus.php'>$city</a></p>
+            <p>Location: <a href='travel.php'>$city</a></p>
             <p>Relationship: $rel ", (!empty($profile_class->relplayer) && ($user_class->id == $rel_user->relplayer || $rel_user->id == $user_class->id || $user_class->id == $profile_class->id)) ? "<a href='relationship.php?action=end&player=" . $user_class->relplayer . "'><input type='button' value='Divorce' /></a>" : "", "</p>
         </div>
 
