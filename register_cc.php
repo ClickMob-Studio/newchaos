@@ -200,8 +200,9 @@ $metadesc = 'Chaos City Text-Based Mafia Game - Free Online Multiplayer MMORPG';
 
                         <!-- Gender -->
                         <div class="form-group text-center">
+                            <label for="gender" class="form-label">Gender:</label>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="genderMale" name="gender" value="Male" required>
+                                <input class="form-check-input" type="radio" id="genderMale" name="" value="Male" required>
                                 <label class="form-check-label" for="genderMale">Male</label>
                             </div>
                             <div class="form-check form-check-inline">
@@ -216,7 +217,7 @@ $metadesc = 'Chaos City Text-Based Mafia Game - Free Online Multiplayer MMORPG';
                                 <img src='cap.php' alt="Captcha" class="captcha-image mb-3"/>
                             </div>
                             <label for="cap" class="form-label">Captcha:</label>
-                            <input class="form-control" type="text" id="cap" name="cap" required>
+                            <input class="login" type="text" id="cap" name="cap" required>
                         </div>
 
                         <!-- Hidden Referrer Field -->
