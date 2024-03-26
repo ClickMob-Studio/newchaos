@@ -8,6 +8,14 @@ if (!isset($_SESSION['deal_ok'])) {
     } else
         $_SESSION['deal_ok'] = false;
 }
+
+?>
+
+<div class="box_top">Lucky Boxes</div>
+<div class="box_middle">
+    <div class="pad">
+
+<?php
 $boxes = array(
     1,
     2,
@@ -220,5 +228,9 @@ function gameOver() {
     unset($_SESSION['deal_bank']);
     unset($_SESSION['deal_ok']);
 }
+?>
+
+</div></div>
+<?php
 include "footer.php";
 ?>
