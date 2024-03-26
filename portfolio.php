@@ -184,8 +184,7 @@ if(isset($_GET['return'])){
 echo"
     <br />
 <div class='collegebox'>
-<h3>Real Estate</h3>
-<hr>
+
 
 <center><font color=white>Click <a href='house.php'>[Here]</a> to buy houses.</font></center><br />
 

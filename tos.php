@@ -13,30 +13,30 @@ $_SESSION['csrf'] = $csrf;
 ?>
 
 <div class="contenthead floaty">
-    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"><h4>Game Rules & Regulations - Mafia Lords</h4></span>
     <table id="newtables" style="width:100%;">
         <tr><td class="contentspacer"></td></tr>
         <tr>
             <td>
                 <div class="contentcontent" align="left">
                     <ul class="info-list">
-                        <li>You are only allowed to have ONE account !!! If anyone plays 2 or more accounts, this will result in a ban of all accounts involved.</li>
-                        <li>Having more than 1 account or getting someone else to create an account for the sole purpose of sending you their dailies is strictly forbidden.</li>
-                        <li>You cannot enter any other accounts, even if requested by the account owner. Additionally, you may not have non-players enter an account for any reason, even if requested by the account owner. If anyone asks you to do it, report it on the Help Desk.</li>
-                        <li>Accounts in the same location (IP) CANNOT: Send money, points, or items between those accounts, join the same gang, exchange anything on the market, 50/50, or any other things, using a middle man player to exchange (middle man player will also be banned).</li>
-                        <li>Using serious verbal abuse (including racism) towards other players (whether through mail/forum or on a gangster's profile) is strictly forbidden. The definition of "verbal abuse" will be defined by the members of the staff not the players.</li>
-                        <li>No flooding/spamming anywhere (it means continually filling the screen with repetitive text, whether it be advertising or plainly abusing three or more lines of chat causing a disruptive flow of unnecessary material). Massive use of caps can also be considered as spamming.</li>
-                        <li>Asking for personal or contact information of any kind is strictly prohibited. Please do not post personal contact information on any part of Mafia Lords. This includes important bank information and/or contact details.</li>
-                        <li>Using game-enhancing programs such as any form of Macros plugins, any form of auto-clicker programs, and any form of reloader plugins is forbidden. Players caught or suspected of the use of one or more of these banned programs, plugins, or techniques are subject to banning, or account deletion at the discretion of the game admin.</li>
-                        <li>Exploitation of any bugs or holes in the game will be punished with a permanent ban and deletion of the account.</li>
-                        <li>Any advertising of other websites is not tolerated and will result in a permanent ban.</li>
-                        <li>Scamming other players in-game or through an external tool (website, instant messaging, etc.) is FORBIDDEN! Use the in-game markets to protect yourself from scamming. All scammers that are reported and proven to have scammed will be banned.</li>
-                        <li>The use of racism anywhere on this site is prohibited.</li>
-                        
-                        <li>Always respect Admin decisions. If you have any complaints just open a ticket on the Help Desk.</li>
-                        <li>Accounts Sales are forbidden here at Mafia Lords.</li>
-                    </ul>
-                    <p>These rules are subject to change and staff interpretation at any time.</p>
+                    <li>Each user is permitted to possess only one account. Any attempt to operate multiple accounts will result in the suspension of all associated accounts.</li>
+    <li>The creation of additional accounts for the purpose of collecting daily rewards or engaging in any form of account sharing is strictly prohibited.</li>
+    <li>Users are strictly forbidden from accessing or allowing access to any account other than their own, even upon request from the account holder. Any such requests should be reported to the Help Desk immediately.</li>
+    <li>Accounts originating from the same IP address are prohibited from engaging in financial transactions, joining the same gang, or participating in any form of exchange. The involvement of intermediary players in facilitating such transactions will result in their banning as well.</li>
+    <li>Any form of serious verbal abuse, including instances of racism, directed towards other players is strictly prohibited. The determination of what constitutes verbal abuse shall be at the discretion of the administrative team.</li>
+    <li>Spamming or flooding any chat platform with repetitive or unnecessary content, including excessive use of capital letters, is not allowed.</li>
+    <li>Solicitation of personal or contact information is strictly forbidden, including the sharing of banking details or any form of private communication.</li>
+    <li>The use of third-party software or plugins designed to enhance gameplay, such as macros, auto-clickers, or reloaders, is expressly forbidden. Violators may face account deletion or suspension.</li>
+    <li>Exploitation of any bugs or vulnerabilities within the game will result in permanent account suspension.</li>
+    <li>Any form of external website advertising is strictly prohibited and may result in permanent banning.</li>
+    <li>Scamming other players, whether within the game or through external means, is strictly forbidden. Utilize in-game marketplaces for safe transactions.</li>
+    <li>The use of racist language anywhere on the platform is prohibited.</li>
+    <li>Users are expected to respect administrative decisions at all times. Complaints or issues should be addressed through the Help Desk.</li>
+    <li>The sale of accounts is strictly prohibited within Chaos City.</li>
+</ul>
+
+<p>Please note that these rules are subject to change and interpretation by the administrative team at any time.</p>
+
                 </div>
             </td>
         </tr>
