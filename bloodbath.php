@@ -61,11 +61,12 @@ $nor = 3; // number of ranks to be shown per category
         })
     }, 1000);
 </script>
- 
-<div class="contenthead floaty">
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h4>Bloodbath</h4></span>
-<table id="newtables" style="width:100%;">
+
+
+<div class="box_top">Bloodbath</div>
+<div class="box_middle">
+    <div class="pad">
+        <table id="newtables" style="width:100%;">
     <span style='color:red;'><center>Welcome to bloodbath, Bloodbath allows you the chance to gain some extra points for your hard work!</span><br />
     <span style='color:yellow;font-weight:800'><center>Note: Payments will be processed manually.</span><br />
     <br>
@@ -183,11 +184,10 @@ $nor = 3; // number of ranks to be shown per category
                 unset($top);
                 echo '</table>';
             }
-            include 'footer.php';
+        ?>
+    </div>
 
-
-/*
-
-*/
-
-            ?>
+</div>
+<?php
+include 'footer.php';
+ ?>
