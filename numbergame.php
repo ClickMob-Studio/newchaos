@@ -1,10 +1,15 @@
 <?php
 include "header.php";
+?>
+	
+	<div class='box_top'>Numbers Game</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 $iir = mysql_query("SELECT * FROM `grpgusers` WHERE `id` = '{$_SESSION['id']}' LIMIT 1") or mysql_error();
 $ir = mysql_fetch_array($iir);
 $_GET['ID'] = abs((int) $_GET['ID']);
 $userid = $_SESSION['id'];
-print "<center><font size='4' face='Arial, Helvetica, sans-serif'>Number's Game</font><hr width=80%>";
 if ($ir['jailtime'] or $ir['hospital']) {
     die("<br />This page is unavailable while in hospital or jail.<br /><br /><hr width=80%> <a href='index.php'>Home</a><hr width=80%>");
 }
