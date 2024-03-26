@@ -516,27 +516,8 @@ function showTooltip(event, element) {
 
 <br /><br />
 <div class="box_top">Current Statistics</div>
-<div class="pad">
-    <?php
-    // Fetch the user's raid stats
-    $stats_query = "SELECT raidtokens, raidwins, raidlosses, raidsjoined, raidshosted FROM grpgusers WHERE id = " . $user_class->id;
-    $stats_result = mysql_query($stats_query);
-    $user_stats = mysql_fetch_assoc($stats_result);
-
-    echo "<h3>Raid Wins:<font color=red>" . $user_stats['raidwins'] . "</h3></font>";
-    echo "<h3>Raid Losses:<font color=red> " . $user_stats['raidlosses'] . "</h3></font>";
-    echo "<h3>Raids Joined:<font color=red> " . $user_stats['raidsjoined'] . "</h3></font>";
-    echo "<h3>Raids Hosted:<font color=red> " . $user_stats['raidshosted'] . "</h3></font>";
-    ?>
-</div>
-<div class="box_bottom"></div>
-<br /><br />
-
-<div class="container" style="display: flex;">
-    <div class="contenthead floaty" style="width: 50%; box-sizing: border-box; margin-right: 10px;">
-        <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-            <h4>Current Statistics</h4>
-        </span>
+<div class="box_middle">
+    <div class="pad">
         <?php
         // Fetch the user's raid stats
         $stats_query = "SELECT raidtokens, raidwins, raidlosses, raidsjoined, raidshosted FROM grpgusers WHERE id = " . $user_class->id;
@@ -549,11 +530,13 @@ function showTooltip(event, element) {
         echo "<h3>Raids Hosted:<font color=red> " . $user_stats['raidshosted'] . "</h3></font>";
         ?>
     </div>
+</div>
+<div class="box_bottom"></div>
+<br /><br />
 
-    <div class="contenthead floaty" style="width: 50%; box-sizing: border-box; margin-left: 10px;">
-        <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-            <h4>Top 5 Raiders</h4>
-        </span>
+<div class="box_top">Top 5 Raiders</div>
+<div class="box_middle">
+    <div class="pad">
         <?php
         // Fetching top 5 raiders excluding admins
         $top_raiders_query = "SELECT * FROM grpgusers WHERE admin != 1 ORDER BY raidpoints DESC LIMIT 5";
@@ -574,13 +557,12 @@ function showTooltip(event, element) {
         ?>
     </div>
 </div>
+<div class="box_bottom"></div>
+<br /><br />
 
-<br>
-   <div class="container" style="width: 100%;">
-    <div class="contenthead floaty" style="width: 100%;">
-        <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-            <h4>Your Statistics</h4>
-
+<div class="box_top">Your Statistics</div>
+<div class="box_middle">
+    <div class="pad">
         <?php
         // Fetch the player's raid points
         $player_raidpoints_query = "SELECT raidpoints FROM grpgusers WHERE id = " . $user_class->id;
@@ -598,8 +580,98 @@ function showTooltip(event, element) {
         echo "<h3>Your are currently Positioned Number<font color=red> " . $player_position . "</font> on the Raids Leaderboards</h3>";
         echo "<h3>You Have a total of<font color=yellow> " . $player_raidpoints_data['raidpoints'] . " </font>raid points</h3>";
         ?>
-                </span>
+    </div>
+</div>
+<div class="box_bottom"></div>
+<br /><br />
 
+<div class="box_top">Welcome to Raids</div>
+<div class="box_middle">
+    <div class="pad">
+        <?php
+        // Fetch the user's raid stats
+        $stats_query = "SELECT raidtokens, raidwins, raidlosses, raidsjoined, raidshosted FROM grpgusers WHERE id = " . $user_class->id;
+        $stats_result = mysql_query($stats_query);
+        $user_stats = mysql_fetch_assoc($stats_result);
+
+        echo "<h3><center>YOU CURRENTLY HAVE <font color=yellow>" . $user_stats['raidtokens'] . "</font> RAID TOKENS </center></h3>";
+
+
+
+        ?>
+
+        <h3><font color="brown">Embark on epic raids, where you challenge fearsome bosses in intense battles. As your level grows, so does the might of the adversaries you confront. Every boss presents distinct challenges and promises enticing rewards. Strategize your difficulty selection judiciously and join forces with fellow adventurers to conquer these formidable foes!</font></h3>
+
+        <h4><font color="white"><u>Your Available Bosses</u></font></h4>
+
+        <div class="bosses-grid">
+            <?php
+            foreach ($bosses as $boss) {
+                // If the boss has a timestamp set and the current time has surpassed it, skip displaying this boss
+                if (isset($boss['available_unixtimestamp']) && $boss['available_unixtimestamp'] <= time()) {
+                    continue;
+                }
+
+                // Fetch the token cost for the boss
+                $boss_cost_query = "SELECT tokencost FROM bosses WHERE id = " . $boss['id'];
+                $boss_cost_result = mysql_query($boss_cost_query);
+                $boss_cost_row = mysql_fetch_assoc($boss_cost_result);
+                $tokencost = $boss_cost_row['tokencost'];
+
+                echo "<div class='boss-card'>";
+                echo "<img src='" . $boss['image_link'] . "' alt='Boss Image' class='boss-image'>";
+                echo "<h3>" . $boss['name'] . "</h3>";
+
+                if (isset($boss['available_unixtimestamp']) && $boss['available_unixtimestamp'] > time()) {
+                    $timeLeft = $boss['available_unixtimestamp'] - time();
+                    $days = floor($timeLeft / 86400); // Calculate days
+                    $hours = floor(($timeLeft % 86400) / 3600); // Hours after removing days
+                    $minutes = floor(($timeLeft % 3600) / 60); // Minutes after removing hours
+                    echo "<p>Available for: <strong>$days days $hours hours $minutes minutes</strong></p>";
+                }
+                echo "<p><strong>Level:</strong> " . $boss['level'] . "</p>";
+                echo "<p><strong>Token Cost to Summon:</strong> $tokencost</p>";
+
+                $rewards_query = "SELECT l.*, i.itemname, l.bonus FROM loot l JOIN items i ON l.item_id = i.id WHERE l.boss_id = " . $boss['id'];
+                $rewards_result = mysql_query($rewards_query);
+                $rewards = [];
+                while ($reward = mysql_fetch_assoc($rewards_result)) {
+                    $bonus_style = $reward['bonus'] == 1 ? 'style="color: red;"' : '';
+                    $tooltip = $reward['bonus'] == 1 ? 'title="Summoner will receive a 50% buff to this item\'s drop rate"' : '';
+                    $rewards[] = "<span $bonus_style $tooltip>" . $reward['itemname'] . "</span>";
+                }
+
+                echo "<div class='rewards-btn' onclick='toggleDropdown(this)'>View Rewards</div>";
+                echo "<div class='rewards-dropdown'>";
+                echo "<center><font color=green><u>Possible Rewards</u></font></center><br>";
+                echo "<font color=white>Potential Items:</font><font color=yellow> " . implode(", ", $rewards) . "<br></font>";
+                echo "</div>";
+
+
+                echo "<form action='raids.php' method='post' class='difficulty-form' onsubmit='return confirmSummon(" . $tokencost . ");'>";
+
+                echo "<div class='form-group'><label>Select Difficulty: ";
+                echo "<select name='difficulty'>";
+                echo "<option value='Easy'>Easy</option>";
+                echo "<option value='Medium'>Medium</option>";
+                echo "<option value='Hard'>Hard</option>";
+                echo "</select></label></div>";
+
+                // New dropdown for Raid Type
+                echo "<div class='form-group'><label>Raid Type: ";
+                echo "<select name='raid_type'>";
+                echo "<option value='Public'>Public Raid</option>"; // Default option
+                echo "<option value='Private'>Private (Solo Raid)</option>";
+                echo "<option value='Gang'>Gang Only</option>";
+                echo "</select></label></div>";
+
+                echo "<input type='hidden' name='boss_id' value='" . $boss['id'] . "'>";
+                echo "<input type='submit' value='Summon Boss' class='summon-button'>";
+                echo "</form>";
+
+                echo "</div>"; // Close boss-card
+            }
+            ?></div>
     </div>
 </div>
 
@@ -632,9 +704,6 @@ echo "<h3><center>YOU CURRENTLY HAVE <font color=yellow>" . $user_stats['raidtok
 
 
 <h3><font color="brown">Embark on epic raids, where you challenge fearsome bosses in intense battles. As your level grows, so does the might of the adversaries you confront. Every boss presents distinct challenges and promises enticing rewards. Strategize your difficulty selection judiciously and join forces with fellow adventurers to conquer these formidable foes!</font></h3>
-
-
-
 
 <h4><font color="white"><u>Your Available Bosses</u></font></h4>
 
