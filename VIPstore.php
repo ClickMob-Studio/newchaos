@@ -744,7 +744,7 @@ if ($_GET['buy'] == "freebie") {
                 $user_class->id
             ));
             Give_Item(8, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with your 1 Hour Mug Protection. You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with your 1 Hour Mug Protection. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 20 credits for a 1 Hour Mug Protection.");
         } else {
@@ -759,7 +759,7 @@ if ($_GET['buy'] == "freebie") {
                 $user_class->id
             ));
             Give_Item(8, $user_class->id, 5);
-            Send_Event($user_class->id, "You have been credited with your 1 Hour Mug Protection[x5]. You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with your 1 Hour Mug Protection[x5]. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 100 GOLD for a 1 Hour Mug Protection[x5].");
         } else {
@@ -774,7 +774,7 @@ if ($_GET['buy'] == "MB") {
                 $user_class->id
             ));
             Give_Item(42, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with a 4th of July Box(s). You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with a 4th of July Box(s). You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 30 credits for a 4th of July Box.");
         } else {
@@ -790,7 +790,7 @@ if ($_GET['buy'] == "MB10") {
                 $user_class->id
             ));
             Give_Item(42, $user_class->id, 10);
-            Send_Event($user_class->id, "You have been credited with 10 4th of July Box(s). You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with 10 4th of July Box(s). You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 280 credits for 10 4th of July Box(s).");
         } else {
@@ -805,7 +805,7 @@ if ($_GET['buy'] == "MB100") {
                 $user_class->id
             ));
             Give_Item(42, $user_class->id, 100);
-            Send_Event($user_class->id, "You have been credited with 100 4th of July Box(s). You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with 100 4th of July Box(s). You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 2200 credits for 100 4th of July Box(s).");
         } else {
@@ -824,7 +824,7 @@ if ($_GET['buy'] == "MB100") {
                 $user_class->id
             ));
             Give_Item(9, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with your x5 1 Hour Attack Protections. You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with your x5 1 Hour Attack Protections. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 100 credits for a x5 1 Hour Attack Protection.");
         } else {
@@ -839,7 +839,7 @@ if ($_GET['buy'] == "MB100") {
                 $user_class->id
             ));
             Give_Item(9, $user_class->id, 5);
-            Send_Event($user_class->id, "You have been credited with your 1 Hour Attack Protection[x5]. You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with your 1 Hour Attack Protection[x5]. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 100 GOLD for a 1 Hour Attack Protection[x5].");
         } else {
@@ -854,7 +854,7 @@ if ($_GET['buy'] == "MB100") {
                 $user_class->id
             ));
             Give_Item(10, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with your 1 Hour Double EXP pack. You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with your 1 Hour Double EXP pack. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 50 credits for a Double EXP pack.");
         } else {
@@ -869,7 +869,7 @@ if ($_GET['buy'] == "MB100") {
                 $user_class->id
             ));
             Give_Item(10, $user_class->id, 5);
-            Send_Event($user_class->id, "You have been credited with your 1 Hour Double EXP pack[x5]. You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with your 1 Hour Double EXP pack[x5]. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 220 credits for a 5 Double EXP pack(s).");
         } else {
@@ -886,7 +886,7 @@ if ($_GET['buy'] == "MB100") {
             Give_Item(105, $user_class->id);
             Give_Item(106, $user_class->id);
             Give_Item(107, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with your custom item set. You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with your custom item set. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 500 credits for a custom item set.");
         } else {
@@ -902,7 +902,7 @@ if ($_GET['buy'] == "boosters") {
             ));
             Give_Item(68, $user_class->id);
             Give_Item(69, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with your +25 Nerve & Energy Boosters. You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with your +25 Nerve & Energy Boosters. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 500 credits for your Nerve & Energy Boosters.");
         } else {
@@ -935,7 +935,7 @@ $donperc = $donperc >= 100 ? 100 : $donperc;
 
 echo '<div class="flexcont" style="align-items:stretch;">';
 echo '<div class="flexele floaty" style="margin:3px;">';
-echo '<h4><font color=yellow>Make a Donation to Chaos City</font></h4>';
+echo '<h4><font color=red>Make a Donation to Chaos City</font></h4>';
 echo'<hr>';
 echo'<br>';
 
@@ -944,14 +944,14 @@ if ($user_class->donate_token > 0) {
 }
 
 // Display information
-echo '<center><font size="3px" color="black">$1 = <img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img><font color=yellow><b>10</font></center>';
-echo '<center><font color=black>Your GOLD balance is:</font> <span style="color:yellow;font-weight:bold;"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>' . $user_class->credits . ' </size></center></span><br />';
+echo '<center><font size="3px" color="black">$1 = <img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img><font color=red><b>10</font></center>';
+echo '<center><font color=black>Your GOLD balance is:</font> <span style="color:red;font-weight:bold;"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>' . $user_class->credits . ' </size></center></span><br />';
 
 echo '<center>';
 ?>
 <span id="creditDisplay">
     <font color='black'>For a donation of $<span id="donationAmount">0</span>, you will receive 
-    <font color=yellow><b id="creditsAmount">0</b></font> <img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>
+    <font color=red><b id="creditsAmount">0</b></font> <img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>
     </font>
 </span>
 
@@ -1150,7 +1150,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <td style="text-align: center;">
                
                   <h4>Example</h4> <h4 class="gradient-text">Gradient NAME</h4>
-                                    <h4>Cost: <font color=yellow><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img> 50</font></h4> 
+                                    <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img> 50</font></h4>
                
             </td>
         </tr>
