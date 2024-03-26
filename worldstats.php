@@ -64,8 +64,7 @@ while($line = mysql_fetch_array($result)) {
 	$gangmoney = $gangmoney + $line['moneyvault'];
 }
 ?>
-<h3>World Stats</h3>
-<hr>
+
 <tr><td class="contentcontent">
 <table id="newtables" style="width:100%;table-layout:fixed;">
 <tr>

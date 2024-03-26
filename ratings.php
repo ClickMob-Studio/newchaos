@@ -34,8 +34,7 @@ include 'header.php';
     </td></tr>
         </div>
 <div class="contenthead floaty">
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h1>Bottom Rated</h1></span>
+<h1>Bottom Rated</h1>
 <table id="newtables" style="width:100%;">
             <tr>
                 <td><b>Rank</b></td>

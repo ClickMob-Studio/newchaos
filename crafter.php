@@ -249,18 +249,7 @@ function displayTradeTile($trade) {
 $tradesQuery = "SELECT * FROM trades";
 $tradesResult = mysql_query($tradesQuery);
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Trade Items</title>
-    <style>
-       body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+<style>
 
 .trade-item-image, .reward-item-image {
     width: 50px; /* Adjust width */
@@ -405,17 +394,7 @@ $tradesResult = mysql_query($tradesQuery);
 
 
     </style>
-</head>
-<body>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Trade Items</title>
-    <link rel="stylesheet" href="css/newgamecss1.css">
-</head>
-<body>
 
 <div class="contenthead floaty">
 <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">

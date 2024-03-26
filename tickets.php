@@ -19,8 +19,7 @@ if (isset($_POST['submit'])) {
 	echo Message("Your ticket has been Submitted, please check back tommorow to see if it has been attended to.");
 }
 echo '<div class="contenthead floaty">';
-echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h4>Support Desk</h4></span>';
+
 		echo'Welcome to the Help Desk. ';
 	echo'Here you can report anything such as, bugs, hacks, exploits and general questions, etc... ';
 	echo'Please do not Spam this area as you will be banned from using this. ';
