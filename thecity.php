@@ -1,6 +1,10 @@
 <?php
 include 'header.php';
-
+?>
+<div class='box_top'>Search The City</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php   
 if ($user_class->searchdowntown == 0) {
     diefun("You have already searched the city as much as you can today.");
 }

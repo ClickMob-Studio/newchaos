@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Pray</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 if ($user_class->prayer == 0)
     error("You have already prayed today.");
 $whereone = '<img src="images/prayer.png"></tr></td><tr><td class="contentcontent">';
@@ -62,8 +67,7 @@ if ($where == "23")
 ?>
  
 <div class="contenthead floaty">
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h4>Prayer</h4></span>
+
 <center>
 <?php
 if ($_POST['prayer'] > "0") {

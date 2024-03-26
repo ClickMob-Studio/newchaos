@@ -1,6 +1,12 @@
 <?php
 include 'header.php';
-session_start();
+?>
+
+?>
+<div class='box_top'>Pray</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 
 $csrf = md5(uniqid(rand(), true));
 $_SESSION['csrf'] = $csrf;
@@ -35,7 +41,6 @@ deleteUserFromSpot($userId, $desiredSpot);
 
 <style>
     .info-box {
-        background-color: #2f2f2f;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
         padding: 20px;
@@ -46,7 +51,6 @@ deleteUserFromSpot($userId, $desiredSpot);
     }
     
     .ladder-container {
-        background-color: #1e1e1e;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
         padding: 20px;
@@ -67,8 +71,6 @@ deleteUserFromSpot($userId, $desiredSpot);
     }
 
     .ladder-button {
-        background-color: #2f2f2f;
-        color: #fff;
         border: none;
         padding: 5px 10px;
         border-radius: 5px;
@@ -130,7 +132,7 @@ deleteUserFromSpot($userId, $desiredSpot);
     }
 
     .info-list li::before {
-        content: "•";
+        content: "ï¿½";
         position: absolute;
         left: 0;
         font-size: 20px;
