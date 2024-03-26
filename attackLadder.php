@@ -181,3 +181,4 @@ deleteUserFromSpot($userId, $desiredSpot);
     </div>
     <?php endwhile; ?>
 </div>
+<?php require "footer.php"; ?>
