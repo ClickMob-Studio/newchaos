@@ -367,6 +367,7 @@ if ($error == "") {
     <?php
 }
 ?>
+</div>
 <?php
 include 'footer.php';
 function pay_player_and_quit_high_low() {
