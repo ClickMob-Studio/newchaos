@@ -85,6 +85,7 @@ $resultMessage = '<div style="text-align: center; padding: 15px; border: 1px sol
         border-collapse: collapse;
         border: none;
         margin: 0;
+        width: 100%;
         padding: 0;
     }
 
@@ -111,7 +112,6 @@ $resultMessage = '<div style="text-align: center; padding: 15px; border: 1px sol
 
 
 <div class="contenthead floaty">
-<table id="newtables" style="width:100%;">
 <h4>Here you can Search for raidtokens at different locations 7 times per day</h4>
 <div id="resultMessage">
     <?php echo $resultMessage; ?>
