@@ -90,7 +90,6 @@ if (isset($_GET['rent'])) {
     echo Message("You have moved into your rental.");
 }
 echo '<div class="contenthead floaty">';
-echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"><h4>rental market</h4></span>';
 	    echo'<table id="newtables" class="altcolors" style="width:100%;">';
         echo'<tr>';
             echo'<th>Cell Image</th>';
