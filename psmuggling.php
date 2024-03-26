@@ -85,6 +85,7 @@ $resultMessage = '<div style="text-align: center; padding: 15px; border: 1px sol
         border-collapse: collapse;
         border: none;
         margin: 0;
+        width:100%;
         padding: 0;
     }
 
