@@ -136,7 +136,7 @@ $resultMessage = '<div style="text-align: center; padding: 15px; border: 1px sol
     }
     ?>
 </table>
-
+</div>
 <?php
 include 'footer.php';
 ?>
