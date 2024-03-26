@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Chapel</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 if (isset($_GET['accept'])) {
     echo Message("You have accepted the relationship request.");
     $get2 = mysql_query("SELECT * FROM rel_requests WHERE reqid = {$_GET['accept']}");
@@ -16,7 +21,7 @@ if (isset($_GET['decline'])) {
     echo Message("You have declined the request.");
     $result = mysql_query("DELETE FROM rel_requests WHERE reqid = {$_GET['decline']} AND player = $user_class->id");
 }
-genHead('Chapel');
+
 if ($user_class->relationship == 0 || $user_class->relplayer == 0) {
 			echo '<table width="100%">';
 				echo '<tr>';
