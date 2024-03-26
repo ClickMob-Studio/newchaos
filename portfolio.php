@@ -204,7 +204,7 @@ if ($user_class->house) {
     $row = $db->fetch_row(true);
     print"
         <tr>
-            <td><img src='images/" . str_replace(array(" ", "*"), "", strtolower($row['name'])) . ".png' /></td>
+            <td><img src='images/" . str_replace(array(" ", "*"), "", strtolower($row['name'])) . ".png' style='width:100px;'/></td>
             <td><span style='color:green;font-weight:bold;'>Equipped</span><br /><br />{$row['name']}<br /><br />" . prettynum($row['cost'], 1) . "<br /><br />" . number_format($row['awake']) . " Awake</td>
             <td>
                 <a href='?moveout'><button>Move out of this House!</button></a><br /><br />
