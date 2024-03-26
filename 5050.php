@@ -32,7 +32,7 @@ function takeaway(takeaway){
                 $(this).remove();
             });
         } else {
-            $("#rtn").html("<div id='error'>" + results[1] + "</div>");
+            $("#rtn").html("<div  class='floaty1' id='error'>" + results[1] + "</div>");
         }
     });
 }
@@ -46,7 +46,7 @@ function take(take){
                 $(this).remove();
             });
         } else {
-            $("#rtn").html("<div id='error'>" + results[1] + "</div>");
+            $("#rtn").html("<div class='floaty1' id='error'>" + results[1] + "</div>");
         }
     });
 }
@@ -60,7 +60,7 @@ function post(curr){
             $("#" + curr + "bets").append('<div id="t' + ts + '" style="display:none">' + results[2] + '</div>');
             $("#" + curr + "bets div#t" + ts).slideDown(500);
         } else {
-            $("#rtn").html("<div id='error'>" + results[1] + "</div>");
+            $("#rtn").html("<div class='floaty1' id='error'>" + results[1] + "</div>");
         }
     });
 }
@@ -105,7 +105,7 @@ function update(){
 setInterval(update, 1000);
 </script>
 YYY;
-echo'<div id="rtn" class="floaty1"></div>';
+echo'<div id="rtn"></div>';
 echo "<table>";
 echo "<tr>";
 echo "<td>";
