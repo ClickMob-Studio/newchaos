@@ -224,14 +224,12 @@ $metadesc = 'Chaos City Text-Based Mafia Game - Free Online Multiplayer MMORPG';
                         <input type="hidden" name="referer" value="<?php echo isset($_GET['referer']) ? $_GET['referer'] : ''; ?>" />
 
                         <!-- Submit Button -->
-                        <input type="submit" id="submit" name="submit" class="log_btn" value="Login" />
 
-
-
-                        </a>
-
-                </div>
-
+                        <!-- Submit Button -->
+                        <div class="form-group">
+                            <button class="log_btn" type="submit">Register</button>
+                        </div>
+                    </div>
                 </form>
 
 
