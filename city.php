@@ -2,7 +2,12 @@
 include 'header.php';
 
 ?>
-
+<style>
+    .contenthead{
+        width: 90%;
+    margin: 0 auto;
+    }
+    </style>
 <div class='box_top'>Welcome to <!_-cityname-_!></div>
 						<div class='box_middle'>
 							<div class='pad'>
@@ -428,9 +433,6 @@ print "<br />" . formatName($botd['userid']) . "<br /><br />Busted: " . prettynu
 Every <span class="color:yellow;">Valid</span> signup on this link gets you 100 Points + 50 cyellowit</font>
 <br> -->
 	</table>
-</div>
-			<div class="spacer"></div>
-		</div>
 
 
 
