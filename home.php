@@ -72,7 +72,8 @@ $users24 = $statementOnline24->rowCount();
                         <input type="password" class="login" value=""  name="password" placeholder="Password" />
                         <input type="submit" id="submit" name="submit" class="log_btn" value="Login" />
                     </form>
-                    <a href="resend.php">Forgot Password?</a>
+                    <a href="resend.php">Forgot Password?</a><br />
+                    <a style="color: #7f4144;" href="register.php">Create An Account</a>
                 </div>
             </div>
             <div class="spacer"></div>
