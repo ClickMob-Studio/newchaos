@@ -137,10 +137,10 @@ window.onload = function () {
 <br>
     <div>
     <h4>Your referral link</h4>
-        <input type="text" value="https://chaoscity.co.uk/register.php?referer=<?php echo $user_class->id; ?>" readonly onclick="this.select();">
+        <input type="text" value="https://chaoscity.co.uk/register.php?referer=<?php echo $user_class->id; ?>" readonly onclick="this.select();" style="width: 50%">
     </div>
     <div class="rewards">
-        <b>Reward:</b> <span style="color:yellow;">50 Gold</span> per referral.
+        <b>Reward:</b> <span style="color:red;">50 Gold</span> per referral.
     </div>
     <p>
         Your Gold will be automatically added to your account once we have checked Multiple accounts.
@@ -150,10 +150,10 @@ window.onload = function () {
 <div class="rewards-info">
     <h4>Rewards Milestones</h4>
     <ul>
-        <li><h4><font color=white>5 Referrals</font> - 150 GOLD</h4></li>
-        <li><h4><font color=white>10 Referrals</font> - 500 GOLD</h4></li>
-        <li><h4><font color=white>15 Referrals</font> - 1,000 GOLD</h4></li>
-        <li><h4><font color=white>25 Referrals</font> - 2,000 GOLD</h4></li>
+        <li><h4><font color=red>5 Referrals</font> - 150 GOLD</h4></li>
+        <li><h4><font color=red>10 Referrals</font> - 500 GOLD</h4></li>
+        <li><h4><font color=red>15 Referrals</font> - 1,000 GOLD</h4></li>
+        <li><h4><font color=red>25 Referrals</font> - 2,000 GOLD</h4></li>
 
         <!-- Add more milestones as necessary -->
     </ul>
