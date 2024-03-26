@@ -1,5 +1,12 @@
 <?php
 include "header.php";
+
+?>
+	
+	<div class='box_top'>50/50</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 $mins = array(
     'cash' => 10000,
     'points' => 100,
