@@ -76,30 +76,6 @@ if ($_GET['action'] == "new") {
             </form>
         </div>
     </div>
-
-    <tr><td class="contentspacer"></td></tr><tr><div class="contenthead">Request Relationship</div></tr>
-    <tr><td class="contentcontent">
-            <table width='100%'>
-                <tr>
-                <b>You are requesting a relationship with</b> <?php echo $player->formattedname; ?><b>.</b><br /><br />
-                <form method="post">
-                    <table width="40%">
-                        <tr><td width="30%">
-                                <b>Relationship Status:</b>
-                            </td>
-                            <td width="10%">
-                                <select name="status">
-                                    <option value="1">Dating</option>
-                                    <option value="2">Engaged</option>
-                                    <option value="3">Married</option>
-                                </select>
-                            </td></tr>
-                    </table>
-                    <br />
-                    <input type="hidden" name="player" value="<?php echo $_GET['player']; ?>" />
-                    <input type="submit" name="send" value="Send Request" />
-                </form>
-        </td></tr>
     <?php
 } else {
     if ($user_class->relationship == 0) {
