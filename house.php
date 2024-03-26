@@ -40,7 +40,7 @@ foreach ($rows as $row) {
 	$owned = ($row['id'] == $user_class->house) ? 'background:rgba(0,0,255,.25);' : '';
 	echo'<div class="floaty flexcont" style="width:85%;' . $owned . 'margin:2px;">';
 		echo'<div class="flexele" style="border-right:thin solid #333;">';
-			echo'<img src="images/' . str_replace(array(' ' , '*'), '', strtolower($row['name'])) . '.png" />';
+			echo'<img src="images/' . str_replace(array(' ' , '*'), '', strtolower($row['name'])) . '.png" style="width:100px;"/>';
 		echo'</div>';
 		echo'<div class="flexele">';
 			echo $row['name'] . '<br />';
