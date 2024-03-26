@@ -368,8 +368,8 @@ while ($row = mysql_fetch_assoc($active_raids_result)) {
 }
 
 // Display active raids
-echo "<h3>Active Raids</h3>";
-echo "<hr>";
+echo "<div class='box_top'>Active Raids</div>";
+echo "<div class='box_middle'>";
 echo "<div class='active-raids-grid'>";
 
 foreach ($active_raids as $raid) {
@@ -456,6 +456,7 @@ foreach ($active_raids as $raid) {
     echo "</div>"; // Close raid-card
 }
 
+echo "</div>"; // Close box_middle
 echo "</div>"; // Close active-raids-grid
 ?>
 
