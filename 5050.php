@@ -105,61 +105,80 @@ function update(){
 setInterval(update, 1000);
 </script>
 YYY;
-echo'<div id="rtn"></div>';
-echo'<div class="flexcont">';
-    // Modified call to headbox for credits to display as GOLD
-    echo headbox('cash');
-    echo headbox('points');
-    echo headbox('credits');
-    echo'</div>';
-echo'<hr style="border:0;border-bottom:thin solid #333;" />';
-echo'<div class="flexcont" style="align-items:stretch;">';
+echo "<table>";
+echo "<tr>";
+echo "<td>";
+echo headbox('cash');
+echo "</td>";
+echo "<td>";
+echo headbox('points');
+echo "</td>";
+echo "<td>";
+echo headbox('credits');
+echo "</td>";
+echo "</tr>";
+echo "</table>";
+
+echo "<hr style='border:0;border-bottom:thin solid #333;' />";
+
+echo "<table>";
+echo "<tr>";
+echo "<td>";
 echo fillboxes('cash');
+echo "</td>";
+echo "<td>";
 echo fillboxes('points');
-echo fillboxes('credits'); // Displaying existing bets for credits
-echo'</div>';
+echo "</td>";
+echo "<td>";
+echo fillboxes('credits');
+echo "</td>";
+echo "</tr>";
+echo "</table>";
+
 include "footer.php";
 
 function headbox($curr){
-global $mins;
-// Changing the display for 'credits' to 'GOLD'
-$displayCurr = ($curr == 'credits') ? 'GOLD' : ucfirst($curr);
-$rtn = '<div class="flexele floaty" style="margin:3px;">';
-$rtn .= $displayCurr . ' 50/50';
-$rtn .= '<hr style="border:0;border-bottom:thin solid #333;" />';
-$rtn .= '<input type="text" id="' . $curr . 'amnt" placeholder="Min ' . prettynum($mins[$curr], ($curr == 'cash' ? 1: 0)) . '" />';
-$rtn .= '<br />';
-$rtn .= '<br />';
-$rtn .= '<button onclick="post(\'' . $curr . '\');">Add ' . $displayCurr . ' Bet</button>';
-$rtn .= '</div>';
-return $rtn;
+    global $mins;
+    $displayCurr = ($curr == 'credits') ? 'GOLD' : ucfirst($curr);
+    $rtn = '<div class="flexele floaty" style="margin:3px;">';
+    $rtn .= $displayCurr . ' 50/50';
+    $rtn .= '<hr style="border:0;border-bottom:thin solid #333;" />';
+    $rtn .= '<input type="text" id="' . $curr . 'amnt" placeholder="Min ' . prettynum($mins[$curr], ($curr == 'cash' ? 1: 0)) . '" />';
+    $rtn .= '<br />';
+    $rtn .= '<br />';
+    $rtn .= '<button onclick="post(\'' . $curr . '\');">Add ' . $displayCurr . ' Bet</button>';
+    $rtn .= '</div>';
+    return $rtn;
 }
 
 function fillboxes($curr){
-global $user_class, $db;
-$rtn = '';
-$db->query("SELECT * FROM fiftyfifty WHERE currency = ?");
-$db->execute(array($curr));
-$rows = $db->fetch_row();
-$rtn .= '<div class="flexele" id="' . $curr . 'bets">';
-foreach($rows as $row){
-$rtn .= '<div class="floaty" id="bet' . $row['id'] . '" style="margin:3px;">';
-$rtn .= formatName($row['userid']);
-$rtn .= '<hr style="border:0;border-bottom:thin solid #333;" />';
-$rtn .= prettynum($row['amnt'], ($curr == 'cash' ? 1: 0));
-$rtn .= '<br />';
-if($user_class->id == $row['userid'])
-$rtn .= '<button onclick="takeaway(' . $row['id'] . ');">Remove Bet</button>';
-else
-$rtn .= '<button onclick="take(' . $row['id'] . ');">Take Bet</button>';
-$rtn .= '</div>';
-}
-$rtn .= '</div>';
-return $rtn;
+    global $user_class, $db;
+    $rtn = '<table>';
+    $db->query("SELECT * FROM fiftyfifty WHERE currency = ?");
+    $db->execute(array($curr));
+    $rows = $db->fetch_row();
+    foreach($rows as $row){
+        $rtn .= '<tr>';
+        $rtn .= '<td>';
+        $rtn .= formatName($row['userid']);
+        $rtn .= '</td>';
+        $rtn .= '<td>';
+        $rtn .= prettynum($row['amnt'], ($curr == 'cash' ? 1: 0));
+        $rtn .= '</td>';
+        $rtn .= '<td>';
+        if($user_class->id == $row['userid'])
+            $rtn .= '<button onclick="takeaway(' . $row['id'] . ');">Remove Bet</button>';
+        else
+            $rtn .= '<button onclick="take(' . $row['id'] . ');">Take Bet</button>';
+        $rtn .= '</td>';
+        $rtn .= '</tr>';
+    }
+    $rtn .= '</table>';
+    return $rtn;
 }
 
 function dbcol($input){
-return str_replace('cash', 'money', $input); // Handling the database column naming
+    return str_replace('cash', 'money', $input);
 }
 
 ?>
