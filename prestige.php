@@ -36,9 +36,6 @@ table#newtables th, table#newtables td {
     border: 1px solid #444; /* Subtle borders for the cells */
 }
 
-table#newtables tr:nth-child(even) {
-    background-color: #2c2c2c; /* Zebra striping for rows */
-}
 
 .progress-container {
     width: 100%; /* Full width of the container */
@@ -84,43 +81,14 @@ div#error, div#message {
     text-align: center; /* Keep the button centered */
 }
 
-.custom-button {
-    padding: 10px 20px;
-    margin-top: 15px; /* Add margin from the top */
-    border: none; /* Remove border to prevent movement */
-    background-color: #333333;
-    color: #FFA500; /* Orange color for the text */
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    outline: none;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-}
 
 .custom-button:disabled {
     cursor: not-allowed;
     opacity: 0.7; /* Slightly higher opacity for better visibility */
 }
 
-.custom-button:hover:not(:disabled),
-.custom-button:focus {
-   padding: 10px 20px;
-    margin-top: 15px; /* Add margin from the top */
-    border: none; /* Remove border to prevent movement */
-    background-color: #555;
-    color: #FFA500; /* Orange color for the text */
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    outline: none;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-}
 stats-contents {
-    background-color: #333333; /* Dark background */
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); /* Dark shadow for depth */
-    color: white; /* Light text for contrast */
     padding: 20px; /* Padding around content */
     margin: 20px 0; /* Margin for spacing around the div */
     border-radius: 10px; /* Rounded corners */
@@ -163,8 +131,8 @@ echo '<style>
 
 echo '<table id="newtables" style="margin:auto;">';
 echo '    <tr>';
-echo '        <td><img src="images/muscles1.png" style="width:300px; height:300px;"></td>';
-echo '        <td><img src="images/exp.png" style="width:300px; height:300px;"></td>';
+echo '        <td><img src="images/muscles1.png" style="width:100px; height:100px;"></td>';
+echo '        <td><img src="images/exp.png" style="width:100px; height:100px;"></td>';
 echo '    </tr>';
 // Removed the key.png image and its row as per request.
 echo '    </tr>';
