@@ -82,6 +82,13 @@ if (!$m->get('24hour')) {
     }
     $m->set('24hour', $store, 10);
 }
+
+?>
+
+<div class="box_top">Online</div>
+<div class="box_middle">
+    <div class="pad">
+        <?php
 echo '<div class="contenthead floaty">';
 echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"><h4>Players Online</h4></span>';
 
@@ -121,5 +128,10 @@ $city = $user['cityname'];
 }
 
 echo '</table></td></tr></div>';
+?>
+
+    </div>
+</div>
+<?php
 include 'footer.php';
 ?>
