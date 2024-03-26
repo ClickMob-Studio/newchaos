@@ -38,7 +38,6 @@ if (!$getid) {
         print "\n<tr align=center><td class=contentcontent>{$r['number']}</td><td class=contentcontent>{$u['username']}</td></tr>";
         $current_row = 1 - $current_row;
     }
-    print "</table><hr width=80%> <a href='index.php'>Home</a><hr width=80%></td>";
 } else {
     $nogame = mysql_query("SELECT * FROM numbergame WHERE number=$getid");
     $no = mysql_fetch_row($nogame);
