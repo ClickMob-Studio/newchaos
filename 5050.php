@@ -105,6 +105,7 @@ function update(){
 setInterval(update, 1000);
 </script>
 YYY;
+echo'<div id="rtn"></div>';
 echo "<table>";
 echo "<tr>";
 echo "<td>";
