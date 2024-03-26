@@ -55,7 +55,7 @@ $(document).on("mouseleave", "#div1 tr", function() {
     isHovering = false;
 });
 
-//get_olu();
+get_olu();
 </script>';
 
 require 'footer.php';
