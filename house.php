@@ -33,26 +33,34 @@ if (isset($_GET['buy'])) {
     ));
     echo Message($text);
 }
+?>
+<table class="house-table" style="width: 100%;">
+<?php
 $db->query("SELECT * FROM houses WHERE buyable = 1 ORDER BY id ASC");
 $db->execute();
 $rows = $db->fetch_row();
 foreach ($rows as $row) {
-	$owned = ($row['id'] == $user_class->house) ? 'background:rgba(0,0,255,.25);' : '';
-	echo'<div class="floaty flexcont" style="width:85%;' . $owned . 'margin:2px;">';
-		echo'<div class="flexele" style="border-right:thin solid #333;">';
-			echo'<img src="images/' . str_replace(array(' ' , '*'), '', strtolower($row['name'])) . '.png" style="width:100px;"/>';
-		echo'</div>';
-		echo'<div class="flexele">';
-			echo $row['name'] . '<br />';
-			echo'<br />';
-			echo'Awake: ' . prettynum($row['awake']) . '<br />';
-			echo'<br />';
-			echo'Cost: ' . prettynum($row['cost'], 1);
-		echo'</div>';
-		echo'<div class="flexele" style="border-left:thin solid #333;line-height:100px;">';
-			echo '<a href="house.php?buy=' . $row['id'] . '"><button>Buy</button></a>';
-		echo'</div>';
-	echo'</div>';
+    $owned = ($row['id'] == $user_class->house) ? 'background:rgba(0,0,255,.25);' : '';
+    ?>
+    <tr>
+        <td style="border-right: thin solid #333;">
+            <img src="images/<?php echo str_replace(array(' ', '*'), '', strtolower($row['name'])); ?>.png" style="width: 100px;">
+        </td>
+        <td>
+            <?php echo $row['name']; ?><br><br>
+            Awake: <?php echo prettynum($row['awake']); ?><br><br>
+            Cost: <?php echo prettynum($row['cost'], 1); ?>
+        </td>
+        <td style="border-left: thin solid #333; line-height: 100px;">
+            <a href="house.php?buy=<?php echo $row['id']; ?>"><button>Buy</button></a>
+        </td>
+    </tr>
+    <?php
 }
+?>
+</table>
+</div>
+</div>
+<?php
 include 'footer.php';
 ?>
