@@ -1,5 +1,12 @@
 <?php
 include "header.php";
+
+?>
+	
+	<div class='box_top'>Raid Token Smuggling</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 $places = array(
     'America',
     'Canada',
@@ -104,8 +111,6 @@ $resultMessage = '<div style="text-align: center; padding: 15px; border: 1px sol
 
 
 <div class="contenthead floaty">
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h4>Raid Token Smuggling </h4></span>
 <table id="newtables" style="width:100%;">
 <h4>Here you can Search for raidtokens at different locations 7 times per day</h4>
 <div id="resultMessage">
