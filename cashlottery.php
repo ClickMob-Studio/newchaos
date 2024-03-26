@@ -1,6 +1,11 @@
 <?php
 include 'header.php';
-
+?>
+	
+	<div class='box_top'>Cash Lottery</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 $tickCost = 250000;
 $db->query("SELECT SUM(tickets) FROM cashlottery");
 $db->execute();
@@ -53,8 +58,6 @@ if (isset($_POST['buy'])) {
 }
 ?>
 
-<h3>The Lottery</h3>
-<hr>
 
 <center>
     <h2 class="mb-0">Current Prize</h2>
