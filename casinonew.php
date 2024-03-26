@@ -1,6 +1,13 @@
 <?php
 
 include 'header.php';
+
+?>
+	
+	<div class='box_top'>Casino</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 $fiftyfifty_query = "SELECT COUNT(*) AS live_bets FROM fiftyfifty";
 $fiftyfifty_result = mysql_query($fiftyfifty_query) or die('Query failed: ' . mysql_error());
 $fiftyfifty_row = mysql_fetch_assoc($fiftyfifty_result);
@@ -8,8 +15,7 @@ $fiftyfifty_live_bets = $fiftyfifty_row['live_bets'];
 ?>
 
 <div class="contenthead floaty">
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h4>casino</h4></span>
+
 
 <script language="javascript">
    function wo(url,w,h){
