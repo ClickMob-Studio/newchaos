@@ -222,7 +222,7 @@ $rows = $db->fetch_row();
 foreach ($rows as $row)
     print"
         <tr>
-            <td><img src='images/" . str_replace(array(" ", "*"), "", strtolower($row['name'])) . ".png' /></td>
+            <td><img src='images/" . str_replace(array(" ", "*"), "", strtolower($row['name'])) . ".png' style='width:100px;' /></td>
             <td><span style='color:red;font-weight:bold;'>Rented Property</span><br /><br />Owner: ".formatName($row['owner'])."<br /><br />{$row['name']}<br /><br />" . prettynum($row['cost'], 1) . "<br /><br />" . number_format($row['awake']) . " Awake</td>
             <td><a href='?return={$row['rid']}'><button>Return House to Owner</button></a><br /><br /></td>
         </tr>";
@@ -255,7 +255,7 @@ $rows = $db->fetch_row();
 foreach ($rows as $row) {
     print"
         <tr>
-            <td><img src='images/" . str_replace(array(" ", "*"), "", strtolower($row['name'])) . ".png' /></td>
+            <td><img src='images/" . str_replace(array(" ", "*"), "", strtolower($row['name'])) . ".png' style='width:100px;' /></td>
             <td>{$row['name']}<br /><br />" . prettynum($row['cost'], 1) . "<br /><br />" . number_format($row['awake']) . " Awake</td>
             <td>
                 <a href='?move={$row['oid']}'><button>Move into this House!</button></a><br /><br />
@@ -271,7 +271,7 @@ $rows = $db->fetch_row();
 foreach ($rows as $row) {
     echo"
         <tr>
-            <td><img src='images/" . str_replace(array(" ", "*"), "", strtolower($row['name'])) . ".png' /></td>
+            <td><img src='images/" . str_replace(array(" ", "*"), "", strtolower($row['name'])) . ".png' style='width:100px;' /></td>
             <td>{$row['name']}<br /><br />" . prettynum($row['cost'], 1) . "<br /><br />" . number_format($row['awake']) . " Awake<br /><br />Cost Per Day: {$row['costperday']}<br /><br />Must buy <span style='color:red;font-weight:bold;'>{$row['days']}</span> Days<br /><br />Total Cost: " . prettynum($row['costperday'] * $row['days'], 1) . "</td>
             <td><a href='rentalmarket.php'><button>Rental Market</button></a></td>
         </tr>";
@@ -284,7 +284,7 @@ $rows = $db->fetch_row();
 foreach ($rows as $row)
     print"
         <tr>
-            <td><img src='images/" . str_replace(array(" ", "*"), "", strtolower($row['name'])) . ".png' /></td>
+            <td><img src='images/" . str_replace(array(" ", "*"), "", strtolower($row['name'])) . ".png' style='width:100px;' /></td>
             <td>{$row['name']}<br /><br />" . prettynum($row['cost'], 1) . "<br /><br />" . number_format($row['awake']) . " Awake</td>
             <td>Renter: " . formatName($row['renter']) . "<br /><br />Days Left: {$row['days']}</td>
         </tr>";
