@@ -262,7 +262,7 @@ if ($printcaptcha != "") {
     </table>
     
    
-
+    </div>
     <?php
 }
 include 'footer.php';
