@@ -22,11 +22,11 @@ $_SESSION['lastattack'] = ($_SESSION['lastattack'] == "") ? time() : $_SESSION['
 
 $ref = $_SERVER['HTTP_REFERER'];
 $id = $_GET['attack'];
-//if ($ref == "" || ($ref != "https://mafialords.com/profiles.php?id=$id" && $ref != "https://mafialords.com/search.php" && $ref != "https://mafialords.com/attackLadder.php")) {
+//if ($ref == "" || ($ref != "https://chaoscity.co.uk/profiles.php?id=$id" && $ref != "https://chaoscity.co.uk/search.php" && $ref != "https://chaoscity.co.uk/attackLadder.php")) {
   //  diefun("Invalid Request - Please ensure you are attacking from the players profile or the Search Player page");
 // }
 
-$backSearch = ($_SERVER['HTTP_REFERER'] == 'https://mafialords.com/search.php') ? '<div class="floaty" style="margin:0;font-weight:800;padding:10px"><a href="javascript:history.go(-1);">Back to Search</a></div>' : '';
+$backSearch = ($_SERVER['HTTP_REFERER'] == 'https://chaoscity.co.uk/search.php') ? '<div class="floaty" style="margin:0;font-weight:800;padding:10px"><a href="javascript:history.go(-1);">Back to Search</a></div>' : '';
 
 if ($user_class->id > 0) {
     if (isset($_GET['csrf']) && !empty($_GET['csrf'])) {

@@ -85,7 +85,7 @@ if ($user_class->lastpayment < time() - 86400) {
 if (isset($_GET['spend'])) {
     if ($_GET['spend'] == "refenergy") {
         manual_refill('e');
-        ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: https://mafialords.com/');
+        ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: https://chaoscity.co.uk/');
     }
     if ($_GET['spend'] == "refawake") {
         $cost = 100 - floor(100 * ($user_class->directawake / $user_class->directmaxawake));
@@ -94,7 +94,7 @@ if (isset($_GET['spend'])) {
             $user_class->directawake = $user_class->directmaxawake;
             mysql_query("UPDATE grpgusers SET awake = $user_class->directmaxawake, points = points - $cost WHERE id = $user_class->id");
         }
-        ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: https://mafialords.com/');
+        ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: https://chaoscity.co.uk/');
     }
     if ($_GET['spend'] == "refnerve") {
         manual_refill('n');
@@ -103,7 +103,7 @@ if (isset($_GET['spend'])) {
         } elseif ($_SERVER['HTTP_REFERER']) {
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         } else {
-            header('Location: https://mafialords.com/');
+            header('Location: https://chaoscity.co.uk/');
         }
     }
 }

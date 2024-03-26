@@ -1,5 +1,5 @@
 <?php
-define('IMAGE_URL', 'https://mafialords.com/img');
+define('IMAGE_URL', 'https://chaoscity.co.uk/img');
 class mtg_functions {
 	function format($str, $dec = 0) {
 		return is_numeric($str) ? number_format($str, $dec) : stripslashes(strip_tags($str, "<p><a><ul><ol><li>"));

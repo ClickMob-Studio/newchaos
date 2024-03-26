@@ -928,12 +928,12 @@ if ($user_class->donate_token > 0) {
 }
 
 // Display information
-echo '<center><font size="3px" color="white">$1 = <img src="https://mafialords.com/mafialordsicons/goldbar.png"></img><font color=yellow><b>10</font></center>';
-echo '<center><font color=white>Your GOLD balance is:</font> <span style="color:yellow;font-weight:bold;"><img src="https://mafialords.com/mafialordsicons/goldbar.png"></img>' . $user_class->credits . ' </size></center></span><br />';
+echo '<center><font size="3px" color="white">$1 = <img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img><font color=yellow><b>10</font></center>';
+echo '<center><font color=white>Your GOLD balance is:</font> <span style="color:yellow;font-weight:bold;"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>' . $user_class->credits . ' </size></center></span><br />';
 
 echo '<center>';
 ?>
-<span id="creditDisplay"><font color='white'>For a donation of $0, you will receive <font color=yellow><b></b>0</font> <img src="https://mafialords.com/mafialordsicons/goldbar.png"></img></font></span>
+<span id="creditDisplay"><font color='white'>For a donation of $0, you will receive <font color=yellow><b></b>0</font> <img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img></font></span>
 
 
 
@@ -993,13 +993,13 @@ document.addEventListener("DOMContentLoaded", function() {
     <input type="hidden" name="custom" value="<?php echo $user_class->id; ?>">
     
     <!-- Specify the return URL after a successful donation -->
-    <input type="hidden" name="return" value="https://mafialords.com/VIPstore.php?type=success">
+    <input type="hidden" name="return" value="https://chaoscity.co.uk/VIPstore.php?type=success">
     
     <!-- Specify the cancel URL if the user cancels the donation -->
-    <input type="hidden" name="cancel_return" value="https://mafialords.com/VIPstore.php">
+    <input type="hidden" name="cancel_return" value="https://chaoscity.co.uk/VIPstore.php">
     
     <!-- Specify the IPN URL for PayPal to send notification -->
-    <input type="hidden" name="notify_url" value="https://mafialords.com/ipn_credits.php">
+    <input type="hidden" name="notify_url" value="https://chaoscity.co.uk/ipn_credits.php">
     <label for="amount">Donation Amount: </label>
     <input type="text" name="amount" id="amount" required>
     
@@ -1032,7 +1032,7 @@ document.addEventListener("DOMContentLoaded", function() {
             </ul>
                               <b><span style="color:#FFFFFF"><?php echo'' . $user_class->limiteditems1 . '' ?> / 50 Remaining</span></b>
 
-            <h4>Purchase now for only<br><a href="VIPstore.php?buy=limitedpack"><button class="gold-button"><img src="https://mafialords.com/mafialordsicons/goldbar.png"></img>100</button></a></h4>
+            <h4>Purchase now for only<br><a href="VIPstore.php?buy=limitedpack"><button class="gold-button"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>100</button></a></h4>
         </div>
         
         <!-- Limited Edition Pack 2 -->
@@ -1045,7 +1045,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <li><font color=yellow>25</font> Raid Tokens</li>
                   <b><span style="color:#FFFFFF"><?php echo'' . $user_class->limiteditems2 . '' ?> / 10 Remaining</span></b>
             </ul>
-            <h4>Purchase now for only<br><a href="VIPstore.php?buy=limitedpack2"><button class="gold-button"><img src="https://mafialords.com/mafialordsicons/goldbar.png"></img>1,000</button></a></h4>
+            <h4>Purchase now for only<br><a href="VIPstore.php?buy=limitedpack2"><button class="gold-button"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>1,000</button></a></h4>
         </div>
         
         <!-- Limited Edition Pack 3 -->
@@ -1058,7 +1058,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <li><font color=yellow>100</font> Raid Tokens</li>
                 <b><span style="color:#FFFFFF"><?php echo'' . $user_class->limiteditems3 . '' ?> / 5 Remaining</span></b>
             </ul>
-            <h4>Purchase now for only<br><a href="VIPstore.php?buy=limitedpack3"><button class="gold-button"><img src="https://mafialords.com/mafialordsicons/goldbar.png"></img>10,000</button></a></h4>
+            <h4>Purchase now for only<br><a href="VIPstore.php?buy=limitedpack3"><button class="gold-button"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>10,000</button></a></h4>
         </div>
     </div>
 </div>
@@ -1076,7 +1076,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <ul>
                 <li>[x5] 1 Hour Mug Protection</li>
             </ul>
-            <h4>Purchase now for only<br><a href="VIPstore.php?buy=MP5"><button class="gold-button"><img src="https://mafialords.com/mafialordsicons/goldbar.png"></img>100</button></a></h4>
+            <h4>Purchase now for only<br><a href="VIPstore.php?buy=MP5"><button class="gold-button"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>100</button></a></h4>
         </div>
 
         <!-- Limited Edition Pack 2 -->
@@ -1086,7 +1086,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <ul>
                 <li>1 Hour Double EXP Pill</li>
             </ul>
-            <h4>Purchase now for only<br><a href="VIPstore.php?buy=doubleexp"><button class="gold-button"><img src="https://mafialords.com/mafialordsicons/goldbar.png"></img>50</button></a></h4>
+            <h4>Purchase now for only<br><a href="VIPstore.php?buy=doubleexp"><button class="gold-button"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>50</button></a></h4>
         </div>
 
         <!-- Limited Edition Pack 3 -->
@@ -1096,7 +1096,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <ul>
                 <li>[x5] 1 Hour Attack Protection</li>
             </ul>
-            <h4>Purchase now for only<br><a href="VIPstore.php?buy=AP5"><button class="gold-button"><img src="https://mafialords.com/mafialordsicons/goldbar.png"></img>100</button></a></h4>
+            <h4>Purchase now for only<br><a href="VIPstore.php?buy=AP5"><button class="gold-button"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>100</button></a></h4>
         </div>
 
     </div>
@@ -1113,7 +1113,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <h4 style="color: brown;">7 Day VIP</h4>
             <img src="/css/images/NewGameImages/vipdays.png" class="your-class-name" alt="Mug Protection">
             
-            <h4>Purchase now for only<br><a href="VIPstore.php?buy=vip7"><button class="gold-button">50 <img src="https://mafialords.com/mafialordsicons/goldbar.png" alt="Gold bar"></button></a></h4>
+            <h4>Purchase now for only<br><a href="VIPstore.php?buy=vip7"><button class="gold-button">50 <img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
 
         <!-- Limited Edition Pack 2 -->
@@ -1121,7 +1121,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <h4 style="color: silver;">15 Day VIP</h4>
             <img src="/css/images/NewGameImages/vipdays.png" class="your-class-name" alt="Double Exp">
             
-            <h4>Purchase now for only<br><a href="VIPstore.php?buy=vip15"><button class="gold-button">100 <img src="https://mafialords.com/mafialordsicons/goldbar.png" alt="Gold bar"></button></a></h4>
+            <h4>Purchase now for only<br><a href="VIPstore.php?buy=vip15"><button class="gold-button">100 <img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
 
         <!-- Limited Edition Pack 3 -->
@@ -1129,7 +1129,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <h4 style="color: gold;">30 Day VIP</h4>
             <img src="/css/images/NewGameImages/vipdays.png" class="your-class-name" alt="Attack Protection">
            
-            <h4>Purchase now for only<br><a href="VIPstore.php?buy=vip30"><button class="gold-button">150 <img src="https://mafialords.com/mafialordsicons/goldbar.png" alt="Gold bar"></button></a></h4>
+            <h4>Purchase now for only<br><a href="VIPstore.php?buy=vip30"><button class="gold-button">150 <img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
 
     </div>
@@ -1145,7 +1145,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <td style="text-align: center;">
                
                   <h4>Example</h4> <h4 class="gradient-text">Gradient NAME</h4>
-                                    <h4>Cost: <font color=yellow><img src="https://mafialords.com/mafialordsicons/goldbar.png"></img> 50</font></h4> 
+                                    <h4>Cost: <font color=yellow><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img> 50</font></h4> 
                
             </td>
         </tr>

@@ -76,7 +76,7 @@ if ($user_class->hospital > 0) {
     } */
 
     .new-shop-item--img {
-        background: url('https://mafialords.com/css/images/empty.jpg') center;
+        background: url('https://chaoscity.co.uk/css/images/empty.jpg') center;
         background-repeat: no-repeat;
         width: 100%;
         min-height: 100px;

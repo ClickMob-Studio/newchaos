@@ -111,7 +111,7 @@ if ($user_class->lastpayment < time() - 86400) {
 if (isset($_GET['spend'])) {
     if ($_GET['spend'] == "refenergy") {
         manual_refill('e');
-        ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: https://mafialords.com/');
+        ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: https://chaoscity.co.uk/');
     }
     if ($_GET['spend'] == "refawake") {
         $cost = 100 - floor(100 * ($user_class->directawake / $user_class->directmaxawake));
@@ -120,7 +120,7 @@ if (isset($_GET['spend'])) {
             $user_class->directawake = $user_class->directmaxawake;
             mysql_query("UPDATE grpgusers SET awake = $user_class->directmaxawake, points = points - $cost WHERE id = $user_class->id");
         }
-        ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: https://mafialords.com/');
+        ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: https://chaoscity.co.uk/');
     }
     if ($_GET['spend'] == "refnerve") {
         manual_refill('n');
@@ -129,7 +129,7 @@ if (isset($_GET['spend'])) {
         } elseif ($_SERVER['HTTP_REFERER']) {
             header('Location: ' . $_SERVER['HTTP_REFERER']);
         } else {
-            header('Location: https://mafialords.com/');
+            header('Location: https://chaoscity.co.uk/');
         }
     }
 }
@@ -982,7 +982,7 @@ echo '                <a href="online.php" class="top-bar-link" style="color: wh
 echo '                <a href="VIPstore.php" class="top-bar-link" style="color: white !important;">Points:<font color=yellow> <span class="points">' . number_format($user_class->points) . '</font></span></a>';
 echo '                <a href="bank.php?dep" class="top-bar-link" style="color: white !important;">Money: <font color=green>$<span class="money">' . number_format($user_class->money) . '</font></span></a>';
 echo '                <a href="#" class="top-bar-link" style="color: white !important;">Bank: <font color=green>$<span class="bank-amount">' . number_format($user_class->bank) . '</font></span></a>';
-echo '                <a href="VIPstore.php" class="top-bar-link" style="color: white !important;"><img src="https://mafialords.com/mafialordsicons/goldbar.png"></img> <span class="gold-amount"><b><font color=yellow>' . number_format($user_class->credits) . '</b></font></span></a>';
+echo '                <a href="VIPstore.php" class="top-bar-link" style="color: white !important;"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img> <span class="gold-amount"><b><font color=yellow>' . number_format($user_class->credits) . '</b></font></span></a>';
 echo'<a href="index.php?action=logout" class="logout-button">> Logout <</a>';
 echo '            </div>';
 echo '        </nav>';
@@ -1001,7 +1001,7 @@ echo'<div class="row" align="center">';
           echo'  <div class="sidebar-content">';
             echo'    <div class="sidebar-item sidebar-brand slogan">';
               echo'     <a href="#">
-  <img src="https://mafialords.com/mlordsimages/smalllogo.png" alt="" />
+  <img src="https://chaoscity.co.uk/mlordsimages/smalllogo.png" alt="" />
 </a>
 ';
               echo'  </div>';
