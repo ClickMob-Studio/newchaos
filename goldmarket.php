@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+	
+	<div class='box_top'>Gold Market</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 if($user_class->level < 10 && $user_class->prestige < 1)
     diefun("You must be level 10 or higher to use the GOLD market.");
 

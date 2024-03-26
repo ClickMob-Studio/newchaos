@@ -7,12 +7,11 @@ include "header.php";
 							<div class='pad'>
 								
 <style>
-    @media only screen and (max-width: 600px) {
     .houseimage{
     max-width:100px;
     
     max-height:100px;
-    }
+    
 }
     </style>
 <?php
