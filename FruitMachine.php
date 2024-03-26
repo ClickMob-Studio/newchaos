@@ -1,5 +1,11 @@
 <?php
 include "header.php";
+?>
+	
+	<div class='box_top'>Slot Machine</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 if (isset($_POST['bet']))
     security($_POST['bet'], 'num');
 if (isset($_POST['NumberOfSpins']))
@@ -222,7 +228,7 @@ if ($error == "") {
                                                     echo $level;
                                                     ?>">              
                                                     <button type="submit" name="HighGamble" style="width: 79px; height: 32px; margin-left: 24px;">
-                                                        <img src="images/Slots/highlive.gif">
+                                                        <img src="images/Slots 2/highlive.gif">
                                                     </button>
                                                 </form> 
                                                 <form method="post" style="margin-top: 0;margin-bottom: 2px;">
@@ -230,7 +236,7 @@ if ($error == "") {
                                                     echo $level;
                                                     ?>">              
                                                     <button type="submit" name="StopGamble" style="width: 79px; height: 32px; margin-left: 24px;">
-                                                        <img src="images/Slots/stoplive.gif">
+                                                        <img src="images/Slots 2/stoplive.gif">
                                                     </button>
                                                 </form> 
                                                 <form method="post" style="margin-top: 0;margin-bottom: 0;">
@@ -238,26 +244,26 @@ if ($error == "") {
                                                     echo $level;
                                                     ?>">              
                                                     <button type="submit" name="LowGamble" style="width: 79px; height: 32px; margin-left: 24px;">
-                                                        <img src="images/Slots/lowlive.gif">
+                                                        <img src="images/Slots 2/lowlive.gif">
                                                     </button>
                                                 </form> 
                                                 <?php
                                             } else {
                                                 ?>
-                                                <img src="images/Slots/high.gif" style="margin-left: 25px; margin-top: 10px;"><br>
-                                                <img src="images/Slots/stop.gif" style="margin-left: 25px; margin-top: 5px; margin-bottom: 1px;"><br>
-                                                <img src="images/Slots/low.gif" style="margin-left: 25px;">
+                                                <img src="images/Slots 2/high.gif" style="margin-left: 25px; margin-top: 10px;"><br>
+                                                <img src="images/Slots 2/stop.gif" style="margin-left: 25px; margin-top: 5px; margin-bottom: 1px;"><br>
+                                                <img src="images/Slots 2/low.gif" style="margin-left: 25px;">
                                                 <?php
                                             }
                                             ?>
                                         </td>
                                         <td>
-                                            <img src="images/Slots/<?php
+                                            <img src="images/Slots 2/<?php
                                             echo $highlownum;
                                             ?>.gif" style="margin-top: 10px;">
                                         </td>
                                         <td>
-                                            <img src="images/Slots/HighLowLevels<?php
+                                            <img src="images/Slots 2/HighLowLevels<?php
                                             if ($Jackpot) {
                                                 echo $level;
                                             }
@@ -266,21 +272,21 @@ if ($error == "") {
                                     </tr>
                                     <tr align="center" height="111" style="margin-top: 4px;">
                                         <td width="143">
-                                            <img src="images/Slots/wheel<?php
+                                            <img src="images/Slots 2/wheel<?php
                                             echo $wheel1;
                                             ?>.gif" style="margin-left: 15px;" alt="<?php
                                                  echo $wheel1;
                                                  ?>">
                                         </td>
                                         <td>
-                                            <img src="images/Slots/wheel<?php
+                                            <img src="images/Slots 2/wheel<?php
                                             echo $wheel2;
                                             ?>.gif" alt="<?php
                                                  echo $wheel2;
                                                  ?>">
                                         </td>
                                         <td width="143">
-                                            <img src="images/Slots/wheel<?php
+                                            <img src="images/Slots 2/wheel<?php
                                             echo $wheel3;
                                             ?>.gif" style="margin-right: 15px;" alt="<?php
                                                  echo $wheel3;
@@ -303,7 +309,7 @@ if ($error == "") {
                                 <input type="hidden" name="money" value="<?php
                                 echo $money;
                                 ?>">            
-                                <button type="submit" name="Spin" style="margin-top: 1px; width: 108px; height: 43px;"><img src="images/Slots/PlayEnabled.gif"></button>
+                                <button type="submit" name="Spin" style="margin-top: 1px; width: 108px; height: 43px;"><img src="images/Slots 2/PlayEnabled.gif"></button>
                             </form>
                         </td>
                     </tr>
