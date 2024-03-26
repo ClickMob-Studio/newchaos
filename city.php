@@ -165,7 +165,6 @@ $admin_ids = array_map(function($a) {
     </td>
     <td valign="top">
       <a href='prestige.php'>Account Prestige</a><br />
-      <a href="maze.php">The MAZE[NEW]</a><br />
       <a href='raidtokensmuggling.php'>Find Some Raid Tokens</a><br />
       <a href='psmuggling.php'>Points Smuggling</a><br />
       <a href="casinonew.php">Casino</a><br />
