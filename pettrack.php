@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+	
+	<div class='box_top'>Pet Track</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 $db->query("SELECT * FROM petmarket WHERE userid = ?");
 $db->execute(array($user_class->id));
 $pm_exist = $db->num_rows();

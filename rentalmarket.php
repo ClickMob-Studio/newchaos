@@ -1,6 +1,11 @@
 <?php
 include "header.php";
 ?>
+	
+	<div class='box_top'>Rental Market</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								
 <style>
     @media only screen and (max-width: 600px) {
     .houseimage{

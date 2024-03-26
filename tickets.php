@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+
+	<div class='box_top'>Support</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 if (isset($_POST['submit'])) {
 	$subject = strip_tags(str_replace('"', '', $_POST['subject']));
 	$body = nl2br(strip_tags(str_replace('"', '', $_POST['body'])));

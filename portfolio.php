@@ -1,5 +1,11 @@
 <?php
 include "header.php";
+?>
+	
+	<div class='box_top'>Portfolio</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 if (isset($_GET['move'])) {
     security($_GET['move']);
     $db->query("SELECT * FROM ownedProperties o JOIN houses h ON o.houseid = h.id WHERE o.id = ? AND userid = ?");

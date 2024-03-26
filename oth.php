@@ -1,6 +1,11 @@
 <?php
 include "header.php";
 ?>
+	
+	<div class='box_top'>Hourl HOF</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								
 <table id="newtables" class="altcolors">
 <tr>
     <th>Record</th>

@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+	
+	<div class='box_top'>Pet Gym</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 $q = mysql_query("SELECT petid FROM pets WHERE userid = $user_class->id");
 if (!mysql_num_rows($q))
     diefun("You don't have a pet");

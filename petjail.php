@@ -1,5 +1,10 @@
 <?php
-include 'header.php';
+include 'header.php';?>
+	
+<div class='box_top'>Pet Jial</div>
+                    <div class='box_middle'>
+                        <div class='pad'>
+                            <?php
 if (isset($_GET['bail'])) {
     security($_GET['bail']);
     $pet_class = new Pet($_GET['bail']);

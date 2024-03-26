@@ -1,9 +1,14 @@
 <?php
 require_once __DIR__ . '/header.php';
+?>
+	
+	<div class='box_top'>Daily HOF</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 $db->query("SELECT * FROM otdwinners ORDER BY timestamp DESC LIMIT 100");
 $db->execute();
 $rows = $db->fetch_row();
-genhead("<h4>OTD Winners</h4>")
 ?><br />
 <hr>
 <table id="newtables" style="table-layout:fixed;width:100%;">

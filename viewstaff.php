@@ -1,7 +1,11 @@
 <?php
 include 'header.php';
-echo'<h3>Staff List</h3>';
-echo'<hr>';
+?>
+	
+	<div class='box_top'>Staff Members</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 echo'<div class="floaty" style="margin:2px;width:95%;">';
 	
 echo'</div>';

@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+	
+	<div class='box_top'>House</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 if (isset($_GET['buy'])) {
 	$buy = security($_GET['buy']);
     $db->query("SELECT * FROM houses WHERE id = ? AND buyable = 1");

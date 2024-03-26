@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+	
+	<div class='box_top'>Pet HOF</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 $valid        = array(
     'level',
     'str',

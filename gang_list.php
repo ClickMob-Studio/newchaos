@@ -1,15 +1,14 @@
 <?php
 include 'header.php';
+
 ?>
-<style>
-.table > tbody > tr:nth-child(odd){
-				background: #000;
-			}
-</style>
+	
+	<div class='box_top'>Gang List</div>
+						<div class='box_middle'>
+							<div class='pad'>
+
  
 <div class="contenthead floaty">
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h4>Gang List</h4></span>
 <table id="newtables" style="width:100%;">
 <td align="center" class="td"><b>Rank</b></td>
 <td align="center" class="td"><b>Gang</b></td>

@@ -1,5 +1,11 @@
 <?php
 include('header.php');
+?>
+	
+	<div class='box_top'>Terms Of Servvice</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 session_start();
 
 $csrf = md5(uniqid(rand(), true));

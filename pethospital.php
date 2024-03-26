@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+	
+	<div class='box_top'>Pet Hospital</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 $pet_class = new Pet($user_class->id);
 $cost = $pet_class->hospital / 60;
 if (isset($_GET['heal'])) {

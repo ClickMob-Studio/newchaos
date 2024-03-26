@@ -1,6 +1,11 @@
 <?php
 include 'header.php'; // Make sure this file contains the database connection $conn
-
+?>
+	
+	<div class='box_top'>Crafter</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 
 
 // Function to retrieve item details from the database
@@ -252,8 +257,6 @@ $tradesResult = mysql_query($tradesQuery);
     <title>Trade Items</title>
     <style>
        body {
-    background-color: #454545; /* Dark background */
-    color: #fff;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -268,7 +271,7 @@ $tradesResult = mysql_query($tradesQuery);
 
 .reward-name {
     display: block; /* Ensure the reward name is on a new line */
-    color: #fff; /* White text */
+
     text-align: center; /* Center the text */
     margin-top: 5px; /* Space above the reward name */
 }
@@ -282,9 +285,7 @@ $tradesResult = mysql_query($tradesQuery);
 
 .trade-card {
     flex-basis: calc(33.33% - 20px); /* Adjust based on your desired spacing */
-    background-color: #333; /* Dark background */
-    color: #fff; /* Light text */
-    padding: 20px;
+      padding: 20px;
     margin-bottom: 20px;
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5); /* Subtle shadow */
@@ -292,7 +293,6 @@ $tradesResult = mysql_query($tradesQuery);
 }
 
 .trade-item-container, .trade-rewards {
-    background-color: #494949; /* Dark background matching trade-card */
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5); /* Subtle shadow */
     border-radius: 10px; /* Rounded corners */
     padding: 10px; /* Padding inside the containers */
@@ -314,7 +314,7 @@ $tradesResult = mysql_query($tradesQuery);
 .item-name, .item-quantity, .reward-name {
     display: block; /* Ensure these are on their own line */
     text-align: center;
-    color: #fff;
+    color: #000;
 }
 
 @media (max-width: 768px) {
@@ -339,7 +339,7 @@ $tradesResult = mysql_query($tradesQuery);
     width: 70%;
     text-align: left;
     font-family: Arial, sans-serif;
-    color: #fff;
+    color: #000;
 }
 
 .item-insufficient {
@@ -367,7 +367,6 @@ $tradesResult = mysql_query($tradesQuery);
     top: -10px;
     right: -10px;
     background-color: rgba(0, 0, 0, 0.75);
-    color: #fff;
     padding: 2px 5px;
     border-radius: 3px;
     font-size: 0.8em;
@@ -387,7 +386,6 @@ $tradesResult = mysql_query($tradesQuery);
 .item-name {
     display: block;
     margin-top: 5px;
-    color: #fff;
     font-size: 0.9em;
     z-index: 4;
     position: relative;

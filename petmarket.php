@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+	
+	<div class='box_top'>Pet Market</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 $showpet = 1;
 include 'includepet.php';
 $db->query("SELECT * FROM pets WHERE userid = ?");

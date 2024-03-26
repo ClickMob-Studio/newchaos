@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+	
+	<div class='box_top'>Contact List</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 if (isset($_GET['remove'])) {
 	$remove = security($_GET['remove']);
 	$db->query("SELECT * FROM contactlist WHERE id = ? AND playerid = ?");

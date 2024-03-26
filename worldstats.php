@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+	
+	<div class='box_top'>World Stats</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 $result = mysql_query("SELECT * FROM `grpgusers` WHERE `rmdays`='0' AND admin <> 1");
 $totalmobsters = mysql_num_rows($result);
 $result2 = mysql_query("SELECT * FROM `grpgusers` WHERE `rmdays`!='0' AND admin <> 1");

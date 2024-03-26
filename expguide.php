@@ -1,6 +1,12 @@
 <?php
 include 'header.php';
 ?>
+	
+	<div class='box_top'>Exp Guide</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
+?>
 <table id="newtables" style="width:100%;">
     <tr>
         <th colspan='6'>Exp Guide</th>

@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+	
+	<div class='box_top'>Pet Crime</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 $jailtime = 5;
 $successchance = 92;
 $jailchance = 2;

@@ -1,6 +1,12 @@
 <?php
 include 'header.php';
 include 'includepet.php';
+?>
+	
+	<div class='box_top'>My Pets</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 $_GET['pet'] = isset($_GET['pet']) && ctype_digit($_GET['pet']) ? $_GET['pet'] : null;
 $q = mysql_query("SELECT userid FROM petmarket WHERE userid = $user_class->id");
 if (mysql_num_rows($q))

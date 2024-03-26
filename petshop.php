@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+	
+	<div class='box_top'>Pet Shop</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 security($_GET['buy']);
 $check = mysql_fetch_row(mysql_query("SELECT * FROM pets WHERE loaned = $user_class->id"));
 if ($check)

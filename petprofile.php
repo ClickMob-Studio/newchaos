@@ -1,5 +1,11 @@
 <?php
 include 'header.php';
+?>
+	
+	<div class='box_top'>Pet Profile</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 security($_GET['id'], 'num');
 $pet = new Pet($_GET['id']);
 $pet->house = ($pet->house) ? mysql_result(mysql_query("SELECT name FROM pethouses WHERE id = $pet->house"), 0, 0) : "None";

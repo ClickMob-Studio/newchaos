@@ -1,7 +1,11 @@
 <?php
 include 'header.php';
-echo '<h4>Citizens</h4>';
-echo'<hr>';
+?>
+	
+	<div class='box_top'>Citizens</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 echo '<tr><td class="contentcontent">';
 //Pages Stuff
 // find out how many rows are in the table

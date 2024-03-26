@@ -1,10 +1,14 @@
 <?php
 include 'header.php';
 ?>
+	
+	<div class='box_top'>Top Rated</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								
  
 <div class="contenthead floaty">
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h4>Top Rated</h4></span>
+
 <table id="newtables" style="width:100%;">
             <tr>
                 <td><b>Rank</b></td>
