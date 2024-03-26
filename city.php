@@ -161,11 +161,11 @@ $admin_ids = array_map(function($a) {
       <a href='tickets.php'>Support Center</a><br />
       <a href='refer.php'>Your Referrals</a><br />
       <a href='contactlist.php'>Your Friends/Enemy list</a><br />
-      <a href='crafter.php'>Crafter (New)</a><br />
+      <a href='crafter.php'>Crafter</a><br />
     </td>
     <td valign="top">
       <a href='prestige.php'>Account Prestige</a><br />
-      <a href="maze.php">The MAZE[NEW]</a><br />
+      <a href="maze.php">The Maze</a><br />
       <a href='raidtokensmuggling.php'>Find Some Raid Tokens</a><br />
       <a href='psmuggling.php'>Points Smuggling</a><br />
       <a href="casinonew.php">Casino</a><br />
