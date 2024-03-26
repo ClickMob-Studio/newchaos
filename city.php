@@ -433,9 +433,6 @@ print "<br />" . formatName($botd['userid']) . "<br /><br />Busted: " . prettynu
 Every <span class="color:yellow;">Valid</span> signup on this link gets you 100 Points + 50 cyellowit</font>
 <br> -->
 	</table>
-</div>
-			<div class="spacer"></div>
-		</div>
 
 
 
