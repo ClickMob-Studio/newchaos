@@ -29,7 +29,7 @@ echo '<table>';
             <td>{$user_online->formattedgang}</td>
             <td>{$user_online->level}</td>
             <td>{$user_online->cityname}</td>
-            <td>{$user->lastactive}</td>
+            <td>{$user_online->lastactive}</td>
         </tr>";
 			
 		}
