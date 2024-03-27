@@ -1,11 +1,12 @@
 <?php
 include 'header.php';
-diefun("Voting will be availble soon!");
+
 ?>
 <div class='box_top'>Vote</div>
 						<div class='box_middle'>
 							<div class='pad'>
                                 <?php
+								diefun("Voting will be availble soon!");
 $sites = array(
 
    "mpogtop" => "http://mpogtop.com/in/1707777893",
