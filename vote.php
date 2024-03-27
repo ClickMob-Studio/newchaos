@@ -1,5 +1,6 @@
 <?php
 include 'header.php';
+diefun("Voting will be availble soon!");
 ?>
 <div class='box_top'>Vote</div>
 						<div class='box_middle'>
