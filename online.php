@@ -9,6 +9,7 @@ $result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `lastactive` DESC");
 echo '<table><tr><td>';
 ?>
 <th>Avatar</th>
+<th>Id</th>
 <th>Username</th>
 <th>Type</th>
 <th>Gang</th>
