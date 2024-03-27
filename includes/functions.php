@@ -838,7 +838,7 @@ function formatName($id, $nogang = 0)
         $whichfont = "#FFFFFF";
     } else if ($row['rmdays'] >= 1) {
         $title = "VIP ({$row['rmdays']} VIP Days Left)";
-        $whichfont = "#00BF03";
+        $whichfont = "gold";
     } else {
         $title = "Not Respected";
         $whichfont = "#009102";
