@@ -6,7 +6,7 @@ include 'header.php';
 							<div class='pad'>
                                 <?php
 $result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `lastactive` DESC");
-echo '<table><tr><td class="contentcontent">';
+echo '<table><tr><td>';
 	while($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
 		$secondsago = time()-$line['lastactive'];
 		if ($secondsago<=360) {
@@ -24,7 +24,7 @@ echo '<table><tr><td class="contentcontent">';
 			
 		}
 	}
-echo '</td></tr</table>';
+echo '</table>';
 
 include 'footer.php'
 ?>
