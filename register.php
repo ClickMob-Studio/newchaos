@@ -151,7 +151,7 @@ function validate() {
     	<form action=register.php method=post>
     		<tr>
     			<td width='40%'>
-    				<  <input class="form-control" type="text" id="username" class="register" onBlur="checkUsername(1);" name="username" />       		<span id='usernameresult'></span>
+    				  <input class="form-control" type="text" id="username" class="register" onBlur="checkUsername(1);" name="username" />       		<span id='usernameresult'></span>
                     		<input placeholder='Password' type='password' class='register' id='pw1' name='pass'
                     			onkeyup='CheckPasswords(this.value);PasswordMatch();' />
                     		<span id='passwordresult'></span>
