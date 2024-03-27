@@ -6,7 +6,7 @@ include 'header.php';
 							<div class='pad'>
                                 <?php
 $result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `lastactive` DESC");
-echo '<table><tr><td>';
+echo '<table>';
 ?>
 <th>Avatar</th>
 <th>Id</th>
