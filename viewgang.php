@@ -82,73 +82,75 @@ a, a:visited {
 }
 
 </style>
-<table id='newtables' style='width:100%;table-layout:fixed;'>
-    <tr>
-        <th colspan='4'>Your Gang</td>
-    </tr>
-    <tr>
-        <th>Gang:</th><td>[$gang_class->tag] $gang_class->name</td>
-        <th>Gang Level:</th><td>$gang_class->level</td>
-    </tr>
-    <tr>
-        <th>Gang Exp:</th><td>$gang_class->formattedexp</td>
-        <th>Members:</th><td>$gang_class->members / $gang_class->capacity</td>
-    </tr>
-    <tr>
-        <th>Gang House:</th><td>$gang_class->housename [+$gang_class->houseawake%]</td>
-        <th>Respect:</th><td>" . number_format($gang_class->respect, 5) . "</td>
-    </tr>
-
-
-</table>
-<div class='upgrades-container'>
-    <div class='upgrade-section'>
-        <table class='upgrades-table'>
+<div class='box_top'></div>
+    <div class='box_middle'>
+        <div class='pad'>
+        <table id='newtables' style='width:100%;table-layout:fixed;'>
+            <tr>
+                <th colspan='4'>Your Gang</td>
+            </tr>
+            <tr>
+                <th>Gang:</th><td>[$gang_class->tag] $gang_class->name</td>
+                <th>Gang Level:</th><td>$gang_class->level</td>
+            </tr>
+            <tr>
+                <th>Gang Exp:</th><td>$gang_class->formattedexp</td>
+                <th>Members:</th><td>$gang_class->members / $gang_class->capacity</td>
+            </tr>
+            <tr>
+                <th>Gang House:</th><td>$gang_class->housename [+$gang_class->houseawake%]</td>
+                <th>Respect:</th><td>" . number_format($gang_class->respect, 5) . "</td>
+            </tr>
+        
+        
+        </table>
+        <div class='upgrades-container'>
+            <div class='upgrade-section'>
+                <table class='upgrades-table'>
+                    
+                    <tr>
+                        <td colspan='4'>Strength Upgrade:  " . generateStars($gang_class->upgrade1) . " ($gang_class->upgrade1/10)</td>
+                    </tr>
+                    <tr>
+                        <td colspan='4'>Defense Upgrade:  " . generateStars($gang_class->upgrade2) . " ($gang_class->upgrade2/10)</td>
+                    </tr>
+                    <tr>
+                        <td colspan='4'>Speed Upgrade:  " . generateStars($gang_class->upgrade3) . " ($gang_class->upgrade3/10)</td>
+                    </tr>
+                    <tr>
+                        <td colspan='4'>Raid Item Drop Chance: " . generateStars($gang_class->upgrade4) . " ($gang_class->upgrade4/10)</td>
+                    </tr>
+                </table>
+            </div>
+        
+            <div class='upgrade-section'>
+                <table class='upgrades-table'>
+                   
+                    <tr>
+                        <td colspan='4'>Training Upgrades:  " . generateStars($gang_class->upgrade6) . " ($gang_class->upgrade6/10)</td>
+                    </tr>
+                    <tr>
+                        <td colspan='4'>Battle Upgrades:  " . generateStars($gang_class->upgrade7) . " ($gang_class->upgrade7/10)</td>
+                    </tr>
+                    <tr>
+                        <td colspan='4'>Mugging Upgrades: " . generateStars($gang_class->upgrade8) . " ($gang_class->upgrade8/10)</td>
+                    </tr>
+                    <tr>
+                        <td colspan='4'>Faster Regeneration Bars:  " . generateStars($gang_class->upgrade9) . " ($gang_class->upgrade9/10)</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <table id='newtables' style='width:100%;'>
+            <tr>
+                <th>Gang Public Page</th>
+            </tr>
+            <tr>
+                <td>" . BBCodeParse(strip_tags($gang_class->publicpage)) . "</td>
+            </tr>
             
-            <tr>
-                <td colspan='4'>Strength Upgrade:  " . generateStars($gang_class->upgrade1) . " ($gang_class->upgrade1/10)</td>
-            </tr>
-            <tr>
-                <td colspan='4'>Defense Upgrade:  " . generateStars($gang_class->upgrade2) . " ($gang_class->upgrade2/10)</td>
-            </tr>
-            <tr>
-                <td colspan='4'>Speed Upgrade:  " . generateStars($gang_class->upgrade3) . " ($gang_class->upgrade3/10)</td>
-            </tr>
-            <tr>
-                <td colspan='4'>Raid Item Drop Chance: " . generateStars($gang_class->upgrade4) . " ($gang_class->upgrade4/10)</td>
-            </tr>
+         
         </table>
-    </div>
-
-    <div class='upgrade-section'>
-        <table class='upgrades-table'>
-           
-            <tr>
-                <td colspan='4'>Training Upgrades:  " . generateStars($gang_class->upgrade6) . " ($gang_class->upgrade6/10)</td>
-            </tr>
-            <tr>
-                <td colspan='4'>Battle Upgrades:  " . generateStars($gang_class->upgrade7) . " ($gang_class->upgrade7/10)</td>
-            </tr>
-            <tr>
-                <td colspan='4'>Mugging Upgrades: " . generateStars($gang_class->upgrade8) . " ($gang_class->upgrade8/10)</td>
-            </tr>
-            <tr>
-                <td colspan='4'>Faster Regeneration Bars:  " . generateStars($gang_class->upgrade9) . " ($gang_class->upgrade9/10)</td>
-            </tr>
-        </table>
-    </div>
-</div>
-<table id='newtables' style='width:100%;'>
-    <tr>
-        <th>Gang Public Page</th>
-    </tr>
-    <tr>
-        <td>" . BBCodeParse(strip_tags($gang_class->publicpage)) . "</td>
-    </tr>
-    
- 
-</table>
-
 
 
 ";
@@ -191,6 +193,6 @@ if ($user_class->level > "4") {
     </tr>
 ";
     }
-    print "</table></td></tr>";
+    print "</table></td></tr></div></div>";
 include 'footer.php';
 ?>

@@ -211,7 +211,7 @@ function displayTradeTile($trade) {
                 echo "<div class='item-details'>";
                 echo "<span class='item-name'>" . htmlspecialchars($item['itemname']) . "</span>";
                 echo "<span class='item-requirement'>You Require:<font color=orange><b> " . $trade["item{$i}quantity"] . "</b></font><br></span>";
-                echo "<span class='user-quantity'>You have:<font color=yellow><b> " . $userQuantity . "</b></font></span>";
+                echo "<span class='user-quantity'>You have:<font color=black><b> " . $userQuantity . "</b></font></span>";
                 echo "</div>"; // Close item-details
                 echo "</div>"; // Close trade-item
             }
