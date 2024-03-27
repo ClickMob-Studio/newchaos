@@ -820,7 +820,7 @@ function formatName($id, $nogang = 0)
         if ($row['formattedTag'] == "Yes")
             $name .= ($row['leader'] == $id) ? " title='Gang Leader'><font color=grey>[<b>" . gradientTag($row['gang']) . "</b>]</font></a> " : "><font color=grey>[" . gradientTag($row['gang']) . "]</font></a> ";
         else
-            $name .= ($row['leader'] == $id) ? " title='Gang Leader'><font color=gold>[<b>{$row['tag']}</b>]</font></a> " : "><font color=white>[{$row['tag']}]</font></a> ";
+            $name .= ($row['leader'] == $id) ? " title='Gang Leader'><font color=blue>[<b>{$row['tag']}</b>]</font></a> " : "><font color=white>[{$row['tag']}]</font></a> ";
     }
     $db->query("SELECT days FROM bans WHERE id = ? AND type IN ('perm','freeze')");
     $db->execute(array(
@@ -838,7 +838,7 @@ function formatName($id, $nogang = 0)
         $whichfont = "#FFFFFF";
     } else if ($row['rmdays'] >= 1) {
         $title = "VIP ({$row['rmdays']} VIP Days Left)";
-        $whichfont = "gold";
+        $whichfont = "#00BF03";
     } else {
         $title = "Not Respected";
         $whichfont = "#009102";
