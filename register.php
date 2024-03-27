@@ -22,17 +22,15 @@ $metatitle = 'Text-Based Mafia Game - Free Online Multiplayer MMORPG';
 $metadesc = 'BRAND NEW MMORPG';
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title><?php echo $metatitle; ?></title>
-  <?php if (!empty($metadesc)) echo '<meta name="description" content="'.$metadesc.'">'; ?>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
-  
- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<title>{$set['game_name']} - Register</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<script type="text/javascript" src="{$set['jquery_location']}"></script>
+	<script type="text/javascript" src="assets/js/register.js"></script>
+	<link href="assets/css/register.css" type="text/css" rel="stylesheet" />
+	<link rel="icon" type="image/png" href="favicon.ico">
 <script src='js/reg.js' type='text/javascript'></script>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -131,158 +129,88 @@ function validate() {
 });
 </script>
   
-  <style>
-   body {
-  background-image: url('/mlordsimages/backgroundlogin.jpeg');
-  background-size: cover; /* This property ensures that the background image covers the entire body */
-  background-repeat: no-repeat; /* This property prevents the background image from repeating */
-  color: #ffffff;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-   .container {
-  max-width: 960px;
-  padding: 40px;
-  background-color: rgb(45, 26, 26, 0.7); /* Adjust the alpha value (0.7 in this example) to control the opacity */
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.fail {
-    border-color: red;
-    box-shadow: 0 0 5px red;
-}
-.pass {
-    border-color: green;
-    box-shadow: 0 0 5px green;
-}
-
-    .logo-container img {
-      display: block;
-      margin: 0 auto 20px;
-      width: 200px;
-    }
-    h1, h2, h3 {
-      text-align: center;
-      color: #ffffff;
-    }
-    .form-control {
-      background-color: #5d3d3d;
-      border-color: #60666b;
-      color: #ffffff;
-    }
-    .form-control:focus {
-      background-color: #5d3d3d;
-      border-color: #5d3d3d;
-    }
-    .btn-primary {
-      background-color: #5d3d3d;
-      border-color: #ffffff;
-      color: #ffffff;
-    }
-    .btn-primary:hover {
-      background-color: #753f3f;
-      border-color: #ffffff;
-    }
-    a {
-      color: #ffffff;
-    }
-    .footer {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .players-online {
-      text-align: center;
-      background-color: #333;
-      color: #ffc107;
-      padding: 10px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-    .leaderboards {
-      text-align: center;
-      color: #ffffff;
-      margin-bottom: 20px;
-    }
-    .leaderboard-category {
-      background-color: #333;
-      padding: 15px;
-      margin-bottom: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-    .flex-container {
-    flex: 1; /* The flex items will grow and shrink equally */
-    padding: 15px; /* Spacing inside each leaderboard */
-    margin: 0 10px; /* Spacing between leaderboards */
-  background-color: rgb(45, 26, 26, 0.7); /* Adjust the alpha value (0.7 in this example) to control the opacity */
-    color: #fff; /* Text color */
-    border-radius: 5px; /* Rounded corners for the leaderboard */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
-  }
-
-  .leaderboard h3 {
-    margin-bottom: 15px;
-    color: #ffc107; /* Using a color to highlight titles */
-  }
-
-  .leaderboard-list {
-    list-style-type: none; /* Remove list bullets */
-    padding-left: 0; /* Align list to the left */
-  }
-
-  .leaderboard-list li {
-    padding: 5px 0; /* Spacing between list items */
-    border-bottom: 1px solid #444; /* Separator for list items */
-  }
-
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .flex-container {
-      margin-bottom: 15px; /* Spacing between stacked leaderboards on small screens */
-    }
-  }
-    
-.glowing-link img {
-    vertical-align: middle;
-    animation: glow 2s infinite alternate;
-    border-radius: 20px; /* Increased border radius */
-    margin-left: 10px; /* Add spacing between the description and the button */
-}
-
-.game-description {
-    padding: 20px; /* Adjusted padding to match the size of the glowing register image */
-    background-color: rgba(51, 26, 26, 0.7); /* Use the same color and opacity as the container */
-    border-radius: 20px; /* Increased border radius */
-    margin-right: 10px; /* Add spacing between the description and the button */
-}
-
-.game-description h4 {
-    margin-top: 0;
-    color: #ffffff; /* Set text color to white */
-}
-
-@keyframes glow {
-    from {
-        box-shadow: 0 0 10px 0 rgb(85 46 46 / 70%); /* Adjusted box-shadow color and blur */
-    }
-    to {
-        box-shadow: 0 0 20px 10px rgb(85 46 46 / 70%); /* Adjusted box-shadow color and blur */
-    }
-}
-
-	
-
-
-    
-  </style>
-  
-  
 </head>
 <body>
 
- 
+<body>
+<div id="outer" class="wrap">
+	<div id="top_bar" class="wrap">
+		<a href="login.php">Homepage</a>
+		<a href="register.php">Create an account</a>
+		<a href="tos.php">Terms of Service</a>
+		
+	</div>
+	<div id="main" class="row">
+		<div id="header" class="row">
+			<div id="online">{$count} Users Online</div>
+		</div>
+		
+		<div id="content" class="row">
+			<div id="left_side">
+      <h2>Create an account!</h2>
+    	<form action=register.php method=post>
+    		<tr>
+    			<td width='40%'>
+    				<  <input class="form-control" type="text" id="username" class="register" onBlur="checkUsername(1);" name="username" />       		<span id='usernameresult'></span>
+                    		<input placeholder='Password' type='password' class='register' id='pw1' name='pass'
+                    			onkeyup='CheckPasswords(this.value);PasswordMatch();' />
+                    		<span id='passwordresult'></span>
+                    		<input placeholder='Confirm Password' class='register' type='password' name='conpass' id='pw2' onkeyup='PasswordMatch();' />
+                    		<span id='cpasswordresult'></span></td>
+                    		 <input type="email" id="email" name="email" onBlur="checkEmail();" class="register" required><span id='emailresult'></span></td>
+                    		<select class='register' name='gender' type='dropdown'>
+                    			<option value=''>Please Choose Gender</option>
+                    			<option value='Male'>Male</option>
+                    			<option value='Female'>Female</option>
+                    		</select>	
+			</td>
+                	<input type='hidden' name='ref' value='";
+    		<?php	if(!isset($_GET['REF']))
+        			$_GET['REF'] = 0;
+    			$_GET['REF'] = abs((int) $_GET['REF']);
+    			if($_GET['REF'])
+        			print $_GET['REF'];
+    			echo "' />";
+    			if($set['regcap_on']) {
+            ?>
+        			echo "<tr>
+					<td colspan='3'>
+          <img src='cap.php' alt="Captcha" class="captcha-image mb-3"/><br>
+						<input class='register' type='text' name='cap' />
+					</td>
+			  	</tr>
+          <?php
+    			}
+    			echo "<input type='submit'  class='create' value='Submit' />
+	</form>";
+	register_footer();
+}
+?>
+</div>
+
+<?php 
+function register_footer()
+{
+    ?>
+			</div>
+			<div class="spacer"></div>
+		</div>
+		<div id="bottom_content" class="row"></div>
+	</div>
+	<div id="footer" class="row">
+		<span>WISE CRIME</span><br />
+		COPYRIGHT 2014+ . All Rights Reserved.<br />
+		<a href="">Privacy Policy.</a> <a href="">Terms of Services.</a> <a href="">Help Tutorial.</a> <a href="">Staff	</a>
+	</div>	
+</div>
+</body>
+</html>
+
+</body>
+</html>
+<?php
+}
+?>
    
     </div>
     <center><img src="/mlordsimages/logologin.png"></center>
