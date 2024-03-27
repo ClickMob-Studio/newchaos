@@ -341,7 +341,7 @@ mysql_query($query);
         $name = mysql_query("SELECT username FROM grpgusers WHERE id = ".$user_id);
         $username = mysql_fetch_row($name)[0];
        // mysql_query("INSERT INTO `globalchat` (`id`, `playerid`, `timesent`, `body`) VALUES (NULL, '0', ".time().", 'A new raid has been started')");
-        sendDiscordWebhook($username." has summoned a new boss", "New Boss Summoned");
+       // sendDiscordWebhook($username." has summoned a new boss", "New Boss Summoned");
         // Insert the user into the raid_participants table
         $insert_participant_query = "INSERT INTO raid_participants (raid_id, user_id) VALUES ($raid_id, $user_id)";
         mysql_query($insert_participant_query);

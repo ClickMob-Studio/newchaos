@@ -127,7 +127,7 @@ window.onload = function () {
 <h4><font color=red>IMPORTANT MESSAGE</font></h4>
 <hr>
 <ul class="donate_rules">
- <a href="https://discord.gg/KF79HVpVQD" target="_blank"><img src="mlordsimages/Discordlogo899.png" alt="Discord" class="discord-logo"></a>
+ <!-- <a href="https://discord.gg/KF79HVpVQD" target="_blank"><img src="mlordsimages/Discordlogo899.png" alt="Discord" class="discord-logo"></a> -->
 </div>
 <br>
 
