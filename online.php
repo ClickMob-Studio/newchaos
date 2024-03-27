@@ -12,7 +12,7 @@ echo '<table><tr><td>';
 		if ($secondsago<=360) {
 			$user_online = new User($line['id']);
             echo "<tr>
-            <td><img src='{$user['avatar']}' height='50' width='50'></td>
+            <td><img src='{$user_online->avatar}' height='50' width='50'></td>
             <td><b><i>{$user_online->id}</i></b></td>
             <td>{$user_online->formattedname}</td>
             <td>{$user_online->type}</td>
