@@ -539,7 +539,7 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
         else if ($this->eo == 1)
             $this->type = "<span style='color:#FFA500;'>Events Manager</span>";
         else if ($this->rmdays >= 1)
-            $this->type = "<font color=yellow>VIP</font>";
+            $this->type = "<font color=blue>VIP</font>";
         else
             $this->type = "<font color=#FFFFFF>No VIP Status</font>";
         $this->badgesex = explode(",", $this->badges);
