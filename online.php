@@ -7,6 +7,15 @@ include 'header.php';
                                 <?php
 $result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `lastactive` DESC");
 echo '<table><tr><td>';
+?>
+<th>Avatar</th>
+<th>Username</th>
+<th>Type</th>
+<th>Gang</th>
+<th>Level</th>
+<th>City</th>
+<th>Last Active</th>
+<?php
 	while($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
 		$secondsago = time()-$line['lastactive'];
 		if ($secondsago<=360) {
