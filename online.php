@@ -2,7 +2,7 @@
 include 'header.php';
 echo '<tr><td class="contenthead">Users Online In The Last 5 Minutes</td></tr>';
 $result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `lastactive` DESC");
-echo '<tr><td class="contentcontent">';
+echo '<table><tr><td class="contentcontent">';
 	while($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
 		$secondsago = time()-$line['lastactive'];
 		if ($secondsago<=300) {
@@ -20,7 +20,7 @@ echo '<tr><td class="contentcontent">';
 			
 		}
 	}
-echo '</td></tr>';
+echo '</td></tr</table>';
 
 include 'footer.php'
 ?>
