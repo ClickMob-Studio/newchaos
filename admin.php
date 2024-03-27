@@ -3,7 +3,6 @@ session_start();
 register_shutdown_function('ob_end_flush');
 $starttime = microtime_float();
 include 'dbcon.php';
-include 'database/pdo_class.php';
 include "classes.php";
 include "codeparser.php";
 if(empty($ignoreslashes)){
