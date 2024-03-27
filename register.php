@@ -172,7 +172,7 @@ function validate() {
         			print $_GET['REF'];
     			echo "' />";
             ?>
-        			echo "<tr>
+        		<tr>
 					<td colspan='3'>
           <img src='cap.php' alt="Captcha" class="captcha-image mb-3"/><br>
 						<input class='register' type='text' name='cap' />
