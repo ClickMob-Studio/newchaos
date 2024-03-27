@@ -148,7 +148,7 @@ function validate() {
 		<div id="content" class="row">
 			<div id="left_side">
       <h2>Create an account!</h2>
-    	<form action=register.php method=post>
+    	<form action=regsub.php method=post>
     		<tr>
     			<td width='40%'>
     				  <input type="text" id="username" class="register" onBlur="checkUsername(1);" name="username" placeholder="Username" />       		<span id='usernameresult'></span>
