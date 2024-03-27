@@ -171,7 +171,6 @@ function validate() {
     			if($_GET['REF'])
         			print $_GET['REF'];
     			echo "' />";
-    			if($set['regcap_on']) {
             ?>
         			echo "<tr>
 					<td colspan='3'>
@@ -180,11 +179,11 @@ function validate() {
 					</td>
 			  	</tr>
           <?php
-    			}
+    			
     			echo "<input type='submit'  class='create' value='Submit' />
 	</form>";
 	register_footer();
-}
+
 ?>
 </div>
 
@@ -212,74 +211,4 @@ function register_footer()
 }
 ?>
    
-    </div>
-    <center><img src="/mlordsimages/logologin.png"></center>
-
-<div class="container">
-  <h2>REGISTER HERE</h2>
-<span id="errors"></span>
-<form id="regForm" onsubmit="event.preventDefault(); if(validate()) this.submit();" method="post" action="regsub.php">
-
-
-						   <div class="form-group">
-      <label for="username" class="form-label">Username:</label>
-       <input class="form-control" type="text" id="username" onBlur="checkUsername(1);" name="username" />
-      
-      </div>
-
-    <div class="form-group">
-      <label for="email" class="form-label">Email:</label>
-        <input type="email" id="email" name="email" onBlur="checkEmail();" class="form-control" required>
-    </div>
     
-    <div class="form-group">
-<label for="pass" class="form-label">Password:</label>
-        <input type="password" id="pass" name="pass" onBlur="checkPassword();" class="form-control" required>
-            </div>
-
-<!-- Confirm Password -->
-      <div class="form-group">
-        <label for="conpass" class="form-label">Confirm Password:</label>
-        <input type="password" id="conpass" name="conpass" onBlur="checkConfPassword();" class="form-control" required>
-      </div>
-      
-            <!-- Gender -->
-        <div class="form-group text-center">
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="genderMale" name="gender" value="Male" required>
-            <label class="form-check-label" for="genderMale">Male</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="genderFemale" name="gender" value="Female" required>
-            <label class="form-check-label" for="genderFemale">Female</label>
-          </div>
-        </div>
-
-        <!-- Captcha -->
-        <div class="form-group">
-          <div class="text-center">
-            <img src='cap.php' alt="Captcha" class="captcha-image mb-3"/>
-          </div>
-          <label for="cap" class="form-label">Captcha:</label>
-          <input class="form-control" type="text" id="cap" name="cap" required>
-        </div>
-
-         <!-- Hidden Referrer Field -->
-        <input type="hidden" name="referer" value="<?php echo isset($_GET['referer']) ? $_GET['referer'] : ''; ?>" />
-
-        <!-- Submit Button -->
-        <div class="form-group">
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-        </div>
-
-   
-
-</a>
-
-</div>
-
-  </form>
-</div>
-</script>
-</body>
-</html>
