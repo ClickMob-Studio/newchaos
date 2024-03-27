@@ -151,13 +151,13 @@ function validate() {
     	<form action=register.php method=post>
     		<tr>
     			<td width='40%'>
-    				  <input type="text" id="username" class="register" onBlur="checkUsername(1);" name="username" />       		<span id='usernameresult'></span>
+    				  <input type="text" id="username" class="register" onBlur="checkUsername(1);" name="username" placeholder="Username" />       		<span id='usernameresult'></span>
                     		<input placeholder='Password' type='password' class='register' id='pw1' name='pass'
                     			onkeyup='CheckPasswords(this.value);PasswordMatch();' />
                     		<span id='passwordresult'></span>
                     		<input placeholder='Confirm Password' class='register' type='password' name='conpass' id='pw2' onkeyup='PasswordMatch();' />
                     		<span id='cpasswordresult'></span></td>
-                    		 <input type="email" id="email" name="email" onBlur="checkEmail();" class="register" required><span id='emailresult'></span></td>
+                    		 <input type="email" id="email" name="email" onBlur="checkEmail();" class="register" placeholder="Email" required><span id='emailresult'></span></td>
                     		<select class='register' name='gender' type='dropdown'>
                     			<option value=''>Please Choose Gender</option>
                     			<option value='Male'>Male</option>
