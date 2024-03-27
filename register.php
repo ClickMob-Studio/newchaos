@@ -6,14 +6,19 @@ if (session_status() == PHP_SESSION_NONE) {
 
   include 'dbcon.php';
 
-
-// Include database/pdo_class.php if not already included
-
-  include 'database/pdo_class.php';
-
   include 'classes.php';
 
+// Query to get users online in the last hour
+$queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
+$statementOnline = $db->prepare($queryOnline);
+$statementOnline->execute();
+$usersOnline = $statementOnline->rowCount();
 
+// Query to get users online in the last 24 hours
+$queryOnline24 = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 86400 ORDER BY lastactive DESC";
+$statementOnline24 = $db->prepare($queryOnline24);
+$statementOnline24->execute();
+$users24 = $statementOnline24->rowCount();
 
 $string = "1234567890";
 $length = 4;
