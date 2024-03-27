@@ -178,12 +178,12 @@ echo '</div>';
 echo '<center>';
 	echo '<div class="flexcont" style="margin: 0 auto; display: flex; flex-wrap: wrap;">';
 	echo '<div class="flexele"></div>';
-	echo '<a href="achievements.php"><div class="flexele floatylinks"><font color=white>[Achievements]</font></div></a>';
-	echo '<a href="translog.php"><div class="flexele floatylinks"><font color=white>[Transfer Logs]</font></div></a>';
-	echo '<a href="attacklog.php"><div class="flexele floatylinks"><font color=white>[Attack Log]</font></div></a>';
-	echo '<a href="defenselog.php"><div class="flexele floatylinks"><font color=white>[Defense Log]</font></div></a>';
-	echo '<a href="muglog.php"><div class="flexele floatylinks"><font color=white>[Mug Log]</font></div></a>';
-	echo '<a href="spylog.php"><div class="flexele floatylinks"><font color=white>[Spy Log]</font></div></a>';
+	echo '<a href="achievements.php"><div class="flexele floatylinks"><font color=black>[Achievements]</font></div></a>';
+	echo '<a href="translog.php"><div class="flexele floatylinks"><font color=black>[Transfer Logs]</font></div></a>';
+	echo '<a href="attacklog.php"><div class="flexele floatylinks"><font color=black>[Attack Log]</font></div></a>';
+	echo '<a href="defenselog.php"><div class="flexele floatylinks"><font color=black>[Defense Log]</font></div></a>';
+	echo '<a href="muglog.php"><div class="flexele floatylinks"><font color=black>[Mug Log]</font></div></a>';
+	echo '<a href="spylog.php"><div class="flexele floatylinks"><font color=black>[Spy Log]</font></div></a>';
 	echo '<div class="flexele"></div>';
 	echo '</div>';
 	
