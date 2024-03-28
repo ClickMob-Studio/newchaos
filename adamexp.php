@@ -1,7 +1,7 @@
 <?php
 require "headertest.php";
 
-if($user_class->id != 286){
+if($user_class->admin != 1){
     exit;
 }
 ?>
