@@ -154,6 +154,7 @@ $admin_ids = array_map(function($a) {
   </tr>
   <tr height='100' align='center'>
     <td valign='top'>
+      <a href='online.php'>Users Online</a><br />
       <a href='gang_list.php'>Gang List</a><br />
       <a href='citizens.php'>User List</a><br />
       <a href='contactlist.php'>Contact List</a><br />
