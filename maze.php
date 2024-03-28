@@ -84,8 +84,10 @@ box-shadow: 0 0 10px 3px rgba(105, 105, 105, 0.5); /* Dark grey glow effect */
 
 </style>
 <?php
+if($user_class->admin < 1){
 include 'header.php';
 exit;
+}
 ?>
 <div class='box_top'>Maze</div>
 						<div class='box_middle'>
