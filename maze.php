@@ -9,13 +9,11 @@
         margin-right: auto;
     }
     .user-logs table {
-        border: 2px solid #333333;
-box-shadow: 0 0 10px 3px rgba(105, 105, 105, 0.5); /* Dark grey glow effect */
         width: 100%;
         background-color: #222; /* Dark background */
     }
     .user-logs th, .user-logs td {
-        border: 1px solid #333333; /* Dark red border */
+
         padding: 8px 12px;
         text-align: left;
         color: #f5f5f5; /* Light text color */
@@ -44,7 +42,6 @@ box-shadow: 0 0 10px 3px rgba(105, 105, 105, 0.5); /* Dark grey glow effect */
     .contenthead.floaty {
         text-align: center; 
         padding: 20px; 
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
         margin-bottom: 20px; 
         border-radius: 8px;
     }
@@ -63,25 +60,8 @@ box-shadow: 0 0 10px 3px rgba(105, 105, 105, 0.5); /* Dark grey glow effect */
     margin: 10px 5px; /* Spacing between buttons */
     cursor: pointer;
     border-radius: 5px; /* Rounded corners */
-    box-shadow: 0 0 10px #ffdf00; /* Enhanced gold glow on hover, but consider keeping the spread the same */
+        box-shadow: 0 0 10px #ffdf00; /* Enhanced gold glow on hover, but consider keeping the spread the same */
 }
-.contenthead.floaty.common {
-    border: 1px solid rgba(255, 255, 255, 1); /* black border */
-}
-
-.contenthead.floaty.uncommon {
-    border: 1px solid rgba(0, 255, 0, 1); /* Green border */
-}
-
-.contenthead.floaty.rare {
-    border: 1px solid rgba(255, 215, 0, 1); /* Gold border */
-}
-
-    border: 1px solid rgba(255, 0, 0, 1); /* Red border */
-}
-
-
-
 </style>
 <?php
 include 'header.php';
