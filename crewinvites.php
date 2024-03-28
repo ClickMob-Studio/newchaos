@@ -35,7 +35,7 @@ if (isset($_GET['decline'])) {
 print '<tr><td class="contentspacer"></td></tr><tr><td class="contenthead">crew Invitations</td></tr>
 <tr><td class="contentcontent">';
 if ($user_class->level <= 9)
-    echo '<center><font size="3px"><font color=lime>You must be at least level 10 to join a crew<br></b></font></font></center>';
+    echo '<center><font size="3px"><font color=darkgreen>You must be at least level 10 to join a crew<br></b></font></font></center>';
 if ($user_class->level > 9) {
     print '
         <table id="newtables" style="width:90%;margin:auto;">

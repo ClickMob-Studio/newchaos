@@ -86,7 +86,7 @@ if ($user_class->level > 4)
     if ($user_class->gang == 0)
         print "<br /><a href='apply.php?gang={$_GET['id']}'>Apply for gang</a><br /><br />";
 if ($user_class->level <= 4)
-    print "<font size='3px'><font color=lime>You cannot join a gang until you are level 5<br></b></font></font>";
+    print "<font size='3px'><font color=darkgreen>You cannot join a gang until you are level 5<br></b></font></font>";
 if ($user_class->level > "4") {
     $war = CheckGangWar($user_class->gang);
     $user_gang = new Gang($user_class->gang);
