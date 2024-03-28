@@ -1,6 +1,10 @@
 <?php
 include 'header.php';
-
+?>
+<div class='box_top'>Raid Stats</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 // Fetch user's current raid stats, tiers, raidpoints, and raidtokens using $user_class
 $user_data = [
     'raidstrength' => $user_class->raidstrength,
@@ -57,8 +61,7 @@ if (isset($_POST['stat_to_upgrade'])) {
 
 /* Add the existing styles from the raid competition page */
 .prize-container, .contenthead.floaty {
-    background-color: #292929; /* Dark background */
-    color: white; /* Light text */
+    color: black; /* Light text */
     padding: 20px;
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0px 2px 10px rgba(93, 93, 93, 1);
@@ -240,8 +243,7 @@ if (isset($_POST['stat_to_upgrade'])) {
 .content-box {
     width: calc(25% - 20px); /* Adjusting width to account for margin */
     padding: 15px 5px 10px; /* Specific padding inside the boxes */
-    background-color: #292929; /* Dark background color for the boxes */
-    color: white; /* Light text color for the content */
+    color: black; /* Light text color for the content */
     border-radius: 10px; /* Rounded corners for the boxes */
     box-shadow: 0px 2px 10px rgba(93, 93, 93, 1); /* Shadow for depth */
     margin: 10px; /* Margin around each box */
@@ -269,8 +271,7 @@ if (isset($_POST['stat_to_upgrade'])) {
 .stat-box {
     flex-basis: calc(25% - 10px); /* Adjust width to 25% minus margins */
     margin: 5px; /* Margin for spacing */
-    background-color: #292929;
-    color: white;
+    color: black;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 2px 10px rgba(93, 93, 93, 1);
@@ -287,8 +288,7 @@ if (isset($_POST['stat_to_upgrade'])) {
     width: calc(100% - 40px); /* Adjusts the width to account for padding */
     margin: 0 auto; /* Centers the box within the container */
     padding: 20px; /* Adds padding inside the box */
-    background-color: #292929; /* Dark background color */
-    color: white; /* Light text color */
+    color: black; /* Light text color */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0px 2px 10px rgba(93, 93, 93, 1); /* Shadow for depth */
 }
