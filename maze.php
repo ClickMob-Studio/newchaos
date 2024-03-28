@@ -275,14 +275,14 @@ break;
 // Display the compass buttons
 echo '
 
-    <div class="contenthead floaty" style="width: 90%;">
+    <div class="contenthead floaty" style="width: 100%;">
 
-        <div class="contenthead floaty">
+        <div class="contenthead floaty" style="width: 88%;">
     <p>Here you can find Money,Points, Items and Gold whilst randomly searching.
     Below is the potential items you can find when searching, Displaying all different rarity types</p>
     </div>
     
-     <div class="contenthead floaty" style="text-align: center; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; border-radius: 8px;">
+     <div class="contenthead floaty" style="text-align: center; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; border-radius: 8px; width: 88%;">
     <br>
     <button class="direction-button" onclick="sendDirection(\'North\')">North</button><br><br>
     <button class="direction-button" onclick="sendDirection(\'West\')">West</button>
