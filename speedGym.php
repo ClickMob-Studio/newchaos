@@ -89,7 +89,7 @@ document.body.onmouseup = function() { finish(); };
         <tr>
             <td colspan='3'><span style='color:red;font-weight:bold;'>Click and hold down the mouse on the stat + refills button.</span></td>
         </tr>
-    </table>";
+    </table></div>";
 }
 include 'footer.php';
 ?>
