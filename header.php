@@ -885,7 +885,9 @@ if (!empty($messages)) {
                     $result = mysql_query("SELECT a.* FROM ads a WHERE ( SELECT (`timestamp` +(`displaymins` * 60)) FROM ads WHERE ads.id = a.id ) > UNIX_TIMESTAMP()");
                     if (!mysql_num_rows($result)) {
 
-                        $_messages = ['Invite your friends to play and receive <font color=red>50 Gold</font> for every friend that plays. Hurry and start inviting now!',
+                        $_messages = [
+                            '<b>Please note this game is currently in BETA before full launch in the first week of April. All launch, the database will reset. If you find any issues, please DM ID 1 or 2.</b>',
+                            'Invite your friends to play and receive <font color=red>50 Gold</font> for every friend that plays. Hurry and start inviting now!',
                             'For every friend you successfully refer, you\'ll earn <font color=red>50 Gold</font> Spread the word and let\'s play together!',
                             'Attention all players! Invite your friends to join in on the fun. <font color=red>50 Gold</font> reward for every successful referral'
                         ];
