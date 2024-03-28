@@ -349,7 +349,7 @@ if ($crimeRankResult) {
 echo '<div class="contenthead floaty">';
 echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"></span>';
 echo '<center>';
-echo '<a href="?spend=refnerve&crime"><img src="images/wand.png" /><button>Refill Nerve</button></a>';
+echo '<a href="?spend=refnerve&crime"><img src="images/wand.png" /><button>Refill Nerve (-10 Points)</button></a>';
 echo '</center>';
 
 // Check if crimes are giving double EXP payouts
