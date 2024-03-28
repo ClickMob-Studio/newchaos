@@ -24,6 +24,9 @@ include 'header.php';
         color:red;
     }
 </style>
+    <div class="box_top">Mug Logs</div>
+    <div class="box_middle">
+        <div class="pad">
 <tr><td class='contentcontent'>
         <table width="100%" id="attacklog">
             <tr>
@@ -65,6 +68,6 @@ include 'header.php';
                 if ($i == $_GET['page'])
                     print "</b>";
             }
-            print "</td></tr>";
+            print "</td></tr></div></div>";
             include 'footer.php';
             ?>
