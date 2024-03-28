@@ -466,7 +466,6 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 					</div>
 					<div id="logo">
 						<a href="/online.php"><?php echo $usersOnline ?> Online Players</a>
-                        <br>
                         <?php echo date('Y-m-d H:i');?>
 					</div>
 				</div>
