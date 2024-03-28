@@ -4,6 +4,9 @@ if (isset($_GET['delete'])) {
     mysql_query("UPDATE attacklog SET attackerhide = 1 WHERE attacker = $user_class->id");
 }
 ?>
+    <div class="box_top">Attack Logs</div>
+    <div class="box_middle">
+        <div class="pad">
 <tr><td class='contentcontent'>
 <center><a href="?delete"><button class="ycbutton">Delete Attack Log</button></a></center>
 <table id="newtables" style="width:100%;">
@@ -42,6 +45,6 @@ if (isset($_GET['delete'])) {
         if ($i == $_GET['page'])
             print "</b>";
     }
-    print "</td></tr>";
+    print "</td></tr></div></div>";
     include 'footer.php';
     ?>
