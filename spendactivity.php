@@ -74,6 +74,16 @@ if(isset($_GET['buy'])){
     }
 }
 
+?>
+
+<div class="box_top">Activity Points Store</div>
+<div class="box_middle">
+    <div class="pad">
+
+
+
+<?php
+
 // Display the store items
 echo '<div class="contenthead floaty">';
 echo '<h4><center>You currently have <span style="color:#3ab997;font-weight:bold;">' . prettynum($user_class->apoints) . '</span> Activity Points</center></h4>';
@@ -85,6 +95,6 @@ foreach($items as $item) {
     echo "<tr><td>{$item[1]}</td><td>" . prettynum($item[2]) . " Activity Points</td><td><a class='ycbutton' style='padding:2px 10px;' href='?buy={$item[0]}'>Buy Now</a></td></tr>";
 }
 
-echo '</table></center>';
+echo '</table></center></div></div>';
 include 'footer.php';
 ?>
