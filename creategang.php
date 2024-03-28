@@ -46,8 +46,6 @@ if ($user_class->gang == 0) {
 
     
 <div class="contenthead floaty">
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"><h4>Create Gang</h4></span>
-<hr>
 <table id="newtables" style="width:100%;">
 	
 	
