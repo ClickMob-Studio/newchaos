@@ -466,7 +466,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 					</div>
 					<div id="logo">
 						<a href="/online.php"><?php echo $usersOnline ?> Online Players</a>
-                        <?php echo date('Y-m-d H:i');?>
+                      
 					</div>
 				</div>
 				<div class="right_side">
@@ -541,8 +541,9 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 			</div>
 			<div class="content row">
 				<div class="menu_side">
+                <?php echo date('Y-m-d H:i:s'); ?>
 					<ul class="mainmenu">
-                    <hr />
+                   
 <li><a href='search.php'>Search Players</a></li>
 <li><a href='globalchat.php'>Chat</a></li>
 <li><a href='index.php'>Home</a></li>
