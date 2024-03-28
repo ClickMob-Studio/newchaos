@@ -550,7 +550,11 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 <li><a href='inventory.php'>Inventory</a></li>
 <li><a href='raids.php'>Raids</a></li>
 <li><a href='backalley.php'>Backalley</a></li>
-<li><a href='gang.php'>Gang</a></li>
+<?php if ($user_class->gang > 0): ?>
+    <li><a href='gang.php'>Gang</a></li>
+<?php else: ?>
+    <li><a href='creategang.php'>Create Gang</a></li>
+<?php endif; ?>
 <li><a href='bank.php'>Bank</a></li>
 <li><a href='jail.php'>Jail (<?php echo $ja; ?>)</a> </li>
 <li><a href='hospital.php'>hospital (<?php echo $hosp; ?>) </a></li>

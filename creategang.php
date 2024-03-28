@@ -1,5 +1,12 @@
 <?php
 include 'header.php';
+
+?>
+
+<div class="box_top">Create A Gang</div>
+<div class="box_middle">
+<div class="pad">
+<?php
 if ($user_class->gang == 0) {
     if ($_POST['create'] != "") { // if they are wanting to start a new gang
         $_POST['tag'] = str_replace('"', '', $_POST['tag']);
@@ -63,5 +70,9 @@ if ($user_class->gang == 0) {
         </td></tr>
     <?php
 }
+
+?>
+</table></div></div>
+<?php
 include 'footer.php';
 ?>
