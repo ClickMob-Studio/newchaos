@@ -544,6 +544,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
                     <hr />
 <li><a href='search.php'>Search Players</a></li>
 <li><a href='globalchat.php'>Chat</a></li>
+<li><a href='index.php'>Home</a></li>
 <li><a href='city.php'><!_-cityname-_!></a></li>
 <li><a href='missions.php'>Missions</a></li>
 <li><a href='inventory.php'>Inventory</a></li>
@@ -886,7 +887,7 @@ if (!empty($messages)) {
                     if (!mysql_num_rows($result)) {
 
                         $_messages = [
-                            '<b>Please note this game is currently in BETA before full launch in the first week of April. All launch, the database will reset.<br /> If you find any issues, please DM ID 1 or 2.</b>',
+                            '<b>Please note this game is currently in BETA before full launch in the first week of April. On relaunch, the database will reset.<br /> If you find any issues, please DM ID 1 or 2.</b>',
                             //'Invite your friends to play and receive <font color=red>50 Gold</font> for every friend that plays. Hurry and start inviting now!',
                             //'For every friend you successfully refer, you\'ll earn <font color=red>50 Gold</font> Spread the word and let\'s play together!',
                             //'Attention all players! Invite your friends to join in on the fun. <font color=red>50 Gold</font> reward for every successful referral'
