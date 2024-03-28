@@ -606,3 +606,4 @@ function toggleDirectionButtons(disable) {
 // You can paste your additional script below this line.
 </script>
 </div>
+</div>
