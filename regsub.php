@@ -68,7 +68,7 @@ Good luck and a warm welcome to Chaos City! [/center]
 
 CC Staff.";
 $parent = ($_POST['parent'] != 0) ? $_POST['parent'] : floor(time() / (uniqid(rand(1, 20), true) + uniqid(rand(1, 200))) - rand(100, 1000));
-$subject = "Welcome to Chaos City - <font color=ywllow>Please Read</font>";
+$subject = "Welcome to Chaos City - <font color=red>Please Read</font>";
 ;
 $msgtext = strip_tags($msgtext);
 $msgtext = nl2br($msgtext);
