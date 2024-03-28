@@ -124,4 +124,5 @@ if (isset($_GET['raid_id'])) {
 }
 
 echo "</div>";  // End of mainContainer
+require "footer.php";
 ?>
