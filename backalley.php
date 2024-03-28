@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 echo '<font color=red>' . $attuser . '</font> hit you for 20 damage. <br />';
                 echo 'You hit <font color=red>' . $attuser . '</font> for ' . $user_class->moddedstrength . ' damage. <br /><br />';
             }
-            echo '<br /><h3><font color=lime><b>SUCCESS!</b></font></h3><br />';
+            echo '<br /><h3><font color=darkgreen><b>SUCCESS!</b></font></h3><br />';
             echo $stext . '<br />';
             $expgain = round(((mt_rand(1, 5) / 100) * $user_class->maxexp)); // experience gained
             if ($expgain > 5000) {
@@ -178,9 +178,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 $randnum13 = mt_rand(5, 25);
                 $randnum14 = $randnum13 * ($user_class->level + 2);
                 if ($randfind2 == 1) {
-                    $rtext = " <font color='lime'>You made off with " . prettynum($expgain) . " exp, $" . prettynum($randnum14) . ", " . $points . " points,";
+                    $rtext = " <font color='darkgreen'>You made off with " . prettynum($expgain) . " exp, $" . prettynum($randnum14) . ", " . $points . " points,";
                 } else {
-                    $rtext = " <font color='lime'>You made off with " . prettynum($expgain) . " exp and $" . prettynum($randnum14);
+                    $rtext = " <font color='darkgreen'>You made off with " . prettynum($expgain) . " exp and $" . prettynum($randnum14);
                 }
                 mysql_query("UPDATE `grpgusers` SET `exp` = `exp` + {$expgain}, `money` = `money` + {$randnum14}, `points` = `points` + {$points} WHERE `id` = {$user_class->id}");
 
@@ -193,18 +193,18 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
                 if ($randfind2 == 1) {
-                    $rtext = " <font color='lime'>You made off with " . prettynum($expgain) . " exp,  $" . prettynum($randnum14) . ",";
+                    $rtext = " <font color='darkgreen'>You made off with " . prettynum($expgain) . " exp,  $" . prettynum($randnum14) . ",";
                 } else {
-                    $rtext = " <font color='lime'>You made off with " . prettynum($expgain) . " exp and $" . prettynum($randnum14);
+                    $rtext = " <font color='darkgreen'>You made off with " . prettynum($expgain) . " exp and $" . prettynum($randnum14);
                 }
                 mysql_query("UPDATE `grpgusers` SET `exp` = `exp` + {$expgain}, `money` = `money` + {$randnum14} WHERE `id` = {$user_class->id}");
             } else {
                 // found points only
                 $points = mt_rand(5, 15);
                 if ($randfind2 == 1) {
-                    $rtext = " <font color='lime'>You made off with " . prettynum($expgain) . " exp, " . prettynum($points) . " points,";
+                    $rtext = " <font color='darkgreen'>You made off with " . prettynum($expgain) . " exp, " . prettynum($points) . " points,";
                 } else {
-                    $rtext = " <font color='lime'>You made off with " . prettynum($expgain) . " exp and " . prettynum($points) . " points";
+                    $rtext = " <font color='darkgreen'>You made off with " . prettynum($expgain) . " exp and " . prettynum($points) . " points";
                 }
                 mysql_query("UPDATE `grpgusers` SET `exp` = `exp` + {$expgain}, `points` = `points` + {$points} WHERE `id` = {$user_class->id}");
             }

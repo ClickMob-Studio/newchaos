@@ -436,7 +436,7 @@ if (isset($_GET['ba'])) {
                 echo '<font color=red>' . $attuser . '</font> hit you for 20 damange. <br />';
                 echo 'You hit <font color=red>' . $attuser . '</font> for ' . $user_class->moddedstrength . ' damange. <br /><br />';
             }
-            echo '<br /><h3><font color=lime><b>SUCCESS!</b></font></h3><br />';
+            echo '<br /><h3><font color=darkgreen><b>SUCCESS!</b></font></h3><br />';
             echo $stext . '<br />';
             $expgain = round(((rand(1, 5) / 100) * $user_class->maxexp)); // experience gained
             if ($expgain > 2500) {
@@ -451,9 +451,9 @@ if (isset($_GET['ba'])) {
                 $randnum13 = rand(5, 25);
                 $randnum14 = $randnum13 * ($user_class->level + 2);
                 if ($randfind2 == 1) {
-                    $rtext = " <font color='lime'>You made off with " . prettynum($expgain) . " exp, $" . prettynum($randnum14) . ", " . $points . " points,";
+                    $rtext = " <font color='darkgreen'>You made off with " . prettynum($expgain) . " exp, $" . prettynum($randnum14) . ", " . $points . " points,";
                 } else {
-                    $rtext = " <font color='lime'>You made off with " . prettynum($expgain) . " exp and $" . prettynum($randnum14);
+                    $rtext = " <font color='darkgreen'>You made off with " . prettynum($expgain) . " exp and $" . prettynum($randnum14);
                 }
 				$db->query("UPDATE grpgusers SET exp = exp + ?, money = money + ?, points = points + ? WHERE id = ?");
 				$db->execute(array(
@@ -468,9 +468,9 @@ if (isset($_GET['ba'])) {
                 $randnum13 = rand(5, 25);
                 $randnum14 = MIN($randnum13 * ($user_class->level + 2), 10000);
                 if ($randfind2 == 1) {
-                    $rtext = " <font color='lime'>You made off with " . prettynum($expgain) . " exp,  $" . prettynum($randnum14) . ",";
+                    $rtext = " <font color='darkgreen'>You made off with " . prettynum($expgain) . " exp,  $" . prettynum($randnum14) . ",";
                 } else {
-                    $rtext = " <font color='lime'>You made off with " . prettynum($expgain) . " exp and $" . prettynum($randnum14);
+                    $rtext = " <font color='darkgreen'>You made off with " . prettynum($expgain) . " exp and $" . prettynum($randnum14);
                 }
 				$db->query("UPDATE grpgusers SET exp = exp + ?, money = money + ? WHERE id = ?");
 				$db->execute(array(
@@ -482,9 +482,9 @@ if (isset($_GET['ba'])) {
                 // found points only
                 $points = rand(5, 15);
                 if ($randfind2 == 1) {
-                    $rtext = " <font color='lime'>You made off with " . prettynum($expgain) . " exp, " . prettynum($points) . " points,";
+                    $rtext = " <font color='darkgreen'>You made off with " . prettynum($expgain) . " exp, " . prettynum($points) . " points,";
                 } else {
-                    $rtext = " <font color='lime'>You made off with " . prettynum($expgain) . " exp and " . prettynum($points) . " points";
+                    $rtext = " <font color='darkgreen'>You made off with " . prettynum($expgain) . " exp and " . prettynum($points) . " points";
                 }
 				$db->query("UPDATE grpgusers SET exp = exp + ?, points = points + ? WHERE id = ?");
 				$db->execute(array(
