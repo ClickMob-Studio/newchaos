@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-
+include_once 'databse/pdo_class.php';
 ?>
 <style>
     .contenthead{
