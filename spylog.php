@@ -9,7 +9,13 @@ $db->execute(array(
 	$user_class->id
 ));
 $pages->items_total = $db->fetch_single();
-genHead("Spy Log");
+?>
+
+<div class="box_top">Spy Logs</div>
+<div class="box_middle">
+	<div class="pad">
+
+<?php
         echo'<table id="newtables" style="width:100%;">';
             echo'<tr>';
                 echo'<th>When</th>';
@@ -41,6 +47,10 @@ genHead("Spy Log");
 		}
 		echo'</table>';
 		echo $pages->displayPages();
+
+		?>
+	</div></div>
+		<?php
 include 'footer.php';
 ?>
 
