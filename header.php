@@ -881,8 +881,8 @@ if (!empty($messages)) {
                 <ul class="slides" style="list-style-type: none; width:100%">
                     <li class="slide">
                         <div class="slide-content">
+
                             <span>
-                                <b>Please note this game is currently in BETA before full launch in the first week of April. All launch, the database will reset.<br /> If you find any issues, please DM ID 1 or 2.</b>
                             </span>
                         </div>
                     </li>
@@ -894,6 +894,7 @@ if (!empty($messages)) {
                     if (!mysql_num_rows($result)) {
 
                         $_messages = [
+                            '<b>Please note this game is currently in BETA before full launch in the first week of April. All launch, the database will reset.<br /> If you find any issues, please DM ID 1 or 2.</b>',
                             'Invite your friends to play and receive <font color=red>50 Gold</font> for every friend that plays. Hurry and start inviting now!',
                             'For every friend you successfully refer, you\'ll earn <font color=red>50 Gold</font> Spread the word and let\'s play together!',
                             'Attention all players! Invite your friends to join in on the fun. <font color=red>50 Gold</font> reward for every successful referral'
