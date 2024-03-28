@@ -525,9 +525,12 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('.tablinks').click();
 });
 </script>";
+?>
 
+</div>
+</div>
 
-
+<?php
 include 'footer.php';
 ?>
 
@@ -605,5 +608,4 @@ function toggleDirectionButtons(disable) {
 // Add your additional script here
 // You can paste your additional script below this line.
 </script>
-</div>
-</div>
+
