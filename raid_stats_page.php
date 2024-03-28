@@ -217,8 +217,7 @@ if (isset($_POST['stat_to_upgrade'])) {
 .tab {
     padding: 10px 20px;
     margin: 0 10px;
-    background-color: #333;
-    color: white;
+    color: black;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -237,7 +236,6 @@ if (isset($_POST['stat_to_upgrade'])) {
     justify-content: space-between; /* Space out the content boxes equally */
     flex-wrap: wrap; /* Allows boxes to wrap on smaller screens */
     padding: 20px;
-    background-color: #333333; /* Background color for the container */
 }
 
 .content-box {
