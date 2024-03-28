@@ -850,7 +850,6 @@ function showTooltip(event, element) {
 
     .active-raids-grid .raid-card {
         flex-basis: calc(33.33% - 20px); /* Adjusted for 3 cards per row */
-        background-color: #292929;
         padding: 15px;
         margin-right: 20px; /* Added to create spacing between the cards */
         margin-bottom: 20px;
