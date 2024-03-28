@@ -69,7 +69,6 @@ document.body.onmouseup = function() { finish(); };
     <div id='noti' style='height:16px'></div>
 <div class='contenthead floaty'>
 <span style='margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;'>
-<h4>TRAINING CENTER</h4>
     <table id='newtables' class='altcolors' style='width:100%;'>
         <tr>
             <th>STRENGTH</th>
