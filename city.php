@@ -185,6 +185,7 @@ $admin_ids = array_map(function($a) {
       <a href='pointsden.php'>Points Den</a><br />
       <a href='uni.php'>Education</a><br />
       <a href='travel.php'>Travel</a><br />
+      <a href='maze.php'>Maze</a><br />
     </td>
   </tr>
 </table>

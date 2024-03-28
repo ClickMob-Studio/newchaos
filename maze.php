@@ -49,10 +49,10 @@
 </style>
 <?php
 include 'header.php';
-if($user_class->admin < 1){
+// if($user_class->admin < 1){
 
-exit;
-}
+// exit;
+// }
 ?>
 <div class='box_top'>Maze</div>
 						<div class='box_middle'>
