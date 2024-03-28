@@ -541,7 +541,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 			</div>
 			<div class="content row">
 				<div class="menu_side">
-                <b>Server Time <?php echo date('Y-m-d H:i:s'); ?></b>
+                <span style="margin-left:10px;"><b>Server Time <?php echo date('Y-m-d H:i:s'); ?></b></span>
 					<ul class="mainmenu">
                    
 <li><a href='search.php'>Search Players</a></li>
