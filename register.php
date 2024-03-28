@@ -170,14 +170,15 @@ function validate() {
                     			<option value='Female'>Female</option>
                     		</select>	
 			</td>
-                	<input type='hidden' name='referer' value='";
-    		<?php	if(!isset($_GET['referer']))
-        			$_GET['referer'] = 0;
-    			$_GET['referer'] = abs((int) $_GET['referer']);
-    			if($_GET['referer'])
-        			print $_GET['referer'];
-    			echo "' />";
-            ?>
+
+			<?php if (isset($_GET['referer'])): ?>
+			        <?php
+			        $_GET['referer'] = abs((int) $_GET['referer']);
+                    ?>
+                	<input type='hidden' name='referer' value='<?php echo $_GET['referer'] ?>' />
+
+                	<?php endif; ?>
+
         		<tr>
 					<td colspan='3'>
           <img src='cap.php' alt="Captcha" class="captcha-image mb-3"/><br>
