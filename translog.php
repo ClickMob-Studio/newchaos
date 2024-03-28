@@ -10,7 +10,14 @@ $db->execute(array(
     $user_class->id
 ));
 $pages->items_total = $db->fetch_single();
-genHead("Transaction Logs");
+
+
+?>
+
+<div class="box_top">Transaction Logs</div>
+<div class="box_middle">
+    <div class="pad">
+<?php
 print"
         <table id='newtables' class='altcolors' style='width:100%;'>
             <tr>
@@ -54,4 +61,8 @@ print"</table>";
 if($rtn = $pages->displayPages())
 	echo'<br /><span class="floaty">' . $rtn . '</span><br />';
 print"</td></tr>";
+
+?>
+    </div></div>
+<?php
 include"footer.php";
