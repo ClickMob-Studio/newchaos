@@ -1,20 +1,17 @@
 <?php
 include 'header.php';
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+?>
+<div class='box_top'>Raid Stats</div>
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
 
 echo "<style>
-body {
-  background-color: #000;
-  color: white;
-  font-family: Arial, sans-serif;
-}
+
 .mainContainer {
   max-width: 1200px;
   margin: auto;
   padding: 20px;
-  background-color: #444;
   border-radius: 8px;
   box-shadow: 0px 0px 8px #555;
 }
@@ -29,8 +26,6 @@ body {
 .raidLog {
   white-space: pre-line;
   padding: 10px;
-  background-color: #333;
-  color: #fff;
   border-radius: 4px;
   margin-top: 15px;
 }
