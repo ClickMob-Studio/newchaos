@@ -447,7 +447,6 @@ echo "<style>
 .tabcontent {
   display: none;
   padding: 6px 12px;
-  border: 1px solid #403D3D;
   border-top: none;
  
   color: #000; /* Text color for the content */
