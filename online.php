@@ -5,7 +5,8 @@ include 'header.php';
 						<div class='box_middle'>
 							<div class='pad'>
                                 <?php
-$result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `lastactive` DESC");
+$result = mysql_query("SELECT * FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
+
 echo '<table>';
 ?>
 <th>Avatar</th>
@@ -19,7 +20,7 @@ echo '<table>';
 <?php
 	while($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
 		$secondsago = time()-$line['lastactive'];
-		if ($secondsago<=360) {
+		if (true) {
 			$user_online = new User($line['id']);
             echo "<tr>
             <td><img src='{$user_online->avatar}' height='50' width='50'></td>
