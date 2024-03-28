@@ -282,7 +282,7 @@ echo '
     Below is the potential items you can find when searching, Displaying all different rarity types</p>
     </div>
     
-     <div class="contenthead floaty" style="text-align: center; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; border-radius: 8px; width: 88%;">
+     <div class="contenthead floaty" style="text-align: center; padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 88%;">
     <br>
     <button class="direction-button" onclick="sendDirection(\'North\')">North</button><br><br>
     <button class="direction-button" onclick="sendDirection(\'West\')">West</button>
@@ -291,7 +291,7 @@ echo '
     <button class="direction-button" onclick="sendDirection(\'South\')">South</button>
 </div>
 
-<div class="contenthead floaty" style="text-align: center; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; border-radius: 8px;">
+<div class="contenthead floaty" style="text-align: center; padding: 20px; margin-bottom: 20px; border-radius: 8px;">
     <div id="searchFeedback">
         <div id="searchResult"></div>
         <div id="remainingTurns"></div>
