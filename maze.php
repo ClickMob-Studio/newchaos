@@ -305,7 +305,7 @@ echo '
 <div style="justify-content: center; gap: 20px;"> <!-- Flex container for both tables -->
 
     <!-- First table for Common items -->
-    <div class="contenthead floaty common" style="padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 50%;">
+    <div class="contenthead floaty common" style="padding: 20px; margin-bottom: 20px; border-radius: 8px;">
         <h4><font color=black>Common Items</font></h4>
         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
@@ -324,7 +324,7 @@ echo '
     </div>
 
     <!-- Second table for Uncommon items -->
-    <div class="contenthead floaty uncommon" style="padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 50%;">
+    <div class="contenthead floaty uncommon" style="padding: 20px; margin-bottom: 20px; border-radius: 8px;">
         <h4><font color=green>Uncommon Items</font></h4>
         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Similar setup for Uncommon items -->
             <!-- Uncommon item images go here, similar to the common items section -->
@@ -347,7 +347,7 @@ echo '
 <div style="justify-content: center; gap: 20px;"> <!-- Flex container for both tables -->
 
     <!-- First table for Common items -->
-    <div class="contenthead floaty rare" style="padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 50%;">
+    <div class="contenthead floaty rare" style="padding: 20px; margin-bottom: 20px; border-radius: 8px;">
         <h4><font color=gold>Rare Item Finds</font></h4>
         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
@@ -366,7 +366,7 @@ echo '
     </div>
 
     <!-- Second table for Uncommon items -->
-    <div class="contenthead floaty super-rare" style="padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 50%;">
+    <div class="contenthead floaty super-rare" style="padding: 20px; margin-bottom: 20px; border-radius: 8px;">
         <h4><font color=red>Super Rare Finds</font></h4>
         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Similar setup for Uncommon items -->
             <!-- Uncommon item images go here, similar to the common items section -->
@@ -460,7 +460,7 @@ echo "<div class='tab'>
 
 // Tab content for logs ordered by timestamp
 echo "<div id='Timestamp' class='tabcontent'>
-      <div class='contenthead floaty'><h4>Everyones Logs</h4>";
+      <div class='contenthead floaty'><h1>Everyones Logs</h1>";
 $query = "SELECT * FROM user_logs ORDER BY timestamp DESC LIMIT 10";
 $result = mysql_query($query);
 echo "<table id='newtables'>";
@@ -474,7 +474,7 @@ echo "</table></div></div>";
 
 // Tab content for logs ordered by user_id
 echo "<div id='UserID' class='tabcontent'>
-      <div class='contenthead floaty'><h4>Your Maze Finds</h4>";
+      <div class='contenthead floaty'><h1>Your Maze Finds</h1>";
 $query2 = "SELECT * FROM user_logs WHERE user_id = '{$user_class->id}' ORDER BY timestamp DESC LIMIT 10";
 $result2 = mysql_query($query2);
 echo "<table id='usertables'>";
