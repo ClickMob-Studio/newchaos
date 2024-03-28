@@ -735,14 +735,14 @@ function showTooltip(event, element) {
     }
 
     p {
-        color: #ffffff;
+        color: #000;
         font-size: 16px;
         margin-bottom: 30px;
     }
 
      .boss-card {
-background-color: #333; /* Dark background */
-    color: white; /* Light text */
+
+    color: black; /* Light text */
     padding: 20px;
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow at the top */
@@ -787,8 +787,7 @@ background-color: #333; /* Dark background */
     position: fixed; /* Use fixed positioning instead of absolute */
     white-space: nowrap;
     padding: 10px;
-    background-color: #333;
-    color: #fff;
+    color: black;
     border: 1px solid #222;
     border-radius: 5px;
     z-index: 10;

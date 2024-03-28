@@ -1,5 +1,10 @@
 <?php
 include "header.php";
+?>
+<div class='box_top'>Raids Page</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 if ($user_class->jail > 0) {
     echo Message("You cant visit the raids page when in Jail");
     include 'footer.php';
