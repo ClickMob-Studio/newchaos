@@ -67,6 +67,8 @@ if ($user_class->gang == 0) {
             </form>
         </td></tr>
     <?php
+} else {
+    echo "You're already in a gang!";
 }
 
 ?>
