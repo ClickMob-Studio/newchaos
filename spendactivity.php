@@ -86,7 +86,7 @@ if(isset($_GET['buy'])){
 
 // Display the store items
 echo '<div class="contenthead floaty">';
-echo '<h4><center>You currently have <span style="color:#3ab997;font-weight:bold;">' . prettynum($user_class->apoints) . '</span> Activity Points</center></h4>';
+echo '<h4><center>You currently have <span style="color:red;font-weight:bold;">' . prettynum($user_class->apoints) . '</span> Activity Points</center></h4>';
 echo '</div><center>Welcome to the Activity Store, here you can spend your Activity Points on various things.<br /><br />';
 echo '<table id="newtables" style="width:100%;">';
 echo '<tr><th>Item</th><th>Cost (Activity Points)</th><th>Action</th></tr>';
