@@ -170,12 +170,12 @@ function validate() {
                     			<option value='Female'>Female</option>
                     		</select>	
 			</td>
-                	<input type='hidden' name='ref' value='";
-    		<?php	if(!isset($_GET['REF']))
-        			$_GET['REF'] = 0;
-    			$_GET['REF'] = abs((int) $_GET['REF']);
-    			if($_GET['REF'])
-        			print $_GET['REF'];
+                	<input type='hidden' name='referer' value='";
+    		<?php	if(!isset($_GET['referer']))
+        			$_GET['referer'] = 0;
+    			$_GET['referer'] = abs((int) $_GET['referer']);
+    			if($_GET['referer'])
+        			print $_GET['referer'];
     			echo "' />";
             ?>
         		<tr>
@@ -203,9 +203,8 @@ function register_footer()
 		<div id="bottom_content" class="row"></div>
 	</div>
 	<div id="footer" class="row">
-		<span>WISE CRIME</span><br />
-		COPYRIGHT 2014+ . All Rights Reserved.<br />
-		<a href="">Privacy Policy.</a> <a href="">Terms of Services.</a> <a href="">Help Tutorial.</a> <a href="">Staff	</a>
+		<span>CHAOS CITY</span><br />
+		COPYRIGHT 2024+ . All Rights Reserved.<br />
 	</div>	
 </div>
 </body>
