@@ -1,6 +1,11 @@
 <?php
 include 'header.php';
 $m->set('lastcrimeload.'.$user_class->id, time());
+?>
+<div class='box_top'>Speed Gym</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 if ($user_class->hospital > 0) {
     echo Message("You can't train at the gym if you are in the hospital.");
     include 'footer.php';

@@ -561,6 +561,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 <li><a href='crime.php'>Crimes</a> </li>
 <li><a href='newcrimes.php'>Speed Crimes</a> </li>
 <li><a href='gym.php'>Gym</a> </li>
+<li><a href='speedgym.php'>Gym</a> </li>
 <li><a href='preferences.php'>Edit Account</a> </li>
 
 </ul>
