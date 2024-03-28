@@ -11,8 +11,7 @@
 		</div>
 		<div id="footer" class="row">
 			<span>Chaos City RPG</span><br />
-			&copy; COPYRIGHT 2015+ . All Rights Reserved.<br />
-			<a href="">Privacy Policy.</a> <a href="">Terms of Services.</a> <a href="">Help Tutorial.</a> <a href="">Staff	</a>
+			&copy; COPYRIGHT 2024+ . All Rights Reserved.<br />
 
 		</div>
 	</div>
