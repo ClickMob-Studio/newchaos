@@ -925,7 +925,7 @@ function showTooltip(event, element) {
         <div id="modal-content"></div>
     </div>
 </div>
-
+</div>
 <?php
 include 'footer.php';
 ?>
