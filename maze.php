@@ -45,23 +45,7 @@
         margin-bottom: 20px; 
         border-radius: 8px;
     }
-    
-
-
-.direction-button:hover {
-    background-color: #444444; /* Slightly darker color on hover */
-    border: none;
-    color: black;
-    padding: 12px 24px; /* Larger button size */
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px; /* Larger font size */
-    margin: 10px 5px; /* Spacing between buttons */
-    cursor: pointer;
-    border-radius: 5px; /* Rounded corners */
-        box-shadow: 0 0 10px #ffdf00; /* Enhanced gold glow on hover, but consider keeping the spread the same */
-}
+ 
 </style>
 <?php
 include 'header.php';
