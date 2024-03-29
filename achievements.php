@@ -1,5 +1,10 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>Achievements</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 $levelbadges = array(
 '6' => array(
 		'needed' => 1000,
@@ -268,8 +273,7 @@ $bustbadge = array(
 );
 ?>
 <div class="contenthead floaty">
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h4>Your Achievements</h4></span>
+
 <table id="newtables" style="width:100%;">
 
         <?php if ($user_class->badge != 0) { ?>
