@@ -496,7 +496,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 			<div class="red_bar row">
 				<div id="stat_section">
 					<div class="stats">
-						<div class="l-text">ENERGY</div><div class="r-text"><?php echo $user_class->energy;?> / <?php echo $user_class->maxenergy;?></div>
+						<div class="l-text">ENERGY <a href="?spend=refenergy" style="color: red;">(refill)</a></div><div class="r-text"><?php echo $user_class->energy;?> / <?php echo $user_class->maxenergy;?></div>
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
@@ -505,7 +505,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						</div>
 					</div>
 					<div class="stats">
-                        <div class="l-text">NERVE <a href="?spend=refnerve">(refill)</a></div><div class="r-text"><?php echo $user_class->nerve;?> / <?php echo $user_class->maxnerve;?></div>
+                        <div class="l-text">NERVE <a href="?spend=refnerve" style="color: red;">(refill)</a></div><div class="r-text"><?php echo $user_class->nerve;?> / <?php echo $user_class->maxnerve;?></div>
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
