@@ -62,7 +62,10 @@ $admin_ids = array_map(function($a) {
 ?>
 <br>
 <div class="contenthead floaty">
-    
+<?php 
+        $csrf = md5(uniqid(rand(), true));
+        $_SESSION['csrf'] = $csrf;
+        ?>
 
 
 <div class="vip-container" style="display: flex; justify-content: space-around; align-items: flex-start;">
@@ -76,13 +79,11 @@ $admin_ids = array_map(function($a) {
             <img src="mlordsimages/vacant.png" style="width: 100px; height: 100px;" alt="No King" class="vacant-throne">
             <h4>VACANT</h4>
             <p>King of <!_-cityname-_!></p>
-        <?php endif; ?>
-        <?php 
-        $csrf = md5(uniqid(rand(), true));
-        $_SESSION['csrf'] = $csrf;
-        ?>
+            <a href="/attack.php?attack=<?php echo $king_result['id']; ?>&csrf=<?php echo $csrf;?>" class="challenge-btn">Challenge</a>
 
-<a href="/attack.php?attack=<?php echo $king_result['id']; ?>&csrf=<?php echo $csrf;?>" class="challenge-btn">Challenge</a>
+        <?php endif; ?>
+       
+
 
 </div>
     <!-- Queen of the City -->
@@ -95,9 +96,9 @@ $admin_ids = array_map(function($a) {
             <img src="mlordsimages/vacant.png" style="width: 100px; height: 100px;" alt="No Queen" class="vacant-throne">
             <h4>VACANT</h4>
             <p>Queen of <!_-cityname-_!></p>
+            <a href="/attack.php?attack=<?php echo $queen_result['id']; ?>&csrf=<?php echo $csrf;?>"  class="challenge-btn">Challenge</a>
         <?php endif; ?>
-        <a href="/attack.php?attack=<?php echo $queen_result['id']; ?>&csrf=<?php echo $csrf;?>"  class="challenge-btn">Challenge</a>
-    </div>
+          </div>
 </div>
 
 
