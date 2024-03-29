@@ -515,7 +515,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						</div>
 					</div>
 					<div class="stats">
-						HP<div class="r-text"><?php echo $user_class->hp; ?> / <?php echo $user_class->maxhp;?></div>
+						HEALTH<div class="r-text"><?php echo $user_class->hp; ?> / <?php echo $user_class->maxhp;?></div>
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
@@ -533,7 +533,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						</div>
 					</div>
                     <div class="stats">
-						EXP<div class="r-text"><?php echo $user_class->exp;?> / <?php echo $user_class->maxexp; ?></div>
+                    EXPERIENCE<div class="r-text"><?php echo $user_class->exp;?> / <?php echo $user_class->maxexp; ?></div>
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
