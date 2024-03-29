@@ -1261,12 +1261,13 @@ document.addEventListener("DOMContentLoaded", function() {
 }
 
 .vip-package {
-    background-color:  /* Dark background */
-    color: black; /* Light text */
-    padding: 20px;
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    width: 30%; /* Adjust based on preference and screen size */
+    text-align: center;
+    background-color: /* Dark background */
+    color: black;
+    /* padding: 20px; */
+    /* border-radius: 10px; */
+    /* box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); */
+    width: 30%;
 }
 
 .vip-package img {
