@@ -156,6 +156,21 @@ if (isset($_GET['id']) && isset($_GET['action'])) {
     die();
 }
 
+if (isset($_GET['h_deposit']) && $_GET['h_deposit'] === 'cash') {
+    $amount = $user_class->money;
+    $amount2 = round($amount - (($amount / 100) * 2));
+    $amount3 = round($amount - (($amount / 100) * 98));
+    $user_class->bank += $amount2;
+    $user_class->money -= $amount;
+    $notice = ("Money deposited with a 2% fee of $$amount3 taken.");
+    mysql_query("UPDATE grpgusers SET bank = $user_class->bank, money = $user_class->money WHERE id = $user_class->id");
+    if ($amount > 0)
+        mysql_query("INSERT INTO bank_log VALUES('', $user_class->id, $amount, 'mdep', $user_class->bank, unix_timestamp(), $user_class->money)");
+    if ($user_class->bank > $user_class->banklog)
+        mysql_query("UPDATE grpgusers SET banklog = $user_class->bank WHERE id = $user_class->id");
+
+}
+
 if ((isset($_GET['dep']) || isset($_POST['deposit']))) {
     if (isset($_GET['dep']))
         $_POST['type'] = 'money';
