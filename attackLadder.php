@@ -2,8 +2,7 @@
 include 'header.php';
 ?>
 
-?>
-<div class='box_top'>Pray</div>
+<div class='box_top'>Attack Ladder</div>
 						<div class='box_middle'>
 							<div class='pad'>
                                 <?php

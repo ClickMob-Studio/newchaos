@@ -8,23 +8,10 @@ include 'header.php';
                                 <?php
 $_SESSION['lastattack'] = ($_SESSION['lastattack'] == "") ? time() : $_SESSION['lastattack'];
 
-// echo '<script>
-// window.history.pushState(null, "", window.location.href);
-// window.onpopstate = function () {
-//     window.history.pushState(null, "", window.location.href);
-// };
-// </script>';
-
-// if ($user_class->id == 150) {
-//     echo Message("attack");
-//     exit();
-// }
 
 $ref = $_SERVER['HTTP_REFERER'];
 $id = $_GET['attack'];
-//if ($ref == "" || ($ref != "https://chaoscity.co.uk/profiles.php?id=$id" && $ref != "https://chaoscity.co.uk/search.php" && $ref != "https://chaoscity.co.uk/attackLadder.php")) {
-  //  diefun("Invalid Request - Please ensure you are attacking from the players profile or the Search Player page");
-// }
+
 
 $backSearch = ($_SERVER['HTTP_REFERER'] == 'https://chaoscity.co.uk/search.php') ? '<div class="floaty" style="margin:0;font-weight:800;padding:10px"><a href="javascript:history.go(-1);">Back to Search</a></div>' : '';
 
@@ -143,38 +130,6 @@ if ($user_class->aprotection != 0) {
     $agreed = (isset($_GET['agreed'])) ? $_GET['agreed'] : 0;
 }
 
-// if ($user_class->id == 174) {
-
-//     $attack_person->gang = 999;
-
-//     if ($user_class->aprotection > time() && $user_class->gang > 0 && $attack_person->gang > 0 && $agreed == 0) {
-//             $db->query("SELECT * FROM gangwars WHERE (gang1 = ? OR gang2 = ?) AND (gang1 = ? OR gang2 = ?) AND accepted = 1 LIMIT 1");
-//             $db->execute(array(
-//                 $user_class->gang,
-//                 $user_class->gang,
-//                 $attack_person->gang,
-//                 $attack_person->gang
-//             ));
-//             $atWar = ($db->num_rows()) ? true : false;
-
-//             if ($atWar) {
-//                 diefun('<h3>Warning: You are currently under attack protection.</br></br>As your gang is in an active war with this players gang,</br> attacking this player will terminate your attack protection immediately.</h3></br><a style="font-size: 1.2em" href="attack.php?attack=' . $attack_person->id . '&agreed=1">I understand and wish to continue the attack!</a>');
-//             }
-//     } else if ($agreed == 1) {
-//         $user_class->aprotection = time();
-//         $db->query("UPDATE grpgusers SET aprotection = ? WHERE id = ?");
-//         $db->execute(array(
-//             time(),
-//             $user_class->id
-//         ));
-
-//         Send_Event($user_class->id, "Your attack protection has been terminated due to attacking a war gang member");
-
-//     } else {
-//         die('Something went wrong');
-//     }
-//     die('finished');
-// }
 
 $yourhp = $user_class->hp;
 $theirhp = $attack_person->hp;
@@ -403,63 +358,7 @@ if ($user_class->gender === 'Female') {
 
     $db->query("UPDATE `attackladder` SET `last_attack` = ? WHERE `user` = ?");
     $db->execute([time(), $winner]);
-    
-    
-    
-    
-  
-
-
-    // $spotsCount = mysql_query("SELECT count(*) as total FROM `attackladder`");
-    // $ladderCount = mysql_fetch_array($spotsCount);
-    // $winnerLadder = mysql_query("SELECT * FROM `attackladder` WHERE `user` = $winner ");
-    // $winnerLadderRow = mysql_fetch_array($winnerLadder);
-    // $attackedPersonLadder = mysql_query("SELECT * FROM `attackladder` WHERE `user` = $attack_person->id ");
-    // $attackedPersonLadderRow = mysql_fetch_array($attackedPersonLadder);
-    // if (intval($ladderCount['total']) < 10 && $winnerLadderRow == false) {
-    //     $db->query("INSERT INTO attackladder (user, spot) VALUES (?, ?)");
-    //     $db->execute([$winner, intval($ladderCount['total']) + 1]);
-    // } else {
-    //     if ($attackedPersonLadderRow != false) {
-    //         if ($winnerLadderRow != false && (intval($winnerLadderRow['spot']) > intval($attackedPersonLadderRow['spot']))) {
-    //             mysql_query("UPDATE `attackladder` SET `user` = '{$attack_person->id}' WHERE `spot` = '{$winnerLadderRow['spot']}' LIMIT 1") or mysql_error();
-    //             mysql_query("UPDATE `attackladder` SET `user` = '{$winner}'  WHERE `spot` = '{$attackedPersonLadderRow['spot']}' LIMIT 1") or mysql_error();
-    //         } elseif ($winnerLadderRow == false) {
-    //             mysql_query("UPDATE `attackladder` SET `user` = '{$winner}'  WHERE `spot` = '{$attackedPersonLadderRow['spot']}' LIMIT 1") or mysql_error();
-    //         }
-    //         Send_Event($attackedPersonLadderRow['user'], "[-_USERID_-] You've been knocked from your place in the Attack Ladder ", $attackedPersonLadderRow['user']);
-    //     }
-    // }
-
-    // if ($user_class->gang && $attack_person->gang) {
-    //     $respect_earnt = get_respect_for_level($user_class->level - $attack_person->level);
-    //     $respect_earnt += max(.1, min(1, ($attack_person->totalattrib / $user_class->totalattrib / 2)));
-    //     $user_class_streak = get_user_streak($user_class->id);
-    //     $attack_person_streak = get_user_streak($attack_person->id);
-    //     if ($user_class_streak > 1) {
-    //         $respect_earnt *= min(1.2, (1 + ($user_class_streak / 100 * 2)));
-    //     }
-    //     if ($attack_person_streak > 1) {
-    //         $respect_earnt *= min(1.4, (1 + ($attack_person_streak / 100 * 4)));
-    //     }
-    //     if (time() - $attack_person->lastactive <= 900) {
-    //         $respect_earnt *= 1.5;
-    //     }
-    //     add_user_streak($user_class->id);
-    //     kill_user_streak($attack_person->id);
-    //     echo 'You gained ' . $respect_earnt . ' respect.<br />';
-    //     echo 'Your opponent lost ' . $respect_earnt . ' respect.<br />';
-    //     $db->query("UPDATE gangs SET respect = respect - ? WHERE id = ?");
-    //     $db->execute(array(
-    //         $respect_earnt,
-    //         $attack_person->gang
-    //     ));
-    //     $db->query("UPDATE gangs SET respect = respect + ? WHERE id = ?");
-    //     $db->execute(array(
-    //         $respect_earnt,
-    //         $user_class->gang
-    //     ));
-    // }
+ 
     bloodbath('defendlost', $attack_person->id);
     bloodbath('attackswon', $user_class->id);
     $toadd = array('kotd' => 1);
@@ -527,34 +426,6 @@ if ($yourhp <= 0) {
     $expwon2 = $expwon;
     $yourhp = 0;
 
-
-
-    // $db->query("SELECT * FROM gangwars WHERE (gang1 = ? OR gang2 = ?) AND (gang1 = ? OR gang2 = ?) AND accepted = 1 LIMIT 1");
-    // $db->execute(array(
-    //     $user_class->gang,
-    //     $user_class->gang,
-    //     $attack_person->gang,
-    //     $attack_person->gang
-    // ));
-
-
-
-    // if ($user_class->gang > 0 && $attack_person->gang > 0) {
-    //     $respect_earnt = 3;
-    //     $respect_lost = 0;
-    //     echo 'Your opponent gained ' . $respect_earnt . ' gang respect.<br />';
-    //     echo 'You lost ' . $respect_lost . ' gang respect.<br />';
-    //     $db->query("UPDATE gangs SET respect = respect + ? WHERE id = ?");
-    //     $db->execute(array(
-    //         $respect_earnt,
-    //         $attack_person->gang
-    //     ));
-    //     $db->query("UPDATE gangs SET respect = respect - ? WHERE id = ?");
-    //     $db->execute(array(
-    //         $respect_lost,
-    //         $user_class->gang
-    //     ));
-    // }
     bloodbath('attackslost', $user_class->id);
     bloodbath('defendwon', $attack_person->id);
     $db->query("UPDATE grpgusers SET todaysexp = todaysexp + ?, exp = exp + ?, money = money + ?, battlewon = battlewon + 1, battlemoney = battlemoney + ?, todayskills = todayskills + 1 WHERE id = ?");
@@ -656,25 +527,15 @@ $db->execute(array(
     $attack_person->id
 ));
 
-//$new_energy = max($user_class->energy - $energyneeded, 0);
+
 
 mysql_query("UPDATE `grpgusers` SET `energy` = `energy` - {$energyneeded} WHERE `id` = {$user_class->id}");
 
-// $db->query("UPDATE grpgusers SET hp = ?, stamina = ? WHERE id = ?");
-// $db->execute(array(
-//     $yourhp,
-//     $user_class->stamina,
-//     $user_class->id
-// ));
 echo "</td></tr>";
 
 echo $backSearch;
 
 $_SESSION['lastattack'] = time() + 3;
-
-// echo '<script>
-// var _0x353a=["a2V5ZG93bg==","YWx0S2V5","cmV0dXJuIChmdW5jdGlvbigpIA==","Y29uc29sZQ==","bG9n","ZGVidWc=","aW5mbw==","ZXJyb3I=","ZXhjZXB0aW9u","dHJhY2U=","d2Fybg=="];(function(_0x2d158c,_0x5267c3){var _0x228c42=function(_0x247644){while(--_0x247644){_0x2d158c["push"](_0x2d158c["shift"]());}};_0x228c42(++_0x5267c3);}(_0x353a,0x18e));var _0x9312=function(_0x4580a3,_0x32d98d){_0x4580a3=_0x4580a3-0x0;var _0x26d422=_0x353a[_0x4580a3];if(_0x9312["WRsPTT"]===undefined){(function(){var _0x4ebb81;try{var _0x26e5e5=Function("return\x20(function()\x20"+"{}.constructor(\x22return\x20this\x22)(\x20)"+");");_0x4ebb81=_0x26e5e5();}catch(_0x511c9e){_0x4ebb81=window;}var _0x588c6e="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";_0x4ebb81["atob"]||(_0x4ebb81["atob"]=function(_0x4e9c85){var _0x316641=String(_0x4e9c85)["replace"](/=+$/,"");for(var _0x52d52c=0x0,_0x63f96d,_0x481e57,_0x1c5bdf=0x0,_0x56b372="";_0x481e57=_0x316641["charAt"](_0x1c5bdf++);~_0x481e57&&(_0x63f96d=_0x52d52c%0x4?_0x63f96d*0x40+_0x481e57:_0x481e57,_0x52d52c++%0x4)?_0x56b372+=String["fromCharCode"](0xff&_0x63f96d>>(-0x2*_0x52d52c&0x6)):0x0){_0x481e57=_0x588c6e["indexOf"](_0x481e57);}return _0x56b372;});}());_0x9312["FXBoCi"]=function(_0x538dff){var _0x41a2ba=atob(_0x538dff);var _0x35cbf4=[];for(var _0x5dc0e4=0x0,_0x1cb22d=_0x41a2ba["length"];_0x5dc0e4<_0x1cb22d;_0x5dc0e4++){_0x35cbf4+="%"+("00"+_0x41a2ba["charCodeAt"](_0x5dc0e4)["toString"](0x10))["slice"](-0x2);}return decodeURIComponent(_0x35cbf4);};_0x9312["tZgowa"]={};_0x9312["WRsPTT"]=!![];}var _0x3e272a=_0x9312["tZgowa"][_0x4580a3];if(_0x3e272a===undefined){_0x26d422=_0x9312["FXBoCi"](_0x26d422);_0x9312["tZgowa"][_0x4580a3]=_0x26d422;}else{_0x26d422=_0x3e272a;}return _0x26d422;};var _0x20e01f=function(){var _0x396969=!![];return function(_0x4986b8,_0x300927){var _0x4147de=_0x396969?function(){if(_0x300927){var _0x431800=_0x300927["apply"](_0x4986b8,arguments);_0x300927=null;return _0x431800;}}:function(){};_0x396969=![];return _0x4147de;};}();var _0x897059=_0x20e01f(this,function(){var _0x5598fc=function(){};var _0x324f57=function(){var _0x1790bb;try{_0x1790bb=Function(_0x9312("0x0")+"{}.constructor(\x22return\x20this\x22)(\x20)"+");")();}catch(_0x546163){_0x1790bb=window;}return _0x1790bb;};var _0x21162b=_0x324f57();if(!_0x21162b[_0x9312("0x1")]){_0x21162b["console"]=function(_0x5598fc){var _0x3324ec={};_0x3324ec[_0x9312("0x2")]=_0x5598fc;_0x3324ec["warn"]=_0x5598fc;_0x3324ec[_0x9312("0x3")]=_0x5598fc;_0x3324ec[_0x9312("0x4")]=_0x5598fc;_0x3324ec[_0x9312("0x5")]=_0x5598fc;_0x3324ec[_0x9312("0x6")]=_0x5598fc;_0x3324ec[_0x9312("0x7")]=_0x5598fc;return _0x3324ec;}(_0x5598fc);}else{_0x21162b[_0x9312("0x1")]["log"]=_0x5598fc;_0x21162b[_0x9312("0x1")][_0x9312("0x8")]=_0x5598fc;_0x21162b["console"][_0x9312("0x3")]=_0x5598fc;_0x21162b[_0x9312("0x1")][_0x9312("0x4")]=_0x5598fc;_0x21162b[_0x9312("0x1")][_0x9312("0x5")]=_0x5598fc;_0x21162b[_0x9312("0x1")][_0x9312("0x6")]=_0x5598fc;_0x21162b[_0x9312("0x1")][_0x9312("0x7")]=_0x5598fc;}});_0x897059();$(window)["on"](_0x9312("0x9"),function(_0x23829c){if(_0x23829c[_0x9312("0xa")]){return![];}});
-//     </script>';
 
 include 'footer.php';
 function get_respect_for_level($level_diff)
