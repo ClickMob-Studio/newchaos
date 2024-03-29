@@ -1220,6 +1220,10 @@ document.addEventListener("DOMContentLoaded", function() {
     flex-direction: column;
     align-items: center;
 }
+.vip-package ul{
+  list-style-type: none;
+
+}
 
 .new-shop-item--img h5, .new-shop-item--price span {
     color: black; /* Gold color for emphasis */
