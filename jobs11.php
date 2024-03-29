@@ -11,7 +11,7 @@ $db->execute(array(
     $user_class->id
 ));
 if(!$db->num_rows()){
-    $db->query("INSERT INTO jobinfo VALUES (userid, dailyClockins, lastClockin, addedPercent) VALUES (?, 0, 0, 0)");
+    $db->query("INSERT INTO jobinfo (userid, dailyClockins, lastClockin, addedPercent) VALUES (?, 0, 0, 0)");
     $db->execute(array(
         $user_class->id
     ));
