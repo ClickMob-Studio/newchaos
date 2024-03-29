@@ -148,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
     $check_result = mysql_query($check_query);
 
     if (mysql_num_rows($check_result) > 0) {
-        echo "You are already in a raid!";
+        echo Message("You are already in a raid!");
         return;
     }
 
@@ -158,13 +158,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
                            WHERE ar.id = $raid_id";
     $raid_details_result = mysql_query($raid_details_query);
     if (!$raid_details_result) {
-        echo "Error: " . mysql_error();
+        echo Message("Error: " . mysql_error());
         return;
     }
     $raid_details = mysql_fetch_assoc($raid_details_result);
     // Check if the user can join based on the raid type
     if ($raid_details['raid_type'] === 'Private' && $user_id != $raid_details['summoned_by']) {
-        echo "This is a private raid. You cannot join.";
+        echo Message("This is a private raid. You cannot join.");
         return;
     }
 
@@ -174,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
         $user_gang = mysql_fetch_assoc($user_gang_result);
 
         if ($user_gang['gang'] != $raid_details['gang']) {
-            echo "This raid is only for gang members.";
+            echo Message("This raid is only for gang members.");
             return;
         }
     }
@@ -218,7 +218,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
 
         // Check if the user has at least the required raid tokens
         if ($user_data['raidtokens'] < 1) {
-            echo "You do not have enough raid tokens to join the raid. You need $tokencost tokens.";
+            echo Message("You do not have enough raid tokens to join the raid. You need $tokencost tokens.");
         } else {
             // Deduct the required number of raid tokens from the user
             $deduct_token_query = "UPDATE grpgusers SET raidtokens = raidtokens - 1 WHERE id = $user_id";
@@ -245,7 +245,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
             $event_message = "$joining_user_name has joined your raid!";
             send_event($owner_id, $event_message);
 
-            echo "Successfully joined the raid and 1 raid token(s) have been deducted.";
+            echo Message("Successfully joined the raid and 1 raid token(s) have been deducted.");
         }
     
 }
