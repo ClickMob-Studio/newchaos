@@ -303,7 +303,7 @@ if ($user_class->gang != 0) {
             $user_class->nerve -= $nerve;
 
             // EXP 20% BUFF
-            $exp = $exp + (($exp / 100) * 80);
+            $exp = $exp + (($exp / 100) * 50);
 
 
 
