@@ -501,7 +501,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
-								<div style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<!_-energyperc-_!>%;"></div>
+								<div class="stat_bar" style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<!_-energyperc-_!>%;"></div>
 							</div>
 						</div>
 					</div>
@@ -510,7 +510,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
-								<div style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<!_-nerveperc-_!>%"></div>
+								<div class="stat_bar" style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<!_-nerveperc-_!>%"></div>
 							</div>
 						</div>
 					</div>
@@ -519,7 +519,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
-								<div style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<!_-hpperc-_!>%;"></div>
+								<div class="stat_bar" style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<!_-hpperc-_!>%;"></div>
 							</div>
 						</div>
 					</div>
@@ -528,7 +528,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
-								<div style="background: url(../assets/images/red-stat-bar.png) no-repeat;height: 8px;width:<!_-awakeperc-_!>%;"></div>
+								<div class="stat_bar" style="background: url(../assets/images/red-stat-bar.png) no-repeat;height: 8px;width:<!_-awakeperc-_!>%;"></div>
 							</div>
 						</div>
 					</div>
@@ -537,7 +537,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
-								<div style="background: url(../assets/images/red-stat-bar.png) no-repeat;height: 8px;width:<?php echo $user_class->exppercent;?>%;"></div>
+								<div class="stat_bar" style="background: url(../assets/images/red-stat-bar.png) no-repeat;height: 8px;width:<?php echo $user_class->exppercent;?>%;"></div>
 							</div>
 						</div>
 					</div>
