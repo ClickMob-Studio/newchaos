@@ -18,7 +18,7 @@ if (isset($_GET['buy'])) {
     $cost = $row['cost'];
     $houselevel = $row['houselevel'];
     if ($houselevel > $user_class->prestige) {
-        diefun("Your prestige isn't high enough to purchase this house..");
+        diefun("Your prestige isn't high enough to purchase this house.");
     }
 
     $text = "You have purchased a {$row['name']}. To move into this house, you have to visit the 'Your Properties' link in the mainmenu.";
