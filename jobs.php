@@ -13,13 +13,13 @@ if ($user_class->fbitime > 0) {
 
 $quer = mysql_query("SELECT * FROM jobinfo WHERE userid = ". $user_class->id);
 
-if(mysql_num_rows($uer) < 1){
+if(mysql_num_rows($quer) < 1){
     mysql_query("INSERT INTO jobinfo VALUES (userid, total, points) VALUES (".$user_class->id.", 0, 0, 0)");
    
     $jobinfo['userid'] = $user_class->id;
     $jobinfo['dailyClockins'] = $jobinfo['lastClockin'] = $jobinfo['addedPercent'] = 0;
 } else
-    $jobinfo = $db->fetch_row(true);
+    $jobinfo = mysql_fetch_assoc($quer);
 if(isset($_GET['clockin'])){
     if($jobinfo['lastClockin'] < time() - 3600)
         diefun("You have already clocked in less than an hour ago.");
