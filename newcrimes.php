@@ -97,7 +97,7 @@ echo '<div class="crimebox">';
     switch ($user_class->nerref) {
         case 0:
             $status = "<span style='color:red;'>[Not Paid For]</span>";
-            $button = '<button onClick="if(confirm(\'Are you sure you want enable nerve refills?\')){window.location.href = \'?ner=0\';}">Buy(250 Points)</button>';
+            $button = '<button onClick="if(confirm(\'Are you sure you want enable nerve refills until rollover?\')){window.location.href = \'?ner=0\';}">Buy(250 Points)</button>';
             break;
         case 1:
             $status = "<span style='color:orange;'>[Paid For/Disabled]</span>";
@@ -194,7 +194,8 @@ echo '<div class="star-rating" style="margin-top: 10px;"></div>';
 
         echo'<div class="flexcont">';
         echo'<div class="floaty" style="flex:1;margin-right:4px;">';
-            echo'Nerve Refill<br />';
+            echo'<h3>Nerve Refill</h3><br />';
+            echo '<p>Enable automated nerve refills until rollover!</p>';
             echo'<br />';
             echo'Current Status: ' . $status . '<br />';
             echo'<br />';

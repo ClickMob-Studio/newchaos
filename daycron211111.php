@@ -267,6 +267,7 @@ Gang_Event($topMugs, "Respect Gang Of The Day - Mugs +100 Respect", 0);
 Gang_Event($topBusts, "Respect Gang Of The Day -Bustss +100 Respect", 0);
 
 $db->query("UPDATE gangs SET dailyCrimes = 0, dailyKills = 0, dailyBusts = 0, dailyMugs = 0");
+$db->query("UPDATE grpgusers SET nerref = 0");
 $db->execute();
 
 ?>
