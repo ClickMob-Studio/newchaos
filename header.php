@@ -909,7 +909,7 @@ if (!empty($messages)) {
                             <div class="slide-content">
 
                                 <!-- <span>Remember - All Referrals using your referral ID will reward you with 50 Credits! Help Spread the word of our launch!</span> -->
-                                <span><a href="refer.php"><?= $ref_message ?></a></span>
+                                <span style='margin-left:-50px;'><a href="refer.php"><?= $ref_message ?></a></span>
                             </div>
 
                         </li>
