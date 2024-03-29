@@ -96,7 +96,7 @@ $admin_ids = array_map(function($a) {
             <h4>VACANT</h4>
             <p>Queen of <!_-cityname-_!></p>
         <?php endif; ?>
-        <a href="/attack.php?attack=<?php echo $queen_result['id']; ?>"&csrf=<?php echo $csrf;?>  class="challenge-btn">Challenge</a>
+        <a href="/attack.php?attack=<?php echo $queen_result['id']; ?>&csrf=<?php echo $csrf;?>"  class="challenge-btn">Challenge</a>
     </div>
 </div>
 
