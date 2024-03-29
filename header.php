@@ -506,7 +506,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						</div>
 					</div>
 					<div class="stats">
-                        <a href="?spend=refnerve" style="text-decoration: none color:black";>NERVE</a><div class="r-text"><?php echo $user_class->nerve;?> / <?php echo $user_class->maxnerve;?></div>
+                        <a href="?spend=refnerve" style="text-decoration: none; color:black";>NERVE</a><div class="r-text"><?php echo $user_class->nerve;?> / <?php echo $user_class->maxnerve;?></div>
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
