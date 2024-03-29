@@ -803,7 +803,7 @@ foreach ($winners_data as $user_data) {
         foreach ($top_3_users as $user_id => $value) {
             if ($user_id && $value) {
                 // Award points to the user
-                $update_query = "UPDATE grpgusers SET points = points + " . $points_distribution[$position] . " WHERE id = " . $user_id;
+                $update_query = "UPDATE grpgusers SET points = points + " . $points_distribution[$position] . " WHERE `id` = " . $user_id;
                 mysql_query($update_query);
                 
                 // Send an event to the user
