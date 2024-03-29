@@ -1210,14 +1210,12 @@ document.addEventListener("DOMContentLoaded", function() {
     flex-wrap: wrap;
     gap: 20px; /* Adjusts the space between the items */
 }
-
 .new-shop-item {
-    background-color:  /* Dark background */
-    color: black; /* Light text */
-    padding: 20px;
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    width: 200px; /* Adjust based on preference */
+    background-color: /* Dark background */ color: black;
+    /* padding: 20px; */
+    /* border-radius: 10px; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+    width: 200px;
     display: flex;
     flex-direction: column;
     align-items: center;
