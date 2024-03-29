@@ -142,7 +142,6 @@ if ($user_class->jail) {
     $attack_person->moddedspeed = $attack_person->speed;
     $attack_person->moddedstrength = $attack_person->strength;
 }
-genHead("Fight House");
 print "
 You are in a fight with $attack_person->formattedname.<br /><br />
 You are using your $user_class->weaponname.<br />
