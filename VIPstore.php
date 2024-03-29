@@ -1199,7 +1199,7 @@ document.addEventListener("DOMContentLoaded", function() {
 }
 
 .section-title {
-    color: #fff;
+    color: #000;
     text-align: center;
     margin-bottom: 20px;
 }
