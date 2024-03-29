@@ -361,18 +361,26 @@ $event_message = "Your raid against " . $raid['boss_name'] . " has ended. You wo
             // Determine items from the loot table
 $items_won = []; // Store the names of items won
 if(!empty($loot_table)){
-foreach ($loot_table as $loot) {
-    $random_chance = rand(0, 100); // Generate a number between 0 and 100
+    foreach ($loot_table as $loot) {
+        $random_chance = rand(0, 100); // Generate a number between 0 and 100
 
-    if ($random_chance <= ($loot['drop_rate'] * 100)) {
-        echo "Debug: random_chance = $random_chance, drop_rate = " . ($loot['drop_rate'] * 100) . "\n";  // Debug line           
-        // The user has won this item!
-        $itemName = getItemName($loot['item_id']);
-        $items_won[] = $itemName;
+        if ($random_chance <= ($loot['drop_rate'] * 100)) {
+            // Attempt to fetch the name of the item
+            $itemName = getItemName($loot['item_id']);
 
-        // Add to the found items log
-        $found_items_log[] = "$formatted_name found a $itemName.\n"; // Note the "\n" here
-        echo "Debug: Added to found_items_log for $formatted_name\n";  // Debug line
+            // Check if the item name is valid
+            if ($itemName === null || $itemName === "" || $itemName === "Unknown Item") {
+                // This means either the item ID is invalid or the item does not exist in the database.
+                // You can choose to log this error, notify an admin, or simply continue to the next loot item.
+                echo "You Found no items During this Raid";
+                continue; // Skip adding this item
+            }
+
+            $items_won[] = $itemName;
+
+            // Add to the found items log
+            $found_items_log[] = "$formatted_name found a $itemName.\n";
+            echo "Debug: Added to found_items_log for $formatted_name\n";
                     
         
         // Insert or update the item in the participant's inventory
@@ -397,24 +405,22 @@ foreach ($loot_table as $loot) {
             $raid_leader_name = formatName($raid['summoned_by']);
   // Update raidwins and raidsjoined
         $update_stats_query = "UPDATE grpgusers SET raidwins = raidwins + 1, raidcomp = raidcomp + 1 WHERE id = " . $participant['user_id'];
-        mysql_query($update_stats_query);
+mysql_query($update_stats_query);
 
+// Create the event message
+$event_message = "Your Raid, Led by " . $raid_leader_name . " with " . $participant_count . " participants, against " . $raid['boss_name'] . " has ended.";
 
-
-            // Create the event message
-            $event_message = "Your Raid, Led by " . $raid_leader_name . " with " . $participant_count . " participants, against " . $raid['boss_name'] . " has ended.";
-
-            $event_message .= "<br>&bull; You won $points_won points.";
-            $event_message .= "<br>&bull; You won $money_won money.";
+$event_message .= "<br>&bull; You won $points_won points.";
+$event_message .= "<br>&bull; You won $money_won money.";
 $event_message .= "<br>&bull; You won $raidpoints_won raid points.";  // New
 
-            // If there are items won, append that to the event message
-            if (!empty($items_won)) {
-                $event_message .= "<br>&bull; You also found: " . implode(", ", $items_won) . ".";
-            } else {
-                $event_message .= "<br>&bull; You failed to find any items this raid!";
-            }
+if (!empty($items_won)) {
+    $event_message .= "<br>&bull; You also found: " . implode(", ", $items_won) . ".";
+} else {
+    $event_message .= "<br>&bull; No items were found during this raid.";
+}
 
+// Here, you can send or display $event_message as needed
  // Add a link to view the battle log
             $event_message .= "<br><a href='view_battle_log.php?raid_id=" . $raid['id'] . "'>View Battle Log</a>";
 
