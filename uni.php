@@ -50,9 +50,7 @@ echo '<div class="contenthead floaty">';
 				echo'<th>Course</th>';
 				echo'<th>Course Duration(Days)</th>';
 				echo'<th>Dip(s) Needed</th>';
-				echo'<th>Strength</th>';
-				echo'<th>Defense</th>';
-				echo'<th>Speed</th>';
+				echo'<th>Gains</th>';
 				echo'<th>Cost</th>';
 				echo'<th>Start</th>';
 			echo'</tr>';
@@ -64,9 +62,20 @@ echo '<div class="contenthead floaty">';
 				echo'<td>' . $row['name'] . '</td>';
 				echo'<td>' . $row['duration'] . '</td>';
 				echo'<td>' . $row['needed'] . '</td>';
-				echo'<td>' . number_format($row['strength'], 0) . '</td>';
-				echo'<td>' . number_format($row['defense'], 0) . '</td>';
-				echo'<td>' . number_format($row['speed'], 0) . '</td>';
+
+                echo '<td><ul>';
+                if ($row['strength'] > 0) {
+                    echo '<li>+' . number_format($row['strength'], 0) . ' Strength</li>';
+                }
+                if ($row['defense'] > 0) {
+                    echo '<li>+' . number_format($row['defense'], 0) . ' Defense</li>';
+                }
+                if ($row['speed'] > 0) {
+                    echo '<li>+' . number_format($row['speed'], 0) . ' Speeed</li>';
+                }
+                echo '</ul></td>';
+
+
 				echo'<td>$' .  number_format($row['cost'], 0) . '</td>';
 				echo'<td><a href="uni.php?start=' . $row['id'] . '"><button>Start</button></a></td>';
 			echo'</tr>';
