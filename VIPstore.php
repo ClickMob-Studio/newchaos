@@ -1225,6 +1225,23 @@ document.addEventListener("DOMContentLoaded", function() {
 
 }
 
+.cta{
+    cursor: pointer;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 5px;
+    border: none;
+    background: #2a2729;
+    text-transform: uppercase;
+    color: #bcbcbc;
+    font-size: 11px;
+    box-shadow: 0 0 3px #000000;
+}
+
 .new-shop-item--img h5, .new-shop-item--price span {
     color: black; /* Gold color for emphasis */
     font-weight: bold;
@@ -1238,19 +1255,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 .new-shop-item--price img {
     margin-right: 5px;
-}
-
-.new-shop-item--buy a.cta {
-    background-color: #ffc107; /* Button color */
-    color: #212529; /* Text color */
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.new-shop-item--buy a.cta:hover {
-    background-color: #e0a800; /* Darker on hover */
 }
 
     
