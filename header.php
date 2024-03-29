@@ -566,7 +566,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 <?php endif; ?>
 <li><a href='bank.php'>Bank</a></li>
 <li><a href='jail.php'>Jail (<?php echo $ja; ?>)</a> </li>
-<li><a href='hospital.php'>hospital (<?php echo $hosp; ?>) </a></li>
+<li><a href='hospital.php'>Hospital (<?php echo $hosp; ?>) </a></li>
 <li><a href='crime.php'>Crimes</a> </li>
 <li><a href='newcrimes.php'>Speed Crimes</a> </li>
 <li><a href='gym.php'>Gym</a> </li>
