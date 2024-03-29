@@ -64,10 +64,10 @@ echo '<div class="contenthead floaty">';
 				echo'<td>' . $row['name'] . '</td>';
 				echo'<td>' . $row['duration'] . '</td>';
 				echo'<td>' . $row['needed'] . '</td>';
-				echo'<td>' . $row['strength'] . '</td>';
-				echo'<td>' . $row['defense'] . '</td>';
-				echo'<td>' . $row['speed'] . '</td>';
-				echo'<td>' . $row['cost'] . '</td>';
+				echo'<td>' . number_format($row['strength'], 0) . '</td>';
+				echo'<td>' . number_format($row['defense'], 0) . '</td>';
+				echo'<td>' . number_format($row['speed'], 0) . '</td>';
+				echo'<td>$' .  number_format($row['cost'], 0) . '</td>';
 				echo'<td><a href="uni.php?start=' . $row['id'] . '"><button>Start</button></a></td>';
 			echo'</tr>';
 			}
