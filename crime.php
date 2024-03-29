@@ -326,6 +326,9 @@ if ($crimeRankResult) {
 }
 
 
+            // EXP 20% BUFF
+            $exp = $exp + (($exp / 100) * 20);
+
             // Update user records in database
             $db->query("UPDATE grpgusers SET loth = loth + ?, exp = exp + ?, crimesucceeded = crimesucceeded + 1, crimemoney = crimemoney + ?, money = money + ?, nerve = nerve - ?, todaysexp = todaysexp + ?, expcount = expcount + ?, totaltax = totaltax + ? WHERE id = ?");
             $db->execute(array(
