@@ -11,11 +11,9 @@ if ($user_class->fbitime > 0) {
 }
 
 
-$db->query("SELECT * FROM jobinfo WHERE userid = ?");
-$db->execute(array(
-    $user_class->id
-));
-if(!$db->num_rows()){
+$quer = mysql_query("SELECT * FROM jobinfo WHERE userid = ". $user_class->id);
+
+if(mysql_num_rows($uer) < 1){
     mysql_query("INSERT INTO jobinfo VALUES (userid, total, points) VALUES (".$user_class->id.", 0, 0, 0)");
    
     $jobinfo['userid'] = $user_class->id;
