@@ -60,7 +60,6 @@ if ($user_class->game_updates)
     mysql_query("UPDATE grpgusers SET new_updates = 0 WHERE id = $user_class->id");
 ?>
 <div class="contenthead floaty">
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"><h4>Game updates</h4></span>
 <table id='newtables' style='width:100%;'>
     
     <style>
