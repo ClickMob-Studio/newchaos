@@ -191,10 +191,8 @@ $exp += $star_bonus_exp;
             if ($user_class->nerref == 2) {
                 $nerveneeded = $nerve - $user_class->nerve;
                 $debug['nerve_needed'] = $nerveneeded;
-                $cost = floor($nerveneeded / 10);
-                if ($cost < 10) {
-                    $cost = 10;
-                }
+                $cost = 10;
+
                 if ($cost > $user_class->points) {
                     return 0;
                 }
@@ -210,7 +208,7 @@ $exp += $star_bonus_exp;
 
                 $prepaid = true;
             } else {
-                $debug['error'] = "Refil Not Enabled";
+                $debug['error'] = "Refill Not Enabled";
                 //$logger->info("", $debug);
                 die();
             }
