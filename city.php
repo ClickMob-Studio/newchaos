@@ -67,7 +67,7 @@ $admin_ids = array_map(function($a) {
 
 <div class="vip-container" style="display: flex; justify-content: space-around; align-items: flex-start;">
     <!-- King of the City -->
-    <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
+    <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; text-align:center ">
         <?php if ($king_result): ?>
             <img src="<?php echo htmlspecialchars($king_result['avatar']); ?>" style="width: 100px; height: 100px;" alt="King's Avatar" class="user-avatar">
             <h4>King of <!_-cityname-_!></h4>
@@ -81,12 +81,12 @@ $admin_ids = array_map(function($a) {
         $csrf = md5(uniqid(rand(), true));
         $_SESSION['csrf'] = $csrf;
         ?>
-        
+
 <a href="/attack.php?attack=<?php echo $king_result['id']; ?> &csrf=<?php echo $csrf;?>" class="challenge-btn">Challenge</a>
 
 </div>
     <!-- Queen of the City -->
-    <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
+    <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; text-align:center">
         <?php if ($queen_result): ?>
             <img src="<?php echo htmlspecialchars($queen_result['avatar']); ?>" style="width: 100px; height: 100px;" alt="Queen's Avatar" class="user-avatar">
             <h4>Queen of <!_-cityname-_!></h4>
