@@ -572,6 +572,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 <li><a href='gym.php'>Gym</a> </li>
 <li><a href='speedGym.php'>Speed Gym</a> </li>
 <li><a href='preferences.php'>Edit Account</a> </li>
+<li><a href='https://discord.gg/HaxxqymTZe' target="_blank">Discord</a> </li>
 
 </ul>
 				</div>
