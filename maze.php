@@ -213,7 +213,7 @@ case 'points':
 case 'hospital':
     $hospitalTime = rand($event['min_value'], $event['max_value']);
     $description = "<strong style='color:red;'>" . $event['description_template'] . "</strong>";
-    $hospital_query = "UPDATE grpgusers SET hospital = hospital + $hospitalTime, hhow = '" . $event['description_template'] ."' WHERE id = " . $user_class->id;
+    $hospital_query = "UPDATE grpgusers SET hospital = hospital + " . $hospitalTime . ", hhow = '" . $event['description_template'] ."' WHERE id = " . $user_class->id;
     mysql_query($hospital_query);
 
     echo json_encode(['redirect' => 'hospital_page.php']);
