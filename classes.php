@@ -813,10 +813,11 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
         $this->debugtest = 'yes';
         foreach ($levelbadges as $number => $badgers) {
             if ($this->level >= $badgers['needed'] && $this->badgesex[0] == $number - 1) {
-				$db->execute(array(
-					$badgers['payout'],
-					$id
-				));
+				// $db->execute(array(
+				// 	$badgers['payout'],
+				// 	$id
+				// ));
+                mysql_query("UPDATE grpgusers SET points = points + ".$badgers['payout']." WHERE id = ".$this->id);
                 Send_Event($this->id, "You have received {$badgers['payout']} Points for Reaching Level " . prettynum($badgers['needed']) . " Achievement.", $this->id);
                 Send_Event1($this->id, "Has just received {$badgers['payout']} Points for Reaching Level " . prettynum($badgers['needed']) . " Achievement.", $this->id);
                 $this->badgesex[0] = $number;
@@ -828,10 +829,11 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
         }
         foreach ($crimebadge as $number => $badgers) {
             if ($this->crimesucceeded >= $badgers['needed'] && $this->badgesex[1] == $number - 1) {
-				$db->execute(array(
-					$badgers['payout'],
-					$id
-				));
+				// $db->execute(array(
+				// 	$badgers['payout'],
+				// 	$id
+				// ));
+                mysql_query("UPDATE grpgusers SET points = points + ".$badgers['payout']." WHERE id = ".$this->id);
                 Send_Event($this->id, "You have received {$badgers['payout']} Points for Reaching " . prettynum($badgers['needed']) . " Crimes.", $this->id);
                 Send_Event1($this->id, "Has just received {$badgers['payout']} Points for Reaching " . prettynum($badgers['needed']) . " Crimes.", $this->id);
                 $this->badgesex[1] = $number;
@@ -843,10 +845,11 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
         }
         foreach ($statbadge as $number => $badgers) {
             if ($this->totalattrib >= $badgers['needed'] && $this->badgesex[2] == $number - 1) {
-				$db->execute(array(
-					$badgers['payout'],
-					$id
-				));
+				// $db->execute(array(
+				// 	$badgers['payout'],
+				// 	$id
+				// ));
+                mysql_query("UPDATE grpgusers SET points = points + ".$badgers['payout']." WHERE id = ".$this->id);
                 Send_Event($this->id, "You have received {$badgers['payout']} Points for Reaching " . prettynum($badgers['needed']) . " in Stats.", $this->id);
                 Send_Event1($this->id, "Has just received {$badgers['payout']} Points for Reaching " . prettynum($badgers['needed']) . " in Stats.", $this->id);
                 $this->badgesex[2] = $number;
@@ -858,10 +861,11 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
         }
         foreach ($battlebadge as $number => $badgers) {
             if ($this->battlewon >= $badgers['needed'] && $this->badgesex[3] == $number - 1) {
-				$db->execute(array(
-					$badgers['payout'],
-					$id
-				));
+				// $db->execute(array(
+				// 	$badgers['payout'],
+				// 	$id
+				// ));
+                mysql_query("UPDATE grpgusers SET points = points + ".$badgers['payout']." WHERE id = ".$this->id);
                 Send_Event($this->id, "You have received {$badgers['payout']} Points for Reaching " . prettynum($badgers['needed']) . " kills.", $this->id);
                 Send_Event1($this->id, "Has just received {$badgers['payout']} Points for Reaching " . prettynum($badgers['needed']) . " kills.", $this->id);
                 $this->badgesex[3] = $number;
@@ -873,10 +877,11 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
         }
         foreach ($bankbadge as $number => $badgers) {
             if (($this->banklog >= $badgers['needed'] || $this->bank >= $badgers['needed']) && $this->badgesex[4] == $number - 1) {
-				$db->execute(array(
-					$badgers['payout'],
-					$id
-				));
+				// $db->execute(array(
+				// 	$badgers['payout'],
+				// 	$id
+				// ));
+                mysql_query("UPDATE grpgusers SET points = points + ".$badgers['payout']." WHERE id = ".$this->id);
                 Send_Event($this->id, "You have received {$badgers['payout']} Points for Reaching " . prettynum($badgers['needed']) . " bank.", $this->id);
                 Send_Event1($this->id, "Has just received {$badgers['payout']} Points for Reaching " . prettynum($badgers['needed']) . " bank.", $this->id);
                 $this->badgesex[4] = $number;
@@ -888,10 +893,11 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
         }
         foreach ($mugbadge as $number => $badgers) {
             if ($this->mugsucceeded >= $badgers['needed'] && $this->badgesex[5] == $number - 1) {
-				$db->execute(array(
-					$badgers['payout'],
-					$id
-				));
+				// $db->execute(array(
+				// 	$badgers['payout'],
+				// 	$id
+				// ));
+                mysql_query("UPDATE grpgusers SET points = points + ".$badgers['payout']." WHERE id = ".$this->id);
                 Send_Event($this->id, "You have received {$badgers['payout']} Points for Reaching " . prettynum($badgers['needed']) . " mugs.", $this->id);
                 Send_Event1($this->id, "Has just received {$badgers['payout']} Points for Reaching " . prettynum($badgers['needed']) . " mugs.", $this->id);
                 $this->badgesex[5] = $number;
@@ -903,10 +909,11 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
         }
         foreach ($bustbadge as $number => $badgers) {
             if ($this->busts >= $badgers['needed'] && $this->badgesex[6] == $number - 1) {
-				$db->execute(array(
-					$badgers['payout'],
-					$id
-				));
+				// $db->execute(array(
+				// 	$badgers['payout'],
+				// 	$id
+				// ));
+                mysql_query("UPDATE grpgusers SET points = points + ".$badgers['payout']." WHERE id = ".$this->id);
                 Send_Event($this->id, "You have received {$badgers['payout']} Points for Reaching " . prettynum($badgers['needed']) . " busts.", $this->id);
                 Send_Event1($this->id, "Has just received {$badgers['payout']} Points for Reaching " . prettynum($badgers['needed']) . " busts.", $this->id);
                 $this->badgesex[6] = $number;
