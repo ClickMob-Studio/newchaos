@@ -472,13 +472,13 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 				</div>
 				<div class="right_side">
 					<div class="info_slot">
-                        <a href="bank.php?h_deposit=cash">
+                        <a href="bank.php?h_deposit=cash" style="text-decoration: none; color:black">
                             <span>$<?php echo number_format($user_class->money); ?></span>
                             Cash
                         </a>
 					</div>
 					<div class="info_slot">
-						<span><?php echo number_format($user_class->points);
+						<span class='pointsholder'><?php echo number_format($user_class->points);
 ?></span>
 						Points
 					</div>
