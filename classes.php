@@ -946,7 +946,7 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
             bloodbath('level', $this->id);
 			
 		
-            Send_Event($this->id, "You have just gained a level. You are now level <span style='color:yellow;'><b>$this->level</b></span>", $this->id);
+            Send_Event($this->id, "You have just gained a level. You are now level <span style='color:red;'><b>$this->level</b></span>", $this->id);
             if ($this->level == 1000) {
                 Send_Event($this->id, "Congratulations on reaching level 1000!.  You are now able to <a href='prestige.php'>prestige</a>");
             }
