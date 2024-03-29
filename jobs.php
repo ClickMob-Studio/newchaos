@@ -11,26 +11,21 @@ if ($user_class->fbitime > 0) {
 }
 
 
-$quer = mysql_query("SELECT * FROM jobinfo WHERE userid = ". $user_class->id);
-
-if(mysql_num_rows($quer) < 1){
-    mysql_query("INSERT INTO jobinfo VALUES (userid, total, points) VALUES (".$user_class->id.", 0, 0, 0)");
-   
+$db->query("SELECT * FROM jobinfo WHERE userid = ?");
+$db->execute(array(
+    $user_class->id
+));
+if(!$db->num_rows()){
+    $db->query("INSERT INTO jobinfo (userid, dailyClockins, lastClockin, addedPercent) VALUES (?, 0, 0, 0)");
+    $db->execute(array(
+        $user_class->id
+    ));
     $jobinfo['userid'] = $user_class->id;
     $jobinfo['dailyClockins'] = $jobinfo['lastClockin'] = $jobinfo['addedPercent'] = 0;
 } else
-    $jobinfo = mysql_fetch_assoc($quer);
+    $jobinfo = $db->fetch_row(true);
 if(isset($_GET['clockin'])){
-    $quer = mysql_query("SELECT * FROM jobinfo WHERE userid = ". $user_class->id);
-
-if(mysql_num_rows($quer) < 1){
-    mysql_query("INSERT INTO jobinfo VALUES (userid, total, points) VALUES (".$user_class->id.", 0, 0, 0)");
-   
-    $jobinfo['userid'] = $user_class->id;
-    $jobinfo['dailyClockins'] = $jobinfo['lastClockin'] = $jobinfo['addedPercent'] = 0;
-} else
-    $jobinfo = mysql_fetch_assoc($quer);
-    if($jobinfo['lastClockin'] < time() - 3600)
+    if($jobinfo['lastClockin'] > time() - 3600)
         diefun("You have already clocked in less than an hour ago.");
     if($user_class->dailyClockins >= 8)
         diefun("You have already clocked in 8 times today.");
@@ -58,7 +53,7 @@ if(mysql_num_rows($quer) < 1){
     $user_class->money += $pay;
 
     $user_class->points += $pay2;
-    $db->query("UPDATE grpgusers SET money = ?, points = ?, dailyClockins = dailyClockins + 1, jobcis = jobcis + 1, jobMoney = jobMoney + ?, raidtokens =raidtokens +2  WHERE id = ?");
+    $db->query("UPDATE grpgusers SET money = ?, points = ?, dailyClockins = dailyClockins + 1, jobcis = jobcis + 1, jobMoney = jobMoney + ? WHERE id = ?");
     $db->execute(array(
         $user_class->money,
   $user_class->points,
@@ -116,26 +111,23 @@ if ($user_class->job != 0) {
 		echo'<a href="jobs.php?clockin"><button>Clockin</button></a> <a href="jobs.php?action=quit"><button>Quit Job</button></a>';
 	echo'</div>';
 }
-
+echo'<h3>Job Center</h3>';
+	echo'<hr>';
 echo'<div class="floaty">';
 
-	echo'<table id="newtables" style="width:97%;table-layout:fixed; text-align:center;">';
+	echo'<table id="newtables" style="width:97%;table-layout:fixed;">';
         echo'<tr>';
-           
-            echo'<h4>Hourly Payment</h4>';
+            echo'<th rowspan="2" style="width:20%;">Job</th>';
+            echo'<th colspan="2">Requirements</th>';
+            echo'<th colspan="2">Hourly Payment</th>';
 
+            echo'<th rowspan="2">Apply</th>';
         echo'<tr>';
-                    echo'<th>Job Desc</th>';
-
             echo'<th>Level</th>';
 
             echo'<th>Total Stats</th>';
   echo'<th>Cash</th>';
   echo'<th>Points</th>';
-    echo'<th>Raid Tokens</th>';
-        echo'<th>Actions</th>';
-
-
         echo'</tr>';
 	$db->query("SELECT * FROM jobs ORDER BY money ASC");
 	$db->execute();
@@ -148,8 +140,6 @@ echo'<div class="floaty">';
 				echo'<td>' . prettynum($row['total']) . '</td>';
 				echo'<td>' . prettynum($row['money'],1) . '</td>';
 				echo'<td>' . prettynum($row['points']) . '</td>';
-				echo'<td>' . prettynum($row['raidtoken']) . '</td>';
-
 
 
 				echo'<td>' , ($row['id'] > $user_class->job) ? '<a href="jobs.php?take=' . $row['id'] . '">Take Job</a>' : '' , '</td>';
