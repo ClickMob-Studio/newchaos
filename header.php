@@ -450,7 +450,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 				<div class="left_side">
 					<div id="avatar"></div>
 				<br />
-            
+
                     <strong><span style='font-size:17px;'><?php echo $user_class->formattedname; ?></span></strong>
                     <br>
 					<strong><span style='font-size:17px;'>Level <!_-level-_!></span></strong>
@@ -466,7 +466,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 					</div>
 					<div id="logo">
 						<a href="/online.php"><?php echo $usersOnline ?> Online Players</a>
-                      
+
 					</div>
 				</div>
 				<div class="right_side">
@@ -496,7 +496,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 			<div class="red_bar row">
 				<div id="stat_section">
 					<div class="stats">
-						<div class="l-text">ENERGY <a href="?spend=refenergy" style="color: red;">(refill)</a></div><div class="r-text"><?php echo $user_class->energy;?> / <?php echo $user_class->maxenergy;?></div>
+						<div class="l-text">ENERGY <a href="?spend=refenergy" style="color: darkgreen;">(refill)</a></div><div class="r-text"><?php echo $user_class->energy;?> / <?php echo $user_class->maxenergy;?></div>
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
@@ -505,7 +505,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						</div>
 					</div>
 					<div class="stats">
-                        <div class="l-text">NERVE <a href="?spend=refnerve" style="color: red;">(refill)</a></div><div class="r-text"><?php echo $user_class->nerve;?> / <?php echo $user_class->maxnerve;?></div>
+                        <div class="l-text">NERVE <a href="?spend=refnerve" style="color: darkgreen;">(refill)</a></div><div class="r-text"><?php echo $user_class->nerve;?> / <?php echo $user_class->maxnerve;?></div>
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
@@ -544,7 +544,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 				<div class="menu_side">
                 <span style="margin-left:20px;"><b>Server Time <?php echo date('Y-m-d H:i'); ?></b></span>
 					<ul class="mainmenu">
-                   
+
 <li><a href='search.php'>Search Players</a></li>
 <li><a href='globalchat.php'>Chat</a></li>
 <li><a href='index.php'>Home</a></li>
@@ -682,7 +682,7 @@ if ($bonus_row['Time'] > 0) {
 
     $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
    $messages[] = 'Attackgfgdgdfgdfgsdfg: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
-   
+
 }
 
 $time = time();
@@ -707,7 +707,7 @@ if ($bonus_row['Time'] > 0) {
 
     $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
    $messages[] = 'Server Wide Double EXP: ' . (($_tt == 'NOW') ? '@None@' : $_tt);
-   
+
 }
 
 // if ($user_class->cityturns > 29) {
@@ -825,7 +825,7 @@ if (!empty($messages)) {
     <!-- <ul class="gift-list"> -->
         <!-- <h4>+50 Raid Tokens</h4> -->
         <!-- <h4>25,000 Points</h4> -->
-        
+
 
 
 
@@ -861,7 +861,7 @@ if (!empty($messages)) {
         color: red !important;
     }
 </style> -->
-   
+
     <?php
 //}
 ?>
@@ -884,7 +884,7 @@ if (!empty($messages)) {
     </style>
 
     <div class="vertical-text-slider floaty12">
-    
+
 
                  <div class="slider-frame">
                 <ul class="slides" style="list-style-type: none; width:100%">
@@ -906,11 +906,11 @@ if (!empty($messages)) {
                         ?>
                         <li class="slide">
                             <div class="slide-content">
-                            
+
                                 <!-- <span>Remember - All Referrals using your referral ID will reward you with 50 Credits! Help Spread the word of our launch!</span> -->
                                 <span><a href="refer.php"><?= $ref_message ?></a></span>
                             </div>
-                            
+
                         </li>
                         <?php
                     } else {
@@ -918,7 +918,7 @@ if (!empty($messages)) {
                             $user_ads = new User($row['poster']);
                             if ($user_ads->avatar == "") {
                                 $user_ads->avatar = "/images/no-avatar.png";
-                            }  
+                            }
                             ?>
                             <li class="slide" style="width:80% !important;">
                                 <div class="slide-content">
@@ -935,19 +935,19 @@ if (!empty($messages)) {
                 </ul>
             </div>
         </div>
- 
+
 </div>
 
 <div class="vertical-text-slider floaty12" id="message-container">
     <ul id="messages" style="list-style-type: none;">
-       
+
     </ul>
 </div>
 
 
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
-    
+
     <script>document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('energy-link').addEventListener('click', function() {
         // Replace 'your_link_here' with the URL you want to navigate to
