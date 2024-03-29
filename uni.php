@@ -43,7 +43,7 @@ echo '<div class="contenthead floaty">';
 		echo'&bull;Here you can choose courses to take over a period of time to gain Strength, Speed, Defense and Diplomas. <br />';
 		echo'&bull;Each course will require a certain number of diplomas and will cost some money.<br />';
 		echo'<br />';
-		echo'&bull;You currently have <b><font color=yellow>' . $user_class->gcse . '</font></b> Diploma(s).</b>';
+		echo'&bull;You currently have <b><font color=red>' . $user_class->gcse . '</font></b> Diploma(s).</b>';
 		echo'<hr style="border:0;border-bottom:thin solid #333;" />';
 		echo'<table id="newtables" class="altcolors" style="width:100%;">';
 			echo'<tr>';
@@ -68,7 +68,7 @@ echo '<div class="contenthead floaty">';
 				echo'<td>' . $row['defense'] . '</td>';
 				echo'<td>' . $row['speed'] . '</td>';
 				echo'<td>' . $row['cost'] . '</td>';
-				echo'<td><a href="uni.php?start=' . $row['id'] . '">Start</a></td>';
+				echo'<td><a href="uni.php?start=' . $row['id'] . '"><button>Start</button></a></td>';
 			echo'</tr>';
 			}
 		echo'</table>';
