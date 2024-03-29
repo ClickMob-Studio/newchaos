@@ -534,18 +534,11 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 					</div>
 					<div class="spacer"></div>
 				</div>
-                <div class="stats">
-						<div class="l-text">EXP</div><div class="r-text"><?php echo $user_class->exp;?> / <?php echo $user_class->maxexp; ?></div>
-						<div class="spacer"></div>
-						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
-							<div class="stat-bar">
-								<div style="background: url(../assets/images/red-stat-bar.png) no-repeat;height: 8px;width:><?php echo $user_class->exppercent;?>%;"></div>
-							</div>
-						</div>
+				<div id="link_section">
+					<div id="link_box">
+						<a href="/vote.php">Vote</a> || <a href="/VIPstore.php">Donate</a> || <a href="/index.php?action=logout">Logout</a>
 					</div>
-					<div class="spacer"></div>
 				</div>
-				
 				<div class="spacer"></div>
 			</div>
 			<div class="content row">
