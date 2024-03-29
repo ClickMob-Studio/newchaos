@@ -41,17 +41,23 @@ if ($currentpage < 1) {
 } // end if
 // the offset of the list, based on current page
 $offset = ($currentpage - 1) * $rowsperpage;
+$csrf = md5(uniqid(rand(), true));
+$_SESSION['csrf'] = $csrf;
 echo '<table width="100%">';
 echo '<tr>';
 echo '<td><b>#ID</b></td>';
 echo '<td><b>Username</b></td>';
 echo '<td><b>Active</b></td>';
+echo '<td><b>Actions</b></td>';
 echo '</tr>';
 $result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `id` ASC LIMIT $offset, $rowsperpage");
 while ($line = mysql_fetch_array($result)) {
     $secondsago = time() - $line['lastactive'];
     $user_online = new User($line['id']);
-    echo "<tr><td>" . $user_online->id . "</td><td>" . $user_online->formattedname . "</td><td>" . $user_online->formattedonline . "</td></tr>";
+    echo "<tr><td>" . $user_online->id . "</td><td>" . $user_online->formattedname . "</td>
+    <td>" . $user_online->formattedonline . "</td>
+    <td><a class='action' href=mug.php?mug='".$user_online->id."'>Mug</a>  <a class='action' href='attack.php?attack=" . $user_online->id . "&csrf=" . $csrf . "'>Attack</a></td>
+    </tr>";
 }
 echo "</table><br />";
 /* * ****  build the pagination links ***** */
