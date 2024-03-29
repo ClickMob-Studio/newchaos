@@ -195,7 +195,7 @@ echo '<div class="star-rating" style="margin-top: 10px;"></div>';
         echo'<div class="flexcont">';
         echo'<div class="floaty" style="flex:1;margin-right:4px;">';
             echo'<h3>Nerve Refill</h3><br />';
-            echo '<p>Enable automated nerve refills until rollover!</p>'
+            echo '<p>Enable automated nerve refills until rollover!</p>';
             echo'<br />';
             echo'Current Status: ' . $status . '<br />';
             echo'<br />';
