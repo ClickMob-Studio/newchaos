@@ -1,8 +1,11 @@
 <?php
 include 'header.php';
+require('stripe/init.php');
 ?>
-
-<?php $result = mysql_query("SELECT * FROM `rmstore` WHERE `limiteditems1` != '9999'");
+<div class='box_top'>VIP Store</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php $result = mysql_query("SELECT * FROM `rmstore` WHERE `limiteditems1` != '9999'");
 while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
     $limiteditems1 = $limiteditems1 + $line['limiteditems1'];
 }
@@ -323,22 +326,28 @@ if (isset($_GET['buy'])) {
     if ($_GET['buy'] == "limitedpack") {
         if ($user_class->limiteditems1 == 0) {
             echo Message("This Pack Is No Longer Available.");
-        } else if ($user_class->credits >= 100) {
-            $newcredit = $user_class->credits -= 100;
+        } else if ($user_class->credits >= 250) {
+            $newcredit = $user_class->credits -= 250;
             $result    = mysql_query("UPDATE `grpgusers` SET `limiteditems1` = limiteditems1 - 1 WHERE `limiteditems1` != '0'");
-                         $db->query("UPDATE grpgusers SET  credits = credits - 100, money = money + 1000000, raidtokens = raidtokens + 5,  rmdays = rmdays + 7, points = points + 5000 WHERE id = ?");
+                         $db->query("UPDATE grpgusers SET  credits = credits - 250, points = points + 40000 WHERE id = ?");
 
                 $db->execute(array(
                                $user_class->id
             ));
-            
+     //       Give_Item(8, $user_class->id, 1);
+       //     Give_Item(9, $user_class->id, 1);
+      //      Give_Item(10, $user_class->id, 1);
+       //                 Give_Item(194, $user_class->id, 1);
+
+
+
 
     
                         
 
             Send_Event($user_class->id, "You have been credited your Starter Package!.", $user_class->id);
             $db->execute(array());
-            echo Message("You spent 100 GOLD on your Starter Package!");
+            echo Message("You spent 250 GOLD on your Starter Package!");
         } else {
             echo Message("You don't have enough GOLD. You can buy some at the VIP store.");
         }
@@ -349,14 +358,18 @@ if (isset($_GET['buy'])) {
 if ($_GET['buy'] == "limitedpack2") {
         if ($user_class->limiteditems2 == 0) {
             echo Message("This Pack Is No Longer Available.");
-        } else if ($user_class->credits >= 1000) {
-            $newcredit = $user_class->credits -= 1000;
+        } else if ($user_class->credits >= 2500) {
+            $newcredit = $user_class->credits -= 2500;
             $result    = mysql_query("UPDATE `grpgusers` SET `limiteditems2` = limiteditems2 - 1 WHERE `limiteditems2` != '0'");
-                         $db->query("UPDATE grpgusers SET  points = points + 60000,  money = money + 12500000, raidtokens = raidtokens + 25, rmdays = rmdays + 30, bank = bank + 0, credits = credits - 1000 WHERE id = ?");
+                         $db->query("UPDATE grpgusers SET  points = points + 450000, bank = bank + 0, credits = credits - 2500 WHERE id = ?");
 
                 $db->execute(array(
                                $user_class->id
             ));
+         //   Give_Item(8, $user_class->id, 10);
+        //    Give_Item(9, $user_class->id, 10);
+        //    Give_Item(10, $user_class->id, 10);
+         //               Give_Item(194, $user_class->id, 10);
            
 
 
@@ -364,9 +377,9 @@ if ($_GET['buy'] == "limitedpack2") {
                                            
                                         
 
-            Send_Event($user_class->id, "You have been credited your Boss Pack!.", $user_class->id);
+            Send_Event($user_class->id, "You have been credited your Semi Points Pack!.", $user_class->id);
             $db->execute(array());
-            echo Message("You spent 1000 GOLD on your Intermediate Package.");
+            echo Message("You spent 2500 GOLD on your Semi Points Package.");
         } else {
             echo Message("You don't have enough GOLD. You can buy some at the VIP store.");
         }
@@ -379,22 +392,26 @@ if ($_GET['buy'] == "limitedpack2") {
 if ($_GET['buy'] == "limitedpack3") {
         if ($user_class->limiteditems3 == 0) {
             echo Message("This Pack Is No Longer Available.");
-        } else if ($user_class->credits >= 10000) {
-            $newcredit = $user_class->credits -= 10000;
+        } else if ($user_class->credits >= 25000) {
+            $newcredit = $user_class->credits -= 25000;
             $result    = mysql_query("UPDATE `grpgusers` SET `limiteditems3` = limiteditems3 - 1 WHERE `limiteditems3` != '0'");
-                         $db->query("UPDATE grpgusers SET  points = points + 750000, rmdays = rmdays + 90, raidtokens = raidtokens + 100, money = money + 100000000, credits = credits - 10000 WHERE id = ?");
+                         $db->query("UPDATE grpgusers SET  points = points + 5000000, credits = credits - 25000 WHERE id = ?");
 
                 $db->execute(array(
                                $user_class->id
             ));
+          //  Give_Item(8, $user_class->id, 100);
+         //   Give_Item(9, $user_class->id, 100);
+         //   Give_Item(10, $user_class->id, 100);
+          //              Give_Item(194, $user_class->id, 100);
 
                                             
                                              
 
 
-            Send_Event($user_class->id, "You have been credited your Masters Pack!.", $user_class->id);
+            Send_Event($user_class->id, "You have been credited your Mega Points Pack!.", $user_class->id);
             $db->execute(array());
-            echo Message("You spent 10000 GOLD on The Masters Pack.");
+            echo Message("You spent 25000 GOLD on The Mega Points Pack.");
         } else {
             echo Message("You don't have enough GOLD. You can buy some at the upgrade store.");
         }
@@ -443,7 +460,7 @@ if ($_GET['buy'] == "freebie") {
         } else if ($user_class->claimed == 0) {
             $newcredit = $user_class->credits -= 0;
             $result    = mysql_query("UPDATE `grpgusers` SET `claimed` = 1 WHERE id = ?");
-                         $db->query("UPDATE grpgusers SET  points = points + 5000, raidtokens = raidtokens + 30, claimed = 1, credits = credits - 0 WHERE id = ?");
+                         $db->query("UPDATE grpgusers SET  points = points + 25000, raidtokens = raidtokens + 50, claimed = 1, credits = credits - 0 WHERE id = ?");
 
                 $db->execute(array(
                                $user_class->id
@@ -458,9 +475,9 @@ if ($_GET['buy'] == "freebie") {
 
 
 
-            Send_Event($user_class->id, "You have been credited your Free Package 5,000 Points and 30 Raid Tokens <a href='raid.php'>Click Here To start a raid!</a>.", $user_class->id);
+            Send_Event($user_class->id, "You have been credited your Free Package 25,000 Points + 50 Raid Tokens <a href='contest.php'>Click Here To see the new contest!</a>.", $user_class->id);
             $db->execute(array());
-            echo Message("You have been credited 5,000 Points & 30x Raid Token! ");
+            echo Message("You have been credited 25,000 Points & 50x Raid Tokens!");
         } else {
             echo Message("You have already claimed your Free Package");
         }
@@ -728,7 +745,7 @@ if ($_GET['buy'] == "freebie") {
                 $user_class->id
             ));
             Give_Item(8, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with your 1 Hour Mug Protection. You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with your 1 Hour Mug Protection. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 20 credits for a 1 Hour Mug Protection.");
         } else {
@@ -743,7 +760,7 @@ if ($_GET['buy'] == "freebie") {
                 $user_class->id
             ));
             Give_Item(8, $user_class->id, 5);
-            Send_Event($user_class->id, "You have been credited with your 1 Hour Mug Protection[x5]. You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with your 1 Hour Mug Protection[x5]. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 100 GOLD for a 1 Hour Mug Protection[x5].");
         } else {
@@ -758,7 +775,7 @@ if ($_GET['buy'] == "MB") {
                 $user_class->id
             ));
             Give_Item(42, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with a 4th of July Box(s). You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with a 4th of July Box(s). You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 30 credits for a 4th of July Box.");
         } else {
@@ -774,7 +791,7 @@ if ($_GET['buy'] == "MB10") {
                 $user_class->id
             ));
             Give_Item(42, $user_class->id, 10);
-            Send_Event($user_class->id, "You have been credited with 10 4th of July Box(s). You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with 10 4th of July Box(s). You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 280 credits for 10 4th of July Box(s).");
         } else {
@@ -789,7 +806,7 @@ if ($_GET['buy'] == "MB100") {
                 $user_class->id
             ));
             Give_Item(42, $user_class->id, 100);
-            Send_Event($user_class->id, "You have been credited with 100 4th of July Box(s). You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with 100 4th of July Box(s). You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 2200 credits for 100 4th of July Box(s).");
         } else {
@@ -808,7 +825,7 @@ if ($_GET['buy'] == "MB100") {
                 $user_class->id
             ));
             Give_Item(9, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with your x5 1 Hour Attack Protections. You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with your x5 1 Hour Attack Protections. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 100 credits for a x5 1 Hour Attack Protection.");
         } else {
@@ -823,7 +840,7 @@ if ($_GET['buy'] == "MB100") {
                 $user_class->id
             ));
             Give_Item(9, $user_class->id, 5);
-            Send_Event($user_class->id, "You have been credited with your 1 Hour Attack Protection[x5]. You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with your 1 Hour Attack Protection[x5]. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 100 GOLD for a 1 Hour Attack Protection[x5].");
         } else {
@@ -838,7 +855,7 @@ if ($_GET['buy'] == "MB100") {
                 $user_class->id
             ));
             Give_Item(10, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with your 1 Hour Double EXP pack. You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with your 1 Hour Double EXP pack. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 50 credits for a Double EXP pack.");
         } else {
@@ -853,7 +870,7 @@ if ($_GET['buy'] == "MB100") {
                 $user_class->id
             ));
             Give_Item(10, $user_class->id, 5);
-            Send_Event($user_class->id, "You have been credited with your 1 Hour Double EXP pack[x5]. You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with your 1 Hour Double EXP pack[x5]. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 220 credits for a 5 Double EXP pack(s).");
         } else {
@@ -870,7 +887,7 @@ if ($_GET['buy'] == "MB100") {
             Give_Item(105, $user_class->id);
             Give_Item(106, $user_class->id);
             Give_Item(107, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with your custom item set. You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with your custom item set. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 500 credits for a custom item set.");
         } else {
@@ -886,7 +903,7 @@ if ($_GET['buy'] == "boosters") {
             ));
             Give_Item(68, $user_class->id);
             Give_Item(69, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with your +25 Nerve & Energy Boosters. You can find it <a href='inventory.php'><font color=yellow><b>[Here]</b></font></a>", $user_class->id);
+            Send_Event($user_class->id, "You have been credited with your +25 Nerve & Energy Boosters. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
             echo Message("You spent 500 credits for your Nerve & Energy Boosters.");
         } else {
@@ -919,7 +936,7 @@ $donperc = $donperc >= 100 ? 100 : $donperc;
 
 echo '<div class="flexcont" style="align-items:stretch;">';
 echo '<div class="flexele floaty" style="margin:3px;">';
-echo '<h4><font color=yellow>Make a Donation to Chaos City</font></h4>';
+echo '<h4><font color=red>Make a Donation to Chaos City</font></h4>';
 echo'<hr>';
 echo'<br>';
 
@@ -928,60 +945,53 @@ if ($user_class->donate_token > 0) {
 }
 
 // Display information
-echo '<center><font size="3px" color="white">$1 = <img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img><font color=yellow><b>10</font></center>';
-echo '<center><font color=white>Your GOLD balance is:</font> <span style="color:yellow;font-weight:bold;"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>' . $user_class->credits . ' </size></center></span><br />';
+echo '<center><font size="3px" color="black">$1 = <img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img><font color=red><b>10</font></center>';
+echo '<center><font color=black>Your GOLD balance is:</font> <span style="color:red;font-weight:bold;"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>' . $user_class->credits . ' </size></center></span><br />';
 
 echo '<center>';
 ?>
-<span id="creditDisplay"><font color='white'>For a donation of $0, you will receive <font color=yellow><b></b>0</font> <img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img></font></span>
-
-
+<span id="creditDisplay">
+    <font color='black'>For a donation of $<span id="donationAmount">0</span>, you will receive 
+    <font color=red><b id="creditsAmount">0</b></font> <img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>
+    </font>
+</span>
 
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     var amountInput = document.getElementById("amount");
-    var boostCheckbox = document.getElementById("boost");
-    var creditDisplay = document.getElementById("creditDisplay");
+    var creditDisplayAmount = document.getElementById("creditsAmount"); // Element to display the credits amount
+    var donationAmountDisplay = document.getElementById("donationAmount"); // Element to display the donation amount
 
     function updateCredits() {
         var donationAmount = parseFloat(amountInput.value) || 0;
-        var credits = donationAmount * 10;
-        if (boostCheckbox.checked) {
-            credits *= 2;
-        }
-        creditDisplay.innerHTML = "<font color='white'>For a donation of $" + donationAmount.toFixed(2) + ", you will receive " + credits + " credits.</font>";
+        var credits = donationAmount * 10; // Assuming each dollar gives 10 credits, adjust as needed
+
+        donationAmountDisplay.textContent = donationAmount.toFixed(2); // Update the displayed donation amount
+        creditDisplayAmount.textContent = credits; // Update the displayed credits amount
     }
 
     amountInput.addEventListener("input", updateCredits);
-    boostCheckbox.addEventListener("change", updateCredits);
 });
 
 </script>
  <script>
-        function validateForm() {
-            // Get the donation amount from the input field
-            var amount = document.getElementById("amount").value;
+       function validateForm() {
+    var amount = document.getElementById("amount").value;
 
-            // Check if the amount is a valid integer
-            if (!/^[1-9]\d*$/.test(amount)) {
-                //alert("Please enter a valid whole number greater than 0.");
-                return true; // Prevent form submission
-            }
-            if(amount < 3){
-               // alert("The smallest amount for donation is $3")
-                return true;
-            }
-            // If the amount is valid, allow the form submission
-            return true;
-        }
+    if (!/^[1-9]\d*$/.test(amount) || amount < 3) {
+        alert("Please enter a valid whole number greater than or equal to 3.");
+        return false; // Prevent form submission
+    }
+    return true; // Allow the form submission
+}
     </script>
 
 <div id="payment-box">
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" onsubmit="return validateForm()" target="_top">
 
     <!-- Identify your business email or account ID -->
-    <input type="hidden" name="business" value="ExcelledGaming@outlook.com">
+    <input type="hidden" name="business" value="chaoscity24@gmail.com">
     
     <!-- Specify donation-related settings -->
     <input type="hidden" name="cmd" value="_donations">
@@ -1006,6 +1016,16 @@ document.addEventListener("DOMContentLoaded", function() {
                                     <input type="submit" value="Donate Now!"  name="submit">
                                 </td>
                             </form>
+
+                            <br>
+                            <h1>Donate Using Stripe</h1>
+                            <form action="charge.php" method="post">
+    <input type="text" name="card_number" placeholder="Card Number">
+    <input type="text" name="expiry_month" placeholder="MM">
+    <input type="text" name="expiry_year" placeholder="YY">
+    <input type="text" name="cvc" placeholder="CVC">
+    <button type="submit" name="submit">Pay Now</button>
+</form>
 </div>
 <br>
 
@@ -1025,40 +1045,36 @@ document.addEventListener("DOMContentLoaded", function() {
         <div class="vip-package">
             <h4><font color="#FF4500">Starter Pack</font></h4>
             <ul>
-                <li>5,000 Points</li>
-                <li>$1,000,000</li>
-                <li>7 VIP Days</li>
-                <li><font color=yellow>5</font> Raid Tokens</li>
-            </ul>
-                              <b><span style="color:#FFFFFF"><?php echo'' . $user_class->limiteditems1 . '' ?> / 50 Remaining</span></b>
+                  <li>40,000 Points</li>
 
-            <h4>Purchase now for only<br><a href="VIPstore.php?buy=limitedpack"><button class="gold-button"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>100</button></a></h4>
+                              <b><span style="color:orange"><?php echo'' . $user_class->limiteditems1 . '' ?> / 50 Remaining</span></b>
+            </ul>
+
+            <h4>Purchase now for only<br><a href="VIPstore.php?buy=limitedpack"><button class="gold-button"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>250</button></a></h4>
         </div>
         
         <!-- Limited Edition Pack 2 -->
         <div class="vip-package">
             <h4><font color=silver>Boss Pack</font></h4>
             <ul>
-                <li>60,000 Points</li>
-                <li>$12,500,000</li>
-                <li>30 VIP Days</li>
-                <li><font color=yellow>25</font> Raid Tokens</li>
-                  <b><span style="color:#FFFFFF"><?php echo'' . $user_class->limiteditems2 . '' ?> / 10 Remaining</span></b>
+                <li>450,000 Points</li>
+
+
+                  <b><span style="color:orange"><?php echo'' . $user_class->limiteditems2 . '' ?> / 10 Remaining</span></b>
             </ul>
-            <h4>Purchase now for only<br><a href="VIPstore.php?buy=limitedpack2"><button class="gold-button"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>1,000</button></a></h4>
+            <h4>Purchase now for only<br><a href="VIPstore.php?buy=limitedpack2"><button class="gold-button"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>2,500</button></a></h4>
         </div>
         
         <!-- Limited Edition Pack 3 -->
         <div class="vip-package">
             <h4><font color=gold>Masters Pack</font></h4>
             <ul>
-                <li>750,000 Points</li>
-                <li>$125,000,000</li>
-                <li>90 VIP Days</li>
-                <li><font color=yellow>100</font> Raid Tokens</li>
-                <b><span style="color:#FFFFFF"><?php echo'' . $user_class->limiteditems3 . '' ?> / 5 Remaining</span></b>
+                   <li>5,000,000 Points</li>
+
+               
+                <b><span style="color:orange"><?php echo'' . $user_class->limiteditems3 . '' ?> / 5 Remaining</span></b>
             </ul>
-            <h4>Purchase now for only<br><a href="VIPstore.php?buy=limitedpack3"><button class="gold-button"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>10,000</button></a></h4>
+            <h4>Purchase now for only<br><a href="VIPstore.php?buy=limitedpack3"><button class="gold-button"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>25,000</button></a></h4>
         </div>
     </div>
 </div>
@@ -1145,13 +1161,13 @@ document.addEventListener("DOMContentLoaded", function() {
             <td style="text-align: center;">
                
                   <h4>Example</h4> <h4 class="gradient-text">Gradient NAME</h4>
-                                    <h4>Cost: <font color=yellow><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img> 50</font></h4> 
+                                    <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img> 50</font></h4>
                
             </td>
         </tr>
         <tr>
             <td style="text-align: center;">
-                <a href="VIPstore.php?buy=7daygrad" style="display: inline-block; padding: 10px 20px; background-color: #333; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY NOW</a>
+                <a href="VIPstore.php?buy=7daygrad" style="display: inline-block; padding: 10px 20px; background-color:  color: black; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY NOW</a>
 
             </td>
         </tr>
@@ -1163,7 +1179,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <style>
 .gradient-text {
     font-size: 24px; /* Adjust the font size as needed */
-    background: linear-gradient(to right, red, white, orange, red); /* Transition from red, through white and orange, back to red */
+    background: linear-gradient(to right, red, black, orange, red); /* Transition from red, through black and orange, back to red */
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -1175,7 +1191,7 @@ document.addEventListener("DOMContentLoaded", function() {
     display: inline-block;
     padding: 10px 20px;
     background-color: #111111; /* Dark grey background */
-    color: white; /* White text */
+    color: black; /* black text */
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
@@ -1194,7 +1210,7 @@ document.addEventListener("DOMContentLoaded", function() {
 }
 
 .section-title {
-    color: #fff;
+    color: #000;
     text-align: center;
     margin-bottom: 20px;
 }
@@ -1205,21 +1221,40 @@ document.addEventListener("DOMContentLoaded", function() {
     flex-wrap: wrap;
     gap: 20px; /* Adjusts the space between the items */
 }
-
 .new-shop-item {
-    background-color: #333; /* Dark background */
-    color: white; /* Light text */
-    padding: 20px;
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    width: 200px; /* Adjust based on preference */
+    background-color: /* Dark background */ color: black;
+    /* padding: 20px; */
+    /* border-radius: 10px; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
+    width: 200px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+.vip-package ul{
+  list-style-type: none;
+
+}
+
+.cta{
+    cursor: pointer;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    line-height: 24px;
+    text-align: center;
+    border-radius: 5px;
+    border: none;
+    background: #2a2729;
+    text-transform: uppercase;
+    color: #bcbcbc;
+    font-size: 11px;
+    box-shadow: 0 0 3px #000000;
+}
 
 .new-shop-item--img h5, .new-shop-item--price span {
-    color: white; /* Gold color for emphasis */
+    color: black; /* Gold color for emphasis */
     font-weight: bold;
 }
 
@@ -1233,19 +1268,6 @@ document.addEventListener("DOMContentLoaded", function() {
     margin-right: 5px;
 }
 
-.new-shop-item--buy a.cta {
-    background-color: #ffc107; /* Button color */
-    color: #212529; /* Text color */
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.new-shop-item--buy a.cta:hover {
-    background-color: #e0a800; /* Darker on hover */
-}
-
     
     .vip-packages {
     display: flex;
@@ -1256,12 +1278,13 @@ document.addEventListener("DOMContentLoaded", function() {
 }
 
 .vip-package {
-    background-color: #333; /* Dark background */
-    color: white; /* Light text */
-    padding: 20px;
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
-    width: 30%; /* Adjust based on preference and screen size */
+    text-align: center;
+    background-color: /* Dark background */
+    color: black;
+    /* padding: 20px; */
+    /* border-radius: 10px; */
+    /* box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); */
+    width: 30%;
 }
 
 .vip-package img {
@@ -1371,8 +1394,8 @@ document.addEventListener("DOMContentLoaded", function() {
 echo '<h4>By donating to Chaos City you are agreeing to the following terms:</h4>';
 echo '<hr>';
 echo '<ul class="donate_rules">';
-echo '<li><font color=white>Strictly NO Refunds</li>';
-echo '<li><font color=white>If you do not receive your package, please contact support.</li>';
+echo '<li><font color=black>Strictly NO Refunds</li>';
+echo '<li><font color=black>If you do not receive your package, please contact support.</li>';
 echo '<li>Purchasing packages does not mean you can break the game rules, your account will still be Banned!</li>';
 echo '<li>If you try refunding your money through paypal, we will ban your account.</li>';
 echo '</div>';
@@ -1502,11 +1525,7 @@ echo '</div>';
 
 echo '</div>';
 
-echo '</div>';
-echo '</div>';
-echo '</div>';
-echo '</div>';
-echo '</div>';
+
 
 
 include 'footer.php';
