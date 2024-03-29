@@ -523,7 +523,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						</div>
 					</div>
 					<div class="stats">
-						<div class="l-text">Awake</div><div class="r-text"><?php echo $user_class->awake;?> / <?php echo $user_class->maxawake; ?></div>
+						<div class="l-text">AWAKE</div><div class="r-text"><?php echo $user_class->awake;?> / <?php echo $user_class->maxawake; ?></div>
 						<div class="spacer"></div>
 						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
 							<div class="stat-bar">
