@@ -413,7 +413,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Chaos City RPG</title>
 <link href="assets/css/games.css?v4" type="text/css" rel="stylesheet" />
-<link type="text/css" rel="stylesheet" href="assets/css/template.css?v11"  />
+<link type="text/css" rel="stylesheet" href="assets/css/template.css?v12"  />
 <script src="js/java.js?12" type="text/javascript"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//js.pusher.com/2.2/pusher.min.js"></script>
