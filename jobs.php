@@ -23,7 +23,7 @@ if(!$db->num_rows()){
 } else
     $jobinfo = $db->fetch_row(true);
 if(isset($_GET['clockin'])){
-    if($jobinfo['lastClockin'] > time() - 3600)
+    if($jobinfo['lastClockin'] < time() - 3600)
         diefun("You have already clocked in less than an hour ago.");
     if($user_class->dailyClockins >= 8)
         diefun("You have already clocked in 8 times today.");
