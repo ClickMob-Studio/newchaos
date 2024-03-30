@@ -297,22 +297,29 @@ foreach ($rows as $row) {
 
 
         echo'</div>';
-        echo'<hr style="border:0;border-top:thin solid #333;" />';
-        echo'<div class="flexcont">';
-            echo'<div class="flexele" style="border-right:thin solid #333;text-align:center;">';
-                echo'<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666" />';
-                echo'<br />';
-                if($row['playerid'] > 0){
-                echo $array['name'];
-                }else{
-                    echo '<span style="color:red">System</span>';
-                }
-            echo'</div>';
-            echo'<div class="flexele" style="flex:3;padding:10px;">';
-                echo BBCodeParse(stripslashes($row['body']));
-            echo'</div>';
-        echo'</div>';
-    echo'</div>';
+        echo '<hr style="border:0;border-top:thin solid #333;" />';
+        echo '<table class="flexcont" style="width:100%;">';
+        echo '<tr>';
+        
+        // Left cell for avatar and username
+        echo '<td class="flexele" style="border-right:thin solid #333;text-align:center;width:150px;">';
+        echo '<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666" />';
+        echo '<br />';
+        if($row['playerid'] > 0) {
+            echo $array['name'];
+        } else {
+            echo '<span style="color:red">System</span>';
+        }
+        echo '</td>';
+        
+        // Right cell for the body content
+        echo '<td class="flexele" style="padding:10px;">';
+        echo BBCodeParse(stripslashes($row['body']));
+        echo '</td>';
+        
+        echo '</tr>';
+        echo '</table>';
+        
 
 
 }
