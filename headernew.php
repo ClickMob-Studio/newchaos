@@ -428,11 +428,11 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						<div class="row mb-3">
 							<div class="col-9 dcUserName">
 							
-									<?php echo $user_class->formattedname; ?>
+									<span class="dcHeaderUsername"><?php echo $user_class->formattedname; ?></span>
 								<img class="d-lg-none dcAvatarMobile" src="<?php echo $user_class->avatar; ?>" alt="<?php echo $user_class->username; ?>'s Avatar">
 							</div>
 							<div class="col-3 text-center">
-								Level <?php echo $user_class->level; ?>
+								Level <?php echo $user_class->id; ?>
 								<div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip" title="<?php echo $stats['exp']['current'] . '/' . $stats['exp']['max']; ?>">
 									<div class="progress-bar" role="progressbar" style="width:<?php echo ( $stats['exp']['current'] / $stats['exp']['max'] * 100 ); ?>%"></div>
 								</div>
