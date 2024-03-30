@@ -944,13 +944,13 @@ if ($user_class->donate_token > 0) {
 }
 
 // Display information
-echo '<center><font size="3px" color="black">$1 = <img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img><font color=red><b>10</font></center>';
+echo '<center><font size="3px" color="white">$1 = <img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img><font color=red><b>10</font></center>';
 echo '<center><font color=white>Your GOLD balance is:</font> <span style="color:red;font-weight:bold;"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>' . $user_class->credits . ' </size></center></span><br />';
 
 echo '<center>';
 ?>
 <span id="creditDisplay">
-    <font color='black'>For a donation of $<span id="donationAmount">0</span>, you will receive 
+    <font color='white'>For a donation of $<span id="donationAmount">0</span>, you will receive 
     <font color=red><b id="creditsAmount">0</b></font> <img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>
     </font>
 </span>
