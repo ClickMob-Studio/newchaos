@@ -125,6 +125,14 @@ document.addEventListener("DOMContentLoaded", function() {
 function confirmSummon(cost) {
     return confirm('Summoning this boss will cost ' + cost + ' raid token(s). Are you sure you want to proceed?');
 }
+function toggleDropdown(element) {
+    var dropdown = element.nextElementSibling;
+    if (dropdown.style.display === "block") {
+        dropdown.style.display = "none";
+    } else {
+        dropdown.style.display = "block";
+    }
+}
 </script>
 
 
