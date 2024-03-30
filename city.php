@@ -92,6 +92,7 @@ $admin_ids = array_map(function($a) {
             <p>King of <!_-cityname-_!></p>
             
         <?php endif; ?>
+        <br />
 
         <p style="font-weight: bold;">By being King of this City you will earn <?php echo number_format($city_query['owned_points'], 0) ?> points on rollover.</p>
        
@@ -111,6 +112,7 @@ $admin_ids = array_map(function($a) {
             <h4>VACANT</h4>
             <p>Queen of <!_-cityname-_!></p>
             <?php endif; ?>
+        <br />
 
         <p style="font-weight: bold;">By being Queens of this City you will earn <?php echo number_format($city_query['owned_points'], 0) ?> points on rollover.</p>
           </div>
