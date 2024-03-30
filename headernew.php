@@ -495,7 +495,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-4 col-lg-12 row mb-0 mb-lg-3">
+							<div class="col-5 col-lg-12 row mb-0 mb-lg-3">
 								<div class="d-none d-lg-block col-4">
 									<img style="width: 50px;" src="<?php echo $user_class->avatar; ?>" alt="">
 								</div>
@@ -508,7 +508,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 									<?php endforeach; ?>
 								</div>
 							</div>
-							<div class="col-8 col-lg-12 g-0 row dcStatsPanel">
+							<div class="col-7 col-lg-12 g-0 row dcStatsPanel">
 								<?php foreach ( $stats as $key => $stat ) : ?>
 									<div class="row my-0 my-lg-1 <?php echo 'dcStatContainer-' . $key; ?>">
 										<div class="col-3 d-flex align-items-center"><?php echo $stat['title']; ?></div>
