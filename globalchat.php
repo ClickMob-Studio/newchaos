@@ -156,40 +156,41 @@ echo'
     }
     </style>
 <?php
-echo'<table style="margin-bottom:-10px;">';
-    echo'<div class="flexcont">';
-        echo'<span class="flexele forumhover" onclick="addBB(\'[b][/b]\', 4);return false;">';
-            echo'[b]';
-        echo'</span>';
-        echo'<span class="flexele forumhover" onclick="addBB(\'[u][/u]\', 4);return false;">';
-            echo'[u]';
-        echo'</span>';
-        echo'<span class="flexele forumhover" onclick="addBB(\'[i][/i]\', 4);return false;">';
-            echo'[i]';
-        echo'</span>';
-        echo'<span class="flexele forumhover" onclick="addBB(\'[s][/s]\', 4);return false;">';
-            echo'[s]';
-        echo'</span>';
-        echo'<span class="flexele forumhover" onclick="addBB(\'[url][/url]\', 6);return false;">';
-            echo'[url]';
-        echo'</span>';
-        echo'<span class="flexele forumhover" onclick="v(\'[img][/img]\', 6);return false;">';
-            echo'[img]';
-        echo'</span>';
-echo'<span class="flexele forumhover" onclick="addBB(\'[tag][/tag]\', 6);return false;">';
-            echo'[tag]';
-        echo'</span>';
+<table style="margin-bottom:-10px;">
+<tr>
+    <td class="flexcont">
+        <span class="flexele forumhover" onclick="addBB('[b][/b]', 4);return false;">[b]</span>
+    </td>
+    <td class="flexcont">
+        <span class="flexele forumhover" onclick="addBB('[u][/u]', 4);return false;">[u]</span>
+    </td>
+    <td class="flexcont">
+        <span class="flexele forumhover" onclick="addBB('[i][/i]', 4);return false;">[i]</span>
+    </td>
+    <td class="flexcont">
+        <span class="flexele forumhover" onclick="addBB('[s][/s]', 4);return false;">[s]</span>
+    </td>
+    <td class="flexcont">
+        <span class="flexele forumhover" onclick="addBB('[url][/url]', 6);return false;">[url]</span>
+    </td>
+    <td class="flexcont">
+        <span class="flexele forumhover" onclick="v('[img][/img]', 6);return false;">[img]</span>
+    </td>
+    <td class="flexcont">
+        <span class="flexele forumhover" onclick="addBB('[tag][/tag]', 6);return false;">[tag]</span>
+    </td>
+    <td class="flexcont">
+        <span class="flexele forumhover" onclick="addBB('[youtube][/youtube]', 10);return false;">[youtube]</span>
+    </td>
+    <td class="flexcont">
+        <span id="semojis" class="forumhover" onclick="return showemojis();" style="display:<?php echo ($user_class->hideemojis) ? 'block' : 'none'; ?>;flex:2;">Show Emojis</span>
+    </td>
+    <td class="flexcont">
+        <span id="hemojis" class="forumhover" onclick="return hideemojis();" style="display:<?php echo ($user_class->hideemojis) ? 'none' : 'block'; ?>;flex:2;">Hide Emojis</span>
+    </td>
+</tr>
+</table>
 
-        echo'<span class="flexele forumhover" onclick="addBB(\'[youtube][/youtube]\', 10);return false;">';
-            echo'[youtube]';
-        echo'</span>';
-        echo'<span id="semojis" class="flexele forumhover" onclick="return showemojis();" style="display:' , ($user_class->hideemojis) ? 'block' : 'none' , ';flex:2;">';
-            echo'Show Emojis';
-        echo'</span>';
-        echo'<span id="hemojis" class="flexele forumhover" onclick="return hideemojis();" style="display:' , ($user_class->hideemojis) ? 'none' : 'block' , ';flex:2;">';
-            echo'Hide Emojis';
-        echo'</span>';
-    echo'</div>';
     echo'<hr style="border:0;border-top:thin solid #333;" />';
     echo'<form name="message">';
         echo'<textarea autofocus name="msgtext" id="reply" oninput="typing();" style="width:90%;height:125px;"></textarea><br />';
