@@ -260,7 +260,7 @@ if (!$petJailCount) {
     }
     $hospital = "[" . $m->get('hosCount') . "]";
     $hospital = ($m->get('hosCount') > 0) ? "<span style='color:red;'>$hospital</span>" : $hospital;
-    $j = mysql_query("SELECT `id` FROM gpgusers WHERE jail > 0");
+    $j = mysql_query("SELECT `id` FROM grpgusers WHERE jail > 0");
     $jail = mysql_num_rows($j);
     $petJailDisplay = "[" . $petJailCount . "]";
 $petJailDisplay = $petJailCount > 0 ? "<span style='color:red;'>$petJailDisplay</span>" : $petJailDisplay;
