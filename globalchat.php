@@ -155,7 +155,7 @@ echo'
         text-align: center;
     }
     </style>
-<?php
+
 <table style="margin-bottom:-10px;">
 <tr>
     <td class="flexcont">
@@ -190,7 +190,7 @@ echo'
     </td>
 </tr>
 </table>
-
+<?php
     echo'<hr style="border:0;border-top:thin solid #333;" />';
     echo'<form name="message">';
         echo'<textarea autofocus name="msgtext" id="reply" oninput="typing();" style="width:90%;height:125px;"></textarea><br />';
