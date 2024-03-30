@@ -1,7 +1,6 @@
 <?php
 include 'dbcon.php';
 session_start();
-$_SESSION['failmessage'] = "Test Message";
 // Query to get users online in the last hour
 $queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
 $statementOnline = $db->prepare($queryOnline);
@@ -79,9 +78,22 @@ $users24 = $statementOnline24->rowCount();
 								<form class="dcForm" method="post" action="register.php" name="register">
 									<input type="text" name="username" placeholder="Username">
 									<input type="email" name="email" placeholder="Email">
-									<input type="password" name="password" placeholder="Password">
-									<input type="password" name="cpassword" placeholder="Confirm Password">
-									<input type="hidden" name="ref">
+									<input type="password" name="pass" placeholder="Password">
+									<input type="password" name="conpass" placeholder="Confirm Password">
+                                    <select class='register' name='gender' type='dropdown'>
+                    			<option value=''>Please Choose Gender</option>
+                    			<option value='Male'>Male</option>
+                    			<option value='Female'>Female</option>
+                    		</select>	
+                            <?php if (isset($_GET['referer'])): ?>
+			        <?php
+			        $_GET['referer'] = abs((int) $_GET['referer']);
+                    ?>
+                	<input type='hidden' name='referer' value='<?php echo $_GET['referer'] ?>' />
+
+                	<?php endif; ?>
+                    <img src='cap.php' alt="Captcha" class="captcha-image mb-3"/><br>
+						<input class='register' type='text' name='cap' />
 									<div class="text-start mt-4">
 										<button class="text-start" name="action" value="login" type="submit">Start Playing</button>
 									</div>
