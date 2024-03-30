@@ -49,33 +49,35 @@ if (isset($_POST['msg'])) {
     $quotetext=str_replace(array('\'','"'),array('\\\'','&quot;'),$msg);
     $banbutton = (($user_class->admin || $user_class->gm || $user_class->cm)) ? "<a href='?deltav=$newid'><button style='float:left;height:25px;'>Delete Post</button></a> " : "";
     print gcTalking() . "|-|-|" . $newid . "|-|-|";
-	echo'<div class="floaty">';
-		echo'<div class="flexcont" style="text-align:center;">';
-			echo'<div class="flexele">';
-				echo 'Now!';
-			echo'</div>';
-			echo'<div class="flexele">';
-
-			echo'</div>';
-			echo'<div class="flexele">';
-				echo ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $newid . '">Delete Post</a>' : '';
-			echo'</div>';
-			echo'<div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $user_class->id . ']' . str_replace(array("\n","\r"),array('','\n'),$quotetext) . '[/quote]\\n\\n\');">';
-				echo 'Quote';
-			echo'</div>';
-		echo'</div>';
-		echo'<hr style="border:0;border-top:thin solid #333;" />';
-		echo'<div class="flexcont">';
-			echo'<div class="flexele" style="border-right:thin solid #333;text-align:center;">';
-				echo'<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666" />';
-				echo'<br />';
-				echo $user_class->formattedname;
-			echo'</div>';
-			echo'<div class="flexele" style="flex:3;padding:10px;max-width:73%;overflow-wrap:break-word;">';
-				echo BBCodeParse(stripslashes($msg));
-			echo'</div>';
-		echo'</div>';
-	echo'</div>';
+	echo '<table class="flexcont" style="width:100%;">';
+	echo '<tr>';
+	
+	// Left cell for avatar and username
+	echo '<td class="flexele" style="border-right:thin solid #333;text-align:center;width:150px;">';
+	echo '<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666" />';
+	echo '<br />';
+	if($row['playerid'] > 0) {
+		echo $array['name'];
+	} else {
+		echo '<span style="color:red">System</span>';
+	}
+	echo '</td>';
+	
+	// Right cell for the body content
+	echo '<td class="flexele" style="padding:10px;">';
+	echo BBCodeParse(stripslashes($row['body']));
+	echo '<br><br>';
+	echo howlongago($row['timesent']) . ' ago <br><br>';
+	echo (($user_class->admin || $user_class->gm || $user_class->cm) && (!$array['admin'] && !$array['gm'])) ? '<a href="?gcban=' . $row['playerid'] . '&conf=' . $_SESSION['security'] . '">Ban User</a>' : '';
+	echo ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $row['id'] . '">Delete Post</a>' : '';
+	echo'<br><div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $row['playerid'] . ']' . str_replace(array("\n","\r"),array('','\n'),$quotetext) . '[/quote]\\n\\n\');">';
+	echo 'Quote';
+echo'</div>';
+	echo '</td>';
+	
+	echo '</tr>';
+	echo '</table>';
+	
 } elseif (isset($_GET['lastID'])) {
     $db->query("UPDATE grpgusers SET globalchat = 0 WHERE id = ?");
     $db->execute(array(
