@@ -945,7 +945,7 @@ if ($user_class->donate_token > 0) {
 
 // Display information
 echo '<center><font size="3px" color="black">$1 = <img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img><font color=red><b>10</font></center>';
-echo '<center><font color=black>Your GOLD balance is:</font> <span style="color:red;font-weight:bold;"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>' . $user_class->credits . ' </size></center></span><br />';
+echo '<center><font color=white>Your GOLD balance is:</font> <span style="color:red;font-weight:bold;"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img>' . $user_class->credits . ' </size></center></span><br />';
 
 echo '<center>';
 ?>
@@ -1383,8 +1383,8 @@ document.addEventListener("DOMContentLoaded", function() {
 echo '<h4>By donating to Chaos City you are agreeing to the following terms:</h4>';
 echo '<hr>';
 echo '<ul class="donate_rules">';
-echo '<li><font color=black>Strictly NO Refunds</li>';
-echo '<li><font color=black>If you do not receive your package, please contact support.</li>';
+echo '<li><font color=white>Strictly NO Refunds</li>';
+echo '<li><font color=white>If you do not receive your package, please contact support.</li>';
 echo '<li>Purchasing packages does not mean you can break the game rules, your account will still be Banned!</li>';
 echo '<li>If you try refunding your money through paypal, we will ban your account.</li>';
 echo '</div>';
