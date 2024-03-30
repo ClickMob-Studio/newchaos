@@ -1,6 +1,7 @@
 <?php
 include 'dbcon.php';
 session_start();
+$_SESSION['failmessage'] = "Test Message";
 // Query to get users online in the last hour
 $queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
 $statementOnline = $db->prepare($queryOnline);
@@ -19,13 +20,13 @@ $users24 = $statementOnline24->rowCount();
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<title>Deadly Cartel - Free text based Mafia Crime MMORPG</title>
+		<title>Chaos City - Free text based Mafia Crime MMORPG</title>
 
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-		<meta name="description" content="Deadly Cartel is a mafia text based role-playing game with endless opportunities. Besides committing crimes, you can run your own Front and earn lots of money with your business. Being a successful businessman assumes participating in courses, so you could acquire new skills. Do you have what it takes?">
-		<meta name="keywords" content="mafia, rpg, online, crime, game, hustle, Deadly Cartel, mmorpg, pocket mafia, text based, wars, text based rpg">
-		<meta property="og:title" content="Deadly Cartel - Free text based RPG | Pocket Mafia | Gangster Game">
-		<meta property="og:site_name" content="Deadly Cartel - Free text based Mafia RPG">
+		<meta name="description" content="Chaos CIty is a mafia text based role-playing game with endless opportunities. Besides committing crimes, you can run your own Front and earn lots of money with your business. Being a successful businessman assumes participating in courses, so you could acquire new skills. Do you have what it takes?">
+		<meta name="keywords" content="mafia, rpg, online, crime, game, hustle, Chaos CIty, mmorpg, pocket mafia, text based, wars, text based rpg">
+		<meta property="og:title" content="Chaos CIty - Free text based RPG | Pocket Mafia | Gangster Game">
+		<meta property="og:site_name" content="Chaos CIty - Free text based Mafia RPG">
 
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
 		<link rel="preconnect" href="https://fonts.gstatic.com">
@@ -45,7 +46,7 @@ $users24 = $statementOnline24->rowCount();
 				<div>
 					<div class="d-inline-block">
 						<p class="highlightWelcome text-start m-0">Welcome to</p>
-						<h1 class="loginTitle">Deadly Cartel</h1>
+						<h1 class="loginTitle">Chaos CIty</h1>
 						<?php 
 						if(isset($_SESSION['failmessage'])){
 							echo '<div class="alert alert-danger">'. $_SESSION['failmessage'] .'</div>';
