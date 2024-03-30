@@ -517,7 +517,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 										<div class="col-3 d-flex align-items-center"><?php
 										if($stat['title'] == 'Nerve'){
 											echo "<a href='?spend=refnerve' >".$stat['title']."</a>";
-										}elseif($stats['title'] == 'Energy'){
+										}elseif($stat['title'] == 'Energy'){
 										echo "<a href='?spend=energy' >".$stat['title']."</a>";	
 										}else{
 										echo $stat['title'];
