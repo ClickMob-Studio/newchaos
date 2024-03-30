@@ -33,21 +33,6 @@ $db->query("SELECT * FROM sessions WHERE userid = ?");
 $db->execute(array(
     $_SESSION['id']
 ));
-// $IP = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
-// $row = $db->fetch_row(true);
-// if (!$row) {
-//     session_destroy();
-//     header('Location: index.php');
-//     exit();
-// }
-// if ($row['sessionid'] != $_COOKIE['PHPSESSID'] && $_SESSION['id'] != 0) {
-//     $sessid = $_SESSION['id'];
-//     session_unset();
-//     session_destroy();
-//     header('Location: index.php');
-//     exit();
-// }
-
 if (isset($_GET['action']) && $_GET['action'] == "logout") {
     session_destroy();
     header("Location: index.php");
@@ -399,7 +384,58 @@ $petJailDisplay = $petJailCount > 0 ? "<span style='color:red;'>$petJailDisplay<
 }
 ob_start("callback");
 
+$currencies = array(
+	'money'    => array(
+		'icon'  => 'fas fa-dollar-sign',
+		'value' => '$' . number_format( $user_class->money ),
+	),
+	'bank'     => array(
+		'icon'  => 'fas fa-piggy-bank',
+		'value' => '$' . number_format( $user_class->bank),
+	),
+	'points' => array(
+		'icon'  => 'far fa-gem',
+		'value' => number_format( $user_class->points ),
+	),
+	'credits'   => array(
+		'icon'  => 'fab fa-medium-m',
+		'value' => number_format( $user_class->credits ) . ( ( 1 === $user_class->credits ) ? ' credit' : ' credits' ),
+	),
+);
+$stats = array(
+	'health' => array(
+		'title'   => 'Health',
+		'current' => $user_class->hp,
+		'max'     => $user_class->maxhp,
+	),
+	'energy' => array(
+		'title'   => 'Energy',
+		'current' => $user_class->energy,
+		'max'     => $user_class->maxenergy,
+	),
+	'brave'  => array(
+		'title'   => 'Nerve',
+		'current' => $user_class->nerve,
+		'max'     => $user_class->maxnerve,
+	),
+	'will'   => array(
+		'title'   => 'Awake',
+		'current' => $user_class->awake,
+		'max'     => $user_class->maxawake,
+	),
+	'exp'    => array(
+		'title'   => 'Exp.',
+		'current' => $user_class->exp,
+		'max'     => $user_class->maxexp,
+	),
+);
 
+$counts = array(
+	'event'         => $ev,
+	'mail'          => '<!_-mail-_!>',
+	'hospital'      => $hosp,
+	'jail'          => $ja,
+);
 $queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
 
 $usersOnline = mysql_num_rows($queryOnline);
@@ -408,176 +444,111 @@ $activeRaidsQuery = "SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE
 $activeRaidsResult = mysql_query($activeRaidsQuery);
 $activeRaidsData = mysql_fetch_assoc($activeRaidsResult);
 $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+echo '<script src="js/java.js?12" type="text/javascript"></script>';
+?><!doctype html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Chaos City RPG</title>
-<link href="assets/css/games.css?v6" type="text/css" rel="stylesheet" />
-<link type="text/css" rel="stylesheet" href="assets/css/template.css?v13"  />
-<script src="js/java.js?12" type="text/javascript"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="//js.pusher.com/2.2/pusher.min.js"></script>
-<script type="text/javascript" language="javascript" src="/gradient.js"></script>
-<script type="text/javascript" src="/farbtastic/farbtastic.js"></script>
-<link rel="stylesheet" href="/farbtastic/farbtastic.css" type="text/css" />
-<script type="text/javascript">
-	var currenttime = '<?php
-		print date("F d, Y H:i:s", time()) ?>' //PHP method of getting server date
-	var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December")
-	var serverdate=new Date(currenttime)
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
+	<title>ChaosCity</title>
 
-	function padlength(what) {
-		var output=(what.toString().length==1)? "0"+what : what
-		return output
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+	<link href="asset/css/style.css?v=<?php echo time()?>" rel="stylesheet" type="text/css">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="js/java.js?12" type="text/javascript"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="asset/js/app.<?php echo CACHEBURST?>.js"></script>
+<style>
+	a{
+		text-decoration: none;
 	}
-	// function displaytime() {
-	// 	serverdate.setSeconds(serverdate.getSeconds()+1)
-	// 	var datestring=montharray[serverdate.getMonth()]+" "+padlength(serverdate.getDate())+", "+serverdate.getFullYear()
-	// 	var timestring=padlength(serverdate.getHours())+":"+padlength(serverdate.getMinutes())+":"+padlength(serverdate.getSeconds())
-	// 	document.getElementById("servertime").innerHTML=datestring+" Server Time: "+timestring
-	// }
-	// window.onload=function() {
-	// 	setInterval("displaytime()", 1000)
-	// }
-</script>
+	.floaty{
+		color:white !important;
+	}
+	</style>
 </head>
 <body>
-<div id="outer" class="wrap">
-	<div id="inner" class="wrap">
-		<div id="header" class="row"></div>
-		<div id="main_box" class="row">
-        <div class="top_level row">
-				<div class="left_side">
-					<div id="avatar"></div>
-				<br />
-
-                    <strong><span style='font-size:17px;'><?php echo $user_class->formattedname; ?></span></strong>
-                    <br>
-					<strong><span style='font-size:17px;'>Level <!_-level-_!></span></strong>
-				</div>
-				<div class="center_side">
-					<div id="links">
-						<a href="pms.php?view=inbox">Mail (<!_-mail-_!>)</a> -
-						<a href="/events.php">Events(<?php echo $ev; ?>)</a> -
-						<a href="/forum.php">Forum</a> -
-						<a href="/news.php">News</a> -
-						<a href="/gameupdates.php"><strong>Updates</strong></a>
-						<a href="/VIPstore.php"><strong>Vip Store</strong></a>
-					</div>
-					<div id="logo">
-						<a href="/online.php"><?php echo $usersOnline ?> Online Players</a>
-
-					</div>
-				</div>
-				<div class="right_side">
-					<div class="info_slot">
-                        <a href="bank.php?h_deposit=cash" style="text-decoration: none; color:black">
-                            <span class='moneyholder'>$<?php echo number_format($user_class->money); ?></span>
-                            Cash
-                        </a>
-					</div>
-					<div class="info_slot">
-						<span class='pointsholder'><?php echo number_format($user_class->points);
-?></span>
-						Points
-					</div>
-					<div class="info_slot">
-						<span><?php echo ($user_class->bank >= 0) ? ('$'.number_format($user_class->bank)) : 'No Account'; ?></span>
-						Bank
-					</div>
-					<div class="info_slot">
-						<span><?php echo number_format($user_class->credits); ?></span>
-						Gold
-					</div>
-					<div class="spacer"></div>
-				</div>
-				<div class="spacer"></div>
-			</div>
-			<div class="red_bar row">
-				<div id="stat_section">
-					<div class="stats">
-						<a href="?spend=refenergy" style="text-decoration: none; color:black">ENERGY</a><div class="r-text"><?php echo $user_class->energy;?> / <?php echo $user_class->maxenergy;?></div>
-						<div class="spacer"></div>
-						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
-							<div class="stat-bar">
-								<div class="stat_bar" style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<!_-energyperc-_!>%;"></div>
+	<header class="mainHeader">
+		<div class="row mx-auto mainHeaderContent">
+		<?php require 'navbar.php'; ?>
+		</div>
+	</header>
+	<div class="row mx-auto my-3 mainContent">
+		<div class="d-none d-lg-block col-2 dcLeftNavContainer p-0">
+			<?php require 'leftnav.php'; ?>
+		</div>
+		<div class="col-12 col-lg-10">
+			<header class="row">
+				<div class="col-12 col-lg-4">
+					<div class="p-3 dcPanel dcAvatarPanel">
+						<div class="row mb-3">
+							<div class="col-9 dcUserName">
+							
+									<span class="dcHeaderUsername"><?php echo $user_class->formattedname; ?></span>
+								<img class="d-lg-none dcAvatarMobile" style="width: 50px;" src="<?php echo $user_class->avatar; ?>">
+							</div>
+							<div class="col-3 text-center">
+								Level <?php echo $user_class->id; ?>
+								<div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip" title="<?php echo $user_class->exp . '/' . $user_class->maxexp; ?>">
+									<div class="progress-bar" role="progressbar" style="width:<?php echo ( $user_class->exp / $user_class->maxexp * 100 ); ?>%"></div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-5 col-lg-12 row mb-0 mb-lg-3">
+								<div class="d-none d-lg-block col-4">
+									<img style="width: 50px;" src="<?php echo $user_class->avatar; ?>" alt="">
+								</div>
+								<div class="col-12 col-lg-7 offset-lg-1 g-0 row">
+									<?php foreach ( $currencies as $key => $currency ) : ?>
+										<div class="row my-1 g-0">
+											<div class="col-2 d-flex align-items-center"><i class="mx-auto <?php echo $currency['icon']; ?>"></i></div>
+											<div class="col-10 d-flex align-items-center"><?php echo $currency['value']; ?></div>
+										</div>
+									<?php endforeach; ?>
+								</div>
+							</div>
+							<div class="col-7 col-lg-12 g-0 row dcStatsPanel">
+								<?php foreach ( $stats as $key => $stat ) : ?>
+									<div class="row my-0 my-lg-1 <?php echo 'dcStatContainer-' . $key; ?>">
+										<div class="col-3 d-flex align-items-center"><?php
+										if($stat['title'] == 'Nerve'){
+											echo "<a href='?spend=refnerve' >".$stat['title']."</a>";
+										}elseif($stat['title'] == 'Energy'){
+										echo "<a href='?spend=energy' >".$stat['title']."</a>";	
+										}else{
+										echo $stat['title'];
+										} ?></div>
+										<div class="col-9 d-flex align-items-center">
+											<div class="progress dcStatsBars" data-toggle="tooltip" title="<?php echo $stat['current'] . '/' . $stat['max']; ?>">
+												<div class="progress-bar" role="progressbar" style="width:<?php echo ( $stat['current'] / $stat['max'] * 100 ); ?>%"></div>
+											</div>
+										</div>
+									</div>
+								<?php endforeach; ?>
 							</div>
 						</div>
 					</div>
-					<div class="stats">
-                        <a href="?spend=refnerve" style="text-decoration: none; color:black";>NERVE</a><div class="r-text"><?php echo $user_class->nerve;?> / <?php echo $user_class->maxnerve;?></div>
-						<div class="spacer"></div>
-						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
-							<div class="stat-bar">
-								<div class="stat_bar" style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<!_-nerveperc-_!>%"></div>
-							</div>
-						</div>
-					</div>
-					<div class="stats">
-						HEALTH<div class="r-text"><?php echo $user_class->hp; ?> / <?php echo $user_class->maxhp;?></div>
-						<div class="spacer"></div>
-						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
-							<div class="stat-bar">
-								<div class="stat_bar" style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<!_-hpperc-_!>%;"></div>
-							</div>
-						</div>
-					</div>
-					<div class="stats">
-						AWAKE<div class="r-text"><?php echo $user_class->awake;?> / <?php echo $user_class->maxawake; ?></div>
-						<div class="spacer"></div>
-						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
-							<div class="stat-bar">
-								<div class="stat_bar" style="background: url(../assets/images/red-stat-bar.png) no-repeat;height: 8px;width:<!_-awakeperc-_!>%;"></div>
-							</div>
-						</div>
-					</div>
-                    <div class="stats">
-                    EXPERIENCE<div class="r-text"><?php echo $user_class->exp;?> / <?php echo $user_class->maxexp; ?></div>
-						<div class="spacer"></div>
-						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
-							<div class="stat-bar">
-								<div class="stat_bar" style="background: url(../assets/images/red-stat-bar.png) no-repeat;height: 8px;width:<?php echo $user_class->exppercent;?>%;"></div>
-							</div>
-						</div>
-					</div>
-    
-					<div class="spacer"></div>
 				</div>
-				<div class="spacer"></div>
-			</div>
-			<div class="content row">
-				<div class="menu_side">
-                <span style="margin-left:20px;"><b>Server Time <?php echo date('Y-m-d H:i'); ?></b></span>
-					<ul class="mainmenu">
-
-<li><a href='search.php'>Search Players</a></li>
-<li><a href='globalchat.php'>Chat</a></li>
-<li><a href='index.php'>Home</a></li>
-<li><a href='city.php'><!_-cityname-_!></a></li>
-<li><a href='missions.php'>Missions</a></li>
-<li><a href='inventory.php'>Inventory</a></li>
-<li><a href='raids.php'>Raids</a></li>
-<li><a href='backalley.php'>Backalley</a></li>
-<?php if ($user_class->gang > 0): ?>
-    <li><a href='gang.php'>Gang</a></li>
-<?php else: ?>
-    <li><a href='creategang.php'>Create Gang</a></li>
-<?php endif; ?>
-<li><a href='bank.php'>Bank</a></li>
-<li><a href='jail.php'>Jail (<?php echo $ja; ?>)</a> </li>
-<li><a href='hospital.php'>Hospital (<?php echo $hosp; ?>) </a></li>
-<li><a href='crime.php'>Crimes</a> </li>
-<li><a href='newcrimes.php'>Speed Crimes</a> </li>
-<li><a href='gym.php'>Gym</a> </li>
-<li><a href='speedGym.php'>Speed Gym</a> </li>
-<li><a href='preferences.php'>Edit Account</a> </li>
-<li><a href='https://discord.gg/HaxxqymTZe' target="_blank">Discord</a> </li>
-
-</ul>
+				<div class="col-12 col-lg-8 mt-3 mt-lg-0">
+					<div class="dcPanel h-100">
+						<div class="text-center dcBannerButtonsContainer">
+							<a href="voting.php" class="dcSecondaryButton my-3">Vote for <i class="far fa-gem"></i></a>
+							<a href="#" class="dcSecondaryButton my-3">Refer for <i class="far fa-gem"></i></a>
+							<a href="donate.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
+						</div>
+					</div>
 				</div>
-				<div class="content_side">
-</div>
+			</header>
+			<div class="row mt-4">
+				<main>
+					<div class="dcPanel p-3">
 
     <?php
 
@@ -890,11 +861,6 @@ if (!empty($messages)) {
 }
     </style>
 
-    <div class="vertical-text-slider floaty12">
-
-
-                 <div class="slider-frame">
-                <ul class="slides" style="list-style-type: none; width:100%">
 
                     <?php
                     $now = time();
@@ -911,11 +877,9 @@ if (!empty($messages)) {
                         $ref_message = $_messages[array_rand($_messages)];
 
                         ?>
-                        <li class="slide">
-                            <div class="slide-content">
-
-                                <!-- <span>Remember - All Referrals using your referral ID will reward you with 50 Credits! Help Spread the word of our launch!</span> -->
-                                <span style='margin-left:-50px;'><a href="refer.php"><?= $ref_message ?></a></span>
+                        
+                            <div class="dcPanel p-3" style="text-align:center">
+								<?= $ref_message ?>
                             </div>
 
                         </li>
@@ -945,7 +909,7 @@ if (!empty($messages)) {
 
 </div>
 
-<div class="vertical-text-slider floaty12" id="message-container">
+<div class="dcPanel p-3" style="text-align:center" id="message-container">
     <ul id="messages" style="list-style-type: none;">
 
     </ul>
@@ -1100,4 +1064,3 @@ function microtime_float()
 anticheat();
 ?>
 
-<div class='box'>
