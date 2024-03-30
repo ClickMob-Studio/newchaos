@@ -187,7 +187,7 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
 
 
 
-        <table id='newtables' class='table' style='width:100%; color:white'>
+        <table id='newtables' style='width:100%; color:white'>
         <tr>
             <th>Subject</th>
             <th>Sender</th>
