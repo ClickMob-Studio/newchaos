@@ -444,6 +444,7 @@ $activeRaidsQuery = "SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE
 $activeRaidsResult = mysql_query($activeRaidsQuery);
 $activeRaidsData = mysql_fetch_assoc($activeRaidsResult);
 $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
+echo '<script src="js/java.js?12" type="text/javascript"></script>';
 ?><!doctype html>
 <html lang="en">
 <head>
