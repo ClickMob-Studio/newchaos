@@ -466,7 +466,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 		text-decoration: none;
 	}
 	.floaty{
-		color:white;
+		color:white !important;
 	}
 	</style>
 </head>
