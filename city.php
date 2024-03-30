@@ -34,9 +34,10 @@ $db->query("SELECT id FROM `grpgusers` WHERE `admin` = 1");
 $db->execute();
 $rows = $db->fetch_row();
 
-
 // Assuming we have a city variable for the current user's city
 $current_city = $user_class->city;
+
+$city_query = mysql_query("SELECT owned_points FROM cities WHERE id = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
 
 // PHP to fetch king's information including avatar
 $king_query = mysql_query("SELECT id, username, avatar FROM grpgusers WHERE king = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
@@ -83,6 +84,8 @@ $admin_ids = array_map(function($a) {
             <p>King of <!_-cityname-_!></p>
             
         <?php endif; ?>
+
+        <p style="font-weight: bold;">By being King of this City you will earn <?php echo number_format($city_query['owned_points'], 0) ?> points on rollover.</p>
        
 
 
@@ -100,6 +103,8 @@ $admin_ids = array_map(function($a) {
             <h4>VACANT</h4>
             <p>Queen of <!_-cityname-_!></p>
             <?php endif; ?>
+
+        <p style="font-weight: bold;">By being Queens of this City you will earn <?php echo number_format($city_query['owned_points'], 0) ?> points on rollover.</p>
           </div>
 </div>
 
