@@ -82,8 +82,7 @@ $users24 = $statementOnline24->rowCount();
 									<input type="email" name="email" placeholder="Email">
 									<input type="password" name="pass" placeholder="Password">
 									<input type="password" name="conpass" placeholder="Confirm Password">
-                                    <select class='register' name='gender' type='dropdown'>
-                    			<option value='' style="display: block;
+                                    <select class='register'  style="display: block;
     margin: 10px auto;
     background: none;
     border: solid #757575 1px;
@@ -91,7 +90,8 @@ $users24 = $statementOnline24->rowCount();
     width: 100%;
     font-size: 1.5rem;
     font-style: italic;
-    padding: 5px;">Please Choose Gender</option>
+    padding: 5px;" name='gender' type='dropdown'>
+                    			<option value=''>Please Choose Gender</option>
                     			<option value='Male'>Male</option>
                     			<option value='Female'>Female</option>
                     		</select>	
