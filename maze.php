@@ -559,7 +559,7 @@ function sendDirection(chosenDirection) {
                 toggleDirectionButtons(false); // Re-enable direction buttons
             }, 500); // Wait for 3 seconds before re-enabling clicks and buttons
         });
-    }, 200); // Wait 1 second before executing the request
+    }, 100); // Wait 1 second before executing the request
 }
 
 function toggleDirectionButtons(disable) {
