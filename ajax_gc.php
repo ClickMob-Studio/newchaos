@@ -50,38 +50,17 @@ if (isset($_POST['msg'])) {
     $banbutton = (($user_class->admin || $user_class->gm || $user_class->cm)) ? "<a href='?deltav=$newid'><button style='float:left;height:25px;'>Delete Post</button></a> " : "";
     print gcTalking() . "|-|-|" . $newid . "|-|-|";
 	?>
-	<table class="floaty">
-    <tr>
-        <td style="text-align:left;">
-            <div class="flexcont">
-                <div class="flexele" style="border-right:thin solid #333;text-align:center;">
-                    <img src="<?php echo $avatar; ?>" height="150" width="150" style="border:1px solid #666666" />
-                    <br />
-                    <?php echo $user_class->formattedname; ?>
-                </div>
-            </div>
-        </td>
-        <td>
-            <div class="flexcont" style="text-align:center;">
-                <div class="flexele">Now!</div>
-                <div class="flexele"></div>
-                <div class="flexele forumhover" onClick="addsmiley('[quote=<?php echo $user_class->id; ?>]<?php echo str_replace(array("\n","\r"),array('','\n'),$quotetext); ?>[/quote]\n\n');">Quote</div>
-            </div>
-            <hr style="border:0;border-top:thin solid #333;" />
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <div class="flexcont" style="text-align:center;">
-                <div class="flexele"></div>
-                <div class="flexele"></div>
-                <div class="flexele">
-                    <?php echo ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $newid . '">Delete Post</a>' : ''; ?>
-                </div>
-            </div>
-        </td>
-    </tr>
+	<table class="flexcont" style="width:100%;">
+   <tbody>
+      <tr>
+         <td class="flexele" style="border-right:thin solid #333;text-align:center;width:150px;"><?php echo $avatar; ?><br><?php echo $user_class->formattedname; ?></td>
+         <td class="flexele" style="padding:10px;">
+            <?php echo $msg; ?><br><br>NOW <br><br>
+         </td>
+      </tr>
+   </tbody>
 </table>
+	
 
 <?php
 } elseif (isset($_GET['lastID'])) {
