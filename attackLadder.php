@@ -167,7 +167,11 @@ deleteUserFromSpot($userId, $desiredSpot);
     $ladder = mysql_query("SELECT * FROM `attackladder` ORDER BY `spot` ASC ");
     $csrf = md5(uniqid(rand(), true));
     $_SESSION['csrf'] = $csrf;
+    $shown = array();
     while ($row = mysql_fetch_array($ladder)):
+        if (!isset($shown[$row['user']])) {
+            $shown[$row['user']] = 1;
+
         $text       = formatName($row['user']);
         $reward = $row['spot'] == '1' ? '150' : '100';
         $attack = ($user_class->id == $row['user']) ? '-' : "<a class='ladder-button' href='attack.php?attack=" . $row['user'] . "&csrf=". $csrf ."'>Attack</a>";
@@ -178,6 +182,9 @@ deleteUserFromSpot($userId, $desiredSpot);
         <span>Reward: <?= $reward ?> Points</span>
         <span><?= $attack ?></span>
     </div>
-    <?php endwhile; ?>
+    <?php
+        }
+    endwhile;
+    ?>
 </div>
 <?php require "footer.php"; ?>
