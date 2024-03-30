@@ -6,12 +6,12 @@ $topLinks = array(
 		'url'  => 'index.php',
 	),
 	array(
-		'name' => 'City',
-		'url'  => 'explore.php',
+		'name' => '<!_-cityname-_!>',
+		'url'  => 'city.php',
 	),
 	array(
 		'name' => 'Crimes',
-		'url'  => 'criminal.php',
+		'url'  => 'crime.php',
 	),
 	array(
 		'name' => 'Gym',
