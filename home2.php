@@ -1,5 +1,7 @@
 <?php
 include 'dbcon.php';
+
+include 'classes.php';
 session_start();
 // Query to get users online in the last hour
 $queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
@@ -81,7 +83,15 @@ $users24 = $statementOnline24->rowCount();
 									<input type="password" name="pass" placeholder="Password">
 									<input type="password" name="conpass" placeholder="Confirm Password">
                                     <select class='register' name='gender' type='dropdown'>
-                    			<option value=''>Please Choose Gender</option>
+                    			<option value='' style="display: block;
+    margin: 10px auto;
+    background: none;
+    border: solid #757575 1px;
+    border-width: 0 0 1px 0;
+    width: 100%;
+    font-size: 1.5rem;
+    font-style: italic;
+    padding: 5px;">Please Choose Gender</option>
                     			<option value='Male'>Male</option>
                     			<option value='Female'>Female</option>
                     		</select>	
