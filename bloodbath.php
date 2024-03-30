@@ -68,7 +68,7 @@ $nor = 3; // number of ranks to be shown per category
     <div class="pad">
         <table id="newtables" style="width:100%;">
     <span style='color:red;'><center>Welcome to bloodbath, Bloodbath allows you the chance to gain some extra points for your hard work!</span><br />
-    <span style='color:black;font-weight:800'><center>Note: Payments will be processed manually.</span><br />
+    <span style='color:#FFF;font-weight:800'><center>Note: Payments will be processed manually.</span><br />
     <br>
     <center>
 <font size="3px">        <?php

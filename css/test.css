@@ -1097,21 +1097,21 @@ A:link.linky {
     padding:5px 8px 5px 8px;
     margin:0px 2px 0px 2px;
     background-color:#D7D7D7;
-    color:black;
+    color:#FFF;
 }
 A:visited.linky {
     font-size:0.8em;
     padding:5px 8px 5px 8px;
     margin:0px 2px 0px 2px;
     background-color:#D7D7D7;
-    color:black;
+    color:#FFF;
 }
 A:hover.linky {
     font-size:0.8em;
     padding:5px 8px 5px 8px;
     margin:0px 2px 0px 2px;
     background-color:#600101;
-    color:black;
+    color:#FFF;
 }
 A:link.credits {
     color:#cbc897;
@@ -1712,7 +1712,7 @@ color:#FFFFFF;
 font-family:Arial, Helvetica, sans-serif;
 font-size:14px;
 font-weight:bold;
-background-color:black;
+background-color:#FFF;
 padding:0px;
 margin:0px;
 margin-left:7px;
@@ -1733,7 +1733,7 @@ color:#FFFFFF;
 font-family:Arial, Helvetica, sans-serif;
 font-size:14px;
 font-weight:bold;
-background-color:black;
+background-color:#FFF;
 padding:0px;
 margin:0px;
 margin-top:2px;
@@ -1789,7 +1789,7 @@ color:#FFFFFF;
 font-size:14px;
 font-family:Arial, Helvetica, sans-serif;
 font-weight:bold;
-background-color:black;
+background-color:#FFF;
 padding:0px;
 margin:0px;
 margin-top:1px;
@@ -1808,7 +1808,7 @@ color:#FFFFFF;
 font-size:14px;
 font-family:Arial, Helvetica, sans-serif;
 font-weight:bold;
-background-color:black;
+background-color:#FFF;
 padding:0px;
 margin:0px;
 margin-top:7px;
@@ -1827,7 +1827,7 @@ float:left;
 color:#FFFFFF;
 font-size:12px;
 font-family:Arial, Helvetica, sans-serif;
-background-color:black;
+background-color:#FFF;
 padding:0px;
 margin:0px;
 margin-top:7px;
@@ -3061,7 +3061,7 @@ text-align :left;
 #slidemenubar, #slidemenubar2 {
 	position:absolute;
 	border:1.5px solid #929292;
-	background-color:black;
+	background-color:#FFF;
 	layer-background-color:#F2F2F2;
 	font:bold 12px Verdana;
 	line-height:20px;

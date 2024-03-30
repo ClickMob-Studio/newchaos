@@ -89,7 +89,7 @@ $reg_css = filemtime('/var/www/html/css/reg.css');
 		    }
 		    .forminput{
 		        font-size:18px;
-		        color:black;
+		        color:#FFF;
 		        margin-left:.5rem;
 		        width:300px;
 		        

@@ -1005,21 +1005,21 @@ A:link.linky {
 	padding:5px 8px 5px 8px;
 	margin:0px 2px 0px 2px;
 	background-color:#edd;
-	color:black;
+	color:#FFF;
 }
 A:visited.linky {
 	font-size:0.8em;
 	padding:5px 8px 5px 8px;
 	margin:0px 2px 0px 2px;
 	background-color:#edd;
-	color:black;
+	color:#FFF;
 }
 A:hover.linky {
 	font-size:0.8em;
 	padding:5px 8px 5px 8px;
 	margin:0px 2px 0px 2px;
 	background-color:#cbb;
-	color:black;
+	color:#FFF;
 }
 A:link.gold {
 	color:gold;

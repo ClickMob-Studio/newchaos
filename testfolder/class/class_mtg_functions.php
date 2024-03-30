@@ -6,14 +6,14 @@ class mtg_functions {
 	}
 	function error($msg) {
 		echo "<div class='error'><strong>ERROR:</strong><br />",$msg,"<br />
-			<a onclick='window.history.go(-1);' style='cursor:pointer;'>Back</a> &middot; <a href='index.php' style='color:black;'>Home</a></div>";
+			<a onclick='window.history.go(-1);' style='cursor:pointer;'>Back</a> &middot; <a href='index.php' style='color:#FFF;'>Home</a></div>";
 		include(__DIR__ . '/footer.php');
 		exit;
 	}
 	
 	function success($msg) {
 		echo "<div class='success'><strong>SUCCESS:</strong><br />",$msg,"<br />
-			<a onclick='window.history.go(-1);' style='cursor:pointer;'>Back</a> &middot; <a href='index.php' style='color:black;'>Home</a></div>";
+			<a onclick='window.history.go(-1);' style='cursor:pointer;'>Back</a> &middot; <a href='index.php' style='color:#FFF;'>Home</a></div>";
 	}
 	
 	function info($msg) {

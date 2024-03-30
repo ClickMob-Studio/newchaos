@@ -21,7 +21,7 @@ if ($user_class->firstlogin1 == 0) {
     ));
     Send_Event2($user_class->id, "Is the latest thug on the streets.", $user_class->id);
     Send_Event1($user_class->id, "Is the latest thug on the streets.", $user_class->id);
-    Send_Event($user_class->id, "<span style='color:black;'>Welcome To Chaos City!<br>To get you started we are giving you:</span><br><span style='color:black;font-weight:bold;'>&bull;&nbsp;3 VIP Days<br>&bull;&nbsp;$100,000 Cash<br>&bull;&nbsp;1,250 Points</span>", $user_class->id);
+    Send_Event($user_class->id, "<span style='color:#FFF;'>Welcome To Chaos City!<br>To get you started we are giving you:</span><br><span style='color:#FFF;font-weight:bold;'>&bull;&nbsp;3 VIP Days<br>&bull;&nbsp;$100,000 Cash<br>&bull;&nbsp;1,250 Points</span>", $user_class->id);
 }
 
 

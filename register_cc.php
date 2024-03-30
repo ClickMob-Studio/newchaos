@@ -152,7 +152,7 @@ $metadesc = 'Chaos City Text-Based Mafia Game - Free Online Multiplayer MMORPG';
                 In this game, you play the role of a mobster who is leading a life of crime and deception.
                 Join gangs and team up with your friends to kick ass, or go your own way.
                 The choices are endless.<br /><br />
-                <strong>Contact us at <a style='color:black;text-decoration:none;' href="mailto:support@chaoscityrpg.com">support@chaoscityrpg.com</a></strong><br /><br />
+                <strong>Contact us at <a style='color:#FFF;text-decoration:none;' href="mailto:support@chaoscityrpg.com">support@chaoscityrpg.com</a></strong><br /><br />
 
                 <!-- <strong style='color:red;'>Countdown To beta Launch (<small>11/11/2016</small>)</strong><br /> -->
                 <!-- <strong><span id="countdown" style="font-size:25px;"></span></strong><br /><br />-->
