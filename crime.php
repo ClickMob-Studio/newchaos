@@ -390,7 +390,7 @@ $db->query("SELECT * FROM crimes WHERE nerve <= ? ORDER BY nerve ASC");
 $db->execute(array($max));
 $rows = $db->fetch_row();
 
-$chunks = array_chunk($rows, 4, true);
+$chunks = array_chunk($rows, 10, true);
 
 foreach ($chunks as $inner_rows) {
     echo '<div class="crime-row">';
