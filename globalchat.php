@@ -182,6 +182,12 @@ echo'
     <td class="flexcont">
         <span class="flexele forumhover" onclick="addBB('[youtube][/youtube]', 10);return false;">[youtube]</span>
     </td>
+    <td class="flexcont">
+        <span id="semojis" class="forumhover" onclick="return showemojis();" style="display:<?php echo ($user_class->hideemojis) ? 'block' : 'none'; ?>;flex:2;">Show Emojis</span>
+    </td>
+    <td class="flexcont">
+        <span id="hemojis" class="forumhover" onclick="return hideemojis();" style="display:<?php echo ($user_class->hideemojis) ? 'none' : 'block'; ?>;flex:2;">Hide Emojis</span>
+    </td>
 </tr>
 </table>
 <?php
@@ -191,8 +197,10 @@ echo'
         echo'<td><input type="submit" name="submit" onclick="return sendGmail();" value="Post" /></td></tr>';
     echo'</form></table>';
 ?>
-        <button id="trigger">😎</button>
     <?php
+    echo'<div id="emojis" style="display:' , ($user_class->hideemojis) ? 'none' : 'block' , ';">';
+        emotes();
+    echo'</div>';
     echo'</table>';
 
 echo'<style>';
