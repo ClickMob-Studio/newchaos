@@ -38,6 +38,7 @@ $rows = $db->fetch_row();
 $current_city = $user_class->city;
 
 $city_query = mysql_query("SELECT owned_points FROM cities WHERE id = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
+                            $city_query = mysql_fetch_assoc($city_query);
 
 // PHP to fetch king's information including avatar
 $king_query = mysql_query("SELECT id, username, avatar FROM grpgusers WHERE king = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
