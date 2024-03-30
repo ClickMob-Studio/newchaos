@@ -35,7 +35,11 @@ h1 {
     color: var(--colorHighlight);
     text-shadow: 2px 2px 5px black;
 }
-
+.box_top{
+    font: 3.4rem 'Impact';
+    color: var(--colorHighlight);
+    text-shadow: 2px 2px 5px black;
+}
 table.table {
     color: #fff
 }
