@@ -32,43 +32,50 @@ mysql_query("UPDATE `grpgusers` SET `attackprotection` - 1  WHERE `attackprotect
 mysql_query("UPDATE `grpgusers` SET `mugprotection` - 1  WHERE `mugprotection` >= '1'") or mysql_error();
 
 //MOTH
-$resulth = mysql_query("SELECT * FROM `grpgusers` WHERE `admin` = 0 ORDER BY `moth` DESC LIMIT 1");
+$resulth = mysql_query("SELECT * FROM `grpgusers` WHERE `admin` = 0 AND `moth` > 0 ORDER BY `moth` DESC LIMIT 1");
 $workedh = mysql_fetch_array($resulth);
-$moth = new User($workedh['id']);
-$newpoints = $moth->points + 500;
-$query11 = mysql_query("UPDATE `grpgusers` SET `moth` = 0, `points` = '" . $newpoints . "' WHERE `id` = '" . $moth->id . "'");
-Send_Event($moth->id, "You are mugger of the hour with a total of " . prettynum($workedh['moth']) . " Mugs. [ + 500 pts ]");
-mysql_query("INSERT INTO `MOTH` (`ID`, `userid`, `kills`, `time`) VALUES ('', " . $moth->id . ", " . $workedh['moth'] . ", " . time() . ")");
+if (isset($workedh['id']) && $workedh['id']) {
+    $moth = new User($workedh['id']);
+    $newpoints = $moth->points + 500;
+    $query11 = mysql_query("UPDATE `grpgusers` SET `moth` = 0, `points` = '" . $newpoints . "' WHERE `id` = '" . $moth->id . "'");
+    Send_Event($moth->id, "You are mugger of the hour with a total of " . prettynum($workedh['moth']) . " Mugs. [ + 500 pts ]");
+    mysql_query("INSERT INTO `MOTH` (`ID`, `userid`, `kills`, `time`) VALUES ('', " . $moth->id . ", " . $workedh['moth'] . ", " . time() . ")");
+}
 
 //KOTH killer of the hour
-$resultq = mysql_query("SELECT * FROM `grpgusers` WHERE `admin` = 0 ORDER BY `koth` DESC LIMIT 1");
+$resultq = mysql_query("SELECT * FROM `grpgusers` WHERE `admin` = 0 AND `koth` > 0 ORDER BY `koth` DESC LIMIT 1");
 $workedq = mysql_fetch_array($resultq);
-$koth = new User($workedq['id']);
-$newpoints = $koth->points + 500;
-$query19 = mysql_query("UPDATE `grpgusers` SET `koth` = 0, `points` = '" . $newpoints . "' WHERE `id` = '" . $koth->id . "'");
-Send_event($koth->id, "You have won the Killer of the hour with " . prettynum($workedq['koth']) . " Kills. [ + 500 pts ]");
-// $points=$koth->points+250;
-// $query20 = mysql_query("UPDATE `grpgusers` SET `points` = '" . $points . "' WHERE `id` = '" . $koth->id . "'");
+if (isset($workedq['id']) && $workedq['id']) {
+    $koth = new User($workedq['id']);
+    $newpoints = $koth->points + 500;
+    $query19 = mysql_query("UPDATE `grpgusers` SET `koth` = 0, `points` = '" . $newpoints . "' WHERE `id` = '" . $koth->id . "'");
+    Send_event($koth->id, "You have won the Killer of the hour with " . prettynum($workedq['koth']) . " Kills. [ + 500 pts ]");
+    // $points=$koth->points+250;
+    // $query20 = mysql_query("UPDATE `grpgusers` SET `points` = '" . $points . "' WHERE `id` = '" . $koth->id . "'");
 
-mysql_query("INSERT INTO oth (userid, `type`, amnt, timestamp) VALUES(" . $koth->id . ", 'killer' , " . $workedq['koth'] . ", unix_timestamp())");
-
+    mysql_query("INSERT INTO oth (userid, `type`, amnt, timestamp) VALUES(" . $koth->id . ", 'killer' , " . $workedq['koth'] . ", unix_timestamp())");
+}
 
 //Leveller Of the Hour
-$resultq = mysql_query("SELECT * FROM grpgusers WHERE `admin` = 0 ORDER BY `loth` DESC LIMIT 1");
+$resultq = mysql_query("SELECT * FROM grpgusers WHERE `admin` = 0 AND `loth` > 0 ORDER BY `loth` DESC LIMIT 1");
 $workedq = mysql_fetch_array($resultq);
-$loth = new User($workedq['id']);
-$newpoints = $loth->points + 500;
-Send_event($loth->id, "You have won the leveler of the hour with " . prettynum($workedq['loth']) . " EXP gained. [ + 500 pts ]");
-$query21 = mysql_query("UPDATE `grpgusers` SET `loth` = 0, `points` = '" . $newpoints  . "' WHERE `id` = '" . $loth->id . "'");
-mysql_query("INSERT INTO oth (userid, `type`, amnt, timestamp) VALUES(" . $loth->id . ", 'leveler' , " . $workedq['loth'] . ", unix_timestamp())");
+if (isset($workedq['id']) && $workedq['id']) {
+    $loth = new User($workedq['id']);
+    $newpoints = $loth->points + 500;
+    Send_event($loth->id, "You have won the leveler of the hour with " . prettynum($workedq['loth']) . " EXP gained. [ + 500 pts ]");
+    $query21 = mysql_query("UPDATE `grpgusers` SET `loth` = 0, `points` = '" . $newpoints . "' WHERE `id` = '" . $loth->id . "'");
+    mysql_query("INSERT INTO oth (userid, `type`, amnt, timestamp) VALUES(" . $loth->id . ", 'leveler' , " . $workedq['loth'] . ", unix_timestamp())");
+}
 
 //Buster Of the Hour
-$resultq = mysql_query("SELECT * FROM grpgusers WHERE `admin` = 0 ORDER BY `both` DESC LIMIT 1");
+$resultq = mysql_query("SELECT * FROM grpgusers WHERE `admin` = 0 AND `both` > 0 ORDER BY `both` DESC LIMIT 1");
 $workedq = mysql_fetch_array($resultq);
-$bust = new User($workedq['id']);
-$newpoints = $bust->points + 500;
-Send_event($bust->id, "You have won the buster of the hour with " . prettynum($workedq['both']) . " Busts gained. [ + 500 pts ]");
-$query21 = mysql_query("UPDATE `grpgusers` SET `both` = 0, `points` = '" . $newpoints  . "' WHERE `id` = '" . $bust->id . "'");
+if (isset($workedq['id']) && $workedq['id']) {
+    $bust = new User($workedq['id']);
+    $newpoints = $bust->points + 500;
+    Send_event($bust->id, "You have won the buster of the hour with " . prettynum($workedq['both']) . " Busts gained. [ + 500 pts ]");
+    $query21 = mysql_query("UPDATE `grpgusers` SET `both` = 0, `points` = '" . $newpoints  . "' WHERE `id` = '" . $bust->id . "'");
+}
 
 // Reset MOTH, KOTH, LOTH & BOTH & others
 //mysql_query("UPDATE grpgusers SET `moth` = 0, `koth` = 0, `loth` = 0, `both` = 0, `hourdip` = 1,`hoursearch` = 100, `bomb` = 1") or mysql_error(); // BROKEN
