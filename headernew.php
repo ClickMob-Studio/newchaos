@@ -868,11 +868,9 @@ if (!empty($messages)) {
                         $ref_message = $_messages[array_rand($_messages)];
 
                         ?>
-                        <li class="slide">
-                            <div class="slide-content">
-
-                                <!-- <span>Remember - All Referrals using your referral ID will reward you with 50 Credits! Help Spread the word of our launch!</span> -->
-                                <span style='margin-left:-50px;'><a href="refer.php"><?= $ref_message ?></a></span>
+                        
+                            <div class="dcPanel p-3">
+								<?= $ref_message ?>
                             </div>
 
                         </li>
