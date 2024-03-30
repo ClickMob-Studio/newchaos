@@ -384,6 +384,25 @@ $petJailDisplay = $petJailCount > 0 ? "<span style='color:red;'>$petJailDisplay<
 }
 ob_start("callback");
 
+$currencies = array(
+	'money'    => array(
+		'icon'  => 'fas fa-dollar-sign',
+		'value' => cash_format( $user_class->money ),
+	),
+	'bank'     => array(
+		'icon'  => 'fas fa-piggy-bank',
+		'value' => $user_class->bank,
+	),
+	'points' => array(
+		'icon'  => 'far fa-gem',
+		'value' => cash_format( $user_class->points ),
+	),
+	'credits'   => array(
+		'icon'  => 'fab fa-medium-m',
+		'value' => number_format( $user_class->credits] ) . ( ( 1 === $user_class->credits ) ? ' credit' : ' credits' ),
+	),
+);
+
 
 $queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
 
@@ -433,7 +452,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 							<div class="col-9 dcUserName">
 							
 									<span class="dcHeaderUsername"><?php echo $user_class->formattedname; ?></span>
-								<img class="d-lg-none dcAvatarMobile" src="<?php echo $user_class->avatar; ?>" alt="<?php echo $user_class->formattedname; ?>'s Avatar">
+								<img class="d-lg-none dcAvatarMobile" src="<?php echo $user_class->avatar; ?>">
 							</div>
 							<div class="col-3 text-center">
 								Level <?php echo $user_class->id; ?>
@@ -445,7 +464,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						<div class="row">
 							<div class="col-4 col-lg-12 row mb-0 mb-lg-3">
 								<div class="d-none d-lg-block col-4">
-									<img src="<?php echo $ir['display_pic']; ?>" alt="<?php echo $ir['username']; ?>'s Avatar">
+									<img src="<?php echo $user_class->avatar; ?>" alt="">
 								</div>
 								<div class="col-12 col-lg-7 offset-lg-1 g-0 row">
 									<?php foreach ( $currencies as $key => $currency ) : ?>
