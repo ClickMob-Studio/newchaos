@@ -7,8 +7,6 @@ if (isset($_GET['key']) && $_GET['key'] === 'wetesters') {
     while ($line = mysql_fetch_array($king_result)) {
         $cityId = $king_result['city'];
 
-        $king_result = mysql_query("SELECT `id`, `city` FROM `grpgusers` WHERE `king` > 0");
-
         $city_query = mysql_query("SELECT owned_points FROM cities WHERE id = '" . mysql_real_escape_string($king_result['city']) . "' LIMIT 1");
         $city_result = mysql_fetch_assoc($city_query);
 
