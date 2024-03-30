@@ -192,10 +192,10 @@ echo'
 </table>
 <?php
     echo'<hr style="border:0;border-top:thin solid #333;" />';
-    echo'<form name="message">';
-        echo'<textarea autofocus name="msgtext" id="reply" oninput="typing();" style="width:90%;height:125px;"></textarea><br />';
-        echo'<input type="submit" name="submit" onclick="return sendGmail();" value="Post" />';
-    echo'</form>';
+    echo'<table><form name="message">';
+        echo'<tr><td><textarea autofocus name="msgtext" id="reply" oninput="typing();" style="width:90%;height:125px;"></textarea><br /></td>';
+        echo'<td><input type="submit" name="submit" onclick="return sendGmail();" value="Post" /></td></tr>';
+    echo'</form></table>';
     if ($user_class->id == 1) {
         echo '
         <button id="trigger">😎</button>
