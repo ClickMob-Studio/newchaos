@@ -847,11 +847,6 @@ if (!empty($messages)) {
 }
     </style>
 
-    <div class="vertical-text-slider floaty12">
-
-
-                 <div class="slider-frame">
-                <ul class="slides" style="list-style-type: none; width:100%">
 
                     <?php
                     $now = time();
@@ -897,14 +892,6 @@ if (!empty($messages)) {
                 </ul>
             </div>
         </div>
-
-</div>
-
-<div class="vertical-text-slider floaty12" id="message-container">
-    <ul id="messages" style="list-style-type: none;">
-
-    </ul>
-</div>
 
 
 
