@@ -54,10 +54,10 @@ if (isset($_POST['msg'])) {
 	
 	// Left cell for avatar and username
 	echo '<td class="flexele" style="border-right:thin solid #333;text-align:center;width:150px;">';
-	echo '<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666" />';
+	echo '<img src="' . $user_class->avatar . '" height="150" width="150" style="border:1px solid #666666" />';
 	echo '<br />';
 	if($row['playerid'] > 0) {
-		echo $array['name'];
+		echo $user_class->formattedname;
 	} else {
 		echo '<span style="color:red">System</span>';
 	}
@@ -68,7 +68,7 @@ if (isset($_POST['msg'])) {
 	echo BBCodeParse(stripslashes($row['body']));
 	echo '<br><br>';
 	echo howlongago($row['timesent']) . ' ago <br><br>';
-	echo (($user_class->admin || $user_class->gm || $user_class->cm) && (!$array['admin'] && !$array['gm'])) ? '<a href="?gcban=' . $row['playerid'] . '&conf=' . $_SESSION['security'] . '">Ban User</a>' : '';
+	//echo (($user_class->admin || $user_class->gm || $user_class->cm) && (!$user_class->admin && !$user_class->gm)) ? '<a href="?gcban=' . $row['playerid'] . '&conf=' . $_SESSION['security'] . '">Ban User</a>' : '';
 	echo ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $row['id'] . '">Delete Post</a>' : '';
 	echo'<br><div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $row['playerid'] . ']' . str_replace(array("\n","\r"),array('','\n'),$quotetext) . '[/quote]\\n\\n\');">';
 	echo 'Quote';
