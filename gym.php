@@ -219,9 +219,9 @@ if ($printcaptcha != "") {
             <th align="center" style="padding-bottom: 10px;width:33%;"><b><center>SPEED</center></b></th>
         </tr>
         <tr>
-            <td align="center" style="padding-bottom: 10px;"><input id='strength' type='text' name='energy1' size='3' value="<?php echo $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"></td>
-            <td align="center" style="padding-bottom: 10px;"><input id='defense' type='text' name='energy2' size='3' value="<?php echo $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"></td>
-            <td align="center" style="padding-bottom: 10px;"><input id='speed' type='text' name='energy3' size='' value="<?php echo $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"/></td>
+            <td align="center" style="padding-bottom: 10px;"><input id='strength' type='text' name='energy1'  value="<?php echo $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"></td>
+            <td align="center" style="padding-bottom: 10px;"><input id='defense' type='text' name='energy2' value="<?php echo $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"></td>
+            <td align="center" style="padding-bottom: 10px;"><input id='speed' type='text' name='energy3'  value="<?php echo $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"/></td>
         </tr>
         <tr><td align="center" style="padding-bottom: 10px;"><span id='strengthamnt'><?php
                     echo prettynum($user_class->strength);
