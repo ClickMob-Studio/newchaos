@@ -1,5 +1,12 @@
 <?php
-include 'header.php';
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+if($_SESSION['id'] == 1){
+include 'headernew.php';
+}else{
+	include 'header.php';
+}
 error_reporting(0); // Turn off all error reporting
 ini_set('display_errors', 0); // Don't display errors
 
