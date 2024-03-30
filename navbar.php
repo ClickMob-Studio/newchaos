@@ -32,10 +32,6 @@ $topLinks = array(
 		'count' => $counts['hospital'],
 	),
 	array(
-		'name' => 'Education',
-		'url'  => 'uni.php',
-	),
-	array(
 		'name' => 'Online',
 		'url'  => 'online.php',
 	),
