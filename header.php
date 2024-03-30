@@ -541,7 +541,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 						<div class="text-center dcBannerButtonsContainer">
 							<a href="vote.php" class="dcSecondaryButton my-3">Vote for <i class="far fa-gem"></i></a>
 							<a href="#" class="dcSecondaryButton my-3">Refer for <i class="far fa-gem"></i></a>
-							<a href="VIPStore.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
+							<a href="VIPstore.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
 						</div>
 					</div>
 				</div>
