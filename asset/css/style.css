@@ -244,7 +244,8 @@ th {
 }
 
 td {
-    border: none
+    border: none;
+    background-color: #292929; border-collapse: collapse;
 }
 
 hr.orange-line
