@@ -189,9 +189,9 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
 
         <table id='newtables' style='width:100%; color:white'>
         <tr>
-            <th>Subject</th>
-            <th>Sender</th>
-            <th>Time Recieved</th>
+            <th width='30%'>Subject</th>
+            <th width='30%'>Sender</th>
+            <th width='30%'>Time Recieved</th>
             <th colspan='3'></th>
         </tr>";
     $db->query("SELECT COUNT(*) FROM pms WHERE `to` = ?");
@@ -239,7 +239,7 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
             $fill = ($row['starred'] == 1) ? "fill" : "";
             $antifill = ($row['starred'] == 0) ? "fill" : "";
             echo "
-                    <table id='newtables' class='altcolors' style='width:100%;'>
+
                     <tr style='height:30px;'>
                         <td width='30%'>$bold<a href='viewpm.php?id={$row['id']}'>$subject</a>$bold2</td>
                         <td width='30%'>$namee</td>
@@ -250,7 +250,6 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
                     </tr>";
         }
     }
-    print"</table>";
     if (count($rows) > 0) {
         print"
         <br />
