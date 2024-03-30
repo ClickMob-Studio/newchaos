@@ -387,15 +387,15 @@ ob_start("callback");
 $currencies = array(
 	'money'    => array(
 		'icon'  => 'fas fa-dollar-sign',
-		'value' => cash_format( $user_class->money ),
+		'value' => '$' . number_format( $user_class->money ),
 	),
 	'bank'     => array(
 		'icon'  => 'fas fa-piggy-bank',
-		'value' => $user_class->bank,
+		'value' => '$' . number_format( $user_class->bank),
 	),
 	'points' => array(
 		'icon'  => 'far fa-gem',
-		'value' => cash_format( $user_class->points ),
+		'value' => number_format( $user_class->points ),
 	),
 	'credits'   => array(
 		'icon'  => 'fab fa-medium-m',
