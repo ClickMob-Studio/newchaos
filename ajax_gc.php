@@ -52,37 +52,37 @@ if (isset($_POST['msg'])) {
 	?>
 	<table class="floaty">
     <tr>
-        <td colspan="2" style="text-align:center;">
-            <div class="flexcont">
-                <div class="flexele">Now!</div>
-                <div class="flexele"></div>
-                <div class="flexele">
-                    <?php echo ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $newid . '">Delete Post</a>' : ''; ?>
-                </div>
-                <div class="flexele forumhover" onClick="addsmiley('[quote=<?php echo $user_class->id; ?>]<?php echo str_replace(array("\n","\r"),array('','\n'),$quotetext); ?>[/quote]\n\n');">Quote</div>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <hr style="border:0;border-top:thin solid #333;" />
-        </td>
-    </tr>
-    <tr>
-        <td>
+        <td style="text-align:left;">
             <div class="flexcont">
                 <div class="flexele" style="border-right:thin solid #333;text-align:center;">
                     <img src="<?php echo $avatar; ?>" height="150" width="150" style="border:1px solid #666666" />
                     <br />
                     <?php echo $user_class->formattedname; ?>
                 </div>
-                <div class="flexele" style="flex:3;padding:10px;max-width:73%;overflow-wrap:break-word;">
-                    <?php echo BBCodeParse(stripslashes($msg)); ?>
+            </div>
+        </td>
+        <td>
+            <div class="flexcont" style="text-align:center;">
+                <div class="flexele">Now!</div>
+                <div class="flexele"></div>
+                <div class="flexele forumhover" onClick="addsmiley('[quote=<?php echo $user_class->id; ?>]<?php echo str_replace(array("\n","\r"),array('','\n'),$quotetext); ?>[/quote]\n\n');">Quote</div>
+            </div>
+            <hr style="border:0;border-top:thin solid #333;" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div class="flexcont" style="text-align:center;">
+                <div class="flexele"></div>
+                <div class="flexele"></div>
+                <div class="flexele">
+                    <?php echo ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $newid . '">Delete Post</a>' : ''; ?>
                 </div>
             </div>
         </td>
     </tr>
 </table>
+
 <?php
 } elseif (isset($_GET['lastID'])) {
     $db->query("UPDATE grpgusers SET globalchat = 0 WHERE id = ?");
