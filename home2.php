@@ -38,10 +38,10 @@ $users24 = $statementOnline24->rowCount();
 		</script>
 	</head>
 	<body>
-		<img class="dcMascot d-none d-lg-block" src="/assets/img/character.png">
+		<img class="dcMascot d-none d-lg-block" src="/asset/img/man.png">
 		<div class="row h-100 m-0">
 			<div class="col-12 col-lg-4 offset-lg-2 loginPanel text-center">
-				<img class="m-5" src="/assets/img/logo.png">
+				<img class="m-5" src="/assets/img/logo1.png">
 				<div>
 					<div class="d-inline-block">
 						<p class="highlightWelcome text-start m-0">Welcome to</p>
