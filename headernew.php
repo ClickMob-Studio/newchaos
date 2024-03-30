@@ -502,8 +502,8 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 								<div class="col-12 col-lg-7 offset-lg-1 g-0 row">
 									<?php foreach ( $currencies as $key => $currency ) : ?>
 										<div class="row my-1 g-0">
-											<div class="col-3 d-flex align-items-center"><i class="mx-auto <?php echo $currency['icon']; ?>"></i></div>
-											<div class="col-9 d-flex align-items-center"><?php echo $currency['value']; ?></div>
+											<div class="col-1 d-flex align-items-center"><i class="mx-auto <?php echo $currency['icon']; ?>"></i></div>
+											<div class="col-11 d-flex align-items-center"><?php echo $currency['value']; ?></div>
 										</div>
 									<?php endforeach; ?>
 								</div>
