@@ -494,7 +494,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 								<img class="d-lg-none dcAvatarMobile" style="width: 50px;" src="<?php echo $user_class->avatar; ?>">
 							</div>
 							<div class="col-3 text-center">
-								Level <?php echo $user_class->id; ?>
+								Level <?php echo $user_class->level; ?>
 								<div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip" title="<?php echo $user_class->exp . '/' . $user_class->maxexp; ?>">
 									<div class="progress-bar" role="progressbar" style="width:<?php echo ( $user_class->exp / $user_class->maxexp * 100 ); ?>%"></div>
 								</div>
