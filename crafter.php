@@ -303,7 +303,7 @@ $tradesResult = mysql_query($tradesQuery);
 .item-name, .item-quantity, .reward-name {
     display: block; /* Ensure these are on their own line */
     text-align: center;
-    color: #000;
+    color: #fff;
 }
 
 @media (max-width: 768px) {
@@ -328,7 +328,7 @@ $tradesResult = mysql_query($tradesQuery);
     width: 70%;
     text-align: left;
     font-family: Arial, sans-serif;
-    color: #000;
+    color: #fff;
 }
 
 .item-insufficient {
