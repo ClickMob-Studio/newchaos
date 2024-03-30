@@ -514,7 +514,12 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 							<div class="col-7 col-lg-12 g-0 row dcStatsPanel">
 								<?php foreach ( $stats as $key => $stat ) : ?>
 									<div class="row my-0 my-lg-1 <?php echo 'dcStatContainer-' . $key; ?>">
-										<div class="col-3 d-flex align-items-center"><?php echo $stat['title']; ?></div>
+										<div class="col-3 d-flex align-items-center"><?php
+										if($stat['title'] == 'Nerve'){
+											echo "<a href='?spend=refnerve' >".$stat['title']."</a>";
+										}else{
+										echo $stat['title'];
+										} ?></div>
 										<div class="col-9 d-flex align-items-center">
 											<div class="progress dcStatsBars" data-toggle="tooltip" title="<?php echo $stat['current'] . '/' . $stat['max']; ?>">
 												<div class="progress-bar" role="progressbar" style="width:<?php echo ( $stat['current'] / $stat['max'] * 100 ); ?>%"></div>
