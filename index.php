@@ -11,6 +11,7 @@ include 'headernew.php';
 <div class='box_top'>Information</div>
 						<div class='box_middle'>
 							<div class='pad'>
+                                <a href="#" style="color: red">TRIGGER ACCOUNT RESET</a><br /><br />
 <?php
 
 
