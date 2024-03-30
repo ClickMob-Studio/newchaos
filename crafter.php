@@ -328,7 +328,7 @@ $tradesResult = mysql_query($tradesQuery);
     width: 70%;
     text-align: left;
     font-family: Arial, sans-serif;
-    color: #fff;
+    color: #fff ;
 }
 
 .item-insufficient {
@@ -397,8 +397,6 @@ $tradesResult = mysql_query($tradesQuery);
 
 
 <div class="contenthead floaty">
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h4>Crafter</h4></span>
     <div class="shopkeeper-section">
         <div class="shopkeeper-description">
             <h2>Welcome to the Crafting Station!</h2>
