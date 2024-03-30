@@ -211,6 +211,7 @@ echo '</div>';
 var doingcrime = false;
 var id = 0;
 var refresh = 75;
+let clickcount = 0;
 
 
 var submitCrime = function (id, cm=1) {
@@ -278,11 +279,18 @@ $(document).ready(function() {
     // Other JavaScript and jQuery code can follow here
 });
 
+function onClick() {
+    clickcount++;
+}
 
 function start() {
     var id = $('#scrime').val();
     var cm = $('#cm').val();
     doingcrime = true;
+    console.log(clickcount);
+    if (clickcount > 1) {
+        location.reload();
+    }
     var timerId = setInterval(function () {
         if (doingcrime) {
             if (id > 0) {
