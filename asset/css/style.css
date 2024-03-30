@@ -240,6 +240,7 @@ button:hover {
 th {
     background: #111;
     border: none;
+    text-align: center;
 }
 
 td {
