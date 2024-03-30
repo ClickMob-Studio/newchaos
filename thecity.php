@@ -6,7 +6,7 @@ include 'header.php';
 							<div class='pad'>
                                 <?php   
 if ($user_class->searchdowntown == 0) {
-    diefun("You have already searched the city as much as you can today.");
+    diefun("You have already searched the city as much as you can, check back in an hour for more searches.");
 }
 
 $totalpts = $total = $totalRaidTokens = 0;

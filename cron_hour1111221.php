@@ -74,6 +74,8 @@ $query21 = mysql_query("UPDATE `grpgusers` SET `both` = 0, `points` = '" . $newp
 //mysql_query("UPDATE grpgusers SET `moth` = 0, `koth` = 0, `loth` = 0, `both` = 0, `hourdip` = 1,`hoursearch` = 100, `bomb` = 1") or mysql_error(); // BROKEN
 mysql_query("UPDATE grpgusers SET `moth` = 0, `koth` = 0, `loth` = 0, `both` = 0");
 
+mysql_query("UPDATE grpgusers SET `searchdowntown` = 20 WHERE `searchdowntown` = 0");
+
 
 //Bases
 $result2 = mysql_query("SELECT * FROM `grpgusers` ORDER BY `id` ASC");
