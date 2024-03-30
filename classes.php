@@ -1076,12 +1076,6 @@ class formatGang {
             $right = substr($this->name, $half);
             $name = text_gradient($this->colors[0], $this->colors[1], 1, $left);
             $name .= text_gradient($this->colors[1], $this->colors[2], 1, $right);
-        }else{
-            $half = (int) ((strlen($this->name) / 2));
-            $left = substr($this->name, 0, $half);
-            $right = substr($this->name, $half);
-            $name = text_gradient('#ff6218', '#dc3545', 1, $left);
-            $name .= text_gradient('#ff6218', '#dc3545', 1, $right);
         }
         return "<a href='viewgang.php?id=$this->id'>" . $name . "</a>";
     }
