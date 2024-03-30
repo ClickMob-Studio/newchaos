@@ -44,7 +44,10 @@ h1 {
 table.table {
     color: #fff
 }
-
+table{
+    text-align: center;
+    width: 100%;
+}
 .mainHeader {
     background: #111;
     position: fixed;
