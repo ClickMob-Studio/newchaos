@@ -475,7 +475,7 @@ function Take_Plane($itemid, $userid, $quantity = "1")
 function Message($text)
 {
     $rtn = '';
-    $rtn .= '<div class="floaty1" style="margin:0;">';
+    $rtn .= '<div class="dcPanel p-3" style="text-align:center">';
     $rtn .=  $text;
     $rtn .= '</div>';
     return $rtn;

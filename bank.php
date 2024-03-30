@@ -315,7 +315,6 @@ echo Message($notice) ." <br /><br />
 
 
 <div class='contenthead floaty'>
-    <img src='../mlordsimages/bank1.png' style='vertical-align: middle;'/>
     <br><br>
     ";
     echo Message("You will be charged a 2% Deposit Fee for Cash");
