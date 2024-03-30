@@ -17,6 +17,10 @@ if (isset($_GET['buy'])) {
         diefun("Error, this house was not found.");
     $cost = $row['cost'];
     $houselevel = $row['houselevel'];
+    if ($houselevel > $user_class->prestige) {
+        diefun("Your prestige isn't high enough to purchase this house.");
+    }
+
     $text = "You have purchased a {$row['name']}. To move into this house, you have to visit the 'Your Properties' link in the mainmenu.";
     if ($cost > ($user_class->money + $oldhouse) && $error != 1)
         diefun("You don't have enough money to buy that house.");

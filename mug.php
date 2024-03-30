@@ -165,7 +165,7 @@ if ($user_class->gang != 0){
             mysql_query("UPDATE grpgusers SET money = $newmuggeramount, muggedmoney = $muggedmoneygain, mugsucceeded = $mugsucceeded, moth = moth + 1, motd = motd + 1, tamt = tamt + $mugamount WHERE id = $user_class->id");
             mysql_query("UPDATE grpgusers SET muggedmoney = $muggedmoneylost, money = $newmuggedamount1 WHERE id = $attack_person->id");
             $online = (time() - $attack_person->lastactive < 900) ? 1 : 0;
-            mysql_query("INSERT INTO muglog VALUES('',$user_class->id,$attack_person->id,$mugamount,$online,unix_timestamp())");
+            mysql_query("INSERT INTO muglog (mugger, mugged, amount, active, timestamp) VALUES($user_class->id,$attack_person->id,$mugamount,$online,unix_timestamp())");
             mission('m');
             newmissions('mugs');
             gangContest(array('mugs' => 1));

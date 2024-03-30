@@ -326,6 +326,9 @@ if ($crimeRankResult) {
 }
 
 
+            // EXP 20% BUFF
+            $exp = $exp + (($exp / 100) * 50);
+
             // Update user records in database
             $db->query("UPDATE grpgusers SET loth = loth + ?, exp = exp + ?, crimesucceeded = crimesucceeded + 1, crimemoney = crimemoney + ?, money = money + ?, nerve = nerve - ?, todaysexp = todaysexp + ?, expcount = expcount + ?, totaltax = totaltax + ? WHERE id = ?");
             $db->execute(array(
@@ -349,7 +352,7 @@ if ($crimeRankResult) {
 echo '<div class="contenthead floaty">';
 echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"></span>';
 echo '<center>';
-echo '<a href="?spend=refnerve&crime"><img src="images/wand.png" /><button>Refill Nerve (-10 Points)</button></a>';
+echo '<a href="?spend=refnerve&crime"><img src="images/wand.png" /><button>Refill Nerve</button></a>';
 echo '</center>';
 
 // Check if crimes are giving double EXP payouts

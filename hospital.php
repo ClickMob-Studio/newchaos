@@ -90,6 +90,8 @@ if ($people > 0) {
          $how = "Lost to " . $hospital_class->formattedname;
       else if ($line['hhow'] == "roulette")
          $how = "Wounded by Russian Roulette";
+      else if ($line['hhow'] == "maze")
+          $how = "Hospitalised searching the Maze";
       else if ($line['hhow'] == "door")
          $how = "Explosion at Doors";
       else if ($line['hhow'] == "bombed") {

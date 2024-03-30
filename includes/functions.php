@@ -1322,7 +1322,10 @@ function manual_refill($which)
             if ($nerveneeded == 0) {
                 return 0;
             }
-            $cost = 10;
+            $cost = floor($nerveneeded / 10);
+            if ($cost < 10) {
+                $cost = 10;
+            }
 
             if ($cost > $user_class->points) {
                 return 0;

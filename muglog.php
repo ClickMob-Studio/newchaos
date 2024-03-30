@@ -52,7 +52,7 @@ include 'header.php';
 						<td width='28%'>$time</td>
 						<td width='20%'>" . formatName($row['mugger']) . "</td>
 						<td width='20%'>" . formatName($row['mugged']) . "</td>
-						<td width='20%'>" . prettynum($row['amount'], 1) . "</td>
+						<td width='20%'>" . prettynum($row['amount']) . "</td>
 						<td>$active</td>
 					</tr>";
 			}

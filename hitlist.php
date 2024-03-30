@@ -103,7 +103,7 @@
             $theirhp = $attack_person->hp;
             genHead("Hitlist");
             echo "You are hitting $attack_person->formattedname.<br /><br />
-                    You are using your echo $user_class->weaponname.<br />
+                    You are using your $user_class->weaponname.<br />
                     $attack_person->formattedname is using their $attack_person->weaponname.<br /><br />
                 ";
             $userspeed = $user_class->moddedspeed;
