@@ -41,7 +41,7 @@ h1 {
     text-shadow: 2px 2px 5px black;
     padding-top:20px;
 }
-table.table {
+table {
     color: #fff
 }
 table{
@@ -237,12 +237,12 @@ button:hover {
     font-size: 1.8rem
 }
 
-.table th {
+th {
     background: #111;
     border: none;
 }
 
-.table td {
+td {
     border: none
 }
 

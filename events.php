@@ -24,22 +24,11 @@ if (isset($_GET['delete']) && $_GET['delete'] != "") {
 
 <hr>
 <div class="contenthead floaty">
-<table id="newtables" style="width:100%; text-align: left;">
+<table id="newtables" style="width:100%;">
 <tr>
 <th><b>Description</b></th>
 <th><b>Recieved</b></th>
 </tr>
-<style type="text/css">
- background-color: #333; /* Dark background */
-    color: white; /* Light text */
-    padding: 20px;
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow at the top */
-    padding: 15px 5px 10px;
-    text-align: center;
-
-}
-</style>
 <?php
 $result      = mysql_query("SELECT COUNT(*) FROM `events` WHERE `to` = $user_class->id");
 $r           = mysql_fetch_row($result);
