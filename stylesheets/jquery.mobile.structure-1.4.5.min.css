@@ -21,7 +21,7 @@
 .ui-loader-verbose {	width:12.5em;	filter:Alpha(Opacity=88);	opacity:.88;	box-shadow:0 1px 1px -1px #fff;	height:auto;	margin-left:-6.875em;	margin-top:-2.6875em;	padding:.625em}
 .ui-loader-default h1 {	font-size:0;	width:0;	height:0;	overflow:hidden}
 .ui-loader-verbose h1 {	font-size:1em;	margin:0;	text-align:center}
-.ui-loader .ui-icon-loading {	background-color:#000;	display:block;	margin:0;	width:2.75em;	height:2.75em;	padding:.0625em;	-webkit-border-radius:2.25em;	border-radius:2.25em}
+.ui-loader .ui-icon-loading {	background-color:#FFF;	display:block;	margin:0;	width:2.75em;	height:2.75em;	padding:.0625em;	-webkit-border-radius:2.25em;	border-radius:2.25em}
 .ui-loader-verbose .ui-icon-loading {	margin:0 auto .625em;	filter:Alpha(Opacity=75);	opacity:.75}
 .ui-loader-textonly {	padding:.9375em;	margin-left:-7.1875em}
 .ui-loader-textonly .ui-icon-loading {	display:none}

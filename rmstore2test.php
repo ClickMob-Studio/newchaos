@@ -899,32 +899,32 @@ echo '<div id="pricing-table" class="clear">';
     echo '<div class="plan">';
           echo '<h5><font color=green>Private War Package</font></h5>';//<span>500</br>Credits</span>
         echo '<ul>';
-            echo '<li><b><span style="color:#000000">250,000 Points!</span></b></li>';
-            echo '<li><b><span style="color:#000000">Mug & Attack Protection pills [x5]</span></b></li>';
-        echo '<li><b><span style="color:#000000">Double Exp Pill [x1]</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">250,000 Points!</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">Mug & Attack Protection pills [x5]</span></b></li>';
+        echo '<li><b><span style="color:#FFF000">Double Exp Pill [x1]</span></b></li>';
         echo '</ul>';
-            echo '<li><b><span style="color:#000000">' . $user_class->limiteditems2 . ' / 5 Remaining</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">' . $user_class->limiteditems2 . ' / 5 Remaining</span></b></li>';
             echo '<div class="price"> <img src="css/images/coin.png"> <span>2,000</span> </div>';
         echo '<a class="signup" href="?buy=limitedpack2">Buy Now</a>';     echo '</div>';
  echo '<div class="plan">'; //id="most-popular"
          echo '<h5><font color=gold>Limited Point Pack</font></h5>'; //<span>200</br>Credits</span>
         echo '<ul>';
-            echo '<li><b><span style="color:#000000">25,000 Points</span></b></li>';
-            echo '<li><b><span style="color:#000000">Double Exp Pill [x1]</span></b></li>';
-        echo '<li><b><span style="color:#000000">-</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">25,000 Points</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">Double Exp Pill [x1]</span></b></li>';
+        echo '<li><b><span style="color:#FFF000">-</span></b></li>';
         echo '</ul>';
-            echo '<li> <b><span style="color:#000000">' . $user_class->limiteditems1 . ' / 10 Remaining</span></b></li>';
+            echo '<li> <b><span style="color:#FFF000">' . $user_class->limiteditems1 . ' / 10 Remaining</span></b></li>';
             echo '<div class="price"> <img src="css/images/coin.png"> <span>200</span> </div>';
 
         echo '<a class="signup" href="?buy=limitedpack">Buy Now</a>';     echo '</div>';
 echo '<div class="plan">';
         echo '<h5><font color=red>Ultra War Package</font></h5>'; //<span>750</br>Credits</span>
         echo '<ul>';
-            echo '<li><b><span style="color:#000000">1,850,000 Points</span></b></li>';
-            echo '<li><b><span style="color:#000000">Mug & Attack Protection pills [x25]</span></b></li>';
-        echo '<li><b><span style="color:#000000">Double Exp Pill [x5]</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">1,850,000 Points</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">Mug & Attack Protection pills [x25]</span></b></li>';
+        echo '<li><b><span style="color:#FFF000">Double Exp Pill [x5]</span></b></li>';
         echo '</ul>';
-            echo '<li><b><span style="color:#000000">' . $user_class->limiteditems3 . ' / 5 Remaining</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">' . $user_class->limiteditems3 . ' / 5 Remaining</span></b></li>';
             echo '<div class="price"> <img src="css/images/coin.png"> <span>10,000</span> </div>';
 
         echo '<a class="signup" href="?buy=limitedpack3">Buy Now</a>';

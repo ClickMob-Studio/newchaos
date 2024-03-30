@@ -11,7 +11,7 @@
          input[type=number]{color: #FF006F;  background-color: black; border-color: #FF006F}
       </style>
    </head>
-   <body onload="check()" style="background-color:#000;color:#FF006F;">
+   <body onload="check()" style="background-color:#FFF;color:#FF006F;">
       <center>
          <table class="bor">
             <tbody>

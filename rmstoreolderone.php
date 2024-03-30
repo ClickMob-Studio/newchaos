@@ -994,14 +994,14 @@ echo '<div id="pricing-table" class="clear">';
     echo '<div class="plan">';
              echo '<h5><font color=green>New Years Standard Package</font></h5>'; //<span><s>300</s></br>Credits</span>
         echo '<ul>';
-            echo '<li><b><span style="color:#000000">200,000 Points</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">200,000 Points</span></b></li>';
 
 
-         echo '<li><b><span style="color:#000000"> ' .  item_popup('Mystery Box', 42, 'green') . ' [x1]</span></b></li>';
+         echo '<li><b><span style="color:#FFF000"> ' .  item_popup('Mystery Box', 42, 'green') . ' [x1]</span></b></li>';
 
-         echo '<li><b><span style="color:#000000"> ' .  item_popup('Police Badge', 163, 'green') . ' [x1]</span></b></li>';
+         echo '<li><b><span style="color:#FFF000"> ' .  item_popup('Police Badge', 163, 'green') . ' [x1]</span></b></li>';
 
-         echo '<li><b><span style="color:#000000"> ' .  item_popup('Christmas Present', 167, 'green') . ' [x1]</span></b></li>';
+         echo '<li><b><span style="color:#FFF000"> ' .  item_popup('Christmas Present', 167, 'green') . ' [x1]</span></b></li>';
 
 
 
@@ -1012,22 +1012,22 @@ echo '<div id="pricing-table" class="clear">';
 
 
         echo '</ul>';
-            echo '<li> <b><span style="color:#000000">' . $user_class->limiteditems1 . ' / 20 Remaining</span></b></li>';
+            echo '<li> <b><span style="color:#FFF000">' . $user_class->limiteditems1 . ' / 20 Remaining</span></b></li>';
             echo '<div class="price"> <img src="css/images/coin.png"><span><s>250</s> <font color=green>175</font></span></div>';
 
         echo '<a class="signup" href="?buy=limitedpack">Buy Now</a>';     echo '</div>';
  echo '<div class="plan">'; //id="most-popular"
          echo '<h5><font color=green>New Years Intermediate Package</font></h5>';//<span></br>Credits</span>
         echo '<ul>';
-           echo '<li><b><span style="color:#000000">2,500,000 Points</span></b></li>';
+           echo '<li><b><span style="color:#FFF000">2,500,000 Points</span></b></li>';
 
   
 
-      echo '<li><b><span style="color:#000000"> ' .  item_popup('Mystery Box', 42, 'green') . ' [x5]</span></b></li>';
+      echo '<li><b><span style="color:#FFF000"> ' .  item_popup('Mystery Box', 42, 'green') . ' [x5]</span></b></li>';
 
-         echo '<li><b><span style="color:#000000"> ' .  item_popup('Police Badge', 163, 'green') . ' [x5]</span></b></li>';
+         echo '<li><b><span style="color:#FFF000"> ' .  item_popup('Police Badge', 163, 'green') . ' [x5]</span></b></li>';
 
-         echo '<li><b><span style="color:#000000"> ' .  item_popup('Christmas Present', 167, 'green') . ' [x5]</span></b></li>';
+         echo '<li><b><span style="color:#FFF000"> ' .  item_popup('Christmas Present', 167, 'green') . ' [x5]</span></b></li>';
 
          echo '<li><b><font color=red> Raid Token[x10]</font></b></li>';
 
@@ -1035,20 +1035,20 @@ echo '<div id="pricing-table" class="clear">';
 
 
         echo '</ul>';
-            echo '<li><b><span style="color:#000000">' . $user_class->limiteditems2 . ' / 10 Remaining</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">' . $user_class->limiteditems2 . ' / 10 Remaining</span></b></li>';
             echo '<div class="price"> <img src="css/images/coin.png"><span><s>2500</s> <font color=green>1750</font></span></div>';
         echo '<a class="signup" href="?buy=limitedpack2">Buy Now</a>';     echo '</div>';
 echo '<div class="plan">';
         echo '<h5><font color=green>New Years Extreme Package</font></h5>'; //<span>750</br>Credits</span>
         echo '<ul>';
-            echo '<li><b><span style="color:#000000">27,500,000 Points</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">27,500,000 Points</span></b></li>';
 
  
-        echo '<li><b><span style="color:#000000"> ' .  item_popup('Mystery Box', 42, 'green') . ' [x50]</span></b></li>';
+        echo '<li><b><span style="color:#FFF000"> ' .  item_popup('Mystery Box', 42, 'green') . ' [x50]</span></b></li>';
 
-         echo '<li><b><span style="color:#000000"> ' .  item_popup('Police Badge', 163, 'green') . ' [x50]</span></b></li>';
+         echo '<li><b><span style="color:#FFF000"> ' .  item_popup('Police Badge', 163, 'green') . ' [x50]</span></b></li>';
 
-         echo '<li><b><span style="color:#000000"> ' .  item_popup('Christmas Present', 167, 'green') . ' [x50]</span></b></li>';
+         echo '<li><b><span style="color:#FFF000"> ' .  item_popup('Christmas Present', 167, 'green') . ' [x50]</span></b></li>';
 
 
          echo '<li><b><font color=red> Raid Token[x100]</font></b></li>';
@@ -1062,7 +1062,7 @@ echo '<div class="plan">';
 
 
                echo '</ul>';
-            echo '<li><b><span style="color:#000000">' . $user_class->limiteditems3 . ' / 5 Remaining</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">' . $user_class->limiteditems3 . ' / 5 Remaining</span></b></li>';
             echo '<div class="price"> <img src="css/images/coin.png"><span><s>25000</s> <font color=green>17500</font></span></div>';
 
         echo '<a class="signup" href="?buy=limitedpack3">Buy Now</a>';

@@ -12,7 +12,7 @@
 <div class="watchlistTitle">Sticky Fingers</div>
 </div>
 <div class="watchlistWinner">
-<span class="username"><a class="gangTag" href="viewgang.php?id=20" title="[Rabid Widowmakers]">[<span id="gangtag187158" onmouseover="if (!window.__cfRLUnblockHandlers) return false; changeTag187158();" onmouseout="if (!window.__cfRLUnblockHandlers) return false; backTag187158();" data-cf-modified-127486c713e6672f0ec9146f-=""><span style="color:#000066">R</span><span style="color:#FFFFFF">W</span><span style="color:#706E57"></span></span><script type="127486c713e6672f0ec9146f-text/javascript">
+<span class="username"><a class="gangTag" href="viewgang.php?id=20" title="[Rabid Widowmakers]">[<span id="gangtag187158" onmouseover="if (!window.__cfRLUnblockHandlers) return false; changeTag187158();" onmouseout="if (!window.__cfRLUnblockHandlers) return false; backTag187158();" data-cf-modified-127486c713e6672f0ec9146f-=""><span style="color:#FFF066">R</span><span style="color:#FFFFFF">W</span><span style="color:#706E57"></span></span><script type="127486c713e6672f0ec9146f-text/javascript">
                         function changeTag187158() {
                         var cspan=document.getElementById("gangtag187158").getElementsByTagName("span");
                         if (cspan.length >=1 ) {

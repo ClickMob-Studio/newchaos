@@ -867,31 +867,31 @@ echo '<div id="pricing-table" class="clear">';
     echo '<div class="plan">';
           echo '<h5><font color=green>Spring Pack&nbsp&nbsp&nbsp</font><span>990</br>Credits</span></h5>';
         echo '<ul>';
-            echo '<li><b><span style="color:#000000">125,000 Points!</span></b></li>';
-            echo '<li><b><span style="color:#000000">Mystery Box [x5]</span></b></li>';
-        echo '<li><b><span style="color:#000000">Can you hit a Jackpot?</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">125,000 Points!</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">Mystery Box [x5]</span></b></li>';
+        echo '<li><b><span style="color:#FFF000">Can you hit a Jackpot?</span></b></li>';
         echo '</ul>';
-            echo '<li><b><span style="color:#000000">' . $user_class->limiteditems2 . ' / 10 Remaining</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">' . $user_class->limiteditems2 . ' / 10 Remaining</span></b></li>';
 
         echo '<a class="signup" href="?buy=limitedpack2">Buy</a>';     echo '</div>';
  echo '<div class="plan" id="most-popular">';
          echo '<h5><font color=gold>Limited Points Pack  &nbsp&nbsp&nbsp</font><span>200</br>Credits</span></h5>';
         echo '<ul>';
-            echo '<li><b><span style="color:#000000">20,000 Points</span></b></li>';
-            echo '<li><b><span style="color:#000000">Mystery Box [x2]</span></b></li>';
-        echo '<li><b><span style="color:#000000">Double EXP Pill [x1]</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">20,000 Points</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">Mystery Box [x2]</span></b></li>';
+        echo '<li><b><span style="color:#FFF000">Double EXP Pill [x1]</span></b></li>';
         echo '</ul>';
-            echo '<li> <b><span style="color:#000000">' . $user_class->limiteditems1 . ' / 25 Remaining</span></b></li>';
+            echo '<li> <b><span style="color:#FFF000">' . $user_class->limiteditems1 . ' / 25 Remaining</span></b></li>';
 
         echo '<a class="signup" href="?buy=limitedpack">Buy</a>';     echo '</div>';
 echo '<div class="plan">';
         echo '<h5><font color=red>Limited Items Pack</font><span>750</br>Credits</span></h5>';
         echo '<ul>';
-            echo '<li><b><span style="color:#000000">Custom Item Set</span></b></li>';
-            echo '<li><b><span style="color:#000000">Energy & Nerve Booster +25</span></b></li>';
-        echo '<li><b><span style="color:#000000">30 Day RM Packs [x10]</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">Custom Item Set</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">Energy & Nerve Booster +25</span></b></li>';
+        echo '<li><b><span style="color:#FFF000">30 Day RM Packs [x10]</span></b></li>';
         echo '</ul>';
-            echo '<li><b><span style="color:#000000">' . $user_class->limiteditems3 . ' / 5 Remaining</span></b></li>';
+            echo '<li><b><span style="color:#FFF000">' . $user_class->limiteditems3 . ' / 5 Remaining</span></b></li>';
 
         echo '<a class="signup" href="?buy=limitedpack3">Buy</a>';
 

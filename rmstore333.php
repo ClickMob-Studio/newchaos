@@ -999,11 +999,11 @@ echo '<div id="pricing-table" class="clear">';
             echo '<li><span style="color:#FFFFFF">500,000 Points</span></b></li>';
 
 
-         echo '<li><span style="color:#000000"> ' .  item_popup('Nerve Booster+25', 68, 'blue') . ' <font color=white>[x1]</font></span></b></li>';
+         echo '<li><span style="color:#FFF000"> ' .  item_popup('Nerve Booster+25', 68, 'blue') . ' <font color=white>[x1]</font></span></b></li>';
 
-         echo '<li><span style="color:#000000"> ' .  item_popup('Energy Booster+25', 69, 'blue') . '<font color=white>[x1]</font></span></b></li>';
+         echo '<li><span style="color:#FFF000"> ' .  item_popup('Energy Booster+25', 69, 'blue') . '<font color=white>[x1]</font></span></b></li>';
 
-         echo '<li><span style="color:#000000"> ' .  item_popup('Nightvision Goggles', 196, 'blue') . '<font color=white>[x1]</font></span></b></li>';
+         echo '<li><span style="color:#FFF000"> ' .  item_popup('Nightvision Goggles', 196, 'blue') . '<font color=white>[x1]</font></span></b></li>';
 
 
 
@@ -1027,11 +1027,11 @@ echo '<div id="pricing-table" class="clear">';
 
   
 
-      echo '<li><span style="color:#000000"> ' .  item_popup('Nerve Booster+25', 68, 'blue') . ' <font color=white>[x5]</font></span></b></li>';
+      echo '<li><span style="color:#FFF000"> ' .  item_popup('Nerve Booster+25', 68, 'blue') . ' <font color=white>[x5]</font></span></b></li>';
 
-         echo '<li><span style="color:#000000"> ' .  item_popup('Energy Booster+25', 69, 'blue') . ' <font color=white>[x5]</font></span></b></li>';
+         echo '<li><span style="color:#FFF000"> ' .  item_popup('Energy Booster+25', 69, 'blue') . ' <font color=white>[x5]</font></span></b></li>';
 
-         echo '<li><span style="color:#000000"> ' .  item_popup('Raid Speedup', 194, 'blue') . ' <font color=white>[x5]</font></span></b></li>';
+         echo '<li><span style="color:#FFF000"> ' .  item_popup('Raid Speedup', 194, 'blue') . ' <font color=white>[x5]</font></span></b></li>';
 
          echo '<li><font color=red> Raid Token</font><font color=white>[x50]</font></li>';
 
@@ -1050,9 +1050,9 @@ echo '<div class="plan">';
  
          echo '<li>' .  item_popup('Raid Speedup', 194, 'blue') . ' <font color=white>[x50]</font></li>';
 
-         echo '<li><span style="color:#000000"> ' .  item_popup('Quetzal Guardian', 192, 'blue') . ' <font color=white>[x5]</font></span></b></li>';
+         echo '<li><span style="color:#FFF000"> ' .  item_popup('Quetzal Guardian', 192, 'blue') . ' <font color=white>[x5]</font></span></b></li>';
 
-         echo '<li><span style="color:#000000"> ' .  item_popup('Serpants Slither', 193, 'blue') . ' <font color=white>[x5]</font></span></b></li>';
+         echo '<li><span style="color:#FFF000"> ' .  item_popup('Serpants Slither', 193, 'blue') . ' <font color=white>[x5]</font></span></b></li>';
 
 
 

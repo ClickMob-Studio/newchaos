@@ -391,26 +391,26 @@ if ($user_class->rmdays > 0) {
     	           <td>New Colour:</td>
     	           <td>
     	           <select name='sel_colour' class="field_box">
-    	           <option value='1' style='color:#FF69B4;font-weight:bold;background-color:#000000;'>Hot Pink</option>
-    	           <option value='2' style='color:#3399FF;font-weight:bold;background-color:#000000;'>Dodger Blue</option>
-    	           <option value='3' style='color:#ADD6FF;font-weight:bold;background-color:#000000;'>Columbia Blue</option>
-    	           <option value='4' style='color:#FF7A00;font-weight:bold;background-color:#000000;'>Dark Orange</option>
-    	           <option value='5' style='color:#FFFFFF;font-weight:bold;background-color:#000000;'>White</option>
-    	           <option value='6' style='color:#999999;font-weight:bold;background-color:#000000;'>Nobel</option>
-    	           <option value='7' style='color:#80FFFF;font-weight:bold;background-color:#000000;'>Electric Blue</option>
-    	           <option value='8' style='color:#F200F2;font-weight:bold;background-color:#000000;'>Magenta</option>
-    	           <option value='9' style='color:#FFE4C4;font-weight:bold;background-color:#000000;'>Bisque</option>
-    	           <option value='10' style='color:#85B200;font-weight:bold;background-color:#000000;'>Citrus</option>
-    	           <option value='11' style='color:#40FF00;font-weight:bold;background-color:#000000;'>Harlequin</option>
-    	           <option value='12' style='color:#830EF7;font-weight:bold;background-color:#000000;'>Electric Indigo</option>
-    	           <option value='13' style='color:#E50DA4;font-weight:bold;background-color:#000000;'>Hollywood Cerise</option>
-    	           <option value='14' style='color:#685E08;font-weight:bold;background-color:#000000;'>Raw Umber</option>
-    	           <option value='15' style='color:#4D4DFF;font-weight:bold;background-color:#000000;'>Neon Blue</option>
-    	           <option value='16' style='color:#FF9999;font-weight:bold;background-color:#000000;'>Mona Lisa</option>
-    	           <option value='17' style='color:#FFCC99;font-weight:bold;background-color:#000000;'>Peach-Orange</option>
-    	           <option value='18' style='color:#CCFFCC;font-weight:bold;background-color:#000000;'>Honeydew</option>
-    	           <option value='19' style='color:#9966FF;font-weight:bold;background-color:#000000;'>Light Slate Blue</option>
-    	           <option value='20' style='color:#990000;font-weight:bold;background-color:#000000;'>Sangria</option>
+    	           <option value='1' style='color:#FF69B4;font-weight:bold;background-color:#FFF000;'>Hot Pink</option>
+    	           <option value='2' style='color:#3399FF;font-weight:bold;background-color:#FFF000;'>Dodger Blue</option>
+    	           <option value='3' style='color:#ADD6FF;font-weight:bold;background-color:#FFF000;'>Columbia Blue</option>
+    	           <option value='4' style='color:#FF7A00;font-weight:bold;background-color:#FFF000;'>Dark Orange</option>
+    	           <option value='5' style='color:#FFFFFF;font-weight:bold;background-color:#FFF000;'>White</option>
+    	           <option value='6' style='color:#999999;font-weight:bold;background-color:#FFF000;'>Nobel</option>
+    	           <option value='7' style='color:#80FFFF;font-weight:bold;background-color:#FFF000;'>Electric Blue</option>
+    	           <option value='8' style='color:#F200F2;font-weight:bold;background-color:#FFF000;'>Magenta</option>
+    	           <option value='9' style='color:#FFE4C4;font-weight:bold;background-color:#FFF000;'>Bisque</option>
+    	           <option value='10' style='color:#85B200;font-weight:bold;background-color:#FFF000;'>Citrus</option>
+    	           <option value='11' style='color:#40FF00;font-weight:bold;background-color:#FFF000;'>Harlequin</option>
+    	           <option value='12' style='color:#830EF7;font-weight:bold;background-color:#FFF000;'>Electric Indigo</option>
+    	           <option value='13' style='color:#E50DA4;font-weight:bold;background-color:#FFF000;'>Hollywood Cerise</option>
+    	           <option value='14' style='color:#685E08;font-weight:bold;background-color:#FFF000;'>Raw Umber</option>
+    	           <option value='15' style='color:#4D4DFF;font-weight:bold;background-color:#FFF000;'>Neon Blue</option>
+    	           <option value='16' style='color:#FF9999;font-weight:bold;background-color:#FFF000;'>Mona Lisa</option>
+    	           <option value='17' style='color:#FFCC99;font-weight:bold;background-color:#FFF000;'>Peach-Orange</option>
+    	           <option value='18' style='color:#CCFFCC;font-weight:bold;background-color:#FFF000;'>Honeydew</option>
+    	           <option value='19' style='color:#9966FF;font-weight:bold;background-color:#FFF000;'>Light Slate Blue</option>
+    	           <option value='20' style='color:#990000;font-weight:bold;background-color:#FFF000;'>Sangria</option>
     	           </select>
     	           </td>
     	       </tr>

@@ -847,7 +847,7 @@ if (!empty($messages)) {
     .floaty12{
         margin: 0 auto;
     margin-right: 10px;
-    color:#000;
+    color:#FFF;
     width: 72%;
     text-align: center;
     background-color: #fff;
