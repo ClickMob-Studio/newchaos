@@ -53,7 +53,7 @@ if (isset($_POST['msg'])) {
 	<table class="flexcont" style="width:100%;">
    <tbody>
       <tr>
-         <td class="flexele" style="border-right:thin solid #333;text-align:center;width:150px;"><img src="<?php echo $avatar; ?>"><br><?php echo $user_class->formattedname; ?></td>
+         <td class="flexele" style="border-right:thin solid #333;text-align:center;width:150px;"><img style="width:150px; height:150px" src="<?php echo $avatar; ?>"><br><?php echo $user_class->formattedname; ?></td>
          <td class="flexele" style="padding:10px;">
             <?php echo $msg; ?><br><br>NOW <br><br>
          </td>
