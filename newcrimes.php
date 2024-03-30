@@ -186,7 +186,7 @@ echo '<div class="star-rating" style="margin-top: 10px;"></div>';
 
         //}
 
-        echo '<button id="acrimebtn2" onblue="finish();" onmouseup="finish();" ontouchend="finish();" onmouseleave="finish();"onmousedown="start();" ontouchstart="start();" style="padding: 1em; margin-bottom:5px;">Do Crimes</button>';
+        echo '<button id="acrimebtn2" onblue="finish();" onmouseup="finish();" ontouchend="finish();" onmouseleave="finish();"onmousedown="start();" ontouchstart="start();" onclick="onClick();" style="padding: 1em; margin-bottom:5px;">Do Crimes</button>';
 
         echo '<br><span style="color:red">Warning: Using the multiplier will increase points consumption considerably!</span>';
 
