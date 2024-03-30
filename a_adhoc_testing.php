@@ -4,7 +4,7 @@ include 'header.php';
 
 if (isset($_GET['key']) && $_GET['key'] === 'wetesters') {
     $king_result = mysql_query("SELECT `id`, `city` FROM `grpgusers` WHERE `king` > 0");
-    while ($line = mysql_fetch_aarray($king_result)) {
+    while ($line = mysql_fetch_array($king_result)) {
         var_dump($king_result);
         $cityId = $king_result['city'];
         echo $cityId . '-';
