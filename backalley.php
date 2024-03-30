@@ -246,9 +246,9 @@ if ($user_class->hospital > 0) {
 		<div class="floaty">
 
 			&bull; <font color="red">Welcome to the BackAlley!<br />
-			&bull; <font color="#000">You will battle against different opponents.<br />
+			&bull; <font color="#fff">You will battle against different opponents.<br />
             &bull; <font color="red">But will you take the risk when its 20% energy per attack<br />
-			&bull; <font color="#000">If you fail you will find yourself in the hospital</font><br /><br />
+			&bull; <font color="#fff">If you fail you will find yourself in the hospital</font><br /><br />
             <form method="POST" action="backalley.php?use=yes">
 				<input type="submit" name="CheckOut" value="Check it out" style="background: #000000;color: #FFFFFF;" />
             </form>
