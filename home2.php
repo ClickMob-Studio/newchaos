@@ -126,8 +126,8 @@ $_SESSION['cap'] = $rand;
          </div>
       </div>
       <footer id="footer">
-         <div class="container-inner">
-            <div class="legal"><a href="https://codemonkeyventures.co.uk/">&copy; 2021 Code Monkey Ventures</a></div>
+         <div class="container-inner" style="text-align:center">
+            <div class="legal">&copy; 2024 Chaos City</a></div>
             <div class="links">
                <a href="grules.php" title="Game Guide">Game Rules</a> | 
                <a href="policy.php" title="Privacy Policy">Privacy Policy</a>
