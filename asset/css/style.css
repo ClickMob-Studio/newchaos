@@ -39,6 +39,7 @@ h1 {
     font: 3.4rem 'Impact';
     color: var(--colorHighlight);
     text-shadow: 2px 2px 5px black;
+    padding-top:20px;
 }
 table.table {
     color: #fff
