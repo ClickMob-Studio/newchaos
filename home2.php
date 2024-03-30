@@ -14,6 +14,10 @@
    $statementOnline24 = $db->prepare($queryOnline24);
    $statementOnline24->execute();
    $users24 = $statementOnline24->rowCount();
+   $string = "1234567890";
+$length = 4;
+$rand = substr(str_shuffle($string), 0, $length);
+$_SESSION['cap'] = $rand;
    ?>
 <!doctype html>
 <html lang="en">
@@ -97,7 +101,7 @@
                            <input type='hidden' name='referer' value='<?php echo $_GET['referer'] ?>' />
                            <?php endif; ?>
                            <img src='cap.php' alt="Captcha" style="width: 176px;"" class="captcha-image mb-3"/><br>
-                           <input class='register' type='text' name='cap' />
+                           <input class='register' type='text' name='cap' placeholder="Captcha" />
                            <div class="text-start mt-4">
                               <button class="text-start" name="action" value="login" type="submit">Start Playing</button>
                            </div>
