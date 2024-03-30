@@ -895,7 +895,7 @@ if (!empty($messages)) {
 
 </div>
 
-<div class="vertical-text-slider floaty12" id="message-container">
+<div class="dcPanel p-3" id="message-container">
     <ul id="messages" style="list-style-type: none;">
 
     </ul>
