@@ -509,9 +509,9 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 									<?php foreach ( $currencies as $key => $currency ) : ?>
                                         <?php if($currency['icon']  == 'fas fa-piggy-bank'):?>
 										<div class="row my-1 g-0">
-                                            <a href="bank.php?h_deposit=cash" style="text-decoration: none;">
+                                            
 											<div class="col-2 d-flex align-items-center"><i class="mx-auto <?php echo $currency['icon']; ?>"></i></div>
-											<div class="col-10 d-flex align-items-center"><?php echo $currency['value']; ?></div>
+											<div class="col-10 d-flex align-items-center"><a href="bank.php?h_deposit=cash" style="text-decoration: none;"><?php echo $currency['value']; ?></div>
                                         </a>
 										</div>
                                         <?php else:?>
