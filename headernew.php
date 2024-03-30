@@ -402,6 +402,33 @@ $currencies = array(
 		'value' => number_format( $user_class->credits ) . ( ( 1 === $user_class->credits ) ? ' credit' : ' credits' ),
 	),
 );
+$stats = array(
+	'health' => array(
+		'title'   => 'Health',
+		'current' => $user_class->hp,
+		'max'     => $user_class->maxhp,
+	),
+	'energy' => array(
+		'title'   => 'Energy',
+		'current' => $user_class->energy,
+		'max'     => $ir['maxenergy'],
+	),
+	'brave'  => array(
+		'title'   => 'Nerve',
+		'current' => $user_class->nerve,
+		'max'     => $user_class->maxnerve,
+	),
+	'will'   => array(
+		'title'   => 'Awake',
+		'current' => $user_class->awake,
+		'max'     => $user_class->maxawake,
+	),
+	'exp'    => array(
+		'title'   => 'Exp.',
+		'current' => $user_class->exp,
+		'max'     => $user_class->maxexp,
+	),
+);
 
 
 $queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
@@ -452,7 +479,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 							<div class="col-9 dcUserName">
 							
 									<span class="dcHeaderUsername"><?php echo $user_class->formattedname; ?></span>
-								<img class="d-lg-none dcAvatarMobile" src="<?php echo $user_class->avatar; ?>">
+								<img class="d-lg-none dcAvatarMobile" style="width: 50px;" src="<?php echo $user_class->avatar; ?>">
 							</div>
 							<div class="col-3 text-center">
 								Level <?php echo $user_class->id; ?>
@@ -464,7 +491,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 						<div class="row">
 							<div class="col-4 col-lg-12 row mb-0 mb-lg-3">
 								<div class="d-none d-lg-block col-4">
-									<img src="<?php echo $user_class->avatar; ?>" alt="">
+									<img style="width: 50px;" src="<?php echo $user_class->avatar; ?>" alt="">
 								</div>
 								<div class="col-12 col-lg-7 offset-lg-1 g-0 row">
 									<?php foreach ( $currencies as $key => $currency ) : ?>
