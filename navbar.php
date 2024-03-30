@@ -32,19 +32,19 @@ $topLinks = array(
 		'count' => $counts['hospital'],
 	),
 	array(
-		'name' => 'School',
-		'url'  => 'education.php',
+		'name' => 'Education',
+		'url'  => 'uni.php',
 	),
 	array(
 		'name' => 'Online',
-		'url'  => 'usersonline.php',
+		'url'  => 'online.php',
 	),
 );
 
 $leftLinks = array(
 	array(
 		'name'  => 'Mail',
-		'url'   => 'mailbox.php',
+		'url'   => 'pms.php?view=inbox',
 		'count' => $counts['mail'],
 	),
 	array(
@@ -53,8 +53,32 @@ $leftLinks = array(
 		'count' => $counts['event'],
 	),
 	array(
+		'name' => 'Chat',
+		'url'  => 'globalchat.php',
+	),
+	array(
+		'name' => 'Missions',
+		'url'  => 'missions.php',
+	),
+	array(
 		'name' => 'Inventory',
 		'url'  => 'inventory.php',
+	),
+	array(
+		'name' => 'Raids',
+		'url'  => 'raids.php',
+	),
+	array(
+		'name' => 'Backalley',
+		'url'  => 'backalley.php',
+	),
+	array(
+		'name' => 'Speed Crimes',
+		'url'  => 'newcrimes.php',
+	),
+	array(
+		'name' => 'Speed Gym',
+		'url'  => 'speedGym.php',
 	),
 	array(
 		'name' => 'Settings',
@@ -62,7 +86,7 @@ $leftLinks = array(
 	),
 	array(
 		'name' => 'Log Out',
-		'url'  => 'logout.php',
+		'url'  => 'index.php?action=logout',
 	),
 );
 
