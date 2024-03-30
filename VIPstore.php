@@ -1156,7 +1156,7 @@ document.addEventListener("DOMContentLoaded", function() {
         </tr>
         <tr>
             <td style="text-align: center;">
-                <a href="VIPstore.php?buy=7daygrad" style="display: inline-block; padding: 10px 20px; background-color:  color: black; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY NOW</a>
+                <a href="VIPstore.php?buy=7daygrad" style="display: inline-block; padding: 10px 20px; background-color:  color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY NOW</a>
 
             </td>
         </tr>
@@ -1180,7 +1180,7 @@ document.addEventListener("DOMContentLoaded", function() {
     display: inline-block;
     padding: 10px 20px;
     background-color: #111111; /* Dark grey background */
-    color: black; /* black text */
+    color: white; /* black text */
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
@@ -1199,7 +1199,7 @@ document.addEventListener("DOMContentLoaded", function() {
 }
 
 .section-title {
-    color: #000;
+    color: #fff;
     text-align: center;
     margin-bottom: 20px;
 }
@@ -1211,7 +1211,7 @@ document.addEventListener("DOMContentLoaded", function() {
     gap: 20px; /* Adjusts the space between the items */
 }
 .new-shop-item {
-    background-color: /* Dark background */ color: black;
+    background-color: /* Dark background */ color: white;
     /* padding: 20px; */
     /* border-radius: 10px; */
     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
@@ -1243,7 +1243,7 @@ document.addEventListener("DOMContentLoaded", function() {
 }
 
 .new-shop-item--img h5, .new-shop-item--price span {
-    color: black; /* Gold color for emphasis */
+    color: white; /* Gold color for emphasis */
     font-weight: bold;
 }
 
@@ -1269,7 +1269,7 @@ document.addEventListener("DOMContentLoaded", function() {
 .vip-package {
     text-align: center;
     background-color: /* Dark background */
-    color: black;
+    color: white;
     /* padding: 20px; */
     /* border-radius: 10px; */
     /* box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); */
