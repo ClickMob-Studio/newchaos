@@ -159,7 +159,6 @@ deleteUserFromSpot($userId, $desiredSpot);
         <li>You can move up the ladder by beating those above you.</li>
         <li>You will be rewarded points every hour and sent an event when you place on the attack ladder.</li>
         <li>After 4 hours of attack inactivity you will be kicked off the ladder.</li>
-        <li class="info-highlight">This feature is subject to change whilst we test and adjust things!</li>
     </ul>
 </div>
 <div class="ladder-container">
