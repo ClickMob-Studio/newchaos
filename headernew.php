@@ -430,7 +430,12 @@ $stats = array(
 	),
 );
 
-
+$counts = array(
+	'event'         => $ev,
+	'mail'          => '<!_-mail-_!>',
+	'hospital'      => $hosp,
+	'jail'          => $ja,
+);
 $queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
 
 $usersOnline = mysql_num_rows($queryOnline);
