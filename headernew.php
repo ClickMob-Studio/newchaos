@@ -893,6 +893,14 @@ if (!empty($messages)) {
             </div>
         </div>
 
+</div>
+
+<div class="vertical-text-slider floaty12" id="message-container">
+    <ul id="messages" style="list-style-type: none;">
+
+    </ul>
+</div>
+
 
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
