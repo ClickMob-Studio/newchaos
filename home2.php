@@ -90,6 +90,7 @@ $users24 = $statementOnline24->rowCount();
     width: 100%;
     font-size: 1.5rem;
     font-style: italic;
+    color:#757575;
     padding: 5px;" name='gender' type='dropdown'>
                     			<option value=''>Please Choose Gender</option>
                     			<option value='Male'>Male</option>
