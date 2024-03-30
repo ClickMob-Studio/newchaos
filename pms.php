@@ -189,10 +189,10 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
 
         <table id='newtables' class='table' style='width:100%;'>
         <tr>
-            <td>Subject</td>
-            <td>Sender</td>
-            <td>Time Recieved</td>
-            <td colspan='3'></td>
+            <th>Subject</th>
+            <th>Sender</th>
+            <th>Time Recieved</th>
+            <th colspan='3'></th>
         </tr>";
     $db->query("SELECT COUNT(*) FROM pms WHERE `to` = ?");
     $db->execute(array(
