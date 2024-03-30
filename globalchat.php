@@ -315,11 +315,11 @@ foreach ($rows as $row) {
         // Right cell for the body content
         echo '<td class="flexele" style="padding:10px;">';
         echo BBCodeParse(stripslashes($row['body']));
-        echo '<br>';
-        echo howlongago($row['timesent']) . ' ago <br>';
+        echo '<br><br>';
+        echo howlongago($row['timesent']) . ' ago <br><br>';
         echo (($user_class->admin || $user_class->gm || $user_class->cm) && (!$array['admin'] && !$array['gm'])) ? '<a href="?gcban=' . $row['playerid'] . '&conf=' . $_SESSION['security'] . '">Ban User</a>' : '';
         echo ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $row['id'] . '">Delete Post</a>' : '';
-        echo'<div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $row['playerid'] . ']' . str_replace(array("\n","\r"),array('','\n'),$quotetext) . '[/quote]\\n\\n\');">';
+        echo'<br><div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $row['playerid'] . ']' . str_replace(array("\n","\r"),array('','\n'),$quotetext) . '[/quote]\\n\\n\');">';
         echo 'Quote';
     echo'</div>';
         echo '</td>';
