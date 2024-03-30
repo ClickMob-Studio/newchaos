@@ -1,287 +1,1134 @@
-<!DOCTYPE html>
+<?php
+
+session_start();
+
+
+// Get the name of the current script and the full request URI to check for specific query parameters
+$current_page = basename($_SERVER['PHP_SELF']); // Gets the name of the current script
+$current_uri = $_SERVER['REQUEST_URI']; // Gets the full request URI
+
+register_shutdown_function('ob_end_flush');
+//ini_set('memcached.sess_prefix', 'memc.sess.ml2.key.1');
+$starttime = microtime_float();
+include 'dbcon.php';
+include 'database/pdo_class.php';
+include "classes.php";
+include "codeparser.php";
+
+if (empty($ignoreslashes)) {
+    if (get_magic_quotes_gpc() == 0) {
+        foreach ($_POST as $k => $v) {
+            $_POST[$k] = addslashes($v);
+        }
+        foreach ($_GET as $k => $v) {
+            $_GET[$k] = addslashes($v);
+        }
+    }
+}
+if (!isset($_SESSION['id'])) {
+    include('home.php');
+    die();
+}
+$db->query("SELECT * FROM sessions WHERE userid = ?");
+$db->execute(array(
+    $_SESSION['id']
+));
+if (isset($_GET['action']) && $_GET['action'] == "logout") {
+    session_destroy();
+    header("Location: index.php");
+    exit();
+}
+$uid = $_SESSION['id'];
+$user_class = new User($uid);
+if ($uid == 1) {
+    $user_class->admin = 1;
+}
+
+
+if ($user_class->gang == 0 && $user_class->cur_gangcrime != 0) {
+    $db->query("UPDATE grpgusers SET cur_gangcrime = 0 WHERE id = ?");
+    $db->execute(array(
+        $user_class->id
+    ));
+}
+if (!$m->get('cities')) {
+    $m->set('cities', 'woot', false, 300);
+    $db->query("SELECT * FROM cities");
+    $db->execute();
+    $rows = $db->fetch_row();
+    foreach ($rows as $row) {
+        $m->set('cities.' . $row['id'], false, $row['name']);
+    }
+}
+$m->set('lastpageload.' . $user_class->id, false, time());
+if ($user_class->lastpayment < time() - 86400) {
+    $db->query("UPDATE grpgusers SET points = points + 250, lastpayment = unix_timestamp() WHERE id = ?");
+    $db->execute(array(
+        $user_class->id
+    ));
+    Send_event($user_class->id, "Daily Login Bonus: <font color=red><b>250 Points</b></font>");
+}
+if (isset($_GET['spend'])) {
+    if ($_GET['spend'] == "refenergy") {
+        manual_refill('e');
+        ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: https://chaoscity.co.uk/');
+    }
+    if ($_GET['spend'] == "refawake") {
+        $cost = 100 - floor(100 * ($user_class->directawake / $user_class->directmaxawake));
+        if ($user_class->awakepercent != 100 && $user_class->points >= $cost) {
+            $user_class->points -= $cost;
+            $user_class->directawake = $user_class->directmaxawake;
+            mysql_query("UPDATE grpgusers SET awake = $user_class->directmaxawake, points = points - $cost WHERE id = $user_class->id");
+        }
+        ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: https://chaoscity.co.uk/');
+    }
+    if ($_GET['spend'] == "refnerve") {
+        manual_refill('n');
+        if (isset($_GET['crime'])) {
+            header('Location: crime.php');
+        } elseif ($_SERVER['HTTP_REFERER']) {
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        } else {
+            header('Location: https://chaoscity.co.uk/');
+        }
+    }
+}
+$browser = getBrowser();
+$browser = serialize($browser);
+if ($browser != $user_class->browser) {
+    $db->query("UPDATE grpgusers SET browser = ? WHERE id = ?");
+    $db->execute(array(
+        $browser,
+        $user_class->id
+    ));
+}
+if ($user_class->outofjail > 0) {
+    $db->query("UPDATE grpgusers SET jail = 0 WHERE id = ?");
+    $db->execute(array(
+                $user_class->id
+    ));
+}
+
+
+
+if ($user_class->strength + $user_class->defense + $user_class->speed != $user_class->total) {
+    $user_class->total = $user_class->strength + $user_class->defense + $user_class->speed;
+    $db->query("UPDATE grpgusers SET total = ? WHERE id = ?");
+    $db->execute(array(
+        $user_class->total,
+        $user_class->id
+    ));
+}
+if ($user_class->gang != 0) {
+    if (!$m->get('gangtotal.' . $user_class->gang)) {
+        $m->set('gangtotal.' . $user_class->gang, 'set', false, 300);
+        $db->query("SELECT total FROM grpgusers WHERE gang = ?");
+        $db->execute(array(
+            $user_class->gang
+        ));
+        $rows = $db->fetch_row();
+        $total = 0;
+        foreach ($rows as $row) {
+            $total += $row['total'];
+        }
+        $db->query("UPDATE gangs SET tmstats = ? WHERE id = ?");
+        $db->execute(array(
+            $total,
+            $user_class->gang
+        ));
+    }
+}
+$db->query("SELECT type, id FROM bans WHERE type IN ('freeze', 'perm') AND id = ?");
+$db->execute(array(
+    $user_class->id
+));
+$row = $db->fetch_row(true);
+if (!empty($row)) {
+    session_destroy();
+    die('<meta http-equiv="refresh" content="0;url=home.php">');
+}
+$time = date("F d, Y g:i:sa", time());
+if (isset($_COOKIE['mu'])) {
+    if ($_COOKIE['mu'] != $user_class->id) {
+        $db->query("INSERT INTO multi (acc1, acc2, `time`) VALUES (?, ?, ?)");
+        $db->execute(
+            array(
+                $user_class->id,
+                $_COOKIE['mu'],
+                time(),
+            )
+        );
+    }
+}
+setcookie("mu", $user_class->id, time() + (10 * 365 * 24 * 60 * 60));
+if ($uid != 0) {
+    $db->query("UPDATE grpgusers SET lastactive = unix_timestamp(), ip = ? WHERE id = ?");
+    $db->execute(array(
+        $IP,
+        $user_class->id
+    ));
+}
+$q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");
+$hosp = mysql_num_rows($q);
+$e = mysql_query("SELECT viewed FROM events WHERE `to` = $user_class->id AND viewed = 1");
+$ev = mysql_num_rows($e);
+$q = mysql_query("SELECT `id` FROM grpgusers WHERE jail > 0");
+$ja = mysql_num_rows($q);
+function callback($buffer)
+{
+    global $user_class, $db, $m;
+    if (!$m->get('hosCount')) {
+        $db->query("SELECT count(id) FROM grpgusers WHERE hospital <> 0");
+        $db->execute();
+        $m->set('hosCount', $db->fetch_single(), false, 15);
+    }
+       if (!$m->get('pHosCount')) {
+        $db->query("SELECT count(id) FROM pets WHERE hospital <> 0");
+        $db->execute();
+        $m->set('pHosCount', $db->fetch_single(), false, 1);
+    }
+    $db->query("SELECT count(viewed) FROM pms WHERE `to` = ? AND viewed = 1");
+$db->execute(array($user_class->id));
+$mailCount = $db->fetch_single();
+$m->set('mailCount.' . $user_class->id, $mailCount, false, 3);
+
+// Attempt to retrieve user jail count from cache
+$userJailCount = $m->get('v2jailCount');
+if (!$userJailCount) {
+    $db->query("SELECT count(id) FROM grpgusers WHERE jail <> 0");
+    $db->execute();
+    $userJailCount = $db->fetch_single();
+    $m->set('v2jailCount', $userJailCount, false, 1);
+}
+
+// Attempt to retrieve pet jail count from cache
+$petJailCount = $m->get('pJailCount');
+if (!$petJailCount) {
+    $db->query("SELECT count(id) FROM pets WHERE jail <> 0");
+    $db->execute();
+    $petJailCount = $db->fetch_single();
+    $m->set('pJailCount', $petJailCount, false, 1);
+}
+
+
+
+    if (!$m->get('clockin.' . $user_class->id)) {
+        $db->query("SELECT lastClockin, dailyClockins FROM jobinfo WHERE userid = ?");
+        $db->execute(array(
+            $user_class->id
+        ));
+        $jinfo = $db->fetch_row(true);
+        $toset = ($jinfo['dailyClockins'] < 8 && $jinfo['lastClockin'] < time() - 3600) ? 1 : 0;
+        $m->set('clockin.' . $user_class->id, $toset, false, 60);
+    }
+    if (!$m->get('eveCount.' . $user_class->id)) {
+        $db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
+        $db->execute(array(
+            $user_class->id
+        ));
+        $m->set('eveCount.' . $user_class->id, $db->fetch_single(), false, 3);
+    }
+    if (!$m->get('hlCount')) {
+        $db->query("SELECT count(id) FROM hitlist");
+        $db->execute();
+        $m->set('hlCount', $db->fetch_single(), false, 5);
+    }
+    if (!$votes = $m->get('votes.' . $user_class->id)) {
+        $db->query("SELECT count(*) FROM votes WHERE userid = ?");
+        $db->execute(array(
+            $user_class->id
+        ));
+        $votes = ($db->fetch_single() == 0) ? 'notify' : 'null';
+        $m->set('votes.' . $user_class->id, $votes, false, 5);
+    }
+    if ($user_class->admin || $user_class->gm) {
+        if (!$m->get('refCount')) {
+            $db->query("SELECT count(viewed) FROM referrals WHERE viewed = 0");
+            $db->execute();
+            $m->set('refCount', $db->fetch_single(), false, 5);
+        }
+        if (!$m->get('tickCount')) {
+            $db->query("SELECT count(viewed) FROM tickets WHERE status <> 'CLOSED'");
+            $db->execute();
+            $m->set('tickCount', $db->fetch_single(), false, 5);
+        }
+        $referrals = $m->get('refCount');
+        $tickets = $m->get('tickCount');
+    } else {
+        $referrals = 0;
+        $tickets = 0;
+    }
+    $hospital = "[" . $m->get('hosCount') . "]";
+    $hospital = ($m->get('hosCount') > 0) ? "<span style='color:red;'>$hospital</span>" : $hospital;
+    $petJailDisplay = "[" . $petJailCount . "]";
+$petJailDisplay = $petJailCount > 0 ? "<span style='color:red;'>$petJailDisplay</span>" : $petJailDisplay;
+    $phos = "[" . $m->get('pHosCount') . "]";
+    $phos = ($m->get('pHosCount') > 0) ? "<span style='color:red;'>$phos</span>" : $phos;
+    //$mail = "[" . $mailount . "]";
+    $mail =   $mailCount;
+    $events = $m->get('eveCount.' . $user_class->id);
+    $hitlist = $m->get('hlCount');
+    $emcount = $mail + $events;
+    $emcount = ($emcount) ? "(" . $emcount . ") " : "";
+    $buffer = str_replace("[:USERNAME:]", strip_tags($user_class->username), $buffer);
+    $buffer = str_replace("[:EMAIL:]", strip_tags($user_class->email), $buffer);
+    $buffer = str_replace("[:AVATAR:]", strip_tags($user_class->avatar), $buffer);
+    $buffer = str_replace("[:QUOTE:]", strip_tags($user_class->quote), $buffer);
+    $buffer = str_replace("[:MUSIC:]", $user_class->promusic, $buffer);
+    $buffer = str_replace("[:VOLUME:]", $user_class->volume, $buffer);
+    $buffer = str_replace("[:GENDER:]", $user_class->gender, $buffer);
+    $buffer = str_replace("[:SIGNATURE:]", strip_tags($user_class->sig), $buffer);
+    $buffer = str_replace("[:NOTEPAD:]", strip_tags($user_class->notepad), $buffer);
+    $buffer = str_replace("<!_-money-_!>", prettynum($user_class->money), $buffer);
+    $buffer = str_replace("<!_-bank-_!>", prettynum($user_class->bank), $buffer);
+    $buffer = str_replace("<!_-banked-_!>", number_format_short($user_class->bank), $buffer);
+    $buffer = str_replace("<!_-points-_!>", prettynum(floor($user_class->points)), $buffer);
+    $buffer = str_replace("<!_-pbanked-_!>", prettynum(floor($user_class->pbank)), $buffer);
+    $buffer = str_replace("<!_-money2-_!>", prettynum(floor($user_class->money)), $buffer);
+    $buffer = str_replace("<!_-formhp-_!>", prettynum($user_class->formattedhp), $buffer);
+    $buffer = str_replace("<!_-hpperc-_!>", $user_class->hppercent, $buffer);
+    $buffer = str_replace("<!_-formenergy-_!>", prettynum($user_class->formattedenergy), $buffer);
+    $buffer = str_replace("<!_-energyperc-_!>", $user_class->energypercent, $buffer);
+    $buffer = str_replace("<!_-formawake-_!>", prettynum($user_class->formattedawake2forbar), $buffer);
+    $buffer = str_replace("<!_-awakeperc-_!>", $user_class->awakepercent, $buffer);
+    $buffer = str_replace("<!_-formnerve-_!>", prettynum($user_class->formattednerve), $buffer);
+    $buffer = str_replace("<!_-nerveperc-_!>", $user_class->nervepercent, $buffer);
+    $buffer = str_replace("<!_-formexp-_!>", prettynum($user_class->formattedexp), $buffer);
+    $buffer = str_replace("<!_-expperc-_!>", $user_class->exppercent, $buffer);
+    $buffer = str_replace("<!_-points-_!>", prettynum($user_class->points), $buffer);
+    $buffer = str_replace("<!_-credits-_!>", prettynum($user_class->credits), $buffer);
+    $buffer = str_replace("<!_-level-_!>", $user_class->level, $buffer);
+    $buffer = str_replace("<!_-mprotection-_!>", $user_class->mprotection, $buffer);
+    $buffer = str_replace("[:FORMAT.NAME:]", $user_class->formattedname, $buffer);
+    $buffer = str_replace("<!_-hospital-_!>", prettynum($hospital), $buffer);
+    $buffer = str_replace("<!_-jail-_!>", $jail, $buffer);
+    $buffer = str_replace("<!_-pjail-_!>", $pjail, $buffer);
+    $buffer = str_replace("<!_-phos-_!>", $phos, $buffer);
+    $buffer = str_replace("<!_-thecardvalue-_!>", $user_class->cardvalue, $buffer);
+    $buffer = str_replace("<!_-thecardtype-_!>", $user_class->cardtype, $buffer);
+    $buffer = str_replace("<!_-forumnoti-_!>", ($user_class->forumnoti) ? "<span style='color:#00ff00;font-weight:bold;'>$user_class->forumnoti</span>" : "0", $buffer);
+    $buffer = str_replace("<!_-genBars-_!>", genBars(), $buffer);
+    $hossyjail = ($user_class->hospital) ? "<img width='20px' height='20px' src='images/hossy.png' /> " . ($user_class->hospital / 60) . " Mins" : "";
+    $hossyjail .= ($user_class->jail) ? "<img width='20px' height='20px' src='images/jailtop.png' /> " . ($user_class->jail / 60) . " Mins" : "";
+    $buffer = str_replace("<!_-hossyjail-_!>", $hossyjail, $buffer);
+    $buffer = str_replace("<!_-votes-_!>", $votes, $buffer);
+    if ($hitlist > 0) {
+        $buffer = str_replace("<!_-hitlist-_!>", "<span class='notify'>[" . prettynum($hitlist) . "]</span>", $buffer);
+    } else {
+        $buffer = str_replace("<!_-hitlist-_!>", "[" . prettynum($hitlist) . "]", $buffer);
+    }
+    if ($mail > 0) {
+        $buffer = str_replace("<!_-mail-_!>", "<span class='notify'>" . prettynum($mail) . "</span>", $buffer);
+    } else {
+        $buffer = str_replace("<!_-mail-_!>", prettynum($mail), $buffer);
+    }
+
+
+    if ($user_class->forumnoti > 0) {
+        $buffer = str_replace("<!_-forum-_!>", "<span class='notify'>New</span>", $buffer);
+    } else {
+        $buffer = str_replace("<!_-forum-_!>", "0", $buffer);
+    }
+
+    if ($user_class->gmail > 0) {
+        $buffer = str_replace("<!_-gmail-_!>", "<span class='notify'>New</span>", $buffer);
+    } else {
+        $buffer = str_replace("<!_-gmail-_!>", "0", $buffer);
+    }
+    if ($user_class->globalchat > 0) {
+        $buffer = str_replace("<!_-gchat-_!>", "<span class='notify'>New</span>", $buffer);
+    } else {
+        $buffer = str_replace("<!_-gchat-_!>", "0", $buffer);
+    }
+    if ($user_class->news > 0) {
+        $buffer = str_replace("<!_-news-_!>", "<span class='notify'>New</span>", $buffer);
+    } else {
+        $buffer = str_replace("<!_-news-_!>", "0", $buffer);
+    }
+    if ($user_class->game_updates > 0) {
+        $buffer = str_replace("<!_-gupdates-_!>", "<span class='notify'>$user_class->game_updates</span>", $buffer);
+    } else {
+        $buffer = str_replace("<!_-gupdates-_!>", "$user_class->game_updates", $buffer);
+    }
+    if ($user_class->jail > 0) {
+        $buffer = str_replace("<!_-
+-_!>", "<span class='notify jailed'>" . prettynum($jail) . "</span>", $buffer);
+    } else {
+        $buffer = str_replace("<!_-jail-_!>", prettynum($jail), $buffer);
+    }
+    if ($events > 0) {
+        $buffer = str_replace("<!_-events-_!>", "<span class='notify'>" . prettynum($events) . "</span>", $buffer);
+    } else {
+        $buffer = str_replace("<!_-events-_!>", prettynum($events), $buffer);
+    }
+    if ($tickets > 0) {
+        $buffer = str_replace("<!_-tickets-_!>", "<font color='red'><b>" . prettynum($tickets) . "</b></font>", $buffer);
+    } else {
+        $buffer = str_replace("<!_-tickets-_!>", prettynum($tickets), $buffer);
+    }
+    if ($referrals > 0) {
+        $buffer = str_replace("<!_-referrals-_!>", "<font color='red'><b>" . prettynum($referrals) . "</b></font>", $buffer);
+    } else {
+        $buffer = str_replace("<!_-referrals-_!>", prettynum($referrals), $buffer);
+    }
+    $buffer = str_replace("<!_-cityname-_!>", $user_class->mycityname, $buffer);
+    $clockin = ($m->get('clockin.' . $user_class->id)) ? "<a href='jobs.php?clockin' style='color:red;'>Clockin for Job</a>" : "";
+    $buffer = str_replace("<!_-clockin-_!>", $clockin, $buffer);
+    $et = ($user_class->admin || $user_class->eo ? "<a href='subet.php'>Send ET Prize</a>" : "");
+    $buffer = str_replace("<!_-entertain-_!>", $et, $buffer);
+    $buffer = str_replace("<!_-emcount-_!>", $emcount, $buffer);
+    return $buffer;
+
+
+
+}
+ob_start("callback");
+
+
+$queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
+
+$usersOnline = mysql_num_rows($queryOnline);
+
+$activeRaidsQuery = "SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE completed = 0"; // Replace 'end_time' with the actual column name that represents when the raid ends
+$activeRaidsResult = mysql_query($activeRaidsQuery);
+$activeRaidsData = mysql_fetch_assoc($activeRaidsResult);
+$activeRaidsCount = $activeRaidsData['activeRaidsCount'];
+?><!doctype html>
 <html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="keywords" content="The Mafia Life, Gangster Game, Free mmorpg, mafia game" />
-    <meta name="description" content="TheMafiaLife is a free gangster style massive multiplayer online role play game mmorpg. Join the streets and start building your gangster empire now!" />
- 	<title>The Mafia Life</title>
- 	<link rel="Shortcut Icon" href="/images/favicon.ico" type="image/x-icon" />
- 	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-	<link type="text/css" href="/css/tml2css.css" rel="stylesheet" charset="utf-8">
-<script type="text/javascript" src="/template/slick/dist/js-libs/libs.min.js?1680084840"></script>
-						<script type="text/javascript" src="/template/slick/dist/js/game.min.js?1680084840"></script>
-						
-	</head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>ChaosCity</title>
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+	<link href="asset/css/style.css?v=<?php echo time()?>" rel="stylesheet" type="text/css">
+	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="asset/js/app.<?php echo CACHEBURST?>.js"></script>
+
+</head>
 <body>
-
-	
-
-	<div id="helpdesk-helper"><a href="/helpdesk/helpdesk" class="with-tooltip" title="To get help and support from Street Crimes active Helpdesk members, make a ticket here."></a></div>
-
-	
-	<div id="wrap">
-
-		<div id="header">
-
-			<div id="logo">
-				<a href="/main" title="Home">
-					<img src="/tml4.gif" height="55px" width="150px">
-				</a>
-
-				<span id="site-time">20:39 - Jul 19 2023</span>
-				<span class="large"><a href="/world/domination" title="Moscow domination">Moscow</a> - <a href="/personal/profile.php?uid=6162" class="with-tooltip"title="City don of Moscow">Epiales</a></span>
-			</div>
-
-
-			<div id="sc_buttons">
-
-				
-
-				<ul>
-					<li><a href="/investment/scstore" id="creditshop" class="credits with-tooltip" title="Credits">
-						<span><img src="/images/inventory/credits.png" height="12"> 0</span>
-						<small>More &rarr;</small>
-						<a href="/city/airport" class="airport-header-link with-tooltip" title="City airport"><img src="/images/stores/privatejet.png" height="23px" id="airport_header_can_fly" class="airport-header-image-regular"></a>
-					</a></li>
-					<li><a href="/crime/pettycrime" id="pettycrime" class="pettycrime with-tooltip" title="Petty crime"></a></li>
-					<li><a href="/crime/gta" id="gta" class="gta with-tooltip" title="Grand theft auto"></a></li>
-					<li><a href="/crime/drugs" id="drugs" class="drugs with-tooltip" title="Drugs"></a></li>
-					<li><a href="/crime/getaway" id="getaway" class="getaway with-tooltip" title="Getaway"></a></li>
-					<li><a href="/crime/jobs" id="jobs" class="jobs with-tooltip" title="Jobs"></a></li>
-					<li><a href="/city/gym" id="gym" class="gym with-tooltip" title="Gym"></a></li>
-					<li><a href="/crime/prostitution" id="prostitution" class="prostitution with-tooltip" title="Prostitution"></a></li>
-					<li><a href="/investment/stores" id="shop" class="shop with-tooltip" title="Stores"></a></li>
-				</ul>
-
-			</div>
-
-			<div id="sc_stats">
-
-				
-				
-				<a href="/world/gethealth">
-					<div id="health" class="with-tooltip" title="Click to get more health">
-					<span class="label">100</span><span style="width:100%;"></span>
-					</div>
-				</a>
-				<a href="/world/premium">
-				<div id="next_rank" class="with-tooltip" title="Rank bar">
-					<span class="label">0%</span><span style="width:0%;"></span>				</div>
-				</a>
-				<a href="/world/getenergy">
-				<div id="next_energy" class="with-tooltip" title="Click to get more energy">
-					<span class="label">10/10</span><span style="width:100%;"></span>
-				</div>
-				</a>
-
-				<div id="next_refill" class="with-tooltip" title="3 energy in next refill">
-					<span class="label">2:15</span><span style="width:75%;"></span>
-				</div>
-
-			</div>
-
-			<div id="sc_bar">
-
-				<div class="sc_bar_left">
-
-					
-					
-					<ul>
-						<li id="inbox_sc_bar" class="with-tooltip" title="Inbox"><a href="/communication/inbox"><span class="inbox_dull"></span></a></li>
-						<li class="with-tooltip" title="New message"><a href="/communication/compose"><span class="inbox_new"></span></a></li>
-						<li class="with-tooltip" title="Notifications" id="notifications_sc_bar"><a href="/communication/notifications"><span class="notification_dull"></span></a></li>
-						<li class="with-tooltip" title="Tasks" id="tasks_sc_bar"><a href="/personal/tasks"><span class="tasks_dull"></span></a></li>
-						<li class="with-tooltip" title="City Jail" id="jail_sc_bar"><a href="/city/jail"><span class="jail_dull"></span></a></li>
-						<li class="with-tooltip" title="City Hospital" id="hospital_sc_bar"><a href="/city/hospital"><span class="hospital_dull"></span></a></li>
-						<li class="with-tooltip" title="Trade" id="trade_sc_bar"><a href="/investment/trade"><span class="trade_dull"></span></a></li>
-
-						<li class="with-tooltip end" title="Online"><a href="/world/online" class="online"><span class="online_dull"></span></a></li>
-						<li class="with-tooltip end" title="Online"><a href="/world/online" class="online_text"><span class="online_text"></span><span id="online_sc_bar">6</span> Online</a></li>
-					</ul>
-
-				</div>
-
-				<div class="sc_bar_right">
-										<ul>
-						<li><a href="/world/cities" class="grey">World</a></li>
-						<li><a href="/world/gamestats" class="grey">Game Stats</a></li>
-						<li><a href="/updates" class="grey">News</a></li>
-						<li><a href="/world/faq" class="blue">FAQ</a></li>
-						<li class="end"><a href="/personal/support" class="blue">Support</a></li>
-					</ul>
-
-				</div>
-
-			</div>
-
+	<header class="mainHeader">
+		<div class="row mx-auto mainHeaderContent">
+		<?php require 'navbar.php'; ?>
 		</div>
-
-		<div id="container">
-			<div id="menu">
-
-				
-				<!-- add class "your_account_xmas" for xmas snow -->
-				<div id="your_account" class="your_account">
-					<div class="your_account_content">
-						<div class="pic">
-							<a href="/personal/profile?uid=6395"><img src="/images/blankprofile.png" height="40px" width="40px" style="" class="user_avatar"/></a>
-						</div>
-						<div class="info">
-							<ul>
-								<li class="your_account_username"><a class="white" href="/personal/profile.php?uid=6395">Destroyer1995</a></li>
-								<li><span id="rank_navi">Hobo</span></li>
-							</ul>
-							<table class="tablepad3">
-							<tr><td width="20"><a href="/world/prestige"><img src="/template/slick/dist/img/prestige_small.png" height="13" class="with-tooltip" title="Prestige" /></a></td><td>
-							<span id="prestige_navi">0</span>
-							</td></tr>
-							<tr><td width="20"><a href="/investment/honourstore"><img src="/images/hp_small.png" height="13" class="with-tooltip" title="Honour Points" /></a></td><td>
-							<span id="honour_points_navi">0</span>
-							</td></tr>
-							<tr>
-								<td width=20><img src="/images/respectpoints.png" height=13 alt="" class="with-tooltip" title="Respect Points"></td>
-								<td>
-									<span id="respect_points_navi">
-										0									</span>
-								</td>
-							</tr>
-							</table>
-						</div>
-					</div>
-					<span class="flipper" title="Click to flip"></span>
-				</div>
-
-				<ul class="menu_items">
-					
-
-
-
-
-<li><a href="/index.php" ><span class="menusprite menu_left_inventory"></span>Home</a>
-<li><a href="/bloodbath.php" ><span class="menusprite menu_left_inventory"></span>Bloodbath</a>
-<li><a href="/dailies.php" ><span class="menusprite menu_left_inventory"></span>Missions</a>
-<li><a href="/search.php" ><span class="menusprite menu_left_inventory"></span>Daily Jobs</a>
-<li><a href="/backalley.php" ><span class="menusprite menu_left_inventory"></span>Search Player</a>
-<li><a href="/inventory.php" ><span class="menusprite menu_left_inventory"></span>Back Alley</a>
-<li><a href="/city.php" ><span class="menusprite menu_left_inventory"></span>Inventory</a>
-<li><a href="/bank.php" ><span class="menusprite menu_left_inventory"></span>ADMIN City</a>
-<li><a href=""><span class="menusprite menu_left_inventory"></span>Bank</a>
-<li><a href="" ><span class="menusprite menu_left_inventory"></span>Gym</a>
-<li><a href="" ><span class="menusprite menu_left_pettycrimes"></span>Crimes</a>
-<li><a href="" ><span class="menusprite menu_left_inventory"></span>Your Gang</a>
-<li><a href="" ><span class="menusprite menu_left_inventory"></span>Gang Mail</a>
-<li><a href="" ><span class="menusprite menu_left_inventory"></span>Forums</a>
-<li><a href="" ><span class="menusprite menu_left_inventory"></span>Edit Account</a>
-<li><a href="" ><span class="menusprite menu_left_inventory"></span>Donate</a>
-<li><a href="" ><span class="menusprite menu_left_inventory"></span>Travel</a>
-<li><a href="" ><span class="menusprite menu_left_inventory"></span>Vote for TML2</a>
-<li><a href="" ><span class="menusprite menu_left_inventory"></span>Refer</a></li>
-<li><a href="" ><span class="menusprite menu_left_inventory"></span>Shoutbox</a>
-
-				</ul>
-
-			</div>
-			<div id="content">
-				<div id="searchbar">
-					<div id="search_helpers">
-						<input type="text" class="search_text" name="search" id="search_player" placeholder="Search sc..." />
-					</div>
-					<div id="adbar">
-						<span class="searchtext_label with-tooltip" title="Adverts can be silenced in My account options">Adverts:</span>
-
-						
-						<div class="outer_ticker_container">
-							<div class="tickercontainer">
-								<div class="mask">
-									<ul class="ticker"><li><b>Advert: </b>Join Chaos Brigade, Fangs</li></ul>
+	</header>
+	<div class="row mx-auto my-3 mainContent">
+		<div class="d-none d-lg-block col-2 dcLeftNavContainer p-0">
+			<?php require 'leftnav.php'; ?>
+		</div>
+		<div class="col-12 col-lg-10">
+			<header class="row">
+				<div class="col-12 col-lg-4">
+					<div class="p-3 dcPanel dcAvatarPanel">
+						<div class="row mb-3">
+							<div class="col-9 dcUserName">
+							
+									<?php echo $user_class->formattedname; ?>
+								<img class="d-lg-none dcAvatarMobile" src="<?php echo $user_class->avatar; ?>" alt="<?php echo $user_class->username; ?>'s Avatar">
+							</div>
+							<div class="col-3 text-center">
+								Level <?php echo $user_class->level; ?>
+								<div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip" title="<?php echo $stats['exp']['current'] . '/' . $stats['exp']['max']; ?>">
+									<div class="progress-bar" role="progressbar" style="width:<?php echo ( $stats['exp']['current'] / $stats['exp']['max'] * 100 ); ?>%"></div>
 								</div>
 							</div>
 						</div>
-
-					</div>
-					<div class="fl padleft10">
-						<a href="#" id="reveal_search" class="blue with-tooltip" title="Search for player/crew">Search</a>
-					</div>
-					<div id="next-crime">
-						<a href="/world/nextcrime" class="grey">Next available crime</a>
-					</div>
-					<div id="notepad">
-						<a href="#" class="grey" id="notepadtrigger">Notepad</a>
-					</div>
-					<div id="sc_bar_right_chat">
-						<a href="/communication/chat" class="grey">Chat</a>
-					</div>
-					<div id="logout">
-						<a href="/logout" title="Logout" class="dark">Logout</a>
+						<div class="row">
+							<div class="col-4 col-lg-12 row mb-0 mb-lg-3">
+								<div class="d-none d-lg-block col-4">
+									<img src="<?php echo $ir['display_pic']; ?>" alt="<?php echo $ir['username']; ?>'s Avatar">
+								</div>
+								<div class="col-12 col-lg-7 offset-lg-1 g-0 row">
+									<?php foreach ( $currencies as $key => $currency ) : ?>
+										<div class="row my-1 g-0">
+											<div class="col-3 d-flex align-items-center"><i class="mx-auto <?php echo $currency['icon']; ?>"></i></div>
+											<div class="col-9 d-flex align-items-center"><?php echo $currency['value']; ?></div>
+										</div>
+									<?php endforeach; ?>
+								</div>
+							</div>
+							<div class="col-8 col-lg-12 g-0 row dcStatsPanel">
+								<?php foreach ( $stats as $key => $stat ) : ?>
+									<div class="row my-0 my-lg-1 <?php echo 'dcStatContainer-' . $key; ?>">
+										<div class="col-3 d-flex align-items-center"><?php echo $stat['title']; ?></div>
+										<div class="col-9 d-flex align-items-center">
+											<div class="progress dcStatsBars" data-toggle="tooltip" title="<?php echo $stat['current'] . '/' . $stat['max']; ?>">
+												<div class="progress-bar" role="progressbar" style="width:<?php echo ( $stat['current'] / $stat['max'] * 100 ); ?>%"></div>
+											</div>
+										</div>
+									</div>
+								<?php endforeach; ?>
+							</div>
+						</div>
 					</div>
 				</div>
-
-				<div id="sc_inpage_stats">
-					<ul>
-						<li class="sc_page_stats_cash">
-							<img src="/images/inventory/cash.png" alt="" height=20 class="with-tooltip" title="Cash"> <em>$<span id="cash_navi" class="with-tooltip" title="Cash">5,000</span></em>
-						</li>
-						<li class="sc_page_stats_bank">
-							<img src="/images/bank.png" height=20 alt="" class="with-tooltip" title="Bank">
-							<em>$</em><span id="bank_navi" class="with-tooltip" title="Bank">0</span>
-						</li>
-						<li class="sc_page_stats_smaller">
-							<img src="/images/premiumicons/3.png" height=20 alt="" class="with-tooltip" title="Bullets">
-							<span id="bullets_navi" class="with-tooltip" title="Bullets">0</span>
-						</li>
-						<li class="sc_page_stats_smaller">
-							<a href="/investment/scstore">
-								<img src="/images/inventory/credits.png" height=20 alt="" class="with-tooltip" title="Credits">
-								<span id="credits_navi" class="with-tooltip" title="Credits">0</span>
-							</a>
-						</li>
-						<li class="sc_page_stats_smaller">
-							<img src="/images/inventory/lead.png" height=20 alt="" class="with-tooltip" title="Lead">
-							<span id="lead_navi" class="with-tooltip" title="Lead">
-								0							</span>
-
-						</li>
-						<li class="sc_page_stats_smaller">
-							<a href="/personal/inventory">
-								<img src="/images/inventoryicon.png" height=20 alt="" class="with-tooltip" title="Inventory">
-								<span class="with-tooltip" title="Inventory">inventory &rarr;</span>
-							</a>
-						</li>
-					</ul>
+				<div class="col-12 col-lg-8 mt-3 mt-lg-0">
+					<div class="dcPanel h-100">
+						<div class="text-center dcBannerButtonsContainer">
+							<a href="voting.php" class="dcSecondaryButton my-3">Vote for <i class="far fa-gem"></i></a>
+							<a href="#" class="dcSecondaryButton my-3">Refer for <i class="far fa-gem"></i></a>
+							<a href="donate.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
+						</div>
+					</div>
 				</div>
+			</header>
+			<div class="row mt-4">
+				<main>
+					<div class="dcPanel p-3">
 
 
-<br>
+
+                    <strong><span style='font-size:17px;'><?php echo $user_class->formattedname; ?></span></strong>
+                    <br>
+					<strong><span style='font-size:17px;'>Level <!_-level-_!></span></strong>
+				</div>
+				<div class="center_side">
+					<div id="links">
+						<a href="pms.php?view=inbox">Mail (<!_-mail-_!>)</a> -
+						<a href="/events.php">Events(<?php echo $ev; ?>)</a> -
+						<a href="/forum.php">Forum</a> -
+						<a href="/news.php">News</a> -
+						<a href="/gameupdates.php"><strong>Updates</strong></a>
+						<a href="/VIPstore.php"><strong>Vip Store</strong></a>
+					</div>
+					<div id="logo">
+						<a href="/online.php"><?php echo $usersOnline ?> Online Players</a>
+
+					</div>
+				</div>
+				<div class="right_side">
+					<div class="info_slot">
+                        <a href="bank.php?h_deposit=cash" style="text-decoration: none; color:black">
+                            <span class='moneyholder'>$<?php echo number_format($user_class->money); ?></span>
+                            Cash
+                        </a>
+					</div>
+					<div class="info_slot">
+						<span class='pointsholder'><?php echo number_format($user_class->points);
+?></span>
+						Points
+					</div>
+					<div class="info_slot">
+						<span><?php echo ($user_class->bank >= 0) ? ('$'.number_format($user_class->bank)) : 'No Account'; ?></span>
+						Bank
+					</div>
+					<div class="info_slot">
+						<span><?php echo number_format($user_class->credits); ?></span>
+						Gold
+					</div>
+					<div class="spacer"></div>
+				</div>
+				<div class="spacer"></div>
+			</div>
+			<div class="red_bar row">
+				<div id="stat_section">
+					<div class="stats">
+						<a href="?spend=refenergy" style="text-decoration: none; color:black">ENERGY</a><div class="r-text"><?php echo $user_class->energy;?> / <?php echo $user_class->maxenergy;?></div>
+						<div class="spacer"></div>
+						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
+							<div class="stat-bar">
+								<div class="stat_bar" style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<!_-energyperc-_!>%;"></div>
+							</div>
+						</div>
+					</div>
+					<div class="stats">
+                        <a href="?spend=refnerve" style="text-decoration: none; color:black";>NERVE</a><div class="r-text"><?php echo $user_class->nerve;?> / <?php echo $user_class->maxnerve;?></div>
+						<div class="spacer"></div>
+						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
+							<div class="stat-bar">
+								<div class="stat_bar" style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<!_-nerveperc-_!>%"></div>
+							</div>
+						</div>
+					</div>
+					<div class="stats">
+						HEALTH<div class="r-text"><?php echo $user_class->hp; ?> / <?php echo $user_class->maxhp;?></div>
+						<div class="spacer"></div>
+						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
+							<div class="stat-bar">
+								<div class="stat_bar" style="background: url(../assets/images/yellow-stat-bar.png) no-repeat;height: 8px;width:<!_-hpperc-_!>%;"></div>
+							</div>
+						</div>
+					</div>
+					<div class="stats">
+						AWAKE<div class="r-text"><?php echo $user_class->awake;?> / <?php echo $user_class->maxawake; ?></div>
+						<div class="spacer"></div>
+						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
+							<div class="stat-bar">
+								<div class="stat_bar" style="background: url(../assets/images/red-stat-bar.png) no-repeat;height: 8px;width:<!_-awakeperc-_!>%;"></div>
+							</div>
+						</div>
+					</div>
+                    <div class="stats">
+                    EXPERIENCE<div class="r-text"><?php echo $user_class->exp;?> / <?php echo $user_class->maxexp; ?></div>
+						<div class="spacer"></div>
+						<div style="background: url(../assets/images/stat-bar-bg.png) top center no-repeat;width: 147px;height: 22px;">
+							<div class="stat-bar">
+								<div class="stat_bar" style="background: url(../assets/images/red-stat-bar.png) no-repeat;height: 8px;width:<?php echo $user_class->exppercent;?>%;"></div>
+							</div>
+						</div>
+					</div>
+    
+					<div class="spacer"></div>
+				</div>
+				<div class="spacer"></div>
+			</div>
+			<div class="content row">
+				<div class="menu_side">
+                <span style="margin-left:20px;"><b>Server Time <?php echo date('Y-m-d H:i'); ?></b></span>
+					<ul class="mainmenu">
+
+<li><a href='search.php'>Search Players</a></li>
+<li><a href='globalchat.php'>Chat</a></li>
+<li><a href='index.php'>Home</a></li>
+<li><a href='city.php'><!_-cityname-_!></a></li>
+<li><a href='missions.php'>Missions</a></li>
+<li><a href='inventory.php'>Inventory</a></li>
+<li><a href='raids.php'>Raids</a></li>
+<li><a href='backalley.php'>Backalley</a></li>
+<?php if ($user_class->gang > 0): ?>
+    <li><a href='gang.php'>Gang</a></li>
+<?php else: ?>
+    <li><a href='creategang.php'>Create Gang</a></li>
+<?php endif; ?>
+<li><a href='bank.php'>Bank</a></li>
+<li><a href='jail.php'>Jail (<?php echo $ja; ?>)</a> </li>
+<li><a href='hospital.php'>Hospital (<?php echo $hosp; ?>) </a></li>
+<li><a href='crime.php'>Crimes</a> </li>
+<li><a href='newcrimes.php'>Speed Crimes</a> </li>
+<li><a href='gym.php'>Gym</a> </li>
+<li><a href='speedGym.php'>Speed Gym</a> </li>
+<li><a href='preferences.php'>Edit Account</a> </li>
+<li><a href='https://discord.gg/HaxxqymTZe' target="_blank">Discord</a> </li>
+
+</ul>
+				</div>
+				<div class="content_side">
+</div>
+
+    <?php
+
+
+$time = time();
+$array = array();
+
+
+if ($user_class->bustpill > 0) {
+    $rtn = ($user_class->bustpill);
+    $array['Police Badge'] = ($rtn == 'NOW') ? '@None@' : $rtn;
+}
+
+if ($bonus_row['Time'] > 0) {
+
+    $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
+    echo '<div style="font-family:timesnewroman;font-size: 1.5em;color:red;text-align: center;margin-bottom: 20px;margin-top: -20px;"><font color=green>Server Wide Double EXP Active </font>  <font color=white>' . $_tt . '</font> 
+                                                </div>';
+}
+
+if ($user_class->outofjail > 0) {
+    $rtn = ($user_class->outofjail);
+    $array['Jail Card'] = ($rtn == 'NOW') ? '@None@' : $rtn;
+}
+
+if ($user_class->news > 0) {
+    $buffer = str_replace("<!_-news-_!>", "<div class='contenthead floaty'><span style='margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;'><h4 class='notify important'><a href='forum.php?id=1'>You have new game news [<span class='news-count'>$user_class->news</span>]</a></h4></span></div>", $buffer);
+
+} else {
+    if ($user_class->mjprotection > $time) {
+        $rtn = howlongtil($user_class->mprotection);
+        $array['Mug Protection'] = ($rtn == 'NOW') ? '@None@' : $rtn;
+    }
+}
+
+
+
+if ($user_class->nightvision > 0) {
+    echo '<span style="color:red;">Your currently have ' . $user_class->nightvision . ' minutes of Night Vision left.</span><br />';
+}
+
+if ($user_class->fbi > 0) {
+    echo '<a href="jail.php"><span style="color:green;">You are currently being watched over by the FBI for ' . $user_class->fbi . ' Minutes.</span></a><br />';
+}
+
+if ($user_class->fbitime > 0) {
+    echo '<a href="home.php"><span style="color:red;">You are currently in FBI Jail for ' . $user_class->fbitime . ' minutes.</span></a><br />';
+}
+
+foreach ($array as $sub => $in) {
+    echo '<span style="color:white;">&bull; ' . $sub . ' : <span style="color:red;">' . $in . '</span></span> &nbsp;';
+}
+if (!empty($array)) {
+    echo '<br />';
+}
+
+echo '<br />';
+
+
+// COUNTDOWN TIMER
+// ADD 000 TO END OF UNIX TIMESTAMP
+
+echo '<script>
+    var countDownDate = new Date(1673827199000);
+
+    var x = setInterval(function() {
+
+    var now = new Date();
+    var distance = countDownDate - now;
+
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    $("#countdown").html("Ends In " + (days === 0 ? "" : days + "d ") + (hours === 0 ? "" : hours + "h ") + (minutes === 0 ? "" : minutes + "m ") + seconds + "s");
+
+    if (distance < 0) {
+        clearInterval(x);
+        $("#countdown").html("");
+    }
+    }, 1000);
+    </script>';
+
+//$("#countdown").html(" Ends In " + days + "d " + hours + "h " + minutes + "m " + seconds + "s ");
+
+echo '<div id="maincontent">';
+if (time() <  1673827199) {
+    //echo '<div class="floaty" style="margin-top:-10px;font-family:Creepster;font-size:2em;text-decoration:underline;color:orange;">Double EXP ACTIVE on all Crimes!</div>';
+    echo '<br><div class="pulsate" style="font-family:Creepster;font-size: 2em;color:1e7b00;text-align: center;margin-bottom: 20px;margin-top: -20px;"><a href=newcrimes.php><font colour=purple>Double EXP ACTIVE on all Crimes!</a>
+            <span id="countdown">Ends In ' . countdown(1673827199) . '</span></div>';
+}
+
+if (time() <  1661122799) {
+    //echo '<div class="floaty" style="margin-top:-10px;font-family:Creepster;font-size:2em;text-decoration:underline;color:orange;">Black Friday! - DOUBLE CRIME EXP ACTIVE</div>';
+    echo '<div class="pulsate" style="font-family:Creepster;font-size: 1.5em;color:1e7b00;text-align: center;margin-bottom: 20px;margin-top: -20px;"><a href=bustcontest.php>Our BUST COMPETITION IS currently active! </a>
+            <span id="countdown">Ends In ' . countdown(1662965999) . '</span></div>';
+}
+
+$db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
+    $db->execute();
+    $bonus_row = $db->fetch_row(true);
+
+    $debug['worked'] = $bonus_row;
+
+
+
+if ($bonus_row['Time'] > 0) {
+
+    $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
+   $messages[] = 'Attackgfgdgdfgdfgsdfg: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+
+}
+
+$time = time();
+$messages = array();
+
+
+// Attack Protection
+if ($user_class->aprotection > $time) {
+    $rtn = howlongtil($user_class->aprotection);
+    $messages[] = 'Attack Protection: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
+$db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
+    $db->execute();
+    $bonus_row = $db->fetch_row(true);
+
+    $debug['worked'] = $bonus_row;
+
+
+
+if ($bonus_row['Time'] > 0) {
+
+    $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
+   $messages[] = 'Server Wide Double EXP: ' . (($_tt == 'NOW') ? '@None@' : $_tt);
+
+}
+
+// if ($user_class->cityturns > 29) {
+//     $messages[] = '<a href="maze.php">You Have Maze Searches Available</a>';
+// }
+if ($user_class->id > 0) {
+    $messages[] = '<a href="contest.php"><font color=red>Raid/Attack Comp Active</font></a>';
+}
+$db->query("SELECT * FROM ganginvites WHERE playerid = ?");
+$db->execute(array($user_class->id));
+if ($db->num_rows() > 0) {
+    // Adding gang invites message to the $messages array instead of printing directly
+    $messages[] = "<a href='ganginvites.php'><span style='color:red;'>You have gang invites!</span></a>";
+}
+
+// Bust Pill
+if ($user_class->bustpill > 0) {
+    $rtn = ($user_class->bustpill);
+    $messages[] = 'Police Badge: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
+// Out of Jail
+if ($user_class->outofjail > 0) {
+    $rtn = ($user_class->outofjail);
+    $messages[] = 'Jail Card: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
+
+// Mug Protection
+if ($user_class->mprotection > $time) {
+    $rtn = howlongtil($user_class->mprotection);
+    $messages[] = 'Mug Protection: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
+// Double EXP Pill
+if ($user_class->exppill > $time) {
+    $rtn = howlongtil($user_class->exppill);
+    $messages[] = 'Double EXP Pill: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
+
+
+// Jail
+if ($user_class->jail > $time) {
+    $rtn = howlongtil($user_class->jail);
+    $messages[] = 'Jail: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
+// Additional messages based on your previous code snippets
+if ($user_class->hospital > 0) {
+    $messages[] = 'You are currently in hospital for ' . $user_class->hospital . ' seconds.';
+}
+
+if ($user_class->jail > 0) {
+    $messages[] = 'You are currently in jail for ' . $user_class->jail . ' seconds.';
+}
+
+if ($user_class->nightvision > 0) {
+    $messages[] = 'Your currently have ' . $user_class->nightvision . ' minutes of Night Vision left.';
+}
+
+if ($user_class->fbi > 0) {
+    $messages[] = 'You are currently being watched over by the FBI for ' . $user_class->fbi . ' Minutes.';
+}
+
+if ($user_class->fbitime > 0) {
+    $messages[] = 'You are currently in FBI Jail for ' . $user_class->fbitime . ' minutes.';
+}
+
+if (!empty($messages)) {
+    echo '<script type="text/javascript">';
+    echo 'document.addEventListener("DOMContentLoaded", function() {';
+    // Initialize the messages HTML as an empty string
+    $messagesHtml = '';
+    foreach ($messages as $index => $message) {
+        $escapedMessage = addslashes($message);
+        // For all but the first message, add a separator before the message
+        if ($index > 0) {
+            $messagesHtml .= ' + \' <span style="margin: 0 10px;">&bull;</span> \' + ';
+        }
+        $messagesHtml .= '\'<span>' . $escapedMessage . '</span>\'';
+    }
+    if (!empty($messagesHtml)) {
+        echo 'var messageContainer = document.getElementById("message-container");';
+        echo 'var messagesElement = document.createElement("div");'; // Create a new div for messages
+        echo 'messagesElement.innerHTML = ' . $messagesHtml . ';'; // Set the inner HTML of the div
+        echo 'document.getElementById("messages").appendChild(messagesElement);'; // Append the div to the container
+    }
+    echo '});';
+    echo '</script>';
+} else {
+    // Hide the container if there are no messages
+    echo '<script type="text/javascript">';
+    echo 'document.addEventListener("DOMContentLoaded", function() {';
+    echo 'var messageContainer = document.getElementById("message-container");';
+    echo 'if (messageContainer) messageContainer.style.display = "none";';
+    echo '});';
+    echo '</script>';
+}
+
+
+//if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'VIPstore.php') {    // The original echo statement for the claim message should be commented out or removed
+    // echo '<div style="font-family:Creepster;font-size: 2.5em;color:red;text-align: center;margin-bottom: 20px;margin-top: -20px;"><a href="rmstore.php?buy=freebie">...</div>';
+
+    // Insert the modal code here
+    ?>
+    <!-- The Modal -->
+    <!-- <div id="myModal" class="modal"> -->
+        <!-- Modal content -->
+      <!-- <div class="modal-content"> -->
+    <!-- <span class="close">&times;</span> -->
+    <!-- <h4><font color=red>A Free Gift</font></h4><br> -->
+
+    <!-- <p><font color=white>Here is a free gift on us enjoy the competition</font></p> -->
+    <!-- <ul class="gift-list"> -->
+        <!-- <h4>+50 Raid Tokens</h4> -->
+        <!-- <h4>25,000 Points</h4> -->
 
 
 
 
-<center><font size=30><b><font color=red>TESTING 123</b></font></font></center>
+    <!-- </ul> -->
+    <!-- <button onclick="window.location.href='VIPstore.php?buy=freebie'" class="claim-button">Claim Gift</button> -->
+<!-- </div> -->
+
+    <!-- </div> -->
+<!-- <style> -->
 
 
+<!-- .gradient-background {
+    background: linear-gradient(to right, #484848, #303030, #181818);
+    color: white; /* Ensures text is readable on dark background */
+    padding: 20px;
+    text-align: center;
+}
+
+
+    @keyframes pulseGlow {
+        0% {
+            box-shadow: 0 0 5px red;
+        }
+        50% {
+            box-shadow: 0 0 20px red;
+        }
+        100% {
+            box-shadow: 0 0 5px red;
+        }
+    }
+    .glow-pulse {
+        animation: pulseGlow 2s infinite;
+        color: red !important;
+    }
+</style> -->
+
+    <?php
+//}
+?>
+<style>
+    .floaty12{
+        margin: 0 auto;
+    margin-right: 10px;
+    color:#000;
+    width: 72%;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(93, 93, 93, 1);
+    padding: 5px 5px 4px;
+    margin-bottom:10px;
+    }
+    .floaty12 a:link {
+  color: #000;
+}
+    </style>
+
+    <div class="vertical-text-slider floaty12">
+
+
+                 <div class="slider-frame">
+                <ul class="slides" style="list-style-type: none; width:100%">
+
+                    <?php
+                    $now = time();
+                    $result = mysql_query("SELECT a.* FROM ads a WHERE ( SELECT (`timestamp` +(`displaymins` * 60)) FROM ads WHERE ads.id = a.id ) > UNIX_TIMESTAMP()");
+                    if (!mysql_num_rows($result)) {
+
+                        $_messages = [
+                            '<b>Please note this game is currently in BETA before full launch in the first week of April. On relaunch, the database will reset.<br /> If you find any issues, please DM ID 1 or 2.</b>',
+                            //'Invite your friends to play and receive <font color=red>50 Gold</font> for every friend that plays. Hurry and start inviting now!',
+                            //'For every friend you successfully refer, you\'ll earn <font color=red>50 Gold</font> Spread the word and let\'s play together!',
+                            //'Attention all players! Invite your friends to join in on the fun. <font color=red>50 Gold</font> reward for every successful referral'
+                        ];
+
+                        $ref_message = $_messages[array_rand($_messages)];
+
+                        ?>
+                        <li class="slide">
+                            <div class="slide-content">
+
+                                <!-- <span>Remember - All Referrals using your referral ID will reward you with 50 Credits! Help Spread the word of our launch!</span> -->
+                                <span style='margin-left:-50px;'><a href="refer.php"><?= $ref_message ?></a></span>
+                            </div>
+
+                        </li>
+                        <?php
+                    } else {
+                        while ($row = mysql_fetch_array($result)) {
+                            $user_ads = new User($row['poster']);
+                            if ($user_ads->avatar == "") {
+                                $user_ads->avatar = "/images/no-avatar.png";
+                            }
+                            ?>
+                            <li class="slide" style="width:80% !important;">
+                                <div class="slide-content">
+                                    <span><?php echo $user_ads->formattedname ?>: <?php echo $row['message'] ?></span>
+                                </div>
+                                <div class="slide-action">
+                                    <a href="#" onClick="reportAd(<?php echo $row['id'] ?>); return false;"><img width="16" height="16" src="/css/images/icons/exclamation-mark_16.png" alt="Report" /></a>
+                                </div>
+                            </li>
+                            <?php
+                        }
+                    }
+                    ?>
+                </ul>
+            </div>
+        </div>
+
+</div>
+
+<div class="vertical-text-slider floaty12" id="message-container">
+    <ul id="messages" style="list-style-type: none;">
+
+    </ul>
 </div>
 
 
 
-	
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
 
-	</div>
+    <script>document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('energy-link').addEventListener('click', function() {
+        // Replace 'your_link_here' with the URL you want to navigate to
+        window.location.href = '?spend=refenergy';
+    });
+});
+</script>
+ <script>document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('nerve-link').addEventListener('click', function() {
+        // Replace 'your_link_here' with the URL you want to navigate to
+        window.location.href = '?spend=refnerve';
+    });
+});
+</script>
+    <script type="text/javascript">
+        $('.slides').slick({
+            vertical: true,
+            autoplay: true,
+            autoplaySpeed: 3000,
+            arrows: false,
+            speed: 300
+        });
 
-		<div class="page_footer">
+        function reportAd(id) {
+            $.ajax({
+                type: "POST",
+                url: "/ajax_reportad.php",
+                data: {
+                    id: id
+                }
+            }).done(function(msg) {
+                alert("Ad report successful");
+            });
+        }
+    </script>
 
-	<div class="container_12">
-		<div class="grid_4 fl">
-			<span><a href="http://dhewy.co.uk" target="_blank" title="DHewy Ltd">The Mafia Life </a> &copy; 2023</span>
-		</div>
-			</div>
+    <?php
 
-	</div>
-
-	</div>
-	</div><!-- right_column -->
-	</div><!-- container -->
-	</div><!-- wrap -->
+    $width = ($user_class->epoints / 1000) * 100;
 
 
-</body>
-</html>
+
+
+if (time() <= 1703577599) {
+    if (pathinfo($_SERVER['PHP_SELF'], PATHINFO_FILENAME) != 'valentines') {
+        echo '<div class="container">';
+
+        echo '<div class="progress">
+                    <div class="progress-bar-heart"><a href="home.php">Activity Reward (' . number_format($width, 1) . '%)</a></div>
+                </div>
+            </div>';
+    }
+}
+
+if ($user_class->id == 0) {
+    if (pathinfo($_SERVER['PHP_SELF'], PATHINFO_FILENAME) != 'valentines') {
+        echo '<div class="container">';
+
+        echo '<div class="progress">
+                    <div class="progress-bar-heart"><a href="activitycontest.php">Earn Rayzz by playing the game!! ' . number_format($width, 2) . '%</a></div>
+                </div>
+            </div>';
+    }
+}
+
+
+echo '<script>
+var countDownDate = new Date("Jan 30, 2024 23:59:00");
+
+var x = setInterval(function() {
+
+var now = new Date();
+var distance = countDownDate - now;
+
+var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+$(".progress-bar-heart").html("<a href=\'home.php\'>Activity Reward (' . number_format($width, 1) . '%)</a> 2x Speed Boost Active - " + hours + "h " + minutes + "m " + seconds + "s ");
+
+if (distance < 0) {
+            clearInterval(x);
+            $(".progress-bar-heart").html("<a href=\'home.php\'>Activity Reward (' . number_format($width, 1) . '%)</a>");
+}
+}, 1000);
+</script>';
+
+
+
+function secondsToHumanReadable($seconds, $requiredParts = null)
+{
+    $from     = new \DateTime('@0');
+    $to       = new \DateTime("@$seconds");
+    $interval = $from->diff($to);
+    $str      = '';
+
+    $parts = [
+        'y' => 'year',
+        'm' => 'month',
+        'd' => 'D',
+        'h' => 'H',
+        'i' => 'M',
+        's' => 'second',
+    ];
+
+    $includedParts = 0;
+
+    foreach ($parts as $key => $text) {
+        if ($requiredParts && $includedParts >= $requiredParts) {
+            break;
+        }
+
+        $currentPart = $interval->{$key};
+
+        if (empty($currentPart)) {
+            continue;
+        }
+
+        if (!empty($str)) {
+            $str .= ' ';
+        }
+
+        $str .= sprintf('%d%s', $currentPart, $text);
+
+        if ($currentPart > 1) {
+            // handle plural
+            //$str .= 's';
+        }
+
+        $includedParts++;
+    }
+
+    return $str;
+}
+
+function microtime_float()
+{
+    $time = microtime();
+    return (float) substr($time, 11) + (float) substr($time, 0, 8);
+}
+
+anticheat();
+?>
+
+<div class='box'>
