@@ -118,7 +118,6 @@ if ($user_class->job != 0) {
 		echo'<a href="jobs.php?clockin"><button>Clockin</button></a> <a href="jobs.php?action=quit"><button>Quit Job</button></a>';
 	echo'</div>';
 }
-echo'<h3>Job Center</h3>';
 	echo'<hr>';
 echo'<div class="floaty">';
 
