@@ -458,7 +458,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 	<link href="asset/css/style.css?v=<?php echo time()?>" rel="stylesheet" type="text/css">
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 	<script src="js/java.js?12" type="text/javascript"></script>
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="asset/js/app.<?php echo CACHEBURST?>.js"></script>
 <style>
