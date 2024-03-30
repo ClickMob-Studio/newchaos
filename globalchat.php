@@ -274,23 +274,23 @@ foreach ($rows as $row) {
     $avatar = ($array['avatar'] != "") ? $array['avatar'] : "/images/no-avatar.png";
     $quotetext=str_replace(array('\'','"'),array('\\\'','&quot;'),$row['body']);
     echo'<div class="floaty">';
-        echo'<div class="flexcont" style="text-align:center;">';
-            echo'<div class="flexele">';
-                echo howlongago($row['timesent']) . ' ago';
-            echo'</div>';
-            echo'<div class="flexele">';
-                echo (($user_class->admin || $user_class->gm || $user_class->cm) && (!$array['admin'] && !$array['gm'])) ? '<a href="?gcban=' . $row['playerid'] . '&conf=' . $_SESSION['security'] . '">Ban User</a>' : '';
-            echo'</div>';
-            echo'<div class="flexele">';
-                echo ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $row['id'] . '">Delete Post</a>' : '';
-            echo'</div>';
-            echo'<div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $row['playerid'] . ']' . str_replace(array("\n","\r"),array('','\n'),$quotetext) . '[/quote]\\n\\n\');">';
-                echo 'Quote';
-            echo'</div>';
-            $likeIcon = ($userLiked == 0) ? 'far' : 'fas';
-            $dislikeIcon = ($userDisliked == 0) ? 'far' : 'fas';
-            $likeAction = ($userLiked == 0) ? 'like' : 'unlike';
-            $dislikeAction = ($userDisliked == 0) ? 'dislike' : 'undislike';
+        // echo'<div class="flexcont" style="text-align:center;">';
+        //     echo'<div class="flexele">';
+        //         echo howlongago($row['timesent']) . ' ago';
+        //     echo'</div>';
+        //     echo'<div class="flexele">';
+        //         echo (($user_class->admin || $user_class->gm || $user_class->cm) && (!$array['admin'] && !$array['gm'])) ? '<a href="?gcban=' . $row['playerid'] . '&conf=' . $_SESSION['security'] . '">Ban User</a>' : '';
+        //     echo'</div>';
+        //     echo'<div class="flexele">';
+        //         echo ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $row['id'] . '">Delete Post</a>' : '';
+        //     echo'</div>';
+        //     echo'<div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $row['playerid'] . ']' . str_replace(array("\n","\r"),array('','\n'),$quotetext) . '[/quote]\\n\\n\');">';
+        //         echo 'Quote';
+        //     echo'</div>';
+        //     $likeIcon = ($userLiked == 0) ? 'far' : 'fas';
+        //     $dislikeIcon = ($userDisliked == 0) ? 'far' : 'fas';
+        //     $likeAction = ($userLiked == 0) ? 'like' : 'unlike';
+        //     $dislikeAction = ($userDisliked == 0) ? 'dislike' : 'undislike';
 
 
 
@@ -315,6 +315,13 @@ foreach ($rows as $row) {
         // Right cell for the body content
         echo '<td class="flexele" style="padding:10px;">';
         echo BBCodeParse(stripslashes($row['body']));
+        echo '<br>';
+        echo howlongago($row['timesent']) . ' ago <br>';
+        echo (($user_class->admin || $user_class->gm || $user_class->cm) && (!$array['admin'] && !$array['gm'])) ? '<a href="?gcban=' . $row['playerid'] . '&conf=' . $_SESSION['security'] . '">Ban User</a>' : '';
+        echo ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $row['id'] . '">Delete Post</a>' : '';
+        echo'<div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $row['playerid'] . ']' . str_replace(array("\n","\r"),array('','\n'),$quotetext) . '[/quote]\\n\\n\');">';
+        echo 'Quote';
+    echo'</div>';
         echo '</td>';
         
         echo '</tr>';
