@@ -507,7 +507,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 								</div>
 								<div class="col-12 col-lg-7 offset-lg-1 g-0 row">
 									<?php foreach ( $currencies as $key => $currency ) : ?>
-                                        <?php if($currencies['icon']  == 'fas fa-piggy-ban'):?>
+                                        <?php if($currency['icon']  == 'fas fa-piggy-ban'):?>
 										<div class="row my-1 g-0">
                                             <a href="bank.php?h_deposit=cash" style="text-decoration: none;">
 											<div class="col-2 d-flex align-items-center"><i class="mx-auto <?php echo $currency['icon']; ?>"></i></div>
