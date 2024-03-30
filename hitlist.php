@@ -93,8 +93,9 @@
         $error = ($attack_person->protectionact > time()) ? "This player is under the MW protection act for another " . howlongleft($attack_person->protectionact) . "." : $error;
         //$error = ($attack_person->hppercent < 50) ? "This player has under 50% HP therefore you can't hit him/her yet." : $error;
         $error = ($attack_person->username == "") ? "That person doesn't exist." : $error;
-        $error = ($attack_person->hospital > 0) ? "You can't hit someone thats in hospital." : $error;
-        $error = ($attack_person->jail > 0) ? "You can't hit someone thats in prison." : $error;
+        $error = ($attack_person->hospital > 0) ? "You can't hit someone that is in hospital." : $error;
+        $error = ($attack_person->jail > 0) ? "You can't hit someone that is in prison." : $error;
+        $error = ($attack_person->admin == 1) ? "Im sorry, You cannot attack the owner" : $error;
         $error = (time() - $attack_person->lastactive >= 900) ? "The target must be online." : $error;
         if (isset($error)) {
             echo Message($error);
