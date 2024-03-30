@@ -55,7 +55,9 @@ include 'header.php';
     bottom: 20px; /* Align bottom with the sidebar padding */
     z-index: 1005; /* Above the sidebar but below the text */
 }
-
+.crime{
+    padding-bottom: 20px;
+}
 .milestone-progress-bar {
     background-color: #999; /* Darker grey for the progress */
     width: 100%; /* Full width of the container */
