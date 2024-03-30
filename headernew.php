@@ -411,7 +411,7 @@ $stats = array(
 	'energy' => array(
 		'title'   => 'Energy',
 		'current' => $user_class->energy,
-		'max'     => $ir['maxenergy'],
+		'max'     => $user_class->maxenergy,
 	),
 	'brave'  => array(
 		'title'   => 'Nerve',
