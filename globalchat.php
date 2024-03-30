@@ -156,7 +156,7 @@ echo'
     }
     </style>
 <?php
-echo'<div class="floaty" style="margin-bottom:-10px;">';
+echo'<table style="margin-bottom:-10px;">';
     echo'<div class="flexcont">';
         echo'<span class="flexele forumhover" onclick="addBB(\'[b][/b]\', 4);return false;">';
             echo'[b]';
@@ -203,7 +203,7 @@ echo'<span class="flexele forumhover" onclick="addBB(\'[tag][/tag]\', 6);return 
     echo'<div id="emojis" style="display:' , ($user_class->hideemojis) ? 'none' : 'block' , ';">';
         emotes();
     echo'</div>';
-    echo'</div>';
+    echo'</table>';
 
 echo'<style>';
 echo'#chatdiv img{';
