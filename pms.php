@@ -184,7 +184,7 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
     </style>
     " . mailHeader() . "
         <br />
-<h1>Your Mailbox</h1>
+
 
 
         <table id='newtables' class='table' style='width:100%; color:white'>
