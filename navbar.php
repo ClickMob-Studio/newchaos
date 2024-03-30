@@ -24,7 +24,7 @@ $topLinks = array(
 	array(
 		'name'  => 'Jail',
 		'url'   => 'jail.php',
-		'count' => $count['jail'],
+		'count' => '<!_-jail-_!>',
 	),
 	array(
 		'name'  => 'Hospital',
