@@ -864,7 +864,7 @@ if (!empty($messages)) {
 
                         ?>
                         
-                            <div class="dcPanel p-3">
+                            <div class="dcPanel p-3" style="text-align:center">
 								<?= $ref_message ?>
                             </div>
 
@@ -895,7 +895,7 @@ if (!empty($messages)) {
 
 </div>
 
-<div class="dcPanel p-3" id="message-container">
+<div class="dcPanel p-3" style="text-align:center" id="message-container">
     <ul id="messages" style="list-style-type: none;">
 
     </ul>
