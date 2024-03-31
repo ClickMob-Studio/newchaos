@@ -8,13 +8,13 @@ include "header.php";
                                 <?php
 // Define the gifts and their cost
 $gifts = array(
-  'Thank You' => 250,
+  //'Thank You' => 250,
 	'Strawberry' => 500,
 	'Pie' => 750,
-	'Band-Aid' => 1000,
+	//'Band-Aid' => 1000,
 	'Coffee' => 1250,
 	'Beer' => 1900,
-	'Tissues' => 2500,
+	//'Tissues' => 2500,
 	'Feather' => 3750,
 	'Kiss' => 5000,
 	'Cigars' => 7500,
