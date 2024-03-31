@@ -110,6 +110,11 @@ $leftLinks[] =
 		'url'  => 'preferences.php',
 	);
 $leftLinks[] =
+    array(
+        'name' => 'Discord',
+        'url'  => 'https://discord.gg/7rkFUKwrPz',
+    );
+$leftLinks[] =
 	array(
 		'name' => 'Log Out',
 		'url'  => 'index.php?action=logout',
