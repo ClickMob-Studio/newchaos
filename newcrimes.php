@@ -245,9 +245,9 @@ var submitCrime = function (id, cm=1) {
             $('.after_title').eq(2).text(res.bars.awake.title + '%')
             $('.after_title').eq(4).text(res.bars.exp.title + '%')
 
-            $('.stat_bar').eq(1).width(res.bars.energy.percent + '%')
-            $('.stat_bar').eq(2).width(res.bars.nerve.percent + '%')
-            $('.stat_bar').eq(3).width(res.bars.awake.percent + '%')
+            $('.stat-bar').eq(1).width(res.bars.energy.percent + '%')
+            $('.stat-bar').eq(2).width(res.bars.nerve.percent + '%')
+            $('.stat-bar').eq(3).width(res.bars.awake.percent + '%')
             $('.expbar').width(res.bars.exp.percent + '%')
         });
 
