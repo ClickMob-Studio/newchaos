@@ -28,7 +28,7 @@ if($user_class->id == 1){
 	?>
 	<div class="card">
     <div class="card-header">General Information</div>
-    <div class="card-body">
+    <div class="card-body" style="background: none;">
         <table class="table">
             Testing<!-- Table rows here, updated with Bootstrap classes -->
         </table>
