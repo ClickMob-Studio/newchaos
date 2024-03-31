@@ -80,6 +80,19 @@ $leftLinks[] =
 		'name' => 'Backalley',
 		'url'  => 'backalley.php',
 	);
+if ($user_class->gang) {
+    $leftLinks[] =
+        array(
+            'name' => 'Create Gang',
+            'url'  => 'creategang.php',
+        );
+} else {
+    $leftLinks[] =
+        array(
+            'name' => 'Gang',
+            'url'  => 'gang.php',
+        );
+}
 $leftLinks[] =
 	array(
 		'name' => 'Speed Crimes',
