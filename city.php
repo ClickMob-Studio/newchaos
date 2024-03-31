@@ -44,6 +44,34 @@ $rows = $db->fetch_row();
 // Assuming we have a city variable for the current user's city
 $current_city = $user_class->city;
 
+// King city claim
+if (isset($_GET['claim_king']) && $_GET['claim_king'] === 'claimnow') {
+    // Check city doesn't have one already
+    $king_query = mysql_query("SELECT id FROM grpgusers WHERE king = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
+    if (mysql_num_rows($king_query) > 0) {
+        // Do nothing - already claimed
+    } else {
+        if ($user_class->gender === 'Male') {
+            mysql_query("UPDATE grpgusers SET king = " . $current_city . " WHERE id = " . $user_class->id);
+            header('Location: city.php');
+        }
+    }
+}
+
+// Queen city claim
+if (isset($_GET['claim_queen']) && $_GET['claim_queen'] === 'claimnow') {
+    // Check city doesn't have one already
+    $queen_query = mysql_query("SELECT id FROM grpgusers WHERE queen = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
+    if (mysql_num_rows($queen_query) > 0) {
+        // Do nothing - already claimed
+    } else {
+        if ($user_class->gender === 'Female') {
+            mysql_query("UPDATE grpgusers SET queen = " . $current_city . " WHERE id = " . $user_class->id);
+            header('Location: city.php');
+        }
+    }
+}
+
 $city_query = mysql_query("SELECT owned_points FROM cities WHERE id = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
                             $city_query = mysql_fetch_assoc($city_query);
 
