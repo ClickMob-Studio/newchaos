@@ -64,8 +64,10 @@ awake = LEAST(
 )", $link) or mysql_error();
 
 $result = mysql_query("SELECT `id` FROM `grpgusers` WHERE `is_jail_bot` = 1");
-while ($line = mysql_fetch_assoc($result)) {
-    mysql_query("UPDATE `grpgusers` SET `jail` = 300 WHERE `id` = " . $result['id']);
+while ($line = mysql_fetch_array($result)) {
+    mysql_query("UPDATE `grpgusers` SET `jail` = 300 WHERE `id` = " . $line['id']);
+
+    Send_Event(2, "Jail Bots Ran");
 }
 
 print "worked";
