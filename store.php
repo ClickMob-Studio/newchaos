@@ -1,6 +1,5 @@
 <?php
 include 'header.php';
-require('stripe/init.php');
 ?>
 <div class='box_top'>VIP Store</div>
 						<div class='box_middle'>
@@ -945,13 +944,13 @@ if ($user_class->donate_token > 0) {
 }
 
 // Display information
-echo '<center><font size="3px" color="black">$1 = <img src="https://chaoscity.co.uk/imageicons/goldbar.png"></img><font color=red><b>10</font></center>';
-echo '<center><font color=black>Your GOLD balance is:</font> <span style="color:red;font-weight:bold;"><img src="https://chaoscity.co.uk/imageicons/goldbar.png"></img>' . $user_class->credits . ' </size></center></span><br />';
+echo '<center><font size="3px" color="white">$1 = <img src="https://chaoscity.co.uk/imageicons/goldbar.png"></img><font color=red><b>10</font></center>';
+echo '<center><font color=white>Your GOLD balance is:</font> <span style="color:red;font-weight:bold;"><img src="https://chaoscity.co.uk/imageicons/goldbar.png"></img>' . $user_class->credits . ' </size></center></span><br />';
 
 echo '<center>';
 ?>
 <span id="creditDisplay">
-    <font color='black'>For a donation of $<span id="donationAmount">0</span>, you will receive 
+    <font color='white'>For a donation of $<span id="donationAmount">0</span>, you will receive 
     <font color=red><b id="creditsAmount">0</b></font> <img src="https://chaoscity.co.uk/imageicons/goldbar.png"></img>
     </font>
 </span>
@@ -1016,16 +1015,6 @@ document.addEventListener("DOMContentLoaded", function() {
                                     <input type="submit" value="Donate Now!"  name="submit">
                                 </td>
                             </form>
-
-                            <br>
-                            <h1>Donate Using Stripe</h1>
-                            <form action="charge.php" method="post">
-    <input type="text" name="card_number" placeholder="Card Number">
-    <input type="text" name="expiry_month" placeholder="MM">
-    <input type="text" name="expiry_year" placeholder="YY">
-    <input type="text" name="cvc" placeholder="CVC">
-    <button type="submit" name="submit">Pay Now</button>
-</form>
 </div>
 <br>
 
@@ -1167,7 +1156,7 @@ document.addEventListener("DOMContentLoaded", function() {
         </tr>
         <tr>
             <td style="text-align: center;">
-                <a href="store.php?buy=7daygrad" style="display: inline-block; padding: 10px 20px; background-color:  color: black; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY NOW</a>
+                <a href="store.php?buy=7daygrad" style="display: inline-block; padding: 10px 20px; background-color:  color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY NOW</a>
 
             </td>
         </tr>
@@ -1191,7 +1180,7 @@ document.addEventListener("DOMContentLoaded", function() {
     display: inline-block;
     padding: 10px 20px;
     background-color: #111111; /* Dark grey background */
-    color: black; /* black text */
+    color: white; /* black text */
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
@@ -1210,7 +1199,7 @@ document.addEventListener("DOMContentLoaded", function() {
 }
 
 .section-title {
-    color: #000;
+    color: #fff;
     text-align: center;
     margin-bottom: 20px;
 }
@@ -1222,7 +1211,7 @@ document.addEventListener("DOMContentLoaded", function() {
     gap: 20px; /* Adjusts the space between the items */
 }
 .new-shop-item {
-    background-color: /* Dark background */ color: black;
+    background-color: /* Dark background */ color: white;
     /* padding: 20px; */
     /* border-radius: 10px; */
     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
@@ -1254,7 +1243,7 @@ document.addEventListener("DOMContentLoaded", function() {
 }
 
 .new-shop-item--img h5, .new-shop-item--price span {
-    color: black; /* Gold color for emphasis */
+    color: white; /* Gold color for emphasis */
     font-weight: bold;
 }
 
@@ -1280,7 +1269,7 @@ document.addEventListener("DOMContentLoaded", function() {
 .vip-package {
     text-align: center;
     background-color: /* Dark background */
-    color: black;
+    color: white;
     /* padding: 20px; */
     /* border-radius: 10px; */
     /* box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); */
@@ -1394,8 +1383,8 @@ document.addEventListener("DOMContentLoaded", function() {
 echo '<h4>By donating to Chaos City you are agreeing to the following terms:</h4>';
 echo '<hr>';
 echo '<ul class="donate_rules">';
-echo '<li><font color=black>Strictly NO Refunds</li>';
-echo '<li><font color=black>If you do not receive your package, please contact support.</li>';
+echo '<li><font color=white>Strictly NO Refunds</li>';
+echo '<li><font color=white>If you do not receive your package, please contact support.</li>';
 echo '<li>Purchasing packages does not mean you can break the game rules, your account will still be Banned!</li>';
 echo '<li>If you try refunding your money through paypal, we will ban your account.</li>';
 echo '</div>';
@@ -1556,69 +1545,3 @@ function spentcreds($name, $creds) {
     ));
 }
 ?>
-<script src="https://js.stripe.com/v3/"></script>
-
-<!-- Custom JavaScript -->
-<script>
-    // Create a Stripe client.
-    var stripe = Stripe('Ypk_live_51NAdBeCKGBMfoZoVe6UnGvhagzR4n0NGLVTnaOQpdcHvERn7gGXHGB4qfv3iFqQviTJgQwecvlKWqcgcM7xQsCKg008bFedal1');
-
-    // Create an instance of Elements.
-    var elements = stripe.elements();
-
-    // Custom styling can be passed to options when creating an Element.
-    var style = {
-        base: {
-            // Add your base input styles here. For example:
-            fontSize: '16px',
-            color: '#32325d',
-        },
-    };
-
-    // Create an instance of the card Element.
-    var card = elements.create('card', {style: style});
-
-    // Add an instance of the card Element into the `card-element` div.
-    card.mount('#card-element');
-
-    // Handle real-time validation errors from the card Element.
-    card.addEventListener('change', function(event) {
-        var displayError = document.getElementById('card-errors');
-        if (event.error) {
-            displayError.textContent = event.error.message;
-        } else {
-            displayError.textContent = '';
-        }
-    });
-
-    // Handle form submission.
-    var form = document.getElementById('payment-form');
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        stripe.createToken(card).then(function(result) {
-            if (result.error) {
-                // Inform the user if there was an error.
-                var errorElement = document.getElementById('card-errors');
-                errorElement.textContent = result.error.message;
-            } else {
-                // Send the token to your server.
-                stripeTokenHandler(result.token);
-            }
-        });
-    });
-
-    // Submit the form with the token ID.
-    function stripeTokenHandler(token) {
-        // Insert the token ID into the form so it gets submitted to the server
-        var form = document.getElementById('payment-form');
-        var hiddenInput = document.createElement('input');
-        hiddenInput.setAttribute('type', 'hidden');
-        hiddenInput.setAttribute('name', 'stripeToken');
-        hiddenInput.setAttribute('value', token.id);
-        form.appendChild(hiddenInput);
-
-        // Submit the form
-        form.submit();
-    }
-</script>

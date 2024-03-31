@@ -1,2 +1,0 @@
-echo '<div class="contenthead floaty">';
-echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"><h4>General Information</h4></span>';

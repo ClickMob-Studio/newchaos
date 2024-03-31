@@ -24,7 +24,7 @@ include 'header.php';
 </style>
 
 <div class="floaty" style="background-color: #333333; text-align: center; padding: 20px;">
-    <img src="mlordsimages/newgameideaa.png" alt="New Game Idea">
+    <img src="images/newgameideaa.png" alt="New Game Idea">
 </div>
 
 

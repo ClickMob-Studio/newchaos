@@ -63,7 +63,7 @@ $admin_ids = array_map(function($a) {
             <h4>King of <!_-cityname-_!></h4>
             <p><strong><?php echo formatName($king_result['id']); ?></strong></p>
         <?php else: ?>
-            <img src="mlordsimages/vacant.png" style="width: 100px; height: 100px;" alt="No King" class="vacant-throne">
+            <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No King" class="vacant-throne">
             <h4>VACANT</h4>
             <p>King of <!_-cityname-_!></p>
         <?php endif; ?>
@@ -77,7 +77,7 @@ $admin_ids = array_map(function($a) {
             <h4>Queen of <!_-cityname-_!></h4>
             <p><strong><?php echo formatName($queen_result['id']); ?></strong></p>
         <?php else: ?>
-            <img src="mlordsimages/vacant.png" style="width: 100px; height: 100px;" alt="No Queen" class="vacant-throne">
+            <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No Queen" class="vacant-throne">
             <h4>VACANT</h4>
             <p>Queen of <!_-cityname-_!></p>
         <?php endif; ?>

@@ -2827,7 +2827,7 @@ body {
 
 .floaty-background {
     /* Set the background image to the skyline image you have downloaded */
-    background-image: url('/mlordsimages/barsbackground.PNG');
+    background-image: url('/images/barsbackground.PNG');
     background-size: cover; /* Cover ensures the image covers the entire div */
     background-repeat: no-repeat; /* The image should not repeat */
     background-position: center bottom; /* Align the skyline at the bottom of your progress bars */
@@ -2905,7 +2905,7 @@ body {
 
 
 .sidebar-content {
-    background-image: url('mlordsimages/sidemenu1.png');
+    background-image: url('images/sidemenu1.png');
     background-size: cover; /* This will cover the entire area of the container */
     background-repeat: no-repeat; /* The image will not repeat */
     background-position: center; /* Centers the image in the container */

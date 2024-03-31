@@ -2375,7 +2375,7 @@ if ($user_class->donate_token > 0) {
     echo '<div class="flexcont" border = "thick solid #0000FF"; style="text-align:center;position: relative;flex-flow:row wrap;">';
     echo image_popup('css/newgame/items/donate_boost.png', 156) . '<br/>';
     echo '<span class="text-14">x' . $user_class->donate_token . '</span><br/>';
-    echo '<a class="text-14 text-yellow" href="VIPstore.php">Boost Donation</a><br/><br/>';
+    echo '<a class="text-14 text-yellow" href="store.php">Boost Donation</a><br/><br/>';
     echo '<a class="text-14 text-yellow" href="inventory.php?exchangetoken">Exchange x1 for 1,000 Points</a>
     </div>';
 }

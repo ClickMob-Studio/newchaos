@@ -960,12 +960,12 @@ $classForGameUpdates = $user_class->new_updates > 0 ? 'glow-pulse' : '';
 echo '            <a href="gameupdates.php" class="top-bar-link ' . $classForGameUpdates . '" style="color: ' . ($user_class->new_updates > 0 ? 'red' : 'white') . ' !important;">Game Updates</a>';
 // Echo other links as they were
 echo '                <a href="news.php" class="top-bar-link" style="color: white !important;">Game News[<font color=red><!_-news-_!></font>]</a>';
-echo '                <a href="VIPstore.php" class="top-bar-link" style="color: yellow !important;">VIP Store</a>';
+echo '                <a href="store.php" class="top-bar-link" style="color: yellow !important;">VIP Store</a>';
 echo '                <a href="online.php" class="top-bar-link" style="color: white !important;">' . get_users_online() . ' Players Online</a>';
-echo '                <a href="VIPstore.php" class="top-bar-link" style="color: white !important;">Points:<font color=yellow> <span class=".points">' . number_format($user_class->points) . '</font></span></a>';
+echo '                <a href="store.php" class="top-bar-link" style="color: white !important;">Points:<font color=yellow> <span class=".points">' . number_format($user_class->points) . '</font></span></a>';
 echo '                <a href="bank.php?dep" class="top-bar-link" style="color: white !important;">Money: <font color=green>$<span class=".money">' . number_format($user_class->money) . '</font></span></a>';
 echo '                <a href="#" class="top-bar-link" style="color: white !important;">Bank: <font color=green>$<span class="bank-amount">' . number_format($user_class->bank) . '</font></span></a>';
-echo '                <a href="VIPstore.php" class="top-bar-link" style="color: white !important;"><img src="https://chaoscity.co.uk/mafialordsicons/goldbar.png"></img> <span class="gold-amount"><b><font color=yellow>' . number_format($user_class->credits) . '</b></font></span></a>';
+echo '                <a href="store.php" class="top-bar-link" style="color: white !important;"><img src="https://chaoscity.co.uk/imageicons/goldbar.png"></img> <span class="gold-amount"><b><font color=yellow>' . number_format($user_class->credits) . '</b></font></span></a>';
 echo'<a href="index.php?action=logout" class="logout-button">> Logout <</a>';
 echo '            </div>';
 echo '        </nav>';
@@ -984,7 +984,7 @@ echo'<div class="row" align="center">';
           echo'  <div class="sidebar-content">';
             echo'    <div class="sidebar-item sidebar-brand slogan">';
               echo'     <a href="#">
-  <img src="https://chaoscity.co.uk/mlordsimages/smalllogo.png" alt="" />
+  <img src="https://chaoscity.co.uk/images/smalllogo.png" alt="" />
 </a>
 ';
               echo'  </div>';
@@ -1008,7 +1008,7 @@ echo'</div></span>';
                echo' </div>';
                echo '<i>' . date('m/d/Y h:i:s a', time()) .' </i>';
 
-echo '<div class="sidebar-item sidebar-menu" style="position: relative; background-image: url(\'mlordsimages/sidemenu1.png\'); background-size: cover; background-repeat: no-repeat; background-position: center center;">';
+echo '<div class="sidebar-item sidebar-menu" style="position: relative; background-image: url(\'images/sidemenu1.png\'); background-size: cover; background-repeat: no-repeat; background-position: center center;">';
 echo '<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5);"></div>';
 echo '<ul>';
 
@@ -1378,7 +1378,7 @@ if (!empty($messages)) {
 }
 
 
-if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'VIPstore.php') {    // The original echo statement for the claim message should be commented out or removed
+if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'store.php') {    // The original echo statement for the claim message should be commented out or removed
     // echo '<div style="font-family:Creepster;font-size: 2.5em;color:red;text-align: center;margin-bottom: 20px;margin-top: -20px;"><a href="rmstore.php?buy=freebie">...</div>';
 
     // Insert the modal code here
@@ -1397,7 +1397,7 @@ if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'VIPstore.php
 
 
     </ul>
-    <button onclick="window.location.href='VIPstore.php?buy=freebie'" class="claim-button">Claim Gift</button>
+    <button onclick="window.location.href='store.php?buy=freebie'" class="claim-button">Claim Gift</button>
 </div>
 
     </div>

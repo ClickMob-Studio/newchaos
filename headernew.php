@@ -787,7 +787,7 @@ if (!empty($messages)) {
 }
 
 
-//if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'VIPstore.php') {    // The original echo statement for the claim message should be commented out or removed
+//if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'store.php') {    // The original echo statement for the claim message should be commented out or removed
     // echo '<div style="font-family:Creepster;font-size: 2.5em;color:red;text-align: center;margin-bottom: 20px;margin-top: -20px;"><a href="rmstore.php?buy=freebie">...</div>';
 
     // Insert the modal code here
@@ -808,7 +808,7 @@ if (!empty($messages)) {
 
 
     <!-- </ul> -->
-    <!-- <button onclick="window.location.href='VIPstore.php?buy=freebie'" class="claim-button">Claim Gift</button> -->
+    <!-- <button onclick="window.location.href='store.php?buy=freebie'" class="claim-button">Claim Gift</button> -->
 <!-- </div> -->
 
     <!-- </div> -->

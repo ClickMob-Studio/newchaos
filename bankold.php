@@ -284,7 +284,7 @@ echo "$notice<br /><br />
 
 <div class='contenthead floaty'>
 <span style='margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;'><h4>YOUR BANKING AREA</h4></span>
-        <img src='../mlordsimages/bank1.png' style='vertical-align: middle;'/>
+        <img src='../images/bank1.png' style='vertical-align: middle;'/>
         <br><br>
         <h4>You will be charged a 2% Deposit Fee</h4>
     </div>

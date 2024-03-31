@@ -293,16 +293,16 @@ echo '
         <h1><font color=black>Common Items</font></h1>
         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
-                <img src="mafialordsicons/diamondstone.png" width="50" height="50" alt="Diamond Stone">
+                <img src="imageicons/diamondstone.png" width="50" height="50" alt="Diamond Stone">
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
-                <img src="mafialordsicons/ruby.jpg" width="50" height="50" alt="Ruby">
+                <img src="imageicons/ruby.jpg" width="50" height="50" alt="Ruby">
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
-                <img src="mafialordsicons/emeraldstone.png" width="50" height="50" alt="Emerald Stone">
+                <img src="imageicons/emeraldstone.png" width="50" height="50" alt="Emerald Stone">
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
-                <img src="mafialordsicons/sapphire.png" width="50" height="50" alt="Sapphire">
+                <img src="imageicons/sapphire.png" width="50" height="50" alt="Sapphire">
             </div>
         </div>
     </div>
@@ -314,16 +314,16 @@ echo '
             <!-- Uncommon item images go here, similar to the common items section -->
             <!-- Example: -->
              <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
-                <img src="mafialordsicons/diamondstone22.png" width="50" height="50" alt="Diamond Stone">
+                <img src="imageicons/diamondstone22.png" width="50" height="50" alt="Diamond Stone">
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
-                <img src="mafialordsicons/ruby2.png" width="50" height="50" alt="Ruby">
+                <img src="imageicons/ruby2.png" width="50" height="50" alt="Ruby">
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
-                <img src="mafialordsicons/emeraldstone2.png" width="50" height="50" alt="Emerald Stone">
+                <img src="imageicons/emeraldstone2.png" width="50" height="50" alt="Emerald Stone">
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(0, 255, 0, 0.6); border-radius: 8px;">
-                <img src="mafialordsicons/sapphirestone2.png" width="50" height="50" alt="Sapphire">
+                <img src="imageicons/sapphirestone2.png" width="50" height="50" alt="Sapphire">
             </div>
         </div>
     </div>
