@@ -248,7 +248,7 @@ var submitCrime = function (id, cm=1) {
             $('.stat_bar').eq(1).width(res.bars.energy.percent + '%')
             $('.stat_bar').eq(2).width(res.bars.nerve.percent + '%')
             $('.stat_bar').eq(3).width(res.bars.awake.percent + '%')
-            $('.expbar').eq(4).width(res.bars.exp.percent + '%')
+            $('.expbar').width(res.bars.exp.percent + '%')
         });
 
 }
