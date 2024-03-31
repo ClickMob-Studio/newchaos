@@ -94,7 +94,7 @@ if (isset($_GET['spend'])) {
 
     if ($_GET['spend'] == "nerve1") {
         if ($user_class->points >= $cost['nerve']) {
-            if ($user_class->nerveboost > 250) {
+            if ($user_class->nerveboost >= 250) {
                 echo Message("You have already maxed this boost!");
             } else {
                 $newpoints = $user_class->points - $cost['nerve'];
