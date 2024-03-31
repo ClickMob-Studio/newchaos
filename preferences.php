@@ -260,10 +260,10 @@ if(isset($_GET['username'])){
     if(isset($_POST['opw'])){
         $npw = $_POST['npw'];
         $cpw = $_POST['cpw'];
-        $password = sha1(mysql_real_escape_string($_POST['opw']));
-        $password2 = fuzzehCrypt($password);
+        $password = sha1($_POST['opw']);
+        $password2 = sha1($password);
         $new = sha1(mysql_real_escape_string($npw));
-        $new = fuzzehCrypt($new);
+        //$new = fuzzehCrypt($new);
         if($user_class->password != $password && $user_class->password != $password2)
             diefun("Incorrect old password entered.");
         if($npw != $cpw)
