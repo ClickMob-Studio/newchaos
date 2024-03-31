@@ -118,6 +118,7 @@ $admin_ids = array_map(function($a) {
             <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No King" class="vacant-throne">
             <h4>VACANT</h4>
             <p>King of <!_-cityname-_!></p>
+            <a href="city.php?claim_king=claimnow" style="text-decoration: underline;">Claim</a>
             
         <?php endif; ?>
         <br />
@@ -139,6 +140,7 @@ $admin_ids = array_map(function($a) {
             <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No Queen" class="vacant-throne">
             <h4>VACANT</h4>
             <p>Queen of <!_-cityname-_!></p>
+            <a href="city.php?claim_queen=claimnow" style="text-decoration: underline;">Claim</a>
             <?php endif; ?>
         <br />
 
@@ -170,7 +172,7 @@ $admin_ids = array_map(function($a) {
       <a href="itemmarket.php">Item Market</a><br />
       <a href="pointmarket.php">Points Market</a><br />
       <a href="goldmarket.php">Gold Market</a><br />
-      <a href='rentalmarket.php'>House Rental Market</a><br />
+<!--      <a href='rentalmarket.php'>House Rental Market</a><br />-->
       <a href='jobs.php'>Job Center</a><br />
       <a href='house.php'>Estate Agency</a><br />
       <a href='portfolio.php'>Your Properties</a>
