@@ -23,8 +23,6 @@ if (isset($_POST['cm'])) {
     $allowed = array(1, 2, 4, 6, 8, 10);
     if (in_array($_POST['cm'], $allowed)) {
         $crime_multiplier = $_POST['cm'];
-$_SESSION['lastCrime'] = $id;
-$_SESSION['lastMultiplier'] = $crime_multiplier;
     }
 }
 
@@ -113,16 +111,50 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $bonus = $exp * $crimeexpbonus;
     $exp = round($exp + $bonus, 2);
 
-
-    if ($user_class->prestige > 0) {
-        $exp *= (.20 * $user_class->prestige) + 1;
+    // Calculate the 20% Gambino Exp Bonus
+    $gambinoExpBonus = 0;
+    if ($user_class->pack1 == 1 && $user_class->pack1time >= time()) {
+        $gambinoExpBonus = 0.2;
     }
+if ($user_class->prestige > 0) {
+    for ($i = 1; $i <= $user_class->prestige; $i++) {
+       $exp *= 1.20; // Increase $exp by 20% for each point of prestige
+	$exp = round($exp);
+    }
+}
 
+    // Calculate the Exppill bonus
+    $exppillBonus = 1.0;
     if ($user_class->exppill >= time()) {
-        $exp *= 2.0;
+        $exppillBonus = 2.0;
         $chance = 100;
+
     }
 
+// Calculate the Luciano Bonus (20% money bonus)
+$lucianoBonus = 1.0;
+if ($user_class->pack1 == 2 && $user_class->pack1time >= time()) {
+    $lucianoBonus = 1.2;
+}
+
+// Assuming you've already fetched the user's gang data and have it in $upgrades_data
+$upgrade1Level = $upgrades_data['upgrade1'];
+
+// Calculate gang bonus for experience. Start with no bonus (0.0)
+$gangExpBonus = 0.0;
+
+// Check the upgrade1 level and set the bonus accordingly
+if ($upgrade1Level >= 1 && $upgrade1Level <= 10) {
+    // 5% bonus for each level
+    $gangExpBonus = 0.05 * $upgrade1Level;
+}
+
+// Apply the bonuses to the exp and money values
+$exp = $exp * (1 + $gambinoExpBonus + $gangExpBonus) * $exppillBonus;
+$money *= $lucianoBonus;
+
+
+   
     $db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
     $db->execute();
     $bonus_row = $db->fetch_row(true);
@@ -134,7 +166,6 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $money *= 1;
         $chance = 100;
     }
-
 
     if (time() < 1673827199) {
         $exp *= 2;
@@ -181,8 +212,14 @@ if (isset($_POST['id']) || isset($input['id'])) {
         }
     }
 
-    if ($user_class->nerve < $nerve && !$prepaid) {
-        refill('n');
+    if (!isset($_SESSION['refill_in_progress'])) {
+        $_SESSION['refill_in_progress'] = true;
+
+        if ($user_class->nerve < $nerve && !$prepaid) {
+            refill('n');
+        }
+
+        unset($_SESSION['refill_in_progress']);
     }
 
     if ($user_class->nerve >= $nerve || $prepaid) {
@@ -199,7 +236,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 $nerve,
                 $user_class->id
             ));
-            $debug['response'] = "Failed Crime";
+            $debug['response'] = "Failed Crime"; 
             //$logger->info("", $debug);
             die($ftext.".|".number_format($user_class->points)."|".number_format($user_class->money)."|".number_format($user_class->level)."|".  genBars());
         } elseif ($chance < 7) {
@@ -329,3 +366,4 @@ if (isset($_POST['id']) || isset($input['id'])) {
     }
 }
 $db = null;
+
