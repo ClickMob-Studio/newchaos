@@ -56,7 +56,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED
 $IP = filter_var($IP, FILTER_VALIDATE_IP);
 
 // Insert user into database
-$stmt = $pdo->prepare("INSERT INTO grpgusers (signupip, loginame, username, password, email, signuptime, gender) VALUES (?, ?, ?, ?, UNIX_TIMESTAMP(), ?)");
+$stmt = $pdo->prepare("INSERT INTO grpgusers (signupip, loginame, username, password, email, signuptime, gender) VALUES (?,?, ?, ?, ?, UNIX_TIMESTAMP(), ?)");
 $stmt->execute([$IP, $username, $username, $hashedPassword, $email, $gender]);
 
 // Redirect upon successful registration
