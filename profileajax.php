@@ -1,13 +1,12 @@
 <?php
 // Your database connection
-$link = mysql_connect('localhost', 'aa_user', 'GmUq38&SVccVSpt');
-
+$link = mysql_connect('localhost', 'chaoscity_co', '3lrKBlrfMGl2ic14');
 
 
 if (!$link) {
     die('Could not connect: ' . mysql_error());
 }
-$db_selected = mysql_select_db('ml2', $link);
+$db_selected = mysql_select_db('game', $link);
 if (!$db_selected) {
     die ('Can\'t use ml2 : ' . mysql_error());
 }
