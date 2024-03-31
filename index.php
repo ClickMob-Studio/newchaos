@@ -1,6 +1,5 @@
 <?php
 include 'header.php';
-require_once 'dbconfig.php'; // Assume this file returns a $conn object for PDO connection
 
 if (isset($_GET['raction']) && $_GET['raction'] === 'trigger_reset') {
     // Prepare a PDO statement for updating user details
