@@ -401,7 +401,7 @@ $currencies = array(
 	),
 	'credits'   => array(
 		'icon'  => 'fab fa-medium-m',
-		'value' => number_format( $user_class->credits ) . ( ( 1 === $user_class->credits ) ? ' credit' : ' credits' ),
+		'value' => number_format( $user_class->credits ) . ( ( 1 === $user_class->credits ) ? ' gold' : ' gold' ),
 	),
 );
 $stats = array(
