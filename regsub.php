@@ -8,10 +8,16 @@ $dbHost = 'localhost';
 $dbUser = 'chaoscity_co';
 $dbPass = '3lrKBlrfMGl2ic14';
 $dbName = 'game';
-$mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
-exit;
-if ($mysqli->connect_error) {
-    die('Database connection failed: ' . $mysqli->connect_error);
+
+try {
+    // Create a PDO instance
+    $pdo = new PDO("mysql:host=$dbHost;dbname=$dbName", $dbUser, $dbPass);
+
+    // Set PDO to throw exceptions on error
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    // If connection fails, display error message and exit
+    die("Database connection failed: " . $e->getMessage());
 }
 
 // Function to redirect on error with message
@@ -42,20 +48,16 @@ if (!$email) {
 }
 
 // Username uniqueness check
-$stmt = $mysqli->prepare("SELECT id FROM grpgusers WHERE username = ?");
-$stmt->bind_param("s", $username);
-$stmt->execute();
-$result = $stmt->get_result();
-if ($result->num_rows > 0) {
+$stmt = $pdo->prepare("SELECT id FROM grpgusers WHERE username = ?");
+$stmt->execute([$username]);
+if ($stmt->rowCount() > 0) {
     errorRedirect("Username already exists.");
 }
 
 // Email uniqueness check
-$stmt = $mysqli->prepare("SELECT id FROM grpgusers WHERE email = ?");
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
-if ($result->num_rows > 0) {
+$stmt = $pdo->prepare("SELECT id FROM grpgusers WHERE email = ?");
+$stmt->execute([$email]);
+if ($stmt->rowCount() > 0) {
     errorRedirect("Email already in use.");
 }
 
@@ -67,13 +69,11 @@ $IP = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
 $IP = filter_var($IP, FILTER_VALIDATE_IP);
 
 // Insert user into database
-$stmt = $mysqli->prepare("INSERT INTO grpgusers (signupip, username, password, email, signuptime, gender) VALUES (?, ?, ?, ?, UNIX_TIMESTAMP(), ?)");
-$stmt->bind_param("sssss", $IP, $username, $hashedPassword, $email, $gender);
-if ($stmt->execute()) {
-    $_SESSION['id'] = $mysqli->insert_id;
-    header("Location: index.php");
-    exit;
-} else {
-    errorRedirect("An error occurred during registration.");
-}
+$stmt = $pdo->prepare("INSERT INTO grpgusers (signupip, username, password, email, signuptime, gender) VALUES (?, ?, ?, ?, UNIX_TIMESTAMP(), ?)");
+$stmt->execute([$IP, $username, $hashedPassword, $email, $gender]);
+
+// Redirect upon successful registration
+$_SESSION['id'] = $pdo->lastInsertId();
+header("Location: index.php");
+exit;
 ?>
