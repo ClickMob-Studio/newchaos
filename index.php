@@ -11,10 +11,10 @@ if (isset($_GET['raction']) && $_GET['raction'] === 'trigger_reset') {
 }
 ?>
 
-<!-- <div class='container mt-3'>
+<div class='container mt-3'>
     <div class='alert alert-danger' role='alert'>
         <a href="index.php?raction=trigger_reset" class="alert-link">TRIGGER ACCOUNT RESET</a>
-    </div> -->
+    </div> 
 
 <?php
 if ($user_class->firstlogin1 == 0) {
