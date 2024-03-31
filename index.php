@@ -2,7 +2,6 @@
 include 'header.php';
 
 if (isset($_GET['raction']) && $_GET['raction'] === 'trigger_reset') {
-    // Prepare a PDO statement for updating user details
 	mysql_query("UPDATE grpgusers SET `level` = 1, `exp` = 0, `money` = 2500, `hp` = 50, `energy` = 10, `nerve` = 5, `strength` = 10, `speed` = 10, `defense` = 10, `crimesucceeded` = 0, `crimefailed` = 0, `crimemoney` = 0, `points` = 10000000, `credits` = 5000 WHERE `id` = " . $user_class->id);
     $_SESSION['prestige'] = true;
     echo 'Account reset triggered.';
@@ -16,13 +15,11 @@ if (isset($_GET['raction']) && $_GET['raction'] === 'trigger_reset') {
 
 <?php
 if ($user_class->firstlogin1 == 0) {
-    $stmt = $conn->prepare("UPDATE grpgusers SET firstlogin1 = 1 WHERE id = :id");
-    $stmt->execute([':id' => $user_class->id]);
+    $stmt = mysql_query("UPDATE grpgusers SET firstlogin1 = 1 WHERE id = ".$user_class->id);
     Send_Event2($user_class->id, "Is the latest thug on the streets.", $user_class->id);
     Send_Event1($user_class->id, "Is the latest thug on the streets.", $user_class->id);
     Send_Event($user_class->id, "<div class='text-white'>Welcome To Chaos City!<br>To get you started we are giving you:</div><div class='fw-bold text-white'>&bull; 3 VIP Days<br>&bull; $100,000 Cash<br>&bull; 1,250 Points</div>", $user_class->id);
 }
-
 ?>
 <h1>General Information</h1>
 <table id="newtables" style="width:100%;">
