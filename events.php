@@ -52,18 +52,72 @@ include 'header.php';
             ?>
         </table>
         <span style="display: none" id="dataHolder" data-offset="<?= htmlspecialchars($offset) ?>" data-rowsPerPage="30" data-userId ="<?= htmlspecialchars($userId) ?>"></span>
-        <br />
-        <table width="100%">
-            <tr>
-                <td align="left">
-                    <!-- Pagination links -->
-                </td>
-                <td align="right">[<a href="events.php?deleteall=1">delete all events</a>]</td>
-            </tr>
-        </table>
-    </div>
+        <br /><br />
+<table width="100%">
+<tr>
+<td align="left">
+<?php
+$range = 2;
+if ($currentpage > 1)
+    echo " <a href='?page=1'><<</a> ";
+for ($x = ($currentpage - $range); $x < (($currentpage + $range) + 1); $x++)
+    if (($x > 0) && ($x <= $totalpages))
+        if ($x == $currentpage)
+            echo " [<b>$x</b>] ";
+        else
+            echo " <a href='?page=$x'>$x</a> ";
+if ($currentpage < $totalpages)
+    echo " <a href='?page=$totalpages'>>></a> ";
+?>
+</td>
+<td align="right">[<a href="events.php?deleteall=1">delete all events</a>]</td>
+</tr>
+</table>
+</td></tr>
 </div>
 <?php
 include 'footer.php';
+function gangName($id){
+	$gang = new Gang($id);
+	return $gang->formattedname;
+}
 ?>
-<s
+<script>
+    $(document).ready(function (){
+        let offset = $('#dataHolder').attr('data-offset');
+        let rowsPerPage = $('#dataHolder').attr('data-rowsPerPage');
+        let uid = $('#dataHolder').attr('data-userId');
+        $.ajax({
+            type: "POST",
+            url: "ajax_event_search.php",
+            data: { offset: offset, rowsPerPage: rowsPerPage, userId: uid },
+            success: function (response){
+                let data = JSON.parse(response);
+                let innerHtml;
+                $.each(data.events, function (key, item){
+                    innerHtml = innerHtml+item
+                })
+                $('.eventsTable').html(innerHtml);
+            }
+        });
+    });
+     $('#filterInput').keyup(function (){
+         let value = $(this).val();
+         let offset = $('#dataHolder').attr('data-offset');
+         let rowsPerPage = $('#dataHolder').attr('data-rowsPerPage');
+         let uid = $('#dataHolder').attr('data-userId');
+         $.ajax({
+             type: "POST",
+             url: "ajax_event_search.php",
+             data: { search: value, offset: offset, rowsPerPage: rowsPerPage, userId: uid },
+             success: function (response){
+                 let data = JSON.parse(response);
+                 let innerHtml;
+                 $.each(data.events, function (key, item){
+                     innerHtml = innerHtml+item
+                 })
+                 $('.eventsTable').html(innerHtml);
+             }
+         });
+     })
+</script>
