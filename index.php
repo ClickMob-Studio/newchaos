@@ -1,17 +1,8 @@
 <?php
 include 'header.php';
-
-if (isset($_GET['raction']) && $_GET['raction'] === 'trigger_reset') {
-	mysql_query("UPDATE grpgusers SET `level` = 1, `exp` = 0, `money` = 2500, `hp` = 50, `energy` = 10, `nerve` = 5, `strength` = 10, `speed` = 10, `defense` = 10, `crimesucceeded` = 0, `crimefailed` = 0, `crimemoney` = 0, `points` = 10000000, `credits` = 5000 WHERE `id` = " . $user_class->id);
-    $_SESSION['prestige'] = true;
-    echo 'Account reset triggered.';
-}
 ?>
 
 <div class='container mt-3'>
-    <div class='alert alert-danger' role='alert'>
-        <a href="index.php?raction=trigger_reset" class="alert-link">TRIGGER ACCOUNT RESET</a>
-    </div> 
 
 <?php
 if ($user_class->firstlogin1 == 0) {
