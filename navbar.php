@@ -83,15 +83,16 @@ $leftLinks[] =
 if ($user_class->gang) {
     $leftLinks[] =
         array(
-            'name' => 'Create Gang',
-            'url'  => 'creategang.php',
+            'name' => 'Gang',
+            'url'  => 'gang.php',
         );
 } else {
     $leftLinks[] =
         array(
-            'name' => 'Gang',
-            'url'  => 'gang.php',
+            'name' => 'Create Gang',
+            'url'  => 'creategang.php',
         );
+
 }
 $leftLinks[] =
 	array(
