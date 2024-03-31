@@ -90,7 +90,7 @@ foreach (array_chunk($gifts, 4, true) as $smgifts) {
     foreach ($smgifts as $name => $price) {
         echo '<td style="padding:8px;">';
         echo $name . ' (<span style="color:green;">' . prettynum($price, 1) . '</span> ea)<br />';
-        echo '<img src="images/gifts/' . str_replace(' ', '', $name) . '.png" />';
+        echo '<img src="gifts/' . str_replace(' ', '', $name) . '.png" />';
         echo '<form method="post">';
         echo 'Send: <input type="text" size="5" maxlength="5" name="qty" value="0" /><br /><br />';
         echo 'Note: <input type="text" size="15" name="note" placeholder="Send note with gift." /><br /><br />';
