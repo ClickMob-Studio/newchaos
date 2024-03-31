@@ -7,11 +7,11 @@ include 'header.php';
 <?php
 if ($user_class->gang != 0) {
     $gang_class = new Gang($user_class->gang);
-    $query = "SELECT COUNT(*) FROM vlog WHERE gangid = " . $user_class->gang; 
+    echo "SELECT COUNT(*) FROM vlog WHERE gangid = " . $user_class->gang;
     $result = mysql_query("SELECT COUNT(*) FROM vlog WHERE gangid = " . $user_class->gang);
     $r = mysql_fetch_row($result);
     echo 'here';
-    if(mysql_num_rows($r)){
+    if(mysql_num_rows($result)){
         echo 'here2';
     ?>
     <table id="newtables" style="width:100%;">
