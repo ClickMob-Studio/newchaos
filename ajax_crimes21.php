@@ -96,6 +96,9 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $m->set('crimesave' . $user_class->id, $row['id']);
 
     $nerve = $row['nerve'];
+    if ($nerve > $user_class->maxnerve){
+        die();
+    }
     $name = $row['name'];
 
     $time = floor(($nerve - ($nerve * 0.5)) * 6);
