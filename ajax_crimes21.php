@@ -94,7 +94,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $nerve = $row['nerve'];
     $name = $row['name'];
 
-    if ($nerve > $user_class->maxnerve) {
+    if($user_class->maxnerve < $nerve){
         die();
     }
 
@@ -149,10 +149,10 @@ $exp += $star_bonus_exp;
     } elseif ($user_class->crimeexpboost == 1) {
         $crimeexpbonus = 0.2;
     }
-
+ 
     $bonus = $exp * $crimeexpbonus;
     $exp = round($exp + $bonus, 2);
-
+    
 
     if ($user_class->prestige > 0) {
         $exp *= (.20 * $user_class->prestige) + 1;
@@ -191,7 +191,7 @@ $exp += $star_bonus_exp;
     $prepaid = false;
 
     if ($crime_multiplier > 1) {
-        if ($nerve > $user_class->maxnerve) {
+        if ($nerve > $user_class->nerve) {
             if ($user_class->nerref == 2) {
                 $nerveneeded = $nerve - $user_class->nerve;
                 $debug['nerve_needed'] = $nerveneeded;
