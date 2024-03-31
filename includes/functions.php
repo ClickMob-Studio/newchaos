@@ -1266,16 +1266,16 @@ function refill($which)
         switch ($which) {
             case 'n':
                 if ($user_class->nerref == 2) {
-                    if($user_class->nerve < 0){
-                        if($user_class->points < 1){
-                            diefun("You do not have enough nerve to refill.");
-                        }
-                        $user_class->nerve = 0;
-                        $db->query("UPDATE grpgusers SET nerve = 0, points = points -1 WHERE id = ?");
-                        $db->execute(array(
-                            $user_class->id
-                        ));
-                    }
+                        // if($user_class->nerve < 0){
+                        //     if($user_class->points < 1){
+                        //         diefun("You do not have enough nerve to refill.");
+                        //     }
+                        //     $user_class->nerve = 0;
+                        //     $db->query("UPDATE grpgusers SET nerve = 0, points = points -1 WHERE id = ?");
+                        //     $db->execute(array(
+                        //         $user_class->id
+                        //     ));
+                        // }
                     $nerveneeded = $user_class->maxnerve - $user_class->nerve;
                     
                     $cost = floor($nerveneeded / 10);
