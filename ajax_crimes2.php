@@ -2,27 +2,26 @@
 
 //header('Content-type: application/json');
 session_start();
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+
 include "classes.php";
 include "database/pdo_class.php";
 
-require 'vendor/autoload.php';
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11211, 33);
 
 $user_class = new User($_SESSION['id']);
 session_write_close();
 
-/*$logger = new Katzgrau\KLogger\Logger('/var/www/logs/speedcrimes', Psr\Log\LogLevel::INFO, array(
-    'prefix' => $user_class->id . "-",
-));*/
+// $logger = new Katzgrau\KLogger\Logger('/var/www/logs/speedcrimes', Psr\Log\LogLevel::INFO, array(
+//     'prefix' => $user_class->id . "-",
+// ));
 
 $crime_multiplier = 1;
 if (isset($_POST['cm'])) {
-    $allowed = array(1, 2, 4, 6, 8, 10);
+    $allowed = array(1, 2, 4, 10);
     if (in_array($_POST['cm'], $allowed)) {
         $crime_multiplier = $_POST['cm'];
     }
@@ -100,7 +99,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $ftext = 'You failed to ' . $name;
     $chance = rand(0, 100);
     $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
-    $exp = ((10 * $nerve) + 8 * ($nerve - 1)) * 3;
+    $exp = ((10 * $nerve) + 8 * ($nerve - 1)) * 1.0;
 
     $crimeexpbonus = 0;
     if ($user_class->crimeexpboost > 1) {
@@ -113,50 +112,19 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $bonus = $exp * $crimeexpbonus;
     $exp = round($exp + $bonus, 2);
 
-    // Calculate the 20% Gambino Exp Bonus
-    $gambinoExpBonus = 0;
-    if ($user_class->pack1 == 1 && $user_class->pack1time >= time()) {
-        $gambinoExpBonus = 0.2;
-    }
-if ($user_class->prestige > 0) {
-    for ($i = 1; $i <= $user_class->prestige; $i++) {
-       $exp *= 1.20; // Increase $exp by 20% for each point of prestige
-	$exp = round($exp);
-    }
-}
 
-    // Calculate the Exppill bonus
-    $exppillBonus = 1.0;
+    if ($user_class->prestige > 0) {
+        $exp *= (.20 * $user_class->prestige) + 1;
+    }
+    
+    
+    
+
     if ($user_class->exppill >= time()) {
-        $exppillBonus = 2.0;
+        $exp *= 2.0;
         $chance = 100;
-
     }
 
-// Calculate the Luciano Bonus (20% money bonus)
-$lucianoBonus = 1.0;
-if ($user_class->pack1 == 2 && $user_class->pack1time >= time()) {
-    $lucianoBonus = 1.2;
-}
-
-// Assuming you've already fetched the user's gang data and have it in $upgrades_data
-$upgrade1Level = $upgrades_data['upgrade1'];
-
-// Calculate gang bonus for experience. Start with no bonus (0.0)
-$gangExpBonus = 0.0;
-
-// Check the upgrade1 level and set the bonus accordingly
-if ($upgrade1Level >= 1 && $upgrade1Level <= 10) {
-    // 5% bonus for each level
-    $gangExpBonus = 0.05 * $upgrade1Level;
-}
-
-// Apply the bonuses to the exp and money values
-$exp = $exp * (1 + $gambinoExpBonus + $gangExpBonus) * $exppillBonus;
-$money *= $lucianoBonus;
-
-
-   
     $db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
     $db->execute();
     $bonus_row = $db->fetch_row(true);
@@ -168,6 +136,7 @@ $money *= $lucianoBonus;
         $money *= 1;
         $chance = 100;
     }
+
 
     if (time() < 1673827199) {
         $exp *= 2;
@@ -214,14 +183,8 @@ $money *= $lucianoBonus;
         }
     }
 
-    if (!isset($_SESSION['refill_in_progress'])) {
-        $_SESSION['refill_in_progress'] = true;
-
-        if ($user_class->nerve < $nerve && !$prepaid) {
-            refill('n');
-        }
-
-        unset($_SESSION['refill_in_progress']);
+    if ($user_class->nerve < $nerve && !$prepaid) {
+        refill('n');
     }
 
     if ($user_class->nerve >= $nerve || $prepaid) {
@@ -238,7 +201,7 @@ $money *= $lucianoBonus;
                 $nerve,
                 $user_class->id
             ));
-            $debug['response'] = "Failed Crime"; 
+            $debug['response'] = "Failed Crime";
             //$logger->info("", $debug);
             die($ftext.".|".number_format($user_class->points)."|".number_format($user_class->money)."|".number_format($user_class->level)."|".  genBars());
         } elseif ($chance < 7) {
@@ -277,21 +240,27 @@ $money *= $lucianoBonus;
             gangContest(array('crimes' => $crime_multiplier, 'exp' => $exp));
             bloodbath('crimes', $user_class->id, $bbnerve / $user_class->level, $crime_multiplier);
 
-            $gtax = 0;
-            if ($user_class->gang != 0) {
-                if (!$gangTax = $m->get('gangtax.' . $user_class->gang)) {
-                    $db->query("SELECT `tax` FROM `gangs` WHERE `id` = ?");
-                    $db->execute(array(
-                        $user_class->gang
-                    ));
-                    $gangTax = $db->fetch_row(true);
-                    $m->set('gangtax.' . $user_class->gang, $row, false, 120);
-                }
-                if ($gangTax['tax'] > 0) {
-                    $gtax = $money * ($gang_class->tax / 100);
-                }
-            }
-
+           $gtax = 0;
+if ($user_class->gang != 0) {
+    // Attempt to retrieve gang tax details from cache
+    $gangTax = $m->get('gangtax.' . $user_class->gang);
+    
+    // If not found in cache, query the database
+    if (!$gangTax) {
+        $db->query("SELECT `tax` FROM `gangs` WHERE `id` = ?");
+        $db->execute(array($user_class->gang));
+        $gangTax = $db->fetch_row(true);
+        
+        // Cache the retrieved details for future requests
+        $m->set('gangtax.' . $user_class->gang, $gangTax, false, 120);
+    }
+    
+    // Check if 'tax' index exists and is greater than 0
+    if (isset($gangTax['tax']) && $gangTax['tax'] > 0) {
+        // Use the retrieved tax value for calculation
+        $gtax = $money * ($gangTax['tax'] / 100);
+    }
+}
             $money = $money - $gtax;
             $totaltax = $gtax;
 
@@ -316,6 +285,21 @@ $money *= $lucianoBonus;
                 $user_class->gang
             ));
 
+
+// Check if the user has already performed this crime and a row exists in crimeranks
+$db->query("SELECT id FROM crimeranks WHERE userid = ? AND crimeid = ?");
+$db->execute(array($user_class->id, $id));
+$crimeRank = $db->fetch_row(true);
+
+if ($crimeRank) {
+    // A row exists, so update the count
+    $db->query("UPDATE crimeranks SET count = count + 1 WHERE id = ?");
+    $db->execute(array($crimeRank['id']));
+} else {
+    // No row exists for this user and crimeid, so insert a new row
+    $db->query("INSERT INTO crimeranks (userid, crimeid, count) VALUES (?, ?, 1)");
+    $db->execute(array($user_class->id, $id));
+}
             $db->query("SELECT `name`, mission.crimes as crimestarget, missions.crimes as crimesdone FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE `userid` = ? AND `completed` = \"no\" LIMIT 1");
             $db->execute(array(
                 $user_class->id
@@ -368,4 +352,3 @@ $money *= $lucianoBonus;
     }
 }
 $db = null;
-
