@@ -9,7 +9,7 @@ $dbUser = 'chaoscity_co';
 $dbPass = '3lrKBlrfMGl2ic14';
 $dbName = 'game';
 $mysqli = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
-
+exit;
 if ($mysqli->connect_error) {
     die('Database connection failed: ' . $mysqli->connect_error);
 }
