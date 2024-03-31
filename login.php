@@ -1,48 +1,57 @@
 <?php
 session_start();
-include 'dbcon.php';
+require 'dbcon.php'; // Ensure database connection is critical
+
+// IP address determination using standard if-else
 if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-  $IP = $_SERVER['HTTP_CLIENT_IP'];
+    $IP = $_SERVER['HTTP_CLIENT_IP'];
 } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-  $IP = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    $IP = $_SERVER['HTTP_X_FORWARDED_FOR'];
 } else {
-  $IP = $_SERVER['REMOTE_ADDR'];
+    $IP = $_SERVER['REMOTE_ADDR'];
 }
 
-if (isset($_POST['username']) && isset($_POST['password'])) {
+if (!empty($_POST['username']) && !empty($_POST['password'])) {
     $username = $_POST['username'];
-    $password = sha1($_POST['password']);
-    $password2 = fuzzehCrypt($password);
-    $query = "SELECT * FROM grpgusers WHERE loginame = ?";
-     $statement = $db->prepare($query);
-    $statement->execute([$username]);
-     $worked = $statement->fetch(PDO::FETCH_ASSOC);
-     $banQuery = "SELECT * FROM bans WHERE id = ? AND (type = 'freeze' OR type = 'perm')";
-     $banStatement = $db->prepare($banQuery);
-     $banStatement->execute([$worked['id']]);
-     $ban = $banStatement->rowCount();
-     //Lowercase username stored and given, then perform check of equality (bypass capitol letters)
-     $stored_username = strtolower($worked['loginame']);
-     $given_username = strtolower($username);
+    $password = sha1($_POST['password']); // Moving to password_hash() recommended
 
-    if ($stored_username == $given_username && ($worked['password'] == $password || $worked['password'] == $password2)) {
-         if ($worked['ban/freeze'] == 1 || $ban > 0 || $ipban > 0) {
-             $_SESSION['failmessage'] = 'Your account has been banned';
-             header('Location: home.php');
-         }
-        $_SESSION["id"] = $worked['id'];
+    try {
+        $query = "SELECT * FROM grpgusers WHERE loginame = ?";
+        $statement = $db->prepare($query);
+        $statement->execute([$username]);
+        $user = $statement->fetch();
 
-        header('Location: index.php');
-    } else {
-        $_SESSION['failmessage'] = 'Invalid username or password';
+        if ($user) {
+            $banQuery = "SELECT * FROM bans WHERE id = ? AND (type = 'freeze' OR type = 'perm')";
+            $banStatement = $db->prepare($banQuery);
+            $banStatement->execute([$user['id']]);
+            $isBanned = $banStatement->rowCount() > 0;
+
+            $stored_username = strtolower($user['loginame']);
+            $given_username = strtolower($username);
+
+            if ($stored_username === $given_username && ($user['password'] === $password)) {
+                if ($user['ban/freeze'] == 1 || $isBanned) {
+                    $_SESSION['failmessage'] = 'Your account has been banned';
+                } else {
+                    session_regenerate_id(); // Protect against session fixation attacks
+                    $_SESSION["id"] = $user['id'];
+                    header('Location: index.php');
+                    exit;
+                }
+            } else {
+                $_SESSION['failmessage'] = 'Invalid username or password';
+            }
+        } else {
+            $_SESSION['failmessage'] = 'Invalid username or password';
+        }
+        header('Location: home.php');
+    } catch (PDOException $e) {
+        $_SESSION['failmessage'] = "An error occurred. Please try again later.";
         header('Location: home.php');
     }
 } else {
-	$_SESSION['failmessage'] = 'You have not entered a username or password.';
+    $_SESSION['failmessage'] = 'You have not entered a username or password.';
     header('Location: home.php');
 }
-function fuzzehCrypt($pass) {
-    return crypt($pass, '$6$rounds=5000$awrgwrnuBUIEF89243t89bNFAEb942$');
-}
-?>
 
