@@ -27,10 +27,17 @@ if ($user_class->firstlogin1 == 0) {
 if($user_class->id == 1){
 	?>
 	<div class="card">
-    <div class="card-header">General Information</div>
-    <div class="card-body" style="background: none;">
+    <div class="card-header"><h1>General Information</h1></div>
+    <div class="card-body">
         <table class="table">
-            Testing<!-- Table rows here, updated with Bootstrap classes -->
+		<tr>
+			<th width="10%">Name:</td>
+			<td width="30%">
+				<a href="profiles.php?id=' . $user_class->id . '"><?php echo $user_class->formattedname;?></a>';
+			</td>';
+			<th width="10%">HP:</td>
+			<td width="30%"><?php echo prettynum($user_class->formattedhp); ?></td>
+		</tr>
         </table>
     </div>
 </div>
