@@ -234,21 +234,21 @@ var submitCrime = function (id, cm=1) {
             if (res.error == 'refresh') {
                 finish();
             }
-            $('.moneyholder').html(res.stats.money)
+            $('.money').html(res.stats.money)
             $(".level").html(res.stats.level)
-            $(".pointsholder").html(res.stats.points)
+            $(".points").html(res.stats.points)
             $("#noti").html(res.text)
             $("#missiontext").html(res.stats.mission)
 
             $('.after_title').eq(0).text(res.bars.energy.title)
             $('.after_title').eq(1).text(res.bars.nerve.title)
-            $('.after_title').eq(3).text(res.bars.awake.title + '%')
+            $('.after_title').eq(2).text(res.bars.awake.title + '%')
             $('.after_title').eq(4).text(res.bars.exp.title + '%')
 
-            $('.stat_bar').eq(0).width(res.bars.energy.percent + '%')
-            $('.stat_bar').eq(1).width(res.bars.nerve.percent + '%')
+            $('.stat_bar').eq(1).width(res.bars.energy.percent + '%')
+            $('.stat_bar').eq(2).width(res.bars.nerve.percent + '%')
             $('.stat_bar').eq(3).width(res.bars.awake.percent + '%')
-            $('.stat_bar').eq(4).width(res.bars.exp.percent + '%')
+            $('.expbar').eq(4).width(res.bars.exp.percent + '%')
         });
 
 }

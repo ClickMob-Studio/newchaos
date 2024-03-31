@@ -497,7 +497,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 							</div>
 							<div class="col-3 text-center">
 								Level <?php echo $user_class->level; ?>
-								<div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip" title="<?php echo $user_class->exp . '/' . $user_class->maxexp; ?>">
+								<div class="d-flex d-lg-none progress dcStatsBars expbar" data-toggle="tooltip" title="<?php echo $user_class->exp . '/' . $user_class->maxexp; ?>">
 									<div class="progress-bar" role="progressbar" style="width:<?php echo ( $user_class->exp / $user_class->maxexp * 100 ); ?>%"></div>
 								</div>
 							</div>
@@ -537,7 +537,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 										echo $stat['title'];
 										} ?></div>
 										<div class="col-9 d-flex align-items-center">
-											<div class="progress dcStatsBars" data-toggle="tooltip" title="<?php echo $stat['current'] . '/' . $stat['max']; ?>">
+											<div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?php echo $stat['current'] . '/' . $stat['max']; ?>">
 												<div class="progress-bar" role="progressbar" style="width:<?php echo ( $stat['current'] / $stat['max'] * 100 ); ?>%"></div>
 											</div>
 										</div>

@@ -5,11 +5,7 @@ session_start();
 
 include "classes.php";
 include "database/pdo_class.php";
-if(isset($_SESSION['prestige'])){
-    unset($_SESSION['prestige']);
-    header('Location: newcrimes.php');
-    exit();
-}
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -96,9 +92,6 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $m->set('crimesave' . $user_class->id, $row['id']);
 
     $nerve = $row['nerve'];
-    if ($nerve > $user_class->maxnerve){
-        die();
-    }
     $name = $row['name'];
 
     $time = floor(($nerve - ($nerve * 0.5)) * 6);
@@ -202,7 +195,6 @@ $exp += $star_bonus_exp;
                 if ($cost < 10) {
                     $cost = 10;
                 }
-
                 if ($cost > $user_class->points) {
                     return 0;
                 }
@@ -218,7 +210,7 @@ $exp += $star_bonus_exp;
 
                 $prepaid = true;
             } else {
-                $debug['error'] = "Refill Not Enabled";
+                $debug['error'] = "Refil Not Enabled";
                 //$logger->info("", $debug);
                 die();
             }
@@ -308,12 +300,6 @@ if ($user_class->gang != 0) {
 
             $user_class->money += $money;
             $user_class->nerve -= $nerve;
-
-            // EXP 20% BUFF
-            //$exp = $exp + (($exp / 100) * 20);
-
-
-
             $db->query("UPDATE grpgusers SET loth = loth + ?, exp = exp + ?, crimesucceeded = crimesucceeded + 1, crimemoney = crimemoney + ?, `money` = `money` + ?, nerve = nerve - ?, todaysexp = todaysexp + ?, expcount = expcount + ?, totaltax = totaltax + ? WHERE id = ?");
             $db->execute(array(
                 $exp,
