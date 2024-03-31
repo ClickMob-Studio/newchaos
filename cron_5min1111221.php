@@ -62,5 +62,11 @@ awake = LEAST(
     CEIL(awake +(maxawake * .2)),
     maxawake
 )", $link) or mysql_error();
+
+$result = mysql_query("SELECT `id` FROM `grpgusers` WHERE `is_jail_bot` = 1");
+while ($line = mysql_fetch_assoc($result)) {
+    mysql_query("UPDATE `grpgusers` SET `jail` = 300 WHERE `id` = " . $result['id']);
+}
+
 print "worked";
 mysql_close($link);
