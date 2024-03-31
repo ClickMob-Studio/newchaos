@@ -261,7 +261,7 @@ if(isset($_GET['username'])){
         $npw = $_POST['npw'];
         $cpw = $_POST['cpw'];
         $password = sha1(mysql_real_escape_string($_POST['opw']));
-        $password2 = fuzzehCrypt($password);
+        $password2 = sha1($password);
         $new = sha1(mysql_real_escape_string($npw));
         $new = fuzzehCrypt($new);
         if($user_class->password != $password && $user_class->password != $password2)
