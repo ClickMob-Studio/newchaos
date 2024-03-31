@@ -26,10 +26,10 @@ if(empty($username))
 
 //if (!preg_match("^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$", $email))
     //error();
-$q = mysql_query("SELECT id FROM grpgusers WHERE email LIKE '$email'");
-$r = mysql_fetch_array($q);
-if (!empty($r))
-    error();
+// $q = mysql_query("SELECT id FROM grpgusers WHERE email LIKE '$email'");
+// $r = mysql_fetch_array($q);
+// if (!empty($r))
+//     error();
 $IP = ($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 $IP = addslashes($IP);
 $IP = mysql_real_escape_string($IP);
