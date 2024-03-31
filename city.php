@@ -84,7 +84,7 @@ $admin_ids = array_map(function($a) {
             <img src="<?php echo htmlspecialchars($king_result['avatar']); ?>" style="width: 100px; height: 100px;" alt="King's Avatar" class="user-avatar">
             <h4>King of <!_-cityname-_!></h4>
             <p><strong><?php echo formatName($king_result['id']); ?></strong></p>
-            <a href="/attack.php?attack=<?php echo $king_result['id']; ?>&csrf=<?php echo $csrf;?>" class="challenge-btn">Challenge</a>
+            <a href="/attack.php?attack=<?php echo $king_result['id']; ?>&csrf=<?php echo $csrf;?>" class="challenge-btn" style="text-decoration: underline;">Challenge</a>
 
         <?php else: ?>
             <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No King" class="vacant-throne">
@@ -92,8 +92,9 @@ $admin_ids = array_map(function($a) {
             <p>King of <!_-cityname-_!></p>
             
         <?php endif; ?>
+        <br />
 
-        <p style="font-weight: bold;">By being King of this City you will earn <?php echo number_format($city_query['owned_points'], 0) ?> points on rollover.</p>
+        <p style="font-weight: bold; margin-top: 5px;">By being King of this City you will earn <?php echo number_format($city_query['owned_points'], 0) ?> points an hour.</p>
        
 
 
@@ -104,15 +105,16 @@ $admin_ids = array_map(function($a) {
             <img src="<?php echo htmlspecialchars($queen_result['avatar']); ?>" style="width: 100px; height: 100px;" alt="Queen's Avatar" class="user-avatar">
             <h4>Queen of <!_-cityname-_!></h4>
             <p><strong><?php echo formatName($queen_result['id']); ?></strong></p>
-            <a href="/attack.php?attack=<?php echo $queen_result['id']; ?>&csrf=<?php echo $csrf;?>"  class="challenge-btn">Challenge</a>
+            <a href="/attack.php?attack=<?php echo $queen_result['id']; ?>&csrf=<?php echo $csrf;?>"  class="challenge-btn" style="text-decoration: underline;">Challenge</a>
         
             <?php else: ?>
             <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No Queen" class="vacant-throne">
             <h4>VACANT</h4>
             <p>Queen of <!_-cityname-_!></p>
             <?php endif; ?>
+        <br />
 
-        <p style="font-weight: bold;">By being Queens of this City you will earn <?php echo number_format($city_query['owned_points'], 0) ?> points on rollover.</p>
+        <p style="font-weight: bold; margin-top: 5px">By being Queens of this City you will earn <?php echo number_format($city_query['owned_points'], 0) ?> points an hour.</p>
           </div>
 </div>
 

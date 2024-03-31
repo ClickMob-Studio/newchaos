@@ -159,7 +159,6 @@ deleteUserFromSpot($userId, $desiredSpot);
         <li>You can move up the ladder by beating those above you.</li>
         <li>You will be rewarded points every hour and sent an event when you place on the attack ladder.</li>
         <li>After 4 hours of attack inactivity you will be kicked off the ladder.</li>
-        <li class="info-highlight">This feature is subject to change whilst we test and adjust things!</li>
     </ul>
 </div>
 <div class="ladder-container">
@@ -167,7 +166,11 @@ deleteUserFromSpot($userId, $desiredSpot);
     $ladder = mysql_query("SELECT * FROM `attackladder` ORDER BY `spot` ASC ");
     $csrf = md5(uniqid(rand(), true));
     $_SESSION['csrf'] = $csrf;
+    $shown = array();
     while ($row = mysql_fetch_array($ladder)):
+        if (!isset($shown[$row['user']])) {
+            $shown[$row['user']] = 1;
+
         $text       = formatName($row['user']);
         $reward = $row['spot'] == '1' ? '150' : '100';
         $attack = ($user_class->id == $row['user']) ? '-' : "<a class='ladder-button' href='attack.php?attack=" . $row['user'] . "&csrf=". $csrf ."'>Attack</a>";
@@ -178,6 +181,9 @@ deleteUserFromSpot($userId, $desiredSpot);
         <span>Reward: <?= $reward ?> Points</span>
         <span><?= $attack ?></span>
     </div>
-    <?php endwhile; ?>
+    <?php
+        }
+    endwhile;
+    ?>
 </div>
 <?php require "footer.php"; ?>

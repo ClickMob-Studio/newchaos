@@ -98,12 +98,12 @@ if ($user_class->aprotection != 0) {
     }
 
     $error = ($user_class->jail > 0 && $attack_person->jail == 0) ? "You can't attack someone if you are in prison." : $error;
-    $error = ($attack_person->jail > 0 && $user_class->jail == 0) ? "You can't attack someone thats in prison." : $error;
+    $error = ($attack_person->jail > 0 && $user_class->jail == 0) ? "You can't attack someone that is in prison." : $error;
     $error = ($attack_person->city != $user_class->city && $user_class->id != 0) ? "You must be in the same city as the person you're attacking!" : $error;
     $error = ($attack_person->username == "") ? "That person doesn't exist." : $error;
-    $error = ($attack_person->hospital > 0) ? "You can't attack someone thats in hospital." : $error;
+    $error = ($attack_person->hospital > 0) ? "You can't attack someone that is in hospital." : $error;
     $error = ($user_class->gang == $attack_person->gang && $user_class->gang > 0) ? "You can't attack someone in your gang." : $error;
-    $error = ($attack_person->hppercent < 25) ? "They Need Over 25% HP to be attacked." : $error;
+    $error = ($attack_person->hppercent < 25) ? "They need over 25% HP to be attacked." : $error;
     $error = ($attack_person->admin == 1) ? "Im sorry, You cannot attack the owner" : $error;
             $error = ($attack_person->aprotection > time()) ? "This Mobster is under Attack Protection." : $error;
             $error = ($user_class->aprotection > time()) ? "You cannot attack whilst under Attack Protection." : $error;

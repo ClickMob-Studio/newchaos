@@ -289,12 +289,12 @@ echo'<div class="flexele forumhover" onclick="insertAtCursor(\'[tag][/tag]\', 6)
         diefun("You've been banned from the forum. Time remaining: " . howlongtil($db->fetch_single() * 86400));
     $forums = array();
     $fnames = array(array('News', 'Stay up to date and comment on game news.'),
-        array('General Chat', 'Talk about anything general to MafiaLords here.'),
+        array('General Chat', 'Talk about anything general to Chaos City here.'),
         array('Gang Chat', 'Talk about and advertise your gang here.'),
         array('Marketplace', 'Post buying and selling needs here.'),
         array('Competitions', 'Hold any competitions you want here.'),
-        array('Off Topic', 'Talk about anything not related to MafiaLords here.'),
-        array('Suggestions', 'Post anything new or improved you would like to see on MafiaLords.'),
+        array('Off Topic', 'Talk about anything not related to Chaos City here.'),
+        array('Suggestions', 'Post anything new or improved you would like to see on Chaos City.'),
         array('Help Forum', 'Ask for help here from other members or staff.'),
         array('Bugs, Errors etc...', 'Report bugs and errors here.'),
         array('Graphics', 'Forum section for all your graphical needs.'),

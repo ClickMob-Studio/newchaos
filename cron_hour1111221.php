@@ -201,3 +201,32 @@ mysql_query("SET @counter := 0; UPDATE `attackladder` SET `attackladder`.`spot` 
 // $reward = $row['spot'] == '1' ? '150' : '100';
 // Send_Event($row['user'], "[-_USERID_-] you are ranked ".$row['spot']." in the attack ladder and you’ve been rewarded ".$reward." points ", $row['user']);
 //}
+
+
+// King & Queen
+$king_result = mysql_query("SELECT `id`, `city` FROM `grpgusers` WHERE `king` > 0");
+while ($line = mysql_fetch_array($king_result)) {
+    $cityId = $line['city'];
+
+    $city_query = mysql_query("SELECT owned_points FROM cities WHERE id = '" . mysql_real_escape_string($line['city']) . "' LIMIT 1");
+    $city_result = mysql_fetch_assoc($city_query);
+
+    if ($city_result['owned_points'] > 0) {
+        mysql_query("UPDATE `grpgusers` SET `points` = `points` + " . $city_result['owned_points'] . " WHERE `id` = " . $line['id']);
+        Send_event($line['id'], "You earned " . number_format($city_result['owned_points'], 0) . " points for being the King!");
+    }
+}
+
+$queen_result = mysql_query("SELECT `id`, `city` FROM `grpgusers` WHERE `queen` > 0");
+while ($line = mysql_fetch_array($queen_result)) {
+    $cityId = $line['city'];
+
+    $city_query = mysql_query("SELECT owned_points FROM cities WHERE id = '" . mysql_real_escape_string($line['city']) . "' LIMIT 1");
+    $city_result = mysql_fetch_assoc($city_query);
+
+    if ($city_result['owned_points'] > 0) {
+        mysql_query("UPDATE `grpgusers` SET `points` = `points` + " . $city_result['owned_points'] . " WHERE `id` = " . $line['id']);
+        Send_event($line['id'], "You earned " . number_format($city_result['owned_points'], 0) . " points for being the Queen!");
+    }
+}
+
