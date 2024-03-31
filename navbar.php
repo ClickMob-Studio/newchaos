@@ -37,54 +37,69 @@ $topLinks = array(
 	),
 );
 
-$leftLinks = array(
-	array(
+$leftLinks = array();
+$leftLinks[] =
+    array(
+        'name'  => 'Search Players',
+        'url'   => 'search.php'
+    );
+$leftLinks[] =
+    array(
 		'name'  => 'Mail',
 		'url'   => 'pms.php?view=inbox',
 		'count' => $counts['mail'],
-	),
+	);
+$leftLinks[] =
 	array(
 		'name'  => 'Events',
 		'url'   => 'events.php',
 		'count' => $counts['event'],
-	),
+	);
+$leftLinks[] =
 	array(
 		'name' => 'Chat',
 		'url'  => 'globalchat.php',
-	),
+	);
+$leftLinks[] =
 	array(
 		'name' => 'Missions',
 		'url'  => 'missions.php',
-	),
+	);
+$leftLinks[] =
 	array(
 		'name' => 'Inventory',
 		'url'  => 'inventory.php',
-	),
+	);
+$leftLinks[] =
 	array(
 		'name' => 'Raids',
 		'url'  => 'raids.php',
-	),
+	);
+$leftLinks[] =
 	array(
 		'name' => 'Backalley',
 		'url'  => 'backalley.php',
-	),
+	);
+$leftLinks[] =
 	array(
 		'name' => 'Speed Crimes',
 		'url'  => 'newcrimes.php',
-	),
+	);
+$leftLinks[] =
 	array(
 		'name' => 'Speed Gym',
 		'url'  => 'speedGym.php',
-	),
+	);
+$leftLinks[] =
 	array(
 		'name' => 'Settings',
 		'url'  => 'preferences.php',
-	),
+	);
+$leftLinks[] =
 	array(
 		'name' => 'Log Out',
 		'url'  => 'index.php?action=logout',
-	),
-);
+	);
 
 $navPage = str_replace( '/', '', $_SERVER['REQUEST_URI'] );
 
