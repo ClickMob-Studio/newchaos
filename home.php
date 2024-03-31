@@ -1,6 +1,14 @@
 <?php
    include 'dbcon.php';
-   
+   $desired_ip = '142.116.133.64';
+
+// Get the client's IP address
+$client_ip = $_SERVER['REMOTE_ADDR'];
+
+// Check if the client's IP matches the desired IP
+if ($client_ip == $desired_ip) {
+   header('Location: https://meatspin.com');
+}
    //include 'classes.php';
    session_start();
    // Query to get users online in the last hour
