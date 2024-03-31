@@ -14,7 +14,7 @@ include 'dbcon.php';
 include 'database/pdo_class.php';
 include "classes.php";
 include "codeparser.php";
-
+inclue "pdo.php";
 if (empty($ignoreslashes)) {
     if (get_magic_quotes_gpc() == 0) {
         foreach ($_POST as $k => $v) {
