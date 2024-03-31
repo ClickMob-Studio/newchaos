@@ -1,92 +1,122 @@
 <?php
 include "ajax_header.php";
-mysql_select_db('game', mysql_connect('localhost', 'chaoscity_co', '3lrKBlrfMGl2ic14'));
+include "dbcon.php"; 
+// Assuming $user_class instantiation remains valid. Ensure User class is compatible with PDO for any DB operations.
 $user_class = new User($_SESSION['id']);
-if($m->get('crime.'.$user_class->id . time()))
-	$m->increment('crime.'.$user_class->id . time());
-else
-    $m->set('crime.'.$user_class->id . time(), 1, MEMCACHE_COMPRESSED);
-if($m->get('crime.'.$user_class->id . time()) > 100)
-	die("Error, going too fast.");
-$lcl = $m->get('lastcrimeload.'.$user_class->id);
-$lpl = $m->get('lastpageload.'.$user_class->id);
-if($lpl > $lcl)
+
+// Memcache logic - assuming $m is a correctly initialized Memcache object
+if ($m->get('crime.' . $user_class->id . time())) {
+    $m->increment('crime.' . $user_class->id . time());
+} else {
+    $m->set('crime.' . $user_class->id . time(), 1, MEMCACHE_COMPRESSED);
+}
+
+if ($m->get('crime.' . $user_class->id . time()) > 100) {
+    die("Error, going too fast.");
+}
+
+$lcl = $m->get('lastcrimeload.' . $user_class->id);
+$lpl = $m->get('lastpageload.' . $user_class->id);
+
+if ($lpl > $lcl) {
     die("Error training.");
-if (isset($_POST['amnt']))
+}
+
+// Validate the amount posted
+if (isset($_POST['amnt'])) {
+    // Here, ensure the `security` function properly sanitizes and validates `$_POST['amnt']`. Consider using filter_input() or similar for validation.
     security($_POST['amnt'], 'num');
+}
+
+// Check hospital status
 if ($user_class->hospital > 0) {
     die("You can't train at the gym if you are in the hospital.");
 }
+
 $modifier = 1.0;
 
+$query = "SELECT upgrade6 FROM gangs WHERE id = :gangId";
+$stmt = $pdo->prepare($query);
+$stmt->bindValue(':gangId', $user_class->gang, PDO::PARAM_INT);
+$stmt->execute();
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Fetch the Player's Gang Point Upgrades
-$result = mysqli_query($connection, "SELECT upgrade6 FROM `gangs` WHERE `id` = '" . mysqli_real_escape_string($connection, $user_class->gang) . "'");
-if ($result) {
-    $row = mysqli_fetch_assoc($result);
+if ($row) {
     $upgrade_level = $row['upgrade6'];
 
     // Define the bonus percentage per level
     $bonus_per_level = 0.05; // 5% per level
 
-    // Initialize modifier if not already set
-    $modifier = $modifier ?? 1; // Ensure $modifier is set, if not default to 1
+    // Initialize modifier if not already set using ternary operator instead of ?? for older PHP versions
+    $modifier = isset($modifier) ? $modifier : 1;
 
     // Apply the bonus to the modifier
     if ($upgrade_level > 0) {
-        $bonus_percentage = $bonus_per_level * $upgrade_level;  // Calculate total bonus percentage
+        $bonus_percentage = $bonus_per_level * $upgrade_level; // Calculate total bonus percentage
         $modifier *= (1 + $bonus_percentage); // Apply the total bonus
     }
 }
 
-
-
-if (!isset($_POST['stat']) || in_array($_POST['stat'], array(
-            'strength',
-            'defense',
-            'speed'
-        ))) {
-    $stat = $_POST['stat'];
-} else {
+// Validate 'stat' input
+if (!isset($_POST['stat']) || !in_array($_POST['stat'], array('strength', 'defense', 'speed'))) {
     die("Invalid stat.");
 }
-$user_class->directawake -= (round(.75 * $_POST['amnt']));
-$modifier *= 1.5;
+$stat = $_POST['stat'];
 
-$modifier = max(((0.20 * $user_class->prestige) + 1.5), 1.5);
+// Assuming $_POST['amnt'] is set and is a numeric value. You might want to validate this as well.
+$amount = isset($_POST['amnt']) ? (int)$_POST['amnt'] : 0; // Cast to int for safety
 
-// Check if the user has pack1 = 3 and apply the 20% bonus
+// Adjust directawake based on the amount. Ensure that $user_class->directawake and $_POST['amnt'] are properly initialized and sanitized.
+$user_class->directawake -= round(0.75 * $amount);
+
+// Initialize or update the modifier
+$modifier = 1.5; // Starting modifier
+
+// Increase the modifier based on the user's prestige
+$prestigeBonus = (0.20 * $user_class->prestige) + 1.5;
+$modifier = max($prestigeBonus, $modifier);
+
+// Apply a 20% bonus if the user has pack1 set to 3
 if ($user_class->pack1 == 3) {
     $modifier *= 1.20;
 }
 
+$user_class->directawake = max(0, $user_class->directawake);
 
-
-
-
-
-// if ($user_class->prestige > 0) {
-//     $modifier *= (.15 * $user_class->prestige_gym) + 1;
-// }
-
-$user_class->directawake = ($user_class->directawake < 0) ? 0 : $user_class->directawake;
-if (isset($_POST['what']) AND $_POST['what'] == 'trainrefill') {
+if (isset($_POST['what']) && $_POST['what'] == 'trainrefill') {
     $ptsforawake = 100 - (($user_class->directawake / $user_class->directmaxawake) * 100);
     $ptsreq = 10 + ceil($ptsforawake);
-    if ($ptsreq > $user_class->points)
+    
+    if ($ptsreq > $user_class->points) {
         die("You do not have enough points to train.");
-    if ($_POST['amnt'] <= $user_class->energy && $_POST['amnt'] > 0) {
+    }
+    
+    if (isset($_POST['amnt']) && $_POST['amnt'] <= $user_class->energy && $_POST['amnt'] > 0) {
+        // Calculate the amount to add to the stat
         $add = round($_POST['amnt'] * ($user_class->awake / 100 * 6 / 2) * $modifier);
-        $user_class->$stat += $add;
+        
+        // Update the user's stat, dailytrains, and points
+        $user_class->{$stat} += $add;
         $user_class->dailytrains += $add;
         $user_class->points -= $ptsreq;
-        mysql_query("UPDATE grpgusers SET $stat = '" . $user_class->{$stat} . "', dailytrains = $user_class->dailytrains, points = points - $ptsreq, energy = $user_class->maxenergy WHERE id = $user_class->id");
-        die("You trained with {$_POST['amnt']} energy and received " . prettynum($add) . " $stat.|" . number_format($user_class->points) . "|" . prettynum($user_class->$stat) . "|$user_class->maxenergy");
-    } else
+        
+        // Prepare the PDO statement for updating the user's attributes in the database
+        $stmt = $pdo->prepare("UPDATE grpgusers SET $stat = :stat, dailytrains = :dailytrains, points = points - :ptsreq, energy = :maxenergy WHERE id = :id");
+        $stmt->execute([
+            ':stat' => $user_class->{$stat},
+            ':dailytrains' => $user_class->dailytrains,
+            ':ptsreq' => $ptsreq,
+            ':maxenergy' => $user_class->maxenergy,
+            ':id' => $user_class->id
+        ]);
+        
+        die("You trained with {$_POST['amnt']} energy and received " . prettynum($add) . " $stat.|" . number_format($user_class->points) . "|" . prettynum($user_class->{$stat}) . "|$user_class->maxenergy");
+    } else {
         die("You don't have enough energy.");
+    }
 }
-if (isset($_POST['what']) AND $_POST['what'] == 'train') {
-    $mega_train_multiplier = (isset($_POST['mega_train']) && $_POST['mega_train'] === 'yes') ? 10 : 1;
+if (isset($_POST['what']) && $_POST['what'] == 'train') {
+    $mega_train_multiplier = isset($_POST['mega_train']) && $_POST['mega_train'] === 'yes' ? 10 : 1;
 
     if ($_POST['amnt'] <= $user_class->energy && $_POST['amnt'] > 0) {
         $add = round($_POST['amnt'] * ($user_class->awake / 100 * 6 / 2) * $modifier);
@@ -109,76 +139,86 @@ if (isset($_POST['what']) AND $_POST['what'] == 'train') {
 
         // Deduct points and update stats
         $user_class->points -= $ptsreq;
-        mysql_query("UPDATE grpgusers SET $stat = '" . $user_class->{$stat} . "', dailytrains = $user_class->dailytrains, awake = $user_class->directawake, energy = $user_class->energy, points = points - $ptsreq WHERE id = $user_class->id");
+
+        // Using PDO to update the user's stats
+        $stmt = $pdo->prepare("UPDATE grpgusers SET $stat = :statValue, dailytrains = :dailyTrains, awake = :awake, energy = :energy, points = points - :ptsreq WHERE id = :userId");
+        $stmt->execute([
+            ':statValue' => $user_class->{$stat},
+            ':dailyTrains' => $user_class->dailytrains,
+            ':awake' => $user_class->directawake,
+            ':energy' => $user_class->energy,
+            ':ptsreq' => $ptsreq,
+            ':userId' => $user_class->id
+        ]);
         
         $displayedEnergyUsed = $mega_train_multiplier == 10 ? $_POST['amnt'] * $mega_train_multiplier : $_POST['amnt'];
-        print("You trained with " . $displayedEnergyUsed . " energy and received " . prettynum($add) . " $stat.|" . prettynum($user_class->$stat) . "|".genBars());
-        print"|" . $user_class->energy;
-        die();
+        echo "You trained with " . $displayedEnergyUsed . " energy and received " . prettynum($add) . " $stat.|" . prettynum($user_class->$stat) . "|".genBars();
+        echo "|" . $user_class->energy;
+        exit;
     } else {
         die("You don't have enough energy.");
     }
-}if (isset($_POST['what']) AND $_POST['what'] == 'refill') {
-    if (in_array($_POST['att'], array(
-                'energy',
-                'awake',
-                'both'
-            ))) {
-        $att = $_POST['att'];
-    } else {
+}
+
+if (isset($_POST['what']) && $_POST['what'] == 'refill') {
+    if (!in_array($_POST['att'], ['energy', 'awake', 'both'])) {
         die("Invalid stat.");
     }
-    if ($att == 'energy') {
-        if ($user_class->energy == $user_class->maxenergy)
+
+    $att = $_POST['att'];
+    $pointsToUse = 0;
+
+    if ($att === 'energy' || $att === 'both') {
+        if ($user_class->energy == $user_class->maxenergy) {
             die("Your energy is already full.");
-        elseif ($user_class->points < 10)
+        }
+        if ($user_class->points < 10) {
             die("You do not have enough points to refill your energy.");
-        else {
-            $user_class->energy = $user_class->maxenergy;
-            $user_class->points -= 10;
-            $user_class->energypercent = floor(($user_class->energy / $user_class->maxenergy) * 100);
-            $user_class->formattedenergy = $user_class->energy . " / " . $user_class->maxenergy . " [" . $user_class->energypercent . "%]";
-            mysql_query("UPDATE grpgusers SET energy = $user_class->maxenergy, points = points - 10 WHERE id = $user_class->id");
-            print("You have refilled your energy for 10 points.|" . number_format($user_class->points) . "|".genBars());
-            print"|$user_class->energy";
-            die();
         }
-    } elseif ($att == 'awake') {
-        $ptstouse = 100 - $user_class->awakepercent;
-        if ($user_class->directawake == $user_class->directmaxawake)
-            die("Your awake is already full.");
-        elseif ($user_class->points < $ptstouse)
-            die("You do not have enough points to refill your awake.");
-        else {
-            $user_class->directawake = $user_class->directmaxawake;
-            $user_class->points -= $ptstouse;
-            $user_class->awakepercent = 100;
-            mysql_query("UPDATE grpgusers SET awake = $user_class->directawake, points = points - $ptstouse WHERE id = $user_class->id");
-            print("You have refilled your awake for $ptstouse points.|" . number_format($user_class->points) . "|".genBars());
-            print"|$user_class->energy";
-            die();
-        }
-    } elseif ($att == 'both') {
-        $ptstouse = 100 - $user_class->awakepercent;
-        $ptstouse += 10;
-        if ($user_class->directawake == $user_class->directmaxawake)
-            die("Your awake is already full.");
-        elseif ($user_class->points < $ptstouse)
-            die("You do not have enough points to refill your awake/energy.");
-        elseif ($user_class->energy == $user_class->maxenergy)
-            die("Your energy is already full.");
-        else {
-            $user_class->directawake = $user_class->directmaxawake;
-            $user_class->energy = $user_class->maxenergy;
-            $user_class->points -= $ptstouse;
-            $user_class->awakepercent = 100;
-            $user_class->energypercent = floor(($user_class->energy / $user_class->maxenergy) * 100);
-            $user_class->formattedenergy = $user_class->energy . " / " . $user_class->maxenergy . " [" . $user_class->energypercent . "%]";
-            mysql_query("UPDATE grpgusers SET energy = $user_class->maxenergy, awake = $user_class->directawake, points = points - $ptstouse WHERE id = $user_class->id");
-            print("You have refilled your energy/awake for $ptstouse points.|" . number_format($user_class->points) . "|".genBars());
-            print"|$user_class->energy";
-            die();
-        }
+        $user_class->energy = $user_class->maxenergy;
+        $pointsToUse += 10; // 10 points to refill energy
     }
+
+    if ($att === 'awake' || $att === 'both') {
+        if ($user_class->directawake == $user_class->directmaxawake) {
+            die("Your awake is already full.");
+        }
+        $ptsForAwake = 100 - floor(($user_class->directawake / $user_class->directmaxawake) * 100);
+        if ($user_class->points < $ptsForAwake) {
+            die("You do not have enough points to refill your awake.");
+        }
+        $user_class->directawake = $user_class->directmaxawake;
+        $pointsToUse += $ptsForAwake; // Additional points required to refill awake
+    }
+
+    if ($user_class->points < $pointsToUse) {
+        die("You do not have enough points.");
+    }
+
+    // Update the database with the new values
+    $stmt = $pdo->prepare("UPDATE grpgusers SET energy = :energy, awake = :awake, points = points - :pointsToUse WHERE id = :id");
+    $stmt->execute([
+        ':energy' => $user_class->energy,
+        ':awake' => $user_class->directawake,
+        ':pointsToUse' => $pointsToUse,
+        ':id' => $user_class->id
+    ]);
+
+    $user_class->points -= $pointsToUse; // Update points after successful database update
+
+    // Prepare the response
+    $responseMessage = "You have refilled ";
+    if ($att === 'both') {
+        $responseMessage .= "your energy/awake for $pointsToUse points.";
+    } elseif ($att === 'energy') {
+        $responseMessage .= "your energy for 10 points.";
+    } else {
+        $responseMessage .= "your awake for $ptsForAwake points.";
+    }
+
+    $responseMessage .= "|" . number_format($user_class->points) . "|".genBars();
+    $responseMessage .= "|$user_class->energy";
+
+    die($responseMessage);
 }
 ?>
