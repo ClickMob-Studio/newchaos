@@ -49,10 +49,11 @@ if (!$user_class) {
     die();
 }
 
-$db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
-$db->execute(array(
-    $user_class->id
-));
+mysql_query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = " . $user_class->id);
+//$db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
+//$db->execute(array(
+//    $user_class->id
+//));
 
 if ($user_class->jail || $user_class->hospital) {
     echo json_encode(array(
