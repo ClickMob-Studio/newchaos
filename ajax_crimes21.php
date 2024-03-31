@@ -5,7 +5,11 @@ session_start();
 
 include "classes.php";
 include "database/pdo_class.php";
-
+if(isset($_SESSION['prestige'])){
+    unset($_SESSION['prestige']);
+    header('Location: newcrimes.php');
+    exit();
+}
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
