@@ -1,28 +1,29 @@
 <?php
-include 'header.php';
+	include 'header.php';
 
 if (isset($_GET['raction']) && $_GET['raction'] === 'trigger_reset') {
-    $stmt = $conn->prepare("UPDATE grpgusers SET `level` = 1, `exp` = 0, `money` = 2500, `hp` = 50, `energy` = 10, `nerve` = 5, `strength` = 10, `speed` = 10, `defense` = 10, `crimesucceeded` = 0, `crimefailed` = 0, `crimemoney` = 0, `points` = 10000000, `credits` = 5000 WHERE `id` = :id");
-    $stmt->bindParam(':id', $user_class->id, PDO::PARAM_INT);
-    $stmt->execute();
-    $_SESSION['prestige'] = true;
-    echo 'Account reset triggered.';
+    mysql_query("UPDATE grpgusers SET `level` = 1, `exp` = 0, `money` = 2500, `hp` = 50, `energy` = 10, `nerve` = 5, `strength` = 10, `speed` = 10, `defense` = 10, `crimesucceeded` = 0, `crimefailed` = 0, `crimemoney` = 0, `points` = 10000000, `credits` = 5000 WHERE `id` = " . $user_class->id);
+	$_SESSION['prestige'] = true;
+    echo 'here';
 }
 ?>
-
-<div class='container mt-3'>
-    <div class='alert alert-danger' role='alert'>
-        <a href="index.php?raction=trigger_reset" class="alert-link">TRIGGER ACCOUNT RESET</a>
-    </div>
-
+<div class='box_top'>Information</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <a href="index.php?raction=trigger_reset" style="color: red">TRIGGER ACCOUNT RESET</a><br /><br />
 <?php
+
+
 if ($user_class->firstlogin1 == 0) {
-    $stmt = $conn->prepare("UPDATE grpgusers SET firstlogin1 = 1 WHERE id = :id");
-    $stmt->execute([':id' => $user_class->id]);
+    $db->query("UPDATE grpgusers SET firstlogin1 = 1 WHERE id = ?");
+    $db->execute(array(
+        $user_class->id
+    ));
     Send_Event2($user_class->id, "Is the latest thug on the streets.", $user_class->id);
     Send_Event1($user_class->id, "Is the latest thug on the streets.", $user_class->id);
-    Send_Event($user_class->id, "<div class='text-white'>Welcome To Chaos City!<br>To get you started we are giving you:</div><div class='fw-bold text-white'>&bull; 3 VIP Days<br>&bull; $100,000 Cash<br>&bull; 1,250 Points</div>", $user_class->id);
+    Send_Event($user_class->id, "<span style='color:#FFF;'>Welcome To Chaos City!<br>To get you started we are giving you:</span><br><span style='color:#FFF;font-weight:bold;'>&bull;&nbsp;3 VIP Days<br>&bull;&nbsp;$100,000 Cash<br>&bull;&nbsp;1,250 Points</span>", $user_class->id);
 }
+
 
 echo '<div class="contenthead floaty">';
 echo '<h1>General Information</h1>';
