@@ -186,7 +186,7 @@ echo '<div class="star-rating" style="margin-top: 10px;"></div>';
 
         //}
 
-        echo '<button id="acrimebtn2" onblue="finish();" onmouseup="finish();" ontouchend="finish();" onmouseleave="finish();"onmousedown="start();" ontouchstart="start();" onclick="onClick();" style="padding: 1em; margin-bottom:5px;">Do Crimes</button>';
+        echo '<button id="acrimebtn2" onblue="finish();" onmouseup="finish();" ontouchend="finish();" onmouseleave="finish();"onmousedown="start();" ontouchstart="start();" style="padding: 1em; margin-bottom:5px;">Do Crimes</button>';
 
         echo '<br><span style="color:red">Warning: Using the multiplier will increase points consumption considerably!</span>';
 
@@ -211,7 +211,6 @@ echo '</div>';
 var doingcrime = false;
 var id = 0;
 var refresh = 75;
-let clickcount = 0;
 
 
 var submitCrime = function (id, cm=1) {
@@ -219,7 +218,7 @@ var submitCrime = function (id, cm=1) {
     $('#spinner').show();
 
         var request = $.ajax({
-            url: "ajax_crimes21.php",
+            url: "ajax_crimes2.php",
             method: "POST",
             data: { id : id, cm : cm },
             dataType: "json"
@@ -243,7 +242,7 @@ var submitCrime = function (id, cm=1) {
 
             $('.after_title').eq(0).text(res.bars.energy.title)
             $('.after_title').eq(1).text(res.bars.nerve.title)
-            $('.after_title').eq(2).text(res.bars.awake.title + '%')
+            $('.after_title').eq(3).text(res.bars.awake.title + '%')
             $('.after_title').eq(4).text(res.bars.exp.title + '%')
 
             $('.stat_bar').eq(0).width(res.bars.energy.percent + '%')
@@ -279,18 +278,11 @@ $(document).ready(function() {
     // Other JavaScript and jQuery code can follow here
 });
 
-function onClick() {
-    clickcount++;
-}
 
 function start() {
     var id = $('#scrime').val();
     var cm = $('#cm').val();
     doingcrime = true;
-    console.log(clickcount);
-    if (clickcount > 1) {
-        location.reload();
-    }
     var timerId = setInterval(function () {
         if (doingcrime) {
             if (id > 0) {
@@ -359,7 +351,7 @@ $(document).ready(function () {
 
 
 
-fetch('ajax_crimes21.php', {
+fetch('ajax_crimes2.php', {
     method: 'POST', // or 'GET'
     body: JSON.stringify({/* your data here */}),
     headers: {'Content-Type': 'application/json'}
