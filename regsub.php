@@ -84,5 +84,6 @@ $result = mysql_query("INSERT INTO `pms` (id,`to`, `from`, timesent, subject, ms
 header("Location: index.php");
 function error() {
     header("Location: register.php");
+    exit;
 }
 ?>
