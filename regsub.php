@@ -40,6 +40,15 @@ $username = strip_tags($username);
 $username = addslashes($username);
 $q = mysql_query("SELECT id FROM grpgusers WHERE username LIKE '$username' OR loginame LIKE '$username' OR signupip = '$IP' OR ip = '$IP'");
 $r = mysql_fetch_array($q);
+if(empty($email)){
+    error();
+}
+$pattern = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/';
+
+if (!preg_match($pattern, $email)) {
+    error();
+}
+
 if (!empty($r))
     error();
 if ($gender != "Male" && $gender != "Female")
