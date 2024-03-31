@@ -25,3 +25,14 @@ try {
     // Handle connection errors gracefully
     die("Connection failed: " . $e->getMessage());
 }
+
+try {
+    // Create a PDO instance
+    $pdo = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
+
+    // Set PDO to throw exceptions on error
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    // If connection fails, display error message and exit
+    die("Database connection failed: " . $e->getMessage());
+}
