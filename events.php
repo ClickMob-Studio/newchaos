@@ -1,78 +1,78 @@
- <?php
+<?php
 include 'header.php';
 
-$result2 = mysql_query("UPDATE `events` SET `viewed` = '2' WHERE `to`=$user_class->id");
+$result2 = $conn->query("UPDATE `events` SET `viewed` = '2' WHERE `to`={$user_class->id}");
 if (isset($_GET['deleteall']) && $_GET['deleteall'] == 1) {
-    $result = mysql_query("DELETE FROM `events` WHERE `to` = $user_class->id");
+    $result = $conn->query("DELETE FROM `events` WHERE `to` = {$user_class->id}");
     echo Message("All your events have been deleted.");
 }
 if (isset($_GET['delete']) && $_GET['delete'] != "") {
-    $result = mysql_query("DELETE FROM `events` WHERE `id`='{$_GET['delete']}' AND `to` = $user_class->id");
+    $result = $conn->query("DELETE FROM `events` WHERE `id`='{$_GET['delete']}' AND `to` = {$user_class->id}");
     echo Message("You have deleted that event.");
 }
 ?>
  
- <form method="GET" class="d-inline float-right">
+<form method="GET" class="d-inline float-right">
      <input type="text" id="filterInput" placeholder="Search for an Event" name="search" <?php if (isset($_GET['search'])){?>value="<?php echo $_GET['search'] ?>"<?php } ?>>
      <input type="submit" value="Search">
- </form>
+</form>
 
 <hr>
 <div class="contenthead floaty">
 <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<h4>Your Events</h4></span><table id="newtables" style="width:100%; text-align: left;">
+<h4>Your Events</h4></span>
+<table id="newtables" style="width:100%; text-align: left;">
 <tr>
 <th><b>Description</b></th>
-<th><b>Recieved</b></th>
+<th><b>Received</b></th>
 </tr>
-<style type="text/css">
- background-color: #333; /* Dark background */
-    color: white; /* Light text */
-    padding: 20px;
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow at the top */
-    padding: 15px 5px 10px;
-    text-align: center;
-
-}
-</style>
 <?php
-$result      = mysql_query("SELECT COUNT(*) FROM `events` WHERE `to` = $user_class->id");
-$r           = mysql_fetch_row($result);
-$numrows     = $r[0];
+$statement = $conn->prepare("SELECT COUNT(*) FROM `events` WHERE `to` = ?");
+$statement->bind_param("i", $user_class->id);
+$statement->execute();
+$statement->bind_result($numrows);
+$statement->fetch();
+$statement->close();
+
 $rowsperpage = 30;
 $totalpages  = ceil($numrows / $rowsperpage);
 $searchString = null;
+
 if ($totalpages <= 0)
     $totalpages = 1;
 else
     $totalpages = ceil($numrows / $rowsperpage);
+
 if (isset($_GET['page']) && is_numeric($_GET['page']))
     $currentpage = (int) $_GET['page'];
 else
     $currentpage = 1;
+
 if ($currentpage > $totalpages)
     $currentpage = $totalpages;
 if ($currentpage < 1)
     $currentpage = 1;
+
 if (isset($_GET['search']) && $_GET['search'] != ''){
-    $searchString = '%'.$_GET['search'].'%';
+    $searchString = '%' . $_GET['search'] . '%';
 }
+
 $offset = ($currentpage - 1) * $rowsperpage;
+
 if ($searchString == null) {
-    $res = mysql_query("SELECT * from `events` WHERE `to` = $user_class->id ORDER BY `timesent` DESC LIMIT $offset, $rowsperpage");
-
-    // if (!$res = $m->get('events.' . $id . '.' . $offset . '.' . $rowsperpage)) {
-    //     $res = mysql_query("SELECT * from `events` WHERE `to` = $user_class->id ORDER BY `timesent` DESC LIMIT $offset, $rowsperpage");
-    //     $m->set('events.' . $id . '.' . $offset . '.' . $rowsperpage, $res, false, 120);
-    // }
-
+    $statement = $conn->prepare("SELECT * FROM `events` WHERE `to` = ? ORDER BY `timesent` DESC LIMIT ?, ?");
+    $statement->bind_param("iii", $user_class->id, $offset, $rowsperpage);
+    $statement->execute();
 } else {
-    $res = mysql_query("SELECT * from `events` WHERE `to` = $user_class->id AND `text` like '$searchString' ORDER BY `timesent` DESC LIMIT $offset, $rowsperpage");
+    $statement = $conn->prepare("SELECT * FROM `events` WHERE `to` = ? AND `text` like ? ORDER BY `timesent` DESC LIMIT ?, ?");
+    $statement->bind_param("issi", $user_class->id, $searchString, $offset, $rowsperpage);
+    $statement->execute();
 }
-while ($row = mysql_fetch_array($res)) {
-    $text       = str_replace('[-_USERID_-]', formatName($row['extra']), $row['text']);
-    //$text       = str_replace('[-_GANGID_-]', gangName($row['extra']), $text);
+
+$result = $statement->get_result();
+
+while ($row = $result->fetch_assoc()) {
+    $text = str_replace('[-_USERID_-]', formatName($row['extra']), $row['text']);
     echo "<tr><td width='67%'>" . $text . "</td><td width='31%'>" . date("d F Y, g:ia", $row['timesent']) . "</td><td width='2%'><a href='events.php?delete={$row['id']}'><span class='delete'>&nbsp;X&nbsp;</span></a></td></tr>";
 }
 ?>
