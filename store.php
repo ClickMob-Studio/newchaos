@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 ?>
-<div class='box_top'>VIP Store</div>
+<div class='box_top'>Upgrade Store</div>
 						<div class='box_middle'>
 							<div class='pad'>
                                 <?php $result = mysql_query("SELECT * FROM `rmstore` WHERE `limiteditems1` != '9999'");
@@ -28,8 +28,8 @@ if ($user_class->id == 1 || $user_class->id == 2) {
 // Check if the session variable for the last visit time exists and if the current time is at least 10 minutes greater than the last visit time
 if (!isset($_SESSION['exclude_event']) || (isset($_SESSION['last_vipstore_visit']) && (time() - $_SESSION['last_vipstore_visit']) > 600)) {
     // Send the events
-    Send_Event(1, $user_class->formattedname . " loaded the VIP Store.");
-    Send_Event(2, $user_class->formattedname . " loaded the VIP Store.");
+    Send_Event(1, $user_class->formattedname . " loaded the Upgrade Store.");
+    Send_Event(2, $user_class->formattedname . " loaded the Upgrade Store.");
     
     // Update the session variable to the current time to mark the visit
     $_SESSION['last_vipstore_visit'] = time();
@@ -348,7 +348,7 @@ if (isset($_GET['buy'])) {
             $db->execute(array());
             echo Message("You spent 250 GOLD on your Starter Package!");
         } else {
-            echo Message("You don't have enough GOLD. You can buy some at the VIP store.");
+            echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
         }
     }
 
@@ -380,7 +380,7 @@ if ($_GET['buy'] == "limitedpack2") {
             $db->execute(array());
             echo Message("You spent 2500 GOLD on your Semi Points Package.");
         } else {
-            echo Message("You don't have enough GOLD. You can buy some at the VIP store.");
+            echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
         }
     }
 
@@ -556,7 +556,7 @@ if ($_GET['buy'] == "freebie") {
         header("Location: preferences.php");
         exit(); // Ensure no further code is executed after redirect
     } else {
-        echo Message("You don't have enough GOLD. You can buy some at the VIP store.");
+        echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
     }
 }
 
@@ -570,7 +570,7 @@ if ($_GET['buy'] == "freebie") {
             Give_Item(10, $user_class->id);
             echo Message("You spent 50 GOLD for a Double Exp Pill");
         } else {
-            echo Message("You don't have enough GOLD. You can buy some at the VIP store.");
+            echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
         }
     }
     if ($_GET['buy'] == "ip") {
@@ -843,7 +843,7 @@ if ($_GET['buy'] == "MB100") {
             $db->execute(array());
             echo Message("You spent 100 GOLD for a 1 Hour Attack Protection[x5].");
         } else {
-            echo Message("You don't have enough Gold. You can buy some at the VIP store.");
+            echo Message("You don't have enough Gold. You can buy some at the Upgrade Store.");
         }
     }
     if ($_GET['buy'] == "DE") {
