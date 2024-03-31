@@ -943,6 +943,7 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
             $this->maxhp = $this->hp = $this->purehp = $this->puremaxhp = $this->level * 50;
             $this->awake = $this->maxawake;
             $this->exp -= $this->maxexp;
+            $this->maxexp = experience($this->level + 1);
             bloodbath('level', $this->id);
 			
 		
