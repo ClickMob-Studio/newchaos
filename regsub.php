@@ -38,19 +38,33 @@ $username = strip_tags($username);
 $username = addslashes($username);
 $q = mysql_query("SELECT id FROM grpgusers WHERE username LIKE '$username' OR loginame LIKE '$username' OR signupip = '$IP' OR ip = '$IP'");
 $r = mysql_fetch_array($q);
+$er = mysql_query("SELECT id FROM grpgusers WHERE email LIKE '$email'");
+$e = mysql_num_rows($er);
 if(empty($email)){
     error();
 }
 $pattern = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/';
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $_SESSION['failmessage'] = "Invalid email address";
     error();
 }
 
 if (!empty($r))
+$_SESSION['failmessage'] = "This username is already in use";
     error();
-if ($gender != "Male" && $gender != "Female")
+if(strlen($password) < 6){
+    $_SESSION['failmessage'] = "Password must be at least 6 characters";
     error();
+}
+if(strlen($password) > 20){
+    $_SESSION['failmessage'] = "Password must be less than 20 characters";
+    error();
+}
+if($e > 0){
+    $_SESSION['failmessage'] = "This email is already in use";
+    error();
+}
 $pass = sha1($password);
 $aprotection = time() + 86400;
 $activationCode = substr(md5(mt_rand()), 0, 7);
@@ -83,7 +97,7 @@ $msgtext = addslashes($msgtext);
 $result = mysql_query("INSERT INTO `pms` (id,`to`, `from`, timesent, subject, msgtext) VALUES ('', $newid, 1, unix_timestamp(), '$subject', '$msgtext')");
 header("Location: index.php");
 function error() {
-    header("Location: register.php");
+    header("Location: home.php");
     exit;
 }
 ?>
