@@ -519,7 +519,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                         <?php else:?>
                                             <div class="row my-1 g-0">
 											<div class="col-2 d-flex align-items-center"><i class="mx-auto <?php echo $currency['icon']; ?>"></i></div>
-											<div class="col-10 d-flex align-items-center"><?php echo $currency['value']; ?></div>
+											<div class="col-10 d-flex align-items-center <?php echo $key ?>"><?php echo $currency['value']; ?></div>
 										</div>
                                         <?php endif; ?>
 									<?php endforeach; ?>
