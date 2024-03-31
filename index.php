@@ -30,7 +30,7 @@ if($user_class->id == 1){
     <div class="card-header">General Information</div>
     <div class="card-body">
         <table class="table">
-            <!-- Table rows here, updated with Bootstrap classes -->
+            Testing<!-- Table rows here, updated with Bootstrap classes -->
         </table>
     </div>
 </div>
