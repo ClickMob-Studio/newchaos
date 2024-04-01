@@ -6,7 +6,7 @@ $clientIp = $_SERVER['REMOTE_ADDR'];
 
 // Compare the client IP with the target IP
 if ($clientIp != $targetIp) {
-echo "be back soon!";
+echo "<br>be back soon!";
 exit;
 }
 date_default_timezone_set('UTC');
