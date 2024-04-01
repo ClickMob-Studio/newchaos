@@ -4,6 +4,7 @@ session_start();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+echo 'SES: ' . $_SESSION["id"];
 
 // Get the name of the current script and the full request URI to check for specific query parameters
 $current_page = basename($_SERVER['PHP_SELF']); // Gets the name of the current script
