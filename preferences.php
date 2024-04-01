@@ -13,6 +13,7 @@ echo'<div class="floaty">';
             echo'<td><a href="?email">Email Address</a></td>';
             echo'<td><a href="?avatar">Avatar</a></td>';
             echo'<td><a href="?quote">Quote</a></td>';
+            echo'<td><a href="?display">Display</a></td>';
         echo'</tr>';
         echo'<tr style="line-height:25px;">';
             echo'<td><a href="?cpass">Change Password</a></td>';
@@ -352,6 +353,24 @@ if(isset($_GET['username'])){
             echo'<input type="text" value="' . $user_class->quote . '" name="quote" size="75" /> ';
             echo'<input type="submit" value="Change Quote" />';
         echo'</form>';
+    echo'</div>';
+} elseif(isset($_GET['display'])){
+    ?>
+    <p>Would you like to enable/disbale mobile display?</p>
+
+    <?php if ($user_class->is_mobile_disabled > 0): ?>
+        <a href="#" style="font-color: green">Enable</a>
+    <?php else: ?>
+        <a href="#" style="font-color: red;">Disable</a>
+    <?php endif; ?>
+
+
+    <?php
+    echo'<div class="floaty" style="width:80%;">';
+    echo'<form method="post">';
+    echo'<input type="text" value="' . $user_class->quote . '" name="quote" size="75" /> ';
+    echo'<input type="submit" value="Change Quote" />';
+    echo'</form>';
     echo'</div>';
 }elseif(isset($_GET['mobile'])){ 
     if(isset($_COOKIE['useMobileHeader'])){
