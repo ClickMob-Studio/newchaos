@@ -19,9 +19,6 @@ function get_users_online()
     return number_format($rtn);
 }
 
-function security($l){
-    return $l;
-}
 function display_online_staff()
 {
     global $db, $m;
