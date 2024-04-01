@@ -52,15 +52,15 @@ if ($user_class->gang == 0 && $user_class->cur_gangcrime != 0) {
         $user_class->id
     ));
 }
-if (!$m->get('cities')) {
-    $m->set('cities', 'woot', false, 300);
-    $db->query("SELECT * FROM cities");
-    $db->execute();
-    $rows = $db->fetch_row();
-    foreach ($rows as $row) {
-        $m->set('cities.' . $row['id'], false, $row['name']);
-    }
-}
+// if (!$m->get('cities')) {
+//     $m->set('cities', 'woot', false, 300);
+//     $db->query("SELECT * FROM cities");
+//     $db->execute();
+//     $rows = $db->fetch_row();
+//     foreach ($rows as $row) {
+//         $m->set('cities.' . $row['id'], false, $row['name']);
+//     }
+// }
 $m->set('lastpageload.' . $user_class->id, false, time());
 if ($user_class->lastpayment < time() - 86400) {
     $db->query("UPDATE grpgusers SET points = points + 250, lastpayment = unix_timestamp() WHERE id = ?");
