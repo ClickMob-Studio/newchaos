@@ -323,6 +323,22 @@ if (isset($_GET['buy'])) {
     }
 
 
+    if ($_GET['buy'] == "points_one") {
+        $cost = 50;
+        if ($user_class->credits >= $cost) {
+            $newcredit = $user_class->credits -= $cost;
+            $db->query("UPDATE grpgusers SET points = points + 5000, credits = credits - ? WHERE id = ?");
+            $db->execute(array(
+                $cost,
+                $user_class->id
+            ));
+            echo Message("You spent " . $cost . " credits for 5000 Points.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+
 
 
 
