@@ -359,19 +359,14 @@ if(isset($_GET['username'])){
     <p>Would you like to enable/disbale mobile display?</p>
 
     <?php if ($user_class->is_mobile_disabled > 0): ?>
-        <a href="#" style="font-color: green">Enable</a>
+        <a href="#" style="color: green">Enable</a>
     <?php else: ?>
-        <a href="#" style="font-color: red;">Disable</a>
+        <a href="#" style="color: red;">Disable</a>
     <?php endif; ?>
 
 
     <?php
-    echo'<div class="floaty" style="width:80%;">';
-    echo'<form method="post">';
-    echo'<input type="text" value="' . $user_class->quote . '" name="quote" size="75" /> ';
-    echo'<input type="submit" value="Change Quote" />';
-    echo'</form>';
-    echo'</div>';
+
 }elseif(isset($_GET['mobile'])){ 
     if(isset($_COOKIE['useMobileHeader'])){
         setcookie('useMobileHeader', '', time() - 3600, '/'); // Expiration time: 1 hour ago
