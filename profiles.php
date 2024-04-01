@@ -2,11 +2,10 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-if($_SESSION['id'] == 1){
-include 'headernew.php';
-}else{
+
+
 	include 'header.php';
-}
+
 $_GET['id'] = filter_var($_GET['id'], FILTER_VALIDATE_INT);
 
 $profile_class = new User($_GET['id']);
