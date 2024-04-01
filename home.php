@@ -34,7 +34,7 @@ $_SESSION['cap'] = $rand;
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Chaos City - Free text based Mafia Crime MMORPG</title>
       <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-      <meta name="description" content="Chaos CIty is a mafia text based role-playing game with endless opportunities. Besides committing crimes, you can run your own Front and earn lots of money with your business. Being a successful businessman assumes participating in courses, so you could acquire new skills. Do you have what it takes?">
+      <meta name="description" content="Chaos City is a mafia text based role-playing game with endless opportunities. Besides committing crimes, you can run your own Front and earn lots of money with your business. Being a successful businessman assumes participating in courses, so you could acquire new skills. Do you have what it takes?">
       <meta name="keywords" content="mafia, rpg, online, crime, game, hustle, Chaos CIty, mmorpg, pocket mafia, text based, wars, text based rpg">
       <meta property="og:title" content="Chaos CIty - Free text based RPG | Pocket Mafia | Gangster Game">
       <meta property="og:site_name" content="Chaos CIty - Free text based Mafia RPG">

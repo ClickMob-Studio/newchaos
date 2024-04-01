@@ -36,7 +36,6 @@ include 'header.php';
     <h2 class="text-center mb-0" style="color:#7eff11">Valentines Event</h2>
     <h2 class="text-14 m-0">14th - 17th Feb 2023 (Ends 23:59 17th)</h2>
     <p class="text-14">Earn <?php echo item_popup('Heart\'s', 155, '#7eff11') ?> based on your activity level</p>
-        <img src='https://themafialife.com/css/images/NewGameImages/heart.png' width="100px">
     <div style="text-align:left;padding:10px;">
         <p class="text-14"><?php echo item_popup('Heart\'s', 155, '#7eff11') ?> will appear in your inventory and you can share with another player - you will both receive a random reward (same for both).</p>
         <p class="text-14">Possible rewards:

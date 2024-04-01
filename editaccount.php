@@ -39,14 +39,7 @@ if ($user_class->cindays > 0) {
     }
 }
 
-if (($_GET['resendValidation'] == "1") && ($user_class->active != 'yes')) {
-    $vermessage = "Hi ".$user_class->gamename.",\n\nWelcome to WorldOfMobsters.com\n\nPlease click the link below to activate your account\n\n https://www.mafiagangstas.com/verify.php?code=" . $user_class->active . "\n\nOr simply go to https://www.mafiagangstas.com/verify.php and enter the code: ".$user_class->active." \n\n For some tips to get you started check out the tutorial: https://www.mafiagangstas.com/tutorial_new.php\n\n Don't give your password to any other person. The Admins of StreetGangstas will NEVER ask you for your password!\n\n Thank you for playing StreetGangstas and Have Fun in the game! \n\n\nRegards,\nStreetGangstas Staff\nhttps://www.mafiagangstas.com";
-    $title = "WorldOfMobsters.com account activation";
-    mail($user_class->email,$title,$vermessage,"From: StreetGangstas <webmaster@mafiagangstas.com>\r\n");
-    echo Message("Activation e-mail sent!");
-} elseif ($_GET['resendValidation'] == "1") {
-    echo Message("It seems your account is already activated.");
-}
+
 
 if ($_GET['change'] == "yes"){
 	echo Message("Account updated!");
@@ -103,7 +96,7 @@ if ($_POST["tutorialtoggle"] == "1") { $tutorialtoggle = "On"; }
             $result = $mysql->query("UPDATE `grpgusers` SET `email`='".$_POST['email']."', `active`='".$vercode."' WHERE `id`='".$user_class->id."'");
             $user_class->email = $_POST['email'];
             $user_class->active = $vercode;
-            $vermessage = "Hi ".$user_class->gamename.",\n\n You modified the e-mail address for your account on WorldOfMobsters.com therefor you are asked to verify your email. \n\nPlease click the link below to activate your account\n\n https://www.mafiagangstas.com/verify.php?code=" . $vercode . "\n\nOr simply go to https://www.mafiagangstas.com/verify.php and enter the code: ".$vercode." \n\n Thank you for playing StreetGangstas! \n\n\nRegards,\nStreetGangstas Staff\nhttps://www.mafiagangstas.com";
+          //  $vermessage = "Hi ".$user_class->gamename.",\n\n You modified the e-mail address for your account on WorldOfMobsters.com therefor you are asked to verify your email. \n\nPlease click the link below to activate your account\n\n https://www.mafiagangstas.com/verify.php?code=" . $vercode . "\n\nOr simply go to https://www.mafiagangstas.com/verify.php and enter the code: ".$vercode." \n\n Thank you for playing StreetGangstas! \n\n\nRegards,\nStreetGangstas Staff\nhttps://www.mafiagangstas.com";
             $title = "WorldOfMobsters.com e-mail change";
             mail($_POST['email'],$title,$vermessage,"From: World Of Mobsters <webmaster@worldofmobsters.com>\r\n");
             $resultmessage .= "E-mail changed. Activation e-mail sent to the new address.<br>";

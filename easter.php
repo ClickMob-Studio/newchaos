@@ -34,7 +34,7 @@ include 'header.php';
     <h2 class="text-center mb-0" style="color:#7eff11">The Easter Bunny Event</h2>
     <h2 class="text-14 m-0">14th - 30th April 2022 (Ends 23:59 30th)</h2>
     <p class="text-14">Earn <?php echo item_popup('Easter Eggs', 157, '#7eff11') ?> based on your activity level</p>
-        <img src='https://themafialife.com/css/newgame/items/easteregg.png' width="100px">
+       
     <div style="text-align:left;padding:10px;">
         <p class="text-14"><?php echo item_popup('Easter Eggs', 157, '#7eff11') ?> will appear in your inventory and you can share with another player - you will both receive a random reward (same for both).</p>
         <p class="text-14">Possible rewards:

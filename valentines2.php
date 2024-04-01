@@ -13,7 +13,7 @@ if(isset($_POST['resetexp'])) {
     <h2 class="text-center mb-0" style="color:#7eff11">Valentines Day Event</h2>
     <h2 class="text-14 m-0">4th - 15th Feb 2022 (Ends 23:59 15th)</h2>
     <p class="text-14">Earn <?php echo item_popup('Heart\'s', 155, '#7eff11') ?> based on your activity level</p>
-        <img src='https://themafialife.com/css/newgame/items//heart.png' width="100px">
+
     <div style="text-align:left;padding:10px;">
         <p class="text-14"><?php echo item_popup('Heart\'s', 155, '#7eff11') ?> will appear in your inventory and you can share with another player - you will both receive a random reward (same for both).</p>
         <p class="text-14">Possible rewards:
