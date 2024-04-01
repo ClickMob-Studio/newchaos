@@ -7,8 +7,7 @@ include 'headernew.php';
 }else{
 	include 'header.php';
 }
-
-security($_GET['id']);
+$_GET['id'] = filter_var($_GET['id'], FILTER_VALIDATE_INT);
 
 $profile_class = new User($_GET['id']);
 
