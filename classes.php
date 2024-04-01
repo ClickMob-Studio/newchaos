@@ -253,8 +253,6 @@ class User {
 			$id
 		));
 		$worked = $db->fetch_row(true);
-        echo ' - worked - ';
-        var_dump($worked);
 
         if (empty($worked))
             return;
