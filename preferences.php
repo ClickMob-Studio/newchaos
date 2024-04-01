@@ -355,8 +355,18 @@ if(isset($_GET['username'])){
         echo'</form>';
     echo'</div>';
 } elseif(isset($_GET['display'])){
+
+    if (isset($_GET['display_s']) && $_GET['display_s'] === 'switch') {
+        if ($user_class->is_mobile_disabled > 0) {
+            mysql_query("UPDATE grpgusers SET is_mobile_disabled = 0 WHERE id = " . $user_class->id);
+        } else {
+            mysql_query("UPDATE grpgusers SET is_mobile_disabled = 1 WHERE id = " . $user_class->id);
+        }
+
+        header('Location: preferences.php');
+    }
     ?>
-    <p>Would you like to enable/disbale mobile display?</p>
+    <p>Would you like to enable/disable mobile display?</p>
 
     <?php if ($user_class->is_mobile_disabled > 0): ?>
         <a href="#" style="color: green">Enable</a>
