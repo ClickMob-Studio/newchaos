@@ -323,43 +323,149 @@ if (isset($_GET['buy'])) {
     }
 
 
+    if ($_GET['buy'] == "points_one") {
+        $cost = 50;
+        if ($user_class->credits >= $cost) {
+            $newcredit = $user_class->credits -= $cost;
+            $db->query("UPDATE grpgusers SET points = points + 5000, credits = credits - ? WHERE id = ?");
+            $db->execute(array(
+                $cost,
+                $user_class->id
+            ));
+            echo Message("You spent " . $cost . " credits for 5000 Points.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+    if ($_GET['buy'] == "points_two") {
+        $cost = 100;
+        if ($user_class->credits >= $cost) {
+            $newcredit = $user_class->credits -= $cost;
+            $db->query("UPDATE grpgusers SET points = points + 10000, credits = credits - ? WHERE id = ?");
+            $db->execute(array(
+                $cost,
+                $user_class->id
+            ));
+            echo Message("You spent " . $cost . " credits for 10000 Points.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+    if ($_GET['buy'] == "points_three") {
+        $cost = 200;
+        if ($user_class->credits >= $cost) {
+            $newcredit = $user_class->credits -= $cost;
+            $db->query("UPDATE grpgusers SET points = points + 25000, credits = credits - ? WHERE id = ?");
+            $db->execute(array(
+                $cost,
+                $user_class->id
+            ));
+            echo Message("You spent " . $cost . " credits for 25000 Points.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+    if ($_GET['buy'] == "points_four") {
+        $cost = 370;
+        if ($user_class->credits >= $cost) {
+            $newcredit = $user_class->credits -= $cost;
+            $db->query("UPDATE grpgusers SET points = points + 50000, credits = credits - ? WHERE id = ?");
+            $db->execute(array(
+                $cost,
+                $user_class->id
+            ));
+            echo Message("You spent " . $cost . " credits for 50000 Points.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+    if ($_GET['buy'] == "points_five") {
+        $cost = 1000;
+        if ($user_class->credits >= $cost) {
+            $newcredit = $user_class->credits -= $cost;
+            $db->query("UPDATE grpgusers SET points = points + 175000, credits = credits - ? WHERE id = ?");
+            $db->execute(array(
+                $cost,
+                $user_class->id
+            ));
+            echo Message("You spent " . $cost . " credits for 175000 Points.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+    if ($_GET['buy'] == "points_six") {
+        $cost = 2500;
+        if ($user_class->credits >= $cost) {
+            $newcredit = $user_class->credits -= $cost;
+            $db->query("UPDATE grpgusers SET points = points + 500000, credits = credits - ? WHERE id = ?");
+            $db->execute(array(
+                $cost,
+                $user_class->id
+            ));
+            echo Message("You spent " . $cost . " credits for 500000 Points.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+    if ($_GET['buy'] == "points_seven") {
+        $cost = 3250;
+        if ($user_class->credits >= $cost) {
+            $newcredit = $user_class->credits -= $cost;
+            $db->query("UPDATE grpgusers SET points = points + 750000, credits = credits - ? WHERE id = ?");
+            $db->execute(array(
+                $cost,
+                $user_class->id
+            ));
+            echo Message("You spent " . $cost . " credits for 750000 Points.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+
 
 
 
 if ($_GET['buy'] == "vip7") {
-        if ($user_class->credits >= 50) {
-            $newcredit = $user_class->credits -= 50;
-            $db->query("UPDATE grpgusers SET rmdays = rmdays + 7, credits = credits - 50 WHERE id = ?");
+        if ($user_class->credits >= 3) {
+            $newcredit = $user_class->credits -= 3;
+            $db->query("UPDATE grpgusers SET rmdays = rmdays + 7, credits = credits - 3 WHERE id = ?");
             $db->execute(array(
                 $user_class->id
             ));
-            echo Message("You spent 50 GOLD for 7 VIP Days.");
+            echo Message("You spent 3 credits for 7 VIP Days.");
         } else {
-            echo Message("You don't have enough GOLD. You can buy some at the upgrade store.");
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
     }
      if ($_GET['buy'] == "vip15") {
-        if ($user_class->credits >= 100) {
-            $newcredit = $user_class->credits -= 100;
-            $db->query("UPDATE grpgusers SET rmdays = rmdays + 15, credits = credits - 100 WHERE id = ?");
+        if ($user_class->credits >= 5) {
+            $newcredit = $user_class->credits -= 5;
+            $db->query("UPDATE grpgusers SET rmdays = rmdays + 15, credits = credits - 5 WHERE id = ?");
             $db->execute(array(
                 $user_class->id
             ));
-            echo Message("You spent 100 GOLD for 15 VIP Days.");
+            echo Message("You spent 5 credits for 15 VIP Days.");
         } else {
-            echo Message("You don't have enough GOLD. You can buy some at the upgrade store.");
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
     }
      if ($_GET['buy'] == "vip30") {
-        if ($user_class->credits >= 150) {
-            $newcredit = $user_class->credits -= 150;
-            $db->query("UPDATE grpgusers SET rmdays = rmdays + 30, credits = credits - 150 WHERE id = ?");
+        if ($user_class->credits >= 8) {
+            $newcredit = $user_class->credits -= 8;
+            $db->query("UPDATE grpgusers SET rmdays = rmdays + 30, credits = credits - 8 WHERE id = ?");
             $db->execute(array(
                 $user_class->id
             ));
-            echo Message("You spent 150 GOLD for 30 VIP Days.");
+            echo Message("You spent 8 credits for 30 VIP Days.");
         } else {
-            echo Message("You don't have enough GOLD. You can buy some at the upgrade store.");
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
     }
 
@@ -957,7 +1063,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
                 <div class="new-shop-item--price">
                     <img src="css/images/coin.png">
-                    <span>180</span>
+                    <span>100</span>
                 </div>
                 <div class="new-shop-item--buy">
                     <a class="cta" href="?buy=points_two">[Buy Now]</a>
@@ -969,7 +1075,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
                 <div class="new-shop-item--price">
                     <img src="css/images/coin.png">
-                    <span>300</span>
+                    <span>200</span>
                 </div>
                 <div class="new-shop-item--buy">
                     <a class="cta" href="?buy=points_three">[Buy Now]</a>
@@ -1079,7 +1185,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <h4 style="color: brown;">7 Day VIP</h4>
             <img src="/css/images/NewGameImages/vipdays.png" class="your-class-name" alt="Mug Protection">
             
-            <h4>Purchase now for only<br><a href="store.php?buy=vip7"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+            <h4>Purchase now for only<br><a href="store.php?buy=vip7"><button class="gold-button">3 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
 
         <!-- Limited Edition Pack 2 -->
@@ -1087,7 +1193,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <h4 style="color: silver;">15 Day VIP</h4>
             <img src="/css/images/NewGameImages/vipdays.png" class="your-class-name" alt="Double Exp">
             
-            <h4>Purchase now for only<br><a href="store.php?buy=vip15"><button class="gold-button">100 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+            <h4>Purchase now for only<br><a href="store.php?buy=vip15"><button class="gold-button">5 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
 
         <!-- Limited Edition Pack 3 -->
@@ -1095,7 +1201,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <h4 style="color: gold;">30 Day VIP</h4>
             <img src="/css/images/NewGameImages/vipdays.png" class="your-class-name" alt="Attack Protection">
            
-            <h4>Purchase now for only<br><a href="store.php?buy=vip30"><button class="gold-button">150 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+            <h4>Purchase now for only<br><a href="store.php?buy=vip30"><button class="gold-button">8 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
 
     </div>
