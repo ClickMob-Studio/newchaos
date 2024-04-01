@@ -363,7 +363,7 @@ if(isset($_GET['username'])){
             mysql_query("UPDATE grpgusers SET is_mobile_disabled = 1 WHERE id = " . $user_class->id);
         }
 
-        header('Location: preferences.php');
+        header('Location: preferences.php?display');
     }
     ?>
     <p>Would you like to enable/disable mobile display?</p>
