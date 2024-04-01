@@ -945,10 +945,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
                 <div class="new-shop-item--price">
                     <img src="css/images/coin.png">
-                    <span>100</span>
+                    <span>50</span>
                 </div>
                 <div class="new-shop-item--buy">
-                    <a class="cta" href="?buy=1000">[Buy Now]</a>
+                    <a class="cta" href="?buy=points_one">[Buy Now]</a>
                 </div>
             </div>
             <div class="new-shop-item" data-tooltip="10,000 points added to your account">
@@ -960,7 +960,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <span>180</span>
                 </div>
                 <div class="new-shop-item--buy">
-                    <a class="cta" href="?buy=3500">[Buy Now]</a>
+                    <a class="cta" href="?buy=points_two">[Buy Now]</a>
                 </div>
             </div>
             <div class="new-shop-item" data-tooltip="25,000 points added to your account">
@@ -969,10 +969,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
                 <div class="new-shop-item--price">
                     <img src="css/images/coin.png">
-                    <span>340</span>
+                    <span>300</span>
                 </div>
                 <div class="new-shop-item--buy">
-                    <a class="cta" href="?buy=12000">[Buy Now]</a>
+                    <a class="cta" href="?buy=points_three">[Buy Now]</a>
                 </div>
             </div>
             <div class="new-shop-item" data-tooltip="50,000 points added to your account">
@@ -981,10 +981,46 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
                 <div class="new-shop-item--price">
                     <img src="css/images/coin.png">
-                    <span>650</span>
+                    <span>370</span>
                 </div>
                 <div class="new-shop-item--buy">
-                    <a class="cta" href="?buy=35000">[Buy Now]</a>
+                    <a class="cta" href="?buy=points_four">[Buy Now]</a>
+                </div>
+            </div>
+            <div class="new-shop-item" data-tooltip="175,000 points added to your account">
+                <div class="new-shop-item--img">
+                    <h5>175,000 Points</h5>
+                </div>
+                <div class="new-shop-item--price">
+                    <img src="css/images/coin.png">
+                    <span>1000</span>
+                </div>
+                <div class="new-shop-item--buy">
+                    <a class="cta" href="?buy=points_five">[Buy Now]</a>
+                </div>
+            </div>
+            <div class="new-shop-item" data-tooltip="500,000 points added to your account">
+                <div class="new-shop-item--img">
+                    <h5>500,000 Points</h5>
+                </div>
+                <div class="new-shop-item--price">
+                    <img src="css/images/coin.png">
+                    <span>2500</span>
+                </div>
+                <div class="new-shop-item--buy">
+                    <a class="cta" href="?buy=points_six">[Buy Now]</a>
+                </div>
+            </div>
+            <div class="new-shop-item" data-tooltip="750,000 points added to your account">
+                <div class="new-shop-item--img">
+                    <h5>750,000 Points</h5>
+                </div>
+                <div class="new-shop-item--price">
+                    <img src="css/images/coin.png">
+                    <span>3250</span>
+                </div>
+                <div class="new-shop-item--buy">
+                    <a class="cta" href="?buy=points_seven">[Buy Now]</a>
                 </div>
             </div>
 
@@ -992,7 +1028,6 @@ document.addEventListener("DOMContentLoaded", function() {
         </div>
     </div>
 <br />
-<hr />
 
 
 <div class="floaty" style="margin: 3px;">
