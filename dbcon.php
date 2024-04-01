@@ -1,6 +1,6 @@
 <?php
 $targetIp = '154.47.113.178';
-
+echo $_SERVER['REMOTE_ADDR'];
 // Retrieve the IP address of the client
 $clientIp = $_SERVER['REMOTE_ADDR'];
 
