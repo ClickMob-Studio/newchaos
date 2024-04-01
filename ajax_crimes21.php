@@ -104,7 +104,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $ftext = 'You failed to ' . $name;
     $chance = rand(0, 100);
     $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
-    $exp = ((10 * $nerve) + 2 * ($nerve - 1));
+    $exp = ((10 * $nerve) + 8 * ($nerve - 1));
     
  // Fetch the crime count and determine the star level
 $db->query("SELECT `count` FROM crimeranks WHERE userid = ? AND crimeid = ?");
@@ -133,7 +133,7 @@ if ($crimeCount >= 10000 && $crimeCount < 100000) {
 }
 
 // Initial experience calculation
-    $exp = ((10 * $nerve) + 2 * ($nerve - 1));
+    $exp = ((10 * $nerve) + 8 * ($nerve - 1));
 
 // Apply 10% bonus experience per star level
 $bonus_exp_per_star_level = 0.10; // 10% bonus per star level

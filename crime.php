@@ -180,7 +180,7 @@ if (!empty($_GET['action']) && $_GET['action'] == 'crime') {
 
     // Calculate money and experience gains
     $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
-    $exp = ((10 * $nerve) + 2 * ($nerve - 1));
+    $exp = ((10 * $nerve) + 8 * ($nerve - 1));
 
     // Handle bonuses
     if ($user_class->exppill >= time()) {
