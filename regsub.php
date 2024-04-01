@@ -61,6 +61,7 @@ $stmt->execute([$IP, $username, $username, $hashedPassword, $email, $gender]);
 $newid = $pdo->lastInsertId();
 mysql_query("INSERT INTO referrals (`when`, referrer, referred) VALUES (unix_timestamp(), {$_POST['referer']}, $newid)");
 mysql_query("INSERT INTO sessions VALUES($newid, '{$_COOKIE['PHPSESSID']}', 'emptyfornow')");
+mysql_query("INSERT INTO ofthes (userid)VALUES($newid)");
 
 // Redirect upon successful registration
 $_SESSION['id'] = $pdo->lastInsertId();
