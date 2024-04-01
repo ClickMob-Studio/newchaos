@@ -1,5 +1,5 @@
 <?php
-
+exit;
 date_default_timezone_set('UTC');
 $conn = mysql_connect("localhost", "chaoscity_co", '3lrKBlrfMGl2ic14') or die("<b>SQL ERROR:&nbsp;</b>" . mysql_error());
 $db = mysql_select_db("game");
