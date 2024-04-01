@@ -944,14 +944,14 @@ if ($user_class->donate_token > 0) {
 }
 
 // Display information
-echo '<center><font size="3px" color="white">$1 = <img src="https://chaoscity.co.uk/imageicons/goldbar.png"></img><font color=red><b>10</font></center>';
-echo '<center><font color=white>Your GOLD balance is:</font> <span style="color:red;font-weight:bold;"><img src="https://chaoscity.co.uk/imageicons/goldbar.png"></img>' . $user_class->credits . ' </size></center></span><br />';
+echo '<center><font size="3px" color="white">$1 = <img src="https://chaoscity.co.uk/goldbar.png"></img><font color=red><b>10</font></center>';
+echo '<center><font color=white>Your GOLD balance is:</font> <span style="color:red;font-weight:bold;"><img src="https://chaoscity.co.uk/goldbar.png"></img>' . $user_class->credits . ' </size></center></span><br />';
 
 echo '<center>';
 ?>
 <span id="creditDisplay">
     <font color='white'>For a donation of $<span id="donationAmount">0</span>, you will receive 
-    <font color=red><b id="creditsAmount">0</b></font> <img src="https://chaoscity.co.uk/imageicons/goldbar.png"></img>
+    <font color=red><b id="creditsAmount">0</b></font> <img src="https://chaoscity.co.uk/goldbar.png"></img>
     </font>
 </span>
 
@@ -1039,7 +1039,7 @@ document.addEventListener("DOMContentLoaded", function() {
                               <b><span style="color:orange"><?php echo'' . $user_class->limiteditems1 . '' ?> / 50 Remaining</span></b>
             </ul>
 
-            <h4>Purchase now for only<br><a href="store.php?buy=limitedpack"><button class="gold-button"><img src="https://chaoscity.co.uk/imageicons/goldbar.png"></img>250</button></a></h4>
+            <h4>Purchase now for only<br><a href="store.php?buy=limitedpack"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"></img>250</button></a></h4>
         </div>
         
         <!-- Limited Edition Pack 2 -->
@@ -1051,7 +1051,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                   <b><span style="color:orange"><?php echo'' . $user_class->limiteditems2 . '' ?> / 10 Remaining</span></b>
             </ul>
-            <h4>Purchase now for only<br><a href="store.php?buy=limitedpack2"><button class="gold-button"><img src="https://chaoscity.co.uk/imageicons/goldbar.png"></img>2,500</button></a></h4>
+            <h4>Purchase now for only<br><a href="store.php?buy=limitedpack2"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"></img>2,500</button></a></h4>
         </div>
         
         <!-- Limited Edition Pack 3 -->
@@ -1063,7 +1063,7 @@ document.addEventListener("DOMContentLoaded", function() {
                
                 <b><span style="color:orange"><?php echo'' . $user_class->limiteditems3 . '' ?> / 5 Remaining</span></b>
             </ul>
-            <h4>Purchase now for only<br><a href="store.php?buy=limitedpack3"><button class="gold-button"><img src="https://chaoscity.co.uk/imageicons/goldbar.png"></img>25,000</button></a></h4>
+            <h4>Purchase now for only<br><a href="store.php?buy=limitedpack3"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"></img>25,000</button></a></h4>
         </div>
     </div>
 </div>
@@ -1081,7 +1081,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <ul>
                 <li>[x5] 1 Hour Mug Protection</li>
             </ul>
-            <h4>Purchase now for only<br><a href="store.php?buy=MP5"><button class="gold-button"><img src="https://chaoscity.co.uk/imageicons/goldbar.png"></img>100</button></a></h4>
+            <h4>Purchase now for only<br><a href="store.php?buy=MP5"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"></img>100</button></a></h4>
         </div>
 
         <!-- Limited Edition Pack 2 -->
@@ -1091,7 +1091,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <ul>
                 <li>1 Hour Double EXP Pill</li>
             </ul>
-            <h4>Purchase now for only<br><a href="store.php?buy=doubleexp"><button class="gold-button"><img src="https://chaoscity.co.uk/imageicons/goldbar.png"></img>50</button></a></h4>
+            <h4>Purchase now for only<br><a href="store.php?buy=doubleexp"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"></img>50</button></a></h4>
         </div>
 
         <!-- Limited Edition Pack 3 -->
@@ -1101,7 +1101,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <ul>
                 <li>[x5] 1 Hour Attack Protection</li>
             </ul>
-            <h4>Purchase now for only<br><a href="store.php?buy=AP5"><button class="gold-button"><img src="https://chaoscity.co.uk/imageicons/goldbar.png"></img>100</button></a></h4>
+            <h4>Purchase now for only<br><a href="store.php?buy=AP5"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"></img>100</button></a></h4>
         </div>
 
     </div>
@@ -1118,7 +1118,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <h4 style="color: brown;">7 Day VIP</h4>
             <img src="/css/images/NewGameImages/vipdays.png" class="your-class-name" alt="Mug Protection">
             
-            <h4>Purchase now for only<br><a href="store.php?buy=vip7"><button class="gold-button">50 <img src="https://chaoscity.co.uk/imageicons/goldbar.png" alt="Gold bar"></button></a></h4>
+            <h4>Purchase now for only<br><a href="store.php?buy=vip7"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
 
         <!-- Limited Edition Pack 2 -->
@@ -1126,7 +1126,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <h4 style="color: silver;">15 Day VIP</h4>
             <img src="/css/images/NewGameImages/vipdays.png" class="your-class-name" alt="Double Exp">
             
-            <h4>Purchase now for only<br><a href="store.php?buy=vip15"><button class="gold-button">100 <img src="https://chaoscity.co.uk/imageicons/goldbar.png" alt="Gold bar"></button></a></h4>
+            <h4>Purchase now for only<br><a href="store.php?buy=vip15"><button class="gold-button">100 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
 
         <!-- Limited Edition Pack 3 -->
@@ -1134,7 +1134,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <h4 style="color: gold;">30 Day VIP</h4>
             <img src="/css/images/NewGameImages/vipdays.png" class="your-class-name" alt="Attack Protection">
            
-            <h4>Purchase now for only<br><a href="store.php?buy=vip30"><button class="gold-button">150 <img src="https://chaoscity.co.uk/imageicons/goldbar.png" alt="Gold bar"></button></a></h4>
+            <h4>Purchase now for only<br><a href="store.php?buy=vip30"><button class="gold-button">150 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
 
     </div>
@@ -1150,7 +1150,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <td style="text-align: center;">
                
                   <h4>Example</h4> <h4 class="gradient-text">Gradient NAME</h4>
-                                    <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/imageicons/goldbar.png"></img> 50</font></h4>
+                                    <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img> 50</font></h4>
                
             </td>
         </tr>
