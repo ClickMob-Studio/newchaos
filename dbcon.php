@@ -1,5 +1,4 @@
 <?php
-session_start();
 $targetIp = '2a0e:1d47:8e88:f400:15a1:1524:b264:d9ae';
 echo $_SERVER['REMOTE_ADDR'];
 // Retrieve the IP address of the client
