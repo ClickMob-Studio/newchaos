@@ -54,7 +54,7 @@ if ($user_class->relationship == 0 || $user_class->relplayer == 0) {
 		echo '<hr />';
 		echo '<br />';
 		if ($user_class->house_shared) {
-			echo 'You and ' . formatName($user_class->relplayer) . ' both own the same house, therefore you get a 5% awake bonus.';
+			echo 'You and ' . formatName($user_class->relplayer) . ' both own the same house, therefore you get a 20% awake bonus.';
 		} elseif (strpos($user_class->housename, 'Living') !== false) {
 			echo 'You are living in ' . formatName($user_class->relplayer) . '\'s house.';
 		} elseif ($user_class->house > 0) {
