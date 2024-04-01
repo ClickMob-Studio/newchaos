@@ -1,13 +1,8 @@
 <?php
 include 'header.php'; // Make sure this file contains the database connection $conn
 ?>
-	
-	<div class='box_top'>Crafter</div>
-						<div class='box_middle'>
-							<div class='pad'>
-								<?php
-
-
+<h1>Crafter</h1>
+<?php
 // Function to retrieve item details from the database
 function getItemDetails($itemId) {
     $query = "SELECT itemname, image FROM items WHERE id = $itemId";
@@ -39,44 +34,12 @@ function handleTrade($tradeId) {
     global $user_class; // Ensure that $user_class is accessible in this scope
     $userId = $user_class->id; // Fetch the user ID from the user_class object
 
-
-     // Check for an active cooldown in the crafter_cooldown table
-  //  $currentTimestamp = time(); // Current timestamp in seconds
-  //  $cooldownQuery = "SELECT timestamp FROM crafter_cooldown WHERE user_id = //$userId";
-  //  $cooldownResult = mysql_query($cooldownQuery);
-  //  if ($cooldownRow = mysql_fetch_assoc($cooldownResult)) {
-   //     $cooldownTimestamp = strtotime($cooldownRow['timestamp']); // Convert //timestamp from database to seconds
-     //   $remainingTime = $cooldownTimestamp - $currentTimestamp;
-
-      //  if ($remainingTime > 0) {
-            // User has an active cooldown, return a message indicating //remaining cooldown time
-       //     $minutes = floor($remainingTime / 60);
-     //       $seconds = $remainingTime % 60;
-   //         return "You cannot currently trade! Time remaining: $minutes minutes //$seconds seconds";
-  //      }
-//    }
-
  // Fetch trade details
     $tradeQuery = "SELECT * FROM trades WHERE id = $tradeId";
     $tradeResult = mysql_query($tradeQuery);
     if (!$tradeResult || mysql_num_rows($tradeResult) == 0) {
         return "Invalid trade.";
-    }
-  //  $cooldownQuery = "SELECT * FROM crafter_cooldown WHERE user_id = $userId //AND NOW() > timestamp";
- //   $cooldownResult = mysql_query($cooldownQuery);
-    
-    // Check if the query was successful
- //   if (mysql_num_rows($cooldownResult)) {
-        // Check if there are no rows returned, meaning there's no cooldown record for the user or the cooldown has expired
- //       if (mysql_num_rows($cooldownResult) < 1) {
-            
-            // There is a cooldown record for the user and the current time is before the cooldown expiration
-            // You can return the message if you want, or execute other actions
-  //          return "You cannot currently trade!";
-   //     }
- //   } 
-    
-    
+    }    
     $trade = mysql_fetch_assoc($tradeResult);
 
     // List to hold items that the user lacks
@@ -103,18 +66,6 @@ function handleTrade($tradeId) {
     $userId = mysql_real_escape_string($userId); // Assuming $conn is your MySQL connection
     $timestampOneHourAhead = date('Y-m-d H:i:s', strtotime('+1 hour'));
     
-    // Check if the record already exists for the user ID
-//    $checkQuery = "SELECT * FROM crafter_cooldown WHERE user_id = $userId";
-//    $checkResult = mysql_query($checkQuery);
-//    if (mysql_num_rows($checkResult) > 0) {
-//        // Update the existing record
-//        $updateQuery = "UPDATE crafter_cooldown SET timestamp = //'$timestampOneHourAhead' WHERE user_id = $userId";
- //       $updateResult = mysql_query($updateQuery);
- //   } else {
-//        // Insert a new record
-//        $insertQuery = "INSERT INTO crafter_cooldown (user_id, timestamp) //VALUES ($userId, '$timestampOneHourAhead')";
-//        $insertResult = mysql_query($insertQuery);
-//    }
     
      // Deduct required items from user's inventory and remove if quantity becomes 0
     for ($i = 1; $i <= 6; $i++) {
@@ -211,7 +162,7 @@ function displayTradeTile($trade) {
                 echo "<div class='item-details'>";
                 echo "<span class='item-name'>" . htmlspecialchars($item['itemname']) . "</span>";
                 echo "<span class='item-requirement'>You Require:<font color=orange><b> " . $trade["item{$i}quantity"] . "</b></font><br></span>";
-                echo "<span class='user-quantity'>You have:<font color=black><b> " . $userQuantity . "</b></font></span>";
+                echo "<span class='user-quantity'>You have:<b style='color:black'> " . $userQuantity . "</b></span>";
                 echo "</div>"; // Close item-details
                 echo "</div>"; // Close trade-item
             }
@@ -479,5 +430,4 @@ if ($message) echo "<p class='trade-message'>$message</p>"; ?>
     ?>
 </div>
 
-</body>
-</html>
+<?php require "footer.php"; ?>
