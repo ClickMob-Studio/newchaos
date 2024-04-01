@@ -1,5 +1,8 @@
 <?php
 
+if($_GET['key'] != 'cron94'){
+  die();
+}
 include_once 'dbcon.php';
 include_once 'classes.php';
 include 'database/pdo_class.php';

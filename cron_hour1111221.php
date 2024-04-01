@@ -1,6 +1,9 @@
 #! /usr/bin/php
 <?php
 
+if($_GET['key'] != 'cron94'){
+    die();
+}
 include 'dbcon.php';
 
 // $link = mysql_connect('127.0.0.1', 'aa_user', 'GmUq38&SVccVSpt');

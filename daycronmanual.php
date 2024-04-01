@@ -1,6 +1,10 @@
 <?php
 #chdir("/var/www/html");
 
+if($_GET['key'] != 'cron94'){
+    die();
+}
+
 #(PHP_SAPI !== 'cli' || isset($_SERVER['HTTP_USER_AGENT'])) && die('Manual');
 
 include("dbcon.php");
