@@ -1,4 +1,9 @@
 <?php
+
+$targetips = array(
+    '2a0e:1d47:8e88:f400:15a1:1524:b264:d9ae',
+    '82.30.147.11'
+);
 $targetIp = '2a0e:1d47:8e88:f400:15a1:1524:b264:d9ae';
 $targetIp2 = '82.30.147.11';
 echo $_SERVER['REMOTE_ADDR'];
@@ -6,7 +11,7 @@ echo $_SERVER['REMOTE_ADDR'];
 $clientIp = $_SERVER['REMOTE_ADDR'];
 
 // Compare the client IP with the target IP
-if ($clientIp != $targetIp && $clientIp != $targetIp2) {
+if (!in_array($clientIp,$targetips)) {
 echo "<br>be back soon!";
 exit;
 }
