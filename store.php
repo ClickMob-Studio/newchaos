@@ -935,6 +935,65 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 <br><br>
 
+    <div class="floaty" style="margin:3px;">
+        <h4 class="section-title">Point Packs</h4>
+        <hr>
+        <div class="section-items">
+            <div class="new-shop-item" data-tooltip="5,000 points added to your account">
+                <div class="new-shop-item--img">
+                    <h5>5,000 Points</h5>
+                </div>
+                <div class="new-shop-item--price">
+                    <img src="css/images/coin.png">
+                    <span>100</span>
+                </div>
+                <div class="new-shop-item--buy">
+                    <a class="cta" href="?buy=1000">[Buy Now]</a>
+                </div>
+            </div>
+            <div class="new-shop-item" data-tooltip="10,000 points added to your account">
+                <div class="new-shop-item--img">
+                    <h5>10,000 Points</h5>
+                </div>
+                <div class="new-shop-item--price">
+                    <img src="css/images/coin.png">
+                    <span>180</span>
+                </div>
+                <div class="new-shop-item--buy">
+                    <a class="cta" href="?buy=3500">[Buy Now]</a>
+                </div>
+            </div>
+            <div class="new-shop-item" data-tooltip="25,000 points added to your account">
+                <div class="new-shop-item--img">
+                    <h5>25,000 Points</h5>
+                </div>
+                <div class="new-shop-item--price">
+                    <img src="css/images/coin.png">
+                    <span>340</span>
+                </div>
+                <div class="new-shop-item--buy">
+                    <a class="cta" href="?buy=12000">[Buy Now]</a>
+                </div>
+            </div>
+            <div class="new-shop-item" data-tooltip="50,000 points added to your account">
+                <div class="new-shop-item--img">
+                    <h5>50,000 Points</h5>
+                </div>
+                <div class="new-shop-item--price">
+                    <img src="css/images/coin.png">
+                    <span>650</span>
+                </div>
+                <div class="new-shop-item--buy">
+                    <a class="cta" href="?buy=35000">[Buy Now]</a>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+<br />
+<hr />
+
 
 <div class="floaty" style="margin: 3px;">
     <h4>Protection</h4>
@@ -1184,62 +1243,6 @@ document.addEventListener("DOMContentLoaded", function() {
 <!-- <h3 class="section-header">Packages</h3> -->
 
 <br>
-    <div class="floaty" style="margin:3px;">
-    <h4 class="section-title">Point Packs</h4>
-    <hr>
-    <div class="section-items">
-        <div class="new-shop-item" data-tooltip="5,000 points added to your account">
-            <div class="new-shop-item--img">
-                <h5>5,000 Points</h5>
-            </div>
-            <div class="new-shop-item--price">
-                <img src="css/images/coin.png">
-                <span>100</span>
-            </div>
-            <div class="new-shop-item--buy">
-                <a class="cta" href="?buy=1000">[Buy Now]</a>
-            </div>
-        </div>
-        <div class="new-shop-item" data-tooltip="10,000 points added to your account">
-            <div class="new-shop-item--img">
-                <h5>10,000 Points</h5>
-            </div>
-            <div class="new-shop-item--price">
-                <img src="css/images/coin.png">
-                <span>180</span>
-            </div>
-            <div class="new-shop-item--buy">
-                <a class="cta" href="?buy=3500">[Buy Now]</a>
-            </div>
-        </div>
-        <div class="new-shop-item" data-tooltip="25,000 points added to your account">
-            <div class="new-shop-item--img">
-                <h5>25,000 Points</h5>
-            </div>
-            <div class="new-shop-item--price">
-                <img src="css/images/coin.png">
-                <span>340</span>
-            </div>
-            <div class="new-shop-item--buy">
-                <a class="cta" href="?buy=12000">[Buy Now]</a>
-            </div>
-        </div>
-        <div class="new-shop-item" data-tooltip="50,000 points added to your account">
-            <div class="new-shop-item--img">
-                <h5>50,000 Points</h5>
-            </div>
-            <div class="new-shop-item--price">
-                <img src="css/images/coin.png">
-                <span>650</span>
-            </div>
-            <div class="new-shop-item--buy">
-                <a class="cta" href="?buy=35000">[Buy Now]</a>
-            </div>
-        </div>
-       
-
-    </div>
-</div>
 
 <br>
 
