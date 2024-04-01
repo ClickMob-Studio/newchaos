@@ -30,10 +30,10 @@ if (!isset($_SESSION['id'])) {
     include('home.php');
     die();
 }
-$db->query("SELECT * FROM sessions WHERE userid = ?");
-$db->execute(array(
-    $_SESSION['id']
-));
+// $db->query("SELECT * FROM sessions WHERE userid = ?");
+// $db->execute(array(
+//     $_SESSION['id']
+// ));
 if (isset($_GET['action']) && $_GET['action'] == "logout") {
     session_destroy();
     header("Location: index.php");
