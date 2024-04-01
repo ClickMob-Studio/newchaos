@@ -2,7 +2,7 @@
 
 session_start();
 
-
+var_dump($_SESSION);
 // Get the name of the current script and the full request URI to check for specific query parameters
 $current_page = basename($_SERVER['PHP_SELF']); // Gets the name of the current script
 $current_uri = $_SERVER['REQUEST_URI']; // Gets the full request URI
