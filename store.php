@@ -16,7 +16,7 @@ $result = mysql_query("SELECT * FROM `rmstore` WHERE `limiteditems3` != '9999'")
 while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
     $limiteditems3 = $limiteditems3 + $line['limiteditems3'];
 }
-
+3
 
 
 // Set a session variable for excluded users
@@ -322,99 +322,10 @@ if (isset($_GET['buy'])) {
             echo Message("You don't have enough GOLD. You can buy some at the upgrade store.");
         }
     }
-    if ($_GET['buy'] == "limitedpack") {
-        if ($user_class->limiteditems1 == 0) {
-            echo Message("This Pack Is No Longer Available.");
-        } else if ($user_class->credits >= 250) {
-            $newcredit = $user_class->credits -= 250;
-            $result    = mysql_query("UPDATE `grpgusers` SET `limiteditems1` = limiteditems1 - 1 WHERE `limiteditems1` != '0'");
-                         $db->query("UPDATE grpgusers SET  credits = credits - 250, points = points + 40000 WHERE id = ?");
-
-                $db->execute(array(
-                               $user_class->id
-            ));
-     //       Give_Item(8, $user_class->id, 1);
-       //     Give_Item(9, $user_class->id, 1);
-      //      Give_Item(10, $user_class->id, 1);
-       //                 Give_Item(194, $user_class->id, 1);
 
 
 
 
-    
-                        
-
-            Send_Event($user_class->id, "You have been credited your Starter Package!.", $user_class->id);
-            $db->execute(array());
-            echo Message("You spent 250 GOLD on your Starter Package!");
-        } else {
-            echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
-        }
-    }
-
-
-
-if ($_GET['buy'] == "limitedpack2") {
-        if ($user_class->limiteditems2 == 0) {
-            echo Message("This Pack Is No Longer Available.");
-        } else if ($user_class->credits >= 2500) {
-            $newcredit = $user_class->credits -= 2500;
-            $result    = mysql_query("UPDATE `grpgusers` SET `limiteditems2` = limiteditems2 - 1 WHERE `limiteditems2` != '0'");
-                         $db->query("UPDATE grpgusers SET  points = points + 450000, bank = bank + 0, credits = credits - 2500 WHERE id = ?");
-
-                $db->execute(array(
-                               $user_class->id
-            ));
-         //   Give_Item(8, $user_class->id, 10);
-        //    Give_Item(9, $user_class->id, 10);
-        //    Give_Item(10, $user_class->id, 10);
-         //               Give_Item(194, $user_class->id, 10);
-           
-
-
-
-                                           
-                                        
-
-            Send_Event($user_class->id, "You have been credited your Semi Points Pack!.", $user_class->id);
-            $db->execute(array());
-            echo Message("You spent 2500 GOLD on your Semi Points Package.");
-        } else {
-            echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
-        }
-    }
-
-
-
-
-
-if ($_GET['buy'] == "limitedpack3") {
-        if ($user_class->limiteditems3 == 0) {
-            echo Message("This Pack Is No Longer Available.");
-        } else if ($user_class->credits >= 25000) {
-            $newcredit = $user_class->credits -= 25000;
-            $result    = mysql_query("UPDATE `grpgusers` SET `limiteditems3` = limiteditems3 - 1 WHERE `limiteditems3` != '0'");
-                         $db->query("UPDATE grpgusers SET  points = points + 5000000, credits = credits - 25000 WHERE id = ?");
-
-                $db->execute(array(
-                               $user_class->id
-            ));
-          //  Give_Item(8, $user_class->id, 100);
-         //   Give_Item(9, $user_class->id, 100);
-         //   Give_Item(10, $user_class->id, 100);
-          //              Give_Item(194, $user_class->id, 100);
-
-                                            
-                                             
-
-
-            Send_Event($user_class->id, "You have been credited your Mega Points Pack!.", $user_class->id);
-            $db->execute(array());
-            echo Message("You spent 25000 GOLD on The Mega Points Pack.");
-        } else {
-            echo Message("You don't have enough GOLD. You can buy some at the upgrade store.");
-        }
-    }
 
 if ($_GET['buy'] == "vip7") {
         if ($user_class->credits >= 50) {
@@ -1025,49 +936,6 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 <br><br>
 
-<div class="floaty" style="margin:3px;">
-    <h4>LIMITED EDITION PACKAGES</h4>
-    <hr>
-    <div class="vip-packages" style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
-        
-        <!-- Limited Edition Pack 1 -->
-        <div class="vip-package">
-            <h4><font color="#FF4500">Starter Pack</font></h4>
-            <ul>
-                  <li>40,000 Points</li>
-
-                              <b><span style="color:orange"><?php echo'' . $user_class->limiteditems1 . '' ?> / 50 Remaining</span></b>
-            </ul>
-
-            <h4>Purchase now for only<br><a href="store.php?buy=limitedpack"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"></img>250</button></a></h4>
-        </div>
-        
-        <!-- Limited Edition Pack 2 -->
-        <div class="vip-package">
-            <h4><font color=silver>Boss Pack</font></h4>
-            <ul>
-                <li>450,000 Points</li>
-
-
-                  <b><span style="color:orange"><?php echo'' . $user_class->limiteditems2 . '' ?> / 10 Remaining</span></b>
-            </ul>
-            <h4>Purchase now for only<br><a href="store.php?buy=limitedpack2"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"></img>2,500</button></a></h4>
-        </div>
-        
-        <!-- Limited Edition Pack 3 -->
-        <div class="vip-package">
-            <h4><font color=gold>Masters Pack</font></h4>
-            <ul>
-                   <li>5,000,000 Points</li>
-
-               
-                <b><span style="color:orange"><?php echo'' . $user_class->limiteditems3 . '' ?> / 5 Remaining</span></b>
-            </ul>
-            <h4>Purchase now for only<br><a href="store.php?buy=limitedpack3"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"></img>25,000</button></a></h4>
-        </div>
-    </div>
-</div>
-<br>
 
 <div class="floaty" style="margin: 3px;">
     <h4>Protection</h4>
