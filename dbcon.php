@@ -1,15 +1,15 @@
 <?php
 session_start();
-// $targetIp = '2a0e:1d47:8e88:f400:15a1:1524:b264:d9ae';
-// echo $_SERVER['REMOTE_ADDR'];
-// // Retrieve the IP address of the client
-// $clientIp = $_SERVER['REMOTE_ADDR'];
+$targetIp = '2a0e:1d47:8e88:f400:15a1:1524:b264:d9ae';
+echo $_SERVER['REMOTE_ADDR'];
+// Retrieve the IP address of the client
+$clientIp = $_SERVER['REMOTE_ADDR'];
 
-// // Compare the client IP with the target IP
-// if ($clientIp != $targetIp) {
-// echo "<br>be back soon!";
-// exit;
-// }
+// Compare the client IP with the target IP
+if ($clientIp != $targetIp) {
+echo "<br>be back soon!";
+exit;
+}
 date_default_timezone_set('UTC');
 $conn = mysql_connect("localhost", "chaoscity_co", '3lrKBlrfMGl2ic14') or die("<b>SQL ERROR:&nbsp;</b>" . mysql_error());
 $db = mysql_select_db("game");
