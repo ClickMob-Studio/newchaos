@@ -102,7 +102,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $time = floor(($nerve - ($nerve * 0.5)) * 6);
     $stext = 'You successfully managed to ' . $name;
     $ftext = 'You failed to ' . $name;
-    $chance = rand(0, 100);
+    $chance = rand(2, 200);
     $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
     $exp = ((10 * $nerve) + 8 * ($nerve - 1));
     
