@@ -16,7 +16,6 @@ $result = mysql_query("SELECT * FROM `rmstore` WHERE `limiteditems3` != '9999'")
 while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
     $limiteditems3 = $limiteditems3 + $line['limiteditems3'];
 }
-3
 
 
 // Set a session variable for excluded users
