@@ -369,9 +369,9 @@ if(isset($_GET['username'])){
     <p>Would you like to enable/disable mobile display?</p>
 
     <?php if ($user_class->is_mobile_disabled > 0): ?>
-        <a href="#" style="color: green">Enable</a>
+        <a href="preferences.php?display_s=switch" style="color: green">Enable</a>
     <?php else: ?>
-        <a href="#" style="color: red;">Disable</a>
+        <a href="preferences.php?display_s=switch" style="color: red;">Disable</a>
     <?php endif; ?>
 
 
