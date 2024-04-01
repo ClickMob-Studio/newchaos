@@ -338,6 +338,96 @@ if (isset($_GET['buy'])) {
         }
     }
 
+    if ($_GET['buy'] == "points_two") {
+        $cost = 100;
+        if ($user_class->credits >= $cost) {
+            $newcredit = $user_class->credits -= $cost;
+            $db->query("UPDATE grpgusers SET points = points + 10000, credits = credits - ? WHERE id = ?");
+            $db->execute(array(
+                $cost,
+                $user_class->id
+            ));
+            echo Message("You spent " . $cost . " credits for 10000 Points.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+    if ($_GET['buy'] == "points_three") {
+        $cost = 200;
+        if ($user_class->credits >= $cost) {
+            $newcredit = $user_class->credits -= $cost;
+            $db->query("UPDATE grpgusers SET points = points + 25000, credits = credits - ? WHERE id = ?");
+            $db->execute(array(
+                $cost,
+                $user_class->id
+            ));
+            echo Message("You spent " . $cost . " credits for 25000 Points.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+    if ($_GET['buy'] == "points_four") {
+        $cost = 370;
+        if ($user_class->credits >= $cost) {
+            $newcredit = $user_class->credits -= $cost;
+            $db->query("UPDATE grpgusers SET points = points + 50000, credits = credits - ? WHERE id = ?");
+            $db->execute(array(
+                $cost,
+                $user_class->id
+            ));
+            echo Message("You spent " . $cost . " credits for 50000 Points.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+    if ($_GET['buy'] == "points_five") {
+        $cost = 1000;
+        if ($user_class->credits >= $cost) {
+            $newcredit = $user_class->credits -= $cost;
+            $db->query("UPDATE grpgusers SET points = points + 175000, credits = credits - ? WHERE id = ?");
+            $db->execute(array(
+                $cost,
+                $user_class->id
+            ));
+            echo Message("You spent " . $cost . " credits for 175000 Points.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+    if ($_GET['buy'] == "points_six") {
+        $cost = 2500;
+        if ($user_class->credits >= $cost) {
+            $newcredit = $user_class->credits -= $cost;
+            $db->query("UPDATE grpgusers SET points = points + 500000, credits = credits - ? WHERE id = ?");
+            $db->execute(array(
+                $cost,
+                $user_class->id
+            ));
+            echo Message("You spent " . $cost . " credits for 500000 Points.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+    if ($_GET['buy'] == "points_seven") {
+        $cost = 3250;
+        if ($user_class->credits >= $cost) {
+            $newcredit = $user_class->credits -= $cost;
+            $db->query("UPDATE grpgusers SET points = points + 750000, credits = credits - ? WHERE id = ?");
+            $db->execute(array(
+                $cost,
+                $user_class->id
+            ));
+            echo Message("You spent " . $cost . " credits for 750000 Points.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
 
 
 
@@ -973,7 +1063,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
                 <div class="new-shop-item--price">
                     <img src="css/images/coin.png">
-                    <span>180</span>
+                    <span>100</span>
                 </div>
                 <div class="new-shop-item--buy">
                     <a class="cta" href="?buy=points_two">[Buy Now]</a>
@@ -985,7 +1075,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
                 <div class="new-shop-item--price">
                     <img src="css/images/coin.png">
-                    <span>300</span>
+                    <span>200</span>
                 </div>
                 <div class="new-shop-item--buy">
                     <a class="cta" href="?buy=points_three">[Buy Now]</a>
