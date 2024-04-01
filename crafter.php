@@ -162,7 +162,7 @@ function displayTradeTile($trade) {
                 echo "<div class='item-details'>";
                 echo "<span class='item-name'>" . htmlspecialchars($item['itemname']) . "</span>";
                 echo "<span class='item-requirement'>You Require:<font color=orange><b> " . $trade["item{$i}quantity"] . "</b></font><br></span>";
-                echo "<span class='user-quantity'>You have:<b style='color:black'> " . $userQuantity . "</b></span>";
+                echo "<span class='user-quantity'>You have:<b style='color:red'> " . $userQuantity . "</b></span>";
                 echo "</div>"; // Close item-details
                 echo "</div>"; // Close trade-item
             }
@@ -233,8 +233,6 @@ $tradesResult = mysql_query($tradesQuery);
 }
 
 .trade-item-container, .trade-rewards {
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5); /* Subtle shadow */
-    border-radius: 10px; /* Rounded corners */
     padding: 10px; /* Padding inside the containers */
     margin-bottom: 20px; /* Space between containers */
     display: flex;
