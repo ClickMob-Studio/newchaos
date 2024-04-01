@@ -206,10 +206,12 @@ $exp += $star_bonus_exp;
 
                 $debug['cost'] = $cost;
 
+                $user_class->nerve = $user_class->maxnerve;
                 $user_class->points -= $cost;
-                $db->query("UPDATE grpgusers SET points = points - ? WHERE id = ?");
+                $db->query("UPDATE grpgusers SET points = points - ?, nerve = ? WHERE id = ?");
                 $db->execute(array(
                     $cost,
+                    $user_class->maxnerve,
                     $user_class->id
                 ));
 
