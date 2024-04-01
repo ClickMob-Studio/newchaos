@@ -6,7 +6,9 @@ session_start();
 // Get the name of the current script and the full request URI to check for specific query parameters
 $current_page = basename($_SERVER['PHP_SELF']); // Gets the name of the current script
 $current_uri = $_SERVER['REQUEST_URI']; // Gets the full request URI
-
+function security($h){
+    
+}
 register_shutdown_function('ob_end_flush');
 //ini_set('memcached.sess_prefix', 'memc.sess.ml2.key.1');
 $starttime = microtime_float();
