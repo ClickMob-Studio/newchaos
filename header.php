@@ -560,7 +560,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 							<a href="store.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
 
 						</div>
-						Sever Time<?php echo date('d/m/Y  H:i:s'); ?>
+						Sever Time: <?php echo date('d/m/Y  H:i:s'); ?>
 					</div>
 				</div>
 			</header>
