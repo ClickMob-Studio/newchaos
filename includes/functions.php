@@ -1285,7 +1285,7 @@ function refill($which)
                     if ($cost > $user_class->points)
                         return 0;
                     $user_class->nerve += $cost * 10;
-                    $user_class->nerve = ($user_class->nerve > $user_class->maxnerve) ? $user_class->maxnerve : $user_class->nerve;
+                    $user_class->nerve = $user_class->maxnerve;
                     $user_class->points -= $cost;
                     $db->query("UPDATE grpgusers SET nerve = ?, points = points - ? WHERE id = ?");
                     $db->execute(array(
