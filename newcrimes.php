@@ -368,8 +368,6 @@ fetch('ajax_crimes21.php', {
     console.error('Error:', error);
 });
 
-console.log(res); // Log the entire response object to see what's being returned
-
 </script>
 
 
