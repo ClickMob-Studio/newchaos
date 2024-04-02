@@ -818,7 +818,7 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
 				// 	$id
 				// ));
                 $this->points = $this->points + $badgers['payout'];
-                mysql_query("UPDATE grpgusers SET points = points + {$badgers['payout']} WHERE id = " . $this->id);
+                mysql_query("UPDATE grpgusers SET points = points + " . $badgers['payout'] . " WHERE id = " . $this->id);
                 Send_Event($this->id, "You have received {$badgers['payout']} Points for Reaching Level " . prettynum($badgers['needed']) . " Achievement.", $this->id);
                 Send_Event1($this->id, "Has just received {$badgers['payout']} Points for Reaching Level " . prettynum($badgers['needed']) . " Achievement.", $this->id);
                 $this->badgesex[0] = $number;
