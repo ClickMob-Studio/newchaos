@@ -75,14 +75,14 @@ $_SESSION['cap'] = $rand;
                   </div>
                   <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
                      <li class="nav-item" role="presentation">
-                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#register">Register</button>
+                        <button class="nav-link " data-bs-toggle="pill" data-bs-target="#register">Register</button>
                      </li>
                      <li class="nav-item" role="presentation">
                         <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#login">Login</button>
                      </li>
                   </ul>
                   <div class="tab-content">
-                     <div class="tab-pane fade show active" id="register">
+                     <div class="tab-pane fade " id="register">
                         <h3 class="RegisterCTA">Register now for free!</h3>
                         <form class="dcForm" method="post" action="regsub.php" name="register">
                            <input type="text" name="username" placeholder="Username">
@@ -116,7 +116,7 @@ $_SESSION['cap'] = $rand;
                            </div>
                         </form>
                      </div>
-                     <div class="tab-pane fade" id="login">
+                     <div class="tab-pane fade show active" id="login">
                         <form class="dcForm" method="post" action="login.php">
                            <input type="username" name="username" placeholder="Username">
                            <input type="password" name="password" placeholder="Password">
