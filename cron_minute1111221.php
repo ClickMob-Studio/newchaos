@@ -873,4 +873,9 @@ if (!$result) {
     echo "Duplicate rows deleted successfully.";
 }
 
+$result = mysql_query("SELECT `id` FROM `grpgusers` WHERE `is_jail_bot` = 1");
+while ($line = mysql_fetch_array($result)) {
+    mysql_query("UPDATE `grpgusers` SET `jail` = 300 WHERE `id` = " . $line['id']);
+}
+
 
