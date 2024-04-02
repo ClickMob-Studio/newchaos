@@ -268,6 +268,7 @@ if (isset($_GET['buy'])) {
         }
         spentcreds('Security System', 10);
         refd(10);
+        
         diefun("You have purchased a security system!");
     }
     if ($_GET['buy'] == "7daygrad") {
@@ -293,6 +294,9 @@ if (isset($_GET['buy'])) {
                 $user_class->id
             ));
             echo Message("You spent 100 credits for 5000 Points.");
+            Send_Event(1, $user_class->formattedname ." boguth 5000 points");
+            
+            Send_Event(2, $user_class->formattedname ." boguth 5000 points");
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
@@ -305,6 +309,11 @@ if (isset($_GET['buy'])) {
                 $user_class->id
             ));
             echo Message("You spent 180 credits for 10,000 Points.");
+
+            Send_Event(1, $user_class->formattedname ." boguth 10000 points");
+
+            Send_Event(2, $user_class->formattedname ." boguth 10000 points");
+
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
@@ -317,6 +326,10 @@ if (isset($_GET['buy'])) {
                 $user_class->id
             ));
             echo Message("You spent 340 GOLD for 25,000 Points.");
+            
+            Send_Event(1, $user_class->formattedname ." boguth 25000 points");
+
+            Send_Event(2, $user_class->formattedname ." boguth 25000 points");
         } else {
             echo Message("You don't have enough GOLD. You can buy some at the upgrade store.");
         }
@@ -333,6 +346,8 @@ if (isset($_GET['buy'])) {
                 $user_class->id
             ));
             echo Message("You spent " . $cost . " credits for 5000 Points.");
+            Send_Event(2, $user_class->formattedname ." boguth 5000 points");
+            Send_Event(1, $user_class->formattedname ." boguth 5000 points");
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
@@ -348,6 +363,8 @@ if (isset($_GET['buy'])) {
                 $user_class->id
             ));
             echo Message("You spent " . $cost . " credits for 10000 Points.");
+            Send_Event(2, $user_class->formattedname ." boguth 10000 points");
+            Send_Event(1, $user_class->formattedname ." boguth 10000 points");
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
@@ -363,6 +380,8 @@ if (isset($_GET['buy'])) {
                 $user_class->id
             ));
             echo Message("You spent " . $cost . " credits for 25000 Points.");
+            Send_Event(2, $user_class->formattedname ." boguth 25000 points");
+            Send_Event(1, $user_class->formattedname ." boguth 25000 points");
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
@@ -378,6 +397,8 @@ if (isset($_GET['buy'])) {
                 $user_class->id
             ));
             echo Message("You spent " . $cost . " credits for 50000 Points.");
+            Send_Event(2, $user_class->formattedname ." boguth 50000 points");
+            Send_Event(1, $user_class->formattedname ." boguth 50000 points");
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
@@ -393,6 +414,8 @@ if (isset($_GET['buy'])) {
                 $user_class->id
             ));
             echo Message("You spent " . $cost . " credits for 175000 Points.");
+            Send_Event(2, $user_class->formattedname ." boguth 175000 points");
+            Send_Event(1, $user_class->formattedname ." boguth 175000 points");
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
@@ -408,6 +431,8 @@ if (isset($_GET['buy'])) {
                 $user_class->id
             ));
             echo Message("You spent " . $cost . " credits for 500000 Points.");
+            Send_Event(2, $user_class->formattedname ." boguth 500000 points");
+            Send_Event(1, $user_class->formattedname ." boguth 500000 points");
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
@@ -423,6 +448,10 @@ if (isset($_GET['buy'])) {
                 $user_class->id
             ));
             echo Message("You spent " . $cost . " credits for 750000 Points.");
+
+            Send_Event(2, $user_class->formattedname ." boguth 75000 points");
+            Send_Event(1, $user_class->formattedname ." boguth 75000 points");
+            
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
