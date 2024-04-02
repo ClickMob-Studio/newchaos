@@ -20,20 +20,6 @@ echo Message('Click on a cell to bust the mobster out.');
 $pre = ($user_class->jail) ? '<a onclick="bail()">Bribe Warden (' . ceil($user_class->jail / 60) . ' Points)</a>' : '<br />';
 echo '<div class="result floaty">' . $pre . '</div>';
 echo '<script>
-    $.get("ajax_jail.php", {}, (jailers) => {
-            clear_cells()
-            console.log(jailers);
-            if (jailers != false) {
-                jailers.forEach((data, index) => {
-                    $("#cell_" + data.cell).html(data.username)
-                    $("#cell_" + data.cell).click((e) => {
-                        if (e.hasOwnProperty("originalEvent") && e.originalEvent.isTrusted) {
-                            bust(data.id, data.cell)
-                        }
-                    })
-                })
-            }
-            
     jailInterval = setInterval(() => {
         $.get("ajax_jail.php", {}, (jailers) => {
             clear_cells()
