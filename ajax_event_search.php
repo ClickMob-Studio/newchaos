@@ -4,6 +4,12 @@ include 'database/pdo_class.php';
 include "classes.php";
 include "codeparser.php";
 
+if($user_class->id == 1){
+    ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+}
 $uid = "'".$_POST['userId']."'";
 $resultArray = [];
 
