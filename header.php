@@ -455,7 +455,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 <html lang="en">
 <head>
     <?php 
-    if($user_class->id == 1){
+    if($user_class->id == 1 || $user_class->id == 2){
         ?>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <?php
