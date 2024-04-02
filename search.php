@@ -201,7 +201,7 @@ if (isset($_POST['id'])) {
 	if (!empty($search['money']))
         $sql .= " AND money > '{$search['money']}' ";
     if ($search['attack'] == 1)
-        $sql .= " AND hospital = 0 AND jail = 0 AND (gang <> $user_class->gang || gang = 0) AND signuptime < unix_timestamp() - (86400 * 1) AND admin <> 1 AND hp > (50*level)/4 AND id <> $user_class->id ";
+        $sql .= " AND hospital = 0 AND jail = 0 AND (gang <> $user_class->gang || gang = 0)  AND admin < 1 AND hp > (50*level)/4 AND id <> $user_class->id ";
     else if ($search['attack'] == 2)
         $sql .= " AND hospital > 0 ";
     $time = time() - 900;
