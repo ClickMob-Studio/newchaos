@@ -811,8 +811,12 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
         );
         //$db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
         $this->debugtest = 'yes';
-        if (!isset($ignoreForAjax)) {
-            //Send_Event(2, 'Check Trigger', 2);
+        if (!isset($ignoreForAjax) && $_SERVER['REQUEST_METHOD'] === 'GET') {
+            if ($this->id == 2) {
+                Send_Event(2, 'Badge check', 2);
+            }
+
+
             foreach ($levelbadges as $number => $badgers) {
                 if ($this->level >= $badgers['needed'] && $this->badgesex[0] == $number - 1) {
                     // $db->execute(array(
