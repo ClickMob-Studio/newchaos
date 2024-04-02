@@ -65,10 +65,6 @@ print "
     color: #FFF; /* Ensuring header text is light for contrast */
 }
 
-/* If you have links or other elements, ensure they are styled for visibility */
-a, a:visited {
-    color: #82caff; /* Example: light blue link color for visibility and style */
-}
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
