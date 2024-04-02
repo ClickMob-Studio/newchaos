@@ -536,10 +536,10 @@ if(isset($_GET['username'])){
     echo'</div>';
 }elseif(isset($_GET['disablemobile'])){
     if($user_class->view_preference == 0){
-        mysql_query("UPDATE grpgusers SET is_mobile_disabled = 1 WHERE id = '$user_class->id");
+        mysql_query("UPDATE grpgusers SET is_mobile_disabled = 1 WHERE id = $user_class->id");
         echo Message("Mobile view diabled please click away from this page");
     }else{
-        mysql_query("UPDATE grpgusers SET is_mobile_disabled = 0 WHERE id = '$user_class->id");
+        mysql_query("UPDATE grpgusers SET is_mobile_disabled = 0 WHERE id = $user_class->id");
         echo Message("Mobile view enabled please click away from this page");
     }
 
