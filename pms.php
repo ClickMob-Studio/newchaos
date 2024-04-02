@@ -226,8 +226,8 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
                 $bold = "";
                 $bold2 = "&nbsp;[mail bomb]";
             } elseif ($row['viewed'] == 1) {
-                $bold = "<b>";
-                $bold2 = "</b>&nbsp;[new]";
+                $bold = "<span style='color: red;'><b>";
+                $bold2 = "</b>&nbsp;[new]</span>";
             } elseif ($row['reported'] == 1) {
                 $bold = "";
                 $bold2 = "&nbsp;[reported]";
