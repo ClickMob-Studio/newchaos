@@ -11,7 +11,7 @@ ini_set('display_errors', 0); // Don't display errors
 
 function sendDiscordWebhook($message, $title = '', $color = '', $username = 'Raid Bot', $avatar = '') {
     // Discord Webhook URL
-    $webhookUrl = 'https://discord.com/api/webhooks/1180814608466968656/m6UcV6PKbOAz2CDhTJTMmzpT1aTFlBvOxYf-h2zHbpCtiPgfwSXLhrKxTgi17NukHjT3';
+    //$webhookUrl = 'https://discord.com/api/webhooks/1180814608466968656/m6UcV6PKbOAz2CDhTJTMmzpT1aTFlBvOxYf-h2zHbpCtiPgfwSXLhrKxTgi17NukHjT3';
 
     // Prepare data to be sent as JSON
     $data = json_encode([
