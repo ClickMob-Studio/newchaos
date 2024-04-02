@@ -2,7 +2,7 @@
 
 //header('Content-type: application/json');
 session_start();
-
+error_reporting(0);
 $ignoreForAjax = true;
 include "classes.php";
 include "database/pdo_class.php";
