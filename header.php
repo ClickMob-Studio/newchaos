@@ -482,9 +482,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 	.floaty{
 		color:white !important;
 	}
-    .notify{
-        color:red!important;
-    }
+  
 	</style>
 </head>
 <body>
