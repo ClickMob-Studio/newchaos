@@ -749,7 +749,7 @@ function showTooltip(event, element) {
     }
 
     p {
-        color: #000;
+        color: white;
         font-size: 16px;
         margin-bottom: 30px;
     }
