@@ -2,8 +2,11 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+if($_SESSION['id'] == 1){
+include 'headernew.php';
+}else{
 	include 'header.php';
-
+}
 include_once 'databse/pdo_class.php';
 ?>
 <style>
@@ -49,8 +52,13 @@ if (isset($_GET['claim_king']) && $_GET['claim_king'] === 'claimnow') {
         // Do nothing - already claimed
     } else {
         if ($user_class->gender === 'Male') {
+            $kin= mysql_query("SELECT id FROM grpgusers WHERE queen = '" . mysql_real_escape_string($current_city) . "' AND `id` = ".$user_class->id." LIMIT 1");
+            if(mysql_num_rows($kin) > 0){
+            
+            }else{
             mysql_query("UPDATE grpgusers SET king = " . $current_city . " WHERE id = " . $user_class->id);
             header('Location: city.php');
+            }
         }
     }
 }
@@ -63,8 +71,13 @@ if (isset($_GET['claim_queen']) && $_GET['claim_queen'] === 'claimnow') {
         // Do nothing - already claimed
     } else {
         if ($user_class->gender === 'Female') {
+            $kin= mysql_query("SELECT id FROM grpgusers WHERE king = '" . mysql_real_escape_string($current_city) . "' AND `id` = ".$user_class->id." LIMIT 1");
+            if(mysql_num_rows($kin) > 0){
+            
+            }else{
             mysql_query("UPDATE grpgusers SET queen = " . $current_city . " WHERE id = " . $user_class->id);
             header('Location: city.php');
+            }
         }
     }
 }
