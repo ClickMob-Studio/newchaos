@@ -945,20 +945,6 @@ if (!empty($messages)) {
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
 
-    <script>document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('energy-link').addEventListener('click', function() {
-        // Replace 'your_link_here' with the URL you want to navigate to
-        window.location.href = '?spend=refenergy';
-    });
-});
-</script>
- <script>document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('nerve-link').addEventListener('click', function() {
-        // Replace 'your_link_here' with the URL you want to navigate to
-        window.location.href = '?spend=refnerve';
-    });
-});
-</script>
     <script type="text/javascript">
         $('.slides').slick({
             vertical: true,
