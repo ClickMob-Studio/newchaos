@@ -234,6 +234,7 @@ var submitCrime = function (id, cm=1) {
             if (res.error == 'refresh') {
                 finish();
             }
+            console.log(res);
             $('.money').html(res.stats.money)
             $(".level").html(res.stats.level)
             $(".points").html(res.stats.points)
