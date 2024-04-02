@@ -1,4 +1,4 @@
-<?
+<?php
 include 'header.php';
 ?>
 <div class='box_top'>Users Online</div>
@@ -6,7 +6,8 @@ include 'header.php';
 							<div class='pad'>
                                 <?php
 $result = mysql_query("SELECT * FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
-
+$res = mysql_query("SELECT * FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 86400 ORDER BY lastactive DESC");
+echo '<p>There has been ' . mysql_num_rows($res) . ' users online in the past 24 hours.</p>';
 echo '<table>';
 ?>
 <th>Avatar</th>
