@@ -77,14 +77,14 @@ if ($searchString == null) {
 while ($row = mysql_fetch_array($res)) {
     $text       = str_replace('[-_USERID_-]', formatName($row['extra']), $row['text']);
     //$text       = str_replace('[-_GANGID_-]', gangName($row['extra']), $text);
-    echo "<tr><td width='67%'>" . $text . "</td><td width='31%'>" . date("d F Y, g:ia", $row['timesent']) . "</td><td width='2%'><a href='events.php?delete={$row['id']}'><span class='delete'>&nbsp;X&nbsp;</span></a></td></tr>";
+    echo "<tr style='height: 30px; border-bottom: solid 1px;'><td width='67%'>" . $text . "</td><td width='31%'>" . date("d F Y, g:ia", $row['timesent']) . "</td><td width='2%'><a href='events.php?delete={$row['id']}'><span class='delete'>&nbsp;X&nbsp;</span></a></td></tr>";
 }
 ?>
 </table>
 <span style="display: none" id="dataHolder" data-offset="<?php echo $offset ?>" data-rowsPerPage="30" data-userId ="<?php echo $user_class->id ?>"></span>
 <br />
 <table width="100%">
-<tr style='height: 30px; border-bottom: solid 1px;'>
+<tr>
 <td align="left">
 <?php
 $range = 2;
