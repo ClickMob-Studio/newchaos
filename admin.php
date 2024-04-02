@@ -14,16 +14,7 @@ if(empty($ignoreslashes)){
 			$_GET[$k] = addslashes($v);
 	}
 }
-$db->query("SELECT * FROM sessions WHERE userid = ?");
-$db->execute(array(
-	$_SESSION['id']
-));
-$row = $db->fetch_row(true);
-if ($row['sessionid'] != $_COOKIE['PHPSESSID']) {
-    $sessid = $_SESSION['id'];
-    session_unset();
-    session_destroy();
-}
+
 if (!isset($_SESSION['id'])) {
     include('home.php');
     die();
