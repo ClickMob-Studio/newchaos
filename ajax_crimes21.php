@@ -47,7 +47,7 @@ if (!$user_class) {
     die();
 }
 
-mysql_query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = " . $user_class->id);
+//mysql_query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = " . $user_class->id);
 //$db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
 //$db->execute(array(
 //    $user_class->id
