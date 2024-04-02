@@ -1,8 +1,8 @@
 <?php
 
 date_default_timezone_set('UTC');
-$conn = mysql_connect("localhost", "chaoscity_co", '3lrKBlrfMGl2ic14') or die("<b>SQL ERROR:&nbsp;</b>" . mysql_error());
-$db = mysql_select_db("game");
+$conn = mysql_connect("localhost", "chaoscit_user", '3lrKBlrfMGl2ic14') or die("<b>SQL ERROR:&nbsp;</b>" . mysql_error());
+$db = mysql_select_db("chaoscit_game");
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
 if (!isset($_SESSION['id']) || $_SESSION['id'] != 1) {
@@ -11,8 +11,8 @@ if (!isset($_SESSION['id']) || $_SESSION['id'] != 1) {
 
 
 $db_host = 'localhost';
-$db_name = 'game';
-$db_user = 'chaoscity_co';
+$db_name = 'chaoscit_game';
+$db_user = 'chaoscit_user';
 $db_pass = '3lrKBlrfMGl2ic14';
 
 try {

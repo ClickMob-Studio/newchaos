@@ -1,7 +1,7 @@
 
 <?php
 include "ajax_header.php";
-mysql_select_db('game', mysql_connect('localhost', 'chaoscity_co', '3lrKBlrfMGl2ic14'));
+mysql_select_db('chaoscit_game', mysql_connect('localhost', 'chaoscit_user', '3lrKBlrfMGl2ic14'));
 $user_class = new User($_SESSION['id']);
 if($m->get('crime.'.$user_class->id . time()))
 	$m->increment('crime.'.$user_class->id . time());

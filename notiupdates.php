@@ -2,7 +2,7 @@
 include "ajax_header.php";
 //require 'vendor/autoload.php';
 $user_class = new User($_SESSION['id']);
-mysql_select_db('game', mysql_connect('localhost', 'chaoscity_co', '3lrKBlrfMGl2ic14'));
+mysql_select_db('chaoscit_game', mysql_connect('localhost', 'chaoscit_user', '3lrKBlrfMGl2ic14'));
 $checkmail = mysql_query("SELECT 'to' FROM `pms` WHERE `to`='{$_SESSION['id']}' and `viewed`='1'");
 $nummsgs = mysql_num_rows($checkmail);
 $mail = ($nummsgs > 0) ? "<span class='notify'>" . number_format($nummsgs) . "</span>" : 0;

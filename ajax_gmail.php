@@ -1,6 +1,6 @@
 <?php
 include "ajax_header.php";
-mysql_select_db('game', mysql_connect('localhost', 'chaoscity_co', '3lrKBlrfMGl2ic14'));
+mysql_select_db('chaoscit_game', mysql_connect('localhost', 'chaoscit_user', '3lrKBlrfMGl2ic14'));
 $user_class = new User($_SESSION['id']);
 $gangid = $user_class->gang;
 $q = mysql_query("SELECT * FROM gmusers WHERE userid = {$_SESSION['id']}");

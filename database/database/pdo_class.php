@@ -5,9 +5,9 @@ class database {
     protected $last_query;
     protected $conn;
     private $host = "localhost";
-    private $user = "chaoscity_co";
+    private $user = "chaoscit_user";
     private $pass = '3lrKBlrfMGl2ic14';
-    private $name = "game";
+    private $name = "chaoscit_game";
     private $db;
     private $stmt;
     var $num_queries = 0;
