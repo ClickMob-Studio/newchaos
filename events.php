@@ -73,7 +73,7 @@ $result = $statement->get_result();
 
 while ($row = $result->fetch_assoc()) {
     $text = str_replace('[-_USERID_-]', formatName($row['extra']), $row['text']);
-    echo "<tr><td width='67%'>" . $text . "</td><td width='31%'>" . date("d F Y, g:ia", $row['timesent']) . "</td><td width='2%'><a href='events.php?delete={$row['id']}'><span class='delete'>&nbsp;X&nbsp;</span></a></td></tr>";
+    echo "<tr style='height: 30px;border-bottom: solid 1px;'><td width='67%'>" . $text . "</td><td width='31%'>" . date("d F Y, g:ia", $row['timesent']) . "</td><td width='2%'><a href='events.php?delete={$row['id']}'><span class='delete'>&nbsp;X&nbsp;</span></a></td></tr>";
 }
 ?>
 </table>

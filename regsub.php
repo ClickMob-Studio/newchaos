@@ -58,6 +58,10 @@ $IP = filter_var($IP, FILTER_VALIDATE_IP);
 // Insert user into database
 $stmt = $pdo->prepare("INSERT INTO grpgusers (signupip, loginame, username, password, email, signuptime, gender) VALUES (?,?, ?, ?, ?, UNIX_TIMESTAMP(), ?)");
 $stmt->execute([$IP, $username, $username, $hashedPassword, $email, $gender]);
+$newid = $pdo->lastInsertId();
+mysql_query("INSERT INTO referrals (`when`, referrer, referred) VALUES (unix_timestamp(), {$_POST['referer']}, $newid)");
+mysql_query("INSERT INTO sessions VALUES($newid, '{$_COOKIE['PHPSESSID']}', 'emptyfornow')");
+mysql_query("INSERT INTO ofthes (userid)VALUES($newid)");
 
 // Redirect upon successful registration
 $_SESSION['id'] = $pdo->lastInsertId();

@@ -133,7 +133,7 @@ window.onload = function () {
 <br>
     <div>
     <h4>Your referral link</h4>
-        <input type="text" value="https://chaoscity.co.uk/register.php?referer=<?php echo $user_class->id; ?>" readonly onclick="this.select();" style="width: 50%">
+        <input type="text" value="https://chaoscity.co.uk/home.php?referer=<?php echo $user_class->id; ?>" readonly onclick="this.select();" style="width: 50%">
     </div>
     <div class="rewards">
         <b>Reward:</b> <span style="color:red;">50 Gold</span> per referral.

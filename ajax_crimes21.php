@@ -3,6 +3,7 @@
 //header('Content-type: application/json');
 session_start();
 
+$ignoreForAjax = true;
 include "classes.php";
 include "database/pdo_class.php";
 
@@ -102,7 +103,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $time = floor(($nerve - ($nerve * 0.5)) * 6);
     $stext = 'You successfully managed to ' . $name;
     $ftext = 'You failed to ' . $name;
-    $chance = rand(0, 100);
+    $chance = rand(2, 200);
     $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
     $exp = ((10 * $nerve) + 8 * ($nerve - 1));
     
@@ -206,10 +207,12 @@ $exp += $star_bonus_exp;
 
                 $debug['cost'] = $cost;
 
+                $user_class->nerve = $user_class->maxnerve;
                 $user_class->points -= $cost;
-                $db->query("UPDATE grpgusers SET points = points - ? WHERE id = ?");
+                $db->query("UPDATE grpgusers SET points = points - ?, nerve = ? WHERE id = ?");
                 $db->execute(array(
                     $cost,
+                    $user_class->maxnerve,
                     $user_class->id
                 ));
 
