@@ -373,7 +373,7 @@ console.log(res); // Log the entire response object to see what's being returned
 </script>
 
 
-
+<meta http-equiv='refresh' content='900'>
 
 
 <?php
