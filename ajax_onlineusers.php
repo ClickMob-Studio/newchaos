@@ -7,7 +7,7 @@ include "database/pdo_class.php";
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
 
-//mysql_select_db('ml2', mysql_connect('localhost', 'aa_user', 'GmUq38&SVccVSpt'));
+mysql_select_db('ml2', mysql_connect('localhost', 'aa_user', 'GmUq38&SVccVSpt'));
 
 $db->query("SELECT id FROM grpgusers WHERE lastactive > unix_timestamp() - 3600 ORDER BY lastactive DESC");
 $db->execute();

@@ -1,6 +1,6 @@
 <?php
 include "ajax_header.php";
-//mysql_select_db('game', mysql_connect('localhost', 'chaoscity_co', '3lrKBlrfMGl2ic14'));
+mysql_select_db('game', mysql_connect('localhost', 'chaoscity_co', '3lrKBlrfMGl2ic14'));
 
 /*if (isset($_POST['term'])) {
     $term = mysql_real_escape_string($_POST['term']);

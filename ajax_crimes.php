@@ -2,7 +2,7 @@
 
 exit();
 include "ajax_header.php";
-//mysql_select_db('game', mysql_connect('localhost', 'chaoscity_co', '3lrKBlrfMGl2ic14'));
+mysql_select_db('game', mysql_connect('localhost', 'chaoscity_co', '3lrKBlrfMGl2ic14'));
 $user_class = new User($_SESSION['id']);
 
 // if($m->get('crime.' . $user_class->id . time()))

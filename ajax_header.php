@@ -10,7 +10,6 @@ if (empty($_SESSION['id'])) {
 }
 include "classes.php";
 include "codeparser.php";
-include "dbcon.php";
 include "database/pdo_class.php";
 
 $m = new Memcache();
