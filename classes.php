@@ -809,7 +809,7 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
                 'title' => 'Good Buster: Bust 250 Mobsters'
             )
         );
-        $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
+        //$db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
         $this->debugtest = 'yes';
         foreach ($levelbadges as $number => $badgers) {
             if ($this->level >= $badgers['needed'] && $this->badgesex[0] == $number - 1) {
