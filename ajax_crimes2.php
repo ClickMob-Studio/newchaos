@@ -103,6 +103,35 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $chance = rand(2, 100);
     $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
     $exp = ((10 * $nerve) + 8 * ($nerve - 1)) * 1.0;
+     // Fetch the crime count and determine the star level
+$db->query("SELECT `count` FROM crimeranks WHERE userid = ? AND crimeid = ?");
+$db->execute(array($user_class->id, $row['id']));
+$crimeRankResult = $db->fetch_row(true);
+
+if ($crimeRankResult) {
+    $crimeCount = (int)$crimeRankResult['count'];
+} else {
+    $crimeCount = 0;
+}
+
+// Determine the star level based on the crime count
+if ($crimeCount >= 10000 && $crimeCount < 100000) {
+    $star_level = 1;
+} elseif ($crimeCount >= 100000 && $crimeCount < 10000000000) {
+    $star_level = 2;
+} elseif ($crimeCount >= 10000000000 && $crimeCount < 200000000) {
+    $star_level = 3;
+} elseif ($crimeCount >= 200000000 && $crimeCount < 400000000) {
+    $star_level = 4;
+} elseif ($crimeCount >= 400000000) {
+    $star_level = 5;
+} else {
+    $star_level = 0; // No bonus if the conditions are not met
+}
+
+$bonus_exp_per_star_level = 0.10; // 10% bonus per star level
+$star_bonus_exp = $exp * $star_level * $bonus_exp_per_star_level;
+$exp += $star_bonus_exp;
 
     $crimeexpbonus = 0;
     if ($user_class->crimeexpboost > 1) {

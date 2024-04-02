@@ -209,9 +209,9 @@ if ($crimeCount >= 100 && $crimeCount < 10000) {
     $level = 2;
 } elseif ($crimeCount >= 10000000 && $crimeCount < 20000000) {
     $level = 3;
-} elseif ($crimeCount >= 20000000 && $crimeCount < 20000000) {
+} elseif ($crimeCount >= 20000000 && $crimeCount < 30000000) {
     $level = 4;
-} elseif ($crimeCount >= 20000000) {
+} elseif ($crimeCount >= 40000000) {
     $level = 5;
 }
 
