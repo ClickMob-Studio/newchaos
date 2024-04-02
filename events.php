@@ -84,7 +84,7 @@ while ($row = mysql_fetch_array($res)) {
 <span style="display: none" id="dataHolder" data-offset="<?php echo $offset ?>" data-rowsPerPage="30" data-userId ="<?php echo $user_class->id ?>"></span>
 <br />
 <table width="100%">
-<tr>
+<tr style='height: 30px; border-bottom: solid 1px;'>
 <td align="left">
 <?php
 $range = 2;
