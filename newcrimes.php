@@ -357,7 +357,6 @@ fetch('ajax_crimes21.php', {
     body: JSON.stringify({/* your data here */}),
     headers: {'Content-Type': 'application/json'}
 })
-.then(response => response.json())
 .then(data => {
     // Assuming 'data' is the response from your server with the structure:
     // { "stats": { "points": "new points value", "money": "new money value" } }
