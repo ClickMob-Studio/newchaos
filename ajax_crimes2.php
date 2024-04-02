@@ -129,6 +129,10 @@ if ($crimeCount >= 10000 && $crimeCount < 100000) {
     $star_level = 0; // No bonus if the conditions are not met
 }
 
+$bonus_exp_per_star_level = 0.10; // 10% bonus per star level
+$star_bonus_exp = $exp * $star_level * $bonus_exp_per_star_level;
+$exp += $star_bonus_exp;
+
     $crimeexpbonus = 0;
     if ($user_class->crimeexpboost > 1) {
         $crimeexpbonus += 0.2;
