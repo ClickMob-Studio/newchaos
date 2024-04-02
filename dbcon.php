@@ -5,9 +5,8 @@ $conn = mysql_connect("localhost", "chaoscit_user", '3lrKBlrfMGl2ic14') or die("
 $db = mysql_select_db("chaoscit_game");
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
-if (!isset($_SESSION['id']) || $_SESSION['id'] != 1) {
-    error_reporting(0);
-}
+ 
+
 
 
 $db_host = 'localhost';

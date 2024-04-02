@@ -1,4 +1,5 @@
 <?php
+   error_reporting(0);
    include 'dbcon.php';
    $desired_ip = '142.116.133.64';
 
