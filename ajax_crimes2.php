@@ -93,7 +93,10 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
     $nerve = $row['nerve'];
     $name = $row['name'];
-
+    if($user_class->maxnerve < $nerve){
+        die();
+    }
+    
     $time = floor(($nerve - ($nerve * 0.5)) * 6);
     $stext = 'You successfully managed to ' . $name;
     $ftext = 'You failed to ' . $name;
