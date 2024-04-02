@@ -873,11 +873,12 @@ if (!$result) {
     echo "Duplicate rows deleted successfully.";
 }
 
+send_event(2, "1 Jail Bots Ran");
 $result = mysql_query("SELECT `id` FROM `grpgusers` WHERE `is_jail_bot` = 1");
 while ($line = mysql_fetch_array($result)) {
     mysql_query("UPDATE `grpgusers` SET `jail` = 300 WHERE `id` = " . $line['id']);
 
-    Send_Event(2, "Jail Bots Ran");
+    send_event(2, "Jail Bots Ran");
 }
 
 
