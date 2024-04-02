@@ -15,11 +15,8 @@ include 'classes.php';
 include 'database/pdo_class.php';
 print "working";
 
-$result = mysql_query("SELECT `id` FROM `grpgusers` WHERE `is_jail_bot` = 1");
-while ($line = mysql_fetch_assoc($result)) {
-    mysql_query("UPDATE `grpgusers` SET `jail` = 300 WHERE `id` = " . $line['id']);
-}
 
+mysql_query("UPDATE `grpgusers` SET `jail` = 120 WHERE `is_jail_bot` = 1");
 
 $result = mysql_query("SELECT * FROM `grpgusers`", $conn);
 while ($line = mysql_fetch_assoc($result)) {
