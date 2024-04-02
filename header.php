@@ -469,10 +469,11 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="js/java.js?12" type="text/javascript"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="js/java.js?v=12" type="text/javascript"></script>
+	
 	
 <style>
 	a{
