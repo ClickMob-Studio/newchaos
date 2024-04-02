@@ -75,10 +75,10 @@ $_SESSION['cap'] = $rand;
                   </div>
                   <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
                      <li class="nav-item" role="presentation">
-                        <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#register">Register</button>
+                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#register">Register</button>
                      </li>
                      <li class="nav-item" role="presentation">
-                        <button class="nav-link" data-bs-toggle="pill" data-bs-target="#login">Login</button>
+                        <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#login">Login</button>
                      </li>
                   </ul>
                   <div class="tab-content">
