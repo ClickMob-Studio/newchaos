@@ -355,7 +355,7 @@ if ($crimeRank) {
             $text = ($gtax > 0) ? "$stext. You received $exp exp and $$money.(Gang Tax: $$gtax)" : "$stext. You received $exp exp and $$money";
 
             $debug['response'] = "Success! $text";
-            //$logger->info("", $debug);
+            echo "<script>console.log($text);</script>";
             echo json_encode(array(
                 'text' => $text,
                 'stats' => array(
