@@ -135,7 +135,7 @@ $navPage = str_replace( '/', '', $_SERVER['REQUEST_URI'] );
 				<?php foreach ( $topLinks as $link ) : ?>
 					<li class="nav-item">
 						<?php
-							$linkText    = $link['name'] . ( $link['count'] ? ' [' . $link['count'] . ']' : '' );
+							$linkText    = $link['name'] . ( $link['count'] ? ' <font color:"red">[' . $link['count'] . ']</font>' : '' );
 							$linkClasses = $link['url'] === $navPage ? ' active' : '' . ( $link['count'] ? ' hasNew' : '' );
 						?>
 						<a class="nav-link px-4 py-lg-5<?php echo $linkClasses; ?>" aria-current="page" href="<?php echo $link['url']; ?>"><?php echo $linkText; ?></a>
