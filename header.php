@@ -482,7 +482,11 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 <body>
 	<header class="mainHeader">
 		<div class="row mx-auto mainHeaderContent">
-		<?php require 'navbar.php'; ?>
+		<?php 
+        if($user_class->id == 1){
+            require 'navbar1.php';
+        }else
+        require 'navbar.php'; ?>
 		</div>
 	</header>
 	<div class="row mx-auto my-3 mainContent">
