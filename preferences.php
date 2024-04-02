@@ -26,6 +26,7 @@ echo'<div class="floaty">';
                     echo'<td><a href=""></a></td>';
             echo'<td><a href="?autoplay">Auto Play</a></td>';
             echo'<td><a href="?refills">User Refills</a></td>';
+            echo'<td><a href="?mobile">Disable Mobile</a></td>';
             echo'<td><a href="?prefills">Pet Refills</a></td>';
         echo'</tr>';
         echo'<tr style="line-height:25px;">';
@@ -533,6 +534,16 @@ if(isset($_GET['username'])){
             echo'<input type="submit" value="Change Signature" />';
         echo'</form>';
     echo'</div>';
+}elseif(isset($_GET['disablemobile'])){
+    if($user_class->view_preference == 0){
+        mysql_query("UPDATE grpgusers SET is_mobile_disabled = 1 WHERE id = '$user_class->id");
+        echo Message("Mobile view diabled please click away from this page");
+    }else{
+        mysql_query("UPDATE grpgusers SET is_mobile_disabled = 0 WHERE id = '$user_class->id");
+        echo Message("Mobile view enabled please click away from this page");
+    }
+
+
 } elseif(isset($_GET['prefills'])){
     $db->query("SELECT * FROM pets WHERE userid = ?");
     $db->execute(array(
