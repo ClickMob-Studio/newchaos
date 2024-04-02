@@ -1,7 +1,7 @@
 <?php
 exit();
 include "ajax_header.php";
-mysql_select_db('aa', mysql_connect('localhost', 'aa_user', 'GmUq38&SVccVSpt'));
+//mysql_select_db('aa', mysql_connect('localhost', 'aa_user', 'GmUq38&SVccVSpt'));
 $user_class = new User($_SESSION['id']);
 
 if (isset($_POST['jailbreak'])) {

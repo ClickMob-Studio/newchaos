@@ -1,6 +1,6 @@
 <?php
 include "ajax_header.php";
-include "dbcon.php"; 
+//include "dbcon.php"; 
 // Assuming $user_class instantiation remains valid. Ensure User class is compatible with PDO for any DB operations.
 $user_class = new User($_SESSION['id']);
 
