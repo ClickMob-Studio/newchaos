@@ -83,7 +83,7 @@ echo '<div class="crimebox">';
     if (time() < 1644451175)
         echo '<span style="color:red;font-weight:bold;display:block;text-align:center;font-size:1.3em;">Crimes are currently giving double experience!</span><br />';
 
-    echo '<div style="display:flex;flex-direction:row;"><img style="display:none;" id="spinner" src="images/ajax-loader.gif"/><div id="noti" style="height:16px;"></div></div>';
+    echo '<div style="display:flex;min-height:30px;flex-direction:row;"><img style="display:none;" id="spinner" src="images/ajax-loader.gif"/><div id="noti" style="height:16px;"></div></div>';
 
     $db->query("SELECT `name`, mission.crimes as crimestarget, missions.crimes as crimesdone FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE `userid` = ? AND `completed` = \"no\" LIMIT 1");
     $db->execute(array(
@@ -218,7 +218,7 @@ var submitCrime = function (id, cm=1) {
     $('#spinner').show();
 
         var request = $.ajax({
-            url: "ajax_crimes21.php",
+            url: "ajax_crimes2.php",
             method: "POST",
             data: { id : id, cm : cm },
             dataType: "json"
@@ -352,7 +352,7 @@ $(document).ready(function () {
 
 
 
-fetch('ajax_crimes21.php', {
+fetch('ajax_crimes2.php', {
     method: 'POST', // or 'GET'
     body: JSON.stringify({/* your data here */}),
     headers: {'Content-Type': 'application/json'}
