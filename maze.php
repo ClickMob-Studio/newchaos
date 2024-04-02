@@ -264,6 +264,8 @@ echo '
         <div class="contenthead floaty" style="width: 88%;"> 
     <p>Here you can find Money,Points, Items and Gold whilst randomly searching.
     Below is the potential items you can find when searching, Displaying all different rarity types</p>
+    <br>
+    <span style="text-align:center"><a href="jail.php">Jail</a> | <a href="hospital.php">Hospitals</a></span>
     </div>
     
      <div class="contenthead floaty" style="text-align: center; padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 88%;">
