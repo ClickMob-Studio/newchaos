@@ -988,7 +988,7 @@ class GangRank {
             if ($notmyranks)
                 $this->$title = $value;
             else
-                $this->$title = ($gang_class->leader == $user_class->id) ? 1 : $value;
+                $this->$title = ($user_class->leader == $user_class->id) ? 1 : $value;
     }
 }
 class crewRank {
