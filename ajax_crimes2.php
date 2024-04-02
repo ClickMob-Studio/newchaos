@@ -96,11 +96,11 @@ if (isset($_POST['id']) || isset($input['id'])) {
     if($user_class->maxnerve < $nerve){
         die();
     }
-    
+
     $time = floor(($nerve - ($nerve * 0.5)) * 6);
     $stext = 'You successfully managed to ' . $name;
     $ftext = 'You failed to ' . $name;
-    $chance = rand(0, 100);
+    $chance = rand(2, 100);
     $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
     $exp = ((10 * $nerve) + 8 * ($nerve - 1)) * 1.0;
 
@@ -170,10 +170,13 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
                 $debug['cost'] = $cost;
 
+                $user_class->nerve = $user_class->maxnerve;
+               
                 $user_class->points -= $cost;
-                $db->query("UPDATE grpgusers SET points = points - ? WHERE id = ?");
+                $db->query("UPDATE grpgusers SET points = points - ?, nerve = ? WHERE id = ?");
                 $db->execute(array(
                     $cost,
+                    $user_class->maxnerve,
                     $user_class->id
                 ));
 
