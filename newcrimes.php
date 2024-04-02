@@ -234,6 +234,7 @@ var submitCrime = function (id, cm=1) {
             if (res.error == 'refresh') {
                 finish();
             }
+            console.log('test');
             console.log(res);
             $('.money').html(res.stats.money)
             $(".level").html(res.stats.level)
@@ -261,7 +262,6 @@ $(document).ready(function() {
     $('#scrime').change(function() {
     var selectedOption = $(this).find('option:selected');
     var stars = selectedOption.data('stars');
-    console.log("Selected stars: ", stars); // Debugging line
         var starRatingHtml = '';
 
         // Create the star rating based on the data-stars attribute
