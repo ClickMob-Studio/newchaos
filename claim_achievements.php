@@ -287,7 +287,8 @@ $bustbadge = array(
                     </div>
                 ";
 
-                mysql_query("UPDATE grpgusers SET points = points + ".$badgers['payout']." WHERE id = ".$this->id);
+                echo "UPDATE grpgusers SET points = points +  " . $badgers['payout'] . " WHERE id = ".$this->id;
+                mysql_query("UPDATE grpgusers SET points = points +  " . $badgers['payout'] . " WHERE id = ".$this->id);
             }
         }
 //        foreach ($crimebadge as $number => $badgers) {
