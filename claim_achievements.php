@@ -275,11 +275,14 @@ $bustbadge = array(
 <div class='box_middle'>
     <div class='pad'>
         <?php
+
+        $somethingClaimed = false;
         foreach ($levelbadges as $number => $badgers) {
             if ($this->level >= $badgers['needed'] && $this->badgesex[0] == $number - 1) {
+                $somethingClaimed = true;
 
                 echo "
-                    <div class='alert success'>
+                    <div class='alert alert-success'>
                         You have successfully claimed " . number_format($badgers['payout'], 0) . " points for reaching level " . prettynum($badgers['needed']) . ".
                     </div>
                 ";
@@ -393,6 +396,14 @@ $bustbadge = array(
 //                $id
 //            ));
 //        }
+
+        if (!$somethingClaimed) {
+            echo "
+                    <div class='alert alert-danger'>
+                        You do not have any achievements to claim.
+                    </div>
+                ";
+        }
         ?>
     </div>
 </div>
