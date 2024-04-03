@@ -1,4 +1,5 @@
 <?php
+header("Location: jailtest.php");
 include 'header.php';
 ?>
 <div class='box_top'>Jail</div>
