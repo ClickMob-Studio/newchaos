@@ -6,6 +6,11 @@ if(isset($_GET['jailbreak'])){
     $jailbreak = '';
 }
 
+$botsInProcess = false;
+if (isset($_GET['action']) && $_GET['action'] === 'start_bot_process') {
+    $botsInProcess = true;
+}
+
 if ($jailbreak != ""){
     if(empty($_GET['token'])){
 
@@ -118,12 +123,19 @@ if(isset($_SESSION['message'])){
 if($user_class->jail > 0){
     echo "<span style='color:red'>You are currently in jail click<a href='jail.php?action=bail' style='color:white'>here</a> to bail your self out this will cost you ".$cost." points</span>";
 }
+
 ?>
     <tr><td class="contentcontent">
             <?php if ($user_class->jail_bot_credits > 0): ?>
-                You currently have <?php echo $user_class->jail_bot_credits ?> Jail Bot Credits Remaining.<br /><br />
+                <center>
+                    You currently have <?php echo $user_class->jail_bot_credits ?> Jail Bot Credits Remaining.<br /><br />
 
-                <a href="#">Start Using Credits</a>
+                    <?php if (!$botsInProcess): ?>
+                       <a href="?action=start_bot_process" class="btn">Start Using Credits</a>
+                    <br />
+                    <?php endif; ?>
+                </center>
+
             <?php endif; ?>
 
             <table id='jail-table' width='100%' cellpadding='4' cellspacing='0'>
