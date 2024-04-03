@@ -81,9 +81,9 @@ mysql_query($sql) or die(mysql_error());
 
 
             if (mysql_insert_id() > 0) {
-                echo '<h4>Your ticket has been successfully sent.</h4>
+                echo Message('<h4>Your ticket has been successfully sent.</h4>
                 <p>You will get an event once it has been read and assigned.</p>
-                <p>Thanks for getting in touch.</p>';
+                <p>Thanks for getting in touch.</p>');
             }
             else {
                 echo '<h4 style="color: red;">There seems to have been an error in your submission.</h4>
@@ -133,7 +133,7 @@ mysql_query($sql) or die(mysql_error());
     $sql    = "SELECT COUNT(*) FROM `support_tickets` WHERE `user` = '".$user_class->id."' AND `closed` = 0";
     $active = mysql_num_rows($sql);
     $sql    = "SELECT COUNT(*) FROM `support_tickets` WHERE `user` = '".$user_class->id."' AND `closed` = 1";
-    $closed = msyql_num_rows($sql);
+    $closed = mysql_num_rows($sql);
     echo '<table class="table">
         <tr>
             <th colspan="2" class="heading">Previous Tickets</th>
