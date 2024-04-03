@@ -2,6 +2,7 @@
 include 'header.php';
 
 $badgesex = explode(",", $user_class->badges);
+$badgesclaimedex = explode(",", $user_class->badges_claimed);
 $levelbadges = array(
     '6' => array(
         'needed' => 1000,
@@ -278,7 +279,7 @@ $bustbadge = array(
 
         $somethingClaimed = false;
         foreach ($levelbadges as $number => $badgers) {
-            if ($user_class->level >= $badgers['needed'] && $badgesex[0] == $number - 1) {
+            if ($user_class->level >= $badgers['needed'] && $badgesclaimedex[0] == $number - 1) {
                 $somethingClaimed = true;
 
                 echo "
@@ -401,6 +402,8 @@ $bustbadge = array(
                         You do not have any achievements to claim.
                     </div>
                 ";
+        } else {
+            mysql_query("UPDATE grpgusers set badges_claimed = badges WHERE id = " . $user_class->id);
         }
         ?>
     </div>
