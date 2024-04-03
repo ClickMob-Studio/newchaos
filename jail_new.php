@@ -167,7 +167,7 @@ if($user_class->jail > 0){
                         '<tr class="jail-cell-row">' +
                             '<td>' + data.username + '</td>' +
                             '<td>' + data.time + '</td>' +
-                            '<td><a href="#" data-user-id="' + data.id + '">Break Out</a></td>' +
+                            '<td><a href="#" data-user-id="' + data.id + '" class="break-out-link">Break Out</a></td>' +
                         '</tr>'
                     );
                 })
