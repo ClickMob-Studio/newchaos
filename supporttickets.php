@@ -208,17 +208,16 @@ function support_view()
     if ($id)
     {
         echo '<h3>Viewing ticket #' . $id . '</h3>';
-        $sql = "SELECT u.`userid`, u.`username`, t.* FROM `support_tickets` t LEFT JOIN `users` u ON t.`user` = u.`userid` WHERE `id` = '{$id}' AND t.`user` = '{$user_class->id}' LIMIT 1";
-        if ( ($ticket = $db->fetchRow($sql)) == true ) {
+        $sql = mysql_query("SELECT u.`userid`, u.`username`, t.* FROM `support_tickets` t LEFT JOIN `users` u ON t.`user` = u.`userid` WHERE `id` = '{$id}' AND t.`user` = '{$user_class->id}' LIMIT 1");
+        if (mysql_num_rows($sql) > 0) {
             if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $reply = (array_key_exists('reply', $_POST) && is_string($_POST['reply']) && strlen($_POST['reply']) > 0) ? $db->escapeString($_POST['reply']) : FALSE ;
                 if ($reply) {
-                    $sql = "INSERT INTO `support_replies` (`ticket`, `user`,`message`,`time`) VALUES ('{$ticket['id']}', '{$user_class->id}', " . $reply . ", UNIX_TIMESTAMP())";
-                    $db->execute($sql);
+                    $sql = mysql_query("INSERT INTO `support_replies` (`ticket`, `user`,`message`,`time`) VALUES ('{$ticket['id']}', '{$user_class->id}', " . $reply . ", UNIX_TIMESTAMP())");
                     if ($ticket['assigned'] > 0)
                     {
                         $text = '<a href="viewuser.php?u=' . $user_class->id . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> replied to one of the tickets you are assigned to: <a href="supporttickets.php?action=viewticket&id=' . $ticket['id'] . '">Here</a>';
-                        event_add($ticket['assigned'], $text, $c);
+                        Send_Event($ticket['assigned'], $text);
                     }
                 }
             }
