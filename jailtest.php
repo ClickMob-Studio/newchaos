@@ -62,9 +62,10 @@ if ($jailed_person->jail == "0"){
 		}
 	} else {
 		echo Message("You don't have enough nerve for that crime.");
+        include 'footer.php';
+        die();
 	}
-	include 'footer.php';
-	die();
+
 }
 ?>
 <tr><td class="contenthead">Jail</td></tr>
