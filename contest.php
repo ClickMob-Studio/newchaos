@@ -126,7 +126,7 @@ echo "<script>var targetDate = $targetDate * 1000; // Convert to milliseconds fo
 echo'<div class="contenthead floaty">';
 echo'    <h4>Welcome to ChaosCity Raid and Attack contest</h4>';
 echo'    <p>This is your chance to win some amazing prizes! All you need to do'; echo'is win more Raids and Attacks than your fellow players.</p>';
-echo'    <p><span style="color: black;">Note: Obtain Bonus points to your counter when Summoning Bosses.</span></p>';
+echo'    <p><span style="color: white;">Note: Obtain Bonus points to your counter when Summoning Bosses.</span></p>';
 echo '<h4><font color=orange>Both Competitions will end in</font> <div id="countdownTimer" style="color: #FF0000; font-size: 20px;"></div></h4>';
 
 echo'        <!-- Timer will be displayed here -->';
