@@ -982,6 +982,11 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
         if ($this->id == 1)
             $this->admin = 1;
     }
+
+    function addPoints(int $points)
+    {
+        mysql_query("UPDATE grpgusers SET points = points +  " . $points . " WHERE id = " . $this->id);
+    }
 }
 class GangRank {
     function GangRank($rank, $notmyranks = 0) {
