@@ -155,7 +155,7 @@ if($user_class->jail > 0){
 
 <script type="text/javascript">
     jailInterval = setInterval(() => {
-        $.get("ajax_jail_new.php", {}, (jailers) => {
+        $.get("ajax_jail_new.php?action=fetch_users", {}, (jailers) => {
             console.log('interval');
             $('.jail-cell-row').remove();
 
@@ -173,7 +173,7 @@ if($user_class->jail > 0){
                 })
             }
         }, "json")
-    }, 1000);
+    }, 2000);
 </script>
 <?
 include 'footer.php';
