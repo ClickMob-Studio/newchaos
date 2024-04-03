@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-exit();
+
 $badgesex = explode(",", $user_class->badges);
 $badgesclaimedex = explode(",", $user_class->badges_claimed);
 $levelbadges = array(
