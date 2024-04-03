@@ -819,11 +819,17 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
                     // 	$badgers['payout'],
                     // 	$id
                     // ));
-                    $this->points = $this->points + $badgers['payout'];
-                    mysql_query("UPDATE grpgusers SET points = points + " . $badgers['payout'] . " WHERE id = " . $this->id);
-                    Send_Event($this->id, "You have received {$badgers['payout']} Points for Reaching Level " . prettynum($badgers['needed']) . " Achievement.", $this->id);
-                    Send_Event1($this->id, "Has just received {$badgers['payout']} Points for Reaching Level " . prettynum($badgers['needed']) . " Achievement.", $this->id);
-                    $this->badgesex[0] = $number;
+
+                    if ($this->admin > 0) {
+                        Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching level " . prettynum($badgers['needed']) . ". <a style='color: red;' href='claim_achievements.php'>Claim Now</a>" , $this->id);
+                        $this->badgesex[0] = $number;
+                    } else {
+                        $this->points = $this->points + $badgers['payout'];
+                        mysql_query("UPDATE grpgusers SET points = points + " . $badgers['payout'] . " WHERE id = " . $this->id);
+                        Send_Event($this->id, "You have received {$badgers['payout']} Points for Reaching Level " . prettynum($badgers['needed']) . " Achievement.", $this->id);
+                        Send_Event1($this->id, "Has just received {$badgers['payout']} Points for Reaching Level " . prettynum($badgers['needed']) . " Achievement.", $this->id);
+                        $this->badgesex[0] = $number;
+                    }
                 }
                 if (!isset($this->badge1) && $this->level >= $badgers['needed']) {
                     $this->badge1 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img width="100px" src="css/images/'.$badgers["img"].'.png"></img></div>';
