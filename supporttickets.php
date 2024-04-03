@@ -155,7 +155,7 @@ function support_closed()
     </table>
     <table class="table">';
 
-    $sql = "SELECT * FROM `support_tickets` WHERE `user` = '{$ir['userid']}' AND `closed` = 1 ORDER BY `id` DESC";
+    $sql = "SELECT * FROM `support_tickets` WHERE `user` = '{$user_class->id}' AND `closed` = 1 ORDER BY `id` DESC";
     if ( ($res = $db->fetchAll($sql)) == false ) {
         echo '<tr>
             <td>You do not have any closed tickets.</td>
@@ -181,7 +181,7 @@ function support_open()
     echo '<h1>Your open tickets</h1>
     <table class="table" style="width: 100%;">';
 
-    $sql = mysql_query("SELECT * FROM `support_tickets` WHERE `user` = '{$ir['userid']}' AND `closed` = 0 ORDER BY `id` DESC");
+    $sql = mysql_query("SELECT * FROM `support_tickets` WHERE `user` = '{$user_class->id}' AND `closed` = 0 ORDER BY `id` DESC");
     if (mysql_num_rows($sql < 1) ) {
         echo '<tr>
             <td colspan="2">You do not have any open tickets.</td>
@@ -208,16 +208,16 @@ function support_view()
     if ($id)
     {
         echo '<h3>Viewing ticket #' . $id . '</h3>';
-        $sql = "SELECT u.`userid`, u.`username`, t.* FROM `support_tickets` t LEFT JOIN `users` u ON t.`user` = u.`userid` WHERE `id` = '{$id}' AND t.`user` = '{$ir['userid']}' LIMIT 1";
+        $sql = "SELECT u.`userid`, u.`username`, t.* FROM `support_tickets` t LEFT JOIN `users` u ON t.`user` = u.`userid` WHERE `id` = '{$id}' AND t.`user` = '{$user_class->id}' LIMIT 1";
         if ( ($ticket = $db->fetchRow($sql)) == true ) {
             if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $reply = (array_key_exists('reply', $_POST) && is_string($_POST['reply']) && strlen($_POST['reply']) > 0) ? $db->escapeString($_POST['reply']) : FALSE ;
                 if ($reply) {
-                    $sql = "INSERT INTO `support_replies` (`ticket`, `user`,`message`,`time`) VALUES ('{$ticket['id']}', '{$ir['userid']}', " . $reply . ", UNIX_TIMESTAMP())";
+                    $sql = "INSERT INTO `support_replies` (`ticket`, `user`,`message`,`time`) VALUES ('{$ticket['id']}', '{$user_class->id}', " . $reply . ", UNIX_TIMESTAMP())";
                     $db->execute($sql);
                     if ($ticket['assigned'] > 0)
                     {
-                        $text = '<a href="viewuser.php?u=' . $ir['userid'] . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> replied to one of the tickets you are assigned to: <a href="tickets.php?action=viewticket&id=' . $ticket['id'] . '">Here</a>';
+                        $text = '<a href="viewuser.php?u=' . $user_class->id . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> replied to one of the tickets you are assigned to: <a href="tickets.php?action=viewticket&id=' . $ticket['id'] . '">Here</a>';
                         event_add($ticket['assigned'], $text, $c);
                     }
                 }
@@ -374,7 +374,7 @@ function your_list()
             <th>Subject</th>
         </tr>';
         
-        $sql = "SELECT u.`userid`, u.`username`, t.`id`, t.`subject` FROM `support_tickets` t LEFT JOIN `users` u ON t.`user` = u.`userid` WHERE `assigned` = '{$ir['userid']}' AND `closed` = 0;";
+        $sql = "SELECT u.`userid`, u.`username`, t.`id`, t.`subject` FROM `support_tickets` t LEFT JOIN `users` u ON t.`user` = u.`userid` WHERE `assigned` = '{$user_class->id}' AND `closed` = 0;";
         if ( ($res = $db->fetchAll($sql)) == true ) {
             foreach ($res AS $tickets) {
                 echo '<tr>
@@ -407,7 +407,7 @@ function closed_tickets()
             <th>Subject</th>
         </tr>';
         
-        $sql = "SELECT u.`userid`, u.`username`, t.`id`, t.`subject` FROM `support_tickets` t LEFT JOIN `users` u ON t.`user` = u.`userid` WHERE `assigned` = '{$ir['userid']}' AND `closed` = 1;";
+        $sql = "SELECT u.`userid`, u.`username`, t.`id`, t.`subject` FROM `support_tickets` t LEFT JOIN `users` u ON t.`user` = u.`userid` WHERE `assigned` = '{$user_class->id}' AND `closed` = 1;";
         if ( ($res = $db->fetchAll($sql)) == true ) {
             foreach ($res AS $tickets) {
                 echo '<tr>
@@ -431,10 +431,10 @@ function view_ticket()
     $id   = (array_key_exists('id', $_GET) && (is_int($_GET['id']) || ctype_digit($_GET['id']))) ? substr($_GET['id'], 0, 12) : FALSE ;
     if ($id)
     {
-        $code = MD5($id . $ir['userid']);
+        $code = MD5($id . $user_class->id);
         $take = (array_key_exists('code', $_GET) && ctype_alnum($_GET['code'])) ? substr($_GET['code'], 0, 32) : FALSE ;
         if ($take == $code) {
-            $sql = "UPDATE `support_tickets` SET `assigned` = '{$ir['userid']}' WHERE `id` = '{$id}' AND `assigned` = 0";
+            $sql = "UPDATE `support_tickets` SET `assigned` = '{$user_class->id}' WHERE `id` = '{$id}' AND `assigned` = 0";
             $db->execute($sql);
         }
         echo '<table class="table">
@@ -444,7 +444,7 @@ function view_ticket()
         </table>';
         $sql = "SELECT u.`userid`, u.`username`, t.* FROM `support_tickets` t LEFT JOIN `users` u ON t.`user` = u.`userid` WHERE `id` = '{$id}' LIMIT 1";
         if ( ($ticket = $db->fetchRow($sql)) == true ) {
-            if (($ticket['assigned'] !== "0" && $ticket['assigned'] !== $ir['userid']) && $user_class->id !== "2") {
+            if (($ticket['assigned'] !== "0" && $ticket['assigned'] !== $user_class->id) && $user_class->id !== "2") {
                 echo '<p>We\'re sorry, but you are not assigned to this task, so can not work on it.</p>';
          
                 exit;
@@ -457,9 +457,9 @@ function view_ticket()
             if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $reply = (array_key_exists('reply', $_POST) && is_string($_POST['reply']) && strlen($_POST['reply']) > 0) ? $db->escapeString($_POST['reply']) : FALSE ;
                 if ($reply) {
-                    $sql  = "INSERT INTO `support_replies` (`ticket`, `user`,`message`,`time`) VALUES ('{$ticket['id']}', '{$ir['userid']}', " . $reply . ", UNIX_TIMESTAMP())";
+                    $sql  = "INSERT INTO `support_replies` (`ticket`, `user`,`message`,`time`) VALUES ('{$ticket['id']}', '{$user_class->id}', " . $reply . ", UNIX_TIMESTAMP())";
                     $db->execute($sql);
-                    $text = '<a href="viewuser.php?u=' . $ir['userid'] . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> just replied to your support ticket: <a href="tickets.php?action=view&id=' . $ticket['id'] . '">Here</a>';
+                    $text = '<a href="viewuser.php?u=' . $user_class->id . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> just replied to your support ticket: <a href="tickets.php?action=view&id=' . $ticket['id'] . '">Here</a>';
                     event_add($ticket['user'], $text, $c);
                 }
             }
@@ -564,11 +564,11 @@ function close_ticket()
     if ($id) {
         $sql = "SELECT * FROM `support_tickets` WHERE `id` = '{$id}' AND `closed` = 0 LIMIT 1";
         if ( ($ticket = $db->fetchRow($sql)) == true ) {
-            if ($ticket['assigned'] == $ir['userid'] || $user_class->id == 2) {
+            if ($ticket['assigned'] == $user_class->id || $user_class->id == 2) {
                 $sql  = "UPDATE `support_tickets` SET `closed` = 1 WHERE `id` = '{$ticket['id']}'";
                 $db->execute($sql);
                 echo '<p>Ticket Closed.</p>';
-                $text = '<a href="viewuser.php?u=' . $ir['userid'] . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> just closed your ticket: <a href="tickets.php?action=view&id=' . $ticket['id'] . '">Here</a>';
+                $text = '<a href="viewuser.php?u=' . $user_class->id . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> just closed your ticket: <a href="tickets.php?action=view&id=' . $ticket['id'] . '">Here</a>';
                 event_add($ticket['user'], $text, $c);
             }
             else {
@@ -592,11 +592,11 @@ function push_ticket()
     if ($id) {
         $sql = "SELECT * FROM `support_tickets` WHERE `id` = '{$id}' AND `closed` = 0 LIMIT 1";
         if ( ($ticket = $db->fetchRow($sql)) == true ) {
-            if ($ticket['assigned'] == $ir['userid'] || $user_class->id == 2) {
+            if ($ticket['assigned'] == $user_class->id || $user_class->id == 2) {
                 $sql = "UPDATE `support_tickets` SET `assigned` = 0, `admin` = 1 WHERE `id` = '{$ticket['id']}'";
                 $db->execute($sql);
                 echo '<p>Ticket Pushed to Admin.</p>';
-                $text = '<a href="viewuser.php?u=' . $ir['userid'] . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> just passed your ticket to admin: <a href="tickets.php?action=view&id=' . $ticket['id'] . '">Here</a>. They will be in contact shortly.';
+                $text = '<a href="viewuser.php?u=' . $user_class->id . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> just passed your ticket to admin: <a href="tickets.php?action=view&id=' . $ticket['id'] . '">Here</a>. They will be in contact shortly.';
                 event_add($ticket['user'], $text, $c);
             }
             else {
