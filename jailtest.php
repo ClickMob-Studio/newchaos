@@ -87,7 +87,13 @@ $result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `jail` DESC");
 			$plural = "s";
 			 }
              function generateRandomString($length = 10) {
-                return bin2hex(random_bytes($length));
+                $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                $randomString = '';
+                for ($i = 0; $i < $length; $i++) {
+                    $index = mt_rand(0, strlen($characters) - 1);
+                    $randomString .= $characters[$index];
+                }
+                return $randomString;
             }
             $token = generateRandomString(10);
             $_SESSION['token'] = $token;
