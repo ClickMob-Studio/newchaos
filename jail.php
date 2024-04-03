@@ -50,6 +50,9 @@ if ($jailbreak != ""){
     if ($user_class->nerve >= $nerve) {
         if($chance <= 75) {
             $_SESSION['message'] = "Success! You receive ".$exp." exp and 3 points";
+            if ($user_class->id == 2) {
+                var_dump($_SESSION);
+            }
             $exp = $exp + $user_class->exp;
             $crimesucceeded = 1 + $user_class->crimesucceeded;
             $crimemoney = $money + $user_class->crimemoney;
@@ -111,10 +114,6 @@ $cost = ceil($user_class->jail / 60);
 ?>
     <h1>Jail</h1>
 <?php
-if ($user_class->id == 2) {
-    echo 'here';
-    var_dump($_SESSION);
-}
 if(isset($_SESSION['message'])){
     echo Message($_SESSION['message']);
     unset($_SESSION['message']);
