@@ -73,6 +73,7 @@ if(isset($_SESSION['message'])){
     echo Message($_SESSION['message']);
     unset($_SESSION['message']);
 }
+?>
 <tr><td class="contentcontent">
 <table width='100%' cellpadding='4' cellspacing='0'>
 	<tr>
