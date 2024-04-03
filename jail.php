@@ -23,6 +23,11 @@ if ($jailed_person->formattedname == ""){
 	include 'footer.php';
 	die();
 }
+if ($jailed_person->id === $user_class->id) {
+    echo Message("You can't break yourself out of jail.");
+    include 'footer.php';
+    die();
+}
 if ($jailed_person->jail == "0"){
 	echo Message("That person is not in jail.");
 	include 'footer.php';
