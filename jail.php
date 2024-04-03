@@ -155,7 +155,7 @@ if($user_class->jail > 0){
                         }
 
                         if($user_jail->jail != 0){
-                            echo "<tr class='jail-cell-row'><td>".$user_jail->formattedname."</td><td>".floor($user_jail->jail / 60)." minute".$plural."</td><td><a href = '?jailbreak=".$user_jail->id."&token=".$token."'>Break Out</a></td></tr>";
+                            echo "<tr class='jail-cell-row'><td>".$user_jail->formattedname."</td><td>".floor($user_jail->jail / 60)." m"."</td><td><a href = '?jailbreak=".$user_jail->id."&token=".$token."'>Break Out</a></td></tr>";
                         }
                     }
                 }else{
