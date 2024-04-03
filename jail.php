@@ -50,9 +50,6 @@ if ($jailbreak != ""){
     if ($user_class->nerve >= $nerve) {
         if($chance <= 75) {
             $_SESSION['message'] = "Success! You receive ".$exp." exp and 3 points";
-            if ($user_class->id == 2) {
-                var_dump($_SESSION); exit;
-            }
             $exp = $exp + $user_class->exp;
             $crimesucceeded = 1 + $user_class->crimesucceeded;
             $crimemoney = $money + $user_class->crimemoney;
@@ -75,7 +72,7 @@ if ($jailbreak != ""){
             //send even to that person
             Send_Event($jailed_person->id, "You have been busted out of Jail by [-_USERID_-].", $user_class->id);
 
-            header('Location: jail.php');
+            //header('Location: jail.php');
         }elseif ($chance >= 150) {
             $_SESSION['message'] = "You were caught. You were hauled off to jail for 10  minutes.";
             $crimefailed = 1 + $user_class->crimefailed;
