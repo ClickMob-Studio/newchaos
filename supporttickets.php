@@ -37,7 +37,7 @@ function support_index()
 {
     global $db,$user_class;
 
-    echo '<table class="table">
+    echo '<table>
         <tr>
             <th class="heading">Welcome to the support system, ' . $user_class->formattedname. '</th>
         </tr>
