@@ -35,7 +35,7 @@ echo '<script>
                 })
             }
         }, "json")
-    }, 1000)
+    }, 5000)
     clear_cells = () => {
         for (i = 0; i <= 8; i++) {
             $("#cell_" + i).html("Empty Cell")
