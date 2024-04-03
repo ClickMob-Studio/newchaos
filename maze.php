@@ -292,7 +292,7 @@ echo '
 
     <!-- First table for Common items -->
     <div class="contenthead floaty common" style="padding: 20px; margin-bottom: 20px; border-radius: 8px;">
-        <h1><font color=black>Common Items</font></h1>
+        <h1><font color=blue>Common Items</font></h1>
         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 255, 255, 0.6); border-radius: 8px;">
                 <img src="/diamondstone.png" width="50" height="50" alt="Diamond Stone">
