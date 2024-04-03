@@ -1,5 +1,7 @@
 <?php
 include 'header.php';
+echo Message("Back Soon");
+exit;
 
 $badgesex = explode(",", $user_class->badges);
 $badgesclaimedex = explode(",", $user_class->badges_claimed);
