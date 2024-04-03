@@ -23,7 +23,7 @@ if ($jailbreak != ""){
         include 'footer.php';
         die();
     }
-    if ($jailed_person->id === $user_class->id) {
+    if ($jailed_person->id == $user_class->id) {
         echo Message("You can't break yourself out of jail.");
         include 'footer.php';
         die();
