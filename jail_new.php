@@ -131,7 +131,7 @@ if($user_class->jail > 0){
                     You currently have <?php echo $user_class->jail_bot_credits ?> Jail Bot Credits Remaining.<br /><br />
 
                     <?php if (!$botsInProcess): ?>
-                       <a href="?action=start_bot_process" class="btn">Start Using Credits</a>
+                       <a href="?action=start_bot_process" class="btn btn-primary">Start Using Credits</a>
                     <br />
                     <?php endif; ?>
                 </center>
