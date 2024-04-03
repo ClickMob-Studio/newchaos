@@ -8,7 +8,7 @@ include 'header.php';
 date_default_timezone_set('Europe/London'); // This will automatically account for BST as well.
 
 // Target date and time for 31st March at 5 PM UK time
-$targetDateMilliseconds = strtotime('March 31, 2024 17:00:00') * 1000;
+$targetDateMilliseconds = strtotime('April 10, 2024 17:00:00') * 1000;
 ?>
 <style>
 /* Resets for consistent styling */
