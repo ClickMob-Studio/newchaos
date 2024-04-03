@@ -169,7 +169,7 @@ if (strtotime($lastGiveawayTime) <= strtotime('-1 hour')) {
 
         // Reward the second user with money
         mysql_query("UPDATE `grpgusers` SET `money` = `money` + 500000 WHERE `id` = " . $winners[1]);
-        Send_event($winners[1], "You have been randomly selected this hour! You won 500000  Money!");
+        Send_event($winners[1], "You have been randomly selected this hour! You won $500,000!");
 
         // Reward the third user with credits
        mysql_query("UPDATE `grpgusers` SET `credits` = `credits` + 25 WHERE `id` = " . $winners[2]);
