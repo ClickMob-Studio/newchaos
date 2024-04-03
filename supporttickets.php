@@ -96,7 +96,7 @@ function support_index()
 
     echo '<p>Please post your inquiry, bug report, suggestions etc below.</p>
     <form action="tickets.php" method="post">
-    <table class="table dark">
+    <table class="table">
         <tr>
             <th width="20%">Subject</th>
             <td><input type="text" name="subject" value="' . $subject . '" class="input_select">
