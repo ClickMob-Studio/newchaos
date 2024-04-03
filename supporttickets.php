@@ -130,9 +130,9 @@ mysql_query($sql) or die(mysql_error());
         </tr>
     </table>
     </form>';
-    $sql    = "SELECT `user` FROM `support_tickets` WHERE `user` = ".$user_class->id." AND `closed` = 0";
+    $sql    = mysql_query("SELECT `user` FROM `support_tickets` WHERE `user` = ".$user_class->id." AND `closed` = 0");
     $active = mysql_num_rows($sql);
-    $sql    = "SELECT `user` FROM `support_tickets` WHERE `user` = ".$user_class->id." AND `closed` = 1";
+    $sql    = mysql_query("SELECT `user` FROM `support_tickets` WHERE `user` = ".$user_class->id." AND `closed` = 1");
     $closed = mysql_num_rows($sql);
     echo '<table class="table">
         <tr>
