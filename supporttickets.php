@@ -3,7 +3,7 @@ include_once('header.php');
 
 if ($user_class->admin > 0)
 {
-    echo '<table class="table">
+    echo '<table >
         <tr>
             <th colspan="4" class="heading">Staff Options</th>
         </tr>
@@ -134,7 +134,7 @@ mysql_query($sql) or die(mysql_error());
     $active = mysql_num_rows($sql);
     $sql    = mysql_query("SELECT `user` FROM `support_tickets` WHERE `user` = ".$user_class->id." AND `closed` = 1");
     $closed = mysql_num_rows($sql);
-    echo '<table class="table">
+    echo '<table >
         <tr>
             <th colspan="2" class="heading">Previous Tickets</th>
         </tr>
@@ -148,21 +148,21 @@ function support_closed()
 {
     global $user_class;
 
-    echo '<table class="table">
+    echo '<table >
         <tr>
             <th class="heading">Your closed tickets</th>
         </tr>
     </table>
-    <table class="table">';
+    <table >';
 
-    $sql = "SELECT * FROM `support_tickets` WHERE `user` = '{$user_class->id}' AND `closed` = 1 ORDER BY `id` DESC";
-    if ( ($res = $db->fetchAll($sql)) == false ) {
+    $sql = mysql_query("SELECT * FROM `support_tickets` WHERE `user` = '{$user_class->id}' AND `closed` = 1 ORDER BY `id` DESC");
+    if (mysql_num_rows($sql) < 1) {
         echo '<tr>
             <td>You do not have any closed tickets.</td>
         </tr>';
     }
     else {
-        foreach ($res AS $ticket) {
+        while($ticket = mysql_fetch_array($sql)){
             echo '<tr>
                 <th colspan="2">' . htmlentities($ticket['subject'], ENT_QUOTES, "UTF-8") . '</th>
             </tr>
@@ -179,7 +179,7 @@ function support_open()
     global $user_class;
 
     echo '<h1>Your open tickets</h1>
-    <table class="table" style="width: 100%;">';
+    <table  style="width: 100%;">';
 
     $sql = mysql_query("SELECT * FROM `support_tickets` WHERE `user` = '{$user_class->id}' AND `closed` = 0 ORDER BY `id` DESC");
     if (mysql_num_rows($sql < 1) ) {
@@ -223,7 +223,7 @@ function support_view()
                 }
             }
 
-            echo '<table class="table">
+            echo '<table >
                 <tr>
                     <th colspan="2">' . htmlentities($ticket['subject'], ENT_QUOTES, "UTF-8") . '</th>
                 </tr>
@@ -236,7 +236,7 @@ function support_view()
                 </tr>
             </table>
             <h4>Conversation</h4>
-            <table class="table">';
+            <table >';
 
             $sql = "SELECT u.`userid`, u.`username`, u.`user_level`, r.* FROM `support_replies` r LEFT JOIN `users` u ON r.`user` = u.`userid` WHERE r.`ticket` = '{$ticket['id']}' ORDER BY r.`time` ASC";
             if ( ($res = $db->fetchAll($sql)) == false ) {
@@ -270,7 +270,7 @@ function support_view()
             if ($ticket['closed'] == 0) {
                 echo  '<h4>Reply</h4>
                 <form action="supporttickets.php?action=view&id=' . $ticket['id'] . '" method="post">
-                    <table class="table">
+                    <table >
                         <tr>
                             <td><textarea name="reply" style="width: 98%; height: 200px;"></textarea>
                         </tr>
@@ -297,12 +297,12 @@ function staff_list()
 {
     global $user_class;
 
-    echo '<table class="table">
+    echo '<table >
         <tr>
             <th class="heading">New Tickets</th>
         </tr>
     </table>
-    <table class="table">
+    <table >
         <tr>
             <th width="10%">Ticket ID</th>
             <th width="15%">Sender</th>
@@ -328,12 +328,12 @@ function staff_list()
 
     if ($user_class->id == 2)
     {
-        echo '<table class="table">
+        echo '<table >
             <tr>
                 <th class="heading">Pending for Admin</th>
             </tr>
         </table>
-        <table class="table">
+        <table >
             <tr>
                 <th width="10%">Ticket ID</th>
                 <th width="15%">Sender</th>
@@ -362,12 +362,12 @@ function your_list()
 {
     global $user_class;
 
-    echo '<table class="table">
+    echo '<table >
         <tr>
             <th class="heading">Your Tickets</th>
         </tr>
     </table>
-    <table class="table">
+    <table >
         <tr>
             <th width="10%">Ticket ID</th>
             <th width="15%">Sender</th>
@@ -395,12 +395,12 @@ function closed_tickets()
 {
     global $user_class;
 
-    echo '<table class="table">
+    echo '<table >
         <tr>
             <th class="heading">Your closed tickets</th>
         </tr>
     </table>
-    <table class="table">
+    <table >
         <tr>
             <th width="10%">Ticket ID</th>
             <th width="15%">Sender</th>
@@ -437,7 +437,7 @@ function view_ticket()
             $sql = "UPDATE `support_tickets` SET `assigned` = '{$user_class->id}' WHERE `id` = '{$id}' AND `assigned` = 0";
             $db->execute($sql);
         }
-        echo '<table class="table">
+        echo '<table >
             <tr>
                 <th class="heading">Viewing ticket #' . $id . '</th>
             </tr>
@@ -463,7 +463,7 @@ function view_ticket()
                     event_add($ticket['user'], $text, $c);
                 }
             }
-            echo '<table class="table">
+            echo '<table >
                 <tr>
                     <th colspan="2">' . htmlentities($ticket['subject'], ENT_QUOTES, "UTF-8") . '</th>
                 </tr>
@@ -475,12 +475,12 @@ function view_ticket()
                     <td>' . stripslashes(str_replace(array("\n", '\\'), array("<br />", ""), htmlentities($ticket['message'], ENT_QUOTES, "UTF-8"))) . '</td>
                 </tr>
             </table>
-            <table class="table">
+            <table >
                 <tr>
                     <th class="heading">Conversation</th>
                 </tr>
             </table>
-            <table class="table">';
+            <table >';
 
             $sql = "SELECT u.`userid`, u.`username`, u.`user_level`, r.* FROM `support_replies` r LEFT JOIN `users` u ON r.`user` = u.`userid` WHERE r.`ticket` = '{$ticket['id']}' ORDER BY r.`time` ASC";
             if ( ($res = $db->fetchAll($sql)) == false ) {
@@ -510,7 +510,7 @@ function view_ticket()
                 }
             }
             echo '</table>
-            <table class="table">
+            <table >
                 <tr>
                     <th class="heading">Reply</th>
                 </tr>
@@ -518,7 +518,7 @@ function view_ticket()
 
             if ($ticket['closed'] == 0 || $user_class->id == 2) {
                 if ($ticket['assigned'] == 0) {
-                    echo '<table class="table">
+                    echo '<table >
                         <tr>
                             <th colspan="2">Nobody has claimed this ticket yet. Would you like to take it?</th>
                         </tr>
@@ -530,7 +530,7 @@ function view_ticket()
                 }
                 else {
                     echo '<form action="supporttickets.php?action=viewticket&id=' . $ticket['id'] . '" method="post">
-                        <table class="table">
+                        <table >
                             <tr>
                                 <td><textarea name="reply" class="input_textarea"></textarea></td>
                             </tr>
@@ -618,12 +618,12 @@ function view_all()
     $limit = 0;
     $page  = (array_key_exists('page', $_GET) && (is_int($_GET['page']) || ctype_digit($_GET['page'])) && $_GET['page'] > 0) ? substr($_GET['page'], 0, 12) : 1 ;
     $limit = (($page - 1) * 20);
-    echo '<table class="table">
+    echo '<table >
         <tr>
             <th class="heading">All Tickets</th>
         </tr>
     </table>
-    <table class="table">
+    <table >
         <tr>
             <th colspan="5">
                 <div style="float: left;">' . ($page > 1 ? '<a href="supporttickets.php?action=alltickets&page=' . ($page - 1) . '" class="btn btn-small btn-info span12">Previous</a>' : '') . '</div>
