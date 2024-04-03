@@ -173,7 +173,7 @@ if($user_class->jail > 0){
                 })
             }
         }, "json")
-    }, 2000);
+    }, 1000);
 </script>
 <?
 include 'footer.php';
