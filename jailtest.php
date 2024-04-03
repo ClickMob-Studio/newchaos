@@ -1,9 +1,11 @@
 <?php
 include 'header.php';
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-$jailbreak = $_GET['jailbreak'];
+if(isset($_GET['jailbreak'])){
+    $jailbreak = $_GET['jailbreak'];
+}else{
+    $jailbreak = '';
+}
+
 if ($jailbreak != ""){
     if(empty($_GET['token'])){
         echo Message("There has been a issue");
