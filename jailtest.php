@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-exit();
+
 $jailbreak = $_GET['jailbreak'];
 if ($jailbreak != ""){
 
@@ -16,19 +16,22 @@ if ($jailed_person->jail == "0"){
 	die();
 }
 	$chance = rand(1,(100 * $crime - ($user_class->speed / 25)));
-	$money = 2500;
-	$exp = 1000;
+	//$money = 785;
 	$nerve = 10;
+    $exp = 2500;
 	if ($user_class->nerve >= $nerve) {
 		if($chance <= 75) {
-                        echo Message("Success! You receive ".$exp." exp and $".$money);
-			$crimesucceeded = 1 + $user_class->crimesucceeded;
-			$money = $money + $user_class->money;
+			echo Message("Success! You receive ".$exp." exp and $".$money);
 			$exp = $exp + $user_class->exp;
-			$exp = 1000;
-			$money = 2500 + $user_class->money;
+			$crimesucceeded = 1 + $user_class->crimesucceeded;
+			$crimemoney = $money + $user_class->crimemoney;
+			$money = $money + $user_class->money;
 			$nerve = $user_class->nerve - $nerve;
-			$result = mysql_query("UPDATE `grpgusers` SET `exp` = '".$exp."', `crimesucceeded` = '".$crimesucceeded."', `crimemoney` = '".$crimemoney."', `money` = '".$money."', `nerve` = '".$nerve."' WHERE `id`='".$_SESSION['id']."'");
+            if ($user_class->gang != 0) {
+                mysql_query("UPDATE gangs SET dailyBusts = dailyBusts + 1 WHERE id = ".$user_class->gang);
+            }
+            mysql_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp = exp + ".$exp.", busts = busts + 1, points = points + 3, nerve = nerve - ".$nerve." WHERE id = ".$user_class->id);
+               
 			$result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='".$jailed_person->id."'");
 			//send even to that person
 			Send_Event($jailed_person->id, "You have been busted out of jail by ".$user_class->formattedusername);
@@ -37,12 +40,12 @@ if ($jailed_person->jail == "0"){
 			$crimefailed = 1 + $user_class->crimefailed;
 			$jail = 10800;
 			$nerve = $user_class->nerve - $nerve;
-			$result = mysql_query("UPDATE `grpgusers` SET `crimefailed` = '".$crimefailed."', `jail` = '".$jail."', `nerve` = '".$nerve."' WHERE `id`='".$_SESSION['id']."'");
+			$result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, caught = caught + 1, jail = 600, nerve = nerve - ".$nerve." WHERE id =".$user_class->id);
 		}else{
 			echo Message("You failed.");
 			$crimefailed = 1 + $user_class->crimefailed;
 			$nerve = $user_class->nerve - $nerve;
-			$result = mysql_query("UPDATE `grpgusers` SET `crimefailed` = '".$crimefailed."', `nerve` = '".$nerve."' WHERE `id`='".$_SESSION['id']."'");
+			$result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ".$nerve." WHERE id = '".$_SESSION['id']."'");
 		}
 	} else {
 		echo Message("You don't have enough nerve for that crime.");
@@ -63,7 +66,7 @@ if ($jailed_person->jail == "0"){
 		<td>Actions</td>
 
 	</tr>
-	<?php
+	<?
 $result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `jail` DESC");
 
 	while($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
@@ -79,6 +82,6 @@ $result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `jail` DESC");
 	?>
 </table>
 </td></tr>
-<?php
+<?
 include 'footer.php';
 ?>
