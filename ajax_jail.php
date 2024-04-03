@@ -3,9 +3,7 @@
 include "ajax_header.php";
 
 $user_class = new User($_SESSION['id']);
-if($user_class->id == 25){
-    exit();
-}
+
 if (isset($_POST['bust'])) {
     $bust = security($_POST['bust']);
     $db->query("SELECT jail, id FROM grpgusers WHERE id = ?");
