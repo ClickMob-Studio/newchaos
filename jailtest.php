@@ -105,24 +105,24 @@ if($user_class->jail > 0){
 		<td>Actions</td>
 
 	</tr>
-	<?
+	<?php
 $result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `jail` DESC");
-
+function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $index = mt_rand(0, strlen($characters) - 1);
+        $randomString .= $characters[$index];
+    }
+    return $randomString;
+}
 	while($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
 		$secondsago = time()-$line['lastactive'];
 			$user_jail = new User($line['id']);
 			if (floor($user_jail->jail / 60) != 1) {
 			$plural = "s";
 			 }
-             function generateRandomString($length = 10) {
-                $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                $randomString = '';
-                for ($i = 0; $i < $length; $i++) {
-                    $index = mt_rand(0, strlen($characters) - 1);
-                    $randomString .= $characters[$index];
-                }
-                return $randomString;
-            }
+             
             $token = generateRandomString(10);
             $_SESSION['token'] = $token;
 			 if($user_jail->jail != 0){
