@@ -658,4 +658,4 @@ function view_all()
         }
     echo '</table>';
 }
-$h->endpage();
+require "footer.php";
