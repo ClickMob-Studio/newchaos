@@ -3,6 +3,15 @@ include 'header.php';
 
 $jailbreak = $_GET['jailbreak'];
 if ($jailbreak != ""){
+    if(empty($_GET['token'])){
+        echo Message("There has been a issue");
+    }
+    if($_GET['token'] != $_SESSION['token']){
+        echo Message("F5 use on jail is not allowed");
+        exit();
+    }else{
+        unset($_SESSION['token']);
+    }
 
 $jailed_person = new User($jailbreak);
 if ($jailed_person->formattedname == ""){
@@ -75,8 +84,13 @@ $result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `jail` DESC");
 			if (floor($user_jail->jail / 60) != 1) {
 			$plural = "s";
 			 }
+             function generateRandomString($length = 10) {
+                return bin2hex(random_bytes($length));
+            }
+            $token = generateRandomString(10);
+            $_SESSION['token'] = $token;
 			 if($user_jail->jail != 0){
-			echo "<tr><td>".$user_jail->formattedname."</td><td>".floor($user_jail->jail / 60)." minute".$plural."</td><td><a href = 'jail.php?jailbreak=".$user_jail->id."'>Break Out</a></td></tr>";
+			echo "<tr><td>".$user_jail->formattedname."</td><td>".floor($user_jail->jail / 60)." minute".$plural."</td><td><a href = '?jailbreak=".$user_jail->id."&token=".$token."'>Break Out</a></td></tr>";
 			}
 	}
 	?>
