@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-exit();
+
 $badgesex = explode(",", $user_class->badges);
 $badgesclaimedex = explode(",", $user_class->badges_claimed);
 $levelbadges = array(
@@ -374,7 +374,7 @@ $bustbadge = array(
                 ";
 
                 $user_class->addPoints($user_class->id, $badgers['payout']);
-                $badgesclaimedex[5] = $number;
+                $badgesclaimedex[6] = $number;
             }
         }
 
