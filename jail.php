@@ -111,8 +111,9 @@ $cost = ceil($user_class->jail / 60);
 ?>
     <h1>Jail</h1>
 <?php
-if ($user_class->id === 2) {
-    var_dump($_SESSION['message']);
+if ($user_class->id == 2) {
+    echo 'here';
+    var_dump($_SESSION);
 }
 if(isset($_SESSION['message'])){
     echo Message($_SESSION['message']);
