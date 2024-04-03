@@ -168,7 +168,7 @@ if($user_class->jail > 0){
     <script type="text/javascript">
         let jailBreakClicks = 0;
 
-        $('jail-break-link').click(function() {
+        $('.jail-break-link').click(function() {
             $('jail-break-link').removeAttr('href');
         });
 
@@ -188,7 +188,7 @@ if($user_class->jail > 0){
                         );
 
                         $('jail-break-link').click(function() {
-                            $('jail-break-link').removeAttr('href');
+                            $('.jail-break-link').removeAttr('href');
                         });
                     })
                 }
