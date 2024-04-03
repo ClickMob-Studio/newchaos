@@ -155,14 +155,14 @@ function support_closed()
     </table>
     <table class="table">';
 
-    $sql = "SELECT * FROM `support_tickets` WHERE `user` = '{$user_class->id}' AND `closed` = 1 ORDER BY `id` DESC";
-    if ( ($res = $db->fetchAll($sql)) == false ) {
+    $sql = mysql_query("SELECT * FROM `support_tickets` WHERE `user` = '{$user_class->id}' AND `closed` = 1 ORDER BY `id` DESC");
+    if (mysql_num_rows($sql) < 1) {
         echo '<tr>
             <td>You do not have any closed tickets.</td>
         </tr>';
     }
     else {
-        foreach ($res AS $ticket) {
+        while($ticket = mysql_fetch_array($sql)){
             echo '<tr>
                 <th colspan="2">' . htmlentities($ticket['subject'], ENT_QUOTES, "UTF-8") . '</th>
             </tr>
