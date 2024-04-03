@@ -374,7 +374,7 @@ $bustbadge = array(
                 ";
 
                 $user_class->addPoints($user_class->id, $badgers['payout']);
-                $badgesclaimedex[5] = $number;
+                $badgesclaimedex[6] = $number;
             }
         }
 
