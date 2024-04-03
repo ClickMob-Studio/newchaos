@@ -983,9 +983,9 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
             $this->admin = 1;
     }
 
-    function addPoints(int $points)
+    function addPoints($id, $points)
     {
-        mysql_query("UPDATE grpgusers SET points = points +  " . $points . " WHERE id = " . $this->id);
+        mysql_query("UPDATE grpgusers SET points = points +  " . $points . " WHERE id = " . $id);
     }
 }
 class GangRank {

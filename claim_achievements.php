@@ -287,7 +287,7 @@ $bustbadge = array(
                     </div>
                 ";
 
-                $user_class->addPoints($badgers['payout']);
+                $user_class->addPoints($user_class->id, $badgers['payout']);
             }
         }
 //        foreach ($crimebadge as $number => $badgers) {
