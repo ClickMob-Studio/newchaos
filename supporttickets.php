@@ -21,13 +21,13 @@ if ($user_class->admin > 0)
 $action = (array_key_exists('action', $_GET) && strlen($_GET['action']) > 0 && ctype_alnum($_GET['action'])) ? substr($_GET['action'], 0, 20) : FALSE ;
 switch ($action)
 {
-    case "alltickets":      ($ir['user_level'] == 2 ? view_all() : support_index());        break;
-    case "closeticket":     ($ir['user_level'] > 1 ? close_ticket() : support_index());     break;
-    case "pushticket":      ($ir['user_level'] > 1 ? push_ticket() : support_index());      break;
-    case "viewticket":      ($ir['user_level'] > 1 ? view_ticket() : support_index());      break;
-    case "closedtickets":   ($ir['user_level'] > 1 ? closed_tickets() : support_index());   break;
-    case "stafflist":       ($ir['user_level'] > 1 ? staff_list() : support_index());       break;
-    case "yourlist":        ($ir['user_level'] > 1 ? your_list() : support_index());        break;
+    case "alltickets":      ($user_class->id == 2 ? view_all() : support_index());        break;
+    case "closeticket":     ($user_class->id > 1 ? close_ticket() : support_index());     break;
+    case "pushticket":      ($user_class->id > 1 ? push_ticket() : support_index());      break;
+    case "viewticket":      ($user_class->id > 1 ? view_ticket() : support_index());      break;
+    case "closedtickets":   ($user_class->id > 1 ? closed_tickets() : support_index());   break;
+    case "stafflist":       ($user_class->id > 1 ? staff_list() : support_index());       break;
+    case "yourlist":        ($user_class->id > 1 ? your_list() : support_index());        break;
     case "view":            support_view();                                                 break;
     case "open":            support_open();                                                 break;
     case "closed":          support_closed();                                               break;
@@ -35,7 +35,7 @@ switch ($action)
 }
 function support_index()
 {
-    global $db,$user_class;
+    global $user_class;
 
     echo '<table>
         <tr>
@@ -146,7 +146,7 @@ mysql_query($sql) or die(mysql_error());
 }
 function support_closed()
 {
-    global $db, $c, $ir, $h;
+    global $user_class;
 
     echo '<table class="table">
         <tr>
@@ -176,19 +176,19 @@ function support_closed()
 }
 function support_open()
 {
-    global $db, $c, $ir, $h;
+    global $user_class;
 
-    echo '<h3>Your open tickets</h3>
+    echo '<h1>Your open tickets</h1>
     <table class="table" style="width: 100%;">';
 
-    $sql = "SELECT * FROM `support_tickets` WHERE `user` = '{$ir['userid']}' AND `closed` = 0 ORDER BY `id` DESC";
-    if ( ($res = $db->fetchAll($sql)) == false ) {
+    $sql = mysql_query("SELECT * FROM `support_tickets` WHERE `user` = '{$ir['userid']}' AND `closed` = 0 ORDER BY `id` DESC");
+    if (mysql_num_rows($sql < 1) ) {
         echo '<tr>
             <td colspan="2">You do not have any open tickets.</td>
         </tr>';
     }
     else {
-        foreach ($res AS $ticket) {
+        while($ticket = mysql_fetch_array($sql)) {
             echo '<tr>
                 <th colspan="2">' . htmlentities($ticket['subject'], ENT_QUOTES, "UTF-8") . '</th>
             </tr>
@@ -202,7 +202,7 @@ function support_open()
 }
 function support_view()
 {
-    global $db, $c, $ir, $h;
+    global $user_class;
 
     $id   = (array_key_exists('id', $_GET) && (is_int($_GET['id']) || ctype_digit($_GET['id']))) ? substr($_GET['id'], 0, 12) : FALSE ;
     if ($id)
@@ -295,7 +295,7 @@ function support_view()
 
 function staff_list()
 {
-    global $db, $c, $ir, $h;
+    global $user_class;
 
     echo '<table class="table">
         <tr>
@@ -326,7 +326,7 @@ function staff_list()
         }
     echo '</table>';
 
-    if ($ir['user_level'] == 2)
+    if ($user_class->id == 2)
     {
         echo '<table class="table">
             <tr>
@@ -360,7 +360,7 @@ function staff_list()
 }
 function your_list()
 {
-    global $db, $c, $ir, $h;
+    global $user_class;
 
     echo '<table class="table">
         <tr>
@@ -393,7 +393,7 @@ function your_list()
 }
 function closed_tickets()
 {
-    global $db, $c, $ir, $h;
+    global $user_class;
 
     echo '<table class="table">
         <tr>
@@ -426,7 +426,7 @@ function closed_tickets()
 }
 function view_ticket()
 {
-    global $db, $c, $ir, $h;
+    global $user_class;
 
     $id   = (array_key_exists('id', $_GET) && (is_int($_GET['id']) || ctype_digit($_GET['id']))) ? substr($_GET['id'], 0, 12) : FALSE ;
     if ($id)
@@ -444,12 +444,12 @@ function view_ticket()
         </table>';
         $sql = "SELECT u.`userid`, u.`username`, t.* FROM `support_tickets` t LEFT JOIN `users` u ON t.`user` = u.`userid` WHERE `id` = '{$id}' LIMIT 1";
         if ( ($ticket = $db->fetchRow($sql)) == true ) {
-            if (($ticket['assigned'] !== "0" && $ticket['assigned'] !== $ir['userid']) && $ir['user_level'] !== "2") {
+            if (($ticket['assigned'] !== "0" && $ticket['assigned'] !== $ir['userid']) && $user_class->id !== "2") {
                 echo '<p>We\'re sorry, but you are not assigned to this task, so can not work on it.</p>';
          
                 exit;
             }
-            if ($ticket['admin'] == 1 && $ir['user_level'] !== "2") {
+            if ($ticket['admin'] == 1 && $user_class->id !== "2") {
                 echo '<p>You can not view this ticket as it is assigned to admin.</p>';
          
                 exit;
@@ -516,7 +516,7 @@ function view_ticket()
                 </tr>
             </table>';
 
-            if ($ticket['closed'] == 0 || $ir['user_level'] == 2) {
+            if ($ticket['closed'] == 0 || $user_class->id == 2) {
                 if ($ticket['assigned'] == 0) {
                     echo '<table class="table">
                         <tr>
@@ -557,14 +557,14 @@ function view_ticket()
 }
 function close_ticket()
 {
-    global $db, $c, $ir, $h;
+    global $user_class;
 
     echo '<h3>Closing Ticket</h3>';
     $id = (array_key_exists('id', $_GET) && (is_int($_GET['id']) || ctype_digit($_GET['id']))) ? substr($_GET['id'], 0, 12) : FALSE ;
     if ($id) {
         $sql = "SELECT * FROM `support_tickets` WHERE `id` = '{$id}' AND `closed` = 0 LIMIT 1";
         if ( ($ticket = $db->fetchRow($sql)) == true ) {
-            if ($ticket['assigned'] == $ir['userid'] || $ir['user_level'] == 2) {
+            if ($ticket['assigned'] == $ir['userid'] || $user_class->id == 2) {
                 $sql  = "UPDATE `support_tickets` SET `closed` = 1 WHERE `id` = '{$ticket['id']}'";
                 $db->execute($sql);
                 echo '<p>Ticket Closed.</p>';
@@ -585,14 +585,14 @@ function close_ticket()
 }
 function push_ticket()
 {
-    global $db, $c, $ir, $h;
+    global $user_class;
 
     echo '<h3>Pushing Ticket</h3>';
     $id = (array_key_exists('id', $_GET) && (is_int($_GET['id']) || ctype_digit($_GET['id']))) ? substr($_GET['id'], 0, 12) : FALSE ;
     if ($id) {
         $sql = "SELECT * FROM `support_tickets` WHERE `id` = '{$id}' AND `closed` = 0 LIMIT 1";
         if ( ($ticket = $db->fetchRow($sql)) == true ) {
-            if ($ticket['assigned'] == $ir['userid'] || $ir['user_level'] == 2) {
+            if ($ticket['assigned'] == $ir['userid'] || $user_class->id == 2) {
                 $sql = "UPDATE `support_tickets` SET `assigned` = 0, `admin` = 1 WHERE `id` = '{$ticket['id']}'";
                 $db->execute($sql);
                 echo '<p>Ticket Pushed to Admin.</p>';
@@ -613,7 +613,7 @@ function push_ticket()
 }
 function view_all()
 {
-    global $db, $c, $ir, $h;
+    global $user_class;
 
     $limit = 0;
     $page  = (array_key_exists('page', $_GET) && (is_int($_GET['page']) || ctype_digit($_GET['page'])) && $_GET['page'] > 0) ? substr($_GET['page'], 0, 12) : 1 ;
