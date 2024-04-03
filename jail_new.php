@@ -127,14 +127,18 @@ if($user_class->jail > 0){
 ?>
     <tr><td class="contentcontent">
             <?php if ($user_class->jail_bot_credits > 0): ?>
-                <center>
-                    You currently have <?php echo $user_class->jail_bot_credits ?> Jail Bot Credits Remaining.<br /><br />
+                <div class="alert alert-info">
+                    <center>
+                        You currently have <?php echo $user_class->jail_bot_credits ?> Jail Bot Credits Remaining.<br /><br />
 
-                    <?php if (!$botsInProcess): ?>
-                       <a href="?action=start_bot_process" class="btn btn-primary">Start Using Credits</a>
-                    <br />
-                    <?php endif; ?>
-                </center>
+                        <?php if (!$botsInProcess): ?>
+                            <a href="?action=start_bot_process" class="btn btn-primary">Start Using Credits</a>
+                            <br />
+                        <?php endif; ?>
+                    </center>
+
+                </div>
+
 
             <?php endif; ?>
 
