@@ -164,7 +164,7 @@ if($user_class->jail > 0){
                 jailers.forEach((data, index) => {
 
                     $('#jail-table tr:last').after('' +
-                        '<tr>' +
+                        '<tr class="jail-cell-row">' +
                             '<td>' + data.username + '</td>' +
                             '<td>' + data.time + '</td>' +
                             '<td><a href="#" data-user-id="' + data.id + '">Break Out</a></td>' +
