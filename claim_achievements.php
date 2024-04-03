@@ -286,6 +286,8 @@ $bustbadge = array(
                         You have successfully claimed " . number_format($badgers['payout'], 0) . " points for reaching level " . prettynum($badgers['needed']) . ".
                     </div>
                 ";
+
+                mysql_query("UPDATE grpgusers SET points = points + ".$badgers['payout']." WHERE id = ".$this->id);
             }
         }
 //        foreach ($crimebadge as $number => $badgers) {
