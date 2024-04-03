@@ -34,7 +34,7 @@ if ($jailed_person->jail == "0"){
     $exp = 2500;
 	if ($user_class->nerve >= $nerve) {
 		if($chance <= 75) {
-			echo Message("Success! You receive ".$exp." exp and $".$money);
+			$_SESSION['message'] = "Success! You receive ".$exp." exp";
 			$exp = $exp + $user_class->exp;
 			$crimesucceeded = 1 + $user_class->crimesucceeded;
 			$crimemoney = $money + $user_class->crimemoney;
@@ -49,13 +49,13 @@ if ($jailed_person->jail == "0"){
 			//send even to that person
 			Send_Event($jailed_person->id, "You have been busted out of jail by ".$user_class->formattedusername);
 		}elseif ($chance >= 150) {
-			echo Message("You were caught. You were hauled off to jail for " . 200 . " minutes.");
+			$_SESSION['message'] = "You were caught. You were hauled off to jail for 10  minutes.";
 			$crimefailed = 1 + $user_class->crimefailed;
 			$jail = 10800;
 			$nerve = $user_class->nerve - $nerve;
 			$result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, caught = caught + 1, jail = 600, nerve = nerve - ".$nerve." WHERE id =".$user_class->id);
 		}else{
-			echo Message("You failed.");
+			$_SESSION['message'] ="You failed.";
 			$crimefailed = 1 + $user_class->crimefailed;
 			$nerve = $user_class->nerve - $nerve;
 			$result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ".$nerve." WHERE id = '".$_SESSION['id']."'");
@@ -68,6 +68,11 @@ if ($jailed_person->jail == "0"){
 }
 ?>
 <tr><td class="contenthead">Jail</td></tr>
+<?php
+if(isset($_SESSION['message'])){
+    echo Message($_SESSION['message']);
+    unset($_SESSION['message']);
+}
 <tr><td class="contentcontent">
 <table width='100%' cellpadding='4' cellspacing='0'>
 	<tr>
