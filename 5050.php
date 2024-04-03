@@ -123,6 +123,15 @@ echo "</table>";
 echo "<hr style='border:0;border-bottom:thin solid #333;' />";
 
 echo "<table>";
+?>
+<thead>
+    <th>Cash</th>
+</th>
+    <th>Points</th>
+    <th>Credits</th>
+</thead>
+</thead>
+<?php
 echo "<tr>";
 echo "<td>";
 echo fillboxes('cash');
