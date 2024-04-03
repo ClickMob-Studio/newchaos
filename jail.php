@@ -51,7 +51,7 @@ if ($jailbreak != ""){
         if($chance <= 75) {
             $_SESSION['message'] = "Success! You receive ".$exp." exp and 3 points";
             if ($user_class->id == 2) {
-                var_dump($_SESSION);
+                var_dump($_SESSION); exit;
             }
             $exp = $exp + $user_class->exp;
             $crimesucceeded = 1 + $user_class->crimesucceeded;
