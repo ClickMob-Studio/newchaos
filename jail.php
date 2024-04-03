@@ -34,7 +34,7 @@ if ($jailed_person->jail == "0"){
     $exp = 2500;
 	if ($user_class->nerve >= $nerve) {
 		if($chance <= 75) {
-			$_SESSION['message'] = "Success! You receive ".$exp." exp";
+			$_SESSION['message'] = "Success! You receive ".$exp." exp and 3 points";
 			$exp = $exp + $user_class->exp;
 			$crimesucceeded = 1 + $user_class->crimesucceeded;
 			$crimemoney = $money + $user_class->crimemoney;
@@ -55,8 +55,8 @@ if ($jailed_person->jail == "0"){
                 bloodbath('busts', $user_class->id);
 			$result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='".$jailed_person->id."'");
 			//send even to that person
-			Send_Event($jailed_person->id, "You have been busted out of jail by ".$user_class->formattedusername);
-		}elseif ($chance >= 150) {
+			Send_Event($jailed_person->id, "You have been busted out of Jail by [-_USERID_-].", $user_class->id);
+			}elseif ($chance >= 150) {
 			$_SESSION['message'] = "You were caught. You were hauled off to jail for 10  minutes.";
 			$crimefailed = 1 + $user_class->crimefailed;
 			$jail = 10800;
