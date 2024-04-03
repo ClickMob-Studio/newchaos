@@ -120,12 +120,10 @@ if($user_class->jail > 0){
 }
 ?>
     <tr><td class="contentcontent">
-            <?php if ($user_class->jail_bust_credits > 0): ?>
-                You currently have <?php echo $user_class->jail_bust_credits ?> Jail Bot Credits Remaining.<br /><br />
+            <?php if ($user_class->jail_bot_credits > 0): ?>
+                You currently have <?php echo $user_class->jail_bot_credits ?> Jail Bot Credits Remaining.<br /><br />
 
-                
-
-
+                <a href="#">Start Using Credits</a>
             <?php endif; ?>
 
             <table id='jail-table' width='100%' cellpadding='4' cellspacing='0'>
