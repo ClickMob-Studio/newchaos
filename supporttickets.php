@@ -440,7 +440,7 @@ function view_ticket()
                 <th class="heading">Viewing ticket #' . $id . '</th>
             </tr>
         </table>';
-        $sql = mysql_query("SELECT u.`userid`, u.`username`, t.* FROM `support_tickets` t LEFT JOIN `users` u ON t.`user` = u.`userid` WHERE `id` = '{$id}' LIMIT 1");
+        $sql = mysql_query("SELECT u.`id`, u.`username`, t.* FROM `support_tickets` t LEFT JOIN `grpgusers` u ON t.`user` = u.`id` WHERE `id` = '{$id}' LIMIT 1");
         if (mysql_num_rows($sql)) {
             if (($ticket['assigned'] !== "0" && $ticket['assigned'] !== $user_class->id) && $user_class->id !== "2") {
                 echo '<p>We\'re sorry, but you are not assigned to this task, so can not work on it.</p>';
