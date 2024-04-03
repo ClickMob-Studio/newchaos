@@ -822,7 +822,7 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
 
                     if ($this->admin > 0) {
                         Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching level " . prettynum($badgers['needed']) . ". <a style='color: red;' href='claim_achievements.php'>Claim Now</a>" , $this->id);
-                        $this->badgesex[0] = $number;
+                        //$this->badgesex[0] = $number;
                     } else {
                         $this->points = $this->points + $badgers['payout'];
                         mysql_query("UPDATE grpgusers SET points = points + " . $badgers['payout'] . " WHERE id = " . $this->id);
@@ -981,6 +981,11 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
 
         if ($this->id == 1)
             $this->admin = 1;
+    }
+
+    function addPoints($id, $points)
+    {
+        mysql_query("UPDATE grpgusers SET points = points +  " . $points . " WHERE id = " . $id);
     }
 }
 class GangRank {
