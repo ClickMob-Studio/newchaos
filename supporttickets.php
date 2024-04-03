@@ -39,7 +39,7 @@ function support_index()
 
     echo '<table class="table">
         <tr>
-            <th class="heading">Welcome to the support system, ' . htmlentities($user_class->formattedname, ENT_QUOTES, "UTF-8") . '</th>
+            <th class="heading">Welcome to the support system, ' . $user_class->formattedname. '</th>
         </tr>
     </table>';
 
@@ -96,7 +96,7 @@ function support_index()
 
     echo '<p>Please post your inquiry, bug report, suggestions etc below.</p>
     <form action="tickets.php" method="post">
-    <table class="table">
+    <table>
         <tr>
             <th width="20%">Subject</th>
             <td><input type="text" name="subject" value="' . $subject . '" class="input_select">
