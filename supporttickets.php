@@ -8,11 +8,11 @@ if ($user_class->admin > 0)
             <th colspan="4" class="heading">Staff Options</th>
         </tr>
         <tr>
-            <th width="25%"><a href="tickets.php?action=stafflist">List Tickets</a></th>
-            <th width="25%"><a href="tickets.php?action=yourlist">Your Tickets</a></th>
-            <th width="25%"><a href="tickets.php?action=closedtickets">Your Closed Tickets</a></th>
+            <th width="25%"><a href="supporttickets.php?action=stafflist">List Tickets</a></th>
+            <th width="25%"><a href="supporttickets.php?action=yourlist">Your Tickets</a></th>
+            <th width="25%"><a href="supporttickets.php?action=closedtickets">Your Closed Tickets</a></th>
             <th width="25%">
-                ' . ($user_class->admin == 1 ? '<a href="tickets.php?action=alltickets">View All</a>' : '') . '
+                ' . ($user_class->admin == 1 ? '<a href="supporttickets.php?action=alltickets">View All</a>' : '') . '
             </th>
         </tr>
     </table>';
@@ -139,8 +139,8 @@ mysql_query($sql) or die(mysql_error());
             <th colspan="2" class="heading">Previous Tickets</th>
         </tr>
         <tr>
-            <th width="50%"><a href="tickets.php?action=open">Open (' . $active . ')</a></th>
-            <th><a href="tickets.php?action=closed">Closed (' . $closed . ')</a></th>
+            <th width="50%"><a href="supporttickets.php?action=open">Open (' . $active . ')</a></th>
+            <th><a href="supporttickets.php?action=closed">Closed (' . $closed . ')</a></th>
         </tr>
     </table>';
 }
@@ -167,7 +167,7 @@ function support_closed()
                 <th colspan="2">' . htmlentities($ticket['subject'], ENT_QUOTES, "UTF-8") . '</th>
             </tr>
             <tr>
-                <td width="25%">Ticket <a href="tickets.php?action=view&id=' . $ticket['id'] . '">#' . $ticket['id'] . '</td>
+                <td width="25%">Ticket <a href="supporttickets.php?action=view&id=' . $ticket['id'] . '">#' . $ticket['id'] . '</td>
                 <td>' . str_replace("\n", "<br />", htmlentities($ticket['message'], ENT_QUOTES, "UTF-8")) . '</td>
             </tr>';
         }
@@ -193,7 +193,7 @@ function support_open()
                 <th colspan="2">' . htmlentities($ticket['subject'], ENT_QUOTES, "UTF-8") . '</th>
             </tr>
             <tr>
-                <td width="25%">Ticket <a href="tickets.php?action=view&id=' . $ticket['id'] . '">#' . $ticket['id'] . '</td>
+                <td width="25%">Ticket <a href="supporttickets.php?action=view&id=' . $ticket['id'] . '">#' . $ticket['id'] . '</td>
                 <td>' . str_replace("\n", "<br />", stripslashes(htmlentities($ticket['message'], ENT_QUOTES, "UTF-8"))) . '</td>
             </tr>';
         }
@@ -217,7 +217,7 @@ function support_view()
                     $db->execute($sql);
                     if ($ticket['assigned'] > 0)
                     {
-                        $text = '<a href="viewuser.php?u=' . $user_class->id . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> replied to one of the tickets you are assigned to: <a href="tickets.php?action=viewticket&id=' . $ticket['id'] . '">Here</a>';
+                        $text = '<a href="viewuser.php?u=' . $user_class->id . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> replied to one of the tickets you are assigned to: <a href="supporttickets.php?action=viewticket&id=' . $ticket['id'] . '">Here</a>';
                         event_add($ticket['assigned'], $text, $c);
                     }
                 }
@@ -269,7 +269,7 @@ function support_view()
 
             if ($ticket['closed'] == 0) {
                 echo  '<h4>Reply</h4>
-                <form action="tickets.php?action=view&id=' . $ticket['id'] . '" method="post">
+                <form action="supporttickets.php?action=view&id=' . $ticket['id'] . '" method="post">
                     <table class="table">
                         <tr>
                             <td><textarea name="reply" style="width: 98%; height: 200px;"></textarea>
@@ -313,7 +313,7 @@ function staff_list()
         if ( ($res = $db->fetchRow($sql)) == true ) {
             foreach ($res AS $tickets) {
                 echo '<tr>
-                    <td><a href="tickets.php?action=viewticket&id=' . $tickets['id'] . '">Ticket #' . $tickets['id'] . '</a></td>
+                    <td><a href="supporttickets.php?action=viewticket&id=' . $tickets['id'] . '">Ticket #' . $tickets['id'] . '</a></td>
                     <td><a href="viewuser.php?u=' . $tickets['userid'] . '">' . htmlentities($tickets['username'], ENT_QUOTES, "UTF-8") . '</a></td>
                     <td>' . htmlentities($tickets['subject'], ENT_QUOTES, "UTF-8") . '</td>
                 </tr>';
@@ -344,7 +344,7 @@ function staff_list()
             if ( ($res = $db->fetchAll($sql)) == true ) {
                 foreach ($res AS $tickets) {
                     echo '<tr>
-                        <td><a href="tickets.php?action=viewticket&id=' . $tickets['id'] . '">Ticket #' . $tickets['id'] . '</a></td>
+                        <td><a href="supporttickets.php?action=viewticket&id=' . $tickets['id'] . '">Ticket #' . $tickets['id'] . '</a></td>
                         <td><a href="viewuser.php?u=' . $tickets['userid'] . '">' . htmlentities($tickets['username'], ENT_QUOTES, "UTF-8") . '</a></td>
                         <td>' . htmlentities($tickets['subject'], ENT_QUOTES, "UTF-8") . '</td>
                     </tr>';
@@ -378,7 +378,7 @@ function your_list()
         if ( ($res = $db->fetchAll($sql)) == true ) {
             foreach ($res AS $tickets) {
                 echo '<tr>
-                    <td><a href="tickets.php?action=viewticket&id=' . $tickets['id'] . '">Ticket #' . $tickets['id'] . '</a></td>
+                    <td><a href="supporttickets.php?action=viewticket&id=' . $tickets['id'] . '">Ticket #' . $tickets['id'] . '</a></td>
                     <td><a href="viewuser.php?u=' . $tickets['userid'] . '">' . htmlentities($tickets['username'], ENT_QUOTES, "UTF-8") . '</a></td>
                     <td>' . htmlentities($tickets['subject'], ENT_QUOTES, "UTF-8") . '</td>
                 </tr>';
@@ -459,7 +459,7 @@ function view_ticket()
                 if ($reply) {
                     $sql  = "INSERT INTO `support_replies` (`ticket`, `user`,`message`,`time`) VALUES ('{$ticket['id']}', '{$user_class->id}', " . $reply . ", UNIX_TIMESTAMP())";
                     $db->execute($sql);
-                    $text = '<a href="viewuser.php?u=' . $user_class->id . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> just replied to your support ticket: <a href="tickets.php?action=view&id=' . $ticket['id'] . '">Here</a>';
+                    $text = '<a href="viewuser.php?u=' . $user_class->id . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> just replied to your support ticket: <a href="supporttickets.php?action=view&id=' . $ticket['id'] . '">Here</a>';
                     event_add($ticket['user'], $text, $c);
                 }
             }
@@ -523,20 +523,20 @@ function view_ticket()
                             <th colspan="2">Nobody has claimed this ticket yet. Would you like to take it?</th>
                         </tr>
                         <tr>
-                            <td width="50%"><a href="tickets.php?action=viewticket&id=' . $ticket['id'] . '&code=' . $code . '">I\'ll take it</a></td> 
-                            <td><a href="tickets.php">No, not for me</a></td>
+                            <td width="50%"><a href="supporttickets.php?action=viewticket&id=' . $ticket['id'] . '&code=' . $code . '">I\'ll take it</a></td> 
+                            <td><a href="supporttickets.php">No, not for me</a></td>
                         </tr>
                     </table>';
                 }
                 else {
-                    echo '<form action="tickets.php?action=viewticket&id=' . $ticket['id'] . '" method="post">
+                    echo '<form action="supporttickets.php?action=viewticket&id=' . $ticket['id'] . '" method="post">
                         <table class="table">
                             <tr>
                                 <td><textarea name="reply" class="input_textarea"></textarea></td>
                             </tr>
                             <tr>
                                 <td>
-                                    <button class="input_button">Reply</button> [<a href="tickets.php?action=closeticket&id=' . $ticket['id'] . '">Close Ticket</a>] [<a href="tickets.php?action=pushticket&id=' . $ticket['id'] . '">Push Ticket to Admin</a>]
+                                    <button class="input_button">Reply</button> [<a href="supporttickets.php?action=closeticket&id=' . $ticket['id'] . '">Close Ticket</a>] [<a href="supporttickets.php?action=pushticket&id=' . $ticket['id'] . '">Push Ticket to Admin</a>]
                                 </td>
                             </tr>
                         </table>
@@ -568,7 +568,7 @@ function close_ticket()
                 $sql  = "UPDATE `support_tickets` SET `closed` = 1 WHERE `id` = '{$ticket['id']}'";
                 $db->execute($sql);
                 echo '<p>Ticket Closed.</p>';
-                $text = '<a href="viewuser.php?u=' . $user_class->id . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> just closed your ticket: <a href="tickets.php?action=view&id=' . $ticket['id'] . '">Here</a>';
+                $text = '<a href="viewuser.php?u=' . $user_class->id . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> just closed your ticket: <a href="supporttickets.php?action=view&id=' . $ticket['id'] . '">Here</a>';
                 event_add($ticket['user'], $text, $c);
             }
             else {
@@ -596,7 +596,7 @@ function push_ticket()
                 $sql = "UPDATE `support_tickets` SET `assigned` = 0, `admin` = 1 WHERE `id` = '{$ticket['id']}'";
                 $db->execute($sql);
                 echo '<p>Ticket Pushed to Admin.</p>';
-                $text = '<a href="viewuser.php?u=' . $user_class->id . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> just passed your ticket to admin: <a href="tickets.php?action=view&id=' . $ticket['id'] . '">Here</a>. They will be in contact shortly.';
+                $text = '<a href="viewuser.php?u=' . $user_class->id . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> just passed your ticket to admin: <a href="supporttickets.php?action=view&id=' . $ticket['id'] . '">Here</a>. They will be in contact shortly.';
                 event_add($ticket['user'], $text, $c);
             }
             else {
@@ -626,8 +626,8 @@ function view_all()
     <table class="table">
         <tr>
             <th colspan="5">
-                <div style="float: left;">' . ($page > 1 ? '<a href="tickets.php?action=alltickets&page=' . ($page - 1) . '" class="btn btn-small btn-info span12">Previous</a>' : '') . '</div>
-                <div style="float: right;"><a href="tickets.php?action=alltickets&page=' . ($page + 1) . '" class="btn btn-small btn-info span12">Next</a></div>
+                <div style="float: left;">' . ($page > 1 ? '<a href="supporttickets.php?action=alltickets&page=' . ($page - 1) . '" class="btn btn-small btn-info span12">Previous</a>' : '') . '</div>
+                <div style="float: right;"><a href="supporttickets.php?action=alltickets&page=' . ($page + 1) . '" class="btn btn-small btn-info span12">Next</a></div>
             </th>
         </tr>
         <tr>
@@ -643,7 +643,7 @@ function view_all()
         if ( ($res = $db->fetchAll($sql)) == true ) {
             foreach ($res AS $tickets) {
                 echo '<tr>
-                    <td><a href="tickets.php?action=viewticket&id=' . $tickets['id'] . '">Ticket #' . $tickets['id'] . '</a></td>
+                    <td><a href="supporttickets.php?action=viewticket&id=' . $tickets['id'] . '">Ticket #' . $tickets['id'] . '</a></td>
                     <td><a href="viewuser.php?u=' . $tickets['adder_id'] . '">' . htmlentities($tickets['adder_name'], ENT_QUOTES, "UTF-8") . '</a></td>
                     <td>' . htmlentities($tickets['subject'], ENT_QUOTES, "UTF-8") . '</td>
                     <td>' . (strlen($tickets['assign_name']) > 0 ? '<a href="viewuser.php?u=' . $tickets['assign_id'] . '">' . htmlentities($tickets['assign_name'], ENT_QUOTES, "UTF-8") . '</a>' : '---') . '</td>
