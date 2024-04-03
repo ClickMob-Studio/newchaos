@@ -289,6 +289,7 @@ $bustbadge = array(
                 ";
 
                 $user_class->addPoints($user_class->id, $badgers['payout']);
+                $badgesclaimedex[0] = $number;
             }
         }
         foreach ($crimebadge as $number => $badgers) {
@@ -302,6 +303,7 @@ $bustbadge = array(
                 ";
 
                 $user_class->addPoints($user_class->id, $badgers['payout']);
+                $badgesclaimedex[1] = $number;
             }
         }
         foreach ($statbadge as $number => $badgers) {
@@ -315,6 +317,7 @@ $bustbadge = array(
                 ";
 
                 $user_class->addPoints($user_class->id, $badgers['payout']);
+                $badgesclaimedex[2] = $number;
             }
         }
 
@@ -329,6 +332,7 @@ $bustbadge = array(
                 ";
 
                 $user_class->addPoints($user_class->id, $badgers['payout']);
+                $badgesclaimedex[3] = $number;
             }
         }
         foreach ($bankbadge as $number => $badgers) {
@@ -342,6 +346,7 @@ $bustbadge = array(
                 ";
 
                 $user_class->addPoints($user_class->id, $badgers['payout']);
+                $badgesclaimedex[4] = $number;
             }
         }
         foreach ($mugbadge as $number => $badgers) {
@@ -355,6 +360,7 @@ $bustbadge = array(
                 ";
 
                 $user_class->addPoints($user_class->id, $badgers['payout']);
+                $badgesclaimedex[5] = $number;
             }
         }
         foreach ($bustbadge as $number => $badgers) {
@@ -368,6 +374,7 @@ $bustbadge = array(
                 ";
 
                 $user_class->addPoints($user_class->id, $badgers['payout']);
+                $badgesclaimedex[5] = $number;
             }
         }
 
@@ -378,7 +385,15 @@ $bustbadge = array(
                     </div>
                 ";
         } else {
-            mysql_query("UPDATE grpgusers set badges_claimed = badges WHERE id = " . $user_class->id);
+            $claimedbadgesfinal = implode(",", $badgesclaimedex);
+
+            $db->query("UPDATE grpgusers SET badges_claimed = ? WHERE id = ?");
+            $db->execute(array(
+                $claimedbadgesfinal,
+                $user_class->id
+            ));
+
+            //mysql_query("UPDATE grpgusers set badges_claimed = badges WHERE id = " . $user_class->id);
         }
         ?>
     </div>
