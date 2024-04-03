@@ -95,7 +95,7 @@ function support_index()
     }
 
     echo '<p>Please post your inquiry, bug report, suggestions etc below.</p>
-    <form action="tickets.php" method="post">
+    <form action="supporttickets.php" method="post">
     <table>
         <tr>
             <th width="20%">Subject</th>
