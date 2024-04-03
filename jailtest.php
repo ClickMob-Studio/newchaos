@@ -118,6 +118,7 @@ function generateRandomString($length = 10) {
 }
 $token = generateRandomString(10);
             $_SESSION['token'] = $token;
+            if(mysql_num_rows($result)){
 	while($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
 		$secondsago = time()-$line['lastactive'];
 			$user_jail = new User($line['id']);
@@ -129,6 +130,9 @@ $token = generateRandomString(10);
 			echo "<tr><td>".$user_jail->formattedname."</td><td>".floor($user_jail->jail / 60)." minute".$plural."</td><td><a href = '?jailbreak=".$user_jail->id."&token=".$token."'>Break Out</a></td></tr>";
 			}
 	}
+}else{
+    echo "<tr><td colspan='3'>There are currently no jailbreaks</td></tr>";
+}
 	?>
 </table>
 </td></tr>
