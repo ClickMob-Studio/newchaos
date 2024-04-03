@@ -433,16 +433,15 @@ function view_ticket()
         $code = MD5($id . $user_class->id);
         $take = (array_key_exists('code', $_GET) && ctype_alnum($_GET['code'])) ? substr($_GET['code'], 0, 32) : FALSE ;
         if ($take == $code) {
-            $sql = "UPDATE `support_tickets` SET `assigned` = '{$user_class->id}' WHERE `id` = '{$id}' AND `assigned` = 0";
-            $db->execute($sql);
+            $sql = mysql_query("UPDATE `support_tickets` SET `assigned` = '{$user_class->id}' WHERE `id` = '{$id}' AND `assigned` = 0");
         }
         echo '<table >
             <tr>
                 <th class="heading">Viewing ticket #' . $id . '</th>
             </tr>
         </table>';
-        $sql = "SELECT u.`userid`, u.`username`, t.* FROM `support_tickets` t LEFT JOIN `users` u ON t.`user` = u.`userid` WHERE `id` = '{$id}' LIMIT 1";
-        if ( ($ticket = $db->fetchRow($sql)) == true ) {
+        $sql = mysql_query("SELECT u.`userid`, u.`username`, t.* FROM `support_tickets` t LEFT JOIN `users` u ON t.`user` = u.`userid` WHERE `id` = '{$id}' LIMIT 1");
+        if (mysql_num_rows($sql)) {
             if (($ticket['assigned'] !== "0" && $ticket['assigned'] !== $user_class->id) && $user_class->id !== "2") {
                 echo '<p>We\'re sorry, but you are not assigned to this task, so can not work on it.</p>';
          
@@ -454,12 +453,11 @@ function view_ticket()
                 exit;
             }
             if ($_SERVER['REQUEST_METHOD'] == "POST") {
-                $reply = (array_key_exists('reply', $_POST) && is_string($_POST['reply']) && strlen($_POST['reply']) > 0) ? $db->escapeString($_POST['reply']) : FALSE ;
+                $reply = (array_key_exists('reply', $_POST) && is_string($_POST['reply']) && strlen($_POST['reply']) > 0) ? mysql_escape_string($_POST['reply']) : FALSE ;
                 if ($reply) {
-                    $sql  = "INSERT INTO `support_replies` (`ticket`, `user`,`message`,`time`) VALUES ('{$ticket['id']}', '{$user_class->id}', " . $reply . ", UNIX_TIMESTAMP())";
-                    $db->execute($sql);
+                    $sql  = mysql_query("INSERT INTO `support_replies` (`ticket`, `user`,`message`,`time`) VALUES ('{$ticket['id']}', '{$user_class->id}', " . $reply . ", UNIX_TIMESTAMP())");
                     $text = '<a href="viewuser.php?u=' . $user_class->id . '">' . htmlentities($ir['username'], ENT_QUOTES, "UTF-8") . '</a> just replied to your support ticket: <a href="supporttickets.php?action=view&id=' . $ticket['id'] . '">Here</a>';
-                    event_add($ticket['user'], $text, $c);
+                    Send_Event($ticket['user'], $text, $c);
                 }
             }
             echo '<table >
@@ -481,19 +479,19 @@ function view_ticket()
             </table>
             <table >';
 
-            $sql = "SELECT u.`userid`, u.`username`, u.`user_level`, r.* FROM `support_replies` r LEFT JOIN `users` u ON r.`user` = u.`userid` WHERE r.`ticket` = '{$ticket['id']}' ORDER BY r.`time` ASC";
-            if ( ($res = $db->fetchAll($sql)) == false ) {
+            $sql = mysql_query("SELECT u.`userid`, u.`username`, u.`user_level`, r.* FROM `support_replies` r LEFT JOIN `users` u ON r.`user` = u.`userid` WHERE r.`ticket` = '{$ticket['id']}' ORDER BY r.`time` ASC");
+            if (mysql_num_rows($sql) < 1) {
                 echo '<tr>
                     <td>There have been no replies yet.</td>
                 </tr>';
             }
             else {
-                foreach ($res AS $replies) {
+                while($replies = mysql_fetch_array($sql)){
                     echo '<tr>
                        <td width="25%">
                             <p><a href="viewuser.php?u=' . $replies['userid'] . '" style="font-weight: bold;">' . htmlentities($replies['username'], ENT_QUOTES, "UTF-8") . '</a></p>
                             <p>' . date("jS M g:i:sa", $replies['time']) . '</p>
-                            <p>' . ($replies['user_level'] > 1 ? '<p style="color: orange;">Staff Member</p>' : '') . '</p>
+                            <p>' . ($replies['admin'] > 0 ? '<p style="color: orange;">Staff Member</p>' : '') . '</p>
                         </td>
                         <td>';
 
