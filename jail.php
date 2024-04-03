@@ -169,7 +169,7 @@ if($user_class->jail > 0){
         let jailBreakClicks = 0;
 
         $('.jail-break-link').click(function() {
-            //$('.jail-break-link').removeAttr('href');
+            $('.jail-cell-row').remove();
         });
 
         jailInterval = setInterval(() => {
@@ -188,7 +188,7 @@ if($user_class->jail > 0){
                         );
 
                         $('.jail-break-link').click(function() {
-                            //$('.jail-break-link').removeAttr('href');
+                            $('.jail-cell-row').remove();
                         });
                     })
                 }
