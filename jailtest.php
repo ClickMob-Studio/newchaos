@@ -77,7 +77,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'bail'){
             $_SESSION['message'] = 'You do not have enough points';
         }else{
         $_SESSION['message'] = 'You have bailed you self out of jail for '.$cost.' points';
-            mysql_queyr("UPDATE grpgusers SET jail = 0, points = points - ".$cost." WHERE id = ".$user_class->id);
+            mysql_query("UPDATE grpgusers SET jail = 0, points = points - ".$cost." WHERE id = ".$user_class->id);
         }
     }
 }
