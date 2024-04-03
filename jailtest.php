@@ -11,8 +11,8 @@ if ($jailbreak != ""){
         echo Message("There has been a issue");
     }
     if($_GET['token'] != $_SESSION['token']){
-        echo Message("F5 use on jail is not allowed");
-        exit();
+        $_SESSION['message'] = "F5 use on jail is not allowed";
+        header('Location: jailtest.php');
     }else{
         unset($_SESSION['token']);
     }
