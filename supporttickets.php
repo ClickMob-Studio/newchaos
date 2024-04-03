@@ -76,8 +76,9 @@ function support_index()
             $subject = mysql_real_escape_string($subject);
             $message = mysql_real_escape_string($message);
 
-            $sql = "INSERT INTO `support_tickets` (`user`,`subject`,`message`, `time`, `admin`) VALUES ('".$user_class->id."', " . $subject . ", " . $message . ", UNIX_TIMESTAMP(), '{$type}')";
-            mysql_query($sql);
+            $sql = "INSERT INTO `support_tickets` (`user`,`subject`,`message`, `time`, `admin`) VALUES ('".$user_class->id."', '" . $subject . "', '" . $message . "', UNIX_TIMESTAMP(), '{$type}')";
+mysql_query($sql) or die(mysql_error());
+
 
             if (mysql_insert_id() > 0) {
                 echo '<h4>Your ticket has been successfully sent.</h4>
@@ -85,9 +86,9 @@ function support_index()
                 <p>Thanks for getting in touch.</p>';
             }
             else {
-                echo '<h4>Error in submission.</h4>
-                <p>We are sorry, but it seems the script powering this system decided it didn\'t like you right now.</p>
-                <p>Please try again and rest assured, the system will be given a slap from your devious admins.</p>';
+                echo '<h4 style="color: red;">There seems to have been an error in your submission.</h4>
+                <p>You will get an event once it has been read and assigned.</p>
+                <p>Thanks for getting in touch.</p>';
             }
      
             exit;
