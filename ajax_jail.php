@@ -1,4 +1,5 @@
 <?php
+exit;
 
 include "ajax_header.php";
 
