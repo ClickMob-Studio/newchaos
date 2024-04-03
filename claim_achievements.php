@@ -278,7 +278,7 @@ $bustbadge = array(
 
         $somethingClaimed = false;
         foreach ($levelbadges as $number => $badgers) {
-            if ($this->level >= $badgers['needed'] && $this->badgesex[0] == $number - 1) {
+            if ($user_class->level >= $badgers['needed'] && $badgesex[0] == $number - 1) {
                 $somethingClaimed = true;
 
                 echo "
@@ -286,10 +286,6 @@ $bustbadge = array(
                         You have successfully claimed " . number_format($badgers['payout'], 0) . " points for reaching level " . prettynum($badgers['needed']) . ".
                     </div>
                 ";
-            }
-            if (!isset($this->badge1) && $this->level >= $badgers['needed']) {
-                $this->badge1 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img width="100px" src="css/images/'.$badgers["img"].'.png"></img></div>';
-                $this->badge = 1;
             }
         }
 //        foreach ($crimebadge as $number => $badgers) {
