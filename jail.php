@@ -33,6 +33,16 @@ if ($jailbreak != ""){
         include 'footer.php';
         die();
     }
+    if ($user_class->hospital > 0) {
+        echo Message("You can't break people out of jail whilst your in hospital.");
+        include 'footer.php';
+        die();
+    }
+    if ($user_class->jail > 0) {
+        echo Message("You can't break people out of jail whilst your in jail.");
+        include 'footer.php';
+        die();
+    }
     $chance = rand(1,(100 * $crime - ($user_class->speed / 25)));
     //$money = 785;
     $nerve = 10;
