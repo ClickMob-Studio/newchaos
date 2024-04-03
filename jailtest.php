@@ -67,12 +67,31 @@ if ($jailed_person->jail == "0"){
 	}
 
 }
+
+if(isset($_GET['action']) && $_GET['action'] == 'bail'){
+    if($user_class->jail < 1){
+        $_SESSION['message'] = 'You are currently not in jail';
+    }else{
+        $cost = ceil($user_class->jail / 60);
+        if($user_class->points < $cost){
+            $_SESSION['message'] = 'You do not have enough points';
+        }else{
+        $_SESSION['message'] = 'You have bailed you self out of jail for '.$cost.' points';
+            mysql_queyr("UPDATE grpgusers SET jail = 0, points = points - ".$cost." WHERE id = ".$user_class->id);
+        }
+    }
+}
+
+$cost = ceil($user_class->jail / 60);
 ?>
-<tr><td class="contenthead">Jail</td></tr>
+<h1>Jail</h1>
 <?php
 if(isset($_SESSION['message'])){
     echo Message($_SESSION['message']);
     unset($_SESSION['message']);
+}
+if($user_class->jail > 0){
+    echo "<span style='color:red'>You are currently in jail click<a href='jailtest.php?action=bail' style='color:white'>here</a> to bail your self out this will cost you ".$cost." points</span>";
 }
 ?>
 <tr><td class="contentcontent">
