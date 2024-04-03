@@ -71,6 +71,7 @@ if ($jailbreak != ""){
             $result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='".$jailed_person->id."'");
             //send even to that person
             Send_Event($jailed_person->id, "You have been busted out of Jail by [-_USERID_-].", $user_class->id);
+
             header('Location: jail.php');
         }elseif ($chance >= 150) {
             $_SESSION['message'] = "You were caught. You were hauled off to jail for 10  minutes.";
@@ -110,6 +111,9 @@ $cost = ceil($user_class->jail / 60);
 ?>
     <h1>Jail</h1>
 <?php
+if ($user_class->id === 2) {
+    var_dump($_SESSION['message']);
+}
 if(isset($_SESSION['message'])){
     echo Message($_SESSION['message']);
     unset($_SESSION['message']);
