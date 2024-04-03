@@ -8,6 +8,7 @@ if(isset($_GET['jailbreak'])){
 
 if ($jailbreak != ""){
     if(empty($_GET['token'])){
+
         echo Message("There has been a issue");
     }
     if($_GET['token'] != $_SESSION['token']){
@@ -18,65 +19,76 @@ if ($jailbreak != ""){
     }
 
     $jailed_person = new User($jailbreak);
+    $error = false;
     if ($jailed_person->formattedname == ""){
-        echo Message("That person does not exist.");
-        include 'footer.php';
-        die();
+        $_SESSION['message'] = 'That person does not exist.';
+        $error = true;
     }
-    if ($jailed_person->id === $user_class->id) {
-        echo Message("You can't break yourself out of jail.");
-        include 'footer.php';
-        die();
+    if ($jailed_person->id == $user_class->id) {
+        $_SESSION['message'] = "You can't break yourself out of jail.";
+        $error = true;
     }
     if ($jailed_person->jail == "0"){
-        echo Message("That person is not in jail.");
-        include 'footer.php';
-        die();
+        $_SESSION['message'] = "That person is not in jail.";
+        $error = true;
+    }
+    if ($user_class->hospital > 0) {
+        $_SESSION['message'] = "You can't break people out of jail whilst your in hospital.";
+        $error = true;
+    }
+    if ($user_class->jail > 0) {
+        $_SESSION['message'] = "You can't break people out of jail whilst your in jail.";
+        $error = true;
     }
     $chance = rand(1,(100 * $crime - ($user_class->speed / 25)));
     //$money = 785;
     $nerve = 10;
     $exp = 2500;
-    if ($user_class->nerve >= $nerve) {
-        if($chance <= 75) {
-            $_SESSION['message'] = "Success! You receive ".$exp." exp and 3 points";
-            $exp = $exp + $user_class->exp;
-            $crimesucceeded = 1 + $user_class->crimesucceeded;
-            $crimemoney = $money + $user_class->crimemoney;
-            $money = $money + $user_class->money;
-            $nerve = $user_class->nerve - $nerve;
-            if ($user_class->gang != 0) {
-                mysql_query("UPDATE gangs SET dailyBusts = dailyBusts + 1 WHERE id = ".$user_class->gang);
+
+    if (!$error) {
+        if ($user_class->nerve >= $nerve) {
+            if($chance <= 75) {
+                $_SESSION['message'] = "Success! You receive ".$exp." exp and 3 points";
+                $exp = $exp + $user_class->exp;
+                $crimesucceeded = 1 + $user_class->crimesucceeded;
+                $crimemoney = $money + $user_class->crimemoney;
+                $money = $money + $user_class->money;
+                $nerve = $user_class->nerve - $nerve;
+                if ($user_class->gang != 0) {
+                    mysql_query("UPDATE gangs SET dailyBusts = dailyBusts + 1 WHERE id = ".$user_class->gang);
+                }
+                mysql_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ".$exp.", busts = busts + 1, points = points + 3, nerve = nerve - ".$nerve." WHERE id = ".$user_class->id);
+                mission('b');
+                newmissions('busts');
+                gangContest(array(
+                    'busts' => 1,
+                    'exp' => $exp
+                ));
+                $toadd = array('botd' => 1);
+                ofthes($user_class->id, $toadd);
+                bloodbath('busts', $user_class->id);
+                $result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='".$jailed_person->id."'");
+                //send even to that person
+                Send_Event($jailed_person->id, "You have been busted out of Jail by [-_USERID_-].", $user_class->id);
+
+                //header('Location: jail.php');
+            }elseif ($chance >= 150) {
+                $_SESSION['message'] = "You were caught. You were hauled off to jail for 10  minutes.";
+                $crimefailed = 1 + $user_class->crimefailed;
+                $jail = 10800;
+                $nerve = $user_class->nerve - $nerve;
+                $result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, caught = caught + 1, jail = 600, nerve = nerve - ".$nerve." WHERE id =".$user_class->id);
+            }else{
+                $_SESSION['message'] ="You failed.";
+                $crimefailed = 1 + $user_class->crimefailed;
+                $nerve = $user_class->nerve - $nerve;
+                $result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ".$nerve." WHERE id = '".$_SESSION['id']."'");
             }
-            mysql_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ".$exp.", busts = busts + 1, points = points + 3, nerve = nerve - ".$nerve." WHERE id = ".$user_class->id);
-            mission('b');
-            newmissions('busts');
-            gangContest(array(
-                'busts' => 1,
-                'exp' => $exp
-            ));
-            $toadd = array('botd' => 1);
-            ofthes($user_class->id, $toadd);
-            bloodbath('busts', $user_class->id);
-            $result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='".$jailed_person->id."'");
-            //send even to that person
-            Send_Event($jailed_person->id, "You have been busted out of Jail by [-_USERID_-].", $user_class->id);
-        }elseif ($chance >= 150) {
-            $_SESSION['message'] = "You were caught. You were hauled off to jail for 10  minutes.";
-            $crimefailed = 1 + $user_class->crimefailed;
-            $jail = 10800;
-            $nerve = $user_class->nerve - $nerve;
-            $result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, caught = caught + 1, jail = 600, nerve = nerve - ".$nerve." WHERE id =".$user_class->id);
-        }else{
-            $_SESSION['message'] ="You failed.";
-            $crimefailed = 1 + $user_class->crimefailed;
-            $nerve = $user_class->nerve - $nerve;
-            $result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ".$nerve." WHERE id = '".$_SESSION['id']."'");
+        } else {
+            echo Message("You don't have enough nerve for that crime.");
+            include 'footer.php';
+            die();
         }
-    } else {
-        echo Message("You don't have enough nerve for that crime.");
-        include 'footer.php';
-        die();
     }
 
 }
@@ -143,7 +155,7 @@ if($user_class->jail > 0){
                         }
 
                         if($user_jail->jail != 0){
-                            echo "<tr class='jail-cell-row'><td>".$user_jail->formattedname."</td><td>".floor($user_jail->jail / 60)." minute".$plural."</td><td><a href = '?jailbreak=".$user_jail->id."&token=".$token."'>Break Out</a></td></tr>";
+                            echo "<tr class='jail-cell-row'><td>".$user_jail->formattedname."</td><td>".floor($user_jail->jail / 60)." m"."</td><td><a class='jail-break-link' href='?jailbreak=".$user_jail->id."&token=".$token."'>Break Out</a></td></tr>";
                         }
                     }
                 }else{
@@ -153,28 +165,48 @@ if($user_class->jail > 0){
             </table>
         </td></tr>
 
-<script type="text/javascript">
-    jailInterval = setInterval(() => {
-        $.get("ajax_jail_new.php?action=fetch_users", {}, (jailers) => {
-            console.log('interval');
-            $('.jail-cell-row').remove();
+    <script type="text/javascript">
+        let jailBreakClicks = 0;
 
-            console.log(jailers);
-            if (jailers != false) {
-                jailers.forEach((data, index) => {
+        $('jail-break-link').click(function() {
+            jailBreakClicks = jailBreakClicks + 1;
 
-                    $('#jail-table tr:last').after('' +
-                        '<tr class="jail-cell-row">' +
+            console.log(jailBreakClicks);
+            if (jailBreakClicks > 1) {
+                console.log('prevent clicks');
+            }
+
+        });
+
+        jailInterval = setInterval(() => {
+            $.get("ajax_jail_new.php?action=fetch_users", {}, (jailers) => {
+                $('.jail-cell-row').remove();
+
+                if (jailers != false) {
+                    jailers.forEach((data, index) => {
+
+                        $('#jail-table tr:last').after('' +
+                            '<tr class="jail-cell-row">' +
                             '<td>' + data.username + '</td>' +
                             '<td>' + data.time + '</td>' +
-                            '<td><a href="?jailbreak=' + data.id + '&token= <?php echo $token ?>" data-user-id="' + data.id + '" class="break-out-link">Break Out</a></td>' +
-                        '</tr>'
-                    );
-                })
-            }
-        }, "json")
-    }, 2000);
-</script>
+                            '<td><a class="jail-break-link" href="?jailbreak=' + data.id + '&token= <?php echo $token ?>" data-user-id="' + data.id + '" class="break-out-link">Break Out</a></td>' +
+                            '</tr>'
+                        );
+
+                        $('jail-break-link').click(function() {
+                            jailBreakClicks = jailBreakClicks + 1;
+
+                            console.log(jailBreakClicks);
+                            if (jailBreakClicks > 1) {
+                                console.log('prevent clicks');
+                            }
+
+                        });
+                    })
+                }
+            }, "json")
+        }, 3000);
+    </script>
 <?
 include 'footer.php';
 ?>
