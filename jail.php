@@ -43,17 +43,14 @@ echo '<script>
         }
     }
     bust = (id, cell) => {
-        // Introduce a random delay before performing the bust action
-        setTimeout(() => {
-            $("#cell_" + cell).html("Empty Cell")
-            $.post("ajax_jail.php", {"bust": id}, (data) => {
-                if (data.code == "error") {
-                    $(".result").html("<span style=color:red;>" + data.message + "</span>")
-                } else if (data.code == "success") {
-                    $(".result").html("<span style=color:green;>" + data.message + "</span>")
-                }
-            }, "json")
-        }, Math.random() * (2000 - 500) + 500); // Random delay between 500ms and 2000ms
+        $("#cell_" + cell).html("Empty Cell")
+        $.post("ajax_jail.php", {"bust" : id}, (data) => {
+            if (data.code == "error") {
+                $(".result").html("<span style=\'color:red;\'>" + data.message + "</span>")
+            } else if (data.code == "success") {
+                $(".result").html("<span style=\'color:green;\'>" + data.message + "</span>")
+            }
+        }, "json")
     }
     bail = () => {
         $.post("ajax_jail.php", {"bail" : 1}, (data) => {
