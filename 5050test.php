@@ -64,44 +64,40 @@ function post(curr){
         }
     });
 }
-function update(){
-    var ts = new Date().getTime();
-    $.post("ajax_5050.php", {update : ids}, function(d){
+function update() {
+    $.post("ajax_5050.php", { update: ids }, function(d) {
         var results = d.split("|");
-        if(results[0]){
-            $("#cashbets").append('<div id="t' + ts + '" style="display:none">' + results[0] + '</div>');
-            $("#cashbets div#t" + ts).slideDown(500);
+        // Update the DOM with new bets
+        if (results[0]) {
+            $("#cashbets").append(results[0]);
         }
-        if(results[1]){
-            $("#pointsbets").append('<div id="t' + ts + '" style="display:none">' + results[1] + '</div>');
-            $("#pointsbets div#t" + ts).slideDown(500);
+        if (results[1]) {
+            $("#pointsbets").append(results[1]);
         }
-        if(results[2]){
-            $("#creditsbets").append('<div id="t' + ts + '" style="display:none">' + results[2] + '</div>');
-            $("#creditsbets div#t" + ts).slideDown(500);
+        if (results[2]) {
+            $("#creditsbets").append(results[2]);
         }
-        if(results[3]){
-            var del = results[3].split(",");
-            for(var i = 0; i < del.length; i++){
-                $("#bet"+ del[i]).fadeOut(500, function(){
-                    $(this).remove();
-                });
-            }
+
+        // Handle deletions
+        var delIDs = results[3].split(",");
+        for (var i = 0; i < delIDs.length; i++) {
+            $("#bet" + delIDs[i]).fadeOut(500, function() {
+                $(this).remove();
+            });
         }
-        if(results[4]){
-            ids = results[4];
-        }
-        if(results[5]){
-            $(".money").html(results[5]);
-        }
-        if(results[6]){
-            $(".points").html(results[6]);
-        }
-        if(results[7]){
-            $(".credits").html(results[7]);
-        }
+
+        // Update the known ids to include only current bets
+        ids = results[4];
+
+        // Update totals
+        $(".money").html(results[5]);
+        $(".points").html(results[6]);
+        $(".credits").html(results[7]);
     });
 }
+
+setInterval(update, 1000); // Call update function every 1000 milliseconds (1 second)
+
 setInterval(update, 1000);
 </script>
 YYY;
