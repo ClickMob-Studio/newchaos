@@ -180,9 +180,9 @@ function fillboxes($curr){
     $db->execute(array($curr));
     $rows = $db->fetch_row();
     foreach($rows as $row){
-        $rtn .= '<div><tr id="bet' . $row['id'] . '"><td>'; // Ensure each bet row has a unique ID that JavaScript can reference
+        $rtn .= '<div><tr id="bet' . $row['id'] . '" style="margin:3px;">'; // Ensure each bet row has a unique ID that JavaScript can reference
 
-        $rtn .= formatName($row['userid']);
+        $rtn .= '<td>'.formatName($row['userid']);
 
         $rtn .= prettynum($row['amnt'], ($curr == 'cash' ? 1: 0));
 
