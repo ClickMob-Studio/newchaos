@@ -142,7 +142,7 @@ if(isset($_POST['update'])){
             $new[$row['currency']] .= '<tr id="bet' . $row['id'] . '" style="margin:3px;">';
                 $new[$row['currency']] .= "<td>" . formatName($row['userid']).";
                 $new[$row['currency']] .= '<hr style="border:0;border-bottom:thin solid #333;" />';
-                $new[$row['currency']] .= "<td>" . prettynum($row['amnt'], ($row['currency'] == 'cash' ? 1: 0))."</td>;
+                $new[$row['currency']] .= "<td>" . prettynum($row['amnt'], ($row['currency'] == 'cash' ? 1: 0))."</td>";
                 $new[$row['currency']] .= '<br />';
                 if($user_class->id == $row['userid'])
                     $new[$row['currency']] .= '<td><button onclick="takeaway(' . $row['id'] . ');">Remove Bet</button></td>';
