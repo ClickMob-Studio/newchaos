@@ -290,6 +290,8 @@ $bustbadge = array(
 
                 $user_class->addPoints($user_class->id, $badgers['payout']);
                 $badgesclaimedex[0] = $number;
+
+                Send_Event(2, $user_class->id . ' claimed level ' . $number, 2);
             }
         }
         foreach ($crimebadge as $number => $badgers) {
@@ -304,6 +306,8 @@ $bustbadge = array(
 
                 $user_class->addPoints($user_class->id, $badgers['payout']);
                 $badgesclaimedex[1] = $number;
+
+                Send_Event(2, $user_class->id . ' claimed crime ' . $number, 2);
             }
         }
         foreach ($statbadge as $number => $badgers) {
@@ -318,6 +322,8 @@ $bustbadge = array(
 
                 $user_class->addPoints($user_class->id, $badgers['payout']);
                 $badgesclaimedex[2] = $number;
+
+                Send_Event(2, $user_class->id . ' claimed stat ' . $number, 2);
             }
         }
 
@@ -333,6 +339,8 @@ $bustbadge = array(
 
                 $user_class->addPoints($user_class->id, $badgers['payout']);
                 $badgesclaimedex[3] = $number;
+
+                Send_Event(2, $user_class->id . ' claimed kill ' . $number, 2);
             }
         }
         foreach ($bankbadge as $number => $badgers) {
@@ -347,6 +355,8 @@ $bustbadge = array(
 
                 $user_class->addPoints($user_class->id, $badgers['payout']);
                 $badgesclaimedex[4] = $number;
+
+                Send_Event(2, $user_class->id . ' claimed banks ' . $number, 2);
             }
         }
         foreach ($mugbadge as $number => $badgers) {
@@ -361,6 +371,8 @@ $bustbadge = array(
 
                 $user_class->addPoints($user_class->id, $badgers['payout']);
                 $badgesclaimedex[5] = $number;
+
+                Send_Event(2, $user_class->id . ' claimed mug ' . $number, 2);
             }
         }
         foreach ($bustbadge as $number => $badgers) {
@@ -375,6 +387,8 @@ $bustbadge = array(
 
                 $user_class->addPoints($user_class->id, $badgers['payout']);
                 $badgesclaimedex[6] = $number;
+
+                Send_Event(2, $user_class->id . ' claimed bust ' . $number, 2);
             }
         }
 

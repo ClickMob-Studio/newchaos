@@ -53,7 +53,7 @@ if (isset($_GET['claim_king']) && $_GET['claim_king'] === 'claimnow') {
             if(mysql_num_rows($kin) > 0){
                 echo Message("You are already the queen!");
             }else{
-            mysql_query("UPDATE grpgusers SET king = " . $current_city . " WHERE id = " . $user_class->id);
+            mysql_query("UPDATE grpgusers SET king = " . $current_city . ", queen = 0 WHERE id = " . $user_class->id);
             header('Location: city.php');
             }
         }
@@ -72,7 +72,7 @@ if (isset($_GET['claim_queen']) && $_GET['claim_queen'] === 'claimnow') {
             if(mysql_num_rows($kin) > 0){
                 echo Message("You are already the king!");
             }else{
-            mysql_query("UPDATE grpgusers SET queen = " . $current_city . " WHERE id = " . $user_class->id);
+            mysql_query("UPDATE grpgusers SET queen = " . $current_city . ", king = 0 WHERE id = " . $user_class->id);
             header('Location: city.php');
             }
         }

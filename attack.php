@@ -232,7 +232,7 @@ if ($row = mysql_fetch_assoc($result)) {
         mysql_query("UPDATE `grpgusers` SET `king` = 0 WHERE `id` = '".mysql_real_escape_string($attack_person->id)."'");
 
         // Crown the new king
-        mysql_query("UPDATE `grpgusers` SET `king` = '".mysql_real_escape_string($user_class->city)."' WHERE `id` = '".mysql_real_escape_string($winner)."'");
+        mysql_query("UPDATE `grpgusers` SET `king` = '".mysql_real_escape_string($user_class->city)."', `queen` = 0 WHERE `id` = '".mysql_real_escape_string($winner)."'");
 
         // Send event notifications
         Send_Event($attack_person->id, "You have been defeated and lost your status as King of " . $user_class->city . ".");
@@ -245,7 +245,7 @@ if ($row = mysql_fetch_assoc($result)) {
         mysql_query("UPDATE `grpgusers` SET `queen` = 0 WHERE `id` = '".mysql_real_escape_string($attack_person->id)."'");
 
         // Crown the new queen
-        mysql_query("UPDATE `grpgusers` SET `queen` = '".mysql_real_escape_string($user_class->city)."' WHERE `id` = '".mysql_real_escape_string($winner)."'");
+        mysql_query("UPDATE `grpgusers` SET `queen` = '".mysql_real_escape_string($user_class->city)."', `king` = 0 WHERE `id` = '".mysql_real_escape_string($winner)."'");
 
         // Send event notifications
         Send_Event($attack_person->id, "You have been defeated and lost your status as Queen of " . $user_class->city . ".");

@@ -61,6 +61,11 @@ $leftLinks[] =
 		'url'  => 'globalchat.php',
 	);
 $leftLinks[] =
+    array(
+        'name' => 'Maze',
+        'url'  => 'maze.php',
+    );
+$leftLinks[] =
 	array(
 		'name' => 'Missions',
 		'url'  => 'missions.php',
