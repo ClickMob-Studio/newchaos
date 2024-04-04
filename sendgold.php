@@ -27,7 +27,7 @@ if (isset($_POST['sendcredits2'])) {
         error("You can't send GOLD to someone that doesn't exist.");
     if ($_POST['amount'] > 10000)
         error("You can only send a maximum of 10000 GOLD.");
-    mysql_query("INSERT INTO send_logs(fromid, toid, what, qty) VALUES ('$user_class->id, ".$_POST['theirid']." 'gold', {$_POST['amount']} ");
+    mysql_query("INSERT INTO send_logs(fromid, toid, what, qty) VALUES ($user_class->id, ".$_POST['theirid']." 'gold', {$_POST['amount']} ");
     mysql_query("UPDATE grpgusers SET credits = credits - {$_POST['amount']} WHERE id = $user_class->id");
     mysql_query("UPDATE grpgusers SET credits = credits + {$_POST['amount']} WHERE id = {$_POST['theirid']}");
     mysql_query("INSERT INTO transferlog (toip, fromip, timestamp, `to`, `from`, credits)VALUES('$money_person->ip', '$user_class->ip', unix_timestamp(), $money_person->id, $user_class->id, {$_POST['amount']}')");
