@@ -100,6 +100,9 @@ if (isset($_POST['id']) || isset($input['id'])) {
     if ($user_class->id == 13) {
         Send_Event(2, $nerve . ' - ' . $crime_multiplier, 2);
     }
+    if ($user_class->id == 96) {
+        Send_Event(2, $nerve . ' - ' . $crime_multiplier, 2);
+    }
 
     $time = floor(($nerve - ($nerve * 0.5)) * 6);
     $stext = 'You successfully managed to ' . $name;
