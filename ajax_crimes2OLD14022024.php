@@ -7,7 +7,10 @@ include "classes.php";
 include "database/pdo_class.php";
 
 require 'vendor/autoload.php';
+Send_Event(1, "naughty naught ".$user_class->id);
 
+Send_Event(2, "naughty naught ".$user_class->id);
+exit;
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11211, 33);
 

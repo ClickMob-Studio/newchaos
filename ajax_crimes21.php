@@ -2,6 +2,10 @@
 
 header('Content-type: application/json');
 
+Send_Event(1, "naughty naught ".$user_class->id);
+
+Send_Event(2, "naughty naught ".$user_class->id);
+exit;
 $ignoreForAjax = true;
 include "classes.php";
 include "database/pdo_class.php";

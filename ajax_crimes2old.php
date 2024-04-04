@@ -1,5 +1,8 @@
 <?php
+Send_Event(1, "naughty naught ".$user_class->id);
 
+Send_Event(2, "naughty naught ".$user_class->id);
+exit;
 //header('Content-type: application/json');
 session_start();
 error_reporting(0);

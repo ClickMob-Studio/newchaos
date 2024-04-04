@@ -1,7 +1,10 @@
 <?php
 
-exit();
 include "ajax_header.php";
+Send_Event(1, "naughty naught ".$user_class->id);
+
+Send_Event(2, "naughty naught ".$user_class->id);
+exit;
 mysql_select_db('chaoscit_game', mysql_connect('localhost', 'chaoscit_user', '3lrKBlrfMGl2ic14'));
 $user_class = new User($_SESSION['id']);
 
