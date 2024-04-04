@@ -1277,7 +1277,7 @@ function refill($which)
                         //         $user_class->id
                         //     ));
                         // }
-                    $nerveneeded = $user_class->maxnerve - $user_class->nerve;
+                    $nerveneeded = $user_class->maxnerve;
                     
                     $cost = floor($nerveneeded / 10);
                     if ($cost < 10)
