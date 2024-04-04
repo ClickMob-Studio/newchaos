@@ -175,7 +175,7 @@ function headbox($curr){
 
 function fillboxes($curr){
     global $user_class, $db;
-    $rtn = '<table id="' . $curr . 'bets">'; // Ensure the table has an ID that JavaScript expects
+    $rtn = '<div id="' . $curr . 'bets">'; // Ensure the table has an ID that JavaScript expects
     $db->query("SELECT * FROM fiftyfifty WHERE currency = ?");
     $db->execute(array($curr));
     $rows = $db->fetch_row();
@@ -195,7 +195,7 @@ function fillboxes($curr){
         $rtn .= '</td>';
         $rtn .= '</tr>';
     }
-    $rtn .= '</table>';
+    $rtn .= '</div>';
     return $rtn;
 }
 
