@@ -120,21 +120,21 @@ echo "<hr style='border:0;border-bottom:thin solid #333;' />";
 echo "<table>";
 ?>
 <thead>
-    <th>Cash</th>
+    <th style="width:33%">Cash</th>
 </th>
-    <th>Points</th>
-    <th>Credits</th>
+    <th style="width:33%">Points</th>
+    <th style="width:33%">Credits</th>
 </thead>
 </thead>
 <?php
 echo "<tr>";
-echo "<td>";
+echo "<td style='width:33%'> ";
 echo fillboxes('cash');
 echo "</td>";
-echo "<td>";
+echo "<td style='width:33%'>";
 echo fillboxes('points');
 echo "</td>";
-echo "<td>";
+echo "<td style='width:33%'> ";
 echo fillboxes('credits');
 echo "</td>";
 echo "</tr>";
