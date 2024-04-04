@@ -100,24 +100,24 @@ function update() {
 setInterval(update, 1000);
 </script>
 YYY;
-echo'<div id="rtn"></div>';
-echo "<table>";
-echo "<tr>";
-echo "<td>";
-echo headbox('cash');
-echo "</td>";
-echo "<td>";
-echo headbox('points');
-echo "</td>";
-echo "<td>";
-echo headbox('credits');
-echo "</td>";
-echo "</tr>";
-echo "</table>";
+// echo'<div id="rtn"></div>';
+// echo "<table>";
+// echo "<tr>";
+// echo "<td>";
+// echo headbox('cash');
+// echo "</td>";
+// echo "<td>";
+// echo headbox('points');
+// echo "</td>";
+// echo "<td>";
+// echo headbox('credits');
+// echo "</td>";
+// echo "</tr>";
+// echo "</table>";
 
-echo "<hr style='border:0;border-bottom:thin solid #333;' />";
+// echo "<hr style='border:0;border-bottom:thin solid #333;' />";
 
-echo "<table>";
+// echo "<table>";
 ?>
 <style>
     .betting-container {
@@ -134,20 +134,20 @@ echo "<table>";
     align-self: start;
 }
 </style>
-<thead>
+<!-- <thead>
     <th style="width:33%">Cash</th>
 </th>
     <th style="width:33%">Points</th>
     <th style="width:33%">Credits</th>
 </thead>
-</thead>
+</thead> -->
 <div class="betting-container">
     <div class="bet-table" id="cashbets">
 <?php
-echo "<tr>";
-echo "<td style='width:33%'> ";
+//echo "<tr>";
+//echo "<td style='width:33%'> ";
 echo fillboxes('cash');
-echo "</td>";
+//echo "</td>";
 echo "</div>";
 echo '<div class="bet-table" id="pointsbets">';
 
