@@ -17,12 +17,12 @@ if (isset($_GET['action']) && $_GET['action'] === 'start_bot_process') {
 
 if ($jailbreak != ""){
     if(empty($_GET['token'])){
-
         echo Message("There has been a issue");
     }
     if($_GET['token'] != $_SESSION['token']){
         $_SESSION['message'] = "F5 use on jail is not allowed";
-        header('Location: jail_new.php');
+        $mes = "F5 use on jail is not allowed";
+        //header('Location: jail_new.php');
     }else{
         unset($_SESSION['token']);
     }
@@ -30,36 +30,43 @@ if ($jailbreak != ""){
     if ($jailbreak === 'bot') {
         $exp = mt_rand(1, 10);
         $_SESSION['message'] = "Success! You receive ".$exp." exp ";
+        $mes = "Success! You receive ".$exp." exp ";
 
         $error = false;
         if ($user_class->jail_bot_credits < 1) {
             $_SESSION['message'] = 'You do not have any bot credits remaining.';
+            $mes = 'You do not have any bot credits remaining.';
+
             $error = true;
         }
         if ($user_class->hospital > 0) {
             $_SESSION['message'] = "You can't break people out of jail whilst your in hospital.";
+            $mes = "You can't break people out of jail whilst your in hospital.";
             $error = true;
         }
         if ($user_class->jail > 0) {
             $_SESSION['message'] = "You can't break people out of jail whilst your in jail.";
+            $mes = "You can't break people out of jail whilst your in jail.";
             $error = true;
         }
 
-        $exp = $exp + $user_class->exp;
-        $crimesucceeded = 1 + $user_class->crimesucceeded;
+        if (!$error) {
+            $exp = $exp + $user_class->exp;
+            $crimesucceeded = 1 + $user_class->crimesucceeded;
 
-        mysql_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ".$exp.", busts = busts + 1, jail_bot_credits = jail_bot_credits - 1 WHERE id = ".$user_class->id);
-        $user_class->jail_bot_credits = $user_class->jail_bot_credits - 1;
-        mission('b');
-        newmissions('busts');
-        gangContest(array(
-            'busts' => 1,
-            'exp' => $exp
-        ));
-        $toadd = array('botd' => 1);
-        ofthes($user_class->id, $toadd);
-        bloodbath('busts', $user_class->id);
+            mysql_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ".$exp.", busts = busts + 1, jail_bot_credits = jail_bot_credits - 1 WHERE id = ".$user_class->id);
+            $user_class->jail_bot_credits = $user_class->jail_bot_credits - 1;
+            mission('b');
+            newmissions('busts');
+            gangContest(array(
+                'busts' => 1,
+                'exp' => $exp
+            ));
+            $toadd = array('botd' => 1);
+            ofthes($user_class->id, $toadd);
+            bloodbath('busts', $user_class->id);
 
+        }
     } else {
         $jailed_person = new User($jailbreak);
         $error = false;
@@ -157,6 +164,8 @@ $cost = ceil($user_class->jail / 60);
 if(isset($_SESSION['message'])){
     echo Message($_SESSION['message']);
     unset($_SESSION['message']);
+} else if (isset($mes)) {
+    echo Message($mes);
 }
 if($user_class->jail > 0){
     echo "<span style='color:red'>You are currently in jail click<a href='jail.php?action=bail' style='color:white'>here</a> to bail your self out this will cost you ".$cost." points</span>";
