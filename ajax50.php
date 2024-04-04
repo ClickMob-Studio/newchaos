@@ -139,7 +139,7 @@ if(isset($_POST['update'])){
         $newids[] = $row['id'];
         if(!in_array($row['id'], $idsarr)){
             // New bet added, append its HTML to the appropriate currency section
-            $new[$row['currency']] .= '<tr id="bet' . $row['id'] . '" style="margin:3px;">';
+            $new[$row['currency']] .= '<div id="' . $curr . 'bets">';
                 $new[$row['currency']] .= "<td>" . formatName($row['userid']);
                 $new[$row['currency']] .= '<hr style="border:0;border-bottom:thin solid #333;" />';
                 $new[$row['currency']] .= "<td>" . prettynum($row['amnt'], ($row['currency'] == 'cash' ? 1: 0))."</td>";
@@ -148,7 +148,8 @@ if(isset($_POST['update'])){
                     $new[$row['currency']] .= '<td><button onclick="takeaway(' . $row['id'] . ');">Remove Bet</button></td>';
                 else
                     $new[$row['currency']] .= '<td><button onclick="take(' . $row['id'] . ');">Take Bet</button></td>';
-            $new[$row['currency']] .= '</td>';
+            $new[$row['currency']] .= '</div>';
+        
         }
     }
     foreach($idsarr as $idssub){
