@@ -65,7 +65,7 @@ function post(curr){
     });
 }
 function update() {
-    $.post("ajax_5050.php", { update: ids }, function(d) {
+    $.post("ajax50.php", { update: ids }, function(d) {
         var results = d.split("|");
         // Update the DOM with new bets
         if (results[0]) {
