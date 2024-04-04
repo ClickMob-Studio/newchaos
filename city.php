@@ -179,6 +179,8 @@ $admin_ids = array_map(function($a) {
       <a href="itemmarket.php">Item Market</a><br />
       <a href="pointmarket.php">Points Market</a><br />
       <a href="goldmarket.php">Gold Market</a><br />
+      <a href="store.php">Upgrades</a><br />
+      
 <!--      <a href='rentalmarket.php'>House Rental Market</a><br />-->
       <a href='jobs.php'>Job Center</a><br />
       <a href='house.php'>Estate Agency</a><br />

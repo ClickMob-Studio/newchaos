@@ -175,29 +175,25 @@ function headbox($curr){
 
 function fillboxes($curr){
     global $user_class, $db;
-    
+    $rtn = '<div id="' . $curr . 'bets">'; // Ensure the table has an ID that JavaScript expects
     $db->query("SELECT * FROM fiftyfifty WHERE currency = ?");
     $db->execute(array($curr));
     $rows = $db->fetch_row();
     foreach($rows as $row){
-        $rtn = '<div id="' . $curr . 'bets">'; // Ensure the table has an ID that JavaScript expects
-        $rtn .= '<tr id="bet' . $row['id'] . '">'; // Ensure each bet row has a unique ID that JavaScript can reference
-        $rtn .= '<td>';
-        $rtn .= formatName($row['userid']);
-        $rtn .= '</td>';
-        $rtn .= '<td>';
+        $rtn .= '<div><tr id="bet' . $row['id'] . '" style="margin:3px;">'; // Ensure each bet row has a unique ID that JavaScript can reference
+
+        $rtn .= '<td>'.formatName($row['userid']);
+
         $rtn .= prettynum($row['amnt'], ($curr == 'cash' ? 1: 0));
-        $rtn .= '</td>';
-        $rtn .= '<td>';
+
         if($user_class->id == $row['userid'])
             $rtn .= '<button onclick="takeaway(' . $row['id'] . ');">Remove Bet</button>';
         else
             $rtn .= '<button onclick="take(' . $row['id'] . ');">Take Bet</button>';
         $rtn .= '</td>';
-        $rtn .= '</tr>';
-        $rtn .= '</div> ';
+        $rtn .= '</tr></div>';
     }
-    
+    $rtn .= '</div>';
     return $rtn;
 }
 

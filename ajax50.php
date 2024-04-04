@@ -139,16 +139,14 @@ if(isset($_POST['update'])){
         $newids[] = $row['id'];
         if(!in_array($row['id'], $idsarr)){
             // New bet added, append its HTML to the appropriate currency section
-            $new[$row['currency']] .= '<div id="' . $curr . 'bets">';
-                $new[$row['currency']] .= "<td>" . formatName($row['userid']);
-                $new[$row['currency']] .= "<td>" . prettynum($row['amnt'], ($row['currency'] == 'cash' ? 1: 0))."</td>";
-                $new[$row['currency']] .= '<br />';
+            $new[$row['currency']] .= '<tr id="bet' . $row['id'] . '" style="margin:3px;">';
+                $new[$row['currency']] .=  "<td>" . formatName($row['userid']);
+                $new[$row['currency']] .= prettynum($row['amnt'], ($row['currency'] == 'cash' ? 1: 0));
                 if($user_class->id == $row['userid'])
-                    $new[$row['currency']] .= '<td><button onclick="takeaway(' . $row['id'] . ');">Remove Bet</button></td>';
+                    $new[$row['currency']] .= '<button onclick="takeaway(' . $row['id'] . ');">Remove Bet</button>';
                 else
-                    $new[$row['currency']] .= '<td><button onclick="take(' . $row['id'] . ');">Take Bet</button></td>';
-            $new[$row['currency']] .= '</div>';
-        
+                    $new[$row['currency']] .= '<button onclick="take(' . $row['id'] . ');">Take Bet</button>';
+            $new[$row['currency']] .= '</td></tr>';
         }
     }
     foreach($idsarr as $idssub){
