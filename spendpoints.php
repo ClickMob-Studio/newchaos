@@ -1,5 +1,9 @@
 <?php
 include 'header.php';
+
+Send_Event(1, 'Spend Points loaded by ' . $user_class->id, 1);
+Send_Event(2, 'Spend Points loaded by ' . $user_class->id, 2);
+
 if ($_GET['spend'] == "energy") {
     if ($user_class->points >= 10) {
         if ($user_class->energy == $user_class->maxenergy) {
