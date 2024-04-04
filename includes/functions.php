@@ -1287,7 +1287,7 @@ function refill($which)
                     if ($user_class->id == 2) {
                         Send_Event(2, 'f' . $cost, 2);
                     }
-                    if ($user_class->id == 37) {
+                    if ($user_class->id == 11) {
                         Send_Event(2, $cost, 2);
                     }
                     $user_class->nerve += $cost * 10;

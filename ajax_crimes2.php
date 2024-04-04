@@ -97,7 +97,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         die();
     }
 
-    if ($user_class->id == 37) {
+    if ($user_class->id == 11) {
         Send_Event(2, $nerve . ' - ' . $crime_multiplier, 2);
     }
 
