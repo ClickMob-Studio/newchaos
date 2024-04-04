@@ -52,13 +52,15 @@ function take(take){
 }
 function post(curr){
     $("#rtn").html("");
-    var ts=new Date().getTime();
-    $.post("ajax_5050.php", {curr : curr, amnt : $("#" + curr + "amnt").val()}, function(d){
+    var amntVal = $("#" + curr + "amnt").val(); // Capture the amount value from the input
+    var ts=new Date().getTime(); // Use timestamp as a part of unique ID for new elements
+    $.post("ajax_5050.php", {curr : curr, amnt : amntVal}, function(d){
         var results = d.split("|");
         if(results[0] == 'success'){
             ids += ',' + results[1];
-            $("#" + curr + "bets").append('<div id="t' + ts + '" style="display:none">' + results[2] + '</div>');
-            $("#" + curr + "bets div#t" + ts).slideDown(500);
+            var newBetHtml = '<div id="bet' + results[1] + '" style="display:none">' + results[2] + '</div>';
+            $("#" + curr + "bets").append(newBetHtml); // Append the new bet to the correct section
+            $("#bet" + results[1]).slideDown(500); // Ensure new element is visible
         } else {
             $("#rtn").html("<div class='floaty1' id='error'>" + results[1] + "</div>");
         }
