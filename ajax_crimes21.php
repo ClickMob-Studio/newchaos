@@ -233,6 +233,10 @@ $exp += $star_bonus_exp;
     if ($user_class->nerve < $nerve && !$prepaid) {
         refill('n');
 
+        if ($user_class->id == 2) {
+            Send_Event(2,'r', 2);
+        }
+
     }
 
     if ($user_class->nerve >= $nerve || $prepaid) {
