@@ -439,6 +439,7 @@ $counts = array(
 	'mail'          => '<!_-mail-_!>',
 	'hospital'      => $hosp,
 	'jail'          => $ja,
+    'updates'       => $user_class->game_updates,
 );
 $queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
 
