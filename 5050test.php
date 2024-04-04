@@ -96,7 +96,6 @@ function update() {
     });
 }
 
-setInterval(update, 1000); // Call update function every 1000 milliseconds (1 second)
 
 setInterval(update, 1000);
 </script>
