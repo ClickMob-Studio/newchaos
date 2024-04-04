@@ -26,7 +26,7 @@ if (isset($_GET['do'])) {
     if ($q)
         $msgg = "You are currently doing a mission!";
     else if ($c && ($c['timestamp'] + 1800) > $currenttime) {
-        $msgg = "You have to wait " . secondsToTime(($c['timestamp'] + 1800) - $currenttime) . " until you can start another mission after canceling!";
+        $msgg = "You have to wait " . secondsToTime(($c['timestamp'] + 600) - $currenttime) . " until you can start another mission after canceling!";
     } else if ($r && $r['completed'] != "no") {
         $currenttime = time();
 
@@ -58,7 +58,7 @@ if (isset($_GET['do'])) {
         $mission = mysql_query("SELECT * FROM mission WHERE id={$q['mid']}");
         $mm = mysql_fetch_array($mission);
         mysql_query("UPDATE missions SET completed='cancel' WHERE id = {$q['id']}");
-        echo "You have canceled your current mission, you will be able to start another mission in 30 minutes";
+        echo "You have canceled your current mission, you will be able to start another mission in 10 minutes";
         $text = $user_class->id . " canceled a " . $mm['name'];
         mysql_query("INSERT INTO missionlog (`text`, `timestamp`) VALUES('[x] canceled a {$mm['name']},$user_class->id', unix_timestamp())");
     }
