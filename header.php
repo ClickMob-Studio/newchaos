@@ -493,9 +493,7 @@ if ($user_class->view_preference === '1') { ?>
 	<header class="mainHeader">
 		<div class="row mx-auto mainHeaderContent">
 		<?php 
-        if($user_class->id == 1){
-            require 'navbar1.php';
-        }else
+        
         require 'navbar.php'; ?>
 		</div>
 	</header>

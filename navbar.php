@@ -53,13 +53,13 @@ $leftLinks[] =
 	array(
 		'name'  => 'Events',
 		'url'   => 'events.php',
-		'count' => $counts['updates'],
+		'count' => $counts['event'],
 	);
 	$leftLinks[] =
 	array(
 		'name'  => 'Updates',
 		'url'   => 'gameupdates.php',
-		'count' => $counts['event'],
+		'count' => $counts['updates'],
 	);
 $leftLinks[] =
 	array(
