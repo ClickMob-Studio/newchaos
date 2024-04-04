@@ -69,14 +69,18 @@ function update(){
     $.post("ajax_5050.php", {update : ids}, function(d){
         var results = d.split("|");
         if(results[0]){
-            // Assuming results[0] contains HTML for new bets
-            // Update the bets display for each currency
-            $("#cashbets").html(results[0]);
-            $("#pointsbets").html(results[1]);
-            $("#creditsbets").html(results[2]);
+            $("#cashbets").append('<div id="t' + ts + '" style="display:none">' + results[0] + '</div>');
+            $("#cashbets div#t" + ts).slideDown(500);
+        }
+        if(results[1]){
+            $("#pointsbets").append('<div id="t' + ts + '" style="display:none">' + results[1] + '</div>');
+            $("#pointsbets div#t" + ts).slideDown(500);
+        }
+        if(results[2]){
+            $("#creditsbets").append('<div id="t' + ts + '" style="display:none">' + results[2] + '</div>');
+            $("#creditsbets div#t" + ts).slideDown(500);
         }
         if(results[3]){
-            // Assuming results[3] contains IDs of bets to be removed, separated by commas
             var del = results[3].split(",");
             for(var i = 0; i < del.length; i++){
                 $("#bet"+ del[i]).fadeOut(500, function(){
@@ -85,16 +89,19 @@ function update(){
             }
         }
         if(results[4]){
-            // Update the local 'ids' variable to reflect the current state of bets
             ids = results[4];
         }
-        // Additional updates for money, points, and credits
-        if(results[5]) $(".money").html(results[5]);
-        if(results[6]) $(".points").html(results[6]);
-        if(results[7]) $(".credits").html(results[7]);
+        if(results[5]){
+            $(".money").html(results[5]);
+        }
+        if(results[6]){
+            $(".points").html(results[6]);
+        }
+        if(results[7]){
+            $(".credits").html(results[7]);
+        }
     });
 }
-
 setInterval(update, 1000);
 </script>
 YYY;
