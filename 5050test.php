@@ -195,7 +195,7 @@ function fillboxes($curr){
         $rtn .= '</td>';
         $rtn .= '</tr>';
     }
-    $rtn .= '</div>';
+    $rtn .= '</div><br>';
     return $rtn;
 }
 
