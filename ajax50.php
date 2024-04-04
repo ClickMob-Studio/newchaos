@@ -140,9 +140,8 @@ if(isset($_POST['update'])){
         if(!in_array($row['id'], $idsarr)){
             // New bet added, append its HTML to the appropriate currency section
             $new[$row['currency']] .= '<tr id="bet' . $row['id'] . '" style="margin:3px;">';
-                $new[$row['currency']] .= echo "<td>" . formatName($row['userid']);
+                $new[$row['currency']] .=  "<td>" . formatName($row['userid']);
                 $new[$row['currency']] .= prettynum($row['amnt'], ($row['currency'] == 'cash' ? 1: 0));
-                $new[$row['currency']] .= '<br />';
                 if($user_class->id == $row['userid'])
                     $new[$row['currency']] .= '<button onclick="takeaway(' . $row['id'] . ');">Remove Bet</button>';
                 else
