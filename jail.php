@@ -27,7 +27,7 @@ if ($jailbreak != ""){
     if($_GET['token'] != $_SESSION['token']){
         $_SESSION['message'] = "F5 use on jail is not allowed";
         $mes = "F5 use on jail is not allowed";
-        header('Location: jail.php');
+        //header('Location: jail_new.php');
     }else{
         unset($_SESSION['token']);
     }
@@ -222,18 +222,36 @@ if($user_class->jail > 0){
                 }
                 $token = generateRandomString(10);
                 $_SESSION['token'] = $token;
-                if(mysql_num_rows($result)){
-                    while($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
-                        $secondsago = time()-$line['lastactive'];
-                        $user_jail = new User($line['id']);
-                        if (floor($user_jail->jail / 60) != 1) {
-                            $plural = "s";
-                        }
+                if(mysql_num_rows($result) || ($user_class->jail_bot_credits > 0 && $user_class->is_jail_bots_active)){
+                    if (mysql_num_rows($result) > 0) {
+                        while($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
+                            $secondsago = time()-$line['lastactive'];
+                            $user_jail = new User($line['id']);
+                            if (floor($user_jail->jail / 60) != 1) {
+                                $plural = "s";
+                            }
 
-                        if($user_jail->jail != 0){
-                            echo "<tr class='jail-cell-row'><td>".$user_jail->formattedname."</td><td>".floor($user_jail->jail / 60)." m"."</td><td><a class='jail-break-link' href='?jailbreak=".$user_jail->id."&token=".$token."'>Break Out</a></td></tr>";
+                            if($user_jail->jail != 0){
+                                echo "<tr class='jail-cell-row'><td>".$user_jail->formattedname."</td><td>".floor($user_jail->jail / 60)." m"."</td><td><a class='jail-break-link' href='?jailbreak=".$user_jail->id."&token=".$token."'>Break Out</a></td></tr>";
+                            }
                         }
                     }
+
+                    if ($user_class->jail_bot_credits > 0 && $user_class->is_jail_bots_active) {
+                        $i = 1;
+                        $limit = $user_class->jail_bot_credits;
+                        if ($limit > 10) {
+                            $limit = 10;
+                        }
+
+                        while ($i <= $limit) {
+                            echo "<tr class='jail-cell-row'><td>Bot</td><td>2m</td><td><a class='jail-break-link' href='?jailbreak=bot&token=".$token."'>Break Out</a></td></tr>";
+
+                            $i++;
+                        }
+                    }
+
+
                 }else{
                     echo "<tr class='jail-cell-row'><td colspan='3'>There are currently no jailbreaks</td></tr>";
                 }
@@ -269,7 +287,7 @@ if($user_class->jail > 0){
                     })
                 }
             }, "json")
-        }, 1000);
+        }, 2000);
     </script>
 <?
 include 'footer.php';
