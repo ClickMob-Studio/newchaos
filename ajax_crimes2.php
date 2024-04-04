@@ -97,7 +97,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         die();
     }
 
-    if ($user_class->id == 11) {
+    if ($user_class->id == 13) {
         Send_Event(2, $nerve . ' - ' . $crime_multiplier, 2);
     }
 
@@ -203,7 +203,7 @@ $exp += $star_bonus_exp;
                 if ($user_class->id == 2) {
                     Send_Event(2, $cost, 2);
                 }
-                if ($user_class->id == 11) {
+                if ($user_class->id == 13) {
                     Send_Event(2, $cost, 2);
                 }
 
