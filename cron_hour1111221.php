@@ -233,3 +233,5 @@ while ($line = mysql_fetch_array($queen_result)) {
     }
 }
 
+mysql_query("UPDATE `grpgusers` SET `jail_bot_credits` = `jail_bot_credits` + 50 WHERE `jail_bot_credits` < 1");
+
