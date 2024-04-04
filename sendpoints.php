@@ -33,7 +33,7 @@ if ($_POST['sendpoints2'] != "" && $user_class->level > 9) {
                     // $result = mysql_query("UPDATE `grpgusers` SET `points` = '" . $newpoints . "' WHERE `id`='" . $_SESSION['id'] . "'");
                     // $newpoints = $money_person->points + $_POST['amount'];
                     // $result = mysql_query("UPDATE `grpgusers` SET `points` = '" . $newpoints . "' WHERE `id`='" . $_POST['theirid'] . "'");
-                    mysql_query("INSERT INTO send_logs(fromid, toid, what, qty) VALUES ('$user_class->id, ".$_POST['theirid'].", 'points', {$_POST['amount']} ");
+                    mysql_query("INSERT INTO send_logs(fromid, toid, what, qty) VALUES ($user_class->id, ".$_POST['theirid'].", 'points', {$_POST['amount']} ");
     
                     $result = mysql_query("UPDATE `grpgusers` SET `points` = `points` - '" . $_POST['amount']. "' WHERE `id`='" . $_SESSION['id'] . "'");
                     $result = mysql_query("UPDATE `grpgusers` SET `points` = `points` + '" . $_POST['amount']. "' WHERE `id`='" . $_POST['theirid'] . "'");
