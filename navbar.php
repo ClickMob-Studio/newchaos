@@ -11,11 +11,11 @@ $topLinks = array(
 	),
 	array(
 		'name' => 'Crimes',
-		'url'  => 'crime.php',
+		'url'  => 'newcrimes.php',
 	),
 	array(
 		'name' => 'Gym',
-		'url'  => 'gym.php',
+		'url'  => 'speedGym.php',
 	),
 	array(
 		'name' => 'Bank',
@@ -107,16 +107,16 @@ if ($user_class->gang) {
         );
 
 }
-$leftLinks[] =
-	array(
-		'name' => 'Speed Crimes',
-		'url'  => 'newcrimes.php',
-	);
-$leftLinks[] =
-	array(
-		'name' => 'Speed Gym',
-		'url'  => 'speedGym.php',
-	);
+//$leftLinks[] =
+//	array(
+//		'name' => 'Speed Crimes',
+//		'url'  => 'newcrimes.php',
+//	);
+//$leftLinks[] =
+//	array(
+//		'name' => 'Speed Gym',
+//		'url'  => 'speedGym.php',
+//	);
 $leftLinks[] =
 	array(
 		'name' => 'Settings',
