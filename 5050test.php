@@ -121,7 +121,7 @@ YYY;
 ?>
 <style>
     .betting-container {
-    /* display: flex; */
+    display: flex;
 }
 
 .bet-table {
