@@ -96,7 +96,8 @@ if ($user_class->aprotection != 0) {
         $user_class->moddeddefense = rand(1000, 5000);
         $user_class->moddedspeed = rand(1000, 5000);
     }
-
+    $error = ($user_class->hospital > 0) ? "You can't attack someone if you are in hospital." : $error;
+  
     $error = ($user_class->jail > 0 && $attack_person->jail == 0) ? "You can't attack someone if you are in prison." : $error;
     $error = ($attack_person->jail > 0 && $user_class->jail == 0) ? "You can't attack someone that is in prison." : $error;
     $error = ($attack_person->city != $user_class->city && $user_class->id != 0) ? "You must be in the same city as the person you're attacking!" : $error;
