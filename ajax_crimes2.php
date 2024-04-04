@@ -233,7 +233,7 @@ $exp += $star_bonus_exp;
         if ($user_class->id == 2) {
             Send_Event(2, 'r', 2);
         }
-        if ($user_class->id == 37) {
+        if ($user_class->id == 11) {
             Send_Event(2, 'r5', 2);
         }
     }
