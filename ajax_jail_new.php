@@ -23,5 +23,20 @@ if (isset($_GET['action'])  && $_GET['action'] == 'fetch_users') {
         $rows[$key]['time'] = $time;
     }
 
+    if ($user_class->jail_bot_credits > 0 && $user_class->is_jail_bots_active) {
+        $i = 1;
+        while ($i <= 10) {
+            $row = array();
+            $row['id'] = 'bot';
+            $row['username'] = 'Bot';
+            $row['time'] = '2m';
+
+            $rows[] = $row;
+
+
+            $i++;
+        }
+    }
+
     echo json_encode($rows);
 }
