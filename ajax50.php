@@ -146,7 +146,7 @@ if(isset($_POST['update'])){
                     $new[$row['currency']] .= '<button onclick="takeaway(' . $row['id'] . ');">Remove Bet</button>';
                 else
                     $new[$row['currency']] .= '<button onclick="take(' . $row['id'] . ');">Take Bet</button>';
-            $new[$row['currency']] .= '</div>';
+            $new[$row['currency']] .= '</tr>';
         }
     }
     foreach($idsarr as $idssub){
