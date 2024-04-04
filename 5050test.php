@@ -99,6 +99,7 @@ function update() {
 
 setInterval(update, 1000);
 </script>
+<div id="error"></div>
 YYY;
 // echo'<div id="rtn"></div>';
 // echo "<table>";
