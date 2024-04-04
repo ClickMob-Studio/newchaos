@@ -13,17 +13,17 @@ include 'header.php';
     float: none;
     background: #111;
 }
-ul, ol {
+#udiv ul, ol {
     list-style: none;
     padding-inline-start: 0px !important;
 }
 
       }
-      p {
+      #udiv p {
     text-align: left;
 }
 
-li {
+#udiv li {
     text-align: left;
     padding: 2px 0px; /* remove this from inline style */
 }
