@@ -1,6 +1,8 @@
 <?php
 include 'header.php';
-echo Message("Back Soon");
+if ($user_class->admin < 1) {
+    echo Message("Back Soon");
+}
 exit;
 
 $badgesex = explode(",", $user_class->badges);
