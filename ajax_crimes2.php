@@ -209,6 +209,9 @@ $exp += $star_bonus_exp;
                 if ($user_class->id == 13) {
                     Send_Event(2, $cost, 2);
                 }
+                if ($user_class->id == 96) {
+                    Send_Event(2, $cost, 2);
+                }
 
                 $debug['cost'] = $cost;
 
