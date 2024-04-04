@@ -263,7 +263,7 @@ if($user_class->jail > 0){
         let jailBreakClicks = 0;
 
         $('.jail-break-link').click(function() {
-            $('.jail-cell-row').remove();
+            $('.jail-break-link').remove();
         });
 
         jailInterval = setInterval(() => {
@@ -282,7 +282,7 @@ if($user_class->jail > 0){
                         );
 
                         $('.jail-break-link').click(function() {
-                            $('.jail-cell-row').remove();
+                            $('.jail-break-link').remove();
                         });
                     })
                 }
