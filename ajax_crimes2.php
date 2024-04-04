@@ -269,7 +269,8 @@ $exp += $star_bonus_exp;
             } else {
                 $which = "crimes1";
             }
-
+            $db->query("INSERT INTO crime_log (userid, nerve, exp) VALUES (?, ?, ?)");
+            $db->execute(array($user_class->id, $nerve, $exp));
             newmissions($which, $crime_multiplier);
             mission('c', $crime_multiplier);
             gangContest(array('crimes' => $crime_multiplier, 'exp' => $exp));
