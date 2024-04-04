@@ -146,11 +146,11 @@ YYY;
 <?php
 //echo "<tr>";
 //echo "<td style='width:33%'> ";
+echo'<h1>Cash</h1>';
 echo fillboxes('cash');
 //echo "</td>";
 echo "</div>";
 echo '<div class="bet-table" id="pointsbets">';
-
 echo "<td style='width:33%'>";
 
 echo fillboxes('points');
