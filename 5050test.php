@@ -119,6 +119,21 @@ echo "<hr style='border:0;border-bottom:thin solid #333;' />";
 
 echo "<table>";
 ?>
+<style>
+    .betting-container {
+    display: flex;
+}
+
+.bet-table {
+    display: flex;
+    flex-direction: column;
+    height: 500px; /* Example fixed height */
+}
+
+.bet-table table {
+    align-self: start;
+}
+</style>
 <thead>
     <th style="width:33%">Cash</th>
 </th>
@@ -126,18 +141,27 @@ echo "<table>";
     <th style="width:33%">Credits</th>
 </thead>
 </thead>
+<div class="betting-container">
+    <div class="bet-table" id="cashbets">
 <?php
 echo "<tr>";
 echo "<td style='width:33%'> ";
 echo fillboxes('cash');
 echo "</td>";
+echo "</div>";
+echo '<div class="bet-table" id="pointsbets">'
+
 echo "<td style='width:33%'>";
+
 echo fillboxes('points');
 echo "</td>";
+echo '</div>';
+echo '<div class="bet-table" id="creditsbets">';
 echo "<td style='width:33%'> ";
 echo fillboxes('credits');
 echo "</td>";
 echo "</tr>";
+echo "</div></div>";
 echo "</table>";
 
 include "footer.php";
