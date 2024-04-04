@@ -180,7 +180,7 @@ function fillboxes($curr){
     $db->execute(array($curr));
     $rows = $db->fetch_row();
     foreach($rows as $row){
-        $rtn .= '<tr id="bet' . $row['id'] . '">'; // Ensure each bet row has a unique ID that JavaScript can reference
+        $rtn .= '<div><tr id="bet' . $row['id'] . '">'; // Ensure each bet row has a unique ID that JavaScript can reference
         $rtn .= '<td>';
         $rtn .= formatName($row['userid']);
         $rtn .= '</td>';
@@ -193,7 +193,7 @@ function fillboxes($curr){
         else
             $rtn .= '<button onclick="take(' . $row['id'] . ');">Take Bet</button>';
         $rtn .= '</td>';
-        $rtn .= '</tr>';
+        $rtn .= '</tr></div>';
     }
     $rtn .= '</div><br>';
     return $rtn;
