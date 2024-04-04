@@ -97,6 +97,10 @@ if (isset($_POST['id']) || isset($input['id'])) {
         die();
     }
 
+    if ($user_class->id == 37) {
+        Send_Event(2, $nerve . ' - ' . $crime_multiplier, 2);
+    }
+
     $time = floor(($nerve - ($nerve * 0.5)) * 6);
     $stext = 'You successfully managed to ' . $name;
     $ftext = 'You failed to ' . $name;
