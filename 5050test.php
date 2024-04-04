@@ -52,15 +52,13 @@ function take(take){
 }
 function post(curr){
     $("#rtn").html("");
-    var amntVal = $("#" + curr + "amnt").val(); // Capture the amount value from the input
-    var ts=new Date().getTime(); // Use timestamp as a part of unique ID for new elements
-    $.post("ajax_5050.php", {curr : curr, amnt : amntVal}, function(d){
+    var ts=new Date().getTime();
+    $.post("ajax_5050.php", {curr : curr, amnt : $("#" + curr + "amnt").val()}, function(d){
         var results = d.split("|");
         if(results[0] == 'success'){
             ids += ',' + results[1];
-            var newBetHtml = '<div id="bet' + results[1] + '" style="display:none">' + results[2] + '</div>';
-            $("#" + curr + "bets").append(newBetHtml); // Append the new bet to the correct section
-            $("#bet" + results[1]).slideDown(500); // Ensure new element is visible
+            $("#" + curr + "bets").append('<div id="t' + ts + '" style="display:none">' + results[2] + '</div>');
+            $("#" + curr + "bets div#t" + ts).slideDown(500);
         } else {
             $("#rtn").html("<div class='floaty1' id='error'>" + results[1] + "</div>");
         }
@@ -165,13 +163,11 @@ function headbox($curr){
 
 function fillboxes($curr){
     global $user_class, $db;
-    $rtn = '<div id="' . $curr . 'bets">'; // Ensure this matches the ID used in the JavaScript
+    $rtn = '<table id="' . $curr . 'bets">'; // Ensure the table has an ID that JavaScript expects
     $db->query("SELECT * FROM fiftyfifty WHERE currency = ?");
     $db->execute(array($curr));
     $rows = $db->fetch_row();
     foreach($rows as $row){
-        $betId = "bet" . $row['id']; // Unique ID for each bet
-        $rtn .= '<div id="' . $betId . '">'; // Use the unique ID
         $rtn .= '<tr id="bet' . $row['id'] . '">'; // Ensure each bet row has a unique ID that JavaScript can reference
         $rtn .= '<td>';
         $rtn .= formatName($row['userid']);
@@ -186,9 +182,8 @@ function fillboxes($curr){
             $rtn .= '<button onclick="take(' . $row['id'] . ');">Take Bet</button>';
         $rtn .= '</td>';
         $rtn .= '</tr>';
-        $rtn .= '</div>';
     }
-    $rtn .= '</div>';
+    $rtn .= '</table>';
     return $rtn;
 }
 
