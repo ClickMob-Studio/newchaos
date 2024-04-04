@@ -6,6 +6,11 @@ if(isset($_GET['jailbreak'])){
     $jailbreak = '';
 }
 
+if ($user_class->jail_bot_credits < 1) {
+    mysql_query("UPDATE `grpgusers` SET `is_jail_bots_active` = 0 WHERE `id` = " . $user_class->id);
+    $user_class->is_jail_bots_active = 0;
+}
+
 if (isset($_GET['action']) && $_GET['action'] === 'start_bot_process') {
     if ($user_class->jail_bot_credits > 0) {
         mysql_query("UPDATE `grpgusers` SET `is_jail_bots_active` = 1 WHERE `id` = " . $user_class->id);
