@@ -1,24 +1,24 @@
 <?php
 include "header.php";
-
 ?>
-	
-	<div class='box_top'>50/50</div>
-						<div class='box_middle'>
-							<div class='pad'>
-								<?php
-$mins = array(
-    'cash' => 10000,
-    'points' => 100,
-    'credits' => 10 // Ensuring the minimum value for credits is set
-);
-$db->query("SELECT id FROM fiftyfifty");
-$db->execute();
-$rows = $db->fetch_row();
-$ids = array();
-foreach($rows as $row)
-    $ids[] = $row['id'];
-$ids = implode(",", $ids);
+
+<div class='box_top'>50/50</div>
+<div class='box_middle'>
+    <div class='pad'>
+        <?php
+        $mins = array(
+            'cash' => 10000,
+            'points' => 100,
+            'credits' => 10 // Ensuring the minimum value for credits is set
+        );
+        $db->query("SELECT id FROM fiftyfifty");
+        $db->execute();
+        $rows = $db->fetch_row();
+        $ids = array();
+        foreach($rows as $row) {
+            $ids[] = $row['id'];
+        }
+        $ids = implode(",", $ids);
 echo <<<YYY
 <script>
 // Your existing JavaScript code remains unchanged
@@ -120,50 +120,42 @@ echo headbox('credits');
 // echo "<table>";
 ?>
 <style>
-    .betting-container {
-    display: flex;
-}
+            .betting-container {
+                display: flex;
+            }
 
-.bet-table {
-    display: flex;
-    flex-direction: column;
-    height: 500px; /* Example fixed height */
-}
+            .bet-table {
+                flex: 1; /* Adjusted for equal width and flex alignment */
+                display: flex;
+                flex-direction: column;
+                margin: 10px; /* Added some margin for spacing */
+            }
 
-.bet-table table {
-    align-self: start;
-}
-</style>
-<!-- <thead>
-    <th style="width:33%">Cash</th>
-</th>
-    <th style="width:33%">Points</th>
-    <th style="width:33%">Credits</th>
-</thead>
-</thead> -->
+            .bet-table h1 {
+                text-align: center;
+            }
+
+            .bet-table table {
+                width: 100%; /* Make sure the table uses the full width of its container */
+            }
+        </style>
+
 <div class="betting-container">
-    <div class="bet-table" id="cashbets">
-<?php
-//echo "<tr>";
-//echo "<td style='width:33%'> ";
-echo'<h1>Cash</h1>';
-echo fillboxes('cash');
-//echo "</td>";
-echo "</div>";
-echo '<div class="bet-table" id="pointsbets">';
-//echo "<td style='width:33%'>";
-echo'<h1>Points</h1>';
-echo fillboxes('points');
-//echo "</td>";
-//echo '</div>';
-echo '<div class="bet-table" id="creditsbets">';
-//echo "<td style='width:33%'> ";
-echo'<h1>Credits</h1>';
-echo fillboxes('credits');
-//echo "</td>";
-//echo "</tr>";
-echo "</div></div>";
-//echo "</table>";
+            <div class="bet-table" id="cashbets">
+                <?php echo '<h1>Cash</h1>'; ?>
+                <?php echo fillboxes('cash'); ?>
+            </div>
+            <div class="bet-table" id="pointsbets">
+                <?php echo '<h1>Points</h1>'; ?>
+                <?php echo fillboxes('points'); ?>
+            </div>
+            <div class="bet-table" id="creditsbets">
+                <?php echo '<h1>Credits</h1>'; ?>
+                <?php echo fillboxes('credits'); ?>
+            </div>
+        </div>
+        <?php
+
 
 include "footer.php";
 
