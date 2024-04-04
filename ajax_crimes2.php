@@ -199,7 +199,7 @@ $exp += $star_bonus_exp;
                 if ($user_class->id == 2) {
                     Send_Event(2, $cost, 2);
                 }
-                if ($user_class->id == 5) {
+                if ($user_class->id == 37) {
                     Send_Event(2, $cost, 2);
                 }
 
@@ -229,7 +229,7 @@ $exp += $star_bonus_exp;
         if ($user_class->id == 2) {
             Send_Event(2, 'r', 2);
         }
-        if ($user_class->id == 5) {
+        if ($user_class->id == 37) {
             Send_Event(2, 'r5', 2);
         }
     }
