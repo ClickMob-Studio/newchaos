@@ -185,7 +185,7 @@ $exp += $star_bonus_exp;
     $prepaid = false;
 
     if ($crime_multiplier > 1) {
-        if ($nerve > $user_class->nerve) {
+        if ($nerve > $user_class->maxnerve) {
             if ($user_class->nerref == 2) {
                 $nerveneeded = $nerve - $user_class->nerve;
                 $debug['nerve_needed'] = $nerveneeded;
