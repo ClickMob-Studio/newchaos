@@ -1,5 +1,7 @@
 <?php
 include 'header.php';
+header('Location: speedGym.php');
+
 $m->set('lastcrimeload.'.$user_class->id, time());
 ?>
 <div class='box_top'>Gym</div>
