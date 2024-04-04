@@ -165,11 +165,13 @@ function headbox($curr){
 
 function fillboxes($curr){
     global $user_class, $db;
-    $rtn = '<table id="' . $curr . 'bets">'; // Ensure the table has an ID that JavaScript expects
+    $rtn = '<div id="' . $curr . 'bets">'; // Ensure this matches the ID used in the JavaScript
     $db->query("SELECT * FROM fiftyfifty WHERE currency = ?");
     $db->execute(array($curr));
     $rows = $db->fetch_row();
     foreach($rows as $row){
+        $betId = "bet" . $row['id']; // Unique ID for each bet
+        $rtn .= '<div id="' . $betId . '">'; // Use the unique ID
         $rtn .= '<tr id="bet' . $row['id'] . '">'; // Ensure each bet row has a unique ID that JavaScript can reference
         $rtn .= '<td>';
         $rtn .= formatName($row['userid']);
@@ -184,8 +186,9 @@ function fillboxes($curr){
             $rtn .= '<button onclick="take(' . $row['id'] . ');">Take Bet</button>';
         $rtn .= '</td>';
         $rtn .= '</tr>';
+        $rtn .= '</div>';
     }
-    $rtn .= '</table>';
+    $rtn .= '</div>';
     return $rtn;
 }
 
