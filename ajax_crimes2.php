@@ -187,7 +187,7 @@ $exp += $star_bonus_exp;
     if ($crime_multiplier > 1) {
         if ($nerve > $user_class->maxnerve) {
             if ($user_class->nerref == 2) {
-                $nerveneeded = $nerve - $user_class->nerve;
+                $nerveneeded = $user_class->maxnerve;
                 $debug['nerve_needed'] = $nerveneeded;
                 $cost = floor($nerveneeded / 10);
                 if ($cost < 10) {
@@ -197,6 +197,9 @@ $exp += $star_bonus_exp;
                     return 0;
                 }
                 if ($user_class->id == 2) {
+                    Send_Event(2, $cost, 2);
+                }
+                if ($user_class->id == 5) {
                     Send_Event(2, $cost, 2);
                 }
 
