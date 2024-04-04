@@ -1,6 +1,7 @@
 <?php
  include 'header.php';
  error_reporting(0);
+ exit;
 ?>
 
 <div class='box_top'>Speed Crimes</div>
@@ -218,7 +219,7 @@ var submitCrime = function (id, cm=1) {
     $('#spinner').show();
 
         var request = $.ajax({
-            url: "ajax_crimes2.php",
+            url: "ajax_crimes.php",
             method: "POST",
             data: { id : id, cm : cm },
             dataType: "json"
@@ -352,7 +353,7 @@ $(document).ready(function () {
 
 
 
-fetch('ajax_crimes2.php', {
+fetch('ajax_crimes.php', {
     method: 'POST', // or 'GET'
     body: JSON.stringify({/* your data here */}),
     headers: {'Content-Type': 'application/json'}
