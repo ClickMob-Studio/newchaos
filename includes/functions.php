@@ -1285,7 +1285,7 @@ function refill($which)
                     if ($cost > $user_class->points)
                         return 0;
                     if ($user_class->id == 2) {
-                        Send_Event(2, $cost, 2);
+                        Send_Event(2, 'f' . $cost, 2);
                     }
                     if ($user_class->id == 5) {
                         Send_Event(2, $cost, 2);
