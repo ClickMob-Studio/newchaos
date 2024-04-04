@@ -2,8 +2,8 @@
 include 'header.php';
 security($_GET['gang']);
 $gang_class = new Gang($_GET['gang']);
-if ($user_class->gangwait != 0)
-    diefun("You've just left a gang! Please wait before applying to another gang!.");
+// if ($user_class->gangwait != 0)
+//     diefun("You've just left a gang! Please wait before applying to another gang!.");
 
 if ($user_class->gang != 0)
     diefun("Please leave your current gang to apply for a new one.");
