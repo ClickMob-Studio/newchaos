@@ -151,18 +151,19 @@ echo fillboxes('cash');
 //echo "</td>";
 echo "</div>";
 echo '<div class="bet-table" id="pointsbets">';
-echo "<td style='width:33%'>";
-
+//echo "<td style='width:33%'>";
+echo'<h1>Points</h1>';
 echo fillboxes('points');
-echo "</td>";
-echo '</div>';
+//echo "</td>";
+//echo '</div>';
 echo '<div class="bet-table" id="creditsbets">';
-echo "<td style='width:33%'> ";
+//echo "<td style='width:33%'> ";
+echo'<h1>Credits</h1>';
 echo fillboxes('credits');
-echo "</td>";
-echo "</tr>";
+//echo "</td>";
+//echo "</tr>";
 echo "</div></div>";
-echo "</table>";
+//echo "</table>";
 
 include "footer.php";
 
