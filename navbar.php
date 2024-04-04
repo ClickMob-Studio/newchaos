@@ -55,12 +55,14 @@ $leftLinks[] =
 		'url'   => 'events.php',
 		'count' => $counts['event'],
 	);
-	$leftLinks[] =
-	array(
-		'name'  => 'Updates',
-		'url'   => 'gameupdates.php',
-		'count' => $counts['updates'],
-	);
+if ($counts['updates'] > 0) {
+    $leftLinks[] =
+        array(
+            'name'  => 'Updates',
+            'url'   => 'gameupdates.php',
+            'count' => $counts['updates'],
+        );
+}
 $leftLinks[] =
 	array(
 		'name' => 'Chat',
