@@ -181,13 +181,11 @@ function fillboxes($curr){
     $rows = $db->fetch_row();
     foreach($rows as $row){
         $rtn .= '<div><tr id="bet' . $row['id'] . '">'; // Ensure each bet row has a unique ID that JavaScript can reference
-        $rtn .= '<td>';
+
         $rtn .= formatName($row['userid']);
-        $rtn .= '</td>';
-        $rtn .= '<td>';
+
         $rtn .= prettynum($row['amnt'], ($curr == 'cash' ? 1: 0));
-        $rtn .= '</td>';
-        $rtn .= '<td>';
+
         if($user_class->id == $row['userid'])
             $rtn .= '<button onclick="takeaway(' . $row['id'] . ');">Remove Bet</button>';
         else
