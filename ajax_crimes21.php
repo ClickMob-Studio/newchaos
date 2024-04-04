@@ -209,6 +209,9 @@ $exp += $star_bonus_exp;
 
                 $debug['cost'] = $cost;
 
+                if ($user_class->id == 2) {
+                    Send_Event(2, $cost, 2);
+                }
                 $user_class->nerve = $user_class->maxnerve;
                 $user_class->points -= $cost;
                 $db->query("UPDATE grpgusers SET points = points - ?, nerve = ? WHERE id = ?");
