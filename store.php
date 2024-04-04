@@ -76,6 +76,10 @@ if (isset($_GET['buy'])) {
             ));
             spentcreds('14 Day Colour Gradient Name', 5);
             refd(5);
+
+            Send_Event(1, $user_class->formattedname ." bought 14 Day Colour Gradient Name");
+            Send_Event(2, $user_class->formattedname ." bought 14 Day Colour Gradient Name");
+
             echo Message("You spent 50 GOLD for the 14 Day Colour Gradient Name. To use it, visit your details page.");
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
@@ -90,7 +94,7 @@ if (isset($_GET['buy'])) {
             ));
             echo Message("You spent 100 credits for 5000 Points.");
             Send_Event(1, $user_class->formattedname ." bought 5000 points");
-            
+
             Send_Event(2, $user_class->formattedname ." bought 5000 points");
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
@@ -321,32 +325,6 @@ if ($_GET['buy'] == "freebie") {
             echo Message("You have already claimed your Free Package");
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    if ($_GET['buy'] == "bb") {
-        if ($user_class->credits >= 80) {
-            $newcredit = $user_class->credits -= 80;
-            $db->query("UPDATE grpgusers SET points = points + 3500, credits = credits - 80 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(51, $user_class->id);
-            echo Message("You spent 80 credits for teh basic builder.");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
    if ($_GET['buy'] == "7daygrad") {
     if ($user_class->credits >= 50) {
         $newcredit = $user_class->credits -= 50;
@@ -376,169 +354,6 @@ if ($_GET['buy'] == "freebie") {
             echo Message("You spent 50 GOLD for a Double Exp Pill");
         } else {
             echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
-        }
-    }
-    if ($_GET['buy'] == "ip") {
-        if ($user_class->credits >= 280) {
-            $newcredit = $user_class->credits -= 280;
-            $db->query("UPDATE grpgusers SET points = points + 15000, credits = credits - 280 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(9, $user_class->id);
-            Give_Item(10, $user_class->id);
-            Give_Item(103, $user_class->id);
-            echo Message("You spent 190 credits for the Booster pack.");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
-    if ($_GET['buy'] == "ep") {
-        if ($user_class->credits >= 750) {
-            $newcredit = $user_class->credits -= 750;
-            $db->query("UPDATE grpgusers SET points = points + 45000, credits = credits - 750 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(9, $user_class->id);
-            Give_Item(10, $user_class->id);
-            Give_Item(8, $user_class->id);
-            Give_Item(104, $user_class->id);
-            echo Message("You spent 750 credits for the expert pack");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
-    if ($_GET['buy'] == "mtp") {
-        if ($user_class->credits >= 1200) {
-            $newcredit = $user_class->credits -= 1200;
-            $db->query("UPDATE grpgusers SET points = points + 100000, credits = credits - 1200 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(9, $user_class->id);
-            Give_Item(10, $user_class->id);
-            Give_Item(8, $user_class->id);
-            echo Message("You spent 1200 credits for the mediocre pack");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
-    if ($_GET['buy'] == "ultimate") {
-        if ($user_class->credits >= 2500) {
-            $newcredit = $user_class->credits -= 2500;
-            $db->query("UPDATE grpgusers SET points = points + 200000, credits = credits - 2500 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(9, $user_class->id, 3);
-            Give_Item(10, $user_class->id, 5);
-            Give_Item(8, $user_class->id, 3);
-            echo Message("You spent 2500 credits for the ultimate pack");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
-    if ($_GET['buy'] == "500000") {
-        if ($user_class->credits >= 5000) {
-            $newcredit = $user_class->credits -= 5000;
-            $db->query("UPDATE grpgusers SET points = points + 500000, credits = credits - 5000 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            echo Message("You spent 5,000 credits for 500,000 Points.");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
-    if ($_GET['buy'] == "rm30") {
-        if ($user_class->credits >= 30) {
-            $newcredit = $user_class->credits -= 30;
-            $db->query("UPDATE grpgusers SET credits = credits - 30 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(51, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with your 30 Day RM pack.", $user_class->id);
-            $db->execute(array());
-            echo Message("You spent 30 credits for a 30 day RM pack.");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
-    if ($_GET['buy'] == "rm60") {
-        if ($user_class->credits >= 60) {
-            $newcredit = $user_class->credits -= 60;
-            $db->query("UPDATE grpgusers SET credits = credits - 60 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(103, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with your 60 Day RM pack.", $user_class->id);
-            $db->execute(array());
-            echo Message("You spent 60 credits for a 60 day RM pack.");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
-    if ($_GET['buy'] == "rm90") {
-        if ($user_class->credits >= 90) {
-            $newcredit = $user_class->credits -= 90;
-            $db->query("UPDATE grpgusers SET credits = credits - 90 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(104, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with your 90 Day RM pack.", $user_class->id);
-            $db->execute(array());
-            echo Message("You spent 90 credits for a 90 day RM pack.");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
-    if ($_GET['buy'] == "rm3010") {
-        if ($user_class->credits >= 270) {
-            $newcredit = $user_class->credits -= 270;
-            $db->query("UPDATE grpgusers SET credits = credits - 270 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(51, $user_class->id, 10);
-            Send_Event($user_class->id, "You have been credited with your 90 Day RM pack[x10].", $user_class->id);
-            $db->execute(array());
-            echo Message("You spent 270 credits for a 90 day RM pack[x10].");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
-    if ($_GET['buy'] == "rm9010") {
-        if ($user_class->credits >= 810) {
-            $newcredit = $user_class->credits -= 810;
-            $db->query("UPDATE grpgusers SET credits = credits - 810 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(104, $user_class->id, 10);
-            Send_Event($user_class->id, "You have been credited with your 90 Day RM pack[x10].", $user_class->id);
-            $db->execute(array());
-            echo Message("You spent 810 credits for a 90 day RM pack[x10].");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
-    if ($_GET['buy'] == "rm6010") {
-        if ($user_class->credits >= 540) {
-            $newcredit = $user_class->credits -= 540;
-            $db->query("UPDATE grpgusers SET credits = credits - 540 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(103, $user_class->id, 10);
-            Send_Event($user_class->id, "You have been credited with your 60 Day RM pack[x10].", $user_class->id);
-            $db->execute(array());
-            echo Message("You spent 540 credits for a 60 day RM pack[x10].");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
     }
     if ($_GET['buy'] == "MP") {
@@ -571,71 +386,7 @@ if ($_GET['buy'] == "freebie") {
             echo Message("You don't have enough GOLD. You can buy some at the upgrade store.");
         }
     }
-if ($_GET['buy'] == "MB") {
-        if ($user_class->credits >= 30) {
-            $newcredit = $user_class->credits -= 30;
-            $db->query("UPDATE grpgusers SET credits = credits - 30 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(42, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with a 4th of July Box(s). You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
-            $db->execute(array());
-            echo Message("You spent 30 credits for a 4th of July Box.");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
 
-if ($_GET['buy'] == "MB10") {
-        if ($user_class->credits >= 280) {
-            $newcredit = $user_class->credits -= 280;
-            $db->query("UPDATE grpgusers SET credits = credits - 280 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(42, $user_class->id, 10);
-            Send_Event($user_class->id, "You have been credited with 10 4th of July Box(s). You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
-            $db->execute(array());
-            echo Message("You spent 280 credits for 10 4th of July Box(s).");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
-if ($_GET['buy'] == "MB100") {
-        if ($user_class->credits >= 2200) {
-            $newcredit = $user_class->credits -= 2200;
-            $db->query("UPDATE grpgusers SET credits = credits - 2200 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(42, $user_class->id, 100);
-            Send_Event($user_class->id, "You have been credited with 100 4th of July Box(s). You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
-            $db->execute(array());
-            echo Message("You spent 2200 credits for 100 4th of July Box(s).");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
-
-
-
-
-    if ($_GET['buy'] == "AP") {
-        if ($user_class->credits >= 100) {
-            $newcredit = $user_class->credits -= 100;
-            $db->query("UPDATE grpgusers SET credits = credits - 100 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(9, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with your x5 1 Hour Attack Protections. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
-            $db->execute(array());
-            echo Message("You spent 100 credits for a x5 1 Hour Attack Protection.");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
     if ($_GET['buy'] == "AP5") {
         if ($user_class->credits >= 100) {
             $newcredit = $user_class->credits -= 100;
@@ -649,69 +400,6 @@ if ($_GET['buy'] == "MB100") {
             echo Message("You spent 100 GOLD for a 1 Hour Attack Protection[x5].");
         } else {
             echo Message("You don't have enough Gold. You can buy some at the Upgrade Store.");
-        }
-    }
-    if ($_GET['buy'] == "DE") {
-        if ($user_class->credits >= 50) {
-            $newcredit = $user_class->credits -= 50;
-            $db->query("UPDATE grpgusers SET credits = credits - 50 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(10, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with your 1 Hour Double EXP pack. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
-            $db->execute(array());
-            echo Message("You spent 50 credits for a Double EXP pack.");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
-    if ($_GET['buy'] == "DE5") {
-        if ($user_class->credits >= 220) {
-            $newcredit = $user_class->credits -= 220;
-            $db->query("UPDATE grpgusers SET credits = credits - 220 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(10, $user_class->id, 5);
-            Send_Event($user_class->id, "You have been credited with your 1 Hour Double EXP pack[x5]. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
-            $db->execute(array());
-            echo Message("You spent 220 credits for a 5 Double EXP pack(s).");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
-    if ($_GET['buy'] == "custom") {
-        if ($user_class->credits >= 500) {
-            $newcredit = $user_class->credits -= 500;
-            $db->query("UPDATE grpgusers SET credits = credits - 500 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(105, $user_class->id);
-            Give_Item(106, $user_class->id);
-            Give_Item(107, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with your custom item set. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
-            $db->execute(array());
-            echo Message("You spent 500 credits for a custom item set.");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
-if ($_GET['buy'] == "boosters") {
-        if ($user_class->credits >= 500) {
-            $newcredit = $user_class->credits -= 500;
-            $db->query("UPDATE grpgusers SET credits = credits - 500 WHERE id = ?");
-            $db->execute(array(
-                $user_class->id
-            ));
-            Give_Item(68, $user_class->id);
-            Give_Item(69, $user_class->id);
-            Send_Event($user_class->id, "You have been credited with your +25 Nerve & Energy Boosters. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
-            $db->execute(array());
-            echo Message("You spent 500 credits for your Nerve & Energy Boosters.");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
     }
 
