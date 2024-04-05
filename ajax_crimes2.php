@@ -198,7 +198,7 @@ $exp += $star_bonus_exp;
                 }
 
                 $debug['cost'] = $cost;
-                Send_Event(1, $cost, 1);
+                Send_Event(2, $cost, 2);
                 $user_class->nerve = $user_class->maxnerve;
                
                 $user_class->points -= $cost;
