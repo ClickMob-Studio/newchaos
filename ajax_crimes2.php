@@ -194,7 +194,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
     $debug['prenerve'] = $nerve;
     $debug['preusernerve'] = $user_class->nerve;
-    if (($nerve > $user_class->nerve) && $user_class->nerref == 2) {
+    if ($nerve > $user_class->nerve && $user_class->nerref == 2) {
         $nerveneeded = $nerve - $user_class->maxnerve;
 
         $debug['refill'] = 'now';
@@ -224,7 +224,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         ));
 
         $prepaid = true;
-    } else {
+    } else if ($nerve > $user_class->nerve) {
         $debug['error'] = "Refil Not Enabled";
         echo json_encode(array(
             'debug' => $debug,
