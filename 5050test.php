@@ -14,19 +14,21 @@ require "header.php";
         <input type="number" name="amnt" size="5" maxlength="20" min="10000" />
         <input type="submit" name="bcash" value="Bet" />
     </form>
-
+</div>
+    <div class="col-4 col-sm-12 ">
     <h1>Points Bets</h1>
     <form action="5050.php" method="post">
         <input type="number" name="amnt" size="5" maxlength="20" min="10000" />
         <input type="submit" name="bcash" value="Bet" />
     </form>
-
+    </div>
+    <div class="col-4 col-sm-12 ">
     <h1>Credit Bets</h1>
     <form action="5050.php" method="post">
         <input type="number" name="amnt" size="5" maxlength="20" min="10000" />
         <input type="submit" name="bcash" value="Bet" />
     </form>
 
-    
+
     </div>
 </div>
