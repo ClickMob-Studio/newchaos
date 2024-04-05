@@ -35,6 +35,7 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
     font-size: 24px; /* Adjust this value to increase or decrease the size of the stars */
 
 }</style>
+    <h1>Crimes</h1>
     <div class='box_middle'>
         <div class='pad'>
             <?php
@@ -62,187 +63,96 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                         <center>
                             <h3>Choose Your Crime</h3>
                             <p>Select your crime and click and <strong>hold</strong> the button to do fast crimes</p>
+
+                            <div class="selectors-container">
+                                <select name="crime" id="scrime" style="padding: 1em; margin-right: 10px;">
+                                    <?php
+                                    foreach ($rows as $row) {
+                                        $db->query("SELECT `count` FROM crimeranks WHERE userid = ? AND crimeid = ?");
+                                        $db->execute(array($user_class->id, $row['id']));
+                                        $crimeRankResult = $db->fetch_row(true);
+
+                                        // Debugging
+                                        if ($crimeRankResult) {
+                                            $crimeCount = (int)$crimeRankResult['count'];
+                                            // Log or echo to check the value
+                                            error_log("Crime ID: {$row['id']}, Count: {$crimeCount}");
+                                        } else {
+                                            $crimeCount = 0;
+                                        }
+                                        if ($crimeCount >= 10000 && $crimeCount < 100000) {
+                                            $level = 1;
+                                        } elseif ($crimeCount >= 100000 && $crimeCount < 100000000000) {
+                                            $level = 2;
+                                        } elseif ($crimeCount >= 10000000 && $crimeCount < 20000000) {
+                                            $level = 3;
+                                        } elseif ($crimeCount >= 20000000 && $crimeCount < 40000000) {
+                                            $level = 4;
+                                        } elseif ($crimeCount >= 40000000) {
+                                            $level = 5;
+                                        }
+                                        echo "<!-- Crime ID: {$row['id']}, Count: $crimeCount, Level: $level -->";
+                                        // Output the option with the data-stars attribute
+                                        $hasEnoughNerve = $row['nerve'] <= $user_class->nerve;
+
+                                        $disabled = $hasEnoughNerve ? '' : 'disabled';
+
+                                        echo '<option value="' . $row['id'] . '" data-stars="' . $level . '" ' . $disabled . '>' . $row['name'] . ' | Cost: ' . $row['nerve'] . ' Nerve</option>';
+
+                                    }
+                                    ?>
+                                </select>
+
+                                <?php $rmOnly = ($user_class->rmdays <= 0) ? 'disabled' : ''; ?>
+                                <select name="cm" id="cm" style="padding: 1em;">
+                                    <option value="1">1X</option>
+                                    <option value="2">2X</option>
+                                    <option value="4" <?php echo $rmOnly ?>>4X (VIP Only)</option>
+                                    <option value="10" <?php echo $rmOnly ?>>10X (VIP Only)</option>
+                                </select>
+                            </div>
+
+                            <div class="star-rating" style="margin-top: 10px;"></div>
+
+                            <button id="acrimebtn2" onblue="finish();" onmouseup="finish();" ontouchend="finish();" onmouseleave="finish();"onmousedown="start();" ontouchstart="start();" style="padding: 1em; margin-bottom:5px;">Do Crimes</button>
+
+                            <br><span style="color:red">Warning: Using the multiplier will increase points consumption considerably!</span>';
+
+                            <h3>Recommendation: Use a <?php echo item_popup('Double EXP', 10) ?> to double your EXP and have 100% success rate! (1h)</h3>
+
+                            <div class="flexcont">
+                                <div class="floaty" style="flex:1;margin-right:4px;">
+                                    <h3>Nerve Refill</h3><br />
+                                    <p>Enable automated nerve refills until rollover!</p>
+                                    <br />
+                                    <?php
+                                    switch ($user_class->nerref) {
+                                        case 0:
+                                            $status = "<span style='color:red;'>[Not Paid For]</span>";
+                                            $button = '<button onClick="if(confirm(\'Are you sure you want enable nerve refills until rollover?\')){window.location.href = \'?ner=0\';}">Buy(250 Points)</button>';
+                                            break;
+                                        case 1:
+                                            $status = "<span style='color:orange;'>[Paid For/Disabled]</span>";
+                                            $button = "<a href='?ner=1'><button>Enable</button></a>";
+                                            break;
+                                        case 2:
+                                            $status = "<span style='color:green;'>[Paid For/Enabled]</span>";
+                                            $button = "<a href='?ner=2'><button>Disable</button></a>";
+                                            break;
+                                    }
+                                    ?>
+                                    Current Status: <?php echo $status ?><br />
+                                    <br />
+                                    <?php echo $button ?>
+                                </div>
+                            </div>
+
                         </center>
-
-                        <div class="selectors-container">
-                            <select name="crime" id="scrime" style="padding: 1em; margin-right: 10px;">
-                                <?php
-                                foreach ($rows as $row) {
-                                    $db->query("SELECT `count` FROM crimeranks WHERE userid = ? AND crimeid = ?");
-                                    $db->execute(array($user_class->id, $row['id']));
-                                    $crimeRankResult = $db->fetch_row(true);
-
-                                    // Debugging
-                                    if ($crimeRankResult) {
-                                        $crimeCount = (int)$crimeRankResult['count'];
-                                        // Log or echo to check the value
-                                        error_log("Crime ID: {$row['id']}, Count: {$crimeCount}");
-                                     } else {
-                                        $crimeCount = 0;
-                                    }
-                                    if ($crimeCount >= 10000 && $crimeCount < 100000) {
-                                        $level = 1;
-                                    } elseif ($crimeCount >= 100000 && $crimeCount < 100000000000) {
-                                        $level = 2;
-                                    } elseif ($crimeCount >= 10000000 && $crimeCount < 20000000) {
-                                        $level = 3;
-                                    } elseif ($crimeCount >= 20000000 && $crimeCount < 40000000) {
-                                        $level = 4;
-                                    } elseif ($crimeCount >= 40000000) {
-                                        $level = 5;
-                                    }
-                                    echo "<!-- Crime ID: {$row['id']}, Count: $crimeCount, Level: $level -->";
-                                    // Output the option with the data-stars attribute
-                                    $hasEnoughNerve = $row['nerve'] <= $user_class->nerve;
-
-                                    $disabled = $hasEnoughNerve ? '' : 'disabled';
-
-                                    echo '<option value="' . $row['id'] . '" data-stars="' . $level . '" ' . $disabled . '>' . $row['name'] . ' | Cost: ' . $row['nerve'] . ' Nerve</option>';
-
-                                }
-                                ?>
-                            </select>
-
-                            <?php $rmOnly = ($user_class->rmdays <= 0) ? 'disabled' : ''; ?>
-                            <select name="cm" id="cm" style="padding: 1em;">
-                                <option value="1">1X</option>
-                                <option value="2">2X</option>
-                                <option value="4" <?php echo $rmOnly ?>>4X (VIP Only)</option>
-                                <option value="10" <?php echo $rmOnly ?>>10X (VIP Only)</option>
-                            </select>
-                        </div>
                     </div>
                 </td>
             </tr>
         </tbody>
     </table>
-
-    <?php
-echo '<div class="crimebox">';
-
-echo '<div style="display:flex;min-height:30px;flex-direction:row;"><img style="display:none;" id="spinner" src="images/ajax-loader.gif"/><div id="noti" style="height:16px;"></div></div>';
-
-    $db->query("SELECT `name`, mission.crimes as crimestarget, missions.crimes as crimesdone FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE `userid` = ? AND `completed` = \"no\" LIMIT 1");
-    $db->execute(array(
-        $user_class->id
-    ));
-    $activeMission = $db->fetch_row()[0];
-    if ($activeMission)
-        echo "<div id='missiontext' style='font-size: 1.2em'>Active Mission: {$activeMission['name']} Crimes: {$activeMission['crimesdone']}/{$activeMission['crimestarget']}</div></center>";
-
-
-    switch ($user_class->nerref) {
-        case 0:
-            $status = "<span style='color:red;'>[Not Paid For]</span>";
-            $button = '<button onClick="if(confirm(\'Are you sure you want enable nerve refills until rollover?\')){window.location.href = \'?ner=0\';}">Buy(250 Points)</button>';
-            break;
-        case 1:
-            $status = "<span style='color:orange;'>[Paid For/Disabled]</span>";
-            $button = "<a href='?ner=1'><button>Enable</button></a>";
-            break;
-        case 2:
-            $status = "<span style='color:green;'>[Paid For/Enabled]</span>";
-            $button = "<a href='?ner=2'><button>Disable</button></a>";
-            break;
-    }
-
-        $db->query("SELECT * FROM crimes ORDER BY nerve DESC");
-        $db->execute();
-        $rows = $db->fetch_row();
-
-        $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $user_class->id) : "";
-
-echo '<div class="floaty">';
-echo '    <h3>Choose Your Crime</h3>';
-echo '    <p>Select your crime and click and <strong>hold</strong> the button to do fast crimes</p>';
-
-// Start of the selectors container
-echo '<div class="selectors-container"  justify-content: start; align-items: center;">';
-// Assuming $user_class->nerve holds the current user's nerve
-$currentNerve = $user_class->nerve;
-
-// Start of the crime dropdown
-echo '<select name="crime" id="scrime" style="padding: 1em; margin-right: 10px;">';
-
-foreach ($rows as $row) {
-    // Your existing code for $state and $selected
-    // ...
-
- $db->query("SELECT `count` FROM crimeranks WHERE userid = ? AND crimeid = ?");
-$db->execute(array($user_class->id, $row['id']));
-$crimeRankResult = $db->fetch_row(true);
-
-// Debugging
-if ($crimeRankResult) {
-    $crimeCount = (int)$crimeRankResult['count'];
-    // Log or echo to check the value
-    error_log("Crime ID: {$row['id']}, Count: {$crimeCount}");
-} else {
-    $crimeCount = 0;
-}
-if ($crimeCount >= 10000 && $crimeCount < 100000) {
-    $level = 1;
-} elseif ($crimeCount >= 100000 && $crimeCount < 100000000000) {
-    $level = 2;
-} elseif ($crimeCount >= 10000000 && $crimeCount < 20000000) {
-    $level = 3;
-} elseif ($crimeCount >= 20000000 && $crimeCount < 40000000) {
-    $level = 4;
-} elseif ($crimeCount >= 40000000) {
-    $level = 5;
-}
-echo "<!-- Crime ID: {$row['id']}, Count: $crimeCount, Level: $level -->";
-    // Output the option with the data-stars attribute
-      $hasEnoughNerve = $row['nerve'] <= $currentNerve;
-    
-    // Calculate if the option should be disabled
-    $disabled = $hasEnoughNerve ? '' : 'disabled';
-
-    echo '<option ' . $selected . ' ' . $state . ' value="' . $row['id'] . '" data-stars="' . $level . '" ' . $disabled . '>' . $row['name'] . ' | Cost: ' . $row['nerve'] . ' Nerve</option>';
-
-}
-echo '</select>';
-
-// Multiplier dropdown
-$rmOnly = ($user_class->rmdays <= 0) ? 'disabled' : '';
-echo '<select name="cm" id="cm" style="padding: 1em;">';
-echo '  <option value="1">1X</option>';
-echo '  <option value="2">2X</option>';
-echo '  <option value="4" ' . $rmOnly . '>4X (VIP Only)</option>';
-echo '  <option value="10" ' . $rmOnly . '>10X (VIP Only)</option>';
-
-
-echo '</select>';
-
-// End of the selectors container
-echo '</div>';
-
-// Star ratings container
-echo '<div class="star-rating" style="margin-top: 10px;"></div>';
-
-
-        //}
-
-        echo '<button id="acrimebtn2" onblue="finish();" onmouseup="finish();" ontouchend="finish();" onmouseleave="finish();"onmousedown="start();" ontouchstart="start();" style="padding: 1em; margin-bottom:5px;">Do Crimes</button>';
-
-        echo '<br><span style="color:red">Warning: Using the multiplier will increase points consumption considerably!</span>';
-
-        echo '<h3>Recommendation: Use a ' . item_popup('Double EXP', 10) . ' to double your EXP and have 100% success rate! (1h)</h3></div>';
-
-        echo'<div class="flexcont">';
-        echo'<div class="floaty" style="flex:1;margin-right:4px;">';
-            echo'<h3>Nerve Refill</h3><br />';
-            echo '<p>Enable automated nerve refills until rollover!</p>';
-            echo'<br />';
-            echo'Current Status: ' . $status . '<br />';
-            echo'<br />';
-            echo $button;
-        echo'</div>';
-    echo'</div>';
-        echo '</td>';
-    echo '</tr>';
-echo '</div>';
-?>
 
 <script>
 var doingcrime = false;
