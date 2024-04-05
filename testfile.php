@@ -1,6 +1,5 @@
 <?php
-chaoscit_user
-// Database info
+
 $dbHost     = 'localhost';
 $dbUsername = 'chaoscit_user';
 $dbPassword = '3lrKBlrfMGl2ic14';
