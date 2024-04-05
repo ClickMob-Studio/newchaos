@@ -3,7 +3,7 @@ include "ajax_header.php"; // Adjust this path as necessary
 
 // Assuming $db is your database connection
 if(isset($_POST['action']) && $_POST['action'] == 'placeBet') {
-    $amnt = filter_input(INPUT_POST, 'amnt', FILTER_SANITIZE_NUMBER_INT);
+    $amnt = filter_input(INPUT_GET, 'amnt', FILTER_SANITIZE_NUMBER_INT);
     $curr = filter_input(INPUT_POST, 'curr', FILTER_SANITIZE_STRING);
     $IP = $_SERVER['REMOTE_ADDR'];
 
