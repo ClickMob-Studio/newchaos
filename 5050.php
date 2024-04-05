@@ -118,11 +118,9 @@ echo "<td>";
 echo headbox('credits');
 echo "</td>";
 echo "</tr>";
-echo "</table>";
 
 echo "<hr style='border:0;border-bottom:thin solid #333;' />";
 
-echo "<table>";
 ?>
 <thead>
     <th>Cash</th>
