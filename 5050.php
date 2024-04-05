@@ -163,7 +163,6 @@ function headbox($curr){
 
 function fillboxes($curr){
     global $user_class, $db;
-    $rtn = '<table>';
     $db->query("SELECT * FROM fiftyfifty WHERE currency = ?");
     $db->execute(array($curr));
     $rows = $db->fetch_row();
@@ -183,7 +182,6 @@ function fillboxes($curr){
         $rtn .= '</td>';
         $rtn .= '</tr>';
     }
-    $rtn .= '</table>';
     return $rtn;
 }
 
