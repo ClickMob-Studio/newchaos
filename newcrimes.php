@@ -47,7 +47,47 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
 
             }
 
-?>
+            if (isset($_GET['ner'])) {
+                switch ($_GET['ner']) {
+                    case 0:
+                        if ($user_class->nerref != 0)
+                            diefun("Nice Try.");
+                        if ($user_class->points < 250)
+                            diefun("You do not have enough points.");
+                        $user_class->points -= 250;
+                        $user_class->nerref = 2;
+                        $db->query("UPDATE grpgusers SET nerref = ?, points = ?, nerreftime = unix_timestamp() WHERE id = ?");
+                        $db->execute(array(
+                            $user_class->nerref,
+                            $user_class->points,
+                            $user_class->id
+                        ));
+                        break;
+                    case 1:
+                        if ($user_class->nerref == 0)
+                            diefun("Nice Try.");
+                        $user_class->nerref = 2;
+                        $db->query("UPDATE grpgusers SET nerref = ? WHERE id = ?");
+                        $db->execute(array(
+                            $user_class->nerref,
+                            $user_class->id
+                        ));
+                        mysql_query("UPDATE grpgusers SET nerref = $user_class->nerref WHERE id = $user_class->id");
+                        break;
+                    case 2:
+                        if ($user_class->nerref == 0)
+                            diefun("Nice Try.");
+                        $user_class->nerref = 1;
+                        $db->query("UPDATE grpgusers SET nerref = ? WHERE id = ?");
+                        $db->execute(array(
+                            $user_class->nerref,
+                            $user_class->id
+                        ));
+                        break;
+                }
+            }
+
+        ?>
 
     <table>
         <tbody>
