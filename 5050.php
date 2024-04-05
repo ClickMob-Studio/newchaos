@@ -19,6 +19,26 @@ $ids = array();
 foreach($rows as $row)
     $ids[] = $row['id'];
 $ids = implode(",", $ids);
+if($user_class->ffban == 1){
+    echo Message("You have been excluded from 5050 until rollover");
+    require "footer.php";
+    exit;
+}
+if($_GET['exclude'] == 'yes')
+{
+    mysql_query("UPDATE grpgusers SET ffban = 1 WHERE id = $user_class->id");
+    echo Message("You have excluded your selffrom 5050");
+    require "footer.php";
+    die;
+}
+?>
+<p>Click here to exclue your self from 5050 for 1 day, you will not be able to place any bets. This is also final, we will not reverse
+    any one who decides to exclude themselves will have to wait the day to play again (No conrimation on link click) Resets on rollover
+<a href='5050.php?exclude=yes' style="color:red">Exclude</a>
+</p>
+
+<?php
+
 echo <<<YYY
 <script>
 // Your existing JavaScript code remains unchanged

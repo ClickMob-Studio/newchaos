@@ -89,7 +89,7 @@ $db->execute(array(
     time()
 ));
 Send_Event($row['id'], "You won Most Money Mugged Today [+2500 Points]");
-
+mysql_query("UPDATE grpgusers SET ffban = ffban - 1 WHERE ffban > 0");
 mysql_query("UPDATE `grpgusers` SET `tamt` = '0', `todayskills` = '0', `todaysexp` = '0', `boxes_opened` = '1', `crimeauto` = '0', `csmuggling` = '6', `prayer` = '1', `searchdowntown` = '100', `dailytrains` = '0', `dailymugs` = '0', `spins` = '20', `gameevents` = '0', `voted1`='0', `dailyClockins` = '0', `doors`='3', `slots_left1`='100', `psmuggling2`='5', `roulette`='1', `luckydip`='1', `luckydip2`='1',`chase` = '1'") or die(mysql_error());
 
 $db->query("UPDATE ofthes SET baotd = 0, botd = 0, motd = 0, kotd = 0");

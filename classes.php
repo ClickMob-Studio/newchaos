@@ -378,6 +378,7 @@ $m->set('ipn.' . $id, $donations, 0, 60);
         $this->shared_bank = $worked["shared_bank"];
 
 		$this->donations = $donations;
+        $this->ffban = $worked["ffban"];
         $this->druggie = explode("|", $this->drugs);
         $this->drugstr = (isset($this->druggie[2]) && $this->druggie[2] > time() - 900) ? 1.25 : 1;
         $this->drugdef = (isset($this->druggie[1]) && $this->druggie[1] > time() - 900) ? 1.25 : 1;
