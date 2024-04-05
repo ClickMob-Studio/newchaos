@@ -91,7 +91,8 @@ $nor = 3; // number of ranks to be shown per category
             </tr>';
 
             $rank = 0;
-            while ($line = mysql_fetch_array($donators)) {
+            while ($line = mysql_fetch_array($result)) {
+                $top[] = $line['userid'];
                 $rank++;
                 echo '<tr><td width="10%">';
                 echo (!empty($rankcolours[$rank - 1])) ? "<span style='font-weight:bold;color:#{$rankcolours[$rank - 1]}'>$rank" : $rank;
@@ -103,20 +104,9 @@ $nor = 3; // number of ranks to be shown per category
                     echo "rd";
                 else
                     echo "th";
-
-                if ($line['userid'] == $user_class->id)
-                {
-                    $name = formatName($line['userid']);
-                    if ($line['dprivacy'] == 1) {
-                        $name .= ' (HIDDEN)';
-                    }
-                } else {
-                    $name = ($line['dprivacy'] == 1) ? 'Anonymous' : formatName($line['userid']);
-                }
-
                 echo (!empty($rankcolours[$rank - 1])) ? "</span></td>" : "</td>";
-                echo '<td width="40%">' . $name . '</td>';
-                echo (!empty($donate_prizes[$rank - 1])) ? "<td><span style='font-weight:bold;color:#{$rankcolours[$rank - 1]}'>" . number_format($donate_prizes[$rank - 1]) . "%" : "-";
+                echo '<td width="40%">' . formatName($line['userid']) . '</td><td width="25%">' . prettynum($line["$lol"]) . ' ' . ucfirst(str_replace('crimes', 'points', $lop)) . '</td><td>';
+                echo (!empty($prizes[$rank - 1])) ? "<span style='font-weight:bold;color:#{$rankcolours[$rank - 1]}'>" . number_format($prizes[$rank - 1]) . " Points" : "-";
                 echo '</td></tr>';
             }
             echo '</table>';
