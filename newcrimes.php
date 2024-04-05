@@ -95,7 +95,10 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                 <td>
                     <div class="flexele floaty" style="margin:3px;"><hr style="border:0;border-bottom:thin solid #333;">
                         <div style="display:flex;min-height:30px;flex-direction:row;">
-                            <img style="display:none;" id="spinner" src="images/ajax-loader.gif"/><div id="noti" class="alert alert-success" style="height:16px;"></div>
+                            <div id="noti" class="alert alert-success">
+                                <img style="display:none;" id="spinner" src="images/ajax-loader.gif"/>
+                                <p><span class="response-text"></span></p>
+                            </div>
                         </div>
 
                         <?php if ($activeMission) {
@@ -230,7 +233,7 @@ var submitCrime = function (id, cm=1) {
             $('.money').html(res.stats.money)
             $(".level").html(res.stats.level)
             $(".points").html(res.stats.points)
-            $("#noti").html(res.text)
+            $(".response-text").html(res.text)
             $("#missiontext").html(res.stats.mission)
 
             $('.after_title').eq(0).text(res.bars.energy.title)
