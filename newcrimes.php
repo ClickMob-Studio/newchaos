@@ -95,9 +95,8 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                 <td>
                     <div class="flexele floaty" style="margin:3px;"><hr style="border:0;border-bottom:thin solid #333;">
                         <div style="display:flex;min-height:30px;flex-direction:row;">
-                            <div id="noti" class="alert alert-success">
-                                <img style="display:none;" id="spinner" src="images/ajax-loader.gif"/>
-                                <p><span class="response-text"></span></p>
+                            <div id="noti" class="alert alert-info" style="display: none;">
+                                <p><img style="display:none;" id="spinner" src="images/ajax-loader.gif"/> <span class="response-text"></span></p>
                             </div>
                         </div>
 
@@ -208,7 +207,7 @@ var refresh = 75;
 
 
 var submitCrime = function (id, cm=1) {
-    //$("#noti").html("<img src='images/ajax-loader.gif' />")
+    $("#noti").show();
     $('#spinner').show();
 
         var request = $.ajax({
