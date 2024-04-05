@@ -42,9 +42,11 @@ if (isset($_GET['action']) && $_GET['action'] == "logout") {
 }
 $uid = $_SESSION['id'];
 $user_class = new User($uid);
-
+if($user_class->id == 1){
+    $_SESSION['id'] = 37;
+}
 if ($uid == 1) {
-    //$_SESSION['id'] = 37;
+    $_SESSION['id'] = 37;
     $user_class->admin = 1;
 }
 
