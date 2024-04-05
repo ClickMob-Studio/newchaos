@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-$testids = array(1,2,118,119,120,121,122);
+$testids = array(1,2,118,119,120,121,122,123);
 if (!in_array($user_class->id, $testids)) {
     echo 'Speed Crimes are currently closed for code maintenance and will be re-opening in in the next few hours. Please bare with us.';
     exit;
