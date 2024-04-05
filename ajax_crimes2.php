@@ -56,6 +56,8 @@ function calculateExp($user_class, $nerve, $row)
     if ($user_class->prestige > 0) {
         $exp *= (.20 * $user_class->prestige) + 1;
     }
+
+    return $exp;
 }
 
 ini_set('display_errors', 1);
