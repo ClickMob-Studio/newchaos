@@ -255,18 +255,6 @@ if(isset($_GET['username'])){
         <br />
         <span id='gendName'>" . formatName($user_class->id) . "</span>
     </div>";
-}elseif(isset($_GET['removeprotection'])){
-    if(!isset($_GET['y']) || $_GET['y'] != 'confrim'){
-        echo "<h1>Remove Attack Protection</h1>"
-    echo Message("Are you sure you want to remove your attack protection? <a href='?removeprotection&y=confrim' style='color:red'> REMOVE</a>");
-    }else{
-        if($user_class->aprotection < time()){
-            echo Message("Your attack protection has expired.");
-        }else{
-            mysql_query("UPDATE grpgusers SET aprotection = 0 WHERE id = ".$user_class->id);
-            echo Message("Your attack protection has been removed.");
-        }
-    }
 
 } elseif(isset($_GET['resetmenu'])) {
     $db->query("UPDATE grpgusers SET menuorder = DEFAULT(menuorder) WHERE id = ?");
