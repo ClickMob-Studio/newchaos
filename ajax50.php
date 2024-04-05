@@ -10,9 +10,9 @@ if(isset($_POST['action']) && $_POST['action'] == 'placeBet') {
     // Further validation here (e.g., check if amount meets the minimum bet requirement)
 
     // Prepare and execute query
-    $query = "INSERT INTO fiftyfifty (userid, amnt, currency, timestamp, betterip) VALUES (?, ?, ?, UNIX_TIMESTAMP(), ?)";
-    if($stmt = $db->prepare($query)) { // Assuming $db is a PDO instance
-        $stmt->execute([$user_class->id, $amnt, $curr, $IP]); // Adjust to match your session/user data
+    $query = "INSERT INTO fiftyfifty (userid, amnt, currency, `timestamp`, betterip) VALUES (?, ?, ?, UNIX_TIMESTAMP(), ?)";
+    if($stmt = $db->query($query)) { // Assuming $db is a PDO instance
+        $stmt->execute(array($user_class->id, $amnt, $curr, $IP)); // Adjust to match your session/user data
         echo "Success";
     } else {
         echo "Error";
