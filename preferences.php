@@ -257,7 +257,7 @@ if(isset($_GET['username'])){
     </div>";
 }elseif(isset($_GET['removeprotection'])){
     if(!isset($_GET['y']) || $_GET['y'] != 'confrim'){
-    echo Message("Are you sure you want to remove your attack protection? <a href='?removeprotecton&y=confrim' style='color:red'> REMOVE</a>");
+    echo Message("Are you sure you want to remove your attack protection? <a href='?removeprotection&y=confrim' style='color:red'> REMOVE</a>");
     }else{
         if($user_class->aprotection < time()){
             echo Message("Your attack protection has expired.");
