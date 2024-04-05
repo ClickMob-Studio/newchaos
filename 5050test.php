@@ -1,24 +1,27 @@
 <?php
 include "header.php";
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 ?>
 
 <div class='box_top'>50/50</div>
 <div class='box_middle'>
     <div class='pad'>
         <?php
-        $mins = array(
-            'cash' => 10000,
-            'points' => 100,
-            'credits' => 10 // Ensuring the minimum value for credits is set
-        );
-        $db->query("SELECT id FROM fiftyfifty");
-        $db->execute();
-        $rows = $db->fetch_row();
-        $ids = array();
-        foreach($rows as $row) {
-            $ids[] = $row['id'];
-        }
-        $ids = implode(",", $ids);
+$mins = array(
+    'cash' => 10000,
+    'points' => 100,
+    'credits' => 10 // Ensuring the minimum value for credits is set
+);
+$db->query("SELECT `id` FROM fiftyfifty");
+$db->execute();
+$rows = $db->fetch_row();
+$ids = array();
+foreach($rows as $row)
+    $ids[] = $row['id'];
+$ids = implode(",", $ids);
 echo <<<YYY
 <script>
 // Your existing JavaScript code remains unchanged
@@ -64,100 +67,91 @@ function post(curr){
         }
     });
 }
-function update() {
-    $.post("ajax50.php", { update: ids }, function(d) {
+function update(){
+    var ts = new Date().getTime();
+    $.post("ajax_5050.php", {update : ids}, function(d){
         var results = d.split("|");
-        // Update the DOM with new bets
-        if (results[0]) {
-            $("#cashbets").append(results[0]);
+        if(results[0]){
+            $("#cashbets").append('<div id="t' + ts + '" style="display:none">' + results[0] + '</div>');
+            $("#cashbets div#t" + ts).slideDown(500);
         }
-        if (results[1]) {
-            $("#pointsbets").append(results[1]);
+        if(results[1]){
+            $("#pointsbets").append('<div id="t' + ts + '" style="display:none">' + results[1] + '</div>');
+            $("#pointsbets div#t" + ts).slideDown(500);
         }
-        if (results[2]) {
-            $("#creditsbets").append(results[2]);
+        if(results[2]){
+            $("#creditsbets").append('<div id="t' + ts + '" style="display:none">' + results[2] + '</div>');
+            $("#creditsbets div#t" + ts).slideDown(500);
         }
-
-        // Handle deletions
-        var delIDs = results[3].split(",");
-        for (var i = 0; i < delIDs.length; i++) {
-            $("#bet" + delIDs[i]).fadeOut(500, function() {
-                $(this).remove();
-            });
+        if(results[3]){
+            var del = results[3].split(",");
+            for(var i = 0; i < del.length; i++){
+                $("#bet"+ del[i]).fadeOut(500, function(){
+                    $(this).remove();
+                });
+            }
         }
-
-        // Update the known ids to include only current bets
-        ids = results[4];
-
-        // Update totals
-        $(".money").html(results[5]);
-        $(".points").html(results[6]);
-        $(".credits").html(results[7]);
+        if(results[4]){
+            ids = results[4];
+        }
+        if(results[5]){
+            $(".money").html(results[5]);
+        }
+        if(results[6]){
+            $(".points").html(results[6]);
+        }
+        if(results[7]){
+            $(".credits").html(results[7]);
+        }
     });
 }
-
-
 setInterval(update, 1000);
 </script>
-<div id="error"></div>
 YYY;
-// echo'<div id="rtn"></div>';
-// echo "<table>";
-// echo "<tr>";
-// echo "<td>";
- echo headbox('cash');
-// echo "</td>";
-// echo "<td>";
- echo headbox('points');
-// echo "</td>";
-// echo "<td>";
+echo'<div id="rtn"></div>';
+echo "<table>";
+echo "<tr>";
+echo "<td>";
+echo headbox('cash');
+echo "</td>";
+echo "<td>";
+echo headbox('points');
+echo "</td>";
+echo "<td>";
 echo headbox('credits');
-// echo "</td>";
-// echo "</tr>";
-// echo "</table>";
+echo "</td>";
+echo "</tr>";
+echo "</table>";
 
-// echo "<hr style='border:0;border-bottom:thin solid #333;' />";
+echo "<hr style='border:0;border-bottom:thin solid #333;' />";
 
-// echo "<table>";
+echo "<table class='betsTable'>";
 ?>
-<style>
-            .betting-container {
-                display: flex;
-            }
+<thead>
+    <tr>
+        <th>Cash</th>
+        <th>Points</th>
+        <th>Credits</th>
+    </tr>
+</thead>
+<tbody>
+<?php
+echo "<tr>";
+echo "<td>";
+echo fillboxes('cash');
+echo "</td>";
+echo "<td>";
+echo fillboxes('points');
+echo "</td>";
+echo "<td>";
+echo fillboxes('credits');
+echo "</td>";
+echo "</tr>";
+?>
+</tbody>
+</table>
 
-            .bet-table {
-                flex: 1; /* Adjusted for equal width and flex alignment */
-                display: flex;
-                flex-direction: column;
-                margin: 10px; /* Added some margin for spacing */
-            }
-
-            .bet-table h1 {
-                text-align: center;
-            }
-
-            .bet-table table {
-                width: 100%; /* Make sure the table uses the full width of its container */
-            }
-        </style>
-
-<div class="betting-container">
-            <div class="bet-table" id="cashbets">
-                <?php echo '<h1>Cash</h1>'; ?>
-                <?php echo fillboxes('cash'); ?>
-            </div>
-            <div class="bet-table" id="pointsbets">
-                <?php echo '<h1>Points</h1>'; ?>
-                <?php echo fillboxes('points'); ?>
-            </div>
-            <div class="bet-table" id="creditsbets">
-                <?php echo '<h1>Credits</h1>'; ?>
-                <?php echo fillboxes('credits'); ?>
-            </div>
-        </div>
-        <?php
-
-
+<?php
 include "footer.php";
 
 function headbox($curr){
@@ -176,28 +170,21 @@ function headbox($curr){
 
 function fillboxes($curr){
     global $user_class, $db;
-    $rtn = '<div id="' . $curr . 'bets">'; // Ensure the table has an ID that JavaScript expects
-    $db->query("SELECT * FROM fiftyfifty WHERE currency = ?");
-    $db->execute(array($curr));
+    $rtn = '';
+    $db->query("SELECT * FROM fiftyfifty WHERE `currency` = '".$curr."'");
     $rows = $db->fetch_row();
     foreach($rows as $row){
-        $rtn .= '<div><tr id="bet' . $row['id'] . '" style="margin:3px;">'; // Ensure each bet row has a unique ID that JavaScript can reference
-
-        $rtn .= '<td>'.formatName($row['userid']);
-
-        $rtn .= prettynum($row['amnt'], ($curr == 'cash' ? 1: 0));
-
+        $rtn .= '<div class="betRow">';
+        $rtn .= '<span class="betName">'. formatName($row['userid']) .'</span>';
+        $rtn .= '<span class="betAmount">'. prettynum($row['amnt'], ($curr == 'cash' ? 1: 0)) .'</span>';
         if($user_class->id == $row['userid'])
             $rtn .= '<button onclick="takeaway(' . $row['id'] . ');">Remove Bet</button>';
         else
             $rtn .= '<button onclick="take(' . $row['id'] . ');">Take Bet</button>';
-        $rtn .= '</td>';
-        $rtn .= '</tr></div>';
+        $rtn .= '</div>';
     }
-    $rtn .= '</div>';
     return $rtn;
 }
-
 
 function dbcol($input){
     return str_replace('cash', 'money', $input);
