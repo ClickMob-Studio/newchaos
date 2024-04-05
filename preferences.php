@@ -255,7 +255,7 @@ if(isset($_GET['username'])){
         <br />
         <span id='gendName'>" . formatName($user_class->id) . "</span>
     </div>";
-}elseif(isset($_GET['removeprotecton'])){
+}elseif(isset($_GET['removeprotection'])){
     if(!isset($_GET['y']) || $_GET['y'] != 'confrim'){
     echo Message("Are you sure you want to remove your attack protection? <a href='?removeprotecton&y=confrim'");
     }else{
