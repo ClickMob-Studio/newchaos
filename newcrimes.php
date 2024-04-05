@@ -53,7 +53,7 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
         <tbody>
             <tr>
                 <td>
-                    <div class="flexele floaty" style="margin:3px;">Cash 50/50<hr style="border:0;border-bottom:thin solid #333;">
+                    <div class="flexele floaty" style="margin:3px;"><hr style="border:0;border-bottom:thin solid #333;">
                         <div style="display:flex;min-height:30px;flex-direction:row;"><img style="display:none;" id="spinner" src="images/ajax-loader.gif"/><div id="noti" style="height:16px;"></div></div>
 
                         <?php if ($activeMission) {
@@ -120,7 +120,8 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                             <br><span style="color:red">Warning: Using the multiplier will increase points consumption considerably!</span>';
 
                             <h3>Recommendation: Use a <?php echo item_popup('Double EXP', 10) ?> to double your EXP and have 100% success rate! (1h)</h3>
-
+                            <hr />
+                            
                             <div class="flexcont">
                                 <div class="floaty" style="flex:1;margin-right:4px;">
                                     <h2><u>Nerve Refill</u></h2>
