@@ -287,7 +287,7 @@ if($user_class->jail > 0){
                     })
                 }
             }, "json")
-        }, 2000);
+        }, 4000);
     </script>
 <?
 include 'footer.php';
