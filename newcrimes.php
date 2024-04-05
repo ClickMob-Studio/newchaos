@@ -1,93 +1,126 @@
 <?php
- include 'header.php';
-
- if ($user_class->admin < 1) {
-     echo 'closed for maintenance, brb.'; exit;
- }
- error_reporting(0);
-?>
-
-<div class='box_top'>Speed Crimes</div>
-						<div class='box_middle'>
-							<div class='pad'>
-                                <?php
-
-if ($user_class->fbitime > 0) {
-    diefun("You can't do crimes if you're in FBI Jail!");
+include 'header.php';
+if ($user_class->admin < 1) {
+    echo 'Speed Crimes are currently closed for code maintenance and will be re-opening in in the next few hours. Please bare with us.';
+    exit;
 }
-
-
 $db->query("UPDATE grpgusers SET crimes = 'newcrimes', lastactive = unix_timestamp() WHERE id = ?");
 $db->execute(array(
     $user_class->id
 ));
 $m->set('lastcrimeload.'.$user_class->id, time());
-$error = ($user_class->jail > 0) ? "You can't do crimes if you're in prison!" : "";
-$error = ($user_class->hospital > 0) ? "You can't do crimes if you're in hospital!" : $error;
-if (!empty($error))
-    diefun($error);
+error_reporting(0);
 
-if (isset($_GET['ner'])) {
-    switch ($_GET['ner']) {
-        case 0:
-            if ($user_class->nerref != 0)
-                diefun("Nice Try.");
-            if ($user_class->points < 250)
-                diefun("You do not have enough points.");
-            $user_class->points -= 250;
-            $user_class->nerref = 2;
-            $db->query("UPDATE grpgusers SET nerref = ?, points = ?, nerreftime = unix_timestamp() WHERE id = ?");
-            $db->execute(array(
-                $user_class->nerref,
-                $user_class->points,
-                $user_class->id
-            ));
-            break;
-        case 1:
-            if ($user_class->nerref == 0)
-                diefun("Nice Try.");
-            $user_class->nerref = 2;
-            $db->query("UPDATE grpgusers SET nerref = ? WHERE id = ?");
-            $db->execute(array(
-                $user_class->nerref,
-                $user_class->id
-            ));
-            mysql_query("UPDATE grpgusers SET nerref = $user_class->nerref WHERE id = $user_class->id");
-            break;
-        case 2:
-            if ($user_class->nerref == 0)
-                diefun("Nice Try.");
-            $user_class->nerref = 1;
-            $db->query("UPDATE grpgusers SET nerref = ? WHERE id = ?");
-            $db->execute(array(
-                $user_class->nerref,
-                $user_class->id
-            ));
-            break;
-    }
-}
+$db->query("SELECT `name`, mission.crimes as crimestarget, missions.crimes as crimesdone FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE `userid` = ? AND `completed` = \"no\" LIMIT 1");
+$db->execute(array(
+    $user_class->id
+));
+$activeMission = $db->fetch_row()[0];
 
-    // echo '<script>var doingcrime = 0;';
-    // echo 'function start(i){id=i,doingcrime=!0;var n=setInterval(function(){doingcrime&&0<id?docrime(id):(clearInterval(n),n=null)},10)}function finish(){doingcrime&&location.reload(),id=0,doingcrime=!1}function docrime(i){$("#noti").html("<img src=\'images/ajax-loader.gif\' />"),$.post("ajax_crimes.php",{id:i},function(i){var n=i.split("|");$("#noti").html(n[0]),$(".points").html(n[1]),$(".money").html(n[2]),$(".level").html(n[3]),$(".genBars").html(n[4])})}$(document).ready(function(){}),document.onblur=function(){finish()},window.onblur=function(){finish()},document.body.onmouseup=function(i){finish()};';
+$db->query("SELECT * FROM crimes ORDER BY nerve DESC");
+$db->execute();
+$rows = $db->fetch_row();
+
+$crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $user_class->id) : "";
 ?>
+
 <style>.gold {
     color: gold; /* Or any other color code you prefer */
-        font-size: 24px; /* Adjust this value to increase or decrease the size of the stars */
+    font-size: 24px; /* Adjust this value to increase or decrease the size of the stars */
 
 }
 
 .gray {
     color: gray; /* Or any other color code you prefer */
-        font-size: 24px; /* Adjust this value to increase or decrease the size of the stars */
+    font-size: 24px; /* Adjust this value to increase or decrease the size of the stars */
 
 }</style>
+    <div class='box_middle'>
+        <div class='pad'>
+            <?php
+            $error = ($user_class->fbitime > 0) ? "You can't do crimes if you're in FBI Jail!" : "";
+            $error = ($user_class->jail > 0) ? "You can't do crimes if you're in prison!" : "";
+            $error = ($user_class->hospital > 0) ? "You can't do crimes if you're in hospital!" : $error;
+            if (!empty($error)) {
+                diefun($error);
+
+            }
+
+?>
+
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="flexele floaty" style="margin:3px;">Cash 50/50<hr style="border:0;border-bottom:thin solid #333;">
+                        <div style="display:flex;min-height:30px;flex-direction:row;"><img style="display:none;" id="spinner" src="images/ajax-loader.gif"/><div id="noti" style="height:16px;"></div></div>
+
+                        <?php if ($activeMission) {
+                            echo "<div id='missiontext' style='font-size: 1.2em'>Active Mission: {$activeMission['name']} Crimes: {$activeMission['crimesdone']}/{$activeMission['crimestarget']}</div></center>";
+                        } ?>
+
+                        <center>
+                            <h3>Choose Your Crime</h3>
+                            <p>Select your crime and click and <strong>hold</strong> the button to do fast crimes</p>
+                        </center>
+
+                        <div class="selectors-container">
+                            <select name="crime" id="scrime" style="padding: 1em; margin-right: 10px;">
+                                <?php
+                                foreach ($rows as $row) {
+                                    $db->query("SELECT `count` FROM crimeranks WHERE userid = ? AND crimeid = ?");
+                                    $db->execute(array($user_class->id, $row['id']));
+                                    $crimeRankResult = $db->fetch_row(true);
+
+                                    // Debugging
+                                    if ($crimeRankResult) {
+                                        $crimeCount = (int)$crimeRankResult['count'];
+                                        // Log or echo to check the value
+                                        error_log("Crime ID: {$row['id']}, Count: {$crimeCount}");
+                                     } else {
+                                        $crimeCount = 0;
+                                    }
+                                    if ($crimeCount >= 10000 && $crimeCount < 100000) {
+                                        $level = 1;
+                                    } elseif ($crimeCount >= 100000 && $crimeCount < 100000000000) {
+                                        $level = 2;
+                                    } elseif ($crimeCount >= 10000000 && $crimeCount < 20000000) {
+                                        $level = 3;
+                                    } elseif ($crimeCount >= 20000000 && $crimeCount < 40000000) {
+                                        $level = 4;
+                                    } elseif ($crimeCount >= 40000000) {
+                                        $level = 5;
+                                    }
+                                    echo "<!-- Crime ID: {$row['id']}, Count: $crimeCount, Level: $level -->";
+                                    // Output the option with the data-stars attribute
+                                    $hasEnoughNerve = $row['nerve'] <= $user_class->nerve;
+
+                                    $disabled = $hasEnoughNerve ? '' : 'disabled';
+
+                                    echo '<option value="' . $row['id'] . '" data-stars="' . $level . '" ' . $disabled . '>' . $row['name'] . ' | Cost: ' . $row['nerve'] . ' Nerve</option>';
+
+                                }
+                                ?>
+                            </select>
+
+                            <?php $rmOnly = ($user_class->rmdays <= 0) ? 'disabled' : ''; ?>
+                            <select name="cm" id="cm" style="padding: 1em;">
+                                <option value="1">1X</option>
+                                <option value="2">2X</option>
+                                <option value="4" <?php echo $rmOnly ?>>4X (VIP Only)</option>
+                                <option value="10" <?php echo $rmOnly ?>>10X (VIP Only)</option>
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
     <?php
 echo '<div class="crimebox">';
-    if (time() < 1644451175)
-        echo '<span style="color:red;font-weight:bold;display:block;text-align:center;font-size:1.3em;">Crimes are currently giving double experience!</span><br />';
 
-    echo '<div style="display:flex;min-height:30px;flex-direction:row;"><img style="display:none;" id="spinner" src="images/ajax-loader.gif"/><div id="noti" style="height:16px;"></div></div>';
+echo '<div style="display:flex;min-height:30px;flex-direction:row;"><img style="display:none;" id="spinner" src="images/ajax-loader.gif"/><div id="noti" style="height:16px;"></div></div>';
 
     $db->query("SELECT `name`, mission.crimes as crimestarget, missions.crimes as crimesdone FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE `userid` = ? AND `completed` = \"no\" LIMIT 1");
     $db->execute(array(
