@@ -102,7 +102,7 @@ function update(){
 setInterval(update, 1000);
 </script>
 <?php
-echo'<div id="rtn"></div>';
+echo'<div class="dcPanel p-3" style="text-align:center" id="rtn"></div>';
 echo "<table>";
 echo "<tr>";
 echo "<td>";
