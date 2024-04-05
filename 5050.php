@@ -1,11 +1,12 @@
 <?php
 include "header.php";
-?>
 
-<div class='box_top'>50/50</div>
-<div class='box_middle'>
-    <div class='pad'>
-        <?php
+?>
+	
+	<div class='box_top'>50/50</div>
+						<div class='box_middle'>
+							<div class='pad'>
+								<?php
 $mins = array(
     'cash' => 10000,
     'points' => 100,
@@ -121,16 +122,15 @@ echo "</table>";
 
 echo "<hr style='border:0;border-bottom:thin solid #333;' />";
 
-echo "<table class='betsTable'>";
+echo "<table>";
 ?>
 <thead>
-    <tr>
-        <th>Cash</th>
-        <th>Points</th>
-        <th>Credits</th>
-    </tr>
+    <th>Cash</th>
+</th>
+    <th>Points</th>
+    <th>Credits</th>
 </thead>
-<tbody>
+</thead>
 <?php
 echo "<tr>";
 echo "<td>";
@@ -143,11 +143,8 @@ echo "<td>";
 echo fillboxes('credits');
 echo "</td>";
 echo "</tr>";
-?>
-</tbody>
-</table>
+echo "</table>";
 
-<?php
 include "footer.php";
 
 function headbox($curr){
@@ -166,19 +163,27 @@ function headbox($curr){
 
 function fillboxes($curr){
     global $user_class, $db;
-    $rtn = '';
-    $db->query("SELECT * FROM fiftyfifty WHERE currency = ?", array($curr));
+    $rtn = '<table>';
+    $db->query("SELECT * FROM fiftyfifty WHERE currency = ?");
+    $db->execute(array($curr));
     $rows = $db->fetch_row();
     foreach($rows as $row){
-        $rtn .= '<div class="betRow">';
-        $rtn .= '<span class="betName">'. formatName($row['userid']) .'</span>';
-        $rtn .= '<span class="betAmount">'. prettynum($row['amnt'], ($curr == 'cash' ? 1: 0)) .'</span>';
+        $rtn .= '<tr>';
+        $rtn .= '<td>';
+        $rtn .= formatName($row['userid']);
+        $rtn .= '</td>';
+        $rtn .= '<td>';
+        $rtn .= prettynum($row['amnt'], ($curr == 'cash' ? 1: 0));
+        $rtn .= '</td>';
+        $rtn .= '<td>';
         if($user_class->id == $row['userid'])
             $rtn .= '<button onclick="takeaway(' . $row['id'] . ');">Remove Bet</button>';
         else
             $rtn .= '<button onclick="take(' . $row['id'] . ');">Take Bet</button>';
-        $rtn .= '</div>';
+        $rtn .= '</td>';
+        $rtn .= '</tr>';
     }
+    $rtn .= '</table>';
     return $rtn;
 }
 
