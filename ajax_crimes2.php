@@ -199,7 +199,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $nerveneeded = $nerve - $user_class->nerve;
         if ($nerveneeded < $user_class->maxnerve) {
             $debug['override'] = 1;
-            $nerveneeded = $user_class->maxnerve - $user_class->nerve;
+            $nerveneeded = $user_class->maxnerve;
         }
 
         $debug['refill'] = 'now';
