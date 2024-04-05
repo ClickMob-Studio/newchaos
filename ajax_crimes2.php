@@ -169,7 +169,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $db->execute();
     $bonus_row = $db->fetch_row(true);
 
-    $debug['worked'] = $bonus_row;
+    //$debug['worked'] = $bonus_row;
 
     if ($bonus_row['Time'] > 0) {
         $exp *= 2;
