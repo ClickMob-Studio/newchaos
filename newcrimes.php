@@ -94,7 +94,9 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
             <tr>
                 <td>
                     <div class="flexele floaty" style="margin:3px;"><hr style="border:0;border-bottom:thin solid #333;">
-                        <div style="display:flex;min-height:30px;flex-direction:row;"><img style="display:none;" id="spinner" src="images/ajax-loader.gif"/><div id="noti" style="height:16px;"></div></div>
+                        <div style="display:flex;min-height:30px;flex-direction:row;">
+                            <img style="display:none;" id="spinner" src="images/ajax-loader.gif"/><div id="noti" class="alert alert-success" style="height:16px;"></div>
+                        </div>
 
                         <?php if ($activeMission) {
                             echo "<div id='missiontext' style='font-size: 1.2em'>Active Mission: {$activeMission['name']} Crimes: {$activeMission['crimesdone']}/{$activeMission['crimestarget']}</div></center>";
