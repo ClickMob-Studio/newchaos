@@ -106,33 +106,44 @@
     </script>
     YYY;
     echo'<div id="rtn"></div>';
+    echo "<table>";
+    echo "<tr>";
+    echo "<td>";
+    echo headbox('cash');
+    echo "</td>";
+    echo "<td>";
+    echo headbox('points');
+    echo "</td>";
+    echo "<td>";
+    echo headbox('credits');
+    echo "</td>";
+    echo "</tr>";
+    echo "</table>";
+
+    echo "<hr style='border:0;border-bottom:thin solid #333;' />";
+
+    echo "<table>";
     ?>
-    <table>
     <thead>
-        <tr>
-            <th>Cash</th>
-            <th>Points</th>
-            <th>Credits</th>
-        </tr>
+        <th>Cash</th>
+    </th>
+        <th>Points</th>
+        <th>Credits</th>
     </thead>
-    <tbody>
-        <tr>
-            <td>
-                <?php echo headbox('cash'); ?>
-                <?php echo fillboxes('cash'); ?>
-            </td>
-            <td>
-                <?php echo headbox('points'); ?>
-                <?php echo fillboxes('points'); ?>
-            </td>
-            <td>
-                <?php echo headbox('credits'); ?>
-                <?php echo fillboxes('credits'); ?>
-            </td>
-        </tr>
-    </tbody>
-</table>
-<?php
+    </thead>
+    <?php
+    echo "<tr>";
+    echo "<td>";
+    echo fillboxes('cash');
+    echo "</td>";
+    echo "<td>";
+    echo fillboxes('points');
+    echo "</td>";
+    echo "<td>";
+    echo fillboxes('credits');
+    echo "</td>";
+    echo "</tr>";
+    echo "</table>";
 
     include "footer.php";
 
