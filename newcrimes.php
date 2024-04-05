@@ -1,5 +1,7 @@
 <?php
  include 'header.php';
+
+ echo 'closed for maintenance, brb.'; exit;
  error_reporting(0);
 ?>
 
