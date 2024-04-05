@@ -184,43 +184,47 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
     $prepaid = false;
 
-    if ($crime_multiplier > 1) {
-        if ($nerve > $user_class->maxnerve) {
-            if ($user_class->nerref == 2) {
-                $nerveneeded = $nerve - $user_class->maxnerve;
-                $debug['nerve_needed'] = $nerveneeded;
-                $cost = floor($nerveneeded / 10);
-                if ($cost < 10) {
-                    $cost = 10;
-                }
-                if ($cost > $user_class->points) {
-                    return 0;
-                }
+    $debug['prenerve'] = $nerve;
+    $debug['preusernerve'] = $user_class->nerve;
+    if ($nerve > $user_class->nerve && $user_class->nerref == 2) {
+        $nerveneeded = $nerve - $user_class->maxnerve;
 
-                $debug['cost'] = $cost;
+        $debug['refill'] = 'now';
+        $debug['nerve'] = $nerve;
+        $debug['usernerve'] = $user_class->nerve;
+        $debug['usermaxnerve'] = $user_class->maxnerve;
+        $debug['nerveneeded'] = $nerveneeded;
 
-                $user_class->nerve = $user_class->maxnerve;
-
-                $user_class->points -= $cost;
-                $db->query("UPDATE grpgusers SET points = points - ?, nerve = ? WHERE id = ?");
-                $db->execute(array(
-                    $cost,
-                    $user_class->maxnerve,
-                    $user_class->id
-                ));
-
-                $prepaid = true;
-            } else {
-                $debug['error'] = "Refil Not Enabled";
-                //$logger->info("", $debug);
-                die();
-            }
+        $cost = floor($nerveneeded / 10);
+        if ($cost < 10) {
+            $cost = 10;
         }
+        if ($cost > $user_class->points) {
+            return 0;
+        }
+
+        $debug['cost'] = $cost;
+
+        $user_class->nerve = $user_class->maxnerve;
+
+        $user_class->points -= $cost;
+        $db->query("UPDATE grpgusers SET points = points - ?, nerve = ? WHERE id = ?");
+        $db->execute(array(
+            $cost,
+            $user_class->maxnerve,
+            $user_class->id
+        ));
+
+        $prepaid = true;
+    } else {
+        $debug['error'] = "Refil Not Enabled";
+        //$logger->info("", $debug);
+        die();
     }
 
-    if ($user_class->nerve < $nerve && !$prepaid) {
-        refill('n');
-    }
+//    if ($user_class->nerve < $nerve && !$prepaid) {
+//        refill('n');
+//    }
 
     if ($user_class->nerve >= $nerve || $prepaid) {
         if ($prepaid) {
@@ -383,6 +387,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         //$logger->info("", $debug);
         echo json_encode(array(
             'text' => "<b>You don't have enough nerve for that crime.</b>",
+            'debug' => $debug,
             'error' => 'refresh'
         ));
     }
