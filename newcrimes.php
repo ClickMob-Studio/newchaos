@@ -229,7 +229,8 @@ var submitCrime = function (id, cm=1) {
             if (res.error == 'refresh') {
                 finish();
             }
-            console.log('test');
+            console.log('debug *****');
+            console.log(res.debug);
            
             $('.money').html(res.stats.money)
             $(".level").html(res.stats.level)
@@ -333,7 +334,7 @@ document.addEventListener('orientationchange', finish);
 
 function finish() {
     if (doingcrime)
-        //location.reload();
+        location.reload();
     id = 0;
     doingcrime = false;
 }
