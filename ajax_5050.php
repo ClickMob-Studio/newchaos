@@ -14,7 +14,7 @@ if(isset($_POST['amnt'])){
 	$amnt = security($_POST['amnt']);
 	$curr = (in_array($_POST['curr'], array('cash', 'points', 'credits'))) ? $_POST['curr'] : die("error|fuck off");
 	if($amnt < $mins[$curr])
-		die("error|You must bet atleast " . (prettynum($mins[$curr], ($curr == 'cash' ? 1: 0))) . ".");
+		die("error|You must bet at least " . (prettynum($mins[$curr], ($curr == 'cash' ? 1: 0))) . ".");
 	$dbcol = dbcol($curr);
 	if($amnt > $user_class->{$dbcol})
 		die("error|You do not have enough on hand.");
@@ -122,7 +122,7 @@ if(isset($_POST['takeaway'])){
 	$db->execute(array(
 		$remove
 	));
-	echo "You removed your bet";
+	die("error|You removed your bet");
 }
 if(isset($_POST['update'])){
 	$new = array(
