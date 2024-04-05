@@ -204,6 +204,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $debug['nerveneeded'] = $nerveneeded;
 
         $cost = floor($nerveneeded / 10);
+        $debug['cost1'] = $cost;
         if ($cost < 10) {
             $cost = 10;
         }
