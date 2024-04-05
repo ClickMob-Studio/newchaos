@@ -39,6 +39,7 @@ if(isset($_POST['amnt'])){
 		echo'<br />';
 		echo'<button onclick="remove(' . $i . ');">Remove Bet</button>';
 	echo'</div>';
+	die("error|Your bet has been submitted");
 }
 if(isset($_POST['take'])){
 	$take = security($_POST['take']);
