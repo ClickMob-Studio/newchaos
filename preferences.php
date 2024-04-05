@@ -23,7 +23,7 @@ echo'<div class="floaty">';
         echo'</tr>';
         echo'<tr style="line-height:25px;">';
             echo'<td><a href="?image_name">Image Name</a></td>';
-                    echo'<td><a href=""></a></td>';
+                    echo'<td><a href="?removeprotection">Remove Attack Protection</a></td>';
             echo'<td><a href="?autoplay">Auto Play</a></td>';
             echo'<td><a href="?refills">User Refills</a></td>';
             echo'<td><a href="?mobile">Disable Mobile</a></td>';
@@ -128,6 +128,7 @@ if ($user_class->id == 174) {
     </div>
 ';
 }
+
 if(isset($_GET['username'])){
     if(isset($_POST['username'])){
         $un = str_replace(array('"', "'"), '', $_POST['username']);
@@ -254,6 +255,18 @@ if(isset($_GET['username'])){
         <br />
         <span id='gendName'>" . formatName($user_class->id) . "</span>
     </div>";
+}elseif(isset($_GET['removeprotecton'])){
+    if(!isset($_GET['y']) || $_GET['y'] != 'confrim'){
+    echo Message("Are you sure you want to remove your attack protection? <a href='?removeprotecton&y=confrim'");
+    }else{
+        if($user_class->aprotection < time()){
+            echo Message("Your attack protection has expired.");
+        }else{
+            mysql_query("UPDATE grpgusers SET aprotection = 0 WHERE id = ".$user_class->id);
+            echo Message("Your attack protection has been removed.");
+        }
+    }
+
 } elseif(isset($_GET['resetmenu'])) {
     $db->query("UPDATE grpgusers SET menuorder = DEFAULT(menuorder) WHERE id = ?");
     $db->execute(array($user_class->id));
