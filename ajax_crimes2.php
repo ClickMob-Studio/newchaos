@@ -29,7 +29,8 @@ if (isset($_POST['cm'])) {
 
 $debug = array(
     'id'               => $user_class->id,
-    'crime_multiplier' => $crime_multiplier
+    'crime_multiplier' => $crime_multiplier,
+    'post' => $_POST
 );
 
 // if($m->get('crime.'.$user_class->id . time()))

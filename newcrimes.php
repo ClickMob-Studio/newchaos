@@ -279,18 +279,16 @@ function start() {
     var id = $('#scrime').val();
     var cm = $('#cm').val();
     doingcrime = true;
-    submitCrime(id, cm);
-
-    // var timerId = setInterval(function () {
-    //     if (doingcrime) {
-    //         if (id > 0) {
-    //             submitCrime(id, cm);
-    //         } else {
-    //             clearInterval(timerId);
-    //             timerId = null;
-    //         }
-    //     }
-    // }, refresh);
+    var timerId = setInterval(function () {
+        if (doingcrime) {
+            if (id > 0) {
+                submitCrime(id, cm);
+            } else {
+                clearInterval(timerId);
+                timerId = null;
+            }
+        }
+    }, refresh);
 }
 
 $(document).ready(function() {
