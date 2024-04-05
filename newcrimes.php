@@ -1,7 +1,9 @@
 <?php
  include 'header.php';
 
- echo 'closed for maintenance, brb.'; exit;
+ if ($user_class->admin < 1) {
+     echo 'closed for maintenance, brb.'; exit;
+ }
  error_reporting(0);
 ?>
 
