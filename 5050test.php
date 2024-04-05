@@ -27,9 +27,10 @@ function takeaway(takeaway){
         if(results[0] != 'error'){
             $("#bet"+ takeaway).fadeOut(500,function(){
                 $(this).remove();
+                update(); // Call update to refresh the UI
             });
         } else {
-            $("#rtn").html("<div  class='floaty1' id='error'>" + results[1] + "</div>");
+            $("#rtn").html("<div class='floaty1' id='error'>" + results[1] + "</div>");
         }
     });
 }
