@@ -11,7 +11,7 @@ $topLinks = array(
 	),
 	array(
 		'name' => 'Crimes',
-		'url'  => 'newcrimes.php',
+		'url'  => 'crime.php',
 	),
 	array(
 		'name' => 'Gym',

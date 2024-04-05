@@ -1,7 +1,6 @@
 <?php
 
 include 'header.php';
-header('Location: newcrimes.php');
 
 ?>
 <div class='box_top'>Crimes</div>
