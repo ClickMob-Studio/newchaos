@@ -171,7 +171,7 @@ function headbox($curr){
 function fillboxes($curr){
     global $user_class, $db;
     $rtn = '';
-    $db->query("SELECT * FROM fiftyfifty WHERE currency = ?", array($curr));
+    $db->query("SELECT * FROM fiftyfifty WHERE currency = '".$curr>"'");
     $rows = $db->fetch_row();
     foreach($rows as $row){
         $rtn .= '<div class="betRow">';
