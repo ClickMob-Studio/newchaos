@@ -12,7 +12,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'placeBet') {
     // Prepare and execute query
     $query = "INSERT INTO fiftyfifty (userid, amnt, currency, timestamp, betterip) VALUES (?, ?, ?, UNIX_TIMESTAMP(), ?)";
     if($stmt = $db->prepare($query)) { // Assuming $db is a PDO instance
-        $stmt->execute([$_SESSION['user_id'], $amnt, $curr, $IP]); // Adjust to match your session/user data
+        $stmt->execute([$user_class->id, $amnt, $curr, $IP]); // Adjust to match your session/user data
         echo "Success";
     } else {
         echo "Error";
