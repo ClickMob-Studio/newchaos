@@ -7,28 +7,40 @@ include 'header.php';
 							<div class='pad'>
 <?php
 echo'<div class="floaty">';
-?>
-<table style="width:100%;table-layout:fixed;text-align:center;font-weight:bold;">
-<tr style="line-height:25px;">
-    <td><a href="?username">Username</a></td>
-    <td><a href="?email">Email Address</a></td>
-    <td><a href="?avatar">Avatar</a></td>
-    <td><a href="?quote">Quote</a></td>
-    <td><a href="?display">Display</a></td>
-    <td><a href="?cpass">Change Password</a></td>
-    <td><a href="?gender">Gender</a></td>
-    <td><a href="?sig">Signature</a></td>
-    <td><a href="?image_name">Image Name</a></td>
-    <td><a href="?autoplay">Auto Play</a></td>
-    <td><a href="?refills">User Refills</a></td>
-    <td><a href="?mobile">Disable Mobile</a></td>
-    <td><a href="?prefills">Pet Refills</a></td>
-    <td><a href="?privacy">Privacy</a></td>
-    <td><a href="?profilewall">Profile Comment Wall</a></td>
-    <td><a href="notepad.php">Notepad</a></td>
-</tr>
-</table>
-<?php
+    echo'<table style="width:100%;table-layout:fixed;text-align:center;font-weight:bold;">';
+        echo'<tr style="line-height:25px;">';
+            echo'<td><a href="?username">Username</a></td>';
+            echo'<td><a href="?email">Email Address</a></td>';
+            echo'<td><a href="?avatar">Avatar</a></td>';
+            echo'<td><a href="?quote">Quote</a></td>';
+            echo'<td><a href="?display">Display</a></td>';
+        echo'</tr>';
+        echo'<tr style="line-height:25px;">';
+            echo'<td><a href="?cpass">Change Password</a></td>';
+            echo'<td><a href="?gender">Gender</a></td>';
+            echo'<td><a href="?sig">Signature</a></td>';
+                    echo'<td><a href=""></a></td>';
+        echo'</tr>';
+        echo'<tr style="line-height:25px;">';
+            echo'<td><a href="?image_name">Image Name</a></td>';
+                    echo'<td><a href=""></a></td>';
+            echo'<td><a href="?autoplay">Auto Play</a></td>';
+            echo'<td><a href="?refills">User Refills</a></td>';
+            echo'<td><a href="?mobile">Disable Mobile</a></td>';
+            echo'<td><a href="?prefills">Pet Refills</a></td>';
+        echo'</tr>';
+        echo'<tr style="line-height:25px;">';
+                echo'<td><a href=""></a></td>';
+            echo'<td><a href="?privacy">Privacy</a></td>';
+            echo'<td><a href="?profilewall">Profile Comment Wall</a></td>';
+            echo'<td><a href="notepad.php">Notepad</a></td>';
+        echo'</tr>';
+        echo'<tr style="line-height:25px;">';
+        echo'<td><a href=""></a></td>';
+        echo'<td><a href=""></a></td>';
+       
+    echo'</tr>';
+    echo'</table>';
 echo'</div>';
 if ($user_class->id == 174) {
 
