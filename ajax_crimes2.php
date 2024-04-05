@@ -368,7 +368,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
             $debug['response'] = "Success! $text";
             //$logger->info("", $debug);
             echo json_encode(array(
-                'debug' => $text,
+                'debug' => $debug,
                 'text' => $text,
                 'stats' => array(
                     'points' => number_format($user_class->points),
