@@ -1,5 +1,4 @@
 <?php
-
 require "header.php";
 ?>
 <h1>50/50 Game</h1>
@@ -33,29 +32,24 @@ require "header.php";
 </div>
 
 <script>
-$(document).ready(function() {
-    $('.betButton').click(function() {
-        var form = $(this).closest('form');
-        var currency = $(this).data('currency');
-        var amount = form.find('input[name="amnt"]').val();
-        
-        // AJAX request to server
-        $.ajax({
-            url: 'ajax50.php', // The file where you handle the AJAX request
-            type: 'POST',
-            data: {
-                amnt: amount,
-                curr: currency,
-                action: 'placeBet'
-            },
-            success: function(response) {
-                // Handle success (e.g., display a message)
-                alert("Bet placed successfully!");
-            },
-            error: function() {
-                // Handle error
-                alert("Error placing bet. Please try again.");
-            }
+document.addEventListener('DOMContentLoaded', function() {
+    // Select all bet buttons
+    const betButtons = document.querySelectorAll('.betButton');
+
+    // Add click event listener to each button
+    betButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const form = this.closest('form');
+            const formData = new FormData(form); 
+            formData.append('currency', this.getAttribute('data-currency'));
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Handle response data
+            })
+            .catch(error => console.error('Error:', error));
         });
     });
 });
