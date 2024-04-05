@@ -86,6 +86,10 @@ if (isset($_POST['id']) || isset($input['id'])) {
     if (empty($row)) {
         $debug['error'] = "Empty Crimes Row";
         //$logger->info("", $debug);
+        echo json_encode(array(
+            'debug' => $debug,
+            'error' => 'refresh'
+        ));
         die();
     }
 
@@ -94,6 +98,10 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $nerve = $row['nerve'];
     $name = $row['name'];
     if($user_class->maxnerve < $nerve){
+        echo json_encode(array(
+            'debug' => $debug,
+            'error' => 'refresh'
+        ));
         die();
     }
 
@@ -218,6 +226,11 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $prepaid = true;
     } else {
         $debug['error'] = "Refil Not Enabled";
+        echo json_encode(array(
+            'debug' => $debug,
+            'error' => 'refresh'
+        ));
+
         //$logger->info("", $debug);
         die();
     }
