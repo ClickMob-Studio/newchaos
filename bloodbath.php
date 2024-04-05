@@ -77,39 +77,49 @@ $nor = 3; // number of ranks to be shown per category
         //echo 'Bloodbath will be paid automatically when the timer expires.</font></center><tr>';
 
 
-        $donators = mysql_query("SELECT b.*, g.dprivacy FROM bbusers b LEFT JOIN grpgusers g ON userid = id WHERE b.donator <> 0 AND lastactive > unix_timestamp() - (86400 * 7) ORDER BY b.donator DESC LIMIT $nor");
-        $donate_prizes = array(30, 20, 10);
+        // $donators = mysql_query("SELECT b.*, g.dprivacy FROM bbusers b LEFT JOIN grpgusers g ON userid = id WHERE b.donator <> 0 AND lastactive > unix_timestamp() - (86400 * 7) ORDER BY b.donator DESC LIMIT $nor");
+        // $donate_prizes = array(30, 20, 10);
 
-        echo '<table id="newtables" style="width:100%;table-layout:fixed;margin-top:20px">
-            <tr>
-                <th colspan="3" style="font-size:1.1em;">Donations</th>
-            </tr>
-            <tr>
-                <th><b>Rank</b></td>
-                <th><b>Username</b></td>
-                <th><b>Reward<br>(credits of total donation)</b></td>
-            </tr>';
+        // echo '<table id="newtables" style="width:100%;table-layout:fixed;margin-top:20px">
+        //     <tr>
+        //         <th colspan="3" style="font-size:1.1em;">Donations</th>
+        //     </tr>
+        //     <tr>
+        //         <th><b>Rank</b></td>
+        //         <th><b>Username</b></td>
+        //         <th><b>Reward<br>(credits of total donation)</b></td>
+        //     </tr>';
 
-            $rank = 0;
-            while ($line = mysql_fetch_array($donators)) {
-                $top[] = $line['userid'];
-                $rank++;
-                echo '<tr><td width="10%">';
-                echo (!empty($rankcolours[$rank - 1])) ? "<span style='font-weight:bold;color:#{$rankcolours[$rank - 1]}'>$rank" : $rank;
-                if ($rank == 1)
-                    echo "st";
-                elseif ($rank == 2)
-                    echo "nd";
-                elseif ($rank == 3)
-                    echo "rd";
-                else
-                    echo "th";
-                echo (!empty($rankcolours[$rank - 1])) ? "</span></td>" : "</td>";
-                echo '<td width="40%">' . formatName($line['userid']) . '</td><td width="25%">' . prettynum($line["$lol"]) . ' ' . ucfirst(str_replace('crimes', 'points', $lop)) . '</td><td>';
-                echo (!empty($prizes[$rank - 1])) ? "<span style='font-weight:bold;color:#{$rankcolours[$rank - 1]}'>" . number_format($prizes[$rank - 1]) . " Points" : "-";
-                echo '</td></tr>';
-            }
-            echo '</table>';
+        //     $rank = 0;
+        //     while ($line = mysql_fetch_array($donators)) {
+        //         $rank++;
+        //         echo '<tr><td width="10%">';
+        //         echo (!empty($rankcolours[$rank - 1])) ? "<span style='font-weight:bold;color:#{$rankcolours[$rank - 1]}'>$rank" : $rank;
+        //         if ($rank == 1)
+        //             echo "st";
+        //         elseif ($rank == 2)
+        //             echo "nd";
+        //         elseif ($rank == 3)
+        //             echo "rd";
+        //         else
+        //             echo "th";
+
+        //         if ($line['userid'] == $user_class->id)
+        //         {
+        //             $name = formatName($line['userid']);
+        //             if ($line['dprivacy'] == 1) {
+        //                 $name .= ' (HIDDEN)';
+        //             }
+        //         } else {
+        //             $name = ($line['dprivacy'] == 1) ? 'Anonymous' : formatName($line['userid']);
+        //         }
+
+        //         echo (!empty($rankcolours[$rank - 1])) ? "</span></td>" : "</td>";
+        //         echo '<td width="40%">' . $name . '</td>';
+        //         echo (!empty($donate_prizes[$rank - 1])) ? "<td><span style='font-weight:bold;color:#{$rankcolours[$rank - 1]}'>" . number_format($donate_prizes[$rank - 1]) . "%" : "-";
+        //         echo '</td></tr>';
+        //     }
+        //     echo '</table>';
 
         foreach ($loop as $lop => $prizes) {
             ?>
