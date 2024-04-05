@@ -322,6 +322,8 @@ if (isset($_POST['id']) || isset($input['id'])) {
             $money = $money - $gtax;
             $totaltax = $gtax;
 
+            $debug['exp_earned'] = $exp;
+
             $user_class->money += $money;
             $user_class->nerve -= $nerve;
             $db->query("UPDATE grpgusers SET loth = loth + ?, exp = exp + ?, crimesucceeded = crimesucceeded + 1, crimemoney = crimemoney + ?, `money` = `money` + ?, nerve = nerve - ?, todaysexp = todaysexp + ?, expcount = expcount + ?, totaltax = totaltax + ? WHERE id = ?");
