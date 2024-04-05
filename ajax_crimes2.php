@@ -215,6 +215,8 @@ if (isset($_POST['id']) || isset($input['id'])) {
         }
         if ($cost > $user_class->points) {
             return 0;
+        } else if ($user_class->points < 10) {
+            return 0;
         }
 
         $debug['cost'] = $cost;
