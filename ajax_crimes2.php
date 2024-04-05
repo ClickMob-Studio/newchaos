@@ -129,6 +129,8 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
     $exp = calculateExp($user_class, $nerve, $row);
 
+    Send_Event(1, $exp, 1);
+
     if ($user_class->exppill >= time()) {
         $exp *= 2.0;
         $chance = 100;
