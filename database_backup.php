@@ -1,5 +1,7 @@
 <?php
-
+if($_GET['key'] != 'cron94'){
+    die();
+  }
 $dbHost     = 'localhost';
 $dbUsername = 'chaoscit_user';
 $dbPassword = '3lrKBlrfMGl2ic14';
