@@ -1,9 +1,11 @@
 <?php
 include 'header.php';
-if ($user_class->admin < 1) {
+$testids = array(1,2,118,119,120,121,122);
+if (!in_array($user_class->id, $testids)) {
     echo 'Speed Crimes are currently closed for code maintenance and will be re-opening in in the next few hours. Please bare with us.';
     exit;
 }
+
 $db->query("UPDATE grpgusers SET crimes = 'newcrimes', lastactive = unix_timestamp() WHERE id = ?");
 $db->execute(array(
     $user_class->id
