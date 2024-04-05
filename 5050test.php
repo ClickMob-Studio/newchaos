@@ -132,6 +132,7 @@ echo "<table>";
     <td style="width:33%;"><?= fillboxes('points');?></td>
     <td style="width:33%;"><?= fillboxes('credits');?></td>
 </tr>
+</table>
 <?php
 include "footer.php";
 
