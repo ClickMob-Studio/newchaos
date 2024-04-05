@@ -91,7 +91,7 @@ $nor = 3; // number of ranks to be shown per category
             </tr>';
 
             $rank = 0;
-            while ($line = mysql_fetch_array($result)) {
+            while ($line = mysql_fetch_array($donators)) {
                 $top[] = $line['userid'];
                 $rank++;
                 echo '<tr><td width="10%">';
