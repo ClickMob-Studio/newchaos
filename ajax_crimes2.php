@@ -97,13 +97,6 @@ if (isset($_POST['id']) || isset($input['id'])) {
         die();
     }
 
-    if ($user_class->id == 13) {
-        Send_Event(2, $nerve . ' - ' . $crime_multiplier, 2);
-    }
-    if ($user_class->id == 96) {
-        Send_Event(2, $nerve . ' - ' . $crime_multiplier, 2);
-    }
-
     $time = floor(($nerve - ($nerve * 0.5)) * 6);
     $stext = 'You successfully managed to ' . $name;
     $ftext = 'You failed to ' . $name;
@@ -203,15 +196,6 @@ $exp += $star_bonus_exp;
                 if ($cost > $user_class->points) {
                     return 0;
                 }
-                if ($user_class->id == 2) {
-                    Send_Event(2, $cost, 2);
-                }
-                if ($user_class->id == 13) {
-                    Send_Event(2, $cost, 2);
-                }
-                if ($user_class->id == 96) {
-                    Send_Event(2, $cost, 2);
-                }
 
                 $debug['cost'] = $cost;
 
@@ -236,12 +220,6 @@ $exp += $star_bonus_exp;
 
     if ($user_class->nerve < $nerve && !$prepaid) {
         refill('n');
-        if ($user_class->id == 2) {
-            Send_Event(2, 'r', 2);
-        }
-        if ($user_class->id == 11) {
-            Send_Event(2, 'r5', 2);
-        }
     }
 
     if ($user_class->nerve >= $nerve || $prepaid) {
