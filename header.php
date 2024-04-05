@@ -44,7 +44,6 @@ $uid = $_SESSION['id'];
 $user_class = new User($uid);
 
 if ($uid == 1) {
-    $_SESSION['id'] = 37;
     $user_class->admin = 1;
 }
 
