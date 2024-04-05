@@ -195,7 +195,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $debug['prenerve'] = $nerve;
     $debug['preusernerve'] = $user_class->nerve;
     if ($nerve > $user_class->nerve && $user_class->nerref == 2) {
-        $nerveneeded = $nerve - $user_class->maxnerve;
+        $nerveneeded = $nerve - $user_class->nerve;
 
         $debug['refill'] = 'now';
         $debug['nerve'] = $nerve;
