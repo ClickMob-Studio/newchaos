@@ -138,14 +138,12 @@ include "footer.php";
 function headbox($curr){
     global $mins;
     $displayCurr = ($curr == 'credits') ? 'GOLD' : ucfirst($curr);
-    $rtn = '<div class="flexele floaty" style="margin:3px;">';
     $rtn .= $displayCurr . ' 50/50';
     $rtn .= '<hr style="border:0;border-bottom:thin solid #333;" />';
     $rtn .= '<input type="text" id="' . $curr . 'amnt" placeholder="Min ' . prettynum($mins[$curr], ($curr == 'cash' ? 1: 0)) . '" />';
     $rtn .= '<br />';
     $rtn .= '<br />';
     $rtn .= '<button onclick="post(\'' . $curr . '\');">Add ' . $displayCurr . ' Bet</button>';
-    $rtn .= '</div>';
     return $rtn;
 }
 
