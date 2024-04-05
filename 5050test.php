@@ -151,7 +151,7 @@ function fillboxes($curr){
     $db->execute(array($curr));
     $rows = $db->fetch_row();
     foreach($rows as $row){
-        $rtn .= '<tr>';
+        $rtn .= '<tr id="'.$row['id'].'">';
         $rtn .= '<td>';
         $rtn .= formatName($row['userid']);
         $rtn .= '</td>';
