@@ -6,7 +6,7 @@ session_start();
 include "classes.php";
 include "database/pdo_class.php";
 
-function calculateExp($user_class, $row)
+function calculateExp($user_class, $nerve, $row)
 {
     global $db;
 
@@ -125,7 +125,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $chance = rand(2, 100);
     $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
 
-    $exp = calculateExp($user_class, $row);
+    $exp = calculateExp($user_class, $nerve, $row);
 
     if ($user_class->exppill >= time()) {
         $exp *= 2.0;
