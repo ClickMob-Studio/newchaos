@@ -16,7 +16,7 @@ if($user_class->id != 682){
 		$typing
 	));
 }
-$db->query("DELETE FROM gcusers WHERE lastseen < unix_timestamp() - 30");
+$db->query("DELETE FROM gcusers WHERE lastseen < unix_timestamp()");
 $db->execute();
 if (isset($_POST['msg'])) {
     $avatar = $user_class->avatar;
