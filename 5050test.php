@@ -15,7 +15,7 @@ $mins = array(
     'points' => 100,
     'credits' => 10 // Ensuring the minimum value for credits is set
 );
-$db->query("SELECT id FROM fiftyfifty");
+$db->query("SELECT `id` FROM fiftyfifty");
 $db->execute();
 $rows = $db->fetch_row();
 $ids = array();
