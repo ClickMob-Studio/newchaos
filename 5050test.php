@@ -128,9 +128,9 @@ echo "<table>";
     <th>Credits</th>
 </thead>
 <tr>
-    <td><?= fillboxes('cash'); ?></td>
-    <td><?= fillboxes('points');?></td>
-    <td><?= fillboxes('credits');?></td>
+    <td style="width:33%;"><?= fillboxes('cash'); ?></td>
+    <td style="width:33%;"><?= fillboxes('points');?></td>
+    <td style="width:33%;"><?= fillboxes('credits');?></td>
 </tr>
 <?php
 include "footer.php";
