@@ -122,6 +122,7 @@ if(isset($_POST['takeaway'])){
 	$db->execute(array(
 		$remove
 	));
+	echo "You removed your bet";
 }
 if(isset($_POST['update'])){
 	$new = array(
