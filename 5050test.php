@@ -155,6 +155,7 @@ function fillboxes($curr){
     $db->execute(array($curr));
     $rows = $db->fetch_row();
     foreach($rows as $row){
+        $rtn .= '<div id="'.$row['id'].'"'>
         $rtn .= '<tr>';
         $rtn .= '<td>';
         $rtn .= formatName($row['userid']);
@@ -169,6 +170,8 @@ function fillboxes($curr){
             $rtn .= '<button onclick="take(' . $row['id'] . ');">Take Bet</button>';
         $rtn .= '</td>';
         $rtn .= '</tr>';
+
+        $rtn .= '</div>';
     }
     $rtn .= '</table>';
     return $rtn;
