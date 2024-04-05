@@ -27,10 +27,9 @@ function takeaway(takeaway){
         if(results[0] != 'error'){
             $("#bet"+ takeaway).fadeOut(500,function(){
                 $(this).remove();
-                update(); // Call update to refresh the UI
             });
         } else {
-            $("#rtn").html("<div class='floaty1' id='error'>" + results[1] + "</div>");
+            $("#rtn").html("<div  class='floaty1' id='error'>" + results[1] + "</div>");
         }
     });
 }
@@ -63,23 +62,28 @@ function post(curr){
     });
 }
 function update(){
-    $.post("ajax_5050.php", {update : ids}, function(response){
-        console.log(response); // Debug: Log server response
-        var results = JSON.parse(response); // Assuming JSON response
-        // Update UI based on the response
-        if(results.newBets){
-            results.newBets.forEach(function(bet){
-                // Example: Append new bet if not already present
-                if($("#bet" + bet.id).length === 0){ // Check if bet is not already displayed
-                    var betHTML = '<div class="bet" id="bet' + bet.id + '">' + bet.content + '</div>';
-                    $("#betsContainer").append(betHTML); // Append new bet to the container
-                }
-            });
+    var ts = new Date().getTime();
+    $.post("ajax_5050.php", {update : ids}, function(d){
+        var results = d.split("|");
+        if(results[0]){
+            $("#cashbets").append('<div id="t' + ts + '" style="display:none">' + results[0] + '</div>');
+            $("#cashbets div#t" + ts).slideDown(500);
         }
-        if(results.removeBets){
-            results.removeBets.forEach(function(betId){
-                $("#bet" + betId).remove(); // Remove bet from the UI
-            });
+        if(results[1]){
+            $("#pointsbets").append('<div id="t' + ts + '" style="display:none">' + results[1] + '</div>');
+            $("#pointsbets div#t" + ts).slideDown(500);
+        }
+        if(results[2]){
+            $("#creditsbets").append('<div id="t' + ts + '" style="display:none">' + results[2] + '</div>');
+            $("#creditsbets div#t" + ts).slideDown(500);
+        }
+        if(results[3]){
+            var del = results[3].split(",");
+            for(var i = 0; i < del.length; i++){
+                $("#bet"+ del[i]).fadeOut(500, function(){
+                    $(this).remove();
+                });
+            }
         }
         if(results[4]){
             ids = results[4];
@@ -98,7 +102,7 @@ function update(){
 setInterval(update, 1000);
 </script>
 <?php
-echo'<div class="dcPanel p-3" style="text-align:center" id="rtn"></div>';
+echo'<div class="dcPanel p-3" style="text-align:center id="rtn"></div>';
 echo "<table>";
 echo "<tr>";
 echo "<td>";
