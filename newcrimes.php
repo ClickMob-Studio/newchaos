@@ -61,7 +61,7 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                         } ?>
 
                         <center>
-                            <h3>Choose Your Crime</h3>
+                            <h3><u>Choose Your Crime</u></h3>
                             <p>Select your crime and click and <strong>hold</strong> the button to do fast crimes</p>
 
                             <div class="selectors-container">
@@ -116,12 +116,14 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
 
                             <button id="acrimebtn2" onblue="finish();" onmouseup="finish();" ontouchend="finish();" onmouseleave="finish();"onmousedown="start();" ontouchstart="start();" style="padding: 1em; margin-bottom:5px;">Do Crimes</button>
 
+                            <br />
                             <br><span style="color:red">Warning: Using the multiplier will increase points consumption considerably!</span>';
 
                             <h3>Recommendation: Use a <?php echo item_popup('Double EXP', 10) ?> to double your EXP and have 100% success rate! (1h)</h3>
 
                             <div class="flexcont">
                                 <div class="floaty" style="flex:1;margin-right:4px;">
+                                    <h2><u>Nerve Refill</u></h2>
                                     <h3>Nerve Refill</h3><br />
                                     <p>Enable automated nerve refills until rollover!</p>
                                     <br />
