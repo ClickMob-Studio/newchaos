@@ -55,31 +55,14 @@ if (isset($_POST['msg'])) {
         $reply_class = new User($row['playerid']);
         $avatar = ($reply_class->avatar != "") ? $reply_class->avatar : "/images/no-avatar.png";
 		$quotetext = str_replace(array('\'','"'), array('\\\'','&quot;'), $row['body']);
-		echo'<div class="floaty">';
-			echo'<div class="flexcont" style="text-align:center;">';
-				echo'<div class="flexele">';
-					echo 'NOW!';
-				echo'</div>';
-				echo'<div class="flexele">';
-				echo'</div>';
-				echo'<div class="flexele">';
-				echo'</div>';
-				echo'<div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $reply_class->id . ']' . str_replace(array("\n","\r"),array('','\n'), $quotetext) . '[/quote]\\n\\n\');">';
-					echo 'Quote';
-				echo'</div>';
-			echo'</div>';
-			echo'<hr style="border:0;border-top:thin solid #333;" />';
-			echo'<div class="flexcont">';
-				echo'<div class="flexele" style="border-right:thin solid #333;text-align:center;">';
-					echo'<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666" />';
-					echo'<br />';
-					echo $reply_class->formattedname;
-				echo'</div>';
-				echo'<div class="flexele" style="flex:3;padding:10px;">';
-					echo BBCodeParse(stripslashes($row['body']));
-				echo'</div>';
-			echo'</div>';
-		echo'</div>';
+        ?>
+        <table width="100%" style="word-wrap:break-word;">
+            <tr>
+                <td width="20%" style='background:rgba(0,0,0,.25);border:thin solid #000;' align="center"><?php echo "Now!"; ?><br /><br /><img src="<?php echo $avatar; ?>" height="150" width="150" style="border:1px solid #666666" /><br /><?php echo $reply_class->formattedname; ?></td>
+                <td width="80%" style='background:rgba(0,0,0,.25);padding:5px;border:thin solid #000;' valign="top" id="chatdiv"><?php echo BBCodeParse($row['body']); ?></td>
+            </tr>
+        </table>
+		<?php
     }
 }
 ?>
