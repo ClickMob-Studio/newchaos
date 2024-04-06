@@ -27,11 +27,6 @@ if (isset($_POST['cm'])) {
     }
 }
 
-$debug = array(
-    'id'               => $user_class->id,
-    'crime_multiplier' => $crime_multiplier,
-    'post' => $_POST
-);
 
 // if($m->get('crime.'.$user_class->id . time()))
 //     $m->increment('crime.'.$user_class->id . time());
@@ -184,7 +179,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $money *= 1;
         $chance = 100;
     }
-    $debug['cm2'] = $crime_multiplier;
+   
     // Crime Multiplier Adjustments
     $mission_nerve = $nerve;
     $nerve = ($nerve * $crime_multiplier);
@@ -219,6 +214,12 @@ if (isset($_POST['id']) || isset($input['id'])) {
             return 0;
         }
 
+$debug = array(
+    'id'               => $user_class->id,
+    'crime_multiplier' => $crime_multiplier,
+    'refilcost' => $cost,
+    'post' => $_POST
+);
         $debug['cost'] = $cost;
 
         $user_class->nerve = $user_class->maxnerve;
