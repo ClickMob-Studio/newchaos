@@ -8,6 +8,12 @@ include 'header.php';
 if (!$user_class->gang) {
     diefun("You are not in a gang.");
 }
+
+if($user_class->id == 1){
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+}
 $gang_class = new Gang($user_class->gang);
 $members = '';
 $db->query("SELECT * FROM grpgusers WHERE gang = ? ORDER BY exp DESC");
