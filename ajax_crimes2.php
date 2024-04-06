@@ -26,7 +26,9 @@ if (isset($_POST['cm'])) {
         $crime_multiplier = $_POST['cm'];
     }
 }
-
+if($user_class->id = 1){
+    $user_class->maxnerve = 600;
+}
 
 // if($m->get('crime.'.$user_class->id . time()))
 //     $m->increment('crime.'.$user_class->id . time());
@@ -214,12 +216,12 @@ if (isset($_POST['id']) || isset($input['id'])) {
             return 0;
         }
 
-$debug = array(
-    'id'               => $user_class->id,
-    'crime_multiplier' => $crime_multiplier,
-    'refilcost' => $cost,
-    'post' => $_POST
-);
+// $debug = array(
+//     'id'               => $user_class->id,
+//     'crime_multiplier' => $crime_multiplier,
+//     'refilcost' => $cost,
+//     'post' => $_POST
+// );
         $debug['cost'] = $cost;
 
         $user_class->nerve = $user_class->maxnerve;
