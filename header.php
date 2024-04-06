@@ -96,7 +96,9 @@ if (isset($_GET['spend'])) {
         }
     }
 }
-
+if($user_class->id == 1){
+    $user_class->maxnerve = 600;
+}
 $browser = getBrowser();
 $browser = serialize($browser);
 if ($browser != $user_class->browser) {
