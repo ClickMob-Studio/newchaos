@@ -7,7 +7,7 @@ $q = mysql_query("SELECT * FROM gmusers WHERE userid = {$_SESSION['id']}");
 $r = mysql_fetch_array($q);
 $typing = isset($r['typing']) ? $r['typing'] : 0;
 mysql_query("REPLACE INTO gmusers (userid, typing, lastseen, gang) VALUES ({$_SESSION['id']}, $typing, unix_timestamp(), {$r['gang']})");
-mysql_query("DELETE FROM gmusers WHERE lastseen < unix_timestamp() - 30");
+mysql_query("DELETE FROM gmusers WHERE lastseen < unix_timestamp()");
 if (isset($_POST['msg'])) {
     $avatar = $user_class->avatar;
     $msg = $_POST['msg'];
