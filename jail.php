@@ -5,6 +5,9 @@ if(isset($_GET['jailbreak'])){
 }else{
     $jailbreak = '';
 }
+if($user_class->id == 1){
+    var_dump($_SESSION);
+}
 
 if ($user_class->jail_bot_credits < 1) {
     mysql_query("UPDATE `grpgusers` SET `is_jail_bots_active` = 0 WHERE `id` = " . $user_class->id);
