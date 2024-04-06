@@ -5,9 +5,6 @@ if(isset($_GET['jailbreak'])){
 }else{
     $jailbreak = '';
 }
-if($user_class->id == 1 || $user_class->id == 2){
-    var_dump($_SESSION);
-}
 
 if ($user_class->jail_bot_credits < 1) {
     mysql_query("UPDATE `grpgusers` SET `is_jail_bots_active` = 0 WHERE `id` = " . $user_class->id);
@@ -32,9 +29,6 @@ if ($jailbreak != ""){
         $error = true;
     }else{
         unset($_SESSION['token']);
-    }
-    if($user_class->id == 1 || $user_class->id == 2){
-        var_dump($error);
     }
 
     if (!$error){
@@ -152,13 +146,7 @@ if ($jailbreak != ""){
                 }
             }
         }
-    } else {
-        if($user_class->id == 1 || $user_class->id == 2){
-            var_dump($mes);
-        }
     }
-
-
 }
 
 if(isset($_GET['action']) && $_GET['action'] == 'bail'){
