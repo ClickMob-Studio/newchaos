@@ -20,29 +20,14 @@ if (isset($_POST['msg'])) {
     print gcTalking(1, $gangid) . "|-|-|" . $newid . "|-|-|";
     $quotetext = str_replace(array('\'','"'), array('\\\'','&quot;'), $msg);
 	echo'<div class="floaty">';
-		echo'<div class="flexcont" style="text-align:center;">';
-			echo'<div class="flexele">';
-				echo 'NOW!';
-			echo'</div>';
-			echo'<div class="flexele">';
-			echo'</div>';
-			echo'<div class="flexele">';
-			echo'</div>';
-			echo'<div class="flexele forumhover" onClick="addsmiley(\'[quote=' . $user_class->id . ']' . str_replace(array("\n","\r"),array('','\n'),$quotetext) . '[/quote]\\n\\n\');">';
-				echo 'Quote';
-			echo'</div>';
-		echo'</div>';
-		echo'<hr style="border:0;border-top:thin solid #333;" />';
-		echo'<div class="flexcont">';
-			echo'<div class="flexele" style="border-right:thin solid #333;text-align:center;">';
-				echo'<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666" />';
-				echo'<br />';
-				echo $user_class->formattedname;
-			echo'</div>';
-			echo'<div class="flexele" style="flex:3;padding:10px;">';
-				echo BBCodeParse(stripslashes($msg));
-			echo'</div>';
-		echo'</div>';
+	?>
+	<table width="100%" style="word-wrap:break-word;">
+	<tr>
+		<td width="20%" style='background:rgba(0,0,0,.25);border:thin solid #000;' align="center"><?php echo "Now!"; ?><br /><br /><img src="<?php echo $avatar; ?>" height="150" width="150" style="border:1px solid #666666" /><br /><?php echo $user_class->formattedname; ?></td>
+		<td width="80%" style='background:rgba(0,0,0,.25);padding:5px;border:thin solid #000;' valign="top" id="chatdiv"><?php echo BBCodeParse($msg); ?></td>
+	</tr>
+</table>
+<?php
 	echo'</div>';
 } elseif (isset($_GET['lastID'])) {
     $result = mysql_query("UPDATE `grpgusers` SET `gangmail` = '0' WHERE `id` = '{$_SESSION['id']}'");
