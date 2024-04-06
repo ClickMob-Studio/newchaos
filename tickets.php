@@ -56,9 +56,9 @@ echo'<h4>My Tickets</h4></span>';
 		$db->execute(array(
 			$user_class->id
 		));
-		$rows = $db->fetch_row();
-		foreach($rows as $row){
-			echo'<tr>';
+		$q = mysql_query("SELECT * FROM tickets WHERE playerid = ".$user_class->id);
+		while($row = mysql_fetch_array($q)){
+		echo'<tr>';
 				echo'<td>' . $row['ticketid'] . '</td>';
 				echo'<td><a href="viewticket.php?ticketid=' . $row['ticketid'] . '">' . $row['subject'] . '</a></td>';
 				echo'<td>' . date("d F Y, g:ia", $row['timesent']) . '</td>';
