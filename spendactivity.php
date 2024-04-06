@@ -21,6 +21,7 @@ function purchaseItem($apoints, $user_class, $db){
 $items = array(
     array("DE", "1 Double EXP Pill", 500),
     array("MS", "15 Maze Searches", 500),
+    array("JBO", "50 Jail Bot Credits", 250),
     array("RT", "10 Raid Tokens", 1500),
     array("MNY", "$5,000,000 Money", 250),
     array("RSU", "1 Raid Speed Up Token", 250),
@@ -42,6 +43,11 @@ if(isset($_GET['buy'])){
                         $db->query("UPDATE grpgusers SET cityturns = cityturns + 15 WHERE id = ?");
                         $db->execute(array($user_class->id));
                         $message = "15 Maze Searches";
+                        break;
+                    case 'JBO':
+                        $db->query("UPDATE grpgusers SET jail_bot_credits = jail_bot_credits + 50 WHERE id = ?");
+                        $db->execute(array($user_class->id));
+                        $message = "50 Jail Bot Credits Points";
                         break;
                     case 'RT':
                         $db->query("UPDATE grpgusers SET raidtokens = raidtokens + 10 WHERE id = ?");
