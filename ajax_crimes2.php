@@ -26,9 +26,12 @@ if (isset($_POST['cm'])) {
         $crime_multiplier = $_POST['cm'];
     }
 }
-if($user_class->id = 1){
-    $user_class->maxnerve = 600;
-}
+
+$debug = array(
+    'id'               => $user_class->id,
+    'crime_multiplier' => $crime_multiplier,
+    'post' => $_POST
+);
 
 // if($m->get('crime.'.$user_class->id . time()))
 //     $m->increment('crime.'.$user_class->id . time());
@@ -181,7 +184,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $money *= 1;
         $chance = 100;
     }
-   
+
     // Crime Multiplier Adjustments
     $mission_nerve = $nerve;
     $nerve = ($nerve * $crime_multiplier);
@@ -204,11 +207,8 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $debug['usernerve'] = $user_class->nerve;
         $debug['usermaxnerve'] = $user_class->maxnerve;
         $debug['nerveneeded'] = $nerveneeded;
-        if($user_class->id == 1){
-            $cost = floor($nerveneeded / 10) * $crime_multiplier;
-        }else{
+
         $cost = floor($nerveneeded / 10);
-        }
         $debug['cost1'] = $cost;
         if ($cost < 10) {
             $cost = 10;
@@ -219,12 +219,6 @@ if (isset($_POST['id']) || isset($input['id'])) {
             return 0;
         }
 
-// $debug = array(
-//     'id'               => $user_class->id,
-//     'crime_multiplier' => $crime_multiplier,
-//     'refilcost' => $cost,
-//     'post' => $_POST
-// );
         $debug['cost'] = $cost;
 
         $user_class->nerve = $user_class->maxnerve;
@@ -335,10 +329,6 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
             $user_class->money += $money;
             $user_class->nerve -= $nerve;
-            if($user_class->id == 1){
-            Send_Event(1, $exp);
-            Send_Event(1, $money);
-            }
             $db->query("UPDATE grpgusers SET loth = loth + ?, exp = exp + ?, crimesucceeded = crimesucceeded + 1, crimemoney = crimemoney + ?, `money` = `money` + ?, nerve = nerve - ?, todaysexp = todaysexp + ?, expcount = expcount + ?, totaltax = totaltax + ? WHERE id = ?");
             $db->execute(array(
                 $exp,
