@@ -184,7 +184,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $money *= 1;
         $chance = 100;
     }
-
+    $debug['cm2'] = $crime_multiplier;
     // Crime Multiplier Adjustments
     $mission_nerve = $nerve;
     $nerve = ($nerve * $crime_multiplier);
