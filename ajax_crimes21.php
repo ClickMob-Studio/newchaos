@@ -1,17 +1,14 @@
 <?php
 
-header('Content-type: application/json');
+//header('Content-type: application/json');
+session_start();
 
-Send_Event(1, "naughty naught ".$user_class->id);
-
-Send_Event(2, "naughty naught ".$user_class->id);
-exit;
-$ignoreForAjax = true;
 include "classes.php";
 include "database/pdo_class.php";
-session_start();
-error_reporting(0);
-ini_set('display_errors', 0);
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11211, 33);
 
@@ -32,7 +29,8 @@ if (isset($_POST['cm'])) {
 
 $debug = array(
     'id'               => $user_class->id,
-    'crime_multiplier' => $crime_multiplier
+    'crime_multiplier' => $crime_multiplier,
+    'post' => $_POST
 );
 
 // if($m->get('crime.'.$user_class->id . time()))
@@ -52,11 +50,10 @@ if (!$user_class) {
     die();
 }
 
-//mysql_query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = " . $user_class->id);
-//$db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
-//$db->execute(array(
-//    $user_class->id
-//));
+$db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
+$db->execute(array(
+    $user_class->id
+));
 
 if ($user_class->jail || $user_class->hospital) {
     echo json_encode(array(
@@ -90,6 +87,10 @@ if (isset($_POST['id']) || isset($input['id'])) {
     if (empty($row)) {
         $debug['error'] = "Empty Crimes Row";
         //$logger->info("", $debug);
+        echo json_encode(array(
+            'debug' => $debug,
+            'error' => 'refresh'
+        ));
         die();
     }
 
@@ -97,54 +98,49 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
     $nerve = $row['nerve'];
     $name = $row['name'];
-
     if($user_class->maxnerve < $nerve){
+        echo json_encode(array(
+            'debug' => $debug,
+            'error' => 'refresh'
+        ));
         die();
     }
 
     $time = floor(($nerve - ($nerve * 0.5)) * 6);
     $stext = 'You successfully managed to ' . $name;
     $ftext = 'You failed to ' . $name;
-    $chance = rand(2, 200);
+    $chance = rand(2, 100);
     $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
-    $exp = ((10 * $nerve) + 8 * ($nerve - 1));
-    
- // Fetch the crime count and determine the star level
-$db->query("SELECT `count` FROM crimeranks WHERE userid = ? AND crimeid = ?");
-$db->execute(array($user_class->id, $row['id']));
-$crimeRankResult = $db->fetch_row(true);
+    $exp = ((10 * $nerve) + 8 * ($nerve - 1)) * 1.0;
+    // Fetch the crime count and determine the star level
+    $db->query("SELECT `count` FROM crimeranks WHERE userid = ? AND crimeid = ?");
+    $db->execute(array($user_class->id, $row['id']));
+    $crimeRankResult = $db->fetch_row(true);
 
-if ($crimeRankResult) {
-    $crimeCount = (int)$crimeRankResult['count'];
-} else {
-    $crimeCount = 0;
-}
+    if ($crimeRankResult) {
+        $crimeCount = (int)$crimeRankResult['count'];
+    } else {
+        $crimeCount = 0;
+    }
 
 // Determine the star level based on the crime count
-if ($crimeCount >= 10000 && $crimeCount < 100000) {
-    $star_level = 1;
-} elseif ($crimeCount >= 100000 && $crimeCount < 10000000000) {
-    $star_level = 2;
-} elseif ($crimeCount >= 10000000000 && $crimeCount < 200000000) {
-    $star_level = 3;
-} elseif ($crimeCount >= 200000000 && $crimeCount < 400000000) {
-    $star_level = 4;
-} elseif ($crimeCount >= 400000000000) {
-    $star_level = 5;
-} else {
-    $star_level = 0; // No bonus if the conditions are not met
-}
+    if ($crimeCount >= 10000 && $crimeCount < 100000) {
+        $star_level = 1;
+    } elseif ($crimeCount >= 100000 && $crimeCount < 10000000000) {
+        $star_level = 2;
+    } elseif ($crimeCount >= 10000000000 && $crimeCount < 200000000) {
+        $star_level = 3;
+    } elseif ($crimeCount >= 200000000 && $crimeCount < 400000000) {
+        $star_level = 4;
+    } elseif ($crimeCount >= 400000000) {
+        $star_level = 5;
+    } else {
+        $star_level = 0; // No bonus if the conditions are not met
+    }
 
-// Initial experience calculation
-    $exp = ((10 * $nerve) + 8 * ($nerve - 1));
-
-// Apply 10% bonus experience per star level
-$bonus_exp_per_star_level = 0.10; // 10% bonus per star level
-$star_bonus_exp = $exp * $star_level * $bonus_exp_per_star_level;
-$exp += $star_bonus_exp;
-
-    
-    
+    $bonus_exp_per_star_level = 0.10; // 10% bonus per star level
+    $star_bonus_exp = $exp * $star_level * $bonus_exp_per_star_level;
+    $exp += $star_bonus_exp;
 
     $crimeexpbonus = 0;
     if ($user_class->crimeexpboost > 1) {
@@ -153,14 +149,17 @@ $exp += $star_bonus_exp;
     } elseif ($user_class->crimeexpboost == 1) {
         $crimeexpbonus = 0.2;
     }
- 
+
     $bonus = $exp * $crimeexpbonus;
     $exp = round($exp + $bonus, 2);
-    
+
 
     if ($user_class->prestige > 0) {
         $exp *= (.20 * $user_class->prestige) + 1;
     }
+
+
+
 
     if ($user_class->exppill >= time()) {
         $exp *= 2.0;
@@ -171,7 +170,7 @@ $exp += $star_bonus_exp;
     $db->execute();
     $bonus_row = $db->fetch_row(true);
 
-    $debug['worked'] = $bonus_row;
+    //$debug['worked'] = $bonus_row;
 
     if ($bonus_row['Time'] > 0) {
         $exp *= 2;
@@ -194,50 +193,58 @@ $exp += $star_bonus_exp;
 
     $prepaid = false;
 
-    if ($crime_multiplier > 1) {
-        if ($nerve > $user_class->nerve) {
-            if ($user_class->nerref == 2) {
-                $nerveneeded = $nerve - $user_class->nerve;
-                $debug['nerve_needed'] = $nerveneeded;
-                $cost = floor($nerveneeded / 10);
-                if ($cost < 10) {
-                    $cost = 10;
-                }
-                if ($cost > $user_class->points) {
-                    return 0;
-                }
-
-                $debug['cost'] = $cost;
-
-                if ($user_class->id == 2) {
-                    Send_Event(2, $cost, 2);
-                }
-                $user_class->nerve = $user_class->maxnerve;
-                $user_class->points -= $cost;
-                $db->query("UPDATE grpgusers SET points = points - ?, nerve = ? WHERE id = ?");
-                $db->execute(array(
-                    $cost,
-                    $user_class->maxnerve,
-                    $user_class->id
-                ));
-
-                $prepaid = true;
-            } else {
-                $debug['error'] = "Refil Not Enabled";
-                //$logger->info("", $debug);
-                die();
-            }
-        }
-    }
-
-    if ($user_class->nerve < $nerve && !$prepaid) {
-        refill('n');
-
-        if ($user_class->id == 2) {
-            Send_Event(2,'r', 2);
+    $debug['prenerve'] = $nerve;
+    $debug['preusernerve'] = $user_class->nerve;
+    if ($nerve > $user_class->nerve && $user_class->nerref == 2) {
+        $nerveneeded = $nerve - $user_class->nerve;
+        if ($nerveneeded < $user_class->maxnerve) {
+            $debug['override'] = 1;
+            $nerveneeded = $user_class->maxnerve;
         }
 
+        $debug['refill'] = 'now';
+        $debug['nerve'] = $nerve;
+        $debug['usernerve'] = $user_class->nerve;
+        $debug['usermaxnerve'] = $user_class->maxnerve;
+        $debug['nerveneeded'] = $nerveneeded;
+        
+        $cost = floor($nerveneeded / 10) * $crime_multiplier;
+        $debug['cost1'] = $cost;
+        if ($cost < 10) {
+            $cost = 10;
+        }
+        if ($cost > $user_class->points) {
+            return 0;
+        } else if ($user_class->points < 10) {
+            return 0;
+        }
+
+        $debug['cost'] = $cost;
+        $user_class->nerve = $user_class->maxnerve;
+
+        $user_class->points -= $cost;
+        $db->query("UPDATE grpgusers SET points = points - ?, nerve = ? WHERE id = ?");
+        $db->execute(array(
+            $cost,
+            $user_class->maxnerve,
+            $user_class->id
+        ));
+
+        $prepaid = true;
+    } else if ($nerve > $user_class->nerve) {
+        $debug['error'] = "Refil Not Enabled";
+        echo json_encode(array(
+            'debug' => $debug,
+            'error' => 'refresh'
+        ));
+
+        //$logger->info("", $debug);
+        die();
     }
+
+//    if ($user_class->nerve < $nerve && !$prepaid) {
+//        refill('n');
+//    }
 
     if ($user_class->nerve >= $nerve || $prepaid) {
         if ($prepaid) {
@@ -270,7 +277,7 @@ $exp += $star_bonus_exp;
                 //'error' => 'refresh'
             ));
             die();
-        //die("$ftext. You were hauled off to jail for 5 minutes.|".number_format($user_class->points)."|".number_format($user_class->money)."|".number_format($user_class->level)."|".  genBars());
+            //die("$ftext. You were hauled off to jail for 5 minutes.|".number_format($user_class->points)."|".number_format($user_class->money)."|".number_format($user_class->level)."|".  genBars());
         } else {
             //$mission_nerve = $nerve / $crime_multiplier;
             $debug['mission_nerve'] = $mission_nerve;
@@ -286,35 +293,38 @@ $exp += $star_bonus_exp;
             } else {
                 $which = "crimes1";
             }
-
+            // $db->query("INSERT INTO crime_log (userid, nerve, exp) VALUES (?, ?, ?)");
+            // $db->execute(array($user_class->id, $nerve, $exp));
             newmissions($which, $crime_multiplier);
             mission('c', $crime_multiplier);
             gangContest(array('crimes' => $crime_multiplier, 'exp' => $exp));
             bloodbath('crimes', $user_class->id, $bbnerve / $user_class->level, $crime_multiplier);
 
-           $gtax = 0;
-if ($user_class->gang != 0) {
-    // Attempt to retrieve gang tax details from cache
-    $gangTax = $m->get('gangtax.' . $user_class->gang);
-    
-    // If not found in cache, query the database
-    if (!$gangTax) {
-        $db->query("SELECT `tax` FROM `gangs` WHERE `id` = ?");
-        $db->execute(array($user_class->gang));
-        $gangTax = $db->fetch_row(true);
-        
-        // Cache the retrieved details for future requests
-        $m->set('gangtax.' . $user_class->gang, $gangTax, false, 120);
-    }
-    
-    // Check if 'tax' index exists and is greater than 0
-    if (isset($gangTax['tax']) && $gangTax['tax'] > 0) {
-        // Use the retrieved tax value for calculation
-        $gtax = $money * ($gangTax['tax'] / 100);
-    }
-}
+            $gtax = 0;
+            if ($user_class->gang != 0) {
+                // Attempt to retrieve gang tax details from cache
+                $gangTax = $m->get('gangtax.' . $user_class->gang);
+
+                // If not found in cache, query the database
+                if (!$gangTax) {
+                    $db->query("SELECT `tax` FROM `gangs` WHERE `id` = ?");
+                    $db->execute(array($user_class->gang));
+                    $gangTax = $db->fetch_row(true);
+
+                    // Cache the retrieved details for future requests
+                    $m->set('gangtax.' . $user_class->gang, $gangTax, false, 120);
+                }
+
+                // Check if 'tax' index exists and is greater than 0
+                if (isset($gangTax['tax']) && $gangTax['tax'] > 0) {
+                    // Use the retrieved tax value for calculation
+                    $gtax = $money * ($gangTax['tax'] / 100);
+                }
+            }
             $money = $money - $gtax;
             $totaltax = $gtax;
+
+            $debug['exp_earned'] = $exp;
 
             $user_class->money += $money;
             $user_class->nerve -= $nerve;
@@ -339,19 +349,19 @@ if ($user_class->gang != 0) {
 
 
 // Check if the user has already performed this crime and a row exists in crimeranks
-$db->query("SELECT id FROM crimeranks WHERE userid = ? AND crimeid = ?");
-$db->execute(array($user_class->id, $id));
-$crimeRank = $db->fetch_row(true);
+            $db->query("SELECT id FROM crimeranks WHERE userid = ? AND crimeid = ?");
+            $db->execute(array($user_class->id, $id));
+            $crimeRank = $db->fetch_row(true);
 
-if ($crimeRank) {
-    // A row exists, so update the count
-    $db->query("UPDATE crimeranks SET count = count + 1 WHERE id = ?");
-    $db->execute(array($crimeRank['id']));
-} else {
-    // No row exists for this user and crimeid, so insert a new row
-    $db->query("INSERT INTO crimeranks (userid, crimeid, count) VALUES (?, ?, 1)");
-    $db->execute(array($user_class->id, $id));
-}
+            if ($crimeRank) {
+                // A row exists, so update the count
+                $db->query("UPDATE crimeranks SET count = count + 1 WHERE id = ?");
+                $db->execute(array($crimeRank['id']));
+            } else {
+                // No row exists for this user and crimeid, so insert a new row
+                $db->query("INSERT INTO crimeranks (userid, crimeid, count) VALUES (?, ?, 1)");
+                $db->execute(array($user_class->id, $id));
+            }
             $db->query("SELECT `name`, mission.crimes as crimestarget, missions.crimes as crimesdone FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE `userid` = ? AND `completed` = \"no\" LIMIT 1");
             $db->execute(array(
                 $user_class->id
@@ -365,8 +375,9 @@ if ($crimeRank) {
             $text = ($gtax > 0) ? "$stext. You received $exp exp and $$money.(Gang Tax: $$gtax)" : "$stext. You received $exp exp and $$money";
 
             $debug['response'] = "Success! $text";
-            echo "<script>console.log($text);</script>";
+            //$logger->info("", $debug);
             echo json_encode(array(
+                'debug' => $debug,
                 'text' => $text,
                 'stats' => array(
                     'points' => number_format($user_class->points),
@@ -399,6 +410,7 @@ if ($crimeRank) {
         //$logger->info("", $debug);
         echo json_encode(array(
             'text' => "<b>You don't have enough nerve for that crime.</b>",
+            'debug' => $debug,
             'error' => 'refresh'
         ));
     }
