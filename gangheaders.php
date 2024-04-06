@@ -28,7 +28,7 @@ if ($user_class->gang != 0) {
                 </tr>
 <tr>
                     <td><a href="giftgang.php">Gift Gang</a></td>
-                    <td><a href="gangforum.php">-</a></td>
+                    <td><a href="gangmail.php">Gang Mail</a></td>
                     <td><a href="leavegang.php">-</a></td>
                     <td><a href="gangcontest.php">-</a></td>
                 </tr>
