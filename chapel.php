@@ -6,6 +6,11 @@ include 'header.php';
 							<div class='pad'>
 								<?php
 if (isset($_GET['accept'])) {
+	if($user_class->relationshipended > (time() - 432000)){
+		echo Message("You can only marry once every 5 days");
+		include("footer.php");
+		die();
+	}
     echo Message("You have accepted the relationship request.");
     $get2 = mysql_query("SELECT * FROM rel_requests WHERE reqid = {$_GET['accept']}");
     $get = mysql_fetch_array($get2);

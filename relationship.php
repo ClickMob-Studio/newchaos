@@ -17,14 +17,19 @@ include("header.php");
             }
             $player = new User($_GET['player']);
             if (isset($_POST['send'])) {
+                if($user_class->relationshipended > (time() - 432000)){
+                    echo Message("You can only marry once every 5 days");
+                    include("footer.php");
+                    die();
+                }
                 echo Message("You have requested to start a relationship.");
                 Relationship_Req($_POST['player'], $_POST['status'], $user_class->id);
             }
             if (isset($_POST['end'])) {
                 echo Message("You have ended your relationship.");
                 Send_Event($user_class->relplayer, "[-_USERID_-] has ended your relationship.", $user_class->id);
-                $end = mysql_query("UPDATE `grpgusers` SET `relationship` = '0', `shared_bank` = '0', `relationshipdays` = '0', `relplayer` = '0' WHERE `id` = '" . $user_class->relplayer . "'");
-                $end = mysql_query("UPDATE `grpgusers` SET `relationship` = '0', `shared_bank` = '0', `relationshipdays` = '0', `relplayer` = '0' WHERE `id` = '" . $user_class->id . "'");
+                $end = mysql_query("UPDATE `grpgusers` SET `relationship` = '0', `shared_bank` = '0', `relationshipdays` = '0', relationshipended = ".time()." `relplayer` = '0' WHERE `id` = '" . $user_class->relplayer . "'");
+                $end = mysql_query("UPDATE `grpgusers` SET `relationship` = '0', `shared_bank` = '0', `relationshipdays` = '0', relationshipended = ".time()." `relplayer` = '0' WHERE `id` = '" . $user_class->id . "'");
                 $m->set('rel_end_' . $user_class->id, 1, 0, 3600);
                 $m->set('rel_end_' . $user_class->relplayer, 1, 3600);
 
