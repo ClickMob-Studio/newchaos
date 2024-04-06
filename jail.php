@@ -37,120 +37,128 @@ if ($jailbreak != ""){
         var_dump($error);
     }
 
-    if ($jailbreak === 'bot') {
-        $exp = mt_rand(1, 10);
-        $_SESSION['message'] = "Success! You receive ".$exp." exp ";
-        $mes = "Success! You receive ".$exp." exp ";
+    if (!$error){
+        if ($jailbreak === 'bot') {
+            $exp = mt_rand(1, 10);
+            $_SESSION['message'] = "Success! You receive ".$exp." exp ";
+            $mes = "Success! You receive ".$exp." exp ";
 
-        $error = false;
-        if ($user_class->jail_bot_credits < 1) {
-            $_SESSION['message'] = 'You do not have any bot credits remaining.';
-            $mes = 'You do not have any bot credits remaining.';
+            $error = false;
+            if ($user_class->jail_bot_credits < 1) {
+                $_SESSION['message'] = 'You do not have any bot credits remaining.';
+                $mes = 'You do not have any bot credits remaining.';
 
-            $error = true;
-        }
-        if ($user_class->hospital > 0) {
-            $_SESSION['message'] = "You can't break people out of jail whilst your in hospital.";
-            $mes = "You can't break people out of jail whilst your in hospital.";
-            $error = true;
-        }
-        if ($user_class->jail > 0) {
-            $_SESSION['message'] = "You can't break people out of jail whilst your in jail.";
-            $mes = "You can't break people out of jail whilst your in jail.";
-            $error = true;
-        }
+                $error = true;
+            }
+            if ($user_class->hospital > 0) {
+                $_SESSION['message'] = "You can't break people out of jail whilst your in hospital.";
+                $mes = "You can't break people out of jail whilst your in hospital.";
+                $error = true;
+            }
+            if ($user_class->jail > 0) {
+                $_SESSION['message'] = "You can't break people out of jail whilst your in jail.";
+                $mes = "You can't break people out of jail whilst your in jail.";
+                $error = true;
+            }
 
-        if (!$error) {
-            $exp = $exp + $user_class->exp;
-            $crimesucceeded = 1 + $user_class->crimesucceeded;
+            if (!$error) {
+                $exp = $exp + $user_class->exp;
+                $crimesucceeded = 1 + $user_class->crimesucceeded;
 
-            mysql_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ".$exp.", busts = busts + 1, jail_bot_credits = jail_bot_credits - 1 WHERE id = ".$user_class->id);
-            $user_class->jail_bot_credits = $user_class->jail_bot_credits - 1;
-            mission('b');
-            newmissions('busts');
-            gangContest(array(
-                'busts' => 1,
-                'exp' => $exp
-            ));
-            $toadd = array('botd' => 1);
-            ofthes($user_class->id, $toadd);
-            bloodbath('busts', $user_class->id);
+                mysql_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ".$exp.", busts = busts + 1, jail_bot_credits = jail_bot_credits - 1 WHERE id = ".$user_class->id);
+                $user_class->jail_bot_credits = $user_class->jail_bot_credits - 1;
+                mission('b');
+                newmissions('busts');
+                gangContest(array(
+                    'busts' => 1,
+                    'exp' => $exp
+                ));
+                $toadd = array('botd' => 1);
+                ofthes($user_class->id, $toadd);
+                bloodbath('busts', $user_class->id);
 
-        }
-    } else {
-        $jailed_person = new User($jailbreak);
-        $error = false;
-        if ($jailed_person->formattedname == ""){
-            $_SESSION['message'] = 'That person does not exist.';
-            $error = true;
-        }
-        if ($jailed_person->id == $user_class->id) {
-            $_SESSION['message'] = "You can't break yourself out of jail.";
-            $error = true;
-        }
-        if ($jailed_person->jail == "0"){
-            $_SESSION['message'] = "That person is not in jail.";
-            $error = true;
-        }
-        if ($user_class->hospital > 0) {
-            $_SESSION['message'] = "You can't break people out of jail whilst your in hospital.";
-            $error = true;
-        }
-        if ($user_class->jail > 0) {
-            $_SESSION['message'] = "You can't break people out of jail whilst your in jail.";
-            $error = true;
-        }
-        $chance = rand(1,(100 * $crime - ($user_class->speed / 25)));
-        //$money = 785;
-        $nerve = 10;
-        $exp = 2500;
+            }
+        } else {
+            $jailed_person = new User($jailbreak);
+            $error = false;
+            if ($jailed_person->formattedname == ""){
+                $_SESSION['message'] = 'That person does not exist.';
+                $error = true;
+            }
+            if ($jailed_person->id == $user_class->id) {
+                $_SESSION['message'] = "You can't break yourself out of jail.";
+                $error = true;
+            }
+            if ($jailed_person->jail == "0"){
+                $_SESSION['message'] = "That person is not in jail.";
+                $error = true;
+            }
+            if ($user_class->hospital > 0) {
+                $_SESSION['message'] = "You can't break people out of jail whilst your in hospital.";
+                $error = true;
+            }
+            if ($user_class->jail > 0) {
+                $_SESSION['message'] = "You can't break people out of jail whilst your in jail.";
+                $error = true;
+            }
+            $chance = rand(1,(100 * $crime - ($user_class->speed / 25)));
+            //$money = 785;
+            $nerve = 10;
+            $exp = 2500;
 
-        if (!$error) {
-            if ($user_class->nerve >= $nerve) {
-                if($chance <= 75) {
-                    $_SESSION['message'] = "Success! You receive ".$exp." exp and 3 points";
-                    $exp = $exp + $user_class->exp;
-                    $crimesucceeded = 1 + $user_class->crimesucceeded;
-                    $crimemoney = $money + $user_class->crimemoney;
-                    $money = $money + $user_class->money;
-                    $nerve = $user_class->nerve - $nerve;
-                    if ($user_class->gang != 0) {
-                        mysql_query("UPDATE gangs SET dailyBusts = dailyBusts + 1 WHERE id = ".$user_class->gang);
+            if (!$error) {
+                if ($user_class->nerve >= $nerve) {
+                    if($chance <= 75) {
+                        $_SESSION['message'] = "Success! You receive ".$exp." exp and 3 points";
+                        $exp = $exp + $user_class->exp;
+                        $crimesucceeded = 1 + $user_class->crimesucceeded;
+                        $crimemoney = $money + $user_class->crimemoney;
+                        $money = $money + $user_class->money;
+                        $nerve = $user_class->nerve - $nerve;
+                        if ($user_class->gang != 0) {
+                            mysql_query("UPDATE gangs SET dailyBusts = dailyBusts + 1 WHERE id = ".$user_class->gang);
+                        }
+                        mysql_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ".$exp.", busts = busts + 1, points = points + 3, nerve = nerve - ".$nerve." WHERE id = ".$user_class->id);
+                        mission('b');
+                        newmissions('busts');
+                        gangContest(array(
+                            'busts' => 1,
+                            'exp' => $exp
+                        ));
+                        $toadd = array('botd' => 1);
+                        ofthes($user_class->id, $toadd);
+                        bloodbath('busts', $user_class->id);
+                        $result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='".$jailed_person->id."'");
+                        //send even to that person
+                        Send_Event($jailed_person->id, "You have been busted out of Jail by [-_USERID_-].", $user_class->id);
+
+                        //header('Location: jail.php');
+                    }elseif ($chance >= 150) {
+                        $_SESSION['message'] = "You were caught. You were hauled off to jail for 10  minutes.";
+                        $crimefailed = 1 + $user_class->crimefailed;
+                        $jail = 10800;
+                        $nerve = $user_class->nerve - $nerve;
+                        $result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, caught = caught + 1, jail = 600, nerve = nerve - ".$nerve." WHERE id =".$user_class->id);
+                    }else{
+                        $_SESSION['message'] ="You failed.";
+                        $crimefailed = 1 + $user_class->crimefailed;
+                        $nerve = $user_class->nerve - $nerve;
+                        $result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ".$nerve." WHERE id = '".$_SESSION['id']."'");
                     }
-                    mysql_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ".$exp.", busts = busts + 1, points = points + 3, nerve = nerve - ".$nerve." WHERE id = ".$user_class->id);
-                    mission('b');
-                    newmissions('busts');
-                    gangContest(array(
-                        'busts' => 1,
-                        'exp' => $exp
-                    ));
-                    $toadd = array('botd' => 1);
-                    ofthes($user_class->id, $toadd);
-                    bloodbath('busts', $user_class->id);
-                    $result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='".$jailed_person->id."'");
-                    //send even to that person
-                    Send_Event($jailed_person->id, "You have been busted out of Jail by [-_USERID_-].", $user_class->id);
-
-                    //header('Location: jail.php');
-                }elseif ($chance >= 150) {
-                    $_SESSION['message'] = "You were caught. You were hauled off to jail for 10  minutes.";
-                    $crimefailed = 1 + $user_class->crimefailed;
-                    $jail = 10800;
-                    $nerve = $user_class->nerve - $nerve;
-                    $result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, caught = caught + 1, jail = 600, nerve = nerve - ".$nerve." WHERE id =".$user_class->id);
-                }else{
-                    $_SESSION['message'] ="You failed.";
-                    $crimefailed = 1 + $user_class->crimefailed;
-                    $nerve = $user_class->nerve - $nerve;
-                    $result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ".$nerve." WHERE id = '".$_SESSION['id']."'");
+                } else {
+                    echo Message("You don't have enough nerve for that crime.");
+                    include 'footer.php';
+                    die();
                 }
-            } else {
-                echo Message("You don't have enough nerve for that crime.");
-                include 'footer.php';
-                die();
             }
         }
+    } else {
+        if($user_class->id == 1 || $user_class->id == 2){
+            var_dump($mes);
+        }
     }
+
+
 }
 
 if(isset($_GET['action']) && $_GET['action'] == 'bail'){
