@@ -34,7 +34,7 @@ if ($jailbreak != ""){
         unset($_SESSION['token']);
     }
     if($user_class->id == 1 || $user_class->id == 2){
-        $error;
+        var_dump($error);
     }
 
     if ($jailbreak === 'bot') {
