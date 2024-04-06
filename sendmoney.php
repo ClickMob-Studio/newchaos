@@ -27,7 +27,7 @@ if ($_POST['sendmoney2'] != "" && $user_class->level > 24) {
     if ($user_class->money >= $_POST['amount'] && $_POST['amount'] >= 50000) { // Changed condition here
         if ($user_class->id != $money_person->id) {
             if ($check > 0) {
-                if ((time() - $money_person->lastactive) < 300 || $user_class->admin == 1) {
+                if ((time() - $money_person->lastactive) < 86400 || $user_class->admin == 1) {
                     if ($_POST['amount'] <= 100000000) {
                         // $newmoney = $user_class->money - $_POST['amount'];
                         // $result = mysql_query("UPDATE `grpgusers` SET `money` = '" . $newmoney . "' WHERE `id`='" . $_SESSION['id'] . "'");
@@ -43,7 +43,7 @@ if ($_POST['sendmoney2'] != "" && $user_class->level > 24) {
                         echo Message("You can only send a maximum of $100,000,000.");
                     }
                 } else {
-                    echo Message("You can only send money to those who have been recently active");
+                    echo Message("You can only send money to those who have been active in the last day");
                 }
             } else { // Invalid ID
                 echo Message("You can't send money to someone that doesn't exist.");
