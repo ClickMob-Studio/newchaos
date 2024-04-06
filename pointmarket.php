@@ -222,10 +222,10 @@ if (isset($_POST['buy'])) {
     $db->execute(array($user_class->id));
     $existingListing = $db->fetch_single();
 
-    if($existingListing > 0) {
-        // User already has a listing, so prevent adding a new one
-        diefun("Error :: You are only allowed to have 1 listing at a time.");
-    }
+    // if($existingListing > 0) {
+    //     // User already has a listing, so prevent adding a new one
+    //     diefun("Error :: You are only allowed to have 1 listing at a time.");
+    // }
 
     // Check for invalid inputs
     if($qty <= 0)
