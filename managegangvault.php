@@ -244,7 +244,7 @@ if (isset($_POST['ret'])) {
         Take_Loan($_POST['ret'], $_POST['user']);
         Vault_Event($gang_class->id, "$itemname was taken from [-_USERID_-].", $_POST['user']);
         echo Message("$itemname was taken from " . formatName($_POST['user']) . ".");
-        Send_Event($_POST['user'], "Your gang took their $itemname back from you.", $_POST['user']);
+        Send_Event($_POST['user'], "Your gang took their $itemname back from you.");
         AddToArmory($row['itemid'], $user_class->gang);
 
     }
