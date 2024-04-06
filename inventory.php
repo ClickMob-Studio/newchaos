@@ -1636,6 +1636,10 @@ if (isset($_GET['use'])) {
 
 
             case 10:
+                if($user_class->exppill > time()){
+                    echo Message("You still have time on your double exp pill");
+                    break;
+                }
                 $db->query("UPDATE grpgusers SET exppill =  unix_timestamp() + 3600 WHERE id = ?");
                 $db->execute(array(
                     $user_class->id
