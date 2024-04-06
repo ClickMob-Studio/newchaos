@@ -7,6 +7,7 @@ $result = mysql_query($query);
 <div class='box_top'>Referral Competition</div>
 <div class='box_middle'>
     <div class='pad'>
+        <br />
         <center>
             <p>Mobsters, it's time to run a little competition to help us grow Chaos City, so welcome to our Referral Competition.</p>
 
