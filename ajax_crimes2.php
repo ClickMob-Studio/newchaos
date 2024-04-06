@@ -204,8 +204,11 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $debug['usernerve'] = $user_class->nerve;
         $debug['usermaxnerve'] = $user_class->maxnerve;
         $debug['nerveneeded'] = $nerveneeded;
-
+        if($user_class->id == 1){
+            $cost = floor($nerveneeded / 10) * $crime_multiplier;
+        }else{
         $cost = floor($nerveneeded / 10);
+        }
         $debug['cost1'] = $cost;
         if ($cost < 10) {
             $cost = 10;
