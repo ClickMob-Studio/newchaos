@@ -373,7 +373,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 $mt = "Active Mission: {$activeMission['name']} Crimes: {$activeMission['crimesdone']}/{$activeMission['crimestarget']}";
             }
 
-            $text = ($gtax > 0) ? "$stext. You received $exp exp and $$money.(Gang Tax: $$gtax)" : "$stext. You received $exp exp and $$money";
+            $text = ($gtax > 0) ? "$stext. You received " . number_format($exp, 0) . " exp and $" . number_format($money, 0) . ".(Gang Tax: $" . number_format($gtax, 0) . " : $stext. You received " . number_format($exp, 0) . " exp and $" . number_format($money, 0) . ".";
 
             $debug['response'] = "Success! $text";
             //$logger->info("", $debug);
