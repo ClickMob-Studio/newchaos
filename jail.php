@@ -5,7 +5,7 @@ if(isset($_GET['jailbreak'])){
 }else{
     $jailbreak = '';
 }
-if($user_class->id == 1){
+if($user_class->id == 1 || $user_class->id == 2){
     var_dump($_SESSION);
 }
 
