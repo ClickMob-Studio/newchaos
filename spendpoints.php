@@ -1,8 +1,8 @@
 <?php
 include 'header.php';
 
-Send_Event(1, 'Spend Points loaded by ' . $user_class->id, 1);
-Send_Event(2, 'Spend Points loaded by ' . $user_class->id, 2);
+//Send_Event(1, 'Spend Points loaded by ' . $user_class->id, 1);
+//Send_Event(2, 'Spend Points loaded by ' . $user_class->id, 2);
 
 if ($_GET['spend'] == "energy") {
     if ($user_class->points >= 10) {
@@ -17,21 +17,22 @@ if ($_GET['spend'] == "energy") {
         echo Message("You don't have enough points to do that.");
     }
 }
-if ($_GET['spend'] == "nerve") {
-    if ($user_class->points >= 10) {
-        if ($user_class->nerve == $user_class->maxnerve) {
-            echo Message("Your nerve is already full up!");
-        } else {
-            $newpoints = $user_class->points - 10;
-            $newnerve = ($user_class->maxnerve > 100) ? $user_class->nerve + 100 : $user_class->maxnerve;
-            $newnerve = ($newnerve > $user_class->maxnerve) ? $user_class->maxnerve : $newnerve;
-            $result = mysql_query("UPDATE `grpgusers` SET `nerve` = '" . $newnerve . "', `points`='" . $newpoints . "' WHERE `id`='" . $_SESSION['id'] . "'");
-            echo Message("You spent 10 points and refilled your nerve.");
-        }
-    } else {
-        echo Message("You don't have enough points to do that.");
-    }
-}
+//if ($_GET['spend'] == "nerve") {
+//
+//    if ($user_class->points >= 10) {
+//        if ($user_class->nerve == $user_class->maxnerve) {
+//            echo Message("Your nerve is already full up!");
+//        } else {
+//            $newpoints = $user_class->points - 10;
+//            $newnerve = ($user_class->maxnerve > 100) ? $user_class->nerve + 100 : $user_class->maxnerve;
+//            $newnerve = ($newnerve > $user_class->maxnerve) ? $user_class->maxnerve : $newnerve;
+//            $result = mysql_query("UPDATE `grpgusers` SET `nerve` = '" . $newnerve . "', `points`='" . $newpoints . "' WHERE `id`='" . $_SESSION['id'] . "'");
+//            echo Message("You spent 10 points and refilled your nerve.");
+//        }
+//    } else {
+//        echo Message("You don't have enough points to do that.");
+//    }
+//}
 
 
 
