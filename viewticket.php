@@ -9,6 +9,14 @@ if (isset($_POST['reply'])) {
 		$ticketid,
 		$body
 	));
+
+	$query = mysql_query("SELECT playerid FROM tickets WHERE ticketid = $ticketid");
+	$n = mysql_fetch_assoc($query);
+	Send_Event($n['playerid'], "A reply to you ticket has been added");
+
+	Send_Event(1, "A reply to a support ticket has been added");
+
+	Send_Event(2, "A  reply to a support ticket has been added");
     echo Message("You have submitted a reply.");
 }
 $db->query("SELECT * FROM tickets WHERE ticketid = ?");
@@ -30,8 +38,10 @@ if ($user_class->admin == 1 || $user_class->gm == 1) {
 		$ticketid
 	));
 }
-if ($row['playerid'] != $user_class->id)
+if ($row['playerid'] != $user_class->id && $user_class->admin < 1)
     diefun("This support ticket doesn't belong to you.");
+
+
 echo'<div class="floaty">';
 	echo'<div class="flexcont">';
 		echo'<div class="flexele">' . date("d F Y, g:ia", $row['timesent']) . '</div>';
