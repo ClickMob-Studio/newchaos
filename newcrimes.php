@@ -92,7 +92,7 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                 <td>
                     <div class="flexele floaty" style="margin:3px;"><hr style="border:0;border-bottom:thin solid #333;">
                         <center>
-                            <div style="display:flex;min-height:30px;flex-direction:row;">
+                            <div style="display:flex;min-height:60px;flex-direction:row;">
                                 <div id="noti" class="alert alert-info" style="display: none;">
                                     <p><img style="display:none;" id="spinner" src="images/ajax-loader.gif"/> <span class="response-text"></span></p>
                                 </div>
