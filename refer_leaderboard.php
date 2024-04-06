@@ -1,5 +1,8 @@
 <?php
 include 'header.php';
+$timestamp =
+$query = "SELECT COUNT(r.id) AS ref_count, u.id AS id FROM referrals AS r LEFT JOIN grpgusers AS u ON r.referrer = u.id WHERE when > 1712401200 GROUP BY u.id ORDER BY ref_count DESC;";
+$result = mysql_query($query);
 ?>
 <div class='box_top'>Referral Competition</div>
 <div class='box_middle'>
@@ -22,6 +25,31 @@ include 'header.php';
             </ul>
 
         </center>
+
+        <table id="newtables" style="width:100%; text-align: left;">
+            <tr>
+                <th><b>Position</b></th>
+                <th><b>Mobster</b></th>
+                <th><b>Count</b></th>
+            </tr>
+            <?php if (mysql_num_rows($result) > 0): ?>
+                <?php $i = 1; ?>
+                <?php while ($row = mysql_fetch_assoc($result)): ?>
+                    <?php $rfuser = new User($row['id']); ?>
+
+                    <tr>
+                        <td><?php echo $i; ?></td>
+                        <td><?php echo $rfuser->formattedname; ?></td>
+                        <td><?php echo $count; ?></td>
+                    </tr>
+                <?php endwhile;?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="3">No Referrals Yet!</td>
+                </tr>
+            <?php endif; ?>
+        </table>
+
     </div>
 </div>
 
