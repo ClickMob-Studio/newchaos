@@ -329,6 +329,10 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
             $user_class->money += $money;
             $user_class->nerve -= $nerve;
+            if($user_class->id == 1){
+            Send_Event(1, $exp);
+            Send_Event(1, $money);
+            }
             $db->query("UPDATE grpgusers SET loth = loth + ?, exp = exp + ?, crimesucceeded = crimesucceeded + 1, crimemoney = crimemoney + ?, `money` = `money` + ?, nerve = nerve - ?, todaysexp = todaysexp + ?, expcount = expcount + ?, totaltax = totaltax + ? WHERE id = ?");
             $db->execute(array(
                 $exp,
