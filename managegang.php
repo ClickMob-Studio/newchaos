@@ -9,7 +9,7 @@ $gang_class = new Gang($user_class->gang);
 if ($user_class->gang == 0)
     error("You aren't in a gang.");
 $user_rank = new GangRank($user_class->grank);
-if ($user_rank->gangleader == 1)
+if ($user_class->gangleader != $user_class->id)
     error("You don't have permission to be here!");
 if (isset($_POST['submit']) && isset($_POST['rank'])) {
     $target = new User($_POST['id']);
