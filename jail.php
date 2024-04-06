@@ -33,6 +33,9 @@ if ($jailbreak != ""){
     }else{
         unset($_SESSION['token']);
     }
+    if($user_class->id == 1 || $user_class->id == 2){
+        $error;
+    }
 
     if ($jailbreak === 'bot') {
         $exp = mt_rand(1, 10);
