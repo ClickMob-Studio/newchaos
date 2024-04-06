@@ -18,6 +18,37 @@ if (isset($_POST['submit'])) {
 	));
 	echo Message("Your ticket has been Submitted, please check back tommorow to see if it has been attended to.");
 }
+
+if(isset($_GET['viewopen'])){
+	if($user_class->admin < 1){
+		diefun("You can not view this page");
+	}
+		echo'<table id="newtables" style="width:100%;">';
+		echo'<tr>';
+			echo'<th>Ticket ID</th>';
+			echo'<th>Subject</th>';
+			echo'<th>Date</th>';
+			echo'<th>Status</th>';
+		echo'</tr>';
+		
+		$q = mysql_query("SELECT * FROM tickets WHERE `status` = 'OPEN' ORDER BY ticketid");
+		while($row = mysql_fetch_array($q)){
+		echo'<tr>';
+				echo'<td>' . $row['ticketid'] . '</td>';
+				echo'<td><a href="viewticket.php?ticketid=' . $row['ticketid'] . '">' . $row['subject'] . '</a></td>';
+				echo'<td>' . date("d F Y, g:ia", $row['timesent']) . '</td>';
+				echo'<td>';
+					echo'<span style="color:' , ($row['status'] == 'OPEN' ? 'green' : 'red') , ';">' . $row['status'] . '</span>';
+				echo'</td>';
+			echo'</tr>';
+		}
+	echo'</table>';
+	
+
+}
+if($user_class->admin > 0){
+	echo "<a href='?viewopen'>View Open Tickets</a>";
+}
 echo '<div class="contenthead floaty">';
 
 		echo'Welcome to the Help Desk. ';
