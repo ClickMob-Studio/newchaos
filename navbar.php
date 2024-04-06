@@ -99,6 +99,12 @@ if ($user_class->gang) {
             'name' => 'Gang',
             'url'  => 'gang.php',
         );
+		$leftLinks[] =
+        array(
+            'name' => 'Gang Mail',
+            'url'  => 'gangmail.php',
+        );
+
 } else {
     $leftLinks[] =
         array(
