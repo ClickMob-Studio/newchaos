@@ -63,6 +63,8 @@ else if ($attack_person->gang == $user_class->gang && $user_class->gang > 0)
     error("You can't mug someone that's in your gang.");
 else if ($attack_person->id == $user_class->relplayer)
     error("You can't mug your partner.");
+else if ($attack_person->admin > 0)
+    error("You can't mug an admin.");
 else if ($attack_person->mprotection > time())
     error("Your target is under mug protection and cannot be mugged.");
 else if ($user_class->mprotection > time())
