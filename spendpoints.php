@@ -4,7 +4,7 @@ include 'header.php';
 //Send_Event(1, 'Spend Points loaded by ' . $user_class->id, 1);
 //Send_Event(2, 'Spend Points loaded by ' . $user_class->id, 2);
 
-if ($_GET['spend'] == "energy") {
+if (isset($_GET['spend']) && $_GET['spend'] == "energy") {
     if ($user_class->points >= 10) {
         if ($user_class->energy == $user_class->maxenergy) {
             echo Message("Your energy is already full up!");
@@ -36,7 +36,7 @@ if ($_GET['spend'] == "energy") {
 
 
 
-if ($_GET['spend'] == "bail") {
+if (isset($_GET['spend']) && $_GET['spend'] == "bail") {
     if ($user_class->points >= 10) {
         if ($user_class->jail == 0) {
             echo Message("You're not in jail!");
@@ -54,7 +54,7 @@ if ($_GET['spend'] == "bail") {
 
 
 
-if ($_GET['spend'] == "awake") {
+if (isset($_GET['spend']) &&  $_GET['spend'] == "awake") {
     if ($user_class->awakepercent == 100) {
         echo Message("Your awake is already full up!");
     } else if ($user_class->points == 0) {
@@ -71,7 +71,7 @@ if ($_GET['spend'] == "awake") {
     }
 }
 //Admin Section
-if ($_GET['admin'] == "hosp") {
+if (isset($_GET['admin']) && $_GET['admin'] == "hosp") {
     if ($user_class->admin == 1) {
         if ($user_class->hospital == 0) {
             echo Message("You're not in the hospital.");
@@ -81,7 +81,7 @@ if ($_GET['admin'] == "hosp") {
         }
     }
 }
-if ($_GET['admin'] == "prison") {
+if (isset($_GET['admin']) && $_GET['admin'] == "prison") {
     if ($user_class->admin == 1) {
         if ($user_class->jail == 0) {
             echo Message("You're not in prison.");
@@ -91,7 +91,7 @@ if ($_GET['admin'] == "prison") {
         }
     }
 }
-if ($_GET['admin'] == "energy") {
+if (isset($_GET['admin']) &&  $_GET['admin'] == "energy") {
     if ($user_class->admin == 1) {
         if ($user_class->energy == $user_class->maxenergy) {
             echo Message("Your energy is already full.");
@@ -101,7 +101,7 @@ if ($_GET['admin'] == "energy") {
         }
     }
 }
-if ($_GET['admin'] == "nerve") {
+if (isset($_GET['admin']) && $_GET['admin'] == "nerve") {
     if ($user_class->admin == 1) {
         if ($user_class->nerve == $user_class->maxnerve) {
             echo Message("Your nerve is already full.");
@@ -111,7 +111,7 @@ if ($_GET['admin'] == "nerve") {
         }
     }
 }
-if ($_GET['admin'] == "awake") {
+if (isset($_GET['admin']) && $_GET['admin'] == "awake") {
     if ($user_class->admin == 1) {
         if ($user_class->awake == $user_class->maxawake) {
             echo Message("Your awake is already full.");
@@ -121,7 +121,7 @@ if ($_GET['admin'] == "awake") {
         }
     }
 }
-if ($_GET['admin'] == "money") {
+if (isset($_GET['admin']) && $_GET['admin'] == "money") {
     if ($user_class->admin == 1) {
         $newpoints = $user_class->points - 1;
         $newmoney = $user_class->money + 1000;
