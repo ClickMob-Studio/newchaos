@@ -11,15 +11,13 @@ include 'header.php';
                                 }
 
 $sites = array(
+   "mpogtop" => "https://mpogtop.com/in/1712459252",
+//    "top100arena" => "http://www.top100arena.com/in.asp?id=100478",
+//    "topgamesites" => "http://www.topgamesites.net/mmorpg",
+//    "xtremetop" => "http://www.xtremetop100.com/in.php?site=1132375476",
+//	"gtop100" => "https://gtop100.com/topsites/MMORPG-And-MPOG/sitedetails/Mafia-Lords-103275?vote=1",
+);
 
-   "mpogtop" => "http://mpogtop.com/in/1707777893",
-    "top100arena" => "http://www.top100arena.com/in.asp?id=100478",
-    "topgamesites" => "http://www.topgamesites.net/mmorpg",
-    "xtremetop" => "http://www.xtremetop100.com/in.php?site=1132375476",
-	"gtop100" => "https://gtop100.com/topsites/MMORPG-And-MPOG/sitedetails/Mafia-Lords-103275?vote=1",
-
-
-   );
 if (isset($_GET['vote']) && array_key_exists($_GET['vote'], $sites)) {
 	$db->query("SELECT * FROM votes WHERE userid = ? AND site = ?");
 	$db->execute(array(
