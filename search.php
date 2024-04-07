@@ -219,6 +219,7 @@ if (isset($_POST['id'])) {
 				<th><a href="?spend=refenergy" style="color:orange;">[R Energy]</a></th>
 				<th><a href="?spend=refnerve" style="color:orange;">[R Nerve]</a></th>
 				<th>Hos</th>
+				<th>Action</th>
 			</tr>';
 			if ($user_class->id == 174) {
 				echo "<pre>";
@@ -243,9 +244,11 @@ if (mysql_num_rows($query) == 0) {
             <td>$userfound->formattedname</td>
             <td>{$line['level']}</td>
             <td>" . prettynum($line['money'], 1) . "</td>
-            <td>$userfound->formattedonline</td>";
+            <td>$userfound->formattedonline</td>
+			<td><a href='mug.php?id=$userfound->id'>Mug</a> | </td>
+			";
         echo '<td><a class="aha" href="attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">Attack</a></td>';
-echo '<td><a class="aha" href="mug.php?mug=' . $userfound->id . '">Mug</a></td>';
+echo '<td><a class="aha" href="mug.php?mug=' . $userfound->id . '">Mug</a> | <a href="attack.php?attack='.$userfound->id.'&csrf='. $csrf .'>Attack</a></td>';
 
         echo "<td>" . (($userfound->hospital > 0) ? $userfound->hospital / 60 : '-') . "</td>
         </tr>";
