@@ -274,19 +274,30 @@ $(document).ready(function() {
 
 
 function start() {
+    if (doingcrime) return;
+
     var id = $('#scrime').val();
     var cm = $('#cm').val();
     doingcrime = true;
+
+    var resetAction = function() {
+        doingcrime = false;
+        clearInterval(timerId);
+    };
+
     var timerId = setInterval(function () {
         if (doingcrime) {
             if (id > 0) {
                 submitCrime(id, cm);
             } else {
-                clearInterval(timerId);
-                timerId = null;
+                resetAction();
+              
             }
         }
     }, refresh);
+    document.addEventListener('mouseup', resetAction, { once: true });
+    document.addEventListener('touchend', resetAction, { once: true });
+  
 }
 
 $(document).ready(function() {
