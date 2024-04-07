@@ -31,7 +31,7 @@ if (!isset($userId) || !isset($scriptCallback)) {
     exit;
 }
 
-$user =  null;
+$user = new User((int)$userId);
 if (!$user) {
     echo 'Something went wrong!';
     exit;
