@@ -32,7 +32,21 @@ $debug = array(
     'crime_multiplier' => $crime_multiplier,
     'post' => $_POST
 );
+$rateLimitKey = 'rate_limit_' . $user_class->id;
+$currentCount = $m->get($rateLimitKey);
 
+if ($currentCount === FALSE) {
+    // No count found, start at 1 and set expiration to 1 second
+    $m->set($rateLimitKey, 1, MEMCACHE_COMPRESSED, 1);
+} elseif ($currentCount < 5) {
+    // Under the limit, increment the count
+    $m->increment($rateLimitKey);
+} else {
+    // Limit exceeded
+    header('HTTP/1.1 429 Too Many Requests');
+    die("Error: Rate limit exceeded. Please try again later.");
+} die("Error: You've exceeded the rate limit of 5 requests per second.");
+}
 // if($m->get('crime.'.$user_class->id . time()))
 //     $m->increment('crime.'.$user_class->id . time());
 // else
