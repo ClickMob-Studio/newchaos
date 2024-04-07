@@ -6,7 +6,7 @@ include 'header.php';
 						<div class='box_middle'>
 							<div class='pad'>
                                 <?php
-                               
+
 
 $sites = array(
    //"xtremetop100" => "https://www.xtremetop100.com/in.php?site=1132375705&user_id=" . $user_class->id . "&script_callback=xtremetop100",
@@ -43,7 +43,7 @@ if (isset($_GET['vote']) && array_key_exists($_GET['vote'], $sites)) {
 echo'<div class="floaty" style="margin:5px;width:75%;>';
 	echo'<span style="color:red;font-weight:bold;">Vote Tokens Availible: <span style="color:#FFA500;"> ' . prettynum($user_class->votetokens) . ' Vote Points</span></br></span>';
 
-	echo'<span style="color:red;font-weight:bold;">Each vote gives you: <span style="color:#FFA500;">1,000 Points</span> and <span style="color:green;">$100,000</span> + <span style="color:#FFA500;">100 Vote Points</span></BR></BR></span>';
+	echo'<span style="color:red;font-weight:bold;">Each vote gives you: <span style="color:#FFA500;">100 Vote Points</span></BR></BR></span>';
 
 	echo'<span style="color:red;font-weight:bold;"><a href="voteshop.php">CLICK HERE FOR VOTE SHOP</a></span>';
 
