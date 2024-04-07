@@ -10,7 +10,16 @@ if ($user_class->firstlogin1 == 0) {
     Send_Event2($user_class->id, "Is the latest thug on the streets.", $user_class->id);
     Send_Event1($user_class->id, "Is the latest thug on the streets.", $user_class->id);
     Send_Event($user_class->id, "<div class='text-white'>Welcome To Chaos City!<br>To get you started we are giving you:</div><div class='fw-bold text-white'>&bull; 3 VIP Days<br>&bull; $100,000 Cash<br>&bull; 1,250 Points</div>", $user_class->id);
+        $line = mysql_fetch_array(mysql_query("SELECT * FROM referrals WHERE referred = ". $user_class->id ." AND credited = '0'"));
+        bloodbath('referrals', $line['referrer']);
+        mysql_query("UPDATE grpgusers SET credits = credits + 50, points = points + 100, referrals = referrals + 1, refcomp = refcomp + 1, refcount = refcount + 1 WHERE id = {$line['referrer']}");
+        mysql_query("UPDATE referrals SET credited = 1 WHERE id = {$user_class->id}");
+        mysql_query("UPDATE referrals SET viewed = 1 WHERE id = {$user_class->id}");
+        Send_Event($line['referrer'], "You have been credited 50 Credits & 100 Points for referring [-_USERID_-]. Keep up the good work!", $line['referred']);
+        echo Message("You have accepted the referral.");
 }
+
+
 ?>
 <h1>General Information</h1>
 <table id="newtables" style="width:100%;">
