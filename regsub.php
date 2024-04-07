@@ -57,7 +57,7 @@ $IP = filter_var($IP, FILTER_VALIDATE_IP);
 
 // Insert user into database
 $stmt = $pdo->prepare("INSERT INTO grpgusers (signupip, loginame, username, password, email, signuptime, gender, aprotection) VALUES (?,?, ?, ?, ?, UNIX_TIMESTAMP(), ?, ?)");
-$stmt->execute([$IP, $username, $username, $hashedPassword, $email, $gender, time() + 1800]);
+$stmt->execute([$IP, $username, $username, $hashedPassword, $email, $gender, time() + 43200]);
 $newid = $pdo->lastInsertId();
 mysql_query("INSERT INTO referrals (`when`, referrer, referred) VALUES (unix_timestamp(), {$_POST['referer']}, $newid)");
 mysql_query("INSERT INTO sessions VALUES($newid, '{$_COOKIE['PHPSESSID']}', 'emptyfornow')");
