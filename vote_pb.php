@@ -3,6 +3,8 @@
 include "classes.php";
 include "database/pdo_class.php";
 
+Send_Event(2, 'VOTE PB', 2);
+
 
 if (isset($_GET['user_id'])) {
     $userId = $_GET['user_id'];
