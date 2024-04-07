@@ -1,5 +1,6 @@
 <?php
 include "ajax_header.php";
+exit;
 mysql_select_db('aa', mysql_connect('localhost', 'aa_user', 'GmUq38&SVccVSpt'));
 $user_class = new User($_SESSION['id']);
 

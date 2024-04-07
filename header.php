@@ -164,6 +164,20 @@ if (isset($_COOKIE['mu'])) {
         );
     }
 }
+function getRealIpAddress() {
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        // IP from shared internet
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        // IP passed from the proxy
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else {
+        // Standard way to get visitor IP
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
+}
+$IP = getRealIpAddress();
 setcookie("mu", $user_class->id, time() + (10 * 365 * 24 * 60 * 60));
 if ($uid != 0) {
     $db->query("UPDATE grpgusers SET lastactive = unix_timestamp(), ip = ? WHERE id = ?");
