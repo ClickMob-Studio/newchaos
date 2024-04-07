@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 $timestamp = 1712401200;
-$query = "SELECT COUNT(r.id) AS ref_count, u.id AS id FROM referrals AS r LEFT JOIN grpgusers AS u ON r.referrer = u.id WHERE when > 1712401200 GROUP BY u.id ORDER BY ref_count DESC;";
+$query = "SELECT COUNT(r.id) AS ref_count, u.id AS id FROM referrals AS r LEFT JOIN grpgusers AS u ON r.referrer = u.id WHERE id > 56 GROUP BY u.id ORDER BY ref_count DESC;";
 $result = mysql_query($query);
 ?>
 <div class='box_top'>Referral Competition</div>
