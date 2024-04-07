@@ -244,8 +244,8 @@ if (mysql_num_rows($query) == 0) {
             <td>{$line['level']}</td>
             <td>" . prettynum($line['money'], 1) . "</td>
             <td>$userfound->formattedonline</td>";
-        echo '<td><a class="aha" href="attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">Attack</a></td>';
-		echo '<td><a class="aha" href="mug.php?mug=' . $userfound->id . '">Mug</a></td>';
+        echo '<td><a class="dcPrimaryButton" href="attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">Attack</a></td>';
+		echo '<td><a class="dcPrimaryButton" href="mug.php?mug=' . $userfound->id . '">Mug</a></td>';
 
         echo "<td>" . (($userfound->hospital > 0) ? $userfound->hospital / 60 : '-') . "</td>
         </tr>";
