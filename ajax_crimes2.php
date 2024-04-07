@@ -383,7 +383,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 'stats' => array(
                     'points' => number_format($user_class->points),
                     'money' => number_format($user_class->money),
-                    'level' => numberx_format($user_class->level),
+                    'level' => number_format($user_class->level),
                     'mission' => $mt
                 ),
                 'bars' => array(
