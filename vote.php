@@ -11,7 +11,7 @@ include 'header.php';
                                 }
 
 $sites = array(
-   "xtremetop100" => "https://www.xtremetop100.com/in.php?site=1132375705",
+   "xtremetop100" => "https://www.xtremetop100.com/in.php?site=1132375705&userid=" . $user_class->id . "&script_callback=xtremetop100",
 //   "mpogtop" => "https://mpogtop.com/in/1712459252",
 //    "top100arena" => "http://www.top100arena.com/in.asp?id=100478",
 //    "topgamesites" => "http://www.topgamesites.net/mmorpg",
