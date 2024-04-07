@@ -15,6 +15,11 @@ if (isset($_GET['id'])) {
     $userId = $_GET['id'];
 }
 
+if (isset($_GET['userid']) && isset($_GET['secret'])) {
+    $userId = $_GET['userid'];
+    $scriptCallback = 'ArenaTop100';
+}
+
 if (isset($_GET['userid'])) {
     $userId = $_GET['userid'];
     $scriptCallback = 'bbogd';
