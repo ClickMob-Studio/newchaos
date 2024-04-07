@@ -94,7 +94,11 @@ foreach ($rows as $row) {
         echo '<td>' . $row['name'] . '</td>';
         echo '<td>' . prettynum($row['awake']) . '%</td>';
         echo '<td>' . prettynum($row['cost'], 1) . '</td>';
-        echo '<td>' , ($row['id'] != $gang_class->ghouse) ? '<a href="ganghouse.php?buy=' . $row['id'] . '" onclick="return confirm(\'Are you sure you want to move into this gang house?\');">Move In</a>' : '<s>Move In</s>' , '</td>';
+        echo '<td>', 
+     ($row['id'] != $gang_class->ghouse || $gang_class->ghouse == 0) ? 
+     '<a href="ganghouse.php?buy=' . $row['id'] . '" onclick="return confirm(\'Are you sure you want to move into this gang house?\');">Move In</a>' : 
+     '<s>Move In</s>', 
+     '</td>';
     echo '</tr>';
 }
 echo '</table>';
