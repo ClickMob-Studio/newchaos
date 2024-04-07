@@ -189,7 +189,8 @@ foreach($rows as $row) {
     echo '<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666" />';
     echo '<br />';
     if($row['playerid'] > 0) {
-        echo $array['name'];
+	    $u = new User($row['playerid']);
+        echo $u->formattedname;
     } else {
         echo '<span style="color:red">System</span>';
     }
