@@ -41,7 +41,7 @@ $result = mysql_query($query);
                     <tr>
                         <td><?php echo $i; ?></td>
                         <td><?php echo $rfuser->formattedname; ?></td>
-                        <td><?php echo $row['count']; ?></td>
+                        <td><?php echo $row['ref_count']; ?></td>
                     </tr>
                 <?php endwhile;?>
             <?php else: ?>
