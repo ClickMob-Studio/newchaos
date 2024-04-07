@@ -25,6 +25,11 @@ if (isset($_GET['userid'])) {
     $scriptCallback = 'bbogd';
 }
 
+if (isset($_GET['param'])) {
+    $userId = $_GET['param'];
+    $scriptCallback = 'mmohub';
+}
+
 if (isset($_GET['script_callback']) && $_GET['script_callback'] !== '') {
     $scriptCallback = $_GET['script_callback'];
 }
