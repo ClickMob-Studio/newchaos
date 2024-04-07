@@ -43,8 +43,8 @@ if ($currentCount === FALSE) {
     $m->increment($rateLimitKey);
 } else {
     // Limit exceeded
-    header('HTTP/1.1 429 Too Many Requests');
-    die("Error: Rate limit exceeded. Please try again later.");
+    $debug['error'] = "You are going to fast";
+    die();
 }
 // if($m->get('crime.'.$user_class->id . time()))
 //     $m->increment('crime.'.$user_class->id . time());
