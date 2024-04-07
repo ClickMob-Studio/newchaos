@@ -1,5 +1,6 @@
 <?php
 
+require 'dbcon.php'; // Ensure database connection is critical
 include "classes.php";
 include "database/pdo_class.php";
 
