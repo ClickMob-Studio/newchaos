@@ -142,9 +142,9 @@ if ($user_class->gang != 0) {
         ));
     }
 }
-if($user_class->id == 5){
-    exit();
-}
+//if($user_class->id == 5){
+//    exit();
+//}
 $db->query("SELECT type, id FROM bans WHERE type IN ('freeze', 'perm') AND id = ?");
 $db->execute(array(
     $user_class->id
