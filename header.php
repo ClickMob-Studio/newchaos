@@ -308,7 +308,6 @@ $petJailDisplay = $petJailCount > 0 ? "<span style='color:red;'>$petJailDisplay<
     $buffer = str_replace("[:FORMAT.NAME:]", $user_class->formattedname, $buffer);
     $buffer = str_replace("<!_-hospital-_!>", prettynum($hospital), $buffer);
     $buffer = str_replace("<!_-jail-_!>", $jail, $buffer);
-    $buffer = str_replace("<!_-pjail-_!>", $pjail, $buffer);
     $buffer = str_replace("<!_-phos-_!>", $phos, $buffer);
     $buffer = str_replace("<!_-thecardvalue-_!>", $user_class->cardvalue, $buffer);
     $buffer = str_replace("<!_-thecardtype-_!>", $user_class->cardtype, $buffer);
