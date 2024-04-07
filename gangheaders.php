@@ -58,7 +58,7 @@ if ($user_class->gang != 0) {
                         ($gang_class->leader == $user_class->id || $user_class->admin) ? "<td><a href='disband.php'>Delete Gang</a></td>" : "<td></td>",
                         ($user_rank->houses == 1 || $user_class->admin) ? "<td><a href='ganghouse.php'>Gang Housing</a></td>" : "<td></td>",
                         ($user_rank->upgrade == 1 || $user_class->admin) ? "<td><a href='gangupgrade.php'>Upgrade</a></td>" : "<td></td>",
-                        // ($user_rank->upgrade == 1 || $user_class->admin) ? "<td><a href='pointsupgrades.php'>Points Upgrades</a></td>" : "<td></td>",
+                         ($user_rank->upgrade == 1 || $user_class->admin) ? "<td><a href='pointsupgrades.php'>Points Upgrades</a></td>" : "<td></td>",
 
                         "</tr><tr>",
                         "<td></td>",
