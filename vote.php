@@ -6,7 +6,10 @@ include 'header.php';
 						<div class='box_middle'>
 							<div class='pad'>
                                 <?php
-								diefun("Voting will be availble soon!");
+                                if ($user_class->admin < 1) {
+                                    diefun("Voting will be available soon!");
+                                }
+
 $sites = array(
 
    "mpogtop" => "http://mpogtop.com/in/1707777893",
