@@ -272,26 +272,21 @@ $(document).ready(function() {
     // Other JavaScript and jQuery code can follow here
 });
 
+
 function start() {
     var id = $('#scrime').val();
     var cm = $('#cm').val();
     doingcrime = true;
-
-    // Clear any existing intervals to prevent multiple intervals from running
-    if(window.crimeInterval) {
-        clearInterval(window.crimeInterval);
-    }
-
-    // Start a new interval
-    window.crimeInterval = setInterval(function () {
+    var timerId = setInterval(function () {
         if (doingcrime) {
             if (id > 0) {
                 submitCrime(id, cm);
             } else {
-                clearInterval(window.crimeInterval);
+                clearInterval(timerId);
+                timerId = null;
             }
         }
-    }, 200); // Execute every 200ms to limit to 5 requests per second
+    }, refresh);
 }
 
 $(document).ready(function() {
