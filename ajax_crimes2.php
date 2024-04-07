@@ -224,7 +224,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $user_class->nerve = $user_class->maxnerve;
 
 
-        if ($user_class->id === 158) {
+        if ($user_class->id == 158) {
             Send_Event(158, $nerveneeded . ' - ' . $user_class->maxnerve . ' - ' . $cost, 158);
         }
 
