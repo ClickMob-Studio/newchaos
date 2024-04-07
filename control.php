@@ -195,12 +195,7 @@ if (isset($_POST['giveitem'])) {
     Give_Item($_POST['itemnumber'], Get_ID($_POST['username']), $_POST['itemquantity']);
     $newamount = Check_Item($_POST['itemnumber'], Get_ID($_POST['username']));
     echo Message("That user had {$oldamount} of those, and now has {$newamount} of them.");
-}
-if (isset($_GET['action']) && $_GET['action'] == "deleteallfromip")
-    mysql_query("DELETE FROM grpgusers WHERE ip = '{$_GET['ip']}'");
-if (isset($_POST['banplayer']))
-    mysql_query("INSERT INTO bans (id, reason) VALUES ('{$_POST['id']}', '{$_POST['reason']}')") or die("Failure to ban player. MySQL reports: " . mysql_error());
-genHead("Control Panel");
+}    genHead("Control Panel");
 print "Welcome to the control panel. Here you can do just about anything, from giving players items they have paid for with real money, to adding, changing, or deleting jobs, cities, items, etc. </td></tr>";
 if (empty($_GET['page'])) {
     genHead("Activate Poll");
