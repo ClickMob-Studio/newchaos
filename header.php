@@ -151,6 +151,8 @@ if (!empty($row)) {
     session_destroy();
     die('<meta http-equiv="refresh" content="0;url=home.php">');
 }
+
+
 $time = date("F d, Y g:i:sa", time());
 if (isset($_COOKIE['mu'])) {
     if ($_COOKIE['mu'] != $user_class->id) {
