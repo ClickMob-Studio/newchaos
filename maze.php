@@ -552,7 +552,7 @@ function sendDirection(chosenDirection) {
                 // Display the new results
                 $('#searchResult').show();
                 document.querySelector("#searchResult").innerHTML = "You walked " + (data.direction || "unknown") + ".<br>" + data.description;
-                document.querySelector("#remainingTurns").textContent = "You have " + (data.turnsLeft || "unknown") + " turns left.";
+                document.querySelector("#remainingTurns").textContent = (data.turnsLeft || "unknown");
             }
 
             document.querySelector("#searchFeedback").style.display = "block";

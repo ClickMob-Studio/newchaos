@@ -176,7 +176,7 @@ mysql_query($log_query);
     $searchResult = "<p><strong>Search Result:</strong><br>";
     $searchResult .= "You walked " . $chosenDirection . ".<br>";
     $searchResult .= $description . "</p>";
-    $turnsLeft = "You have " . $user_class->cityturns . " turns left to search the streets.";
+    $turnsLeft = "You have " . $user_class->cityturns . " turns left to search the Maze.";
 
     // Populate the response array
     $response['direction'] = $chosenDirection;
