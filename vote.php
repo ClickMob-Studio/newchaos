@@ -6,35 +6,37 @@ include 'header.php';
 						<div class='box_middle'>
 							<div class='pad'>
                                 <?php
-								diefun("Voting will be availble soon!");
+                                if ($user_class->admin < 1) {
+                                    diefun("Voting will be available soon!");
+                                }
+
 $sites = array(
+   "xtremetop100" => "https://www.xtremetop100.com/in.php?site=1132375705&userid=" . $user_class->id . "&script_callback=xtremetop100",
+//   "mpogtop" => "https://mpogtop.com/in/1712459252",
+//    "top100arena" => "http://www.top100arena.com/in.asp?id=100478",
+//    "topgamesites" => "http://www.topgamesites.net/mmorpg",
+//    "xtremetop" => "http://www.xtremetop100.com/in.php?site=1132375476",
+//	"gtop100" => "https://gtop100.com/topsites/MMORPG-And-MPOG/sitedetails/Mafia-Lords-103275?vote=1",
+);
 
-   "mpogtop" => "http://mpogtop.com/in/1707777893",
-    "top100arena" => "http://www.top100arena.com/in.asp?id=100478",
-    "topgamesites" => "http://www.topgamesites.net/mmorpg",
-    "xtremetop" => "http://www.xtremetop100.com/in.php?site=1132375476",
-	"gtop100" => "https://gtop100.com/topsites/MMORPG-And-MPOG/sitedetails/Mafia-Lords-103275?vote=1",
-
-
-   );
 if (isset($_GET['vote']) && array_key_exists($_GET['vote'], $sites)) {
-	$db->query("SELECT * FROM votes WHERE userid = ? AND site = ?");
-	$db->execute(array(
-		$user_class->id,
-		$_GET['vote']
-	));
-	$voted = $db->fetch_row(true);
-    if (!empty($voted))
-        diefun("You have already voted there for today!");
-	$db->query("INSERT INtO votes VALUES (NULL, ?, ?)");
-	$db->execute(array(
-		$user_class->id,
-		$_GET['vote']
-	));
-	$db->query("UPDATE grpgusers SET points = points + 1000, votetokens = votetokens + 100, money = money + 100000 WHERE id = ?");
-	$db->execute(array(
-		$user_class->id
-	));
+//	$db->query("SELECT * FROM votes WHERE userid = ? AND site = ?");
+//	$db->execute(array(
+//		$user_class->id,
+//		$_GET['vote']
+//	));
+//	$voted = $db->fetch_row(true);
+//    if (!empty($voted))
+//        diefun("You have already voted there for today!");
+//	$db->query("INSERT INtO votes VALUES (NULL, ?, ?)");
+//	$db->execute(array(
+//		$user_class->id,
+//		$_GET['vote']
+//	));
+//	$db->query("UPDATE grpgusers SET points = points + 1000, votetokens = votetokens + 100, money = money + 100000 WHERE id = ?");
+//	$db->execute(array(
+//		$user_class->id
+//	));
     header('location: ' . $sites[$_GET['vote']]);
 }
 echo'<div class="floaty" style="margin:5px;width:75%;>';

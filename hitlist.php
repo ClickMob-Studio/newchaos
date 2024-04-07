@@ -96,6 +96,9 @@
         $error = ($attack_person->hospital > 0) ? "You can't hit someone that is in hospital." : $error;
         $error = ($attack_person->jail > 0) ? "You can't hit someone that is in prison." : $error;
         $error = ($attack_person->admin == 1) ? "Im sorry, You cannot attack the owner" : $error;
+        $error = ($attack_person->aprotection > time()) ? "Im sorry, You cannot attack a person under protection" : $error;
+
+       
         $error = (time() - $attack_person->lastactive >= 900) ? "The target must be online." : $error;
         if (isset($error)) {
             echo Message($error);

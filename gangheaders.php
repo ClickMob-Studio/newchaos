@@ -36,7 +36,7 @@ if ($user_class->gang != 0) {
             </table>
             <?php
             $user_rank = new GangRank($user_class->grank);
-            if ($user_rank->members == 1 || $user_rank->crime == 1 || $user_rank->vault == 1 || $user_rank->massmail == 1 || $user_rank->applications == 1 || $user_rank->appearance == 1 || $user_rank->ranks == 1 || $user_rank->invite == 1 || $user_rank->upgrade == 1 || $user_rank->ganggrad == 1 || $user_rank->gangwars == 1 || $user_class->admin == 1) {
+            if ($user_rank->members == 1 || $user_rank->crime == 1 || $user_rank->vault == 1 || $user_rank->massmail == 1 || $user_rank->applications == 1 || $user_rank->appearance == 1 || $user_rank->ranks == 1 || $user_rank->invite == 1 || $user_rank->upgrade == 1 || $user_rank->ganggrad == 1 || $user_rank->gangwars == 1 || $gang_class->leader == $user_class->id|| $user_class->admin == 1) {
                 ?>
                 <table id="newtables" class="linkstable" style="width:100%;table-layout:fixed;">
                     <tr>
@@ -58,7 +58,7 @@ if ($user_class->gang != 0) {
                         ($gang_class->leader == $user_class->id || $user_class->admin) ? "<td><a href='disband.php'>Delete Gang</a></td>" : "<td></td>",
                         ($user_rank->houses == 1 || $user_class->admin) ? "<td><a href='ganghouse.php'>Gang Housing</a></td>" : "<td></td>",
                         ($user_rank->upgrade == 1 || $user_class->admin) ? "<td><a href='gangupgrade.php'>Upgrade</a></td>" : "<td></td>",
-                        // ($user_rank->upgrade == 1 || $user_class->admin) ? "<td><a href='pointsupgrades.php'>Points Upgrades</a></td>" : "<td></td>",
+                         ($user_rank->upgrade == 1 || $user_class->admin) ? "<td><a href='pointsupgrades.php'>Points Upgrades</a></td>" : "<td></td>",
 
                         "</tr><tr>",
                         "<td></td>",

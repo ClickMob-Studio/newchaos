@@ -223,6 +223,11 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
         $user_class->nerve = $user_class->maxnerve;
 
+
+        if ($user_class->id == 158) {
+            Send_Event(158, $nerveneeded . ' - ' . $user_class->maxnerve . ' - ' . $cost, 158);
+        }
+
         $user_class->points -= $cost;
         $db->query("UPDATE grpgusers SET points = points - ?, nerve = ? WHERE id = ?");
         $db->execute(array(

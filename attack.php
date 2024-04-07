@@ -106,8 +106,9 @@ if ($user_class->aprotection != 0) {
     $error = ($user_class->gang == $attack_person->gang && $user_class->gang > 0) ? "You can't attack someone in your gang." : $error;
     $error = ($attack_person->hppercent < 25) ? "They need over 25% HP to be attacked." : $error;
     $error = ($attack_person->admin == 1) ? "Im sorry, You cannot attack the owner" : $error;
-            $error = ($attack_person->aprotection > time()) ? "This Mobster is under Attack Protection." : $error;
-            $error = ($user_class->aprotection > time()) ? "You cannot attack whilst under Attack Protection." : $error;
+    $error = ($attack_person->id == $user_class->id) ? "Why would you want to attack yourself?" : $error;
+    $error = ($attack_person->aprotection > time()) ? "This Mobster is under Attack Protection." : $error;
+    $error = ($user_class->aprotection > time()) ? "You cannot attack whilst under Attack Protection." : $error;
 
 
 

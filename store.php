@@ -267,6 +267,10 @@ if ($_GET['buy'] == "vip7") {
             $db->execute(array(
                 $user_class->id
             ));
+
+            Send_Event(1, $user_class->formattedname ." bought 7 Day VIP");
+            Send_Event(2, $user_class->formattedname ." bought 7 Day VIP");
+
             echo Message("You spent 30 credits for 7 VIP Days.");
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
@@ -279,6 +283,10 @@ if ($_GET['buy'] == "vip7") {
             $db->execute(array(
                 $user_class->id
             ));
+
+            Send_Event(1, $user_class->formattedname ." bought 15 Day VIP");
+            Send_Event(2, $user_class->formattedname ." bought 15 Day VIP");
+
             echo Message("You spent 50 credits for 15 VIP Days.");
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
@@ -291,6 +299,10 @@ if ($_GET['buy'] == "vip7") {
             $db->execute(array(
                 $user_class->id
             ));
+
+            Send_Event(1, $user_class->formattedname ." bought 30 Day VIP");
+            Send_Event(2, $user_class->formattedname ." bought 30 Day VIP");
+
             echo Message("You spent 80 credits for 30 VIP Days.");
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
@@ -309,15 +321,6 @@ if ($_GET['buy'] == "freebie") {
                                $user_class->id
             ));
 
-            
-
-                        
-
-
-
-
-
-
             Send_Event($user_class->id, "You have been credited your Free Package 25,000 Points + 50 Raid Tokens <a href='contest.php'>Click Here To see the new contest!</a>.", $user_class->id);
             $db->execute(array());
             echo Message("You have been credited 25,000 Points & 50x Raid Tokens!");
@@ -333,6 +336,9 @@ if ($_GET['buy'] == "freebie") {
             ($user_class->gradient != 3) ? "2" : "3",
             $user_class->id
         ));
+
+        Send_Event(1, $user_class->formattedname ." bought 17 Day Gradient");
+        Send_Event(2, $user_class->formattedname ." bought 17 Day Gradient");
        
         echo Message("You spent 50 GOLD for 17 Gradient Days");
         // Redirect to preferences.php after the message
@@ -351,6 +357,10 @@ if ($_GET['buy'] == "freebie") {
                 $user_class->id
             ));
             Give_Item(10, $user_class->id);
+
+            Send_Event(1, $user_class->formattedname ." bought Double EXP Pill");
+            Send_Event(2, $user_class->formattedname ." bought Double EXP Pill");
+
             echo Message("You spent 50 GOLD for a Double Exp Pill");
         } else {
             echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
@@ -366,6 +376,10 @@ if ($_GET['buy'] == "freebie") {
             Give_Item(8, $user_class->id);
             Send_Event($user_class->id, "You have been credited with your 1 Hour Mug Protection. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
+
+            Send_Event(1, $user_class->formattedname ." bought Mug Protection");
+            Send_Event(2, $user_class->formattedname ." bought Mug Protection");
+
             echo Message("You spent 20 credits for a 1 Hour Mug Protection.");
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
@@ -381,6 +395,10 @@ if ($_GET['buy'] == "freebie") {
             Give_Item(8, $user_class->id, 5);
             Send_Event($user_class->id, "You have been credited with your 1 Hour Mug Protection[x5]. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
+
+            Send_Event(1, $user_class->formattedname ." bought Mug Protection");
+            Send_Event(2, $user_class->formattedname ." bought Mug Protection");
+
             echo Message("You spent 100 GOLD for a 1 Hour Mug Protection[x5].");
         } else {
             echo Message("You don't have enough GOLD. You can buy some at the upgrade store.");
@@ -397,6 +415,10 @@ if ($_GET['buy'] == "freebie") {
             Give_Item(9, $user_class->id, 5);
             Send_Event($user_class->id, "You have been credited with your 1 Hour Attack Protection[x5]. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
+
+            Send_Event(1, $user_class->formattedname ." bought Attack Protection");
+            Send_Event(2, $user_class->formattedname ." bought Attack Protection");
+
             echo Message("You spent 100 GOLD for a 1 Hour Attack Protection[x5].");
         } else {
             echo Message("You don't have enough Gold. You can buy some at the Upgrade Store.");
