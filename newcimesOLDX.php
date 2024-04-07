@@ -336,6 +336,7 @@ function finish() {
     doingcrime = false;
 }
 $(document).ready(function () {
+    clearInterval(window.crimeInterval);
     doingcrime = false;
     id = 0;
 });
