@@ -45,7 +45,6 @@ if ($currentCount === FALSE) {
     // Limit exceeded
     header('HTTP/1.1 429 Too Many Requests');
     die("Error: Rate limit exceeded. Please try again later.");
-} die("Error: You've exceeded the rate limit of 5 requests per second.");
 }
 // if($m->get('crime.'.$user_class->id . time()))
 //     $m->increment('crime.'.$user_class->id . time());
