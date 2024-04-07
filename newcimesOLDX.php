@@ -1,8 +1,6 @@
 <?php
 include 'header.php';
-if($user_class->id != 1){
-    exit;
-}
+
 $db->query("UPDATE grpgusers SET crimes = 'newcrimes', lastactive = unix_timestamp() WHERE id = ?");
 $db->execute(array(
     $user_class->id
@@ -151,8 +149,8 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                                 <?php $rmOnly = ($user_class->rmdays <= 0) ? 'disabled' : ''; ?>
                                 <select name="cm" id="cm" style="padding: 1em;">
                                     <option value="1">1X</option>
-                                    <option value="2">2X</option>
-                                    <option value="4" <?php echo $rmOnly ?>>4X (VIP Only)</option>
+                                   <!-- <option value="2">2X</option> -->
+                                    <!--<option value="4" --><?php // echo $rmOnly ?><!-->4X (VIP Only)</option>-->
                                     <option value="10" <?php echo $rmOnly ?>>10X (VIP Only)</option>
                                 </select>
                             </div>
@@ -274,21 +272,26 @@ $(document).ready(function() {
     // Other JavaScript and jQuery code can follow here
 });
 
-
 function start() {
     var id = $('#scrime').val();
     var cm = $('#cm').val();
     doingcrime = true;
-    var timerId = setInterval(function () {
+
+    // Clear any existing intervals to prevent multiple intervals from running
+    if(window.crimeInterval) {
+        clearInterval(window.crimeInterval);
+    }
+
+    // Start a new interval
+    window.crimeInterval = setInterval(function () {
         if (doingcrime) {
             if (id > 0) {
                 submitCrime(id, cm);
             } else {
-                clearInterval(timerId);
-                timerId = null;
+                clearInterval(window.crimeInterval);
             }
         }
-    }, refresh);
+    }, 200); // Execute every 200ms to limit to 5 requests per second
 }
 
 $(document).ready(function() {

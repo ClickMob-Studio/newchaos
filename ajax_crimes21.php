@@ -32,7 +32,21 @@ $debug = array(
     'crime_multiplier' => $crime_multiplier,
     'post' => $_POST
 );
+$cacheKey = 'request_count_' . $userId . '_' . time(); // Unique key per second
 
+// Attempt to get the current count for the user
+$currentCount = $m->get($cacheKey);
+
+if ($currentCount === FALSE) {
+    // No count exists for the current second, start at 1
+    $m->set($cacheKey, 1, MEMCACHE_COMPRESSED, 2); // Expires in 2 seconds to account for any timing discrepancies
+} elseif ($currentCount < 5) {
+    // Increment the count if below the threshold
+    $m->increment($cacheKey);
+} else {
+    // Request limit exceeded
+    die("Error: You've exceeded the rate limit of 5 requests per second.");
+}
 // if($m->get('crime.'.$user_class->id . time()))
 //     $m->increment('crime.'.$user_class->id . time());
 // else
@@ -207,8 +221,8 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $debug['usernerve'] = $user_class->nerve;
         $debug['usermaxnerve'] = $user_class->maxnerve;
         $debug['nerveneeded'] = $nerveneeded;
-        
-        $cost = floor($nerveneeded / 10) * $crime_multiplier;
+
+        $cost = floor($nerveneeded / 10);
         $debug['cost1'] = $cost;
         if ($cost < 10) {
             $cost = 10;
@@ -220,7 +234,13 @@ if (isset($_POST['id']) || isset($input['id'])) {
         }
 
         $debug['cost'] = $cost;
+
         $user_class->nerve = $user_class->maxnerve;
+
+
+        if ($user_class->id == 158) {
+            Send_Event(158, $nerveneeded . ' - ' . $user_class->maxnerve . ' - ' . $cost, 158);
+        }
 
         $user_class->points -= $cost;
         $db->query("UPDATE grpgusers SET points = points - ?, nerve = ? WHERE id = ?");
