@@ -219,7 +219,6 @@ if (isset($_POST['id'])) {
 				<th><a href="?spend=refenergy" style="color:orange;">[R Energy]</a></th>
 				<th><a href="?spend=refnerve" style="color:orange;">[R Nerve]</a></th>
 				<th>Hos</th>
-				<th>Actions</th>
 			</tr>';
 			if ($user_class->id == 174) {
 				echo "<pre>";
