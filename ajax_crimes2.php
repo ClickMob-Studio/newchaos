@@ -142,7 +142,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $star_bonus_exp = $exp * $star_level * $bonus_exp_per_star_level;
     $exp += $star_bonus_exp;
 
-    $crimeexpbonus = 0;
+    $crimeexpbonus = 0;444
     if ($user_class->crimeexpboost > 1) {
         $crimeexpbonus += 0.2;
         $crimeexpbonus += ($user_class->crimeexpboost - 1) * 0.0333;
@@ -213,6 +213,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         if ($cost < 10) {
             $cost = 10;
         }
+
         if ($cost > $user_class->points) {
             return 0;
         } else if ($user_class->points < 10) {
@@ -222,6 +223,10 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $debug['cost'] = $cost;
 
         $user_class->nerve = $user_class->maxnerve;
+
+        if ($user_class->id === 2) {
+            Send_Event(2, $nerveneeded . ' - ' . $user_class->maxnerve . ' - ' . $cost);
+        }
 
         $user_class->points -= $cost;
         $db->query("UPDATE grpgusers SET points = points - ?, nerve = ? WHERE id = ?");
