@@ -32,21 +32,7 @@ $debug = array(
     'crime_multiplier' => $crime_multiplier,
     'post' => $_POST
 );
-$cacheKey = 'request_count_' . $userId . '_' . time(); // Unique key per second
 
-// Attempt to get the current count for the user
-$currentCount = $m->get($cacheKey);
-
-if ($currentCount === FALSE) {
-    // No count exists for the current second, start at 1
-    $m->set($cacheKey, 1, MEMCACHE_COMPRESSED, 2); // Expires in 2 seconds to account for any timing discrepancies
-} elseif ($currentCount < 5) {
-    // Increment the count if below the threshold
-    $m->increment($cacheKey);
-} else {
-    // Request limit exceeded
-    die("Error: You've exceeded the rate limit of 5 requests per second.");
-}
 // if($m->get('crime.'.$user_class->id . time()))
 //     $m->increment('crime.'.$user_class->id . time());
 // else
