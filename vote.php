@@ -6,9 +6,7 @@ include 'header.php';
 						<div class='box_middle'>
 							<div class='pad'>
                                 <?php
-                                if ($user_class->admin < 1) {
-                                    diefun("Voting will be available soon!");
-                                }
+                               
 
 $sites = array(
    //"xtremetop100" => "https://www.xtremetop100.com/in.php?site=1132375705&user_id=" . $user_class->id . "&script_callback=xtremetop100",
