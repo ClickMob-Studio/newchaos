@@ -149,8 +149,8 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                                 <?php $rmOnly = ($user_class->rmdays <= 0) ? 'disabled' : ''; ?>
                                 <select name="cm" id="cm" style="padding: 1em;">
                                     <option value="1">1X</option>
-                                    <option value="2">2X</option>
-                                    <option value="4" <?php echo $rmOnly ?>>4X (VIP Only)</option>
+                                   <!-- <option value="2">2X</option> -->
+                                    <!--<option value="4" --><?php // echo $rmOnly ?><!-->4X (VIP Only)</option>-->
                                     <option value="10" <?php echo $rmOnly ?>>10X (VIP Only)</option>
                                 </select>
                             </div>
