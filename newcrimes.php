@@ -274,12 +274,6 @@ $(document).ready(function() {
 
 
 function start() {
-    // Check if all three buttons are pressed
-    if (allThreeButtonsPressed) {
-        console.log("Cannot start - all three buttons are pressed.");
-        return; // Early return if all three buttons are pressed
-    }
-
     var id = $('#scrime').val();
     var cm = $('#cm').val();
     doingcrime = true;
