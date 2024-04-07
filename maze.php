@@ -279,7 +279,7 @@ echo '
 
 <div class="contenthead floaty" style="text-align: center; padding: 20px; margin-bottom: 20px; border-radius: 8px;">
     <div id="searchFeedback">
-        <div id="searchResult" classs="alert alert-info"></div>
+        <div id="searchResult" class="alert alert-info" style="display: none;"></div>
         <div id="remainingTurns"></div>
     </div>
 
@@ -545,10 +545,12 @@ function sendDirection(chosenDirection) {
             document.querySelector(".spinner").style.display = "none";
 
             if (data.error) {
+                $('#searchResult').show();
                 document.querySelector("#searchResult").textContent = data.error;
                 document.querySelector("#remainingTurns").textContent = "";
             } else {
                 // Display the new results
+                $('#searchResult').show();
                 document.querySelector("#searchResult").innerHTML = "You walked " + (data.direction || "unknown") + ".<br>" + data.description;
                 document.querySelector("#remainingTurns").textContent = "You have " + (data.turnsLeft || "unknown") + " turns left.";
             }
