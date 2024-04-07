@@ -279,7 +279,7 @@ echo '
 
 <div class="contenthead floaty" style="text-align: center; padding: 20px; margin-bottom: 20px; border-radius: 8px;">
     <div id="searchFeedback">
-        <div id="searchResult"></div>
+        <div id="searchResult" classs="alert alert-info"></div>
         <div id="remainingTurns"></div>
     </div>
 
