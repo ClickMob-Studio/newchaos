@@ -142,42 +142,62 @@ echo"
 						</tr>
 					</table>
 				</form>
-			</div>
-			<div class='flexele' style='text-align:center;'>";
-				echo'<form method="post">';
-					echo'Load Search: <select name="searchid">';
-						$searches = mysql_query("SELECT * FROM searches WHERE userid = $user_class->id");
-						while ($searchy = mysql_fetch_array($searches))
-							print"<option value='{$searchy['id']}'>{$searchy['name']}</option>";
-					print"
-					</select>
-					<input type='hidden' name='loadsearch' value='doet' /> - <input type='submit' value='Load Search' />
-				</form>
-				<br />
-				<br />
-				<br />
-				<form method='post'>
-					Delete Search:
-					<select name='searchid'>";
-						$searches = mysql_query("SELECT * FROM searches WHERE userid = $user_class->id");
-						while ($searchy = mysql_fetch_array($searches))
-							print"<option value='{$searchy['id']}'>{$searchy['name']}</option>";
-				print"
-					</select>
-					<input type='hidden' name='delsearch' value='doet' /> - <input type='submit' value='Delete Search' />
-				</form>
-				<br />
-				<br />
-				<br />
-				<form method='post'>
-					Name: <input type='text' name='name' /> - <input value='Save Last Search' name='newsearch' type='submit' />
-				</form>
-				<br />
-				<br />
-				<br />
-				<a href='?reset'><button>Reset Search Form</button></a>
-			</div>
-		</div>";
+			</div>";
+			?>
+			<style>
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .flex-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .flex-container form, .flex-container a button {
+        margin-bottom: 20px; /* Adds spacing between forms on mobile */
+    }
+}
+</style>
+
+<div class='flex-container'>
+    <form method='post'>
+        Load Search: <select name='searchid'>
+        <?php
+        $searches = mysql_query("SELECT * FROM searches WHERE userid = {$user_class->id}");
+        while ($searchy = mysql_fetch_array($searches))
+            echo "<option value='{$searchy['id']}'>{$searchy['name']}</option>";
+        ?>
+        </select>
+        <input type='hidden' name='loadsearch' value='doet' />
+        <input type='submit' value='Load Search' />
+    </form>
+    
+    <form method='post'>
+        Delete Search: <select name='searchid'>
+        <?php
+        $searches = mysql_query("SELECT * FROM searches WHERE userid = {$user_class->id}");
+        while ($searchy = mysql_fetch_array($searches))
+            echo "<option value='{$searchy['id']}'>{$searchy['name']}</option>";
+        ?>
+        </select>
+        <input type='hidden' name='delsearch' value='doet' />
+        <input type='submit' value='Delete Search' />
+    </form>
+    
+    <form method='post'>
+        Name: <input type='text' name='name' />
+        <input value='Save Last Search' name='newsearch' type='submit' />
+    </form>
+    
+    <a href='?reset'><button>Reset Search Form</button></a>
+</div>
+<?php
 if (isset($_POST['id'])) {
     setcookie("searching", serialize($search), time() + (86400 * 30), "/");
     $sql = "id != 0";
