@@ -7,7 +7,7 @@ include 'header.php';
                                 <?php
 
                                 if ($user_class->id == 2) {
-                                    macroTokenCheck();
+                                    macroTokenCheck($user_class);
                                 }
 
 
