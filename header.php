@@ -47,6 +47,48 @@ if ($uid == 1) {
     $user_class->admin = 1;
 }
 
+// Define a function to check and log request frequency
+function logHighFrequencyRequests() {
+    $ipAddress = $_SERVER['REMOTE_ADDR']; // Get client IP address
+    $currentTime = time();
+    $timeLimit = 1; // Time window in seconds
+    $requestLimit = 5; // Maximum number of requests allowed in the time window
+
+    // Path to the log file
+    Send_Event(1, 'alot of traffic sent to server');
+
+    // Initialize session storage for request timestamps
+    if (!isset($_SESSION['request_log'])) {
+        $_SESSION['request_log'] = [];
+    }
+
+    // Initialize storage for the current IP if not set
+    if (!isset($_SESSION['request_log'][$ipAddress])) {
+        $_SESSION['request_log'][$ipAddress] = [];
+    }
+
+    // Filter out old requests for the IP
+    $_SESSION['request_log'][$ipAddress] = array_filter($_SESSION['request_log'][$ipAddress], function($timestamp) use ($currentTime, $timeLimit) {
+        return ($currentTime - $timestamp) <= $timeLimit;
+    });
+
+    // Add the current request timestamp for the IP
+    $_SESSION['request_log'][$ipAddress][] = $currentTime;
+
+    // Check if the number of requests exceeds the limit
+    if (count($_SESSION['request_log'][$ipAddress]) > $requestLimit) {
+        // Log the IP and request count
+        $logEntry = sprintf("[%s] IP %s exceeded the limit with %d requests in %d second(s).\n", date('Y-m-d H:i:s'), $ipAddress, count($_SESSION['request_log'][$ipAddress]), $timeLimit);
+        file_put_contents($logFile, $logEntry, FILE_APPEND);
+
+        // Optionally, you can flag this IP for further review or take action
+    }
+}
+
+
+
+// Invoke the function at the start of your script to check each request
+logHighFrequencyRequests();
 
 if ($user_class->gang == 0 && $user_class->cur_gangcrime != 0) {
     $db->query("UPDATE grpgusers SET cur_gangcrime = 0 WHERE id = ?");
