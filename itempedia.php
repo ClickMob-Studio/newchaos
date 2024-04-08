@@ -98,6 +98,10 @@ function displayItem(&$rows, $type = null) {
                     </tr>
                     <tr>
                         <td rowspan='$rowspan'><img src='{$row['image']}' style='width:100px;height:100px;' /></td>
+                        <td>{$row['description']}</td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
                         <td>City: $city</td>
                     </tr>
                     $boost
