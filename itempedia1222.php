@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-genHead("<h3>Itempedia</h3>");
+genHead("<h1>Itempedia</h1>");
 echo"
 <hr>
 <table id='newtables' style='width:100%;'>
