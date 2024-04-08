@@ -455,7 +455,7 @@ echo'<hr>';
 echo'<br>';
 
 if ($user_class->donate_token > 0) {
-    echo '<h4>You have ' . $user_class->donate_token . 'x ' .  item_popup('Donation Boost Token', 0, 'red') . '</h4>';
+    echo Message('<h4>You have ' . $user_class->donate_token . 'x ' .  item_popup('Donation Boost Token', 0, 'red') . '</h4>');
 }
 
 // Display information
