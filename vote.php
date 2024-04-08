@@ -6,12 +6,13 @@ include 'header.php';
 						<div class='box_middle'>
 							<div class='pad'>
                                 <?php
-                                if ($user_class->admin < 1) {
-                                    diefun("Voting will be available soon!");
-                                }
+
 
 $sites = array(
-   "xtremetop100" => "https://www.xtremetop100.com/in.php?site=1132375705&userid=" . $user_class->id . "&script_callback=xtremetop100",
+   //"xtremetop100" => "https://www.xtremetop100.com/in.php?site=1132375705&user_id=" . $user_class->id . "&script_callback=xtremetop100",
+   //"ArenaTop100" => "https://www.arena-top100.com/index.php?a=in&u=ChaosCity&id=" . $user_class->id . "&secret=ArenaTop100",
+   "bbogd" => "https://bbogd.com/vote/chaos/" . $user_class->id,
+   "mmohub" => "https://mmohub.com/site/951/vote/" . $user_class->id,
 //   "mpogtop" => "https://mpogtop.com/in/1712459252",
 //    "top100arena" => "http://www.top100arena.com/in.asp?id=100478",
 //    "topgamesites" => "http://www.topgamesites.net/mmorpg",
@@ -42,7 +43,7 @@ if (isset($_GET['vote']) && array_key_exists($_GET['vote'], $sites)) {
 echo'<div class="floaty" style="margin:5px;width:75%;>';
 	echo'<span style="color:red;font-weight:bold;">Vote Tokens Availible: <span style="color:#FFA500;"> ' . prettynum($user_class->votetokens) . ' Vote Points</span></br></span>';
 
-	echo'<span style="color:red;font-weight:bold;">Each vote gives you: <span style="color:#FFA500;">1,000 Points</span> and <span style="color:green;">$100,000</span> + <span style="color:#FFA500;">100 Vote Points</span></BR></BR></span>';
+	echo'<span style="color:red;font-weight:bold;">Each vote gives you: <span style="color:#FFA500;">100 Vote Points</span></BR></BR></span>';
 
 	echo'<span style="color:red;font-weight:bold;"><a href="voteshop.php">CLICK HERE FOR VOTE SHOP</a></span>';
 

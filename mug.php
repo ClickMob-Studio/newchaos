@@ -6,6 +6,13 @@ include 'header.php';
 							<div class='pad'>
                                 <?php
 
+                                if (!isset($_GET['token'])) {
+                                    Send_Event(1, $user_class-> id . ' MUG: NO TOKEN PROVIDED', 1);
+                                    Send_Event(2, $user_class-> id . ' MUG: NO TOKEN PROVIDED', 2);
+
+                                    error('Something went wrong, an Admin has been informed.');
+                                }
+
 $attack_person = new User($_GET['mug']);
 $gang_class = new Gang($user_class->gang);
 // Only modify city for special NPCs or characters, if intended

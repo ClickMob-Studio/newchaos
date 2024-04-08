@@ -1,11 +1,16 @@
 <?php
 include 'header.php';
-genHead("<h3>Itempedia</h3>");
+genHead("<h1>Item Guide</h1>");
 echo"
 <hr>
+<br />
+<a href='#weapon-section'>Weapons</a> | <a href='#armor-section'>Armors</a> | <a href='#shoes-section'>Shoes</a>
+| <a href='#cons-section'>Consumables</a> | <a href='#rares-section'>Rares</a>
+<br />
+<hr>
 <table id='newtables' style='width:100%;'>
-    <tr>
-        <th colspan='2'>Weapon</th>
+    <tr style='background-color: #ff6218;'>
+        <th style='background-color: #ff6218;' colspan='2' id='weapon-section'>Weapon</th>
     </tr>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE offense != 0 AND buyable = 1 ORDER BY offense ASC");
 $db->execute();
@@ -13,10 +18,10 @@ $rows = $db->fetch_row();
 print displayItem($rows, 'offense');
 print"
 </table>
-<br />
+<br /><br />
 <table id='newtables' style='width:100%;'>
-    <tr>
-        <th colspan='2'>Armor</th>
+    <tr style='background-color: #ff6218;'>
+        <th style='background-color: #ff6218;' colspan='2 id='armor-section'>Armor</th>
     </tr>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE defense != 0 AND buyable = 1 ORDER BY defense ASC");
 $db->execute();
@@ -24,30 +29,30 @@ $rows = $db->fetch_row();
 print displayItem($rows, 'defense');
 print"
 </table>
-<br />
+<br /><br />
 <table id='newtables' style='width:100%;'>
-    <tr>
-        <th colspan='2'>Shoes</th>
+    <tr style='background-color: #ff6218;'>
+        <th style='background-color: #ff6218;' colspan='2' id='shoes-section'>Shoes</th>
     </tr>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE speed != 0 AND buyable = 1 ORDER BY speed ASC");
 $db->execute();
 $rows = $db->fetch_row();
 print displayItem($rows, 'defense');
 print"</table>
-    <br />
+   <br /><br />
 <table id='newtables' style='width:100%;'>
-    <tr>
-        <th colspan='2'>Consumables</th>
+    <tr style='background-color: #ff6218;'>
+        <th style='background-color: #ff6218;' colspan='2' id='cons-section'>Consumables</th>
     </tr>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE speed = 0 AND offense = 0 AND defense = 0 AND buyable = 1 AND (drugstime > 0 OR heal > 0) ORDER BY id ASC");
 $db->execute();
 $rows = $db->fetch_row();
 print displayItem($rows);
 print"</table>
-    <br />
+    <br /><br />
 <table id='newtables' style='width:100%;'>
-    <tr>
-        <th colspan='2'>Rares</th>
+    <tr style='background-color: #ff6218;'>
+        <th style='background-color: #ff6218;' colspan='2' id='rares-section'>Rares</th>
     </tr>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE rare = 1 ORDER BY id ASC");
 $db->execute();
@@ -87,30 +92,29 @@ function displayItem(&$rows, $type = null) {
             $city = ($type == null) ? "Every City" : $city;
         }
 
-        if ($co++ % 2 == 0)
-            $rtn .= "<tr>";
+
         $rtn .= "
+            <tr colspan='2'>
             <td>
                 <table style='width:100%;table-layout:fixed;'>
                     <tr>
                         <th>Name: <a href=description.php?id={$row['id']}> {$row['itemname']}</a></th>
-                        <td>Cost: " . prettynum($row['cost'], 1) . "</td>
                     </tr>
                     <tr>
-                        <td rowspan='$rowspan'><img src='{$row['image']}' style='width:100px;height:100px;' /></td>
-                        <td>City: $city</td>
-                    </tr>
-                    <tr>
-                        <td>Owned: ";
-        $rtn .= (empty($row['qty'])) ? "0" : prettynum($row['qty']);
-        $rtn .= "
+                        <td>
+                            <br />
+                            <img src='{$row['image']}' style='width:100px;height:100px;' /><br /><br />
+                            <strong>Cost:</strong> " . prettynum($row['cost'], 1) . "<br />
+                            <strong>City:<strong> $city<br /><br />
+                            {$row['description']}
+                            <br /><br />
+                            
                         </td>
                     </tr>
+                  
                     $boost
                 </table>
-            </td>";
-        if ($co % 2 == 0)
-            $rtn .= "</tr>";
+            </td></tr>";
     }
     return $rtn;
 }

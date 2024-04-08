@@ -1190,7 +1190,7 @@ $city = $profile_class->cityname;
         <div class='actions_grid'>
             <a class='action' href='pms.php?view=new&to=" . $profile_class->id . "'>Message</a>
             <a class='action' href='attack.php?attack=" . $profile_class->id . "&csrf=" . $csrf . "'>Attack</a>
-            <a class='action' href='mug.php?mug=" . $profile_class->id . "'>Mug</a>
+            <a class='action' href='mug.php?mug=" . $profile_class->id . "&token=" . $user_class->macro_token . "'>Mug</a>
             <a class='action' href='spy.php?id=" . $profile_class->id . "'>Spy</a>
             <a class='action' href='display_cabinet.php?userid=" . $profile_class->id . "'>View Display Cabinet</a>
             <a class='action' href='sendmoney.php?person=" . $profile_class->id . "'>Send Money</a>
