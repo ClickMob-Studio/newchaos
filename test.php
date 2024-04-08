@@ -2335,8 +2335,8 @@ foreach ($rows as $row) {
         $type = 'armor';
     elseif ($row['speed'] > 0 && $row['rare'] == 0)
         $type = 'shoes';
-        elseif ($row['type'] == 'Exp') {
-            $type = 'Exp Boosters';
+        elseif ($row['type'] == 'booster') {
+            $type = 'booster';
         } 
         elseif ($row['type'] == 'Gems') {
             $type = 'Gems';
@@ -2367,8 +2367,8 @@ foreach ($rows as $row) {
         $type = 'armor';
     elseif ($row['speed'] > 0 && $row['rare'] == 0)
         $type = 'shoes';
-        elseif ($row['type'] == 'Exp') {
-            $type = 'Exp Boosters';
+        elseif ($row['type'] == 'booster') {
+            $type = 'booster';
         } 
         elseif ($row['type'] == 'Gems') {
             $type = 'Gems';
@@ -2406,7 +2406,8 @@ $master = array(
     'Gang Loans' => 'loans',
     'Rares' => 'rare',
     'Consumables' => 'consumable',
-    'Gems' => 'Gems'
+    'Gems' => 'Gems',
+    'Boosters' => 'booster'
 );
 foreach ($master as $header => $var)
     if (isset($$var)) {
