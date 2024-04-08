@@ -2405,7 +2405,8 @@ $master = array(
     'Shoes' => 'shoes',
     'Gang Loans' => 'loans',
     'Rares' => 'rare',
-    'Consumables' => 'consumable'
+    'Consumables' => 'consumable',
+    'Gems' => 'Gems'
 );
 foreach ($master as $header => $var)
     if (isset($$var)) {
