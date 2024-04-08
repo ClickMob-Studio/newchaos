@@ -78,7 +78,7 @@ function logHighFrequencyRequests() {
     // Check if the number of requests exceeds the limit
     if (count($_SESSION['request_log'][$ipAddress]) > $requestLimit) {
         // Log the IP and request count
-        $logEntry = sprintf("[%s] IP %s exceeded the limit with %d requests in %d second(s).\n", date('Y-m-d H:i:s'), $ipAddress, count($_SESSION['request_log'][$ipAddress]), $timeLimit);
+        $logEntry = sprintf("[%s] IP %s Userid: ".$user_class->id." exceeded the limit with %d requests in %d second(s).\n", date('Y-m-d H:i:s'), $ipAddress, count($_SESSION['request_log'][$ipAddress]), $timeLimit);
         Send_Event(1, $logEntry);
         // Optionally, you can flag this IP for further review or take action
     }
