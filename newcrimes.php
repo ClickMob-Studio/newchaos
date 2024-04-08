@@ -85,6 +85,23 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
             }
 
         ?>
+<style>
+    .flexcont, .selectors-container, .flexele {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically on small screens */
+}
+
+/* Styles for screens wider than 600px */
+@media (min-width: 600px) {
+    .flexcont, .selectors-container, .flexele {
+        flex-direction: row; /* Arrange elements horizontally on larger screens */
+    }
+    .floaty {
+        flex: 1; /* Allows elements to grow to fill available space */
+        margin-right: 4px; /* Adds spacing between elements */
+    }
+}
+</style>
 
     <table>
         <tbody>
