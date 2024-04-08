@@ -138,6 +138,11 @@ if ($success) {
             echo Message("You reach into $attack_person->formattedname's pockets and find nothing!");
             mission('m');
             newmissions('mugs');
+            gangContest(array('mugs' => 1));
+            bloodbath('mugs', $user_class->id);
+            mysql_query("UPDATE grpgusers SET moth = moth + 1, motd = motd + 1 WHERE id = $user_class->id");
+            $toadd = array('motd' => 1);
+            ofthes($user_class->id, $toadd);
         } else {
             if ($user_class->gang != 0 && $gang_class->tax > 0) {
                 $tax = round($mugamount / 100) * $gang_class->tax;
