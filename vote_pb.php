@@ -7,10 +7,6 @@ include "database/pdo_class.php";
 Send_Event(2, 'VOTE PB', 2);
 
 
-if (isset($_GET['user_id'])) {
-    $userId = $_GET['user_id'];
-}
-
 if (isset($_GET['id'])) {
     $userId = $_GET['id'];
 }
@@ -50,6 +46,9 @@ if (isset($_GET['reference'])) {
     $userId = $parts[1];
     $scriptCallback = $parts[0];
 }
+
+Send_Event(2, $userId, 2);
+Send_Event(2, $scriptCallback, 2);
 
 if (!isset($userId) || !isset($scriptCallback)) {
     echo 'Something went wrong!';
