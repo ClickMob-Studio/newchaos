@@ -2303,97 +2303,193 @@ echo '</tr>';
 echo '</table>';
 echo '</td>';
 echo '</tr>';
-
 $db->query("SELECT inv.*, it.*, c.name overridename, c.image overrideimage FROM inventory inv JOIN items it ON inv.itemid = it.id LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid WHERE inv.userid = ?");
 $db->execute(array(
     $user_class->id
 ));
-$items = $db->fetch_row();
-// Function to determine item type and subtype
-function determineItemType($item) {
-    $type = 'consumable'; // Default type
+$rows = $db->fetch_row();
+foreach ($rows as $row) {
     $subtype = '';
-
-    if ($item['rare'] == 1) {
-        $type = 'rare';
-    } elseif ($item['offense'] > 0) {
-        $type = ($item['defense'] > 0 || $item['speed'] > 0) ? 'weapon' : 'weapon';
-    } elseif ($item['defense'] > 0) {
-        $type = 'armor';
-    } elseif ($item['speed'] > 0) {
-        $type = 'shoes';
+    if (!empty($row['overrideimage']) || !empty($row['overridename'])) {
+        $row['image'] = $row['overrideimage'];
+        $row['itemname'] = $row['overridename'];
     }
+    $sell = ($row['cost'] > 0) ? "<a class='button-sm' href='sellitem.php?id=" . $row['id'] . "'>Sell</a>" : "";
 
-    if ($type == 'rare' && ($item['offense'] > 0 || $item['defense'] > 0 || $item['speed'] > 0)) {
-        $subtype = $item['offense'] > 0 ? 'weapon' : ($item['defense'] > 0 ? 'armor' : 'shoes');
-    }
-
-    return ['type' => $type, 'subtype' => $subtype];
-}
-
-// Function to generate HTML for an item
-function generateItemHTML($item) {
-    $html = '<div class="flex-container" style="display:inline-block; padding:5px;">';
-    $html .= '<span class="flexele" style="flex-basis:25%;margin-bottom:12px;margin-top:12px;">';
-    
-    // Image and Name
-    $itemName = !empty($item['overridename']) ? $item['overridename'] : $item['itemname'];
-    $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
-    $html .= '<img src="' . $itemImage . '" alt="' . $itemName . '" style="width:100px;"><br>';
-    $html .= '<strong>' . $itemName . '</strong> [x' . $item['quantity'] . ']<br><br>';
-    
-    // Item cost and Sell link, if applicable
-    if ($item['cost'] > 0) {
-        $html .= 'Cost: ' . $item['cost'] . '<br>';
-        $html .= "<a class='button-sm' href='sellitem.php?id=" . $item['id'] . "'>Sell</a><br>";
-    }
-
-    // Additional actions based on item type
-    if ($item['type'] == 'consumable') {
-        $html .= "<a class='button-sm' href='inventory.php?use=" . $item['id'] . "'>Use</a> ";
-    }
-    if (in_array($item['type'], ['weapon', 'armor', 'shoes'])) {
-        $html .= "<a class='button-sm' href='equip.php?type=" . $item['type'] . "&id=" . $item['id'] . "'>Equip</a> ";
-    }
-    if (!empty($item['subtype'])) {
-        $html .= "<a class='button-sm' href='equip.php?type=" . $item['subtype'] . "&id=" . $item['id'] . "'>Equip " . ucfirst($item['subtype']) . "</a> ";
-    }
-    
-    $html .= '</span></div>'; // Close span and div
-    
-    return $html;
-}
-
-// Main execution
-$userClass = /* Assuming $userClass is defined and contains user information */;
-
-$items = fetchItems(/* $db */, $userClass->id); // Fetch items for the user
-
-$itemsGrouped = [
-    'weapon' => [],
-    'armor' => [],
-    'shoes' => [],
-    'rare' => [],
-    'consumable' => [],
-    'loans' => []
-];
-
-// Group items by type
-foreach ($items as $item) {
-    $itemInfo = determineItemType($item);
-    $item['type'] = $itemInfo['type'];
-    $item['subtype'] = $itemInfo['subtype'];
-    $itemsGrouped[$item['type']][] = $item;
-}
-
-// Generate HTML for grouped items
-foreach ($itemsGrouped as $group => $items) {
-    if (!empty($items)) { // Only display groups with items
-        echo "<div class='item-group'><h1>" . ucfirst($group) . "</h1><hr>";
-        foreach ($items as $item) {
-            echo generateItemHTML($item); // Generate and display HTML for each item
+    if ($row['offense'] > 0 && ($row['defense'] > 0 || $row['speed'] > 0)) {
+        if ($row['offense'] > $row['defense']) {
+            if ($row['offense'] > $row['speed']) {
+                $type = 'weapon';
+            } else {
+                $type = 'shoes';
+            }
+        } else if ($row['defense'] > $row['speed']) {
+            $type = 'armor';
+        } else {
+            $type = 'shoes';
         }
-        echo "</div>";
+    } else {
+        if ($row['offense'] > 0 && $row['rare'] == 0)
+        $type = 'weapon';
+    elseif ($row['defense'] > 0 && $row['rare'] == 0)
+        $type = 'armor';
+    elseif ($row['speed'] > 0 && $row['rare'] == 0)
+        $type = 'shoes';
+    elseif ($row['rare'] == 1) {
+        $type = 'rare';
+        if ($row['offense'])
+            $subtype = 'weapon';
+        if ($row['defense'])
+            $subtype = 'armor';
+        if ($row['speed'])
+            $subtype = 'shoes';
+    } else
+        $type = 'consumable';
     }
+    gendivs($row, $type, $sell, $subtype);
 }
+$db->query("SELECT * FROM gang_loans gl JOIN items i ON gl.item = i.id WHERE idto = ?");
+$db->execute(array(
+    $user_class->id
+));
+$rows = $db->fetch_row();
+foreach ($rows as $row) {
+    if ($row['offense'] > 0 && $row['rare'] == 0)
+        $type = 'weapon';
+    elseif ($row['defense'] > 0 && $row['rare'] == 0)
+        $type = 'armor';
+    elseif ($row['speed'] > 0 && $row['rare'] == 0)
+        $type = 'shoes';
+    elseif ($row['rare'] == 1) {
+        $type = 'rare';
+        if ($row['offense'])
+            $subtype = 'weapon';
+        if ($row['defense'])
+            $subtype = 'armor';
+        if ($row['speed'])
+            $subtype = 'shoes';
+    } else
+        $type = 'consumable';
 
+    gendivs($row, 'loans', null, ($subtype != '') ? $subtype : $type, 1);
+}
+// if ($user_class->id == 1) {
+echo '<div class="floaty"><h1>Specials</h1>';
+if ($user_class->donate_token > 0) {
+    echo '<div class="flexcont" border = "thick solid #0000FF"; style="text-align:center;position: relative;flex-flow:row wrap;">';
+    echo image_popup('css/newgame/items/donate_boost.png', 156) . '<br/>';
+    echo '<span class="text-14">x' . $user_class->donate_token . '</span><br/>';
+    echo '<a class="text-14 text-yellow" href="store.php">Boost Donation</a><br/><br/>';
+    echo '<a class="text-14 text-yellow" href="inventory.php?exchangetoken">Exchange x1 for 1,000 Points</a>
+    </div>';
+}
+echo '</div>';
+//}
+$master = array(
+    'Weapons' => 'weapon',
+    'Armor' => 'armor',
+    'Shoes' => 'shoes',
+    'Gang Loans' => 'loans',
+    'Rares' => 'rare',
+    'Consumables' => 'consumable'
+);
+foreach ($master as $header => $var)
+    if (isset($$var)) {
+        // genHead($header);
+        echo '<div class="floaty">';
+        echo '<h1>' . $header . '</h1>';
+        echo '<hr />';
+        echo '<div class="flexcont" border = "thick solid #0000FF"; style="text-align:center;position: relative;flex-flow:row wrap;">';
+        echo $$var;
+        echo '</div>';
+        echo '</div>';
+    }
+include 'footer.php';
+function gendivs($row, $type, $sell = null, $subtype = null, $loan = null)
+{
+    global $$type;
+
+    // Check if the type header has not been added yet and initialize it with the header
+    if (!isset($GLOBALS['init_' . $type])) {
+        $$type .= '<h2>' . ucfirst($type) . '</h2>'; // Add a header for the type
+        $$type .= '<div class="' . $type . '-container">'; // Start a container for the type
+        $GLOBALS['init_' . $type] = true; // Mark as initialized
+    }
+
+    // Item container
+    $$type .= '<div class="flex-container" style="display:inline-block; padding:5px;">';
+    $$type .= '<span class="flexele" style="flex-basis:25%;margin-bottom:12px;margin-top:12px;">';
+    $$type .= image_popup($row['image'], $row['id']);
+    $$type .= '<br />';
+    $$type .= item_popup($row['itemname'], $row['id']) . ' [x' . $row['quantity'] . ']';
+    $$type .= '<br /><br />';
+    if ($row['cost'] > 0) {
+        $$type .= prettynum($row['cost'], 1) . '<br /><br />';
+    }
+    $$type .= $sell;
+
+    // Add buttons conditionally based on item id and type
+    $buttonHtml = '';
+    if (in_array($row['id'], [155, 195, 156, 157, 194, 158, 159, 165, 167])) {
+        switch ($row['id']) {
+            case 155:
+                $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Share The Love</a> ';
+                break;
+            case 194:
+                $buttonHtml .= ' <a class="button-sm" href="raids.php">Use Speedup</a> ';
+                break;
+            case 195:
+                $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Trick Or Treat</a> ';
+                break;
+            case 156:
+                $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Share</a> ';
+                break;
+            case 157:
+                $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Send Egg</a> ';
+                break;
+            case 158:
+                $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Independence!</a> ';
+                break;
+            case 159:
+                $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Send Rayz</a> ';
+                break;
+            case 165:
+                $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Send Ghosts</a> ';
+                break;
+            case 167:
+                $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Send Christmas Present</a> ';
+                break;
+        }
+    }
+
+    // Append buttons if condition is met
+    if (!empty($buttonHtml)) {
+        $$type .= $buttonHtml;
+    }
+
+    // Add other buttons based on type and loan condition
+    if ($type == "consumable" && !in_array($row['id'], [155, 195, 156, 157, 194, 158, 159, 165, 167])) {
+        $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Use</a> ';
+    }
+    if ($type == "rare" && !in_array($row['id'], [155, 195, 209, 231, 210, 250, 211, 229, 230, 212, 156, 194, 68, 69, 157, 158, 159, 165, 167])) {
+        $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Use</a> ';
+    }
+    if (!$loan && !in_array($row['id'], [155, 195, 156, 194, 157, 158, 159, 165, 167])) {
+        $$type .= ' <a class="button-sm" href="putonmarket.php?id=' . $row['id'] . '">Market</a> ';
+    }
+    if (!in_array($row['id'], [155, 195, 157, 194, 156, 158, 159, 167])) {
+        $$type .= ' <a class="button-sm" href="senditem.php?id=' . $row['id'] . '">Send</a> ';
+    }
+
+    // Equipment buttons
+    if (in_array($type, array('weapon', 'armor', 'shoes')) || in_array($subtype, array('weapon', 'armor', 'shoes'))) {
+        $$type .= ' <a class="button-sm" href="equip.php?eq=';
+        $$type .= (!empty($subtype)) ? $subtype : $type;
+        $$type .= '&id=' . $row['id'];
+        $$type .= ($loan) ? '&loaned=1' : '';
+        $$type .= '">Equip</a> ';
+    }
+
+    $$type .= '</span>';
+    $$type .= '</div>'; // Close flex-container
+}
