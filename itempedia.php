@@ -94,16 +94,15 @@ function displayItem(&$rows, $type = null) {
                 <table style='width:100%;table-layout:fixed;'>
                     <tr>
                         <th>Name: <a href=description.php?id={$row['id']}> {$row['itemname']}</a></th>
-                        <td>Cost: " . prettynum($row['cost'], 1) . "</td>
+                        <td>
+                            <img src='{$row['image']}' style='width:100px;height:100px;' /><br />
+                            <strong>Cost:</strong> " . prettynum($row['cost'], 1) . "<br />
+                            <strong>City:<strong> $city<br />
+                            {$row['description']}
+                            
+                        </td>
                     </tr>
-                    <tr>
-                        <td rowspan='$rowspan'><img src='{$row['image']}' style='width:100px;height:100px;' /></td>
-                        <td>{$row['description']}</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>City: $city</td>
-                    </tr>
+                  
                     $boost
                 </table>
             </td></tr>";
