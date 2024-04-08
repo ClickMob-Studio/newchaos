@@ -2343,7 +2343,13 @@ foreach ($rows as $row) {
             $subtype = 'armor';
         if ($row['speed'])
             $subtype = 'shoes';
-    } else
+    } elseif ($row['type'] == 'Exp') {
+        $type = 'Exp Boosters';
+    } 
+    elseif ($row['type'] == 'Gems') {
+        $type = 'Gems';
+    }
+    else
         $type = 'consumable';
     }
     gendivs($row, $type, $sell, $subtype);
