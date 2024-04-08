@@ -48,6 +48,7 @@ function trainrefill(stat, isMegaTrain) {
         mega_train: isMegaTrain // Pass the mega train status to the server
     }, function(response) {
         var info = response.split("|");
+        $(".hidden-alert").show();
         $("#noti").html(info[0]);
         $(".points").html(info[1]);
         $("#" + stat + "amnt").html(info[2]);
@@ -65,8 +66,8 @@ document.body.onmouseup = function() { finish(); };
 </script>
 
 <div style="display:flex;min-height:60px;flex-direction:row;">
-    <div class="alert alert-info" style="display: none;">
-        <p><span id="noti"></span></p>
+    <div class="alert alert-info hidden-alert" style="display: none;">
+        <p><div id="noti"></div></p>
     </div>
 </div>
 
