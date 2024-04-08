@@ -27,10 +27,7 @@ $db->execute(array(
 	$user_class->gang
 ));
 $lastid = $db->fetch_single();
-$result = mysql_query("UPDATE grpgusers SET gangmail = ".time()." WHERE `id` = ".intval($user_class->id));
-if (!$result) {
-    die('Invalid query: ' . mysql_error());
-}
+
 if (empty($lastid))
     $lastid = 0;
 $chatters = gcTalking(1, $user_class->gang);

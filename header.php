@@ -512,9 +512,8 @@ $stats = array(
 		'max'     => $user_class->maxexp,
 	),
 );
-$q = mysql_query("SELECT * FROM `gangmail` WHERE gangid = ".$user_class->gang." ORDER BY gmailid LIMIT 1");
-$row = mysql_fetch_assoc($q);
-if($row['timesent'] > $user_class->gangmail){
+
+if($user_class->gangmail > 0){
     $gmailCount = 'New';
 }else{
     $gmailCount = '';
