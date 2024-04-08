@@ -7,8 +7,8 @@ include 'header.php';
                                 <?php
 
                                 if (!isset($_GET['token'])) {
-                                    Send_Event1(1, $user_class-> id . ' MUG: NO TOKEN PROVIDED', 1);
-                                    Send_Event1(2, $user_class-> id . ' MUG: NO TOKEN PROVIDED', 2);
+                                    Send_Event(1, $user_class-> id . ' MUG: NO TOKEN PROVIDED', 1);
+                                    Send_Event(2, $user_class-> id . ' MUG: NO TOKEN PROVIDED', 2);
 
                                     error('Something went wrong, an Admin has been informed.');
                                 }
