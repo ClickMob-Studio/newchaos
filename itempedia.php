@@ -94,6 +94,8 @@ function displayItem(&$rows, $type = null) {
                 <table style='width:100%;table-layout:fixed;'>
                     <tr>
                         <th>Name: <a href=description.php?id={$row['id']}> {$row['itemname']}</a></th>
+                    </tr>
+                    <tr>
                         <td>
                             <img src='{$row['image']}' style='width:100px;height:100px;' /><br />
                             <strong>Cost:</strong> " . prettynum($row['cost'], 1) . "<br />
