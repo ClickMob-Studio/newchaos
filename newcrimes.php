@@ -33,8 +33,7 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
 
 }</style>
     <h1>Crimes</h1>
-    <div class='box_middle'>
-        <div class='pad'>
+
             <?php
             $error = ($user_class->fbitime > 0) ? "You can't do crimes if you're in FBI Jail!" : "";
             $error = ($user_class->jail > 0) ? "You can't do crimes if you're in prison!" : "";
