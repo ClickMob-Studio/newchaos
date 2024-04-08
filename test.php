@@ -2338,6 +2338,9 @@ foreach ($rows as $row) {
         elseif ($row['type'] == 'booster') {
             $type = 'booster';
         } 
+        elseif ($row['type'] == 'protection') {
+            $type = 'protection';
+        } 
         elseif ($row['type'] == 'Gems') {
             $type = 'Gems';
         }
@@ -2369,6 +2372,9 @@ foreach ($rows as $row) {
         $type = 'shoes';
         elseif ($row['type'] == 'booster') {
             $type = 'booster';
+        } 
+        elseif ($row['type'] == 'protection') {
+            $type = 'protection';
         } 
         elseif ($row['type'] == 'Gems') {
             $type = 'Gems';
@@ -2407,7 +2413,8 @@ $master = array(
     'Rares' => 'rare',
     'Consumables' => 'consumable',
     'Gems' => 'Gems',
-    'Boosters' => 'booster'
+    'Boosters' => 'booster',
+    'Protection' => 'protection',
 );
 foreach ($master as $header => $var)
     if (isset($$var)) {
