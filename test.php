@@ -2360,7 +2360,13 @@ foreach ($rows as $row) {
         $type = 'armor';
     elseif ($row['speed'] > 0 && $row['rare'] == 0)
         $type = 'shoes';
-    elseif ($row['rare'] == 1) {
+        elseif ($row['type'] == 'Exp') {
+            $type = 'Exp Boosters';
+        } 
+        elseif ($row['type'] == 'Gems') {
+            $type = 'Gems';
+        }
+        elseif ($row['rare'] == 1) {
         $type = 'rare';
         if ($row['offense'])
             $subtype = 'weapon';
@@ -2368,7 +2374,8 @@ foreach ($rows as $row) {
             $subtype = 'armor';
         if ($row['speed'])
             $subtype = 'shoes';
-    } else
+    } 
+    else
         $type = 'consumable';
 
     gendivs($row, 'loans', null, ($subtype != '') ? $subtype : $type, 1);
