@@ -56,7 +56,7 @@ while ($line = mysql_fetch_array($result)) {
     $user_online = new User($line['id']);
     echo "<tr><td>" . $user_online->id . "</td><td>" . $user_online->formattedname . "</td>
     <td>" . $user_online->formattedonline . "</td>
-    <td><a class='action' href='mug.php?mug=".$user_online->id."'>Mug</a> || <a class='action' href='attack.php?attack=" . $user_online->id . "&csrf=" . $csrf . "'>Attack</a></td>
+    <td><a class='action' href='mug.php?mug=".$user_online->id."&token=" . $user_class->macro_token . "'>Mug</a> || <a class='action' href='attack.php?attack=" . $user_online->id . "&csrf=" . $csrf . "'>Attack</a></td>
     </tr>";
 }
 echo "</table><br />";
