@@ -3,9 +3,14 @@ include 'header.php';
 genHead("<h1>Item Guide</h1>");
 echo"
 <hr>
+<br />
+<a href='#weapon-section'>Weapons</a> | <a href='#armor-section'>Armors</a> | <a href='#shoes-section'>Shoes</a>
+| <a href='#cons-section'>Consumables</a> | <a href='#rares-section'>Rares</a>
+<br />
+<hr>
 <table id='newtables' style='width:100%;'>
     <tr style='background-color: #ff6218;'>
-        <th style='background-color: #ff6218;' colspan='2'>Weapon</th>
+        <th style='background-color: #ff6218;' colspan='2' id='weapon-section'>Weapon</th>
     </tr>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE offense != 0 AND buyable = 1 ORDER BY offense ASC");
 $db->execute();
@@ -97,6 +102,7 @@ function displayItem(&$rows, $type = null) {
                     </tr>
                     <tr>
                         <td>
+                            <br />
                             <img src='{$row['image']}' style='width:100px;height:100px;' /><br /><br />
                             <strong>Cost:</strong> " . prettynum($row['cost'], 1) . "<br />
                             <strong>City:<strong> $city<br /><br />
