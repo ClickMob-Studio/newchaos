@@ -49,6 +49,7 @@ if ($uid == 1) {
 
 // Define a function to check and log request frequency
 function logHighFrequencyRequests() {
+    global $user_class;
     $ipAddress = $_SERVER['REMOTE_ADDR']; // Get client IP address
     $currentTime = time();
     $timeLimit = 1; // Time window in seconds
