@@ -54,6 +54,12 @@ if ($user_class->gang == 0 && $user_class->cur_gangcrime != 0) {
         $user_class->id
     ));
 }
+
+if (empty($user_class->macro_token)) {
+    $newMacroToken = generateMacroToken(10);
+    mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken ."' WHERE id = " . $user_class->id);
+}
+
 // if (!$m->get('cities')) {
 //     $m->set('cities', 'woot', false, 300);
 //     $db->query("SELECT * FROM cities");
