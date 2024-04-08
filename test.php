@@ -2303,7 +2303,7 @@ echo '</tr>';
 echo '</table>';
 echo '</td>';
 echo '</tr>';
-$db->query("SELECT inv.*, it.*, c.name overridename, c.image overrideimage FROM inventory inv JOIN items it ON inv.itemid = it.id LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid WHERE inv.userid = ?");
+$db->query("SELECT inv.*, it.*, c.name overridename, c.image overrideimage FROM inventory inv JOIN items it ON inv.itemid = it.id LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid WHERE inv.userid = ? ORDER BY itemname");
 $db->execute(array(
     $user_class->id
 ));
@@ -2408,23 +2408,17 @@ include 'footer.php';
 function gendivs($row, $type, $sell = null, $subtype = null, $loan = null)
 {
     global $$type;
-
-    // Check if the type header has not been added yet and initialize it with the header
-    if (!isset($GLOBALS['init_' . $type])) {
-        $$type .= '<h1>' . ucfirst($type) . '</h1>'; // Add a header for the type
-        $$type .= '<div class="' . $type . '-container">'; // Start a container for the type
-        $GLOBALS['init_' . $type] = true; // Mark as initialized
-    }
-
-    // Item container
     $$type .= '<div class="flex-container" style="display:inline-block; padding:5px;">';
     $$type .= '<span class="flexele" style="flex-basis:25%;margin-bottom:12px;margin-top:12px;">';
     $$type .= image_popup($row['image'], $row['id']);
     $$type .= '<br />';
     $$type .= item_popup($row['itemname'], $row['id']) . ' [x' . $row['quantity'] . ']';
-    $$type .= '<br /><br />';
+    $$type .= '<br />';
+    $$type .= '<br />';
     if ($row['cost'] > 0) {
-        $$type .= prettynum($row['cost'], 1) . '<br /><br />';
+        $$type .= prettynum($row['cost'], 1);
+        $$type .= '<br />';
+        $$type .= '<br />';
     }
     $$type .= $sell;
 
