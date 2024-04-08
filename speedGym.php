@@ -63,10 +63,17 @@ document.onblur = function() { finish(); };
 window.onblur = function() { finish(); };
 document.body.onmouseup = function() { finish(); };
 </script>
+
+<div style="display:flex;min-height:60px;flex-direction:row;">
+    <div class="alert alert-info" style="display: none;">
+        <p><span id="noti"></span></p>
+    </div>
+</div>
+
 <?php
     echo "
     <br />
-    <div id='noti' style='height:16px'></div>
+    
 <div class='contenthead floaty'>
 <span style='margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;'>
     <table id='newtables' class='altcolors' style='width:100%;'>
