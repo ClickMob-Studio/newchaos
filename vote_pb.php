@@ -4,7 +4,7 @@ require 'dbcon.php'; // Ensure database connection is critical
 include "classes.php";
 include "database/pdo_class.php";
 
-Send_Event(2, 'VOTE PB', 2);
+Send_Event(2, var_dump($_GET), 2);
 
 
 if (isset($_GET['id'])) {
