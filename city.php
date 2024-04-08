@@ -240,6 +240,7 @@ $admin_ids = array_map(function($a) {
       <a href='chapel.php'>Chapel</a><br />
     </td>
     <td valign='top'>
+      <a href='itempedia.php'>Item Guide</a><br />
       <a href='thecity.php'>Search The City</a><br />
       <a href='prayer.php'>Pray</a><br />
       <a href='attackLadder.php'>Attack Ladder</a><br />
