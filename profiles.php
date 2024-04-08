@@ -839,7 +839,11 @@ $city = $result['name'];
 $city = $profile_class->cityname;
 }
 
- echo "
+$missionsQ = mysql_query("SELECT COUNT(id) AS mission_count FROM missions WHERE userid = " . $profile_class->id . " AND completed = 'successful'");
+$missionsR = mysql_fetch_assoc($missionsQ);
+$missionsCount = $missionsR['mission_count'];
+
+echo "
 <div class='contenthead floaty'>
     <div class='profile-container' style='display: flex; justify-content: space-around; align-items: flex-start;'>
         <!-- Left Profile Box -->
@@ -880,8 +884,14 @@ $city = $profile_class->cityname;
                 <tr>
                     <th width='10%'>Kills / Deaths:</th>
                     <td width='30%'>" . prettynum($profile_class->battlewon) . " / " . prettynum($profile_class->battlelost) . "</td>
+                    <th width='10%'>Missions:</th>
+                    <td width='30%'>" . $missionsCount . "</span></td>
+                </tr>
+                </td>
                     <th width='10%'>Last Active:</th>
                     <td width='30%'><span id='lastActive'>" . ($profile_class->lastactive != 0 ? $profile_class->formattedlastactive : 'Never') . "</span> <span id='onlineStatus'>[online]</span></td>
+                    <th width='10%'>&nbsp;</th>
+                    <td width='30%'></td>>
                 </tr>
             </table>
         </div>
