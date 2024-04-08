@@ -55,7 +55,7 @@ function logHighFrequencyRequests() {
     $requestLimit = 5; // Maximum number of requests allowed in the time window
 
     // Path to the log file
-    Send_Event(1, 'alot of traffic sent to server');
+   
 
     // Initialize session storage for request timestamps
     if (!isset($_SESSION['request_log'])) {
@@ -79,8 +79,7 @@ function logHighFrequencyRequests() {
     if (count($_SESSION['request_log'][$ipAddress]) > $requestLimit) {
         // Log the IP and request count
         $logEntry = sprintf("[%s] IP %s exceeded the limit with %d requests in %d second(s).\n", date('Y-m-d H:i:s'), $ipAddress, count($_SESSION['request_log'][$ipAddress]), $timeLimit);
-        file_put_contents($logFile, $logEntry, FILE_APPEND);
-
+        Send_Event(1, $logEntry);
         // Optionally, you can flag this IP for further review or take action
     }
 }
