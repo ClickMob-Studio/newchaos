@@ -2298,42 +2298,102 @@ if ($user_class->eqshoes != 0) {
     echo '<a class="button-sm" href="equip.php?unequip=shoes">Unequip</a>';
 } else
     echo '<img width="100" height="100" src="/css/images/empty.jpg" /><br /> You are not wearing boots.';
-echo '</td>';$db->query("SELECT inv.*, it.*, c.name overridename, c.image overrideimage FROM inventory inv JOIN items it ON inv.itemid = it.id LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid WHERE inv.userid = ?");
-$db->execute([$user_class->id]);
-$rows = $db->fetch_row();
+echo '</td>';
+echo '</tr>';
+echo '</table>';
+echo '</td>';
+echo '</tr>';
 
-// Categorize items
-$categories = ['Weapons' => [], 'Armor' => [], 'Shoes' => [], 'Consumables' => [], 'Rares' => []];
-foreach ($rows as $row) {
-    $category = determineCategory($row); // Implement this based on your logic
-    $categories[$category][] = $row;
+$db->query("SELECT inv.*, it.*, c.name overridename, c.image overrideimage FROM inventory inv JOIN items it ON inv.itemid = it.id LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid WHERE inv.userid = ?");
+$db->execute(array(
+    $user_class->id
+));
+$items = $db->fetch_row();
+// Function to determine item type and subtype
+function determineItemType($item) {
+    $type = 'consumable'; // Default type
+    $subtype = '';
+
+    if ($item['rare'] == 1) {
+        $type = 'rare';
+    } elseif ($item['offense'] > 0) {
+        $type = ($item['defense'] > 0 || $item['speed'] > 0) ? 'weapon' : 'weapon';
+    } elseif ($item['defense'] > 0) {
+        $type = 'armor';
+    } elseif ($item['speed'] > 0) {
+        $type = 'shoes';
+    }
+
+    if ($type == 'rare' && ($item['offense'] > 0 || $item['defense'] > 0 || $item['speed'] > 0)) {
+        $subtype = $item['offense'] > 0 ? 'weapon' : ($item['defense'] > 0 ? 'armor' : 'shoes');
+    }
+
+    return ['type' => $type, 'subtype' => $subtype];
 }
 
-// Display items by category
-foreach ($categories as $category => $items) {
-    if (!empty($items)) { // Only display if there are items in the category
-        echo "<h2>{$category}</h2>";
+// Function to generate HTML for an item
+function generateItemHTML($item) {
+    $html = '<div class="flex-container" style="display:inline-block; padding:5px;">';
+    $html .= '<span class="flexele" style="flex-basis:25%;margin-bottom:12px;margin-top:12px;">';
+    
+    // Image and Name
+    $itemName = !empty($item['overridename']) ? $item['overridename'] : $item['itemname'];
+    $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
+    $html .= '<img src="' . $itemImage . '" alt="' . $itemName . '" style="width:100px;"><br>';
+    $html .= '<strong>' . $itemName . '</strong> [x' . $item['quantity'] . ']<br><br>';
+    
+    // Item cost and Sell link, if applicable
+    if ($item['cost'] > 0) {
+        $html .= 'Cost: ' . $item['cost'] . '<br>';
+        $html .= "<a class='button-sm' href='sellitem.php?id=" . $item['id'] . "'>Sell</a><br>";
+    }
+
+    // Additional actions based on item type
+    if ($item['type'] == 'consumable') {
+        $html .= "<a class='button-sm' href='inventory.php?use=" . $item['id'] . "'>Use</a> ";
+    }
+    if (in_array($item['type'], ['weapon', 'armor', 'shoes'])) {
+        $html .= "<a class='button-sm' href='equip.php?type=" . $item['type'] . "&id=" . $item['id'] . "'>Equip</a> ";
+    }
+    if (!empty($item['subtype'])) {
+        $html .= "<a class='button-sm' href='equip.php?type=" . $item['subtype'] . "&id=" . $item['id'] . "'>Equip " . ucfirst($item['subtype']) . "</a> ";
+    }
+    
+    $html .= '</span></div>'; // Close span and div
+    
+    return $html;
+}
+
+// Main execution
+$userClass = /* Assuming $userClass is defined and contains user information */;
+
+$items = fetchItems(/* $db */, $userClass->id); // Fetch items for the user
+
+$itemsGrouped = [
+    'weapon' => [],
+    'armor' => [],
+    'shoes' => [],
+    'rare' => [],
+    'consumable' => [],
+    'loans' => []
+];
+
+// Group items by type
+foreach ($items as $item) {
+    $itemInfo = determineItemType($item);
+    $item['type'] = $itemInfo['type'];
+    $item['subtype'] = $itemInfo['subtype'];
+    $itemsGrouped[$item['type']][] = $item;
+}
+
+// Generate HTML for grouped items
+foreach ($itemsGrouped as $group => $items) {
+    if (!empty($items)) { // Only display groups with items
+        echo "<div class='item-group'><h1>" . ucfirst($group) . "</h1><hr>";
         foreach ($items as $item) {
-            echo displayItem($item); // Display each item
+            echo generateItemHTML($item); // Generate and display HTML for each item
         }
+        echo "</div>";
     }
 }
 
-// Example determineCategory function
-function determineCategory($item) {
-    // Simplified logic; you should expand this based on your item attributes
-    if ($item['offense'] > 0) return 'Weapons';
-    if ($item['defense'] > 0) return 'Armor';
-    if ($item['speed'] > 0) return 'Shoes';
-    // Add more conditions as needed
-    return 'Consumables'; // Default category
-}
-
-// Simplified displayItem function
-function displayItem($item) {
-    $html = "<div class='item'>";
-    // Add image, name, etc.
-    $html .= htmlspecialchars($item['itemname']);
-    $html .= "</div>";
-    return $html;
-}
