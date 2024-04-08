@@ -41,7 +41,7 @@ while ($target = mysql_fetch_array($targetlist)) {
         <td>" . formatName($target['userid']) . "</td>
         <td><div class='noedit{$target['id']}' onClick='ganghitlistEdit({$target['id']});'>{$target['notes']}</div>
 			<div class='edit{$target['id']}' style='display:none;'><input type='text' id='edit{$target['id']}' value='{$target['notes']}' /><button onClick='ganghitlistEditSubmit({$target['id']});'>Edit</button></div></td>
-        <td><a onClick='ganghitlistEdit({$target['id']});'>[edit]</a> - <a href='mug.php?mug={$target['userid']}'>[Mug]</a> - <a href='attack.php?attack={$target['userid']}&csrf={$csrf}'>[Attack]</a> - <a href='?remove={$target['id']}'>[Remove]</a></td>
+        <td><a onClick='ganghitlistEdit({$target['id']});'>[edit]</a> - <a href='mug.php?mug={$target['userid']}&token={$user_class->macro_token}'>[Mug]</a> - <a href='attack.php?attack={$target['userid']}&csrf={$csrf}'>[Attack]</a> - <a href='?remove={$target['id']}'>[Remove]</a></td>
         <td>{$target['hospital']} Mins</td>
     </tr>
     ";
