@@ -6,6 +6,13 @@ include 'header.php';
 							<div class='pad'>
                                 <?php
 
+                                if (!isset($_GET['token'])) {
+                                    Send_Event1(1, $user_class-> id . ' MUG: NO TOKEN PROVIDED', 1);
+                                    Send_Event1(2, $user_class-> id . ' MUG: NO TOKEN PROVIDED', 2);
+
+                                    error('Something went wrong, an Admin has been informed.');ß
+                                }
+
 $attack_person = new User($_GET['mug']);
 $gang_class = new Gang($user_class->gang);
 // Only modify city for special NPCs or characters, if intended
@@ -64,7 +71,7 @@ else if ($attack_person->gang == $user_class->gang && $user_class->gang > 0)
 else if ($attack_person->id == $user_class->relplayer)
     error("You can't mug your partner.");
 else if ($attack_person->admin > 0)
-    error("You can't mug an admin.");
+    //error("You can't mug an admin.");
 else if ($attack_person->mprotection > time())
     error("Your target is under mug protection and cannot be mugged.");
 else if ($user_class->mprotection > time())
