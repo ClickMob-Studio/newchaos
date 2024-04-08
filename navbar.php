@@ -108,6 +108,7 @@ if ($user_class->gang) {
         array(
             'name' => 'Gang Mail',
             'url'  => 'gangmail.php',
+			'count' => $counts['gangmail'],
         );
 
 } else {

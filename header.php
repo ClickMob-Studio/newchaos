@@ -121,6 +121,7 @@ if (empty($user_class->macro_token)) {
 //         $m->set('cities.' . $row['id'], false, $row['name']);
 //     }
 // }
+
 $m->set('lastpageload.' . $user_class->id, false, time());
 if ($user_class->lastpayment < time() - 86400) {
     $db->query("UPDATE grpgusers SET points = points + 250, lastpayment = unix_timestamp() WHERE id = ?");
@@ -511,12 +512,19 @@ $stats = array(
 		'max'     => $user_class->maxexp,
 	),
 );
-
+$q = mysql_query("SELECT * FROM `gangmail` WHERE gangid = ".$user_class->id." ORDER BY gmailid LIMIT 1");
+$row = mysql_fetch_assoc($q);
+if($row['timesent'] > $user_class->gangmail){
+    $gmailCount = 'New';
+}else{
+    $gmailCount = '';
+}
 $counts = array(
 	'event'         => $ev,
 	'mail'          => '<!_-mail-_!>',
 	'hospital'      => $hosp,
 	'jail'          => $ja,
+    'gangmail'      => $gmailCount,
     'updates'       => $user_class->game_updates,
 );
 $queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
