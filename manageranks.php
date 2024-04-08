@@ -25,6 +25,9 @@ $gang_class = new Gang($user_class->gang);
 if ($user_class->gang == 0)
     diefun("You aren't in a gang.");
 $user_rank = new GangRank($user_class->grank);
+if($user_class->id == 1){
+    var_dump($user_rank);
+}
 if ($user_class->gangleader != $user_class->id)
     diefun("You don't have permission to be here!");
 if (isset($_POST['deleterank'])) {
