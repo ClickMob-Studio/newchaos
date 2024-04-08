@@ -87,9 +87,9 @@ function displayItem(&$rows, $type = null) {
             $city = ($type == null) ? "Every City" : $city;
         }
 
-        if ($co++ % 2 == 0)
-            $rtn .= "<tr>";
+
         $rtn .= "
+            <tr colspan='2'>
             <td>
                 <table style='width:100%;table-layout:fixed;'>
                     <tr>
@@ -106,9 +106,7 @@ function displayItem(&$rows, $type = null) {
                     </tr>
                     $boost
                 </table>
-            </td>";
-        if ($co % 2 == 0)
-            $rtn .= "</tr>";
+            </td></tr>";
     }
     return $rtn;
 }
