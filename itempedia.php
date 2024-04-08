@@ -4,7 +4,7 @@ genHead("<h1>Item Guide</h1>");
 echo"
 <hr>
 <table id='newtables' style='width:100%;'>
-    <tr>
+    <tr style='background-color: #ff6218;'>
         <th colspan='2'>Weapon</th>
     </tr>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE offense != 0 AND buyable = 1 ORDER BY offense ASC");
@@ -15,7 +15,7 @@ print"
 </table>
 <br /><br />
 <table id='newtables' style='width:100%;'>
-    <tr>
+    <tr style='background-color: #ff6218;'>
         <th colspan='2 id='armor-section'>Armor</th>
     </tr>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE defense != 0 AND buyable = 1 ORDER BY defense ASC");
@@ -26,7 +26,7 @@ print"
 </table>
 <br /><br />
 <table id='newtables' style='width:100%;'>
-    <tr>
+    <tr style='background-color: #ff6218;'>
         <th colspan='2' id='shoes-section'>Shoes</th>
     </tr>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE speed != 0 AND buyable = 1 ORDER BY speed ASC");
@@ -36,7 +36,7 @@ print displayItem($rows, 'defense');
 print"</table>
    <br /><br />
 <table id='newtables' style='width:100%;'>
-    <tr>
+    <tr style='background-color: #ff6218;'>
         <th colspan='2' id='cons-section'>Consumables</th>
     </tr>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE speed = 0 AND offense = 0 AND defense = 0 AND buyable = 1 AND (drugstime > 0 OR heal > 0) ORDER BY id ASC");
@@ -46,7 +46,7 @@ print displayItem($rows);
 print"</table>
     <br /><br />
 <table id='newtables' style='width:100%;'>
-    <tr>
+    <tr style='background-color: #ff6218;'>
         <th colspan='2' id='rares-section'>Rares</th>
     </tr>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE rare = 1 ORDER BY id ASC");
