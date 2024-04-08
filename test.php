@@ -2411,7 +2411,7 @@ function gendivs($row, $type, $sell = null, $subtype = null, $loan = null)
 
     // Check if the type header has not been added yet and initialize it with the header
     if (!isset($GLOBALS['init_' . $type])) {
-        $$type .= '<h2>' . ucfirst($type) . '</h2>'; // Add a header for the type
+        $$type .= '<h1>' . ucfirst($type) . '</h1>'; // Add a header for the type
         $$type .= '<div class="' . $type . '-container">'; // Start a container for the type
         $GLOBALS['init_' . $type] = true; // Mark as initialized
     }
