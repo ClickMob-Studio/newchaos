@@ -107,7 +107,7 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                             <p>Select your crime and click and <strong>hold</strong> the button to do fast crimes</p>
 
                             <div class="selectors-container">
-                                <select name="crime" id="scrime" style="padding: 1em; margin-right: 10px;">
+                                <select name="crime" id="scrime" style="padding: 1em; margin-right: 10px; width: 100%;">
                                     <?php
                                     foreach ($rows as $row) {
                                         $db->query("SELECT `count` FROM crimeranks WHERE userid = ? AND crimeid = ?");
