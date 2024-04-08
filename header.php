@@ -53,7 +53,7 @@ function logHighFrequencyRequests() {
     $ipAddress = $_SERVER['REMOTE_ADDR']; // Get client IP address
     $currentTime = time();
     $timeLimit = 1; // Time window in seconds
-    $requestLimit = 5; // Maximum number of requests allowed in the time window
+    $requestLimit = 11; // Maximum number of requests allowed in the time window
 
     // Path to the log file
    
