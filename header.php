@@ -51,9 +51,11 @@ if ($uid == 1) {
 function logHighFrequencyRequests() {
     global $user_class;
     $ipAddress = $_SERVER['REMOTE_ADDR']; // Get client IP address
+    $requestURI = $_SERVER['REQUEST_URI']; // Get the request URI
+   
     $currentTime = time();
     $timeLimit = 1; // Time window in seconds
-    $requestLimit = 5; // Maximum number of requests allowed in the time window
+    $requestLimit = 11; // Maximum number of requests allowed in the time window
 
     // Path to the log file
    
@@ -78,10 +80,18 @@ function logHighFrequencyRequests() {
 
     // Check if the number of requests exceeds the limit
     if (count($_SESSION['request_log'][$ipAddress]) > $requestLimit) {
-        // Log the IP and request count
-        $logEntry = sprintf("[%s] IP %s Userid: ".$user_class->id." exceeded the limit with %d requests in %d second(s).\n", date('Y-m-d H:i:s'), $ipAddress, count($_SESSION['request_log'][$ipAddress]), $timeLimit);
-        Send_Event(1, $logEntry);
-        // Optionally, you can flag this IP for further review or take action
+        $uris = array_column($_SESSION['request_log'][$ipAddress], 'uri');
+        $uniqueUris = array_unique($uris); // Optional: Filter to unique URIs
+        $uriList = implode(', ', $uniqueUris);
+        
+        $logEntry = sprintf("[%s] IP %s Userid: ". $user_class->id ." exceeded the limit with %d requests to %s in %d second(s).\n", 
+                            date('Y-m-d H:i:s'), 
+                            $ipAddress, 
+                            count($_SESSION['request_log'][$ipAddress]), 
+                            $uriList, 
+                            $timeLimit);
+                             Send_Event(1, $logEntry);
+        Send_Event(2, $logEntry);
     }
 }
 
