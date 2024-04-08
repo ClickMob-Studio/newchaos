@@ -2335,6 +2335,12 @@ foreach ($rows as $row) {
         $type = 'armor';
     elseif ($row['speed'] > 0 && $row['rare'] == 0)
         $type = 'shoes';
+        elseif ($row['type'] == 'Exp') {
+            $type = 'Exp Boosters';
+        } 
+        elseif ($row['type'] == 'Gems') {
+            $type = 'Gems';
+        }
     elseif ($row['rare'] == 1) {
         $type = 'rare';
         if ($row['offense'])
@@ -2343,11 +2349,6 @@ foreach ($rows as $row) {
             $subtype = 'armor';
         if ($row['speed'])
             $subtype = 'shoes';
-    } elseif ($row['type'] == 'Exp') {
-        $type = 'Exp Boosters';
-    } 
-    elseif ($row['type'] == 'Gems') {
-        $type = 'Gems';
     }
     else
         $type = 'consumable';
