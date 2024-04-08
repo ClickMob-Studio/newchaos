@@ -30,7 +30,7 @@ if (isset($_POST['sendcredits2'])) {
     mysql_query("INSERT INTO send_logs(fromid, toid, what, qty) VALUES ($user_class->id, ".$_POST['theirid'].", 'gold', {$_POST['amount']} ");
     mysql_query("UPDATE grpgusers SET credits = credits - {$_POST['amount']} WHERE id = $user_class->id");
     mysql_query("UPDATE grpgusers SET credits = credits + {$_POST['amount']} WHERE id = {$_POST['theirid']}");
-    mysql_query("INSERT INTO transferlog (toip, fromip, timestamp, `to`, `from`, credits)VALUES('$money_person->ip', '$user_class->ip', unix_timestamp(), $money_person->id, $user_class->id, {$_POST['amount']}')");
+    $result = mysql_query("INSERT INTO `transferlog` (`toip`, `fromip`, `timestamp`, `to`, `from`, `money`)" . "VALUES ('" . $money_person->ip . "', '" . $user_class->ip . "', '" . time() . "', '" . $money_person->id . "', '" . $user_class->id . "', '" . $_POST['amount'] . "')");
     Send_Event($money_person->id, "[-_USERID_-] sent you " . prettynum($_POST['amount']) . " GOLD.", $user_class->id);
     echo Message("You have successfully sent " . prettynum($_POST['amount']) . " GOLD to " . $money_person->formattedname . ".");
 }
