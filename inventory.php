@@ -2303,7 +2303,7 @@ echo '</tr>';
 echo '</table>';
 echo '</td>';
 echo '</tr>';
-$db->query("SELECT inv.*, it.*, c.name overridename, c.image overrideimage FROM inventory inv JOIN items it ON inv.itemid = it.id LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid WHERE inv.userid = ?");
+$db->query("SELECT inv.*, it.*, c.name overridename, c.image overrideimage FROM inventory inv JOIN items it ON inv.itemid = it.id LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid WHERE inv.userid = ? ORDER BY itemname");
 $db->execute(array(
     $user_class->id
 ));
@@ -2335,6 +2335,15 @@ foreach ($rows as $row) {
         $type = 'armor';
     elseif ($row['speed'] > 0 && $row['rare'] == 0)
         $type = 'shoes';
+        elseif ($row['type'] == 'booster') {
+            $type = 'booster';
+        } 
+        elseif ($row['type'] == 'protection') {
+            $type = 'protection';
+        } 
+        elseif ($row['type'] == 'Gems') {
+            $type = 'Gems';
+        }
     elseif ($row['rare'] == 1) {
         $type = 'rare';
         if ($row['offense'])
@@ -2343,7 +2352,8 @@ foreach ($rows as $row) {
             $subtype = 'armor';
         if ($row['speed'])
             $subtype = 'shoes';
-    } else
+    }
+    else
         $type = 'consumable';
     }
     gendivs($row, $type, $sell, $subtype);
@@ -2360,7 +2370,16 @@ foreach ($rows as $row) {
         $type = 'armor';
     elseif ($row['speed'] > 0 && $row['rare'] == 0)
         $type = 'shoes';
-    elseif ($row['rare'] == 1) {
+        elseif ($row['type'] == 'booster') {
+            $type = 'booster';
+        } 
+        elseif ($row['type'] == 'protection') {
+            $type = 'protection';
+        } 
+        elseif ($row['type'] == 'Gems') {
+            $type = 'Gems';
+        }
+        elseif ($row['rare'] == 1) {
         $type = 'rare';
         if ($row['offense'])
             $subtype = 'weapon';
@@ -2368,7 +2387,8 @@ foreach ($rows as $row) {
             $subtype = 'armor';
         if ($row['speed'])
             $subtype = 'shoes';
-    } else
+    } 
+    else
         $type = 'consumable';
 
     gendivs($row, 'loans', null, ($subtype != '') ? $subtype : $type, 1);
@@ -2391,7 +2411,10 @@ $master = array(
     'Shoes' => 'shoes',
     'Gang Loans' => 'loans',
     'Rares' => 'rare',
-    'Consumables' => 'consumable'
+    'Consumables' => 'consumable',
+    'Gems' => 'Gems',
+    'Boosters' => 'booster',
+    'Protection' => 'protection',
 );
 foreach ($master as $header => $var)
     if (isset($$var)) {
