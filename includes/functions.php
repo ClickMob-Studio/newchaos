@@ -1810,7 +1810,7 @@ function macroTokenCheck($user_class)
         error('Something went wrong, an Admin has been informed.');
     }
 
-    if ($user_class->macro_token !== $token) {
+    if ($user_class->macro_token != $token) {
         Send_Event(1, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token, 1);
         Send_Event(2, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token, 2);
 
