@@ -6,10 +6,7 @@ include 'header.php';
 							<div class='pad'>
                                 <?php
 
-                                if ($user_class->id == 2) {
-                                    macroTokenCheck($user_class);
-                                }
-
+                                macroTokenCheck($user_class);
 
 $attack_person = new User($_GET['mug']);
 $gang_class = new Gang($user_class->gang);
