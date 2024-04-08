@@ -294,7 +294,7 @@ function start() {
               
             }
         }
-    }, refresh);
+    }, 25);
     document.addEventListener('mouseup', resetAction, { once: true });
     document.addEventListener('touchend', resetAction, { once: true });
   
