@@ -7,9 +7,10 @@ include 'includes/pagination.class.php';
 if ($user_class->fbitime > 0) {
     diefun("You can't communicate if you're in FBI Jail!");
 }
-mysql_query("UPDATE grpgusers SET gangmail = ".time()." WHERE id = ".$user_class->id);
+
 if ($user_class->gang == 0)
     diefun("You aren't in a gang.");
+    mysql_query("UPDATE grpgusers SET gangmail = ".time()." WHERE id = ".$user_class->id);
 $db->query("SELECT * FROM bans WHERE type = 'mail' AND id = ?");
 $db->execute(array(
 	$user_class->id
