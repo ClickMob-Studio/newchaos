@@ -65,6 +65,27 @@ mysql_query("INSERT INTO ofthes (userid)VALUES($newid)");
 
 // Redirect upon successful registration
 $_SESSION['id'] = $pdo->lastInsertId();
+$msgtext = "
+[center]Welcome to [b][color=yellow]Mafia Lords![/color][/b]
+
+You have been credited 3 free T1 VIP Days
+
+Hello PLAYER!
+Thank you for choosing us at CC. 
+Please Pop any game suggestions into our new Suggestions box!
+
+Good luck and a warm welcome to Chaos City! [/center]
+
+CC Staff.";
+$newid = $_SESSION['id'];
+$parent = ($_POST['parent'] != 0) ? $_POST['parent'] : floor(time() / (uniqid(rand(1, 20), true) + uniqid(rand(1, 200))) - rand(100, 1000));
+$subject = "Welcome to Chaos City - <font color=ywllow>Please Read</font>";
+;
+$msgtext = strip_tags($msgtext);
+$msgtext = nl2br($msgtext);
+$msgtext = addslashes($msgtext);
+$result = mysql_query("INSERT INTO `pms` (id,`to`, `from`, timesent, `subject`, msgtext) VALUES ('', $newid, 1, unix_timestamp(), '$subject', '$msgtext')");
+
 header("Location: index.php");
 exit;
 ?>
