@@ -99,8 +99,9 @@ function displayItem(&$rows, $type = null) {
                         <td>
                             <img src='{$row['image']}' style='width:100px;height:100px;' /><br />
                             <strong>Cost:</strong> " . prettynum($row['cost'], 1) . "<br />
-                            <strong>City:<strong> $city<br />
+                            <strong>City:<strong> $city<br /><br />
                             {$row['description']}
+                            <br /><br />
                             
                         </td>
                     </tr>
