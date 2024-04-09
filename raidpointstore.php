@@ -96,7 +96,7 @@ if(isset($_GET['buy'])){
                     <td><?php echo $item[1] ?></td>
                     <td><?php echo prettynum($item[2]) ?> Raid Points</td>
                     <td><a class='ycbutton' style='padding:2px 10px;' href='?buy=<?php echo $item[0] ?>'>Buy Now</a></td>
-                s</tr>
+                </tr>
             <?php endforeach; ?>
         </table>
     </div>
