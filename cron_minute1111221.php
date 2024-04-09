@@ -360,6 +360,10 @@ if ($raid_successful) {
                 $money_won = $money_won + (($money_won / 100) * 25);
                 $raidpoints_won = $raidpoints_won + (($raidpoints_won / 100) * 25);
 
+                $points_won = ceil($points_won);
+                $money_won = ceil($money_won);
+                $raidpoints_won = ceil($raidpoints_won);
+
                 $raidBoosterInUse = true;
                 removeItemTempUse($raid['summoned_by'], 'raid_booster', 1);
             }
