@@ -389,7 +389,7 @@ if(!empty($loot_table)){
         $random_chance = rand(0, 100); // Generate a number between 0 and 100
 
         if (isset($raidBoosterInUse) && $raidBoosterInUse) {
-            $random_chance = rand(0, 89);
+            $random_chance = rand(0, 80);
         }
 
         if ($random_chance <= ($loot['drop_rate'] * 100)) {
