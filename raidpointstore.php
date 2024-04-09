@@ -66,9 +66,17 @@ if(isset($_GET['buy'])){
                 }
 
                 // Confirm the purchase to the user
-                echo "You have successfully purchased {$message} for {$item[2]} Activity Points.";
+                echo "
+                    <div class='alert alert-success'>
+                      <p>You have successfully purchased {$message} for {$item[2]} Activity Points.</p>
+                    </div>                   
+                ";
             } else {
-                echo "You do not have enough Activity Points for this purchase.";
+                echo "
+                <div class='alert alert-danger'>
+                    <p>You do not have enough Raid Points for this purchase.</p>
+                </div>
+                ";
             }
             break; // Exit the loop once the item is found and processed
         }
