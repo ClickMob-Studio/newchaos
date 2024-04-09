@@ -352,7 +352,17 @@ if ($raid_successful) {
 
             $points_won = rand($total_min_points, $total_max_points);
             $money_won = rand($total_min_money, $total_max_money);
-        $raidpoints_won = rand($total_min_raidpoints, $total_max_raidpoints);  // New
+            $raidpoints_won = rand($total_min_raidpoints, $total_max_raidpoints);  // New
+
+            $raidBoosterInUse = false;
+            if ($tempItemUse && $tempItemUse['raid_booster'] > 0) {
+                $points_won = $points_won + (($points_won / 100) * 25);
+                $money_won = $money_won + (($money_won / 100) * 25);
+                $raidpoints_won = $raidpoints_won + (($raidpoints_won / 100) * 25);
+
+                $raidBoosterInUse = true;
+                removeItemTempUse($raid['summoned_by'], 'raid_booster', 1);
+            }
 
          // First, determine if the user has rmdays greater than 0
 $query_check_rmdays = "SELECT rmdays FROM grpgusers WHERE id = " . $participant['user_id'];
@@ -377,6 +387,10 @@ $items_won = []; // Store the names of items won
 if(!empty($loot_table)){
     foreach ($loot_table as $loot) {
         $random_chance = rand(0, 100); // Generate a number between 0 and 100
+
+        if (isset($raidBoosterInUse) && $raidBoosterInUse) {
+            $random_chance = rand(0, 89);
+        }
 
         if ($random_chance <= ($loot['drop_rate'] * 100)) {
             // Attempt to fetch the name of the item
