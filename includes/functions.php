@@ -1821,15 +1821,15 @@ function macroTokenCheck($user_class)
     mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken ."' WHERE id = " . $user_class->id);
 }
 
-function getItemTempUse($user_class)
+function getItemTempUse($userId)
 {
-    $q = mysql_query("SELECT * FROM item_temp_use WHERE user_id = " . $user_class->id . " LIMIT 1");
+    $q = mysql_query("SELECT * FROM item_temp_use WHERE user_id = " . $userId . " LIMIT 1");
     $r = mysql_fetch_assoc($q);
 
     if (isset($r['id'])) {
         return $r;
     } else {
-        mysql_query("INSERT INTO item_temp_use (user_id) VALUES (" . $user_class->id . ")");
+        mysql_query("INSERT INTO item_temp_use (user_id) VALUES (" . $userId . ")");
         $r = getItemTempUse();
 
         return $r;
@@ -1838,7 +1838,14 @@ function getItemTempUse($user_class)
 
 function addItemTempUse($user_class, $field, $qty = 1)
 {
-    $itemTempUse = getItemTempUse($user_class);
+    $itemTempUse = getItemTempUse($user_class->id);
 
     mysql_query("UPDATE item_temp_use SET {$field} = {$field} + {$qty} WHERE id = " . $itemTempUse['id']);
+}
+
+function removeItemTempUse($userId, $field, $qty = 1)
+{
+    $itemTempUse = getItemTempUse($userId);
+
+    mysql_query("UPDATE item_temp_use SET {$field} = {$field} - {$qty} WHERE id = " . $userId);
 }
