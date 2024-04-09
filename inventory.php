@@ -1794,6 +1794,7 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
                 break;
             case 251:
                 addItemTempUse($user_class, 'raid_pass');
+
                 echo Message("You have used your raid pass. The next raid you host will be successful.");
                 break;
                case 163:
