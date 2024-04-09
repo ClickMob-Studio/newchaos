@@ -1820,3 +1820,25 @@ function macroTokenCheck($user_class)
     $newMacroToken = generateMacroToken();
     mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken ."' WHERE id = " . $user_class->id);
 }
+
+function getItemTempUse($user_class)
+{
+    $q = mysql_query("SELECT * FROM item_temp_use WHERE user_id = " . $user_class->id . " LIMIT 1");
+    $r = mysql_fetch_assoc($q);
+
+    if (isset($r['id'])) {
+        return $r;
+    } else {
+        mysql_query("INSERT INTO item_temp_use (user_id) VALUES (" . $user_class->id . ")");
+        $r = getItemTempUse();
+
+        return $r;
+    }
+}
+
+function addItemTempUse($user_class, $field, $qty = 1)
+{
+    $itemTempUse = getItemTempUse($user_class);
+
+    mysql_query("UPDATE item_temp_use {$field} = {$field} + {$qty} WHERE id = " . $itemTempUse['id']);
+}
