@@ -247,10 +247,12 @@ if (isset($_POST['ret'])) {
         if ($row['quantity'] <= 0)
             diefun("This loan does not exist.");
         $itemname = $row['itemname'];
-        Take_Loan($_POST['ret'], $_POST['user']);
-        Vault_Event($gang_class->id, "$itemname was taken from [-_USERID_-].", $_POST['user']);
-        echo Message("$itemname was taken from " . formatName($_POST['user']) . ".");
         Send_Event($_POST['user'], "Your gang took their $itemname back from you.");
+        Vault_Event($gang_class->id, "$itemname was taken from [-_USERID_-].", $_POST['user']);
+        Take_Loan($_POST['ret'], $_POST['user']);
+    
+        echo Message("$itemname was taken from " . formatName($_POST['user']) . ".");
+        
         AddToArmory($row['itemid'], $user_class->gang);
 
     }
