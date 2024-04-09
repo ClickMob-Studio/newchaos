@@ -1,4 +1,5 @@
 <?php
+exit;
 include 'header.php';
 if (isset($_GET['use'])) {
 	$id = security($_GET['use']);
