@@ -268,8 +268,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['use_speedup'], $_POST['raid_id'])) {
     $raid_id = intval($_POST['raid_id']);
     $user_id = $user_class->id;
-
-        mysql_query("DELETE FROM inventory WHERE itemid = 194 AND userid = $user_id AND quantity > 0");
+   // Reduce the quantity of the item in the inventory by 1
+    $reduce_item_query = "UPDATE inventory SET quantity = quantity - 1 WHERE itemid = 194 AND userid = $user_id AND quantity > 0";
+    mysql_query($reduce_item_query);
     
 
     // Set the summoned_at column in the active_raids table to the current timestamp
