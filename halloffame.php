@@ -98,6 +98,9 @@ include 'header.php';?>
             
             <?php
             $view = ($_GET['view'] != "") ? $_GET['view'] : 'level';
+            if($view == 'crimes'){
+                $view = 'crimesucceeded';
+            }
             $view2 = ($view == "level") ? ", `exp` DESC" : "";
             $result = mysql_query("SELECT * FROM `grpgusers` gu WHERE (SELECT count(*) FROM bans b WHERE b.id = gu.id AND type IN ('perm','freeze')) = 0 AND `admin` = '0' AND `ban/freeze` = '0'" . $city . "ORDER BY `" . $view . "` DESC" . $view2 . " LIMIT 0,50");
             $rank = 0;
