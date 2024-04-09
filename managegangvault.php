@@ -231,6 +231,11 @@ if (isset($_POST['ret'])) {
             $userid,
             $user_class->gang
         ));
+        $it = mysql_query("SELECT * FROM items WHERE `id` = ".$toret);
+        $tiem = mysql_fetch_assoc($it);
+        $itemname = $tiem['itemname'];
+        Send_Event($_POST['user'], "Your gang took their $itemname back from you.");
+        Vault_Event($gang_class->id, "$itemname was taken from [-_USERID_-].", $_POST['user']);
         AddToArmory($toret, $user_class->gang);
     } else {
         security($_POST['ret']);
