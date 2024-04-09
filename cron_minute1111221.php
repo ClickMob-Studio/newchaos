@@ -221,13 +221,6 @@ $random_chance = rand(0, 100);  //
     $update_query = "UPDATE active_raids SET completed = 1 WHERE id = " . $raid['id'];
     mysql_query($update_query);
 
-    $tempItemUse = getItemTempUse($raid['summoned_by']);
-    if ($tempItemUse && $tempItemUse['raid_pass'] > 0) {
-        $raid_successful = 1;
-
-        removeItemTempUse($raid['summoned_by'], 'raid_pass', 1);
-    }
-
 
  // Your existing initialization code should be here
 
@@ -252,6 +245,14 @@ $total_strength = 0;
 while ($participant = mysql_fetch_assoc($participants_result)) {
     $participants[] = $participant;
     $total_strength += $participant['strength'];
+}
+
+$tempItemUse = getItemTempUse($raid['summoned_by']);
+if ($tempItemUse && $tempItemUse['raid_pass'] > 0) {
+    $raid_successful = 1;
+    $boss_hp = 0;
+
+    removeItemTempUse($raid['summoned_by'], 'raid_pass', 1);
 }
 
 /// Turn-based battle simulation
