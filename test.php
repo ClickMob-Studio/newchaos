@@ -7,7 +7,7 @@ if($user_class->admin < 1){
 }
 
 $check = mysql_query("SELECT ip, COUNT(*) as user_count FROM grpgusers GROUP BY ip HAVING COUNT(*) > 1)");    
-echo mysql_num_rows($check);
+var_dump($check);
 while($row = mysql_fetch_array($check)) {
     echo "IP: " . $row["ip"]. " - Users: " . $row["user_count"]. "<br>";
 }
