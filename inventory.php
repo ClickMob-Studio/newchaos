@@ -1792,6 +1792,10 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
                 add_rm_days(90, 450000, 2500);
                 echo Message("You have added 90 RM days to your account.");
                 break;
+            case 251:
+                addItemTempUse($user_class, 'raid_pass');
+                echo Message("You have used your raid pass. The next raid you host will be successful.");
+                break;
                case 163:
     $db->query("UPDATE grpgusers SET bustpill = bustpill + 60 WHERE id = ?");
  $db->execute(array(

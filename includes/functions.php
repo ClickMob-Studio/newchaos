@@ -1835,3 +1835,10 @@ function getItemTempUse($user_class)
         return $r;
     }
 }
+
+function addItemTempUse($user_class, $field, $qty = 1)
+{
+    $itemTempUse = getItemTempUse($user_class);
+
+    mysql_query("UPDATE item_temp_use `{$field}` = `{$field}` + {$qty} WHERE `id` = " . $itemTempUse['id']);
+}
