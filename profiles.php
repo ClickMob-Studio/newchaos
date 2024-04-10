@@ -1207,6 +1207,11 @@ echo "
             <a class='action' href='sendpoints.php?person=" . $profile_class->id . "'>Send Points</a>
             <a class='action' href='sendgold.php?person=" . $profile_class->id . "'>Send GOLD</a>
                <a class='action' href='profiles.php?id=" . $profile_class->id . "&contact=ignore'>Ignore User</a>";
+        if ($user_class->admin > 0) {
+            echo "
+                <a class='action ajax-link' href='ajax_mug.php?mug=" . $profile_class->id . "&token=" . $user_class->macro_token . "'>Ajax Mug</a>
+            ";
+        }
 
 
 // Add or remove actions as necessary based on your PHP conditions
