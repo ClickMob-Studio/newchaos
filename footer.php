@@ -37,7 +37,7 @@ function calcEXP(){
             });
             request.done(function (res) {
                 console.log(res);
-                if (res.success) {
+                if (res.success == true) {
                     var resMes = "<div class='alert alert-info'><p>" + res.message + "</p></div>";
                 } else {
                     var resMes = "<div class='alert alert-danger'><p>" + res.error + "</p></div>";
