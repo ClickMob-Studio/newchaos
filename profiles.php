@@ -1195,7 +1195,9 @@ echo "
             $csrf = md5(uniqid(rand(), true));
             $_SESSION['csrf'] = $csrf;
 
+
             echo "<div class='profile_container'>
+                <div class='ajax-message-holder' style='min-height: 60px; display: none;'></div>
         <h4>Actions</h4>
         <div class='actions_grid'>
             <a class='action' href='pms.php?view=new&to=" . $profile_class->id . "'>Message</a>
