@@ -39,11 +39,13 @@ function newitemPop($id){
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            Description: <?= $result['description'];?>
             <div class="row">
                 <div class="col-md-6">
-                    <img src="images/<?= $result['itemname'];?>.png" style="width: 100px; height: 100px;" alt="<?= $result['itemname'];?>" class="vacant-throne">
+                    <img src="<?= $result['image'];?>" style="width: 100px; height: 100px;" alt="<?= $result['itemname'];?>" class="vacant-throne">
                 </div>
+                <div class="col-md-6">
+                Description: <?= $result['description'];?>
+              </div>
                 
             </div>
             </div>
