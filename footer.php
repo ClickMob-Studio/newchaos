@@ -16,3 +16,11 @@ function calcEXP(){
 	});
 }
 </script>
+
+<script type="text/javascript">
+    $('.ajax-link').click(function(e) {
+        e.preventDefault();
+
+        console.log($(this).attr('href'));
+    })
+</script>
