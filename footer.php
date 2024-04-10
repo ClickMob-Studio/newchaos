@@ -45,6 +45,7 @@ function calcEXP(){
 
                 $(".ajax-message-holder").html(resMes);
                 $(".ajax-message-holder").show();
+                $.scrollTo($('.ajax-message-holder'), 1000);
 
                 requestInProcess = false;
             });
