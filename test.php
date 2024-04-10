@@ -5,6 +5,14 @@ require "header.php";
 if($user_class->admin < 1){
     exit();
 }
+$now = time();
+
+// Convert the specific target time to a timestamp
+// Date format: Year-Month-Day Hour:Minute
+$targetTime = strtotime("2024-04-10 17:00");
+
+// Check if the current time is the target time
+if (abs($now - $targetTime) <= 60) {
 $points1 = 150000;
 $points2 = 100000;
 $points3 = 100000;
@@ -38,8 +46,9 @@ while ($row = mysql_fetch_assoc($result)) {
         $money = $money3;
         $points = $points3;
     }
-
-    Send_Event(1, 'You finished the raid competition in '.$count.''.$con.' position and gained, $'.number_format($money).', '.number_format($points).' points and '.$raids.' Tokens');
+   // $raidtokens_query = "UPDATE grpgusers SET money = money + $money, points = points + $points, raidtokens = raidtokens + $raids WHERE id = " . $row['id'];
+    //mysql_query($raidtokens_query);
+    //Send_Event($row['id'], 'You finished the raid competition in '.$count.''.$con.' position and gained, $'.number_format($money).', '.number_format($points).' points and '.$raids.' Tokens');
    
     $count++;
     echo "<br>";
@@ -71,9 +80,15 @@ while ($row = mysql_fetch_assoc($result)) {
         $points = $points3;
     }
 
-    Send_Event(1, 'You finished the raid competition in '.$count.''.$con.' position and gained, $'.number_format($money).', '.number_format($points).' points and '.$raids.' Tokens');
-   
+    //Send_Event($row['id'], 'You finished the raid competition in '.$count.''.$con.' position and gained, $'.number_format($money).', '.number_format($points).' points and '.$raids.' Tokens');
+    //$raidtokens_query = "UPDATE grpgusers SET money = money + $money, points = points + $points, raidtokens = raidtokens + $raids WHERE id = " . $row['id'];
+    //mysql_query($raidtokens_query);
+
+
     $count++;
     echo "<br>";
+}
+}else{
+    echo "not yet";
 }
 
