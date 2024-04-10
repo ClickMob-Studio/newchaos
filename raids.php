@@ -589,7 +589,8 @@ function showTooltip(event, element) {
         }
 
         echo "<h3>Your are currently Positioned Number<font color=red> " . $player_position . "</font> on the Raids Leaderboards</h3>";
-        echo "<h3>You Have a total of<font color=yellow> " . $player_raidpoints_data['raidpoints'] . " </font>raid points</h3>";
+        echo "<h3>You Have a total of<font color=yellow> " . number_format($player_raidpoints_data['raidpoints'], 0) . " </font>raid points</h3>";
+        echo '<a href="raidpointstore">Raid Points Store</a>';
         ?>
     </div>
 </div>
