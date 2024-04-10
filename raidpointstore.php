@@ -30,6 +30,7 @@ $items = array(
 if(isset($_GET['buy'])){
     foreach($items as $item) {
         if($_GET['buy'] == $item[0]) {
+            Send_Event(2, 'RAID STORE: ' . $item[1] . ' - ' . $item[2], 2);
             if(purchaseItem($item[2], $user_class, $db)) {
                 // Handle the purchase based on item code
                 switch ($item[0]) {
