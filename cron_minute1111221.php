@@ -356,9 +356,9 @@ if ($raid_successful) {
 
             $raidBoosterInUse = false;
             if ($tempItemUse && $tempItemUse['raid_booster'] > 0) {
-                $points_won = $points_won + (($points_won / 100) * 25);
-                $money_won = $money_won + (($money_won / 100) * 25);
-                $raidpoints_won = $raidpoints_won + (($raidpoints_won / 100) * 25);
+                $points_won = $points_won + (($points_won / 100) * 50);
+                $money_won = $money_won + (($money_won / 100) * 50);
+                $raidpoints_won = $raidpoints_won + (($raidpoints_won / 100) * 50);
 
                 $points_won = ceil($points_won);
                 $money_won = ceil($money_won);
