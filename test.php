@@ -7,6 +7,12 @@ if($user_class->admin < 1){
 }
 
 function newitemPop($id){
+    $id = intval($id);
+    if(isset($id)){
+        $query = mysql_query("SELECT * FROM items WHERE `id` = ".$id);
+        if(mysql_num_rows($query)){
+            $result = mysql_fetch_assoc($query);
+        }
 ?>
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -29,7 +35,7 @@ function newitemPop($id){
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Information about <?= $result['itemname'];?></h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -43,6 +49,7 @@ function newitemPop($id){
       </div>
     </div>
     <?php
+    }
 }
 
 echo newitemPop(1);
