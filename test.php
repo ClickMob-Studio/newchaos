@@ -6,7 +6,7 @@ if($user_class->admin < 1){
     exit();
 }
 
-function newitemPop($id){
+function newitemPop($text, $id, $color = ''){
     $id = intval($id);
     if(isset($id)){
         $query = mysql_query("SELECT * FROM items WHERE `id` = ".$id);
@@ -15,8 +15,8 @@ function newitemPop($id){
         }
 ?>
     <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Launch demo modal
+    <button type="button" class="dcPrimaryButton my-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      <?php echo $text;?>
     </button>
     <style>
         .modal-content {
@@ -65,4 +65,4 @@ function newitemPop($id){
     }
 }
 
-echo newitemPop(1);
+echo newitemPop('Knife' ,1);
