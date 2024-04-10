@@ -232,7 +232,7 @@ echo '</div>';
 
 
 // Milestone Rewards within the second container
-echo '<h3>Milestone Rewards (Only Highest Reward Paid)</h3>';
+echo '<h3>Milestone Rewards(Only Highest Reward Paid)</h3>';
 echo '<div class="reward-tier"><font color=bronze>1,000 Kills</font>: 2,500 Points<br></div>';
 echo '<div class="reward-tier"><font color=silver>2,500 Kills</font>: 6,500 Points<br></div>';
 echo '<div class="reward-tier"><font color=gold>5,000 Kills</font>: 13,000 Points<br></div>';
@@ -256,7 +256,7 @@ echo '<tr><th>Rank</th><th>Username</th><th>RaidEvent Points</th></tr>';
 
 $query = "SELECT id, username, raidcomp FROM grpgusers ORDER BY raidcomp DESC LIMIT 50";
 $result = mysql_query($query);
-while ($row = mysql_fetch_assoc($result)) {
+
 if (!$result) {
     die('Invalid query: ' . mysql_error());
 }
