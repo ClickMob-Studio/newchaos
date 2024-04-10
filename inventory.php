@@ -1797,11 +1797,16 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
 
                 echo Message("You have used your raid pass. The next raid you host will be successful.");
                 break;
-               case 163:
-    $db->query("UPDATE grpgusers SET bustpill = bustpill + 60 WHERE id = ?");
- $db->execute(array(
-               $user_class->id
-    ));
+            case 252:
+                addItemTempUse($user_class, 'raid_booster');
+
+                echo Message("You have used your raid booster. All payouts your next raid will be boosted.");
+                break;
+           case 163:
+              $db->query("UPDATE grpgusers SET bustpill = bustpill + 60 WHERE id = ?");
+                $db->execute(array(
+                           $user_class->id
+                ));
 
                 echo Message("You have added 60 Minutes to your Police Pass.");
                 break;

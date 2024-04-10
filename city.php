@@ -176,6 +176,7 @@ $admin_ids = array_map(function($a) {
     <td valign="top">
       <a href='stores.php'>Item Stores</a><br />
       <a href='pharmacy.php'>General Pharmacy</a><br />
+      <a href='raidpointstore.php'>Raid Point Store</a><br />
       <a href="itemmarket.php">Item Market</a><br />
       <a href="pointmarket.php">Points Market</a><br />
       <a href="goldmarket.php">Gold Market</a><br />
