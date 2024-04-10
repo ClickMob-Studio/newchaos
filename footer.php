@@ -18,31 +18,33 @@ function calcEXP(){
 </script>
 
 <script type="text/javascript">
-    $('.ajax-link').click(function(e) {
-        e.preventDefault();
+    $(document).ready(function() {
+        let requestInProcess = false;
+        $('.ajax-link').click(function(e) {
+            e.preventDefault();
 
-        console.log($(this).attr('href'));
+            if (requestInProcess) {
+                console.log('**** IN PROCESS');
+                return false;
+            }
 
-        $.get($(this).attr('href'), {}, (response) => {
-            console.log(response);
-            // $('.jail-cell-row').remove();
+            requestInProcess = true;
 
-            //if (jailers != false) {
-            //    jailers.forEach((data, index) => {
-            //
-            //        $('#jail-table tr:last').after('' +
-            //            '<tr class="jail-cell-row">' +
-            //            '<td>' + data.username + '</td>' +
-            //            '<td>' + data.time + '</td>' +
-            //            '<td><a class="jail-break-link" href="?jailbreak=' + data.id + '&token=<?php //echo $token ?>//" data-user-id="' + data.id + '" class="break-out-link">Break Out</a></td>' +
-            //            '</tr>'
-            //        );
-            //
-            //        $('.jail-break-link').click(function() {
-            //            $('.jail-break-link').remove();
-            //        });
-            //    })
-            //}
-        }, "json");
-    })
+            var request = $.ajax({
+                url: $(this).attr('href'),
+                method: "GET",
+                dataType: "json"
+            });
+            request.done(function (res) {
+                console.log(res);
+                if (res.success) {
+                    var resMes = "<div class='alert alert-info'><p>" + res.message + "</p></div>";
+                } else {
+                    var resMes = "<div class='alert alert-danger'><p>" + res.error + "</p></div>";
+                }
+
+                $(".ajax-message-holder").html(resMes);
+            });
+        });ß
+    });
 </script>
