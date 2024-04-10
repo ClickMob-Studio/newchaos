@@ -241,6 +241,7 @@ $admin_ids = array_map(function($a) {
       <a href='chapel.php'>Chapel</a><br />
     </td>
     <td valign='top'>
+      <a href='claim_achievements.php'>Claim Achievements</a><br />
       <a href='itempedia.php'>Item Guide</a><br />
       <a href='thecity.php'>Search The City</a><br />
       <a href='prayer.php'>Pray</a><br />
