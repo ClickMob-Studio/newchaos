@@ -74,6 +74,12 @@ else if ($user_class->mprotection > time())
 
 
 $mug = mt_rand(0, 10);
+
+// If they have used a Police Badge, override a jail with a fail
+if ($mug > 9 && $user_class->bustpill > 0) {
+    $mug = 9;
+}
+
 if ($mug <= 8) {
     $success = true;
 
