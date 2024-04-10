@@ -28,7 +28,7 @@ function calcEXP(){
                 return false;
             }
 
-            requestInProcess = true;
+            let requestInProcess = true;
 
             var request = $.ajax({
                 url: $(this).attr('href'),
@@ -36,7 +36,7 @@ function calcEXP(){
                 dataType: "json"
             });
             request.done(function (res) {
-                console.log(res);
+
                 if (res.success == false) {
                     var resMes = "<div class='alert alert-danger'><p>" + res.error + "</p></div>";
                 } else {
@@ -51,7 +51,7 @@ function calcEXP(){
                 }, 2000);
 
 
-                requestInProcess = false;
+                let requestInProcess = false;
             });
         });ß
     });
