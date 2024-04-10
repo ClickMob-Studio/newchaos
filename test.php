@@ -47,7 +47,7 @@ while ($row = mysql_fetch_assoc($result)) {
 
 
 
-$query = "SELECT id, username, killcomp1 FROM grpgusers ORDER BY killcomp1 DESC LIMIT 50";
+$query = "SELECT id, username, killcomp1 FROM grpgusers ORDER BY killcomp1 DESC LIMIT 3";
 $result = mysql_query($query);
 $count = 1;
 
