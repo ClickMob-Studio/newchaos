@@ -45,7 +45,11 @@ function calcEXP(){
 
                 $(".ajax-message-holder").html(resMes);
                 $(".ajax-message-holder").show();
-                $.scrollTo($('.ajax-message-holder'), 1000);
+
+                $('html, body').animate({
+                    scrollTop: $(".ajax-message-holder").offset().top
+                }, 2000);
+
 
                 requestInProcess = false;
             });
