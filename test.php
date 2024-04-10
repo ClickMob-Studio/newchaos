@@ -4,7 +4,7 @@ require "header.php";
 
 if($user_class->admin < 1){
     exit();
-}<?php
+}
 $prize1 = 1000;
 $prize2 = 1000;
 
