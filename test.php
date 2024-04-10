@@ -39,14 +39,14 @@ function newitemPop($id){
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="row">
+            <div class="row text-center">
                 <div class="col-6">
                     <img src="<?= $result['image'];?>" style="width: 100px; height: 100px;" alt="<?= $result['itemname'];?>" class="vacant-throne">
                 </div>
                 <div class="col-6">
                 Description: <?= $result['description'];?>
               </div>
-                <div class="col-12">Details</div>
+                <div class="col-12">Details:</div>
                 <div class="col-6">Sell Value: $<?php echo prettynum($result['cost'] * .6) ?></div>
                 <div class="col-6">Shop Value: $<?php echo prettynum($result['cost']) ?></div>
                 <div class="col-6">Attack Bonus: <?php echo prettynum($result['offense']) ?>%</div>
