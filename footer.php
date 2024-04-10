@@ -28,7 +28,7 @@ function calcEXP(){
                 return false;
             }
 
-            let requestInProcess = true;
+            requestInProcess = true;
 
             var request = $.ajax({
                 url: $(this).attr('href'),
@@ -51,7 +51,7 @@ function calcEXP(){
                 // }, 2000);
 
 
-                let requestInProcess = false;
+                requestInProcess = false;
             });
         });ß
     });
