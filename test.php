@@ -40,10 +40,10 @@ function newitemPop($id){
           </div>
           <div class="modal-body">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-6">
                     <img src="<?= $result['image'];?>" style="width: 100px; height: 100px;" alt="<?= $result['itemname'];?>" class="vacant-throne">
                 </div>
-                <div class="col-md-6">
+                <div class="col-6">
                 Description: <?= $result['description'];?>
               </div>
                 
