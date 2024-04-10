@@ -46,7 +46,13 @@ function newitemPop($id){
                 <div class="col-6">
                 Description: <?= $result['description'];?>
               </div>
-                
+                <div class="col-12">Details</div>
+                <div class="col-6">Sell Value: $<?php echo prettynum($result['cost'] * .6) ?></div>
+                <div class="col-6">Shop Value: $<?php echo prettynum($result['cost']) ?></div>
+                <div class="col-6">Attack Bonus: <?php echo prettynum($result['offense']) ?>%</div>
+                <div class="col-6">Defense Bonus: <?php echo prettynum($result['defense']) ?>%</div>
+                <div class="col-6">Speed Bonus: <?php echo prettynum($result['speed']) ?>%</div>
+                <div class="col-6">Required Level: <?php echo prettynum($result['level']) ?>%</div>
             </div>
           </div>
           <div class="modal-footer">
