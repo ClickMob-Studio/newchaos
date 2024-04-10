@@ -37,12 +37,11 @@ function calcEXP(){
             });
             request.done(function (res) {
                 console.log(res);
-                if (res.success == true) {
-                    var resMes = "<div class='alert alert-info'><p>" + res.message + "</p></div>";
-                } else {
+                if (res.success == false) {
                     var resMes = "<div class='alert alert-danger'><p>" + res.error + "</p></div>";
+                } else {
+                    var resMes = "<div class='alert alert-info'><p>" + res.message + "</p></div>";
                 }
-                console.log(resMes);
 
                 $(".ajax-message-holder").html(resMes);
                 $(".ajax-message-holder").show();
