@@ -1165,5 +1165,5 @@ function microtime_float()
 anticheat();
 ?>
 
-<div class="ajax-message-holder" style="min-height: 60px;"></div>
+<div class="ajax-message-holder" style="min-height: 60px; display: none;"></div>
 
