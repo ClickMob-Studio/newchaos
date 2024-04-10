@@ -36,7 +36,6 @@ function calcEXP(){
                 dataType: "json"
             });
             request.done(function (res) {
-                console.log(res);
                 if (res.success) {
                     var resMes = "<div class='alert alert-info'><p>" + res.message + "</p></div>";
                 } else {
@@ -44,6 +43,8 @@ function calcEXP(){
                 }
 
                 $(".ajax-message-holder").html(resMes);
+
+                requestInProcess = false;
             });
         });ß
     });
