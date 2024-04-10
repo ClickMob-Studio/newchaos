@@ -84,55 +84,7 @@ if (isset($_GET['sell'])) {
     $user_class->money += $add;
     echo Message("You have sold your {$row['name']} for " . prettynum($add, 1) . ".");
 }
-if (isset($_GET['rent'])) {
-    security($_GET['rent']);
-    $db->query("SELECT * FROM ownedProperties o JOIN houses h ON o.houseid = h.id WHERE o.id = ? AND userid = ?");
-    $db->execute(array(
-        $_GET['rent'],
-        $user_class->id
-    ));
-    $row = $db->fetch_row(true);
-    if (empty($row))
-        diefun("This house was not found in your portfolio.");
-    if (empty($_POST['costperday'])) {
-        echo"
-        You are listing a {$row['name']} on the rental market.<br />
-        <form method='post'>
-            <table id='newtables' class='altcolors' style='width:50%;'>
-                <tr>
-                    <th>Price Per Day:</th>
-                    <td><input type='text' placeholder='MAX: ".($row['cost'] / 20)."' name='costperday' /></td>
-                </tr>
-                <tr>
-                    <th>Days to rent out:</th>
-                    <td><input type='text' name='days' value='0' /></td>
-                </tr>
-                <tr>
-                    <th colspan='2'><input type='submit' value='Rent out your House' /></th>
-                </tr>
-            </table>
-        </form>";
-    } else {
-        $cost = security($_POST['costperday']);
-        if($cost > $row['cost'] / 20)
-            diefun("You can rent your house out for no more than 5% of it's original cost per day.");
-        $days = security($_POST['days']);
-        $db->startTrans();
-        $db->query("INSERT INTO rentalMarket VALUES ('', ?, ?, ? ,'money', ?)");
-        $db->execute(array(
-            $user_class->id,
-            $row['houseid'],
-            $cost,
-            $days
-        ));
-        $db->query("DELETE FROM ownedProperties WHERE id = ?");
-        $db->execute(array(
-            $_GET['rent']
-        ));
-        $db->endTrans();
-        echo Message("You have listed your house on the rental market.");
-    }
-}
+
 if (isset($_GET['moveout'])) {
     if ($user_class->house == 0)
         diefun("You do not currently live in a house.");
@@ -259,7 +211,7 @@ foreach ($rows as $row) {
             <td>
                 <a href='?move={$row['oid']}'><button>Move into this House!</button></a><br /><br />
                 <button onclick=\"if(confirm('Are you sure you want to sell your {$row['name']} for " . prettynum($row['cost'] / 2) . "?')) window.location.href = '?sell={$row['oid']}'\">Sell this House!</button><br /><br />
-                <a href='?rent={$row['oid']}'><button>Rent out this House!</button></a><br /><br />
+                
                 </td>
         </tr>";
 }$db->query("SELECT *, r.id as rid FROM rentalMarket r JOIN houses h ON r.houseid = h.id WHERE owner = ? ORDER BY awake DESC");
