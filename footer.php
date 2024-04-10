@@ -43,6 +43,7 @@ function calcEXP(){
                 }
 
                 $(".ajax-message-holder").html(resMes);
+                $(".ajax-message-holder").show();
 
                 requestInProcess = false;
             });
