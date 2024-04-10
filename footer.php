@@ -42,6 +42,7 @@ function calcEXP(){
                 } else {
                     var resMes = "<div class='alert alert-danger'><p>" + res.error + "</p></div>";
                 }
+                console.log(resMes);
 
                 $(".ajax-message-holder").html(resMes);
                 $(".ajax-message-holder").show();
