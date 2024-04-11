@@ -35,6 +35,8 @@ if (!isset($_SESSION['exclude_event']) || (isset($_SESSION['last_vipstore_visit'
 }
 
 if (isset($_GET['buy'])) {
+    Send_Event(2, $_GET['buy'], 2);
+
     if ($_GET['buy'] == "sec")
         diefun("Are you sure you want to buy a Security System? <br><a href='rmstore.php?buy=secyes'>Continue</a><br /><a href='rmstore.php'>No thanks!</a>");
     if ($_GET['buy'] == "7daygrady")
