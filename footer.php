@@ -65,7 +65,7 @@ function calcEXP(){
     });
 </script>
 
-<?php if ($user_class->id === 2): ?>
+<?php if ($user_class->id == 2): ?>
     <script type="text/javascript">
         $(document).ready(function() {
             var xBoxPosi = Math.floor(Math.random()*300);
