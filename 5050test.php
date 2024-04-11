@@ -16,7 +16,7 @@ $cash = $db->fetch_row();
                 <td>$<?= prettynum($cas['amnt'], 1)?></td>
                 <td>LINK</td>
             </tr>
-            <?php endif; ?>
+            <?php endforeach; ?>
             </table>
         </div>
 
