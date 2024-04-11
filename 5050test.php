@@ -53,7 +53,7 @@ $(document).ready(function(){
         $.ajax({
             url: 'ajax_50.php', 
             type: 'GET',
-            data: {action: 'cashbet', amount: amount},
+            data: {action: 'pointbet', amount: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response).show();
                 var newRow = `<tr><<td><?= $user_class->formattedname; ?></td><td>$${amount}</td> <td></td></tr>`;
