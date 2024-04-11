@@ -68,6 +68,27 @@ $(document).ready(function(){
         });
     });
 });
+$(document).ready(function(){
+    $(document).on('click', '.removeCashButton', function(){
+        var amount = $(this).val();
+        var $button = $(this);
+       
+        $.ajax({
+            url: 'ajax_50.php', 
+            type: 'GET',
+            data: {action: 'removecashbet', id: amount},
+            success: function(response) {
+                $(".col-12.alert.alert-info").html(response).show();
+                $button.closest('tr').fadeOut(400, function() { 
+                    $(this).remove();
+                });
+             },
+            error: function() {
+                alert("An error occurred");
+            }
+        });
+    });
+});
 </script>
 <h1>50/50</h1>
 <div class="container">
@@ -95,7 +116,12 @@ $(document).ready(function(){
             <tr>
                 <td><?= formatName($cas['userid'])?></td>
                 <td><?= prettynum($cas['amnt'], 1)?></td>
+
+                <?php if($user_class->id == $cas['userid']):?>
+                    <td><button class="removeCashButton" value="<?=$cas['id'];?>">Remove</button></td>
+                <?php else:?>
                 <td><button class="takeCashButton" value="<?=$cas['id'];?>">Take</button></td>
+                <?php endif;?>
             </tr>
             <?php endforeach; ?>
                 </tbody>
