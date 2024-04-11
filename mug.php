@@ -1,5 +1,6 @@
 <?php
 include 'header.php';
+exit;
 ?>
 <div class='box_top'>Mug</div>
 						<div class='box_middle'>
