@@ -38,3 +38,27 @@ if($_GET['action'] == 'cashbet'){
     $db->query("INSERT INTO fiftyfifty(userid, amnt, currency) VALUES (".$user_class->id .", ".$amount.", 'cash')");
     $db->execute();
 }
+
+if($_GET['action'] == 'takecashbet'){
+    if(!isset($_GET['id'])){
+        echo "That bet does not appear to be valid";
+        exit();
+    }
+    $id = intval($_GET['id']);
+    $db->query("SELECT * FROM fiftyfifty WHERE id = ?");
+    $db->execute(array($id));
+    if($db->num_rows() < 1){
+        echo "That bet does not appear to be valid";
+        exit;
+    }
+    $fet = $db->fetch_row();
+
+    $rand = mt_rand(1,2);
+    if($rand == 1){
+        echo "You have lost the bet for $".number_format($fet['amount']);
+        $db->query("UPDATE grpgusers SET money = money - ".$fet['amount']." WHERE id = ".$user_class->id);
+        $db->query("UPDATE grpgusers SET money = money - ".$fet['amount']." WHERE id = ".$fet['userid']);
+        Send_Event($fet['userid'], $user_class->formattedname . " to your bet of $".$fet['amount']." and you won");
+
+    }
+}
