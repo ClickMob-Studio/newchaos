@@ -72,12 +72,15 @@ function handleTrade($tradeId) {
     for ($i = 1; $i <= 6; $i++) {
         if (!empty($trade["item$i"])) {
             // Deduct the item
-            $deductQuery = "UPDATE inventory SET quantity = quantity - {$trade["item{$i}quantity"]} WHERE userid = $userId AND itemid = {$trade["item$i"]}";
-            $result = mysql_query($deductQuery);
-            if (!$result) {
-                mysql_query("ROLLBACK");
-                return "Failed to deduct items.";
+            if(removeFromInventory($user_class->id, $trade["item$i"] ,$trade["item{$i}quantity"]) == false){
+                echo Message('Something went wrong');
             }
+            // $deductQuery = "UPDATE inventory SET quantity = quantity - {$trade["item{$i}quantity"]} WHERE userid = $userId AND itemid = {$trade["item$i"]}";
+            // $result = mysql_query($deductQuery);
+            // if (!$result) {
+            //     mysql_query("ROLLBACK");
+            //     return "Failed to deduct items.";
+            // }
 
             // Check if quantity is now 0 and remove the item if it is
             $checkQuantityQuery = "SELECT quantity FROM inventory WHERE userid = $userId AND itemid = {$trade["item$i"]}";
