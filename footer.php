@@ -67,13 +67,16 @@ function calcEXP(){
 
 <?php if ($user_class->id == 2 && $user_class->box_hunt_count <= 20): ?>
     <?php $boxHuntChance = mt_rand(1,100); ?>
+    <?php $boxHuntChance = 5; ?>
     <?php if ($boxHuntChance <= 5): ?>
         <script type="text/javascript">
             $(document).ready(function() {
                 var xBoxPosi = Math.floor(Math.random()*1000);
                 var yBoxPosi = Math.floor(Math.random()*1000);
 
-                $(".box_middle").append('<img alt="Click Me!" src="/css/images/NewGameImages/mysterybox.png" style="position:absolute; top:'+xBoxPosi+'px; left:'+yBoxPosi+'px;" />');
+                $(".box_middle").append(
+                    '<a href='claim_mystery_box.php?token=<?php echo $user_class->macro_token ?>'><img alt="Click Me!" src="/css/images/NewGameImages/mysterybox.png" style="position:absolute; top:'+xBoxPosi+'px; left:'+yBoxPosi+'px;" /></a>'
+                );
             });
         </script>
     <?php endif; ?>
