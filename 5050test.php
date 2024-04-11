@@ -14,7 +14,7 @@ $cash = $db->fetch_row();
             <?php foreach ($cash as $cas): ?>
             <tr>
                 <td><?= formatName($cas['userid'])?></td>
-                <td>$<?= prettynum($cas['amnt'], 1)?></td>
+                <td><?= prettynum($cas['amnt'], 1)?></td>
                 <td>LINK</td>
             </tr>
             <?php endforeach; ?>
@@ -23,11 +23,33 @@ $cash = $db->fetch_row();
         </div>
 
         <div class="col-md-4 col-12">
-            testing cols
+        <h1>Cash Bets</h1>
+            <table>
+                <tbody>
+            <?php foreach ($cash as $cas): ?>
+            <tr>
+                <td><?= formatName($cas['userid'])?></td>
+                <td><?= prettynum($cas['amnt'], 1)?></td>
+                <td>LINK</td>
+            </tr>
+            <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
 
         <div class="col-md-4 col-12">
-            testing cols
+        <h1>Cash Bets</h1>
+            <table>
+                <tbody>
+            <?php foreach ($cash as $cas): ?>
+            <tr>
+                <td><?= formatName($cas['userid'])?></td>
+                <td><?= prettynum($cas['amnt'], 1)?></td>
+                <td>LINK</td>
+            </tr>
+            <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
