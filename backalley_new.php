@@ -69,11 +69,11 @@ include 'footer.php';
             request.done(function (res) {
                 if (res.success == false || res.success == 'false') {
                     var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
-                    $('#ta-tbody').append('<tr><td>' + res.error + '</td></tr>');
 
+                    $('<tr><td>' + res.error + '</td></tr>').prependTo("#ta-tbody");
                 } else {
                     var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
-                    $('#ba-tbody').append('<tr><td>' + res.message + '</td></tr>');
+                    $('<tr><td>' + res.message + '</td></tr>').prependTo("#ta-tbody");
                 }
 
                 $("#ba-response-message").html(resMes);
