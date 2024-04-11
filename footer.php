@@ -37,7 +37,7 @@ function calcEXP(){
             requestInProcess = true;
 
             var request = $.ajax({
-                url: $(this).attr('href'),
+                url: $(this).attr('href') + '&alv=yes',
                 method: "GET",
                 dataType: "json"
             });
