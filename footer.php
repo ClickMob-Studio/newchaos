@@ -61,6 +61,6 @@ function calcEXP(){
 
                 requestInProcess = false;
             });
-        });ß
+        });
     });
 </script>
