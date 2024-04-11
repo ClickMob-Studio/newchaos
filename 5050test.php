@@ -37,6 +37,8 @@ $(document).ready(function(){
             data: {action: 'cashbet', amount: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response).show();
+                var newRow = `<tr><<td>?= $user_class->formattedname; ?></td><td>${amount}points</td> <td></td></tr>`; // Modify as per your table structure
+                $("#cashbettable tbody").append(newRow);
             },
             error: function() {
                 // Handle error
@@ -62,7 +64,7 @@ $(document).ready(function(){
         <div class="col-md-6 col-12 style="padding-bottom:10px;"">
             <h1>Cash Bets</h1>
             
-            <table>
+            <table id='cashbettable'>
             <thead>
                     <th>Name</th>
                     <th>Amount</th>
@@ -92,7 +94,7 @@ $(document).ready(function(){
             <?php foreach ($points as $poin): ?>
             <tr>
                 <td><?= formatName($poin['userid'])?></td>
-                <td><?= prettynum($poin['amnt'])?></td>
+                <td><?= prettynum($poin['amnt'])?> points</td>
                 <td>LINK</td>
             </tr>
             <?php endforeach; ?>
