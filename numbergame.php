@@ -50,12 +50,7 @@ if (!$getid) {
     mysql_query("UPDATE numbergame SET userid=$user_class->id WHERE number=$getid");
     print "<br />You have taken the number $getid<br /><br /><hr width=80%> <a href='numbergame.php'>Number Game</a><hr width=80%>";
 }
-?>
-<form method='GET'>
- <input type='number' name='take'>
- <input type='submit' name='submit' value='Choose' />
-</form>
-</table>
+?></table>
 <?php
 include 'footer.php';
 ?>
