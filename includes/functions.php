@@ -1801,7 +1801,7 @@ function macroTokenCheck($user_class)
 
         echo "
             <div class='alert alert-danger'>
-                <p>Something went wrong, an Admin has been informed.
+                <p>1 Something went wrong, an Admin has been informed.
             </div>
         ";
         exit;
@@ -1814,7 +1814,7 @@ function macroTokenCheck($user_class)
 
         echo "
             <div class='alert alert-danger'>
-                <p>Something went wrong, an Admin has been informed.
+                <p>2 Something went wrong, an Admin has been informed.
             </div>
         ";
         exit;
@@ -1826,7 +1826,7 @@ function macroTokenCheck($user_class)
 
         echo "
             <div class='alert alert-danger'>
-                <p>Something went wrong, an Admin has been informed.
+                <p>3 Something went wrong, an Admin has been informed.
             </div>
         ";
         exit;
