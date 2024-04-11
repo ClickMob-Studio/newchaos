@@ -48,6 +48,25 @@ $(document).ready(function(){
     });
 });
 $(document).ready(function(){
+    $("#betPointsButton").click(function(){
+        var amount = $("#betPAmount").val(); 
+        $.ajax({
+            url: 'ajax_50.php', 
+            type: 'GET',
+            data: {action: 'cashbet', amount: amount},
+            success: function(response) {
+                $(".col-12.alert.alert-info").html(response).show();
+                var newRow = `<tr><<td><?= $user_class->formattedname; ?></td><td>$${amount}</td> <td></td></tr>`;
+                $("#cashbettable tbody").append(newRow);
+            },
+            error: function() {
+                // Handle error
+                alert("An error occurred");
+            }
+        });
+    });
+});
+$(document).ready(function(){
     $(document).on('click', '.takeCashButton', function(){
         var amount = $(this).val();
         var $button = $(this);
@@ -98,6 +117,11 @@ $(document).ready(function(){
                 <h1>Place Cash Bet</h1>
             <input type="number" id="betAmount" placeholder="Enter bet amount">
             <button id="betCashButton">Place Bet</button>
+            </td>
+            <td>
+                <h1>Place Points Bet</h1>
+            <input type="number" id="betPAmount" placeholder="Enter bet amount">
+            <button id="betPointsButton">Place Bet</button>
             </td>
         </tbody>
     </table>
