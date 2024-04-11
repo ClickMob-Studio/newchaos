@@ -1796,23 +1796,23 @@ function generateMacroToken($length = 10) {
 function macroTokenCheck($user_class)
 {
     if (!isset($_GET['token'])) {
-        Send_Event(1, 'ID ' . $user_class-> id . ' MUGGING: NO TOKEN PROVIDED', 1);
-        Send_Event(2, 'ID ' . $user_class-> id . ' MUGGING: NO TOKEN PROVIDED', 2);
+//        Send_Event(1, 'ID ' . $user_class-> id . ' MUGGING: NO TOKEN PROVIDED', 1);
+//        Send_Event(2, 'ID ' . $user_class-> id . ' MUGGING: NO TOKEN PROVIDED', 2);
 
         error('Something went wrong, an Admin has been informed.');
     }
 
     $token = $_GET['token'];
     if (empty($token)) {
-        Send_Event(1, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token, 1);
-        Send_Event(2, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token, 2);
+//        Send_Event(1, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token, 1);
+//        Send_Event(2, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token, 2);
 
         error('Something went wrong, an Admin has been informed.');
     }
 
     if ($user_class->macro_token != $token) {
-        Send_Event(1, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token . ' - ' . $user_class->macro_token, 1);
-        Send_Event(2, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token . ' - ' . $user_class->macro_token, 2);
+//        Send_Event(1, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token . ' - ' . $user_class->macro_token, 1);
+//        Send_Event(2, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token . ' - ' . $user_class->macro_token, 2);
 
         error('Something went wrong, an Admin has been informed.');
     }
