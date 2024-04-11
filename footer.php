@@ -64,3 +64,16 @@ function calcEXP(){
         });
     });
 </script>
+
+<?php if ($user_class->id === 2): ?>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var xBoxPosi = Math.floor(Math.random()*300);
+            var yBoxPosi = Math.floor(Math.random()*300);
+
+            $("#box_middle").append('<img alt="Click Me!" src="/css/images/NewGameImages/mysterybox.png" style="position:absolute; top:'+xPos+'px; left:'+yPos+'px;" />');
+
+
+        });
+    </script>
+<?php endif; ?>
