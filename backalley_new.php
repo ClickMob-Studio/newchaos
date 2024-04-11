@@ -1,0 +1,70 @@
+<?php
+
+session_start();
+include 'header.php';
+?>
+
+<div class="box_top"><h1>Back Alley</h1></div>
+<div class="box_middle">
+    <div class="row">
+        <div class="col-md-12">
+            <p>
+                Welcome to the Back Alley! Here you will battle against different opponents,
+                which But will you take the risk when its 20% energy per attack.
+                If you fail you will find yourself in the hospital
+            </p>
+
+            <div id="ba-response-message" style="min-height: 60px; display: none;"></div>
+
+            <p>
+                <a href="#" class="back-alley-link">Search The Back Alley</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<?php
+include 'footer.php';
+?>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        let requestInProcess = false;
+
+        $('.back-alley-link').click(function(e) {
+            e.preventDefault();
+
+            let clicked = $(this);
+
+            $(".ajax-alert-div").remove();
+            $(this).hide();
+            $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
+
+            if (requestInProcess) {
+                return false;
+            }
+
+            requestInProcess = true;
+
+            var request = $.ajax({
+                url: 'ajax_ba_new.php?alv=yes',
+                method: "GET",
+                dataType: "json"
+            });
+            request.done(function (res) {
+                if (res.success == false || res.success == 'false') {
+                    var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + res.error + "</p></div>";
+                } else {
+                    var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + res.message + "</p></div>";
+                }
+
+                $("#ba-response-message").html(resMes);
+                $("#ba-response-message").show();
+                $(".temp-spinner").remove();
+                clicked.show();
+
+                requestInProcess = false;
+            });
+        });
+    });
+</script>

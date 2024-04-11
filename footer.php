@@ -42,7 +42,6 @@ function calcEXP(){
                 dataType: "json"
             });
             request.done(function (res) {
-
                 if (res.success == false || res.success == 'false') {
                     var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + res.error + "</p></div>";
                 } else {
