@@ -5,10 +5,9 @@ This is necessary to allow the main menu to include the left menu on mobile devi
  **/
 
 ?>
-   <div class="d-none d-lg-block col-2 dcLeftNavContainer p-0">
-        <nav class="navbar navbar-expand-lg p-0 dcNav dcLeftNav">
-            <div class="navbar d-block w-100 p-0">
-                <ul class="navbar-nav text-center">
+<nav class="navbar navbar-expand-lg p-0 dcNav dcLeftNav">
+	<div class="navbar d-block w-100 p-0">
+		<ul class="navbar-nav text-center">
 			<?php foreach ( $leftLinks as $link ) : ?>
 				<li class="nav-item">
 					<?php 
@@ -21,4 +20,3 @@ This is necessary to allow the main menu to include the left menu on mobile devi
 		</ul>
 	</div>
 </nav>
-</div>
