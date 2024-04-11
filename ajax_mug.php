@@ -102,7 +102,8 @@ if (isset($response['error'])) {
 }
 
 $newnerve = $user_class->nerve - 10;
-$result = mysql_query("UPDATE grpgusers SET nerve = '" . $newnerve . "' WHERE id=" . $user_class->id);
+$db->query("UPDATE grpgusers SET nerve = '" . $newnerve . "' WHERE id=" . $user_class->id);
+$db->execute();
 
 $mug = mt_rand(0, 10);
 
