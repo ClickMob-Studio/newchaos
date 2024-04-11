@@ -25,7 +25,7 @@ if (isset($_GET['do'])) {
     $currenttime = time();
     if ($q)
         $msgg = "You are currently doing a mission!";
-    else if ($c && ($c['timestamp'] + 1800) > $currenttime) {
+    else if ($c && ($c['timestamp'] + 600) > $currenttime) {
         $msgg = "You have to wait " . secondsToTime(($c['timestamp'] + 600) - $currenttime) . " until you can start another mission after canceling!";
     } else if ($r && $r['completed'] != "no") {
         $currenttime = time();
