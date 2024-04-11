@@ -178,7 +178,8 @@ if ($mug <= 8) {
             newmissions('mugs');
             gangContest(array('mugs' => 1));
             bloodbath('mugs', $user_class->id);
-            mysql_query("UPDATE grpgusers SET moth = moth + 1, motd = motd + 1 WHERE id = $user_class->id");
+            $db->query("UPDATE grpgusers SET moth = moth + 1, motd = motd + 1 WHERE id = $user_class->id");
+            $db->execute();
             $toadd = array('motd' => 1);
             ofthes($user_class->id, $toadd);
 
@@ -190,7 +191,8 @@ if ($mug <= 8) {
                 $tax = round($mugamount / 100) * $gang_class->tax;
                 $mugamount = $mugamount - $tax;
                 $newvault = $gang_class->moneyvault + $tax;
-                $result2 = mysql_query("UPDATE `gangs` SET `moneyvault` = '" . $newvault . "' WHERE `id` = '" . $user_class->gang . "'");
+                $db->query("UPDATE `gangs` SET `moneyvault` = '" . $newvault . "' WHERE `id` = '" . $user_class->gang . "'");
+                $db->execute();
             }
             $newmuggedamount = $attack_person->money - $mugamount;
             $newmuggedamount1 = $attack_person->money - ($mugamount + $tax);
@@ -210,10 +212,17 @@ if ($mug <= 8) {
             }
 
             Send_Event($attack_person->id, "You were mugged by [-_USERID_-]. They stole " . prettynum($mugamount, 1) . ".", $user_class->id);
-            mysql_query("UPDATE grpgusers SET money = $newmuggeramount, muggedmoney = $muggedmoneygain, mugsucceeded = $mugsucceeded, moth = moth + 1, motd = motd + 1, tamt = tamt + $mugamount WHERE id = $user_class->id");
-            mysql_query("UPDATE grpgusers SET muggedmoney = $muggedmoneylost, money = $newmuggedamount1 WHERE id = $attack_person->id");
+
+            $db->query("UPDATE grpgusers SET money = $newmuggeramount, muggedmoney = $muggedmoneygain, mugsucceeded = $mugsucceeded, moth = moth + 1, motd = motd + 1, tamt = tamt + $mugamount WHERE id = $user_class->id");
+            $db->execute();
+
+            $db->query("UPDATE grpgusers SET muggedmoney = $muggedmoneylost, money = $newmuggedamount1 WHERE id = $attack_person->id");
+            $db->execute();
+
             $online = (time() - $attack_person->lastactive < 900) ? 1 : 0;
-            mysql_query("INSERT INTO muglog (mugger, mugged, amount, active, timestamp) VALUES($user_class->id,$attack_person->id,$mugamount,$online,unix_timestamp())");
+            $db->query("INSERT INTO muglog (mugger, mugged, amount, active, timestamp) VALUES($user_class->id,$attack_person->id,$mugamount,$online,unix_timestamp())");
+            $db->execute();
+
             mission('m');
             newmissions('mugs');
             gangContest(array('mugs' => 1));
@@ -238,7 +247,9 @@ if ($mug <= 8) {
 } else {
     Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
     $timee = 300;
-    $result = mysql_query("UPDATE `grpgusers` SET `jail` = '" . $timee . "' WHERE `id`='" . $user_class->id . "'");
+
+    $db->query("UPDATE `grpgusers` SET `jail` = '" . $timee . "' WHERE `id`='" . $user_class->id . "'");
+    $db->execute();
 
     $response = success("You failed and were sent to prison for 5 minutes!.");
     echo json_encode($response);
