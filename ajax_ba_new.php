@@ -107,7 +107,10 @@ $attacker = $baAttackerNames[mt_rand(0, (count($baAttackerNames) - 1))];
 $scenario = $baAttackerScenarios[mt_rand(0, (count($baAttackerScenarios) - 1))];
 $scenario['start'] = str_replace('__ANAME__', $attacker, $scenario['start']);
 
-if (mt_rand(1,2) == 1) {
+$outcome = mt_rand(1,2);
+if ($outcome == 1) {
+
+    // WIN CASH & EXP
     $fullResponse = $scenario['start'];
     $fullResponse .= '<br />';
     $fullResponse .= '<br />';

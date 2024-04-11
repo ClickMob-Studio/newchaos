@@ -8,17 +8,19 @@ include 'header.php';
 <div class="box_middle">
     <div class="row">
         <div class="col-md-12">
-            <p>
-                Welcome to the Back Alley! Here you will battle against different opponents,
-                which But will you take the risk when its 20% energy per attack.
-                If you fail you will find yourself in the hospital
-            </p>
+            <center>
+                <p>
+                    Welcome to the Back Alley! Here you will battle against different opponents,
+                    which But will you take the risk when its 20% energy per attack.
+                    If you fail you will find yourself in the hospital
+                </p>
 
-            <div id="ba-response-message" style="min-height: 60px; display: none;"></div>
+                <div id="ba-response-message" style="min-height: 60px; display: none;"></div>
 
-            <p>
-                <a href="#" class="back-alley-link">Search The Back Alley</a>
-            </p>
+                <a href="#" class="btn btn-primary ba-search-link">Search</a>
+                <a href="#" class="btn btn-primary">Med Pack</a>
+            </center>
+
         </div>
     </div>
 </div>
@@ -31,7 +33,7 @@ include 'footer.php';
     $(document).ready(function() {
         let requestInProcess = false;
 
-        $('.back-alley-link').click(function(e) {
+        $('.ba-search-link').click(function(e) {
             e.preventDefault();
 
             let clicked = $(this);
