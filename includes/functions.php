@@ -1826,10 +1826,9 @@ function macroTokenCheck($user_class)
 
 
         echo
-            $user_class->macro_token . ' - ' . $token .
         "
             <div class='alert alert-danger'>
-                <p>3 Something went wrong, an Admin has been informed.
+                <p>Something went wrong, an Admin has been informed.
             </div>
         ";
         exit;
