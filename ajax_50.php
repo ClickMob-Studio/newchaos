@@ -55,10 +55,10 @@ if($_GET['action'] == 'takecashbet'){
 
     $rand = mt_rand(1,2);
     if($rand == 1){
-        echo "You have lost the bet for $".number_format($fet['amount']);
-        $db->query("UPDATE grpgusers SET money = money - ".$fet['amount']." WHERE id = ".$user_class->id);
-        $db->query("UPDATE grpgusers SET money = money - ".$fet['amount']." WHERE id = ".$fet['userid']);
-        Send_Event($fet['userid'], $user_class->formattedname . " to your bet of $".$fet['amount']." and you won");
+        echo "You have lost the bet for $".number_format($fet['amnt']);
+        $db->query("UPDATE grpgusers SET money = money - ".$fet['amnt']." WHERE id = ".$user_class->id);
+        $db->query("UPDATE grpgusers SET money = money - ".$fet['amnt']." WHERE id = ".$fet['userid']);
+        Send_Event($fet['userid'], $user_class->formattedname . " to your bet of $".$fet['amnt']." and you won");
 
     }
 }
