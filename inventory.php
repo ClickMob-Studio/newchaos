@@ -1767,31 +1767,31 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
 
                     mysql_query("UPDATE grpgusers SET points = points + " . $randpoints . " WHERE id = " . $user_class->id);
 
-                    echo Message("You open the mystery box and find <span style='color:red;font-weight:bold;'>$randpoints</span> Points.");
+                    echo Message("You open the mystery box and find <span style='color:green;font-weight:bold;'>$randpoints</span> Points.");
                 } elseif ($randnum == 2 ) {
                     $randraidtokens = mt_rand(100, 250);
                     $user_class->raitokens += $randraidtokens;
 
                     mysql_query("UPDATE grpgusers SET raidtokens = raidtokens + " . $randraidtokens . " WHERE id = " . $user_class->id);
 
-                    echo Message("You open the mystery box and find <span style='color:red;font-weight:bold;'>$randraidtokens</span> Raid Tokens.");
+                    echo Message("You open the mystery box and find <span style='color:green;font-weight:bold;'>$randraidtokens</span> Raid Tokens.");
                 } elseif ($randnum == 3) {
                     $randcash = rand(1000000, 5000000);
                     $user_class->money += $randcash;
 
                     mysql_query("UPDATE grpgusers SET money = money + " . $randcash . " WHERE id = " . $user_class->id);
 
-                    echo Message("You open the mystery box and find $<span style='color:red;font-weight:bold;'>$randcash</span>.");
+                    echo Message("You open the mystery box and find $<span style='color:green;font-weight:bold;'>$randcash</span>.");
                 } elseif ($randnum == 4) {
                     $itemid = 252;
                     Give_Item($itemid, $user_class->id, 1);
 
-                    echo Message("You open the mystery box and find <span style='color:red;font-weight:bold;'>1 x Raid Booster</span>.");
+                    echo Message("You open the mystery box and find <span style='color:green;font-weight:bold;'>1 x Raid Booster</span>.");
                 } else {
                     $itemid = 163;
                     Give_Item($itemid, $user_class->id, 1);
 
-                    echo Message("You open the mystery box and find <span style='color:red;font-weight:bold;'>1 x Police Badge</span>.");
+                    echo Message("You open the mystery box and find <span style='color:green;font-weight:bold;'>1 x Police Badge</span>.");
                 }
 
                 break;
