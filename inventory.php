@@ -1761,24 +1761,39 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
                 break;
             case 42:
                 $randnum = rand(0, 100);
-                if ($randnum == 1)
-                    $randpoints = rand(5000, 30000);
-                elseif ($randnum >= 2 && $randnum <= 15)
-                    $randpoints = rand(2000, 5000);
-                elseif ($randnum >= 16 && $randnum <= 30)
-                    $randpoints = rand(1000, 3000);
-                elseif ($randnum >= 31 && $randnum <= 65)
-                    $randpoints = rand(500, 2000);
-                else
-                    $randpoints = rand(250, 2000);
-                $user_class->points += $randpoints;
-                $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
-                $db->execute(array(
-                    $randpoints,
-                    $user_class->id
-                ));
-                $jp = ($randpoints >= 10000) ? "You hit the <span style='color:red;font-weight:bold;'>Jackpot</span>! " : "";
-                echo Message("{$jp}You have taken <span style='color:#00ff00;font-weight:bold;'>$randpoints</span> Points from the Mystery Box.");
+                if ($randnum <= 30) {
+                    $randpoints = rand(1000, 5000);
+                    $user_class->points += $randpoints;
+
+                    mysql_query("UPDATE grpgusers SET points = points + " . $randpoints . " WHERE id = " . $user_class->id);
+
+                    echo Message("You open the mystery box and find <span style='color:green;font-weight:bold;'>$randpoints</span> Points.");
+                } elseif ($randnum <= 60) {
+                    $randraidtokens = mt_rand(100, 250);
+                    $user_class->raitokens += $randraidtokens;
+
+                    mysql_query("UPDATE grpgusers SET raidtokens = raidtokens + " . $randraidtokens . " WHERE id = " . $user_class->id);
+
+                    echo Message("You open the mystery box and find <span style='color:green;font-weight:bold;'>$randraidtokens</span> Raid Tokens.");
+                } elseif ($randnum <= 90) {
+                    $randcash = rand(1000000, 5000000);
+                    $user_class->money += $randcash;
+
+                    mysql_query("UPDATE grpgusers SET money = money + " . $randcash . " WHERE id = " . $user_class->id);
+
+                    echo Message("You open the mystery box and find $<span style='color:green;font-weight:bold;'>$randcash</span>.");
+                } elseif ($randnum <= 95) {
+                    $itemid = 252;
+                    Give_Item($itemid, $user_class->id, 1);
+
+                    echo Message("You open the mystery box and find <span style='color:green;font-weight:bold;'>1 x Raid Booster</span>.");
+                } else {
+                    $itemid = 163;
+                    Give_Item($itemid, $user_class->id, 1);
+
+                    echo Message("You open the mystery box and find <span style='color:green;font-weight:bold;'>1 x Police Badge</span>.");
+                }
+
                 break;
             case 51:
                 add_rm_days(30, 150000, 750);

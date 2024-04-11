@@ -61,6 +61,22 @@ function calcEXP(){
 
                 requestInProcess = false;
             });
-        });ß
+        });
     });
 </script>
+
+<?php if ($user_class->box_hunt_count < 20): ?>
+    <?php $boxHuntChance = mt_rand(1,100); ?>
+    <?php if ($boxHuntChance <= 15): ?>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var xBoxPosi = Math.floor(Math.random()*1000);
+                var yBoxPosi = Math.floor(Math.random()*1000);
+
+                $(".box_middle").append(
+                    '<a href="claim_mystery_box.php?token=<?php echo $user_class->macro_token ?>"ß><img alt="Click Me!" src="/css/images/NewGameImages/mysterybox.png" style="position:absolute; top:'+xBoxPosi+'px; left:'+yBoxPosi+'px;" /></a>'
+                );
+            });
+        </script>
+    <?php endif; ?>
+<?php endif; ?>
