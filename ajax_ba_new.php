@@ -110,13 +110,15 @@ $scenario['start'] = str_replace('__ANAME__', $attacker, $scenario['start']);
 if (mt_rand(1,2) == 1) {
     $fullResponse = $scenario['start'];
     $fullResponse .= '<br />';
-    $fullResponse .= '<span style="color: green">' . $scenario['success'] . '</span>';
+    $fullResponse .= '<br />';
+    $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
 
     echo json_encode(success($fullResponse));
 } else {
     $fullResponse = $scenario['start'];
     $fullResponse .= '<br />';
-    $fullResponse .= '<span style="color: red">' . $scenario['fail'] . '</span>';
+    $fullResponse .= '<br />';
+    $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
 
     echo json_encode(success($fullResponse));
 }
