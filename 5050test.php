@@ -37,7 +37,7 @@ $(document).ready(function(){
             data: {action: 'cashbet', amount: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response).show();
-                var newRow = `<tr><<td><?= $user_class->formattedname; ?></td><td>${amount}points</td> <td></td></tr>`; // Modify as per your table structure
+                var newRow = `<tr><<td><?= $user_class->formattedname; ?></td><td>$${amount}</td> <td></td></tr>`; // Modify as per your table structure
                 $("#cashbettable tbody").append(newRow);
             },
             error: function() {
