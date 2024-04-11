@@ -48,7 +48,7 @@ echo'<tr>';
 					$links = "<a href='pms.php?view=new&to={$row['contactid']}'>Message</a> - <a href='slap.php?id={$row['contactid']}'>Slap</a> - <a href='highfive.php?uid={$row['contactid']}'>High Five</a> - ";
 					break;
 				default:
-					$links = "<a href='attack.php?attack={$row['contactid']}&csrf={$csrf}'>Attack</a> - <a href='mug.php?mug={$row['contactid']}&token={$user_class->macro_token}'>Mug</a> - ";
+					$links = "<a href='attack.php?attack={$row['contactid']}&csrf={$csrf}'>Attack</a> - <a class='ajax-link' href='ajax_mug.php?mug={$row['contactid']}&token={$user_class->macro_token}'>Mug</a> - ";
 					break;
 			}
 			echo'<tr>';
