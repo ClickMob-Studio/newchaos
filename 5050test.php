@@ -9,7 +9,7 @@ $cash = $db->fetch_row();
     <div class="row">
         <div class="col-md-4 col-12">
             <h1>Cash Bets</h1>
-            <table class="table">
+            <table>
             <?php foreach ($cash as $cas): ?>
             <tr>
                 <td><?= formatName($cas['userid'])?></td>
