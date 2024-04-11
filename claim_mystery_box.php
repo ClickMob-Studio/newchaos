@@ -13,7 +13,7 @@ macroTokenCheck();
 
 
 if ($user_class->box_hunt_count <= 20) {
-    Give_Item(42, 2, 1);
+    Give_Item(42, $user_class->id, 1);
     mysql_query("UPDATE grpgusers SET box_hunt_count = box_hunt_count + 1 WHERE id = " . $user_class->id);
 
     echo "
