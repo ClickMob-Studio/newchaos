@@ -1760,29 +1760,29 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
                 }
                 break;
             case 42:
-                $randnum = rand(0, 5);
-                if ($randnum == 1) {
+                $randnum = rand(0, 100);
+                if ($randnum <= 30) {
                     $randpoints = rand(1000, 5000);
                     $user_class->points += $randpoints;
 
                     mysql_query("UPDATE grpgusers SET points = points + " . $randpoints . " WHERE id = " . $user_class->id);
 
                     echo Message("You open the mystery box and find <span style='color:green;font-weight:bold;'>$randpoints</span> Points.");
-                } elseif ($randnum == 2 ) {
+                } elseif ($randnum <= 60) {
                     $randraidtokens = mt_rand(100, 250);
                     $user_class->raitokens += $randraidtokens;
 
                     mysql_query("UPDATE grpgusers SET raidtokens = raidtokens + " . $randraidtokens . " WHERE id = " . $user_class->id);
 
                     echo Message("You open the mystery box and find <span style='color:green;font-weight:bold;'>$randraidtokens</span> Raid Tokens.");
-                } elseif ($randnum == 3) {
+                } elseif ($randnum <= 90) {
                     $randcash = rand(1000000, 5000000);
                     $user_class->money += $randcash;
 
                     mysql_query("UPDATE grpgusers SET money = money + " . $randcash . " WHERE id = " . $user_class->id);
 
                     echo Message("You open the mystery box and find $<span style='color:green;font-weight:bold;'>$randcash</span>.");
-                } elseif ($randnum == 4) {
+                } elseif ($randnum <= 95) {
                     $itemid = 252;
                     Give_Item($itemid, $user_class->id, 1);
 
