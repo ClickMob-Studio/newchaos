@@ -23,6 +23,8 @@ function calcEXP(){
         $('.ajax-link').click(function(e) {
             e.preventDefault();
 
+            let clicked = $(this);
+
             $(".ajax-message-holder").hide();
             $(this).hide();
             $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
@@ -50,7 +52,7 @@ function calcEXP(){
                 $(".ajax-message-holder").html(resMes);
                 $(".ajax-message-holder").show();
                 $(".temp-spinner").remove();
-                $(this).show();
+                clicked.show();
 
                 // $('html, body').animate({
                 //     scrollTop: $(".ajax-message-holder").offset().top
