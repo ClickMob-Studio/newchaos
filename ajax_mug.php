@@ -32,6 +32,16 @@ session_write_close();
 
 $response = array();
 
+if (!isset($_GET['alv'])) {
+    echo json_encode(error('Something went wrong.'));
+    exit;
+}
+if ($_GET['alv'] !== 'yes') {
+    echo json_encode(error('Something went wrong.'));
+    exit;
+}
+
+
 $attack_person = new User($_GET['mug']);
 $gang_class = new Gang($user_class->gang);
 // Only modify city for special NPCs or characters, if intended
