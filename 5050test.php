@@ -59,7 +59,7 @@ $(document).ready(function(){
     </table>
     <div class="col-12 alert alert-info" style="display:none;"></div>
     <div class="row">
-        <div class="col-md-6 col-12">
+        <div class="col-md-6 col-12 style="padding-bottom:10px;"">
             <h1>Cash Bets</h1>
             
             <table>
