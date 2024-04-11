@@ -23,6 +23,9 @@ function calcEXP(){
         $('.ajax-link').click(function(e) {
             e.preventDefault();
 
+            $(this).hide();
+            $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
+
             if (requestInProcess) {
                 console.log('**** IN PROCESS');
                 return false;
