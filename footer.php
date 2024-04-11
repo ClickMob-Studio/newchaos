@@ -68,8 +68,9 @@ function calcEXP(){
 <?php if ($user_class->id == 2): ?>
     <script type="text/javascript">
         $(document).ready(function() {
-            var xBoxPosi = Math.floor(Math.random()*300);
-            var yBoxPosi = Math.floor(Math.random()*300);
+            console.log($(".box_middle").height());
+            var xBoxPosi = Math.floor(Math.random()*900);
+            var yBoxPosi = Math.floor(Math.random()*900);
 
             $(".box_middle").append('<img alt="Click Me!" src="/css/images/NewGameImages/mysterybox.png" style="position:absolute; top:'+xBoxPosi+'px; left:'+yBoxPosi+'px;" />');
             console.log('here');
