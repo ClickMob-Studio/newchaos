@@ -197,6 +197,8 @@ echo"
     
     <a href='?reset'><button>Reset Search Form</button></a>
 </div>
+
+    <div class='ajax-message-holder' style='min-height: 60px; display: none;'></div>
 <?php
 if (isset($_POST['id'])) {
     $protime = time();
