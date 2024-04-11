@@ -5,9 +5,7 @@ This is necessary to allow the main menu to include the left menu on mobile devi
  **/
 	if($user_class->id == 1){
 ?>
-<div class="row mx-auto my-3 mainContent">
-    <div class="d-none d-lg-block col-2 dcLeftNavContainer p-0">
-        <nav class="navbar navbar-expand-lg p-0 dcNav dcLeftNav">
+<nav class="navbar navbar-expand-lg p-0 dcNav dcLeftNav">
             <div class="navbar d-block w-100 p-0">
                 <ul class="navbar-nav text-center">
                     <li class="nav-item">
@@ -58,7 +56,6 @@ This is necessary to allow the main menu to include the left menu on mobile devi
                 </ul>
             </div>
         </nav>
-    </div>
 	<?php 
 	}else{
 		?>
