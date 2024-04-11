@@ -25,6 +25,11 @@ $cash = $db->fetch_row();
         <div class="col-md-4 col-12">
         <h1>Cash Bets</h1>
             <table>
+                <thead>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </thead>
                 <tbody>
             <?php foreach ($cash as $cas): ?>
             <tr>
