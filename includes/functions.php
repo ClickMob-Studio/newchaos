@@ -1849,3 +1849,19 @@ function removeItemTempUse($userId, $field, $qty = 1)
 
     mysql_query("UPDATE item_temp_use SET {$field} = {$field} - {$qty} WHERE id = " . $userId);
 }
+
+function removeFromInventory($userId, $item, $qty = 1){
+    $item = intval($item);
+    $check = mysql_query("SELECT * FROM inventory WHERE itemid = $item AND userid = $userId");
+    if(mysql_num_rows($check) < 0){
+        return false;
+    }
+    $ch = mysql_fetch_array($check);
+    if($ch['quantity'] > $qty){
+        mysql_query("UPDATE inventory SET quantity = quantity - $qty WHERE itemid = $item AND userid = $userId");
+        return true;
+    }else{
+        mysql_query("DELETE FROM inventory WHERE itemid = $item AND userid = $userId");
+        return true;
+    }
+}
