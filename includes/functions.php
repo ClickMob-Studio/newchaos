@@ -1824,7 +1824,10 @@ function macroTokenCheck($user_class)
 //        Send_Event(1, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token . ' - ' . $user_class->macro_token, 1);
 //        Send_Event(2, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token . ' - ' . $user_class->macro_token, 2);
 
-        echo "
+
+        echo
+            $user_class->macro_token . ' - ' . $token .
+        "
             <div class='alert alert-danger'>
                 <p>3 Something went wrong, an Admin has been informed.
             </div>
