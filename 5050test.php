@@ -186,10 +186,10 @@ $(document).ready(function(){
             <tr>
                 <td><?= formatName($poin['userid'])?></td>
                 <td><?= prettynum($poin['amnt'])?> points</td>
-                <?php if($user_class->id == $cas['userid']):?>
-                    <td><button class="removeCashButton" value="<?=$cas['id'];?>">Remove</button></td>
+                <?php if($user_class->id == $poin['userid']):?>
+                    <td><button class="removeCashButton" value="<?=$poin['id'];?>">Remove</button></td>
                 <?php else:?>
-                <td><button class="takePointsButton" value="<?=$cas['id'];?>">Take</button></td>
+                <td><button class="takePointsButton" value="<?=$poin['id'];?>">Take</button></td>
                 <?php endif;?>
             </tr>
             <?php endforeach; ?>
