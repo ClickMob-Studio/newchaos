@@ -806,9 +806,9 @@ if ($bonus_row['Time'] > 0) {
 // if ($user_class->cityturns > 29) {
 //     $messages[] = '<a href="maze.php">You Have Maze Searches Available</a>';
 // }
-if ($user_class->id > 0) {
-    $messages[] = '<a href="contest.php"><font color=red>Raid/Attack Comp Active</font></a>';
-}
+// if ($user_class->id > 0) {
+//     $messages[] = '<a href="contest.php"><font color=red>Raid/Attack Comp Active</font></a>';
+// }
 $db->query("SELECT * FROM ganginvites WHERE playerid = ?");
 $db->execute(array($user_class->id));
 if ($db->num_rows() > 0) {
