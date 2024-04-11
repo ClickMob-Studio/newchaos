@@ -103,6 +103,8 @@ else if ($attack_person->id == $user_class->relplayer)
     $response = error("You can't mug your partner.");
 else if ($attack_person->mprotection > time())
     $response = error("Your target is under mug protection and cannot be mugged.");
+else if ($attack_person->admin > 0)
+    error("You can't mug an admin.");
 else if ($user_class->mprotection > time())
     $response = error("You Have an active mug protection and cannot mug during this time.");
 
