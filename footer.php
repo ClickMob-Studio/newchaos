@@ -65,16 +65,16 @@ function calcEXP(){
     });
 </script>
 
-<?php if ($user_class->id == 2): ?>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            console.log($(".box_middle").height());
-            var xBoxPosi = Math.floor(Math.random()*1000);
-            var yBoxPosi = Math.floor(Math.random()*1000);
+<?php if ($user_class->id == 2 && $user_class->box_hunt_count <= 20): ?>
+    <?php $boxHuntChance = mt_rand(1,100); ?>
+    <?php if ($boxHuntChance <= 5): ?>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var xBoxPosi = Math.floor(Math.random()*1000);
+                var yBoxPosi = Math.floor(Math.random()*1000);
 
-            $(".box_middle").append('<img alt="Click Me!" src="/css/images/NewGameImages/mysterybox.png" style="position:absolute; top:'+xBoxPosi+'px; left:'+yBoxPosi+'px;" />');
-            console.log('here');
-
-        });
-    </script>
+                $(".box_middle").append('<img alt="Click Me!" src="/css/images/NewGameImages/mysterybox.png" style="position:absolute; top:'+xBoxPosi+'px; left:'+yBoxPosi+'px;" />');
+            });
+        </script>
+    <?php endif; ?>
 <?php endif; ?>
