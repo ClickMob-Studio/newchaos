@@ -53,9 +53,9 @@ include 'footer.php';
             });
             request.done(function (res) {
                 if (res.success == false || res.success == 'false') {
-                    var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + res.error + "</p></div>";
+                    var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
                 } else {
-                    var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + res.message + "</p></div>";
+                    var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
                 }
 
                 $("#ba-response-message").html(resMes);
