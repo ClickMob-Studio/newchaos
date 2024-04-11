@@ -51,7 +51,7 @@ if($_GET['action'] == 'takecashbet'){
         echo "That bet does not appear to be valid";
         exit;
     }
-    $fet = $db->fetch_row();
+    $fet = $db->fetch_row(true);
 
     $rand = mt_rand(1,2);
     if($rand == 1){
