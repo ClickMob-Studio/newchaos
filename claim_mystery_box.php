@@ -7,7 +7,7 @@ include 'header.php';
 <div class="box_top"></div>
 <div class="box_middle">
 <?php
-macroTokenCheck();
+macroTokenCheck($user_class);
 
 
 if ($user_class->box_hunt_count <= 20) {
