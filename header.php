@@ -539,7 +539,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 <html lang="en">
 <head>
 
-<?php
+<?php 
 if($user_class->id == 1){
     echo $user_class->view_preference;
 }
@@ -587,11 +587,11 @@ if ($user_class->view_preference === '1') { ?>
 			<?php require 'leftnav.php'; ?>
 		</div>
 		<div class="col-12 col-lg-10">
-			<header class="row">
-				<div class="col-12 col-lg-4">
-					<div class="p-3 dcPanel dcAvatarPanel">
-						<div class="row mb-3">
-							<div class="col-9 dcUserName">
+        <header class="row">
+            <div class="col-12 col-lg-4">
+                <div class="p-3 dcPanel dcAvatarPanel">
+                    <div class="row mb-3">
+                        <div class="col-9 dcUserName">
 							
 									<span class="dcHeaderUsername"><?php echo $user_class->formattedname; ?></span>
 								<img class="d-lg-none dcAvatarMobile" style="width: 50px;" src="<?php echo $user_class->avatar; ?>">
@@ -603,7 +603,7 @@ if ($user_class->view_preference === '1') { ?>
 								</div>
 							</div>
 						</div>
-						<div class="row">
+						<div class="row heroTop">
 							<div class="col-5 col-lg-12 row mb-0 mb-lg-3">
 								<div class="d-none d-lg-block col-4">
 									<img style="width: 50px;" src="<?php echo $user_class->avatar; ?>" alt="">
