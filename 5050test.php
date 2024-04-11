@@ -1,6 +1,6 @@
 <?php
 require "header.php";
-$db->query("SELECT * FROM fiftyfifty WHERE currency = cash");
+$db->query("SELECT * FROM fiftyfifty WHERE currency = 'cash'");
 $db->execute();
 $cash = $db->fetch_row();
 ?>
