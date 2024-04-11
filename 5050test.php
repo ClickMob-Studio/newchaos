@@ -80,7 +80,7 @@ $(document).ready(function(){
             </table>
         </div>
 
-        <div class="col-md-6 col-12">
+        <div class="col-md-6 col-12 pb-3">
         <h1>Point Bets</h1>
             <table>
                 <thead>
