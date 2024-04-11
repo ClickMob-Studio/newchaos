@@ -9,7 +9,7 @@ $result = mysql_query("SELECT * FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP
 $res = mysql_query("SELECT * FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 86400 ORDER BY lastactive DESC");
 echo '<p>There has been ' . mysql_num_rows($res) . ' users online in the past 24 hours.</p>';
 echo '<p>There has been ' . mysql_num_rows($result) . ' users online in the past 1 Hour.</p>';
-
+   echo '<div class="table-container">';
 echo '<table class="new_table" id="newtables" style="width:100%;">';
 ?>
 <th>Avatar</th>
@@ -39,6 +39,6 @@ echo '<table class="new_table" id="newtables" style="width:100%;">';
 		}
 	}
 echo '</table>';
-
+echo '</div>';
 include 'footer.php'
 ?>
