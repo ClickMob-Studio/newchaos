@@ -1,3 +1,6 @@
+<?php
+require "header.php";
+?>
 <h1>50/50</h1>
 <div class="container">
     <div class="row">
