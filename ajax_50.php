@@ -1,9 +1,8 @@
 <?php
 
 include "ajax_header.php";
-
+$user_class = new user($_SESSION['id']);
 if($_GET['action'] == 'pointbet'){
-    $user_class = new user($_SESSION['id']);
     $amount = intval($_GET['amount']);
     if($amount < 0){
         echo "You can not place a bet of 0";
@@ -21,7 +20,6 @@ if($_GET['action'] == 'pointbet'){
     $db->execute();
 }
 if($_GET['action'] == 'cashbet'){
-    $user_class = new user($_SESSION['id']);
     $amount = intval($_GET['amount']);
     if($amount < 0){
         echo "You can not place a bet of 0";
@@ -52,16 +50,28 @@ if($_GET['action'] == 'takecashbet'){
         exit;
     }
     $fet = $db->fetch_row(true);
-
+    if($user_class->money < $fet['amnt']){
+        echo "You do not have enough money to take this bet";
+        exit;
+    }
+    if($user_class->id == $fet['userid']){
+        echo "You cannot take your own bets";
+        exit;
+    }
     $rand = mt_rand(1,2);
     if($rand == 1){
         echo "You have lost the bet for $".number_format($fet['amnt']);
         $db->query("UPDATE grpgusers SET money = money - ".$fet['amnt']." WHERE id = ".$user_class->id);
+        $db->execute();
         $db->query("UPDATE grpgusers SET money = money - ".$fet['amnt']." WHERE id = ".$fet['userid']);
+        $db->execute();
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of $".$fet['amnt']." and you won", $user_class->id);
     }else{
         echo "You have won the bet for $".number_format($fet['amnt']);
         $db->query("UPDATE grpgusers SET money = money + ".$fet['amnt']." WHERE id = ".$user_class->id);
+        $db->execute();
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of $".$fet['amnt']." and you lost", $user_class->id);
     }
+    $db->query("DELETE FROM fiftyfifty WHERE id = ".$id);
+    $db->execute();
 }
