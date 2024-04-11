@@ -73,7 +73,7 @@ include 'footer.php';
 
                 } else {
                     var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
-                    $('#ta-tbody').append('<tr><td>' + res.message + '</td></tr>');
+                    $('#ba-tbody').append('<tr><td>' + res.message + '</td></tr>');
                 }
 
                 $("#ba-response-message").html(resMes);
