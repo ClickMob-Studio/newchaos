@@ -48,16 +48,14 @@ $(document).ready(function(){
     });
 });
 $(document).ready(function(){
-    $("#takeCashButton").click(function(){
-        var amount = $("#takeCashButton").val(); // Assuming you have an input field for bet amount
+    $(document).on('click', '.takeCashButton', function(){
+        var amount = $(this).val(); t
         $.ajax({
-            url: 'ajax_50.php', // The PHP file you created
+            url: 'ajax_50.php', 
             type: 'GET',
             data: {action: 'takecashbet', id: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response).show();
-            //     var newRow = `<tr><<td><?= $user_class->formattedname; ?></td><td>$${amount}</td> <td></td></tr>`; // Modify as per your table structure
-            //     $("#cashbettable tbody").append(newRow);
              },
             error: function() {
                 // Handle error
@@ -93,7 +91,7 @@ $(document).ready(function(){
             <tr>
                 <td><?= formatName($cas['userid'])?></td>
                 <td><?= prettynum($cas['amnt'], 1)?></td>
-                <td><button id="takeCashButton" value="<?=$cas['id'];?>">Take</button></td>
+                <td><button class="takeCashButton" value="<?=$cas['id'];?>">Take</button></td>
             </tr>
             <?php endforeach; ?>
                 </tbody>
