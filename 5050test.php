@@ -13,9 +13,9 @@ $credits = $db->fetch_row();
 <script>
 $(document).ready(function(){
     $("#betButton").click(function(){
-        var amount = $("#betAmount").val(); // Assuming you have an input field for bet amount
+        var amount = $("#betAmount").val();
         $.ajax({
-            url: 'ajax_50.php', // The PHP file you created
+            url: 'ajax_50.php',
             type: 'GET',
             data: {action: 'pointbet', amount: amount},
             success: function(response) {
@@ -30,14 +30,14 @@ $(document).ready(function(){
 });
 $(document).ready(function(){
     $("#betCashButton").click(function(){
-        var amount = $("#betAmount").val(); // Assuming you have an input field for bet amount
+        var amount = $("#betAmount").val(); 
         $.ajax({
-            url: 'ajax_50.php', // The PHP file you created
+            url: 'ajax_50.php', 
             type: 'GET',
             data: {action: 'cashbet', amount: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response).show();
-                var newRow = `<tr><<td><?= $user_class->formattedname; ?></td><td>$${amount}</td> <td></td></tr>`; // Modify as per your table structure
+                var newRow = `<tr><<td><?= $user_class->formattedname; ?></td><td>$${amount}</td> <td></td></tr>`;
                 $("#cashbettable tbody").append(newRow);
             },
             error: function() {
@@ -49,7 +49,7 @@ $(document).ready(function(){
 });
 $(document).ready(function(){
     $(document).on('click', '.takeCashButton', function(){
-        var amount = $(this).val(); t
+        var amount = $(this).val();
         $.ajax({
             url: 'ajax_50.php', 
             type: 'GET',
