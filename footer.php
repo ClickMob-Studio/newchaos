@@ -71,8 +71,8 @@ function calcEXP(){
             var xBoxPosi = Math.floor(Math.random()*300);
             var yBoxPosi = Math.floor(Math.random()*300);
 
-            $("#box_middle").append('<img alt="Click Me!" src="/css/images/NewGameImages/mysterybox.png" style="position:absolute; top:'+xPos+'px; left:'+yPos+'px;" />');
-
+            $(".box_middle").append('<img alt="Click Me!" src="/css/images/NewGameImages/mysterybox.png" style="position:absolute; top:'+xPos+'px; left:'+yPos+'px;" />');
+            console.log('here');
 
         });
     </script>
