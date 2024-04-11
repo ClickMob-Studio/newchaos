@@ -28,9 +28,35 @@ $(document).ready(function(){
         });
     });
 });
+$(document).ready(function(){
+    $("#betCashButton").click(function(){
+        var amount = $("#betAmount").val(); // Assuming you have an input field for bet amount
+        $.ajax({
+            url: 'ajax_50.php', // The PHP file you created
+            type: 'GET',
+            data: {action: 'cashbet', amount: amount},
+            success: function(response) {
+                $(".col-12.alert.alert-info").html(response).show();
+            },
+            error: function() {
+                // Handle error
+                alert("An error occurred");
+            }
+        });
+    });
+});
 </script>
 <h1>50/50</h1>
 <div class="container">
+    <table>
+        <tbody>
+            <td>
+                <h1>Place Cash Bet</h1>
+            <input type="number" id="betAmount" placeholder="Enter bet amount">
+            <button id="betCashButton">Place Bet</button>
+            </td>
+        </tbody>
+    </table>
     <div class="col-12 alert alert-info" style="display:none;"></div>
     <div class="row">
         <div class="col-md-4 col-12">
@@ -56,8 +82,6 @@ $(document).ready(function(){
 
         <div class="col-md-4 col-12">
         <h1>Point Bets</h1>
-        <input type="number" id="betAmount" placeholder="Enter bet amount">
-            <button id="betButton">Place Bet</button>
             <table>
                 <thead>
                     <th>Name</th>
