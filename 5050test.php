@@ -99,7 +99,7 @@ $(document).ready(function(){
                 </tbody>
             </table>
         </div>
-
+        <div class="col-md-3 col-none">
         <div class="col-md-6 col-12">
         <h1>Credit Bets</h1>
             <table>
