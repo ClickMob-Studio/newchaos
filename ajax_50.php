@@ -28,7 +28,7 @@ if($_GET['action'] == 'cashbet'){
         exit;
     }
     if($user_class->money < $amount){
-        echo "You don't have that many points.";
+        echo "You don't have that much money.";
         exit;
     }
     $user_class->money -= $amount;

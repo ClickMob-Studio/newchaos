@@ -59,7 +59,7 @@ $(document).ready(function(){
     </table>
     <div class="col-12 alert alert-info" style="display:none;"></div>
     <div class="row">
-        <div class="col-md-4 col-12">
+        <div class="col-md-6 col-12">
             <h1>Cash Bets</h1>
             
             <table>
@@ -80,7 +80,7 @@ $(document).ready(function(){
             </table>
         </div>
 
-        <div class="col-md-4 col-12">
+        <div class="col-md-6 col-12">
         <h1>Point Bets</h1>
             <table>
                 <thead>
@@ -100,7 +100,7 @@ $(document).ready(function(){
             </table>
         </div>
 
-        <div class="col-md-4 col-12">
+        <div class="col-md-6 col-12">
         <h1>Credit Bets</h1>
             <table>
             <thead>
