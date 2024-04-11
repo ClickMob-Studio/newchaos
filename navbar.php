@@ -156,6 +156,16 @@ $navPage = str_replace( '/', '', $_SERVER['REQUEST_URI'] );
 			<i class="fas fa-bars fa-2x"></i>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
+		<div class="dcPanel h-100">
+                            <div class="text-center dcBannerButtonsContainer voteMobile">
+                                <a href="vote.php" class="dcSecondaryButton my-3">Vote for <i class="far fa-gem"></i></a>
+        
+                                <a href="refer.php" class="dcSecondaryButton my-3">Refer for <i class="far fa-gem"></i></a>
+                                <a href="store.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
+        
+                            </div>
+                            <!-- Sever Time: 09/04/2024  10:24:56					 -->
+                        </div>
 			<ul class="navbar-nav">
 				<?php foreach ( $topLinks as $link ) : ?>
 					<li class="nav-item">
