@@ -19,6 +19,19 @@ include 'header.php';
 
                 <a href="#" class="btn btn-primary ba-search-link">Search</a>
                 <a href="#" class="btn btn-primary">Med Pack</a>
+
+                <hr />
+
+                <table class="new_table" id="newtables" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>Outcomes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ba-tbody">
+                    
+                    </tbody>
+                </table>
             </center>
 
         </div>
@@ -56,8 +69,11 @@ include 'footer.php';
             request.done(function (res) {
                 if (res.success == false || res.success == 'false') {
                     var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
+                    $('#ta-tbody').append('<tr><td>' + res.error + '</td></tr>');
+
                 } else {
                     var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
+                    $('#ta-tbody').append('<tr><td>' + res.message + '</td></tr>');
                 }
 
                 $("#ba-response-message").html(resMes);
