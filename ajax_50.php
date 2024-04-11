@@ -4,7 +4,7 @@ include "ajax_header.php";
 
 if($_GET['action'] == 'pointbet'){
     $user_class = new user($_SESSION['id']);
-    $amount = isset($_GET['amount']);
+    $amount = intval($_GET['amount']);
     if($amount < 0){
         echo "You can not place a bet of 0";
         exit;
