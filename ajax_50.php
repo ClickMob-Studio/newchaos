@@ -75,3 +75,27 @@ if($_GET['action'] == 'takecashbet'){
     $db->query("DELETE FROM fiftyfifty WHERE id = ".$id);
     $db->execute();
 }
+
+if($_GET['action'] == 'removecashbet'){
+    if(!isset($_GET['id'])){
+        echo "That bet does not appear to be valid";
+        exit();
+    }
+    $id = intval($_GET['id']);
+    $db->query("SELECT * FROM fiftyfifty WHERE id = ?");
+    $db->execute(array($id));
+    if($db->num_rows() < 1){
+        echo "That bet does not appear to be valid";
+        exit;
+    }
+    $fet = $db->fetch_row(true);
+    if($user_class->id != $fet['userid']){
+        echo "You cannot delete someone elses bet";
+        exit;
+    }
+    $db->query("DELETE FROM fiftyfifty WHERE id = ".$id);
+    $db->execute();
+    echo "You have removed the bet for $".number_format($fet['amnt']);
+    Send_Event($user_class->id, "You removed your bet of $".number_format($fet['amnt']), $fet['userid']);
+    
+}
