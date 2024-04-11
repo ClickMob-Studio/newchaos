@@ -73,7 +73,7 @@ if(isset($_POST['take'])){
 			$row['amnt'],
 			$user_class->id
 		));
-		Send_Event($row['userid'], "Your bet of $form has been taken, and you lost.");
+		Send_Event($row['userid'], "Your bet of $form has been taken by " . $user_class->formattedname . ", and you lost.");
 		$won = 1;
 	} else {
 		$db->execute(array(
@@ -95,7 +95,7 @@ if(isset($_POST['take'])){
 			-$row['amnt'],
 			$user_class->id
 		));
-		Send_Event($row['userid'], "Your bet of $form has been taken, and you won $wins!");
+		Send_Event($row['userid'], "Your bet of $form has been taken by " . $user_class->formattedname . ", and you won $wins!");
 		$won = 0;
 	}
 	$db->query("DELETE FROM fiftyfifty WHERE id = ?");
