@@ -63,7 +63,7 @@ $fiftyfifty_live_bets = $fiftyfifty_row['live_bets'];
         <br>MONEY LOTTERY
     </td>
 <td width='110' height='110' valign='middle' align='center' bgcolor="#28282A">
-        <!-- <a href="numbergame.php" title="Numbers Game Place a bet and wait for someone to match it!" onmouseover="document.pss.src='images/casino/lottery.png'" onmouseout="document.pss.src='images/casino/lottery_b.png'"> -->
+        <a href="numbergame.php" title="Numbers Game Place a bet and wait for someone to match it!" onmouseover="document.pss.src='images/casino/lottery.png'" onmouseout="document.pss.src='images/casino/lottery_b.png'"> 
         <img src="images/casino/lottery_b.png" name="pss" style="border-color: #28282A" border="2"></a>
         <br>Numbers Game
     </td>
