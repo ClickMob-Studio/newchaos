@@ -23,6 +23,7 @@ if ($user_class->firstlogin1 == 0) {
 
 ?>
 <h1>General Information</h1>
+<div class="table-container">
 <table id="newtables" style="width:100%;">
     <tr>
         <th width="10%">Name:</th>
@@ -166,5 +167,5 @@ if ($user_class->firstlogin1 == 0) {
         <a href="spylog.php" class="p-2 text-white bg-secondary m-2">[Spy Log]</a>
     </div>
 </div>
-
+</div>
 <?php include "footer.php"; ?>
