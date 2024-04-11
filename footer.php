@@ -25,7 +25,7 @@ function calcEXP(){
 
             let clicked = $(this);
 
-            $(".ajax-message-holder").hide();
+            $(".ajax-alert-div").remove();
             $(this).hide();
             $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
 
@@ -44,9 +44,9 @@ function calcEXP(){
             request.done(function (res) {
 
                 if (res.success == false) {
-                    var resMes = "<div class='alert alert-danger'><p>" + res.error + "</p></div>";
+                    var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + res.error + "</p></div>";
                 } else {
-                    var resMes = "<div class='alert alert-info'><p>" + res.message + "</p></div>";
+                    var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + res.message + "</p></div>";
                 }
 
                 $(".ajax-message-holder").html(resMes);
