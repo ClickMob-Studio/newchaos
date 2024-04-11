@@ -70,6 +70,7 @@ include 'footer.php';
                 if (res.success == false || res.success == 'false') {
                     var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
 
+                    $("#newtables").prepend('<tr><td>' + res.error + '</td></tr>');
                     $('<tr><td>' + res.error + '</td></tr>').prependTo("#ta-tbody");
                 } else {
                     var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
