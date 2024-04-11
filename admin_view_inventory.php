@@ -1,6 +1,6 @@
 <?php
 
-require ('../header.php');
+require ('header.php');
 
 if($user_class->admin < 1){
     exit();
