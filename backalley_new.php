@@ -2,6 +2,10 @@
 
 session_start();
 include 'header.php';
+
+$medPackOneCount = check_items(13, $user_class->id);
+$medPackTwoCount = check_items(14, $user_class->id);
+$medPackTotalCount = $medPackOneCount + $medPackTwoCount;
 ?>
 
 <div class="box_top"><h1>Back Alley</h1></div>
@@ -18,7 +22,7 @@ include 'header.php';
                 <div id="ba-response-message" style="min-height: 60px; display: none;"></div>
 
                 <button class="ba-search-link">Search</button>
-                <button class="ba-med-pack-link">Use Med Pack</button>
+                <button class="ba-med-pack-link">Use Med Pack (x<?php echo $medPackTotalCount ?>)</button>
                 <button class="ba-refill-energy-link">Refill Energy</button>
 
                 <hr />
