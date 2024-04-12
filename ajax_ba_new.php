@@ -47,7 +47,11 @@ if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'use_med_pack') {
 // ENERGY REFILL
 if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'refill_energy') {
     if (10 > $user_class->points) {
-        echo json_encode(error('You do not have enough points to refill your energu.'));
+        echo json_encode(error('You do not have enough points to refill your energy.'));
+        exit;
+    }
+    if ($user_class->energy == $user_class->maxenergy) {
+        echo json_encode(error('You already have full energy.'));
         exit;
     }
 
