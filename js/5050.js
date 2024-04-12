@@ -8,12 +8,12 @@ $(document).ready(function(){
             success: function(data) {
                 var cashRows = '';
                 data.cash.forEach(function(bet) {
-                    cashRows += `<tr><td>${bet.formatted_userid}</td><td>$${bet.amnt}</td><td><button class="takeCashButton" value="${bet.id}">Take</button></td></tr>`;
+                    cashRows += `<tr><td>${bet.formatted_userid}</td><td>$${bet.amnt}</td><td><td>${bet.button}</td></tr>`;
                 });
                 $('#cashbettable tbody').html(cashRows);
                 var pointsRows = '';
                 data.points.forEach(function(bet) {
-                    pointsRows += `<tr><td>${bet.formatted_userid}</td><td>${bet.amnt} points</td><td><button class="takePointsButton" value="${bet.id}">Take</button></td></tr>`;
+                    pointsRows += `<tr><td>${bet.formatted_userid}</td><td>${bet.amnt} points</td><td>${bet.button}</td></tr>`;
                 });
                 $('#pointbettable tbody').html(pointsRows);
 

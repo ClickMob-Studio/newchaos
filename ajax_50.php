@@ -10,6 +10,11 @@ if($_GET['action'] == 'update'){
     $cash = $db->fetch_row();
     $formattedCash = array_map(function($cash) {
         $cash['formatted_userid'] = formatName($cash['userid']);
+        if($_SESSION['id'] == $cash['userid']) {
+            $cash['button'] = '<button class="removeCashButton" value="'.$cash['id'].'">Remove</button>';
+        }else{
+           $cash['button'] = '<button class="takeCashButton" value="'.$cash['id'].'">Take</button>';
+        }
         return $cash;
     }, $cash);
     
@@ -19,6 +24,11 @@ if($_GET['action'] == 'update'){
     $points = $db->fetch_row();
     $formattedPoints = array_map(function($points) {
         $points['formatted_userid'] = formatName($points['userid']);
+        if($_SESSION['id'] == $points['userid']) {
+            $points['button'] = '<button class="removeCashButton" value="'.$points['id'].'">Remove</button>';
+        }else{
+           $points['button'] = '<button class="takePointsButton" value="'.$points['id'].'">Take</button>';
+        }
         return $points;
     }, $points);
     
@@ -31,7 +41,7 @@ if($_GET['action'] == 'update'){
         if($_SESSION['id'] == $credit['userid']) {
             $credit['button'] = '<button class="removeCashButton" value="'.$credit['id'].'">Remove</button>';
         }else{
-           $credit['button'] = '<button class="takeCreditsButton" value="'.$credit['id'].'">Take</button>';
+           $credit['button'] = '<button class="takeCreditButton" value="'.$credit['id'].'">Take</button>';
         }
         return $credit;
     }, $credits);
