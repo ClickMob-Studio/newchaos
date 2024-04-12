@@ -8,19 +8,34 @@ if($_GET['action'] == 'update'){
     $db->query("SELECT * FROM fiftyfifty WHERE currency = 'cash'");
     $db->execute();
     $cash = $db->fetch_row();
+    $formattedCash = array_map(function($cash) {
+        $cash['formatted_userid'] = formatName($cash['userid']);
+        return $cash;
+    }, $cash);
+    
 
     $db->query("SELECT * FROM fiftyfifty WHERE currency = 'points'");
     $db->execute();
     $points = $db->fetch_row();
+    $formattedPoints = array_map(function($points) {
+        $points['formatted_userid'] = formatName($points['userid']);
+        return $points;
+    }, $points);
+    
 
     $db->query("SELECT * FROM fiftyfifty WHERE currency = 'credits'");
     $db->execute();
     $credits = $db->fetch_row();
+    $formattedCredits = array_map(function($credit) {
+        $credit['formatted_userid'] = formatName($credit['userid']);
+        return $credit;
+    }, $credits);
+    
     
     $response = [
-        'cash' => $cash,
-        'points' => $points,
-        'credits' => $credits
+        'cash' => $formattedCash,
+        'points' => $formattedPoints,
+        'credits' => $formattedCredits
     ];
 
 header('Content-Type: application/json');
