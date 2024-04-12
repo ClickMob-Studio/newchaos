@@ -11,6 +11,38 @@ $db->execute();
 $credits = $db->fetch_row();
 ?>
 <script>
+    $(document).ready(function(){
+
+    function updateTables() {
+        $.ajax({
+            url: 'get_bets.php?action=update', 
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                var cashRows = '';
+                data.cash.forEach(function(bet) {
+                    cashRows += `<tr><td>${bet.userid}</td><td>$${bet.amnt}</td><td><button class="takeCashButton" value="${bet.id}">Take</button></td></tr>`;
+                });
+                $('#cashbettable tbody').html(cashRows);
+                var pointsRows = '';
+                data.points.forEach(function(bet) {
+                    pointsRows += `<tr><td>${bet.userid}</td><td>${bet.amnt} points</td><td><button class="takePointsButton" value="${bet.id}">Take</button></td></tr>`;
+                });
+                $('#pointbettable tbody').html(pointsRows);
+
+                var creditsRows = '';
+                data.credits.forEach(function(bet) {
+                    creditsRows += `<tr><td>${bet.userid}</td><td>${bet.amnt} credits</td><td><button class="takeCreditsButton" value="${bet.id}">Take</button></td></tr>`;
+                });
+                $('#creditbettable tbody').html(creditsRows);
+            },
+            error: function() {
+                console.error("Failed to fetch bet data");
+            }
+        });
+    }
+    setInterval(updateTables, 2000);
+});
 $(document).ready(function(){
     $("#betButton").click(function(){
         var amount = $("#betAmount").val();
@@ -22,7 +54,6 @@ $(document).ready(function(){
                 $(".col-12.alert.alert-info").html(response).show();
             },
             error: function() {
-                // Handle error
                 alert("An error occurred");
             }
         });
@@ -41,7 +72,6 @@ $(document).ready(function(){
                 $("#cashbettable tbody").append(newRow);
             },
             error: function() {
-                // Handle error
                 alert("An error occurred");
             }
         });
@@ -60,7 +90,7 @@ $(document).ready(function(){
                 $("#pointbettable tbody").append(newRow);
             },
             error: function() {
-                // Handle error
+
                 alert("An error occurred");
             }
         });
@@ -79,7 +109,6 @@ $(document).ready(function(){
                 $("#creditbettable tbody").append(newRow);
             },
             error: function() {
-                // Handle error
                 alert("An error occurred");
             }
         });

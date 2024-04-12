@@ -2,6 +2,17 @@
 
 include "ajax_header.php";
 $user_class = new user($_SESSION['id']);
+
+if($_GET['action'] == 'update'){
+$response = [
+    'cash' => $db->query("SELECT * FROM fiftyfifty WHERE currency = 'cash'")->fetchAll(PDO::FETCH_ASSOC),
+    'points' => $db->query("SELECT * FROM fiftyfifty WHERE currency = 'points'")->fetchAll(PDO::FETCH_ASSOC),
+    'credits' => $db->query("SELECT * FROM fiftyfifty WHERE currency = 'credits'")->fetchAll(PDO::FETCH_ASSOC)
+];
+
+header('Content-Type: application/json');
+echo json_encode($response);
+}
 if($_GET['action'] == 'pointbet'){
     $amount = intval($_GET['amount']);
     if($amount < 0){
