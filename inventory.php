@@ -1,5 +1,19 @@
 <?php
 include 'header.php';
+
+// TEMP FIX
+if ($user_class->id == 2) {
+    $db->query("SELECT id FROM inventory WHERE quantity <= 0 AND userid = " . $user_class->id);
+    $db->execute();
+    $rows = $db->fetch_row();
+
+    foreach ($rows as $row)
+    {
+        var_dump($row); exit;
+    }
+
+}
+
 ?>
 <div class='box_top'>Inventory</div>
 						<div class='box_middle'>

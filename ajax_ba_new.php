@@ -41,6 +41,11 @@ if ($_GET['alv'] !== 'yes') {
 
 // USE MED PACK
 if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'use_med_pack') {
+    if ($user_class->purehp >= $user_class->puremaxhp && !$user_class->hospital) {
+        echo json_encode(error('You already have full HP and are not in the hospital.'));
+        exit;
+    }
+
 
 }
 
