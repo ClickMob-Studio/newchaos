@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 
-$db->query("SELECT * FROM inventory WHERE userid = 5");
+$db->query("SELECT * FROM inventory WHERE userid = 87");
 $db->execute();
 $rows = $db->fetch_row();
 
