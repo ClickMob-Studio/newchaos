@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 
-$db->query("SELECT * FROM inventory WHERE quantity <= 0 AND userid = " . $user_class->id);
+$db->query("SELECT * FROM inventory WHERE quantity <= 0 AND userid = 5");
 $db->execute();
 $rows = $db->fetch_row();
 
