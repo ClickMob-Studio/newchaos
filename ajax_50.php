@@ -9,15 +9,15 @@ $user_class = new user($_SESSION['id']);
 if($_GET['action'] == 'update'){
     $db->query("SELECT * FROM fiftyfifty WHERE currency = 'cash'");
     $db->execute();
-    $cash = $db->fetch_all();
+    $cash = $db->fetch_row();
 
     $db->query("SELECT * FROM fiftyfifty WHERE currency = 'points'");
     $db->execute();
-    $points = $db->fetch_all();
+    $points = $db->fetch_row();
 
     $db->query("SELECT * FROM fiftyfifty WHERE currency = 'credits'");
     $db->execute();
-    $credits = $db->fetch_all();
+    $credits = $db->fetch_row();
     
     $response = [
         'cash' => $cash,
