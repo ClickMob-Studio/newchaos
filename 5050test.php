@@ -104,7 +104,7 @@ $credits = $db->fetch_row();
                 <?php if($user_class->id == $cre['userid']):?>
                     <td><button class="removeCashButton" value="<?=$cre['id'];?>">Remove</button></td>
                 <?php else:?>
-                <td><button class="takeCreditsButton" value="<?=$cre['id'];?>">Take</button></td>
+                <td><button class="takeCreditButton" value="<?=$cre['id'];?>">Take</button></td>
                 <?php endif;?>
             </tr>
             <?php endforeach; ?>
