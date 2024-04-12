@@ -174,7 +174,7 @@ if($_GET['action'] == 'takepointbet'){
         $db->execute();
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of ".$fet['amnt']." points and you won", $user_class->id);
     }else{
-        echo "You have won the bet for $".number_format($fet['amnt']);
+        echo "You have won the bet for ".number_format($fet['amnt']." points);
         $db->query("UPDATE grpgusers SET points = points + ".$fet['amnt']." WHERE id = ".$user_class->id);
         $db->execute();
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of ".$fet['amnt']." points and you lost", $user_class->id);
