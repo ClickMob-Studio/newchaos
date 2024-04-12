@@ -9,7 +9,8 @@ if ($user_class->id == 2) {
 
     foreach ($rows as $row)
     {
-        var_dump($row); exit;
+        $db->query("DELETE FROM inventory WHERE id = " . $row['id']);
+        $db->execute();
     }
 
 }
