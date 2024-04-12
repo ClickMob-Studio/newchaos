@@ -162,6 +162,10 @@ $(document).ready(function(){
                 <h1>Place Points Bet</h1>
             <input type="number" id="betPAmount" placeholder="Enter bet amount">
             <button id="betPointsButton">Place Bet</button>
+            <h1>Place Credit Bet</h1>
+            <input type="number" id="betCAmount" placeholder="Enter bet amount">
+            <button id="betPointsButton">Place Bet</button>
+            </td>
             </td>
         </tbody>
     </table>
