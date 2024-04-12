@@ -15,7 +15,7 @@ $credits = $db->fetch_row();
 
     function updateTables() {
         $.ajax({
-            url: 'get_bets.php?action=update', 
+            url: 'ajax_50.php?action=update', 
             type: 'GET',
             dataType: 'json',
             success: function(data) {
