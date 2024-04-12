@@ -67,7 +67,7 @@ $(document).ready(function(){
     });
 });
 $(document).ready(function(){
-    $("#betPointsButton").click(function(){
+    $("#betCreditsButton").click(function(){
         var amount = $("#betCAmount").val(); 
         $.ajax({
             url: 'ajax_50.php', 
