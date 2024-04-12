@@ -19,6 +19,7 @@ include 'header.php';
 
                 <a href="#" class="btn btn-primary ba-search-link">Search</a>
                 <a href="#" class="btn btn-primary">Med Pack</a>
+                <a href="#" class="btn btn-primary">Refill Energy</a>
 
                 <hr />
 

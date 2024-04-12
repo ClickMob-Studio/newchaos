@@ -100,23 +100,57 @@ $baAttackerScenarios[] = $baAttackerScenario;
 $baAttackerScenario = array();
 $baAttackerScenario['start'] = "You meet up with __ANAME__ in the alley to buy some contraband, but it turns out that they're wearing a wire!";
 $baAttackerScenario['success'] = "You beat them up, tearing the wire apart! You then run away in order to not get caught!";
-$baAttackerScenario['fail'] = "They knock you down, leaving you there for the cops. Guess you were not as strong as you thought!";
+$baAttackerScenario['fail'] = "They knock you down, leaving you there for dead. Guess you were not as strong as you thought!";
 $baAttackerScenarios[] = $baAttackerScenario;
 
 $attacker = $baAttackerNames[mt_rand(0, (count($baAttackerNames) - 1))];
 $scenario = $baAttackerScenarios[mt_rand(0, (count($baAttackerScenarios) - 1))];
 $scenario['start'] = str_replace('__ANAME__', $attacker, $scenario['start']);
 
-$outcome = mt_rand(1,2);
-if ($outcome == 1) {
 
-    // WIN CASH & EXP
+// 10 Outcomes
+// - 10% Loose & Go Hosp
+// - 20% Loose & Don't Hosp
+// - 20% Win Cash & EXP
+// - 20% Win Cash & BA Pill
+// - 20% Win Cash & Med Pack
+// - 10% Nothing, onto next turn
+
+$outcome = mt_rand(1,100);
+if ($outcome <= 10) {
+    // 10% Loose & Go Hosp
+    $hosp = 120;
+    $result = mysql_query("UPDATE `grpgusers` SET `hwho` = '{$attacker}', `hhow` = 'backalley', `hwhen` = '" . date(g . ":" . i . ":" . sa, time()) . "', `hospital` = '" . $hosp . "' WHERE `id` = '" . $user_class->id . "'");
+
+    $fullResponse = $scenario['start'];
+    $fullResponse .= '<br />';
+    $fullResponse .= '<br />';
+    $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
+    $fullResponse .= $scenario['fail'];
+    $fullResponse .= '<br /><br />';
+    $fullResponse .= '<strong>You will need to spend some time in the hosptial!</strong>';
+    $fullResponse .= '</span>';\
+    echo json_encode(success($fullResponse));
+} else if ($outcome <= 30) {
+    // 20% Loose & Don't Hosp
+    $fullResponse = $scenario['start'];
+    $fullResponse .= '<br />';
+    $fullResponse .= '<br />';
+    $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
+    $fullResponse .= $scenario['fail'];
+    $fullResponse .= '</span>';
+} else if ($outcome <= 50) {
+    // 20% Win Cash & EXP
     $fullResponse = $scenario['start'];
     $fullResponse .= '<br />';
     $fullResponse .= '<br />';
     $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
 
     echo json_encode(success($fullResponse));
+} else if ($outcome <= 70) {
+    // 20% Win Cash & BA Pill
+} else if ($outcome <= 90) {
+    // 20% Win Cash & Med Pack
 } else {
     $fullResponse = $scenario['start'];
     $fullResponse .= '<br />';
