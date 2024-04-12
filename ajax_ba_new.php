@@ -46,15 +46,22 @@ if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'use_med_pack') {
 
 // ENERGY REFILL
 if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'refill_energy') {
-    refill('e');
-
-    if ($user_class->energy ==  $user_class->maxenergy) {
-        echo json_encode(success('You have refilled your energy.'));
-        exit;
-    } else {
-        echo json_encode(error('You failed to refill your energy in order to search the Back Alley.'));
+    if (10 > $user_class->points) {
+        echo json_encode(error('You do not have enough points to refill your energu.'));
         exit;
     }
+
+    $user_class->energypercent = 100;
+    $user_class->energy = $user_class->maxenergy;
+    $user_class->points -= 10;
+    $db->query("UPDATE grpgusers SET energy = ?, points = points - 10 WHERE id = ?");
+    $db->execute(array(
+        $user_class->energy,
+        $user_class->id
+    ));
+
+    echo json_encode(success('You have refilled your energy.'));
+    exit;
 }
 
 $energyneeded = floor($user_class->maxenergy / 5);
