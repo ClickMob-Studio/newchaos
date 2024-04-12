@@ -21,18 +21,18 @@ $credits = $db->fetch_row();
             success: function(data) {
                 var cashRows = '';
                 data.cash.forEach(function(bet) {
-                    cashRows += `<tr><td>${bet.userid}</td><td>$${bet.amnt}</td><td><button class="takeCashButton" value="${bet.id}">Take</button></td></tr>`;
+                    cashRows += `<tr><td>${bet.formatted_userid}</td><td>$${bet.amnt}</td><td><button class="takeCashButton" value="${bet.id}">Take</button></td></tr>`;
                 });
                 $('#cashbettable tbody').html(cashRows);
                 var pointsRows = '';
                 data.points.forEach(function(bet) {
-                    pointsRows += `<tr><td>${bet.userid}</td><td>${bet.amnt} points</td><td><button class="takePointsButton" value="${bet.id}">Take</button></td></tr>`;
+                    pointsRows += `<tr><td>${bet.formatted_userid}</td><td>${bet.amnt} points</td><td><button class="takePointsButton" value="${bet.id}">Take</button></td></tr>`;
                 });
                 $('#pointbettable tbody').html(pointsRows);
 
                 var creditsRows = '';
                 data.credits.forEach(function(bet) {
-                    creditsRows += `<tr><td>${bet.userid}</td><td>${bet.amnt} credits</td><td><button class="takeCreditsButton" value="${bet.id}">Take</button></td></tr>`;
+                    creditsRows += `<tr><td>${bet.formatted_userid}</td><td>${bet.amnt} credits</td><td><button class="takeCreditsButton" value="${bet.id}">Take</button></td></tr>`;
                 });
                 $('#creditbettable tbody').html(creditsRows);
             },
