@@ -50,7 +50,6 @@ if ($user_class->energy < $energyneeded) {
         echo json_encode(error('You successfully refilled your energy, you can continue to search the Back Alley.'));
         exit;
     }
-
 }
 
 if ($user_class->energy < $energyneeded) {
@@ -65,6 +64,9 @@ if ($user_class->hospital > 0) {
     echo json_encode(error("You cannot go in the back alley if you are in Hospital."));
     exit;
 }
+
+$db->query("UPDATE grpgusers SET energy = energy - " . $energyneeded . " WHERE id = " . $user_class->id);
+$db->execute();
 
 
 // ATTACKERS
@@ -120,16 +122,15 @@ $outcome = mt_rand(1,100);
 if ($outcome <= 10) {
     // 10% Loose & Go Hosp
     $hosp = 120;
-    $result = mysql_query("UPDATE `grpgusers` SET `hwho` = '{$attacker}', `hhow` = 'backalley', `hwhen` = '" . date(g . ":" . i . ":" . sa, time()) . "', `hospital` = '" . $hosp . "' WHERE `id` = '" . $user_class->id . "'");
+    $db->query("UPDATE `grpgusers` SET `hwho` = '{$attacker}', `hhow` = 'backalley', `hospital` = '" . $hosp . "' WHERE `id` = '" . $user_class->id . "'");
+    $db->execute();
 
     $fullResponse = $scenario['start'];
     $fullResponse .= '<br />';
     $fullResponse .= '<br />';
     $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
-    $fullResponse .= $scenario['fail'];
     $fullResponse .= '<br /><br />';
-    $fullResponse .= '<strong>You will need to spend some time in the hosptial!</strong>';
-    $fullResponse .= '</span>';\
+    $fullResponse .= '<strong>You will need to spend some time in the hospital!</strong>';
     echo json_encode(success($fullResponse));
 } else if ($outcome <= 30) {
     // 20% Loose & Don't Hosp
@@ -149,8 +150,20 @@ if ($outcome <= 10) {
     echo json_encode(success($fullResponse));
 } else if ($outcome <= 70) {
     // 20% Win Cash & BA Pill
+    $fullResponse = $scenario['start'];
+    $fullResponse .= '<br />';
+    $fullResponse .= '<br />';
+    $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
+
+    echo json_encode(success($fullResponse));
 } else if ($outcome <= 90) {
     // 20% Win Cash & Med Pack
+    $fullResponse = $scenario['start'];
+    $fullResponse .= '<br />';
+    $fullResponse .= '<br />';
+    $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
+
+    echo json_encode(success($fullResponse));
 } else {
     $fullResponse = $scenario['start'];
     $fullResponse .= '<br />';
