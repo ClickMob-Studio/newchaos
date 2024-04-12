@@ -10,7 +10,7 @@ $db->query("SELECT * FROM fiftyfifty WHERE currency = 'credits'");
 $db->execute();
 $credits = $db->fetch_row();
 ?>
-<script type="text/javascript" src="js/5050.js?v=2"></script>
+<script type="text/javascript" src="js/5050.js?v=3"></script>
 <h1>50/50</h1>
 <div class="container">
     <table>

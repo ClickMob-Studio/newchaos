@@ -8,7 +8,7 @@ $(document).ready(function(){
             success: function(data) {
                 var cashRows = '';
                 data.cash.forEach(function(bet) {
-                    cashRows += `<tr><td>${bet.formatted_userid}</td><td>$${bet.amnt}</td><td><td>${bet.button}</td></tr>`;
+                    cashRows += `<tr><td>${bet.formatted_userid}</td><td>$${bet.amnt}</td><td>${bet.button}</td></tr>`;
                 });
                 $('#cashbettable tbody').html(cashRows);
                 var pointsRows = '';
