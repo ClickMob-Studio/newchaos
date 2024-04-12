@@ -633,7 +633,7 @@ if ($user_class->view_preference === '1') { ?>
 										if($stat['title'] == 'Nerve'){
 											echo "<a href='?spend=refnerve' >".$stat['title']."</a>";
 										}elseif($stat['title'] == 'Energy'){
-										echo "<a href='?spend=energy' >".$stat['title']."</a>";	
+										echo "<a href='?spend=refenergy' >".$stat['title']."</a>";
 										}else{
 										echo $stat['title'];
 										} ?></div>
