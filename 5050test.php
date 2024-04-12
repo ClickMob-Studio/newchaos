@@ -107,6 +107,27 @@ $(document).ready(function(){
     });
 });
 $(document).ready(function(){
+    $(document).on('click', '.takeCreditsButton', function(){
+        var amount = $(this).val();
+        var $button = $(this);
+       
+        $.ajax({
+            url: 'ajax_50.php', 
+            type: 'GET',
+            data: {action: 'takepointbet', id: amount},
+            success: function(response) {
+                $(".col-12.alert.alert-info").html(response).show();
+                $button.closest('tr').fadeOut(400, function() { 
+                    $(this).remove();
+                });
+             },
+            error: function() {
+                alert("An error occurred");
+            }
+        });
+    });
+});
+$(document).ready(function(){
     $(document).on('click', '.takeCashButton', function(){
         var amount = $(this).val();
         var $button = $(this);
@@ -236,7 +257,7 @@ $(document).ready(function(){
                 <?php if($user_class->id == $cre['userid']):?>
                     <td><button class="removeCashButton" value="<?=$cre['id'];?>">Remove</button></td>
                 <?php else:?>
-                <td><button class="takePointsButton" value="<?=$cre['id'];?>">Take</button></td>
+                <td><button class="takeCreditsButton" value="<?=$cre['id'];?>">Take</button></td>
                 <?php endif;?>
             </tr>
             <?php endforeach; ?>
