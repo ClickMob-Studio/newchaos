@@ -148,9 +148,17 @@ if($_GET['action'] == 'removecashbet'){
         echo "You cannot delete someone elses bet";
         exit;
     }
+    $row = $db->fetch_row(true);
+    if($row['currency'] == 'points'){
+        echo "You have removed the bet for ".number_format($fet['amnt'])." points";
+    }else if($row['currency'] == 'cash'){
+        echo "You have removed the bet for $".number_format($fet['amnt']);
+    }else if($row['currency'] == 'credits'){
+        echo "You have removed the bet for ".number_format($fet['amnt'])." credits";
+    }
     $db->query("DELETE FROM fiftyfifty WHERE id = ".$id);
     $db->execute();
-    echo "You have removed the bet for $".number_format($fet['amnt']);
+    
 }
 
 if($_GET['action'] == 'takepointbet'){
