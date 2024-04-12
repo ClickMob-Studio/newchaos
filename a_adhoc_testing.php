@@ -8,9 +8,15 @@ $rows = $db->fetch_row();
 $itemIds = array();
 foreach ($rows as $row) {
     if (!isset($itemIds[$row['itemid']])) {
-        $itemIds[$row['itemid']] = $row['quantity'];
+        $itemIds[$row['itemid']] = $row['id'];
     } else {
-        echo 'DUPE FOUND: ' . $row['itemid'] . '<br />';
+        $rowId = $itemIds[$row['itemid']];
+
+        $db->query("UPDATE inventory SET quantity = quantity + " . $row['quantity'] . "  WHERE id = " . $rowId . " ");
+        $db->execute();
+
+        $db->query("DELETE FROM inventory  WHERE id = " . $row['quantity'] . " ");
+        $db->execute();
     }
 }
 
