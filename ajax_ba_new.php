@@ -39,6 +39,24 @@ if ($_GET['alv'] !== 'yes') {
     exit;
 }
 
+// USE MED PACK
+if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'use_med_pack') {
+
+}
+
+// ENERGY REFILL
+if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'energy_refill') {
+    refill('e');
+
+    if ($user_class->energy ==  $user_class->maxenergy) {
+        echo json_encode(success('You have refilled your energy.'));
+        exit;
+    } else {
+        echo json_encode(error('You failed to refill your energy in order to search the Back Alley.'));
+        exit;
+    }
+}
+
 $energyneeded = floor($user_class->maxenergy / 5);
 if ($user_class->energy < $energyneeded) {
     refill('e');
