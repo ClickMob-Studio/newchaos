@@ -120,7 +120,7 @@ $outcome = mt_rand(1,100);
 if ($outcome <= 10) {
     // 10% Loose & Go Hosp
     $hosp = 120;
-    $result = mysql_query("UPDATE `grpgusers` SET `hwho` = '{$attacker}', `hhow` = 'backalley', `hwhen` = '" . date(g . ":" . i . ":" . sa, time()) . "', `hospital` = '" . $hosp . "' WHERE `id` = '" . $user_class->id . "'");
+    $result = mysql_query("UPDATE `grpgusers` SET `hwho` = '{$attacker}', `hhow` = 'backalley', `hospital` = '" . $hosp . "' WHERE `id` = '" . $user_class->id . "'");
 
     $fullResponse = $scenario['start'];
     $fullResponse .= '<br />';
