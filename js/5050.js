@@ -166,6 +166,28 @@ $(document).ready(function(){
         });
     });
 });
+
+$(document).ready(function(){
+    $(document).on('click', '.takeCreditButton', function(){
+        var amount = $(this).val();
+        var $button = $(this);
+       
+        $.ajax({
+            url: '/ajax_50.php', 
+            type: 'GET',
+            data: {action: 'takecreditbet', id: amount},
+            success: function(response) {
+                $(".col-12.alert.alert-info").html(response).show();
+                $button.closest('tr').fadeOut(400, function() { 
+                    $(this).remove();
+                });
+             },
+            error: function() {
+                alert("An error occurred");
+            }
+        });
+    });
+});
 $(document).ready(function(){
     $(document).on('click', '.removeCashButton', function(){
         var amount = $(this).val();

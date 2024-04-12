@@ -181,7 +181,49 @@ if($_GET['action'] == 'takepointbet'){
     }
     $db->query("DELETE FROM fiftyfifty WHERE id = ".$id);
     $db->execute();
+    
 }
+if($_GET['action'] == 'takecreditbet'){
+    if(!isset($_GET['id'])){
+        echo "That bet does not appear to be valid";
+        exit();
+    }
+    $id = intval($_GET['id']);
+    $db->query("SELECT * FROM fiftyfifty WHERE id = ?");
+    $db->execute(array($id));
+    if($db->num_rows() < 1){
+        echo "That bet does not appear to be valid";
+        exit;
+    }
+    $fet = $db->fetch_row(true);
+    if($user_class->credits < $fet['amnt']){
+        echo "You do not have enough cedits to take this bet";
+        exit;
+    }
+    if($user_class->id == $fet['userid']){
+        echo "You cannot take your own bets";
+        exit;
+    }
+    $rand = mt_rand(1,2);
+    if($rand == 1){
+        $amnt = $fet['amnt'] * 2;
+        echo "You have lost the bet for ".number_format($fet['amnt']." credits");
+        $db->query("UPDATE grpgusers SET credits = credits - ".$fet['amnt']." WHERE id = ".$user_class->id);
+        $db->execute();
+        $db->query("UPDATE grpgusers SET credits = credits + ".$amnt." WHERE id = ".$fet['userid']);
+        $db->execute();
+        Send_Event($fet['userid'], "[-_USERID_-] to your bet of ".$fet['amnt']." credits and you won", $user_class->id);
+    }else{
+        echo "You have won the bet for ".number_format($fet['amnt']." credits");
+        $db->query("UPDATE grpgusers SET credits = credits + ".$fet['amnt']." WHERE id = ".$user_class->id);
+        $db->execute();
+        Send_Event($fet['userid'], "[-_USERID_-] to your bet of ".$fet['amnt']." credits and you lost", $user_class->id);
+    }
+    $db->query("DELETE FROM fiftyfifty WHERE id = ".$id);
+    $db->execute();
+    
+}
+
 
 if($_GET['action'] == 'creditbet'){
     $amount = intval($_GET['amount']);
@@ -199,12 +241,4 @@ if($_GET['action'] == 'creditbet'){
     echo "You have placed a bet of ". number_format($amount). " credits.";
     $db->query("INSERT INTO fiftyfifty(userid, amnt, currency) VALUES (".$user_class->id .", ".$amount.", 'credits')");
     $db->execute();
-    $db->query("INSERT INTO fiftyfiftylogs (better, taker, winner, timestamp, amnt) VALUES (?, ?, ?, unix_timestamp(), ?)");
-	$random = mt_rand(1,2);
-		$db->execute(array(
-			$fet['userid'],
-			$user_class->id,
-			$user_class->id,
-			$fet['amnt'],
-		));
 }
