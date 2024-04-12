@@ -20,7 +20,7 @@ include 'header.php';
                 <button class="ba-search-link">Search</button>
                 <button class="ba-med-pack-link">Use Med Pack</button>
                 <button class="ba-refill-energy-link">Refill Energy</button>
- 
+
                 <hr />
 
                 <table class="new_table" id="newtables" style="width:100%;">
@@ -64,6 +64,45 @@ include 'footer.php';
 
             var request = $.ajax({
                 url: 'ajax_ba_new.php?alv=yes',
+                method: "GET",
+                dataType: "json"
+            });
+            request.done(function (res) {
+                if (res.success == false || res.success == 'false') {
+                    var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
+
+                    $("#newtables tbody").prepend('<tr><td>' + res.error + '<hr /></td></tr>');
+                } else {
+                    var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
+                    $("#newtables tbody").prepend('<tr><td>' + res.message + '<hr /></td></tr>');
+                }
+
+                $("#ba-response-message").html(resMes);
+                $("#ba-response-message").show();
+                $(".temp-spinner").remove();
+                clicked.show();
+
+                requestInProcess = false;
+            });
+        });
+
+        $('.ba-refill-energy-link').click(function(e) {
+            e.preventDefault();
+
+            let clicked = $(this);
+
+            $(".ajax-alert-div").remove();
+            $(this).hide();
+            $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
+
+            if (requestInProcess) {
+                return false;
+            }
+
+            requestInProcess = true;
+
+            var request = $.ajax({
+                url: 'ajax_ba_new.php?ba_action=refill_energy&alv=yes',
                 method: "GET",
                 dataType: "json"
             });
