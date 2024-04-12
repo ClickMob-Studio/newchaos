@@ -199,4 +199,12 @@ if($_GET['action'] == 'creditbet'){
     echo "You have placed a bet of ". number_format($amount). " credits.";
     $db->query("INSERT INTO fiftyfifty(userid, amnt, currency) VALUES (".$user_class->id .", ".$amount.", 'credits')");
     $db->execute();
+    $db->query("INSERT INTO fiftyfiftylogs (better, taker, winner, timestamp, amnt) VALUES (?, ?, ?, unix_timestamp(), ?)");
+	$random = mt_rand(1,2);
+		$db->execute(array(
+			$fet['userid'],
+			$user_class->id,
+			$user_class->id,
+			$fet['amnt'],
+		));
 }
