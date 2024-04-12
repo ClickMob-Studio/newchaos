@@ -5,9 +5,9 @@ $user_class = new user($_SESSION['id']);
 
 if($_GET['action'] == 'update'){
 $response = [
-    'cash' => $db->query("SELECT * FROM fiftyfifty WHERE currency = 'cash'")->fetchAll(PDO::FETCH_ASSOC),
-    'points' => $db->query("SELECT * FROM fiftyfifty WHERE currency = 'points'")->fetchAll(PDO::FETCH_ASSOC),
-    'credits' => $db->query("SELECT * FROM fiftyfifty WHERE currency = 'credits'")->fetchAll(PDO::FETCH_ASSOC)
+    'cash' => $db->query("SELECT * FROM fiftyfifty WHERE currency = 'cash'")->execute()->fetch_row()x,
+    'points' => $db->query("SELECT * FROM fiftyfifty WHERE currency = 'points'")->execute()->fetch_row(),
+    'credits' => $db->query("SELECT * FROM fiftyfifty WHERE currency = 'credits'")->execute()->fetch_row()
 ];
 
 header('Content-Type: application/json');
