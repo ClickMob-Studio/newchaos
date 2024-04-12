@@ -19,7 +19,7 @@ $(document).ready(function(){
 
                 var creditsRows = '';
                 data.credits.forEach(function(bet) {
-                    creditsRows += `<tr><td>${bet.formatted_userid}</td><td>${bet.amnt} credits</td><td><button class="takeCreditsButton" value="${bet.id}">Take</button></td></tr>`;
+                    creditsRows += `<tr><td>${bet.formatted_userid}</td><td>${bet.amnt} credits</td><td>${bet.button}</td></tr>`;
                 });
                 $('#creditbettable tbody').html(creditsRows);
             },

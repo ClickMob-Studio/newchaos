@@ -28,6 +28,11 @@ if($_GET['action'] == 'update'){
     $credits = $db->fetch_row();
     $formattedCredits = array_map(function($credit) {
         $credit['formatted_userid'] = formatName($credit['userid']);
+        if($user_class->id == $credit['userid']) {
+            $credit['button'] = '<button class="removeCashButton" value="'.$credit['id'].'">Remove</button>';
+        }else{
+           $credit['button'] = '<button class="takeCreditsButton" value="'.$credit['id'].'">Take</button>';
+        }
         return $credit;
     }, $credits);
     
