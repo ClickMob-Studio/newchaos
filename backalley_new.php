@@ -17,7 +17,7 @@ include 'header.php';
 
                 <div id="ba-response-message" style="min-height: 60px; display: none;"></div>
 
-                <button" class="btn btn-primary ba-search-link">Search</button>
+                <button class="ba-search-link">Search</button>
                 <a href="#" class="btn btn-primary">Med Pack</a>
                 <a href="#" class="btn btn-primary">Refill Energy</a>
 
