@@ -185,7 +185,7 @@ $(document).ready(function(){
             <button id="betPointsButton">Place Bet</button>
             <h1>Place Credit Bet</h1>
             <input type="number" id="betCAmount" placeholder="Enter bet amount">
-            <button id="betPointsButton">Place Bet</button>
+            <button id="betCreditsButton">Place Bet</button>
             </td>
             </td>
         </tbody>
@@ -243,7 +243,7 @@ $(document).ready(function(){
         <div class="col-md-3 col-none"></div>
         <div class="col-md-6 col-12">
         <h1>Credit Bets</h1>
-            <table>
+            <table id="creditbettable">
             <thead>
                     <th>Name</th>
                     <th>Amount</th>
