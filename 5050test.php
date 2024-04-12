@@ -25,7 +25,7 @@ $credits = $db->fetch_row();
         <div class="col-md-4 col-12">
             <h1>Place Points Bet</h1>
             <input type="number" id="betPAmount" placeholder="Enter bet amount">
-            <button id="betPointsButton" class="btn btn-primary mt-2">Place Bet</button>
+            <button id="betPointsButton">Place Bet</button>
         </div>
         <div class="col-md-4 col-12">
             <h1>Place Credit Bet</h1>

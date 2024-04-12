@@ -39,7 +39,9 @@ $(document).ready(function(){
             data: {action: 'pointbet', amount: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response).show();
-            },
+                document.getElementById('betAmount').value = '';
+            }
+            ,
             error: function() {
                 alert("An error occurred");
             }

@@ -28,7 +28,7 @@ if($_GET['action'] == 'update'){
     $credits = $db->fetch_row();
     $formattedCredits = array_map(function($credit) {
         $credit['formatted_userid'] = formatName($credit['userid']);
-        if($user_class->id == $credit['userid']) {
+        if($_SESSION['id'] == $credit['userid']) {
             $credit['button'] = '<button class="removeCashButton" value="'.$credit['id'].'">Remove</button>';
         }else{
            $credit['button'] = '<button class="takeCreditsButton" value="'.$credit['id'].'">Take</button>';
@@ -174,7 +174,7 @@ if($_GET['action'] == 'takepointbet'){
         $db->execute();
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of ".$fet['amnt']." points and you won", $user_class->id);
     }else{
-        echo "You have won the bet for ".number_format($fet['amnt']." points);
+        echo "You have won the bet for ".number_format($fet['amnt']." points");
         $db->query("UPDATE grpgusers SET points = points + ".$fet['amnt']." WHERE id = ".$user_class->id);
         $db->execute();
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of ".$fet['amnt']." points and you lost", $user_class->id);
