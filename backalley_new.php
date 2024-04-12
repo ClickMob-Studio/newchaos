@@ -18,9 +18,9 @@ include 'header.php';
                 <div id="ba-response-message" style="min-height: 60px; display: none;"></div>
 
                 <button class="ba-search-link">Search</button>
-                <a href="#" class="btn btn-primary">Med Pack</a>
-                <a href="#" class="btn btn-primary">Refill Energy</a>
-
+                <button class="ba-med-pack-link">Use Med Pack</button>
+                <button class="ba-refill-energy-link">Refill Energy</button>
+ 
                 <hr />
 
                 <table class="new_table" id="newtables" style="width:100%;">
