@@ -174,20 +174,26 @@ $(document).ready(function(){
 <div class="container">
     <table>
         <tbody>
-            <td>
-                <h1>Place Cash Bet</h1>
-            <input type="number" id="betAmount" placeholder="Enter bet amount">
-            <button id="betCashButton">Place Bet</button>
-            </td>
-            <td>
-                <h1>Place Points Bet</h1>
-            <input type="number" id="betPAmount" placeholder="Enter bet amount">
-            <button id="betPointsButton">Place Bet</button>
+        <div class="container">
+    <div class="row">
+        <div class="col-md-12 col-4">
+            <h1>Place Cash Bet</h1>
+            <input type="number" id="betAmount" class="form-control" placeholder="Enter bet amount">
+            <button id="betCashButton" class="btn btn-primary mt-2">Place Bet</button>
+        </div>
+        <div class="col-md-12 col-4">
+            <h1>Place Points Bet</h1>
+            <input type="number" id="betPAmount" class="form-control" placeholder="Enter bet amount">
+            <button id="betPointsButton" class="btn btn-primary mt-2">Place Bet</button>
+        </div>
+        <div class="col-md-12 col-4">
             <h1>Place Credit Bet</h1>
-            <input type="number" id="betCAmount" placeholder="Enter bet amount">
-            <button id="betCreditsButton">Place Bet</button>
-            </td>
-            </td>
+            <input type="number" id="betCAmount" class="form-control" placeholder="Enter bet amount">
+            <button id="betCreditsButton" class="btn btn-primary mt-2">Place Bet</button>
+        </div>
+    </div>
+</div>
+
         </tbody>
     </table>
     <div class="col-12 alert alert-info" style="display:none;"></div>
