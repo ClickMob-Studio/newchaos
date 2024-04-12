@@ -45,7 +45,7 @@ if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'use_med_pack') {
 }
 
 // ENERGY REFILL
-if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'energy_refill') {
+if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'refill_energy') {
     refill('e');
 
     if ($user_class->energy ==  $user_class->maxenergy) {
