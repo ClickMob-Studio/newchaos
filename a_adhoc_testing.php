@@ -15,7 +15,7 @@ foreach ($rows as $row) {
         $db->query("UPDATE inventory SET quantity = quantity + " . $row['quantity'] . "  WHERE id = " . $rowId . " ");
         $db->execute();
 
-        $db->query("DELETE FROM inventory  WHERE id = " . $row['quantity'] . " ");
+        $db->query("DELETE FROM inventory  WHERE id = " . $row['id'] . " ");
         $db->execute();
     }
 }
