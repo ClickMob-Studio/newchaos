@@ -56,8 +56,27 @@ $(document).ready(function(){
             data: {action: 'pointbet', amount: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response).show();
-                var newRow = `<tr><<td><?= $user_class->formattedname; ?></td><td>$${amount}</td> <td></td></tr>`;
+                var newRow = `<tr><<td><?= $user_class->formattedname; ?></td><td>${amount} points</td> <td></td></tr>`;
                 $("#pointbettable tbody").append(newRow);
+            },
+            error: function() {
+                // Handle error
+                alert("An error occurred");
+            }
+        });
+    });
+});
+$(document).ready(function(){
+    $("#betPointsButton").click(function(){
+        var amount = $("#betCAmount").val(); 
+        $.ajax({
+            url: 'ajax_50.php', 
+            type: 'GET',
+            data: {action: 'creditbet', amount: amount},
+            success: function(response) {
+                $(".col-12.alert.alert-info").html(response).show();
+                var newRow = `<tr><<td><?= $user_class->formattedname; ?></td><td>${amount} credits</td> <td></td></tr>`;
+                $("#creditbettable tbody").append(newRow);
             },
             error: function() {
                 // Handle error
@@ -210,7 +229,11 @@ $(document).ready(function(){
             <tr>
                 <td><?= formatName($cre['userid'])?></td>
                 <td><?= prettynum($cre['amnt'])?></td>
-                <td>LINK</td>
+                <?php if($user_class->id == $cre['userid']):?>
+                    <td><button class="removeCashButton" value="<?=$cre['id'];?>">Remove</button></td>
+                <?php else:?>
+                <td><button class="takePointsButton" value="<?=$cre['id'];?>">Take</button></td>
+                <?php endif;?>
             </tr>
             <?php endforeach; ?>
                 </tbody>

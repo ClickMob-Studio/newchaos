@@ -97,8 +97,6 @@ if($_GET['action'] == 'removecashbet'){
     $db->query("DELETE FROM fiftyfifty WHERE id = ".$id);
     $db->execute();
     echo "You have removed the bet for $".number_format($fet['amnt']);
-    Send_Event($user_class->id, "You removed your bet of $".number_format($fet['amnt']), $fet['userid']);
-
 }
 
 if($_GET['action'] == 'takepointbet'){
@@ -138,5 +136,23 @@ if($_GET['action'] == 'takepointbet'){
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of ".$fet['amnt']." points and you lost", $user_class->id);
     }
     $db->query("DELETE FROM fiftyfifty WHERE id = ".$id);
+    $db->execute();
+}
+
+if($_GET['action'] == 'creditbet'){
+    $amount = intval($_GET['amount']);
+    if($amount < 0){
+        echo "You can not place a bet of 0";
+        exit;
+    }
+    if($user_class->credits < $amount){
+        echo "You don't have that many credits.";
+        exit;
+    }
+    $user_class->money -= $amount;
+    $db->query("UPDATE grpgusers SET credits = $user_class->credits WHERE id = ". $user_class->id);
+    $db->execute();
+    echo "You have placed a bet of ". number_format($amount). " credits.";
+    $db->query("INSERT INTO fiftyfifty(userid, amnt, currency) VALUES (".$user_class->id .", ".$amount.", 'credits')");
     $db->execute();
 }
