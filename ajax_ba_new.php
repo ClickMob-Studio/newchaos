@@ -129,7 +129,7 @@ if ($outcome <= 10) {
     $fullResponse .= $scenario['fail'];
     $fullResponse .= '<br /><br />';
     $fullResponse .= '<strong>You will need to spend some time in the hosptial!</strong>';
-    $fullResponse .= '</span>';\
+    $fullResponse .= '</span>';
     echo json_encode(success($fullResponse));
 } else if ($outcome <= 30) {
     // 20% Loose & Don't Hosp
