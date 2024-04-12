@@ -7,11 +7,23 @@ error_reporting(E_ALL);
 $user_class = new user($_SESSION['id']);
 
 if($_GET['action'] == 'update'){
-$response = [
-    'cash' => $db->query("SELECT * FROM fiftyfifty WHERE currency = 'cash'")->execute()->fetch_row(),
-    'points' => $db->query("SELECT * FROM fiftyfifty WHERE currency = 'points'")->execute()->fetch_row(),
-    'credits' => $db->query("SELECT * FROM fiftyfifty WHERE currency = 'credits'")->execute()->fetch_row()
-];
+    $db->query("SELECT * FROM fiftyfifty WHERE currency = 'cash'");
+    $db->execute();
+    $cash = $db->fetch_all();
+
+    $db->query("SELECT * FROM fiftyfifty WHERE currency = 'points'");
+    $db->execute();
+    $points = $db->fetch_all();
+
+    $db->query("SELECT * FROM fiftyfifty WHERE currency = 'credits'");
+    $db->execute();
+    $credits = $db->fetch_all();
+    
+    $response = [
+        'cash' => $cash,
+        'points' => $points,
+        'credits' => $credits
+    ];
 
 header('Content-Type: application/json');
 echo json_encode($response);
