@@ -2,18 +2,16 @@
 include 'header.php';
 
 // TEMP FIX
-if ($user_class->id == 2) {
-    $db->query("SELECT id FROM inventory WHERE quantity <= 0 AND userid = " . $user_class->id);
+$db->query("SELECT id FROM inventory WHERE quantity <= 0 AND userid = " . $user_class->id);
+$db->execute();
+$rows = $db->fetch_row();
+
+foreach ($rows as $row)
+{
+    $db->query("DELETE FROM inventory WHERE id = " . $row['id']);
     $db->execute();
-    $rows = $db->fetch_row();
-
-    foreach ($rows as $row)
-    {
-        $db->query("DELETE FROM inventory WHERE id = " . $row['id']);
-        $db->execute();
-    }
-
 }
+
 
 ?>
 <div class='box_top'>Inventory</div>
