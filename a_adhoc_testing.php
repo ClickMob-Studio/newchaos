@@ -7,7 +7,7 @@ $rows = $db->fetch_row();
 
 $itemIds = array();
 foreach ($rows as $row) {
-    if (!isset($itemIds[$row['id']])) {
+    if (!isset($itemIds[$row['itemid']])) {
         $itemIds[$row['itemid']] = $row['quantity'];
     } else {
         echo 'DUPE FOUND: ' . $row['itemid'] . '<br />';
