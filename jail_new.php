@@ -307,34 +307,6 @@ if($user_class->jail > 0){
                             '</tr>'
                         );
 
-                        $('.jail-break-link').click(function(e) {
-                            if ($(this).data('jid') == 'bot') {
-                                e.preventDefault();
-
-                                $(this).closest('tr').remove();
-
-                                var request = $.ajax({
-                                    url: 'ajax_jail_new.php?jailbreak=bot',
-                                    method: "GET",
-                                    dataType: "json"
-                                });
-                                request.done(function (res) {
-                                    if (res.success == false || res.success == 'false') {
-                                        var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + res.error + "</p></div>";
-                                    } else {
-                                        var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + res.message + "</p></div>";
-                                    }
-
-                                    console.log(res.jail_bot_credits);
-
-                                    $(".ajax-message-holder").html(resMes);
-                                    $(".ajax-message-holder").show();
-                                    $('.jail-bot-credit-count').html(res.jail_bot_credits);
-                                });
-                            } else {
-                                $('.jail-break-link').remove();
-                            }
-                        });
                     })
                 }
             }, "json")
