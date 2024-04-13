@@ -13,6 +13,29 @@ function log50($better, $userid, $winner, $amount, $currency){
     ));
 }
 $user_class = new user($_SESSION['id']);
+if($_GET['action'] == 'fetchLatest'){
+    $db->query("SELECT * FROM 5050log ORDER BY `id` DESC LIMIT 10");
+    $db->execute();
+    $results = $db->fetch_row(true);
+    $output = "<ul>"; // Start list to display bets
+    foreach($results as $row){
+        $amount = '';
+        if($row['currency'] == 'cash'){
+            $amount = prettynum($row['amount'], 1);
+        }else if($row['currency'] == 'credits'){
+            $amount = prettynum($row['amount']).' credits';
+        }else if($row['currency'] == 'points'){
+            $amount = prettynum($row['amount']).' points';
+        }
+
+        $winner = ($row['winner'] == $row['userid']) ? $row['winner'] : $row['better'];
+        $loser = ($row['winner'] == $row['userid']) ? $row['better'] : $row['userid'];
+
+        $output .= "<li>".formatName($winner)." won ".$amount." from ".formatName($loser)."</li>";
+    }
+    $output .= "</ul>"; // Close list
+    echo $output;
+}
 
 if($_GET['action'] == 'update'){
     $db->query("SELECT * FROM fiftyfifty WHERE currency = 'cash'");

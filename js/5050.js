@@ -189,3 +189,19 @@ $(document).ready(function(){
         });
     });
 });
+$(document).ready(function() {
+    function fetchLatestBets() {
+        $.ajax({
+            url: '/ajax_50.php?action=fecthLatest',  
+            type: 'GET',                 
+            success: function(data) {
+                $('.lastbets').html(data);
+            },
+            error: function() {
+                console.log('Error fetching data.');
+            }
+        });
+    }
+
+    setInterval(fetchLatestBets, 2000);
+});
