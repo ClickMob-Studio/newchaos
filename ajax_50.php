@@ -1,7 +1,16 @@
 <?php
 
 include "ajax_header.php";
-
+function log50($better, $userid, $winner, $amount, $currency){
+    global $db;
+    $db->query("INSERT INTO 5050log (userid, winner, amount, currency) VALUES (?, ?, ?, ?)");
+    $db->execute(array(
+        $userid,
+        $winner,
+        $amount,
+        $currency
+    ));
+}
 $user_class = new user($_SESSION['id']);
 
 if($_GET['action'] == 'update'){
