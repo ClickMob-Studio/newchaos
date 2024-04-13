@@ -204,5 +204,5 @@ $(document).ready(function() {
         });
     }
 
-    setInterval(fetchLatestBets, 2000);
+    setInterval(fetchLatestBets, 1000);
 });
