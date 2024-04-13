@@ -413,14 +413,14 @@ if(!empty($loot_table)){
             // Add to the found items log
             $found_items_log[] = "$formatted_name found a $itemName.\n";
             echo "Debug: Added to found_items_log for $formatted_name\n";
-                    
-        
-        // Insert or update the item in the participant's inventory
-        $query = "INSERT INTO inventory (userid, itemid, quantity) VALUES (" . $participant['user_id'] . ", " . $loot['item_id'] . ", 1) ON DUPLICATE KEY UPDATE quantity = quantity + 1";
+        $check_inv = mysql_query("SELECT * FORM inventory WHERE userid = " . $participant['user_id'] . " AND itemid = " . $loot['item_id']);
+        if(mysql_num_rows($check_inv)){
+            mysql_query("UPDATE inventory SET quantity = quantity + 1 WHERE userid = " . $participant['user_id'] . " AND itemid = " . $loot['item_id']);
 
-        if (!mysql_query($query)) {
-            echo "MySQL Error: " . mysql_error();  // This will print any error that MySQL returns
+        }else{
+            mysql_query("INSERT INTO inventory (userid, itemid, quantity) VALUES ('$participant[user_id]', '$loot[item_id]', '1')");
         }
+    
         $items_won_global = array_merge($items_won_global, $items_won);  // Merge the items won for this participant into the global list
     }
    // var_dump($participant);
