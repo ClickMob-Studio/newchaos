@@ -195,6 +195,7 @@ $(document).ready(function() {
             url: '/ajax_50.php?action=fecthLatest',  
             type: 'GET',                 
             success: function(data) {
+                console.log(data);
                 $('.lastbets').html(data);
             },
             error: function() {
