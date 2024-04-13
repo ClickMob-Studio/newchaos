@@ -413,7 +413,7 @@ if(!empty($loot_table)){
             // Add to the found items log
             $found_items_log[] = "$formatted_name found a $itemName.\n";
             echo "Debug: Added to found_items_log for $formatted_name\n";
-        $check_inv = mysql_query("SELECT * FORM inventory WHERE userid = " . $participant['user_id'] . " AND itemid = " . $loot['item_id']);
+        $check_inv = mysql_query("SELECT * FROM inventory WHERE userid = " . $participant['user_id'] . " AND itemid = " . $loot['item_id']);
         if(mysql_num_rows($check_inv)){
             mysql_query("UPDATE inventory SET quantity = quantity + 1 WHERE userid = " . $participant['user_id'] . " AND itemid = " . $loot['item_id']);
 
