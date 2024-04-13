@@ -265,6 +265,7 @@ if($user_class->jail > 0){
 
         $('.jail-break-link').click(function(e) {
             console.log('here');
+            console.log($(this).data('jid'));
             if ($(this).data('jid') == 'bot') {
                 e.preventDefault();
 
