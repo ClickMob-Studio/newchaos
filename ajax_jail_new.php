@@ -45,3 +45,54 @@ if (isset($_GET['action'])  && $_GET['action'] == 'fetch_users') {
 
     echo json_encode($rows);
 }
+
+//
+// BUST BOTS
+//
+if (isset($_GET['jailbreak'])  && $_GET['jailbreak'] == 'bot') {
+    $error = false;
+    $expEarned = mt_rand(1, 10);
+
+    $error = false;
+    if ($user_class->jail_bot_credits < 1) {
+        $error = 'You do not have any bot credits remaining.';
+    }
+    if ($user_class->hospital > 0) {
+        $error = "You can't break people out of jail whilst your in hospital.";
+    }
+    if ($user_class->jail > 0) {
+        $error = "You can't break people out of jail whilst your in jail.";
+    }
+
+    if (!$error) {
+        $exp = $expEarned + $user_class->exp;
+        $crimesucceeded = 1 + $user_class->crimesucceeded;
+
+        $db->query("SELECT id, jail FROM grpgusers WHERE jail > 0 AND id NOT IN ($ignore) ORDER BY jail ASC");
+        $db->execute();
+
+        $db->query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ".$exp.", busts = busts + 1, jail_bot_credits = jail_bot_credits - 1 WHERE id = ".$user_class->id);
+        $db->execute();
+        
+        $user_class->jail_bot_credits = $user_class->jail_bot_credits - 1;
+        mission('b');
+        newmissions('busts');
+        gangContest(array(
+            'busts' => 1,
+            'exp' => $exp
+        ));
+        $toadd = array('botd' => 1);
+        ofthes($user_class->id, $toadd);
+        bloodbath('busts', $user_class->id);
+
+        echo json_encode(array(
+            'success' => true,
+            'message' => "Success! You receive ".$expEarned." exp "
+        ));
+    } else {
+        echo json_encode(array(
+            'success' => false,
+            'error' => $error
+        ));
+    }
+}
