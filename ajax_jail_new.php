@@ -84,6 +84,7 @@ if (isset($_GET['jailbreak'])  && $_GET['jailbreak'] == 'bot') {
 
         echo json_encode(array(
             'success' => true,
+            'jail_bot_credits' => $user_class->jail_bot_credits,
             'message' => "Success! You receive ".$expEarned." exp "
         ));
     } else {

@@ -281,36 +281,39 @@ if($user_class->jail > 0){
                          var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + res.message + "</p></div>";
                      }
 
+                     console.log(res.jail_bot_credits);
+
                      $(".ajax-message-holder").html(resMes);
                      $(".ajax-message-holder").show();
+                     $('.jail-bot-credit-count').html(res.jail_bot_credits);
                  });
             } else {
                 $('.jail-break-link').remove();
             }
         });
 
-        //jailInterval = setInterval(() => {
-        //    $.get("ajax_jail_new.php?action=fetch_users", {}, (jailers) => {
-        //        $('.jail-cell-row').remove();
-        //
-        //        if (jailers != false) {
-        //            jailers.forEach((data, index) => {
-        //
-        //                $('#jail-table tr:last').after('' +
-        //                    '<tr class="jail-cell-row">' +
-        //                    '<td>' + data.username + '</td>' +
-        //                    '<td>' + data.time + '</td>' +
-        //                    '<td><a class="jail-break-link" data-jid="' + data.id + ''" href="?jailbreak=' + data.id + '&token=<?php //echo $token ?>//" data-user-id="' + data.id + '" class="break-out-link">Break Out</a></td>' +
-        //                    '</tr>'
-        //                );
-        //
-        //                $('.jail-break-link').click(function() {
-        //                    $('.jail-break-link').remove();
-        //                });
-        //            })
-        //        }
-        //    }, "json")
-        //}, 4000);
+        jailInterval = setInterval(() => {
+            $.get("ajax_jail_new.php?action=fetch_users", {}, (jailers) => {
+                $('.jail-cell-row').remove();
+
+                if (jailers != false) {
+                    jailers.forEach((data, index) => {
+
+                        $('#jail-table tr:last').after('' +
+                            '<tr class="jail-cell-row">' +
+                            '<td>' + data.username + '</td>' +
+                            '<td>' + data.time + '</td>' +
+                            '<td><a class="jail-break-link" data-jid="' + data.id + ''" href="?jailbreak=' + data.id + '&token=<?php echo $token ?>" data-user-id="' + data.id + '" class="break-out-link">Break Out</a></td>' +
+                            '</tr>'
+                        );
+
+                        $('.jail-break-link').click(function() {
+                            $('.jail-break-link').remove();
+                        });
+                    })
+                }
+            }, "json")
+        }, 4000);
     </script>
 <?
 include 'footer.php';
