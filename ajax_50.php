@@ -3,8 +3,9 @@
 include "ajax_header.php";
 function log50($better, $userid, $winner, $amount, $currency){
     global $db;
-    $db->query("INSERT INTO 5050log (userid, winner, amount, currency) VALUES (?, ?, ?, ?)");
+    $db->query("INSERT INTO 5050log (better, userid, winner, amount, currency) VALUES (?, ?, ?, ?)");
     $db->execute(array(
+        $better,
         $userid,
         $winner,
         $amount,
