@@ -72,6 +72,8 @@ include 'footer.php';
                 dataType: "json"
             });
             request.done(function (res) {
+                console.log('***********');
+                console.log(res);
                 if (res.success == false || res.success == 'false') {
                     var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
 
