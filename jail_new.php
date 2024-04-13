@@ -303,7 +303,7 @@ if($user_class->jail > 0){
                             '<tr class="jail-cell-row">' +
                             '<td>' + data.username + '</td>' +
                             '<td>' + data.time + '</td>' +
-                            '<td><a class="jail-break-link" data-jid="' + data.id + ''" href="?jailbreak=' + data.id + '&token=<?php echo $token ?>" data-user-id="' + data.id + '" class="break-out-link">Break Out</a></td>' +
+                            '<td><a class="jail-break-link" data-jid="' + data.id + '" href="?jailbreak=' + data.id + '&token=<?php echo $token ?>" data-user-id="' + data.id + '" class="break-out-link">Break Out</a></td>' +
                             '</tr>'
                         );
 
