@@ -1,5 +1,6 @@
 <?php
 include 'header.php';
+exit;
 
 $db->query("SELECT id FROM grpgusers");
 $db->execute();
