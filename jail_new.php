@@ -267,6 +267,8 @@ if($user_class->jail > 0){
              if ($(this).data('jid') == 'bot') {
                 e.preventDefault();
 
+                $(this).closest('tr').remove();
+
 
 
 
