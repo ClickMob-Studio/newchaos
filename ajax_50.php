@@ -16,7 +16,7 @@ $user_class = new user($_SESSION['id']);
 if($_GET['action'] == 'fetchLatest'){
     $db->query("SELECT * FROM 5050log ORDER BY `id` DESC LIMIT 10");
     $db->execute();
-    $results = $db->fetch_row(true);
+    $results = $db->fetch_row();
     $output = "<ul>"; // Start list to display bets
     foreach($results as $row){
         $amount = '';
