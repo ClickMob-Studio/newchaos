@@ -61,6 +61,7 @@ include 'footer.php';
             $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
 
             if (requestInProcess) {
+                console.log('*** IN PROCESS');
                 return false;
             }
 
