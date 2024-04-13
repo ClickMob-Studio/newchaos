@@ -72,6 +72,8 @@ if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'use_med_pack') {
             $user_class->id
         ));
 
+        Take_Item(14, $user_class->id);
+
         echo json_encode(array(
             'success' => true,
             'message' => 'You successfully used a ' . $row["itemname"] . '.',
@@ -98,6 +100,8 @@ if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'use_med_pack') {
             $hp,
             $user_class->id
         ));
+
+        Take_Item(13, $user_class->id);
 
         echo json_encode(array(
             'success' => true,
