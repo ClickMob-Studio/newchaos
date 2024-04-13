@@ -269,9 +269,21 @@ if($user_class->jail > 0){
 
                 $(this).closest('tr').remove();
 
+                 var request = $.ajax({
+                     url: 'ajax_jail_new.php?jailbreak=bot',
+                     method: "GET",
+                     dataType: "json"
+                 });
+                 request.done(function (res) {
+                     if (res.success == false || res.success == 'false') {
+                         var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + res.error + "</p></div>";
+                     } else {
+                         var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + res.message + "</p></div>";
+                     }
 
-
-
+                     $(".ajax-message-holder").html(resMes);
+                     $(".ajax-message-holder").show();
+                 });
             } else {
                 $('.jail-break-link').remove();
             }
