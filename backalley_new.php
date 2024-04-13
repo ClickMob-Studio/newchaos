@@ -22,7 +22,7 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 <div id="ba-response-message" style="min-height: 60px; display: none;"></div>
 
                 <button class="ba-search-link">Search</button>
-                <button class="ba-med-pack-link">Use Med Pack (x<?php echo $medPackTotalCount ?>)</button>
+                <button class="ba-med-pack-link">Use Med Pack (x<span class="med-pack-count"><?php echo $medPackTotalCount ?></span>)</button>
                 <button class="ba-refill-energy-link">Refill Energy</button>
 
                 <hr />
@@ -107,6 +107,45 @@ include 'footer.php';
 
             var request = $.ajax({
                 url: 'ajax_ba_new.php?ba_action=refill_energy&alv=yes',
+                method: "GET",
+                dataType: "json"
+            });
+            request.done(function (res) {
+                if (res.success == false || res.success == 'false') {
+                    var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
+
+                    $("#newtables tbody").prepend('<tr><td>' + res.error + '<hr /></td></tr>');
+                } else {
+                    var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
+                    $("#newtables tbody").prepend('<tr><td>' + res.message + '<hr /></td></tr>');
+                }
+
+                $("#ba-response-message").html(resMes);
+                $("#ba-response-message").show();
+                $(".temp-spinner").remove();
+                clicked.show();
+
+                requestInProcess = false;
+            });
+        });
+
+        $('.ba-med-pack-link').click(function(e) {
+            e.preventDefault();
+
+            let clicked = $(this);
+
+            $(".ajax-alert-div").remove();
+            $(this).hide();
+            $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
+
+            if (requestInProcess) {
+                return false;
+            }
+
+            requestInProcess = true;
+
+            var request = $.ajax({
+                url: 'ajax_ba_new.php?ba_action=use_med_pack&alv=yes',
                 method: "GET",
                 dataType: "json"
             });

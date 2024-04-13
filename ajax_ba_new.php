@@ -46,7 +46,66 @@ if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'use_med_pack') {
         exit;
     }
 
+    $totalMedPackCount = check_items(13, $user_class->id) + check_items(14, $user_class->id);
 
+    if (!$totalMedPackCount) {
+        echo json_encode(success('You do not have any Med Packs.'));
+        exit;
+    }
+
+    $medPackCount = check_items(14, $user_class->id);
+    if ($medPackCount > 0) {
+        $db->query("SELECT * FROM items WHERE id = 14");
+        $db->execute();
+        $row = $db->fetch_row(true);
+
+        $hosp = floor(($user_class->hospital / 100) * $row['reduce']);
+        $newhosp = $user_class->hospital - $hosp;
+        $newhosp = ($newhosp < 0) ? 0 : $newhosp;
+        $hp = floor(($user_class->puremaxhp / 4) * $row['heal']);
+        $hp = $user_class->purehp + $hp;
+        $hp = ($hp > $user_class->puremaxhp) ? $user_class->puremaxhp : $hp;
+        $db->query("UPDATE grpgusers SET hospital = ?, hp = ? WHERE id = ?");
+        $db->execute(array(
+            $newhosp,
+            $hp,
+            $user_class->id
+        ));
+
+        echo json_encode(array(
+            'success' => true,
+            'message' => 'You successfully used a ' . $row["itemname"] . '.',
+            'med_pack_count' => ($totalMedPackCount - 1)
+        ));
+        exit;
+    }
+
+    $medPackCount = check_items(13, $user_class->id);
+    if ($medPackCount > 0) {
+        $db->query("SELECT * FROM items WHERE id = 13");
+        $db->execute();
+        $row = $db->fetch_row(true);
+
+        $hosp = floor(($user_class->hospital / 100) * $row['reduce']);
+        $newhosp = $user_class->hospital - $hosp;
+        $newhosp = ($newhosp < 0) ? 0 : $newhosp;
+        $hp = floor(($user_class->puremaxhp / 4) * $row['heal']);
+        $hp = $user_class->purehp + $hp;
+        $hp = ($hp > $user_class->puremaxhp) ? $user_class->puremaxhp : $hp;
+        $db->query("UPDATE grpgusers SET hospital = ?, hp = ? WHERE id = ?");
+        $db->execute(array(
+            $newhosp,
+            $hp,
+            $user_class->id
+        ));
+
+        echo json_encode(array(
+            'success' => true,
+            'message' => 'You successfully used a ' . $row["itemname"] . '.',
+            'med_pack_count' => ($totalMedPackCount - 1)
+        ));
+        exit;
+    }
 }
 
 // ENERGY REFILL
