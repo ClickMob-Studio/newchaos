@@ -17,7 +17,7 @@ if($_GET['action'] == 'fecthLatest'){
     $db->query("SELECT * FROM 5050log ORDER BY `id` DESC LIMIT 10");
     $db->execute();
     $results = $db->fetch_row();
-    $output = "<tbody><ul>"; // Start list to display bets
+    $output = "<ul>"; // Start list to display bets
     foreach($results as $row){
         $amount = '';
         if($row['currency'] == 'cash'){
@@ -33,7 +33,7 @@ if($_GET['action'] == 'fecthLatest'){
 
         $output .= "<li>".formatName($winner)." won ".$amount." from ".formatName($loser)."</li>";
     }
-    $output .= "</ul></tbody>"; // Close list
+    $output .= "</ul>"; // Close list
     echo $output;
 }
 
