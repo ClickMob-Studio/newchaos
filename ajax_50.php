@@ -1,7 +1,17 @@
 <?php
 
 include "ajax_header.php";
-
+function log50($better, $userid, $winner, $amount, $currency){
+    global $db;
+    $db->query("INSERT INTO 5050log (better, userid, winner, amount, currency) VALUES (?, ?, ?, ?,?)");
+    $db->execute(array(
+        $better,
+        $userid,
+        $winner,
+        $amount,
+        $currency
+    ));
+}
 $user_class = new user($_SESSION['id']);
 
 if($_GET['action'] == 'update'){
@@ -121,11 +131,13 @@ if($_GET['action'] == 'takecashbet'){
         $db->query("UPDATE grpgusers SET money = money + ".$amnt." WHERE id = ".$fet['userid']);
         $db->execute();
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of $".$fet['amnt']." and you won", $user_class->id);
+        log50($fet['userid'], $user_class->id, $fet['userid'], $fet['amnt'], 'cash');
     }else{
         echo "You have won the bet for $".number_format($fet['amnt']);
         $db->query("UPDATE grpgusers SET money = money + ".$fet['amnt']." WHERE id = ".$user_class->id);
         $db->execute();
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of $".$fet['amnt']." and you lost", $user_class->id);
+        log50($fet['userid'], $user_class->id, $user_class->id, $fet['amnt'], 'cash');
     }
     $db->query("DELETE FROM fiftyfifty WHERE id = ".$id);
     $db->execute();
@@ -191,11 +203,13 @@ if($_GET['action'] == 'takepointbet'){
         $db->query("UPDATE grpgusers SET points = points + ".$amnt." WHERE id = ".$fet['userid']);
         $db->execute();
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of ".$fet['amnt']." points and you won", $user_class->id);
+        log50($fet['userid'], $user_class->id, $fet['userid'], $fet['amnt'], 'points');
     }else{
         echo "You have won the bet for ".number_format($fet['amnt']." points");
         $db->query("UPDATE grpgusers SET points = points + ".$fet['amnt']." WHERE id = ".$user_class->id);
         $db->execute();
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of ".$fet['amnt']." points and you lost", $user_class->id);
+        log50($fet['userid'], $user_class->id, $user_class->id, $fet['amnt'], 'points');
     }
     $db->query("DELETE FROM fiftyfifty WHERE id = ".$id);
     $db->execute();
@@ -231,11 +245,13 @@ if($_GET['action'] == 'takecreditbet'){
         $db->query("UPDATE grpgusers SET credits = credits + ".$amnt." WHERE id = ".$fet['userid']);
         $db->execute();
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of ".$fet['amnt']." credits and you won", $user_class->id);
+        log50($fet['userid'], $user_class->id, $fet['userid'], $fet['amnt'], 'credits');
     }else{
         echo "You have won the bet for ".number_format($fet['amnt']." credits");
         $db->query("UPDATE grpgusers SET credits = credits + ".$fet['amnt']." WHERE id = ".$user_class->id);
         $db->execute();
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of ".$fet['amnt']." credits and you lost", $user_class->id);
+        log50($fet['userid'], $user_class->id, $user_class->id, $fet['amnt'], 'credits');
     }
     $db->query("DELETE FROM fiftyfifty WHERE id = ".$id);
     $db->execute();
