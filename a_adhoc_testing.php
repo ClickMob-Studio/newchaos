@@ -25,5 +25,7 @@ foreach ($rows as $row) {
     }
 }
 
+echo 'done';
+
 include 'footer.php';
 ?>
