@@ -40,7 +40,7 @@ $(document).ready(function(){
             success: function(response) {
                 var responseData = JSON.parse(response);
                 $(".col-12.alert.alert-info").html(responseData.message).show();
-                $(".points").text(`$${responseData.newMoney}`);
+                $(".points").text(`${responseData.newPoints}`);
                 document.getElementById('betAmount').value = '';
             }
             ,
