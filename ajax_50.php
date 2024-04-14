@@ -119,8 +119,8 @@ if($_POST['action'] == 'pointbet'){
     $db->query("INSERT INTO fiftyfifty(userid, amnt, currency) VALUES (".$user_class->id .", ".$amount.", 'points')");
     $db->execute();
 }
-if($_GET['action'] == 'cashbet'){
-    $amount = intval($_GET['amount']);
+if($_POST['action'] == 'cashbet'){
+    $amount = intval($_POST['amount']);
     if($amount < 0){
         $text = "You can not place a bet of 0";
         echo json_encode(array(
