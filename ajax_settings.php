@@ -19,10 +19,11 @@ if(isset($_POST['action']) && $_POST['action'] == 'password'){
         exit;
     }
     $password = sha1($oldPassword);
-    echo $user_class->password;
-    echo '<br>';
-    echo $password;
+   
     if($user_class->password != $password){
+        echo $user_class->password;
+        echo '<br>';
+        echo $password;
         echo json_encode(array(
             'text' => "Old password is incorrect!",
         ));
