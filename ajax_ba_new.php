@@ -228,7 +228,9 @@ if ($outcome <= 10) {
     $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
     $fullResponse .= '<br /><br />';
     $fullResponse .= '<strong>You will need to spend some time in the hospital!</strong>';
+
     echo json_encode(success($fullResponse));
+    exit;
 } else if ($outcome <= 30) {
     // 20% Loose & Don't Hosp
     $fullResponse = $scenario['start'];
@@ -237,6 +239,9 @@ if ($outcome <= 10) {
     $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
     $fullResponse .= $scenario['fail'];
     $fullResponse .= '</span>';
+
+    echo json_encode(success($fullResponse));
+    exit;
 } else if ($outcome <= 50) {
     // 20% Win Cash & EXP
     $fullResponse = $scenario['start'];
@@ -245,6 +250,7 @@ if ($outcome <= 10) {
     $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
 
     echo json_encode(success($fullResponse));
+    exit;
 } else if ($outcome <= 70) {
     // 20% Win Cash & BA Pill
     $fullResponse = $scenario['start'];
@@ -253,6 +259,7 @@ if ($outcome <= 10) {
     $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
 
     echo json_encode(success($fullResponse));
+    exit;
 } else if ($outcome <= 90) {
     // 20% Win Cash & Med Pack
     $fullResponse = $scenario['start'];
@@ -261,6 +268,7 @@ if ($outcome <= 10) {
     $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
 
     echo json_encode(success($fullResponse));
+    exit;
 } else {
     $fullResponse = $scenario['start'];
     $fullResponse .= '<br />';
@@ -268,6 +276,7 @@ if ($outcome <= 10) {
     $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
 
     echo json_encode(success($fullResponse));
+    exit;
 }
 
 echo json_encode(success($outcome . ' - Something went wrong'));
