@@ -197,7 +197,7 @@ if($_POSR['action'] == 'removecashbet'){
         echo "That bet does not appear to be valid";
         exit();
     }
-    $id = intval($_GET['id']);
+    $id = intval($_POST['id']);
     $db->query("SELECT * FROM fiftyfifty WHERE id = ?");
     $db->execute(array($id));
     if($db->num_rows() < 1){
