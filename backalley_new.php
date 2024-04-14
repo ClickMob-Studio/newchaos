@@ -20,8 +20,14 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 </p>
 
                 <p>You Back Alley Skill Set is currently level 1</p>
-                <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar bg-success" style="width: 25%"></div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar bg-success" style="width: 25%"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-3"></div>
                 </div>
 
                 <div id="ba-response-message" style="min-height: 60px; display: none;"></div>
