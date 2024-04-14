@@ -26,7 +26,6 @@ $(document).ready(function() {
                 confirmPassword: confirmPassword
             },
             success: function(response) {
-                alert("Password updated successfully!");
                 $('.passwordAlert').html(response.text).show();
             },
             error: function() {
