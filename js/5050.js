@@ -98,8 +98,8 @@ $(document).ready(function(){
             dataType: 'json',
             data: {action: 'creditbet', amount: amount},
             success: function(response) {
-                $(".col-12.alert.alert-info").html(response).show();
-                $(".credits").html(response.stats.points +' credits');
+                $(".col-12.alert.alert-info").html(response.text).show();
+                $(".credits").html(response.stats.credits +' credits');
             },
             error: function() {
                 alert("An error occurred");
