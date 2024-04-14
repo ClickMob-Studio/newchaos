@@ -181,7 +181,7 @@ $(document).ready(function(){
        
         $.ajax({
             url: '/ajax_50.php', 
-            type: 'GET',
+            type: 'POST',
             data: {action: 'removecashbet', id: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response).show();
