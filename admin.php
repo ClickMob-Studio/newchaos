@@ -19,11 +19,7 @@ if (!isset($_SESSION['id'])) {
     include('home.php');
     die();
 }
-if ($_SESSION['id'] != 146) {
-    $file = '/usr/share/nginx/logs/actlog.txt';
-    $current = "{$_SESSION['id']}|-|-|{$_SERVER['REQUEST_URI']}|-|-|" . serialize($_POST) . "|-|-|" . time() . ";\n";
-    file_put_contents($file, $current, FILE_APPEND | LOCK_EX);
-}
+
  if(!in_array($_SESSION['id'], array(1 ,2 ,6 ,10 ,11 ,12 ,7,9))){
     include('home.php');
     die();
