@@ -102,6 +102,7 @@ if($_GET['action'] == 'pointbet'){
     $user_class->points -= $amount;
     $db->query("UPDATE grpgusers SET points = $user_class->points WHERE id = ". $user_class->id);
     $db->execute();
+    header('Content-Type: application/json');
     echo json_encode([
         "success" => true,
         "message" => "You have placed a bet of $amount points.",
