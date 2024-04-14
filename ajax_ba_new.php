@@ -46,7 +46,70 @@ if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'use_med_pack') {
         exit;
     }
 
+    $totalMedPackCount = check_items(13, $user_class->id) + check_items(14, $user_class->id);
 
+    if (!$totalMedPackCount) {
+        echo json_encode(success('You do not have any Med Packs.'));
+        exit;
+    }
+
+    $medPackCount = check_items(14, $user_class->id);
+    if ($medPackCount > 0) {
+        $db->query("SELECT * FROM items WHERE id = 14");
+        $db->execute();
+        $row = $db->fetch_row(true);
+
+        $hosp = floor(($user_class->hospital / 100) * $row['reduce']);
+        $newhosp = $user_class->hospital - $hosp;
+        $newhosp = ($newhosp < 0) ? 0 : $newhosp;
+        $hp = floor(($user_class->puremaxhp / 4) * $row['heal']);
+        $hp = $user_class->purehp + $hp;
+        $hp = ($hp > $user_class->puremaxhp) ? $user_class->puremaxhp : $hp;
+        $db->query("UPDATE grpgusers SET hospital = ?, hp = ? WHERE id = ?");
+        $db->execute(array(
+            $newhosp,
+            $hp,
+            $user_class->id
+        ));
+
+        Take_Item(14, $user_class->id);
+
+        echo json_encode(array(
+            'success' => true,
+            'message' => 'You successfully used a ' . $row["itemname"] . '.',
+            'med_pack_count' => ($totalMedPackCount - 1)
+        ));
+        exit;
+    }
+
+    $medPackCount = check_items(13, $user_class->id);
+    if ($medPackCount > 0) {
+        $db->query("SELECT * FROM items WHERE id = 13");
+        $db->execute();
+        $row = $db->fetch_row(true);
+
+        $hosp = floor(($user_class->hospital / 100) * $row['reduce']);
+        $newhosp = $user_class->hospital - $hosp;
+        $newhosp = ($newhosp < 0) ? 0 : $newhosp;
+        $hp = floor(($user_class->puremaxhp / 4) * $row['heal']);
+        $hp = $user_class->purehp + $hp;
+        $hp = ($hp > $user_class->puremaxhp) ? $user_class->puremaxhp : $hp;
+        $db->query("UPDATE grpgusers SET hospital = ?, hp = ? WHERE id = ?");
+        $db->execute(array(
+            $newhosp,
+            $hp,
+            $user_class->id
+        ));
+
+        Take_Item(13, $user_class->id);
+
+        echo json_encode(array(
+            'success' => true,
+            'message' => 'You successfully used a ' . $row["itemname"] . '.',
+            'med_pack_count' => ($totalMedPackCount - 1)
+        ));
+        exit;
+    }
 }
 
 // ENERGY REFILL
@@ -165,23 +228,29 @@ if ($outcome <= 10) {
     $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
     $fullResponse .= '<br /><br />';
     $fullResponse .= '<strong>You will need to spend some time in the hospital!</strong>';
+
     echo json_encode(success($fullResponse));
+    exit;
 } else if ($outcome <= 30) {
     // 20% Loose & Don't Hosp
     $fullResponse = $scenario['start'];
     $fullResponse .= '<br />';
     $fullResponse .= '<br />';
     $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
-    $fullResponse .= $scenario['fail'];
     $fullResponse .= '</span>';
+
+    echo json_encode(success($fullResponse));
+    exit;
 } else if ($outcome <= 50) {
     // 20% Win Cash & EXP
+
     $fullResponse = $scenario['start'];
     $fullResponse .= '<br />';
     $fullResponse .= '<br />';
     $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
 
     echo json_encode(success($fullResponse));
+    exit;
 } else if ($outcome <= 70) {
     // 20% Win Cash & BA Pill
     $fullResponse = $scenario['start'];
@@ -190,6 +259,7 @@ if ($outcome <= 10) {
     $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
 
     echo json_encode(success($fullResponse));
+    exit;
 } else if ($outcome <= 90) {
     // 20% Win Cash & Med Pack
     $fullResponse = $scenario['start'];
@@ -198,6 +268,7 @@ if ($outcome <= 10) {
     $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
 
     echo json_encode(success($fullResponse));
+    exit;
 } else {
     $fullResponse = $scenario['start'];
     $fullResponse .= '<br />';
@@ -205,5 +276,8 @@ if ($outcome <= 10) {
     $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
 
     echo json_encode(success($fullResponse));
+    exit;
 }
+
+echo json_encode(success($outcome . ' - Something went wrong'));
 exit;
