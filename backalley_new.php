@@ -34,7 +34,8 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 <div id="ba-response-message" style="min-height: 60px; display: none;"></div>
 
                 <br />
-                <center><strong>Actions</strong></center>Actions
+                <hr />
+
                 <button class="ba-search-link">Search</button>
                 <button class="ba-med-pack-link">Use Med Pack (x<span class="med-pack-count"><?php echo $medPackTotalCount ?></span>)</button>
                 <button class="ba-refill-energy-link">Refill Energy</button>
