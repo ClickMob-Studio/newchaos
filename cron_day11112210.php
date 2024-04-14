@@ -63,4 +63,5 @@ $clock = date("d M H:i:s");
 //mysql_query("INSERT INTO lottery_winners (userid, amount, `date`, `type`) //VALUES ('$plottery_user->id', '$amountplotto', '$clock', 'Points') ") or //die(mysql_error());
 //End
 mysql_query("DELETE FROM votes WHERE 1");
+mysql_query("UPDATE grpgusers SET ffban = 0");
 ?>

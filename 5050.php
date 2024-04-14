@@ -32,8 +32,8 @@ if($_GET['exclude'] == 'yes')
     die;
 }
 ?>
-<p>Click here to exclue your self from 5050 for 1 day, you will not be able to place any bets. This is also final, we will not reverse
-    any one who decides to exclude themselves will have to wait the day to play again (No conrimation on link click) Resets on rollover
+<p>Click here to exclude your self from 5050 for 1 day, you will not be able to place any bets. This is also final, we will not reverse
+    any one who decides to exclude themselves will have to wait the day to play again (No Confirmation on link click) Resets on rollover
 <a href='5050.php?exclude=yes' style="color:red">Exclude</a>
 </p>
 
