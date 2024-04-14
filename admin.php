@@ -1,6 +1,7 @@
 <?php
 session_start();
 register_shutdown_function('ob_end_flush');
+echo "hello";
 $starttime = microtime_float();
 include 'dbcon.php';
 include 'database/pdo_class.php';
@@ -33,7 +34,7 @@ if (isset($_GET['action']) && $_GET['action'] == "logout") {
     exit();
 }
 $user_class = new User($_SESSION['id']);
-echo "hello";
+
 if($user_class->gang == 0 && $user_class->cur_gangcrime != 0){
 	$db->query("UPDATE grpgusers SET cur_gangcrime = 0 WHERE id = ?");
 	$db->execute(array(
