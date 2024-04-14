@@ -205,6 +205,7 @@ if ($mug <= 8) {
                 $newvault = $gang_class->moneyvault + $tax;
                 $db->query("UPDATE `gangs` SET `moneyvault` = '" . $newvault . "' WHERE `id` = '" . $user_class->gang . "'");
                 $db->execute();
+                $db->closeConnection();
             }
             $newmuggedamount = $attack_person->money - $mugamount;
             $newmuggedamount1 = $attack_person->money - ($mugamount + $tax);
@@ -227,19 +228,18 @@ if ($mug <= 8) {
 
             $db->query("UPDATE grpgusers SET money = $newmuggeramount, muggedmoney = $muggedmoneygain, mugsucceeded = $mugsucceeded, moth = moth + 1, motd = motd + 1, tamt = tamt + $mugamount WHERE id = $user_class->id");
             $db->execute();
-
+            $db->closeConnection();
             $db->query("UPDATE grpgusers SET muggedmoney = $muggedmoneylost, money = $newmuggedamount1 WHERE id = $attack_person->id");
             $db->execute();
-
+            $db->closeConnection();
             $online = (time() - $attack_person->lastactive < 900) ? 1 : 0;
             $db->query("INSERT INTO muglog (mugger, mugged, amount, active, timestamp) VALUES($user_class->id,$attack_person->id,$mugamount,$online,unix_timestamp())");
             $db->execute();
-
+            $db->closeConnection();
             mission('m');
             newmissions('mugs');
             gangContest(array('mugs' => 1));
             bloodbath('mugs', $user_class->id);
-
             $response = success("You successfully mugged $attack_person->formattedname for " . prettynum($mugamount, 1) . ".");
             echo json_encode($response);
             exit;
@@ -262,7 +262,7 @@ if ($mug <= 8) {
 
     $db->query("UPDATE `grpgusers` SET `jail` = '" . $timee . "' WHERE `id`='" . $user_class->id . "'");
     $db->execute();
-
+    $db->closeConnection();
     $response = success("You failed and were sent to prison for 5 minutes!.");
     echo json_encode($response);
     exit;
