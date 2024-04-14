@@ -237,7 +237,6 @@ if ($outcome <= 10) {
     $fullResponse .= '<br />';
     $fullResponse .= '<br />';
     $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
-    $fullResponse .= $scenario['fail'];
     $fullResponse .= '</span>';
 
     echo json_encode(success($fullResponse));
