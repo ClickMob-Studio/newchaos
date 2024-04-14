@@ -269,4 +269,6 @@ if ($outcome <= 10) {
 
     echo json_encode(success($fullResponse));
 }
+
+echo json_encode(success($outcome . ' - Something went wrong'));
 exit;
