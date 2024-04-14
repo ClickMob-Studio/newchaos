@@ -1,6 +1,8 @@
 <?php
 
 include "ajax_header.php";
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 function log50($better, $userid, $winner, $amount, $currency){
     global $db;
     $db->query("INSERT INTO 5050log (better, userid, winner, amount, currency) VALUES (?, ?, ?, ?,?)");
