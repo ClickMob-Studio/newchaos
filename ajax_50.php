@@ -96,12 +96,12 @@ if($_GET['action'] == 'pointbet'){
     $amount = intval($_GET['amount']);
     if($amount < 0){
         header('Content-Type: application/json');
-        echo json_encode(["message" => "You cannot place a bet of 0","newPoints" => $user_class->points]]);
+        echo json_encode(["message" => "You cannot place a bet of 0","newPoints" => $user_class->points]);
         exit;
     }
     if($user_class->points < $amount){
         header('Content-Type: application/json');
-        echo json_encode(["message" => "You don't have that many points","newPoints" => $user_class->points]]);
+        echo json_encode(["message" => "You don't have that many points","newPoints" => $user_class->points]);
         exit;
     }
     $user_class->points -= $amount;
