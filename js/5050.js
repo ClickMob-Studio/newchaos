@@ -75,7 +75,9 @@ $(document).ready(function(){
         $.ajax({
             url: '/ajax_50.php', 
             type: 'POST',
+            dataType: 'json',
             data: {action: 'pointbet', amount: amount},
+            
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response.text).show();
             },
@@ -194,7 +196,7 @@ $(document).ready(function() {
             url: '/ajax_50.php?action=fecthLatest',  
             type: 'GET',                 
             success: function(data) {
-                console.log(data);
+            
                 $('.lastbets').html(data);
             },
             error: function() {
