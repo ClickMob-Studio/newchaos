@@ -215,6 +215,8 @@ $scenario['start'] = str_replace('__ANAME__', $attacker, $scenario['start']);
 // - 20% Win Cash & Med Pack
 // - 10% Nothing, onto next turn
 
+$userBaStats = getUserBaStats($user_class);
+
 $outcome = mt_rand(1,100);
 if ($outcome <= 10) {
     // 10% Loose & Go Hosp
@@ -243,6 +245,14 @@ if ($outcome <= 10) {
     exit;
 } else if ($outcome <= 50) {
     // 20% Win Cash & EXP
+    $cashWon = mt_rand(1,30) * $userBaStats['level'];
+    $expWon = round((mt_rand(1, 2) / 100) * $user_class->maxexp);
+    $baExpWon = mt_rand(1,15);
+
+    $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `exp` = `exp` + " . $expWon . "  WHERE `id` = '" . $user_class->id . "'");
+    $db->execute();
+
+    addUserBaStatExp($userBaStats, $baExpWon);
 
     $fullResponse = $scenario['start'];
     $fullResponse .= '<br />';
