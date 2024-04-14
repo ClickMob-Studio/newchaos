@@ -30,30 +30,37 @@ $(document).ready(function(){
     }
     setInterval(updateTables, 2000);
 });
-$(document).ready(function(){
-    $("#betButton").click(function(){
-        var amount = $("#betAmount").val();
-        // Optional: Validate input before sending
-        if (isNaN(amount) || amount <= 0) {
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("betButton").addEventListener("click", function() {
+        var amount = document.getElementById("betAmount").value;
+        if (!amount || amount <= 0) {
             alert("Please enter a valid amount greater than zero.");
-            return; // Stop the function if validation fails
+            return;
         }
 
-        $.ajax({
-            url: '/ajax_50.php',
-            type: 'GET', 
-            data: {action: 'pointbet', amount: amount},
-            dataType: 'json', 
-            success: function(responseData) { 
-                console.log("Success:", responseData);
-                $(".col-12.alert.alert-info").html(responseData.message).show();
-                $(".points").text(`${responseData.newPoints} points`);
-                $('#betAmount').val('');  // Clear input
+        fetch('/ajax_50.php', {
+            method: 'POST', // Recommended to use POST for actions that modify data
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded', // For sending data as form data
             },
-            error: function(xhr, status, error) {
-                console.error("AJAX error:", status, error);
-                alert("An error occurred: " + xhr.responseText);
+            body: 'action=pointbet&amount=' + encodeURIComponent(amount)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
             }
+            return response.json(); // Assuming the server response is JSON
+        })
+        .then(data => {
+            console.log("Success:", data);
+            document.querySelector(".col-12.alert.alert-info").style.display = 'block';
+            document.querySelector(".col-12.alert.alert-info").innerHTML = data.message;
+            document.querySelector(".points").textContent = `${data.newPoints} points`;
+            document.getElementById('betAmount').value = ''; // Clear the input field
+        })
+        .catch(error => {
+            console.error('Fetch Error:', error);
+            alert("An error occurred: " + error.message);
         });
     });
 });

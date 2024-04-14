@@ -92,8 +92,8 @@ if($_GET['action'] == 'update'){
 header('Content-Type: application/json');
 echo json_encode($response);
 }
-if($_GET['action'] == 'pointbet'){
-    $amount = intval($_GET['amount']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'pointbet') {
+    $amount = intval($_POST['amount']);
     if($amount < 0){
         header('Content-Type: application/json');
         echo json_encode(["message" => "You cannot place a bet of 0","newPoints" => $user_class->points]);
