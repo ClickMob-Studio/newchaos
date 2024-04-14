@@ -35,21 +35,22 @@ $(document).ready(function(){
         var amount = $("#betAmount").val();
         $.ajax({
             url: '/ajax_50.php',
-            type: 'POST',
+            type: 'GET',
             data: {action: 'pointbet', amount: amount},
-            success: function(responseData) {
+            success: function(response) {
+                console.log(response);
+                var responseData = JSON.parse(response);
                 $(".col-12.alert.alert-info").html(responseData.message).show();
-                $(".points").text(`${responseData.newPoints} points`);
-                $('#betAmount').val('');  // Clear input
-            },
-            error: function(xhr) {
-                alert("An error occurred: " + xhr.responseText);
+                $(".points").text(`${responseData.newPoints}`);
+                document.getElementById('betAmount').value = '';
+            }
+            ,
+            error: function() {
+                alert("An error occurred");
             }
         });
     });
 });
-
-
 $(document).ready(function(){
     $("#betCashButton").click(function(){
         var amount = $("#betAmount").val(); 
