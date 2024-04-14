@@ -110,6 +110,7 @@ if($_GET['action'] == 'pointbet'){
         "newPoints" => $newPoints,
         "additionalData" => "Other relevant information here"
     ]);
+    ob_end_flush();
     //echo "You have placed a bet of ". $amount. " points.";
     $db->query("INSERT INTO fiftyfifty(userid, amnt, currency) VALUES (".$user_class->id .", ".$amount.", 'points')");
     $db->execute();
