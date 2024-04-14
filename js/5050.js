@@ -35,7 +35,7 @@ $(document).ready(function(){
         var amount = $("#betAmount").val();
         $.ajax({
             url: '/ajax_50.php',
-            type: 'GET',
+            type: 'POST',
             
             data: {action: 'pointbet', amount: amount},
             dataType: "json",
