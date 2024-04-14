@@ -36,10 +36,14 @@ $(document).ready(function(){
         $.ajax({
             url: '/ajax_50.php',
             type: 'GET',
+            
             data: {action: 'pointbet', amount: amount},
+            dataType: "json",
             success: function(response) {
                 console.log(response);
-                $(".col-12.alert.alert-info").html(response).show();
+                $(".col-12.alert.alert-info").html(response.text).show();
+                $('.money').html(response.stats.money)
+                $(".points").html(response.stats.points)
                 document.getElementById('betAmount').value = '';
             }
             ,
