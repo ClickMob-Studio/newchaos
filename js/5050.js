@@ -80,6 +80,7 @@ $(document).ready(function(){
             
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response.text).show();
+                $(".points").html(response.stats.points)
             },
             error: function() {
 
