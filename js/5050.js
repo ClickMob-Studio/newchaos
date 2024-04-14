@@ -58,8 +58,6 @@ $(document).ready(function(){
             data: {action: 'cashbet', amount: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response).show();
-                var newRow = `<tr><<td></td><td>$${amount}</td> <td></td></tr>`;
-                $("#cashbettable tbody").append(newRow);
             },
             error: function() {
                 alert("An error occurred");
@@ -76,8 +74,6 @@ $(document).ready(function(){
             data: {action: 'pointbet', amount: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response).show();
-                var newRow = `<tr><<td></td><td>${amount} points</td> <td></td></tr>`;
-                $("#pointbettable tbody").append(newRow);
             },
             error: function() {
 
@@ -95,9 +91,6 @@ $(document).ready(function(){
             data: {action: 'creditbet', amount: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response).show();
-
-                var newRow = `<tr><<td></td><td>${amount} credits</td> <td></td></tr>`;
-                $("#creditbettable tbody").append(newRow);
             },
             error: function() {
                 alert("An error occurred");
