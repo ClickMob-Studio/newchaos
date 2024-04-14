@@ -116,10 +116,12 @@ $(document).ready(function(){
        
         $.ajax({
             url: '/ajax_50.php', 
-            type: 'GET',
+            type: 'POST',
+            dataType: 'json',
             data: {action: 'takepointbet', id: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response).show();
+                $(".points").html(response.points);
                 $button.closest('tr').fadeOut(400, function() { 
                     $(this).remove();
                 });
@@ -138,10 +140,12 @@ $(document).ready(function(){
        
         $.ajax({
             url: '/ajax_50.php', 
-            type: 'GET',
+            type: 'POST',
+            dataType: 'json',
             data: {action: 'takecashbet', id: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response).show();
+                $(".money").html(response.money);
                 $button.closest('tr').fadeOut(400, function() { 
                     $(this).remove();
                 });
@@ -160,10 +164,12 @@ $(document).ready(function(){
        
         $.ajax({
             url: '/ajax_50.php', 
-            type: 'GET',
+            type: 'POST',
+            dataType: 'json',
             data: {action: 'takecreditbet', id: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response).show();
+                $(".credits").html(response.credits);
                 $button.closest('tr').fadeOut(400, function() { 
                     $(this).remove();
                 });

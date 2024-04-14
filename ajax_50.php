@@ -150,31 +150,47 @@ if($_POST['action'] == 'cashbet'){
     $db->execute();
 }
 
-if($_GET['action'] == 'takecashbet'){
-    if(!isset($_GET['id'])){
+if($_POST['action'] == 'takecashbet'){
+    if(!isset($_POST['id'])){
         echo "That bet does not appear to be valid";
         exit();
     }
-    $id = intval($_GET['id']);
+    $id = intval($_POST['id']);
     $db->query("SELECT * FROM fiftyfifty WHERE id = ?");
     $db->execute(array($id));
     if($db->num_rows() < 1){
-        echo "That bet does not appear to be valid";
+        
+        $text = "That bet does not appear to be valid";
+         json_encode(array(
+            'text' => $text,
+        ));
         exit;
     }
     $fet = $db->fetch_row(true);
     if($user_class->money < $fet['amnt']){
-        echo "You do not have enough money to take this bet";
+        $text = "You do not have enough money to take this bet";
+        echo json_encode(array(
+            'text' => $text,
+        ));
         exit;
     }
     if($user_class->id == $fet['userid']){
-        echo "You cannot take your own bets";
+        $text =  "You cannot take your own bets";
+        echo json_encode(array(
+            'text' => $text,
+        ));
         exit;
     }
     $rand = mt_rand(1,2);
     if($rand == 1){
         $amnt = $fet['amnt'] * 2;
-        echo "You have lost the bet for $".number_format($fet['amnt']);
+        
+        $text =  "You have lost the bet for $".number_format($fet['amnt']);
+        $user_class->money -= $fet['amnt'];
+        echo json_encode(array(
+            'text' => $text,
+            'money' => '$'.number_format($user_class->money)
+        ));
         $db->query("UPDATE grpgusers SET money = money - ".$fet['amnt']." WHERE id = ".$user_class->id);
         $db->execute();
         $db->query("UPDATE grpgusers SET money = money + ".$amnt." WHERE id = ".$fet['userid']);
@@ -182,7 +198,12 @@ if($_GET['action'] == 'takecashbet'){
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of $".$fet['amnt']." and you won", $user_class->id);
         log50($fet['userid'], $user_class->id, $fet['userid'], $fet['amnt'], 'cash');
     }else{
-        echo "You have won the bet for $".number_format($fet['amnt']);
+        $text = "You have won the bet for $".number_format($fet['amnt']);
+        $user_class->money += $fet['amnt'];
+        echo json_encode(array(
+            'text' => $text,
+            'money' => '$'.number_format($user_class->money)
+        ));
         $db->query("UPDATE grpgusers SET money = money + ".$fet['amnt']." WHERE id = ".$user_class->id);
         $db->execute();
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of $".$fet['amnt']." and you lost", $user_class->id);
@@ -194,7 +215,10 @@ if($_GET['action'] == 'takecashbet'){
 
 if($_POST['action'] == 'removecashbet'){
     if(!isset($_POST['id'])){
-        echo "That bet does not appear to be valid";
+        $text =  "That bet does not appear to be valid";
+        echo json_encode(array(
+            'text' => $text,
+        ));
         exit();
     }
     $id = intval($_POST['id']);
@@ -255,31 +279,46 @@ if($_POST['action'] == 'removecashbet'){
     
 }
 
-if($_GET['action'] == 'takepointbet'){
-    if(!isset($_GET['id'])){
+if($_POST['action'] == 'takepointbet'){
+    if(!isset($_POST['id'])){
         echo "That bet does not appear to be valid";
         exit();
     }
-    $id = intval($_GET['id']);
+    $id = intval($_POST['id']);
     $db->query("SELECT * FROM fiftyfifty WHERE id = ?");
     $db->execute(array($id));
     if($db->num_rows() < 1){
-        echo "That bet does not appear to be valid";
+        
+        $text = "That bet does not appear to be valid";
+        echo json_encode(array(
+            'text' => $text,
+        ));
         exit;
     }
     $fet = $db->fetch_row(true);
     if($user_class->points < $fet['amnt']){
-        echo "You do not have enough points to take this bet";
+        $text = "You do not have enough points to take this bet";
+        echo json_encode(array(
+            'text' => $text,
+        ));
         exit;
     }
     if($user_class->id == $fet['userid']){
-        echo "You cannot take your own bets";
+        $text = "You cannot take your own bets";
+        echo json_encode(array(
+            'text' => $text,
+        ));
         exit;
     }
     $rand = mt_rand(1,2);
     if($rand == 1){
         $amnt = $fet['amnt'] * 2;
-        echo "You have lost the bet for ".number_format($fet['amnt']." points");
+        $user_class->points -= $fet['amnt'];
+        $text = "You have lost the bet for ".number_format($fet['amnt']." points");
+        echo json_encode(array(
+            'text' => $text,
+            'points' => number_format($user_class->points)
+        ));
         $db->query("UPDATE grpgusers SET points = points - ".$fet['amnt']." WHERE id = ".$user_class->id);
         $db->execute();
         $db->query("UPDATE grpgusers SET points = points + ".$amnt." WHERE id = ".$fet['userid']);
@@ -287,7 +326,12 @@ if($_GET['action'] == 'takepointbet'){
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of ".$fet['amnt']." points and you won", $user_class->id);
         log50($fet['userid'], $user_class->id, $fet['userid'], $fet['amnt'], 'points');
     }else{
-        echo "You have won the bet for ".number_format($fet['amnt']." points");
+        $text = "You have won the bet for ".number_format($fet['amnt']." points");
+        $user_class->points += $fet['amnt'];
+        echo json_encode(array(
+            'text' => $text,
+            'points' => number_format($user_class->points)
+        ));
         $db->query("UPDATE grpgusers SET points = points + ".$fet['amnt']." WHERE id = ".$user_class->id);
         $db->execute();
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of ".$fet['amnt']." points and you lost", $user_class->id);
@@ -297,31 +341,48 @@ if($_GET['action'] == 'takepointbet'){
     $db->execute();
     
 }
-if($_GET['action'] == 'takecreditbet'){
-    if(!isset($_GET['id'])){
-        echo "That bet does not appear to be valid";
+if($_POST['action'] == 'takecreditbet'){
+    if(!isset($_POST['id'])){
+        $text = "That bet does not appear to be valid";
+        echo json_encode(array(
+            'text' => $text,
+        ));
         exit();
     }
-    $id = intval($_GET['id']);
+    $id = intval($_POST['id']);
     $db->query("SELECT * FROM fiftyfifty WHERE id = ?");
     $db->execute(array($id));
     if($db->num_rows() < 1){
-        echo "That bet does not appear to be valid";
+        $text = "That bet does not appear to be valid";
+        echo json_encode(array(
+            'text' => $text,
+        ));
         exit;
     }
     $fet = $db->fetch_row(true);
     if($user_class->credits < $fet['amnt']){
-        echo "You do not have enough cedits to take this bet";
+        $text =  "You do not have enough cedits to take this bet";
+        echo json_encode(array(
+            'text' => $text,
+        ));
         exit;
     }
     if($user_class->id == $fet['userid']){
-        echo "You cannot take your own bets";
+        $text = "You cannot take your own bets";
+        echo json_encode(array(
+            'text' => $text,
+        ));
         exit;
     }
     $rand = mt_rand(1,2);
     if($rand == 1){
         $amnt = $fet['amnt'] * 2;
-        echo "You have lost the bet for ".number_format($fet['amnt']." credits");
+        $user_class->credits -= $fet['amnt'];
+        $text = "You have lost the bet for ".number_format($fet['amnt']." credits");
+        echo json_encode(array(
+            'text' => $text,
+            'credits' => number_format($user_class->credits)
+        ));
         $db->query("UPDATE grpgusers SET credits = credits - ".$fet['amnt']." WHERE id = ".$user_class->id);
         $db->execute();
         $db->query("UPDATE grpgusers SET credits = credits + ".$amnt." WHERE id = ".$fet['userid']);
@@ -329,7 +390,12 @@ if($_GET['action'] == 'takecreditbet'){
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of ".$fet['amnt']." credits and you won", $user_class->id);
         log50($fet['userid'], $user_class->id, $fet['userid'], $fet['amnt'], 'credits');
     }else{
-        echo "You have won the bet for ".number_format($fet['amnt']." credits");
+        $user_class->credits = $fet['amnt'];
+        $text =  "You have won the bet for ".number_format($fet['amnt']." credits");
+        echo json_encode(array(
+            'text' => $text,
+            'credits' => number_format($user_class->credits)
+        ));
         $db->query("UPDATE grpgusers SET credits = credits + ".$fet['amnt']." WHERE id = ".$user_class->id);
         $db->execute();
         Send_Event($fet['userid'], "[-_USERID_-] to your bet of ".$fet['amnt']." credits and you lost", $user_class->id);
