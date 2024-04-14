@@ -92,11 +92,15 @@ echo json_encode($response);
 if($_POST['action'] == 'pointbet'){
     $amount = intval($_POST['amount']);
     if($amount < 1){
-        echo "You can not place a bet of 0";
+        $text = "You can not place a bet of 0";
+        echo json_encode(array(
+            'text' => $text,));
         exit;
     }
     if($user_class->points < $amount){
-        echo "You don't have that many points.";
+        $text = "You don't have that many points.";
+        echo json_encode(array(
+            'text' => $text,));
         exit;
     }
     $user_class->points -= $amount;
