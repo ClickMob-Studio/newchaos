@@ -80,7 +80,7 @@ $(document).ready(function(){
             
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response.text).show();
-                $(".points").html(response.stats.points)
+                $(".points").html(response.stats.points);
             },
             error: function() {
 
@@ -94,10 +94,12 @@ $(document).ready(function(){
         var amount = $("#betCAmount").val(); 
         $.ajax({
             url: '/ajax_50.php', 
-            type: 'GET',
+            type: 'POST',
+            dataType: 'json',
             data: {action: 'creditbet', amount: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response).show();
+                $(".credits").html(response.stats.points +' credits');
             },
             error: function() {
                 alert("An error occurred");

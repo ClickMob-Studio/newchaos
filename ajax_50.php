@@ -304,17 +304,25 @@ if($_GET['action'] == 'takecreditbet'){
 if($_POST['action'] == 'creditbet'){
     $amount = intval($_POST['amount']);
     if($amount < 0){
-        echo "You can not place a bet of 0";
+        $text = "You can not place a bet of 0";
+        echo json_encode(array(
+            'text' => $text,));
         exit;
     }
     if($user_class->credits < $amount){
-        echo "You don't have that many credits.";
+        $text = "You don't have that many credits.";
+        echo json_encode(array(
+            'text' => $text,));
         exit;
     }
     $user_class->money -= $amount;
     $db->query("UPDATE grpgusers SET credits = $user_class->credits WHERE id = ". $user_class->id);
     $db->execute();
-    echo "You have placed a bet of ". number_format($amount). " credits.";
+    $text = "You have placed a bet of ". number_format($amount). " credits.";
+    echo json_encode(array(
+        'text' => $text,
+        'credits' => $user_class->credits
+    ));
     $db->query("INSERT INTO fiftyfifty(userid, amnt, currency) VALUES (".$user_class->id .", ".$amount.", 'credits')");
     $db->execute();
 }
