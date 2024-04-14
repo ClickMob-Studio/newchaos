@@ -38,6 +38,7 @@ $(document).ready(function(){
             type: 'GET',
             data: {action: 'pointbet', amount: amount},
             success: function(response) {
+                console.log(response);
                 var responseData = JSON.parse(response);
                 $(".col-12.alert.alert-info").html(responseData.message).show();
                 $(".points").text(`${responseData.newPoints}`);
