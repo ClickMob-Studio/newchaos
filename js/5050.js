@@ -74,10 +74,10 @@ $(document).ready(function(){
         var amount = $("#betPAmount").val(); 
         $.ajax({
             url: '/ajax_50.php', 
-            type: 'GET',
+            type: 'POSR',
             data: {action: 'pointbet', amount: amount},
             success: function(response) {
-                $(".col-12.alert.alert-info").html(response).show();
+                $(".col-12.alert.alert-info").html(response.text).show();
             },
             error: function() {
 
