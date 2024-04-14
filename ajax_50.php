@@ -321,7 +321,7 @@ if($_POST['action'] == 'creditbet'){
     $text = "You have placed a bet of ". number_format($amount). " credits.";
     echo json_encode(array(
         'text' => $text,
-        'credits' => $user_class->credits .' credits'
+        'credits' => $user_class->credits
     ));
     $db->query("INSERT INTO fiftyfifty(userid, amnt, currency) VALUES (".$user_class->id .", ".$amount.", 'credits')");
     $db->execute();
