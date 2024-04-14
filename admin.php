@@ -6,6 +6,9 @@ include 'dbcon.php';
 include 'database/pdo_class.php';
 include "classes.php";
 include "codeparser.php";
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 if(empty($ignoreslashes)){
 	if (get_magic_quotes_gpc() == 0) {
 		foreach ($_POST as $k => $v)
