@@ -1,6 +1,6 @@
 <?php
 session_start();
-register_shutdown_function('ob_end_flush');
+//register_shutdown_function('ob_end_flush');
 echo "hello";
 $starttime = microtime_float();
 include 'dbcon.php';
