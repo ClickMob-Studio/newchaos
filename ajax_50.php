@@ -102,7 +102,13 @@ if($_GET['action'] == 'pointbet'){
     $user_class->points -= $amount;
     $db->query("UPDATE grpgusers SET points = $user_class->points WHERE id = ". $user_class->id);
     $db->execute();
-    echo "You have placed a bet of ". $amount. " points.";
+    echo json_encode([
+        "success" => true,
+        "message" => "You have placed a bet of $amount points.",
+        "newPoints" => $newPoints,
+        "additionalData" => "Other relevant information here"
+    ]);
+    //echo "You have placed a bet of ". $amount. " points.";
     $db->query("INSERT INTO fiftyfifty(userid, amnt, currency) VALUES (".$user_class->id .", ".$amount.", 'points')");
     $db->execute();
 }

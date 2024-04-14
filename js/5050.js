@@ -87,24 +87,31 @@ $(document).ready(function(){
     });
 });
 $(document).ready(function(){
-    $("#betCreditsButton").click(function(){
-        var amount = $("#betCAmount").val(); 
+    $("#betButton").click(function(){
+        var amount = $("#betAmount").val();
         $.ajax({
-            url: '/ajax_50.php', 
+            url: '/ajax_50.php',
             type: 'GET',
-            data: {action: 'creditbet', amount: amount},
-            success: function(response) {
-                $(".col-12.alert.alert-info").html(response).show();
-                $(".points").html(<?=$user_class->points;?>);
-                var newRow = `<tr><<td></td><td>${amount} credits</td> <td></td></tr>`;
-                $("#creditbettable tbody").append(newRow);
+            data: {action: 'pointbet', amount: amount},
+            dataType: 'json',  // Ensure jQuery treats the response as JSON automatically
+            success: function(responseData) {
+                if (responseData.success) {
+                    $(".col-12.alert.alert-info").html(responseData.message).show();
+                    $(".points").text(`${responseData.newPoints} points`);
+                    // Use additional data as needed
+                    console.log("Additional Data:", responseData.additionalData);
+                } else {
+                    $(".col-12.alert.alert-info").html(responseData.message).show();
+                }
+                $('#betAmount').val('');  // Clear input
             },
-            error: function() {
-                alert("An error occurred");
+            error: function(xhr) {
+                alert("An error occurred: " + xhr.responseText);
             }
         });
     });
 });
+
 $(document).ready(function(){
     $(document).on('click', '.takePointsButton', function(){
         var amount = $(this).val();
