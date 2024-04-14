@@ -33,24 +33,31 @@ $(document).ready(function(){
 $(document).ready(function(){
     $("#betButton").click(function(){
         var amount = $("#betAmount").val();
+        // Optional: Validate input before sending
+        if (isNaN(amount) || amount <= 0) {
+            alert("Please enter a valid amount greater than zero.");
+            return; // Stop the function if validation fails
+        }
+
         $.ajax({
             url: '/ajax_50.php',
-            type: 'GET',
+            type: 'GET', 
             data: {action: 'pointbet', amount: amount},
-            success: function(response) {
-                console.log(response);
-                var responseData = JSON.parse(response);
+            dataType: 'json', 
+            success: function(responseData) { 
+                console.log("Success:", responseData);
                 $(".col-12.alert.alert-info").html(responseData.message).show();
-                $(".points").text(`${responseData.newPoints}`);
-                document.getElementById('betAmount').value = '';
-            }
-            ,
-            error: function() {
-                alert("An error occurred");
+                $(".points").text(`${responseData.newPoints} points`);
+                $('#betAmount').val('');  // Clear input
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX error:", status, error);
+                alert("An error occurred: " + xhr.responseText);
             }
         });
     });
 });
+
 $(document).ready(function(){
     $("#betCashButton").click(function(){
         var amount = $("#betAmount").val(); 
