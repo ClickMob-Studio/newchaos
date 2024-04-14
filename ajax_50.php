@@ -13,7 +13,7 @@ function log50($better, $userid, $winner, $amount, $currency){
     ));
 }
 $user_class = new user($_SESSION['id']);
-header('Content-Type: application/json');
+
 if($_GET['action'] == 'fecthLatest'){
     $db->query("SELECT * FROM 5050log ORDER BY `id` DESC LIMIT 10");
     $db->execute();
@@ -91,6 +91,7 @@ header('Content-Type: application/json');
 echo json_encode($response);
 }
 if($_GET['action'] == 'pointbet'){
+    header('Content-Type: application/json');
     $amount = intval($_GET['amount']);
     if($amount < 0){
         echo json_encode(["message" => "You cannot place a bet of 0"]);
