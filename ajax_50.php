@@ -122,17 +122,28 @@ if($_POST['action'] == 'pointbet'){
 if($_GET['action'] == 'cashbet'){
     $amount = intval($_GET['amount']);
     if($amount < 0){
-        echo "You can not place a bet of 0";
+        $text = "You can not place a bet of 0";
+        echo json_encode(array(
+            'text' => $text,
+        ));
         exit;
     }
     if($user_class->money < $amount){
-        echo "You don't have that much money.";
+       $text =  "You don't have that much money.";
+        echo json_encode(array(
+            'text' => $text,
+        ));
+        
         exit;
     }
     $user_class->money -= $amount;
     $db->query("UPDATE grpgusers SET money = $user_class->money WHERE id = ". $user_class->id);
     $db->execute();
-    echo "You have placed a bet of $". number_format($amount). ".";
+    $text = "You have placed a bet of $". number_format($amount). ".";
+    echo json_encode(array(
+        'text' => $text,
+        'money' => '$'.number_format($user_class->money)
+    ));
     $db->query("INSERT INTO fiftyfifty(userid, amnt, currency) VALUES (".$user_class->id .", ".$amount.", 'cash')");
     $db->execute();
 }
@@ -321,7 +332,7 @@ if($_POST['action'] == 'creditbet'){
     $text = "You have placed a bet of ". number_format($amount). " credits.";
     echo json_encode(array(
         'text' => $text,
-        'credits' => $user_class->credits
+        'credits' => $user_class->credits .' credits'
     ));
     $db->query("INSERT INTO fiftyfifty(userid, amnt, currency) VALUES (".$user_class->id .", ".$amount.", 'credits')");
     $db->execute();

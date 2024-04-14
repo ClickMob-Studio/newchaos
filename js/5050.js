@@ -58,10 +58,12 @@ $(document).ready(function(){
         var amount = $("#betAmount").val(); 
         $.ajax({
             url: '/ajax_50.php', 
-            type: 'GET',
+            type: 'POST',
+            dataType: 'json',
             data: {action: 'cashbet', amount: amount},
             success: function(response) {
-                $(".col-12.alert.alert-info").html(response).show();
+                $(".col-12.alert.alert-info").html(response.text).show();
+                $(".points").html(response.stats.money);
             },
             error: function() {
                 alert("An error occurred");
