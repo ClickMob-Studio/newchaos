@@ -13,6 +13,7 @@ function log50($better, $userid, $winner, $amount, $currency){
     ));
 }
 $user_class = new user($_SESSION['id']);
+header('Content-Type: application/json');
 if($_GET['action'] == 'fecthLatest'){
     $db->query("SELECT * FROM 5050log ORDER BY `id` DESC LIMIT 10");
     $db->execute();
