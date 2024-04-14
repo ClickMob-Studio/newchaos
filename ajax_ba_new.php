@@ -215,7 +215,7 @@ $scenario['start'] = str_replace('__ANAME__', $attacker, $scenario['start']);
 // - 20% Win Cash & Med Pack
 // - 10% Nothing, onto next turn
 
-//$userBaStats = getUserBaStats($user_class);
+$userBaStats = getUserBaStats($user_class);
 
 $outcome = mt_rand(1,100);
 if ($outcome <= 10) {
