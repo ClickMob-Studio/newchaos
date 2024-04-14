@@ -184,6 +184,7 @@ $(document).ready(function(){
             type: 'POST',
             data: {action: 'removecashbet', id: amount},
             success: function(response) {
+                $(".col-12.alert.alert-info").html('').show();
                 $(".col-12.alert.alert-info").html(response.text).show();
                 $(".points").html(response.points);
                 $(".credits").html(response.credits);
