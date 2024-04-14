@@ -1,6 +1,6 @@
 <?php
 require "ajax_header.php";
-
+$user_class = new User($_SESSION['id']);
 if(isset($_POST['action']) && $_POST['action'] == 'password'){
     $oldPassword = $_POST['oldPassword'];
     $newPassword = $_POST['newPassword'];
