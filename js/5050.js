@@ -99,7 +99,7 @@ $(document).ready(function(){
             data: {action: 'creditbet', amount: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response.text).show();
-                $(".credits").html(response.stats.credits +' credits');
+                $(".credits").html(response.stats.credits);
             },
             error: function() {
                 alert("An error occurred");
