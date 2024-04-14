@@ -32,6 +32,8 @@ if($_GET['action'] == 'fecthLatest'){
         $loser = ($row['winner'] == $row['userid']) ? $row['better'] : $row['userid'];
 
         $output .= "<li>".formatName($winner)." won ".$amount." from ".formatName($loser)."</li>";
+
+        
     }
     $output .= "</ul>"; // Close list
     echo $output;
@@ -190,8 +192,8 @@ if($_GET['action'] == 'takecashbet'){
     $db->execute();
 }
 
-if($_GET['action'] == 'removecashbet'){
-    if(!isset($_GET['id'])){
+if($_POSR['action'] == 'removecashbet'){
+    if(!isset($_POST['id'])){
         echo "That bet does not appear to be valid";
         exit();
     }
@@ -199,25 +201,52 @@ if($_GET['action'] == 'removecashbet'){
     $db->query("SELECT * FROM fiftyfifty WHERE id = ?");
     $db->execute(array($id));
     if($db->num_rows() < 1){
-        echo "That bet does not appear to be valid";
+        $text = "That bet does not appear to be valid";
+        echo json_encode(array(
+            'text' => $text,
+        ));
         exit;
     }
     $fet = $db->fetch_row(true);
     if($user_class->id != $fet['userid']){
-        echo "You cannot delete someone elses bet";
+        $text =  "You cannot delete someone elses bet";
+        echo json_encode(array(
+            'text' => $text,
+        ));
         exit;
     }
     $row = $db->fetch_row(true);
     if($row['currency'] == 'points'){
-        echo "You have removed the bet for ".number_format($fet['amnt'])." points";
+        $text =  "You have removed the bet for ".number_format($fet['amnt'])." points";
+        $user_class->points += $fet['$amnt'];
+        echo json_encode(array(
+            'text' => $text,
+                'points' => number_format($user_class->points),
+                'money' => '$'.number_format($user_class->money),
+                'credits' => number_format($user_class->credits) .' credits'
+        ));
         $db->query("UPDATE grpgusers SET points = points + ".$fet['amnt']." WHERE id = ".$user_class->id);
         $db->execute();
     }else if($row['currency'] == 'cash'){
-        echo "You have removed the bet for $".number_format($fet['amnt']);
+        $text =  "You have removed the bet for $".number_format($fet['amnt']);
+        $user_class->money += $fet['amnt'];
+        echo json_encode(array(
+            'text' => $text,
+                'money' => '$'.number_format($user_class->money),
+                'points' => number_format($user_class->points),
+                'credits' => number_format($user_class->credits) .' credits'
+        ));
         $db->query("UPDATE grpgusers SET money = money + ".$fet['amnt']." WHERE id = ".$user_class->id);
         $db->execute();
     }else if($row['currency'] == 'credits'){
-        echo "You have removed the bet for ".number_format($fet['amnt'])." credits";
+        $text = "You have removed the bet for ".number_format($fet['amnt'])." credits";
+        $user_class->credits += $fet['amnt'];
+        echo json_encode(array(
+            'text' => $text,
+                'points' => number_format($user_class->points),
+                'credits' => number_format($user_class->credits) .' credits',
+                'money' => '$'.number_format($user_class->money)
+        ));
         $db->query("UPDATE grpgusers SET credits = credits + ".$fet['amnt']." WHERE id = ".$user_class->id);
         $db->execute();
     }

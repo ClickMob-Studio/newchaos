@@ -63,7 +63,7 @@ $(document).ready(function(){
             data: {action: 'cashbet', amount: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response.text).show();
-                $(".points").html(response.stats.money);
+                $(".money").html(response.money);
             },
             error: function() {
                 alert("An error occurred");
@@ -185,6 +185,9 @@ $(document).ready(function(){
             data: {action: 'removecashbet', id: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response).show();
+                $(".points").html(response.points);
+                $(".credits").html(response.credits);
+                $(".money").html(response.money);
                 $button.closest('tr').fadeOut(400, function() { 
                     $(this).remove();
                 });
