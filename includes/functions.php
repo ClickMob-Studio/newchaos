@@ -1889,7 +1889,6 @@ function getUserBaStats($user_class)
     $r = mysql_fetch_assoc($q);
 
     if (isset($r['id'])) {
-        echo 'here'; exit;
         $r['maxexp'] = 10000 * $r['level'];
 
         return $r;
