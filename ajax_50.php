@@ -92,26 +92,25 @@ if($_GET['action'] == 'update'){
 header('Content-Type: application/json');
 echo json_encode($response);
 }
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'pointbet') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['action'] == 'pointbet') {
     $amount = intval($_POST['amount']);
-    if($amount < 0){
-        header('Content-Type: application/json');
-        echo json_encode(["message" => "You cannot place a bet of 0","newPoints" => $user_class->points]);
+    if ($amount <= 0) {
+        echo json_encode(["message" => "Invalid bet amount."]);
         exit;
     }
-    if($user_class->points < $amount){
-        header('Content-Type: application/json');
-        echo json_encode(["message" => "You don't have that many points","newPoints" => $user_class->points]);
+    if ($user_class->points < $amount) {
+        echo json_encode(["message" => "You don't have that many points."]);
         exit;
     }
     $user_class->points -= $amount;
     $db->query("UPDATE grpgusers SET points = $user_class->points WHERE id = ". $user_class->id);
     $db->execute();
-    header('Content-Type: application/json');
-    echo json_encode(["message" => "You have placed a bet of ". $amount. " points.", "newPoints" => $user_class->points]);
+    echo json_encode(["message" => "You have placed a bet of " . $amount . " points.", "newPoints" => $user_class->points]);
+
     $db->query("INSERT INTO fiftyfifty(userid, amnt, currency) VALUES (".$user_class->id .", ".$amount.", 'points')");
     $db->execute();
 }
+
 if($_GET['action'] == 'cashbet'){
     $amount = intval($_GET['amount']);
     if($amount < 0){
