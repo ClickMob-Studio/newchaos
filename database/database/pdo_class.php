@@ -194,5 +194,8 @@ class database {
         }
         $this->endTrans();
     }
+    public function closeConnection() {
+        $this->db = null;  // Set the PDO object to null to close the database connection
+    }
 }
 $db = database::getInstance();
