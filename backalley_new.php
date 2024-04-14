@@ -25,8 +25,8 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 <div class="row">
                     <div class="col-md-3"></div>
                     <div class="col-md-6">
-                        <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                            <div class="progress-bar bg-success" style="width: 25%"></div>
+                        <div class="progress" role="progressbar" aria-valuenow="<?php echo ($userBaStats['exp'] / $userBaStats['maxexp'] * 100 ); ?>" aria-valuemin="0" aria-valuemax="100" title="<?php echo $userBaStats['exp'] . '/' . $userBaStats['maxexp']; ?>">
+                            <div class="progress-bar bg-success" style="width: <?php echo ($userBaStats['exp'] / $userBaStats['maxexp'] * 100 ); ?>%"></div>
                         </div>
                     </div>
                     <div class="col-md-3"></div>

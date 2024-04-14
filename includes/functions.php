@@ -1889,6 +1889,8 @@ function getUserBaStats($user_class)
     $r = mysql_fetch_assoc($q);
 
     if (isset($r['id'])) {
+        $r['maxexp'] = 10000 * $r['level'];
+
         return $r;
     } else {
         mysql_query("INSERT INTO user_ba_stats (user_id) VALUES (" . $user_class->id . ")");
@@ -1897,3 +1899,4 @@ function getUserBaStats($user_class)
         return $r;
     }
 }
+
