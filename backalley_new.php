@@ -19,6 +19,11 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                     If you fail you will find yourself in the hospital
                 </p>
 
+                <p>You Back Alley Skill Set is currently level 1</p>
+                <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar bg-success" style="width: 25%"></div>
+                </div>
+
                 <div id="ba-response-message" style="min-height: 60px; display: none;"></div>
 
                 <button class="ba-search-link">Search</button>

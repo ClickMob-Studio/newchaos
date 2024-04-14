@@ -244,6 +244,7 @@ if ($outcome <= 10) {
     exit;
 } else if ($outcome <= 50) {
     // 20% Win Cash & EXP
+
     $fullResponse = $scenario['start'];
     $fullResponse .= '<br />';
     $fullResponse .= '<br />';
