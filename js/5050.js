@@ -38,7 +38,8 @@ $(document).ready(function(){
             type: 'GET',
             data: {action: 'pointbet', amount: amount},
             success: function(response) {
-                $(".col-12.alert.alert-info").html(response).show();
+                $(".col-12.alert.alert-info").html(responseData.message).show();
+                $(".points").text(`$${responseData.newMoney}`);
                 document.getElementById('betAmount').value = '';
             }
             ,
