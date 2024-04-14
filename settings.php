@@ -1,6 +1,5 @@
 <?php 
-
-require "haeder.php";
+require "header.php";
 ?>
 <script>
 $(document).ready(function() {
