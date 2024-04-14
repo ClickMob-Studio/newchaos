@@ -95,6 +95,7 @@ $(document).ready(function(){
             data: {action: 'creditbet', amount: amount},
             success: function(response) {
                 $(".col-12.alert.alert-info").html(response).show();
+                $(".points").html(<?=$user_class->points;?>);
                 var newRow = `<tr><<td></td><td>${amount} credits</td> <td></td></tr>`;
                 $("#creditbettable tbody").append(newRow);
             },
