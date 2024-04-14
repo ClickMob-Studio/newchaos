@@ -19,7 +19,7 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                     If you fail you will find yourself in the hospital
                 </p>
 
-                <p>You Back Alley Skill Set is currently level 1</p>
+                <p style="font-weight: bold;">You Back Alley Skill Set is currently level 1</p>
                 <div class="row">
                     <div class="col-md-3"></div>
                     <div class="col-md-6">
@@ -29,9 +29,12 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                     </div>
                     <div class="col-md-3"></div>
                 </div>
+                <hr />
 
                 <div id="ba-response-message" style="min-height: 60px; display: none;"></div>
 
+                <br />
+                <center><strong>Actions</strong></center>Actions
                 <button class="ba-search-link">Search</button>
                 <button class="ba-med-pack-link">Use Med Pack (x<span class="med-pack-count"><?php echo $medPackTotalCount ?></span>)</button>
                 <button class="ba-refill-energy-link">Refill Energy</button>
