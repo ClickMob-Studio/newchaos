@@ -16,6 +16,7 @@ if (!in_array($tabId, $_SESSION['tabs'])) {
 
 if (count($_SESSION['tabs']) > 2) {
     // Prepare SQL Statement
+    $tabCount = count($_SESSION['tabs']);
     $db->query("INSERT INTO tab_counts (session_id, tab_count) VALUES (?, ?) ON DUPLICATE KEY UPDATE tab_count = ?");
     $db->execute(array(
         $_SESSION['id'],
