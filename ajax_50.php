@@ -192,7 +192,7 @@ if($_GET['action'] == 'takecashbet'){
     $db->execute();
 }
 
-if($_POSR['action'] == 'removecashbet'){
+if($_POST['action'] == 'removecashbet'){
     if(!isset($_POST['id'])){
         echo "That bet does not appear to be valid";
         exit();
