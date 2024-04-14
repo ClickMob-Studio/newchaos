@@ -91,7 +91,7 @@ echo json_encode($response);
 }
 if($_POST['action'] == 'pointbet'){
     $amount = intval($_POST['amount']);
-    if($amount < 0){
+    if($amount < 1){
         echo "You can not place a bet of 0";
         exit;
     }
@@ -297,8 +297,8 @@ if($_GET['action'] == 'takecreditbet'){
 }
 
 
-if($_GET['action'] == 'creditbet'){
-    $amount = intval($_GET['amount']);
+if($_POST['action'] == 'creditbet'){
+    $amount = intval($_POST['amount']);
     if($amount < 0){
         echo "You can not place a bet of 0";
         exit;
