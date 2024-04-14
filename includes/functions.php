@@ -1847,7 +1847,7 @@ function getItemTempUse($userId)
         return $r;
     } else {
         mysql_query("INSERT INTO item_temp_use (user_id) VALUES (" . $userId . ")");
-        $r = getItemTempUse();
+        $r = getItemTempUse($userId);
 
         return $r;
     }
@@ -1880,5 +1880,20 @@ function removeFromInventory($userId, $item, $qty = 1){
     }else{
         mysql_query("DELETE FROM inventory WHERE itemid = $item AND userid = $userId");
         return true;
+    }
+}
+
+function getUserBaStats($user_class)
+{
+    $q = mysql_query("SELECT * FROM user_ba_stats WHERE user_id = " . $user_class->id . " LIMIT 1");
+    $r = mysql_fetch_assoc($q);
+
+    if (isset($r['id'])) {
+        return $r;
+    } else {
+        mysql_query("INSERT INTO user_ba_stats (user_id) VALUES (" . $user_class->id . ")");
+        $r = getUserBaStats($user_class);
+
+        return $r;
     }
 }
