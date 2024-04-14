@@ -315,7 +315,7 @@ if($_POST['action'] == 'creditbet'){
             'text' => $text,));
         exit;
     }
-    $user_class->money -= $amount;
+    $user_class->credits -= $amount;
     $db->query("UPDATE grpgusers SET credits = $user_class->credits WHERE id = ". $user_class->id);
     $db->execute();
     $text = "You have placed a bet of ". number_format($amount). " credits.";
