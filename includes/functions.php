@@ -1931,7 +1931,7 @@ function addToGangCompLeaderboard($gangId, $field, $value)
         $db->execute();
     } else {
         echo "INSERT INTO `gang_comp_leaderboard` ('gang_id', `" . $dailyField . "`, `" . $weeklyField . "`) VALUES (" . $gangId .", " . $value . ", " . $value . ")";
-        $db->query("INSERT INTO `gang_comp_leaderboard` ('gang_id', `" . $dailyField . "`, `" . $weeklyField . "`) VALUES (" . $gangId .", " . $value . ", " . $value . ")");
+        $db->query("INSERT INTO `gang_comp_leaderboard` (`gang_id`, `" . $dailyField . "`, `" . $weeklyField . "`) VALUES (" . $gangId .", " . $value . ", " . $value . ")");
         $db->execute();
     }
 }
