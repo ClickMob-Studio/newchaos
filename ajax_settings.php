@@ -135,5 +135,18 @@ if(isset($_POST['action']) && $_POST['action'] == 'sig'){
     echo json_encode(array(
         "text"=> "You have updated you signature"
     ));
-
+}
+if(isset($_POST["action"]) && $_POST["action"] == "comments"){
+    $comment = intval($_POST['comments']);
+    if($comment != 1 & $comment !=2){
+        echo json_encode(array(
+            'text'=> 'You did not select a correct value'
+        ));
+        exit;
+    }
+    $db->query("UPDATE grpusers SET profilewall = ? WHERE id = ".$user_class->id);
+    $db->execute(array($comment));
+    echo json_encode(array(
+        "text"=> "You have updated your profile comments"
+    ));
 }

@@ -139,6 +139,27 @@ $(document).ready(function() {
         });
     });
 });
+$(document).ready(function() {
+    $("#updateCommentsBtn").click(function() {
+        var comments = $("#commentsSelect").val();
+        $.ajax({
+            url: '/ajax_settings.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action: 'comments',
+                comments: comments
+            },
+            success: function(response) {
+                $('.info-alert').html(response.text).show();
+            },
+            error: function() {
+                alert("An error occurred. Please try again.");
+            }
+        });
+    });
+});
+
 </script>
 <div class="container">
 <div class="alert alert-success info-alert" style="display: none";></div>
@@ -212,12 +233,16 @@ $(document).ready(function() {
             </form>
         </div>
         <div class="col-md-4 col-6">
-        <h1>Profile Comments</h1>
-        <select id="comments">
-            <option value="1" <?php $user_class->profilewall == 1 ? ' selected' : '';?> , '>On</option>';
-            <option value="0" <?php $user_class->profilewall == 0 ? ' selected' : ''; ?>, '>Off</option>';
-        </select>
-        </div>
+    <h1>Profile Comments</h1>
+    <p>Turning to off will allow nobody to comment on your profile wall</p>
+    <select id="commentsSelect">
+        <option value="1" <?php echo $user_class->profilewall == 1 ? 'selected' : ''; ?>>On</option>
+        <option value="0" <?php echo $user_class->profilewall == 0 ? 'selected' : ''; ?>>Off</option>
+    </select>
+    <button id="updateCommentsBtn" type="button">Update Comments</button>
+    <div class="info-alert" style="display: none;"></div>
+</div>
+
     </div>
 </div>
 
