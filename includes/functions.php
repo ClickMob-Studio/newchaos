@@ -492,12 +492,12 @@ function Send_Event($id, $text, $extra = "0")
         $text,
         $extra
     ));
-    $db->query("INSERT INTO eventslog (`to`, timesent, `text`, `extra`) VALUES (?, unix_timestamp(), ?, ?)");
-    $db->execute(array(
-        $id,
-        $text,
-        $extra
-    ));
+    // $db->query("INSERT INTO eventslog (`to`, timesent, `text`, `extra`) VALUES (?, unix_timestamp(), ?, ?)");
+    // $db->execute(array(
+    //     $id,
+    //     $text,
+    //     $extra
+    // ));
 }
 function Send_Event1($id, $text, $extra = "0")
 {
