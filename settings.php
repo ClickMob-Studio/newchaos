@@ -34,10 +34,27 @@ $(document).ready(function() {
         });
     });
 });
+$(document).ready(function() {
+$.ajax({
+            url: '/ajax_settings.php', 
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action : 'username',
+                username: username,
+            },
+            success: function(response) {
+                $('.usernameAlert').html(response.text).show();
+            },
+            error: function() {
+                alert("An error occurred. Please try again.");
+            }
+        });
+});
 </script>
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-12">
+        <div class="col-md-4 col-6">
             <h1>Change Password</h1>
             <div class="alert alert-success passwordAlert" style="display: none";></div>
             <form id="passwordForm">
@@ -54,6 +71,17 @@ $(document).ready(function() {
                     <input type="password"id="confirmPassword" required>
                 </div>
                 <button type="submit">Update Password</button>
+            </form>
+        </div>
+        <div class="col-md-4 col-6">
+            <h1>Change Username</h1>
+            <div class="alert alert-success usernameAlert" style="display: none";></div>
+            <form id="usernameForm">
+                <div>
+                    <label for="username">Old Password</label>
+                    <input type="text" id="username" value="<?= $user_class->username; ?>" required>
+                </div>
+                <button type="submit">Update Username</button>
             </form>
         </div>
     </div>

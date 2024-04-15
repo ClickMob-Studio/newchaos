@@ -38,3 +38,26 @@ if(isset($_POST['action']) && $_POST['action'] == 'password'){
     ));
 
 }
+
+if(isset($_POST['action']) && $_POST['action'] == 'username'){
+    if(empty($_POST['username'])){
+        echo json_encode(array(
+            'text'=> 'You did not provide a username',
+        ));
+            exit;
+        }
+        $username = substr(strip_tags(trim($_POST['username'])), 0, 50);
+        if (strlen($username) < 3 || strlen($username) > 12){
+            echo json_encode(array(
+                'text'=> 'You need to have a username at least 3 characters long and not greater then 12',
+            ));
+            exit;
+        }
+
+        $db->query("UPDATE grpgusers SET username = ? WHERE id =".$user_class->id);
+        $db->execute(array($username));
+        echo json_encode(array(
+            "text"=> "You have updated your username, you will still need to use your login name which is your orginal username",
+        ));
+    
+}
