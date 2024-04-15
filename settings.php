@@ -35,7 +35,7 @@ $(document).ready(function() {
     });
 });
 $(document).ready(function() {
-    $("#passwordForm").submit(function(event) {
+    $("#usernameForm").submit(function(event) {
         event.preventDefault(); 
         var username = $("#username").val();
         $.ajax({
@@ -82,7 +82,7 @@ $(document).ready(function() {
             <div class="alert alert-success usernameAlert" style="display: none";></div>
             <form id="usernameForm">
                 <div>
-                    <label for="username">Old Password</label>
+                    <label for="username">Username</label>
                     <input type="text" id="username" value="<?= $user_class->username; ?>" required>
                 </div>
                 <button type="submit">Update Username</button>
