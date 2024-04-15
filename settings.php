@@ -77,7 +77,7 @@ $(document).ready(function() {
     });
 });
 $(document).ready(function() {
-    $("#emailForm").submit(function(event) {
+    $("#avatarForm").submit(function(event) {
         event.preventDefault(); 
         var avatar = $("#avatar").val();
         $.ajax({
@@ -141,9 +141,9 @@ $(document).ready(function() {
         </div>
         <div class="col-md-4 col-6">
             <h1>Change Avatar</h1>
-            <form id="emailForm">
+            <form id="avatarForm">
                 <div>
-                    <label for="Email">Avatar</label>
+                    <label for="avatar">Avatar</label>
                     <input type="text" id="avatar" value="<?= $user_class->avatar; ?>" required>
                 </div>
                 <button type="submit">Update Avatar</button>
