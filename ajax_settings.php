@@ -138,7 +138,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'sig'){
 }
 if(isset($_POST["action"]) && $_POST["action"] == "comments"){
     $comment = intval($_POST['comments']);
-    if($comment != 1 & $comment !=2){
+    if($comment != 1 && $comment !=2){
         echo json_encode(array(
             'text'=> 'You did not select a correct value'
         ));
