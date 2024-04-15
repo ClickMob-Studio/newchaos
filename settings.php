@@ -211,6 +211,13 @@ $(document).ready(function() {
                 <button type="submit">Update Sig</button>
             </form>
         </div>
+        <div class="col-md-4 col-6">
+        <h1>Profile Comments</h1>
+        <select id="comments">
+            <option value="1" <?php $user_class->profilewall == 1 ? ' selected' : '';?> , '>On</option>';
+            <option value="0" <?php $user_class->profilewall == 0 ? ' selected' : ''; ?>, '>Off</option>';
+        </select>
+        </div>
     </div>
 </div>
 
