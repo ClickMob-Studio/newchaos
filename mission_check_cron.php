@@ -59,5 +59,7 @@ foreach ($missions as $mission) {
 
         $db->query("INSERT INTO missionlog VALUES (NULL,'[x] successfully completed their {$mission['name']}.,$user_class->id',unix_timestamp())");
         $db->execute();
+
+        addToGangCompLeaderboard($user_class->gang, 'missions_complete', 1);
     }
 }
