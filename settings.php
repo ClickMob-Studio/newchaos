@@ -35,7 +35,10 @@ $(document).ready(function() {
     });
 });
 $(document).ready(function() {
-$.ajax({
+    $("#passwordForm").submit(function(event) {
+        event.preventDefault(); 
+        var username = $("#username").val();
+        $.ajax({
             url: '/ajax_settings.php', 
             type: 'POST',
             dataType: 'json',
@@ -50,6 +53,7 @@ $.ajax({
                 alert("An error occurred. Please try again.");
             }
         });
+    });
 });
 </script>
 <div class="container">
