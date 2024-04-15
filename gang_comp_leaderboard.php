@@ -31,13 +31,14 @@ $weeklyRows = $db->fetch_row();
 
         <center>
             <h2>Daily Leaderboard</h2>
+            <p><strong>Prizes (paid to each gang member):</strong></p>
+            <ul>
+                <li><strong>1st: 20,000 points, 1 x Police Badge & 1 x Mystery Box</strong></li>
+                <li><strong>2nd: 1 x Mystery Box</strong></li>
+            </ul>
         </center>
 
-        <p><strong>Prizes (paid to each gang member):</strong></p>
-        <ul>
-            <li><strong>1st: 20,000 points, 1 x Police Badge & 1 x Mystery Box</strong></li>
-            <li><strong>2nd: 1 x Mystery Box</strong></li>
-        </ul>
+
 
         <table id="newtables" style="width:100%; text-align: left;">
             <tr>
@@ -69,15 +70,14 @@ $weeklyRows = $db->fetch_row();
         <br /><br /><hr />
         <center>
             <h2>Overall Leaderboard</h2>
+
+            <p><strong>Prizes (paid to each gang member):</strong></p>
+            <ul>
+                <li><strong>1st: 50,000 points, 5 x Police Badges & 5 x Mystery Boxes & 1 x Advanced Booster</strong></li>
+                <li><strong>2nd: 25,000 points, 1 x Police Badge, 1 x Mystery Box & 1 x Heroic Booster</strong></li>
+                <li><strong>3rd: 10,000 points, 1 x Mystery Box & 1 x Exotic Booster</strong></li>
+            </ul>
         </center>
-
-
-        <p><strong>Prizes (paid to each gang member):</strong></p>
-        <ul>
-            <li><strong>1st: 50,000 points, 5 x Police Badges & 5 x Mystery Boxes & 1 x Advanced Booster</strong></li>
-            <li><strong>2nd: 25,000 points, 1 x Police Badge, 1 x Mystery Box & 1 x Heroic Booster</strong></li>
-            <li><strong>3rd: 10,000 points, 1 x Mystery Box & 1 x Exotic Booster</strong></li>
-        </ul>
 
         <table id="newtables" style="width:100%; text-align: left;">
             <tr>
