@@ -9,19 +9,19 @@ $db->execute();
 $weeklyRows = $db->fetch_row();
 ?>
 
-<div class='box_top'><h1>Competition Leaderboard</h1></div>
+<div class='box_top'><h1>Contest Leaderboard</h1></div>
 <div class='box_middle'>
     <div class='pad'>
         <br />
         <center>
             <p>
-                Mobsters, it's time to gang up and show what you & the homies are made of! This weeks competition
+                Mobsters, it's time to gang up and show what you & the homies are made of! This weeks contest
                 will involve working with your gang to complete more missions than any other gang, with daily and
                 overall prizes!
             </p>
 
             <p>
-                The competition will run until 19/04. Daily prizes are paid automatically at rollover.
+                The contest will run until 19/04. Daily prizes are paid automatically at rollover.
             </p>
 
             <p>Enjoy!</p>
