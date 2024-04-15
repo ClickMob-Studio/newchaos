@@ -25,6 +25,7 @@ $weeklyRows = $db->fetch_row();
             </p>
 
             <p>Enjoy!</p>
+            <br /><br /><hr />
 
         </center>
 
