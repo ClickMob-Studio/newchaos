@@ -1,5 +1,6 @@
 <?php
 include 'header.php';
+exit;
 security($_GET['id']);
 
 $profile_class = new User($_GET['id']);
