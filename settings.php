@@ -97,6 +97,27 @@ $(document).ready(function() {
         });
     });
 });
+$(document).ready(function() {
+    $("#quoteForm").submit(function(event) {
+        event.preventDefault(); 
+        var quote = $("#quote").val();
+        $.ajax({
+            url: '/ajax_settings.php', 
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action : 'quote',
+                quote: quote,
+            },
+            success: function(response) {
+                $('.info-alert').html(response.text).show();
+            },
+            error: function() {
+                alert("An error occurred. Please try again.");
+            }
+        });
+    });
+});
 </script>
 <div class="container">
 <div class="alert alert-success info-alert" style="display: none";></div>
@@ -149,5 +170,18 @@ $(document).ready(function() {
                 <button type="submit">Update Avatar</button>
             </form>
         </div>
+        <div class="col-md-4 col-6">
+            <h1>Change Quote</h1>
+            <form id="quoteForm">
+                <div>
+                    <label for="quote">Quote</label>
+                    <textarea id="quote" name="quote" value="<?= $user_class->quote; ?>" required></textarea>
+                </div>
+                <button type="submit">Update Quote</button>
+            </form>
+        </div>
     </div>
 </div>
+
+
+<?php require "footer.php";
