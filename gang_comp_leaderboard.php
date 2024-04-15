@@ -28,82 +28,76 @@ $weeklyRows = $db->fetch_row();
 
         </center>
 
-        <div class="row">
-            <div class="col-md-6">
-                <h2>Daily Leaderboard</h2>
+        <h2>Daily Leaderboard</h2>
 
-                <p><strong>Prizes (paid to each gang member):</strong></p>
-                <ul>
-                    <li><strong>1st: 20,000 points, 1 x Police Badge & 1 x Mystery Box</strong></li>
-                    <li><strong>2nd: 1 x Mystery Box</strong></li>
-                </ul>
+        <p><strong>Prizes (paid to each gang member):</strong></p>
+        <ul>
+            <li><strong>1st: 20,000 points, 1 x Police Badge & 1 x Mystery Box</strong></li>
+            <li><strong>2nd: 1 x Mystery Box</strong></li>
+        </ul>
 
-                <table id="newtables" style="width:100%; text-align: left;">
+        <table id="newtables" style="width:100%; text-align: left;">
+            <tr>
+                <th><b>Position</b></th>
+                <th><b>Gang</b></th>
+                <th><b>Count</b></th>
+            </tr>
+            <?php if (count($dailyRows) > 0): ?>
+                <?php $i = 1; ?>
+                <?php foreach ($dailyRows as $row): ?>
+                    <?php $gang_class = new Gang($row['gang_id']); ?>
+
                     <tr>
-                        <th><b>Position</b></th>
-                        <th><b>Gang</b></th>
-                        <th><b>Count</b></th>
+                        <td><?php echo $i; ?></td>
+                        <td><?php echo $gang_class->name; ?></td>
+                        <td><?php echo $row['daily_missions_complete']; ?></td>
                     </tr>
-                    <?php if (count($dailyRows) > 0): ?>
-                        <?php $i = 1; ?>
-                        <?php foreach ($dailyRows as $row): ?>
-                            <?php $gang_class = new Gang($row['gang_id']); ?>
+                    <?php
+                    $i++;
+                endforeach;
+                ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="3">No Missions Complete Yet!</td>
+                </tr>
+            <?php endif; ?>
+        </table>
 
-                            <tr>
-                                <td><?php echo $i; ?></td>
-                                <td><?php echo $gang_class->name; ?></td>
-                                <td><?php echo $row['daily_missions_complete']; ?></td>
-                            </tr>
-                            <?php
-                            $i++;
-                        endforeach;
-                        ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="3">No Missions Complete Yet!</td>
-                        </tr>
-                    <?php endif; ?>
-                </table>
-            </div>
+        <h2>Overall Leaderboard</h2>
 
-            <div class="col-md-6">
-                <h2>Overall Leaderboard</h2>
+        <p><strong>Prizes (paid to each gang member):</strong></p>
+        <ul>
+            <li><strong>1st: 50,000 points, 5 x Police Badges & 5 x Mystery Boxes & 1 x Advanced Booster</strong></li>
+            <li><strong>2nd: 25,000 points, 1 x Police Badge, 1 x Mystery Box & 1 x Heroic Booster</strong></li>
+            <li><strong>3rd: 10,000 points, 1 x Mystery Box & 1 x Exotic Booster</strong></li>
+        </ul>
 
-                <p><strong>Prizes (paid to each gang member):</strong></p>
-                <ul>
-                    <li><strong>1st: 50,000 points, 5 x Police Badges & 5 x Mystery Boxes & 1 x Advanced Booster</strong></li>
-                    <li><strong>2nd: 25,000 points, 1 x Police Badge, 1 x Mystery Box & 1 x Heroic Booster</strong></li>
-                    <li><strong>3rd: 10,000 points, 1 x Mystery Box & 1 x Exotic Booster</strong></li>
-                </ul>
+        <table id="newtables" style="width:100%; text-align: left;">
+            <tr>
+                <th><b>Position</b></th>
+                <th><b>Gang</b></th>
+                <th><b>Count</b></th>
+            </tr>
+            <?php if (count($weeklyRows) > 0): ?>
+                <?php $i = 1; ?>
+                <?php foreach ($weeklyRows as $row): ?>
+                    <?php $gang_class = new Gang($row['gang_id']); ?>
 
-                <table id="newtables" style="width:100%; text-align: left;">
                     <tr>
-                        <th><b>Position</b></th>
-                        <th><b>Gang</b></th>
-                        <th><b>Count</b></th>
+                        <td><?php echo $i; ?></td>
+                        <td><?php echo $gang_class->name; ?></td>
+                        <td><?php echo $row['daily_missions_complete']; ?></td>
                     </tr>
-                    <?php if (count($weeklyRows) > 0): ?>
-                        <?php $i = 1; ?>
-                        <?php foreach ($weeklyRows as $row): ?>
-                            <?php $gang_class = new Gang($row['gang_id']); ?>
-
-                            <tr>
-                                <td><?php echo $i; ?></td>
-                                <td><?php echo $gang_class->name; ?></td>
-                                <td><?php echo $row['daily_missions_complete']; ?></td>
-                            </tr>
-                            <?php
-                            $i++;
-                        endforeach;
-                        ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="3">No Missions Complete Yet!</td>
-                        </tr>
-                    <?php endif; ?>
-                </table>
-            </div>
-        </div>
+                    <?php
+                    $i++;
+                endforeach;
+                ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="3">No Missions Complete Yet!</td>
+                </tr>
+            <?php endif; ?>
+        </table>
 
     </div>
 </div>
