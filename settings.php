@@ -26,7 +26,7 @@ $(document).ready(function() {
                 confirmPassword: confirmPassword
             },
             success: function(response) {
-                $('.passwordAlert').html(response.text).show();
+                $('.info-alert').html(response.text).show();
             },
             error: function() {
                 alert("An error occurred. Please try again.");
@@ -47,7 +47,49 @@ $(document).ready(function() {
                 username: username,
             },
             success: function(response) {
-                $('.usernameAlert').html(response.text).show();
+                $('.info-alert').html(response.text).show();
+            },
+            error: function() {
+                alert("An error occurred. Please try again.");
+            }
+        });
+    });
+});
+$(document).ready(function() {
+    $("#emailForm").submit(function(event) {
+        event.preventDefault(); 
+        var email = $("#email").val();
+        $.ajax({
+            url: '/ajax_settings.php', 
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action : 'email',
+                email: email,
+            },
+            success: function(response) {
+                $('.info-alert').html(response.text).show();
+            },
+            error: function() {
+                alert("An error occurred. Please try again.");
+            }
+        });
+    });
+});
+$(document).ready(function() {
+    $("#emailForm").submit(function(event) {
+        event.preventDefault(); 
+        var avatar = $("#avatar").val();
+        $.ajax({
+            url: '/ajax_settings.php', 
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action : 'avatar',
+                email: avatar,
+            },
+            success: function(response) {
+                $('.info-alert').html(response.text).show();
             },
             error: function() {
                 alert("An error occurred. Please try again.");
@@ -57,10 +99,10 @@ $(document).ready(function() {
 });
 </script>
 <div class="container">
+<div class="alert alert-success info-alert" style="display: none";></div>
     <div class="row">
         <div class="col-md-4 col-6">
             <h1>Change Password</h1>
-            <div class="alert alert-success passwordAlert" style="display: none";></div>
             <form id="passwordForm">
                 <div>
                     <label for="oldPassword">Old Password</label>
@@ -79,13 +121,32 @@ $(document).ready(function() {
         </div>
         <div class="col-md-4 col-6">
             <h1>Change Username</h1>
-            <div class="alert alert-success usernameAlert" style="display: none";></div>
             <form id="usernameForm">
                 <div>
                     <label for="username">Username</label>
                     <input type="text" id="username" value="<?= $user_class->username; ?>" required>
                 </div>
                 <button type="submit">Update Username</button>
+            </form>
+        </div>
+        <div class="col-md-4 col-6">
+            <h1>Change Email</h1>
+            <form id="emailForm">
+                <div>
+                    <label for="Email">Email</label>
+                    <input type="text" id="email" value="<?= $user_class->email; ?>" required>
+                </div>
+                <button type="submit">Update Username</button>
+            </form>
+        </div>
+        <div class="col-md-4 col-6">
+            <h1>Change Avatar</h1>
+            <form id="emailForm">
+                <div>
+                    <label for="Email">Avatar</label>
+                    <input type="text" id="avatar" value="<?= $user_class->avatar; ?>" required>
+                </div>
+                <button type="submit">Update Avatar</button>
             </form>
         </div>
     </div>
