@@ -101,7 +101,7 @@ if (strpos($mimeType, 'image/') !== 0) {
     echo json_encode(array('text' => 'You need to provide a valid image'));
     fclose($tmpFile);
     exit;
-}
+} 
 
 fclose($tmpFile); 
     $db->query("UPDATE grpgusers SET avatar = ? WHERE id =".$user_class->id);
@@ -116,4 +116,14 @@ fclose($tmpFile);
     ));
     exit;
 }
+}
+
+if(isset($_POST['action']) && $_POST['action'] == 'quote'){
+    $quote = filter_var($inputText, FILTER_SANITIZE_STRING);
+    $db->query("UPDATE grpsuers SET quote = ? WHERE id = ".$user_class->id);
+    $db->execute(array($quote));
+    echo json_encode(array(
+        "text"=> "You have updated you quote"
+    ));
+
 }
