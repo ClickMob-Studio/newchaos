@@ -28,7 +28,9 @@ $weeklyRows = $db->fetch_row();
 
         </center>
 
-        <h2>Daily Leaderboard</h2>
+        <center>
+            <h2>Daily Leaderboard</h2>
+        </center>
 
         <p><strong>Prizes (paid to each gang member):</strong></p>
         <ul>
@@ -63,7 +65,11 @@ $weeklyRows = $db->fetch_row();
             <?php endif; ?>
         </table>
 
-        <h2>Overall Leaderboard</h2>
+        <br /><br /><hr />
+        <center>
+            <h2>Overall Leaderboard</h2>
+        </center>
+
 
         <p><strong>Prizes (paid to each gang member):</strong></p>
         <ul>
