@@ -310,6 +310,7 @@ if (empty($_GET['page'])) {
 				echo'<th>Referref By</th>';
 				echo'<th>Last Active</th>';
 				echo'<th>Time</th>';
+                echo '<th>IP</th>';
 				echo'<th>Actions</th>';
 			echo'</tr>';
 		foreach($rows as $row){
@@ -320,6 +321,7 @@ if (empty($_GET['page'])) {
 				echo'<td>' . formatName($row['referrer']) . '</td>';
 				echo'<td>' . $them->formattedlastactive . '</td>';
 				echo'<td>' . date("d F Y, g:ia", $row['when']) . '</td>';
+                echo '<td>'. $them->ip.'</td>;
 				echo'<td><a href="control.php?page=referrals&givecredit=' . $row['id'] . '">Credit</a> | <a href="control.php?page=referrals&denycredit=' . $row['id'] . '">Deny</a></td>';
 			echo'</tr>';
 		}
