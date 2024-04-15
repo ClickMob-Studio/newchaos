@@ -42,9 +42,9 @@ $weeklyRows = $db->fetch_row();
                 <th><b>Gang</b></th>
                 <th><b>Count</b></th>
             </tr>
-            <?php if (mysql_num_rows($dailyRows) > 0): ?>
+            <?php if (count($dailyRows) > 0): ?>
                 <?php $i = 1; ?>
-                <?php while ($row = mysql_fetch_assoc($dailyRows)): ?>
+                <?php foreach ($dailyRows as $row): ?>
                     <?php $gang_class = new Gang($row['gang_id']); ?>
 
                     <tr>
