@@ -1,15 +1,23 @@
 <?php
 include 'header.php';
-exit;
 
-$db->query("SELECT * FROM missions WHERE timestamp > 1713135600 AND completed = 'successful'");
+$db->query("SELECT * FROM `gang_comp_leaderboard` ORDER BY `daily_missions_complete` DESC LIMIT 3");
 $db->execute();
-$rows = $db->fetch_row();
+$dailyRows = $db->fetch_row();
 
-foreach ($rows as $row) {
-    $gUser = new User($row['userid']);
+$i = 1;
+foreach ($dailyRows as $row) {
+    Send_Event(2, $i . ' ' . $row['gang_id'], 2);
 
-    addToGangCompLeaderboard($gUser->gang, 'missions_complete', 1);
+//    $db->query("SELECT * FROM `grpgusers` WHERE `gang` = " . $dailyRows['gang_id']);
+//    $db->execute();
+//    $userRows = $db->fetch_row();
+//
+//    foreach ($userRows as $uRow) {
+//
+//    }
+
+    $i++;
 }
 echo 'done';
 
