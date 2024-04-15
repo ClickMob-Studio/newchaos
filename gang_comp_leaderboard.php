@@ -52,7 +52,7 @@ $weeklyRows = $db->fetch_row();
                         <td><?php echo $gang_class->name; ?></td>
                         <td><?php echo $row['daily_missions_complete']; ?></td>
                     </tr>
-                <?php endwhile;?>
+                <?php endforeach;?>
             <?php else: ?>
                 <tr>
                     <td colspan="3">No Missions Complete Yet!</td>
