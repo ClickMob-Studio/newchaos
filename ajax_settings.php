@@ -144,7 +144,7 @@ if(isset($_POST["action"]) && $_POST["action"] == "comments"){
         ));
         exit;
     }
-    $db->query("UPDATE grpusers SET profilewall = ? WHERE id = ".$user_class->id);
+    $db->query("UPDATE grpgusers SET profilewall = ? WHERE id = ".$user_class->id);
     $db->execute(array($comment));
     echo json_encode(array(
         "text"=> "You have updated your profile comments"
