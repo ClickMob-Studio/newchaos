@@ -92,6 +92,7 @@ if ($user_class->aprotection != 0) {
         $attack_person->moddedstrength = rand(750 * (($attack_person->id - 404) / 10), 2200 * (($attack_person->id - 404) / 10));
         $attack_person->moddeddefense = rand(750 * (($attack_person->id - 404) / 10), 2200 * (($attack_person->id - 404) / 10));
         $attack_person->moddedspeed = rand(750 * (($attack_person->id - 404) / 10), 2200 * (($attack_person->id - 404) / 10));
+     
         $user_class->moddedstrength = rand(1000, 5000);
         $user_class->moddeddefense = rand(1000, 5000);
         $user_class->moddedspeed = rand(1000, 5000);
@@ -163,10 +164,24 @@ $attackStatBonusMultiplier = 1 + ($attackGangUpgradeLevel * 0.10);
 // Apply the stat bonus multipliers to the user_class and attack_person
 $user_class->moddedstrength = round($user_class->moddedstrength * $userStatBonusMultiplier);
 $user_class->moddeddefense = round($user_class->moddeddefense * $userStatBonusMultiplier);
+if($user_class->gang > 0){
+    $db->query("SELECT upgrade2 FROM gangs WHERE id = ".$user_class->gang);
+    $db->execute();
+    $u = $db->fetch_row(true);
+    $percent = $u['upgrade2']*20;
+    $user_class->moddeddefense += round(($user_class->moddeddefense * $percent) / 100);
+}
 $user_class->moddedspeed = round($user_class->moddedspeed * $userStatBonusMultiplier);
 
 $attack_person->moddedstrength = round($attack_person->moddedstrength * $attackStatBonusMultiplier);
 $attack_person->moddeddefense = round($attack_person->moddeddefense * $attackStatBonusMultiplier);
+if($attack_person->gang > 0){
+    $db->query("SELECT upgrade2 FROM gangs WHERE id = ".$attack_person->gang);
+    $db->execute();
+    $u = $db->fetch_row(true);
+    $percent = $u['upgrade2']*20;
+    $attack_person->moddeddefense += round(($attack_person->moddeddefense * $percent) / 100);
+}
 $attack_person->moddedspeed = round($attack_person->moddedspeed * $attackStatBonusMultiplier);
 
 
