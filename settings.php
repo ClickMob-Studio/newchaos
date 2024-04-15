@@ -86,7 +86,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: {
                 action : 'avatar',
-                email: avatar,
+                avatar: avatar,
             },
             success: function(response) {
                 $('.info-alert').html(response.text).show();
