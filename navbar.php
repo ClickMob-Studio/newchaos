@@ -40,11 +40,6 @@ $topLinks = array(
 $leftLinks = array();
 $leftLinks[] =
     array(
-        'name'  => 'Referral Competition',
-        'url'   => 'refer_leaderboard.php'
-    );
-$leftLinks[] =
-    array(
         'name'  => 'Search Players',
         'url'   => 'search.php'
     );
