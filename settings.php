@@ -240,7 +240,6 @@ $(document).ready(function() {
         <option value="0" <?php echo $user_class->profilewall == 0 ? 'selected' : ''; ?>>Off</option>
     </select>
     <button id="updateCommentsBtn" type="button">Update Comments</button>
-    <div class="info-alert" style="display: none;"></div>
 </div>
 
     </div>
