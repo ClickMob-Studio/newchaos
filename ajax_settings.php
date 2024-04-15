@@ -105,7 +105,7 @@ if (strpos($mimeType, 'image/') !== 0) {
 
 fclose($tmpFile); 
     $db->query("UPDATE grpgusers SET avatar = ? WHERE id =".$user_class->id);
-    $db->execute(array($file));
+    $db->execute(array($_POST['avatar']));
     echo json_encode(array(
         "text"=> "You have updated your avatar",
     ));
