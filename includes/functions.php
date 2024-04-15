@@ -1930,6 +1930,7 @@ function addToGangCompLeaderboard($gangId, $field, $value)
         $db->query("UPDATE `gang_comp_leaderboard` SET `" . $dailyField ."` = `" . $dailyField ."` + " . $value . ", `" . $weeklyField ."` = `" . $weeklyField ."` + " . $value . " WHERE gang_id = " . $gangId);
         $db->execute();
     } else {
+        echo "INSERT INTO `gang_comp_leaderboard` ('gang_id', `" . $dailyField . "`, `" . $weeklyField . "`) VALUES (" . $gangId .", " . $value . ", " . $value . ");
         $db->query("INSERT INTO `gang_comp_leaderboard` ('gang_id', `" . $dailyField . "`, `" . $weeklyField . "`) VALUES (" . $gangId .", " . $value . ", " . $value . ")");
         $db->execute();
     }
