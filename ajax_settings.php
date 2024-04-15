@@ -130,7 +130,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'quote'){
 
 if(isset($_POST['action']) && $_POST['action'] == 'sig'){
     $sig = filter_var($_POST['sig'], FILTER_SANITIZE_STRING);
-    $db->query("UPDATE grpgusers SET sig = ? WHERE id = ".$user_class->id);
+    $db->query("UPDATE grpgusers SET `signature` = ? WHERE id = ".$user_class->id);
     $db->execute(array($sig));
     echo json_encode(array(
         "text"=> "You have updated you signature"
