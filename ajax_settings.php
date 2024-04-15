@@ -61,3 +61,55 @@ if(isset($_POST['action']) && $_POST['action'] == 'username'){
         ));
     
 }
+if(isset($_POST['action']) && $_POST['action'] == 'email'){
+    if(!isset($_POST['email'])){
+        echo json_encode(array(
+            'text'=> 'You did not provide an email',
+        ));
+        exit;
+    }
+        $email = $_POST['email'];
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            echo json_encode(array(
+                'text'=> 'You need to provide a valid email',
+            ));
+            exit;
+    }
+    $db->query("UPDATE grpgusers SET email = ? WHERE id =".$user_class->id);
+    $db->execute(array($email));
+    echo json_encode(array(
+        "text"=> "You have updated your email",
+    ));
+}
+if(isset($_POST['action']) && $_POST['action'] == 'avatar'){
+    if (isset($_POST['avatar'])) {
+        $file = $_POST['avatar'];
+        $mimeType = mime_content_type($file);
+    
+        if (strpos($mimeType, 'image/') != 0) {
+            echo json_encode(array(
+                'text'=> 'You need to provide a valid image',
+            ));
+            exit;
+        }
+        $valid_extensions = array('jpg', 'jpeg', 'png', 'gif', 'bmp');
+
+    if (!in_array($extension, $valid_extensions)) {
+        echo json_encode(array(
+            'text'=> 'You need to provide a valid image',
+        ));
+        exit;
+    }
+    $db->query("UPDATE grpgusers SET avatar = ? WHERE id =".$user_class->id);
+    $db->execute(array($file));
+    echo json_encode(array(
+        "text"=> "You have updated your avatar",
+    ));
+
+}else{
+    echo json_encode(array(
+        'text'=> 'You did not provide an avatar',
+    ));
+    exit;
+}
+}
