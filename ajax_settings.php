@@ -120,7 +120,7 @@ fclose($tmpFile);
 
 if(isset($_POST['action']) && $_POST['action'] == 'quote'){
     $quote = filter_var($inputText, FILTER_SANITIZE_STRING);
-    $db->query("UPDATE grpsuers SET quote = ? WHERE id = ".$user_class->id);
+    $db->query("UPDATE grpgusers SET quote = ? WHERE id = ".$user_class->id);
     $db->execute(array($quote));
     echo json_encode(array(
         "text"=> "You have updated you quote"
