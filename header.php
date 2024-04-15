@@ -888,6 +888,8 @@ if ($user_class->fbitime > 0) {
     $messages[] = 'You are currently in FBI Jail for ' . $user_class->fbitime . ' minutes.';
 }
 
+$messages[] = "<a href='gang_comp_leaderboard.php'><span style='color:red;'>Contest now live!</span></a>";
+
 if (!empty($messages)) {
     echo '<script type="text/javascript">';
     echo 'document.addEventListener("DOMContentLoaded", function() {';
