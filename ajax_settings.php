@@ -83,23 +83,27 @@ if(isset($_POST['action']) && $_POST['action'] == 'email'){
 }
 if(isset($_POST['action']) && $_POST['action'] == 'avatar'){
     if (isset($_POST['avatar'])) {
-        $file = $_POST['avatar'];
-        $mimeType = mime_content_type($file);
-    
-        if (strpos($mimeType, 'image/') != 0) {
-            echo json_encode(array(
-                'text'=> 'You need to provide a valid image',
-            ));
-            exit;
-        }
-        $valid_extensions = array('jpg', 'jpeg', 'png', 'gif', 'bmp');
+        $url = $_POST['avatar'];
+$imageData = file_get_contents($url);
+if ($imageData === false) {
+    echo json_encode(array('text' => 'Failed to retrieve image.'));
+    exit;
+}
 
-    if (!in_array($extension, $valid_extensions)) {
-        echo json_encode(array(
-            'text'=> 'You need to provide a valid image',
-        ));
-        exit;
-    }
+$tmpFile = tmpfile();
+fwrite($tmpFile, $imageData);
+$metaData = stream_get_meta_data($tmpFile);
+$filePath = $metaData['uri'];
+
+
+$mimeType = mime_content_type($filePath);
+if (strpos($mimeType, 'image/') !== 0) {
+    echo json_encode(array('text' => 'You need to provide a valid image'));
+    fclose($tmpFile);
+    exit;
+}
+
+fclose($tmpFile); 
     $db->query("UPDATE grpgusers SET avatar = ? WHERE id =".$user_class->id);
     $db->execute(array($file));
     echo json_encode(array(
