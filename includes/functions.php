@@ -1914,3 +1914,23 @@ function addUserBaStatExp($userBaStats, $baExpWon)
     }
 }
 
+
+function addToGangCompLeaderboard($gangId, $field, $value)
+{
+    global $db;
+
+    $dailyField = 'daily_' . $field;
+    $weeklyField = 'weekly_' . $field;
+
+    $db->query("SELECT `id` FROM `gang_comp_leaderboard` WHERE `gang_id` = " . $gangId . " LIMIT 1");
+    $db->execute();
+    $gclId = $db->fetch_single();
+
+    if ($gclId) {
+        $db->query("UPDATE `gang_comp_leaderboard` SET `" . $dailyField ."` = `" . $dailyField ."` + " . $value . ", `" . $weeklyField ."` = `" . $weeklyField ."` + " . $value . " WHERE gang_id = " . $gangId);
+        $db->execute();
+    } else {
+        $db->query("INSERT INTO `gang_comp_leaderboard` ('gang_id', `" . $dailyField . "`, `" . $weeklyField . "`) VALUES (" . $gangId .", " . $value . ", " . $value . ");");
+        $db->execute();
+    }
+}
