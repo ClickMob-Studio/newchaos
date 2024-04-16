@@ -66,7 +66,7 @@ mysql_query("INSERT INTO ofthes (userid)VALUES($newid)");
 // Redirect upon successful registration
 $_SESSION['id'] = $pdo->lastInsertId();
 $msgtext = "
-[center]Welcome to [b][color=yellow]Mafia Lords![/color][/b]
+[center]Welcome to [b][color=yellow]Chaos City![/color][/b]
 
 You have been credited 3 free T1 VIP Days
 
