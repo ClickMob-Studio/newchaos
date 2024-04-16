@@ -1889,10 +1889,10 @@ function getUserBaStats($user_class)
 
     $db->query("SELECT * FROM user_ba_stats WHERE user_id = " . $user_class->id . " LIMIT 1");
     $db->execute();
-    $r = $db->fetch_single();
-    exit;
+    $r = $db->fetch_row();
 
-    if (isset($r['id'])) {
+    if (isset($r[0]['id'])) {
+        $r = $r[0];
         $r['maxexp'] = 10000 * $r['level'];
 
         return $r;
