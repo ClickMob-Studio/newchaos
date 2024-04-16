@@ -1886,11 +1886,11 @@ function removeFromInventory($userId, $item, $qty = 1){
 function getUserBaStats($user_class)
 {
     global $db;
-    exit;
 
     $db->query("SELECT * FROM user_ba_stats WHERE user_id = " . $user_class->id . " LIMIT 1");
     $db->execute();
     $r = $db->fetch_row();
+    var_dump($r); exit;
 
     if (isset($r['id'])) {
         $r['maxexp'] = 10000 * $r['level'];
