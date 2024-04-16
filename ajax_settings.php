@@ -159,7 +159,7 @@ if(isset($_POST["action"]) && $_POST["action"] == "refillnerve"){
             ));
             exit;
         }
-        $db->query("UPDATE grpgusers SET nerref = 2, points = points - 250 WHERE id = ".$user_class->id);
+        $db->query("UPDATE grpgusers SET nerref = 2, points = points - 250, nerreftime = unix_timestamp()   WHERE id = ".$user_class->id);
         $db->execute();
         echo json_encode(array(
             "text"=> "You have turned on auto refill of your nerve"
@@ -180,7 +180,7 @@ if(isset($_POST["action"]) && $_POST["action"] == "refillenergy"){
             ));
             exit;
         }
-        $db->query("UPDATE grpgusers SET ngyref = 2, points = points - 250 WHERE id = ".$user_class->id);
+        $db->query("UPDATE grpgusers SET ngyref = 2, points = points - 250, ngyreftime = unix_timestamp() WHERE id = ".$user_class->id);
         $db->execute();
         echo json_encode(array(
             "text"=> "You have turned on auto refill of your energy"
