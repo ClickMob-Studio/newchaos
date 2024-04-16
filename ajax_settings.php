@@ -152,6 +152,27 @@ if(isset($_POST["action"]) && $_POST["action"] == "comments"){
 }
 
 if(isset($_POST["action"]) && $_POST["action"] == "refillnerve"){
+    if($user_class->nerref == 0){
+        if($user_class->points < 250){
+            echo json_encode(array(
+                'text'=> 'You do not have enough points'
+            ));
+            exit;
+        }
+        $db->query("UPDATE grpgusers SET nerref = 1, points = points - 250 WHERE id = ".$user_class->id);
+        $db->execute();
+        echo json_encode(array(
+            "text"=> "You have turned on auto refill of your nerve"
+        ));
+    }else{
+        $db->query("UPDATE grpgusers SET nerref = 0 WHERE id =".$user_class->id);
+        $db->execute();
+        echo json_encode(array(
+            "text"=> "You have turned off auto refill of your nerve"
+        ));
+    }
+}
+if(isset($_POST["action"]) && $_POST["action"] == "refillenergy"){
     if($user_class->ngyref == 0){
         if($user_class->points < 250){
             echo json_encode(array(
@@ -162,13 +183,13 @@ if(isset($_POST["action"]) && $_POST["action"] == "refillnerve"){
         $db->query("UPDATE grpgusers SET ngyref = 1, points = points - 250 WHERE id = ".$user_class->id);
         $db->execute();
         echo json_encode(array(
-            "text"=> "You have turned on auto refill of your nerve"
+            "text"=> "You have turned on auto refill of your energy"
         ));
     }else{
         $db->query("UPDATE grpgusers SET ngyref = 0 WHERE id =".$user_class->id);
         $db->execute();
         echo json_encode(array(
-            "text"=> "You have turned off auto refill of your nerve"
+            "text"=> "You have turned off auto refill of your energy"
         ));
     }
 }
