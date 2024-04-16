@@ -159,13 +159,13 @@ if(isset($_POST["action"]) && $_POST["action"] == "refillnerve"){
             ));
             exit;
         }
-        $db->query("UPDATE grpgusers SET nrgref = 1, points = points - 250 WHERE id = ".$user_class->id);
+        $db->query("UPDATE grpgusers SET nrgyref = 1, points = points - 250 WHERE id = ".$user_class->id);
         $db->execute();
         echo json_encode(array(
             "text"=> "You have turned on auto refill of your nerve"
         ));
     }else{
-        $db->query("UPDATE grpgusers SET nrgref = 0 WHERE id =".$user_class->id);
+        $db->query("UPDATE grpgusers SET nrgyref = 0 WHERE id =".$user_class->id);
         $db->execute();
         echo json_encode(array(
             "text"=> "You have turned off auto refill of your nerve"
