@@ -83,11 +83,11 @@ foreach ($dailyRows as $row) {
             Give_Item(163, $uRow['id'], 1);
             Give_Item(42, $uRow['id'], 1);
 
-            Send_Event($uRow['id'], "Your gang won 1st place in the daily content, you have been awarded 25,000 points, 1 Police Badge & 1 Mystery Box.");
+            Send_Event($uRow['id'], "Your gang won 1st place in the daily contest. You have been awarded 25,000 points, 1 Police Badge & 1 Mystery Box.");
         } else {
             Give_Item(42, $uRow['id'], 1);
 
-            Send_Event($uRow['id'], "Your gang won 2nd place in the daily content, you have been awarded 1 Mystery Box.");
+            Send_Event($uRow['id'], "Your gang won 2nd place in the daily contest. You have been awarded 1 Mystery Box.");
         }
     }
 
