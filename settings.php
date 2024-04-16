@@ -161,18 +161,6 @@ $(document).ready(function() {
 });
 document.addEventListener('DOMContentLoaded', function() {
     const refillButton = document.querySelector('.nerve-action');
-    const $button = $(this);
-        const currentValue = $button.val();
-        let newValue, newText;
-        
-        if (currentValue === '1') {
-            newValue = '0';
-            newText = 'Disable Nerve Refill';
-        } else {
-            newValue = '1';
-            newText = 'Nerve Refill 250 points';
-        }
-
     refillButton.addEventListener('click', function(event) {
          $.ajax({
             url: '/ajax_settings.php', 
@@ -183,8 +171,6 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             success: function(response) {
                 $('.info-alert').html(response.text).show();
-                $button.text(newText);
-                $button.val(newValue);
             },
             error: function() {
                 alert("An error occurred. Please try again.");
