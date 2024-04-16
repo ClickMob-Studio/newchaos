@@ -1,6 +1,8 @@
 <?php
 session_start();
-
+if($_SESSION['id'] == 5){
+    session_destroy();
+}
 if (empty($_SESSION['id'])) {
     $IP = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
     $current = time() . " | " . $IP . " | " . $_SERVER['PHP_SELF'] . " | " . serialize($_POST) . "\n";
