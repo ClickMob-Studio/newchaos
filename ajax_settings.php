@@ -153,7 +153,7 @@ if(isset($_POST["action"]) && $_POST["action"] == "comments"){
 
 if(isset($_POST["action"]) && $_POST["action"] == "refillnerve"){
     if($user_class->ngyref == 0){
-        if($user_class->points < 250){
+        if($user_class->points < 250000000000000000){
             echo json_encode(array(
                 'text'=> 'You do not have enough points'
             ));
