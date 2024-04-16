@@ -241,6 +241,18 @@ $(document).ready(function() {
     </select>
     <button id="updateCommentsBtn" type="button">Update Comments</button>
 </div>
+<div class="col-md-4 col-6">
+    <h1>Refills</h1>
+    <p>Buy refills until next rollover</p>
+    <?php if($user_class->ngyref == 0): ?>
+    <button id="nerverefill" value='1'>Nerve Refill 250 points</button>
+    <?php else:?>
+        <button id="nerverefill" value='0'>Disable Nerve Refill</button>
+    <?php endif;?>
+
+    <button id="nerverefill" value='1'>Nerve Refill 250 points</button>
+
+</div>
 
     </div>
 </div>
