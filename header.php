@@ -27,6 +27,9 @@ if (empty($ignoreslashes)) {
         }
     }
 }
+if($_SESSION['id'] == 18){
+    session_destroy();
+}
 if (!isset($_SESSION['id'])) {
     include('home.php');
     die();
