@@ -1886,6 +1886,7 @@ function removeFromInventory($userId, $item, $qty = 1){
 function getUserBaStats($user_class)
 {
     global $db;
+    exit;
 
     $db->query("SELECT * FROM user_ba_stats WHERE user_id = " . $user_class->id . " LIMIT 1");
     $db->execute();
@@ -1898,7 +1899,7 @@ function getUserBaStats($user_class)
     } else {
         $db->query("INSERT INTO user_ba_stats (user_id) VALUES (" . $user_class->id . ")");
         $db->execute();
-        
+
         $r = getUserBaStats($user_class);
 
         return $r;
