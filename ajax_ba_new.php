@@ -152,6 +152,20 @@ if ($user_class->energy < $energyneeded) {
 if ($user_class->energy < $energyneeded) {
     echo json_encode(error("You need at least 20% of your energy to explore the back alley!"));
     exit;
+
+    if ($user_class->ngyref > 0) {
+        $user_class->energypercent = 100;
+        $user_class->energy = $user_class->maxenergy;
+        $user_class->points -= 10;
+        $db->query("UPDATE grpgusers SET energy = ?, points = points - 10 WHERE id = ?");
+        $db->execute(array(
+            $user_class->energy,
+            $user_class->id
+        ));
+
+        echo json_encode(success('You have refilled your energy.'));
+        exit;
+    }
 }
 if ($user_class->jail > 0) {
     echo json_encode(error("You cannot go in the back alley if you are in Jail."));
