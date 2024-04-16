@@ -327,7 +327,29 @@ document.addEventListener('DOMContentLoaded', function() {
             </form>
 </div>
 <?php endif; ?>
-    </div>
+
+<?php 
+$colors = explode('~', $user_class->colours);
+if (count($colors) == 2) {
+    $st = $colors[0];
+    $ed = $colors[1];
+} else {
+    $st = $colors[0];
+    $mid = $colors[1];
+    $ed = $colors[2];
+}
+?>
+<div class="col-md-4 col-6">
+    <h1>Gradient Name</h1>
+    <p>You have <?= $user_class->gndays;?> gradient name days left.</p>
+    <label>Starting Colour</label>
+<input type="text" class="color" value="<?= $st;?>" name="startcolor">
+                    Ending Colour
+                    <input type="text" class="color" value="<?= $ed; ?>" name="endcolor">
+
+</div>
+
+</div>
 </div>
 
 
