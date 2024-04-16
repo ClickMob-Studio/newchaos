@@ -152,6 +152,20 @@ if ($user_class->energy < $energyneeded) {
 if ($user_class->energy < $energyneeded) {
     echo json_encode(error("You need at least 20% of your energy to explore the back alley!"));
     exit;
+
+    if ($user_class->ngyref > 0) {
+        $user_class->energypercent = 100;
+        $user_class->energy = $user_class->maxenergy;
+        $user_class->points -= 10;
+        $db->query("UPDATE grpgusers SET energy = ?, points = points - 10 WHERE id = ?");
+        $db->execute(array(
+            $user_class->energy,
+            $user_class->id
+        ));
+
+        echo json_encode(success('You have refilled your energy.'));
+        exit;
+    }
 }
 if ($user_class->jail > 0) {
     echo json_encode(error("You cannot go in the back alley if you are in Jail."));
@@ -210,9 +224,8 @@ $scenario['start'] = str_replace('__ANAME__', $attacker, $scenario['start']);
 // 10 Outcomes
 // - 10% Loose & Go Hosp
 // - 20% Loose & Don't Hosp
-// - 20% Win Cash & EXP
-// - 20% Win Cash & BA Pill
-// - 20% Win Cash & Med Pack
+// - 30% Win Cash & EXP
+// - 30% Win Cash & Item
 // - 10% Nothing, onto next turn
 
 $userBaStats = getUserBaStats($user_class);
@@ -243,8 +256,8 @@ if ($outcome <= 10) {
 
     echo json_encode(success($fullResponse));
     exit;
-} else if ($outcome <= 50) {
-    // 20% Win Cash & EXP
+} else if ($outcome <= 60) {
+    // 30% Win Cash & EXP
     $cashWon = mt_rand(1,30) * $userBaStats['level'];
     $expWon = round((mt_rand(1, 2) / 100) * $user_class->maxexp);
     $baExpWon = mt_rand(1,15);
@@ -258,24 +271,39 @@ if ($outcome <= 10) {
     $fullResponse .= '<br />';
     $fullResponse .= '<br />';
     $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
-
-    echo json_encode(success($fullResponse));
-    exit;
-} else if ($outcome <= 70) {
-    // 20% Win Cash & BA Pill
-    $fullResponse = $scenario['start'];
-    $fullResponse .= '<br />';
-    $fullResponse .= '<br />';
-    $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
+    $fullResponse .= '<br /><br />';
+    $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & ' . number_format($expWon, 0) . ' EXP!</strong>';
 
     echo json_encode(success($fullResponse));
     exit;
 } else if ($outcome <= 90) {
-    // 20% Win Cash & Med Pack
+    // 30% Win Cash & Item
+    $cashWon = mt_rand(1,30) * $userBaStats['level'];
+    $baExpWon = mt_rand(1,15);
+
+    $itemIds = array();
+    $itemIds[50] = 13; // Med Cert 75
+    $itemIds[100] = 14; // Med Cert 100
+
+    $itemChance = mt_rand(1,100);
+    foreach ($itemIds as $key => $itemId) {
+        if ($itemChance <= $key) {
+            $itemWonId = $itemId;
+
+            $db->query("SELECT `itemname` FROM `items` WHERE id = " . $itemWonId);
+            $db->execute();
+            $itemName = $db->fetch_single();
+        }
+    }
+
+    addUserBaStatExp($userBaStats, $baExpWon);
+
     $fullResponse = $scenario['start'];
     $fullResponse .= '<br />';
     $fullResponse .= '<br />';
     $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
+    $fullResponse .= '<br /><br />';
+    $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & found 1 x ' . $itemName . '!</strong>';
 
     echo json_encode(success($fullResponse));
     exit;

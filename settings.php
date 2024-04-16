@@ -118,6 +118,48 @@ $(document).ready(function() {
         });
     });
 });
+$(document).ready(function() {
+    $("#sigForm").submit(function(event) {
+        event.preventDefault(); 
+        var sig = $("#sig").val();
+        $.ajax({
+            url: '/ajax_settings.php', 
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action : 'sig',
+                sig: sig,
+            },
+            success: function(response) {
+                $('.info-alert').html(response.text).show();
+            },
+            error: function() {
+                alert("An error occurred. Please try again.");
+            }
+        });
+    });
+});
+$(document).ready(function() {
+    $("#updateCommentsBtn").click(function() {
+        var comments = $("#commentsSelect").val();
+        $.ajax({
+            url: '/ajax_settings.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action: 'comments',
+                comments: comments
+            },
+            success: function(response) {
+                $('.info-alert').html(response.text).show();
+            },
+            error: function() {
+                alert("An error occurred. Please try again.");
+            }
+        });
+    });
+});
+
 </script>
 <div class="container">
 <div class="alert alert-success info-alert" style="display: none";></div>
@@ -175,11 +217,31 @@ $(document).ready(function() {
             <form id="quoteForm">
                 <div>
                     <label for="quote">Quote</label>
-                    <textarea id="quote" name="quote" value="<?= $user_class->quote; ?>" required></textarea>
+                    <textarea id="quote" name="quote" required><?php echo $user_class->quote; ?></textarea>
                 </div>
                 <button type="submit">Update Quote</button>
             </form>
         </div>
+        <div class="col-md-4 col-6">
+            <h1>Signature</h1>
+            <form id="sigForm">
+                <div>
+                    <label for="sig">Sig</label>
+                    <textarea style="width:100%" id="sig" name="sig" required><?php echo $user_class->sig; ?></textarea>
+                </div>
+                <button type="submit">Update Sig</button>
+            </form>
+        </div>
+        <div class="col-md-4 col-6">
+    <h1>Profile Comments</h1>
+    <p>Turning to off will allow nobody to comment on your profile wall</p>
+    <select id="commentsSelect">
+        <option value="1" <?php echo $user_class->profilewall == 1 ? 'selected' : ''; ?>>On</option>
+        <option value="0" <?php echo $user_class->profilewall == 0 ? 'selected' : ''; ?>>Off</option>
+    </select>
+    <button id="updateCommentsBtn" type="button">Update Comments</button>
+</div>
+
     </div>
 </div>
 

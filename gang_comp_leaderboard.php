@@ -93,7 +93,7 @@ $weeklyRows = $db->fetch_row();
                     <tr>
                         <td><?php echo $i; ?></td>
                         <td><?php echo $gang_class->name; ?></td>
-                        <td><?php echo $row['daily_missions_complete']; ?></td>
+                        <td><?php echo $row['weekly_missions_complete']; ?></td>
                     </tr>
                     <?php
                     $i++;

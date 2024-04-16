@@ -492,12 +492,12 @@ function Send_Event($id, $text, $extra = "0")
         $text,
         $extra
     ));
-    $db->query("INSERT INTO eventslog (`to`, timesent, `text`, `extra`) VALUES (?, unix_timestamp(), ?, ?)");
-    $db->execute(array(
-        $id,
-        $text,
-        $extra
-    ));
+    // $db->query("INSERT INTO eventslog (`to`, timesent, `text`, `extra`) VALUES (?, unix_timestamp(), ?, ?)");
+    // $db->execute(array(
+    //     $id,
+    //     $text,
+    //     $extra
+    // ));
 }
 function Send_Event1($id, $text, $extra = "0")
 {
@@ -1885,15 +1885,21 @@ function removeFromInventory($userId, $item, $qty = 1){
 
 function getUserBaStats($user_class)
 {
-    $q = mysql_query("SELECT * FROM user_ba_stats WHERE user_id = " . $user_class->id . " LIMIT 1");
-    $r = mysql_fetch_assoc($q);
+    global $db;
 
-    if (isset($r['id'])) {
+    $db->query("SELECT * FROM user_ba_stats WHERE user_id = " . $user_class->id . " LIMIT 1");
+    $db->execute();
+    $r = $db->fetch_row();
+
+    if (isset($r[0]['id'])) {
+        $r = $r[0];
         $r['maxexp'] = 10000 * $r['level'];
 
         return $r;
     } else {
-        mysql_query("INSERT INTO user_ba_stats (user_id) VALUES (" . $user_class->id . ")");
+        $db->query("INSERT INTO user_ba_stats (user_id) VALUES (" . $user_class->id . ")");
+        $db->execute();
+
         $r = getUserBaStats($user_class);
 
         return $r;

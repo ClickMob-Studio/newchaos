@@ -101,11 +101,11 @@ if (strpos($mimeType, 'image/') !== 0) {
     echo json_encode(array('text' => 'You need to provide a valid image'));
     fclose($tmpFile);
     exit;
-}
+} 
 
 fclose($tmpFile); 
     $db->query("UPDATE grpgusers SET avatar = ? WHERE id =".$user_class->id);
-    $db->execute(array($file));
+    $db->execute(array($_POST['avatar']));
     echo json_encode(array(
         "text"=> "You have updated your avatar",
     ));
@@ -116,4 +116,37 @@ fclose($tmpFile);
     ));
     exit;
 }
+}
+
+if(isset($_POST['action']) && $_POST['action'] == 'quote'){
+    $quote = filter_var($_POST['quote'], FILTER_SANITIZE_STRING);
+    $db->query("UPDATE grpgusers SET quote = ? WHERE id = ".$user_class->id);
+    $db->execute(array($quote));
+    echo json_encode(array(
+        "text"=> "You have updated you quote"
+    ));
+
+}
+
+if(isset($_POST['action']) && $_POST['action'] == 'sig'){
+    $sig = filter_var($_POST['sig'], FILTER_SANITIZE_STRING);
+    $db->query("UPDATE grpgusers SET `signature` = ? WHERE id = ".$user_class->id);
+    $db->execute(array($sig));
+    echo json_encode(array(
+        "text"=> "You have updated you signature"
+    ));
+}
+if(isset($_POST["action"]) && $_POST["action"] == "comments"){
+    $comment = intval($_POST['comments']);
+    if($comment != 1 && $comment !=0){
+        echo json_encode(array(
+            'text'=> 'You did not select a correct value'
+        ));
+        exit;
+    }
+    $db->query("UPDATE grpgusers SET profilewall = ? WHERE id = ".$user_class->id);
+    $db->execute(array($comment));
+    echo json_encode(array(
+        "text"=> "You have updated your profile comments"
+    ));
 }
