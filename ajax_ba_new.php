@@ -269,7 +269,7 @@ if ($outcome <= 10) {
 
     $itemIds = array();
     $itemIds[50] = 13; // Med Cert 75
-    $itemIds[50] = 14; // Med Cert 100
+    $itemIds[100] = 14; // Med Cert 100
 
     $itemChance = mt_rand(1,100);
     foreach ($itemIds as $key => $itemId) {
