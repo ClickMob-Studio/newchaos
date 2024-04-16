@@ -202,7 +202,7 @@ $(document).ready(function() {
         }).fail(function(jqXHR, textStatus, errorThrown) {
             console.log("Error: request failed", textStatus, errorThrown);
         });
-    }, 1000);
+    }, 3000);
 });
 </script>';
 
