@@ -159,6 +159,26 @@ $(document).ready(function() {
         });
     });
 });
+document.addEventListener('DOMContentLoaded', function() {
+    const refillButton = document.querySelector('.nerve-action');
+
+    refillButton.addEventListener('click', function(event) {
+         $.ajax({
+            url: '/ajax_settings.php', 
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action : 'refillnerve',
+            },
+            success: function(response) {
+                $('.info-alert').html(response.text).show();
+            },
+            error: function() {
+                alert("An error occurred. Please try again.");
+            }
+        });
+    });
+});
 
 </script>
 <div class="container">
@@ -244,11 +264,12 @@ $(document).ready(function() {
 <div class="col-md-4 col-6">
     <h1>Refills</h1>
     <p>Buy refills until next rollover</p>
-    <?php if($user_class->ngyref == 0): ?>
-    <button id="nerverefill" value='1'>Nerve Refill 250 points</button>
-    <?php else:?>
-        <button id="nerverefill" value='0'>Disable Nerve Refill</button>
-    <?php endif;?>
+    <?php if ($user_class->ngyref == 0): ?>
+    <button class="nerve-action" id="nerverefill" value='1'>Nerve Refill 250 points</button>
+<?php else: ?>
+    <button class="nerve-action" id="nerverefill" value='0'>Disable Nerve Refill</button>
+<?php endif; ?>
+
 
     <button id="nerverefill" value='1'>Nerve Refill 250 points</button>
 

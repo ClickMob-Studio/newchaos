@@ -150,3 +150,25 @@ if(isset($_POST["action"]) && $_POST["action"] == "comments"){
         "text"=> "You have updated your profile comments"
     ));
 }
+
+if(isset($_POST["action"]) && $_POST["action"] == "refillnerve"){
+    if($user_class->ngyref == 0){
+        if($user_class->points < 250){
+            echo json_encode(array(
+                'text'=> 'You do not have enough points'
+            ));
+            exit;
+        }
+        $db->query("UPDATE grpgusers SET nrgref = 1, points = points - 250 WHERE id = ".$user_class->id);
+        $db->execute();
+        echo json_encode(array(
+            "text"=> "You have turned on auto refill of your nerve"
+        ));
+    }else{
+        $db->query("UPDATE grpgusers SET nrgref = 0 WHERE id =".$user_class->id);
+        $db->execute();
+        echo json_encode(array(
+            "text"=> "You have turned off auto refill of your nerve"
+        ));
+    }
+}
