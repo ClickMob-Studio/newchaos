@@ -236,3 +236,33 @@ fclose($tmpFile);
     exit;
 }
 }
+
+if(isset($_POST['action']) && $_POST['action'] == 'gradient_name'){
+    if ($user_class->gndays <= 0) {
+        echo json_encode(array(
+            'text'=> 'You do not have any grdient name days',
+            ));
+            exit;
+        }
+            if(empty($_POST['startColor']) || empty($_POST['midColor']) || empty($_POST['endColor'])){
+        echo json_encode(array(
+            'text'=> 'Please provide all colors for the gradient',
+        ));
+        exit;
+    }
+    
+    $startColor = $_POST['startColor'];
+    $midColor = $_POST['midColor'];
+    $endColor = $_POST['endColor'];
+
+    $finalGradientName = '#' . $startColor . '~#' . $midColor . '~#' . $endColor;
+    $db->query("UPDATE grpgusers SET colours = ? WHERE id = ?");
+    $db->execute(array(
+        $finalGradientName,
+        $user_class->id
+    ));
+    
+    echo json_encode(array(
+        "text"=> "Gradient name updated successfully!",
+    ));
+}

@@ -218,6 +218,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+$(document).ready(function() {
+    $("#gradientNameForm").submit(function(event) {
+        event.preventDefault(); 
+        var startColor = $("input[name='startcolor']").val();
+        var midColor = $("input[name='midcolor']").val();
+        var endColor = $("input[name='endcolor']").val();
+        $.ajax({
+            url: '/ajax_settings.php', 
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action : 'gradient_name',
+                startColor: startColor,
+                midColor: midColor,
+                endColor: endColor
+            },
+            success: function(response) {
+                $('.info-alert').html(response.text).show();
+            },
+            error: function() {
+                alert("An error occurred. Please try again.");
+            }
+        });
+    });
+});
 
 </script>
 <div class="container">
@@ -342,11 +367,15 @@ if (count($colors) == 2) {
 <div class="col-md-4 col-6">
     <h1>Gradient Name</h1>
     <p>You have <?= $user_class->gndays;?> gradient name days left.</p>
-    <label>Starting Colour</label>
-<input type="text" class="color" value="<?= $st;?>" name="startcolor">
-                    Ending Colour
-                    <input type="text" class="color" value="<?= $ed; ?>" name="endcolor">
-
+    <form id="gradientNameForm">
+        <label>Starting Color</label>
+        <input type="text" class="color" value="<?= $st;?>" name="startcolor">
+        <label>Middle Color</label>
+        <input type="text" class="color" value="<?= $mid; ?>" name="midcolor">
+        <label>Ending Color</label>
+        <input type="text" class="color" value="<?= $ed; ?>" name="endcolor">
+        <button type="submit">Update Gradient Name</button>
+    </form>
 </div>
 
 </div>
