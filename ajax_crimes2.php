@@ -128,11 +128,11 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $star_level = 1;
     } elseif ($crimeCount >= 100000 && $crimeCount < 10000000000) {
         $star_level = 2;
-    } elseif ($crimeCount >= 10000000000 && $crimeCount < 200000000) {
+    } elseif ($crimeCount >= 10000000000 && $crimeCount < 20000000000) {
         $star_level = 3;
-    } elseif ($crimeCount >= 200000000 && $crimeCount < 400000000) {
+    } elseif ($crimeCount >= 20000000000 && $crimeCount < 50000000000) {
         $star_level = 4;
-    } elseif ($crimeCount >= 400000000) {
+    } elseif ($crimeCount >= 50000000000) {
         $star_level = 5;
     } else {
         $star_level = 0; // No bonus if the conditions are not met
