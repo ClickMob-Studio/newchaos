@@ -293,10 +293,19 @@ document.addEventListener('DOMContentLoaded', function() {
 <?php else: ?>
     <button class="nerve-action" id="nerverefill" value='0'>Disable Nerve Refill</button>
 <?php endif; ?>
-
-
 </div>
-
+<?php if($user_class->pdimgname > 0):?>
+    <div class="col-md-4 col-6">
+    <h1>Image Usernames</h1>
+    <form id="avatarForm">
+                <div>
+                    <label for="avatar">Image</label>
+                    <input type="text" id="avatar" value="<?= $user_class->pdimgname; ?>" required>
+                </div>
+                <button type="submit">Update Name</button>
+            </form>
+</div>
+<?php endif; ?>
     </div>
 </div>
 
