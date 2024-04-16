@@ -193,3 +193,46 @@ if(isset($_POST["action"]) && $_POST["action"] == "refillenergy"){
         ));
     }
 }
+
+if(isset($_POST['action']) && $_POST['action'] == 'imagename'){
+    if($user_class->pdimgname < 1){
+        echo json_encode(array(
+            'text'=> 'You do not have the image name token'
+            ));
+            exit;
+    }
+    if (isset($_POST['imagename'])) {
+        $url = $_POST['imagename'];
+$imageData = file_get_contents($url);
+if ($imageData === false) {
+    echo json_encode(array('text' => 'Failed to retrieve image.'));
+    exit;
+}
+
+$tmpFile = tmpfile();
+fwrite($tmpFile, $imageData);
+$metaData = stream_get_meta_data($tmpFile);
+$filePath = $metaData['uri'];
+
+
+$mimeType = mime_content_type($filePath);
+if (strpos($mimeType, 'image/') !== 0) {
+    echo json_encode(array('text' => 'You need to provide a valid image'));
+    fclose($tmpFile);
+    exit;
+} 
+
+fclose($tmpFile); 
+    $db->query("UPDATE grpgusers SET image_name = ? WHERE id =".$user_class->id);
+    $db->execute(array($_POST['imagename']));
+    echo json_encode(array(
+        "text"=> "You have updated your image name",
+    ));
+
+}else{
+    echo json_encode(array(
+        'text'=> 'You did not provide an image name',
+    ));
+    exit;
+}
+}

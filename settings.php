@@ -98,6 +98,27 @@ $(document).ready(function() {
     });
 });
 $(document).ready(function() {
+    $("#imagenameForm").submit(function(event) {
+        event.preventDefault(); 
+        var avatar = $("#imagename").val();
+        $.ajax({
+            url: '/ajax_settings.php', 
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action : 'imagename',
+                imagename: imagename,
+            },
+            success: function(response) {
+                $('.info-alert').html(response.text).show();
+            },
+            error: function() {
+                alert("An error occurred. Please try again.");
+            }
+        });
+    });
+});
+$(document).ready(function() {
     $("#quoteForm").submit(function(event) {
         event.preventDefault(); 
         var quote = $("#quote").val();
@@ -297,10 +318,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <?php if($user_class->pdimgname > 0):?>
     <div class="col-md-4 col-6">
     <h1>Image Usernames</h1>
-    <form id="avatarForm">
+    <form id="imagenameForm">
                 <div>
-                    <label for="avatar">Image</label>
-                    <input type="text" id="avatar" value="<?= $user_class->image_name; ?>" required>
+                    <label for="imagename">Image</label>
+                    <input type="text" id="imagename" value="<?= $user_class->image_name; ?>" required>
                 </div>
                 <button type="submit">Update Name</button>
             </form>
