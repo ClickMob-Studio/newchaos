@@ -375,8 +375,8 @@ $row_check_rmdays = mysql_fetch_assoc($result_check_rmdays);
 
 if ($row_check_rmdays['rmdays'] > 0) {
     // If rmdays > 0, update the user's bank account instead of money
-    $rel_user = new User($participant['user_id']);
-    mysql_query("INSERT INTO bank_log VALUES('', ".$participant['user_id'].", $money_won, 'mdep', $rel_user->bank, unix_timestamp())");
+    //$rel_user = new User($participant['user_id']);
+    //mysql_query("INSERT INTO bank_log VALUES('', ".$participant['user_id'].", $money_won, 'mdep', $rel_user->bank, unix_timestamp())");
     $update_query = "UPDATE grpgusers SET points = points + $points_won, bank = bank + $money_won, raidpoints = raidpoints + $raidpoints_won WHERE id = " . $participant['user_id'];
 } else {
     // If rmdays <= 0, update the user's money directly
