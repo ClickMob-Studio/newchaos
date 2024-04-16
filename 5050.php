@@ -1,214 +1,124 @@
 <?php
-include "header.php";
-
-?>
-	
-	<div class='box_top'>50/50</div>
-						<div class='box_middle'>
-							<div class='pad'>
-								<?php
-$mins = array(
-    'cash' => 10000,
-    'points' => 100,
-    'credits' => 10 // Ensuring the minimum value for credits is set
-);
-$db->query("SELECT id FROM fiftyfifty");
+require "header.php";
+$db->query("SELECT * FROM fiftyfifty WHERE currency = 'cash'");
 $db->execute();
-$rows = $db->fetch_row();
-$ids = array();
-foreach($rows as $row)
-    $ids[] = $row['id'];
-$ids = implode(",", $ids);
-if($user_class->ffban == 1){
-    echo Message("You have been excluded from 5050 until rollover");
-    require "footer.php";
-    exit;
-}
-if($_GET['exclude'] == 'yes')
-{
-    mysql_query("UPDATE grpgusers SET ffban = 1 WHERE id = $user_class->id");
-    echo Message("You have excluded your selffrom 5050");
-    require "footer.php";
-    die;
-}
+$cash = $db->fetch_row();
+$db->query("SELECT * FROM fiftyfifty WHERE currency = 'points'");
+$db->execute();
+$points = $db->fetch_row();
+$db->query("SELECT * FROM fiftyfifty WHERE currency = 'credits'");
+$db->execute();
+$credits = $db->fetch_row();
 ?>
-<p>Click here to exclude your self from 5050 for 1 day, you will not be able to place any bets. This is also final, we will not reverse
-    any one who decides to exclude themselves will have to wait the day to play again (No Confirmation on link click) Resets on rollover
-<a href='5050.php?exclude=yes' style="color:red">Exclude</a>
-</p>
+<script type="text/javascript" src="js/5050.js?v=<?php echo time();?>"></script>
+<h1>50/50</h1>
+<div class="container">
+    <table>
+        <tbody>
+        <div class="container">
+    <div class="row">
+        <div class="col-md-4 col-12">
+            <h1>Place Cash Bet</h1>
+            <input type="number" id="betAmount" placeholder="Enter bet amount">
+            <button id="betCashButton">Place Bet</button>
+        </div>
+        <div class="col-md-4 col-12">
+            <h1>Place Points Bet</h1>
+            <input type="number" id="betPAmount" placeholder="Enter bet amount">
+            <button id="betPointsButton">Place Bet</button>
+        </div>
+        <div class="col-md-4 col-12">
+            <h1>Place Credit Bet</h1>
+            <input type="number" id="betCAmount" placeholder="Enter bet amount">
+            <button id="betCreditsButton">Place Bet</button>
+        </div>
+    </div>
+</div>
 
-<?php
+        </tbody>
+    </table>
+    <div class="col-12 alert alert-info" style="display:none;"></div>
+    <div class="row">
+        <div class="col-md-6 col-12 style="padding-bottom:10px;">
+            <h1>Cash Bets</h1>
+            <table id='cashbettable'>
+            <thead>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </thead>
+                <tbody>
+            <?php foreach ($cash as $cas): ?>
+            <tr>
+                <td><?= formatName($cas['userid'])?></td>
+                <td><?= prettynum($cas['amnt'], 1)?></td>
 
-echo <<<YYY
-<script>
-// Your existing JavaScript code remains unchanged
-var ids = "$ids";
-function takeaway(takeaway){
-    $("#rtn").html("");
-    $.post("ajax_5050.php", {takeaway : takeaway}, function(d){
-        var results = d.split("|");
-        if(results[0] != 'error'){
-            $("#bet"+ takeaway).fadeOut(500,function(){
-                $(this).remove();
-            });
-        } else {
-            $("#rtn").html("<div  class='floaty1' id='error'>" + results[1] + "</div>");
-        }
-    });
-}
-function take(take){
-    $("#rtn").html("");
-    $.post("ajax_5050.php", {take : take}, function(d){
-        var results = d.split("|");
-        if(results[0] == 'take'){
-            $("#rtn").html("<div id='" + results[1] + "'>" + results[2] + "</div>");
-            $("#bet"+ take).fadeOut(500, function(){
-                $(this).remove();
-            });
-        } else {
-            $("#rtn").html("<div class='floaty1' id='error'>" + results[1] + "</div>");
-        }
-    });
-}
-function post(curr){
-    $("#rtn").html("");
-    var ts=new Date().getTime();
-    $.post("ajax_5050.php", {curr : curr, amnt : $("#" + curr + "amnt").val()}, function(d){
-        var results = d.split("|");
-        if(results[0] == 'success'){
-            ids += ',' + results[1];
-            $("#" + curr + "bets").append('<div id="t' + ts + '" style="display:none">' + results[2] + '</div>');
-            $("#" + curr + "bets div#t" + ts).slideDown(500);
-        } else {
-            $("#rtn").html("<div class='floaty1' id='error'>" + results[1] + "</div>");
-        }
-    });
-}
-function update(){
-    var ts = new Date().getTime();
-    $.post("ajax_5050.php", {update : ids}, function(d){
-        var results = d.split("|");
-        if(results[0]){
-            $("#cashbets").append('<div id="t' + ts + '" style="display:none">' + results[0] + '</div>');
-            $("#cashbets div#t" + ts).slideDown(500);
-        }
-        if(results[1]){
-            $("#pointsbets").append('<div id="t' + ts + '" style="display:none">' + results[1] + '</div>');
-            $("#pointsbets div#t" + ts).slideDown(500);
-        }
-        if(results[2]){
-            $("#creditsbets").append('<div id="t' + ts + '" style="display:none">' + results[2] + '</div>');
-            $("#creditsbets div#t" + ts).slideDown(500);
-        }
-        if(results[3]){
-            var del = results[3].split(",");
-            for(var i = 0; i < del.length; i++){
-                $("#bet"+ del[i]).fadeOut(500, function(){
-                    $(this).remove();
-                });
-            }
-        }
-        if(results[4]){
-            ids = results[4];
-        }
-        if(results[5]){
-            $(".money").html(results[5]);
-        }
-        if(results[6]){
-            $(".points").html(results[6]);
-        }
-        if(results[7]){
-            $(".credits").html(results[7]);
-        }
-    });
-}
-setInterval(update, 1000);
-</script>
-YYY;
-echo'<div id="rtn"></div>';
-echo "<table>";
-echo "<tr>";
-echo "<td>";
-echo headbox('cash');
-echo "</td>";
-echo "<td>";
-echo headbox('points');
-echo "</td>";
-echo "<td>";
-echo headbox('credits');
-echo "</td>";
-echo "</tr>";
-echo "</table>";
+                <?php if($user_class->id == $cas['userid']):?>
+                    <td><button class="removeCashButton" value="<?=$cas['id'];?>">Remove</button></td>
+                <?php else:?>
+                <td><button class="takeCashButton" value="<?=$cas['id'];?>">Take</button></td>
+                <?php endif;?>
+            </tr>
+            <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
 
-echo "<hr style='border:0;border-bottom:thin solid #333;' />";
+        <div class="col-md-6 col-12" style="padding-bottom:10px;">
+        <h1>Point Bets</h1>
+            <table id="pointbettable">
+                <thead>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </thead>
+                <tbody>
+            <?php foreach ($points as $poin): ?>
+            <tr>
+                <td><?= formatName($poin['userid'])?></td>
+                <td><?= prettynum($poin['amnt'])?> points</td>
+                <?php if($user_class->id == $poin['userid']):?>
+                    <td><button class="removeCashButton" value="<?=$poin['id'];?>">Remove</button></td>
+                <?php else:?>
+                <td><button class="takePointsButton" value="<?=$poin['id'];?>">Take</button></td>
+                <?php endif;?>
+            </tr>
+            <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3 col-none"></div>
+        <div class="col-md-6 col-12">
+        <h1>Credit Bets</h1>
+            <table id="creditbettable">
+            <thead>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </thead>
+                <tbody>
+            <?php foreach ($credits as $cre): ?>
+            <tr>
+                <td><?= formatName($cre['userid'])?></td>
+                <td><?= prettynum($cre['amnt'])?></td>
+                <?php if($user_class->id == $cre['userid']):?>
+                    <td><button class="removeCashButton" value="<?=$cre['id'];?>">Remove</button></td>
+                <?php else:?>
+                <td><button class="takeCreditButton" value="<?=$cre['id'];?>">Take</button></td>
+                <?php endif;?>
+            </tr>
+            <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<h1>Last 10 bets</h1>
+<div class='container lastbets'>
 
-echo "<table>";
-?>
-<thead>
-    <th>Cash</th>
-</th>
-    <th>Points</th>
-    <th>Credits</th>
-</thead>
-</thead>
-<?php
-echo "<tr>";
-echo "<td>";
-echo fillboxes('cash');
-echo "</td>";
-echo "<td>";
-echo fillboxes('points');
-echo "</td>";
-echo "<td>";
-echo fillboxes('credits');
-echo "</td>";
-echo "</tr>";
-echo "</table>";
 
-include "footer.php";
+</div>
 
-function headbox($curr){
-    global $mins;
-    $displayCurr = ($curr == 'credits') ? 'GOLD' : ucfirst($curr);
-    $rtn = '<div class="flexele floaty" style="margin:3px;">';
-    $rtn .= $displayCurr . ' 50/50';
-    $rtn .= '<hr style="border:0;border-bottom:thin solid #333;" />';
-    $rtn .= '<input type="text" id="' . $curr . 'amnt" placeholder="Min ' . prettynum($mins[$curr], ($curr == 'cash' ? 1: 0)) . '" />';
-    $rtn .= '<br />';
-    $rtn .= '<br />';
-    $rtn .= '<button onclick="post(\'' . $curr . '\');">Add ' . $displayCurr . ' Bet</button>';
-    $rtn .= '</div>';
-    return $rtn;
-}
 
-function fillboxes($curr){
-    global $user_class, $db;
-    $rtn = '<table>';
-    $db->query("SELECT * FROM fiftyfifty WHERE currency = ?");
-    $db->execute(array($curr));
-    $rows = $db->fetch_row();
-    foreach($rows as $row){
-        $rtn .= '<tr>';
-        $rtn .= '<td>';
-        $rtn .= formatName($row['userid']);
-        $rtn .= '</td>';
-        $rtn .= '<td>';
-        $rtn .= prettynum($row['amnt'], ($curr == 'cash' ? 1: 0));
-        $rtn .= '</td>';
-        $rtn .= '<td>';
-        if($user_class->id == $row['userid'])
-            $rtn .= '<button onclick="takeaway(' . $row['id'] . ');">Remove Bet</button>';
-        else
-            $rtn .= '<button onclick="take(' . $row['id'] . ');">Take Bet</button>';
-        $rtn .= '</td>';
-        $rtn .= '</tr>';
-    }
-    $rtn .= '</table>';
-    return $rtn;
-}
-
-function dbcol($input){
-    return str_replace('cash', 'money', $input);
-}
-
-?>
+<?php 
+require_once __DIR__ . '/footer.php';
