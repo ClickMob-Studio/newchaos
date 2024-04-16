@@ -100,7 +100,7 @@ $(document).ready(function() {
 $(document).ready(function() {
     $("#imagenameForm").submit(function(event) {
         event.preventDefault(); 
-        var avatar = $("#imagename").val();
+        var imagename = $("#imagename").val();
         $.ajax({
             url: '/ajax_settings.php', 
             type: 'POST',
