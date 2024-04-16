@@ -300,7 +300,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <form id="avatarForm">
                 <div>
                     <label for="avatar">Image</label>
-                    <input type="text" id="avatar" value="<?= $user_class->pdimgname; ?>" required>
+                    <input type="text" id="avatar" value="<?= $user_class->image_name; ?>" required>
                 </div>
                 <button type="submit">Update Name</button>
             </form>
