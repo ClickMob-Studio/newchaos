@@ -1,8 +1,6 @@
 <?php
 include 'header.php';
 
-exit;
-
 $db->query("SELECT * FROM `gang_comp_leaderboard` ORDER BY `daily_missions_complete` DESC LIMIT 2");
 $db->execute();
 $dailyRows = $db->fetch_row();
