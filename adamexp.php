@@ -1,7 +1,7 @@
 <?php
 require "header.php";
 ?>
-<div class='box_top'>Upgrade Store Sales</div>
+<div class='box_top'>Upgrade Store Sale</div>
 						<div class='box_middle'>
 							<div class='pad'>
                                 <?php
