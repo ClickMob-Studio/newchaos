@@ -283,7 +283,7 @@ $(document).ready(function() {
                     <label for="Email">Email</label>
                     <input type="text" id="email" value="<?= $user_class->email; ?>" required>
                 </div>
-                <button type="submit">Update Username</button>
+                <button type="submit">Update Email</button>
             </form>
         </div>
         <div class="col-md-4 col-6">
