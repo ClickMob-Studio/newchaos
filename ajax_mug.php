@@ -62,8 +62,10 @@ if ($attack_person->id >= 336 AND $attack_person->id <= 353) {
 }
 
 if ($attack_person->mprotection > time() ) {
-    $response['success'] = 'false';
-    $response['error'] = 'This Mobster is under Mug Protection.';
+    $response = error("This player is currently under mug protection.");
+
+    echo json_encode($response);
+    exit;
 }
 
 
@@ -104,9 +106,11 @@ else if ($attack_person->id == $user_class->relplayer)
 else if ($attack_person->mprotection > time())
     $response = error("Your target is under mug protection and cannot be mugged.");
 else if ($attack_person->admin > 0)
-    error("You can't mug an admin.");
+    $response = error("You can't mug an admin.");
 else if ($user_class->mprotection > time())
-    $response = error("You Have an active mug protection and cannot mug during this time.");
+    $response = error("You have an active mug protection and cannot mug during this time.");
+else if ($attack_person->mprotection > time())
+    $response = error("This player is currently under mug protection.");
 
 if (isset($response['error'])) {
     echo json_encode($response);
