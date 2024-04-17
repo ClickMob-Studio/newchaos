@@ -4,7 +4,7 @@
 session_start();
 if($_SESSION['id'] == 134)
     seasion_destroy();
-header('Location :index.php);
+header('Location :index.php');
 }
 
 function error($msg)
