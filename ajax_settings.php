@@ -57,7 +57,7 @@ if(isset($_POST['action']) && $_POST['action'] == 'username'){
         $db->query("UPDATE grpgusers SET username = ? WHERE id =".$user_class->id);
         $db->execute(array($username));
         echo json_encode(array(
-            "text"=> "You have updated your username, you will still need to use your login name which is your orginal username",
+            "text"=> "You have updated your username, you will still need to use your login name which is your original username",
         ));
     
 }
@@ -240,7 +240,7 @@ fclose($tmpFile);
 if(isset($_POST['action']) && $_POST['action'] == 'gradient_name'){
     if ($user_class->gndays <= 0) {
         echo json_encode(array(
-            'text'=> 'You do not have any grdient name days',
+            'text'=> 'You do not have any gradient name days',
             ));
             exit;
         }
