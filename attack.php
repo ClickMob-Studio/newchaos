@@ -164,25 +164,55 @@ $attackStatBonusMultiplier = 1 + ($attackGangUpgradeLevel * 0.10);
 // Apply the stat bonus multipliers to the user_class and attack_person
 $user_class->moddedstrength = round($user_class->moddedstrength * $userStatBonusMultiplier);
 $user_class->moddeddefense = round($user_class->moddeddefense * $userStatBonusMultiplier);
+$user_class->moddedspeed = round($user_class->moddedspeed * $userStatBonusMultiplier);
 if($user_class->gang > 0){
+    // Strength
+    $db->query("SELECT upgrade1 FROM gangs WHERE id = ".$user_class->gang);
+    $db->execute();
+    $u = $db->fetch_row(true);
+    $percent = $u['upgrade1']*20;
+    $user_class->moddedstrength += round(($user_class->moddedstrength * $percent) / 100);
+
+    // Defense
     $db->query("SELECT upgrade2 FROM gangs WHERE id = ".$user_class->gang);
     $db->execute();
     $u = $db->fetch_row(true);
     $percent = $u['upgrade2']*20;
     $user_class->moddeddefense += round(($user_class->moddeddefense * $percent) / 100);
+
+    // Speed
+    $db->query("SELECT upgrade3 FROM gangs WHERE id = ".$user_class->gang);
+    $db->execute();
+    $u = $db->fetch_row(true);
+    $percent = $u['upgrade3']*20;
+    $user_class->moddedspeed += round(($user_class->moddedspeed * $percent) / 100);
 }
-$user_class->moddedspeed = round($user_class->moddedspeed * $userStatBonusMultiplier);
 
 $attack_person->moddedstrength = round($attack_person->moddedstrength * $attackStatBonusMultiplier);
 $attack_person->moddeddefense = round($attack_person->moddeddefense * $attackStatBonusMultiplier);
+$attack_person->moddedspeed = round($attack_person->moddedspeed * $attackStatBonusMultiplier);
 if($attack_person->gang > 0){
+    // Strength
+    $db->query("SELECT upgrade1 FROM gangs WHERE id = ".$attack_person->gang);
+    $db->execute();
+    $u = $db->fetch_row(true);
+    $percent = $u['upgrade1']*20;
+    $attack_person->moddedstrength += round(($attack_person->moddedstrength * $percent) / 100);
+
+    // Defense
     $db->query("SELECT upgrade2 FROM gangs WHERE id = ".$attack_person->gang);
     $db->execute();
     $u = $db->fetch_row(true);
     $percent = $u['upgrade2']*20;
     $attack_person->moddeddefense += round(($attack_person->moddeddefense * $percent) / 100);
+
+    // Speed
+    $db->query("SELECT upgrade3 FROM gangs WHERE id = ".$attack_person->gang);
+    $db->execute();
+    $u = $db->fetch_row(true);
+    $percent = $u['upgrade3']*20;
+    $attack_person->moddedspeed += round(($attack_person->moddedspeed * $percent) / 100);
 }
-$attack_person->moddedspeed = round($attack_person->moddedspeed * $attackStatBonusMultiplier);
 
 
 $userspeed = $user_class->moddedspeed;
