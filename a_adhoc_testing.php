@@ -1,17 +1,17 @@
 <?php
 include 'header.php';
+exit;
 
-
-$db->query("SELECT * FROM missions WHERE timestamp > 1713308400 AND completed = 'successful'");
-$db->execute();
-$rows = $db->fetch_row();
-
-foreach ($rows as $row) {
-    $gUser = new User($row['userid']);
-
-    addToGangCompLeaderboard($gUser->gang, 'missions_complete', 1);
-}
-echo 'done';
+//$db->query("SELECT * FROM missions WHERE timestamp > 1713308400 AND completed = 'successful'");
+//$db->execute();
+//$rows = $db->fetch_row();
+//
+//foreach ($rows as $row) {
+//    $gUser = new User($row['userid']);
+//
+//    addToGangCompLeaderboard($gUser->gang, 'missions_complete', 1);
+//}
+//echo 'done';
 
 
 //$db->query("SELECT * FROM `gang_comp_leaderboard` ORDER BY `daily_missions_complete` DESC LIMIT 2");
