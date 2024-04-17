@@ -292,7 +292,7 @@ function start() {
               
             }
         }
-    },37);
+    },25);
     document.addEventListener('mouseup', resetAction, { once: true });
     document.addEventListener('touchend', resetAction, { once: true });
   
