@@ -269,7 +269,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
             $debug['response'] = "Failed Crime";
             //$logger->info("", $debug);
             die($ftext.".|".number_format($user_class->points)."|".number_format($user_class->money)."|".number_format($user_class->level)."|".  genBars());
-        } elseif ($chance > 4 && $chance < 7) {
+        } elseif ($chance > 4 && $chance < 6) {
             $user_class->nerve -= $nerve;
             $db->query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ?, caught = caught + 1, jail = 300 WHERE id = ?");
             $db->execute(array(
