@@ -262,6 +262,7 @@ if($user_class->jail > 0){
 
     <script type="text/javascript">
         let jailBreakClicks = 0;
+        let jailRefreshes = 0;
 
         $('.jail-break-link').click(function(e) {
             if ($(this).data('jid') == 'bot') {
@@ -295,6 +296,11 @@ if($user_class->jail > 0){
         jailInterval = setInterval(() => {
             $.get("ajax_jail_new.php?action=fetch_users", {}, (jailers) => {
                 $('.jail-cell-row').remove();
+
+                <?php if ($user_class->admin > 0): ?>
+                    jailRefreshes = jailRefreshes + 1;
+                    console.log(jailRefreshes);
+                <?php endif; ?>
 
                 if (jailers != false) {
                     jailers.forEach((data, index) => {
