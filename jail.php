@@ -300,9 +300,8 @@ if($user_class->jail > 0){
                 <?php if ($user_class->admin > 0): ?>
                     jailRefreshes = jailRefreshes + 1;
 
-                    if (jailRefreshes > 10) {
-                        console.log(jailRefreshes);
-                        confirm('Still here?');
+                    if (jailRefreshes > 15) {
+                        confirm("You are still here aren't you?");
                     }
                 <?php endif; ?>
 
