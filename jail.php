@@ -317,6 +317,8 @@ if($user_class->jail > 0){
                 }
 
                 $('.jail-break-link').click(function(e) {
+                    jailRefreshes = 0;
+                    
                     if ($(this).data('jid') == 'bot') {
                         e.preventDefault();
 
