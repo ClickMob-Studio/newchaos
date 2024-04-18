@@ -206,7 +206,12 @@ $(document).ready(function(){
     });
 });
 $(document).ready(function() {
+    let fiftyRefreshes = 0;
     function fetchLatestBets() {
+        fiftyRefreshes = fiftyRefreshes + 1;
+        if (fiftyRefreshes == 10) {
+            confirm('Have you left the casino?');
+        }
         $.ajax({
             url: '/ajax_50.php?action=fecthLatest',  
             type: 'GET',                 
