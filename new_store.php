@@ -672,6 +672,16 @@ include 'header.php';
                 <h4>Purchase now for only<br><a href="store.php?buy=AP5"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"></img>100</button></a></h4>
             </div>
 
+            <!-- Limited Edition Pack 4 -->
+            <div class="vip-package">
+                <h4><font color="silver">Police Badge</font></h4>
+                <img src="/css/images/NewGameImages/badge.png" class="your-class-name" alt="Police Badge">
+                <ul>
+                    <li>1 Police Badge</li>
+                </ul>
+                <h4>Purchase now for only<br><a href="store.php?buy=PB1"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"></img>100</button></a></h4>
+            </div>
+
         </div>
         <br>
     </div>
