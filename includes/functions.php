@@ -1910,13 +1910,15 @@ function addUserBaStatExp($userBaStats, $baExpWon)
 {
     global $db;
 
-    $newExp = $userBaStats['exp'] + $baExpWon;
-    if ($newExp > $userBaStats['maxexp']) {
-        $db->query("UPDATE `user_ba_stats` SET `exp` = 0, `level` = `level` + 1  WHERE `id` = '" . $userBaStats['id'] . "'");
-        $db->execute();
-    } else {
-        $db->query("UPDATE `user_ba_stats` SET `exp` = `exp` + " . $baExpWon . "  WHERE `id` = '" . $userBaStats['id'] . "'");
-        $db->execute();
+    if ($userBaStats['level'] < 10) {
+        $newExp = $userBaStats['exp'] + $baExpWon;
+        if ($newExp > $userBaStats['maxexp']) {
+            $db->query("UPDATE `user_ba_stats` SET `exp` = 0, `level` = `level` + 1  WHERE `id` = '" . $userBaStats['id'] . "'");
+            $db->execute();
+        } else {
+            $db->query("UPDATE `user_ba_stats` SET `exp` = `exp` + " . $baExpWon . "  WHERE `id` = '" . $userBaStats['id'] . "'");
+            $db->execute();
+        }
     }
 }
 
