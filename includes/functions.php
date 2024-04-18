@@ -1942,3 +1942,41 @@ function addToGangCompLeaderboard($gangId, $field, $value)
         $db->execute();
     }
 }
+
+function addCountTracking($userId)
+{
+    global $db;
+
+    $db->query("SELECT * FROM mission_count_tracking WHERE user_id = " . $userId . " LIMIT 1");
+    $db->execute();
+    $r = $db->fetch_row();
+
+    if (isset($r[0]['id'])) {
+        $r = $r[0];
+
+        $newCount = $r['count'] + 1;
+
+        if ($newCount > 124) {
+            $db->query("UPDATE grpgusers SET donate_token = donate_token + 1 WHERE id = " . $userId);
+            $db->execute();
+
+            Send_Event($userId, 'You earned a 2 for 1 donation token for completing 125 missions!');
+
+            $db->query("UPDATE mission_count_tracking SET count = 0 WHERE user_id = " . $userId);
+            $db->execute();
+        } else {
+            $db->query("UPDATE mission_count_tracking SET count = count + 1 WHERE user_id = " . $userId);
+            $db->execute();
+        }
+
+        return $r;
+    } else {
+        $db->query("INSERT INTO mission_count_tracking (user_id, count) VALUES (" . $userId . ", 1)");
+        $db->execute();
+
+        $r = addCountTracking($userId);
+
+        return $r;
+    }
+
+}
