@@ -1974,8 +1974,6 @@ function addCountTracking($userId)
         $db->query("INSERT INTO mission_count_tracking (user_id, count) VALUES (" . $userId . ", 1)");
         $db->execute();
 
-        $r = addCountTracking($userId);
-
         return $r;
     }
 
