@@ -125,7 +125,7 @@ mysql_query($log_query);
 
         $hospitalTime = rand($event['min_value'], $event['max_value']);
         $description = "<strong style='color:red;'>" . $event['description_template'] . "</strong>";
-        $hospital_query = "UPDATE grpgusers SET hospital = hospital + $hospitalTime WHERE id = " . $user_class->id;
+        $hospital_query = "UPDATE grpgusers SET hospital = hospital + $hospitalTime, `hhow` = 'maze' WHERE id = " . $user_class->id;
         mysql_query($hospital_query);
         break;
 
