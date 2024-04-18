@@ -28,7 +28,7 @@ $(document).ready(function(){
             }
         });
     }
-    setInterval(updateTables, 2000);
+    setInterval(updateTables, 3000);
 });
 $(document).ready(function(){
     $("#betButton").click(function(){
@@ -225,5 +225,5 @@ $(document).ready(function() {
         });
     }
 
-    setInterval(fetchLatestBets, 3000);
+    setInterval(fetchLatestBets, 4000);
 });
