@@ -738,7 +738,7 @@ $db->query("SELECT * FROM bloodbath WHERE endtime < unix_timestamp() AND winners
 $db->execute();
 $bbinfo = $db->fetch_row(true);
 if (!empty($bbinfo)) {
-    $db->query("SELECT * FROM bbusers");
+    $db->query("SELECT b.* FROM bbusers b LEFT JOIN grpgusers g ON userid = id WHERE g.admin = 0");
     $db->execute();
     $rows = $db->fetch_row();
     foreach($rows as $row) {
