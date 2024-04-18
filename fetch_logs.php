@@ -1,26 +1,20 @@
 <?php
-include "classes.php";
-include "codeparser.php";
-include "database/pdo_class.php";
-#include "includes/functions.php";
+include "ajax_header.php";
 
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11212, 33);
+$db->query("SELECT * FROM user_logs ORDER BY timestamp DESC LIMIT 10");
+$db->execute();
 
-mysql_select_db('chaoscit_game', mysql_connect('localhost', 'chaoscit_user', '3lrKBlrfMGl2ic14'));
-
-$query = "SELECT * FROM user_logs ORDER BY timestamp DESC LIMIT 10";
-$result = mysql_query($query);
-if (!$result) {
-    die(json_encode(['error' => 'Query failed: ' . mysql_error()]));
+if (!$db->num_rows) {
+    die();
 }
 
 echo "<table border='1'>";
 echo "<tr><th>Timestamp</th><th>User</th><th>Description</th></tr>";
-while ($log = mysql_fetch_assoc($result)) {
+$result = $db->fetch_row();
+foreach ($result as $log) {
     $username = formatName($log['user_id']);
     $timeAgo = howlongago($log['timestamp']);
-    echo "<tr><td>{$timeAgo}</td><td>{$username}</td><td>{$log['description']}</td></tr>";
+    echo " <tr><td>{$timeAgo}</td><td>{$username}</td><td>{$log['description']}</td></tr>";
 }
 echo "</table>";
 ?>
