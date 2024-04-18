@@ -299,7 +299,10 @@ if($user_class->jail > 0){
 
                 <?php if ($user_class->admin > 0): ?>
                     jailRefreshes = jailRefreshes + 1;
-                    console.log(jailRefreshes);
+
+                    if (jailRefreshes > 10) {
+                        confirm('Still here?');
+                    }
                 <?php endif; ?>
 
                 if (jailers != false) {
