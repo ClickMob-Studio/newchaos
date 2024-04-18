@@ -155,20 +155,9 @@ if ($mug <= 8) {
 
         // Check if the user is in a gang
         if ($user_class->gang > 0) {
-            // Fetch the gang's upgrade levels
-            $db->query("SELECT upgrade8 FROM gangs WHERE id = ?");
-            $db->execute(array($user_class->gang));
-            $gangs = $db->fetch_row();
-
             // Check if upgrade8 is set and is numeric
-            if ($gangs->upgrade8 > 0) {
-                $gangs->upgrade8 = $gangs['upgrade8']; // Assuming $gangs is an object you're using to store gang info
-                //echo "Gang upgrade level 8: " . $gangs->upgrade8;
-
-                // Apply the upgrade only if upgrade8 is greater than 0
-                if ($gangs->upgrade8 > 0) {
-                    $mugamount = floor($mugamount * (1 + 0.10 * $gangs->upgrade8));
-                }
+            if ($gang_class->upgrade8 > 0) {
+                $mugamount = floor($mugamount * (1 + 0.10 * $gang_class->upgrade8));
             } else {
                 // Log error if upgrade8 is not set or not numeric
                 error_log("upgrade8 is not set or not a valid number for gang ID: " . $user_class->gang);
