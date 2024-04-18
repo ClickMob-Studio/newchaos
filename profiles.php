@@ -194,8 +194,7 @@ $(document).ready(function() {
     
     setInterval(function() {
         profileRefreshes = profileRefreshes + 1;
-        console.log(profileRefreshes);
-        if (profileRefreshes == 15) {
+        if (profileRefreshes % 30 == 0) {
             confirm("You still hanging around?");
         }
                 
