@@ -190,7 +190,15 @@ if (isset($_GET['action'])) {
 
 echo '<script>
 $(document).ready(function() {
+    let profileRefreshes = 0;
+    
     setInterval(function() {
+        profileRefreshes = profileRefreshes + 1;
+        console.log(profileRefreshes);
+        if (profileRefreshes == 15) {
+            confirm("You still hanging around?");
+        }
+                
         $.getJSON("profileajax.php?user_id=' . $profile_class->id . '", function(response) {
             if (response.hasOwnProperty("lastActive") && response.hasOwnProperty("money")) {
                 $("#lastActive").text(response.lastActive);
