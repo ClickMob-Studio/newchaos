@@ -1,13 +1,5 @@
 <?php
-include "classes.php";
-include "codeparser.php";
-include "database/pdo_class.php";
-#include "includes/functions.php";
-
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11212, 33);
-
-mysql_select_db('chaoscit_game', mysql_connect('localhost', 'chaoscit_user', '3lrKBlrfMGl2ic14'));
+require "ajax_header.php";
 
 $query = "SELECT * FROM user_logs ORDER BY timestamp DESC LIMIT 10";
 $result = mysql_query($query);
