@@ -104,7 +104,7 @@ if ($user_class->aprotection != 0) {
     $error = ($attack_person->city != $user_class->city && $user_class->id != 0) ? "You must be in the same city as the person you're attacking!" : $error;
     $error = ($attack_person->username == "") ? "That person doesn't exist." : $error;
     $error = ($attack_person->hospital > 0) ? "You can't attack someone that is in hospital." : $error;
-    $error = ($user_class->gang == $attack_person->gang && $user_class->gang > 0) ? "You can't attack someone in your gang." : $error;
+   
     $error = ($attack_person->hppercent < 25) ? "They need over 25% HP to be attacked." : $error;
     $error = ($attack_person->admin == 1) ? "Im sorry, You cannot attack the owner" : $error;
     $error = ($attack_person->id == $user_class->id) ? "Why would you want to attack yourself?" : $error;
@@ -121,6 +121,7 @@ if ($user_class->aprotection != 0) {
 
     if (count($attackLadder) == 0) {
         $error = ($attack_person->aprotection > time()) ? "This Mobster is under Attack Protection." : $error;
+        $error = ($user_class->gang == $attack_person->gang && $user_class->gang > 0) ? "You can't attack someone in your gang." : $error;
     }
     //$gang_class = new Gang($user_class->gang);
     //$their_gang = new Gang($attack_person->gang);
