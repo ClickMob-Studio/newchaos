@@ -95,7 +95,7 @@ if ($jailbreak != ""){
                 $_SESSION['message'] = "You can't break people out of jail whilst your in jail.";
                 $error = true;
             }
-            $chance = rand(1,(100 * $crime - ($user_class->speed / 25)));
+            $chance = rand(1,(100 * 1 - ($user_class->speed / 25)));
             //$money = 785;
             $nerve = 10;
             $exp = 2500;
@@ -107,7 +107,7 @@ if ($jailbreak != ""){
                         $exp = $exp + $user_class->exp;
                         $crimesucceeded = 1 + $user_class->crimesucceeded;
                         $crimemoney = $money + $user_class->crimemoney;
-                        $money = $money + $user_class->money;
+                        //$money = $money + $user_class->money;
                         $nerve = $user_class->nerve - $nerve;
                         if ($user_class->gang != 0) {
                             mysql_query("UPDATE gangs SET dailyBusts = dailyBusts + 1 WHERE id = ".$user_class->gang);
