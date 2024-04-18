@@ -298,7 +298,7 @@ if($user_class->jail > 0){
                 $('.jail-cell-row').remove();
 
                 jailRefreshes = jailRefreshes + 1;
-                if (jailRefreshes == 10) {
+                if (jailRefreshes % 10 == 0) {
                     confirm("You are still here aren't you?");
                 }
 
@@ -318,7 +318,7 @@ if($user_class->jail > 0){
 
                 $('.jail-break-link').click(function(e) {
                     jailRefreshes = 0;
-                    
+
                     if ($(this).data('jid') == 'bot') {
                         e.preventDefault();
 
