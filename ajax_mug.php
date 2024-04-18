@@ -45,22 +45,7 @@ if ($_GET['alv'] !== 'yes') {
 
 $attack_person = new User($_GET['mug']);
 $gang_class = new Gang($user_class->gang);
-// Only modify city for special NPCs or characters, if intended
-if ($attack_person->id >= 336 AND $attack_person->id <= 353) {
-    // Adjusted properties for special NPCs or characters
-    $attack_person->level = $user_class->level + $attack_person->id - 339;
-    $attack_person->hp = $attack_person->purehp = $attack_person->maxhp = $attack_person->puremaxhp = $attack_person->level * 50;
-    $attack_person->hppercent = 100;
-    $attack_person->formattedhp = $attack_person->hp . " / " . $attack_person->maxhp . " [100%]";
-    // Comment out or conditionally execute this line to avoid bypassing city check
-    // $attack_person->city = $user_class->city; // REMOVE OR MODIFY THIS LINE
-    $attack_person->jail = 0;
-    $attack_person->moddedstrength = rand(750 * (($attack_person->id - 333) / 10), 2200 * (($attack_person->id - 333) / 10));
-    $attack_person->moddedspeed = rand(750 * (($attack_person->id - 333) / 10), 2200 * (($attack_person->id - 333) / 10));
-    $user_class->moddedstrength = rand(1000, 5000);
-    $user_class->moddeddefense = rand(1000, 5000);
-    $user_class->moddedspeed = rand(1000, 5000);
-}
+
 
 if ($attack_person->mprotection > time() ) {
     $response = error("This player is currently under mug protection.");
