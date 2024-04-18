@@ -232,13 +232,34 @@ $userBaStats = getUserBaStats($user_class);
 
 if ($userBaStats['gold_rush_credits'] > 0) {
     // Outcomes
-    // - 10% Loose & Go Hosp
-    // - 20% Loose & Don't Hosp
     // - 30% Win Cash & EXP
-    // - 30% Win Cash & Item
-    // - 10% Nothing, onto next turn
+    // - 40% Win Cash & Item
+    // - 15% Win Points
+    // - 15% Win Raid Tokens
+    $outcome = mt_rand(1,100);
+    if ($outcome <= 30) {
+        // 30% Win Cash & EXP
+    } else if ($outcome <= 70) {
+        // 40% Win Cash & Item
+    } else if ($outcome <= 85) {
+        // 15% Win Points
+    } else {
+        // 15% Win Raid Tokens
+    }
 
 } else {
+
+    $goldRushChance = mt_rand(1,10000);
+    if ($goldRushChance == 2) {
+        $db->query("UPDATE user_ba_stats SET gold_rush_credits = gold_rush_credits + 15 WHERE user_id = " . $user_class->id);
+        $db->execute();
+
+        $fullResponse = 'You walk down the back alley and feel a surge of power! You enter Gold Rush Mode!';
+
+        echo json_encode(success($fullResponse));
+        exit;
+    }
+
     // Outcomes
     // - 10% Loose & Go Hosp
     // - 20% Loose & Don't Hosp
