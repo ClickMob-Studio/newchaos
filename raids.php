@@ -268,10 +268,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['use_speedup'], $_POST['raid_id'])) {
     $raid_id = intval($_POST['raid_id']);
     $user_id = $user_class->id;
-   // Reduce the quantity of the item in the inventory by 1
-    $reduce_item_query = "UPDATE inventory SET quantity = quantity - 1 WHERE itemid = 194 AND userid = $user_id AND quantity > 0";
+    $check = mysql_query("SELECT * FROM inventory WHERE itemid = 194 AND userid = $user_id AND quantity > 0 LIMIT 1");
+    if (mysql_num_rows($check) < 1) {
+        echo Message("You do not have any speed raid tokens!");
+        require "footer.php";
+        exit();
+    }
+    $fetch = mysql_fetch_assoc($check);
+    if($fetch['quantity'] == 1){
+        mysql_query("DELETE FROM inventory WHERE `id` = ".$fetch['id']);
+    }else{
+        $reduce_item_query = "UPDATE inventory SET quantity = quantity - 1  WHERE `id` = ".$fetch['id'];
     mysql_query($reduce_item_query);
-    
+    }
+   
 
     // Set the summoned_at column in the active_raids table to the current timestamp
 $end_raid_query = "UPDATE active_raids SET summoned_at = DATE_SUB(NOW(), INTERVAL 15 MINUTE) WHERE id = $raid_id";
