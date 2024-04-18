@@ -97,10 +97,6 @@ function logHighFrequencyRequests() {
 }
 
 
-
-// Invoke the function at the start of your script to check each request
-logHighFrequencyRequests();
-
 if ($user_class->gang == 0 && $user_class->cur_gangcrime != 0) {
     $db->query("UPDATE grpgusers SET cur_gangcrime = 0 WHERE id = ?");
     $db->execute(array(
