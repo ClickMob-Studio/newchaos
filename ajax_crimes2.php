@@ -109,7 +109,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $time = floor(($nerve - ($nerve * 0.5)) * 6);
     $stext = 'You successfully managed to ' . $name;
     $ftext = 'You failed to ' . $name;
-    $chance = rand(1, 150);
+    $chance = rand(1, 250);
     $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
     $exp = ((10 * $nerve) + 8 * ($nerve - 1)) * 1.0;
     // Fetch the crime count and determine the star level
