@@ -297,13 +297,10 @@ if($user_class->jail > 0){
             $.get("ajax_jail_new.php?action=fetch_users", {}, (jailers) => {
                 $('.jail-cell-row').remove();
 
-                <?php if ($user_class->admin > 0): ?>
-                    jailRefreshes = jailRefreshes + 1;
-
-                    if (jailRefreshes == 15) {
-                        confirm("You are still here aren't you?");
-                    }
-                <?php endif; ?>
+                jailRefreshes = jailRefreshes + 1;
+                if (jailRefreshes == 15) {
+                    confirm("You are still here aren't you?");
+                }
 
                 if (jailers != false) {
                     jailers.forEach((data, index) => {
