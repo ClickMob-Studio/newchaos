@@ -676,7 +676,7 @@ if ($user_class->view_preference === '1') { ?>
 							<a href="store.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
 
 						</div>
-						Sever Time: <?php echo date('d/m/Y  H:i:s'); ?>
+						Server Time: <?php echo date('d/m/Y  H:i:s'); ?>
 					</div>
 				</div>
 			</header>
