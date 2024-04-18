@@ -80,21 +80,21 @@ function logHighFrequencyRequests() {
     $_SESSION['request_log'][$ipAddress][] = $currentTime;
 
     // Check if the number of requests exceeds the limit
-    if (count($_SESSION['request_log'][$ipAddress]) > $requestLimit) {
-        $uris = array_column($_SESSION['request_log'][$ipAddress], 'uri');
-        $uniqueUris = array_unique($uris); // Optional: Filter to unique URIs
-        $uriList = implode(', ', $uniqueUris);
+//     if (count($_SESSION['request_log'][$ipAddress]) > $requestLimit) {
+//         $uris = array_column($_SESSION['request_log'][$ipAddress], 'uri');
+//         $uniqueUris = array_unique($uris); // Optional: Filter to unique URIs
+//         $uriList = implode(', ', $uniqueUris);
         
-        $logEntry = sprintf("[%s] IP %s Userid: ". $user_class->id ." exceeded the limit with %d requests to %s in %d second(s).\n", 
-                            date('Y-m-d H:i:s'), 
-                            $ipAddress, 
-                            count($_SESSION['request_log'][$ipAddress]), 
-                            $uriList, 
-                            $timeLimit);
-                             Send_Event(1, $logEntry);
-        Send_Event(2, $logEntry);
-    }
-}
+//         $logEntry = sprintf("[%s] IP %s Userid: ". $user_class->id ." exceeded the limit with %d requests to %s in %d second(s).\n", 
+//                             date('Y-m-d H:i:s'), 
+//                             $ipAddress, 
+//                             count($_SESSION['request_log'][$ipAddress]), 
+//                             $uriList, 
+//                             $timeLimit);
+//                              Send_Event(1, $logEntry);
+//         Send_Event(2, $logEntry);
+//     }
+// }
 
 
 
