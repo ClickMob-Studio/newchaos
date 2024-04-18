@@ -221,7 +221,7 @@ $scenario = $baAttackerScenarios[mt_rand(0, (count($baAttackerScenarios) - 1))];
 $scenario['start'] = str_replace('__ANAME__', $attacker, $scenario['start']);
 
 
-// 10 Outcomes
+// Outcomes
 // - 10% Loose & Go Hosp
 // - 20% Loose & Don't Hosp
 // - 30% Win Cash & EXP
@@ -230,91 +230,108 @@ $scenario['start'] = str_replace('__ANAME__', $attacker, $scenario['start']);
 
 $userBaStats = getUserBaStats($user_class);
 
-$outcome = mt_rand(1,100);
-if ($outcome <= 10) {
-    // 10% Loose & Go Hosp
-    $hosp = 120;
-    $db->query("UPDATE `grpgusers` SET `hwho` = '{$attacker}', `hhow` = 'backalley', `hospital` = '" . $hosp . "' WHERE `id` = '" . $user_class->id . "'");
-    $db->execute();
+if ($userBaStats['gold_rush_credits'] > 0) {
+    // Outcomes
+    // - 10% Loose & Go Hosp
+    // - 20% Loose & Don't Hosp
+    // - 30% Win Cash & EXP
+    // - 30% Win Cash & Item
+    // - 10% Nothing, onto next turn
 
-    $fullResponse = $scenario['start'];
-    $fullResponse .= '<br />';
-    $fullResponse .= '<br />';
-    $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
-    $fullResponse .= '<br /><br />';
-    $fullResponse .= '<strong>You will need to spend some time in the hospital!</strong>';
+} else {
+    // Outcomes
+    // - 10% Loose & Go Hosp
+    // - 20% Loose & Don't Hosp
+    // - 30% Win Cash & EXP
+    // - 30% Win Cash & Item
+    // - 10% Nothing, onto next turn
+    $outcome = mt_rand(1,100);
+    if ($outcome <= 10) {
+        // 10% Loose & Go Hosp
+        $hosp = 120;
+        $db->query("UPDATE `grpgusers` SET `hwho` = '{$attacker}', `hhow` = 'backalley', `hospital` = '" . $hosp . "' WHERE `id` = '" . $user_class->id . "'");
+        $db->execute();
 
-    echo json_encode(success($fullResponse));
-    exit;
-} else if ($outcome <= 30) {
-    // 20% Loose & Don't Hosp
-    $fullResponse = $scenario['start'];
-    $fullResponse .= '<br />';
-    $fullResponse .= '<br />';
-    $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
-    $fullResponse .= '</span>';
+        $fullResponse = $scenario['start'];
+        $fullResponse .= '<br />';
+        $fullResponse .= '<br />';
+        $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
+        $fullResponse .= '<br /><br />';
+        $fullResponse .= '<strong>You will need to spend some time in the hospital!</strong>';
 
-    echo json_encode(success($fullResponse));
-    exit;
-} else if ($outcome <= 60) {
-    // 30% Win Cash & EXP
-    $cashWon = mt_rand(1,30) * $userBaStats['level'];
-    $expWon = round((mt_rand(1, 2) / 100) * $user_class->maxexp);
-    $baExpWon = mt_rand(1,15);
+        echo json_encode(success($fullResponse));
+        exit;
+    } else if ($outcome <= 30) {
+        // 20% Loose & Don't Hosp
+        $fullResponse = $scenario['start'];
+        $fullResponse .= '<br />';
+        $fullResponse .= '<br />';
+        $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
+        $fullResponse .= '</span>';
 
-    $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `exp` = `exp` + " . $expWon . "  WHERE `id` = '" . $user_class->id . "'");
-    $db->execute();
+        echo json_encode(success($fullResponse));
+        exit;
+    } else if ($outcome <= 60) {
+        // 30% Win Cash & EXP
+        $cashWon = mt_rand(1,30) * $userBaStats['level'];
+        $expWon = round((mt_rand(1, 2) / 100) * $user_class->maxexp);
+        $baExpWon = mt_rand(1,15);
 
-    addUserBaStatExp($userBaStats, $baExpWon);
+        $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `exp` = `exp` + " . $expWon . "  WHERE `id` = '" . $user_class->id . "'");
+        $db->execute();
 
-    $fullResponse = $scenario['start'];
-    $fullResponse .= '<br />';
-    $fullResponse .= '<br />';
-    $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
-    $fullResponse .= '<br /><br />';
-    $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & ' . number_format($expWon, 0) . ' EXP!</strong>';
+        addUserBaStatExp($userBaStats, $baExpWon);
 
-    echo json_encode(success($fullResponse));
-    exit;
-} else if ($outcome <= 90) {
-    // 30% Win Cash & Item
-    $cashWon = mt_rand(1,30) * $userBaStats['level'];
-    $baExpWon = mt_rand(1,15);
+        $fullResponse = $scenario['start'];
+        $fullResponse .= '<br />';
+        $fullResponse .= '<br />';
+        $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
+        $fullResponse .= '<br /><br />';
+        $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & ' . number_format($expWon, 0) . ' EXP!</strong>';
 
-    $itemIds = array();
-    $itemIds[50] = 13; // Med Cert 75
-    $itemIds[100] = 14; // Med Cert 100
+        echo json_encode(success($fullResponse));
+        exit;
+    } else if ($outcome <= 90) {
+        // 30% Win Cash & Item
+        $cashWon = mt_rand(1,30) * $userBaStats['level'];
+        $baExpWon = mt_rand(1,15);
 
-    $itemChance = mt_rand(1,100);
-    foreach ($itemIds as $key => $itemId) {
-        if ($itemChance <= $key) {
-            $itemWonId = $itemId;
+        $itemIds = array();
+        $itemIds[50] = 13; // Med Cert 75
+        $itemIds[100] = 14; // Med Cert 100
 
-            $db->query("SELECT `itemname` FROM `items` WHERE id = " . $itemWonId);
-            $db->execute();
-            $itemName = $db->fetch_single();
+        $itemChance = mt_rand(1,100);
+        foreach ($itemIds as $key => $itemId) {
+            if ($itemChance <= $key) {
+                $itemWonId = $itemId;
+
+                $db->query("SELECT `itemname` FROM `items` WHERE id = " . $itemWonId);
+                $db->execute();
+                $itemName = $db->fetch_single();
+            }
         }
+
+        addUserBaStatExp($userBaStats, $baExpWon);
+
+        $fullResponse = $scenario['start'];
+        $fullResponse .= '<br />';
+        $fullResponse .= '<br />';
+        $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
+        $fullResponse .= '<br /><br />';
+        $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & found 1 x ' . $itemName . '!</strong>';
+
+        echo json_encode(success($fullResponse));
+        exit;
+    } else {
+        $fullResponse = $scenario['start'];
+        $fullResponse .= '<br />';
+        $fullResponse .= '<br />';
+        $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
+
+        echo json_encode(success($fullResponse));
+        exit;
     }
 
-    addUserBaStatExp($userBaStats, $baExpWon);
-
-    $fullResponse = $scenario['start'];
-    $fullResponse .= '<br />';
-    $fullResponse .= '<br />';
-    $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
-    $fullResponse .= '<br /><br />';
-    $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & found 1 x ' . $itemName . '!</strong>';
-
-    echo json_encode(success($fullResponse));
-    exit;
-} else {
-    $fullResponse = $scenario['start'];
-    $fullResponse .= '<br />';
-    $fullResponse .= '<br />';
-    $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
-
-    echo json_encode(success($fullResponse));
-    exit;
 }
 
 echo json_encode(success($outcome . ' - Something went wrong'));
