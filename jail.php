@@ -298,7 +298,7 @@ if($user_class->jail > 0){
                 $('.jail-cell-row').remove();
 
                 jailRefreshes = jailRefreshes + 1;
-                if (jailRefreshes == 15) {
+                if (jailRefreshes == 10) {
                     confirm("You are still here aren't you?");
                 }
 
