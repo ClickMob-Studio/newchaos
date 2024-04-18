@@ -301,6 +301,7 @@ if($user_class->jail > 0){
                     jailRefreshes = jailRefreshes + 1;
 
                     if (jailRefreshes > 10) {
+                        console.log(jailRefreshes);
                         confirm('Still here?');
                     }
                 <?php endif; ?>
