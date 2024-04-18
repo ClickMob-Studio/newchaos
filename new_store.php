@@ -675,7 +675,7 @@ include 'header.php';
             <!-- Limited Edition Pack 4 -->
             <div class="vip-package">
                 <h4><font color="silver">Police Badge</font></h4>
-                <img src="/css/images/NewGameImages/badge.png" class="your-class-name" alt="Police Badge">
+                <img src="/css/images/NewGameImages/badge.png" width="100" class="your-class-name" alt="Police Badge">
                 <ul>
                     <li>1 Police Badge</li>
                 </ul>
