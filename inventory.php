@@ -2493,12 +2493,10 @@ function gendivs($row, $type, $sell = null, $subtype = null, $loan = null, $loan
                 break;
         }
     }
-    if($user_class->id == 1)
-        {
             if($loan){
                 $buttonHtml .= '<a  class="button-sm" href="returnitem.php?ret=' . $loanid . '">Return to gang</a>';
             }
-        }
+        
 
     // Append buttons if condition is met
     if (!empty($buttonHtml)) {

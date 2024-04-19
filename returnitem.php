@@ -30,8 +30,8 @@ if (isset($_GET['ret'])) {
         $it = mysql_query("SELECT * FROM items WHERE `id` = ".$toret);
         $tiem = mysql_fetch_assoc($it);
         $itemname = $tiem['itemname'];
-        Send_Event($user_class->id, "Your gang took their $itemname back from you.");
-        Vault_Event($gang_class->id, "$itemname was taken from [-_USERID_-].", $user_class->id);
+        Send_Event($user_class->id, "You sent your gang their $itemname back.");
+        Vault_Event($user_class->gang, "$itemname was given back from [-_USERID_-].", $user_class->id);
         AddToArmory($toret, $user_class->gang);
     } else {
         security($_GET['ret']);
@@ -48,13 +48,15 @@ if (isset($_GET['ret'])) {
         if ($row['quantity'] <= 0)
             diefun("This loan does not exist.");
         $itemname = $row['itemname'];
-        Send_Event($user_class->id, "Your gang took their $itemname back from you.");
-        Vault_Event($user_class->gang, "$itemname was taken from [-_USERID_-].", $user_class->id);
+        Send_Event($user_class->id, "You sent your gang their $itemname back.");
+        Vault_Event($user_class->gang, "$itemname was given back from [-_USERID_-].", $user_class->id);
         Take_Loan($_GET['ret'], $user_class->id);
     
-        echo Message("$itemname was taken from " . formatName($user_class->id) . ".");
+        echo Message("$itemname was given back to your gang.");
         
         AddToArmory($row['itemid'], $user_class->gang);
 
     }
 }
+
+require "footer.php";
