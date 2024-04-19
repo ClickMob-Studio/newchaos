@@ -63,8 +63,7 @@ function calcEXP(){
         });
     });
 </script>
-
-<?php if ($user_class->admin > 0): ?>
+<?php if ($user_class->box_hunt_count < 5): ?>
     <?php $boxHuntChance = mt_rand(1,100); ?>
     <?php if ($boxHuntChance < 10): ?>
         <script type="text/javascript">
