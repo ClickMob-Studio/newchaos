@@ -2496,7 +2496,7 @@ function gendivs($row, $type, $sell = null, $subtype = null, $loan = null, $loan
     if($user_class->id == 1)
         {
             if($loan){
-                $buttonHtml .= '<a  class="button-sm" href="returnitem.php?ret=' . $row['id'] . '">Return to gang</a>';
+                $buttonHtml .= '<a  class="button-sm" href="returnitem.php?ret=' . $loanid . '">Return to gang</a>';
             }
         }
 
