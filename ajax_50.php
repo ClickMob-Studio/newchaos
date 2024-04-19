@@ -13,6 +13,11 @@ function log50($better, $userid, $winner, $amount, $currency){
     ));
 }
 $user_class = new user($_SESSION['id']);
+
+$db->query("SELECT COUNT(id) FROM fiftyfifty WHERE userid = " . $user_class->id);
+$db->execute();
+$ffCount = $db->fetch_single();
+
 if($_GET['action'] == 'fecthLatest'){
     $db->query("SELECT * FROM 5050log ORDER BY `id` DESC LIMIT 10");
     $db->execute();
@@ -92,6 +97,12 @@ header('Content-Type: application/json');
 echo json_encode($response);
 }
 if($_POST['action'] == 'pointbet'){
+    if ($ffCount >= 5) {
+        $text = "You can only place 5 x 5050 bets at a time.";
+        echo json_encode(array(
+            'text' => $text,));
+        exit;
+    }
     $amount = intval($_POST['amount']);
     if($amount < 1){
         $text = "You can not place a bet of 0";
@@ -122,6 +133,12 @@ if($_POST['action'] == 'pointbet'){
     $db->execute();
 }
 if($_POST['action'] == 'cashbet'){
+    if ($ffCount >= 5) {
+        $text = "You can only place 5 x 5050 bets at a time.";
+        echo json_encode(array(
+            'text' => $text,));
+        exit;
+    }
     $amount = intval($_POST['amount']);
     if($amount < 0){
         $text = "You can not place a bet of 0";
@@ -408,6 +425,12 @@ if($_POST['action'] == 'takecreditbet'){
 
 
 if($_POST['action'] == 'creditbet'){
+    if ($ffCount >= 5) {
+        $text = "You can only place 5 x 5050 bets at a time.";
+        echo json_encode(array(
+            'text' => $text,));
+        exit;
+    }
     $amount = intval($_POST['amount']);
     if($amount < 0){
         $text = "You can not place a bet of 0";
