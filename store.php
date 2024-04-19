@@ -427,6 +427,26 @@ if ($_GET['buy'] == "freebie") {
         }
     }
 
+    if ($_GET['buy'] == "PB1") {
+        if ($user_class->credits >= 100) {
+            $newcredit = $user_class->credits -= 100;
+            $db->query("UPDATE grpgusers SET credits = credits - 100 WHERE id = ?");
+            $db->execute(array(
+                $user_class->id
+            ));
+            Give_Item(163, $user_class->id,15);
+            Send_Event($user_class->id, "You have been credited with your 1 Police Badge. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
+            $db->execute(array());
+
+            Send_Event(1, $user_class->formattedname ." bought Police Badge");
+            Send_Event(2, $user_class->formattedname ." bought Police Badge");
+
+            echo Message("You spent 100 GOLD for a 1 Police Badge.");
+        } else {
+            echo Message("You don't have enough Gold. You can buy some at the Upgrade Store.");
+        }
+    }
+
     if ($_GET['buy'] == "imgnameyes") {
         if ($user_class->credits >= 90) {
             $newcredit = $user_class->credits - 90;
@@ -703,6 +723,16 @@ document.addEventListener("DOMContentLoaded", function() {
             <img src="/css/images/NewGameImages/vipdays.png" class="your-class-name" alt="Attack Protection">
            
             <h4>Purchase now for only<br><a href="store.php?buy=vip30"><button class="gold-button">80 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+        </div>
+
+        <!-- Limited Edition Pack 4 -->
+        <div class="vip-package">
+            <h4><font color="silver">Police Badge</font></h4>
+            <img src="/css/images/NewGameImages/badge.png" width="100" class="your-class-name" alt="Police Badge">
+            <ul>
+                <li>1 Police Badge</li>
+            </ul>
+            <h4>Purchase now for only<br><a href="store.php?buy=PB1"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"></img>100</button></a></h4>
         </div>
 
     </div>
