@@ -2501,7 +2501,7 @@ function gendivs($row, $type, $sell = null, $subtype = null, $loan = null)
         if($user_class->id == 1)
         {
             if($loan){
-                $$type .= '<a href="returnitem.php?ret=' . $row['id'] . '">Return to gang</a>';
+                $$type .= '<a  class="button-sm" href="returnitem.php?ret=' . $row['id'] . '">Return to gang</a>';
             }
         }
     // Add other buttons based on type and loan condition
