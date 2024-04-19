@@ -18,9 +18,9 @@ if (isset($_GET['term'])) {
     $term = mysql_real_escape_string($_GET['term']);
 
     if (is_numeric($term)) {
-        $users = mysql_query("SELECT * FROM grpgusers WHERE id ='$term'");
+        $users = mysql_query("SELECT id,username FROM grpgusers WHERE id ='$term'");
     } else {
-        $users = mysql_query("SELECT * FROM grpgusers WHERE username LIKE '%$term%'");
+        $users = mysql_query("SELECT id,username FROM grpgusers WHERE username LIKE '%$term%'");
     }
 
     $userData = array();
