@@ -49,7 +49,7 @@ if (isset($_GET['ret'])) {
             diefun("This loan does not exist.");
         $itemname = $row['itemname'];
         Send_Event($user_class->id, "Your gang took their $itemname back from you.");
-        Vault_Event($gang_class->id, "$itemname was taken from [-_USERID_-].", $user_class->id);
+        Vault_Event($user_class->gang, "$itemname was taken from [-_USERID_-].", $user_class->id);
         Take_Loan($_GET['ret'], $user_class->id);
     
         echo Message("$itemname was taken from " . formatName($user_class->id) . ".");
