@@ -692,6 +692,16 @@ document.addEventListener("DOMContentLoaded", function() {
             <h4>Purchase now for only<br><a href="store.php?buy=AP5"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"></img>100</button></a></h4>
         </div>
 
+        <!-- Limited Edition Pack 4 -->
+        <div class="vip-package">
+            <h4><font color="silver">Police Badge</font></h4>
+            <img src="/css/images/NewGameImages/badge.png" width="100" class="your-class-name" alt="Police Badge">
+            <ul>
+                <li>1 Police Badge</li>
+            </ul>
+            <h4>Purchase now for only<br><a href="store.php?buy=PB1"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"></img>100</button></a></h4>
+        </div>
+
     </div>
     <br>
 </div>
@@ -723,16 +733,6 @@ document.addEventListener("DOMContentLoaded", function() {
             <img src="/css/images/NewGameImages/vipdays.png" class="your-class-name" alt="Attack Protection">
            
             <h4>Purchase now for only<br><a href="store.php?buy=vip30"><button class="gold-button">80 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
-        </div>
-
-        <!-- Limited Edition Pack 4 -->
-        <div class="vip-package">
-            <h4><font color="silver">Police Badge</font></h4>
-            <img src="/css/images/NewGameImages/badge.png" width="100" class="your-class-name" alt="Police Badge">
-            <ul>
-                <li>1 Police Badge</li>
-            </ul>
-            <h4>Purchase now for only<br><a href="store.php?buy=PB1"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"></img>100</button></a></h4>
         </div>
 
     </div>
