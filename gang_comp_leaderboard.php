@@ -1,4 +1,5 @@
 <?php
+exit;
 include 'header.php';
 $db->query("SELECT * FROM `gang_comp_leaderboard` ORDER BY `daily_missions_complete` DESC");
 $db->execute();
