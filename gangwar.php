@@ -57,10 +57,10 @@ if ($user_class->gang != 0) {
                 if ($warnumber['bet'] <= $gang->moneyvault) {
                     mysql_query("UPDATE gangwars SET accepted = 1, timesent = unix_timestamp(), timeending = unix_timestamp() + 432000 WHERE warid = {$_GET['accept']} AND gang2 = $user_class->gang");
                     mysql_query("DELETE FROM gangwars WHERE accepted = 0 AND (gang1 = $user_class->gang OR gang2 = $user_class->gang) AND warid != {$_GET['accept']}");
-                    $result = mysql_query("SELECT * FROM grpgusers WHERE gang = $user_class->gang");
+                    $result = mysql_query("SELECT `id` FROM grpgusers WHERE gang = $user_class->gang");
                     while ($line = mysql_fetch_array($result))
                         Send_Event($line['id'], formatName($user_class->id) . " has accepted a gang war invitation. Your gang is now at war with [-_GANGID_-] for 5 days!", $warnumber['gang1']);
-                    $result = mysql_query("SELECT * FROM grpgusers WHERE gang = {$warnumber['gang1']}");
+                    $result = mysql_query("SELECT `id` FROM grpgusers WHERE gang = {$warnumber['gang1']}");
                     while ($line = mysql_fetch_array($result))
                         Send_Event($line['id'], formatName($user_class->id) . " sent a gang war invitation to [-_GANGID_-] and they accepted! You are now at war with them for 5 days!", $user_class->gang);
                     $gang->moneyvault -= $warnumber['bet'];

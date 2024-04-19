@@ -63,7 +63,7 @@ print "
         <th>Last Active</th>
     </tr>
 ";
-$result = mysql_query("SELECT * FROM grpgusers WHERE gang = $user_class->gang ORDER BY level DESC");
+$result = mysql_query("SELECT `id` FROM grpgusers WHERE gang = $user_class->gang ORDER BY level DESC");
 while ($line = mysql_fetch_array($result)) {
     $gang_member = new User($line['id']);
     print "

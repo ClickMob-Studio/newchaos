@@ -22,7 +22,7 @@ if ($user_class->gang == 0) {
         <th>Online</th>
     </tr>
     <?php
-    $result = mysql_query("SELECT * FROM grpgusers WHERE gang = $user_class->gang ORDER BY level DESC");
+    $result = mysql_query("SELECT `id` FROM grpgusers WHERE gang = $user_class->gang ORDER BY level DESC");
     $rank = 0;
     while ($line = mysql_fetch_array($result)) {
         $gang_member = new User($line['id']);
