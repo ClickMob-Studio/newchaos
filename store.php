@@ -243,15 +243,15 @@ if (isset($_GET['buy'])) {
         $cost = 3250;
         if ($user_class->credits >= $cost) {
             $newcredit = $user_class->credits -= $cost;
-            $db->query("UPDATE grpgusers SET points = points + 750000, credits = credits - ? WHERE id = ?");
+            $db->query("UPDATE grpgusers SET points = points + 900000, credits = credits - ? WHERE id = ?");
             $db->execute(array(
                 $cost,
                 $user_class->id
             ));
-            echo Message("You spent " . $cost . " credits for 750000 Points.");
+            echo Message("You spent " . $cost . " credits for 900000 Points.");
 
-            Send_Event(2, $user_class->formattedname ." bought 75000 points");
-            Send_Event(1, $user_class->formattedname ." bought 75000 points");
+            Send_Event(2, $user_class->formattedname ." bought 900000 points");
+            Send_Event(1, $user_class->formattedname ." bought 900000 points");
             
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
@@ -638,9 +638,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     <a class="cta" href="?buy=points_six">[Buy Now]</a>
                 </div>
             </div>
-            <div class="new-shop-item" data-tooltip="750,000 points added to your account">
+            <div class="new-shop-item" data-tooltip="900,000 points added to your account">
                 <div class="new-shop-item--img">
-                    <h5>750,000 Points</h5>
+                    <h5>900,000 Points</h5>
                 </div>
                 <div class="new-shop-item--price">
                     <img src="css/images/coin.png">
