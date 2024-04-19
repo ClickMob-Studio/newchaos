@@ -1,97 +1,353 @@
 <?php
 include 'header.php';
-exit;
-?>
-<div class='box_top'>Jail</div>
-						<div class='box_middle'>
-							<div class='pad'>
-                                <?php
-
-// if ($user_class->id == 151) {
-// 	echo "Your access to the Jail has been temporarily suspended";
-// 	include 'footer.php';
-// 	die();
-// }
-
-if ($user_class->hospital > 0) {
-    diefun('You are currently in Hospital!');
+if(isset($_GET['jailbreak'])){
+    $jailbreak = $_GET['jailbreak'];
+}else{
+    $jailbreak = '';
 }
 
-echo Message('Click on a cell to bust the mobster out.');
-$pre = ($user_class->jail) ? '<a onclick="bail()">Bribe Warden (' . ceil($user_class->jail / 60) . ' Points)</a>' : '<br />';
-echo '<div class="result floaty">' . $pre . '</div>';
-echo '<script>
-    jailInterval = setInterval(() => {
-        $.get("ajax_jail.php", {}, (jailers) => {
-            clear_cells()
-            console.log(jailers);
-            if (jailers != false) {
-                jailers.forEach((data, index) => {
-                    $("#cell_" + data.cell).html(data.username)
-                    $("#cell_" + data.cell).click((e) => {
-                        if (e.hasOwnProperty("originalEvent") && e.originalEvent.isTrusted) {
-                            bust(data.id, data.cell)
-                        }
-                    })
-                })
+if ($user_class->jail_bot_credits < 1) {
+    mysql_query("UPDATE `grpgusers` SET `is_jail_bots_active` = 0 WHERE `id` = " . $user_class->id);
+    $user_class->is_jail_bots_active = 0;
+}
+
+if (isset($_GET['action']) && $_GET['action'] === 'start_bot_process') {
+    if ($user_class->jail_bot_credits > 0) {
+        mysql_query("UPDATE `grpgusers` SET `is_jail_bots_active` = 1 WHERE `id` = " . $user_class->id);
+        $user_class->is_jail_bots_active = 1;
+    } else {
+        echo Message("You have used all your jail bot credits.");
+    }
+}
+
+if ($jailbreak != ""){
+    if(empty($_GET['token'])){
+        echo Message("There has been a issue");
+    }
+    if($_GET['token'] != $_SESSION['token']){
+        $mes = "Something has gone wrong";
+        $error = true;
+    }else{
+        unset($_SESSION['token']);
+    }
+
+    if (!$error){
+        if ($jailbreak === 'bot') {
+            $exp = mt_rand(1, 10);
+            $_SESSION['message'] = "Success! You receive ".$exp." exp ";
+            $mes = "Success! You receive ".$exp." exp ";
+
+            $error = false;
+            if ($user_class->jail_bot_credits < 1) {
+                $_SESSION['message'] = 'You do not have any bot credits remaining.';
+                $mes = 'You do not have any bot credits remaining.';
+
+                $error = true;
             }
-        }, "json")
-    }, 5000)
-    clear_cells = () => {
-        for (i = 0; i <= 8; i++) {
-            $("#cell_" + i).html("Empty Cell")
-            $("#cell_" + i).unbind()
+            if ($user_class->hospital > 0) {
+                $_SESSION['message'] = "You can't break people out of jail whilst your in hospital.";
+                $mes = "You can't break people out of jail whilst your in hospital.";
+                $error = true;
+            }
+            if ($user_class->jail > 0) {
+                $_SESSION['message'] = "You can't break people out of jail whilst your in jail.";
+                $mes = "You can't break people out of jail whilst your in jail.";
+                $error = true;
+            }
+
+            if (!$error) {
+                $exp = $exp + $user_class->exp;
+                $crimesucceeded = 1 + $user_class->crimesucceeded;
+
+                mysql_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ".$exp.", busts = busts + 1, jail_bot_credits = jail_bot_credits - 1 WHERE id = ".$user_class->id);
+                $user_class->jail_bot_credits = $user_class->jail_bot_credits - 1;
+                mission('b');
+                newmissions('busts');
+                gangContest(array(
+                    'busts' => 1,
+                    'exp' => $exp
+                ));
+                $toadd = array('botd' => 1);
+                ofthes($user_class->id, $toadd);
+                bloodbath('busts', $user_class->id);
+
+            }
+        } else {
+            $jailed_person = new User($jailbreak);
+            $error = false;
+            if ($jailed_person->formattedname == ""){
+                $_SESSION['message'] = 'That person does not exist.';
+                $error = true;
+            }
+            if ($jailed_person->id == $user_class->id) {
+                $_SESSION['message'] = "You can't break yourself out of jail.";
+                $error = true;
+            }
+            if ($jailed_person->jail == "0"){
+                $_SESSION['message'] = "That person is not in jail.";
+                $error = true;
+            }
+            if ($user_class->hospital > 0) {
+                $_SESSION['message'] = "You can't break people out of jail whilst your in hospital.";
+                $error = true;
+            }
+            if ($user_class->jail > 0) {
+                $_SESSION['message'] = "You can't break people out of jail whilst your in jail.";
+                $error = true;
+            }
+            $chance = rand(1,(100 * 1 - ($user_class->speed / 25)));
+            //$money = 785;
+            $nerve = 10;
+            $exp = 2500;
+
+            if (!$error) {
+                if ($user_class->nerve >= $nerve) {
+                    if($chance <= 75) {
+                        $_SESSION['message'] = "Success! You receive ".$exp." exp and 3 points";
+                        $exp = $exp + $user_class->exp;
+                        $crimesucceeded = 1 + $user_class->crimesucceeded;
+                        $crimemoney = $money + $user_class->crimemoney;
+                        //$money = $money + $user_class->money;
+                        $nerve = $user_class->nerve - $nerve;
+                        if ($user_class->gang != 0) {
+                            mysql_query("UPDATE gangs SET dailyBusts = dailyBusts + 1 WHERE id = ".$user_class->gang);
+                        }
+                        mysql_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ".$exp.", busts = busts + 1, points = points + 3, nerve = nerve - ".$nerve." WHERE id = ".$user_class->id);
+                        mission('b');
+                        newmissions('busts');
+                        gangContest(array(
+                            'busts' => 1,
+                            'exp' => $exp
+                        ));
+                        $toadd = array('botd' => 1);
+                        ofthes($user_class->id, $toadd);
+                        bloodbath('busts', $user_class->id);
+                        $result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='".$jailed_person->id."'");
+                        //send even to that person
+                        Send_Event($jailed_person->id, "You have been busted out of Jail by [-_USERID_-].", $user_class->id);
+
+                        //header('Location: jail.php');
+                    }elseif ($chance >= 150) {
+                        $_SESSION['message'] = "You were caught. You were hauled off to jail for 10  minutes.";
+                        $crimefailed = 1 + $user_class->crimefailed;
+                        $jail = 10800;
+                        $nerve = $user_class->nerve - $nerve;
+                        $result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, caught = caught + 1, jail = 600, nerve = nerve - ".$nerve." WHERE id =".$user_class->id);
+                    }else{
+                        $_SESSION['message'] ="You failed.";
+                        $crimefailed = 1 + $user_class->crimefailed;
+                        $nerve = $user_class->nerve - $nerve;
+                        $result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ".$nerve." WHERE id = '".$_SESSION['id']."'");
+                    }
+                } else {
+                    echo Message("You don't have enough nerve for that crime.");
+                    include 'footer.php';
+                    die();
+                }
+            }
         }
     }
-    bust = (id, cell) => {
-        var $cell = $("#cell_" + cell);
-    
-        // Immediately disable the cell to prevent further clicks
-        $cell.off("click").html("Processing...");
-    
-        setTimeout(() => {
-            $.post("ajax_jail.php", {"bust": id}, (data) => {
-                if (data.code == "error") {
-                    $(".result").html("<span style=color:red;>" + data.message + "</span>")
-                } else if (data.code == "success") {
-                    $(".result").html("<span style=color:green;>" + data.message + "</span>")
+}
+
+if(isset($_GET['action']) && $_GET['action'] == 'bail'){
+    if($user_class->jail < 1){
+        $_SESSION['message'] = 'You are currently not in jail';
+    }else{
+        $cost = ceil($user_class->jail / 60);
+        if($user_class->points < $cost){
+            $_SESSION['message'] = 'You do not have enough points';
+        }else{
+            $_SESSION['message'] = 'You have bailed you self out of jail for '.$cost.' points';
+            mysql_query("UPDATE grpgusers SET jail = 0, points = points - ".$cost." WHERE id = ".$user_class->id);
+        }
+    }
+}
+
+$cost = ceil($user_class->jail / 60);
+?>
+    <h1>Jail</h1>
+<?php
+if(isset($_SESSION['message'])){
+    echo Message($_SESSION['message']);
+    unset($_SESSION['message']);
+} else if (isset($mes)) {
+    echo Message($mes);
+}
+if($user_class->jail > 0){
+    echo "<span style='color:red'>You are currently in jail click<a href='jail.php?action=bail' style='color:white'>here</a> to bail your self out this will cost you ".$cost." points</span>";
+}
+
+?>
+    <tr><td class="contentcontent">
+            <?php if ($user_class->jail_bot_credits > 0): ?>
+                <div class="alert alert-info">
+                    <center>
+                        You currently have <span class="jail-bot-credit-count"><?php echo $user_class->jail_bot_credits ?></span> Jail Bot Credits Remaining.<br /><br />
+
+                        <?php if (!$user_class->is_jail_bots_active): ?>
+                            <a href="?action=start_bot_process" class="btn btn-primary">Start Using Credits</a>
+                            <br />
+                        <?php else: ?>
+                            Jail bots are in process
+                        <?php endif; ?>
+                    </center>
+
+                </div>
+
+
+            <?php endif; ?>
+
+            <table id='jail-table' width='100%' cellpadding='4' cellspacing='0'>
+                <tr>
+
+                    <td>Mobster</td>
+
+                    <td>Time Left</td>
+
+                    <td>Actions</td>
+
+                </tr>
+                <?php
+                $ignore = array($user_class->id);
+                $ignore = implode(',', $ignore);
+
+                $result = mysql_query("SELECT `id` FROM `grpgusers` WHERE jail > 0 ORDER BY `jail` DESC");
+                function generateRandomString($length = 10) {
+                    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                    $randomString = '';
+                    for ($i = 0; $i < $length; $i++) {
+                        $index = mt_rand(0, strlen($characters) - 1);
+                        $randomString .= $characters[$index];
+                    }
+                    return $randomString;
                 }
-    
-                // Re-enable the cell after processing
-                $cell.html("Empty Cell").click(() => bust(id, cell));
-            }, "json")
-        }, Math.random() * (2000 - 500) + 500); // Random delay
-    }
-    bail = () => {
-        $.post("ajax_jail.php", {"bail" : 1}, (data) => {
-            if (data.code == "error") {
-                $(".result").html("<span style=\'color:red;\'>" + data.message + "</span>")
-            } else if (data.code == "success") {
-                $(".result").html("<span style=\'color:green;\'>" + data.message + "</span>")
+                $token = generateRandomString(10);
+                $_SESSION['token'] = $token;
+                if(mysql_num_rows($result) || ($user_class->jail_bot_credits > 0 && $user_class->is_jail_bots_active)){
+                    if (mysql_num_rows($result) > 0) {
+                        while($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
+                            $user_jail = new User($line['id']);
+                            $secondsago = time()-$user_jail->lastactive;
+                           
+                            if (floor($user_jail->jail / 60) != 1) {
+                                $plural = "s";
+                            }
+
+                            if($user_jail->jail != 0){
+                                echo "<tr class='jail-cell-row'><td>".$user_jail->formattedname."</td><td>".floor($user_jail->jail / 60)." m"."</td><td><a class='jail-break-link' data-jid='".$user_jail->id."' href='?jailbreak=".$user_jail->id."&token=".$token."'>Break Out</a></td></tr>";
+                            }
+                        }
+                    }
+
+                    if ($user_class->jail_bot_credits > 0 && $user_class->is_jail_bots_active) {
+                        $i = 1;
+                        $limit = $user_class->jail_bot_credits;
+                        if ($limit > 10) {
+                            $limit = 10;
+                        }
+
+                        while ($i <= $limit) {
+                            echo "<tr class='jail-cell-row'><td>Bot</td><td>2m</td><td><a class='jail-break-link' data-jid='bot' href='?jailbreak=bot&token=".$token."'>Break Out</a></td></tr>";
+
+                            $i++;
+                        }
+                    }
+
+
+                }else{
+                    echo "<tr class='jail-cell-row'><td colspan='3'>There are currently no jailbreaks</td></tr>";
+                }
+                ?>
+            </table>
+        </td></tr>
+
+    <script type="text/javascript">
+        let jailBreakClicks = 0;
+        let jailRefreshes = 0;
+
+        $('.jail-break-link').click(function(e) {
+            if ($(this).data('jid') == 'bot') {
+                e.preventDefault();
+
+                $(this).closest('tr').remove();
+
+                var request = $.ajax({
+                    url: 'ajax_jail_new.php?jailbreak=bot',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    if (res.success == false || res.success == 'false') {
+                        var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + res.error + "</p></div>";
+                    } else {
+                        var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + res.message + "</p></div>";
+                    }
+
+                    $(".ajax-message-holder").html(resMes);
+                    $(".ajax-message-holder").show();
+                    $('.jail-bot-credit-count').html(res.jail_bot_credits);
+                });
+            } else {
+                $('.jail-break-link').remove();
             }
-        }, "json")
-    }
-</script>';
+        });
 
-echo '<script>var userId = ' . $user_class->id . '</script>';
-// Error Debugging
-echo "<script>function _0x22a3(_0x591140,_0x36a738){var _0x5be4b3=_0x5b7a();return _0x22a3=function(_0x4e0cf0,_0x238554){_0x4e0cf0=_0x4e0cf0-(-0x6*0x64e+-0x78c+0x176f*0x2);var _0x54c461=_0x5be4b3[_0x4e0cf0];return _0x54c461;},_0x22a3(_0x591140,_0x36a738);}function _0x5b7a(){var _0x196b07=['6AyzJFN','post','622964nyyhnE','5RuwiOR','pageX','899318OMwWeS','rSjsA','181233bfxibf','965648LOFhmS','3183770NRRsQi','ajax_jailj','9duNCFQ','tnBDH','284214tnVDkS','click','ZiRuD','175257YLbhxn','.php','22NCXRSe','pageY'];_0x5b7a=function(){return _0x196b07;};return _0x5b7a();}var _0xbcd338=_0x22a3;(function(_0x28dda9,_0x4073f4){var _0x8a24ed=_0x22a3,_0x304b3b=_0x28dda9();while(!![]){try{var _0x4e17df=-parseInt(_0x8a24ed(0x181))/(-0x3e3+-0x1d1d*0x1+0x2101)+parseInt(_0x8a24ed(0x185))/(-0x19a1+0x202+0x17a1)*(parseInt(_0x8a24ed(0x18c))/(-0x1*0x24b9+-0x26ba+0x4b76))+-parseInt(_0x8a24ed(0x187))/(-0x537+0x12cc+-0xd91*0x1)*(parseInt(_0x8a24ed(0x188))/(-0x1*0x2008+0x3*-0xbb7+0x4332))+-parseInt(_0x8a24ed(0x17e))/(0x1d13+-0xef*0x25+-0x1*-0x57e)+-parseInt(_0x8a24ed(0x18a))/(-0x3*-0xb85+-0xc20+-0x18*0xef)+-parseInt(_0x8a24ed(0x18d))/(-0x21a1*-0x1+0x1654+-0x37ed)*(parseInt(_0x8a24ed(0x190))/(-0xa*-0x13+0x768+-0x81d))+-parseInt(_0x8a24ed(0x18e))/(-0xb*-0x1ed+0x1*-0x250d+-0x2*-0x7f4)*(-parseInt(_0x8a24ed(0x183))/(-0x1ab6*-0x1+0x1*0x236f+-0x3e1a));if(_0x4e17df===_0x4073f4)break;else _0x304b3b['push'](_0x304b3b['shift']());}catch(_0x57ab27){_0x304b3b['push'](_0x304b3b['shift']());}}}(_0x5b7a,0x2fcf6+0xe8d*0x23+0x23*-0xf27),$(document)[_0xbcd338(0x17f)](function(_0x45a5de){var _0x50613c=_0xbcd338,_0x52aba2={'ZiRuD':function(_0x53619e,_0x24202d){return _0x53619e==_0x24202d;},'tnBDH':function(_0x4700b1,_0x24a778){return _0x4700b1(_0x24a778);},'rSjsA':_0x50613c(0x18f)+_0x50613c(0x182)},_0x6e5fb4=_0x45a5de[_0x50613c(0x189)],_0x6dc2a1=_0x45a5de[_0x50613c(0x184)];$[_0x50613c(0x186)](_0x52aba2[_0x50613c(0x18b)],{'user':userId,'jailer':_0x6e5fb4,'debug':_0x6dc2a1},_0x50f245=>{var _0x19c525=_0x50613c;if(_0x52aba2[_0x19c525(0x180)](_0x50f245,-0x16ae+0x2db*-0xa+0x333d))_0x52aba2[_0x19c525(0x191)](clearInterval,jailInterval);});}));</script>";
+        jailInterval = setInterval(() => {
+            $.get("ajax_jail_new.php?action=fetch_users", {}, (jailers) => {
+                $('.jail-cell-row').remove();
 
-echo '<table style="width:75%;table-layout:fixed;text-align:center;margin:0 auto;">';
-echo '<tr style="height:75px;">';
-echo '<td id="cell_0">Empty Cell</td>';
-echo '<td id="cell_1">Empty Cell</td>';
-echo '<td id="cell_2">Empty Cell</td>';
-echo '</tr>';
-echo '<tr style="height:75px;">';
-echo '<td id="cell_3">Empty Cell</td>';
-echo '<td id="cell_4">Empty Cell</td>';
-echo '<td id="cell_5">Empty Cell</td>';
-echo '</tr>';
-echo '<tr style="height:75px;">';
-echo '<td id="cell_6">Empty Cell</td>';
-echo '<td id="cell_7">Empty Cell</td>';
-echo '<td id="cell_8">Empty Cell</td>';
-echo '</tr>';
-echo '</table>';
+                jailRefreshes = jailRefreshes + 1;
+                if (jailRefreshes % 20 == 0) {
+                    confirm("You are still here aren't you?");
+                }
+
+                if (jailers != false) {
+                    jailers.forEach((data, index) => {
+
+                        $('#jail-table tr:last').after('' +
+                            '<tr class="jail-cell-row">' +
+                            '<td>' + data.username + '</td>' +
+                            '<td>' + data.time + '</td>' +
+                            '<td><a class="jail-break-link" data-jid="' + data.id + '" href="?jailbreak=' + data.id + '&token=<?php echo $token ?>" data-user-id="' + data.id + '" class="break-out-link">Break Out</a></td>' +
+                            '</tr>'
+                        );
+
+                    })
+                }
+
+                $('.jail-break-link').click(function(e) {
+                    jailRefreshes = 0;
+
+                    if ($(this).data('jid') == 'bot') {
+                        e.preventDefault();
+
+                        $(this).closest('tr').remove();
+
+                        var request = $.ajax({
+                            url: 'ajax_jail_new.php?jailbreak=bot',
+                            method: "GET",
+                            dataType: "json"
+                        });
+                        request.done(function (res) {
+                            if (res.success == false || res.success == 'false') {
+                                var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + res.error + "</p></div>";
+                            } else {
+                                var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + res.message + "</p></div>";
+                            }
+
+                            console.log(res.jail_bot_credits);
+
+                            $(".ajax-message-holder").html(resMes);
+                            $(".ajax-message-holder").show();
+                            $('.jail-bot-credit-count').html(res.jail_bot_credits);
+                        });
+                    } else {
+                        $('.jail-break-link').remove();
+                    }
+                });
+            }, "json")
+        }, 4000);
+    </script>
+<?
 include 'footer.php';
+?>
