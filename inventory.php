@@ -81,14 +81,14 @@ if (isset($_POST['remove_from_cabinet'])) {
 
 if (isset($_GET['exchangetoken'])) {
     if ($user_class->donate_token > 0) {
-        $db->query("UPDATE grpgusers SET donate_token = donate_token - 1, points = points + 1000 WHERE id = ?");
+        $db->query("UPDATE grpgusers SET donate_token = donate_token - 1, points = points + 15000 WHERE id = ?");
         $db->execute(
             array(
                 $user_class->id,
             )
         );
-        $message = "You have exchanged a " . item_popup('Donation Boost Token', 156) . " for 1,000 Points";
-        Send_Event($user_class->id, "You have exchanged a Donation Boost Token for 1,000 Points.", $user_class->id);
+        $message = "You have exchanged a " . item_popup('Donation Boost Token', 156) . " for 15,000 Points";
+        Send_Event($user_class->id, "You have exchanged a Donation Boost Token for 15,000 Points.", $user_class->id);
         diefun($message);
     } else {
         diefun('Sorry you do not have any tokens to exchange');
@@ -2418,7 +2418,7 @@ if ($user_class->donate_token > 0) {
     echo image_popup('css/newgame/items/donate_boost.png', 156) . '<br/>';
     echo '<span class="text-14">x' . $user_class->donate_token . '</span><br/>';
     echo '<a class="text-14 text-yellow" href="store.php">Boost Donation</a><br/><br/>';
-    echo '<a class="text-14 text-yellow" href="inventory.php?exchangetoken">Exchange x1 for 1,000 Points</a>
+    echo '<a class="text-14 text-yellow" href="inventory.php?exchangetoken">Exchange x1 for 15,000 Points</a>
     </div>';
 }
 echo '</div>';
