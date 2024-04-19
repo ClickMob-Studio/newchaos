@@ -66,7 +66,7 @@ function calcEXP(){
 
 <?php if ($user_class->admin > 0): ?>
     <?php $boxHuntChance = mt_rand(1,100); ?>
-    <?php if ($boxHuntChance < 99): ?>
+    <?php if ($boxHuntChance < 10): ?>
         <script type="text/javascript">
             $(document).ready(function() {
                 var xBoxPosi = Math.floor(Math.random()*1000);
