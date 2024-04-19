@@ -2445,7 +2445,7 @@ foreach ($master as $header => $var)
 include 'footer.php';
 function gendivs($row, $type, $sell = null, $subtype = null, $loan = null, $loanid = null)
 {
-    global $$type;
+    global $$type, $user_class;
     $$type .= '<div class="flex-container" style="display:inline-block; padding:5px;">';
     $$type .= '<span class="flexele" style="flex-basis:25%;margin-bottom:12px;margin-top:12px;">';
     $$type .= image_popup($row['image'], $row['id']);
