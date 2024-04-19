@@ -8,11 +8,11 @@ if($user_class->admin < 1 ){
 exit();
 }
 
-$total['cash']= 0;
-$total['Respected'] = 0;
-$total['banked'] = 0;
-$total['banks'] = 0;
-$total['attacks'] = 0;
+$cash= 0;
+$respected = 0;
+$banked = 0;
+$banks = 0;
+$attacks = 0;
 $total['crimes'] = 0;
 $total['crimef'] = 0;
 $total['gangs'] = 0;
@@ -35,17 +35,17 @@ $gangs = mysql_fetch_array($query1);
 $total['tgang'] = $gangs['name'];
 $totalmobsters = mysql_num_rows($result);
 while ($l = mysql_fetch_array($result)) {
-	$total['cash'] = $total['cash']+$l['money'];
+	$cash = $cash+$l['money'];
 	$total['bank'] = $total['bank']+$l['bank'];
-	$total['attacks'] = $total['attacks']+$l['battlewon'];
+	$attacks = $attacks+$l['battlewon'];
 	$total['crimes'] = $total['crimes']+$l['crimesucceeded'];
 	$total['crimef'] = $total['crimef']+$l['crimefailed'];
 	$total['points'] = $total['points']+$l['points'];
 	if ($l['rmdays'] > 0) {
-		$total['Respected']++;
+		$respected++;
 	}
 	if ($l['whichbank'] == 1) {
-		$total['banks']++;
+		$banks++;
 	}
 }
 $total['apoints'] = $total['points'] / $totalmobsters;
@@ -60,19 +60,19 @@ print"<tr><td class='contenthead'>World Stats</td></tr>
 	<td class='textl' width='15%'>Mobsters:</td>
 	<td class='textr' width='35%'> $totalmobsters </td>
 	<td class='textl'>Respected Mobsters:</td>
-	<td class='textr'> {$total['Respected']} </td>
+	<td class='textr'> {$respected} </td>
 </tr>
 <tr>
 	<td class='textl' width='15%'>Total Money:</td>
-	<td class='textr' width='35%'> \${$total['cash']} </td>
+	<td class='textr' width='35%'> \${$cash} </td>
 	<td class='textl'>Total Attacks:</td>
-	<td class='textr'> {$total['attacks']} </td>
+	<td class='textr'> {$attacks} </td>
 </tr>
 <tr>
 	<td class='textl'>Total Banked:</td>
 	<td class='textr'> \${$total['bank']} </td>
 	<td class='textl' width='15%'>Total Banks:</td>
-	<td class='textr' width='35%'> {$total['banks']} </td>
+	<td class='textr' width='35%'> {$banks} </td>
 </tr>
 <tr>
 	<td class='textl'>Successful Crimes:</td>
