@@ -10,7 +10,7 @@ include 'header.php';
 macroTokenCheck($user_class);
 
 
-if ($user_class->box_hunt_count <= 5) {
+if ($user_class->box_hunt_count < 5) {
     Give_Item(251, $user_class->id, 1);
     mysql_query("UPDATE grpgusers SET box_hunt_count = box_hunt_count + 1 WHERE id = " . $user_class->id);
 
