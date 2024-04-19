@@ -211,7 +211,7 @@ if($user_class->jail > 0){
                 $ignore = array($user_class->id);
                 $ignore = implode(',', $ignore);
 
-                $result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `jail` DESC");
+                $result = mysql_query("SELECT id FROM `grpgusers` ORDER BY `jail` WHERE jail > 0 DESC");
                 function generateRandomString($length = 10) {
                     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                     $randomString = '';
@@ -226,8 +226,9 @@ if($user_class->jail > 0){
                 if(mysql_num_rows($result) || ($user_class->jail_bot_credits > 0 && $user_class->is_jail_bots_active)){
                     if (mysql_num_rows($result) > 0) {
                         while($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
-                            $secondsago = time()-$line['lastactive'];
                             $user_jail = new User($line['id']);
+                            $secondsago = time()-$user_jail->lastactive;
+                           
                             if (floor($user_jail->jail / 60) != 1) {
                                 $plural = "s";
                             }
