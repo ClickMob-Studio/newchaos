@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-
+exit;
 //$db->query("SELECT * FROM missions WHERE timestamp > 1713409200 AND completed = 'successful'");
 //$db->execute();
 //$rows = $db->fetch_row();
