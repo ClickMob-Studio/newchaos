@@ -1,0 +1,106 @@
+<?php 
+require "header.php";
+if($user_class->admin < 1 ){
+exit();
+}
+
+$total['cash']= 0;
+$total['Respected'] = 0;
+$total['banked'] = 0;
+$total['banks'] = 0;
+$total['attacks'] = 0;
+$total['crimes'] = 0;
+$total['crimef'] = 0;
+$total['gangs'] = 0;
+$total['tgang'] = "";
+$total['points'] = 1;
+$total['events'] = 0;
+$total['pms'] = 0;
+$total['items'] = 0;
+$result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `id` ASC");
+$query1 = mysql_query("SELECT * FROM `gangs` ORDER BY `level` DESC LIMIT 1");
+$query2 = mysql_query("SELECT * FROM `gangs` ORDER BY `level`");
+$events = mysql_query("SELECT `id` FROM `events`");
+$pms = mysql_query("SELECT `id` FROM `pms`");
+$items = mysql_query("SELECT `id` FROM `items`");
+$total['items'] = mysql_num_rows($items);
+$total['events'] = mysql_num_rows($events);
+$total['pms'] = mysql_num_rows($pms);
+$total['gangs'] = mysql_num_rows($query2);
+$gangs = mysql_fetch_array($query1);
+$total['tgang'] = $gangs['name'];
+$totalmobsters = mysql_num_rows($result);
+while ($l = mysql_fetch_array($result)) {
+	$total['cash'] = $total['cash']+$l['money'];
+	$total['bank'] = $total['bank']+$l['bank'];
+	$total['attacks'] = $total['attacks']+$l['battlewon'];
+	$total['crimes'] = $total['crimes']+$l['crimesucceeded'];
+	$total['crimef'] = $total['crimef']+$l['crimefailed'];
+	$total['points'] = $total['points']+$l['points'];
+	if ($l['rmdays'] > 0) {
+		$total['Respected']++;
+	}
+	if ($l['whichbank'] == 1) {
+		$total['banks']++;
+	}
+}
+$total['apoints'] = $total['points'] / $totalmobsters;
+$total['aitems'] = $total['items'] / $totalmobsters;
+
+
+print"<tr><td class='contenthead'>World Stats</td></tr>
+<tr><td class='contentcontent'>
+
+<table width='100%' cellpadding='4' cellspacing='0'>
+<tr>
+	<td class='textl' width='15%'>Mobsters:</td>
+	<td class='textr' width='35%'> $totalmobsters </td>
+	<td class='textl'>Respected Mobsters:</td>
+	<td class='textr'> {$total['Respected']} </td>
+</tr>
+<tr>
+	<td class='textl' width='15%'>Total Money:</td>
+	<td class='textr' width='35%'> \${$total['cash']} </td>
+	<td class='textl'>Total Attacks:</td>
+	<td class='textr'> {$total['attacks']} </td>
+</tr>
+<tr>
+	<td class='textl'>Total Banked:</td>
+	<td class='textr'> \${$total['bank']} </td>
+	<td class='textl' width='15%'>Total Banks:</td>
+	<td class='textr' width='35%'> {$total['banks']} </td>
+</tr>
+<tr>
+	<td class='textl'>Successful Crimes:</td>
+	<td class='textr'> {$total['crimes']} </td>
+	<td class='textl' width='15%'>Failed Crimes:</td>
+	<td class='textr' width='35%'> {$total['crimef']} </td>
+</tr>
+<tr>
+	<td class='textl'>Total Gangs:</td>
+	<td class='textr'> {$total['gangs']} </td>
+	<td class='textl' width='15%'>Top Gang:</td>
+	<td class='textr' width='35%'> {$total['tgang']} </td>
+</tr>
+<tr>
+	<td class='textl'>Total Points:</td>
+	<td class='textr'> {$total['points']} </td>
+	<td class='textl' width='15%'>Average Points:</td>
+	<td class='textr' width='35%'> {$total['apoints']} </td>
+</tr>
+<tr>
+	<td class='textl'>Total Messages:</td>
+	<td class='textr'> {$total['pms']} </td>
+	<td class='textl' width='15%'>Total Events:</td>
+	<td class='textr' width='35%'> {$total['events']} </td>
+</tr>
+<tr>
+	<td class='textl'>Total Items:</td>
+	<td class='textr'> {$total['items']} </td>
+	<td class='textl' width='15%'>Average Items </td>
+	<td class='textr' width='35%'> {$total['aitems']} </td>
+</tr>
+</table>
+</td></tr>";
+include 'footer.php';
+?>
