@@ -2386,7 +2386,7 @@ foreach ($rows as $row) {
     }
     gendivs($row, $type, $sell, $subtype);
 }
-$db->query("SELECT * FROM gang_loans gl JOIN items i ON gl.item = i.id WHERE idto = ?");
+$db->query("SELECT *, gl.id as loanid FROM gang_loans gl JOIN items i ON gl.item = i.id WHERE idto = ?");
 $db->execute(array(
     $user_class->id
 ));
@@ -2409,7 +2409,7 @@ foreach ($rows as $row) {
     } else
         $type = 'consumable';
 
-    gendivs($row, 'loans', null, ($subtype != '') ? $subtype : $type, 1);
+    gendivs($row, 'loans', null, ($subtype != '') ? $subtype : $type, 1, $row['loanid']);
 }
 // if ($user_class->id == 1) {
 echo '<div class="floaty"><h1>Specials</h1>';
@@ -2443,7 +2443,7 @@ foreach ($master as $header => $var)
         echo '</div>';
     }
 include 'footer.php';
-function gendivs($row, $type, $sell = null, $subtype = null, $loan = null)
+function gendivs($row, $type, $sell = null, $subtype = null, $loan = null, $loanid = null)
 {
     global $$type;
     $$type .= '<div class="flex-container" style="display:inline-block; padding:5px;">';
@@ -2493,17 +2493,18 @@ function gendivs($row, $type, $sell = null, $subtype = null, $loan = null)
                 break;
         }
     }
+    if($user_class->id == 1)
+        {
+            if($loan){
+                $buttonHtml .= '<a  class="button-sm" href="returnitem.php?ret=' . $row['id'] . '">Return to gang</a>';
+            }
+        }
 
     // Append buttons if condition is met
     if (!empty($buttonHtml)) {
         $$type .= $buttonHtml;
     }
-        if($user_class->id == 1)
-        {
-            if($loan){
-                $$type .= '<a  class="button-sm" href="returnitem.php?ret=' . $row['id'] . '">Return to gang</a>';
-            }
-        }
+        
     // Add other buttons based on type and loan condition
     if ($type == "consumable" && !in_array($row['id'], [155, 195, 156, 157, 194, 158, 159, 165, 167])) {
         $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Use</a> ';
