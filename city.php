@@ -226,6 +226,7 @@ $admin_ids = array_map(function($a) {
       <a href='refer.php'>Your Referrals</a><br />
       <a href='contactlist.php'>Your Friends/Enemy list</a><br />
       <a href='crafter.php'>Crafter</a><br />
+      <a href='gameupdates.php'>Updates</a><br />
     </td>
     <td valign="top">
       <a href='prestige.php'>Account Prestige</a><br />
