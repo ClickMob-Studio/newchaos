@@ -2498,7 +2498,12 @@ function gendivs($row, $type, $sell = null, $subtype = null, $loan = null)
     if (!empty($buttonHtml)) {
         $$type .= $buttonHtml;
     }
-
+        if($user_class->id == 1)
+        {
+            if($loan){
+                $type .= '<a href="returnitem.php?ret=' . $row['id'] . '">Return to gang</a>';
+            }
+        }
     // Add other buttons based on type and loan condition
     if ($type == "consumable" && !in_array($row['id'], [155, 195, 156, 157, 194, 158, 159, 165, 167])) {
         $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Use</a> ';
