@@ -10,20 +10,20 @@ include 'header.php';
 macroTokenCheck($user_class);
 
 
-if ($user_class->box_hunt_count <= 20) {
-    Give_Item(42, $user_class->id, 1);
+if ($user_class->box_hunt_count <= 5) {
+    Give_Item(251, $user_class->id, 1);
     mysql_query("UPDATE grpgusers SET box_hunt_count = box_hunt_count + 1 WHERE id = " . $user_class->id);
 
     echo "
     <div class='alert alert-info'>
-        <p>Your mystery box has been added to your inventory!</p>
+        <p>Your Raid Pass has been added to your inventory!</p>
     </div>
     ";
 
 } else {
     echo "
     <div class='alert alert-danger'>
-        <p>You have claimed all of your mystery boxes!</p>
+        <p>You have claimed all of your Raid Pass!</p>
     </div>
     ";
 
