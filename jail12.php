@@ -1,5 +1,6 @@
 <?php
 include 'header.php';
+exit;
 if(isset($_GET['jailbreak'])){
     $jailbreak = $_GET['jailbreak'];
 }else{
