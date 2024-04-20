@@ -76,19 +76,20 @@ if ($jailbreak != ""){
             $db->query("SELECT * FROM grpgusers WHERE id = " . $jailbreak);
             $db->execute();
             $jailed_person = $db->fetch_row();
-            var_dump($jailed_person); exit;
 
-            $jailed_person = new User($jailbreak);
-            $error = false;
-            if ($jailed_person->formattedname == ""){
-                $_SESSION['message'] = 'That person does not exist.';
-                $error = true;
+            if (!isset($jailed_person[0])) {
+                echo Message('That person does not exist.');
+                include 'footer.php';
+                exit;
             }
-            if ($jailed_person->id == $user_class->id) {
+            $jailed_person = $jailed_person[0];
+
+            $error = false;
+            if ($jailed_person['id'] == $user_class->id) {
                 $_SESSION['message'] = "You can't break yourself out of jail.";
                 $error = true;
             }
-            if ($jailed_person->jail == "0"){
+            if ($jailed_person['jail'] == "0"){
                 $_SESSION['message'] = "That person is not in jail.";
                 $error = true;
             }
@@ -111,7 +112,7 @@ if ($jailbreak != ""){
                         $_SESSION['message'] = "Success! You receive ".$exp." exp and 3 points";
                         $exp = $exp + $user_class->exp;
                         $crimesucceeded = 1 + $user_class->crimesucceeded;
-                        $crimemoney = $money + $user_class->crimemoney;
+                        $crimemoney = $user_class->crimemoney;
                         //$money = $money + $user_class->money;
                         $nerve = $user_class->nerve - $nerve;
                         if ($user_class->gang != 0) {
@@ -127,9 +128,9 @@ if ($jailbreak != ""){
                         $toadd = array('botd' => 1);
                         ofthes($user_class->id, $toadd);
                         bloodbath('busts', $user_class->id);
-                        $result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='".$jailed_person->id."'");
+                        $result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='".$jailed_person['id']."'");
                         //send even to that person
-                        Send_Event($jailed_person->id, "You have been busted out of Jail by [-_USERID_-].", $user_class->id);
+                        Send_Event($jailed_person['id'], "You have been busted out of Jail by [-_USERID_-].", $user_class->id);
 
                         //header('Location: jail.php');
                     }elseif ($chance >= 150) {
