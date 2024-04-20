@@ -73,6 +73,11 @@ if ($jailbreak != ""){
 
             }
         } else {
+            $db->query("SELECT * FROM grpgusers WHERE id = " . $jailbreak);
+            $db->execute();
+            $jailed_person = $db->fetch_row();
+            var_dump($jailed_person); exit;
+
             $jailed_person = new User($jailbreak);
             $error = false;
             if ($jailed_person->formattedname == ""){
