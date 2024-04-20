@@ -5,7 +5,7 @@ include 'header.php';
     <div class='box_middle'>
     <div class='pad'>
 <?php
-$result = mysql_query("SELECT `id` FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
+$result = mysql_query("SELECT * FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
 $res = mysql_query("SELECT `id` FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 86400 ORDER BY lastactive DESC");
 echo '<p>There has been ' . mysql_num_rows($res) . ' users online in the past 24 hours.</p>';
 echo '<p>There has been ' . mysql_num_rows($result) . ' users online in the past 1 Hour.</p>';
@@ -30,14 +30,15 @@ while($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
         } else if ($line['rmdays'] > 0) {
             $type = "<font color=blue>VIP</font>";
         }
-        $formattedGang = "<a href='viewgang.php?id=" . $line['id'] . "'>" . $line['gangname'] . "</a>";
+        $gang = new Gang($line['gang']);
+
 
         echo "<tr>
             <td><img src='{$line['avatar']}' height='50' width='50'></td>
             <td><b><i>{$line['id']}</i></b></td>
             <td>" . formatName($line['lineid']) . "</td>
             <td>{$type}</td>
-            <td>{$formattedGang}</td>
+            <td>{$gang->formattedname}</td>
             <td>{$line['level']}</td>
             <td>{$line['cityname']}</td>
             <td>".howlongago($line['lastactive'])."</td>
