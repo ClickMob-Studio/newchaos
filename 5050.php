@@ -1,7 +1,7 @@
 <?php
 require "header.php";
-if($user_class->id == 18)
-    exit();
+// if($user_class->id == 18)
+//     exit();
 $db->query("SELECT * FROM fiftyfifty WHERE currency = 'cash'");
 $db->execute();
 $cash = $db->fetch_row();
