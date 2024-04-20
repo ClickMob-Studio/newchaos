@@ -1,7 +1,5 @@
 <?php
 include 'header.php';
-$start = microtime(true);
-
 ?>
     <div class='box_top'>Users Online</div>
     <div class='box_middle'>
@@ -50,7 +48,5 @@ while($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
 }
 echo '</table>';
 echo '</div>';
-$time_elapsed_secs = microtime(true) - $start;
-echo 'Time: ' . $time_elapsed_secs;
 include 'footer.php'
 ?>
