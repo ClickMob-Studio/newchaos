@@ -21,7 +21,12 @@ if (isset($_GET['delete']) && $_GET['delete'] != "") {
      <input type="text" id="filterInput" placeholder="Search for an Event" name="search" <?php if (isset($_GET['search'])){?>value="<?php echo $_GET['search'] ?>"<?php } ?>>
      <input type="submit" value="Search">
  </form>
-
+ <div class="filter-buttons">
+    <button class="filter" data-filter="missions">Missions</button>
+    <button class="filter" data-filter="mugs">Mugs</button>
+    <button class="filter" data-filter="achievements">Achievements</button>
+    <button class="filter" data-filter="level">Level</button>
+</div>
 <hr>
 <div class="contenthead floaty">
 <table id="newtables" style="width:100%; text-align: left;">
