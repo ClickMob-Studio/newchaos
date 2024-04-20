@@ -73,17 +73,23 @@ if ($jailbreak != ""){
 
             }
         } else {
-            $jailed_person = new User($jailbreak);
-            $error = false;
-            if ($jailed_person->formattedname == ""){
-                $_SESSION['message'] = 'That person does not exist.';
-                $error = true;
+            $db->query("SELECT * FROM grpgusers WHERE id = " . $jailbreak);
+            $db->execute();
+            $jailed_person = $db->fetch_row();
+
+            if (!isset($jailed_person[0])) {
+                echo Message('That person does not exist.');
+                include 'footer.php';
+                exit;
             }
-            if ($jailed_person->id == $user_class->id) {
+            $jailed_person = $jailed_person[0];
+
+            $error = false;
+            if ($jailed_person['id'] == $user_class->id) {
                 $_SESSION['message'] = "You can't break yourself out of jail.";
                 $error = true;
             }
-            if ($jailed_person->jail == "0"){
+            if ($jailed_person['jail'] == "0"){
                 $_SESSION['message'] = "That person is not in jail.";
                 $error = true;
             }
@@ -106,7 +112,7 @@ if ($jailbreak != ""){
                         $_SESSION['message'] = "Success! You receive ".$exp." exp and 3 points";
                         $exp = $exp + $user_class->exp;
                         $crimesucceeded = 1 + $user_class->crimesucceeded;
-                        $crimemoney = $money + $user_class->crimemoney;
+                        $crimemoney = $user_class->crimemoney;
                         //$money = $money + $user_class->money;
                         $nerve = $user_class->nerve - $nerve;
                         if ($user_class->gang != 0) {
@@ -122,9 +128,9 @@ if ($jailbreak != ""){
                         $toadd = array('botd' => 1);
                         ofthes($user_class->id, $toadd);
                         bloodbath('busts', $user_class->id);
-                        $result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='".$jailed_person->id."'");
+                        $result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='".$jailed_person['id']."'");
                         //send even to that person
-                        Send_Event($jailed_person->id, "You have been busted out of Jail by [-_USERID_-].", $user_class->id);
+                        Send_Event($jailed_person['id'], "You have been busted out of Jail by [-_USERID_-].", $user_class->id);
 
                         //header('Location: jail.php');
                     }elseif ($chance >= 150) {
@@ -211,7 +217,7 @@ if($user_class->jail > 0){
                 $ignore = array($user_class->id);
                 $ignore = implode(',', $ignore);
 
-                $result = mysql_query("SELECT `id` FROM `grpgusers` WHERE jail > 0 ORDER BY `jail` DESC");
+                $result = mysql_query("SELECT `id`, `jail`, `lastactive` FROM `grpgusers` WHERE jail > 0 ORDER BY `jail` DESC");
                 function generateRandomString($length = 10) {
                     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                     $randomString = '';
@@ -226,15 +232,15 @@ if($user_class->jail > 0){
                 if(mysql_num_rows($result) || ($user_class->jail_bot_credits > 0 && $user_class->is_jail_bots_active)){
                     if (mysql_num_rows($result) > 0) {
                         while($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
-                            $user_jail = new User($line['id']);
-                            $secondsago = time()-$user_jail->lastactive;
-                           
-                            if (floor($user_jail->jail / 60) != 1) {
+                            $secondsago = time()-$line['lastactive'];
+                            $formattedName = formatName($line['id']);
+
+                            if (floor($line['jail'] / 60) != 1) {
                                 $plural = "s";
                             }
 
-                            if($user_jail->jail != 0){
-                                echo "<tr class='jail-cell-row'><td>".$user_jail->formattedname."</td><td>".floor($user_jail->jail / 60)." m"."</td><td><a class='jail-break-link' data-jid='".$user_jail->id."' href='?jailbreak=".$user_jail->id."&token=".$token."'>Break Out</a></td></tr>";
+                            if($line['jail'] != 0){
+                                echo "<tr class='jail-cell-row'><td>".$formattedName."</td><td>".floor($line['jail'] / 60)." m"."</td><td><a class='jail-break-link' data-jid='".$line['id']."' href='?jailbreak=".$line['id']."&token=".$token."'>Break Out</a></td></tr>";
                             }
                         }
                     }
@@ -297,7 +303,7 @@ if($user_class->jail > 0){
                 $('.jail-cell-row').remove();
 
                 jailRefreshes = jailRefreshes + 1;
-                if (jailRefreshes % 20 == 0) {
+                if (jailRefreshes % 30 == 0) {
                     confirm("You are still here aren't you?");
                 }
 
