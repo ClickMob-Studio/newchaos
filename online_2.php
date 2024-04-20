@@ -36,9 +36,9 @@ while($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
         echo "<tr>
             <td><img src='{$line['avatar']}' height='50' width='50'></td>
             <td><b><i>{$line['id']}</i></b></td>
-            <td>" . formatName($line['lineid']) . "</td>
+            <td>" . formatName($line['id']) . "</td>
             <td>{$type}</td>
-            <td>{$gang->formattedname}</td>
+            <td>{$gang->nobanner}</td>
             <td>{$line['level']}</td>
             <td>{$line['cityname']}</td>
             <td>".howlongago($line['lastactive'])."</td>
