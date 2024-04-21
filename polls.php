@@ -37,7 +37,7 @@ if (empty($poll['ID'])) { echo 'No poll running atm.'; $this->_back(); }
 if (time() > $poll['end'] && $user['admin'] != 1) { echo 'The Poll has ended!'; }
 else {
 		$ended = (time() > $poll['end']) ? '<font color="red">The Poll has Ended</font>' : '';
-
+        echo Message("You can only vote for one option on the poll");
 		echo sprintf('%s 
 
 		<table width="300px">
