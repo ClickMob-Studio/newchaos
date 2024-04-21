@@ -56,6 +56,7 @@ foreach ($otds as $otd) {
         Send_Event($row['userid'], "You won $type! [+$pts Points]");
     }
 }
+$db->query("UPDATE grpgusers SET ffban = 0");
 
 $db->query("SELECT id, todaysexp FROM grpgusers WHERE `todaysexp` > 0 ORDER BY `todaysexp` DESC LIMIT 1");
 $db->execute();
@@ -272,4 +273,5 @@ Gang_Event($topBusts, "Respect Gang Of The Day -Bustss +100 Respect", 0);
 $db->query("UPDATE gangs SET dailyCrimes = 0, dailyKills = 0, dailyBusts = 0, dailyMugs = 0");
 $db->execute();
 
+Send_Event(1, "daycronmanual.php");
 ?>

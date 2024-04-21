@@ -2,6 +2,22 @@
 require "header.php";
 // if($user_class->id == 18)
 //     exit();
+if($_GET['action'] == 'ban'){
+    $db->query("UPDATE `grpgusers` SET `ffban` = 1 WHERE `id` = " . $user_class->id);
+    $db->execute();
+    echo Message('You have banned yourself from 5050 for 1 day');
+    require "footer.php";
+    exit;
+}
+$db->query("SELECT ffban FROM grpgusers WHERE ffban > 0 AND  id = " . $user_class->id);
+$db->execute();
+if($db->num_rows() > 0){
+    echo Message('You have been banned from 5050 for 1 day');
+    require "footer.php";
+    exit;
+}
+
+
 $db->query("SELECT * FROM fiftyfifty WHERE currency = 'cash'");
 $db->execute();
 $cash = $db->fetch_row();
@@ -14,6 +30,8 @@ $credits = $db->fetch_row();
 ?>
 <script type="text/javascript" src="js/5050.js?v=<?php echo time();?>"></script>
 <h1>50/50</h1>
+<p>Click <a href="action=ban">Here</a> to ban yourself from 5050 for 1 day</a>
+
 <div class="container">
     <table>
         <tbody>
