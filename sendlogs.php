@@ -32,10 +32,10 @@ $results = $db->fetch_row();
                         <?php echo $res['toip'] ?>
                     </td>
                     <td>
-                        <?php echo date($res['timestamp'], 'd M Y h:i:s') ?>
+                        <?php echo date('d M Y h:i:s', $res['timestamp']) ?>
                     </td>
                     <td>
-                        
+
                     </td>
                 </tr>
             <?php endforeach; ?>
