@@ -57,10 +57,10 @@ else {
 		</table>', 
 		$ended,
 		$poll['question'], 
-		$poll['1'], ($poll['1_r'] * 5), $poll['1_r'], 
-		$poll['2'], ($poll['2_r'] * 5), $poll['2_r'], 
-		$poll['3'], ($poll['3_r'] * 5), $poll['3_r'], 
-		$poll['4'], ($poll['4_r'] * 5), $poll['4_r'], 
+		$poll['1'], ($poll['1_r'] * 5), 
+		$poll['2'], ($poll['2_r'] * 5), 
+		$poll['3'], ($poll['3_r'] * 5), 
+		$poll['4'], ($poll['4_r'] * 5),
 		date('Y-m-d', $poll['end']));
 	}
 }
