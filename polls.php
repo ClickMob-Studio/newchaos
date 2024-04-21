@@ -29,7 +29,7 @@ public function _index() {
 $user = $this->_fetchUser($_SESSION['id']);
 $poll = $this->_fetchPoll();
 
-if ($user['user_level'] == 2) { 
+if ($user['admin'] == 1) { 
 	echo sprintf('[b][url="%s?x=admin"][Admin Panel][/url][/b]
 
 ', $_SERVER['PHP_SELF']);;
