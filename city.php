@@ -188,6 +188,7 @@ $admin_ids = array_map(function($a) {
       <a href='portfolio.php'>Your Properties</a>
     </td>
     <td valign='top'>
+        <a href="polls.php">Polls</a><br />
       <a href='tos.php'>Terms of Service</a><br />
       <a href='contest.php'><font color=red>Raid/Attack Contests</font></a><br />
       <a href='halloffame.php'>Hall of Fame</a><br />
