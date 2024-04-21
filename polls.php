@@ -6,7 +6,7 @@ require_once("header.php");
 class _poll {
 
 public function _back() { echo '
-[url="'.$_SERVER['PHP_SELF'].'"]Back[/url]'; exit($this->endpage());  }
+<a href="'.$_SERVER['PHP_SELF'].'"]Back</a>'; exit($this->endpage());  }
 
 public function _fetchUser($user) {
     global $db;
@@ -30,9 +30,7 @@ $user = $this->_fetchUser($_SESSION['id']);
 $poll = $this->_fetchPoll();
 
 if ($user['admin'] == 1) { 
-	echo sprintf('[b][url="%s?x=admin"][Admin Panel][/url][/b]
-
-', $_SERVER['PHP_SELF']);;
+	echo "<a href='?x=admin'>[Admin Panel]</a>";
 }
 
 if (empty($poll['ID'])) { echo 'No poll running atm.'; $this->_back(); } 
@@ -47,13 +45,13 @@ else {
 		<tr><td>
 		[b]Question: %s [/b]</td></tr>
 		<tr><td>
-		%s [img=poll.gif]</td><td> %u </td><td> [url="%s?x=vote&ID=1"][Vote][/url]</td></tr>
+		%s </td><td> %u </td><td> <a href="?x=vote&ID=1">[Vote]</a></td></tr>
 		<tr><td>
-		%s [img=poll.gif]</td><td> %s </td><td> [url="%s?x=vote&ID=2"][Vote][/url]</td></tr>
+		%s </td><td> %s </td><td> <a href="%s?x=vote&ID=2"][Vote]</a></td></tr>
 		<tr><td>
-		%s [img=poll.gif]</td><td> %s </td><td> [url="%s?x=vote&ID=3"][Vote][/url]</td></tr>
+		%s </td><td> %s </td><td> <a href="%s?x=vote&ID=3"][Vote]</a></td></tr>
 		<tr><td>
-		%s [img=poll.gif]</td><td> %s </td><td> [url="%s?x=vote&ID=4"][Vote][/url]</td></tr>
+		%s </td><td> %s </td><td> <a href="%s?x=vote&ID=4"][Vote]</a></td></tr>
 		<tr><td>
 		Ends: %s</td></tr>
 		</table>', 
@@ -147,7 +145,7 @@ End In: </td><td> <input type="text" name="end" />(days)</td></tr>
 </form>
 
 
-[url="%1$s?x=admin&del=1"][b][Delete current Poll][/b][/url]
+<a href="%1$s?x=admin&del=1"][b][Delete current Poll][/b]</a>
 </td>
 </tr>
 </table>', $_SERVER['PHP_SELF']);
