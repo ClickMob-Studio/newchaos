@@ -40,7 +40,7 @@ else {
         echo Message("You can only vote for one option on the poll");
 		echo sprintf('%s 
 
-		<table width="1000px">
+		<table width="300px">
 		<tr><td>
 		<h1>Question:</h1> %s</td></tr>
 		<tr><td>
