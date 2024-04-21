@@ -42,7 +42,7 @@ else {
 
 		<table width="300px">
 		<tr><td>
-		<h1>Question: %s </h1></td></tr>
+		<h1>Question:</h1> %s </td></tr>
 		<tr><td>
 		%s </td><td> %u </td><td> <a href="?x=vote&ID=1">[Vote]</a></td></tr>
 		<tr><td>
