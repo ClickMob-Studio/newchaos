@@ -30,7 +30,7 @@ $credits = $db->fetch_row();
 ?>
 <script type="text/javascript" src="js/5050.js?v=<?php echo time();?>"></script>
 <h1>50/50</h1>
-<p>Click <a href="action=ban">Here</a> to ban yourself from 5050 for 1 day</a>
+<p>Click <a href="?action=ban">Here</a> to ban yourself from 5050 for 1 day</a>
 
 <div class="container">
     <table>
