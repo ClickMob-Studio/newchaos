@@ -17,7 +17,7 @@ echo'<div class="floaty">';
         echo'</tr>';
         echo'<tr style="line-height:25px;">';
             echo'<td><a href="?cpass">Change Password</a></td>';
-            echo'<td><a href="?gender">Gender</a></td>';
+            //echo'<td><a href="?gender">Gender</a></td>';
             echo'<td><a href="?sig">Signature</a></td>';
                     echo'<td><a href=""></a></td>';
         echo'</tr>';
@@ -413,6 +413,7 @@ if(isset($_GET['username'])){
         echo'</form>';
     echo'</div>';
 } elseif(isset($_GET['gender'])){
+    exit;
     $opts = array('Male', 'Female');
     if(isset($_POST['gender'])){
         $gender = $_POST['gender'];

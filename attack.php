@@ -39,12 +39,18 @@ if (($user_class->energy <= $energyneeded || $user_class->energypercent <= 0) &&
     manual_refill('e');
 }
 
+$attack_person = new User($_GET['attack']);
+
 $throneAttack = false;
 if (isset($_GET['throne']) && $_GET['throne'] == 'attack') {
-    $throneAttack = true;
-}
+    if ($user_class->gender === 'Male' && $attack_person->king < 1) {
+        $throneAttack = true;
+    }
 
-$attack_person = new User($_GET['attack']);
+    if ($user_class->gender === 'Female' && $attack_person->queen < 1) {
+        $throneAttack = true;
+    }
+}
 
 if ($user_class->id != 0) {
     $error = "";
@@ -113,7 +119,7 @@ if ($user_class->aprotection != 0) {
     $error = ($attack_person->hppercent < 25) ? "They need over 25% HP to be attacked." : $error;
     $error = ($attack_person->admin == 1) ? "Im sorry, You cannot attack the owner" : $error;
     $error = ($attack_person->id == $user_class->id) ? "Why would you want to attack yourself?" : $error;
-    $error = ($attack_person->aprotection > time() && !$throneAttack && ($attack_person->king < 1 ||  $attack_person->queen < 1)) ? "This Mobster is under Attack Protection." : $error;
+    $error = ($attack_person->aprotection > time() && !$throneAttack) ? "This Mobster is under Attack Protection." : $error;
     $error = ($user_class->aprotection > time()) ? "You cannot attack whilst under Attack Protection." : $error;
 
 
@@ -126,7 +132,7 @@ if ($user_class->aprotection != 0) {
 
     if (count($attackLadder) == 0) {
         $error = ($attack_person->aprotection > time()) ? "This Mobster is under Attack Protection." : $error;
-        $error = ($user_class->gang == $attack_person->gang && $user_class->gang > 0 && !$throneAttack && ($attack_person->king < 1 ||  $attack_person->queen < 1)) ? "You can't attack someone in your gang." : $error;
+        $error = ($user_class->gang == $attack_person->gang && $user_class->gang > 0 && !$throneAttack) ? "You can't attack someone in your gang." : $error;
     }
     //$gang_class = new Gang($user_class->gang);
     //$their_gang = new Gang($attack_person->gang);
