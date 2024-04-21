@@ -5,11 +5,12 @@ if ($user_class->admin < 1) {
     exit;
 }
 
-$db->query("SELECT * FROM transferlog ORDER BY timestamp DESC LIMIT 100");
+$db->query("SELECT * FROM `transferlog` ORDER BY `timestamp` DESC LIMIT 100");
 $db->exectue();
 $results = $db->fetch_row();
 ?>
 
+<h1>Send Logs</h1>
 <div class="table-container">
     <table class="new_table" id="newtables" style="width:100%;">
         <thead>
