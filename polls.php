@@ -53,7 +53,7 @@ else {
 		$ended,
 		$poll['question'], 
 		$poll['1'], $poll['1_r'], 
-		$poll['2'], $poll['2_r'] * 5, 
+		$poll['2'], $poll['2_r'], 
 		date('Y-m-d', $poll['end']));
 	}
 }
