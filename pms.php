@@ -140,6 +140,8 @@ if (isset($_POST['newmessage']) && $user_class->level > 0) {
         $cost = ($bomb == 1) ? 500000 : 1200000;
         if ($user_class->money < $cost && ($bomb == 1 || $bomb == 2)) {
             echo Message("You don't have enough money to send a mail bomb.");
+        } else if ($bomb > 0 && $user_class->id == $to_user->id) {
+            echo Message("You can't send a mail bomb to yourself.");
         } else {
             if ($bomb == 1 || $bomb == 2) {
                 $user_class->money -= $cost;
