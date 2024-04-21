@@ -48,18 +48,12 @@ else {
 		<tr><td>
 		%s </td><td> %s </td><td> <a href="?x=vote&ID=2">[Vote]</a></td></tr>
 		<tr><td>
-		%s </td><td> %s </td><td> <a href="?x=vote&ID=3">[Vote]</a></td></tr>
-		<tr><td>
-		%s </td><td> %s </td><td> <a href="?x=vote&ID=4">[Vote]</a></td></tr>
-		<tr><td>
 		Ends: %s</td></tr>
 		</table>', 
 		$ended,
 		$poll['question'], 
 		$poll['1'], $poll['1_r'], 
 		$poll['2'], $poll['2_r'] * 5, 
-		$poll['3'], $poll['3_r'] * 5, 
-		$poll['4'], $poll['4_r'] * 5,
 		date('Y-m-d', $poll['end']));
 	}
 }
