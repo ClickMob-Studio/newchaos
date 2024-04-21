@@ -122,7 +122,7 @@ echo sprintf('<table>
 <td>Create a Poll...</td></tr> 
 <tr><td>
 <form action="%1$s?x=admin" method="POST">
-Question: </td><td> <input type="text" name="question" /></td></tr>
+Question: </td><td> <textarea name="question"></textarea></td></tr>
 <tr><td>
 Option 1: </td><td> <input type="text" name="1" /></td></tr>
 <tr><td>
