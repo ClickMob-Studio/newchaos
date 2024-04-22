@@ -38,7 +38,9 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 <hr />
 
                 <?php if ($userBaStats['gold_rush_credits'] > 0): ?>
-                    GOLD RUSH MODE ACTIVATED! HHHH
+                    <div class="alert alert-info">
+                        <p>YOU CURRENTLY HAVE <span class="gold-rush-credits-text"><?php echo $userBaStats['gold_rush_credits'] ?></span> GOLD RUSH CREDITS REMAINING!</p>
+                    </div>
                 <?php endif; ?>
 
                 <div id="ba-response-message" style="min-height: 60px; display: none;"></div>
