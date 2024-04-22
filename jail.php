@@ -391,6 +391,14 @@ if($user_class->jail > 0){
             }, "json")
         }, 4000);
 
+        document.addEventListener("DOMContentLoaded",function(){
+            document.body.addEventListener('click', function(evt) {
+                if (evt.target.classList.contains('some-class')) {} // not used
+                console.log("which", evt.which);
+                console.log("isTrusted", evt.isTrusted);
+            }, true);
+        });
+
 
     </script>
 <?
