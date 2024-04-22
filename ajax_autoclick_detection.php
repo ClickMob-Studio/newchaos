@@ -24,7 +24,7 @@ if (isset($_GET['reason'])) {
         'invalid_click',
         'click_not_trusted'
     );
-    if (!in_array($page, $validReasonChoices)) {
+    if (!in_array($reason, $validReasonChoices)) {
         echo json_encode(array('success' => false, 'message' => 'Invalid reason'));
         exit;
     }
