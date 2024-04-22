@@ -5,14 +5,14 @@ include "ajax_header.php";
 $user_class = new User($_SESSION['id']);
 
 //
-// FETH JAIL USERS
+// FETCH JAIL USERS
 //
 
 if (isset($_GET['action'])  && $_GET['action'] == 'fetch_users') {
     $ignore = array($user_class->id);
     $ignore = implode(',', $ignore);
 
-    $db->query("SELECT id, jail FROM grpgusers WHERE jail > 0 AND id NOT IN ($ignore) ORDER BY jail ASC");
+    $db->query("SELECT id, jail FROM grpgusers WHERE jail > 0 AND id NOT IN ($ignore) ORDER BY RAND()");
     $db->execute();
     $rows = $db->fetch_row();
 
