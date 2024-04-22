@@ -302,6 +302,7 @@ if($user_class->jail > 0){
                 array[j] = temp;
             }
         }
+        sortTable();
 
         let jailBreakClicks = 0;
         let jailRefreshes = 0;
