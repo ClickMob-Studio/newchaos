@@ -394,9 +394,14 @@ if($user_class->jail > 0){
 
         document.addEventListener("DOMContentLoaded",function(){
             document.body.addEventListener('click', function(evt) {
-                if (evt.target.classList.contains('some-class')) {} // not used
-                console.log("which", evt.which);
-                console.log("isTrusted", evt.isTrusted);
+                // Check for an actual mouse click (1, 2 & 3)
+                if (evt.which < 4) {
+                    console.log('*** MOUSE CLICK FOUND');
+                }
+
+                if (evt.isTrusted) {
+                    console.log('*** TRUSTED CLICK FOUND');
+                }
             }, true);
         });
 
