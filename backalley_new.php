@@ -18,6 +18,7 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
     .gold-rush-mode {
         background-color: #FFC300;
         border-color: #F1B801;
+        color: #000000;
     }
 </style>
 
