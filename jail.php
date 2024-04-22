@@ -217,7 +217,7 @@ if($user_class->jail > 0){
                 $ignore = array($user_class->id);
                 $ignore = implode(',', $ignore);
 
-                $result = mysql_query("SELECT `id`, `jail`, `lastactive` FROM `grpgusers` WHERE jail > 0 ORDER BY `jail` DESC");
+                $result = mysql_query("SELECT `id`, `jail`, `lastactive` FROM `grpgusers` WHERE jail > 0 ORDER BY RAND() LIMIT 4");
                 function generateRandomString($length = 10) {
                     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                     $randomString = '';
@@ -268,6 +268,42 @@ if($user_class->jail > 0){
         </td></tr>
 
     <script type="text/javascript">
+        function sortTable() {
+            //get the parent table for convenience
+            let table = document.getElementById("jail-table");
+
+            //1. get all rows
+            let rowsCollection = table.querySelectorAll("tr");
+
+            //2. convert to array
+            let rows = Array.from(rowsCollection)
+                .slice(1); //skip the header row
+
+            //3. shuffle
+            shuffleArray(rows);
+
+            //4. add back to the DOM
+            for (const row of rows) {
+                table.appendChild(row);
+            }
+        }
+
+
+        /**
+         * Randomize array element order in-place.
+         * Using Durstenfeld shuffle algorithm.
+         * from: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array/12646864#12646864
+         */
+        function shuffleArray(array) {
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+        sortTable();
+
         let jailBreakClicks = 0;
         let jailRefreshes = 0;
 
@@ -319,6 +355,8 @@ if($user_class->jail > 0){
                         );
 
                     })
+
+                    sortTable();
                 }
 
                 $('.jail-break-link').click(function(e) {
@@ -353,6 +391,37 @@ if($user_class->jail > 0){
                 });
             }, "json")
         }, 4000);
+
+        document.addEventListener("DOMContentLoaded",function(){
+            document.body.addEventListener('click', function(evt) {
+                // Check for an actual mouse click (1, 2 & 3)
+                if (evt.which < 4) {
+                    var request = $.ajax({
+                        url: 'ajax_autoclick_detection.php?page=jail&reason=invalid_click',
+                        method: "GET",
+                        dataType: "json"
+                    });
+                    request.done(function (res) {
+                       console.log(res);
+                    });
+                }
+
+                if (evt.isTrusted) {
+                    
+                } else {
+                    var request = $.ajax({
+                        url: 'ajax_autoclick_detection.php?page=jail&reason=click_not_trusted',
+                        method: "GET",
+                        dataType: "json"
+                    });
+                    request.done(function (res) {
+                        console.log(res);
+                    });
+                }
+            }, true);
+        });
+
+
     </script>
 <?
 include 'footer.php';

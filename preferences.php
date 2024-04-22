@@ -132,6 +132,10 @@ if ($user_class->id == 174) {
 if(isset($_GET['username'])){
     if(isset($_POST['username'])){
         $un = str_replace(array('"', "'"), '', $_POST['username']);
+        if (strlen($un) > 20) {
+            diefun("Your username cannot be longer than 20 characters.");
+        }
+
         $db->query("SELECT * FROM grpgusers WHERE username LIKE ? AND id <> ?");
         $db->execute(array(
             $un,
