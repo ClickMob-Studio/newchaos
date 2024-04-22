@@ -42,10 +42,10 @@ else {
 
         <div class="table-container">
 		    <table class="new_table" id="newtables" width="300px">
-		        <tr>
-		            <th>Question: %s</th>
+		        <tr style="border-bottom: 1px solid white;">
+		            <th colspan="3">Question: %s</th>
                 </tr>
-                <tr>
+                <tr style="border-bottom: 1px solid white;">
                     <td>%s </td>
                     <td> %u </td>
                     <td> <a href="?x=vote&ID=1">[Vote]</a></td>
