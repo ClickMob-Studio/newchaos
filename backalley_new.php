@@ -3,6 +3,10 @@
 session_start();
 include 'header.php';
 
+if ($user_class->admin < 1) {
+    echo 'exit'; exit;
+}
+
 $userBaStats = getUserBaStats($user_class);
 
 $medPackOneCount = check_items(13, $user_class->id);
