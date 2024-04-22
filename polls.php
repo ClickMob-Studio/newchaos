@@ -1,6 +1,6 @@
 <?php
 require_once("header.php");
-require_once("database.php"); // Assuming the database class is in 'database.php'
+require_once("classes/pdo.php"); // Assuming the database class is in 'database.php'
 
 class Poll {
     private $db;
