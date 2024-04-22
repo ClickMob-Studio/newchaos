@@ -300,7 +300,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br /><br />';
         $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & found 1 x ' . $itemName . '!</strong>';
 
-        echo json_encode(success($fullResponse));
+        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits']));
         exit;
     } else if ($outcome <= 85) {
         // 15% Win Points
@@ -358,7 +358,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 
         $fullResponse = 'You walk down the back alley and feel a surge of power! You enter Gold Rush Mode!';
 
-        echo json_encode(success($fullResponse));
+        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits']));
         exit;
     }
 
@@ -382,7 +382,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br /><br />';
         $fullResponse .= '<strong>You will need to spend some time in the hospital!</strong>';
 
-        echo json_encode(success($fullResponse));
+        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits']));
         exit;
     } else if ($outcome <= 30) {
         // 20% Loose & Don't Hosp
@@ -392,7 +392,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
         $fullResponse .= '</span>';
 
-        echo json_encode(success($fullResponse));
+        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits']));
         exit;
     } else if ($outcome <= 60) {
         // 30% Win Cash & EXP
@@ -413,7 +413,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br /><br />';
         $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & ' . number_format($expWon, 0) . ' EXP!</strong>';
 
-        echo json_encode(success($fullResponse));
+        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits']));
         exit;
     } else if ($outcome <= 90) {
         // 30% Win Cash & Item
@@ -447,7 +447,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br /><br />';
         $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & found 1 x ' . $itemName . '!</strong>';
 
-        echo json_encode(success($fullResponse));
+        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits']));
         exit;
     } else {
         $fullResponse = $scenario['start'];
@@ -455,7 +455,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
 
-        echo json_encode(success($fullResponse));
+        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits']));
         exit;
     }
 
