@@ -1,7 +1,8 @@
 <?php
 require_once("header.php");
-require_once("classes/pdo.php"); // Assuming the database class is in 'database.php'
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 class Poll {
     private $db;
 
