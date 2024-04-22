@@ -217,7 +217,7 @@ if($user_class->jail > 0){
                 $ignore = array($user_class->id);
                 $ignore = implode(',', $ignore);
 
-                $result = mysql_query("SELECT `id`, `jail`, `lastactive` FROM `grpgusers` WHERE jail > 0 ORDER BY `jail` DESC");
+                $result = mysql_query("SELECT `id`, `jail`, `lastactive` FROM `grpgusers` WHERE jail > 0 ORDER BY RAND() LIMIT 4");
                 function generateRandomString($length = 10) {
                     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                     $randomString = '';
