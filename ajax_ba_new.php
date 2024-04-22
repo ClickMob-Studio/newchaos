@@ -12,12 +12,12 @@ function error($msg, $userBaStats = array())
     return $response;
 }
 
-function success($msg, $userBaStats = array())
+function success($msg, $goldRushCredits = array())
 {
     $response = array();
     $response['success'] = true;
     $response['message'] = $msg;
-    $response['user_ba_stats'] = $userBaStats;
+    $response['gold_rush_credits'] = $goldRushCredits;
 
     return $response;
 }

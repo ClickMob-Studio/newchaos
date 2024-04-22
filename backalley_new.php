@@ -45,11 +45,10 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 </div>
                 <hr />
 
-                <?php if ($userBaStats['gold_rush_credits'] > 0): ?>
-                    <div class="alert alert-info gold-rush-mode">
-                        <p style="color: #000;">YOU CURRENTLY HAVE <span class="gold-rush-credits-text"><?php echo $userBaStats['gold_rush_credits'] ?></span> GOLD RUSH CREDITS REMAINING!</p>
-                    </div>
-                <?php endif; ?>
+
+                <div class="alert alert-info gold-rush-mode" <?php if ($userBaStats['gold_rush_credits'] < 1): ?> style="display:none;"<?php endif; ?>>
+                    <p style="color: #000;">YOU CURRENTLY HAVE <span class="gold-rush-credits-text"><?php echo $userBaStats['gold_rush_credits'] ?></span> GOLD RUSH CREDITS REMAINING!</p>
+                </div>
 
                 <div id="ba-response-message" style="min-height: 60px; display: none;"></div>
 
@@ -87,7 +86,7 @@ include 'footer.php';
         let requestInProcess = false;
 
         <?php if ($userBaStats['gold_rush_credits'] > 0): ?>
-         $('.ba-btn').addClass('gold-rush-mode');
+            $('.ba-btn').addClass('gold-rush-mode');
         <?php endif; ?>
 
         $('.ba-search-link').click(function(e) {
@@ -100,7 +99,6 @@ include 'footer.php';
             $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
 
             if (requestInProcess) {
-                console.log('*** IN PROCESS');
                 return false;
             }
 
@@ -112,8 +110,6 @@ include 'footer.php';
                 dataType: "json"
             });
             request.done(function (res) {
-                console.log('***********');
-                console.log(res);
                 if (res.success == false || res.success == 'false') {
                     var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
 
@@ -121,6 +117,14 @@ include 'footer.php';
                 } else {
                     var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
                     $("#newtables tbody").prepend('<tr><td>' + res.message + '<hr /></td></tr>');
+                }
+
+                if (res.gold_rush_credits > 0) {
+                    $('.ba-btn').addClass('gold-rush-mode');
+                    $('.gold-rush-mode').show();
+                } else {
+                    $('.ba-btn').removeClass('gold-rush-mode');
+                    $('.gold-rush-mode').hide();
                 }
 
                 $("#ba-response-message").html(resMes);
