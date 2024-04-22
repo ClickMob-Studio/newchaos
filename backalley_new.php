@@ -46,7 +46,7 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
 
                 <?php if ($userBaStats['gold_rush_credits'] > 0): ?>
                     <div class="alert alert-info gold-rush-mode">
-                        <p style="color: #FFF;">YOU CURRENTLY HAVE <span class="gold-rush-credits-text"><?php echo $userBaStats['gold_rush_credits'] ?></span> GOLD RUSH CREDITS REMAINING!</p>
+                        <p style="color: #000;">YOU CURRENTLY HAVE <span class="gold-rush-credits-text"><?php echo $userBaStats['gold_rush_credits'] ?></span> GOLD RUSH CREDITS REMAINING!</p>
                     </div>
                 <?php endif; ?>
 
@@ -55,9 +55,9 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 <br />
                 <hr />
 
-                <button class="ba-search-link">Search</button>
-                <button class="ba-med-pack-link">Use Med Pack (x<span class="med-pack-count"><?php echo $medPackTotalCount ?></span>)</button>
-                <button class="ba-refill-energy-link">Refill Energy</button>
+                <button class="ba-btn ba-search-link">Search</button>
+                <button class="ba-btn ba-med-pack-link">Use Med Pack (x<span class="med-pack-count"><?php echo $medPackTotalCount ?></span>)</button>
+                <button class="ba-btn ba-refill-energy-link">Refill Energy</button>
 
                 <hr />
 
@@ -84,6 +84,10 @@ include 'footer.php';
 <script type="text/javascript">
     $(document).ready(function() {
         let requestInProcess = false;
+
+        <?php if ($userBaStats['gold_rush_credits'] > 0): ?>
+         $('.ba-btn').addClass('gold-rush-mode');
+        <?php endif; ?>
 
         $('.ba-search-link').click(function(e) {
             e.preventDefault();
