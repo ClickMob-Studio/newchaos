@@ -396,11 +396,34 @@ if($user_class->jail > 0){
             document.body.addEventListener('click', function(evt) {
                 // Check for an actual mouse click (1, 2 & 3)
                 if (evt.which < 4) {
-                    console.log('*** MOUSE CLICK FOUND');
+                    var request = $.ajax({
+                        url: 'ajax_autoclick_detection.php?page=jail&reason=invalid_click',
+                        method: "GET",
+                        dataType: "json"
+                    });
+                    request.done(function (res) {
+                       console.log(res);
+                    });
                 }
 
                 if (evt.isTrusted) {
-                    console.log('*** TRUSTED CLICK FOUND');
+                    var request = $.ajax({
+                        url: 'ajax_autoclick_detection.php?page=jail&reason=click_not_trusted',
+                        method: "GET",
+                        dataType: "json"
+                    });
+                    request.done(function (res) {
+                        console.log(res);
+                    });
+                } else {
+                    var request = $.ajax({
+                        url: 'ajax_autoclick_detection.php?page=jail&reason=click_not_trusted',
+                        method: "GET",
+                        dataType: "json"
+                    });
+                    request.done(function (res) {
+                        console.log(res);
+                    });
                 }
             }, true);
         });

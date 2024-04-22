@@ -41,5 +41,5 @@ $db->execute(array(
     $reason
 ));
 
-echo json_encode(array('success' => false, 'message' => 'Added'));
+echo json_encode(array('success' => true, 'message' => 'Added'));
 exit;
