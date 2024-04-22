@@ -14,6 +14,13 @@ $medPackTwoCount = check_items(14, $user_class->id);
 $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
 ?>
 
+<style>
+    .gold-rush-mode {
+        background-color: #FFC300;
+        border-color: #F1B801;
+    }
+</style>
+
 <div class="box_top"><h1>Back Alley</h1></div>
 <div class="box_middle">
     <div class="row">
@@ -38,7 +45,7 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 <hr />
 
                 <?php if ($userBaStats['gold_rush_credits'] > 0): ?>
-                    <div class="alert alert-info">
+                    <div class="alert alert-info gold-rush-mode">
                         <p>YOU CURRENTLY HAVE <span class="gold-rush-credits-text"><?php echo $userBaStats['gold_rush_credits'] ?></span> GOLD RUSH CREDITS REMAINING!</p>
                     </div>
                 <?php endif; ?>
