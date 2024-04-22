@@ -122,6 +122,7 @@ include 'footer.php';
                 if (res.gold_rush_credits > 0) {
                     $('.ba-btn').addClass('gold-rush-mode');
                     $('.gold-rush-mode').show();
+                    $('.gold-rush-credits-text').html(res.gold_rush_credits);
                 } else {
                     $('.ba-btn').removeClass('gold-rush-mode');
                     $('.gold-rush-mode').hide();
