@@ -407,14 +407,7 @@ if($user_class->jail > 0){
                 }
 
                 if (evt.isTrusted) {
-                    var request = $.ajax({
-                        url: 'ajax_autoclick_detection.php?page=jail&reason=click_not_trusted',
-                        method: "GET",
-                        dataType: "json"
-                    });
-                    request.done(function (res) {
-                        console.log(res);
-                    });
+                    
                 } else {
                     var request = $.ajax({
                         url: 'ajax_autoclick_detection.php?page=jail&reason=click_not_trusted',
