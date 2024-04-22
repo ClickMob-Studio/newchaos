@@ -12,7 +12,7 @@ if (isset($_GET['action'])  && $_GET['action'] == 'fetch_users') {
     $ignore = array($user_class->id);
     $ignore = implode(',', $ignore);
 
-    $db->query("SELECT id, jail FROM grpgusers WHERE jail > 0 AND id NOT IN ($ignore) ORDER BY RAND() LIMIT 3");
+    $db->query("SELECT id, jail FROM grpgusers WHERE jail > 0 AND id NOT IN ($ignore) ORDER BY RAND() LIMIT 4");
     $db->execute();
     $rows = $db->fetch_row();
 
