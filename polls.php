@@ -40,16 +40,27 @@ else {
         echo Message("You can only vote for one option on the poll");
 		echo sprintf('%s 
 
-		<table width="300px">
-		<tr><td>
-		<h1>Question:</h1> %s</td></tr>
-		<tr><td>
-		%s </td><td> %u </td><td> <a href="?x=vote&ID=1">[Vote]</a></td></tr>
-		<tr><td>
-		%s </td><td> %s </td><td> <a href="?x=vote&ID=2">[Vote]</a></td></tr>
-		<tr><td>
-		Ends: %s</td></tr>
-		</table>', 
+        <div class="table-container">
+		    <table class="new_table" id="newtables" width="300px">
+		        <tr>
+		            <th>Question: %s</th>
+                </tr>
+                <tr>
+                    <td>%s </td>
+                    <td> %u </td>
+                    <td> <a href="?x=vote&ID=1">[Vote]</a></td>
+                </tr>
+                <tr>
+                    <td>%s </td>
+                    <td> %s </td>
+                    <td> <a href="?x=vote&ID=2">[Vote]</a></td>
+                </tr>
+                <tr>
+                    <td>Ends: %s</td>
+                </tr>
+		    </table>
+        </div>
+        ',
 		$ended,
 		$poll['question'], 
 		$poll['1'], $poll['1_r'], 
