@@ -84,6 +84,11 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 </div>
 
                 <hr />
+                <?php
+                $hash= base64_encode(substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVXYZ'), 0, 4));
+                ?>
+                <img src="captcha.php?hash=<?php echo $hash; ?>" alt="image verification">
+                 <input type="hidden" id="captchha" name="captcha" value="<?php echo $hash; ?>">
 
                 <table class="new_table" id="newtables" style="width:100%;">
                     <thead>
