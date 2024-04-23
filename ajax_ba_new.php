@@ -246,7 +246,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     $outcome = mt_rand(1,100);
     if ($outcome <= 30) {
         // 30% Win Cash & EXP
-        $cashWon = mt_rand(30,60) * $userBaStats['level'];
+        $cashWon = mt_rand(10,5000) * $userBaStats['level'];
         $expWon = round((mt_rand(1, 10) / 1000) * $user_class->maxexp);
         //$expWon = $expWon / 2;
         $baExpWon = mt_rand(5,25);
@@ -318,7 +318,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         exit;
     } else if ($outcome <= 85) {
         // 15% Win Points
-        $pointsWon = mt_rand(1,5) * $userBaStats['level'];
+        $pointsWon = mt_rand(5,10) * $userBaStats['level'];
         $baExpWon = mt_rand(5,25);
 
         $db->query("UPDATE `grpgusers` SET `points` = `points` + " . $pointsWon . " WHERE `id` = '" . $user_class->id . "'");
@@ -411,7 +411,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         exit;
     } else if ($outcome <= 60) {
         // 30% Win Cash & EXP
-        $cashWon = mt_rand(10,500) * $userBaStats['level'];
+        $cashWon = mt_rand(10,1000) * $userBaStats['level'];
         $expWon = round((mt_rand(1, 3) / 1000) * $user_class->maxexp);
         //$expWon = $expWon / 2;
         $baExpWon = mt_rand(1,15);
