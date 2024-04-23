@@ -97,7 +97,7 @@ if ($queen_query) {
         <?php else: ?>
             <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No Boss" class="vacant-throne">
             <h4>VACANT</h4>
-            <p>King of <!_-cityname-_!></p>
+            <p>Boss of<!_-cityname-_!></p>
             <a href="?claim_king=claimnow" style="text-decoration: underline;">Claim</a>
             
         <?php endif; ?>
@@ -122,7 +122,7 @@ $twenty_percent = $owned_points * 0.20;
             <?php else: ?>
             <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No under boss" class="vacant-throne">
             <h4>VACANT</h4>
-            <p>Queen of <!_-cityname-_!></p>
+            <p>Under Boss of <!_-cityname-_!></p>
             <a href="?claim_queen=claimnow" style="text-decoration: underline;">Claim</a>
             <?php endif; ?>
         <br />
