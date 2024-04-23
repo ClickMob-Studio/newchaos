@@ -17,7 +17,7 @@ if (!in_array($page, $validPages)) {
 }
 
 if (isset($_POST) && isset($_POST['code'])) {
-    if ($_POST['code'] == $user_class->captcha_code) {
+    if ((int)$_POST['code'] == (int)$user_class->captcha) {
         mysql_query("UPDATE `grpgusers` SET `captcha_timestamp` = " . time() . " WHERE `id` = " . $user_class->id);
 
         if ($page === 'backalley') {
