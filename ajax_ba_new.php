@@ -271,7 +271,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         exit;
     } else if ($outcome <= 70) {
         // 40% Win Cash & Item
-        $cashWon = mt_rand(30,60) * $userBaStats['level'];
+        $cashWon = mt_rand(10,5000) * $userBaStats['level'];
         $baExpWon = mt_rand(5,25);
 
         $itemIds = array();
@@ -432,7 +432,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         exit;
     } else if ($outcome <= 70) {
         // 20% Win Cash & Item
-        $cashWon = mt_rand(1,30) * $userBaStats['level'];
+        $cashWon = mt_rand(10,1000) * $userBaStats['level'];
         $baExpWon = mt_rand(1,15);
 
         $itemIds = array();
