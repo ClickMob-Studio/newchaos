@@ -10,7 +10,7 @@ if($user_class->admin < 1){
 $queen_result = mysql_query("SELECT `id`, `city` FROM `grpgusers` WHERE `queen` > 0");
 while ($line = mysql_fetch_array($queen_result)) {
     $cityId = $line['city'];
-
+    echo $line['city'];
     $city_query = mysql_query("SELECT owned_points FROM cities WHERE id = '" . mysql_real_escape_string($line['city']) . "' LIMIT 1");
     $city_result = mysql_fetch_assoc($city_query);
 
