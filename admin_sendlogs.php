@@ -20,7 +20,7 @@ $query = mysql_query("SELECT * FROM `transferlog` ORDER BY `timestamp` DESC LIMI
             </tr>
         </thead>
         <tbody>
-            <?php while($res = mysql_fetch_array($query, MYSQL_ASSOC)) { ?>
+            <?php while($res = mysql_fetch_array($query, MYSQL_ASSOC)): ?>
                 <tr>
                     <td>
                         <?php echo formatName($res['from']) ?><br />
