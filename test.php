@@ -65,7 +65,7 @@ if (isset($_GET['claim_queen']) && $_GET['claim_queen'] === 'claimnow') {
       }
   }
 }
-
+$current_city = $user_class->city;
 $city_query = mysql_query("SELECT owned_points FROM cities WHERE id = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
                             $city_query = mysql_fetch_assoc($city_query);
 
