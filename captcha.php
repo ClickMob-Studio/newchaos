@@ -11,7 +11,7 @@ $_SESSION["code"] = $code;
     <div class="col-md-6">
         <center>
             <p>Please enter the code below.</p>
-            <img src="captcha.php" width="100%" /><br />
+            <img src="captcha_image.php" width="100%" /><br />
             <input type="text" class="form-control" />
             <input type="submit" value="Submit" />
         </center>
