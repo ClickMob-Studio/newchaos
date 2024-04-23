@@ -293,7 +293,7 @@ if($user_class->aprotection <= time()){
     ));
 }
 if(isset($_POST["action"]) && $_POST["action"] == "mprotection"){
-    if($user_class->aprotection <= time()){
+    if($user_class->mprotection <= time()){
         echo json_encode(array(
             'text'=> 'You are currently not under protection',
             ));
