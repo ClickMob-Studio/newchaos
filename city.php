@@ -42,6 +42,11 @@ $rows = $db->fetch_row();
 $current_city = $user_class->city;
 
 if (isset($_GET['claim_king']) && $_GET['claim_king'] == 'claimnow') {
+    if($user_class->hospital > 0){
+        echo Message("You can not become a Boss whilsit in hospital");
+        require "footer.php";
+        exit;
+    }
     $king_query = "SELECT id FROM grpgusers WHERE king = :current_city LIMIT 1";
     $db->query($king_query);
     $db->bind(':current_city', $user_class->city);
@@ -68,7 +73,11 @@ if (isset($_GET['claim_king']) && $_GET['claim_king'] == 'claimnow') {
   }
   
   if (isset($_GET['claim_queen']) && $_GET['claim_queen'] == 'claimnow') {
-  
+    if($user_class->hospital > 0){
+        echo Message("You can not become a Under Boss whilsit in hospital");
+        require "footer.php";
+        exit;
+    }
     $queen_query = "SELECT id FROM grpgusers WHERE queen = :current_city LIMIT 1";
     $db->query($queen_query);
     $db->bind(':current_city', $user_class->city);
