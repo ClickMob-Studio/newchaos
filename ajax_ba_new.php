@@ -219,7 +219,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     if ($outcome <= 30) {
         // 30% Win Cash & EXP
         $cashWon = mt_rand(10,5000) * $userBaStats['level'];
-        $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 18));
+        $expWon = round(($user_class->maxexp / 1000) * mt_rand(2, 4));
         if ($user_class->level < 100) {
             $expWon = round(($user_class->maxexp / 100) * mt_rand(1, 8));
             $expWon = $expWon / 2;
@@ -353,7 +353,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     }
 } else {
 
-    $goldRushChance = mt_rand(1,20000);
+    $goldRushChance = mt_rand(1,10000);
     if ($goldRushChance == 2) {
         $db->query("UPDATE user_ba_stats SET gold_rush_credits = gold_rush_credits + 15 WHERE user_id = " . $user_class->id);
         $db->execute();
@@ -371,7 +371,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     // - 10% Win Cash & Item
     // - 10% Nothing, onto next turn
     $outcome = mt_rand(1,100);
-    if ($outcome <= 20) {
+    if ($outcome <= 30) {
         // 10% Loose & Go Hosp
         $hosp = 120;
         $db->query("UPDATE `grpgusers` SET `hwho` = '{$attacker}', `hhow` = 'backalley', `hospital` = '" . $hosp . "' WHERE `id` = '" . $user_class->id . "'");
@@ -392,27 +392,10 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
-    } else if ($outcome <= 30) {
-        // 20% Loose & Don't Hosp
-        $fullResponse = $scenario['start'];
-        $fullResponse .= '<br />';
-        $fullResponse .= '<br />';
-        $fullResponse .= '<span style="font-weight:bold;">' . $scenario['fail'] . '</span>';
-        $fullResponse .= '<br /><br />';
-        $fullResponse .= '<strong>Luckily, you won\'t need to spend any time in hospital</strong>';
-
-        $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `losses` = `losses` + 1  WHERE `user_id` = '" . $user_class->id . "'");
-        $db->execute();
-
-        $userBaStats['turns'] = $userBaStats['turns'] + 1;
-        $userBaStats['losses'] = $userBaStats['losses'] + 1;
-
-        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
-        exit;
     } else if ($outcome <= 70) {
         // 30% Win Cash & EXP
         $cashWon = mt_rand(10,1000) * $userBaStats['level'];
-        $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 4));
+        $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 2));
         if ($user_class->level < 100) {
             $expWon = round(($user_class->maxexp / 100) * mt_rand(1, 4));
             $expWon = $expWon / 2;
