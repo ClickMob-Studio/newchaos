@@ -251,10 +251,10 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         //$expWon = $expWon / 2;
         $baExpWon = mt_rand(5,25);
 
-        $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `exp` = `exp` + " . $expWon . "  WHERE `id` = '" . $user_class->id . "'");
+        $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `exp` = `exp` + " . $expWon . ", `backalleywins` = `backalleywins` + 1  WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
-        $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1  WHERE `user_id` = '" . $user_class->id . "'");
+        $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1, `turns` = `turns` + 1, `wins` = `wins` + 1  WHERE `user_id` = '" . $user_class->id . "'");
         $db->execute();
 
         addUserBaStatExp($userBaStats, $baExpWon);
@@ -301,7 +301,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
             }
         }
 
-        $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . " WHERE `id` = '" . $user_class->id . "'");
+        $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
         addUserBaStatExp($userBaStats, $baExpWon);
@@ -321,7 +321,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $pointsWon = mt_rand(5,10) * $userBaStats['level'];
         $baExpWon = mt_rand(5,25);
 
-        $db->query("UPDATE `grpgusers` SET `points` = `points` + " . $pointsWon . " WHERE `id` = '" . $user_class->id . "'");
+        $db->query("UPDATE `grpgusers` SET `points` = `points` + " . $pointsWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
         $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1  WHERE `user_id` = '" . $user_class->id . "'");
@@ -344,7 +344,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $raidTokensWon = mt_rand(1,5) * $userBaStats['level'];
         $baExpWon = mt_rand(5,25);
 
-        $db->query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + " . $raidTokensWon . " WHERE `id` = '" . $user_class->id . "'");
+        $db->query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + " . $raidTokensWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
         $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1  WHERE `user_id` = '" . $user_class->id . "'");
@@ -416,7 +416,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         //$expWon = $expWon / 2;
         $baExpWon = mt_rand(1,15);
 
-        $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `exp` = `exp` + " . $expWon . "  WHERE `id` = '" . $user_class->id . "'");
+        $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `exp` = `exp` + " . $expWon . ", `backalleywins` = `backalleywins` + 1  WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
         addUserBaStatExp($userBaStats, $baExpWon);
@@ -456,7 +456,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
             }
         }
 
-        $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . " WHERE `id` = '" . $user_class->id . "'");
+        $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
         addUserBaStatExp($userBaStats, $baExpWon);
