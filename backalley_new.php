@@ -175,7 +175,7 @@ include 'footer.php';
                 if (res.success == false || res.success == 'false') {
                     var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
 
-                    $("#newtables tbody").prepend('<tr><td>' + res.error + '<hr /></td></tr>');
+                    //$("#newtables tbody").prepend('<tr><td>' + res.error + '<hr /></td></tr>');
                 } else {
                     var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
                     $("#newtables tbody").prepend('<tr><td>' + res.message + '<hr /></td></tr>');
@@ -193,7 +193,7 @@ include 'footer.php';
                 if (res.med_pack_count)  {
                     $('.med-pack-count').html(res.med_pack_count);
                 }
-                
+
                 if (res.user_ba_stats) {
                     $('.ba-stats-searches').html(res.user_ba_stats.turns);
                     $('.ba-stats-wins').html(res.user_ba_stats.wins);
