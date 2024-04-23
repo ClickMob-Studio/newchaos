@@ -32,7 +32,6 @@ if (!isset($_SESSION['id'])) {
     include('home.php');
     die();
 }
-if($_SESSION['id'] == 1){
 $l = mysql_query("SELECT sessionid FROM `sessions` WHERE userid = ".$_SESSION['id']);
 if(mysql_num_rows($l) < 1)
 {
@@ -46,7 +45,7 @@ if($g['sessionid'] != $_SESSION['token']){
     session_destroy();
     header('Location:index.php');
 }
-}
+
 // $db->query("SELECT * FROM sessions WHERE userid = ?");
 // $db->execute(array(
 //     $_SESSION['id']
