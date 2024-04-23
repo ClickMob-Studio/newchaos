@@ -3,7 +3,7 @@
 session_start();
 include 'header.php';
 
-if ($user_class->admin < 1 || $user_class->id > 398) {
+if ($user_class->admin < 1 || $user_class->id < 398) {
     echo 'exit'; exit;
 }
 

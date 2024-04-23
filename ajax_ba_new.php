@@ -31,7 +31,7 @@ $m = new Memcache();
 $m->addServer('127.0.0.1', 11211, 33);
 
 $user_class = new User($_SESSION['id']);
-if ($user_class->admin < 1 || $user_class->id > 398) {
+if ($user_class->admin < 1 || $user_class->id < 398) {
     echo 'exit'; exit;
 }
 
