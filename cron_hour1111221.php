@@ -228,7 +228,11 @@ while ($line = mysql_fetch_array($queen_result)) {
     $city_result = mysql_fetch_assoc($city_query);
 
     if ($city_result['owned_points'] > 0) {
+        if($cityID == 600){
+            $owned_points = 3250;
+        }else{
         $owned_points = $city_result['owned_points'];
+        }
         $twenty_percent = $owned_points - ($owned_points * 0.20);
 
         mysql_query("UPDATE `grpgusers` SET `points` = `points` + " . $twenty_percent . " WHERE `id` = " . $line['id']);

@@ -160,8 +160,13 @@ $admin_ids = array_map(function($a) {
 
 
 </div>
-<?php $owned_points = $city_query['owned_points'];
+<?php
+if($user_class->city == 600){
+    $twenty_percent = 3250;
+}else{
+$owned_points = $city_query['owned_points'];
 $twenty_percent =$owned_points - $owned_points * 0.20;
+}
 ?>
     <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; text-align:center">
         <?php if ($queen_result): ?>
