@@ -408,7 +408,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
-    } else if ($outcome <= 60) {
+    } else if ($outcome <= 70) {
         // 30% Win Cash & EXP
         $cashWon = mt_rand(10,1000) * $userBaStats['level'];
         $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 3));
@@ -437,8 +437,8 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
-    } else if ($outcome <= 70) {
-        // 20% Win Cash & Item
+    } else if ($outcome <= 100) {
+        // 30% Win Cash & Item
         $cashWon = mt_rand(10,1000) * $userBaStats['level'];
         $baExpWon = mt_rand(1,15);
 
