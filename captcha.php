@@ -2,8 +2,7 @@
 
 include 'header.php';
 
-$code = rand(1000, 9999);
-$_SESSION["code"] = $code;
+$code = rand(1000, 99999);
 ?>
 
 <div class="row">
@@ -11,7 +10,7 @@ $_SESSION["code"] = $code;
     <div class="col-md-6">
         <center>
             <p>Please enter the code below.</p>
-            <img src="captcha_image.php" width="100%" /><br />
+            <img src="captcha_image.php?code=<?php echo $code ?>" width="100%" /><br />
             <input type="text" class="form-control" />
             <input type="submit" value="Submit" />
         </center>
