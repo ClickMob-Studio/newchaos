@@ -67,6 +67,7 @@ $leftLinks[] =
 	array(
 		'name' => 'Chat',
 		'url'  => 'globalchat.php',
+		'count' => $counts['gchat'],
 	);
 $leftLinks[] =
     array(

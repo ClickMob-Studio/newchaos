@@ -515,6 +515,7 @@ if($user_class->gangmail > 0){
 }else{
     $gmailCount = '';
 }
+
 $counts = array(
 	'event'         => $ev,
 	'mail'          => '<!_-mail-_!>',
@@ -522,6 +523,7 @@ $counts = array(
 	'jail'          => $ja,
     'gangmail'      => $gmailCount,
     'updates'       => $user_class->game_updates,
+    'gchat' => $user_class->globalchat,
 );
 $queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
 

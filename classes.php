@@ -514,6 +514,7 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
         $this->sharedcontribution = $worked['sharedcontribution'];
 
         $this->gmail = $worked['gangmail'];
+        $this->globalchat = $worked['globalchat'];
         $this->promusic = $worked['music'];
         $this->Color1 = $worked['tColor1'];
         $this->Color2 = $worked['tColor2'];
