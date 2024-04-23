@@ -12,7 +12,7 @@ function error($msg, $userBaStats = array())
     return $response;
 }
 
-function success($msg, $goldRushCredits = 0, $medPackCount = 0)
+function success($msg, $goldRushCredits = 0, $medPackCount = 0, $userBaStats = null)
 {
     $response = array();
     $response['success'] = true;
@@ -259,6 +259,8 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 
         addUserBaStatExp($userBaStats, $baExpWon);
         $userBaStats['gold_rush_credits'] = $userBaStats['gold_rush_credits'] - 1;
+        $userBaStats['turns'] = $userBaStats['turns'] + 1;
+        $userBaStats['wins'] = $userBaStats['wins'] + 1;
 
         $fullResponse = $scenario['start'];
         $fullResponse .= '<br />';
@@ -267,7 +269,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br /><br />';
         $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & ' . number_format($expWon, 0) . ' EXP!</strong>';
 
-        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount));
+        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     } else if ($outcome <= 70) {
         // 40% Win Cash & Item
@@ -304,8 +306,13 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
+        $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1, `turns` = `turns` + 1, `wins` = `wins` + 1  WHERE `user_id` = '" . $user_class->id . "'");
+        $db->execute();
+
         addUserBaStatExp($userBaStats, $baExpWon);
         $userBaStats['gold_rush_credits'] = $userBaStats['gold_rush_credits'] - 1;
+        $userBaStats['turns'] = $userBaStats['turns'] + 1;
+        $userBaStats['wins'] = $userBaStats['wins'] + 1;
 
         $fullResponse = $scenario['start'];
         $fullResponse .= '<br />';
@@ -314,7 +321,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br /><br />';
         $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & found 1 x ' . $itemName . '!</strong>';
 
-        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount));
+        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     } else if ($outcome <= 85) {
         // 15% Win Points
@@ -324,11 +331,13 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `grpgusers` SET `points` = `points` + " . $pointsWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
-        $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1  WHERE `user_id` = '" . $user_class->id . "'");
+        $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1, `turns` = `turns` + 1, `wins` = `wins` + 1  WHERE `user_id` = '" . $user_class->id . "'");
         $db->execute();
 
         addUserBaStatExp($userBaStats, $baExpWon);
         $userBaStats['gold_rush_credits'] = $userBaStats['gold_rush_credits'] - 1;
+        $userBaStats['turns'] = $userBaStats['turns'] + 1;
+        $userBaStats['wins'] = $userBaStats['wins'] + 1;
 
         $fullResponse = $scenario['start'];
         $fullResponse .= '<br />';
@@ -337,7 +346,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br /><br />';
         $fullResponse .= '<strong>You won ' . number_format($pointsWon, 0) . ' points!</strong>';
 
-        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount));
+        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     } else {
         // 15% Win Raid Tokens
@@ -347,11 +356,13 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + " . $raidTokensWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
-        $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1  WHERE `user_id` = '" . $user_class->id . "'");
+        $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1, `turns` = `turns` + 1, `wins` = `wins` + 1  WHERE `user_id` = '" . $user_class->id . "'");
         $db->execute();
 
         addUserBaStatExp($userBaStats, $baExpWon);
         $userBaStats['gold_rush_credits'] = $userBaStats['gold_rush_credits'] - 1;
+        $userBaStats['turns'] = $userBaStats['turns'] + 1;
+        $userBaStats['wins'] = $userBaStats['wins'] + 1;
 
         $fullResponse = $scenario['start'];
         $fullResponse .= '<br />';
@@ -360,7 +371,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br /><br />';
         $fullResponse .= '<strong>You won ' . number_format($raidTokensWon, 0) . ' raid tokens!</strong>';
 
-        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount));
+        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     }
 } else {
@@ -389,6 +400,12 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `grpgusers` SET `hwho` = '{$attacker}', `hhow` = 'backalley', `hospital` = '" . $hosp . "' WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
+        $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `losses` = `losses` + 1  WHERE `user_id` = '" . $user_class->id . "'");
+        $db->execute();
+
+        $userBaStats['turns'] = $userBaStats['turns'] + 1;
+        $userBaStats['losses'] = $userBaStats['losses'] + 1;
+
         $fullResponse = $scenario['start'];
         $fullResponse .= '<br />';
         $fullResponse .= '<br />';
@@ -396,7 +413,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br /><br />';
         $fullResponse .= '<strong>You will need to spend some time in the hospital!</strong>';
 
-        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount));
+        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     } else if ($outcome <= 30) {
         // 20% Loose & Don't Hosp
@@ -407,7 +424,13 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br /><br />';
         $fullResponse .= '<strong>Luckily, you won\'t need to spend any time in hospital</strong>';
 
-        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount));
+        $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `losses` = `losses` + 1  WHERE `user_id` = '" . $user_class->id . "'");
+        $db->execute();
+
+        $userBaStats['turns'] = $userBaStats['turns'] + 1;
+        $userBaStats['losses'] = $userBaStats['losses'] + 1;
+
+        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     } else if ($outcome <= 60) {
         // 30% Win Cash & EXP
@@ -419,7 +442,12 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `exp` = `exp` + " . $expWon . ", `backalleywins` = `backalleywins` + 1  WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
+        $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `wins` = `wins` + 1  WHERE `user_id` = '" . $user_class->id . "'");
+        $db->execute();
+
         addUserBaStatExp($userBaStats, $baExpWon);
+        $userBaStats['turns'] = $userBaStats['turns'] + 1;
+        $userBaStats['wins'] = $userBaStats['wins'] + 1;
 
         $fullResponse = $scenario['start'];
         $fullResponse .= '<br />';
@@ -428,7 +456,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br /><br />';
         $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & ' . number_format($expWon, 0) . ' EXP!</strong>';
 
-        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount));
+        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     } else if ($outcome <= 70) {
         // 20% Win Cash & Item
@@ -459,7 +487,12 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
+        $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `wins` = `wins` + 1  WHERE `user_id` = '" . $user_class->id . "'");
+        $db->execute();
+
         addUserBaStatExp($userBaStats, $baExpWon);
+        $userBaStats['turns'] = $userBaStats['turns'] + 1;
+        $userBaStats['wins'] = $userBaStats['wins'] + 1;
 
         $fullResponse = $scenario['start'];
         $fullResponse .= '<br />';
@@ -468,7 +501,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br /><br />';
         $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & found 1 x ' . $itemName . '!</strong>';
 
-        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount));
+        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     } else {
         $fullResponse = $scenario['start'];
@@ -478,7 +511,13 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br /><br />';
         $fullResponse .= '<strong>Luckily, you won\'t need to spend any time in the hospital!</strong>';
 
-        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount));
+        $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `losses` = `losses` + 1  WHERE `user_id` = '" . $user_class->id . "'");
+        $db->execute();
+
+        $userBaStats['turns'] = $userBaStats['turns'] + 1;
+        $userBaStats['losses'] = $userBaStats['losses'] + 1;
+
+        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     }
 
