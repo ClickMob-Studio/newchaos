@@ -41,43 +41,59 @@ $rows = $db->fetch_row();
 // Assuming we have a city variable for the current user's city
 $current_city = $user_class->city;
 
-// King city claim
-if (isset($_GET['claim_king']) && $_GET['claim_king'] === 'claimnow') {
-    // Check city doesn't have one already
-    $king_query = mysql_query("SELECT id FROM grpgusers WHERE king = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
-    if (mysql_num_rows($king_query) > 0) {
-        // Do nothing - already claimed
-    } else {
-        if ($user_class->gender === 'Male') {
-            $kin= mysql_query("SELECT id FROM grpgusers WHERE queen = '" . mysql_real_escape_string($current_city) . "' AND `id` = ".$user_class->id." LIMIT 1");
-            if(mysql_num_rows($kin) > 0){
-                echo Message("You are already the queen!");
-            }else{
-            mysql_query("UPDATE grpgusers SET king = " . $current_city . ", queen = 0 WHERE id = " . $user_class->id);
-            header('Location: city.php');
+if (isset($_GET['claim_king']) && $_GET['claim_king'] == 'claimnow') {
+    $king_query = "SELECT id FROM grpgusers WHERE king = :current_city LIMIT 1";
+    $db->query($king_query);
+    $db->bind(':current_city', $user_class->city);
+    $king_result = $db->fetch_row();
+    if (count($king_result) < 1) {
+            $queen_query = "SELECT id FROM grpgusers WHERE queen = :current_city AND id = :user_id LIMIT 1";
+            $db->query($queen_query);
+            $db->bind(':current_city', $user_class->city);
+            $db->bind(':user_id', $user_class->id);
+            $queen_result = $db->fetch_row();
+            if (count($queen_result) > 0) {
+                echo Message("You are already the Under Boss!");
+            } else {
+                $update_query = "UPDATE grpgusers SET king = :current_city, queen = 0 WHERE id = :user_id";
+                $db->query($update_query);
+                $db->bind(':current_city', $user_class->city);
+                $db->bind(':user_id', $user_class->id);
+                $db->execute();
+                header('Location: city.php');
+                exit(); 
             }
-        }
+        
     }
-}
-
-// Queen city claim
-if (isset($_GET['claim_queen']) && $_GET['claim_queen'] === 'claimnow') {
-    // Check city doesn't have one already
-    $queen_query = mysql_query("SELECT id FROM grpgusers WHERE queen = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
-    if (mysql_num_rows($queen_query) > 0) {
-        // Do nothing - already claimed
-    } else {
-        if ($user_class->gender === 'Female') {
-            $kin= mysql_query("SELECT id FROM grpgusers WHERE king = '" . mysql_real_escape_string($current_city) . "' AND `id` = ".$user_class->id." LIMIT 1");
-            if(mysql_num_rows($kin) > 0){
-                echo Message("You are already the king!");
-            }else{
-            mysql_query("UPDATE grpgusers SET queen = " . $current_city . ", king = 0 WHERE id = " . $user_class->id);
-            header('Location: city.php');
+  }
+  
+  if (isset($_GET['claim_queen']) && $_GET['claim_queen'] == 'claimnow') {
+  
+    $queen_query = "SELECT id FROM grpgusers WHERE queen = :current_city LIMIT 1";
+    $db->query($queen_query);
+    $db->bind(':current_city', $user_class->city);
+    $queen_result = $db->fetch_row();
+    if (count($queen_result) < 1) {
+            $king_query = "SELECT id FROM grpgusers WHERE king = :current_city AND id = :user_id LIMIT 1";
+            $db->query($king_query);
+            $db->bind(':current_city', $user_class->city);
+            $db->bind(':user_id', $user_class->id);
+            $king_result = $db->fetch_row();
+            if (count($king_result) > 0) {
+                echo Message("You are already the Boss!");
+            } else {
+                $update_query = "UPDATE grpgusers SET queen = :current_city, king = 0 WHERE id = :user_id";
+                $db->query($update_query);
+                $db->bind(':current_city', $user_class->city);
+                $db->bind(':user_id', $user_class->id);
+                $db->execute();
+            
+                header('Location: city.php');
+                exit(); 
             }
-        }
+        
     }
-}
+  }
 
 $city_query = mysql_query("SELECT owned_points FROM cities WHERE id = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
                             $city_query = mysql_fetch_assoc($city_query);
@@ -113,50 +129,49 @@ $admin_ids = array_map(function($a) {
 
 
 <div class="vip-container" style="display: flex; justify-content: space-around; align-items: flex-start;">
-    <!-- King of the City -->
+
     <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; text-align:center ">
         <?php if ($king_result): ?>
             <img src="<?php echo htmlspecialchars($king_result['avatar']); ?>" style="width: 100px; height: 100px;" alt="King's Avatar" class="user-avatar">
-            <h4>King of <!_-cityname-_!></h4>
+            <h4>Boss of <!_-cityname-_!></h4>
             <p><strong><?php echo formatName($king_result['id']); ?></strong></p>
-            <a href="/attack.php?attack=<?php echo $king_result['id']; ?>&csrf=<?php echo $csrf;?>&throne=attack" class="challenge-btn" style="text-decoration: underline;">Challenge</a>
+            <a href="/attack.php?attack=<?php echo $king_result['id']; ?>&csrf=<?php echo $csrf;?>&thrones=attack" class="challenge-btn" style="text-decoration: underline;">Challenge</a>
 
         <?php else: ?>
-            <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No King" class="vacant-throne">
+            <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No Boss" class="vacant-throne">
             <h4>VACANT</h4>
-            <p>King of <!_-cityname-_!></p>
-            <a href="city.php?claim_king=claimnow" style="text-decoration: underline;">Claim</a>
+            <p>Boss of <!_-cityname-_!></p>
+            <a href="?claim_king=claimnow" style="text-decoration: underline;">Claim</a>
             
         <?php endif; ?>
         <br />
 
-        <p style="font-weight: bold; margin-top: 5px;">By being King of this City you will earn <?php echo number_format($city_query['owned_points'], 0) ?> points an hour.</p>
+        <p style="font-weight: bold; margin-top: 5px;">By being the Boss of this city you will earn <?php echo number_format($city_query['owned_points'], 0) ?> points an hour.</p>
        
 
 
 </div>
-    <!-- Queen of the City -->
+<?php $owned_points = $city_query['owned_points'];
+$twenty_percent =$owned_points - $owned_points * 0.20;
+?>
     <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; text-align:center">
         <?php if ($queen_result): ?>
-            <img src="<?php echo htmlspecialchars($queen_result['avatar']); ?>" style="width: 100px; height: 100px;" alt="Queen's Avatar" class="user-avatar">
-            <h4>Queen of <!_-cityname-_!></h4>
+            <img src="<?php echo htmlspecialchars($queen_result['avatar']); ?>" style="width: 100px; height: 100px;" alt="Under Boss's Avatar" class="user-avatar">
+            <h4>Under Boss of <!_-cityname-_!></h4>
             <p><strong><?php echo formatName($queen_result['id']); ?></strong></p>
-            <a href="/attack.php?attack=<?php echo $queen_result['id']; ?>&csrf=<?php echo $csrf;?>&throne=attack"  class="challenge-btn" style="text-decoration: underline;">Challenge</a>
+            <a href="/attack.php?attack=<?php echo $queen_result['id']; ?>&csrf=<?php echo $csrf;?>&thrones=attack"  class="challenge-btn" style="text-decoration: underline;">Challenge</a>
         
             <?php else: ?>
-            <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No Queen" class="vacant-throne">
+            <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No Under Boss" class="vacant-throne">
             <h4>VACANT</h4>
-            <p>Queen of <!_-cityname-_!></p>
-            <a href="city.php?claim_queen=claimnow" style="text-decoration: underline;">Claim</a>
+            <p>Under Boss of <!_-cityname-_!></p>
+            <a href="?claim_queen=claimnow" style="text-decoration: underline;">Claim</a>
             <?php endif; ?>
         <br />
 
-        <p style="font-weight: bold; margin-top: 5px">By being Queens of this City you will earn <?php echo number_format($city_query['owned_points'], 0) ?> points an hour.</p>
+        <p style="font-weight: bold; margin-top: 5px">By being the Under Boss of this City you will earn <?php echo number_format($twenty_percent, 0) ?> points an hour.</p>
           </div>
 </div>
-
-
-
 </div>
 <br>
 <div class="contenthead floaty">

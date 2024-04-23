@@ -63,15 +63,15 @@ echo "<style type='text/css'>
         width: 50%;
     }
 </style>
-
+<p>If you are holding a Boss Or Under Boss slot and travel out of the city you hold it in you will loose that spot!</p>
 <table id='newtables' style='width:100%;table-layout:fixed;'>
     <tr>
     <th class='small-column'>Name</th>
     <th class='small-column'>Cost</th>
     <th class='small-column'>Level Required</th>
     <th class='small-column'>Population</th>
-    <th class='small-column'>King</th>
-    <th class='small-column'>Queen</th>
+    <th class='small-column'>Boss</th>
+    <th class='small-column'>Under Boss</th>
     </tr>";
 
 $result = mysql_query("SELECT * FROM cities WHERE country = $user_class->country AND id != 24 ORDER BY pres ASC, levelreq ASC");
@@ -90,8 +90,6 @@ while ($line = mysql_fetch_array($result)) {
    $king_status = $king ? " " . formatName($king['id']) : 'Vacant';
     $queen_status = $queen ? " " . formatName($queen['id']) : 'Vacant';
 
-
-    // Apply discount here and calculate the final cost
     $cost = $line['price'] * ($discount / 100);
     if ($line['rmonly'] == 1) {
         echo "<tr><td><a href='travel.php?go={$line['id']}'>{$line['name']}</a> <a href='rmstore.php' class='rm' style='color:yellow;'>RY ONLY</a></td><td>" . prettynum($cost, 1) . "</td><td>{$line['levelreq']}</td><td>{$line['pres']}</td><td>$population</td><td>$king_status</td><td>$queen_status</td></tr>";

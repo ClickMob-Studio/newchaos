@@ -216,7 +216,7 @@ while ($line = mysql_fetch_array($king_result)) {
 
     if ($city_result['owned_points'] > 0) {
         mysql_query("UPDATE `grpgusers` SET `points` = `points` + " . $city_result['owned_points'] . " WHERE `id` = " . $line['id']);
-        Send_event($line['id'], "You earned " . number_format($city_result['owned_points'], 0) . " points for being the King!");
+        Send_event($line['id'], "You earned " . number_format($city_result['owned_points'], 0) . " points for being the Boss!");
     }
 }
 
@@ -228,8 +228,11 @@ while ($line = mysql_fetch_array($queen_result)) {
     $city_result = mysql_fetch_assoc($city_query);
 
     if ($city_result['owned_points'] > 0) {
-        mysql_query("UPDATE `grpgusers` SET `points` = `points` + " . $city_result['owned_points'] . " WHERE `id` = " . $line['id']);
-        Send_event($line['id'], "You earned " . number_format($city_result['owned_points'], 0) . " points for being the Queen!");
+        $owned_points = $city_query['owned_points'];
+        $twenty_percent =$owned_points - $owned_points * 0.20;
+
+        mysql_query("UPDATE `grpgusers` SET `points` = `points` + " . $twenty_percent . " WHERE `id` = " . $line['id']);
+        Send_event($line['id'], "You earned " . number_format($twenty_percent, 0) . " points for being the *Under Boss!");
     }
 }
 
