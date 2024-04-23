@@ -2,7 +2,7 @@
 
 include 'header.php';
 
-macroTokenCheck();
+macroTokenCheck($user_class);
 
 $code = rand(1000, 99999);
 
