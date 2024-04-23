@@ -5,7 +5,7 @@ require ("header.php");
 if($user_class->admin < 1){
   exit();
 }
-$current_city = $user_class->city;
+
 if (isset($_GET['claim_king']) && $_GET['claim_king'] == 'claimnow') {
   $king_query = "SELECT id FROM grpgusers WHERE king = :current_city LIMIT 1";
   $db->query($king_query);
@@ -36,12 +36,12 @@ if (isset($_GET['claim_queen']) && $_GET['claim_queen'] == 'claimnow') {
 
   $queen_query = "SELECT id FROM grpgusers WHERE queen = :current_city LIMIT 1";
   $db->query($queen_query);
-  $db->bind(':current_city', $current_city);
+  $db->bind(':current_city', $user_class->city);
   $queen_result = $db->fetch_row();
   if (count($queen_result) < 1) {
           $king_query = "SELECT id FROM grpgusers WHERE king = :current_city AND id = :user_id LIMIT 1";
           $db->query($king_query);
-          $db->bind(':current_city', $current_city);
+          $db->bind(':current_city', $user_class->city);
           $db->bind(':user_id', $user_class->id);
           $king_result = $db->fetch_row();
           if (count($king_result) > 0) {
@@ -49,32 +49,28 @@ if (isset($_GET['claim_queen']) && $_GET['claim_queen'] == 'claimnow') {
           } else {
               $update_query = "UPDATE grpgusers SET queen = :current_city, king = 0 WHERE id = :user_id";
               $db->query($update_query);
-              $db->bind(':current_city', $current_city);
+              $db->bind(':current_city', $user_class->city);
               $db->bind(':user_id', $user_class->id);
-              $result = $db->execute();
-              if ($result) {
-                echo "Update successful";
-            } else {
-                echo "Update failed: " . $db->query_error(); // Assuming you have an error() method in your database class
-            }
-             // header('Location: city.php');
+              $db->execute();
+          
+              header('Location: city.php');
               exit(); 
           }
       
   }
 }
-$current_city = $user_class->city;
-$city_query = mysql_query("SELECT owned_points FROM cities WHERE id = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
+
+$city_query = mysql_query("SELECT owned_points FROM cities WHERE id = '" . mysql_real_escape_string($user_class->city) . "' LIMIT 1");
                             $city_query = mysql_fetch_assoc($city_query);
 
-$king_query = mysql_query("SELECT id, username, avatar FROM grpgusers WHERE king = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
+$king_query = mysql_query("SELECT id, username, avatar FROM grpgusers WHERE king = '" . mysql_real_escape_string($user_class->city) . "' LIMIT 1");
 if ($king_query) {
     $king_result = mysql_fetch_assoc($king_query);
 } else {
     $king_result = null;
 }
 
-$queen_query = mysql_query("SELECT id, username, avatar FROM grpgusers WHERE queen = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
+$queen_query = mysql_query("SELECT id, username, avatar FROM grpgusers WHERE queen = '" . mysql_real_escape_string($user_class->city) . "' LIMIT 1");
 if ($queen_query) {
     $queen_result = mysql_fetch_assoc($queen_query);
 } else {
