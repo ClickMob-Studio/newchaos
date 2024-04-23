@@ -33,6 +33,26 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                     If you fail you will find yourself in the hospital
                 </p>
 
+                <table class="new_table" id="newtables" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th colspan="3">Your Back Alley Stats</th>
+                        </tr>
+                        <tr>
+                            <th>Searches</th>
+                            <th>Wins</th>
+                            <th>Losses</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="ba-stats-searches"><?php echo number_format($userBaStats['turns'], ) ?></span></td>
+                            <td><span class="ba-stats-wins"><?php echo number_format($userBaStats['wins'], ) ?></span></td>
+                            <td><span class="ba-stats-losses"><?php echo number_format($userBaStats['losses'], ) ?></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
                 <p style="font-weight: bold;">You Back Alley Skill Set is currently level 1</p>
                 <div class="row">
                     <div class="col-md-3"></div>
