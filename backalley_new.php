@@ -107,6 +107,35 @@ include 'footer.php';
 
 <script type="text/javascript">
     $(document).ready(function() {
+        document.addEventListener("DOMContentLoaded",function(){
+            document.body.addEventListener('click', function(evt) {
+                // Check for an actual mouse click (1, 2 & 3)
+                if (evt.which > 3) {
+                    var request = $.ajax({
+                        url: 'ajax_autoclick_detection.php?page=backalley&reason=invalid_click',
+                        method: "GET",
+                        dataType: "json"
+                    });
+                    request.done(function (res) {
+                        console.log(res);
+                    });
+                }
+
+                if (evt.isTrusted) {
+
+                } else {
+                    var request = $.ajax({
+                        url: 'ajax_autoclick_detection.php?page=backalley&reason=click_not_trusted',
+                        method: "GET",
+                        dataType: "json"
+                    });
+                    request.done(function (res) {
+                        console.log(res);
+                    });
+                }
+            }, true);
+        });
+
         let requestInProcess = false;
 
         <?php if ($userBaStats['gold_rush_credits'] > 0): ?>

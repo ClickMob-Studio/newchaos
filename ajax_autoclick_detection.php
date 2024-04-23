@@ -6,7 +6,8 @@ if (isset($_GET['page'])) {
     $page = $_GET['page'];
 
     $validPageChoices = array(
-        'jail'
+        'jail',
+        'backalley'
     );
     if (!in_array($page, $validPageChoices)) {
         echo json_encode(array('success' => false, 'message' => 'Invalid page'));
