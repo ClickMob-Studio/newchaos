@@ -207,6 +207,8 @@ include 'footer.php';
                 $(".temp-spinner").remove();
                 clicked.show();
 
+                $('.ba-btn').show();
+
                 requestInProcess = false;
             });
         });
@@ -243,6 +245,8 @@ include 'footer.php';
                 $("#ba-response-message").show();
                 $(".temp-spinner").remove();
                 clicked.show();
+
+                $('.ba-btn').show();
 
                 requestInProcess = false;
             });
@@ -281,6 +285,7 @@ include 'footer.php';
                 $("#ba-response-message").show();
                 $(".temp-spinner").remove();
                 clicked.show();
+                $('.ba-btn').show();
 
                 requestInProcess = false;
             });
