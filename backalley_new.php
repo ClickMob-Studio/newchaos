@@ -151,9 +151,11 @@ include 'footer.php';
                 }
 
                 $('.med-pack-count').html(res.med_pack_count);
-                $('.ba-stats-searches').html(res.user_ba_stats.turns);
-                $('.ba-stats-wins').html(res.user_ba_stats.wins);
-                $('.ba-stats-losses').html(res.user_ba_stats.losses);
+                if (res.user_ba_stats) {
+                    $('.ba-stats-searches').html(res.user_ba_stats.turns);
+                    $('.ba-stats-wins').html(res.user_ba_stats.wins);
+                    $('.ba-stats-losses').html(res.user_ba_stats.losses);
+                }
                 $("#ba-response-message").html(resMes);
                 $("#ba-response-message").show();
                 $(".temp-spinner").remove();
