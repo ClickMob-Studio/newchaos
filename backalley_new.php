@@ -1,5 +1,5 @@
 <?php
-
+exit;
 session_start();
 include 'header.php';
 
