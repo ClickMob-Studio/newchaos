@@ -10,7 +10,8 @@ if ($user_class->admin < 1) {
 
 <ul>
     <li><a href="adamexp.php">Donations</a></li>
-    <li><a href="sendlogs.php">Send Logs</a></li>
+    <li><a href="admin_sendlogs.php">Send Logs</a></li>
+    <li><a href="admin_view_inventory.php">Inventories</a></li>
 </ul>
 
 <?php

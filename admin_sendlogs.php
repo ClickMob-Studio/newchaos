@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-if ($user_class->admin < 1) {
+if ($user_class->admin > 0) {
     echo 'You should not be here';
     exit;
 }
