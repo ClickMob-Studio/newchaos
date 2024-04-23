@@ -150,7 +150,20 @@ if(isset($_POST["action"]) && $_POST["action"] == "comments"){
         "text"=> "You have updated your profile comments"
     ));
 }
-
+if(isset($_POST["action"]) && $_POST["action"] == "privacy"){
+    $privacy = intval($_POST['privacy']);
+    if($privacy != 1 && $privacy !=0){
+        echo json_encode(array(
+            'text'=> 'You did not select a correct value'
+        ));
+        exit;
+    }
+    $db->query("UPDATE grpgusers SET dprivacy = ? WHERE id = ".$user_class->id);
+    $db->execute(array($comment));
+    echo json_encode(array(
+        "text"=> "You have updated your privacy status"
+    ));
+}
 if(isset($_POST["action"]) && $_POST["action"] == "refillnerve"){
     if($user_class->nerref == 0){
         if($user_class->points < 250){

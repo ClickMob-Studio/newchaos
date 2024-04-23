@@ -243,7 +243,26 @@ $(document).ready(function() {
         });
     });
 });
-
+$(document).ready(function() {
+    $("#updatePrivacyBtn").click(function() {
+        var privacy = $("#privacySelect").val();
+        $.ajax({
+            url: '/ajax_settings.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action: 'privacy',
+                privacy: privacy
+            },
+            success: function(response) {
+                $('.info-alert').html(response.text).show();
+            },
+            error: function() {
+                alert("An error occurred. Please try again.");
+            }
+        });
+    });
+});
 </script>
 <div class="container">
 <div class="alert alert-success info-alert" style="display: none";></div>
@@ -339,6 +358,15 @@ $(document).ready(function() {
 <?php else: ?>
     <button class="nerve-action" id="nerverefill" value='0'>Disable Nerve Refill</button>
 <?php endif; ?>
+</div>
+<div class="col-md-4 col-6">
+    <h1>Privacy</h1>
+    <p>Hide Yourself from bloodbath donations</p>
+    <select id="privacySelect">
+        <option value="1" <?php echo $user_class->dprivacy == 1 ? 'selected' : ''; ?>>On</option>
+        <option value="0" <?php echo $user_class->dprivacy == 0 ? 'selected' : ''; ?>>Off</option>
+    </select>
+    <button id="updatePrivacyBtn" type="button">Update Privacy</button>
 </div>
 <?php if($user_class->pdimgname > 0):?>
     <div class="col-md-4 col-6">
