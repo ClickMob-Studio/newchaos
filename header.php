@@ -35,13 +35,11 @@ if (!isset($_SESSION['id'])) {
 $l = mysql_query("SELECT sessionid FROM `sessions` WHERE userid = ".$_SESSION['id']);
 if(mysql_num_rows($l) < 1)
 {
-    session_unset();
     session_destroy();
     header('Location:index.php');
 }
 $g = mysql_fetch_assoc($l);
 if($g['sessionid'] != $_SESSION['token']){
-    session_unset();
     session_destroy();
     header('Location:index.php');
 }
