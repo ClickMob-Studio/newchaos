@@ -110,41 +110,41 @@ include 'footer.php';
 ?>
 
 <script type="text/javascript">
+    window.setTimeout(function(){
+        console.log('timeout');
+        window.location.reload();
+    }, 1 * 60 * 1000); // Reload after 11 mins of being on the page
+
+    document.addEventListener("DOMContentLoaded",function(){
+        document.body.addEventListener('click', function(evt) {
+            // Check for an actual mouse click (1, 2 & 3)
+            if (evt.which > 3) {
+                var request = $.ajax({
+                    url: 'ajax_autoclick_detection.php?page=backalley&reason=invalid_click',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    console.log(res);
+                });
+            }
+
+            if (evt.isTrusted) {
+
+            } else {
+                var request = $.ajax({
+                    url: 'ajax_autoclick_detection.php?page=backalley&reason=click_not_trusted',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    console.log(res);
+                });
+            }
+        }, true);
+    });
+    
     $(document).ready(function() {
-
-        window.setTimeout(function(){
-            window.location.reload();
-        }, 11 * 60 * 1000); // Reload after 11 mins of being on the page
-
-        document.addEventListener("DOMContentLoaded",function(){
-            document.body.addEventListener('click', function(evt) {
-                // Check for an actual mouse click (1, 2 & 3)
-                if (evt.which > 3) {
-                    var request = $.ajax({
-                        url: 'ajax_autoclick_detection.php?page=backalley&reason=invalid_click',
-                        method: "GET",
-                        dataType: "json"
-                    });
-                    request.done(function (res) {
-                        console.log(res);
-                    });
-                }
-
-                if (evt.isTrusted) {
-
-                } else {
-                    var request = $.ajax({
-                        url: 'ajax_autoclick_detection.php?page=backalley&reason=click_not_trusted',
-                        method: "GET",
-                        dataType: "json"
-                    });
-                    request.done(function (res) {
-                        console.log(res);
-                    });
-                }
-            }, true);
-        });
-
         let requestInProcess = false;
 
         <?php if ($userBaStats['gold_rush_credits'] > 0): ?>
