@@ -7,6 +7,10 @@ include 'header.php';
 //    echo 'exit'; exit;
 //}
 
+if (checkCaptchaRequired($user_class)) {
+    header('Location: captcha.php?token=' . $user_class->macro_token . '&page=backalley');
+}
+
 $userBaStats = getUserBaStats($user_class);
 
 $medPackOneCount = 0;

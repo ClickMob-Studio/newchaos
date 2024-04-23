@@ -1992,3 +1992,19 @@ function addCountTracking($userId)
     }
 
 }
+
+function checkCaptchaRequired($user_class)
+{
+    $captchaRequired = false;
+
+    if ($user_class->captcha_timestamp < 1) {
+        $captchaRequired = true;
+    }
+
+    $inThePast = strtotime("-20 minutes");
+    if ($inThePast > $user_class->captcha_timestamp) {
+        $captchaRequired
+    }
+
+    return $captchaRequired;
+}
