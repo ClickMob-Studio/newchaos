@@ -19,6 +19,7 @@ function success($msg, $goldRushCredits = 0, $medPackCount = 0, $userBaStats = n
     $response['message'] = $msg;
     $response['gold_rush_credits'] = $goldRushCredits;
     $response['med_pack_count'] = $medPackCount;
+    $response['user_ba_stats'] = $userBaStats;
 
     return $response;
 }
