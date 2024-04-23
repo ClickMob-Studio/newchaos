@@ -35,9 +35,7 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
                     $_SESSION['failmessage'] = 'Your account has been banned';
                 } else {
                     session_regenerate_id();
-                    $randomKey = bin2hex(random_bytes(16));
-         
-                    $_SESSION['key'] = $randomKey;
+     
                     $_SESSION["id"] = $user['id'];
                     header('Location: index.php');
                     exit;
