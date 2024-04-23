@@ -1736,12 +1736,16 @@ function anticheat()
 function getCityNameByID($cityId)
 {
     global $db, $m;
-    if (!$rtn = $m->get('citynames.' . $cityId)) {
-        $db->query("SELECT `name` FROM cities WHERE id = ?");
-        $db->execute([$cityId]);
-        $rtn = $db->fetch_single();
-        $m->set('citynames.' . $cityId, $city, false, 60);
-    }
+//    if (!$rtn = $m->get('citynames.' . $cityId)) {
+//        $db->query("SELECT `name` FROM cities WHERE id = ?");
+//        $db->execute([$cityId]);
+//        $rtn = $db->fetch_single();
+//        //$m->set('citynames.' . $cityId, $city, false, 60);
+//    }
+
+    $db->query("SELECT `name` FROM cities WHERE id = ?");
+    $db->execute([$cityId]);
+    $rtn = $db->fetch_single();
     return $rtn;
 }
 

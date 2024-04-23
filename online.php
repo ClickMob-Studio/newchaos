@@ -40,7 +40,7 @@ while($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
             <td>{$type}</td>
             <td>{$gang->nobanner}</td>
             <td>{$line['level']}</td>
-            <td>{$line['cityname']}</td>
+            <td>" . getCityNameByID($line['city']) . "</td>
             <td>".howlongago($line['lastactive'])."</td>
         </tr>";
 
