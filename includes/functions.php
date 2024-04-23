@@ -416,7 +416,7 @@ function Take_Item($itemid, $userid, $quantity = 1)
 function Item_Name($itemId)
 {
     global $db;
-    $db->query("SELECT itemname FROM item WHERE id = ??");
+    $db->query("SELECT itemname FROM items WHERE id = ??");
     $db->execute(array(
         $itemId
     ));

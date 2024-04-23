@@ -34,7 +34,17 @@ $query = mysql_query("SELECT * FROM `transferlog` ORDER BY `timestamp` DESC LIMI
                         <?php echo date('d M Y h:i:s', $res['timestamp']) ?>
                     </td>
                     <td>
-
+                        <?php
+                        if ($res['item']) {
+                            echo Item_Name($res['item']);
+                        } elseif ($res['money']) {
+                            echo prettynum($res['money'], 1);
+                        } elseif ($res['points']) {
+                            echo prettynum($res['points']) . " Points";
+                        } elseif ($res['credits']) {
+                            echo prettynum($res['credits']) . " Credits";
+                        }
+                        ?>
 
                     </td>
                 </tr>
