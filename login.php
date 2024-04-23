@@ -36,16 +36,7 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
                 } else {
                     session_regenerate_id();
                     $randomKey = bin2hex(random_bytes(16));
-                    $query = "INSERT INTO sessions (userid, sessionid) VALUES (:userid, :sessionid)
-          ON DUPLICATE KEY UPDATE sessionid = :newsessionid";
-
-            $statement = $db->prepare($query);
-
-            $statement->bindParam(':userid', $user['id'], PDO::PARAM_INT);
-            $statement->bindParam(':sessionid', $randomKey, PDO::PARAM_STR);
-            $statement->bindParam(':newsessionid', $randomKey, PDO::PARAM_STR);
-
-                    $statement->execute();
+         
                     $_SESSION['key'] = $randomKey;
                     $_SESSION["id"] = $user['id'];
                     header('Location: index.php');
