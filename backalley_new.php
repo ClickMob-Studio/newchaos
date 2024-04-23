@@ -33,7 +33,7 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                     If you fail you will find yourself in the hospital
                 </p>
 
-                <br /><br />
+                <br />
                 <table class="new_table" style="width:100%;">
                     <thead>
                         <tr>
@@ -53,7 +53,7 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                         </tr>
                     </tbody>
                 </table>
-                <br /><br /><hr />
+                <br /><hr />
 
                 <p style="font-weight: bold;">You Back Alley Skill Set is currently level 1</p>
                 <div class="row">
