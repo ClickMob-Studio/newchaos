@@ -50,8 +50,8 @@ if (isset($_GET['claim_queen']) && $_GET['claim_queen'] == 'claimnow') {
               $db->query($update_query);
               $db->bind(':current_city', $current_city);
               $db->bind(':user_id', $user_class->id);
-              $db->execute();
-              if ($update_query) {
+              $result = $db->execute();
+              if ($result) {
                 echo "Update successful";
             } else {
                 echo "Update failed: " . $db->query_error(); // Assuming you have an error() method in your database class
