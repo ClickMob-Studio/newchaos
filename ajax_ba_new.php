@@ -296,6 +296,8 @@ if ($userBaStats['gold_rush_credits'] > 0) {
                 $db->query("SELECT `itemname` FROM `items` WHERE id = " . $itemWonId);
                 $db->execute();
                 $itemName = $db->fetch_single();
+
+                break;
             }
         }
 
@@ -363,7 +365,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     }
 } else {
 
-    $goldRushChance = mt_rand(1,10000);
+    $goldRushChance = mt_rand(1,20000);
     if ($goldRushChance == 2) {
         $db->query("UPDATE user_ba_stats SET gold_rush_credits = gold_rush_credits + 15 WHERE user_id = " . $user_class->id);
         $db->execute();
@@ -378,7 +380,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     // - 10% Loose & Go Hosp
     // - 20% Loose & Don't Hosp
     // - 30% Win Cash & EXP
-    // - 30% Win Cash & Item
+    // - 20% Win Cash & Item
     // - 10% Nothing, onto next turn
     $outcome = mt_rand(1,100);
     if ($outcome <= 10) {
@@ -409,7 +411,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         exit;
     } else if ($outcome <= 60) {
         // 30% Win Cash & EXP
-        $cashWon = mt_rand(1,30) * $userBaStats['level'];
+        $cashWon = mt_rand(10,500) * $userBaStats['level'];
         $expWon = round((mt_rand(1, 3) / 1000) * $user_class->maxexp);
         //$expWon = $expWon / 2;
         $baExpWon = mt_rand(1,15);
@@ -428,8 +430,8 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount));
         exit;
-    } else if ($outcome <= 90) {
-        // 30% Win Cash & Item
+    } else if ($outcome <= 80) {
+        // 20% Win Cash & Item
         $cashWon = mt_rand(1,30) * $userBaStats['level'];
         $baExpWon = mt_rand(1,15);
 
@@ -473,6 +475,8 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
+        $fullResponse .= '<br /><br />';
+        $fullResponse .= '<strong>You will need to spend some time in the hospital!</strong>';
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount));
         exit;
