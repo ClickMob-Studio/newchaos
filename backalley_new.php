@@ -113,7 +113,7 @@ include 'footer.php';
     window.setTimeout(function(){
         console.log('timeout');
         window.location.reload();
-    }, 1 * 60 * 1000); // Reload after 11 mins of being on the page
+    }, 11 * 60 * 1000); // Reload after 11 mins of being on the page
 
     document.addEventListener("DOMContentLoaded",function(){
         document.body.addEventListener('click', function(evt) {
@@ -143,7 +143,7 @@ include 'footer.php';
             }
         }, true);
     });
-    
+
     $(document).ready(function() {
         let requestInProcess = false;
 
