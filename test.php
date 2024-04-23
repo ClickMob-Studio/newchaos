@@ -13,7 +13,7 @@ while ($line = mysql_fetch_array($queen_result)) {
     echo $line['city'];
     $city_query = mysql_query("SELECT owned_points FROM cities WHERE id = '" . mysql_real_escape_string($line['city']) . "' LIMIT 1");
     $city_result = mysql_fetch_assoc($city_query);
-
+  var_dump($city_result);
     if ($city_result['owned_points'] > 0) {
         echo $city_query['owned_points']. "<br>";
         $owned_points = $city_query['owned_points'];
