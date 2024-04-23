@@ -119,7 +119,7 @@ if ($user_class->aprotection != 0) {
     $error = ($attack_person->hospital > 0) ? "You can't attack someone that is in hospital." : $error;
    
     $error = ($attack_person->hppercent < 25) ? "They need over 25% HP to be attacked." : $error;
-    $error = ($attack_person->admin == 1) ? "Im sorry, You cannot attack the owner" : $error;
+    $error = ($attack_person->admin == 1 && $user_class->admin < 1) ? "Im sorry, You cannot attack the owner" : $error;
     $error = ($attack_person->id == $user_class->id) ? "Why would you want to attack yourself?" : $error;
     $error = ($attack_person->aprotection > time() && !$throneAttack) ? "This Mobster is under Attack Protection." : $error;
     //$error = ($user_class->aprotection > time()) ? "You cannot attack whilst under Attack Protection." : $error;
