@@ -5,6 +5,7 @@ require ("header.php");
 if($user_class->admin < 1){
   exit();
 }
+$current_city = $user_class->city;
 if (isset($_GET['claim_king']) && $_GET['claim_king'] == 'claimnow') {
   $king_query = "SELECT id FROM grpgusers WHERE king = :current_city LIMIT 1";
   $db->query($king_query);
