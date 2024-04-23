@@ -7,6 +7,10 @@ include 'header.php';
 //    echo 'exit'; exit;
 //}
 
+if (checkCaptchaRequired($user_class)) {
+    header('Location: captcha.php?token=' . $user_class->macro_token . '&page=backalley');
+}
+
 $userBaStats = getUserBaStats($user_class);
 
 $medPackOneCount = 0;
@@ -106,36 +110,41 @@ include 'footer.php';
 ?>
 
 <script type="text/javascript">
+    window.setTimeout(function(){
+        console.log('timeout');
+        window.location.reload();
+    }, 11 * 60 * 1000); // Reload after 11 mins of being on the page
+
+    document.addEventListener("DOMContentLoaded",function(){
+        document.body.addEventListener('click', function(evt) {
+            // Check for an actual mouse click (1, 2 & 3)
+            if (evt.which > 3) {
+                var request = $.ajax({
+                    url: 'ajax_autoclick_detection.php?page=backalley&reason=invalid_click',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    console.log(res);
+                });
+            }
+
+            if (evt.isTrusted) {
+
+            } else {
+                var request = $.ajax({
+                    url: 'ajax_autoclick_detection.php?page=backalley&reason=click_not_trusted',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    console.log(res);
+                });
+            }
+        }, true);
+    });
+
     $(document).ready(function() {
-        document.addEventListener("DOMContentLoaded",function(){
-            document.body.addEventListener('click', function(evt) {
-                // Check for an actual mouse click (1, 2 & 3)
-                if (evt.which > 3) {
-                    var request = $.ajax({
-                        url: 'ajax_autoclick_detection.php?page=backalley&reason=invalid_click',
-                        method: "GET",
-                        dataType: "json"
-                    });
-                    request.done(function (res) {
-                        console.log(res);
-                    });
-                }
-
-                if (evt.isTrusted) {
-
-                } else {
-                    var request = $.ajax({
-                        url: 'ajax_autoclick_detection.php?page=backalley&reason=click_not_trusted',
-                        method: "GET",
-                        dataType: "json"
-                    });
-                    request.done(function (res) {
-                        console.log(res);
-                    });
-                }
-            }, true);
-        });
-
         let requestInProcess = false;
 
         <?php if ($userBaStats['gold_rush_credits'] > 0): ?>
@@ -166,7 +175,7 @@ include 'footer.php';
                 if (res.success == false || res.success == 'false') {
                     var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
 
-                    $("#newtables tbody").prepend('<tr><td>' + res.error + '<hr /></td></tr>');
+                    //$("#newtables tbody").prepend('<tr><td>' + res.error + '<hr /></td></tr>');
                 } else {
                     var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
                     $("#newtables tbody").prepend('<tr><td>' + res.message + '<hr /></td></tr>');
@@ -181,7 +190,10 @@ include 'footer.php';
                     $('.gold-rush-mode').hide();
                 }
 
-                $('.med-pack-count').html(res.med_pack_count);
+                if (res.med_pack_count)  {
+                    $('.med-pack-count').html(res.med_pack_count);
+                }
+
                 if (res.user_ba_stats) {
                     $('.ba-stats-searches').html(res.user_ba_stats.turns);
                     $('.ba-stats-wins').html(res.user_ba_stats.wins);
@@ -223,10 +235,8 @@ include 'footer.php';
                 if (res.success == false || res.success == 'false') {
                     var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
 
-                    $("#newtables tbody").prepend('<tr><td>' + res.error + '<hr /></td></tr>');
                 } else {
                     var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
-                    $("#newtables tbody").prepend('<tr><td>' + res.message + '<hr /></td></tr>');
                 }
 
                 $("#ba-response-message").html(resMes);
@@ -262,10 +272,8 @@ include 'footer.php';
                 if (res.success == false || res.success == 'false') {
                     var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
 
-                    $("#newtables tbody").prepend('<tr><td>' + res.error + '<hr /></td></tr>');
                 } else {
                     var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
-                    $("#newtables tbody").prepend('<tr><td>' + res.message + '<hr /></td></tr>');
                 }
 
                 $('.med-pack-count').html(res.med_pack_count);

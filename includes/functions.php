@@ -1842,7 +1842,7 @@ function macroTokenCheck($user_class)
         echo
         "
             <div class='alert alert-danger'>
-                <p>Something went wrong, an Admin has been informed.
+                <p>3 Something went wrong, an Admin has been informed.
             </div>
         ";
         exit;
@@ -1850,6 +1850,8 @@ function macroTokenCheck($user_class)
 
     $newMacroToken = generateMacroToken();
     mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken ."' WHERE id = " . $user_class->id);
+
+    return $newMacroToken;
 }
 
 function getItemTempUse($userId)
@@ -1991,4 +1993,20 @@ function addCountTracking($userId)
         return $r;
     }
 
+}
+
+function checkCaptchaRequired($user_class)
+{
+    $captchaRequired = false;
+
+    if ($user_class->captcha_timestamp < 1) {
+        $captchaRequired = true;
+    }
+
+    $inThePast = strtotime("-20 minutes");
+    if ($inThePast > $user_class->captcha_timestamp) {
+        $captchaRequired = true;
+    }
+
+    return $captchaRequired;
 }
