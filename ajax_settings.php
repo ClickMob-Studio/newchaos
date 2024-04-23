@@ -279,3 +279,16 @@ if(isset($_POST['action']) && $_POST['action'] == 'gradient_name'){
         "text"=> "Gradient name updated successfully!",
     ));
 }
+if(isset($_POST["action"]) && $_POST["action"] == "aprotection"){
+if($user_class->aprotection <= time()){
+    echo json_encode(array(
+        'text'=> 'You are currently not under protection',
+        ));
+        exit;
+}
+    $db->query("UPDATE grpgusers SET aprotection = ".time()." WHERE id =".$user_class->id);
+    $db->execute();
+    echo json_encode(array(
+        "text"=> "You have gave up your attack protection"
+    ));
+}
