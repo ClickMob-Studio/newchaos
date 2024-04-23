@@ -371,7 +371,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     // - 10% Win Cash & Item
     // - 10% Nothing, onto next turn
     $outcome = mt_rand(1,100);
-    if ($outcome <= 40) {
+    if ($outcome <= 35) {
         // 10% Loose & Go Hosp
         $hosp = 120;
         $db->query("UPDATE `grpgusers` SET `hwho` = '{$attacker}', `hhow` = 'backalley', `hospital` = '" . $hosp . "' WHERE `id` = '" . $user_class->id . "'");
@@ -392,7 +392,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
-    } else if ($outcome <= 70) {
+    } else if ($outcome <= 60) {
         // 30% Win Cash & EXP
         $cashWon = mt_rand(10,1000) * $userBaStats['level'];
         $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 2));
