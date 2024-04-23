@@ -128,6 +128,7 @@ include 'footer.php';
                     $('.gold-rush-mode').hide();
                 }
 
+                $('.med-pack-count').html(res.med_pack_count);
                 $("#ba-response-message").html(resMes);
                 $("#ba-response-message").show();
                 $(".temp-spinner").remove();
