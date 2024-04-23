@@ -24,13 +24,13 @@ if (isset($_POST) && isset($_POST['code'])) {
             header('Location: backalley_new.php');
         }
     }
-    echo $_POST['code'] . '==' . $user_class->captcha_code;
+    echo $_POST['code'] . '==' . $user_class->captcha;
 
     diefun('You entered the wrong code.');
 }
 
 $code = rand(1000, 99999);
-mysql_query('UPDATE `grpgusers` SET `captcha_code` = "' . $code . '" WHERE `id` = ' . $user_class->id);
+mysql_query('UPDATE `grpgusers` SET `captcha` = "' . $code . '" WHERE `id` = ' . $user_class->id);
 
 
 ?>
