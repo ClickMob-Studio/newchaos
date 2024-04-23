@@ -1,6 +1,7 @@
 <?php 
 require "header.php";
 ?>
+<script type="text/javascript" data-cfasync="false" src="js/cp/jscolor.js"></script>
 <script>
 $(document).ready(function() {
     $("#passwordForm").submit(function(event) {
