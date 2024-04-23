@@ -291,6 +291,8 @@ if ($userBaStats['gold_rush_credits'] > 0) {
                     $totalMedPackCount = $totalMedPackCount + 1;
                 }
 
+                Give_Item($itemWonId, $user_class->id);
+
                 $db->query("SELECT `itemname` FROM `items` WHERE id = " . $itemWonId);
                 $db->execute();
                 $itemName = $db->fetch_single();
@@ -441,6 +443,8 @@ if ($userBaStats['gold_rush_credits'] > 0) {
                 $itemWonId = $itemId;
 
                 $totalMedPackCount = $totalMedPackCount + 1;
+
+                Give_Item($itemWonId, $user_class->id);
 
                 $db->query("SELECT `itemname` FROM `items` WHERE id = " . $itemWonId);
                 $db->execute();
