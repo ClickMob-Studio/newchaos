@@ -21,7 +21,7 @@ if (isset($_GET['claim_king']) && $_GET['claim_king'] === 'claimnow') {
           $db->bind(':user_id', $user_class->id);
           $queen_result = $db->fetch_row();
           if (count($queen_result) > 0) {
-              echo Message("You are already the queen!");
+              echo Message("You are already the under boss!");
           } else {
               $update_query = "UPDATE grpgusers SET king = :current_city, queen = 0 WHERE id = :user_id";
               $db->query($update_query);
@@ -52,7 +52,7 @@ if (isset($_GET['claim_queen']) && $_GET['claim_queen'] === 'claimnow') {
           $db->bind(':user_id', $user_class->id);
           $king_result = $db->fetch_row();
           if (count($king_result) > 0) {
-              echo Message("You are already the king!");
+              echo Message("You are already the boss!");
           } else {
               $update_query = "UPDATE grpgusers SET queen = :current_city, king = 0 WHERE id = :user_id";
               $db->query($update_query);
@@ -90,41 +90,44 @@ if ($queen_query) {
     <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; text-align:center ">
         <?php if ($king_result): ?>
             <img src="<?php echo htmlspecialchars($king_result['avatar']); ?>" style="width: 100px; height: 100px;" alt="King's Avatar" class="user-avatar">
-            <h4>King of <!_-cityname-_!></h4>
+            <h4>Boss of <!_-cityname-_!></h4>
             <p><strong><?php echo formatName($king_result['id']); ?></strong></p>
-            <a href="/attack.php?attack=<?php echo $king_result['id']; ?>&csrf=<?php echo $csrf;?>&throne=attack" class="challenge-btn" style="text-decoration: underline;">Challenge</a>
+            <a href="/attack.php?attack=<?php echo $king_result['id']; ?>&csrf=<?php echo $csrf;?>&thrones=attack" class="challenge-btn" style="text-decoration: underline;">Challenge</a>
 
         <?php else: ?>
-            <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No King" class="vacant-throne">
+            <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No Boss" class="vacant-throne">
             <h4>VACANT</h4>
             <p>King of <!_-cityname-_!></p>
-            <a href="city.php?claim_king=claimnow" style="text-decoration: underline;">Claim</a>
+            <a href="?claim_king=claimnow" style="text-decoration: underline;">Claim</a>
             
         <?php endif; ?>
         <br />
 
-        <p style="font-weight: bold; margin-top: 5px;">By being King of this City you will earn <?php echo number_format($city_query['owned_points'], 0) ?> points an hour.</p>
+        <p style="font-weight: bold; margin-top: 5px;">By being the boss of this city you will earn <?php echo number_format($city_query['owned_points'], 0) ?> points an hour.</p>
        
 
 
 </div>
+<?php $owned_points = $city_query['owned_points'];
+$twenty_percent = $owned_points * 0.20;
+?>
     <!-- Queen of the City -->
     <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; text-align:center">
         <?php if ($queen_result): ?>
-            <img src="<?php echo htmlspecialchars($queen_result['avatar']); ?>" style="width: 100px; height: 100px;" alt="Queen's Avatar" class="user-avatar">
-            <h4>Queen of <!_-cityname-_!></h4>
+            <img src="<?php echo htmlspecialchars($queen_result['avatar']); ?>" style="width: 100px; height: 100px;" alt="Under Boss's Avatar" class="user-avatar">
+            <h4>Under Boss of <!_-cityname-_!></h4>
             <p><strong><?php echo formatName($queen_result['id']); ?></strong></p>
-            <a href="/attack.php?attack=<?php echo $queen_result['id']; ?>&csrf=<?php echo $csrf;?>&throne=attack"  class="challenge-btn" style="text-decoration: underline;">Challenge</a>
+            <a href="/attack.php?attack=<?php echo $queen_result['id']; ?>&csrf=<?php echo $csrf;?>&thrones=attack"  class="challenge-btn" style="text-decoration: underline;">Challenge</a>
         
             <?php else: ?>
-            <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No Queen" class="vacant-throne">
+            <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No under boss" class="vacant-throne">
             <h4>VACANT</h4>
             <p>Queen of <!_-cityname-_!></p>
-            <a href="city.php?claim_queen=claimnow" style="text-decoration: underline;">Claim</a>
+            <a href="?claim_queen=claimnow" style="text-decoration: underline;">Claim</a>
             <?php endif; ?>
         <br />
 
-        <p style="font-weight: bold; margin-top: 5px">By being Queens of this City you will earn <?php echo number_format($city_query['owned_points'], 0) ?> points an hour.</p>
+        <p style="font-weight: bold; margin-top: 5px">By being the under boss of this City you will earn <?php echo number_format($twenty_percent, 0) ?> points an hour.</p>
           </div>
 </div>
 
