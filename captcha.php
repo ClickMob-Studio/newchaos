@@ -24,6 +24,7 @@ if (isset($_POST) && isset($_POST['code'])) {
             header('Location: backalley_new.php');
         }
     }
+    echo $_POST['code'] . '==' . $user_class->captcha_code;
 
     diefun('You entered the wrong code.');
 }
