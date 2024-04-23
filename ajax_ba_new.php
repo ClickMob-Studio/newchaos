@@ -244,7 +244,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
         $fullResponse .= '<br /><br />';
-        $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & ' . number_format($expWon, 0) . ' EXP!</strong>';
+        $fullResponse .= '<span style="font-weight: bold; color: green;">You won $' . number_format($cashWon, 0) . ' & ' . number_format($expWon, 0) . ' EXP!</span>';
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
@@ -296,7 +296,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
         $fullResponse .= '<br /><br />';
-        $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & found 1 x ' . $itemName . '!</strong>';
+        $fullResponse .= '<span style="font-weight: bold; color: green;">You won $' . number_format($cashWon, 0) . ' & found 1 x ' . $itemName . '!</span>';
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
@@ -321,7 +321,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
         $fullResponse .= '<br /><br />';
-        $fullResponse .= '<strong>You won ' . number_format($pointsWon, 0) . ' points!</strong>';
+        $fullResponse .= '<span style="font-weight: bold; color: green;">You won ' . number_format($pointsWon, 0) . ' points!</span>';
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
@@ -346,7 +346,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
         $fullResponse .= '<br /><br />';
-        $fullResponse .= '<strong>You won ' . number_format($raidTokensWon, 0) . ' raid tokens!</strong>';
+        $fullResponse .= '<span style="font-weight: bold; color: green;">You won ' . number_format($raidTokensWon, 0) . ' raid tokens!</span>';
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
@@ -388,7 +388,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
         $fullResponse .= '<br /><br />';
-        $fullResponse .= '<strong>You will need to spend some time in the hospital!</strong>';
+        $fullResponse .= '<span style="font-weight: bold; color: red;">You will need to spend some time in the hospital!</span>';
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
@@ -397,7 +397,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse = $scenario['start'];
         $fullResponse .= '<br />';
         $fullResponse .= '<br />';
-        $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
+        $fullResponse .= '<span style="font-weight:bold;">' . $scenario['fail'] . '</span>';
         $fullResponse .= '<br /><br />';
         $fullResponse .= '<strong>Luckily, you won\'t need to spend any time in hospital</strong>';
 
@@ -434,7 +434,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
         $fullResponse .= '<br /><br />';
-        $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & ' . number_format($expWon, 0) . ' EXP!</strong>';
+        $fullResponse .= '<span style="font-weight: bold; color: green;">You won $' . number_format($cashWon, 0) . ' & ' . number_format($expWon, 0) . ' EXP!</span>';
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
@@ -479,7 +479,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
         $fullResponse .= '<br /><br />';
-        $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & found 1 x ' . $itemName . '!</strong>';
+        $fullResponse .= '<span style="font-weight: bold; color: green;">You won $' . number_format($cashWon, 0) . ' & found 1 x ' . $itemName . '!</span>';
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
@@ -503,7 +503,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
         $fullResponse .= '<br /><br />';
-        $fullResponse .= '<strong>You won ' . number_format($pointsWon, 0) . ' points!</strong>';
+        $fullResponse .= '<span style="font-weight: bold; color: green;">You won ' . number_format($pointsWon, 0) . ' points!</span>';
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
