@@ -290,10 +290,10 @@ if ($row = mysql_fetch_assoc($result)) {
     // Check if the attacked person is king and the winner is male
     if ($row['king'] == $user_class->city) {
         // Dethrone the current king
-        mysql_query("UPDATE `grpgusers` SET `king` = 0 WHERE `id` = '".mysql_real_escape_string($attack_person->id)."'");
+        mysql_query("UPDATE `grpgusers` SET `king` = 0, `queen` = 0 WHERE `id` = '".mysql_real_escape_string($attack_person->id)."'");
 
         // Crown the new king
-        mysql_query("UPDATE `grpgusers` SET `king` = '".mysql_real_escape_string($user_class->city)."', `queen` = 0 WHERE `id` = '".mysql_real_escape_string($winner)."'");
+        mysql_query("UPDATE `grpgusers` SET `king` = '".mysql_real_escape_string($user_class->city)."', `queen` = 0 WHERE `id` = '".mysql_real_escape_string($winner->id)."'");
 
         // Send event notifications
         Send_Event($attack_person->id, "You have been defeated and lost your status as Boss of " . $cityname . ".");
@@ -303,10 +303,10 @@ if ($row = mysql_fetch_assoc($result)) {
     // Check if the attacked person is queen and the winner is female
     if ($row['queen'] == $user_class->city) {
         // Dethrone the current queen
-        mysql_query("UPDATE `grpgusers` SET `queen` = 0 WHERE `id` = '".mysql_real_escape_string($attack_person->id)."'");
+        mysql_query("UPDATE `grpgusers` SET `queen` = 0, `king` = 0 WHERE `id` = '".mysql_real_escape_string($attack_person->id)."'");
 
         // Crown the new queen
-        mysql_query("UPDATE `grpgusers` SET `queen` = '".mysql_real_escape_string($user_class->city)."', `king` = 0 WHERE `id` = '".mysql_real_escape_string($winner)."'");
+        mysql_query("UPDATE `grpgusers` SET `queen` = '".mysql_real_escape_string($user_class->city)."', `king` = 0 WHERE `id` = '".mysql_real_escape_string($winner->id)."'");
 
         // Send event notifications
         Send_Event($attack_person->id, "You have been defeated and lost your status as Under Boss of " . $cityname . ".");
