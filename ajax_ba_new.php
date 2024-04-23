@@ -231,7 +231,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `exp` = `exp` + " . $expWon . ", `backalleywins` = `backalleywins` + 1  WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
-        $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1, `turns` = `turns` + 1, `wins` = `wins` + 1  WHERE `user_id` = '" . $user_class->id . "'");
+        $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1, `turns` = `turns` + 1, `wins` = `wins` + 1, `cash_gained` = `cash_gained` +  " . $cashWon . ", `exp_gained` = `exp_gained` + " . $expWon . " WHERE `user_id` = '" . $user_class->id . "'");
         $db->execute();
 
         addUserBaStatExp($userBaStats, $baExpWon);
@@ -283,7 +283,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
-        $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1, `turns` = `turns` + 1, `wins` = `wins` + 1  WHERE `user_id` = '" . $user_class->id . "'");
+        $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1, `turns` = `turns` + 1, `wins` = `wins` + 1, `items_gained` = `items_gained` + 1, `cash_gained` = `cash_gained` + " . $cashWon . "  WHERE `user_id` = '" . $user_class->id . "'");
         $db->execute();
 
         addUserBaStatExp($userBaStats, $baExpWon);
@@ -308,7 +308,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `grpgusers` SET `points` = `points` + " . $pointsWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
-        $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1, `turns` = `turns` + 1, `wins` = `wins` + 1  WHERE `user_id` = '" . $user_class->id . "'");
+        $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1, `turns` = `turns` + 1, `wins` = `wins` + 1, `points_gained` = `points_gained` + " . $pointsWon . "  WHERE `user_id` = '" . $user_class->id . "'");
         $db->execute();
 
         addUserBaStatExp($userBaStats, $baExpWon);
@@ -422,7 +422,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `exp` = `exp` + " . $expWon . ", `backalleywins` = `backalleywins` + 1  WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
-        $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `wins` = `wins` + 1  WHERE `user_id` = '" . $user_class->id . "'");
+        $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `wins` = `wins` + 1, `cash_gained` = `cash_gained` + " . $cashWon . ", `exp_gained` = `exp_gained` + " . $expWon . "  WHERE `user_id` = '" . $user_class->id . "'");
         $db->execute();
 
         addUserBaStatExp($userBaStats, $baExpWon);
@@ -467,7 +467,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
-        $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `wins` = `wins` + 1  WHERE `user_id` = '" . $user_class->id . "'");
+        $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `wins` = `wins` + 1, `items_gained` = `items_gained` + 1, `cash_gained` = `cash_gained` + " . $cashWon . "  WHERE `user_id` = '" . $user_class->id . "'");
         $db->execute();
 
         addUserBaStatExp($userBaStats, $baExpWon);
@@ -491,7 +491,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `grpgusers` SET `points` = `points` + " . $pointsWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
 
-        $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `wins` = `wins` + 1  WHERE `user_id` = '" . $user_class->id . "'");
+        $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `wins` = `wins` + 1, `points_gained` = `points_gained` + " . $pointsWon . "  WHERE `user_id` = '" . $user_class->id . "'");
         $db->execute();
 
         addUserBaStatExp($userBaStats, $baExpWon);
