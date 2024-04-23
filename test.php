@@ -109,7 +109,7 @@ if ($queen_query) {
 
 </div>
 <?php $owned_points = $city_query['owned_points'];
-$twenty_percent = $owned_points * 0.20;
+$twenty_percent =$owned_points - $owned_points * 0.20;
 ?>
     <!-- Queen of the City -->
     <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; text-align:center">
