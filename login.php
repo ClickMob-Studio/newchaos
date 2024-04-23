@@ -35,7 +35,10 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
                     $_SESSION['failmessage'] = 'Your account has been banned';
                 } else {
                     session_regenerate_id();
-     
+                    $queryInsertOrUpdate = "INSERT INTO sessions (userid, sessionid) VALUES (?, ?)
+                    ON DUPLICATE KEY UPDATE sessionid = VALUES(sessionid)";
+                    $statementInsertOrUpdate = $db->prepare($queryInsertOrUpdate);
+                    $statementInsertOrUpdate->execute([$user['id'], $randomKey]);
                     $_SESSION["id"] = $user['id'];
                     header('Location: index.php');
                     exit;
