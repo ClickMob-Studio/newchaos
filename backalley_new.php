@@ -46,9 +46,9 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                     </thead>
                     <tbody>
                         <tr>
-                            <td><span class="ba-stats-searches"><?php echo number_format($userBaStats['turns'], ) ?></span></td>
-                            <td><span class="ba-stats-wins"><?php echo number_format($userBaStats['wins'], ) ?></span></td>
-                            <td><span class="ba-stats-losses"><?php echo number_format($userBaStats['losses'], ) ?></span></td>
+                            <td><span class="ba-stats-searches"><?php echo number_format($userBaStats['turns'], 0) ?></span></td>
+                            <td><span class="ba-stats-wins"><?php echo number_format($userBaStats['wins'], 0) ?></span></td>
+                            <td><span class="ba-stats-losses"><?php echo number_format($userBaStats['losses'], 0) ?></span></td>
                         </tr>
                     </tbody>
                 </table>
