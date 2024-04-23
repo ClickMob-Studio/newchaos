@@ -159,7 +159,7 @@ if(isset($_POST["action"]) && $_POST["action"] == "privacy"){
         exit;
     }
     $db->query("UPDATE grpgusers SET dprivacy = ? WHERE id = ".$user_class->id);
-    $db->execute(array($comment));
+    $db->execute(array($privacy));
     echo json_encode(array(
         "text"=> "You have updated your privacy status"
     ));
