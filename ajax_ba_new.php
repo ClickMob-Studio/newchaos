@@ -380,7 +380,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     // - 10% Loose & Go Hosp
     // - 20% Loose & Don't Hosp
     // - 30% Win Cash & EXP
-    // - 20% Win Cash & Item
+    // - 10% Win Cash & Item
     // - 10% Nothing, onto next turn
     $outcome = mt_rand(1,100);
     if ($outcome <= 10) {
@@ -430,7 +430,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount));
         exit;
-    } else if ($outcome <= 80) {
+    } else if ($outcome <= 70) {
         // 20% Win Cash & Item
         $cashWon = mt_rand(1,30) * $userBaStats['level'];
         $baExpWon = mt_rand(1,15);
