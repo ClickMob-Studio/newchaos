@@ -38,7 +38,7 @@ if (isset($_GET['claim_queen']) && $_GET['claim_queen'] === 'claimnow') {
   $db->query($queen_query);
   $db->bind(':current_city', $current_city);
   $queen_result = $db->fetch_row();
-  if (count($queen_result) < 1) 
+  if (count($queen_result) < 1) {
       if ($user_class->gender === 'Female') {
           $king_query = "SELECT id FROM grpgusers WHERE king = :current_city AND id = :user_id LIMIT 1";
           $db->query($king_query);
