@@ -449,6 +449,8 @@ if ($userBaStats['gold_rush_credits'] > 0) {
                 $db->query("SELECT `itemname` FROM `items` WHERE id = " . $itemWonId);
                 $db->execute();
                 $itemName = $db->fetch_single();
+
+                break;
             }
         }
 
