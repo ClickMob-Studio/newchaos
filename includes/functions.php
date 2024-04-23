@@ -2003,7 +2003,7 @@ function checkCaptchaRequired($user_class)
 
     $inThePast = strtotime("-20 minutes");
     if ($inThePast > $user_class->captcha_timestamp) {
-        $captchaRequired
+        $captchaRequired = true;
     }
 
     return $captchaRequired;
