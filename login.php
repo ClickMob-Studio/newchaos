@@ -44,6 +44,7 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
                     $statementInsertOrUpdate = $db->prepare($queryInsertOrUpdate);
 
                     $statementInsertOrUpdate->execute([$user['id'], $randomKey]);
+                    $_SESSION['token'] = $randomKey;
                     $_SESSION["id"] = $user['id'];
                     header('Location: index.php');
                     exit;
