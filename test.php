@@ -6,18 +6,15 @@ if($user_class->admin < 1){
   exit();
 }
 if (isset($_GET['claim_king']) && $_GET['claim_king'] === 'claimnow') {
-  // Check city doesn't have one already
   $king_query = "SELECT id FROM grpgusers WHERE king = :current_city LIMIT 1";
   $db->query($king_query);
-  $db->bind(':current_city', $current_city);
+  $db->bind(':current_city', $user_class->city);
   $king_result = $db->fetch_row();
-  if (count($king_result) > 0) {
-      // Do nothing - already claimed
-  } else {
+  if (count($king_result) < 1) {
       if ($user_class->gender === 'Male') {
           $queen_query = "SELECT id FROM grpgusers WHERE queen = :current_city AND id = :user_id LIMIT 1";
           $db->query($queen_query);
-          $db->bind(':current_city', $current_city);
+          $db->bind(':current_city', $user_class->city);
           $db->bind(':user_id', $user_class->id);
           $queen_result = $db->fetch_row();
           if (count($queen_result) > 0) {
@@ -25,26 +22,23 @@ if (isset($_GET['claim_king']) && $_GET['claim_king'] === 'claimnow') {
           } else {
               $update_query = "UPDATE grpgusers SET king = :current_city, queen = 0 WHERE id = :user_id";
               $db->query($update_query);
-              $db->bind(':current_city', $current_city);
+              $db->bind(':current_city', $user_class->city);
               $db->bind(':user_id', $user_class->id);
               $db->execute();
               header('Location: city.php');
-              exit(); // Always exit after a header redirect
+              exit(); 
           }
       }
   }
 }
 
-// Queen city claim
 if (isset($_GET['claim_queen']) && $_GET['claim_queen'] === 'claimnow') {
-  // Check city doesn't have one already
+
   $queen_query = "SELECT id FROM grpgusers WHERE queen = :current_city LIMIT 1";
   $db->query($queen_query);
   $db->bind(':current_city', $current_city);
   $queen_result = $db->fetch_row();
-  if (count($queen_result) > 0) {
-      // Do nothing - already claimed
-  } else {
+  if (count($queen_result) < 1) 
       if ($user_class->gender === 'Female') {
           $king_query = "SELECT id FROM grpgusers WHERE king = :current_city AND id = :user_id LIMIT 1";
           $db->query($king_query);
@@ -60,7 +54,7 @@ if (isset($_GET['claim_queen']) && $_GET['claim_queen'] === 'claimnow') {
               $db->bind(':user_id', $user_class->id);
               $db->execute();
               header('Location: city.php');
-              exit(); // Always exit after a header redirect
+              exit(); 
           }
       }
   }
@@ -69,7 +63,6 @@ $current_city = $user_class->city;
 $city_query = mysql_query("SELECT owned_points FROM cities WHERE id = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
                             $city_query = mysql_fetch_assoc($city_query);
 
-// PHP to fetch king's information including avatar
 $king_query = mysql_query("SELECT id, username, avatar FROM grpgusers WHERE king = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
 if ($king_query) {
     $king_result = mysql_fetch_assoc($king_query);
@@ -77,7 +70,6 @@ if ($king_query) {
     $king_result = null;
 }
 
-// PHP to fetch queen's information including avatar
 $queen_query = mysql_query("SELECT id, username, avatar FROM grpgusers WHERE queen = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
 if ($queen_query) {
     $queen_result = mysql_fetch_assoc($queen_query);
@@ -86,7 +78,7 @@ if ($queen_query) {
 }
 ?>
 <div class="vip-container" style="display: flex; justify-content: space-around; align-items: flex-start;">
-    <!-- King of the City -->
+
     <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; text-align:center ">
         <?php if ($king_result): ?>
             <img src="<?php echo htmlspecialchars($king_result['avatar']); ?>" style="width: 100px; height: 100px;" alt="King's Avatar" class="user-avatar">
@@ -111,7 +103,6 @@ if ($queen_query) {
 <?php $owned_points = $city_query['owned_points'];
 $twenty_percent =$owned_points - $owned_points * 0.20;
 ?>
-    <!-- Queen of the City -->
     <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; text-align:center">
         <?php if ($queen_result): ?>
             <img src="<?php echo htmlspecialchars($queen_result['avatar']); ?>" style="width: 100px; height: 100px;" alt="Under Boss's Avatar" class="user-avatar">
