@@ -24,11 +24,11 @@ if ($jailbreak != ""){
     if(empty($_GET['token'])){
         echo Message("There has been a issue");
     }
-    if($_GET['token'] != $_SESSION['token']){
+    if($_GET['token'] != $_SESSION['tokens']){
         $mes = "Something has gone wrong";
         $error = true;
     }else{
-        unset($_SESSION['token']);
+        unset($_SESSION['tokens']);
     }
 
     if (!$error){
@@ -228,7 +228,7 @@ if($user_class->jail > 0){
                     return $randomString;
                 }
                 $token = generateRandomString(10);
-                $_SESSION['token'] = $token;
+                $_SESSION['tokens'] = $token;
                 if(mysql_num_rows($result) || ($user_class->jail_bot_credits > 0 && $user_class->is_jail_bots_active)){
                     if (mysql_num_rows($result) > 0) {
                         while($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
