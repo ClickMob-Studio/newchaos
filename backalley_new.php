@@ -3,9 +3,9 @@
 session_start();
 include 'header.php';
 
-if ($user_class->admin < 1 || $user_class->id < 398) {
-    echo 'exit'; exit;
-}
+//if ($user_class->admin < 1 || $user_class->id < 398) {
+//    echo 'exit'; exit;
+//}
 
 $userBaStats = getUserBaStats($user_class);
 

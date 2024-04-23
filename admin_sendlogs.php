@@ -35,6 +35,7 @@ $query = mysql_query("SELECT * FROM `transferlog` ORDER BY `timestamp` DESC LIMI
                     </td>
                     <td>
 
+
                     </td>
                 </tr>
             <?php endwhile; ?>
