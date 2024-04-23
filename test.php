@@ -5,7 +5,7 @@ require ("header.php");
 if($user_class->admin < 1){
   exit();
 }
-if (isset($_GET['claim_king']) && $_GET['claim_king'] === 'claimnow') {
+if (isset($_GET['claim_king']) && $_GET['claim_king'] == 'claimnow') {
   $king_query = "SELECT id FROM grpgusers WHERE king = :current_city LIMIT 1";
   $db->query($king_query);
   $db->bind(':current_city', $user_class->city);
@@ -32,7 +32,7 @@ if (isset($_GET['claim_king']) && $_GET['claim_king'] === 'claimnow') {
   }
 }
 
-if (isset($_GET['claim_queen']) && $_GET['claim_queen'] === 'claimnow') {
+if (isset($_GET['claim_queen']) && $_GET['claim_queen'] == 'claimnow') {
 
   $queen_query = "SELECT id FROM grpgusers WHERE queen = :current_city LIMIT 1";
   $db->query($queen_query);
