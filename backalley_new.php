@@ -9,7 +9,7 @@ include 'header.php';
 
 $userBaStats = getUserBaStats($user_class);
 
-$medPackOneCount = check_items(13, $user_class->id);
+$medPackOneCount = 0;
 $medPackTwoCount = check_items(14, $user_class->id);
 $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
 ?>

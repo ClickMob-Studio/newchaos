@@ -53,7 +53,7 @@ if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'use_med_pack') {
         exit;
     }
 
-    $totalMedPackCount = check_items(13, $user_class->id) + check_items(14, $user_class->id);
+    $totalMedPackCount = check_items(14, $user_class->id);
 
     if (!$totalMedPackCount) {
         echo json_encode(success('You do not have any Med Packs.'));
@@ -80,35 +80,6 @@ if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'use_med_pack') {
         ));
 
         Take_Item(14, $user_class->id);
-
-        echo json_encode(array(
-            'success' => true,
-            'message' => 'You successfully used a ' . $row["itemname"] . '.',
-            'med_pack_count' => ($totalMedPackCount - 1)
-        ));
-        exit;
-    }
-
-    $medPackCount = check_items(13, $user_class->id);
-    if ($medPackCount > 0) {
-        $db->query("SELECT * FROM items WHERE id = 13");
-        $db->execute();
-        $row = $db->fetch_row(true);
-
-        $hosp = floor(($user_class->hospital / 100) * $row['reduce']);
-        $newhosp = $user_class->hospital - $hosp;
-        $newhosp = ($newhosp < 0) ? 0 : $newhosp;
-        $hp = floor(($user_class->puremaxhp / 4) * $row['heal']);
-        $hp = $user_class->purehp + $hp;
-        $hp = ($hp > $user_class->puremaxhp) ? $user_class->puremaxhp : $hp;
-        $db->query("UPDATE grpgusers SET hospital = ?, hp = ? WHERE id = ?");
-        $db->execute(array(
-            $newhosp,
-            $hp,
-            $user_class->id
-        ));
-
-        Take_Item(13, $user_class->id);
 
         echo json_encode(array(
             'success' => true,
@@ -236,7 +207,7 @@ $scenario['start'] = str_replace('__ANAME__', $attacker, $scenario['start']);
 // - 10% Nothing, onto next turn
 
 $userBaStats = getUserBaStats($user_class);
-$totalMedPackCount = check_items(13, $user_class->id) + check_items(14, $user_class->id);
+$totalMedPackCount = check_items(14, $user_class->id);
 
 if ($userBaStats['gold_rush_credits'] > 0) {
     // Outcomes
@@ -282,7 +253,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $baExpWon = mt_rand(5,25);
 
         $itemIds = array();
-        $itemIds[10] = 13; // Med Cert 75
+        //$itemIds[10] = 13; // Med Cert 75
         $itemIds[20] = 14; // Med Cert 100
         $itemIds[40] = 10; // Double Exp [1Hour]
         $itemIds[60] = 42; // Mystery Box
@@ -294,7 +265,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
             if ($itemChance <= $key) {
                 $itemWonId = $itemId;
 
-                if ($itemWonId == 13 || $itemWonId == 14) {
+                if ($itemWonId == 14) {
                     $totalMedPackCount = $totalMedPackCount + 1;
                 }
 
@@ -472,7 +443,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $baExpWon = mt_rand(1,15);
 
         $itemIds = array();
-        $itemIds[50] = 13; // Med Cert 75
+        //$itemIds[50] = 13; // Med Cert 75
         $itemIds[100] = 14; // Med Cert 100
 
         $itemChance = mt_rand(1,100);
