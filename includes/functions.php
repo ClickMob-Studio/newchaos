@@ -1835,6 +1835,7 @@ function macroTokenCheck($user_class)
     }
 
     if ($user_class->macro_token != $token) {
+        echo $user_class->macro_token . '!=' . $token;
 //        Send_Event(1, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token . ' - ' . $user_class->macro_token, 1);
 //        Send_Event(2, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token . ' - ' . $user_class->macro_token, 2);
 
