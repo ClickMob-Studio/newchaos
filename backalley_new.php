@@ -55,12 +55,12 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 </table>
                 <br /><hr />
 
-                <p style="font-weight: bold;">You Back Alley Skill Set is currently level 1</p>
+                <p style="font-weight: bold;">You Back Alley Skill Set is currently level <?php echo $userBaStats['level'] ?></p>
                 <div class="row">
                     <div class="col-md-3"></div>
                     <div class="col-md-6">
                         <div class="progress" role="progressbar" aria-valuenow="<?php echo ($userBaStats['exp'] / $userBaStats['maxexp'] * 100 ); ?>" aria-valuemin="0" aria-valuemax="100" title="<?php echo $userBaStats['exp'] . '/' . number_format($userBaStats['maxexp'], 0); ?>">
-                            <div class="progress-bar bg-success" style="width: <?php echo ($userBaStats['exp'] / $userBaStats['maxexp'] * 100 ); ?>%"></div>
+                            <div class="progress-bar bg-success ba-level-progress-bar" style="width: <?php echo ($userBaStats['exp'] / $userBaStats['maxexp'] * 100 ); ?>%"></div>
                         </div>
                     </div>
                     <div class="col-md-3"></div>
@@ -155,6 +155,9 @@ include 'footer.php';
                     $('.ba-stats-searches').html(res.user_ba_stats.turns);
                     $('.ba-stats-wins').html(res.user_ba_stats.wins);
                     $('.ba-stats-losses').html(res.user_ba_stats.losses);
+
+                    var pbWidth = res.user_ba_stats.exp / res.user_ba_stats.maxexp * 100;
+                    $('.ba-level-progress-bar').width(pbWidth + '%');
                 }
                 $("#ba-response-message").html(resMes);
                 $("#ba-response-message").show();
