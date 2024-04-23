@@ -319,38 +319,38 @@ if ($row = mysql_fetch_assoc($result)) {
 $city = mysql_real_escape_string($user_class->city);
 
 // Check if there's a king in the city for males
-if ($user_class->gender === 'Male') {
-    $check_king_query = "SELECT id FROM `grpgusers` WHERE `king` = '$city'";
-    $king_result = mysql_query($check_king_query);
+//if ($user_class->gender === 'Male') {
+  //  $check_king_query = "SELECT id FROM `grpgusers` WHERE `king` = '$city'";
+    //$king_result = mysql_query($check_king_query);
 
-    if (!$king_result) {
-        die('Error in executing the query: ' . mysql_error());
-    }
+   // if (!$king_result) {
+      //  die('Error in executing the query: ' . mysql_error());
+   // }
 
-    if (mysql_num_rows($king_result) == 0) {
+    //if (mysql_num_rows($king_result) == 0) {
         // Set the winner as king of the city
-        $set_king_query = "UPDATE `grpgusers` SET `king` = '$city' WHERE `id` = '" . $user_class->id . "'";
-        mysql_query($set_king_query);
-        Send_Event($winner, "Congratulations! As there was no King of " . $user_class->city . ", you have been declared the new King after your victory.");
-    }
-}
+      //  $set_king_query = "UPDATE `grpgusers` SET `king` = '$city' WHERE `id` = '" . $user_class->id . "'";
+       // mysql_query($set_king_query);
+       // Send_Event($winner, "Congratulations! As there was no King of " . $user_class->city . ", you have been declared the new King after your victory.");
+    //}
+//}
 
 // Check if there's a queen in the city for females
-if ($user_class->gender === 'Female') {
-    $check_queen_query = "SELECT id FROM `grpgusers` WHERE `queen` = '$city'";
-    $queen_result = mysql_query($check_queen_query);
+//if ($user_class->gender === 'Female') {
+   // $check_queen_query = "SELECT id FROM `grpgusers` WHERE `queen` = '$city'";
+ //   $queen_result = mysql_query($check_queen_query);
 
-    if (!$queen_result) {
-        die('Error in executing the query: ' . mysql_error());
-    }
+   // if (!$queen_result) {
+        //die('Error in executing the query: ' . mysql_error());
+   // }
 
-    if (mysql_num_rows($queen_result) == 0) {
+    //if (mysql_num_rows($queen_result) == 0) {
         // Set the winner as queen of the city
-        $set_queen_query = "UPDATE `grpgusers` SET `queen` = '$city' WHERE `id` = '".mysql_real_escape_string($user_class->id)."'";
-        mysql_query($set_queen_query);
-        Send_Event($user_class->id, "Congratulations! As there was no Queen of " . $user_class->city . ", you have been declared the new Queen after your victory.");
-    }
-}
+        //$set_queen_query = "UPDATE `grpgusers` SET `queen` = '$city' WHERE `id` = '".mysql_real_escape_string($user_class->id)."'";
+       // mysql_query($set_queen_query);
+      //  Send_Event($user_class->id, "Congratulations! As there was no Queen of " . $user_class->city . ", you have been declared the new Queen after your victory.");
+    //}
+//}
 
     //if ($user_class->id == 174) {
     $spots = range(1, 10);
