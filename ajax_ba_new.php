@@ -248,7 +248,11 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     if ($outcome <= 30) {
         // 30% Win Cash & EXP
         $cashWon = mt_rand(10,5000) * $userBaStats['level'];
-        $expWon = round((mt_rand(1, 10) / 1000) * $user_class->maxexp);
+        $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 10));
+        if ($expWon < 250) {
+            $expWon = mt_rand(1, 250);
+        }
+
         //$expWon = $expWon / 2;
         $baExpWon = mt_rand(5,25);
 
@@ -436,7 +440,10 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     } else if ($outcome <= 60) {
         // 30% Win Cash & EXP
         $cashWon = mt_rand(10,1000) * $userBaStats['level'];
-        $expWon = round((mt_rand(1, 3) / 1000) * $user_class->maxexp);
+        $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 3));
+        if ($expWon < 250) {
+            $expWon = mt_rand(1, 250);
+        }
         //$expWon = $expWon / 2;
         $baExpWon = mt_rand(1,15);
 
