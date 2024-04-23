@@ -32,7 +32,19 @@ if (!isset($_SESSION['id'])) {
     include('home.php');
     die();
 }
-
+$l = mysql_query("SELECT sessionid FROM `sessions` WHERE userid = ".$_SESSION['id']);
+if(mysql_num_rows($l) < 1)
+{
+    session_unset();
+    session_destroy();
+    header('Location:index.php');
+}
+$g = mysql_fetch_assoc($l);
+if($g['sessionid'] != $_SESSION['token']){
+    session_unset();
+    session_destroy();
+    header('Location:index.php');
+}
 // $db->query("SELECT * FROM sessions WHERE userid = ?");
 // $db->execute(array(
 //     $_SESSION['id']
