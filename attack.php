@@ -51,7 +51,9 @@ if (isset($_GET['throne']) && $_GET['throne'] == 'attack') {
         $throneAttack = true;
     }
 }
-
+if (isset($_GET['thrones']) && $_GET['thrones'] == 'attack') {
+$throneAttack = true;
+}
 if ($user_class->id != 0) {
     $error = "";
     $error = ($user_class->energy < $energyneeded) ? "You need 25% energy if you want to attack someone." : $error;
@@ -120,7 +122,7 @@ if ($user_class->aprotection != 0) {
     $error = ($attack_person->admin == 1) ? "Im sorry, You cannot attack the owner" : $error;
     $error = ($attack_person->id == $user_class->id) ? "Why would you want to attack yourself?" : $error;
     $error = ($attack_person->aprotection > time() && !$throneAttack) ? "This Mobster is under Attack Protection." : $error;
-    $error = ($user_class->aprotection > time()) ? "You cannot attack whilst under Attack Protection." : $error;
+    //$error = ($user_class->aprotection > time()) ? "You cannot attack whilst under Attack Protection." : $error;
 
 
 
