@@ -13,13 +13,12 @@ while ($line = mysql_fetch_array($queen_result)) {
     echo $line['city'];
     $city_query = mysql_query("SELECT owned_points FROM cities WHERE id = '" . mysql_real_escape_string($line['city']) . "' LIMIT 1");
     $city_result = mysql_fetch_assoc($city_query);
-  var_dump($city_result);
     if ($city_result['owned_points'] > 0) {
-        echo $city_query['owned_points']. "<br>";
-        $owned_points = $city_query['owned_points'];
+       // echo $city_query['owned_points']. "<br>";
+        $owned_points = $city_result['owned_points'];
         $twenty_percent = $owned_points - ($owned_points * 0.20);
      // echo $twenty_percent ."<br>";
-       // mysql_query("UPDATE `grpgusers` SET `points` = `points` + " . $twenty_percent . " WHERE `id` = " . $line['id']);
-        //Send_event($line['id'], "You earned " . $twenty_percent . " points for being the *Under Boss!");
+        mysql_query("UPDATE `grpgusers` SET `points` = `points` + " . $twenty_percent . " WHERE `id` = " . $line['id']);
+        Send_event($line['id'], "You earned " . $twenty_percent . " points for being the *Under Boss!");
     }
 }
