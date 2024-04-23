@@ -371,7 +371,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     // - 10% Win Cash & Item
     // - 10% Nothing, onto next turn
     $outcome = mt_rand(1,100);
-    if ($outcome <= 30) {
+    if ($outcome <= 40) {
         // 10% Loose & Go Hosp
         $hosp = 120;
         $db->query("UPDATE `grpgusers` SET `hwho` = '{$attacker}', `hhow` = 'backalley', `hospital` = '" . $hosp . "' WHERE `id` = '" . $user_class->id . "'");
@@ -398,8 +398,8 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 2));
         if ($user_class->level < 100) {
             $expWon = round(($user_class->maxexp / 100) * mt_rand(1, 4));
-            $expWon = $expWon / 2;
         }
+        $expWon = $expWon / 2;
         $baExpWon = mt_rand(1,15);
 
         $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `exp` = `exp` + " . $expWon . ", `backalleywins` = `backalleywins` + 1  WHERE `id` = '" . $user_class->id . "'");
@@ -468,7 +468,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         exit;
     } else if ($outcome <= 100) {
         // 10% Win Points
-        $pointsWon = mt_rand(2,10) * $userBaStats['level'];
+        $pointsWon = mt_rand(2,5) * $userBaStats['level'];
         $baExpWon = mt_rand(1,15);
 
         $db->query("UPDATE `grpgusers` SET `points` = `points` + " . $pointsWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
