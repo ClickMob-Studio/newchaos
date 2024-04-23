@@ -34,7 +34,7 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 </p>
 
                 <br /><br />
-                <table class="new_table" id="newtables" style="width:100%;">
+                <table class="new_table" style="width:100%;">
                     <thead>
                         <tr>
                             <th colspan="3">Your Back Alley Stats</th>
