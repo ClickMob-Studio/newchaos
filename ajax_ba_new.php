@@ -395,7 +395,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     } else if ($outcome <= 70) {
         // 30% Win Cash & EXP
         $cashWon = mt_rand(10,1000) * $userBaStats['level'];
-        $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 3));
+        $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 2));
         if ($user_class->level < 100) {
             $expWon = round(($user_class->maxexp / 100) * mt_rand(1, 4));
             $expWon = $expWon / 2;
