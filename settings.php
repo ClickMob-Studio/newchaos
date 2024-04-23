@@ -264,6 +264,25 @@ $(document).ready(function() {
         });
     });
 });
+$(document).ready(function() {
+    $("#aprotectionForm").submit(function(event) {
+        event.preventDefault(); 
+        $.ajax({
+            url: '/ajax_settings.php', 
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action : 'aprotection',
+            },
+            success: function(response) {
+                $('.info-alert').html(response.text).show();
+            },
+            error: function() {
+                alert("An error occurred. Please try again.");
+            }
+        });
+    });
+});
 </script>
 <div class="container">
 <div class="alert alert-success info-alert" style="display: none";></div>
@@ -406,7 +425,12 @@ if (count($colors) == 2) {
         <button type="submit">Update Gradient Name</button>
     </form>
 </div>
-
+<?php if($user_class->aprotection > time()):?>
+    <h1>Remove Attack Protection</h1>
+    <form id="aprotectionForm">
+        <button type="submit">Remove Attack Protection</button>
+    </form>
+    <?php endif; ?>
 </div>
 </div>
 
