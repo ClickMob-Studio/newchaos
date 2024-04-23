@@ -2,7 +2,11 @@
 
 include 'header.php';
 
+macroTokenCheck();
+
 $code = rand(1000, 99999);
+
+
 ?>
 
 <div class="row">
