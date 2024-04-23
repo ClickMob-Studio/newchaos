@@ -370,7 +370,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     // - 10% Win Cash & Item
     // - 10% Nothing, onto next turn
     $outcome = mt_rand(1,100);
-    if ($outcome <= 10) {
+    if ($outcome <= 20) {
         // 10% Loose & Go Hosp
         $hosp = 120;
         $db->query("UPDATE `grpgusers` SET `hwho` = '{$attacker}', `hhow` = 'backalley', `hospital` = '" . $hosp . "' WHERE `id` = '" . $user_class->id . "'");
