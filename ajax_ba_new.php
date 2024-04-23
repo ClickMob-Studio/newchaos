@@ -219,9 +219,10 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     if ($outcome <= 30) {
         // 30% Win Cash & EXP
         $cashWon = mt_rand(10,5000) * $userBaStats['level'];
-        $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 10));
-        if ($expWon < 250) {
-            $expWon = mt_rand(40, 100);
+        $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 18));
+        if ($user_class->level < 100) {
+            $expWon = round(($user_class->maxexp / 100) * mt_rand(1, 8));
+            $expWon = $expWon / 2;
         }
 
         //$expWon = $expWon / 2;
@@ -411,11 +412,11 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     } else if ($outcome <= 70) {
         // 30% Win Cash & EXP
         $cashWon = mt_rand(10,1000) * $userBaStats['level'];
-        $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 3));
-        if ($expWon < 250) {
-            $expWon = mt_rand(20, 500);
+        $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 4));
+        if ($user_class->level < 100) {
+            $expWon = round(($user_class->maxexp / 100) * mt_rand(1, 4));
+            $expWon = $expWon / 2;
         }
-        //$expWon = $expWon / 2;
         $baExpWon = mt_rand(1,15);
 
         $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `exp` = `exp` + " . $expWon . ", `backalleywins` = `backalleywins` + 1  WHERE `id` = '" . $user_class->id . "'");
@@ -437,7 +438,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
-    } else if ($outcome <= 100) {
+    } else if ($outcome <= 90) {
         // 30% Win Cash & Item
         $cashWon = mt_rand(10,1000) * $userBaStats['level'];
         $baExpWon = mt_rand(1,15);
@@ -479,6 +480,30 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
         $fullResponse .= '<br /><br />';
         $fullResponse .= '<strong>You won $' . number_format($cashWon, 0) . ' & found 1 x ' . $itemName . '!</strong>';
+
+        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
+        exit;
+    } else if ($outcome <= 100) {
+        // 10% Win Points
+        $pointsWon = mt_rand(2,10) * $userBaStats['level'];
+        $baExpWon = mt_rand(1,15);
+
+        $db->query("UPDATE `grpgusers` SET `points` = `points` + " . $pointsWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
+        $db->execute();
+
+        $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `wins` = `wins` + 1  WHERE `user_id` = '" . $user_class->id . "'");
+        $db->execute();
+
+        addUserBaStatExp($userBaStats, $baExpWon);
+        $userBaStats['turns'] = $userBaStats['turns'] + 1;
+        $userBaStats['wins'] = $userBaStats['wins'] + 1;
+
+        $fullResponse = $scenario['start'];
+        $fullResponse .= '<br />';
+        $fullResponse .= '<br />';
+        $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
+        $fullResponse .= '<br /><br />';
+        $fullResponse .= '<strong>You won ' . number_format($pointsWon, 0) . ' points!</strong>';
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
