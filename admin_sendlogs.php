@@ -1,13 +1,11 @@
 <?php
 include 'header.php';
-if ($user_class->admin > 0) {
+if ($user_class->admin < 1) {
     echo 'You should not be here';
     exit;
 }
 
-$db->query("SELECT * FROM `transferlog` ORDER BY `timestamp` DESC LIMIT 100");
-$db->exectue();
-$results = $db->fetch_row();
+$query = mysql_query("SELECT * FROM `transferlog` ORDER BY `timestamp` DESC LIMIT 100");
 ?>
 
 <h1>Send Logs</h1>
@@ -22,7 +20,7 @@ $results = $db->fetch_row();
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($results as $res): ?>
+            <?php while($res = mysql_fetch_array($query, MYSQL_ASSOC)) { ?>
                 <tr>
                     <td>
                         <?php echo formatName($res['from']) ?><br />
@@ -39,7 +37,7 @@ $results = $db->fetch_row();
 
                     </td>
                 </tr>
-            <?php endforeach; ?>
+            <?php endwhile; ?>
 
 
         </tbody>
