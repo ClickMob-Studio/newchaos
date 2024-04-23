@@ -1,15 +1,26 @@
 <?php
-session_start();
+
+include 'header.php';
+
 $code = rand(1000, 9999);
 $_SESSION["code"] = $code;
-$im = imagecreatetruecolor(50, 24);
-$bg = imagecolorallocate($im, 22, 86, 165); //background color blue
-$fg = imagecolorallocate($im, 255, 255, 255);//text color white
-imagefill($im, 0, 0, $bg);
-imagestring($im, 5, 5, 5, $code, $fg);
-header("Cache-Control: no-cache, must-revalidate");
-header('Content-type: image/png');
-imagepng($im);
-imagedestroy($im);
 ?>
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <center>
+            <p>Please enter the code below.</p>
+            <img src="captcha.php" width="100%" /><br />
+            <input type="text" class="form-control" />
+            <input type="submit" value="Submit" />
+        </center>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+
+<?php
+include 'footer.php';
+?>
+
 

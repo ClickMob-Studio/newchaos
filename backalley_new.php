@@ -84,8 +84,6 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 </div>
 
                 <hr />
-                <img src="captcha.php" alt="image verification">
-                 <input type="hidden" id="captchha" name="captcha" value="<?php echo $hash; ?>">
 
                 <table class="new_table" id="newtables" style="width:100%;">
                     <thead>
