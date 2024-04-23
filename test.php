@@ -11,7 +11,6 @@ if (isset($_GET['claim_king']) && $_GET['claim_king'] == 'claimnow') {
   $db->bind(':current_city', $user_class->city);
   $king_result = $db->fetch_row();
   if (count($king_result) < 1) {
-      if ($user_class->gender === 'Male') {
           $queen_query = "SELECT id FROM grpgusers WHERE queen = :current_city AND id = :user_id LIMIT 1";
           $db->query($queen_query);
           $db->bind(':current_city', $user_class->city);
@@ -28,7 +27,7 @@ if (isset($_GET['claim_king']) && $_GET['claim_king'] == 'claimnow') {
               header('Location: city.php');
               exit(); 
           }
-      }
+      
   }
 }
 
@@ -39,7 +38,6 @@ if (isset($_GET['claim_queen']) && $_GET['claim_queen'] == 'claimnow') {
   $db->bind(':current_city', $current_city);
   $queen_result = $db->fetch_row();
   if (count($queen_result) < 1) {
-      if ($user_class->gender === 'Female') {
           $king_query = "SELECT id FROM grpgusers WHERE king = :current_city AND id = :user_id LIMIT 1";
           $db->query($king_query);
           $db->bind(':current_city', $current_city);
@@ -53,10 +51,15 @@ if (isset($_GET['claim_queen']) && $_GET['claim_queen'] == 'claimnow') {
               $db->bind(':current_city', $current_city);
               $db->bind(':user_id', $user_class->id);
               $db->execute();
-              header('Location: city.php');
+              if ($result) {
+                echo "Update successful";
+            } else {
+                echo "Update failed: " . $db->query_error(); // Assuming you have an error() method in your database class
+            }
+             // header('Location: city.php');
               exit(); 
           }
-      }
+      
   }
 }
 $current_city = $user_class->city;
