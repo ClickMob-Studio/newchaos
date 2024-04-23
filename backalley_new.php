@@ -190,7 +190,10 @@ include 'footer.php';
                     $('.gold-rush-mode').hide();
                 }
 
-                $('.med-pack-count').html(res.med_pack_count);
+                if (res.med_pack_count)  {
+                    $('.med-pack-count').html(res.med_pack_count);
+                }
+                
                 if (res.user_ba_stats) {
                     $('.ba-stats-searches').html(res.user_ba_stats.turns);
                     $('.ba-stats-wins').html(res.user_ba_stats.wins);
