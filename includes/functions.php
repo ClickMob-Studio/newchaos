@@ -1851,6 +1851,8 @@ function macroTokenCheck($user_class)
 
     $newMacroToken = generateMacroToken();
     mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken ."' WHERE id = " . $user_class->id);
+
+    return $newMacroToken;
 }
 
 function getItemTempUse($userId)
