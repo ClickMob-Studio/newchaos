@@ -476,7 +476,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="color: red; font-weight:bold;">' . $scenario['fail'] . '</span>';
         $fullResponse .= '<br /><br />';
-        $fullResponse .= '<strong>You will need to spend some time in the hospital!</strong>';
+        $fullResponse .= '<strong>Luckily, you won\'t need to spend any time in the hospital!</strong>';
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount));
         exit;
