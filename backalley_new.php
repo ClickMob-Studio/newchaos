@@ -117,12 +117,18 @@ include 'footer.php';
     window.setTimeout(function(){
         console.log('timeout');
         window.location.reload();
-    }, 11 * 60 * 1000); // Reload after 5 mins of being on the page
+    }, 5 * 60 * 1000); // Reload after 5 mins of being on the page
+
+    let clickCount = 0;
 
     document.addEventListener("DOMContentLoaded",function(){
         document.body.addEventListener('click', function(evt) {
-            console.log(evt);
-            
+            clickCount = clickCount + 1;
+            console.log('here');
+            if (clickCount > 200) {
+
+            }
+
             // Check for an actual mouse click (1, 2 & 3)
             if (evt.which > 3) {
                 var request = $.ajax({
