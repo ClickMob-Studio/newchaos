@@ -121,6 +121,8 @@ include 'footer.php';
 
     document.addEventListener("DOMContentLoaded",function(){
         document.body.addEventListener('click', function(evt) {
+            console.log(evt);
+            
             // Check for an actual mouse click (1, 2 & 3)
             if (evt.which > 3) {
                 var request = $.ajax({
