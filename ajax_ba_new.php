@@ -400,7 +400,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         if ($user_class->level < 100) {
             $expWon = round(($user_class->maxexp / 100) * mt_rand(1, 4));
         }
-        $expWon = round($expWon / mt_rand(2, 5));
+        $expWon = round($expWon / mt_rand(3, 6));
         $expWon = $expWon + (($expWon / 100) * (1 * $userBaStats['level']));
         if ($expWon < 100) {
             $expWon = 100;
@@ -428,12 +428,12 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         exit;
     } else if ($outcome <= 90) {
         // 30% Win Cash & Item
-        $cashWon = mt_rand(10,1000) * $userBaStats['level'];
+        $cashWon = mt_rand(10,2000) * $userBaStats['level'];
         $baExpWon = mt_rand(1,15);
 
         $itemIds = array();
-        $itemIds[30] = 1; // Bowie Knife
-        $itemIds[60] = 3; // Army Boots
+        $itemIds[35] = 1; // Bowie Knife
+        $itemIds[70] = 3; // Army Boots
         $itemIds[100] = 14; // Med Cert 100
 
         $itemChance = mt_rand(1,100);
@@ -474,7 +474,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         exit;
     } else if ($outcome <= 100) {
         // 10% Win Points
-        $pointsWon = mt_rand(2,5) * $userBaStats['level'];
+        $pointsWon = mt_rand(2,4) * $userBaStats['level'];
         $baExpWon = mt_rand(1,15);
 
         $db->query("UPDATE `grpgusers` SET `points` = `points` + " . $pointsWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
