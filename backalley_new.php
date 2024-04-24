@@ -179,6 +179,8 @@ include 'footer.php';
         $('.ba-search-link').click(function(e) {
             e.preventDefault();
 
+            console.log('search')
+
             if (preventClickTime) {
                 var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>You can only search the Backalley once per second!</p></center></div>";
 
