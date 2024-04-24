@@ -33,9 +33,8 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
         <div class="col-md-12">
             <center>
                 <p>
-                    Welcome to the Back Alley! Here you will battle against different opponents,
-                    which But will you take the risk when its 20% energy per attack.
-                    If you fail you will find yourself in the hospital
+                    Welcome to the Back Alley! Here you will battle against different opponents in the hope of finding something great, but
+                    be careful, you may just end up with a trip to the hospital!
                 </p>
 
                 <br />
