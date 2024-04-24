@@ -458,7 +458,10 @@ if($user_class->admin < 1){
 								</div>
                 
 							</div>
-              <div class="tier {#if locked}locked{/if}">
+              
+						</div>
+            <div class="free">
+							<div class="tier {#if locked}locked{/if}">
 								<div class="tier_box"{#if free.exist} title="<b>{free.text}{#if free.qty} x{number_format free.qty}{/if}</b>{/if}">
 									<div class="image">
 										{#if locked}
@@ -475,6 +478,7 @@ if($user_class->admin < 1){
 								</div>
                 
 							</div>
+              
 						</div>
 
 						<div class="mb-2"></div>
