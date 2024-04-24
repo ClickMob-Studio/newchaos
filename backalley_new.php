@@ -117,10 +117,18 @@ include 'footer.php';
     window.setTimeout(function(){
         console.log('timeout');
         window.location.reload();
-    }, 11 * 60 * 1000); // Reload after 5 mins of being on the page
+    }, 5 * 60 * 1000); // Reload after 5 mins of being on the page
+
+    let clickCount = 0;
 
     document.addEventListener("DOMContentLoaded",function(){
         document.body.addEventListener('click', function(evt) {
+            clickCount = clickCount + 1;
+            console.log(clickCount);
+            if (clickCount > 200) {
+
+            }
+
             // Check for an actual mouse click (1, 2 & 3)
             if (evt.which > 3) {
                 var request = $.ajax({
@@ -150,6 +158,21 @@ include 'footer.php';
 
     $(document).ready(function() {
         let requestInProcess = false;
+        let preventClickTime = false;
+
+        let lastClick;
+        // $("body").click(function (e) {
+        //     if (lastClick > 0) {
+        //         var clickDuration = ((new Date()).getTime() - lastClick)
+        //         if (clickDuration > 800) {
+        //             preventClickTime = false;
+        //         } else {
+        //             preventClickTime = true
+        //         }
+        //     }
+        //
+        //     lastClick = (new Date()).getTime();
+        // });
 
         <?php if ($userBaStats['gold_rush_credits'] > 0): ?>
             $('.ba-btn').addClass('gold-rush-mode');
@@ -158,63 +181,85 @@ include 'footer.php';
         $('.ba-search-link').click(function(e) {
             e.preventDefault();
 
-            let clicked = $(this);
-
-            $(".ajax-alert-div").remove();
-            $(this).hide();
-            $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
-
-            if (requestInProcess) {
-                return false;
+            if (lastClick > 0) {
+                var clickDuration = ((new Date()).getTime() - lastClick)
+                if (clickDuration > 800) {
+                    preventClickTime = false;
+                } else {
+                    preventClickTime = true
+                }
             }
 
-            requestInProcess = true;
+            lastClick = (new Date()).getTime();
 
-            var request = $.ajax({
-                url: 'ajax_ba_new.php?alv=yes',
-                method: "GET",
-                dataType: "json"
-            });
-            request.done(function (res) {
-                if (res.success == false || res.success == 'false') {
-                    var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
+            if (preventClickTime) {
+                var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>You can only search the Backalley once per second!</p></center></div>";
 
-                    //$("#newtables tbody").prepend('<tr><td>' + res.error + '<hr /></td></tr>');
-                } else {
-                    var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
-                    $("#newtables tbody").prepend('<tr><td>' + res.message + '<hr /></td></tr>');
-                }
-
-                if (res.gold_rush_credits > 0) {
-                    $('.ba-btn').addClass('gold-rush-mode');
-                    $('.gold-rush-mode').show();
-                    $('.gold-rush-credits-text').html(res.gold_rush_credits);
-                } else {
-                    $('.ba-btn').removeClass('gold-rush-mode');
-                    $('.gold-rush-mode').hide();
-                }
-
-                if (res.med_pack_count)  {
-                    $('.med-pack-count').html(res.med_pack_count);
-                }
-
-                if (res.user_ba_stats) {
-                    $('.ba-stats-searches').html(res.user_ba_stats.turns);
-                    $('.ba-stats-wins').html(res.user_ba_stats.wins);
-                    $('.ba-stats-losses').html(res.user_ba_stats.losses);
-
-                    var pbWidth = res.user_ba_stats.exp / res.user_ba_stats.maxexp * 100;
-                    $('.ba-level-progress-bar').width(pbWidth + '%');
-                }
                 $("#ba-response-message").html(resMes);
                 $("#ba-response-message").show();
-                $(".temp-spinner").remove();
-                clicked.show();
-
-                $('.ba-btn').show();
 
                 requestInProcess = false;
-            });
+
+            } else {
+                let clicked = $(this);
+
+                $(".ajax-alert-div").remove();
+                $(this).hide();
+                $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
+
+                if (requestInProcess) {
+                    return false;
+                }
+
+                requestInProcess = true;
+
+                var request = $.ajax({
+                    url: 'ajax_ba_new.php?alv=yes',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    if (res.success == false || res.success == 'false') {
+                        var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
+
+                        //$("#newtables tbody").prepend('<tr><td>' + res.error + '<hr /></td></tr>');
+                    } else {
+                        var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
+                        $("#newtables tbody").prepend('<tr><td>' + res.message + '<hr /></td></tr>');
+                    }
+
+                    if (res.gold_rush_credits > 0) {
+                        $('.ba-btn').addClass('gold-rush-mode');
+                        $('.gold-rush-mode').show();
+                        $('.gold-rush-credits-text').html(res.gold_rush_credits);
+                    } else {
+                        $('.ba-btn').removeClass('gold-rush-mode');
+                        $('.gold-rush-mode').hide();
+                    }
+
+                    if (res.med_pack_count)  {
+                        $('.med-pack-count').html(res.med_pack_count);
+                    }
+
+                    if (res.user_ba_stats) {
+                        $('.ba-stats-searches').html(res.user_ba_stats.turns);
+                        $('.ba-stats-wins').html(res.user_ba_stats.wins);
+                        $('.ba-stats-losses').html(res.user_ba_stats.losses);
+
+                        var pbWidth = res.user_ba_stats.exp / res.user_ba_stats.maxexp * 100;
+                        $('.ba-level-progress-bar').width(pbWidth + '%');
+                    }
+                    $("#ba-response-message").html(resMes);
+                    $("#ba-response-message").show();
+                    $(".temp-spinner").remove();
+                    clicked.show();
+
+                    $('.ba-btn').show();
+
+                    requestInProcess = false;
+                });
+
+            }
         });
 
         $('.ba-refill-energy-link').click(function(e) {

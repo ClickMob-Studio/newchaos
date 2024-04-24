@@ -9,7 +9,8 @@ if (!isset($_GET['page'])) {
 }
 $page = $_GET['page'];
 $validPages = array(
-    'backalley'
+    'backalley',
+    'jail'
 );
 
 if (!in_array($page, $validPages)) {
@@ -22,6 +23,8 @@ if (isset($_POST) && isset($_POST['code'])) {
 
         if ($page === 'backalley') {
             header('Location: backalley_new.php');
+        } else if ($page === 'jail') {
+            header('Location: jail.php');
         }
     }
     echo $_POST['code'] . '==' . $user_class->captcha;
