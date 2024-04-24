@@ -113,7 +113,7 @@ include 'footer.php';
     window.setTimeout(function(){
         console.log('timeout');
         window.location.reload();
-    }, 11 * 60 * 1000); // Reload after 11 mins of being on the page
+    }, 11 * 60 * 1000); // Reload after 5 mins of being on the page
 
     document.addEventListener("DOMContentLoaded",function(){
         document.body.addEventListener('click', function(evt) {
