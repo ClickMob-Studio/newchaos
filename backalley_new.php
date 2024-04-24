@@ -191,66 +191,66 @@ include 'footer.php';
 
                 requestInProcess = false;
 
-                return false;
+            } else {
+                let clicked = $(this);
+
+                $(".ajax-alert-div").remove();
+                $(this).hide();
+                $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
+
+                if (requestInProcess) {
+                    return false;
+                }
+
+                requestInProcess = true;
+
+                var request = $.ajax({
+                    url: 'ajax_ba_new.php?alv=yes',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    if (res.success == false || res.success == 'false') {
+                        var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
+
+                        //$("#newtables tbody").prepend('<tr><td>' + res.error + '<hr /></td></tr>');
+                    } else {
+                        var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
+                        $("#newtables tbody").prepend('<tr><td>' + res.message + '<hr /></td></tr>');
+                    }
+
+                    if (res.gold_rush_credits > 0) {
+                        $('.ba-btn').addClass('gold-rush-mode');
+                        $('.gold-rush-mode').show();
+                        $('.gold-rush-credits-text').html(res.gold_rush_credits);
+                    } else {
+                        $('.ba-btn').removeClass('gold-rush-mode');
+                        $('.gold-rush-mode').hide();
+                    }
+
+                    if (res.med_pack_count)  {
+                        $('.med-pack-count').html(res.med_pack_count);
+                    }
+
+                    if (res.user_ba_stats) {
+                        $('.ba-stats-searches').html(res.user_ba_stats.turns);
+                        $('.ba-stats-wins').html(res.user_ba_stats.wins);
+                        $('.ba-stats-losses').html(res.user_ba_stats.losses);
+
+                        var pbWidth = res.user_ba_stats.exp / res.user_ba_stats.maxexp * 100;
+                        $('.ba-level-progress-bar').width(pbWidth + '%');
+                    }
+                    $("#ba-response-message").html(resMes);
+                    $("#ba-response-message").show();
+                    $(".temp-spinner").remove();
+                    clicked.show();
+
+                    $('.ba-btn').show();
+
+                    requestInProcess = false;
+                });
+
             }
-
-            let clicked = $(this);
-
-            $(".ajax-alert-div").remove();
-            $(this).hide();
-            $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
-
-            if (requestInProcess) {
-                return false;
-            }
-
-            requestInProcess = true;
-
-            var request = $.ajax({
-                url: 'ajax_ba_new.php?alv=yes',
-                method: "GET",
-                dataType: "json"
-            });
-            request.done(function (res) {
-                if (res.success == false || res.success == 'false') {
-                    var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
-
-                    //$("#newtables tbody").prepend('<tr><td>' + res.error + '<hr /></td></tr>');
-                } else {
-                    var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
-                    $("#newtables tbody").prepend('<tr><td>' + res.message + '<hr /></td></tr>');
-                }
-
-                if (res.gold_rush_credits > 0) {
-                    $('.ba-btn').addClass('gold-rush-mode');
-                    $('.gold-rush-mode').show();
-                    $('.gold-rush-credits-text').html(res.gold_rush_credits);
-                } else {
-                    $('.ba-btn').removeClass('gold-rush-mode');
-                    $('.gold-rush-mode').hide();
-                }
-
-                if (res.med_pack_count)  {
-                    $('.med-pack-count').html(res.med_pack_count);
-                }
-
-                if (res.user_ba_stats) {
-                    $('.ba-stats-searches').html(res.user_ba_stats.turns);
-                    $('.ba-stats-wins').html(res.user_ba_stats.wins);
-                    $('.ba-stats-losses').html(res.user_ba_stats.losses);
-
-                    var pbWidth = res.user_ba_stats.exp / res.user_ba_stats.maxexp * 100;
-                    $('.ba-level-progress-bar').width(pbWidth + '%');
-                }
-                $("#ba-response-message").html(resMes);
-                $("#ba-response-message").show();
-                $(".temp-spinner").remove();
-                clicked.show();
-
-                $('.ba-btn').show();
-
-                requestInProcess = false;
-            });
         });
 
         $('.ba-refill-energy-link').click(function(e) {
