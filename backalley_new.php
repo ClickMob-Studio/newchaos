@@ -151,14 +151,21 @@ include 'footer.php';
     $(document).ready(function() {
         let requestInProcess = false;
 
-        let lastClick;
-        $("body").click(function (e) {
-            if (lastClick > 0) {
-                console.log('last click was: ' + ((new Date()).getTime() - lastClick) + 'ms ago');
-            }
+        <?php if ($user_class->admin > 0): ?>
+            let lastClick;
+            $("body").click(function (e) {
+                if (lastClick > 1000) {
+                    var clickDuration = ((new Date()).getTime() - lastClick)
+                    if (clickDuration > 1000) {
+                        e.preventDefault();
 
-            lastClick = (new Date()).getTime();
-        });
+                        return false;
+                    }
+                }
+
+                lastClick = (new Date()).getTime();
+            });
+        <?php endif; ?>
 
         <?php if ($userBaStats['gold_rush_credits'] > 0): ?>
             $('.ba-btn').addClass('gold-rush-mode');
