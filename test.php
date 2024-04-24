@@ -14,7 +14,6 @@ if($user_class->admin < 1){
 	--border-radius: 5px;
 	--font-color: #999;
 	--font-hover-color: #FFF;
-	font-size: 16px;
 	
 	--premium-tier: 255, 217, 0; /* gold */
 	--premium-tier: 224, 17, 95; /* ruby */
