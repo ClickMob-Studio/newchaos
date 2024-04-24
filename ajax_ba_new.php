@@ -354,7 +354,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     }
 } else {
 
-    $goldRushChance = mt_rand(1,10000);
+    $goldRushChance = mt_rand(1,15000);
     if ($goldRushChance == 2) {
         $db->query("UPDATE user_ba_stats SET gold_rush_credits = gold_rush_credits + 15 WHERE user_id = " . $user_class->id);
         $db->execute();
@@ -400,8 +400,8 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         if ($user_class->level < 100) {
             $expWon = round(($user_class->maxexp / 100) * mt_rand(1, 4));
         }
-        $expWon = round($expWon / mt_rand(2, 4));
-        $expWon = $expWon + (($expWon / 100) * (10 * $userBaStats['level']));
+        $expWon = round($expWon / mt_rand(2, 5));
+        $expWon = $expWon + (($expWon / 100) * (1 * $userBaStats['level']));
         $baExpWon = mt_rand(1,15);
 
         $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `exp` = `exp` + " . $expWon . ", `backalleywins` = `backalleywins` + 1  WHERE `id` = '" . $user_class->id . "'");
