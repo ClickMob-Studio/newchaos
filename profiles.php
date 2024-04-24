@@ -898,7 +898,7 @@ echo "
                     <th width='10%'>Last Active:</th>
                     <td width='30%'><span id='lastActive'>" . ($profile_class->lastactive != 0 ? $profile_class->formattedlastactive : 'Never') . "</span> <span id='onlineStatus'>[online]</span></td>
                     <th width='10%'>&nbsp;</th>
-                    <td width='30%'></td>>
+                    <td width='30%'></td>
                 </tr>
             </table>
         </div>
