@@ -150,17 +150,17 @@ include 'footer.php';
 
     $(document).ready(function() {
         let requestInProcess = false;
+        let preventClickTime = false;
 
         <?php if ($user_class->admin > 0): ?>
             let lastClick;
             $("body").click(function (e) {
-                if (lastClick > 1000) {
+                if (lastClick > 0) {
                     var clickDuration = ((new Date()).getTime() - lastClick)
                     if (clickDuration > 1000) {
-                        console.log('prevent');
-                        e.preventDefault();
-
-                        return false;
+                        preventClickTime = false;
+                    } else {
+                        preventClickTime = true
                     }
                 }
 
@@ -174,6 +174,10 @@ include 'footer.php';
 
         $('.ba-search-link').click(function(e) {
             e.preventDefault();
+
+            if (preventClickTime) {
+                console.log('prevent');
+            }
 
             let clicked = $(this);
 
