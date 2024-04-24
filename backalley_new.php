@@ -159,6 +159,7 @@ include 'footer.php';
                     var clickDuration = ((new Date()).getTime() - lastClick)
                     if (clickDuration > 1000) {
                         console.log('no prevent');
+                        console.log(clickDuration);
                         preventClickTime = false;
                     } else {
                         console.log(' prevent');
@@ -182,6 +183,7 @@ include 'footer.php';
             console.log('search')
 
             if (preventClickTime) {
+                console.log(preventClickTime);
                 var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>You can only search the Backalley once per second!</p></center></div>";
 
                 $("#ba-response-message").html(resMes);
