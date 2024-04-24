@@ -456,20 +456,7 @@ if($user_class->admin < 1){
 									<div class="text">{#if free.exist}{free.text}{/if}</div>
     
 								</div>
-                <div class="tier_box"{#if free.exist} title="<b>{free.text}{#if free.qty} x{number_format free.qty}{/if}</b>{/if}">
-									<div class="image">
-										{#if locked}
-											{>lock}
-										{else}
-											{#if free.collected}{>collected}{/if}
-										{/if}
-										{#if free.exist}
-											<a href="{free.link}"><img src="{free.image}">{#if free.qty}<div class="qty">x{number_format free.qty}</div>{/if}</a>
-										{/if}
-									</div>
-									<div class="text">{#if free.exist}{free.text}{/if}</div>
-    
-								</div>
+                
 							</div>
 						</div>
 
