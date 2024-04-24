@@ -385,8 +385,13 @@ if($user_class->admin < 1){
 <?php
 $db->query("SELECT * FROM baltlepass_users WHERE userid = ".$user_class->id);
 $db->execute();
-
-$bp = $db->fetch(true);
+if($db->num_rows() < 1){
+  $db->query("INSERT INTO baltlepass_users (userid) VALUES (".$user_class->id.")");
+  $db->execute();
+  $db->query("SELECT * FROM baltlepass_users WHERE userid = ".$user_class->id);
+  $db->execute();
+}
+$bp = $db->fetch_row(true);
 ?>
 <div class="row g-3 mb-3">
 			<div class="col-xl-6">
