@@ -32,6 +32,12 @@ if (isset($_POST) && isset($_POST['code'])) {
     diefun('You entered the wrong code.');
 }
 
+if (isset($_GET['forced']) && $_GET['forced'] == 'yes') {
+    mysql_query('UPDATE `grpgusers` SET `captcha_timestamp` = 0 WHERE `id` = ' . $user_class->id);
+
+    header('Location: captcha.php?token=' . $newToken . '&page=' . $page);
+}
+
 $code = rand(1000, 99999);
 mysql_query('UPDATE `grpgusers` SET `captcha` = "' . $code . '" WHERE `id` = ' . $user_class->id);
 

@@ -126,7 +126,7 @@ include 'footer.php';
             clickCount = clickCount + 1;
             console.log(clickCount);
             if (clickCount > 200) {
-
+                window.location.href = "/captcha.php?forced=yes&token=<?php echo $user_class->macro_token ?>&page=backalley'";
             }
 
             // Check for an actual mouse click (1, 2 & 3)
