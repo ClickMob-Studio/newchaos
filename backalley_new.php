@@ -8,6 +8,12 @@ if ($user_class->id == 91) {
     diefun('Time to take a break from the Backalley');
 }
 
+if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
+    mysql_query('UPDATE `grpgusers` SET `captcha_timestamp` = 0 WHERE `id` = ' . $user_class->id);
+
+    header('Location: backalley_new.php');
+}
+
 //if ($user_class->admin < 1 || $user_class->id < 398) {
 //    echo 'exit'; exit;
 //}
@@ -126,7 +132,7 @@ include 'footer.php';
             clickCount = clickCount + 1;
             console.log(clickCount);
             if (clickCount > 200) {
-                window.location.href = "/captcha.php?forced=yes&token=<?php echo $user_class->macro_token ?>&page=backalley'";
+                window.location.href = "/backalley_new.php?forced_captcha=yes";
             }
 
             // Check for an actual mouse click (1, 2 & 3)
