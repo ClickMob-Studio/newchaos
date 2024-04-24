@@ -124,7 +124,7 @@ include 'footer.php';
     document.addEventListener("DOMContentLoaded",function(){
         document.body.addEventListener('click', function(evt) {
             clickCount = clickCount + 1;
-            console.log('here');
+            console.log(clickCount);
             if (clickCount > 200) {
 
             }
