@@ -384,12 +384,12 @@ if($user_class->admin < 1){
 
 
 <?php
-$db->query("SELECT * FROM battlepass_users WHERE userid = ".$user_class->id);
+$db->query("SELECT * FROM baltlepass_users WHERE userid = ".$user_class->id);
 $db->execute();
 if($db->num_rows() < 1){
-  $db->query("INSERT INTO battlepass_users (userid) VALUES (".$user_class->id.")");
+  $db->query("INSERT INTO baltlepass_users (userid) VALUES (".$user_class->id.")");
   $db->execute();
-  $db->query("SELECT * FROM battlepass_users WHERE userid = ".$user_class->id);
+  $db->query("SELECT * FROM baltlepass_users WHERE userid = ".$user_class->id);
   $db->execute();
 }
 $bp = $db->fetch(true);
