@@ -152,26 +152,19 @@ include 'footer.php';
         let requestInProcess = false;
         let preventClickTime = false;
 
-        <?php if ($user_class->admin > 0): ?>
-            let lastClick;
-            $("body").click(function (e) {
-                if (lastClick > 0) {
-                    var clickDuration = ((new Date()).getTime() - lastClick)
-                    if (clickDuration > 800) {
-                        console.log('no prevent');
-                        console.log(clickDuration);
-                        preventClickTime = false;
-                    } else {
-                        console.log(' prevent');
-                        preventClickTime = true
-                    }
+        let lastClick;
+        $("body").click(function (e) {
+            if (lastClick > 0) {
+                var clickDuration = ((new Date()).getTime() - lastClick)
+                if (clickDuration > 800) {
+                    preventClickTime = false;
                 } else {
-                    console.log('no last click');
+                    preventClickTime = true
                 }
+            }
 
-                lastClick = (new Date()).getTime();
-            });
-        <?php endif; ?>
+            lastClick = (new Date()).getTime();
+        });
 
         <?php if ($userBaStats['gold_rush_credits'] > 0): ?>
             $('.ba-btn').addClass('gold-rush-mode');
@@ -180,10 +173,7 @@ include 'footer.php';
         $('.ba-search-link').click(function(e) {
             e.preventDefault();
 
-            console.log('search');
-
             if (preventClickTime) {
-                console.log(preventClickTime);
                 var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>You can only search the Backalley once per second!</p></center></div>";
 
                 $("#ba-response-message").html(resMes);
