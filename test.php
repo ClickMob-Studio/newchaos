@@ -380,6 +380,20 @@ if($user_class->admin < 1){
 		transform: rotate(0deg);
 	}
 }</style>
+
+
+
+<?php
+$db->query("SELECT * FROM battlepass_users WHERE userid = ".$user_class->id);
+$db->execute();
+if($db->num_rows() < 1){
+  $db->query("INSERT INTO battlepass_users (userid) VALUES (".$user_class->id.")");
+  $db->execute();
+  $db->query("SELECT * FROM battlepass_users WHERE userid = ".$user_class->id);
+  $db->execute();
+}
+$bp = $db->fetch(true);
+?>
 <div class="row g-3 mb-3">
 			<div class="col-xl-6">
 				<div class="passPanel mb-3">
@@ -415,7 +429,7 @@ if($user_class->admin < 1){
 		<div class="seasonPass_container">
 			<div class="title">
 				<div class="current_tier {#if premium}premium{/if}">
-					<div>Tier <strong>{current.tier}</strong></div>
+					<div>Tier <strong><?= $bp['tier']; ?></strong></div>
 					<div><div class="bar_holder"><div class="bar" style="width: {current.exp_perc}%;"></div></div></div>
 				</div>
 				<div class="box free">
