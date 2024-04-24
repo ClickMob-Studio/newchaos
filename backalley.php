@@ -1,6 +1,5 @@
 <?php
-
-session_start();
+ header('Location: backalley_new.php');
 include 'header.php';
 ?>
 <div class='box_top'>BackAlley</div>

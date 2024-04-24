@@ -1913,7 +1913,7 @@ function getUserBaStats($user_class)
 
         return $r;
     } else {
-        $db->query("INSERT INTO user_ba_stats (user_id) VALUES (" . $user_class->id . ")");
+        $db->query("INSERT INTO user_ba_stats (user_id, gold_rush_credits) VALUES (" . $user_class->id . ", 20)");
         $db->execute();
 
         $r = getUserBaStats($user_class);
