@@ -153,7 +153,26 @@ include 'footer.php';
         let preventClickTime = false;
 
         let lastClick;
-        $("body").click(function (e) {
+        // $("body").click(function (e) {
+        //     if (lastClick > 0) {
+        //         var clickDuration = ((new Date()).getTime() - lastClick)
+        //         if (clickDuration > 800) {
+        //             preventClickTime = false;
+        //         } else {
+        //             preventClickTime = true
+        //         }
+        //     }
+        //
+        //     lastClick = (new Date()).getTime();
+        // });
+
+        <?php if ($userBaStats['gold_rush_credits'] > 0): ?>
+            $('.ba-btn').addClass('gold-rush-mode');
+        <?php endif; ?>
+
+        $('.ba-search-link').click(function(e) {
+            e.preventDefault();
+
             if (lastClick > 0) {
                 var clickDuration = ((new Date()).getTime() - lastClick)
                 if (clickDuration > 800) {
@@ -164,14 +183,6 @@ include 'footer.php';
             }
 
             lastClick = (new Date()).getTime();
-        });
-
-        <?php if ($userBaStats['gold_rush_credits'] > 0): ?>
-            $('.ba-btn').addClass('gold-rush-mode');
-        <?php endif; ?>
-
-        $('.ba-search-link').click(function(e) {
-            e.preventDefault();
 
             if (preventClickTime) {
                 var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>You can only search the Backalley once per second!</p></center></div>";
