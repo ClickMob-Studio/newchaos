@@ -158,8 +158,10 @@ include 'footer.php';
                 if (lastClick > 0) {
                     var clickDuration = ((new Date()).getTime() - lastClick)
                     if (clickDuration > 1000) {
+                        console.log('prevent');
                         preventClickTime = false;
                     } else {
+                        console.log('no prevent');
                         preventClickTime = true
                     }
                 }
@@ -180,7 +182,7 @@ include 'footer.php';
 
                 $("#ba-response-message").html(resMes);
                 $("#ba-response-message").show();
-                
+
                 requestInProcess = false;
 
                 return false;
