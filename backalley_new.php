@@ -158,12 +158,14 @@ include 'footer.php';
                 if (lastClick > 0) {
                     var clickDuration = ((new Date()).getTime() - lastClick)
                     if (clickDuration > 1000) {
-                        console.log('prevent');
+                        console.log('no prevent');
                         preventClickTime = false;
                     } else {
-                        console.log('no prevent');
+                        console.log(' prevent');
                         preventClickTime = true
                     }
+                } else {
+                    console.log('no last click');
                 }
 
                 lastClick = (new Date()).getTime();
