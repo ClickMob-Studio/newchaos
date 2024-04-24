@@ -344,7 +344,7 @@ if ($_GET['buy'] == "freebie") {
        
         echo Message("You spent 50 GOLD for 17 Gradient Days");
         // Redirect to preferences.php after the message
-        header("Location: preferences.php");
+        header("Location: settings.php");
         exit(); // Ensure no further code is executed after redirect
     } else {
         echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");

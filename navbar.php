@@ -128,7 +128,7 @@ if ($user_class->gang) {
 $leftLinks[] =
 	array(
 		'name' => 'Settings',
-		'url'  => 'preferences.php',
+		'url'  => 'settings.php',
 	);
 $leftLinks[] =
     array(

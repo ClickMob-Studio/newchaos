@@ -257,7 +257,7 @@ if ($printcaptcha != "") {
             <td align="center" style="padding-bottom: 10px;"><button onclick="refill('both');">Refill Both</button></td>
         </tr>
         <tr>
-            <td align="center" style="padding-bottom: 10px;" colspan='3'><span style='font-weight:bold;'>Super Trains: Click and hold on your desired train, then hold <font color=red>[Enter]</font> button for Super fast trains.<br>You can turn auto refills on</font> <font color=red><a href="preferences.php?refills">[Here]</a></font><br>
+            <td align="center" style="padding-bottom: 10px;" colspan='3'><span style='font-weight:bold;'>Super Trains: Click and hold on your desired train, then hold <font color=red>[Enter]</font> button for Super fast trains.<br>You can turn auto refills on</font> <font color=red><a href="settings.php">[Here]</a></font><br>
            
 
 </tr>
