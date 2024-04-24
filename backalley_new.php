@@ -176,7 +176,14 @@ include 'footer.php';
             e.preventDefault();
 
             if (preventClickTime) {
-                console.log('prevent');
+                var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>You can only search the Backalley once per second!</p></center></div>";
+
+                $("#ba-response-message").html(resMes);
+                $("#ba-response-message").show();
+                
+                requestInProcess = false;
+
+                return false;
             }
 
             let clicked = $(this);
