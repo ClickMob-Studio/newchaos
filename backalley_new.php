@@ -157,6 +157,7 @@ include 'footer.php';
                 if (lastClick > 1000) {
                     var clickDuration = ((new Date()).getTime() - lastClick)
                     if (clickDuration > 1000) {
+                        console.log('prevent');
                         e.preventDefault();
 
                         return false;
