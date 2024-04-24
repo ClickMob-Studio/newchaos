@@ -157,7 +157,7 @@ include 'footer.php';
             $("body").click(function (e) {
                 if (lastClick > 0) {
                     var clickDuration = ((new Date()).getTime() - lastClick)
-                    if (clickDuration > 1000) {
+                    if (clickDuration > 800) {
                         console.log('no prevent');
                         console.log(clickDuration);
                         preventClickTime = false;
