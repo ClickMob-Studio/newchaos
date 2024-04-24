@@ -460,7 +460,37 @@ if($user_class->admin < 1){
 							</div>
               
 						</div>
-            <div class="free">
+            
+
+						<div class="mb-2"></div>
+
+						<div class="premium">
+							<div class="tier premium {#if ../premium}{#if locked}locked{/if}{else}locked{/if}">
+								<div class="tier_box"{#if premium.exist} title="<b>{premium.text}{#if premium.qty} x{number_format premium.qty}{/if}</b>{/if}">
+									<div class="image">
+										{#if ../premium}
+											{#if locked}
+												{>lock}
+											{else}
+												{#if premium.collected}{>collected}{/if}
+											{/if}
+										{else}
+											{>lock}
+										{/if}
+										{#if premium.exist}
+											<a href="{premium.link}"><img src="{premium.image}">{#if premium.qty}<div class="qty">x{number_format premium.qty}</div>{/if}</a>
+										{/if}
+									</div>
+									<div class="text">{#if premium.exist}{premium.text}{/if}</div>
+								</div>
+							</div>
+						</div>
+					</div>
+          <div class="tiers_wrapper" data-tier="{tier}"> 
+						<div class="tier_number {#if locked}locked{/if}">Tier {tier}</div>
+						<div class="mb-1"></div>
+
+						<div class="free">
 							<div class="tier {#if locked}locked{/if}">
 								<div class="tier_box"{#if free.exist} title="<b>{free.text}{#if free.qty} x{number_format free.qty}{/if}</b>{/if}">
 									<div class="image">
@@ -480,6 +510,7 @@ if($user_class->admin < 1){
 							</div>
               
 						</div>
+            
 
 						<div class="mb-2"></div>
 
