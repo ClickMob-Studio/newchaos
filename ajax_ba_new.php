@@ -432,7 +432,8 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $baExpWon = mt_rand(1,15);
 
         $itemIds = array();
-        $itemIds[50] = 1; // Bowie Knife
+        $itemIds[30] = 1; // Bowie Knife
+        $itemIds[60] = 3; // Army Boots
         $itemIds[100] = 14; // Med Cert 100
 
         $itemChance = mt_rand(1,100);
