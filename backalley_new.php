@@ -4,6 +4,10 @@
 session_start();
 include 'header.php';
 
+if ($user_class->id == 91) {
+    diefun('Time to take a break from the Backalley');
+}
+
 //if ($user_class->admin < 1 || $user_class->id < 398) {
 //    echo 'exit'; exit;
 //}
