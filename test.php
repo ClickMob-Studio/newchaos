@@ -454,6 +454,12 @@ if($user_class->admin < 1){
 										{/if}
 									</div>
 									<div class="text">{#if free.exist}{free.text}{/if}</div>
+                  <div class="text">{#if free.exist}{free.text}{/if}</div>
+                  <div class="text">{#if free.exist}{free.text}{/if}</div>
+                  <div class="text">{#if free.exist}{free.text}{/if}</div>
+                  v
+                  <div class="text">{#if free.exist}{free.text}{/if}</div><div class="text">{#if free.exist}{free.text}{/if}</div>
+                  <div class="text">{#if free.exist}{free.text}{/if}</div>
 								</div>
 							</div>
 						</div>
