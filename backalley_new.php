@@ -180,7 +180,7 @@ include 'footer.php';
         $('.ba-search-link').click(function(e) {
             e.preventDefault();
 
-            console.log('search')
+            console.log('search');
 
             if (preventClickTime) {
                 console.log(preventClickTime);
