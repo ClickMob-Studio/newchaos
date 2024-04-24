@@ -130,8 +130,7 @@ include 'footer.php';
     document.addEventListener("DOMContentLoaded",function(){
         document.body.addEventListener('click', function(evt) {
             clickCount = clickCount + 1;
-            console.log(clickCount);
-            if (clickCount > 50) {
+            if (clickCount > 200) {
                 window.location.href = "/backalley_new.php?forced_captcha=yes";
             }
 
