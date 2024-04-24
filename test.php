@@ -383,15 +383,15 @@ if($user_class->admin < 1){
 <div class="row g-3 mb-3">
 			<div class="col-xl-6">
 				<div class="passPanel mb-3">
-					<h2 class="seasonName">{seasonPass.name}</h2>
+					<h2 class="seasonName">Chaos Pass</h2>
 					<div class="text-center mb-3">
-						{seasonPass.start_formated} - {seasonPass.end_formated}
+						1/1/2000 - 2/2/2000
 					</div>
 				</div>
 			</div>
 			<div class="col-xl-6">
 				<div class="passInfo">
-					{#bbcode seasonPass_info}
+					<p>Here you can by the chaos pass, the chaos pass will change each month, there is two types of tiers free and premium</p>
 				</div>
 			</div>
 		</div>
@@ -400,13 +400,12 @@ if($user_class->admin < 1){
 			<a href="?page=seasonPass&action=collect&_CSFR={_CSFRToken}" class="passBtn collect {#unless current.canCollect}disabled{/unless} user-select-none">
 				<span>Collect Rewards</span>
 			</a>
-			{#if premium}
-				{#unless maxTier}
+			<!-- if not max level-->
 				<a href="?page=seasonPass&action=buy_levels&_CSFR={_CSFRToken}" class="passBtn buy user-select-none">
 					<span>Purchase 5 Level<br><span>{number_format premium5levelCost} {_setting "pointsName"}</span></span>
 				</a>
-				{/unless}
-			{else}
+				
+			<!-- if not max level end-->
 				<a href="?page=seasonPass&action=buy_premium&_CSFR={_CSFRToken}" class="passBtn buy" user-select-none>
 					<span>Purchase Premium Pass<br><span>{number_format premiumCost} {_setting "pointsName"}</span></span>
 				</a>
