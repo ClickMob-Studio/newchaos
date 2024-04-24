@@ -151,6 +151,15 @@ include 'footer.php';
     $(document).ready(function() {
         let requestInProcess = false;
 
+        let lastClick;
+        $("body").click(function (e) {
+            if (lastClick > 0) {
+                console.log('last click was: ' + ((new Date()).getTime() - lastClick) + 'ms ago');
+            }
+
+            lastClick = (new Date()).getTime();
+        });
+
         <?php if ($userBaStats['gold_rush_credits'] > 0): ?>
             $('.ba-btn').addClass('gold-rush-mode');
         <?php endif; ?>
