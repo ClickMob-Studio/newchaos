@@ -1839,7 +1839,7 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
                 echo Message("You have added 60 Minutes to your Police Pass.");
                 break;
             case 253:
-                $db->query("UPDATE user_ba_stats SET gold_rush_credits = gold_rush_credits + 10 WHERE id = ?");
+                $db->query("UPDATE user_ba_stats SET gold_rush_credits = gold_rush_credits + 10 WHERE user_id = ?");
                 $db->execute(array(
                     $user_class->id
                 ));
