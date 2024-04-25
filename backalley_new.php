@@ -121,7 +121,6 @@ include 'footer.php';
 
 <script type="text/javascript">
     window.setTimeout(function(){
-        console.log('timeout');
         window.location.reload();
     }, 5 * 60 * 1000); // Reload after 5 mins of being on the page
 
@@ -130,7 +129,7 @@ include 'footer.php';
     document.addEventListener("DOMContentLoaded",function(){
         document.body.addEventListener('click', function(evt) {
             clickCount = clickCount + 1;
-            if (clickCount > 200) {
+            if (clickCount > 100) {
                 window.location.href = "/backalley_new.php?forced_captcha=yes";
             }
 
