@@ -33,7 +33,7 @@ if (isset($_POST) && isset($_POST['code'])) {
             if (isset($_GET['id'])) {
                 header('Location: profiles.php?id=' . $_GET['id']);
             } else if (isset($_POST['pid'])) {
-                header('Location: profiles.php?id=' . $_GET['pid']);
+                header('Location: profiles.php?id=' . $_POST['pid']);
             } else {
                 header('Location: index.php');
             }
