@@ -10,6 +10,10 @@ $_GET['id'] = filter_var($_GET['id'], FILTER_VALIDATE_INT);
 
 $profile_class = new User($_GET['id']);
 
+if (checkCaptchaRequired($user_class)) {
+    header('Location: captcha.php?token=' . $user_class->macro_token . '&page=profiles&id=' . $profile_class->id);
+}
+
 ?>
 <div class='box_top'><?php echo $profile_class->formattedname;?>'s Profile</div>
 						<div class='box_middle'>
