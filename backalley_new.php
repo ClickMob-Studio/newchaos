@@ -195,8 +195,6 @@ include 'footer.php';
                 }
             }
 
-            lastClick = (new Date()).getTime();
-
             if (preventClickTime) {
                 var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>You can only search the Backalley once per second!</p></center></div>";
 
@@ -206,6 +204,8 @@ include 'footer.php';
                 requestInProcess = false;
 
             } else {
+                lastClick = (new Date()).getTime();
+
                 let clicked = $(this);
 
                 $(".ajax-alert-div").remove();
