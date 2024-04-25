@@ -4,7 +4,7 @@
 session_start();
 include 'header.php';
 
-if ($user_class->id == 91) {
+if ($user_class->id == 91 || $user_class->id == 5) {
     diefun('Time to take a break from the Backalley');
 }
 
