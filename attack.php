@@ -72,8 +72,8 @@ if ($user_class->hppercent < 25) {
     $error = "You need to have over 25% HP to attack someone.";
 }
 // Combine checks for user's attack protection and attack_person's last active time
-else if ($user_class->aprotection > $currentTime) {
-    $error = "You cannot attack due to active protection or the target's recent activity.";
+else if ($user_class->aprotection > $currentTime && $attack_person->lastactive > $oneHourAgo) {
+    $error = "You cannot attack due to you having an active protection or the target's recent activity.";
 }
 // If none of the conditions are met, then no error
 else {
