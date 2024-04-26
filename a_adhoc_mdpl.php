@@ -70,20 +70,20 @@ if ($_GET['wekey'] === 'herewego') {
             $valuesIndexedByUserId[$row['userid']]['missions_complete'] = $valuesIndexedByUserId[$row['userid']]['missions_complete'] + 1;
             $valuesIndexedByUserId[$row['userid']]['total_points_earned'] = 0;
             $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] = 0;
-            if ($row['crimes'] >= $missionPayouts['crimes']) {
+            if ((int)$row['crimes'] >= (int)$missionPayouts['crimes']) {
                 $valuesIndexedByUserId[$row['userid']]['total_points_earned'] +=  $missionPayouts['payCrimes'];
                 $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] +=  ($missionPayouts['payCrimes'] - ($missionPayouts['crimes'] / 10));
             }
-            if ($row['mugs'] >= $missionPayouts['mugs']) {
+            if ((int)$row['mugs'] >= (int)$missionPayouts['mugs']) {
                 $valuesIndexedByUserId[$row['userid']]['total_points_earned'] += $missionPayouts['payMugs'];
                 $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] += $missionPayouts['payMugs'];
             }
-            if ($row['kills'] >= $missionPayouts['kills']) {
+            if ((int)$row['kills'] >= (int)$missionPayouts['kills']) {
                 $valuesIndexedByUserId[$row['userid']]['total_points_earned'] += $missionPayouts['payKills'];
                 $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] += ($missionPayouts['payKills'] - ($missionPayouts['kills'] * 2));
 
             }
-            if ($row['busts'] >= $missionPayouts['busts']) {
+            if ((int)$row['busts'] >= (int)$missionPayouts['busts']) {
                 $valuesIndexedByUserId[$row['userid']]['total_points_earned'] += $missionPayouts['payBusts'];
                 $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] += $missionPayouts['payBusts'];
             }
