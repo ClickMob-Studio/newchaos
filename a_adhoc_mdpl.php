@@ -41,7 +41,6 @@ if ($_GET['wekey'] === 'herewego') {
             'points_cost' => $pointsCost,
             'points_profit' => $pointsProfit
         );
-        print_r($missionPayoutsIndexedOnId); exit;
     }
 
 
@@ -52,7 +51,19 @@ if ($_GET['wekey'] === 'herewego') {
 
     $valuesIndexedByUserId = array();
     foreach ($rows as $row) {
+        if (!isset($valuesIndexedByUserId[$row['userid'])) {
+            $valuesIndexedByUserId[$row['userid']] = array();
+            $valuesIndexedByUserId[$row['userid']]['missions_complete'] = 0;
+            $valuesIndexedByUserId[$row['userid']]['total_points_earned'] = 0;
+            $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] = 0;
+        }
 
+        $missionPayouts = $missionPayoutsIndexedOnId[$row['mid']];
+
+        $valuesIndexedByUserId[$row['userid']]['missions_complete'] = $valuesIndexedByUserId[$row['userid']]['missions_complete'] + 1;
+        $valuesIndexedByUserId[$row['userid']]['missions_complete'] = $valuesIndexedByUserId[$row['userid']]['total_points_earned'] + $missionPayouts['points_payout'];
+        $valuesIndexedByUserId[$row['userid']]['missions_complete'] = $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] + $missionPayouts['points_profit'];
+        print_r($valuesIndexedByUserId); exit;
     }
 
 }
