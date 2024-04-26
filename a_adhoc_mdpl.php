@@ -82,7 +82,6 @@ if ($_GET['wekey'] === 'herewego') {
                 $valuesIndexedByUserId[$row['userid']]['total_points_earned'] += $missionPayouts['payBusts'];
                 $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] += $missionPayouts['payBusts'];
             }
-            var_dump($valuesIndexedByUserId); exit;
         }
 
         foreach ($valuesIndexedByUserId as  $userId => $values) {
