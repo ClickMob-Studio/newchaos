@@ -65,6 +65,8 @@ foreach ($dailyMissionPayoutLogsIndexedByDate as $date => $values) {
 
 <?php
 
+$query = mysql_query("SELECT * FROM `mission_daily_payout_logs`");
+
 $dailyMissionPayoutLogsIndexedByDate = array();
 $userIdsIndexedByDate = array();
 
