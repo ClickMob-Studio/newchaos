@@ -46,7 +46,7 @@ if ($_GET['wekey'] === 'herewego') {
         }
 
 
-        $db->query("SELECT * FROM `missions` WHERE `timestamp` BETWEEN " . $startDate->getTimestamp() . " AND " . $endDate->getTimestamp() . " AND `completed` = 'successful'");
+        $db->query("SELECT * FROM `missions` WHERE `timestamp` BETWEEN " . $startDate->getTimestamp() . " AND " . $endDate->getTimestamp());
         $db->execute();
         $rows = $db->fetch_row();
 
