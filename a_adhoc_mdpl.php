@@ -5,11 +5,11 @@ include 'header.php';
 if ($_GET['wekey'] === 'herewego') {
     // Define Dates
     $startDate = new \DateTime();
-    $startDate->setDate(2024, 04, 02);
+    $startDate->setDate(2024, 04, 03);
     $startDate->setTime(00, 00,00);
 
     $endDate = new \DateTime();
-    $endDate->setDate(2024, 04, 02);
+    $endDate->setDate(2024, 04, 03);
     $endDate->setTime(23, 59,59);
 
 
