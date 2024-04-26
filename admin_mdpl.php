@@ -7,7 +7,7 @@ if ($user_class->admin < 1) {
 
 echo 'here';
 
-$query = mysql_query("SELECT * FROM `daily_mission_payout_logs`");
+$query = mysql_query("SELECT * FROM `mission_daily_payout_logs`");
 
 $dailyMissionPayoutLogsIndexedByDate = array();
 $userIdsIndexedByDate = array();
