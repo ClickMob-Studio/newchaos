@@ -1628,6 +1628,11 @@ if (isset($_GET['use'])) {
                 echo Message("You successfully used an awake pill to refill your awake to 100%.");
                 break;
             case 8:
+                $timeAgo = time() - 900;
+                if ($user_class->last_mug_time > $timeAgo) {
+                    diefun('You have performed a mug in the last 15 minutes. You\'ll need to wait before you can take this protection.');
+                }
+
                 $db->query("UPDATE grpgusers SET mprotection =  unix_timestamp() + 3600 WHERE id = ?");
                 $db->execute(array(
                     $user_class->id
