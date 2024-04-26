@@ -1857,6 +1857,19 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
 
                 echo Message("Head to the Backalley now and start your Gold Rush!");
                 break;
+            case 254:
+                $tempItemUse = getItemTempUse($user_class->id);
+                $now = time();
+                if ($tempItemUse['crime_potion_time'] > $now) {
+                    diefun('You already have a crime potion active.');
+                }
+
+                $newTime = time() + 3600;
+
+                addItemTempUse($user_class, 'crime_potion_time', $newTime);
+
+                echo Message("You drank the crime potion, for the next hour you will gain an extra 10% EXP from crimes!");
+                break;
 
 
 
