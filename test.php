@@ -460,13 +460,13 @@ $ro = $db->fetch_row();
 							<div class="tier {#if locked}locked{/if}">
 								<div class="tier_box"{#if free.exist} title="<b>{free.text}{#if free.qty} x{number_format free.qty}{/if}</b>{/if}">
 									<div class="image">
-										<?php if($row['paid'] < 1): ?>
+										
 									
 											<a href="{free.link}"><img src="{free.image}"><?= $row['type'];?> <div class="qty">x<?= $row['qty'];?> </div></a>
 							
 									</div>
 									<div class="text"><?= $row['type'] .' x '. $row['qty']; ?></div>
-                  <?php endif;?>
+                
 								</div>
                 
 							</div>
