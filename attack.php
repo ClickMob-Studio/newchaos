@@ -590,13 +590,14 @@ $db->execute(array(
 
 
 
-mysql_query("UPDATE `grpgusers` SET `energy` = `energy` - {$energyneeded} WHERE `id` = {$user_class->id}");
+mysql_query("UPDATE `grpgusers` SET `energy` = `energy` - {$energyneeded}, `last_attack_time` = " . time() . " WHERE `id` = {$user_class->id}");
 
 echo "</td></tr>";
 
 echo $backSearch;
 
 $_SESSION['lastattack'] = time() + 3;
+
 
 include 'footer.php';
 function get_respect_for_level($level_diff)
