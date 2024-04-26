@@ -68,9 +68,9 @@ if ($_GET['wekey'] === 'herewego') {
     foreach ($valuesIndexedByUserId as  $userId => $values) {
         $db->query("
           INSERT INTO 
-            `mission_daily_payout_logs` (user_id, timestamp, missions_complete, total_points_earned, total_profit_earned) 
+            `mission_daily_payout_logs` (user_id, date, missions_complete, total_points_earned, total_profit_earned) 
           VALUES 
-            (" . $userId . ", " . $startDate->getTimestamp() . ",  " . $values['missions_complete'] . ",  " . $values['total_points_earned'] . ",  " . $values['total_profit_earned'] . ")
+            (" . $userId . ", " . $startDate->format('d-m-Y') . ",  " . $values['missions_complete'] . ",  " . $values['total_points_earned'] . ",  " . $values['total_profit_earned'] . ")
         ");
         $db->execute();
     }
