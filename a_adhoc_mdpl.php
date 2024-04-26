@@ -5,14 +5,14 @@ include 'header.php';
 if ($_GET['wekey'] === 'herewego') {
 
     // Define Dates
-    $day = 11;
+    $day = 10;
     while ($day < 26){
         $startDate = new \DateTime();
-        $startDate->setDate(2024, 04, 10);
+        $startDate->setDate(2024, 04, $day);
         $startDate->setTime(00, 00,00);
 
         $endDate = new \DateTime();
-        $endDate->setDate(2024, 04, 10);
+        $endDate->setDate(2024, 04, $day);
         $endDate->setTime(23, 59,59);
 
 
