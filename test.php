@@ -466,14 +466,13 @@ $ro = $db->fetch_row();
 							
 									</div>
 									<div class="text"><?= $row['type'] .' x '. $row['qty']; ?></div>
-        </div>
 								</div>
                 
 							</div>
               
 						</div>
             
-            <?php endforeach; ?>
+            
 						<div class="mb-2"></div>
 
 						<div class="premium">
@@ -491,7 +490,7 @@ $ro = $db->fetch_row();
 							</div>
 						</div>
 					</div>
-          
+          <?php endforeach; ?>
 		
 			</div>
 		</div>
