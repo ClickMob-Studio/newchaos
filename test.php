@@ -427,7 +427,7 @@ $bp = $db->fetch_row(true);
 <?php 
 $db->query("SELECT * FROM battlepass");
 $db->execute();
-$ro = $db-fetch_row();
+$ro = $db->fetch_row();
 ?>
 		<div class="seasonPass_container">
 			<div class="title">
