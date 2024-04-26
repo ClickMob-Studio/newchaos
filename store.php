@@ -354,15 +354,15 @@ if ($_GET['buy'] == "freebie") {
     if ($_GET['buy'] == "14imgname") {
         if ($user_class->credits >= 100) {
             $newcredit = $user_class->credits -= 100;
-            $db->query("UPDATE grpgusers SET pdimgname = pdimgname + 14, credits = credits - 100 WHERE id = ?");
+            $db->query("UPDATE grpgusers SET pdimgname = pdimgname + 14, credits = credits - 500 WHERE id = ?");
             $db->execute(array(
                 $user_class->id
             ));
 
-            Send_Event(1, $user_class->formattedname ." bought 14 Day Image Name");
-            Send_Event(2, $user_class->formattedname ." bought 14 Day Image Name");
+            Send_Event(1, $user_class->formattedname ." bought Image Name");
+            Send_Event(2, $user_class->formattedname ." bought Image Name");
 
-            echo Message("You spent 50 GOLD for 14 Day Im age Name");
+            echo Message("You spent 50 GOLD for Image Name");
             // Redirect to preferences.php after the message
             header("Location: settings.php");
             exit(); // Ensure no further code is executed after redirect
