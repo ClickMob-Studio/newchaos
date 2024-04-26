@@ -6,11 +6,11 @@ if ($_GET['wekey'] === 'herewego') {
 
     // Define Dates
     $startDate = new \DateTime();
-    $startDate->setDate(2024, 04, 08);
+    $startDate->setDate(2024, 04, 09);
     $startDate->setTime(00, 00,00);
 
     $endDate = new \DateTime();
-    $endDate->setDate(2024, 04, 08);
+    $endDate->setDate(2024, 04, 09);
     $endDate->setTime(23, 59,59);
 
 
