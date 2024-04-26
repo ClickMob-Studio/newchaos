@@ -473,7 +473,7 @@ $ro = $db->fetch_row();
               
 						</div>
             
-
+            <?php endforeach; ?>
 						<div class="mb-2"></div>
 
 						<div class="premium">
@@ -492,6 +492,6 @@ $ro = $db->fetch_row();
 						</div>
 					</div>
           
-				<?php endforeach; ?>
+		
 			</div>
 		</div>
