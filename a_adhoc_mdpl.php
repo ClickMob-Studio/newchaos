@@ -53,7 +53,6 @@ if ($_GET['wekey'] === 'herewego') {
 
         $valuesIndexedByUserId = array();
         foreach ($rows as $row) {
-            var_dump($row);
             if (!isset($valuesIndexedByUserId[$row['userid']])) {
                 $valuesIndexedByUserId[$row['userid']] = array();
                 $valuesIndexedByUserId[$row['userid']]['missions_complete'] = 0;
@@ -65,7 +64,7 @@ if ($_GET['wekey'] === 'herewego') {
             $valuesIndexedByUserId[$row['userid']]['total_points_earned'] = 0;
             $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] = 0;
             if ($row['crimes'] >= $missionPayouts['crimes']) {
-                echo 'here';
+                echo $missionPayouts['payCrimes'];
                 $valuesIndexedByUserId[$row['userid']]['total_points_earned'] +=  $missionPayouts['payCrimes'];
                 $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] +=  ($missionPayouts['payCrimes'] - ($missionPayouts['crimes'] / 10));
             }else {
