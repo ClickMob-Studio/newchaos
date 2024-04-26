@@ -195,7 +195,7 @@ $(document).ready(function() {
     setInterval(function() {
         profileRefreshes = profileRefreshes + 1;
         if (profileRefreshes % 30 == 0) {
-            confirm("You still hanging around?");
+            //confirm("You still hanging around?");
         }
                 
         $.getJSON("profileajax.php?user_id=' . $profile_class->id . '", function(response) {
