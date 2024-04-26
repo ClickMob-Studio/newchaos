@@ -63,7 +63,7 @@ if ($_GET['wekey'] === 'herewego') {
         $valuesIndexedByUserId[$row['userid']]['missions_complete'] = $valuesIndexedByUserId[$row['userid']]['missions_complete'] + 1;
         $valuesIndexedByUserId[$row['userid']]['total_points_earned'] = $valuesIndexedByUserId[$row['userid']]['total_points_earned'] + $missionPayouts['points_payout'];
         $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] = $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] + $missionPayouts['points_profit'];
-        print_r($valuesIndexedByUserId); exit;
     }
+    print_r($valuesIndexedByUserId); exit;
 
 }
