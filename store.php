@@ -780,6 +780,7 @@ document.addEventListener("DOMContentLoaded", function() {
         </tr>
     </table>
 </div>
+<br /><br />
 
     <div class="floaty" style="margin:3px; text-align: center;">
         <h4>14 DAY IMAGE NAME</h4>
