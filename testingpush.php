@@ -22,10 +22,21 @@ $inactiveUser = $inactiveUsers['total'];
 
 $db->query("SELECT sum(points) as tpoints, sum(pbank) as bpoints FROM grpgusers");
 $db->execute();
-
 $a = $db->fetch_row(true);
 $points = $a['tpoints'] + $a['bpoints'];
-$db->query("INSERT INTO daily_eco (`timestamp`, credits, inactive_users, points) VALUES (".time().", ".$r['tcredits'].", ".$inactiveUser.", ".$points.")");
+
+$db->query("SELECT count(`id`) as total FROM grpgusers");
+$db->execute();
+$totalUsers = $db->fetch_row(true);
+$totalUser = $totalUsers['total'];
+
+$db->query("SELECT sum(`money`) AS tmoney, sum(`bank`) AS bmoney FROM grpgusers");
+$db->execute();
+$b = $db->fetch_row(true);
+$money = $b['tmoney'] + $b['bmoney'];
+
+
+$db->query("INSERT INTO daily_eco (`timestamp`, credits, inactive_users, points, users, `money`) VALUES (".time().", ".$r['tcredits'].", ".$inactiveUser.", ".$points.", ".$totalUser.", ".$money.")");
 $db->execute();
 
 
