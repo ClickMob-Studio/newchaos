@@ -465,7 +465,7 @@ $ro = $db->fetch_row();
 											<a href="{free.link}"><img src="{free.image}"><?= $row['type'];?> <div class="qty">x<?= $row['qty'];?> </div></a>
 							
 									</div>
-									<div class="text">{#if free.exist}{free.text}{/if}</div>
+									<div class="text"><?= $row['type'] .' x '. $row['qty']; ?></div>
                   <?php endif;?>
 								</div>
                 
