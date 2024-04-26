@@ -410,7 +410,6 @@ $(document).ready(function() {
 <?php if($user_class->pdimgname > 0):?>
     <div class="col-md-4 col-6">
     <h1>Image Usernames</h1>
-        <p>You have <?= $user_class->pdimgname;?> image name days left.</p>
         <p>For best results, use an image sized 95x50px</p>
     <form id="imagenameForm">
                 <div>
