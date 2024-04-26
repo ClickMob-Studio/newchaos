@@ -64,8 +64,23 @@ if ($_GET['wekey'] === 'herewego') {
             $missionPayouts = $missionPayoutsIndexedOnId[$row['mid']];
 
             $valuesIndexedByUserId[$row['userid']]['missions_complete'] = $valuesIndexedByUserId[$row['userid']]['missions_complete'] + 1;
-            $valuesIndexedByUserId[$row['userid']]['total_points_earned'] = $valuesIndexedByUserId[$row['userid']]['total_points_earned'] + $missionPayouts['points_payout'];
-            $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] = $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] + $missionPayouts['points_profit'];
+            $valuesIndexedByUserId[$row['userid']]['total_points_earned'] = 0;
+            $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] = 0;
+            if ($row['crimes'] > $missionPayouts['crimes']) {
+                $valuesIndexedByUserId[$row['userid']]['total_points_earned'] = $valuesIndexedByUserId[$row['userid']]['total_points_earned'] + $missionPayouts['payCrimes'];
+                $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] = $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] + ($missionPayouts['payCrimes'] - ($missionPayouts['crimes'] / 10));
+            }
+            if ($row['mugs'] > $missionPayouts['mugs']) {
+                $valuesIndexedByUserId[$row['userid']]['total_points_earned'] = $valuesIndexedByUserId[$row['userid']]['total_points_earned'] + $missionPayouts['payMugs'];
+            }
+            if ($row['kills'] > $missionPayouts['kills']) {
+                $valuesIndexedByUserId[$row['userid']]['total_points_earned'] = $valuesIndexedByUserId[$row['userid']]['total_points_earned'] + $missionPayouts['payKills'];
+                $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] = $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] + ($missionPayouts['payKills'] - ($missionPayouts['kills'] * 2));
+
+            }
+            if ($row['busts'] > $missionPayouts['busts']) {
+                $valuesIndexedByUserId[$row['userid']]['total_points_earned'] = $valuesIndexedByUserId[$row['userid']]['total_points_earned'] + $missionPayouts['payBusts'];
+            }
         }
 
         foreach ($valuesIndexedByUserId as  $userId => $values) {
