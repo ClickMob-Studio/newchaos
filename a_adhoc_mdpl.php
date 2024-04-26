@@ -64,7 +64,7 @@ if ($_GET['wekey'] === 'herewego') {
             $valuesIndexedByUserId[$row['userid']]['total_points_earned'] = 0;
             $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] = 0;
             if ($row['crimes'] >= $missionPayouts['crimes']) {
-                echo $missionPayouts['payCrimes'];
+                var_dump($missionPayouts);
                 $valuesIndexedByUserId[$row['userid']]['total_points_earned'] +=  $missionPayouts['payCrimes'];
                 $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] +=  ($missionPayouts['payCrimes'] - ($missionPayouts['crimes'] / 10));
             }else {
