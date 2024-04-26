@@ -52,11 +52,11 @@ foreach ($dailyMissionPayoutLogsIndexedByDate as $date => $values) {
             <?php foreach ($dailyMissionPayoutLogsIndexedByDate as $date => $row): ?>
                 <tr>
                     <td><?php echo $date ?></td>
-                    <td><?php echo number_format($res['total_users'], 0) ?></td>
-                    <td><?php echo number_format($res['total_points_earned'], 0) ?></td>
-                    <td><?php echo number_format($res['total_profit_earned'], 0) ?></td>
-                    <td><?php echo number_format($res['average_points_earned'], 0) ?></td>
-                    <td><?php echo number_format($res['average_profit_earned'], 0) ?></td>
+                    <td><?php echo number_format($row['total_users'], 0) ?></td>
+                    <td><?php echo number_format($row['total_points_earned'], 0) ?></td>
+                    <td><?php echo number_format($row['total_profit_earned'], 0) ?></td>
+                    <td><?php echo number_format($row['average_points_earned'], 0) ?></td>
+                    <td><?php echo number_format($row['average_profit_earned'], 0) ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
