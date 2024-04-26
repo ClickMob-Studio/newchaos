@@ -41,7 +41,7 @@ if ($_GET['wekey'] === 'herewego') {
             'points_cost' => $pointsCost,
             'points_profit' => $pointsProfit
         );
-        var_dump($missionPayoutsIndexedOnId); exit;
+        print_r($missionPayoutsIndexedOnId); exit;
     }
 
 
