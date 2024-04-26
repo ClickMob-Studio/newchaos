@@ -450,8 +450,9 @@ $ro = $db->fetch_row();
 					<div class="text">Premium</div>
 				</div>
 			</div>
+      <?php foreach($ro AS $row):?>
 			<div class="tiers_container" data-current-tier="{current.tier}">
-				<?php foreach($ro AS $row):?>
+			
 					<div class="tiers_wrapper" data-tier="{tier}"> 
 						<div class="tier_number {#if locked}locked{/if}">Tier {tier}</div>
 						<div class="mb-1"></div>
@@ -490,7 +491,8 @@ $ro = $db->fetch_row();
 							</div>
 						</div>
 					</div>
-          <?php endforeach; ?>
+       
 		
 			</div>
+      <?php endforeach; ?>
 		</div>
