@@ -813,7 +813,7 @@ function formatName($id, $nogang = 0)
     $name = "";
     if ($nogang == 0 && $id != 864 and !empty($rtn = $m->get('formatName.' . $id)))
         return $rtn;
-    $db->query("SELECT username, gang, admin, rmdays, gm, colours, image_name, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
+    $db->query("SELECT username, gang, admin, rmdays, gm, colours, image_name, pdimgname, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
     $db->execute(array(
         $id
     ));
@@ -856,7 +856,7 @@ function formatName($id, $nogang = 0)
     }
     if ($bdays)
         $name .= "<a title='$title' href='profiles.php?id=$id'>&nbsp;<font color = '$whichfont'>{$row['username']}</s></font></a>";
-    else if (!empty($row['image_name'])) {
+    else if (!empty($row['image_name']) && $row['pdimgname'] > 0) {
         $name .= ($row['admin'] == 1 || $row['gm'] == 1) ? "<a title='" . $title . " [" . $row['username'] . "]' href='profiles.php?id=" . $id . "'>" : "<a title='" . $title . "' href='profiles.php?id=" . $id . "'>";
         $name .= "<img src='{$row['image_name']}' style='max-width:95px; max-height:50px;' title='" . $row['username'] . "' />";
         $name .= ($row['admin'] == 1 || $row['gm'] == 1) ? "</a>" : "</a>";
