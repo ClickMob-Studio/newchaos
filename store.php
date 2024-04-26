@@ -331,25 +331,45 @@ if ($_GET['buy'] == "freebie") {
         }
     }
    if ($_GET['buy'] == "7daygrad") {
-    if ($user_class->credits >= 50) {
-        $newcredit = $user_class->credits -= 50;
-        $db->query("UPDATE grpgusers SET gndays = gndays + 14, gradient = ?, credits = credits - 50 WHERE id = ?");
-        $db->execute(array(
-            ($user_class->gradient != 3) ? "2" : "3",
-            $user_class->id
-        ));
+        if ($user_class->credits >= 50) {
+            $newcredit = $user_class->credits -= 50;
+            $db->query("UPDATE grpgusers SET gndays = gndays + 14, gradient = ?, credits = credits - 50 WHERE id = ?");
+            $db->execute(array(
+                ($user_class->gradient != 3) ? "2" : "3",
+                $user_class->id
+            ));
 
-        Send_Event(1, $user_class->formattedname ." bought 17 Day Gradient");
-        Send_Event(2, $user_class->formattedname ." bought 17 Day Gradient");
-       
-        echo Message("You spent 50 GOLD for 17 Gradient Days");
-        // Redirect to preferences.php after the message
-        header("Location: settings.php");
-        exit(); // Ensure no further code is executed after redirect
-    } else {
-        echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
+            Send_Event(1, $user_class->formattedname ." bought 14 Day Gradient");
+            Send_Event(2, $user_class->formattedname ." bought 14 Day Gradient");
+
+            echo Message("You spent 50 GOLD for 14 Gradient Days");
+            // Redirect to preferences.php after the message
+            header("Location: settings.php");
+            exit(); // Ensure no further code is executed after redirect
+        } else {
+            echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
+        }
     }
-}
+
+    if ($_GET['buy'] == "14imgname") {
+        if ($user_class->credits >= 100) {
+            $newcredit = $user_class->credits -= 100;
+            $db->query("UPDATE grpgusers SET pdimgname = pdimgname + 14, credits = credits - 100 WHERE id = ?");
+            $db->execute(array(
+                $user_class->id
+            ));
+
+            Send_Event(1, $user_class->formattedname ." bought 14 Day Image Name");
+            Send_Event(2, $user_class->formattedname ." bought 14 Day Image Name");
+
+            echo Message("You spent 50 GOLD for 14 Day Im age Name");
+            // Redirect to preferences.php after the message
+            header("Location: settings.php");
+            exit(); // Ensure no further code is executed after redirect
+        } else {
+            echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
+        }
+    }
 
     if ($_GET['buy'] == "doubleexp") {
         if ($user_class->credits >= 50) {
