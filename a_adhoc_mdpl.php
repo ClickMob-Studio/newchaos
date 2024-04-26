@@ -64,6 +64,16 @@ if ($_GET['wekey'] === 'herewego') {
         $valuesIndexedByUserId[$row['userid']]['total_points_earned'] = $valuesIndexedByUserId[$row['userid']]['total_points_earned'] + $missionPayouts['points_payout'];
         $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] = $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] + $missionPayouts['points_profit'];
     }
-    print_r($valuesIndexedByUserId); exit;
+
+    foreach ($valuesIndexedByUserId as  $userId => $values) {
+        $db->query("
+          INSERT INTO 
+            `mission_daily_payout_logs` (userid, timestamp, missions_complete, total_points_earned, total_profit_earned) 
+          VALUES 
+            (" . $userId . ", " . $startDate->getTimestamp() . ",  " . $values['missions_complete'] . ",  " . $values['total_points_earned'] . ",  " . $values['total_profit_earned'] . ")
+        ");
+    }
+
+    echo 'done'; exit;
 
 }
