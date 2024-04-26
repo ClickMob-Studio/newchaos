@@ -61,7 +61,10 @@ if ($_GET['wekey'] === 'herewego') {
             }
 
             $missionPayouts = $missionPayoutsIndexedOnId[$row['mid']];
-            var_dump($row); exit;
+            var_dump($row);
+            echo '<br />';
+            echo '<br />';
+            echo '<br />';
             var_dump($missionPayouts); exit;
 
             $valuesIndexedByUserId[$row['userid']]['missions_complete'] = $valuesIndexedByUserId[$row['userid']]['missions_complete'] + 1;
