@@ -64,20 +64,24 @@ if ($_GET['wekey'] === 'herewego') {
             $valuesIndexedByUserId[$row['userid']]['missions_complete'] = $valuesIndexedByUserId[$row['userid']]['missions_complete'] + 1;
             $valuesIndexedByUserId[$row['userid']]['total_points_earned'] = 0;
             $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] = 0;
-            if ((int)$row['crimes'] >= (int)$missionPayouts['crimes']) {
+            if ($row['crimes'] >= $missionPayouts['crimes']) {
+                echo 'here';
                 $valuesIndexedByUserId[$row['userid']]['total_points_earned'] +=  $missionPayouts['payCrimes'];
                 $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] +=  ($missionPayouts['payCrimes'] - ($missionPayouts['crimes'] / 10));
+            }else {
+                echo $row['crimes'] .'>='. $missionPayouts['crimes'];
             }
-            if ((int)$row['mugs'] >= (int)$missionPayouts['mugs']) {
+            exit;
+            if ($row['mugs'] >= $missionPayouts['mugs']) {
                 $valuesIndexedByUserId[$row['userid']]['total_points_earned'] += $missionPayouts['payMugs'];
                 $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] += $missionPayouts['payMugs'];
             }
-            if ((int)$row['kills'] >= (int)$missionPayouts['kills']) {
+            if ($row['kills'] >= $missionPayouts['kills']) {
                 $valuesIndexedByUserId[$row['userid']]['total_points_earned'] += $missionPayouts['payKills'];
                 $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] += ($missionPayouts['payKills'] - ($missionPayouts['kills'] * 2));
 
             }
-            if ((int)$row['busts'] >= (int)$missionPayouts['busts']) {
+            if ($row['busts'] >= $missionPayouts['busts']) {
                 $valuesIndexedByUserId[$row['userid']]['total_points_earned'] += $missionPayouts['payBusts'];
                 $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] += $missionPayouts['payBusts'];
             }
