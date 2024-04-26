@@ -72,6 +72,7 @@ if ($_GET['wekey'] === 'herewego') {
           VALUES 
             (" . $userId . ", " . $startDate->getTimestamp() . ",  " . $values['missions_complete'] . ",  " . $values['total_points_earned'] . ",  " . $values['total_profit_earned'] . ")
         ");
+        $db->execute();
     }
 
     echo 'done'; exit;
