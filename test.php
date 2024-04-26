@@ -424,7 +424,11 @@ $bp = $db->fetch_row(true);
 				</a>
 			{/if}
 		</div>
-
+<?php 
+$db->query("SELECT * FROM battlepass");
+$db->execute();
+$ro = $db-fetch();
+?>
 		<div class="seasonPass_container">
 			<div class="title">
 				<div class="current_tier {#if premium}premium{/if}">
@@ -447,7 +451,7 @@ $bp = $db->fetch_row(true);
 				</div>
 			</div>
 			<div class="tiers_container" data-current-tier="{current.tier}">
-				{#each tiers}
+				<?php foreach($ro AS $row):?>
 					<div class="tiers_wrapper" data-tier="{tier}"> 
 						<div class="tier_number {#if locked}locked{/if}">Tier {tier}</div>
 						<div class="mb-1"></div>
@@ -456,17 +460,13 @@ $bp = $db->fetch_row(true);
 							<div class="tier {#if locked}locked{/if}">
 								<div class="tier_box"{#if free.exist} title="<b>{free.text}{#if free.qty} x{number_format free.qty}{/if}</b>{/if}">
 									<div class="image">
-										{#if locked}
-											{>lock}
-										{else}
-											{#if free.collected}{>collected}{/if}
-										{/if}
-										{#if free.exist}
-											<a href="{free.link}"><img src="{free.image}">{#if free.qty}<div class="qty">x{number_format free.qty}</div>{/if}</a>
-										{/if}
+										<?php if($row['paid'] < 1): ?>
+									
+											<a href="{free.link}"><img src="{free.image}"><?= $row['type'];?> <div class="qty">x<?= $row['qty'];?> </div></a>
+							
 									</div>
 									<div class="text">{#if free.exist}{free.text}{/if}</div>
-    
+                  <?php endif;?>
 								</div>
                 
 							</div>
@@ -498,56 +498,7 @@ $bp = $db->fetch_row(true);
 							</div>
 						</div>
 					</div>
-          <div class="tiers_wrapper" data-tier="{tier}"> 
-						<div class="tier_number {#if locked}locked{/if}">Tier {tier}</div>
-						<div class="mb-1"></div>
-
-						<div class="free">
-							<div class="tier {#if locked}locked{/if}">
-								<div class="tier_box"{#if free.exist} title="<b>{free.text}{#if free.qty} x{number_format free.qty}{/if}</b>{/if}">
-									<div class="image">
-										{#if locked}
-											{>lock}
-										{else}
-											{#if free.collected}{>collected}{/if}
-										{/if}
-										{#if free.exist}
-											<a href="{free.link}"><img src="{free.image}">{#if free.qty}<div class="qty">x{number_format free.qty}</div>{/if}</a>
-										{/if}
-									</div>
-									<div class="text">{#if free.exist}{free.text}{/if}</div>
-    
-								</div>
-                
-							</div>
-              
-						</div>
-            
-
-						<div class="mb-2"></div>
-
-						<div class="premium">
-							<div class="tier premium {#if ../premium}{#if locked}locked{/if}{else}locked{/if}">
-								<div class="tier_box"{#if premium.exist} title="<b>{premium.text}{#if premium.qty} x{number_format premium.qty}{/if}</b>{/if}">
-									<div class="image">
-										{#if ../premium}
-											{#if locked}
-												{>lock}
-											{else}
-												{#if premium.collected}{>collected}{/if}
-											{/if}
-										{else}
-											{>lock}
-										{/if}
-										{#if premium.exist}
-											<a href="{premium.link}"><img src="{premium.image}">{#if premium.qty}<div class="qty">x{number_format premium.qty}</div>{/if}</a>
-										{/if}
-									</div>
-									<div class="text">{#if premium.exist}{premium.text}{/if}</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				{/each}
+          
+				<?php endforeach; ?>
 			</div>
 		</div>
