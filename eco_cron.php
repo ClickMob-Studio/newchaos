@@ -1,9 +1,7 @@
 <?php
-require ("header.php");
-
-if($user_class->admin < 1){
-    exit();
-}
+include_once 'dbcon.php';
+include_once 'classes.php';
+include 'database/pdo_class.php';
 
 $db->query("SELECT sum(credits) as tcredits FROM grpgusers");
 $db->execute();
@@ -26,7 +24,7 @@ $a = $db->fetch_row(true);
 $points = $a['tpoints'] + $a['bpoints'];
 
 $db->query("SELECT count(`id`) as total FROM grpgusers");
-$db->execute();
+$db->execute(); 
 $totalUsers = $db->fetch_row(true);
 $totalUser = $totalUsers['total'];
 
