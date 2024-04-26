@@ -480,20 +480,13 @@ $ro = $db->fetch_row();
 							<div class="tier premium {#if ../premium}{#if locked}locked{/if}{else}locked{/if}">
 								<div class="tier_box"{#if premium.exist} title="<b>{premium.text}{#if premium.qty} x{number_format premium.qty}{/if}</b>{/if}">
 									<div class="image">
-										{#if ../premium}
-											{#if locked}
-												{>lock}
-											{else}
-												{#if premium.collected}{>collected}{/if}
-											{/if}
-										{else}
-											{>lock}
-										{/if}
-										{#if premium.exist}
-											<a href="{premium.link}"><img src="{premium.image}">{#if premium.qty}<div class="qty">x{number_format premium.qty}</div>{/if}</a>
-										{/if}
+                  <?php if($row['paid'] > 0): ?>
+								
+											<a href="{premium.link}"><img src="{premium.image}"><?= $row['type'];?><div class="qty">x<?= $row['type'];?></div></a>
+				
 									</div>
-									<div class="text">{#if premium.exist}{premium.text}{/if}</div>
+									<div class="text"><?= $row['type'] .' x '. $row['qty']; ?></div>
+                  <?php endif;?>
 								</div>
 							</div>
 						</div>
