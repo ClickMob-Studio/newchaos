@@ -20,7 +20,7 @@ $inactiveUsers = $db->fetch_row(true);
 $inactiveUser = $inactiveUsers['total'];
 
 
-$db->query("SELECT sum(points) as tpoints sum(bpoints) as bpoitns FROM grpgusers");
+$db->query("SELECT sum(points) as tpoints, sum(bpoints) as bpoints FROM grpgusers");
 $db->execute();
 
 $a = $db->fetch_row(true);
