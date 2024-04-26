@@ -15,5 +15,5 @@ $date = date("Y-m-d");
 
 
 
-$db->query("INSERT INTO daily_eco (`date`) VALUES '$date'");
+$db->query("INSERT INTO daily_eco (`timestamp`, credits) VALUES ".time().", ".$r['tcredits'].")");
 $db->execute();
