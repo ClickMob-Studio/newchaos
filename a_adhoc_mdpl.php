@@ -66,13 +66,9 @@ if ($_GET['wekey'] === 'herewego') {
             $valuesIndexedByUserId[$row['userid']]['total_points_earned'] = 0;
             $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] = 0;
             if ($row['crimes'] >= $missionPayouts['crimes']) {
-                var_dump($missionPayouts);
                 $valuesIndexedByUserId[$row['userid']]['total_points_earned'] +=  $missionPayouts['payCrimes'];
                 $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] +=  ($missionPayouts['payCrimes'] - ($missionPayouts['crimes'] / 10));
-            }else {
-                echo $row['crimes'] .'>='. $missionPayouts['crimes'];
             }
-            exit;
             if ($row['mugs'] >= $missionPayouts['mugs']) {
                 $valuesIndexedByUserId[$row['userid']]['total_points_earned'] += $missionPayouts['payMugs'];
                 $valuesIndexedByUserId[$row['userid']]['total_profit_earned'] += $missionPayouts['payMugs'];
