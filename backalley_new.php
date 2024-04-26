@@ -129,7 +129,7 @@ include 'footer.php';
     document.addEventListener("DOMContentLoaded",function(){
         document.body.addEventListener('click', function(evt) {
             clickCount = clickCount + 1;
-            if (clickCount > 100) {
+            if (clickCount > 500) {
                 window.location.href = "/backalley_new.php?forced_captcha=yes";
             }
 
@@ -215,7 +215,6 @@ include 'footer.php';
                     return false;
                 }
 
-                requestInProcess = true;
 
                 var request = $.ajax({
                     url: 'ajax_ba_new.php?alv=yes',
