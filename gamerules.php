@@ -26,7 +26,9 @@ include 'header.php';
 <br><br>
 <font color=red><b>9.</b></font> Any advertising of other websites is not tolerated and will result in a permanent ban.
 <br><br>
-<font color=red><b>10.</b></font> If you have any questions about these rules please open a ticket on the Help Desk about it and mods/staff will happily assist you in any way they can.
+<font color=red><b>10.</b></font> Harassment of an Admin or Moderator, in-game or on any other channels, will not be tolerated and will result in a suspension, or in severe cases a ban.
+<br><br>
+<font color=red><b>11.</b></font> If you have any questions about these rules please open a ticket on the Help Desk about it and mods/staff will happily assist you in any way they can.
 <br><br>
 These rules are subject to change and staff interpretation at any time.
 </tr>

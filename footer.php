@@ -5,7 +5,7 @@
     </div>
 
 <footer class="text-center">
-    &copy; ChaosCity
+    &copy; ChaosCity | &nbsp;&nbsp; <a href="gamerules.php">Game Rules</a>
 </footer>
 </body>
 </html>
