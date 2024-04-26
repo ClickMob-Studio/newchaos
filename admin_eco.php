@@ -21,10 +21,10 @@ $fetch = $db->fetch_row();
 <tbody>
     <?php foreach ($fetch as $row):?>
         <tr>
-            <td><?php echo $row['timestamp']?></td>
-            <td><?php echo $row['money']?></td>
-            <td><?php echo $row['credits']?></td>
-            <td><?php echo $row['points']?></td>
+            <td><?php echo date("d-m-Y", $row['timestamp'])?></td>
+            <td>$<?php echo number_format($row['money'])?></td>
+            <td><?php echo number_format($row['credits'])?></td>
+            <td><?php echo number_format($row['points'])?></td>
             <td><?php echo $row['inactive_users']?></td>
             <td><?php echo $row['users']?></td>
         </tr>
