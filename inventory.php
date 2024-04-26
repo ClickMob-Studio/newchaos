@@ -1640,7 +1640,7 @@ if (isset($_GET['use'])) {
 
                 $timeAgo = time() - 900;
                 if ($user_class->last_attack_time > $timeAgo) {
-                    //diefum('You have performed an attack in the last 15 minutes. You\'ll need to wait before you can take this protection.');
+                    diefun('You have performed an attack in the last 15 minutes. You\'ll need to wait before you can take this protection.');
                 }
 
                 $db->query("UPDATE grpgusers SET aprotection =  unix_timestamp() + 3600, king = 0, queen = 0 WHERE id = ?");
