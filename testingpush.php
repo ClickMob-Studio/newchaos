@@ -19,7 +19,13 @@ $db->execute();
 $inactiveUsers = $db->fetch_row(true);
 $inactiveUser = $inactiveUsers['total'];
 
-$db->query("INSERT INTO daily_eco (`timestamp`, credits, inactive_users) VALUES (".time().", ".$r['tcredits'].", ".$inactiveUser.")");
+
+$db->query("SELECT sum(points) as tpoints sum(bpoints) as bpoitns FROM grpgusers");
+$db->execute();
+
+$a = $db->fetch_row(true);
+$points = $a['tpoints'] + $a['bpoints'];
+$db->query("INSERT INTO daily_eco (`timestamp`, credits, inactive_users, points) VALUES (".time().", ".$r['tcredits'].", ".$inactiveUser.", ".$points.")");
 $db->execute();
 
 
