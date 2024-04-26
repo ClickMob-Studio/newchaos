@@ -44,7 +44,6 @@ if ($_GET['wekey'] === 'herewego') {
             $missionPayoutsIndexedOnId[$row['id']]['points_cost'] = $pointsCost;
             $missionPayoutsIndexedOnId[$row['id']]['points_profit'] = $pointsProfit;
         }
-        var_dump($missionPayoutsIndexedOnId); exit;
 
 
         $db->query("SELECT * FROM `missions` WHERE `timestamp` BETWEEN " . $startDate->getTimestamp() . " AND " . $endDate->getTimestamp() . " AND `completed` = 'successful'");
