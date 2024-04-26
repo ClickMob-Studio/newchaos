@@ -53,6 +53,7 @@ if ($_GET['wekey'] === 'herewego') {
 
         $valuesIndexedByUserId = array();
         foreach ($rows as $row) {
+            var_dump($row);
             if (!isset($valuesIndexedByUserId[$row['userid']])) {
                 $valuesIndexedByUserId[$row['userid']] = array();
                 $valuesIndexedByUserId[$row['userid']]['missions_complete'] = 0;
