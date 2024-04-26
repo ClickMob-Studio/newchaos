@@ -13,7 +13,13 @@ $r = $db->fetch_row(true);
 echo $r['tcredits'];
 $date = date("Y-m-d");
 
-
-
-$db->query("INSERT INTO daily_eco (`timestamp`, credits) VALUES (".time().", ".$r['tcredits'].")");
+$time = time() - 432000;
+$db->query("SELECT COUNT(id) as total FROM grpgusers WHERE lastactive < $time");
 $db->execute();
+$inactiveUsers = $db->fetch_row(true);
+$inactiveUser = $inactiveUsers['total'];
+
+$db->query("INSERT INTO daily_eco (`timestamp`, credits, inactive_users) VALUES (".time().", ".$r['tcredits'].", ".$inactiveUser.")");
+$db->execute();
+
+
