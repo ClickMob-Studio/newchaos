@@ -12,6 +12,7 @@ if ($user_class->admin < 1) {
     <li><a href="adamexp.php">Donations</a></li>
     <li><a href="admin_sendlogs.php">Send Logs</a></li>
     <li><a href="admin_view_inventory.php">Inventories</a></li>
+    <li><a href="admin_mdlp.php">Daily Mission Payout Logs</a></li>
 </ul>
 
 <?php
