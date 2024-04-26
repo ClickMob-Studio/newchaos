@@ -466,7 +466,7 @@ $ro = $db->fetch_row();
 							
 									</div>
 									<div class="text"><?= $row['type'] .' x '. $row['qty']; ?></div>
-                
+        </div>
 								</div>
                 
 							</div>
