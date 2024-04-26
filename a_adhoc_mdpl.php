@@ -51,7 +51,7 @@ if ($_GET['wekey'] === 'herewego') {
 
     $valuesIndexedByUserId = array();
     foreach ($rows as $row) {
-        if (!isset($valuesIndexedByUserId[$row['userid'])) {
+        if (!isset($valuesIndexedByUserId[$row['userid']])) {
             $valuesIndexedByUserId[$row['userid']] = array();
             $valuesIndexedByUserId[$row['userid']]['missions_complete'] = 0;
             $valuesIndexedByUserId[$row['userid']]['total_points_earned'] = 0;
