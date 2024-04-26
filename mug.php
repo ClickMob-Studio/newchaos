@@ -201,7 +201,7 @@ if ($user_class->gang != 0){
     $result = mysql_query("UPDATE `grpgusers` SET `jail` = '" . $timee . "' WHERE `id`='" . $user_class->id . "'");
 }
 $newnerve = $user_class->nerve - 10;
-$result = mysql_query("UPDATE `grpgusers` SET `nerve` = '" . $newnerve . "' WHERE `id`='" . $user_class->id . "'");
+$result = mysql_query("UPDATE `grpgusers` SET `nerve` = '" . $newnerve . "', `last_mug_time` = " . time() . " WHERE `id`='" . $user_class->id . "'");
 include 'footer.php';
 function error($msg) {
     echo Message($msg);
