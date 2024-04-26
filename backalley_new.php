@@ -187,7 +187,7 @@ include 'footer.php';
 
             if (lastClick > 0) {
                 var clickDuration = ((new Date()).getTime() - lastClick)
-                if (clickDuration > 500) {
+                if (clickDuration > 300) {
                     preventClickTime = false;
                 } else {
                     preventClickTime = true
@@ -195,7 +195,7 @@ include 'footer.php';
             }
 
             if (preventClickTime) {
-                var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>You can only search the Backalley twice per second!</p></center></div>";
+                var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>You can only search the Backalley three times per second!</p></center></div>";
 
                 $("#ba-response-message").html(resMes);
                 $("#ba-response-message").show();
