@@ -1637,11 +1637,11 @@ if (isset($_GET['use'])) {
 
             
  case 9:
-                $db->query("UPDATE grpgusers SET aprotection =  unix_timestamp() + 3600 WHERE id = ?");
+                $db->query("UPDATE grpgusers SET aprotection =  unix_timestamp() + 3600, king = 0, queen = 0 WHERE id = ?");
                 $db->execute(array(
                     $user_class->id
                 ));
-                echo Message("You are now protected from attacks for 1 hour.");
+                echo Message("You are now protected from attacks for 1 hour. Whilst under attack protection, you can only attack players who have been offline for longer than an hour. If you hold a Boss/Underboss position you'll have been removed from this position too.");
                 break;
 
 
