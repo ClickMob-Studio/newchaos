@@ -781,6 +781,27 @@ document.addEventListener("DOMContentLoaded", function() {
     </table>
 </div>
 
+    <div class="floaty" style="margin:3px; text-align: center;">
+        <h4>14 DAY IMAGE NAME</h4>
+        <hr>
+        <table style="width: 100%; margin: auto;">
+            <tr>
+                <td style="text-align: center;">
+
+                    <h4>Example</h4> <img src="https://cdn.discordapp.com/attachments/1225698401732268114/1229718368899301456/PSX_20240416_020108.png?ex=6630b37a&is=661e3e7a&hm=7701a12b7c977cc41049878c2536a7c8e8ecc874a9550715bb63514d49b96f63&" style="max-width:95px; max-height:50px;"><br />
+                    <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img> 100</font></h4>
+
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;">
+                    <a href="store.php?buy=14imgname" style="display: inline-block; padding: 10px 20px; background-color:  color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY NOW</a>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
 
 
 <style>
