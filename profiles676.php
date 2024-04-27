@@ -850,7 +850,17 @@ $missionsQ = mysql_query("SELECT COUNT(id) AS mission_count FROM missions WHERE 
 $missionsR = mysql_fetch_assoc($missionsQ);
 $missionsCount = $missionsR['mission_count'];
 ?>
+<style>.card {
+    margin: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    background: rgba(0,0,0,0.6); /* Darken the background */
+    color: white; /* Ensure text is readable on a dark background */
+}
 
+.card-body {
+    background-color: transparent; /* Make sure the card body doesn’t have a different background */
+}
+</style>
 <div class="container">
     <!-- Use Bootstrap's row and col classes for responsiveness -->
     <div class="row">
