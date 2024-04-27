@@ -1633,6 +1633,13 @@ if (isset($_GET['use'])) {
                     diefun('You have performed a mug in the last 15 minutes. You\'ll need to wait before you can take this protection.');
                 }
 
+                $itemDailyLimit = getItemDailyLimit($user_class->id);
+                if ($itemDailyLimit['mug_protection'] >= 4) {
+                    diefun('You can only use 4 mug protections per day.');
+                }
+
+                addItemDailyLimit($user_class, 'mug_protection');
+
                 $db->query("UPDATE grpgusers SET mprotection =  unix_timestamp() + 3600 WHERE id = ?");
                 $db->execute(array(
                     $user_class->id
