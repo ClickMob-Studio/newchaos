@@ -165,9 +165,9 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
     $tempItemUse = getItemTempUse($user_class->id);
     if ($tempItemUse['crime_booster_time'] > time()) {
-        $exp += ($exp / 5);
+        $exp += round(($exp / 5));
     } else if ($tempItemUse['crime_potion_time'] > time()) {
-        $exp += ($exp / 10);
+        $exp += round(($exp / 10));
     }
 
 
