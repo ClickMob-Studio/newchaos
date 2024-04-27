@@ -195,7 +195,7 @@ $(document).ready(function() {
     setInterval(function() {
         profileRefreshes = profileRefreshes + 1;
         if (profileRefreshes % 30 == 0) {
-            //confirm("You still hanging around?");
+            confirm("You still hanging around?");
         }
                 
         $.getJSON("profileajax.php?user_id=' . $profile_class->id . '", function(response) {
@@ -863,47 +863,48 @@ echo "
             <p>Type: " . $profile_class->type . "</p>
             <p>Location: <a href='travel.php'>$city</a></p>
             <p>Relationship: $rel ", (!empty($profile_class->relplayer) && ($user_class->id == $rel_user->relplayer || $rel_user->id == $user_class->id || $user_class->id == $profile_class->id)) ? "<a href='relationship.php?action=end&player=" . $user_class->relplayer . "'><input type='button' value='Divorce' /></a>" : "", "</p>
-        </div>";
-        ?><div class="container mt-3">
-        <div class="card">
-            <div class="card-body">
-                <table class="table table-responsive table-dark">
-                    <!-- Existing Stats -->
-                    <tr>
-                        <th scope="col" class="w-25">Crimes:</th>
-                        <td class="w-25"><?php echo prettynum($profile_class->crimesucceeded); ?></td>
-                        <th scope="col" class="w-25">Busts:</th>
-                        <td class="w-25"><?php echo prettynum($profile_class->busts); ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="col" class="w-25">Gang:</th>
-                        <td class="w-25"><?php echo $gang; ?></td>
-                        <th scope="col" class="w-25">Referrer:</th>
-                        <td class="w-25"><?php echo $refer; ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="col" class="w-25">Money:</th>
-                        <td class="w-25">$<?php echo prettynum($profile_class->money); ?></td>
-                        <th scope="col" class="w-25">Age:</th>
-                        <td class="w-25"><?php echo $profile_class->age; ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="col" class="w-25">Kills / Deaths:</th>
-                        <td class="w-25"><?php echo prettynum($profile_class->battlewon); ?> / <?php echo prettynum($profile_class->battlelost); ?></td>
-                        <th scope="col" class="w-25">Missions:</th>
-                        <td class="w-25"><?php echo $missionsCount; ?></td>
-                    </tr>
-                    <tr>
-                        <th scope="col" class="w-25">Last Active:</th>
-                        <td class="w-25"><?php echo ($profile_class->lastactive != 0 ? $profile_class->formattedlastactive : 'Never'); ?> <span class="badge bg-success">Online</span></td>
-                        <th scope="col" class="w-25">&nbsp;</th>
-                        <td class="w-25"></td>
-                    </tr>
-                </table>
-            </div>
+        </div>
+
+        <!-- Right Profile Box -->
+        <div class='profile-stats' style='flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; '>
+            <table id='profile_table' style='width:100%; color: white;'>
+
+                <!-- Existing Stats -->
+                <tr>
+                    <th width='10%'>Crimes:</th>
+                    <td width='30%'>" . prettynum($profile_class->crimesucceeded) . "</td>
+                    <th width='10%'>Busts:</th>
+                    <td width='30%'>" . prettynum($profile_class->busts) . "</td>
+                </tr>
+                <tr>
+                    <th width='10%'>Gang:</th>
+                    <td width='30%'>" . $gang . "</td>
+                    <th width='10%'>Referrer:</th>
+                    <td width='30%'>" . $refer . "</td>
+                </tr>
+                <tr>
+                    <th width='10%'>Money:</th>
+                    <td width='30%'>$" . prettynum($profile_class->money) . "</td>
+                    <th width='10%'>Age:</th>
+                    <td width='30%'>" . $profile_class->age . "</td>
+                </tr>
+                <tr>
+                    <th width='10%'>Kills / Deaths:</th>
+                    <td width='30%'>" . prettynum($profile_class->battlewon) . " / " . prettynum($profile_class->battlelost) . "</td>
+                    <th width='10%'>Missions:</th>
+                    <td width='30%'>" . $missionsCount . "</span></td>
+                </tr>
+                </td>
+                    <th width='10%'>Last Active:</th>
+                    <td width='30%'><span id='lastActive'>" . ($profile_class->lastactive != 0 ? $profile_class->formattedlastactive : 'Never') . "</span> <span id='onlineStatus'>[online]</span></td>
+                    <th width='10%'>&nbsp;</th>
+                    <td width='30%'></td>
+                </tr>
+            </table>
         </div>
     </div>
-<?php
+    
+    ";
 
 $resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$profile_class->id' AND type = '1'");
         $workedlala = mysql_fetch_array($resultlala);
