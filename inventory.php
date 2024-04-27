@@ -1641,12 +1641,19 @@ if (isset($_GET['use'])) {
                 break;
 
             
- case 9:
+            case 9:
 
                 $timeAgo = time() - 900;
                 if ($user_class->last_attack_time > $timeAgo) {
                     diefun('You have performed an attack in the last 15 minutes. You\'ll need to wait before you can take this protection.');
                 }
+
+                $itemDailyLimit = getItemDailyLimit($user_class->id);
+                if ($itemDailyLimit['attack_protection'] >= 4) {
+                    diefun('You can only use 4 attack protections per day.');
+                }
+
+                addItemDailyLimit($user_class, 'attack_protection');
 
                 $db->query("UPDATE grpgusers SET aprotection =  unix_timestamp() + 3600, king = 0, queen = 0 WHERE id = ?");
                 $db->execute(array(
@@ -1654,11 +1661,6 @@ if (isset($_GET['use'])) {
                 ));
                 echo Message("You are now protected from attacks for 1 hour. Whilst under attack protection, you can only attack players who have been offline for longer than an hour. If you hold a Boss/Underboss position you'll have been removed from this position too.");
                 break;
-
-
-
-
-
             case 10:
                 //if($user_class->exppill > time()){
                    // echo Message("You still have time on your double exp pill");

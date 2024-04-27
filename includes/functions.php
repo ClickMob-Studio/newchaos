@@ -2010,3 +2010,27 @@ function checkCaptchaRequired($user_class)
 
     return $captchaRequired;
 }
+
+function getItemDailyLimit($userId)
+{
+    $now = new \DateTime();
+
+    $q = mysql_query("SELECT * FROM item_daily_limit WHERE user_id = " . $userId . " AND use_date = '" . $now->format('d-m-Y') . "' LIMIT 1");
+    $r = mysql_fetch_assoc($q);
+
+    if (isset($r['id'])) {
+        return $r;
+    } else {
+        mysql_query("INSERT INTO item_temp_use (user_id, use_date) VALUES (" . $userId . ", '" . $now->format('d-m-Y') . "')");
+        $r = getItemDailyLimit($userId);
+
+        return $r;
+    }
+}
+
+function addItemDailyLimit($user_class, $field, $qty = 1)
+{
+    $itemDailyLimit = getItemDailyLimit($user_class->id);
+
+    mysql_query("UPDATE item_daily_limit SET {$field} = {$field} + {$qty} WHERE id = " . $itemDailyLimit['id']);
+}
