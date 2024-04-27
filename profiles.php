@@ -864,55 +864,47 @@ echo "
             <p>Location: <a href='travel.php'>$city</a></p>
             <p>Relationship: $rel ", (!empty($profile_class->relplayer) && ($user_class->id == $rel_user->relplayer || $rel_user->id == $user_class->id || $user_class->id == $profile_class->id)) ? "<a href='relationship.php?action=end&player=" . $user_class->relplayer . "'><input type='button' value='Divorce' /></a>" : "", "</p>
         </div>
-";
-?>
-        <div class="container mt-3">
-    <div class="card shadow">
-        <div class="card-body">
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <h6>Crimes:</h6>
-                    <p><?php echo prettynum($profile_class->crimesucceeded); ?></p>
-                </div>
-                <div class="col-md-6">
-                    <h6>Busts:</h6>
-                    <p><?php echo prettynum($profile_class->busts); ?></p>
-                </div>
-                <div class="col-md-6">
-                    <h6>Gang:</h6>
-                    <p><?php echo $gang; ?></p>
-                </div>
-                <div class="col-md-6">
-                    <h6>Referrer:</h6>
-                    <p><?php echo $refer; ?></p>
-                </div>
-                <div class="col-md-6">
-                    <h6>Money:</h6>
-                    <p>$<?php echo prettynum($profile_class->money); ?></p>
-                </div>
-                <div class="col-md-6">
-                    <h6>Age:</h6>
-                    <p><?php echo $profile_class->age; ?></p>
-                </div>
-                <div class="col-md-6">
-                    <h6>Kills / Deaths:</h6>
-                    <p><?php echo prettynum($profile_class->battlewon); ?> / <?php echo prettynum($profile_class->battlelost); ?></p>
-                </div>
-                <div class="col-md-6">
-                    <h6>Missions:</h6>
-                    <p><?php echo $missionsCount; ?></p>
-                </div>
-                <div class="col-md-6">
-                    <h6>Last Active:</h6>
-                    <p><?php echo ($profile_class->lastactive != 0 ? $profile_class->formattedlastactive : 'Never'); ?> <span class="badge bg-success">Online</span></p>
-                </div>
-            </div>
+
+        <!-- Right Profile Box -->
+        <div class='profile-stats' style='flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; '>
+            <table id='profile_table' style='width:100%; color: white;'>
+
+                <!-- Existing Stats -->
+                <tr>
+                    <th width='10%'>Crimes:</th>
+                    <td width='30%'>" . prettynum($profile_class->crimesucceeded) . "</td>
+                    <th width='10%'>Busts:</th>
+                    <td width='30%'>" . prettynum($profile_class->busts) . "</td>
+                </tr>
+                <tr>
+                    <th width='10%'>Gang:</th>
+                    <td width='30%'>" . $gang . "</td>
+                    <th width='10%'>Referrer:</th>
+                    <td width='30%'>" . $refer . "</td>
+                </tr>
+                <tr>
+                    <th width='10%'>Money:</th>
+                    <td width='30%'>$" . prettynum($profile_class->money) . "</td>
+                    <th width='10%'>Age:</th>
+                    <td width='30%'>" . $profile_class->age . "</td>
+                </tr>
+                <tr>
+                    <th width='10%'>Kills / Deaths:</th>
+                    <td width='30%'>" . prettynum($profile_class->battlewon) . " / " . prettynum($profile_class->battlelost) . "</td>
+                    <th width='10%'>Missions:</th>
+                    <td width='30%'>" . $missionsCount . "</span></td>
+                </tr>
+                </td>
+                    <th width='10%'>Last Active:</th>
+                    <td width='30%'><span id='lastActive'>" . ($profile_class->lastactive != 0 ? $profile_class->formattedlastactive : 'Never') . "</span> <span id='onlineStatus'>[online]</span></td>
+                    <th width='10%'>&nbsp;</th>
+                    <td width='30%'></td>
+                </tr>
+            </table>
         </div>
     </div>
-</div>
-
     
-<?php
+    ";
 
 $resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$profile_class->id' AND type = '1'");
         $workedlala = mysql_fetch_array($resultlala);
