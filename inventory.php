@@ -1872,12 +1872,31 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
                 if ($tempItemUse['crime_potion_time'] > $now) {
                     diefun('You already have a crime potion active.');
                 }
+                if ($tempItemUse['crime_booster_time'] > $now) {
+                    diefun('You cannot stack a Crime Potion & Crime Booster.');
+                }
 
                 $newTime = time() + 3600;
 
                 addItemTempUse($user_class, 'crime_potion_time', $newTime);
 
                 echo Message("You drank the crime potion, for the next hour you will gain an extra 10% EXP from crimes!");
+                break;
+            case 255:
+                $tempItemUse = getItemTempUse($user_class->id);
+                $now = time();
+                if ($tempItemUse['crime_booster_time'] > $now) {
+                    diefun('You already have a crime booter active.');
+                }
+                if ($tempItemUse['crime_potion_time'] > $now) {
+                    diefun('You cannot stack a Crime Potion & Crime Booster.');
+                }
+
+                $newTime = time() + 3600;
+
+                addItemTempUse($user_class, 'crime_booster_time', $newTime);
+
+                echo Message("You use the crime booster, for the next hour you will gain an extra 20% EXP from crimes!");
                 break;
 
 
