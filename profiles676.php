@@ -858,7 +858,10 @@ $missionsCount = $missionsR['mission_count'];
 }
 
 .card-body {
-    background-color: transparent; /* Make sure the card body doesn’t have a different background */
+    background-color: transparent; 
+}
+.bg-body{
+    background-color: transparent; 
 }
 </style>
 <div class="container">
