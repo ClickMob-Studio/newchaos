@@ -8,7 +8,7 @@ include 'header.php';
 date_default_timezone_set('Europe/London'); // This will automatically account for BST as well.
 
 // Target date and time for 31st March at 5 PM UK time
-$targetDateMilliseconds = strtotime('April 10, 2024 17:00:00') * 1000;
+$targetDateMilliseconds = strtotime('April 28, 2024 23:00:00') * 1000;
 ?>
     <style>
         /* Resets for consistent styling */
@@ -25,7 +25,7 @@ $targetDateMilliseconds = strtotime('April 10, 2024 17:00:00') * 1000;
             border-radius: 10px;
             box-shadow: 0px 2px 10px rgba(93, 93, 93, 1);
             margin-bottom: 20px; /* Spacing between containers */
-            width: 745px; /* Adjusted width for two containers side by side */
+            width: 100%; /* Adjusted width for two containers side by side */
             margin-right: 20px; /* Right margin for spacing */
         }
 
@@ -201,49 +201,6 @@ echo '- <font color=gold>1,250 Raid event points</font>: 250,000 Points<br>';
 echo 'This Competition Will end on the 31st of March 2024 at 5pm (Game Time)';
 echo '</div>'; // Close prize-container
 
-// Duplicate Prize Container (for demonstration as per your request)
-echo '<div class="prize-container">';
-
-// Rewards Header again for the duplicated container
-echo '<h3>Kill Comp Rewards</h3>';
-// 1st, 2nd, and 3rd Place duplicated
-echo '<div class="reward-box" style="color: gold;">';
-echo '<strong>1ST PLACE</strong><br>';
-echo '150,000 Points<br>';
-echo '$50,000,000<br>';
-echo '100x Raid tokens';
-echo '</div>';
-
-// 2ND Place Reward Box
-echo '<div class="reward-box" style="color: silver;">';
-echo '<strong>2ND PLACE</strong><br>';
-echo '100,000 Points<br>';
-echo '$25,000,000<br>';
-echo '50x Raid tokens';
-echo '</div>';
-
-// 3RD Place Reward Box
-echo '<div class="reward-box" style="color: bronze;">';
-echo '<strong>3RD PLACE</strong><br>';
-echo '50,000 Points<br>';
-echo '$12,500,000<br>';
-echo '25x Raid tokens';
-echo '</div>';
-
-
-// Milestone Rewards within the second container
-echo '<h3>Milestone Rewards(Only Highest Reward Paid)</h3>';
-echo '<div class="reward-tier"><font color=bronze>1,000 Kills</font>: 2,500 Points<br></div>';
-echo '<div class="reward-tier"><font color=silver>2,500 Kills</font>: 6,500 Points<br></div>';
-echo '<div class="reward-tier"><font color=gold>5,000 Kills</font>: 13,000 Points<br></div>';
-echo '<div class="reward-tier"><font color=orange>15,000 Kills</font>: 37,500 Points<br></div>';
-echo '<div class="reward-tier"><font color=green>30,000 Kills</font>: 75,000 Points<br></div>';
-echo '<div class="reward-tier"><font color=red>50,000 Kills</font>: 150,000 Points<br></div>';
-
-echo 'This Competition Will end on the 31st of March 2024 at 5pm (Game Time)';
-
-echo '</div>'; // Close the second prize-container (now with milestones)
-
 echo '</div>';
 
 // Right side content - Leaderboard tables
@@ -273,24 +230,5 @@ while ($row = mysql_fetch_assoc($result)) {
 
 echo '</table>';
 echo '</div>'; // Closing the container for the first table
-
-// Second leaderboard table
-echo '<div class="table-container" style="margin:0 auto;">'; // Set width to 100% to stretch across the right side
-echo '<table width="100%" cellpadding="4" cellspacing="0" class="myTable">';
-echo '<tr><th>Rank</th><th>Username</th><th>Kills</th></tr>';
-$query = "SELECT id, username, killcomp1 FROM grpgusers ORDER BY killcomp1 DESC LIMIT 50";
-$result = mysql_query($query);
-$rank = 1; // Reset rank for the second table
-while ($row = mysql_fetch_assoc($result)) {
-    $formattedName = htmlspecialchars($row['username']);
-    echo '<tr>';
-    echo '<td>' . $rank++ . '</td>';
-    echo '<td>' . $formattedName . '</td>';
-    echo '<td>' . $row['killcomp1'] . '</td>';
-    echo '</tr>';
-}
-
-echo '</table>';
-echo '</div>';
 
 require "footer.php";
