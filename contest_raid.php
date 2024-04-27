@@ -169,7 +169,7 @@ echo '<h3>Raid Comp Rewards</h3>';
 // 1st, 2nd, and 3rd Place
 echo '<div class="reward-box" style="color: gold;">';
 echo '<strong>1ST PLACE</strong><br>';
-echo '150,000 Points<br>';
+echo '50,000 Points<br>';
 echo '$50,000,000<br>';
 echo '100x Raid tokens';
 echo '</div>';
@@ -177,7 +177,7 @@ echo '</div>';
 // 2ND Place Reward Box
 echo '<div class="reward-box" style="color: silver;">';
 echo '<strong>2ND PLACE</strong><br>';
-echo '100,000 Points<br>';
+echo '25,000 Points<br>';
 echo '$25,000,000<br>';
 echo '50x Raid tokens';
 echo '</div>';
@@ -185,20 +185,19 @@ echo '</div>';
 // 3RD Place Reward Box
 echo '<div class="reward-box" style="color: bronze;">';
 echo '<strong>3RD PLACE</strong><br>';
-echo '50,000 Points<br>';
+echo '10,000 Points<br>';
 echo '$12,500,000<br>';
 echo '25x Raid tokens';
 echo '</div>';
 
 echo '<h3>Milestone Rewards(Only Highest Reward Paid)</h3>';
-echo '- <font color=bronze>50 Raid event points</font>: 25,000 Points<br>';
-echo '- <font color=silver>100 Raid event points</font>: 50,000 Points<br>';
-echo '- <font color=gold>250 Raid event points</font>: 100,000 Points<br>';
-echo '- <font color=orange>500 Raid event points</font>: 125,000 Points<br>';
-echo '- <font color=green>750 Raid event points</font>: 150,000 Points<br>';
-echo '- <font color=red>1,000 Raid event points</font>: 200,000 Points<br>';
-echo '- <font color=gold>1,250 Raid event points</font>: 250,000 Points<br>';
-echo 'This Competition Will end on the 31st of March 2024 at 5pm (Game Time)';
+echo '- <font color=bronze>50 Raid event points</font>: 1,000 Points<br>';
+echo '- <font color=silver>100 Raid event points</font>: 5,000 Points<br>';
+echo '- <font color=gold>250 Raid event points</font>: 7,500 Points<br>';
+echo '- <font color=orange>500 Raid event points</font>: 10,000 Points<br>';
+echo '- <font color=green>750 Raid event points</font>: 12,500 Points<br>';
+echo '- <font color=red>1,000 Raid event points</font>: 15,000 Points<br>';
+echo '- <font color=gold>1,250 Raid event points</font>: 25,000 Points<br>';
 echo '</div>'; // Close prize-container
 
 echo '</div>';
