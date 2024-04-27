@@ -67,6 +67,18 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                             <td><span class="ba-stats-losses"><?php echo number_format($userBaStats['losses'], 0) ?></span></td>
                             <td><span class="ba-stats-win-p"><?php echo number_format(($userBaStats['wins'] / $userBaStats['turns'] * 100), 0) ?>%</span></td>
                         </tr>
+                        <tr>
+                            <th>Points</th>
+                            <th>Cash</th>
+                            <th>Items</th>
+                            <th>EXP</th>
+                        </tr>
+                        <tr>
+                            <td><span class="ba-stats-points"><?php echo number_format($userBaStats['points_gained'], 0) ?></span></td>
+                            <td><span class="ba-stats-cash">$<?php echo number_format($userBaStats['cash_gained'], 0) ?></span></td>
+                            <td><span class="ba-stats-items"><?php echo number_format($userBaStats['items_gained'], 0) ?></span></td>
+                            <td><span class="ba-stats-exp"><?php echo number_format($userBaStats['exp_gained'], 0) ?>%</span></td>
+                        </tr>
                     </tbody>
                 </table>
                 <br /><hr />
