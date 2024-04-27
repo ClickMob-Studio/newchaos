@@ -1856,6 +1856,8 @@ function macroTokenCheck($user_class)
 
 function getItemTempUse($userId)
 {
+    global $db;
+
     $db->query("SELECT * FROM item_temp_use WHERE user_id = " . $userId . " LIMIT 1");
     $db->execute();
     $r = $db->fetch_row();
@@ -1873,6 +1875,8 @@ function getItemTempUse($userId)
 
 function addItemTempUse($user_class, $field, $qty = 1)
 {
+    global $db;
+    
     $itemTempUse = getItemTempUse($user_class->id);
 
     $db->query("UPDATE item_temp_use SET {$field} = {$field} + {$qty} WHERE id = " . $itemTempUse['id']);
