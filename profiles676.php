@@ -980,7 +980,7 @@ $resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$profile_
 echo "</div></div>";
         }
 ?>
-<div class="profile-stats" style="flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
+<div class="profile-container" style="flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
     <div class="container">
         <div class="row mb-3" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
             <div class="col-12 text-center">
@@ -989,50 +989,50 @@ echo "</div></div>";
         </div>
 
         <!-- Gender -->
-        <div class="row mb-2" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
-            <div class="col-6">Gender:</div>
+        <div class="row mb-2">
+            <div class="col-6" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">Gender:</div>
             <div class="col-6"><?php echo prettynum($profile_class->gender); ?></div>
         </div>
 
         <!-- User HP -->
-        <div class="row mb-2" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
-            <div class="col-6">User HP:</div>
+        <div class="row mb-2">
+            <div class="col-6" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">User HP:</div>
             <div class="col-6"><?php echo prettynum($profile_class->formattedhp); ?></div>
         </div>
 
         <!-- Back Alley Wins -->
-        <div class="row mb-2" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
-            <div class="col-6">Back Alley Wins:</div>
+        <div class="row mb-2">
+            <div class="col-6" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">Back Alley Wins:</div>
             <div class="col-6"><?php echo prettynum($profile_class->backalleywins); ?></div>
         </div>
 
         <!-- House -->
-        <div class="row mb-2" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
-            <div class="col-6">House:</div>
+        <div class="row mb-2">
+            <div class="col-6" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">House:</div>
             <div class="col-6"><a href='house.php'><?php echo str_replace('[x]', $rel_user->formattedname2, $profile_class->housename); ?><br><?php echo $houseImage; ?></a></div>
         </div>
 
         <!-- Busts -->
-        <div class="row mb-2" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
-            <div class="col-6">Busts:</div>
+        <div class="row mb-2">
+            <div class="col-6" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">Busts:</div>
             <div class="col-6"><?php echo prettynum($profile_class->busts); ?></div>
         </div>
 
         <!-- Jobs -->
-        <div class="row mb-2" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
-            <div class="col-6">Jobs:</div>
+        <div class="row mb-2">
+            <div class="col-6" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">Jobs:</div>
             <div class="col-6"><?php echo prettynum($profile_class->jobcis); ?></div>
         </div>
 
         <!-- Mug Stats -->
-        <div class="row mb-2" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
-            <div class="col-6">Mug Stats:</div>
+        <div class="row mb-2">
+            <div class="col-6" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">Mug Stats:</div>
             <div class="col-6"><?php echo prettynum($profile_class->mugsucceeded); ?> / <?php echo prettynum($profile_class->muggedmoney, 1); ?></div>
         </div>
 
         <!-- Location -->
-        <div class="row mb-2" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
-            <div class="col-6">Location:</div>
+        <div class="row mb-2">
+            <div class="col-6" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">Location:</div>
             <div class="col-6"><?php echo $city; ?></div>
         </div>
     </div>
