@@ -980,7 +980,7 @@ $resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$profile_
 echo "</div></div>";
         }
 ?>
-<div class="profile-container" style="flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
+<div class="profile-container" style="flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; background: rgba(0,0,0,0.2);">
     <div class="container">
         <div class="row mb-3" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
             <div class="col-12 text-center">
