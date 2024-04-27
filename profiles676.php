@@ -876,8 +876,9 @@ $missionsCount = $missionsR['mission_count'];
                 <div class="card-body">
                     <div class="profile-container d-flex justify-content-around">
                         <div class='profile-package shadow-sm p-3 mb-5 bg-body rounded' style='flex: 1; margin: 5px;'>
-                            <img src='<?php echo $profile_class->avatar; ?>' class='img-thumbnail' alt='User Avatar' style='width: 100px; height: 100px;'>
+                            <div class="text-align:center"><img src='<?php echo $profile_class->avatar; ?>' class='img-thumbnail' alt='User Avatar' style='width: 100px; height: 100px;'>
                             <h4><?php echo $profile_class->formattedname; ?></h4>
+</div>
                             <div class="text-center p-2" style="background-color: #111; color: white;">Player Rating:</div>
                             <div class="text-center p-2"> <?php echo $ratingHTML; ?></div>
                             <div class="text-center p-2" style="background-color: #111; color: white;">Level:</div>
