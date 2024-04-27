@@ -849,22 +849,26 @@ $city = $profile_class->cityname;
 $missionsQ = mysql_query("SELECT COUNT(id) AS mission_count FROM missions WHERE userid = " . $profile_class->id . " AND completed = 'successful'");
 $missionsR = mysql_fetch_assoc($missionsQ);
 $missionsCount = $missionsR['mission_count'];
-
-echo "
-<div class='contenthead floaty'>
-    <div class='profile-container' style='display: flex; justify-content: space-around; align-items: flex-start;'>
+?>
+<div class='contenthead'>
+    <div class='profile-container d-flex justify-content-around'>
         <!-- Left Profile Box -->
-        <div class='profile-package' style='flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;'>
-            <img src='" . $profile_class->avatar . "' style='width: 100px; height: 100px;' alt='User Avatar' class='user-avatar'>
-            <h4>" . $profile_class->formattedname . "</h4>
+        <div class='profile-package shadow-sm p-3 mb-5 bg-body rounded' style='flex: 1; margin: 5px;'>
+            <img src='<?php echo $profile_class->avatar; ?>' class='img-thumbnail' alt='User Avatar' style='width: 100px; height: 100px;'>
+            <h4><?php echo $profile_class->formattedname; ?></h4>
             
-            <p>Player Rating: " . $ratingHTML . "</p>
-            <p>Level: " . $profile_class->level . "</p>
-            <p>Type: " . $profile_class->type . "</p>
-            <p>Location: <a href='travel.php'>$city</a></p>
-            <p>Relationship: $rel ", (!empty($profile_class->relplayer) && ($user_class->id == $rel_user->relplayer || $rel_user->id == $user_class->id || $user_class->id == $profile_class->id)) ? "<a href='relationship.php?action=end&player=" . $user_class->relplayer . "'><input type='button' value='Divorce' /></a>" : "", "</p>
-        </div>";
-        ?>
+            <p>Player Rating: <?php echo $ratingHTML; ?></p>
+            <p>Level: <?php echo $profile_class->level; ?></p>
+            <p>Type: <?php echo $profile_class->type; ?></p>
+            <p>Location: <a href='travel.php'><?php echo $city; ?></a></p>
+            <p>Relationship: <?php echo $rel; ?> 
+                <?php if (!empty($profile_class->relplayer) && ($user_class->id == $rel_user->relplayer || $rel_user->id == $user_class->id || $user_class->id == $profile_class->id)) { ?>
+                    <a href='relationship.php?action=end&player=<?php echo $user_class->relplayer; ?>'><button type='button' class='btn btn-danger btn-sm'>Divorce</button></a>
+                <?php } ?>
+            </p>
+        </div>
+    </div>
+</div>
         <div class="card" style="margin: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.5);">
     <div class="card-body">
         <div class="row g-3">
