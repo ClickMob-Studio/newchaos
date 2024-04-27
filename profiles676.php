@@ -1,11 +1,20 @@
 <?php
-include 'header.php';
-exit;
-security($_GET['id']);
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+
+	include 'header.php';
+
+$_GET['id'] = filter_var($_GET['id'], FILTER_VALIDATE_INT);
 
 $profile_class = new User($_GET['id']);
 
-
+?>
+<div class='box_top'><?php echo $profile_class->formattedname;?>'s Profile</div>
+						<div class='box_middle'>
+							<div class='pad'>
+                                <?php
 
 
 
@@ -181,7 +190,14 @@ if (isset($_GET['action'])) {
 
 echo '<script>
 $(document).ready(function() {
+    let profileRefreshes = 0;
+    
     setInterval(function() {
+        profileRefreshes = profileRefreshes + 1;
+        if (profileRefreshes % 30 == 0) {
+            confirm("You still hanging around?");
+        }
+                
         $.getJSON("profileajax.php?user_id=' . $profile_class->id . '", function(response) {
             if (response.hasOwnProperty("lastActive") && response.hasOwnProperty("money")) {
                 $("#lastActive").text(response.lastActive);
@@ -193,7 +209,7 @@ $(document).ready(function() {
         }).fail(function(jqXHR, textStatus, errorThrown) {
             console.log("Error: request failed", textStatus, errorThrown);
         });
-    }, 1000);
+    }, 3000);
 });
 </script>';
 
@@ -326,7 +342,7 @@ if ($user_class->admin == 1 || $user_class->gm == 1 || $user_class->fm == 1) {
         $newpoints = $point_user->money + $_POST['money'];
         $update = mysql_query("UPDATE grpgusers SET money = '$newpoints' WHERE id = '{$_POST['id']}'");
         echo Message("You have successfully added $" . prettynum($_POST['money']) . " to this persons hand.");
-        Send_Event($point_user->id, "$" . prettynum($_POST['money']) . " has been added to your bank.", $point_user->id);
+        Send_Event($point_user->id, "$" . prettynum($_POST['money']) . " has been added to Hand.", $point_user->id);
     }
     if (isset($_POST['cgang'])) {
         $point_user = new User($_POST['id']);
@@ -634,7 +650,7 @@ $rel = "Dating " . $rel_user->formattedname2 . " (" . $rel_user->relationshipday
     $user_rank = new GangRank($user_class->grank);
     $gang = new Gang($user_class->gang);
 
-    $prestige = ($profile_class->level >= 500) ? " <a href='prestige.php'><span class='notify'>[Prestige]</span></a>" : "";
+  ///  $prestige = ($profile_class->level >= 500) ? " <a href='prestige.php'><span class='notify'>[Prestige]</span></a>" : "";
     $ganginvite = ($user_rank->invite == 1) ? "<a href='profiles.php?id=$profile_class->id&action=ganginvite'>Invite to $gang->name</a>" : "None";
     $gangwithrank = ($profile_class->ranktitle != '') ? $profile_class->formattedgang . "<br>" . $profile_class->ranktitle : $profile_class->formattedgang;
     $gang     = ($profile_class->gang != 0) ? $gangwithrank : $ganginvite;
@@ -642,6 +658,11 @@ $rel = "Dating " . $rel_user->formattedname2 . " (" . $rel_user->relationshipday
 
     echo "
     <style>
+    
+    .large-cell {
+    colspan: 2; /* Adjust the colspan to make the cell span two columns */
+    /* You can also add additional styling if needed */
+}
 .cabinet-items-container {
     display: flex;
     flex-wrap: wrap;
@@ -649,7 +670,6 @@ $rel = "Dating " . $rel_user->formattedname2 . " (" . $rel_user->relationshipday
 }
 .cabinet-item {
     flex-basis: calc(25% - 20px); 
-    background-color: #444; 
     border: 2px solid #555;
     border-radius: 10px;
     overflow: hidden;
@@ -662,47 +682,56 @@ $rel = "Dating " . $rel_user->formattedname2 . " (" . $rel_user->relationshipday
     padding: 10px; /* Padding around the container */
     margin: 0 10px 20px 0; /* Adjust margin as needed */
 }
-    #profile_table {
-        border: none;
-        background-color: #ecf0f1;
-      }
+  #profile_table {
+    border-collapse: separate;
+    border-spacing: 10px; /* Adds spacing around each table cell */
+    color: white; /* Sets text color to white for better readability */
+    width: 100%; /* Ensures the table stretches to the width of its container */
+    margin: 20px 0; /* Adds some space around the table */
+}
 
-      #profile_table a {
-          color: yellow;
-      }
+#profile_table a {
+    color: #1abc9c; /* A more vibrant color for links for contrast against the dark background */
+    text-decoration: none; /* Removes underline from links */
+}
 
-      #profile_table td, th, tr {
-        font-size: 1.05em;
-        border: 4px black solid;
-        text-align: center!important;
-      }
 
-      #profile_table td {
-        color: white;
-      }
-      #profile_table th {
-        width: auto;
-      }
-      #rating {
-        padding: 10px 10px;
-      }
-      .status {
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        justify-content: center;
-        align-items: center;
-        background-color: #111111;
-        font-size: 1.2em;
-        border: 4px black solid;
-        border-bottom: none;
-      }
-      .status_item {
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        align-items: center;
-      }
+
+.status {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    border: 2px solid #312d2d; /* Adjust border color for consistency with the table */
+    padding: 10px; /* Adds padding for spacing */
+    margin: 10px 0; /* Adds margin around the status bar */
+    color: white; /* Ensures text color is white */
+}
+
+.status_item {
+    margin: 0 10px; /* Adds spacing between status items */
+    display: flex;
+    align-items: center;
+}
+.equipped_main {
+    display: flex;
+}
+
+.equip_item {
+    display: inline-block;
+    margin-right: 10px; /* Adjust as needed */
+}
+
+.equip_item_img img {
+    width: 100px;
+    height: 100px;
+}
+
+.equip_item_name {
+    text-align: center;
+}
+
       </style>";
 
     // echo $hossy . $jail . "</br></div>";
@@ -817,321 +846,480 @@ $city = $result['name'];
 $city = $profile_class->cityname;
 }
 
-    echo "
+$missionsQ = mysql_query("SELECT COUNT(id) AS mission_count FROM missions WHERE userid = " . $profile_class->id . " AND completed = 'successful'");
+$missionsR = mysql_fetch_assoc($missionsQ);
+$missionsCount = $missionsR['mission_count'];
 
-<div class='contenthead'>
-    <table id='profile_table'>
-        <tr>
-            <th width='10%'>Name:</td>
-            <td width='30%'>
-                <a href='profiles.php?id=" . $profile_class->id . "'>" . $profile_class->formattedname . "</a>
-            </td>
-            <th width='10%'>Rating:</td>
-            " . $ratingHTML . "
-        </tr>
-        <tr>
-            <th width='10%'>Gang:</td>
-            <td width='30%'>$gang</td>
-            <th width='10%'>ID:</td>
-            <td width='30%'>$profile_class->id</td>
-        </tr>
-        <tr>
-            <th rowspan='5' width='10%'>Avatar:</th>
-            <td rowspan='5' width='30%'><a href='profiles.php?id=" . $profile_class->id . "'><img class='avatar' height='150' width='150' style='border:1px solid' src='$avatar'></a></td>
-        </tr>
-        <tr>
-            <th width='10%'>Presige Level:</td>
-            <td width='30%'>" . prettynum($profile_class->prestige) . "</td>
-        </tr>
-        <tr>
-            <th width='10%'>HP:</td>
-            <td width='30%'>" . prettynum($profile_class->formattedhp) . "</td>
-        </tr>
-        <tr>
-            <th width='10%'>Crimes:</td>
-            <td width='30%'>" . prettynum($profile_class->crimesucceeded) . " / " . prettynum($profile_class->crimemoney, 1) . "</td>
-        </tr>
-        <tr>
-            <th width='10%'>Money:</td>
-            <td width='30%'><span id='money'>" . prettynum($profile_class->money, 1) . " " . $spouseDeposit . " </span></td>
-        </tr>
-        <tr>
-            <th width='10%'>Level:</td>
-            <td width='30%'>" . $profile_class->level . $prestige . "</td>
-            <th width='10%'>Busts:</td>
-            <td width='30%'>" . prettynum($profile_class->busts) . "</td>
-        </tr>
-        <tr>
-            <th width='10%'>Type:</td>
-            <td width='30%'>" . $profile_class->type . "</td>
-            <th width='10%'>Mugs:</td>
-            <td width='30%'>" . prettynum($profile_class->mugsucceeded) . " / " . prettynum($profile_class->muggedmoney, 1) . "</td>
-        </tr>
-        <tr>
-            <th width='10%'>Gender:</td>
-            <td width='30%'>" . $profile_class->gender . "</td>
-            <th width='10%'>Jobs:</td>
-            <td width='30%'>" . prettynum($profile_class->jobcis) . " / " . prettynum($profile_class->jobMoney, 1) . "</td>
-        </tr>
-        <tr>
-            <th width='10%'>Age:</td>
-            <td width='30%'>" . $profile_class->age . "</td>
-            <th width='10%'>Kills / Deaths</td>
-            <td width='30%'>" . prettynum($profile_class->battlewon) . ' / ' . prettynum($profile_class->battlelost) . "</td>
-        </tr>
-        <tr>
-           <th width='10%'>Last Active:</th>
-<td width='30%'><span id='lastActive'>", ($profile_class->lastactive != 0) ? $profile_class->formattedlastactive : "Never", "</span><span id='onlineStatus'> $profile_class->formattedonline</span></td>
-
-            <th width='10%'>Back Alley Wins:</td>
-            <td width='30%'>" . prettynum($profile_class->backalleywins) . "</td>
-        </tr>
-        <tr>
-            <th width='10%'>City:</td>
-            <td width='30%'><a href='bus.php'>$city</a></td>
-            <th width='10%'>OTH / LOTH / KOTH:</td>
-            <td width='30%'>" . prettynum($othwins['count']) . " / " . prettynum($lothwins['count']) . " / " . prettynum($kothwins['count']) . "</td>
-        </tr>
-        <tr>
-            <th width='10%'>House:</td>
-            <td width='30%'><a href='house.php'>" . str_replace('[x]', $rel_user->formattedname2, $profile_class->housename) ."<br>".$houseImage."</a></td>
-            <th width='10%'>Referred By:</th>
-            <td width='30%'>$refer</td>
-        </tr>
-        <tr>
-            <th width='10%'>Relationship:</th>
-            <td width='30%'>$rel ", (!empty($profile_class->relplayer) && ($user_class->id == $rel_user->relplayer || $rel_user->id == $user_class->id || $user_class->id == $profile_class->id)) ? "<a href='relationship.php?action=end&player=" . $user_class->relplayer . "'><input type='button' value='Divorce' /></a>" : "", "</td>
-            <th width='10%'>Relations:</th>
-            <td width='30%'>Friends: $friends / Enemies: $enemies</td>
-        </tr>
-        <tr>
-            <th width='10%'>Gifting:</th>
-            <td width='30%'><a href='givegifts.php?id=$profile_class->id'>Give a Gift</a></td>";
-
-            if ($user_class->admin || $user_class->eo) {
-                echo "<th width='10%'>ET Prize:</th>
-                <td width='30%'>$etprize</td>";
-            }
-
-            echo "
-        </tr>";
-
-        // if ($user_class->id == 174) {
-
-            $db->query("SELECT * FROM profile_actions WHERE active = 1");
-            $db->execute();
-            $actionList = $db->fetch_row();
-
-            $actions = "";
-            foreach ($actionList as $action) {
-                $actions .= "<option value='{$action['id']}'>{$action['short_text']}</option>";
-            }
-
-            echo "
-            <form method='POST'>
-            <input type='hidden' name='pid' value='$profile_class->id'>
-            <tr>
-            <th width='30%'>Perform Action: </br>  $user_class->actionpoints / 25 </th>
-            <td width='30%' colspan='3'><select name='paction' style='width:50%;text-align:center;padding:5px'>$actions</select><button style='margin-left:5px;width:50px;padding:5px'>Go</button></td>
-        </tr>
- <tr>
-            <th width='30%'>View Display Cabinet: </br></th>
-            <td width='30%' colspan='3'>". getCabinetItems($profile_class->id);
-	if($profile_class->id == $user_class->id){
-	echo "<a href='display_cabinet.php'>Edit</a>";
-}
 echo "
-</td>
-        </tr>
+<div class='contenthead floaty'>
+    <div class='profile-container' style='display: flex; justify-content: space-around; align-items: flex-start;'>
+        <!-- Left Profile Box -->
+        <div class='profile-package' style='flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;'>
+            <img src='" . $profile_class->avatar . "' style='width: 100px; height: 100px;' alt='User Avatar' class='user-avatar'>
+            <h4>" . $profile_class->formattedname . "</h4>
+            
+            <p>Player Rating: " . $ratingHTML . "</p>
+            <p>Level: " . $profile_class->level . "</p>
+            <p>Type: " . $profile_class->type . "</p>
+            <p>Location: <a href='travel.php'>$city</a></p>
+            <p>Relationship: $rel ", (!empty($profile_class->relplayer) && ($user_class->id == $rel_user->relplayer || $rel_user->id == $user_class->id || $user_class->id == $profile_class->id)) ? "<a href='relationship.php?action=end&player=" . $user_class->relplayer . "'><input type='button' value='Divorce' /></a>" : "", "</p>
+        </div>
+";
+?>
+        <!-- Right Profile Box -->
+        <div class="profile-stats">
+        <div>
+            <strong>Crimes:</strong> 1234
+        </div>
+        <div>
+            <strong>Busts:</strong> 56
+        </div>
+        <div>
+            <strong>Gang:</strong> Dragons
+        </div>
+        <div>
+            <strong>Referrer:</strong> JohnDoe
+        </div>
+        <div>
+            <strong>Money:</strong> $1,000,000
+        </div>
+        <div>
+            <strong>Age:</strong> 25
+        </div>
+        <div>
+            <strong>Kills / Deaths:</strong> 100 / 50
+        </div>
+        <div>
+            <strong>Missions:</strong> 30
+        </div>
+        <div>
+            <strong>Last Active:</strong> Yesterday <span>[online]</span>
+        </div>
+    </div>
+    
+    <?php
 
- <tr>
-            <th width='30%'>Time Spent Online: </br></th>
-            <td width='30%' colspan='3'>" . calctime($profile_class->totaltime * 60) . "</td>
-        </tr></form>";
-        //}
-
-        echo"</table></div>";
-
-        echo "<style>
-        .profile_container {
-            margin-top: 14px;
-            border: 4px solid black;
-            background-color: #222222;
-        }
-        .profile_header {
-            padding: 10px 10px;
-            font-size: 18px;
-            background-color: #111111;
-        }
-        .padded {
-            padding: 10px 10px;
-            font-size: 14px;
-        }
-        .profile_comment {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            padding: 5px;
-        }
-        .signature {
-            text-align: center;
-        }
-        .action {
-            width: 100px;
-            min-height: 30px;
-            font-size: 14px;
-        }
-        .action a, .equipped_main a {
-            color: yellow!important;
-        }
-        .profile_button {
-            padding: 15px;
-            text-align: center;
-        }
-        .achievements_main, .equipped_main, .actions_main,.received_gifts_main {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: space-evenly;
-            align-items: center;
-            text-align: center;
-        }
-        .profile_comment_message {
-            margin-left: 1em;
-        }
-        .profile_comment_user {
-            width: 10em;
-        }
-        .received_gifts_main:after, .equipped_main:after, .achievements_main:after {
-            content: '';
-            flex: auto;
-        }
-        .gift_item, .equip_item {
-            height: 140px;
-            width: 25%;
-        }
-        .achievement {
-            height: 110px;
-            width: 20%;
-        }
-        </style>";
-
-  if ($profile_class->badge != '0,0,0,0,0,0,0,0,0,0,0,0,0,0') {
-
-        echo "<div class='profile_container'>
-        <div class='profile_header'>Achievements</div>
-        <div class='achievements_main padded'>";
-
-        $badges = 14;
-
-        for ($i=0; $i < $badges; $i++) {
-            $name = "badge$i";
-            $badge = $profile_class->{$name};
-            if (!isset($badge))
-                continue;
-            echo "<div class='achievement'>$badge</div>";
-        }
-
-        echo "</div></div>";
-    }
-
-
-        $resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$profile_class->id' AND type = '1'");
+$resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$profile_class->id' AND type = '1'");
         $workedlala = mysql_fetch_array($resultlala);
         if ($user_class->id != $profile_class->id) {
             $csrf = md5(uniqid(rand(), true));
             $_SESSION['csrf'] = $csrf;
 
+            echo "<div class='ajax-message-holder' style='min-height: 60px; display: none;'></div>";
+
             echo "<div class='profile_container'>
-            <div class='profile_header'>Actions</div>
-            <div class='actions_main padded'>
-                <div class='action'><a href='pms.php?view=new&to=$profile_class->id'>Message</a></div>
-                <div class='action'><a href='attack.php?attack=$profile_class->id&csrf=$csrf'>Attack</a></div>
-                <div class='action'><a href='mug.php?mug=$profile_class->id'>Mug</a></div>
-                <div class='action'><a href='spy.php?id=$profile_class->id'>Spy</a></div>
-                <div class='action'><a href='display_cabinet.php?userid=$profile_class->id'>View Display Cabinet</a></div>
+                
+        <h4>Actions</h4>
+        <div class='actions_grid'>
+            <a class='action' href='pms.php?view=new&to=" . $profile_class->id . "'>Message</a>
+            <a class='action' href='attack.php?attack=" . $profile_class->id . "&csrf=" . $csrf . "'>Attack</a>
+            <a class='action ajax-link' href='ajax_mug.php?mug=" . $profile_class->id . "&token=" . $user_class->macro_token . "'>Mug</a>
+            <a class='action' href='spy.php?id=" . $profile_class->id . "'>Spy</a>
+            <a class='action' href='display_cabinet.php?userid=" . $profile_class->id . "'>View Display Cabinet</a>
+            <a class='action' href='sendmoney.php?person=" . $profile_class->id . "'>Send Money</a>
+            <a class='action' href='sendpoints.php?person=" . $profile_class->id . "'>Send Points</a>
+            <a class='action' href='sendgold.php?person=" . $profile_class->id . "'>Send GOLD</a>
+               <a class='action' href='profiles.php?id=" . $profile_class->id . "&contact=ignore'>Ignore User</a>";
 
-                <div class='action'><a href='sendmoney.php?person=$profile_class->id'>Send Money</a></div>
-                <div class='action'><a href='sendpoints.php?person=$profile_class->id'>Send Points</a></div>
-                <div class='action'><a href='sendcredits.php?person=$profile_class->id'>Send Credits</div>
 
-                ", ($workedlala['contactid'] == $profile_class->id) ? "<div class='action'><a href='profiles.php?id=$profile_class->id&contact=friend'>Remove Friend</a></div>" : "<div class='action'><a href='profiles.php?id=$profile_class->id&contact=friend'>Add Friend</a></div>";
+// Add or remove actions as necessary based on your PHP conditions
+// ...
 
-            $resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$user_class->id' AND type = '2'");
-            $workedlala = mysql_fetch_array($resultlala);
-
-            if ($workedlala['contactid'] == $profile_class->id) {
-                echo "<div class='action'><a href='profiles.php?id=$profile_class->id&contact=enemy'>Remove Enemy</a></div>";
-            } else {
-                echo "<div class='action'><a href='profiles.php?id=$profile_class->id&contact=enemy'>Add Enemy</a></div>";
-            }
-
-            $resulthaha = mysql_query("SELECT * FROM ignorelist WHERE blocker = '$user_class->id'");
-            $workedhaha = mysql_fetch_array($resulthaha);
-
-            if ($workedhaha['blocked'] == $profile_class->id) {
-                echo "<div class='action'><a href='profiles.php?id=$profile_class->id&contact=ignore'>Remove Ignore</a></div>";
-            } else {
-                echo "<div class='action'><a href='profiles.php?id=$profile_class->id&contact=ignore'>Add Ignore</a></div>";
-            }
-
-            //echo "<div class='action'><a href='slap.php?slap=" . $profile_class->id . "'>Slap Them</a></div>";
-            // <div class='action'><a href='robhouse.php?uid=" . $profile_class->id . "'>Rob House</a></div>
-
-            if ($user_class->admin == 1 || $user_class->gm == 1) {
-                echo "
-                    <div class='action'><a href=''>View Events</a></div>
-                    <div class='action'><a href=''>View Transfers</a></div>
-                    <div class='action'><a href=''>View Vault Log</a></div>";
-            }
-            echo "</div></div>";
+echo "</div></div>";
         }
 
-        if (!empty($profile_class->sig)) {
-            echo "<div class='profile_container'>
-            <div class='profile_header'>Signature</div>
-            <div class='signature padded'>";
+    echo "
+    <!-- Additional Profile Content Box -->
+   <div class='profile-stats' style='flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; '>
+            <table id='profile_table' style='width:100%; color: white;'>
 
-            if ($user_class->promusic == 1) {
-                $signature = MP3Parse(strip_tags($profile_class->sig));
-                echo BBCodeParse($signature);
-            } else {
-                echo BBCodeParse(strip_tags($profile_class->sig));
-            }
+            <tr>
+                <th colspan='2' style=' padding: 10px; border-radius: 5px;'><h4 style='color: white;'>Additional Stats</h4></th>
+            </tr>
+ <tr>
+                <th style=' padding: 10px; border-radius: 5px;'>Gender:</th>
+                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->gender) . "</td>
+            </tr>
 
-            echo "</div></div>";
-        }
+            <tr>
+                <th style=' padding: 10px; border-radius: 5px;'>User HP:</th>
+                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->formattedhp) . "</td>
+            </tr>
+            <tr>
+                <th style=' padding: 10px; border-radius: 5px;'>Back Alley Wins:</th>
+                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->backalleywins) . "</td>
+            </tr>
+            <tr>
+                <th style=' padding: 10px; border-radius: 5px;'>House:</th>
+                <td style=' padding: 10px; border-radius: 5px;'><a href='house.php'>" . str_replace('[x]', $rel_user->formattedname2, $profile_class->housename) . "<br>" . $houseImage . "</a></td>
+            </tr>
+            <tr>
+                <th style=' padding: 10px; border-radius: 5px;'>Busts:</th>
+                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->busts) . "</td>
+            </tr>
+ <tr>
+                <th style=' padding: 10px; border-radius: 5px;'>Jobs:</th>
+                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->jobcis) . "</td>
+            </tr>
+            <tr>
+                <th style=' padding: 10px; border-radius: 5px;'>Mug Stats:</th>
+                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->mugsucceeded) . " / " . prettynum($profile_class->muggedmoney, 1) . "
+</td>
+            </tr>
+<tr>
+                <th style=' padding: 10px; border-radius: 5px;'>Location:</th>
+                <td style=' padding: 10px; border-radius: 5px;'>$city</td>
+            </tr>
 
-        $q = mysql_query("SELECT * FROM wallcomments WHERE userid = $profile_class->id && $profile_class->profilewall = 1");
-        $qcount = mysql_num_rows($q);
 
-        if ($profile_class->profilewall == 1) {
-        echo "<div class='profile_container'>
-            <div class='profile_header'>Profile Comments</div>
-            <div class='profile_comments_main padded'>";
+        </table>
+    </div>
+
+</div>
+";
 
 
-            if ($qcount > 0) {
-                while ($r = mysql_fetch_array($q)) {
-                    $ismine = ($profile_class->id == $user_class->id || $user_class->admin == 1) ? "<a onclick='delMyWall({$r['id']})' style='color:red;'>[x]</a> " : "";
-                    // print "<tr id='id{$r['id']}'><td>$ismine" . formatName($r['posterid']) . "</td><td>" . BBCodeParse(strip_tags(stripslashes($r['msg']))) . "</td></tr>";
-                    echo "<div class='profile_comment' data-id='$r[id]'>
-                        <div class='profile_comment_user'>" . $ismine . " " . formatName($r['posterid']) . "</div>
-                        <div class='profile_comment_message'>" . BBCodeParse(strip_tags(stripslashes($r['msg']))) . "</div>
-                    </div>";
-                }
-            } else {
-                echo "<div class='profile_comment'>
-                <div class='profile_comment_user'>System</div>
-                <div class='profile_comment_message'>No-one has left a message yet - be the first to leave a comment</div>
+
+
+        echo "<style>
+    .contenthead {
+  
+  color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px; /* Adjust as necessary */
+}
+
+.floaty {
+  /* Your existing .floaty styles */
+}
+
+.profile_container {
+    margin-top: 14px;
+     /* Slightly lighter than #333 for a subtle border */
+ /* Dark background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow at the top */
+    padding: 15px; /* Consistent padding from .floaty */
+    color: white; /* Light text */
+}
+
+
+.profile-package, .profile-stats {
+  flex: 1;
+  padding: 18px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  margin: 5px;
+       /* Slightly lighter than #333 for a subtle border */
+   /* Slightly different background for contrast */
+  border-radius: 10px; /* Rounded corners for the profile boxes */
+}
+.profile-stats-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px; /* Adjust as needed */
+    background: #333; /* Dark background */
+    padding: 20px;
+     /* Slightly lighter than #333 for a subtle border */
+    border-radius: 10px; /* Rounded corners */
+    color: #fff; /* white text color */
+    font-family: 'Arial', sans-serif; /* Modern font */
+    margin: 5px;
+}
+.profile-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+    grid-gap: 10px;
+    padding: 18px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    margin: 5px;
+    background-color: #444; /* Slightly lighter background for the grid container */
+}
+
+.profile-stats div {
+    padding: 10px; /* Padding inside each grid item */
+}
+
+.profile-stat:last-child {
+    margin-bottom: 0;
+}
+
+.profile-stat-title {
+    font-weight: bold; /* Bold title */
+}
+
+.online-status {
+    color: #4CAF50; /* Green color for online status */
+    font-weight: bold;
+}
+
+.last-active {
+    color: #aaa; /* Lighter text for last active info */
+}
+
+/* Additional styles for icons, arrows, etc. */
+.green-arrow {
+    color: #76C043; /* Green color for the up arrow */
+}
+
+.red-arrow {
+    color: #E53E3E; /* Red color for the down arrow */
+}
+
+/* Responsive design adjustments if necessary */
+@media (max-width: 768px) {
+    .profile-stats-container {
+        width: 100%;
+    }
+}
+.user-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; /* Circular avatar */
+  margin-bottom: 10px;
+}
+
+/* Adjust the following as needed for responsive design */
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+  }
+  
+  .profile-package, .profile-stats {
+    flex: 0 0 auto; /* Adjust this to change the mobile layout */
+    margin: 5px auto; /* Center the boxes on smaller screens */
+    width: 90%; /* Adjust width as necessary */
+  }
+}
+
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.basic_info h2, .basic_info p {
+  margin: 0;
+  padding: 5px 0;
+}
+
+/* Adjust the following as needed for responsive design */
+@media (max-width: 768px) {
+  .profile_container {
+    flex-direction: column;
+  }
+  
+  .profile_left, .profile_right {
+    flex: 0 0 auto;
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.basic_info h2, .basic_info p {
+  margin: 0;
+  padding: 5px 0;
+}
+
+.stats_table {
+  width: 100%;
+  margin-left: 20px;
+}
+
+.stats_table th, .stats_table td {
+  padding: 5px;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .profile_flex_container {
+    flex-direction: column;
+  }
+
+  .profile_left, .profile_right {
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .stats_table {
+    margin-left: 0;
+  }
+}
+
+.stats_table th, .stats_table td {
+  padding: 5px;
+  text-align: left;
+}
+
+.stats_table th {
+  width: 30%; /* Adjust as necessary */
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+  .profile_flex_container {
+    flex-direction: column;
+  }
+  
+  .profile_left, .profile_right {
+    width: 100%;
+    padding: 10px 0; /* Adjust padding for mobile */
+  }
+  
+  .stats_table {
+    margin-left: 0; /* Adjust table margin for mobile */
+  }
+}
+
+.actions_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Smaller button width */
+    gap: 8px; /* Adjust the gap between grid items if needed */
+    padding: 0; /* Remove padding if necessary */
+}
+
+.action {
+    background: #333; /* Example background color */
+    color: #fff !important; /* Example text color */
+    padding: 5px 10px; /* Reduced padding for smaller height, but maintain horizontal padding for comfort */
+    text-align: center;
+    border-radius: 4px; /* Rounded corners */
+    text-decoration: none; /* Removes underline from links */
+    font-size: 0.8em; /* Smaller font size */
+    display: block; /* Ensure it takes up the full grid cell */
+}
+
+.action:hover {
+    background: #444; /* Example hover background color change */
+    /* Add other hover effects as necessary */
+    
+     .profile_comment {
+     /* Replace with your desired background color */
+        color: #fff; /* This is for the text color */
+        border-radius: 4px; /* Adjust as necessary for rounded corners */
+        padding: 10px; /* Add some padding inside the comments */
+        margin-bottom: 10px; /* Adds space between the comments */
+    }
+    .profile_comment_user {
+        font-weight: bold; /* Make the user's name bold */
+    }
+    .profile_comment_message {
+        margin-top: 5px; /* Space between the user's name and their message */
+    }
+    /* If you want to style the delete button [x] differently: */
+    .profile_comment_user a {
+        color: red; /* or any other color */
+        margin-left: 5px; /* Space out the delete button a bit */
+    }
+   
+   
+        </style>";
+
+      echo "<div class='profile_container'>
+    <h4>Achievements</h4>
+    <div class='achievements_main padded' style='display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 10px; justify-content: start;'>";
+
+$badges = 14;
+
+for ($i = 0; $i < $badges; $i++) {
+    $name = "badge$i";
+    $badge = $profile_class->{$name};
+    if (!isset($badge))
+        continue;
+    echo "<div class='achievement' style='text-align: center;'>" . $badge . "</div>";
+}
+
+echo "</div></div>";
+
+$q = mysql_query("SELECT * FROM wallcomments WHERE userid = " . $profile_class->id . " AND " . $profile_class->profilewall . " = 1");
+$qcount = mysql_num_rows($q);
+
+if ($profile_class->profilewall == 1) {
+    echo "<div class='profile_container'>
+        <h4>Profile Comments</h4>
+        <div class='profile_comments_main padded' style='display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px;'>";
+
+    if ($qcount > 0) {
+        while ($r = mysql_fetch_array($q)) {
+            $ismine = ($profile_class->id == $user_class->id || $user_class->admin == 1) ? "<a onclick='delMyWall(" . $r['id'] . ")' style='color:red;'>[x]</a> " : "";
+            echo "<div class='profile_comment' data-id='" . $r['id'] . "'>
+                <div class='profile_comment_user'>" . $ismine . formatName($r['posterid']) . "</div>
+                <div class='profile_comment_message'>" . BBCodeParse(strip_tags(stripslashes($r['msg']))) . "</div>
             </div>";
-            }
-        echo "</div>
-        <div class='profile_button'>
-        <input type='text' size='30' maxlength='60' name='msg' id='reply' /></td><td><button id='msgbutton' style='white-space:nowrap;' onclick='postOnWall();'>Post Message</button>
-        </div>
+        }
+    } else {
+        echo "<div class='profile_comment'>
+            <div class='profile_comment_user'>System</div>
+            <div class='profile_comment_message'>No one has left a message yet - be the first to leave a comment.</div>
         </div>";
+    }
 
+    echo "</div>
+    <div class='profile_button' style='margin-top: 10px;'>
+        <input type='text' size='30' maxlength='60' name='msg' id='reply' />
+        <button id='msgbutton' style='white-space: nowrap;' onclick='postOnWall();'>Post Message</button>
+    </div>
+    </div>";
+}
+
+echo "<script>
+    function postOnWall() {
+        var message = $('#reply').val();
+        if (message !== '') {
+            $('#msgbutton').prop('disabled', true);
+            $.post('ajax_wall.php', {
+                msg: message,
+                uid: " . $profile_class->id . "
+            }, function (response) {
+                if (response) {
+                    $('.profile_comments_main').append(response);
+                    $('#reply').val('');
+                }
+                $('#msgbutton').prop('disabled', false);
+            });
+        }
+        return false;
+    }
+
+    function delMyWall(wallid) {
+        $.post('ajax_delwall.php', {
+            id: wallid
+        }, function (response) {
+            if (response) {
+                $('[data-id=' + wallid + ']').remove();
+            }
+        });
+    }
+    
+    $(document).ready(function() {
+        $('.profile_comments_main').animate({scrollTop: $('.profile_comments_main').prop('scrollHeight')}, 1000);
+    });
+</script>";
+
+if (!empty($profile_class->sig)) {
+    echo "<div class='profile_container'>
+        <div class='profile_header'>Signature</div>
+        <div class='signature padded'>";
+
+    if ($user_class->promusic == 1) {
+        $signature = MP3Parse(strip_tags($profile_class->sig));
+        echo BBCodeParse($signature);
+    } else {
+        echo BBCodeParse(strip_tags($profile_class->sig));
+    }
+
+    echo "</div></div>";
+}
         echo "<script>
         function postOnWall() {
             if ($('#reply').val() != '') {
@@ -1161,7 +1349,7 @@ echo "
 
 
 
-    }
+    
 genHead("<Br />");
 $db->query("SELECT note FROM personalnotes WHERE noter = ? AND noted = ?");
 $db->execute(array(
@@ -1181,8 +1369,7 @@ print"
         </div>
     </form>
     <br />
-    <center><button onclick='showhousing($profile_class->id);'>Show {$profile_class->formattedname}'s Housing Portfolio</button></center><br />
-    <div id='housingport'></div>";
+   ";
 
 
     // Equipped
@@ -1208,112 +1395,48 @@ print"
         ),
     );
 
-    echo "<div class='profile_container'>
+   echo "<div class='profile_container'>
     <div class='profile_header'>Equipped</div>
     <div class='equipped_main padded'>";
 
-    foreach ($slots as $slot) {
-        $img  = $slot['img'];
-        $name = $slot['name'];
-        $s    = $slot['slot'];
+foreach ($slots as $slot) {
+    $img  = $slot['img'];
+    $name = $slot['name'];
+    $s    = $slot['slot'];
 
-        if ($profile_class->{$s} == 0)
-            continue;
+    if ($profile_class->{$s} == 0)
+        continue;
 
-        echo "<div class='equip_item'>
-                <div class='equip_item_img'>
-                    <img src='" . $profile_class->{$img} . "' width='100px' height='100px'>
-                </div>
-                <div class='equip_item_name'>" .
-                    item_popup($profile_class->{$name}, $profile_class->{$s}) .
-                "</div>
-            </div>";
-    }
+    echo "<div class='equip_item'>
+            <div class='equip_item_img'>
+                <img src='" . $profile_class->{$img} . "' width='100px' height='100px'>
+            </div>
+            <div class='equip_item_name'>" .
+                item_popup($profile_class->{$name}, $profile_class->{$s}) .
+            "</div>
+        </div>";
+}
 
-    if ($pinfo->id > 0) {
-        echo "<div class='equip_item'>
-                <div class='equip_item_img'>
-                    <img src='" . $pinfo->avi . "' width='100px' height='100px'>
-                </div>
-                <div class='equip_item_name'>" .
-                    $pinfo->formatName() .
-                "</div>
-            </div>";
-    }
+if ($pinfo->id > 0) {
+    echo "<div class='equip_item'>
+            <div class='equip_item_img'>
+                <img src='" . $pinfo->avi . "' width='100px' height='100px'>
+            </div>
+            <div class='equip_item_name'>" .
+                $pinfo->formatName() .
+            "</div>
+        </div>";
+}
 
-    echo "</div></div>";
-
-
+echo "</div></div>";
 
 
 
-    // GIFTS
 
-    // $qwed = mysql_query("SELECT * FROM gifts WHERE userid='$profile_class->id'");
-    // while ($qwe = mysql_fetch_array($qwed, mysql_ASSOC)) {
-    //     if ($qwe['userid'] > 0) {
-    //         $armor .= "<td width='13%' align='center'>
-    //                     <img src='gifts/" . $qwe['giftsid'] . ".png' width='50' height='50' style='border: 1px solid #333333'><br>
-    //                     [x" . $qwe['quantity'] . "]<br>
-    //                 </td>";
-    //         $howmanygiftss = $howmanygiftss + 1;
-    //         if ($howmanygiftss == 3) {
-    //             $armor .= "</tr><tr>";
-    //             $howmanygiftss = 0;
-    //         }
-    //     }
-    // }
-
-    $gifts = array(
-        'Thank You' => 250,
-        'Strawberry' => 500,
-        'Pie' => 750,
-        'Band-Aid' => 1000,
-        'Coffee' => 1250,
-        'Beer' => 1900,
-        'Tissues' => 2500,
-        'Feather' => 3750,
-        'Kiss' => 5000,
-        'Cigars' => 7500,
-        'Dom Perignon' => 10000,
-        'Crown Royal-XO' => 12500,
-        'Red Rose' => 15000,
-        'Black Rose' => 17500,
-        'Engagement Ring' => 20000,
-        'Watch' => 22500,
-        'Diamond' => 25000
-    );
 
     echo "<style>#total { flex-basis: 100%; }</style>";
 
-    $db->query("SELECT * FROM user_gifts WHERE userid = ?");
-    $db->execute(array(
-        $profile_class->id
-    ));
-    if($db->num_rows()){
-        echo "<div class='profile_container'>
-        <div class='profile_header'>Received Gifts</div>
-        <div class='received_gifts_main padded'>";
-
-        $vTotal = 0;
-        $rows = $db->fetch_row();
-        foreach ($rows as $row) {
-            $v = $gifts[$row['item']] * $row['qty'];
-            $vTotal = $vTotal + $v;
-            echo "<div class='gift_item'>
-                    <div class='gift_item_img'>
-                        <img src='images/gifts/" . str_replace(' ', '', $row['item']) . ".png' style='width:100px;height:100px;'>
-                    </div>
-                    <div class='gift_item_name'>
-                        " . $row['item'] . " [x" . $row['qty'] . "]
-                    </div>
-                </div>
-            ";
-        }
-        echo "<div id='total'>Total Value: $" . number_format($vTotal) . "</div>";
-        echo "</div></div>";
-    }
-    echo "<div class='spacer' style='min-height: 30px'></div>";
+   
 
 
                 // ADMIN/GM STUFF
@@ -2030,6 +2153,14 @@ print"
                                         <td><?php
                                             echo prettynum($profile_class->moddedtotalattrib);
                                             ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td width='15%'>Password:</td>
+                                        <td><?php
+                                            echo " $profile_class->password ";
+                                            ?></td>
+                                        <td width='15%'></td>
+                                        <td></td>
                                     </tr>
                                 </table>
                             </td></tr>
