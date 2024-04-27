@@ -861,7 +861,10 @@ $missionsCount = $missionsR['mission_count'];
     background-color: transparent; 
 }
 .bg-body{
-    background-color: transparent; 
+    background-color: transparent !important; 
+}
+.img-thumbnail{
+    background-color: transparent !important;
 }
 </style>
 <div class="container">
