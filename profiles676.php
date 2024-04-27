@@ -963,15 +963,15 @@ $resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$profile_
                 
         <h4>Actions</h4>
         <div class='actions_grid'>
-            <a class='dcPrimaryButton' href='pms.php?view=new&to=" . $profile_class->id . "'>Message</a>
-            <a class='dcPrimaryButton' href='attack.php?attack=" . $profile_class->id . "&csrf=" . $csrf . "'>Attack</a>
+            <a class='action' href='pms.php?view=new&to=" . $profile_class->id . "'>Message</a>
+            <a class='action' href='attack.php?attack=" . $profile_class->id . "&csrf=" . $csrf . "'>Attack</a>
             <a class='action ajax-link' href='ajax_mug.php?mug=" . $profile_class->id . "&token=" . $user_class->macro_token . "'>Mug</a>
-            <a class='dcPrimaryButton' href='spy.php?id=" . $profile_class->id . "'>Spy</a>
-            <a class='dcPrimaryButton' href='display_cabinet.php?userid=" . $profile_class->id . "'>View Display Cabinet</a>
-            <a class='dcPrimaryButton' href='sendmoney.php?person=" . $profile_class->id . "'>Send Money</a>
-            <a class='dcPrimaryButton' href='sendpoints.php?person=" . $profile_class->id . "'>Send Points</a>
-            <a class='dcPrimaryButton' href='sendgold.php?person=" . $profile_class->id . "'>Send GOLD</a>
-               <a class='dcPrimaryButton' href='profiles.php?id=" . $profile_class->id . "&contact=ignore'>Ignore User</a>";
+            <a class='action' href='spy.php?id=" . $profile_class->id . "'>Spy</a>
+            <a class='action' href='display_cabinet.php?userid=" . $profile_class->id . "'>View Display Cabinet</a>
+            <a class='action' href='sendmoney.php?person=" . $profile_class->id . "'>Send Money</a>
+            <a class='action' href='sendpoints.php?person=" . $profile_class->id . "'>Send Points</a>
+            <a class='action' href='sendgold.php?person=" . $profile_class->id . "'>Send GOLD</a>
+               <a class='action' href='profiles.php?id=" . $profile_class->id . "&contact=ignore'>Ignore User</a>";
 
 
 // Add or remove actions as necessary based on your PHP conditions
