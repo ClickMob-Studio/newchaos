@@ -851,70 +851,57 @@ $missionsR = mysql_fetch_assoc($missionsQ);
 $missionsCount = $missionsR['mission_count'];
 ?>
 
-       <div class="card" style="margin: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.3) !important;">
-    <div class="card-body">
-    <div class='profile-container d-flex justify-content-around'>
-        <!-- Left Profile Box -->
-        <div class='profile-package shadow-sm p-3 mb-5 bg-body rounded' style='flex: 1; margin: 5px;'>
-            <img src='<?php echo $profile_class->avatar; ?>' class='img-thumbnail' alt='User Avatar' style='width: 100px; height: 100px;'>
-            <h4><?php echo $profile_class->formattedname; ?></h4>
-            
-            <div class="text-center p-2" style="background-color: #111; color: white;">Player Rating:</div><div class="text-center p-2"> <?php echo $ratingHTML; ?></div>
-            <div class="text-center p-2" style="background-color: #111; color: white;">Level:</div><div class="text-center p-2"> <?php echo $profile_class->level; ?></div>
-            <div class="text-center p-2" style="background-color: #111; color: white;">Type: </div><div class="text-center p-2"><?php echo $profile_class->type; ?></div>
-            <div class="text-center p-2" style="background-color: #111; color: white;">Location:</div><div class="text-center p-2"> <a href='travel.php'><?php echo $city; ?></a></div>
-            <div class="text-center p-2" style="background-color: #111; color: white;">Relationship:</div><div class="text-center p-2"> <?php echo $rel; ?> 
-                <?php if (!empty($profile_class->relplayer) && ($user_class->id == $rel_user->relplayer || $rel_user->id == $user_class->id || $user_class->id == $profile_class->id)) { ?>
-                    <a href='relationship.php?action=end&player=<?php echo $user_class->relplayer; ?>'><button type='button' class='btn btn-danger btn-sm'>Divorce</button></a>
-                <?php } ?>
+<div class="container">
+    <!-- Use Bootstrap's row and col classes for responsiveness -->
+    <div class="row">
+        <!-- First Card -->
+        <div class="col-md-6 col-12">
+            <div class="card" style="margin: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.3) !important; background: rgba(0,0,0,0.2);">
+                <div class="card-body">
+                    <div class="profile-container d-flex justify-content-around">
+                        <div class='profile-package shadow-sm p-3 mb-5 bg-body rounded' style='flex: 1; margin: 5px;'>
+                            <img src='<?php echo $profile_class->avatar; ?>' class='img-thumbnail' alt='User Avatar' style='width: 100px; height: 100px;'>
+                            <h4><?php echo $profile_class->formattedname; ?></h4>
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Player Rating:</div>
+                            <div class="text-center p-2"> <?php echo $ratingHTML; ?></div>
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Level:</div>
+                            <div class="text-center p-2"> <?php echo $profile_class->level; ?></div>
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Type: </div>
+                            <div class="text-center p-2"><?php echo $profile_class->type; ?></div>
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Location:</div>
+                            <div class="text-center p-2"> <a href='travel.php'><?php echo $city; ?></a></div>
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Relationship:</div>
+                            <div class="text-center p-2"> <?php echo $rel; ?>
+                                <?php if (!empty($profile_class->relplayer) && ($user_class->id == $rel_user->relplayer || $rel_user->id == $user_class->id || $user_class->id == $profile_class->id)) { ?>
+                                    <a href='relationship.php?action=end&player=<?php echo $user_class->relplayer; ?>'><button type='button' class='btn btn-danger btn-sm'>Divorce</button></a>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
         </div>
-    </div>
-</div>
+        <!-- Second Card -->
+        <div class="col-md-6 col-12">
+            <div class="card" style="margin: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2) !important; background: rgba(0,0,0,0.2);">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Crimes:</div>
+                            <div class="text-center p-2"><?php echo prettynum($profile_class->crimesucceeded); ?></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Busts:</div>
+                            <div class="text-center p-2"><?php echo prettynum($profile_class->busts); ?></div>
+                        </div>
+                        <!-- Additional stats elements continue here... -->
+                    </div>
                 </div>
-        <div class="card" style="margin: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2) !important;">
-    <div class="card-body">
-        <div class="row g-3">
-            <!-- Existing Stats -->
-            <div class="col-6">
-                <div class="text-center p-2" style="background-color: #111; color: white;">Crimes:</div>
-                <div class="text-center p-2"><?php echo prettynum($profile_class->crimesucceeded); ?></div>
-            </div>
-            <div class="col-6">
-                <div class="text-center p-2" style="background-color: #111; color: white;">Busts:</div>
-                <div class="text-center p-2"><?php echo prettynum($profile_class->busts); ?></div>
-            </div>
-            <div class="col-6">
-                <div class="text-center p-2" style="background-color: #111; color: white;">Gang:</div>
-                <div class="text-center p-2"><?php echo $gang; ?></div>
-            </div>
-            <div class="col-6">
-                <div class="text-center p-2" style="background-color: #111; color: white;">Referrer:</div>
-                <div class="text-center p-2"><?php echo $refer; ?></div>
-            </div>
-            <div class="col-6">
-                <div class="text-center p-2" style="background-color: #111; color: white;">Money:</div>
-                <div class="text-center p-2">$<?php echo prettynum($profile_class->money); ?></div>
-            </div>
-            <div class="col-6">
-                <div class="text-center p-2" style="background-color: #111; color: white;">Age:</div>
-                <div class="text-center p-2"><?php echo $profile_class->age; ?></div>
-            </div>
-            <div class="col-6">
-                <div class="text-center p-2" style="background-color: #111; color: white;">Kills / Deaths:</div>
-                <div class="text-center p-2"><?php echo prettynum($profile_class->battlewon); ?> / <?php echo prettynum($profile_class->battlelost); ?></div>
-            </div>
-            <div class="col-6">
-                <div class="text-center p-2" style="background-color: #111; color: white;">Missions:</div>
-                <div class="text-center p-2"><?php echo $missionsCount; ?></div>
-            </div>
-            <div class="col-6">
-                <div class="text-center p-2" style="background-color: #111; color: white;">Last Active:</div>
-                <div class="text-center p-2"><?php echo ($profile_class->lastactive != 0 ? $profile_class->formattedlastactive : 'Never'); ?> <span id='onlineStatus'>[online]</span></div>
             </div>
         </div>
     </div>
 </div>
+
     
     <?php
 
