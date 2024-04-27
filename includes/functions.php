@@ -2034,7 +2034,10 @@ function getItemDailyLimit($userId)
 
 function addItemDailyLimit($user_class, $field, $qty = 1)
 {
+    global $db;
+
     $itemDailyLimit = getItemDailyLimit($user_class->id);
 
-    mysql_query("UPDATE item_daily_limit SET {$field} = {$field} + {$qty} WHERE id = " . $itemDailyLimit['id']);
+    $db->query("UPDATE item_daily_limit SET {$field} = {$field} + {$qty} WHERE id = " . $itemDailyLimit['id']);
+    $db->execute();
 }
