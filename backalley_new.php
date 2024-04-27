@@ -259,12 +259,12 @@ include 'footer.php';
                     }
 
                     if (res.user_ba_stats) {
-                        $('.ba-stats-searches').html(res.user_ba_stats.turns);
-                        $('.ba-stats-wins').html(res.user_ba_stats.wins);
-                        $('.ba-stats-losses').html(res.user_ba_stats.losses);
-                        $('.ba-stats-points').html(res.user_ba_stats.points_gained);
-                        $('.ba-stats-cash').html('$' + res.user_ba_stats.cash_gained);
-                        $('.ba-stats-items').html(res.user_ba_stats.items_gained);
+                        $('.ba-stats-searches').html(addCommas(res.user_ba_stats.turns));
+                        $('.ba-stats-wins').html(addCommas(res.user_ba_stats.wins));
+                        $('.ba-stats-losses').html(addCommas(res.user_ba_stats.losses));
+                        $('.ba-stats-points').html(addCommas(res.user_ba_stats.points_gained));
+                        $('.ba-stats-cash').html('$' + addCommas(res.user_ba_stats.cash_gained));
+                        $('.ba-stats-items').html(addCommas(res.user_ba_stats.items_gained));
                         $('.ba-stats-exp').html(addCommas(res.user_ba_stats.exp_gained));
 
                         var pbWidth = res.user_ba_stats.exp / res.user_ba_stats.maxexp * 100;
