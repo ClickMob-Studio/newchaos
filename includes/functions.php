@@ -1856,13 +1856,15 @@ function macroTokenCheck($user_class)
 
 function getItemTempUse($userId)
 {
-    $q = mysql_query("SELECT * FROM item_temp_use WHERE user_id = " . $userId . " LIMIT 1");
-    $r = mysql_fetch_assoc($q);
+    $db->query("SELECT * FROM item_temp_use WHERE user_id = " . $userId . " LIMIT 1");
+    $db->execute();
+    $r = $db->fetch_row();
 
-    if (isset($r['id'])) {
-        return $r;
+    if (isset($r[0]['id'])) {
+        return $r[0];
     } else {
-        mysql_query("INSERT INTO item_temp_use (user_id) VALUES (" . $userId . ")");
+        $db->query("INSERT INTO item_temp_use (user_id) VALUES (" . $userId . ")");
+        $db->execute();
         $r = getItemTempUse($userId);
 
         return $r;
@@ -1873,7 +1875,8 @@ function addItemTempUse($user_class, $field, $qty = 1)
 {
     $itemTempUse = getItemTempUse($user_class->id);
 
-    mysql_query("UPDATE item_temp_use SET {$field} = {$field} + {$qty} WHERE id = " . $itemTempUse['id']);
+    $db->query("UPDATE item_temp_use SET {$field} = {$field} + {$qty} WHERE id = " . $itemTempUse['id']);
+    $db->execute();
 }
 
 function removeItemTempUse($userId, $field, $qty = 1)

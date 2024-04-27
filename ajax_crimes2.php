@@ -163,6 +163,14 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $chance = 100;
     }
 
+    if ($user_class->admin > 0) {
+        $tempItemUse = getItemTempUse($user_class->id);
+        if ($tempItemUse['crime_potion_time'] > time()) {
+            $exp += ($exp / 10);
+        }
+
+    }
+
     $db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
     $db->execute();
     $bonus_row = $db->fetch_row(true);
