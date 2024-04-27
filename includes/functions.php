@@ -2024,7 +2024,7 @@ function getItemDailyLimit($userId)
     if (isset($r[0]['id'])) {
         return $r[0];
     } else {
-        $db->query("INSERT INTO item_temp_use (user_id, use_date) VALUES (" . $userId . ", '" . $now->format('d-m-Y') . "')");
+        $db->query("INSERT INTO item_daily_limit (user_id, use_date) VALUES (" . $userId . ", '" . $now->format('d-m-Y') . "')");
         $db->execute();
         $r = getItemDailyLimit($userId);
 
