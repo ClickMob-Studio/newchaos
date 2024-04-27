@@ -1252,7 +1252,7 @@ echo "</div></div>";
 }
 
 .action {
-    background: #333; /* Example background color */
+    background: var(--colorHighlight);
     color: #fff !important; /* Example text color */
     padding: 5px 10px; /* Reduced padding for smaller height, but maintain horizontal padding for comfort */
     text-align: center;
