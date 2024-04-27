@@ -912,7 +912,34 @@ $missionsCount = $missionsR['mission_count'];
                             <div class="text-center p-2" style="background-color: #111; color: white;">Busts:</div>
                             <div class="text-center p-2"><?php echo prettynum($profile_class->busts); ?></div>
                         </div>
-                        <!-- Additional stats elements continue here... -->
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Gang:</div>
+                            <div class="text-center p-2"><?php echo $gang; ?></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Referrer:</div>
+                            <div class="text-center p-2"><?php echo $refer; ?></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Money:</div>
+                            <div class="text-center p-2">$<?php echo prettynum($profile_class->money); ?></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Age:</div>
+                            <div class="text-center p-2"><?php echo $profile_class->age; ?></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Kills / Deaths:</div>
+                            <div class="text-center p-2"><?php echo prettynum($profile_class->battlewon); ?> / <?php echo prettynum($profile_class->battlelost); ?></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Missions:</div>
+                            <div class="text-center p-2"><?php echo $missionsCount; ?></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Last Active:</div>
+                            <div class="text-center p-2"><?php echo ($profile_class->lastactive != 0 ? $profile_class->formattedlastactive : 'Never'); ?> <span id='onlineStatus'>[online]</span></div>
+                        </div>
                     </div>
                 </div>
             </div>
