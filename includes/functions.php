@@ -2013,15 +2013,19 @@ function checkCaptchaRequired($user_class)
 
 function getItemDailyLimit($userId)
 {
+    global $db;
+
     $now = new \DateTime();
 
-    $q = mysql_query("SELECT * FROM item_daily_limit WHERE user_id = " . $userId . " AND use_date = '" . $now->format('d-m-Y') . "' LIMIT 1");
-    $r = mysql_fetch_assoc($q);
+    $db->query("SELECT * FROM item_daily_limit WHERE user_id = " . $userId . " AND use_date = '" . $now->format('d-m-Y') . "' LIMIT 1");
+    $db->execute();
+    $r = $db->fetch_row();
 
-    if (isset($r['id'])) {
-        return $r;
+    if (isset($r[0]['id'])) {
+        return $r[0];
     } else {
-        mysql_query("INSERT INTO item_temp_use (user_id, use_date) VALUES (" . $userId . ", '" . $now->format('d-m-Y') . "')");
+        $db->query("INSERT INTO item_temp_use (user_id, use_date) VALUES (" . $userId . ", '" . $now->format('d-m-Y') . "')");
+        $db->execute();
         $r = getItemDailyLimit($userId);
 
         return $r;
