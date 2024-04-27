@@ -850,7 +850,8 @@ $missionsQ = mysql_query("SELECT COUNT(id) AS mission_count FROM missions WHERE 
 $missionsR = mysql_fetch_assoc($missionsQ);
 $missionsCount = $missionsR['mission_count'];
 ?>
-<div class='contenthead'>
+       <div class="card" style="margin: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+    <div class="card-body">
     <div class='profile-container d-flex justify-content-around'>
         <!-- Left Profile Box -->
         <div class='profile-package shadow-sm p-3 mb-5 bg-body rounded' style='flex: 1; margin: 5px;'>
@@ -869,6 +870,7 @@ $missionsCount = $missionsR['mission_count'];
         </div>
     </div>
 </div>
+                </div>
         <div class="card" style="margin: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.5);">
     <div class="card-body">
         <div class="row g-3">
