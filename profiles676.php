@@ -863,41 +863,54 @@ echo "
             <p>Type: " . $profile_class->type . "</p>
             <p>Location: <a href='travel.php'>$city</a></p>
             <p>Relationship: $rel ", (!empty($profile_class->relplayer) && ($user_class->id == $rel_user->relplayer || $rel_user->id == $user_class->id || $user_class->id == $profile_class->id)) ? "<a href='relationship.php?action=end&player=" . $user_class->relplayer . "'><input type='button' value='Divorce' /></a>" : "", "</p>
-        </div>
-";
-?>
-        <!-- Right Profile Box -->
-        <div class="profile-stats">
-        <div>
-            <strong>Crimes:</strong> 1234
-        </div>
-        <div>
-            <strong>Busts:</strong> 56
-        </div>
-        <div>
-            <strong>Gang:</strong> Dragons
-        </div>
-        <div>
-            <strong>Referrer:</strong> JohnDoe
-        </div>
-        <div>
-            <strong>Money:</strong> $1,000,000
-        </div>
-        <div>
-            <strong>Age:</strong> 25
-        </div>
-        <div>
-            <strong>Kills / Deaths:</strong> 100 / 50
-        </div>
-        <div>
-            <strong>Missions:</strong> 30
-        </div>
-        <div>
-            <strong>Last Active:</strong> Yesterday <span>[online]</span>
+        </div>";
+        ?>
+        <div class="card" style="margin: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+    <div class="card-body">
+        <div class="row g-3">
+            <!-- Existing Stats -->
+            <div class="col-6">
+                <div class="text-center p-2" style="background-color: #111; color: white;">Crimes:</div>
+                <div class="text-center p-2"><?php echo prettynum($profile_class->crimesucceeded); ?></div>
+            </div>
+            <div class="col-6">
+                <div class="text-center p-2" style="background-color: #111; color: white;">Busts:</div>
+                <div class="text-center p-2"><?php echo prettynum($profile_class->busts); ?></div>
+            </div>
+            <div class="col-6">
+                <div class="text-center p-2" style="background-color: #111; color: white;">Gang:</div>
+                <div class="text-center p-2"><?php echo $gang; ?></div>
+            </div>
+            <div class="col-6">
+                <div class="text-center p-2" style="background-color: #111; color: white;">Referrer:</div>
+                <div class="text-center p-2"><?php echo $refer; ?></div>
+            </div>
+            <div class="col-6">
+                <div class="text-center p-2" style="background-color: #111; color: white;">Money:</div>
+                <div class="text-center p-2">$<?php echo prettynum($profile_class->money); ?></div>
+            </div>
+            <div class="col-6">
+                <div class="text-center p-2" style="background-color: #111; color: white;">Age:</div>
+                <div class="text-center p-2"><?php echo $profile_class->age; ?></div>
+            </div>
+            <div class="col-6">
+                <div class="text-center p-2" style="background-color: #111; color: white;">Kills / Deaths:</div>
+                <div class="text-center p-2"><?php echo prettynum($profile_class->battlewon); ?> / <?php echo prettynum($profile_class->battlelost); ?></div>
+            </div>
+            <div class="col-6">
+                <div class="text-center p-2" style="background-color: #111; color: white;">Missions:</div>
+                <div class="text-center p-2"><?php echo $missionsCount; ?></div>
+            </div>
+            <div class="col-6">
+                <div class="text-center p-2" style="background-color: #111; color: white;">Last Active:</div>
+                <div class="text-center p-2"><?php echo ($profile_class->lastactive != 0 ? $profile_class->formattedlastactive : 'Never'); ?> <span id='onlineStatus'>[online]</span></div>
+            </div>
         </div>
     </div>
+</div>
     
     <?php
+
 
 $resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$profile_class->id' AND type = '1'");
         $workedlala = mysql_fetch_array($resultlala);
