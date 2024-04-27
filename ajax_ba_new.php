@@ -431,26 +431,51 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $cashWon = mt_rand(100,1500) * $userBaStats['level'];
         $baExpWon = mt_rand(1,15);
 
-        $itemIds = array();
-        $itemIds[35] = 1; // Bowie Knife
-        $itemIds[70] = 3; // Army Boots
-        $itemIds[98] = 14; // Med Cert 100
-        $itemIds[100] = 253; // Gold Rush Token
 
-        $itemChance = mt_rand(1,100);
-        foreach ($itemIds as $key => $itemId) {
-            if ($itemChance <= $key) {
-                $itemWonId = $itemId;
+        $userItemDropLog = getUserItemDropLog($user_class->id);
 
-                $totalMedPackCount = $totalMedPackCount + 1;
+        if ($userItemDropLog['crime_potion_drop'] < 5) {
+            $itemWonId = 254;
 
-                Give_Item($itemWonId, $user_class->id);
+            Give_Item($itemWonId, $user_class->id);
 
-                $db->query("SELECT `itemname` FROM `items` WHERE id = " . $itemWonId);
-                $db->execute();
-                $itemName = $db->fetch_single();
+            addUserItemDropLog($user_class, 'crime_potion_drop');
 
-                break;
+            $db->query("SELECT `itemname` FROM `items` WHERE id = " . $itemWonId);
+            $db->execute();
+            $itemName = $db->fetch_single();
+        } else if ($userItemDropLog['crime_booster_drop'] < 5) {
+            $itemWonId = 255;
+
+            Give_Item($itemWonId, $user_class->id);
+
+            addUserItemDropLog($user_class, 'crime_booster_drop');
+
+            $db->query("SELECT `itemname` FROM `items` WHERE id = " . $itemWonId);
+            $db->execute();
+            $itemName = $db->fetch_single();
+        } else {
+            $itemIds = array();
+            $itemIds[35] = 1; // Bowie Knife
+            $itemIds[70] = 3; // Army Boots
+            $itemIds[98] = 14; // Med Cert 100
+            $itemIds[100] = 253; // Gold Rush Token
+
+            $itemChance = mt_rand(1,100);
+            foreach ($itemIds as $key => $itemId) {
+                if ($itemChance <= $key) {
+                    $itemWonId = $itemId;
+
+                    $totalMedPackCount = $totalMedPackCount + 1;
+
+                    Give_Item($itemWonId, $user_class->id);
+
+                    $db->query("SELECT `itemname` FROM `items` WHERE id = " . $itemWonId);
+                    $db->execute();
+                    $itemName = $db->fetch_single();
+
+                    break;
+                }
             }
         }
 

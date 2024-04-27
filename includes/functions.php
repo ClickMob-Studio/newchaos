@@ -2048,3 +2048,32 @@ function addItemDailyLimit($user_class, $field, $qty = 1)
     $db->query("UPDATE item_daily_limit SET {$field} = {$field} + {$qty} WHERE id = " . $itemDailyLimit['id']);
     $db->execute();
 }
+
+function getUserItemDropLog($userId)
+{
+    global $db;
+
+    $db->query("SELECT * FROM user_item_drop_log WHERE user_id = " . $userId . " LIMIT 1");
+    $db->execute();
+    $r = $db->fetch_row();
+
+    if (isset($r[0]['id'])) {
+        return $r[0];
+    } else {
+        $db->query("INSERT INTO user_item_drop_log (user_id) VALUES (" . $userId . ")");
+        $db->execute();
+        $r = getUserItemDropLog($userId);
+
+        return $r;
+    }
+}
+
+function addUserItemDropLog($user_class, $field, $qty = 1)
+{
+    global $db;
+
+    $itemTempUse = getUserItemDropLog($user_class->id);
+
+    $db->query("UPDATE user_item_drop_log SET {$field} = {$field} + {$qty} WHERE id = " . $itemTempUse['id']);
+    $db->execute();
+}
