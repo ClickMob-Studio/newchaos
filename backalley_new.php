@@ -262,6 +262,10 @@ include 'footer.php';
                         $('.ba-stats-searches').html(res.user_ba_stats.turns);
                         $('.ba-stats-wins').html(res.user_ba_stats.wins);
                         $('.ba-stats-losses').html(res.user_ba_stats.losses);
+                        $('.ba-stats-points').html(res.user_ba_stats.points_gained);
+                        $('.ba-stats-cash').html('$' + res.user_ba_stats.cash_gained);
+                        $('.ba-stats-items').html(res.user_ba_stats.items_gained);
+                        $('.ba-stats-exp').html(addCommas(res.user_ba_stats.exp_gained));
 
                         var pbWidth = res.user_ba_stats.exp / res.user_ba_stats.maxexp * 100;
                         $('.ba-level-progress-bar').width(pbWidth + '%');
@@ -357,4 +361,18 @@ include 'footer.php';
             });
         });
     });
+
+    function addCommas(nStr)
+    {
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    }
+
 </script>
