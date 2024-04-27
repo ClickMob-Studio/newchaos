@@ -68,13 +68,13 @@ $nor = 3; // number of ranks to be shown per category
     <div class="pad">
         <table id="newtables" style="width:100%;">
     <span style='color:red;'><center>Welcome to bloodbath, Bloodbath allows you the chance to gain some extra points for your hard work!</span><br />
-    <span style='color:#FFF;font-weight:800'><center>Note: Payments will be processed manually.</span><br />
+
     <br>
     <center>
 <font size="3px">        <?php
         $bb = mysql_fetch_array(mysql_query("SELECT endtime FROM bloodbath ORDER BY endtime DESC LIMIT 1"));
         //echo 'Bloodbath will end in <span id="ajax_bb">' . howlongtil($bb['endtime']) . '</span></font></center><tr>';
-        echo 'Bloodbath will be paid automatically when the timer expires.</font></center><tr>';
+       // echo 'Bloodbath will be paid automatically when the timer expires.</font></center><tr>';
 
 
          $donators = mysql_query("SELECT b.*, g.dprivacy FROM bbusers b LEFT JOIN grpgusers g ON userid = id WHERE b.donator <> 0 AND lastactive > unix_timestamp() - (86400 * 7) ORDER BY b.donator DESC LIMIT $nor");
