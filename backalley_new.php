@@ -51,7 +51,7 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 <table class="new_table" style="width:100%;">
                     <thead>
                         <tr>
-                            <th colspan="3">Your Back Alley Stats</th>
+                            <th colspan="4">Your Back Alley Stats</th>
                         </tr>
                         <tr>
                             <th>Searches</th>
@@ -65,7 +65,7 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                             <td><span class="ba-stats-searches"><?php echo number_format($userBaStats['turns'], 0) ?></span></td>
                             <td><span class="ba-stats-wins"><?php echo number_format($userBaStats['wins'], 0) ?></span></td>
                             <td><span class="ba-stats-losses"><?php echo number_format($userBaStats['losses'], 0) ?></span></td>
-                            <td><span class="ba-stats-win-p"><?php echo number_format(($userBaStats['wins'] / $userBaStats['turns'] * 100), 0) ?></span></td>
+                            <td><span class="ba-stats-win-p"><?php echo number_format(($userBaStats['wins'] / $userBaStats['turns'] * 100), 0) ?>%</span></td>
                         </tr>
                     </tbody>
                 </table>
