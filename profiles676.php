@@ -979,57 +979,68 @@ $resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$profile_
 
 echo "</div></div>";
         }
+?>
+<div class="profile-stats" style="flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
+    <div class="container">
+        <div class="row mb-3" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
+            <div class="col-12 text-center">
+                <h4>Additional Stats</h4>
+            </div>
+        </div>
 
-    echo "
-    <!-- Additional Profile Content Box -->
-   <div class='profile-stats' style='flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; '>
-            <table id='profile_table' style='width:100%; color: white;'>
+        <!-- Gender -->
+        <div class="row mb-2" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
+            <div class="col-6">Gender:</div>
+            <div class="col-6"><?php echo prettynum($profile_class->gender); ?></div>
+        </div>
 
-            <tr>
-                <th colspan='2' style=' padding: 10px; border-radius: 5px;'><h4 style='color: white;'>Additional Stats</h4></th>
-            </tr>
- <tr>
-                <th style=' padding: 10px; border-radius: 5px;'>Gender:</th>
-                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->gender) . "</td>
-            </tr>
+        <!-- User HP -->
+        <div class="row mb-2" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
+            <div class="col-6">User HP:</div>
+            <div class="col-6"><?php echo prettynum($profile_class->formattedhp); ?></div>
+        </div>
 
-            <tr>
-                <th style=' padding: 10px; border-radius: 5px;'>User HP:</th>
-                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->formattedhp) . "</td>
-            </tr>
-            <tr>
-                <th style=' padding: 10px; border-radius: 5px;'>Back Alley Wins:</th>
-                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->backalleywins) . "</td>
-            </tr>
-            <tr>
-                <th style=' padding: 10px; border-radius: 5px;'>House:</th>
-                <td style=' padding: 10px; border-radius: 5px;'><a href='house.php'>" . str_replace('[x]', $rel_user->formattedname2, $profile_class->housename) . "<br>" . $houseImage . "</a></td>
-            </tr>
-            <tr>
-                <th style=' padding: 10px; border-radius: 5px;'>Busts:</th>
-                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->busts) . "</td>
-            </tr>
- <tr>
-                <th style=' padding: 10px; border-radius: 5px;'>Jobs:</th>
-                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->jobcis) . "</td>
-            </tr>
-            <tr>
-                <th style=' padding: 10px; border-radius: 5px;'>Mug Stats:</th>
-                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->mugsucceeded) . " / " . prettynum($profile_class->muggedmoney, 1) . "
-</td>
-            </tr>
-<tr>
-                <th style=' padding: 10px; border-radius: 5px;'>Location:</th>
-                <td style=' padding: 10px; border-radius: 5px;'>$city</td>
-            </tr>
+        <!-- Back Alley Wins -->
+        <div class="row mb-2" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
+            <div class="col-6">Back Alley Wins:</div>
+            <div class="col-6"><?php echo prettynum($profile_class->backalleywins); ?></div>
+        </div>
 
+        <!-- House -->
+        <div class="row mb-2" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
+            <div class="col-6">House:</div>
+            <div class="col-6"><a href='house.php'><?php echo str_replace('[x]', $rel_user->formattedname2, $profile_class->housename); ?><br><?php echo $houseImage; ?></a></div>
+        </div>
 
-        </table>
+        <!-- Busts -->
+        <div class="row mb-2" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
+            <div class="col-6">Busts:</div>
+            <div class="col-6"><?php echo prettynum($profile_class->busts); ?></div>
+        </div>
+
+        <!-- Jobs -->
+        <div class="row mb-2" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
+            <div class="col-6">Jobs:</div>
+            <div class="col-6"><?php echo prettynum($profile_class->jobcis); ?></div>
+        </div>
+
+        <!-- Mug Stats -->
+        <div class="row mb-2" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
+            <div class="col-6">Mug Stats:</div>
+            <div class="col-6"><?php echo prettynum($profile_class->mugsucceeded); ?> / <?php echo prettynum($profile_class->muggedmoney, 1); ?></div>
+        </div>
+
+        <!-- Location -->
+        <div class="row mb-2" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
+            <div class="col-6">Location:</div>
+            <div class="col-6"><?php echo $city; ?></div>
+        </div>
     </div>
-
 </div>
-";
 
+
+
+<?php
 
 
 
