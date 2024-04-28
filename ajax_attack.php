@@ -59,20 +59,18 @@ function print_pre($print)
     echo "<pre>";
 }
 function fetchGangUpgradeLevel($gangId) {
+    global $db;
+
     if (!$gangId) {
         // If no gang ID is provided, return 0
         return 0;
     }
-    $query = sprintf("SELECT upgrade7 FROM gangs WHERE id = %d", mysql_real_escape_string($gangId));
-    $result = mysql_query($query);
-    if (!$result) {
-        die('Invalid query: ' . mysql_error());
-    }
-    if ($row = mysql_fetch_assoc($result)) {
-        return intval($row['upgrade7']);
-    } else {
-        return 0;
-    }
+    $db->query("SELECT upgrade7 FROM gangs WHERE id = " . $gangId);
+    $db->execute();
+    $result = $db->fetch_single();
+
+    
+    return $result;
 }
 
 
