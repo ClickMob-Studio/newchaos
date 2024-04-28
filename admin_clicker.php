@@ -7,7 +7,7 @@ if(isset($_POST['userid'])){
 $qu = mysql_query("SELECT a.timestamp AS attack_time, u.timestamp AS user_log_time
 FROM user_logs u
 JOIN attacklog a ON u.timestamp = a.timestamp AND a.attacker = ".$_POST['userid']."
-WHERE u.user_id = 5 AND u.timestamp > 1714333299");
+WHERE u.user_id = ".$_POST['userid']);
 $count = 0;
 while($row = mysql_fetch_array($qu)){
     echo $count .") Attack Time: ".$row['attack_time']." BA Time: ".$row['user_log_time'];
