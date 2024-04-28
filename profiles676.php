@@ -1288,7 +1288,7 @@ echo "</div></div>";
    
         </style>";
 
-      echo "<div class='profile_container'>
+      echo "<div class='profile_container' style='background: rgba(0,0,0,0.2);'>
     <h4>Achievements</h4>
     <div class='achievements_main padded' style='display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 10px; justify-content: start;'>";
 
@@ -1370,7 +1370,7 @@ echo "<script>
 </script>";
 
 if (!empty($profile_class->sig)) {
-    echo "<div class='profile_container'>
+    echo "<div class='profile_container' style='background: rgba(0,0,0,0.2);'>
         <div class='profile_header'>Signature</div>
         <div class='signature padded'>";
 
@@ -1458,7 +1458,7 @@ print"
         ),
     );
 
-    echo "<div class='profile_container'>
+    echo "<div class='profile_container' style='background: rgba(0,0,0,0.2);'>
     <div class='profile_header'>Equipped</div>
     <div class='equipped_main padded row'>";  
 
