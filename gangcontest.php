@@ -69,6 +69,7 @@ if(isset($_GET['presnap'])) {
 		echo'<th>Mugs</th>';
 		echo'<th>Kills</th>';
 		echo'<th>Busts</th>';
+		echo'<th>Tax</th>';
 	echo'</tr>';
 	$db->query("SELECT * FROM gangcontest_snapshots WHERE gangid = ? AND timestamp = ? ORDER BY exp DESC");
 	$db->execute(array(
@@ -83,7 +84,7 @@ if(isset($_GET['presnap'])) {
 			echo'<td>' . prettynum($user['crimes']) . '</td>';
 			echo'<td>' . prettynum($user['mugs']) . '</td>';
 			echo'<td>' . prettynum($user['kills']) . '</td>';
-			echo'<td>' . prettynum($user['busts']) . '</td>';
+			echo'<td>' . prettynum($user['tax']) . '</td>';
 		echo'</tr>';
 	}
 } elseif(!isset($_GET['totals'])) {
@@ -96,6 +97,7 @@ if(isset($_GET['presnap'])) {
 			echo'<th>Mugs</th>';
 			echo'<th>Kills</th>';
 			echo'<th>Busts</th>';
+			echo'<th>Tax</th>';
 		echo'</tr>';
 	$db->query("SELECT * FROM gangcontest WHERE gangid = ? ORDER BY exp DESC");
 	$db->execute(array(
@@ -110,6 +112,7 @@ if(isset($_GET['presnap'])) {
 			echo'<td>' . prettynum($user['mugs']) . '</td>';
 			echo'<td>' . prettynum($user['kills']) . '</td>';
 			echo'<td>' . prettynum($user['busts']) . '</td>';
+			echo'<td>' . prettynum($user['tax']) . '</td>';
 		echo'</tr>';
 	}
 } else {
@@ -122,6 +125,7 @@ if(isset($_GET['presnap'])) {
 		echo'<th>Mugs</th>';
 		echo'<th>Kills</th>';
 		echo'<th>Busts</th>';
+		echo'<th>Tax</th>';
 	echo'</tr>';
 	$db->query("SELECT * FROM gangcontest WHERE gangid = ? ORDER BY total_exp DESC");
 	$db->execute(array(
@@ -136,6 +140,7 @@ if(isset($_GET['presnap'])) {
 			echo'<td>' . prettynum($user['total_mugs']) . '</td>';
 			echo'<td>' . prettynum($user['total_kills']) . '</td>';
 			echo'<td>' . prettynum($user['total_busts']) . '</td>';
+			echo'<td>' . prettynum($user['total_tax']) . '</td>';
 		echo'</tr>';
 	}
 }
