@@ -849,62 +849,107 @@ $city = $profile_class->cityname;
 $missionsQ = mysql_query("SELECT COUNT(id) AS mission_count FROM missions WHERE userid = " . $profile_class->id . " AND completed = 'successful'");
 $missionsR = mysql_fetch_assoc($missionsQ);
 $missionsCount = $missionsR['mission_count'];
+?>
+<style>.card {
+    margin: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    background: rgba(0,0,0,0.6); /* Darken the background */
+    color: white; /* Ensure text is readable on a dark background */
+}
 
-echo "
-<div class='contenthead floaty'>
-    <div class='profile-container' style='display: flex; justify-content: space-around; align-items: flex-start;'>
-        <!-- Left Profile Box -->
-        <div class='profile-package' style='flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;'>
-            <img src='" . $profile_class->avatar . "' style='width: 100px; height: 100px;' alt='User Avatar' class='user-avatar'>
-            <h4>" . $profile_class->formattedname . "</h4>
-            
-            <p>Player Rating: " . $ratingHTML . "</p>
-            <p>Level: " . $profile_class->level . "</p>
-            <p>Type: " . $profile_class->type . "</p>
-            <p>Location: <a href='travel.php'>$city</a></p>
-            <p>Relationship: $rel ", (!empty($profile_class->relplayer) && ($user_class->id == $rel_user->relplayer || $rel_user->id == $user_class->id || $user_class->id == $profile_class->id)) ? "<a href='relationship.php?action=end&player=" . $user_class->relplayer . "'><input type='button' value='Divorce' /></a>" : "", "</p>
+.card-body {
+    background-color: transparent; 
+}
+.bg-body{
+    background-color: transparent !important; 
+}
+.img-thumbnail{
+    background-color: transparent !important;
+}
+</style>
+<div class="container">
+    <!-- Use Bootstrap's row and col classes for responsiveness -->
+    <div class="row">
+        <!-- First Card -->
+        <div class="col-md-6 col-12">
+            <div class="card" style="margin: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.3) !important; background: rgba(0,0,0,0.2);">
+                <div class="card-body">
+                    <div class="profile-container d-flex justify-content-around">
+                        <div class='profile-package shadow-sm p-3 mb-5 bg-body rounded' style='flex: 1; margin: 5px;'>
+                        <div style="text-align: center;">
+                            <img src='<?php echo $profile_class->avatar; ?>' class='img-thumbnail' alt='User Avatar' style='width: 100px; height: 100px;'>
+                            <h4><?php echo $profile_class->formattedname; ?></h4>
+                        </div>
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Player Rating:</div>
+                            <div class="text-center p-2"> <?php echo $ratingHTML; ?></div>
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Level:</div>
+                            <div class="text-center p-2"> <?php echo $profile_class->level; ?></div>
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Type: </div>
+                            <div class="text-center p-2"><?php echo $profile_class->type; ?></div>
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Location:</div>
+                            <div class="text-center p-2"> <a href='travel.php'><?php echo $city; ?></a></div>
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Relationship:</div>
+                            <div class="text-center p-2"> <?php echo $rel; ?>
+                                <?php if (!empty($profile_class->relplayer) && ($user_class->id == $rel_user->relplayer || $rel_user->id == $user_class->id || $user_class->id == $profile_class->id)) { ?>
+                                    <a href='relationship.php?action=end&player=<?php echo $user_class->relplayer; ?>'><button type='button' class='btn btn-danger btn-sm'>Divorce</button></a>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <!-- Right Profile Box -->
-        <div class='profile-stats' style='flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; '>
-            <table id='profile_table' style='width:100%; color: white;'>
-
-                <!-- Existing Stats -->
-                <tr>
-                    <th width='10%'>Crimes:</th>
-                    <td width='30%'>" . prettynum($profile_class->crimesucceeded) . "</td>
-                    <th width='10%'>Busts:</th>
-                    <td width='30%'>" . prettynum($profile_class->busts) . "</td>
-                </tr>
-                <tr>
-                    <th width='10%'>Gang:</th>
-                    <td width='30%'>" . $gang . "</td>
-                    <th width='10%'>Referrer:</th>
-                    <td width='30%'>" . $refer . "</td>
-                </tr>
-                <tr>
-                    <th width='10%'>Money:</th>
-                    <td width='30%'>$" . prettynum($profile_class->money) . "</td>
-                    <th width='10%'>Age:</th>
-                    <td width='30%'>" . $profile_class->age . "</td>
-                </tr>
-                <tr>
-                    <th width='10%'>Kills / Deaths:</th>
-                    <td width='30%'>" . prettynum($profile_class->battlewon) . " / " . prettynum($profile_class->battlelost) . "</td>
-                    <th width='10%'>Missions:</th>
-                    <td width='30%'>" . $missionsCount . "</span></td>
-                </tr>
-                </td>
-                    <th width='10%'>Last Active:</th>
-                    <td width='30%'><span id='lastActive'>" . ($profile_class->lastactive != 0 ? $profile_class->formattedlastactive : 'Never') . "</span> <span id='onlineStatus'>[online]</span></td>
-                    <th width='10%'>&nbsp;</th>
-                    <td width='30%'></td>
-                </tr>
-            </table>
+        <!-- Second Card -->
+        <div class="col-md-6 col-12">
+            <div class="card" style="margin: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.2) !important; background: rgba(0,0,0,0.2);">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Crimes:</div>
+                            <div class="text-center p-2"><?php echo prettynum($profile_class->crimesucceeded); ?></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Busts:</div>
+                            <div class="text-center p-2"><?php echo prettynum($profile_class->busts); ?></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Gang:</div>
+                            <div class="text-center p-2"><?php echo $gang; ?></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Referrer:</div>
+                            <div class="text-center p-2"><?php echo $refer; ?></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Money:</div>
+                            <div class="text-center p-2">$<?php echo prettynum($profile_class->money); ?></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Age:</div>
+                            <div class="text-center p-2"><?php echo $profile_class->age; ?></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Kills / Deaths:</div>
+                            <div class="text-center p-2"><?php echo prettynum($profile_class->battlewon); ?> / <?php echo prettynum($profile_class->battlelost); ?></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Missions:</div>
+                            <div class="text-center p-2"><?php echo $missionsCount; ?></div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Last Active:</div>
+                            <div class="text-center p-2"><?php echo ($profile_class->lastactive != 0 ? $profile_class->formattedlastactive : 'Never'); ?> <span id='onlineStatus'>[online]</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+
     
-    ";
+    <?php
+
 
 $resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$profile_class->id' AND type = '1'");
         $workedlala = mysql_fetch_array($resultlala);
@@ -914,7 +959,7 @@ $resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$profile_
 
             echo "<div class='ajax-message-holder' style='min-height: 60px; display: none;'></div>";
 
-            echo "<div class='profile_container'>
+            echo "<div class='profile_container' style='background: rgba(0,0,0,0.2);'>
                 
         <h4>Actions</h4>
         <div class='actions_grid'>
@@ -934,57 +979,68 @@ $resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$profile_
 
 echo "</div></div>";
         }
+?>
+<div class="profile-container mt-5" style="flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; background: rgba(0,0,0,0.2);">
+    <div class="container">
+        <div class="row mb-3" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">
+            <div class="col-12 text-center">
+                <h4>Additional Stats</h4>
+            </div>
+        </div>
 
-    echo "
-    <!-- Additional Profile Content Box -->
-   <div class='profile-stats' style='flex: 1; padding: 18px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px; '>
-            <table id='profile_table' style='width:100%; color: white;'>
+        <!-- Gender -->
+        <div class="row mb-2">
+            <div class="col-6" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">Gender:</div>
+            <div class="col-6"><?php echo prettynum($profile_class->gender); ?></div>
+        </div>
 
-            <tr>
-                <th colspan='2' style=' padding: 10px; border-radius: 5px;'><h4 style='color: white;'>Additional Stats</h4></th>
-            </tr>
- <tr>
-                <th style=' padding: 10px; border-radius: 5px;'>Gender:</th>
-                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->gender) . "</td>
-            </tr>
+        <!-- User HP -->
+        <div class="row mb-2">
+            <div class="col-6" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">User HP:</div>
+            <div class="col-6"><?php echo prettynum($profile_class->formattedhp); ?></div>
+        </div>
 
-            <tr>
-                <th style=' padding: 10px; border-radius: 5px;'>User HP:</th>
-                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->formattedhp) . "</td>
-            </tr>
-            <tr>
-                <th style=' padding: 10px; border-radius: 5px;'>Back Alley Wins:</th>
-                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->backalleywins) . "</td>
-            </tr>
-            <tr>
-                <th style=' padding: 10px; border-radius: 5px;'>House:</th>
-                <td style=' padding: 10px; border-radius: 5px;'><a href='house.php'>" . str_replace('[x]', $rel_user->formattedname2, $profile_class->housename) . "<br>" . $houseImage . "</a></td>
-            </tr>
-            <tr>
-                <th style=' padding: 10px; border-radius: 5px;'>Busts:</th>
-                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->busts) . "</td>
-            </tr>
- <tr>
-                <th style=' padding: 10px; border-radius: 5px;'>Jobs:</th>
-                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->jobcis) . "</td>
-            </tr>
-            <tr>
-                <th style=' padding: 10px; border-radius: 5px;'>Mug Stats:</th>
-                <td style=' padding: 10px; border-radius: 5px;'>" . prettynum($profile_class->mugsucceeded) . " / " . prettynum($profile_class->muggedmoney, 1) . "
-</td>
-            </tr>
-<tr>
-                <th style=' padding: 10px; border-radius: 5px;'>Location:</th>
-                <td style=' padding: 10px; border-radius: 5px;'>$city</td>
-            </tr>
+        <!-- Back Alley Wins -->
+        <div class="row mb-2">
+            <div class="col-6" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">Back Alley Wins:</div>
+            <div class="col-6"><?php echo prettynum($profile_class->backalleywins); ?></div>
+        </div>
 
+        <!-- House -->
+        <div class="row mb-2">
+            <div class="col-6" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">House:</div>
+            <div class="col-6"><a href='house.php'><?php echo str_replace('[x]', $rel_user->formattedname2, $profile_class->housename); ?><br><?php echo $houseImage; ?></a></div>
+        </div>
 
-        </table>
+        <!-- Busts -->
+        <div class="row mb-2">
+            <div class="col-6" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">Busts:</div>
+            <div class="col-6"><?php echo prettynum($profile_class->busts); ?></div>
+        </div>
+
+        <!-- Jobs -->
+        <div class="row mb-2">
+            <div class="col-6" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">Jobs:</div>
+            <div class="col-6"><?php echo prettynum($profile_class->jobcis); ?></div>
+        </div>
+
+        <!-- Mug Stats -->
+        <div class="row mb-2">
+            <div class="col-6" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">Mug Stats:</div>
+            <div class="col-6"><?php echo prettynum($profile_class->mugsucceeded); ?> / <?php echo prettynum($profile_class->muggedmoney, 1); ?></div>
+        </div>
+
+        <!-- Location -->
+        <div class="row mb-2">
+            <div class="col-6" style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">Location:</div>
+            <div class="col-6"><?php echo $city; ?></div>
+        </div>
     </div>
-
 </div>
-";
 
+
+
+<?php
 
 
 
@@ -1034,11 +1090,18 @@ echo "</div></div>";
     font-family: 'Arial', sans-serif; /* Modern font */
     margin: 5px;
 }
+.profile-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+    grid-gap: 10px;
+    padding: 18px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    margin: 5px;
+    background-color: #444; /* Slightly lighter background for the grid container */
+}
 
-.profile-stat {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px; /* Spacing between stats */
+.profile-stats div {
+    padding: 10px; /* Padding inside each grid item */
 }
 
 .profile-stat:last-child {
@@ -1189,7 +1252,7 @@ echo "</div></div>";
 }
 
 .action {
-    background: #333; /* Example background color */
+    background: var(--colorHighlight);
     color: #fff !important; /* Example text color */
     padding: 5px 10px; /* Reduced padding for smaller height, but maintain horizontal padding for comfort */
     text-align: center;
@@ -1225,7 +1288,7 @@ echo "</div></div>";
    
         </style>";
 
-      echo "<div class='profile_container'>
+      echo "<div class='profile_container' style='background: rgba(0,0,0,0.2);'>
     <h4>Achievements</h4>
     <div class='achievements_main padded' style='display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 10px; justify-content: start;'>";
 
@@ -1245,7 +1308,7 @@ $q = mysql_query("SELECT * FROM wallcomments WHERE userid = " . $profile_class->
 $qcount = mysql_num_rows($q);
 
 if ($profile_class->profilewall == 1) {
-    echo "<div class='profile_container'>
+    echo "<div class='profile_container' style='background: rgba(0,0,0,0.2);'>
         <h4>Profile Comments</h4>
         <div class='profile_comments_main padded' style='display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px;'>";
 
@@ -1307,7 +1370,7 @@ echo "<script>
 </script>";
 
 if (!empty($profile_class->sig)) {
-    echo "<div class='profile_container'>
+    echo "<div class='profile_container' style='background: rgba(0,0,0,0.2);'>
         <div class='profile_header'>Signature</div>
         <div class='signature padded'>";
 
@@ -1395,10 +1458,11 @@ print"
         ),
     );
 
-   echo "<div class='profile_container'>
+    echo "<div class='profile_container' style='background: rgba(0,0,0,0.2);'>
     <div class='profile_header'>Equipped</div>
-    <div class='equipped_main padded'>";
+    <div class='equipped_main padded row'>";  
 
+$count = 0;  
 foreach ($slots as $slot) {
     $img  = $slot['img'];
     $name = $slot['name'];
@@ -1407,28 +1471,35 @@ foreach ($slots as $slot) {
     if ($profile_class->{$s} == 0)
         continue;
 
-    echo "<div class='equip_item'>
-            <div class='equip_item_img'>
-                <img src='" . $profile_class->{$img} . "' width='100px' height='100px'>
+
+    echo "<div class='col-4 col-md-3'>
+            <div class='equip_item'>
+                <div class='equip_item_img'>
+                    <img src='" . $profile_class->{$img} . "' width='100px' height='100px'>
+                </div>
+                <div class='equip_item_name'>" .
+                    item_popup($profile_class->{$name}, $profile_class->{$s}) .
+                "</div>
             </div>
-            <div class='equip_item_name'>" .
-                item_popup($profile_class->{$name}, $profile_class->{$s}) .
-            "</div>
-        </div>";
+          </div>";
+
+    $count++;
 }
 
 if ($pinfo->id > 0) {
-    echo "<div class='equip_item'>
-            <div class='equip_item_img'>
-                <img src='" . $pinfo->avi . "' width='100px' height='100px'>
+    echo "<div class='col-4 col-md-3'>
+            <div class='equip_item'>
+                <div class='equip_item_img'>
+                    <img src='" . $pinfo->avi . "' width='100px' height='100px'>
+                </div>
+                <div class='equip_item_name'>" .
+                    $pinfo->formatName() .
+                "</div>
             </div>
-            <div class='equip_item_name'>" .
-                $pinfo->formatName() .
-            "</div>
-        </div>";
+          </div>";
 }
 
-echo "</div></div>";
+echo "</div></div>";  
 
 
 
@@ -1445,7 +1516,7 @@ echo "</div></div>";
                     $result = mysql_query("SELECT * FROM grpgusers WHERE id='$profile_class->id'");
                     $worked = mysql_fetch_array($result);
                     ?>
-                    <tr><td class="contentspacer"></td></tr><td class="contenthead">Add as staff</td>
+                    <tr ><td class="contentspacer"></td></tr><td class="contenthead">Add as staff</td>
                     <tr><td class="contentcontent">
                             <table width='100%' class='responsive' align="center">
                                 <?php
@@ -2099,7 +2170,6 @@ echo "</div></div>";
                                             echo prettynum($profile_class->apoints);
                                             ?></td>
                                     </tr>
-                                    <tr>
                                         <td width='15%'>Points bank:</td>
                                         <td><?php
                                             echo prettynum($profile_class->pbank);
@@ -2177,61 +2247,45 @@ echo "</div></div>";
                     }
                     if ($user_class->admin == 1) {
                         ?>
-                        <tr><td class="contentspacer"></td></tr><td class="contenthead">Equipped</td>
-                        <tr><td class="contentcontent">
-                                <table width='100%'>
-                                    <tr>
-                                        <td width='33.3%' align='center'>
-                                            <?php
-                                            if ($profile_class->eqweapon != 0) {
-                                                ?>
-                                                <img src='<?php
-                                                echo $profile_class->weaponimg;
-                                                ?>' width='100' height='100' style='border: 1px solid #01a9b8'><br>
-                                                     <?php
-                                                     echo item_popup($profile_class->weaponname, $profile_class->eqweapon);
-                                                     ?><br>
-                                                <?php
-                                            } else {
-                                                echo "You don't have a weapon equipped.";
-                                            }
-                                            ?>
-                                        </td>
-                                        <td width='33.3%' align='center'>
-                                            <?php
-                                            if ($profile_class->eqarmor != 0) {
-                                                ?>
-                                                <img src='<?php
-                                                echo $profile_class->armorimg;
-                                                ?>' width='100' height='100' style='border: 1px solid #01a9b8'><br>
-                                                     <?php
-                                                     echo item_popup($profile_class->armorname, $profile_class->eqarmor);
-                                                     ?><br>
-                                                <?php
-                                            } else {
-                                                echo "You don't have any armor equipped.";
-                                            }
-                                            ?>
-                                        </td>
-                                        <td width='33.3%' align='center'>
-                                            <?php
-                                            if ($profile_class->eqshoes != 0) {
-                                                ?>
-                                                <img src='<?php
-                                                echo $profile_class->shoesimg;
-                                                ?>' width='100' height='100' style='border: 1px solid #01a9b8'><br>
-                                                     <?php
-                                                     echo item_popup($profile_class->shoesname, $profile_class->eqshoes);
-                                                     ?><br>
-                                                <?php
-                                            } else {
-                                                echo "You don't have any shoes equipped.";
-                                            }
-                                            ?>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td></tr>
+                       <div class="container mt-3 mb-3">
+    <div class="row">
+        <div class="col-12 mb-2">
+            <div class="text-center contenthead">Equipped</div>
+        </div>
+    </div>
+    <div class="row text-center">
+        <!-- Weapon -->
+        <div class="col-md-4">
+            <?php if ($profile_class->eqweapon != 0): ?>
+                <img src='<?php echo $profile_class->weaponimg; ?>' alt='Equipped Weapon' width='100' height='100' style='border: 1px solid #01a9b8'><br>
+                <?php echo item_popup($profile_class->weaponname, $profile_class->eqweapon); ?><br>
+            <?php else: ?>
+                You don't have a weapon equipped.
+            <?php endif; ?>
+        </div>
+
+        <!-- Armor -->
+        <div class="col-md-4">
+            <?php if ($profile_class->eqarmor != 0): ?>
+                <img src='<?php echo $profile_class->armorimg; ?>' alt='Equipped Armor' width='100' height='100' style='border: 1px solid #01a9b8'><br>
+                <?php echo item_popup($profile_class->armorname, $profile_class->eqarmor); ?><br>
+            <?php else: ?>
+                You don't have any armor equipped.
+            <?php endif; ?>
+        </div>
+
+        <!-- Shoes -->
+        <div class="col-md-4">
+            <?php if ($profile_class->eqshoes != 0): ?>
+                <img src='<?php echo $profile_class->shoesimg; ?>' alt='Equipped Shoes' width='100' height='100' style='border: 1px solid #01a9b8'><br>
+                <?php echo item_popup($profile_class->shoesname, $profile_class->eqshoes); ?><br>
+            <?php else: ?>
+                You don't have any shoes equipped.
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
                         <?php
                         $result = mysql_query("SELECT * FROM inventory WHERE userid = '$profile_class->id' ORDER BY userid DESC");
                         while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
