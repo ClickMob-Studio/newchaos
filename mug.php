@@ -154,6 +154,9 @@ if ($success) {
             if ($user_class->gang != 0 && $gang_class->tax > 0) {
                 $tax = round($mugamount / 100) * $gang_class->tax;
                 $mugamount = $mugamount - $tax;
+                gangContest(array(
+                    'tax' => $tax
+                ));
                 $newvault = $gang_class->moneyvault + $tax;
                 $result2 = mysql_query("UPDATE `gangs` SET `moneyvault` = '" . $newvault . "' WHERE `id` = '" . $user_class->gang . "'");
             }

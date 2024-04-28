@@ -334,7 +334,9 @@ if (isset($_POST['id']) || isset($input['id'])) {
             }
             $money = $money - $gtax;
             $totaltax = $gtax;
-
+            gangContest(array(
+                'tax' => $gtax
+            ));
             $debug['exp_earned'] = $exp;
 
             $user_class->money += $money;
