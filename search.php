@@ -274,9 +274,7 @@ if (mysql_num_rows($query) == 0) {
             <td>" . prettynum($line['money'], 1) . "</td>
             <td>$userfound->formattedonline</td>";
         echo '<td><a class="dcPrimaryButton" href="attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">Attack</a></td>';
-        if ($user_class->admin > 0){
             echo '<td><a class="dcPrimaryButton ajax-link" href="ajax_attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">Speed Attack</a></td>';
-        }
 
 		echo '<td><a class="dcPrimaryButton ajax-link" href="ajax_mug.php?mug=' . $userfound->id . '&token=' . $user_class->macro_token . '">Mug</a></td>';
 
