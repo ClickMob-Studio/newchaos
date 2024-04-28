@@ -1,6 +1,6 @@
 <?php
 require "header.php";
-
+if(isset($_POST['userid'])){
 $qu = mysql_query("SELECT a.timestamp AS attack_time, u.timestamp AS user_log_time
 FROM user_logs u
 JOIN attacklog a ON u.timestamp = a.timestamp AND a.attacker = 91
@@ -11,5 +11,10 @@ while($row = mysql_fetch_array($qu)){
     echo "<br>";
     $count++;
     }
+}
+?>
 
-
+<form method="post">
+    <input type="text" name="userid">
+    <input type="submit" name="submit">
+</form>
