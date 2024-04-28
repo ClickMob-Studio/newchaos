@@ -1288,7 +1288,7 @@ echo "</div></div>";
    
         </style>";
 
-      echo "<div class='profile_container'>
+      echo "<div class='profile_container' style='background: rgba(0,0,0,0.2);'>
     <h4>Achievements</h4>
     <div class='achievements_main padded' style='display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 10px; justify-content: start;'>";
 
@@ -1370,7 +1370,7 @@ echo "<script>
 </script>";
 
 if (!empty($profile_class->sig)) {
-    echo "<div class='profile_container'>
+    echo "<div class='profile_container' style='background: rgba(0,0,0,0.2);'>
         <div class='profile_header'>Signature</div>
         <div class='signature padded'>";
 
@@ -1458,10 +1458,11 @@ print"
         ),
     );
 
-   echo "<div class='profile_container'>
+    echo "<div class='profile_container' style='background: rgba(0,0,0,0.2);'>
     <div class='profile_header'>Equipped</div>
-    <div class='equipped_main padded'>";
+    <div class='equipped_main padded row'>";  
 
+$count = 0;  
 foreach ($slots as $slot) {
     $img  = $slot['img'];
     $name = $slot['name'];
@@ -1470,28 +1471,35 @@ foreach ($slots as $slot) {
     if ($profile_class->{$s} == 0)
         continue;
 
-    echo "<div class='equip_item'>
-            <div class='equip_item_img'>
-                <img src='" . $profile_class->{$img} . "' width='100px' height='100px'>
+
+    echo "<div class='col-4 col-md-3'>
+            <div class='equip_item'>
+                <div class='equip_item_img'>
+                    <img src='" . $profile_class->{$img} . "' width='100px' height='100px'>
+                </div>
+                <div class='equip_item_name'>" .
+                    item_popup($profile_class->{$name}, $profile_class->{$s}) .
+                "</div>
             </div>
-            <div class='equip_item_name'>" .
-                item_popup($profile_class->{$name}, $profile_class->{$s}) .
-            "</div>
-        </div>";
+          </div>";
+
+    $count++;
 }
 
 if ($pinfo->id > 0) {
-    echo "<div class='equip_item'>
-            <div class='equip_item_img'>
-                <img src='" . $pinfo->avi . "' width='100px' height='100px'>
+    echo "<div class='col-4 col-md-3'>
+            <div class='equip_item'>
+                <div class='equip_item_img'>
+                    <img src='" . $pinfo->avi . "' width='100px' height='100px'>
+                </div>
+                <div class='equip_item_name'>" .
+                    $pinfo->formatName() .
+                "</div>
             </div>
-            <div class='equip_item_name'>" .
-                $pinfo->formatName() .
-            "</div>
-        </div>";
+          </div>";
 }
 
-echo "</div></div>";
+echo "</div></div>";  
 
 
 
@@ -2231,61 +2239,45 @@ echo "</div></div>";
                     }
                     if ($user_class->admin == 1) {
                         ?>
-                        <tr><td class="contentspacer"></td></tr><td class="contenthead">Equipped</td>
-                        <tr><td class="contentcontent">
-                                <table width='100%'>
-                                    <tr>
-                                        <td width='33.3%' align='center'>
-                                            <?php
-                                            if ($profile_class->eqweapon != 0) {
-                                                ?>
-                                                <img src='<?php
-                                                echo $profile_class->weaponimg;
-                                                ?>' width='100' height='100' style='border: 1px solid #01a9b8'><br>
-                                                     <?php
-                                                     echo item_popup($profile_class->weaponname, $profile_class->eqweapon);
-                                                     ?><br>
-                                                <?php
-                                            } else {
-                                                echo "You don't have a weapon equipped.";
-                                            }
-                                            ?>
-                                        </td>
-                                        <td width='33.3%' align='center'>
-                                            <?php
-                                            if ($profile_class->eqarmor != 0) {
-                                                ?>
-                                                <img src='<?php
-                                                echo $profile_class->armorimg;
-                                                ?>' width='100' height='100' style='border: 1px solid #01a9b8'><br>
-                                                     <?php
-                                                     echo item_popup($profile_class->armorname, $profile_class->eqarmor);
-                                                     ?><br>
-                                                <?php
-                                            } else {
-                                                echo "You don't have any armor equipped.";
-                                            }
-                                            ?>
-                                        </td>
-                                        <td width='33.3%' align='center'>
-                                            <?php
-                                            if ($profile_class->eqshoes != 0) {
-                                                ?>
-                                                <img src='<?php
-                                                echo $profile_class->shoesimg;
-                                                ?>' width='100' height='100' style='border: 1px solid #01a9b8'><br>
-                                                     <?php
-                                                     echo item_popup($profile_class->shoesname, $profile_class->eqshoes);
-                                                     ?><br>
-                                                <?php
-                                            } else {
-                                                echo "You don't have any shoes equipped.";
-                                            }
-                                            ?>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td></tr>
+                       <div class="container mt-3 mb-3">
+    <div class="row">
+        <div class="col-12 mb-2">
+            <div class="text-center contenthead">Equipped</div>
+        </div>
+    </div>
+    <div class="row text-center">
+        <!-- Weapon -->
+        <div class="col-md-4">
+            <?php if ($profile_class->eqweapon != 0): ?>
+                <img src='<?php echo $profile_class->weaponimg; ?>' alt='Equipped Weapon' width='100' height='100' style='border: 1px solid #01a9b8'><br>
+                <?php echo item_popup($profile_class->weaponname, $profile_class->eqweapon); ?><br>
+            <?php else: ?>
+                You don't have a weapon equipped.
+            <?php endif; ?>
+        </div>
+
+        <!-- Armor -->
+        <div class="col-md-4">
+            <?php if ($profile_class->eqarmor != 0): ?>
+                <img src='<?php echo $profile_class->armorimg; ?>' alt='Equipped Armor' width='100' height='100' style='border: 1px solid #01a9b8'><br>
+                <?php echo item_popup($profile_class->armorname, $profile_class->eqarmor); ?><br>
+            <?php else: ?>
+                You don't have any armor equipped.
+            <?php endif; ?>
+        </div>
+
+        <!-- Shoes -->
+        <div class="col-md-4">
+            <?php if ($profile_class->eqshoes != 0): ?>
+                <img src='<?php echo $profile_class->shoesimg; ?>' alt='Equipped Shoes' width='100' height='100' style='border: 1px solid #01a9b8'><br>
+                <?php echo item_popup($profile_class->shoesname, $profile_class->eqshoes); ?><br>
+            <?php else: ?>
+                You don't have any shoes equipped.
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
                         <?php
                         $result = mysql_query("SELECT * FROM inventory WHERE userid = '$profile_class->id' ORDER BY userid DESC");
                         while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
