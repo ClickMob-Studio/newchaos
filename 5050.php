@@ -142,8 +142,8 @@ $credits = $db->fetch_row();
     <h1>Stats</h1>
     <?php 
     $sql = "SELECT
-    (SELECT COUNT(*) FROM `5050log` WHERE `better` = ? OR `userid` = ".$user_class->id.") AS total_games,
-    (SELECT COUNT(*) FROM `5050log` WHERE `winner` = ?) AS games_won";
+    (SELECT COUNT(*) FROM `5050log` WHERE `better` = ".$user_class->id." OR `userid` = ".$user_class->id.") AS total_games,
+    (SELECT COUNT(*) FROM `5050log` WHERE `winner` = ".$user_class->id.") AS games_won";
     $result = mysql_query($sql);
 
     $res = mysql_fetch_assoc( $result );
