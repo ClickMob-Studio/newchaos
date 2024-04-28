@@ -1458,10 +1458,11 @@ print"
         ),
     );
 
-   echo "<div class='profile_container'>
+    echo "<div class='profile_container'>
     <div class='profile_header'>Equipped</div>
-    <div class='equipped_main padded'>";
+    <div class='equipped_main padded row'>";  
 
+$count = 0;  
 foreach ($slots as $slot) {
     $img  = $slot['img'];
     $name = $slot['name'];
@@ -1470,28 +1471,35 @@ foreach ($slots as $slot) {
     if ($profile_class->{$s} == 0)
         continue;
 
-    echo "<div class='equip_item'>
-            <div class='equip_item_img'>
-                <img src='" . $profile_class->{$img} . "' width='100px' height='100px'>
+
+    echo "<div class='col-12 col-md-4'>
+            <div class='equip_item'>
+                <div class='equip_item_img'>
+                    <img src='" . $profile_class->{$img} . "' width='100px' height='100px'>
+                </div>
+                <div class='equip_item_name'>" .
+                    item_popup($profile_class->{$name}, $profile_class->{$s}) .
+                "</div>
             </div>
-            <div class='equip_item_name'>" .
-                item_popup($profile_class->{$name}, $profile_class->{$s}) .
-            "</div>
-        </div>";
+          </div>";
+
+    $count++;
 }
 
 if ($pinfo->id > 0) {
-    echo "<div class='equip_item'>
-            <div class='equip_item_img'>
-                <img src='" . $pinfo->avi . "' width='100px' height='100px'>
+    echo "<div class='col-12 col-md-4'>
+            <div class='equip_item'>
+                <div class='equip_item_img'>
+                    <img src='" . $pinfo->avi . "' width='100px' height='100px'>
+                </div>
+                <div class='equip_item_name'>" .
+                    $pinfo->formatName() .
+                "</div>
             </div>
-            <div class='equip_item_name'>" .
-                $pinfo->formatName() .
-            "</div>
-        </div>";
+          </div>";
 }
 
-echo "</div></div>";
+echo "</div></div>";  
 
 
 
