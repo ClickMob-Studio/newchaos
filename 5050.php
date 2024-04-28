@@ -138,7 +138,21 @@ $credits = $db->fetch_row();
 
 
 </div>
+<div>
+    <h1>Stats</h1>
+    <?php 
+    $sql = "SELECT
+    (SELECT COUNT(*) FROM `5050log` WHERE `better` = ? OR `userid` = ".$user_class->id.") AS total_games,
+    (SELECT COUNT(*) FROM `5050log` WHERE `winner` = ?) AS games_won";
+    $result = mysql_query($sql);
 
+    if (mysql_num_rows($result) > 0) {
+        $res = mysql_fetch_array($result);
+        $winningPercentage = ($res['gamesWon'] / $res['totalGames']) * 100;
+        echo "Winning percentage for user ID $userId: " . number_format($winningPercentage, 2) . "%";
+    } 
+    
+?>
 
 <?php 
 require_once __DIR__ . '/footer.php';
