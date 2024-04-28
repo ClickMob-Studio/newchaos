@@ -2099,6 +2099,7 @@ echo "</div></div>";
                                             echo prettynum($profile_class->apoints);
                                             ?></td>
                                     </tr>
+                                    <tr>
                                         <td width='15%'>Points bank:</td>
                                         <td><?php
                                             echo prettynum($profile_class->pbank);
@@ -2107,6 +2108,14 @@ echo "</div></div>";
                                         <td><?php
                                             echo prettynum($profile_class->actions);
                                             ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td width='15%'>Raid Tokens:</td>
+                                        <td><?php
+                                            echo prettynum($profile_class->raidtokens);
+                                            ?></td>
+                                        <td width='15%'>&nbsp;</td>
+                                        <td>&nbsp;</td>
                                     </tr>
                                     <tr>
                                         <td width='15%'>&nbsp;</td>
