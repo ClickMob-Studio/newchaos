@@ -11,5 +11,5 @@ while($row = mysql_fetch_array($qu)){
     echo "<br>";
     $count++;
     }
-}
+
 
