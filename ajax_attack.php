@@ -591,7 +591,7 @@ if ($winner_class->gang != 0 && $db->num_rows()) {
             $active,
             $row['warid']
         ));
-        print "<br />You have also gained $active gang war points for your gang.";
+        //print "<br />You have also gained $active gang war points for your gang.";
     }
 }
 //$user_class->stamina -= 1;
@@ -606,6 +606,7 @@ $db->execute(array(
 
 
 $db->query("UPDATE `grpgusers` SET `energy` = `energy` - {$energyneeded}, `last_attack_time` = " . time() . " WHERE `id` = {$user_class->id}");
+$db->execute();
 
 echo json_encode(success($message));
 exit;
