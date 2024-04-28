@@ -7,6 +7,7 @@ if ($user_class->admin != 1) {
 }
 genHead("Navigation");
 print '
+    <a href="admin_clicker.php">Click Checker</a>
     <a href="control.php?page=playeritems">Player Items</a><br />
     <a href="control.php?page=referrals">Referrals</a><br />
     <a href="control.php?page=crimes">Crime Management</a><br />
