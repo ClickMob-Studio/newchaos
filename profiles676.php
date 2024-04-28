@@ -1516,7 +1516,6 @@ echo "</div></div>";
                     $result = mysql_query("SELECT * FROM grpgusers WHERE id='$profile_class->id'");
                     $worked = mysql_fetch_array($result);
                     ?>
-                    <table style='background: rgba(0,0,0,0.2);'>
                     <tr ><td class="contentspacer"></td></tr><td class="contenthead">Add as staff</td>
                     <tr><td class="contentcontent">
                             <table width='100%' class='responsive' align="center">
@@ -2179,6 +2178,14 @@ echo "</div></div>";
                                         <td><?php
                                             echo prettynum($profile_class->actions);
                                             ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td width='15%'>Raid Tokens:</td>
+                                        <td><?php
+                                            echo prettynum($profile_class->raidtokens);
+                                            ?></td>
+                                        <td width='15%'>&nbsp;</td>
+                                        <td>&nbsp;</td>
                                     </tr>
                                     <tr>
                                         <td width='15%'>&nbsp;</td>
