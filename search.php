@@ -245,6 +245,7 @@ if (isset($_POST['id'])) {
 				<th>Money</th>
 				<th>Online</th>
 				<th><a href="?spend=refenergy" style="color:orange;">[R Energy]</a></th>
+				<th>&nbsp;</th>
 				<th><a href="?spend=refnerve" style="color:orange;">[R Nerve]</a></th>
 				<th>Hos</th>
 			</tr>';
