@@ -1,14 +1,9 @@
 <?php
 require "header.php";
 
-$qu = "SELECT * FROM `user_logs` WHERE user_id = 5";
-
-
-$res = $db->query($qu);
-$db->execute();
-$rows = $db->fetch_row();
+$qu = mysql_query("SELECT * FROM `user_logs` WHERE user_id = 5");
 $count = 0;
-foreach ($rows as $row) {
+while($row = mysql_fetch_array($qu)){
     
     $p  = mysql_query("SELECT * FROM `attacklog` WHERE `timestamp` = ".$row['timestamp']." AND `user_id` = 5");
     $r = mysql_fetch_assoc($p);
