@@ -42,9 +42,11 @@ function calcEXP(){
                 dataType: "json"
             });
             request.done(function (res) {
+                console.log(res);
                 if (res.success == false || res.success == 'false') {
                     var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + res.error + "</p></div>";
                 } else {
+                    console.log(res.succes);
                     var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + res.message + "</p></div>";
                 }
 

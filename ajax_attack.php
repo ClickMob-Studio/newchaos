@@ -69,7 +69,7 @@ function fetchGangUpgradeLevel($gangId) {
     $db->execute();
     $result = $db->fetch_single();
 
-    
+
     return $result;
 }
 
