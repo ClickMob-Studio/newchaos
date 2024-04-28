@@ -112,6 +112,14 @@ if ($_GET['alv'] !== 'yes') {
     exit;
 }
 
+$modifier = ($user_class->rmdays > 0) ? 0.2 : 0.25;
+
+$energyneeded = floor($user_class->maxenergy * $modifier);
+
+if (($user_class->energy <= $energyneeded || $user_class->energypercent <= 0) && $user_class->ngyref == 2) {
+    manual_refill('e');
+}
+
 $attack_person = new User($_GET['attack']);
 
 $throneAttack = false;
