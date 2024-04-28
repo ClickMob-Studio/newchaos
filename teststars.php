@@ -7,9 +7,10 @@ while($row = mysql_fetch_array($qu)){
     
     $p  = mysql_query("SELECT * FROM `attacklog` WHERE `timestamp` = ".$row['timestamp']." AND `user_id` = 5");
     $r = mysql_fetch_assoc($p);
-
+    if($r['timestamp']){
     echo $count .") Attack Time: ".$r['timestamp']." BA Time: ".$row['timestamp'];
     echo "<br>";
     $count++;
+    }
 }
 
