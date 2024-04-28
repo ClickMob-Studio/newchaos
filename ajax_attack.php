@@ -68,9 +68,7 @@ function fetchGangUpgradeLevel($gangId) {
     $db->query("SELECT upgrade7 FROM gangs WHERE id = " . $gangId);
     $db->execute();
     $result = $db->fetch_single();
-    if (!$result) {
-        die('Invalid query ');
-    }
+    var_dump($result); exit;
 
     return $result;
 }
