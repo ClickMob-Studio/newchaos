@@ -39,7 +39,11 @@ foreach ($missions as $mission) {
 
         $user_class = new User($mission['userid']);
 
-        $exp = 5 + (5 * $mission['mid']);
+        if ($mission['mid'] > 33) {
+            $exp = 5 + (5 * $mission['mid'] - 20);
+        } else {
+            $exp = 5 + (5 * $mission['mid']);
+        }
         $levelhurts = floor($user_class->level / 10);
         $exp = ($exp - $levelhurts < 3) ? 3 : $exp - $levelhurts;
         $expgain = floor($user_class->maxexp * ($exp / 100));
