@@ -156,8 +156,7 @@ $credits = $db->fetch_row();
         $winningPercentage = 0;
     }
     echo "Your winning percentage is: " . number_format($winningPercentage, 2) . "%";
-    echo "<br>";
-    echo "You have played ". number_format($totalGames) ." games";
+
 
 ?>
 
