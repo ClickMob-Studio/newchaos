@@ -122,15 +122,17 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                                             $crimeCount = 0;
                                         }
                                         if ($crimeCount >= 10000 && $crimeCount < 100000) {
-                                            $level = 1;
-                                        } elseif ($crimeCount >= 100000 && $crimeCount < 100000000000) {
-                                            $level = 2;
-                                        } elseif ($crimeCount >= 10000000 && $crimeCount < 20000000) {
-                                            $level = 3;
-                                        } elseif ($crimeCount >= 20000000 && $crimeCount < 40000000) {
-                                            $level = 4;
-                                        } elseif ($crimeCount >= 40000000) {
-                                            $level = 5;
+                                            $star_level = 1;
+                                        } elseif ($crimeCount >= 100000 && $crimeCount < 1000000) {
+                                            $star_level = 2;
+                                        } elseif ($crimeCount >= 1000000 && $crimeCount < 5000000) {
+                                            $star_level = 3;
+                                        } elseif ($crimeCount >= 5000000 && $crimeCount < 5000000) {
+                                            $star_level = 4;
+                                        } elseif ($crimeCount >= 15000000) {
+                                            $star_level = 5;
+                                        } else {
+                                            $star_level = 0; // No bonus if the conditions are not met
                                         }
                                         echo "<!-- Crime ID: {$row['id']}, Count: $crimeCount, Level: $level -->";
                                         // Output the option with the data-stars attribute
