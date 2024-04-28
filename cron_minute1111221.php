@@ -836,20 +836,41 @@ foreach ($winners_data as $user_data) {
         $position = 1;
         foreach ($top_3_users as $user_id => $value) {
             if ($user_id && $value) {
-                // Award points to the user
-                $update_query = "UPDATE grpgusers SET points = points + " . $points_distribution[$position] . " WHERE `id` = " . $user_id;
-                mysql_query($update_query);
-                
-                // Send an event to the user
-                $event_message = "You have won the " . $category . " category and placed " . $position . " and won " . $points_distribution[$position] . " Points.";
-                send_event($user_id, $event_message);
-                
-                // Print out the winners for each category for verification
-                echo "Category: " . $category . "<br>";
-                echo "Position: " . $position . "<br>";
-                echo "Username: " . formatName($user_id) . "<br>";
-                echo "Points Awarded: " . $points_distribution[$position] . "<br>";
-                echo "------------------------<br>";
+
+                if ($category === 'donator') {
+                    if ($position == 1) {
+                        $awardedCredits = $value / 100 * 30;
+                    } else if ($position == 2) {
+                        $awardedCredits = $value / 100 * 20;
+                    } else {
+                        $awardedCredits = $value / 100 * 10;
+                    }
+
+                    // Award points to the user
+                    $update_query = "UPDATE grpgusers SET credits = credits + " . $awardedCredits . " WHERE `id` = " . $user_id;
+                    mysql_query($update_query);
+
+                    // Send an event to the user
+                    $event_message = "You have won the " . $category . " category and placed " . $position . " and won " . $awardedCredits . " Credits.";
+                    send_event($user_id, $event_message);
+
+                } else {
+                    // Award points to the user
+                    $update_query = "UPDATE grpgusers SET points = points + " . $points_distribution[$position] . " WHERE `id` = " . $user_id;
+                    mysql_query($update_query);
+
+                    // Send an event to the user
+                    $event_message = "You have won the " . $category . " category and placed " . $position . " and won " . $points_distribution[$position] . " Points.";
+                    send_event($user_id, $event_message);
+
+                    // Print out the winners for each category for verification
+                    echo "Category: " . $category . "<br>";
+                    echo "Position: " . $position . "<br>";
+                    echo "Username: " . formatName($user_id) . "<br>";
+                    echo "Points Awarded: " . $points_distribution[$position] . "<br>";
+                    echo "------------------------<br>";
+
+                }
                 
                 $position++;
             }
