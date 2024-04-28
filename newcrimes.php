@@ -134,13 +134,13 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                                         } else {
                                             $star_level = 0; // No bonus if the conditions are not met
                                         }
-                                        echo "<!-- Crime ID: {$row['id']}, Count: $crimeCount, Level: $level -->";
+                                        echo "<!-- Crime ID: {$row['id']}, Count: $crimeCount, Level: $star_level -->";
                                         // Output the option with the data-stars attribute
                                         $hasEnoughNerve = $row['nerve'] <= $user_class->nerve;
 
                                         $disabled = $hasEnoughNerve ? '' : 'disabled';
 
-                                        echo '<option value="' . $row['id'] . '" data-stars="' . $level . '" ' . $disabled . '>' . $row['name'] . ' | Cost: ' . $row['nerve'] . ' Nerve</option>';
+                                        echo '<option value="' . $row['id'] . '" data-stars="' . $star_level . '" ' . $disabled . '>' . $row['name'] . ' | Cost: ' . $row['nerve'] . ' Nerve</option>';
 
                                     }
                                     ?>
