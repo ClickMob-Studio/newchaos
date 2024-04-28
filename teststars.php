@@ -1,14 +1,13 @@
 <?php
 require "header.php";
 
-$qu = mysql_query("SELECT * FROM `user_logs` WHERE user_id = 5");
+$qu = mysql_query("SELECT a.timestamp AS attack_time, u.timestamp AS user_log_time
+FROM user_logs u
+JOIN attacklog a ON u.timestamp = a.timestamp AND a.attacker = 5
+WHERE u.user_id = 5");
 $count = 0;
 while($row = mysql_fetch_array($qu)){
-    
-    $p  = mysql_query("SELECT * FROM `attacklog` WHERE `timestamp` = ".$row['timestamp']." AND `attacker` = 5");
-    $r = mysql_fetch_assoc($p);
-    if($r['timestamp']){
-    echo $count .") Attack Time: ".$r['timestamp']." BA Time: ".$row['timestamp'];
+    echo $count .") Attack Time: ".$row['attack_time']." BA Time: ".$row['user_log_time'];
     echo "<br>";
     $count++;
     }
