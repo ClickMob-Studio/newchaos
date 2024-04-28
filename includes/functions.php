@@ -1037,6 +1037,22 @@ function mission($update, $howmany = 1)
                 Send_event($user_class->id, "You have completed {$miss['name']} objective to get {$miss['mugs']} mugs.");
             }
         }
+        if ($update == 'ba') {
+            $db->query("UPDATE missions SET backalleys = backalleys + 1 WHERE userid = $user_class->id AND completed = 'no'");
+            $db->execute(array(
+                $user_class->id
+            ));
+            if (++$userMiss['backalleys'] == $miss['backalleys']) {
+                $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
+                $db->execute(array(
+                    $miss['payBackalleys'],
+                    $user_class->id
+                ));
+                $db->query("INSERT INTO missionlog VALUES(NULL,'[x] successfully completed {$miss['name']} objective to get {$miss['backalleys']} backalleys,$user_class->id',unix_timestamp())");
+                $db->execute();
+                Send_event($user_class->id, "You have completed {$miss['name']} objective to get {$miss['backalleys']} backalleys.");
+            }
+        }
     } else {
         return 1;
     }

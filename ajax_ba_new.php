@@ -157,6 +157,7 @@ if ($user_class->hospital > 0) {
 $db->query("UPDATE grpgusers SET energy = energy - " . $energyneeded . " WHERE id = " . $user_class->id);
 $db->execute();
 
+mission('ba', 1);
 
 // ATTACKERS
 $baAttackerNames = array();
