@@ -959,7 +959,7 @@ $resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$profile_
 
             echo "<div class='ajax-message-holder' style='min-height: 60px; display: none;'></div>";
 
-            echo "<div class='profile_container'>
+            echo "<div class='profile_container' style='background: rgba(0,0,0,0.2);'>
                 
         <h4>Actions</h4>
         <div class='actions_grid'>
@@ -1308,7 +1308,7 @@ $q = mysql_query("SELECT * FROM wallcomments WHERE userid = " . $profile_class->
 $qcount = mysql_num_rows($q);
 
 if ($profile_class->profilewall == 1) {
-    echo "<div class='profile_container'>
+    echo "<div class='profile_container' style='background: rgba(0,0,0,0.2);'>
         <h4>Profile Comments</h4>
         <div class='profile_comments_main padded' style='display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px;'>";
 
@@ -1516,7 +1516,8 @@ echo "</div></div>";
                     $result = mysql_query("SELECT * FROM grpgusers WHERE id='$profile_class->id'");
                     $worked = mysql_fetch_array($result);
                     ?>
-                    <tr><td class="contentspacer"></td></tr><td class="contenthead">Add as staff</td>
+                    <table style='background: rgba(0,0,0,0.2);'>
+                    <tr ><td class="contentspacer"></td></tr><td class="contenthead">Add as staff</td>
                     <tr><td class="contentcontent">
                             <table width='100%' class='responsive' align="center">
                                 <?php
