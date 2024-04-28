@@ -146,12 +146,17 @@ $credits = $db->fetch_row();
     (SELECT COUNT(*) FROM `5050log` WHERE `winner` = ?) AS games_won";
     $result = mysql_query($sql);
 
-    if (mysql_num_rows($result) > 0) {
-        $res = mysql_fetch_array($result);
-        $winningPercentage = ($res['gamesWon'] / $res['totalGames']) * 100;
-        echo "Winning percentage for user ID $userId: " . number_format($winningPercentage, 2) . "%";
-    } 
+    $res = mysql_fetch_assoc( $result );
+    $totalGames = $res['total_games'];
+    $gamesWon = $res['games_won'];
     
+    if ($totalGames > 0) {
+        $winningPercentage = ($gamesWon / $totalGames) * 100;
+    } else {
+        $winningPercentage = 0;
+    }
+    echo "Your winning percentage is: " . number_format($winningPercentage, 2) . "%";
+
 ?>
 
 <?php 
