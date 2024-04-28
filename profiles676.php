@@ -1516,7 +1516,8 @@ echo "</div></div>";
                     $result = mysql_query("SELECT * FROM grpgusers WHERE id='$profile_class->id'");
                     $worked = mysql_fetch_array($result);
                     ?>
-                    <tr><td class="contentspacer"></td></tr><td class="contenthead">Add as staff</td>
+                    <table style='background: rgba(0,0,0,0.2);'>
+                    <tr ><td class="contentspacer"></td></tr><td class="contenthead">Add as staff</td>
                     <tr><td class="contentcontent">
                             <table width='100%' class='responsive' align="center">
                                 <?php
