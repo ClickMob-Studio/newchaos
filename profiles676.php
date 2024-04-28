@@ -1472,7 +1472,7 @@ foreach ($slots as $slot) {
         continue;
 
 
-    echo "<div class='col-12 col-md-4'>
+    echo "<div class='col-4 col-md-3'>
             <div class='equip_item'>
                 <div class='equip_item_img'>
                     <img src='" . $profile_class->{$img} . "' width='100px' height='100px'>
@@ -1487,7 +1487,7 @@ foreach ($slots as $slot) {
 }
 
 if ($pinfo->id > 0) {
-    echo "<div class='col-12 col-md-4'>
+    echo "<div class='col-4 col-md-3'>
             <div class='equip_item'>
                 <div class='equip_item_img'>
                     <img src='" . $pinfo->avi . "' width='100px' height='100px'>
