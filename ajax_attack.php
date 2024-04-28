@@ -54,9 +54,9 @@ function kill_user_streak($userid)
 }
 function print_pre($print)
 {
-    echo "<pre>";
-    print_r($print);
-    echo "<pre>";
+//    echo "<pre>";
+//    print_r($print);
+//    echo "<pre>";
 }
 function fetchGangUpgradeLevel($gangId) {
     global $db;
@@ -467,10 +467,10 @@ if ($theirhp <= 0) {
     Send_Event1($attack_person->id, "Was attacked by [-_USERID_-]  and lost the fight! They gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".", $user_class->id);
     $count = count($rtn);
     if ($count > 5) {
-        echo $rtn[0] . $rtn[1] . '...<br />' . $rtn[$count - 3] . $rtn[$count - 2] . $rtn[$count - 1];
+        //echo $rtn[0] . $rtn[1] . '...<br />' . $rtn[$count - 3] . $rtn[$count - 2] . $rtn[$count - 1];
     } else {
         foreach ($rtn as $text) {
-            echo $text;
+            //echo $text;
         }
     }
     $message = "You attacked " . $attack_person->formattedname . " and won! You gain " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . "." . $wartext;
@@ -529,10 +529,10 @@ if ($yourhp <= 0) {
     Send_Event($attack_person->id, "[-_USERID_-] attacked you and lost! You gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".", $user_class->id);
     $count = count($rtn);
     if ($count > 5) {
-        echo $rtn[0] . $rtn[1] . '...<br />' . $rtn[$count - 3] . $rtn[$count - 2] . $rtn[$count - 1];
+        //echo $rtn[0] . $rtn[1] . '...<br />' . $rtn[$count - 3] . $rtn[$count - 2] . $rtn[$count - 1];
     } else {
         foreach ($rtn as $text) {
-            echo $text;
+            //echo $text;
         }
     }
     $message = $attack_person->formattedname . " won the battle!";
