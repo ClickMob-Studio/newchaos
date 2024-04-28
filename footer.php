@@ -42,6 +42,7 @@ function calcEXP(){
                 dataType: "json"
             });
             request.done(function (res) {
+                //console.log(res);
                 if (res.success == false || res.success == 'false') {
                     var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + res.error + "</p></div>";
                 } else {
@@ -52,6 +53,7 @@ function calcEXP(){
                 $(".ajax-message-holder").show();
                 $(".temp-spinner").remove();
                 clicked.show();
+                $('.ajax-link').show();
 
                 // $('html, body').animate({
                 //     scrollTop: $(".ajax-message-holder").offset().top
