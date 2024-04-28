@@ -65,6 +65,7 @@ function fetchGangUpgradeLevel($gangId) {
         // If no gang ID is provided, return 0
         return 0;
     }
+    echo "SELECT upgrade7 FROM gangs WHERE id = " . mysql_real_escape_string($gangId); exit;
     $db->query("SELECT upgrade7 FROM gangs WHERE id = " . mysql_real_escape_string($gangId));
     $db->execute();
     $result = $db->fetch_single();
