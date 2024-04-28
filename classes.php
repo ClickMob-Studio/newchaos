@@ -383,7 +383,9 @@ $m->set('ipn.' . $id, $donations, 0, 60);
         $this->drugstr = (isset($this->druggie[2]) && $this->druggie[2] > time() - 900) ? 1.25 : 1;
         $this->drugdef = (isset($this->druggie[1]) && $this->druggie[1] > time() - 900) ? 1.25 : 1;
         $this->drugspe = (isset($this->druggie[0]) && $this->druggie[0] > time() - 900) ? 1.25 : 1;
-        
+        $this->ktime = $worked['ktime'];
+        $this->qtime = $worked['qtime'];
+        $this->bankboost = $worked['bankboost'];
         $this->drugall = (isset($this->druggie[3]) && $this->druggie[3] > time() - 900) ? 1.50 : 1;
 
         $this->moddedstrength = round((($pet['str'] + $worked['strength']) * ($this->weaponoffense * .01 + 1)) * $this->drugstr);
