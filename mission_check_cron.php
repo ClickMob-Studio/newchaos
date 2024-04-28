@@ -13,7 +13,7 @@ $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
 
 //$db->query("SELECT * FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE missions.crimes >= mission.crimes AND completed = 'no' AND userid = 174 LIMIT 1");
-$db->query("SELECT *, ms.id as missionid, m.crimes as reqCrimes, m.kills as reqKills, m.busts as reqBusts, m.mugs as reqMugs, ms.crimes as cCrimes, ms.kills as cKills, ms.mugs as cMugs, ms.busts as cBusts FROM missions ms LEFT JOIN mission m ON ms.mid = m.id WHERE completed = 'no'");
+$db->query("SELECT *, ms.id as missionid, m.crimes as reqCrimes, m.kills as reqKills, m.busts as reqBusts, m.mugs as reqMugs, m.backalleys as reqBackalleys, ms.crimes as cCrimes, ms.kills as cKills, ms.mugs as cMugs, ms.backalleys as cBackalleys, ms.busts as cBusts FROM missions ms LEFT JOIN mission m ON ms.mid = m.id WHERE completed = 'no'");
 $db->execute();
 
 $missions = $db->fetch_row();
@@ -35,11 +35,15 @@ foreach ($missions as $mission) {
         Send_event($mission['userid'], "You have completed {$mission['name']} objective to get {$mission['crimes']} crimes. [+ {$mission['payCrimes']} Points]");
     }
 
-    if ($mission['cKills'] >= $mission['reqKills'] && $mission['cCrimes'] >= $mission['reqCrimes'] && $mission['cBusts'] >= $mission['reqBusts'] && $mission['cMugs'] >= $mission['reqMugs']) {
+    if ($mission['cKills'] >= $mission['reqKills'] && $mission['cCrimes'] >= $mission['reqCrimes'] && $mission['cBusts'] >= $mission['reqBusts'] && $mission['cMugs'] >= $mission['reqMugs'] && $mission['cBackalleys'] >= $mission['reqBackalleys']) {
 
         $user_class = new User($mission['userid']);
 
-        $exp = 5 + (5 * $mission['mid']);
+        if ($mission['mid'] > 33) {
+            $exp = 5 + (5 * $mission['mid'] - 20);
+        } else {
+            $exp = 5 + (5 * $mission['mid']);
+        }
         $levelhurts = floor($user_class->level / 10);
         $exp = ($exp - $levelhurts < 3) ? 3 : $exp - $levelhurts;
         $expgain = floor($user_class->maxexp * ($exp / 100));
