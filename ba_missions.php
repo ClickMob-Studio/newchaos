@@ -39,7 +39,7 @@ if (isset($_GET['do'])) {
         // mysql_query("INSERT INTO missionlog VALUES(NULL,'[x] started a {$mm['name']},$user_class->id',unix_timestamp())");
     }
 }
-$q2 = mysql_query("SELECT * FROM mission WHERE category = 5 ORDER BY id ASC ");
+$q2 = mysql_query("SELECT * FROM mission WHERE category = 6 ORDER BY id ASC ");
 $msgg = (isset($msgg)) ? $msgg : "";
 if(!empty($msgg))
     print "<div class='floaty1'>".$msgg."</div>";
