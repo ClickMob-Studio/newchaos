@@ -556,9 +556,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 <head>
 
 <?php 
-if($user_class->id == 1){
-    echo $user_class->view_preference;
-}
+
 if ($user_class->view_preference === '1') { ?>
             <meta name="viewport" content="width=1024">
         <?php } else { ?>
