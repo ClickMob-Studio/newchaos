@@ -1912,11 +1912,6 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
                 echo Message("You drink from the nerve Vial and feel a boost, for the next 45 minutes you have double nerve!");
                 break;
 
-
-
-
-
-
 case 197: // Nuke item
     // Check if the form has been submitted
     if (isset($_POST['selected_city'])) {
