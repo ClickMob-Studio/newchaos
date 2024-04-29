@@ -1028,7 +1028,7 @@ if (!empty($messages)) {
     </style>
 <?php if($user_class->id == 1): ?>
 
-<<div class="vertical-text-slider floaty">
+<div class="vertical-text-slider floaty">
     <div class="d-flex flex-column">
         <div class="d-flex align-items-center mb-3">
             <div class="me-3">
