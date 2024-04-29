@@ -37,7 +37,7 @@ if (isset($_POST['submit'])) {
 
 <script>
     function calcCost() {
-        $('#cost').html('£' + Math.round($('input[name="displaymins"]').val() / 60 * 250000));
+        $('#cost').html('ï¿½' + Math.round($('input[name="displaymins"]').val() / 60 * 250000));
     }
 </script>
 
@@ -61,17 +61,7 @@ if (isset($_POST['submit'])) {
         <tr>
             <td width='25%'>Minutes:</td>
             <td width='25%'>
-                <input type='number' name='displaymins' min='3' value='60' oninput="calcCost();"> <span>Cost: <span class="text-yellow" id="cost">£250000</span></span>
-            </td>
-
-
-
-
-        </tr>
-   <tr>
-            <td width='25%'>Add glowing effect to your message (Costs additional $1,000,000):</td>
-            <td width='25%'>
-<input type="checkbox" id="glowText" name="glowText" value="true">
+                <input type='number' name='displaymins' min='3' value='60' oninput="calcCost();"> <span>Cost: <span class="text-yellow" id="cost">ï¿½250000</span></span>
             </td>
 
 
