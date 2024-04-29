@@ -158,6 +158,8 @@ $db->query("UPDATE grpgusers SET energy = energy - " . $energyneeded . " WHERE i
 $db->execute();
 
 mission('ba', 1);
+$toadd = array('baotd' => 1);
+ofthes($user_class->id, $toadd);
 
 // ATTACKERS
 $baAttackerNames = array();
