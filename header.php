@@ -695,7 +695,7 @@ if ($user_class->view_preference === '1') { ?>
 					</div>
 				</div>
                 <?php if($user_class->admin > 0): ?>
-    <div class="vertical-text-slider floaty dcPanel">
+    <div class="vertical-text-slider floaty dcPanel p-3">
     <div class="d-flex flex-column">
         <div class="d-flex align-items-center justify-content-center mb-3">
             <div class="me-3">
