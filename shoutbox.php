@@ -21,7 +21,7 @@ if (isset($_POST['submit'])) {
         $time = time();
         $newsql = mysql_query("UPDATE `grpgusers` SET `bank` = '" . $newmoney . "' WHERE `id`= '" . $user_class->id . "'");
         $result = mysql_query("INSERT INTO `ads`(`timestamp`,`poster`, `message`, `displaymins`, `glow`) VALUES ('" . $time . "', $user_class->id, '" . $_POST['message'] . "', '" . $_POST['displaymins'] . "', '" . (isset($_POST['glowText']) && $_POST['glowText'] == 'true' ? '1' : '0') . "')");
-        echo Message("You have posted a classified ad for $" . $cost);
+        echo Message("You have posted a classified ad for $" . number_format($cost));
     } else {
         echo Message($error);
     }
@@ -30,7 +30,8 @@ if (isset($_POST['submit'])) {
 
 <script>
 function calcCost() {
-    $('#cost').html('�' + Math.round($('input[name="displaymins"]').val() / 60 * 250000));
+    var cost = Math.round($('input[name="displaymins"]').val() / 60 * 250000);
+    $('#cost').html('$' + cost.toLocaleString('en-US'));
 }
 </script>
 
@@ -45,7 +46,7 @@ function calcCost() {
     <div class="mb-3 col-md-6">
         <label for="displaymins" class="form-label">Minutes:</label>
         <input type="number" class="form-control" name="displaymins" id="displaymins" min="3" value="60" oninput="calcCost();"> 
-        <div>Cost: <span class="text-warning" id="cost">�250000</span></div>
+        <div>Cost: <span class="text-warning" id="cost">$250,000</span></div>
     </div>
     <div class="col-12">
         <button type="submit" class="btn btn-primary" name="submit">Post</button>
