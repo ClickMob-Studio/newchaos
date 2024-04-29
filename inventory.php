@@ -1898,6 +1898,19 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
 
                 echo Message("You use the crime booster, for the next hour you will gain an extra 20% EXP from crimes!");
                 break;
+            case 256:
+                $tempItemUse = getItemTempUse($user_class->id);
+                $now = time();
+                if ($tempItemUse['nerve_vial_time'] > $now) {
+                    diefun('You already have a nerve vial active.');
+                }
+
+                $newTime = time() + 2700;
+
+                addItemTempUse($user_class, 'nerve_vial_time', $newTime);
+
+                echo Message("You drink from the nerve Vial and feel a boost, for the next 45 minutes you have double nerve!");
+                break;
 
 
 
