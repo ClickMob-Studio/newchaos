@@ -4,10 +4,6 @@
 session_start();
 include 'header.php';
 
-if ($user_class->id == 5) {
-    diefun('Time to take a break from the Backalley');
-}
-
 if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
     mysql_query('UPDATE `grpgusers` SET `captcha_timestamp` = 0 WHERE `id` = ' . $user_class->id);
 
@@ -106,9 +102,15 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 <hr />
 
                 <div id="btn-holder" style="min-height: 30px;">
-                    <button class="ba-btn ba-search-link">Search</button>
-                    <button class="ba-btn ba-med-pack-link">Use Med Pack (x<span class="med-pack-count"><?php echo $medPackTotalCount ?></span>)</button>
-                    <button class="ba-btn ba-refill-energy-link">Refill Energy</button>
+                    <div style="min-width: 100px;">
+                        <button class="ba-btn ba-search-link">Search</button>
+                    </div>
+                    <div style="min-width: 200px;">
+                        <button class="ba-btn ba-med-pack-link">Use Med Pack (x<span class="med-pack-count"><?php echo $medPackTotalCount ?></span>)</button>
+                    </div>
+                    <div style="min-width: 150px;">
+                        <button class="ba-btn ba-refill-energy-link">Refill Energy</button>
+                    </div>
                 </div>
 
                 <hr />
