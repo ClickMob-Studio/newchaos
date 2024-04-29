@@ -1,15 +1,10 @@
 <?php
 include 'header.php';
 
-// $banned = [35, 208, 26];
-// if (in_array($user_class->id, $banned)) {
-//     header('tos.php');
-// }
-
 if (isset($_POST['submit'])) {
     $cost = round($_POST['displaymins'] / 60 * 250000, 0);
     if (isset($_POST['glowText']) && $_POST['glowText'] == 'true') {
-        $glow_cost = 1000000;  // Set Y to the cost of the glowing text feature
+        $glow_cost = 1000000;
         $cost += $glow_cost;
     }
 
@@ -31,115 +26,53 @@ if (isset($_POST['submit'])) {
         echo Message($error);
     }
 }
-
-
 ?>
 
 <script>
-    function calcCost() {
-        $('#cost').html('�' + Math.round($('input[name="displaymins"]').val() / 60 * 250000));
-    }
+function calcCost() {
+    $('#cost').html('�' + Math.round($('input[name="displaymins"]').val() / 60 * 250000));
+}
 </script>
 
 <h2>Shoutbox</h2>
 <p>Here you can post anything your heart desires. Cost is $250,000 for a 60 minute message, $1M for 4 hours, and so on..</p>
 
-<form method='post' style='margin: 15px 0;'>
-    <table width='100%'>
-        <!-- <tr>
-            <td width='25%'>Title:</td>
-            <td width='25%'>
-                <input type='text' name='title'  size='40' maxlength='100'>
-            </td>
-        </tr> -->
-        <tr>
-            <td width='25%'>Message:</td>
-            <td width='25%'>
-                <textarea name='message' cols='60' rows='4' maxlength='115'></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td width='25%'>Minutes:</td>
-            <td width='25%'>
-                <input type='number' name='displaymins' min='3' value='60' oninput="calcCost();"> <span>Cost: <span class="text-yellow" id="cost">�250000</span></span>
-            </td>
-
-
-
-
-        </tr>
-
-        <tr>
-            <td width='25%'>Submit:</td>
-            <td width='25%'>
-                <input type='submit' name='submit' value='Post'>
-            </td>
-        </tr>
-    </table>
+<form method='post' style='margin: 15px 0;' class="row">
+    <div class="mb-3 col-md-6">
+        <label for="message" class="form-label">Message:</label>
+        <textarea class="form-control" name="message" id="message" rows="4" maxlength="115"></textarea>
+    </div>
+    <div class="mb-3 col-md-6">
+        <label for="displaymins" class="form-label">Minutes:</label>
+        <input type="number" class="form-control" name="displaymins" id="displaymins" min="3" value="60" oninput="calcCost();"> 
+        <div>Cost: <span class="text-warning" id="cost">�250000</span></div>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary" name="submit">Post</button>
+    </div>
 </form>
 
 <h2>Current Ads</h2>
 
 <?php
-// $result = mysql_query("SELECT * FROM `ads` WHERE TIMESTAMPDIFF(MINUTE, NOW(), `timestamp`) + `displaymins` > 0 AND `flagcount` < 3 ORDER BY `timestamp` DESC");
 $result = mysql_query("SELECT * FROM `ads` WHERE `timestamp` + `displaymins` * 60 > ".time()." ORDER BY `timestamp` DESC");
 if (!mysql_num_rows($result)) {
-    ?>
-        <div class="floaty">
-            <div class="flexcont">
-                <div class="flexele" style="flex:3;padding:10px;word-break:break-word;">No messages at the moment! Use the form above to add one!</div>
-            </div>
-        </div>
-    <?php
+    echo '<div class="alert alert-info">No messages at the moment! Use the form above to add one!</div>';
 } else {   
     while ($row = mysql_fetch_array($result)) {
         $user_ads = New User($row['poster']);
-
-        if ($user_ads->avatar == "")
-            $user_ads->avatar = "/images/no-avatar.png";
-    ?>
-        <div class="floaty">
-            <div class="flexcont" style="text-align:center;">
-                <div class="flexele"><?php echo howlongago($row['timestamp']) ?> ago</div>
-                <div class="flexele"></div>
-                <div class="flexele"></div>
-                <div class="flexele" style="text-align:right;">
-                    <a href="#" style="color:red;" onclick="reportAd(<?php echo $row['id'] ?>); return false;">
-                        <img width="16" height="16" src="/css/images/icons/exclamation-mark_16.png" alt="Report" />
-                    </a>
-                    <!-- <input type="button" value="Report" onclick="reportAd(<?php echo $row['id'] ?>); return false;"> -->
-                </div>
-            </div>
-            <hr style="border:0;border-top:thin solid #333;">
-            <div class="flexcont">
-                <div class="flexele" style="border-right:thin solid #333;text-align:center;">
-                    <img src="<?php echo $user_ads->avatar ?>" height="75" width="75" style="border:1px solid #666666">
-                    <br>
-                    <?php echo $user_ads->formattedname ?>
-                </div>
-                <div class="flexele" style="flex:3;padding:10px;word-break:break-word;"><?php echo $row['message'] ?></div>
+        $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
+        ?>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><?php echo howlongago($row['timestamp']) ?> ago</h5>
+                <img src="<?php echo $user_ads->avatar ?>" class="img-thumbnail" alt="User Avatar">
+                <p class="card-text"><?php echo $row['message'] ?></p>
+                <a href="#" class="btn btn-danger" onclick="reportAd(<?php echo $row['id'] ?>); return false;">Report</a>
             </div>
         </div>
-    <?php
+        <?php
     }
 }
-?>
-
-<?php
 include 'footer.php';
 ?>
-
-<!-- <tr>
-    <td class="contentcontent">
-        <table width='100%'>
-            <tr>
-                <td width='15%'><?php echo $user_ads->formattedname ?></td>
-                <td width='75%'><?php echo $row['message']; ?></td>
-                <td width='10%'><input type="button" data-id="<?php echo $row['id']; ?>" value="Report"></td>
-            </tr>
-            <tr>
-                <td width='100%' colspan='4'><?php echo $row['message'] ?></td>
-            </tr>
-        </table>
-    </td>
-</tr>
