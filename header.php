@@ -1037,7 +1037,7 @@ if (!empty($messages)) {
 </a>
             </div>
 
-            <div class="slider-frame">
+            <div class="slider-frame row">
                 <ul class="slides" style="list-style-type: none; width:100%">
 
                     <?php
