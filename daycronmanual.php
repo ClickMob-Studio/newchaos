@@ -127,10 +127,10 @@ while ($line = mysql_fetch_array($result3)) {
         $addmul = .05;
         $ptsadd = 150;
     }
-    if($person_class->bankboost > 0){
-        $percentage = $person_class->bankboost * 10;
-        $line['bank']
-    }
+    // if($person_class->bankboost > 0){
+    //     $percentage = $person_class->bankboost * 10;
+    //     $line['bank']
+    // }
     $multiply += $addmul;
     if ($line['bank'] >= 15000000)
         $interest = ceil(15000000 * $multiply);
@@ -138,10 +138,10 @@ while ($line = mysql_fetch_array($result3)) {
         $interest = ceil($line['bank'] * $multiply);
     
     $newmoney = round($line['bank'] + $interest);
-    // if($person_class->bankboost > 0){
-    //     $percentage = $person_class->bankboost * 10;
-    //     $newmoney = round($newmoney + ($newmoney * $percentage / 100));
-    // }
+    if($person_class->bankboost > 0){
+        $percentage = $person_class->bankboost * 10;
+       $newmoney = round($newmoney + ($newmoney * $percentage / 100));
+     }
     mysql_query("UPDATE grpgusers SET bank = $newmoney, points = points + $ptsadd WHERE id = {$line['id']}");
     Send_Event($line['id'], "You have earned " . prettynum($interest, 1) . " for your bank", $line['id']);
 }
