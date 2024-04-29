@@ -1,7 +1,6 @@
 <?php
 include 'header.php';
 
-$db = database::getInstance();  // Get the database instance
 
 if (isset($_POST['submit'])) {
     $cost = round($_POST['displaymins'] / 60 * 250000, 0);
@@ -15,20 +14,27 @@ if (isset($_POST['submit'])) {
     } elseif (empty($_POST['message'])) {
         $error = "You need to have a message!";
     } else {
-        $error = "";
+        $db->query("SELECT COUNT(*) FROM `ads` WHERE `poster` = :userid AND `timestamp` + (`displaymins` * 60) > :current_time");
+        $db->bind(':userid', $user_class->id);
+        $db->bind(':current_time', time());
+        $activeAdsCount = $db->fetch_single();
+
+        if ($activeAdsCount >= 3) {
+            $error = "You can only have three active ads at a time.";
+        } else {
+            $error = "";
+        }
     }
 
     if ($error == "") {
         $newmoney = $user_class->bank - $cost;
         $time = time();
-        
-        // Update the user's bank amount
+    
         $db->query("UPDATE `grpgusers` SET `bank` = :newmoney WHERE `id`= :userid");
         $db->bind(':newmoney', $newmoney);
         $db->bind(':userid', $user_class->id);
         $db->execute();
 
-        // Insert the new ad
         $db->query("INSERT INTO `ads`(`timestamp`, `poster`, `message`, `displaymins`, `glow`) VALUES (:time, :userid, :message, :displaymins, :glow)");
         $db->bind(':time', $time);
         $db->bind(':userid', $user_class->id);
