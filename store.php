@@ -580,6 +580,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </div>
 </div>
+
+<?php if ($user_class->admin > 0): ?>
+<br><br>
+
+<div class="floaty" style="margin:3px;">
+    <h4 class="section-title">Limited Edition Packs</h4>
+    <hr>
+</div>
+<?php endif; ?>
+
 <br><br>
 
     <div class="floaty" style="margin:3px;">
