@@ -35,7 +35,7 @@ function calcCost() {
 }
 </script>
 
-<h2>Shoutbox</h2>
+<h1>Shoutbox</h1>
 <p>Here you can post anything your heart desires. Cost is $250,000 for a 60 minute message, $1M for 4 hours, and so on..</p>
 
 <form method='post' style='margin: 15px 0;' class="row">
@@ -53,7 +53,7 @@ function calcCost() {
     </div>
 </form>
 
-<h2>Current Ads</h2>
+<h1>Current Ads</h1>
 
 <?php
 $result = mysql_query("SELECT * FROM `ads` WHERE `timestamp` + `displaymins` * 60 > ".time()." ORDER BY `timestamp` DESC");
