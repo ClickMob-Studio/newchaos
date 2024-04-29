@@ -691,7 +691,7 @@ if ($user_class->view_preference === '1') { ?>
 							<a href="store.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
 
 						</div>
-						<div class='time'>Server Time: <?php echo date('d/m/Y  H:i:s'); ?></div>
+						
 					</div>
 				</div>
                 <?php if($user_class->admin > 0): ?>
@@ -749,6 +749,7 @@ if ($user_class->view_preference === '1') { ?>
 
 
 <?php endif;?>
+<div class='time'>Server Time: <?php echo date('d/m/Y  H:i:s'); ?></div>
 			</header>
 			<div class="row mt-4">
 				<main>
