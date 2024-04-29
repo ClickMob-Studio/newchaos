@@ -875,6 +875,23 @@ if ($user_class->exppill > $time) {
     $messages[] = 'Double EXP Pill: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
 }
 
+$tempItemUse = getItemTempUse($user_class->id);
+// Crime Potion
+if ($tempItemUse['crime_potion_time'] > $time) {
+    $rtn = howlongtil($tempItemUse['crime_potion_time']);
+    $messages[] = 'Crime Potion: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+// Crime Booster
+if ($tempItemUse['crime_booster_time'] > $time) {
+    $rtn = howlongtil($tempItemUse['crime_booster_time']);
+    $messages[] = 'Crime Booster: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+// Nerve Vial
+if ($tempItemUse['nerve_vial_time'] > $time) {
+    $rtn = howlongtil($tempItemUse['nerve_vial_time']);
+    $messages[] = 'Nerve Vial: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
 
 
 // Jail
