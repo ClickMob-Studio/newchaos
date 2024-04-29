@@ -1026,28 +1026,35 @@ if (!empty($messages)) {
   color: #000;
 }
     </style>
+<?php if($user_class->id == 1): ?>
 
+<div class="vertical-text-slider floaty">
+    <div class="flex-container">
+            <div class="slider-icon">
+                <a href="/shoutbox.php"><img width="16" height="16" src="/css/images/icons/loudspeaker_32.png" alt="Smart Ads" /></a>
+            </div>
+
+            <div class="slider-frame">
+                <ul class="slides" style="list-style-type: none; width:100%">
 
                     <?php
                     $now = time();
                     $result = mysql_query("SELECT a.* FROM ads a WHERE ( SELECT (`timestamp` +(`displaymins` * 60)) FROM ads WHERE ads.id = a.id ) > UNIX_TIMESTAMP()");
                     if (!mysql_num_rows($result)) {
 
-                        $_messages = [
-                            // '<b>Please note this game is currently in BETA before full launch in the first week of April. On relaunch, the database will reset.<br /> If you find any issues, please DM ID 1 or 2.</b>',
-                            // //'Invite your friends to play and receive <font color=red>50 Gold</font> for every friend that plays. Hurry and start inviting now!',
-                            //'For every friend you successfully refer, you\'ll earn <font color=red>50 Gold</font> Spread the word and let\'s play together!',
-                            //'Attention all players! Invite your friends to join in on the fun. <font color=red>50 Gold</font> reward for every successful referral'
+                        $_messages = ['Invite your friends to play and receive <font color=yellow>50 Gold</font> for every friend that plays. Hurry and start inviting now!',
+                            'For every friend you successfully refer, you\'ll earn <font color=yellow>50 Gold</font> Spread the word and let\'s play together!',
+                            'Attention all players! Invite your friends to join in on the fun. <font color=yellow>50 Gold</font> reward for every successful referral'
                         ];
 
                         $ref_message = $_messages[array_rand($_messages)];
 
                         ?>
-                        
-                            <div class="dcPanel p-3" style="text-align:center">
-								<?= $ref_message ?>
+                        <li class="slide">
+                            <div class="slide-content">
+                                <!-- <span>Remember - All Referrals using your referral ID will reward you with 50 Credits! Help Spread the word of our launch!</span> -->
+                                <span><a href="refer.php"><?= $ref_message ?></a></span>
                             </div>
-
                         </li>
                         <?php
                     } else {
@@ -1072,8 +1079,12 @@ if (!empty($messages)) {
                 </ul>
             </div>
         </div>
+    </div>
+            </div>
+        </div>
 
 </div>
+<?php endif;?>
 
 <div class="dcPanel p-3" style="text-align:center" id="message-container">
     <ul id="messages" style="list-style-type: none;">
