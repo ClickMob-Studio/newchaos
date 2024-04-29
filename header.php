@@ -749,7 +749,7 @@ if ($user_class->view_preference === '1') { ?>
 
 
 <?php endif;?>
-<div class='time'>Server Time: <?php echo date('d/m/Y  H:i:s'); ?></div>
+<div class='time text-center'>Server Time: <?php echo date('d/m/Y  H:i:s'); ?></div>
 			</header>
 			<div class="row mt-4">
 				<main>
