@@ -63,12 +63,13 @@ if (!mysql_num_rows($result)) {
         $user_ads = New User($row['poster']);
         $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
         ?>
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title"><?php echo howlongago($row['timestamp']) ?> ago</h5>
-                <img src="<?php echo $user_ads->avatar ?>" class="img-thumbnail" alt="User Avatar">
-                <p class="card-text"><?php echo $row['message'] ?></p>
-                <a href="#" class="btn btn-danger" onclick="reportAd(<?php echo $row['id'] ?>); return false;">Report</a>
+        <div class="d-flex align-items-center my-2">
+            <img src="<?php echo $user_ads->avatar ?>" class="img-thumbnail me-3" alt="User Avatar" style="width: 50px; height: 50px; object-fit: cover;">
+            <div>
+                <p class="mb-0"><?php echo howlongago($row['timestamp']) ?> ago - <?php echo $row['message'] ?></p>
+            </div>
+            <div class="ms-auto">
+                <a href="#" class="btn btn-danger btn-sm" onclick="reportAd(<?php echo $row['id'] ?>); return false;">Report</a>
             </div>
         </div>
         <?php
@@ -76,3 +77,4 @@ if (!mysql_num_rows($result)) {
 }
 include 'footer.php';
 ?>
+
