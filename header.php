@@ -1025,17 +1025,6 @@ if (!empty($messages)) {
     .floaty12 a:link {
   color: #000;
 }
-.flex-container {
-    display: flex;
-    align-items: center;  /* Aligns items vertically in the center */
-}
-.slider-icon, .slider-frame {
-    display: inline-flex;
-    align-items: center;
-}
-.slider-icon {
-    margin-right: 10px; 
-}
     </style>
 <?php if($user_class->id == 1): ?>
 
