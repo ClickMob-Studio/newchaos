@@ -2093,3 +2093,32 @@ function addUserItemDropLog($user_class, $field, $qty = 1)
     $db->query("UPDATE user_item_drop_log SET {$field} = {$field} + {$qty} WHERE id = " . $itemTempUse['id']);
     $db->execute();
 }
+
+function getLimitedStorePackPurchase($userId, $limitedStorePackId)
+{
+    global $db;
+
+    $db->query("SELECT * FROM limited_store_pack_purchase WHERE user_id = " . $userId . " AND limited_store_pack_id = " . $limitedStorePackId . " LIMIT 1");
+    $db->execute();
+    $r = $db->fetch_row();
+
+    if (isset($r[0]['id'])) {
+        return $r[0];
+    } else {
+        $db->query("INSERT INTO limited_store_pack_purchase (user_id, limited_store_pack_id) VALUES (" . $userId . ", " . $limitedStorePackId . ")");
+        $db->execute();
+        $r = getLimitedStorePackPurchase($userId, $limitedStorePackId);
+
+        return $r;
+    }
+}
+
+function addLimitedStorePackPurchase($user_class, $limitedStorePackId)
+{
+    global $db;
+
+    $limitedStorePack = getLimitedStorePackPurchase($user_class->id, $limitedStorePackId);
+
+    $db->query("UPDATE limited_store_pack_purchase SET purchases = purchases + 1 WHERE id = " . $limitedStorePack['id']);
+    $db->execute();
+}

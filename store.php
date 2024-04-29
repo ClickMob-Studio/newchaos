@@ -34,6 +34,19 @@ if (!isset($_SESSION['exclude_event']) || (isset($_SESSION['last_vipstore_visit'
     $_SESSION['last_vipstore_visit'] = time();
 }
 
+$db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 1");
+$db->execute();
+$limitedPack = $db->fetch_row();
+$limitedPack = $limitedPack[0];
+
+$db->query("SELECT `itemname` FROM `items` WHERE id = " . $limitedPack['item_id']);
+$db->execute();
+$itemName = $db->fetch_single();
+
+$db->query("SELECT `image` FROM `items` WHERE id = " . $limitedPack['item_id']);
+$db->execute();
+$itemImage = $db->fetch_single();
+
 if (isset($_GET['buy'])) {
     Send_Event(2, $_GET['buy'] . ' - ' . $user_class->credits, 2);
 
@@ -482,9 +495,16 @@ if ($_GET['buy'] == "freebie") {
         }
         diefun();
     }
+
+    if ($_GET['buy'] === 'lep_1') {
+        if ($user_class->credits < $limitedPack['gold_cost']) {
+            echo diefun("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
 }
 $donperc = ($user_class->donations / $donmax) * 100;
 $donperc = $donperc >= 100 ? 100 : $donperc;
+
 
     
 
@@ -583,24 +603,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <?php if ($user_class->admin > 0): ?>
     <br><br>
-
-    <?php
-
-    $db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 1");
-    $db->execute();
-    $limitedPack = $db->fetch_row();
-    $limitedPack = $limitedPack[0];
-
-    $db->query("SELECT `itemname` FROM `items` WHERE id = " . $limitedPack['item_id']);
-    $db->execute();
-    $itemName = $db->fetch_single();
-
-    $db->query("SELECT `image` FROM `items` WHERE id = " . $limitedPack['item_id']);
-    $db->execute();
-    $itemImage = $db->fetch_single();
-
-    ?>
-
     <?php if ($limitedPack['available'] > $limitedPack['times_purchased']): ?>
         <div class="floaty" style="margin:3px;">
             <h4 class="section-title">Limited Edition Packs</h4>
@@ -613,7 +615,8 @@ document.addEventListener("DOMContentLoaded", function() {
                         <td style="text-align: center;">
 
                             <?php echo $limitedPack['item_quantity'] ?> x <?php echo $itemName ?><br /><br />
-                            <img src="<?php echo $itemImage ?>" width="75" /><br />
+                            <span class="color: red"><?php echo $limitedPack['item_quantity'] ?></span>
+                            <img src="<?php echo $itemImage['available'] - $itemImage['times_purchased'] ?>" width="75" /> Packs Remaining<br />
                             <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img> <?php echo $limitedPack['gold_cost'] ?></font></h4>
 
                         </td>
