@@ -220,7 +220,7 @@ include 'footer.php';
                 $(".ajax-alert-div").remove();
                 $(this).hide();
                 $(this).after(
-                    '<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>'
+                    '<button class="ba-btn temp-spinner" style="min-width: 100px;"><img id="spinner" src="images/ajax-loader.gif"/></button>'
                 );
 
                 if (requestInProcess) {
