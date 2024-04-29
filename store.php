@@ -506,14 +506,14 @@ if ($_GET['buy'] == "freebie") {
         if ($limitedPack['times_purchased'] >= $limitedPack['available']) {
             echo diefun("This pack is no longer available. You can buy some at the upgrade store.");
         }
+
+        if ($limitedStorePackPurchase['purchases'] >= $limitedPack['per_person_limit']) {
+            echo diefun("You have purchased the max amount of packs. You can buy some at the upgrade store.");
+        }
     }
 }
 $donperc = ($user_class->donations / $donmax) * 100;
 $donperc = $donperc >= 100 ? 100 : $donperc;
-
-
-    
-
 
 
 echo '<div class="flexcont" style="align-items:stretch;">';
@@ -625,11 +625,13 @@ document.addEventListener("DOMContentLoaded", function() {
                             <img src="<?php echo $itemImage ?>" width="75" /><br />
                             <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img> <?php echo $limitedPack['gold_cost'] ?></font></h4>
 
+
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align: center;">
-                            <a href="store.php?buy=lep_<?php echo $limitedPack['id'] ?>" style="display: inline-block; padding: 10px 20px; background-color:  color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY NOW</a>
+                            <a href="store.php?buy=lep_<?php echo $limitedPack['id'] ?>" style="display: inline-block; padding: 10px 20px; background-color:  color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY NOW</a><br />
+                            This pack is limited to <?php echo $limitedPack['per_person_limit'] ?> purchases per player.
 
                         </td>
                     </tr>
