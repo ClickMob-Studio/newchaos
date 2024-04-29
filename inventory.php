@@ -2578,10 +2578,10 @@ function gendivs($row, $type, $sell = null, $subtype = null, $loan = null, $loan
     if ($type == "rare" && !in_array($row['id'], [155, 195, 209, 231, 210, 250, 211, 229, 230, 212, 156, 194, 68, 69, 157, 158, 159, 165, 167])) {
         $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Use</a> ';
     }
-    if (!$loan && !in_array($row['id'], [155, 195, 156, 194, 157, 158, 159, 165, 167])) {
+    if (!$loan && !in_array($row['id'], [155, 195, 156, 194, 157, 158, 159, 165, 167, 256])) {
         $$type .= ' <a class="button-sm" href="putonmarket.php?id=' . $row['id'] . '">Market</a> ';
     }
-    if (!in_array($row['id'], [155, 195, 157, 194, 156, 158, 159, 167])) {
+    if (!in_array($row['id'], [155, 195, 157, 194, 156, 158, 159, 167, 256])) {
         $$type .= ' <a class="button-sm" href="senditem.php?id=' . $row['id'] . '">Send</a> ';
     }
 
