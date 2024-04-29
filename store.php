@@ -47,6 +47,8 @@ $db->query("SELECT `image` FROM `items` WHERE id = " . $limitedPack['item_id']);
 $db->execute();
 $itemImage = $db->fetch_single();
 
+$limitedStorePackPurchase = getLimitedStorePackPurchase($user_class->id, $limitedPack['id']);
+
 if (isset($_GET['buy'])) {
     Send_Event(2, $_GET['buy'] . ' - ' . $user_class->credits, 2);
 
@@ -500,6 +502,10 @@ if ($_GET['buy'] == "freebie") {
         if ($user_class->credits < $limitedPack['gold_cost']) {
             echo diefun("You don't have enough credits. You can buy some at the upgrade store.");
         }
+
+        if ($limitedPack['times_purchased'] >= $limitedPack['available']) {
+            echo diefun("This pack is no longer available. You can buy some at the upgrade store.");
+        }
     }
 }
 $donperc = ($user_class->donations / $donmax) * 100;
@@ -615,7 +621,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         <td style="text-align: center;">
 
                             <?php echo $limitedPack['item_quantity'] ?> x <?php echo $itemName ?><br /><br />
-                            <font color="red"><?php echo $itemImage['available'] - $itemImage['times_purchased'] ?> Packs Remaining</font><br />
+                            <font color="red"><?php echo $limitedPack['available'] - $limitedPack['times_purchased'] ?> Packs Remaining</font><br />
                             <img src="<?php echo $itemImage ?>" width="75" /><br />
                             <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img> <?php echo $limitedPack['gold_cost'] ?></font></h4>
 
