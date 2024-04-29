@@ -591,6 +591,14 @@ document.addEventListener("DOMContentLoaded", function() {
     $limitedPack = $db->fetch_row();
     $limitedPack = $limitedPack[0];
 
+    $db->query("SELECT `itemname` FROM `items` WHERE id = " . $limitedPack['item_id']);
+    $db->execute();
+    $itemName = $db->fetch_single();
+
+    $db->query("SELECT `image` FROM `items` WHERE id = " . $limitedPack['item_id']);
+    $db->execute();
+    $itemImage = $db->fetch_single();
+
     ?>
 
     <?php if ($limitedPack['available'] > $limitedPack['times_purchased']): ?>
@@ -604,7 +612,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     <tr>
                         <td style="text-align: center;">
 
-                            <img src="https://chaoscity.co.uk/css/images/NewGameImages/mysterybox.png" width="75" /><br />
+                            <?php echo $limitedPack['item_quantity'] ?> x <?php echo $itemName ?><br />
+                            <img src="<?php echo $itemImage ?>" width="75" /><br />
                             <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img> <?php echo $limitedPack['gold_cost'] ?></font></h4>
 
                         </td>
