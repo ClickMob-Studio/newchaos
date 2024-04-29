@@ -1026,7 +1026,7 @@ if (!empty($messages)) {
   color: #000;
 }
     </style>
-<?php if($user_class->id == 1): ?>
+<?php if($user_class->admin > 0): ?>
 
     <div class="vertical-text-slider floaty">
     <div class="d-flex flex-column">
