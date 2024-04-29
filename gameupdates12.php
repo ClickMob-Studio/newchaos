@@ -43,7 +43,7 @@ if ($user_class->game_updates) {
     <h1 class="mb-3">Game Updates</h1>
 
     <?php if ($user_class->admin): ?>
-        <div class="card mb-4">
+        <div class="card dark-card mb-4">
             <div class="card-body">
                 <form method="post">
                     <div class="mb-3">
