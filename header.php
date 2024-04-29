@@ -1028,52 +1028,45 @@ if (!empty($messages)) {
     </style>
 <?php if($user_class->id == 1): ?>
 
-<div class="vertical-text-slider floaty">
-    <div class="flex-container">
-            <div class="slider-icon col-1">
-                <a href="/shoutbox.php"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ff6218" class="bi bi-megaphone-fill" viewBox="0 0 16 16">
-  <path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0zm-1 .724c-2.067.95-4.539 1.481-7 1.656v6.237a25 25 0 0 1 1.088.085c2.053.204 4.038.668 5.912 1.56zm-8 7.841V4.934c-.68.027-1.399.043-2.008.053A2.02 2.02 0 0 0 0 7v2c0 1.106.896 1.996 1.994 2.009l.496.008a64 64 0 0 1 1.51.048m1.39 1.081q.428.032.85.078l.253 1.69a1 1 0 0 1-.983 1.187h-.548a1 1 0 0 1-.916-.599l-1.314-2.48a66 66 0 0 1 1.692.064q.491.026.966.06"/>
-</svg>
-</a>
+<<div class="vertical-text-slider floaty">
+    <div class="d-flex flex-column">
+        <div class="d-flex align-items-center mb-3">
+            <div class="me-3">
+                <a href="/shoutbox.php">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ff6218" class="bi bi-megaphone-fill" viewBox="0 0 16 16">
+                        <path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0zm-1 .724c-2.067.95-4.539 1.481-7 1.656v6.237a25 25 0 0 1 1.088.085c2.053.204 4.038.668 5.912 1.56zm-8 7.841V4.934c-.68.027-1.399.043-2.008.053A2.02 2.02 0 0 0 0 7v2c0 1.106.896 1.996 1.994 2.009l.496.008a64 64 0 0 1 1.51.048m1.39 1.081q.428.032.85.078l.253 1.69a1 1 0 0 1-.983 1.187h-.548a1 1 0 0 1-.916-.599l-1.314-2.48a66 66 0 0 1 1.692.064q.491.026.966.06"/>
+                    </svg>
+                </a>
             </div>
-
-            <div class="slider-frame row">
-                <ul class="slides" style="list-style-type: none; width:100%">
-
+            <div class="flex-grow-1">
+                <ul class="list-unstyled d-flex flex-row align-items-center">
                     <?php
                     $now = time();
                     $result = mysql_query("SELECT a.* FROM ads a WHERE ( SELECT (`timestamp` +(`displaymins` * 60)) FROM ads WHERE ads.id = a.id ) > UNIX_TIMESTAMP()");
                     if (!mysql_num_rows($result)) {
-
-                        $_messages = ['Invite your friends to play and receive <font color=yellow>50 Gold</font> for every friend that plays. Hurry and start inviting now!',
-                            'For every friend you successfully refer, you\'ll earn <font color=yellow>50 Gold</font> Spread the word and let\'s play together!',
-                            'Attention all players! Invite your friends to join in on the fun. <font color=yellow>50 Gold</font> reward for every successful referral'
+                        $_messages = [
+                            'Invite your friends to play and receive <strong class="text-warning">50 Gold</strong> for every friend that plays. Hurry and start inviting now!',
+                            'For every friend you successfully refer, you\'ll earn <strong class="text-warning">50 Gold</strong> Spread the word and let\'s play together!',
+                            'Attention all players! Invite your friends to join in on the fun. <strong class="text-warning">50 Gold</strong> reward for every successful referral'
                         ];
-
                         $ref_message = $_messages[array_rand($_messages)];
-
                         ?>
-                        <li class="slide">
-                            <div class="slide-content col-10">
-                                <!-- <span>Remember - All Referrals using your referral ID will reward you with 50 Credits! Help Spread the word of our launch!</span> -->
-                                <span><a href="refer.php"><?= $ref_message ?></a></span>
-                            </div>
+                        <li class="flex-grow-1 pe-3">
+                            <a href="refer.php"><?= $ref_message ?></a>
                         </li>
                         <?php
                     } else {
                         while ($row = mysql_fetch_array($result)) {
                             $user_ads = new User($row['poster']);
-                            if ($user_ads->avatar == "") {
-                                $user_ads->avatar = "/images/no-avatar.png";
-                            }
+                            $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
                             ?>
-                            <li class="slide" style="width:80% !important;">
-                                <div class="slide-content col-10">
-                                    <span><?php echo $user_ads->formattedname ?>: <?php echo $row['message'] ?></span>
-                                </div>
-                                <div class="slide-action col-1">
-                                    <a href="#" onClick="reportAd(<?php echo $row['id'] ?>); return false;"><img width="16" height="16" src="/css/images/icons/exclamation-mark_16.png" alt="Report" /></a>
-                                </div>
+                            <li class="flex-grow-1 pe-3">
+                                <span><?= $user_ads->formattedname ?>: <?= $row['message'] ?></span>
+                            </li>
+                            <li>
+                                <a href="#" onClick="reportAd(<?= $row['id'] ?>); return false;">
+                                    <img width="16" height="16" src="/css/images/icons/exclamation-mark_16.png" alt="Report" />
+                                </a>
                             </li>
                             <?php
                         }
@@ -1083,10 +1076,8 @@ if (!empty($messages)) {
             </div>
         </div>
     </div>
-            </div>
-        </div>
-
 </div>
+
 <?php endif;?>
 
 <div class="dcPanel p-3" style="text-align:center" id="message-container">
