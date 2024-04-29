@@ -515,6 +515,12 @@ if ($_GET['buy'] == "freebie") {
         $db->execute(array(
             $user_class->id
         ));
+
+        $db->query("UPDATE limited_store_pack SET times_purchased = times_purchased + 1 WHERE id = ?");
+        $db->execute(array(
+            $limitedPack['id']
+        ));
+
         Give_Item($limitedPack['item_id'], $user_class->id,$limitedPack['item_quantity']);
         addLimitedStorePackPurchase($user_class, $limitedPack['id']);
         Send_Event($user_class->id, "You have been credited with your " . $limitedPack['name'] . ". You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
