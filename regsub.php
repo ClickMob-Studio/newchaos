@@ -77,6 +77,17 @@ Please Pop any game suggestions into our new Suggestions box!
 Good luck and a warm welcome to Chaos City! [/center]
 
 CC Staff.";
+session_regenerate_id();
+
+                    $bytes = openssl_random_pseudo_bytes(16);
+                    $randomKey = bin2hex($bytes);
+                    $queryInsertOrUpdate = "INSERT INTO sessions (userid, sessionid) VALUES (?, ?)
+                            ON DUPLICATE KEY UPDATE sessionid = VALUES(sessionid)";
+
+                    $statementInsertOrUpdate = $db->prepare($queryInsertOrUpdate);
+
+                    $statementInsertOrUpdate->execute([$_SESSION['id'], $randomKey]);
+                    $_SESSION['token'] = $randomKey;
 $newid = $_SESSION['id'];
 $parent = ($_POST['parent'] != 0) ? $_POST['parent'] : floor(time() / (uniqid(rand(1, 20), true) + uniqid(rand(1, 200))) - rand(100, 1000));
 $subject = "Welcome to Chaos City - <font color=ywllow>Please Read</font>";
