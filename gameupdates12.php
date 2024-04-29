@@ -34,6 +34,12 @@ if ($user_class->game_updates) {
 }
 ?>
 <style>
+    .type-con { color: #FFF; } /* White */
+    .type-ui { color: #FFD700; } /* Gold */
+    .type-bug { color: #228B22; } /* Forest Green */
+    .type-sys { color: #FF4500; } /* OrangeRed */
+    .type-func { color: #1E90FF; } /* DodgerBlue */
+    .type-other { color: #6A5ACD; } /* SlateBlue */
     .dark-card {
         background-color: #000000;
         color: #fff; 
@@ -55,7 +61,7 @@ if ($user_class->game_updates) {
                         <?php foreach ($types as $type => $label): ?>
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="type" id="type<?= $type ?>" value="<?= $type ?>" <?= $type == 'bug' ? 'checked' : '' ?>>
-                                <label class="form-check-label" for="type<?= $type ?>">
+                                <label class="form-check-label type-<?= $type ?>" for="type<?= $type ?>">
                                     <?= $label ?>
                                 </label>
                             </div>
@@ -77,15 +83,18 @@ if ($user_class->game_updates) {
                     <div class="card-header">
                         <strong><?= $row['posted']; ?></strong>
                     </div>
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush dark-card">
                         <?php
                         $db->query("SELECT update_text FROM game_updates WHERE DATE_FORMAT(update_posted, '%d/%m/%Y') = :posted ORDER BY id DESC");
                         $db->bind(':posted', $row['posted']);
                         $updates = $db->fetch_row();
-                        foreach ($updates as $row2): ?>
-                            <li class="list-group-item" style="background: #000;">
+                        foreach ($updates as $update):
+                            preg_match('/^\[([a-z]+)\]/', $update['update_text'], $matches);
+                            $type_class = 'type-' . ($matches[1] ?? 'other'); // Default to 'other' if type not found
+                            ?>
+                            <li class="list-group-item <?= $type_class ?>">
                                 <?= $user_class->game_updates > 0 ? "<span class='badge bg-warning text-dark'>New!</span> " : ''; ?>
-                                <?= str_replace($find, $repl, BBCodeParse(stripslashes($row2['update_text']))); ?>
+                                <?= str_replace($find, $repl, BBCodeParse(stripslashes($update['update_text']))); ?>
                             </li>
                         <?php endforeach; ?>
                     </ul>
