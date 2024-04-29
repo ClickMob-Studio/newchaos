@@ -10,18 +10,27 @@ $types = [
     'other' => "OTHER"
 ];
 
-if (array_key_exists('submit', $_POST) && ($user_class->admin)) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && $user_class->admin) {
     $text = "[{$_POST['type']}] {$_POST['update']}";
-    mysql_query("INSERT INTO game_updates (update_text) VALUES ('$text')");
-    mysql_query("UPDATE grpgusers SET new_updates = new_updates + 1 WHERE id <> $user_class->id");
+    $db->query("INSERT INTO game_updates (update_text) VALUES (:text)");
+    $db->bind(':text', $text);
+    $db->execute();
+
+    $db->query("UPDATE grpgusers SET new_updates = new_updates + 1 WHERE id <> :userid");
+    $db->bind(':userid', $user_class->id);
+    $db->execute();
+
     Message("Update posted");
     if ($user_class->id == 9) {
         $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = 1");
         $db->execute();
     }
 }
+
 if ($user_class->game_updates) {
-    mysql_query("UPDATE grpgusers SET new_updates = 0 WHERE id = $user_class->id");
+    $db->query("UPDATE grpgusers SET new_updates = 0 WHERE id = :userid");
+    $db->bind(':userid', $user_class->id);
+    $db->execute();
 }
 ?>
 
@@ -54,26 +63,29 @@ if ($user_class->game_updates) {
     <?php endif; ?>
 
     <?php
-    $result = mysql_query("SELECT DATE_FORMAT(update_posted, '%d/%m/%Y') AS posted FROM game_updates GROUP BY posted ORDER BY id DESC");
-    if (mysql_num_rows($result) > 0): ?>
+    $db->query("SELECT DATE_FORMAT(update_posted, '%d/%m/%Y') AS posted FROM game_updates GROUP BY posted ORDER BY id DESC");
+    $dates = $db->fetch_row();
+    if ($dates): ?>
         <div class="updates-list">
-            <?php while ($row = mysql_fetch_array($result)): ?>
+            <?php foreach ($dates as $row): ?>
                 <div class="card mb-3">
                     <div class="card-header">
                         <strong><?= $row['posted']; ?></strong>
                     </div>
                     <ul class="list-group list-group-flush">
                         <?php
-                        $result2 = mysql_query("SELECT update_text FROM game_updates WHERE DATE_FORMAT(update_posted, '%d/%m/%Y') = '{$row['posted']}' ORDER BY id DESC");
-                        while ($row2 = mysql_fetch_array($result2)): ?>
+                        $db->query("SELECT update_text FROM game_updates WHERE DATE_FORMAT(update_posted, '%d/%m/%Y') = :posted ORDER BY id DESC");
+                        $db->bind(':posted', $row['posted']);
+                        $updates = $db->fetch_row();
+                        foreach ($updates as $row2): ?>
                             <li class="list-group-item">
                                 <?= $user_class->game_updates > 0 ? "<span class='badge bg-warning text-dark'>New!</span> " : ''; ?>
                                 <?= str_replace($find, $repl, BBCodeParse(stripslashes($row2['update_text']))); ?>
                             </li>
-                        <?php endwhile; ?>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
-            <?php endwhile; ?>
+            <?php endforeach; ?>
         </div>
     <?php else: ?>
         <div class="alert alert-info">No updates at the moment.</div>
