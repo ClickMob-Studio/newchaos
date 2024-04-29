@@ -1071,7 +1071,7 @@ if (!empty($messages)) {
                                 <div class="slide-content">
                                     <span><?php echo $user_ads->formattedname ?>: <?php echo $row['message'] ?></span>
                                 </div>
-                                <div class="slide-action">
+                                <div class="slide-action col-1">
                                     <a href="#" onClick="reportAd(<?php echo $row['id'] ?>); return false;"><img width="16" height="16" src="/css/images/icons/exclamation-mark_16.png" alt="Report" /></a>
                                 </div>
                             </li>
