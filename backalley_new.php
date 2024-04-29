@@ -288,7 +288,7 @@ include 'footer.php';
 
             $(".ajax-alert-div").remove();
             $(this).hide();
-            $(this).after('<button class="ba-btn temp-spinner" style="min-width: 100px;"><img id="spinner" src="images/ajax-loader.gif"/></button>);
+            $(this).after('<button class="ba-btn temp-spinner" style="min-width: 100px;"><img id="spinner" src="images/ajax-loader.gif"/></button>');
 
             if (requestInProcess) {
                 return false;
