@@ -457,6 +457,16 @@ if ($userBaStats['gold_rush_credits'] > 0) {
             $db->query("SELECT `itemname` FROM `items` WHERE id = " . $itemWonId);
             $db->execute();
             $itemName = $db->fetch_single();
+        } else if ($userItemDropLog['nerve_vial_drop'] < 1) {
+            $itemWonId = 256;
+
+            Give_Item($itemWonId, $user_class->id);
+
+            addUserItemDropLog($user_class, 'nerve_vial_drop');
+
+            $db->query("SELECT `itemname` FROM `items` WHERE id = " . $itemWonId);
+            $db->execute();
+            $itemName = $db->fetch_single();
         } else {
             $itemIds = array();
             $itemIds[35] = 1; // Bowie Knife
