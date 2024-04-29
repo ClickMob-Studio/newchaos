@@ -1037,7 +1037,7 @@ if (!empty($messages)) {
 </a>
             </div>
 
-            <div class="slider-frame col-10">
+            <div class="slider-frame">
                 <ul class="slides" style="list-style-type: none; width:100%">
 
                     <?php
@@ -1054,7 +1054,7 @@ if (!empty($messages)) {
 
                         ?>
                         <li class="slide">
-                            <div class="slide-content">
+                            <div class="slide-content col-10">
                                 <!-- <span>Remember - All Referrals using your referral ID will reward you with 50 Credits! Help Spread the word of our launch!</span> -->
                                 <span><a href="refer.php"><?= $ref_message ?></a></span>
                             </div>
