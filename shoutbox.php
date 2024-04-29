@@ -94,7 +94,7 @@ if (!$result) {
         <div class="d-flex align-items-center my-2">
             <img src="<?php echo $user_ads->avatar ?>" class="img-thumbnail me-3" alt="User Avatar" style="width: 50px; height: 50px; object-fit: cover;">
             <div>
-                <p class="mb-0"><?php echo $user_class->formattedname; ?>: <?php echo howlongago($row['timestamp']) ?> ago - <?php echo $row['message'] ?></p>
+                <p class="mb-0"><?php echo $user_ads->formattedname; ?>: <?php echo howlongago($row['timestamp']) ?> ago - <?php echo $row['message'] ?></p>
             </div>
             <div class="ms-auto">
                 <a href="#" class="btn btn-danger btn-sm" onclick="reportAd(<?php echo $row['id'] ?>); return false;">Report</a>
