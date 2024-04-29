@@ -1031,7 +1031,7 @@ if (!empty($messages)) {
 <div class="vertical-text-slider floaty">
     <div class="flex-container">
             <div class="slider-icon">
-                <a href="/shoutbox.php"><img width="16" height="16" src="/css/images/icons/loudspeaker_32.png" alt="Smart Ads" /></a>
+                <a href="/shoutbox.php"><i class="bi bi-megaphone"></i></a>
             </div>
 
             <div class="slider-frame">
