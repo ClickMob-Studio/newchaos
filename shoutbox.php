@@ -100,7 +100,7 @@ if (!mysql_num_rows($result)) {
     ?>
         <div class="floaty">
             <div class="flexcont" style="text-align:center;">
-                <div class="flexele"><?php echo $row['timestamp'] ?></div>
+                <div class="flexele"><?php echo howlongago($row['timestamp']) ?></div>
                 <div class="flexele"></div>
                 <div class="flexele"></div>
                 <div class="flexele" style="text-align:right;">
