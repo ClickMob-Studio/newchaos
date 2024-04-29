@@ -1002,6 +1002,12 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
             $this->formattedonline = "<font style='color:red;padding:2px;font-weight:bold;'>[offline]</font>";
 	}
 
+        $tempItemUse = getItemTempUse($this->id);
+        $now = time();
+        if ($tempItemUse['nerve_vial_time'] > $now) {
+            $this->maxnerve = $this->maxnerve * 2;
+        }
+
         if ($this->id == 1)
             $this->admin = 1;
     }
