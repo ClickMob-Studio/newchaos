@@ -33,7 +33,12 @@ if ($user_class->game_updates) {
     $db->execute();
 }
 ?>
-
+<style>
+    .dark-card {
+        background-color: #000000;
+        color: #fff; 
+    }
+</style>
 <div class="container mt-4">
     <h1 class="mb-3">Game Updates</h1>
 
@@ -68,7 +73,7 @@ if ($user_class->game_updates) {
     if ($dates): ?>
         <div class="updates-list">
             <?php foreach ($dates as $row): ?>
-                <div class="card mb-3">
+                <div class="card dark-card mb-3">
                     <div class="card-header">
                         <strong><?= $row['posted']; ?></strong>
                     </div>
