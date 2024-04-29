@@ -56,7 +56,10 @@ function calcCost() {
     $('#cost').html('$' + cost.toLocaleString('en-US'));
 }
 </script>
-
+<style>.img-thumbnail {
+    background-color: transparent !important;
+}
+</style>
 <h1>Shoutbox</h1>
 <p>Here you can post anything your heart desires. Cost is $250,000 for a 60 minute message, $1M for 4 hours, and so on..</p>
 
