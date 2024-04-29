@@ -510,6 +510,20 @@ if ($_GET['buy'] == "freebie") {
         if ($limitedStorePackPurchase['purchases'] >= $limitedPack['per_person_limit']) {
             echo diefun("You have purchased the max amount of packs. You can buy some at the upgrade store.");
         }
+
+        $db->query("UPDATE grpgusers SET credits = credits - " . $limitedPack['gold_cost'] . " WHERE id = ?");
+        $db->execute(array(
+            $user_class->id
+        ));
+        Give_Item($limitedPack['item_id'], $user_class->id,$limitedPack['item_quantity']);
+        addLimitedStorePackPurchase($user_class, $limitedPack['id']);
+        Send_Event($user_class->id, "You have been credited with your " . $limitedPack['name'] . ". You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
+        $db->execute(array());
+
+        Send_Event(1, $user_class->formattedname ." bought " . $limitedPack['name']);
+        Send_Event(2, $user_class->formattedname ." bought " . $limitedPack['name']);
+
+        echo Message("You spent " . $limitedPack['gold_cost'] . " GOLD for a " . $limitedPack['name']);
     }
 }
 $donperc = ($user_class->donations / $donmax) * 100;
