@@ -101,16 +101,10 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 <br />
                 <hr />
 
-                <div id="btn-holder" style="min-height: 30px;">
-                    <span style="min-width: 100px;">
-                        <button class="ba-btn ba-search-link">Search</button>
-                    </span>
-                    <span style="min-width: 200px;">
-                        <button class="ba-btn ba-med-pack-link">Use Med Pack (x<span class="med-pack-count"><?php echo $medPackTotalCount ?></span>)</button>
-                    </span>
-                    <span style="min-width: 150px;">
-                        <button class="ba-btn ba-refill-energy-link">Refill Energy</button>
-                    </span>
+                <div id="btn-holder" style="min-height: 30px;">"
+                    <button class="ba-btn ba-search-link">Search</button>
+                    <button class="ba-btn ba-med-pack-link">Use Med Pack (x<span class="med-pack-count"><?php echo $medPackTotalCount ?></span>)</button>
+                    <button class="ba-btn ba-refill-energy-link">Refill Energy</button>
                 </div>
 
                 <hr />
@@ -225,7 +219,9 @@ include 'footer.php';
 
                 $(".ajax-alert-div").remove();
                 $(this).hide();
-                $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
+                $(this).after(
+                    '<button class="ba-btn" style="min-width: 100px;"><img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/></button>'
+                );
 
                 if (requestInProcess) {
                     return false;
