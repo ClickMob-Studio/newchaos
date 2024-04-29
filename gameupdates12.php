@@ -83,7 +83,7 @@ if ($user_class->game_updates) {
                         $db->bind(':posted', $row['posted']);
                         $updates = $db->fetch_row();
                         foreach ($updates as $row2): ?>
-                            <li class="list-group-item">
+                            <li class="list-group-item" style="background: #000;">
                                 <?= $user_class->game_updates > 0 ? "<span class='badge bg-warning text-dark'>New!</span> " : ''; ?>
                                 <?= str_replace($find, $repl, BBCodeParse(stripslashes($row2['update_text']))); ?>
                             </li>
