@@ -582,32 +582,43 @@ document.addEventListener("DOMContentLoaded", function() {
 </div>
 
 <?php if ($user_class->admin > 0): ?>
-<br><br>
+    <br><br>
 
-<div class="floaty" style="margin:3px;">
-    <h4 class="section-title">Limited Edition Packs</h4>
-    <hr>
-    <div class="floaty" style="margin:3px; text-align: center;">
-        <h4>5 x Mystery Boxes</h4>
-        <hr>
-        <table style="width: 100%; margin: auto;">
-            <tr>
-                <td style="text-align: center;">
+    <?php
 
-                    <img src="https://chaoscity.co.uk/css/images/NewGameImages/mysterybox.png" width="500" /><br />
-                    <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img> 50</font></h4>
+    $db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 1");
+    $db->execute();
+    $limitedPack = $db->fetch_row();
+    $limitedPack = $limitedPack[0];
 
-                </td>
-            </tr>
-            <tr>
-                <td style="text-align: center;">
-                    <a href="store.php?buy=7daygrad" style="display: inline-block; padding: 10px 20px; background-color:  color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY NOW</a>
+    ?>
 
-                </td>
-            </tr>
-        </table>
-    </div>
-</div>
+    <?php if ($limitedPack['available'] > $limitedPack['times_purchased']): ?>
+        <div class="floaty" style="margin:3px;">
+            <h4 class="section-title">Limited Edition Packs</h4>
+            <hr>
+            <div class="floaty" style="margin:3px; text-align: center;">
+                <h4><?php echo $limitedPack['name'] ?></h4>
+                <hr>
+                <table style="width: 100%; margin: auto;">
+                    <tr>
+                        <td style="text-align: center;">
+
+                            <img src="https://chaoscity.co.uk/css/images/NewGameImages/mysterybox.png" width="75" /><br />
+                            <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img> <?php echo $limitedPack['gold_cost'] ?></font></h4>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center;">
+                            <a href="store.php?buy=lep_<?php echo $limitedPack['id'] ?>" style="display: inline-block; padding: 10px 20px; background-color:  color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY NOW</a>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    <?php endif; ?>
 <?php endif; ?>
 
 <br><br>
