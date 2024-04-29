@@ -1028,9 +1028,9 @@ if (!empty($messages)) {
     </style>
 <?php if($user_class->id == 1): ?>
 
-<div class="vertical-text-slider floaty">
+    <div class="vertical-text-slider floaty">
     <div class="d-flex flex-column">
-        <div class="d-flex align-items-center mb-3">
+        <div class="d-flex align-items-center justify-content-center mb-3">
             <div class="me-3">
                 <a href="/shoutbox.php">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ff6218" class="bi bi-megaphone-fill" viewBox="0 0 16 16">
@@ -1038,8 +1038,8 @@ if (!empty($messages)) {
                     </svg>
                 </a>
             </div>
-            <div class="flex-grow-1">
-                <ul class="list-unstyled d-flex flex-row align-items-center">
+            <div class="flex-grow-1 text-center">
+                <ul class="list-unstyled d-flex flex-row align-items-center justify-content-center">
                     <?php
                     $now = time();
                     $result = mysql_query("SELECT a.* FROM ads a WHERE ( SELECT (`timestamp` +(`displaymins` * 60)) FROM ads WHERE ads.id = a.id ) > UNIX_TIMESTAMP()");
@@ -1051,7 +1051,7 @@ if (!empty($messages)) {
                         ];
                         $ref_message = $_messages[array_rand($_messages)];
                         ?>
-                        <li class="flex-grow-1 pe-3">
+                        <li class="flex-grow-1">
                             <a href="refer.php"><?= $ref_message ?></a>
                         </li>
                         <?php
@@ -1060,7 +1060,7 @@ if (!empty($messages)) {
                             $user_ads = new User($row['poster']);
                             $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
                             ?>
-                            <li class="flex-grow-1 pe-3">
+                            <li class="flex-grow-1">
                                 <span><?= $user_ads->formattedname ?>: <?= $row['message'] ?></span>
                             </li>
                             <li>
@@ -1077,6 +1077,7 @@ if (!empty($messages)) {
         </div>
     </div>
 </div>
+
 
 <?php endif;?>
 
