@@ -615,7 +615,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         <td style="text-align: center;">
 
                             <?php echo $limitedPack['item_quantity'] ?> x <?php echo $itemName ?><br /><br />
-                            <span class="color: red"><?php echo $itemImage['available'] - $itemImage['times_purchased'] ?> Packs Remaining</span>
+                            <font color="red"><?php echo $itemImage['available'] - $itemImage['times_purchased'] ?> Packs Remaining</font><br />
                             <img src="<?php echo $itemImage ?>" width="75" /><br />
                             <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img> <?php echo $limitedPack['gold_cost'] ?></font></h4>
 
