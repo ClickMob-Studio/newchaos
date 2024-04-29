@@ -102,15 +102,15 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 <hr />
 
                 <div id="btn-holder" style="min-height: 30px;">
-                    <div style="min-width: 100px;">
+                    <span style="min-width: 100px;">
                         <button class="ba-btn ba-search-link">Search</button>
-                    </div>
-                    <div style="min-width: 200px;">
+                    </span>
+                    <span style="min-width: 200px;">
                         <button class="ba-btn ba-med-pack-link">Use Med Pack (x<span class="med-pack-count"><?php echo $medPackTotalCount ?></span>)</button>
-                    </div>
-                    <div style="min-width: 150px;">
+                    </span>
+                    <span style="min-width: 150px;">
                         <button class="ba-btn ba-refill-energy-link">Refill Energy</button>
-                    </div>
+                    </span>
                 </div>
 
                 <hr />
