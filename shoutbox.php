@@ -1,6 +1,8 @@
 <?php
 include 'header.php';
 
+$db = database::getInstance();  // Get the database instance
+
 if (isset($_POST['submit'])) {
     $cost = round($_POST['displaymins'] / 60 * 250000, 0);
     if (isset($_POST['glowText']) && $_POST['glowText'] == 'true') {
@@ -19,8 +21,22 @@ if (isset($_POST['submit'])) {
     if ($error == "") {
         $newmoney = $user_class->bank - $cost;
         $time = time();
-        $newsql = mysql_query("UPDATE `grpgusers` SET `bank` = '" . $newmoney . "' WHERE `id`= '" . $user_class->id . "'");
-        $result = mysql_query("INSERT INTO `ads`(`timestamp`,`poster`, `message`, `displaymins`, `glow`) VALUES ('" . $time . "', $user_class->id, '" . $_POST['message'] . "', '" . $_POST['displaymins'] . "', '" . (isset($_POST['glowText']) && $_POST['glowText'] == 'true' ? '1' : '0') . "')");
+        
+        // Update the user's bank amount
+        $db->query("UPDATE `grpgusers` SET `bank` = :newmoney WHERE `id`= :userid");
+        $db->bind(':newmoney', $newmoney);
+        $db->bind(':userid', $user_class->id);
+        $db->execute();
+
+        // Insert the new ad
+        $db->query("INSERT INTO `ads`(`timestamp`, `poster`, `message`, `displaymins`, `glow`) VALUES (:time, :userid, :message, :displaymins, :glow)");
+        $db->bind(':time', $time);
+        $db->bind(':userid', $user_class->id);
+        $db->bind(':message', $_POST['message']);
+        $db->bind(':displaymins', $_POST['displaymins']);
+        $db->bind(':glow', isset($_POST['glowText']) && $_POST['glowText'] == 'true' ? 1 : 0);
+        $db->execute();
+
         echo Message("You have posted a classified ad for $" . number_format($cost));
     } else {
         echo Message($error);
@@ -56,12 +72,14 @@ function calcCost() {
 <h1>Current Ads</h1>
 
 <?php
-$result = mysql_query("SELECT * FROM `ads` WHERE `timestamp` + `displaymins` * 60 > ".time()." ORDER BY `timestamp` DESC");
-if (!mysql_num_rows($result)) {
+$db->query("SELECT * FROM `ads` WHERE `timestamp` + `displaymins` * 60 > :current_time ORDER BY `timestamp` DESC");
+$db->bind(':current_time', time());
+$result = $db->fetch_row();
+if (!$result) {
     echo '<div class="alert alert-info">No messages at the moment! Use the form above to add one!</div>';
-} else {   
-    while ($row = mysql_fetch_array($result)) {
-        $user_ads = New User($row['poster']);
+} else {
+    foreach ($result as $row) {
+        $user_ads = new User($row['poster']);
         $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
         ?>
         <div class="d-flex align-items-center my-2">
@@ -78,4 +96,3 @@ if (!mysql_num_rows($result)) {
 }
 include 'footer.php';
 ?>
-
