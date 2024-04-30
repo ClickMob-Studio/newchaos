@@ -23,6 +23,7 @@ include "header.php";
                             <a href="#"><button>Unlock</button></a>
                         </center>
                     </div>
+                </div>
             </div>
             <div class="col-md-4">
                 <!--  Super Attack -->
