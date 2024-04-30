@@ -12,7 +12,7 @@ $db->execute(array(
 $leader = $db->fetch_single();
 if ($leader == $user_class->id || $user_class->admin) {
     if (isset($_GET['reset'])) {
-		$db->query("UPDATE gangcontest SET mugs = 0, exp = 0, busts = 0, kills = 0, crimes = 0 WHERE gangid = ?");
+		$db->query("UPDATE gangcontest SET mugs = 0, exp = 0, busts = 0, kills = 0, tax = 0, crimes = 0 WHERE gangid = ?");
 		$db->execute(array(
 			$user_class->gang
 		));
