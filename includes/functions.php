@@ -2127,3 +2127,22 @@ function addLimitedStorePackPurchase($user_class, $limitedStorePackId)
     $db->query("UPDATE limited_store_pack_purchase SET purchases = purchases + 1 WHERE id = " . $limitedStorePack['id']);
     $db->execute();
 }
+
+function getUserPrestigeSkills($userId)
+{
+    global $db;
+
+    $db->query("SELECT * FROM user_prestige_skills WHERE user_id = " . $userId . " LIMIT 1");
+    $db->execute();
+    $r = $db->fetch_row();
+
+    if (isset($r[0]['id'])) {
+        return $r[0];
+    } else {
+        $db->query("INSERT INTO user_prestige_skills (user_id) VALUES (" . $userId . ")");
+        $db->execute();
+        $r = getUserPrestigeSkills($userId);
+
+        return $r;
+    }
+}
