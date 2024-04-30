@@ -11,7 +11,7 @@ include "header.php";
         <div class="row">
             <div class="col-md-4">
                 <!--  BA Raid Tokens -->
-                <div class="card text-bg-danger mb-3">
+                <div class="card text-white bg-danger mb-3">
                     <div class="card-header">BA Raid Tokens</div>
                     <div class="card-body">
                         <p class="card-text">
@@ -34,7 +34,7 @@ include "header.php";
             </div>
             <div class="col-md-4">
                 <!--  BA Gold Rush Boost -->
-                <div class="card text-bg-danger mb-3" >
+                <div class="card text-white bg-danger mb-3" >
                     <div class="card-header">BA Gold Rush Boost</div>
                     <div class="card-body">
                         <p class="card-text">
@@ -48,7 +48,7 @@ include "header.php";
         <div class="row">
             <div class="col-md-4">
                 <!--  Crime Cash  -->
-                <div class="card text-bg-danger mb-3">
+                <div class="card text-white bg-danger mb-3">
                     <div class="card-header">Crime Cash Boost</div>
                     <div class="card-body">
                         <p class="card-text">
@@ -58,7 +58,7 @@ include "header.php";
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="card text-white bg-danger mb-3">
                 <!--  Throne Payouts -->
                 <div class="card text-white bg-success mb-3">
                     <div class="card-header">Throne Payout Boost</div>
@@ -70,7 +70,7 @@ include "header.php";
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="card text-white bg-danger mb-3">
                 <!--  Travel Cost Reducion -->
                 <div class="card text-bg-danger mb-3" >
                     <div class="card-header">Travel Cost Reduction</div>
