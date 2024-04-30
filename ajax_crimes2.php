@@ -331,6 +331,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 if (isset($gangTax['tax']) && $gangTax['tax'] > 0) {
                     // Use the retrieved tax value for calculation
                     $gtax = $money * ($gangTax['tax'] / 100);
+                    gangContest(array('tax' => $gtax));
                 }
             }
             $money = $money - $gtax;
