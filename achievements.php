@@ -315,7 +315,7 @@ foreach($achs as $head => $var){
 	foreach(array_reverse($$var) as $ach){
 			echo'<td>';
                 echo'<div class="ach' . $ach['img'] . '" title="' . $ach['title'] . '">
-               <img src="css/images/'.$ach["img"].'.png"> </img>
+               <img src="css/images/'.$ach["img"].'.png" style="width:100px; height:100px;"> </img>
                 </div><br />';
 		switch($var){
 			case 'levelbadges':
