@@ -15,7 +15,62 @@ include "header.php";
                     <div class="card-header">BA Raid Tokens</div>
                     <div class="card-body">
                         <p class="card-text">
-                            Unlocking BA Raid Tokens will allow you to find Raid Tokens with normal Backalley searches, not just in /gold Rush!
+                            Unlocking BA Raid Tokens will allow you to find Raid Tokens with normal Backalley searches, not just in Gold Rush!
+                        </p>
+                    </div>
+                </div>
+
+                <!--  Super Attack -->
+                <div class="card text-bg-success mb-3" style="max-width: 18rem;">
+                    <div class="card-header">Super Attack</div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Unlocking Super Attack gives you access to a new feature where you can attack up to 50 players with one click of a button, helping
+                            you complete those important kill missions!
+                        </p>
+                    </div>
+                </div>
+
+                <!--  BA Gold Rush Boost -->
+                <div class="card text-bg-danger mb-3" style="max-width: 18rem;">
+                    <div class="card-header">BA Gold Rush Boost</div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Unlocking Ba Gold Rush boost gives you a 10% boosted chance of finding Gold Rush in the Backalley
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <!--  Crime Cash  -->
+                <div class="card text-bg-danger mb-3" style="max-width: 18rem;">
+                    <div class="card-header">Crime Cash Boost</div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Unlocking Crime Cash Boost gives an extra 10% cash from all crimes you complete.
+                        </p>
+                    </div>
+                </div>
+
+                <!--  Throne Payouts -->
+                <div class="card text-bg-success mb-3" style="max-width: 18rem;">
+                    <div class="card-header">Throne Payout Boost</div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Unlocking Throne Payout Boost gives you an extra 20% payouts from all Boss/Under Boss positions held!
+                        </p>
+                    </div>
+                </div>
+
+                <!--  Travel Cost Reducion -->
+                <div class="card text-bg-danger mb-3" style="max-width: 18rem;">
+                    <div class="card-header">Travel Cost Reduction</div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Unlocking Travel Cost Reduction gives you a 20% reduction on all travel costs.
                         </p>
                     </div>
                 </div>
