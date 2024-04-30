@@ -73,7 +73,7 @@ $nor = 3; // number of ranks to be shown per category
     <center>
 <font size="3px">        <?php
         $bb = mysql_fetch_array(mysql_query("SELECT endtime FROM bloodbath ORDER BY endtime DESC LIMIT 1"));
-        //echo 'Bloodbath will end in <span id="ajax_bb">' . howlongtil($bb['endtime']) . '</span></font></center><tr>';
+        echo 'Bloodbath will end in <span id="ajax_bb">' . howlongtil($bb['endtime']) . '</span></font></center><tr>';
        // echo 'Bloodbath will be paid automatically when the timer expires.</font></center><tr>';
 
 
