@@ -18,7 +18,11 @@ include "header.php";
                             Unlocking BA Raid Tokens will allow you to find Raid Tokens with normal Backalley searches, not just in Gold Rush!
                         </p>
                     </div>
-                </div>
+                    <div class="card-footer">
+                        <center>
+                            <a href="#"><button>Unlock</button></a>
+                        </center>
+                    </div>
             </div>
             <div class="col-md-4">
                 <!--  Super Attack -->
