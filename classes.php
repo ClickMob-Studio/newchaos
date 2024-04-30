@@ -856,7 +856,7 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
 //                    $this->badgesex[1] = $number;
                 }
                 if (!isset($this->badge2) && $this->crimesucceeded >= $badgers['needed']) {
-                    $this->badge2 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img src="css/images/'.$badgers["img"].'.png"></img></div>';
+                    $this->badge2 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png"></img></div>';
                     $this->badge = 1;
                 }
             }
@@ -875,7 +875,7 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
 //                    $this->badgesex[2] = $number;
                 }
                 if (!isset($this->badge5) && $this->totalattrib >= $badgers['needed']) {
-                    $this->badge5 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img src="css/images/'.$badgers["img"].'.png"></img></div>';
+                    $this->badge5 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png"></img></div>';
                     $this->badge = 1;
                 }
             }
@@ -894,7 +894,7 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
 //                    $this->badgesex[3] = $number;
                 }
                 if (!isset($this->badge4) && $this->battlewon >= $badgers['needed']) {
-                    $this->badge4 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img src="css/images/'.$badgers["img"].'.png"></img></div>';
+                    $this->badge4 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png"></img></div>';
                     $this->badge = 1;
                 }
             }
@@ -913,7 +913,7 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
 //                    $this->badgesex[4] = $number;
                 }
                 if (!isset($this->badge6) && $this->banklog >= $badgers['needed']) {
-                    $this->badge6 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img src="css/images/'.$badgers["img"].'.png"></img></div>';
+                    $this->badge6 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png"></img></div>';
                     $this->badge = 1;
                 }
             }
@@ -932,7 +932,7 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
 //                    $this->badgesex[5] = $number;
                 }
                 if (!isset($this->badge7) && $this->mugsucceeded >= $badgers['needed']) {
-                    $this->badge7 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img src="css/images/'.$badgers["img"].'.png"></img></div>';
+                    $this->badge7 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png"></img></div>';
                     $this->badge = 1;
                 }
             }
@@ -951,7 +951,7 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
 //                    $this->badgesex[6] = $number;
                 }
                 if (!isset($this->badge8) && $this->busts >= $badgers['needed']) {
-                    $this->badge8 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img src="css/images/'.$badgers["img"].'.png"></img></div>';
+                    $this->badge8 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png"></img></div>';
                     $this->badge = 1;
                 }
             }

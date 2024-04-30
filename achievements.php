@@ -280,13 +280,13 @@ $bustbadge = array(
             <table width="100%" align="center">
                 <tr>
                     <?php
-                    echo (isset($user_class->badge1)) ? "<td align='center'>" . $user_class->badge1 . "</td>" : "";
-                    echo (isset($user_class->badge2)) ? "<td align='center'>" . $user_class->badge2 . "</td>" : "";
-                    echo (isset($user_class->badge4)) ? "<td align='center'>" . $user_class->badge4 . "</td>" : "";
-                    echo (isset($user_class->badge5)) ? "<td align='center'>" . $user_class->badge5 . "</td>" : "";
-                    echo (isset($user_class->badge6)) ? "<td align='center'>" . $user_class->badge6 . "</td>" : "";
-                    echo (isset($user_class->badge7)) ? "<td align='center'>" . $user_class->badge7 . "</td>" : "";
-                    echo (isset($user_class->badge8)) ? "<td align='center'>" . $user_class->badge8 . "</td>" : "";
+                    echo (isset($user_class->badge1)) ? "<td align='center' style='width:100px;'>" . $user_class->badge1 . "</td>" : "";
+                    echo (isset($user_class->badge2)) ? "<td align='center' style='width:100px;'>" . $user_class->badge2 . "</td>" : "";
+                    echo (isset($user_class->badge4)) ? "<td align='center' style='width:100px;'>" . $user_class->badge4 . "</td>" : "";
+                    echo (isset($user_class->badge5)) ? "<td align='center' style='width:100px;'>" . $user_class->badge5 . "</td>" : "";
+                    echo (isset($user_class->badge6)) ? "<td align='center' style='width:100px;'>" . $user_class->badge6 . "</td>" : "";
+                    echo (isset($user_class->badge7)) ? "<td align='center' style='width:100px;'>" . $user_class->badge7 . "</td>" : "";
+                    echo (isset($user_class->badge8)) ? "<td align='center' style='width:100px;'>" . $user_class->badge8 . "</td>" : "";
                     ?>
                 </tr>
             </table>
@@ -315,7 +315,7 @@ foreach($achs as $head => $var){
 	foreach(array_reverse($$var) as $ach){
 			echo'<td>';
                 echo'<div class="ach' . $ach['img'] . '" title="' . $ach['title'] . '">
-               <img src="css/images/'.$ach["img"].'.png"> </img>
+               <img src="css/images/'.$ach["img"].'.png" style="width:100px; height:100px;"> </img>
                 </div><br />';
 		switch($var){
 			case 'levelbadges':
