@@ -280,13 +280,13 @@ $bustbadge = array(
             <table width="100%" align="center">
                 <tr>
                     <?php
-                    echo (isset($user_class->badge1)) ? "<td align='center'>" . $user_class->badge1 . "</td>" : "";
-                    echo (isset($user_class->badge2)) ? "<td align='center'>" . $user_class->badge2 . "</td>" : "";
-                    echo (isset($user_class->badge4)) ? "<td align='center'>" . $user_class->badge4 . "</td>" : "";
-                    echo (isset($user_class->badge5)) ? "<td align='center'>" . $user_class->badge5 . "</td>" : "";
-                    echo (isset($user_class->badge6)) ? "<td align='center'>" . $user_class->badge6 . "</td>" : "";
-                    echo (isset($user_class->badge7)) ? "<td align='center'>" . $user_class->badge7 . "</td>" : "";
-                    echo (isset($user_class->badge8)) ? "<td align='center'>" . $user_class->badge8 . "</td>" : "";
+                    echo (isset($user_class->badge1)) ? "<td align='center' style='width:100px;'>" . $user_class->badge1 . "</td>" : "";
+                    echo (isset($user_class->badge2)) ? "<td align='center' style='width:100px;'>" . $user_class->badge2 . "</td>" : "";
+                    echo (isset($user_class->badge4)) ? "<td align='center' style='width:100px;'>" . $user_class->badge4 . "</td>" : "";
+                    echo (isset($user_class->badge5)) ? "<td align='center' style='width:100px;'>" . $user_class->badge5 . "</td>" : "";
+                    echo (isset($user_class->badge6)) ? "<td align='center' style='width:100px;'>" . $user_class->badge6 . "</td>" : "";
+                    echo (isset($user_class->badge7)) ? "<td align='center' style='width:100px;'>" . $user_class->badge7 . "</td>" : "";
+                    echo (isset($user_class->badge8)) ? "<td align='center' style='width:100px;'>" . $user_class->badge8 . "</td>" : "";
                     ?>
                 </tr>
             </table>
