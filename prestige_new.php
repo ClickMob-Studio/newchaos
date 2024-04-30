@@ -58,7 +58,7 @@ include "header.php";
                 </div>
             </div>
 
-            <div class="card text-white bg-danger mb-3">
+            <div class="col-md-4">
                 <!--  Throne Payouts -->
                 <div class="card text-white bg-success mb-3">
                     <div class="card-header">Throne Payout Boost</div>
@@ -70,9 +70,9 @@ include "header.php";
                 </div>
             </div>
 
-            <div class="card text-white bg-danger mb-3">
+            <div class="col-md-4">
                 <!--  Travel Cost Reducion -->
-                <div class="card text-bg-danger mb-3" >
+                <div class="card text-white bg-danger mb-3" >
                     <div class="card-header">Travel Cost Reduction</div>
                     <div class="card-body">
                         <p class="card-text">
