@@ -19,7 +19,8 @@ include "header.php";
                         </p>
                     </div>
                 </div>
-
+            </div>
+            <div class="col-md-4">
                 <!--  Super Attack -->
                 <div class="card text-bg-success mb-3" style="max-width: 18rem;">
                     <div class="card-header">Super Attack</div>
@@ -30,7 +31,8 @@ include "header.php";
                         </p>
                     </div>
                 </div>
-
+            </div>
+            <div class="col-md-4">
                 <!--  BA Gold Rush Boost -->
                 <div class="card text-bg-danger mb-3" style="max-width: 18rem;">
                     <div class="card-header">BA Gold Rush Boost</div>
@@ -54,7 +56,9 @@ include "header.php";
                         </p>
                     </div>
                 </div>
+            </div>
 
+            <div class="col-md-4">
                 <!--  Throne Payouts -->
                 <div class="card text-bg-success mb-3" style="max-width: 18rem;">
                     <div class="card-header">Throne Payout Boost</div>
@@ -64,7 +68,9 @@ include "header.php";
                         </p>
                     </div>
                 </div>
+            </div>
 
+            <div class="col-md-4">
                 <!--  Travel Cost Reducion -->
                 <div class="card text-bg-danger mb-3" style="max-width: 18rem;">
                     <div class="card-header">Travel Cost Reduction</div>
