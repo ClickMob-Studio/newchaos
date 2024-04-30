@@ -22,7 +22,7 @@ include "header.php";
             </div>
             <div class="col-md-4">
                 <!--  Super Attack -->
-                <div class="card text-bg-success mb-3">
+                <div class="card text-white bg-success mb-3">
                     <div class="card-header">Super Attack</div>
                     <div class="card-body">
                         <p class="card-text">
@@ -60,7 +60,7 @@ include "header.php";
 
             <div class="col-md-4">
                 <!--  Throne Payouts -->
-                <div class="card text-bg-success mb-3">
+                <div class="card text-white bg-success mb-3">
                     <div class="card-header">Throne Payout Boost</div>
                     <div class="card-body">
                         <p class="card-text">
