@@ -1,5 +1,14 @@
 <?php
 include "header.php";
+
+$prestigeUserSkills = getUserPrestigeSkills($user_class->id);
+
+$prestigeUnlocks = array();
+// BA Raid Tokens
+$prestigeUnlocks['ba_raidtokens_unlock'] = array(
+        'name' => 'BA Raid Tokens',
+        'description' => 'Unlocking BA Raid Tokens will allow you to find Raid Tokens with normal Backalley searches, not just in Gold Rush!'
+);
 ?>
 
 <div class='box_top'>Account Prestige</div>

@@ -2146,3 +2146,13 @@ function getUserPrestigeSkills($userId)
         return $r;
     }
 }
+
+function addUserPrestigeSkill($user_class, $field, $qty = 1)
+{
+    global $db;
+
+    $data = getUserPrestigeSkills($user_class->id);
+
+    $db->query("UPDATE user_prestige_skills SET {$field} = {$field} + {$qty} WHERE id = " . $data['id']);
+    $db->execute();
+}
