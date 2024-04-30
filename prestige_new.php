@@ -46,7 +46,7 @@ $prestigeUnlocks['travel_cost_unlock'] = array(
         <div class="row">
             <?php foreach ($prestigeUnlocks as $key => $prestigeUnlock): ?>
                 <div class="col-md-4">
-                    <div class="card text-white bg-danger mb-3" style="min-height: 170px;">
+                    <div class="card text-white bg-danger mb-3" style="min-height: 270px;">
                         <div class="card-header"><?php echo $prestigeUnlock['name'] ?></div>
                         <div class="card-body">
                             <p class="card-text">
