@@ -33,8 +33,8 @@ if (isset($_POST) && isset($_POST['code'])) {
         } else if ($page === 'super_attack') {
             header('Location: super_attack.php');
         } else if ($page === 'profiles') {
-            if (isset($_GET['id'])) {
-                header('Location: profiles.php?id=' . $_GET['id']);
+            if (isset($_GET['pid'])) {
+                header('Location: profiles.php?id=' . $_GET['pid']);
             } else if (isset($_POST['pid'])) {
                 header('Location: profiles.php?id=' . $_POST['pid']);
             } else {
