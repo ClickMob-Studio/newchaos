@@ -94,6 +94,15 @@ $leftLinks[] =
 		'name' => 'Backalley',
 		'url'  => 'backalley_new.php',
 	);
+
+$userPrestigeSkills = getUserPrestigeSkills($user_class);
+if ($userPrestigeSkills['speed_attack_unlock'] > 0) {
+    $leftLinks[] =
+        array(
+            'name' => 'Super Attack',
+            'url'  => 'super_attack.php',
+        );
+}
 if ($user_class->gang) {
     $leftLinks[] =
         array(
