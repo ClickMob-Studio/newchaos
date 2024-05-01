@@ -1,5 +1,6 @@
 <?php
 include 'header.php';
+$userPrestigeSkills = getUserPrestigeSkills($user_class);
 ?>
 <div class='box_top'>Travel</div>
 						<div class='box_middle'>
@@ -33,7 +34,10 @@ if (isset($_GET['go'])) {
     $worked = mysql_fetch_array($result);
 	if($worked['pres'] && !$user_class->prestige)
 		diefun("You do not have access to this city.");
- $cost = $worked['price'] * ($discount / 100);
+    $cost = $worked['price'] * ($discount / 100);
+    if ($userPrestigeSkills['travel_cost_unlock'] > 1) {
+        $cost = $cost - ($cost / 100 * 20);
+    }
     $error = ($worked['name'] == "") ? "That city doesn't exist." : $error;
     $error = ($user_class->level < $worked['levelreq']) ? "You are not a high enough level to go there!." : $error;
     $error = ($user_class->prestige < $worked['pres']) ? "You are not a high enough Prestige to go there!." : $error;
@@ -91,6 +95,10 @@ while ($line = mysql_fetch_array($result)) {
     $queen_status = $queen ? " " . formatName($queen['id']) : 'Vacant';
 
     $cost = $line['price'] * ($discount / 100);
+    if ($userPrestigeSkills['travel_cost_unlock'] > 1) {
+        $cost = $cost - ($cost / 100 * 20);
+    }
+
     if ($line['rmonly'] == 1) {
         echo "<tr><td><a href='travel.php?go={$line['id']}'>{$line['name']}</a> <a href='rmstore.php' class='rm' style='color:yellow;'>RY ONLY</a></td><td>" . prettynum($cost, 1) . "</td><td>{$line['levelreq']}</td><td>{$line['pres']}</td><td>$population</td><td>$king_status</td><td>$queen_status</td></tr>";
     } else {
