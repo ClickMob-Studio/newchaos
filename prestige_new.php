@@ -5,7 +5,7 @@ if ($user_class->admin < 1) {
     exit;
 }
 
-$userPrestigeSkills = getUserPrestigeSkills($user_class->id);
+$userPrestigeSkills = getUserPrestigeSkills($user_class);
 
 $prestigeUnlocks = array();
 // BA Raid Tokens
