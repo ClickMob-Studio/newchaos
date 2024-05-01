@@ -316,6 +316,9 @@ if (isset($_POST['id']) || isset($input['id'])) {
             if ($userPrestigeSkills['crime_cash_unlock'] > 0) {
                 $money = $money + ($money / 100 * 10);
             }
+            if ($userPrestigeSkills['crime_cash_boost_level'] > 0) {
+                $money = $money + ($money / 100 * (2 * $userPrestigeSkills['crime_cash_boost_level']));
+            }
 
             $gtax = 0;
             if ($user_class->gang != 0) {
