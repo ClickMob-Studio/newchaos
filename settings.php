@@ -190,7 +190,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: {
                 action: 'shoutbox',
-                comments: shoutbox
+                shoutbox: shoutbox
             },
             success: function(response) {
                 $('.info-alert').html(response.text).show();
