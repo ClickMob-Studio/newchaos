@@ -98,9 +98,24 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_unlock' && isset($_GET['u
             <?php endforeach; ?>
         </div>
 
+        <br />
         <h2>Prestige Boosts</h2>
         <p>You currently have <?php echo $userPrestigeSkills['prestige_boosts_available'] ?> prestige boosts available.</p>
         <hr />
+        <div class="table-container">
+            <table class="new_table" id="newtables" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>Boost</th>
+                        <th>Level</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
