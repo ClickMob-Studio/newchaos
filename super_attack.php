@@ -37,7 +37,7 @@ if (checkCaptchaRequired($user_class)) {
         e.preventDefault();
 
         var request = $.ajax({
-            url: $(this).attr('href') + '&alv=yes',
+            url: $(this).attr('href') + '?alv=yes',
             method: "GET",
             dataType: "json"
         });
