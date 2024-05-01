@@ -9,6 +9,9 @@ if (isset($_POST['submit'])) {
         $cost += $glow_cost;
     }
 
+    if ($user_class->admin > 0) {
+        echo strlen($_POST['message']); exit;
+    }
     if ($cost > $user_class->bank) {
         $error = "You don't have enough money in your bank for that!";
     } elseif (empty($_POST['message'])) {
