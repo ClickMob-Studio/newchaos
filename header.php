@@ -692,7 +692,7 @@ if ($user_class->view_preference === '1') { ?>
 						
 					</div>
 				</div>
-     <?php if (!$user_class->is_ads_disabled): ?>
+            
     <div class="vertical-text-slider floaty dcPanel p-3" style="width: 99%;margin-top: 10px;">
         <div class="d-flex flex-column">
             <div class="d-flex align-items-center justify-content-center mb-3">
@@ -745,7 +745,6 @@ if ($user_class->view_preference === '1') { ?>
             </div>
         </div>
     </div>
-    <?php endif; ?>
 
 <div class='time text-center' style='text-align: center';>Server Time: <?php echo date('d/m/Y  H:i:s'); ?></div>
 			</header>
