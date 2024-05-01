@@ -167,6 +167,14 @@ $admin_ids = array_map(function($a) {
         <?php endif; ?>
         <br />
 
+        <?php
+        $owned_points = $city_query['owned_points'];
+        $userPrestigeSkills = getUserPrestigeSkills($user_class);
+        if ($userPrestigeSkills['throne_points_unlock'] > 0) {
+            $owned_points = $owned_points + ($owned_points / 100 * 20);
+        }
+
+        ?>
         <p style="font-weight: bold; margin-top: 5px;">By being the Boss of this city you will earn <?php echo number_format($city_query['owned_points'], 0) ?> points an hour.</p>
        
 
@@ -176,7 +184,6 @@ $admin_ids = array_map(function($a) {
 if($user_class->city == 600){
     $twenty_percent = 3250;
 }else{
-$owned_points = $city_query['owned_points'];
 $twenty_percent =$owned_points - $owned_points * 0.20;
 }
 ?>
