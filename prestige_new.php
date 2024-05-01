@@ -152,7 +152,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_unlock' && isset($_GET['u
 
 if (isset($_GET['action']) && $_GET['action'] === 'add_boost' && isset($_GET['boost_type'])) {
     $boostType = $_GET['boost_type'];
-    if (!isset($prestigeUnlocks[$boostType])) {
+    if (!isset($prestigeBoosts[$boostType])) {
         diefun('Something went wrong, please DM an Admin if this issue persists.');
     }
 
