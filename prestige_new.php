@@ -6,7 +6,7 @@ if ($user_class->admin < 1) {
 }
 
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
-
+var_dump($userPrestigeSkills);
 $prestigeUnlocks = array();
 // BA Raid Tokens
 $prestigeUnlocks['ba_raidtokens_unlock'] = array(
@@ -38,6 +38,19 @@ $prestigeUnlocks['travel_cost_unlock'] = array(
     'name' => 'Travel Cost Reduction',
     'description' => 'Unlocking Travel Cost Reduction gives you a 20% reduction on all travel costs.'
 );
+
+$prestigeBoosts = array();
+
+//
+//+50 energy
+//
+//2% boost to crime cash
+//
+//2% boost to mission point payouts
+//
+//2% BA payout boost
+//
+//10 More Hourly Searches
 
 
 if (isset($_GET['action']) && $_GET['action'] === 'add_unlock' && isset($_GET['unlock_type'])) {
