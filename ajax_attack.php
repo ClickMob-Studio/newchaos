@@ -300,6 +300,9 @@ if($attack_person->gang > 0){
     $attack_person->moddedspeed += round(($attack_person->moddedspeed * $percent) / 100);
 }
 
+$userspeed = $user_class->moddedspeed;
+$attackspeed = $attack_person->moddedspeed;
+
 $wait = ($userspeed > $attackspeed) ? 1 : 0;
 $number = 0;
 
