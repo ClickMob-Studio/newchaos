@@ -44,7 +44,7 @@ if ($_GET['alv'] !== 'yes') {
 $time = time() - 900;
 $protime = time();
 
-$sql = "lastactive < '{$time}' AND hospital = 0 AND jail = 0 AND aprotection < {$protime} AND (gang <> $user_class->gang || gang = 0)  AND admin < 1 AND hp > (50*level)/4 AND id <> $user_class->id ";
+$sql = "lastactive < '{$time}' AND city = " . $user_class->city . " AND hospital = 0 AND jail = 0 AND aprotection < {$protime} AND (gang <> $user_class->gang || gang = 0)  AND admin < 1 AND hp > (50*level)/4 AND id <> $user_class->id ";
 $db->query("SELECT `id` FROM `grpgusers` WHERE " . $sql . " ORDER BY rand() DESC LIMIT 1");
 $db->execute();
 $attack_id = $db->fetch_single();
