@@ -46,6 +46,8 @@ if ($_GET['alv'] !== 'yes') {
     exit;
 }
 
+$userPrestigeSkills = getUserPrestigeSkills($user_class);
+
 // USE MED PACK
 if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'use_med_pack') {
     if ($user_class->purehp >= $user_class->puremaxhp && !$user_class->hospital) {
@@ -358,6 +360,9 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 } else {
 
     $goldRushChance = mt_rand(1,15000);
+    if ($userPrestigeSkills['ba_gold_rush_unlock'] > 1) {
+        $goldRushChance = mt_rand(1,12500);
+    }
     if ($goldRushChance == 2) {
         $db->query("UPDATE user_ba_stats SET gold_rush_credits = gold_rush_credits + 15 WHERE user_id = " . $user_class->id);
         $db->execute();
@@ -512,9 +517,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     } else if ($outcome <= 100) {
-
-        $userPrestigeSkills = getUserPrestigeSkills($user_class);
-        if ($userPrestigeSkills['ba_raidtokens_unlock'] < 1) {
+        if ($userPrestigeSkills['ba_raidtokens_unlock'] > 0) {
             $rtorpChance = 100;
         } else {
             $rtorpChance = mt_rand(1,100);
