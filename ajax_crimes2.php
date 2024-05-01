@@ -312,10 +312,10 @@ if (isset($_POST['id']) || isset($input['id'])) {
             gangContest(array('crimes' => $crime_multiplier, 'exp' => $exp));
             bloodbath('crimes', $user_class->id, $bbnerve / $user_class->level, $crime_multiplier);
 
-            $userPrestigeSkills = getUserPrestigeSkills($user_class);
-            if ($userPrestigeSkills['crime_cash_unlock'] > 1) {
-                $money = $money + ($money / 100 * 10);
-            }
+//            $userPrestigeSkills = getUserPrestigeSkills($user_class);
+//            if ($userPrestigeSkills['crime_cash_unlock'] > 1) {
+//                $money = $money + ($money / 100 * 10);
+//            }
 
             $gtax = 0;
             if ($user_class->gang != 0) {
