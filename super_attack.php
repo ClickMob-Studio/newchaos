@@ -51,6 +51,7 @@ $_SESSION['csrf'] = $csrf;
             dataType: "json"
         });
         request.done(function (res) {
+             console.log(res);
             if (res.success == false || res.success == 'false') {
                 var resMes = "<div class='alert alert-danger ajax-alert-div'><p>You don't have anyone you can attack at the moment. Consider trying a different city.</p></div>";
                 $(".ajax-message-holder").html(resMes);
@@ -61,12 +62,12 @@ $_SESSION['csrf'] = $csrf;
                     method: "GET",
                     dataType: "json"
                 });
-                request.done(function (res) {
-                    //console.log(res);
-                    if (res.success == false || res.success == 'false') {
-                        var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + res.error + "</p></div>";
+                request.done(function (resTwo) {
+                    console.log(resTwo);
+                    if (resTwo.success == false || resTwo.success == 'false') {
+                        var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + resTwo.error + "</p></div>";
                     } else {
-                        var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + res.message + "</p></div>";
+                        var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + resTwo.message + "</p></div>";
                     }
 
                     $(".ajax-message-holder").html(resMes);
