@@ -39,6 +39,11 @@ $prestigeUnlocks['travel_cost_unlock'] = array(
     'description' => 'Unlocking Travel Cost Reduction gives you a 20% reduction on all travel costs.'
 );
 
+
+if (isset($_GET['action']) && $_GET['action'] === 'add_unlock') {
+
+}
+
 ?>
 
 <div class='box_top'>Account Prestige</div>
@@ -47,6 +52,8 @@ $prestigeUnlocks['travel_cost_unlock'] = array(
         <p>Welcome to Account Prestiges!</p>
 
         <h2>Prestige Unlocks</h2>
+        <p>You currently have <?php echo $userPrestigeSkills['prestige_unlocks_available'] ?> prestige unlocks available.</p>
+        <hr />
         <div class="row">
             <?php foreach ($prestigeUnlocks as $key => $prestigeUnlock): ?>
                 <?php

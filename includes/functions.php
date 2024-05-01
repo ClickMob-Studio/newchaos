@@ -2128,15 +2128,18 @@ function addLimitedStorePackPurchase($user_class, $limitedStorePackId)
     $db->execute();
 }
 
-function getUserPrestigeSkills($userId)
+function getUserPrestigeSkills($user_class)
 {
     global $db;
 
-    $db->query("SELECT * FROM user_prestige_skills WHERE user_id = " . $userId . " LIMIT 1");
+    $db->query("SELECT * FROM user_prestige_skills WHERE user_id = " . $user_class->id . " LIMIT 1");
     $db->execute();
     $r = $db->fetch_row();
 
     if (isset($r[0]['id'])) {
+        $r[0]['prestige_unlocks_available'] = ($user_class->prestige * 1) - $r[0]['unlock_points_spent'];
+        $r[0]['prestige_boosts_available'] = ($user_class->prestige * 5) - $r[0]['boosts_points_spent'];
+
         return $r[0];
     } else {
         $db->query("INSERT INTO user_prestige_skills (user_id) VALUES (" . $userId . ")");
