@@ -54,7 +54,7 @@ $prestigeUnlocks['travel_cost_unlock'] = array(
                 $button = '<a href="prestige_new.php?prestige"><button>Unlock</button></a>';
                 if ($userPrestigeSkills[$key] > 0) {
                     $divClass = 'bg-success';
-                    $button = '<a href="prestige_new.php?prestige"><button>Unlock</button></a>';
+                    $button = '';
                 }
                 ?>
                 <div class="col-md-4">
