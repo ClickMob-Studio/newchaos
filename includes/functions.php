@@ -2138,7 +2138,7 @@ function getUserPrestigeSkills($user_class)
 
     if (isset($r[0]['id'])) {
         $r[0]['prestige_unlocks_available'] = ($user_class->prestige * 1) - $r[0]['unlock_points_spent'];
-        $r[0]['prestige_boosts_available'] = ($user_class->prestige * 5) - $r[0]['boosts_points_spent'];
+        $r[0]['prestige_boosts_available'] = ($user_class->prestige * 5) - $r[0]['boosts_spent'];
 
         return $r[0];
     } else {
