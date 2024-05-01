@@ -163,7 +163,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_boost' && isset($_GET['bo
     if ($userPrestigeSkills[$boostType] >= 5) {
         diefun('You have already maxed out this boost.');
     }
-    ($userPrestigeSkills[$boostType] = ($userPrestigeSkills[$boostType] + 1;
+    $userPrestigeSkills[$boostType] = ($userPrestigeSkills[$boostType] + 1;
 
     $db->query('UPDATE user_prestige_skills SET ' . $boostType . ' = ' . $boostType . ' + 1, boosts_spent = boosts_spent + 1 WHERE user_id = ' . $user_class->id);
     $db->execute();
