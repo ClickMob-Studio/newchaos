@@ -6,7 +6,6 @@ if ($user_class->admin < 1) {
 }
 
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
-var_dump($userPrestigeSkills);
 $prestigeUnlocks = array();
 // BA Raid Tokens
 $prestigeUnlocks['ba_raidtokens_unlock'] = array(
@@ -40,17 +39,12 @@ $prestigeUnlocks['travel_cost_unlock'] = array(
 );
 
 $prestigeBoosts = array();
-
-//
-//+50 energy
-//
-//2% boost to crime cash
-//
-//2% boost to mission point payouts
-//
-//2% BA payout boost
-//
-//10 More Hourly Searches
+$prestigeBoosts['energy_boost_level'] = '+50 Energy Boost';
+$prestigeBoosts['crime_cash_boost_level'] = '+2% Crime Cash Boost';
+$prestigeBoosts['mission_point_boost_level'] = '+2% Mission Point Boost';
+$prestigeBoosts['mission_exp_boost_level'] = '+2% Mission EXP Boost';
+$prestigeBoosts['ba_point_boost_level'] = '+2% Backalley Point Payout Boost';
+$prestigeBoosts['hourly_searches_boost_level'] = '+10 Hourly Searches';
 
 
 if (isset($_GET['action']) && $_GET['action'] === 'add_unlock' && isset($_GET['unlock_type'])) {
@@ -125,7 +119,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_unlock' && isset($_GET['u
                     </tr>
                 </thead>
                 <tbody>
-
+                    <?php foreach ($prestigeBoosts as $key => $name): ?>
+                        <tr>
+                            <td><?php echo $name ?></td>
+                            <td><?php echo $userPrestigeSkills[$key] ?>/5</td>
+                            <td><a href="prestige_new.php?action=add_boostk&unlock_type=<?php echo $key ?>"><button>Add</button></a>5</td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
