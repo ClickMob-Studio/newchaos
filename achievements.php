@@ -243,7 +243,7 @@ $bustbadge = array(
 	'5' => array(
 		'needed' => 50000,
 		'payout' => 30000,
-		'img' => 'busts20k',
+		'img' => 'busts50k',
 		'title' => 'Golden Buster: Bust 50,000 Crazies'
 	),
 	'4' => array(
