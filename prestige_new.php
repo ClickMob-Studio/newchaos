@@ -1,7 +1,11 @@
 <?php
 include "header.php";
 
-$prestigeUserSkills = getUserPrestigeSkills($user_class->id);
+if ($user_class->admin < 1) {
+    exit;
+}
+
+$userPrestigeSkills = getUserPrestigeSkills($user_class->id);
 
 $prestigeUnlocks = array();
 // BA Raid Tokens
@@ -45,8 +49,16 @@ $prestigeUnlocks['travel_cost_unlock'] = array(
         <h2>Prestige Unlocks</h2>
         <div class="row">
             <?php foreach ($prestigeUnlocks as $key => $prestigeUnlock): ?>
+                <?php
+                $divClass = 'bg-danger';
+                $button = '<a href="prestige_new.php?prestige"><button>Unlock</button></a>';
+                if ($userPrestigeSkills[$key] > 0) {
+                    $divClass = 'bg-success';
+                    $button = '<a href="prestige_new.php?prestige"><button>Unlock</button></a>';
+                }
+                ?>
                 <div class="col-md-4">
-                    <div class="card text-white bg-danger mb-3" style="min-height: 240px;">
+                    <div class="card text-white <?php echo $divClass ?> mb-3" style="min-height: 240px;">
                         <div class="card-header"><?php echo $prestigeUnlock['name'] ?></div>
                         <div class="card-body">
                             <p class="card-text">
@@ -55,7 +67,7 @@ $prestigeUnlocks['travel_cost_unlock'] = array(
                         </div>
                         <div class="card-footer">
                             <center>
-                                <a href="#"><button>Unlock</button></a>
+                                <?php echo $button ?>
                             </center>
                         </div>
                     </div>
