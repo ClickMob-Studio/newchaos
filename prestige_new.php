@@ -214,7 +214,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_unlock' && isset($_GET['u
     </div>
 </div>
 
-
+<h2>Prestige</h2>
+<hr />
 <?php
 $prestigeLevel = $user_class->prestige;
 
