@@ -1957,6 +1957,8 @@ function getUserBaStats($user_class)
 {
     global $db;
 
+    $userPrestigeSkills = getUserPrestigeSkills($user_class);
+
     $db->query("SELECT * FROM user_ba_stats WHERE user_id = " . $user_class->id . " LIMIT 1");
     $db->execute();
     $r = $db->fetch_row();
@@ -1964,6 +1966,10 @@ function getUserBaStats($user_class)
     if (isset($r[0]['id'])) {
         $r = $r[0];
         $r['maxexp'] = 10000 * $r['level'];
+
+        if ($userPrestigeSkills['ba_point_boost_level'] > 0) {
+            $r['additional_max_levels'] = $userPrestigeSkills['ba_point_boost_level'];
+        }
 
         return $r;
     } else {
@@ -1980,7 +1986,12 @@ function addUserBaStatExp($userBaStats, $baExpWon)
 {
     global $db;
 
-    if ($userBaStats['level'] < 10) {
+    $maxLevels = 10;
+    if (isset($userBaStats['additional_max_levels']) && $userBaStats['additional_max_levels'] > 0) {
+        $maxLevels = $maxLevels + $userBaStats['additional_max_levels'];
+    }
+
+    if ($userBaStats['level'] < $maxLevels) {
         $newExp = $userBaStats['exp'] + $baExpWon;
         if ($newExp > $userBaStats['maxexp']) {
             $db->query("UPDATE `user_ba_stats` SET `exp` = 0, `level` = `level` + 1  WHERE `id` = '" . $userBaStats['id'] . "'");

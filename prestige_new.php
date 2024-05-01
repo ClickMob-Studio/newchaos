@@ -125,7 +125,7 @@ $prestigeBoosts['energy_boost_level'] = '+50 Energy Boost';
 $prestigeBoosts['crime_cash_boost_level'] = '+2% Crime Cash Boost';
 $prestigeBoosts['mission_point_boost_level'] = '+2% Mission Point Boost';
 $prestigeBoosts['mission_exp_boost_level'] = '+2% Mission EXP Boost';
-$prestigeBoosts['ba_point_boost_level'] = '+2% Backalley Point Payout Boost';
+$prestigeBoosts['ba_point_boost_level'] = '+1 Backalley Level';
 $prestigeBoosts['hourly_searches_boost_level'] = '+10 Hourly Searches';
 
 

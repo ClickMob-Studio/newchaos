@@ -309,6 +309,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     } else if ($outcome <= 85) {
         // 15% Win Points
         $pointsWon = mt_rand(10,50) * $userBaStats['level'];
+
         $baExpWon = mt_rand(5,25);
 
         $db->query("UPDATE `grpgusers` SET `points` = `points` + " . $pointsWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
