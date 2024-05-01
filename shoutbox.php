@@ -13,8 +13,8 @@ if (isset($_POST['submit'])) {
         $error = "You don't have enough money in your bank for that!";
     } elseif (empty($_POST['message'])) {
         $error = "You need to have a message!";
-    } elseif (strlen($_POST['message']) > 80) {
-        $error = "Your message can't be longer than 80 characters long";
+    } elseif (strlen($_POST['message']) > 90) {
+        $error = "Your message can't be longer than 90 characters long";
     } else {
         $db->query("SELECT COUNT(*) FROM `ads` WHERE `poster` = :userid AND `timestamp` + (`displaymins` * 60) > :current_time");
         $db->bind(':userid', $user_class->id);
