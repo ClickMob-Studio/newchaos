@@ -720,7 +720,7 @@ if ($user_class->view_preference === '1') { ?>
                         </li>
                         <?php
                     } else {
-                        if (!$user_class->is_ads_diabled) {
+                        if (!$user_class->is_ads_disabled) {
                             $row = mysql_fetch_array($result);
                             $user_ads = new User($row['poster']);
                             $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
