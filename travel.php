@@ -1,6 +1,9 @@
 <?php
 include 'header.php';
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
+if ($user_class->admin > 0) {
+    var_dump($userPrestigeSkills);
+}
 ?>
 <div class='box_top'>Travel</div>
 						<div class='box_middle'>
@@ -96,7 +99,6 @@ while ($line = mysql_fetch_array($result)) {
 
     $cost = $line['price'] * ($discount / 100);
     if ($userPrestigeSkills['travel_cost_unlock'] > 1) {
-        echo'h';
         $cost = $cost - ($cost / 100 * 20);
     }
 
