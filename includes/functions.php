@@ -2142,9 +2142,9 @@ function getUserPrestigeSkills($user_class)
 
         return $r[0];
     } else {
-        $db->query("INSERT INTO user_prestige_skills (user_id) VALUES (" . $userId . ")");
+        $db->query("INSERT INTO user_prestige_skills (user_id) VALUES (" . $user_class->id . ")");
         $db->execute();
-        $r = getUserPrestigeSkills($userId);
+        $r = getUserPrestigeSkills($user_class->id);
 
         return $r;
     }
