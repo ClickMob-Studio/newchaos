@@ -512,29 +512,57 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     } else if ($outcome <= 100) {
-        // 10% Win Points
-        $pointsWon = mt_rand(2,4) * $userBaStats['level'];
-        $baExpWon = mt_rand(1,15);
 
-        $db->query("UPDATE `grpgusers` SET `points` = `points` + " . $pointsWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
-        $db->execute();
+        $userPrestigeSkills = getUserPrestigeSkills($user_class);
+        if ($userPrestigeSkills['ba_raidtokens_unlock'] < 1) {
+            $rtorpChance = 100;
+        } else {
+            $rtorpChance = mt_rand(1,100);
+        }
+        if ($rtorpChance > 25) {
+            $pointsWon = mt_rand(2,4) * $userBaStats['level'];
+            $baExpWon = mt_rand(1,15);
 
-        $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `wins` = `wins` + 1, `points_gained` = `points_gained` + " . $pointsWon . "  WHERE `user_id` = '" . $user_class->id . "'");
-        $db->execute();
+            $db->query("UPDATE `grpgusers` SET `points` = `points` + " . $pointsWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
+            $db->execute();
 
-        addUserBaStatExp($userBaStats, $baExpWon);
-        $userBaStats['turns'] = $userBaStats['turns'] + 1;
-        $userBaStats['wins'] = $userBaStats['wins'] + 1;
+            $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `wins` = `wins` + 1, `points_gained` = `points_gained` + " . $pointsWon . "  WHERE `user_id` = '" . $user_class->id . "'");
+            $db->execute();
 
-        $fullResponse = $scenario['start'];
-        $fullResponse .= '<br />';
-        $fullResponse .= '<br />';
-        $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
-        $fullResponse .= '<br /><br />';
-        $fullResponse .= '<span style="font-weight: bold; color: green;">You won ' . number_format($pointsWon, 0) . ' points!</span>';
+            addUserBaStatExp($userBaStats, $baExpWon);
+            $userBaStats['turns'] = $userBaStats['turns'] + 1;
+            $userBaStats['wins'] = $userBaStats['wins'] + 1;
 
-        echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
-        exit;
+            $fullResponse = $scenario['start'];
+            $fullResponse .= '<br />';
+            $fullResponse .= '<br />';
+            $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
+            $fullResponse .= '<br /><br />';
+            $fullResponse .= '<span style="font-weight: bold; color: green;">You won ' . number_format($pointsWon, 0) . ' points!</span>';
+
+            echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
+            exit;
+        } else {
+            $raidTokensWon = mt_rand(1,3) * $userBaStats['level'];
+            $baExpWon = mt_rand(1,15);
+
+            $db->query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + " . $raidTokensWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
+            $db->execute();
+
+            addUserBaStatExp($userBaStats, $baExpWon);
+            $userBaStats['turns'] = $userBaStats['turns'] + 1;
+            $userBaStats['wins'] = $userBaStats['wins'] + 1;
+
+            $fullResponse = $scenario['start'];
+            $fullResponse .= '<br />';
+            $fullResponse .= '<br />';
+            $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
+            $fullResponse .= '<br /><br />';
+            $fullResponse .= '<span style="font-weight: bold; color: green;">You won ' . number_format($raidTokensWon, 0) . ' raid tokens!</span>';
+
+            echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
+            exit;
+        }
     } else {
         $fullResponse = $scenario['start'];
         $fullResponse .= '<br />';
