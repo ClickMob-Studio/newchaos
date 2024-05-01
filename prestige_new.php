@@ -54,7 +54,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_unlock' && isset($_GET['u
         diefun('You have already activated this unlock');
     }
 
+    echo 'UPDATE user_prestige_skills SET "' . $unlockType . '" = 1, unlock_points_spent = unlock_points_spent + 1 WHERE user_id = ' . $user_class->id;
     $db->query('UPDATE user_prestige_skills SET "' . $unlockType . '" = 1, unlock_points_spent = unlock_points_spent + 1 WHERE user_id = ' . $user_class->id);
+    $db->execute();
 
     echo Message("You have successfully unlocked " . $prestigeUnlocks[$unlockType]['name']);
 }
