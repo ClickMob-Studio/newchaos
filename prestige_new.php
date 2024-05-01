@@ -40,8 +40,23 @@ $prestigeUnlocks['travel_cost_unlock'] = array(
 );
 
 
-if (isset($_GET['action']) && $_GET['action'] === 'add_unlock') {
+if (isset($_GET['action']) && $_GET['action'] === 'add_unlock' && isset($_GET['unlock_type'])) {
+    $unlockType = $_GET['unlock_type'];
+    if (!isset($prestigeUnlocks[$unlockType])) {
+        diefun('Something went wrong, please DM an Admin if this issue persists.');
+    }
 
+    if ($userPrestigeSkills['prestige_unlocks_available'] < 1) {
+        diefun('You do not have any prestige unlocks available');
+    }
+
+    if ($userPrestigeSkills[$unlockType] > 0) {
+        diefun('You have already activated this unlock');
+    }
+
+    $db->query('UPDATE user_prestige_skills SET "' . $unlockType . '" = 1, unlock_points_spent = unlock_points_spent + 1 WHERE user_id = ' . $user_class->id);
+
+    echo Message("You have successfully unlocked " . $prestigeUnlocks[$unlockType]['name']);
 }
 
 ?>
