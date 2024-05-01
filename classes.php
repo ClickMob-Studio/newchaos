@@ -407,6 +407,12 @@ $this->nerveboost =  $this->nerveboost;
 
         $this->maxenergy = 9 + $this->level + $this->energyboost;
 
+        if ($this->id == 2) {
+            $userPrestigeSkills = getUserPrestigeSkills($this);
+            if ($userPrestigeSkills['energy_boost_level'] > 0) {
+                $this->maxenergy = $this->maxenergy + (50 * $userPrestigeSkills['energy_boost_level']);
+            }
+        }
 
         $this->maxnerve = 4 + $this->level + $this->nerveboost;
         $this->totalattrib = $this->speed + $this->strength + $this->defense;
