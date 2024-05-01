@@ -123,7 +123,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_unlock' && isset($_GET['u
                         <tr>
                             <td><?php echo $name ?></td>
                             <td><?php echo $userPrestigeSkills[$key] ?>/5</td>
-                            <td><a href="prestige_new.php?action=add_boostk&unlock_type=<?php echo $key ?>"><button>Add</button></a>5</td>
+                            <td><a href="prestige_new.php?action=add_boostk&unlock_type=<?php echo $key ?>"><button>Add</button></a></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
