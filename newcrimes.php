@@ -227,7 +227,7 @@ var submitCrime = function (id, cm=1) {
                 finish();
             }
             console.log('debug *****');
-            console.log(res.debug);
+            console.log(res);
            
             $('.money').html(res.stats.money)
             $(".level").html(res.stats.level)
