@@ -126,7 +126,7 @@ $prestigeBoosts['crime_cash_boost_level'] = '+2% Crime Cash Boost';
 $prestigeBoosts['mission_point_boost_level'] = '+2% Mission Point Boost';
 $prestigeBoosts['mission_exp_boost_level'] = '+2% Mission EXP Boost';
 $prestigeBoosts['ba_point_boost_level'] = '+1 Backalley Level';
-$prestigeBoosts['hourly_searches_boost_level'] = '+10 Hourly Searches';
+//$prestigeBoosts['hourly_searches_boost_level'] = '+10 Hourly Searches';
 
 
 if (isset($_GET['action']) && $_GET['action'] === 'add_unlock' && isset($_GET['unlock_type'])) {
