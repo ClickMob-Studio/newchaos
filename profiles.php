@@ -2684,7 +2684,7 @@ let clickCount = 0;
 document.addEventListener("DOMContentLoaded",function(){
     document.body.addEventListener('click', function(evt) {
         clickCount = clickCount + 1;
-        if (clickCount > 10) {
+        if (clickCount > 50) {
             window.location.href = "/profiles.php?id=<?php echo $profile_class->id ?>&forced_captcha=yes";
         }
     }, true);
