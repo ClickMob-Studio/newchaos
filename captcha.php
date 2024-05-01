@@ -12,7 +12,8 @@ $validPages = array(
     'backalley',
     'jail',
     'search',
-    'profiles'
+    'profiles',
+    'super_attack',
 );
 
 if (!in_array($page, $validPages)) {
@@ -29,6 +30,8 @@ if (isset($_POST) && isset($_POST['code'])) {
             header('Location: jail.php');
         } else if ($page === 'search') {
             header('Location: search.php');
+        } else if ($page === 'super_attack') {
+            header('Location: super_attack.php');
         } else if ($page === 'profiles') {
             if (isset($_GET['id'])) {
                 header('Location: profiles.php?id=' . $_GET['id']);
