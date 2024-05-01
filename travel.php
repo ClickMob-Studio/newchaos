@@ -96,6 +96,7 @@ while ($line = mysql_fetch_array($result)) {
 
     $cost = $line['price'] * ($discount / 100);
     if ($userPrestigeSkills['travel_cost_unlock'] > 1) {
+        echo'h';
         $cost = $cost - ($cost / 100 * 20);
     }
 
