@@ -97,7 +97,7 @@ $prestigeUnlocks['ba_raidtokens_unlock'] = array(
 // Super Attack
 $prestigeUnlocks['speed_attack_unlock'] = array(
     'name' => 'Super Attack',
-    'description' => 'Unlocking Super Attack gives you access to a new feature where you can attack up to 50 players with one click of a button, helping you complete those important kill missions!'
+    'description' => 'Unlocking Super Attack gives you access to a new feature where with one click of a button you\'ll speed attack a random offline player, helping you complete those important kill missions quickly!'
 );
 // BA Gold Rush Boost
 $prestigeUnlocks['ba_gold_rush_unlock'] = array(
