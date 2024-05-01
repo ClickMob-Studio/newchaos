@@ -217,6 +217,7 @@ var submitCrime = function (id, cm=1) {
         });
 
         request.fail(function(res) {
+            console.log(res);
             if (res.error == 'refresh') {
                 finish();
             }
