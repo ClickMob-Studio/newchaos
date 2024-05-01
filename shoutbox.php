@@ -9,15 +9,12 @@ if (isset($_POST['submit'])) {
         $cost += $glow_cost;
     }
 
-    if ($user_class->admin > 0) {
-        echo strlen($_POST['message']); exit;
-    }
     if ($cost > $user_class->bank) {
         $error = "You don't have enough money in your bank for that!";
     } elseif (empty($_POST['message'])) {
         $error = "You need to have a message!";
-    } elseif (strlen($_POST['message']) > 100) {
-        $error = "Your message can't be longer than 100 characters long";
+    } elseif (strlen($_POST['message']) > 80) {
+        $error = "Your message can't be longer than 80 characters long";
     } else {
         $db->query("SELECT COUNT(*) FROM `ads` WHERE `poster` = :userid AND `timestamp` + (`displaymins` * 60) > :current_time");
         $db->bind(':userid', $user_class->id);
