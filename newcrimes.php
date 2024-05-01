@@ -343,7 +343,7 @@ document.addEventListener('orientationchange', finish);
 
 function finish() {
     if (doingcrime)
-        //location.reload();
+        location.reload();
     id = 0;
     doingcrime = false;
 }
