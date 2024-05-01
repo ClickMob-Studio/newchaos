@@ -58,7 +58,7 @@ $_SESSION['csrf'] = $csrf;
                 $(".ajax-message-holder").show();
             } else {
                 var request = $.ajax({
-                    url: 'ajax_attack.php?attack=' + res.attack_id + '&csrf=<?php echo $csrf  ?>',
+                    url: 'ajax_attack.php?attack=' + res.attack_id + '&csrf=<?php echo $csrf  ?>&alv=yes',
                     method: "GET",
                     dataType: "json"
                 });
