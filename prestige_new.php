@@ -142,6 +142,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_unlock' && isset($_GET['u
     if ($userPrestigeSkills[$unlockType] > 0) {
         diefun('You have already activated this unlock');
     }
+    $userPrestigeSkills[$unlockType] = 1;
 
     $db->query('UPDATE user_prestige_skills SET ' . $unlockType . ' = 1, unlock_points_spent = unlock_points_spent + 1 WHERE user_id = ' . $user_class->id);
     $db->execute();
@@ -162,6 +163,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_boost' && isset($_GET['bo
     if ($userPrestigeSkills[$boostType] >= 5) {
         diefun('You have already maxed out this boost.');
     }
+    ($userPrestigeSkills[$boostType] = ($userPrestigeSkills[$boostType] + 1;
 
     $db->query('UPDATE user_prestige_skills SET ' . $boostType . ' = ' . $boostType . ' + 1, boosts_spent = boosts_spent + 1 WHERE user_id = ' . $user_class->id);
     $db->execute();
