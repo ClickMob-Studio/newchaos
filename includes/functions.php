@@ -1896,7 +1896,7 @@ function addItemTempUse($user_class, $field, $qty = 1)
     $itemTempUse = getItemTempUse($user_class->id);
 
     if ($field == 'crime_potion_time' || $field == 'crime_booster_time' || $field == 'nerve_vial_time') {
-        $db->query("UPDATE item_temp_use SET {$field} = {$field} = {$qty} WHERE id = " . $itemTempUse['id']);
+        $db->query("UPDATE item_temp_use SET {$field} = {$qty} WHERE id = " . $itemTempUse['id']);
         $db->execute();
     } else {
         $db->query("UPDATE item_temp_use SET {$field} = {$field} + {$qty} WHERE id = " . $itemTempUse['id']);
