@@ -61,8 +61,8 @@ mysql_query('UPDATE `grpgusers` SET `captcha` = "' . $code . '" WHERE `id` = ' .
             <img src="captcha_image.php?code=<?php echo $code ?>" width="100%" /><br />
             <form method="POST" action="captcha.php?token=<?php echo $newToken ?>&page=<?php echo $page ?>">
                 <input type="text" name="code" class="form-control" />
-                <?php if (isset($_GET['id'])): ?>
-                    <input type="hidden" name="pid" value="<?php echo (int)$_GET['id'] ?>" />
+                <?php if (isset($_GET['pid'])): ?>
+                    <input type="hidden" name="pid" value="<?php echo (int)$_GET['pid'] ?>" />
                 <?php endif; ?>
                 <input type="submit" value="Submit" />
             </form>
