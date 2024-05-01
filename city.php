@@ -175,7 +175,7 @@ $admin_ids = array_map(function($a) {
         }
 
         ?>
-        <p style="font-weight: bold; margin-top: 5px;">By being the Boss of this city you will earn <?php echo number_format($city_query['owned_points'], 0) ?> points an hour.</p>
+        <p style="font-weight: bold; margin-top: 5px;">By being the Boss of this city you will earn <?php echo number_format($owned_points, 0) ?> points an hour.</p>
        
 
 
