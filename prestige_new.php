@@ -149,6 +149,26 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_unlock' && isset($_GET['u
     echo Message("You have successfully unlocked " . $prestigeUnlocks[$unlockType]['name']);
 }
 
+if (isset($_GET['action']) && $_GET['action'] === 'add_boost' && isset($_GET['boost_type'])) {
+    $boostType = $_GET['boost_type'];
+    if (!isset($prestigeUnlocks[$boostType])) {
+        diefun('Something went wrong, please DM an Admin if this issue persists.');
+    }
+
+    if ($userPrestigeSkills['prestige_boosts_available'] < 1) {
+        diefun('You do not have any prestige boosts available');
+    }
+
+    if ($userPrestigeSkills[$boostType] >= 5) {
+        diefun('You have already maxed out this boost.');
+    }
+
+    $db->query('UPDATE user_prestige_skills SET ' . $boostType . ' = ' . $boostType . ' + 1, boosts_spent = boosts_spent + 1 WHERE user_id = ' . $user_class->id);
+    $db->execute();
+
+    echo Message("You have successfully increased the level of " . $prestigeBoosts[$boostType]);
+}
+
 ?>
 
 <div class='box_top'>Account Prestige</div>
@@ -213,6 +233,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_unlock' && isset($_GET['u
         </div>
     </div>
 </div>
+<br />
 
 <h2>Prestige</h2>
 <hr />
