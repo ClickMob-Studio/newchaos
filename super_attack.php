@@ -7,7 +7,7 @@ if ($user_class->admin < 1) {
 
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
 if ($userPrestigeSkills['speed_attack_unlock'] < 1) {
-    diefun("You need to unlock this feature with prestige unlocks.");
+    //diefun("You need to unlock this feature with prestige unlocks.");
 }
 
 if (checkCaptchaRequired($user_class)) {
