@@ -150,6 +150,21 @@ if(isset($_POST["action"]) && $_POST["action"] == "comments"){
         "text"=> "You have updated your profile comments"
     ));
 }
+
+if(isset($_POST["action"]) && $_POST["action"] == "shoutbox"){
+    $shoutbox = intval($_POST['shoutbox']);
+    if($shoutbox != 1 && $shoutbox !=0){
+        echo json_encode(array(
+            'text'=> 'You did not select a correct value'
+        ));
+        exit;
+    }
+    $db->query("UPDATE grpgusers SET is_ads_disabled = ? WHERE id = ".$user_class->id);
+    $db->execute(array($shoutbox));
+    echo json_encode(array(
+        "text"=> "You have updated your shoutbox settings"
+    ));
+}
 if(isset($_POST["action"]) && $_POST["action"] == "privacy"){
     $privacy = intval($_POST['privacy']);
     if($privacy != 1 && $privacy !=0){

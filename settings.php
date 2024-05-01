@@ -181,6 +181,26 @@ $(document).ready(function() {
         });
     });
 });
+$(document).ready(function() {
+    $("#updateShoutboxBtn").click(function() {
+        var shoutbox = $("#shoutboxSelect").val();
+        $.ajax({
+            url: '/ajax_settings.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action: 'shoutbox',
+                comments: shoutbox
+            },
+            success: function(response) {
+                $('.info-alert').html(response.text).show();
+            },
+            error: function() {
+                alert("An error occurred. Please try again.");
+            }
+        });
+    });
+});
 document.addEventListener('DOMContentLoaded', function() {
     const refillButton = document.querySelector('.nerve-action');
     refillButton.addEventListener('click', function(event) {
@@ -375,14 +395,14 @@ $(document).ready(function() {
             </form>
         </div>
         <div class="col-md-4 col-6">
-    <h1>Profile Comments</h1>
-    <p>Turning to off will allow nobody to comment on your profile wall</p>
-    <select id="commentsSelect">
-        <option value="1" <?php echo $user_class->profilewall == 1 ? 'selected' : ''; ?>>On</option>
-        <option value="0" <?php echo $user_class->profilewall == 0 ? 'selected' : ''; ?>>Off</option>
-    </select>
-    <button id="updateCommentsBtn" type="button">Update Comments</button>
-</div>
+            <h1>Profile Comments</h1>
+            <p>Turning to off will allow nobody to comment on your profile wall</p>
+            <select id="commentsSelect">
+                <option value="1" <?php echo $user_class->profilewall == 1 ? 'selected' : ''; ?>>On</option>
+                <option value="0" <?php echo $user_class->profilewall == 0 ? 'selected' : ''; ?>>Off</option>
+            </select>
+            <button id="updateCommentsBtn" type="button">Update Comments</button>
+        </div>
 <div class="col-md-4 col-6">
     <h1>Refills</h1>
     <p>Buy refills until next rollover</p>
@@ -444,6 +464,16 @@ if (count($colors) == 2) {
         <input type="text" class="color" value="<?= $ed; ?>" name="endcolor">
         <button type="submit">Update Gradient Name</button>
     </form>
+</div>
+
+<div class="col-md-4 col-6">
+    <h1>Disable Shoutbox?</h1>
+    <p>Turning to on will remove the shoutbox section in the header</p>
+    <select id="shoutboxSelect">
+        <option value="1" <?php echo $user_class->is_ads_disabled == 1 ? 'selected' : ''; ?>>On</option>
+        <option value="0" <?php echo $user_class->is_ads_disabled == 0 ? 'selected' : ''; ?>>Off</option>
+    </select>
+    <button id="updateShoutboxBtn" type="button">Update Shoutbox</button>
 </div>
 
 <?php if($user_class->aprotection > time()):?>
