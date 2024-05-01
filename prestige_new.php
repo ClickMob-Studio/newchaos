@@ -73,7 +73,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_unlock' && isset($_GET['u
             <?php foreach ($prestigeUnlocks as $key => $prestigeUnlock): ?>
                 <?php
                 $divClass = 'bg-danger';
-                $button = '<a href="prestige_new.php?action=action&unlock_type=' . $key .'"><button>Unlock</button></a>';
+                $button = '<a href="prestige_new.php?action=add_unlock&unlock_type=' . $key .'"><button>Unlock</button></a>';
                 if ($userPrestigeSkills[$key] > 0) {
                     $divClass = 'bg-success';
                     $button = '';
