@@ -6,6 +6,12 @@ if (session_status() == PHP_SESSION_NONE) {
 
 	include 'header.php';
 
+if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
+    mysql_query('UPDATE `grpgusers` SET `captcha_timestamp` = 0 WHERE `id` = ' . $user_class->id);
+
+    header('Location: captcha.php?page=profiles&pid=' . $_GET['id']);
+}
+
 $_GET['id'] = filter_var($_GET['id'], FILTER_VALIDATE_INT);
 
 $profile_class = new User($_GET['id']);
@@ -2671,6 +2677,20 @@ $" . prettynum($worked2['cost']) . "<br>
                                     </table>
                                 </form>
                             </td></tr>
+
+<script type="text/javascript">
+let clickCount = 0;
+
+document.addEventListener("DOMContentLoaded",function(){
+    document.body.addEventListener('click', function(evt) {
+        clickCount = clickCount + 1;
+        if (clickCount > 500) {
+            window.location.href = "/profiles.php?id=<?php echo $profile_class->id ?>&forced_captcha=yes";
+        }
+    }, true);
+});
+
+</script>
 
 <?PHP
 $db->query("SELECT blocker FROM ignorelist WHERE blocker = ? AND blocked = ? LIMIT 1");
