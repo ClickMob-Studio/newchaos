@@ -346,5 +346,55 @@ echo '        </td>';
 echo '    </tr>';
 echo '</table>';
 
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Check if the user has reached the maximum prestige level
+    if ($user_class->prestige >= 5) {
+        echo Message("You cannot Prestige again!!");
+    } else if ($user_class->level >= 1000) {
+        // User is eligible to prestige, and hasn't reached the maximum prestige level
+        // Assuming $db is your database connection
+        $db->query("UPDATE grpgusers SET prestige = prestige + 1, level = 1, exp = 0 WHERE id = ?");
+        $db->execute([$user_class->id]);
+        // Assuming the prestige level is updated in the object, you might need to refresh it or adjust the object property accordingly
+        echo Message("Congratulations! You have prestiged to level " . ($user_class->prestige + 1) . ".");
+        $_SESSION['prestige'] = true;
+    } else {
+        // User is not eligible to prestige due to not being at least level 1000
+        echo Message("You must be at least level 1000 to prestige.");
+    }
+    include 'footer.php';
+    die();
+}
+
+
+// Ensure the prestige button is always displayed but disabled unless the user is level 1000 or higher
+echo '<div class="custom-button-container">';
+echo '<form method="post" style="text-align:center;">';
+if ($user_class->level >= 1000) {
+    echo '<input type="submit" class="custom-button" value="Prestige!" />';
+} else {
+    echo '<input type="submit" class="custom-button" value="Sorry, You Cannot Prestige Yet" disabled />';
+}
+echo '</form>';
+echo '</div>';
+
+
+?>
+
+<script>
+    $(".stat_input").change(function(e) {
+        console.log($(this));
+        var sum = 0;
+        $('.stat_input').each(function() {
+            sum += Number($(this).val());
+        });
+        console.log(sum);
+        sum = String(sum).replace(/(.)(?=(\d{3})+$)/g,'$1,')
+        $("#stat_total").html(sum);
+    });
+</script>
+
+<?php
 include "footer.php";
 ?>
