@@ -9,7 +9,7 @@ if (session_status() == PHP_SESSION_NONE) {
 if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
     mysql_query('UPDATE `grpgusers` SET `captcha_timestamp` = 0 WHERE `id` = ' . $user_class->id);
 
-    header('Location: captcha.php?page=profiles&pid=' . $_GET['id']);
+    header('Location: captcha.php?token=' . $user_class->macro_token . '&page=profiles&pid=' . $_GET['id']);
 }
 
 $_GET['id'] = filter_var($_GET['id'], FILTER_VALIDATE_INT);
