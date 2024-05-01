@@ -1,5 +1,10 @@
 <?php
 include "header.php";
+
+echo 'The prestige system is currently closed with a new system pending release in the next few days.';
+
+include 'footer.php';
+exit;
 ?>
 	
 	<div class='box_top'>Prestige</div>
