@@ -131,7 +131,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $star_level = 2;
     } elseif ($crimeCount >= 1000000 && $crimeCount < 5000000) {
         $star_level = 3;
-    } elseif ($crimeCount >= 5000000 && $crimeCount < 5000000) {
+    } elseif ($crimeCount >= 5000000 && $crimeCount < 15000000) {
         $star_level = 4;
     } elseif ($crimeCount >= 15000000) {
         $star_level = 5;

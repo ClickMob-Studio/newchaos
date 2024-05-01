@@ -155,39 +155,6 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                                 </select>
                             </div>
 
-                            <?php
-                            if ($user_class->id == 8 || $user_class->id == 2) {
-                                foreach ($rows as $row) {
-                                    $db->query("SELECT `count` FROM crimeranks WHERE userid = ? AND crimeid = ?");
-                                    $db->execute(array($user_class->id, $row['id']));
-                                    $crimeRankResult = $db->fetch_row(true);
-
-                                    // Debugging
-                                    if ($crimeRankResult) {
-                                        $crimeCount = (int)$crimeRankResult['count'];
-                                        // Log or echo to check the value
-                                        error_log("Crime ID: {$row['id']}, Count: {$crimeCount}");
-                                    } else {
-                                        $crimeCount = 0;
-                                    }
-                                    if ($crimeCount >= 10000 && $crimeCount < 100000) {
-                                        $star_level = 1;
-                                    } elseif ($crimeCount >= 100000 && $crimeCount < 1000000) {
-                                        $star_level = 2;
-                                    } elseif ($crimeCount >= 1000000 && $crimeCount < 5000000) {
-                                        $star_level = 3;
-                                    } elseif ($crimeCount >= 5000000 && $crimeCount < 15000000) {
-                                        $star_level = 4;
-                                    } elseif ($crimeCount >= 15000000) {
-                                        $star_level = 5;
-                                    } else {
-                                        $star_level = 0; // No bonus if the conditions are not met
-                                    }
-                                    echo $row['id'] . ' - ' . $crimeCount . ' - ' . $star_level . '<br />';
-                                }
-                            }
-                            ?>
-
                             <div class="star-rating" style="margin-top: 10px;"></div>
 
                             <button id="acrimebtn2" onblue="finish();" onmouseup="finish();" ontouchend="finish();" onmouseleave="finish();"onmousedown="start();" ontouchstart="start();" style="padding: 1em; margin-bottom:5px;">Do Crimes</button>
