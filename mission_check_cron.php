@@ -20,10 +20,23 @@ $missions = $db->fetch_row();
 
 foreach ($missions as $mission) {
 
+    $user_class = new User($mission['userid']);
+
+    $prestigeUserSKills = getUserPrestigeSkills($user_class);
+    $pointsPayoutBoost = 0;
+    if ($prestigeUserSKills['mission_point_boost_level'] > 0) {
+        $pointsPayoutBoost = 2 * $prestigeUserSKills['mission_point_boost_level'];
+    }
+
     if ($mission['cCrimes'] >= $mission['reqCrimes'] && $mission['reqCrimes'] > 0 && $mission['crimes_paid'] == 0) {
+        $mPointsPayout = $mission['payCrimes'];
+        if ($pointsPayoutBoost) {
+            $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
+        }
+
         $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
         $db->execute(array(
-            $mission['payCrimes'],
+            $mPointsPayout,
             $mission['userid']
         ));
         $db->query("INSERT INTO missionlog VALUES(NULL,'[x] successfully completed {$mission['name']} objective to get {$mission['crimes']} crimes,{$mission['userid']}',unix_timestamp())");
@@ -37,8 +50,6 @@ foreach ($missions as $mission) {
 
     if ($mission['cKills'] >= $mission['reqKills'] && $mission['cCrimes'] >= $mission['reqCrimes'] && $mission['cBusts'] >= $mission['reqBusts'] && $mission['cMugs'] >= $mission['reqMugs'] && $mission['cBackalleys'] >= $mission['reqBackalleys']) {
 
-        $user_class = new User($mission['userid']);
-
         if ($mission['mid'] > 33) {
             $exp = 5 + (5 * $mission['mid'] - 20);
         } else {
@@ -46,6 +57,11 @@ foreach ($missions as $mission) {
         }
         $levelhurts = floor($user_class->level / 10);
         $exp = ($exp - $levelhurts < 3) ? 3 : $exp - $levelhurts;
+
+        if ($prestigeUserSKills['mission_exp_boost_level'] > 0) {
+            $exp = $exp + ($exp / 100 * (2 * $prestigeUserSKills['mission_exp_boost_level']));
+        }
+
         $expgain = floor($user_class->maxexp * ($exp / 100));
 
         $db->query("UPDATE grpgusers SET exp = exp + ? WHERE id = ?");
