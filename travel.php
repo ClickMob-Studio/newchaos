@@ -1,9 +1,6 @@
 <?php
 include 'header.php';
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
-if ($user_class->admin > 0) {
-    var_dump($userPrestigeSkills);
-}
 ?>
 <div class='box_top'>Travel</div>
 						<div class='box_middle'>
@@ -38,7 +35,7 @@ if (isset($_GET['go'])) {
 	if($worked['pres'] && !$user_class->prestige)
 		diefun("You do not have access to this city.");
     $cost = $worked['price'] * ($discount / 100);
-    if ($userPrestigeSkills['travel_cost_unlock'] > 1) {
+    if ($userPrestigeSkills['travel_cost_unlock'] > 0) {
         $cost = $cost - ($cost / 100 * 20);
     }
     $error = ($worked['name'] == "") ? "That city doesn't exist." : $error;
@@ -98,7 +95,7 @@ while ($line = mysql_fetch_array($result)) {
     $queen_status = $queen ? " " . formatName($queen['id']) : 'Vacant';
 
     $cost = $line['price'] * ($discount / 100);
-    if ($userPrestigeSkills['travel_cost_unlock'] > 1) {
+    if ($userPrestigeSkills['travel_cost_unlock'] > 0) {
         $cost = $cost - ($cost / 100 * 20);
     }
 

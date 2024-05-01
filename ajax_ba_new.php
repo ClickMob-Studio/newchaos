@@ -360,7 +360,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 } else {
 
     $goldRushChance = mt_rand(1,15000);
-    if ($userPrestigeSkills['ba_gold_rush_unlock'] > 1) {
+    if ($userPrestigeSkills['ba_gold_rush_unlock'] > 0) {
         $goldRushChance = mt_rand(1,12500);
     }
     if ($goldRushChance == 2) {
