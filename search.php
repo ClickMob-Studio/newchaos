@@ -270,7 +270,7 @@ if (mysql_num_rows($query) == 0) {
         echo "
         <tr>
             <td>$userfound->formattedname</td>
-            <td>{$line['level']}</td>
+            <td>{$line['level']}</td>x
             <td>" . prettynum($line['money'], 1) . "</td>
             <td>$userfound->formattedonline</td>";
         echo '<td><a class="dcPrimaryButton" href="attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">Attack</a></td>';

@@ -39,6 +39,12 @@ $_SESSION['csrf'] = $csrf;
     $('#commit-super-attack-link').click(function(e) {
         e.preventDefault();
 
+        let clicked = $(this);
+
+        $(".ajax-alert-div").remove();
+        $(this).hide();
+        $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
+
         var request = $.ajax({
             url: $(this).attr('href') + '?alv=yes',
             method: "GET",
@@ -50,33 +56,27 @@ $_SESSION['csrf'] = $csrf;
                 $(".ajax-message-holder").html(resMes);
                 $(".ajax-message-holder").show();
             } else {
-                // var request = $.ajax({
-                //     url: 'ajax_attack.php?attack=' +
-                //     '&csrf=\' . $csrf . &alv=yes',
-                //     method: "GET",
-                //     dataType: "json"
-                // });
-                // request.done(function (res) {
-                //     //console.log(res);
-                //     if (res.success == false || res.success == 'false') {
-                //         var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + res.error + "</p></div>";
-                //     } else {
-                //         var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + res.message + "</p></div>";
-                //     }
-                //
-                //     $(".ajax-message-holder").html(resMes);
-                //     $(".ajax-message-holder").show();
-                //     $(".temp-spinner").remove();
-                //     clicked.show();
-                //     $('.ajax-link').show();
-                //
-                //     // $('html, body').animate({
-                //     //     scrollTop: $(".ajax-message-holder").offset().top
-                //     // }, 2000);
-                //
-                //
-                //     requestInProcess = false;
-                // });
+                var request = $.ajax({
+                    url: 'ajax_attack.php?attack=' + res.attack_id + '&csrf=<?php echo $csrf  ?>',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    //console.log(res);
+                    if (res.success == false || res.success == 'false') {
+                        var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + res.error + "</p></div>";
+                    } else {
+                        var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + res.message + "</p></div>";
+                    }
+
+                    $(".ajax-message-holder").html(resMes);
+                    $(".ajax-message-holder").show();
+                    $(".temp-spinner").remove();
+                    clicked.show();
+                    $('#commit-super-attack-link').show();
+
+                    requestInProcess = false;
+                });
 
             }
         });
