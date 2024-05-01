@@ -183,9 +183,8 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                                     } else {
                                         $star_level = 0; // No bonus if the conditions are not met
                                     }
+                                    echo $row['id'] . ' - ' . $crimeCount . ' - ' . $star_level . '<br />';
                                 }
-
-                                echo $row['id'] . ' - ' . $crimeCount . ' - ' . $star_level . '<br />';
                             }
                             ?>
 
