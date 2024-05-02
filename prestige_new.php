@@ -396,9 +396,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($user_class->prestige >= 5) {
         echo Message("You cannot Prestige again!!");
     } else if ($user_class->level >= $prestigeLevelRequired) {
+        if ($user_class->prestige < 1) {
+            $bankCashRequired = 500000000;
+            $pointsRequired = 250000;
+            $statPercentage = 40;
+        } else if ($user_class->prestige < 2) {
+            $bankCashRequired = 1000000000;
+            $pointsRequired = 500000;
+            $statPercentage = 50;
+        } else if ($user_class->prestige < 3) {
+            $bankCashRequired = 5000000000;
+            $pointsRequired = 750000;
+            $statPercentage = 50;
+        } else if ($user_class->prestige < 4) {
+            $bankCashRequired = 10000000000;
+            $pointsRequired = 1000000;
+            $statPercentage = 60;
+        } else if ($user_class->prestige < 5) {
+            $bankCashRequired = 25000000000;
+            $pointsRequired = 1500000;
+            $statPercentage = 60;
+        }
+
+        if ($user_class->bank < $bankCashRequired) {
+            diefun('You do not have enough cash in the bank to prestige.');
+        }
+
+        if ($user_class->points < $pointsRequired) {
+            diefun('You do not have enough points to prestige.');
+        }
+
+        $newStrength = $user_class->strength - ($user_class->strength / 100 * $statPercentage);
+        $newDefense = $user_class->defense - ($user_class->defense / 100 * $statPercentage);
+        $newSpeed = $user_class->speed - ($user_class->speed / 100 * $statPercentage);
+
         // User is eligible to prestige, and hasn't reached the maximum prestige level
         // Assuming $db is your database connection
-        $db->query("UPDATE grpgusers SET prestige = prestige + 1, level = 1, exp = 0 WHERE id = ?");
+        $db->query("UPDATE grpgusers SET prestige = prestige + 1, level = 1, exp = 0, bank = bank - " . $bankCashRequired . ", points = points - " . $pointsRequired . ", strength = " . $newStrength . ", defense = " . $newDefense . ", speed = " . $newSpeed . "  WHERE id = ?");
         $db->execute([$user_class->id]);
         // Assuming the prestige level is updated in the object, you might need to refresh it or adjust the object property accordingly
         echo Message("Congratulations! You have prestiged to level " . ($user_class->prestige + 1) . ".");
