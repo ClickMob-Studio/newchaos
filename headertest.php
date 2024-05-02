@@ -717,11 +717,11 @@ if ($user_class->view_preference === '1') { ?>
                             <?= $user_class->formattedname; ?>        
                         </span></div>
                         <div class="col-3 text-center new_avarta">
-                            Level <?= $user_class->level; ?>				<div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip" title="573114/1865856">
-                            <div class="progress-bar exp-bar" role="progressbar" style="width:30.715875180078%"></div>
+                            Level <?= $user_class->level; ?>				<div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip" title="<?= $user_class->formattedexp;?>">
+                            <div class="progress-bar exp-bar" role="progressbar" style="width:<?= $user_class->exppercent; ?>%"></div>
                         </div>
                         <div class="d-none d-lg-block col-3">
-                            <img style="width: 50px;" src="https://chaoscity.co.uk/images/noavatar.png" alt="">
+                            <img style="width: 50px;" src="<?= $user_class->avatar; ?>" alt="">
                         </div>
                         </div>
                     </div>
