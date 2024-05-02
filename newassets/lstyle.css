@@ -1,0 +1,129 @@
+@font-face {
+    font-family: 'Impact';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url(/asset/css/fonts/impact.ttf) format('truetype');
+}
+
+html, body {
+    height: 100%;
+    font-size: 10px;
+}
+
+body {
+    font: 1.4rem 'Montserrat', sans-serif;
+    color: #cecece;  
+    background: url(/asset/img/background.png) top center/cover no-repeat #21201c
+}
+
+.loginPanel {
+    background: #5a5a5a30;
+    box-shadow: 0 0 75px 0px #000000
+}
+
+.loginTitle {
+    font: 5rem Impact;
+    color: #fff;
+    text-transform: uppercase
+}
+
+.highlightWelcome{
+    color: #ff6218
+}
+
+.dcMascot {
+    position: fixed;
+    z-index: 99;
+    bottom: 0;
+    left: calc(50% - 50px);
+    width: auto;
+    height: 90%
+}
+
+.dcForm input {
+    display: block;
+    margin: 10px auto;
+    background: none;
+    border: solid #757575 1px;
+    border-width: 0 0 1px 0;
+    width: 100%;
+    font-size: 1.5rem;
+    font-style: italic;
+    padding: 5px;
+    color:white;
+}
+
+.dcForm button {
+    color: #fff;
+    background: #ff6218;
+    border-radius: 3px;
+    border: none;
+    padding: 10px 20px;
+    font: 2rem impact;
+    text-transform: uppercase;
+    text-shadow: 0 0 5px #000;
+    letter-spacing: 1.1px
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: #252525;
+    width: 100%;
+    z-index: 100;
+    padding: 10px;
+    text-align: right
+}
+
+.footerBuffer {
+    height: 70px
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none
+}
+
+.nav-tabs{
+    border-color: #ff6218;
+}
+
+.nav-tabs .nav-link.active {
+    color: #fff;
+    background: #ff6218;
+    border-color: #ff6218
+}
+
+.nav-tabs .nav-link {
+    color: #fff
+}
+
+.nav-tabs .nav-link:hover {
+    border-color: #ff6218;
+}
+
+
+.RegisterCTA {
+    text-transform: uppercase;
+    font: 2.5rem Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: #ff6218;
+    background-size: 400% 400%;
+    animation: RegisterCTA 2s ease;
+}
+
+@keyframes RegisterCTA {
+    0%{
+        color:#ff6218;
+        transform: scale(0.25);
+    }
+    50%{
+        color:#fffc77;
+        transform: scale(1.3);
+    }
+    100%{
+        color:#ff6218;
+        transform: scale(1);
+    }
+}
