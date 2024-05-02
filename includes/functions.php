@@ -858,7 +858,7 @@ function formatName($id, $nogang = 0)
         $name .= "<a title='$title' href='profiles.php?id=$id'>&nbsp;<font color = '$whichfont'>{$row['username']}</s></font></a>";
     else if (!empty($row['image_name']) && $row['pdimgname'] > 0) {
         $name .= ($row['admin'] == 1 || $row['gm'] == 1) ? "<a title='" . $title . " [" . $row['username'] . "]' href='profiles.php?id=" . $id . "'>" : "<a title='" . $title . "' href='profiles.php?id=" . $id . "'>";
-        $name .= "<img src='{$row['image_name']}' style='max-width:95px; max-height:50px;' title='" . $row['username'] . "' />";
+        $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='" . $row['username'] . "' />";
         $name .= ($row['admin'] == 1 || $row['gm'] == 1) ? "</a>" : "</a>";
     } else if (false) { //$id >= 334 AND $id <= 353) {
         $username = $row['username'];
