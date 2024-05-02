@@ -717,7 +717,7 @@ if ($user_class->view_preference === '1') { ?>
                             <?= $user_class->formattedname; ?>        
                         </span></div>
                         <div class="col-3 text-center new_avarta">
-                            Level 349								<div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip" title="573114/1865856">
+                            Level <?= $user_class->level; ?>				<div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip" title="573114/1865856">
                             <div class="progress-bar exp-bar" role="progressbar" style="width:30.715875180078%"></div>
                         </div>
                         <div class="d-none d-lg-block col-3">
