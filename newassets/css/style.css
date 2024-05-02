@@ -178,7 +178,9 @@ table {
 }
 
 .headerSvgMain {
-	margin-left: -20px;
+
+		margin-left: -41%;
+		font-size: 10px;
 }
 
 .mission .box_top {

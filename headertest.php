@@ -573,7 +573,7 @@ if ($user_class->view_preference === '1') { ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
-    <link href="newassets/css/style.css?v=171456935s" rel="stylesheet" type="text/css">
+    <link href="newassets/css/style.css?v=1714569s35s" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
