@@ -713,9 +713,9 @@ if ($user_class->view_preference === '1') { ?>
                     <div class="row mb-3">
                         <div class="col-7 dcUserName">
 
-                            <span class="dcHeaderUsername"><a style='font-size:1.5em;' href='viewgang.php?id=18' title='Gang Leader'><font color=blue>[<b>STF</b>]</font></a> <a href='profiles.php?id=2'><span title="GD: 6, VIP: 81" style="font-weight:100;letter-spacing:0px;font-size:1.25em;"><span style="color:#ff0000;text-shadow: 0 0 0px #ff0000;">A</span><span style="color:#00ff00;text-shadow: 0 0 0px #ff0000;">a</span><span style="color:#00FF00;text-shadow: 0 0 0px #ff0000;">r</span><span style="color:#007F7F;text-shadow: 0 0 0px #ff0000;">o</span><span style="color:#0000FF;text-shadow: 0 0 0px #ff0000;">n</span></span></a></span>
-                            <img class="d-lg-none dcAvatarMobile" style="width: 50px;" src="https://chaoscity.co.uk/images/noavatar.png">
-                        </div>
+                            <span class="dcHeaderUsername">
+                            <?= $user_class->formattedname; ?>        
+                        </span></div>
                         <div class="col-3 text-center new_avarta">
                             Level 349								<div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip" title="573114/1865856">
                             <div class="progress-bar exp-bar" role="progressbar" style="width:30.715875180078%"></div>
