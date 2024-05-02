@@ -695,7 +695,7 @@ if ($user_class->view_preference === '1') { ?>
                         <?php
                     } else {
                         
-                                           row = mysql_fetch_array($result);
+                                           $row = mysql_fetch_array($result);
                         $user_ads = new User($row['poster']);
                         $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
                         ?>
