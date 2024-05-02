@@ -682,7 +682,7 @@ if ($user_class->view_preference === '1') { ?>
                                                 </div>
                                               <?php else: ?>
                                                 <div class=" missionDiv">
-                                                    <p class="missionTo">Kills:</p>
+                                                    <p class="missionTo">No Mission Active:</p>
                                                     <p><?= $kills; ?></p>
                                                 </div>
                                                 <?php endif; ?>
