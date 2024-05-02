@@ -629,7 +629,13 @@ if ($user_class->view_preference === '1') { ?>
         <header class="row">
         <div class="col-12 col-lg-8 mt-3 mt-lg-0">
                 <div class="dcPanel h-100">
-
+        <?php
+        $db->query("SELECT `name`, mission.crimes as crimestarget, missions.crimes as crimesdone FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE `userid` = ? AND `completed` = \"no\" LIMIT 1");
+        $db->execute(array(
+            $user_class->id
+        ));
+        $activeCrimeMission = $db->fetch_row()[0];
+        ?>
                     
                     <div class="text-center dcBannerButtonsContainer">
 
@@ -645,11 +651,14 @@ if ($user_class->view_preference === '1') { ?>
                                                     <p class="missionTo">Kills:</p>
                                                     <p>0/5000</p>
                                                 </div>
+                                                <?php if($activeCrimeMission){?>
                                                 <div class="missionDiv">
+                                                
                                                     <p class="missionTo">Crimes:</p>
-                                                    <p>0/50,000</p>
+                                                    <p><?php echo $activeMission['crimesdone'] ."/".$activeMission['crimestarget'] ?></p>
                                                 </div>
-                                                <div class=" missionDiv">
+                                                <?php }?>
+                                                                                                <div class=" missionDiv">
                                                     <p class="missionTo">Busts:</p>
                                                     <p>0/4000</p>
                                                 </div>
