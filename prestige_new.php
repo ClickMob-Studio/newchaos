@@ -230,7 +230,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class='box_middle'>
     <div class='pad'>
         <p>
-            Welcome to Account Prestiges! By increasing your prestige, you allow your level to be reset in return, as well as pay a forfeit, for special bonuses once you hit a set level. The first prestige allows you to prestige
+            Welcome to Account Prestiges! By increasing your prestige, you allow your level to be reset, as well as pay a forfeit, and in return you receive special bonuses. The first prestige allows you to prestige
             at level 1000, and they increase by 200 thereon.
         </p>
 
