@@ -680,10 +680,7 @@ if ($user_class->view_preference === '1') { ?>
                                                     <p class="missionTo">BA:</p>
                                                     <p><?= $backalleys; ?></p>
                                                 </div>
-                                              <?php elseif($show == false): ?>
-                                                <div class="missionDiv">
-                                                    <p class="missionTo">No Mission Active</p>
-                                                </div>
+                                              
                                                 <?php endif; ?>
                                             </div>
                                     </div>
