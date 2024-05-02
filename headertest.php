@@ -747,11 +747,11 @@ if ($user_class->view_preference === '1') { ?>
                                 </div>
                                 <div class="row my-1 g-0">
                                     <div class="col-2 d-flex align-items-center"><i class="mx-auto fab fa-medium-m"></i></div>
-                                    <div class="col-10 d-flex align-items-center credits">128 gold</div>
+                                    <div class="col-10 d-flex align-items-center credits"><?= number_format($user_class->credits); ?> credits</div>
                                 </div>
                             </div>
 
-                            <div class='time col-4 d-none d-lg-block' style='text-align: left';>Server Time: 01/05/2024  13:15:59</div>
+                            <div class='time col-4 d-none d-lg-block' style='text-align: left';><?php echo date('m/d h:i a', time()); ?></div>
                         </div>
                         <div class="col-7 col-lg-12 g-0 row dcStatsPanel">
                             <div class="row my-0 my-lg-1 dcStatContainer-health">
