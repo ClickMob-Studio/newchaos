@@ -250,7 +250,7 @@ function getCurrentPageURL() {
     $url = $protocol . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     return $url;
 }
-if($user_class->id == 152){
+if($user_class->id == 1){
     $url = getCurrentPageURL();
     mysql_query("INSERT INTO pagetracker (userid, `page`) VALUES (".$user_class->id.", '".$url.")");
 }
