@@ -567,8 +567,6 @@ if ($user_class->view_preference === '1') { ?>
     <script src="js/java.js?12" type="text/javascript"></script><!doctype html>
 <html lang="en">
 <head>
-
-    <meta name="viewport" content="width=1024">
     <title>ChaosCity</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
