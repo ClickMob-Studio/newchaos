@@ -362,21 +362,31 @@ echo '</table>';
         <li>250,000 points</li>
         <li>40% of your stats</li>
     </ul>
+<?php elseif ($user_class->prestige < 2): ?>
+    <ul>
+        <li>$1,000,000,000 from your bank</li>
+        <li>500,000 points</li>
+        <li>50% of your stats</li>
+    </ul>
+<?php elseif ($user_class->prestige < 3): ?>
+    <ul>
+        <li>$5,000,000,000 from your bank</li>
+        <li>750,000 points</li>
+        <li>50% of your stats</li>
+    </ul>
+<?php elseif ($user_class->prestige < 4): ?>
+    <ul>
+        <li>$10,000,000,000 from your bank</li>
+        <li>1,000,000 points</li>
+        <li>60% of your stats</li>
+    </ul>
+<?php elseif ($user_class->prestige < 5): ?>
+    <ul>
+        <li>$25,000,000,000 from your bank</li>
+        <li>1,500,000 points</li>
+        <li>60% of your stats</li>
+    </ul>
 <?php endif; ?>
-
-
-<p><strong>Prestige 2</strong></p>
-<ul>
-    <li>$1,000,000,000 from your bank</li>
-    <li>500,000 points</li>
-    <li>50% of your stats</li>
-</ul>
-<p><strong>Prestige 2</strong></p>
-<ul>
-    <li>$1,000,000,000 from your bank</li>
-    <li>500,000 points</li>
-    <li>50% of your stats</li>
-</ul>
 
 <?php
 
