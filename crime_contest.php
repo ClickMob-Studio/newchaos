@@ -2,14 +2,13 @@
 exit;
 include 'header.php';
 ?>
-    <div class='box_top'>Raid Contest</div>
+    <div class='box_top'>Crime & Attack Contest</div>
     <div class='box_middle'>
     <div class='pad'><?php
 
 date_default_timezone_set('Europe/London'); // This will automatically account for BST as well.
 
-// Target date and time for 31st March at 5 PM UK time
-$targetDateMilliseconds = strtotime('April 28, 2024 23:00:00') * 1000;
+$targetDateMilliseconds = strtotime('May 06, 2024 22:00:00') * 1000;
 ?>
     <style>
         /* Resets for consistent styling */
@@ -125,9 +124,8 @@ echo "<script>var targetDate = $targetDate * 1000; // Convert to milliseconds fo
 // Your MySQL connection code goes here (assuming $conn is your connection variable)
 
 echo'<div class="contenthead floaty">';
-echo'    <h4>Welcome to ChaosCity Raid contest</h4>';
-echo'    <p>This is your chance to win some amazing prizes! All you need to do'; echo'is win more Raids and Attacks than your fellow players.</p>';
-echo'    <p><span style="color: white;">Note: Obtain Bonus points to your counter when Summoning Bosses.</span></p>';
+echo'    <h4>Welcome to Chaos City Crime & Attack contest</h4>';
+echo'    <p>This is your chance to win some amazing prizes! All you need to do'; echo'is win more Crimes and Attacks than your fellow players.</p>';
 echo '<h4><font color=orange>The competition will end in</font> <div id="countdownTimer" style="color: #FF0000; font-size: 20px;"></div></h4>';
 
 echo'        <!-- Timer will be displayed here -->';

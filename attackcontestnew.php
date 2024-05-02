@@ -1,4 +1,5 @@
 <?php
+exit;
 include("header.php");
 if (isset($_POST['resetref'])) {
 	$result = mysql_query("UPDATE `grpgusers` SET `killcomp` = '0'");
