@@ -1,5 +1,5 @@
 <?php
-exit;
+
 include 'header.php';
 ?>
     <div class='box_top'>Crime & Attack Contest</div>
