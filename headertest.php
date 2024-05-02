@@ -758,7 +758,7 @@ if ($user_class->view_preference === '1') { ?>
                                 <div class="col-3 d-flex align-items-center">Health</div>
                                 <div class="col-9 d-flex align-items-center align-items-center2">
                                     <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?= $user_class->formattedhp; ?>">
-                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:<?= $user_class->exppercent;?>%"></div>
+                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:<?= $user_class->hppercent;?>%"></div>
                                     </div>
                                 </div>
                             </div>
