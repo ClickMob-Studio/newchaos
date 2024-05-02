@@ -773,24 +773,24 @@ if ($user_class->view_preference === '1') { ?>
                             <div class="row my-0 my-lg-1 dcStatContainer-brave">
                                 <div class="col-3 d-flex align-items-center"><a href='?spend=refnerve' >Nerve</a></div>
                                 <div class="col-9 d-flex align-items-center align-items-center2">
-                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="353/353">
-                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:100%"></div>
+                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?= $user_class->formattednerve;?>">
+                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:<?= $user_class->nervepercent; ?>%"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row my-0 my-lg-1 dcStatContainer-will">
                                 <div class="col-3 d-flex align-items-center">Awake</div>
                                 <div class="col-9 d-flex align-items-center align-items-center2">
-                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="105/105">
-                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:100%"></div>
+                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?= $user_class->formattedawake; ?>">
+                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:<?= $user_class->awakepercent; ?>%"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row my-0 my-lg-1 dcStatContainer-exp">
                                 <div class="col-3 d-flex align-items-center">Exp.</div>
                                 <div class="col-9 d-flex align-items-center align-items-center2">
-                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="573114/1865856">
-                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:30.715875180078%"></div>
+                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?= $user_class->formattedexp; ?>">
+                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:<?= $user_class->exppercent; ?>%"></div>
                                     </div>
                                 </div>
                             </div>
