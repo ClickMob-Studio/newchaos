@@ -237,23 +237,6 @@ if (isset($_COOKIE['mu'])) {
         );
     }
 }
-function getCurrentPageURL() {
-    // Check if HTTPS is enabled
-    $protocol = 'http';
-    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-        $protocol = 'https';
-    } else if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
-        $protocol = 'https';
-    }
-
-    // Construct the URL
-    $url = $protocol . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-    return $url;
-}
-if($user_class->id == 152){
-    $url = getCurrentPageURL();
-    mysql_query("INSERT INTO pagetracker (userid, `page`) VALUES (".$user_class->id.", '".$url."')");
-}
 function getRealIpAddress() {
     if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
         // IP from shared internet
@@ -581,18 +564,25 @@ if ($user_class->view_preference === '1') { ?>
         <?php } ?>
 	<title>ChaosCity</title>
 
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
-	<link href="asset/css/style.css?v=<?php echo time()?>" rel="stylesheet" type="text/css">
-	<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <script src="js/java.js?12" type="text/javascript"></script><!doctype html>
+<html lang="en">
+<head>
+    <title>ChaosCity</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <link href="newassets/css/style.css?v=1714569ss35a" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="js/java.js?v=12" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/java.js?v=12" type="text/javascript"></script>
+
+
 	
 	
 <style>
@@ -637,80 +627,230 @@ if ($user_class->view_preference === '1') { ?>
 		</div>
 		<div class="col-12 col-lg-10">
         <header class="row">
+        <div class="col-12 col-lg-8 mt-3 mt-lg-0">
+                <div class="dcPanel h-100">
+        <?php
+      $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
+      if (mysql_num_rows($check)) {
+            $show = true;
+          $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
+          $miss = mysql_fetch_array(mysql_query("SELECT * FROM mission WHERE id={$usermission['mid']}"));
+          $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>{$usermission['kills']}/{$miss['kills']}</font>" : "<font color='green'>{$miss['kills']}/{$miss['kills']}</font>";
+          $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>{$usermission['crimes']}/{$miss['crimes']}</font>" : "<font color='green'>{$miss['crimes']}/{$miss['crimes']}</font>";
+          $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>{$usermission['mugs']}/{$miss['mugs']}</font>" : "<font color='green'>{$miss['mugs']}/{$miss['mugs']}</font>";
+          $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>{$usermission['busts']}/{$miss['busts']}</font>" : "<font color='green'>{$miss['busts']}/{$miss['busts']}</font>";
+          $backalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>{$usermission['backalleys']}/{$miss['backalleys']}</font>" : "<font color='green'>{$miss['backalleys']}/{$miss['backalleys']}</font>";
+          $currenttime = time();
+          $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
+      }else{
+        $show = false;
+      }
+        ?>
+                    
+                    <div class="text-center dcBannerButtonsContainer">
+
+                        <div class="dcBannerButtonsContainerMain">
+                            <div class="col-12 col-lg-4">
+                                <div class="p-1 dcPanel dcAvatarPanel" style="width: 140px;
+    margin-left: -60px;">
+                                    <div class="row mb-3 mission">
+                                        <h3 class='box_top'>Mission</h3>
+                                    </div>
+                                    
+                                    <div class="row heroTop heroTop2">
+                                            <div class="col-12 col-lg-7 offset-lg-1 g-0 row realMission">
+                                            <?php if($show == true): ?>
+                                                <div class=" missionDiv">
+                                                    <p class="missionTo">Kills:</p>
+                                                    <p><?= $kills; ?></p>
+                                                </div>
+                                                <div class="missionDiv">
+                                                
+                                                    <p class="missionTo">Crimes:</p>
+                                                    <p><?= $crimes; ?></p>
+                                                </div>
+                                                                                                <div class=" missionDiv">
+                                                    <p class="missionTo">Busts:</p>
+                                                    <p><?= $busts; ?></p>
+                                                </div>
+                                                <div class="missionDiv">
+                                                    <p class="missionTo">Mugs:</p>
+                                                    <p><?= $mugs; ?></p>
+                                                </div>
+                                                <div class="missionDiv">
+                                                    <p class="missionTo">BA:</p>
+                                                    <p><?= $backalleys; ?></p>
+                                                </div>
+                                              <?php else: ?>
+                                                
+                                               <a href="missions.php" class="dcSecondaryButton my-3">Start Mission</a>
+                                                
+                                                <?php endif; ?>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="dcBannerButtonsContainer2">
+                                <a href="vote.php" class="dcSecondaryButton my-3">Vote for <i class="far fa-gem"></i></a>
+    
+                                <a href="refer.php" class="dcSecondaryButton my-3">Refer for <i class="far fa-gem"></i></a>
+                                <a href="store.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
+                            </div>
+                        </div>
+                        <div class="vertical-text-slider floaty dcPanel p-1" style="width: 62%;margin-top: 1px;height: 55px;">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex align-items-center justify-content-center mb-0">
+                                    <div class="flex-grow-1 text-center">
+                                        <ul class="list-unstyled d-flex flex-row align-items-center justify-content-left">
+                                        <?php $now = time();
+                    $result = mysql_query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > $now ORDER BY RAND() LIMIT 1");
+                    if (!mysql_num_rows($result)) {
+                        $_messages = [
+                            'Invite your friends to play and receive <strong class="text-warning">50 Gold</strong> for every friend that plays. Hurry and start inviting now!',
+                            'For every friend you successfully refer, you\'ll earn <strong class="text-warning">50 Gold</strong>. Spread the word and let\'s play together!',
+                            'Attention all players! Invite your friends to join in on the fun. <strong class="text-warning">50 Gold</strong> reward for every successful referral.'
+                        ];
+                        $ref_message = $_messages[array_rand($_messages)];
+                        ?>
+                        <?php if (!$user_class->is_ads_disabled): ?>
+                        <li class="headerSvg">
+                            <a href="refer.php"><?= $ref_message ?></a>
+                        </li>
+                        <?php endif; ?>
+                        <?php
+                    } else {
+                        
+                                           $row = mysql_fetch_array($result);
+                        $user_ads = new User($row['poster']);
+                        $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
+                        ?>
+                        <li class="flex-grow-1">
+                            <span><?= $user_ads->formattedname ?>: <?= $row['message'] ?></span>
+                        </li>
+                        <?php }?> <?php if (!$user_class->is_ads_disabled): ?>
+                                            <li class="headerSvg">
+                                                <a href="/shoutbox.php">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ff6218" class="bi bi-megaphone-fill" viewBox="0 0 16 16">
+                                                        <path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0zm-1 .724c-2.067.95-4.539 1.481-7 1.656v6.237a25 25 0 0 1 1.088.085c2.053.204 4.038.668 5.912 1.56zm-8 7.841V4.934c-.68.027-1.399.043-2.008.053A2.02 2.02 0 0 0 0 7v2c0 1.106.896 1.996 1.994 2.009l.496.008a64 64 0 0 1 1.51.048m1.39 1.081q.428.032.85.078l.253 1.69a1 1 0 0 1-.983 1.187h-.548a1 1 0 0 1-.916-.599l-1.314-2.48a66 66 0 0 1 1.692.064q.491.026.966.06"/>
+                                                    </svg>
+                                                </a>
+
+                                                <a href="#" onClick="reportAd(27); return false;">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ff6218" class="bi bi-flag-fill" viewBox="0 0 16 16">
+                                                        <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007.004-.002h.001"/>
+                                                    </svg>
+                                                </a>
+
+                                                
+                                            </li>
+                                            <?php endif;?>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
             <div class="col-12 col-lg-4">
                 <div class="p-3 dcPanel dcAvatarPanel">
                     <div class="row mb-3">
-                        <div class="col-9 dcUserName">
-							
-									<span class="dcHeaderUsername"><?php echo $user_class->formattedname; ?></span>
-								<img class="d-lg-none dcAvatarMobile" style="width: 50px;" src="<?php echo $user_class->avatar; ?>">
-							</div>
-							<div class="col-3 text-center">
-								Level <?php echo $user_class->level; ?>
-								<div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip" title="<?php echo $user_class->exp . '/' . $user_class->maxexp; ?>">
-									<div class="progress-bar exp-bar" role="progressbar" style="width:<?php echo ( $user_class->exp / $user_class->maxexp * 100 ); ?>%"></div>
-								</div>
-							</div>
-						</div>
-						<div class="row heroTop">
-							<div class="col-5 col-lg-12 row mb-0 mb-lg-3">
-								<div class="d-none d-lg-block col-4">
-									<img style="width: 50px;" src="<?php echo $user_class->avatar; ?>" alt="">
-								</div>
-								<div class="col-12 col-lg-7 offset-lg-1 g-0 row">
-									<?php foreach ( $currencies as $key => $currency ) : ?>
-                                        <?php if($currency['icon']  == 'fas fa-piggy-bank'):?>
-										<div class="row my-1 g-0">
-                                            
-											<div class="col-2 d-flex align-items-center"><i class="mx-auto <?php echo $currency['icon']; ?>"></i></div>
-											<div class="col-10 d-flex align-items-center"><a href="bank.php?h_deposit=cash" style="text-decoration: none;"><?php echo $currency['value']; ?></div>
-                                        </a>
-										</div>
-                                        <?php else:?>
-                                            <div class="row my-1 g-0">
-											<div class="col-2 d-flex align-items-center"><i class="mx-auto <?php echo $currency['icon']; ?>"></i></div>
-											<div class="col-10 d-flex align-items-center <?php echo $key ?>"><?php echo $currency['value']; ?></div>
-										</div>
-                                        <?php endif; ?>
-									<?php endforeach; ?>
-								</div>
-							</div>
-							<div class="col-7 col-lg-12 g-0 row dcStatsPanel">
-								<?php foreach ( $stats as $key => $stat ) : ?>
-									<div class="row my-0 my-lg-1 <?php echo 'dcStatContainer-' . $key; ?>">
-										<div class="col-3 d-flex align-items-center"><?php
-										if($stat['title'] == 'Nerve'){
-											echo "<a href='?spend=refnerve' >".$stat['title']."</a>";
-										}elseif($stat['title'] == 'Energy'){
-										echo "<a href='?spend=refenergy' >".$stat['title']."</a>";
-										}else{
-										echo $stat['title'];
-										} ?></div>
-										<div class="col-9 d-flex align-items-center">
-											<div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?php echo $stat['current'] . '/' . $stat['max']; ?>">
-												<div class="progress-bar" role="progressbar stat-bar"  style="width:<?php echo ( $stat['current'] / $stat['max'] * 100 ); ?>%"></div>
-											</div>
-										</div>
-									</div>
-								<?php endforeach; ?>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-lg-8 mt-3 mt-lg-0">
-					<div class="dcPanel h-100">
-						<div class="text-center dcBannerButtonsContainer">
-							<a href="vote.php" class="dcSecondaryButton my-3">Vote for <i class="far fa-gem"></i></a>
+                        <div class="col-7 dcUserName">
 
-							<a href="refer.php" class="dcSecondaryButton my-3">Refer for <i class="far fa-gem"></i></a>
-							<a href="store.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
+                            <span class="dcHeaderUsername">
+                            <?= $user_class->formattedname; ?>        
+                        </span></div>
+                        <div class="col-3 text-center new_avarta">
+                            Level <?= $user_class->level; ?>				<div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip" title="<?= $user_class->formattedexp;?>">
+                            <div class="progress-bar exp-bar" role="progressbar" style="width:<?= $user_class->exppercent; ?>%"></div>
+                        </div>
+                        <div class="d-none d-lg-block col-3">
+                            <img style="width: 50px;" src="<?= $user_class->avatar; ?>" alt="">
+                        </div>
+                        </div>
+                    </div>
+                    <div class="row heroTop">
+                        <div class="col-5 col-lg-12 row mb-0 mb-lg-3 newTimeHolder">
+                            <!-- <div class="d-none d-lg-block col-4">
+                                <img style="width: 50px;" src="https://chaoscity.co.uk/images/noavatar.png" alt="">
+                            </div> -->
+                            <div class="col-8 col-lg-7 offset-lg-1 g-0 row">
+                                <div class="row my-1 g-0">
+                                    <div class="col-2 d-flex align-items-center"><i class="mx-auto fas fa-dollar-sign"></i></div>
+                                    <div class="col-10 d-flex align-items-center money">$<?= number_format($user_class->money);?></div>
+                                </div>
+                                <div class="row my-1 g-0">
 
-						</div>
-						
-					</div>
-				</div>
-<?php if (!$user_class->is_ads_disabled): ?>
-    <div class="vertical-text-slider floaty dcPanel p-3" style="width: 99%;margin-top: 10px;">
+                                    <div class="col-2 d-flex align-items-center"><i class="mx-auto fas fa-piggy-bank"></i></div>
+                                    <div class="col-10 d-flex align-items-center"><a href="bank.php?h_deposit=cash" style="text-decoration: none;">$<?= number_format($user_class->bank); ?></div>
+                                    </a>
+                                </div>
+                                <div class="row my-1 g-0">
+                                    <div class="col-2 d-flex align-items-center"><i class="mx-auto far fa-gem"></i></div>
+                                    <div class="col-10 d-flex align-items-center points"><?= number_format($user_class->points); ?></div>
+                                </div>
+                                <div class="row my-1 g-0">
+                                    <div class="col-2 d-flex align-items-center"><i class="mx-auto fab fa-medium-m"></i></div>
+                                    <div class="col-10 d-flex align-items-center credits"><?= number_format($user_class->credits); ?> credits</div>
+                                </div>
+                            </div>
+
+                            <div class='time col-4 d-none d-lg-block' style='text-align: left';><?php echo date('m/d h:i a', time()); ?></div>
+                        </div>
+                        <div class="col-7 col-lg-12 g-0 row dcStatsPanel">
+                            <div class="row my-0 my-lg-1 dcStatContainer-health">
+                                <div class="col-3 d-flex align-items-center">Health</div>
+                                <div class="col-9 d-flex align-items-center align-items-center2">
+                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?= $user_class->formattedhp; ?>">
+                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:<?= $user_class->hppercent;?>%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-0 my-lg-1 dcStatContainer-energy">
+                                <div class="col-3 d-flex align-items-center"><a href='?spend=refenergy' >Energy</a></div>
+                                <div class="col-9 d-flex align-items-center align-items-center2">
+                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?= $user_class->formattedenergy; ?>">
+                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:<?= $user_class->energypercent; ?>%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-0 my-lg-1 dcStatContainer-brave">
+                                <div class="col-3 d-flex align-items-center"><a href='?spend=refnerve' >Nerve</a></div>
+                                <div class="col-9 d-flex align-items-center align-items-center2">
+                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?= $user_class->formattednerve;?>">
+                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:<?= $user_class->nervepercent; ?>%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-0 my-lg-1 dcStatContainer-will">
+                                <div class="col-3 d-flex align-items-center">Awake</div>
+                                <div class="col-9 d-flex align-items-center align-items-center2">
+                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?= $user_class->formattedawake; ?>">
+                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:<?= $user_class->awakepercent; ?>%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-0 my-lg-1 dcStatContainer-exp">
+                                <div class="col-3 d-flex align-items-center">Exp.</div>
+                                <div class="col-9 d-flex align-items-center align-items-center2">
+                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?= $user_class->formattedexp; ?>">
+                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:<?= $user_class->exppercent; ?>%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+			</header>
+            <?php if (!$user_class->is_ads_disabled): ?>
+    <div class="vertical-text-slider d-md-none d-lg-none floaty dcPanel p-3" style="width: 99%;margin-top: 10px;">
     <div class="d-flex flex-column">
         <div class="d-flex align-items-center justify-content-center mb-3">
             <div class="me-3">
@@ -761,9 +901,7 @@ if ($user_class->view_preference === '1') { ?>
     </div>
 </div>
 <?php endif; ?>
-
-<div class='time text-center' style='text-align: center';>Server Time: <?php echo date('d/m/Y  H:i:s'); ?></div>
-			</header>
+            
 			<div class="row mt-4">
 				<main>
 					<div class="dcPanel p-3">
