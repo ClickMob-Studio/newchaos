@@ -412,6 +412,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 // Ensure the prestige button is always displayed but disabled unless the user is level 1000 or higher
+echo '<center>';
 echo '<div class="custom-button-container">';
 echo '<form method="post" style="text-align:center;">';
 if ($user_class->level >= $prestigeLevelRequired) {
@@ -421,7 +422,7 @@ if ($user_class->level >= $prestigeLevelRequired) {
 }
 echo '</form>';
 echo '</div>';
-
+echo '</center>';
 
 ?>
 
