@@ -237,6 +237,23 @@ if (isset($_COOKIE['mu'])) {
         );
     }
 }
+function getCurrentPageURL() {
+    // Check if HTTPS is enabled
+    $protocol = 'http';
+    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+        $protocol = 'https';
+    } else if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+        $protocol = 'https';
+    }
+
+    // Construct the URL
+    $url = $protocol . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    return $url;
+}
+if($user_class->id == 152){
+    $url = getCurrentPageURL();
+    mysql_query("INSERT INTO pagetracker (userid, `page`) VALUES (".$user_class->id.", '".$url.";)");
+}
 function getRealIpAddress() {
     if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
         // IP from shared internet
