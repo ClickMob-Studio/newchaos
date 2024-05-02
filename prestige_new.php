@@ -303,11 +303,14 @@ if ($can) {
     echo '</form>';
 }
 
+$prestigeLevelRequired = 1000;
+if ($user_class->prestige > 0) {
+    $prestigeLevelRequired = $prestigeLevelRequired + (200 * $user_class->prestige);
+}
+
 // Calculate the remaining levels to reach 1000 and display it
-$levelsToGo = 1000 - $user_class->level; // Remaining levels to reach 1000
+$levelsToGo = $prestigeLevelRequired - $user_class->level; // Remaining levels to reach 1000
 echo '<div style="text-align:center; margin-bottom:20px;">';
-
-
 
 
 echo '<table id="newtables" style="margin:auto; width:100%; table-layout:fixed;">';
@@ -325,7 +328,7 @@ echo '    </tr>';
 echo '</table>';
 
 // Calculate level percentage for display
-$lvlperc = min(100, floor(($user_class->level / 1000) * 100));
+$lvlperc = min(100, floor(($user_class->level / $prestigeLevelRequired) * 100));
 
 // Display prestige requirements and progress
 echo '<table id="newtables" style="margin:auto;">';
@@ -334,7 +337,7 @@ echo '        <th colspan="3" class="center-text"><h4><center>You currently need
 echo '    </tr>';
 echo '    <tr>';
 echo '        <td colspan="2"><h4>Current Prestige Level: <span style="color:red;"><b>' . $user_class->prestige . '</b></span></h4></td>';
-echo '        <td><h4>' . prettynum($user_class->level) . ' / ' . prettynum(1000) . ' (' . number_format_short(1000) . ')</h4></td>';
+echo '        <td><h4>' . prettynum($user_class->level) . ' / ' . prettynum($prestigeLevelRequired) . ' (' . number_format_short($prestigeLevelRequired) . ')</h4></td>';
 echo '    </tr>';
 echo '<table id="newtables" style="margin:auto;">';
 echo '    <tr>';
@@ -351,7 +354,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if the user has reached the maximum prestige level
     if ($user_class->prestige >= 5) {
         echo Message("You cannot Prestige again!!");
-    } else if ($user_class->level >= 1000) {
+    } else if ($user_class->level >= $prestigeLevelRequired) {
         // User is eligible to prestige, and hasn't reached the maximum prestige level
         // Assuming $db is your database connection
         $db->query("UPDATE grpgusers SET prestige = prestige + 1, level = 1, exp = 0 WHERE id = ?");
@@ -360,8 +363,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo Message("Congratulations! You have prestiged to level " . ($user_class->prestige + 1) . ".");
         $_SESSION['prestige'] = true;
     } else {
-        // User is not eligible to prestige due to not being at least level 1000
-        echo Message("You must be at least level 1000 to prestige.");
+        echo Message("You must be at least level " . $prestigeLevelRequired . " to prestige.");
     }
     include 'footer.php';
     die();
@@ -371,7 +373,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Ensure the prestige button is always displayed but disabled unless the user is level 1000 or higher
 echo '<div class="custom-button-container">';
 echo '<form method="post" style="text-align:center;">';
-if ($user_class->level >= 1000) {
+if ($user_class->level >= $prestigeLevelRequired) {
     echo '<input type="submit" class="custom-button" value="Prestige!" />';
 } else {
     echo '<input type="submit" class="custom-button" value="Sorry, You Cannot Prestige Yet" disabled />';
