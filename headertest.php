@@ -682,9 +682,9 @@ if ($user_class->view_preference === '1') { ?>
                                                     <p><?= $backalleys; ?></p>
                                                 </div>
                                               <?php else: ?>
-                                                <div class=" missionDiv">
+                                                
                                                <a href="missions.php" class="dcSecondaryButton my-3">Start Mission</a>
-                                                </div>
+                                                
                                                 <?php endif; ?>
                                             </div>
                                     </div>
