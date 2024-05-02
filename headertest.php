@@ -558,7 +558,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 <?php 
 
 if ($user_class->view_preference === '1') { ?>
-            <meta name="viewport" content="width=20000">
+            <meta name="viewport" content="width=1024">
         <?php } else { ?>
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
         <?php } ?>
@@ -698,7 +698,6 @@ if ($user_class->view_preference === '1') { ?>
                                 <a href="store.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
                             </div>
                         </div>
-                        <?php if (!$user_class->is_ads_disabled): ?>
                         <div class="vertical-text-slider floaty dcPanel p-1" style="width: 62%;margin-top: 1px;height: 55px;">
                             <div class="d-flex flex-column">
                                 <div class="d-flex align-items-center justify-content-center mb-0">
@@ -714,9 +713,11 @@ if ($user_class->view_preference === '1') { ?>
                         ];
                         $ref_message = $_messages[array_rand($_messages)];
                         ?>
+                        <?php if (!$user_class->is_ads_disabled): ?>
                         <li class="headerSvg">
                             <a href="refer.php"><?= $ref_message ?></a>
                         </li>
+                        <?php endif; ?>
                         <?php
                     } else {
                         
@@ -727,7 +728,7 @@ if ($user_class->view_preference === '1') { ?>
                         <li class="flex-grow-1">
                             <span><?= $user_ads->formattedname ?>: <?= $row['message'] ?></span>
                         </li>
-                        <?php }?>
+                        <?php }?> <?php if (!$user_class->is_ads_disabled): ?>
                                             <li class="headerSvg">
                                                 <a href="/shoutbox.php">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ff6218" class="bi bi-megaphone-fill" viewBox="0 0 16 16">
@@ -743,6 +744,7 @@ if ($user_class->view_preference === '1') { ?>
 
                                                 
                                             </li>
+                                            <?php endif;?>
                                         </ul>
                                     </div>
                                 </div>
@@ -750,7 +752,7 @@ if ($user_class->view_preference === '1') { ?>
                         </div>
 
                     </div>
-                    <?php endif; ?>
+
 
                 </div>
             </div>
