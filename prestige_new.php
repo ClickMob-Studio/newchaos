@@ -334,7 +334,7 @@ echo '    </tr>';
 echo '    </tr>';
 echo '    <tr>';
 echo '        <th><center> Get An Additional <font color=yellow><b>+20% bonus</b></font> on <font color=red><b>Trains</b></font> per Prestige Level!</th>';
-echo '       <th><center> Get An Additional <font color=yellow><b>+20% bonus</b></font> on <font color=red><b>EXP</b></font> per Prestige! [<a href="#" title="You will gain 20% More EXP in all aspects of the game.">?</a>]</th>';
+echo '       <th><center> Get An Additional <font color=yellow><b>+20% bonus</b></font> on <font color=red><b>EXP</b></font> per Prestige!</th>';
 // Removed the description for the "Access to a prestige city" as per request.
 echo '    </tr>';
 echo '</table>';
