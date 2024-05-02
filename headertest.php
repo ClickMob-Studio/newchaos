@@ -757,16 +757,16 @@ if ($user_class->view_preference === '1') { ?>
                             <div class="row my-0 my-lg-1 dcStatContainer-health">
                                 <div class="col-3 d-flex align-items-center">Health</div>
                                 <div class="col-9 d-flex align-items-center align-items-center2">
-                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="17450/17450">
-                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:100%"></div>
+                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?= $user_class->formattedhp; ?>">
+                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:<?= $user_class->exppercent;?>%"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row my-0 my-lg-1 dcStatContainer-energy">
                                 <div class="col-3 d-flex align-items-center"><a href='?spend=refenergy' >Energy</a></div>
                                 <div class="col-9 d-flex align-items-center align-items-center2">
-                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="358/358">
-                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:100%"></div>
+                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?= $user_class->formattedenergy; ?>">
+                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:<?= $user_class->energypercent; ?>%"></div>
                                     </div>
                                 </div>
                             </div>
