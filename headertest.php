@@ -823,7 +823,7 @@ if ($user_class->view_preference === '1') { ?>
 
 			</header>
             <?php if (!$user_class->is_ads_disabled): ?>
-    <div class="vertical-text-slider d-none d-sm-block d-md-none floaty dcPanel p-3" style="width: 99%;margin-top: 10px;">
+    <div class="vertical-text-slider d-none d-md-block d-lg-none floaty dcPanel p-3" style="width: 99%;margin-top: 10px;">
     <div class="d-flex flex-column">
         <div class="d-flex align-items-center justify-content-center mb-3">
             <div class="me-3">
