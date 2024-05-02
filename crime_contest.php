@@ -5,6 +5,14 @@ include 'header.php';
 date_default_timezone_set('Europe/London'); // This will automatically account for BST as well.
 
 $targetDateMilliseconds = strtotime('May 06, 2024 22:00:00') * 1000;
+
+$db->query("SELECT * FROM `user_comp_leaderboard` ORDER BY `daily_crimes_complete` DESC LIMIT 15");
+$db->execute();
+$dailyCrimeRows = $db->fetch_row();
+
+$db->query("SELECT * FROM `user_comp_leaderboard` ORDER BY `overall_crimes_complete` DESC LIMIT 15");
+$db->execute();
+$overallCrimeRows = $db->fetch_row();
 ?>
 
     <h1>Crime & Attack Contest</h1>
@@ -26,6 +34,8 @@ $targetDateMilliseconds = strtotime('May 06, 2024 22:00:00') * 1000;
                         <th>User</th>
                         <th>Points</th>
                     </tr>
+                    <?php foreach ($dailyCrimeRows as $dailyCrimeRow): ?>
+                    <?php endforeach; ?>
                 </table>
             </div>
         </div>
