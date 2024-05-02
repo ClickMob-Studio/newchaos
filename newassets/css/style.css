@@ -130,7 +130,7 @@ table {
 .dcHeaderUsername {
 	text-decoration: none;
 	color: #fff;
-	font-size: 2rem;
+	/* font-size: 2rem; */
 }
 
 .dcStatsBars {
