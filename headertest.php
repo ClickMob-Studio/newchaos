@@ -638,6 +638,7 @@ if ($user_class->view_preference === '1') { ?>
           $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>{$usermission['crimes']}/{$miss['crimes']}</font>" : "<font color='green'>{$miss['crimes']}/{$miss['crimes']}</font>";
           $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>{$usermission['mugs']}/{$miss['mugs']}</font>" : "<font color='green'>{$miss['mugs']}/{$miss['mugs']}</font>";
           $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>{$usermission['busts']}/{$miss['busts']}</font>" : "<font color='green'>{$miss['busts']}/{$miss['busts']}</font>";
+          $backalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>{$usermission['backalleys']}/{$miss['backalleys']}</font>" : "<font color='green'>{$miss['backalleys']}/{$miss['backalleys']}</font>";
           $currenttime = time();
           $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
       }     
@@ -664,15 +665,15 @@ if ($user_class->view_preference === '1') { ?>
                                                 </div>
                                                                                                 <div class=" missionDiv">
                                                     <p class="missionTo">Busts:</p>
-                                                    <p>0/4000</p>
+                                                    <p><?= $busts; ?></p>
                                                 </div>
                                                 <div class="missionDiv">
                                                     <p class="missionTo">Mugs:</p>
-                                                    <p>0/5000</p>
+                                                    <p><?= $mugs; ?></p>
                                                 </div>
                                                 <div class="missionDiv">
                                                     <p class="missionTo">BA:</p>
-                                                    <p>0/2500</p>
+                                                    <p><?= $backalleys; ?></p>
                                                 </div>
                                             </div>
                                     </div>
