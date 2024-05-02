@@ -632,6 +632,7 @@ if ($user_class->view_preference === '1') { ?>
         <?php
       $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
       if (mysql_num_rows($check)) {
+            $show = true;
           $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
           $miss = mysql_fetch_array(mysql_query("SELECT * FROM mission WHERE id={$usermission['mid']}"));
           $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>{$usermission['kills']}/{$miss['kills']}</font>" : "<font color='green'>{$miss['kills']}/{$miss['kills']}</font>";
@@ -641,7 +642,9 @@ if ($user_class->view_preference === '1') { ?>
           $backalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>{$usermission['backalleys']}/{$miss['backalleys']}</font>" : "<font color='green'>{$miss['backalleys']}/{$miss['backalleys']}</font>";
           $currenttime = time();
           $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
-      }     
+      }else{
+        $show = false;
+      }
         ?>
                     
                     <div class="text-center dcBannerButtonsContainer">
@@ -655,7 +658,7 @@ if ($user_class->view_preference === '1') { ?>
                                     
                                     <div class="row heroTop heroTop2">
                                             <div class="col-12 col-lg-7 offset-lg-1 g-0 row realMission">
-                                            
+                                            <?php if($show == true): ?>
                                                 <div class=" missionDiv">
                                                     <p class="missionTo">Kills:</p>
                                                     <p><?= $kills; ?></p>
@@ -677,7 +680,7 @@ if ($user_class->view_preference === '1') { ?>
                                                     <p class="missionTo">BA:</p>
                                                     <p><?= $backalleys; ?></p>
                                                 </div>
-                                              
+                                              <?php endif; ?>
                                             </div>
                                     </div>
                                 </div>
