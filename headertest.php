@@ -751,7 +751,7 @@ if ($user_class->view_preference === '1') { ?>
                                 </div>
                             </div>
 
-                            <div class='time col-4 col-md-none' style='text-align: left';>Server Time: 01/05/2024  13:15:59</div>
+                            <div class='time col-4 col-md-none col-sm-none' style='text-align: left';>Server Time: 01/05/2024  13:15:59</div>
                         </div>
                         <div class="col-7 col-lg-12 g-0 row dcStatsPanel">
                             <div class="row my-0 my-lg-1 dcStatContainer-health">
