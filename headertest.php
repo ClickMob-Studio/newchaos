@@ -651,7 +651,8 @@ if ($user_class->view_preference === '1') { ?>
 
                         <div class="dcBannerButtonsContainerMain">
                             <div class="col-12 col-lg-4">
-                                <div class="p-1 dcPanel dcAvatarPanel">
+                                <div class="p-1 dcPanel dcAvatarPanel" stlye="width: 140px;
+    margin-left: -60px;">
                                     <div class="row mb-3 mission">
                                         <h3 class='box_top'>Mission</h3>
                                     </div>
