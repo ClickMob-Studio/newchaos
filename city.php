@@ -12,9 +12,9 @@ include_once 'databse/pdo_class.php';
     margin: 0 auto;
     }
     </style>
-<div class='box_top'>Welcome to <!_-cityname-_!></div>
-						<div class='box_middle'>
-							<div class='pad'>
+<h1>>Welcome to <!_-cityname-_!></h1>
+<div class="container mt-3">
+
 
                             <?php
 $db->query("SELECT * FROM luckyboxes WHERE playerid = ?");
@@ -552,7 +552,7 @@ Every <span class="color:yellow;">Valid</span> signup on this link gets you 100 
 	</table>
 
 
-
+        </div>
 
 <?php
 include 'footer.php';
