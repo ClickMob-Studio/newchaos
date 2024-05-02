@@ -176,7 +176,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_boost' && isset($_GET['bo
 <div class='box_top'>Account Prestige</div>
 <div class='box_middle'>
     <div class='pad'>
-        <p>Welcome to Account Prestiges!</p>
+        <p>
+            Welcome to Account Prestiges! By increasing your prestige, you allow your level to be reset in return, as well as pay a forfeit, for special bonuses once you hit a set level. The first prestige allows you to prestige
+            at level 1000, and they increase by 200 thereon.
+        </p>
 
         <h2>Prestige Unlocks</h2>
         <p>You currently have <?php echo $userPrestigeSkills['prestige_unlocks_available'] ?> prestige unlocks available.</p>
@@ -348,6 +351,34 @@ echo '            </div>';
 echo '        </td>';
 echo '    </tr>';
 echo '</table>';
+
+?>
+
+<p>To prestige to the next level, you'll need to pay the following forfeit:</p>
+
+<?php if ($user_class->prestige < 1): ?>
+    <ul>
+        <li>$500,000,000 from your bank</li>
+        <li>250,000 points</li>
+        <li>40% of your stats</li>
+    </ul>
+<?php endif; ?>
+
+
+<p><strong>Prestige 2</strong></p>
+<ul>
+    <li>$1,000,000,000 from your bank</li>
+    <li>500,000 points</li>
+    <li>50% of your stats</li>
+</ul>
+<p><strong>Prestige 2</strong></p>
+<ul>
+    <li>$1,000,000,000 from your bank</li>
+    <li>500,000 points</li>
+    <li>50% of your stats</li>
+</ul>
+
+<?php
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
