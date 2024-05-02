@@ -1,25 +1,6 @@
 <?php
+
 include "header.php";
-
-echo 'The prestige system is currently closed with a new system pending release in the next few days.';
-
-include 'footer.php';
-exit;
-?>
-	
-	<div class='box_top'>Prestige</div>
-						<div class='box_middle'>
-							<div class='pad'>
-								<?php
-// General message for users trying to prestige before reaching level 1000
-
-// Allow access if the user is an admin or their level is >= 1000
-
-
-// Rest of your prestige functionality goes here...
-
-
-// Check for maximum prestige limit
 
 echo '<style>
 .content-area {
@@ -102,9 +83,216 @@ stats-contents {
 .center-text { text-align: center; } /* Class for centering text */
  }
 </style>';
-echo '<style>
-/* Existing styles */
-</style>';
+
+$userPrestigeSkills = getUserPrestigeSkills($user_class);
+$prestigeUnlocks = array();
+// BA Raid Tokens
+$prestigeUnlocks['ba_raidtokens_unlock'] = array(
+    'name' => 'BA Raid Tokens',
+    'description' => 'Unlocking BA Raid Tokens will allow you to find Raid Tokens with normal Backalley searches, not just in Gold Rush!'
+);
+// Super Attack
+$prestigeUnlocks['speed_attack_unlock'] = array(
+    'name' => 'Super Attack',
+    'description' => 'Unlocking Super Attack gives you access to a new feature where with one click of a button you\'ll speed attack a random offline player, helping you complete those important kill missions quickly!'
+);
+// BA Gold Rush Boost
+$prestigeUnlocks['ba_gold_rush_unlock'] = array(
+    'name' => 'BA Gold Rush Boost',
+    'description' => 'Unlocking Ba Gold Rush boost gives you a 10% boosted chance of finding Gold Rush in the Backalley'
+);
+// Crime Cash
+$prestigeUnlocks['crime_cash_unlock'] = array(
+    'name' => 'Crime Cash Boost',
+    'description' => 'Unlocking Crime Cash Boost gives an extra 10% cash from all crimes you complete.'
+);
+// Throne Payout Boost
+$prestigeUnlocks['throne_points_unlock'] = array(
+    'name' => 'Throne Payout Boost',
+    'description' => 'Unlocking Throne Payout Boost gives you an extra 20% payouts from all Boss/Under Boss positions held!'
+);
+// Travel Cost Reduction
+$prestigeUnlocks['travel_cost_unlock'] = array(
+    'name' => 'Travel Cost Reduction',
+    'description' => 'Unlocking Travel Cost Reduction gives you a 20% reduction on all travel costs.'
+);
+
+$prestigeBoosts = array();
+$prestigeBoosts['energy_boost_level'] = '+50 Energy Boost';
+$prestigeBoosts['crime_cash_boost_level'] = '+2% Crime Cash Boost';
+$prestigeBoosts['mission_point_boost_level'] = '+2% Mission Point Boost';
+$prestigeBoosts['mission_exp_boost_level'] = '+2% Mission EXP Boost';
+$prestigeBoosts['ba_point_boost_level'] = '+1 Backalley Level';
+//$prestigeBoosts['hourly_searches_boost_level'] = '+10 Hourly Searches';
+
+
+if (isset($_GET['action']) && $_GET['action'] === 'add_unlock' && isset($_GET['unlock_type'])) {
+    $unlockType = $_GET['unlock_type'];
+    if (!isset($prestigeUnlocks[$unlockType])) {
+        diefun('Something went wrong, please DM an Admin if this issue persists.');
+    }
+
+    if ($userPrestigeSkills['prestige_unlocks_available'] < 1) {
+        diefun('You do not have any prestige unlocks available');
+    }
+
+    if ($userPrestigeSkills[$unlockType] > 0) {
+        diefun('You have already activated this unlock');
+    }
+    $userPrestigeSkills[$unlockType] = 1;
+
+    $db->query('UPDATE user_prestige_skills SET ' . $unlockType . ' = 1, unlock_points_spent = unlock_points_spent + 1 WHERE user_id = ' . $user_class->id);
+    $db->execute();
+
+    echo Message("You have successfully unlocked " . $prestigeUnlocks[$unlockType]['name']);
+}
+
+if (isset($_GET['action']) && $_GET['action'] === 'add_boost' && isset($_GET['boost_type'])) {
+    $boostType = $_GET['boost_type'];
+    if (!isset($prestigeBoosts[$boostType])) {
+        diefun('Something went wrong, please DM an Admin if this issue persists.');
+    }
+
+    if ($userPrestigeSkills['prestige_boosts_available'] < 1) {
+        diefun('You do not have any prestige boosts available');
+    }
+
+    if ($userPrestigeSkills[$boostType] >= 5) {
+        diefun('You have already maxed out this boost.');
+    }
+    $userPrestigeSkills[$boostType] = $userPrestigeSkills[$boostType] + 1;
+
+    $db->query('UPDATE user_prestige_skills SET ' . $boostType . ' = ' . $boostType . ' + 1, boosts_spent = boosts_spent + 1 WHERE user_id = ' . $user_class->id);
+    $db->execute();
+
+    echo Message("You have successfully increased the level of " . $prestigeBoosts[$boostType]);
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Check if the user has reached the maximum prestige level
+    if ($user_class->prestige >= 5) {
+        echo Message("You cannot Prestige again!!");
+    } else if ($user_class->level >= $prestigeLevelRequired) {
+        if ($user_class->prestige < 1) {
+            $bankCashRequired = 500000000;
+            $pointsRequired = 250000;
+            $statPercentage = 40;
+        } else if ($user_class->prestige < 2) {
+            $bankCashRequired = 1000000000;
+            $pointsRequired = 500000;
+            $statPercentage = 50;
+        } else if ($user_class->prestige < 3) {
+            $bankCashRequired = 5000000000;
+            $pointsRequired = 750000;
+            $statPercentage = 50;
+        } else if ($user_class->prestige < 4) {
+            $bankCashRequired = 10000000000;
+            $pointsRequired = 1000000;
+            $statPercentage = 60;
+        } else if ($user_class->prestige < 5) {
+            $bankCashRequired = 25000000000;
+            $pointsRequired = 1500000;
+            $statPercentage = 60;
+        }
+
+        if ($user_class->bank < $bankCashRequired) {
+            diefun('You do not have enough cash in the bank to prestige.');
+        }
+
+        if ($user_class->points < $pointsRequired) {
+            diefun('You do not have enough points to prestige.');
+        }
+
+        $newStrength = $user_class->strength - ($user_class->strength / 100 * $statPercentage);
+        $newDefense = $user_class->defense - ($user_class->defense / 100 * $statPercentage);
+        $newSpeed = $user_class->speed - ($user_class->speed / 100 * $statPercentage);
+
+        // User is eligible to prestige, and hasn't reached the maximum prestige level
+        // Assuming $db is your database connection
+        $db->query("UPDATE grpgusers SET prestige = prestige + 1, level = 1, exp = 0, bank = bank - " . $bankCashRequired . ", points = points - " . $pointsRequired . ", strength = " . $newStrength . ", defense = " . $newDefense . ", speed = " . $newSpeed . "  WHERE id = ?");
+        $db->execute([$user_class->id]);
+        // Assuming the prestige level is updated in the object, you might need to refresh it or adjust the object property accordingly
+        echo Message("Congratulations! You have prestiged to level " . ($user_class->prestige + 1) . ".");
+        $_SESSION['prestige'] = true;
+    } else {
+        echo Message("You must be at least level " . $prestigeLevelRequired . " to prestige.");
+    }
+    include 'footer.php';
+    die();
+}
+
+?>
+
+<div class='box_top'>Account Prestige</div>
+<div class='box_middle'>
+    <div class='pad'>
+        <p>
+            Welcome to Account Prestiges! By increasing your prestige, you allow your level to be reset, as well as pay a forfeit, and in return you receive special bonuses. The first prestige allows you to prestige
+            at level 1000, and they increase by 200 thereon.
+        </p>
+
+        <h2>Prestige Unlocks</h2>
+        <p>You currently have <?php echo $userPrestigeSkills['prestige_unlocks_available'] ?> prestige unlocks available.</p>
+        <hr />
+        <div class="row">
+            <?php foreach ($prestigeUnlocks as $key => $prestigeUnlock): ?>
+                <?php
+                $divClass = 'bg-danger';
+                $button = '<a href="prestige.php?action=add_unlock&unlock_type=' . $key .'"><button>Unlock</button></a>';
+                if ($userPrestigeSkills[$key] > 0) {
+                    $divClass = 'bg-success';
+                    $button = '';
+                }
+                ?>
+                <div class="col-md-4">
+                    <div class="card text-white <?php echo $divClass ?> mb-3" style="min-height: 240px;">
+                        <div class="card-header"><?php echo $prestigeUnlock['name'] ?></div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <?php echo $prestigeUnlock['description'] ?>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <center>
+                                <?php echo $button ?>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <br />
+        <h2>Prestige Boosts</h2>
+        <p>You currently have <?php echo $userPrestigeSkills['prestige_boosts_available'] ?> prestige boosts available.</p>
+        <hr />
+        <div class="table-container">
+            <table class="new_table" id="newtables" style="width:100%;">
+                <thead>
+                <tr>
+                    <th>Boost</th>
+                    <th>Level</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($prestigeBoosts as $key => $name): ?>
+                    <tr>
+                        <td><?php echo $name ?></td>
+                        <td><?php echo $userPrestigeSkills[$key] ?>/5</td>
+                        <td><a href="prestige.php?action=add_boost&boost_type=<?php echo $key ?>"><button>Add</button></a></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br />
+
+<h2>Prestige</h2>
+<hr />
+<?php
 $prestigeLevel = $user_class->prestige;
 
 // Calculate the bonus percentage for both Training and EXP
@@ -143,7 +331,7 @@ echo '    </tr>';
 echo '    </tr>';
 echo '    <tr>';
 echo '        <th><center> Get An Additional <font color=yellow><b>+20% bonus</b></font> on <font color=red><b>Trains</b></font> per Prestige Level!</th>';
-echo '       <th><center> Get An Additional <font color=yellow><b>+20% bonus</b></font> on <font color=red><b>EXP</b></font> per Prestige! [<a href="#" title="You will gain 20% More EXP in all aspects of the game.">?</a>]</th>';
+echo '       <th><center> Get An Additional <font color=yellow><b>+20% bonus</b></font> on <font color=red><b>EXP</b></font> per Prestige!</th>';
 // Removed the description for the "Access to a prestige city" as per request.
 echo '    </tr>';
 echo '</table>';
@@ -168,11 +356,14 @@ if ($can) {
     echo '</form>';
 }
 
+$prestigeLevelRequired = 1000;
+if ($user_class->prestige > 0) {
+    $prestigeLevelRequired = $prestigeLevelRequired + (200 * $user_class->prestige);
+}
+
 // Calculate the remaining levels to reach 1000 and display it
-$levelsToGo = 1000 - $user_class->level; // Remaining levels to reach 1000
+$levelsToGo = $prestigeLevelRequired - $user_class->level; // Remaining levels to reach 1000
 echo '<div style="text-align:center; margin-bottom:20px;">';
-
-
 
 
 echo '<table id="newtables" style="margin:auto; width:100%; table-layout:fixed;">';
@@ -190,7 +381,7 @@ echo '    </tr>';
 echo '</table>';
 
 // Calculate level percentage for display
-$lvlperc = min(100, floor(($user_class->level / 1000) * 100));
+$lvlperc = min(100, floor(($user_class->level / $prestigeLevelRequired) * 100));
 
 // Display prestige requirements and progress
 echo '<table id="newtables" style="margin:auto;">';
@@ -199,7 +390,7 @@ echo '        <th colspan="3" class="center-text"><h4><center>You currently need
 echo '    </tr>';
 echo '    <tr>';
 echo '        <td colspan="2"><h4>Current Prestige Level: <span style="color:red;"><b>' . $user_class->prestige . '</b></span></h4></td>';
-echo '        <td><h4>' . prettynum($user_class->level) . ' / ' . prettynum(1000) . ' (' . number_format_short(1000) . ')</h4></td>';
+echo '        <td><h4>' . prettynum($user_class->level) . ' / ' . prettynum($prestigeLevelRequired) . ' (' . number_format_short($prestigeLevelRequired) . ')</h4></td>';
 echo '    </tr>';
 echo '<table id="newtables" style="margin:auto;">';
 echo '    <tr>';
@@ -211,55 +402,71 @@ echo '        </td>';
 echo '    </tr>';
 echo '</table>';
 
+?>
 
-// Show the prestige button if the user has reached level 1000
+<p>To prestige to the next level, you'll need to pay the following forfeit:</p>
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Check if the user has reached the maximum prestige level
-    if ($user_class->prestige >= 5) {
-        echo Message("You cannot Prestige again!!");
-    } else if ($user_class->level >= 1000) {
-        // User is eligible to prestige, and hasn't reached the maximum prestige level
-        // Assuming $db is your database connection
-        $db->query("UPDATE grpgusers SET prestige = prestige + 1, level = 1, exp = 0 WHERE id = ?");
-        $db->execute([$user_class->id]);
-        // Assuming the prestige level is updated in the object, you might need to refresh it or adjust the object property accordingly
-        echo Message("Congratulations! You have prestiged to level " . ($user_class->prestige + 1) . ".");
-        $_SESSION['prestige'] = true;
-    } else {
-        // User is not eligible to prestige due to not being at least level 1000
-        echo Message("You must be at least level 1000 to prestige.");
-    }
-    include 'footer.php';
-    die();
-}
+<?php if ($user_class->prestige < 1): ?>
+    <ul>
+        <li>$500,000,000 from your bank</li>
+        <li>250,000 points</li>
+        <li>40% of your stats</li>
+    </ul>
+<?php elseif ($user_class->prestige < 2): ?>
+    <ul>
+        <li>$1,000,000,000 from your bank</li>
+        <li>500,000 points</li>
+        <li>50% of your stats</li>
+    </ul>
+<?php elseif ($user_class->prestige < 3): ?>
+    <ul>
+        <li>$5,000,000,000 from your bank</li>
+        <li>750,000 points</li>
+        <li>50% of your stats</li>
+    </ul>
+<?php elseif ($user_class->prestige < 4): ?>
+    <ul>
+        <li>$10,000,000,000 from your bank</li>
+        <li>1,000,000 points</li>
+        <li>60% of your stats</li>
+    </ul>
+<?php elseif ($user_class->prestige < 5): ?>
+    <ul>
+        <li>$25,000,000,000 from your bank</li>
+        <li>1,500,000 points</li>
+        <li>60% of your stats</li>
+    </ul>
+<?php endif; ?>
+
+<?php
 
 
 // Ensure the prestige button is always displayed but disabled unless the user is level 1000 or higher
+echo '<center>';
 echo '<div class="custom-button-container">';
 echo '<form method="post" style="text-align:center;">';
-if ($user_class->level >= 1000) {
+if ($user_class->level >= $prestigeLevelRequired) {
     echo '<input type="submit" class="custom-button" value="Prestige!" />';
 } else {
     echo '<input type="submit" class="custom-button" value="Sorry, You Cannot Prestige Yet" disabled />';
 }
 echo '</form>';
 echo '</div>';
-
+echo '</center>';
 
 ?>
 
 <script>
-$(".stat_input").change(function(e) {
-    console.log($(this));
-    var sum = 0;
-    $('.stat_input').each(function() {
-        sum += Number($(this).val());
+    $(".stat_input").change(function(e) {
+        console.log($(this));
+        var sum = 0;
+        $('.stat_input').each(function() {
+            sum += Number($(this).val());
+        });
+        console.log(sum);
+        sum = String(sum).replace(/(.)(?=(\d{3})+$)/g,'$1,')
+        $("#stat_total").html(sum);
     });
-    console.log(sum);
-    sum = String(sum).replace(/(.)(?=(\d{3})+$)/g,'$1,')
-    $("#stat_total").html(sum);
-});
 </script>
 
 <?php
