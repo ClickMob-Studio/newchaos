@@ -13,7 +13,7 @@ include_once 'databse/pdo_class.php';
     }
     </style>
 <h1>>Welcome to <!_-cityname-_!></h1>
-<div class="container mt-3">
+
 
 
                             <?php
@@ -552,7 +552,7 @@ Every <span class="color:yellow;">Valid</span> signup on this link gets you 100 
 	</table>
 
 
-        </div>
+
 
 <?php
 include 'footer.php';
