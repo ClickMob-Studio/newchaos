@@ -252,7 +252,7 @@ function getCurrentPageURL() {
 }
 if($user_class->id == 1){
     $url = getCurrentPageURL();
-    mysql_query("INSERT INTO pagetracker (userid, `page`) VALUES (".$user_class->id.", '".$url.")");
+    mysql_query("INSERT INTO pagetracker (userid, `page`) VALUES (".$user_class->id.", '".$url."')");
 }
 function getRealIpAddress() {
     if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
