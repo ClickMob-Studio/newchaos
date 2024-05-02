@@ -1,5 +1,9 @@
 <?php
+session_start();
+if($_SESSION['id'] != 1)
 require "header.php";
+else
+    require "headertest.php";
 // if($user_class->id == 18)
 //     exit();
 if($_GET['action'] == 'ban'){
