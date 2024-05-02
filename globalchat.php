@@ -323,4 +323,8 @@ text-align: left;
 font-weight: normal;
 border-bottom: 1px solid #555;
 }
+#newtables td{
+    padding: 10px;
+    border-bottom: 1px solid #444;
+}
 </style>
