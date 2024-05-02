@@ -683,8 +683,7 @@ if ($user_class->view_preference === '1') { ?>
                                                 </div>
                                               <?php else: ?>
                                                 <div class=" missionDiv">
-                                                <p class="missionTo">&nbsp;&nbsp;&nbsp;&nbsp;</p>
-                                                    <p>No Active mission <a href="missions.php">Click Here</a> to start one </p>
+                                               <a href="missions.php" class="dcSecondaryButton my-3">Start Mission</a>
                                                 </div>
                                                 <?php endif; ?>
                                             </div>
