@@ -679,7 +679,7 @@ if ($user_class->view_preference === '1') { ?>
                                 <div class="d-flex align-items-center justify-content-center mb-0">
                                     <div class="flex-grow-1 text-center">
                                         <ul class="list-unstyled d-flex flex-row align-items-center justify-content-left">
-                                        <?php now = time();
+                                        <?php $now = time();
                     $result = mysql_query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > $now ORDER BY RAND() LIMIT 1");
                     if (!mysql_num_rows($result)) {
                         $_messages = [
