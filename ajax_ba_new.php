@@ -518,7 +518,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     } else if ($outcome <= 100) {
-        if ($userPrestigeSkills['ba_raidtokens_unlock'] > 0) {
+        if ($userPrestigeSkills['ba_raidtokens_unlock'] < 1) {
             $rtorpChance = 100;
         } else {
             $rtorpChance = mt_rand(1,100);
