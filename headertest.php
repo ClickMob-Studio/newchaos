@@ -630,11 +630,17 @@ if ($user_class->view_preference === '1') { ?>
         <div class="col-12 col-lg-8 mt-3 mt-lg-0">
                 <div class="dcPanel h-100">
         <?php
-        $db->query("SELECT `name`, mission.crimes as crimestarget, missions.crimes as crimesdone FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE `userid` = ? AND `completed` = \"no\" LIMIT 1");
-        $db->execute(array(
-            $user_class->id
-        ));
-        $activeCrimeMission = $db->fetch_row()[0];
+      $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
+      if (mysql_num_rows($check)) {
+          $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
+          $miss = mysql_fetch_array(mysql_query("SELECT * FROM mission WHERE id={$usermission['mid']}"));
+          $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>{$usermission['kills']}/{$miss['kills']}</font>" : "<font color='green'>{$miss['kills']}/{$miss['kills']}</font>";
+          $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>{$usermission['crimes']}/{$miss['crimes']}</font>" : "<font color='green'>{$miss['crimes']}/{$miss['crimes']}</font>";
+          $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>{$usermission['mugs']}/{$miss['mugs']}</font>" : "<font color='green'>{$miss['mugs']}/{$miss['mugs']}</font>";
+          $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>{$usermission['busts']}/{$miss['busts']}</font>" : "<font color='green'>{$miss['busts']}/{$miss['busts']}</font>";
+          $currenttime = time();
+          $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
+      }     
         ?>
                     
                     <div class="text-center dcBannerButtonsContainer">
@@ -649,15 +655,13 @@ if ($user_class->view_preference === '1') { ?>
                                             <div class="col-12 col-lg-7 offset-lg-1 g-0 row realMission">
                                                 <div class=" missionDiv">
                                                     <p class="missionTo">Kills:</p>
-                                                    <p>0/5000</p>
+                                                    <p><?= $kills; ?></p>
                                                 </div>
-                                                <?php if($activeCrimeMission){?>
                                                 <div class="missionDiv">
                                                 
                                                     <p class="missionTo">Crimes:</p>
-                                                    <p><?php echo $activeMission['crimesdone'] ."/".$activeMission['crimestarget'] ?></p>
+                                                    <p><?= $crimes; ?></p>
                                                 </div>
-                                                <?php }?>
                                                                                                 <div class=" missionDiv">
                                                     <p class="missionTo">Busts:</p>
                                                     <p>0/4000</p>
