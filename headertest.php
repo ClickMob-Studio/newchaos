@@ -655,7 +655,7 @@ if ($user_class->view_preference === '1') { ?>
                                     
                                     <div class="row heroTop heroTop2">
                                             <div class="col-12 col-lg-7 offset-lg-1 g-0 row realMission">
-                                            <?php if($miss): ?>
+                                            <?php if($kills): ?>
                                                 <div class=" missionDiv">
                                                     <p class="missionTo">Kills:</p>
                                                     <p><?= $kills; ?></p>
