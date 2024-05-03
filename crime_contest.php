@@ -238,6 +238,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
                 <li>500,000 crimes: 150,000 points</li>
                 <li>1,000,000 crimes: 350,000 points</li>
             </ul>
+
+            <a href="crime_contest.php?action=milestone&type=crimes"><button>Collect Milestones</button></a>
         </div>
         <div class="col-md-6">
             <h3>Overall Attack Milestones</h3>
@@ -248,6 +250,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
                 <li>5,000 attacks: 80,000 points</li>
                 <li>15,000 attacks: 150,000 points</li>
                 <li>35,000 attacks: 350,000 points</li>
+
+                <a href="crime_contest.php?action=milestone&type=attacks"><button>Collect Milestones</button></a>
             </ul>
         </div>
     </div>
