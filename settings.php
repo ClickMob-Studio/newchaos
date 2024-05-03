@@ -476,6 +476,16 @@ if (count($colors) == 2) {
     <button id="updateShoutboxBtn" type="button">Update Shoutbox</button>
 </div>
 
+<div class="col-md-4 col-6">
+    <h1>Disable Mobile Display?</h1>
+    <p>Turning to on will disable the mobile view</p>
+    <select id="mobileDisplaySelect">
+        <option value="1" <?php echo $user_class->is_mobile_disabled == 1 ? 'selected' : ''; ?>>On</option>
+        <option value="0" <?php echo $user_class->is_mobile_disabled == 0 ? 'selected' : ''; ?>>Off</option>
+    </select>
+    <button id="updateMobileDisplayBtn" type="button">Update Mobile Display</button>
+</div>
+
 <?php if($user_class->aprotection > time()):?>
     <div class="col-md-4 col-6">
     <h1>Remove Attack Protection</h1>
