@@ -210,7 +210,7 @@ $(document).ready(function() {
             dataType: 'json',
             data: {
                 action: 'mdisplay',
-                shoutbox: mobileDisplay
+                mobileDisplay: mobileDisplay
             },
             success: function(response) {
                 $('.info-alert').html(response.text).show();
