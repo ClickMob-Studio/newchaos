@@ -51,9 +51,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
     }
 
     if ($mileCollected > 0) {
-        Message('You have successfully collected your milestone prizes, check your events to see which ones you claimed.');
+        echo Message('You have successfully collected your milestone prizes, check your events to see which ones you claimed.');
     } else {
-        Message('You had no milestone prizes to collect.');
+        echo Message('You had no milestone prizes to collect.');
     }
 
 }
