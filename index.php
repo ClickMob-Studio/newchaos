@@ -43,7 +43,7 @@ if($user_class->level >= 10){
     </tr>
     <tr>
         <th width="10%">Level:</th>
-        <td width="30%"><?= $user_class->level . ($user_class->level >= 1000 ? ' <a href="prestige.php"><span class="notify">[Prestige]</span></a>' : '') ?></td>
+        <td width="30%"><?= $user_class->level ?></td>
         <th width="10%">Energy:</th>
         <td width="30%"><?= prettynum($user_class->formattedenergy) ?></td>
     </tr>
