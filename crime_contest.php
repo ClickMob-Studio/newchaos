@@ -32,7 +32,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
         50000 => 15000,
         250000 => 300000,
         500000 => 750000,
-        750000 => 1000000
+        750000 => 1250000
     );
 
     $mileCollected = 0;
@@ -271,7 +271,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
                 <li>50,000 crimes: 15,000 points</li>
                 <li>250,000 crimes: 300,000 points</li>
                 <li>500,000 crimes: 750,000 points</li>
-                <li>750,000 crimes: 1,000,000 points</li>
+                <li>750,000 crimes: 1,250,000 points</li>
             </ul>
 
             <a href="crime_contest.php?action=milestone&type=crimes"><button>Collect Milestones</button></a>
