@@ -725,6 +725,7 @@ if ($user_class->view_preference === '1') { ?>
                         $user_ads = new User($row['poster']);
                         $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
                         ?>
+
                         <li class="flex-grow-1">
                             <span><?= $user_ads->formattedname ?>: <?= $row['message'] ?></span>
                         </li>
