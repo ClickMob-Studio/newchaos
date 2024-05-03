@@ -222,17 +222,41 @@ $overallAttackRows = $db->fetch_row();
         <div class="col-md-12">
             <p>The top 5 players on each daily leaderboard will earn 1 contest token. Contest tokens can be spent below.</p>
 
+            <!-- 6 Tokens Up For Grabs -->
+
             <div class="table-container">
                 <table class="new_table" id="newtables" style="width:100%;">
                     <tr>
                         <th>Item</th>
                         <th>Price</th>
-                        <th>&nsbp;</th>
+                        <th> </th>
                     </tr>
 
+                    <!-- Police Badge -->
                     <tr>
                         <td>1 x Police Badge</td>
                         <td>1 Contest Token</td>
+                        <td><a href="#">Buy</a></td>
+                    </tr>
+
+                    <!-- Credits -->
+                    <tr>
+                        <td>200 Gold</td>
+                        <td>2 Contest Tokens</td>
+                        <td><a href="#">Buy</a></td>
+                    </tr>
+
+                    <!-- Nerve Vial -->
+                    <tr>
+                        <td>1 x Nerve Vial</td>
+                        <td>3 Contest Tokens</td>
+                        <td><a href="#">Buy</a></td>
+                    </tr>
+
+                    <!-- Advanced Booster -->
+                    <tr>
+                        <td>1 x Advanced Booster</td>
+                        <td>4 Contest Tokens</td>
                         <td><a href="#">Buy</a></td>
                     </tr>
                 </table>
