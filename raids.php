@@ -432,7 +432,7 @@ foreach ($active_raids as $raid) {
     $participant_query = "SELECT * FROM raid_participants WHERE raid_id = " . $raid['id'] . " AND user_id = " . $user_class->id;
     $participant_result = mysql_query($participant_query);
 
-    if ($participant_count >= $maxraiders) {
+    if ($participant_count >= $maxraiders && mysql_num_rows($participant_result) <= 1) {
         echo "<div class='raid-card' style='display: none;'>";
     } else {
         echo "<div class='raid-card'>";
