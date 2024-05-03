@@ -6,6 +6,8 @@ date_default_timezone_set('Europe/London'); // This will automatically account f
 
 $targetDateMilliseconds = strtotime('May 06, 2024 22:00:00') * 1000;
 
+$userCompLeaderboard = getUserCompLeaderboard($user_class->id);
+
 $db->query("SELECT * FROM `user_comp_leaderboard` ORDER BY `daily_crimes_complete` DESC LIMIT 15");
 $db->execute();
 $dailyCrimeRows = $db->fetch_row();
@@ -21,6 +23,40 @@ $dailyAttackRows = $db->fetch_row();
 $db->query("SELECT * FROM `user_comp_leaderboard` ORDER BY `overall_attacks_complete` DESC LIMIT 15");
 $db->execute();
 $overallAttackRows = $db->fetch_row();
+
+if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['type']) && $_GET['type'] === 'crimes') {
+
+    $milestones = array(
+        100 => 1000,
+        5000 => 5000,
+        50000 => 15000,
+        250000 => 90000,
+        500000 => 150000,
+        1000000 => 350000
+    );
+
+    $mileCollected = 0;
+    foreach ($milestones as $mile => $prize) {
+        if ($userCompLeaderboard['crimes_milestone_collected'] < $mile && $userCompLeaderboard['overall_crimes_complete'] >= $mile) {
+            $mileCollected = $mile;
+
+            Send_Event($user_class->id, 'You collected your ' . number_format($mile, 0) . ' crime milestone and claimed ' . number_format($prize, 0) . ' points.');
+
+            $db->query("UPDATE grpgusers SET points = points + " . $prize . " WHERE id = " . $user_class->id);
+            $db->execute();
+
+            $db->query("UPDATE user_comp_leaderboard SET crimes_milestone_collected " . $mile . " WHERE user_id = " . $user_class->id);
+            $db->execute();
+        }
+    }
+
+    if ($mileCollected > 0) {
+        Message('You have successfully collected your milestone prizes, check your events to see which ones you claimed.');
+    } else {
+        Message('You had no milestone prizes to collect.');
+    }
+
+}
 ?>
 
     <h1>Crime & Attack Contest</h1>

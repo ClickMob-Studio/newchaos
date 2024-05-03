@@ -2024,6 +2024,25 @@ function addToGangCompLeaderboard($gangId, $field, $value)
     }
 }
 
+function getUserCompLeaderboard($userId)
+{
+    global $db;
+
+    $db->query("SELECT * FROM user_comp_leaderboard WHERE user_id = " . $userId . " LIMIT 1");
+    $db->execute();
+    $r = $db->fetch_row();
+
+    if (isset($r[0]['id'])) {
+        return $r[0];
+    } else {
+        $db->query("INSERT INTO user_comp_leaderboard (user_id) VALUES (" . $userId . ")");
+        $db->execute();
+        $r = getUserCompLeaderboard($userId);
+
+        return $r;
+    }
+}
+
 function addToUserCompLeaderboard($userId, $field, $value)
 {
     global $db;
