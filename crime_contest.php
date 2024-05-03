@@ -34,8 +34,22 @@ $overallCrimeRows = $db->fetch_row();
                         <th>User</th>
                         <th>Points</th>
                     </tr>
-                    <?php foreach ($dailyCrimeRows as $dailyCrimeRow): ?>
-                    <?php endforeach; ?>
+                    <?php if (count($dailyCrimeRows) > 0): ?>
+                        <?php $i = 1; ?>
+                        <?php foreach ($dailyCrimeRows as $dailyCrimeRow): ?>
+                            <td><?php echo $i ?></td>
+                            <td><?php formatName($dailyCrimeRow['user_id']) ?></td>
+                            <td><?php number_format($dailyCrimeRow['daily_crimes_complete'], 0) ?></td>
+
+                            <?php $i++; ?>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="3">
+                                No Results
+                            </td>
+                        </tr>
+                    <?php endif; ?>
                 </table>
             </div>
         </div>
@@ -49,6 +63,22 @@ $overallCrimeRows = $db->fetch_row();
                         <th>User</th>
                         <th>Points</th>
                     </tr>
+                    <?php if (count($overallCrimeRows) > 0): ?>
+                        <?php $i = 1; ?>
+                        <?php foreach ($overallCrimeRows as $overallCrimeRow): ?>
+                            <td><?php echo $i ?></td>
+                            <td><?php formatName($overallCrimeRow['user_id']) ?></td>
+                            <td><?php number_format($overallCrimeRow['daily_crimes_complete'], 0) ?></td>
+
+                            <?php $i++; ?>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="3">
+                                No Results
+                            </td>
+                        </tr>
+                    <?php endif; ?>
                 </table>
             </div>
         </div>
