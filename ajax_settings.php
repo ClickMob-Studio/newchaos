@@ -167,7 +167,7 @@ if(isset($_POST["action"]) && $_POST["action"] == "shoutbox"){
 }
 if(isset($_POST["action"]) && $_POST["action"] == "mdisplay"){
     $mdisplay = intval($_POST['mobileDisplay']);
-    if($mdisplay != 1 && != 0){
+    if($mdisplay != 1 && $mdisplay != 0){
         echo json_encode(array(
             'text'=> 'You did not select a correct value'
         ));
