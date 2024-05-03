@@ -100,6 +100,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
         some great prizes. Daily Prizes & Contest Tokens will be paid at rollover. Milestone payments can be collected manually.
     </p>
 
+    <p style="color: red">Contest Ends May 06, 2024 22:00:00</p>
     <hr />
     <h2>Crimes</h2>
     <p>Each crime you complete that uses at least 50% of your max nerve will count as 1 point. Any other crime will not count.</p>
