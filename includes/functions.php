@@ -681,7 +681,7 @@ function experience($L)
 if ($x >= 900)
          $a *= 0.5;
 if ($x >= 1000)
-         $a *= 3;
+         $a *= 2;
 
 
 
