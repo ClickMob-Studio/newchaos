@@ -348,11 +348,9 @@ if (isset($_POST['id']) || isset($input['id'])) {
             $debug['exp_earned'] = $exp;
 
             // UserCompLeaderboard
-            if ($user_class->admin > 0) {
-                $maxnervePercCheck = $mission_nerve / $user_class->maxnerve * 100;
-                if ($maxnervePercCheck >= 50) {
-                    addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
-                }
+            $maxnervePercCheck = $mission_nerve / $user_class->maxnerve * 100;
+            if ($maxnervePercCheck >= 50) {
+                addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
             }
 
             $user_class->money += $money;
