@@ -165,6 +165,20 @@ if(isset($_POST["action"]) && $_POST["action"] == "shoutbox"){
         "text"=> "You have updated your shoutbox settings"
     ));
 }
+if(isset($_POST["action"]) && $_POST["action"] == "mdisplay"){
+    $mdisplay = intval($_POST['mobileDisplay']);
+    if($mdisplay != 1 && √ !=0){
+        echo json_encode(array(
+            'text'=> 'You did not select a correct value'
+        ));
+        exit;
+    }
+    $db->query("UPDATE grpgusers SET is_mobile_disabled = ? WHERE id = ".$user_class->id);
+    $db->execute(array($mdisplay));
+    echo json_encode(array(
+        "text"=> "You have updated your mobile display settings"
+    ));
+}
 if(isset($_POST["action"]) && $_POST["action"] == "privacy"){
     $privacy = intval($_POST['privacy']);
     if($privacy != 1 && $privacy !=0){

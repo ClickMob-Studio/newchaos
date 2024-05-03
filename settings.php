@@ -201,6 +201,26 @@ $(document).ready(function() {
         });
     });
 });
+$(document).ready(function() {
+    $("#updateMobileDisplayBtn").click(function() {
+        var mobileDisplay = $("#mobileDisplaySelect").val();
+        $.ajax({
+            url: '/ajax_settings.php',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action: 'mdisplay',
+                shoutbox: mobileDisplay
+            },
+            success: function(response) {
+                $('.info-alert').html(response.text).show();
+            },
+            error: function() {
+                alert("An error occurred. Please try again.");
+            }
+        });
+    });
+});
 document.addEventListener('DOMContentLoaded', function() {
     const refillButton = document.querySelector('.nerve-action');
     refillButton.addEventListener('click', function(event) {
