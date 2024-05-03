@@ -429,7 +429,10 @@ foreach ($active_raids as $raid) {
     $participant_count = $participant_count_row['participant_count'];
 
     // Output the raid card
-    if ($participant_count >= $maxraiders) {
+    $participant_query = "SELECT * FROM raid_participants WHERE raid_id = " . $raid['id'] . " AND user_id = " . $user_class->id;
+    $participant_result = mysql_query($participant_query);
+
+    if ($participant_count >= $maxraiders && mysql_num_rows($participant_result) > 0) {
         echo "<div class='raid-card' style='display: none;'>";
     } else {
         echo "<div class='raid-card'>";
@@ -448,8 +451,6 @@ foreach ($active_raids as $raid) {
     }
 
   // Check if the user is already a participant of this raid
-    $participant_query = "SELECT * FROM raid_participants WHERE raid_id = " . $raid['id'] . " AND user_id = " . $user_class->id;
-    $participant_result = mysql_query($participant_query);
 
     // Check if the user has item 194 (Raid Speedups)
     $item_check_query = "SELECT SUM(quantity) as total_quantity FROM inventory WHERE itemid = 194 AND userid = " . $user_class->id;
