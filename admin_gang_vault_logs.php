@@ -34,7 +34,7 @@ $query = mysql_query("SELECT * FROM `gang_vault_log` ORDER BY `id` DESC LIMIT 10
                     <?php echo $res['type'] ?>
                 </td>
                 <td>
-                    <?php echo number_format($res['amount'], 0) ?>
+                    <?php echo number_format($res['added'], 0) ?>
                 </td>
                 <td>
                     <?php echo number_format($res['balance'], 0) ?>
