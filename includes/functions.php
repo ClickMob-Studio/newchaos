@@ -2024,6 +2024,26 @@ function addToGangCompLeaderboard($gangId, $field, $value)
     }
 }
 
+function addToUserCompLeaderboard($userId, $field, $value)
+{
+    global $db;
+
+    $dailyField = 'daily_' . $field;
+    $weeklyField = 'overall_' . $field;
+
+    $db->query("SELECT `id` FROM `user_comp_leaderboard` WHERE `user_id` = " . $userId . " LIMIT 1");
+    $db->execute();
+    $gclId = $db->fetch_single();
+
+    if ($gclId) {
+        $db->query("UPDATE `user_comp_leaderboard` SET `" . $dailyField ."` = `" . $dailyField ."` + " . $value . ", `" . $weeklyField ."` = `" . $weeklyField ."` + " . $value . " WHERE user_id = " . $userId);
+        $db->execute();
+    } else {
+        $db->query("INSERT INTO `user_comp_leaderboard` (`user_id`, `" . $dailyField . "`, `" . $weeklyField . "`) VALUES (" . $userId .", " . $value . ", " . $value . ")");
+        $db->execute();
+    }
+}
+
 function addCountTracking($userId)
 {
     global $db;
