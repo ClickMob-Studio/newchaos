@@ -37,9 +37,11 @@ $overallCrimeRows = $db->fetch_row();
                     <?php if (count($dailyCrimeRows) > 0): ?>
                         <?php $i = 1; ?>
                         <?php foreach ($dailyCrimeRows as $dailyCrimeRow): ?>
-                            <td><?php echo $i ?></td>
-                            <td><?php echo formatName($dailyCrimeRow['user_id']) ?></td>
-                            <td><?php echo number_format($dailyCrimeRow['daily_crimes_complete'], 0) ?></td>
+                            <tr>
+                                <td><?php echo $i ?></td>
+                                <td><?php echo formatName($dailyCrimeRow['user_id']) ?></td>
+                                <td><?php echo number_format($dailyCrimeRow['daily_crimes_complete'], 0) ?></td>
+                            </tr>
 
                             <?php $i++; ?>
                         <?php endforeach; ?>
@@ -66,9 +68,11 @@ $overallCrimeRows = $db->fetch_row();
                     <?php if (count($overallCrimeRows) > 0): ?>
                         <?php $i = 1; ?>
                         <?php foreach ($overallCrimeRows as $overallCrimeRow): ?>
-                            <td><?php echo $i ?></td>
-                            <td><?php echo formatName($overallCrimeRow['user_id']) ?></td>
-                            <td><?php echo number_format($overallCrimeRow['daily_crimes_complete'], 0) ?></td>
+                            <tr>
+                                <td><?php echo $i ?></td>
+                                <td><?php echo formatName($overallCrimeRow['user_id']) ?></td>
+                                <td><?php echo number_format($overallCrimeRow['daily_crimes_complete'], 0) ?></td>
+                            </tr>
 
                             <?php $i++; ?>
                         <?php endforeach; ?>
