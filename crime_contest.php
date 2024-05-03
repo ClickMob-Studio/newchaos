@@ -31,7 +31,7 @@ $overallAttackRows = $db->fetch_row();
 
     <hr />
     <h2>Crimes</h2>
-    <p>Each crime you complete that uses at least 75% of your max nerve will count as 1 point. Any other crime will not count.</p>
+    <p>Each crime you complete that uses at least 50% of your max nerve will count as 1 point. Any other crime will not count.</p>
 
     <div class="row">
         <div class="col-md-6">
@@ -188,6 +188,42 @@ $overallAttackRows = $db->fetch_row();
             </div>
         </div>
     </div>
+
+    <h2>Milestone Payments</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Overall Crime Milestones</h3>
+            <ul>
+                <li>100 crimes: 1,000 points</li>
+                <li>5,000 crimes: 5,000 points</li>
+                <li>50,000 crimes: 15,000 points</li>
+                <li>250,000 crimes: 90,000 points</li>
+                <li>500,000 crimes: 150,000 points</li>
+                <li>1,000,000 crimes: 350,000 points</li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h3>Overall Attack Milestones</h3>
+            <ul>
+                <li>100 attacks: 1,500 points</li>
+                <li>1,000 attacks: 20,000 points</li>
+                <li>2,500 attacks: 40,000 points</li>
+                <li>5,000 attacks: 80,000 points</li>
+                <li>15,000 attacks: 150,000 points</li>
+                <li>35,000 attacks: 350,000 points</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Contest Tokens</h2>
+    <div class="row">
+        <div class="col-md-12">
+            
+
+        </div>
+    </div>
+
+
 
 
 <?php
