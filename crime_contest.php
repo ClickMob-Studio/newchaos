@@ -45,7 +45,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
             $db->query("UPDATE grpgusers SET points = points + " . $prize . " WHERE id = " . $user_class->id);
             $db->execute();
 
-            $db->query("UPDATE user_comp_leaderboard SET crimes_milestone_collected " . $mile . " WHERE user_id = " . $user_class->id);
+            $db->query("UPDATE user_comp_leaderboard SET crimes_milestone_collected = " . $mile . " WHERE user_id = " . $user_class->id);
             $db->execute();
         }
     }
@@ -250,9 +250,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
                 <li>5,000 attacks: 80,000 points</li>
                 <li>15,000 attacks: 150,000 points</li>
                 <li>35,000 attacks: 350,000 points</li>
-
-                <a href="crime_contest.php?action=milestone&type=attacks"><button>Collect Milestones</button></a>
             </ul>
+
+            <a href="crime_contest.php?action=milestone&type=attacks"><button>Collect Milestones</button></a>
         </div>
     </div>
 
