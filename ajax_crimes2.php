@@ -350,7 +350,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
             // UserCompLeaderboard
             if ($user_class->admin > 0) {
                 $maxnervePercCheck = $nerve / $user_class->maxnerve * 100;
-                if ($maxnervePercCheck) {
+                if ($maxnervePercCheck >= 75) {
                     addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
                 }
             }
