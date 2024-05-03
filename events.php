@@ -115,11 +115,9 @@ if ($currentpage < $totalpages)
 <td align="right">[<a href="events.php?deleteall=1">delete all events</a>]</td>
 </tr><tr>
         <td colspan="2">
-            <?php if ($user_class->admin > 0): ?>
-                [<a href="events.php?deletemugs=1">delete mug events</a>] |
-                [<a href="events.php?deleteattacks=1">delete attack events</a>]
-                [<a href="events.php?deletebusts=1">delete bust events</a>]
-            <?php endif; ?>
+            [<a href="events.php?deletemugs=1">delete mug events</a>] |
+            [<a href="events.php?deleteattacks=1">delete attack events</a>]
+            [<a href="events.php?deletebusts=1">delete bust events</a>]
         </td>
     </tr>
 </table>
