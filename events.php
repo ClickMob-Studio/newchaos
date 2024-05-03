@@ -12,7 +12,7 @@ if (isset($_GET['deleteall']) && $_GET['deleteall'] == 1) {
     echo Message("All your events have been deleted.");
 }
 if (isset($_GET['deleteattacks']) && $_GET['deleteattacks'] == 1) {
-    $result = mysql_query("DELETE FROM `events` WHERE `to` = " . $user_class->id . " AND `text` LIKE 'attacked you'");
+    $result = mysql_query("DELETE FROM `events` WHERE `to` = " . $user_class->id . " AND `text` LIKE '%attacked you%'");
     echo Message("All your attack events have been deleted.");
 }
 if (isset($_GET['delete']) && $_GET['delete'] != "") {
