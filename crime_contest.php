@@ -80,7 +80,7 @@ $overallAttackRows = $db->fetch_row();
                             <tr>
                                 <td><?php echo $i ?></td>
                                 <td><?php echo formatName($overallCrimeRow['user_id']) ?></td>
-                                <td><?php echo number_format($overallCrimeRow['daily_crimes_complete'], 0) ?></td>
+                                <td><?php echo number_format($overallCrimeRow['overall_crimes_complete'], 0) ?></td>
                             </tr>
 
                             <?php $i++; ?>
@@ -117,7 +117,7 @@ $overallAttackRows = $db->fetch_row();
                             <tr>
                                 <td><?php echo $i ?></td>
                                 <td><?php echo formatName($dailyAttackRow['user_id']) ?></td>
-                                <td><?php echo number_format($dailyAttackRow['daily_crimes_complete'], 0) ?></td>
+                                <td><?php echo number_format($dailyAttackRow['daily_attacks_complete'], 0) ?></td>
                             </tr>
 
                             <?php $i++; ?>
@@ -148,7 +148,7 @@ $overallAttackRows = $db->fetch_row();
                             <tr>
                                 <td><?php echo $i ?></td>
                                 <td><?php echo formatName($overallAttackRow['user_id']) ?></td>
-                                <td><?php echo number_format($overallAttackRow['daily_crimes_complete'], 0) ?></td>
+                                <td><?php echo number_format($overallAttackRow['overall_attacks_complete'], 0) ?></td>
                             </tr>
 
                             <?php $i++; ?>
