@@ -24,6 +24,7 @@ $db->query("SELECT * FROM `user_comp_leaderboard` ORDER BY `overall_attacks_comp
 $db->execute();
 $overallAttackRows = $db->fetch_row();
 
+// CRIME MILESTONES
 if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['type']) && $_GET['type'] === 'crimes') {
 
     $milestones = array(
@@ -46,6 +47,40 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
             $db->execute();
 
             $db->query("UPDATE user_comp_leaderboard SET crimes_milestone_collected = " . $mile . " WHERE user_id = " . $user_class->id);
+            $db->execute();
+        }
+    }
+
+    if ($mileCollected > 0) {
+        echo Message('You have successfully collected your milestone prizes, check your events to see which ones you claimed.');
+    } else {
+        echo Message('You had no milestone prizes to collect.');
+    }
+
+}
+
+// ATTACK MILESTONES
+if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['type']) && $_GET['type'] === 'attacks') {
+    $milestones = array(
+        100 => 1500,
+        1000 => 20000,
+        2500 => 40000,
+        5000 => 80000,
+        15000 => 150000,
+        25000 => 350000
+    );
+
+    $mileCollected = 0;
+    foreach ($milestones as $mile => $prize) {
+        if ($userCompLeaderboard['attacks_milestone_collected'] < $mile && $userCompLeaderboard['overall_attacks_complete'] >= $mile) {
+            $mileCollected = $mile;
+
+            Send_Event($user_class->id, 'You collected your ' . number_format($mile, 0) . ' attack milestone and claimed ' . number_format($prize, 0) . ' points.');
+
+            $db->query("UPDATE grpgusers SET points = points + " . $prize . " WHERE id = " . $user_class->id);
+            $db->execute();
+
+            $db->query("UPDATE user_comp_leaderboard SET attacks_milestone_collected = " . $mile . " WHERE user_id = " . $user_class->id);
             $db->execute();
         }
     }
