@@ -40,6 +40,9 @@ if ($user_class->gang != 0) {
             $user_class->points -= $amount;
             mysql_query("UPDATE grpgusers SET points = $user_class->points WHERE id = $user_class->id");
             mysql_query("UPDATE gangs SET pointsvault = $gang_class->pointsvault WHERE id = $gang_class->id");
+
+            mysql_query("INSERT INTO gang_vault_log (gang_id, user_id, type, added, balance) VALUES (" . $gang_class->id . ", " . $user_class->id . ", 'points', " . $amount . ", " . $gang_class->pointsvault . ")");
+
             Vault_Event($gang_class->id, "[-_USERID_-] donated " . prettynum($amount) . " points to the gang.", $user_class->id);
         }
     }
