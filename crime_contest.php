@@ -26,7 +26,7 @@ $overallAttackRows = $db->fetch_row();
     <h1>Crime & Attack Contest</h1>
     <p>
         Welcome to the Crime & Attack Contest, complete crimes and attacks to work your way up the daily and overall leaderboards and earn
-        some great prizes.
+        some great prizes. Daily Prizes & Contest Tokens will be paid at rollover. Milestone payments can be collected manually.
     </p>
 
     <hr />
