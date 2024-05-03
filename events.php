@@ -15,6 +15,14 @@ if (isset($_GET['deleteattacks']) && $_GET['deleteattacks'] == 1) {
     $result = mysql_query("DELETE FROM `events` WHERE `to` = " . $user_class->id . " AND `text` LIKE '%attacked you%'");
     echo Message("All your attack events have been deleted.");
 }
+if (isset($_GET['deletemugs']) && $_GET['deletemugs'] == 1) {
+    $result = mysql_query("DELETE FROM `events` WHERE `to` = " . $user_class->id . " AND `text` LIKE '%mugged%'");
+    echo Message("All your mug events have been deleted.");
+}
+if (isset($_GET['deletebusts']) && $_GET['deletebusts'] == 1) {
+    $result = mysql_query("DELETE FROM `events` WHERE `to` = " . $user_class->id . " AND `text` LIKE '%busted out%'");
+    echo Message("All your bust events have been deleted.");
+}
 if (isset($_GET['delete']) && $_GET['delete'] != "") {
     $result = mysql_query("DELETE FROM `events` WHERE `id`='{$_GET['delete']}' AND `to` = $user_class->id");
     echo Message("You have deleted that event.");
