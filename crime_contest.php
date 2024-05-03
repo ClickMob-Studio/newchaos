@@ -119,9 +119,9 @@ $overallAttackRows = $db->fetch_row();
                 <h3>Daily Leaderboard</h3>
                 <p><strong>Prizes:</strong></p>
                 <ul>
-                    <li>1st: 20,000 points</li>
-                    <li>2nd: 10,000 points</li>
-                    <li>3rd: 5,000 points</li>
+                    <li>1st: 50,000 points</li>
+                    <li>2nd: 25,000 points</li>
+                    <li>3rd: 10,000 points</li>
                 </ul>
                 <table class="new_table" id="newtables" style="width:100%;">
                     <tr>
@@ -156,9 +156,9 @@ $overallAttackRows = $db->fetch_row();
                 <h3>Overall Leaderboard</h3>
                 <p><strong>Prizes:</strong></p>
                 <ul>
-                    <li>1st: 100,000 points</li>
-                    <li>2nd: 50,000 points</li>
-                    <li>3rd: 20,000 points</li>
+                    <li>1st: 500,000 points</li>
+                    <li>2nd: 200,000 points</li>
+                    <li>3rd: 50,000 points</li>
                 </ul>
                 <table class="new_table" id="newtables" style="width:100%;">
                     <tr>
