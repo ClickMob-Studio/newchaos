@@ -429,7 +429,11 @@ foreach ($active_raids as $raid) {
     $participant_count = $participant_count_row['participant_count'];
 
     // Output the raid card
-    echo "<div class='raid-card'>";
+    if ($participant_count >= $maxraiders) {
+        echo "<div class='raid-card' style='display: none;'>";
+    } else {
+        echo "<div class='raid-card'>";
+    }
     echo "<img src='" . $raid['image_link'] . "' alt='Boss Image' class='boss-image'>";
     echo "<h3>" . $raid['boss_name'] . " (Summoned by " . $summoner_name . ")</h3>";
     echo "<p>Difficulty: " . $raid['difficulty'] . "</p>";
