@@ -189,6 +189,7 @@ $overallAttackRows = $db->fetch_row();
         </div>
     </div>
 
+    <hr />
     <h2>Milestone Payments</h2>
     <div class="row">
         <div class="col-md-6">
@@ -215,10 +216,27 @@ $overallAttackRows = $db->fetch_row();
         </div>
     </div>
 
+    <hr />
     <h2>Contest Tokens</h2>
     <div class="row">
         <div class="col-md-12">
-            
+            <p>The top 5 players on each daily leaderboard will earn 1 contest token. Contest tokens can be spent below.</p>
+
+            <div class="table-container">
+                <table class="new_table" id="newtables" style="width:100%;">
+                    <tr>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>&nsbp;</th>
+                    </tr>
+
+                    <tr>
+                        <td>1 x Police Badge</td>
+                        <td>1 Contest Token</td>
+                        <td><a href="#">Buy</a></td>
+                    </tr>
+                </table>
+            </div>
 
         </div>
     </div>
