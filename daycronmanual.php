@@ -139,7 +139,7 @@ while ($line = mysql_fetch_array($result3)) {
     
     $newmoney = round($line['bank'] + $interest);
     if($person_class->bankboost > 0){
-        $percentage = $person_class->bankboost * 10;
+        $percentage = $person_class->bankboost;
        $newmoney = round($newmoney + ($newmoney * $percentage / 100));
      }
     mysql_query("UPDATE grpgusers SET bank = $newmoney, points = points + $ptsadd WHERE id = {$line['id']}");
