@@ -680,8 +680,9 @@ function experience($L)
          $a *= 0.5;
 if ($x >= 900)
          $a *= 0.5;
-if ($x >= 1200)
-         $a *= 0.6;
+if ($x >= 1000)
+         $a *= 2;
+
 
 
     return round($a / 4);
@@ -2020,6 +2021,45 @@ function addToGangCompLeaderboard($gangId, $field, $value)
         $db->execute();
     } else {
         $db->query("INSERT INTO `gang_comp_leaderboard` (`gang_id`, `" . $dailyField . "`, `" . $weeklyField . "`) VALUES (" . $gangId .", " . $value . ", " . $value . ")");
+        $db->execute();
+    }
+}
+
+function getUserCompLeaderboard($userId)
+{
+    global $db;
+
+    $db->query("SELECT * FROM user_comp_leaderboard WHERE user_id = " . $userId . " LIMIT 1");
+    $db->execute();
+    $r = $db->fetch_row();
+
+    if (isset($r[0]['id'])) {
+        return $r[0];
+    } else {
+        $db->query("INSERT INTO user_comp_leaderboard (user_id) VALUES (" . $userId . ")");
+        $db->execute();
+        $r = getUserCompLeaderboard($userId);
+
+        return $r;
+    }
+}
+
+function addToUserCompLeaderboard($userId, $field, $value)
+{
+    global $db;
+
+    $dailyField = 'daily_' . $field;
+    $weeklyField = 'overall_' . $field;
+
+    $db->query("SELECT `id` FROM `user_comp_leaderboard` WHERE `user_id` = " . $userId . " LIMIT 1");
+    $db->execute();
+    $gclId = $db->fetch_single();
+
+    if ($gclId) {
+        $db->query("UPDATE `user_comp_leaderboard` SET `" . $dailyField ."` = `" . $dailyField ."` + " . $value . ", `" . $weeklyField ."` = `" . $weeklyField ."` + " . $value . " WHERE user_id = " . $userId);
+        $db->execute();
+    } else {
+        $db->query("INSERT INTO `user_comp_leaderboard` (`user_id`, `" . $dailyField . "`, `" . $weeklyField . "`) VALUES (" . $userId .", " . $value . ", " . $value . ")");
         $db->execute();
     }
 }

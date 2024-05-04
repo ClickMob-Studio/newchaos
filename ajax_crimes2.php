@@ -347,6 +347,12 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
             $debug['exp_earned'] = $exp;
 
+            // UserCompLeaderboard
+            $maxnervePercCheck = $mission_nerve / $user_class->maxnerve * 100;
+            if ($maxnervePercCheck >= 50) {
+                addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
+            }
+
             $user_class->money += $money;
             $user_class->nerve -= $nerve;
             $db->query("UPDATE grpgusers SET loth = loth + ?, exp = exp + ?, crimesucceeded = crimesucceeded + 1, crimemoney = crimemoney + ?, `money` = `money` + ?, nerve = nerve - ?, todaysexp = todaysexp + ?, expcount = expcount + ?, totaltax = totaltax + ? WHERE id = ?");

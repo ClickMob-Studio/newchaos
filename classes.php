@@ -986,7 +986,7 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
 		
             Send_Event($this->id, "You have just gained a level. You are now level <span style='color:red;'><b>$this->level</b></span>", $this->id);
             if ($this->level == 1000) {
-                Send_Event($this->id, "Congratulations on reaching level 1000!.  You are now able to <a href='prestige.php'>prestige</a>");
+                //Send_Event($this->id, "Congratulations on reaching level 1000!.  You are now able to <a href='prestige.php'>prestige</a>");
             }
 			$db->query("UPDATE grpgusers SET level = ?, hp = ?, energy = ?, nerve = ?, exp = ? WHERE id = ?");
 			$db->execute(array(

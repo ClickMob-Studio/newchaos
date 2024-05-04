@@ -725,6 +725,7 @@ if ($user_class->view_preference === '1') { ?>
                         $user_ads = new User($row['poster']);
                         $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
                         ?>
+
                         <li class="flex-grow-1">
                             <span><?= $user_ads->formattedname ?>: <?= $row['message'] ?></span>
                         </li>
@@ -1044,6 +1045,8 @@ if ($bonus_row['Time'] > 0) {
 
 }
 
+$messages[] = '<a href="crime_contest.php"><font color=red>Crime/Attack Comp Active</font></a>';
+
 // if ($user_class->cityturns > 29) {
 //     $messages[] = '<a href="maze.php">You Have Maze Searches Available</a>';
 // }
@@ -1127,6 +1130,7 @@ if ($user_class->fbi > 0) {
 if ($user_class->fbitime > 0) {
     $messages[] = 'You are currently in FBI Jail for ' . $user_class->fbitime . ' minutes.';
 }
+
 
 if (!empty($messages)) {
     echo '<script type="text/javascript">';

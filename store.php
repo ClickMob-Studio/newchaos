@@ -469,7 +469,7 @@ if ($_GET['buy'] == "freebie") {
             $db->execute(array(
                 $user_class->id
             ));
-            Give_Item(163, $user_class->id,15);
+            Give_Item(163, $user_class->id,1);
             Send_Event($user_class->id, "You have been credited with your 1 Police Badge. You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
             $db->execute(array());
 

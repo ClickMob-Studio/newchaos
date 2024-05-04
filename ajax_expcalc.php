@@ -8,7 +8,7 @@ $db->execute(array(
 ));
 $row = $db->fetch_row(true);
 $expneeded = 0;
-$goal = min(1000, security($_POST['level']));
+$goal = min(2000, security($_POST['level']));
 for($i = $row['level'] + 1; $i <= $goal; $i++){
 	$expneeded += experience($i);
 }

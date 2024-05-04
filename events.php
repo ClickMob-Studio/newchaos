@@ -11,6 +11,19 @@ if (isset($_GET['deleteall']) && $_GET['deleteall'] == 1) {
     $result = mysql_query("DELETE FROM `events` WHERE `to` = $user_class->id");
     echo Message("All your events have been deleted.");
 }
+if (isset($_GET['deleteattacks']) && $_GET['deleteattacks'] == 1) {
+    $result = mysql_query("DELETE FROM `events` WHERE `to` = " . $user_class->id . " AND `text` LIKE '%attacked you%'");
+    echo Message("All your attack events have been deleted.");
+}
+if (isset($_GET['deletemugs']) && $_GET['deletemugs'] == 1) {
+    $result = mysql_query("DELETE FROM `events` WHERE `to` = " . $user_class->id . " AND `text` LIKE '%mugged%'");
+    $result = mysql_query("DELETE FROM `events` WHERE `to` = " . $user_class->id . " AND `text` LIKE '%mug you%'");
+    echo Message("All your mug events have been deleted.");
+}
+if (isset($_GET['deletebusts']) && $_GET['deletebusts'] == 1) {
+    $result = mysql_query("DELETE FROM `events` WHERE `to` = " . $user_class->id . " AND `text` LIKE '%busted out%'");
+    echo Message("All your bust events have been deleted.");
+}
 if (isset($_GET['delete']) && $_GET['delete'] != "") {
     $result = mysql_query("DELETE FROM `events` WHERE `id`='{$_GET['delete']}' AND `to` = $user_class->id");
     echo Message("You have deleted that event.");
@@ -101,7 +114,13 @@ if ($currentpage < $totalpages)
 ?>
 </td>
 <td align="right">[<a href="events.php?deleteall=1">delete all events</a>]</td>
-</tr>
+</tr><tr>
+        <td colspan="2">
+            [<a href="events.php?deletemugs=1">delete mug events</a>] |
+            [<a href="events.php?deleteattacks=1">delete attack events</a>]
+            [<a href="events.php?deletebusts=1">delete bust events</a>]
+        </td>
+    </tr>
 </table>
 </td></tr>
 </div>

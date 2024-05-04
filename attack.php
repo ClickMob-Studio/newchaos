@@ -443,6 +443,10 @@ $city = mysql_real_escape_string($user_class->city);
     ));
     $db->query("UPDATE pets SET exp = exp + ($expwon) / 10 WHERE userid = $user_class->id AND leash = 1");
     $db->execute();
+
+    // UserCompLeaderboard
+    addToUserCompLeaderboard($user_class->id, 'attacks_complete', 1);
+
     Send_Event($attack_person->id, "[-_USERID_-] attacked you and won! They gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".", $user_class->id);
     Send_Event1($attack_person->id, "Was attacked by [-_USERID_-]  and lost the fight! They gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".", $user_class->id);
     $count = count($rtn);
