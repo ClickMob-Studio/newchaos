@@ -296,6 +296,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
     <div class="row">
         <div class="col-md-12">
             <p>The top 5 players on each daily leaderboard will earn 1 contest token. Contest tokens can be spent below.</p>
+            <p>You currently have <?php echo $userCompLeaderboard['contest_tokens'] ?> contest tokens</p>
 
             <!-- 6 Tokens Up For Grabs -->
 
