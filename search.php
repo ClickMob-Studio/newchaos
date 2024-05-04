@@ -273,7 +273,7 @@ if (mysql_num_rows($query) == 0) {
             <td>{$line['level']}</td>
             <td>" . prettynum($line['money'], 1) . "</td>
             <td>$userfound->formattedonline</td>";
-			if($userfound->id != 1 || $userfound->id != 2)
+			if($userfound->id != 1 || $userfound->id != 2){
         echo '<td><a class="dcPrimaryButton" href="attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">Attack</a></td>';
             echo '<td><a class="dcPrimaryButton ajax-link" href="ajax_attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">Speed Attack</a></td>';
 
