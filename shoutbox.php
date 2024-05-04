@@ -65,7 +65,7 @@ function calcCost() {
 <h1>Shoutbox</h1>
 <p>Here you can post anything your heart desires. Cost is $250,000 for a 60 minute message, $1M for 4 hours, and so on..</p>
 
-<form method='post' style='margin: 15px 0;' class="row">
+<form method='post' style='margin: 15px 0;' class="row" accept-charset="UTF-8">
     <div class="mb-3 col-md-6">
         <label for="message" class="form-label">Message:</label>
         <textarea class="form-control" name="message" id="message" rows="4" maxlength="115"></textarea>
