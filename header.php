@@ -725,10 +725,12 @@ if ($user_class->view_preference === '1') { ?>
                         $user_ads = new User($row['poster']);
                         $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
                         ?>
-
+<?php if (!$user_class->is_ads_disabled): ?>
+                      
                         <li class="flex-grow-1">
                             <span><?= $user_ads->formattedname ?>: <?= $row['message'] ?></span>
                         </li>
+                        <?php endif; ?>
                         <?php }?> <?php if (!$user_class->is_ads_disabled): ?>
                                             <li class="headerSvg">
                                                 <a href="/shoutbox.php">
