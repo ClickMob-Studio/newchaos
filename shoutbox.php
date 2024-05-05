@@ -78,7 +78,7 @@ function calcCost() {
         <div>Cost: <span class="text-warning" id="cost">$250,000</span></div>
     </div>
     <div class="col-12">
-        <button type="submit" class="btn btn-primary" name="submit">Post</button>
+        <button type="submit" id="message" class="btn btn-primary" name="submit">Post</button>
     </div>
 </form>
 <script>
