@@ -1269,7 +1269,29 @@ if (!empty($messages)) {
                 alert("Ad report successful");
             });
         }
-    </script>
+   
+    // Get the container and the content that may overflow
+    const container = document.querySelector('.dcAvatarPanel');
+    const content = container.querySelector('.realMission');
+
+    // Function to adjust font size to fit content
+    function adjustFontSizeToFit() {
+        const containerWidth = container.offsetWidth;
+        const contentWidth = content.offsetWidth;
+        const scaleFactor = containerWidth / contentWidth;
+        const currentFontSize = parseFloat(window.getComputedStyle(content).fontSize);
+        
+        if (scaleFactor < 1) {
+            const newFontSize = currentFontSize * scaleFactor * 0.9; // Optional adjustment factor
+            content.style.fontSize = newFontSize + 'px';
+        }
+    }
+
+    // Adjust font size on page load and resize
+    window.addEventListener('load', adjustFontSizeToFit);
+    window.addEventListener('resize', adjustFontSizeToFit);
+</script>
+
 
     <?php
 
