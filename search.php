@@ -278,6 +278,8 @@ if (mysql_num_rows($query) == 0) {
             echo '<td><a class="dcPrimaryButton ajax-link" href="ajax_attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">Speed Attack</a></td>';
 
 		echo '<td><a class="dcPrimaryButton ajax-link" href="ajax_mug.php?mug=' . $userfound->id . '&token=' . $user_class->macro_token . '">Mug</a></td>';
+	}else{
+		echo "<td></td><td></td><td></td>";
 	}
         echo "<td>" . (($userfound->hospital > 0) ? $userfound->hospital / 60 : '-') . "</td>
         </tr>";
