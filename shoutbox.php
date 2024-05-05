@@ -68,7 +68,7 @@ function calcCost() {
 <form method='post' style='margin: 15px 0;' class="row" accept-charset="UTF-8">
     <div class="mb-3 col-md-6">
         <label for="message" class="form-label">Message:</label>
-        <textarea class="form-control" name="message" id="message" rows="4" maxlength="90"></textarea>
+        <textarea class="form-control" name="message" id="message" rows="4" maxlength="90" oninput="countCharacters()"></textarea>
         <div id="characterCount">0/90</div>
 
     </div>
@@ -78,7 +78,7 @@ function calcCost() {
         <div>Cost: <span class="text-warning" id="cost">$250,000</span></div>
     </div>
     <div class="col-12">
-        <button type="submit" id="message" class="btn btn-primary" name="submit">Post</button>
+        <button type="submit" class="btn btn-primary" name="submit">Post</button>
     </div>
 </form>
 <script>
@@ -90,6 +90,7 @@ function countCharacters() {
   counter.textContent = count + '/90';
 }
 </script>
+
 <h1>Current Ads</h1>
 
 <?php
