@@ -533,6 +533,20 @@ if($user_class->globalchat > 0){
     $globalchat = '';
 }
 
+$gang_raid_query = "
+SELECT 
+    ar.raid_type, ar.summoned_by, g.gang 
+FROM 
+    active_raids ar                        
+    LEFT JOIN grpgusers g ON ar.summoned_by = g.id 
+WHERE 
+    g.gang = " . $user_class->gang
+;
+$gang_raid_count = mysql_num_rows($gang_raid_query);
+if ($user_class->id == 587) {
+    echo $gang_raid_count;
+}
+
 $counts = array(
 	'event'         => $ev,
 	'mail'          => '<!_-mail-_!>',
