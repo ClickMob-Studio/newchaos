@@ -1286,7 +1286,7 @@ function gcTalking($which = 0, $gang = 0)
         ));
     }
     $rows = $db->fetch_row();
-    $ret = '<div class="flexcont" style="margin:2px; display: flex; flex-wrap: wrap;">'; // Added display: flex;
+    $ret = '<div class="flexcont" style="margin:2px; display: flex; flex-wrap: nowrap;">'; // Changed flex-wrap to nowrap
     $count = count($rows);
     $leftover = 4 - ($count % 4);
     if ($count < 4)
@@ -1308,6 +1308,7 @@ function gcTalking($which = 0, $gang = 0)
     $ret .= '</div>';
     return $ret;
 }
+
 
 function refill($which)
 {
