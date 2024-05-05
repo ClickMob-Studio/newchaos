@@ -373,7 +373,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'contest_token' && isset($_GET
                     <tr>
                         <td>1 x Police Badge</td>
                         <td>1 Contest Token</td>
-                        <td><a href="#">Buy</a></td>
+                        <td><a href="crime_contest.php?action=contest_token&type=1">Buy</a></td>
                     </tr>
 
                     <!-- Credits -->
