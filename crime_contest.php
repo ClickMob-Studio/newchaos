@@ -380,21 +380,21 @@ if (isset($_GET['action']) && $_GET['action'] === 'contest_token' && isset($_GET
                     <tr>
                         <td>200 Gold</td>
                         <td>2 Contest Tokens</td>
-                        <td><a href="#">Buy</a></td>
+                        <td><a href="crime_contest.php?action=contest_token&type=2">Buy</a></td>
                     </tr>
 
                     <!-- Nerve Vial -->
                     <tr>
                         <td>1 x Nerve Vial</td>
                         <td>3 Contest Tokens</td>
-                        <td><a href="#">Buy</a></td>
+                        <td><a href="crime_contest.php?action=contest_token&type=3">Buy</a></td>
                     </tr>
 
                     <!-- Advanced Booster -->
                     <tr>
                         <td>1 x Advanced Booster</td>
                         <td>4 Contest Tokens</td>
-                        <td><a href="#">Buy</a></td>
+                        <td><a href="crime_contest.php?action=contest_token&type=4">Buy</a></td>
                     </tr>
                 </table>
             </div>
