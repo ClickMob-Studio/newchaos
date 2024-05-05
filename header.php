@@ -532,7 +532,6 @@ if($user_class->globalchat > 0){
 }else{
     $globalchat = '';
 }
-
 $gang_raid_query = "
 SELECT 
     ar.raid_type, ar.summoned_by, g.gang 
@@ -545,7 +544,6 @@ WHERE
     ar.raid_type = 'Gang'
 ";
 $gang_raid_count = mysql_num_rows(mysql_query($gang_raid_query));
-
 $counts = array(
 	'event'         => $ev,
 	'mail'          => '<!_-mail-_!>',
@@ -556,7 +554,6 @@ $counts = array(
     'gchat' => $globalchat,
     'gang_raid_count' => $gang_raid_count,
 );
-
 $queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
 
 $usersOnline = mysql_num_rows($queryOnline);
@@ -646,15 +643,22 @@ if ($user_class->view_preference === '1') { ?>
                 <div class="dcPanel h-100">
         <?php
       $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
+      function shorthandNumber($number) {
+        if ($number >= 1000) {
+            $shorthand = round($number / 1000, 1) . 'k';
+            return $shorthand;
+        }
+        return $number;
+    }
       if (mysql_num_rows($check)) {
             $show = true;
           $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
           $miss = mysql_fetch_array(mysql_query("SELECT * FROM mission WHERE id={$usermission['mid']}"));
-          $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>{$usermission['kills']}/{$miss['kills']}</font>" : "<font color='green'>{$miss['kills']}/{$miss['kills']}</font>";
-          $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>{$usermission['crimes']}/{$miss['crimes']}</font>" : "<font color='green'>{$miss['crimes']}/{$miss['crimes']}</font>";
-          $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>{$usermission['mugs']}/{$miss['mugs']}</font>" : "<font color='green'>{$miss['mugs']}/{$miss['mugs']}</font>";
-          $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>{$usermission['busts']}/{$miss['busts']}</font>" : "<font color='green'>{$miss['busts']}/{$miss['busts']}</font>";
-          $backalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>{$usermission['backalleys']}/{$miss['backalleys']}</font>" : "<font color='green'>{$miss['backalleys']}/{$miss['backalleys']}</font>";
+          $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>{$usermission['kills']}/{$miss['kills']}</font>" : "<font color='green'>{$miss['kills']}/".shorthandNumber($miss['kills'])."</font>";
+          $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>{$usermission['crimes']}/{$miss['crimes']}</font>" : "<font color='green'>{$miss['crimes']}/".shorthandNumber($miss['crimes'])."</font>";
+          $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>{$usermission['mugs']}/{$miss['mugs']}</font>" : "<font color='green'>{$miss['mugs']}/".shorthandNumber($miss['mugs'])."</font>";
+          $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>{$usermission['busts']}/{$miss['busts']}</font>" : "<font color='green'>{$miss['busts']}/".shorthandNumber($miss['busts'])."</font>";
+          $backalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>{$usermission['backalleys']}/{$miss['backalleys']}</font>" : "<font color='green'>{$miss['backalleys']}/".shorthandNumber($miss['backalleys'])."</font>";
           $currenttime = time();
           $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
       }else{
@@ -740,12 +744,10 @@ if ($user_class->view_preference === '1') { ?>
                         $user_ads = new User($row['poster']);
                         $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
                         ?>
-<?php if (!$user_class->is_ads_disabled): ?>
-                      
+
                         <li class="flex-grow-1">
                             <span><?= $user_ads->formattedname ?>: <?= $row['message'] ?></span>
                         </li>
-                        <?php endif; ?>
                         <?php }?> <?php if (!$user_class->is_ads_disabled): ?>
                                             <li class="headerSvg">
                                                 <a href="/shoutbox.php">
@@ -1286,29 +1288,8 @@ if (!empty($messages)) {
                 alert("Ad report successful");
             });
         }
-   
-    // Get the container and the content that may overflow
-    const container = document.querySelector('.dcAvatarPanel');
-    const content = container.querySelector('.realMission');
-
-    // Function to adjust font size to fit content
-    function adjustFontSizeToFit() {
-        const containerWidth = container.offsetWidth;
-        const contentWidth = content.offsetWidth;
-        const scaleFactor = containerWidth / contentWidth;
-        const currentFontSize = parseFloat(window.getComputedStyle(content).fontSize);
         
-        if (scaleFactor < 1) {
-            const newFontSize = currentFontSize * scaleFactor * 0.9; // Optional adjustment factor
-            content.style.fontSize = newFontSize + 'px';
-        }
-    }
-
-    // Adjust font size on page load and resize
-    window.addEventListener('load', adjustFontSizeToFit);
-    window.addEventListener('resize', adjustFontSizeToFit);
-</script>
-
+    </script>
 
     <?php
 
