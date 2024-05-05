@@ -681,24 +681,24 @@ if ($user_class->view_preference === '1') { ?>
                                             <?php if($show == true): ?>
                                                 <div class=" missionDiv">
                                                     <p class="missionTo">Kills:</p>
-                                                    <p><?= $kills; ?></p>
+                                                    <p style="font-size: 10px;"><?= $kills; ?></p>
                                                 </div>
                                                 <div class="missionDiv">
                                                 
                                                     <p class="missionTo">Crimes:</p>
-                                                    <p><?= $crimes; ?></p>
+                                                    <p style="font-size: 10px;"><?= $crimes; ?></p>
                                                 </div>
                                                                                                 <div class=" missionDiv">
                                                     <p class="missionTo">Busts:</p>
-                                                    <p><?= $busts; ?></p>
+                                                    <p style="font-size: 10px;"><?= $busts; ?></p>
                                                 </div>
                                                 <div class="missionDiv">
                                                     <p class="missionTo">Mugs:</p>
-                                                    <p><?= $mugs; ?></p>
+                                                    <p style="font-size: 10px;"><?= $mugs; ?></p>
                                                 </div>
                                                 <div class="missionDiv">
                                                     <p class="missionTo">BA:</p>
-                                                    <p><?= $backalleys; ?></p>
+                                                    <p style="font-size: 10px;"><?= $backalleys; ?></p>
                                                 </div>
                                               <?php else: ?>
                                                 
