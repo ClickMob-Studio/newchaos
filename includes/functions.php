@@ -1286,14 +1286,14 @@ function gcTalking($which = 0, $gang = 0)
         ));
     }
     $rows = $db->fetch_row();
-    $ret = '<div class="flexcont" style="margin:2px;flex-wrap:wrap;">';
+    $ret = '<div class="flexcont" style="margin:2px; display: flex; flex-wrap: wrap;">'; // Added display: flex;
     $count = count($rows);
     $leftover = 4 - ($count % 4);
     if ($count < 4)
         $leftover = 0;
     foreach ($rows as $row) {
         if ($row['userid'] == 150) continue;
-        $ret .= '<div class="flexele" style="margin:2px;flex-basis:22%;">';
+        $ret .= '<div class="flexele" style="margin:2px; flex-basis:22%;">';
         $ret .= '<div class="floaty" style="margin:0;height:20px;line-height:20px;';
         $ret .= ($row['typing']) ? 'background:rgba(0,255,0,.125);' : '';
         $ret .= '" onclick="addsmiley(\' [tag]' . $row['userid'] . '[/tag] \');">';
@@ -1308,6 +1308,7 @@ function gcTalking($which = 0, $gang = 0)
     $ret .= '</div>';
     return $ret;
 }
+
 function refill($which)
 {
     global $user_class, $db;
