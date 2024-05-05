@@ -555,10 +555,7 @@ $counts = array(
     'gchat' => $globalchat,
     'gang_raid_count' => $gang_raid_count,
 );
-if ($user_class->id == 587) {
-    echo $gang_raid_query;
-    var_dump($counts);
-}
+
 $queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
 
 $usersOnline = mysql_num_rows($queryOnline);
