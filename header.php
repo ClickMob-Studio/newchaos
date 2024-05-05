@@ -543,7 +543,7 @@ WHERE
     g.gang = " . $user_class->gang . " AND
     ar.completed = 0
 ";
-$gang_raid_count = mysql_num_rows($gang_raid_query);
+$gang_raid_count = mysql_num_rows(mysql_query($gang_raid_query));
 
 $counts = array(
 	'event'         => $ev,
