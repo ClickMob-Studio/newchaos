@@ -541,7 +541,8 @@ FROM
     LEFT JOIN grpgusers g ON ar.summoned_by = g.id 
 WHERE 
     g.gang = " . $user_class->gang . " AND
-    ar.completed = 0
+    ar.completed = 0 AND
+    ar.type = 'Gang'
 ";
 $gang_raid_count = mysql_num_rows(mysql_query($gang_raid_query));
 
