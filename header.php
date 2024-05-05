@@ -533,6 +533,19 @@ if($user_class->globalchat > 0){
     $globalchat = '';
 }
 
+$gang_raid_query = "
+SELECT 
+    ar.raid_type, ar.summoned_by, g.gang 
+FROM 
+    active_raids ar                        
+    LEFT JOIN grpgusers g ON ar.summoned_by = g.id 
+WHERE 
+    g.gang = " . $user_class->gang . " AND
+    ar.completed = 0 AND
+    ar.raid_type = 'Gang'
+";
+$gang_raid_count = mysql_num_rows(mysql_query($gang_raid_query));
+
 $counts = array(
 	'event'         => $ev,
 	'mail'          => '<!_-mail-_!>',
@@ -541,7 +554,9 @@ $counts = array(
     'gangmail'      => $gmailCount,
     'updates'       => $user_class->game_updates,
     'gchat' => $globalchat,
+    'gang_raid_count' => $gang_raid_count,
 );
+
 $queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
 
 $usersOnline = mysql_num_rows($queryOnline);
@@ -725,10 +740,12 @@ if ($user_class->view_preference === '1') { ?>
                         $user_ads = new User($row['poster']);
                         $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
                         ?>
-
+<?php if (!$user_class->is_ads_disabled): ?>
+                      
                         <li class="flex-grow-1">
                             <span><?= $user_ads->formattedname ?>: <?= $row['message'] ?></span>
                         </li>
+                        <?php endif; ?>
                         <?php }?> <?php if (!$user_class->is_ads_disabled): ?>
                                             <li class="headerSvg">
                                                 <a href="/shoutbox.php">

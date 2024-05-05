@@ -91,6 +91,67 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
     }
 
 }
+
+// CONTEST TOKEN SHOP
+if (isset($_GET['action']) && $_GET['action'] === 'contest_token' && isset($_GET['type'])) {
+    // 1 Police Badge = 1
+    // 200 Gold = 2
+    // 1 Nerve Vial = 3
+    // Advanced Booster = 4
+
+    if ($_GET['type'] == 1) {
+        if ($userCompLeaderboard['contest_token'] < 1) {
+            diefun('You do not have enough contest tokens.');
+        }
+
+        Give_Item(163, $user_class->id, 1);
+
+        $db->query('UPDATE user_comp_leaderboard SET contest_token = contest_token - 1 WHERE user_id = ' . $user_class->id);
+        $db->execute();
+
+        echo Message('You have purchased 1 x Police Badge');
+    }
+
+    if ($_GET['type'] == 2) {
+        if ($userCompLeaderboard['contest_token'] < 2) {
+            diefun('You do not have enough contest tokens.');
+        }
+
+        $db->query('UPDATE grpgusers SET credits = credits + 200 WHERE id = ' . $user_class->id);
+        $db->execute();
+
+        $db->query('UPDATE user_comp_leaderboard SET contest_token = contest_token - 2 WHERE user_id = ' . $user_class->id);
+        $db->execute();
+
+        echo Message('You have purchased 200 Credits');
+    }
+
+    if ($_GET['type'] == 3) {
+        if ($userCompLeaderboard['contest_token'] < 3) {
+            diefun('You do not have enough contest tokens.');
+        }
+
+        Give_Item(256, $user_class->id, 1);
+
+        $db->query('UPDATE user_comp_leaderboard SET contest_token = contest_token - 3 WHERE user_id = ' . $user_class->id);
+        $db->execute();
+
+        echo Message('You have purchased 1 x Nerve Vial');
+    }
+
+    if ($_GET['type'] == 4) {
+        if ($userCompLeaderboard['contest_token'] < 4) {
+            diefun('You do not have enough contest tokens.');
+        }
+
+        Give_Item(250, $user_class->id, 1);
+
+        $db->query('UPDATE user_comp_leaderboard SET contest_token = contest_token - 4 WHERE user_id = ' . $user_class->id);
+        $db->execute();
+
+        echo Message('You have purchased 1 x Advanced Booster');
+    }
+}
 ?>
 
     <h1>Crime & Attack Contest</h1>
@@ -312,28 +373,28 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
                     <tr>
                         <td>1 x Police Badge</td>
                         <td>1 Contest Token</td>
-                        <td><a href="#">Buy</a></td>
+                        <td><a href="crime_contest.php?action=contest_token&type=1">Buy</a></td>
                     </tr>
 
                     <!-- Credits -->
                     <tr>
                         <td>200 Gold</td>
                         <td>2 Contest Tokens</td>
-                        <td><a href="#">Buy</a></td>
+                        <td><a href="crime_contest.php?action=contest_token&type=2">Buy</a></td>
                     </tr>
 
                     <!-- Nerve Vial -->
                     <tr>
                         <td>1 x Nerve Vial</td>
                         <td>3 Contest Tokens</td>
-                        <td><a href="#">Buy</a></td>
+                        <td><a href="crime_contest.php?action=contest_token&type=3">Buy</a></td>
                     </tr>
 
                     <!-- Advanced Booster -->
                     <tr>
                         <td>1 x Advanced Booster</td>
                         <td>4 Contest Tokens</td>
-                        <td><a href="#">Buy</a></td>
+                        <td><a href="crime_contest.php?action=contest_token&type=4">Buy</a></td>
                     </tr>
                 </table>
             </div>
