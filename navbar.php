@@ -88,6 +88,7 @@ $leftLinks[] =
 	array(
 		'name' => 'Raids',
 		'url'  => 'raids.php',
+		'count'  => $counts['gang_raid_count'],
 	);
 $leftLinks[] =
 	array(
