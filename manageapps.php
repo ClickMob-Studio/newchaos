@@ -27,8 +27,9 @@ if (isset($_GET['user']) && $_GET['x'] == 1) {
     $result = mysql_num_rows($checkapps);
     if ($result > 0) {
         $app_class = new User($_GET['user']);
+        $gangclass = new Gang($gang);
         echo Message("You have accepted this application.");
-        $event = "Your application to [-_GANGID_-] has been accepted.";
+        $event = "Your application to ".$gangclass->formattedname." has been accepted.";
         $result = Send_Event($_GET['user'], $event, $gang);
         $result = mysql_query("UPDATE grpgusers SET gang = $gang, grank = 0 WHERE id = {$_GET['user']}");
         $result = mysql_query("DELETE FROM ganginvites WHERE playerid = {$_GET['user']}");
