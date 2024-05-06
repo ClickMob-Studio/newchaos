@@ -291,6 +291,7 @@ if (isset($_GET['view']) && $_GET['view'] == "new") {
         }
     }
     echo mailHeader() . "
+    <div class='container mt-3'>
             <table width='100%' style='padding: 5px;'><tr><td>
                         <table width='100%'>
                             <form method='post' name='message' action='pms.php?view=inbox'>
@@ -332,7 +333,7 @@ if (isset($_GET['view']) && $_GET['view'] == "new") {
                         </table>
 </table>
                     </td>
-                </tr>
+                </tr></div>
                 ";
 }
 if (isset($_GET['view']) && $_GET['view'] == "outbox") {
