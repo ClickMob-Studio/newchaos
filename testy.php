@@ -1,75 +1,94 @@
 <?php
 include 'header.php';
+?>
+<div class='box_top'>World Stats</div>
+<div class='box_middle'>
+    <div class='pad'>
+        <?php
+// Total Mobsters
+$db->query("SELECT COUNT(*) as count FROM `grpgusers` WHERE `rmdays`='0' AND admin <> 1");
+$totalmobstersRow = $db->fetch_row(true);
+$totalmobsters = $totalmobstersRow['count'];
 
-if($user_class->admin < 1)
-    exit();
+// Total Respected Mobsters
+$db->query("SELECT COUNT(*) as count FROM `grpgusers` WHERE `rmdays`!='0' AND admin <> 1");
+$totalrmRow = $db->fetch_row(true);
+$totalrm = $totalrmRow['count'];
 
-$querys = "SELECT id, username, killcomp1 FROM grpgusers WHERE killcomp1 > 999 AND killcomp1 < 2500  ORDER BY killcomp1 DESC";
-$results = mysql_query($querys);
-    while($r = mysql_fetch_assoc($results)){
-        mysql_query("UPDATE grpgusers SET points = points - 25000 WHERE id = " . $r['id']);
-        //Send_Event($r['id'], 'You got rewarded '.$points.' for hitting your milesstone in the contest');
-    }
+$totalall = $totalmobsters + $totalrm;
 
-$querys = "SELECT id, username, killcomp1 FROM grpgusers WHERE killcomp1 > 2499 AND killcomp1 < 5000  ORDER BY killcomp1 DESC";
-$results = mysql_query($querys);
-    while($r = mysql_fetch_assoc($results)){
-        mysql_query("UPDATE grpgusers SET points = points - 6500 WHERE id = " . $r['id']);
-        //Send_Event($r['id'], 'You got rewarded '.$points.' for hitting your milesstone in the contest');
-    }
-    $querys = "SELECT id, username, killcomp1 FROM grpgusers WHERE killcomp1 > 4999 AND killcomp1 < 15000  ORDER BY killcomp1 DESC";
-$results = mysql_query($querys);
-    while($r = mysql_fetch_assoc($results)){
-        mysql_query("UPDATE grpgusers SET points = points - 13000 WHERE id = " . $r['id']);
-       // Send_Event($r['id'], 'You got rewarded '.$points.' for hitting your milesstone in the contest');
-    }
-    $querys = "SELECT id, username, killcomp1 FROM grpgusers WHERE killcomp1 > 14999 AND killcomp1 < 30000  ORDER BY killcomp1 DESC";
-    $results = mysql_query($querys);
-        while($r = mysql_fetch_assoc($results)){
-            mysql_query("UPDATE grpgusers SET points = points - 37500 WHERE id = " . $r['id']);
-            //Send_Event($r['id'], 'You got rewarded '.$points.' for hitting your milesstone in the contest');
-        }
+// Total Money
+$db->query("SELECT `money` FROM `grpgusers` WHERE `money` != '0' AND admin <> 1");
+$money = 0;
+while ($line = $db->fetch_row()) {
+    $money += $line['money'];
+}
 
-$querys = "SELECT id, username, raidcomp FROM grpgusers WHERE raidcomp > 49 AND raidcomp < 100  ORDER BY raidcomp DESC";
-$results = mysql_query($querys);
-    while($r = mysql_fetch_assoc($results)){
-        mysql_query("UPDATE grpgusers SET points = points - 25000 WHERE id = " . $r['id']);
-        //Send_Event($r['id'], 'You got rewarded '.$points.' for hitting your milesstone in the contest');
-    }
-    $querys = "SELECT id, username, raidcomp FROM grpgusers WHERE raidcomp > 99 AND raidcomp < 250  ORDER BY raidcomp DESC";
-$results = mysql_query($querys);
-    while($r = mysql_fetch_assoc($results)){
-        mysql_query("UPDATE grpgusers SET points = points - 50000 WHERE id = " . $r['id']);
-        //Send_Event($r['id'], 'You got rewarded '.$points.' for hitting your milesstone in the contest');
-    }
-    $querys = "SELECT id, username, raidcomp FROM grpgusers WHERE raidcomp > 249 AND raidcomp < 500  ORDER BY raidcomp DESC";
-    $results = mysql_query($querys);
-        while($r = mysql_fetch_assoc($results)){
-            mysql_query("UPDATE grpgusers SET points = points - 100000 WHERE id = " . $r['id']);
-            //Send_Event($r['id'], 'You got rewarded '.$points.' for hitting your milesstone in the contest');
-        }
-        $querys = "SELECT id, username, raidcomp FROM grpgusers WHERE raidcomp > 499 AND raidcomp < 750  ORDER BY raidcomp DESC";
-        $results = mysql_query($querys);
-            while($r = mysql_fetch_assoc($results)){
-                mysql_query("UPDATE grpgusers SET points = points - 125000 WHERE id = " . $r['id']);
-                //Send_Event($r['id'], 'You got rewarded '.$points.' for hitting your milesstone in the contest');
-            }
-            $querys = "SELECT id, username, raidcomp FROM grpgusers WHERE raidcomp > 749 AND raidcomp < 1000  ORDER BY raidcomp DESC";
-            $results = mysql_query($querys);
-                while($r = mysql_fetch_assoc($results)){
-                    mysql_query("UPDATE grpgusers SET points = points - 150000 WHERE id = " . $r['id']);
-                   // Send_Event($r['id'], 'You got rewarded '.$points.' for hitting your milesstone in the contest');
-                }
+// Total Points
+$db->query("SELECT `points` FROM `grpgusers` WHERE `points` != '0' AND admin <> 1");
+$points = 0;
+while ($line = $db->fetch_row()) {
+    $points += $line['points'];
+}
 
-            $querys = "SELECT id, username, raidcomp FROM grpgusers WHERE raidcomp > 999 AND raidcomp < 1250  ORDER BY raidcomp DESC";
-            $results = mysql_query($querys);
-                while($r = mysql_fetch_assoc($results)){
-                    mysql_query("UPDATE grpgusers SET points = points - 200000 WHERE id = " . $r['id']);
-                    //Send_Event($r['id'], 'You got rewarded '.$points.' for hitting your milesstone in the contest');
-                }
-                $querys = "SELECT id, username, raidcomp FROM grpgusers WHERE raidcomp > 1250 ORDER BY raidcomp DESC";
-                $results = mysql_query($querys);
-                    while($r = mysql_fetch_assoc($results)){
-                        mysql_query("UPDATE grpgusers SET points = points - 250000 WHERE id = " . $r['id']);
-                        //Send_Event($r['id'], 'You got rewarded '.$points.' for hitting your milesstone in the contest');
-                    }
+// Total Crimes
+$db->query("SELECT `crimesucceeded` FROM `grpgusers` WHERE `crimesucceeded` != '0' AND admin <> 1");
+$crimes = 0;
+while ($line = $db->fetch_row()) {
+    $crimes += $line['crimesucceeded'];
+}
+
+// Total Kills
+$db->query("SELECT `battlewon` FROM `grpgusers` WHERE `battlewon` != '0' AND admin <> 1");
+$kills = 0;
+while ($line = $db->fetch_row()) {
+    $kills += $line['battlewon'];
+}
+
+// Total Deaths
+$db->query("SELECT `battlelost` FROM `grpgusers` WHERE `battlelost` != '0' AND admin <> 1");
+$deaths = 0;
+while ($line = $db->fetch_row()) {
+    $deaths += $line['battlelost'];
+}
+
+// Total Bank
+$db->query("SELECT `bank` FROM `grpgusers` WHERE `bank` != '0' AND admin <> 1");
+$bank = 0;
+while ($line = $db->fetch_row()) {
+    $bank += $line['bank'];
+}
+
+// Males
+$db->query("SELECT COUNT(*) as count FROM `grpgusers` WHERE `gender` = 'Male' AND admin <> 1");
+$maleRow = $db->fetch_row(true);
+$male = $maleRow['count'];
+$malepercent = round(($male / $totalall) * 100);
+
+// Females
+$db->query("SELECT COUNT(*) as count FROM `grpgusers` WHERE `gender` = 'Female' AND admin <> 1");
+$femaleRow = $db->fetch_row(true);
+$female = $femaleRow['count'];
+$femalepercent = round(($female / $totalall) * 100);
+
+// Gangs
+$db->query("SELECT COUNT(*) as count FROM `gangs`");
+$gangsRow = $db->fetch_row(true);
+$gangs = $gangsRow['count'];
+
+// Total Gang Money
+$db->query("SELECT `moneyvault` FROM `gangs` WHERE `moneyvault` != '0'");
+$gangmoney = 0;
+while ($line = $db->fetch_row()) {
+    $gangmoney += $line['moneyvault'];
+}
+?>
+
+<tr><td class="contentcontent">
+<table id="newtables" style="width:100%;table-layout:fixed;">
+    <!-- Table rows here using the variables defined above -->
+</table>
+</td></tr>
+<?php
+include 'footer.php';
+?>
