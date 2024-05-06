@@ -746,7 +746,9 @@ if ($user_class->view_preference === '1') { ?>
                         ?>
 
                         <li class="flex-grow-1">
+                        <?php if (!$user_class->is_ads_disabled): ?>
                             <span><?= $user_ads->formattedname ?>: <?= $row['message'] ?></span>
+                            <?php endif; ?>
                         </li>
                         <?php }?> <?php if (!$user_class->is_ads_disabled): ?>
                                             <li class="headerSvg">
