@@ -297,7 +297,7 @@ if (isset($_GET['view']) && $_GET['view'] == "new") {
             <label for="to" class="col-sm-2 col-form-label"><b>Send To:</b></label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="to" name="to" value="<?php echo (isset($_GET['to']) ? $_GET['to'] : $row['from']); ?>" maxlength="75">
-                <small class="text-muted" style='color:white;'>[ID]</small>
+                <small style='color:white;'>[ID]</small>
             </div>
         </div>
         <div class="row mb-3">
