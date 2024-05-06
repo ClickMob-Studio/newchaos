@@ -1,67 +1,83 @@
 <?php
 include 'header.php';
+$db = database::getInstance();
+
 ?>
-	
-	<div class='box_top'>World Stats</div>
-						<div class='box_middle'>
-							<div class='pad'>
-								<?php
-$result = mysql_query("SELECT * FROM `grpgusers` WHERE `rmdays`='0' AND admin <> 1");
-$totalmobsters = mysql_num_rows($result);
-$result2 = mysql_query("SELECT * FROM `grpgusers` WHERE `rmdays`!='0' AND admin <> 1");
-$totalrm = mysql_num_rows($result2);
+<div class='box_top'>World Stats</div>
+<div class='box_middle'>
+    <div class='pad'>
+        <?php
+// Total Mobsters
+$totalmobsters = $db->query("SELECT COUNT(*) FROM `grpgusers` WHERE `rmdays`='0' AND admin <> 1");
+$totalmobsters = $db->fetch_single();
+
+// Total Respected Mobsters
+$totalrm = $db->query("SELECT COUNT(*) FROM `grpgusers` WHERE `rmdays`!='0' AND admin <> 1");
+$totalrm = $db->fetch_single();
+
 $totalall = $totalmobsters + $totalrm;
-$result = mysql_query("SELECT * FROM `grpgusers` WHERE `money` != '0' AND admin <> 1");
+
+// Total Money
+$db->query("SELECT `money` FROM `grpgusers` WHERE `money` != '0' AND admin <> 1");
 $money = 0;
-while($line = mysql_fetch_array($result)) {
-	$money = $money + $line['money'];
+while ($line = $db->fetch_row()) {
+    $money += $line['money'];
 }
-//Total Points Stuff
-$result = mysql_query("SELECT * FROM `grpgusers` WHERE `points` != '0' AND admin <> 1");
+
+// Total Points
+$db->query("SELECT `points` FROM `grpgusers` WHERE `points` != '0' AND admin <> 1");
 $points = 0;
-while($line = mysql_fetch_array($result)) {
-	$points = $points + $line['points'];
+while ($line = $db->fetch_row()) {
+    $points += $line['points'];
 }
-//Total Crimes Stuff
-$result = mysql_query("SELECT * FROM `grpgusers` WHERE `crimesucceeded` != '0' AND admin <> 1");
+
+// Total Crimes
+$db->query("SELECT `crimesucceeded` FROM `grpgusers` WHERE `crimesucceeded` != '0' AND admin <> 1");
 $crimes = 0;
-while($line = mysql_fetch_array($result)) {
-	$crimes = $crimes + $line['crimesucceeded'];
+while ($line = $db->fetch_row()) {
+    $crimes += $line['crimesucceeded'];
 }
-//Total Kills Stuff
-$result = mysql_query("SELECT * FROM `grpgusers` WHERE `battlewon` != '0' AND admin <> 1");
+
+// Total Kills
+$db->query("SELECT `battlewon` FROM `grpgusers` WHERE `battlewon` != '0' AND admin <> 1");
 $kills = 0;
-while($line = mysql_fetch_array($result)) {
-	$kills = $kills + $line['battlewon'];
+while ($line = $db->fetch_row()) {
+    $kills += $line['battlewon'];
 }
-//Total Deaths Stuff
-$result = mysql_query("SELECT * FROM `grpgusers` WHERE `battlelost` != '0' AND admin <> 1");
+
+// Total Deaths
+$db->query("SELECT `battlelost` FROM `grpgusers` WHERE `battlelost` != '0' AND admin <> 1");
 $deaths = 0;
-while($line = mysql_fetch_array($result)) {
-	$deaths = $deaths + $line['battlelost'];
+while ($line = $db->fetch_row()) {
+    $deaths += $line['battlelost'];
 }
-//Total Bank Stuff
-$result = mysql_query("SELECT * FROM `grpgusers` WHERE `bank` != '0' AND admin <> 1");
+
+// Total Bank
+$db->query("SELECT `bank` FROM `grpgusers` WHERE `bank` != '0' AND admin <> 1");
 $bank = 0;
-while($line = mysql_fetch_array($result)) {
-	$bank = $bank + $line['bank'];
+while ($line = $db->fetch_row()) {
+    $bank += $line['bank'];
 }
-//Male Stuff
-$result = mysql_query("SELECT * FROM `grpgusers` WHERE `gender` = 'Male' AND admin <> 1");
-$male = mysql_num_rows($result);
+
+// Males
+$male = $db->query("SELECT COUNT(*) FROM `grpgusers` WHERE `gender` = 'Male' AND admin <> 1");
+$male = $db->fetch_single();
 $malepercent = round(($male / $totalall) * 100);
-//Female Stuff
-$result = mysql_query("SELECT * FROM `grpgusers` WHERE `gender` = 'Female' AND admin <> 1");
-$female = mysql_num_rows($result);
+
+// Females
+$female = $db->query("SELECT COUNT(*) FROM `grpgusers` WHERE `gender` = 'Female' AND admin <> 1");
+$female = $db->fetch_single();
 $femalepercent = round(($female / $totalall) * 100);
-//Gangs Stuff
-$result = mysql_query("SELECT * FROM `gangs`");
-$gangs = mysql_num_rows($result);
-//Total Gang Money Stuff
-$result = mysql_query("SELECT * FROM `gangs` WHERE `moneyvault` != '0'");
+
+// Gangs
+$gangs = $db->query("SELECT COUNT(*) FROM `gangs`");
+$gangs = $db->fetch_single();
+
+// Total Gang Money
+$db->query("SELECT `moneyvault` FROM `gangs` WHERE `moneyvault` != '0'");
 $gangmoney = 0;
-while($line = mysql_fetch_array($result)) {
-	$gangmoney = $gangmoney + $line['moneyvault'];
+while ($line = $db->fetch_row()) {
+    $gangmoney += $line['moneyvault'];
 }
 ?>
 
