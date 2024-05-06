@@ -30,7 +30,7 @@ include 'header.php';
     </table>
 <?php
 if($user_class->id == 1){
-    include("gangheaderstest.php");
+    include("gangheadertest.php");
 }else{
 include("gangheaders.php");
 }
