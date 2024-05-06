@@ -5,8 +5,8 @@ if ($user_class->gang != 0) {
 <style>
     btn-primary {
     color: #fff;
-    background-color: #ff6218;
-    border-color: #ff6218;
+    background-color: #ff6218 !important;
+    border-color: #ff6218 !important;
 }
 </style>
     <div class="container mt-3">
