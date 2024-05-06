@@ -29,7 +29,10 @@ include 'header.php';
         ?>
     </table>
 <?php
+if($user_class->id == 1){
+    include("gangheaderstest.php");
+}else{
 include("gangheaders.php");
-
+}
 include 'footer.php';
 ?>
