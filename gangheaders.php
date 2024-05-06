@@ -15,6 +15,12 @@ if ($user_class->gang != 0) {
     text-decoration: none;
     border: solid var(--colorHighlight) 1px;
     transition: background 0.5s, transform 0.5s;
+    }
+    .btn-secondary{
+        padding: 15px 0;
+    width: 130px;
+    display: inline-block;
+    }
 .col{
     padding-bottom:5px;
 }
