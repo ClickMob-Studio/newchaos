@@ -20,6 +20,7 @@ if ($user_class->gang != 0) {
         padding: 15px 0;
     width: 130px;
     display: inline-block;
+    margin: 0 15px;
     }
 .col{
     padding-bottom:5px;
