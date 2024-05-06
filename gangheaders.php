@@ -4,8 +4,8 @@ if ($user_class->gang != 0) {
 ?>
 <style>
     .btn-info, .btn-primary {
-        color: var(--colorHighlight);
-    font: 1.4rem Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        color: #fff !important; 
+    font: 1.4rem 'Montserrat', sans-serif !important;
     padding: 15px 0;
     width: 130px;
     margin: 0 15px;
