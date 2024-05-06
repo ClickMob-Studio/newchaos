@@ -3,7 +3,7 @@ if ($user_class->gang != 0) {
     $gang_class = new Gang($user_class->gang);
 ?>
 <style>
-    btn-primary {
+    .btn-primary {
     color: #fff;
     background-color: #ff6218 !important;
     border-color: #ff6218 !important;
