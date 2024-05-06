@@ -3,7 +3,11 @@ include 'header.php';
 ?>
 
 <h1 class="text-center mb-4">World Stats</h1>
-
+<style>
+	.card-body{
+		background: #8e8e8e21 !important;
+	}
+	</style>
 <div class="container">
     <?php
     $result = mysql_query("SELECT * FROM `grpgusers` WHERE `rmdays`='0' AND admin <> 1");
