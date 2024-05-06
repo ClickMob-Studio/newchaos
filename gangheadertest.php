@@ -50,12 +50,12 @@ if ($user_class->gang != 0) {
                 <div class="col"><?php echo ($gang_class->leader == $user_class->id || $user_class->admin || $user_class->id == $gang_class->leader) ? "<a href='disband.php' class='btn btn-danger w-100'>Delete Gang</a>" : "<div class='btn btn-secondary w-100 disabled'>-</div>"; ?></div>
                 <div class="col"><?php echo ($user_rank->houses == 1 || $user_class->admin || $user_class->id == $gang_class->leader) ? "<a href='ganghouse.php' class='btn btn-info w-100'>Gang Housing</a>" : "<div class='btn btn-secondary w-100 disabled'>-</div>"; ?></div>
                 <div class="col"><?php echo ($user_rank->upgrade == 1 || $user_class->admin || $user_class->id == $gang_class->leader) ? "<a href='gangupgrade.php' class='btn btn-info w-100'>Upgrade</a>" : "<div class='btn btn-secondary w-100 disabled'>-</div>"; ?></div>
-                <div class="col"><?php echo ($user_rank->upgrade == 1 || $user_class->admin || $user_class->id == the gang_class->leader) ? "<a href='pointsupgrades.php' class='btn btn-info w-100'>Points Upgrades</a>" : "<div class='btn btn-secondary w-100 disabled'>-</div>"; ?></div>
+                <div class="col"><?php echo ($user_rank->upgrade == 1 || $user_class->admin || $user_class->id == $gang_class->leader) ? "<a href='pointsupgrades.php' class='btn btn-info w-100'>Points Upgrades</a>" : "<div class='btn btn-secondary w-100 disabled'>-</div>"; ?></div>
             </div>
             <div class="row row-cols-1 row-cols-md-4 g-4">
                 <div class="col"></div> <!-- Placeholder for alignment -->
-                <div class="col"><?php echo ($user_rank->ganggrad == 1 || $user_class->admin || $user_class->id == the gang_class->leader) ? "<a href='ganggrad.php' class='btn btn-info w-100'>Gang Gradient</a>" : "<div class='btn btn-secondary w-100 disabled'>-</div>"; ?></div>
-                <div class="col"><?php echo ($user_class->id == the gang_class->leader || $user_class->admin) ? "<a href='changeleader.php' class='btn btn-info w-100'>Change Leader</a>" : "<div class='btn btn-secondary w-100 disabled'>-</div>"; ?></div>
+                <div class="col"><?php echo ($user_rank->ganggrad == 1 || $user_class->admin || $user_class->id == $gang_class->leader) ? "<a href='ganggrad.php' class='btn btn-info w-100'>Gang Gradient</a>" : "<div class='btn btn-secondary w-100 disabled'>-</div>"; ?></div>
+                <div class="col"><?php echo ($user_class->id == $gang_class->leader || $user_class->admin) ? "<a href='changeleader.php' class='btn btn-info w-100'>Change Leader</a>" : "<div class='btn btn-secondary w-100 disabled'>-</div>"; ?></div>
                 <div class="col"><a href='gangmassmail.php' class='btn btn-info w-100'>Gang Mass Mail</a></div>
             </div>
         </div>
