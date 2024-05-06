@@ -8,6 +8,9 @@ if ($user_class->gang != 0) {
     background-color: #ff6218 !important;
     border-color: #ff6218 !important;
 }
+.col{
+    padding-bottom:5px;
+}
 </style>
     <div class="container mt-3">
         <h4>Gang Links</h4>
