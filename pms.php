@@ -291,19 +291,32 @@ if (isset($_GET['view']) && $_GET['view'] == "new") {
         }
     }
     echo mailHeader();?>
+     <style>
+        .custom-input {
+            outline: none;
+            padding: 3px;
+            margin: 5px 1px 3px 0px;
+            border-radius: 5px;
+            border: 2px solid #ff6218;
+            background: #000;
+            color: white;
+            display: inherit; /* Maintains Bootstrap display settings */
+            width: 100%; /* Ensures full width */
+        }
+    </style>
     <div class="container mt-3">
     <form method="post" name="message" action="pms.php?view=inbox">
         <div class="row mb-3">
             <label for="to" class="col-sm-2 col-form-label"><b>Send To:</b></label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="to" name="to" value="<?php echo (isset($_GET['to']) ? $_GET['to'] : $row['from']); ?>" maxlength="75">
+                <input type="text" class="form-control custom-input" id="to" name="to" value="<?php echo (isset($_GET['to']) ? $_GET['to'] : $row['from']); ?>" maxlength="75">
                 <small style='color:white;'>[ID]</small>
             </div>
         </div>
         <div class="row mb-3">
             <label for="bomb" class="col-sm-2 col-form-label"><b>Mail Bomb:</b></label>
             <div class="col-sm-10">
-                <select class="form-select" name="bomb">
+                <select class="form-select custom-input" name="bomb">
                     <option value="0" selected>None</option>
                     <option value="1">20 Minutes - $500,000</option>
                     <option value="2">40 Minutes - $1,200,000</option>
@@ -313,18 +326,18 @@ if (isset($_GET['view']) && $_GET['view'] == "new") {
         <div class="row mb-3">
             <label for="subject" class="col-sm-2 col-form-label"><b>Subject:</b></label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="subject" name="subject" value="<?php echo (isset($_GET['reply']) && !preg_match("/Re: /", $worked2['subject']) ? "Re: " : "") . $worked2['subject']; ?>" maxlength="75">
+                <input type="text" class="form-control custom-input" id="subject" name="subject" value="<?php echo (isset($_GET['reply']) && !preg_match("/Re: /", $worked2['subject']) ? "Re: " : "") . $worked2['subject']; ?>" maxlength="75">
             </div>
         </div>
         <div class="row mb-3">
             <label for="msgtext" class="col-sm-2 col-form-label"><b>Message:</b></label>
             <div class="col-sm-10">
-                <textarea class="form-control" id="msgtext" name="msgtext" style="height: 125px;" autofocus></textarea>
+                <textarea class="form-control custom-input" id="msgtext" name="msgtext" style="height: 125px;" autofocus></textarea>
             </div>
         </div>
         <div class="row">
             <div class="col-12 text-center">
-                <input type="hidden" name="parent" value="<?php echo isset($_GET['reply']) ? $worked2['parent'] : 0; ?>">
+                <input type="hidden" class="custom-input" name="parent" value="<?php echo isset($_GET['reply']) ? $worked2['parent'] : 0; ?>">
                 <button type="submit" class="btn btn-primary" name="newmessage">Send</button>
             </div>
         </div>
