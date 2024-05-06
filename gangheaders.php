@@ -21,8 +21,8 @@ if ($user_class->gang != 0) {
     width: 130px;
     display: inline-block;
     margin: 0 15px;
-    color: #fff; 
-    font: 1.4rem 'Montserrat', sans-serif;
+    color: #fff !important; 
+    font: 1.4rem 'Montserrat', sans-serif !important;
     }
 .col{
     padding-bottom:5px;
