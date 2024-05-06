@@ -2,6 +2,13 @@
 if ($user_class->gang != 0) {
     $gang_class = new Gang($user_class->gang);
 ?>
+<style>
+    btn-primary {
+    color: #fff;
+    background-color: #ff6218;
+    border-color: #ff6218;
+}
+</style>
     <div class="container mt-3">
         <h4>Gang Links</h4>
         <div class="row row-cols-1 row-cols-md-4 g-4">
