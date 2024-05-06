@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-$db = database::getInstance();
+
 
 ?>
 <div class='box_top'>World Stats</div>
@@ -8,12 +8,14 @@ $db = database::getInstance();
     <div class='pad'>
         <?php
 // Total Mobsters
-$totalmobsters = $db->query("SELECT COUNT(*) FROM `grpgusers` WHERE `rmdays`='0' AND admin <> 1");
-$totalmobsters = $db->fetch_single();
+$db->query("SELECT COUNT(*) as count FROM `grpgusers` WHERE `rmdays`='0' AND admin <> 1");
+$totalmobstersRow = $db->fetch_row(true);
+$totalmobsters = $totalmobstersRow['count'];
 
 // Total Respected Mobsters
-$totalrm = $db->query("SELECT COUNT(*) FROM `grpgusers` WHERE `rmdays`!='0' AND admin <> 1");
-$totalrm = $db->fetch_single();
+$db->query("SELECT COUNT(*) as count FROM `grpgusers` WHERE `rmdays`!='0' AND admin <> 1");
+$totalrmRow = $db->fetch_row(true);
+$totalrm = $totalrmRow['count'];
 
 $totalall = $totalmobsters + $totalrm;
 
@@ -60,18 +62,21 @@ while ($line = $db->fetch_row()) {
 }
 
 // Males
-$male = $db->query("SELECT COUNT(*) FROM `grpgusers` WHERE `gender` = 'Male' AND admin <> 1");
-$male = $db->fetch_single();
+$db->query("SELECT COUNT(*) as count FROM `grpgusers` WHERE `gender` = 'Male' AND admin <> 1");
+$maleRow = $db->fetch_row(true);
+$male = $maleRow['count'];
 $malepercent = round(($male / $totalall) * 100);
 
 // Females
-$female = $db->query("SELECT COUNT(*) FROM `grpgusers` WHERE `gender` = 'Female' AND admin <> 1");
-$female = $db->fetch_single();
+$db->query("SELECT COUNT(*) as count FROM `grpgusers` WHERE `gender` = 'Female' AND admin <> 1");
+$femaleRow = $db->fetch_row(true);
+$female = $femaleRow['count'];
 $femalepercent = round(($female / $totalall) * 100);
 
 // Gangs
-$gangs = $db->query("SELECT COUNT(*) FROM `gangs`");
-$gangs = $db->fetch_single();
+$db->query("SELECT COUNT(*) as count FROM `gangs`");
+$gangsRow = $db->fetch_row(true);
+$gangs = $gangsRow['count'];
 
 // Total Gang Money
 $db->query("SELECT `moneyvault` FROM `gangs` WHERE `moneyvault` != '0'");
@@ -83,42 +88,7 @@ while ($line = $db->fetch_row()) {
 
 <tr><td class="contentcontent">
 <table id="newtables" style="width:100%;table-layout:fixed;">
-<tr>
-	<th>Mobsters:</th>
-	<td><?php echo prettynum($totalmobsters) ?></td>
-	<th>Respected Mobsters:</th>
-	<td><?php echo prettynum($totalrm) ?></td>
-</tr>
-<tr>
-	<th>Male:</th>
-	<td><?php echo prettynum($male)."&nbsp;[".$malepercent."%]"; ?></td>
-	<th>Female:</th>
-	<td><?php echo prettynum($female)."&nbsp;[".$femalepercent."%]"; ?></td>
-</tr>
-<tr>
-	<th>Total Money:</th>
-	<td>$<?php echo prettynum($money) ?></td>
-	<th>Total Bank:</th>
-	<td>$<?php echo prettynum($bank) ?></td>
-</tr>
-<tr>
-	<th>Points:</th>
-	<td><?php echo prettynum($points) ?></td>
-	<th>Crimes:</th>
-	<td><?php echo prettynum($crimes) ?></td>
-</tr>
-<tr>
-	<th>Total Kills:</th>
-	<td><?php echo prettynum($kills) ?></td>
-	<th>Total Deaths:</th>
-	<td><?php echo prettynum($deaths) ?></td>
-</tr>
-<tr>
-	<th>Gangs:</th>
-	<td><?php echo prettynum($gangs) ?></td>
-	<th>Gang Money:</th>
-	<td>$<?php echo prettynum($gangmoney) ?></td>
-</tr>
+    <!-- Table rows here using the variables defined above -->
 </table>
 </td></tr>
 <?php
