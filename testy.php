@@ -1,5 +1,8 @@
 <?php
 include 'header.php';
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 ?>
 <div class='box_top'>MailBox</div>
 						<div class='box_middle'>
@@ -178,43 +181,93 @@ if (isset($_POST['newmessage']) && $user_class->level > 0) {
 }
 if (isset($_GET['view']) && $_GET['view'] == "inbox") {
     ?>
-    <div class="container mt-3">
-    <div class="row bg-dark text-white py-2">
-        <div class="col-3">Subject</div>
-        <div class="col-3">Sender</div>
-        <div class="col-3">Time Received</div>
-        <div class="col-3">Actions</div>
-    </div>
+    <style type='text/css'>
+    .delete {
+        background-color: #001c1e;
+        border: 1px solid #004349;
+        color: white;
+        padding: 0.375rem 0.75rem;
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+    }
+    @media only screen and (max-width: 768px) {
+        .messagecontainer{
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+</style>
 
-    <?php foreach ($rows as $row): ?>
+<?php echo mailHeader(); ?>
+<br />
+
+<div class='messagecontainer'>
+    <div class='row bg-dark text-white'>
+        <div class='col-3'>Subject</div>
+        <div class='col-3'>Sender</div>
+        <div class='col-3'>Time Received</div>
+        <div class='col-3'>Actions</div>
+    </div>
     <?php
+    $db->query("SELECT * FROM pms WHERE `to` = ? ORDER BY timesent DESC LIMIT $offset, $rowsperpage");
+    $db->execute(array(
+        $user_class->id
+    ));
+    $rows = $db->fetch_row();
+
+    foreach ($rows as $row) {
         $bold = $bold2 = '';
         if ($row['check'] == 1 && $row['viewed'] == 1) {
             $bold = "<b>";
-            $bold2 = "</b> [mail bomb]";
+            $bold2 = "</b>&nbsp;[mail bomb]";
         } elseif ($row['viewed'] == 1) {
             $bold = "<span style='color: red;'><b>";
-            $bold2 = "</b> [new]</span>";
+            $bold2 = "</b>&nbsp;[new]</span>";
         } elseif ($row['reported'] == 1) {
-            $bold2 = " [reported]";
+            $bold2 = "&nbsp;[reported]";
         }
 
         $namee = ($row['from'] == 0000) ? "<b><i>Auto Mail</i></b>" : $from_user_class->formattedname;
-        $subject = empty($row['subject']) ? "No Subject" : $row['subject'];
-        $star_img = $row['starred'] == 1 ? "starfill.png" : "star.png";
+        $subject = ($row['subject'] == "") ? "No Subject" : $row['subject'];
+        $starImg = ($row['starred'] == 1) ? "starfill.png" : "star.png";
+        echo "<div class='row' style='height:30px;'>
+            <div class='col-3'>$bold<a href='viewpm.php?id={$row['id']}'>$subject</a>$bold2</div>
+            <div class='col-3'>$namee</div>
+            <div class='col-3'>" . date("d F, Y g:ia", $row['timesent']) . "</div>
+            <div class='col-1'><a href='?view=inbox&star={$row['id']}'><img src='/images/$starImg' height='20px;' /></a></div>
+            <div class='col-2'><a href='pms.php?view=inbox&delete={$row['id']}' class='delete'>&nbsp;X&nbsp;</a></div>
+        </div>";
+    }
     ?>
-    <div class="row mt-1">
-        <div class="col-3"><?= $bold ?><a href="viewpm.php?id=<?= $row['id'] ?>"><?= $subject ?></a><?= $bold2 ?></div>
-        <div class="col-3"><?= $namee ?></div>
-        <div class="col-3"><?= date("d F, Y g:ia", $row['timesent']) ?></div>
-        <div class="col-1"><a href="?view=inbox&star=<?= $row['id'] ?>"><img src="/images/<?= $star_img ?>" height="20px"></a></div>
-        <div class="col-2"><a href="pms.php?view=inbox&delete=<?= $row['id'] ?>" class="delete">Delete</a></div>
-    </div>
-    <?php endforeach; ?>
 </div>
 
-<div class="container text-end mt-3">
-    <a href="pms.php?deleteall=true" class="delete">Delete All Mail</a>
+<div align='right' class='container'>
+    <?php
+    if (count($rows) > 0) {
+        echo "[<a href='pms.php?deleteall=true'>Delete All Mail</a>]";
+    }
+    ?>
+    <div>
+        <?php
+        if ($currentpage > 1) {
+            echo "<a href='?page=1&view=inbox'>&lt;&lt;</a> ";
+        }
+        for ($x = ($currentpage - $range); $x < (($currentpage + $range) + 1); $x++) {
+            if (($x > 0) && ($x <= $totalpages)) {
+                if ($x == $currentpage) {
+                    echo " [<b>$x</b>] ";
+                } else {
+                    echo " <a href='?page=$x&view=inbox'>$x</a> ";
+                }
+            }
+        }
+        if ($currentpage < $totalpages) {
+            echo " <a href='?page=$totalpages&view=inbox'>&gt;&gt;</a> ";
+        }
+        ?>
+    </div>
 </div>
 <?php
 }
