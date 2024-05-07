@@ -655,7 +655,7 @@ if ($user_class->view_preference === '1') { ?>
           $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
           $miss = mysql_fetch_array(mysql_query("SELECT * FROM mission WHERE id={$usermission['mid']}"));
           $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>{$usermission['kills']}/".shorthandNumber($miss['kills'])."</font>" : "<font color='green'>{$miss['kills']}/".shorthandNumber($miss['kills'])."</font>";
-          $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>{$usermission['crimes']}/".shorthandNumber($miss['crimes'])."</font>" : "<font color='green'>{$miss['crimes']}/".shorthandNumber($miss['crimes'])."</font>";
+          $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>{shorthandNumber($usermission['crimes'])}/".shorthandNumber($miss['crimes'])."</font>" : "<font color='green'>{$miss['crimes']}/".shorthandNumber($miss['crimes'])."</font>";
           $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>{$usermission['mugs']}/".shorthandNumber($miss['mugs'])."</font>" : "<font color='green'>{$miss['mugs']}/".shorthandNumber($miss['mugs'])."</font>";
           $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>{$usermission['busts']}/".shorthandNumber($miss['busts'])."</font>" : "<font color='green'>{$miss['busts']}/".shorthandNumber($miss['busts'])."</font>";
           $backalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>{$usermission['backalleys']}/".shorthandNumber($miss['backalleys'])."</font>" : "<font color='green'>{$miss['backalleys']}/".shorthandNumber($miss['backalleys'])."</font>";
