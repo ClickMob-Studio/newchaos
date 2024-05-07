@@ -154,21 +154,23 @@ $leftLinks[] =
 $navPage = str_replace( '/', '', $_SERVER['REQUEST_URI'] );
 
 ?> 
-<nav class="navbar navbar-expand-lg p-0 dcNav dcTopNav sticky-top bg-black">
+
+<nav class="navbar navbar-expand-lg p-0 dcNav dcTopNav d-sm-none">
     <div class="container-fluid scrollNav">
         <a class="navbar-brand" href="index.php">
             <img src="asset/img/logo1.png" alt="Deadly Cartel logo" class="mainLogo mx-5">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <i class="fas fa-bars fa-2x"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <div class="dcPanel h-100">
                 <div class="text-center dcBannerButtonsContainer voteMobile">
-                    <a href="vote.php" class="btn btn-secondary my-3">Vote for <i class="far fa-gem"></i></a>
-                    <a href="refer.php" class="btn btn-secondary my-3">Refer for <i class="far fa-gem"></i></a>
-                    <a href="store.php" class="btn btn-secondary my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
+                    <a href="vote.php" class="dcSecondaryButton my-3">Vote for <i class="far fa-gem"></i></a>
+                    <a href="refer.php" class="dcSecondaryButton my-3">Refer for <i class="far fa-gem"></i></a>
+                    <a href="store.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
                 </div>
+                <!-- Sever Time: 09/04/2024  10:24:56 -->
             </div>
             <ul class="navbar-nav">
                 <?php foreach ($topLinks as $link) : ?>
