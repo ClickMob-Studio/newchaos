@@ -684,24 +684,24 @@ if ($user_class->view_preference === '1') { ?>
 
     <!-- Additional Information (Money, Points, Merits) -->
     <div class="row mt-3">
-        <div class="col-4">
+        <div class="col-3">
             <!-- Money -->
             <div class="text-center">
                 <span class="badge bg-success">$<?= number_format($user_class->money);?></span>
                 <p>Money</p>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-3">
             <!-- Points -->
             <div class="text-center">
                 <span class="badge bg-info">$<?= number_format($user_class->bank);?></span>
                 <p>Bank</p>
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-3">
             <!-- Merits -->
             <div class="text-center">
-                <span class="badge bg-purple"><?= number_format($user_class->points);?></span>
+                <span class="badge bg-danager"><?= number_format($user_class->points);?></span>
                 <p>Points</p>
             </div>
         </div>
