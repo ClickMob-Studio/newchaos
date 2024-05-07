@@ -679,6 +679,8 @@ if ($user_class->view_preference === '1') { ?>
             </div>
             
         </div>
+    </div>
+    
 
     <!-- Additional Information (Money, Points, Merits) -->
     <div class="row mt-3">
