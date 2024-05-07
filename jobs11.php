@@ -16,6 +16,8 @@ include 'header.php';
         padding: 10px;
         width: auto;
         border: solid var(--colorHighlight) 1px !important;
+        text-transform: uppercase;
+    background: #000000c4;
     }
  </style>
 <h1 class="text-center mt-4">Jobs</h1>
