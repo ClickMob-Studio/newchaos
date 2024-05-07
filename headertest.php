@@ -687,26 +687,26 @@ if ($user_class->view_preference === '1') { ?>
         <div class="col-3">
             <!-- Money -->
             <div class="text-center">
-                <span class="badge bg-success">$<?= number_format($user_class->money);?></span>
+                <span class="badge bg-success">$<?= shorthandNumber($user_class->money);?></span>
                 <p>Money</p>
             </div>
         </div>
         <div class="col-3">
             <!-- Points -->
             <div class="text-center">
-                <span class="badge bg-info">$<?= number_format($user_class->bank);?></span>
+                <span class="badge bg-info">$<?= shorthandNumber($user_class->bank);?></span>
                 <p>Bank</p>
             </div>
         </div>
         <div class="col-3">
             <!-- Merits -->
             <div class="text-center">
-                <span class="badge bg-danger"><?= number_format($user_class->points);?></span>
+                <span class="badge bg-danger"><?= shorthandNumber($user_class->points);?></span>
                 <p>Points</p>
             </div>
         </div>
         <div class="col-3">
-        <p class="text-center">Level: <?= number_format($user_class->level);?></p>
+        <p class="text-center">Level: <?= shorthandNumber($user_class->level);?></p>
             <div class="progress">
                 <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->exppercent; ?>%" aria-valuenow="<?= $user_class->exppercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->exppercent; ?>"></div>
             </div>
@@ -726,12 +726,19 @@ if ($user_class->view_preference === '1') { ?>
         <?php
       $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
       function shorthandNumber($number) {
-        if ($number >= 1000) {
-            $shorthand = round($number / 1000, 1) . 'k';
+        if ($number >= 1000000000) { // Check if the number is at least a billion
+            $shorthand = round($number / 1000000000, 2) . 'B'; // Convert to billions, round to 2 decimal places, and append 'B'
+            return $shorthand;
+        } elseif ($number >= 1000000) { // Check if the number is at least a million
+            $shorthand = round($number / 1000000, 2) . 'M'; // Convert to millions, round to 2 decimal places, and append 'M'
+            return $shorthand;
+        } elseif ($number >= 1000) { // Check if the number is at least a thousand
+            $shorthand = round($number / 1000, 1) . 'k'; // Convert to thousands, round to 1 decimal place, and append 'k'
             return $shorthand;
         }
-        return $number;
+        return number_format($number); // Return the original number if it's less than 1000
     }
+    
       if (mysql_num_rows($check)) {
             $show = true;
           $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
