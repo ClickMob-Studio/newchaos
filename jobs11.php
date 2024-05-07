@@ -11,6 +11,12 @@ include 'header.php';
     .table{
         color:#fff;
     }
+    .btn-primary{
+        margin: 10px;
+        padding: 10px;
+        width: auto;
+        border: solid var(--colorHighlight) 1px !important;
+    }
  </style>
 <h1 class="text-center mt-4">Jobs</h1>
 <div class="container">
@@ -147,7 +153,7 @@ include 'header.php';
                                 echo '<td>' . prettynum($row['total']) . '</td>';
                                 echo '<td>' . prettynum($row['money'], 1) . '</td>';
                                 echo '<td>' . prettynum($row['points']) . '</td>';
-                                echo '<td>', ($row['id'] > $user_class->job) ? '<a href="jobs.php?take=' . $row['id'] . '" class="dcBannerButtonsContainer dcSecondaryButton">Take Job</a>' : '', '</td>';
+                                echo '<td>', ($row['id'] > $user_class->job) ? '<a href="jobs.php?take=' . $row['id'] . '" class="btn btn-primary">Take Job</a>' : '', '</td>';
                             echo '</tr>';
                         }
                         ?>
