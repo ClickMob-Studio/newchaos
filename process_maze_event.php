@@ -68,7 +68,7 @@ file_put_contents("chosen_dir_log.txt", $chosenDirection);
             break;
 case 'credits':
     $credits = rand($event['min_value'], $event['max_value']);
-        $description = str_replace('[credits_amount]', "<span style='color: yellow; font-weight: bold;'>".$credits." credits</span>", $event['description_template']);
+        $description = str_replace('[credits_amount]', "<span style='color: green; font-weight: bold;'>".$credits." credits</span>", $event['description_template']);
 
 
  // Log the event in user_logs table with the custom description
