@@ -647,9 +647,9 @@ if ($user_class->view_preference === '1') { ?>
         <!-- Energy Bar -->
         <div class="col-3">
             <div class="progress">
-                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100</div>
+                <div class="progress-bar bg-success" role="progressbar" style="width: <?= $user_class->hppercent; ?>%" aria-valuenow="<?= $user_class->hppercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->hppercent; ?>"><?= $user_class->formattedenergy;?></div>
             </div>
-            <p class="text-center">Energy</p>
+            <p class="text-center">Health</p>
         </div>
 
         <!-- Nerve Bar -->
@@ -667,8 +667,6 @@ if ($user_class->view_preference === '1') { ?>
             </div>
             <p class="text-center">Happiness</p>
         </div>
-
-        <!-- Life Bar -->
         <div class="col-3">
             <div class="progress">
                 <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100</div>
