@@ -654,11 +654,11 @@ if ($user_class->view_preference === '1') { ?>
             $show = true;
           $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
           $miss = mysql_fetch_array(mysql_query("SELECT * FROM mission WHERE id={$usermission['mid']}"));
-          $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>" . shorthandNumber($usermission['kills']) . "/".shorthandNumber($miss['kills'])."</font>" : "<font color='green'>{$miss['kills']}/".shorthandNumber($miss['kills'])."</font>";
-          $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>" . shorthandNumber($usermission['crimes']) . "/".shorthandNumber($miss['crimes'])."</font>" : "<font color='green'>{$miss['crimes']}/".shorthandNumber($miss['crimes'])."</font>";
-          $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>" . shorthandNumber($usermission['mugs']) . "/".shorthandNumber($miss['mugs'])."</font>" : "<font color='green'>{$miss['mugs']}/".shorthandNumber($miss['mugs'])."</font>";
-          $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>" . shorthandNumber($usermission['busts']) . "/".shorthandNumber($miss['busts'])."</font>" : "<font color='green'>{$miss['busts']}/".shorthandNumber($miss['busts'])."</font>";
-          $backalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>" . shorthandNumber($usermission['backalleys']) . "/".shorthandNumber($miss['backalleys'])."</font>" : "<font color='green'>{$miss['backalleys']}/".shorthandNumber($miss['backalleys'])."</font>";
+          $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>" . shorthandNumber($usermission['kills']) . "/".shorthandNumber($miss['kills'])."</font>" : "<font color='green'>" . shorthandNumber($miss['kills']) . "/".shorthandNumber($miss['kills'])."</font>";
+          $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>" . shorthandNumber($usermission['crimes']) . "/".shorthandNumber($miss['crimes'])."</font>" : "<font color='green'>" . shorthandNumber($miss['crimes']) . "/".shorthandNumber($miss['crimes'])."</font>";
+          $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>" . shorthandNumber($usermission['mugs']) . "/".shorthandNumber($miss['mugs'])."</font>" : "<font color='green'>" . shorthandNumber($miss['mugs']) . "/".shorthandNumber($miss['mugs'])."</font>";
+          $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>" . shorthandNumber($usermission['busts']) . "/".shorthandNumber($miss['busts'])."</font>" : "<font color='green'>" . shorthandNumber($miss['busts']) . "/".shorthandNumber($miss['busts'])."</font>";
+          $backalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>" . shorthandNumber($usermission['backalleys']) . "/".shorthandNumber($miss['backalleys'])."</font>" : "<font color='green'>" . shorthandNumber($miss['backalleys']) . "/" .shorthandNumber($miss['backalleys'])."</font>";
           $currenttime = time();
           $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
       }else{
