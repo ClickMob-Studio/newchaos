@@ -259,10 +259,10 @@ break;
 $medPackHtml = '';
 if ($user_class->admin > 0) {
     $medPackHtml = '
-    <br />
+    <br /><br />
     <center>
         <img src="https://generalforces.com/images/items/med-pack.png" style="max-width: 75px;" class="img-responsive" /><br />
-        <a href="#">Use 100% Med Cert</a>
+        <a class="ajax-link" href="ajax_med_cert.php?alv=yes">Use 100% Med Cert</a>
     </center> 
     <br />
     ';
