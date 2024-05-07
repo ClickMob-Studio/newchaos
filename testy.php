@@ -305,7 +305,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
             <a href='missions.php'>Missions</a><br>
             <a href='chapel.php'>Chapel</a><br>
         </div>
-        <div class="col-md-4 text-center d-none d-md-block">
+        <div class="col-md-4 text-center">
             <a href='claim_achievements.php'>Claim Achievements</a><br>
             <a href='itempedia.php'>Item Guide</a><br>
             <a href='thecity.php'>Search The City</a><br>
