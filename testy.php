@@ -219,6 +219,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
             padding: 10px;
             text-align: center;
             margin-bottom: 10px;
+            margin-top:15px;
             font-weight: bold;
             border-radius: 0.25rem;
         }
