@@ -200,7 +200,7 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
             <th width='30%'>Subject</th>
             <th width='30%'>Sender</th>
             <th width='30%'>Time Recieved</th>
-            <th colspan='3'></th>
+            <th width='10%' colspan='3'></th>
         </tr>";
     $db->query("SELECT COUNT(*) FROM pms WHERE `to` = ?");
     $db->execute(array(
