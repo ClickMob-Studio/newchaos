@@ -489,8 +489,10 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
     </div>
 </div>
 
+<div class="container mt-3">
+    <div class="row justify-content-around">
         <!-- Mugger of the Hour -->
-        <div class="col-md-4 mb-4">
+        <div class="col-6 col-md-4 mb-4">
             <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
                 <?php if ($king_result): ?>
                     <h4 class="text-center" style="color: orange;">Mugger of the Hour</h4>
@@ -510,70 +512,61 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
                 <?php endif; ?>
             </div>
         </div>
+
+        <!-- Mugger of the Day -->
+        <div class="col-6 col-md-4 mb-4">
+            <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+                <?php if ($king_result): ?>
+                    <h4 class="text-center" style="color: orange;">Mugger of the Day</h4>
+                    <div class="text-center">
+                        <?php
+                        if (!$motd = $m->get('motd')) {
+                            $db->query("SELECT userid, motd FROM ofthes WHERE userid NOT IN (?) ORDER BY motd DESC LIMIT 1");
+                            $db->execute([$admin_ids]);
+                            $motd = $db->fetch_row(true);
+                            $m->set('motd', $motd, false, 60);
+                        }
+                        $db->query("SELECT userid, motd FROM ofthes WHERE userid = ?");
+                        $db->execute([$user_class->id]);
+                        $mymotd = $db->fetch_row(true);
+                        if ($motd['motd'] == 0) {
+                            echo "Nobody<br/><br/>";
+                        } else {
+                            echo "<br />" . formatName($motd['userid']) . "<br /><br />Mugs: " . prettynum($motd['motd']) . "<br /><br />You: " . prettynum($mymotd['motd']) . " Mugs<br /><br />";
+                        }
+                        ?>
+                        <h3>Reward: 10,000 Points</h3>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <!-- Buster of the Day -->
+        <!-- Adding offset to center this box on mobile -->
+        <div class="col-12 col-md-4 mb-4 offset-md-4 offset-0">
+            <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+                <?php if ($king_result): ?>
+                    <h4 class="text-center" style="color: orange;">Buster of the Day</h4>
+                    <div class="text-center">
+                        <?php
+                        $db->query("SELECT userid, botd FROM ofthes WHERE userid NOT IN (?) ORDER BY botd DESC LIMIT 1");
+                        $db->execute([$admin_ids]);
+                        $botd = $db->fetch_row(true);
+
+                        $db->query("SELECT * FROM ofthes WHERE userid = ?");
+                        $db->execute([$user_class->id]);
+                        $ofthes = $db->fetch_row(true);
+
+                        echo "<br />" . formatName($botd['userid']) . "<br /><br />Busted: " . prettynum($botd['botd']) . " Mobsters.<br /><br />You busted: " . prettynum($ofthes['botd']) . " Mobsters<br /><br />";
+                        ?>
+                        <h3>Reward: 10,000 Points</h3>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
     </div>
 </div>
 
-
-    <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
-        <?php if ($king_result): ?>
-            <h4><center><font color=orange>Mugger of the Day</font></center></h4>
-            <center><?php
-					if (!$motd = $m->get('motd')) {
-						$db->query("SELECT userid, motd FROM ofthes WHERE userid NOT IN (?) ORDER BY motd DESC LIMIT 1");
-						$db->execute([$admin_ids]);
-						$motd = $db->fetch_row(true);
-						$m->set('motd', $motd,false, 60);
-					}
-					$db->query("SELECT userid, motd FROM ofthes WHERE userid = ?");
-					$db->execute([$user_class->id]);
-					$mymotd = $db->fetch_row(true);
-					if ($motd['motd'] == 0) {
-						print "Nobody<br/><br/>";
-					} else {
-					print "<br />" . formatName($motd['userid']) . "<br /><br />Mugs: " . prettynum($motd['motd']) . "<br /><br />You: " . prettynum($mymotd['motd']) . " Mugs<br /><br />";
-					}
-					?>
-					            <h3>Reward: 10,000 Points</h3>
-
-       
-        <?php endif; ?>
-    </div>
-
-    <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
-        <?php if ($king_result): ?>
-            <h4><center><font color=orange>Buster of the Day</font></center></h4>
-            <center>
-<?php
-$db->query("SELECT userid, botd FROM ofthes WHERE userid NOT IN (?) ORDER BY botd DESC LIMIT 1");
-$db->execute([$admin_ids]);
-$botd = $db->fetch_row(true);
-
-$db->query("SELECT * FROM ofthes WHERE userid = ?");
-$db->execute([$user_class->id]);
-$ofthes = $db->fetch_row(true);
-
-print "<br />" . formatName($botd['userid']) . "<br /><br />Busted: " . prettynum($botd['botd']) . " Mobsters.<br /><br />You busted: " . prettynum($ofthes['botd']) . " Mobsters<br /><br />";
-?>
-
-	            <h3>Reward: 10,000 Points</h3>
-
-        
-        <?php endif; ?>
-    </div>
-</div>
-</table>
-
-
-
-
-
-
-
-<!-- <br>
-<center><font color=white>This is your referral link: https://themafialife.com/register.php?referer=<?php echo $user_class->id; ?></span><br>
-Every <span class="color:yellow;">Valid</span> signup on this link gets you 100 Points + 50 cyellowit</font>
-<br> -->
-	</table>
 
 
 
