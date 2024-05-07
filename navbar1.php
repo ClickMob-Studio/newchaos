@@ -154,7 +154,7 @@ $leftLinks[] =
 $navPage = str_replace( '/', '', $_SERVER['REQUEST_URI'] );
 
 ?> 
-<nav class="navbar navbar-expand-lg p-0 dcNav dcTopNav fixed-top">
+<nav class="navbar navbar-expand-lg p-0 dcNav dcTopNav sticky-top">
     <div class="container-fluid scrollNav">
         <a class="navbar-brand" href="index.php">
             <img src="asset/img/logo1.png" alt="Deadly Cartel logo" class="mainLogo mx-5">
