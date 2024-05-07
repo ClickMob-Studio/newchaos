@@ -632,32 +632,45 @@ if ($user_class->view_preference === '1') { ?>
         
         require 'navbar.php'; ?>
 		</div>
-        <div class="container d-block d-md-none"> <!-- This container is visible only on xs screens -->
+
+	</header>
+    <div class="container d-block d-md-none"> <!-- This container is visible only on xs screens -->
     <div class="row">
-        <div class="col-12">
-            <!-- Energy Bar -->
+        <!-- Energy Bar -->
+        <div class="col-3">
             <div class="progress">
-                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Energy: 100 / 100</div>
+                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100</div>
             </div>
+            <p class="text-center">Energy</p>
+        </div>
 
-            <!-- Nerve Bar -->
+        <!-- Nerve Bar -->
+        <div class="col-3">
             <div class="progress">
-                <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="15">Nerve: 15 / 15</div>
+                <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="15">15</div>
             </div>
+            <p class="text-center">Nerve</p>
+        </div>
 
-            <!-- Happiness Bar -->
+        <!-- Happiness Bar -->
+        <div class="col-3">
             <div class="progress">
-                <div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Happiness: 100 / 100</div>
+                <div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100</div>
             </div>
+            <p class="text-center">Happiness</p>
+        </div>
 
-            <!-- Life Bar -->
+        <!-- Life Bar -->
+        <div class="col-3">
             <div class="progress">
-                <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Life: 100 / 100</div>
+                <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100</div>
             </div>
+            <p class="text-center">Life</p>
         </div>
     </div>
-    
-    <div class="row">
+
+    <!-- Additional Information (Money, Points, Merits) -->
+    <div class="row mt-3">
         <div class="col-4">
             <!-- Money -->
             <div class="text-center">
@@ -682,7 +695,6 @@ if ($user_class->view_preference === '1') { ?>
     </div>
 </div>
 
-	</header>
 	<div class="row mx-auto my-3 mainContent">
 		<div class="d-none d-lg-block col-2 dcLeftNavContainer p-0">
 			<?php require 'leftnav.php'; ?>
