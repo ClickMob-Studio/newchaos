@@ -256,6 +256,17 @@ break;
 }
 
 
+$medPackHtml = '
+<br /><br />
+<center>
+    <div id="med-pack-holder">
+        <img src="https://generalforces.com/images/items/med-pack.png" style="max-width: 75px;" class="img-responsive" /><br />
+        <a class="ajax-link" href="ajax_med_cert.php?alv=yes">Use 100% Med Cert</a>
+    </div>
+</center> 
+<br />
+';
+
 // Display the compass buttons
 echo '
 
@@ -266,6 +277,7 @@ echo '
     Below is the potential items you can find when searching, Displaying all different rarity types</p>
     <br>
     <span style="text-align:center"><a href="jail.php">Jail</a> | <a href="hospital.php">Hospital</a></span>
+    ' . $medPackHtml . '
     </div>
     
      <div class="contenthead floaty" style="text-align: center; padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 88%;">
@@ -504,6 +516,12 @@ $(document).ready(function() {
     console.log("Document ready");
     updateLogs(); // Initialize log updates
 });
+
+<?php if ($user_class->hospital > 0): ?>
+    $('#med-pack-holder').show();
+<?php else: ?>
+    $('#med-pack-holder').hide();
+<?php endif; ?>
 
 function updateLogs() {
     $.ajax({
