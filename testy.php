@@ -343,57 +343,58 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
         <h1> Leaderboards</h1>
         <div class="container mt-3">
     <div class="row">
-        <!-- Killer of the Day -->
-        <div class="col-6 col-md-4 mb-4">
-            <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
-                <?php if ($king_result): ?>
-                    <h4 class="text-center text-danger">Killer of the Day</h4>
-                    <div class="text-center">
-                        <?php
-                        $db->query("SELECT userid, kotd FROM ofthes WHERE userid NOT IN (?) ORDER BY kotd DESC LIMIT 1");
-                        $db->execute([$admin_ids]);
-                        $kotd = $db->fetch_row(true);
+        <!-- First Row on Mobile: Killer of the Day & Leveller of the Day -->
+        <div class="d-flex flex-column flex-md-row">
+            <div class="col-12 col-md-4 d-flex mb-4">
+                <div class="vip-package flex-fill p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+                    <?php if ($king_result): ?>
+                        <h4 class="text-center text-danger">Killer of the Day</h4>
+                        <div class="text-center">
+                            <?php
+                            $db->query("SELECT userid, kotd FROM ofthes WHERE userid NOT IN (?) ORDER BY kotd DESC LIMIT 1");
+                            $db->execute([$admin_ids]);
+                            $kotd = $db->fetch_row(true);
 
-                        $db->query("SELECT * FROM ofthes WHERE userid = ?");
-                        $db->execute([$user_class->id]);
-                        $ofthes = $db->fetch_row(true);
+                            $db->query("SELECT * FROM ofthes WHERE userid = ?");
+                            $db->execute([$user_class->id]);
+                            $ofthes = $db->fetch_row(true);
 
-                        echo "<br />" . formatName($kotd['userid']) . "<br /><br />Killed: " . prettynum($kotd['kotd']) . " Mobsters.<br /><br />You Killed: " . prettynum($user_class->todayskills) . " Mobsters<br /><br />";
-                        ?>
-                        <h3>Reward: 10,000 Points</h3>
-                    </div>
-                <?php endif; ?>
+                            echo "<br />" . formatName($kotd['userid']) . "<br /><br />Killed: " . prettynum($kotd['kotd']) . " Mobsters.<br /><br />You Killed: " . prettynum($user_class->todayskills) . " Mobsters<br /><br />";
+                            ?>
+                            <h3>Reward: 10,000 Points</h3>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-4 d-flex mb-4">
+                <div class="vip-package flex-fill p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+                    <?php if ($king_result): ?>
+                        <h4 class="text-center text-danger">Leveller of the Day</h4>
+                        <div class="text-center">
+                            <?php
+                            if (!($lotd = $m->get('lotd.id'))) {
+                                $db->query("SELECT id, todaysexp FROM grpgusers WHERE `admin` != 1 ORDER BY todaysexp DESC LIMIT 1");
+                                $db->execute();
+                                $lotd = $db->fetch_row(true);
+                            }
+
+                            $db->query("SELECT * FROM grpgusers WHERE id = ?");
+                            $db->execute([$user_class->id]);
+                            $grpgusers = $db->fetch_row(true);
+
+                            echo "<br />" . formatName($lotd['id']) . "<br /><br />Gained: " . prettynum($lotd['todaysexp']) . " EXP<br /><br />You: " . prettynum($grpgusers['todaysexp']) . " EXP<br /><br />";
+                            ?>
+                            <h3>Reward: 10,000 Points</h3>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
 
-        <!-- Leveller of the Day -->
-        <div class="col-6 col-md-4 mb-4">
-            <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
-                <?php if ($king_result): ?>
-                    <h4 class="text-center text-danger">Leveller of the Day</h4>
-                    <div class="text-center">
-                        <?php
-                        if (!($lotd = $m->get('lotd.id'))) {
-                            $db->query("SELECT id, todaysexp FROM grpgusers WHERE `admin` != 1 ORDER BY todaysexp DESC LIMIT 1");
-                            $db->execute();
-                            $lotd = $db->fetch_row(true);
-                        }
-
-                        $db->query("SELECT * FROM grpgusers WHERE id = ?");
-                        $db->execute([$user_class->id]);
-                        $grpgusers = $db->fetch_row(true);
-
-                        echo "<br />" . formatName($lotd['id']) . "<br /><br />Gained: " . prettynum($lotd['todaysexp']) . " EXP<br /><br />You: " . prettynum($grpgusers['todaysexp']) . " EXP<br /><br />";
-                        ?>
-                        <h3>Reward: 10,000 Points</h3>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-
-        <!-- Buster of the Day -->
-        <div class="col-12 col-md-4 offset-md-4">
-            <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+        <!-- Second Row on Mobile: Buster of the Day -->
+        <div class="col-12">
+            <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
                 <?php if ($king_result): ?>
                     <h4 class="text-center text-danger">Buster of the Day</h4>
                     <div class="text-center">
