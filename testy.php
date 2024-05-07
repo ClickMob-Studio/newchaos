@@ -192,7 +192,7 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
 
 <div class="container mt-4">
     <div class="table-responsive">
-        <table class="table table-dark">
+        <table class="table">
             <thead>
                 <tr>
                     <th width='30%'>Subject</th>
