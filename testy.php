@@ -254,6 +254,9 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
             <a href='portfolio.php'>Your Properties</a>
         </div>
         <div class="col-6 col-md-4 text-center">
+        <div class="col-12 text-center mb-2 section-header">
+            <strong>Statistics and Achievements</strong>
+        </div>
             <a href="polls.php">Polls</a><br>
             <a href='tos.php'>Terms of Service</a><br>
             <a href='contest.php'><font color=red>Raid/Attack Contests</font></a><br>
@@ -266,6 +269,9 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
             <a href='pointsdealer.php'>Points Dealer</a>
         </div>
         <div class="col-md-4 text-center d-none d-md-block">
+        <div class="col-12 text-center mb-2 section-header">
+            <strong>Personal and Pet Management</strong>
+        </div>
             <a href='mypets.php'>My Pet</a><br>
             <a href='petcrime.php'>Pet Crimes</a><br>
             <a href='petgym.php'>Pet Gym</a><br>
@@ -278,10 +284,11 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
     </div>
     <!-- Community and Social -->
     <div class="row">
+        
+        <div class="col-6 col-md-4 text-center">
         <div class="col-12 text-center mb-2 section-header">
             <strong>Community and Social</strong>
         </div>
-        <div class="col-6 col-md-4 text-center">
             <a href='online.php'>Users Online</a><br>
             <a href='gang_list.php'>Gang List</a><br>
             <a href='citizens.php'>User List</a><br>
@@ -294,6 +301,9 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
             <a href='gameupdates.php'>Updates</a><br>
         </div>
         <div class="col-6 col-md-4 text-center">
+        <div class="col-12 text-center mb-2 section-header">
+            <strong>Gaming and Entertainment</strong>
+        </div>
             <a href='prestige.php'>Account Prestige</a><br>
             <a href='raidtokensmuggling.php'>Find Some Raid Tokens</a><br>
             <a href='psmuggling.php'>Points Smuggling</a><br>
