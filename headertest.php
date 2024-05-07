@@ -642,7 +642,7 @@ if ($user_class->view_preference === '1') { ?>
 		</div>
 
 	</header>
-    <div class="container d-block d-md-none p-3 dcPanel dcAvatarPanel"> <!-- This container is visible only on xs screens -->
+    <div class="container d-block p-3 dcPanel dcAvatarPanel"> <!-- This container is visible only on xs screens -->
     <div class="row">
         <!-- Energy Bar -->
         <div class="col-3">
