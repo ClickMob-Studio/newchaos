@@ -345,7 +345,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
     <div class="row">
         <!-- First Row on Mobile: Killer of the Day & Leveller of the Day -->
         <div class="d-flex flex-column flex-md-row">
-            <div class="col-12 col-md-4 d-flex mb-4">
+            <div class="col-6 col-md-4 col-lg-4 d-flex mb-4">
                 <div class="vip-package flex-fill p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
                     <?php if ($king_result): ?>
                         <h4 class="text-center text-danger">Killer of the Day</h4>
@@ -367,7 +367,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
                 </div>
             </div>
 
-            <div class="col-12 col-md-4 d-flex mb-4">
+            <div class="col-6 col-lg-4 col-md-4 col-lg-4 d-flex mb-4">
                 <div class="vip-package flex-fill p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
                     <?php if ($king_result): ?>
                         <h4 class="text-center text-danger">Leveller of the Day</h4>
