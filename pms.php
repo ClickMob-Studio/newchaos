@@ -183,12 +183,18 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
             background-color: #001c1e;
             border: 1px solid #004349;
         }
+        @media only screen and (max-width: 768px) {
+        .messagecontainer{
+        width: 80%;
+        margin-left: -26px;
+        }
+    }
     </style>
     " . mailHeader() . "
         <br />
 
-
-
+        
+        <div class='messagecontainer'>
         <table id='newtables' style='width:100%; color:white'>
         <tr>
             <th width='30%'>Subject</th>
@@ -276,6 +282,7 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
     print"
     </td></tr>
     </table>
+    </div>
     ";
 }
 if (isset($_GET['view']) && $_GET['view'] == "new") {
