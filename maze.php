@@ -573,6 +573,12 @@ function sendDirection(chosenDirection) {
                 document.querySelector("#remainingTurns").textContent = (data.turnsLeft || "unknown");
             }
 
+            if (data.hospitalTime > 0) {
+                $('#med-pack-holder').show();
+            } else {
+                $('#med-pack-holder').hide();
+            }
+
             document.querySelector("#searchFeedback").style.display = "block";
         })
         .finally(() => {

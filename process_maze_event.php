@@ -186,6 +186,8 @@ mysql_query($log_query);
 
     if (isset($hospitalTime) && $hospitalTime > 0) {
         $response['hospitalTime'] = $hospitalTime;
+    } else {
+        $response['hospitalTime'] = 0;
     }
 
 }
