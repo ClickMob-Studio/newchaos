@@ -208,7 +208,6 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
                 $numrows = $db->fetch_single();
                 $rowsperpage = 30;
                 $totalpages = ceil($numrows / $rowsperpage);
-                $currentpage = 1;
                 $currentpage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
                 $currentpage = max(1, min($currentpage, $totalpages));
                 $offset = ($currentpage - 1) * $rowsperpage;
