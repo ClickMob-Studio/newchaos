@@ -647,10 +647,12 @@ if ($user_class->view_preference === '1') { ?>
     <div class="row">
         <!-- Energy Bar -->
         <div class="col-3">
+        <i class="fa-solid fa-heart-pulse"></i>
+        <?= $user_class->formattedhp;?>
             <div class="progress">
                 <div class="progress-bar bg-success" role="progressbar" style="width: <?= $user_class->hppercent; ?>%" aria-valuenow="<?= $user_class->hppercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->hppercent; ?>"><?= $user_class->hppercent;?></div>
             </div>
-            <p class="text-center">Health</p>
+            
         </div>
 
         <!-- Nerve Bar -->
