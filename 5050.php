@@ -16,9 +16,9 @@ if($_GET['action'] == 'ban'){
 $db->query("SELECT ffban FROM grpgusers WHERE ffban > 0 AND  id = " . $user_class->id);
 $db->execute();
 if($db->num_rows() > 0){
-    echo Message('You have been banned from 5050 for 1 day');
-    require "footer.php";
-    exit;
+    //echo Message('You have been banned from 5050 for 1 day');
+    //require "footer.php";
+    //exit;
 }
 
 
