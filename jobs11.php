@@ -8,7 +8,7 @@ include 'header.php';
     .card{
  background: none;
     }
-    .card-body{
+    .table{
         color:#fff;
     }
  </style>
