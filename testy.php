@@ -344,8 +344,8 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
         <div class="container mt-3">
     <div class="row">
         <!-- Killer of the Day -->
-        <div class="col-md-4">
-            <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
+        <div class="col-6 col-md-4 mb-4">
+            <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
                 <?php if ($king_result): ?>
                     <h4 class="text-center text-danger">Killer of the Day</h4>
                     <div class="text-center">
@@ -367,8 +367,8 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
         </div>
 
         <!-- Leveller of the Day -->
-        <div class="col-md-4">
-            <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
+        <div class="col-6 col-md-4 mb-4">
+            <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
                 <?php if ($king_result): ?>
                     <h4 class="text-center text-danger">Leveller of the Day</h4>
                     <div class="text-center">
@@ -392,8 +392,8 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
         </div>
 
         <!-- Buster of the Day -->
-        <div class="col-md-4">
-            <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
+        <div class="col-12 col-md-4 offset-md-4">
+            <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
                 <?php if ($king_result): ?>
                     <h4 class="text-center text-danger">Buster of the Day</h4>
                     <div class="text-center">
@@ -415,6 +415,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
         </div>
     </div>
 </div>
+
 
 <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
 <div class="vip-container" style="display: flex; justify-content: space-around; align-items: flex-start;">
