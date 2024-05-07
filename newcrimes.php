@@ -293,8 +293,8 @@ $(document).ready(function() {
 
         var pbStarWidth = actualCrimeCount / requiredCrimeCount * 100;
         $('.pb-star-bar').width(pbStarWidth + '%');
-        $('.pb-star-holder').prop('title', actualCrimeCount + '/' + requiredCrimeCount);
-        $('.pb-star-text').html(actualCrimeCount + '/' + requiredCrimeCount + '(' + pbStarWidth + '%' + ')');
+        $('.pb-star-holder').prop('title', addCommas(actualCrimeCount) + '/' + addCommas(requiredCrimeCount));
+        $('.pb-star-text').html(addCommas(actualCrimeCount) + '/' + addCommas(requiredCrimeCount) + ' (' + pbStarWidth.toFixed(2) + '%' + ')');
 
         // Update the star rating container
         $('.star-rating').html(starRatingHtml);
@@ -384,6 +384,19 @@ $(document).ready(function () {
     doingcrime = false;
     id = 0;
 });
+
+function addCommas(nStr)
+{
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+}
 
 
 
