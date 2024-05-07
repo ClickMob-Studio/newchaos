@@ -159,12 +159,10 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                             <div class="row">
                                 <div class="col-md-4"></div>
                                 <div class="col-md-4">
-                                    <?php if ($user_class->admin > 0): ?>
-                                        <p>Progress to next star:</p>
-                                        <div class="progress pb-star-holder" role="progressbar" aria-valuenow="39.84" aria-valuemin="0" aria-valuemax="100" title="3984/10,000">
-                                            <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: 39.84%"></div>
-                                        </div>
-                                    <?php endif; ?>
+                                    <p>Progress to next star:</p>
+                                    <div class="progress pb-star-holder" role="progressbar" aria-valuenow="39.84" aria-valuemin="0" aria-valuemax="100" title="3984/10,000">
+                                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: 39.84%"></div>
+                                    </div>
                                 </div>
                                 <div class="col-md-4"></div>
                             </div>
