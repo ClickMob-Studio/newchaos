@@ -650,7 +650,7 @@ if ($user_class->view_preference === '1') { ?>
         <i class="fa-solid fa-heart-pulse" style="color:#ff6218"></i>
         <?= $user_class->hppercent;?>%
             <div class="progress">
-                <div class="progress-bar bg-success" role="progressbar" style="width: <?= $user_class->hppercent; ?>%" aria-valuenow="<?= $user_class->hppercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->hppercent; ?>"><?= $user_class->hppercent;?></div>
+                <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218; width: <?= $user_class->hppercent; ?>%" aria-valuenow="<?= $user_class->hppercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->hppercent; ?>"></div>
             </div>
             
         </div>
