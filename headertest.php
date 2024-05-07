@@ -701,7 +701,7 @@ if ($user_class->view_preference === '1') { ?>
         <div class="col-3">
             <!-- Merits -->
             <div class="text-center">
-                <span class="badge bg-danager"><?= number_format($user_class->points);?></span>
+                <span class="badge bg-danger"><?= number_format($user_class->points);?></span>
                 <p>Points</p>
             </div>
         </div>
