@@ -419,102 +419,98 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
 
 
 
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
-<div class="vip-container" style="display: flex; justify-content: space-around; align-items: flex-start;">
-    <!-- King of the City -->
-    
-    
-    <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
-        <?php if ($king_result): ?>
-            <h4><center><font color=green>Highest killer in <!_-cityname-_!> this hour</font></center></h4>
+<div class="container mt-3">
+    <div class="row justify-content-around">
+        <!-- Highest Killer in City -->
+        <div class="col-md-4 mb-4">
+            <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+                <?php if ($king_result): ?>
+                    <h4 class="text-center" style="color: green;">Highest killer in <!_-cityname-_!> this hour</h4>
+                    <div class="text-center">
+                        <?php
+                        $db->query("SELECT id, koth FROM grpgusers WHERE `admin` != 1 ORDER BY koth DESC LIMIT 1");
+                        $db->execute();
+                        $koth = $db->fetch_row(true);
+                        if ($koth['koth'] == 0) {
+                            echo "Nobody<br /><br />";
+                        } else {
+                            echo "<br />" . formatName($koth['id']) . "<br /><br />Killed: " . prettynum($koth['koth']) . " Mobsters.<br /><br />You: " . prettynum($user_class->koth) . " Kills<br /><br />";
+                        }
+                        ?>
+                        <h3>Reward: 500 Points</h3>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
 
-            <center>	<?php
-		$db->query("SELECT id, koth FROM grpgusers WHERE `admin` != 1 ORDER BY koth DESC LIMIT 1");
-        $db->execute();
-        $koth = $db->fetch_row(true);
-        
-        if ($koth['koth'] == 0) {
-            print "Nobody<br /><br />";
-        } else {
-            print "<br />" . formatName($koth['id']) . "<br /><br />Killed: " . prettynum($koth['koth']) . " Mobsters.<br /><br />You: " . prettynum($user_class->koth) . " Kills<br /><br />";
-        }
-        
-		?>
-            <h3>Reward: 500 Points</h3>
+        <!-- Highest Leveller This Hour -->
+        <div class="col-md-4 mb-4">
+            <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+                <?php if ($king_result): ?>
+                    <h4 class="text-center" style="color: green;">Highest Leveller this hour</h4>
+                    <div class="text-center">
+                        <?php
+                        $db->query("SELECT id, loth FROM grpgusers WHERE `admin` = 0 ORDER BY loth DESC LIMIT 1");
+                        $db->execute();
+                        $loth = $db->fetch_row(true);
+                        if ($loth['loth'] == 0) {
+                            echo "Nobody<br /><br />";
+                        } else {
+                            echo "<br />" . formatName($loth['id']) . "<br /><br />Gained: " . prettynum($loth['loth']) . " EXP.<br /><br />You: " . prettynum($user_class->loth) . " EXP<br /><br />";
+                        }
+                        ?>
+                        <h3>Reward: 500 Points</h3>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
 
-        
-        <?php endif; ?>
+        <!-- Highest Buster of the Hour -->
+        <div class="col-md-4 mb-4">
+            <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+                <?php if ($king_result): ?>
+                    <h4 class="text-center" style="color: green;">Highest Buster of the hour</h4>
+                    <div class="text-center">
+                        <?php
+                        $db->query("SELECT id, `both` FROM grpgusers WHERE `admin` = 0 ORDER BY `both` DESC LIMIT 1");
+                        $db->execute();
+                        $both = $db->fetch_row(true);
+                        if ($both['both'] == 0) {
+                            echo "Nobody<br /><br />";
+                        } else {
+                            echo "<br />" . formatName($both['id']) . "<br /><br />Busted: " . prettynum($both['both']) . " Mobsters.<br /><br />You busted: " . prettynum($user_class->both) . " Mobsters<br /><br />";
+                        }
+                        ?>
+                        <h3>Reward: 500 Points</h3>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
 
-</div>
-   <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
-        <?php if ($king_result): ?>
-            <h4><center><font color=green>Highest Leveller this hour</font></center></h4>
-
-            <center>	<?php
-		$db->query("SELECT id, loth FROM grpgusers WHERE `admin` = 0 ORDER BY loth DESC LIMIT 1");
-        $db->execute();
-        $loth = $db->fetch_row(true);
-        
-        if ($loth['loth'] == 0) {
-            print "Nobody<br /><br />";
-        } else {
-            print "<br />" . formatName($loth['id']) . "<br /><br />Gained: " . prettynum($loth['loth']) . " EXP.<br /><br />You: " . prettynum($user_class->loth) . " EXP<br /><br />";
-        }
-        
-		?>
-            <h3>Reward: 500 Points</h3>
-
-        
-        <?php endif; ?>
-
-</div>
-<div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
-        <?php if ($king_result): ?>
-            <h4><center><font color=green>Highest Buster of the hour</font></center></h4>
-
-            <center>	<?php
-		$db->query("SELECT id, `both` FROM grpgusers WHERE `admin` = 0 ORDER BY `both` DESC LIMIT 1");
-        $db->execute();
-        $both = $db->fetch_row(true);
-        
-        if ($both['both'] == 0) {
-            print "Nobody<br /><br />";
-        } else {
-            print "<br />" . formatName($both['id']) . "<br /><br />Busted: " . prettynum($both['both']) . " Mobsters.<br /><br />You busted: " . prettynum($user_class->both) . " Mobsters<br /><br />";
-        }
-        
-		?>
-            <h3>Reward: 500 Points</h3>
-
-        
-        <?php endif; ?>
-
-</div>
-</div>
-
-</table>
-<tr>
-<div style="display: flex; flex-wrap: wrap;">
-    <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
-        <?php if ($king_result): ?>
-            <p><center><font color=orange>Mugger of the Hour</font></center></h4>
-            <center><?php
-$db->query("SELECT id, moth FROM grpgusers WHERE `admin` != 1 ORDER BY moth DESC LIMIT 1");
-$db->execute();
-$moth = $db->fetch_row(true);
-
-if ($moth['moth'] == 0) {
-    print "Nobody<br/><br/>";
-} else {
-    print "<br />" . formatName($moth['id']) . "<br /><br />Mugs: " . prettynum($moth['moth']) . "<br /><br />You: " . prettynum($user_class->moth) . " Mugs<br /><br />";
-}
-?>
-
-					            <h3>Reward: 500 Points</h3>
-
-        
-        <?php endif; ?>
+        <!-- Mugger of the Hour -->
+        <div class="col-md-4 mb-4">
+            <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+                <?php if ($king_result): ?>
+                    <h4 class="text-center" style="color: orange;">Mugger of the Hour</h4>
+                    <div class="text-center">
+                        <?php
+                        $db->query("SELECT id, moth FROM grpgusers WHERE `admin` != 1 ORDER BY moth DESC LIMIT 1");
+                        $db->execute();
+                        $moth = $db->fetch_row(true);
+                        if ($moth['moth'] == 0) {
+                            echo "Nobody<br/><br/>";
+                        } else {
+                            echo "<br />" . formatName($moth['id']) . "<br /><br />Mugs: " . prettynum($moth['moth']) . "<br /><br />You: " . prettynum($user_class->moth) . " Mugs<br /><br />";
+                        }
+                        ?>
+                        <h3>Reward: 500 Points</h3>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
     </div>
+</div>
+
 
     <div class="vip-package" style="flex: 1; padding: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.5); margin: 5px;">
         <?php if ($king_result): ?>
