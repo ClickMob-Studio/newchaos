@@ -276,6 +276,21 @@ $(document).ready(function() {
             starRatingHtml += i <= stars ? '<span class="gold">&#9733;</span>' : '<span class="gray">&#9733;</span>';
         }
 
+        var requiredCrimeCount = 10000;
+        if (stars < 1) {
+            var requiredCrimeCount = 10000;
+        } else if (stars < 2) {
+            var requiredCrimeCount = 100000;
+        } else if (stars < 3) {
+            var requiredCrimeCount = 1000000;
+        } else if (stars < 4) {
+            var requiredCrimeCount = 5000000;
+        } else if (stars < 5) {
+            var requiredCrimeCount = 15000000;
+        }
+        var actualCrimeCount = selectedOption.data('crime-count');
+        console.log(stars + ' - ' + actualCrimeCount + ' - ' + requiredCrimeCount);
+
         // Update the star rating container
         $('.star-rating').html(starRatingHtml);
     });
