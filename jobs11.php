@@ -4,9 +4,16 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 include 'header.php';
 ?>
-
-<h1>Jobs</h1>
-    <div class="container">
+<style>
+    .card{
+ background: none;
+    }
+    .card-body{
+        color:#fff;
+    }
+ </styl>
+<h1 class="text-center mt-4">Jobs</h1>
+<div class="container">
     <div class="card">
         <div class="card-body">
             <?php
@@ -100,12 +107,12 @@ include 'header.php';
                     $user_class->job
                 ));
                 $row = $db->fetch_row(true);
-                echo '<div class="bg-light p-4 rounded text-center">';
+                echo '<div class="p-4 rounded text-center">';
                     echo 'You are currently a ' . $row['name'] . '<br />';
-                    echo 'You make <span class="text-success">' . prettynum($row['money'] * (1 + ($jobinfo['addedPercent'] / 100)), 1) . ' </span> &  ' . prettynum($row['points']) . ' Points Per Hour<br />';
+                    echo 'You make <span class="text-success">' . prettynum($row['money'] * (1 + ($jobinfo['addedPercent'] / 100)), 1) . '</span> & ' . prettynum($row['points']) . ' Points Per Hour<br />';
                     echo '<br />';
-                    echo 'You last clocked in <span class="text-danger">' , ($jobinfo['lastClockin'] == 0) ? 'never' : date('h:i:s a', $jobinfo['lastClockin']) , '</span>.<br />';
-                    echo 'You clocked in <span class="text-danger">' . $user_class->dailyClockins . '</span> time' , ($user_class->dailyClockins == 1) ? '' : 's' , ' today.<br />';
+                    echo 'You last clocked in <span class="text-danger">', ($jobinfo['lastClockin'] == 0) ? 'never' : date('h:i:s a', $jobinfo['lastClockin']), '</span>.<br />';
+                    echo 'You clocked in <span class="text-danger">' . $user_class->dailyClockins . '</span> time', ($user_class->dailyClockins == 1) ? '' : 's', ' today.<br />';
                     echo '<br />';
                     echo '<a href="jobs.php?clockin" class="btn btn-primary">Clockin</a> <a href="jobs.php?action=quit" class="btn btn-danger">Quit Job</a>';
                 echo '</div>';
@@ -140,7 +147,7 @@ include 'header.php';
                                 echo '<td>' . prettynum($row['total']) . '</td>';
                                 echo '<td>' . prettynum($row['money'], 1) . '</td>';
                                 echo '<td>' . prettynum($row['points']) . '</td>';
-                                echo '<td>' , ($row['id'] > $user_class->job) ? '<a href="jobs.php?take=' . $row['id'] . '" class="btn btn-primary">Take Job</a>' : '' , '</td>';
+                                echo '<td>', ($row['id'] > $user_class->job) ? '<a href="jobs.php?take=' . $row['id'] . '" class="btn btn-primary">Take Job</a>' : '', '</td>';
                             echo '</tr>';
                         }
                         ?>
