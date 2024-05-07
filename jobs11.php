@@ -147,7 +147,7 @@ include 'header.php';
                                 echo '<td>' . prettynum($row['total']) . '</td>';
                                 echo '<td>' . prettynum($row['money'], 1) . '</td>';
                                 echo '<td>' . prettynum($row['points']) . '</td>';
-                                echo '<td>', ($row['id'] > $user_class->job) ? '<a href="jobs.php?take=' . $row['id'] . '" class="btn btn-primary">Take Job</a>' : '', '</td>';
+                                echo '<td>', ($row['id'] > $user_class->job) ? '<a href="jobs.php?take=' . $row['id'] . '" class="dcBannerButtonsContainer dcSecondaryButton">Take Job</a>' : '', '</td>';
                             echo '</tr>';
                         }
                         ?>
