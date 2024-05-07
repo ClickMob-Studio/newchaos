@@ -213,7 +213,7 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
                 $currentpage = max(1, min($currentpage, $totalpages));
                 $offset = ($currentpage - 1) * $rowsperpage;
 
-                $db->query("SELECT * FROM pms WHERE `to` = ? ORDER BY timesent DESC LIMIT $offest, $rowsperpage");
+                $db->query("SELECT * FROM pms WHERE `to` = ? ORDER BY timesent DESC LIMIT $offset, $rowsperpage");
                 $db->execute(array($user_class->id));
                 $rows = $db->fetch_row();
                 foreach ($rows as $row) {
