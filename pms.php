@@ -186,7 +186,7 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
         @media only screen and (max-width: 768px) {
         .messagecontainer{
         width: 80%;
-        margin-left: -26px;
+        margin-left: -12px;
         }
     }
     </style>
