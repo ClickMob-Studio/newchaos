@@ -479,7 +479,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
                         if ($both['both'] == 0) {
                             echo "Nobody<br /><br />";
                         } else {
-                            echo "<br />" . formatName(both['id']) . "<br /><br />Busted: " . prettynum(both['both']) . " Mobsters.<br /><br />You busted: " . prettynum(user_class->both) . " Mobsters<br /><br />";
+                            echo "<br />" . formatName($both['id']) . "<br /><br />Busted: " . prettynum($both['both']) . " Mobsters.<br /><br />You busted: " . prettynum(user_class->both) . " Mobsters<br /><br />";
                         }
                         ?>
                         <h3>Reward: 500 Points</h3>
