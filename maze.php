@@ -514,7 +514,7 @@ include 'footer.php';
 <script>
 $(document).ready(function() {
     console.log("Document ready");
-    updateLogs(); // Initialize log updates
+    //updateLogs(); // Initialize log updates
 });
 
 <?php if ($user_class->hospital > 0): ?>
