@@ -192,6 +192,7 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
 <?php echo mailHeader(); ?>
 
 <div class="container mt-4">
+<div class="table-responsive">
     <table class='table table-dark table-striped'>
         <thead>
             <tr>
@@ -244,6 +245,7 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
             ?>
         </tbody>
     </table>
+        </div>
 </div>
 <?PHP
         }
