@@ -184,7 +184,7 @@ mysql_query($log_query);
     $response['turnsLeft'] = $turnsLeft;
     $response['searchResult'] = $searchResult;
 
-    if (isset($chosenDirection) && $hospitalTime > 0) {
+    if (isset($hospitalTime) && $hospitalTime > 0) {
         $response['hospitalTime'] = $hospitalTime;
     }
 
