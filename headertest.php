@@ -701,8 +701,8 @@ if ($user_class->view_preference === '1') { ?>
         <div class="col-4">
             <!-- Merits -->
             <div class="text-center">
-                <span class="badge bg-purple">5</span>
-                <p>Merits</p>
+                <span class="badge bg-purple"><?= number_format($user_class->points);?></span>
+                <p>Points</p>
             </div>
         </div>
     </div>
