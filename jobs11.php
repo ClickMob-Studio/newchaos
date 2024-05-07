@@ -11,7 +11,7 @@ include 'header.php';
     .card-body{
         color:#fff;
     }
- </styl>
+ </style>
 <h1 class="text-center mt-4">Jobs</h1>
 <div class="container">
     <div class="card">
