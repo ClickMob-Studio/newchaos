@@ -705,6 +705,14 @@ if ($user_class->view_preference === '1') { ?>
                 <p>Points</p>
             </div>
         </div>
+        <div class="col-3">
+        <p class="text-center">Level: <?= number_format($user_class->level);?>
+        <?= $user_class->exppercent; ?>%</p>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->exppercent; ?>%" aria-valuenow="<?= $user_class->exppercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->exppercent; ?>"></div>
+            </div>
+            
+        </div>
     </div>
 </div>
 
