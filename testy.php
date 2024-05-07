@@ -421,7 +421,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
 <div class="container mt-3">
     <div class="row justify-content-around">
         <!-- Highest Killer in City -->
-        <div class="col-6 col-md-4 col-lg-4 mb-4">
+        <div class="col-6 col-md-4 mb-4">
             <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
                 <?php if ($king_result): ?>
                     <h4 class="text-center" style="color: green;">Highest killer in <!_-cityname-_!> this hour</h4>
@@ -443,7 +443,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
         </div>
 
         <!-- Highest Leveller This Hour -->
-        <div class="col-6 col-md-4 col-lg-4 mb-4">
+        <div class="col-6 col-md-4 mb-4">
             <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
                 <?php if ($king_result): ?>
                     <h4 class="text-center" style="color: green;">Highest Leveller this hour</h4>
@@ -466,7 +466,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
 
         <!-- Highest Buster of the Hour -->
         <!-- Adding offset to center this box on mobile -->
-        <div class="col-12 col-md-4 col-lg-4 mb-4 offset-md-4 offset-0">
+        <div class="col-6 col-md-4 mb-4">
             <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
                 <?php if ($king_result): ?>
                     <h4 class="text-center" style="color: green;">Highest Buster of the hour</h4>
@@ -543,7 +543,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
 
         <!-- Buster of the Day -->
         <!-- Adding offset to center this box on mobile -->
-        <div class="col-12 col-md-4 mb-4 offset-md-4 offset-0">
+        <div class="col-6 col-md-4 mb-4">
             <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
                 <?php if ($king_result): ?>
                     <h4 class="text-center" style="color: orange;">Buster of the Day</h4>
