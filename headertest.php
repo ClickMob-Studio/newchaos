@@ -604,6 +604,13 @@ if ($user_class->view_preference === '1') { ?>
 	.floaty{
 		color:white !important;
 	}
+    @media (max-width: 768px) {
+        .mainHeader {
+    background: #111;
+    margin-top: -84px;
+    position: sticky;
+        }
+    }
   
 	</style>
     <script>
