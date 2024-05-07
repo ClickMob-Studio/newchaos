@@ -221,15 +221,15 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     // - 15% Win Points
     // - 15% Win Raid Tokens
     $outcome = mt_rand(1,100);
-    if ($outcome <= 30) {
-        // 30% Win Cash & EXP
+    if ($outcome <= 20) {
+        // 20% Win Cash & EXP
         $cashWon = mt_rand(10,5000) * $userBaStats['level'];
-        $expWon = round(($user_class->maxexp / 1000) * mt_rand(2, 4));
+        $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 3));
         if ($user_class->level < 100) {
             $expWon = round(($user_class->maxexp / 100) * mt_rand(1, 8));
         }
         $expWon = round($expWon / mt_rand(2, 4));
-        $expWon = $expWon + (($expWon / 100) * (10 * $userBaStats['level']));
+        $expWon = $expWon + (($expWon / 100) * (6 * $userBaStats['level']));
 
         //$expWon = $expWon / 2;
         $baExpWon = mt_rand(5,25);
