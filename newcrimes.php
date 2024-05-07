@@ -140,7 +140,7 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
 
                                         $disabled = $hasEnoughNerve ? '' : 'disabled';
 
-                                        echo '<option value="' . $row['id'] . '" data-stars="' . $star_level . '" ' . $disabled . '>' . $row['name'] . ' | Cost: ' . $row['nerve'] . ' Nerve</option>';
+                                        echo '<option value="' . $row['id'] . '" data-stars="' . $star_level . '" data-crime-count="' . $crimeCount . '" ' . $disabled . '>' . $row['name'] . ' | Cost: ' . $row['nerve'] . ' Nerve</option>';
 
                                     }
                                     ?>
