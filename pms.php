@@ -248,7 +248,7 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
         </div>
 </div>
 <?PHP
-        }
+        
     if (count($rows) > 0) {
         print"
         <br />
