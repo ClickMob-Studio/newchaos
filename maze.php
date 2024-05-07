@@ -259,14 +259,12 @@ break;
 $medPackHtml = '';
 if ($user_class->admin > 0) {
     $medPackHtml = '
-    <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <img src="https://generalforces.com/images/items/med-pack.png" class="img-responsive" /><br />
-            <a href="#">Use 100% Med Cert</a>
-        </div>
-        <div class="col-md-4"></div>
-    </div>
+    <br />
+    <center>
+        <img src="https://generalforces.com/images/items/med-pack.png" style="max-width: 75px;" class="img-responsive" /><br />
+        <a href="#">Use 100% Med Cert</a>
+    </center> 
+    <br />
     ';
 }
 
