@@ -532,7 +532,18 @@ if($user_class->globalchat > 0){
 }else{
     $globalchat = '';
 }
-
+$gang_raid_query = "
+SELECT 
+    ar.raid_type, ar.summoned_by, g.gang 
+FROM 
+    active_raids ar                        
+    LEFT JOIN grpgusers g ON ar.summoned_by = g.id 
+WHERE 
+    g.gang = " . $user_class->gang . " AND
+    ar.completed = 0 AND
+    ar.raid_type = 'Gang'
+";
+$gang_raid_count = mysql_num_rows(mysql_query($gang_raid_query));
 $counts = array(
 	'event'         => $ev,
 	'mail'          => '<!_-mail-_!>',
@@ -541,6 +552,7 @@ $counts = array(
     'gangmail'      => $gmailCount,
     'updates'       => $user_class->game_updates,
     'gchat' => $globalchat,
+    'gang_raid_count' => $gang_raid_count,
 );
 $queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
 
@@ -620,6 +632,56 @@ if ($user_class->view_preference === '1') { ?>
         
         require 'navbar.php'; ?>
 		</div>
+        <div class="container d-block d-md-none"> <!-- This container is visible only on xs screens -->
+    <div class="row">
+        <div class="col-12">
+            <!-- Energy Bar -->
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Energy: 100 / 100</div>
+            </div>
+
+            <!-- Nerve Bar -->
+            <div class="progress">
+                <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="15">Nerve: 15 / 15</div>
+            </div>
+
+            <!-- Happiness Bar -->
+            <div class="progress">
+                <div class="progress-bar bg-warning" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Happiness: 100 / 100</div>
+            </div>
+
+            <!-- Life Bar -->
+            <div class="progress">
+                <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Life: 100 / 100</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-4">
+            <!-- Money -->
+            <div class="text-center">
+                <span class="badge bg-success">$571</span>
+                <p>Money</p>
+            </div>
+        </div>
+        <div class="col-4">
+            <!-- Points -->
+            <div class="text-center">
+                <span class="badge bg-info">0</span>
+                <p>Points</p>
+            </div>
+        </div>
+        <div class="col-4">
+            <!-- Merits -->
+            <div class="text-center">
+                <span class="badge bg-purple">5</span>
+                <p>Merits</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 	</header>
 	<div class="row mx-auto my-3 mainContent">
 		<div class="d-none d-lg-block col-2 dcLeftNavContainer p-0">
@@ -631,15 +693,22 @@ if ($user_class->view_preference === '1') { ?>
                 <div class="dcPanel h-100">
         <?php
       $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
+      function shorthandNumber($number) {
+        if ($number >= 1000) {
+            $shorthand = round($number / 1000, 1) . 'k';
+            return $shorthand;
+        }
+        return $number;
+    }
       if (mysql_num_rows($check)) {
             $show = true;
           $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
           $miss = mysql_fetch_array(mysql_query("SELECT * FROM mission WHERE id={$usermission['mid']}"));
-          $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>{$usermission['kills']}/{$miss['kills']}</font>" : "<font color='green'>{$miss['kills']}/{$miss['kills']}</font>";
-          $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>{$usermission['crimes']}/{$miss['crimes']}</font>" : "<font color='green'>{$miss['crimes']}/{$miss['crimes']}</font>";
-          $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>{$usermission['mugs']}/{$miss['mugs']}</font>" : "<font color='green'>{$miss['mugs']}/{$miss['mugs']}</font>";
-          $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>{$usermission['busts']}/{$miss['busts']}</font>" : "<font color='green'>{$miss['busts']}/{$miss['busts']}</font>";
-          $backalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>{$usermission['backalleys']}/{$miss['backalleys']}</font>" : "<font color='green'>{$miss['backalleys']}/{$miss['backalleys']}</font>";
+          $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>" . shorthandNumber($usermission['kills']) . "/".shorthandNumber($miss['kills'])."</font>" : "<font color='green'>" . shorthandNumber($miss['kills']) . "/".shorthandNumber($miss['kills'])."</font>";
+          $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>" . shorthandNumber($usermission['crimes']) . "/".shorthandNumber($miss['crimes'])."</font>" : "<font color='green'>" . shorthandNumber($miss['crimes']) . "/".shorthandNumber($miss['crimes'])."</font>";
+          $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>" . shorthandNumber($usermission['mugs']) . "/".shorthandNumber($miss['mugs'])."</font>" : "<font color='green'>" . shorthandNumber($miss['mugs']) . "/".shorthandNumber($miss['mugs'])."</font>";
+          $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>" . shorthandNumber($usermission['busts']) . "/".shorthandNumber($miss['busts'])."</font>" : "<font color='green'>" . shorthandNumber($miss['busts']) . "/".shorthandNumber($miss['busts'])."</font>";
+          $backalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>" . shorthandNumber($usermission['backalleys']) . "/".shorthandNumber($miss['backalleys'])."</font>" : "<font color='green'>" . shorthandNumber($miss['backalleys']) . "/" .shorthandNumber($miss['backalleys'])."</font>";
           $currenttime = time();
           $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
       }else{
@@ -662,24 +731,24 @@ if ($user_class->view_preference === '1') { ?>
                                             <?php if($show == true): ?>
                                                 <div class=" missionDiv">
                                                     <p class="missionTo">Kills:</p>
-                                                    <p><?= $kills; ?></p>
+                                                    <p style="font-size: 10px;"><?= $kills; ?></p>
                                                 </div>
                                                 <div class="missionDiv">
                                                 
                                                     <p class="missionTo">Crimes:</p>
-                                                    <p><?= $crimes; ?></p>
+                                                    <p style="font-size: 10px;"><?= $crimes; ?></p>
                                                 </div>
                                                                                                 <div class=" missionDiv">
                                                     <p class="missionTo">Busts:</p>
-                                                    <p><?= $busts; ?></p>
+                                                    <p style="font-size: 10px;"><?= $busts; ?></p>
                                                 </div>
                                                 <div class="missionDiv">
                                                     <p class="missionTo">Mugs:</p>
-                                                    <p><?= $mugs; ?></p>
+                                                    <p style="font-size: 10px;"><?= $mugs; ?></p>
                                                 </div>
                                                 <div class="missionDiv">
                                                     <p class="missionTo">BA:</p>
-                                                    <p><?= $backalleys; ?></p>
+                                                    <p style="font-size: 10px;"><?= $backalleys; ?></p>
                                                 </div>
                                               <?php else: ?>
                                                 
@@ -725,8 +794,11 @@ if ($user_class->view_preference === '1') { ?>
                         $user_ads = new User($row['poster']);
                         $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
                         ?>
+
                         <li class="flex-grow-1">
+                        <?php if (!$user_class->is_ads_disabled): ?>
                             <span><?= $user_ads->formattedname ?>: <?= $row['message'] ?></span>
+                            <?php endif; ?>
                         </li>
                         <?php }?> <?php if (!$user_class->is_ads_disabled): ?>
                                             <li class="headerSvg">
@@ -1044,6 +1116,8 @@ if ($bonus_row['Time'] > 0) {
 
 }
 
+//$messages[] = '<a href="crime_contest.php"><font color=red>Crime/Attack Comp Active</font></a>';
+
 // if ($user_class->cityturns > 29) {
 //     $messages[] = '<a href="maze.php">You Have Maze Searches Available</a>';
 // }
@@ -1127,6 +1201,7 @@ if ($user_class->fbi > 0) {
 if ($user_class->fbitime > 0) {
     $messages[] = 'You are currently in FBI Jail for ' . $user_class->fbitime . ' minutes.';
 }
+
 
 if (!empty($messages)) {
     echo '<script type="text/javascript">';
@@ -1265,6 +1340,7 @@ if (!empty($messages)) {
                 alert("Ad report successful");
             });
         }
+        
     </script>
 
     <?php
