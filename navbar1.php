@@ -154,8 +154,7 @@ $leftLinks[] =
 $navPage = str_replace( '/', '', $_SERVER['REQUEST_URI'] );
 
 ?> 
-
-<nav class="navbar fixed-top navbar-expand-lg p-0 dcNav dcTopNav">
+<nav class="navbar navbar-expand-lg p-0 dcNav dcTopNav fixed-top">
     <div class="container-fluid scrollNav">
         <a class="navbar-brand" href="index.php">
             <img src="asset/img/logo1.png" alt="Deadly Cartel logo" class="mainLogo mx-5">
@@ -170,7 +169,6 @@ $navPage = str_replace( '/', '', $_SERVER['REQUEST_URI'] );
                     <a href="refer.php" class="dcSecondaryButton my-3">Refer for <i class="far fa-gem"></i></a>
                     <a href="store.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
                 </div>
-                <!-- Sever Time: 09/04/2024  10:24:56 -->
             </div>
             <ul class="navbar-nav">
                 <?php foreach ($topLinks as $link) : ?>
