@@ -278,9 +278,8 @@ echo '
     Below is the potential items you can find when searching, Displaying all different rarity types</p>
     <br>
     <span style="text-align:center"><a href="jail.php">Jail</a> | <a href="hospital.php">Hospital</a></span>
-    </div>
-    
     ' . $medPackHtml . '
+    </div>
     
      <div class="contenthead floaty" style="text-align: center; padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 88%;">
     <br>
