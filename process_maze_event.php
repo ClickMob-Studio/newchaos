@@ -4,7 +4,7 @@ include 'ajax_header.php'; // I assume this contains your database connection an
 
 $user_class = new User($_SESSION['id']);
 error_reporting(1);
-file_put_contents("post_log.txt", print_r($_POST, true));
+//file_put_contents("post_log.txt", print_r($_POST, true));
 
 // Create a default response
 $response = [
@@ -31,7 +31,7 @@ if (isset($_POST['direction'])) {
 
 
     $chosenDirection = $_POST['direction']; // Store the direction
-file_put_contents("chosen_dir_log.txt", $chosenDirection);
+//file_put_contents("chosen_dir_log.txt", $chosenDirection);
 
 
     // Fetch all events from the citygame table
@@ -185,7 +185,7 @@ mysql_query($log_query);
     $response['searchResult'] = $searchResult;
 
 }
-file_put_contents("response_log.txt", print_r($response, true));
+//file_put_contents("response_log.txt", print_r($response, true));
 
 // Return the response
 echo json_encode($response);
