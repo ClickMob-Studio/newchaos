@@ -160,7 +160,7 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                             <button id="acrimebtn2" onblue="finish();" onmouseup="finish();" ontouchend="finish();" onmouseleave="finish();"onmousedown="start();" ontouchstart="start();" style="padding: 1em; margin-bottom:5px;">Do Crimes</button>
 
                             <br />
-                            <br><span style="color:red">Warning: Using the multiplier will increase points consumption considerably!</span>';
+                            <br><span style="color:red">Warning: Using the multiplier will increase points consumption considerably!</span>
 
                             <h3>Recommendation: Use a <?php echo item_popup('Double EXP', 10) ?> to double your EXP and have 100% success rate! (1h)</h3>
                             <hr />
