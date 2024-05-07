@@ -608,7 +608,7 @@ if ($user_class->view_preference === '1') { ?>
         .mainHeader {
     background: #111;
     margin-top: -84px;
-    margin-botton:20px;
+    margin-bottom:20px;
     position: static;
         }
     }
@@ -642,7 +642,7 @@ if ($user_class->view_preference === '1') { ?>
 		</div>
 
 	</header>
-    <div class="container d-block d-md-none"> <!-- This container is visible only on xs screens -->
+    <div class="container d-block d-md-none p-3 dcPanel dcAvatarPanel"> <!-- This container is visible only on xs screens -->
     <div class="row">
         <!-- Energy Bar -->
         <div class="col-3">
