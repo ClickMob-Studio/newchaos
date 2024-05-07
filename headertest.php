@@ -608,7 +608,8 @@ if ($user_class->view_preference === '1') { ?>
         .mainHeader {
     background: #111;
     margin-top: -84px;
-    position: sticky;
+    margin-botton:20px;
+    position: static;
         }
     }
   
