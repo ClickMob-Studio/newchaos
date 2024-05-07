@@ -276,7 +276,7 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
     print"
     </td></tr>
     </table>
-    </td></tr>";
+    ";
 }
 if (isset($_GET['view']) && $_GET['view'] == "new") {
     if (isset($_GET['reply'])) {
