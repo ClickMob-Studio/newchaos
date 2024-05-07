@@ -238,46 +238,88 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
  <div class="container mt-3">
     <!-- Economic Activities -->
     <div class="row">
-        <div class="col-12 section-header">Economic Activities</div>
-        <div class="col-6 col-md-4 link-column">
+        <div class="col-12 text-center mb-2 section-header">
+            <strong>Economic Activities</strong>
+        </div>
+        <div class="col-6 col-md-4 text-center">
             <a href='stores.php'>Item Stores</a><br>
             <a href='pharmacy.php'>General Pharmacy</a><br>
             <a href='raidpointstore.php'>Raid Point Store</a><br>
             <a href="itemmarket.php">Item Market</a><br>
-        </div>
-        <div class="col-6 col-md-4 link-column">
             <a href="pointmarket.php">Points Market</a><br>
             <a href="goldmarket.php">Gold Market</a><br>
             <a href="store.php">Upgrades</a><br>
             <a href='jobs.php'>Job Center</a><br>
-        </div>
-        <div class="col-md-4 link-column">
             <a href='house.php'>Estate Agency</a><br>
             <a href='portfolio.php'>Your Properties</a>
         </div>
+        <div class="col-6 col-md-4 text-center">
+            <a href="polls.php">Polls</a><br>
+            <a href='tos.php'>Terms of Service</a><br>
+            <a href='contest.php'><font color=red>Raid/Attack Contests</font></a><br>
+            <a href='halloffame.php'>Hall of Fame</a><br>
+            <a href='viewstaff.php'>View Game Staff</a><br>
+            <a href='otds.php'>Daily HOF</a><br>
+            <a href='oth.php'>Hourly HOF</a><br>
+            <a href='ratings.php'>Users Ratings</a><br>
+            <a href='worldstats.php'>Game Stats</a><br>
+            <a href='pointsdealer.php'>Points Dealer</a>
+        </div>
+        <div class="col-md-4 text-center d-none d-md-block">
+            <a href='mypets.php'>My Pet</a><br>
+            <a href='petcrime.php'>Pet Crimes</a><br>
+            <a href='petgym.php'>Pet Gym</a><br>
+            <a href='pethouse.php'>Pet House</a><br>
+            <a href='pethof.php'>Pet HOF</a><br>
+            <a href='petmarket.php'>Pet Market</a><br>
+            <a href='pettrack.php'>Pet Track</a><br>
+            <a href='petjail.php'>Pet Pound</a>
+        </div>
     </div>
-
     <!-- Community and Social -->
     <div class="row">
-        <div class="col-12 section-header">Community and Social</div>
-        <div class="col-6 col-md-4 link-column">
+        <div class="col-12 text-center mb-2 section-header">
+            <strong>Community and Social</strong>
+        </div>
+        <div class="col-6 col-md-4 text-center">
             <a href='online.php'>Users Online</a><br>
             <a href='gang_list.php'>Gang List</a><br>
             <a href='citizens.php'>User List</a><br>
             <a href='contactlist.php'>Contact List</a><br>
-        </div>
-        <div class="col-6 col-md-4 link-column">
             <a href='vote.php'>Vote</a><br>
             <a href='tickets.php'>Support Center</a><br>
             <a href='refer.php'>Your Referrals</a><br>
             <a href='contactlist.php'>Your Friends/Enemy list</a><br>
-        </div>
-        <div class="col-md-4 link-column">
             <a href='crafter.php'>Crafter</a><br>
-            <a href='gameupdates.php'>Updates</a>
+            <a href='gameupdates.php'>Updates</a><br>
+        </div>
+        <div class="col-6 col-md-4 text-center">
+            <a href='prestige.php'>Account Prestige</a><br>
+            <a href='raidtokensmuggling.php'>Find Some Raid Tokens</a><br>
+            <a href='psmuggling.php'>Points Smuggling</a><br>
+            <a href="casinonew.php">Casino</a><br>
+            <a href='lucky_boxes.php'>Lucky Boxes</a><br>
+            <a href="FruitMachine.php">Fruit Machine</a><br>
+            <a href='thedoors.php'>The Doors</a><br>
+            <a href='bloodbath.php'>Bloodbath</a><br>
+            <a href='missions.php'>Missions</a><br>
+            <a href='chapel.php'>Chapel</a><br>
+        </div>
+        <div class="col-md-4 text-center d-none d-md-block">
+            <a href='claim_achievements.php'>Claim Achievements</a><br>
+            <a href='itempedia.php'>Item Guide</a><br>
+            <a href='thecity.php'>Search The City</a><br>
+            <a href='prayer.php'>Pray</a><br>
+            <a href='attackLadder.php'>Attack Ladder</a><br>
+            <a href='hitlist.php'>Hitlist</a><br>
+            <a href='pointsden.php'>Points Den</a><br>
+            <a href='uni.php'>Education</a><br>
+            <a href='travel.php'>Travel</a><br>
+            <a href='maze.php'>Maze</a><br>
         </div>
     </div>
 </div>
+
 
 </div>
 </table>
