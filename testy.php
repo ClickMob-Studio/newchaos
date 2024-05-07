@@ -342,7 +342,6 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
 <div class="contenthead floaty">
         <h1> Leaderboards</h1>
         <div class="container mt-3">
-        <div class="container mt-3">
     <div class="row">
         <!-- Killer of the Day -->
         <div class="col-6 col-md-4 mb-4">
