@@ -486,7 +486,8 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
                 <?php endif; ?>
             </div>
         </div>
-
+        </div>
+</div>
         <!-- Mugger of the Hour -->
         <div class="col-md-4 mb-4">
             <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
