@@ -214,8 +214,8 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
  <div class='divider'></div>
  <style>
         .section-header {
-            background-color: #e9ecef;
-            color: #495057;
+            background-color: #000;
+            color: #fff;
             padding: 10px;
             text-align: center;
             margin-bottom: 10px;
@@ -238,10 +238,10 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
  <div class="container mt-3">
     <!-- Economic Activities -->
     <div class="row">
+        <div class="col-6 col-md-4 text-center">
         <div class="col-12 text-center mb-2 section-header">
             <strong>Economic Activities</strong>
         </div>
-        <div class="col-6 col-md-4 text-center">
             <a href='stores.php'>Item Stores</a><br>
             <a href='pharmacy.php'>General Pharmacy</a><br>
             <a href='raidpointstore.php'>Raid Point Store</a><br>
