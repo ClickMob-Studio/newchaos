@@ -68,7 +68,7 @@ if (isset($_POST['direction'])) {
             break;
 case 'credits':
     $credits = rand($event['min_value'], $event['max_value']);
-        $description = str_replace('[credits_amount]', "<span style='color: green; font-weight: bold;'>".$credits." credits</span>", $event['description_template']);
+        $description = str_replace('[credits_amount]', "<span style='color: green; font-weight: bold;'>".$credits."</span>", $event['description_template']);
 
 
  // Log the event in user_logs table with the custom description
