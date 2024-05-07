@@ -184,6 +184,10 @@ mysql_query($log_query);
     $response['turnsLeft'] = $turnsLeft;
     $response['searchResult'] = $searchResult;
 
+    if (isset($chosenDirection) && $hospitalTime > 0) {
+        $response['hospitalTime'] = $hospitalTime;
+    }
+
 }
 file_put_contents("response_log.txt", print_r($response, true));
 

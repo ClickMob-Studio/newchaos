@@ -256,17 +256,16 @@ break;
 }
 
 
-$medPackHtml = '';
-if ($user_class->admin > 0) {
-    $medPackHtml = '
-    <br /><br />
-    <center>
+$medPackHtml = '
+<br /><br />
+<center>
+    <div id="med-pack-holder">
         <img src="https://generalforces.com/images/items/med-pack.png" style="max-width: 75px;" class="img-responsive" /><br />
         <a class="ajax-link" href="ajax_med_cert.php?alv=yes">Use 100% Med Cert</a>
-    </center> 
-    <br />
-    ';
-}
+    </div>
+</center> 
+<br />
+';
 
 // Display the compass buttons
 echo '
@@ -517,6 +516,12 @@ $(document).ready(function() {
     console.log("Document ready");
     updateLogs(); // Initialize log updates
 });
+
+<?php if ($user_class->hospital > 0): ?>
+    $('#med-pack-holder').show();
+<?php else: ?>
+    $('#med-pack-holder').hide();
+<?php endif; ?>
 
 function updateLogs() {
     $.ajax({
