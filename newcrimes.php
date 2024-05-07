@@ -159,8 +159,8 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                             <div class="row">
                                 <div class="col-md-4"></div>
                                 <div class="col-md-4">
-                                    <p>Progress to next star:</p>
                                     <?php if ($user_class->admin > 0): ?>
+                                        <p>Progress to next star:</p>
                                         <div class="progress pb-star-holder" role="progressbar" aria-valuenow="39.84" aria-valuemin="0" aria-valuemax="100" title="3984/10,000">
                                             <div class="progress-bar bg-success pb-star-bar" style="width: 39.84%"></div>
                                         </div>
@@ -289,7 +289,10 @@ $(document).ready(function() {
             var requiredCrimeCount = 15000000;
         }
         var actualCrimeCount = selectedOption.data('crime-count');
-        console.log(stars + ' - ' + actualCrimeCount + ' - ' + requiredCrimeCount);
+
+
+        var pbStarWidth = actualCrimeCount / requiredCrimeCount * 100;
+        $('.pb-star-bar').width(pbStarWidth + '%');
 
         // Update the star rating container
         $('.star-rating').html(starRatingHtml);
