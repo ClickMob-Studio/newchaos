@@ -177,78 +177,81 @@ if (isset($_POST['newmessage']) && $user_class->level > 0) {
     }
 }
 if (isset($_GET['view']) && $_GET['view'] == "inbox") {
-    ?>
+    print"
     <style type='text/css'>
-    .delete {
-        background-color: #001c1e;
-        color: white; /* Ensuring the text is visible */
-        border: 1px solid #004349;
-        padding: 0 5px; /* Added padding for better button appearance */
-        cursor: pointer; /* Cursor as pointer to indicate it's clickable */
-        display: inline-block; /* To better control the element styling */
+        .delete {
+            background-color: #001c1e;
+            border: 1px solid #004349;
+        }
+    </style>
+    " . mailHeader() . "
+        <br />
+
+
+
+        <table id='newtables' style='width:100%; color:white'>
+        <tr>
+            <th width='30%'>Subject</th>
+            <th width='30%'>Sender</th>
+            <th width='30%'>Time Recieved</th>
+            <th colspan='3'></th>
+        </tr>";
+    $db->query("SELECT COUNT(*) FROM pms WHERE `to` = ?");
+    $db->execute(array(
+        $user_class->id
+    ));
+    $numrows = $db->fetch_single();
+    $rowsperpage = 30;
+    $totalpages = ceil($numrows / $rowsperpage);
+    $totalpages = ($totalpages <= 0) ? 1 : ceil($numrows / $rowsperpage);
+    $currentpage = (isset($_GET['page']) && is_numeric($_GET['page'])) ? (int) $_GET['page'] : 1;
+    if ($currentpage > $totalpages) {
+        $currentpage = $totalpages;
     }
-</style>
+    if ($currentpage < 1) {
+        $currentpage = 1;
+    }
+    $offset = ($currentpage - 1) * $rowsperpage;
+    $db->query("SELECT * FROM pms WHERE `to` = ? ORDER BY timesent DESC LIMIT $offset, $rowsperpage");
+    $db->execute(array(
+        $user_class->id
+    ));
+    $rows = $db->fetch_row();
+    foreach ($rows as $row) {
+        if ($row['to'] == $user_class->id) {
+            $from_user_class = new User($row['from']);
+            $subject = ($row['subject'] == "") ? "No Subject" : $row['subject'];
+            if ($row['check'] == 1 && $row['viewed'] == 1) {
+                $bold = "<b>";
+                $bold2 = "</b>&nbsp;[mail bomb]";
+            } elseif ($row['check'] == 1) {
+                $bold = "";
+                $bold2 = "&nbsp;[mail bomb]";
+            } elseif ($row['viewed'] == 1) {
+                $bold = "<span style='color: red;'><b>";
+                $bold2 = "</b>&nbsp;[new]</span>";
+            } elseif ($row['reported'] == 1) {
+                $bold = "";
+                $bold2 = "&nbsp;[reported]";
+            } else {
+                $bold = "";
+                $bold2 = "";
+            }
+            $namee = ($row['from'] == 0000) ? "<b><i>Auto Mail</i></b>" : $from_user_class->formattedname;
+            $fill = ($row['starred'] == 1) ? "fill" : "";
+            $antifill = ($row['starred'] == 0) ? "fill" : "";
+            echo "
 
-<?php echo mailHeader(); ?>
-
-<div class="container mt-4">
-<div class="table-responsive">
-    <table class='table table-dark table-striped'>
-        <thead>
-            <tr>
-                <th width='30%'>Subject</th>
-                <th width='30%'>Sender</th>
-                <th width='30%'>Time Received</th>
-                <th colspan='3'></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $db->query("SELECT COUNT(*) FROM pms WHERE `to` = ?");
-            $db->execute(array($user_class->id));
-            $numrows = $db->fetch_single();
-            $rowsperpage = 30;
-            $totalpages = ceil($numrows / $rowsperpage);
-            $currentpage = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
-            $currentpage = max(1, min($currentpage, $totalpages));
-            $offset = ($currentpage - 1) * $rowsperpage;
-
-            $db->query("SELECT * FROM pms WHERE `to` = ? ORDER BY timesent DESC LIMIT ?, ?");
-            $db->execute(array($user_class->id, $offset, $rowsperpage));
-            $rows = $db->fetch_row();
-            foreach ($rows as $row) {
-                $bold = '';
-                $bold2 = '';
-                if ($row['check'] == 1 && $row['viewed'] == 1) {
-                    $bold = '<b>';
-                    $bold2 = '</b>&nbsp;[mail bomb]';
-                } elseif ($row['check'] == 1) {
-                    $bold2 = '&nbsp;[mail bomb]';
-                } elseif ($row['viewed'] == 1) {
-                    $bold = '<span style="color: red;"><b>';
-                    $bold2 = '</b>&nbsp;[new]</span>';
-                } elseif ($row['reported'] == 1) {
-                    $bold2 = '&nbsp;[reported]';
-                }
-
-                $namee = $row['from'] == 0000 ? '<b><i>Auto Mail</i></b>' : $from_user_class->formattedname;
-
-                echo "<tr style='height:30px;'>
-                        <td width='30%'>{$bold}<a href='viewpm.php?id={$row['id']}'>{$row['subject']}</a>{$bold2}</td>
-                        <td width='30%'>{$namee}</td>
+                    <tr style='height:30px;'>
+                        <td width='30%'>$bold<a href='viewpm.php?id={$row['id']}'>$subject</a>$bold2</td>
+                        <td width='30%'>$namee</td>
                         <td width='30%'>" . date("d F, Y g:ia", $row['timesent']) . "</td>
                         <td width='3%'><a href='?view=inbox&star={$row['id']}'><img src='/images/star{$fill}.png' height='20px;' /></a></td>
                         <td width='3%'></td>
                         <td width='3%'><a href='pms.php?view=inbox&delete={$row['id']}'><span class='delete'>&nbsp;X&nbsp;</span></a></td>
                     </tr>";
-            }
-            ?>
-        </tbody>
-    </table>
-        </div>
-</div>
-<?PHP
-        
+        }
+    }
     if (count($rows) > 0) {
         print"
         <br />
