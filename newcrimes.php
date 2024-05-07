@@ -156,6 +156,13 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                             </div>
 
                             <div class="star-rating" style="margin-top: 10px;"></div>
+                            <br />
+                            <p>Progress to next star:</p>
+                            <?php if ($user_class->admin > 0): ?>
+                                <div class="progress pb-star-holder" role="progressbar" aria-valuenow="39.84" aria-valuemin="0" aria-valuemax="100" title="3984/10,000">
+                                    <div class="progress-bar bg-success pb-star-bar" style="width: 39.84%"></div>
+                                </div>
+                            <?php endif; ?>
 
                             <button id="acrimebtn2" onblue="finish();" onmouseup="finish();" ontouchend="finish();" onmouseleave="finish();"onmousedown="start();" ontouchstart="start();" style="padding: 1em; margin-bottom:5px;">Do Crimes</button>
 
