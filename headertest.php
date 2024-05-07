@@ -630,7 +630,7 @@ if ($user_class->view_preference === '1') { ?>
 		<div class="row mx-auto mainHeaderContent">
 		<?php 
         
-        require 'navbar.php1'; ?>
+        require 'navbar1.php'; ?>
 		</div>
 
 	</header>
