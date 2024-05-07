@@ -186,6 +186,9 @@ if (isset($_GET['view']) && $_GET['view'] == "inbox") {
         color: white;
         cursor: pointer;
     }
+    .table{
+        color: #fff;
+    }
 </style>
 
 <?php echo mailHeader(); ?>
