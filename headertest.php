@@ -694,8 +694,8 @@ if ($user_class->view_preference === '1') { ?>
         <div class="col-4">
             <!-- Points -->
             <div class="text-center">
-                <span class="badge bg-info">0</span>
-                <p>Points</p>
+                <span class="badge bg-info">$<?= number_format($user_class->bank);?></span>
+                <p>Bank</p>
             </div>
         </div>
         <div class="col-4">
