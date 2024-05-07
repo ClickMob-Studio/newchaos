@@ -687,7 +687,7 @@ if ($user_class->view_preference === '1') { ?>
         <div class="col-4">
             <!-- Money -->
             <div class="text-center">
-                <span class="badge bg-success">$571</span>
+                <span class="badge bg-success">$<?= number_format($user_class->money);?></span>
                 <p>Money</p>
             </div>
         </div>
