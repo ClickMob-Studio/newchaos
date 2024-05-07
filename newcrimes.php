@@ -293,6 +293,7 @@ $(document).ready(function() {
 
         var pbStarWidth = actualCrimeCount / requiredCrimeCount * 100;
         $('.pb-star-bar').width(pbStarWidth + '%');
+        $('.pb-star-holder').prop('title', actualCrimeCount + '/' + requiredCrimeCount);
 
         // Update the star rating container
         $('.star-rating').html(starRatingHtml);
