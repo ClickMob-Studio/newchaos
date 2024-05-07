@@ -156,11 +156,24 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                             </div>
 
                             <div class="star-rating" style="margin-top: 10px;"></div>
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <p>Progress to next star:</p>
+                                    <?php if ($user_class->admin > 0): ?>
+                                        <div class="progress pb-star-holder" role="progressbar" aria-valuenow="39.84" aria-valuemin="0" aria-valuemax="100" title="3984/10,000">
+                                            <div class="progress-bar bg-success pb-star-bar" style="width: 39.84%"></div>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="col-md-4"></div>
+                            </div>
+                            <br />
 
                             <button id="acrimebtn2" onblue="finish();" onmouseup="finish();" ontouchend="finish();" onmouseleave="finish();"onmousedown="start();" ontouchstart="start();" style="padding: 1em; margin-bottom:5px;">Do Crimes</button>
 
                             <br />
-                            <br><span style="color:red">Warning: Using the multiplier will increase points consumption considerably!</span>';
+                            <br><span style="color:red">Warning: Using the multiplier will increase points consumption considerably!</span>
 
                             <h3>Recommendation: Use a <?php echo item_popup('Double EXP', 10) ?> to double your EXP and have 100% success rate! (1h)</h3>
                             <hr />
