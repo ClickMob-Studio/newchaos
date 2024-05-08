@@ -669,6 +669,9 @@ if ($user_class->view_preference === '1') { ?>
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+.carousel{
+    background-color: #000;
+}
 
 
 </style>
