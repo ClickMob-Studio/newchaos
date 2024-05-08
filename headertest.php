@@ -700,26 +700,18 @@ if ($user_class->view_preference === '1') { ?>
     <a href="#" data-bs-toggle="modal" data-bs-target="#timeModal">
             <i class="fa-solid fa-clock"></i>
         </a>
-        <!-- Dropdown -->
+ <!-- Dropdown -->
 <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <div class="circle-wrapper">
-            <!-- SVG goes here -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="avatar_svg" fill="#fff" stroke="transparent" stroke-width="0" width="36" height="36" viewBox="946.5 523.5 36 36">
-                <!-- SVG content -->
-                <defs>
-                    <!-- Filters go here -->
-                </defs>
-                <!-- Path goes here -->
-            </svg>
-        </div>
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="fa-solid fa-clock"></i>
     </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <a class="dropdown-item" href="#">Something else here</a>
-    </div>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li><a class="dropdown-item" href="#">Action</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+    </ul>
 </div>
+
 
         <div class="modal fade" id="timeModal" tabindex="-1" aria-labelledby="timeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
