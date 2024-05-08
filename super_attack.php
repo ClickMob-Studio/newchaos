@@ -22,7 +22,6 @@ $_SESSION['csrf'] = $csrf;
         <center>
             <p>Welcome to Super Attacks, click the button below to start attacking! With every click, you'll attack a random attackable offline player.</p>
 
-            <div class='ajax-message-holder' style='min-height: 60px; display: none;'></div>
 
             <br />
             <a href="ajax_super_attack_id.php" id="commit-super-attack-link"><button>Commit Attack</button></a>

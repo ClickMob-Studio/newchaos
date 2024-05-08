@@ -963,8 +963,6 @@ $resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$profile_
             $csrf = md5(uniqid(rand(), true));
             $_SESSION['csrf'] = $csrf;
 
-            echo "<div class='ajax-message-holder' style='min-height: 60px; display: none;'></div>";
-
             echo "<div class='profile_container' style='background: rgba(0,0,0,0.2);'>
                 
         <h4>Actions</h4>
