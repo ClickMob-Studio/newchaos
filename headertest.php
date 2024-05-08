@@ -790,7 +790,7 @@ $(document).ready(function() {
     function initializeSortable() {
         $('#sortable-container').sortable({
             axis: 'x',
-            delay: 200,
+            delay: 20,
             start: function(event, ui) {
                 ui.item.addClass('dragging');
             },
@@ -804,7 +804,7 @@ $(document).ready(function() {
                     type: 'POST',
                     data: { order: JSON.stringify(newOrder) },
                     success: function(response) {
-                        alert(response);
+                        
                     },
                     error: function() {
                         alert('Error saving order.');
