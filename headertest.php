@@ -735,10 +735,10 @@ if ($user_class->view_preference === '1') { ?>
 </div>
 
 <div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
-  <div class="carousel-inner pl-1 pt-2" data-id="city">
+  <div class="carousel-inner pl-1 pt-2" >
     <div class="carousel-item active">
-      <div class="d-flex">
-      <div class="p-2 mt-2 position-relative">
+      <div class="d-flex" id="sortable-container">
+      <div class="p-2 mt-2 position-relative" data-id="city">
           <a href="/city.php">
           <i class="fa-solid fa-city"></i>
             <p>City</p>
@@ -881,10 +881,10 @@ if ($user_class->view_preference === '1') { ?>
 </div>
 <script>
 $(document).ready(function() {
-    $('#carouselExample').sortable({
-        placeholder: "ui-state-highlight", // Adds a visual placeholder while dragging.
-        cursor: 'move', // Changes the cursor type during dragging.
-        opacity: 0.6, // Reduces the opacity of the item being dragged.
+    $('#sortable-container').sortable({
+        placeholder: "ui-state-highlight",
+        cursor: 'move',
+        opacity: 0.6,
         update: function(event, ui) {
             var newOrder = $(this).sortable('toArray', { attribute: 'data-id' });
             // Optionally send the new order to the server via AJAX
@@ -901,11 +901,9 @@ $(document).ready(function() {
             // });
         }
     });
-
-    // To allow dragging between multiple containers, uncomment the following:
-    // $('#carouselExample').sortable('option', 'connectWith', '#anotherElementId');
-    $('#carouselExample').disableSelection(); // Optional: prevents text selection during dragging
+    $('#sortable-container').disableSelection();
 });
+
 </script>
    
 
