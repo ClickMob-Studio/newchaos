@@ -748,7 +748,7 @@ $orderResult = $db->fetch_row(true);
 
 $carousel_order = json_decode($orderResult['carousel_order'],true);
 if (!is_array($carousel_order)) {
-    die('Error: Decoded carousel_order is not an array.');
+    echo('Error: Decoded carousel_order is not an array.');
 }
 var_dump($carousel_order);
 ?>
