@@ -905,7 +905,7 @@ $(document).ready(function() {
                     type: 'POST',
                     data: { order: JSON.stringify(newOrder) },
                     success: function(response) {
-                        alert('Order saved!');
+                        alert(response);
                     },
                     error: function() {
                         alert('Error saving order.');

@@ -19,6 +19,6 @@ $result = mysql_query($query);
 
 // Check for query success
 if (!$result) {
-    die('MySQL Error: ' . mysql_error());
+    echo 'MySQL Error: ' . mysql_error();
 }
 ?>
