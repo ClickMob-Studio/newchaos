@@ -687,12 +687,17 @@ if ($user_class->view_preference === '1') { ?>
         .dropdown-menu{
             background-color: #333; 
             color: #fff;  
+            position: absolute !important;
         }
         .dropdown-item{
             color: #fff;
+            font-size:18px;
         }
         .modal-header, .modal-body {
             border-bottom: none;  
+        }
+        .fa-solid, .fas {
+         font-weight: 900;
         }
 </style>
 <div class="container clearfix d-block d-md-none">
@@ -705,18 +710,6 @@ if ($user_class->view_preference === '1') { ?>
    
     </div>
     <div class="d-flex justify-content-end align-items-center"> 
-    <div class="p-2 mt-2 position-relative">
-          <a href="/events.php">
-            <?php if($ev > 0) { 
-                $style='style="color:#dc3545;"';
-            } else { 
-                $style= '';
-            }?>
-
-            <i class="fa-solid fa-circle-exclamation" <?php echo $style;?>></i>
-            <p>Events</p>
-          </a>
-        </div>
         
     <a href="#" data-bs-toggle="modal" data-bs-target="#timeModal">
             <i class="fa-solid fa-clock"></i>
@@ -729,6 +722,7 @@ if ($user_class->view_preference === '1') { ?>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <li><a class="dropdown-item" href="/settings.php"><i class="fa-solid fa-gear"></i> Settings</a></li>
         <li><a class="dropdown-item" href="/profiles.php?id=<?php echo $user_class->id;?>"><i class="fa-solid fa-address-card"></i> Profile</a></li>
+        <li><a class="dropdown-item" href="/online.php"><i class="fa-solid fa-globe"></i> Online</a></li>
         <li><a class="dropdown-item" href="index.php?action=logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
     </ul>
 </div>
@@ -738,7 +732,7 @@ if ($user_class->view_preference === '1') { ?>
 </div>
 
 <div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
-  <div class="carousel-inner pl-1 pt-2">
+  <div class="carousel-inner pl-1 pt-2" data-id="city">
     <div class="carousel-item active">
       <div class="d-flex">
       <div class="p-2 mt-2 position-relative">
@@ -747,8 +741,8 @@ if ($user_class->view_preference === '1') { ?>
             <p>City</p>
           </a>
           </div>
-          <?php if ($counts['updates'] > 0) {?>
-      <div class="p-2 mt-2 position-relative">
+          <?php if ($user_class->game_updates > 0) {?>
+      <div class="p-2 mt-2 position-relative" data-id="updates">
           <a href="/gameupdates.php">
           <i class="fa-solid fa-bullhorn" style="color:#dc3545;"></i>
             <p>Updates</p>
@@ -757,14 +751,14 @@ if ($user_class->view_preference === '1') { ?>
           <?php }?>
           <?php 
           if($user_class->gang > 0 ) { ?>
-        <div class="p-2 mt-2 position-relative">
+        <div class="p-2 mt-2 position-relative" data-id="gang">
           <a href="gang.php">
           <i class="fa-solid fa-people-group"></i>
             <p>Gang</p>
           </a>
         </div>
         
-        <div class="p-2 mt-2 position-relative">
+        <div class="p-2 mt-2 position-relative" data-id="gmail">
           <a href="gangmail.php">
           <?php if($user_class->gmail > 0){
             $style='style="color:#dc3545;"';
@@ -776,7 +770,7 @@ if ($user_class->view_preference === '1') { ?>
           </a>
         </div>
         <?php } ?>
-        <div class="p-2 mt-2 position-relative">
+        <div class="p-2 mt-2 position-relative" data-id="pms">
           <a href="/pms.php?view=inbox">
             
           <?php 
@@ -792,26 +786,37 @@ if ($user_class->view_preference === '1') { ?>
             <p>PMS</p>
           </a>
         </div>
-        <div class="p-2 mt-2 position-relative">
+        <div class="p-2 mt-2 position-relative" data-id="chat">
           <a href="/globalchat.php">
           <i class="fa-brands fa-rocketchat"></i>
             <p>Chat</p>
           </a>
         </div>
-        
-        <div class="p-2 mt-2 position-relative">
+        <div class="p-2 mt-2 position-relative" data-id="events">
+          <a href="/events.php">
+            <?php if($ev > 0) { 
+                $style='style="color:#dc3545;"';
+            } else { 
+                $style= '';
+            }?>
+
+            <i class="fa-solid fa-circle-exclamation" <?php echo $style;?>></i>
+            <p>Events</p>
+          </a>
+        </div>
+        <div class="p-2 mt-2 position-relative" data-id="crimes">
           <a href="/newcrimes.php">
             <i class="fa-solid fa-people-robbery"></i>
             <p>Crimes</p>
           </a>
         </div>
-        <div class="p-2 mt-2 position-relative">
+        <div class="p-2 mt-2 position-relative" data-id="gym">
           <a href="/gym.php">
           <i class="fa-solid fa-dumbbell"></i>
             <p>Gym</p>
           </a>
         </div>
-        <div class="p-2 mt-2 position-relative">
+        <div class="p-2 mt-2 position-relative" data-id="jail">
     <a href="/jail.php" class="d-inline-block">
         <i class="fa-solid fa-handcuffs position-relative" style="/* font-size: 9px; */display: inline-block;z-index: 0;" aria-hidden="true">
             <span class="position-absolute top-0 start-100 tran-middle badge rounded-pill bg-danger" style="font-size: xx-small;transform: translate(50%, -50%);z-index: -1;"><!_-jail-_!></span>
@@ -820,7 +825,7 @@ if ($user_class->view_preference === '1') { ?>
     </a>
 </div>
 
-        <div class="p-2 mt-2 position-relative">
+        <div class="p-2 mt-2 position-relative" data-id="hospital">
           <a href="/hospital.php">
           <i class="fa-solid fa-hospital" style="z-index:1"></i>
             <span class="position-absolute top-0 start-100 tran-middle badge rounded-pill bg-danger" style="font-size: xx-small;transform: translate(-92%, -34%) !important;z-index: 0;"><?echo $hosp; ?></span>
@@ -829,37 +834,37 @@ if ($user_class->view_preference === '1') { ?>
             <p>Hospital</p>
           </a>
         </div>
-        <div class="p-2 mt-2 position-relative">
+        <div class="p-2 mt-2 position-relative" data-id="inventory">
           <a href="/inventory.php">
           <i class="fa-solid fa-boxes-stacked"></i>
             <p>Inventory</p>
           </a>
         </div>
-        <div class="p-2 mt-2 position-relative">
+        <div class="p-2 mt-2 position-relative" data-id="missions">
           <a href="/missions.php">
           <i class="fa-solid fa-walkie-talkie"></i>
             <p>Missions</p>
           </a>
         </div>
-        <div class="p-2 mt-2 position-relative">
+        <div class="p-2 mt-2 position-relative" data-id="raids">
           <a href="/raids.php">
           <i class="fa-solid fa-hand-fist"></i>
             <p>Raids</p>
           </a>
         </div>
-        <div class="p-2 mt-2 position-relative">
+        <div class="p-2 mt-2 position-relative" data-id="search">
           <a href="/search.php">
             <i class="fa-solid fa-magnifying-glass"></i>
             <p>Search</p>
           </a>
         </div>
-        <div class="p-2 mt-2 position-relative">
+        <div class="p-2 mt-2 position-relative" data-id="maze">
           <a href="/maze.php">
           <i class="fa-solid fa-puzzle-piece"></i>
           <p>Maze</p>
           </a>
         </div>
-        <div class="p-2 mt-2 position-relative">
+        <div class="p-2 mt-2 position-relative" data-id="backalley">
           <a href="/backalley_new.php">
             <i class="fa-solid fa-dumpster"></i>
             <p>Backalley</p>
@@ -871,7 +876,34 @@ if ($user_class->view_preference === '1') { ?>
     <!-- More carousel items if needed -->
   </div>
 </div>
+<script>
+$(document).ready(function() {
+    $('#carouselExample').sortable({
+        placeholder: "ui-state-highlight", // Adds a visual placeholder while dragging.
+        cursor: 'move', // Changes the cursor type during dragging.
+        opacity: 0.6, // Reduces the opacity of the item being dragged.
+        update: function(event, ui) {
+            var newOrder = $(this).sortable('toArray', { attribute: 'data-id' });
+            // Optionally send the new order to the server via AJAX
+            // $.ajax({
+            //     url: '/path/to/your/save_order.php',
+            //     type: 'POST',
+            //     data: { order: newOrder },
+            //     success: function(response) {
+            //         alert('Order saved!');
+            //     },
+            //     error: function() {
+            //         alert('Error saving order.');
+            //     }
+            // });
+        }
+    });
 
+    // To allow dragging between multiple containers, uncomment the following:
+    // $('#carouselExample').sortable('option', 'connectWith', '#anotherElementId');
+</script>
+    $('#carouselExample').disableSelection(); // Optional: prevents text selection during dragging
+});
     <div class="container d-block d-md-none p-3 dcPanel dcAvatarPanel"> <!-- This container is visible only on xs screens -->
     <div class="row">
         <!-- Energy Bar -->
