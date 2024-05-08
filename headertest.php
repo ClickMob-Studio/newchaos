@@ -690,6 +690,55 @@ if ($user_class->view_preference === '1') { ?>
             <p>Events</p>
           </a>
         </div>
+        <div class="p-2">
+          <a href="/events.php">
+            <!-- Content for Events -->
+            <img src="path_to_icon" class="d-block w-100" alt="Events">
+            <p>Events</p>
+          </a>
+        </div>
+        <div class="p-2">
+          <a href="/events.php">
+            <!-- Content for Events -->
+            <img src="path_to_icon" class="d-block w-100" alt="Events">
+            <p>Events</p>
+          </a>
+        </div>
+        <div class="p-2">
+          <a href="/events.php">
+            <!-- Content for Events -->
+            <img src="path_to_icon" class="d-block w-100" alt="Events">
+            <p>Events</p>
+          </a>
+        </div>
+        <div class="p-2">
+          <a href="/events.php">
+            <!-- Content for Events -->
+            <img src="path_to_icon" class="d-block w-100" alt="Events">
+            <p>Events</p>
+          </a>
+        </div>
+        <div class="p-2">
+          <a href="/events.php">
+            <!-- Content for Events -->
+            <img src="path_to_icon" class="d-block w-100" alt="Events">
+            <p>Events</p>
+          </a>
+        </div>
+        <div class="p-2">
+          <a href="/events.php">
+            <!-- Content for Events -->
+            <img src="path_to_icon" class="d-block w-100" alt="Events">
+            <p>Events</p>
+          </a>
+        </div>
+        <div class="p-2">
+          <a href="/events.php">
+            <!-- Content for Events -->
+            <img src="path_to_icon" class="d-block w-100" alt="Events">
+            <p>Events</p>
+          </a>
+        </div>
         <!-- More items here -->
       </div>
     </div>
