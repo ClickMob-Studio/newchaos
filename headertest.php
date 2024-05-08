@@ -923,8 +923,8 @@ if ($user_class->view_preference === '1') { ?>
         <div class="col-3">
             <!-- Points -->
             <div class="text-center">
-                <span class="badge bg-info">$<?= shorthandNumber($user_class->bank);?></span>
-                <p>Bank</p>
+            <a href="bank.php?h_deposit=cash" style="text-decoration: none;"><span class="badge bg-info">$<?= shorthandNumber($user_class->bank);?></span>
+                <p>Bank</p></a>
             </div>
         </div>
         <div class="col-3">
