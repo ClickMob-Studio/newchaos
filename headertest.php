@@ -744,7 +744,7 @@ if ($user_class->view_preference === '1') { ?>
 <?php
 $db->query("SELECT carousel_order FROM user_preferences WHERE user_id = :user_id");
 $db->bind(':user_id', $user_class->id);
-$orderResult = $db->fetch_row();
+$orderResult = $db->fetch_row(true);
 
 $carousel_order = json_decode($orderResult['carousel_order'], true);
 var_dump($carousel_order);
