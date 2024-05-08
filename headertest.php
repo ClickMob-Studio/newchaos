@@ -885,18 +885,25 @@ if ($user_class->view_preference === '1') { ?>
 </div>
 <script>
 $(document).ready(function() {
+    var isScrolling = false;
+
+    $('#sortable-container').on('scroll touchmove', function() {
+        isScrolling = true;
+    });
+
     $('#sortable-container').sortable({
         axis: 'x', // Restrict dragging to the horizontal axis
-        delay: 300, // Delay for press and hold
-        placeholder: "ui-state-highlight",
-        distance: 30,
-        cursor: 'move',
-        opacity: 0.6,
+        delay: 200, // Delay in milliseconds before the drag starts
         start: function(event, ui) {
+            if (isScrolling) {
+                $('#sortable-container').sortable('cancel');
+                return false; // Prevent sorting if scrolling is detected
+            }
             ui.item.addClass('dragging');
         },
         stop: function(event, ui) {
             ui.item.removeClass('dragging');
+            setTimeout(function() { isScrolling = false; }, 100); // Reset scrolling status after a brief delay
         },
         update: function(event, ui) {
             var newOrder = $(this).sortable('toArray', { attribute: 'data-id' });
@@ -914,6 +921,7 @@ $(document).ready(function() {
             // });
         }
     });
+
     $('#sortable-container').disableSelection();
 });
 
