@@ -687,9 +687,11 @@ if ($user_class->view_preference === '1') { ?>
         .dropdown-menu{
             background-color: #333; 
             color: #fff;  
+            position: absolute !important;
         }
         .dropdown-item{
             color: #fff;
+            font-size:18px;
         }
         .modal-header, .modal-body {
             border-bottom: none;  
