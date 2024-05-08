@@ -696,7 +696,7 @@ if ($user_class->view_preference === '1') { ?>
         <div class="p-2">
           <a href="gangmail.php">
           <i class="fa-solid fa-envelopes-bulk"></i>
-            <p>Gang Mail</p>
+            <p>GangMail</p>
           </a>
         </div>
         <?php } ?>
