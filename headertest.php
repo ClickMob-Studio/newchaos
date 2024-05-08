@@ -688,7 +688,7 @@ if ($user_class->view_preference === '1') { ?>
             background-color: #333; 
             color: #fff;  
         }
-        .dropdown-menu li{
+        .dropdown-item{
             color: #fff;
         }
         .modal-header, .modal-body {
