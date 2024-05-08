@@ -685,6 +685,21 @@ if ($user_class->view_preference === '1') { ?>
             <p>City</p>
           </a>
           </div>
+          <?php 
+          if($user_class->gang > 0 ) { ?>
+        <div class="p-2">
+          <a href="gang.php">
+          <i class="fa-solid fa-people-group"></i>
+            <p>Gang</p>
+          </a>
+        </div>
+        <div class="p-2">
+          <a href="gangmail.php">
+          <i class="fa-solid fa-envelopes-bulk"></i>
+            <p>Gang Mail</p>
+          </a>
+        </div>
+        <?php } ?>
         <div class="p-2">
           <a href="/pms.php?view=inbox">
             <i class="fa-solid fa-message"></i>
