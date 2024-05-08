@@ -672,7 +672,7 @@ if ($user_class->view_preference === '1') { ?>
 .carousel{
     background-color: #000;
 }
-i .fa-solid{
+.fa-solid, .fas {
     color:#ff6218;
 }
 
