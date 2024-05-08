@@ -59,7 +59,7 @@ foreach ($missions as $mission) {
 //        }
 
         $expGain = round($user_class->maxexp / 100 * $mission['mExpLevel']);
-//        if ($prestigeUserSKills['mission_exp_boost_level'] > 0) {
+//        if ($prestigeUserSkills['mission_exp_boost_level'] > 0) {
 //            $expGain = $expGain + ($expGain / 100 * (2 * $prestigeUserSKills['mission_exp_boost_level']));
 //        }
 
