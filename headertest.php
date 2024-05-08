@@ -702,6 +702,10 @@ if ($user_class->view_preference === '1') { ?>
         .fa-solid, .fas {
          font-weight: 900;
         }
+        .dragging {
+            opacity: 0.7;
+            border: 1px solid red;
+        }
 </style>
 <div class="container clearfix d-block d-md-none">
   <div class="d-flex justify-content-between align-items-center">
@@ -882,16 +886,24 @@ if ($user_class->view_preference === '1') { ?>
 <script>
 $(document).ready(function() {
     $('#sortable-container').sortable({
+        axis: 'x', // Restrict dragging to the horizontal axis
+        delay: 300, // Delay for press and hold
         placeholder: "ui-state-highlight",
         cursor: 'move',
         opacity: 0.6,
+        start: function(event, ui) {
+            ui.item.addClass('dragging');
+        },
+        stop: function(event, ui) {
+            ui.item.removeClass('dragging');
+        },
         update: function(event, ui) {
             var newOrder = $(this).sortable('toArray', { attribute: 'data-id' });
-            // Optionally send the new order to the server via AJAX
+            // Send the new order to the server via AJAX
             // $.ajax({
             //     url: '/path/to/your/save_order.php',
             //     type: 'POST',
-            //     data: { order: newOrder },
+            //     data: { order: JSON.stringify(newOrder) },
             //     success: function(response) {
             //         alert('Order saved!');
             //     },
