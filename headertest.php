@@ -689,22 +689,10 @@ if ($user_class->view_preference === '1') { ?>
           <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
           <path d="M3.5 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm9 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm0 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-9 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm5.5-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
         </svg>
-        <h1 class="h3 ms-2">TORN - Text RPG</h1>
+        <h1 class="h3 ms-2">ChaosCity</h1>
       </a>
     </div>
-
-    <!-- Navigation and Buttons -->
-    <div>
-      <ul class="nav">
-        <li class="nav-item">
-          <button class="btn btn-outline-light" type="button">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M2.5 12.5A.5.5 0 0 1 2 12V12a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1H2.5zm0-4A.5.5 0 0 1 2 8V8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1H2.5zm0-4A.5.5 0 0 1 2 4V4a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1H2.5z"/>
-            </svg>
-          </button>
-        </li>
-      </ul>
-    </div>
+      
   </div>
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light mt-3">
