@@ -728,6 +728,18 @@ if ($user_class->view_preference === '1') { ?>
           </a>
         </div>
         <div class="p-2">
+          <a href="/inventory.php">
+          <i class="fa-solid fa-boxes-stacked"></i>
+            <p>Inventory</p>
+          </a>
+        </div>
+        <div class="p-2">
+          <a href="/missions.php">
+          <i class="fa-solid fa-walkie-talkie"></i>
+            <p>Missions</p>
+          </a>
+        </div>
+        <div class="p-2">
           <a href="/search.php">
             <i class="fa-solid fa-magnifying-glass"></i>
             <p>Search</p>
