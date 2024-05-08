@@ -901,8 +901,9 @@ $(document).ready(function() {
 
     // To allow dragging between multiple containers, uncomment the following:
     // $('#carouselExample').sortable('option', 'connectWith', '#anotherElementId');
-</script>
     $('#carouselExample').disableSelection(); // Optional: prevents text selection during dragging
+</script>
+   
 });
     <div class="container d-block d-md-none p-3 dcPanel dcAvatarPanel"> <!-- This container is visible only on xs screens -->
     <div class="row">
