@@ -685,10 +685,7 @@ if ($user_class->view_preference === '1') { ?>
     <!-- Logo and Header -->
     <div class="logo pe-3" role="banner">
       <a href="/" class="d-flex align-items-center text-decoration-none">
-        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-dice-5" viewBox="0 0 16 16">
-          <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-          <path d="M3.5 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm9 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm0 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-9 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm5.5-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-        </svg>
+        <img src="asset/img/logo1.png" />
         <h1 class="h3 ms-2">ChaosCity</h1>
       </a>
     </div>
