@@ -748,6 +748,9 @@ $orderResult = $db->fetch_row(true);
 
 $carouselData = stripslashes($orderResult['carousel_order']); // Use stripslashes to remove any added slashes
 $carousel_order = json_decode($carouselData, true);
+if (json_last_error() !== JSON_ERROR_NONE) {
+    echo "JSON Decode Error: " . json_last_error_msg();
+}
 if (!is_array($carousel_order)) {
     echo('Error: Decoded carousel_order is not an array.');
 }
