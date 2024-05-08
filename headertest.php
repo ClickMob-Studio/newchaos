@@ -672,7 +672,9 @@ if ($user_class->view_preference === '1') { ?>
 .carousel{
     background-color: #000;
 }
-
+i .fa-solid{
+    color:#ff6218;
+}
 
 </style>
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
