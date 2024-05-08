@@ -709,7 +709,7 @@ if ($user_class->view_preference === '1') { ?>
         
         <div class="p-2 mt-2 position-relative">
           <a href="gangmail.php">
-          <?php if(!empty($counts['gchat'])){
+          <?php if(!empty($globalchat)){
             $style='style="color:#dc3545;"';
           }else{
             $style= '';
