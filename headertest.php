@@ -743,15 +743,16 @@ if ($user_class->view_preference === '1') { ?>
 $db->query("SELECT carousel_order FROM user_preferences WHERE user_id = :user_id");
 $db->bind(':user_id', $user_class->id);
 $orderResult = $db->fetch_row(true);
-$carouselData = $orderResult['carousel_order'];
-    $carouselData = stripslashes($carouselData);
+
+    $carouselData = stripslashes($orderResult['carousel_order']);
+$carouselData = str_replace('"\,', '\"', $carouselData);
 
 $carousel_order = json_decode($carouselData, true);
 
 if (!is_array($carousel_order)) {
     //echo('Error: Decoded carousel_order is not an array.');
 }
-var_dump($carousel_order);
+
 ?>
 <button id="edit-button">Edit</button>
 <div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
