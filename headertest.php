@@ -695,7 +695,9 @@ if ($user_class->view_preference === '1') { ?>
         <img src="asset/img/logo1.png" style="width:30px"/>
         <h1 class="h3 ms-2">ChaosCity</h1>
       </a>
-      <a href="#" data-bs-toggle="modal" data-bs-target="#timeModal">
+   
+    </div>
+    <a href="#" data-bs-toggle="modal" data-bs-target="#timeModal">
             <i class="fa-solid fa-clock"> TIME</i>
         </a>
         <div class="modal fade" id="timeModal" tabindex="-1" aria-labelledby="timeModalLabel" aria-hidden="true">
@@ -720,8 +722,6 @@ if ($user_class->view_preference === '1') { ?>
             document.getElementById('timeDisplay').textContent = formattedTime;
         });
     </script>
-    </div>
-      
   </div>
 </div>
 
