@@ -672,22 +672,48 @@ if ($user_class->view_preference === '1') { ?>
 .carousel{
     background-color: #000;
 }
-.fa-solid, .fas {
-    color:#ff6218;
-}
+
 
 </style>
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner pl-1 pt-2">
     <div class="carousel-item active">
       <div class="d-flex">
+      <div class="p-2">
+          <a href="/city.php">
+          <i class="fa-solid fa-city"></i>
+            <p>City</p>
+          </a>
+          </div>
+          <?php 
+          if($user_class->gang > 0 ) { ?>
         <div class="p-2">
-          <a href="/pms.php">
+          <a href="gang.php">
+          <i class="fa-solid fa-people-group"></i>
+            <p>Gang</p>
+          </a>
+        </div>
+        <div class="p-2">
+          <a href="gangmail.php">
+          <i class="fa-solid fa-envelopes-bulk"></i>
+            <p style="text-wrap: nowrap;">Gang Mail</p>
+          </a>
+        </div>
+        <?php } ?>
+        <div class="p-2">
+          <a href="/pms.php?view=inbox">
             <i class="fa-solid fa-message"></i>
             <p>PMS</p>
           </a>
-        </div><div class="p-2">
-          <a href="/Events.php">
+        </div>
+        <div class="p-2">
+          <a href="/globalchat.php">
+          <i class="fa-brands fa-rocketchat"></i>
+            <p>Chat</p>
+          </a>
+        </div>
+        <div class="p-2">
+          <a href="/events.php">
             <i class="fa-solid fa-circle-exclamation"></i>
             <p>Events</p>
           </a>
@@ -699,45 +725,62 @@ if ($user_class->view_preference === '1') { ?>
           </a>
         </div>
         <div class="p-2">
-          <a href="/messages.php">
-            <!-- Content for Messages -->
-            <i class="fa-solid fa-message"></i>
-            <p>Messages</p>
+          <a href="/gym.php">
+          <i class="fa-solid fa-dumbbell"></i>
+            <p>Gym</p>
           </a>
         </div>
         <div class="p-2">
-          <a href="/messages.php">
-            <!-- Content for Messages -->
-            <i class="fa-solid fa-message"></i>
-            <p>Messages</p>
+          <a href="/jail.php">
+            <i class="fa-solid fa-handcuffs"> <?php if ($jail < 1): ?>
+                <span class="badge position-absolute top-0 start-100 translate-middle badge-rounded-pill bg-danger">
+                    <?php echo $jail; ?> 0
+                    <span class="visually-hidden">unread messages</span>
+                </span>
+            <?php endif; ?></i>
+            <p>Jail</p>
           </a>
         </div>
         <div class="p-2">
-          <a href="/messages.php">
-            <!-- Content for Messages -->
+          <a href="/hospital.php">
             <i class="fa-solid fa-message"></i>
-            <p>Messages</p>
+            <p>Hospital</p>
           </a>
         </div>
         <div class="p-2">
-          <a href="/messages.php">
-            <!-- Content for Messages -->
-            <i class="fa-solid fa-message"></i>
-            <p>Messages</p>
+          <a href="/inventory.php">
+          <i class="fa-solid fa-boxes-stacked"></i>
+            <p>Inventory</p>
           </a>
         </div>
         <div class="p-2">
-          <a href="/messages.php">
-            <!-- Content for Messages -->
-            <i class="fa-solid fa-message"></i>
-            <p>Messages</p>
+          <a href="/missions.php">
+          <i class="fa-solid fa-walkie-talkie"></i>
+            <p>Missions</p>
           </a>
         </div>
         <div class="p-2">
-          <a href="/messages.php">
-            <!-- Content for Messages -->
-            <i class="fa-solid fa-message"></i>
-            <p>Messages</p>
+          <a href="/raids.php">
+          <i class="fa-solid fa-hand-fist"></i>
+            <p>Raids</p>
+          </a>
+        </div>
+        <div class="p-2">
+          <a href="/search.php">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <p>Search</p>
+          </a>
+        </div>
+        <div class="p-2">
+          <a href="/maze.php">
+          <i class="fa-solid fa-puzzle-piece"></i>
+          <p>Maze</p>
+          </a>
+        </div>
+        <div class="p-2">
+          <a href="/backalley_new.php">
+            <i class="fa-solid fa-dumpster"></i>
+            <p>Backalley</p>
           </a>
         </div>
         <!-- More items here -->
