@@ -715,42 +715,13 @@ if ($user_class->view_preference === '1') { ?>
     <i class="fa-solid fa-user"></i>
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
+        <li><a class="dropdown-item" href="/settings.php">Settings</a></li>
+        <li><a class="dropdown-item" href="/profiles.php?id=<?php echo $user_class->id;?>">Profile</a></li>
+        <li><a class="dropdown-item" href="index.php?action=logout">Logout</a></li>
     </ul>
 </div>
     </div>
 
-
-        <div class="modal fade" id="timeModal" tabindex="-1" aria-labelledby="timeModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="timeModalLabel">Current Time</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="timeDisplay">
-                        <!-- Time will be displayed here -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-      var timeModal = document.getElementById('timeModal');
-        timeModal.addEventListener('show.bs.modal', function () {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'server_time.php', true);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    var serverTime = new Date(parseInt(xhr.responseText) * 1000);
-                    document.getElementById('timeDisplay').textContent = serverTime.toLocaleString();
-                }
-            };
-            xhr.send();
-        });
-    </script>
   </div>
 </div>
 
@@ -1669,6 +1640,39 @@ if ($user_class->id == 0) {
     }
 }
 
+?>
+
+
+
+<div class="modal fade" id="timeModal" tabindex="-1" aria-labelledby="timeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="timeModalLabel">Current Time</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="timeDisplay">
+                        <!-- Time will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+      var timeModal = document.getElementById('timeModal');
+        timeModal.addEventListener('show.bs.modal', function () {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'server_time.php', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var serverTime = new Date(parseInt(xhr.responseText) * 1000);
+                    document.getElementById('timeDisplay').textContent = serverTime.toLocaleString();
+                }
+            };
+            xhr.send();
+        });
+    </script>
+<?php
 
 echo '<script>
 var countDownDate = new Date("Jan 30, 2024 23:59:00");
