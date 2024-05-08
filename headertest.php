@@ -672,15 +672,18 @@ if ($user_class->view_preference === '1') { ?>
 .carousel{
     background-color: #000;
 }
-.fa-solid, .fas {
-    color:#ff6218;
-}
+
 
 </style>
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner pl-1 pt-2">
     <div class="carousel-item active">
       <div class="d-flex">
+      <div class="p-2">
+          <a href="/city.php">
+          <i class="fa-solid fa-city"></i>
+            <p><!_-cityname-_!></p>
+          </a>
         <div class="p-2">
           <a href="/pms.php">
             <i class="fa-solid fa-message"></i>
@@ -699,24 +702,22 @@ if ($user_class->view_preference === '1') { ?>
           </a>
         </div>
         <div class="p-2">
-          <a href="/messages.php">
-            <!-- Content for Messages -->
-            <i class="fa-solid fa-message"></i>
-            <p>Messages</p>
+          <a href="/gym.php">
+          <i class="fa-solid fa-dumbbell"></i>
+            <p>Gym</p>
           </a>
         </div>
         <div class="p-2">
-          <a href="/messages.php">
-            <!-- Content for Messages -->
-            <i class="fa-solid fa-message"></i>
-            <p>Messages</p>
+          <a href="/jail.php">
+            <i class="fa-solid fa-handcuffs"></i>
+            <p>Jail</p>
           </a>
         </div>
         <div class="p-2">
-          <a href="/messages.php">
+          <a href="/hospital.php">
             <!-- Content for Messages -->
             <i class="fa-solid fa-message"></i>
-            <p>Messages</p>
+            <p>Hospital</p>
           </a>
         </div>
         <div class="p-2">
