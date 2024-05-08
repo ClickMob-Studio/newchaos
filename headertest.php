@@ -730,12 +730,16 @@ if ($user_class->view_preference === '1') { ?>
             <p>Gym</p>
           </a>
         </div>
-        <div class="p-2">
-          <a href="/jail.php">
-            <i class="fa-solid fa-handcuffs"></i>
-            <p>Jail <span class="badge bg-danger"><!_-jail-_!></span> </p>
-          </a>
-        </div>
+        <div class="p-2 position-relative">
+    <a href="/jail.php" class="d-inline-block">
+        <i class="fa-solid fa-handcuffs position-relative" style="font-size: 24px; display: inline-block;">
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                style="font-size: xx-small; transform: translate(50%, -50%);">0</span>
+        </i>
+        <p>Jail</p>
+    </a>
+</div>
+
         <div class="p-2">
           <a href="/hospital.php">
             <i class="fa-solid fa-message"></i>
