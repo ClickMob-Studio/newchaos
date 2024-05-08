@@ -679,7 +679,7 @@ if ($user_class->view_preference === '1') { ?>
   <div class="carousel-inner pl-1 pt-2">
     <div class="carousel-item active">
       <div class="d-flex">
-      <div class="p-2">
+      <div class="p-2 mt-2 position-relative">
           <a href="/city.php">
           <i class="fa-solid fa-city"></i>
             <p>City</p>
@@ -687,95 +687,95 @@ if ($user_class->view_preference === '1') { ?>
           </div>
           <?php 
           if($user_class->gang > 0 ) { ?>
-        <div class="p-2">
+        <div class="p-2 mt-2 position-relative">
           <a href="gang.php">
           <i class="fa-solid fa-people-group"></i>
             <p>Gang</p>
           </a>
         </div>
-        <div class="p-2">
+        <div class="p-2 mt-2 position-relative">
           <a href="gangmail.php">
           <i class="fa-solid fa-envelopes-bulk"></i>
             <p style="text-wrap: nowrap;">Gang Mail</p>
           </a>
         </div>
         <?php } ?>
-        <div class="p-2">
+        <div class="p-2 mt-2 position-relative">
           <a href="/pms.php?view=inbox">
             <i class="fa-solid fa-message"></i>
             <p>PMS</p>
           </a>
         </div>
-        <div class="p-2">
+        <div class="p-2 mt-2 position-relative">
           <a href="/globalchat.php">
           <i class="fa-brands fa-rocketchat"></i>
             <p>Chat</p>
           </a>
         </div>
-        <div class="p-2">
+        <div class="p-2 mt-2 position-relative">
           <a href="/events.php">
             <i class="fa-solid fa-circle-exclamation"></i>
             <p>Events</p>
           </a>
         </div>
-        <div class="p-2">
+        <div class="p-2 mt-2 position-relative">
           <a href="/newcrimes.php">
             <i class="fa-solid fa-people-robbery"></i>
             <p>Crimes</p>
           </a>
         </div>
-        <div class="p-2">
+        <div class="p-2 mt-2 position-relative">
           <a href="/gym.php">
           <i class="fa-solid fa-dumbbell"></i>
             <p>Gym</p>
           </a>
         </div>
-        <div class="p-2 position-relative">
+        <div class="p-2 mt-2 position-relative">
     <a href="/jail.php" class="d-inline-block">
         <i class="fa-solid fa-handcuffs position-relative" style="/* font-size: 9px; */display: inline-block;z-index: 0;" aria-hidden="true">
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: xx-small;transform: translate(50%, -50%);z-index: -1;"><!_-jail-_!></span>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: xx-small;transform: translate(50%, -50%);z-index: -1;">1000</span>
         </i>
         <p>Jail</p>
     </a>
 </div>
 
-        <div class="p-2">
+        <div class="p-2 mt-2 position-relative">
           <a href="/hospital.php">
             <i class="fa-solid fa-message"></i>
             <p>Hospital</p>
           </a>
         </div>
-        <div class="p-2">
+        <div class="p-2 mt-2 position-relative">
           <a href="/inventory.php">
           <i class="fa-solid fa-boxes-stacked"></i>
             <p>Inventory</p>
           </a>
         </div>
-        <div class="p-2">
+        <div class="p-2 mt-2 position-relative">
           <a href="/missions.php">
           <i class="fa-solid fa-walkie-talkie"></i>
             <p>Missions</p>
           </a>
         </div>
-        <div class="p-2">
+        <div class="p-2 mt-2 position-relative">
           <a href="/raids.php">
           <i class="fa-solid fa-hand-fist"></i>
             <p>Raids</p>
           </a>
         </div>
-        <div class="p-2">
+        <div class="p-2 mt-2 position-relative">
           <a href="/search.php">
             <i class="fa-solid fa-magnifying-glass"></i>
             <p>Search</p>
           </a>
         </div>
-        <div class="p-2">
+        <div class="p-2 mt-2 position-relative">
           <a href="/maze.php">
           <i class="fa-solid fa-puzzle-piece"></i>
           <p>Maze</p>
           </a>
         </div>
-        <div class="p-2">
+        <div class="p-2 mt-2 position-relative">
           <a href="/backalley_new.php">
             <i class="fa-solid fa-dumpster"></i>
             <p>Backalley</p>
