@@ -385,6 +385,13 @@ mysql_query($query);
 
 // Fetch all active raids
 $active_raids_query = "SELECT ar.*, b.name AS boss_name, b.image_link, TIMESTAMPDIFF(SECOND, NOW(), DATE_ADD(ar.summoned_at,  INTERVAL 15 MINUTE)) AS seconds_remaining FROM active_raids ar JOIN bosses b ON ar.boss_id = b.id WHERE DATE_ADD(ar.summoned_at, INTERVAL 15 MINUTE) > NOW()";
+if (isset($_GET['ftype']) && $_GET['ftype'] === 'gang_only') {
+    $active_raids_query .= " AND ar.raid_type = 'Gang'";
+} else if (isset($_GET['ftype']) && $_GET['ftype'] === 'public') {
+    $active_raids_query .= " AND ar.raid_type = 'Public'";
+} else if (isset($_GET['ftype']) && $_GET['ftype'] === 'private') {
+    $active_raids_query .= " AND ar.raid_type = 'Private'";
+}
 $active_raids_result = mysql_query($active_raids_query);
 $active_raids = [];
 while ($row = mysql_fetch_assoc($active_raids_result)) {
@@ -397,9 +404,10 @@ echo "<div class='box_middle'>";
 echo "<div class='pad'>";
 if ($user_class->admin > 0) {
     echo "<p><strong>Filter By:</strong> ";
-    echo "<a href='#'>Gang Only</a> | ";
-    echo "<a href='#'>Public</a> | ";
-    echo "<a href='#'>Private</a>";
+    echo "<a href='raids.php'>Show All</a> | ";
+    echo "<a href='raids.php?ftype=gang_only'>Gang Only</a> | ";
+    echo "<a href='raids.php?ftype=public'>Public</a> | ";
+    echo "<a href='raids.php?ftype=private'>Private</a>";
 }
 echo "<div class='active-raids-grid'>";
 
