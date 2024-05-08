@@ -719,7 +719,13 @@ if ($user_class->view_preference === '1') { ?>
         </div>
         <div class="p-2 mt-2 position-relative">
           <a href="/events.php">
-            <i class="fa-solid fa-circle-exclamation"></i>
+            <?php if($ev > 1) { 
+                $style='style="color:#dc3545;"';
+            } else { 
+                $style= '';
+            }?>
+
+            <i class="fa-solid fa-circle-exclamation" <?php echo $style;?>></i>
             <p>Events</p>
           </a>
         </div>
