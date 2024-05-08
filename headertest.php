@@ -715,14 +715,14 @@ if ($user_class->view_preference === '1') { ?>
         </div>
     </div>
     <script>
-        var timeModal = document.getElementById('timeModal');
+      var timeModal = document.getElementById('timeModal');
         timeModal.addEventListener('show.bs.modal', function () {
             var xhr = new XMLHttpRequest();
             xhr.open('GET', 'server_time.php', true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     var serverTime = new Date(parseInt(xhr.responseText) * 1000);
-                    document.getElementById('timeDisplay').textContent = serverTime.toLocaleTimeString();
+                    document.getElementById('timeDisplay').textContent = serverTime.toLocaleString();
                 }
             };
             xhr.send();
