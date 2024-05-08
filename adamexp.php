@@ -8,6 +8,14 @@ require "header.php";
 if($user_class->admin != 1){
     exit;
 }
+
+$monthStartDate = new \DateTime('first day of this month');
+$monthEndDate = new \DateTime('last day of this month');
+$sql = "SELECT SUM(paymentamount) AS totalSpent FROM ipn WHERE date >= " . $monthStartDate->getTimestamp() . " . AND date <= " . $monthEndDate->getTimestamp();
+$resultMonthDonations = mysql_query($sql);
+$monthDonations = $resultMonthDonations["totalSpent"];
+
+
 ?>
 <h1>Total Income</h1>
 <?php
@@ -49,7 +57,8 @@ if (mysql_num_rows($result) > 0) {
 
     // Output table footer with totals
     echo "<tr><td colspan='6'>Total Income</td><td>$".$totalIncome."</td><td colspan='7'></td></tr></table>";
-    echo "<table><tr><td colspan='8'></td><td>Biggest Donor</td><td>".formatName($biggestDonor)."</td><td>Amount Spent</td><td>$".$highestAmount."</td></tr></table>";
+    echo "<table><tr><td colspan='8'></td><td>Biggest Donor</td><td>".formatName($biggestDonor)."</td><td>Amount Spent</td><td>$".number_format($highestAmount, 0)."</td></tr></table>";
+    echo "<table><tr><td colspan='8'></td><td>Month Donations</td><td colspan='2'>Amount Spent</td><td>$".number_format($monthDonations, 0)."</td></tr></table>";
 
 } else {
     echo "0 results";
