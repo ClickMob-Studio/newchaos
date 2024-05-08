@@ -680,23 +680,20 @@ if ($user_class->view_preference === '1') { ?>
     <div class="carousel-item active">
       <div class="d-flex">
         <div class="p-2">
-          <a href="/messages.php">
-            <!-- Content for Messages -->
+          <a href="/pms.php">
             <i class="fa-solid fa-message"></i>
-            <p>Messages</p>
+            <p>PMS</p>
           </a>
         </div><div class="p-2">
-          <a href="/messages.php">
-            <!-- Content for Messages -->
-            <i class="fa-solid fa-message"></i>
-            <p>Messages</p>
+          <a href="/Events.php">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <p>Events</p>
           </a>
         </div>
         <div class="p-2">
-          <a href="/messages.php">
-            <!-- Content for Messages -->
-            <i class="fa-solid fa-message"></i>
-            <p>Messages</p>
+          <a href="/newcrimes.php">
+            <i class="fa-solid fa-people-robbery"></i>
+            <p>Crimes</p>
           </a>
         </div>
         <div class="p-2">
