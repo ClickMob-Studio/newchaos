@@ -446,7 +446,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $itemIds = array();
         $itemIds[35] = 1; // Bowie Knife
         $itemIds[70] = 3; // Army Boots
-        $itemIds[98] = 14; // Med Cert 100
+        $itemIds[99] = 14; // Med Cert 100
         $itemIds[100] = 253; // Gold Rush Token
 
         $itemChance = mt_rand(1,100);
