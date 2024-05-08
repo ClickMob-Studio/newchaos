@@ -51,7 +51,7 @@ foreach ($missions as $mission) {
     if ($mission['cKills'] >= $mission['reqKills'] && $mission['cCrimes'] >= $mission['reqCrimes'] && $mission['cBusts'] >= $mission['reqBusts'] && $mission['cMugs'] >= $mission['reqMugs'] && $mission['cBackalleys'] >= $mission['reqBackalleys']) {
 
         if ($mission['mid'] > 33) {
-            $exp = 5 + (5 * $mission['mid'] - 20);
+            $exp = 5 + (5 * ($mission['mid'] - 20));
         } else {
             $exp = 5 + (5 * $mission['mid']);
         }
