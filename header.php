@@ -573,7 +573,10 @@ if ($user_class->view_preference === '1') { ?>
             <meta name="viewport" content="width=1024">
         <?php } else { ?>
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
-        <?php } ?>
+        <?php } 
+        $q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");
+        $hosp = mysql_num_rows($q);
+        ?>
 	<title>ChaosCity</title>
 
     <script src="js/java.js?12" type="text/javascript"></script><!doctype html>
@@ -585,6 +588,7 @@ if ($user_class->view_preference === '1') { ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/ca284bbf02.js" crossorigin="anonymous"></script>
     <link href="newassets/css/style.css?v=1714569ss35a" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
@@ -595,30 +599,8 @@ if ($user_class->view_preference === '1') { ?>
     <script src="js/java.js?v=12" type="text/javascript"></script>
 
 
-
-    <style>
-        .btn-info, .btn-primary {
-            color: #fff !important;
-            font: 1.4rem 'Montserrat', sans-serif !important;
-            padding: 15px 0;
-            width: 130px;
-            margin: 0 15px;
-            text-transform: uppercase;
-            background: #000000c4;
-            display: inline-block;
-            text-decoration: none;
-            border: solid var(--colorHighlight) 1px;
-            transition: background 0.5s, transform 0.5s;
-        }
-        .btn-secondary{
-            padding: 15px 0;
-            width: 130px;
-            display: inline-block;
-            margin: 0 15px;
-            color: #fff !important;
-            font: 1.4rem 'Montserrat', sans-serif !important;
-        }
-    </style>
+	
+	
 <style>
 	a{
 		text-decoration: none;
@@ -626,6 +608,14 @@ if ($user_class->view_preference === '1') { ?>
 	.floaty{
 		color:white !important;
 	}
+    @media (max-width: 768px) {
+        .mainHeader {
+    background: #111;
+    margin-top: -84px;
+    margin-bottom:10px;
+    position: static;
+        }
+    }
   
 	</style>
     <script>
@@ -649,12 +639,311 @@ if ($user_class->view_preference === '1') { ?>
 </head>
 <body>
 	<header class="mainHeader">
-		<div class="row mx-auto mainHeaderContent">
+		<div class="row mx-auto mainHeaderContent d-none d-md-block">
 		<?php 
         
-        require 'navbar.php'; ?>
+        require 'navbar1.php'; ?>
 		</div>
+
 	</header>
+<style>
+.carousel-item {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.carousel-item > div {
+  flex: 0 0 auto;
+  width: 50%; /* Adjust the width for how many you want to show */
+}
+
+.carousel-item a {
+  display: block;
+  text-align: center;
+}
+
+/* Optional: hide scrollbars */
+.carousel-item::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-item {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.carousel{
+    background-color: #000;
+}
+
+.tran-middle {
+    transform: translate(-4%, -66%) !important;
+}
+/* Custom styling for the modal */
+.modal-content {
+            background-color: #333; 
+            color: #fff;  
+        }
+        .dropdown-menu{
+            background-color: #333; 
+            color: #fff;  
+        }
+        .dropdown-item{
+            color: #fff;
+        }
+        .modal-header, .modal-body {
+            border-bottom: none;  
+        }
+</style>
+<div class="container clearfix d-block d-md-none">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="logo pe-3" role="banner">
+      <a href="/" class="d-flex align-items-center text-decoration-none">
+        <img src="asset/img/logo1.png" style="width:30px"/>
+        <h1 class="h3 ms-2">ChaosCity</h1>
+      </a>
+   
+    </div>
+    <div class="d-flex justify-content-end align-items-center"> 
+        
+    <a href="#" data-bs-toggle="modal" data-bs-target="#timeModal">
+            <i class="fa-solid fa-clock"></i>
+        </a>
+ <!-- Dropdown -->
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="fa-solid fa-user"></i>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <li><a class="dropdown-item" href="/settings.php"><i class="fa-solid fa-gear"></i> Settings</a></li>
+        <li><a class="dropdown-item" href="/profiles.php?id=<?php echo $user_class->id;?>"><i class="fa-solid fa-address-card"></i> Profile</a></li>
+        <li><a class="dropdown-item" href="index.php?action=logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+    </ul>
+</div>
+    </div>
+
+  </div>
+</div>
+
+<div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
+  <div class="carousel-inner pl-1 pt-2">
+    <div class="carousel-item active">
+      <div class="d-flex">
+      <div class="p-2 mt-2 position-relative">
+          <a href="/city.php">
+          <i class="fa-solid fa-city"></i>
+            <p>City</p>
+          </a>
+          </div>
+          <?php if ($counts['updates'] > 0) {?>
+      <div class="p-2 mt-2 position-relative">
+          <a href="/gameupdates.php">
+          <i class="fa-solid fa-bullhorn" style="color:#dc3545;"></i>
+            <p>Updates</p>
+          </a>
+          </div>
+          <?php }?>
+          <?php 
+          if($user_class->gang > 0 ) { ?>
+        <div class="p-2 mt-2 position-relative">
+          <a href="gang.php">
+          <i class="fa-solid fa-people-group"></i>
+            <p>Gang</p>
+          </a>
+        </div>
+        
+        <div class="p-2 mt-2 position-relative">
+          <a href="gangmail.php">
+          <?php if($user_class->gmail > 0){
+            $style='style="color:#dc3545;"';
+          }else{
+            $style= '';
+          }?>
+          <i class="fa-solid fa-envelopes-bulk" <?php echo $style;?>></i>
+            <p style="text-wrap: nowrap;">Gang Mail</p>
+          </a>
+        </div>
+        <?php } ?>
+        <div class="p-2 mt-2 position-relative">
+          <a href="/pms.php?view=inbox">
+            
+          <?php 
+              $db->query("SELECT count(viewed) FROM pms WHERE `to` = ? AND viewed = 1");
+              $db->execute(array($user_class->id));
+              $mailCount = $db->fetch_single();
+          if($mailCount > 0) { 
+                $style='style="color:#dc3545;"';
+            } else { 
+                $style= '';
+            }?>
+            <i class="fa-solid fa-message" <?php echo $style;?>></i>
+            <p>PMS</p>
+          </a>
+        </div>
+        <div class="p-2 mt-2 position-relative">
+          <a href="/globalchat.php">
+          <i class="fa-brands fa-rocketchat"></i>
+            <p>Chat</p>
+          </a>
+        </div>
+        <div class="p-2 mt-2 position-relative">
+          <a href="/events.php">
+            <?php if($ev > 0) { 
+                $style='style="color:#dc3545;"';
+            } else { 
+                $style= '';
+            }?>
+
+            <i class="fa-solid fa-circle-exclamation" <?php echo $style;?>></i>
+            <p>Events</p>
+          </a>
+        </div>
+        <div class="p-2 mt-2 position-relative">
+          <a href="/newcrimes.php">
+            <i class="fa-solid fa-people-robbery"></i>
+            <p>Crimes</p>
+          </a>
+        </div>
+        <div class="p-2 mt-2 position-relative">
+          <a href="/gym.php">
+          <i class="fa-solid fa-dumbbell"></i>
+            <p>Gym</p>
+          </a>
+        </div>
+        <div class="p-2 mt-2 position-relative">
+    <a href="/jail.php" class="d-inline-block">
+        <i class="fa-solid fa-handcuffs position-relative" style="/* font-size: 9px; */display: inline-block;z-index: 0;" aria-hidden="true">
+            <span class="position-absolute top-0 start-100 tran-middle badge rounded-pill bg-danger" style="font-size: xx-small;transform: translate(50%, -50%);z-index: -1;"><!_-jail-_!></span>
+        </i>
+        <p>Jail</p>
+    </a>
+</div>
+
+        <div class="p-2 mt-2 position-relative">
+          <a href="/hospital.php">
+          <i class="fa-solid fa-hospital" style="z-index:1"></i>
+            <span class="position-absolute top-0 start-100 tran-middle badge rounded-pill bg-danger" style="font-size: xx-small;transform: translate(-92%, -34%) !important;z-index: 0;"><?echo $hosp; ?></span>
+    
+            </i>
+            <p>Hospital</p>
+          </a>
+        </div>
+        <div class="p-2 mt-2 position-relative">
+          <a href="/inventory.php">
+          <i class="fa-solid fa-boxes-stacked"></i>
+            <p>Inventory</p>
+          </a>
+        </div>
+        <div class="p-2 mt-2 position-relative">
+          <a href="/missions.php">
+          <i class="fa-solid fa-walkie-talkie"></i>
+            <p>Missions</p>
+          </a>
+        </div>
+        <div class="p-2 mt-2 position-relative">
+          <a href="/raids.php">
+          <i class="fa-solid fa-hand-fist"></i>
+            <p>Raids</p>
+          </a>
+        </div>
+        <div class="p-2 mt-2 position-relative">
+          <a href="/search.php">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <p>Search</p>
+          </a>
+        </div>
+        <div class="p-2 mt-2 position-relative">
+          <a href="/maze.php">
+          <i class="fa-solid fa-puzzle-piece"></i>
+          <p>Maze</p>
+          </a>
+        </div>
+        <div class="p-2 mt-2 position-relative">
+          <a href="/backalley_new.php">
+            <i class="fa-solid fa-dumpster"></i>
+            <p>Backalley</p>
+          </a>
+        </div>
+        <!-- More items here -->
+      </div>
+    </div>
+    <!-- More carousel items if needed -->
+  </div>
+</div>
+
+    <div class="container d-block d-md-none p-3 dcPanel dcAvatarPanel"> <!-- This container is visible only on xs screens -->
+    <div class="row">
+        <!-- Energy Bar -->
+        <div class="col-3">
+        <p class="text-center"><i class="fa-solid fa-heart-pulse" style="color:#ff6218"></i>
+        <?= $user_class->hppercent;?>%</p>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->hppercent; ?>%" aria-valuenow="<?= $user_class->hppercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->hppercent; ?>"></div>
+            </div>
+            
+        </div>
+
+        <div class="col-3">
+        <p class="text-center"><i class="fa-solid fa-bolt-lightning" style="color:#ff6218"></i>
+        <?= $user_class->energypercent;?>%</p>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->energypercent; ?>%" aria-valuenow="<?= $user_class->energypercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->energypercent; ?>"></div>
+            </div>
+            
+        </div>
+        <div class="col-3">
+        <p class="text-center"><i class="fa-brands fa-brave" style="color:#ff6218"></i>
+        <?= $user_class->nervepercent;?>%</p>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->nervepercent; ?>%" aria-valuenow="<?= $user_class->nervepercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->nervepercent; ?>"></div>
+            </div>
+            
+        </div>
+        <div class="col-3">
+        <p class="text-center"><i class="fa-solid fa-bed" style="color:#ff6218"></i>
+        <?= $user_class->awakepercent;?>%</p>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->awakepercent; ?>%" aria-valuenow="<?= $user_class->awakepercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->awakepercent; ?>"></div>
+            </div>
+            
+        </div>
+    </div>
+
+
+
+    <!-- Additional Information (Money, Points, Merits) -->
+    <div class="row mt-3">
+        <div class="col-3">
+            <!-- Money -->
+            <div class="text-center">
+                <span class="badge bg-success">$<?= shorthandNumber($user_class->money);?></span>
+                <p>Money</p>
+            </div>
+        </div>
+        <div class="col-3">
+            <!-- Points -->
+            <div class="text-center">
+            <a href="bank.php?h_deposit=cash" style="text-decoration: none;"><span class="badge bg-info">$<?= shorthandNumber($user_class->bank);?></span>
+                <p>Bank</p></a>
+            </div>
+        </div>
+        <div class="col-3">
+            <!-- Merits -->
+            <div class="text-center">
+                <span class="badge bg-danger"><?= shorthandNumber($user_class->points);?></span>
+                <p>Points</p>
+            </div>
+        </div>
+        <div class="col-3">
+        <p class="text-center">Level: <?= shorthandNumber($user_class->level);?></p>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->exppercent; ?>%" aria-valuenow="<?= $user_class->exppercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->exppercent; ?>"></div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
 	<div class="row mx-auto my-3 mainContent">
 		<div class="d-none d-lg-block col-2 dcLeftNavContainer p-0">
 			<?php require 'leftnav.php'; ?>
@@ -666,12 +955,19 @@ if ($user_class->view_preference === '1') { ?>
         <?php
       $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
       function shorthandNumber($number) {
-        if ($number >= 1000) {
-            $shorthand = round($number / 1000, 1) . 'k';
+        if ($number >= 1000000000) { // Check if the number is at least a billion
+            $shorthand = round($number / 1000000000, 2) . 'B'; // Convert to billions, round to 2 decimal places, and append 'B'
+            return $shorthand;
+        } elseif ($number >= 1000000) { // Check if the number is at least a million
+            $shorthand = round($number / 1000000, 2) . 'M'; // Convert to millions, round to 2 decimal places, and append 'M'
+            return $shorthand;
+        } elseif ($number >= 1000) { // Check if the number is at least a thousand
+            $shorthand = round($number / 1000, 1) . 'k'; // Convert to thousands, round to 1 decimal place, and append 'k'
             return $shorthand;
         }
-        return $number;
+        return number_format($number); // Return the original number if it's less than 1000
     }
+    
       if (mysql_num_rows($check)) {
             $show = true;
           $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
@@ -802,7 +1098,7 @@ if ($user_class->view_preference === '1') { ?>
             </div>
 
             <div class="col-12 col-lg-4">
-                <div class="p-3 dcPanel dcAvatarPanel">
+                <div class="p-3 dcPanel dcAvatarPanel d-none d-md-block">
                     <div class="row mb-3">
                         <div class="col-7 dcUserName">
 
@@ -1344,6 +1640,39 @@ if ($user_class->id == 0) {
     }
 }
 
+?>
+
+
+
+<div class="modal fade" id="timeModal" tabindex="-1" aria-labelledby="timeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="timeModalLabel">Current Time</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="timeDisplay">
+                        <!-- Time will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+      var timeModal = document.getElementById('timeModal');
+        timeModal.addEventListener('show.bs.modal', function () {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'server_time.php', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var serverTime = new Date(parseInt(xhr.responseText) * 1000);
+                    document.getElementById('timeDisplay').textContent = serverTime.toLocaleString();
+                }
+            };
+            xhr.send();
+        });
+    </script>
+<?php
 
 echo '<script>
 var countDownDate = new Date("Jan 30, 2024 23:59:00");
