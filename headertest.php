@@ -738,6 +738,13 @@ if ($user_class->view_preference === '1') { ?>
 
   </div>
 </div>
+<?php
+$db->query("SELECT carousel_order FROM user_preferences WHERE user_id = :user_id");
+$db->bind(':user_id', $user_class->id);
+$orderResult = $db->fetch_row();
+
+$carousel_order = json_decode($orderResult['carousel_order'], true);
+?>
 <button id="edit-button">Edit</button>
 <div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
   <div class="carousel-inner pl-1 pt-2">
