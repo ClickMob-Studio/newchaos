@@ -639,7 +639,7 @@ if ($user_class->view_preference === '1') { ?>
 </head>
 <body>
 	<header class="mainHeader">
-		<div class="row mx-auto mainHeaderContent">
+		<div class="row mx-auto mainHeaderContent d-none d-md-block">
 		<?php 
         
         require 'navbar1.php'; ?>
