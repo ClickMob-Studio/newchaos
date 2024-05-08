@@ -696,7 +696,7 @@ if ($user_class->view_preference === '1') { ?>
         <h1 class="h3 ms-2">ChaosCity</h1>
       </a>
       <a href="#" data-bs-toggle="modal" data-bs-target="#timeModal">
-            <i class="fa-solid fa-clock"></i>
+            <i class="fa-solid fa-clock"> TIME</i>
         </a>
         <div class="modal fade" id="timeModal" tabindex="-1" aria-labelledby="timeModalLabel" aria-hidden="true">
             <div class="modal-dialog">
