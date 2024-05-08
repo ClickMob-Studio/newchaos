@@ -747,6 +747,7 @@ $db->bind(':user_id', $user_class->id);
 $orderResult = $db->fetch_row();
 
 $carousel_order = json_decode($orderResult['carousel_order'], true);
+var_dump($carousel_order);
 ?>
 <button id="edit-button">Edit</button>
 <div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
