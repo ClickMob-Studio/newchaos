@@ -749,8 +749,25 @@ $carouselData = str_replace('"\,', '\"', $carouselData);
 
 $carousel_order = json_decode($carouselData, true);
 
-if (!is_array($carousel_order)) {
-    //echo('Error: Decoded carousel_order is not an array.');
+if (empty($carousel_order)) {
+    $carousel_order = array("city",
+    "updates",
+    "gang",
+    "gmail",
+    "pms",
+    "chat",
+    "events",
+    "crimes",
+    "gym",
+    "jail",
+    "hospital",
+    "inventory",
+    "missions",
+    "raids",
+    "search",
+    "maze",
+    "backalley",)
+    ;
 }
 
 ?>
