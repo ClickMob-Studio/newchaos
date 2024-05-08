@@ -738,7 +738,7 @@ if ($user_class->view_preference === '1') { ?>
 
   </div>
 </div>
-
+<button id="edit-button">Edit</button>
 <div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
   <div class="carousel-inner pl-1 pt-2" >
     <div class="carousel-item active">
@@ -886,30 +886,21 @@ if ($user_class->view_preference === '1') { ?>
 </div>
 <script>
 $(document).ready(function() {
-    var isScrolling = false;
-    if ($('#sortable-container').length === 0) {
-        console.error('Sortable container not found');
-        return; // Stop the script if the container is not found
-    }
-
+    var isEditable = false;  // Flag to track whether sorting should be enabled
 
     $('#sortable-container').sortable({
-        axis: 'x', // Restrict dragging to the horizontal axis
-        delay: 200, // Delay in milliseconds before the drag starts
+        axis: 'x',  // Restrict dragging to the horizontal axis
+        delay: 200,  // Delay in milliseconds before the drag starts
+        disabled: true,  // Initially disabled
         start: function(event, ui) {
-            if (isScrolling) {
-                $('#sortable-container').sortable('cancel');
-                return false; // Prevent sorting if scrolling is detected
-            }
             ui.item.addClass('dragging');
         },
         stop: function(event, ui) {
             ui.item.removeClass('dragging');
-            setTimeout(function() { isScrolling = false; }, 100); // Reset scrolling status after a brief delay
         },
         update: function(event, ui) {
             var newOrder = $(this).sortable('toArray', { attribute: 'data-id' });
-            // Send the new order to the server via AJAX
+            // Optionally send the new order to the server via AJAX
             // $.ajax({
             //     url: '/path/to/your/save_order.php',
             //     type: 'POST',
@@ -924,11 +915,14 @@ $(document).ready(function() {
         }
     });
 
-    $('#sortable-container').disableSelection();
+    $('#edit-button').click(function() {
+        isEditable = !isEditable;  // Toggle the editable state
+        $('#sortable-container').sortable('option', 'disabled', !isEditable);
+        $(this).text(isEditable ? 'Finish Editing' : 'Edit');  // Update button text based on state
+    });
 });
 
-</script>
-   
+   </script>
 
     <div class="container d-block d-md-none p-3 dcPanel dcAvatarPanel"> <!-- This container is visible only on xs screens -->
     <div class="row">
