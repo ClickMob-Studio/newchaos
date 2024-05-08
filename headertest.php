@@ -889,6 +889,7 @@ $(document).ready(function() {
         axis: 'x', // Restrict dragging to the horizontal axis
         delay: 300, // Delay for press and hold
         placeholder: "ui-state-highlight",
+        distance: 30,
         cursor: 'move',
         opacity: 0.6,
         start: function(event, ui) {
