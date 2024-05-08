@@ -682,7 +682,7 @@ if ($user_class->view_preference === '1') { ?>
       <div class="p-2">
           <a href="/city.php">
           <i class="fa-solid fa-city"></i>
-            <p><!_-cityname-_!></p>
+            <p>City</p>
           </a>
           </div>
         <div class="p-2">
