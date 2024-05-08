@@ -746,12 +746,13 @@ $db->query("SELECT carousel_order FROM user_preferences WHERE user_id = :user_id
 $db->bind(':user_id', $user_class->id);
 $orderResult = $db->fetch_row(true);
 echo "<pre>Raw JSON from DB: " . htmlspecialchars($orderResult['carousel_order']) . "</pre>";
-
-$carouselData = stripslashes($orderResult['carousel_order']); // Use stripslashes to remove any added slashes
-//var_dump($carouselData);
+$carouselData = $orderResult['carousel_order'];
+if (strpos($carouselData, '\\') !== false) {  // Check if there are any backslashes
+    $carouselData = stripslashes($carouselData);
+}
 $carousel_order = json_decode($carouselData, true);
 if (json_last_error() !== JSON_ERROR_NONE) {
-    //echo "JSON Decode Error: " . json_last_error_msg();
+    die("JSON Decode Error: " . json_last_error_msg());
 }
 if (!is_array($carousel_order)) {
     //echo('Error: Decoded carousel_order is not an array.');
