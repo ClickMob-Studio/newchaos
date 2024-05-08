@@ -740,6 +740,12 @@ if ($user_class->view_preference === '1') { ?>
           </a>
         </div>
         <div class="p-2">
+          <a href="/raids.php">
+          <i class="fa-solid fa-hand-fist"></i>
+            <p>Raids</p>
+          </a>
+        </div>
+        <div class="p-2">
           <a href="/search.php">
             <i class="fa-solid fa-magnifying-glass"></i>
             <p>Search</p>
