@@ -889,8 +889,8 @@ $(document).ready(function() {
     var isEditable = false;  // Flag to track whether sorting should be enabled
 
     $('#sortable-container').sortable({
-        axis: 'x',  // Restrict dragging to the horizontal axis
-        delay: 200,  // Delay in milliseconds before the drag starts
+        axis: 'x',
+        delay: 200,
         disabled: true,  // Initially disabled
         start: function(event, ui) {
             if (!isEditable) {
@@ -903,7 +903,6 @@ $(document).ready(function() {
         },
         update: function(event, ui) {
             var newOrder = $(this).sortable('toArray', { attribute: 'data-id' });
-            // Optionally send the new order to the server via AJAX
             // $.ajax({
             //     url: '/path/to/your/save_order.php',
             //     type: 'POST',
@@ -922,9 +921,22 @@ $(document).ready(function() {
         isEditable = !isEditable;  // Toggle the editable state
         $('#sortable-container').sortable('option', 'disabled', !isEditable);
         $(this).text(isEditable ? 'Finish Editing' : 'Edit');  // Update button text based on state
+        toggleElementInteraction(isEditable);
     });
-});
 
+    // Function to enable or disable interaction with sortable elements
+    function toggleElementInteraction(enable) {
+        if (enable) {
+            $('.p-2').on('mousedown touchstart', function(event) {
+                event.stopPropagation();  // Prevent event from bubbling up to the container
+            });
+        } else {
+            $('.p-2').off('mousedown touchstart');
+        }
+    }
+
+    toggleElementInteraction(isEditable);
+});
 
    </script>
 
