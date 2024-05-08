@@ -684,6 +684,10 @@ if ($user_class->view_preference === '1') { ?>
             background-color: #333; 
             color: #fff;  
         }
+        .dropdown-menu{
+            background-color: #333; 
+            color: #fff;  
+        }
         .modal-header, .modal-body {
             border-bottom: none;  
         }
@@ -697,13 +701,15 @@ if ($user_class->view_preference === '1') { ?>
       </a>
    
     </div>
+    <div class="d-flex justify-content-end align-items-center" style="height: 100vh;"> 
+        
     <a href="#" data-bs-toggle="modal" data-bs-target="#timeModal">
             <i class="fa-solid fa-clock"></i>
         </a>
  <!-- Dropdown -->
 <div class="dropdown">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-    <i class="fa-solid fa-clock"></i>
+    <i class="fa-solid fa-user"></i>
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <li><a class="dropdown-item" href="#">Action</a></li>
@@ -711,6 +717,7 @@ if ($user_class->view_preference === '1') { ?>
         <li><a class="dropdown-item" href="#">Something else here</a></li>
     </ul>
 </div>
+    </div>
 
 
         <div class="modal fade" id="timeModal" tabindex="-1" aria-labelledby="timeModalLabel" aria-hidden="true">
