@@ -4,8 +4,7 @@ $user_class = new User($_SESSION['id']);
 
 $carousel_order = json_decode($_POST['order']); 
 $carousel_order = json_encode($carousel_order);
-echo $carousel_order;
-exit;
+
 $carousel_order = stripslashes($carousel_order);
 
 $query = "INSERT INTO user_preferences (user_id, carousel_order) VALUES (:user_id, :carousel_order)
