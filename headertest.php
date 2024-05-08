@@ -646,6 +646,7 @@ if ($user_class->view_preference === '1') { ?>
 <style>
     .carousel-item {
   display: flex;
+  font-size:10px;
 }
 
 .carousel-item .col-md-3 {
@@ -654,7 +655,7 @@ if ($user_class->view_preference === '1') { ?>
 }
 
 @media (max-width: 768px) {
-  .carousel-item .col-md-3 {
+  .carousel-item .col-md-2 {
     flex: 0 0 50%;
     max-width: 50%;
   }
@@ -665,7 +666,7 @@ if ($user_class->view_preference === '1') { ?>
   <div class="carousel-inner">
     <div class="carousel-item active">
       <div class="row g-0">
-        <div class="col-6 col-md-3">
+        <div class="col-2">
           <a href="/messages.php" class="d-block w-100 p-2">
             <div class="text-center">
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16" width="50" height="50">
@@ -675,7 +676,7 @@ if ($user_class->view_preference === '1') { ?>
             </div>
           </a>
         </div>
-        <div class="col-6 col-md-3">
+        <div class="col-2">
           <a href="/events.php" class="d-block w-100 p-2">
             <div class="text-center">
               <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16" width="50" height="50">
