@@ -573,7 +573,10 @@ if ($user_class->view_preference === '1') { ?>
             <meta name="viewport" content="width=1024">
         <?php } else { ?>
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
-        <?php } ?>
+        <?php } 
+        $q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");
+        $hosp = mysql_num_rows($q);
+        ?>
 	<title>ChaosCity</title>
 
     <script src="js/java.js?12" type="text/javascript"></script><!doctype html>
