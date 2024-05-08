@@ -1,24 +1,21 @@
 <?php
-require "ajax_header.php";
-$user_class = new User($_SESSION['id']);
+require "ajax_header.php"; 
+$user_class = new User($_SESSION['id']);  
 
-$carousel_order = json_encode($_POST['order']);
-$carousel_order = mysql_real_escape_string($carousel_order); // Sanitize to prevent SQL injection
+$carousel_order = json_encode($_POST['order']); 
 
-$user_id = intval($user_class->id); // Ensure the ID is an integer to prevent SQL injection
+$query = "INSERT INTO user_preferences (user_id, carousel_order) VALUES (:user_id, :carousel_order)
+          ON DUPLICATE KEY UPDATE carousel_order = :carousel_order";
 
-// Build the SQL query
-$query = sprintf("INSERT INTO user_preferences (user_id, carousel_order) VALUES (%d, '%s')
-                  ON DUPLICATE KEY UPDATE carousel_order = '%s'",
-                  $user_id,
-                  $carousel_order,
-                  $carousel_order);
 
-// Execute the query
-$result = mysql_query($query);
+$db->query($query);
 
-// Check for query success
-if (!$result) {
-    echo 'MySQL Error: ' . mysql_error();
+$db->bind(':user_id', $user_class->id, PDO::PARAM_INT);
+$db->bind(':carousel_order', $carousel_order, PDO::PARAM_STR);
+
+if ($db->execute()) {
+    echo "User preferences updated successfully.";
+} else {
+    echo "Failed to update user preferences.";
 }
 ?>
