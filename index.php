@@ -9,6 +9,8 @@ include 'headertest.php';
 <div class='container mt-3'>
 
 <?php
+$expGain = round($user_class->maxexp / 100 * 15);
+echo $expGain;
 if ($user_class->firstlogin1 == 0) {
     $stmt = mysql_query("UPDATE grpgusers SET firstlogin1 = 1 WHERE id = ".$user_class->id);
     Send_Event2($user_class->id, "Is the latest thug on the streets.", $user_class->id);
