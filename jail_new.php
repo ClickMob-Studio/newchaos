@@ -244,7 +244,7 @@ if($user_class->jail > 0){
                             }
 
                             if($line['jail'] != 0){
-                                echo "<tr class='jail-cell-row'><td>".$formattedName."</td><td>".floor($line['jail'] / 60)." m"."</td><td><a class='jail-break-link' data-jid='".$line['id']."' href='?jailbreak=".$line['id']."&token=".$token."' class='btn btn-primary w-100'>Break Out</a></td></tr>";
+                                echo "<tr class='jail-cell-row'><td>".$formattedName."</td><td>".floor($line['jail'] / 60)." m"."</td><td><a class='jail-break-link btn btn-primary w-100' data-jid='".$line['id']."' href='?jailbreak=".$line['id']."&token=".$token."' class='btn btn-primary w-100'>Break Out</a></td></tr>";
                             }
                         }
                     }
@@ -257,7 +257,7 @@ if($user_class->jail > 0){
                         }
 
                         while ($i <= $limit) {
-                            echo "<tr class='jail-cell-row'><td>Bot</td><td>2m</td><td><a class='jail-break-link' data-jid='bot' href='?jailbreak=bot&token=".$token."' class='btn btn-primary w-100'>Break Out</a></td></tr>";
+                            echo "<tr class='jail-cell-row'><td>Bot</td><td>2m</td><td><a class='jail-break-link btn btn-primary w-100' data-jid='bot' href='?jailbreak=bot&token=".$token."' class='btn btn-primary w-100'>Break Out</a></td></tr>";
 
                             $i++;
                         }
@@ -354,7 +354,7 @@ if($user_class->jail > 0){
                             '<tr class="jail-cell-row">' +
                             '<td>' + data.username + '</td>' +
                             '<td>' + data.time + '</td>' +
-                            '<td><a class="jail-break-link" data-jid="' + data.id + '" href="?jailbreak=' + data.id + '&token=<?php echo $token ?>" data-user-id="' + data.id + '" class="break-out-link btn btn-primary w-100">Break Out</a></td>' +
+                            '<td><a class="jail-break-link btn btn-primary w-100" data-jid="' + data.id + '" href="?jailbreak=' + data.id + '&token=<?php echo $token ?>" data-user-id="' + data.id + '" class="break-out-link btn btn-primary w-100">Break Out</a></td>' +
                             '</tr>'
                         );
 
