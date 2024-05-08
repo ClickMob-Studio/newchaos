@@ -680,7 +680,7 @@ if ($user_class->view_preference === '1') { ?>
     transform: translate(-4%, -66%) !important;
 }
 </style>
-<div id="carouselExample" class="carousel slide d-none d-sm-block d-md-none" data-bs-ride="carousel">
+<div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
   <div class="carousel-inner pl-1 pt-2">
     <div class="carousel-item active">
       <div class="d-flex">
