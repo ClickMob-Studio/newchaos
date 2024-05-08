@@ -743,7 +743,7 @@ if ($user_class->view_preference === '1') { ?>
 $db->query("SELECT carousel_order FROM user_preferences WHERE user_id = :user_id");
 $db->bind(':user_id', $user_class->id);
 $orderResult = $db->fetch_row(true);
-
+$carouselData = $orderResult['carousel_order'];
     $carouselData = stripslashes($orderResult['carousel_order']);
 $carouselData = str_replace('"\,', '\"', $carouselData);
 
@@ -781,25 +781,19 @@ $(document).ready(function() {
                 ui.item.removeClass('dragging');
             },
             update: function(event, ui) {
-    var newOrder = $(this).sortable('toArray', { attribute: 'data-id' });
-    var orderJSON = JSON.stringify(newOrder); // Correctly uses double quotes
-    console.log(orderJSON);  // Debug: Output to see what's being sent
-
-    $.ajax({
-        url: '/ajax_changemenu.php',
-        type: 'POST',
-        data: { order: orderJSON },
-        contentType: "application/json; charset=utf-8", // Ensure correct content type
-        dataType: 'json', // Expect JSON response
-        success: function(response) {
-            alert('Order saved: ' + response);
-        },
-        error: function(xhr, status, error) {
-            alert('Error saving order: ' + error);
-        }
-    });
-}
-
+                var newOrder = $(this).sortable('toArray', { attribute: 'data-id' });
+                $.ajax({
+                    url: '/ajax_changemenu.php',
+                    type: 'POST',
+                    data: { order: JSON.stringify(newOrder) },
+                    success: function(response) {
+                        alert(response);
+                    },
+                    error: function() {
+                        alert('Error saving order.');
+                    }
+                });
+            }
         });
     }
 
