@@ -706,6 +706,10 @@ if ($user_class->view_preference === '1') { ?>
             opacity: 0.7;
             border: 1px solid red;
         }
+        #sortable-container {
+    overflow-x: auto; 
+
+}
 </style>
 <div class="container clearfix d-block d-md-none">
   <div class="d-flex justify-content-between align-items-center">
