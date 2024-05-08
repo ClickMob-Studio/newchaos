@@ -188,6 +188,32 @@ if($user_class->jail > 0){
 }
 
 ?>
+    <style>
+        .btn-info, .btn-primary {
+            color: #fff !important;
+            font: 1.4rem 'Montserrat', sans-serif !important;
+            padding: 15px 0;
+            width: 130px;
+            margin: 0 15px;
+            text-transform: uppercase;
+            background: #000000c4;
+            display: inline-block;
+            text-decoration: none;
+            border: solid var(--colorHighlight) 1px;
+            transition: background 0.5s, transform 0.5s;
+        }
+        .btn-secondary{
+            padding: 15px 0;
+            width: 130px;
+            display: inline-block;
+            margin: 0 15px;
+            color: #fff !important;
+            font: 1.4rem 'Montserrat', sans-serif !important;
+        }
+        .col{
+            padding-bottom:5px;
+        }
+    </style>
     <tr><td class="contentcontent">
             <?php if ($user_class->jail_bot_credits > 0): ?>
                 <div class="alert alert-info">
@@ -244,7 +270,7 @@ if($user_class->jail > 0){
                             }
 
                             if($line['jail'] != 0){
-                                echo "<tr class='jail-cell-row'><td>".$formattedName."</td><td>".floor($line['jail'] / 60)." m"."</td><td><a class='jail-break-link' data-jid='".$line['id']."' href='?jailbreak=".$line['id']."&token=".$token."'>Break Out</a></td></tr>";
+                                echo "<tr class='jail-cell-row'><td>".$formattedName."</td><td>".floor($line['jail'] / 60)." m"."</td><td><a class='jail-break-link btn btn-primary w-100' data-jid='".$line['id']."' href='?jailbreak=".$line['id']."&token=".$token."' class='btn btn-primary w-100'>Break Out</a></td></tr>";
                             }
                         }
                     }
@@ -257,7 +283,7 @@ if($user_class->jail > 0){
                         }
 
                         while ($i <= $limit) {
-                            echo "<tr class='jail-cell-row'><td>Bot</td><td>2m</td><td><a class='jail-break-link' data-jid='bot' href='?jailbreak=bot&token=".$token."'>Break Out</a></td></tr>";
+                            echo "<tr class='jail-cell-row'><td>Bot</td><td>2m</td><td><a class='jail-break-link btn btn-primary w-100' data-jid='bot' href='?jailbreak=bot&token=".$token."' class='btn btn-primary w-100'>Break Out</a></td></tr>";
 
                             $i++;
                         }
@@ -354,7 +380,7 @@ if($user_class->jail > 0){
                             '<tr class="jail-cell-row">' +
                             '<td>' + data.username + '</td>' +
                             '<td>' + data.time + '</td>' +
-                            '<td><a class="jail-break-link" data-jid="' + data.id + '" href="?jailbreak=' + data.id + '&token=<?php echo $token ?>" data-user-id="' + data.id + '" class="break-out-link">Break Out</a></td>' +
+                            '<td><a class="jail-break-link btn btn-primary w-100" data-jid="' + data.id + '" href="?jailbreak=' + data.id + '&token=<?php echo $token ?>" data-user-id="' + data.id + '" class="break-out-link btn btn-primary w-100">Break Out</a></td>' +
                             '</tr>'
                         );
 
@@ -406,7 +432,7 @@ if($user_class->jail > 0){
                         dataType: "json"
                     });
                     request.done(function (res) {
-                       console.log(res);
+                        console.log(res);
                     });
                 }
 
