@@ -26,8 +26,8 @@ if (isset($_GET['action'])  && $_GET['action'] == 'fetch_users') {
     if ($user_class->jail_bot_credits > 0 && $user_class->is_jail_bots_active) {
         $i = 1;
         $limit = $user_class->jail_bot_credits;
-        if ($limit > 10) {
-            $limit = 10;
+        if ($limit > 15) {
+            $limit = 15;
         }
 
         while ($i <= $limit) {
