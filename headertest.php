@@ -743,7 +743,10 @@ if ($user_class->view_preference === '1') { ?>
 
         <div class="p-2 mt-2 position-relative">
           <a href="/hospital.php">
-            <i class="fa-solid fa-message"></i>
+            <i class="fa-solid fa-message">
+            <span class="position-absolute top-0 start-100 tran-middle badge rounded-pill bg-danger" style="font-size: xx-small;transform: translate(50%, -50%);z-index: -1;"><!_-hospital-_!></span>
+    
+            </i>
             <p>Hospital</p>
           </a>
         </div>
