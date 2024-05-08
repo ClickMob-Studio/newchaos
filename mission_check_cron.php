@@ -58,10 +58,10 @@ foreach ($missions as $mission) {
 //            $exp = $exp + ($exp / 100 * (2 * $prestigeUserSKills['mission_exp_boost_level']));
 //        }
 
-        $expGain = floor($user_class->maxexp / 100 * $mission['mExpLevel']);
-        if ($prestigeUserSKills['mission_exp_boost_level'] > 0) {
-            $expGain = $expGain + ($expGain / 100 * (2 * $prestigeUserSKills['mission_exp_boost_level']));
-        }
+        $expGain = round($user_class->maxexp / 100 * $mission['mExpLevel']);
+//        if ($prestigeUserSKills['mission_exp_boost_level'] > 0) {
+//            $expGain = $expGain + ($expGain / 100 * (2 * $prestigeUserSKills['mission_exp_boost_level']));
+//        }
 
         $db->query("UPDATE grpgusers SET exp = exp + ? WHERE id = ?");
         $db->execute(array(
