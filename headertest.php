@@ -746,7 +746,7 @@ $db->query("SELECT carousel_order FROM user_preferences WHERE user_id = :user_id
 $db->bind(':user_id', $user_class->id);
 $orderResult = $db->fetch_row(true);
 
-$carousel_order = json_decode($orderResult['carousel_order'],true);
+$carousel_order = $orderResult['carousel_order'];
 if (!is_array($carousel_order)) {
     echo('Error: Decoded carousel_order is not an array.');
 }
