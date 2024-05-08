@@ -595,8 +595,30 @@ if ($user_class->view_preference === '1') { ?>
     <script src="js/java.js?v=12" type="text/javascript"></script>
 
 
-	
-	
+
+    <style>
+        .btn-info, .btn-primary {
+            color: #fff !important;
+            font: 1.4rem 'Montserrat', sans-serif !important;
+            padding: 15px 0;
+            width: 130px;
+            margin: 0 15px;
+            text-transform: uppercase;
+            background: #000000c4;
+            display: inline-block;
+            text-decoration: none;
+            border: solid var(--colorHighlight) 1px;
+            transition: background 0.5s, transform 0.5s;
+        }
+        .btn-secondary{
+            padding: 15px 0;
+            width: 130px;
+            display: inline-block;
+            margin: 0 15px;
+            color: #fff !important;
+            font: 1.4rem 'Montserrat', sans-serif !important;
+        }
+    </style>
 <style>
 	a{
 		text-decoration: none;

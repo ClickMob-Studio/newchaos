@@ -240,7 +240,7 @@ if (isset($_POST['id'])) {
     echo '
 		<table id="newtables"  style="width:100%;">
 			<tr>
-				<th width="40%">Name</th>
+				<th width="30%">Name</th>
 				<th>Level</th>
 				<th>Money</th>
 				<th>Online</th>
@@ -274,10 +274,10 @@ if (mysql_num_rows($query) == 0) {
             <td>" . prettynum($line['money'], 1) . "</td>
             <td>$userfound->formattedonline</td>";
 			if($userfound->id != 1 && $userfound->id != 2){
-        echo '<td><a class="dcPrimaryButton" href="attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">Attack</a></td>';
-            echo '<td><a class="dcPrimaryButton ajax-link" href="ajax_attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">Speed Attack</a></td>';
+        echo '<td><a class="btn btn-primary" href="attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">Attack</a></td>';
+            echo '<td><a class="btn btn-primary ajax-link" href="ajax_attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">S Attack</a></td>';
 
-		echo '<td><a class="dcPrimaryButton ajax-link" href="ajax_mug.php?mug=' . $userfound->id . '&token=' . $user_class->macro_token . '">Mug</a></td>';
+		echo '<td><a class="btn btn-primary ajax-link" href="ajax_mug.php?mug=' . $userfound->id . '&token=' . $user_class->macro_token . '">Mug</a></td>';
 	}else{
 		echo "<td></td><td></td><td></td>";
 	}
