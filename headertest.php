@@ -747,9 +747,9 @@ $db->bind(':user_id', $user_class->id);
 $orderResult = $db->fetch_row(true);
 echo "<pre>Raw JSON from DB: " . htmlspecialchars($orderResult['carousel_order']) . "</pre>";
 $carouselData = $orderResult['carousel_order'];
-if (strpos($carouselData, '\\') !== false) {  // Check if there are any backslashes
+//if (strpos($carouselData, '\\') !== false) {  // Check if there are any backslashes
     $carouselData = stripslashes($carouselData);
-}
+//}
 $carousel_order = json_decode($carouselData, true);
 if (json_last_error() !== JSON_ERROR_NONE) {
     die("JSON Decode Error: " . json_last_error_msg());
