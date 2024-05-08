@@ -12,6 +12,7 @@ if($user_class->admin != 1){
 $monthStartDate = new \DateTime('first day of this month');
 $monthEndDate = new \DateTime('last day of this month');
 $sql = "SELECT SUM(paymentamount) AS totalSpent FROM ipn WHERE date >= " . $monthStartDate->getTimestamp() . " . AND date <= " . $monthEndDate->getTimestamp();
+echo $sql; 
 $resultMonthDonations = mysql_query($sql);
 $monthDonations = $resultMonthDonations["totalSpent"];
 
