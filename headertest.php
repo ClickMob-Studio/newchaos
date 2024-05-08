@@ -673,7 +673,9 @@ if ($user_class->view_preference === '1') { ?>
     background-color: #000;
 }
 
-
+.translate-middle {
+    transform: translate(-4%, -73%) !important;
+}
 </style>
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner pl-1 pt-2">
