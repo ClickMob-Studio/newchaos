@@ -745,15 +745,11 @@ if ($user_class->view_preference === '1') { ?>
 $db->query("SELECT carousel_order FROM user_preferences WHERE user_id = :user_id");
 $db->bind(':user_id', $user_class->id);
 $orderResult = $db->fetch_row(true);
-echo "<pre>Raw JSON from DB: " . htmlspecialchars($orderResult['carousel_order']) . "</pre>";
 $carouselData = $orderResult['carousel_order'];
-//if (strpos($carouselData, '\\') !== false) {  // Check if there are any backslashes
     $carouselData = stripslashes($carouselData);
-//}
+
 $carousel_order = json_decode($carouselData, true);
-if (json_last_error() !== JSON_ERROR_NONE) {
-    die("JSON Decode Error: " . json_last_error_msg());
-}
+
 if (!is_array($carousel_order)) {
     //echo('Error: Decoded carousel_order is not an array.');
 }
@@ -765,7 +761,6 @@ var_dump($carousel_order);
     <div class="carousel-item active">
       <div class="d-flex" id="sortable-container">
         <?php foreach ($carousel_order as $item_id) {
-            echo $item_id;
             include 'menu_items/' . $item_id . '.php';
         } ?>
       </div>
