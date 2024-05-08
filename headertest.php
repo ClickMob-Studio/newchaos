@@ -705,6 +705,18 @@ if ($user_class->view_preference === '1') { ?>
    
     </div>
     <div class="d-flex justify-content-end align-items-center"> 
+    <div class="p-2 mt-2 position-relative">
+          <a href="/events.php">
+            <?php if($ev > 0) { 
+                $style='style="color:#dc3545;"';
+            } else { 
+                $style= '';
+            }?>
+
+            <i class="fa-solid fa-circle-exclamation" <?php echo $style;?>></i>
+            <p>Events</p>
+          </a>
+        </div>
         
     <a href="#" data-bs-toggle="modal" data-bs-target="#timeModal">
             <i class="fa-solid fa-clock"></i>
@@ -786,18 +798,7 @@ if ($user_class->view_preference === '1') { ?>
             <p>Chat</p>
           </a>
         </div>
-        <div class="p-2 mt-2 position-relative">
-          <a href="/events.php">
-            <?php if($ev > 0) { 
-                $style='style="color:#dc3545;"';
-            } else { 
-                $style= '';
-            }?>
-
-            <i class="fa-solid fa-circle-exclamation" <?php echo $style;?>></i>
-            <p>Events</p>
-          </a>
-        </div>
+        
         <div class="p-2 mt-2 position-relative">
           <a href="/newcrimes.php">
             <i class="fa-solid fa-people-robbery"></i>
