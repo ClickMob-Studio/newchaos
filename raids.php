@@ -397,9 +397,9 @@ echo "<div class='box_middle'>";
 echo "<div class='pad'>";
 if ($user_class->admin > 0) {
     echo "<p><strong>Filter By:</strong> ";
-    echo "<a href='#'>Gang Only</a> |";
-    echo "<a href='#'>Public</a> |";
-    echo "<a href='#'>Private</a> |";
+    echo "<a href='#'>Gang Only</a> | ";
+    echo "<a href='#'>Public</a> | ";
+    echo "<a href='#'>Private</a>";
 }
 echo "<div class='active-raids-grid'>";
 
