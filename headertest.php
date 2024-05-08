@@ -684,6 +684,7 @@ if ($user_class->view_preference === '1') { ?>
           <i class="fa-solid fa-city"></i>
             <p><!_-cityname-_!></p>
           </a>
+          </div>
         <div class="p-2">
           <a href="/pms.php">
             <i class="fa-solid fa-message"></i>
