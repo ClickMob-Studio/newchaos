@@ -701,7 +701,7 @@ if ($user_class->view_preference === '1') { ?>
       </a>
    
     </div>
-    <div class="d-flex justify-content-end align-items-center" style="height: 100vh;"> 
+    <div class="d-flex justify-content-end align-items-center"> 
         
     <a href="#" data-bs-toggle="modal" data-bs-target="#timeModal">
             <i class="fa-solid fa-clock"></i>
