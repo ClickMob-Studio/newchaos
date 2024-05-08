@@ -2,7 +2,7 @@
 require "ajax_header.php"; 
 $user_class = new User($_SESSION['id']);  
 
-$carousel_order = json_encode(stripslashes($_POST['order'])); 
+$carousel_order = json_encode($_POST['order']); 
 echo $carousel_order;
 exit;
 $carousel_order = stripslashes($carousel_order);
