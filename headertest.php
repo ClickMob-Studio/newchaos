@@ -679,15 +679,47 @@ if ($user_class->view_preference === '1') { ?>
 .tran-middle {
     transform: translate(-4%, -66%) !important;
 }
+/* Custom styling for the modal */
+.modal-content {
+            background-color: #333; 
+            color: #fff;  
+        }
+        .modal-header, .modal-body {
+            border-bottom: none;  
+        }
 </style>
 <div class="container clearfix d-block d-md-none">
   <div class="d-flex justify-content-between align-items-center">
-    <!-- Logo and Header -->
     <div class="logo pe-3" role="banner">
       <a href="/" class="d-flex align-items-center text-decoration-none">
         <img src="asset/img/logo1.png" style="width:30px"/>
         <h1 class="h3 ms-2">ChaosCity</h1>
       </a>
+      <a href="#" data-bs-toggle="modal" data-bs-target="#timeModal">
+            <i class="fa-solid fa-clock"></i>
+        </a>
+        <div class="modal fade" id="timeModal" tabindex="-1" aria-labelledby="timeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="timeModalLabel">Current Time</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="timeDisplay">
+                        <!-- Time will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var timeModal = document.getElementById('timeModal');
+        timeModal.addEventListener('show.bs.modal', function () {
+            var now = new Date();
+            var formattedTime = now.toLocaleTimeString(); // You can format it to match your needs
+            document.getElementById('timeDisplay').textContent = formattedTime;
+        });
+    </script>
     </div>
       
   </div>
