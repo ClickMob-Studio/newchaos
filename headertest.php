@@ -573,7 +573,10 @@ if ($user_class->view_preference === '1') { ?>
             <meta name="viewport" content="width=1024">
         <?php } else { ?>
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
-        <?php } ?>
+        <?php } 
+        $q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");
+        $hosp = mysql_num_rows($q);
+        ?>
 	<title>ChaosCity</title>
 
     <script src="js/java.js?12" type="text/javascript"></script><!doctype html>
@@ -673,7 +676,9 @@ if ($user_class->view_preference === '1') { ?>
     background-color: #000;
 }
 
-
+.tran-middle {
+    transform: translate(-4%, -66%) !important;
+}
 </style>
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner pl-1 pt-2">
@@ -733,7 +738,7 @@ if ($user_class->view_preference === '1') { ?>
         <div class="p-2 mt-2 position-relative">
     <a href="/jail.php" class="d-inline-block">
         <i class="fa-solid fa-handcuffs position-relative" style="/* font-size: 9px; */display: inline-block;z-index: 0;" aria-hidden="true">
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: xx-small;transform: translate(50%, -50%);z-index: -1;">1000</span>
+            <span class="position-absolute top-0 start-100 tran-middle badge rounded-pill bg-danger" style="font-size: xx-small;transform: translate(50%, -50%);z-index: -1;"><!_-jail-_!></span>
         </i>
         <p>Jail</p>
     </a>
@@ -741,7 +746,10 @@ if ($user_class->view_preference === '1') { ?>
 
         <div class="p-2 mt-2 position-relative">
           <a href="/hospital.php">
-            <i class="fa-solid fa-message"></i>
+            <i class="fa-solid fa-message" style="z-index:0;">
+            <span class="position-absolute top-0 start-100 tran-middle badge rounded-pill bg-danger" style="font-size: xx-small;transform: translate(50%, -50%);z-index: -1;"><?echo $hosp; ?></span>
+    
+            </i>
             <p>Hospital</p>
           </a>
         </div>
