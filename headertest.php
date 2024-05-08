@@ -679,7 +679,7 @@ if ($user_class->view_preference === '1') { ?>
         <div class="p-2">
           <a href="/messages.php">
             <!-- Content for Messages -->
-            <img src="path_to_icon" class="d-block w-100" alt="Messages">
+            <i class="fa-solid fa-message"></i>
             <p>Messages</p>
           </a>
         </div>
