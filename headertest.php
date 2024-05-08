@@ -685,7 +685,7 @@ if ($user_class->view_preference === '1') { ?>
     <!-- Logo and Header -->
     <div class="logo pe-3" role="banner">
       <a href="/" class="d-flex align-items-center text-decoration-none">
-        <img src="asset/img/logo1.png" />
+        <img src="asset/img/logo1.png" styl="width:30px"/>
         <h1 class="h3 ms-2">ChaosCity</h1>
       </a>
     </div>
