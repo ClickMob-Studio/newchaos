@@ -893,6 +893,9 @@ $(document).ready(function() {
         delay: 200,  // Delay in milliseconds before the drag starts
         disabled: true,  // Initially disabled
         start: function(event, ui) {
+            if (!isEditable) {
+                $('#sortable-container').sortable('cancel');
+            }
             ui.item.addClass('dragging');
         },
         stop: function(event, ui) {
@@ -913,7 +916,7 @@ $(document).ready(function() {
             //     }
             // });
         }
-    });
+    }).disableSelection();
 
     $('#edit-button').click(function() {
         isEditable = !isEditable;  // Toggle the editable state
@@ -921,6 +924,7 @@ $(document).ready(function() {
         $(this).text(isEditable ? 'Finish Editing' : 'Edit');  // Update button text based on state
     });
 });
+
 
    </script>
 
