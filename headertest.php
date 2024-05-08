@@ -643,6 +643,37 @@ if ($user_class->view_preference === '1') { ?>
 		</div>
 
 	</header>
+
+    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-touch="true">
+  <div class="carousel-inner">
+
+    <div class="carousel-item active">
+      <a href="/messages.php" class="d-block w-100">
+ 
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-envelope d-block mx-auto" viewBox="0 0 16 16" width="50" height="50">
+          <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.2l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm0 2.655V12a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5.655L8 9.855 2 5.655z"/>
+        </svg>
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Messages</h5>
+        </div>
+      </a>
+    </div>
+    <div class="carousel-item">
+      <a href="/events.php" class="d-block w-100">
+ 
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-event d-block mx-auto" viewBox="0 0 16 16" width="50" height="50">
+          <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+          <path d="M2.5 11a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+        <div class="carousel-caption d-none d-md-block">
+          <h5>Events</h5>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
     <div class="container d-block d-md-none p-3 dcPanel dcAvatarPanel"> <!-- This container is visible only on xs screens -->
     <div class="row">
         <!-- Energy Bar -->
@@ -680,6 +711,7 @@ if ($user_class->view_preference === '1') { ?>
             
         </div>
     </div>
+
 
 
     <!-- Additional Information (Money, Points, Merits) -->
