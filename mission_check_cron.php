@@ -50,7 +50,7 @@ foreach ($missions as $mission) {
 
     if ($mission['cKills'] >= $mission['reqKills'] && $mission['cCrimes'] >= $mission['reqCrimes'] && $mission['cBusts'] >= $mission['reqBusts'] && $mission['cMugs'] >= $mission['reqMugs'] && $mission['cBackalleys'] >= $mission['reqBackalleys']) {
 
-        $exp = 5 + (5 * $mission['mExpLevel']);
+        $exp = 5 + (5 * ($mission['mExpLevel'] + 2));
         $levelhurts = floor($user_class->level / 10);
         $exp = ($exp - $levelhurts < 3) ? 3 : $exp - $levelhurts;
 
