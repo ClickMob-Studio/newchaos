@@ -680,6 +680,55 @@ if ($user_class->view_preference === '1') { ?>
     transform: translate(-4%, -66%) !important;
 }
 </style>
+<div class="container clearfix d-block d-md-none">
+  <div class="d-flex justify-content-between align-items-center">
+    <!-- Logo and Header -->
+    <div class="logo pe-3" role="banner">
+      <a href="/" class="d-flex align-items-center text-decoration-none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-dice-5" viewBox="0 0 16 16">
+          <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+          <path d="M3.5 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm9 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm0 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-9 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm5.5-1.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+        </svg>
+        <h1 class="h3 ms-2">TORN - Text RPG</h1>
+      </a>
+    </div>
+
+    <!-- Navigation and Buttons -->
+    <div>
+      <ul class="nav">
+        <li class="nav-item">
+          <button class="btn btn-outline-light" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M2.5 12.5A.5.5 0 0 1 2 12V12a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1H2.5zm0-4A.5.5 0 0 1 2 8V8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1H2.5zm0-4A.5.5 0 0 1 2 4V4a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1H2.5z"/>
+            </svg>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light mt-3">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Features</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Pricing</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
 <div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
   <div class="carousel-inner pl-1 pt-2">
     <div class="carousel-item active">
