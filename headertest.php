@@ -686,12 +686,19 @@ if ($user_class->view_preference === '1') { ?>
           </a>
           </div>
         <div class="p-2">
-          <a href="/pms.php">
+          <a href="/pms.php?view=inbox">
             <i class="fa-solid fa-message"></i>
             <p>PMS</p>
           </a>
-        </div><div class="p-2">
-          <a href="/Events.php">
+        </div>
+        <div class="p-2">
+          <a href="/globalchat.php">
+          <i class="fa-brands fa-rocketchat"></i>
+            <p>Chat</p>
+          </a>
+        </div>
+        <div class="p-2">
+          <a href="/events.php">
             <i class="fa-solid fa-circle-exclamation"></i>
             <p>Events</p>
           </a>
@@ -716,30 +723,26 @@ if ($user_class->view_preference === '1') { ?>
         </div>
         <div class="p-2">
           <a href="/hospital.php">
-            <!-- Content for Messages -->
             <i class="fa-solid fa-message"></i>
             <p>Hospital</p>
           </a>
         </div>
         <div class="p-2">
-          <a href="/messages.php">
-            <!-- Content for Messages -->
-            <i class="fa-solid fa-message"></i>
-            <p>Messages</p>
+          <a href="/search.php">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <p>Search</p>
           </a>
         </div>
         <div class="p-2">
-          <a href="/messages.php">
-            <!-- Content for Messages -->
-            <i class="fa-solid fa-message"></i>
-            <p>Messages</p>
+          <a href="/maze.php">
+          <i class="fa-solid fa-puzzle-piece"></i>
+          <p>Maze</p>
           </a>
         </div>
         <div class="p-2">
-          <a href="/messages.php">
-            <!-- Content for Messages -->
-            <i class="fa-solid fa-message"></i>
-            <p>Messages</p>
+          <a href="/backalley_new.php">
+            <i class="fa-solid fa-dumpster"></i>
+            <p>Backalley</p>
           </a>
         </div>
         <!-- More items here -->
