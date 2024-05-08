@@ -715,9 +715,9 @@ if ($user_class->view_preference === '1') { ?>
     <i class="fa-solid fa-user"></i>
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item" href="/settings.php"><i class="fa-solid fa-gear"></i><Settings</a></li>
-        <li><a class="dropdown-item" href="/profiles.php?id=<?php echo $user_class->id;?>"><i class="fa-solid fa-address-card"></i>Profile</a></li>
-        <li><a class="dropdown-item" href="index.php?action=logout"><i class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
+        <li><a class="dropdown-item" href="/settings.php"><i class="fa-solid fa-gear"></i> Settings</a></li>
+        <li><a class="dropdown-item" href="/profiles.php?id=<?php echo $user_class->id;?>"><i class="fa-solid fa-address-card"></i> Profile</a></li>
+        <li><a class="dropdown-item" href="index.php?action=logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
     </ul>
 </div>
     </div>
