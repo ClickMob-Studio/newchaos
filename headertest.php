@@ -747,6 +747,9 @@ $db->bind(':user_id', $user_class->id);
 $orderResult = $db->fetch_row(true);
 
 $carousel_order = json_decode($orderResult['carousel_order'],true);
+if (!is_array($carousel_order)) {
+    die('Error: Decoded carousel_order is not an array.');
+}
 var_dump($carousel_order);
 ?>
 <button id="edit-button">Edit</button>
