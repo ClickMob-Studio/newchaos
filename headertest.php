@@ -733,7 +733,7 @@ if ($user_class->view_preference === '1') { ?>
         <div class="p-2">
           <a href="/jail.php">
             <i class="fa-solid fa-handcuffs"></i>
-            <p>Jail <span class="badge bg-danger"><?= $jail; ?></span> </p>
+            <p>Jail <span class="badge bg-danger"><!_-jail-_!></span> </p>
           </a>
         </div>
         <div class="p-2">
