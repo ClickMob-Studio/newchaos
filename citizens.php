@@ -45,18 +45,25 @@ $csrf = md5(uniqid(rand(), true));
 $_SESSION['csrf'] = $csrf;
 echo '<table width="100%">';
 echo '<tr>';
-echo '<td><b>#ID</b></td>';
-echo '<td><b>Username</b></td>';
-echo '<td><b>Active</b></td>';
-echo '<td><b>Actions</b></td>';
+echo '<th><b>#ID</b></th>';
+echo '<th><b>Username</b></th>';
+echo '<th><b>Level</b></th>';
+echo '<th><b>Active</b></th>';
+echo '<th><b>Actions</b></th>';
 echo '</tr>';
 $result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `id` ASC LIMIT $offset, $rowsperpage");
 while ($line = mysql_fetch_array($result)) {
     $secondsago = time() - $line['lastactive'];
     $user_online = new User($line['id']);
-    echo "<tr><td>" . $user_online->id . "</td><td>" . $user_online->formattedname . "</td>
+    echo "<tr>
+    <td>" . $user_online->id . "</td>
+    <td>" . $user_online->formattedname . "</td>
+    <td>" . $user_online->level . "</td>
     <td>" . $user_online->formattedonline . "</td>
-    <td><a class='action ajax-link' href='ajax_mug.php?mug=".$user_online->id."&token=" . $user_class->macro_token . "'>Mug</a> || <a class='action' href='attack.php?attack=" . $user_online->id . "&csrf=" . $csrf . "'>Attack</a></td>
+    <td>
+    <a class='action btn btn-primary ajax-link' href='ajax_mug.php?mug=".$user_online->id."&token=" . $user_class->macro_token . "'>Mug</a> 
+    <a class='action btn btn-primary' href='attack.php?attack=" . $user_online->id . "&csrf=" . $csrf . "'>Attack</a>
+    </td>
     </tr>";
 }
 echo "</table><br />";
