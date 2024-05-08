@@ -751,6 +751,7 @@ $carousel_order = json_decode($orderResult['carousel_order'], true);
     <div class="carousel-item active">
       <div class="d-flex" id="sortable-container">
         <?php foreach ($carousel_order as $item_id) {
+            echo $item_id;
             include 'menu_items/' . $item_id . '.php';
         } ?>
       </div>
