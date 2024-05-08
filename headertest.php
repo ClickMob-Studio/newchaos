@@ -644,130 +644,56 @@ if ($user_class->view_preference === '1') { ?>
 
 	</header>
 <style>
-    .carousel-item {
+.carousel-item {
   display: flex;
-  font-size:10px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
 }
 
-.carousel-item .col-md-3 {
-  flex: 0 0 25%;
-  max-width: 25%;
+.carousel-item > div {
+  flex: 0 0 auto;
+  width: 50%; /* Adjust the width for how many you want to show */
 }
 
-@media (max-width: 768px) {
-  .carousel-item .col-md-2 {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
+.carousel-item a {
+  display: block;
+  text-align: center;
 }
+
+/* Optional: hide scrollbars */
+.carousel-item::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-item {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 
 </style>
-<div id="multiItemCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <div class="row g-0">
-        <div class="col-2">
-          <a href="/messages.php" class="d-block w-100 p-2">
-            <div class="text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16" width="50" height="50">
-                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.2l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm0 2.655V12a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5.655L8 9.855 2 5.655z"/>
-              </svg>
-              <div>Messages</div>
-            </div>
+      <div class="d-flex">
+        <div class="p-2">
+          <a href="/messages.php">
+            <!-- Content for Messages -->
+            <img src="path_to_icon" class="d-block w-100" alt="Messages">
+            <p>Messages</p>
           </a>
         </div>
-        <div class="col-2">
-          <a href="/events.php" class="d-block w-100 p-2">
-            <div class="text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16" width="50" height="50">
-                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-              </svg>
-              <div>Events</div>
-            </div>
+        <div class="p-2">
+          <a href="/events.php">
+            <!-- Content for Events -->
+            <img src="path_to_icon" class="d-block w-100" alt="Events">
+            <p>Events</p>
           </a>
         </div>
-        <div class="col-2">
-          <a href="/events.php" class="d-block w-100 p-2">
-            <div class="text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16" width="50" height="50">
-                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-              </svg>
-              <div>Events</div>
-            </div>
-          </a>
-        </div>
-        <div class="col-2">
-          <a href="/events.php" class="d-block w-100 p-2">
-            <div class="text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16" width="50" height="50">
-                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-              </svg>
-              <div>Events</div>
-            </div>
-          </a>
-        </div>
-        <div class="col-2">
-          <a href="/events.php" class="d-block w-100 p-2">
-            <div class="text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16" width="50" height="50">
-                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-              </svg>
-              <div>Events</div>
-            </div>
-          </a>
-        </div>
-        <div class="col-2">
-          <a href="/events.php" class="d-block w-100 p-2">
-            <div class="text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16" width="50" height="50">
-                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-              </svg>
-              <div>Events</div>
-            </div>
-          </a>
-        </div>
-        <div class="col-2">
-          <a href="/events.php" class="d-block w-100 p-2">
-            <div class="text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16" width="50" height="50">
-                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-              </svg>
-              <div>Events</div>
-            </div>
-          </a>
-        </div>
-        <div class="col-2">
-          <a href="/events.php" class="d-block w-100 p-2">
-            <div class="text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16" width="50" height="50">
-                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-              </svg>
-              <div>Events</div>
-            </div>
-          </a>
-        </div>
-        <div class="col-2">
-          <a href="/events.php" class="d-block w-100 p-2">
-            <div class="text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16" width="50" height="50">
-                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-              </svg>
-              <div>Events</div>
-            </div>
-          </a>
-        </div>
-        <div class="col-2">
-          <a href="/events.php" class="d-block w-100 p-2">
-            <div class="text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16" width="50" height="50">
-                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
-              </svg>
-              <div>Events</div>
-            </div>
-          </a>
-        </div>
+        <!-- More items here -->
       </div>
     </div>
+    <!-- More carousel items if needed -->
   </div>
 </div>
 
