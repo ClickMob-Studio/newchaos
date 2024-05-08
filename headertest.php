@@ -706,10 +706,7 @@ if ($user_class->view_preference === '1') { ?>
             opacity: 0.7;
             border: 1px solid red;
         }
-        #sortable-container {
-    overflow-x: auto; 
-
-}
+        
 </style>
 <div class="container clearfix d-block d-md-none">
   <div class="d-flex justify-content-between align-items-center">
@@ -889,30 +886,43 @@ if ($user_class->view_preference === '1') { ?>
 </div>
 <script>
 $(document).ready(function() {
-    var isScrolling = false;
-    if ($('#sortable-container').length === 0) {
-        console.error('Sortable container not found');
-        return; // Stop the script if the container is not found
-    }
+    var touchStartX = 0;
+    var touchStartY = 0;
+    var isDragging = false;
 
+    $('#sortable-container').on('touchstart mousedown', function(e) {
+        isDragging = false; // reset dragging flag
+        touchStartX = e.type === 'touchstart' ? e.originalEvent.touches[0].pageX : e.pageX;
+        touchStartY = e.type === 'touchstart' ? e.originalEvent.touches[0].pageY : e.pageY;
+    });
+
+    $('#sortable-container').on('touchmove mousemove', function(e) {
+        var touchCurrentX = e.type === 'touchmove' ? e.originalEvent.touches[0].pageX : e.pageX;
+        var touchCurrentY = e.type === 'touchmove' ? e.originalEvent.touches[0].pageY : e.pageY;
+        // Check if movement is more horizontal than vertical
+        if (Math.abs(touchCurrentX - touchStartX) > Math.abs(touchCurrentY - touchStartY) && !isDragging) {
+            isDragging = true; // set dragging flag
+            $(this).sortable('enable');
+        }
+    });
+
+    $('#sortable-container').on('touchend mouseup', function(e) {
+        $(this).sortable('disable'); // Disable sorting on touch end/mouse up to allow for scrolling
+    });
 
     $('#sortable-container').sortable({
         axis: 'x', // Restrict dragging to the horizontal axis
-        delay: 200, // Delay in milliseconds before the drag starts
+        delay: 200, // Delay for press and hold
+        disabled: true, // Initially disabled, enabled on horizontal move
         start: function(event, ui) {
-            if (isScrolling) {
-                $('#sortable-container').sortable('cancel');
-                return false; // Prevent sorting if scrolling is detected
-            }
             ui.item.addClass('dragging');
         },
         stop: function(event, ui) {
             ui.item.removeClass('dragging');
-            setTimeout(function() { isScrolling = false; }, 100); // Reset scrolling status after a brief delay
         },
         update: function(event, ui) {
             var newOrder = $(this).sortable('toArray', { attribute: 'data-id' });
-            // Send the new order to the server via AJAX
+            // Optionally send the new order to the server via AJAX
             // $.ajax({
             //     url: '/path/to/your/save_order.php',
             //     type: 'POST',
@@ -925,9 +935,7 @@ $(document).ready(function() {
             //     }
             // });
         }
-    });
-
-    $('#sortable-container').disableSelection();
+    }).disableSelection();
 });
 
 </script>
