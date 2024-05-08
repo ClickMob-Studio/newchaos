@@ -886,10 +886,11 @@ if ($user_class->view_preference === '1') { ?>
 <script>
 $(document).ready(function() {
     var isScrolling = false;
+    if ($('#sortable-container').length === 0) {
+        console.error('Sortable container not found');
+        return; // Stop the script if the container is not found
+    }
 
-    $('#sortable-container').on('scroll touchmove', function() {
-        isScrolling = true;
-    });
 
     $('#sortable-container').sortable({
         axis: 'x', // Restrict dragging to the horizontal axis
