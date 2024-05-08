@@ -707,7 +707,13 @@ if ($user_class->view_preference === '1') { ?>
         <?php } ?>
         <div class="p-2 mt-2 position-relative">
           <a href="/pms.php?view=inbox">
-            <i class="fa-solid fa-message"></i>
+            
+          <?php if($mailCount > 0) { 
+                $style='style="color:#dc3545;"';
+            } else { 
+                $style= '';
+            }?>
+            <i class="fa-solid fa-message" <?php echo $style;?>></i>
             <p>PMS</p>
           </a>
         </div>
@@ -719,7 +725,7 @@ if ($user_class->view_preference === '1') { ?>
         </div>
         <div class="p-2 mt-2 position-relative">
           <a href="/events.php">
-            <?php if($ev > 1) { 
+            <?php if($ev > 0) { 
                 $style='style="color:#dc3545;"';
             } else { 
                 $style= '';
