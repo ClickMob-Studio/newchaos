@@ -888,14 +888,12 @@ if ($user_class->view_preference === '1') { ?>
 $(document).ready(function() {
     var isEditable = false;  // Flag to track whether sorting should be enabled
 
+    // Initialize sortable with disabled option set based on the isEditable flag
     $('#sortable-container').sortable({
         axis: 'x',
         delay: 200,
-        disabled: true,  // Initially disabled
+        disabled: true,
         start: function(event, ui) {
-            if (!isEditable) {
-                $('#sortable-container').sortable('cancel');
-            }
             ui.item.addClass('dragging');
         },
         stop: function(event, ui) {
@@ -915,27 +913,13 @@ $(document).ready(function() {
             //     }
             // });
         }
-    }).disableSelection();
-
-    $('#edit-button').click(function() {
-        isEditable = !isEditable;  // Toggle the editable state
-        $('#sortable-container').sortable('option', 'disabled', !isEditable);
-        $(this).text(isEditable ? 'Finish Editing' : 'Edit');  // Update button text based on state
-        toggleElementInteraction(isEditable);
     });
 
-    // Function to enable or disable interaction with sortable elements
-    function toggleElementInteraction(enable) {
-        if (enable) {
-            $('.p-2').on('mousedown touchstart', function(event) {
-                event.stopPropagation();  // Prevent event from bubbling up to the container
-            });
-        } else {
-            $('.p-2').off('mousedown touchstart');
-        }
-    }
-
-    toggleElementInteraction(isEditable);
+    $('#edit-button').click(function() {
+        isEditable = !isEditable;
+        $('#sortable-container').sortable('option', 'disabled', !isEditable);
+        $(this).text(isEditable ? 'Finish Editing' : 'Edit');
+    });
 });
 
    </script>
