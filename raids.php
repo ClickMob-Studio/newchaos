@@ -402,13 +402,11 @@ while ($row = mysql_fetch_assoc($active_raids_result)) {
 echo "<div class='box_top'>Active Raids</div>";
 echo "<div class='box_middle'>";
 echo "<div class='pad'>";
-if ($user_class->admin > 0) {
-    echo "<p><strong>Filter By:</strong> ";
-    echo "<a href='raids.php'>Show All</a> | ";
-    echo "<a href='raids.php?ftype=gang_only'>Gang Only</a> | ";
-    echo "<a href='raids.php?ftype=public'>Public</a> | ";
-    echo "<a href='raids.php?ftype=private'>Private</a>";
-}
+echo "<p><strong>Filter By:</strong> ";
+echo "<a href='raids.php'>Show All</a> | ";
+echo "<a href='raids.php?ftype=gang_only'>Gang Only</a> | ";
+echo "<a href='raids.php?ftype=public'>Public</a> | ";
+echo "<a href='raids.php?ftype=private'>Private</a>";
 echo "<div class='active-raids-grid'>";
 
 foreach ($active_raids as $raid) {
