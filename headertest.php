@@ -901,7 +901,7 @@ $(document).ready(function() {
             update: function(event, ui) {
                 var newOrder = $(this).sortable('toArray', { attribute: 'data-id' });
                 $.ajax({
-                    url: '/path/to/your/save_order.php',
+                    url: '/ajax_changemenu.php',
                     type: 'POST',
                     data: { order: JSON.stringify(newOrder) },
                     success: function(response) {
