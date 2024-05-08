@@ -676,7 +676,7 @@ if ($user_class->view_preference === '1') { ?>
 
 </style>
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-  <div class="carousel-inner pl-1">
+  <div class="carousel-inner pl-1 pt-1">
     <div class="carousel-item active">
       <div class="d-flex">
         <div class="p-2">
