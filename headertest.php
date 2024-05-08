@@ -1053,7 +1053,7 @@ if ($user_class->view_preference === '1') { ?>
             </div>
 
             <div class="col-12 col-lg-4">
-                <div class="p-3 dcPanel dcAvatarPanel">
+                <div class="p-3 dcPanel dcAvatarPanel d-none d-md-block">
                     <div class="row mb-3">
                         <div class="col-7 dcUserName">
 
