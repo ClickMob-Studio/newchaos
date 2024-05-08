@@ -732,7 +732,7 @@ if ($user_class->view_preference === '1') { ?>
         </div>
         <div class="p-2">
           <a href="/jail.php">
-            <i class="fa-solid fa-handcuffs"> <?php if ($jail > 0): ?>
+            <i class="fa-solid fa-handcuffs"> <?php if ($jail < 1): ?>
                 <span class="badge position-absolute top-0 start-100 translate-middle badge-rounded-pill bg-danger">
                     <?php echo $jail; ?>
                     <span class="visually-hidden">unread messages</span>
