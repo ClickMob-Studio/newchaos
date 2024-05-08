@@ -888,39 +888,50 @@ if ($user_class->view_preference === '1') { ?>
 $(document).ready(function() {
     var isEditable = false;  // Flag to track whether sorting should be enabled
 
-    // Initialize sortable with disabled option set based on the isEditable flag
-    $('#sortable-container').sortable({
-        axis: 'x',
-        delay: 200,
-        disabled: true,
-        start: function(event, ui) {
-            ui.item.addClass('dragging');
-        },
-        stop: function(event, ui) {
-            ui.item.removeClass('dragging');
-        },
-        update: function(event, ui) {
-            var newOrder = $(this).sortable('toArray', { attribute: 'data-id' });
-            // $.ajax({
-            //     url: '/path/to/your/save_order.php',
-            //     type: 'POST',
-            //     data: { order: JSON.stringify(newOrder) },
-            //     success: function(response) {
-            //         alert('Order saved!');
-            //     },
-            //     error: function() {
-            //         alert('Error saving order.');
-            //     }
-            // });
+    function initializeSortable() {
+        $('#sortable-container').sortable({
+            axis: 'x',
+            delay: 200,
+            start: function(event, ui) {
+                ui.item.addClass('dragging');
+            },
+            stop: function(event, ui) {
+                ui.item.removeClass('dragging');
+            },
+            update: function(event, ui) {
+                var newOrder = $(this).sortable('toArray', { attribute: 'data-id' });
+                $.ajax({
+                    url: '/path/to/your/save_order.php',
+                    type: 'POST',
+                    data: { order: JSON.stringify(newOrder) },
+                    success: function(response) {
+                        alert('Order saved!');
+                    },
+                    error: function() {
+                        alert('Error saving order.');
+                    }
+                });
+            }
+        });
+    }
+
+    function destroySortable() {
+        if ($('#sortable-container').hasClass('ui-sortable')) {
+            $('#sortable-container').sortable('destroy');
         }
-    });
+    }
 
     $('#edit-button').click(function() {
         isEditable = !isEditable;
-        $('#sortable-container').sortable('option', 'disabled', !isEditable);
+        if (isEditable) {
+            initializeSortable();  // Initialize sortable if entering edit mode
+        } else {
+            destroySortable();  // Destroy sortable if exiting edit mode
+        }
         $(this).text(isEditable ? 'Finish Editing' : 'Edit');
     });
 });
+
 
    </script>
 
