@@ -696,6 +696,9 @@ if ($user_class->view_preference === '1') { ?>
         .modal-header, .modal-body {
             border-bottom: none;  
         }
+        .fa-solid, .fas {
+         font-weight: 900;
+        }
 </style>
 <div class="container clearfix d-block d-md-none">
   <div class="d-flex justify-content-between align-items-center">
