@@ -7,7 +7,7 @@ include "header.php";
 <?php
 if (isset($_GET['do'])) {
     $do = abs(intval($_GET['do']));
-    if ($do != 1 && $do != 2 && $do != 3 && $do != 4 && $do != 5 && $do != 6  && $do != 7 && $do != 8 && $do != 9 && $do != 10 && $do != 22 && $do != 23 && $do != 24 && $do != 25 && $do != 26 && $do != 27)
+    if ($do != 1 && $do != 2 && $do != 3 && $do != 4 && $do != 5 && $do != 6  && $do != 7 && $do != 8 && $do != 9 && $do != 10 && $do != 22 && $do != 23 && $do != 24 && $do != 25 && $do != 26 && $do != 27 && $do != 40)
         die("");
     $mm = mysql_fetch_array(mysql_query("SELECT * FROM mission WHERE id={$do}"));
     $r = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid={$user_class->id} AND mid={$do} ORDER BY timestamp DESC LIMIT 1"));
