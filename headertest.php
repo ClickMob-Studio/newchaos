@@ -707,17 +707,7 @@ if ($user_class->view_preference === '1') { ?>
             opacity: 0.7;
             border: 1px solid red;
         }
-        #edit-button {
-    position: absolute;
-    top: -10;
-    right: -17px;
-    background: none;
-    border: none;
-    font-size: x-small;
-    color: orange;
-    text-decoration: underline;
-    cursor: pointer;
-}
+
 
 /* Ensure it doesn't interfere with the carousel controls if any */
 #edit-button.text-button {
@@ -788,7 +778,7 @@ if (empty($carousel_order)) {
 
 ?>
 <div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
-<button id="edit-button" class="text-button">Edit</button>
+
   <div class="carousel-inner pl-1 pt-2">
     <div class="carousel-item active">
       <div class="d-flex" id="sortable-container">
@@ -837,6 +827,10 @@ $(document).ready(function() {
     }
 
     $('#edit-button').click(function() {
+        window.scrollTo({
+        top: 0,
+        behavior: 'smooth'  // This makes the scroll smoothly glide to the top rather than a sudden jump
+        });
         isEditable = !isEditable;
         if (isEditable) {
             initializeSortable();  // Initialize sortable if entering edit mode
