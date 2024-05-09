@@ -28,6 +28,7 @@ if (empty($ignoreslashes)) {
     }
 }
 
+
 if (!isset($_SESSION['id'])) {
     include('home.php');
     die();
@@ -594,6 +595,9 @@ if ($user_class->view_preference === '1') { ?>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/java.js?v=12" type="text/javascript"></script>
@@ -699,6 +703,17 @@ if ($user_class->view_preference === '1') { ?>
         .fa-solid, .fas {
          font-weight: 900;
         }
+        .dragging {
+            opacity: 0.7;
+            border: 1px solid red;
+        }
+
+
+/* Ensure it doesn't interfere with the carousel controls if any */
+#edit-button.text-button {
+  z-index: 1000; /* Higher z-index to make sure it's clickable */
+}
+        
 </style>
 <div class="container clearfix d-block d-md-none">
   <div class="d-flex justify-content-between align-items-center">
@@ -730,152 +745,104 @@ if ($user_class->view_preference === '1') { ?>
 
   </div>
 </div>
+<?php
+$db->query("SELECT carousel_order FROM user_preferences WHERE user_id = :user_id");
+$db->bind(':user_id', $user_class->id);
+$orderResult = $db->fetch_row(true);
+$carouselData = $orderResult['carousel_order'];
+    $carouselData = stripslashes($orderResult['carousel_order']);
+$carouselData = str_replace('"\,', '\"', $carouselData);
 
+$carousel_order = json_decode($carouselData, true);
+
+if (empty($carousel_order)) {
+    $carousel_order = array("city",
+    "updates",
+    "gang",
+    "gmail",
+    "pms",
+    "chat",
+    "events",
+    "crimes",
+    "gym",
+    "jail",
+    "hospital",
+    "inventory",
+    "missions",
+    "raids",
+    "search",
+    "maze",
+    "backalley",)
+    ;
+}
+
+?>
 <div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
+
   <div class="carousel-inner pl-1 pt-2">
     <div class="carousel-item active">
-      <div class="d-flex">
-      <div class="p-2 mt-2 position-relative">
-          <a href="/city.php">
-          <i class="fa-solid fa-city"></i>
-            <p>City</p>
-          </a>
-          </div>
-          <?php if ($user_class->game_updates > 0) {?>
-      <div class="p-2 mt-2 position-relative">
-          <a href="/gameupdates.php">
-          <i class="fa-solid fa-bullhorn" style="color:#dc3545;"></i>
-            <p>Updates</p>
-          </a>
-          </div>
-          <?php }?>
-          <?php 
-          if($user_class->gang > 0 ) { ?>
-        <div class="p-2 mt-2 position-relative">
-          <a href="gang.php">
-          <i class="fa-solid fa-people-group"></i>
-            <p>Gang</p>
-          </a>
-        </div>
-        
-        <div class="p-2 mt-2 position-relative">
-          <a href="gangmail.php">
-          <?php if($user_class->gmail > 0){
-            $style='style="color:#dc3545;"';
-          }else{
-            $style= '';
-          }?>
-          <i class="fa-solid fa-envelopes-bulk" <?php echo $style;?>></i>
-            <p style="text-wrap: nowrap;">Gang Mail</p>
-          </a>
-        </div>
-        <?php } ?>
-        <div class="p-2 mt-2 position-relative">
-          <a href="/pms.php?view=inbox">
-            
-          <?php 
-              $db->query("SELECT count(viewed) FROM pms WHERE `to` = ? AND viewed = 1");
-              $db->execute(array($user_class->id));
-              $mailCount = $db->fetch_single();
-          if($mailCount > 0) { 
-                $style='style="color:#dc3545;"';
-            } else { 
-                $style= '';
-            }?>
-            <i class="fa-solid fa-message" <?php echo $style;?>></i>
-            <p>PMS</p>
-          </a>
-        </div>
-        <div class="p-2 mt-2 position-relative">
-          <a href="/globalchat.php">
-          <i class="fa-brands fa-rocketchat"></i>
-            <p>Chat</p>
-          </a>
-        </div>
-        <div class="p-2 mt-2 position-relative">
-          <a href="/events.php">
-            <?php if($ev > 0) { 
-                $style='style="color:#dc3545;"';
-            } else { 
-                $style= '';
-            }?>
-
-            <i class="fa-solid fa-circle-exclamation" <?php echo $style;?>></i>
-            <p>Events</p>
-          </a>
-        </div>
-        <div class="p-2 mt-2 position-relative">
-          <a href="/newcrimes.php">
-            <i class="fa-solid fa-people-robbery"></i>
-            <p>Crimes</p>
-          </a>
-        </div>
-        <div class="p-2 mt-2 position-relative">
-          <a href="/gym.php">
-          <i class="fa-solid fa-dumbbell"></i>
-            <p>Gym</p>
-          </a>
-        </div>
-        <div class="p-2 mt-2 position-relative">
-    <a href="/jail.php" class="d-inline-block">
-        <i class="fa-solid fa-handcuffs position-relative" style="/* font-size: 9px; */display: inline-block;z-index: 0;" aria-hidden="true">
-            <span class="position-absolute top-0 start-100 tran-middle badge rounded-pill bg-danger" style="font-size: xx-small;transform: translate(50%, -50%);z-index: -1;"><!_-jail-_!></span>
-        </i>
-        <p>Jail</p>
-    </a>
-</div>
-
-        <div class="p-2 mt-2 position-relative">
-          <a href="/hospital.php">
-          <i class="fa-solid fa-hospital" style="z-index:1"></i>
-            <span class="position-absolute top-0 start-100 tran-middle badge rounded-pill bg-danger" style="font-size: xx-small;transform: translate(-92%, -34%) !important;z-index: 0;"><?echo $hosp; ?></span>
-    
-            </i>
-            <p>Hospital</p>
-          </a>
-        </div>
-        <div class="p-2 mt-2 position-relative">
-          <a href="/inventory.php">
-          <i class="fa-solid fa-boxes-stacked"></i>
-            <p>Inventory</p>
-          </a>
-        </div>
-        <div class="p-2 mt-2 position-relative">
-          <a href="/missions.php">
-          <i class="fa-solid fa-walkie-talkie"></i>
-            <p>Missions</p>
-          </a>
-        </div>
-        <div class="p-2 mt-2 position-relative">
-          <a href="/raids.php">
-          <i class="fa-solid fa-hand-fist"></i>
-            <p>Raids</p>
-          </a>
-        </div>
-        <div class="p-2 mt-2 position-relative">
-          <a href="/search.php">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <p>Search</p>
-          </a>
-        </div>
-        <div class="p-2 mt-2 position-relative">
-          <a href="/maze.php">
-          <i class="fa-solid fa-puzzle-piece"></i>
-          <p>Maze</p>
-          </a>
-        </div>
-        <div class="p-2 mt-2 position-relative">
-          <a href="/backalley_new.php">
-            <i class="fa-solid fa-dumpster"></i>
-            <p>Backalley</p>
-          </a>
-        </div>
-        <!-- More items here -->
+      <div class="d-flex" id="sortable-container">
+        <?php foreach ($carousel_order as $item_id) {
+            include 'menu_items/' . $item_id . '.php';
+        } ?>
       </div>
     </div>
-    <!-- More carousel items if needed -->
   </div>
 </div>
+<script>
+$(document).ready(function() {
+    var isEditable = false;  // Flag to track whether sorting should be enabled
+
+    function initializeSortable() {
+        $('#sortable-container').sortable({
+            axis: 'x',
+            delay: 20,
+            start: function(event, ui) {
+                ui.item.addClass('dragging');
+            },
+            stop: function(event, ui) {
+                ui.item.removeClass('dragging');
+            },
+            update: function(event, ui) {
+                var newOrder = $(this).sortable('toArray', { attribute: 'data-id' });
+                $.ajax({
+                    url: '/ajax_changemenu.php',
+                    type: 'POST',
+                    data: { order: JSON.stringify(newOrder) },
+                    success: function(response) {
+                        
+                    },
+                    error: function() {
+                        alert('Error saving order.');
+                    }
+                });
+            }
+        });
+    }
+
+    function destroySortable() {
+        if ($('#sortable-container').hasClass('ui-sortable')) {
+            $('#sortable-container').sortable('destroy');
+        }
+    }
+
+    $('#edit-button').click(function() {
+        window.scrollTo({
+        top: 0,
+        behavior: 'smooth'  // This makes the scroll smoothly glide to the top rather than a sudden jump
+        });
+        isEditable = !isEditable;
+        if (isEditable) {
+            initializeSortable();  // Initialize sortable if entering edit mode
+        } else {
+            destroySortable();  // Destroy sortable if exiting edit mode
+        }
+        $(this).text(isEditable ? 'Finish Editing' : 'Edit');
+    });
+});
+
+
+   </script>
 
     <div class="container d-block d-md-none p-3 dcPanel dcAvatarPanel"> <!-- This container is visible only on xs screens -->
     <div class="row">

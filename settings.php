@@ -527,10 +527,7 @@ include 'headertest.php';
             </div>
         <?php endif; ?>
     </div>
-</div>
 
-
-<?php if ($user_class->admin > 0): ?>
     <div class="col-md-4 col-6 d-lg-none">
                 <h1>Edit mobile layout</h1>
                 <p>
@@ -540,8 +537,8 @@ include 'headertest.php';
                 </p>
                 <button id="edit-button">Edit</button>
             </div>
-    
-<?php endif; ?>
+        </div>
+        
 
 
 <?php require "footer.php";
