@@ -13,18 +13,18 @@ body {
 }
 
 /* General styling for h3 headers to match tables */
-h3 {
-    background-color: #333; /* Dark background to match tables */
-    color: #FFD700; /* Gold color to stand out */
-    padding: 10px;
-    margin: 20px auto; /* Center the header and give some space around it */
-    text-align: center;
-    border-top: 3px solid #FFD700; /* Gold top border for distinction */
-    border-bottom: 1px solid #444; /* Dark border to match table styling */
-    width: 75%; /* Match the width of the tables */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
-    border-radius: 4px; /* Slight rounding of corners */
-}
+/*h3 {*/
+/*    background-color: #333; !* Dark background to match tables *!*/
+/*    color: #FFD700; !* Gold color to stand out *!*/
+/*    padding: 10px;*/
+/*    margin: 20px auto; !* Center the header and give some space around it *!*/
+/*    text-align: center;*/
+/*    border-top: 3px solid #FFD700; !* Gold top border for distinction *!*/
+/*    border-bottom: 1px solid #444; !* Dark border to match table styling *!*/
+/*    width: 75%; !* Match the width of the tables *!*/
+/*    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); !* Soft shadow for depth *!*/
+/*    border-radius: 4px; !* Slight rounding of corners *!*/
+/*}*/
 
 hr {
     display: none; /* Remove the horizontal rule as the header now has borders */
