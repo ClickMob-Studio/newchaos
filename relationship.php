@@ -18,8 +18,10 @@ include("header.php");
             $player = new User($_GET['player']);
             if (isset($_POST['send'])) {
                 if($user_class->relationshipended > (time() - 432000)){
+                    $times = time() - $user_class->relationshipended;
+                    $timess = time() + $times;
                     
-                    echo Message("You can only marry once every 5 days you have ". howlongtil($user_class->relationshipended)." till you can remarry");
+                    echo Message("You can only marry once every 5 days you have ". howlongleft($timess)." till you can remarry");
                     include("footer.php");
                     die();
                 }
