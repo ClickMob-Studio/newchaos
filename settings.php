@@ -531,7 +531,16 @@ include 'headertest.php';
 
 
 <?php if ($user_class->admin > 0): ?>
-    <button id="edit-button" class="text-button">Edit</button>
+    <div class="col-md-4 col-6 d-lg-none">
+                <h1>Edit mobile layout</h1>
+                <p>
+                    By clicking this button it will allow you to reorder the menu you see on mobile devices, in doing so it will allow you to press and 
+                    hold a item and move it to where you want to within the bar. To leave the edit function when staying on the settings page come back and click the finish editing button,
+                    however leaving the settings page will auto save and leave editing mode
+                </p>
+                <button id="edit-button">Edit</button>
+            </div>
+    
 <?php endif; ?>
 
 
