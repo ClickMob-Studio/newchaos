@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
     $check_query = "SELECT rp.raid_id 
                     FROM raid_participants rp 
                     JOIN active_raids ar ON rp.raid_id = ar.id 
-                    WHERE rp.user_id = $user_id AND ar.completed = 0";
+                    WHERE rp.user_id = $user_id AND TIMESTAMPDIFF(SECOND, NOW(), DATE_ADD(ar.summoned_at, INTERVAL 15 MINUTE)) > 0";
     $check_result = mysql_query($check_query);
 
     if (mysql_num_rows($check_result) > 0) {
