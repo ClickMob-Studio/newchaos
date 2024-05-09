@@ -708,14 +708,15 @@ if ($user_class->view_preference === '1') { ?>
             border: 1px solid red;
         }
         #edit-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: none;
-  border: none;
-  color: #007BFF; /* Bootstrap primary blue, adjust as needed */
-  text-decoration: underline;
-  cursor: pointer;
+    position: absolute;
+    top: -10;
+    right: -17px;
+    background: none;
+    border: none;
+    font-size: x-small;
+    color: orange;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 /* Ensure it doesn't interfere with the carousel controls if any */
