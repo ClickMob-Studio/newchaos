@@ -137,7 +137,7 @@ foreach ($missions as $mission) {
         <tr style='color: #ffffff;'>
             <td style='border: 1px solid #444444; padding: 8px;'>{$mission['name']}</td>
             <td style='border: 1px solid #444444; padding: 8px;'>Kills: {$mission['kills']}<br>Crimes: {$mission['crimes']}<br>Mugs: {$mission['mugs']}<br>Busts: {$mission['busts']}</td>
-            <td style='border: 1px solid #444444; padding: 8px;'>Kills: {$mission['payKills']} Points<br>Crimes: {$mission['payCrimes']} Points<br>Mugs: {$mission['payMugs']} Points<br>Busts: {$mission['payBusts']} Points <br>EXP: {$mission['exp_level']}% of Max EXP</td>
+            <td style='border: 1px solid #444444; padding: 8px;'>Kills: {$mission['payKills']} Points<br>Crimes: {$mission['payCrimes']} Points<br>Mugs: {$mission['payMugs']} Points<br>Busts: {$mission['payBusts']} Points</td>
             <td style='border: 1px solid #444444; padding: 8px;'>{$button}</td>
         </tr>";
 }
