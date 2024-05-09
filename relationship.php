@@ -21,7 +21,7 @@ include("header.php");
                     $times = time() - $user_class->relationshipended;
                     $timess = time() + $times;
                     
-                    echo Message("You can only marry once every 5 days you have ". howlongleft($timess)." till you can remarry");
+                    echo Message("You can only marry once every 5 days");
                     include("footer.php");
                     die();
                 }
