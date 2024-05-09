@@ -707,6 +707,21 @@ if ($user_class->view_preference === '1') { ?>
             opacity: 0.7;
             border: 1px solid red;
         }
+        #edit-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  border: none;
+  color: #007BFF; /* Bootstrap primary blue, adjust as needed */
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Ensure it doesn't interfere with the carousel controls if any */
+#edit-button.text-button {
+  z-index: 1000; /* Higher z-index to make sure it's clickable */
+}
         
 </style>
 <div class="container clearfix d-block d-md-none">
@@ -771,8 +786,8 @@ if (empty($carousel_order)) {
 }
 
 ?>
-<button id="edit-button">Edit</button>
 <div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
+<button id="edit-button" class="text-button">Edit</button>
   <div class="carousel-inner pl-1 pt-2">
     <div class="carousel-item active">
       <div class="d-flex" id="sortable-container">
