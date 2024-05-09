@@ -57,7 +57,7 @@ echo"
 
 	<div class='flexcont'>
 		<div class='flexele'>
-			<form method='post'>
+			<form method='post' action='search.php'>
 				<input type='hidden' name='actsearch' value='1' />
 					<table id='table' style='margin:auto;'>
 						<tr>
