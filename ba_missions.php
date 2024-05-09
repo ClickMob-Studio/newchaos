@@ -156,7 +156,7 @@ if (mysql_fetch_array($check)) {
             <tr>
                 <td class='mission-columns'>{$v['name']}</td>
                 <td class='mission-columns'>Kills: <span class='text-green'>{$v['kills']}<br /></span>Crimes: <span class='text-green'>{$v['crimes']}<br /></span>Mugs: <span class='text-green'>{$v['mugs']}<br /></span>Busts: <span class='text-green'>{$v['busts']}</span><br />Backalleys: <span class='text-green'>{$v['backalleys']}</span></td>
-                <td class='mission-columns'>Kills: <span class='text-green'>{$v['payKills']}</span> Points<br/>Crimes: <span class='text-green'>{$v['payCrimes']}</span> Points<br/>Mugs: <span class='text-green'>{$v['payMugs']}</span> Points<br/>Busts: <span class='text-green'>{$v['payBusts']}</span> Points<br/>Backalleys: <span class='text-green'>{$v['payBackalleys']}</span> Points<br/></td>
+                <td class='mission-columns'>Kills: <span class='text-green'>{$v['payKills']}</span> Points<br/>Crimes: <span class='text-green'>{$v['payCrimes']}</span> Points<br/>Mugs: <span class='text-green'>{$v['payMugs']}</span> Points<br/>Busts: <span class='text-green'>{$v['payBusts']}</span> Points<br/>Backalleys: <span class='text-green'>{$v['payBackalleys']}</span> Points<br/>EXP: <span class='text-green'>{$v['exp_level']}%</span> of max EXP<br/></td>
                 <td class='mission-columns'>{$button}</td>
             </tr>
 
