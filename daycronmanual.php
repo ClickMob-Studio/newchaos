@@ -57,6 +57,7 @@ foreach ($otds as $otd) {
     }
 }
 $db->query("UPDATE grpgusers SET ffban = 0");
+$db->execute();
 
 $db->query("SELECT id, todaysexp FROM grpgusers WHERE `todaysexp` > 0 ORDER BY `todaysexp` DESC LIMIT 1");
 $db->execute();
