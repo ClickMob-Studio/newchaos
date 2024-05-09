@@ -306,9 +306,9 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
-    } else if ($outcome <= 85) {
+    } else if ($outcome <= 75) {
         // 15% Win Points
-        $pointsWon = mt_rand(10,50) * $userBaStats['level'];
+        $pointsWon = mt_rand(5,30) * $userBaStats['level'];
 
         $baExpWon = mt_rand(5,25);
 
@@ -334,7 +334,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         exit;
     } else {
         // 15% Win Raid Tokens
-        $raidTokensWon = mt_rand(1,5) * $userBaStats['level'];
+        $raidTokensWon = mt_rand(1,3) * $userBaStats['level'];
         $baExpWon = mt_rand(5,25);
 
         $db->query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + " . $raidTokensWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
