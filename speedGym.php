@@ -104,7 +104,7 @@ document.body.onmouseup = function() { finish(); };
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<canvas id="statsChart" width="200" height="200"></canvas>
+<canvas id="statsChart" width="100" height="100"></canvas>
 <script>
 fetch('ajax_gym_stats.php')
         .then(response => response.json())
