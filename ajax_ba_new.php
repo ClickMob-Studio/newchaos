@@ -228,7 +228,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         if ($user_class->level < 100) {
             $expWon = round(($user_class->maxexp / 100) * mt_rand(1, 8));
         }
-        $expWon = round($expWon / mt_rand(2, 5));
+        $expWon = round($expWon / mt_rand(2, 4));
         $expWon = $expWon + (($expWon / 100) * (5 * $userBaStats['level']));
 
         //$expWon = $expWon / 2;
