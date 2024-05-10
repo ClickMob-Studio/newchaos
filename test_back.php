@@ -193,8 +193,8 @@ while ($rank = mysql_fetch_array($result)) {
 }
 echo '</select>';
 echo '<div class="input-group mb-3">';
-echo '<input type="text"  placeholder="QTY" aria-label="Quantity" name="qty" pattern="[0-9]*" title="Please enter whole numbers only" required>';
-echo '<button class="btn btn-primary" type="submit" name="submit">Donate Item</button>';
+echo '<input type="text"  placeholder="QTY" aria-label="Quantity" style="max-width:100%" name="qty" pattern="[0-9]*" title="Please enter whole numbers only" required>';
+echo '<button class="btn btn-primary" type="submit" style="margin-top:10px" name="submit">Donate Item</button>';
 echo '</div>';
 echo '</form>';
 echo '</div>'; 
