@@ -187,9 +187,6 @@ echo '</div>'; // Close column
 
 echo '</div>'; // Close row
 echo '</div>'; // Close container
-
-    <?php
-    echo "<td><tr>";
 } else {
     echo Message("You aren't in a gang.");
 }
