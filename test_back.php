@@ -76,12 +76,12 @@ if ($user_class->gang != 0) {
                     <p class="card-text">
                         <div class="input-group mb-3">
                             <span class="input-group-text">$</span>
-                            <input type="text" class="form-control" value="<?php echo prettynum($gang_class->moneyvault, 1); ?>" readonly>
+                            <input type="text"  value="<?php echo prettynum($gang_class->moneyvault, 1); ?>" readonly>
                         </div>
                     </p>
                     <form method="post">
                         <div class="input-group">
-                            <input type="text" name="damount" value="<?php echo $user_class->money; ?>" size="10" maxlength="20" class="form-control" placeholder="Amount to donate">
+                            <input type="text" name="damount" value="<?php echo $user_class->money; ?>" size="10" maxlength="20"  placeholder="Amount to donate">
                             <button type="submit" name="deposit" class="btn btn-primary">Donate Money</button>
                         </div>
                     </form>
@@ -98,12 +98,12 @@ if ($user_class->gang != 0) {
                     <p class="card-text">
                         <div class="input-group mb-3">
                             <span class="input-group-text">Pts</span>
-                            <input type="text" class="form-control" value="<?php echo prettynum($gang_class->pointsvault); ?>" readonly>
+                            <input type="text"  value="<?php echo prettynum($gang_class->pointsvault); ?>" readonly>
                         </div>
                     </p>
                     <form method="post">
                         <div class="input-group">
-                            <input type="text" name="damount" value="<?php echo $user_class->points; ?>" size="10" maxlength="20" class="form-control" placeholder="Points to donate">
+                            <input type="text" name="damount" value="<?php echo $user_class->points; ?>" size="10" maxlength="20"  placeholder="Points to donate">
                             <button type="submit" name="deposit2" class="btn btn-primary">Donate Points</button>
                         </div>
                     </form>
@@ -204,7 +204,7 @@ while ($rank = mysql_fetch_array($result)) {
 }
 echo '</select>';
 echo '<div class="input-group mb-3">';
-echo '<input type="text" class="form-control" placeholder="QTY" aria-label="Quantity" name="qty" pattern="[0-9]*" title="Please enter whole numbers only" required>';
+echo '<input type="text"  placeholder="QTY" aria-label="Quantity" name="qty" pattern="[0-9]*" title="Please enter whole numbers only" required>';
 echo '<button class="btn btn-primary" type="submit" name="submit">Donate Item</button>';
 echo '</div>';
 echo '</form>';
