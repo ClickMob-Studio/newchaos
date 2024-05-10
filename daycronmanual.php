@@ -134,7 +134,7 @@ while ($line = mysql_fetch_array($result3)) {
     // }
     $multiply += $addmul;
     if ($user_class->bank >= 30000000)
-    $interest = ceil(30000000 * $interest);
+    $interest = ceil(15000000 * $interest);
 else
     $interest = ceil($user_class->bank * $interest);
 
