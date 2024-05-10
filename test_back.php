@@ -151,10 +151,7 @@ if ($user_class->gang != 0) {
             echo '<thead><tr><th>Item Name</th><th>Amount</th></tr></thead>';
             echo '<tbody>';
             foreach ($items as $item) {
-                echo "<tr>";
-                echo "<td>" . item_popup($item['name'], $item['id']) . "</td>";
-                echo "<td>" . prettynum($item['quantity']) . "</td>";
-                echo "</tr>";
+                echo "<p>{$item['name']} x {$item['quantity']}</p>";
             }
             echo '</tbody>';
             echo '</table>';
