@@ -23,7 +23,8 @@ if (isset($_GET['reason'])) {
 
     $validReasonChoices = array(
         'invalid_click',
-        'click_not_trusted'
+        'click_not_trusted',
+        'dev_tools_is_open'
     );
     if (!in_array($reason, $validReasonChoices)) {
         echo json_encode(array('success' => false, 'message' => 'Invalid reason'));
