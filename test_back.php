@@ -164,7 +164,7 @@ if ($user_class->gang != 0) {
         }
         echo '<div class="col">';
 echo '<div class="card h-100 text-white" style="background-color: #292929;">'; // Consistent styling with other cards
-echo '<div class="card-header"><h5 class="card-title">Donate an Item</h5></div>';
+echo '<div class="card-header" text-white" style="background-color: #000;"><h5 class="card-title">Donate an Item</h5></div>';
 echo '<div class="card-body">';
 echo '<form method="post">';
 echo '<select class="form-select" name="armoury">';
