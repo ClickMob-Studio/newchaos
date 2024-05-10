@@ -133,11 +133,11 @@ while ($line = mysql_fetch_array($result3)) {
     //     $line['bank']
     // }
     $multiply += $addmul;
-    // if ($line['bank'] >= 15000000)
-    //     $interest = ceil(15000000 * $multiply);
-    // else
-        $interest = ceil($line['bank'] * $multiply);
-    
+    if ($user_class->bank >= 30000000)
+    $interest = ceil(30000000 * $interest);
+else
+    $interest = ceil($user_class->bank * $interest);
+
     $newmoney = round($line['bank'] + $interest);
     if($person_class->bankboost > 0){
         $percentage = $person_class->bankboost;
