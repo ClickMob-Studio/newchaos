@@ -308,7 +308,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         exit;
     } else if ($outcome <= 75) {
         // 15% Win Points
-        $pointsWon = mt_rand(5,30) * $userBaStats['level'];
+        $pointsWon = mt_rand(5,45) * $userBaStats['level'];
 
         $baExpWon = mt_rand(5,25);
 
