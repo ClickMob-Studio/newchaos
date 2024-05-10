@@ -89,44 +89,51 @@ if ($user_class->gang != 0) {
         <br />
         <center><b>Gang Armoury</b></center>
 ";
-            $result = mysql_query("
-            SELECT a.quantity, i.id, i.itemname, i.offense, i.defense, i.speed, i.rare
-            FROM gangarmory a
-            JOIN items i ON a.itemid = i.id
-            WHERE a.gangid = {$user_class->gang}
-            ORDER BY a.quantity DESC
-        ");
-        $items_by_category = ['weapon' => [], 'armor' => [], 'shoes' => [], 'rare' => [], 'consumable' => []];
+$result = mysql_query("
+SELECT a.quantity, i.id, i.itemname, i.offense, i.defense, i.speed, i.rare, i.type
+FROM gangarmory a
+JOIN items i ON a.itemid = i.id
+WHERE a.gangid = {$user_class->gang}
+ORDER BY a.quantity DESC
+");
+        $$items_by_category = ['weapon' => [], 'armor' => [], 'shoes' => [], 'rare' => [], 'booster' => [], 'gems' => [], 'consumable' => []];
 
         while ($row = mysql_fetch_array($result)) {
             $type = 'consumable'; // Default category
             $subtype = '';
         
-            // Categorization logic
-            if ($row['offense'] > 0 && ($row['defense'] > 0 || $row['speed'] > 0)) {
-                if ($row['offense'] > $row['defense']) {
-                    if ($row['offense'] > $row['speed']) {
-                        $type = 'weapon';
+            // Check for special types directly
+            if ($row['type'] == 'booster') {
+                $type = 'booster';
+            } elseif ($row['type'] == 'gems') {
+                $type = 'gems';
+            } else {
+                // Existing categorization logic
+                if ($row['offense'] > 0 && ($row['defense'] > 0 || $row['speed'] > 0)) {
+                    if ($row['offense'] > $row['defense']) {
+                        if ($row['offense'] > $row['speed']) {
+                            $type = 'weapon';
+                        } else {
+                            $type = 'shoes';
+                        }
+                    } else if ($row['defense'] > $row['speed']) {
+                        $type = 'armor';
                     } else {
                         $type = 'shoes';
                     }
-                } else if ($row['defense'] > $row['speed']) {
-                    $type = 'armor';
                 } else {
-                    $type = 'shoes';
-                }
-            } else {
-                if ($row['offense'] > 0 && $row['rare'] == 0)
-                    $type = 'weapon';
-                elseif ($row['defense'] > 0 && $row['rare'] == 0)
-                    $type = 'armor';
-                elseif ($row['speed'] > 0 && $row['rare'] == 0)
-                    $type = 'shoes';
-                elseif ($row['rare'] == 1) {
-                    $type = 'rare';
-                    if ($row['offense']) $subtype = 'weapon';
-                    if ($row['defense']) $subtype = 'armor';
-                    if ($row['speed']) $subtype = 'shoes';
+                    if ($row['offense'] > 0 && $row['rare'] == 0)
+                        $type = 'weapon';
+                    elseif ($row['defense'] > 0 && $row['rare'] == 0)
+                        $type = 'armor';
+                    elseif ($row['speed'] > 0 && $row['rare'] == 0)
+                        $type = 'shoes';
+                    elseif ($row['rare'] == 1) {
+                        $type = 'rare';
+                        if ($row['offense']) $subtype = 'weapon';
+                        if ($row['defense']) $subtype = 'armor';
+                        if ($row['speed']) $subtype = 'shoes';
+                    }
                 }
             }
         
@@ -138,6 +145,7 @@ if ($user_class->gang != 0) {
                 'subtype' => $subtype
             ];
         }
+        
         
         echo '<div class="container mt-4">';
         echo '<div class="row row-cols-2 row-cols-md-2 row-cols-lg-3 g-4">'; // Responsive grid (row-cols-2 for extra small devices)
