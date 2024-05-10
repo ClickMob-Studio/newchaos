@@ -1,127 +1,186 @@
 <?php
 include 'header.php';
-include 'database.php'; // Ensure this file contains your database class as provided earlier
-
-$db = database::getInstance(); // Get the singleton instance of the database
-$gang_id = $user_class->gang; // Assuming $user_class is already populated
-
 ?>
 <div class='box_top'>Gang Vault</div>
-<div class='box_middle'>
-    <div class='pad'>
-        <?php
-        if ($gang_id != 0) {
-            $gang_class = new Gang($gang_id);
+						<div class='box_middle'>
+							<div class='pad'>
+<?php
+$gang_class = new Gang($user_class->gang);
+if ($user_class->gang != 0) {
+    $gang_class = new Gang($user_class->gang);
+    if (isset($_POST['deposit'])) {
+        security($_POST['damount']);
+        $amount = $_POST['damount'];
+        if ($amount > $user_class->money)
+            echo Message("You do not have that much money.");
+        elseif ($amount < 1)
+            echo Message("Please enter a valid amount.");
+        else {
+            echo Message("You have donated $" . prettynum($amount) . " to your gang.");
+            $gang_class->moneyvault += $amount;
+            $user_class->money -= $amount;
+            mysql_query("UPDATE grpgusers SET money = $user_class->money WHERE id = $user_class->id");
+            mysql_query("UPDATE gangs SET moneyvault = $gang_class->moneyvault WHERE id = $gang_class->id");
 
-            // Process a money deposit
-            if (isset($_POST['deposit'])) {
-                $amount = $_POST['damount'];
-                if ($amount > $user_class->money) {
-                    echo Message("You do not have that much money.");
-                } elseif ($amount < 1) {
-                    echo Message("Please enter a valid amount.");
-                } else {
-                    // Update user's money
-                    $db->query("UPDATE grpgusers SET money = money - :amount WHERE id = :id");
-                    $db->bind(':amount', $amount);
-                    $db->bind(':id', $user_class->id);
-                    $db->execute();
+            mysql_query("INSERT INTO gang_vault_log (gang_id, user_id, type, added, balance) VALUES (" . $gang_class->id . ", " . $user_class->id . ", 'money', " . $amount . ", " . $gang_class->moneyvault . ")");
 
-                    // Update gang's vault
-                    $db->query("UPDATE gangs SET moneyvault = moneyvault + :amount WHERE id = :gang_id");
-                    $db->bind(':amount', $amount);
-                    $db->bind(':gang_id', $gang_id);
-                    $db->execute();
+            Vault_Event($gang_class->id, "[-_USERID_-] donated " . prettynum($amount, 1) . " to the gang.", $user_class->id);
+        }
+    }
+    if (isset($_POST['deposit2'])) {
+        security($_POST['damount']);
+        $amount = $_POST['damount'];
+        if ($amount > $user_class->points)
+            echo Message("You do not have that many points.");
+        elseif ($amount < 1)
+            echo Message("Please enter a valid amount.");
+        else {
+            echo Message("You have donated " . prettynum($amount) . " points to your gang.");
+            $gang_class->pointsvault += $amount;
+            $user_class->points -= $amount;
+            mysql_query("UPDATE grpgusers SET points = $user_class->points WHERE id = $user_class->id");
+            mysql_query("UPDATE gangs SET pointsvault = $gang_class->pointsvault WHERE id = $gang_class->id");
 
-                    // Insert log entry
-                    $db->query("INSERT INTO gang_vault_log (gang_id, user_id, type, added, balance) VALUES (:gang_id, :user_id, 'money', :amount, (SELECT moneyvault FROM gangs WHERE id = :gang_id))");
-                    $db->bind(':gang_id', $gang_id);
-                    $db->bind(':user_id', $user_class->id);
-                    $db->bind(':amount', $amount);
-                    $db->execute();
+            mysql_query("INSERT INTO gang_vault_log (gang_id, user_id, type, added, balance) VALUES (" . $gang_class->id . ", " . $user_class->id . ", 'points', " . $amount . ", " . $gang_class->pointsvault . ")");
 
-                    echo Message("You have donated $" . prettynum($amount) . " to your gang.");
-                }
-            }
+            Vault_Event($gang_class->id, "[-_USERID_-] donated " . prettynum($amount) . " points to the gang.", $user_class->id);
+        }
+    }
+    if (isset($_POST['submit'])) {
+        if (empty($_POST['armoury']))
+            diefun("You need to pick an item to donate.<br/><br/><a href='gangvault.php'>Go Back</a>");
+        $qty = (int) $_POST['qty'];
+        // Round down any decimal values to the nearest integer
+        $qty = floor($qty);
+        security($qty);
+        $howmany = Check_Item($_POST['armoury'], $user_class->id);
+        $result2 = mysql_query("SELECT * FROM items WHERE id = {$_POST['armoury']}");
+        $worked = mysql_fetch_array($result2);
+        if ($howmany < $qty)
+            diefun("You don't have enough of those.");
+        AddToArmory($_POST['armoury'], $user_class->gang, $qty);
+        Take_Item($_POST['armoury'], $user_class->id, $qty);
+        echo Message("You have donated [x$qty] " . $worked['itemname'] . " to your gang.");
+        Vault_Event($gang_class->id, "[-_USERID_-] donated a " . $worked['itemname'] . " to the gang.", $user_class->id);
+    }
+    print "
+        Welcome to the gang vault. Here you can store cash, points and items!<br /><br />
+        <table id='newtables' style='width:100%;table-layout:fixed;'>
+            <tr>
+                <th>Money:</th><td>" . prettynum($gang_class->moneyvault, 1) . "</td>
+                <th>Points:</th><td>" . prettynum($gang_class->pointsvault) . "</td>
+            </tr>
+            <tr>
+                <td colspan='2'>
+                    <form method='post'>
+                        <input type='text' name='damount' value='$user_class->money' size='10' maxlength='20'>
+                        <input type='submit' name='deposit' value='Donate Money'>
+                    </form>
+                </td>
+                <td colspan='2'>
+                    <form method='post'>
+                        <input type='text' name='damount' value='$user_class->points' size='10' maxlength='20'>
+                        <input type='submit' name='deposit2' value='Donate Points'>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <br />
+        <br />
+        <center><b>Gang Armoury</b></center>
+        <table id='newtables' style='table-layout:fixed;'>
+            <tr>
+                <th>Item Name</th>
+                <th>Amount</th>
+            </tr>";
+            $result = mysql_query("
+            SELECT a.quantity, i.id, i.itemname, i.offense, i.defense, i.speed, i.rare
+            FROM gangarmory a
+            JOIN items i ON a.itemid = i.id
+            WHERE a.gangid = {$user_class->gang}
+            ORDER BY a.quantity DESC
+        ");
+        $items_by_category = ['weapon' => [], 'armor' => [], 'shoes' => [], 'rare' => [], 'consumable' => []];
 
-            // Process a points deposit
-            if (isset($_POST['deposit2'])) {
-                $amount = $_POST['damount'];
-                if ($amount > $user_class->points) {
-                    echo Message("You do not have that many points.");
-                } elseif ($amount < 1) {
-                    echo Message("Please enter a valid amount.");
-                } else {
-                    // Update user's points
-                    $db->query("UPDATE grpgusers SET points = points - :amount WHERE id = :id");
-                    $db->bind(':amount', $amount);
-                    $db->bind(':id', $user_class->id);
-                    $db->execute();
-
-                    // Update gang's points vault
-                    $db->query("UPDATE gangs SET pointsvault = pointsvault + :amount WHERE id = :gang_id");
-                    $db->bind(':amount', $amount);
-                    $db->bind(':gang_id', $gang_id);
-                    $db->execute();
-
-                    echo Message("You have donated " . prettynum($amount) . " points to your gang.");
-                }
-            }
-
-            // Handle item donations
-            if (isset($_POST['submit'])) {
-                if (empty($_POST['armoury'])) {
-                    echo "You need to pick an item to donate.<br/><br/><a href='gangvault.php'>Go Back</a>";
-                } else {
-                    $item_id = $_POST['armoury'];
-                    $qty = (int) $_POST['qty'];
-                    $qty = max(0, floor($qty)); // Ensure quantity is non-negative and an integer
-
-                    // Check user's item quantity
-                    $db->query("SELECT quantity FROM inventory WHERE userid = :userid AND itemid = :itemid");
-                    $db->bind(':userid', $user_class->id);
-                    $db->bind(':itemid', $item_id);
-                    if ($item = $db->fetch_row(true)) {
-                        if ($item['quantity'] < $qty) {
-                            echo Message("You don't have enough of those.");
-                        } else {
-                            // Deduct items from user inventory
-                            $db->query("UPDATE inventory SET quantity = quantity - :qty WHERE userid = :userid AND itemid = :itemid");
-                            $db->bind(':qty', $qty);
-                            $db->bind(':userid', $user_class->id);
-                            $db->bind(':itemid', $item_id);
-                            $db->execute();
-
-                            // Add items to gang armoury
-                            $db->query("INSERT INTO gangarmory (gangid, itemid, quantity) VALUES (:gang_id, :itemid, :qty) ON DUPLICATE KEY UPDATE quantity = quantity + :qty");
-                            $db->bind(':gang_id', $gang_id);
-                            $db->bind(':itemid', $item_id);
-                            $db->bind(':qty', $qty);
-                            $db->execute();
-
-                            echo Message("You have donated [x$qty] " . $item['itemname'] . " to your gang.");
-                        }
+        while ($row = mysql_fetch_array($result)) {
+            $type = 'consumable'; // Default category
+            $subtype = '';
+        
+            // Categorization logic
+            if ($row['offense'] > 0 && ($row['defense'] > 0 || $row['speed'] > 0)) {
+                if ($row['offense'] > $row['defense']) {
+                    if ($row['offense'] > $row['speed']) {
+                        $type = 'weapon';
                     } else {
-                        echo Message("Error retrieving item details.");
+                        $type = 'shoes';
                     }
+                } else if ($row['defense'] > $row['speed']) {
+                    $type = 'armor';
+                } else {
+                    $type = 'shoes';
+                }
+            } else {
+                if ($row['offense'] > 0 && $row['rare'] == 0)
+                    $type = 'weapon';
+                elseif ($row['defense'] > 0 && $row['rare'] == 0)
+                    $type = 'armor';
+                elseif ($row['speed'] > 0 && $row['rare'] == 0)
+                    $type = 'shoes';
+                elseif ($row['rare'] == 1) {
+                    $type = 'rare';
+                    if ($row['offense']) $subtype = 'weapon';
+                    if ($row['defense']) $subtype = 'armor';
+                    if ($row['speed']) $subtype = 'shoes';
                 }
             }
-
-            // Display current vault status
-            echo "<br/><center><b>Gang Armoury</b></center><table id='newtables' style='table-layout:fixed;'>";
-            $db->query("SELECT ga.itemid, ga.quantity, i.itemname FROM gangarmory ga JOIN items i ON ga.itemid = i.id WHERE ga.gangid = :gang_id ORDER BY ga.quantity DESC");
-            $db->bind(':gang_id', $gang_id);
-            $items = $db->fetch_row();
+        
+            // Add item to the appropriate category array
+            $items_by_category[$type][] = [
+                'name' => $row['itemname'],
+                'id' => $row['id'],
+                'quantity' => $row['quantity'],
+                'subtype' => $subtype
+            ];
+        }
+        
+        // Display items grouped by category
+        foreach ($items_by_category as $category => $items) {
+            echo "<h3>{$category}</h3><table>";
             foreach ($items as $item) {
-                echo "<tr><td width='50%'>" . item_popup($item['itemname'], $item['itemid']) . "</td><td width='20%'>" . prettynum($item['quantity']) . "</td></tr>";
+                echo "
+                <tr>
+                    <td width='50%'>" . item_popup($item['name'], $item['id']) . "</td>
+                    <td width='20%'>" . prettynum($item['quantity']) . "</td>
+                </tr>
+                ";
             }
             echo "</table>";
-        } else {
-            echo Message("You aren't in a gang.");
         }
-        ?>
-    </div>
-</div>
-<?php
+        
+    $result = mysql_query("SELECT * FROM inventory WHERE userid = $user_class->id ORDER BY quantity DESC");
+    echo " 
+    <form method='post'>
+        <select name='armoury'>
+            <option value=''></option>
+        ";
+    while ($rank = mysql_fetch_array($result)) {
+        $result2 = mysql_query("SELECT * FROM items WHERE id='" . $rank['itemid'] . "'");
+        $worked = mysql_fetch_array($result2);
+        echo "
+            <option value='{$rank['itemid']}'>{$worked['itemname']} [x{$rank['quantity']}]</option>
+    	";
+    }
+    echo "
+        </select> x<input type='text' size='4' placeholder='QTY' name='qty' pattern='[0-9]*' title='Please enter whole numbers only' required /> <input type='submit' name='submit' value='Donate Item' />
+    </form>
+        ";
+    ?>
+    </td></tr>
+    <?php
+    echo "<td><tr>";
+} else {
+    echo Message("You aren't in a gang.");
+}
+include("gangheaders.php");
 include 'footer.php';
 ?>
