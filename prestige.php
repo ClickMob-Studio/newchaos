@@ -286,6 +286,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </tbody>
             </table>
         </div>
+
+        <?php if ($userPrestigeSkills['reset_points'] > 0): ?>
+            <br />
+            <h2>Reset Prestige Spend</h2>
+            <p>If you are unhappy with the bvoosts & unlocks you have picked you can reset your prestige spends, this is only available once per prestige.</p>
+            <a href="#">RESET PRESTIGE SPEND</a>
+        <?php endif; ?>
     </div>
 </div>
 <br />
