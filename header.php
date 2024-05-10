@@ -848,7 +848,7 @@ $(document).ready(function() {
     <div class="row">
         <!-- Energy Bar -->
         <div class="col-3">
-        <p class="text-center"><i class="fa-solid fa-heart-pulse" style="color:#ff6218"></i>
+        <p class="text-center"><a href='?spend=refenergy' ><i class="fa-solid fa-heart-pulse" style="color:#ff6218"></i></a>
         <?= $user_class->hppercent;?>%</p>
             <div class="progress">
                 <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->hppercent; ?>%" aria-valuenow="<?= $user_class->hppercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->hppercent; ?>"></div>
