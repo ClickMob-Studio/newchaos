@@ -160,7 +160,14 @@ function areDevToolsOpen() {
         let heightChanged = window.outerHeight - window.innerHeight > 160;
         
         if (widthChanged !== widthThreshold || heightChanged !== heightThreshold) {
-            // Developer tools might be open, so refresh the page
+            var request = $.ajax({
+                    url: 'ajax_autoclick_detection.php?page=backalley&reason=dev_tools_is_open',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    console.log(res);
+                });
             window.location.reload();
         }
     });
@@ -175,7 +182,14 @@ function areDevToolsOpen() {
 
 // Check if developer tools are open when the page loads
 if (areDevToolsOpen()) {
-    // Developer tools might be open, so refresh the page
+    var request = $.ajax({
+                    url: 'ajax_autoclick_detection.php?page=backalley&reason=dev_tools_is_open',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    console.log(res);
+                });
     window.location.reload();
 }
 
