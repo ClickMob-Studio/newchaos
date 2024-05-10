@@ -128,8 +128,71 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
 <?php
 include 'footer.php';
 ?>
-
 <script type="text/javascript">
+        // Function to check if JavaScript is enabled
+        function isJavaScriptEnabled() {
+            // Add a class to the body indicating JavaScript is enabled
+            document.body.classList.add('js-enabled');
+        }
+
+        // Call the function to check if JavaScript is enabled
+        isJavaScriptEnabled();
+    </script>
+
+    <style>
+        /* Styles to hide content if JavaScript is disabled */
+        body:not(.js-enabled) main {
+            display: none;
+        }
+    </style>
+<script type="text/javascript">
+
+// Function to check if developer tools are open
+function areDevToolsOpen() {
+    // Start with an arbitrary large value
+    let widthThreshold = window.outerWidth - window.innerWidth > 160;
+    let heightThreshold = window.outerHeight - window.innerHeight > 160;
+
+    // Check if the dimensions change when developer tools are opened
+    window.addEventListener('resize', function(event) {
+        // If the difference in dimensions is significant, consider developer tools open
+        let widthChanged = window.outerWidth - window.innerWidth > 160;
+        let heightChanged = window.outerHeight - window.innerHeight > 160;
+        
+        if (widthChanged !== widthThreshold || heightChanged !== heightThreshold) {
+            var request = $.ajax({
+                    url: 'ajax_autoclick_detection.php?page=backalley&reason=dev_tools_is_open',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    console.log(res);
+                });
+            window.location.reload();
+        }
+    });
+
+    // Check if dimensions are already at the threshold when the page loads
+    if (widthThreshold || heightThreshold) {
+        return true; // Consider developer tools open initially
+    }
+
+    return false;
+}
+
+// Check if developer tools are open when the page loads
+if (areDevToolsOpen()) {
+    var request = $.ajax({
+                    url: 'ajax_autoclick_detection.php?page=backalley&reason=dev_tools_is_open',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    console.log(res);
+                });
+    window.location.reload();
+}
+
     window.setTimeout(function(){
         window.location.reload();
     }, 5 * 60 * 1000); // Reload after 5 mins of being on the page
