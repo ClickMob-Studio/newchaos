@@ -168,6 +168,17 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_boost' && isset($_GET['bo
     echo Message("You have successfully increased the level of " . $prestigeBoosts[$boostType]);
 }
 
+if (isset($_GET['action']) && $_GET['action'] === 'prestige_spends') {
+    if ($userPrestigeSkills['reset_points'] < 0) {
+        diefun('You do not have any resets available. You are only aloud to reset once per prestige.');
+    }
+
+    $db->query('DELETE FROM user_prestige_skills WHERE user_id = ' . $user_class->id);
+    $db->execute();
+
+    echo Message("You have successfully reset your prestige spends.");
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if the user has reached the maximum prestige level
     if ($user_class->prestige >= 5) {
@@ -291,7 +302,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <br />
             <h2>Reset Prestige Spend</h2>
             <p>If you are unhappy with the bvoosts & unlocks you have picked you can reset your prestige spends, this is only available once per prestige.</p>
-            <a href="#">RESET PRESTIGE SPEND</a>
+            <a href="prestige.php?action=reset_spends">RESET PRESTIGE SPEND</a>
         <?php endif; ?>
     </div>
 </div>
