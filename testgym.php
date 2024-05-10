@@ -4,10 +4,10 @@ $user_class = new User($_SESSION['id']);
 
 $db->prepare("SELECT record_date, strength, defense, speed FROM daily_user_stats WHERE user_id = ?");
 $db->execute([$user_class->id]);
-$results = $db->fetch_row();
+$gym = $db->fetch_row();
 
 
-echo json_encode($results);
+echo json_encode($gym);
 
 ?>
 
