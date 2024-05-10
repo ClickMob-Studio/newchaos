@@ -50,7 +50,7 @@ if ($user_class->gang != 0) {
         if (empty($_POST['armoury']))
             diefun("You need to pick an item to donate.<br/><br/><a href='gangvault.php'>Go Back</a>");
         $qty = (int) $_POST['qty'];
-        // Round down any decimal values to the nearest integer
+
         $qty = floor($qty);
         security($qty);
         $howmany = Check_Item($_POST['armoury'], $user_class->id);
@@ -61,7 +61,7 @@ if ($user_class->gang != 0) {
         AddToArmory($_POST['armoury'], $user_class->gang, $qty);
         Take_Item($_POST['armoury'], $user_class->id, $qty);
         echo Message("You have donated [x$qty] " . $worked['itemname'] . " to your gang.");
-        Vault_Event($gang_class->id, "[-_USERID_-] donated a " . $worked['itemname'] . " to the gang.", $user_class->id);
+        Vault_Event($gang_class->id, "[-_USERID_-] donated ".$qty." x " . $worked['itemname'] . " to the gang.", $user_class->id);
     }
     print "
         Welcome to the gang vault. Here you can store cash, points and items!<br /><br />
@@ -87,7 +87,7 @@ if ($user_class->gang != 0) {
         </table>
         <br />
         <br />
-        <center><b>Gang Armoury</b></center>
+        <center><h1>Gang Armoury</h1></center>
 ";
 $result = mysql_query("
 SELECT a.quantity, i.id, i.itemname, i.offense, i.defense, i.speed, i.rare, i.type
@@ -99,16 +99,16 @@ ORDER BY a.quantity DESC
         $$items_by_category = ['weapon' => [], 'armor' => [], 'shoes' => [], 'rare' => [], 'booster' => [], 'gems' => [], 'consumable' => []];
 
         while ($row = mysql_fetch_array($result)) {
-            $type = 'consumable'; // Default category
+            $type = 'consumable'; 
             $subtype = '';
         
-            // Check for special types directly
+      
             if ($row['type'] == 'booster') {
                 $type = 'booster';
             } elseif ($row['type'] == 'Gems') {
                 $type = 'gems';
             } else {
-                // Existing categorization logic
+            
                 if ($row['offense'] > 0 && ($row['defense'] > 0 || $row['speed'] > 0)) {
                     if ($row['offense'] > $row['defense']) {
                         if ($row['offense'] > $row['speed']) {
@@ -137,7 +137,7 @@ ORDER BY a.quantity DESC
                 }
             }
         
-            // Add item to the appropriate category array
+            
             $items_by_category[$type][] = [
                 'name' => $row['itemname'],
                 'id' => $row['id'],
@@ -148,23 +148,23 @@ ORDER BY a.quantity DESC
         
         
         echo '<div class="container mt-4">';
-        echo '<div class="row row-cols-2 row-cols-md-2 row-cols-lg-3 g-4">'; // Responsive grid (row-cols-2 for extra small devices)
+        echo '<div class="row row-cols-2 row-cols-md-2 row-cols-lg-3 g-4">'; 
         
         foreach ($items_by_category as $category => $items) {
             echo '<div class="col">';
-            echo '<div class="card h-100 text-white" style="background-color: #292929;">'; // Card with custom background and white text
+            echo '<div class="card h-100 text-white" style="background-color: #292929;">'; 
             echo '<div class="card-header" style="background:#000;"><h5 class="card-title">' . ucfirst($category) . '</h5></div>';
             echo '<div class="card-body">';
         
             foreach ($items as $item) {
                 echo "<p>{$item['name']} x {$item['quantity']}</p>";
             }
-            echo '</div>'; // Close card-body
-            echo '</div>'; // Close card
-            echo '</div>'; // Close column
+            echo '</div>'; 
+            echo '</div>'; 
+            echo '</div>'; 
         }
         echo '<div class="col">';
-echo '<div class="card h-100 text-white" style="background-color: #292929;">'; // Consistent styling with other cards
+echo '<div class="card h-100 text-white" style="background-color: #292929;">'; 
 echo '<div class="card-header" text-white" style="background-color: #000;"><h5 class="card-title">Donate an Item</h5></div>';
 echo '<div class="card-body">';
 echo '<form method="post">';
@@ -182,12 +182,12 @@ echo '<input type="text" class="form-control" placeholder="QTY" aria-label="Quan
 echo '<button class="btn btn-primary" type="submit" name="submit">Donate Item</button>';
 echo '</div>';
 echo '</form>';
-echo '</div>'; // Close card-body
-echo '</div>'; // Close card
-echo '</div>'; // Close column
+echo '</div>'; 
+echo '</div>'; 
+echo '</div>'; 
 
-echo '</div>'; // Close row
-echo '</div>'; // Close container
+echo '</div>'; 
+echo '</div>'; 
 } else {
     echo Message("You aren't in a gang.");
 }
