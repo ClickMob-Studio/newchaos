@@ -306,7 +306,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
-    } else if ($outcome <= 75) {
+    } else if ($outcome <= 85) {
         // 15% Win Points
         $pointsWon = mt_rand(5,45) * $userBaStats['level'];
 
