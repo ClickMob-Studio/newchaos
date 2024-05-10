@@ -130,5 +130,280 @@ include 'footer.php';
 ?>
 
 <script type="text/javascript">
-eval(function(p,a,c,k,e,d){e=function(c){return c.toString(36)};if(!''.replace(/^/,String)){while(c--){d[c.toString(a)]=k[c]||c.toString(a)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('4(5){7 0.b(8(){3.c(6(){4 d=0;d=d+1;if(d>500){2.location.href="/backalley_new.php?forced_captcha=yes"}if(5.which>3){7 1=$.ajax({e:"ajax_autoclick_detection.php?page=backalley&reason=invalid_click",9:"G",f:"H"});1.i(8(2){j(2)})}if(5.isTrusted){}else{7 1=$.ajax({e:"ajax_autoclick_detection.php?page=backalley&reason=click_not_trusted",9:"G",f:"H"});1.i(8(2){j(2)})}},true)})',33,33,'|evt|if|window|function|clickCount|addEventListener|document|DOMContentLoaded|url|ajax|method|GET|dataType|json|console|var|click|$.ajax|ajax_autoclick_detection|page|backalley|reason|invalid_click|done|res|isTrusted|location|href|forced_captcha|500|which|true|not_trusted'.split('|'),0,{}))
+
+// Function to check if developer tools are open
+function areDevToolsOpen() {
+    // Start with an arbitrary large value
+    let widthThreshold = window.outerWidth - window.innerWidth > 160;
+    let heightThreshold = window.outerHeight - window.innerHeight > 160;
+
+    // Check if the dimensions change when developer tools are opened
+    window.addEventListener('resize', function(event) {
+        // If the difference in dimensions is significant, consider developer tools open
+        let widthChanged = window.outerWidth - window.innerWidth > 160;
+        let heightChanged = window.outerHeight - window.innerHeight > 160;
+        
+        if (widthChanged !== widthThreshold || heightChanged !== heightThreshold) {
+            // Developer tools might be open, so refresh the page
+            window.location.reload();
+        }
+    });
+
+    // Check if dimensions are already at the threshold when the page loads
+    if (widthThreshold || heightThreshold) {
+        return true; // Consider developer tools open initially
+    }
+
+    return false;
+}
+
+// Check if developer tools are open when the page loads
+if (areDevToolsOpen()) {
+    // Developer tools might be open, so refresh the page
+    window.location.reload();
+}
+
+    window.setTimeout(function(){
+        window.location.reload();
+    }, 5 * 60 * 1000); // Reload after 5 mins of being on the page
+
+    let clickCount = 0;
+
+    document.addEventListener("DOMContentLoaded",function(){
+        document.body.addEventListener('click', function(evt) {
+            clickCount = clickCount + 1;
+            if (clickCount > 500) {
+                window.location.href = "/backalley_new.php?forced_captcha=yes";
+            }
+
+            // Check for an actual mouse click (1, 2 & 3)
+            if (evt.which > 3) {
+                var request = $.ajax({
+                    url: 'ajax_autoclick_detection.php?page=backalley&reason=invalid_click',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    console.log(res);
+                });
+            }
+
+            if (evt.isTrusted) {
+
+            } else {
+                var request = $.ajax({
+                    url: 'ajax_autoclick_detection.php?page=backalley&reason=click_not_trusted',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    console.log(res);
+                });
+            }
+        }, true);
+    });
+
+    $(document).ready(function() {
+        let requestInProcess = false;
+        let preventClickTime = false;
+
+        let lastClick;
+        // $("body").click(function (e) {
+        //     if (lastClick > 0) {
+        //         var clickDuration = ((new Date()).getTime() - lastClick)
+        //         if (clickDuration > 800) {
+        //             preventClickTime = false;
+        //         } else {
+        //             preventClickTime = true
+        //         }
+        //     }
+        //
+        //     lastClick = (new Date()).getTime();
+        // });
+
+        <?php if ($userBaStats['gold_rush_credits'] > 0): ?>
+            $('.ba-btn').addClass('gold-rush-mode');
+        <?php endif; ?>
+
+        $('.ba-search-link').click(function(e) {
+            e.preventDefault();
+
+            if (lastClick > 0) {
+                var clickDuration = ((new Date()).getTime() - lastClick)
+                if (clickDuration > 300) {
+                    preventClickTime = false;
+                } else {
+                    preventClickTime = true
+                }
+            }
+
+            if (preventClickTime) {
+                var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>You can only search the Backalley three times per second!</p></center></div>";
+
+                $("#ba-response-message").html(resMes);
+                $("#ba-response-message").show();
+
+                requestInProcess = false;
+
+            } else {
+                lastClick = (new Date()).getTime();
+
+                let clicked = $(this);
+
+                $(".ajax-alert-div").remove();
+                $(this).hide();
+                $(this).after(
+                    '<button class="ba-btn temp-spinner" style="min-width: 100px;"><img id="spinner" src="images/ajax-loader.gif"/></button>'
+                );
+
+                if (requestInProcess) {
+                    return false;
+                }
+
+
+                var request = $.ajax({
+                    url: 'ajax_ba_new.php?alv=yes',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    if (res.success == false || res.success == 'false') {
+                        var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
+
+                        //$("#newtables tbody").prepend('<tr><td>' + res.error + '<hr /></td></tr>');
+                    } else {
+                        var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
+                        $("#newtables tbody").prepend('<tr><td>' + res.message + '<hr /></td></tr>');
+                    }
+
+                    if (res.gold_rush_credits > 0) {
+                        $('.ba-btn').addClass('gold-rush-mode');
+                        $('.gold-rush-mode').show();
+                        $('.gold-rush-credits-text').html(res.gold_rush_credits);
+                    } else {
+                        $('.ba-btn').removeClass('gold-rush-mode');
+                        $('.gold-rush-mode').hide();
+                    }
+
+                    if (res.med_pack_count)  {
+                        $('.med-pack-count').html(res.med_pack_count);
+                    }
+
+                    if (res.user_ba_stats) {
+                        $('.ba-stats-searches').html(addCommas(res.user_ba_stats.turns));
+                        $('.ba-stats-wins').html(addCommas(res.user_ba_stats.wins));
+                        $('.ba-stats-losses').html(addCommas(res.user_ba_stats.losses));
+                        $('.ba-stats-points').html(addCommas(res.user_ba_stats.points_gained));
+                        $('.ba-stats-cash').html('$' + addCommas(res.user_ba_stats.cash_gained));
+                        $('.ba-stats-items').html(addCommas(res.user_ba_stats.items_gained));
+                        $('.ba-stats-exp').html(addCommas(res.user_ba_stats.exp_gained));
+
+                        var pbWidth = res.user_ba_stats.exp / res.user_ba_stats.maxexp * 100;
+                        $('.ba-level-progress-bar').width(pbWidth + '%');
+                    }
+                    $("#ba-response-message").html(resMes);
+                    $("#ba-response-message").show();
+                    $(".temp-spinner").remove();
+                    clicked.show();
+
+                    $('.ba-btn').show();
+
+                    requestInProcess = false;
+                });
+
+            }
+        });
+
+        $('.ba-refill-energy-link').click(function(e) {
+            e.preventDefault();
+
+            let clicked = $(this);
+
+            $(".ajax-alert-div").remove();
+            $(this).hide();
+            $(this).after('<button class="ba-btn temp-spinner" style="min-width: 100px;"><img id="spinner" src="images/ajax-loader.gif"/></button>');
+
+            if (requestInProcess) {
+                return false;
+            }
+
+            requestInProcess = true;
+
+            var request = $.ajax({
+                url: 'ajax_ba_new.php?ba_action=refill_energy&alv=yes',
+                method: "GET",
+                dataType: "json"
+            });
+            request.done(function (res) {
+                if (res.success == false || res.success == 'false') {
+                    var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
+
+                } else {
+                    var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
+                }
+
+                $("#ba-response-message").html(resMes);
+                $("#ba-response-message").show();
+                $(".temp-spinner").remove();
+                clicked.show();
+
+                $('.ba-btn').show();
+
+                requestInProcess = false;
+            });
+        });
+
+        $('.ba-med-pack-link').click(function(e) {
+            e.preventDefault();
+
+            let clicked = $(this);
+
+            $(".ajax-alert-div").remove();
+            $(this).hide();
+            $(this).after('<button class="ba-btn temp-spinner" style="min-width: 100px;"><img id="spinner" src="images/ajax-loader.gif"/></button>');
+
+            if (requestInProcess) {
+                return false;
+            }
+
+            requestInProcess = true;
+
+            var request = $.ajax({
+                url: 'ajax_ba_new.php?ba_action=use_med_pack&alv=yes',
+                method: "GET",
+                dataType: "json"
+            });
+            request.done(function (res) {
+                if (res.success == false || res.success == 'false') {
+                    var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>" + res.error + "</p></center></div>";
+
+                } else {
+                    var resMes = "<div class='alert alert-info ajax-alert-div'><center><p>" + res.message + "</p></center></div>";
+                }
+
+                $('.med-pack-count').html(res.med_pack_count);
+                $("#ba-response-message").html(resMes);
+                $("#ba-response-message").show();
+                $(".temp-spinner").remove();
+                clicked.show();
+                $('.ba-btn').show();
+
+                requestInProcess = false;
+            });
+        });
+    });
+
+    function addCommas(nStr)
+    {
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    }
+
 </script>
