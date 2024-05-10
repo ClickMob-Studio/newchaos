@@ -6,7 +6,7 @@ $db->prepare("SELECT record_date, strength, defense, speed FROM daily_user_stats
 $db->execute([$user_class->id]);
 $gym = $db->fetch_row();
 
-
+var_dump($gym);
 echo json_encode($gym);
 
 ?>
