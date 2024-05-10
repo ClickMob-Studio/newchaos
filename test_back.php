@@ -147,14 +147,10 @@ if ($user_class->gang != 0) {
             echo '<div class="card h-100 text-white" style="background-color: #292929;">'; // Card with custom background and white text
             echo '<div class="card-header" style="background:#000;"><h5 class="card-title">' . ucfirst($category) . '</h5></div>';
             echo '<div class="card-body">';
-            echo '<table class="table table-dark table-striped">'; // Table with dark background and striped rows
-            echo '<thead><tr><th>Item Name</th><th>Amount</th></tr></thead>';
-            echo '<tbody>';
+        
             foreach ($items as $item) {
                 echo "<p>{$item['name']} x {$item['quantity']}</p>";
             }
-            echo '</tbody>';
-            echo '</table>';
             echo '</div>'; // Close card-body
             echo '</div>'; // Close card
             echo '</div>'; // Close column
