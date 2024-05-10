@@ -299,9 +299,9 @@ if ($user_class->rmdays > 0) {
     //$interest += $user_class->bankboost / 10;
     $rate = ($interest * 100) . "%";
 }
-// if ($user_class->bank >= 15000000)
-//     $interest = ceil(15000000 * $interest);
-// else
+if ($user_class->bank >= 15000000)
+    $interest = ceil(15000000 * $interest);
+else
     $interest = ceil($user_class->bank * $interest);
 
 $interest += $interest * ($user_class->bankboost / 10);
