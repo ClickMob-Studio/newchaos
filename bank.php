@@ -300,7 +300,7 @@ if ($user_class->rmdays > 0) {
     $rate = ($interest * 100) . "%";
 }
 if ($user_class->bank >= 15000000)
-    $interest = ceil(15000000 * $interest);
+    $interest = ceil(30000000 * $interest);
 else
     $interest = ceil($user_class->bank * $interest);
 
