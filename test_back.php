@@ -105,7 +105,7 @@ ORDER BY a.quantity DESC
             // Check for special types directly
             if ($row['type'] == 'booster') {
                 $type = 'booster';
-            } elseif ($row['type'] == 'gems') {
+            } elseif ($row['type'] == 'Gems') {
                 $type = 'gems';
             } else {
                 // Existing categorization logic
