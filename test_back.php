@@ -145,7 +145,7 @@ if ($user_class->gang != 0) {
         foreach ($items_by_category as $category => $items) {
             echo '<div class="col">';
             echo '<div class="card h-100 text-white" style="background-color: #292929;">'; // Card with custom background and white text
-            echo '<div class="card-header"><h5 class="card-title">' . ucfirst($category) . '</h5></div>';
+            echo '<div class="card-header" style="background:#000;"><h5 class="card-title">' . ucfirst($category) . '</h5></div>';
             echo '<div class="card-body">';
             echo '<table class="table table-dark table-striped">'; // Table with dark background and striped rows
             echo '<thead><tr><th>Item Name</th><th>Amount</th></tr></thead>';
