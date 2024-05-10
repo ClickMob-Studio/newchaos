@@ -63,32 +63,46 @@ if ($user_class->gang != 0) {
         echo Message("You have donated [x$qty] " . $worked['itemname'] . " to your gang.");
         Vault_Event($gang_class->id, "[-_USERID_-] donated ".$qty." x " . $worked['itemname'] . " to the gang.", $user_class->id);
     }
-    print "
-        Welcome to the gang vault. Here you can store cash, points and items!<br /><br />
-        <table id='newtables' style='width:100%;table-layout:fixed;'>
-            <tr>
-                <th>Money:</th><td>" . prettynum($gang_class->moneyvault, 1) . "</td>
-                <th>Points:</th><td>" . prettynum($gang_class->pointsvault) . "</td>
-            </tr>
-            <tr>
-                <td colspan='2'>
-                    <form method='post'>
-                        <input type='text' name='damount' value='$user_class->money' size='10' maxlength='20'>
-                        <input type='submit' name='deposit' value='Donate Money'>
-                    </form>
-                </td>
-                <td colspan='2'>
-                    <form method='post'>
-                        <input type='text' name='damount' value='$user_class->points' size='10' maxlength='20'>
-                        <input type='submit' name='deposit2' value='Donate Points'>
-                    </form>
-                </td>
-            </tr>
-        </table>
-        <br />
-        <br />
+    ?>
+    <div class="container mt-3">
+    <h2>Welcome to the gang vault. Here you can store cash, points, and items!</h2>
+    <div class="row g-3 align-items-center">
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text">Money:</span>
+                <input type="text" class="form-control" value="<?php echo prettynum($gang_class->moneyvault, 1); ?>" readonly>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text">Points:</span>
+                <input type="text" class="form-control" value="<?php echo prettynum($gang_class->pointsvault); ?>" readonly>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 align-items-center mt-3">
+        <div class="col-md-6">
+            <form method="post">
+                <div class="input-group">
+                    <input type="text" name="damount" value="<?php echo $user_class->money; ?>" size="10" maxlength="20" class="form-control">
+                    <button type="submit" name="deposit" class="btn btn-primary">Donate Money</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form method="post">
+                <div class="input-group">
+                    <input type="text" name="damount" value="<?php echo $user_class->points; ?>" size="10" maxlength="20" class="form-control">
+                    <button type="submit" name="deposit2" class="btn btn-primary">Donate Points</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
         <center><h1>Gang Armoury</h1></center>
-";
+<?php
 $result = mysql_query("
 SELECT a.quantity, i.id, i.itemname, i.offense, i.defense, i.speed, i.rare, i.type
 FROM gangarmory a
