@@ -865,8 +865,8 @@ $(document).ready(function() {
             
         </div>
         <div class="col-3">
-        <p class="text-center"><i class="fa-brands fa-brave" style="color:#ff6218"></i>
-        <?= $user_class->nervepercent;?>%</p>
+        <p class="text-center"><a href='index.php?spend=refnerve'><i class="fa-brands fa-brave" style="color:#ff6218"></i>
+        <?= $user_class->nervepercent;?>%</p></a>
             <div class="progress">
                 <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->nervepercent; ?>%" aria-valuenow="<?= $user_class->nervepercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->nervepercent; ?>"></div>
             </div>
