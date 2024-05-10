@@ -2004,6 +2004,11 @@ function addUserBaStatExp($userBaStats, $baExpWon)
             $db->execute();
         }
     }
+
+    if ($userBaStats['level'] > $maxLevels) {
+        $db->query("UPDATE `user_ba_stats` SET `exp` = 0, `level` = " . $maxLevels . "  WHERE `id` = '" . $userBaStats['id'] . "'");
+        $db->execute();
+    }
 }
 
 
