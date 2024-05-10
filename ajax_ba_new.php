@@ -216,12 +216,12 @@ $totalMedPackCount = check_items(14, $user_class->id);
 
 if ($userBaStats['gold_rush_credits'] > 0) {
     // Outcomes
-    // - 30% Win Cash & EXP
-    // - 40% Win Cash & Item
+    // - 20% Win Cash & EXP
+    // - 50% Win Cash & Item
     // - 15% Win Points
     // - 15% Win Raid Tokens
     $outcome = mt_rand(1,100);
-    if ($outcome <= 15) {
+    if ($outcome <= 20) {
         // 20% Win Cash & EXP
         $cashWon = mt_rand(10,5000) * $userBaStats['level'];
         $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 3));
