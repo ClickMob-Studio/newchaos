@@ -72,13 +72,7 @@ if ($user_class->gang != 0) {
             <div class="card text-white" style="background-color: #292929;">
                 <div class="card-header" style="background-color: #000;">Money</div>
                 <div class="card-body">
-                    <h5 class="card-title">Current Balance:</h5>
-                    <p class="card-text">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">$</span>
-                            <input type="text"  value="<?php echo prettynum($gang_class->moneyvault, 1); ?>" readonly>
-                        </div>
-                    </p>
+                    <h5 class="card-title">Current Balance:<span style="color:red"><?php echo prettynum($gang_class->moneyvault, 1); ?></span></h5>
                     <form method="post">
                         <div class="input-group">
                             <input type="text" name="damount" value="<?php echo $user_class->money; ?>" size="10" maxlength="20"  placeholder="Amount to donate">
@@ -94,13 +88,8 @@ if ($user_class->gang != 0) {
             <div class="card text-white" style="background-color: #292929;">
                 <div class="card-header" style="background-color: #000;">Points</div>
                 <div class="card-body">
-                    <h5 class="card-title">Current Points:</h5>
-                    <p class="card-text">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text">Pts</span>
-                            <input type="text"  value="<?php echo prettynum($gang_class->pointsvault); ?>" readonly>
-                        </div>
-                    </p>
+                    <h5 class="card-title">Current Points: <span style="color:red"><?php echo prettynum($gang_class->pointsvault); ?></span></h5>
+                    
                     <form method="post">
                         <div class="input-group">
                             <input type="text" name="damount" value="<?php echo $user_class->points; ?>" size="10" maxlength="20"  placeholder="Points to donate">
