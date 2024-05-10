@@ -88,11 +88,7 @@ if ($user_class->gang != 0) {
         <br />
         <br />
         <center><b>Gang Armoury</b></center>
-        <table id='newtables' style='table-layout:fixed;'>
-            <tr>
-                <th>Item Name</th>
-                <th>Amount</th>
-            </tr>";
+";
             $result = mysql_query("
             SELECT a.quantity, i.id, i.itemname, i.offense, i.defense, i.speed, i.rare
             FROM gangarmory a
@@ -143,19 +139,33 @@ if ($user_class->gang != 0) {
             ];
         }
         
-        // Display items grouped by category
-        foreach ($items_by_category as $category => $items) {
-            echo "<h3>{$category}</h3><table>";
-            foreach ($items as $item) {
-                echo "
-                <tr>
-                    <td width='50%'>" . item_popup($item['name'], $item['id']) . "</td>
-                    <td width='20%'>" . prettynum($item['quantity']) . "</td>
-                </tr>
-                ";
-            }
-            echo "</table>";
-        }
+        echo '<div class="container mt-4">';
+echo '<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">'; // Responsive grid
+
+foreach ($items_by_category as $category => $items) {
+    echo '<div class="col">';
+    echo '<div class="card h-100">'; // Card container
+    echo '<div class="card-header"><h5 class="card-title">' . ucfirst($category) . '</h5></div>';
+    echo '<div class="card-body">';
+    echo '<table class="table">';
+    echo '<thead><tr><th>Item Name</th><th>Amount</th></tr></thead>';
+    echo '<tbody>';
+    foreach ($items as $item) {
+        echo "<tr>";
+        echo "<td>" . item_popup($item['name'], $item['id']) . "</td>";
+        echo "<td>" . prettynum($item['quantity']) . "</td>";
+        echo "</tr>";
+    }
+    echo '</tbody>';
+    echo '</table>';
+    echo '</div>'; // Close card-body
+    echo '</div>'; // Close card
+    echo '</div>'; // Close column
+}
+
+echo '</div>'; // Close row
+echo '</div>'; // Close container
+
         
     $result = mysql_query("SELECT * FROM inventory WHERE userid = $user_class->id ORDER BY quantity DESC");
     echo " 
