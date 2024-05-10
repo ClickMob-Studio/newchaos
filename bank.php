@@ -292,12 +292,12 @@ if (isset($_POST['withdraw_shared'])) {
 
 if ($user_class->rmdays > 0) {
     $interest = 0.04;
-    //$interest += $user_class->bankboost / 10;
-    $rate = ($interest * 100) . "%";
+    $interest += $user_class->bankboost / 10;
+    //$rate = ($interest * 100) . "%";
 } else {
     $interest = .02;
-    //$interest += $user_class->bankboost / 10;
-    $rate = ($interest * 100) . "%";
+    $interest += $user_class->bankboost / 10;
+    //$rate = ($interest * 100) . "%";
 }
 if ($user_class->bank >= 30000000)
     $interest = ceil(30000000 * $interest);
