@@ -222,6 +222,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Assuming $db is your database connection
         $db->query("UPDATE grpgusers SET prestige = prestige + 1, level = 1, exp = 0, bank = bank - " . $bankCashRequired . ", points = points - " . $pointsRequired . ", strength = " . $newStrength . ", defense = " . $newDefense . ", speed = " . $newSpeed . "  WHERE id = ?");
         $db->execute([$user_class->id]);
+
+        $db->query("UPDATE user_prestige_skills SET reset_points = reset_points + 1  WHERE user_id = ?");
+        $db->execute([$user_class->id]);
         // Assuming the prestige level is updated in the object, you might need to refresh it or adjust the object property accordingly
         echo Message("Congratulations! You have prestiged to level " . ($user_class->prestige + 1) . ".");
         $_SESSION['prestige'] = true;
