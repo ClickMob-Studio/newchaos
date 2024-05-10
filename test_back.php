@@ -128,7 +128,23 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
 <?php
 include 'footer.php';
 ?>
+<script type="text/javascript">
+        // Function to check if JavaScript is enabled
+        function isJavaScriptEnabled() {
+            // Add a class to the body indicating JavaScript is enabled
+            document.body.classList.add('js-enabled');
+        }
 
+        // Call the function to check if JavaScript is enabled
+        isJavaScriptEnabled();
+    </script>
+
+    <style>
+        /* Styles to hide content if JavaScript is disabled */
+        body:not(.js-enabled) main {
+            display: none;
+        }
+    </style>
 <script type="text/javascript">
 
 // Function to check if developer tools are open
