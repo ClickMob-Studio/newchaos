@@ -169,7 +169,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_boost' && isset($_GET['bo
 }
 
 if (isset($_GET['action']) && $_GET['action'] === 'reset_spends') {
-    if ($userPrestigeSkills['reset_points'] < 0) {
+    if ($userPrestigeSkills['reset_points'] < 1) {
         diefun('You do not have any resets available. You are only aloud to reset once per prestige.');
     }
 
