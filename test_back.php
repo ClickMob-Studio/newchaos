@@ -76,7 +76,7 @@ if ($user_class->gang != 0) {
                     <form method="post">
                         <div class="input-group">
                             <input type="text" name="damount" value="<?php echo $user_class->money; ?>" size="10" maxlength="20"  placeholder="Amount to donate">
-                            <button type="submit" name="deposit" class="btn btn-primary">Donate Money</button>
+                            <button type="submit" name="deposit" style="margin-left: 10px;" class="btn btn-primary">Donate Money</button>
                         </div>
                     </form>
                 </div>
@@ -93,7 +93,7 @@ if ($user_class->gang != 0) {
                     <form method="post">
                         <div class="input-group">
                             <input type="text" name="damount" value="<?php echo $user_class->points; ?>" size="10" maxlength="20"  placeholder="Points to donate">
-                            <button type="submit" name="deposit2" class="btn btn-primary ml-3">Donate Points</button>
+                            <button type="submit" name="deposit2" style="margin-left: 10px;" class="btn btn-primary">Donate Points</button>
                         </div>
                     </form>
                 </div>
