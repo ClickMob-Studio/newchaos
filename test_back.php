@@ -64,51 +64,54 @@ if ($user_class->gang != 0) {
         Vault_Event($gang_class->id, "[-_USERID_-] donated ".$qty." x " . $worked['itemname'] . " to the gang.", $user_class->id);
     }
     ?>
-   <div class="container mt-3">
+<div class="container mt-3">
     <h2>Welcome to the gang vault. Here you can store cash, points, and items!</h2>
+    <div class="row">
+        <!-- Card for Money -->
+        <div class="col-lg-6 mb-3">
+            <div class="card text-white" style="background-color: #292929;">
+                <div class="card-header" style="background-color: #000;">Money</div>
+                <div class="card-body">
+                    <h5 class="card-title">Current Balance:</h5>
+                    <p class="card-text">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">$</span>
+                            <input type="text" class="form-control" value="<?php echo prettynum($gang_class->moneyvault, 1); ?>" readonly>
+                        </div>
+                    </p>
+                    <form method="post">
+                        <div class="input-group">
+                            <input type="text" name="damount" value="<?php echo $user_class->money; ?>" size="10" maxlength="20" class="form-control" placeholder="Amount to donate">
+                            <button type="submit" name="deposit" class="btn btn-primary">Donate Money</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
-    <!-- Card for Money -->
-    <div class="card bg-light mb-3">
-        <div class="card-header">Money</div>
-        <div class="card-body">
-            <h5 class="card-title">Current Balance:</h5>
-            <p class="card-text">
-                <div class="input-group mb-3">
-                    <span class="input-group-text">$</span>
-                    <input type="text" class="form-control" value="<?php echo prettynum($gang_class->moneyvault, 1); ?>" readonly>
+        <!-- Card for Points -->
+        <div class="col-lg-6 mb-3">
+            <div class="card text-white" style="background-color: #292929;">
+                <div class="card-header" style="background-color: #000;">Points</div>
+                <div class="card-body">
+                    <h5 class="card-title">Current Points:</h5>
+                    <p class="card-text">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Pts</span>
+                            <input type="text" class="form-control" value="<?php echo prettynum($gang_class->pointsvault); ?>" readonly>
+                        </div>
+                    </p>
+                    <form method="post">
+                        <div class="input-group">
+                            <input type="text" name="damount" value="<?php echo $user_class->points; ?>" size="10" maxlength="20" class="form-control" placeholder="Points to donate">
+                            <button type="submit" name="deposit2" class="btn btn-primary">Donate Points</button>
+                        </div>
+                    </form>
                 </div>
-            </p>
-            <form method="post">
-                <div class="input-group">
-                    <input type="text" name="damount" value="<?php echo $user_class->money; ?>" size="10" maxlength="20" class="form-control" placeholder="Amount to donate">
-                    <button type="submit" name="deposit" class="btn btn-primary">Donate Money</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
-
-    <!-- Card for Points -->
-    <div class="card bg-light mb-3">
-        <div class="card-header">Points</div>
-        <div class="card-body">
-            <h5 class="card-title">Current Points:</h5>
-            <p class="card-text">
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Pts</span>
-                    <input type="text" class="form-control" value="<?php echo prettynum($gang_class->pointsvault); ?>" readonly>
-                </div>
-            </p>
-            <form method="post">
-                <div class="input-group">
-                    <input type="text" name="damount" value="<?php echo $user_class->points; ?>" size="10" maxlength="20" class="form-control" placeholder="Points to donate">
-                    <button type="submit" name="deposit2" class="btn btn-primary">Donate Points</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
 </div>
-
 
         <center><h1>Gang Armoury</h1></center>
 <?php
