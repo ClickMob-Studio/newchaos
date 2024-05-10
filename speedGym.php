@@ -99,7 +99,8 @@ document.body.onmouseup = function() { finish(); };
     </table></div>";
 }
 ?>
-
+<h1>Daily Stats</h1>
+<p>Here you will find your historical gym stats, these update at rollover</p>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
