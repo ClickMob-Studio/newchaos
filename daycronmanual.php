@@ -133,9 +133,9 @@ while ($line = mysql_fetch_array($result3)) {
     //     $line['bank']
     // }
     $multiply += $addmul;
-    if ($line['bank'] >= 15000000)
-        $interest = ceil(15000000 * $multiply);
-    else
+    // if ($line['bank'] >= 15000000)
+    //     $interest = ceil(15000000 * $multiply);
+    // else
         $interest = ceil($line['bank'] * $multiply);
     
     $newmoney = round($line['bank'] + $interest);
