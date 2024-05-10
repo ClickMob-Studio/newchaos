@@ -386,20 +386,31 @@ if ($user_class->prestige > 0) {
 $levelsToGo = $prestigeLevelRequired - $user_class->level; // Remaining levels to reach 1000
 echo '<div style="text-align:center; margin-bottom:20px;">';
 
+?>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <table id="newtables" class="table table-bordered" style="width: 100%;">
+                    <tr>
+                        <?php
+                        // Generate cells for badges and descriptions
+                        for ($i = 1; $i <= 5; $i++) {
+                            echo '<td class="text-center">';
+                            echo '<img src="images/prestige_' . $i . '.png" class="img-fluid" style="max-width: 80px; height: auto;">';
+                            echo '<br>Prestige ' . $i;
+                            echo '</td>';
+                        }
+                        ?>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
-echo '<table id="newtables" style="margin:auto; width:100%; table-layout:fixed;">';
-echo '    <tr>';
+<?php
 
-// Generate cells for badges and descriptions
-for($i = 1; $i <= 5; $i++) {
-    echo '        <td style="text-align:center;">';
-    echo '            <img src="images/prestige_' . $i . '.png" style="width:80px; height:80px;">';
-    echo '            <br>Prestige ' . $i . '';
-    echo '        </td>';
-}
-
-echo '    </tr>';
-echo '</table>';
 
 // Calculate level percentage for display
 $lvlperc = min(100, floor(($user_class->level / $prestigeLevelRequired) * 100));
