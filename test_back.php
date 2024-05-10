@@ -162,30 +162,32 @@ if ($user_class->gang != 0) {
             echo '</div>'; // Close card
             echo '</div>'; // Close column
         }
-        
-        echo '</div>'; // Close row
-        echo '</div>'; // Close container
-        
-        
-    $result = mysql_query("SELECT * FROM inventory WHERE userid = $user_class->id ORDER BY quantity DESC");
-    echo " 
-    <form method='post'>
-        <select name='armoury'>
-            <option value=''></option>
-        ";
-    while ($rank = mysql_fetch_array($result)) {
-        $result2 = mysql_query("SELECT * FROM items WHERE id='" . $rank['itemid'] . "'");
-        $worked = mysql_fetch_array($result2);
-        echo "
-            <option value='{$rank['itemid']}'>{$worked['itemname']} [x{$rank['quantity']}]</option>
-    	";
-    }
-    echo "
-        </select> x<input type='text' size='4' placeholder='QTY' name='qty' pattern='[0-9]*' title='Please enter whole numbers only' required /> <input type='submit' name='submit' value='Donate Item' />
-    </form>
-        ";
-    ?>
-    </td></tr>
+        echo '<div class="col">';
+echo '<div class="card h-100 text-white" style="background-color: #292929;">'; // Consistent styling with other cards
+echo '<div class="card-header"><h5 class="card-title">Donate an Item</h5></div>';
+echo '<div class="card-body">';
+echo '<form method="post">';
+echo '<select class="form-select" name="armoury">';
+echo '<option value=""></option>';
+$result = mysql_query("SELECT * FROM inventory WHERE userid = {$user_class->id} ORDER BY quantity DESC");
+while ($rank = mysql_fetch_array($result)) {
+    $result2 = mysql_query("SELECT * FROM items WHERE id='" . $rank['itemid'] . "'");
+    $worked = mysql_fetch_array($result2);
+    echo "<option value='{$rank['itemid']}'>{$worked['itemname']} [x{$rank['quantity']}]</option>";
+}
+echo '</select>';
+echo '<div class="input-group mb-3">';
+echo '<input type="text" class="form-control" placeholder="QTY" aria-label="Quantity" name="qty" pattern="[0-9]*" title="Please enter whole numbers only" required>';
+echo '<button class="btn btn-primary" type="submit" name="submit">Donate Item</button>';
+echo '</div>';
+echo '</form>';
+echo '</div>'; // Close card-body
+echo '</div>'; // Close card
+echo '</div>'; // Close column
+
+echo '</div>'; // Close row
+echo '</div>'; // Close container
+
     <?php
     echo "<td><tr>";
 } else {
