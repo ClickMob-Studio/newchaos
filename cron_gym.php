@@ -1,4 +1,7 @@
 <?php
+if($_GET['key'] != 'cron94'){
+    die();
+  }
 include 'database/pdo_class.php';
 
 $fetchQuery = "SELECT id, strength, defense, speed FROM grpgusers";
