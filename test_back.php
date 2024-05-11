@@ -21,6 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $userid = $_POST['userid'];
     $db->query("SELECT inv.*, it.*, c.name AS overridename, c.image AS overrideimage FROM inventory inv JOIN items it ON inv.itemid = it.id LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid WHERE inv.userid = ?");
     $db->execute(array($userid));
+    if($db->num_rows() < 1) {
+        echo Message("This user does not have any items or does not exist");$
+        require "footer.php";
+        die();
+    }
     $inventory = $db->fetch_row();
 
     if ($inventory) {
@@ -43,12 +48,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             echo '<div class="form-result"></div>'; // Result container for this form
             echo '</form>';
         }
+        ?>
+<div class="container mt-5">
+    <?php if ($user_id > 0 && $user): ?>
+        <h2>Items for <?php echo htmlspecialchars($user['username']); ?></h2>
+        <ul>
+            <?php foreach ($currentItems as $item): ?>
+                <li><?php echo htmlspecialchars($item['item_name']); ?></li>
+            <?php endforeach; ?>
+        </ul>
+<?php 
+        $db->query("SELECT * FROM items");
+        $db->execute();
+        $allitems = $db->fetch_row();
+        <h3>Add Items to User</h3>
+        <form method="post">
+            <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+            <input type="hidden" name="giveitem" value="1">
+            <select name="item_id">
+                <?php foreach ($allItems as $item): ?>
+                    <option value="<?php echo $item['id']; ?>"><?php echo htmlspecialchars($item['itemname']); ?></option>
+                <?php endforeach; ?>
+            </select>
+            <button type="submit">Add Item</button>
+        </form>
+    <?php else: ?>
+        <p>User not found.</p>
+    <?php endif; ?>
+</div>
+
+        <?php
     } else {
         echo '<p>No inventory found for this user.</p>';
     }
 }
 
 echo '</div>';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['giveitem'], $_POST['item_id'])) {
+    $user_id = $_POST['user_id'];
+    $item_id = $_POST['item_id'];
+    $quantity = $_POST['quantity'];
+        Give_Item($_POST['itemnumber'], Get_ID($_POST['username']), $_POST['itemquantity']);
+      echo "item added to the user";
+
+}
 ?>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
