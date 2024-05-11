@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userid'])) {
         echo '<form method="post" class="mb-3">';
         foreach ($inventory as $item) {
             echo '<div class="mb-3">';
-            $item_name = isset($item['overridename']) ? $item['overridename'] : $item['itm_name'];
+            $item_name = isset($item['overridename']) ? $item['overridename'] : $item['itemname'];
             echo '<label class="form-label">' . htmlspecialchars($item_name) . '</label>';
             echo '<input type="text" class="form-control" name="quantity['. $item['itemid'] .']" value="'. htmlspecialchars($item['quantity']) .'">';
             echo '<input type="hidden" name="itemid[]" value="'. $item['itemid'] .'">';
