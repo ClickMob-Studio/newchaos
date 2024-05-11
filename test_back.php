@@ -1,7 +1,19 @@
 <?php
 include 'header.php';  
 error_reporting(E_ALL);
-
+?>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function () {
+        console.log("Form data:", new FormData(form));
+        for (const pair of new FormData(form)) {
+            console.log(pair[0]+ ', ' + pair[1]); 
+        }
+    });
+});
+</script>
+<?php
 // Check user permissions
 if (!isset($user_class) || $user_class->admin < 1) {
     die("Unauthorized access.");
