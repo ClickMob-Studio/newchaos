@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
     if ($inventory) {
         foreach ($inventory as $item) {
-            echo '<form method="post" action="ajax_admin_inventory.php" class="mb-3">';
+            echo '<form method="post" action="ajax_admin_inventory.php" id="save" class="mb-3">';
             echo '<input type="hidden" name="userid" value="' . $userid . '">';
             echo '<input type="hidden" name="itemid" value="' . $item['itemid'] . '">';
             echo '<div class="row mb-3">';
@@ -69,7 +69,7 @@ echo '</div>';
 ?>
 <script>
 $(document).ready(function() {
-    $('form').on('submit', function(e) {
+    $('#save').on('submit', function(e) {
         e.preventDefault(); 
 
         var form = $(this);z
