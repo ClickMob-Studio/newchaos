@@ -1,10 +1,10 @@
 <?php
 require "ajax_header.php";
-// $user_class = new User($_SESSION['id']);
+$user_class = new User($_SESSION['id']);
 
-// if($user_class->admin < 1) {
-//     die();
-// }
+if($user_class->admin < 1) { 
+      die();
+ }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] == 'update_item') {
     $userid = $_POST['userid'];
@@ -18,5 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         echo 'Error updating item.';
     }
     exit;
+}else{
+    echo 'Invalid Post Data';
 }
 ?>
