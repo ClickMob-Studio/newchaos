@@ -48,6 +48,7 @@ if ($person_class->bank >= 15000000) {
     mysql_query("UPDATE grpgusers SET bank = $newmoney, points = points + $ptsadd WHERE id = {$line['id']}");
     Send_Event($line['id'], "You have earned " . prettynum($interest, 1) . " for your bank", $line['id']);
 }
+echo "complete";
 
 echo $interest;
 ?>
