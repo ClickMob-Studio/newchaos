@@ -59,7 +59,7 @@ include 'header.php';
         $quotetext = str_replace(array('\'', '"'), array('\\\'', '&quot;'), $row['body']);
         ?>
 
-        <div class="card mb-3">
+        <div class="card mb-3" style="background-color: #8e8e8e21;">
             <div class="card-body">
                 <div class="row g-0">
                     <div class="col-md-2 text-center">
