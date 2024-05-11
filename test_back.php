@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         ?>
         <h3>Add Items to User</h3>
         <form method="post">
-            <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+            <input type="hidden" name="user_id" value="<?php echo $userid; ?>">
             <input type="hidden" name="giveitem" value="1">
             <select name="item_id">
                 <?php foreach ($allItems as $item): ?>
