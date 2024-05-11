@@ -2,7 +2,7 @@
 require "header.php";
 
 
-if ($line['rmdays'] >= 1)
+if ($user_class->rmdays >= 1)
         $multiply = 0.04;
     else
         $multiply = 0.02;
