@@ -55,7 +55,8 @@ echo '</div>';
 <script>
 $(document).ready(function() {
     $('.save-form').on('submit', function(e) {
-        e.preventDefault(); // Prevent the default form submission
+    console.log("Form submitted");  // Check if this logs when you submit the form
+    e.preventDefault();
 
         var form = $(this);
         $.ajax({
