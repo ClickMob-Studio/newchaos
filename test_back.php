@@ -10,6 +10,7 @@ if ($user_class->rmdays >= 1)
     if ($user_class->donations >= 50) {
         $addmul = .02;
         $ptsadd = 75;
+        $rate = ($interest * 100) . "%";
     }
     if ($user_class->donations >= 100) {
         $addmul = .03;
@@ -24,9 +25,19 @@ if ($user_class->rmdays >= 1)
     //     $line['bank']
     // }
     $multiply += $addmul;
-    if ($user_class->bank >= 15000000)
+    
+if ($user_class->rmdays > 0) {
+    $interest = 0.04;
+    $interest += $user_class->bankboost / 10;
+    //$rate = ($interest * 100) . "%";
+} else {
+    $interest = .02;
+    $interest += $user_class->bankboost / 10;
+    //$rate = ($interest * 100) . "%";
+}
+if ($user_class->bank >= 30000000)
     $interest = ceil(15000000 * $interest);
 else
     $interest = ceil($user_class->bank * $interest);
 
-    echo $interest;
+echo $intrest;
