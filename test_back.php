@@ -1,5 +1,37 @@
 <?php
 include 'header.php';
+function gcTalk($which = 0, $gang = 0) {
+    global $db;
+    if ($which == 0) {
+        $db->query("SELECT * FROM gcusers");
+        $db->execute();
+    } else {
+        $db->query("SELECT * FROM gmusers WHERE gang = ?");
+        $db->execute(array($gang));
+    }
+    $rows = $db->fetch_row();
+    $ret = '<div class="flexcont" style="margin: 2px; display: flex; flex-wrap: nowrap; justify-content: space-around; align-items: center;">';
+    $count = count($rows);
+    $leftover = 4 - ($count % 4);
+    if ($count < 4)
+        $leftover = 0;
+    foreach ($rows as $row) {
+        if ($row['userid'] == 150) continue;  // Skip specific user by ID
+        $ret .= '<div class="flexele" style="margin: 2px; flex: 1 0 22%; box-sizing: border-box;">';
+        $ret .= '<div class="floaty" style="height: 20px; line-height: 20px; background-color: ';
+        $ret .= ($row['typing']) ? 'rgba(0, 255, 0, 0.125);' : 'transparent;';
+        $ret .= ' cursor: pointer;" onclick="addsmiley(\' [tag]' . $row['userid'] . '[/tag] \');">';
+        $ret .= formatName($row['userid']);
+        $ret .= '</div></div>';
+    }
+    // Fill the remaining space with empty flex elements, if necessary
+    for ($i = 0; $i < $leftover; $i++) {
+        $ret .= '<div class="flexele" style="margin: 2px; flex: 1 0 22%;"></div>';
+    }
+    $ret .= '</div>';
+    return $ret;
+}
+
 ?>
 
 <style>
@@ -41,7 +73,7 @@ include 'header.php';
     <h1>Global Chat</h1>
    
     <div id="gccontainer" class="dcPanel dcAvatarPanel" style="margin: 0; padding: 10px; width: 100%; background-color: #f4f4f4; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-    <?php echo gcTalking(); ?>
+    <?php echo gcTalk(); ?>
 </div>
 
 
