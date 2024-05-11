@@ -72,7 +72,7 @@ $(document).ready(function() {
     $('#save').on('submit', function(e) {
         e.preventDefault(); 
 
-        var form = $(this);z
+        var form = $(this);
         $.ajax({
             url: form.attr('action'), 
             type: 'POST',
