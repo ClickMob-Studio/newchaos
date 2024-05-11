@@ -92,20 +92,15 @@ function gcTalk($which = 0, $gang = 0) {
         <button type="button" class="btn btn-secondary" id="showEmojis" style="display: <?php echo ($user_class->hideemojis) ? 'block' : 'none'; ?>;">Show Emojis</button>
         <button type="button" class="btn btn-secondary" id="hideEmojis" style="display: <?php echo ($user_class->hideemojis) ? 'none' : 'block'; ?>;">Hide Emojis</button>
     </div>
-    <!-- Message Form -->
-    <hr style="border:0; border-top:thin solid #333;">
-    <table>
-        <form name="message">
-            <tr>
-                <td>
-                    <textarea autofocus name="msgtext" id="reply" oninput="typing();" style="width:90%; height:125px;"></textarea><br />
-                </td>
-                <td>
-                    <input type="submit" name="submit" onclick="return sendGmail();" value="Post" />
-                </td>
-            </tr>
+    <div class="mt-3">
+        <form name="message" class="form-inline">
+            <div class="form-group mx-sm-3 mb-2">
+                <textarea  name="msgtext" id="reply" oninput="typing();" style="width: 100%;" rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mb-2" onclick="return sendGmail();">Post</button>
         </form>
-    </table>
+    </div>
+
 
 
 
