@@ -17,9 +17,10 @@ $fetch = $db->fetch_row();
             <td><?= formatName($row['userid']); ?></td>
             <td><?= $row['pack']; ?></td>
             <td><?= $row['credits_before']; ?></td>
-            <td><?= $row['credits_after']; ?></td>
+            <td><?= $row['credits_now']; ?></td>
         </tr>
         <?php
 
     }
+    require "footer.php";
     ?>
