@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $db->query("SELECT inv.*, it.*, c.name AS overridename, c.image AS overrideimage FROM inventory inv JOIN items it ON inv.itemid = it.id LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid WHERE inv.userid = ?");
     $db->execute(array($userid));
     if($db->num_rows() < 1) {
-        echo Message("This user does not have any items or does not exist");$
+        echo Message("This user does not have any items or does not exist");
         require "footer.php";
         die();
     }
