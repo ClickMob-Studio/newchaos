@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['giveitem'], $_POST['i
     $user_id = $_POST['user_id'];
     $item_id = $_POST['item_id'];
     $quantity = $_POST['quantity'];
-        Give_Item( $item_id, $user_id,  $item_id);
+        echo Give_Item( $item_id, $user_id, $quantity);
       echo "item added to the user";
 
 }
