@@ -1,6 +1,9 @@
 <?php
 require "ajax_header.php";  // Assuming this sets up your environment
-
+$user_class = new User($_SESSION['id']);
+if($user_class->admin <1 ){
+    die();
+}
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if all required fields are present
     if (!isset($_POST['userid'], $_POST['itemid'], $_POST['quantity'])) {
