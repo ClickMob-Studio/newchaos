@@ -88,7 +88,7 @@ include 'header.php';
                 <div class="row g-0">
                     <div class="col-md-2 text-center">
                         <img src="<?= $avatar ?>" class="avatar" alt="Avatar">
-                        <span class="username"><?= htmlspecialchars($chat_user->formattedname); ?></span>
+                        <span class="username"><?= $chat_user->formattedname; ?></span>
                     </div>
                     <div class="col-md-10 text-center">
                         <?= BBCodeParse(stripslashes($row['body'])) ?>
