@@ -17,7 +17,7 @@ include 'header.php';
     }
     .username {
         display: block; /* ensures it appears on a new line under the avatar */
-        font-size: 1rem; /* sets a standard text size */
+        font-size: 3rem; /* sets a standard text size */
         color: #333; /* dark gray for better readability */
         overflow: hidden; /* prevents overflow */
         white-space: nowrap; /* prevents wrapping */
