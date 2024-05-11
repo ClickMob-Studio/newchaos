@@ -159,9 +159,9 @@ if (strtotime($lastGiveawayTime) <= strtotime('-1 hour')) {
     }
 
     // Shuffle the array and pick the first 3 users if we have enough users
-    if (count($onlineUsers) >= 4) {
+    if (count($onlineUsers) >= 3) {
         shuffle($onlineUsers);
-        $winners = array_slice($onlineUsers, 0, 4);
+        $winners = array_slice($onlineUsers, 0,3);
 
         // Reward the first user with points
        mysql_query("UPDATE `grpgusers` SET `points` = `points` + 1000 WHERE `id` = " . $winners[0]);
@@ -172,11 +172,11 @@ if (strtotime($lastGiveawayTime) <= strtotime('-1 hour')) {
         Send_event($winners[1], "You have been randomly selected this hour! You won $500,000!");
 
         // Reward the third user with credits
-       mysql_query("UPDATE `grpgusers` SET `credits` = `credits` + 25 WHERE `id` = " . $winners[2]);
-                Send_event($winners[2], "You have been randomly selected this hour! You won 25 Gold!");
+       //mysql_query("UPDATE `grpgusers` SET `credits` = `credits` + 25 WHERE `id` = " . $winners[2]);
+        //        Send_event($winners[2], "You have been randomly selected this hour! You won 25 Gold!");
                 
                   // Reward the third user with Tokens
-        mysql_query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + 10 WHERE `id` = " . $winners[3]);
+        mysql_query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + 10 WHERE `id` = " . $winners[2]);
                Send_event($winners[3], "You have been randomly selected this hour! You won 10 Raid Tokens!");
 
 
