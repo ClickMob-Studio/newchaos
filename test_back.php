@@ -29,4 +29,4 @@ if ($user_class->rmdays >= 1)
 else
     $interest = ceil($user_class->bank * $interest);
 
-    echo $intrest;
+    echo $interest;
