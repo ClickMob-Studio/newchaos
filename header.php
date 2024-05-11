@@ -566,6 +566,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 echo '<script src="js/java.js?12" type="text/javascript"></script>';
 ?><!doctype html>
 <html lang="en">
+<meta charset="UTF-8">
 <head>
 
 <?php 
