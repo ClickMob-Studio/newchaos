@@ -15,6 +15,15 @@ include 'header.php';
     .card-body {
         text-align: center;
     }
+    .username {
+        display: block; /* ensures it appears on a new line under the avatar */
+        font-size: 1rem; /* sets a standard text size */
+        color: #333; /* dark gray for better readability */
+        overflow: hidden; /* prevents overflow */
+        white-space: nowrap; /* prevents wrapping */
+        text-overflow: ellipsis; /* adds ellipsis if text is too long */
+        max-width: 100px; /* matches avatar width */
+    }
 </style>
 
 <div class="container mt-3">
@@ -79,7 +88,7 @@ include 'header.php';
                 <div class="row g-0">
                     <div class="col-md-2 text-center">
                         <img src="<?= $avatar ?>" class="avatar" alt="Avatar">
-                        <?= $chat_user->formattedname;?>
+                        <span class="username"><?= htmlspecialchars($chat_user->formattedname); ?></span>
                     </div>
                     <div class="col-md-10 text-center">
                         <?= BBCodeParse(stripslashes($row['body'])) ?>
@@ -89,7 +98,7 @@ include 'header.php';
                             <?php if (($user_class->admin || $user_class->gm || $user_class->cm) && (!$chat_user->admin && !$chat_user->gm)): ?>
                                 <a href="?gcban=<?= $chat_user->id ?>&conf=<?= $_SESSION['security'] ?>" class="btn btn-warning btn-sm">Ban User</a>
                             <?php endif; ?>
-                            <?php if ($user_class->admin || $user_class->gm || $user_class->cm): ?>
+                            <?php if ($user_class->admin or $user_class->gm or $user_class->cm): ?>
                                 <a href="?delgc=<?= $row['id'] ?>" class="btn btn-danger btn-sm">Delete Post</a>
                             <?php endif; ?>
                         </div>
