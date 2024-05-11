@@ -1,5 +1,4 @@
 <?php
-session_start();
 require "ajax_header.php";
 $user_class = new User($_SESSION['id']);
 if($User_class->admin < 1) {
