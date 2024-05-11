@@ -65,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                     <option value="<?php echo $item['id']; ?>"><?php echo htmlspecialchars($item['itemname']); ?></option>
                 <?php endforeach; ?>
             </select>
+            <input type="number" name="quantity" min="1">
             <button type="submit">Add Item</button>
         </form>
 
@@ -81,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['giveitem'], $_POST['i
     $user_id = $_POST['user_id'];
     $item_id = $_POST['item_id'];
     $quantity = $_POST['quantity'];
-        Give_Item($_POST['itemnumber'], Get_ID($_POST['username']), $_POST['itemquantity']);
+        Give_Item( $item_id, $user_id,  $item_id);
       echo "item added to the user";
 
 }
