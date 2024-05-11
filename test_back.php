@@ -6,9 +6,11 @@ error_reporting(E_ALL);
 if (!isset($user_class) || $user_class->admin < 1) {
     die("Unauthorized access.");
 }
-
+?>
+<div class="result"></div>
+<?php
 echo '<div class="container mt-5">';
-// Form to load user inventory
+
 echo '<form method="post" class="mb-3">';
 echo '<div class="mb-3">';
 echo '<label for="userid" class="form-label">User ID:</label>';
@@ -17,22 +19,22 @@ echo '</div>';
 echo '<button type="submit" name="action" value="load_inventory" class="btn btn-primary">Load Inventory</button>';
 echo '</form>';
 
-// Handling form submission to load inventory
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] == 'load_inventory') {
     $userid = $_POST['userid'];
     $db->query("SELECT inv.*, it.*, c.name AS overridename, c.image AS overrideimage FROM inventory inv JOIN items it ON inv.itemid = it.id LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid WHERE inv.userid = ?");
     $db->execute(array($userid));
     $inventory = $db->fetch_row();
 
-    // Display inventory items in individual forms for update
+
     if ($inventory) {
         foreach ($inventory as $item) {
-            echo '<form method="post" class="mb-3">';
+            echo '<form method="post" action="ajax_admin_inventory.php" class="mb-3">';
             echo '<input type="hidden" name="userid" value="' . $userid . '">';
             echo '<input type="hidden" name="itemid" value="' . $item['itemid'] . '">';
             echo '<div class="row mb-3">';
             echo '<div class="col-md-6">';
-            $item_name = isset($item['overridename']) ? $item['overridename'] : $item['name'];
+            $item_name = isset($item['overridename']) ? $item['overridename'] : $item['itemname'];
             echo '<label class="form-label">' . htmlspecialchars($item_name) . '</label>';
             echo '</div>';
             echo '<div class="col-md-6">';
@@ -49,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
 }
 
-// Handling form submission to update individual items
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] == 'update_item') {
     $userid = $_POST['userid'];
     $itemid = $_POST['itemid'];
@@ -65,3 +67,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
 echo '</div>';
 ?>
+<script>
+$(document).ready(function() {
+    $('form').on('submit', function(e) {
+        e.preventDefault(); 
+
+        var form = $(this);z
+        $.ajax({
+            url: form.attr('action'), 
+            type: 'POST',
+            data: form.serialize(),
+            success: function(response) {
+                form.find('.result').html('<p>' + response + '</p>');
+            },
+            error: function(xhr, status, error) {
+                form.find('.result').html('<p>Error updating item.</p>');
+            }
+        });
+    });
+});
+</script>
