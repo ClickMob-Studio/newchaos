@@ -26,7 +26,7 @@ include 'header.php';
         margin: auto; /* centers the username horizontally */
     }
     .text-muted{
-        color:#fff;
+        color:#fff !important;
     }
 </style>
 
@@ -34,7 +34,7 @@ include 'header.php';
     <h1>Global Chat</h1>
    
     <div id="gccontainer" style="margin:0; padding:10px;">
-        <?php gcTalking(); ?>
+        <?php echo gcTalking(); ?>
    </div>
 
     <?php
