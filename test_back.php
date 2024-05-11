@@ -50,13 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
         }
         ?>
 <div class="container mt-5">
-    <?php if ($user_id > 0 && $user): ?>
-        <h2>Items for <?php echo htmlspecialchars($user['username']); ?></h2>
-        <ul>
-            <?php foreach ($currentItems as $item): ?>
-                <li><?php echo htmlspecialchars($item['item_name']); ?></li>
-            <?php endforeach; ?>
-        </ul>
+
 <?php 
         $db->query("SELECT * FROM items");
         $db->execute();
@@ -73,9 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             </select>
             <button type="submit">Add Item</button>
         </form>
-    <?php else: ?>
-        <p>User not found.</p>
-    <?php endif; ?>
+
 </div>
 
         <?php
