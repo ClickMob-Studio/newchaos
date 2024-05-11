@@ -1,54 +1,101 @@
 <?php
-require "header.php";
-exit;
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-$result3 = mysql_query("SELECT * FROM grpgusers ORDER BY id ASC");
-while ($line = mysql_fetch_array($result3)) {
-    $person_class = new User($line['id']);
-    // Calculate the base interest rate based on remaining membership days
-if ($person_class->rmdays >= 1) {
-    $interest = 0.04;  // 4% interest rate if membership days are 1 or more
-} else {
-    $interest = 0.02;  // 2% interest rate otherwise
-}
-
-// Adjust interest rate based on donations
-$addmul = $ptsadd = 0;
-if ($person_class->donations >= 50) {
-    $addmul = 0.02;
-    $ptsadd = 75;
-}
-if ($person_class->donations >= 100) {
-    $addmul = 0.03;
-    $ptsadd = 120;
-}
-if ($person_class->donations >= 200) {
-    $addmul = 0.05;
-    $ptsadd = 150;
-}
-
-// Increase the interest rate by the adjustments from donations
-$interest += $addmul;
-
-// Apply bank boost if it's set and greater than zero
-if ($person_class->bankboost > 0) {
-    $interest += ($interest * ($person_class->bankboost / 100));  // Adjusting the interest rate by bankboost
-}
-
-// Calculate the effective interest amount based on the user's bank balance
-if ($person_class->bank >= 15000000) {
-    $interest = ceil(15000000 * $interest);  // Interest capped at a bank amount of 30 million
-} else {
-    $interest = ceil($person_class->bank * $interest);  // Interest based on the actual bank balance
-}
-    $newmoney = round($line['bank'] + $interest);
-    mysql_query("UPDATE grpgusers SET bank = $newmoney, points = points + $ptsadd WHERE id = {$line['id']}");
-    Send_Event($line['id'], "You have earned " . prettynum($interest, 1) . " for your bank", $line['id']);
-}
-echo "complete";
-
-echo $interest;
+include 'header.php';
 ?>
+
+<div class="container mt-3">
+    <div class="alert alert-info">Global Chat</div>
+
+    <?php
+    if ($user_class->fbitime > 0) {
+        diefun("You can't communicate if you're in FBI Jail!");
+    }
+
+    // JavaScript for handling text formatting and emoji picker
+    echo "
+    <script>
+    function addBB(text) {
+        var textarea = document.getElementById('reply');
+        textarea.value += text;
+    }
+    </script>
+    <script type='module'>
+    import { EmojiButton } from 'https://unpkg.com/@joeattardi/emoji-button@4.3.0/dist/index.js';
+
+    const picker = new EmojiButton({
+        theme: 'dark',
+        emojiSize: '20px',
+        emojisPerRow: 18,
+        rows: 4,
+        showVariants: false,
+        position: 'bottom'
+    });
+    const trigger = document.querySelector('#trigger');
+    const textarea = document.querySelector('#reply');
+
+    function addasmiley(text, textarea) {
+        textarea.focus();
+        textarea.setRangeText(
+          text,
+          textarea.selectionStart,
+          textarea.selectionEnd,
+          'end'
+        );
+    }
+
+    picker.on('emoji', selection => {
+        addasmiley(selection.emoji, textarea);
+    });
+
+    trigger.addEventListener('click', () => picker.togglePicker(trigger));
+    </script>";
+
+    if ($user_class->level < 2 && $user_class->prestige == 0)
+        diefun("You must be level 2 to use this feature.");
+
+    $db->query("SELECT * FROM globalchat ORDER BY timesent DESC LIMIT 80");
+    $rows = $db->fetch_row();
+    foreach ($rows as $row) {
+        $avatar = (!empty($array['avatar'])) ? $array['avatar'] : "/images/no-avatar.png";
+        $quotetext = str_replace(array('\'', '"'), array('\\\'', '&quot;'), $row['body']);
+        ?>
+
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row g-0">
+                    <div class="col-md-2 text-center">
+                        <img src="<?= $avatar ?>" class="img-fluid rounded-circle" alt="Avatar">
+                        <br>
+                        <?= htmlspecialchars($array['name']) ?>
+                    </div>
+                    <div class="col-md-10">
+                        <?= BBCodeParse(stripslashes($row['body'])) ?>
+                        <br>
+                        <small class="text-muted"><?= howlongago($row['timesent']) ?> ago</small>
+                        <div>
+                            <?php if (($user_class->admin || $user_class->gm || $user_class->cm) && (!$array['admin'] && !$array['gm'])): ?>
+                                <a href="?gcban=<?= $row['playerid'] ?>&conf=<?= $_SESSION['security'] ?>" class="btn btn-warning btn-sm">Ban User</a>
+                            <?php endif; ?>
+                            <?php if ($user_class->admin || $user_class->gm || $user_class->cm): ?>
+                                <a href="?delgc=<?= $row['id'] ?>" class="btn btn-danger btn-sm">Delete Post</a>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+    ?>
+
+    <hr>
+    <form name="message" class="form-inline">
+        <div class="form-group mx-sm-3 mb-2">
+            <textarea name="msgtext" id="reply" class="form-control" style="width: 90%;" oninput="typing();"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Post</button>
+    </form>
+
+    <?php
+    include("footer.php");
+    ?>
+</div>
