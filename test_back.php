@@ -2,6 +2,21 @@
 include 'header.php';
 ?>
 
+<style>
+    .avatar {
+        width: 100px; /* fixed width */
+        height: 100px; /* fixed height */
+        object-fit: cover; /* maintain aspect ratio */
+        border-radius: 5px; /* optional: rounded corners */
+    }
+    .text-center {
+        text-align: center;
+    }
+    .card-body {
+        text-align: center;
+    }
+</style>
+
 <div class="container mt-3">
     <div class="alert alert-info">Global Chat</div>
 
@@ -63,11 +78,9 @@ include 'header.php';
             <div class="card-body">
                 <div class="row g-0">
                     <div class="col-md-2 text-center">
-                        <img src="<?= $avatar ?>" class="img-fluid rounded-circle" alt="Avatar">
-                        <br>
-                        <?= htmlspecialchars($chat_user->name) ?>
+                        <img src="<?= $avatar ?>" class="avatar" alt="Avatar">
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-10 text-center">
                         <?= BBCodeParse(stripslashes($row['body'])) ?>
                         <br>
                         <small class="text-muted"><?= howlongago($row['timesent']) ?> ago</small>
