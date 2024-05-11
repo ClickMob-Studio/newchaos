@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userid'])) {
 
     if ($inventory) {
         echo '<form method="post" class="mb-3">';
+        echo '<input type="hidden" value="'.$userid.'" name="userid">';
         foreach ($inventory as $item) {
             echo '<div class="row mb-3">';
             echo '<div class="col-md-6">';
@@ -45,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userid'])) {
     foreach ($_POST['itemid'] as $index => $itemid) {
         $quantity = $_POST['quantity'][$itemid];
         $db->query("UPDATE inventory SET quantity = ? WHERE itemid = ? AND userid = ?");
-        $db->execute(array($quantity, $itemid, $_SESSION['userid']));
+        $db->execute(array($quantity, $itemid, $_POST['userid']));
         echo '<p>Inventory updated successfully.</p>';
     }
 } else {
