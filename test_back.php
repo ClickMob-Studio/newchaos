@@ -8,6 +8,7 @@ if (!isset($user_class) || $user_class->admin < 1) {
 }
 
 echo '<div class="container mt-5">';
+
 // Form to load user inventory
 echo '<form method="post" class="mb-3">';
 echo '<div class="mb-3">';
@@ -51,23 +52,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 // Handling form submission to save changes
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] == 'save_changes') {
     $userid = $_POST['userid'];
-    $errors = false;
-
-    if (!empty($_POST['quantity']) && is_array($_POST['quantity'])) {
+    if (isset($_POST['userid'], $_POST['itemid'], $_POST['quantity']) && is_array($_POST['quantity'])) {
+        $errors = false;
         foreach ($_POST['itemid'] as $index => $itemid) {
-            $quantity = $_POST['quantity'][$itemid];
-            $db->query("UPDATE inventory SET quantity = ? WHERE itemid = ? AND userid = ?");
-            if (!$db->execute(array($quantity, $itemid, $userid))) {
-                $errors = true; // Assume you have a method to check for errors
+            if (isset($_POST['quantity'][$itemid])) {
+                $quantity = $_POST['quantity'][$itemid];
+                $db->query("UPDATE inventory SET quantity = ? WHERE itemid = ? AND userid = ?");
+                if (!$db->execute(array($quantity, $itemid, $userid))) {
+                    echo '<p>Error updating item with ID ' . $itemid . '.</p>';
+                    $errors = true;
+                }
+            } else {
+                echo '<p>Missing quantity for item ID ' . $itemid . '.</p>';
+                $errors = true;
             }
         }
         if (!$errors) {
             echo '<p>Inventory updated successfully.</p>';
-        } else {
-            echo '<p>Error updating inventory. Please check your entries.</p>';
         }
     } else {
-        echo '<p>Error in processing inventory updates. No data provided.</p>';
+        echo '<p>Error in processing inventory updates. No data provided or missing fields.</p>';
     }
 }
 
