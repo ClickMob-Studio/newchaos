@@ -1,13 +1,13 @@
 <?php
-include 'header.php';  // Ensure this file contains the Bootstrap CSS link
+include 'header.php';  
 error_reporting(E_ALL);
 
-if($user_class->admin < 1 ){
+if (!isset($user_class) || $user_class->admin < 1) {
     die("Unauthorized access.");
 }
 
 echo '<div class="container mt-5">';
-// Form to load inventory
+
 echo '<form method="post" class="mb-3">';
 echo '<div class="mb-3">';
 echo '<label for="userid" class="form-label">User ID:</label>';
@@ -26,7 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userid'])) {
         echo '<form method="post" class="mb-3">';
         foreach ($inventory as $item) {
             echo '<div class="mb-3">';
-            echo '<label class="form-label">' . htmlspecialchars($item['overridename'] ?? $item['name']) . '</label>';
+            $item_name = isset($item['overridename']) ? $item['overridename'] : $item['name'];
+            echo '<label class="form-label">' . htmlspecialchars($item_name) . '</label>';
             echo '<input type="text" class="form-control" name="quantity['. $item['itemid'] .']" value="'. htmlspecialchars($item['quantity']) .'">';
             echo '<input type="hidden" name="itemid[]" value="'. $item['itemid'] .'">';
             echo '</div>';
@@ -46,5 +47,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userid'])) {
 } else {
     echo '<p>Invalid access or no UserID provided.</p>';
 }
-echo '</div>'; // Close container div
+echo '</div>'; 
 ?>
