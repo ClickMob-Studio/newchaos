@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 <?php 
         $db->query("SELECT * FROM items");
         $db->execute();
-        $allitems = $db->fetch_row();
+        $allItems = $db->fetch_row();
         ?>
         <h3>Add Items to User</h3>
         <form method="post">
