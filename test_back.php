@@ -10,7 +10,6 @@ include 'header.php';
         diefun("You can't communicate if you're in FBI Jail!");
     }
 
-    // JavaScript for handling text formatting and emoji picker
     echo "
     <script>
     function addBB(text) {
@@ -55,7 +54,8 @@ include 'header.php';
     $db->query("SELECT * FROM globalchat ORDER BY timesent DESC LIMIT 80");
     $rows = $db->fetch_row();
     foreach ($rows as $row) {
-        $avatar = (!empty($array['avatar'])) ? $array['avatar'] : "/images/no-avatar.png";
+        $chat_user = new User($row['playerid']);
+        $avatar = (!empty($chat_user->avatar)) ? $chat_user->avatar : "/images/no-avatar.png";
         $quotetext = str_replace(array('\'', '"'), array('\\\'', '&quot;'), $row['body']);
         ?>
 
@@ -65,15 +65,15 @@ include 'header.php';
                     <div class="col-md-2 text-center">
                         <img src="<?= $avatar ?>" class="img-fluid rounded-circle" alt="Avatar">
                         <br>
-                        <?= htmlspecialchars($array['name']) ?>
+                        <?= htmlspecialchars($chat_user->name) ?>
                     </div>
                     <div class="col-md-10">
                         <?= BBCodeParse(stripslashes($row['body'])) ?>
                         <br>
                         <small class="text-muted"><?= howlongago($row['timesent']) ?> ago</small>
                         <div>
-                            <?php if (($user_class->admin || $user_class->gm || $user_class->cm) && (!$array['admin'] && !$array['gm'])): ?>
-                                <a href="?gcban=<?= $row['playerid'] ?>&conf=<?= $_SESSION['security'] ?>" class="btn btn-warning btn-sm">Ban User</a>
+                            <?php if (($user_class->admin || $user_class->gm || $user_class->cm) && (!$chat_user->admin && !$chat_user->gm)): ?>
+                                <a href="?gcban=<?= $chat_user->id ?>&conf=<?= $_SESSION['security'] ?>" class="btn btn-warning btn-sm">Ban User</a>
                             <?php endif; ?>
                             <?php if ($user_class->admin || $user_class->gm || $user_class->cm): ?>
                                 <a href="?delgc=<?= $row['id'] ?>" class="btn btn-danger btn-sm">Delete Post</a>
