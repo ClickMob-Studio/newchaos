@@ -220,7 +220,7 @@ if (isset($_GET['buy'])) {
     if ($_GET['buy'] == "points_four") {
         $cost = 370;
         if ($user_class->credits >= $cost) {
-            $current
+            $current = $user_class->credits;
             $newcredit = $user_class->credits -= $cost;
             $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", '50000 points', ".$current .", ".$newcredit.")");
             $db->execute();
