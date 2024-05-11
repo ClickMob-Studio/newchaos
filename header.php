@@ -1040,7 +1040,7 @@ $(document).ready(function() {
 
                         <li class="flex-grow-1">
                         <?php if (!$user_class->is_ads_disabled): ?>
-                            <span><?= $user_ads->formattedname ?>: <?= $row['message'] ?></span>
+                            <span><?= $user_ads->formattedname ?>: <?php echo $row['message'] ?></span>
                             <?php endif; ?>
                         </li>
                         <?php }?> <?php if (!$user_class->is_ads_disabled): ?>
@@ -1198,7 +1198,7 @@ $(document).ready(function() {
                         $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
                         ?>
                         <li class="flex-grow-1">
-                            <span><?= $user_ads->formattedname ?>: <?= $row['message'] ?></span>
+                            <span><?= $user_ads->formattedname ?>: <?php echo $row['message'] ?></span>
                         </li>
                         <li>
                             <a href="#" onClick="reportAd(<?= $row['id'] ?>); return false;">
