@@ -64,7 +64,7 @@ $(document).ready(function() {
             type: 'POST',
             data: form.serialize(),
             success: function(response) {
-                console.log(result);
+                console.log(response);
                 form.find('.form-result').html('<p>' + response + '</p>'); // Update the form-result div in this form
             },
             error: function(xhr, status, error) {
