@@ -3,7 +3,7 @@ require "header.php";
 if($user_class->admin < 1 ){
     die();
 }
-$db->query("SELECT * FROM pack_logs ORDER BY `id ` DESC LIMIT 25");
+$db->query("SELECT * FROM pack_logs ORDER BY `id` DESC LIMIT 25");
 $db->execute();
 $fetch= $db->fetch_row(); 
 ?>
