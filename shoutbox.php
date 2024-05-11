@@ -31,7 +31,7 @@ if (isset($_POST['submit'])) {
     if ($error == "") {
         $newmoney = $user_class->bank - $cost;
         $time = time();
-    
+        $message = htmlspecialchars($_POST['message'], ENT_QUOTES, 'UTF-8');
         $db->query("UPDATE `grpgusers` SET `bank` = :newmoney WHERE `id`= :userid");
         $db->bind(':newmoney', $newmoney);
         $db->bind(':userid', $user_class->id);
@@ -40,7 +40,7 @@ if (isset($_POST['submit'])) {
         $db->query("INSERT INTO `ads`(`timestamp`, `poster`, `message`, `displaymins`, `glow`) VALUES (:time, :userid, :message, :displaymins, :glow)");
         $db->bind(':time', $time);
         $db->bind(':userid', $user_class->id);
-        $db->bind(':message', $_POST['message']);
+        $db->bind(':message', $message);
         $db->bind(':displaymins', $_POST['displaymins']);
         $db->bind(':glow', isset($_POST['glowText']) && $_POST['glowText'] == 'true' ? 1 : 0);
         $db->execute();
