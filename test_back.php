@@ -22,7 +22,7 @@ include 'header.php';
         overflow: hidden; /* prevents overflow */
         white-space: nowrap; /* prevents wrapping */
         text-overflow: ellipsis; /* adds ellipsis if text is too long */
-        max-width: 100px; /* matches avatar width */
+        max-width: 300px; /* matches avatar width */
     }
 </style>
 
