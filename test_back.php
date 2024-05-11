@@ -1,54 +1,50 @@
 <?php
-include 'header.php';
+include 'header.php';  // Ensure this file contains the Bootstrap CSS link
 error_reporting(E_ALL);
-error_reporting(-1);
-ini_set('error_reporting', E_ALL);
 
 if($user_class->admin < 1 ){
-    die();
+    die("Unauthorized access.");
 }
+
+echo '<div class="container mt-5">';
+// Form to load inventory
+echo '<form method="post" class="mb-3">';
+echo '<div class="mb-3">';
+echo '<label for="userid" class="form-label">User ID:</label>';
+echo '<input type="text" class="form-control" id="userid" name="userid" required>';
+echo '</div>';
+echo '<button type="submit" class="btn btn-primary">Load Inventory</button>';
+echo '</form>';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userid'])) {
     $userid = $_POST['userid'];
-
     $db->query("SELECT inv.*, it.*, c.name AS overridename, c.image AS overrideimage FROM inventory inv JOIN items it ON inv.itemid = it.id LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid WHERE inv.userid = ?");
     $db->execute(array($userid));
     $inventory = $db->fetch_row();
 
     if ($inventory) {
-        echo "<form method='post'>";
+        echo '<form method="post" class="mb-3">';
         foreach ($inventory as $item) {
-            echo "<div>";
-            echo "<label>{$item['name']}</label>";
-            echo "<input type='text' name='quantity[{$item['itemid']}]' value='{$item['quantity']}' />";
-            echo "<input type='hidden' name='itemid[]' value='{$item['itemid']}' />";
-            echo "</div>";
+            echo '<div class="mb-3">';
+            echo '<label class="form-label">' . htmlspecialchars($item['overridename'] ?? $item['name']) . '</label>';
+            echo '<input type="text" class="form-control" name="quantity['. $item['itemid'] .']" value="'. htmlspecialchars($item['quantity']) .'">';
+            echo '<input type="hidden" name="itemid[]" value="'. $item['itemid'] .'">';
+            echo '</div>';
         }
-        echo "<button type='submit'>Save Changes</button>";
-        echo "</form>";
+        echo '<button type="submit" class="btn btn-success">Save Changes</button>';
+        echo '</form>';
     } else {
-        echo "<p>No inventory found for this user.</p>";
+        echo '<p>No inventory found for this user.</p>';
+    }
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quantity'])) {
+    foreach ($_POST['itemid'] as $index => $itemid) {
+        $quantity = $_POST['quantity'][$itemid];
+        $db->query("UPDATE inventory SET quantity = ? WHERE itemid = ? AND userid = ?");
+        $db->execute(array($quantity, $itemid, $_SESSION['userid']));
+        echo '<p>Inventory updated successfully.</p>';
     }
 } else {
-
-    echo "<p>Invalid access or no UserID provided.</p>";
+    echo '<p>Invalid access or no UserID provided.</p>';
 }
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quantity'])) {
-    foreach ($_POST['itemid'] as $index => $itemid) {
-        $quantity = $_POST['quantity'][$itemid];  
-        $db->query("UPDATE inventory SET quantity = ? WHERE itemid = ? AND userid = ?");
-        $db->execute(array($quantity, $itemid, $_SESSION['userid']));  
-    }
-    echo "<p>Inventory updated successfully.</p>";
-}
-
+echo '</div>'; // Close container div
 ?>
-
-    <form method="post">
-        <label for="userid">User ID:</label>
-        <input type="text" id="userid" name="userid" required>
-        <button type="submit">Load Inventory</button>
-    </form>
-
