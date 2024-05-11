@@ -75,41 +75,23 @@ function gcTalk($which = 0, $gang = 0) {
     <div id="gccontainer" class="dcPanel dcAvatarPanel" style="margin: 0; margin-bottom:10px;padding: 10px; width: 100%; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
     <?php echo gcTalk(); ?>
 </div>
-<!-- BBCode Toolbar -->
-<table style="margin-bottom:-10px;">
-        <tr>
-            <td class="flexcont">
-                <span class="flexele forumhover" onclick="addBB('[b][/b]', 4);return false;">[b]</span>
-            </td>
-            <td class="flexcont">
-                <span class="flexele forumhover" onclick="addBB('[u][/u]', 4);return false;">[u]</span>
-            </td>
-            <td class="flexcont">
-                <span class="flexele forumhover" onclick="addBB('[i][/i]', 4);return false;">[i]</span>
-            </td>
-            <td class="flexcont">
-                <span class="flexele forumhover" onclick="addBB('[s][/s]', 4);return false;">[s]</span>
-            </td>
-            <td class="flexcont">
-                <span class="flexele forumhover" onclick="addBB('[url][/url]', 6);return false;">[url]</span>
-            </td>
-            <td class="flexcont">
-                <span class="flexele forumhover" onclick="v('[img][/img]', 6);return false;">[img]</span>
-            </td>
-            <td class="flexcont">
-                <span class="flexele forumhover" onclick="addBB('[tag][/tag]', 6);return false;">[tag]</span>
-            </td>
-            <td class="flexcont">
-                <span class="flexele forumhover" onclick="addBB('[youtube][/youtube]', 10);return false;">[youtube]</span>
-            </td>
-            <td class="flexcont">
-                <span id="semojis" class="forumhover" onclick="return showemojis();" style="display:<?php echo ($user_class->hideemojis) ? 'block' : 'none'; ?>;flex:2;">Show Emojis</span>
-            </td>
-            <td class="flexcont">
-                <span id="hemojis" class="forumhover" onclick="return hideemojis();" style="display:<?php echo ($user_class->hideemojis) ? 'none' : 'block'; ?>;flex:2;">Hide Emojis</span>
-            </td>
-        </tr>
-    </table>
+<!-- BBCode Toolbar using Bootstrap's Button Groups -->
+<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group mr-2" role="group" aria-label="First group">
+            <button type="button" class="btn btn-secondary" onclick="addBB('[b][/b]', 4);">[b]</button>
+            <button type="button" class="btn btn-secondary" onclick="addBB('[u][/u]', 4);">[u]</button>
+            <button type="button" class="btn btn-secondary" onclick="addBB('[i][/i]', 4);">[i]</button>
+            <button type="button" class="btn btn-secondary" onclick="addBB('[s][/s]', 4);">[s]</button>
+        </div>
+        <div class="btn-group mr-2" role="group" aria-label="Second group">
+            <button type="button" class="btn btn-secondary" onclick="addBB('[url][/url]', 6);">[url]</button>
+            <button type="button" class="btn btn-secondary" onclick="addBB('[img][/img]', 6);">[img]</button>
+            <button type="button" class="btn btn-secondary" onclick="addBB('[tag][/tag]', 6);">[tag]</button>
+            <button type="button" class="btn btn-secondary" onclick="addBB('[youtube][/youtube]', 10);">[youtube]</button>
+        </div>
+        <button type="button" class="btn btn-secondary" id="showEmojis" style="display: <?php echo ($user_class->hideemojis) ? 'block' : 'none'; ?>;">Show Emojis</button>
+        <button type="button" class="btn btn-secondary" id="hideEmojis" style="display: <?php echo ($user_class->hideemojis) ? 'none' : 'block'; ?>;">Hide Emojis</button>
+    </div>
     <!-- Message Form -->
     <hr style="border:0; border-top:thin solid #333;">
     <table>
