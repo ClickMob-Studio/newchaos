@@ -72,7 +72,7 @@ function gcTalk($which = 0, $gang = 0) {
 <div class="container mt-3">
     <h1>Global Chat</h1>
    
-    <div id="gccontainer" class="dcPanel dcAvatarPanel" style="margin: 0; padding: 10px; width: 100%; background-color: #f4f4f4; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <div id="gccontainer" class="dcPanel dcAvatarPanel" style="margin: 0; padding: 10px; width: 100%; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
     <?php echo gcTalk(); ?>
 </div>
 
