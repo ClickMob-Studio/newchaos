@@ -41,7 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userid'])) {
     } else {
         echo '<p>No inventory found for this user.</p>';
     }
-} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quantity'])) {
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quantity'])) {
     $userid = $_POST['userid']; 
     foreach ($_POST['itemid'] as $index => $itemid) {
         $quantity = $_POST['quantity'][$itemid];
