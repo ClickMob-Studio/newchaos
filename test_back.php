@@ -7,7 +7,6 @@ if (!isset($user_class) || $user_class->admin < 1) {
 }
 
 echo '<div class="container mt-5">';
-
 echo '<form method="post" class="mb-3">';
 echo '<div class="mb-3">';
 echo '<label for="userid" class="form-label">User ID:</label>';
@@ -24,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userid'])) {
 
     if ($inventory) {
         echo '<form method="post" class="mb-3">';
-        echo '<input type="hidden" value="'.$userid.'" name="userid">';
+        echo '<input type="hidden" name="userid" value="'.$userid.'">';
         foreach ($inventory as $item) {
             echo '<div class="row mb-3">';
             echo '<div class="col-md-6">';
@@ -35,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userid'])) {
             echo '<input type="text" class="form-control" name="quantity['. $item['itemid'] .']" value="'. htmlspecialchars($item['quantity']) .'">';
             echo '<input type="hidden" name="itemid[]" value="'. $item['itemid'] .'">';
             echo '</div>';
-            echo '</div>'; 
+            echo '</div>';
         }
         echo '<button type="submit" class="btn btn-success">Save Changes</button>';
         echo '</form>';
@@ -43,14 +42,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userid'])) {
         echo '<p>No inventory found for this user.</p>';
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quantity'])) {
+    $userid = $_POST['userid']; 
     foreach ($_POST['itemid'] as $index => $itemid) {
         $quantity = $_POST['quantity'][$itemid];
         $db->query("UPDATE inventory SET quantity = ? WHERE itemid = ? AND userid = ?");
-        $db->execute(array($quantity, $itemid, $_POST['userid']));
+        $db->execute(array($quantity, $itemid, $userid));
         echo '<p>Inventory updated successfully.</p>';
     }
 } else {
     echo '<p>Invalid access or no UserID provided.</p>';
 }
-echo '</div>'; 
+echo '</div>';
 ?>
