@@ -33,14 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             echo '<input type="hidden" name="userid" value="' . $userid . '">';
             echo '<input type="hidden" name="itemid" value="' . $item['itemid'] . '">';
             echo '<div class="row mb-3">';
-            echo '<div class="col-md-5">';
+            echo '<div class="col-md-4">';
             $item_name = isset($item['overridename']) ? $item['overridename'] : $item['itemname'];
             echo '<label class="form-label">' . htmlspecialchars($item_name) . '</label>';
             echo '</div>';
             echo '<div class="col-md-5">';
             echo '<input type="text" class="form-control" name="quantity" value="' . htmlspecialchars($item['quantity']) . '">';
             echo '</div>';
-            echo '<div class="col-md-2 mt-2">';
+            echo '<div class="col-md-3 mt-2">';
             echo '<button type="submit" name="action" value="update_item" class="btn btn-success">Update Quantity</button>';
             echo '</div>';
             echo '</div>';
