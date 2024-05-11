@@ -40,9 +40,10 @@ include 'header.php';
 <div class="container mt-3">
     <h1>Global Chat</h1>
    
-    <div id="gccontainer" style="margin:0; padding:10px;">
-        <?php echo gcTalking(); ?>
-   </div>
+    <div id="gccontainer" class="dcPanel dcAvatarPanel" style="margin:0; padding:10px;">
+    <?php echo gcTalking(); ?>
+</div>
+
 
     <?php
     if ($user_class->fbitime > 0) {
