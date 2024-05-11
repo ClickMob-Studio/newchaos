@@ -22,5 +22,9 @@ $fetch = $db->fetch_row();
         <?php
 
     }
-    require "footer.php";
+    ?>
+    </table>
+
+    <?php
+    include "footer.php";
     ?>
