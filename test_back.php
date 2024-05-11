@@ -1,7 +1,9 @@
 <?php 
 require "header.php";
 
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 if ($user_class->rmdays >= 1)
         $multiply = 0.04;
     else
