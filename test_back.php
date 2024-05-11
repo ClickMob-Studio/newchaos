@@ -3,6 +3,13 @@ include 'header.php';
 ?>
 
 <style>
+    .quote {
+        margin-left: 20px;
+        border-left: 3px solid #ccc;
+        padding-left: 10px;
+        color: #666;
+        font-style: italic;
+    }
     .avatar {
         width: 100px; /* fixed width */
         height: 100px; /* fixed height */
@@ -82,7 +89,17 @@ include 'header.php';
 
     if ($user_class->level < 2 && $user_class->prestige == 0)
         diefun("You must be level 2 to use this feature.");
-
+        function formatQuotes($text) {
+            $pattern = '/\[quote\](.*?)\[\/quote\]/s';
+            if (preg_match_all($pattern, $text, $matches)) {
+                foreach ($matches[0] as $match) {
+                    $quotedText = preg_replace($pattern, '$1', $match);
+                    $formattedText = "<div class='quote'>" . formatQuotes($quotedText) . "</div>"; // Recursive for nested quotes
+                    $text = str_replace($match, $formattedText, $text);
+                }
+            }
+            return $text;
+        }
     $db->query("SELECT * FROM globalchat ORDER BY timesent DESC LIMIT 80");
     $rows = $db->fetch_row();
     foreach ($rows as $row) {
@@ -99,7 +116,7 @@ include 'header.php';
                         <span class="username"><?= htmlspecialchars($chat_user->formattedname); ?></span>
                     </div>
                     <div class="col-md-10 text-center">
-                        <?= BBCodeParse(stripslashes($row['body'])) ?>
+                        <?= formatQuotes(BBCodeParse(stripslashes($row['body']))) ?>
                         <br>
                         <small class="text-muted"><?= howlongago($row['timesent']) ?> ago</small>
                         <div>
