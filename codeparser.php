@@ -122,9 +122,12 @@ $str = preg_replace_callback("/\[user2\](.*)\[\/user2\]/", function($matches) {
     return displayInfo2($matches[1]);
 }, $str);
 
-$str = preg_replace_callback('/\[quote=([^\]]+)\](.*?)\[\/quote\]/is', function ($matches) {
-    global $user_class; // Ensure global access if needed
-    return quote1($matches[1]) . BBCodeParse($matches[2]) . quote2();
+$str = preg_replace_callback("/\[quote=([0-9]*?)\]/", function($matches) {
+    return quote1($matches[1]);
+}, $str);
+
+$str = preg_replace_callback("/\[\/quote\]/", function($matches) {
+    return quote2();
 }, $str);
 
 $str = preg_replace_callback("/\[tag\]([0-9]+)\[\/tag\]/", function($m) {
