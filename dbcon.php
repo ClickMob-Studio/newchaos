@@ -3,6 +3,7 @@
 date_default_timezone_set('UTC');
 $conn = mysql_connect("localhost", "chaoscit_user", '3lrKBlrfMGl2ic14') or die("<b>SQL ERROR:&nbsp;</b>" . mysql_error());
 $db = mysql_select_db("chaoscit_game");
+mysql_query("SET NAMES 'utf8mb4'");
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
  
