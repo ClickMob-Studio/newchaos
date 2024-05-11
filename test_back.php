@@ -46,7 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     if (!empty($_POST['quantity']) && is_array($_POST['quantity'])) {
         foreach ($_POST['itemid'] as $index => $itemid) {
             $quantity = $_POST['quantity'];
-            $itemid = $_POST['itemid'];
             $db->query("UPDATE inventory SET quantity = ? WHERE itemid = ? AND userid = ?");
             $db->execute(array($quantity, $itemid, $userid));
         }
