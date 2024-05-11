@@ -57,8 +57,11 @@ $(document).ready(function() {
     $('.save-form').on('submit', function(e) {
     console.log("Form submitted");  // Check if this logs when you submit the form
     e.preventDefault();
+    
 
         var form = $(this);
+
+        console.log("Serialized Data: ", form.serialize());
         $.ajax({
     url: form.attr('action'),
     type: 'POST',
