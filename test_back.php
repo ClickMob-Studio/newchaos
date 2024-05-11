@@ -56,6 +56,7 @@ echo '</div>';
 $(document).ready(function() {
     $('.save-form').on('submit', function(e) {
     console.log("Form submitted");  // Check if this logs when you submit the form
+    console.log(form.serialize()); 
     e.preventDefault();
 
         var form = $(this);
