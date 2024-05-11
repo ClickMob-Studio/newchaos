@@ -137,6 +137,8 @@ if (isset($_GET['buy'])) {
     if ($_GET['buy'] == "12000") {
         if ($user_class->credits >= 340) {
             $newcredit = $user_class->credits -= 340;
+            $db->query("INSERT INTO pack_logs (user_id, pack, credits_before, credits_now) VALUES (". $user_class->id .", '25,000 points', ".$user_class->credits .", ".$newcredit.")");
+            $db->execute();
             $db->query("UPDATE grpgusers SET points = points + 25000, credits = credits - 340 WHERE id = ?");
             $db->execute(array(
                 $user_class->id
@@ -156,6 +158,9 @@ if (isset($_GET['buy'])) {
         $cost = 50;
         if ($user_class->credits >= $cost) {
             $newcredit = $user_class->credits -= $cost;
+            $db->query("INSERT INTO pack_logs (user_id, pack, credits_before, credits_now) VALUES (". $user_class->id .", '5000 points', ".$user_class->credits .", ".$newcredit.")");
+            $db->execute();
+            
             $db->query("UPDATE grpgusers SET points = points + 5000, credits = credits - ? WHERE id = ?");
             $db->execute(array(
                 $cost,
@@ -173,6 +178,8 @@ if (isset($_GET['buy'])) {
         $cost = 100;
         if ($user_class->credits >= $cost) {
             $newcredit = $user_class->credits -= $cost;
+            $db->query("INSERT INTO pack_logs (user_id, pack, credits_before, credits_now) VALUES (". $user_class->id .", '10000 points', ".$user_class->credits .", ".$newcredit.")");
+            $db->execute();
             $db->query("UPDATE grpgusers SET points = points + 10000, credits = credits - ? WHERE id = ?");
             $db->execute(array(
                 $cost,
