@@ -56,22 +56,22 @@ echo '</div>';
 $(document).ready(function() {
     $('.save-form').on('submit', function(e) {
     console.log("Form submitted");  // Check if this logs when you submit the form
-    console.log(.save-form.serialize()); 
     e.preventDefault();
 
         var form = $(this);
         $.ajax({
-            url: form.attr('action'), 
-            type: 'POST',
-            data: form.serialize(),
-            success: function(response) {
-                console.log(response);
-                form.find('.form-result').html('<p>' + response + '</p>'); // Update the form-result div in this form
-            },
-            error: function(xhr, status, error) {
-                form.find('.form-result').html('<p>Error updating item.</p>'); // Error handling
-            }
-        });
+    url: form.attr('action'),
+    type: 'POST',
+    contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // This is the default, but setting it explicitly can help
+    data: form.serialize(),
+    success: function(response) {
+        form.find('.form-result').html('<p>' + response + '</p>');
+    },
+    error: function(xhr, status, error) {
+        form.find('.form-result').html('<p>Error updating item.</p>');
+    }
+});
+
     });
 });
 </script>
