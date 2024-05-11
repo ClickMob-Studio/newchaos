@@ -16,8 +16,8 @@ $fetch = $db->fetch_row();
         <tr>
             <td><?= formatName($row['userid']); ?></td>
             <td><?= $row['pack']; ?></td>
-            <td><?= $row['credits_before']; ?></td>
-            <td><?= $row['credits_now']; ?></td>
+            <td><?= number_format($row['credits_before']); ?></td>
+            <td><?= number_format($row['credits_now']); ?></td>
         </tr>
         <?php
 
