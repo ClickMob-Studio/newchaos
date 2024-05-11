@@ -17,12 +17,13 @@ include 'header.php';
     }
     .username {
         display: block; /* ensures it appears on a new line under the avatar */
-        font-size: 3rem; /* sets a standard text size */
+        font-size: 1.3rem; /* sets a standard text size */
         color: #333; /* dark gray for better readability */
         overflow: hidden; /* prevents overflow */
         white-space: nowrap; /* prevents wrapping */
         text-overflow: ellipsis; /* adds ellipsis if text is too long */
         max-width: 300px; /* matches avatar width */
+        text-align: center;
     }
 </style>
 
