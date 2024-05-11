@@ -83,7 +83,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             echo '<p>Inventory updated successfully.</p>';
         }
     } else {
-        echo '<p>Error in processing inventory updates. No data provided or missing fields.</p>';
+       
+            echo '<p>Error in processing inventory updates. No data provided or missing fields.</p>';
+            // Debugging details
+            echo '<p>POST Data:</p>';
+            echo '<pre>';
+            print_r($_POST);
+            echo '</pre>';
+            die(); // Temporarily stop further processing for debugging
+        
     }
 }
 
