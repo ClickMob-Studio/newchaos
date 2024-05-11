@@ -40,4 +40,4 @@ if ($user_class->bank >= 30000000)
 else
     $interest = ceil($user_class->bank * $interest);
 
-echo $intrest;
+echo $interest;
