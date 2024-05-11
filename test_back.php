@@ -48,9 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             $item_name = isset($item['overridename']) ? $item['overridename'] : $item['name'];
             echo '<label class="form-label">' . htmlspecialchars($item_name) . '</label>';
             echo '</div>';
-            echo '<div class="col-md-6">';
-            echo '<input type="text" class="form-control" name="quantity[' . $item['itemid'] . ']" value="' . htmlspecialchars($item['quantity']) . '">';
-            echo '<input type="hidden" name="itemid[]" value="' . $item['itemid'] . '">';
+            ?>
+            <div class="col-md-6">
+            <input type="text" class="form-control" name="quantity[<?= $item['itemid']; ?>]" value="<?= htmlspecialchars($item['quantity']); ?>">
+            <input type="hidden" name="itemid[]" value="<?= $item['itemid']; ?>">
+        </div>
+        <?php
             echo '</div>';
             echo '</div>';
         }
