@@ -31,7 +31,11 @@ include 'header.php';
 </style>
 
 <div class="container mt-3">
-    <div class="alert alert-info">Global Chat</div>
+    <h1>Global Chat</h1>
+   
+    <div id="gccontainer" style="margin:0; padding:10px;">
+        <?php gcTalking(); ?>
+   </div>
 
     <?php
     if ($user_class->fbitime > 0) {
