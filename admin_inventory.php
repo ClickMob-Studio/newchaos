@@ -1,8 +1,7 @@
 <?php
 include 'header.php';  
-error_reporting(E_ALL);
 
-// Check user permissions
+
 if (!isset($user_class) or $user_class->admin < 1) {
     die("Unauthorized access.");
 }
@@ -82,8 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['giveitem'], $_POST['i
     $user_id = $_POST['user_id'];
     $item_id = $_POST['item_id'];
     $quantity = $_POST['quantity'];
-    var_dump($_POST);
-        echo Give_Item( $item_id, $user_id, $quantity);
+    Give_Item( $item_id, $user_id, $quantity);
       echo "item added to the user";
 
 }
