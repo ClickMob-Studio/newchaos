@@ -46,7 +46,7 @@ if ($person_class->bank >= 15000000) {
 }
     $newmoney = round($line['bank'] + $interest);
 
-    echo $newmoney.'<br>';
+    echo $interest.'<br>';
 }
 
 echo $interest;
