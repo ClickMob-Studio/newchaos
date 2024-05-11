@@ -289,22 +289,42 @@ if (isset($_POST['withdraw_shared'])) {
         }
     }
 }
-
-if ($user_class->rmdays > 0) {
-    $interest = 0.04;
-    $interest += $user_class->bankboost / 10;
-    //$rate = ($interest * 100) . "%";
+// Calculate the base interest rate based on remaining membership days
+if ($user_class->rmdays >= 1) {
+    $interest = 0.04;  // 4% interest rate if membership days are 1 or more
 } else {
-    $interest = .02;
-    $interest += $user_class->bankboost / 10;
-    //$rate = ($interest * 100) . "%";
+    $interest = 0.02;  // 2% interest rate otherwise
 }
-if ($user_class->bank >= 30000000)
-    $interest = ceil(15000000 * $interest);
-else
-    $interest = ceil($user_class->bank * $interest);
 
-$interest += $interest * ($user_class->bankboost / 10);
+// Adjust interest rate based on donations
+$addmul = $ptsadd = 0;
+if ($user_class->donations >= 50) {
+    $addmul = 0.02;
+    $ptsadd = 75;
+}
+if ($user_class->donations >= 100) {
+    $addmul = 0.03;
+    $ptsadd = 120;
+}
+if ($user_class->donations >= 200) {
+    $addmul = 0.05;
+    $ptsadd = 150;
+}
+
+// Increase the interest rate by the adjustments from donations
+$interest += $addmul;
+
+// Apply bank boost if it's set and greater than zero
+if ($user_class->bankboost > 0) {
+    $interest += ($interest * ($user_class->bankboost / 100));  // Adjusting the interest rate by bankboost
+}
+
+// Calculate the effective interest amount based on the user's bank balance
+if ($user_class->bank >= 15000000) {
+    $interest = ceil(15000000 * $interest);  // Interest capped at a bank amount of 30 million
+} else {
+    $interest = ceil($user_class->bank * $interest);  // Interest based on the actual bank balance
+}
 $bi = mysql_fetch_array(mysql_query("SELECT * FROM banksettings WHERE userid = $user_class->id"));
 if (empty($bi)) {
     $bi['limit'] = 25;
