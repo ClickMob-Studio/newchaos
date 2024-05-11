@@ -12,10 +12,10 @@ echo '<div class="mb-3">';
 echo '<label for="userid" class="form-label">User ID:</label>';
 echo '<input type="text" class="form-control" id="userid" name="userid" required>';
 echo '</div>';
-echo '<button type="submit" class="btn btn-primary">Load Inventory</button>';
+echo '<button type="submit" name="action" value="load_inventory" class="btn btn-primary">Load Inventory</button>';
 echo '</form>';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userid'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] == 'load_inventory') {
     $userid = $_POST['userid'];
     $db->query("SELECT inv.*, it.*, c.name AS overridename, c.image AS overrideimage FROM inventory inv JOIN items it ON inv.itemid = it.id LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid WHERE inv.userid = ?");
     $db->execute(array($userid));
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userid'])) {
         foreach ($inventory as $item) {
             echo '<div class="row mb-3">';
             echo '<div class="col-md-6">';
-            $item_name = isset($item['overridename']) ? $item['overridename'] : $item['itemname'];
+            $item_name = isset($item['overridename']) ? $item['overridename'] : $item['itemname']; 
             echo '<label class="form-label">' . htmlspecialchars($item_name) . '</label>';
             echo '</div>';
             echo '<div class="col-md-6">';
@@ -36,19 +36,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userid'])) {
             echo '</div>';
             echo '</div>';
         }
-        echo '<button type="submit" class="btn btn-success">Save Changes</button>';
+        echo '<button type="submit" name="action" value="save_changes" class="btn btn-success">Save Changes</button>';
         echo '</form>';
     } else {
         echo '<p>No inventory found for this user.</p>';
     }
-}
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['quantity'])) {
-    $userid = $_POST['userid']; 
-    foreach ($_POST['itemid'] as $index => $itemid) {
-        $quantity = $_POST['quantity'][$itemid];
-        $db->query("UPDATE inventory SET quantity = ? WHERE itemid = ? AND userid = ?");
-        $db->execute(array($quantity, $itemid, $userid));
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] == 'save_changes') {
+    $userid = $_POST['userid'];
+    if (!empty($_POST['quantity']) && is_array($_POST['quantity'])) {
+        foreach ($_POST['itemid'] as $index => $itemid) {
+            $quantity = $_POST['quantity'][$itemid];
+            $db->query("UPDATE inventory SET quantity = ? WHERE itemid = ? AND userid = ?");
+            $db->execute(array($quantity, $itemid, $userid));
+        }
         echo '<p>Inventory updated successfully.</p>';
+    } else {
+        echo '<p>Error in processing inventory updates.</p>';
     }
 } else {
     echo '<p>Invalid access or no UserID provided.</p>';
