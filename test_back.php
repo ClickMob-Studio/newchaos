@@ -17,13 +17,16 @@ include 'header.php';
     }
     .username {
         display: block; /* ensures it appears on a new line under the avatar */
-        font-size: 1.3rem; /* sets a standard text size */
+        font-size: 1.3rem; /* sets the text size to 1.3rem as requested */
         color: #333; /* dark gray for better readability */
         overflow: hidden; /* prevents overflow */
         white-space: nowrap; /* prevents wrapping */
         text-overflow: ellipsis; /* adds ellipsis if text is too long */
-        max-width: 300px; /* matches avatar width */
-        text-align: center;
+        max-width: 100px; /* matches avatar width */
+        margin: auto; /* centers the username horizontally */
+    }
+    .text-muted{
+        color:#fff;
     }
 </style>
 
@@ -89,7 +92,7 @@ include 'header.php';
                 <div class="row g-0">
                     <div class="col-md-2 text-center">
                         <img src="<?= $avatar ?>" class="avatar" alt="Avatar">
-                        <span class="username"><?= $chat_user->formattedname; ?></span>
+                        <span class="username"><?= htmlspecialchars($chat_user->formattedname); ?></span>
                     </div>
                     <div class="col-md-10 text-center">
                         <?= BBCodeParse(stripslashes($row['body'])) ?>
