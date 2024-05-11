@@ -25,12 +25,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['userid'])) {
     if ($inventory) {
         echo '<form method="post" class="mb-3">';
         foreach ($inventory as $item) {
-            echo '<div class="mb-3">';
+            echo '<div class="row mb-3">';
+            echo '<div class="col-md-6">';
             $item_name = isset($item['overridename']) ? $item['overridename'] : $item['itemname'];
             echo '<label class="form-label">' . htmlspecialchars($item_name) . '</label>';
+            echo '</div>';
+            echo '<div class="col-md-6">';
             echo '<input type="text" class="form-control" name="quantity['. $item['itemid'] .']" value="'. htmlspecialchars($item['quantity']) .'">';
             echo '<input type="hidden" name="itemid[]" value="'. $item['itemid'] .'">';
             echo '</div>';
+            echo '</div>'; 
         }
         echo '<button type="submit" class="btn btn-success">Save Changes</button>';
         echo '</form>';
