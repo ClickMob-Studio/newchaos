@@ -20,14 +20,12 @@ $fetch = $db->fetch_row();
     if(isset($_GET['userid'])){
     $userid = isset($_GET['userid']) ? intval($_GET['userid']) : 0;
 
-// Modify the query based on whether a user ID is provided
-if ($userid > 0) {
+
     $query = "SELECT * FROM pack_logs WHERE userid = :userid ORDER BY `id` DESC";
     $db->query($query);
-    $db->bind(':userid', $userid);
-}
-$db->execute();
-$fetch = $db->fetchAll();
+
+$db->execute(array($userid));
+$fetch = $db->fetch_row();
 if (!empty($fetch)) {
     echo '<h1>Last 25 Packs Bought</h1>';
     echo '<table class="table">';
