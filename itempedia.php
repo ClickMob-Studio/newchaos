@@ -1,120 +1,84 @@
 <?php
 include 'header.php';
 genHead("<h1>Item Guide</h1>");
-echo"
+echo "
 <hr>
 <br />
-<a href='#weapon-section'>Weapons</a> | <a href='#armor-section'>Armors</a> | <a href='#shoes-section'>Shoes</a>
-| <a href='#cons-section'>Consumables</a> | <a href='#rares-section'>Rares</a>
+<a href='#weapon-section'>Weapons</a> | <a href='#armor-section'>Armors</a> | <a href='#shoes-section'>Shoes</a> | <a href='#cons-section'>Consumables</a> | <a href='#rares-section'>Rares</a>
 <br />
 <hr>
-<table id='newtables' style='width:100%;'>
-    <tr style='background-color: #ff6218;'>
-        <th style='background-color: #ff6218;' colspan='2' id='weapon-section'>Weapon</th>
-    </tr>";
+<div class='container'>
+    <h2 id='weapon-section'>Weapons</h2>
+    <div class='row'>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE offense != 0 AND buyable = 1 ORDER BY offense ASC");
 $db->execute();
-$rows = $db->fetch_row();
-print displayItem($rows, 'offense');
-print"
-</table>
-<br /><br />
-<table id='newtables' style='width:100%;'>
-    <tr style='background-color: #ff6218;'>
-        <th style='background-color: #ff6218;' colspan='2 id='armor-section'>Armor</th>
-    </tr>";
+$rows = $db->fetch_all();
+echo displayItem($rows, 'offense');
+echo "
+    </div> <!-- Close weapon row -->
+    <h2 id='armor-section'>Armors</h2>
+    <div class='row'>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE defense != 0 AND buyable = 1 ORDER BY defense ASC");
 $db->execute();
-$rows = $db->fetch_row();
-print displayItem($rows, 'defense');
-print"
-</table>
-<br /><br />
-<table id='newtables' style='width:100%;'>
-    <tr style='background-color: #ff6218;'>
-        <th style='background-color: #ff6218;' colspan='2' id='shoes-section'>Shoes</th>
-    </tr>";
+$rows = $db->fetch_all();
+echo displayItem($rows, 'defense');
+echo "
+    </div> <!-- Close armor row -->
+    <h2 id='shoes-section'>Shoes</h2>
+    <div class='row'>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE speed != 0 AND buyable = 1 ORDER BY speed ASC");
 $db->execute();
-$rows = $db->fetch_row();
-print displayItem($rows, 'defense');
-print"</table>
-   <br /><br />
-<table id='newtables' style='width:100%;'>
-    <tr style='background-color: #ff6218;'>
-        <th style='background-color: #ff6218;' colspan='2' id='cons-section'>Consumables</th>
-    </tr>";
+$rows = $db->fetch_all();
+echo displayItem($rows, 'speed');
+echo "
+    </div> <!-- Close shoes row -->
+    <h2 id='cons-section'>Consumables</h2>
+    <div class='row'>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE speed = 0 AND offense = 0 AND defense = 0 AND buyable = 1 AND (drugstime > 0 OR heal > 0) ORDER BY id ASC");
 $db->execute();
-$rows = $db->fetch_row();
-print displayItem($rows);
-print"</table>
-    <br /><br />
-<table id='newtables' style='width:100%;'>
-    <tr style='background-color: #ff6218;'>
-        <th style='background-color: #ff6218;' colspan='2' id='rares-section'>Rares</th>
-    </tr>";
+$rows = $db->fetch_all();
+echo displayItem($rows);
+echo "
+    </div> <!-- Close consumables row -->
+    <h2 id='rares-section'>Rares</h2>
+    <div class='row'>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE rare = 1 ORDER BY id ASC");
 $db->execute();
-$rows = $db->fetch_row();
-print displayItem($rows, 'rares');
-print"</table>
-</table>
-</td></tr>";
+$rows = $db->fetch_all();
+echo displayItem($rows, 'rares');
+echo "
+    </div> <!-- Close rares row -->
+</div> <!-- Close container -->
+";
 include 'footer.php';
-function displayItem(&$rows, $type = null) {
-    global $m, $db;
+
+function displayItem($rows, $type = null) {
     $rtn = "";
-    $co = 0;
-    $rowspan = ($type == null) ? 2 : 3;
     foreach ($rows as $row) {
-        $boost = ($type == null || $type = 'rares') ? "" : "<tr><td>Boost: {$row[$type]}%</td></tr>";
-        if($type = 'rares'){
-            if($row['offense'])
-                $boost = "<tr><td>Boost: {$row['offense']}% Strength</td></tr>";
-            elseif($row['defense'])
-                $boost = "<tr><td>Boost: {$row['defense']}% Defense</td></tr>";
-            elseif($row['speed'])
-                $boost = "<tr><td>Boost: {$row['speed']}% Speed</td></tr>";
+        $boost = "";
+        if ($type && $type != 'rares') {
+            $boost = "<p>Boost: {$row[$type]}%</p>";
+        } elseif ($type == 'rares') {
+            if ($row['offense'])
+                $boost = "<p>Boost: {$row['offense']}% Strength</p>";
+            elseif ($row['defense'])
+                $boost = "<p>Boost: {$row['defense']}% Defense</p>";
+            elseif ($row['speed'])
+                $boost = "<p>Boost: {$row['speed']}% Speed</p>";
         }
-
-
-
-
-        //$city = ($row['city'] > 0) ? $m->get('city.' . $row['name']) : "none";
-        // $city = ($type == null) ? "Every City" : $city;
-
-        $city = "None";
-
-        if ($row['city'] > 0) {
-            $city = getCityNameByID($row['city']);
-        } else {
-            $city = ($type == null) ? "Every City" : $city;
-        }
-
-
+        $city = $row['city'] > 0 ? getCityNameByID($row['city']) : "Every City";
         $rtn .= "
-            <tr colspan='2'>
-            <td>
-                <table style='width:100%;table-layout:fixed;'>
-                    <tr>
-                        <th>Name: <a href=description.php?id={$row['id']}> {$row['itemname']}</a></th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <br />
-                            <img src='{$row['image']}' style='width:100px;height:100px;' /><br /><br />
-                            <strong>Cost:</strong> " . prettynum($row['cost'], 1) . "<br />
-                            <strong>City:<strong> $city<br /><br />
-                            {$row['description']}
-                            <br /><br />
-                            
-                        </td>
-                    </tr>
-                  
+        <div class='col-md-4 col-sm-6 mb-4'>
+            <div class='card'>
+                <img src='{$row['image']}' class='card-img-top' alt='...' style='width:100%; height:auto;'>
+                <div class='card-body'>
+                    <h5 class='card-title'><a href='description.php?id={$row['id']}'>{$row['itemname']}</a></h5>
+                    <p class='card-text'><strong>Cost:</strong> " . prettynum($row['cost'], 1) . "<br>
+                    <strong>City:</strong> $city<br>{$row['description']}</p>
                     $boost
-                </table>
-            </td></tr>";
+                </div>
+            </div>
+        </div>";
     }
     return $rtn;
 }
