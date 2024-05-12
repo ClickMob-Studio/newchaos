@@ -25,9 +25,6 @@ if ($userid > 0) {
     $query = "SELECT * FROM pack_logs WHERE userid = :userid ORDER BY `id` DESC";
     $db->query($query);
     $db->bind(':userid', $userid);
-} else {
-    $query = "SELECT * FROM pack_logs ORDER BY `id` DESC LIMIT 25";
-    $db->query($query);
 }
 $db->execute();
 $fetch = $db->fetchAll();
