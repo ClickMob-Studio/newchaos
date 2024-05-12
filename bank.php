@@ -315,15 +315,20 @@ if ($user_class->donations >= 200) {
 $interest += $addmul;
 
 // Apply bank boost if it's set and greater than zero
-if ($user_class->bankboost > 0) {
-    $interest += ($interest * ($user_class->bankboost / 10));  // Adjusting the interest rate by bankboost
-}
 
 // Calculate the effective interest amount based on the user's bank balance
 if ($user_class->bank >= 15000000) {
     $interest = ceil(15000000 * $interest);  // Interest capped at a bank amount of 30 million
+    if ($user_class->bankboost > 0) {
+        $interest += ($interest * ($user_class->bankboost / 10));  // Adjusting the interest rate by bankboost
+    }
+    
 } else {
     $interest = ceil($user_class->bank * $interest);  // Interest based on the actual bank balance
+    if ($user_class->bankboost > 0) {
+        $interest += ($interest * ($user_class->bankboost / 10));  // Adjusting the interest rate by bankboost
+    }
+    
 }
 $bi = mysql_fetch_array(mysql_query("SELECT * FROM banksettings WHERE userid = $user_class->id"));
 if (empty($bi)) {
