@@ -10,11 +10,11 @@ echo "
 <div class='container'>
     <div class='row'>
         <div class='col-12'>
-           <span> <a href='#' class='nav-link' onclick='showSection(\"weapons\")'>Weapons</a> |</span>
-           <span> <a href='#' class='nav-link' onclick='showSection(\"armors\")'>Armors</a> |</span>
-           <span><a href='#' class='nav-link' onclick='showSection(\"shoes\")'>Shoes</a> |</span>
-           <span><a href='#' class='nav-link' onclick='showSection(\"consumables\")'>Consumables</a> |</span>
-           <span><a href='#' class='nav-link' onclick='showSection(\"rares\")'>Rares</a></span>
+           <span> <a href='#' class='nav-link'  style='display:inline;' onclick='showSection(\"weapons\")'>Weapons</a> |</span>
+           <span> <a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"armors\")'>Armors</a> |</span>
+           <span><a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"shoes\")'>Shoes</a> |</span>
+           <span><a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"consumables\")'>Consumables</a> |</span>
+           <span><a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"rares\")'>Rares</a></span>
         </div>
     </div>
     <hr>
