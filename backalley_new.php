@@ -181,17 +181,17 @@ function areDevToolsOpen() {
 }
 
 // Check if developer tools are open when the page loads
-if (areDevToolsOpen()) {
-    var request = $.ajax({
-                    url: 'ajax_autoclick_detection.php?page=backalley&reason=dev_tools_is_open',
-                    method: "GET",
-                    dataType: "json"
-                });
-                request.done(function (res) {
-                    console.log(res);
-                });
-    window.location.reload();
-}
+// if (areDevToolsOpen()) {
+//     var request = $.ajax({
+//                     url: 'ajax_autoclick_detection.php?page=backalley&reason=dev_tools_is_open',
+//                     method: "GET",
+//                     dataType: "json"
+//                 });
+//                 request.done(function (res) {
+//                     console.log(res);
+//                 });
+//     window.location.reload();
+// }
 
     window.setTimeout(function(){
         window.location.reload();
