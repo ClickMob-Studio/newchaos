@@ -10,11 +10,11 @@ echo "
 <div class='container'>
     <div class='row'>
         <div class='col-12'>
-            <a href='#' class='nav-link' onclick='showSection(\"weapons\")'>Weapons</a> |
-            <a href='#' class='nav-link' onclick='showSection(\"armors\")'>Armors</a> |
-            <a href='#' class='nav-link' onclick='showSection(\"shoes\")'>Shoes</a> |
-            <a href='#' class='nav-link' onclick='showSection(\"consumables\")'>Consumables</a> |
-            <a href='#' class='nav-link' onclick='showSection(\"rares\")'>Rares</a>
+           <span> <a href='#' class='nav-link' onclick='showSection(\"weapons\")'>Weapons</a> |</span>
+           <span> <a href='#' class='nav-link' onclick='showSection(\"armors\")'>Armors</a> |</span>
+           <span><a href='#' class='nav-link' onclick='showSection(\"shoes\")'>Shoes</a> |</span>
+           <span><a href='#' class='nav-link' onclick='showSection(\"consumables\")'>Consumables</a> |</span>
+           <span><a href='#' class='nav-link' onclick='showSection(\"rares\")'>Rares</a></span>
         </div>
     </div>
     <hr>
