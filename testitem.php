@@ -31,7 +31,7 @@ echo "
     <div class='row d-flex align-items-stretch'>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE speed != 0 AND buyable = 1 ORDER BY speed ASC");
 $db->execute();
-rows = $db->fetch_row();
+$rows = $db->fetch_row();
 echo displayItem($rows, 'speed');
 echo "
     </div> <!-- Close shoes row -->
