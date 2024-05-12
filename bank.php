@@ -316,7 +316,7 @@ $interest += $addmul;
 
 // Apply bank boost if it's set and greater than zero
 if ($user_class->bankboost > 0) {
-    $interest += ($interest * ($user_class->bankboost / 100));  // Adjusting the interest rate by bankboost
+    $interest += ($interest * ($user_class->bankboost / 10));  // Adjusting the interest rate by bankboost
 }
 
 // Calculate the effective interest amount based on the user's bank balance
