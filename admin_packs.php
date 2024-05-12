@@ -28,7 +28,7 @@ $db->execute(array($userid));
 $fetch = $db->fetch_row();
 if (!empty($fetch)) {
     echo '<h1>Last 25 Packs Bought</h1>';
-    echo '<table class="table">';
+    echo '<table class="table" style="color:white">';
     echo '<thead><tr><th>User ID</th><th>Pack</th><th>Credits Before</th><th>Credits After</th></tr></thead>';
     echo '<tbody>';
     foreach ($fetch as $row) {
