@@ -47,7 +47,7 @@ if (!empty($fetch)) {
 
 </div> 
 <?php
-}?>
+}else{?>
 
 <h1>Last 25 Packs Bought</h1>
 <table>
@@ -67,5 +67,6 @@ if (!empty($fetch)) {
     </table>
 
     <?php
+}
     include "footer.php";
     ?>
