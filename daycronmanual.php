@@ -137,15 +137,19 @@ if ($person_class->donations >= 200) {
 $interest += $addmul;
 
 // Apply bank boost if it's set and greater than zero
-if ($person_class->bankboost > 0) {
-    $interest += ($interest * ($person_class->bankboost / 10));  // Adjusting the interest rate by bankboost
-}
+
 
 // Calculate the effective interest amount based on the user's bank balance
 if ($person_class->bank >= 15000000) {
-    $interest = ceil(15000000 * $interest);  // Interest capped at a bank amount of 30 million
+    $interest = ceil(15000000 * $interest);  
+    if ($person_class->bankboost > 0) {
+        $interest += ($interest * ($person_class->bankboost / 10)); 
+    }
 } else {
     $interest = ceil($person_class->bank * $interest);  // Interest based on the actual bank balance
+    if ($person_class->bankboost > 0) {
+        $interest += ($interest * ($person_class->bankboost / 10));  // Adjusting the interest rate by bankboost
+    }
 }
     $newmoney = round($line['bank'] + $interest);
 
