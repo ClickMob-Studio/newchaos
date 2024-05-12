@@ -15,7 +15,7 @@ echo "
     <div class='row'>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE offense != 0 AND buyable = 1 ORDER BY offense ASC");
 $db->execute();
-$rows = $db->fetch_all();
+$rows = $db->fetch_row();
 echo displayItem($rows, 'offense');
 echo "
     </div> <!-- Close weapon row -->
@@ -23,7 +23,7 @@ echo "
     <div class='row'>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE defense != 0 AND buyable = 1 ORDER BY defense ASC");
 $db->execute();
-$rows = $db->fetch_all();
+$rows = $db->fetch_row();
 echo displayItem($rows, 'defense');
 echo "
     </div> <!-- Close armor row -->
@@ -31,7 +31,7 @@ echo "
     <div class='row'>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE speed != 0 AND buyable = 1 ORDER BY speed ASC");
 $db->execute();
-$rows = $db->fetch_all();
+$rows = $db->fetch_row();
 echo displayItem($rows, 'speed');
 echo "
     </div> <!-- Close shoes row -->
@@ -39,7 +39,7 @@ echo "
     <div class='row'>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE speed = 0 AND offense = 0 AND defense = 0 AND buyable = 1 AND (drugstime > 0 OR heal > 0) ORDER BY id ASC");
 $db->execute();
-$rows = $db->fetch_all();
+$rows = $db->fetch_row();
 echo displayItem($rows);
 echo "
     </div> <!-- Close consumables row -->
@@ -47,7 +47,7 @@ echo "
     <div class='row'>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE rare = 1 ORDER BY id ASC");
 $db->execute();
-$rows = $db->fetch_all();
+$rows = $db->fetch_row();
 echo displayItem($rows, 'rares');
 echo "
     </div> <!-- Close rares row -->
