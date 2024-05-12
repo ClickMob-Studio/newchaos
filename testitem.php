@@ -12,7 +12,7 @@ echo "
 <hr>
 <div class='container'>
     <h2 id='weapon-section'>Weapons</h2>
-    <div class='row'>";
+    <div class='row d-flex align-items-stretch'>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE offense != 0 AND buyable = 1 ORDER BY offense ASC");
 $db->execute();
 $rows = $db->fetch_row();
@@ -20,7 +20,7 @@ echo displayItem($rows, 'offense');
 echo "
     </div> <!-- Close weapon row -->
     <h2 id='armor-section'>Armors</h2>
-    <div class='row'>";
+    <div class='row d-flex align-items-stretch'>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE defense != 0 AND buyable = 1 ORDER BY defense ASC");
 $db->execute();
 $rows = $db->fetch_row();
@@ -28,15 +28,15 @@ echo displayItem($rows, 'defense');
 echo "
     </div> <!-- Close armor row -->
     <h2 id='shoes-section'>Shoes</h2>
-    <div class='row'>";
+    <div class='row d-flex align-items-stretch'>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE speed != 0 AND buyable = 1 ORDER BY speed ASC");
 $db->execute();
-$rows = $db->fetch_row();
+rows = $db->fetch_row();
 echo displayItem($rows, 'speed');
 echo "
     </div> <!-- Close shoes row -->
     <h2 id='cons-section'>Consumables</h2>
-    <div class='row'>";
+    <div class='row d-flex align-items-stretch'>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE speed = 0 AND offense = 0 AND defense = 0 AND buyable = 1 AND (drugstime > 0 OR heal > 0) ORDER BY id ASC");
 $db->execute();
 $rows = $db->fetch_row();
@@ -44,7 +44,7 @@ echo displayItem($rows);
 echo "
     </div> <!-- Close consumables row -->
     <h2 id='rares-section'>Rares</h2>
-    <div class='row'>";
+    <div class='row d-flex align-items-stretch'>";
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE rare = 1 ORDER BY id ASC");
 $db->execute();
 $rows = $db->fetch_row();
@@ -71,10 +71,10 @@ function displayItem($rows, $type = null) {
         }
         $city = $row['city'] > 0 ? getCityNameByID($row['city']) : "Every City";
         $rtn .= "
-        <div class='col-md-4 col-sm-6 mb-4'>
-            <div class='card'>
-                <img src='{$row['image']}' class='card-img-top' alt='...' style='width:100%; height:auto;'>
-                <div class='card-body'>
+        <div class='col-lg-4 col-md-6 col-sm-6 mb-4'>
+            <div class='card h-100'>
+                <img src='{$row['image']}' class='card-img-top' alt='{$row['itemname']}' style='max-height: 200px; object-fit: cover;'>
+                <div class='card-body d-flex flex-column'>
                     <h5 class='card-title'><a href='description.php?id={$row['id']}'>{$row['itemname']}</a></h5>
                     <p class='card-text'><strong>Cost:</strong> " . prettynum($row['cost'], 1) . "<br>
                     <strong>City:</strong> $city<br>{$row['description']}</p>
