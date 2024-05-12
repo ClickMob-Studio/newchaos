@@ -23,11 +23,11 @@ $fetch = $db->fetch_row();
 // Modify the query based on whether a user ID is provided
 if ($userid > 0) {
     $query = "SELECT * FROM pack_logs WHERE userid = :userid ORDER BY `id` DESC";
-    $db->prepare($query);
+    $db->query($query);
     $db->bind(':userid', $userid);
 } else {
     $query = "SELECT * FROM pack_logs ORDER BY `id` DESC LIMIT 25";
-    $db->prepare($query);
+    $db->query($query);
 }
 $db->execute();
 $fetch = $db->fetchAll();
