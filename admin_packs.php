@@ -21,7 +21,7 @@ $fetch = $db->fetch_row();
     $userid = isset($_GET['userid']) ? intval($_GET['userid']) : 0;
 
 
-    $query = "SELECT * FROM pack_logs WHERE userid = :userid ORDER BY `id` DESC";
+    $query = "SELECT * FROM pack_logs WHERE userid = ? ORDER BY `id` DESC";
     $db->query($query);
 
 $db->execute(array($userid));
