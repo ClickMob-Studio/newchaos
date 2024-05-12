@@ -70,7 +70,36 @@ echo "
     </div>
 </div> <!-- Close container -->
 ";
-
+function displayItem($rows, $type = null) {
+    $rtn = "";
+    foreach ($rows as $row) {
+        $boost = "";
+        if ($type && $type != 'rares') {
+            $boost = "<p>Boost: {$row[$type]}%</p>";
+        } elseif ($type == 'rares') {
+            if ($row['offense'])
+                $boost = "<p>Boost: {$row['offense']}% Strength</p>";
+            elseif ($row['defense'])
+                $boost = "<p>Boost: {$row['defense']}% Defense</p>";
+            elseif ($row['speed'])
+                $boost = "<p>Boost: {$row['speed']}% Speed</p>";
+        }
+        $city = $row['city'] > 0 ? getCityNameByID($row['city']) : "Every City";
+        $rtn .= "
+        <div class='col-lg-4 col-md-6 col-sm-6 mb-4'>
+            <div class='card h-100'>
+                <img src='{$row['image']}' class='card-img-top' alt='{$row['itemname']}' style='max-height: 200px; object-fit: cover;'>
+                <div class='card-body d-flex flex-column'>
+                    <h5 class='card-title'><a href='description.php?id={$row['id']}'>{$row['itemname']}</a></h5>
+                    <p class='card-text'><strong>Cost:</strong> " . prettynum($row['cost'], 1) . "<br>
+                    <strong>City:</strong> $city<br>{$row['description']}</p>
+                    $boost
+                </div>
+            </div>
+        </div>";
+    }
+    return $rtn;
+}
 ?>
 <script>
 function showSection(sectionId) {
