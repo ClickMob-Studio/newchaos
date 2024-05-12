@@ -73,7 +73,10 @@ function displayItem($rows, $type = null) {
         $rtn .= "
         <div class='col-lg-4 col-md-6 col-sm-6 mb-4'>
             <div class='card h-100'>
-                <img src='{$row['image']}' class='card-img-top' alt='{$row['itemname']}' style='max-height: 200px; object-fit: cover;'>
+                <img src='{$row['image']}' class='card-img-top' alt='{$row['itemname']}' style='max-height: 200px;
+                max-width: 200px;
+                text-align: center;
+                margin: 0 auto;'>
                 <div class='card-body d-flex flex-column'>
                     <h5 class='card-title'><a href='description.php?id={$row['id']}'>{$row['itemname']}</a></h5>
                     <p class='card-text'><strong>Cost:</strong> " . prettynum($row['cost'], 1) . "<br>
