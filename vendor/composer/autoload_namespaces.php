@@ -6,6 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'React\\ZMQ' => array($vendorDir . '/react/zmq/src'),
-    'Evenement' => array($vendorDir . '/evenement/evenement/src'),
+    'Mockery' => array($vendorDir . '/mockery/mockery/library'),
+    'Mailjet' => array($baseDir . '/src'),
 );
