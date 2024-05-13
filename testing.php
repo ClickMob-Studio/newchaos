@@ -12,24 +12,16 @@ use \Mailjet\Resources;
 $mj = new \Mailjet\Client($apikey, $apisecret);
 
 $body = [
-    'Messages' => [
+    'FromEmail' => "pilot@mailjet.com",
+    'FromName' => "Mailjet Pilot",
+    'Subject' => "Your email flight plan!",
+    'Text-part' => "Dear passenger, welcome to Mailjet! May the delivery force be with you!",
+    'Html-part' => "<h3>Dear passenger, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!<br />May the delivery force be with you!",
+    'Recipients' => [
         [
-            'From' => [
-                'Email' => "admin@chaoscity.co.uk",
-                'Name' => "Mailjet Pilot"
-            ],
-            'To' => [
-                [
-                    'Email' => "hulladam38@gmail.com",
-                    'Name' => "ADAM"
-                ]
-            ],
-            'Subject' => "Your email flight plan!",
-            'TextPart' => "Dear passenger 1, welcome to Mailjet! May the delivery force be with you!",
-            'HTMLPart' => "<h3>Dear passenger 1, welcome to Mailjet!</h3><br />May the delivery force be with you!"
+            'Email' => "passenger@mailjet.com"
         ]
     ]
 ];
 $response = $mj->post(Resources::$Email, ['body' => $body]);
 $response->success() && var_dump($response->getData());
-?>
