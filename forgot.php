@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
        'FromName' => "Chaos City",
        'Subject' => "Forgot Password",
        'Text-part' => "You have requested a password reset at ChaosCity!",
-       'Html-part' => "<h3>Dear $username, You have requested a new password reset at <a href='http://www.chaoscity.co.uk'>Chaos City</a>.<br><a href='https://www.chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>",
+       'Html-part' => "<h3>Dear $username, You have requested a new password reset at <a href='http://chaoscity.co.uk'>Chaos City</a>.<br><a href='https://www.chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>",
         'Recipients' => [
            [
                'Email' => $email
