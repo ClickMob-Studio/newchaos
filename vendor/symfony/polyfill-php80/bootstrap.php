@@ -20,10 +20,10 @@ if (!defined('FILTER_VALIDATE_BOOL') && defined('FILTER_VALIDATE_BOOLEAN')) {
 }
 
 if (!function_exists('fdiv')) {
-    function fdiv(float $num1, float $num2): float { return p\Php80::fdiv($num1, $num2); }
+    function fdiv(float $num1, float $num2) { return p\Php80::fdiv($num1, $num2); }
 }
 if (!function_exists('preg_last_error_msg')) {
-    function preg_last_error_msg(): string { return p\Php80::preg_last_error_msg(); }
+    function preg_last_error_msg() { return p\Php80::preg_last_error_msg(); }
 }
 if (!function_exists('str_contains')) {
     function str_contains(?string $haystack, ?string $needle): bool { return p\Php80::str_contains($haystack ?? '', $needle ?? ''); }
