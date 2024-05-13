@@ -73,9 +73,7 @@ $response = $mj->post(Resources::$Email, ['body' => $body]);
 $response->success() && var_dump($response->getData());
     
     echo "Form submitted successfully. Username: " . htmlspecialchars($username) . ", Email: " . htmlspecialchars($email);
-} else {
-    echo "Invalid request method.";
-}
+} 
 ?>
 <!doctype html>
 <html lang="en">
