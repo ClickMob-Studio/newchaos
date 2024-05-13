@@ -5,7 +5,6 @@
    include 'dbcon.php';
    include 'database/pdo_class.php';
    require 'vendor/autoload.php';
-session_start();
     use \Mailjet\Resources;
    $desired_ip = '142.116.133.64';
 
@@ -18,17 +17,6 @@ if ($client_ip == $desired_ip) {
 }
    //include 'classes.php';
    session_start();
-   // Query to get users online in the last hour
-   $queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
-   $statementOnline = $db->prepare($queryOnline);
-   $statementOnline->execute();
-   $usersOnline = $statementOnline->rowCount();
-   
-   // Query to get users online in the last 24 hours
-   $queryOnline24 = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 86400 ORDER BY lastactive DESC";
-   $statementOnline24 = $db->prepare($queryOnline24);
-   $statementOnline24->execute();
-   $users24 = $statementOnline24->rowCount();
    $string = "1234567890";
 $length = 4;
 $rand = substr(str_shuffle($string), 0, $length);
