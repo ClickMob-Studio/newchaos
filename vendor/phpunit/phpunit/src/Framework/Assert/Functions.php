@@ -1556,7 +1556,7 @@ if (!function_exists('PHPUnit\Framework\assertIsBool')) {
      * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      *
-     * @psalm-assert bool $actual
+     * @psalm-assert $actual
      *
      * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
      *
@@ -1784,7 +1784,7 @@ if (!function_exists('PHPUnit\Framework\assertIsNotBool')) {
      * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      *
-     * @psalm-assert !bool $actual
+     * @psalm-assert !$actual
      *
      * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
      *
@@ -2439,7 +2439,7 @@ if (!function_exists('PHPUnit\Framework\assertEqualXMLStructure')) {
      *
      * @see Assert::assertEqualXMLStructure
      */
-    function assertEqualXMLStructure(DOMElement $expectedElement, DOMElement $actualElement, bool $checkAttributes = false, $message = '')
+    function assertEqualXMLStructure(DOMElement $expectedElement, DOMElement $actualElement,  $checkAttributes = false, $message = '')
     {
         Assert::assertEqualXMLStructure(...func_get_args());
     }
@@ -2865,7 +2865,7 @@ if (!function_exists('PHPUnit\Framework\StartsWith')) {
 }
 
 if (!function_exists('PHPUnit\Framework\Contains')) {
-    function Contains( $string, bool $case = true): StringContains
+    function Contains( $string, $case = true): StringContains
     {
         return Assert::Contains(...func_get_args());
     }
