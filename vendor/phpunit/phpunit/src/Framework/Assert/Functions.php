@@ -2585,7 +2585,7 @@ if (!function_exists('PHPUnit\Framework\assertJsonFileNotEqualsJsonFile')) {
 }
 
 if (!function_exists('PHPUnit\Framework\logicalAnd')) {
-    function logicalAnd(): LogicalAnd
+    function logicalAnd()
     {
         return Assert::logicalAnd(...func_get_args());
     }
