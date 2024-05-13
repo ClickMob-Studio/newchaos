@@ -172,4 +172,68 @@ ob_end_flush(); // End output buffering and flush output
                         <?php if (isset($_SESSION['failmessage'])): ?>
                             <div class="warning-msg">
                                 <i class="fa fa-warning"></i>
-                                <?= $_
+                                <?= $_SESSION['failmessage'] ?>
+                            </div>
+                            <?php unset($_SESSION['failmessage']); ?>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <?php if (isset($_GET['action']) && $_GET['action'] == 'reset' && isset($row)): ?>
+                    <div class="row justify-content-center mt-5">
+                        <div class="col-md-6">
+                            <div class="card" style="background:#6c757d; min-width:300px;">
+                                <div class="card-header text-center">Reset Password</div>
+                                <div class="card-body">
+                                    <form method="post">
+                                        <input type="hidden" name="token" value="<?= htmlspecialchars($_GET['token']) ?>">
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">New Password</label>
+                                            <input type="password" class="form-control" id="password" name="password" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="confirm_password" class="form-label">Confirm New Password</label>
+                                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary w-100">Reset Password</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <div class="row justify-content-center mt-5">
+                        <div class="col-md-6">
+                            <div class="card" style="background:#6c757d; min-width:300px;">
+                                <div class="card-header text-center">Forgot Password</div>
+                                <div class="card-body">
+                                    <form method="post" action="forgot.php">
+                                        <div class="mb-3">
+                                            <label for="username" class="form-label">Username</label>
+                                            <input type="text" class="form-control" id="username" name="username" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email address</label>
+                                            <input type="email" class="form-control" id="email" name="email" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary w-100">Reset Password</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <div class="footerBuffer"></div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer">
+        <div class="container-inner" style="text-align:center">
+            <div class="legal">&copy; 2024 Chaos City</div>
+            <div class="links">
+                <a href="grules.php" title="Game Guide">Game Rules</a> |
+                <a href="policy.php" title="Privacy Policy">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
