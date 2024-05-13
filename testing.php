@@ -12,7 +12,7 @@ use \Mailjet\Resources;
 $mj = new \Mailjet\Client($apikey, $apisecret);
 
 $body = [
-    'FromEmail' => "pilot@mailjet.com",
+    'FromEmail' => "admin@chaoscity.co.uk",
     'FromName' => "Mailjet Pilot",
     'Subject' => "Your email flight plan!",
     'Text-part' => "Dear passenger, welcome to Mailjet! May the delivery force be with you!",
