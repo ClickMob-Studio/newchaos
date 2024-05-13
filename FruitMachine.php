@@ -191,181 +191,67 @@ if ($error == "") {
     $marquee = $error;
 ?>
  
-<div class="contenthead floaty">
-        <?php
-        if ($error == "") {
-            ?>
-            <table width="100%">
-                <tbody> 
-                    <tr>
-                        <td width="65%">
-                            <table class="SlotsTable">
-                                <tbody>
-                                    <tr style="height: 80px;">
-                                        <td align="center" class="BlackTD">                                                          
-                                            <font color=red><?php
-                                            echo $user_class->slots_left1;
-                                            ?> Spins Left</font>&nbsp;&nbsp;
-                                        </td>
-                                        <td colspan="2" >
-                                            $<input name="bet" value="<?php
-                                            echo $money;
-                                            ?>" 
-                                                    onkeyup='document.all.money.value = this.value;' maxlength="4" size="10">&nbsp;[Max: $<?php
-                                                    echo $max_cash;
-                                                    ?>]
-                                        </td>
-                                    </tr>
-                                    <tr style="height: 100px;">
-                                        <td width="87px">
-                                            <?php
-                                            if ($Jackpot) {
-                                                ?>
-                                                <form method="post" style="margin-top: 4px;margin-bottom: 2px;">
-                                                    <input type="hidden" name="level" value="<?php
-                                                    echo $level;
-                                                    ?>">              
-                                                    <button type="submit" name="HighGamble" style="width: 79px; height: 32px; margin-left: 24px;">
-                                                        <img src="images/Slots 2/highlive.gif">
-                                                    </button>
-                                                </form> 
-                                                <form method="post" style="margin-top: 0;margin-bottom: 2px;">
-                                                    <input type="hidden" name="level" value="<?php
-                                                    echo $level;
-                                                    ?>">              
-                                                    <button type="submit" name="StopGamble" style="width: 79px; height: 32px; margin-left: 24px;">
-                                                        <img src="images/Slots 2/stoplive.gif">
-                                                    </button>
-                                                </form> 
-                                                <form method="post" style="margin-top: 0;margin-bottom: 0;">
-                                                    <input type="hidden" name="level" value="<?php
-                                                    echo $level;
-                                                    ?>">              
-                                                    <button type="submit" name="LowGamble" style="width: 79px; height: 32px; margin-left: 24px;">
-                                                        <img src="images/Slots 2/lowlive.gif">
-                                                    </button>
-                                                </form> 
-                                                <?php
-                                            } else {
-                                                ?>
-                                                <img src="images/Slots 2/high.gif" style="margin-left: 25px; margin-top: 10px;"><br>
-                                                <img src="images/Slots 2/stop.gif" style="margin-left: 25px; margin-top: 5px; margin-bottom: 1px;"><br>
-                                                <img src="images/Slots 2/low.gif" style="margin-left: 25px;">
-                                                <?php
-                                            }
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <img src="images/Slots 2/<?php
-                                            echo $highlownum;
-                                            ?>.gif" style="margin-top: 10px;">
-                                        </td>
-                                        <td>
-                                            <img src="images/Slots 2/HighLowLevels<?php
-                                            if ($Jackpot) {
-                                                echo $level;
-                                            }
-                                            ?>.gif" style="margin-top: 7px;margin-left: 15px;">
-                                        </td>
-                                    </tr>
-                                    <tr align="center" height="111" style="margin-top: 4px;">
-                                        <td width="143">
-                                            <img src="images/Slots 2/wheel<?php
-                                            echo $wheel1;
-                                            ?>.gif" style="margin-left: 15px;" alt="<?php
-                                                 echo $wheel1;
-                                                 ?>">
-                                        </td>
-                                        <td>
-                                            <img src="images/Slots 2/wheel<?php
-                                            echo $wheel2;
-                                            ?>.gif" alt="<?php
-                                                 echo $wheel2;
-                                                 ?>">
-                                        </td>
-                                        <td width="143">
-                                            <img src="images/Slots 2/wheel<?php
-                                            echo $wheel3;
-                                            ?>.gif" style="margin-right: 15px;" alt="<?php
-                                                 echo $wheel3;
-                                                 ?>">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">
-                                <marquee style="font-size: 0.8em; margin-left: 30px; margin-right: 0px; margin-top: 0px;  color: #fff; font-weight: bold;">
-                                    <p class="SlotsP" style="color: #fff; margin-top: 10px;"><?php
-                                        echo $marquee;
-                                        ?></p>
-                                </marquee>
-                        </td>
-                    </tr>
-                    <tr height="5"><td>&nbsp;</td></tr>
-                    <tr>
-                        <td colspan="3" align="center">
-                            <form method="post">
-                                <input type="hidden" name="money" value="<?php
-                                echo $money;
-                                ?>">            
-                                <button type="submit" name="Spin" style="margin-top: 1px; width: 108px; height: 43px;"><img src="images/Slots 2/PlayEnabled.gif"></button>
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </td>
-        <td style="vertical-align: middle;">
-            <form method="POST">
-                <table class="AutoSpinner" style="font-size: 0.8em">
-                    <tbody>
-                        <tr style="height: 40px;">
-                            <td colspan="2" align="center">Auto Spinner&nbsp;&nbsp;</td>
-                        </tr>
-                        <tr style="height: 30px;">
-                            <td width="35%">&nbsp;&nbsp;Spins:</td>
-                            <td>&nbsp;&nbsp;<input name="NumberOfSpins" value="<?php
-                                echo $user_class->slots_left1;
-                                ?>"  maxlength="3" size="5"></td>
-                        </tr>
-                        <tr style="height: 25px;">
-                            <td width="35%">&nbsp;&nbsp;Bet:<br>&nbsp;</td>
-                            <td>$<input name="automoney" value="<?php
-                                echo $money;
-                                ?>" maxlength="4" size="10"><br>[Max: $<?php
-                                        echo $max_cash;
-                                        ?>]</td>
-                        </tr>  
-                        <tr style="height: 20px;">
-                            <td align="center" colspan="2" valign="top">                                      
-                                <input type="submit" name="AutoSpin" value="Auto Spin">
-                            </td>  
-                        </tr>  
-                    </tbody>  
-                </table> 
-            </form>  
-        </td>
-    </tr>
-    </tbody>
-    </table>  
+ <div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class='alert alert-info' role='alert'>Slot Machine</div>
+        </div>
+    </div>
+
     <?php
-} else {
+    include_once 'functions.php';
+    process_slot_machine();
     ?>
-    <table style="font-size: 0.8em">
-        <tr>
-            <td>
-                <?php
-                echo $error;
-                ?>
-            </td>
-        </tr>
-        <tr>
-            <td><a href="city.php">Back</a></td>
-        </tr>
-    </table>
-    <?php
-}
-?>
+
+    <div class="row">
+        <?php if ($error == ""): ?>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Slot Machine</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-4">
+                                <p><strong>Spins Left:</strong> <?= $user_class->slots_left1; ?></p>
+                                <p>Bet: <input class="form-control" type="text" name="bet" value="<?= $money; ?>" onkeyup='document.all.money.value = this.value;'></p>
+                            </div>
+                            <div class="col-8">
+                                <img src="images/Slots 2/<?= $highlownum; ?>.gif" class="img-fluid">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <img src="images/Slots 2/wheel<?= $wheel1; ?>.gif" class="img-fluid">
+                            </div>
+                            <div class="col-4">
+                                <img src="images/Slots 2/wheel<?= $wheel2; ?>.gif" class="img-fluid">
+                            </div>
+                            <div class="col-4">
+                                <img src="images/Slots 2/wheel<?= $wheel3; ?>.gif" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-info"><?= $marquee; ?></p>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">Auto Spinner</div>
+                    <div class="card-body">
+                        <p>Spins: <input class="form-control" type="text" name="NumberOfSpins" value="<?= $user_class->slots_left1; ?>"></p>
+                        <p>Bet: <input class="form-control" type="text" name="automoney" value="<?= $money; ?>"></p>
+                        <button type="submit" class="btn btn-primary" name="AutoSpin">Auto Spin</button>
+                    </div>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="col-12">
+                <div class="alert alert-danger" role="alert"><?= $error; ?></div>
+                <a href="city.php" class="btn btn-secondary">Back</a>
+            </div>
+        <?php endif; ?>
+    </div>
 </div>
+
 <?php
 include 'footer.php';
 function pay_player_and_quit_high_low() {
