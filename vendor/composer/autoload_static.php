@@ -32,12 +32,7 @@ class ComposerStaticInitb26ee9875f2a964ab74745698a6b29f2
             'PhpParser\\' => 10,
             'PhpCoveralls\\' => 13,
         ),
-        'G' => 
-        array (
-            'GuzzleHttp\\Psr7\\' => 16,
-            'GuzzleHttp\\Promise\\' => 19,
-            'GuzzleHttp\\' => 11,
-        ),
+        
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
