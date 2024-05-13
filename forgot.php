@@ -54,8 +54,8 @@ $_SESSION['cap'] = $rand;
             <img class="m-5" src="/asset/img/logo1.png" style="max-width:200px">
             <div>
                <div class="d-inline-block">
-                  <p class="highlightWelcome text-start m-0"></p>
-                  <h1 class="loginTitle">Forgot Password</h1>
+                  <p class="highlightWelcome text-start m-0">Forgot Password</p>
+                  <h1 class="loginTitle"></h1>
                   <?php 
                      if(isset($_SESSION['failmessage'])){
                      	echo '<div class="alert alert-danger">'. $_SESSION['failmessage'] .'</div>';
@@ -75,7 +75,7 @@ $_SESSION['cap'] = $rand;
                   </div>
                   <div class="row justify-content-center mt-5">
             <div class="col-md-6">
-                <div class="card">
+                <div class="card" style="background:#6c757d">
                     <div class="card-header text-center">
                         Reset Password
                     </div>
