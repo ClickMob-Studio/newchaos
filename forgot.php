@@ -177,7 +177,7 @@ $body = [
     'Subject' => "Forgot Password",
     'Text-part' => "You have requested a password reset at ChaosCity!",
     'Html-part' => "<h3>Dear $username, You have requested a new password reset at <a href='http://www.chaoscity.co.uk'>Chaos City</a>.<br>
-    <a href='https://www.chaoscity.co.uk/forgot.php?action=reseet&token=$token' target='_blank'>Click Here</a> to reset your password
+    <a href='https://www.chaoscity.co.uk/forgot.php?action=reset&token=$token' target='_blank'>Click Here</a> to reset your password
     ",
     'Recipients' => [
         [
