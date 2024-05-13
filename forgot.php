@@ -28,7 +28,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'reset'){
         header("Location: forgot.php");
         exit();
     }
-    $db->query("SELECT * FROM grpgusers WHERE forgot_password =? LIMIT 1");
+    $db->query("SELECT id FROM grpgusers WHERE forgot_password = ? LIMIT 1");
     $db->execute(array(
         $token
     ));
