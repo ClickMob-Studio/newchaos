@@ -112,6 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
    ];
    $response = $mj->post(Resources::$Email, ['body' => $body]);
    $response->success() && var_dump($response->getData());
+
        
 
     $db->query("UPDATE grpgusers SET forgot_password = ? WHERE email = ? AND username = ? LIMIT 1");
@@ -119,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
 
     $response = $mj->post(Resources::$Email, ['body' => $body]);
     if ($response->success()) {
-        $_SESSION['successmessage'] = "Password reset instructions have been sent to your email.";
+        $_SESSION['failmessage'] = "Password reset instructions have been sent to your email.";
         header("Location: login.php");
     } else {
         $_SESSION['failmessage'] = "Failed to send email. Please try again.";
