@@ -96,24 +96,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
 
     $apikey = '7dc2ad83e7f15563b1dee7d48109dbb7';
     $apisecret = '15326068ed7ef53039e03ca05662bde2';
-    $mj = new \Mailjet\Client($apikey, $apisecret);
-
-    $body = [
-        
-            
-                    'FromEame' => "admin@chaoscity.co.uk",
-                    'FromName' => "Chaos City",
-                
-                'Recipients' => [
-                    [
-                        'Email' => $row['email'],
-                        'Name' => $username
-                    ]
-                ],
-                'Subject' => "Forgot Password",
-                'Text-part' => "You have requested a password reset at ChaosCity!",
-                'Html-part' => "<h3>Dear $username, You have requested a new password reset at <a href='http://www.chaoscity.co.uk'>Chaos City</a>.<br><a href='https://www.chaoscity.co.uk/forgot.php?action=reset&token=$token'>Click Here</a> to reset your password</h3>"
-            ];
+   $mj = new \Mailjet\Client($apikey, $apisecret);
+   $email = $row['email'];
+   $body = [
+       'FromEmail' => "admin@chaoscity.co.uk",
+       'FromName' => "Chaos City",
+       'Subject' => "Forgot Password",
+       'Text-part' => "You have requested a password reset at ChaosCity!",
+       'Html-part' => "<h3>Dear passenger, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!<br />May the delivery force be with you!",
+       'Recipients' => [
+           [
+               'Email' => $email
+           ]
+       ]
+   ];
+   $response = $mj->post(Resources::$Email, ['body' => $body]);
+   $response->success() && var_dump($response->getData());
        
 
     $db->query("UPDATE grpgusers SET forgot_password = ? WHERE email = ? AND username = ? LIMIT 1");
