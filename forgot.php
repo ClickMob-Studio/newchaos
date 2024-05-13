@@ -28,7 +28,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'reset'){
         header("Location: forgot.php");
         exit();
     }
-    $db->query("SELECT id FROM grpgusers WHERE forgot_password = ? LIMIT 1");
+    $db->query("SELECT id FROM grpgusers WHERE forgot_password =? LIMIT 1");
     $db->execute(array(
         $token
     ));
@@ -39,29 +39,8 @@ if(isset($_GET['action']) && $_GET['action'] == 'reset'){
     }
     $row = $db->fetch_row(true);
 
-}
-if (isset($_POST['username'])) {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
+    ?>
 
-    // Validate input
-    if (empty($username) || empty($email)) {
-        echo "Username and email are required.";
-        exit();
-    }
-    $db->query("SELECT * FROM grpgusers WHERE username = ? AND email = ? LIMIT 1");
-    $db->execute(array(
-        $username,
-        $email
-    ));
-    if (!$db->num_rows()) {
-        $_SESSION['failmessage'] = "Username and email do not match.";
-        header("Location: forgot.php");
-        exit();
-    }
-    
-    $row = $db->fetch_row(true);
-?><!DOCTYPE html>
 <!doctype html>
 <html lang="en">
    <head>
@@ -111,29 +90,22 @@ if (isset($_POST['username'])) {
                   <div class="row justify-content-center mt-5">
             <div class="col-md-6">
                 <div class="card" style="background:#6c757d; min-width:300px;">
-              
-                <div class="card">
                     <div class="card-header text-center">
                         Reset Password
                     </div>
                     <div class="card-body">
-                        <form action="process_reset_password.php" method="POST">
-                            <input type="hidden" name="token" value="<?php echo htmlspecialchars($_GET['token']); ?>">
+                        <form method="post">
                             <div class="mb-3">
-                                <label for="password" class="form-label">New Password</label>
+                                <label for="username" class="form-label">Username</label>
                                 <input type="password" class="form-control" id="password" name="password" required>
                             </div>
                             <div class="mb-3">
-                                <label for="confirm_password" class="form-label">Confirm New Password</label>
-                                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                                <label for="email" class="form-label">Email address</label>
+                                <input type="password" class="form-control" id="password" name="password_conf" required>
                             </div>
                             <button type="submit" class="btn btn-primary w-100">Reset Password</button>
                         </form>
                     </div>
-                </div>
-            </div>
-     
-
                 </div>
             </div>
         </div>
@@ -156,6 +128,32 @@ if (isset($_POST['username'])) {
    </body>
 </html> 
 
+
+<?php
+
+}
+if (isset($_POST['username'])) {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+
+    // Validate input
+    if (empty($username) || empty($email)) {
+        echo "Username and email are required.";
+        exit();
+    }
+    $db->query("SELECT * FROM grpgusers WHERE username = ? AND email = ? LIMIT 1");
+    $db->execute(array(
+        $username,
+        $email
+    ));
+    if (!$db->num_rows()) {
+        $_SESSION['failmessage'] = "Username and email do not match.";
+        header("Location: forgot.php");
+        exit();
+    }
+    
+    $row = $db->fetch_row(true);
+?>
 <?php
 
  $apikey = '7dc2ad83e7f15563b1dee7d48109dbb7';
