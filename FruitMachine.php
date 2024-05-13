@@ -3,7 +3,7 @@
     include "header.php";
     ?>
 
-    <div class='alert alert-info' role='alert'>Slot Machine</div>
+    <h1>Slot Machine</h1>
     <div class='container my-4'>
         <?php
         if (isset($_POST['bet']))
@@ -207,13 +207,13 @@
                                 </div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-md-4">
+                                <div class="col-4">
                                     <img src="images/Slots 2/wheel<?= $wheel1; ?>.gif" class="img-fluid">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-4">
                                     <img src="images/Slots 2/wheel<?= $wheel2; ?>.gif" class="img-fluid">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-4">
                                     <img src="images/Slots 2/wheel<?= $wheel3; ?>.gif" class="img-fluid">
                                 </div>
                             </div>
