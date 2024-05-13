@@ -1,6 +1,9 @@
 <?php
 
    include 'dbcon.php';
+   require 'vendor/autoload.php';
+
+    use \Mailjet\Resources;
    $desired_ip = '142.116.133.64';
 
 // Get the client's IP address
@@ -27,7 +30,53 @@ if ($client_ip == $desired_ip) {
 $length = 4;
 $rand = substr(str_shuffle($string), 0, $length);
 $_SESSION['cap'] = $rand;
-   ?>
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+
+    // Validate input
+    if (empty($username) || empty($email)) {
+        echo "Username and email are required.";
+        exit();
+    }
+    $db->query("SELECT * FROM grpgusers WHERE username = ? AND email = ? LIMIT 1");
+    $db->execute(array(
+        $username,
+        $email
+    ));
+    if (!$db->num_rows()) {
+        $_SESSION['failmessage'] = "Username and email do not match.";
+        header("Location: forgot.php");
+        exit();
+    }
+    
+    $row = $db->fetch_row(true);
+
+ $apikey = '7dc2ad83e7f15563b1dee7d48109dbb7';
+ $apisecret = '15326068ed7ef53039e03ca05662bde2';
+$mj = new \Mailjet\Client($apikey, $apisecret);
+$email = $row['email'];
+$body = [
+    'FromEmail' => "admin@chaoscity.co.uk",
+    'FromName' => "Chaos City",
+    'Subject' => "Forgot Password",
+    'Text-part' => "You have requested a password reset at ChaosCity!",
+    'Html-part' => "<h3>Dear passenger, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!<br />May the delivery force be with you!",
+    'Recipients' => [
+        [
+            'Email' => $email
+        ]
+    ]
+];
+$response = $mj->post(Resources::$Email, ['body' => $body]);
+$response->success() && var_dump($response->getData());
+    
+    echo "Form submitted successfully. Username: " . htmlspecialchars($username) . ", Email: " . htmlspecialchars($email);
+} else {
+    echo "Invalid request method.";
+}
+?>
 <!doctype html>
 <html lang="en">
    <head>
