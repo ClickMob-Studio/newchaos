@@ -73,7 +73,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'reset') {
         $db->execute([$pass, $token]);
 
         $_SESSION['successmessage'] = "Your password has been reset. Please login.";
-        header("Location: index.php");
+        header("Location: forgot.php");
         exit();
     }
 }
@@ -128,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $response = $mj->post(Resources::$Email, ['body' => $body]);
     if ($response->success()) {
         $_SESSION['failmessage'] = "Password reset instructions have been sent to your email.";
-        header("Location: login.php");
+        header("Location: forgot.php");
     } else {
         $_SESSION['failmessage'] = "Failed to send email. Please try again.";
         header("Location: forgot.php");
