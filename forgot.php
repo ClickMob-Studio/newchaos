@@ -38,7 +38,30 @@ if(isset($_GET['action']) && $_GET['action'] == 'reset'){
         exit();
     }
     $row = $db->fetch_row(true);
+    if(isset($_POST['password'])){
+        $password = $_POST['password'];
+        $password2 = $_POST['password_conf'];
+        if(empty($password) || empty($password2)){
+            $_SESSION['failmessage'] = "Please enter a password.";
+            header("Location: forgot.php");
+            exit();
+        }
+        if($password!= $password2){
+            $_SESSION['failmessage'] = "Passwords do not match.";
+            header("Location: forgot.php");
+            exit();
+        }
+        $pass = sha1($password);
+        $db->query("UPDATE grpgusers SET `password` =?, forgot_password ='' WHERE forgot_password =? LIMIT 1");
+        $db->execute(array(
+            $pass,
+            $token
+        ));
+        $_SESSION['failmessage'] = "Your password has been reset please login.";
+        header("Location: index.php");
+        exit();
 
+    }
     ?>
 
 <!doctype html>
