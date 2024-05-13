@@ -19,7 +19,7 @@ $body = [
     'Html-part' => "<h3>Dear passenger, welcome to <a href=\"https://www.mailjet.com/\">Mailjet</a>!<br />May the delivery force be with you!",
     'Recipients' => [
         [
-            'Email' => "passenger@mailjet.com"
+            'Email' => "hulladam38@gmail.com"
         ]
     ]
 ];
