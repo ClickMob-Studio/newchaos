@@ -99,33 +99,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $mj = new \Mailjet\Client($apikey, $apisecret);
 
     $body = [
-        'Messages' => [
-            [
-                'From' => [
-                    'Email' => "admin@chaoscity.co.uk",
-                    'Name' => "Chaos City"
-                ],
-                'To' => [
+        
+            
+                    'FromEame' => "admin@chaoscity.co.uk",
+                    'FromName' => "Chaos City",
+                
+                'Recipients' => [
                     [
                         'Email' => $row['email'],
                         'Name' => $username
                     ]
                 ],
                 'Subject' => "Forgot Password",
-                'TextPart' => "You have requested a password reset at ChaosCity!",
-                'HTMLPart' => "<h3>Dear $username, You have requested a new password reset at <a href='http://www.chaoscity.co.uk'>Chaos City</a>.<br><a href='https://www.chaoscity.co.uk/forgot.php?action=reset&token=$token'>Click Here</a> to reset your password</h3>"
-            ]
-        ]
-    ];
+                'Text-part' => "You have requested a password reset at ChaosCity!",
+                'Html-part' => "<h3>Dear $username, You have requested a new password reset at <a href='http://www.chaoscity.co.uk'>Chaos City</a>.<br><a href='https://www.chaoscity.co.uk/forgot.php?action=reset&token=$token'>Click Here</a> to reset your password</h3>"
+            ];
+       
 
     $db->query("UPDATE grpgusers SET forgot_password = ? WHERE email = ? AND username = ? LIMIT 1");
     $db->execute([$token, $row['email'], $username]);
 
     $response = $mj->post(Resources::$Email, ['body' => $body]);
-    
+    if ($response->success()) {
         $_SESSION['successmessage'] = "Password reset instructions have been sent to your email.";
         header("Location: login.php");
-    
+    } else {
+        $_SESSION['failmessage'] = "Failed to send email. Please try again.";
+        header("Location: forgot.php");
+    }
     exit();
 }
 
