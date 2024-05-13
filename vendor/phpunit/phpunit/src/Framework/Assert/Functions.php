@@ -1997,7 +1997,7 @@ if (!function_exists('PHPUnit\Framework\assertMatchesRegularExpression')) {
      *
      * @see Assert::assertMatchesRegularExpression
      */
-    function assertMatchesRegularExpression( $pattern,  $, $message = '')
+    function assertMatchesRegularExpression( $pattern,  $string, $message = '')
     {
         Assert::assertMatchesRegularExpression(...func_get_args());
     }
