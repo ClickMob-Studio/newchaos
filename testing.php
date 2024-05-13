@@ -1,10 +1,6 @@
 <?php
-
+require "vendor/autoload.php";
 use \Mailjet\Resources;
-
-// getenv will allow us to get the MJ_APIKEY_PUBLIC/PRIVATE variables we created before
-$apikey = getenv('MJ_APIKEY_PUBLIC');
-$apisecret = getenv('MJ_APIKEY_PRIVATE');
 
 // or
 
