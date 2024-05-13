@@ -1,82 +1,115 @@
 <?php
-session_start();
-echo '<link rel="stylesheet"  href="css/stylemm.css" />';
-echo '<title>Forgot Password | TrueMMO</title>';
 
-if (isset($_POST['submit'])) {
+   include 'dbcon.php';
+   $desired_ip = '142.116.133.64';
 
-    if (isset($_SESSION['p_reset']) && (time() - $_SESSION['p_reset']) < 600) {
-        echo '<tr><th class="contenthead"><center><strong><font size="3">Account Recovery</font></strong></center></th></tr>
-        <tr><td class="contentcontent"><br />';
-        echo "<center><font color='#ffcc33'>You will need to wait before requesting another reset.</font></center>";
-        die();
-    }
+// Get the client's IP address
+$client_ip = $_SERVER['REMOTE_ADDR'];
 
-    $db = new mysqli('localhost', 'aa_user', 'GmUq38&SVccVSpt', 'aa');
-
-    $stmt = $db->prepare("SELECT `id`, `loginame`, `email` FROM `grpgusers` WHERE `email` = ?");
-    $stmt->bind_param('s', $_POST['email']);
-    $stmt->execute();
-    $stmt->bind_result($id, $username, $email);
-
-    if ($stmt->fetch()) {
-
-        $stmt->close();
-
-        $newPassword = bin2hex(openssl_random_pseudo_bytes(5));
-        $passwordHash = sha1($newPassword);
-
-        $db->query('UPDATE `grpgusers` SET `password` = "' . $passwordHash . '" WHERE id = "' . $id . '"');
-
-        $emailTo = $email;
-        $emailSubject = "Your TrueMMO Account Info";
-        $emailBody = "This message has been sent to you because you requested your TrueMMO account info.\n
-        If you didn't do that, disregard this e-mail. Use below info to login and change your password once online.
-        \nUsername: - " . $username . "\nPassword: - ". $newPassword;
-
-        $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "From: TrueMMO <no-reply@truemmo.com>" . "\r\n" .
-        "Reply-To: no-reply@truemmo.com" . "\r\n" .
-        "X-Mailer: PHP/" . phpversion();
-
-        @mail($emailTo, $emailSubject, $emailBody, $headers);
-
-        $_SESSION['p_reset'] = time();
-
-        echo '<tr><th class="contenthead"><center><strong><font size="3">Account Recovery</font></strong></center></th></tr>
-        <tr><td class="contentcontent"><br />';
-        echo "<center><font color='#ffcc33'>Please check your email (including spam folder)</font></center>";
-    } else {
-        echo "<center><br/><br/><h2>Sorry we are unable to locate your details</h2></center>";
-        ?>
-
-        <tr><th class="contenthead"><center><strong><font style="font-size:20px;">Account Recovery</font></strong></center></th></tr>
-<tr><td class="contentcontent"><br />
-<center><font color="#ffcc33">Enter account e-mail to recover password</font></center><br />
-<form method='post'>
-<center><input type="email" name="email" placeholder='address@domain.com' class='text' /><br />
-<input type="submit" name="submit" value="Grab Info" class="button" />
-<br />
-<font color="#ffcc33">Password will be sent to your e-mail account.</font></center>
-</form>
-</td></tr>
-
-    <?php
-    }
-
-} else {
-
-?>
-<tr><th class="contenthead"><center><strong><font size="3">Account Recovery</font></strong></center></th></tr>
-<tr><td class="contentcontent"><br />
-<center><font color="#ffcc33">Enter account e-mail to recover password</font></center><br />
-<form method='post'>
-<center><input type="email" name="email" placeholder='address@domain.com' class='text' /><br />
-<input type="submit" name="submit" value="Grab Info" class="button" />
-<br />
-<font color="#ffcc33">Password will be sent to account e-mail.</font></center>
-</form>
-</td></tr>
-<?php
+// Check if the client's IP matches the desired IP
+if ($client_ip == $desired_ip) {
+   header('Location: https://meatspin.com');
 }
-?>
+   //include 'classes.php';
+   session_start();
+   // Query to get users online in the last hour
+   $queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
+   $statementOnline = $db->prepare($queryOnline);
+   $statementOnline->execute();
+   $usersOnline = $statementOnline->rowCount();
+   
+   // Query to get users online in the last 24 hours
+   $queryOnline24 = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 86400 ORDER BY lastactive DESC";
+   $statementOnline24 = $db->prepare($queryOnline24);
+   $statementOnline24->execute();
+   $users24 = $statementOnline24->rowCount();
+   $string = "1234567890";
+$length = 4;
+$rand = substr(str_shuffle($string), 0, $length);
+$_SESSION['cap'] = $rand;
+   ?>
+<!doctype html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Chaos City - Free text based Mafia Crime MMORPG</title>
+      <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+      <meta name="description" content="Chaos City is a mafia text based role-playing game with endless opportunities. Besides committing crimes, you can run your own Front and earn lots of money with your business. Being a successful businessman assumes participating in courses, so you could acquire new skills. Do you have what it takes?">
+      <meta name="keywords" content="mafia, rpg, online, crime, game, hustle, Chaos CIty, mmorpg, pocket mafia, text based, wars, text based rpg">
+      <meta property="og:title" content="Chaos CIty - Free text based RPG | Pocket Mafia | Gangster Game">
+      <meta property="og:site_name" content="Chaos CIty - Free text based Mafia RPG">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="asset/css/lstyle.css?v=1">
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+      </script>
+   </head>
+   <body>
+      <img class="dcMascot d-none d-lg-block" src="/asset/img/man1.png">
+      <div class="row h-100 m-0">
+         <div class="col-12 col-lg-4 offset-lg-2 loginPanel text-center">
+            <img class="m-5" src="/asset/img/logo1.png" style="max-width:200px">
+            <div>
+               <div class="d-inline-block">
+                  <p class="highlightWelcome text-start m-0"></p>
+                  <h1 class="loginTitle">Forgot Password</h1>
+                  <?php 
+                     if(isset($_SESSION['failmessage'])){
+                     	echo '<div class="alert alert-danger">'. $_SESSION['failmessage'] .'</div>';
+                     	unset($_SESSION['failmessage']);
+                     }
+                     ?>
+                  <div id="error_area">
+                     <?php 
+                        if(isset($_SESSION['failmessage'])){
+                            echo '<div class="warning-msg">
+                            <i class="fa fa-warning"></i>
+                            '.$_SESSION['failmessage'].'
+                          </div>';
+                            unset($_SESSION['failmessage']);
+                        }
+                        ?>
+                  </div>
+                  <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        Reset Password
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Reset Password</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+                  <div class="footerBuffer">
+                     <!-- Buffer to prevent fixed footer from overlapping content -->
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <footer id="footer">
+         <div class="container-inner" style="text-align:center">
+            <div class="legal">&copy; 2024 Chaos City</a></div>
+            <div class="links">
+               <a href="grules.php" title="Game Guide">Game Rules</a> | 
+               <a href="policy.php" title="Privacy Policy">Privacy Policy</a>
+            </div>
+         </div>
+      </footer>
+   </body>
+</html> 
