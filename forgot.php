@@ -75,7 +75,7 @@ $_SESSION['cap'] = $rand;
                   </div>
                   <div class="row justify-content-center mt-5">
             <div class="col-md-6">
-                <div class="card" style="background:#6c757d">
+                <div class="card" style="background:#6c757d; min-width:400px;">
                     <div class="card-header text-center">
                         Reset Password
                     </div>
