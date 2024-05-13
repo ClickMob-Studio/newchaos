@@ -532,7 +532,7 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
             $this->type = "Banned";
             else if ($this->id == 0)
             $this->type = "<u><b><font color=blue>Manager</font></b></u>";
-            else if ($this->id == 631)
+            else if ($this->id == 0)
             $this->type = "<u><b><font color=blue>Technical Support</font></b></u>";
             else if ($this->id == 0)
             $this->type = "<font color='yellow'>Game Dev</font>";
