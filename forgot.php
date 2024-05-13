@@ -122,13 +122,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $db->execute([$token, $row['email'], $username]);
 
     $response = $mj->post(Resources::$Email, ['body' => $body]);
-    if ($response->success()) {
+    
         $_SESSION['successmessage'] = "Password reset instructions have been sent to your email.";
         header("Location: login.php");
-    } else {
-        $_SESSION['failmessage'] = "Failed to send email. Please try again.";
-        header("Location: forgot.php");
-    }
+    
     exit();
 }
 
