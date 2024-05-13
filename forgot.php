@@ -29,13 +29,19 @@ function generateRandomToken($length = 50) {
 
 if (isset($_GET['action']) && $_GET['action'] == 'reset') {
     $token = $_GET['token'];
+    $userid = $_GET['userid'];
+    if(empty($userid)) {
+        $_SESSION['failmessage'] = "Invalid token.";
+        header("Location: forgot.php");
+        exit();
+    }
     if (empty($token)) {
         $_SESSION['failmessage'] = "Invalid token.";
         header("Location: forgot.php");
         exit();
     }
 
-    $db->query("SELECT id FROM grpgusers WHERE forgot_password = ? LIMIT 1");
+    $db->query("SELECT id FROM grpgusers WHERE forgot_password = ? AND id = $userid LIMIT 1");
     $db->execute([$token]);
 
     if (!$db->num_rows()) {
@@ -98,12 +104,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $apisecret = '15326068ed7ef53039e03ca05662bde2';
    $mj = new \Mailjet\Client($apikey, $apisecret);
    $email = $row['email'];
+   $userid = $row['userid'];
    $body = [
        'FromEmail' => "admin@chaoscity.co.uk",
        'FromName' => "Chaos City",
        'Subject' => "Forgot Password",
        'Text-part' => "You have requested a password reset at ChaosCity!",
-       'Html-part' => "<h3>Dear $username, You have requested a new password reset at <a href='http://www.chaoscity.co.uk'>Chaos City</a>.<br><a href='https://www.chaoscity.co.uk/forgot.php?action=reset&token=$token'>Click Here</a> to reset your password</h3>",
+       'Html-part' => "<h3>Dear $username, You have requested a new password reset at <a href='http://www.chaoscity.co.uk'>Chaos City</a>.<br><a href='https://www.chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>",
         'Recipients' => [
            [
                'Email' => $email
