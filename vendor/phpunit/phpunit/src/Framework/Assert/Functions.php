@@ -175,7 +175,7 @@ if (!function_exists('PHPUnit\Framework\assertContainsOnly')) {
      *
      * @see Assert::assertContainsOnly
      */
-    function assertContainsOnly(string $type, iterable $haystack, ?bool $isNativeType = null,  $message = '')
+    function assertContainsOnly(string $type, iterable $haystack,  $isNativeType = null,  $message = '')
     {
         Assert::assertContainsOnly(...func_get_args());
     }
@@ -209,7 +209,7 @@ if (!function_exists('PHPUnit\Framework\assertNotContainsOnly')) {
      *
      * @see Assert::assertNotContainsOnly
      */
-    function assertNotContainsOnly(string $type, iterable $haystack, ?bool $isNativeType = null, $message = '')
+    function assertNotContainsOnly(string $type, iterable $haystack,  $isNativeType = null, $message = '')
     {
         Assert::assertNotContainsOnly(...func_get_args());
     }
