@@ -1,8 +1,5 @@
 <?php
 ob_start(); // Start output buffering
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 include 'dbcon.php';
 include 'database/pdo_class.php';
@@ -118,8 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
        ]
    ];
    $response = $mj->post(Resources::$Email, ['body' => $body]);
-   $response->success() && var_dump($response->getData());
-
+   
        
 
     $db->query("UPDATE grpgusers SET forgot_password = ? WHERE email = ? AND username = ? LIMIT 1");
@@ -136,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     exit();
 }
 
-ob_end_flush(); // End output buffering and flush output
+ob_end_flush(); 
 ?>
 <!doctype html>
 <html lang="en">
