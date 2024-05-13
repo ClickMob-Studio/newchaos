@@ -54,7 +54,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'reset') {
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = $_POST['password'];
-        $password2 = $_POST['password_conf'];
+        $password2 = $_POST['confirm_password'];
 
         if (empty($password) || empty($password2)) {
             $_SESSION['failmessage'] = "Please enter a password.";
@@ -104,13 +104,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $apisecret = '15326068ed7ef53039e03ca05662bde2';
    $mj = new \Mailjet\Client($apikey, $apisecret);
    $email = $row['email'];
-   $userid = $row['userid'];
+   $userid = $row['id'];
    $body = [
        'FromEmail' => "admin@chaoscity.co.uk",
        'FromName' => "Chaos City",
        'Subject' => "Forgot Password",
        'Text-part' => "You have requested a password reset at ChaosCity!",
-       'Html-part' => "<h3>Dear $username, You have requested a new password reset at <a href='http://chaoscity.co.uk'>Chaos City</a>.<br><a href='https://www.chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>",
+       'Html-part' => "<h3>Dear $username, You have requested a new password reset at <a href='http://chaoscity.co.uk'>Chaos City</a>.<br><a href='https://chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>",
         'Recipients' => [
            [
                'Email' => $email
