@@ -1,5 +1,5 @@
 <?php
-   error_reporting(0);
+
    include 'dbcon.php';
    $desired_ip = '142.116.133.64';
 
@@ -122,8 +122,8 @@ $_SESSION['cap'] = $rand;
                            <input type="password" name="password" placeholder="Password">
                            <div class="text-start my-4">
                               <button name="action" value="login" type="submit">Login</button>
-                           </div>
-                           <p class="forgotten"><a href="recover_password.php">Reset Password</a></p>
+                           </div> 
+                           <p class="forgotten"><a href="forgot.php">Reset Password</a></p>
                         </form>
                      </div>
                   </div>
