@@ -3,8 +3,9 @@
  ini_set('display_startup_errors', 1);
  error_reporting(E_ALL);
    include 'dbcon.php';
+   include 'database/pdo_class.php';
    require 'vendor/autoload.php';
-
+session_start();
     use \Mailjet\Resources;
    $desired_ip = '142.116.133.64';
 
