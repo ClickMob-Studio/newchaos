@@ -2018,7 +2018,7 @@ if (!function_exists('PHPUnit\Framework\assertRegExp')) {
      *
      * @see Assert::assertRegExp
      */
-    function assertRegExp( $pattern,  $, $message = '')
+    function assertRegExp( $pattern,  $string, $message = '')
     {
         Assert::assertRegExp(...func_get_args());
     }
@@ -2035,7 +2035,7 @@ if (!function_exists('PHPUnit\Framework\assertDoesNotMatchRegularExpression')) {
      *
      * @see Assert::assertDoesNotMatchRegularExpression
      */
-    function assertDoesNotMatchRegularExpression( $pattern,  $, $message = '')
+    function assertDoesNotMatchRegularExpression( $pattern,  $string, $message = '')
     {
         Assert::assertDoesNotMatchRegularExpression(...func_get_args());
     }
@@ -2056,7 +2056,7 @@ if (!function_exists('PHPUnit\Framework\assertNotRegExp')) {
      *
      * @see Assert::assertNotRegExp
      */
-    function assertNotRegExp( $pattern,  $, $message = '')
+    function assertNotRegExp( $pattern,  $string, $message = '')
     {
         Assert::assertNotRegExp(...func_get_args());
     }
@@ -2117,7 +2117,7 @@ if (!function_exists('PHPUnit\Framework\assertStringMatchesFormat')) {
      *
      * @see Assert::assertStringMatchesFormat
      */
-    function assertStringMatchesFormat( $format,  $, $message = '')
+    function assertStringMatchesFormat( $format,  $string, $message = '')
     {
         Assert::assertStringMatchesFormat(...func_get_args());
     }
@@ -2134,7 +2134,7 @@ if (!function_exists('PHPUnit\Framework\assertStringNotMatchesFormat')) {
      *
      * @see Assert::assertStringNotMatchesFormat
      */
-    function assertStringNotMatchesFormat( $format,  $, $message = '')
+    function assertStringNotMatchesFormat( $format,  $string, $message = '')
     {
         Assert::assertStringNotMatchesFormat(...func_get_args());
     }
@@ -2151,7 +2151,7 @@ if (!function_exists('PHPUnit\Framework\assertStringMatchesFormatFile')) {
      *
      * @see Assert::assertStringMatchesFormatFile
      */
-    function assertStringMatchesFormatFile( $formatFile,  $, $message = '')
+    function assertStringMatchesFormatFile( $formatFile,  $string, $message = '')
     {
         Assert::assertStringMatchesFormatFile(...func_get_args());
     }
@@ -2168,7 +2168,7 @@ if (!function_exists('PHPUnit\Framework\assertStringNotMatchesFormatFile')) {
      *
      * @see Assert::assertStringNotMatchesFormatFile
      */
-    function assertStringNotMatchesFormatFile( $formatFile,  $, $message = '')
+    function assertStringNotMatchesFormatFile( $formatFile,  $string, $message = '')
     {
         Assert::assertStringNotMatchesFormatFile(...func_get_args());
     }
@@ -2185,7 +2185,7 @@ if (!function_exists('PHPUnit\Framework\assertStringStartsWith')) {
      *
      * @see Assert::assertStringStartsWith
      */
-    function assertStringStartsWith( $prefix,  $, $message = '')
+    function assertStringStartsWith( $prefix,  $string, $message = '')
     {
         Assert::assertStringStartsWith(...func_get_args());
     }
@@ -2205,7 +2205,7 @@ if (!function_exists('PHPUnit\Framework\assertStringStartsNotWith')) {
      *
      * @see Assert::assertStringStartsNotWith
      */
-    function assertStringStartsNotWith($prefix, $, $message = '')
+    function assertStringStartsNotWith($prefix, $string, $message = '')
     {
         Assert::assertStringStartsNotWith(...func_get_args());
     }
@@ -2282,7 +2282,7 @@ if (!function_exists('PHPUnit\Framework\assertStringEndsWith')) {
      *
      * @see Assert::assertStringEndsWith
      */
-    function assertStringEndsWith( $suffix,  $, $message = '')
+    function assertStringEndsWith( $suffix,  $string, $message = '')
     {
         Assert::assertStringEndsWith(...func_get_args());
     }
@@ -2299,7 +2299,7 @@ if (!function_exists('PHPUnit\Framework\assertStringEndsNotWith')) {
      *
      * @see Assert::assertStringEndsNotWith
      */
-    function assertStringEndsNotWith( $suffix,  $, $message = '')
+    function assertStringEndsNotWith( $suffix,  $string, $message = '')
     {
         Assert::assertStringEndsNotWith(...func_get_args());
     }
@@ -2865,7 +2865,7 @@ if (!function_exists('PHPUnit\Framework\StartsWith')) {
 }
 
 if (!function_exists('PHPUnit\Framework\Contains')) {
-    function Contains( $, bool $case = true): StringContains
+    function Contains( $string, bool $case = true): StringContains
     {
         return Assert::Contains(...func_get_args());
     }
