@@ -28,10 +28,10 @@ if(isset($_GET['action']) && $_GET['action'] == 'reset'){
         header("Location: forgot.php");
         exit();
     }
-    $db->query("SELECT id FROM grpgusers WHERE forgot_password =? LIMIT 1");
-    $db->execute(array(
-        $token
-    ));
+    // $db->query("SELECT id FROM grpgusers WHERE forgot_password = ? LIMIT 1");
+    // $db->execute(array(
+    //     $token
+    // ));
     if (!$db->num_rows()) {
         $_SESSION['failmessage'] = "Invalid token.";
         header("Location: forgot.php");
