@@ -204,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
                             <div class="card" style="background:#6c757d; min-width:300px;">
                                 <div class="card-header text-center">Forgot Password</div>
                                 <div class="card-body">
-                                    <form method="post" action="reset_password.php">
+                                    <form method="post" action="forgot.php">
                                         <div class="mb-3">
                                             <label for="username" class="form-label">Username</label>
                                             <input type="text" class="form-control" id="username" name="username" required>
