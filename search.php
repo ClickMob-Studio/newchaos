@@ -289,7 +289,25 @@ if (mysql_num_rows($query) == 0) {
 </td>";
 }
 }
+?>
 
+<form method="post" action="search.php" id="refreshForm">
+    <input type='hidden' name='actsearch' value='<?php echo isset($_POST['actsearch']) ? $_POST['actsearch'] : ''; ?>' />
+    <input type='hidden' name='id' value='<?php echo isset($search['id']) ? $search['id'] : ''; ?>' />
+    <input type='hidden' name='Name' value='<?php echo isset($search['name']) ? $search['name'] : ''; ?>' />
+    <input type='hidden' name='level' value='<?php echo isset($search['level']) ? $search['level'] : ''; ?>' />
+    <input type='hidden' name='level2' value='<?php echo isset($search['level2']) ? $search['level2'] : ''; ?>' />
+    <input type='hidden' name='lastactive' value='<?php echo isset($search['lastactive']) ? $search['lastactive'] : ''; ?>' />
+    <input type='hidden' name='lastactive2' value='<?php echo isset($search['lastactive2']) ? $search['lastactive2'] : ''; ?>' />
+    <input type='hidden' name='money' value='<?php echo isset($search['money']) ? $search['money'] : ''; ?>' />
+    <input type='hidden' name='location' value='<?php echo isset($search['location']) ? $search['location'] : ''; ?>' />
+    <input type='hidden' name='gang' value='<?php echo isset($search['gang']) ? $search['gang'] : ''; ?>' />
+    <input type='hidden' name='online' value='<?php echo isset($search['online']) ? $search['online'] : ''; ?>' />
+    <input type='hidden' name='attack' value='<?php echo isset($search['attack']) ? $search['attack'] : ''; ?>' />
+    <input type='submit' value='Refresh Search' class='btn btn-primary' />
+</form>
+
+<?php
 echo '<script>$(".aha").on("click", function(e) {
 	if (e.shiftKey) {
         e.preventDefault();
