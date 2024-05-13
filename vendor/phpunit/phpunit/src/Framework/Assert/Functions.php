@@ -87,7 +87,7 @@ if (!function_exists('PHPUnit\Framework\assertArrayHasKey')) {
      *
      * @see Assert::assertArrayHasKey
      */
-    function assertArrayHasKey($key, $array, string $message = ''): void
+    function assertArrayHasKey($key, $array, string $message = '')
     {
         Assert::assertArrayHasKey(...func_get_args());
     }
