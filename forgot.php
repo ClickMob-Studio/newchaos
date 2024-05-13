@@ -1,305 +1,238 @@
 <?php
- ini_set('display_errors', 1);
- ini_set('display_startup_errors', 1);
- error_reporting(E_ALL);
-   include 'dbcon.php';
-   include 'database/pdo_class.php';
-   require 'vendor/autoload.php';
-    use \Mailjet\Resources;
-   $desired_ip = '142.116.133.64';
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// Get the client's IP address
+include 'dbcon.php';
+include 'database/pdo_class.php';
+require 'vendor/autoload.php';
+use \Mailjet\Resources;
+
+session_start();
+
+$desired_ip = '142.116.133.64';
 $client_ip = $_SERVER['REMOTE_ADDR'];
 
-// Check if the client's IP matches the desired IP
 if ($client_ip == $desired_ip) {
-   header('Location: https://meatspin.com');
+    header('Location: https://meatspin.com');
+    exit();
 }
-   //include 'classes.php';
-   session_start();
-   $string = "1234567890";
-$length = 4;
-$rand = substr(str_shuffle($string), 0, $length);
-$_SESSION['cap'] = $rand;
-if(isset($_GET['action']) && $_GET['action'] == 'reset'){
+
+function generateRandomToken($length = 50) {
+    if (function_exists('openssl_random_pseudo_bytes')) {
+        return bin2hex(openssl_random_pseudo_bytes($length / 2));
+    } else {
+        return bin2hex(substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / 2))), 0, $length / 2));
+    }
+}
+
+if (isset($_GET['action']) && $_GET['action'] == 'reset') {
     $token = $_GET['token'];
-    if(empty($token)){
+    if (empty($token)) {
         $_SESSION['failmessage'] = "Invalid token.";
         header("Location: forgot.php");
         exit();
     }
+
     $db->query("SELECT id FROM grpgusers WHERE forgot_password = ? LIMIT 1");
-    $db->execute(array(
-        $token
-    ));
+    $db->execute([$token]);
+
     if (!$db->num_rows()) {
         $_SESSION['failmessage'] = "Invalid token.";
         header("Location: forgot.php");
         exit();
     }
+
     $row = $db->fetch_row(true);
-    if(isset($_POST['password'])){
+    
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = $_POST['password'];
         $password2 = $_POST['password_conf'];
-        if(empty($password) || empty($password2)){
+
+        if (empty($password) || empty($password2)) {
             $_SESSION['failmessage'] = "Please enter a password.";
             header("Location: forgot.php");
             exit();
         }
-        if($password!= $password2){
+
+        if ($password != $password2) {
             $_SESSION['failmessage'] = "Passwords do not match.";
             header("Location: forgot.php");
             exit();
         }
+
         $pass = sha1($password);
-        $db->query("UPDATE grpgusers SET `password` =? WHERE forgot_password = ? LIMIT 1");
-        $db->execute(array(
-            $pass,
-            $token
-        ));
-        $_SESSION['failmessage'] = "Your password has been reset please login.";
+        $db->query("UPDATE grpgusers SET `password` = ?, forgot_password = '' WHERE forgot_password = ? LIMIT 1");
+        $db->execute([$pass, $token]);
+
+        $_SESSION['successmessage'] = "Your password has been reset. Please login.";
         header("Location: index.php");
         exit();
-
     }
-    ?>
-
-<!doctype html>
-<html lang="en">
-   <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Chaos City - Free text based Mafia Crime MMORPG</title>
-      <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-      <meta name="description" content="Chaos City is a mafia text based role-playing game with endless opportunities. Besides committing crimes, you can run your own Front and earn lots of money with your business. Being a successful businessman assumes participating in courses, so you could acquire new skills. Do you have what it takes?">
-      <meta name="keywords" content="mafia, rpg, online, crime, game, hustle, Chaos CIty, mmorpg, pocket mafia, text based, wars, text based rpg">
-      <meta property="og:title" content="Chaos CIty - Free text based RPG | Pocket Mafia | Gangster Game">
-      <meta property="og:site_name" content="Chaos CIty - Free text based Mafia RPG">
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
-      <link rel="preconnect" href="https://fonts.gstatic.com">
-      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
-      <link rel="stylesheet" href="asset/css/lstyle.css?v=1">
-      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
-      </script>
-   </head>
-   <body>
-      <img class="dcMascot d-none d-lg-block" src="/asset/img/man1.png">
-      <div class="row h-100 m-0">
-         <div class="col-12 col-lg-4 offset-lg-2 loginPanel text-center">
-            <img class="m-5" src="/asset/img/logo1.png" style="max-width:200px">
-            <div>
-               <div class="d-inline-block">
-                  <p class="highlightWelcome text-start m-0">Forgot Password</p>
-                  <h1 class="loginTitle"></h1>
-                  <?php 
-                     if(isset($_SESSION['failmessage'])){
-                     	echo '<div class="alert alert-danger">'. $_SESSION['failmessage'] .'</div>';
-                     	unset($_SESSION['failmessage']);
-                     }
-                     ?>
-                  <div id="error_area">
-                     <?php 
-                        if(isset($_SESSION['failmessage'])){
-                            echo '<div class="warning-msg">
-                            <i class="fa fa-warning"></i>
-                            '.$_SESSION['failmessage'].'
-                          </div>';
-                            unset($_SESSION['failmessage']);
-                        }
-                        ?>
-                  </div>
-               </div>
-                  <div class="row justify-content-center mt-5">
-            <div class="col-md-6">
-                <div class="card" style="background:#6c757d; min-width:300px;">
-                    <div class="card-header text-center">
-                        Reset Password
-                    </div>
-                    <div class="card-body">
-                        <form method="post">
-                            <div class="mb-3">
-                                <label for="username" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Confirm Password</label>
-                                <input type="password" class="form-control" id="password" name="password_conf" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">Reset Password</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-                  <div class="footerBuffer">
-                     <!-- Buffer to prevent fixed footer from overlapping content -->
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <footer id="footer">
-         <div class="container-inner" style="text-align:center">
-            <div class="legal">&copy; 2024 Chaos City</a></div>
-            <div class="links">
-               <a href="grules.php" title="Game Guide">Game Rules</a> | 
-               <a href="policy.php" title="Privacy Policy">Privacy Policy</a>
-            </div>
-         </div>
-      </footer>
-   </body>
-</html> 
-
-
-<?php
-
 }
-if (isset($_POST['username'])) {
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $username = $_POST['username'];
     $email = $_POST['email'];
 
-    // Validate input
     if (empty($username) || empty($email)) {
-        echo "Username and email are required.";
+        $_SESSION['failmessage'] = "Username and email are required.";
+        header("Location: forgot.php");
         exit();
     }
+
     $db->query("SELECT * FROM grpgusers WHERE username = ? AND email = ? LIMIT 1");
-    $db->execute(array(
-        $username,
-        $email
-    ));
+    $db->execute([$username, $email]);
+
     if (!$db->num_rows()) {
         $_SESSION['failmessage'] = "Username and email do not match.";
         header("Location: forgot.php");
         exit();
     }
-    
-    $row = $db->fetch_row(true);
-?>
-<?php
 
- $apikey = '7dc2ad83e7f15563b1dee7d48109dbb7';
- $apisecret = '15326068ed7ef53039e03ca05662bde2';
-$mj = new \Mailjet\Client($apikey, $apisecret);
-$email = $row['email'];
-function generateRandomToken($length = 50) {
-    if (function_exists('openssl_random_pseudo_bytes')) {
-        $token = bin2hex(openssl_random_pseudo_bytes($length / 2));
-    } else {
-        $token = bin2hex(substr(str_shuffle(str_repeat('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length / 2))), 0, $length / 2));
-    }
-    return $token;
-}
-$token = generateRandomToken();
-$body = [
-    'FromEmail' => "admin@chaoscity.co.uk",
-    'FromName' => "Chaos City",
-    'Subject' => "Forgot Password",
-    'Text-part' => "You have requested a password reset at ChaosCity!",
-    'Html-part' => "<h3>Dear $username, You have requested a new password reset at <a href='http://www.chaoscity.co.uk'>Chaos City</a>.<br>
-    <a href='https://www.chaoscity.co.uk/forgot.php?action=reset&token=$token'>Click Here</a> to reset your password
-    ",
-    'Recipients' => [
-        [
-            'Email' => $email
+    $row = $db->fetch_row(true);
+    $token = generateRandomToken();
+
+    $apikey = '7dc2ad83e7f15563b1dee7d48109dbb7';
+    $apisecret = '15326068ed7ef53039e03ca05662bde2';
+    $mj = new \Mailjet\Client($apikey, $apisecret);
+
+    $body = [
+        'Messages' => [
+            [
+                'From' => [
+                    'Email' => "admin@chaoscity.co.uk",
+                    'Name' => "Chaos City"
+                ],
+                'To' => [
+                    [
+                        'Email' => $row['email'],
+                        'Name' => $username
+                    ]
+                ],
+                'Subject' => "Forgot Password",
+                'TextPart' => "You have requested a password reset at ChaosCity!",
+                'HTMLPart' => "<h3>Dear $username, You have requested a new password reset at <a href='http://www.chaoscity.co.uk'>Chaos City</a>.<br><a href='https://www.chaoscity.co.uk/forgot.php?action=reset&token=$token'>Click Here</a> to reset your password</h3>"
+            ]
         ]
-    ]
-];
-$db->query("UPDATE grpgusers SET forgot_password = '$token' WHERE email = ? AND username = ? LIMIT 1");
-$db->execute(array(
-    $email,
-    $username
-));
-$response = $mj->post(Resources::$Email, ['body' => $body]);
-$response->success() && var_dump($response->getData());
-    
-    echo "Form submitted successfully. Username: " . htmlspecialchars($username) . ", Email: " . htmlspecialchars($email);
-} 
+    ];
+
+    $db->query("UPDATE grpgusers SET forgot_password = ? WHERE email = ? AND username = ? LIMIT 1");
+    $db->execute([$token, $row['email'], $username]);
+
+    $response = $mj->post(Resources::$Email, ['body' => $body]);
+    if ($response->success()) {
+        $_SESSION['successmessage'] = "Password reset instructions have been sent to your email.";
+        header("Location: login.php");
+    } else {
+        $_SESSION['failmessage'] = "Failed to send email. Please try again.";
+        header("Location: forgot.php");
+    }
+    exit();
+}
 ?>
+
 <!doctype html>
 <html lang="en">
-   <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Chaos City - Free text based Mafia Crime MMORPG</title>
-      <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-      <meta name="description" content="Chaos City is a mafia text based role-playing game with endless opportunities. Besides committing crimes, you can run your own Front and earn lots of money with your business. Being a successful businessman assumes participating in courses, so you could acquire new skills. Do you have what it takes?">
-      <meta name="keywords" content="mafia, rpg, online, crime, game, hustle, Chaos CIty, mmorpg, pocket mafia, text based, wars, text based rpg">
-      <meta property="og:title" content="Chaos CIty - Free text based RPG | Pocket Mafia | Gangster Game">
-      <meta property="og:site_name" content="Chaos CIty - Free text based Mafia RPG">
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
-      <link rel="preconnect" href="https://fonts.gstatic.com">
-      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
-      <link rel="stylesheet" href="asset/css/lstyle.css?v=1">
-      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
-      </script>
-   </head>
-   <body>
-      <img class="dcMascot d-none d-lg-block" src="/asset/img/man1.png">
-      <div class="row h-100 m-0">
-         <div class="col-12 col-lg-4 offset-lg-2 loginPanel text-center">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chaos City - Free text based Mafia Crime MMORPG</title>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <meta name="description" content="Chaos City is a mafia text based role-playing game with endless opportunities. Besides committing crimes, you can run your own Front and earn lots of money with your business. Being a successful businessman assumes participating in courses, so you could acquire new skills. Do you have what it takes?">
+    <meta name="keywords" content="mafia, rpg, online, crime, game, hustle, Chaos CIty, mmorpg, pocket mafia, text based, wars, text based rpg">
+    <meta property="og:title" content="Chaos CIty - Free text based RPG | Pocket Mafia | Gangster Game">
+    <meta property="og:site_name" content="Chaos CIty - Free text based Mafia RPG">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="asset/css/lstyle.css?v=1">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <img class="dcMascot d-none d-lg-block" src="/asset/img/man1.png">
+    <div class="row h-100 m-0">
+        <div class="col-12 col-lg-4 offset-lg-2 loginPanel text-center">
             <img class="m-5" src="/asset/img/logo1.png" style="max-width:200px">
             <div>
-               <div class="d-inline-block">
-                  <p class="highlightWelcome text-start m-0">Forgot Password</p>
-                  <h1 class="loginTitle"></h1>
-                  <?php 
-                     if(isset($_SESSION['failmessage'])){
-                     	echo '<div class="alert alert-danger">'. $_SESSION['failmessage'] .'</div>';
-                     	unset($_SESSION['failmessage']);
-                     }
-                     ?>
-                  <div id="error_area">
-                     <?php 
-                        if(isset($_SESSION['failmessage'])){
-                            echo '<div class="warning-msg">
-                            <i class="fa fa-warning"></i>
-                            '.$_SESSION['failmessage'].'
-                          </div>';
-                            unset($_SESSION['failmessage']);
-                        }
-                        ?>
-                  </div>
-               </div>
-                  <div class="row justify-content-center mt-5">
-            <div class="col-md-6">
-                <div class="card" style="background:#6c757d; min-width:300px;">
-                    <div class="card-header text-center">
-                        Reset Password
-                    </div>
-                    <div class="card-body">
-                        <form method="post">
-                            <div class="mb-3">
-                                <label for="username" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="username" name="username" required>
+                <div class="d-inline-block">
+                    <p class="highlightWelcome text-start m-0">Forgot Password</p>
+                    <h1 class="loginTitle"></h1>
+                    <?php if (isset($_SESSION['failmessage'])): ?>
+                        <div class="alert alert-danger"><?= $_SESSION['failmessage'] ?></div>
+                        <?php unset($_SESSION['failmessage']); ?>
+                    <?php endif; ?>
+                    <?php if (isset($_SESSION['successmessage'])): ?>
+                        <div class="alert alert-success"><?= $_SESSION['successmessage'] ?></div>
+                        <?php unset($_SESSION['successmessage']); ?>
+                    <?php endif; ?>
+                    <div id="error_area">
+                        <?php if (isset($_SESSION['failmessage'])): ?>
+                            <div class="warning-msg">
+                                <i class="fa fa-warning"></i>
+                                <?= $_SESSION['failmessage'] ?>
                             </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email address</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100">Reset Password</button>
-                        </form>
+                            <?php unset($_SESSION['failmessage']); ?>
+                        <?php endif; ?>
                     </div>
                 </div>
+                <?php if (isset($_GET['action']) && $_GET['action'] == 'reset' && isset($row)): ?>
+                    <div class="row justify-content-center mt-5">
+                        <div class="col-md-6">
+                            <div class="card" style="background:#6c757d; min-width:300px;">
+                                <div class="card-header text-center">Reset Password</div>
+                                <div class="card-body">
+                                    <form method="post">
+                                        <input type="hidden" name="token" value="<?= htmlspecialchars($_GET['token']) ?>">
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">New Password</label>
+                                            <input type="password" class="form-control" id="password" name="password" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="confirm_password" class="form-label">Confirm New Password</label>
+                                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary w-100">Reset Password</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <div class="row justify-content-center mt-5">
+                        <div class="col-md-6">
+                            <div class="card" style="background:#6c757d; min-width:300px;">
+                                <div class="card-header text-center">Forgot Password</div>
+                                <div class="card-body">
+                                    <form method="post" action="reset_password.php">
+                                        <div class="mb-3">
+                                            <label for="username" class="form-label">Username</label>
+                                            <input type="text" class="form-control" id="username" name="username" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email address</label>
+                                            <input type="email" class="form-control" id="email" name="email" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary w-100">Reset Password</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+                <div class="footerBuffer"></div>
             </div>
         </div>
-                  <div class="footerBuffer">
-                     <!-- Buffer to prevent fixed footer from overlapping content -->
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <footer id="footer">
-         <div class="container-inner" style="text-align:center">
-            <div class="legal">&copy; 2024 Chaos City</a></div>
+    </div>
+    <footer id="footer">
+        <div class="container-inner" style="text-align:center">
+            <div class="legal">&copy; 2024 Chaos City</div>
             <div class="links">
-               <a href="grules.php" title="Game Guide">Game Rules</a> | 
-               <a href="policy.php" title="Privacy Policy">Privacy Policy</a>
+                <a href="grules.php" title="Game Guide">Game Rules</a> |
+                <a href="policy.php" title="Privacy Policy">Privacy Policy</a>
             </div>
-         </div>
-      </footer>
-   </body>
-</html> 
+        </div>
+    </footer>
+</body>
+</html>
+
