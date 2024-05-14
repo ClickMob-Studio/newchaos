@@ -29,24 +29,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $sendto_list = implode(",", $sendto);
-    $db->query("SELECT id FROM grpgusers WHERE gang = :gang AND id IN ($sendto_list)");
-    $db->bind(':gang', $user_class->gang);
+    $db->prepare("SELECT id FROM grpgusers WHERE gang = ? AND id IN ($sendto_list)");
+    $db->execute(array($user_class->gang));
     $recipients = $db->fetch_row();
 
     foreach ($recipients as $y) {
-        $db->query("INSERT INTO pms (`to`, `from`, `timesent`, `subject`, `msgtext`, `reported`, `viewed`, `parent`, `bomb`, `bombed`, `check`, `starred`, `outboxhidden`) 
-                    VALUES (:to, :from, unix_timestamp(), :subject, :msgtext, 0, 1, 0, 0, 0, 0, 0, 0)");
-        $db->bind(':to', $y['id']);
-        $db->bind(':from', $user_class->id);
-        $db->bind(':subject', $subject);
-        $db->bind(':msgtext', $message);
-        $db->execute();
+        $db->prepare("INSERT INTO pms (`to`, `from`, `timesent`, `subject`, `msgtext`, `reported`, `viewed`, `parent`, `bomb`, `bombed`, `check`, `starred`, `outboxhidden`) 
+                      VALUES (?, ?, unix_timestamp(), ?, ?, 0, 1, 0, 0, 0, 0, 0, 0)");
+        $db->execute(array($y['id'], $user_class->id, $subject, $message));
     }
     
     echo "Messages sent out!";
 } else {
-    $db->query("SELECT id FROM grpgusers WHERE gang = :gang");
-    $db->bind(':gang', $user_class->gang);
+    $db->prepare("SELECT id FROM grpgusers WHERE gang = ?");
+    $db->execute(array($user_class->gang));
     $result = $db->fetch_row();
 
     echo "<form method='post' name='message'><table style='width:100%;text-align:center;'>";
