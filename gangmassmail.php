@@ -1,71 +1,81 @@
 <?php
-include "header.php";?>
+include "header.php";
+if (!isset($_SESSION)) session_start();
+$db = database::getInstance();
+
+?>
 <div class='box_top'>Gang Mass Mail</div>
-						<div class='box_middle'>
-							<div class='pad'>
+<div class='box_middle'>
+    <div class='pad'>
 <?php
 if (!$user_class->gang) {
     die("You're not in a gang.");
 }
-print "
-<form method='post' name='message'>";
-$q     = mysql_query("SELECT id FROM grpgusers WHERE gang=$user_class->gang");
-$count = 1;
-while ($f = mysql_fetch_array($q)) {
-    if ($count == 1) {
-        echo "<table style='width:100%;text-align:center;'><tr>
-";
-    } elseif ($count % 5 == 1) {
-        echo "<tr>
-";
-    }
-    $u = formatName($f['id']);
-    if ($f['id'] == $user_class->id) {
-        $che = "";
-    } else {
-        $che = "checked";
-    }
-    echo "<td><input type=\"checkbox\" name=\"uid{$count}\" alt=\"Checkbox\" value=\"{$f['id']}\" $che /> $u</td>
-";
-    if ($count % 5 == 0) {
-        echo "</tr>
-";
-    }
-    $count++;
-}
-if (($count - 1) % 5 != 0) {
-    print "</tr>";
-}
-?>
-<tr><td colspan='5'>Subject: <input type='text' name='subject' value='GANG MASS MAIL' /></td></tr>
-<tr><td colspan='5'>Message: <textarea autofocus rows=5 cols=80 name='msgtext' id='textbox'></textarea></td></tr>
-<tr><td colspan='5'><input type='submit' value='Send Mass Mail' /></td></tr>
-<tr><td colspan='5'><?php emotes(); ?></td></tr>
-<?php
-print "</table>
-</form>
-<div class=\"clear\"><br /></div>";
-for ($i = 1; $i <= 30; $i++) {
-    $index = "uid" . $i;
-    if (isset($_POST[$index])) {
-        if (isset($sendto)) {
-            $sendto .= "," . $_POST[$index];
-        } else {
-            $sendto = $_POST[$index];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $subject = isset($_POST['subject']) ? $_POST['subject'] : 'GANG MASS MAIL';
+    $message = isset($_POST['msgtext']) ? $_POST['msgtext'] : '';
+    $sendto = [];
+
+    for ($i = 1; $i <= 30; $i++) {
+        $index = "uid" . $i;
+        if (isset($_POST[$index])) {
+            $sendto[] = (int)$_POST[$index];
         }
     }
-}
-if (isset($_POST['msgtext'])) {
-    if (!isset($sendto)) {
-        die();
+
+    if (empty($sendto)) {
+        die("No recipients selected.");
     }
-    $message = $_POST['msgtext'];
-    $subject = $_POST['subject'];
-    $yyy     = mysql_query("SELECT id FROM grpgusers WHERE gang = $user_class->gang AND id IN ($sendto)");
-    while ($y = mysql_fetch_array($yyy)) {
-        mysql_query("INSERT INTO pms VALUES('',{$y['id']},$user_class->id,unix_timestamp(),'$subject','$message',0,1,0,0,0,0,0)");
+
+    $sendto_list = implode(",", $sendto);
+    $db->query("SELECT id FROM grpgusers WHERE gang = :gang AND id IN ($sendto_list)");
+    $db->bind(':gang', $user_class->gang);
+    $recipients = $db->fetch_row();
+
+    foreach ($recipients as $y) {
+        $db->query("INSERT INTO pms (`to`, `from`, `timesent`, `subject`, `msgtext`, `reported`, `viewed`, `parent`, `bomb`, `bombed`, `check`, `starred`, `outboxhidden`) 
+                    VALUES (:to, :from, unix_timestamp(), :subject, :msgtext, 0, 1, 0, 0, 0, 0, 0, 0)");
+        $db->bind(':to', $y['id']);
+        $db->bind(':from', $user_class->id);
+        $db->bind(':subject', $subject);
+        $db->bind(':msgtext', $message);
+        $db->execute();
     }
-    print Message("Messages sent out!");
+    
+    echo "Messages sent out!";
+} else {
+    $db->query("SELECT id FROM grpgusers WHERE gang = :gang");
+    $db->bind(':gang', $user_class->gang);
+    $result = $db->fetch_row();
+
+    echo "<form method='post' name='message'><table style='width:100%;text-align:center;'>";
+    $count = 1;
+    foreach ($result as $f) {
+        if ($count == 1) {
+            echo "<tr>";
+        } elseif ($count % 5 == 1) {
+            echo "<tr>";
+        }
+        
+        $u = formatName($f['id']);
+        $che = $f['id'] == $user_class->id ? "" : "checked";
+        echo "<td><input type='checkbox' name='uid{$count}' value='{$f['id']}' $che /> $u</td>";
+
+        if ($count % 5 == 0) {
+            echo "</tr>";
+        }
+        $count++;
+    }
+    if (($count - 1) % 5 != 0) {
+        echo "</tr>";
+    }
+
+    echo "<tr><td colspan='5'>Subject: <input type='text' name='subject' value='GANG MASS MAIL' /></td></tr>";
+    echo "<tr><td colspan='5'>Message: <textarea rows='5' cols='80' name='msgtext' id='textbox'></textarea></td></tr>";
+    echo "<tr><td colspan='5'><input type='submit' value='Send Mass Mail' /></td></tr>";
+    echo "<tr><td colspan='5'>"; emotes(); echo "</td></tr>";
+    echo "</table></form><div class='clear'><br /></div>";
 }
 echo "</div>";
 include "footer.php";
