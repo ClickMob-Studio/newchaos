@@ -43,11 +43,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     $db->prepare("SELECT id FROM grpgusers WHERE gang = ?");
     $db->execute(array($user_class->gang));
-    $result = $db->fetch_row();
-    var_dump($result);
+    $res = $db->fetch_row();
+    var_dump($res);
     echo "<form method='post' name='message'><table style='width:100%;text-align:center;'>";
     $count = 1;
-    foreach ($result as $f) {
+    foreach ($res as $f) {
         if ($count == 1) {
             echo "<tr>";
         } elseif ($count % 5 == 1) {
