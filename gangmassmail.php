@@ -70,8 +70,8 @@ $db = database::getInstance();
                     echo "</tr>";
                 }
 
-                echo "<tr><td colspan='5' class='text-start'><label for='subject' class='form-label'>Subject:</label> <input type='text' name='subject' value='GANG MASS MAIL' /></td></tr>";
-                echo "<tr><td colspan='5' class='text-start'><label for='msgtext' class='form-label'>Message:</label> <textarea  rows='5' name='msgtext' id='textbox'></textarea></td></tr>";
+                echo "<tr><td colspan='5' class='text-start'><label for='subject' class='form-label'>Subject:</label> <input type='text' name='subject' style='width:100%' value='GANG MASS MAIL' /></td></tr>";
+                echo "<tr><td colspan='5' class='text-start'><label for='msgtext' class='form-label'>Message:</label> <textarea  rows='5' name='msgtext' style='width:100%' id='textbox'></textarea></td></tr>";
                 echo "<tr><td colspan='5' class='text-center'><button type='submit' class='btn btn-primary'>Send Mass Mail</button></td></tr>";
                 echo "<tr><td colspan='5'>"; emotes(); echo "</td></tr>";
                 echo "</table></div></form><div class='clear'><br /></div>";
