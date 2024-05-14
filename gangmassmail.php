@@ -5,7 +5,7 @@ $db = database::getInstance();
 
 ?>
 <div class="container mt-4">
-    <div class="card">
+    <div class="card" style="background: transparent;">
         <div class="card-header">
             <h1>Gang Mass Mail</h1>
         </div>
