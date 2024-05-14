@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db->prepare("SELECT id FROM grpgusers WHERE gang = ?");
     $db->execute(array($user_class->gang));
     $result = $db->fetch_row();
-
+    var_dump($result);
     echo "<form method='post' name='message'><table style='width:100%;text-align:center;'>";
     $count = 1;
     foreach ($result as $f) {
