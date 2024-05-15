@@ -813,11 +813,11 @@ document.addEventListener("DOMContentLoaded", function() {
         <!-- Limited Edition Pack 2 -->
         <div class="vip-package">
             <h4><font color="222222">Double EXP Pill</font></h4>
-            <img src="/css/images/NewGameImages/doubleexp1.png" class="your-class-name" alt="Double Exp">
+            <img src="/css/images/NewGameImages/doubleexp1.png"  style="height: 200px;" class="your-class-name" alt="Double Exp">
             <ul>
                 <li>1 Hour Double EXP Pill</li>
             </ul>
-            <h4>Purchase now for only<br><a href="store.php?buy=doubleexp"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"  style="height: 200px;"></img>50</button></a></h4>
+            <h4>Purchase now for only<br><a href="store.php?buy=doubleexp"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"></img>50</button></a></h4>
         </div>
 
         <!-- Limited Edition Pack 3 -->
