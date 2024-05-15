@@ -803,7 +803,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <!-- Limited Edition Pack 1 -->
         <div class="vip-package">
             <h4><font color="#FF4500">Mug Protection</font></h4>
-            <img src="/css/images/NewGameImages/mugprotection.png" class="your-class-name" alt="Mug Protection">
+            <img src="/css/images/NewGameImages/mugprotection.png" class="your-class-name" style="height: 100px;" alt="Mug Protection">
             <ul>
                 <li>[x5] 1 Hour Mug Protection</li>
             </ul>
@@ -823,7 +823,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <!-- Limited Edition Pack 3 -->
         <div class="vip-package">
             <h4><font color="silver">Attack Protection</font></h4>
-            <img src="/css/images/NewGameImages/attackprotection.png" class="your-class-name" alt="Attack Protection">
+            <img src="/css/images/NewGameImages/attackprotection.png" class="your-class-name" style="height: 100px;" alt="Attack Protection">
             <ul>
                 <li>[x5] 1 Hour Attack Protection</li>
             </ul>
