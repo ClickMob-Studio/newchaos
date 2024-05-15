@@ -817,7 +817,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <ul>
                 <li>1 Hour Double EXP Pill</li>
             </ul>
-            <h4>Purchase now for only<br><a href="store.php?buy=doubleexp"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"></img>50</button></a></h4>
+            <h4>Purchase now for only<br><a href="store.php?buy=doubleexp"><button class="gold-button"><img src="https://chaoscity.co.uk/goldbar.png"  style="height: 200px;"></img>50</button></a></h4>
         </div>
 
         <!-- Limited Edition Pack 3 -->
