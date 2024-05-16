@@ -791,9 +791,7 @@ if (empty($carousel_order)) {
   </div>
 </div>
 <style>
-        .daily-jobs {
-            margin-top: 20px;
-        }
+       
         .daily-jobs .card-header {
             background-color: #ff5722;
             color: white;
