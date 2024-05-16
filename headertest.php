@@ -816,20 +816,23 @@ if (empty($carousel_order)) {
         }
         
     </style>
-         <div class="daily-jobs">
+        <div class="daily-jobs">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header" data-toggle="collapse" data-target="#dailyJobsContent" aria-expanded="false" aria-controls="dailyJobsContent">
                     Daily Jobs
                 </div>
-                <div class="card-body job-container d-flex">
-                    <div class="job-item">Job 1: Collect resources</div>
-                    <div class="job-item">Job 2: Complete a mission</div>
-                    <div class="job-item">Job 3: Train your character</div>
-                    <div class="job-item">Job 4: Participate in a duel</div>
-                    <div class="job-item">Job 5: Help your gang</div>
+                <div id="dailyJobsContent" class="collapse">
+                    <div class="card-body job-container d-flex">
+                        <div class="job-item">Job 1: Collect resources</div>
+                        <div class="job-item">Job 2: Complete a mission</div>
+                        <div class="job-item">Job 3: Train your character</div>
+                        <div class="job-item">Job 4: Participate in a duel</div>
+                        <div class="job-item">Job 5: Help your gang</div>
+                    </div>
                 </div>
             </div>
         </div>
+
 <script>
 $(document).ready(function() {
     var isEditable = false;  // Flag to track whether sorting should be enabled
