@@ -848,22 +848,23 @@ if (empty($carousel_order)) {
         
     </style>
     <?php if($show == false): ?>
-       <div class="daily-jobs d-md-none d-lg-none">
-            <div class="card">
-                <div class="card-header" data-bs-toggle="collapse" data-bs-target="#dailyJobsContent" aria-expanded="false" aria-controls="dailyJobsContent">
-                    Mission<span class="ms-auto"><i class="fa-solid fa-angles-down"></i></span>
-                </div>
-                <div id="dailyJobsContent" class="collapse">
-                    <div class="card-body job-container d-flex">
-                        <div class="job-item">Kills: <?= $kills; ?></div>
-                        <div class="job-item">Crimes: <?= $crimes; ?></div>
-                        <div class="job-item">Busts: <?= $busts; ?></div>
-                        <div class="job-item">Mugs <?= $mugs; ?></div>
-                        <div class="job-item">BA: <?= $backalleys; ?></div>
-                    </div>
-                </div>
+        <div class="daily-jobs d-md-none d-lg-none">
+    <div class="card">
+        <div class="card-header d-flex" data-bs-toggle="collapse" data-bs-target="#dailyJobsContent" aria-expanded="false" aria-controls="dailyJobsContent">
+            Mission<span class="ms-auto"><i class="fa-solid fa-angles-down"></i></span>
+        </div>
+        <div id="dailyJobsContent" class="collapse">
+            <div class="card-body job-container d-flex">
+                <div class="job-item">Kills: <?= $kills; ?></div>
+                <div class="job-item">Crimes: <?= $crimes; ?></div>
+                <div class="job-item">Busts: <?= $busts; ?></div>
+                <div class="job-item">Mugs: <?= $mugs; ?></div>
+                <div class="job-item">BA: <?= $backalleys; ?></div>
             </div>
         </div>
+    </div>
+</div>
+
 <?php endif; ?>
 
 <script>
