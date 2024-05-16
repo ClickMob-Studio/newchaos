@@ -847,7 +847,7 @@ if (empty($carousel_order)) {
         }
         
     </style>
-    <?php if($show == false): ?>
+    <?php if($show == true): ?>
         <div class="daily-jobs d-md-none d-lg-none">
     <div class="card">
         <div class="card-header d-flex" data-bs-toggle="collapse" data-bs-target="#dailyJobsContent" aria-expanded="false" aria-controls="dailyJobsContent">
