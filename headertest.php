@@ -816,9 +816,9 @@ if (empty($carousel_order)) {
         }
         
     </style>
-        <div class="daily-jobs">
+       <div class="daily-jobs">
             <div class="card">
-                <div class="card-header" data-toggle="collapse" data-target="#dailyJobsContent" aria-expanded="false" aria-controls="dailyJobsContent">
+                <div class="card-header" data-bs-toggle="collapse" data-bs-target="#dailyJobsContent" aria-expanded="false" aria-controls="dailyJobsContent">
                     Daily Jobs
                 </div>
                 <div id="dailyJobsContent" class="collapse">
@@ -832,6 +832,7 @@ if (empty($carousel_order)) {
                 </div>
             </div>
         </div>
+
 
 <script>
 $(document).ready(function() {
