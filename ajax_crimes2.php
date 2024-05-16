@@ -3,6 +3,20 @@
 //header('Content-type: application/json');
 session_start();
 
+function shorthandNumber($number) {
+    if ($number >= 1000000000) { // Check if the number is at least a billion
+        $shorthand = round($number / 1000000000, 2) . 'B'; // Convert to billions, round to 2 decimal places, and append 'B'
+        return $shorthand;
+    } elseif ($number >= 1000000) { // Check if the number is at least a million
+        $shorthand = round($number / 1000000, 2) . 'M'; // Convert to millions, round to 2 decimal places, and append 'M'
+        return $shorthand;
+    } elseif ($number >= 1000) { // Check if the number is at least a thousand
+        $shorthand = round($number / 1000, 1) . 'k'; // Convert to thousands, round to 1 decimal place, and append 'k'
+        return $shorthand;
+    }
+    return number_format($number); // Return the original number if it's less than 1000
+}
+
 include "classes.php";
 include "database/pdo_class.php";
 
@@ -408,6 +422,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 'text' => $text,
                 'stats' => array(
                     'points' => number_format($user_class->points),
+                    'mb-points' => shorthandNumber($user_class->points),
                     'money' => number_format($user_class->money),
                     'level' => number_format($user_class->level),
                     'mission' => $mt

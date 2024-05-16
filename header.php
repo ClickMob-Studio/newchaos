@@ -905,7 +905,7 @@ $(document).ready(function() {
         <div class="col-3">
             <!-- Merits -->
             <div class="text-center">
-                <span class="badge bg-danger"><?= shorthandNumber($user_class->points);?></span>
+                <span class="badge bg-danger mb-points"><?= shorthandNumber($user_class->points);?></span>
                 <p>Points</p>
             </div>
         </div>
