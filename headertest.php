@@ -649,32 +649,7 @@ if ($user_class->view_preference === '1') { ?>
         require 'navbar1.php'; ?>
 		</div>
 
-    <style>
-        /* Add any custom styles here */
-        .daily-jobs {
-            margin-top: 20px;
-        }
-        .daily-jobs .card-header {
-            background-color: #ff5722;
-            color: white;
-        }
-    </style>
-        <div class="daily-jobs">
-            <div class="card">
-                <div class="card-header">
-                    Daily Jobs
-                </div>
-                <div class="card-body">
-                    <ul class="list-group">
-                        <li class="list-group-item">Job 1: Collect resources</li>
-                        <li class="list-group-item">Job 2: Complete a mission</li>
-                        <li class="list-group-item">Job 3: Train your character</li>
-                        <li class="list-group-item">Job 4: Participate in a duel</li>
-                        <li class="list-group-item">Job 5: Help your gang</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+   
 	</header>
 <style>
 .carousel-item {
@@ -815,6 +790,32 @@ if (empty($carousel_order)) {
     </div>
   </div>
 </div>
+<style>
+        /* Add any custom styles here */
+        .daily-jobs {
+            margin-top: 20px;
+        }
+        .daily-jobs .card-header {
+            background-color: #ff5722;
+            color: white;
+        }
+    </style>
+        <div class="daily-jobs">
+            <div class="card">
+                <div class="card-header">
+                    Daily Jobs
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">Job 1: Collect resources</li>
+                        <li class="list-group-item">Job 2: Complete a mission</li>
+                        <li class="list-group-item">Job 3: Train your character</li>
+                        <li class="list-group-item">Job 4: Participate in a duel</li>
+                        <li class="list-group-item">Job 5: Help your gang</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 <script>
 $(document).ready(function() {
     var isEditable = false;  // Flag to track whether sorting should be enabled
