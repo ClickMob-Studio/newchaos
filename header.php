@@ -891,7 +891,7 @@ $(document).ready(function() {
         <div class="col-3">
             <!-- Money -->
             <div class="text-center">
-                <span class="badge bg-success">$<?= shorthandNumber($user_class->money);?></span>
+                <span class="badge bg-success mb-money">$<?= shorthandNumber($user_class->money);?></span>
                 <p>Money</p>
             </div>
         </div>
