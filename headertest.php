@@ -807,14 +807,23 @@ if (empty($carousel_order)) {
         .job-item:last-child {
             border-right: none;
         }
+        .job-container {
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .job-item {
+            display: inline-block;
+            white-space: normal;
+            width: 200px; /* Adjust as necessary */
+        }
         
     </style>
-        <div class="daily-jobs">
+         <div class="daily-jobs">
             <div class="card">
                 <div class="card-header">
                     Daily Jobs
                 </div>
-                <div class="card-body d-flex">
+                <div class="card-body job-container d-flex">
                     <div class="job-item">Job 1: Collect resources</div>
                     <div class="job-item">Job 2: Complete a mission</div>
                     <div class="job-item">Job 3: Train your character</div>
