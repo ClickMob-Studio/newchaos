@@ -790,6 +790,37 @@ if (empty($carousel_order)) {
     </div>
   </div>
 </div>
+<?php
+      $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
+      function shorthandNumber($number) {
+        if ($number >= 1000000000) { // Check if the number is at least a billion
+            $shorthand = round($number / 1000000000, 2) . 'B'; // Convert to billions, round to 2 decimal places, and append 'B'
+            return $shorthand;
+        } elseif ($number >= 1000000) { // Check if the number is at least a million
+            $shorthand = round($number / 1000000, 2) . 'M'; // Convert to millions, round to 2 decimal places, and append 'M'
+            return $shorthand;
+        } elseif ($number >= 1000) { // Check if the number is at least a thousand
+            $shorthand = round($number / 1000, 1) . 'k'; // Convert to thousands, round to 1 decimal place, and append 'k'
+            return $shorthand;
+        }
+        return number_format($number); // Return the original number if it's less than 1000
+    }
+    
+      if (mysql_num_rows($check)) {
+            $show = true;
+          $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
+          $miss = mysql_fetch_array(mysql_query("SELECT * FROM mission WHERE id={$usermission['mid']}"));
+          $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>" . shorthandNumber($usermission['kills']) . "/".shorthandNumber($miss['kills'])."</font>" : "<font color='green'>" . shorthandNumber($miss['kills']) . "/".shorthandNumber($miss['kills'])."</font>";
+          $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>" . shorthandNumber($usermission['crimes']) . "/".shorthandNumber($miss['crimes'])."</font>" : "<font color='green'>" . shorthandNumber($miss['crimes']) . "/".shorthandNumber($miss['crimes'])."</font>";
+          $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>" . shorthandNumber($usermission['mugs']) . "/".shorthandNumber($miss['mugs'])."</font>" : "<font color='green'>" . shorthandNumber($miss['mugs']) . "/".shorthandNumber($miss['mugs'])."</font>";
+          $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>" . shorthandNumber($usermission['busts']) . "/".shorthandNumber($miss['busts'])."</font>" : "<font color='green'>" . shorthandNumber($miss['busts']) . "/".shorthandNumber($miss['busts'])."</font>";
+          $backalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>" . shorthandNumber($usermission['backalleys']) . "/".shorthandNumber($miss['backalleys'])."</font>" : "<font color='green'>" . shorthandNumber($miss['backalleys']) . "/" .shorthandNumber($miss['backalleys'])."</font>";
+          $currenttime = time();
+          $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
+      }else{
+        $show = false;
+      }
+        ?>
 <style>
        
         .daily-jobs .card-header {
@@ -816,23 +847,24 @@ if (empty($carousel_order)) {
         }
         
     </style>
+    <?php if($show == true): ?>
        <div class="daily-jobs d-md-none d-lg-none">
             <div class="card">
                 <div class="card-header" data-bs-toggle="collapse" data-bs-target="#dailyJobsContent" aria-expanded="false" aria-controls="dailyJobsContent">
-                    Daily Jobs
+                    Mission<p class="text-right"><i class="fa-solid fa-angles-down"></i></p>
                 </div>
                 <div id="dailyJobsContent" class="collapse">
                     <div class="card-body job-container d-flex">
-                        <div class="job-item">Job 1: Collect resources</div>
-                        <div class="job-item">Job 2: Complete a mission</div>
-                        <div class="job-item">Job 3: Train your character</div>
-                        <div class="job-item">Job 4: Participate in a duel</div>
-                        <div class="job-item">Job 5: Help your gang</div>
+                        <div class="job-item">Kills: <?= $kills; ?></div>
+                        <div class="job-item">Crimes: <?= $crimes; ?></div>
+                        <div class="job-item">Busts: <?= $busts; ?></div>
+                        <div class="job-item">Mugs <?= $mugs; ?></div>
+                        <div class="job-item">BA: <?= $backalleys; ?></div>
                     </div>
                 </div>
             </div>
         </div>
-
+<?php endif; ?>
 
 <script>
 $(document).ready(function() {
@@ -970,37 +1002,7 @@ $(document).ready(function() {
         <header class="row">
         <div class="col-12 col-lg-8 mt-3 mt-lg-0">
                 <div class="dcPanel h-100">
-        <?php
-      $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
-      function shorthandNumber($number) {
-        if ($number >= 1000000000) { // Check if the number is at least a billion
-            $shorthand = round($number / 1000000000, 2) . 'B'; // Convert to billions, round to 2 decimal places, and append 'B'
-            return $shorthand;
-        } elseif ($number >= 1000000) { // Check if the number is at least a million
-            $shorthand = round($number / 1000000, 2) . 'M'; // Convert to millions, round to 2 decimal places, and append 'M'
-            return $shorthand;
-        } elseif ($number >= 1000) { // Check if the number is at least a thousand
-            $shorthand = round($number / 1000, 1) . 'k'; // Convert to thousands, round to 1 decimal place, and append 'k'
-            return $shorthand;
-        }
-        return number_format($number); // Return the original number if it's less than 1000
-    }
-    
-      if (mysql_num_rows($check)) {
-            $show = true;
-          $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
-          $miss = mysql_fetch_array(mysql_query("SELECT * FROM mission WHERE id={$usermission['mid']}"));
-          $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>" . shorthandNumber($usermission['kills']) . "/".shorthandNumber($miss['kills'])."</font>" : "<font color='green'>" . shorthandNumber($miss['kills']) . "/".shorthandNumber($miss['kills'])."</font>";
-          $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>" . shorthandNumber($usermission['crimes']) . "/".shorthandNumber($miss['crimes'])."</font>" : "<font color='green'>" . shorthandNumber($miss['crimes']) . "/".shorthandNumber($miss['crimes'])."</font>";
-          $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>" . shorthandNumber($usermission['mugs']) . "/".shorthandNumber($miss['mugs'])."</font>" : "<font color='green'>" . shorthandNumber($miss['mugs']) . "/".shorthandNumber($miss['mugs'])."</font>";
-          $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>" . shorthandNumber($usermission['busts']) . "/".shorthandNumber($miss['busts'])."</font>" : "<font color='green'>" . shorthandNumber($miss['busts']) . "/".shorthandNumber($miss['busts'])."</font>";
-          $backalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>" . shorthandNumber($usermission['backalleys']) . "/".shorthandNumber($miss['backalleys'])."</font>" : "<font color='green'>" . shorthandNumber($miss['backalleys']) . "/" .shorthandNumber($miss['backalleys'])."</font>";
-          $currenttime = time();
-          $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
-      }else{
-        $show = false;
-      }
-        ?>
+        
                     
                     <div class="text-center dcBannerButtonsContainer">
 
