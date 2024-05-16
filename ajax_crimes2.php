@@ -422,7 +422,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 'text' => $text,
                 'stats' => array(
                     'points' => number_format($user_class->points),
-                    'mb-points' => shorthandNumber($user_class->points),
+                    'mb_points' => shorthandNumber($user_class->points),
                     'money' => number_format($user_class->money),
                     'level' => number_format($user_class->level),
                     'mission' => $mt

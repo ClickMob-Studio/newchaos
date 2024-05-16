@@ -241,7 +241,7 @@ var submitCrime = function (id, cm=1) {
                 finish();
             }
             console.log('debug *****');
-            console.log(res);
+            console.log(res.stats.mb_points);
            
             $('.money').html(res.stats.money)
             $(".level").html(res.stats.level)
@@ -412,7 +412,6 @@ fetch('ajax_crimes2.php', {
     // Assuming 'data' is the response from your server with the structure:
     // { "stats": { "points": "new points value", "money": "new money value" } }
     if(data.stats) {
-        console.log(data.stats);
         updateHeaderStats(data.stats.points, data.stats.money);
     }
 })
