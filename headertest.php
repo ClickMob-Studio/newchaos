@@ -851,7 +851,7 @@ if (empty($carousel_order)) {
        <div class="daily-jobs d-md-none d-lg-none">
             <div class="card">
                 <div class="card-header" data-bs-toggle="collapse" data-bs-target="#dailyJobsContent" aria-expanded="false" aria-controls="dailyJobsContent">
-                    Mission<span class="text-right"><i class="fa-solid fa-angles-down"></i></span>
+                    Mission<span class="ms-auto"><i class="fa-solid fa-angles-down"></i></span>
                 </div>
                 <div id="dailyJobsContent" class="collapse">
                     <div class="card-body job-container d-flex">
