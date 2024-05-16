@@ -791,7 +791,6 @@ if (empty($carousel_order)) {
   </div>
 </div>
 <style>
-        /* Add any custom styles here */
         .daily-jobs {
             margin-top: 20px;
         }
@@ -799,20 +798,28 @@ if (empty($carousel_order)) {
             background-color: #ff5722;
             color: white;
         }
+        .job-item {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border-right: 1px solid #ddd;
+        }
+        .job-item:last-child {
+            border-right: none;
+        }
+        
     </style>
         <div class="daily-jobs">
             <div class="card">
                 <div class="card-header">
                     Daily Jobs
                 </div>
-                <div class="card-body">
-                    <ul class="list-group">
-                        <li class="list-group-item">Job 1: Collect resources</li>
-                        <li class="list-group-item">Job 2: Complete a mission</li>
-                        <li class="list-group-item">Job 3: Train your character</li>
-                        <li class="list-group-item">Job 4: Participate in a duel</li>
-                        <li class="list-group-item">Job 5: Help your gang</li>
-                    </ul>
+                <div class="card-body d-flex">
+                    <div class="job-item">Job 1: Collect resources</div>
+                    <div class="job-item">Job 2: Complete a mission</div>
+                    <div class="job-item">Job 3: Train your character</div>
+                    <div class="job-item">Job 4: Participate in a duel</div>
+                    <div class="job-item">Job 5: Help your gang</div>
                 </div>
             </div>
         </div>
