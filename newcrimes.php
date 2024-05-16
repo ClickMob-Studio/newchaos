@@ -240,8 +240,8 @@ var submitCrime = function (id, cm=1) {
             if (res.error == 'refresh') {
                 finish();
             }
-            console.log('debug *****');
-            console.log(res.stats.mb_points);
+            // console.log('debug *****');
+            // console.log(res.stats.mb_points);
            
             $('.money').html(res.stats.money)
             $(".level").html(res.stats.level)
