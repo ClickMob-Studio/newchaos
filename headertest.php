@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+header('Content-Type: text/html; charset=utf-8');
 
 
 // Get the name of the current script and the full request URI to check for specific query parameters
@@ -566,6 +567,7 @@ $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
 echo '<script src="js/java.js?12" type="text/javascript"></script>';
 ?><!doctype html>
 <html lang="en">
+<meta charset="UTF-8">
 <head>
 
 <?php 
@@ -649,7 +651,6 @@ if ($user_class->view_preference === '1') { ?>
         require 'navbar1.php'; ?>
 		</div>
 
-   
 	</header>
 <style>
 .carousel-item {
@@ -779,17 +780,6 @@ if (empty($carousel_order)) {
 
 ?>
 <div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
-
-  <div class="carousel-inner pl-1 pt-2">
-    <div class="carousel-item active">
-      <div class="d-flex" id="sortable-container">
-        <?php foreach ($carousel_order as $item_id) {
-            include 'menu_items/' . $item_id . '.php';
-        } ?>
-      </div>
-    </div>
-  </div>
-</div>
 <?php
       $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
       function shorthandNumber($number) {
@@ -866,7 +856,16 @@ if (empty($carousel_order)) {
 </div>
 
 <?php endif; ?>
-
+  <div class="carousel-inner pl-1 pt-2">
+    <div class="carousel-item active">
+      <div class="d-flex" id="sortable-container">
+        <?php foreach ($carousel_order as $item_id) {
+            include 'menu_items/' . $item_id . '.php';
+        } ?>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
 $(document).ready(function() {
     var isEditable = false;  // Flag to track whether sorting should be enabled
@@ -935,16 +934,16 @@ $(document).ready(function() {
         </div>
 
         <div class="col-3">
-        <p class="text-center"><i class="fa-solid fa-bolt-lightning" style="color:#ff6218"></i>
-        <?= $user_class->energypercent;?>%</p>
+        <p class="text-center"><a href='index.php?spend=refenergy'><i class="fa-solid fa-bolt-lightning" style="color:#ff6218"></i>
+        <?= $user_class->energypercent;?>%</a></p>
             <div class="progress">
                 <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->energypercent; ?>%" aria-valuenow="<?= $user_class->energypercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->energypercent; ?>"></div>
             </div>
             
         </div>
         <div class="col-3">
-        <p class="text-center"><i class="fa-brands fa-brave" style="color:#ff6218"></i>
-        <?= $user_class->nervepercent;?>%</p>
+        <p class="text-center"><a href='index.php?spend=refnerve'><i class="fa-brands fa-brave" style="color:#ff6218"></i>
+        <?= $user_class->nervepercent;?>%</p></a>
             <div class="progress">
                 <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->nervepercent; ?>%" aria-valuenow="<?= $user_class->nervepercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->nervepercent; ?>"></div>
             </div>
@@ -967,7 +966,7 @@ $(document).ready(function() {
         <div class="col-3">
             <!-- Money -->
             <div class="text-center">
-                <span class="badge bg-success">$<?= shorthandNumber($user_class->money);?></span>
+                <span class="badge bg-success mb-money">$<?= shorthandNumber($user_class->money);?></span>
                 <p>Money</p>
             </div>
         </div>
@@ -981,7 +980,7 @@ $(document).ready(function() {
         <div class="col-3">
             <!-- Merits -->
             <div class="text-center">
-                <span class="badge bg-danger"><?= shorthandNumber($user_class->points);?></span>
+                <span class="badge bg-danger mb-points"><?= shorthandNumber($user_class->points);?></span>
                 <p>Points</p>
             </div>
         </div>
@@ -1003,7 +1002,6 @@ $(document).ready(function() {
         <header class="row">
         <div class="col-12 col-lg-8 mt-3 mt-lg-0">
                 <div class="dcPanel h-100">
-        
                     
                     <div class="text-center dcBannerButtonsContainer">
 
@@ -1086,7 +1084,7 @@ $(document).ready(function() {
 
                         <li class="flex-grow-1">
                         <?php if (!$user_class->is_ads_disabled): ?>
-                            <span><?= $user_ads->formattedname ?>: <?= $row['message'] ?></span>
+                            <span><?= $user_ads->formattedname ?>: <?php echo $row['message'] ?></span>
                             <?php endif; ?>
                         </li>
                         <?php }?> <?php if (!$user_class->is_ads_disabled): ?>
@@ -1244,7 +1242,7 @@ $(document).ready(function() {
                         $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
                         ?>
                         <li class="flex-grow-1">
-                            <span><?= $user_ads->formattedname ?>: <?= $row['message'] ?></span>
+                            <span><?= $user_ads->formattedname ?>: <?php echo $row['message'] ?></span>
                         </li>
                         <li>
                             <a href="#" onClick="reportAd(<?= $row['id'] ?>); return false;">
