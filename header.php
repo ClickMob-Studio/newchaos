@@ -564,6 +564,10 @@ $activeRaidsQuery = "SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE
 $activeRaidsResult = mysql_query($activeRaidsQuery);
 $activeRaidsData = mysql_fetch_assoc($activeRaidsResult);
 $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
+
+$nogame2 = mysql_query("SELECT * FROM numbergame WHERE userid=$user_class->id");
+$no2 = mysql_num_rows($nogame2);
+
 echo '<script src="js/java.js?12" type="text/javascript"></script>';
 ?><!doctype html>
 <html lang="en">
@@ -731,43 +735,36 @@ if ($user_class->view_preference === '1') { ?>
             <i class="fa-solid fa-clock"></i>
         </a>
 
-        <?php if ($user_class->admin > 0): ?>
-            <?php
-            $nogame2 = mysql_query("SELECT * FROM numbergame WHERE userid=$user_class->id");
-            $no2 = mysql_num_rows($nogame2);
-            ?>
+        <!-- Dropdown -->
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-list"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <?php if ($user_class->cityturns > 0): ?>
+                    <li><a class="dropdown-item" href="/maze.php"><i class="fa-solid fa-puzzle-piece"></i> Maze</a></li>
+                <?php endif; ?>
+                <?php if ($user_class->searchdowntown > 0): ?>
+                    <li><a class="dropdown-item" href="/thecity.php"><i class="fa-solid fa-road"></i> Streets</a></li>
+                <?php endif; ?>
+                <?php if ($no2 < 1): ?>
+                    <li><a class="dropdown-item" href="/numbergame.php"><i class="fa-solid fa-dice"></i> Number Game</a></li>
+                <?php endif; ?>
+                <?php if ($user_class->luckydip > 0): ?>
+                    <li><a class="dropdown-item" href="/luckydip.php"><i class="fa-solid fa-sack-dollar"></i> Lucky Dip</a></li>
+                <?php endif; ?>
+                <?php if ($user_class->doors > 0): ?>
+                    <li><a class="dropdown-item" href="/thedoors.php"><i class="fa-solid fa-dungeon"></i> The Doors</a></li>
+                <?php endif; ?>
+                <?php if ($user_class->psmuggling > 0): ?>
+                    <li><a class="dropdown-item" href="/psmuggling.php"><i class="fa-solid fa-person-through-window"></i> Point Smuggling</a></li>
+                <?php endif; ?>
+                <?php if ($user_class->rtsmuggling > 0): ?>
+                    <li><a class="dropdown-item" href="/raidtokensmuggling.php.php"><i class="fa-solid fa-person-through-window"></i> Raid Token Smuggling</a></li>
+                <?php endif; ?>
 
-             <!-- Dropdown -->
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa-solid fa-list"></i>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <?php if ($user_class->cityturns > 0): ?>
-                        <li><a class="dropdown-item" href="/maze.php"><i class="fa-solid fa-puzzle-piece"></i> Maze</a></li>
-                    <?php endif; ?>
-                    <?php if ($user_class->searchdowntown > 0): ?>
-                        <li><a class="dropdown-item" href="/thecity.php"><i class="fa-solid fa-road"></i> Streets</a></li>
-                    <?php endif; ?>
-                    <?php if ($no2 < 1): ?>
-                        <li><a class="dropdown-item" href="/numbergame.php"><i class="fa-solid fa-dice"></i> Number Game</a></li>
-                    <?php endif; ?>
-                    <?php if ($user_class->luckydip > 0): ?>
-                        <li><a class="dropdown-item" href="/luckydip.php"><i class="fa-solid fa-sack-dollar"></i> Lucky Dip</a></li>
-                    <?php endif; ?>
-                    <?php if ($user_class->doors > 0): ?>
-                        <li><a class="dropdown-item" href="/thedoors.php"><i class="fa-solid fa-dungeon"></i> The Doors</a></li>
-                    <?php endif; ?>
-                    <?php if ($user_class->psmuggling > 0): ?>
-                        <li><a class="dropdown-item" href="/psmuggling.php"><i class="fa-solid fa-person-through-window"></i> Point Smuggling</a></li>
-                    <?php endif; ?>
-                    <?php if ($user_class->rtsmuggling > 0): ?>
-                        <li><a class="dropdown-item" href="/raidtokensmuggling.php.php"><i class="fa-solid fa-person-through-window"></i> Raid Token Smuggling</a></li>
-                    <?php endif; ?>
-
-                </ul>
-            </div>
-        <?php endif; ?>
+            </ul>
+        </div>
 
         <!-- Dropdown -->
         <div class="dropdown">
