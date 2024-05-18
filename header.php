@@ -732,6 +732,11 @@ if ($user_class->view_preference === '1') { ?>
         </a>
 
         <?php if ($user_class->admin > 0): ?>
+            <?php
+            $nogame2 = mysql_query("SELECT * FROM numbergame WHERE userid=$user_class->id");
+            $no2 = mysql_num_rows($nogame2);
+            ?>
+
              <!-- Dropdown -->
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -739,11 +744,15 @@ if ($user_class->view_preference === '1') { ?>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <?php if ($user_class->cityturns > 0): ?>
-                        <li><a class="dropdown-item" href="/settings.php"><i class="fa-solid fa-puzzle-piece"></i> Maze</a></li>
+                        <li><a class="dropdown-item" href="/maze.php"><i class="fa-solid fa-puzzle-piece"></i> Maze</a></li>
                     <?php endif; ?>
                     <?php if ($user_class->searchdowntown > 0): ?>
-                        <li><a class="dropdown-item" href="/settings.php"><i class="fa-solid fa-road"></i> Streets</a></li>
+                        <li><a class="dropdown-item" href="/thecity.php"><i class="fa-solid fa-road"></i> Streets</a></li>
                     <?php endif; ?>
+                    <?php if ($no2 < 1): ?>
+                        <li><a class="dropdown-item" href="/numbergame.php"><i class="fa-solid fa-dice"></i> Number Game</a></li>
+                    <?php endif; ?>
+
                 </ul>
             </div>
         <?php endif; ?>
