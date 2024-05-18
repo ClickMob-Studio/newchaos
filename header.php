@@ -1045,15 +1045,35 @@ $(document).ready(function() {
                                 <?php if ($user_class->admin > 0): ?>
                                     <div class="p-1 dcPanel dcAvatarPanel" style="width: 140px;margin-left: -60px;">
                                         <div class="row mb-3 mission">
-                                            <h3 class='box_top'>Checklist</h3>
+                                            <h3 class='box_top'>To Do</h3>
                                         </div>
 
                                         <div class="row heroTop heroTop2">
                                             <div class="col-12 col-lg-7 offset-lg-1 g-0 row realMission">
-                                                <div class=" missionDiv">
-                                                    <p class="missionTo">Kills:</p>
-                                                </div>
+                                                <ul>
+                                                    <?php if ($user_class->cityturns > 0): ?>
+                                                        <li><a href="/maze.php"><i class="fa-solid fa-puzzle-piece"></i> Maze</a></li>
+                                                    <?php endif; ?>
+                                                    <?php if ($user_class->searchdowntown > 0): ?>
+                                                        <li><a href="/thecity.php"><i class="fa-solid fa-road"></i> Streets</a></li>
+                                                    <?php endif; ?>
+                                                    <?php if ($no2 < 1): ?>
+                                                        <li><a href="/numbergame.php"><i class="fa-solid fa-dice"></i> Number Game</a></li>
+                                                    <?php endif; ?>
+                                                    <?php if ($user_class->luckydip > 0): ?>
+                                                        <li><a href="/luckydip.php"><i class="fa-solid fa-sack-dollar"></i> Lucky Dip</a></li>
+                                                    <?php endif; ?>
+                                                    <?php if ($user_class->doors > 0): ?>
+                                                        <li><a href="/thedoors.php"><i class="fa-solid fa-dungeon"></i> The Doors</a></li>
+                                                    <?php endif; ?>
+                                                    <?php if ($user_class->psmuggling > 0): ?>
+                                                        <li><a href="/psmuggling.php"><i class="fa-solid fa-person-through-window"></i> Point Smuggling</a></li>
+                                                    <?php endif; ?>
+                                                    <?php if ($user_class->rtsmuggling > 0): ?>
+                                                        <li><a href="/raidtokensmuggling.php.php"><i class="fa-solid fa-person-through-window"></i> Raid Token Smuggling</a></li>
+                                                    <?php endif; ?>
 
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
