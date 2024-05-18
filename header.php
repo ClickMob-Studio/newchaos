@@ -752,6 +752,9 @@ if ($user_class->view_preference === '1') { ?>
                     <?php if ($no2 < 1): ?>
                         <li><a class="dropdown-item" href="/numbergame.php"><i class="fa-solid fa-dice"></i> Number Game</a></li>
                     <?php endif; ?>
+                    <?php if ($user_class->luckydip > 0): ?>
+                        <li><a class="dropdown-item" href="/luckydip.php"><i class="fa-solid fa-sack-dollar"></i> Lucky Dip</a></li>
+                    <?php endif; ?>
 
                 </ul>
             </div>
