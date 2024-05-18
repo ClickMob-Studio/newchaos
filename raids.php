@@ -232,7 +232,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
 
         // Check if the user has at least the required raid tokens
         if ($user_data['raidtokens'] < 1) {
-            echo Message("You do not have enough raid tokens to join the raid. You need $tokencost tokens.");
+            echo Message("You do not have enough raid tokens to join the raid. You need 1 token.");
         } else {
             // Deduct the required number of raid tokens from the user
             $deduct_token_query = "UPDATE grpgusers SET raidtokens = raidtokens - 1 WHERE id = $user_id";
