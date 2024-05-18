@@ -755,6 +755,9 @@ if ($user_class->view_preference === '1') { ?>
                     <?php if ($user_class->luckydip > 0): ?>
                         <li><a class="dropdown-item" href="/luckydip.php"><i class="fa-solid fa-sack-dollar"></i> Lucky Dip</a></li>
                     <?php endif; ?>
+                    <?php if ($user_class->doors > 0): ?>
+                        <li><a class="dropdown-item" href="/thedoors.php"><i class="fa-solid fa-dungeon"></i> The Doors</a></li>
+                    <?php endif; ?>
 
                 </ul>
             </div>
