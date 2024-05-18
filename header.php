@@ -1052,25 +1052,8 @@ $(document).ready(function() {
                                             <div class="col-12 col-lg-7 offset-lg-1 g-0 row realMission">
                                                 <div class=" missionDiv">
                                                     <p class="missionTo">Kills:</p>
-                                                    <p style="font-size: 10px;"><?= $kills; ?></p>
                                                 </div>
-                                                <div class="missionDiv">
 
-                                                    <p class="missionTo">Crimes:</p>
-                                                    <p style="font-size: 10px;"><?= $crimes; ?></p>
-                                                </div>
-                                                <div class=" missionDiv">
-                                                    <p class="missionTo">Busts:</p>
-                                                    <p style="font-size: 10px;"><?= $busts; ?></p>
-                                                </div>
-                                                <div class="missionDiv">
-                                                    <p class="missionTo">Mugs:</p>
-                                                    <p style="font-size: 10px;"><?= $mugs; ?></p>
-                                                </div>
-                                                <div class="missionDiv">
-                                                    <p class="missionTo">BA:</p>
-                                                    <p style="font-size: 10px;"><?= $backalleys; ?></p>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
