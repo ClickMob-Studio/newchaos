@@ -726,23 +726,40 @@ if ($user_class->view_preference === '1') { ?>
       </a>
    
     </div>
-    <div class="d-flex justify-content-end align-items-center"> 
-        
-    <a href="#" data-bs-toggle="modal" data-bs-target="#timeModal">
+    <div class="d-flex justify-content-end align-items-center">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#timeModal">
             <i class="fa-solid fa-clock"></i>
         </a>
- <!-- Dropdown -->
-<div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-    <i class="fa-solid fa-user"></i>
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item" href="/settings.php"><i class="fa-solid fa-gear"></i> Settings</a></li>
-        <li><a class="dropdown-item" href="/profiles.php?id=<?php echo $user_class->id;?>"><i class="fa-solid fa-address-card"></i> Profile</a></li>
-        <li><a class="dropdown-item" href="/online.php"><i class="fa-solid fa-globe"></i> Online</a></li>
-        <li><a class="dropdown-item" href="index.php?action=logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-    </ul>
-</div>
+
+        <?php if ($user_class->admin > 0): ?>
+             <!-- Dropdown -->
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-list"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <?php if ($user_class->cityturns > 0): ?>
+                        <li><a class="dropdown-item" href="/settings.php"><i class="fa-solid fa-puzzle-piece"></i> Maze</a></li>
+                    <?php endif; ?>
+                    <?php if ($user_class->searchdowntown > 0): ?>
+                        <li><a class="dropdown-item" href="/settings.php"><i class="fa-solid fa-road"></i> Streets</a></li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+
+        <!-- Dropdown -->
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-user"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="/settings.php"><i class="fa-solid fa-gear"></i> Settings</a></li>
+                <li><a class="dropdown-item" href="/profiles.php?id=<?php echo $user_class->id;?>"><i class="fa-solid fa-address-card"></i> Profile</a></li>
+                <li><a class="dropdown-item" href="/online.php"><i class="fa-solid fa-globe"></i> Online</a></li>
+                <li><a class="dropdown-item" href="index.php?action=logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+            </ul>
+        </div>
     </div>
 
   </div>
