@@ -758,6 +758,12 @@ if ($user_class->view_preference === '1') { ?>
                     <?php if ($user_class->doors > 0): ?>
                         <li><a class="dropdown-item" href="/thedoors.php"><i class="fa-solid fa-dungeon"></i> The Doors</a></li>
                     <?php endif; ?>
+                    <?php if ($user_class->psmuggling > 0): ?>
+                        <li><a class="dropdown-item" href="/psmuggling.php"><i class="fa-solid fa-person-through-window"></i> Point Smuggling</a></li>
+                    <?php endif; ?>
+                    <?php if ($user_class->rtsmuggling > 0): ?>
+                        <li><a class="dropdown-item" href="/raidtokensmuggling.php.php"><i class="fa-solid fa-person-through-window"></i> Raid Token Smuggling</a></li>
+                    <?php endif; ?>
 
                 </ul>
             </div>
