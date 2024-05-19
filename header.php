@@ -1055,11 +1055,6 @@ $(document).ready(function() {
         <li class="todo-item">Point Smuggling</li>
         <li class="todo-item">Raid Token Smuggling</li>
     </ul>
-    <div class="todo-buttons">
-        <button class="btn btn-primary">Vote For 💎</button>
-        <button class="btn btn-secondary">Refer For 💎</button>
-        <button class="btn btn-success">Upgrades ⬈</button>
-    </div>
 </div>
 
                                     </div>
