@@ -1057,7 +1057,7 @@ $(document).ready(function() {
                     <button class="btn btn-success">Upgrades ⬈</button>
                 </div>
             </div>
-   
+   </div>
 
                         <div class="dcBannerButtonsContainerMain">
                             <div class="col-12 col-lg-4">
