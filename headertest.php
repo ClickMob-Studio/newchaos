@@ -1101,7 +1101,7 @@ $(document).ready(function() {
     </style>
    <div class="container mt-5">
     <div class="row">
-        <div class="col-12 col-lg-4 mt-3 mt-lg-0">
+        <div class="col-12 col-lg-4 mt-3 mt-lg-0 d-none d-sm-block">
             <div class="dcPanel h-100">
                 <div class="todo-section">
                     <h1 class="todo-title">To Do</h1>
@@ -1118,7 +1118,7 @@ $(document).ready(function() {
             </div>
         </div>
 
-        <div class="col-12 col-lg-4">
+        <div class="col-12 col-lg-4 d-none d-sm-block">
             <div class="dcAvatarPanel">
                 <h3 class='box_top text-center'>Mission</h3>
                 <div class="text-center">
@@ -1150,7 +1150,7 @@ $(document).ready(function() {
                     <?php endif; ?>
                 </div>
             </div>
-            <div class="dcPanel mt-3">
+            <div class="dcPanel mt-3 d-none d-sm-block">
                 <div class="text-center">
                     <button class="dcSecondaryButtons  m-1">Vote For 💎</button>
                     <button class="dcSecondaryButtons  m-1">Refer For 💎</button>
@@ -1160,7 +1160,7 @@ $(document).ready(function() {
         </div>
 
         <!-- New Section -->
-        <div class="col-12 col-lg-4 mt-3">
+        <div class="col-12 col-lg-4 mt-3 d-none d-sm-block">
             <div class="p-3 dcPanel dcAvatarPanel">
                 <div class="row mb-3">
                     <div class="col-7 dcUserName">
@@ -1244,7 +1244,7 @@ $(document).ready(function() {
             </div>
 
             <!-- Shoutbox Section -->
-            <div class="vertical-text-slider mt-3">
+            <div class="vertical-text-slider mt-3 d-none d-sm-block">
                 <div class="d-flex flex-column">
                     <div class="d-flex align-items-center justify-content-center mb-0">
                         <div class="flex-grow-1 text-center">
