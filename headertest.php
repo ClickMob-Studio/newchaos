@@ -1074,19 +1074,6 @@ $(document).ready(function() {
             border-radius: 8px;
         }
 
-        .dcSecondaryButton {
-            background-color: #ff6218;
-            color: #fff;
-            border: none;
-            margin: 5px;
-            padding: 10px 20px;
-            border-radius: 8px;
-        }
-
-        .dcSecondaryButton:hover {
-            background-color: #e55d16;
-            color: #fff;
-        }
 
         .box_top {
             color: #ff6218;
