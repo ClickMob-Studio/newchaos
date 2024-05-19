@@ -219,7 +219,7 @@ $db->query("SELECT type, id FROM bans WHERE type IN ('freeze', 'perm') AND id = 
 $db->execute(array(
     $user_class->id
 ));
-row = $db->fetch_row(true);
+$row = $db->fetch_row(true);
 if (!empty($row)) {
     session_destroy();
     die('<meta http-equiv="refresh" content="0;url=home.php">');
@@ -949,88 +949,914 @@ $(document).ready(function() {
         } else {
             destroySortable();  // Destroy sortable if exiting edit mode
         }
+        $(this).text(isEditable ? 'Finish Editing' : 'Edit');
     });
 });
 
-</script>
-<style>
-  /* For the Time Modal */
-  #timeModal .modal-content {
-    background-color: #333; 
-    color: #fff;  
-  }
-  #timeModal .modal-header, 
-  #timeModal .modal-body {
-    border-bottom: none;  
-  }
-  #timeModal .fa-clock {
-    font-size: 2rem;
-  }
-</style>
 
-<!-- Time Modal -->
-<div class="modal fade" id="timeModal" tabindex="-1" aria-labelledby="timeModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="timeModalLabel">Current Server Time</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <i class="fa-solid fa-clock"></i>
-        <span id="serverTime"></span>
-      </div>
+   </script>
+
+    <div class="container d-block d-md-none p-3 dcPanel dcAvatarPanel"> <!-- This container is visible only on xs screens -->
+    <div class="row">
+        <!-- Energy Bar -->
+        <div class="col-3">
+        <p class="text-center"><i class="fa-solid fa-heart-pulse" style="color:#ff6218"></i>
+        <?= $user_class->hppercent;?>%</p>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->hppercent; ?>%" aria-valuenow="<?= $user_class->hppercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->hppercent; ?>"></div>
+            </div>
+            
+        </div>
+
+        <div class="col-3">
+        <p class="text-center"><a href='index.php?spend=refenergy'><i class="fa-solid fa-bolt-lightning" style="color:#ff6218"></i>
+        <?= $user_class->energypercent;?>%</a></p>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->energypercent; ?>%" aria-valuenow="<?= $user_class->energypercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->energypercent; ?>"></div>
+            </div>
+            
+        </div>
+        <div class="col-3">
+        <p class="text-center"><a href='index.php?spend=refnerve'><i class="fa-brands fa-brave" style="color:#ff6218"></i>
+        <?= $user_class->nervepercent;?>%</p></a>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->nervepercent; ?>%" aria-valuenow="<?= $user_class->nervepercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->nervepercent; ?>"></div>
+            </div>
+            
+        </div>
+        <div class="col-3">
+        <p class="text-center"><i class="fa-solid fa-bed" style="color:#ff6218"></i>
+        <?= $user_class->awakepercent;?>%</p>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->awakepercent; ?>%" aria-valuenow="<?= $user_class->awakepercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->awakepercent; ?>"></div>
+            </div>
+            
+        </div>
     </div>
-  </div>
+
+
+
+    <!-- Additional Information (Money, Points, Merits) -->
+    <div class="row mt-3">
+        <div class="col-3">
+            <!-- Money -->
+            <div class="text-center">
+                <span class="badge bg-success mb-money">$<?= shorthandNumber($user_class->money);?></span>
+                <p>Money</p>
+            </div>
+        </div>
+        <div class="col-3">
+            <!-- Points -->
+            <div class="text-center">
+            <a href="bank.php?h_deposit=cash" style="text-decoration: none;"><span class="badge bg-info">$<?= shorthandNumber($user_class->bank);?></span>
+                <p>Bank</p></a>
+            </div>
+        </div>
+        <div class="col-3">
+            <!-- Merits -->
+            <div class="text-center">
+                <span class="badge bg-danger mb-points"><?= shorthandNumber($user_class->points);?></span>
+                <p>Points</p>
+            </div>
+        </div>
+        <div class="col-3">
+        <p class="text-center">Level: <?= shorthandNumber($user_class->level);?></p>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->exppercent; ?>%" aria-valuenow="<?= $user_class->exppercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->exppercent; ?>"></div>
+            </div>
+            
+        </div>
+    </div>
 </div>
 
-<!-- Add script to update the server time -->
-<script>
-  function updateServerTime() {
-    var now = new Date();
-    var timeString = now.toLocaleTimeString();
-    document.getElementById('serverTime').textContent = timeString;
-  }
-  setInterval(updateServerTime, 1000); // Update every second
-  updateServerTime(); // Initial call to set the time immediately
-</script>
-<style>
-.carousel-inner {
-    border: 2px solid #fff; 
-    padding: 10px; 
-}
-</style>
-	<div class="container">
-		<div class="row mx-auto">
-			<div class="col-12 col-md-9">
-				<?php 
-if ($current_page == 'profiles.php') {
-    include('profile-content.php'); 
-}
-else {
-    include('main-content.php');
-} 
-?>
-			</div>
-			<div class="col-12 col-md-3">
-				<?php include('sidebar.php'); ?>
-			</div>
+	<div class="row mx-auto my-3 mainContent">
+		<div class="d-none d-lg-block col-2 dcLeftNavContainer p-0">
+			<?php require 'leftnav.php'; ?>
 		</div>
-	</div>
-	<footer>
-		<?php require 'footer.php'; ?>
-	</footer>
-	<script src="newassets/js/jquery.min.js"></script>
-	<script src="newassets/js/bootstrap.bundle.min.js"></script>
-	<script src="newassets/js/main.js"></script>
-	<script src="newassets/js/chart.min.js"></script>
-	<script src="newassets/js/utils.js"></script>
-	<script src="newassets/js/anime.min.js"></script>
-	<script src="newassets/js/d3.min.js"></script>
-	<script src="newassets/js/topojson.min.js"></script>
-	<script src="newassets/js/datamaps.world.min.js"></script>
-	<script src="newassets/js/datamaps.usa.min.js"></script>
-</body>
-</html>
-<?php 
-ob_end_flush();?>
+		<div class="col-12 col-lg-10">
+        <header class="row">
+        <div class="col-12 col-lg-8 mt-3 mt-lg-0">
+                <div class="dcPanel h-100">
+                    
+                    <div class="col-12 col-lg-8 mt-3 mt-lg-0">
+        <div class="dcPanel h-100">
+            <div class="todo-section">
+                <h2 class="todo-title">To Do</h2>
+                <ul class="todo-list">
+                    <li class="todo-item">Maze</li>
+                    <li class="todo-item">Streets</li>
+                    <li class="todo-item">Number Game</li>
+                    <li class="todo-item">Lucky Dip</li>
+                    <li class="todo-item">The Doors</li>
+                    <li class="todo-item">Point Smuggling</li>
+                    <li class="todo-item">Raid Token Smuggling</li>
+                </ul>
+                <div class="todo-buttons">
+                    <button class="btn btn-primary">Vote For 💎</button>
+                    <button class="btn btn-secondary">Refer For 💎</button>
+                    <button class="btn btn-success">Upgrades ⬈</button>
+                </div>
+            </div>
+   </div>
+
+                        <div class="dcBannerButtonsContainerMain">
+                            <div class="col-12 col-lg-4">
+                                <?php if ($user_class->admin > 0): ?>
+
+                                    <style>
+                                        .todo-section {
+
+    padding: 20px;
+    border-radius: 8px;
+}
+
+
+.todo-list {
+    list-style: none;
+    padding: 0;
+}
+
+.todo-list{
+color: #fff;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    font-size: 9px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+.todo-item:hover {
+    background-color: #505050;
+}
+
+
+
+
+</style>
+                                <?php endif; ?>
+
+                                <div class="p-1 dcPanel dcAvatarPanel" style="width: 140px;margin-left: -60px;">
+                                    <div class="row mb-3 mission">
+                                        <h3 class='box_top'>Mission</h3>
+                                    </div>
+                                    
+                                    <div class="row heroTop heroTop2">
+                                            <div class="col-12 col-lg-7 offset-lg-1 g-0 row realMission">
+                                            <?php if($show == true): ?>
+                                                <div class=" missionDiv">
+                                                    <p class="missionTo">Kills:</p>
+                                                    <p style="font-size: 10px;"><?= $kills; ?></p>
+                                                </div>
+                                                <div class="missionDiv">
+                                                
+                                                    <p class="missionTo">Crimes:</p>
+                                                    <p style="font-size: 10px;"><?= $crimes; ?></p>
+                                                </div>
+                                                                                                <div class=" missionDiv">
+                                                    <p class="missionTo">Busts:</p>
+                                                    <p style="font-size: 10px;"><?= $busts; ?></p>
+                                                </div>
+                                                <div class="missionDiv">
+                                                    <p class="missionTo">Mugs:</p>
+                                                    <p style="font-size: 10px;"><?= $mugs; ?></p>
+                                                </div>
+                                                <div class="missionDiv">
+                                                    <p class="missionTo">BA:</p>
+                                                    <p style="font-size: 10px;"><?= $backalleys; ?></p>
+                                                </div>
+                                              <?php else: ?>
+                                                
+                                               <a href="missions.php" class="dcSecondaryButton my-3">Start Mission</a>
+                                                
+                                                <?php endif; ?>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="dcBannerButtonsContainer2">
+                                <a href="vote.php" class="dcSecondaryButton my-3">Vote for <i class="far fa-gem"></i></a>
+    
+                                <a href="refer.php" class="dcSecondaryButton my-3">Refer for <i class="far fa-gem"></i></a>
+                                <a href="store.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
+                            </div>
+                        </div>
+                        <div class="vertical-text-slider floaty dcPanel p-1" style="width: 62%;margin-top: 1px;height: 55px;">
+                            <div class="d-flex flex-column">
+                                <div class="d-flex align-items-center justify-content-center mb-0">
+                                    <div class="flex-grow-1 text-center">
+                                        <ul class="list-unstyled d-flex flex-row align-items-center justify-content-left">
+                                        <?php $now = time();
+                    $result = mysql_query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > $now ORDER BY RAND() LIMIT 1");
+                    if (!mysql_num_rows($result)) {
+                        $_messages = [
+                            'Invite your friends to play and receive <strong class="text-warning">50 Gold</strong> for every friend that plays. Hurry and start inviting now!',
+                            'For every friend you successfully refer, you\'ll earn <strong class="text-warning">50 Gold</strong>. Spread the word and let\'s play together!',
+                            'Attention all players! Invite your friends to join in on the fun. <strong class="text-warning">50 Gold</strong> reward for every successful referral.'
+                        ];
+                        $ref_message = $_messages[array_rand($_messages)];
+                        ?>
+                        <?php if (!$user_class->is_ads_disabled): ?>
+                        <li class="headerSvg">
+                            <a href="refer.php"><?= $ref_message ?></a>
+                        </li>
+                        <?php endif; ?>
+                        <?php
+                    } else {
+                        
+                                           $row = mysql_fetch_array($result);
+                        $user_ads = new User($row['poster']);
+                        $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
+                        ?>
+
+                        <li class="flex-grow-1">
+                        <?php if (!$user_class->is_ads_disabled): ?>
+                            <span><?= $user_ads->formattedname ?>: <?php echo $row['message'] ?></span>
+                            <?php endif; ?>
+                        </li>
+                        <?php }?> <?php if (!$user_class->is_ads_disabled): ?>
+                                            <li class="headerSvg">
+                                                <a href="/shoutbox.php">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ff6218" class="bi bi-megaphone-fill" viewBox="0 0 16 16">
+                                                        <path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0zm-1 .724c-2.067.95-4.539 1.481-7 1.656v6.237a25 25 0 0 1 1.088.085c2.053.204 4.038.668 5.912 1.56zm-8 7.841V4.934c-.68.027-1.399.043-2.008.053A2.02 2.02 0 0 0 0 7v2c0 1.106.896 1.996 1.994 2.009l.496.008a64 64 0 0 1 1.51.048m1.39 1.081q.428.032.85.078l.253 1.69a1 1 0 0 1-.983 1.187h-.548a1 1 0 0 1-.916-.599l-1.314-2.48a66 66 0 0 1 1.692.064q.491.026.966.06"/>
+                                                    </svg>
+                                                </a>
+
+                                                <a href="#" onClick="reportAd(27); return false;">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ff6218" class="bi bi-flag-fill" viewBox="0 0 16 16">
+                                                        <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007.004-.002h.001"/>
+                                                    </svg>
+                                                </a>
+
+                                                
+                                            </li>
+                                            <?php endif;?>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-4">
+                <div class="p-3 dcPanel dcAvatarPanel d-none d-md-block">
+                    <div class="row mb-3">
+                        <div class="col-7 dcUserName">
+
+                            <span class="dcHeaderUsername">
+                            <?= $user_class->formattedname; ?>        
+                        </span></div>
+                        <div class="col-3 text-center new_avarta">
+                            Level <?= $user_class->level; ?>				<div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip" title="<?= $user_class->formattedexp;?>">
+                            <div class="progress-bar exp-bar" role="progressbar" style="width:<?= $user_class->exppercent; ?>%"></div>
+                        </div>
+                        <div class="d-none d-lg-block col-3">
+                            <img style="width: 50px;" src="<?= $user_class->avatar; ?>" alt="">
+                        </div>
+                        </div>
+                    </div>
+                    <div class="row heroTop">
+                        <div class="col-5 col-lg-12 row mb-0 mb-lg-3 newTimeHolder">
+                            <!-- <div class="d-none d-lg-block col-4">
+                                <img style="width: 50px;" src="https://chaoscity.co.uk/images/noavatar.png" alt="">
+                            </div> -->
+                            <div class="col-8 col-lg-7 offset-lg-1 g-0 row">
+                                <div class="row my-1 g-0">
+                                    <div class="col-2 d-flex align-items-center"><i class="mx-auto fas fa-dollar-sign"></i></div>
+                                    <div class="col-10 d-flex align-items-center money">$<?= number_format($user_class->money);?></div>
+                                </div>
+                                <div class="row my-1 g-0">
+
+                                    <div class="col-2 d-flex align-items-center"><i class="mx-auto fas fa-piggy-bank"></i></div>
+                                    <div class="col-10 d-flex align-items-center"><a href="bank.php?h_deposit=cash" style="text-decoration: none;">$<?= number_format($user_class->bank); ?></div>
+                                    </a>
+                                </div>
+                                <div class="row my-1 g-0">
+                                    <div class="col-2 d-flex align-items-center"><i class="mx-auto far fa-gem"></i></div>
+                                    <div class="col-10 d-flex align-items-center points"><?= number_format($user_class->points); ?></div>
+                                </div>
+                                <div class="row my-1 g-0">
+                                    <div class="col-2 d-flex align-items-center"><i class="mx-auto fab fa-medium-m"></i></div>
+                                    <div class="col-10 d-flex align-items-center credits"><?= number_format($user_class->credits); ?> credits</div>
+                                </div>
+                            </div>
+
+                            <div class='time col-4 d-none d-lg-block' style='text-align: left';><?php echo date('m/d h:i a', time()); ?></div>
+                        </div>
+                        <div class="col-7 col-lg-12 g-0 row dcStatsPanel">
+                            <div class="row my-0 my-lg-1 dcStatContainer-health">
+                                <div class="col-3 d-flex align-items-center">Health</div>
+                                <div class="col-9 d-flex align-items-center align-items-center2">
+                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?= $user_class->formattedhp; ?>">
+                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:<?= $user_class->hppercent;?>%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-0 my-lg-1 dcStatContainer-energy">
+                                <div class="col-3 d-flex align-items-center"><a href='?spend=refenergy' >Energy</a></div>
+                                <div class="col-9 d-flex align-items-center align-items-center2">
+                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?= $user_class->formattedenergy; ?>">
+                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:<?= $user_class->energypercent; ?>%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-0 my-lg-1 dcStatContainer-brave">
+                                <div class="col-3 d-flex align-items-center"><a href='?spend=refnerve' >Nerve</a></div>
+                                <div class="col-9 d-flex align-items-center align-items-center2">
+                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?= $user_class->formattednerve;?>">
+                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:<?= $user_class->nervepercent; ?>%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-0 my-lg-1 dcStatContainer-will">
+                                <div class="col-3 d-flex align-items-center">Awake</div>
+                                <div class="col-9 d-flex align-items-center align-items-center2">
+                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?= $user_class->formattedawake; ?>">
+                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:<?= $user_class->awakepercent; ?>%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row my-0 my-lg-1 dcStatContainer-exp">
+                                <div class="col-3 d-flex align-items-center">Exp.</div>
+                                <div class="col-9 d-flex align-items-center align-items-center2">
+                                    <div class="progress dcStatsBars stat-bar" data-toggle="tooltip" title="<?= $user_class->formattedexp; ?>">
+                                        <div class="progress-bar" role="progressbar stat-bar"  style="width:<?= $user_class->exppercent; ?>%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+			</header>
+            <?php if (!$user_class->is_ads_disabled): ?>
+    <div class="vertical-text-slider d-md-none d-lg-none floaty dcPanel p-3" style="width: 99%;margin-top: 10px;">
+    <div class="d-flex flex-column">
+        <div class="d-flex align-items-center justify-content-center mb-3">
+            <div class="me-3">
+                <a href="/shoutbox.php">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#ff6218" class="bi bi-megaphone-fill" viewBox="0 0 16 16">
+                        <path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0zm-1 .724c-2.067.95-4.539 1.481-7 1.656v6.237a25 25 0 0 1 1.088.085c2.053.204 4.038.668 5.912 1.56zm-8 7.841V4.934c-.68.027-1.399.043-2.008.053A2.02 2.02 0 0 0 0 7v2c0 1.106.896 1.996 1.994 2.009l.496.008a64 64 0 0 1 1.51.048m1.39 1.081q.428.032.85.078l.253 1.69a1 1 0 0 1-.983 1.187h-.548a1 1 0 0 1-.916-.599l-1.314-2.48a66 66 0 0 1 1.692.064q.491.026.966.06"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="flex-grow-1 text-center">
+                <ul class="list-unstyled d-flex flex-row align-items-center justify-content-center">
+                    <?php
+                    $now = time();
+                    $result = mysql_query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > $now ORDER BY RAND() LIMIT 1");
+                    if (!mysql_num_rows($result)) {
+                        $_messages = [
+                            'Invite your friends to play and receive <strong class="text-warning">50 Gold</strong> for every friend that plays. Hurry and start inviting now!',
+                            'For every friend you successfully refer, you\'ll earn <strong class="text-warning">50 Gold</strong>. Spread the word and let\'s play together!',
+                            'Attention all players! Invite your friends to join in on the fun. <strong class="text-warning">50 Gold</strong> reward for every successful referral.'
+                        ];
+                        $ref_message = $_messages[array_rand($_messages)];
+                        ?>
+                        <li class="flex-grow-1">
+                            <a href="refer.php"><?= $ref_message ?></a>
+                        </li>
+                        <?php
+                    } else {
+                        $row = mysql_fetch_array($result);
+                        $user_ads = new User($row['poster']);
+                        $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
+                        ?>
+                        <li class="flex-grow-1">
+                            <span><?= $user_ads->formattedname ?>: <?php echo $row['message'] ?></span>
+                        </li>
+                        <li>
+                            <a href="#" onClick="reportAd(<?= $row['id'] ?>); return false;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ff6218" class="bi bi-flag-fill" viewBox="0 0 16 16">
+                                    <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007.004-.002h.001"/>
+                                </svg>
+                            </a>
+                        </li>
+                        <?php
+                    }
+                    ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+            
+			<div class="row mt-4">
+				<main>
+					<div class="dcPanel p-3">
+
+    <?php
+
+
+$time = time();
+$array = array();
+
+
+if ($user_class->bustpill > 0) {
+    $rtn = ($user_class->bustpill);
+    $array['Police Badge'] = ($rtn == 'NOW') ? '@None@' : $rtn;
+}
+
+if ($bonus_row['Time'] > 0) {
+
+    $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
+    echo '<div style="font-family:timesnewroman;font-size: 1.5em;color:red;text-align: center;margin-bottom: 20px;margin-top: -20px;"><font color=green>Server Wide Double EXP Active </font>  <font color=white>' . $_tt . '</font> 
+                                                </div>';
+}
+
+if ($user_class->outofjail > 0) {
+    $rtn = ($user_class->outofjail);
+    $array['Jail Card'] = ($rtn == 'NOW') ? '@None@' : $rtn;
+}
+
+if ($user_class->news > 0) {
+    $buffer = str_replace("<!_-news-_!>", "<div class='contenthead floaty'><span style='margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;'><h4 class='notify important'><a href='forum.php?id=1'>You have new game news [<span class='news-count'>$user_class->news</span>]</a></h4></span></div>", $buffer);
+
+} else {
+    if ($user_class->mjprotection > $time) {
+        $rtn = howlongtil($user_class->mprotection);
+        $array['Mug Protection'] = ($rtn == 'NOW') ? '@None@' : $rtn;
+    }
+}
+
+
+
+if ($user_class->nightvision > 0) {
+    echo '<span style="color:red;">Your currently have ' . $user_class->nightvision . ' minutes of Night Vision left.</span><br />';
+}
+
+if ($user_class->fbi > 0) {
+    echo '<a href="jail.php"><span style="color:green;">You are currently being watched over by the FBI for ' . $user_class->fbi . ' Minutes.</span></a><br />';
+}
+
+if ($user_class->fbitime > 0) {
+    echo '<a href="home.php"><span style="color:red;">You are currently in FBI Jail for ' . $user_class->fbitime . ' minutes.</span></a><br />';
+}
+
+foreach ($array as $sub => $in) {
+    echo '<span style="color:white;">&bull; ' . $sub . ' : <span style="color:red;">' . $in . '</span></span> &nbsp;';
+}
+if (!empty($array)) {
+    echo '<br />';
+}
+
+echo '<br />';
+
+
+// COUNTDOWN TIMER
+// ADD 000 TO END OF UNIX TIMESTAMP
+
+echo '<script>
+    var countDownDate = new Date(1673827199000);
+
+    var x = setInterval(function() {
+
+    var now = new Date();
+    var distance = countDownDate - now;
+
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    $("#countdown").html("Ends In " + (days === 0 ? "" : days + "d ") + (hours === 0 ? "" : hours + "h ") + (minutes === 0 ? "" : minutes + "m ") + seconds + "s");
+
+    if (distance < 0) {
+        clearInterval(x);
+        $("#countdown").html("");
+    }
+    }, 1000);
+    </script>';
+
+//$("#countdown").html(" Ends In " + days + "d " + hours + "h " + minutes + "m " + seconds + "s ");
+
+echo '<div id="maincontent">';
+if (time() <  1673827199) {
+    //echo '<div class="floaty" style="margin-top:-10px;font-family:Creepster;font-size:2em;text-decoration:underline;color:orange;">Double EXP ACTIVE on all Crimes!</div>';
+    echo '<br><div class="pulsate" style="font-family:Creepster;font-size: 2em;color:1e7b00;text-align: center;margin-bottom: 20px;margin-top: -20px;"><a href=newcrimes.php><font colour=purple>Double EXP ACTIVE on all Crimes!</a>
+            <span id="countdown">Ends In ' . countdown(1673827199) . '</span></div>';
+}
+
+if (time() <  1661122799) {
+    //echo '<div class="floaty" style="margin-top:-10px;font-family:Creepster;font-size:2em;text-decoration:underline;color:orange;">Black Friday! - DOUBLE CRIME EXP ACTIVE</div>';
+    echo '<div class="pulsate" style="font-family:Creepster;font-size: 1.5em;color:1e7b00;text-align: center;margin-bottom: 20px;margin-top: -20px;"><a href=bustcontest.php>Our BUST COMPETITION IS currently active! </a>
+            <span id="countdown">Ends In ' . countdown(1662965999) . '</span></div>';
+}
+
+$db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
+    $db->execute();
+    $bonus_row = $db->fetch_row(true);
+
+    $debug['worked'] = $bonus_row;
+
+
+
+if ($bonus_row['Time'] > 0) {
+
+    $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
+   $messages[] = 'Attackgfgdgdfgdfgsdfg: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+
+}
+
+$time = time();
+$messages = array();
+
+
+// Attack Protection
+if ($user_class->aprotection > $time) {
+    $rtn = howlongtil($user_class->aprotection);
+    $messages[] = 'Attack Protection: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
+$db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
+    $db->execute();
+    $bonus_row = $db->fetch_row(true);
+
+    $debug['worked'] = $bonus_row;
+
+
+
+if ($bonus_row['Time'] > 0) {
+
+    $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
+   $messages[] = 'Server Wide Double EXP: ' . (($_tt == 'NOW') ? '@None@' : $_tt);
+
+}
+
+//$messages[] = '<a href="crime_contest.php"><font color=red>Crime/Attack Comp Active</font></a>';
+
+// if ($user_class->cityturns > 29) {
+//     $messages[] = '<a href="maze.php">You Have Maze Searches Available</a>';
+// }
+// if ($user_class->id > 0) {
+//     $messages[] = '<a href="contest_raid.php"><font color=red>Raid Comp Active</font></a>';
+// }
+$db->query("SELECT * FROM ganginvites WHERE playerid = ?");
+$db->execute(array($user_class->id));
+if ($db->num_rows() > 0) {
+    // Adding gang invites message to the $messages array instead of printing directly
+    $messages[] = "<a href='ganginvites.php'><span style='color:red;'>You have gang invites!</span></a>";
+}
+
+// Bust Pill
+if ($user_class->bustpill > 0) {
+    $rtn = ($user_class->bustpill);
+    $messages[] = 'Police Badge: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
+// Out of Jail
+if ($user_class->outofjail > 0) {
+    $rtn = ($user_class->outofjail);
+    $messages[] = 'Jail Card: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
+
+// Mug Protection
+if ($user_class->mprotection > $time) {
+    $rtn = howlongtil($user_class->mprotection);
+    $messages[] = 'Mug Protection: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
+// Double EXP Pill
+if ($user_class->exppill > $time) {
+    $rtn = howlongtil($user_class->exppill);
+    $messages[] = 'Double EXP Pill: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
+$tempItemUse = getItemTempUse($user_class->id);
+// Crime Potion
+if ($tempItemUse['crime_potion_time'] > $time) {
+    $rtn = howlongtil($tempItemUse['crime_potion_time']);
+    $messages[] = 'Crime Potion: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+// Crime Booster
+if ($tempItemUse['crime_booster_time'] > $time) {
+    $rtn = howlongtil($tempItemUse['crime_booster_time']);
+    $messages[] = 'Crime Booster: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+// Nerve Vial
+if ($tempItemUse['nerve_vial_time'] > $time) {
+    $rtn = howlongtil($tempItemUse['nerve_vial_time']);
+    $messages[] = 'Nerve Vial: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
+
+
+// Jail
+if ($user_class->jail > $time) {
+    $rtn = howlongtil($user_class->jail);
+    $messages[] = 'Jail: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
+// Additional messages based on your previous code snippets
+if ($user_class->hospital > 0) {
+    $messages[] = 'You are currently in hospital for ' . $user_class->hospital . ' seconds.';
+}
+
+if ($user_class->jail > 0) {
+    $messages[] = 'You are currently in jail for ' . $user_class->jail . ' seconds.';
+}
+
+if ($user_class->nightvision > 0) {
+    $messages[] = 'Your currently have ' . $user_class->nightvision . ' minutes of Night Vision left.';
+}
+
+if ($user_class->fbi > 0) {
+    $messages[] = 'You are currently being watched over by the FBI for ' . $user_class->fbi . ' Minutes.';
+}
+
+if ($user_class->fbitime > 0) {
+    $messages[] = 'You are currently in FBI Jail for ' . $user_class->fbitime . ' minutes.';
+}
+
+
+if (!empty($messages)) {
+    echo '<script type="text/javascript">';
+    echo 'document.addEventListener("DOMContentLoaded", function() {';
+    // Initialize the messages HTML as an empty string
+    $messagesHtml = '';
+    foreach ($messages as $index => $message) {
+        $escapedMessage = addslashes($message);
+        // For all but the first message, add a separator before the message
+        if ($index > 0) {
+            $messagesHtml .= ' + \' <span style="margin: 0 10px;">&bull;</span> \' + ';
+        }
+        $messagesHtml .= '\'<span>' . $escapedMessage . '</span>\'';
+    }
+    if (!empty($messagesHtml)) {
+        echo 'var messageContainer = document.getElementById("message-container");';
+        echo 'var messagesElement = document.createElement("div");'; // Create a new div for messages
+        echo 'messagesElement.innerHTML = ' . $messagesHtml . ';'; // Set the inner HTML of the div
+        echo 'document.getElementById("messages").appendChild(messagesElement);'; // Append the div to the container
+    }
+    echo '});';
+    echo '</script>';
+} else {
+    // Hide the container if there are no messages
+    echo '<script type="text/javascript">';
+    echo 'document.addEventListener("DOMContentLoaded", function() {';
+    echo 'var messageContainer = document.getElementById("message-container");';
+    echo 'if (messageContainer) messageContainer.style.display = "none";';
+    echo '});';
+    echo '</script>';
+}
+
+
+//if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'store.php') {    // The original echo statement for the claim message should be commented out or removed
+    // echo '<div style="font-family:Creepster;font-size: 2.5em;color:red;text-align: center;margin-bottom: 20px;margin-top: -20px;"><a href="rmstore.php?buy=freebie">...</div>';
+
+    // Insert the modal code here
+    ?>
+    <!-- The Modal -->
+    <!-- <div id="myModal" class="modal"> -->
+        <!-- Modal content -->
+      <!-- <div class="modal-content"> -->
+    <!-- <span class="close">&times;</span> -->
+    <!-- <h4><font color=red>A Free Gift</font></h4><br> -->
+
+    <!-- <p><font color=white>Here is a free gift on us enjoy the competition</font></p> -->
+    <!-- <ul class="gift-list"> -->
+        <!-- <h4>+50 Raid Tokens</h4> -->
+        <!-- <h4>25,000 Points</h4> -->
+
+
+
+
+    <!-- </ul> -->
+    <!-- <button onclick="window.location.href='store.php?buy=freebie'" class="claim-button">Claim Gift</button> -->
+<!-- </div> -->
+
+    <!-- </div> -->
+<!-- <style> -->
+
+
+<!-- .gradient-background {
+    background: linear-gradient(to right, #484848, #303030, #181818);
+    color: white; /* Ensures text is readable on dark background */
+    padding: 20px;
+    text-align: center;
+}
+
+
+    @keyframes pulseGlow {
+        0% {
+            box-shadow: 0 0 5px red;
+        }
+        50% {
+            box-shadow: 0 0 20px red;
+        }
+        100% {
+            box-shadow: 0 0 5px red;
+        }
+    }
+    .glow-pulse {
+        animation: pulseGlow 2s infinite;
+        color: red !important;
+    }
+</style> -->
+
+    <?php
+//}
+?>
+<style>
+    .floaty12{
+        margin: 0 auto;
+    margin-right: 10px;
+    color:#FFF;
+    width: 72%;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(93, 93, 93, 1);
+    padding: 5px 5px 4px;
+    margin-bottom:10px;
+    }
+    .floaty12 a:link {
+  color: #000;
+}
+    </style>
+
+
+<div class="dcPanel p-3" style="text-align:center" id="message-container">
+    <ul id="messages" style="list-style-type: none;">
+
+    </ul>
+</div>
+
+
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
+
+    <script type="text/javascript">
+        $('.slides').slick({
+            vertical: true,
+            autoplay: true,
+            autoplaySpeed: 3000,
+            arrows: false,
+            speed: 300
+        });
+
+        function reportAd(id) {
+            $.ajax({
+                type: "POST",
+                url: "/ajax_reportad.php",
+                data: {
+                    id: id
+                }
+            }).done(function(msg) {
+                alert("Ad report successful");
+            });
+        }
+        
+    </script>
+
+    <?php
+
+    $width = ($user_class->epoints / 1000) * 100;
+
+
+
+
+if (time() <= 1703577599) {
+    if (pathinfo($_SERVER['PHP_SELF'], PATHINFO_FILENAME) != 'valentines') {
+        echo '<div class="container">';
+
+        echo '<div class="progress">
+                    <div class="progress-bar-heart"><a href="home.php">Activity Reward (' . number_format($width, 1) . '%)</a></div>
+                </div>
+            </div>';
+    }
+}
+
+if ($user_class->id == 0) {
+    if (pathinfo($_SERVER['PHP_SELF'], PATHINFO_FILENAME) != 'valentines') {
+        echo '<div class="container">';
+
+        echo '<div class="progress">
+                    <div class="progress-bar-heart"><a href="activitycontest.php">Earn Rayzz by playing the game!! ' . number_format($width, 2) . '%</a></div>
+                </div>
+            </div>';
+    }
+}
+
+?>
+
+
+
+<div class="modal fade" id="timeModal" tabindex="-1" aria-labelledby="timeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="timeModalLabel">Current Time</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="timeDisplay">
+                        <!-- Time will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+      var timeModal = document.getElementById('timeModal');
+        timeModal.addEventListener('show.bs.modal', function () {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'server_time.php', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var serverTime = new Date(parseInt(xhr.responseText) * 1000);
+                    document.getElementById('timeDisplay').textContent = serverTime.toLocaleString();
+                }
+            };
+            xhr.send();
+        });
+    </script>
+<?php
+
+echo '<script>
+var countDownDate = new Date("Jan 30, 2024 23:59:00");
+
+var x = setInterval(function() {
+
+var now = new Date();
+var distance = countDownDate - now;
+
+var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+$(".progress-bar-heart").html("<a href=\'home.php\'>Activity Reward (' . number_format($width, 1) . '%)</a> 2x Speed Boost Active - " + hours + "h " + minutes + "m " + seconds + "s ");
+
+if (distance < 0) {
+            clearInterval(x);
+            $(".progress-bar-heart").html("<a href=\'home.php\'>Activity Reward (' . number_format($width, 1) . '%)</a>");
+}
+}, 1000);
+</script>';
+
+
+
+function secondsToHumanReadable($seconds, $requiredParts = null)
+{
+    $from     = new \DateTime('@0');
+    $to       = new \DateTime("@$seconds");
+    $interval = $from->diff($to);
+    $str      = '';
+
+    $parts = [
+        'y' => 'year',
+        'm' => 'month',
+        'd' => 'D',
+        'h' => 'H',
+        'i' => 'M',
+        's' => 'second',
+    ];
+
+    $includedParts = 0;
+
+    foreach ($parts as $key => $text) {
+        if ($requiredParts && $includedParts >= $requiredParts) {
+            break;
+        }
+
+        $currentPart = $interval->{$key};
+
+        if (empty($currentPart)) {
+            continue;
+        }
+
+        if (!empty($str)) {
+            $str .= ' ';
+        }
+
+        $str .= sprintf('%d%s', $currentPart, $text);
+
+        if ($currentPart > 1) {
+            // handle plural
+            //$str .= 's';
+        }
+
+        $includedParts++;
+    }
+
+    return $str;
+}
+
+function microtime_float()
+{
+    $time = microtime();
+    return (float) substr($time, 11) + (float) substr($time, 0, 8);
+}
+
+anticheat();
+?>
+
+<div class="ajax-message-holder" style="min-height: 60px; display: none;"></div>
+
