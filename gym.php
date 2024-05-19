@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-header('Location: speedGym.php');
+//header('Location: speedGym.php');
 
 $m->set('lastcrimeload.'.$user_class->id, time());
 ?>
