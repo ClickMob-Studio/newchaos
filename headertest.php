@@ -1063,13 +1063,13 @@ $(document).ready(function() {
         }
 
         .dcPanel {
-            background-color: #212529;
+           
             padding: 20px;
             border-radius: 8px;
         }
 
         .dcAvatarPanel {
-            background-color: #2a2e32;
+          
             padding: 10px;
             border-radius: 8px;
         }
@@ -1096,7 +1096,7 @@ $(document).ready(function() {
 <body class="bg-dark text-white">
     <div class="container mt-5">
         <div class="row">
-            <div class="col-12 col-lg-8 mt-3 mt-lg-0">
+            <div class="col-12 col-lg-4 mt-3 mt-lg-0">
                 <div class="dcPanel h-100">
                     <div class="todo-section">
                         <h2 class="todo-title">To Do</h2>
@@ -1110,9 +1110,9 @@ $(document).ready(function() {
                             <li class="todo-item">Raid Token Smuggling</li>
                         </ul>
                         <div class="todo-buttons d-flex justify-content-center">
-                            <button class="btn btn-primary m-1">Vote For 💎</button>
-                            <button class="btn btn-secondary m-1">Refer For 💎</button>
-                            <button class="btn btn-success m-1">Upgrades ⬈</button>
+                            <button class="dcSecondaryButton  m-1">Vote For 💎</button>
+                            <button class="dcSecondaryButton  m-1">Refer For 💎</button>
+                            <button class="dcSecondaryButton m-1">Upgrades ⬈</button>
                         </div>
                     </div>
                 </div>
@@ -1151,11 +1151,6 @@ $(document).ready(function() {
                     </div>
                 </div>
 
-                <div class="dcBannerButtonsContainer2 text-center mt-3">
-                    <a href="vote.php" class="dcSecondaryButton my-3">Vote for <i class="far fa-gem"></i></a>
-                    <a href="refer.php" class="dcSecondaryButton my-3">Refer for <i class="far fa-gem"></i></a>
-                    <a href="store.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
-                </div>
             </div>
 
             <!-- New Section -->
