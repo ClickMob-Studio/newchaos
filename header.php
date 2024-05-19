@@ -1066,43 +1066,27 @@ $(document).ready(function() {
     border-radius: 8px;
 }
 
-.todo-title {
-    color: #ffa500; /* Orange color for the title */
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 20px;
-}
 
 .todo-list {
     list-style: none;
     padding: 0;
 }
 
-.todo-item {
-    color: #fff;
+color: #fff;
     background-color: #3a3a3a;
-    padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     border-radius: 4px;
-    font-size: 18px;
+    font-size: 9px;
     text-align: center;
     transition: background-color 0.3s ease;
-}
 
 .todo-item:hover {
     background-color: #505050;
 }
 
-.todo-buttons {
-    text-align: center;
-    margin-top: 20px;
-}
 
-.todo-buttons .btn {
-    margin: 5px;
-    width: 100%;
-    max-width: 200px;
-}
+
+
 </style>
                                 <?php endif; ?>
 
