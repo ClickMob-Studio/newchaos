@@ -1160,8 +1160,8 @@ $(document).ready(function() {
         </div>
 
         <!-- New Section -->
-        <div class="col-12 col-lg-4 mt-3">
-            <div class="p-3 dcPanel dcAvatarPanel">
+        <div class="col-12 col-lg-4 mt-3 ">
+            <div class="p-3 dcPanel dcAvatarPanel d-none d-sm-block">
                 <div class="row mb-3">
                     <div class="col-7 dcUserName">
                         <span class="dcHeaderUsername"><?= $user_class->formattedname; ?></span>
@@ -1244,7 +1244,7 @@ $(document).ready(function() {
             </div>
 
             <!-- Shoutbox Section -->
-            <div class="vertical-text-slider mt-3 d-none d-sm-block">
+            <div class="vertical-text-slider mt-3">
                 <div class="d-flex flex-column">
                     <div class="d-flex align-items-center justify-content-center mb-0">
                         <div class="flex-grow-1 text-center">
