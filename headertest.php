@@ -1160,7 +1160,7 @@ $(document).ready(function() {
         </div>
 
         <!-- New Section -->
-        <div class="col-12 col-lg-4 mt-3 d-none d-sm-block">
+        <div class="col-12 col-lg-4 mt-3">
             <div class="p-3 dcPanel dcAvatarPanel">
                 <div class="row mb-3">
                     <div class="col-7 dcUserName">
