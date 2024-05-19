@@ -5,7 +5,7 @@ $m->set('lastcrimeload.'.$user_class->id, time());
 <div class='box_top'>Speed Gym</div>
 						<div class='box_middle'>
 							<div class='pad'>
-    <p><a href="gym.php" class="dcSecondaryButton">Go to Standard Gym</a></p>
+    <p><a href="gym.php" class="dcSecondaryButton"> Go to Standard Gym </a></p>
                                 <?php
 if ($user_class->hospital > 0) {
     echo Message("You can't train at the gym if you are in the hospital.");
