@@ -1074,8 +1074,8 @@ $(document).ready(function() {
             border-radius: 8px;
         }
 
-        .dcSecondaryButton {
-            background-color: #ff6218;
+        .dcSecondaryButtons {
+            background-color: #000;
             color: #fff;
             border: none;
             margin: 5px;
@@ -1093,7 +1093,7 @@ $(document).ready(function() {
         }
 
         .vertical-text-slider {
-            background-color: #2a2e32;
+    
             border-radius: 8px;
             color: #fff;
             padding: 10px;
@@ -1146,15 +1146,15 @@ $(document).ready(function() {
                             </div>
                         </div>
                     <?php else: ?>
-                        <a href="missions.php" class="dcSecondaryButton my-3">Start Mission</a>
+                        <a href="missions.php" class="dcSecondaryButtons my-3">Start Mission</a>
                     <?php endif; ?>
                 </div>
             </div>
             <div class="dcPanel mt-3">
                 <div class="text-center">
-                    <button class="dcSecondaryButton  m-1">Vote For 💎</button>
-                    <button class="dcSecondaryButton  m-1">Refer For 💎</button>
-                    <button class="dcSecondaryButton m-1">Upgrades ⬈</button>
+                    <button class="dcSecondaryButtons  m-1">Vote For 💎</button>
+                    <button class="dcSecondaryButtons  m-1">Refer For 💎</button>
+                    <button class="dcSecondaryButtons m-1">Upgrades ⬈</button>
                 </div>
             </div>
         </div>
