@@ -1118,8 +1118,8 @@ $(document).ready(function() {
             </div>
         </div>
 
-        <div class="col-12 col-lg-4 d-none d-sm-block">
-            <div class="dcAvatarPanel">
+        <div class="col-12 col-lg-4">
+            <div class="dcAvatarPanel d-none d-sm-block">
                 <h3 class='box_top text-center'>Mission</h3>
                 <div class="text-center">
                     <?php if ($show == true): ?>
