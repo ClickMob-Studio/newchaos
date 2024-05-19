@@ -1099,7 +1099,8 @@ $(document).ready(function() {
             padding: 10px;
         }
     </style>
-
+    <title>Improved Interface</title>
+</head>
 <body class="bg-dark text-white">
     <div class="container mt-5">
         <div class="row">
@@ -1299,9 +1300,7 @@ $(document).ready(function() {
             </div>
         </div>
     </div>
-
-<?php endif; ?>
-            
+      
 			<div class="row mt-4">
 				<main>
 					<div class="dcPanel p-3">
