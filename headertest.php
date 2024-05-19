@@ -1039,7 +1039,6 @@ $(document).ready(function() {
         .todo-section {
             padding: 20px;
             border-radius: 8px;
-            background-color: #343a40;
             color: #fff;
         }
 
