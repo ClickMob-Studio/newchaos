@@ -1063,13 +1063,13 @@ $(document).ready(function() {
         }
 
         .dcPanel {
-            background-color: #212529;
+         
             padding: 20px;
             border-radius: 8px;
         }
 
         .dcAvatarPanel {
-            background-color: #2a2e32;
+       
             padding: 10px;
             border-radius: 8px;
         }
@@ -1104,7 +1104,7 @@ $(document).ready(function() {
         <div class="col-12 col-lg-4 mt-3 mt-lg-0">
             <div class="dcPanel h-100">
                 <div class="todo-section">
-                    <h2 class="todo-title">To Do</h2>
+                    <h1 class="todo-title">To Do</h1>
                     <ul class="todo-list">
                         <li class="todo-item">Maze</li>
                         <li class="todo-item">Streets</li>
