@@ -1092,12 +1092,6 @@ $(document).ready(function() {
             color: #ff6218;
         }
 
-        .vertical-text-slider {
-    
-            border-radius: 8px;
-            color: #fff;
-            padding: 10px;
-        }
     </style>
    <div class="container mt-5">
     <div class="row">
