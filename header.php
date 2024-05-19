@@ -1044,39 +1044,71 @@ $(document).ready(function() {
                             <div class="col-12 col-lg-4">
                                 <?php if ($user_class->admin > 0): ?>
                                     <div class="p-1 dcPanel dcAvatarPanel" style="width: 140px;margin-left: -60px;">
-                                        <div class="row mb-3 mission">
-                                            <h3 class='box_top'>To Do</h3>
-                                        </div>
+                                    <div class="todo-section">
+    <h2 class="todo-title">To Do</h2>
+    <ul class="todo-list">
+        <li class="todo-item">Maze</li>
+        <li class="todo-item">Streets</li>
+        <li class="todo-item">Number Game</li>
+        <li class="todo-item">Lucky Dip</li>
+        <li class="todo-item">The Doors</li>
+        <li class="todo-item">Point Smuggling</li>
+        <li class="todo-item">Raid Token Smuggling</li>
+    </ul>
+    <div class="todo-buttons">
+        <button class="btn btn-primary">Vote For 💎</button>
+        <button class="btn btn-secondary">Refer For 💎</button>
+        <button class="btn btn-success">Upgrades ⬈</button>
+    </div>
+</div>
 
-                                        <div class="row heroTop heroTop2">
-                                            <div class="col-12 col-lg-7 offset-lg-1 g-0 row realMission">
-                                                <ul>
-                                                    <?php if ($user_class->cityturns > 0): ?>
-                                                        <li><a href="/maze.php"><i class="fa-solid fa-puzzle-piece"></i> Maze</a></li>
-                                                    <?php endif; ?>
-                                                    <?php if ($user_class->searchdowntown > 0): ?>
-                                                        <li><a href="/thecity.php"><i class="fa-solid fa-road"></i> Streets</a></li>
-                                                    <?php endif; ?>
-                                                    <?php if ($no2 < 1): ?>
-                                                        <li><a href="/numbergame.php"><i class="fa-solid fa-dice"></i> Number Game</a></li>
-                                                    <?php endif; ?>
-                                                    <?php if ($user_class->luckydip > 0): ?>
-                                                        <li><a href="/luckydip.php"><i class="fa-solid fa-sack-dollar"></i> Lucky Dip</a></li>
-                                                    <?php endif; ?>
-                                                    <?php if ($user_class->doors > 0): ?>
-                                                        <li><a href="/thedoors.php"><i class="fa-solid fa-dungeon"></i> The Doors</a></li>
-                                                    <?php endif; ?>
-                                                    <?php if ($user_class->psmuggling > 0): ?>
-                                                        <li><a href="/psmuggling.php"><i class="fa-solid fa-person-through-window"></i> Point Smuggling</a></li>
-                                                    <?php endif; ?>
-                                                    <?php if ($user_class->rtsmuggling > 0): ?>
-                                                        <li><a href="/raidtokensmuggling.php.php"><i class="fa-solid fa-person-through-window"></i> Raid Token Smuggling</a></li>
-                                                    <?php endif; ?>
-
-                                                </ul>
-                                            </div>
-                                        </div>
                                     </div>
+
+                                    <style>
+                                        .todo-section {
+    background-color: #2c2c2c; /* Dark background to match the website theme */
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.todo-title {
+    color: #ffa500; /* Orange color for the title */
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.todo-list {
+    list-style: none;
+    padding: 0;
+}
+
+.todo-item {
+    color: #fff;
+    background-color: #3a3a3a;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    font-size: 18px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.todo-item:hover {
+    background-color: #505050;
+}
+
+.todo-buttons {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.todo-buttons .btn {
+    margin: 5px;
+    width: 100%;
+    max-width: 200px;
+}
+</style>
                                 <?php endif; ?>
 
                                 <div class="p-1 dcPanel dcAvatarPanel" style="width: 140px;margin-left: -60px;">
