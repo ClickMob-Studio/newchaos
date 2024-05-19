@@ -1078,7 +1078,8 @@ $(document).ready(function() {
             color: #fff;
             border: none;
             margin: 5px;
-            padding: 10px 20px;
+           
+    padding: 6px 15px;
             border-radius: 8px;
         }
 
