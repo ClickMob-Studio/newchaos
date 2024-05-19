@@ -243,24 +243,6 @@ if ($printcaptcha != "") {
             <td align="center" style="padding-bottom: 10px;"><button onclick="train('defense');">Defense</button></td>
             <td align="center" style="padding-bottom: 10px;"><button onclick="train('speed');">Speed</button></td>
         </tr>
-        <tr>
-            <td align="center" style="padding-bottom: 10px;"><button class="btna" onclick="trainrefill('strength');">Strength + Refills</button></td>
-            <td align="center" style="padding-bottom: 10px;"><button class="btna" onclick="trainrefill('defense');">Defense + Refills</button></td>
-            <td align="center" style="padding-bottom: 10px;"><button class="btna" onclick="trainrefill('speed');">Speed + Refills</button></td>
-        </tr>
-        <tr>
-            <td align="center" style="padding-bottom: 10px;" colspan='3'><hr /></td>
-        </tr>
-        <tr>
-            <td align="center" style="padding-bottom: 10px;"><button onclick="refill('energy');">Refill Energy</button></td>
-            <td align="center" style="padding-bottom: 10px;"><button onclick="refill('awake');">Refill Awake</button></td>
-            <td align="center" style="padding-bottom: 10px;"><button onclick="refill('both');">Refill Both</button></td>
-        </tr>
-        <tr>
-            <td align="center" style="padding-bottom: 10px;" colspan='3'><span style='font-weight:bold;'>Super Trains: Click and hold on your desired train, then hold <font color=red>[Enter]</font> button for Super fast trains.<br>You can turn auto refills on</font> <font color=red><a href="settings.php">[Here]</a></font><br>
-           
-
-</tr>
     </table>
     
    
