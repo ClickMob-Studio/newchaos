@@ -1072,6 +1072,7 @@ $(document).ready(function() {
     padding: 0;
 }
 
+.todo-list{
 color: #fff;
     background-color: #3a3a3a;
     margin-bottom: 5px;
@@ -1079,7 +1080,7 @@ color: #fff;
     font-size: 9px;
     text-align: center;
     transition: background-color 0.3s ease;
-
+}
 .todo-item:hover {
     background-color: #505050;
 }
