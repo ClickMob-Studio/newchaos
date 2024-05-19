@@ -564,6 +564,10 @@ $activeRaidsQuery = "SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE
 $activeRaidsResult = mysql_query($activeRaidsQuery);
 $activeRaidsData = mysql_fetch_assoc($activeRaidsResult);
 $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
+
+$nogame2 = mysql_query("SELECT * FROM numbergame WHERE userid=$user_class->id");
+$no2 = mysql_num_rows($nogame2);
+
 echo '<script src="js/java.js?12" type="text/javascript"></script>';
 ?><!doctype html>
 <html lang="en">
@@ -726,23 +730,54 @@ if ($user_class->view_preference === '1') { ?>
       </a>
    
     </div>
-    <div class="d-flex justify-content-end align-items-center"> 
-        
-    <a href="#" data-bs-toggle="modal" data-bs-target="#timeModal">
+    <div class="d-flex justify-content-end align-items-center">
+        <a href="#" data-bs-toggle="modal" data-bs-target="#timeModal">
             <i class="fa-solid fa-clock"></i>
         </a>
- <!-- Dropdown -->
-<div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-    <i class="fa-solid fa-user"></i>
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item" href="/settings.php"><i class="fa-solid fa-gear"></i> Settings</a></li>
-        <li><a class="dropdown-item" href="/profiles.php?id=<?php echo $user_class->id;?>"><i class="fa-solid fa-address-card"></i> Profile</a></li>
-        <li><a class="dropdown-item" href="/online.php"><i class="fa-solid fa-globe"></i> Online</a></li>
-        <li><a class="dropdown-item" href="index.php?action=logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-    </ul>
-</div>
+
+        <!-- Dropdown -->
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fa-solid fa-list"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <?php if ($user_class->cityturns > 0): ?>
+                    <li><a class="dropdown-item" href="/maze.php"><i class="fa-solid fa-puzzle-piece"></i> Maze</a></li>
+                <?php endif; ?>
+                <?php if ($user_class->searchdowntown > 0): ?>
+                    <li><a class="dropdown-item" href="/thecity.php"><i class="fa-solid fa-road"></i> Streets</a></li>
+                <?php endif; ?>
+                <?php if ($no2 < 1): ?>
+                    <li><a class="dropdown-item" href="/numbergame.php"><i class="fa-solid fa-dice"></i> Number Game</a></li>
+                <?php endif; ?>
+                <?php if ($user_class->luckydip > 0): ?>
+                    <li><a class="dropdown-item" href="/luckydip.php"><i class="fa-solid fa-sack-dollar"></i> Lucky Dip</a></li>
+                <?php endif; ?>
+                <?php if ($user_class->doors > 0): ?>
+                    <li><a class="dropdown-item" href="/thedoors.php"><i class="fa-solid fa-dungeon"></i> The Doors</a></li>
+                <?php endif; ?>
+                <?php if ($user_class->psmuggling > 0): ?>
+                    <li><a class="dropdown-item" href="/psmuggling.php"><i class="fa-solid fa-person-through-window"></i> Point Smuggling</a></li>
+                <?php endif; ?>
+                <?php if ($user_class->rtsmuggling > 0): ?>
+                    <li><a class="dropdown-item" href="/raidtokensmuggling.php.php"><i class="fa-solid fa-person-through-window"></i> Raid Token Smuggling</a></li>
+                <?php endif; ?>
+
+            </ul>
+        </div>
+
+        <!-- Dropdown -->
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-user"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li><a class="dropdown-item" href="/settings.php"><i class="fa-solid fa-gear"></i> Settings</a></li>
+                <li><a class="dropdown-item" href="/profiles.php?id=<?php echo $user_class->id;?>"><i class="fa-solid fa-address-card"></i> Profile</a></li>
+                <li><a class="dropdown-item" href="/online.php"><i class="fa-solid fa-globe"></i> Online</a></li>
+                <li><a class="dropdown-item" href="index.php?action=logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+            </ul>
+        </div>
     </div>
 
   </div>
@@ -1003,12 +1038,63 @@ $(document).ready(function() {
         <div class="col-12 col-lg-8 mt-3 mt-lg-0">
                 <div class="dcPanel h-100">
                     
-                    <div class="text-center dcBannerButtonsContainer">
+                    <div class="col-12 col-lg-8 mt-3 mt-lg-0">
+        <div class="dcPanel h-100">
+            <div class="todo-section">
+                <h2 class="todo-title">To Do</h2>
+                <ul class="todo-list">
+                    <li class="todo-item">Maze</li>
+                    <li class="todo-item">Streets</li>
+                    <li class="todo-item">Number Game</li>
+                    <li class="todo-item">Lucky Dip</li>
+                    <li class="todo-item">The Doors</li>
+                    <li class="todo-item">Point Smuggling</li>
+                    <li class="todo-item">Raid Token Smuggling</li>
+                </ul>
+                <div class="todo-buttons">
+                    <button class="btn btn-primary">Vote For 💎</button>
+                    <button class="btn btn-secondary">Refer For 💎</button>
+                    <button class="btn btn-success">Upgrades ⬈</button>
+                </div>
+            </div>
+   
 
                         <div class="dcBannerButtonsContainerMain">
                             <div class="col-12 col-lg-4">
-                                <div class="p-1 dcPanel dcAvatarPanel" style="width: 140px;
-    margin-left: -60px;">
+                                <?php if ($user_class->admin > 0): ?>
+
+                                    <style>
+                                        .todo-section {
+
+    padding: 20px;
+    border-radius: 8px;
+}
+
+
+.todo-list {
+    list-style: none;
+    padding: 0;
+}
+
+.todo-list{
+color: #fff;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    font-size: 9px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+.todo-item:hover {
+    background-color: #505050;
+}
+
+
+
+
+</style>
+                                <?php endif; ?>
+
+                                <div class="p-1 dcPanel dcAvatarPanel" style="width: 140px;margin-left: -60px;">
                                     <div class="row mb-3 mission">
                                         <h3 class='box_top'>Mission</h3>
                                     </div>
