@@ -1045,7 +1045,7 @@ $(document).ready(function() {
                                 <?php if ($user_class->admin > 0): ?>
                                     <div class="p-1 dcPanel dcAvatarPanel" style="width: 140px;margin-left: -60px;">
                                     <div class="todo-section">
-    <h2 class="todo-title">To Do</h2>
+    <h1>To Do</h1>
     <ul class="todo-list">
         <li class="todo-item">Maze</li>
         <li class="todo-item">Streets</li>
@@ -1061,7 +1061,7 @@ $(document).ready(function() {
 
                                     <style>
                                         .todo-section {
-    background-color: #2c2c2c; /* Dark background to match the website theme */
+
     padding: 20px;
     border-radius: 8px;
 }
