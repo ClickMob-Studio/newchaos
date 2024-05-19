@@ -1074,7 +1074,6 @@ $(document).ready(function() {
 
 .todo-list{
 color: #fff;
-    background-color: #3a3a3a;
     margin-bottom: 5px;
     border-radius: 4px;
     font-size: 9px;
