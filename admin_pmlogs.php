@@ -5,7 +5,7 @@ if ($user_class->admin < 1) {
     exit;
 }
 
-$query = mysql_query("SELECT * FROM `pm` ORDER BY `timesent` DESC LIMIT 200");
+$query = mysql_query("SELECT * FROM `pms` ORDER BY `timesent` DESC LIMIT 200");
 ?>
 
 <h1>Send Logs</h1>
