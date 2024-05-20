@@ -16,7 +16,6 @@ if (!$prizesClaimed || $prizesClaimed == '') {
 $gang_class = new Gang($user_class->gang);
 $isLeader = false;
 if ($gang_class->leader == $user_class->id) {
-    var_dump(@$gang_class->leader);
     $isLeader = true;
 }
 
@@ -159,8 +158,12 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 </td>
                 <td>
                     <center>
-                        <?php if (!in_array('crimes', $prizesClaimed) && $gangCompLeaderboard['weekly_crimes_complete'] >= 10000000): ?>
+                        <?php if ($isLeader && !in_array('crimes', $prizesClaimed) && $gangCompLeaderboard['weekly_crimes_complete'] >= 10000000): ?>
                             <a class="btn btn-success" href="gang_doubleexp.php?claim_prize=crimes">Claim Prize</a>
+                        <?php endif; ?>
+
+                        <?php if (in_array('crimes', $prizesClaimed)): ?>
+                            <span style="color: green">Claimed</span>
                         <?php endif; ?>
                     </center>
                 </td>
@@ -186,8 +189,12 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 </td>
                 <td>
                     <center>
-                        <?php if (!in_array('kills', $prizesClaimed) && $gangCompLeaderboard['weekly_attacks_complete'] >= 150000): ?>
+                        <?php if ($isLeader && !in_array('kills', $prizesClaimed) && $gangCompLeaderboard['weekly_attacks_complete'] >= 150000): ?>
                             <a class="btn btn-success" href="gang_doubleexp.php?claim_prize=kills">Claim Prize</a>
+                        <?php endif; ?>
+
+                        <?php if (in_array('kills', $prizesClaimed)): ?>
+                            <span style="color: green">Claimed</span>
                         <?php endif; ?>
                     </center>
                 </td>
@@ -213,8 +220,12 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 </td>
                 <td>
                     <center>
-                        <?php if (!in_array('busts', $prizesClaimed) && $gangCompLeaderboard['weekly_busts_complete'] >= 200000): ?>
+                        <?php if ($isLeader && !in_array('busts', $prizesClaimed) && $gangCompLeaderboard['weekly_busts_complete'] >= 200000): ?>
                             <a class="btn btn-success" href="gang_doubleexp.php?claim_prize=busts">Claim Prize</a>
+                        <?php endif; ?>
+
+                        <?php if (in_array('busts', $prizesClaimed)): ?>
+                            <span style="color: green">Claimed</span>
                         <?php endif; ?>
                     </center>
                 </td>
@@ -240,8 +251,12 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 </td>
                 <td>
                     <center>
-                        <?php if (!in_array('mugs', $prizesClaimed) && $gangCompLeaderboard['weekly_mugs_complete'] >= 150000): ?>
+                        <?php if ($isLeader && !in_array('mugs', $prizesClaimed) && $gangCompLeaderboard['weekly_mugs_complete'] >= 150000): ?>
                             <a class="btn btn-success" href="gang_doubleexp.php?claim_prize=mugs">Claim Prize</a>
+                        <?php endif; ?>
+
+                        <?php if (in_array('mugs', $prizesClaimed)): ?>
+                            <span style="color: green">Claimed</span>
                         <?php endif; ?>
                     </center>
                 </td>
