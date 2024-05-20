@@ -57,7 +57,9 @@ $prizesClaimed = unserialize($gangCompLeaderboard['serialised_prizes_claimed']);
                 </td>
                 <td>
                     <center>
-                        <a class="btn btn-success" href="#">Claim Prize</a>
+                        <?php if (!in_array('crimes', $prizesClaimed) && $gangCompLeaderboard['weekly_crimes_complete'] >= 10000000): ?>
+                            <a class="btn btn-success" href="gang_doubleexp.php?claim_prize=crimes">Claim Prize</a>
+                        <?php endif; ?>
                     </center>
                 </td>
             </tr>
@@ -82,7 +84,9 @@ $prizesClaimed = unserialize($gangCompLeaderboard['serialised_prizes_claimed']);
                 </td>
                 <td>
                     <center>
-                        <a class="btn btn-success" href="#">Claim Prize</a>
+                        <?php if (!in_array('kills', $prizesClaimed) && $gangCompLeaderboard['weekly_attacks_complete'] >= 150000): ?>
+                            <a class="btn btn-success" href="gang_doubleexp.php?claim_prize=kills">Claim Prize</a>
+                        <?php endif; ?>
                     </center>
                 </td>
             </tr>
@@ -107,7 +111,9 @@ $prizesClaimed = unserialize($gangCompLeaderboard['serialised_prizes_claimed']);
                 </td>
                 <td>
                     <center>
-                        <a class="btn btn-success" href="#">Claim Prize</a>
+                        <?php if (!in_array('busts', $prizesClaimed) && $gangCompLeaderboard['weekly_busts_complete'] >= 200000): ?>
+                            <a class="btn btn-success" href="gang_doubleexp.php?claim_prize=busts">Claim Prize</a>
+                        <?php endif; ?>
                     </center>
                 </td>
             </tr>
@@ -132,7 +138,9 @@ $prizesClaimed = unserialize($gangCompLeaderboard['serialised_prizes_claimed']);
                 </td>
                 <td>
                     <center>
-                        <a class="btn btn-success" href="#">Claim Prize</a>
+                        <?php if (!in_array('mugs', $prizesClaimed) && $gangCompLeaderboard['weekly_mugs_complete'] >= 150000): ?>
+                            <a class="btn btn-success" href="gang_doubleexp.php?claim_prize=mugs">Claim Prize</a>
+                        <?php endif; ?>
                     </center>
                 </td>
             </tr>
