@@ -67,7 +67,7 @@ foreach ($durations as $duration) {
         echo '<div class="user-card">';
         echo '<img style="width: 20px; height:20px;" src="' . $user['pic'] . '" alt="' . $user['user'] . '">';
         echo '<p>' . $user['user'] . '</p>';
-        echo '<p>' . $user['date'] . '</p>';
+        echo '<p>' . howlongago($user['date']) . '</p>';
         echo '</div>';
         echo '</li>';
     }
