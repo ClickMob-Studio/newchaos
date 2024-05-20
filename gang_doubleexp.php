@@ -100,6 +100,50 @@ $gangCompLeaderboard = getGangCompLeaderboard($user_class->gang);
                     </center>
                 </td>
             </tr>
+
+            <!-- BUSTS -->
+            <tr>
+                <td>
+                    <center>
+                        <strong>Busts</strong><br />
+                        Complete 200,000 Busts
+                    </center>
+                </td>
+                <td>
+                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" title="15,000/200,000">
+                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: 10%">
+                            15,000/200,000
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <center>
+                        <a class="btn btn-success" href="#">Claim Prize</a>
+                    </center>
+                </td>
+            </tr>
+
+            <!-- MUGS -->
+            <tr>
+                <td>
+                    <center>
+                        <strong>Mugs</strong><br />
+                        Complete 150,000 Mugs
+                    </center>
+                </td>
+                <td>
+                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" title="15,000/150,000">
+                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: 10%">
+                            15,000/150,000
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <center>
+                        <a class="btn btn-success" href="#">Claim Prize</a>
+                    </center>
+                </td>
+            </tr>
         </table>
     </div>
 </div>
