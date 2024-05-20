@@ -374,6 +374,8 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
             }
 
+            addToGangCompLeaderboard($user_class->gang, 'crimes_complete', 1);
+
             $user_class->money += $money;
             $user_class->nerve -= $nerve;
             $db->query("UPDATE grpgusers SET loth = loth + ?, exp = exp + ?, crimesucceeded = crimesucceeded + 1, crimemoney = crimemoney + ?, `money` = `money` + ?, nerve = nerve - ?, todaysexp = todaysexp + ?, expcount = expcount + ?, totaltax = totaltax + ? WHERE id = ?");
