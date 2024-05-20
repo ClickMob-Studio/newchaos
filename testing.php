@@ -101,26 +101,4 @@ for ($i = 1; $i <= $totalPages; $i++) {
 echo '</ul>';
 echo '</nav>';
 
-/**
- * Function to calculate how long ago a timestamp is from now
- */
-function howlongago($timestamp) {
-    $time_diff = time() - $timestamp;
-    $units = array(
-        'year' => 31556926,
-        'month' => 2629743,
-        'week' => 604800,
-        'day' => 86400,
-        'hour' => 3600,
-        'minute' => 60,
-        'second' => 1,
-    );
-    foreach ($units as $unit => $value) {
-        if ($time_diff >= $value) {
-            $num = floor($time_diff / $value);
-            return $num . ' ' . $unit . (($num > 1) ? 's' : '') . ' ago';
-        }
-    }
-    return 'just now';
-}
 ?>
