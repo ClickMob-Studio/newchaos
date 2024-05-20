@@ -1486,6 +1486,9 @@ if ($bonus_row['Time'] > 0) {
 }
 
 //$messages[] = '<a href="crime_contest.php"><font color=red>Crime/Attack Comp Active</font></a>';
+if ($user_class->gang > 0) {
+    $messages[] = '<a href="gang_doubleexp.php"><font color=red>Gang Challenge</font></a>';
+}
 
 // if ($user_class->cityturns > 29) {
 //     $messages[] = '<a href="maze.php">You Have Maze Searches Available</a>';
