@@ -65,7 +65,7 @@ foreach ($durations as $duration) {
         echo '<li class="list-inline-item flex-fill mb-2">';
         // Render the user card directly
         echo '<div class="user-card">';
-        echo '<img src="' . $user['pic'] . '" alt="' . $user['user'] . '">';
+        echo '<img style="width: 20px; height:20px;" src="' . $user['pic'] . '" alt="' . $user['user'] . '">';
         echo '<p>' . $user['user'] . '</p>';
         echo '<p>' . $user['date'] . '</p>';
         echo '</div>';
