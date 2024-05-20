@@ -31,13 +31,15 @@ $gangCompLeaderboard = getGangCompLeaderboard($user_class->gang);
         <table id="newtables" style="width:100%; text-align: left;">
             <tr>
                 <th><b>Mission</b></th>
-                <th><b>Progress</b></th>
+                <th width="50%"><b>Progress</b></th>
                 <th><b>Claim</b></th>
             </tr>
             <tr>
                 <td>
-                    <strong>Crimes</strong><br />
-                    Complete 7,000,000 Crimes
+                    <center>
+                        <strong>Crimes</strong><br />
+                        Complete 7,000,000 Crimes
+                    </center>
                 </td>
                 <td>
                     <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" title="700,000/7,000,000">
@@ -47,7 +49,9 @@ $gangCompLeaderboard = getGangCompLeaderboard($user_class->gang);
                     </div>
                 </td>
                 <td>
-                    <a class="btn btn-success" href="#">Claim Prize</a>
+                    <center>
+                        <a class="btn btn-success" href="#">Claim Prize</a>
+                    </center>
                 </td>
             </tr>
         </table>
