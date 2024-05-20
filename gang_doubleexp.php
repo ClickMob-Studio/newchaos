@@ -126,6 +126,8 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 and the pill will be added to their inventory, ready for them to activate double EXP for your gang at anytime!
             </p>
 
+            <p><strong>Challenge Ends 26th May at 9am Server Time.</strong></p>
+
             <p>Enjoy!</p>
             <br /><br /><hr />
         </center>
