@@ -1541,6 +1541,11 @@ if ($tempItemUse['nerve_vial_time'] > $time) {
     $rtn = howlongtil($tempItemUse['nerve_vial_time']);
     $messages[] = 'Nerve Vial: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
 }
+// Gang Double EXP Time
+if ($tempItemUse['gang_double_exp_time'] > $time) {
+    $rtn = howlongtil($tempItemUse['gang_double_exp_time']);
+    $messages[] = 'Gang Double EXP: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
 
 
 
