@@ -30,7 +30,7 @@ foreach ($times as $title => $intval) {
         LIMIT $limit OFFSET $offset
     ";
     $db->query($query);
-    $onlineUsers = $db->fetch_all();
+    $onlineUsers = $db->fetch_row();
     $onlineCount = count($onlineUsers);
 
     foreach ($onlineUsers as $row) {
