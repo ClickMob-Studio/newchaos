@@ -8,6 +8,8 @@ if ($user_class->gang < 1) {
 
 $gangCompLeaderboard = getGangCompLeaderboard($user_class->gang);
 
+$prizesClaimed = unserialize($gangCompLeaderboard['serialised_prizes_claimed']);
+
 ?>
 
 <div class='box_top'><h1>Gang Double EXP Challenge</h1></div>
