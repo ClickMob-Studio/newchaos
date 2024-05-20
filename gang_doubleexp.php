@@ -14,11 +14,15 @@ if (!$prizesClaimed || $prizesClaimed == '') {
 }
 
 $gang_class = new Gang($user_class->gang);
+$isLeader = false;
+if ($gang_class->leader == $user_class->id) {
+    $isLeader = true;
+}
 
 
 $claimPrizeOptions = array('crimes','kills','busts','mugs');
 if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOptions)) {
-    if ($gang_class->leader != $user_class->id) {
+    if (!$isLeader) {
         diefun('Only a gang leader can claim a prize.');
     }
 
