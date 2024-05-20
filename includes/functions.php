@@ -2011,6 +2011,25 @@ function addUserBaStatExp($userBaStats, $baExpWon)
     }
 }
 
+function getGangCompLeaderboard($gangId)
+{
+    global $db;
+
+    $db->query("SELECT * FROM gang_comp_leaderboard WHERE gang_id = " . $gangId . " LIMIT 1");
+    $db->execute();
+    $r = $db->fetch_row();
+
+    if (isset($r[0]['id'])) {
+        return $r[0];
+    } else {
+        $db->query("INSERT INTO gang_comp_leaderboard (gang_id) VALUES (" . $gangId . ")");
+        $db->execute();
+        $r = getGangCompLeaderboard($gangId);
+
+        return $r;
+    }
+}
+
 
 function addToGangCompLeaderboard($gangId, $field, $value)
 {
