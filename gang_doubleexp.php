@@ -69,9 +69,12 @@ $gangCompLeaderboard = getGangCompLeaderboard($user_class->gang);
                     </center>
                 </td>
                 <td>
-                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" title="15,000/150,000">
-                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: 10%">
-                            15,000/150,000
+                    <?php
+                    $barWidthPer = $gangCompLeaderboard['weekly_attacks_complete'] / 150000 * 100;
+                    ?>
+                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($gangCompLeaderboard['weekly_attacks_complete'], 0) ?>/150,000">
+                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: <?php echo $barWidthPer ?>%">
+                            <?php echo number_format($gangCompLeaderboard['weekly_attacks_complete'], 0) ?>/150,000
                         </div>
                     </div>
                 </td>
@@ -91,9 +94,12 @@ $gangCompLeaderboard = getGangCompLeaderboard($user_class->gang);
                     </center>
                 </td>
                 <td>
-                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" title="15,000/200,000">
-                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: 10%">
-                            15,000/200,000
+                    <?php
+                    $barWidthPer = $gangCompLeaderboard['weekly_busts_complete'] / 200000 * 100;
+                    ?>
+                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($gangCompLeaderboard['weekly_busts_complete'], 0) ?>/200,000">
+                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: <?php echo $barWidthPer ?>%">
+                            <?php echo number_format($gangCompLeaderboard['weekly_busts_complete'], 0) ?>/200,000
                         </div>
                     </div>
                 </td>
@@ -113,9 +119,12 @@ $gangCompLeaderboard = getGangCompLeaderboard($user_class->gang);
                     </center>
                 </td>
                 <td>
-                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" title="15,000/150,000">
-                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: 10%">
-                            15,000/150,000
+                    <?php
+                    $barWidthPer = $gangCompLeaderboard['weekly_mugs_complete'] / 150000 * 100;
+                    ?>
+                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($gangCompLeaderboard['weekly_mugs_complete'], 0) ?>/150,000">
+                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: <?php echo $barWidthPer ?>%">
+                            <?php echo number_format($gangCompLeaderboard['weekly_mugs_complete'], 0) ?>/200,000
                         </div>
                     </div>
                 </td>
