@@ -9,6 +9,97 @@ if ($user_class->gang < 1) {
 $gangCompLeaderboard = getGangCompLeaderboard($user_class->gang);
 
 $prizesClaimed = unserialize($gangCompLeaderboard['serialised_prizes_claimed']);
+if (!$prizesClaimed || $prizesClaimed == '') {
+    $prizesClaimed = array();
+}
+
+$gang_class = new Gang($user_class->gang);
+
+
+$claimPrizeOptions = array('crimes','kills','busts','mugs');
+if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOptions)) {
+    if ($gang_class->leader != $user_class->id) {
+        diefun('Only a gang leader can claim a prize.');
+    }
+
+    $claimPrize = $_GET['claim_prize'];
+
+    if ($claimPrize === 'crimes') {
+        if ($gangCompLeaderboard['weekly_crimes_complete'] >= 10000000) {
+            if (in_array($claimPrize, $prizesClaimed)) {
+                diefun('You have already claimed this prize.');
+            } else {
+                $prizesClaimed[] = 'crimes';
+
+                $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "'");
+                $db->execute();
+
+                Give_Item(257, 1);
+
+                $resMes = 'You have successfully claimed your Gang Double EXP Pill for completing the crimes mission. It has been added to your inventory.';
+            }
+        } else {
+            diefun('You have not earned the prize yet.');
+        }
+    }
+
+    if ($claimPrize === 'kills') {
+        if ($gangCompLeaderboard['weekly_attacks_complete'] >= 150000) {
+            if (in_array($claimPrize, $prizesClaimed)) {
+                diefun('You have already claimed this prize.');
+            } else {
+                $prizesClaimed[] = 'kills';
+
+                $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "'");
+                $db->execute();
+
+                Give_Item(257, 1);
+
+                $resMes = 'You have successfully claimed your Gang Double EXP Pill for completing the kills mission. It has been added to your inventory.';
+            }
+        } else {
+            diefun('You have not earned the prize yet.');
+        }
+    }
+
+    if ($claimPrize === 'busts') {
+        if ($gangCompLeaderboard['weekly_busts_complete'] >= 200000) {
+            if (in_array($claimPrize, $prizesClaimed)) {
+                diefun('You have already claimed this prize.');
+            } else {
+                $prizesClaimed[] = 'busts';
+
+                $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "'");
+                $db->execute();
+
+                Give_Item(257, 1);
+
+                $resMes = 'You have successfully claimed your Gang Double EXP Pill for completing the busts mission. It has been added to your inventory.';
+            }
+        } else {
+            diefun('You have not earned the prize yet.');
+        }
+    }
+
+    if ($claimPrize === 'mugs') {
+        if ($gangCompLeaderboard['weekly_mugs_complete'] >= 200000) {
+            if (in_array($claimPrize, $prizesClaimed)) {
+                diefun('You have already claimed this prize.');
+            } else {
+                $prizesClaimed[] = 'mugs';
+
+                $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "'");
+                $db->execute();
+
+                Give_Item(257, 1);
+
+                $resMes = 'You have successfully claimed your Gang Double EXP Pill for completing the mugs mission. It has been added to your inventory.';
+            }
+        } else {
+            diefun('You have not earned the prize yet.');
+        }
+    }
+}
 
 ?>
 
@@ -17,6 +108,12 @@ $prizesClaimed = unserialize($gangCompLeaderboard['serialised_prizes_claimed']);
     <div class='pad'>
         <br />
         <center>
+            <?php if (isset($resMes) && $resMes): ?>
+                <div class="alert alert-success" role="alert">
+                    <?php echo $resMes ?>
+                </div>
+            <?php endif; ?>
+
             <p>
                 Mobsters, it's time to gang up and show what you & the homies are made of! Complete the missions below with 4 x Gang Double EXP Pills up for grabs!
             </p>
