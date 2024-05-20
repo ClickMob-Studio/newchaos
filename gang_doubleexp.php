@@ -6,9 +6,7 @@ if ($user_class->gang < 1) {
     diefun('You are not in a gang.');
 }
 
-$db->query("SELECT `id` FROM `gang_comp_leaderboard` WHERE `gang_id` = " . $gangId . " LIMIT 1");
-$db->execute();
-$gangCompLeaderboard = $db->fetch_single();
+$gangCompLeaderboard = getGangCompLeaderboard($user_class->gang);
 
 ?>
 
