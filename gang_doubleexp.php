@@ -34,7 +34,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "'");
                 $db->execute();
 
-                Give_Item(257, 1);
+                Give_Item(257, $user_class->id);
 
                 $resMes = 'You have successfully claimed your Gang Double EXP Pill for completing the crimes mission. It has been added to your inventory.';
             }
@@ -53,7 +53,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "'");
                 $db->execute();
 
-                Give_Item(257, 1);
+                Give_Item(257, $user_class->id);
 
                 $resMes = 'You have successfully claimed your Gang Double EXP Pill for completing the kills mission. It has been added to your inventory.';
             }
@@ -72,7 +72,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "'");
                 $db->execute();
 
-                Give_Item(257, 1);
+                Give_Item(257, $user_class->id);
 
                 $resMes = 'You have successfully claimed your Gang Double EXP Pill for completing the busts mission. It has been added to your inventory.';
             }
@@ -91,7 +91,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "'");
                 $db->execute();
 
-                Give_Item(257, 1);
+                Give_Item(257, $user_class->id);
 
                 $resMes = 'You have successfully claimed your Gang Double EXP Pill for completing the mugs mission. It has been added to your inventory.';
             }
