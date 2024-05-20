@@ -16,6 +16,7 @@ if (!$prizesClaimed || $prizesClaimed == '') {
 $gang_class = new Gang($user_class->gang);
 $isLeader = false;
 if ($gang_class->leader == $user_class->id) {
+    var_dump(@$gang_class->leader);
     $isLeader = true;
 }
 
