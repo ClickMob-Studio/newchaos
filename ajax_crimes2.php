@@ -374,7 +374,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
             }
 
-            addToGangCompLeaderboard($user_class->gang, 'crimes_complete', 1);
+            addToGangCompLeaderboard($user_class->gang, 'crimes_complete', $crime_multiplier);
 
             $user_class->money += $money;
             $user_class->nerve -= $nerve;
