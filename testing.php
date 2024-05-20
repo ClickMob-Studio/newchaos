@@ -65,7 +65,7 @@ $totalPages = ceil($totalUsers / $limit);
 
 // Render the HTML directly
 echo '<h3 class="text-uppercase">Players Online</h3>';
-echo '<p class="text-warning">' . number_format($onlineCount) . ' Active players in the last ' . $selectedTimeframe . '.</p>';
+echo '<p class="text-warning">' . number_format($totalUsers) . ' Active players in the last ' . $selectedTimeframe . '.</p>';
 echo '<p class="w-lg-50 mb-3">Check online players and know who is active in the last ' . $selectedTimeframe . '.</p>';
 
 // Timeframe links
