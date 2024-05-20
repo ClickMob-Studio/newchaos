@@ -164,6 +164,8 @@ if ($mug <= 8) {
             }
         }
 
+        addToGangCompLeaderboard($user_class->gang, 'mugs_complete', 1);
+
         if ($mugamount < 1) {
             mission('m');
             newmissions('mugs');
