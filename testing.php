@@ -39,7 +39,7 @@ foreach ($times as $title => $intval) {
             $users[] = array(
                 "user" => $row['username'],
                 "pic" => $row['avatar'], // Assuming profile_picture is a field in the grpgusers table
-                "date" => date('Y-m-d H:i:s', $row["lastactive"]),
+                "date" => $row["lastactive"],
                 "id" => $row['id']
             );
         }
