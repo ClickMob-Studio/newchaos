@@ -48,7 +48,7 @@ $gangCompLeaderboard = getGangCompLeaderboard($user_class->gang);
                     $barWidthPer = $gangCompLeaderboard['weekly_crimes_complete'] / 10000000 * 100;
                     ?>
                     <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($gangCompLeaderboard['weekly_crimes_complete'], 0) ?>/10,000,000">
-                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: <?php echo $barWidthPer ?>%%">
+                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: <?php echo $barWidthPer ?>%">
                             <?php echo number_format($gangCompLeaderboard['weekly_crimes_complete'], 0) ?>/10,000,000
                         </div>
                     </div>
