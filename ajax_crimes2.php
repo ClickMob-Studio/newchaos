@@ -192,12 +192,19 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
     //$debug['worked'] = $bonus_row;
 
-    if ($bonus_row['Time'] > 0) {
+    $tempItemUse = getItemTempUse($user_class->id);
+    $aTime = time();
+    if ($tempItemUse['gang_double_exp_time'] > $aTime) {
         $exp *= 2;
         $money *= 1;
         $chance = 100;
+    } else {
+        if ($bonus_row['Time'] > 0) {
+            $exp *= 2;
+            $money *= 1;
+            $chance = 100;
+        }
     }
-
 
     if (time() < 1673827199) {
         $exp *= 2;
@@ -415,7 +422,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
             $text = ($gtax > 0) ? "$stext. You received $exp exp and $$money.(Gang Tax: $$gtax)" : "$stext. You received $exp exp and $$money";
 
-            addToGangCompLeaderboard($user_class->gang, 'crimes_complete', $crime_multiplier);
+
 
             $debug['response'] = "Success! $text";
             //$logger->info("", $debug);
