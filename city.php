@@ -330,6 +330,12 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
             <a href='uni.php'>Education</a><br>
             <a href='travel.php'>Travel</a><br>
             <a href='maze.php'>Maze</a><br>
+            <?php
+            $userPrestigeSkills = getUserPrestigeSkills($user_class);
+            if ($userPrestigeSkills['speed_attack_unlock'] > 0) {
+                echo "<a href='super_attack.php'>Super Attack</a><br>";
+            }
+            ?>
         </div>
     </div>
 </div>
