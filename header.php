@@ -1502,8 +1502,8 @@ if ($db->num_rows() > 0) {
 
 // Bust Pill
 if ($user_class->bustpill > 0) {
-    $rtn = ($user_class->bustpill);
-    $messages[] = 'Police Badge: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+    $rtn = $user_class->bustpill;
+    $messages[] = 'Police Badge: ' . (($rtn == 'NOW') ? '@None@' : $rtn . 'm');
 }
 
 // Out of Jail
