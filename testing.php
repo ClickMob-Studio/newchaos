@@ -1,7 +1,9 @@
 <?php
 // Include the database connection from header.php
 include 'header.php';
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 // Define the times array
 $times = array(
     'Last 5 Minutes' => 300,    // 5 minutes
