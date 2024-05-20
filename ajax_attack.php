@@ -481,6 +481,7 @@ if ($theirhp <= 0) {
 
     // UserCompLeaderboard
     addToUserCompLeaderboard($user_class->id, 'attacks_complete', 1);
+    addToGangCompLeaderboard($user_class->gang, 'attacks_complete', 1);
 
     Send_Event($attack_person->id, "[-_USERID_-] attacked you and won! They gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".", $user_class->id);
     Send_Event1($attack_person->id, "Was attacked by [-_USERID_-]  and lost the fight! They gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".", $user_class->id);
