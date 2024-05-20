@@ -82,6 +82,8 @@ if (isset($_GET['jailbreak'])  && $_GET['jailbreak'] == 'bot') {
         ofthes($user_class->id, $toadd);
         bloodbath('busts', $user_class->id);
 
+        addToGangCompLeaderboard($user_class->gang, 'busts_complete', 1);
+
         echo json_encode(array(
             'success' => true,
             'jail_bot_credits' => $user_class->jail_bot_credits,

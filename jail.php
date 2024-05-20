@@ -136,6 +136,8 @@ if ($jailbreak != ""){
                         //send even to that person
                         Send_Event($jailed_person['id'], "You have been busted out of Jail by [-_USERID_-].", $user_class->id);
 
+                        addToGangCompLeaderboard($user_class->gang, 'busts_complete', 1);
+
                         //header('Location: jail.php');
                     }elseif ($chance >= 150) {
                         $_SESSION['message'] = "You were caught. You were hauled off to jail for 10  minutes.";
