@@ -124,7 +124,7 @@ $gangCompLeaderboard = getGangCompLeaderboard($user_class->gang);
                     ?>
                     <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($gangCompLeaderboard['weekly_mugs_complete'], 0) ?>/150,000">
                         <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: <?php echo $barWidthPer ?>%">
-                            <?php echo number_format($gangCompLeaderboard['weekly_mugs_complete'], 0) ?>/200,000
+                            <?php echo number_format($gangCompLeaderboard['weekly_mugs_complete'], 0) ?>/150,000
                         </div>
                     </div>
                 </td>
