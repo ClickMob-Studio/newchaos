@@ -415,6 +415,8 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
             $text = ($gtax > 0) ? "$stext. You received $exp exp and $$money.(Gang Tax: $$gtax)" : "$stext. You received $exp exp and $$money";
 
+            addToGangCompLeaderboard($user_class->gang, 'crimes_complete', $crime_multiplier);
+
             $debug['response'] = "Success! $text";
             //$logger->info("", $debug);
             echo json_encode(array(
