@@ -38,7 +38,7 @@ foreach ($times as $title => $intval) {
         if (isset($row['id'])) {
             $users[] = array(
                 "user" => $row['username'],
-                "pic" => $row['profile_picture'], // Assuming profile_picture is a field in the grpgusers table
+                "pic" => $row['avatar'], // Assuming profile_picture is a field in the grpgusers table
                 "date" => date('Y-m-d H:i:s', $row["lastactive"]),
                 "id" => $row['id']
             );
