@@ -391,6 +391,9 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 $mt = "Active Mission: {$activeMission['name']} Crimes: {$activeMission['crimesdone']}/{$activeMission['crimestarget']}";
             }
 
+            addToGangCompLeaderboard($user_class->gang, 'crimes_complete', $crime_multiplier);
+
+
             $text = ($gtax > 0) ? "$stext. You received $exp exp and $$money.(Gang Tax: $$gtax)" : "$stext. You received $exp exp and $$money";
 
             $debug['response'] = "Success! $text";
