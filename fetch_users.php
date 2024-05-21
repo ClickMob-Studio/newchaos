@@ -2,33 +2,25 @@
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 
-$servername = "localhost";
-$username = "chaoscit_user";
-$password = "3lrKBlrfMGl2ic14";
-$dbname = "chaoscit_game";
+// Include the database class
+require 'database/pdo_class.php';
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
+// Prepare and execute the query
 $sql = "SELECT id, username FROM grpgusers";
-$result = $conn->query($sql);
+$db->query($sql);
+$result = $db->fetch_row();
 
+// Initialize the users array
 $users = array();
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-        $users[] = $row;
-    }
+if (!empty($result)) {
+    $users = $result;
 } else {
     echo json_encode(array());
     exit;
 }
 
+// Output the result as JSON
 echo json_encode($users);
 
-$conn->close();
 ?>
