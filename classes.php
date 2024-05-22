@@ -401,6 +401,8 @@ $this->moddedspeed = round((($pet['spe'] + $worked['speed']) * ($this->shoesspee
         $this->hp = $this->purehp;
         $this->puremaxhp = floor($this->level * 50);
         $this->maxhp = $this->puremaxhp;
+        $this->gtachance = $worked['gtachance'];
+        $this->lastgta = $worked['lastgta'];
 $this->energyboost =  $this->energyboost;
 $this->nerveboost =  $this->nerveboost;
 
