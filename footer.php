@@ -65,7 +65,7 @@ function calcEXP(){
         });
     });
 </script>
-<?php if (false && $user_class->box_hunt_count < 3): ?>
+<?php if ($user_class->box_hunt_count < 2): ?>
     <?php $boxHuntChance = mt_rand(1,100); ?>
     <?php if ($boxHuntChance < 10): ?>
         <script type="text/javascript">
@@ -74,7 +74,7 @@ function calcEXP(){
                 var yBoxPosi = Math.floor(Math.random()*1000);
 
                 $(".box_middle").append(
-                    '<a href="claim_mystery_box.php?token=<?php echo $user_class->macro_token ?>"ß><img alt="Click Me!" src="/css/images/NewGameImages/gold-rush-token.png" height="100" style="position:absolute; top:'+xBoxPosi+'px; left:'+yBoxPosi+'px;" /></a>'
+                    '<a href="claim_mystery_box.php?token=<?php echo $user_class->macro_token ?>"ß><img alt="Click Me!" src="https://chaoscity.co.uk/css/images/NewGameImages/nerve-vial.png" height="100" style="position:absolute; top:'+xBoxPosi+'px; left:'+yBoxPosi+'px;" /></a>'
                 );
             });
         </script>
