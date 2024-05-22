@@ -29,29 +29,11 @@ if (isset($_POST['submit'])) {
             </div>
         </div>";
 
-        $db->query("SELECT * FROM mission WHERE username = ? AND mission = '2'");
-        $db->bind(1, $username);
-        if ($db->num_rows() > 0) {
-            $db->query("UPDATE mission SET unit = unit + 1 WHERE username = ?");
-            $db->bind(1, $username);
-            $db->execute();
-        }
-
-        $db->query("UPDATE account_info SET gtas = gtas + 1 WHERE username = ?");
-        $db->bind(1, $username);
-        $db->execute();
-
-        if ($user_class->steroids != '0') {
-            $db->query("UPDATE accounts SET steroids = steroids - 1 WHERE username = ?");
-            $db->bind(1, $username);
-            $db->execute();
-        }
-
         $for = calculateWorth($selectedCar['max_worth']);
         $rankxp = rand(8, 13);
-        $db->query("UPDATE accounts SET rankpoints = rankpoints + ? WHERE username = ?");
+        $db->query("UPDATE grpgusers SET exp = exp + ? WHERE id = ?");
         $db->bind(1, $rankxp);
-        $db->bind(2, $username);
+        $db->bind(2, $user_class->id);
         $db->execute();
 
         if ($user_class->crew != '0') {
@@ -63,7 +45,7 @@ if (isset($_POST['submit'])) {
 
         $db->query("INSERT INTO `garage` (`owner`, `car`, `damage`, `origion`, `location`, `worth`) 
                     VALUES (?, ?, ?, ?, ?, ?)");
-        $db->bind(1, $username);
+        $db->bind(1, $user_class->id);
         $db->bind(2, $selectedCar['name']);
         $db->bind(3, $damage);
         $db->bind(4, $user_class->city);
