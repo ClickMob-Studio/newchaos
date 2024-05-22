@@ -4,20 +4,20 @@ $username = $_SESSION['username'];
 $radiobutton = $_POST['radiobutton'] ?? 0;
 
 
-$chance = explode("-", $user_class->gtachance);
+//$chance = explode("-", $user_class->gtachance);
 
-if ($user_class->lastgta > time()) {
-    $left = $user_class->lastgta - time();
-    echo "<div class='container mt-5'>
-            <div class='alert alert-warning text-center'>
-                You must lay low for <span id='gta'></span>
-                <script type='text/javascript'>setTimer('gta','$left', { 0: function () { window.location = 'gta2.php' }});</script>
-                seconds before you can commit another GTA!<br>
-                <br><strong>Tired of waiting to do your next GTA? Steroids can be taken by using credits if you wish to be die-hard and not have to wait in-between each GTA for plenty of cars n rank!</strong>
-            </div>
-          </div>";
-    exit();
-}
+// if ($user_class->lastgta > time()) {
+//     $left = $user_class->lastgta - time();
+//     echo "<div class='container mt-5'>
+//             <div class='alert alert-warning text-center'>
+//                 You must lay low for <span id='gta'></span>
+//                 <script type='text/javascript'>setTimer('gta','$left', { 0: function () { window.location = 'gta2.php' }});</script>
+//                 seconds before you can commit another GTA!<br>
+//                 <br><strong>Tired of waiting to do your next GTA? Steroids can be taken by using credits if you wish to be die-hard and not have to wait in-between each GTA for plenty of cars n rank!</strong>
+//             </div>
+//           </div>";
+//     exit();
+// }
 
 if ($radiobutton == "0") {
     echo "<div class='container mt-5'><div class='alert alert-danger text-center'>Error!</div></div>";
