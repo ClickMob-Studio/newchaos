@@ -250,7 +250,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $now = time();
         if ($tempItemUse['nerve_vial_time'] > $now) {
             $extraCost = $cost / 2;
-            $cost = $cost - ($extraCost / 2);
+            $cost = ceil($cost - ($extraCost / 2));
         }
 
         $debug['cost'] = $cost;
