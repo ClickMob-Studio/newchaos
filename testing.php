@@ -1,7 +1,11 @@
 <?php 
 include_once "header.php";
-$username = $_SESSION['username'];
-$radiobutton = $_POST['radiobutton'] ?? 0;
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+//$radiobutton = $_POST['radiobutton'] ?? 0;
 
 
 //$chance = explode("-", $user_class->gtachance);
@@ -74,9 +78,9 @@ if ($_POST['submit']) {
         $db->execute();
 
         if ($user_class->crew != '0') {
-            $db->query("UPDATE crews SET xp = xp + ? WHERE name = ?");
+            $db->query("UPDATE gangs SET exp = exp + ? WHERE name = ?");
             $db->bind(1, $rankxp);
-            $db->bind(2, $user_class->crew);
+            $db->bind(2, $user_class->gang);
             $db->execute();
         }
 
@@ -85,13 +89,13 @@ if ($_POST['submit']) {
         $db->bind(1, $username);
         $db->bind(2, $cars[$win]);
         $db->bind(3, $damage);
-        $db->bind(4, $user_class->location);
-        $db->bind(5, $user_class->location);
+        $db->bind(4, $user_class->city);
+        $db->bind(5, $user_class->city);
         $db->bind(6, $for);
         $db->execute();
     } else {
         echo "<div class='container mt-5'><div class='alert alert-danger text-center'>You failed and came back with sore feet!</div></div>";
-        $new_rank = $user_class->rankpoints + rand(3, 6);
+        $new_rank = $user_class->exp + rand(3, 6);
         $db->query("UPDATE accounts SET rankpoints = ? WHERE username = ?");
         $db->bind(1, $new_rank);
         $db->bind(2, $username);
