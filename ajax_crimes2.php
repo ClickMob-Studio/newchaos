@@ -247,7 +247,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         }
 
         if ($user_class->id == 2) {
-            Send_Event(2, $nerveneeded . ' - ' . $user_class->maxnerve . ' - ' . $cost, 2);
+            //Send_Event(2, $nerveneeded . ' - ' . $user_class->maxnerve . ' - ' . $cost, 2);
         }
 
         $tempItemUse = getItemTempUse($user_class->id);
@@ -263,7 +263,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
 
         if ($user_class->id == 2) {
-            Send_Event(2, $nerveneeded . ' - ' . $user_class->maxnerve . ' - ' . $cost, 2);
+            //Send_Event(2, $nerveneeded . ' - ' . $user_class->maxnerve . ' - ' . $cost, 2);
         }
 
         $user_class->points -= $cost;
