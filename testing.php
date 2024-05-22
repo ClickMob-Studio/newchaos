@@ -36,7 +36,7 @@ if (isset($_POST['submit'])) {
         $db->bind(2, $user_class->id);
         $db->execute();
 
-        if ($user_class->crew != '0') {
+        if ($user_class->gang != '0') {
             $db->query("UPDATE gangs SET exp = exp + ? WHERE name = ?");
             $db->bind(1, $rankxp);
             $db->bind(2, $user_class->gang);
