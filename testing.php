@@ -1,6 +1,7 @@
 <?php 
 include_once "header.php";
 
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -8,6 +9,7 @@ error_reporting(E_ALL);
 
 $radiobutton = isset($_POST['radiobutton']) ? $_POST['radiobutton'] : 0;
 $chance = explode("-", $user_class->gtachance);
+
 if (isset($_POST['submit'])) {
     $suc = $chance[$radiobutton];
     $ran = rand(1, 45);
@@ -29,7 +31,10 @@ if (isset($_POST['submit'])) {
             </div>
         </div>";
 
-        $for = calculateWorth($selectedCar['max_worth']);
+        $worthData = calculateWorth($selectedCar['max_worth']);
+        $for = $worthData['worth'];
+        $damage = $worthData['damage'];
+
         $rankxp = rand(8, 13);
         $db->query("UPDATE grpgusers SET exp = exp + ? WHERE id = ?");
         $db->bind(1, $rankxp);
@@ -84,12 +89,14 @@ function calculateWorth($max) {
     $damage = rand(0, 50);
 
     if ($damage == 0) {
-        return $max;
+        $worth = $max;
     } elseif ($damage == 50) {
-        return 0;
+        $worth = 0;
     } else {
-        return round($max / $damage * 2);
+        $worth = round($max / $damage * 2);
     }
+    
+    return array('worth' => $worth, 'damage' => $damage);
 }
 
 function updateChance(&$chance) {
