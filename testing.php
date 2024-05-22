@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 
 
 $radiobutton = isset($_POST['radiobutton']) ? $_POST['radiobutton'] : 0;
-
+$chance = explode("-", $user_class->gtachance);
 if (isset($_POST['submit'])) {
     $suc = $chance[$radiobutton];
     $ran = rand(1, 45);
