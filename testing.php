@@ -23,10 +23,6 @@ $radiobutton = isset($_POST['radiobutton']);
 //     exit();
 // }
 
-if ($radiobutton == "0") {
-    echo "<div class='container mt-5'><div class='alert alert-danger text-center'>Error!</div></div>";
-    die();
-}
 
 if (isset($_POST['submit'])) {
     $suc = $chance[$radiobutton];
