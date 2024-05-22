@@ -246,13 +246,20 @@ if (isset($_POST['id']) || isset($input['id'])) {
             return 0;
         }
 
+        $tempItemUse = getItemTempUse($user_class->id);
+        $now = time();
+        if ($tempItemUse['nerve_vial_time'] > $now) {
+            $extraCost = $cost / 2;
+            $cost = $cost - ($extraCost / 2);
+        }
+
         $debug['cost'] = $cost;
 
         $user_class->nerve = $user_class->maxnerve;
 
 
         if ($user_class->id == 2) {
-            Send_Event(2, $nerveneeded . ' - ' . $user_class->maxnerve . ' - ' . $cost, 2);
+            //Send_Event(2, $nerveneeded . ' - ' . $user_class->maxnerve . ' - ' . $cost, 2);
         }
 
         $user_class->points -= $cost;
