@@ -1,6 +1,5 @@
 <?php 
 include_once "header.php";
-require_once "database.php";
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -104,7 +103,7 @@ if (isset($_POST['submit'])) {
 
 function getCars() {
     global $db;
-    $db->query("SELECT name, image_path, max_worth FROM cars");
+    $db->query("SELECT `name`, image_path, max_worth FROM cars");
     return $db->fetch_row();
 }
 
