@@ -83,20 +83,11 @@ if (isset($_POST['submit'])) {
 
     updateChance($chance);
     $tim = time() + rand(55, 90);
-    $db->query("UPDATE accounts SET gtachance = ?, lastgta = ? WHERE username = ?");
+    $db->query("UPDATE grpgusers SET gtachance = ?, lastgta = ? WHERE id = ?");
     $db->bind(1, implode("-", $chance));
     $db->bind(2, $tim);
-    $db->bind(3, $username);
+    $db->bind(3, $user_class->id);
     $db->execute();
-
-    if ($user_class->steroids != '0') {
-        $db->query("UPDATE accounts SET lastgta = 0 WHERE username = ?");
-        $db->bind(1, $username);
-        $db->execute();
-        $db->query("UPDATE accounts SET steroids = steroids - 1 WHERE username = ?");
-        $db->bind(1, $username);
-        $db->execute();
-    }
 
     exit();
 }
