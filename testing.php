@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$radiobutton = $_POST['radiobutton'];
+$radiobutton = isset($_POST['radiobutton']);
 
 
 //$chance = explode("-", $user_class->gtachance);
@@ -28,7 +28,7 @@ if ($radiobutton == "0") {
     die();
 }
 
-if ($_POST['submit']) {
+if (isset($_POST['submit'])) {
     $suc = $chance[$radiobutton];
     $ran = rand(1, 45);
 
