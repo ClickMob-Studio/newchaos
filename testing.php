@@ -38,7 +38,7 @@ if (isset($_POST['submit'])) {
         $win = rand(0, 11);
         $img = getImageForCar($cars[$win]);
 
-        echo "<link href='style.css' rel='stylesheet' type='text/css'><br>
+        echo "
         <div class='container mt-5'>
             <div class='alert alert-success text-center'>
                 Nice Work! You jumped in the car and sped off, getting away with a $cars[$win]!
@@ -92,15 +92,14 @@ if (isset($_POST['submit'])) {
     } else {
         echo "<div class='container mt-5'><div class='alert alert-danger text-center'>You failed and came back with sore feet!</div></div>";
         $new_rank = $user_class->exp + rand(3, 6);
-        $db->query("UPDATE accounts SET rankpoints = ? WHERE username = ?");
+        $db->query("UPDATE grpgusers SET exp = ? WHERE id = ?");
         $db->bind(1, $new_rank);
-        $db->bind(2, $username);
+        $db->bind(2, $user_class->id);
         $db->execute();
-        $db->query("UPDATE account_info SET gtas = gtas + 1 WHERE username = ?");
-        $db->bind(1, $username);
-        $db->execute();
+        // $db->query("UPDATE account_info SET gtas = gtas + 1 WHERE username = ?");
+        // $db->bind(1, $user_class->id);
+        // $db->execute();
         $reason = "GTA";
-        require_once "incfiles/failed.php";
         echo "<div class='container mt-5'><div class='alert alert-danger text-center'>You got away with nothing.</div></div>";
     }
 
