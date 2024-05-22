@@ -1011,6 +1011,7 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
         $now = time();
         if ($tempItemUse['nerve_vial_time'] > $now) {
             $this->maxnerve = $this->maxnerve * 2;
+            $this->formattednerve = $this->nerve . " / " . $this->maxnerve . " [" . $this->nervepercent . "%]";
         }
 
         if ($this->id == 1)
