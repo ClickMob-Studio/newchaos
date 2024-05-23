@@ -177,7 +177,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'bail'){
 
 $cost = ceil($user_class->jail / 60);
 ?>
-    
+
 <?php
 if(isset($_SESSION['message'])){
     echo Message($_SESSION['message']);
@@ -235,6 +235,7 @@ if($user_class->jail > 0){
             <?php endif; ?>
 
             <table id='jail-table' width='100%' cellpadding='4' cellspacing='0'>
+                <!--
                 <tr>
 
                     <td>Mobster</td>
@@ -244,6 +245,7 @@ if($user_class->jail > 0){
                     <td>Actions</td>
 
                 </tr>
+                -->
                 <?php
                 $ignore = array($user_class->id);
                 $ignore = implode(',', $ignore);
