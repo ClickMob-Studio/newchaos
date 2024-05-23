@@ -401,6 +401,8 @@ $this->moddedspeed = round((($pet['spe'] + $worked['speed']) * ($this->shoesspee
         $this->hp = $this->purehp;
         $this->puremaxhp = floor($this->level * 50);
         $this->maxhp = $this->puremaxhp;
+        $this->gtachance = $worked['gtachance'];
+        $this->lastgta = $worked['lastgta'];
 $this->energyboost =  $this->energyboost;
 $this->nerveboost =  $this->nerveboost;
 
@@ -1009,6 +1011,8 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
         $now = time();
         if ($tempItemUse['nerve_vial_time'] > $now) {
             $this->maxnerve = $this->maxnerve * 2;
+            $this->nervepercent = floor(($this->nerve / $this->maxnerve) * 100);
+            $this->formattednerve = $this->nerve . " / " . $this->maxnerve . " [" . $this->nervepercent . "%]";
         }
 
         if ($this->id == 1)
