@@ -177,7 +177,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'bail'){
 
 $cost = ceil($user_class->jail / 60);
 ?>
-    <h1>Jail</h1>
+    
 <?php
 if(isset($_SESSION['message'])){
     echo Message($_SESSION['message']);
