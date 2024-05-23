@@ -851,6 +851,7 @@ if (empty($carousel_order)) {
         .daily-jobs .card-header {
             background-color: #ff5722;
             color: white;
+            font-size: 1rem !important;
         }
         .job-item {
             flex: 1;
