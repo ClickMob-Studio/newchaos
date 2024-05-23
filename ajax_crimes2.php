@@ -240,6 +240,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         if ($cost < 10) {
             $cost = 10;
         }
+
         if ($cost > $user_class->points) {
             return 0;
         } else if ($user_class->points < 10) {
