@@ -220,13 +220,12 @@ if($user_class->jail > 0){
             <?php if ($user_class->jail_bot_credits > 0): ?>
                 <div class="alert alert-info">
                     <center>
-                        You currently have <span class="jail-bot-credit-count"><?php echo $user_class->jail_bot_credits ?></span> Jail Bot Credits Remaining.<br /><br />
+                        You currently have <span class="jail-bot-credit-count"><?php echo $user_class->jail_bot_credits ?></span> Jail Bot Credits Remaining.
 
                         <?php if (!$user_class->is_jail_bots_active): ?>
+                            <br /><br />
                             <a href="?action=start_bot_process" class="btn btn-primary">Start Using Credits</a>
                             <br />
-                        <?php else: ?>
-                            Jail bots are in process
                         <?php endif; ?>
                     </center>
 
