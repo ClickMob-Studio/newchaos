@@ -2329,7 +2329,7 @@ function addToBpCategoryUser($bpCategory, $user_class, $field, $qty = 1)
 {
     global $db;
 
-    $data = getBpCategoryUser($user_class->id);
+    $data = getBpCategoryUser($bpCategory, $user_class);
 
     $db->query("UPDATE bp_category_user SET {$field} = {$field} + {$qty} WHERE id = " . $data['id']);
     $db->execute();
