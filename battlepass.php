@@ -9,6 +9,19 @@ $bpCategoryPrizes = getBpCategoryPrizes($bpCategory);
 $bpCategoryChallenges = getBpCategoryChallenges($bpCategory);
 $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
 
+$prizesClaimed = unserialize($bpCategoryUser['prize_ids_serialized']);
+$challengesClaimed = unserialize($bpCategoryUser['challenge_ids_serialized']);
+
+if (isset($_GET['claim_challenge']) && (int)$_GET['claim_challenge']) {
+    $claimChallengeId = (int)$_GET['claim_challenge'];
+
+    if (in_array($claimChallengeId, $challengesClaimed)) {
+        diefun('You have already claimed this challenge.');
+    }
+
+
+}
+
 ?>
 
 <div class='box_top'><h1>Battle Pass</h1></div>
@@ -21,7 +34,7 @@ $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
                     <?php echo $bpCategoryChallenge['type'] ?> - <?php echo $bpCategoryChallenge['amount'] ?> - <?php echo $bpCategoryChallenge['prize'] ?>
 
                     <?php if ($bpCategoryUser[$bpCategoryChallenge['type']] >= $bpCategoryChallenge['amount']): ?>
-                        <a href="#">Claim</a>
+                        <a href="battlepass.php?claim_challenge=<?php echo $bpCategoryChallenge['id'] ?>">(Claim)</a>
                     <?php endif; ?>
                 </li>
             <?php endforeach; ?>
