@@ -163,6 +163,11 @@ mission('ba', 1);
 $toadd = array('baotd' => 1);
 ofthes($user_class->id, $toadd);
 
+$bpCategory = getBpCategory();
+if ($bpCategory) {
+    addToBpCategoryUser($bpCategory, $user_class, 'backalley', 1);
+}
+
 // ATTACKERS
 $baAttackerNames = array();
 $baAttackerNames[] = "Private Niev";
