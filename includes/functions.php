@@ -2290,7 +2290,13 @@ function getBpCategoryChallenges($bpCategory)
     $db->execute();
     $r = $db->fetch_row();
 
-    return $r;
+    // Index them on ID for easier use later
+    $indexedById = array();
+    foreach ($r as $row) {
+        $indexedById[$row['id']] = $row;
+    }
+
+    return $indexedById;
 }
 
 function getBpCategoryPrizes($bpCategory)
@@ -2303,7 +2309,13 @@ function getBpCategoryPrizes($bpCategory)
     $db->execute();
     $r = $db->fetch_row();
 
-    return $r;
+    // Index them on ID for easier use later
+    $indexedById = array();
+    foreach ($r as $row) {
+        $indexedById[$row['id']] = $row;
+    }
+
+    return $indexedById;
 }
 
 function getBpCategoryUser($bpCategory, $user_class)
