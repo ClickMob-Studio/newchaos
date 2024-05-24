@@ -2262,3 +2262,65 @@ function addUserPrestigeSkill($user_class, $field, $qty = 1)
     $db->query("UPDATE user_prestige_skills SET {$field} = {$field} + {$qty} WHERE id = " . $data['id']);
     $db->execute();
 }
+
+function getBpCategory()
+{
+    global $db;
+
+    $now = new \DateTime();
+
+    $db->query("SELECT * FROM bp_category WHERE month_year = '" . $now->format('m-Y') . "' LIMIT 1");
+    $db->execute();
+    $r = $db->fetch_row();
+
+    if (isset($r[0]['id'])) {
+        return $r[0];
+    }
+
+    return null;
+}
+
+function getBpCategoryChallenges($bpCategory)
+{
+    global $db;
+
+    $now = new \DateTime();
+
+    $db->query("SELECT * FROM bp_category_challenges WHERE bp_category_id = " . $bpCategory['id']);
+    $db->execute();
+    $r = $db->fetch_row();
+
+    return $r;
+}
+
+function getBpCategoryPrizes($bpCategory)
+{
+    global $db;
+
+    $now = new \DateTime();
+
+    $db->query("SELECT * FROM bp_category_prizes WHERE bp_category_id = " . $bpCategory['id']);
+    $db->execute();
+    $r = $db->fetch_row();
+
+    return $r;
+}
+
+function getBpCategoryUser($bpCategory, $user_class)
+{
+    global $db;
+
+    $db->query("SELECT * FROM bp_category_user WHERE user_id = " . $user_class->id . " AND bp_category_id = " . $bpCategory['id'] . " LIMIT 1");
+    $db->execute();
+    $r = $db->fetch_row();
+
+    if (isset($r[0]['id'])) {
+        return $r[0];
+    } else {
+        $db->query("INSERT INTO bp_category_user (bp_category_id, user_id) VALUES (" . $bpCategory['id'] . ", " . $user_class->id . ")");
+        $db->execute();
+        $r = getBpCategoryUser($bpCategory['id'], $user_class);
+
+        return $r;
+    }
+}
