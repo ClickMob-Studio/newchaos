@@ -119,6 +119,11 @@ if (isset($_POST['what']) AND $_POST['what'] == 'trainrefill') {
         // Deduct points based on the operation
         $user_class->points -= $ptsreq * $mega_train_multiplier; // Deduct the points for x10 operation
 
+        $bpCategory = getBpCategory();
+        if ($bpCategory) {
+            addToBpCategoryUser($bpCategory, $user_class, 'trains', 1);
+        }
+
         // Update the database with the new stats and points
         mysql_query("UPDATE grpgusers SET $stat = '" . $user_class->{$stat} . "', dailytrains = $user_class->dailytrains, points = $user_class->points, energy = $user_class->maxenergy WHERE id = $user_class->id");
 
