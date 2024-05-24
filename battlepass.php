@@ -30,7 +30,7 @@ if (isset($_GET['claim_challenge']) && (int)$_GET['claim_challenge']) {
 
         $newChallengesClaimed = serialize($challengesClaimed);
 
-        $db->query('UPDATE bp_category_user SET points = points + ' . $challenge['prize'] . ', challenge_ids_serialized = "' . $newChallengesClaimed . '" WHERE id = ' . $bpCategoryUser['id']);
+        $db->query("UPDATE bp_category_user SET points = points + " . $challenge['prize'] . ", challenge_ids_serialized = '" . $newChallengesClaimed . "' WHERE id = " . $bpCategoryUser['id']);
         $db->execute();
 
         echo 'You have successfully claimed your prize from the challenge';
