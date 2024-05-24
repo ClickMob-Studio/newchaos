@@ -165,7 +165,7 @@ ofthes($user_class->id, $toadd);
 
 $bpCategory = getBpCategory();
 if ($bpCategory) {
-    //addToBpCategoryUser($bpCategory, $user_class, 'backalley', 1);
+    addToBpCategoryUser($bpCategory, $user_class, 'backalley', 1);
 }
 
 // ATTACKERS
