@@ -33,10 +33,66 @@ if (isset($_GET['claim_challenge']) && (int)$_GET['claim_challenge']) {
         $db->query("UPDATE bp_category_user SET points = points + " . $challenge['prize'] . ", challenge_ids_serialized = '" . $newChallengesClaimed . "' WHERE id = " . $bpCategoryUser['id']);
         $db->execute();
 
-        echo 'You have successfully claimed your prize from the challenge';
+        echo 'You have successfully completed the challenge';
         exit;
     } else {
         diefun('You have not completed this challenge yet.');
+    }
+}
+
+if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
+    $claimPrizeId = (int)$_GET['claim_prize'];
+
+    if (!isset($bpCategoryPrizes[$claimPrizeId])) {
+        diefun('Something went wrong, if this issue persists please message an Admin.');
+    }
+
+    if (in_array($claimPrizeId, $prizesClaimed)) {
+        diefun('You have already claimed this prize.');
+    }
+
+    $prize = $bpCategoryPrizes[$claimPrizeId];
+
+    if ($bpCategoryUser['points'] >= $prize['cost']) {
+        $prizesClaimed[] = $prize['id'];
+        $newPrizesClaimed = serialize($prizesClaimed);
+
+        $db->query("UPDATE bp_category_user SET prize_ids_serialized = '" . $newPrizesClaimed . "' WHERE id = " . $bpCategoryUser['id']);
+        $db->execute();
+
+        if ($prize['type'] === 'points') {
+            $db->query("UPDATE grpgusers SET points = points + '" . $prize['amount'] . "' WHERE id = " . $bpCategoryUser['id']);
+            $db->execute();
+
+            echo 'You have successfully claimed your prize of ' . number_format($prize['amount'], 0) . ' points.';
+            exit;
+        }
+
+        if ($prize['type'] === 'money') {
+            $db->query("UPDATE grpgusers SET money = money + '" . $prize['amount'] . "' WHERE id = " . $bpCategoryUser['id']);
+            $db->execute();
+
+            echo 'You have successfully claimed your prize of $' . number_format($prize['amount'], 0);
+            exit;
+        }
+
+        if ($prize['type'] === 'item') {
+            Give_Item($prize['entity_id'], $user_class->id, $prize['amount']);
+
+            echo 'You have successfully claimed your prize of ' . number_format($prize['amount']) . ' x ' . Item_Name($prize['entity_id']) . '.';
+            exit;
+        }
+
+        if ($prize['type'] === 'raid_tokens') {
+            $db->query("UPDATE grpgusers SET raidtokens = raidtokens + '" . $prize['amount'] . "' WHERE id = " . $bpCategoryUser['id']);
+            $db->execute();
+
+            echo 'You have successfully claimed your prize of ' . number_format($prize['amount'], 0) . ' Raid Tokens.';
+            exit;
+        }
+
+        echo 'You have successfully claimed your prize';
+        exit;
     }
 }
 
