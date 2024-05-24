@@ -24,7 +24,7 @@ $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
         <h2>Prizes</h2>
         <ul>
             <?php foreach ($bpCategoryPrizes as $bpCategoryPrize): ?>
-                <li><?php echo $bpCategoryPrize['type'] ?> - <?php echo $bpCategoryPrize['amount'] ?> - <?php echo $bpCategoryChallenge['cost'] ?></li>
+                <li><?php echo $bpCategoryPrize['type'] ?> - <?php echo $bpCategoryPrize['amount'] ?> - <?php echo $bpCategoryPrize['cost'] ?></li>
             <?php endforeach; ?>
         </ul>
     </div>
