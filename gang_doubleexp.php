@@ -86,7 +86,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
     }
 
     if ($claimPrize === 'mugs') {
-        if ($gangCompLeaderboard['weekly_mugs_complete'] >= 200000) {
+        if ($gangCompLeaderboard['weekly_mugs_complete'] >= 150000) {
             if (in_array($claimPrize, $prizesClaimed)) {
                 diefun('You have already claimed this prize.');
             } else {
