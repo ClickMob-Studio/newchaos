@@ -1,5 +1,5 @@
 <div class="p-2 mt-2 position-relative" data-id="gym">
-          <a href="/sppedGym.php">
+          <a href="/speedGym.php">
           <i class="fa-solid fa-dumbbell"></i>
             <p>Gym</p>
           </a>
