@@ -36,6 +36,7 @@ $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
             <li>Mugs: <?php echo $bpCategoryUser['mugs'] ?></li>
             <li>Busts: <?php echo $bpCategoryUser['busts'] ?></li>
             <li>BA: <?php echo $bpCategoryUser['backalley'] ?></li>
+            <li>Trains: <?php echo $bpCategoryUser['trains'] ?></li>
         </ul>
 
     </div>
