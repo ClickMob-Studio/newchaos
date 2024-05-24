@@ -108,9 +108,9 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                     <?php echo $bpCategoryChallenge['type'] ?> - <?php echo $bpCategoryChallenge['amount'] ?> - <?php echo $bpCategoryChallenge['prize'] ?>
 
                     <?php if ($bpCategoryUser[$bpCategoryChallenge['type']] >= $bpCategoryChallenge['amount'] && !in_array($bpCategoryChallenge['id'], $challengesClaimed)): ?>
-                        <a href="battlepass.php?claim_challenge=<?php echo $bpCategoryChallenge['id'] ?>">(Claim)</a>
+                        <a href="battlepass.php?claim_challenge=<?php echo $bpCategoryChallenge['id'] ?>">(Complete)</a>
                     <?php elseif (in_array($bpCategoryChallenge['id'], $challengesClaimed)): ?>
-                        <span style="color: green">Claimed</span>
+                        <span style="color: green">Completed</span>
                     <?php endif; ?>
                 </li>
             <?php endforeach; ?>
@@ -119,7 +119,17 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
         <h2>Prizes</h2>
         <ul>
             <?php foreach ($bpCategoryPrizes as $bpCategoryPrize): ?>
-                <li><?php echo $bpCategoryPrize['type'] ?> - <?php echo $bpCategoryPrize['amount'] ?> - <?php echo $bpCategoryPrize['cost'] ?></li>
+                <li>
+                    <?php echo $bpCategoryPrize['type'] ?> - <?php echo $bpCategoryPrize['amount'] ?> - <?php echo $bpCategoryPrize['cost'] ?>
+
+                    <?php if ($bpCategoryUser['points'] >= $bpCategoryPrize['cost'] && !in_array($bpCategoryPrize['id'], $prizesClaimed)): ?>
+                        <a href="battlepass.php?claim_prize=<?php echo $bpCategoryPrize['id'] ?>">(Claimed)</a>
+                    <?php elseif (in_array($bpCategoryPrize['id'], $prizesClaimed)): ?>
+                        <span style="color: green">Claim</span>
+                    <?php endif; ?>
+                </li>
+            <?php endforeach; ?>
+                </li>
             <?php endforeach; ?>
         </ul>
 
