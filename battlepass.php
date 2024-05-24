@@ -51,7 +51,7 @@ if (isset($_GET['claim_challenge']) && (int)$_GET['claim_challenge']) {
                 <li>
                     <?php echo $bpCategoryChallenge['type'] ?> - <?php echo $bpCategoryChallenge['amount'] ?> - <?php echo $bpCategoryChallenge['prize'] ?>
 
-                    <?php if ($bpCategoryUser[$bpCategoryChallenge['type']] >= $bpCategoryChallenge['amount']): ?>
+                    <?php if ($bpCategoryUser[$bpCategoryChallenge['type']] >= $bpCategoryChallenge['amount'] && !in_array($bpCategoryChallenge['id'], $challengesClaimed)): ?>
                         <a href="battlepass.php?claim_challenge=<?php echo $bpCategoryChallenge['id'] ?>">(Claim)</a>
                     <?php endif; ?>
                 </li>
