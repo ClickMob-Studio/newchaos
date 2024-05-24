@@ -27,6 +27,17 @@ $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
                 <li><?php echo $bpCategoryPrize['type'] ?> - <?php echo $bpCategoryPrize['amount'] ?> - <?php echo $bpCategoryPrize['cost'] ?></li>
             <?php endforeach; ?>
         </ul>
+
+        <h3>Your Stats</h3>
+        <ul>
+            <li>Points: <?php echo $bpCategoryPrize['type'] ?></li>
+            <li>Crimes: <?php echo $bpCategoryPrize['crimes'] ?></li>
+            <li>Attacks: <?php echo $bpCategoryPrize['attacks'] ?></li>
+            <li>Mugs: <?php echo $bpCategoryPrize['mugs'] ?></li>
+            <li>Busts: <?php echo $bpCategoryPrize['busts'] ?></li>
+            <li>BA: <?php echo $bpCategoryPrize['backalley'] ?></li>
+        </ul>
+
     </div>
 </div>
 
