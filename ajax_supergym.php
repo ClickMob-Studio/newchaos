@@ -139,6 +139,12 @@ if (isset($_POST['what']) AND $_POST['what'] == 'trainrefill') {
         $user_class->formattedenergy = $user_class->energy . " / " . $user_class->maxenergy . " [" . $user_class->energypercent . "%]";
         $user_class->awakepercent = floor(($user_class->directawake / $user_class->directmaxawake) * 100);
         mysql_query("UPDATE grpgusers SET $stat = '" . $user_class->{$stat} . "', dailytrains = $user_class->dailytrains, awake = $user_class->directawake, energy = $user_class->energy WHERE id = $user_class->id");
+
+        $bpCategory = getBpCategory();
+        if ($bpCategory) {
+            addToBpCategoryUser($bpCategory, $user_class, 'trains', 1);
+        }
+
         print("You trained with {$_POST['amnt']} energy and received " . prettynum($add) . " $stat.|" . prettynum($user_class->$stat) . "|".genBars());
         print"|$user_class->energy";
         die();
@@ -196,7 +202,7 @@ if (isset($_POST['what']) AND $_POST['what'] == 'refill') {
             die("Your energy is already full.");
         else {
             $user_class->directawake = $user_class->directmaxawake;
-            $user_class->energy = $user_class->maxenergy;
+            $user_class->energy = $user_class->maxe#nergy;
             $user_class->points -= $ptstouse;
             $user_class->awakepercent = 100;
             $user_class->energypercent = floor(($user_class->energy / $user_class->maxenergy) * 100);
