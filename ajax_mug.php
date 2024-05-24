@@ -165,13 +165,17 @@ if ($mug <= 8) {
         }
 
         addToGangCompLeaderboard($user_class->gang, 'mugs_complete', 1);
+        $bpCategory = getBpCategory();
+        if ($bpCategory) {
+            addToBpCategoryUser($bpCategory, $user_class, 'mugs', 1);
+        }
 
         if ($mugamount < 1) {
             mission('m');
             newmissions('mugs');
             gangContest(array('mugs' => 1));
             bloodbath('mugs', $user_class->id);
-            $db->query("UPDATE grpgusers SET moth = moth + 1, motd = motd + 1 WHERE id = $user_class->id");
+            $db->query("UPDATE grpgusers SET mugsucceeded = mugsucceeded + 1, moth = moth + 1, motd = motd + 1 WHERE id = $user_class->id");
             $db->execute();
             $toadd = array('motd' => 1);
             ofthes($user_class->id, $toadd);
