@@ -20,7 +20,7 @@ $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
                 <li>
                     <?php echo $bpCategoryChallenge['type'] ?> - <?php echo $bpCategoryChallenge['amount'] ?> - <?php echo $bpCategoryChallenge['prize'] ?>
 
-                    <?php if ($bpCategoryUser[$bpCategoryChallenge['type']] >= $bpCategoryChallenge['type']): ?>
+                    <?php if ($bpCategoryUser[$bpCategoryChallenge['type']] >= $bpCategoryChallenge['amount']): ?>
                         <a href="#">Claim</a>
                     <?php endif; ?>
                 </li>
