@@ -17,7 +17,13 @@ $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
         <h2>Challenges</h2>
         <ul>
             <?php foreach ($bpCategoryChallenges as $bpCategoryChallenge): ?>
-                <li><?php echo $bpCategoryChallenge['type'] ?> - <?php echo $bpCategoryChallenge['amount'] ?> - <?php echo $bpCategoryChallenge['prize'] ?></li>
+                <li>
+                    <?php echo $bpCategoryChallenge['type'] ?> - <?php echo $bpCategoryChallenge['amount'] ?> - <?php echo $bpCategoryChallenge['prize'] ?>
+
+                    <?php if ($bpCategoryUser[$bpCategoryChallenge['type']] >= $bpCategoryChallenge['type']): ?>
+                        <a href="#">Claim</a>
+                    <?php endif; ?>
+                </li>
             <?php endforeach; ?>
         </ul>
 
