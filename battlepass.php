@@ -30,7 +30,7 @@ $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
 
         <h3>Your Stats</h3>
         <ul>
-            <li>Points: <?php echo $bpCategoryUser['type'] ?></li>
+            <li>Points: <?php echo $bpCategoryUser['points'] ?></li>
             <li>Crimes: <?php echo $bpCategoryUser['crimes'] ?></li>
             <li>Attacks: <?php echo $bpCategoryUser['attacks'] ?></li>
             <li>Mugs: <?php echo $bpCategoryUser['mugs'] ?></li>
