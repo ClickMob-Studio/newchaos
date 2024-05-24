@@ -129,8 +129,6 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                     <?php endif; ?>
                 </li>
             <?php endforeach; ?>
-                </li>
-            <?php endforeach; ?>
         </ul>
 
         <h3>Your Stats</h3>
