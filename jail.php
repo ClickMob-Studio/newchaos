@@ -137,6 +137,10 @@ if ($jailbreak != ""){
                         Send_Event($jailed_person['id'], "You have been busted out of Jail by [-_USERID_-].", $user_class->id);
 
                         addToGangCompLeaderboard($user_class->gang, 'busts_complete', 1);
+                        $bpCategory = getBpCategory();
+                        if ($bpCategory) {
+                            addToBpCategoryUser($bpCategory, $user_class, 'busts', 1);
+                        }
 
                         //header('Location: jail.php');
                     }elseif ($chance >= 150) {

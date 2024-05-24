@@ -84,6 +84,11 @@ if (isset($_GET['jailbreak'])  && $_GET['jailbreak'] == 'bot') {
 
         addToGangCompLeaderboard($user_class->gang, 'busts_complete', 1);
 
+        $bpCategory = getBpCategory();
+        if ($bpCategory) {
+            addToBpCategoryUser($bpCategory, $user_class, 'busts', 1);
+        }
+
         echo json_encode(array(
             'success' => true,
             'jail_bot_credits' => $user_class->jail_bot_credits,
