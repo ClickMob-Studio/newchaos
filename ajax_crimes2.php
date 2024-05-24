@@ -387,6 +387,10 @@ if (isset($_POST['id']) || isset($input['id'])) {
             }
 
             addToGangCompLeaderboard($user_class->gang, 'crimes_complete', $crime_multiplier);
+            $bpCategory = getBpCategory();
+            if ($bpCategory) {
+                addToBpCategoryUser($bpCategory, $user_class, 'crimes', $crime_multiplier);
+            }
 
             $user_class->money += $money;
             $user_class->nerve -= $nerve;
