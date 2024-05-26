@@ -121,7 +121,7 @@ function updateChance(&$chance) {
                 Grand Theft Auto
             </div>
             <div class="card-body">
-                <div class="row text-center">
+                <div class="row d-flex justify-content-center align-items-center text-center">
                     <div class="col-md-2 select" id="1" onclick="SelectOption(this.id);">
                         <img src="images/images/richhouse.png" class="img-fluid">
                         <p>Steal from rich house</p>
@@ -151,7 +151,7 @@ function updateChance(&$chance) {
                         <p>Steal from Showroom</p>
                         <div class="progress">
                             <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo "$chance[3]"; ?>%" aria-valuenow="<?php echo "$chance[3]"; ?>" aria-valuemin="0" aria-valuemax="100"></div>
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: <?php echo "$one4"; ?>" aria-valuenow="<?php echo "$one4"; ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: <?php echo "$one4"; ?>%" aria-valuenow="<?php echo "$one4"; ?>" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                     <div class="col-md-2 select" id="5" onclick="SelectOption(this.id);">
