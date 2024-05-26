@@ -155,7 +155,7 @@ function updateChance(&$chance) {
                         </div>
                     </div>
                     <div class="col-md-2 select" id="5" onclick="SelectOption(this.id);">
-                        <img src="images/images/showroom.png" class="img-fluid">
+                        <img src="images/images/garage.png" class="img-fluid">
                         <p>Break into a Garage</p>
                         <div class="progress">
                             <div class="progress-bar bg-success" role="progressbar" style="width: <?php echo "$chance[4]"; ?>%" aria-valuenow="<?php echo "$chance[4]"; ?>" aria-valuemin="0" aria-valuemax="100"></div>
