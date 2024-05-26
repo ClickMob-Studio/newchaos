@@ -815,6 +815,7 @@ $requiredItems = array(
 if (empty($carousel_order)) {
     $carousel_order = $requiredItems;
 } else {
+   
     foreach ($requiredItems as $item) {
         if (!in_array($item, $carousel_order)) {
             $carousel_order[] = $item;
