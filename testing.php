@@ -170,6 +170,7 @@ function updateChance(&$chance) {
         </div>
     </div>
 </form>
+
 <div class="container mt-5">
     <div class="card">
         <div class="card-body">
@@ -184,4 +185,15 @@ function updateChance(&$chance) {
         </div>
     </div>
 </div>
+<script>
+    function SelectOption(id) {
+        document.getElementById('select').value = id;
+        const options = document.querySelectorAll('.select');
+        options.forEach(option => {
+            option.classList.remove('selected-option');
+        });
+
+        document.getElementById(id).classList.add('selected-option');
+    }
+</script>
 <?php include_once "incfiles/foot.php"; ?>
