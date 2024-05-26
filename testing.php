@@ -1,7 +1,14 @@
 <?php 
 include_once "header.php";
+?>
 
-
+<style>.selected-option {
+    border: 3px solid #007bff;
+    box-shadow: 0 0 15px #007bff;
+    transition: all 0.3s ease;
+}
+</style>
+<?php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -112,7 +119,6 @@ function updateChance(&$chance) {
     $newrates = implode("-", $chance);
 }
 ?>
-
 <form name="form1" method="post" action="">
     <input type="hidden" name="radiobutton" id="select" value="0">
     <div class="container mt-5">
@@ -185,9 +191,11 @@ function updateChance(&$chance) {
         </div>
     </div>
 </div>
+
 <script>
     function SelectOption(id) {
         document.getElementById('select').value = id;
+
         const options = document.querySelectorAll('.select');
         options.forEach(option => {
             option.classList.remove('selected-option');
@@ -196,4 +204,4 @@ function updateChance(&$chance) {
         document.getElementById(id).classList.add('selected-option');
     }
 </script>
-<?php include_once "incfiles/foot.php"; ?>
+
