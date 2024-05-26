@@ -786,14 +786,13 @@ if ($user_class->view_preference === '1') { ?>
 $db->query("SELECT carousel_order FROM user_preferences WHERE user_id = :user_id");
 $db->bind(':user_id', $user_class->id);
 $orderResult = $db->fetch_row(true);
-$carouselData = $orderResult['carousel_order'];
-    $carouselData = stripslashes($orderResult['carousel_order']);
-$carouselData = str_replace('"\,', '\"', $carouselData);
 
+$carouselData = isset($orderResult['carousel_order']) ? stripslashes($orderResult['carousel_order']) : '';
+$carouselData = str_replace('"\,', '\"', $carouselData);
 $carousel_order = json_decode($carouselData, true);
 
-if (empty($carousel_order)) {
-    $carousel_order = array("city",
+$requiredItems = array(
+    "city",
     "updates",
     "gang",
     "gmail",
@@ -809,9 +808,26 @@ if (empty($carousel_order)) {
     "raids",
     "search",
     "maze",
-    "backalley",)
-    ;
+    "backalley",
+    "store"
+);
+
+if (empty($carousel_order)) {
+    $carousel_order = $requiredItems;
+} else {
+    foreach ($requiredItems as $item) {
+        if (!in_array($item, $carousel_order)) {
+            $carousel_order[] = $item;
+        }
+    }
 }
+
+$updatedCarouselData = json_encode($carousel_order);
+$db->query("UPDATE user_preferences SET carousel_order = :carousel_order WHERE user_id = :user_id");
+$db->bind(':carousel_order', $updatedCarouselData);
+$db->bind(':user_id', $user_class->id);
+$db->execute();
+
 
 ?>
 <div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
