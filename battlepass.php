@@ -120,8 +120,6 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                     $divClass = 'bg-success';
                                 }
                                 ?>
-
-                                <div class="col-md-4">
                                     <div class="card text-white <?php echo $divClass ?> mb-3">
                                         <div class="card-header"><?php echo number_format($bpCategoryChallenge['amount'], 0) ?> x <?php echo ucfirst($bpCategoryChallenge['type']) ?></div>
                                         <div class="card-body">
@@ -142,7 +140,6 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                             </center>
                                         </div>
                                     </div>
-                                </div>
                             <?php endforeach; ?>
                         </div>
                     </td>
