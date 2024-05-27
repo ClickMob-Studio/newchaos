@@ -112,7 +112,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                     <td>
                         <div class="row">
                             <?php foreach ($bpCategoryChallenges as $bpCategoryChallenge): ?>
-                                `<?php
+                                <?php
                                 $isComplete = false;
                                 $divClass = 'bg-danger';
                                 if (in_array($bpCategoryChallenge['id'], $challengesClaimed)) {
