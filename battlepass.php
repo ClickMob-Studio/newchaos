@@ -174,7 +174,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                     <div class="card-footer">
                                         <center>
                                             <?php if ($bpCategoryUser['points'] >= $bpCategoryPrize['cost'] && !$isComplete): ?>
-                                                <a href="battlepass.php?claim_prize=<?php echo $bpCategoryPrize['id'] ?>" class="btn btn-primary">(Claimed)</a>
+                                                <a href="battlepass.php?claim_prize=<?php echo $bpCategoryPrize['id'] ?>" class="btn btn-primary">Claim</a>
                                             <?php elseif ($isComplete): ?>
                                                 Claimed
                                             <?php else: ?>
