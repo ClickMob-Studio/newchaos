@@ -169,7 +169,7 @@ $battlebadge = array(
     '12' => array(
         'needed' => 10000000,
         'payout' => 250000,
-        'img' => 'kills101m',
+        'img' => 'kills100m',
         'title' => 'Master Hitman: Win 10,000,000 kills'
     ),
     '11' => array(
