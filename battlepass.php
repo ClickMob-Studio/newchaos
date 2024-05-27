@@ -157,7 +157,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                             <?php
                             $isComplete = false;
                             $divClass = 'bg-danger';
-                            if (in_array(bpCategoryPrize['id'], $prizesClaimed)) {
+                            if (in_array($bpCategoryPrize['id'], $prizesClaimed)) {
                                 $isComplete = true;
                                 $divClass = 'bg-success';
                             }
