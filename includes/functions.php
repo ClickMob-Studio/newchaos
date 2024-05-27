@@ -2324,6 +2324,8 @@ function displayBpCategoryPrize($bpCategoryPrize)
         return number_format($bpCategoryPrize['amount'], 0) . ' x ' . Item_Name($bpCategoryPrize['entity_id']);
     } else if ($bpCategoryPrize['type'] === 'money') {
         return '$' . number_format($bpCategoryPrize['amount'], 0);
+    } else if ($bpCategoryPrize['type'] === 'raid_tokens') {
+        return number_format($bpCategoryPrize['amount'], 0) . ' x Raid Tokens';
     } else {
         return number_format($bpCategoryPrize['amount'], 0) . ' x ' .  ucfirst($bpCategoryPrize['type']);
     }
