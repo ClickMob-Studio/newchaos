@@ -111,7 +111,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
 
                         <?php foreach ($bpCategoryChallenges as $bpCategoryChallenge): ?>
                             <div class="col-md-4">
-                                <div class="card text-white bg-danger mb-3" style="min-height: 240px;">
+                                <div class="card text-white bg-danger mb-3">
                                     <div class="card-header"><?php echo $bpCategoryChallenge['amount'] ?> x <?php echo $bpCategoryChallenge['type'] ?></div>
                                     <div class="card-body">
                                         <p class="card-text">
@@ -139,15 +139,25 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                 <tr>
                     <td>
                         <?php foreach ($bpCategoryPrizes as $bpCategoryPrize): ?>
-                            <li>
-                                <?php echo $bpCategoryPrize['type'] ?> - <?php echo $bpCategoryPrize['amount'] ?> - <?php echo $bpCategoryPrize['cost'] ?>
-
-                                <?php if ($bpCategoryUser['points'] >= $bpCategoryPrize['cost'] && !in_array($bpCategoryPrize['id'], $prizesClaimed)): ?>
-                                    <a href="battlepass.php?claim_prize=<?php echo $bpCategoryPrize['id'] ?>">(Claimed)</a>
-                                <?php elseif (in_array($bpCategoryPrize['id'], $prizesClaimed)): ?>
-                                    <span style="color: green">Claim</span>
-                                <?php endif; ?>
-                            </li>
+                            <div class="col-md-4">
+                                <div class="card text-white bg-danger mb-3">
+                                    <div class="card-header"><?php echo $bpCategoryPrize['amount'] ?> x <?php echo $bpCategoryPrize['type'] ?></div>
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            Points Cost:  <?php echo $bpCategoryPrize['cost'] ?>
+                                        </p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <center>
+                                            <?php if ($bpCategoryUser['points'] >= $bpCategoryPrize['cost'] && !in_array($bpCategoryPrize['id'], $prizesClaimed)): ?>
+                                                <a href="battlepass.php?claim_prize=<?php echo $bpCategoryPrize['id'] ?>" class="btn btn-primary">(Claimed)</a>
+                                            <?php elseif (in_array($bpCategoryPrize['id'], $prizesClaimed)): ?>
+                                                <span style="color: green">Claim</span>
+                                            <?php endif; ?>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
                         <?php endforeach; ?>
                     </td>
                 </tr>
