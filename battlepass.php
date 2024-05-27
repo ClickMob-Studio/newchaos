@@ -110,17 +110,23 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                     <td>
 
                         <?php foreach ($bpCategoryChallenges as $bpCategoryChallenge): ?>
-                            <div class="card text-center mb-3" style="width: 18rem;">
-                                <div class="card-body">
-                                    <h5 class="card-title"><?php echo $bpCategoryChallenge['amount'] ?> x <?php echo $bpCategoryChallenge['type'] ?></h5>
-                                    <p class="card-text">Points:  <?php echo $bpCategoryChallenge['prize'] ?></p>
-
-                                    <?php if ($bpCategoryUser[$bpCategoryChallenge['type']] >= $bpCategoryChallenge['amount'] && !in_array($bpCategoryChallenge['id'], $challengesClaimed)): ?>
-                                        <a href="battlepass.php?claim_challenge=<?php echo $bpCategoryChallenge['id'] ?>" class="btn btn-primary">(Complete)</a>
-                                    <?php elseif (in_array($bpCategoryChallenge['id'], $challengesClaimed)): ?>
-                                        <span style="color: green">Completed</span>
-                                    <?php endif; ?>
-                                    <a href="#" >Go somewhere</a>
+                            <div class="col-md-4">
+                                <div class="card text-white bg-danger mb-3" style="min-height: 240px;">
+                                    <div class="card-header"><?php echo $bpCategoryChallenge['amount'] ?> x <?php echo $bpCategoryChallenge['type'] ?></div>
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            Points:  <?php echo $bpCategoryChallenge['prize'] ?>
+                                        </p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <center>
+                                            <?php if ($bpCategoryUser[$bpCategoryChallenge['type']] >= $bpCategoryChallenge['amount'] && !in_array($bpCategoryChallenge['id'], $challengesClaimed)): ?>
+                                                <a href="battlepass.php?claim_challenge=<?php echo $bpCategoryChallenge['id'] ?>" class="btn btn-primary">(Complete)</a>
+                                            <?php elseif (in_array($bpCategoryChallenge['id'], $challengesClaimed)): ?>
+                                                <span style="color: green">Completed</span>
+                                            <?php endif; ?>
+                                        </center>
+                                    </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
