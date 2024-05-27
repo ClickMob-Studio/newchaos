@@ -33,8 +33,7 @@ if (isset($_GET['claim_challenge']) && (int)$_GET['claim_challenge']) {
         $db->query("UPDATE bp_category_user SET points = points + " . $challenge['prize'] . ", challenge_ids_serialized = '" . $newChallengesClaimed . "' WHERE id = " . $bpCategoryUser['id']);
         $db->execute();
 
-        echo 'You have successfully completed the challenge';
-        exit;
+        $resMes = 'You have successfully completed the challenge';
     } else {
         diefun('You have not completed this challenge yet.');
     }
@@ -64,35 +63,28 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
             $db->query("UPDATE grpgusers SET points = points + '" . $prize['amount'] . "' WHERE id = " . $bpCategoryUser['id']);
             $db->execute();
 
-            echo 'You have successfully claimed your prize of ' . number_format($prize['amount'], 0) . ' points.';
-            exit;
+            $resMes =  'You have successfully claimed your prize of ' . number_format($prize['amount'], 0) . ' points.';
         }
 
         if ($prize['type'] === 'money') {
             $db->query("UPDATE grpgusers SET money = money + '" . $prize['amount'] . "' WHERE id = " . $bpCategoryUser['id']);
             $db->execute();
 
-            echo 'You have successfully claimed your prize of $' . number_format($prize['amount'], 0);
-            exit;
+            $resMes = 'You have successfully claimed your prize of $' . number_format($prize['amount'], 0);
         }
 
         if ($prize['type'] === 'item') {
             Give_Item($prize['entity_id'], $user_class->id, $prize['amount']);
 
-            echo 'You have successfully claimed your prize of ' . number_format($prize['amount']) . ' x ' . Item_Name($prize['entity_id']) . '.';
-            exit;
+            $resMes =  'You have successfully claimed your prize of ' . number_format($prize['amount']) . ' x ' . Item_Name($prize['entity_id']) . '.';
         }
 
         if ($prize['type'] === 'raid_tokens') {
             $db->query("UPDATE grpgusers SET raidtokens = raidtokens + '" . $prize['amount'] . "' WHERE id = " . $bpCategoryUser['id']);
             $db->execute();
 
-            echo 'You have successfully claimed your prize of ' . number_format($prize['amount'], 0) . ' Raid Tokens.';
-            exit;
+            $resMes = 'You have successfully claimed your prize of ' . number_format($prize['amount'], 0) . ' Raid Tokens.';
         }
-
-        echo 'You have successfully claimed your prize';
-        exit;
     }
 }
 
@@ -101,7 +93,24 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
 <div class='box_top'><h1>Battle Pass</h1></div>
 <div class='box_middle'>
     <div class='pad'>
-        <p>You currently have <?php echo number_format($bpCategoryUser['points'], 0) ?> Battle Pass points</p>
+        <p><center><strong>You currently have <?php echo number_format($bpCategoryUser['points'], 0) ?> Battle Pass points</strong></center></p>
+
+        <p>Welcome to the Battle Pass! Here you can complete challenges to earn prizes. You'll see all your challenges & prizes below.</p>
+        <p>Battle Pass points ate earned by completing challenges and then can be used to claim prizes.</p>
+        <p>
+            The Battle Pass resets monthly & changes monthly. You have the option of just running the free Battle Pass, or you can update
+            via the store to unlock the months Premium Battle Pass challenges & prizes too.
+        </p>
+
+        <p><strong>This months Battle Pass is free and includes no premium options.</strong></p>
+
+        <?php if (isset($resMes) && $resMes): ?>
+            <div class="alert alert-success" role="alert">
+                <?php echo $resMes ?>
+            </div>
+        <?php endif; ?>
+
+
 
         <div class="table-responsive">
             <table class="new_table" id="newtables">
