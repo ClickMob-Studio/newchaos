@@ -101,35 +101,48 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
 <div class='box_top'><h1>Battle Pass</h1></div>
 <div class='box_middle'>
     <div class='pad'>
-        <h2>Challenges</h2>
-        <ul>
-            <?php foreach ($bpCategoryChallenges as $bpCategoryChallenge): ?>
-                <li>
-                    <?php echo $bpCategoryChallenge['type'] ?> - <?php echo $bpCategoryChallenge['amount'] ?> - <?php echo $bpCategoryChallenge['prize'] ?>
+        <div class="table-responsive">
+            <table class="table">
+                <tr>
+                    <th>Challenges</th>
+                </tr>
+                <tr>
+                    <td>
+                        <?php foreach ($bpCategoryChallenges as $bpCategoryChallenge): ?>
+                            <li>
+                                <?php echo $bpCategoryChallenge['type'] ?> - <?php echo $bpCategoryChallenge['amount'] ?> - <?php echo $bpCategoryChallenge['prize'] ?>
 
-                    <?php if ($bpCategoryUser[$bpCategoryChallenge['type']] >= $bpCategoryChallenge['amount'] && !in_array($bpCategoryChallenge['id'], $challengesClaimed)): ?>
-                        <a href="battlepass.php?claim_challenge=<?php echo $bpCategoryChallenge['id'] ?>">(Complete)</a>
-                    <?php elseif (in_array($bpCategoryChallenge['id'], $challengesClaimed)): ?>
-                        <span style="color: green">Completed</span>
-                    <?php endif; ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+                                <?php if ($bpCategoryUser[$bpCategoryChallenge['type']] >= $bpCategoryChallenge['amount'] && !in_array($bpCategoryChallenge['id'], $challengesClaimed)): ?>
+                                    <a href="battlepass.php?claim_challenge=<?php echo $bpCategoryChallenge['id'] ?>">(Complete)</a>
+                                <?php elseif (in_array($bpCategoryChallenge['id'], $challengesClaimed)): ?>
+                                    <span style="color: green">Completed</span>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </td>
+                </tr>
 
-        <h2>Prizes</h2>
-        <ul>
-            <?php foreach ($bpCategoryPrizes as $bpCategoryPrize): ?>
-                <li>
-                    <?php echo $bpCategoryPrize['type'] ?> - <?php echo $bpCategoryPrize['amount'] ?> - <?php echo $bpCategoryPrize['cost'] ?>
+                <tr>
+                    <th>Prizes</th>
+                </tr>
+                <tr>
+                    <td>
+                        <?php foreach ($bpCategoryPrizes as $bpCategoryPrize): ?>
+                            <li>
+                                <?php echo $bpCategoryPrize['type'] ?> - <?php echo $bpCategoryPrize['amount'] ?> - <?php echo $bpCategoryPrize['cost'] ?>
 
-                    <?php if ($bpCategoryUser['points'] >= $bpCategoryPrize['cost'] && !in_array($bpCategoryPrize['id'], $prizesClaimed)): ?>
-                        <a href="battlepass.php?claim_prize=<?php echo $bpCategoryPrize['id'] ?>">(Claimed)</a>
-                    <?php elseif (in_array($bpCategoryPrize['id'], $prizesClaimed)): ?>
-                        <span style="color: green">Claim</span>
-                    <?php endif; ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+                                <?php if ($bpCategoryUser['points'] >= $bpCategoryPrize['cost'] && !in_array($bpCategoryPrize['id'], $prizesClaimed)): ?>
+                                    <a href="battlepass.php?claim_prize=<?php echo $bpCategoryPrize['id'] ?>">(Claimed)</a>
+                                <?php elseif (in_array($bpCategoryPrize['id'], $prizesClaimed)): ?>
+                                    <span style="color: green">Claim</span>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
 
         <h3>Your Stats</h3>
         <ul>
