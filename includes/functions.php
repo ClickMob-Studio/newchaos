@@ -2322,6 +2322,8 @@ function displayBpCategoryPrize($bpCategoryPrize)
 {
     if ($bpCategoryPrize['type'] === 'item') {
         return number_format($bpCategoryPrize['amount'], 0) . ' x ' . Item_Name($bpCategoryPrize['entity_id']);
+    } else if ($bpCategoryPrize['type'] === 'money') {
+        return '$' . number_format($bpCategoryPrize['amount'], 0);
     } else {
         return number_format($bpCategoryPrize['amount'], 0) . ' x ' .  ucfirst($bpCategoryPrize['type']);
     }
