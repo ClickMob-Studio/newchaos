@@ -98,7 +98,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
         <p>Welcome to the Battle Pass! Here you can complete challenges to earn prizes. You'll see all your challenges & prizes below.</p>
         <p>Battle Pass points ate earned by completing challenges and then can be used to claim prizes.</p>
         <p>
-            The Battle Pass resets monthly & changes monthly. You have the option of just running the free Battle Pass, or you can update
+            The Battle Pass resets & changes monthly. You have the option of just running the free Battle Pass, or you can update
             via the store to unlock the months Premium Battle Pass challenges & prizes too.
         </p>
 
