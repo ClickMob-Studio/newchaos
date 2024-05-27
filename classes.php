@@ -717,6 +717,42 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
             )
         );
         $battlebadge = array(
+            '12' => array(
+                'needed' => 10000000,
+                'payout' => 250000,
+                'img' => 'kills101m',
+                'title' => 'Master Hitman: Win 10,000,000 kills'
+            ),
+            '11' => array(
+                'needed' => 7500000,
+                'payout' => 225000,
+                'img' => 'kills7.5m',
+                'title' => 'Master Hitman: Win 7,500,000 kills'
+            ),
+            '10' => array(
+                'needed' => 5000000,
+                'payout' => 200000,
+                'img' => 'kills5m',
+                'title' => 'Master Hitman: Win 5,000,000 kills'
+            ),
+            '9' => array(
+                'needed' => 2500000,
+                'payout' => 175000,
+                'img' => 'kills2.5m',
+                'title' => 'Master Hitman: Win 2,500,000 kills'
+            ),
+            '8' => array(
+                'needed' => 1000000,
+                'payout' => 150000,
+                'img' => 'kills1m',
+                'title' => 'Master Hitman: Win 1,000,000 kills'
+            ),
+            '7' => array(
+                'needed' => 500000,
+                'payout' => 125000,
+                'img' => 'kills500k',
+                'title' => 'Master Hitman: Win 500,000 kills'
+            ),
             '6' => array(
                 'needed' => 250000,
                 'payout' => 100000,
