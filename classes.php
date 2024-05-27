@@ -829,6 +829,30 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
             )
         );
         $mugbadge = array(
+            '10' => array(
+                'needed' => 2500000,
+                'payout' => 200000,
+                'img' => 'mugs2.5m',
+                'title' => 'Golden Mugger: Mugged 2,500,000 times'
+            ),
+            '9' => array(
+                'needed' => 1000000,
+                'payout' => 150000,
+                'img' => 'mugs1m',
+                'title' => 'Golden Mugger: Mugged 1,000,000 times'
+            ),
+            '8' => array(
+                'needed' => 500000,
+                'payout' => 100000,
+                'img' => 'mugs500k',
+                'title' => 'Golden Mugger: Mugged 500,000 times'
+            ),
+            '7' => array(
+                'needed' => 250000,
+                'payout' => 75000,
+                'img' => 'mugs250k',
+                'title' => 'Golden Mugger: Mugged 250,000 times'
+            ),
 			'6' => array(
 				'needed' => 100000,
 				'payout' => 65000,
