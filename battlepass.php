@@ -102,7 +102,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
 <div class='box_middle'>
     <div class='pad'>
         <div class="table-responsive">
-            <table class="table">
+            <table clclass="new_table" id="newtables">
                 <tr>
                     <th>Challenges</th>
                 </tr>
