@@ -110,9 +110,9 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                 </tr>
                 <tr>
                     <td>
+                        <div class="row">
+                            <?php foreach ($bpCategoryChallenges as $bpCategoryChallenge): ?>
 
-                        <?php foreach ($bpCategoryChallenges as $bpCategoryChallenge): ?>
-                            <div class="row">
                                 <div class="col-md-4">
                                     <div class="card text-white bg-danger mb-3">
                                         <div class="card-header"><?php echo number_format($bpCategoryChallenge['amount'], 0) ?> x <?php echo ucfirst($bpCategoryChallenge['type']) ?></div>
@@ -132,10 +132,9 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                             </center>
                                         </div>
                                     </div>
-
                                 </div>
-                            </div>
-                        <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        </div>
                     </td>
                 </tr>
 
