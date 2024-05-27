@@ -101,8 +101,10 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
 <div class='box_top'><h1>Battle Pass</h1></div>
 <div class='box_middle'>
     <div class='pad'>
+        <p>You currently have <?php echo number_format($bpCategoryUser['points'], 0) ?> Battle Pass points</p>
+
         <div class="table-responsive">
-            <table clclass="new_table" id="newtables">
+            <table class="new_table" id="newtables">
                 <tr>
                     <th>Challenges</th>
                 </tr>
@@ -112,9 +114,10 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                         <?php foreach ($bpCategoryChallenges as $bpCategoryChallenge): ?>
                             <div class="col-md-4">
                                 <div class="card text-white bg-danger mb-3">
-                                    <div class="card-header"><?php echo $bpCategoryChallenge['amount'] ?> x <?php echo $bpCategoryChallenge['type'] ?></div>
+                                    <div class="card-header"><?php echo number_format($bpCategoryChallenge['amount'], 0) ?> x <?php echo ucfirst($bpCategoryChallenge['type']) ?></div>
                                     <div class="card-body">
                                         <p class="card-text">
+                                            <?php echo number_format($bpCategoryUser[$bpCategoryChallenge['type']], 0) ?>/<?php echo number_format($bpCategoryChallenge['amount'], 0) ?><br />
                                             Points:  <?php echo $bpCategoryChallenge['prize'] ?>
                                         </p>
                                     </div>
