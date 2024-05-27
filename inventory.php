@@ -1912,48 +1912,23 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
                 echo Message("You drink from the nerve Vial and feel a boost, for the next 30 minutes you have double nerve!");
                 break;
             case 257:
-                if ($user_class->admin > 0) {
-                    $tempItemUse = getItemTempUse($user_class->id);
+                
+                $tempItemUse = getItemTempUse($user_class->id);
 
-                    if ($user_class->gang < 1) {
-                        diefun('Your not in a gang.');
-                    }
-
-                    $db->query("SELECT * FROM grpgusers WHERE gang = " . $user_class->gang);
-                    $db->execute();
-                    $uRes = $db->fetch_row();
-                    foreach ($uRes as $ur) {
-                        $uClass = new User($ur['id']);
-                        addItemTempUse($uClass, 'gang_double_exp_hours', 4);
-                    }
-
-                    echo Message("You swallow your double EXP pill and your whole gang feels the effects, you'll all have 4 hours of double EXP added!");
-                    break;
-                } else {
-                    $tempItemUse = getItemTempUse($user_class->id);
-                    $now = time();
-                    if ($tempItemUse['gang_double_exp_time'] > $now) {
-                        diefun('Your gang already has a double EXP pill active.');
-                    }
-
-                    if ($user_class->gang < 1) {
-                        diefun('Your not in a gang.');
-                    }
-
-                    $newTime = time() + 14400;
-
-                    $db->query("SELECT * FROM grpgusers WHERE gang = " . $user_class->gang);
-                    $db->execute();
-                    $uRes = $db->fetch_row();
-                    foreach ($uRes as $ur) {
-                        $uClass = new User($ur['id']);
-                        addItemTempUse($uClass, 'gang_double_exp_time', $newTime);
-                    }
-
-                    echo Message("You swallow your double EXP pill and your whole gang feels the effects, you'll all have double EXP for the next 4 hours!");
-                    break;
-
+                if ($user_class->gang < 1) {
+                    diefun('Your not in a gang.');
                 }
+
+                $db->query("SELECT * FROM grpgusers WHERE gang = " . $user_class->gang);
+                $db->execute();
+                $uRes = $db->fetch_row();
+                foreach ($uRes as $ur) {
+                    $uClass = new User($ur['id']);
+                    addItemTempUse($uClass, 'gang_double_exp_hours', 4);
+                }
+
+                echo Message("You swallow your double EXP pill and your whole gang feels the effects, you'll all have 4 hours of double EXP added!");
+                break;
 
 case 197: // Nuke item
     // Check if the form has been submitted
