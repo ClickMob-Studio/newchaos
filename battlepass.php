@@ -120,6 +120,8 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                     $divClass = 'bg-success';
                                 }
                                 ?>
+
+                                <div class="col-md-4">
                                     <div class="card text-white <?php echo $divClass ?> mb-3">
                                         <div class="card-header"><?php echo number_format($bpCategoryChallenge['amount'], 0) ?> x <?php echo ucfirst($bpCategoryChallenge['type']) ?></div>
                                         <div class="card-body">
@@ -140,6 +142,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                             </center>
                                         </div>
                                     </div>
+                                </div>
                             <?php endforeach; ?>
                         </div>
                     </td>
@@ -149,43 +152,39 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                     <th>Prizes</th>
                 </tr>
                 <tr>
-                    <td>
-                        <div class="row">
-                            <?php foreach ($bpCategoryPrizes as $bpCategoryPrize): ?>
-                                <?php
-                                $isComplete = false;
-                                $divClass = 'bg-danger';
-                                if (in_array($bpCategoryPrize['id'], $prizesClaimed)) {
-                                    $isComplete = true;
-                                    $divClass = 'bg-success';
-                                }
-                                ?>
-
-                                <div class="col-md-4">
-                                    <div class="card text-white <?php echo $divClass ?> mb-3">
-                                        <div class="card-header"><?php echo displayBpCategoryPrize($bpCategoryPrize) ?></div>
-                                        <div class="card-body">
-                                            <p class="card-text">
-                                                Points Cost:  <?php echo $bpCategoryPrize['cost'] ?>
-                                            </p>
-                                        </div>
-                                        <div class="card-footer">
-                                            <center>
-                                                <?php if ($bpCategoryUser['points'] >= $bpCategoryPrize['cost'] && !$isComplete): ?>
-                                                    <a href="battlepass.php?claim_prize=<?php echo $bpCategoryPrize['id'] ?>" class="btn btn-primary">Claim</a>
-                                                <?php elseif ($isComplete): ?>
-                                                    Claimed
-                                                <?php else: ?>
-                                                    Unclaimed
-                                                <?php endif; ?>
-                                            </center>
-                                        </div>
+                    <?php foreach ($bpCategoryPrizes as $bpCategoryPrize): ?>
+                        <?php
+                        $isComplete = false;
+                        $divClass = 'bg-danger';
+                        if (in_array($bpCategoryPrize['id'], $prizesClaimed)) {
+                            $isComplete = true;
+                            $divClass = 'bg-success';
+                        }
+                        ?>
+                        <td>
+                            <div class="col-md-4">
+                                <div class="card text-white <?php echo $divClass ?> mb-3">
+                                    <div class="card-header"><?php echo displayBpCategoryPrize($bpCategoryPrize) ?></div>
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            Points Cost:  <?php echo $bpCategoryPrize['cost'] ?>
+                                        </p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <center>
+                                            <?php if ($bpCategoryUser['points'] >= $bpCategoryPrize['cost'] && !$isComplete): ?>
+                                                <a href="battlepass.php?claim_prize=<?php echo $bpCategoryPrize['id'] ?>" class="btn btn-primary">Claim</a>
+                                            <?php elseif ($isComplete): ?>
+                                                Claimed
+                                            <?php else: ?>
+                                                Unclaimed
+                                            <?php endif; ?>
+                                        </center>
                                     </div>
                                 </div>
-                            <?php endforeach; ?>
-                        </div>
-
-                    </td>
+                            </div>
+                        </td>
+                    <?php endforeach; ?>
                 </tr>
 
             </table>
