@@ -112,22 +112,27 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                     <td>
 
                         <?php foreach ($bpCategoryChallenges as $bpCategoryChallenge): ?>
-                            <div class="card text-white bg-danger mb-3">
-                                <div class="card-header"><?php echo number_format($bpCategoryChallenge['amount'], 0) ?> x <?php echo ucfirst($bpCategoryChallenge['type']) ?></div>
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        <?php echo number_format($bpCategoryUser[$bpCategoryChallenge['type']], 0) ?>/<?php echo number_format($bpCategoryChallenge['amount'], 0) ?><br />
-                                        Points:  <?php echo $bpCategoryChallenge['prize'] ?>
-                                    </p>
-                                </div>
-                                <div class="card-footer">
-                                    <center>
-                                        <?php if ($bpCategoryUser[$bpCategoryChallenge['type']] >= $bpCategoryChallenge['amount'] && !in_array($bpCategoryChallenge['id'], $challengesClaimed)): ?>
-                                            <a href="battlepass.php?claim_challenge=<?php echo $bpCategoryChallenge['id'] ?>" class="btn btn-primary">(Complete)</a>
-                                        <?php elseif (in_array($bpCategoryChallenge['id'], $challengesClaimed)): ?>
-                                            <span style="color: green">Completed</span>
-                                        <?php endif; ?>
-                                    </center>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card text-white bg-danger mb-3">
+                                        <div class="card-header"><?php echo number_format($bpCategoryChallenge['amount'], 0) ?> x <?php echo ucfirst($bpCategoryChallenge['type']) ?></div>
+                                        <div class="card-body">
+                                            <p class="card-text">
+                                                <?php echo number_format($bpCategoryUser[$bpCategoryChallenge['type']], 0) ?>/<?php echo number_format($bpCategoryChallenge['amount'], 0) ?><br />
+                                                Points:  <?php echo $bpCategoryChallenge['prize'] ?>
+                                            </p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <center>
+                                                <?php if ($bpCategoryUser[$bpCategoryChallenge['type']] >= $bpCategoryChallenge['amount'] && !in_array($bpCategoryChallenge['id'], $challengesClaimed)): ?>
+                                                    <a href="battlepass.php?claim_challenge=<?php echo $bpCategoryChallenge['id'] ?>" class="btn btn-primary">(Complete)</a>
+                                                <?php elseif (in_array($bpCategoryChallenge['id'], $challengesClaimed)): ?>
+                                                    <span style="color: green">Completed</span>
+                                                <?php endif; ?>
+                                            </center>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         <?php endforeach; ?>
