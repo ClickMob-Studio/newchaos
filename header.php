@@ -1508,6 +1508,14 @@ if ($bonus_row['Time'] > 0) {
 //    $messages[] = '<a href="gang_doubleexp.php"><font color=red>Gang Challenge</font></a>';
 //}
 
+
+if ($user_class->gang > 0) {
+    $tempItemUse = getItemTempUse($user_class->id);
+    if ($tempItemUse['gang_double_exp_hours'] > 0) {
+        $messages[] = '<a href="trigger_doublexp_hour.php"><font color=red>You have ' . $tempItemUse['gang_double_exp_hours'] . ' hours of double EXP! Click go run 1 hour of double exp.</font></a>';
+    }
+}
+
 // if ($user_class->cityturns > 29) {
 //     $messages[] = '<a href="maze.php">You Have Maze Searches Available</a>';
 // }
