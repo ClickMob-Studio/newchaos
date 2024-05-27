@@ -106,7 +106,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
         <div class="table-responsive">
             <table class="new_table" id="newtables">
                 <tr>
-                    <th colspan="999">Challenges</th>
+                    <th>Challenges</th>
                 </tr>
                 <tr>
                     <td>
@@ -149,42 +149,46 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                 </tr>
 
                 <tr>
-                    <th colspan="999">Prizes</th>
+                    <th>Prizes</th>
                 </tr>
                 <tr>
-                    <?php foreach ($bpCategoryPrizes as $bpCategoryPrize): ?>
-                        <?php
-                        $isComplete = false;
-                        $divClass = 'bg-danger';
-                        if (in_array($bpCategoryPrize['id'], $prizesClaimed)) {
-                            $isComplete = true;
-                            $divClass = 'bg-success';
-                        }
-                        ?>
-                        <td>
-                            <div class="col-md-4">
-                                <div class="card text-white <?php echo $divClass ?> mb-3">
-                                    <div class="card-header"><?php echo displayBpCategoryPrize($bpCategoryPrize) ?></div>
-                                    <div class="card-body">
-                                        <p class="card-text">
-                                            Points Cost:  <?php echo $bpCategoryPrize['cost'] ?>
-                                        </p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <center>
-                                            <?php if ($bpCategoryUser['points'] >= $bpCategoryPrize['cost'] && !$isComplete): ?>
-                                                <a href="battlepass.php?claim_prize=<?php echo $bpCategoryPrize['id'] ?>" class="btn btn-primary">Claim</a>
-                                            <?php elseif ($isComplete): ?>
-                                                Claimed
-                                            <?php else: ?>
-                                                Unclaimed
-                                            <?php endif; ?>
-                                        </center>
+                    <td>
+                        <div class="row">
+                            <?php foreach ($bpCategoryPrizes as $bpCategoryPrize): ?>
+                                <?php
+                                $isComplete = false;
+                                $divClass = 'bg-danger';
+                                if (in_array($bpCategoryPrize['id'], $prizesClaimed)) {
+                                    $isComplete = true;
+                                    $divClass = 'bg-success';
+                                }
+                                ?>
+
+                                <div class="col-md-4">
+                                    <div class="card text-white <?php echo $divClass ?> mb-3">
+                                        <div class="card-header"><?php echo displayBpCategoryPrize($bpCategoryPrize) ?></div>
+                                        <div class="card-body">
+                                            <p class="card-text">
+                                                Points Cost:  <?php echo $bpCategoryPrize['cost'] ?>
+                                            </p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <center>
+                                                <?php if ($bpCategoryUser['points'] >= $bpCategoryPrize['cost'] && !$isComplete): ?>
+                                                    <a href="battlepass.php?claim_prize=<?php echo $bpCategoryPrize['id'] ?>" class="btn btn-primary">Claim</a>
+                                                <?php elseif ($isComplete): ?>
+                                                    Claimed
+                                                <?php else: ?>
+                                                    Unclaimed
+                                                <?php endif; ?>
+                                            </center>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </td>
-                    <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        </div>
+
+                    </td>
                 </tr>
 
             </table>
