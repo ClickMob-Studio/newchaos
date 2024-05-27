@@ -65,7 +65,7 @@ function calcEXP(){
         });
     });
 </script>
-<?php if ($user_class->box_hunt_count < 2): ?>
+<?php if (false && $user_class->box_hunt_count < 2): ?>
     <?php $boxHuntChance = mt_rand(1,100); ?>
     <?php if ($boxHuntChance < 5): ?>
         <script type="text/javascript">
