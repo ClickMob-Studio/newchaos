@@ -106,7 +106,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
         <div class="table-responsive">
             <table class="new_table" id="newtables">
                 <tr>
-                    <th>Challenges</th>
+                    <th colspan="999">Challenges</th>
                 </tr>
                 <tr>
                     <td>
@@ -149,7 +149,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                 </tr>
 
                 <tr>
-                    <th>Prizes</th>
+                    <th colspan="999">Prizes</th>
                 </tr>
                 <tr>
                     <?php foreach ($bpCategoryPrizes as $bpCategoryPrize): ?>
