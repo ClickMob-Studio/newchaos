@@ -831,6 +831,48 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
             )
         );
         $bustbadge = array(
+            '13' => array(
+                'needed' => 5000000,
+                'payout' => 200000,
+                'img' => 'busts5m',
+                'title' => 'Golden Buster: Bust 5,000,000 Mobsters'
+            ),
+            '12' => array(
+                'needed' => 2000000,
+                'payout' => 170000,
+                'img' => 'busts2m',
+                'title' => 'Golden Buster: Bust 2,000,000 Mobsters'
+            ),
+            '11' => array(
+                'needed' => 1000000,
+                'payout' => 150000,
+                'img' => 'busts1m',
+                'title' => 'Golden Buster: Bust 1,000,000 Mobsters'
+            ),
+            '10' => array(
+                'needed' => 750000,
+                'payout' => 140000,
+                'img' => 'busts750k',
+                'title' => 'Golden Buster: Bust 750,000 Mobsters'
+            ),
+            '9' => array(
+                'needed' => 500000,
+                'payout' => 120000,
+                'img' => 'busts500k',
+                'title' => 'Golden Buster: Bust 500,000 Mobsters'
+            ),
+            '8' => array(
+                'needed' => 300000,
+                'payout' => 100000,
+                'img' => 'busts300k',
+                'title' => 'Golden Buster: Bust 300,000 Mobsters'
+            ),
+            '7' => array(
+                'needed' => 200000,
+                'payout' => 80000,
+                'img' => 'busts200k',
+                'title' => 'Golden Buster: Bust 200,000 Mobsters'
+            ),
             '6' => array(
                 'needed' => 100000,
                 'payout' => 70000,
