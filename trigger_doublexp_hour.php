@@ -6,7 +6,7 @@ $now = time();
 if ($tempItemUse['gang_double_exp_time'] > $now) {
     diefun('You already have a gang double exp active.');
 }
-if ($tempItemUse['gang_double_exp_hours'] > 0) {
+if ($tempItemUse['gang_double_exp_hours'] < 1) {
     diefun('You do not have any double exp hours remaining to run.');
 }
 
