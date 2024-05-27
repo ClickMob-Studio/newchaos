@@ -593,6 +593,54 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
             )
         );
         $crimebadge = array(
+            '14' => array(
+                'needed' => 100000000,
+                'payout' => 125000,
+                'img' => 'crimes100m',
+                'title' => 'Elite Criminal: Successfully complete 100,000,000 crimes'
+            ),
+            '13' => array(
+                'needed' => 50000000,
+                'payout' => 100000,
+                'img' => 'crimes50m',
+                'title' => 'Elite Criminal: Successfully complete 50,000,000 crimes'
+            ),
+            '12' => array(
+                'needed' => 25000000,
+                'payout' => 80000,
+                'img' => 'crimes25m',
+                'title' => 'Elite Criminal: Successfully complete 25,000,000 crimes'
+            ),
+            '11' => array(
+                'needed' => 10000000,
+                'payout' => 70000,
+                'img' => 'crimes10m',
+                'title' => 'Elite Criminal: Successfully complete 10,000,000 crimes'
+            ),
+            '10' => array(
+                'needed' => 5000000,
+                'payout' => 60000,
+                'img' => 'crimes5m',
+                'title' => 'Elite Criminal: Successfully complete 5,000,000 crimes'
+            ),
+            '9' => array(
+                'needed' => 2000000,
+                'payout' => 55000,
+                'img' => 'crimes2m',
+                'title' => 'Elite Criminal: Successfully complete 2,000,000 crimes'
+            ),
+            '8' => array(
+                'needed' => 1500000,
+                'payout' => 50000,
+                'img' => 'crimes1.5m',
+                'title' => 'Elite Criminal: Successfully complete 1,500,000 crimes'
+            ),
+            '7' => array(
+                'needed' => 1000000,
+                'payout' => 40000,
+                'img' => 'crimes1m',
+                'title' => 'Elite Criminal: Successfully complete 1,000,000 crimes'
+            ),
             '6' => array(
                 'needed' => 500000,
                 'payout' => 30000,
