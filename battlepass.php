@@ -165,7 +165,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
 
                             <div class="col-md-4">
                                 <div class="card text-white <?php echo $divClass ?> mb-3">
-                                    <div class="card-header"><?php echo $bpCategoryPrize['amount'] ?> x <?php echo $bpCategoryPrize['type'] ?></div>
+                                    <div class="card-header"><?php echo displayBpCategoryPrize($bpCategoryPrize) ?></div>
                                     <div class="card-body">
                                         <p class="card-text">
                                             Points Cost:  <?php echo $bpCategoryPrize['cost'] ?>
