@@ -362,6 +362,7 @@ function checkAll(FormName, FieldName, CheckValue){
                                     $repaircost = $value - $array['worth'];
                                     $totalvalue += $array['worth'];
                                     $totalrepair += $repaircost;
+                                    $added = '';
                                     //$added = $array['manufacturing'] == "1" ? " disabled=\"disabled\"" : "";
 
                                     echo "<tr>
