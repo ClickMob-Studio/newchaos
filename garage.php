@@ -274,6 +274,10 @@ function checkAll(FormName, FieldName, CheckValue){
     .table{
         color:white;
     }
+    .table-striped>tbody>tr:nth-of-type(odd)
+    {
+        color:white;
+    }
 </style>
 <form method="post" name="form" action="">
 <div class="container">
