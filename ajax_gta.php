@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 $user_class = new User($_SESSION['id']);
-if(isset($_POST['radiobutton']) && $_POST[''] == 'radiobutton'){
+if(!isset($_POST['radiobutton']) && $_POST['radiobutton'] != 'radiobutton'){
     echo "<div class='container mt-5'><div class='alert alert-danger text-center'>You must select a radio button!</div></div>";
     exit;
 }
