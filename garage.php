@@ -176,7 +176,7 @@ if (isset($_POST['remove'])) {
 $limit = 15;               
 $query_count = "SELECT * FROM garage WHERE owner=:userid";    
 $db->query($query_count);
-$db->bind(':useird', $user_class->id);
+$db->bind(':userid', $user_class->id);
 $result_count = $db->fetch_row();
 $totalrows = count($result_count);
 
