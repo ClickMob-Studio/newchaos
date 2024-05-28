@@ -281,157 +281,169 @@ function checkAll(FormName, FieldName, CheckValue) {
 }
 </script>
 
-<form method="post" name="form" action="">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="card mt-3">
-                    <div class="card-header text-center">
-                        Page Selection
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <?php if ($page != 1) {
-                                    $pageprev = $page - 1;
-                                    echo("<a href=\"garage.php?page=$pageprev\" class=\"btn btn-secondary\">Previous Page</a> ");
-                                } ?>
-                            </div>
-                            <div>
-                                <?php
-                                for ($i = 1; $i <= $numofpages; $i++) {
-                                    if ($i == $page) {
-                                        echo("<span class=\"btn btn-primary\">$i</span> ");
-                                    } else {
-                                        echo("<a href=\"garage.php?page=$i\" class=\"btn btn-secondary\">$i</a> ");
-                                    }
-                                }
-
-                                if (($totalrows % $limit) != 0) {
-                                    if ($i == $page) {
-                                        echo("<span class=\"btn btn-primary\">$i</span> ");
-                                    } else {
-                                        echo("<a href=\"garage.php?page=$i\" class=\"btn btn-secondary\">$i</a> ");
-                                    }
-                                } ?>
-                            </div>
-                            <div>
-                                <?php if (($totalrows - ($limit * $page)) > 0) {
-                                    $pagenext = $page + 1;
-                                    echo(" <a href=\"garage.php?page=$pagenext\" class=\"btn btn-secondary\">Next Page</a>");
-                                } ?>
-                            </div>
+<form id="carForm" method="post">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mt-3">
+                        <div class="card-header text-center">
+                            Page Selection
                         </div>
-                    </div>
-                </div>
-
-                <div class="card mt-3">
-                    <div class="card-header text-center">
-                        Your Car Garage - Holding <?php echo $totalrows; ?> Cars
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">CTRL</th>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Value (Repair)</th>
-                                    <th scope="col">Damage</th>
-                                    <th scope="col">1st Location</th>
-                                    <th scope="col">Current Location</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $query = "SELECT * FROM garage WHERE owner = :username ORDER BY `id` DESC LIMIT :limitvalue, :limit";
-                                $db->query($query);
-                                $db->bind(':username', $user_class->id);
-                                $db->bind(':limitvalue', $limitvalue, PDO::PARAM_INT);
-                                $db->bind(':limit', $limit, PDO::PARAM_INT);
-                                $rows = $db->fetch_row();
-
-                                $totalvalue = 0;
-                                $totalrepair = 0;
-
-                                foreach ($rows as $array) {
-                                    if (isset($carsList[$array['car']])) {
-                                        $car = $carsList[$array['car']];
-                                        $value = $car['max_worth'];
-                                        $repaircost = $value - $array['worth'];
-                                        $totalvalue += $array['worth'];
-                                        $totalrepair += $repaircost;
-                                        $added = '';
-
-                                        echo "<tr>
-                                        <td align=\"center\"><input type=\"checkbox\" name=\"car[]\" value=\"{$car['name']}\"></td>
-                                        <td align=\"center\">{$array['id']}</td>
-                                        <td align=\"center\">{$car['name']}</td>
-                                        <td align=\"center\">&pound;" . number_format($array['worth']) . "</td>
-                                        <td align=\"center\">{$array['damage']}%</td>
-                                        <td align=\"center\">{$array['origion']}</td>
-                                        <td align=\"center\">{$array['location']}</td>
-                                        </tr>";
-                                    } else {
-                                        echo "<tr>
-                                        <td colspan='7' class='text-danger'>Car data not found for ID: {$array['car']}</td>
-                                        </tr>";
-                                    }
-                                }
-                                ?>
-                            </tbody>
-                        </table>
-
-                        <div class="d-flex justify-content-between mt-3">
-                            <div>
-                                <input type="submit" name="sell" value="Sell Selected" class="btn btn-danger">
-                                <input type="submit" name="remove" value="Remove Selected" class="btn btn-danger">
-                            </div>
-                            <div>
-                                <b>This Page's Value: <?php echo "&pound;" . number_format($totalvalue); ?></b>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mt-3">
-                    <div class="card-header">
-                        Ship Car
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3 row">
-                            <label for="regid" class="col-sm-2 col-form-label">Car Reg #:</label>
-                            <div class="col-sm-10">
-                                <input name="regid" type="text" class="form-control" id="regid" size="31" maxlength="7">
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="shipto" class="col-sm-2 col-form-label">Ship to:</label>
-                            <div class="col-sm-10">
-                                <select name="shipto" class="form-select" id="shipto">
-                                    <option value="player" selected>Player</option>
-                                    <?php foreach ($citiesList as $id => $city) {
-                                        echo "<option value='{$id}'>{$city['name']}</option>";
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <?php if ($page != 1) {
+                                        $pageprev = $page - 1;
+                                        echo("<a href=\"garage.php?page=$pageprev\" class=\"btn btn-secondary\">Previous Page</a> ");
                                     } ?>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="mb-3 row">
-                            <label for="username" class="col-sm-2 col-form-label">Username (if selected player):</label>
-                            <div class="col-sm-10">
-                                <input name="username" type="text" class="form-control" id="username" size="31" maxlength="30">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col text-center">
-                                <input name="send" type="submit" class="btn btn-primary" id="send" value="Ship Car">
+                                </div>
+                                <div>
+                                    <?php
+                                    for ($i = 1; $i <= $numofpages; $i++) {
+                                        if ($i == $page) {
+                                            echo("<span class=\"btn btn-primary\">$i</span> ");
+                                        } else {
+                                            echo("<a href=\"garage.php?page=$i\" class=\"btn btn-secondary\">$i</a> ");
+                                        }
+                                    }
+
+                                    if (($totalrows % $limit) != 0) {
+                                        if ($i == $page) {
+                                            echo("<span class=\"btn btn-primary\">$i</span> ");
+                                        } else {
+                                            echo("<a href=\"garage.php?page=$i\" class=\"btn btn-secondary\">$i</a> ");
+                                        }
+                                    } ?>
+                                </div>
+                                <div>
+                                    <?php if (($totalrows - ($limit * $page)) > 0) {
+                                        $pagenext = $page + 1;
+                                        echo(" <a href=\"garage.php?page=$pagenext\" class=\"btn btn-secondary\">Next Page</a>");
+                                    } ?>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="card mt-3">
+                        <div class="card-header text-center">
+                            Your Car Garage - Holding <?php echo $totalrows; ?> Cars
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">CTRL</th>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Value (Repair)</th>
+                                        <th scope="col">Damage</th>
+                                        <th scope="col">1st Location</th>
+                                        <th scope="col">Current Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach ($rows as $array) {
+                                        if (isset($carsList[$array['car']])) {
+                                            $car = $carsList[$array['car']];
+                                            $value = $car['max_worth'];
+                                            $repaircost = $value - $array['worth'];
+                                            $totalvalue += $array['worth'];
+                                            $totalrepair += $repaircost;
+
+                                            echo "<tr>
+                                            <td align=\"center\"><input type=\"checkbox\" name=\"car[]\" value=\"{$array['id']}\" class=\"car-checkbox\"></td>
+                                            <td align=\"center\">{$array['id']}</td>
+                                            <td align=\"center\">{$car['name']}</td>
+                                            <td align=\"center\">&pound;" . number_format($array['worth']) . "</td>
+                                            <td align=\"center\">{$array['damage']}%</td>
+                                            <td align=\"center\">{$array['origion']}</td>
+                                            <td align=\"center\">{$array['location']}</td>
+                                            </tr>";
+                                        } else {
+                                            echo "<tr>
+                                            <td colspan='7' class='text-danger'>Car data not found for ID: {$array['car']}</td>
+                                            </tr>";
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+
+                            <div class="d-flex justify-content-between mt-3">
+                                <div>
+                                    <button type="button" id="sellSelected" class="btn btn-danger">Sell Selected</button>
+                                    <button type="button" id="removeSelected" class="btn btn-danger">Remove Selected</button>
+                                </div>
+                                <div>
+                                    <b>This Page's Value: <?php echo "&pound;" . number_format($totalvalue); ?></b>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            Ship Car
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3 row">
+                                <label for="regid" class="col-sm-2 col-form-label">Car Reg #:</label>
+                                <div class="col-sm-10">
+                                    <input name="regid" type="text" class="form-control" id="regid" size="31" maxlength="7">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="shipto" class="col-sm-2 col-form-label">Ship to:</label>
+                                <div class="col-sm-10">
+                                    <select name="shipto" class="form-select" id="shipto">
+                                        <option value="player" selected>Player</option>
+                                        <?php foreach ($citiesList as $id => $city) {
+                                            echo "<option value='{$id}'>{$city['name']}</option>";
+                                        } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="username" class="col-sm-2 col-form-label">Username (if selected player):</label>
+                                <div class="col-sm-10">
+                                    <input name="username" type="text" class="form-control" id="username" size="31" maxlength="30">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-center">
+                                    <input name="send" type="submit" class="btn btn-primary" id="send" value="Ship Car">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
 
-<?php include_once "incfiles/foot.php"; ?>
+    <script>
+        document.getElementById('sellSelected').addEventListener('click', function() {
+            document.getElementById('carForm').action = '';
+            let form = document.getElementById('carForm');
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'sell';
+            input.value = 'Sell Selected';
+            form.appendChild(input);
+            form.submit();
+        });
+
+        document.getElementById('removeSelected').addEventListener('click', function() {
+            document.getElementById('carForm').action = '';
+            let form = document.getElementById('carForm');
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'remove';
+            input.value = 'Remove Selected';
+            form.appendChild(input);
+            form.submit();
+        });
+    </script>
