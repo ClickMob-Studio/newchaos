@@ -241,7 +241,7 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
                     $db->bind(':country', $country);
                     $db->bind(':regid', $_POST['regid']);
                     $db->execute();
-                    echo "The car ($_POST['regid']) has been sent to $country successfully.";
+                    echo "The car (".$_POST['regid'].") has been sent to $country successfully.";
                 }
             } else {
                 echo "You do not own that car.";
@@ -250,3 +250,145 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
     }
 }
 ?>
+
+<script type='text/javascript'>
+function checkAll(FormName, FieldName, CheckValue){
+    if(!document.forms[FormName])
+        return;
+    var objCheckBoxes = document.forms[FormName].elements[FieldName];
+
+    if(!objCheckBoxes)
+        return;
+    var countCheckBoxes = objCheckBoxes.length;
+
+    if(!countCheckBoxes) {
+        objCheckBoxes.checked = CheckValue;
+    } else {
+        for(var i = 0; i < countCheckBoxes; i++) {
+            objCheckBoxes[i].checked = CheckValue;
+        }
+    }
+}
+</script>
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Gangster City Garage</title>
+<link href="style.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+<form method="post" name="form" action="">
+<table width="45%" border="0"  align="center" cellpadding="0" cellspacing="0" class="table1px">
+<tr><td height="30" colspan="3" align="center" class="gradient">Page Selection</td></tr>
+<tr><td width="20%"  align="left" class="tableborder">
+<?php if($page != 1){ 
+    $pageprev = $page - 1;
+    echo("<a href=\"garage.php?page=$pageprev\">Previous Page</a> "); }?></td>
+
+<td width="60%" align="center" class="tableborder">
+<?php
+for($i = 1; $i <= $numofpages; $i++){
+    if($i == $page){ echo($i." "); }
+    else{ echo("<a href=\"garage.php?page=$i\">$i</a> "); }
+}
+
+if(($totalrows % $limit) != 0){
+    if($i == $page){ echo($i." "); }
+    else{ echo("<a href=\"garage.php?page=$i\">$i</a> "); }} ?></td>
+
+<td width="20%"  align="right" class="tableborder">
+<?php if(($totalrows - ($limit * $page)) > 0){
+    $pagenext = $page + 1;
+    echo(" <a href=\"garage.php?page=$pagenext\">Next Page</a>"); }else{ } ?></td>
+</tr>
+</table>
+<br><br>
+<table width="85%" border="0" align="center" cellpadding="0" cellspacing="0" class="table1px">
+<tr><td class="gradient" height="30" colspan="7" align="center">Your Car Garage - Holding <?php echo $totalrows; ?> Cars</td></tr>
+
+<tr>
+<td class="tableborder" width="5%" align="center"><u>CTRL</u></td>
+<td width="10%" class="tableborder" align="center"><u>ID</u></td>
+<td width="20%" class="tableborder" align="center"><u>Name</u></td>
+<td width="15%" class="tableborder" align="center"><u>Value (Repair)</u></td>
+<td width="15%" class="tableborder" align="center"><u>Damage</u></td>
+<td width="17%" class="tableborder" align="center"><u>1st Location</u></td>
+<td width="18%" class="tableborder" align="center"><u>Current Location</u></td>
+</tr>
+
+<?php
+$query = "SELECT * FROM garage WHERE owner=:username ORDER BY `id` DESC LIMIT :limitvalue, :limit"; 
+$db->query($query);
+$db->bind(':username', $username);
+$db->bind(':limitvalue', $limitvalue, PDO::PARAM_INT);
+$db->bind(':limit', $limit, PDO::PARAM_INT);
+$rows = $db->fetch_row();
+
+$totalvalue = 0;
+$totalrepair = 0;
+
+foreach ($rows as $array) {
+    $car = $carsList[$array['car']];
+    $value = $car['max_worth'];
+    $repaircost = $value - $array['worth'];
+    $totalvalue += $array['worth'];
+    $totalrepair += $repaircost;
+    $added = $array['manufacturing'] == "1" ? " disabled=\"disabled\"" : "";
+
+    echo "<tr>
+    <td align=\"center\" class=\"tableborder\"><input type=\"checkbox\" name=\"car[]\" value=\"{$array['id']}\"$added></td>
+    <td align=\"center\" class=\"tableborder\">{$array['id']}</td>
+    <td align=\"center\" class=\"tableborder\">{$car['name']}</td>
+    <td align=\"center\" class=\"tableborder\">&pound;" . number_format($array['worth']) . "</td>
+    <td align=\"center\" class=\"tableborder\">{$array['damage']}%</td>
+    <td align=\"center\" class=\"tableborder\">{$array['origion']}</td>
+    <td align=\"center\" class=\"tableborder\">{$array['location']}</td>
+    </tr>";
+}
+?>
+
+<tr><td class='sub' colspan='7'><table width='100%' border='0' cellspacing='0' cellpadding='0'><tr>
+  <td width="34%" class="tableborder">
+    
+      <div align="center">
+        <input type="submit" name="sell" value="Sell Selected" class="custombutton">
+        <input type="submit" name="remove" value="Remove Selected" class="custombutton">
+          </div></td><td class="tableborder" width="30%"><div align="center"></div></td>
+<td class="tableborder" width="36%" align="right"><b>This Page's Value : <?php echo "&pound;" . number_format($totalvalue); ?></b></td>
+</tr></table></td></tr>
+
+</table>
+<br /><br />
+        <table width="40%" border="0" align="center" cellpadding="0" cellspacing="0" class="table1px">
+        <tr><td colspan="2" class="gradient" height="30">Ship Car</td></tr>
+        <tr>
+            <td class="tableborder" align="right">Car Reg #:</td>
+            <td class="tableborder" align="left"><input name="regid" type="text" class="textbox" size="31" maxlength="7"></td>
+        </tr>
+        <tr>
+          <td class="tableborder" align="right">Ship to:</td>
+
+          <td class="tableborder" align="left"><select name="shipto" class="textbox" id="shipto">
+            <option value="player" selected>Player</option>
+            <?php foreach ($citiesList as $id => $city) {
+                echo "<option value='{$id}'>{$city['name']}</option>";
+            } ?>
+            </select></td>
+        </tr>
+<tr>
+<td class="tableborder" align="right">Username (if selected player):</td>
+<td class="tableborder" align="left"><input name="username" type="text" class="textbox" id="username" size="31" maxlength="30"></td>
+</tr><tr>
+<td colspan="2" class="tableborder" align="center"><input name="send" type="submit" class="custombutton" id="send" value="Ship Car"></td>
+</tr>
+</table>
+<br><br>
+<?php if ($fetch->factory != "0" && $fetch->factory != "") { ?>
+<div align="center"> 
+<a href="carfactory.php" style="border: none;"><img src="images/others/YourCarsFactory.png" border="0" /></a>
+</div><?php } ?>
+
+<p>&nbsp;</p> 
+<?php include_once "incfiles/foot.php"; ?>
