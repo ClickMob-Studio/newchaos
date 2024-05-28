@@ -5,7 +5,6 @@ header("Access-Control-Allow-Headers: Content-Type");
 
 session_start();
 
-include "classes.php";
 require 'database/pdo_class.php';
 $data = json_decode(file_get_contents("php://input"), true);
 $username = $data['username'];
@@ -24,13 +23,7 @@ if ($result) {
     $_SESSION['username'] = $result['username'];
     $_SESSION['loggedin'] = true;
 
-    $user_class = new User($result['id']);
-
-    $userData = array();
-    $userData ['id'] = $user_class->id;
-    $userData ['username'] = $user_class->username;
-
-    echo json_encode(["success" => true, "user" => $userData, "token" => session_id()]);
+    echo json_encode(["success" => true, "user" => $result, "token" => session_id()]);
 } else {
    
     echo json_encode(["success" => false, "message" => "Invalid credentials"]);
