@@ -270,7 +270,11 @@ function checkAll(FormName, FieldName, CheckValue){
     }
 }
 </script>
-
+<style>
+    .table{
+        color:white important;
+    }
+</style>
 <form method="post" name="form" action="">
 <div class="container">
     <div class="row">
