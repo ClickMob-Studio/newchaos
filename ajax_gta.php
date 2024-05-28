@@ -1,5 +1,8 @@
 <?php
 include "ajax_header.php";
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 $user_class = new User($_SESSION['id']);
 $radiobutton = isset($_POST['radiobutton']) ? $_POST['radiobutton'] : 0;
 
