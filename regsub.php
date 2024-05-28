@@ -66,9 +66,9 @@ mysql_query("INSERT INTO ofthes (userid)VALUES($newid)");
 // Redirect upon successful registration
 $_SESSION['id'] = $pdo->lastInsertId();
 $msgtext = "
-[center]Welcome to [b][color=yellow]Chaos City![/color][/b]
+Welcome to [b][color=yellow]Chaos City![/color][/b]
 
-To get you started we recommend reading our <a href='gameguide.php'>quick start guide</a>.
+To get you started we recommend reading our quick start guide: https://chaoscity.co.uk/gameguide.php
 
 You have been credited with 3 free VIP days and 12-hours of protection to get you started!
 
