@@ -207,7 +207,7 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
                 $db->query("SELECT username, status FROM accounts WHERE username = :username");
                 $db->bind(':username', $_POST['username']);
                 $array = $db->fetch_row(true);
-                if ($fetch->location != $car['location']) {
+                if ($user_class->city != $car['location']) {
                     echo "You have to be in the same location as the car to send it to another player.";
                 } else {
                     if ($array['status'] == "Alive") {
@@ -237,7 +237,7 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
         if ($shipto != "player") { 
             $country = isset($citiesList[$shipto]) ? $citiesList[$shipto]['name'] : 'Unknown';
             if ($car['owner'] == $user_class->id) {
-                if ($fetch->location != $car['location']) {
+                if ($user_class->city != $car['location']) {
                     echo "You have to be in the same location as the car to send it to another country.";
                 } else {
                     $db->query("UPDATE garage SET location = :country WHERE id = :regid");
