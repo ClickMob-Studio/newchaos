@@ -4,7 +4,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-var_dump($_POST); // Dump the entire $_POST array for debugging
+
 // Fetch cars data
 $db->query("SELECT * FROM cars");
 $carsData = $db->fetch_row();
@@ -23,7 +23,7 @@ foreach ($citiesData as $city) {
 }
 
 if (isset($_POST['sell'])) {
-
+    var_dump($_POST); // Dump the entire $_POST array for debugging
     if (isset($_POST['car']) && is_array($_POST['car'])) {
         $cars = count($_POST['car']);
         $i = 0;
@@ -207,7 +207,7 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
                 $db->query("SELECT username, status FROM accounts WHERE username = :username");
                 $db->bind(':username', $_POST['username']);
                 $array = $db->fetch_row(true);
-                if ($user_class->city != $car['location']) {
+                if ($fetch->location != $car['location']) {
                     echo "You have to be in the same location as the car to send it to another player.";
                 } else {
                     if ($array['status'] == "Alive") {
@@ -237,7 +237,7 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
         if ($shipto != "player") { 
             $country = isset($citiesList[$shipto]) ? $citiesList[$shipto]['name'] : 'Unknown';
             if ($car['owner'] == $user_class->id) {
-                if ($user_class->city != $car['location']) {
+                if ($fetch->location != $car['location']) {
                     echo "You have to be in the same location as the car to send it to another country.";
                 } else {
                     $db->query("UPDATE garage SET location = :country WHERE id = :regid");
@@ -253,35 +253,18 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
     }
 }
 ?>
-<style>
-    .table {
-        color: white;
-    }
-    .table-striped>tbody>tr:nth-of-type(odd) {
-        color: white;
-    }
-</style>
-<script type='text/javascript'>
-function checkAll(FormName, FieldName, CheckValue) {
-    if (!document.forms[FormName])
-        return;
-    var objCheckBoxes = document.forms[FormName].elements[FieldName];
 
-    if (!objCheckBoxes)
-        return;
-    var countCheckBoxes = objCheckBoxes.length;
-
-    if (!countCheckBoxes) {
-        objCheckBoxes.checked = CheckValue;
-    } else {
-        for (var i = 0; i < countCheckBoxes; i++) {
-            objCheckBoxes[i].checked = CheckValue;
+   <style>
+        .table {
+            color: white;
         }
-    }
-}
-</script>
+        .table-striped>tbody>tr:nth-of-type(odd) {
+            color: white;
+        }
+    </style>
 
-<form id="carForm" method="post">
+<body>
+    <form id="carForm" method="post">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -426,7 +409,6 @@ function checkAll(FormName, FieldName, CheckValue) {
 
     <script>
         document.getElementById('sellSelected').addEventListener('click', function() {
-            document.getElementById('carForm').action = '';
             let form = document.getElementById('carForm');
             let input = document.createElement('input');
             input.type = 'hidden';
@@ -437,7 +419,6 @@ function checkAll(FormName, FieldName, CheckValue) {
         });
 
         document.getElementById('removeSelected').addEventListener('click', function() {
-            document.getElementById('carForm').action = '';
             let form = document.getElementById('carForm');
             let input = document.createElement('input');
             input.type = 'hidden';
@@ -447,3 +428,5 @@ function checkAll(FormName, FieldName, CheckValue) {
             form.submit();
         });
     </script>
+</body>
+</html>
