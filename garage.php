@@ -3,27 +3,28 @@ require_once "header.php";
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-$page = $_GET['page'];
+
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$username = $_SESSION['username'];
 
 // Fetch cars data
 $db->query("SELECT * FROM cars");
 $carsData = $db->fetch_row();
 
-// Fetch cities data
 $db->query("SELECT * FROM cities");
 $citiesData = $db->fetch_row();
 
-$carsList = [];
+$carsList = array();
 foreach ($carsData as $car) {
     $carsList[$car['id']] = $car;
 }
 
-$citiesList = [];
+$citiesList = array();
 foreach ($citiesData as $city) {
     $citiesList[$city['id']] = $city;
 }
 
-if ($_POST['sell']) {
+if (isset($_POST['sell'])) {
     if (is_array($_POST['car'])) {
         $cars = count($_POST['car']);
         $i = 0;
@@ -46,9 +47,9 @@ if ($_POST['sell']) {
 
                 if (($i + 1) == $cars) {
                     if ($cars == 1) {
-                        echo "You sold the car for &pound;" . makecomma($array['worth']) . "";
+                        echo "You sold the car for &pound;" . number_format($array['worth']) . "";
                     } else {
-                        echo "You sold $cars cars for &pound;" . makecomma($totalmoney) . ".";
+                        echo "You sold $cars cars for &pound;" . number_format($totalmoney) . ".";
                     }
                 }
             } else {
@@ -65,7 +66,7 @@ if ($_POST['sell']) {
     }
 }
 
-if ($_POST['repair']) {
+if (isset($_POST['repair'])) {
     if (is_array($_POST['car'])) {
         $cars = count($_POST['car']);
         $i = 0;
@@ -111,9 +112,9 @@ if ($_POST['repair']) {
 
                             if (($i + 1) == $cars) {
                                 if ($cars2 == 1) {
-                                    echo "You repaired the car for &pound;" . makecomma($cost) . ".\n";
+                                    echo "You repaired the car for &pound;" . number_format($cost) . ".\n";
                                 } else {
-                                    echo "You repaired " . makecomma($cars2) . " cars for &pound;" . makecomma($totalmoney) . ".\n";
+                                    echo "You repaired " . number_format($cars2) . " cars for &pound;" . number_format($totalmoney) . ".\n";
                                 }
                             }
                         } else {
@@ -133,7 +134,7 @@ if ($_POST['repair']) {
     }
 }
 
-if ($_POST['remove']) {
+if (isset($_POST['remove'])) {
     if (is_array($_POST['car'])) {
         $cars = count($_POST['car']);
         $i = 0;
@@ -189,7 +190,7 @@ if ($totalrows == 0) {
 $limitvalue = $page * $limit - $limit;  
 $numofpages = ceil($totalrows / $limit); 
 
-if ($_POST['regid'] && $_POST['send']) {
+if (isset($_POST['regid']) && isset($_POST['send'])) {
     $shipto = $_POST['shipto'];
     $db->query("SELECT * FROM garage WHERE id=:regid");
     $db->bind(':regid', $_POST['regid']);
@@ -340,7 +341,7 @@ foreach ($rows as $array) {
     <td align=\"center\" class=\"tableborder\"><input type=\"checkbox\" name=\"car[]\" value=\"{$array['id']}\"$added></td>
     <td align=\"center\" class=\"tableborder\">{$array['id']}</td>
     <td align=\"center\" class=\"tableborder\">{$car['name']}</td>
-    <td align=\"center\" class=\"tableborder\">&pound;" . makecomma($array['worth']) . "</td>
+    <td align=\"center\" class=\"tableborder\">&pound;" . number_format($array['worth']) . "</td>
     <td align=\"center\" class=\"tableborder\">{$array['damage']}%</td>
     <td align=\"center\" class=\"tableborder\">{$array['origion']}</td>
     <td align=\"center\" class=\"tableborder\">{$array['location']}</td>
@@ -355,7 +356,7 @@ foreach ($rows as $array) {
         <input type="submit" name="sell" value="Sell Selected" class="custombutton">
         <input type="submit" name="remove" value="Remove Selected" class="custombutton">
           </div></td><td class="tableborder" width="30%"><div align="center"></div></td>
-<td class="tableborder" width="36%" align="right"><b>This Page's Value : <?php echo "&pound;" . makecomma($totalvalue); ?></b></td>
+<td class="tableborder" width="36%" align="right"><b>This Page's Value : <?php echo "&pound;" . number_format($totalvalue); ?></b></td>
 </tr></table></td></tr>
 
 </table>
