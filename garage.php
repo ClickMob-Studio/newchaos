@@ -1,14 +1,6 @@
 <?php 
 require_once "header.php"; 
 
-$db = database::getInstance();
-logincheck();
-$username = $_SESSION['username'];
-
-$db->query("SELECT * FROM accounts WHERE username=:username");
-$db->bind(':username', $username);
-$fetch = $db->fetch_object();
-
 $page = $_GET['page'];
 
 // Fetch cars data
