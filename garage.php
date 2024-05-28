@@ -279,7 +279,7 @@ function checkAll(FormName, FieldName, CheckValue){
                 <div class="card-header text-center">
                     Page Selection
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="color:white">
                     <div class="d-flex justify-content-between">
                         <div>
                             <?php if($page != 1){ 
