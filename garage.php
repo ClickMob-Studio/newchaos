@@ -21,12 +21,13 @@ foreach ($citiesData as $city) {
 }
 
 if (isset($_POST['sell'])) {
+    var_dump($_POST['car']);
     if (is_array($_POST['car'])) {
         $cars = count($_POST['car']);
         $i = 0;
         $totalmoney = 0;
         foreach ($_POST['car'] as $car) {
-            $db->query("SELECT * FROM garage WHERE id=:car");
+            $db->query("SELECT * FROM garage WHERE name =:car");
             $db->bind(':car', $car);
             $array = $db->fetch_row(true);
 
