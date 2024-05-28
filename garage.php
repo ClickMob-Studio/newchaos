@@ -23,6 +23,7 @@ foreach ($citiesData as $city) {
 }
 
 if (isset($_POST['sell'])) {
+    var_dump($_POST['car']);
     if (is_array($_POST['car'])) {
         $cars = count($_POST['car']);
         $i = 0;
