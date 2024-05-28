@@ -172,4 +172,81 @@ if (isset($_POST['remove'])) {
         }
     }
 }
-exit;
+
+$limit = 15;               
+$query_count = "SELECT * FROM garage WHERE owner=:username";    
+$db->query($query_count);
+$db->bind(':username', $username);
+$result_count = $db->fetch_row();
+$totalrows = count($result_count);
+
+if (empty($page)) {
+    $page = 1;
+}
+
+if ($totalrows == 0) {
+    $totalrows = 1;
+}
+$limitvalue = $page * $limit - $limit;  
+$numofpages = ceil($totalrows / $limit); 
+
+if (isset($_POST['regid']) && isset($_POST['send'])) {
+    $shipto = $_POST['shipto'];
+    $db->query("SELECT * FROM garage WHERE id=:regid");
+    $db->bind(':regid', $_POST['regid']);
+    $car = $db->fetch_row(true);
+
+    if ($car['manufacturing'] == "1") {
+        echo "Unable to take action due to car in manufacturing status.";
+    } elseif ($car['manufacturing'] != "1") {
+        if ($shipto == "player") {
+            if ($car['owner'] == $username) { 
+                $db->query("SELECT username, status FROM accounts WHERE username=:username");
+                $db->bind(':username', $_POST['username']);
+                $array = $db->fetch_row(true);
+                if ($fetch->location != $car['location']) {
+                    echo "You have to be in the same location as the car to send it to another player.";
+                } else {
+                    if ($array['status'] == "Alive") {
+                        $db->query("UPDATE garage SET owner=:new_owner WHERE id=:regid");
+                        $db->bind(':new_owner', $array['username']);
+                        $db->bind(':regid', $_POST['regid']);
+                        $db->execute();
+
+                        $db->query("INSERT INTO inbox (to, from, message, subject, date, read) VALUES (:to, :from, :message, :subject, :date, 0)");
+                        $db->bind(':to', $array['username']);
+                        $db->bind(':from', $username);
+                        $db->bind(':message', "$username sent you a car. Check your inbox for any new additions.");
+                        $db->bind(':subject', "The Garage Hideout");
+                        $db->bind(':date', $date);
+                        $db->execute();
+
+                        echo "The car (". $_POST['regid']. ") has been sent to ". $_POST['username']. ".";
+                    } else {
+                        echo "You cannot send a car to a dead player.";
+                    }
+                }
+            } else {
+                echo "You do not own that car.";
+            }
+        }
+
+        if ($shipto != "player") { 
+            $country = $citiesList[$shipto]['name'];
+            if ($car['owner'] == $username) {
+                if ($fetch->location != $car['location']) {
+                    echo "You have to be in the same location as the car to send it to another country.";
+                } else {
+                    $db->query("UPDATE garage SET location=:country WHERE id=:regid");
+                    $db->bind(':country', $country);
+                    $db->bind(':regid', $_POST['regid']);
+                    $db->execute();
+                    echo "The car ($_POST['regid']) has been sent to $country successfully.";
+                }
+            } else {
+                echo "You do not own that car.";
+            }
+        }
+    }
+}
+?>
