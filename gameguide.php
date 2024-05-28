@@ -38,6 +38,7 @@ include 'header.php';
         </p>
 
         <p>For the quick start guide, we'll discuss the core features within the game and how they can help you to start progressing quickly.</p>
+        <hr />
 
         <h3>Crimes</h3>
 
@@ -46,6 +47,7 @@ include 'header.php';
             will make criming much faster for you. You need to pay for and enable auto refills everyday.
         </p>
 
+        <hr />
         <h3>Gym</h3>
 
         <p>
@@ -59,11 +61,14 @@ include 'header.php';
 
         <p>It's always smart to hold back on training until you can gain a better house and increase your level to get more from your trains.</p>
 
+        <hr />
+
         <h3>Backalley</h3>
 
         <p>The Backalley is a great place to earn some EXP, Cash and Points. It takes energy to search in the Backalley and each search you'll either find something or end up in the hospital. </p>
         <p>If your going to commit to spending some time searching the Backalley then make sure you have some 100% Med Cert's available as you'll need them! They can be purchased from the Pharmacy on the City page.</p>
 
+        <hr />
         <h3>Missions</h3>
 
         <p>
@@ -81,14 +86,17 @@ include 'header.php';
             <li>BA Missions: These require you to complete Backalley searches to complete them</li>
         </ul>
 
+        <hr />
         <h3>Raids</h3>
 
         <p>Embark on epic raids, where you challenge fearsome bosses in intense battles. As your level grows, so does the might of the adversaries you confront. Every boss presents distinct challenges and promises enticing rewards. Strategize your difficulty selection judiciously and join forces with fellow adventurers to conquer these formidable foes!</p>
 
+        <hr />
         <h3>Battle Pass</h3>
 
         <p>The Battle Pass allows you to complete challenges to earn prizes. The Battle Pass resets & changes monthly. You have the option of just running the free Battle Pass, or you can update via the store to unlock the months Premium Battle Pass challenges & prizes too.</p>
 
+        <hr />
         <h3>Persistent Tasks</h3>
 
         <p>There are several tasks in the game which you can do every day/hour/minute. These are:</p>
