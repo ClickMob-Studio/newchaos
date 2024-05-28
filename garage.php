@@ -362,6 +362,7 @@ function checkAll(FormName, FieldName, CheckValue){
                                     $repaircost = $value - $array['worth'];
                                     $totalvalue += $array['worth'];
                                     $totalrepair += $repaircost;
+                                    $added = '';
                                     //$added = $array['manufacturing'] == "1" ? " disabled=\"disabled\"" : "";
 
                                     echo "<tr>
@@ -431,11 +432,7 @@ function checkAll(FormName, FieldName, CheckValue){
                 </div>
             </div>
 
-            <?php if ($fetch->factory != "0" && $fetch->factory != "") { ?>
-            <div class="text-center mt-3"> 
-                <a href="carfactory.php" class="btn btn-outline-primary"><img src="images/others/YourCarsFactory.png" alt="Your Cars Factory" class="img-fluid"></a>
-            </div>
-            <?php } ?>
+        
         </div>
     </div>
 </div>
