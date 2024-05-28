@@ -66,15 +66,15 @@ mysql_query("INSERT INTO ofthes (userid)VALUES($newid)");
 // Redirect upon successful registration
 $_SESSION['id'] = $pdo->lastInsertId();
 $msgtext = "
-[center]Welcome to [b][color=yellow]Chaos City![/color][/b]
+Welcome to [b][color=yellow]Chaos City![/color][/b]
 
-You have been credited 3 free T1 VIP Days
+To get you started we recommend reading our quick start guide: https://chaoscity.co.uk/gameguide.php
 
-Hello PLAYER!
-Thank you for choosing us at CC. 
-Please Pop any game suggestions into our new Suggestions box!
+You have been credited with 3 free VIP days and 12-hours of protection to get you started!
 
-Good luck and a warm welcome to Chaos City! [/center]
+Be sure to join our discord community: <a href='https://discord.gg/Pb7sTfhCnm'>https://discord.gg/Pb7sTfhCnm</a>
+
+Thank you for choosing to play Chaos City. 
 
 CC Staff.";
 session_regenerate_id();
