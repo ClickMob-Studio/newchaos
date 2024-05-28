@@ -109,7 +109,7 @@ function getCarsByIds($ids) {
     foreach ($ids as $k => $id) {
         $db->bind(($k + 1), $id);
     }
-    return $db->fetch_all();
+    return $db->fetch_row();
 }
 
 function calculateWorth($max) {
