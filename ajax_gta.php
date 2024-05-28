@@ -2,25 +2,38 @@
 include "ajax_header.php";
 $user_class = new User($_SESSION['id']);
 $radiobutton = isset($_POST['radiobutton']) ? $_POST['radiobutton'] : 0;
-$chance = explode("-", $user_class->gtachance);
 
 
-function weightedRandom($weights) {
-    $totalWeight = array_sum($weights);
-    $random = rand(1, $totalWeight);
-    foreach ($weights as $key => $weight) {
-        if ($random <= $weight) {
-            return $key;
-        }
-        $random -= $weight;
-    }
-    return array_key_last($weights); 
+$tiers = [
+    1 => ['nerve_cost' => 5, 'cars' => range(1, 5)],   // Steal from rich house
+    2 => ['nerve_cost' => 10, 'cars' => range(6, 9)],  // Steal from the streets
+    3 => ['nerve_cost' => 15, 'cars' => range(10, 11)], // Steal from Dealership
+    4 => ['nerve_cost' => 20, 'cars' => [12, 13]],     // Steal from Showroom
+    5 => ['nerve_cost' => 25, 'cars' => range(1, 13)]  // Break into a Garage (all cars)
+];
+
+
+$tier = $tiers[$radiobutton];
+$nerve_cost = $tier['nerve_cost'];
+$car_ids = $tier['cars'];
+
+
+if ($user_class->nerve < $nerve_cost) {
+    echo "<div class='container mt-5'><div class='alert alert-danger text-center'>You don't have enough nerve for this attempt!</div></div>";
+    exit;
 }
-$suc = $chance[$radiobutton];
+
+
+$user_class->nerve -= $nerve_cost;
+$user_class->updateNerve();
+
+
+$chance = explode("-", $user_class->gtachance);
+$suc = $chance[$radiobutton - 1]; 
 $success = rand(1, 100) <= $suc;
 
 if ($success) {
-    $cars = getCars();
+    $cars = getCarsByIds($car_ids);
 
     $win = rand(0, count($cars) - 1);
     $selectedCar = $cars[$win];
@@ -80,10 +93,14 @@ $db->bind(2, $tim);
 $db->bind(3, $user_class->id);
 $db->execute();
 
-function getCars() {
+function getCarsByIds($ids) {
     global $db;
-    $db->query("SELECT `name`, image_path, max_worth FROM cars");
-    return $db->fetch_row();
+    $ids_placeholder = implode(',', array_fill(0, count($ids), '?'));
+    $db->query("SELECT `name`, image_path, max_worth FROM cars WHERE id IN ($ids_placeholder)");
+    foreach ($ids as $k => $id) {
+        $db->bind(($k + 1), $id);
+    }
+    return $db->fetch_all();
 }
 
 function calculateWorth($max) {
