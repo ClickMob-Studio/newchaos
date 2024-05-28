@@ -1,14 +1,9 @@
 <?php
 include "ajax_header.php";
 $user_class = new User($_SESSION['id']);
-
-$user_class = $_SESSION['user_class'];
 $radiobutton = isset($_POST['radiobutton']) ? $_POST['radiobutton'] : 0;
 $chance = explode("-", $user_class->gtachance);
 
-$weights = array_map(function($c) {
-    return min(100, max(0, $c)); 
-}, $chance);
 
 function weightedRandom($weights) {
     $totalWeight = array_sum($weights);
@@ -19,11 +14,12 @@ function weightedRandom($weights) {
         }
         $random -= $weight;
     }
-    return count($weights) - 1; 
+    return array_key_last($weights); 
 }
+$suc = $chance[$radiobutton];
+$success = rand(1, 100) <= $suc;
 
-$selectedOption = weightedRandom($weights);
-if ($selectedOption == $radiobutton) {
+if ($success) {
     $cars = getCars();
 
     $win = rand(0, count($cars) - 1);
