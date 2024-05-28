@@ -4,6 +4,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 $user_class = new User($_SESSION['id']);
+if(isset($_POST['radiobutton']) && $_POST[''] == 'radiobutton'){
+    echo "<div class='container mt-5'><div class='alert alert-danger text-center'>You must select a radio button!</div></div>";
+    exit;
+}
 $radiobutton = isset($_POST['radiobutton']) ? $_POST['radiobutton'] : 0;
 
 
@@ -28,8 +32,8 @@ if ($user_class->nerve < $nerve_cost) {
 
 
 $user_class->nerve -= $nerve_cost;
-$user_class->updateNerve();
-
+$db->query("UPDATE grpgusers SET nerve = ".$user_class->nerve." WHERE id = ".$user_class->id);
+$db->execute();
 
 $chance = explode("-", $user_class->gtachance);
 $suc = $chance[$radiobutton - 1]; 
