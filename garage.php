@@ -12,7 +12,7 @@ $citiesData = $db->fetch_row();
 
 $carsList = array();
 foreach ($carsData as $car) {
-    $carsList[$car['id']] = $car;
+    $carsList[$car['name']] = $car;
 }
 
 $citiesList = array();
