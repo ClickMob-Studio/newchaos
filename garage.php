@@ -362,7 +362,7 @@ function checkAll(FormName, FieldName, CheckValue){
                                     $repaircost = $value - $array['worth'];
                                     $totalvalue += $array['worth'];
                                     $totalrepair += $repaircost;
-                                    $added = $array['manufacturing'] == "1" ? " disabled=\"disabled\"" : "";
+                                    //$added = $array['manufacturing'] == "1" ? " disabled=\"disabled\"" : "";
 
                                     echo "<tr>
                                     <td align=\"center\"><input type=\"checkbox\" name=\"car[]\" value=\"{$array['id']}\"$added></td>
