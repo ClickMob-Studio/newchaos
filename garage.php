@@ -1,9 +1,5 @@
-<?php 
-require_once "header.php"; 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
+<?php
+require "header.php";
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 
 
@@ -87,45 +83,49 @@ if (isset($_POST['repair'])) {
                 if ($array['owner'] != $user_class->id) {
                     $error = 1;
                 } else {
-                    $cost = $carsList[$array['car']]['max_worth'] - $array['worth'];
-                    $totalmoney += $cost;
+                    if (isset($carsList[$array['car']])) {
+                        $cost = $carsList[$array['car']]['max_worth'] - $array['worth'];
+                        $totalmoney += $cost;
 
-                    if ($totalmoney > $fetch->money) {
-                        if (($i + 1) == $cars) {
-                            if ($cars == 1) {
-                                echo "You do not have enough money to repair this car.\n";
-                            } else {
-                                echo "You do not have enough money to repair these cars.\n";
-                            }
-                        }
-                    } else {
-                        if (!$error) {
-                            $db->query("UPDATE accounts SET money=money-:cost WHERE username=:username");
-                            $db->bind(':cost', $cost);
-                            $db->bind(':username', $user_class->id);
-                            $db->execute();
-                            
-                            $db->query("UPDATE garage SET damage='0', worth=:value WHERE id=:car");
-                            $db->bind(':value', $carsList[$array['car']]['max_worth']);
-                            $db->bind(':car', $car);
-                            $db->execute();
-
+                        if ($totalmoney > $fetch->money) {
                             if (($i + 1) == $cars) {
-                                if ($cars2 == 1) {
-                                    echo "You repaired the car for &pound;" . number_format($cost) . ".\n";
+                                if ($cars == 1) {
+                                    echo "You do not have enough money to repair this car.\n";
                                 } else {
-                                    echo "You repaired " . number_format($cars2) . " cars for &pound;" . number_format($totalmoney) . ".\n";
+                                    echo "You do not have enough money to repair these cars.\n";
                                 }
                             }
                         } else {
-                            if (($i + 1) == $cars) {
-                                if ($cars == 1) {
-                                    echo "You do not own this car.\n";
-                                } else {
-                                    echo "You do not own these cars.\n";
+                            if (!$error) {
+                                $db->query("UPDATE accounts SET money=money-:cost WHERE username=:username");
+                                $db->bind(':cost', $cost);
+                                $db->bind(':username', $user_class->id);
+                                $db->execute();
+                                
+                                $db->query("UPDATE garage SET damage='0', worth=:value WHERE id=:car");
+                                $db->bind(':value', $carsList[$array['car']]['max_worth']);
+                                $db->bind(':car', $car);
+                                $db->execute();
+
+                                if (($i + 1) == $cars) {
+                                    if ($cars2 == 1) {
+                                        echo "You repaired the car for &pound;" . number_format($cost) . ".\n";
+                                    } else {
+                                        echo "You repaired " . number_format($cars2) . " cars for &pound;" . number_format($totalmoney) . ".\n";
+                                    }
+                                }
+                            } else {
+                                if (($i + 1) == $cars) {
+                                    if ($cars == 1) {
+                                        echo "You do not own this car.\n";
+                                    } else {
+                                        echo "You do not own these cars.\n";
+                                    }
                                 }
                             }
                         }
+                    } else {
+                        echo "Car data not found.\n";
                     }
                 }
             }
@@ -174,9 +174,9 @@ if (isset($_POST['remove'])) {
 }
 
 $limit = 15;               
-$query_count = "SELECT * FROM garage WHERE owner=:userid";    
+$query_count = "SELECT * FROM garage WHERE owner=:username";    
 $db->query($query_count);
-$db->bind(':userid', $user_class->id);
+$db->bind(':username', $user_class->id);
 $result_count = $db->fetch_row();
 $totalrows = count($result_count);
 
@@ -232,7 +232,7 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
         }
 
         if ($shipto != "player") { 
-            $country = $citiesList[$shipto]['name'];
+            $country = isset($citiesList[$shipto]) ? $citiesList[$shipto]['name'] : 'Unknown';
             if ($car['owner'] == $user_class->id) {
                 if ($fetch->location != $car['location']) {
                     echo "You have to be in the same location as the car to send it to another country.";
@@ -250,7 +250,15 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
     }
 }
 ?>
-
+<style>
+    .table{
+        color:white;
+    }
+    .table-striped>tbody>tr:nth-of-type(odd)
+    {
+        color:white;
+    }
+</style>
 <script type='text/javascript'>
 function checkAll(FormName, FieldName, CheckValue){
     if(!document.forms[FormName])
@@ -270,15 +278,7 @@ function checkAll(FormName, FieldName, CheckValue){
     }
 }
 </script>
-<style>
-    .table{
-        color:white;
-    }
-    .table-striped>tbody>tr:nth-of-type(odd)
-    {
-        color:white;
-    }
-</style>
+
 <form method="post" name="form" action="">
 <div class="container">
     <div class="row">
@@ -287,7 +287,7 @@ function checkAll(FormName, FieldName, CheckValue){
                 <div class="card-header text-center">
                     Page Selection
                 </div>
-                <div class="card-body" style="color:white">
+                <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <div>
                             <?php if($page != 1){ 
@@ -353,22 +353,28 @@ function checkAll(FormName, FieldName, CheckValue){
                             $totalrepair = 0;
 
                             foreach ($rows as $array) {
-                                $car = $carsList[$array['car']];
-                                $value = $car['max_worth'];
-                                $repaircost = $value - $array['worth'];
-                                $totalvalue += $array['worth'];
-                                $totalrepair += $repaircost;
-                                $added = $array['manufacturing'] == "1" ? " disabled=\"disabled\"" : "";
+                                if (isset($carsList[$array['car']])) {
+                                    $car = $carsList[$array['car']];
+                                    $value = $car['max_worth'];
+                                    $repaircost = $value - $array['worth'];
+                                    $totalvalue += $array['worth'];
+                                    $totalrepair += $repaircost;
+                                    $added = $array['manufacturing'] == "1" ? " disabled=\"disabled\"" : "";
 
-                                echo "<tr>
-                                <td align=\"center\"><input type=\"checkbox\" name=\"car[]\" value=\"{$array['id']}\"$added></td>
-                                <td align=\"center\">{$array['id']}</td>
-                                <td align=\"center\">{$car['name']}</td>
-                                <td align=\"center\">&pound;" . number_format($array['worth']) . "</td>
-                                <td align=\"center\">{$array['damage']}%</td>
-                                <td align=\"center\">{$array['origion']}</td>
-                                <td align=\"center\">{$array['location']}</td>
-                                </tr>";
+                                    echo "<tr>
+                                    <td align=\"center\"><input type=\"checkbox\" name=\"car[]\" value=\"{$array['id']}\"$added></td>
+                                    <td align=\"center\">{$array['id']}</td>
+                                    <td align=\"center\">{$car['name']}</td>
+                                    <td align=\"center\">&pound;" . number_format($array['worth']) . "</td>
+                                    <td align=\"center\">{$array['damage']}%</td>
+                                    <td align=\"center\">{$array['origion']}</td>
+                                    <td align=\"center\">{$array['location']}</td>
+                                    </tr>";
+                                } else {
+                                    echo "<tr>
+                                    <td colspan='7' class='text-danger'>Car data not found for ID: {$array['car']}</td>
+                                    </tr>";
+                                }
                             }
                             ?>
                         </tbody>
@@ -431,5 +437,3 @@ function checkAll(FormName, FieldName, CheckValue){
     </div>
 </div>
 </form>
-
-<?php include_once "incfiles/foot.php"; ?>
