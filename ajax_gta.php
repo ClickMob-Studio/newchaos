@@ -2,10 +2,7 @@
 include "ajax_header.php";
 
 $user_class = new User($_SESSION['id']);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-$_POST['radiobutton'] = 3;
+
 if(!isset($_POST['radiobutton'])){
     echo "<div class='container mt-5'><div class='alert alert-danger text-center'>You must select a radio button!</div></div>";
     exit;
