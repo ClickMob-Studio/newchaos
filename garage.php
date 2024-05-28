@@ -272,7 +272,7 @@ function checkAll(FormName, FieldName, CheckValue){
 </script>
 <style>
     .table{
-        color:white important;
+        color:white;
     }
 </style>
 <form method="post" name="form" action="">
