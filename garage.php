@@ -364,7 +364,7 @@ function checkAll(FormName, FieldName, CheckValue) {
                                         $added = '';
 
                                         echo "<tr>
-                                        <td align=\"center\"><input type=\"checkbox\" name=\"car[]\" value=\"{$array['id']}\"$added></td>
+                                        <td align=\"center\"><input type=\"checkbox\" name=\"car[]\" value=\"{$car['name']}\"></td>
                                         <td align=\"center\">{$array['id']}</td>
                                         <td align=\"center\">{$car['name']}</td>
                                         <td align=\"center\">&pound;" . number_format($array['worth']) . "</td>
