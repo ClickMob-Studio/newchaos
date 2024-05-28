@@ -4,7 +4,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 1;
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-
+var_dump($_POST); // Dump the entire $_POST array for debugging
 // Fetch cars data
 $db->query("SELECT * FROM cars");
 $carsData = $db->fetch_row();
@@ -23,7 +23,7 @@ foreach ($citiesData as $city) {
 }
 
 if (isset($_POST['sell'])) {
-    var_dump($_POST); // Dump the entire $_POST array for debugging
+
     if (isset($_POST['car']) && is_array($_POST['car'])) {
         $cars = count($_POST['car']);
         $i = 0;
