@@ -192,7 +192,12 @@ if ($totalrows == 0) {
 }
 $limitvalue = $page * $limit - $limit;  
 $numofpages = ceil($totalrows / $limit); 
-
+$query = "SELECT * FROM garage WHERE owner = :username ORDER BY `id` DESC LIMIT :limitvalue, :limit";
+$db->query($query);
+$db->bind(':username', $user_class->id);
+$db->bind(':limitvalue', $limitvalue, PDO::PARAM_INT);
+$db->bind(':limit', $limit, PDO::PARAM_INT);
+$rows = $db->fetch_row();
 if (isset($_POST['regid']) && isset($_POST['send'])) {
     $shipto = $_POST['shipto'];
     $db->query("SELECT * FROM garage WHERE id = :regid");
