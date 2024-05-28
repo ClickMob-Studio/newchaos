@@ -221,7 +221,7 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
                         $db->bind(':date', $date);
                         $db->execute();
 
-                        echo "The car ($_POST['regid']) has been sent to $_POST['username'].";
+                        echo "The car (". $_POST['regid']. ") has been sent to ". $_POST['username']. ".";
                     } else {
                         echo "You cannot send a car to a dead player.";
                     }
