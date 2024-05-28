@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
-$username = $_SESSION['username'];
+
 
 // Fetch cars data
 $db->query("SELECT * FROM cars");
@@ -34,11 +34,11 @@ if (isset($_POST['sell'])) {
             $db->bind(':car', $car);
             $array = $db->fetch_row(true);
 
-            if ($array['owner'] == $username) {
+            if ($array['owner'] == $user_class->id) {
                 $totalmoney += $array['worth'];
                 $db->query("UPDATE accounts SET money=money+:worth WHERE username=:username");
                 $db->bind(':worth', $array['worth']);
-                $db->bind(':username', $username);
+                $db->bind(':username', $user_class->id);
                 $db->execute();
                 
                 $db->query("DELETE FROM garage WHERE id=:car");
@@ -84,7 +84,7 @@ if (isset($_POST['repair'])) {
                     $cars2 += 1;
                 }
 
-                if ($array['owner'] != $username) {
+                if ($array['owner'] != $user_class->id) {
                     $error = 1;
                 } else {
                     $cost = $carsList[$array['car']]['max_worth'] - $array['worth'];
@@ -102,7 +102,7 @@ if (isset($_POST['repair'])) {
                         if (!$error) {
                             $db->query("UPDATE accounts SET money=money-:cost WHERE username=:username");
                             $db->bind(':cost', $cost);
-                            $db->bind(':username', $username);
+                            $db->bind(':username', $user_class->id);
                             $db->execute();
                             
                             $db->query("UPDATE garage SET damage='0', worth=:value WHERE id=:car");
@@ -143,7 +143,7 @@ if (isset($_POST['remove'])) {
             $db->bind(':car', $car);
             $array = $db->fetch_row(true);
 
-            if ($array['owner'] != $username) {
+            if ($array['owner'] != $user_class->id) {
                 $error = 1;
             }
 
@@ -200,7 +200,7 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
         echo "Unable to take action due to car in manufacturing status.";
     } elseif ($car['manufacturing'] != "1") {
         if ($shipto == "player") {
-            if ($car['owner'] == $username) { 
+            if ($car['owner'] == $user_class->id) { 
                 $db->query("SELECT username, status FROM accounts WHERE username=:username");
                 $db->bind(':username', $_POST['username']);
                 $array = $db->fetch_row(true);
@@ -215,8 +215,8 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
 
                         $db->query("INSERT INTO inbox (to, from, message, subject, date, read) VALUES (:to, :from, :message, :subject, :date, 0)");
                         $db->bind(':to', $array['username']);
-                        $db->bind(':from', $username);
-                        $db->bind(':message', "$username sent you a car. Check your inbox for any new additions.");
+                        $db->bind(':from', $user_class->id);
+                        $db->bind(':message', "$user_class->id sent you a car. Check your inbox for any new additions.");
                         $db->bind(':subject', "The Garage Hideout");
                         $db->bind(':date', $date);
                         $db->execute();
@@ -233,7 +233,7 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
 
         if ($shipto != "player") { 
             $country = $citiesList[$shipto]['name'];
-            if ($car['owner'] == $username) {
+            if ($car['owner'] == $user_class->id) {
                 if ($fetch->location != $car['location']) {
                     echo "You have to be in the same location as the car to send it to another country.";
                 } else {
@@ -336,7 +336,7 @@ function checkAll(FormName, FieldName, CheckValue){
                             <?php
                             $query = "SELECT * FROM garage WHERE owner=:username ORDER BY `id` DESC LIMIT :limitvalue, :limit"; 
                             $db->query($query);
-                            $db->bind(':username', $username);
+                            $db->bind(':username', $user_class->id);
                             $db->bind(':limitvalue', $limitvalue, PDO::PARAM_INT);
                             $db->bind(':limit', $limit, PDO::PARAM_INT);
                             $rows = $db->fetch_row();
