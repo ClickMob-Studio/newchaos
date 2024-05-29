@@ -51,10 +51,10 @@ $rows = $db->fetch_row();
 <html>
 <head>
     <style>
-        .table {
+        .card-header, .card-body {
             color: white;
         }
-        .table-striped>tbody>tr:nth-of-type(odd) {
+        .btn-primary, .btn-secondary {
             color: white;
         }
     </style>
@@ -108,46 +108,53 @@ $rows = $db->fetch_row();
                         Your Car Garage - Holding <?php echo $totalrows; ?> Cars
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Value (Repair)</th>
-                                    <th scope="col">Damage</th>
-                                    <th scope="col">1st Location</th>
-                                    <th scope="col">Current Location</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                foreach ($rows as $array) {
-                                    if (isset($carsList[$array['car']])) {
-                                        $car = $carsList[$array['car']];
-                                        $value = $car['max_worth'];
-                                        $repaircost = $value - $array['worth'];
-                                        $totalvalue += $array['worth'];
-                                        $totalrepair += $repaircost;
-
-                                        echo "<tr id='car-{$array['id']}'>
-                                        <td align=\"center\">{$array['id']}</td>
-                                        <td align=\"center\">{$car['name']}</td>
-                                        <td align=\"center\">&pound;" . number_format($array['worth']) . "</td>
-                                        <td align=\"center\">{$array['damage']}%</td>
-                                        <td align=\"center\">{$array['origion']}</td>
-                                        <td align=\"center\">{$array['location']}</td>
-                                        <td align=\"center\"><a href=\"#\" class=\"sell-link\" data-id=\"{$array['id']}\">Sell</a></td>
-                                        </tr>";
-                                    } else {
-                                        echo "<tr>
-                                        <td colspan='7' class='text-danger'>Car data not found for ID: {$array['car']}</td>
-                                        </tr>";
-                                    }
-                                }
+                        <?php foreach ($rows as $array) {
+                            if (isset($carsList[$array['car']])) {
+                                $car = $carsList[$array['car']];
+                                $value = $car['max_worth'];
+                                $repaircost = $value - $array['worth'];
+                                $totalvalue += $array['worth'];
+                                $totalrepair += $repaircost;
                                 ?>
-                            </tbody>
-                        </table>
+                                <div class="card mb-3" id="car-<?php echo $array['id']; ?>">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <strong>ID:</strong> <?php echo $array['id']; ?>
+                                            </div>
+                                            <div class="col-4">
+                                                <strong>Name:</strong> <?php echo $car['name']; ?>
+                                            </div>
+                                            <div class="col-4">
+                                                <strong>Value (Repair):</strong> &pound;<?php echo number_format($array['worth']); ?>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <strong>Damage:</strong> <?php echo $array['damage']; ?>%
+                                            </div>
+                                            <div class="col-4">
+                                                <strong>1st Location:</strong> <?php echo $array['origion']; ?>
+                                            </div>
+                                            <div class="col-4">
+                                                <strong>Current Location:</strong> <?php echo $array['location']; ?>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-12 text-center">
+                                                <a href="#" class="sell-link btn btn-danger" data-id="<?php echo $array['id']; ?>">Sell</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } else { ?>
+                                <div class="card mb-3">
+                                    <div class="card-body text-danger">
+                                        Car data not found for ID: <?php echo $array['car']; ?>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        <?php } ?>
 
                         <div class="d-flex justify-content-between mt-3">
                             <div>
@@ -200,31 +207,30 @@ $rows = $db->fetch_row();
     </div>
 
     <script>
-       $(document).ready(function() {
-    $('.sell-link').on('click', function(e) {
-        e.preventDefault();
-        var carId = $(this).data('id');
-        
-        $.ajax({
-            url: 'ajax_sell_car.php',
-            type: 'POST',
-            dataType: 'json', // Ensure the response is parsed as JSON
-            data: { car_id: carId },
-            success: function(response) {
-                if (response.message) {
-                    $('#car-' + carId).remove();
-                    $('#messages').html(response.message);
-                } else {
-                    alert('An unexpected error occurred. Please try again.');
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert('An error occurred: ' + textStatus);
-            }
-        });
-    });
-});
+        $(document).ready(function() {
+            $('.sell-link').on('click', function(e) {
+                e.preventDefault();
+                var carId = $(this).data('id');
 
+                $.ajax({
+                    url: 'ajax_sell_car.php',
+                    type: 'POST',
+                    dataType: 'json', // Ensure the response is parsed as JSON
+                    data: { car_id: carId },
+                    success: function(response) {
+                        if (response.message) {
+                            $('#car-' + carId).remove();
+                            $('#messages').html(response.message);
+                        } else {
+                            alert('An unexpected error occurred. Please try again.');
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert('An error occurred: ' + textStatus);
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
