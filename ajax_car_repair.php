@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $db->execute();
 
                
-                $db->query("UPDATE garage SET worth = :max_worth WHERE id = :garage_id AND owner = :username");
+                $db->query("UPDATE garage SET worth = :max_worth, damage = 0 WHERE id = :garage_id AND owner = :username");
                 $db->bind(':max_worth', $carDetails['max_worth']);
                 $db->bind(':garage_id', $garageId);
                 $db->bind(':username', $user_class->id);
