@@ -63,7 +63,7 @@ $rows = $db->fetch_row();
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="card mt-3">
+                <div class="card mt-3" style="background: transparent;">
                     <div class="card-header text-center">
                         Page Selection
                     </div>
@@ -103,7 +103,7 @@ $rows = $db->fetch_row();
                     </div>
                 </div>
 
-                <div class="card mt-3">
+                <div class="card mt-3" style="background: transparent;">
                     <div class="card-header text-center">
                         Your Car Garage - Holding <?php echo $totalrows; ?> Cars
                     </div>
