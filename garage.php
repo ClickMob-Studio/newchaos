@@ -233,19 +233,20 @@ $(document).ready(function() {
         });
     });
 
+    
     $('.repair-link').on('click', function(e) {
         e.preventDefault();
-        var carId = $(this).data('id');
+        var garageId = $(this).data('id');
 
         $.ajax({
             url: 'ajax_car_repair.php',
             type: 'POST',
             dataType: 'json',
-            data: { car_id: carId },
+            data: { garage_id: garageId },
             success: function(response) {
                 if (response.message) {
                     if (response.new_worth !== undefined) {
-                        $('#car-' + carId + ' .car-worth').text('£' + response.new_worth.toLocaleString());
+                        $('#car-' + garageId + ' .car-worth').text('£' + response.new_worth.toLocaleString());
                     }
                     $('#messages').html(response.message);
                 } else {
