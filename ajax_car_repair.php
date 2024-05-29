@@ -21,14 +21,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $repairCost = $carDetails['max_worth'] - $car['worth'];
 
   
-            $db->query("SELECT bank FROM grpguser WHERE id = :user_id");
+            $db->query("SELECT bank FROM grpgusers WHERE id = :user_id");
             $db->bind(':user_id', $user_class->id);
             $userBank = $db->fetch_row(true);
 
             if ($userBank && $userBank['bank'] >= $repairCost) {
             
                 $newBankBalance = $userBank['bank'] - $repairCost;
-                $db->query("UPDATE grpguser SET bank = :new_bank_balance WHERE id = :user_id");
+                $db->query("UPDATE grpgusers SET bank = :new_bank_balance WHERE id = :user_id");
                 $db->bind(':new_bank_balance', $newBankBalance);
                 $db->bind(':user_id', $user_class->id);
                 $db->execute();
