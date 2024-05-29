@@ -1,5 +1,6 @@
 <?php
 require "ajax_header.php";
+$user_class = new User($_SESSION['id']);
 $response = array('message' => '');
 
 if (isset($_POST['car_id'])) {
@@ -12,9 +13,9 @@ if (isset($_POST['car_id'])) {
 
     if ($array && $array['owner'] == $user_class->id) {
         $totalmoney = $array['worth'];
-        $db->query("UPDATE accounts SET money=money + :worth WHERE username = :username");
+        $db->query("UPDATE grpgusers SET money=money + :worth WHERE id = :id");
         $db->bind(':worth', $array['worth']);
-        $db->bind(':username', $user_class->id);
+        $db->bind(':id', $user_class->id);
         $db->execute();
         
         $db->query("DELETE FROM garage WHERE id = :car_id");
