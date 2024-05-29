@@ -259,17 +259,17 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
 }
 ?>
 
-   <style>
-        .table {
-            color: white;
-        }
-        .table-striped>tbody>tr:nth-of-type(odd) {
-            color: white;
-        }
-    </style>
+<style>
+    .table {
+        color: white;
+    }
+    .table-striped>tbody>tr:nth-of-type(odd) {
+        color: white;
+    }
+</style>
 
 <body>
-    <form id="carForm" method="post">
+    <form id="carForm" method="post" action="">
         <div class="container">
             <div class="row">
                 <div class="col-12">
