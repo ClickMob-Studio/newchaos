@@ -923,8 +923,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     <p>
                         Purchase this months Battle Pass Premium to gain access to more challenges and prizes in the Battle Pass.
                     </p>
+                    <br />
                     <p>
-                        <small>NOTE: THIS PURCHASE ONLY APPLIES TO THE CURRENT MONTHS BATTLE PASS.</small>
+                        <small style="font-size: .5em;">NOTE: THIS PURCHASE ONLY APPLIES TO THE CURRENT MONTHS BATTLE PASS.</small>
                     </p>
                     <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img> 300</font></h4>
 
