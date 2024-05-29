@@ -126,7 +126,7 @@ $rows = $db->fetch_row();
                                                 <strong>Name:</strong> <?php echo $car['name']; ?>
                                             </div>
                                             <div class="col-4">
-                                                <strong>Value (Repair):</strong> &pound;<?php echo number_format($array['worth']); ?>
+                                                <strong>Value (Repair):</strong> &pound;<span class="car-worth"><?php echo number_format($array['worth']); ?></span>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -207,30 +207,52 @@ $rows = $db->fetch_row();
     </div>
 
     <script>
-        $(document).ready(function() {
-            $('.sell-link').on('click', function(e) {
-                e.preventDefault();
-                var carId = $(this).data('id');
+$(document).ready(function() {
+    $('.sell-link').on('click', function(e) {
+        e.preventDefault();
+        var carId = $(this).data('id');
 
-                $.ajax({
-                    url: 'ajax_sell_car.php',
-                    type: 'POST',
-                    dataType: 'json', // Ensure the response is parsed as JSON
-                    data: { car_id: carId },
-                    success: function(response) {
-                        if (response.message) {
-                            $('#car-' + carId).remove();
-                            $('#messages').html(response.message);
-                        } else {
-                            alert('An unexpected error occurred. Please try again.');
-                        }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert('An error occurred: ' + textStatus);
-                    }
-                });
-            });
+        $.ajax({
+            url: 'ajax_sell_car.php',
+            type: 'POST',
+            dataType: 'json',
+            data: { car_id: carId },
+            success: function(response) {
+                if (response.message) {
+                    $('#car-' + carId).remove();
+                    $('#messages').html(response.message);
+                } else {
+                    alert('An unexpected error occurred. Please try again.');
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('An error occurred: ' + textStatus);
+            }
         });
-    </script>
-</body>
-</html>
+    });
+
+    $('.repair-link').on('click', function(e) {
+        e.preventDefault();
+        var carId = $(this).data('id');
+
+        $.ajax({
+            url: 'ajax_repair_car.php',
+            type: 'POST',
+            dataType: 'json',
+            data: { car_id: carId },
+            success: function(response) {
+                if (response.message) {
+                    $('#car-' + carId + ' .car-worth').text('£' + response.new_worth.toLocaleString());
+                    $('#messages').html(response.message);
+                } else {
+                    alert('An unexpected error occurred. Please try again.');
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('An error occurred: ' + textStatus);
+            }
+        });
+    });
+});
+</script>
+
