@@ -238,7 +238,7 @@ $(document).ready(function() {
         var carId = $(this).data('id');
 
         $.ajax({
-            url: 'ajax_repair_car.php',
+            url: 'ajax_car_repair.php',
             type: 'POST',
             dataType: 'json',
             data: { car_id: carId },
