@@ -603,6 +603,36 @@ if ($_GET['buy'] == "freebie") {
 
         echo Message("You spent " . $limitedPack['gold_cost'] . " GOLD for a " . $limitedPack['name']);
     }
+
+    if ($_GET['buy'] == "bapre") {
+        $bpCategory = getBpCategory();
+        $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
+
+        if ($baCategoryUser['is_premium'] > 0) {
+            echo diefun('You have already purchased premium for this months Battle Pass.');
+        }
+
+        if ($user_class->credits >= 300) {
+            $current = $user_class->credits;
+            $newcredit = $user_class->credits -= 300;
+            $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", 'BA Premium', ".$current .", ".$newcredit.")");
+            $db->execute();
+            $db->query("UPDATE grpgusers SET credits = credits - 300 WHERE id = ?");
+            $db->execute(array(
+                $user_class->id
+            ));
+
+            $db->query('UPDATE bp_category_user SET is_premium = 1 WHERE id = ' . $bpCategoryUser['id']);
+            $db->execute();
+
+            Send_Event(1, $user_class->formattedname ." bought BA Premium");
+            Send_Event(2, $user_class->formattedname ." bought BA Premium");
+
+            echo Message("You spent 300 GOLD for Battle Pass Premium");
+        } else {
+            echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
+        }
+    }
 }
 $donperc = ($user_class->donations / $donmax) * 100;
 $donperc = $donperc >= 100 ? 100 : $donperc;
@@ -911,6 +941,43 @@ document.addEventListener("DOMContentLoaded", function() {
     <br>
 </div>
 
+<br /><br />
+<?php if ($user_class->admin > 0): ?>
+    <?php
+    $bpCategory = getBpCategory();
+    $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
+    ?>
+
+    <?php if ($bpCategoryUser['is_premium'] < 1): ?>
+        <div class="floaty" style="margin:3px; text-align: center;">
+            <h4>BATTLE PASS PREMIUM</h4>
+            <hr>
+            <table style="width: 100%; margin: auto;">
+                <tr>
+                    <td style="text-align: center;">
+                        <br />
+                        <p>
+                            Purchase this months Battle Pass Premium to gain access to more challenges and prizes in the Battle Pass.
+                        </p>
+                        <br />
+                        <p>
+                            <small style="font-size: .5em;">NOTE: THIS PURCHASE ONLY APPLIES TO THE CURRENT MONTHS BATTLE PASS.</small>
+                        </p>
+                        <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img> 300</font></h4>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">
+                        <a href="store.php?buy=bapre" style="display: inline-block; padding: 10px 20px; background-color:  color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY NOW</a>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br /><br />
+    <?php endif; ?>
+<?php endif; ?>
 
   <div class="floaty" style="margin:3px; text-align: center;">
     <h4>14 DAY GRADIENT NAME</h4>
