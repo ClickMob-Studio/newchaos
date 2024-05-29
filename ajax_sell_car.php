@@ -7,8 +7,9 @@ if (isset($_POST['car_id'])) {
     $carId = $_POST['car_id'];
 
     // Fetch car data
-    $db->query("SELECT * FROM garage WHERE id = :car_id");
+    $db->query("SELECT * FROM garage WHERE id = :car_id and owner = :username");
     $db->bind(':car_id', $carId);
+    $db->bind(':username', $user_class->id);
     $array = $db->fetch_row(true);
 
     if ($array && $array['owner'] == $user_class->id) {
