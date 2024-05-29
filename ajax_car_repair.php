@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_class = new User($_SESSION['id']);  
     $carId = $_POST['car_id'];
 
-    $db->query("SELECT * FROM garage WHERE id = :car_id AND owner = :username");
+    $db->query("SELECT * FROM garage WHERE id = :car_id AND `owner` = :username");
     $db->bind(':car_id', $carId);
     $db->bind(':username', $user_class->id);
     $car = $db->fetch_row(true);
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $db->query("SELECT * FROM cars WHERE `name` = :car_id");
         $db->bind(':car_id', $car['car']);
-        $carDetails = $db->fetch_row();
+        $carDetails = $db->fetch_row(true);
 
         if ($carDetails) {
       
@@ -41,8 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 echo json_encode([
                     'message' => 'Car repaired successfully.',
-                    'new_worth' => $carDetails['max_worth'],
-                    'car_id' => $carId
                 ]);
             } else {
                 echo json_encode(['message' => 'Insufficient funds to repair the car.']);
