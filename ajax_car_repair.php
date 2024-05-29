@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($car) {
   
-        $ $db->query("SELECT * FROM garage WHERE id = :car_id");
+        $db->query("SELECT * FROM garage WHERE id = :car_id");
         $db->bind(':car_id', $carId);
         $carDetails = $db->fetch_row(true);
 
