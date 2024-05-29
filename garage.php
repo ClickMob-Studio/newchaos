@@ -142,9 +142,11 @@ $rows = $db->fetch_row();
                                         </div>
                                         <div class="row mt-2">
                                             <div class="col-12 text-center">
-                                                <a href="#" class="sell-link btn btn-danger" data-id="<?php echo $array['id']; ?>">Sell</a>
+                                            <a href="#" class="sell-link btn btn-danger" data-id="<?php echo $array['id']; ?>">Sell</a>
+                                             <a href="#" class="repair-link btn btn-warning" data-id="<?php echo $array['id']; ?>">Repair</a>
+                                             </div>
                                             </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             <?php } else { ?>
