@@ -911,7 +911,7 @@ document.addEventListener("DOMContentLoaded", function() {
     <br>
 </div>
 
-
+<br /><br />
 <?php if ($user_class->admin > 0): ?>
     <div class="floaty" style="margin:3px; text-align: center;">
         <h4>BATTLE PASS PREMIUM</h4>
@@ -919,6 +919,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <table style="width: 100%; margin: auto;">
             <tr>
                 <td style="text-align: center;">
+                    <br />
                     <p>
                         Purchase this months Battle Pass Premium to gain access to more challenges and prizes in the Battle Pass.
                     </p>
