@@ -245,7 +245,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.message) {
                     if (response.new_worth !== undefined) {
-                        $('#car-' + carId + ' .car-worth').text('£' + response.new_worth.toLocaleString());
+                        $('#car-' + carId + ' .car-worth').text('$' + response.new_worth.toLocaleString());
                     }
                     $('#messages').html(response.message);
                 } else {
