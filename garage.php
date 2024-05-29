@@ -206,7 +206,7 @@ $rows = $db->fetch_row();
         var carId = $(this).data('id');
         
         $.ajax({
-            url: 'sell_car.php',
+            url: 'ajax_sell_car.php',
             type: 'POST',
             dataType: 'json', // Ensure the response is parsed as JSON
             data: { car_id: carId },
