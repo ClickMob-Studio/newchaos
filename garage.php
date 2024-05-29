@@ -244,7 +244,9 @@ $(document).ready(function() {
             data: { car_id: carId },
             success: function(response) {
                 if (response.message) {
-                    $('#car-' + carId + ' .car-worth').text('£' + response.new_worth.toLocaleString());
+                    if (response.new_worth !== undefined) {
+                        $('#car-' + carId + ' .car-worth').text('£' + response.new_worth.toLocaleString());
+                    }
                     $('#messages').html(response.message);
                 } else {
                     alert('An unexpected error occurred. Please try again.');
