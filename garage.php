@@ -134,10 +134,10 @@ $rows = $db->fetch_row();
                                                 <strong>Damage:</strong> <?php echo $array['damage']; ?>%
                                             </div>
                                             <div class="col-4">
-                                                <strong>1st Location:</strong> <?php echo $array['origion']; ?>
+                                                <strong>1st Location:</strong> <?php echo getCityNameByID($array['origion']); ?>
                                             </div>
                                             <div class="col-4">
-                                                <strong>Current Location:</strong> <?php echo $array['location']; ?>
+                                                <strong>Current Location:</strong> <?php echo getCityNameByID($array['location']); ?>
                                             </div>
                                         </div>
                                         <div class="row mt-2">
