@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db->query("SELECT * FROM garage WHERE id = :garage_id AND owner = :username");
     $db->bind(':garage_id', $garageId);
     $db->bind(':username', $user_class->id);
-    $car = $db->fetch_row(true);
+    $car = $db->fetch_row();
 
     if ($car) {
       
