@@ -200,25 +200,31 @@ $rows = $db->fetch_row();
     </div>
 
     <script>
-        $(document).ready(function() {
-            $('.sell-link').on('click', function(e) {
-                e.preventDefault();
-                var carId = $(this).data('id');
-                
-                $.ajax({
-                    url: 'ajax_sell_car.php',
-                    type: 'POST',
-                    data: { car_id: carId },
-                    success: function(response) {
-                        $('#car-' + carId).remove();
-                        alert(response.message);
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert('An error occurred: ' + textStatus);
-                    }
-                });
-            });
+       $(document).ready(function() {
+    $('.sell-link').on('click', function(e) {
+        e.preventDefault();
+        var carId = $(this).data('id');
+        
+        $.ajax({
+            url: 'sell_car.php',
+            type: 'POST',
+            dataType: 'json', // Ensure the response is parsed as JSON
+            data: { car_id: carId },
+            success: function(response) {
+                if (response.message) {
+                    $('#car-' + carId).remove();
+                    alert(response.message);
+                } else {
+                    alert('An unexpected error occurred. Please try again.');
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('An error occurred: ' + textStatus);
+            }
         });
+    });
+});
+
     </script>
 </body>
 </html>

@@ -22,7 +22,7 @@ if (isset($_POST['car_id'])) {
         $db->bind(':car_id', $carId);
         $db->execute();
 
-        $response['message'] = "You sold the car for &pound;" . number_format($array['worth']) . ".";
+        $response['message'] = "You sold the car for &dollar;" . number_format($array['worth']) . ".";
     } else {
         $response['message'] = "You do not own this car.";
     }
