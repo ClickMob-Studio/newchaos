@@ -268,7 +268,8 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
     }
 </style>
 
-<form id="carForm" method="post" action="">
+<body>
+    <form id="carForm" method="post" action="">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -369,6 +370,43 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
                             </div>
                         </div>
                     </div>
+
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            Ship Car
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3 row">
+                                <label for="regid" class="col-sm-2 col-form-label">Car Reg #:</label>
+                                <div class="col-sm-10">
+                                    <input name="regid" type="text" class="form-control" id="regid" size="31" maxlength="7">
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="shipto" class="col-sm-2 col-form-label">Ship to:</label>
+                                <div class="col-sm-10">
+                                    <select name="shipto" class="form-select" id="shipto">
+                                        <option value="player" selected>Player</option>
+                                        <?php foreach ($citiesList as $id => $city) {
+                                            echo "<option value='{$id}'>{$city['name']}</option>";
+                                        } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="username" class="col-sm-2 col-form-label">Username (if selected player):</label>
+                                <div class="col-sm-10">
+                                    <input name="username" type="text" class="form-control" id="username" size="31" maxlength="30">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col text-center">
+                                    <input name="send" type="submit" class="btn btn-primary" id="send" value="Ship Car">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -376,8 +414,8 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
 
     <script>
         document.getElementById('sellSelected').addEventListener('click', function() {
-            var form = document.getElementById('carForm');
-            var input = document.createElement('input');
+            let form = document.getElementById('carForm');
+            let input = document.createElement('input');
             input.type = 'hidden';
             input.name = 'sell';
             input.value = 'Sell Selected';
@@ -386,8 +424,8 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
         });
 
         document.getElementById('removeSelected').addEventListener('click', function() {
-            var form = document.getElementById('carForm');
-            var input = document.createElement('input');
+            let form = document.getElementById('carForm');
+            let input = document.createElement('input');
             input.type = 'hidden';
             input.name = 'remove';
             input.value = 'Remove Selected';
@@ -395,3 +433,5 @@ if (isset($_POST['regid']) && isset($_POST['send'])) {
             form.submit();
         });
     </script>
+</body>
+</html>
