@@ -939,33 +939,40 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <br /><br />
 <?php if ($user_class->admin > 0): ?>
-    <div class="floaty" style="margin:3px; text-align: center;">
-        <h4>BATTLE PASS PREMIUM</h4>
-        <hr>
-        <table style="width: 100%; margin: auto;">
-            <tr>
-                <td style="text-align: center;">
-                    <br />
-                    <p>
-                        Purchase this months Battle Pass Premium to gain access to more challenges and prizes in the Battle Pass.
-                    </p>
-                    <br />
-                    <p>
-                        <small style="font-size: .5em;">NOTE: THIS PURCHASE ONLY APPLIES TO THE CURRENT MONTHS BATTLE PASS.</small>
-                    </p>
-                    <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img> 300</font></h4>
+    <?php
+    $bpCategory = getBpCategory();
+    $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
+    ?>
 
-                </td>
-            </tr>
-            <tr>
-                <td style="text-align: center;">
-                    <a href="store.php?buy=bapre" style="display: inline-block; padding: 10px 20px; background-color:  color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY NOW</a>
+    <?php if ($bpCategoryUser['is_premium'] < 1): ?>
+        <div class="floaty" style="margin:3px; text-align: center;">
+            <h4>BATTLE PASS PREMIUM</h4>
+            <hr>
+            <table style="width: 100%; margin: auto;">
+                <tr>
+                    <td style="text-align: center;">
+                        <br />
+                        <p>
+                            Purchase this months Battle Pass Premium to gain access to more challenges and prizes in the Battle Pass.
+                        </p>
+                        <br />
+                        <p>
+                            <small style="font-size: .5em;">NOTE: THIS PURCHASE ONLY APPLIES TO THE CURRENT MONTHS BATTLE PASS.</small>
+                        </p>
+                        <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img> 300</font></h4>
 
-                </td>
-            </tr>
-        </table>
-    </div>
-    <br /><br />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">
+                        <a href="store.php?buy=bapre" style="display: inline-block; padding: 10px 20px; background-color:  color: white; text-decoration: none; border-radius: 5px; font-weight: bold; transition: background-color 0.3s ease; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); text-align: center;">BUY NOW</a>
+
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br /><br />
+    <?php endif; ?>
 <?php endif; ?>
 
   <div class="floaty" style="margin:3px; text-align: center;">
