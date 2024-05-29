@@ -8,13 +8,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db->query("SELECT * FROM garage WHERE id = :garage_id AND owner = :username");
     $db->bind(':garage_id', $garageId);
     $db->bind(':username', $user_class->id);
-    $car = $db->fetch_row();
+    $car = $db->fetch_row(true);
 
     if ($car) {
       
         $db->query("SELECT * FROM cars WHERE name = :car_name");
         $db->bind(':car_name', $car['car']);
-        $carDetails = $db->fetch_row();
+        $carDetails = $db->fetch_row(true);
 
         if ($carDetails) {
          
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   
             $db->query("SELECT bank FROM grpguser WHERE id = :user_id");
             $db->bind(':user_id', $user_class->id);
-            $userBank = $db->fetch_row();
+            $userBank = $db->fetch_row(true);
 
             if ($userBank && $userBank['bank'] >= $repairCost) {
             
