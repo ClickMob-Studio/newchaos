@@ -605,6 +605,13 @@ if ($_GET['buy'] == "freebie") {
     }
 
     if ($_GET['buy'] == "bapre") {
+        $bpCategory = getBpCategory();
+        $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
+
+        if ($baCategoryUser['is_premium'] > 0) {
+            echo diefun('You have already purchased premium for this months Battle Pass.');
+        }
+
         if ($user_class->credits >= 300) {
             $current = $user_class->credits;
             $newcredit = $user_class->credits -= 300;
@@ -614,9 +621,6 @@ if ($_GET['buy'] == "freebie") {
             $db->execute(array(
                 $user_class->id
             ));
-
-            $bpCategory = getBpCategory();
-            $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
 
             $db->query('UPDATE bp_category_user SET is_premium = 1 WHERE id = ' . $bpCategoryUser['id']);
             $db->execute();
