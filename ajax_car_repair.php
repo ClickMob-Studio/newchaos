@@ -2,14 +2,13 @@
 require "ajax_header.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    session_start();
     $user_class = new User($_SESSION['id']);
     $garageId = $_POST['garage_id'];
 
     $db->query("SELECT * FROM garage WHERE id = :garage_id AND owner = :username");
     $db->bind(':garage_id', $garageId);
     $db->bind(':username', $user_class->id);
-    $car = $db->fetch_row();
+    $car = $db->fetch_row(true);
 
     if ($car) {
       
