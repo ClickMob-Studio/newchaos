@@ -238,14 +238,14 @@ $(document).ready(function() {
         var carId = $(this).data('id');
 
         $.ajax({
-            url: 'ajax_car_repair.php',
+            url: 'ajax_repair_car.php',
             type: 'POST',
             dataType: 'json',
             data: { car_id: carId },
             success: function(response) {
                 if (response.message) {
                     if (response.new_worth !== undefined) {
-                        $('#car-' + carId + ' .car-worth').text('$' + response.new_worth.toLocaleString());
+                        $('#car-' + carId + ' .car-worth').text('£' + response.new_worth.toLocaleString());
                     }
                     $('#messages').html(response.message);
                 } else {
@@ -259,4 +259,5 @@ $(document).ready(function() {
     });
 });
 </script>
+
 
