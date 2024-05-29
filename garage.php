@@ -104,9 +104,9 @@ $rows = $db->fetch_row();
                 </div>
 
                 <div class="card mt-3" style="background: transparent;">
-                    <div class="card-header text-center">
+                    <h1>
                         Your Car Garage - Holding <?php echo $totalrows; ?> Cars
-                    </div>
+                    </h1>
                     <div class="card-body">
                         <?php foreach ($rows as $array) {
                             if (isset($carsList[$array['car']])) {
