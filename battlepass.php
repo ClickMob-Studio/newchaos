@@ -58,7 +58,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
         $prizesClaimed[] = $prize['id'];
         $newPrizesClaimed = serialize($prizesClaimed);
 
-        $db->query("UPDATE bp_category_user SET prize_ids_serialized = '" . $newPrizesClaimed . "' WHERE id = " . $bpCategoryUser['user_id']);
+        $db->query("UPDATE bp_category_user SET prize_ids_serialized = '" . $newPrizesClaimed . "' WHERE user_id = " . $bpCategoryUser['user_id']);
         $db->execute();
 
         if ($prize['type'] === 'points') {
