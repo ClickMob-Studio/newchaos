@@ -256,26 +256,27 @@ $(document).ready(function() {
     });
 
     $('#shipForm').on('submit', function(e) {
-        e.preventDefault();
-        var formData = $(this).serialize();
+    e.preventDefault();
+    var formData = $(this).serialize();
 
-        $.ajax({
-            url: 'ajax_car_ship.php',
-            type: 'POST',
-            dataType: 'json',
-            data: formData,
-            success: function(response) {
-                if (response.message) {
-                    $('#messages').html(response.message);
-                } else {
-                    alert('An unexpected error occurred. Please try again.');
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert('An error occurred: ' + textStatus);
+    $.ajax({
+        url: 'ajax_car_ship.php',
+        type: 'POST',
+        dataType: 'json',
+        data: formData,
+        success: function(response) {
+            if (response.message) {
+                $('#messages').html(response.message);
+            } else {
+                alert('An unexpected error occurred. Please try again.');
             }
-        });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert('An error occurred: ' + textStatus);
+        }
     });
+});
+
 });
 </script>
 
