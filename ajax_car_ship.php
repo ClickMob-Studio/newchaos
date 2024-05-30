@@ -3,7 +3,7 @@ require "ajax_header.php";
 
 $response = array();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['regid']) && isset($_POST['send'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['regid'])) {
     $regid = $_POST['regid'];
     $shipto = $_POST['shipto'];
     $user_class = new User($_SESSION['id']);
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['regid']) && isset($_PO
             $city = $db->fetch_row(true);
 
             if ($city) {
-                $country = $city['name'];
+                $country = $city['id'];
                 if ($car['owner'] == $user_class->id) {
                     if ($user_class->location != $car['location']) {
                         $response['message'] = "You have to be in the same location as the car to send it to another country.";
