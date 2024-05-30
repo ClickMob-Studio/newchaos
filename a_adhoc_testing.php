@@ -24,11 +24,13 @@ if ($_GET['key'] === 'srunit') {
                 // Run with active mission
                 $activeMission = $check[0]['id'];
 
-                $db->query("SELECT category FROM mission WHERE id = " . $activeMission['mid'] . " LIMIT 1");
+                $db->query("SELECT * FROM mission WHERE id = " . $activeMission['mid'] . " LIMIT 1");
                 $db->execute();
-                $mCategory = $db->fetch_single();
+                $mMission = $db->fetch_row();
 
-                echo $mCategory; exit;
+                if (isset($mMission[0]['id'])) {
+                    var_dump($mMission); exit;
+                }
 
 
             }
