@@ -110,7 +110,13 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
             via the store to unlock the months Premium Battle Pass challenges & prizes too.
         </p>
 
-        <p><strong>This months Battle Pass is free and includes no premium options.</strong></p>
+        <?php if ($bpCategory['id'] > 1): ?>
+                <?php if ($bpCategoryUser['is_premium'] < 1): ?>
+                    <p style="color: red;"><strong>You have not yet purchased this months Premium Battle Pass, purchase now from the store to unlock more challenges and prizes.</strong></p>
+                <?php endif; ?>
+        <?php else: ?>
+            <p><strong>This months Battle Pass is free and includes no premium options.</strong></p>
+        <?php endif; ?>
 
         <?php if (isset($resMes) && $resMes): ?>
             <div class="alert alert-success" role="alert">
