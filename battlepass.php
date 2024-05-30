@@ -111,6 +111,13 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
 
             $resMes = 'You have successfully claimed your prize of ' . number_format($expBoost, 0) . ' EXP.';
         }
+
+        if ($prize['type'] === 'vip') {
+            $db->query("UPDATE grpgusers SET rmdays = rmdays + " . $prize['amount'] . " WHERE id = " . $bpCategoryUser['user_id']);
+            $db->execute();
+
+            $resMes = 'You have successfully claimed your prize of ' . number_format($prize['amount'], 0) . ' VIP Days.';
+        }
     }
 }
 
