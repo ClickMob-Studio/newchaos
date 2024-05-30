@@ -65,6 +65,10 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
 
     $prize = $bpCategoryPrizes[$claimPrizeId];
 
+    if ($prize['is_premium'] > 0 && $bpCategoryUser['is_premium'] < 1) {
+        diefun('You need to purchase a premium Battle Pass to claim this prize.');
+    }
+
     if ($bpCategoryUser['points'] >= $prize['cost']) {
         $prizesClaimed[] = $prize['id'];
         $newPrizesClaimed = serialize($prizesClaimed);
@@ -129,8 +133,6 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
             </div>
         <?php endif; ?>
 
-
-
         <div class="table-responsive">
             <table class="new_table" id="newtables">
                 <tr>
@@ -169,7 +171,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                         <div class="card-header">
                                             <?php echo number_format($bpCategoryChallenge['amount'], 0) ?> x <?php echo ucfirst($bpCategoryChallenge['type']) ?>
                                             <?php if ($bpCategoryChallenge['is_premium'] > 0): ?>
-                                                <span style="color: #ff6218;">
+                                                <span style="color: #000000;">
                                                     <i class="fa-solid fa-star" title="Premium Only"></i>
                                                 </span>
                                             <?php endif; ?>
@@ -212,6 +214,9 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                 <?php
                                 $isComplete = false;
                                 $divClass = 'bg-danger';
+                                if ($bpCategoryPrize['is_premium'] > 0) {
+                                    $divClass = 'bg-info';
+                                }
                                 if (in_array($bpCategoryPrize['id'], $prizesClaimed)) {
                                     $isComplete = true;
                                     $divClass = 'bg-success';
@@ -220,7 +225,15 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
 
                                 <div class="col-md-4">
                                     <div class="card text-white <?php echo $divClass ?> mb-3">
-                                        <div class="card-header"><?php echo displayBpCategoryPrize($bpCategoryPrize) ?></div>
+                                        <div class="card-header">
+                                            <?php echo displayBpCategoryPrize($bpCategoryPrize) ?>
+
+                                            <?php if ($bpCategoryPrize['is_premium'] > 0): ?>
+                                                <span style="color: #000000;">
+                                                    <i class="fa-solid fa-star" title="Premium Only"></i>
+                                                </span>
+                                            <?php endif; ?>
+                                        </div>
                                         <div class="card-body">
                                             <p class="card-text">
                                                 Points Cost:  <?php echo $bpCategoryPrize['cost'] ?>
