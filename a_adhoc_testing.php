@@ -14,9 +14,11 @@ if ($_GET['key'] === 'srunit') {
         foreach ($rows as $r) {
             $user = new User($r['id']);
 
-            $db->query("SELECT * FROM missions WHERE userid= " . $user_class->id . " AND completed='no' LIMIT 1");
+            $db->query("SELECT * FROM missions WHERE userid= " . $user->id . " AND completed='no' LIMIT 1");
             $db->execute();
             $check = $db->fetch_row();
+
+            var_dump($check);
 
             if (isset($check[0]['id'])) {
                 // Run with active mission
