@@ -260,7 +260,7 @@ $(document).ready(function() {
         var formData = $(this).serialize();
 
         $.ajax({
-            url: 'ajax_car_send.php',
+            url: 'ajax_car_ship.php',
             type: 'POST',
             dataType: 'json',
             data: formData,
