@@ -132,6 +132,14 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                 <tr>
                     <th>Challenges</th>
                 </tr>
+                <?php if ($bpCategory['id'] > 0): ?>
+                    <tr>
+                        <th>
+                            Filter: <a href="#">Crime Challenges</a> | <a href="#">Attack Challenges</a> | <a href="#">Mug Challenges</a> | <a href="#">Bust Challenges</a> |
+                            <a href="#">Backalley Challenges</a> | <a href="#">Train Challenges</a>
+                        </th>
+                    </tr>
+                <?php endif; ?>
                 <tr>
                     <td>
                         <div class="row">
