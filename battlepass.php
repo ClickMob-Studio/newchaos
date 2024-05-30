@@ -139,6 +139,9 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                 <?php
                                 $isComplete = false;
                                 $divClass = 'bg-danger';
+                                if ($bpCategoryChallenge['is_premium'] > 0) {
+                                    $divClass = 'bg-info';
+                                }
                                 if (in_array($bpCategoryChallenge['id'], $challengesClaimed)) {
                                     $isComplete = true;
                                     $divClass = 'bg-success';
