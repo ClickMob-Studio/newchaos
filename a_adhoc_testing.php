@@ -28,12 +28,12 @@ if ($_GET['key'] === 'srunit') {
 
                 if (isset($mMission[0]['id'])) {
                     $mMission = $mMission[0]['id'];
-
+        echo $mMission['category'];
 
                     if ($mMission['category'] == 2) {
                         // Crime Mission
 
-                        echo 'here'; 
+                        echo 'here';
                         $durl = "https://chaoscity.co.uk/ajax_crimes2.php" ;
                         $ch =  curl_init()  ;
                         curl_setopt($ch,CURLOPT_URL, $durl);
