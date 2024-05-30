@@ -102,6 +102,15 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
 
             $resMes = 'You have successfully claimed your prize of ' . number_format($prize['amount'], 0) . ' Raid Tokens.';
         }
+
+        if ($prize['type'] === 'exp') {
+            $expBoost = $user_class->maxexp / 100 * $prize['amount'];
+
+            $db->query("UPDATE grpgusers SET exp = exp + '" . $expBoost . "' WHERE id = " . $bpCategoryUser['user_id']);
+            $db->execute();
+
+            $resMes = 'You have successfully claimed your prize of ' . number_format($expBoost, 0) . ' EXP.';
+        }
     }
 }
 

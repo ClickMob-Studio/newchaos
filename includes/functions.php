@@ -2326,6 +2326,8 @@ function displayBpCategoryPrize($bpCategoryPrize)
         return '$' . number_format($bpCategoryPrize['amount'], 0);
     } else if ($bpCategoryPrize['type'] === 'raid_tokens') {
         return number_format($bpCategoryPrize['amount'], 0) . ' x Raid Tokens';
+    } else if ($bpCategoryPrize['type'] === 'exp') {
+        return number_format($bpCategoryPrize['amount'], 0) . '% of Max EXP';
     } else {
         return number_format($bpCategoryPrize['amount'], 0) . ' x ' .  ucfirst($bpCategoryPrize['type']);
     }
