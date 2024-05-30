@@ -249,7 +249,21 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
 <script type="text/javascript">
     $('document').ready(function() {
         $('.filter-link').click(function() {
-            alert($(this).data('filter-type'));
+            var filterType = $(this).data('filter-type');
+
+            if (filterType === 'all') {
+
+
+            } else {
+                $('.crimes-c-card').hide();
+                $('.attacks-c-card').hide();
+                $('.mugs-c-card').hide();
+                $('.busts-c-card').hide();
+                $('.backalley-c-card').hide();
+                $('.trains-c-card').hide();
+
+                $('.' + filterType + '-c-card').hide();
+            }
 
         });
 
