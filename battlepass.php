@@ -4,7 +4,15 @@ include 'header.php';
 
 $now = new \DateTime();
 
-$bpCategory = getBpCategory();
+if ($user_class->admin > 0) {
+    $db->query("SELECT * FROM bp_category WHERE month_year = '06-2024' LIMIT 1");
+    $db->execute();
+    $r = $db->fetch_row();
+
+    $bpCategory = $r[0];
+} else {
+    $bpCategory = getBpCategory();
+}
 $bpCategoryPrizes = getBpCategoryPrizes($bpCategory);
 $bpCategoryChallenges = getBpCategoryChallenges($bpCategory);
 $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
