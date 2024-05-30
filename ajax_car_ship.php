@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['regid'])) {
             if ($city) {
                 $country = $city['id'];
                 if ($car['owner'] == $user_class->id) {
-                    if ($user_class->location != $car['location']) {
+                    if ($user_class->city != $car['location']) {
                         $response['message'] = "You have to be in the same location as the car to send it to another country.";
                     } else {
                         $db->query("UPDATE garage SET location = :location WHERE id = :regid");
