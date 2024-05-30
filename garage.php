@@ -47,9 +47,6 @@ $rows = $db->fetch_row();
 
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
     <style>
         .card-header, .card-body {
             color: white;
@@ -58,8 +55,7 @@ $rows = $db->fetch_row();
             color: white;
         }
     </style>
-</head>
-<body>
+
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -143,8 +139,8 @@ $rows = $db->fetch_row();
                                         <div class="row mt-2">
                                             <div class="col-12 text-center">
                                             <a href="#" class="sell-link btn btn-danger" data-id="<?php echo $array['id']; ?>">Sell</a>
-                                             <a href="#" class="repair-link btn btn-warning" data-id="<?php echo $array['id']; ?>">Repair</a>
-                                             </div>
+                                            <a href="#" class="repair-link btn btn-warning" data-id="<?php echo $array['id']; ?>">Repair</a>
+                                            </div>
                                             </div>
 
                                     </div>
@@ -258,7 +254,29 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('#shipForm').on('submit', function(e) {
+    e.preventDefault();
+    var formData = $(this).serialize();
+
+    $.ajax({
+        url: 'ajax_car_ship.php',
+        type: 'POST',
+        dataType: 'json',
+        data: formData,
+        success: function(response) {
+            if (response.message) {
+                $('#messages').html(response.message);
+            } else {
+                alert('An unexpected error occurred. Please try again.');
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert('An error occurred: ' + textStatus);
+        }
+    });
+});
+
 });
 </script>
-
 
