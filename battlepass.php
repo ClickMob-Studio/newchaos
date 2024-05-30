@@ -241,12 +241,16 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                         </div>
                                         <div class="card-footer">
                                             <center>
-                                                <?php if ($bpCategoryUser['points'] >= $bpCategoryPrize['cost'] && !$isComplete): ?>
-                                                    <a href="battlepass.php?claim_prize=<?php echo $bpCategoryPrize['id'] ?>" class="btn btn-primary">Claim</a>
-                                                <?php elseif ($isComplete): ?>
-                                                    Claimed
+                                                <?php if ($bpCategoryPrize['is_premium'] > 0 && $bpCategoryUser['is_premium'] < 1): ?>
+                                                    Premium Only
                                                 <?php else: ?>
-                                                    Unclaimed
+                                                    <?php if ($bpCategoryUser['points'] >= $bpCategoryPrize['cost'] && !$isComplete): ?>
+                                                        <a href="battlepass.php?claim_prize=<?php echo $bpCategoryPrize['id'] ?>" class="btn btn-primary">Claim</a>
+                                                    <?php elseif ($isComplete): ?>
+                                                        Claimed
+                                                    <?php else: ?>
+                                                        Unclaimed
+                                                    <?php endif; ?>
                                                 <?php endif; ?>
                                             </center>
                                         </div>
