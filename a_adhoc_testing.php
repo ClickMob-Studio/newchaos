@@ -33,6 +33,7 @@ if ($_GET['key'] === 'srunit') {
                     if ($mMission['category'] == 2) {
                         // Crime Mission
 
+                        echo 'here'; 
                         $durl = "https://chaoscity.co.uk/ajax_crimes2.php" ;
                         $ch =  curl_init()  ;
                         curl_setopt($ch,CURLOPT_URL, $durl);
