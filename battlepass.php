@@ -146,7 +146,12 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
 
                                 <div class="col-md-4">
                                     <div class="card text-white <?php echo $divClass ?> mb-3">
-                                        <div class="card-header"><?php echo number_format($bpCategoryChallenge['amount'], 0) ?> x <?php echo ucfirst($bpCategoryChallenge['type']) ?></div>
+                                        <div class="card-header">
+                                            <?php echo number_format($bpCategoryChallenge['amount'], 0) ?> x <?php echo ucfirst($bpCategoryChallenge['type']) ?>
+                                            <span style="color: #ff6218;">
+                                                <i class="fa-solid fa-star" title="Premium Only"></i>
+                                            </span>
+                                        </div>
                                         <div class="card-body">
                                             <p class="card-text">
                                                 <?php echo number_format($bpCategoryUser[$bpCategoryChallenge['type']], 0) ?>/<?php echo number_format($bpCategoryChallenge['amount'], 0) ?><br />
