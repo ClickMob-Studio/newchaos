@@ -135,7 +135,9 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                 <?php if ($bpCategory['id'] > 0): ?>
                     <tr>
                         <td>
+                            <br />
                             Filter: <a href="#">All</a> | <a href="#">Crimes</a> | <a href="#">Attacks</a> | <a href="#">Mugs</a> | <a href="#">Busts</a> | <a href="#">Backalley</a> | <a href="#">Trains</a>
+                            <br />
                         </td>
                     </tr>
                 <?php endif; ?>
@@ -156,7 +158,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                 ?>
 
                                 <div class="col-md-4">
-                                    <div class="card text-white <?php echo $divClass ?> mb-3">
+                                    <div class="card text-white <?php echo $divClass ?> mb-3 <?php echo $bpCategoryChallenge['type'] ?>-c-card">
                                         <div class="card-header">
                                             <?php echo number_format($bpCategoryChallenge['amount'], 0) ?> x <?php echo ucfirst($bpCategoryChallenge['type']) ?>
                                             <?php if ($bpCategoryChallenge['is_premium'] > 0): ?>
