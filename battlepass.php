@@ -248,7 +248,9 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
 
 <script type="text/javascript">
     $('document').ready(function() {
-        $('.filter-link').click(function() {
+        $('.filter-link').click(function(e) {
+            e.preventDefault();
+            
             var filterType = $(this).data('filter-type');
 
             if (filterType === 'all') {
