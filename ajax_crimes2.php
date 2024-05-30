@@ -26,7 +26,12 @@ error_reporting(E_ALL);
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11211, 33);
 
-$user_class = new User($_SESSION['id']);
+if (isset($_GET['au_user_or']) && $_GET['au_user_or']) {
+    $user_class = new User($_GET['au_user_or']);
+} else {
+    $user_class = new User($_SESSION['id']);
+}
+
 session_write_close();
 
 // $logger = new Katzgrau\KLogger\Logger('/var/www/logs/speedcrimes', Psr\Log\LogLevel::INFO, array(
