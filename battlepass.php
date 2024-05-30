@@ -34,6 +34,10 @@ if (isset($_GET['claim_challenge']) && (int)$_GET['claim_challenge']) {
 
     $challenge = $bpCategoryChallenges[$claimChallengeId];
 
+    if ($challenge['is_premium'] > 0 && $bpCategoryUser['is_premium'] < 1) {
+        diefun('You need to purchase a premium Battle Pass to complete this challenge.');
+    }
+
     if ($bpCategoryUser[$challenge['type']] >= $challenge['amount']) {
         $challengesClaimed[] = $challenge['id'];
 
