@@ -250,11 +250,16 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
     $('document').ready(function() {
         $('.filter-link').click(function(e) {
             e.preventDefault();
-            
+
             var filterType = $(this).data('filter-type');
 
             if (filterType === 'all') {
-
+                $('.crimes-c-card').show();
+                $('.attacks-c-card').show();
+                $('.mugs-c-card').show();
+                $('.busts-c-card').show();
+                $('.backalley-c-card').show();
+                $('.trains-c-card').show();
 
             } else {
                 $('.crimes-c-card').hide();
