@@ -139,7 +139,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                             Filter: <a href="#" class="filter-link" data-filter-type="all">All</a> | <a href="#" class="filter-link" data-filter-type="crimes">Crimes</a> |
                             <a href="#" class="filter-link" data-filter-type="attacks">Attacks</a> | <a href="#" class="filter-link" data-filter-type="mugs">Mugs</a> |
                             <a href="#" class="filter-link" data-filter-type="busts">Busts</a> | <a href="#" class="filter-link" data-filter-type="backalley">Backalley</a> |
-                            <a href="#" class="filter-link" data-filter-type="trains">Trains</a>
+                            <a href="#" class="filter-link" data-filter-type="trains">Trains</a> | <a href="#" class="filter-link" data-filter-type="premium">Premium</a>
                             <br /><br />
                         </td>
                     </tr>
@@ -161,7 +161,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                 ?>
 
                                 <div class="col-md-4">
-                                    <div class="card text-white <?php echo $divClass ?> mb-3 <?php echo $bpCategoryChallenge['type'] ?>-c-card">
+                                    <div class="card text-white <?php echo $divClass ?> mb-3 <?php echo $bpCategoryChallenge['type'] ?>-c-card <?php if ($bpCategoryChallenge['is_premium'] > 0): ?>-c-card">
                                         <div class="card-header">
                                             <?php echo number_format($bpCategoryChallenge['amount'], 0) ?> x <?php echo ucfirst($bpCategoryChallenge['type']) ?>
                                             <?php if ($bpCategoryChallenge['is_premium'] > 0): ?>
