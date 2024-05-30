@@ -3,12 +3,11 @@ require "ajax_header.php";
 
 $response = array();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['regid'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['regid']) && isset($_POST['send'])) {
     $regid = $_POST['regid'];
     $shipto = $_POST['shipto'];
     $user_class = new User($_SESSION['id']);
     $date = date('Y-m-d H:i:s');
-
     $db->query("SELECT * FROM garage WHERE id = :regid");
     $db->bind(':regid', $regid);
     $car = $db->fetch_row(true);
@@ -37,21 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['regid'])) {
                 $response['message'] = "You do not own that car.";
             }
         } else {
-            $country = "";
-            switch ($shipto) {
-                case "1": $country = "England"; break;
-                case "2": $country = "Germany"; break;
-                case "3": $country = "France"; break;
-                case "4": $country = "Spain"; break;
-                case "5": $country = "China"; break;
-                case "6": $country = "Italy"; break;
-                case "7": $country = "Russia"; break;
-                default: $response['message'] = "Invalid country selection."; break;
-            }
+            $db->query("SELECT name FROM cities WHERE id = :city_id");
+            $db->bind(':city_id', $shipto);
+            $city = $db->fetch_row(true);
 
-            if (empty($response['message'])) {
+            if ($city) {
+                $country = $city['name'];
                 if ($car['owner'] == $user_class->id) {
-                    if ($user_class->city != $car['location']) {
+                    if ($user_class->location != $car['location']) {
                         $response['message'] = "You have to be in the same location as the car to send it to another country.";
                     } else {
                         $db->query("UPDATE garage SET location = :location WHERE id = :regid");
@@ -64,6 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['regid'])) {
                 } else {
                     $response['message'] = "You do not own that car.";
                 }
+            } else {
+                $response['message'] = "Invalid country selection.";
             }
         }
     }
