@@ -148,9 +148,11 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                     <div class="card text-white <?php echo $divClass ?> mb-3">
                                         <div class="card-header">
                                             <?php echo number_format($bpCategoryChallenge['amount'], 0) ?> x <?php echo ucfirst($bpCategoryChallenge['type']) ?>
-                                            <span style="color: #ff6218;">
-                                                <i class="fa-solid fa-star" title="Premium Only"></i>
-                                            </span>
+                                            <?php if ($bpCategoryChallenge['is_premium'] > 0): ?>
+                                                <span style="color: #ff6218;">
+                                                    <i class="fa-solid fa-star" title="Premium Only"></i>
+                                                </span>
+                                            <?php endif; ?>
                                         </div>
                                         <div class="card-body">
                                             <p class="card-text">
@@ -160,12 +162,16 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                         </div>
                                         <div class="card-footer">
                                             <center>
-                                                <?php if ($bpCategoryUser[$bpCategoryChallenge['type']] >= $bpCategoryChallenge['amount'] && !$isComplete): ?>
-                                                    <a href="battlepass.php?claim_challenge=<?php echo $bpCategoryChallenge['id'] ?>" class="btn btn-primary">(Complete)</a>
-                                                <?php elseif ($isComplete): ?>
-                                                    Completed
+                                                <?php if ($bpCategoryChallenge['is_premium'] > 0 && $bpCategoryUser['is_premium'] < 1): ?>
+                                                    Premium Only
                                                 <?php else: ?>
-                                                    Incomplete
+                                                    <?php if ($bpCategoryUser[$bpCategoryChallenge['type']] >= $bpCategoryChallenge['amount'] && !$isComplete): ?>
+                                                        <a href="battlepass.php?claim_challenge=<?php echo $bpCategoryChallenge['id'] ?>" class="btn btn-primary">(Complete)</a>
+                                                    <?php elseif ($isComplete): ?>
+                                                        Completed
+                                                    <?php else: ?>
+                                                        Incomplete
+                                                    <?php endif; ?>
                                                 <?php endif; ?>
                                             </center>
                                         </div>
