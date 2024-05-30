@@ -136,8 +136,11 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                     <tr>
                         <td>
                             <br />
-                            Filter: <a href="#">All</a> | <a href="#">Crimes</a> | <a href="#">Attacks</a> | <a href="#">Mugs</a> | <a href="#">Busts</a> | <a href="#">Backalley</a> | <a href="#">Trains</a>
-                            <br />
+                            Filter: <a href="#" class="filter-link" data-filter-type="all">All</a> | <a href="#" class="filter-link" data-filter-type="crimes">Crimes</a> |
+                            <a href="#" class="filter-link" data-filter-type="attacks">Attacks</a> | <a href="#" class="filter-link" data-filter-type="mugs">Mugs</a> |
+                            <a href="#" class="filter-link" data-filter-type="busts">Busts</a> | <a href="#" class="filter-link" data-filter-type="backalley">Backalley</a> |
+                            <a href="#" class="filter-link" data-filter-type="trains">Trains</a>
+                            <br /><br />
                         </td>
                     </tr>
                 <?php endif; ?>
@@ -242,6 +245,16 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $('document').ready(function() {
+        $('.filter-link').click(function() {
+            alert($(this).data('filter-type'));
+
+        });
+
+    });
+</script>
 
 <?php
 include 'footer.php';
