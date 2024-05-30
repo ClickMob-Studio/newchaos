@@ -18,8 +18,6 @@ if ($_GET['key'] === 'srunit') {
             $db->execute();
             $check = $db->fetch_row();
 
-            var_dump($check);
-
             if (isset($check[0]['id'])) {
                 // Run with active mission
                 $activeMission = $check[0]['id'];
@@ -35,11 +33,18 @@ if ($_GET['key'] === 'srunit') {
                     if ($mMission['category'] == 2) {
                         // Crime Mission
 
-                        $ch = curl_init();
-                        curl_setopt($ch, CURLOPT_URL, "https://chaoscity.co.uk/ajax_crimes2.php");
-                        curl_setopt($ch, CURLOPT_HEADER, 0);
-                        curl_exec($ch);
-                        curl_close($ch);
+                        $durl = "https://chaoscity.co.uk/ajax_crimes2.php" ;
+                        $ch =  curl_init()  ;
+                        curl_setopt($ch,CURLOPT_URL, $durl);
+                        curl_setopt ($ch, CURLOPT_HEADER, 0);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                        curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
+                        $dinf = curl_exec ($ch);
+                        if(!curl_errno($ch) ){
+                            echo $dinf ;
+                        }else{
+                            echo curl_error($ch) ;
+                        }
                     }
                 }
 
