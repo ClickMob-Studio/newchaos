@@ -170,11 +170,6 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                     <div class="card text-white <?php echo $divClass ?> mb-3 <?php echo $bpCategoryChallenge['type'] ?>-c-card">
                                         <div class="card-header">
                                             <?php echo number_format($bpCategoryChallenge['amount'], 0) ?> x <?php echo ucfirst($bpCategoryChallenge['type']) ?>
-                                            <?php if ($bpCategoryChallenge['is_premium'] > 0): ?>
-                                                <span style="color: #000000;">
-                                                    <i class="fa-solid fa-star" title="Premium Only"></i>
-                                                </span>
-                                            <?php endif; ?>
                                         </div>
                                         <div class="card-body">
                                             <p class="card-text">
@@ -227,12 +222,6 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                     <div class="card text-white <?php echo $divClass ?> mb-3">
                                         <div class="card-header">
                                             <?php echo displayBpCategoryPrize($bpCategoryPrize) ?>
-
-                                            <?php if ($bpCategoryPrize['is_premium'] > 0): ?>
-                                                <span style="color: #000000;">
-                                                    <i class="fa-solid fa-star" title="Premium Only"></i>
-                                                </span>
-                                            <?php endif; ?>
                                         </div>
                                         <div class="card-body">
                                             <p class="card-text">
