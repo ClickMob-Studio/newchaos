@@ -9,8 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['regid']) && isset($_PO
     $user_class = new User($_SESSION['id']);
     $date = date('Y-m-d H:i:s');
 
-
-    // Check if the car exists
     $db->query("SELECT * FROM garage WHERE id = :regid");
     $db->bind(':regid', $regid);
     $car = $db->fetch_row(true);
@@ -24,25 +22,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['regid']) && isset($_PO
                 $db->bind(':username', $_POST['username']);
                 $array = $db->fetch_row(true);
 
-                if ($array['location'] != $car['location']) {
+                if ($array['city'] != $car['location']) {  
                     $response['message'] = "You have to be in the same location as the car to send it to another player.";
                 } else {
-                   
-                        $db->query("UPDATE garage SET owner = :new_owner WHERE id = :regid");
-                        $db->bind(':new_owner', $array['id']);
-                        $db->bind(':regid', $regid);
-                        $db->execute();
-                        Send_Event($array['id'],  "You have received a car from ".$user_class->formattedname);
-                        // $db->query("INSERT INTO `inbox` ( `to` , `from` , `message` , `subject` , `date` , `read`) VALUES (:to, :from, :message, :subject, :date, '0')");
-                        // $db->bind(':to', $array['username']);
-                        // $db->bind(':from', $username);
-                        // $db->bind(':message', "$username sent you a car. Check your inbox for any new additions.");
-                        // $db->bind(':subject', 'The Garage Hideout');
-                        // $db->bind(':date', $date);
-                        // $db->execute();
+                    $db->query("UPDATE garage SET owner = :new_owner WHERE id = :regid");
+                    $db->bind(':new_owner', $array['id']);
+                    $db->bind(':regid', $regid);
+                    $db->execute();
+                    Send_Event($array['id'], "You have received a car from " . $user_class->formattedname);
 
-                        $response['message'] = "The car ($regid) has been sent to {$_POST['username']}.";
-                    
+                    $response['message'] = "The car ($regid) has been sent to {$_POST['username']}.";
                 }
             } else {
                 $response['message'] = "You do not own that car.";
@@ -61,8 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['regid']) && isset($_PO
             }
 
             if (empty($response['message'])) {
-                if ($car['owner'] == $username) {
-                    if ($_SESSION['location'] != $car['location']) {
+                if ($car['owner'] == $user_class->id) {
+                    if ($user_class->city != $car['location']) {
                         $response['message'] = "You have to be in the same location as the car to send it to another country.";
                     } else {
                         $db->query("UPDATE garage SET location = :location WHERE id = :regid");
@@ -83,3 +72,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['regid']) && isset($_PO
 }
 
 echo json_encode($response);
+?>
