@@ -3,7 +3,7 @@ require "ajax_header.php";
 
 $response = array();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['regid']) && isset($_POST['send'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['regid'])) {
     $regid = $_POST['regid'];
     $shipto = $_POST['shipto'];
     $user_class = new User($_SESSION['id']);
