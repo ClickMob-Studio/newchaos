@@ -41,6 +41,7 @@ if (isset($_GET['claim_challenge']) && (int)$_GET['claim_challenge']) {
 }
 
 if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
+    exit;
     $claimPrizeId = (int)$_GET['claim_prize'];
 
     if (!isset($bpCategoryPrizes[$claimPrizeId])) {
