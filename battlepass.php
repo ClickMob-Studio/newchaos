@@ -262,7 +262,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                 $('.backalley-c-card').hide();
                 $('.trains-c-card').hide();
 
-                $('.' + filterType + '-c-card').hide();
+                $('.' + filterType + '-c-card').show();
             }
 
         });
