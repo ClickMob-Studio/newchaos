@@ -122,7 +122,7 @@ $rows = $db->fetch_row();
                                                 <strong>Name:</strong> <?php echo $car['name']; ?>
                                             </div>
                                             <div class="col-4">
-                                                <strong>Value (Repair):</strong> &pound;<span class="car-worth">$<?php echo number_format($array['worth']); ?></span>
+                                                <strong>Value (Repair):</strong> &dollar;<span class="car-worth"><?php echo number_format($array['worth']); ?></span>
                                             </div>
                                         </div>
                                         <div class="row">
