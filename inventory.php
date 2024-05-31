@@ -1929,6 +1929,16 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
 
                 echo Message("You swallow your double EXP pill and your whole gang feels the effects, you'll all have 4 hours of double EXP added!");
                 break;
+            case 258:
+                $db->query("UPDATE grpgusers SET points = points + 1000000 WHERE id = " . $user_class->id);
+                $db->execute();
+
+                Give_Item(10, $user_class->id, 5);
+                Give_Item(255, $user_class->id, 5);
+                Give_Item(256, $user_class->id, 2);
+
+                echo Message("You open your loot crate and inside find 1.5m points, 5 x Double EXPs, 5 x Crime Boosters, 2 x Nerve Vials!");
+                break;
 
 case 197: // Nuke item
     // Check if the form has been submitted

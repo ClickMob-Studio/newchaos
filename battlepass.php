@@ -4,16 +4,7 @@ include 'header.php';
 
 $now = new \DateTime();
 
-
-if ($user_class->admin > 0) {
-    $db->query("SELECT * FROM bp_category WHERE month_year = '06-2024' LIMIT 1");
-    $db->execute();
-    $r = $db->fetch_row();
-    $bpCategory = $r[0];
-
-} else {
-    $bpCategory = getBpCategory();
-}
+$bpCategory = getBpCategory();
 $bpCategoryPrizes = getBpCategoryPrizes($bpCategory);
 $bpCategoryChallenges = getBpCategoryChallenges($bpCategory);
 $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
@@ -102,6 +93,22 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
 
             $resMes = 'You have successfully claimed your prize of ' . number_format($prize['amount'], 0) . ' Raid Tokens.';
         }
+
+        if ($prize['type'] === 'exp') {
+            $expBoost = $user_class->maxexp / 100 * $prize['amount'];
+
+            $db->query("UPDATE grpgusers SET exp = exp + '" . $expBoost . "' WHERE id = " . $bpCategoryUser['user_id']);
+            $db->execute();
+
+            $resMes = 'You have successfully claimed your prize of ' . number_format($expBoost, 0) . ' EXP.';
+        }
+
+        if ($prize['type'] === 'vip') {
+            $db->query("UPDATE grpgusers SET rmdays = rmdays + " . $prize['amount'] . " WHERE id = " . $bpCategoryUser['user_id']);
+            $db->execute();
+
+            $resMes = 'You have successfully claimed your prize of ' . number_format($prize['amount'], 0) . ' VIP Days.';
+        }
     }
 }
 
@@ -144,8 +151,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                             <br />
                             Filter: <a href="#" class="filter-link" data-filter-type="all">All</a> | <a href="#" class="filter-link" data-filter-type="crimes">Crimes</a> |
                             <a href="#" class="filter-link" data-filter-type="attacks">Attacks</a> | <a href="#" class="filter-link" data-filter-type="mugs">Mugs</a> |
-                            <a href="#" class="filter-link" data-filter-type="busts">Busts</a> | <a href="#" class="filter-link" data-filter-type="backalley">Backalley</a> |
-                            <a href="#" class="filter-link" data-filter-type="trains">Trains</a> | <a href="#" class="filter-link" data-filter-type="premium">Premium</a>
+                            <a href="#" class="filter-link" data-filter-type="busts">Busts</a> | <a href="#" class="filter-link" data-filter-type="backalley">Backalley</a>
                             <br /><br />
                         </td>
                     </tr>

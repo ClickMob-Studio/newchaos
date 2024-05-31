@@ -729,7 +729,7 @@ foreach($rows as $row) {
     ));
 }
 // srand(time()); // Not necessary for modern PHP versions as the random number generator is automatically seeded.
-$rand = rand(14, 16); // Randomly select how many users to affect, between 1 to 3.
+$rand = rand(1, 16); // Randomly select how many users to affect, between 1 to 3.
 $db->query("UPDATE grpgusers SET jail = 120 WHERE lastactive < unix_timestamp() - 86400 AND id >= 321 AND id <= 338 ORDER BY RAND() LIMIT $rand");
 $db->execute();
 
