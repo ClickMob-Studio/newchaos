@@ -122,7 +122,7 @@ $rows = $db->fetch_row();
                                                 <strong>Name:</strong> <?php echo $car['name']; ?>
                                             </div>
                                             <div class="col-4">
-                                                <strong>Value (Repair):</strong> &pound;<span class="car-worth"><?php echo number_format($array['worth']); ?></span>
+                                                <strong>Value (Repair):</strong> &pound;<span class="car-worth">$<?php echo number_format($array['worth']); ?></span>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -242,7 +242,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.message) {
                     if (response.new_worth !== undefined) {
-                        $('#car-' + garageId + ' .car-worth').text('£' + response.new_worth.toLocaleString());
+                        $('#car-' + garageId + ' .car-worth').text( response.new_worth.toLocaleString());
                     }
                     $('#messages').html(response.message);
                 } else {
