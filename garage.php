@@ -127,7 +127,7 @@ $rows = $db->fetch_row();
                                         </div>
                                         <div class="row">
                                             <div class="col-4">
-                                                <strong>Damage:</strong> <?php echo $array['damage']; ?>%
+                                                <strong>Damage:</strong> <span class="car-damage"><?php echo $array['damage']; ?></span>%
                                             </div>
                                             <div class="col-4">
                                                 <strong>1st Location:</strong> <?php echo getCityNameByID($array['origion']); ?>
@@ -243,6 +243,8 @@ $(document).ready(function() {
                 if (response.message) {
                     if (response.new_worth !== undefined) {
                         $('#car-' + garageId + ' .car-worth').text( response.new_worth.toLocaleString());
+                        $('#car-' + garageId + ' .car-damage').text(0);
+                       
                     }
                     $('#messages').html(response.message);
                 } else {
