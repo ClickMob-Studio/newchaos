@@ -642,8 +642,10 @@ if ($_GET['buy'] == "freebie") {
         $bpCategory = getBpCategory();
         $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
 
+
         if ($baCategoryUser['is_premium'] > 0) {
             echo diefun('You have already purchased premium for this months Battle Pass.');
+            exit;
         }
 
         if ($user_class->credits >= 300) {
