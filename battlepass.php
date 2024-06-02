@@ -5,9 +5,10 @@ include 'header.php';
 $now = new \DateTime();
 
 $bpCategory = getBpCategory();
+$latestBpCategory = getBpCategory();
 if (isset($_GET['override_id']) && (int)$_GET['override_id'] > 0) {
-    $bpCategory = getBpCategory($_GET['override_id']);
-    $latestBpCategory = getBpCategory();
+    $overrideId = (int)$_GET['override_id'];
+    $bpCategory = getBpCategory($overrideId);
 }
 
 $bpCategoryPrizes = getBpCategoryPrizes($bpCategory);
@@ -143,7 +144,13 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
             <?php if ($bpCategory['id'] > 1): ?>
                 <a href="battlepass.php?override_id=<?php echo $bpCategory['id'] - 1 ?>">
                     View Previous BP
-                </a> |
+                </a>
+            <?php endif; ?>
+
+            <?php if ($bpCategory['id'] < $latestBpCategory['id']): ?>
+                <a href="battlepass.php?override_id=<?php echo $bpCategory['id'] + 1 ?>">
+                    View Next BP
+                </a>
             <?php endif; ?>
             <br />
         </center>
@@ -203,7 +210,13 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                                     Premium Only
                                                 <?php else: ?>
                                                     <?php if ($bpCategoryUser[$bpCategoryChallenge['type']] >= $bpCategoryChallenge['amount'] && !$isComplete): ?>
-                                                        <a href="battlepass.php?claim_challenge=<?php echo $bpCategoryChallenge['id'] ?>" class="btn btn-primary">(Complete)</a>
+                                                        <?php
+                                                        $claimLink = "battlepass.php?claim_challenge=" . $bpCategoryChallenge['id'];
+                                                        if (isset($overrideId) && $overrideId > 0) {
+                                                            $claimLink .= "&override_id=" . $overrideId;
+                                                        }
+                                                        ?>
+                                                        <a href="<?php echo $claimLink ?>" class="btn btn-primary">(Complete)</a>
                                                     <?php elseif ($isComplete): ?>
                                                         Completed
                                                     <?php else: ?>
