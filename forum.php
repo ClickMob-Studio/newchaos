@@ -6,7 +6,15 @@ include 'includes/pagination.class.php';
     .table>thead {
     vertical-align: bottom;
     color: white;
-}</style>
+}
+.table>:not(caption)>*>* {
+    padding: .5rem .5rem;
+    color: white;
+    background-color: var(--bs-table-bg);
+    border-bottom-width: 1px;
+    box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+</style>
 <div class='container mt-4'>
     <div class='box_top'>Forums</div>
     <div class='box_middle'>
