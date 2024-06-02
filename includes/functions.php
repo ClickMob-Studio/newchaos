@@ -2263,18 +2263,28 @@ function addUserPrestigeSkill($user_class, $field, $qty = 1)
     $db->execute();
 }
 
-function getBpCategory()
+function getBpCategory($overrideId = null)
 {
     global $db;
 
-    $now = new \DateTime();
+    if ($overrideId) {
+        $now = new \DateTime();
 
-    $db->query("SELECT * FROM bp_category WHERE month_year = '" . $now->format('m-Y') . "' LIMIT 1");
-    $db->execute();
-    $r = $db->fetch_row();
+        $db->query("SELECT * FROM bp_category WHERE month_year = '" . $now->format('m-Y') . "' LIMIT 1");
+        $db->execute();
+        $r = $db->fetch_row();
 
-    if (isset($r[0]['id'])) {
-        return $r[0];
+        if (isset($r[0]['id'])) {
+            return $r[0];
+        }
+    } else {
+        $db->query("SELECT * FROM bp_category WHERE id = '" . $overrideId . "' LIMIT 1");
+        $db->execute();
+        $r = $db->fetch_row();
+
+        if (isset($r[0]['id'])) {
+            return $r[0];
+        }
     }
 
     return null;

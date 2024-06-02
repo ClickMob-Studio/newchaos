@@ -5,6 +5,11 @@ include 'header.php';
 $now = new \DateTime();
 
 $bpCategory = getBpCategory();
+if (isset($_GET['override_id']) && (int)$_GET['override_id']) {
+    $bpCategory = getBpCategory($_GET['override_id']);
+    $latestBpCategory = getBpCategoryUser();
+}
+
 $bpCategoryPrizes = getBpCategoryPrizes($bpCategory);
 $bpCategoryChallenges = getBpCategoryChallenges($bpCategory);
 $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
