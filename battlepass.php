@@ -142,13 +142,13 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
 
         <center>
             <?php if ($bpCategory['id'] > 1): ?>
-                <a href="battlepass.php?override_id=<?php echo $bpCategory['id'] - 1 ?>">
+                <a href="battlepass.php?override_id=<?php echo $bpCategory['id'] - 1 ?>" class="btn btn-primary">
                     View Previous BP
                 </a>
             <?php endif; ?>
 
             <?php if ($bpCategory['id'] < $latestBpCategory['id']): ?>
-                <a href="battlepass.php?override_id=<?php echo $bpCategory['id'] + 1 ?>">
+                <a href="battlepass.php?override_id=<?php echo $bpCategory['id'] + 1 ?>" class="btn btn-primary">
                     View Next BP
                 </a>
             <?php endif; ?>
