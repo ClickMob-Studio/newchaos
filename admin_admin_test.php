@@ -8,8 +8,8 @@ header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-error_reporting(0);
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 if (!function_exists('getallheaders')) {
     function getallheaders() {
@@ -25,29 +25,31 @@ if (!function_exists('getallheaders')) {
 
 // Get the session ID from the Authorization header
 $headers = getallheaders();
+file_put_contents('php://stderr', "Headers: " . print_r($headers, true)); // Log headers
+
 if (isset($headers['Authorization'])) {
     $session_id = str_replace('Bearer ', '', $headers['Authorization']);
+    file_put_contents('php://stderr', "Session ID from header: " . $session_id); // Log session ID
     session_id($session_id);
 }
 
 session_start();
-
-file_put_contents('php://stderr', print_r($_POST, TRUE));
-file_put_contents('php://stderr', print_r($_SESSION, TRUE));
+file_put_contents('php://stderr', "Session after start: " . print_r($_SESSION, true)); // Log session data
 
 try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data = json_decode(file_get_contents("php://input"), true);
         $user_id = $data['user_id'];
+        file_put_contents('php://stderr', "User ID from POST: " . $user_id); // Log user ID
 
-        if (!isset($_SESSION['id'])) {
+        if (!isset($_SESSION['id']) || $_SESSION['id'] !== $user_id) {
+            file_put_contents('php://stderr', "Unauthorized: Session ID: {$_SESSION['id']}, User ID: {$user_id}"); // Log unauthorized reason
             echo json_encode(["success" => false, "message" => "Unauthorized"]);
             exit();
         }
 
         $user_class = new User($_SESSION['id']);
-
-          if (isset($user_class->id)) {
+        if (isset($user_class->id)) {
             $user_data = $user_class;
             echo json_encode(["success" => true, "user" => $user_data]);
         } else {
