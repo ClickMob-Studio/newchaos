@@ -5,7 +5,7 @@ include 'header.php';
 $now = new \DateTime();
 
 $bpCategory = getBpCategory();
-if (isset($_GET['override_id']) && (int)$_GET['override_id']) {
+if (isset($_GET['override_id']) && (int)$_GET['override_id'] > 0) {
     $bpCategory = getBpCategory($_GET['override_id']);
     $latestBpCategory = getBpCategory();
 }
@@ -138,6 +138,14 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
         <?php else: ?>
             <p><strong>This months Battle Pass is free and includes no premium options.</strong></p>
         <?php endif; ?>
+
+        <center>
+            <?php if ($bpCategory['id'] > 0): ?>
+                <a href="battlepass.php?override_id=<?php echo $bpCategory['id'] - 1 ?>">
+                    View Previous BP
+                </a> |
+            <?php endif; ?>
+        </center>
 
         <?php if (isset($resMes) && $resMes): ?>
             <div class="alert alert-success" role="alert">
