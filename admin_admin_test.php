@@ -40,7 +40,7 @@ try {
         $data = json_decode(file_get_contents("php://input"), true);
         $user_id = $data['user_id'];
 
-        if (!isset($_SESSION['id']) || $_SESSION['id'] !== $user_id) {
+        if (!isset($_SESSION['id'])) {
             echo json_encode(["success" => false, "message" => "Unauthorized"]);
             exit();
         }
