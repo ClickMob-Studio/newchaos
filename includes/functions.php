@@ -2268,9 +2268,7 @@ function getBpCategory($overrideId = null)
     global $db;
 
     if ($overrideId) {
-        $now = new \DateTime();
-
-        $db->query("SELECT * FROM bp_category WHERE month_year = '" . $now->format('m-Y') . "' LIMIT 1");
+        $db->query("SELECT * FROM bp_category WHERE id = '" . $overrideId . "' LIMIT 1");
         $db->execute();
         $r = $db->fetch_row();
 
@@ -2278,7 +2276,9 @@ function getBpCategory($overrideId = null)
             return $r[0];
         }
     } else {
-        $db->query("SELECT * FROM bp_category WHERE id = '" . $overrideId . "' LIMIT 1");
+        $now = new \DateTime();
+
+        $db->query("SELECT * FROM bp_category WHERE month_year = '" . $now->format('m-Y') . "' LIMIT 1");
         $db->execute();
         $r = $db->fetch_row();
 
