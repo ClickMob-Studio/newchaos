@@ -2,6 +2,11 @@
 include 'header.php';
 include 'includes/pagination.class.php';
 ?>
+<style>
+    .table>thead {
+    vertical-align: bottom;
+    color: white;
+}</style>
 <div class='container mt-4'>
     <div class='box_top'>Forums</div>
     <div class='box_middle'>
