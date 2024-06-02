@@ -7,7 +7,7 @@ $now = new \DateTime();
 $bpCategory = getBpCategory();
 if (isset($_GET['override_id']) && (int)$_GET['override_id']) {
     $bpCategory = getBpCategory($_GET['override_id']);
-    $latestBpCategory = getBpCategoryUser();
+    $latestBpCategory = getBpCategory();
 }
 
 $bpCategoryPrizes = getBpCategoryPrizes($bpCategory);
