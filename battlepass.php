@@ -258,7 +258,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                         </div>
                                         <div class="card-body">
                                             <p class="card-text">
-                                                Points Cost:  <?php echo $bpCategoryPrize['cost'] ?>
+                                                Points Req:  <?php echo $bpCategoryPrize['cost'] ?>
                                             </p>
                                         </div>
                                         <div class="card-footer">
@@ -267,7 +267,13 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                                     Premium Only
                                                 <?php else: ?>
                                                     <?php if ($bpCategoryUser['points'] >= $bpCategoryPrize['cost'] && !$isComplete): ?>
-                                                        <a href="battlepass.php?claim_prize=<?php echo $bpCategoryPrize['id'] ?>" class="btn btn-primary">Claim</a>
+                                                        <?php
+                                                        $claimLink = "battlepass.php?claim_prize=" . $bpCategoryPrize['id'];
+                                                        if (isset($overrideId) && $overrideId > 0) {
+                                                            $claimLink .= "&override_id=" . $overrideId;
+                                                        }
+                                                        ?>
+                                                        <a href="<?php echo $claimLink ?>" class="btn btn-primary">Claim</a>
                                                     <?php elseif ($isComplete): ?>
                                                         Claimed
                                                     <?php else: ?>
