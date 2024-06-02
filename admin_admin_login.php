@@ -1,26 +1,31 @@
 <?php
-require "ajax_header.php";
+header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type");
 
 session_start();
 
-header("Content-Type: application/json");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+require 'database/pdo_class.php';
+$data = json_decode(file_get_contents("php://input"), true);
+$username = $data['username'];
+$password = $data['password'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode(file_get_contents("php://input"), true);
-    $user_id = $data['user_id'];
+$hashed_password = sha1($password);
 
-    // Validate the session token and user ID
-    if (!isset($_SESSION['id']) || $_SESSION['id'] !== $user_id) {
-        echo json_encode(["success" => false, "message" => "Unauthorized"]);
-        exit();
-    }
+$sql = "SELECT id, username FROM grpgusers WHERE username = :username AND password = :password";
+$db->query($sql);
+$db->bind(':username', $username);
+$db->bind(':password', $hashed_password);
+$result = $db->fetch_row(true);
 
-    $user_class = new User($_SESSION['id']);
+if ($result) {
+    $_SESSION['user_id'] = $result['id'];
+    $_SESSION['username'] = $result['username'];
+    $_SESSION['loggedin'] = true;
 
-    echo json_encode(["success" => true, "user" => $user_class]);
+    echo json_encode(["success" => true, "user" => $result, "token" => session_id()]);
 } else {
-    echo json_encode(["success" => false, "message" => "Invalid request method"]);
+   
+    echo json_encode(["success" => false, "message" => "Invalid credentials"]);
 }
 ?>
