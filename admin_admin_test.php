@@ -33,7 +33,10 @@ if (isset($headers['Authorization'])) {
     session_id($session_id);
 }
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 file_put_contents('php://stderr', "Session after start: " . print_r($_SESSION, true)); // Log session data
 
 try {
@@ -42,13 +45,13 @@ try {
         $user_id = $data['user_id'];
         file_put_contents('php://stderr', "User ID from POST: " . $user_id); // Log user ID
 
-        if (!isset($_SESSION['id']) || $_SESSION['id'] !== $user_id) {
-            file_put_contents('php://stderr', "Unauthorized: Session ID: {$_SESSION['id']}, User ID: {$user_id}"); // Log unauthorized reason
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_id'] != $user_id) {
+            file_put_contents('php://stderr', "Unauthorized: Session ID: {$_SESSION['user_id']}, User ID: {$user_id}"); // Log unauthorized reason
             echo json_encode(["success" => false, "message" => "Unauthorized"]);
             exit();
         }
 
-        $user_class = new User($_SESSION['id']);
+        $user_class = new User($_SESSION['user_id']);
         if (isset($user_class->id)) {
             $user_data = $user_class;
             echo json_encode(["success" => true, "user" => $user_data]);

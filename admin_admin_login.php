@@ -25,7 +25,6 @@ if ($result) {
 
     echo json_encode(["success" => true, "user" => $result, "token" => session_id()]);
 } else {
-   
     echo json_encode(["success" => false, "message" => "Invalid credentials"]);
 }
 ?>
