@@ -214,9 +214,17 @@ while ($line = mysql_fetch_array($king_result)) {
     $city_query = mysql_query("SELECT owned_points FROM cities WHERE id = '" . mysql_real_escape_string($line['city']) . "' LIMIT 1");
     $city_result = mysql_fetch_assoc($city_query);
 
+    $bossUser = new User($line['id']);
+
+    $owned_points = $city_result['owned_points'];
+    $userPrestigeSkills = getUserPrestigeSkills($bossUser);
+    if ($userPrestigeSkills['throne_points_unlock'] > 0) {
+        $owned_points = $owned_points + ($owned_points / 100 * 20);
+    }
+
     if ($city_result['owned_points'] > 0) {
-        mysql_query("UPDATE `grpgusers` SET `points` = `points` + " . $city_result['owned_points'] . " WHERE `id` = " . $line['id']);
-        Send_event($line['id'], "You earned " . number_format($city_result['owned_points'], 0) . " points for being the Boss!");
+        mysql_query("UPDATE `grpgusers` SET `points` = `points` + " . $owned_points . " WHERE `id` = " . $line['id']);
+        Send_event($line['id'], "You earned " . number_format($owned_points, 0) . " points for being the Boss!");
     }
 }
 
