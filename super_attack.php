@@ -44,7 +44,7 @@ $_SESSION['csrf'] = $csrf;
         $(this).hide();
         $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
 
-        for (var i = 1; i < 10; i++) {
+        for (var i = 1; i < 20; i++) {
             var request = $.ajax({
                 url: $(this).attr('href') + '&alv=yes',
                 method: "GET",
