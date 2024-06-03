@@ -24,7 +24,10 @@ $_SESSION['csrf'] = $csrf;
 
 
             <br />
-            <a href="ajax_super_attack_id.php" id="commit-super-attack-link"><button>Commit Attack</button></a>
+            <a href="ajax_super_attack_id.php?level_limit=50" id="commit-super-attack-link"><button>Attack Up To Level 50</button></a>
+            <a href="ajax_super_attack_id.php?level_limit=100" id="commit-super-attack-link"><button>Attack Up To Level 100</button></a>
+            <a href="ajax_super_attack_id.php?level_limit=250" id="commit-super-attack-link"><button>Attack Up To Level 100</button></a>
+            <a href="ajax_super_attack_id.php?level_limit=5000" id="commit-super-attack-link"><button>Attack All</button></a>
         </center>
 
 
