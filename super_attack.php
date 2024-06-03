@@ -24,10 +24,10 @@ $_SESSION['csrf'] = $csrf;
 
 
             <br />
-            <a href="ajax_super_attack_id.php?level_limit=50" id="commit-super-attack-link"><button>Attack Up To Level 50</button></a>
-            <a href="ajax_super_attack_id.php?level_limit=100" id="commit-super-attack-link"><button>Attack Up To Level 100</button></a>
-            <a href="ajax_super_attack_id.php?level_limit=250" id="commit-super-attack-link"><button>Attack Up To Level 100</button></a>
-            <a href="ajax_super_attack_id.php?level_limit=5000" id="commit-super-attack-link"><button>Attack All</button></a>
+            <a href="ajax_super_attack_id.php?level_limit=50" class="commit-super-attack-link"><button>Attack Up To Level 50</button></a>
+            <a href="ajax_super_attack_id.php?level_limit=100" class="commit-super-attack-link"><button>Attack Up To Level 100</button></a>
+            <a href="ajax_super_attack_id.php?level_limit=250" class="commit-super-attack-link"><button>Attack Up To Level 100</button></a>
+            <a href="ajax_super_attack_id.php?level_limit=5000" class="commit-super-attack-link"><button>Attack All</button></a>
         </center>
 
 
@@ -35,7 +35,7 @@ $_SESSION['csrf'] = $csrf;
 </div>
 
 <script type="text/javascript">
-    $('#commit-super-attack-link').click(function(e) {
+    $('.commit-super-attack-link').click(function(e) {
         e.preventDefault();
 
         let clicked = $(this);
@@ -45,7 +45,7 @@ $_SESSION['csrf'] = $csrf;
         $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
 
         var request = $.ajax({
-            url: $(this).attr('href') + '?alv=yes',
+            url: $(this).attr('href') + '&alv=yes',
             method: "GET",
             dataType: "json"
         });
