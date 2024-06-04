@@ -330,7 +330,7 @@ function start() {
               
             }
         }
-    },25);
+    },10);
     document.addEventListener('mouseup', resetAction, { once: true });
     document.addEventListener('touchend', resetAction, { once: true });
   
