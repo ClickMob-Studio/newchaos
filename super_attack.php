@@ -74,9 +74,7 @@ $_SESSION['csrf'] = $csrf;
                         $(".ajax-message-holder").show();
                         $(".temp-spinner").remove();
                         clicked.show();
-                        $('#commit-super-attack-link').show();
-
-                        requestInProcess = false;
+                        $('.commit-super-attack-link').show();
                     });
 
                 }
