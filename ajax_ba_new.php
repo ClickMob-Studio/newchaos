@@ -365,9 +365,9 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     }
 } else {
 
-    $goldRushChance = mt_rand(1,15000);
+    $goldRushChance = mt_rand(1,12500);
     if ($userPrestigeSkills['ba_gold_rush_unlock'] > 0) {
-        $goldRushChance = mt_rand(1,12500);
+        $goldRushChance = mt_rand(1,9000);
     }
     if ($goldRushChance == 2) {
         $db->query("UPDATE user_ba_stats SET gold_rush_credits = gold_rush_credits + 15 WHERE user_id = " . $user_class->id);
