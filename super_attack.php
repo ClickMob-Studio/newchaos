@@ -60,9 +60,6 @@ $_SESSION['csrf'] = $csrf;
                         dataType: "json"
                     });
                     request.done(function (resTwo) {
-                        <?php if ($user_class->admin > 0): ?>
-                        alert(resTwo.success);
-                        <?php endif; ?>
                         if (resTwo.success == false || resTwo.success == 'false') {
                             var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + resTwo.error + "</p></div>";
                         } else {
