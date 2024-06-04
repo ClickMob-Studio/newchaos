@@ -49,10 +49,6 @@ $_SESSION['csrf'] = $csrf;
                 dataType: "json"
             });
             request.done(function (res) {
-                <?php if ($user_class->admin > 0): ?>
-                    alert(res.success);
-                <?php endif; ?>
-
                 if (res.success == false || res.success == 'false') {
                     var resMes = "<div class='alert alert-danger ajax-alert-div'><p>You don't have anyone you can attack at the moment. Consider trying a different city.</p></div>";
                     $(".ajax-message-holder").html(resMes);
@@ -64,6 +60,9 @@ $_SESSION['csrf'] = $csrf;
                         dataType: "json"
                     });
                     request.done(function (resTwo) {
+                        <?php if ($user_class->admin > 0): ?>
+                        alert(resTwo.success);
+                        <?php endif; ?>
                         if (resTwo.success == false || resTwo.success == 'false') {
                             var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + resTwo.error + "</p></div>";
                         } else {
