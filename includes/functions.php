@@ -1968,7 +1968,12 @@ function getUserBaStats($user_class)
 
     if (isset($r[0]['id'])) {
         $r = $r[0];
-        $r['maxexp'] = 10000 * $r['level'];
+        if ($r['level'] > 15) {
+            $r['maxexp'] = 10000 * 15;
+            $r['maxexp'] += 25000 * ($r['level'] - 15);
+        } else {
+            $r['maxexp'] = 10000 * $r['level'];
+        }
 
         if ($userPrestigeSkills['ba_point_boost_level'] > 0) {
             $r['additional_max_levels'] = $userPrestigeSkills['ba_point_boost_level'];
