@@ -37,9 +37,7 @@ $_SESSION['csrf'] = $csrf;
 <script type="text/javascript">
     $('.commit-super-attack-link').click(function(e) {
         e.preventDefault();
-
-        let clicked = $(this);
-
+        
         $(".ajax-alert-div").remove();
         $(this).hide();
         $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
@@ -73,7 +71,6 @@ $_SESSION['csrf'] = $csrf;
                         $(".ajax-message-holder").html(resMes);
                         $(".ajax-message-holder").show();
                         $(".temp-spinner").remove();
-                        clicked.show();
                         $('.commit-super-attack-link').show();
                     });
 
