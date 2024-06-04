@@ -1994,7 +1994,7 @@ function addUserBaStatExp($userBaStats, $baExpWon)
 {
     global $db;
 
-    $maxLevels = 10;
+    $maxLevels = 15;
     if (isset($userBaStats['additional_max_levels']) && $userBaStats['additional_max_levels'] > 0) {
         $maxLevels = $maxLevels + $userBaStats['additional_max_levels'];
     }
