@@ -37,12 +37,16 @@ $_SESSION['csrf'] = $csrf;
 <script type="text/javascript">
     $('.commit-super-attack-link').click(function(e) {
         e.preventDefault();
-        
+
         $(".ajax-alert-div").remove();
         $(this).hide();
         $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
 
         for (var i = 1; i < 20; i++) {
+            <?php if ($user_class->admin > 0): ?>
+                alert(i);
+            <?php endif; ?>
+
             var request = $.ajax({
                 url: $(this).attr('href') + '&alv=yes',
                 method: "GET",
