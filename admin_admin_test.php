@@ -36,7 +36,11 @@ if (isset($headers['Authorization'])) {
 
     session_id($session_id); // Set the session ID
 }
-session_start();
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start(); // Start the session with the given session ID
+}
+
 file_put_contents('php://stderr', "Session after start: " . print_r($_SESSION, true)); // Log session data
 
 try {
@@ -45,9 +49,16 @@ try {
         $user_id = $data['user_id'];
         file_put_contents('php://stderr', "User ID from POST: " . $user_id); // Log user ID
 
-        if (!isset($_SESSION['user_id']) || $_SESSION['user_id'] != $user_id) {
-            file_put_contents('php://stderr', "Unauthorized: Session ID: {$_SESSION['user_id']}, User ID: {$user_id}"); // Log unauthorized reason
+        // Check if the session variable exists and matches the provided user ID
+        if (!isset($_SESSION['user_id'])) {
+            file_put_contents('php://stderr', "Unauthorized: No session user_id found");
             echo json_encode(["success" => false, "message" => "Unauthorized"]);
+            exit();
+        }
+
+        if ($_SESSION['user_id'] != $user_id) {
+            file_put_contents('php://stderr', "Unauthorized: Session ID mismatch. Session user_id: {$_SESSION['user_id']}, Provided user_id: {$user_id}");
+            echo json_encode(["success" => false, "message" => "Unauthorized 2nd if"]);
             exit();
         }
 
