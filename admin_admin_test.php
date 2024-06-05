@@ -36,7 +36,7 @@ if (isset($headers['Authorization'])) {
 
     session_id($session_id); // Set the session ID
 }
-
+session_start();
 file_put_contents('php://stderr', "Session after start: " . print_r($_SESSION, true)); // Log session data
 
 try {
