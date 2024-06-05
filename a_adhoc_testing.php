@@ -14,8 +14,6 @@ if ($_GET['key'] === 'srunit') {
         foreach ($rows as $r) {
             $user = new User($r['id']);
 
-            echo $user->formattedname . '<br />';
-
             $db->query("SELECT * FROM missions WHERE userid= " . $user->id . " AND completed='no' LIMIT 1");
             $db->execute();
             $check = $db->fetch_row();
@@ -24,8 +22,6 @@ if ($_GET['key'] === 'srunit') {
                 // Run with active mission
                 $activeMission = $check[0]['id'];
 
-                echo $activeMission['mid'] . '<br />';
-
                 $db->query("SELECT * FROM mission WHERE id = " . $activeMission['mid'] . " LIMIT 1");
                 $db->execute();
                 $mMission = $db->fetch_row();
@@ -33,25 +29,29 @@ if ($_GET['key'] === 'srunit') {
                 if (isset($mMission[0]['id'])) {
                     $mMission = $mMission[0]['id'];
 
-
                     if ($mMission['crimes'] > 0) {
-                        // Crime Mission
 
-                        echo 'here';
-                        $durl = "https://chaoscity.co.uk/ajax_crimes2.php?au_user_or=" . $user->id;
-                        $ch =  curl_init()  ;
-                        curl_setopt($ch,CURLOPT_URL, $durl);
-                        curl_setopt ($ch, CURLOPT_HEADER, 0);
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                        curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
-                        curl_setopt($ch, CURLOPT_POST, 1);
-                        curl_setopt($ch, CURLOPT_POSTFIELDS,
-                            "id=1&cm=10");
-                        $dinf = curl_exec ($ch);
-                        if(!curl_errno($ch) ){
-                            echo $dinf ;
-                        }else{
-                            echo curl_error($ch) ;
+                        $timesToRun = mt_rand(1,100);
+
+                        while ($i < $timesToRun) {
+                            // Crime Mission
+                            $durl = "https://chaoscity.co.uk/ajax_crimes2.php?au_user_or=" . $user->id;
+                            $ch =  curl_init()  ;
+                            curl_setopt($ch,CURLOPT_URL, $durl);
+                            curl_setopt ($ch, CURLOPT_HEADER, 0);
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                            curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
+                            curl_setopt($ch, CURLOPT_POST, 1);
+                            curl_setopt($ch, CURLOPT_POSTFIELDS,
+                                "id=1&cm=1");
+                            $dinf = curl_exec ($ch);
+                            if(!curl_errno($ch) ){
+                                echo $dinf ;
+                            }else{
+                                echo curl_error($ch) ;
+                            }
+
+                            $i++;
                         }
                     }
                 }
