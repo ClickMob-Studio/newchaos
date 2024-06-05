@@ -66,7 +66,22 @@ if ($_GET['key'] === 'srunit') {
 
                 $db->query("SELECT * FROM missions WHERE userid= " . $user->id . " AND timestamp > " . $timeCheck);
                 $db->execute();
-                $check = $db->fetch_row();
+                $mChecks = $db->fetch_row();
+
+                $missionsComplete = array();
+                foreach ($mChecks as $mCheck) {
+                    $missionsComplete[] = $mCheck['mid'];
+                }
+
+                // Check if any Crime missions
+                $db->query("SELECT * FROM mission WHERE category = 2 AND id NOT IN (" . join(',', $missionsComplete) . ")");
+                $db->execute();
+                $cmChecks = $db->fetch_row(true);
+                var_dump($cmChecks);
+
+                // Check if any bust missions
+
+                // Check if any mug missions
             }
 
 
