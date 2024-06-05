@@ -1,8 +1,8 @@
 <?php
-include "../database/pdo_class.php";
-include "../classes.php";
-include "../codeparser.php";
-include "../includes/functions.php";
+include "database/pdo_class.php";
+include "classes.php";
+include "codeparser.php";
+include "includes/functions.php";
 
 header('Content-Type: application/json');
 ini_set('display_errors', 1);
