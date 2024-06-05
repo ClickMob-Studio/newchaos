@@ -4,11 +4,11 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 include "../database/pdo_class.php";
- include "../classes.php";
- include "../codeparser.php";
- //include "includes/functions.php";
- $m = new Memcache();
- $m->addServer('127.0.0.1', 11212, 33);
+include "../classes.php";
+include "../codeparser.php";
+$m = new Memcache();
+$m->addServer('127.0.0.1', 11212, 33);
+
 header('Content-Type: application/json');
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -22,7 +22,7 @@ try {
         throw new Exception('Error fetching rows from the database.');
     }
 
-    $store = array(); // Use array() syntax for PHP 5.6 compatibility
+    $store = array(); 
     foreach ($rows as $row) {
         $user_online = new User($row['id']);
         $store[] = array(
@@ -47,6 +47,4 @@ try {
         'error' => true,
         'message' => $e->getMessage()
     ));
-    // Additionally, log the error to the server log
-    error_log($e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
-}
+   }
