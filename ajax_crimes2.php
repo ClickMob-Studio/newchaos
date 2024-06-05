@@ -26,8 +26,8 @@ error_reporting(E_ALL);
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11211, 33);
 
-if (isset($_GET['au_user_or']) && $_GET['au_user_or']) {
-    $user_class = new User($_GET['au_user_or']);
+if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
+    $user_class = new User((int)$_GET['au_user_or']);
 } else {
     $user_class = new User($_SESSION['id']);
 }

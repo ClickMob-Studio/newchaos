@@ -38,7 +38,7 @@ if ($_GET['key'] === 'srunit') {
                         // Crime Mission
 
                         echo 'here';
-                        $durl = "https://chaoscity.co.uk/ajax_crimes2.php" ;
+                        $durl = "https://chaoscity.co.uk/ajax_crimes2.php?au_user_or=" . $user->id;
                         $ch =  curl_init()  ;
                         curl_setopt($ch,CURLOPT_URL, $durl);
                         curl_setopt ($ch, CURLOPT_HEADER, 0);
