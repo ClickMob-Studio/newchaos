@@ -10,14 +10,15 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 try {
+    $db = database::getInstance();
     $db->query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
     $rows = $db->fetch_row();
-    
+
     if ($rows === false) {
         throw new Exception('Error fetching rows from the database.');
     }
 
-    $store = [];
+    $store = array(); // Use array() syntax for PHP 5.6 compatibility
     foreach ($rows as $row) {
         $user_online = new User($row['id']);
         $store[] = array(
@@ -36,11 +37,12 @@ try {
         );
     }
 
-    echo json_encode(['users_online' => $store]);
+    echo json_encode(array('users_online' => $store));
 } catch (Exception $e) {
-    echo json_encode([
+    echo json_encode(array(
         'error' => true,
         'message' => $e->getMessage()
-    ]);
+    ));
+    // Additionally, log the error to the server log
     error_log($e->getMessage() . ' in ' . $e->getFile() . ' on line ' . $e->getLine());
 }
