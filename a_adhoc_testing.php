@@ -34,7 +34,7 @@ if ($_GET['key'] === 'srunit') {
                     $mMission = $mMission[0]['id'];
 
 
-                    if ($mMission['category'] == 3) {
+                    if ($mMission['crimes'] > 0) {
                         // Crime Mission
 
                         echo 'here';
@@ -44,6 +44,9 @@ if ($_GET['key'] === 'srunit') {
                         curl_setopt ($ch, CURLOPT_HEADER, 0);
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                         curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
+                        curl_setopt($ch, CURLOPT_POST, 1);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS,
+                            "id=1&cm=10");
                         $dinf = curl_exec ($ch);
                         if(!curl_errno($ch) ){
                             echo $dinf ;
