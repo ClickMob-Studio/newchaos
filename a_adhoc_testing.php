@@ -84,7 +84,7 @@ if ($_GET['key'] === 'srunit') {
                         $now = time();
                         $db->query("INSERT INTO missions (`userid`, `timestamp`, `mid`) VALUES({$user->id}, {$now}, {$cmChecks['id']})");
                         $db->execute();
-                        $db->query("INSERT INTO missionlog (`id`, `text`, `timestamp`) VALUES('[x] started a {$cmChecks['name']},$user->id', unix_timestamp())");
+                        $db->query("INSERT INTO missionlog (`id`, `text`, `timestamp`) VALUES('[x] started a {$cmChecks['name']},{$user->id}', unix_timestamp())");
                         $db->execute();
                     }
 
