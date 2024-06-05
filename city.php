@@ -260,7 +260,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
         </div>
             <a href="polls.php">Polls</a><br>
             <a href='tos.php'>Terms of Service</a><br>
-            <a href='contest.php'><font color=red>Raid/Attack Contests</font></a><br>
+<!--            <a href='contest.php'><font color=red>Raid/Attack Contests</font></a><br>-->
             <a href='halloffame.php'>Hall of Fame</a><br>
             <a href='viewstaff.php'>View Game Staff</a><br>
             <a href='otds.php'>Daily HOF</a><br>
