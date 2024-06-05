@@ -150,11 +150,11 @@ if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && is
 
     <h1>BA & Attack Contest</h1>
     <p>
-        Welcome to the BA & Attack Contest, complete Backalley searches and attacks to work your way up the overall leaderboards and earn
+        Welcome to the BA & Attack Contest, complete Backalley searches and attacks to work your way up the leaderboards and earn
         some great prizes. Milestone payments can be collected manually.
     </p>
 
-    <p style="color: red">Contest Ends May 09, 2024 22:00:00</p>
+    <p style="color: red">Contest Ends June 09, 2024 22:00:00</p>
     <hr />
 
     <div class="row">
