@@ -72,6 +72,4 @@ if ($_GET['key'] === 'srunit') {
 
 
 echo 'done';
-
-include 'footer.php';
 ?>
