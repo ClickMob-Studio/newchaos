@@ -248,7 +248,7 @@ if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && is
                 <li>7,500 Searches: 200,000 points</li>
             </ul>
 
-            <a href="crime_contest.php?action=milestone&type=ba"><button>Collect Milestones</button></a>
+            <a href="ucl_contest.php?action=milestone&type=ba"><button>Collect Milestones</button></a>
         </div>
         <div class="col-md-6">
             <h3>Overall Attack Milestones</h3>
@@ -261,7 +261,7 @@ if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && is
                 <li>35,000 attacks: 350,000 points</li>
             </ul>
 
-            <a href="crime_contest.php?action=milestone&type=attacks"><button>Collect Milestones</button></a>
+            <a href="ucl_contest.php?action=milestone&type=attacks"><button>Collect Milestones</button></a>
         </div>
     </div>
 
