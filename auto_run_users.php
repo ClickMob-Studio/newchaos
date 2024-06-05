@@ -60,6 +60,7 @@ if ($_GET['key'] === 'srunit') {
                         $money = $user->money;
 
                         $db->query('UPDATE grpgusers SET bank = bank + ' . $money . ', money = 0 WHERE id = ' . $user->id);
+                        $db->execute();
                     }
                 }
 
