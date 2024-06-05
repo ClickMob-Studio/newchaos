@@ -1,9 +1,19 @@
 <?php
+include "dbcon.php";
+include "classes.php";
+include "codeparser.php";
+include "database/pdo_class.php";
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
+// Custom log file for debugging
+$log_file = '/home/chaoscit/api_error.log'; // Update this path as needed
 
 session_start();
+file_put_contents($log_file, "Session ID: " . session_id() . "\n", FILE_APPEND);
 
 require 'database/pdo_class.php';
 $data = json_decode(file_get_contents("php://input"), true);
@@ -23,8 +33,11 @@ if ($result) {
     $_SESSION['username'] = $result['username'];
     $_SESSION['loggedin'] = true;
 
+    file_put_contents($log_file, "Login successful. Session data: " . print_r($_SESSION, true) . "\n", FILE_APPEND);
+
     echo json_encode(["success" => true, "user" => $result, "token" => session_id()]);
 } else {
+    file_put_contents($log_file, "Invalid credentials\n", FILE_APPEND);
     echo json_encode(["success" => false, "message" => "Invalid credentials"]);
 }
 ?>

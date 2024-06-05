@@ -3,7 +3,6 @@ include "dbcon.php";
 include "classes.php";
 include "codeparser.php";
 include "database/pdo_class.php";
-
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
@@ -31,10 +30,13 @@ $headers = getallheaders();
 file_put_contents($log_file, "Headers: " . print_r($headers, true) . "\n", FILE_APPEND);
 
 // Get the session ID from the Authorization header
+$session_id = null;
 if (isset($headers['Authorization'])) {
     $session_id = str_replace('Bearer ', '', $headers['Authorization']);
     file_put_contents($log_file, "Session ID from header: " . $session_id . "\n", FILE_APPEND);
+}
 
+if ($session_id) {
     if (session_status() === PHP_SESSION_ACTIVE) {
         session_write_close(); // Close the current session if already started
     }
