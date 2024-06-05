@@ -62,7 +62,41 @@ if ($_GET['key'] === 'srunit') {
 
             }
 
-            // Check whether to start an active mission
+            // Check whether to start an active mission - 33% chance of starting a mission
+            if (mt_rand(1,3) === 1) {
+                if (!isset($check[0]['id'])) {
+                    $timeCheck = time() - 87400;
+
+                    $db->query("SELECT * FROM missions WHERE userid= " . $user->id . " AND timestamp > " . $timeCheck);
+                    $db->execute();
+                    $mChecks = $db->fetch_row();
+
+                    $missionsComplete = array();
+                    foreach ($mChecks as $mCheck) {
+                        $missionsComplete[] = $mCheck['mid'];
+                    }
+
+                    // Check if any Crime missions
+                    $db->query("SELECT * FROM mission WHERE category = 2 AND id NOT IN (" . join(',', $missionsComplete) . ")");
+                    $db->execute();
+                    $cmChecks = $db->fetch_row(true);
+
+                    if (isset($cmChecks['id'])) {
+                        $now = time();
+                        $db->query("INSERT INTO missions (`userid`, `timestamp`, `mid`) VALUES({$user->id}, {$now}, {$cmChecks['id']})");
+                        $db->execute();
+                        $db->query("INSERT INTO missionlog (`text`, `timestamp`) VALUES('[x] started a {$cmChecks['name']},{$user->id}', unix_timestamp())");
+                        $db->execute();
+                    }
+
+                    // Check if any bust missions
+                    if (!isset($cmChecks['id'])) {
+
+                    }
+
+                    // Check if any mug missions
+                }
+            }
 
 
 
