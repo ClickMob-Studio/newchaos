@@ -14,7 +14,7 @@ header('Content-Type: application/json');
 try {
     $db->query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
     $rows = $db->fetch_row();
-
+    $onlineNow = $db->num_rows();
     if ($rows === false) {
         throw new Exception('Error fetching rows from the database.');
     }
@@ -38,7 +38,7 @@ try {
         );
     }
 
-    echo json_encode(array('users_online' => $store));
+    echo json_encode(array('users_online' => $store, 'onlineNow' => $onlineNow));
 } catch (Exception $e) {
     echo json_encode(array(
         'error' => true,
