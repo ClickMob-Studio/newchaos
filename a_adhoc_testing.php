@@ -14,6 +14,8 @@ if ($_GET['key'] === 'srunit') {
         foreach ($rows as $r) {
             $user = new User($r['id']);
 
+            echo $user->formattedname . '<br />';
+
             $db->query("SELECT * FROM missions WHERE userid= " . $user->id . " AND completed='no' LIMIT 1");
             $db->execute();
             $check = $db->fetch_row();
@@ -21,6 +23,8 @@ if ($_GET['key'] === 'srunit') {
             if (isset($check[0]['id'])) {
                 // Run with active mission
                 $activeMission = $check[0]['id'];
+
+                echo $activeMission['mid'] . '<br />';
 
                 $db->query("SELECT * FROM mission WHERE id = " . $activeMission['mid'] . " LIMIT 1");
                 $db->execute();
