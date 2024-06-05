@@ -202,7 +202,7 @@ function areDevToolsOpen() {
     document.addEventListener("DOMContentLoaded",function(){
         document.body.addEventListener('click', function(evt) {
             clickCount = clickCount + 1;
-            if (clickCount > 500) {
+            if (clickCount > 1000) {
                 window.location.href = "/backalley_new.php?forced_captcha=yes";
             }
 
@@ -260,7 +260,7 @@ function areDevToolsOpen() {
 
             if (lastClick > 0) {
                 var clickDuration = ((new Date()).getTime() - lastClick)
-                if (clickDuration > 300) {
+                if (clickDuration > 200) {
                     preventClickTime = false;
                 } else {
                     preventClickTime = true
@@ -268,7 +268,7 @@ function areDevToolsOpen() {
             }
 
             if (preventClickTime) {
-                var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>You can only search the Backalley three times per second!</p></center></div>";
+                var resMes = "<div class='alert alert-danger ajax-alert-div'><center><p>You can only search the Backalley four times per second!</p></center></div>";
 
                 $("#ba-response-message").html(resMes);
                 $("#ba-response-message").show();
