@@ -13,12 +13,12 @@ header('Content-Type: application/json');
 
 try {
     $db->query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
-    $onlineNow = $db->num_rows();
     $rows = $db->fetch_row();
    
     if ($rows === false) {
         throw new Exception('Error fetching rows from the database.');
     }
+    $onlineNow = count($rows);
 
     $store = array(); 
     foreach ($rows as $row) {
