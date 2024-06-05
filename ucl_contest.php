@@ -31,7 +31,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
 
     $mileCollected = 0;
     foreach ($milestones as $mile => $prize) {
-        if ($userCompLeaderboard['ba_milestone_collected'] < $mile && $userCompLeaderboard['ba_milestone_collected'] >= $mile) {
+        if ($userCompLeaderboard['ba_milestone_collected'] < $mile && $userCompLeaderboard['overall_ba_complete'] >= $mile) {
             $mileCollected = $mile;
 
             Send_Event($user_class->id, 'You collected your ' . number_format($mile, 0) . ' BA milestone and claimed ' . number_format($prize, 0) . ' points.');
