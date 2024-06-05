@@ -76,7 +76,7 @@ if ($_GET['key'] === 'srunit') {
                 // Check if any Crime missions
                 $db->query("SELECT * FROM mission WHERE category = 2 AND id NOT IN (" . join(',', $missionsComplete) . ")");
                 $db->execute();
-                $cmChecks = $db->fetch_row();
+                $cmChecks = $db->fetch_row(true);
                 var_dump($cmChecks);
 
                 // Check if any bust missions
