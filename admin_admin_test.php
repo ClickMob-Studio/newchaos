@@ -29,11 +29,12 @@ file_put_contents('php://stderr', "Headers: " . print_r($headers, true)); // Log
 if (isset($headers['Authorization'])) {
     $session_id = str_replace('Bearer ', '', $headers['Authorization']);
     file_put_contents('php://stderr', "Session ID from header: " . $session_id); // Log session ID
-    session_id($session_id);
-}
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+    if (session_status() === PHP_SESSION_ACTIVE) {
+        session_write_close(); // Close the current session if already started
+    }
+
+    session_id($session_id); // Set the session ID
 }
 
 file_put_contents('php://stderr', "Session after start: " . print_r($_SESSION, true)); // Log session data
@@ -64,3 +65,4 @@ try {
     file_put_contents('php://stderr', 'Error: ' . $e->getMessage());
     echo json_encode(["success" => false, "message" => "Server error. Please try again later."]);
 }
+?>
