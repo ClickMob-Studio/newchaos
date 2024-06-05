@@ -168,6 +168,8 @@ if ($bpCategory) {
     addToBpCategoryUser($bpCategory, $user_class, 'backalley', 1);
 }
 
+addToUserCompLeaderboard($user_class->id, 'ba_complete', 1);
+
 // ATTACKERS
 $baAttackerNames = array();
 $baAttackerNames[] = "Private Niev";
