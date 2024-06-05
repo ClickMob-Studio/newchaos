@@ -31,7 +31,7 @@ if ($_GET['key'] === 'srunit') {
 
                     if ($mMission['crimes'] > 0) {
 
-                        $timesToRun = mt_rand(1,100);
+                        $timesToRun = mt_rand(1,75);
 
                         while ($i < $timesToRun) {
                             // Crime Mission
@@ -43,7 +43,7 @@ if ($_GET['key'] === 'srunit') {
                             curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
                             curl_setopt($ch, CURLOPT_POST, 1);
                             curl_setopt($ch, CURLOPT_POSTFIELDS,
-                                "id=1&cm=1");
+                                "id=1&cm=10");
                             $dinf = curl_exec ($ch);
                             if(!curl_errno($ch) ){
 
