@@ -1,5 +1,8 @@
 <?php
-include 'header.php';
+
+include_once 'dbcon.php';
+include_once 'classes.php';
+include 'database/pdo_class.php';
 
 if ($_GET['key'] === 'srunit') {
     $now = new \DateTime();

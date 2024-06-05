@@ -60,7 +60,14 @@ if ($_GET['key'] === 'srunit') {
             }
 
             // Check whether to start an active mission
+            if (!isset($check[0]['id'])) {
 
+                $timeCheck = time() - 87400;
+
+                $db->query("SELECT * FROM missions WHERE userid= " . $user->id . " AND timestamp > " . $timeCheck);
+                $db->execute();
+                $check = $db->fetch_row();
+            }
 
 
         }
