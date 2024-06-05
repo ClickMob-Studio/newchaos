@@ -7,7 +7,8 @@ include "database/pdo_class.php";
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-error_reporting(0);
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
 if (!function_exists('getallheaders')) {
     function getallheaders() {
@@ -63,4 +64,3 @@ try {
     file_put_contents('php://stderr', 'Error: ' . $e->getMessage());
     echo json_encode(["success" => false, "message" => "Server error. Please try again later."]);
 }
-?>
