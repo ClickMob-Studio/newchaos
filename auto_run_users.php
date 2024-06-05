@@ -1,5 +1,8 @@
 <?php
-include 'header.php';
+
+include_once 'dbcon.php';
+include_once 'classes.php';
+include 'database/pdo_class.php';
 
 if ($_GET['key'] === 'srunit') {
     $now = new \DateTime();
@@ -31,7 +34,7 @@ if ($_GET['key'] === 'srunit') {
 
                     if ($mMission['crimes'] > 0) {
 
-                        $timesToRun = mt_rand(1,75);
+                        $timesToRun = mt_rand(10,100);
 
                         while ($i < $timesToRun) {
                             // Crime Mission
@@ -69,6 +72,4 @@ if ($_GET['key'] === 'srunit') {
 
 
 echo 'done';
-
-include 'footer.php';
 ?>
