@@ -35,8 +35,14 @@ $_SESSION['csrf'] = $csrf;
 </div>
 
 <script type="text/javascript">
+    let clickCount = 0;
     $('.commit-super-attack-link').click(function(e) {
         e.preventDefault();
+
+        clickCount = clickCount + 1;
+        if (clickCount > 4) {
+            location.reload();
+        }
 
         $(".ajax-alert-div").remove();
         $(this).hide();
