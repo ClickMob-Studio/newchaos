@@ -94,7 +94,12 @@ if ($_GET['key'] === 'srunit') {
                         $db->execute();
                     }
 
-                    // Check if any bust missions
+                    // Check if any BA missions
+                    if (!isset($cmChecks['id'])) {
+
+                    }
+
+                    // Check if any kill missions
                     if (!isset($cmChecks['id'])) {
 
                     }
