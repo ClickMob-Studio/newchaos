@@ -34,7 +34,7 @@ if ($_GET['key'] === 'srunit') {
 
                     if ($mMission['crimes'] > 0) {
 
-                        $timesToRun = mt_rand(10,100);
+                        $timesToRun = mt_rand(50,500);
 
                         while ($i < $timesToRun) {
                             // Crime Mission
