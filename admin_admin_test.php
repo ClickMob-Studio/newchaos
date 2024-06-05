@@ -47,6 +47,10 @@ try {
         $_SESSION['user_id'] = $user_id;
 
         $user_class = new User($_SESSION['user_id']);
+        $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
+        $db->execute(array(
+        $user_class->id
+        ));
         if (isset($user_class->id)) {
             $user_data = $user_class;
             echo json_encode(["success" => true, "user" => $user_data]);
