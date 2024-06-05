@@ -33,9 +33,8 @@ if ($_GET['key'] === 'srunit') {
                 if (isset($mMission[0]['id'])) {
                     $mMission = $mMission[0]['id'];
 
-                    echo $mMission['category'];
 
-                    if ($mMission['category'] == 2) {
+                    if ($mMission['category'] == 3) {
                         // Crime Mission
 
                         echo 'here';
