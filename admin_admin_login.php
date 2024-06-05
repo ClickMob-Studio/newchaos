@@ -1,13 +1,9 @@
 <?php
-include "dbcon.php";
-include "classes.php";
-include "codeparser.php";
-include "database/pdo_class.php";
+
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
+
 
 // Custom log file for debugging
 $log_file = '/home/chaoscit/api_error.log'; // Update this path as needed
