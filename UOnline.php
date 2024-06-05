@@ -10,7 +10,6 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 try {
-    $db = database::getInstance();
     $db->query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
     $rows = $db->fetch_row();
 
