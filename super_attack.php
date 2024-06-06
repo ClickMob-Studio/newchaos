@@ -35,13 +35,14 @@ $_SESSION['csrf'] = $csrf;
 </div>
 
 <script type="text/javascript">
-    let inProcess = false;
+    let inProcess = 0;
     $('.commit-super-attack-link').click(function(e) {
         e.preventDefault();
 
-        if (inProcess) {
+        if (inProcess > 0) {
             return false;
         }
+        inProcess = 1;
 
         $(".ajax-alert-div").remove();
         $(this).hide();
@@ -81,7 +82,7 @@ $_SESSION['csrf'] = $csrf;
             });
         }
 
-        location.reload(); 
+        location.reload();
     });
 </script>
 
