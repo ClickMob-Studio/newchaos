@@ -81,6 +81,10 @@ $_SESSION['csrf'] = $csrf;
 
                 }
             });
+
+            if (i > 19) {
+                location.reload();
+            }
         }
 
 
