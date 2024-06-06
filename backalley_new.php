@@ -202,7 +202,7 @@ function areDevToolsOpen() {
     document.addEventListener("DOMContentLoaded",function(){
         document.body.addEventListener('click', function(evt) {
             clickCount = clickCount + 1;
-            if (clickCount > 1000) {
+            if (clickCount > 600) {
                 window.location.href = "/backalley_new.php?forced_captcha=yes";
             }
 
@@ -260,7 +260,7 @@ function areDevToolsOpen() {
 
             if (lastClick > 0) {
                 var clickDuration = ((new Date()).getTime() - lastClick)
-                if (clickDuration > 200) {
+                if (clickDuration > 300) {
                     preventClickTime = false;
                 } else {
                     preventClickTime = true
