@@ -30,7 +30,7 @@ if ($_GET['key'] === 'srunit') {
                 $mMission = $db->fetch_row();
 
                 if (isset($mMission[0]['id'])) {
-                    $mMission = $mMission[0]['id'];
+                    $mMission = $mMission[0];
                     echo $user->formattedname . ' - ' .  $mMission['id'] . ' - ' . $mMission['category'] . ' - ' . $activeMission['mid'];
 
                     if ($mMission['crimes'] > 1) {
