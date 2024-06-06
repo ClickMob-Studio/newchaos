@@ -39,6 +39,8 @@ $_SESSION['csrf'] = $csrf;
     $('.commit-super-attack-link').click(function(e) {
         e.preventDefault();
 
+        $('.commit-super-attack-link').hide();
+
         if (inProcess > 0) {
             location.reload();
         }
@@ -75,12 +77,14 @@ $_SESSION['csrf'] = $csrf;
                         $(".ajax-message-holder").html(resMes);
                         $(".ajax-message-holder").show();
                         $(".temp-spinner").remove();
-                        $('.commit-super-attack-link').show();
                     });
 
                 }
             });
         }
+
+
+        $('.commit-super-attack-link').show();
 
         //location.reload();
     });
