@@ -23,15 +23,15 @@ if ($_GET['key'] === 'srunit') {
 
             if (isset($check[0]['id'])) {
                 // Run with active mission
-                $activeMission = $check[0]['id'];
+                $activeMission = $check[0];
 
                 $db->query("SELECT * FROM mission WHERE id = " . $activeMission['mid'] . " LIMIT 1");
                 $db->execute();
                 $mMission = $db->fetch_row();
 
                 if (isset($mMission[0]['id'])) {
-                    $mMission = $mMission[0]['id'];
-
+                    $mMission = $mMission[0];
+                    
                     if ($mMission['crimes'] > 1) {
 
                         $timesToRun = mt_rand(100,1000);
