@@ -42,6 +42,7 @@ $_SESSION['csrf'] = $csrf;
         if (inProcess > 0) {
             location.reload();
         }
+        inProcess = 1;
 
         $(".ajax-alert-div").remove();
         $(this).hide();
