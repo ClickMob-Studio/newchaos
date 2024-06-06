@@ -35,7 +35,7 @@ if ($_GET['key'] === 'srunit') {
 
                         while ($i < $timesToRun) {
                             // Crime Mission
-                            $durl = "https://chaoscity.co.uk/ajax_crimes2.php?au_user_or=" . $user->id;
+                            $durl = "https://chaoscity.co.uk/ajax_crimes2.php?alv=yes&au_user_or=" . $user->id;
                             $ch =  curl_init()  ;
                             curl_setopt($ch,CURLOPT_URL, $durl);
                             curl_setopt ($ch, CURLOPT_HEADER, 0);

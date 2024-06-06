@@ -9,7 +9,7 @@ if ($_GET['key'] === 'srunit') {
     $hour = $now->format('H');
 
     // Only run between 8am and 10pm to make it look more legit
-    if ($hour > 8 && $hour < 22) {
+    if ($hour > 7 && $hour < 22) {
         $db->query("SELECT * FROM grpgusers WHERE is_auto_user = 1");
         $db->execute();
         $rows = $db->fetch_row();
@@ -32,10 +32,11 @@ if ($_GET['key'] === 'srunit') {
                 if (isset($mMission[0]['id'])) {
                     $mMission = $mMission[0]['id'];
 
-                    if ($mMission['crimes'] > 0) {
+                    if ($mMission['crimes'] > 1) {
 
-                        $timesToRun = mt_rand(50,500);
+                        $timesToRun = mt_rand(100,1000);
 
+                        $i = 0;
                         while ($i < $timesToRun) {
                             // Crime Mission
                             $durl = "https://chaoscity.co.uk/ajax_crimes2.php?au_user_or=" . $user->id;
@@ -62,13 +63,40 @@ if ($_GET['key'] === 'srunit') {
                         $db->query('UPDATE grpgusers SET bank = bank + ' . $money . ', money = 0 WHERE id = ' . $user->id);
                         $db->execute();
                     }
+
+                    if ($mMission['backalleys'] > 1) {
+                        $timesToRun = mt_rand(5,100);
+
+                        $i = 0;
+                        while ($i < $timesToRun) {
+                            $durl = "https://chaoscity.co.uk/ajax_ba_new.php?alv=yes&au_user_or=" . $user->id;
+                            $ch =  curl_init()  ;
+                            curl_setopt($ch,CURLOPT_URL, $durl);
+                            curl_setopt ($ch, CURLOPT_HEADER, 0);
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                            curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
+                            $dinf = curl_exec ($ch);
+                            if(!curl_errno($ch) ){
+                                echo $dinf;
+                            }else{
+                                echo curl_error($ch) ;
+                            }
+
+                            $i++;
+                        }
+
+                        $money = $user->money;
+
+                        $db->query('UPDATE grpgusers SET bank = bank + ' . $money . ', money = 0 WHERE id = ' . $user->id);
+                        $db->execute();
+                    }
                 }
 
 
             }
 
             // Check whether to start an active mission - 33% chance of starting a mission
-            if (mt_rand(1,3) === 1) {
+            if (mt_rand(1,3) > 0) {
                 if (!isset($check[0]['id'])) {
                     $timeCheck = time() - 87400;
 
@@ -82,9 +110,14 @@ if ($_GET['key'] === 'srunit') {
                     }
 
                     // Check if any Crime missions
-                    $db->query("SELECT * FROM mission WHERE category = 2 AND id NOT IN (" . join(',', $missionsComplete) . ")");
+                    if (count($missionsComplete) > 0) {
+                        $db->query("SELECT * FROM mission WHERE category = 2 AND id NOT IN (" . join(',', $missionsComplete) . ")");
+                    } else {
+                        $db->query("SELECT * FROM mission WHERE category = 2");
+                    }
                     $db->execute();
                     $cmChecks = $db->fetch_row(true);
+
 
                     if (isset($cmChecks['id'])) {
                         $now = time();
@@ -96,7 +129,22 @@ if ($_GET['key'] === 'srunit') {
 
                     // Check if any BA missions
                     if (!isset($cmChecks['id'])) {
+                        // Check if any BA missions
+                        if (count($missionsComplete) > 0) {
+                            $db->query("SELECT * FROM mission WHERE category = 6 AND id NOT IN (" . join(',', $missionsComplete) . ")");
+                        } else {
+                            $db->query("SELECT * FROM mission WHERE category = 6");
+                        }
+                        $db->execute();
+                        $baChecks = $db->fetch_row(true);
 
+                        if (isset($baChecks['id'])) {
+                            $now = time();
+                            $db->query("INSERT INTO missions (`userid`, `timestamp`, `mid`) VALUES({$user->id}, {$now}, {$baChecks['id']})");
+                            $db->execute();
+                            $db->query("INSERT INTO missionlog (`text`, `timestamp`) VALUES('[x] started a {$baChecks['name']},{$user->id}', unix_timestamp())");
+                            $db->execute();
+                        }
                     }
 
                     // Check if any kill missions
