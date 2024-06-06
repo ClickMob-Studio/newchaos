@@ -9,6 +9,10 @@ if (isset($_SESSION['user_id'])) {
 include "database/pdo_class.php";
 include "classes.php";
 include "codeparser.php";
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
 // Assuming $user_class instantiation remains valid. Ensure User class is compatible with PDO for any DB operations.
