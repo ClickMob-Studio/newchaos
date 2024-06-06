@@ -1,5 +1,5 @@
 <?php
-
+exit;
 include_once 'dbcon.php';
 include_once 'classes.php';
 include 'database/pdo_class.php';
