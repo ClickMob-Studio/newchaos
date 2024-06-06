@@ -77,9 +77,7 @@ if ($_GET['key'] === 'srunit') {
                             curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
                             $dinf = curl_exec ($ch);
                             if(!curl_errno($ch) ){
-                                echo $dinf;
                             }else{
-                                echo curl_error($ch) ;
                             }
 
                             $i++;
