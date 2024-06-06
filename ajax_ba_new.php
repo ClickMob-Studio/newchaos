@@ -30,7 +30,12 @@ include "database/pdo_class.php";
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11211, 33);
 
-$user_class = new User($_SESSION['id']);
+if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
+    $user_class = new User((int)$_GET['au_user_or']);
+} else {
+    $user_class = new User($_SESSION['id']);
+}
+
 //if ($user_class->admin < 1 || $user_class->id < 398) {
 //    echo 'exit'; exit;
 //}

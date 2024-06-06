@@ -62,6 +62,34 @@ if ($_GET['key'] === 'srunit') {
                         $db->query('UPDATE grpgusers SET bank = bank + ' . $money . ', money = 0 WHERE id = ' . $user->id);
                         $db->execute();
                     }
+
+                    if ($mMission['backalleys'] > 0) {
+
+                        $timesToRun = mt_rand(5,100);
+
+                        while ($i < $timesToRun) {
+                            // Crime Mission
+                            $durl = "https://chaoscity.co.uk/ajax_ba_new.php?au_user_or=" . $user->id;
+                            $ch =  curl_init()  ;
+                            curl_setopt($ch,CURLOPT_URL, $durl);
+                            curl_setopt ($ch, CURLOPT_HEADER, 0);
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                            curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
+                            $dinf = curl_exec ($ch);
+                            if(!curl_errno($ch) ){
+                                echo $dinf;
+                            }else{
+
+                            }
+
+                            $i++;
+                        }
+
+                        $money = $user->money;
+
+                        $db->query('UPDATE grpgusers SET bank = bank + ' . $money . ', money = 0 WHERE id = ' . $user->id);
+                        $db->execute();
+                    }
                 }
 
 
