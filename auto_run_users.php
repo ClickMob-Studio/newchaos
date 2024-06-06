@@ -79,7 +79,7 @@ if ($_GET['key'] === 'srunit') {
                             if(!curl_errno($ch) ){
                                 echo $dinf;
                             }else{
-
+                                echo curl_error($ch) ;
                             }
 
                             $i++;
