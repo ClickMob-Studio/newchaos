@@ -64,11 +64,11 @@ if ($_GET['key'] === 'srunit') {
                     }
 
                     if ($mMission['backalleys'] > 0) {
+                        echo 'ba'; exit;
 
                         $timesToRun = mt_rand(5,100);
 
                         while ($i < $timesToRun) {
-                            // Crime Mission
                             $durl = "https://chaoscity.co.uk/ajax_ba_new.php?au_user_or=" . $user->id;
                             $ch =  curl_init()  ;
                             curl_setopt($ch,CURLOPT_URL, $durl);
