@@ -101,7 +101,22 @@ if ($_GET['key'] === 'srunit') {
 
                     // Check if any BA missions
                     if (!isset($cmChecks['id'])) {
+                        // Check if any BA missions
+                        if (count($missionsComplete) > 0) {
+                            $db->query("SELECT * FROM mission WHERE category = 6 AND id NOT IN (" . join(',', $missionsComplete) . ")");
+                        } else {
+                            $db->query("SELECT * FROM mission WHERE category = 6");
+                        }
+                        $db->execute();
+                        $baChecks = $db->fetch_row(true);
 
+                        if (isset($baChecks['id'])) {
+                            $now = time();
+                            $db->query("INSERT INTO missions (`userid`, `timestamp`, `mid`) VALUES({$user->id}, {$now}, {$baChecks['id']})");
+                            $db->execute();
+                            $db->query("INSERT INTO missionlog (`text`, `timestamp`) VALUES('[x] started a {$baChecks['name']},{$user->id}', unix_timestamp())");
+                            $db->execute();
+                        }
                     }
 
                     // Check if any kill missions
