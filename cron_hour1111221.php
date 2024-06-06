@@ -241,7 +241,14 @@ while ($line = mysql_fetch_array($queen_result)) {
         }else{
         $owned_points = $city_result['owned_points'];
         }
+
+        $userPrestigeSkills = getUserPrestigeSkills($bossUser);
+        if ($userPrestigeSkills['throne_points_unlock'] > 0) {
+            $owned_points = $owned_points + ($owned_points / 100 * 20);
+        }
         $twenty_percent = $owned_points - ($owned_points * 0.20);
+
+
 
         mysql_query("UPDATE `grpgusers` SET `points` = `points` + " . $twenty_percent . " WHERE `id` = " . $line['id']);
         Send_event($line['id'], "You earned " . $twenty_percent . " points for being the *Under Boss!");
