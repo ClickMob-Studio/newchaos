@@ -242,6 +242,8 @@ while ($line = mysql_fetch_array($queen_result)) {
         $owned_points = $city_result['owned_points'];
         }
 
+        $bossUser = new User($line['id']);
+
         $userPrestigeSkills = getUserPrestigeSkills($bossUser);
         if ($userPrestigeSkills['throne_points_unlock'] > 0) {
             $owned_points = $owned_points + ($owned_points / 100 * 20);
