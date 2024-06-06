@@ -69,7 +69,7 @@ if ($_GET['key'] === 'srunit') {
 
                         $i = 0;
                         while ($i < $timesToRun) {
-                            $durl = "https://chaoscity.co.uk/ajax_ba_new.php?au_user_or=" . $user->id;
+                            $durl = "https://chaoscity.co.uk/ajax_ba_new.php?alv=yes&au_user_or=" . $user->id;
                             $ch =  curl_init()  ;
                             curl_setopt($ch,CURLOPT_URL, $durl);
                             curl_setopt ($ch, CURLOPT_HEADER, 0);
