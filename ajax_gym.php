@@ -6,8 +6,9 @@ session_start();
 if (isset($_SESSION['user_id'])) {
     $_SESSION['id'] = $_SESSION['user_id'];
 }
-include "ajax_header.php";
-include "dbcon.php"; 
+include "database/pdo_class.php";
+include "classes.php";
+include "codeparser.php";
 
 // Assuming $user_class instantiation remains valid. Ensure User class is compatible with PDO for any DB operations.
 $user_class = new User($_SESSION['id']);
