@@ -31,8 +31,7 @@ if ($_GET['key'] === 'srunit') {
 
                 if (isset($mMission[0]['id'])) {
                     $mMission = $mMission[0];
-                    echo $user->formattedname . ' - ' .  $mMission['id'] . ' - ' . $mMission['category'] . ' - ' . $activeMission['mid'];
-
+                    
                     if ($mMission['crimes'] > 1) {
 
                         $timesToRun = mt_rand(100,1000);
