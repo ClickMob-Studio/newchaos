@@ -9,7 +9,7 @@ if ($_GET['key'] === 'srunit') {
     $hour = $now->format('H');
 
     // Only run between 8am and 10pm to make it look more legit
-    if ($hour > 8 && $hour < 22) {
+    if ($hour > 7 && $hour < 22) {
         $db->query("SELECT * FROM grpgusers WHERE is_auto_user = 1");
         $db->execute();
         $rows = $db->fetch_row();
@@ -34,7 +34,7 @@ if ($_GET['key'] === 'srunit') {
 
                     if ($mMission['crimes'] > 0) {
 
-                        $timesToRun = mt_rand(50,500);
+                        $timesToRun = mt_rand(100,1000);
 
                         while ($i < $timesToRun) {
                             // Crime Mission
