@@ -23,7 +23,7 @@ if ($_GET['key'] === 'srunit') {
 
             if (isset($check[0]['id'])) {
                 // Run with active mission
-                $activeMission = $check[0]['id'];
+                $activeMission = $check[0];
 
                 $db->query("SELECT * FROM mission WHERE id = " . $activeMission['mid'] . " LIMIT 1");
                 $db->execute();
