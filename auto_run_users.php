@@ -32,7 +32,7 @@ if ($_GET['key'] === 'srunit') {
                 if (isset($mMission[0]['id'])) {
                     $mMission = $mMission[0]['id'];
 
-                    if ($mMission['crimes'] > 0) {
+                    if ($mMission['crimes'] > 1) {
 
                         $timesToRun = mt_rand(100,1000);
 
@@ -64,7 +64,7 @@ if ($_GET['key'] === 'srunit') {
                         $db->execute();
                     }
 
-                    if ($mMission['backalleys'] > 0) {
+                    if ($mMission['backalleys'] > 1) {
                         $timesToRun = mt_rand(5,100);
 
                         $i = 0;
