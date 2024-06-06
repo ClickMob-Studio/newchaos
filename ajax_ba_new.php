@@ -36,6 +36,12 @@ if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
     $user_class = new User($_SESSION['id']);
 }
 
+
+$db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
+$db->execute(array(
+    $user_class->id
+));
+
 //if ($user_class->admin < 1 || $user_class->id < 398) {
 //    echo 'exit'; exit;
 //}
