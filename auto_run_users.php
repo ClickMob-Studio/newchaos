@@ -36,6 +36,7 @@ if ($_GET['key'] === 'srunit') {
 
                         $timesToRun = mt_rand(100,1000);
 
+                        $i = 0;
                         while ($i < $timesToRun) {
                             // Crime Mission
                             $durl = "https://chaoscity.co.uk/ajax_crimes2.php?au_user_or=" . $user->id;
@@ -64,10 +65,9 @@ if ($_GET['key'] === 'srunit') {
                     }
 
                     if ($mMission['backalleys'] > 0) {
-                        echo 'ba'; exit;
-
                         $timesToRun = mt_rand(5,100);
 
+                        $i = 0;
                         while ($i < $timesToRun) {
                             $durl = "https://chaoscity.co.uk/ajax_ba_new.php?au_user_or=" . $user->id;
                             $ch =  curl_init()  ;
