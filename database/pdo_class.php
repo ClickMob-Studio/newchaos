@@ -1,198 +1,213 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+session_start();
+if (isset($_SESSION['user_id'])) {
+    $_SESSION['id'] = $_SESSION['user_id'];
+}
 
-class database {
-    protected $last_query;
-    protected $conn;
-    private $host = "localhost";
-    private $user = "chaoscit_user";
-    private $pass = '3lrKBlrfMGl2ic14';
-    private $name = "chaoscit_game";
-    private $db;
-    private $stmt;
-    var $num_queries = 0;
-    var $queries = "";
-    static $inst = null;
-    static function getInstance() {
-        if (self::$inst == null)
-            self::$inst = new database();
-        return self::$inst;
-    }
-    private function __construct() {
-        mb_internal_encoding('UTF-8');
-        mb_regex_encoding('UTF-8');
-        mysqli_report(MYSQLI_REPORT_STRICT);
-        $dsn = 'mysql:host=' . $this->host . '; dbname=' . $this->name . '; charset=utf8';
-        $options = array(
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
-        );
-        try {
-            $this->db = new PDO($dsn, $this->user, $this->pass, $options);
-        } catch (PDOException $e) {
-            exit('<p><strong>CONSTRUCT ERROR</strong></p>' . $e->getMessage());
-        }
-        $this->query("SET collation_connection = 'utf8mb4_general_ci'");
-        $this->execute();
-    }
-    public function __destruct() {
-        if (!$this->db)
-            return null;
-        $this->db = null;
-        return null;
-    }
-    public function query($query) {
-        $this->last_query = $query;
-        $this->num_queries++;
-        try {
-            $this->stmt = $this->db->prepare($query);
-        } catch (PDOException $e) {
-            echo '<p><strong>QUERY ERROR</strong></p>' . $e->getMessage();
-            error_log($e->getMessage() . ' - ' . $_SERVER['PHP_SELF'] . ' - ' . __FILE__, 0);
-            exit;
-        }
-    }
-    public function prepare($query) {
-        try {
-            $this->db->prepare($query);
-        } catch (PDOException $e) {
-            echo '<p><strong>QUERY (PREPARE) ERROR</strong></p>' . $e->getMessage();
-            error_log($e->getMessage() . ' - ' . $_SERVER['PHP_SELF'] . ' - ' . __FILE__, 0);
-            exit;
-        }
-    }
-    public function bind($param, $value, $type = null) {
-        if (is_null($type))
-            switch (true) {
-                case is_int($value):
-                    $type = PDO::PARAM_INT;
-                    break;
-                case is_bool($value):
-                    $type = PDO::PARAM_BOOL;
-                    break;
-                case is_null($value):
-                    $type = PDO::PARAM_NULL;
-                    break;
-                default:
-                    $type = PDO::PARAM_STR;
-                    break;
-            }
-        try {
-            $this->stmt->bindValue($param, $value, $type);
-        } catch (PDOException $e) {
-            exit('<p><strong>BIND ERROR</strong></p>' . $e->getMessage());
-        }
-    }
-    public function execute(array $binds = null) {
-        if (!isset($this->stmt))
-            return false;
-        try {
-            if (count($binds) > 0)
-                return $this->stmt->execute($binds);
-            else
-                return $this->stmt->execute();
-        } catch (PDOException $e) {
-            echo "<p><strong>EXECUTION ERROR</strong></p>" . $e->getMessage() . " " .$this->last_query;
-            error_log($e->getMessage() . ' - ' . $_SERVER['PHP_SELF'] . ' - ' . __FILE__, 0);
-            exit;
-        }
-    }
-    public function fetch_row($shifted = false) {
-        if (!isset($this->stmt))
-            return null;
-        try {
-            $this->execute();
-            $ret = $this->stmt->fetchAll(PDO::FETCH_ASSOC);
-            if ($shifted === true)
-                $ret = array_shift($ret);
-            return $ret;
-        } catch (PDOException $e) {
-            exit('<p><strong>FETCH ROW ERROR</strong></p>' . $e->getMessage());
-        }
-    }
-    public function fetch_single() {
-        if (!isset($this->stmt))
-            return null;
-        try {
-            $this->execute();
-            return $this->stmt->fetchColumn(0);
-        } catch (PDOException $e) {
-            exit('<p><strong>FETCH SINGLE ERROR</strong></p>' . $e->getMessage());
-        }
-    }
-    public function fetch_object() {
-        if (!isset($this->stmt))
-            return null;
-        try {
-            $this->execute();
-            return $this->stmt->fetch(PDO::FETCH_OBJ);
-        } catch (PDOException $e) {
-            exit('<p><strong>FETCH OBJECT ERROR</strong></p>' . $e->getMessage());
-        }
-    }
-    public function affected_rows() {
-        try {
-            return $this->stmt->rowCount();
-        } catch (PDOException $e) {
-            exit('<p><strong>AFFECTED ROWS ERROR</strong></p>' . $e->getMessage());
-        }
-    }
-    public function num_rows() {
-        try {
-            return $this->stmt->fetchColumn();
-        } catch (PDOException $e) {
-            exit('<p><strong>NUM ROWS ERROR</strong></p>' . $e->getMessage());
-        }
-    }
-    public function insert_id() {
-        try {
-            return $this->db->lastInsertId();
-        } catch (PDOException $e) {
-            exit('<p><strong>LAST INSERT ID ERROR</strong></p>' . $e->getMessage());
-        }
-    }
-    public function query_error() {
-        if (!isset($_SESSION['userid']))
-            $_SESSION['userid'] = 0;
-        if ($_SESSION['userid'] == 2)
-            echo "<p><strong>QUERY ERROR:</strong> " . $this->error . "<br />Query was " . $this->last_query . "</p><br /><br />";
-        exit("An error has been detected");
-    }
-    public function escape($str) {
-        return $str;
-    }
-    public function tableExists($table) {
-        try {
-            $result = $this->db->query("SELECT 1 FROM `" . $table . "` LIMIT 1");
-        } catch (Exception $e) {
-            return false;
-        }
-        return $result !== false;
-    }
-    public function startTrans() {
-        return $this->db->beginTransaction();
-    }
-    public function endTrans() {
-        return $this->db->commit();
-    }
-    public function cancelTransaction() {
-        return $this->db->rollBack();
-    }
-    public function error() {
-        echo "<pre>";
-        var_dump($this->stmt->debugDumpParams());
-        echo "</pre>";
-    }
-    // Helper function(s)
-    public function truncate(array $tables = null) {
-        if (!count($tables))
-            return false;
-        $this->startTrans();
-        foreach ($tables as $table) {
-            $this->query('TRUNCATE TABLE ?');
-            $this->execute(array($table));
-        }
-        $this->endTrans();
+include "database/pdo_class.php";
+include "classes.php";
+include "codeparser.php";
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$m = new Memcache();
+$m->addServer('127.0.0.1', 11212, 33);
+
+$user_class = new User($_SESSION['id']);
+
+if ($m->get('crime.' . $user_class->id . time())) {
+    $m->increment('crime.' . $user_class->id . time());
+} else {
+    $m->set('crime.' . $user_class->id . time(), 1, MEMCACHE_COMPRESSED);
+}
+
+if ($m->get('crime.' . $user_class->id . time()) > 100) {
+    die("Error, going too fast.");
+}
+
+$lcl = $m->get('lastcrimeload.' . $user_class->id);
+$lpl = $m->get('lastpageload.' . $user_class->id);
+
+if ($lpl > $lcl) {
+    die("Error training.");
+}
+
+if (isset($_POST['amnt'])) {
+    security($_POST['amnt'], 'num');
+}
+
+if ($user_class->hospital > 0) {
+    die("You can't train at the gym if you are in the hospital.");
+}
+
+$modifier = 1.0;
+
+$query = "SELECT upgrade6 FROM gangs WHERE id = :gangId";
+$db->query($query);
+$db->bind(':gangId', $user_class->gang, PDO::PARAM_INT);
+$row = $db->fetch_row(true);
+
+if ($row) {
+    $upgrade_level = $row['upgrade6'];
+    $bonus_per_level = 0.05; // 5% per level
+    $modifier = isset($modifier) ? $modifier : 1;
+
+    if ($upgrade_level > 0) {
+        $bonus_percentage = $bonus_per_level * $upgrade_level; 
+        $modifier *= (1 + $bonus_percentage); 
     }
 }
-$db = database::getInstance();
+
+if (!isset($_POST['stat']) || !in_array($_POST['stat'], array('strength', 'defense', 'speed'))) {
+    die("Invalid stat.");
+}
+$stat = $_POST['stat'];
+
+$amount = isset($_POST['amnt']) ? (int)$_POST['amnt'] : 0; 
+
+$user_class->directawake -= round(0.75 * $amount);
+$modifier = 1.5; 
+
+$prestigeBonus = (0.20 * $user_class->prestige) + 1.5;
+$modifier = max($prestigeBonus, $modifier);
+
+if ($user_class->pack1 == 3) {
+    $modifier *= 1.20;
+}
+
+$user_class->directawake = max(0, $user_class->directawake);
+
+if (isset($_POST['what']) && $_POST['what'] == 'trainrefill') {
+    $ptsforawake = 100 - (($user_class->directawake / $user_class->directmaxawake) * 100);
+    $ptsreq = 10 + ceil($ptsforawake);
+    
+    if ($ptsreq > $user_class->points) {
+        die("You do not have enough points to train.");
+    }
+    
+    if (isset($_POST['amnt']) && $_POST['amnt'] <= $user_class->energy && $_POST['amnt'] > 0) {
+        $add = round($_POST['amnt'] * ($user_class->awake / 100 * 6 / 2) * $modifier);
+        $user_class->{$stat} += $add;
+        $user_class->dailytrains += $add;
+        $user_class->points -= $ptsreq;
+        
+        $stmt = "UPDATE grpgusers SET $stat = :stat, dailytrains = :dailytrains, points = points - :ptsreq, energy = :maxenergy WHERE id = :id";
+        $db->query($stmt);
+        $db->bind(':stat', $user_class->{$stat});
+        $db->bind(':dailytrains', $user_class->dailytrains);
+        $db->bind(':ptsreq', $ptsreq);
+        $db->bind(':maxenergy', $user_class->maxenergy);
+        $db->bind(':id', $user_class->id);
+        $db->execute();
+        
+        die("You trained with {$_POST['amnt']} energy and received " . prettynum($add) . " $stat.|" . number_format($user_class->points) . "|" . prettynum($user_class->{$stat}) . "|$user_class->maxenergy");
+    } else {
+        die("You don't have enough energy.");
+    }
+}
+
+if (isset($_POST['what']) && $_POST['what'] == 'train') {
+    $mega_train_multiplier = isset($_POST['mega_train']) && $_POST['mega_train'] === 'yes' ? 10 : 1;
+
+    if ($_POST['amnt'] <= $user_class->energy && $_POST['amnt'] > 0) {
+        $add = round($_POST['amnt'] * ($user_class->awake / 100 * 6 / 2) * $modifier);
+        $user_class->$stat += $add;
+        $user_class->dailytrains += $add;
+
+        $awakeReduction = round(0.03 * $_POST['amnt']); 
+        $user_class->directawake -= $awakeReduction;
+        $user_class->directawake = max(0, $user_class->directawake);
+
+        $ptsforawake = ceil(($awakeReduction / $user_class->directmaxawake) * 100);
+        $basePtsReq = 10 + $ptsforawake;
+        $ptsreq = $basePtsReq * $mega_train_multiplier;
+
+        if ($ptsreq > $user_class->points) {
+            die("You do not have enough points to train.");
+        }
+
+        $user_class->points -= $ptsreq;
+
+        $stmt = "UPDATE grpgusers SET $stat = :statValue, dailytrains = :dailyTrains, awake = :awake, energy = :energy, points = points - :ptsreq WHERE id = :userId";
+        $db->query($stmt);
+        $db->bind(':statValue', $user_class->{$stat});
+        $db->bind(':dailyTrains', $user_class->dailytrains);
+        $db->bind(':awake', $user_class->directawake);
+        $db->bind(':energy', $user_class->energy);
+        $db->bind(':ptsreq', $ptsreq);
+        $db->bind(':userId', $user_class->id);
+        $db->execute();
+        
+        $displayedEnergyUsed = $mega_train_multiplier == 10 ? $_POST['amnt'] * $mega_train_multiplier : $_POST['amnt'];
+        echo "You trained with " . $displayedEnergyUsed . " energy and received " . prettynum($add) . " $stat.|" . prettynum($user_class->$stat) . "|".genBars();
+        echo "|" . $user_class->energy;
+        exit;
+    } else {
+        die("You don't have enough energy.");
+    }
+}
+
+if (isset($_POST['what']) && $_POST['what'] == 'refill') {
+    if (!in_array($_POST['att'], ['energy', 'awake', 'both'])) {
+        die("Invalid stat.");
+    }
+
+    $att = $_POST['att'];
+    $pointsToUse = 0;
+
+    if ($att === 'energy' || $att === 'both') {
+        if ($user_class->energy == $user_class->maxenergy) {
+            die("Your energy is already full.");
+        }
+        if ($user_class->points < 10) {
+            die("You do not have enough points to refill your energy.");
+        }
+        $user_class->energy = $user_class->maxenergy;
+        $pointsToUse += 10; 
+    }
+
+    if ($att === 'awake' || $att === 'both') {
+        if ($user_class->directawake == $user_class->directmaxawake) {
+            die("Your awake is already full.");
+        }
+        $ptsForAwake = 100 - floor(($user_class->directawake / $user_class->directmaxawake) * 100);
+        if ($user_class->points < $ptsForAwake) {
+            die("You do not have enough points to refill your awake.");
+        }
+        $user_class->directawake = $user_class->directmaxawake;
+        $pointsToUse += $ptsForAwake;
+    }
+
+    if ($user_class->points < $pointsToUse) {
+        die("You do not have enough points.");
+    }
+
+    $stmt = "UPDATE grpgusers SET energy = :energy, awake = :awake, points = points - :pointsToUse WHERE id = :id";
+    $db->query($stmt);
+    $db->bind(':energy', $user_class->energy);
+    $db->bind(':awake', $user_class->directawake);
+    $db->bind(':pointsToUse', $pointsToUse);
+    $db->bind(':id', $user_class->id);
+    $db->execute();
+
+    $user_class->points -= $pointsToUse; 
+
+    $responseMessage = "You have refilled ";
+    if ($att === 'both') {
+        $responseMessage .= "your energy/awake for $pointsToUse points.";
+    } elseif ($att === 'energy') {
+        $responseMessage .= "your energy for 10 points.";
+    } else {
+        $responseMessage .= "your awake for $ptsForAwake points.";
+    }
+
+    $responseMessage .= "|" . number_format($user_class->points) . "|".genBars();
+    $responseMessage .= "|$user_class->energy";
+
+    die($responseMessage);
+}
+?>
