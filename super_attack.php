@@ -83,7 +83,7 @@ $_SESSION['csrf'] = $csrf;
             });
         }
 
-        location.reload();
+        //location.reload();
     });
 </script>
 
