@@ -40,6 +40,7 @@ $_SESSION['csrf'] = $csrf;
         e.preventDefault();
 
         if (inProcess > 0) {
+            console.log(inProcess);
             return false;
         }
         inProcess = 1;
