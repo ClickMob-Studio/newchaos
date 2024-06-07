@@ -493,11 +493,7 @@ foreach($achs as $head => $var){
 		}
 			echo'</td>';
 		$cur .= '<th>' . prettynum($ach['payout']) . ' Points</th>';
-
-		if ($i % 6 == 0) {
-		    echo '</tr><tr>';
-		}
-
+		
 		$i++;
 	}
 		echo'</tr>';
