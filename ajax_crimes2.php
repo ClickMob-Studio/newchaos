@@ -261,13 +261,11 @@ if (isset($_POST['id']) || isset($input['id'])) {
         if ($tempItemUse['nerve_vial_time'] > $now) {
             $extraCost = $cost / 2;
             $cost = ceil($cost - ($extraCost / 2));
+
+            Send_Event(2, $user_class->maxnerve . ' = ' . $cost);
         }
 
         $debug['cost'] = $cost;
-
-        if ($user_class->id == 97) {
-            Send_Event(2, $user_class->maxnerve . ' = ' . $cost);
-        }
 
         $user_class->nerve = $user_class->maxnerve;
 
