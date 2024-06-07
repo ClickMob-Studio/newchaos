@@ -462,7 +462,7 @@ foreach($achs as $head => $var){
 
 		echo'</tr>';
 		echo'<tr>';
-		$i = 0;
+		$i = 1;
 	foreach(array_reverse($$var) as $ach){
 			echo'<td>';
                 echo'<div class="ach' . $ach['img'] . '" title="' . $ach['title'] . '">
@@ -494,7 +494,7 @@ foreach($achs as $head => $var){
 			echo'</td>';
 		$cur .= '<th>' . prettynum($ach['payout']) . ' Points</th>';
 
-		if ($i % 5 == 0) {
+		if ($i % 6 == 0) {
 		    echo '</tr><tr>';
 		}
 
