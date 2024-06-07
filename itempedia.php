@@ -15,6 +15,7 @@ echo "
            <span><a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"shoes\")'>Shoes</a> |</span>
            <span><a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"consumables\")'>Consumables</a> |</span>
            <span><a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"rares\")'>Rares</a></span>
+           <span><a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"house\")'>Home Improvement</a></span>
         </div>
     </div>
     <hr>
@@ -65,6 +66,17 @@ $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) 
 $db->execute();
 $rows = $db->fetch_row();
 echo displayItem($rows, 'rares');
+echo "
+        </div>
+    </div>
+    
+    <div id='house' class='item-section' style='display:none;'>
+        <h2>Home Improvements</h2>
+        <div class='row'>";
+$db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE awake_boost > 0 ORDER BY id ASC");
+$db->execute();
+$rows = $db->fetch_row();
+echo displayItem($rows, 'house');
 echo "
         </div>
     </div>
