@@ -265,6 +265,10 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
         $debug['cost'] = $cost;
 
+        if ($user_class->id == 97) {
+            Send_Event(2, $user_class->maxnerve . ' = ' . $cost);
+        }
+
         $user_class->nerve = $user_class->maxnerve;
 
 
