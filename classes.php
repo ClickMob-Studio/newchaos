@@ -4,7 +4,19 @@ include_once "includes/functions.php";
 if (!isset($_SESSION['id'])) {
     error_reporting(0);
 }
-
+function shorthandNumber($number) {
+    if ($number >= 1000000000) { // Check if the number is at least a billion
+        $shorthand = round($number / 1000000000, 2) . 'B'; // Convert to billions, round to 2 decimal places, and append 'B'
+        return $shorthand;
+    } elseif ($number >= 1000000) { // Check if the number is at least a million
+        $shorthand = round($number / 1000000, 2) . 'M'; // Convert to millions, round to 2 decimal places, and append 'M'
+        return $shorthand;
+    } elseif ($number >= 1000) { // Check if the number is at least a thousand
+        $shorthand = round($number / 1000, 1) . 'k'; // Convert to thousands, round to 1 decimal place, and append 'k'
+        return $shorthand;
+    }
+    return number_format($number); // Return the original number if it's less than 1000
+}
 class User_Stats {
     function User_Stats($wutever) {
         global $db, $m;
@@ -397,6 +409,7 @@ $this->moddedspeed = round((($pet['spe'] + $worked['speed']) * ($this->shoesspee
         $this->exppercent = ($this->exp == 0) ? 0 : floor(($this->exp / $this->maxexp) * 100);
         $this->formattedexp = prettynum($this->exp) . " / " . prettynum($this->maxexp) . " [" . $this->exppercent . "%]";
         $this->money = ($this->money < 1) ? 0 : $this->money;
+        $this->shortmoney = shorthandNumber($this->money);
         $this->purehp = $worked['hp'];
         $this->hp = $this->purehp;
         $this->puremaxhp = floor($this->level * 50);
