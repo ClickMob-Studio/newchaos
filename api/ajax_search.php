@@ -96,12 +96,12 @@ function formatUName($id, $nogang = 0)
             $skull = $db->fetch_single();
 
             if ($skull !== false) {
-                $name .= " <img src='images/skullpres_" . $skull . ".png' title='Prestige ({$row['prestige']})' />";
+                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $skull . ".png' title='Prestige ({$row['prestige']})' />";
             } else {
-                $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
+                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
             }
         } else {
-            $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
+            $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
         }
     }
 
@@ -116,7 +116,6 @@ $response = [
 ];
 
 try {
-    $db = database::getInstance();
     $userId = $_POST['user_id']; 
     $user_class = new User($userId);
 
