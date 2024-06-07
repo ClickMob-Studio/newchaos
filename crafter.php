@@ -146,7 +146,7 @@ function displayTradeTile($trade) {
     global $user_class;
     $user_id = $user_class->id;
 
-    echo "<div class='trade-card'>";
+    echo "<div class='trade-card " . $trade['trade_group_name'] . "-card'>";
     
     // Display trade name
     echo "<h3>" . htmlspecialchars($trade['name']) . "</h3>";
