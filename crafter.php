@@ -212,10 +212,13 @@ $tradesResult = mysql_query($tradesQuery);
         <div class="shopkeeper-description">
             <h2>Welcome to the Crafting Station!</h2>
             <p>Here at the crafting, you can exchange items you've collected on your adventures for rare and powerful goods. Our friendly shopkeeper has a keen eye for value and will offer you the best deals for your treasures. Take a look and see what wonders await!</p>
+
+            <?php if ($user_class->admin > 0): ?>
+                <p><strong>Filter:</strong> Materials | Boosters</p>
+            <?php endif; ?>
         </div>
     </div>
 </div>
-
 
 <?php 
 $currentTimestamp = time(); // Current timestamp in seconds
