@@ -14,7 +14,7 @@ echo "
            <span> <a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"armors\")'>Armors</a> |</span>
            <span><a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"shoes\")'>Shoes</a> |</span>
            <span><a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"consumables\")'>Consumables</a> |</span>
-           <span><a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"rares\")'>Rares</a></span>
+           <span><a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"rares\")'>Rares</a> |</span>
            <span><a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"house\")'>Home Improvement</a></span>
         </div>
     </div>
