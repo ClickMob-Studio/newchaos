@@ -3,13 +3,13 @@ include "../database/pdo_class.php";
 include "../classes.php";
 include "../codeparser.php";
 error_reporting(0);
+
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-
 header("Content-Type: application/json; charset=UTF-8");
 
 $response = [
@@ -19,12 +19,12 @@ $response = [
 
 try {
     $db = database::getInstance();
-    $userId = $data['user_id']; // Get user_id from POST request
+    $userId = $_POST['user_id']; // Get user_id from POST request
     $user_class = new User($userId);
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $search = [];
-        
+
         if (isset($_POST['id'])) {
             $search['id'] = abs((int) $_POST['id']);
         }
