@@ -214,7 +214,7 @@ $tradesResult = mysql_query($tradesQuery);
             <p>Here at the crafting, you can exchange items you've collected on your adventures for rare and powerful goods. Our friendly shopkeeper has a keen eye for value and will offer you the best deals for your treasures. Take a look and see what wonders await!</p>
 
             <?php if ($user_class->admin > 0): ?>
-                <p><strong>Filter:</strong> Materials | Boosters</p>
+                <p><strong>Filter:</strong> <a href="crafter.php">All</a> | <a href="#" class="crafter-filter-link" data-type="Materials">Materials</a> | <a href="#" class="crafter-filter-link" data-type="Boosters">Boosters</a></p>
             <?php endif; ?>
         </div>
     </div>
@@ -292,5 +292,17 @@ if ($message) echo "<p class='trade-message'>$message</p>"; ?>
     }
     ?>
 </div>
+
+<script type="text/javascript">
+    $('.crafter-filter-link').click(function(e) {
+        e.preventDefault();
+        
+        var groupType = $(this).data('type');
+
+        $('.trade-card').hide();
+        $('.' + groupType + '-card').show();
+
+    });
+</script>
 
 <?php require "footer.php"; ?>
