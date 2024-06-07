@@ -17,9 +17,10 @@ $response = [
     'data' => null
 ];
 
+
 try {
     $db = database::getInstance();
-    $userId = $_POST['user_id']; // Get user_id from POST request
+    $userId = $_POST['user_id']; 
     $user_class = new User($userId);
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -117,11 +118,16 @@ try {
         $limit = ($user_class->rmdays > 0) ? 20 : 10;
         $sql .= " ORDER BY rand() DESC LIMIT " . (int)$limit;
 
-        $db->query("SELECT username FROM `grpgusers` WHERE $sql");
+        $db->query("SELECT id, username, level, money, city, gang, lastactive, hp FROM `grpgusers` WHERE $sql");
         $db->execute($bindParams);
         $results = $db->fetch_row();
 
         if ($results) {
+    
+            foreach ($results as &$result) {
+                $result['username'] = formatName($result['username']);
+            }
+
             $response['status'] = 'success';
             $response['data'] = $results;
         } else {
