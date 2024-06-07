@@ -2477,6 +2477,8 @@ foreach ($rows as $row) {
             $subtype = 'armor';
         if ($row['speed'])
             $subtype = 'shoes';
+    } elseif ($row['awake_boost'] > 0) {
+            $type = 'house';
     } else
         $type = 'consumable';
     }
