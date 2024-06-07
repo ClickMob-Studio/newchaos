@@ -59,7 +59,6 @@ function formatUName($id, $nogang = 0)
     if ($bdays) {
         $name .= "<span style='color: $whichfont;'>{$row['username']}</span>";
     } elseif (!empty($row['image_name']) && $row['pdimgname'] > 0) {
-        $name .= "<span style='color: $whichfont;'>{$row['username']}</span>";
         $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='" . $row['username'] . "' />";
     } elseif ($row['gndays']) {
         $name .= "<span style='color: $whichfont;'>" . nameGen($row['gndays'], $row['rmdays'], $row['uninfo'], $row['username']) . "</span>";
