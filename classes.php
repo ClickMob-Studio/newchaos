@@ -410,6 +410,20 @@ $this->moddedspeed = round((($pet['spe'] + $worked['speed']) * ($this->shoesspee
         } elseif ($this->bank >= 1000) { // Check if the number is at least a thousand
             $this->shortBank = round($this->bank / 1000, 1) . 'k'; // Convert to thousands, round to 1 decimal place, and append 'k'
         }
+        if ($this->points >= 1000000000) { // Check if the number is at least a billion
+            $this->shortPoints = round($this->points / 1000000000, 2) . 'B'; // Convert to billions, round to 2 decimal places, and append 'B'
+        } elseif ($this->points >= 1000000) { // Check if the number is at least a million
+            $this->shortPoints = round($this->points / 1000000, 2) . 'M'; // Convert to millions, round to 2 decimal places, and append 'M'
+        } elseif ($this->points >= 1000) { // Check if the number is at least a thousand
+            $this->shortPoints = round($this->points / 1000, 1) . 'k'; // Convert to thousands, round to 1 decimal place, and append 'k'
+        }
+        if ($this->credits >= 1000000000) { // Check if the number is at least a billion
+            $this->shortCredits = round($this->credits / 1000000000, 2) . 'B'; // Convert to billions, round to 2 decimal places, and append 'B'
+        } elseif ($this->credits >= 1000000) { // Check if the number is at least a million
+            $this->shortCredits = round($this->credits / 1000000, 2) . 'M'; // Convert to millions, round to 2 decimal places, and append 'M'
+        } elseif ($this->credits >= 1000) { // Check if the number is at least a thousand
+            $this->shortCredits = round($this->credits / 1000, 1) . 'k'; // Convert to thousands, round to 1 decimal place, and append 'k'
+        }
         $this->purehp = $worked['hp'];
         $this->hp = $this->purehp;
         $this->puremaxhp = floor($this->level * 50);
