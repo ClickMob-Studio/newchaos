@@ -12,6 +12,115 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json; charset=UTF-8");
+function formatUName($id, $nogang = 0)
+{
+    global $db, $m;
+    $name = "";
+    if ($nogang == 0 && $id != 864 && !empty($rtn = $m->get('formatName.' . $id)))
+        return $rtn;
+    $db->query("SELECT username, gang, admin, rmdays, gm, colours, image_name, pdimgname, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
+    $db->execute(array($id));
+    $row = $db->fetch_row(true);
+
+    if ($row['gang'] != 0 && $nogang != 1) {
+        $name .= "<a href='viewgang.php?id={$row['gang']}'>";
+        if ($row['formattedTag'] == "Yes") {
+            $name .= ($row['leader'] == $id) 
+                ? " title='Gang Leader'><span style='color: grey;'>[<b>" . gradientTag($row['gang']) . "</b>]</span></a> " 
+                : "><span style='color: grey;'>[" . gradientTag($row['gang']) . "]</span></a> ";
+        } else {
+            $name .= ($row['leader'] == $id) 
+                ? " title='Gang Leader'><span style='color: blue;'>[<b>{$row['tag']}</b>]</span></a> " 
+                : "><span style='color: white;'>[{$row['tag']}]</span></a> ";
+        }
+    }
+
+    $db->query("SELECT days FROM bans WHERE id = ? AND type IN ('perm','freeze')");
+    $db->execute(array($id));
+    $bdays = $db->fetch_single();
+
+    if ($bdays) {
+        $title = "Banned";
+        $whichfont = "#FFFFFF";
+    } elseif ($row['admin'] == 1) {
+        $title = "Admin";
+        $whichfont = "#FF1111";
+    } elseif ($row['gm'] == 1) {
+        $title = "Chat Moderator";
+        $whichfont = "#FFFFFF";
+    } elseif ($row['rmdays'] >= 1) {
+        $title = "VIP ({$row['rmdays']} VIP Days Left)";
+        $whichfont = "#00BF03";
+    } else {
+        $title = "Not Respected";
+        $whichfont = "#009102";
+    }
+
+    if ($bdays) {
+        $name .= "<a title='$title' href='profiles.php?id=$id'>&nbsp;<span style='color: $whichfont;'>{$row['username']}</s></span></a>";
+    } elseif (!empty($row['image_name']) && $row['pdimgname'] > 0) {
+        $name .= ($row['admin'] == 1 || $row['gm'] == 1) 
+            ? "<a title='" . $title . " [" . $row['username'] . "]' href='profiles.php?id=" . $id . "'>" 
+            : "<a title='" . $title . "' href='profiles.php?id=" . $id . "'>";
+        $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='" . $row['username'] . "' />";
+        $name .= ($row['admin'] == 1 || $row['gm'] == 1) ? "</a>" : "</a>";
+    } elseif ($row['gndays']) {
+        $name .= "<a href='profiles.php?id=" . $id . "'>" . nameGen($row['gndays'], $row['rmdays'], $row['uninfo'], $row['username']) . "</a>";
+    } elseif (!empty($row['colours']) && $row['gradient'] == 2 && $row['gndays']) {
+        $row['colours'] = str_replace('#', '', $row['colours']);
+        $colours = explode("~", $row['colours']);
+        $gradient = text_gradient($colours[0], $colours[1], 1, $row['username']);
+        $name .= ($row['admin'] == 1 || $row['gm'] == 1) 
+            ? "<b><i><a title='" . $title . "' href='profiles.php?id=" . $id . "'>" 
+            : "<b><a title='" . $title . "' href='profiles.php?id=" . $id . "'>";
+        $name .= $gradient;
+        $name .= ($row['admin'] == 1 || $row['gm'] == 1) ? "</a></u></b>" : "</a></b>";
+    } elseif (!empty($row['colours']) && $row['gradient'] == 3 && $row['gndays']) {
+        $row['colours'] = str_replace('#', '', $row['colours']);
+        $gn = explode("~", $row['colours']);
+        $username = $row['username'];
+        $half = (int) ((strlen($username) / 2));
+        $left = substr($username, 0, $half);
+        $right = substr($username, $half);
+        $gradient = text_gradient($gn[0], $gn[1], 1, $left);
+        $gradient .= text_gradient($gn[1], $gn[2], 1, $right);
+        if ($id == 146)
+            $gradient = "<span style='text-shadow: 0 0 2px #404200;letter-spacing:-1px;font-weight:900;font-size:16px;'>$gradient</span>";
+        $name .= ($row['admin'] == 1 || $row['gm'] == 1) 
+            ? "<b><i><a title='" . $title . "' href='profiles.php?id=" . $id . "'>" 
+            : "<b><a title='" . $title . "' href='profiles.php?id=" . $id . "'>";
+        $name .= $gradient;
+        $name .= ($row['admin'] == 1 || $row['gm'] == 1) ? "</a></i></b>" : "</a></b>";
+    } elseif ($id == 146) {
+        $name .= "<a title='$title' href='profiles.php?id=$id'>{$row['username']}</a>";
+    } elseif ($row['admin'] == 1 || $row['gm'] == 1) {
+        $name .= "<i><b><a title='$title' href='profiles.php?id=$id'><span style='color: $whichfont;'>{$row['username']}</span></a></b></i>";
+    } elseif ($row['rmdays'] > 0) {
+        $name .= "<b><a title='$title' href='profiles.php?id=$id'><span style='color: $whichfont;'>{$row['username']}</span></a></b>";
+    } else {
+        $name .= "<a title='$title' href='profiles.php?id=$id'><span style='color: $whichfont;'>{$row['username']}</span></a>";
+    }
+
+    if ($row['prestige'] > 0) {
+        if ($row['prestige'] >= 10) {
+            $db->query("SELECT skull FROM prestige_skull WHERE `user_id` = ?");
+            $db->execute(array($id));
+            $skull = $db->fetch_single();
+
+            if ($skull !== false) {
+                $name .= " <img src='images/skullpres_" . $skull . ".png' title='Prestige ({$row['prestige']})' />";
+            } else {
+                $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
+            }
+        } else {
+            $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
+        }
+    }
+
+    if ($nogang == 0)
+        $m->set('formatName.' . $id, $name, false, 60);
+    return $name;
+}
 
 $response = [
     'status' => 'error',
@@ -20,7 +129,6 @@ $response = [
 
 
 try {
-    $db = database::getInstance();
     $userId = $_POST['user_id']; 
     $user_class = new User($userId);
 
@@ -126,7 +234,7 @@ try {
         if ($results) {
     
             foreach ($results as &$result) {
-                $result['username'] = formatName($result['username']);
+                $result['username'] = formatUName($result['username']);
             }
 
             $response['status'] = 'success';
