@@ -267,7 +267,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
             $cost = ceil($cost - ($extraCost / 2));
 
             if ($user_class->id == 97) {
-                Send_Event(2, '2: ' . $user_class->maxnerve . ' = ' . $cost);
+                Send_Event(2, '2: ' . $user_class->id . ' = ' . $user_class->maxnerve . ' = ' . $cost);
             }
         } else {
             if ($user_class->id == 97) {
