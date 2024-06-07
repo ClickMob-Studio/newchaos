@@ -19,7 +19,7 @@ $response = [
 
 try {
     $db = database::getInstance();
-    $userId = $_POST['user_id']; // Get user_id from POST request
+    $userId = $data['user_id']; // Get user_id from POST request
     $user_class = new User($userId);
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
