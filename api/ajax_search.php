@@ -2,6 +2,7 @@
 include "../database/pdo_class.php";
 include "../classes.php";
 include "../codeparser.php";
+include_once "includes/functions.php";
 error_reporting(0);
 
 $m = new Memcache();
