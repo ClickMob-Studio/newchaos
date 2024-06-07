@@ -117,7 +117,7 @@ try {
         $sql .= " ORDER BY rand() DESC LIMIT :limit";
         $bindParams[':limit'] = $limit;
 
-        $db->query("SELECT * FROM `grpgusers` WHERE $sql");
+        $db->query("SELECT username FROM `grpgusers` WHERE $sql");
         $db->execute($bindParams);
         $results = $db->fetch_row();
 
