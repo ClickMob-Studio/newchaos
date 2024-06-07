@@ -221,6 +221,8 @@ try {
         if ($results) {
             foreach ($results as &$result) {
                 $result['username'] = formatUName($result['id']);
+                $result['money'] = '$'.number_format($result['money']);
+                $result['lastactive'] = howlongago($result['lastactive']);
             }
 
             $response['status'] = 'success';
