@@ -76,7 +76,7 @@ echo "
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE awake_boost > 0 ORDER BY id ASC");
 $db->execute();
 $rows = $db->fetch_row();
-echo displayItem($rows, 'house');
+echo displayItem($rows);
 echo "
         </div>
     </div>
