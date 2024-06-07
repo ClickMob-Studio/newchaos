@@ -115,8 +115,7 @@ try {
         }
 
         $limit = ($user_class->rmdays > 0) ? 20 : 10;
-        $sql .= " ORDER BY rand() DESC LIMIT :limit";
-        $bindParams[':limit'] = $limit;
+        $sql .= " ORDER BY rand() DESC LIMIT " . (int)$limit;
 
         $db->query("SELECT username FROM `grpgusers` WHERE $sql");
         $db->execute($bindParams);
