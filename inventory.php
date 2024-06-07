@@ -2504,6 +2504,8 @@ foreach ($rows as $row) {
             $subtype = 'armor';
         if ($row['speed'])
             $subtype = 'shoes';
+    } elseif ($row['awake_boost'] > 0) {
+        $type = 'house';
     } else
         $type = 'consumable';
 
@@ -2527,7 +2529,8 @@ $master = array(
     'Shoes' => 'shoes',
     'Gang Loans' => 'loans',
     'Rares' => 'rare',
-    'Consumables' => 'consumable'
+    'Consumables' => 'consumable',
+    'Home Improvements' => 'house'
 );
 foreach ($master as $header => $var)
     if (isset($$var)) {
