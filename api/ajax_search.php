@@ -133,7 +133,7 @@ try {
     }
 } catch (Exception $e) {
     $response['status'] = 'error';
-    $response['data'] = $e->getMessage();
+    //$response['data'] = $e->getMessage();
 }
 
 echo json_encode($response);
