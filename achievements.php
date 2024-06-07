@@ -459,7 +459,7 @@ foreach($achs as $head => $var){
 	echo '<div class="table-container">';
 	echo'<table class="new_table" id="newtables" style="width:100%;">';
 		echo'<tr>';
-			echo'<th colspan="6">' . $head . '</td>';
+			echo'<th colspan="999">' . $head . '</td>';
 
 		echo'</tr>';
 		echo'<tr>';
