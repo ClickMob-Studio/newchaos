@@ -216,9 +216,7 @@ $tradesResult = mysql_query($tradesQuery);
             <h2>Welcome to the Crafting Station!</h2>
             <p>Here at the crafting, you can exchange items you've collected on your adventures for rare and powerful goods. Our friendly shopkeeper has a keen eye for value and will offer you the best deals for your treasures. Take a look and see what wonders await!</p>
 
-            <?php if ($user_class->admin > 0): ?>
-                <p><strong>Filter:</strong> <a href="crafter.php">All</a> | <a href="crafter.php?filter_results=Materials">Materials</a> | <a href="crafter.php?filter_results=Boosters">Boosters</a></p>
-            <?php endif; ?>
+            <p><strong>Filter:</strong> <a href="crafter.php">All</a> | <a href="crafter.php?filter_results=Materials">Materials</a> | <a href="crafter.php?filter_results=Boosters">Boosters</a></p>
         </div>
     </div>
 </div>
