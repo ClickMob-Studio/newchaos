@@ -23,7 +23,7 @@ function formatUName($id, $nogang = 0)
     $row = $db->fetch_row(true);
 
     if ($row['gang'] != 0 && $nogang != 1) {
-        $name .= "<a href='viewgang.php?id={$row['gang']}'>";
+        
         if ($row['formattedTag'] == "Yes") {
             $name .= ($row['leader'] == $id) 
                 ? " title='Gang Leader'><span style='color: grey;'>[<b>" . gradientTag($row['gang']) . "</b>]</span></a> " 
@@ -31,7 +31,7 @@ function formatUName($id, $nogang = 0)
         } else {
             $name .= ($row['leader'] == $id) 
                 ? " title='Gang Leader'><span style='color: blue;'>[<b>{$row['tag']}</b>]</span></a> " 
-                : "><span style='color: white;'>[{$row['tag']}]</span></a> ";
+                : "><span style='color: white;'>[{$row['tag']}]</span> ";
         }
     }
 
@@ -234,7 +234,7 @@ try {
         if ($results) {
     
             foreach ($results as &$result) {
-                $result['username'] = formatUName($result['username']);
+                $result['username'] = formatUName($result['id']);
             }
 
             $response['status'] = 'success';
