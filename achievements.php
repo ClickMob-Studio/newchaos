@@ -456,7 +456,8 @@ $achs = array(
 );
 foreach($achs as $head => $var){
 	$cur = '';
-	echo'<table id="newtables" style="width:100%;table-layout:fixed;">';
+	echo '<div class="table-container">';
+	echo'<table class="new_table" id="newtables" style="width:100%;">';
 		echo'<tr>';
 			echo'<th colspan="6">' . $head . '</td>';
 
@@ -493,13 +494,13 @@ foreach($achs as $head => $var){
 		}
 			echo'</td>';
 		$cur .= '<th>' . prettynum($ach['payout']) . ' Points</th>';
-		
+
 		$i++;
 	}
 		echo'</tr>';
 		echo'<tr>';
 			echo $cur;
-		echo'</tr></table>';
+		echo'</tr></table></div>';
 }
 echo '</div>';
 include 'footer.php';
