@@ -184,7 +184,7 @@ function displayTradeTile($trade) {
             if ($rewardItem) {
                 echo "<div class='reward-item'>";
                 echo "<img src='" . htmlspecialchars($rewardItem['image']) . "' alt='" . htmlspecialchars($rewardItem['itemname']) . "' style='width:50px; height:50px;'>"; // Control image size here
-                echo "<span class='reward-name'>Reward: " . htmlspecialchars($rewardItem['itemname']) . "</span>";
+                echo "<span class='reward-name'>Reward:<br /> " . htmlspecialchars($rewardItem['itemname']) . "</span>";
                 echo "</div>"; // Close reward-item
             }
         }
