@@ -2,6 +2,7 @@
 include "../database/pdo_class.php";
 include "../classes.php";
 include "../codeparser.php";
+error_reporting(0);
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
 
