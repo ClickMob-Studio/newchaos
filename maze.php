@@ -361,6 +361,18 @@ echo '
                 <img src="css/images/NewGameImages/exoticbooster.png" width="50" height="50" alt="Sapphire">
             </div>
         </div>
+        <br />
+         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
+         <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
+                <img src="css/images/NewGameImages/metal.png" width="50" height="50" alt="Metal">
+            </div>
+            <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
+                <img src="css/images/NewGameImages/wood.png" width="50" height="50" alt="Wood">
+            </div>
+            <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
+                <img src="css/images/NewGameImages/leather.png" width="50" height="50" alt="Leather">
+            </div>
+         </div>
     </div>
 
     <!-- Second table for Uncommon items -->
