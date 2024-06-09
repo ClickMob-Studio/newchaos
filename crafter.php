@@ -202,7 +202,7 @@ function displayTradeTile($trade) {
 
 // Fetch all the trades from the database
 $tradesQuery = "SELECT * FROM trades";
-if (isset($_GET['filter_results']) && in_array($_GET['filter_results'], array('Materials', 'Boosters'))) {
+if (isset($_GET['filter_results']) && in_array($_GET['filter_results'], array('Materials', 'Boosters', 'HI'))) {
     $tradesQuery .= " WHERE trade_group_name = '" . $_GET['filter_results'] . "'";
 }
 $tradesResult = mysql_query($tradesQuery);
