@@ -1,5 +1,5 @@
 <?php
-exit;
+
 include_once 'dbcon.php';
 include_once 'classes.php';
 include 'database/pdo_class.php';
@@ -34,7 +34,7 @@ if ($_GET['key'] === 'srunit') {
 
                     if ($mMission['crimes'] > 1) {
 
-                        $timesToRun = mt_rand(100,1000);
+                        $timesToRun = mt_rand(50,500);
 
                         $i = 0;
                         while ($i < $timesToRun) {
@@ -65,7 +65,7 @@ if ($_GET['key'] === 'srunit') {
                     }
 
                     if ($mMission['backalleys'] > 1) {
-                        $timesToRun = mt_rand(5,100);
+                        $timesToRun = mt_rand(5,25);
 
                         $i = 0;
                         while ($i < $timesToRun) {
