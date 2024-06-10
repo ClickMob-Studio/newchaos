@@ -20,6 +20,8 @@ function shorthandNumber($number) {
     return number_format($number); // Return the original number if it's less than 1000
 }
 
+$data = json_decode(file_get_contents("php://input"), true);
+
 if (isset($data['user_id'])) {
     $_SESSION['user_id'] = $data['user_id'];
     $_SESSION['id'] = $data['user_id'];
@@ -36,8 +38,6 @@ $m->addServer('127.0.0.1', 11211, 33);
 
 if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
     $user_class = new User((int)$_GET['au_user_or']);
-} else if (isset($_GET['user_id']) && (int)$_GET['user_id']) {
-    $user_class = new User((int)$_GET['user_id']);
 } else {
     $user_class = new User($_SESSION['id']);
 }
