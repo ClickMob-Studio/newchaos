@@ -29,68 +29,69 @@ if ($_GET['key'] === 'srunit') {
                 $db->execute();
                 $mMission = $db->fetch_row();
 
-                if (isset($mMission[0]['id'])) {
-                    $mMission = $mMission[0];
+                $runChance = mt(1,100);
+                if ($runChance > 10) {
+                    if (isset($mMission[0]['id'])) {
+                        $mMission = $mMission[0];
 
-                    if ($mMission['crimes'] > 1) {
+                        if ($mMission['crimes'] > 1) {
 
-                        $timesToRun = mt_rand(50,500);
+                            $timesToRun = mt_rand(50,500);
 
-                        $i = 0;
-                        while ($i < $timesToRun) {
-                            // Crime Mission
-                            $durl = "https://chaoscity.co.uk/ajax_crimes2.php?au_user_or=" . $user->id;
-                            $ch =  curl_init()  ;
-                            curl_setopt($ch,CURLOPT_URL, $durl);
-                            curl_setopt ($ch, CURLOPT_HEADER, 0);
-                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                            curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
-                            curl_setopt($ch, CURLOPT_POST, 1);
-                            curl_setopt($ch, CURLOPT_POSTFIELDS,
-                                "id=1&cm=20");
-                            $dinf = curl_exec ($ch);
-                            if(!curl_errno($ch) ){
+                            $i = 0;
+                            while ($i < $timesToRun) {
+                                // Crime Mission
+                                $durl = "https://chaoscity.co.uk/ajax_crimes2.php?au_user_or=" . $user->id;
+                                $ch =  curl_init()  ;
+                                curl_setopt($ch,CURLOPT_URL, $durl);
+                                curl_setopt ($ch, CURLOPT_HEADER, 0);
+                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                                curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
+                                curl_setopt($ch, CURLOPT_POST, 1);
+                                curl_setopt($ch, CURLOPT_POSTFIELDS,
+                                    "id=1&cm=20");
+                                $dinf = curl_exec ($ch);
+                                if(!curl_errno($ch) ){
 
-                            }else{
+                                }else{
 
+                                }
+
+                                $i++;
                             }
 
-                            $i++;
+                            $money = $user->money;
+
+                            $db->query('UPDATE grpgusers SET bank = bank + ' . $money . ', money = 0 WHERE id = ' . $user->id);
+                            $db->execute();
                         }
 
-                        $money = $user->money;
+                        if ($mMission['backalleys'] > 1) {
+                            $timesToRun = mt_rand(5,25);
 
-                        $db->query('UPDATE grpgusers SET bank = bank + ' . $money . ', money = 0 WHERE id = ' . $user->id);
-                        $db->execute();
-                    }
+                            $i = 0;
+                            while ($i < $timesToRun) {
+                                $durl = "https://chaoscity.co.uk/ajax_ba_new.php?alv=yes&au_user_or=" . $user->id;
+                                $ch =  curl_init()  ;
+                                curl_setopt($ch,CURLOPT_URL, $durl);
+                                curl_setopt ($ch, CURLOPT_HEADER, 0);
+                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                                curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
+                                $dinf = curl_exec ($ch);
+                                if(!curl_errno($ch) ){
+                                }else{
+                                }
 
-                    if ($mMission['backalleys'] > 1) {
-                        $timesToRun = mt_rand(5,25);
-
-                        $i = 0;
-                        while ($i < $timesToRun) {
-                            $durl = "https://chaoscity.co.uk/ajax_ba_new.php?alv=yes&au_user_or=" . $user->id;
-                            $ch =  curl_init()  ;
-                            curl_setopt($ch,CURLOPT_URL, $durl);
-                            curl_setopt ($ch, CURLOPT_HEADER, 0);
-                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                            curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
-                            $dinf = curl_exec ($ch);
-                            if(!curl_errno($ch) ){
-                            }else{
+                                $i++;
                             }
 
-                            $i++;
+                            $money = $user->money;
+
+                            $db->query('UPDATE grpgusers SET bank = bank + ' . $money . ', money = 0 WHERE id = ' . $user->id);
+                            $db->execute();
                         }
-
-                        $money = $user->money;
-
-                        $db->query('UPDATE grpgusers SET bank = bank + ' . $money . ', money = 0 WHERE id = ' . $user->id);
-                        $db->execute();
                     }
                 }
-
-
             }
 
             // Check whether to start an active mission - 33% chance of starting a mission
