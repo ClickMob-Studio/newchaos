@@ -54,11 +54,16 @@ try {
         if (isset($user_class->id)) {
             $user_data = $user_class;
 
-            $db->query("SELECT `count` FROM crimeranks WHERE userid = ?");
+            $db->query("SELECT `crimeid`, `count` FROM crimeranks WHERE userid = ?");
             $db->execute(array($user_class->id));
             $crimeRankResults = $db->fetch_row();
 
-            $user_data->crimeRanks = $crimeRankResults;
+            $crimeRankIndexedOnCrimeId = array();
+            foreach ($crimeRankResults as $crimeRankResult) {
+                $crimeRankIndexedOnCrimeId[$crimeRankResult['crimeid']] = $crimeRankResult;
+            }
+
+            $user_data->crimeRanks = $crimeRankIndexedOnCrimeId;
 
             echo json_encode(["success" => true, "user" => $user_data]);
         } else {
