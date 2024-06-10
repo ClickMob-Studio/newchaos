@@ -17,6 +17,11 @@ function shorthandNumber($number) {
     return number_format($number); // Return the original number if it's less than 1000
 }
 
+if (isset($data['user_id'])) {
+    $_SESSION['user_id'] = $data['user_id'];
+    $_SESSION['id'] = $data['user_id'];
+}
+
 include "classes.php";
 include "database/pdo_class.php";
 
