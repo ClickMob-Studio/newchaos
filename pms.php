@@ -338,7 +338,7 @@ if (isset($_GET['view']) && $_GET['view'] == "new") {
         </div>
         <div class="row mb-3">
             <label for="msgtext" class="col-sm-2 col-form-label"><b>Message:</b></label>
-            <div class="col-sm-10">
+            <div class="col-10">
                 <textarea class="form-control custom-input" id="msgtext" name="msgtext" style="height: 125px;" autofocus></textarea>
             </div>
         </div>
