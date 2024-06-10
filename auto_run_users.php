@@ -47,7 +47,7 @@ if ($_GET['key'] === 'srunit') {
                             curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
                             curl_setopt($ch, CURLOPT_POST, 1);
                             curl_setopt($ch, CURLOPT_POSTFIELDS,
-                                "id=1&cm=10");
+                                "id=1&cm=20");
                             $dinf = curl_exec ($ch);
                             if(!curl_errno($ch) ){
 
