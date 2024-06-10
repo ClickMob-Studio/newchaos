@@ -494,7 +494,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $debug['error'] = "Not Enough Nerve";
         //$logger->info("", $debug);
         echo json_encode(array(
-            'text' => "<b>You don't have enough nerve for that crime.</b>",
+            'text' => "You don't have enough nerve for that crime.",
             'debug' => $debug,
             'error' => 'refresh'
         ));
