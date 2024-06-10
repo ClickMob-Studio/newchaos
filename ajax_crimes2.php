@@ -84,7 +84,7 @@ $db->execute(array(
 
 if ($user_class->jail || $user_class->hospital) {
     echo json_encode(array(
-        'text' => "<b>You are not able to do crimes at the moment.</b>",
+        'text' => "You are not able to do crimes at the moment.",
         //'error' => 'refresh'
     ));
     $debug['error'] = "Jail OR Hospital";
