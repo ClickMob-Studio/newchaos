@@ -10,26 +10,25 @@ function handleEventsRequest($method, $path_info)
     global $db;
 
     switch ($method) {
-        case 'GET':
-            getEvents($db);
-            break;
-        case 'DELETE':
-            if (isset($path_info[1])) {
-                $action = $path_info[1];
-                if ($action == 'all') {
-                    deleteAllEvents($db);
-                } elseif ($action == 'attacks') {
-                    deleteEventsByType($db, 'attacked you');
-                } elseif ($action == 'mugs') {
-                    deleteEventsByType($db, 'mugged', 'mug you');
-                } elseif ($action == 'busts') {
-                    deleteEventsByType($db, 'busted out');
+        case 'POST':
+            $input = json_decode(file_get_contents('php://input'), true);
+            if (isset($input['action'])) {
+                $action = $input['action'];
+                if ($action == 'get') {
+                    getEvents($db, $input);
+                } elseif ($action == 'deleteAll') {
+                    deleteAllEvents($db, $input);
+                } elseif ($action == 'deleteByType') {
+                    deleteEventsByType($db, $input);
+                } elseif ($action == 'deleteById') {
+                    deleteEventById($db, $input);
                 } else {
-                    deleteEventById($db, $action);
+                    http_response_code(400);
+                    echo json_encode(['message' => 'Invalid Request']);
                 }
             } else {
                 http_response_code(400);
-                echo json_encode(['message' => 'Invalid Request']);
+                echo json_encode(['message' => 'Action not specified']);
             }
             break;
         default:
@@ -39,11 +38,11 @@ function handleEventsRequest($method, $path_info)
     }
 }
 
-function getEvents($db)
+function getEvents($db, $input)
 {
-    $user_id = $_GET['user_id'];
-    $search = isset($_GET['search']) ? '%' . $_GET['search'] . '%' : null;
-    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $user_id = $input['user_id'];
+    $search = isset($input['search']) ? '%' . $input['search'] . '%' : null;
+    $page = isset($input['page']) ? (int)$input['page'] : 1;
     $rowsperpage = 30;
     $offset = ($page - 1) * $rowsperpage;
 
@@ -64,23 +63,27 @@ function getEvents($db)
     echo json_encode($events);
 }
 
-function deleteAllEvents($db)
+function deleteAllEvents($db, $input)
 {
-    $user_id = $_GET['user_id'];
+    $user_id = $input['user_id'];
     $db->query("DELETE FROM events WHERE `to` = :user_id");
     $db->bind(':user_id', $user_id, PDO::PARAM_INT);
     $db->execute();
     echo json_encode(['message' => 'All events deleted']);
 }
 
-function deleteEventsByType($db, $type1, $type2 = null)
+function deleteEventsByType($db, $input)
 {
-    $user_id = $_GET['user_id'];
+    $user_id = $input['user_id'];
+    $type1 = $input['type1'];
+    $type2 = isset($input['type2']) ? $input['type2'] : null;
+    
     $query = "DELETE FROM events WHERE `to` = :user_id AND (`text` LIKE :type1";
     if ($type2) {
         $query .= " OR `text` LIKE :type2";
     }
     $query .= ")";
+    
     $db->query($query);
     $type1 = '%' . $type1 . '%';
     $db->bind(':user_id', $user_id, PDO::PARAM_INT);
@@ -93,9 +96,10 @@ function deleteEventsByType($db, $type1, $type2 = null)
     echo json_encode(['message' => 'Events deleted']);
 }
 
-function deleteEventById($db, $id)
+function deleteEventById($db, $input)
 {
-    $user_id = $_GET['user_id'];
+    $user_id = $input['user_id'];
+    $id = $input['id'];
     $db->query("DELETE FROM events WHERE id = :id AND `to` = :user_id");
     $db->bind(':id', $id, PDO::PARAM_INT);
     $db->bind(':user_id', $user_id, PDO::PARAM_INT);
