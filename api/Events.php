@@ -88,7 +88,7 @@ function getEvents($db, $input)
             function ($matches) use ($db) {
                 $userId = $matches[1];
                 $username = replaceUserIdWithUsername($db, '[-_USERID_-]', $userId);
-                return str_replace($matches[0], "<span style='color: inherit; text-decoration: none; display:inline;'>$username</span>", $matches[0]);
+                return "<span style='color: inherit; text-decoration: none; display:inline;'>$username</span>";
             },
             $event['text']
         );
