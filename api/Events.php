@@ -20,6 +20,7 @@ $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
 
 header('Content-Type: application/json');
+
 function handleEventsRequest($method, $path_info)
 {
     global $db;
@@ -87,7 +88,7 @@ function getEvents($db, $input)
             function ($matches) use ($db) {
                 $userId = $matches[1];
                 $username = replaceUserIdWithUsername($db, '[-_USERID_-]', $userId);
-                return str_replace('[-_USERID_-]', $username, $matches[0]);
+                return str_replace($matches[0], "<span style='color: inherit; text-decoration: none; display:inline;'>$username</span>", $matches[0]);
             },
             $event['text']
         );
@@ -107,12 +108,12 @@ function replaceUserIdWithUsername($db, $text, $userId)
     if ($row['gang'] != 0) {
         if ($row['formattedTag'] == "Yes") {
             $name .= ($row['leader'] == $userId) 
-                ? "<span style='color: grey;'>[<b>" . gradientTag($row['gang']) . "</b>]</span> " 
-                : "<span style='color: grey;'>[" . gradientTag($row['gang']) . "]</span> ";
+                ? "<span style='color: grey; display:inline;'>[<b>" . gradientTag($row['gang']) . "</b>]</span> " 
+                : "<span style='color: grey; display:inline;'>[" . gradientTag($row['gang']) . "]</span> ";
         } else {
             $name .= ($row['leader'] == $userId) 
-                ? "<span style='color: blue;'>[<b>{$row['tag']}</b>]</span> " 
-                : "<span style='color: white;'>[{$row['tag']}]</span> ";
+                ? "<span style='color: blue; display:inline;'>[<b>{$row['tag']}</b>]</span> " 
+                : "<span style='color: white; display:inline;'>[{$row['tag']}]</span> ";
         }
     }
 
@@ -138,16 +139,16 @@ function replaceUserIdWithUsername($db, $text, $userId)
     }
 
     if ($bdays) {
-        $name .= "<span style='color: $whichfont;'>{$row['username']}</span>";
+        $name .= "<span style='color: $whichfont; display:inline;'>{$row['username']}</span>";
     } elseif (!empty($row['image_name']) && $row['pdimgname'] > 0) {
-        $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='" . $row['username'] . "' />";
+        $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px; display:inline; vertical-align:middle;' title='" . $row['username'] . "' />";
     } elseif ($row['gndays']) {
-        $name .= "<span style='color: $whichfont;'>" . nameGen($row['gndays'], $row['rmdays'], $row['uninfo'], $row['username']) . "</span>";
+        $name .= "<span style='color: $whichfont; display:inline;'>" . nameGen($row['gndays'], $row['rmdays'], $row['uninfo'], $row['username']) . "</span>";
     } elseif (!empty($row['colours']) && $row['gradient'] == 2 && $row['gndays']) {
         $row['colours'] = str_replace('#', '', $row['colours']);
         $colours = explode("~", $row['colours']);
         $gradient = text_gradient($colours[0], $colours[1], 1, $row['username']);
-        $name .= "<span style='color: $whichfont;'><b><i>{$gradient}</i></b></span>";
+        $name .= "<span style='color: $whichfont; display:inline;'><b><i>{$gradient}</i></b></span>";
     } elseif (!empty($row['colours']) && $row['gradient'] == 3 && $row['gndays']) {
         $row['colours'] = str_replace('#', '', $row['colours']);
         $gn = explode("~", $row['colours']);
@@ -159,15 +160,15 @@ function replaceUserIdWithUsername($db, $text, $userId)
         $gradient .= text_gradient($gn[1], $gn[2], 1, $right);
         if ($userId == 146)
             $gradient = "<span style='text-shadow: 0 0 2px #404200;letter-spacing:-1px;font-weight:900;font-size:16px;'>$gradient</span>";
-        $name .= "<span style='color: $whichfont;'><b><i>{$gradient}</i></b></span>";
+        $name .= "<span style='color: $whichfont; display:inline;'><b><i>{$gradient}</i></b></span>";
     } elseif ($userId == 146) {
-        $name .= "<span style='color: $whichfont;'>{$row['username']}</span>";
+        $name .= "<span style='color: $whichfont; display:inline;'>{$row['username']}</span>";
     } elseif ($row['admin'] == 1 || $row['gm'] == 1) {
-        $name .= "<span style='color: $whichfont;'><i><b>{$row['username']}</b></i></span>";
+        $name .= "<span style='color: $whichfont; display:inline;'><i><b>{$row['username']}</b></i></span>";
     } elseif ($row['rmdays'] > 0) {
-        $name .= "<span style='color: $whichfont;'><b>{$row['username']}</b></span>";
+        $name .= "<span style='color: $whichfont; display:inline;'><b>{$row['username']}</b></span>";
     } else {
-        $name .= "<span style='color: $whichfont;'>{$row['username']}</span>";
+        $name .= "<span style='color: $whichfont; display:inline;'>{$row['username']}</span>";
     }
 
     if ($row['prestige'] > 0) {
@@ -177,12 +178,12 @@ function replaceUserIdWithUsername($db, $text, $userId)
             $skull = $db->fetch_single();
 
             if ($skull !== false) {
-                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $skull . ".png' title='Prestige ({$row['prestige']})' />";
+                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $skull . ".png' style='display:inline; vertical-align:middle;' title='Prestige ({$row['prestige']})' />";
             } else {
-                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
+                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' style='display:inline; vertical-align:middle;' title='Prestige ({$row['prestige']})' />";
             }
         } else {
-            $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
+            $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' style='display:inline; vertical-align:middle;' title='Prestige ({$row['prestige']})' />";
         }
     }
 
