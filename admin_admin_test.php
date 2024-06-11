@@ -65,6 +65,8 @@ try {
 
             $user_data->crimeRanks = $crimeRankIndexedOnCrimeId;
 
+            $user_class->medPackCount = check_items(14, $user_class->id)
+
             echo json_encode(["success" => true, "user" => $user_data]);
         } else {
             throw new Exception("User data not found.");
