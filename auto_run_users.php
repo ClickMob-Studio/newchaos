@@ -36,6 +36,15 @@ if ($_GET['key'] === 'srunit') {
 
                         if ($mMission['crimes'] > 1) {
 
+                            if ($user->nerref < 1) {
+                                $user->nerref = 2;
+                                $db->query("UPDATE grpgusers SET nerref = ?, nerreftime = unix_timestamp() WHERE id = ?");
+                                $db->execute(array(
+                                    $user_class->nerref,
+                                    $user_class->id
+                                ));
+                            }
+
                             $timesToRun = mt_rand(50,500);
 
                             $i = 0;
