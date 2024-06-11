@@ -30,7 +30,7 @@ if ($_GET['key'] === 'srunit') {
                 $mMission = $db->fetch_row();
 
                 $runChance = mt_rand(1,100);
-                if ($runChance > 5) {
+                if ($runChance > 15) {
                     if (isset($mMission[0]['id'])) {
                         $mMission = $mMission[0];
 
