@@ -1,22 +1,19 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 // Handle preflight requests
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
     exit();
 }
+
 include "../database/pdo_class.php";
-include "../classes.php";
-include "../codeparser.php";
-include_once "includes/functions.php";
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11212, 33);
 
 function handleEventsRequest($method, $path_info)
 {
@@ -74,9 +71,21 @@ function getEvents($db, $input)
     $events = $db->fetch_row();
 
     foreach ($events as &$event) {
+        // Replace the [-_USERID_-] placeholder
         if (strpos($event['text'], '[-_USERID_-]') !== false) {
             $event['text'] = replaceUserIdWithUsername($db, $event['text'], $event['extra']);
         }
+
+        // Extract and replace user IDs from profile links
+        $event['text'] = preg_replace_callback(
+            "/<a [^>]*href='profiles.php\?id=(\d+)'[^>]*>(.*?)<\/a>/",
+            function ($matches) use ($db) {
+                $userId = $matches[1];
+                $username = replaceUserIdWithUsername($db, '[-_USERID_-]', $userId);
+                return str_replace('[-_USERID_-]', $username, $matches[0]);
+            },
+            $event['text']
+        );
     }
 
     echo json_encode($events);
@@ -86,13 +95,11 @@ function replaceUserIdWithUsername($db, $text, $userId)
 {
     global $m;
     $name = "";
-    if ($nogang == 0 && $userId != 864 && !empty($rtn = $m->get('formatName.' . $userId)))
-        return $rtn;
     $db->query("SELECT username, gang, admin, rmdays, gm, colours, image_name, pdimgname, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
     $db->execute(array($userId));
     $row = $db->fetch_row(true);
 
-    if ($row['gang'] != 0 && $nogang != 1) {
+    if ($row['gang'] != 0) {
         if ($row['formattedTag'] == "Yes") {
             $name .= ($row['leader'] == $userId) 
                 ? "<span style='color: grey;'>[<b>" . gradientTag($row['gang']) . "</b>]</span> " 
