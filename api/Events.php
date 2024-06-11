@@ -64,7 +64,111 @@ function getEvents($db, $input)
 
     $events = $db->fetch_row();
 
+    foreach ($events as &$event) {
+        if (strpos($event['text'], '[-_USERID_-]') !== false) {
+            $event['text'] = replaceUserIdWithUsername($db, $event['text'], $event['extra']);
+        }
+    }
+
     echo json_encode($events);
+}
+
+function replaceUserIdWithUsername($db, $text, $userId)
+{
+    global $m;
+    $name = "";
+    if ($nogang == 0 && $userId != 864 && !empty($rtn = $m->get('formatName.' . $userId)))
+        return $rtn;
+    $db->query("SELECT username, gang, admin, rmdays, gm, colours, image_name, pdimgname, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
+    $db->execute(array($userId));
+    $row = $db->fetch_row(true);
+
+    if ($row['gang'] != 0 && $nogang != 1) {
+        if ($row['formattedTag'] == "Yes") {
+            $name .= ($row['leader'] == $userId) 
+                ? "<span style='color: grey;'>[<b>" . gradientTag($row['gang']) . "</b>]</span> " 
+                : "<span style='color: grey;'>[" . gradientTag($row['gang']) . "]</span> ";
+        } else {
+            $name .= ($row['leader'] == $userId) 
+                ? "<span style='color: blue;'>[<b>{$row['tag']}</b>]</span> " 
+                : "<span style='color: white;'>[{$row['tag']}]</span> ";
+        }
+    }
+
+    $db->query("SELECT days FROM bans WHERE id = ? AND type IN ('perm','freeze')");
+    $db->execute(array($userId));
+    $bdays = $db->fetch_single();
+
+    if ($bdays) {
+        $title = "Banned";
+        $whichfont = "#FFFFFF";
+    } elseif ($row['admin'] == 1) {
+        $title = "Admin";
+        $whichfont = "#FF1111";
+    } elseif ($row['gm'] == 1) {
+        $title = "Chat Moderator";
+        $whichfont = "#FFFFFF";
+    } elseif ($row['rmdays'] >= 1) {
+        $title = "VIP ({$row['rmdays']} VIP Days Left)";
+        $whichfont = "#00BF03";
+    } else {
+        $title = "Not Respected";
+        $whichfont = "#009102";
+    }
+
+    if ($bdays) {
+        $name .= "<span style='color: $whichfont;'>{$row['username']}</span>";
+    } elseif (!empty($row['image_name']) && $row['pdimgname'] > 0) {
+        $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='" . $row['username'] . "' />";
+    } elseif ($row['gndays']) {
+        $name .= "<span style='color: $whichfont;'>" . nameGen($row['gndays'], $row['rmdays'], $row['uninfo'], $row['username']) . "</span>";
+    } elseif (!empty($row['colours']) && $row['gradient'] == 2 && $row['gndays']) {
+        $row['colours'] = str_replace('#', '', $row['colours']);
+        $colours = explode("~", $row['colours']);
+        $gradient = text_gradient($colours[0], $colours[1], 1, $row['username']);
+        $name .= "<span style='color: $whichfont;'><b><i>{$gradient}</i></b></span>";
+    } elseif (!empty($row['colours']) && $row['gradient'] == 3 && $row['gndays']) {
+        $row['colours'] = str_replace('#', '', $row['colours']);
+        $gn = explode("~", $row['colours']);
+        $username = $row['username'];
+        $half = (int) ((strlen($username) / 2));
+        $left = substr($username, 0, $half);
+        $right = substr($username, $half);
+        $gradient = text_gradient($gn[0], $gn[1], 1, $left);
+        $gradient .= text_gradient($gn[1], $gn[2], 1, $right);
+        if ($userId == 146)
+            $gradient = "<span style='text-shadow: 0 0 2px #404200;letter-spacing:-1px;font-weight:900;font-size:16px;'>$gradient</span>";
+        $name .= "<span style='color: $whichfont;'><b><i>{$gradient}</i></b></span>";
+    } elseif ($userId == 146) {
+        $name .= "<span style='color: $whichfont;'>{$row['username']}</span>";
+    } elseif ($row['admin'] == 1 || $row['gm'] == 1) {
+        $name .= "<span style='color: $whichfont;'><i><b>{$row['username']}</b></i></span>";
+    } elseif ($row['rmdays'] > 0) {
+        $name .= "<span style='color: $whichfont;'><b>{$row['username']}</b></span>";
+    } else {
+        $name .= "<span style='color: $whichfont;'>{$row['username']}</span>";
+    }
+
+    if ($row['prestige'] > 0) {
+        if ($row['prestige'] >= 10) {
+            $db->query("SELECT skull FROM prestige_skull WHERE `user_id` = ?");
+            $db->execute(array($userId));
+            $skull = $db->fetch_single();
+
+            if ($skull !== false) {
+                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $skull . ".png' title='Prestige ({$row['prestige']})' />";
+            } else {
+                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
+            }
+        } else {
+            $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
+        }
+    }
+
+    if ($nogang == 0)
+        $m->set('formatName.' . $userId, $name, false, 60);
+
+    return str_replace('[-_USERID_-]', $name, $text);
 }
 
 function deleteAllEvents($db, $input)
@@ -103,9 +207,9 @@ function deleteEventsByType($db, $input)
 function deleteEventById($db, $input)
 {
     $user_id = $input['user_id'];
-    $id = $input['id'];
+    $userId = $input['id'];
     $db->query("DELETE FROM events WHERE id = :id AND `to` = :user_id");
-    $db->bind(':id', $id, PDO::PARAM_INT);
+    $db->bind(':id', $userId, PDO::PARAM_INT);
     $db->bind(':user_id', $user_id, PDO::PARAM_INT);
     $db->execute();
     echo json_encode(['message' => 'Event deleted']);
