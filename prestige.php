@@ -84,6 +84,11 @@ stats-contents {
  }
 </style>';
 
+$prestigeLevelRequired = 1000;
+if ($user_class->prestige > 0) {
+    $prestigeLevelRequired = $prestigeLevelRequired + (200 * $user_class->prestige);
+}
+
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
 $prestigeUnlocks = array();
 // BA Raid Tokens
@@ -375,11 +380,6 @@ if ($can) {
     echo '        </tbody>';
     echo '    </table>';
     echo '</form>';
-}
-
-$prestigeLevelRequired = 1000;
-if ($user_class->prestige > 0) {
-    $prestigeLevelRequired = $prestigeLevelRequired + (200 * $user_class->prestige);
 }
 
 // Calculate the remaining levels to reach 1000 and display it
