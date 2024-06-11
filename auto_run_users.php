@@ -40,8 +40,8 @@ if ($_GET['key'] === 'srunit') {
                                 $user->nerref = 2;
                                 $db->query("UPDATE grpgusers SET nerref = ?, nerreftime = unix_timestamp() WHERE id = ?");
                                 $db->execute(array(
-                                    $user_class->nerref,
-                                    $user_class->id
+                                    $user->nerref,
+                                    $user->id
                                 ));
                             }
 
