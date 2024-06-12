@@ -112,13 +112,14 @@ function replaceUserIdWithUsername($db, $text, $userId)
            // } else {
              //   $name .= "<span style='color: grey; display:inline;'>[" . gradientTag($row['gang']) . "]</span> ";
             //}
-        } else {
+        } 
+        //else {
             //if ($row['leader'] == $userId) {
               //  $name .= "<span style='color: blue; display:inline;'>[<b>{$row['tag']}</b>]</span> ";
             //} else {
-                $name .= "<span style='color: white; display:inline;'>[{$row['tag']}]</span> ";
+               // $name .= "<span style='color: white; display:inline;'>[{$row['tag']}]</span> ";
             //}
-        }
+        //}
     }
 
     $db->query("SELECT days FROM bans WHERE id = ? AND type IN ('perm','freeze')");
