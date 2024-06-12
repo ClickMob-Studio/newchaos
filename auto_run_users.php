@@ -40,8 +40,8 @@ if ($_GET['key'] === 'srunit') {
                                 $user->nerref = 2;
                                 $db->query("UPDATE grpgusers SET nerref = ?, nerreftime = unix_timestamp() WHERE id = ?");
                                 $db->execute(array(
-                                    $user_class->nerref,
-                                    $user_class->id
+                                    $user->nerref,
+                                    $user->id
                                 ));
                             }
 
@@ -58,7 +58,7 @@ if ($_GET['key'] === 'srunit') {
                                 curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
                                 curl_setopt($ch, CURLOPT_POST, 1);
                                 curl_setopt($ch, CURLOPT_POSTFIELDS,
-                                    "id=1&cm=20");
+                                    "id=1&cm=30");
                                 $dinf = curl_exec ($ch);
                                 if(!curl_errno($ch) ){
 

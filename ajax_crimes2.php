@@ -50,7 +50,7 @@ session_write_close();
 
 $crime_multiplier = 1;
 if (isset($_POST['cm'])) {
-    $allowed = array(1, 2, 4, 10, 20);
+    $allowed = array(1, 2, 4, 10, 20, 30);
     if (in_array($_POST['cm'], $allowed)) {
         $crime_multiplier = $_POST['cm'];
     }
