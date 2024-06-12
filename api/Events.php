@@ -107,13 +107,17 @@ function replaceUserIdWithUsername($db, $text, $userId)
 
     if ($row['gang'] != 0) {
         if ($row['formattedTag'] == "Yes") {
-            $name .= ($row['leader'] == $userId) 
-                ? "<span style='color: grey; display:inline;'>[<b>" . gradientTag($row['gang']) . "</b>]</span> " 
-                : "<span style='color: grey; display:inline;'>[" . gradientTag($row['gang']) . "]</span> ";
+            if ($row['leader'] == $userId) {
+                $name .= "<span style='color: grey; display:inline;'>[<b>" . gradientTag($row['gang']) . "</b>]</span> ";
+            } else {
+                $name .= "<span style='color: grey; display:inline;'>[" . gradientTag($row['gang']) . "]</span> ";
+            }
         } else {
-            $name .= ($row['leader'] == $userId) 
-                ? "<span style='color: blue; display:inline;'>[<b>{$row['tag']}</b>]</span> " 
-                : "<span style='color: white; display:inline;'>[{$row['tag']}]</span> ";
+            if ($row['leader'] == $userId) {
+                $name .= "<span style='color: blue; display:inline;'>[<b>{$row['tag']}</b>]</span> ";
+            } else {
+                $name .= "<span style='color: white; display:inline;'>[{$row['tag']}]</span> ";
+            }
         }
     }
 
@@ -178,7 +182,7 @@ function replaceUserIdWithUsername($db, $text, $userId)
             $skull = $db->fetch_single();
 
             if ($skull !== false) {
-                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $skull . ".png' style='display:inline; vertical-align:middle;' title='Prestige ({$row['prestige']})' />";
+                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $skull . ".png' style='display:inline;' title='Prestige ({$row['prestige']})' />";
             } else {
                 $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' style='display:inline; vertical-align:middle;' title='Prestige ({$row['prestige']})' />";
             }
