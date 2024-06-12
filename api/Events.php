@@ -107,17 +107,17 @@ function replaceUserIdWithUsername($db, $text, $userId)
 
     if ($row['gang'] != 0) {
         if ($row['formattedTag'] == "Yes") {
-            if ($row['leader'] == $userId) {
+            //if ($row['leader'] == $userId) {
                 $name .= "<span style='color: grey; display:inline;'>[<b>" . gradientTag($row['gang']) . "</b>]</span> ";
-            } else {
-                $name .= "<span style='color: grey; display:inline;'>[" . gradientTag($row['gang']) . "]</span> ";
-            }
+           // } else {
+             //   $name .= "<span style='color: grey; display:inline;'>[" . gradientTag($row['gang']) . "]</span> ";
+            //}
         } else {
-            if ($row['leader'] == $userId) {
-                $name .= "<span style='color: blue; display:inline;'>[<b>{$row['tag']}</b>]</span> ";
-            } else {
+            //if ($row['leader'] == $userId) {
+              //  $name .= "<span style='color: blue; display:inline;'>[<b>{$row['tag']}</b>]</span> ";
+            //} else {
                 $name .= "<span style='color: white; display:inline;'>[{$row['tag']}]</span> ";
-            }
+            //}
         }
     }
 
