@@ -108,7 +108,7 @@ function replaceUserIdWithUsername($db, $text, $userId)
     if ($row['gang'] != 0) {
         if ($row['formattedTag'] == "Yes") {
             //if ($row['leader'] == $userId) {
-                $name .= "<span style='color: grey; display:inline;'>[<b>" . gradientTag($row['gang']) . "</b>]</span> ";
+                $name .= "<span style='color: grey; display:inline;'>[<b>" . ($row['gang']) . "</b>]</span> ";
            // } else {
              //   $name .= "<span style='color: grey; display:inline;'>[" . gradientTag($row['gang']) . "]</span> ";
             //}
