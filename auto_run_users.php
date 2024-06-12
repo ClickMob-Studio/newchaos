@@ -104,7 +104,7 @@ if ($_GET['key'] === 'srunit') {
             }
 
             // Check whether to start an active mission - 33% chance of starting a mission
-            if (mt_rand(1,3) > 0) {
+            if (mt_rand(1,3) > 1) {
                 if (!isset($check[0]['id'])) {
                     $timeCheck = time() - 87400;
 
