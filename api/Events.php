@@ -140,7 +140,7 @@ function replaceUserIdWithUsername($db, $text, $userId) {
     if ($bdays) {
         $name .= "<span style='color: $whichfont; display:inline;'>{$row['username']}</span>";
     } elseif (!empty($row['image_name']) && $row['pdimgname'] > 0) {
-        $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px; display:inline; vertical-align:middle;' title='" . $row['username'] . "' />";
+        $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px; display:inline; vertical-align:middle;' title='{$row['username']}' />";
     } elseif ($row['gndays']) {
         $name .= "<span style='color: $whichfont; display:inline;'>" . nameGen($row['gndays'], $row['rmdays'], $row['uninfo'], $row['username']) . "</span>";
     } elseif (!empty($row['colours']) && $row['gradient'] == 2 && $row['gndays']) {
