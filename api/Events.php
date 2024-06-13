@@ -104,10 +104,6 @@ function replaceUserIdWithUsername($db, $text, $userId) {
     $db->execute(array($userId));
     $row = $db->fetch_row(true);
     
-    if ($row['gang'] != 0) {
-        $name .= "<span class='text-gray' style='display:inline;'>[<b>" . ($row['gang']) . "</b>]</span> ";
-    }
-
     $db->query("SELECT days FROM bans WHERE id = ? AND type IN ('perm','freeze')");
     $db->execute(array($userId));
     $bdays = $db->fetch_single();
@@ -181,6 +177,7 @@ function replaceUserIdWithUsername($db, $text, $userId) {
     $m->set('formatName.' . $userId, $name, false, 60);
     return str_replace('[-_USERID_-]', $name, $text);
 }
+
 
 
 
