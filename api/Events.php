@@ -103,24 +103,15 @@ function replaceUserIdWithUsername($db, $text, $userId) {
     $db->query("SELECT username, gang, admin, rmdays, gm, colours, image_name, pdimgname, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
     $db->execute(array($userId));
     $row = $db->fetch_row(true);
+    
     if ($row['gang'] != 0) {
-        //if ($row['formattedTag'] == "Yes") {
-            //if ($row['leader'] == $userId) {
-               // $name .= "<span style='color: grey; display:inline;'>[<b>" . ($row['gang']) . "</b>]</span> ";
-           // } else {
-             //   $name .= "<span style='color: grey; display:inline;'>[" . gradientTag($row['gang']) . "]</span> ";
-            //}
-        //} else {
-            //if ($row['leader'] == $userId) {
-              //  $name .= "<span style='color: blue; display:inline;'>[<b>{$row['tag']}</b>]</span> ";
-            //} else {
-               // $name .= "<span style='color: white; display:inline;'>[{$row['tag']}]</span> ";
-            //}
-        //}
+        $name .= "<span class='text-gray' style='display:inline;'>[<b>" . ($row['gang']) . "</b>]</span> ";
     }
+
     $db->query("SELECT days FROM bans WHERE id = ? AND type IN ('perm','freeze')");
     $db->execute(array($userId));
     $bdays = $db->fetch_single();
+    
     if ($bdays) {
         $title = "Banned";
         $whichfont = "#FFFFFF";
@@ -137,10 +128,13 @@ function replaceUserIdWithUsername($db, $text, $userId) {
         $title = "Not Respected";
         $whichfont = "#009102";
     }
+
+    $usernameElement = "<span style='color: $whichfont; display:inline;'>{$row['username']}</span>";
+
     if ($bdays) {
-        $name .= "<span style='color: $whichfont; display:inline;'>{$row['username']}</span>";
+        $name .= $usernameElement;
     } elseif (!empty($row['image_name']) && $row['pdimgname'] > 0) {
-        $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px; display:inline; vertical-align:middle;' title='{$row['username']}' />";
+        $name .= "<img src='{$row['image_name']}' class='img-fluid' style='max-width:84px; max-height:50px; display:inline; vertical-align:middle;' title='{$row['username']}' />";
     } elseif ($row['gndays']) {
         $name .= "<span style='color: $whichfont; display:inline;'>" . nameGen($row['gndays'], $row['rmdays'], $row['uninfo'], $row['username']) . "</span>";
     } elseif (!empty($row['colours']) && $row['gradient'] == 2 && $row['gndays']) {
@@ -160,31 +154,34 @@ function replaceUserIdWithUsername($db, $text, $userId) {
         if ($userId == 146) $gradient = "<span style='text-shadow: 0 0 2px #404200;letter-spacing:-1px;font-weight:900;font-size:16px;'>$gradient</span>";
         $name .= "<span style='color: $whichfont; display:inline;'><b><i>{$gradient}</i></b></span>";
     } elseif ($userId == 146) {
-        $name .= "<span style='color: $whichfont; display:inline;'>{$row['username']}</span>";
+        $name .= $usernameElement;
     } elseif ($row['admin'] == 1 || $row['gm'] == 1) {
         $name .= "<span style='color: $whichfont; display:inline;'><i><b>{$row['username']}</b></i></span>";
     } elseif ($row['rmdays'] > 0) {
         $name .= "<span style='color: $whichfont; display:inline;'><b>{$row['username']}</b></span>";
     } else {
-        $name .= "<span style='color: $whichfont; display:inline;'>{$row['username']}</span>";
+        $name .= $usernameElement;
     }
+
     if ($row['prestige'] > 0) {
         if ($row['prestige'] >= 10) {
             $db->query("SELECT skull FROM prestige_skull WHERE `user_id` = ?");
             $db->execute(array($userId));
             $skull = $db->fetch_single();
             if ($skull !== false) {
-                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $skull . ".png' style='display:inline;' title='Prestige ({$row['prestige']})' />";
+                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $skull . ".png' class='img-fluid' style='display:inline;' title='Prestige ({$row['prestige']})' />";
             } else {
-                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' style='display:inline; vertical-align:middle;' title='Prestige ({$row['prestige']})' />";
+                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' class='img-fluid' style='display:inline; vertical-align:middle;' title='Prestige ({$row['prestige']})' />";
             }
         } else {
-            $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' style='display:inline; vertical-align:middle;' title='Prestige ({$row['prestige']})' />";
+            $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' class='img-fluid' style='display:inline; vertical-align:middle;' title='Prestige ({$row['prestige']})' />";
         }
     }
-    if ($nogang == 0) $m->set('formatName.' . $userId, $name, false, 60);
+    
+    $m->set('formatName.' . $userId, $name, false, 60);
     return str_replace('[-_USERID_-]', $name, $text);
 }
+
 
 
 function deleteAllEvents($db, $input)
