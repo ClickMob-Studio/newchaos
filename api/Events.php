@@ -96,7 +96,6 @@ function getEvents($db, $input)
 
     echo json_encode($events);
 }
-
 function replaceUserIdWithUsername($db, $text, $userId) {
     global $m;
     $name = "";
@@ -125,19 +124,21 @@ function replaceUserIdWithUsername($db, $text, $userId) {
         $whichfont = "#009102";
     }
 
-    $usernameElement = "<span style='color: $whichfont; display:inline;'>{$row['username']}</span>";
+    $usernameElement = "<span style='color: $whichfont;'>{$row['username']}</span>";
+
+    $name .= "<div class='d-flex align-items-center'>";
 
     if ($bdays) {
         $name .= $usernameElement;
     } elseif (!empty($row['image_name']) && $row['pdimgname'] > 0) {
-        $name .= "<img src='{$row['image_name']}' class='img-fluid' style='max-width:84px; max-height:50px; display:inline; vertical-align:middle;' title='{$row['username']}' />";
+        $name .= "<img src='{$row['image_name']}' class='img-fluid' style='max-width:84px; max-height:50px; vertical-align:middle;' title='{$row['username']}' />";
     } elseif ($row['gndays']) {
-        $name .= "<span style='color: $whichfont; display:inline;'>" . nameGen($row['gndays'], $row['rmdays'], $row['uninfo'], $row['username']) . "</span>";
+        $name .= "<span style='color: $whichfont;'>" . nameGen($row['gndays'], $row['rmdays'], $row['uninfo'], $row['username']) . "</span>";
     } elseif (!empty($row['colours']) && $row['gradient'] == 2 && $row['gndays']) {
         $row['colours'] = str_replace('#', '', $row['colours']);
         $colours = explode("~", $row['colours']);
         $gradient = text_gradient($colours[0], $colours[1], 1, $row['username']);
-        $name .= "<span style='color: $whichfont; display:inline;'><b><i>{$gradient}</i></b></span>";
+        $name .= "<span style='color: $whichfont;'><b><i>{$gradient}</i></b></span>";
     } elseif (!empty($row['colours']) && $row['gradient'] == 3 && $row['gndays']) {
         $row['colours'] = str_replace('#', '', $row['colours']);
         $gn = explode("~", $row['colours']);
@@ -148,13 +149,13 @@ function replaceUserIdWithUsername($db, $text, $userId) {
         $gradient = text_gradient($gn[0], $gn[1], 1, $left);
         $gradient .= text_gradient($gn[1], $gn[2], 1, $right);
         if ($userId == 146) $gradient = "<span style='text-shadow: 0 0 2px #404200;letter-spacing:-1px;font-weight:900;font-size:16px;'>$gradient</span>";
-        $name .= "<span style='color: $whichfont; display:inline;'><b><i>{$gradient}</i></b></span>";
+        $name .= "<span style='color: $whichfont;'><b><i>{$gradient}</i></b></span>";
     } elseif ($userId == 146) {
         $name .= $usernameElement;
     } elseif ($row['admin'] == 1 || $row['gm'] == 1) {
-        $name .= "<span style='color: $whichfont; display:inline;'><i><b>{$row['username']}</b></i></span>";
+        $name .= "<span style='color: $whichfont;'><i><b>{$row['username']}</b></i></span>";
     } elseif ($row['rmdays'] > 0) {
-        $name .= "<span style='color: $whichfont; display:inline;'><b>{$row['username']}</b></span>";
+        $name .= "<span style='color: $whichfont;'><b>{$row['username']}</b></span>";
     } else {
         $name .= $usernameElement;
     }
@@ -165,21 +166,20 @@ function replaceUserIdWithUsername($db, $text, $userId) {
             $db->execute(array($userId));
             $skull = $db->fetch_single();
             if ($skull !== false) {
-                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $skull . ".png' class='img-fluid' style='display:inline;' title='Prestige ({$row['prestige']})' />";
+                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $skull . ".png' class='img-fluid' style='vertical-align:middle;' title='Prestige ({$row['prestige']})' />";
             } else {
-                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' class='img-fluid' style='display:inline; vertical-align:middle;' title='Prestige ({$row['prestige']})' />";
+                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' class='img-fluid' style='vertical-align:middle;' title='Prestige ({$row['prestige']})' />";
             }
         } else {
-            $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' class='img-fluid' style='display:inline; vertical-align:middle;' title='Prestige ({$row['prestige']})' />";
+            $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' class='img-fluid' style='vertical-align:middle;' title='Prestige ({$row['prestige']})' />";
         }
     }
+
+    $name .= "</div>";
     
     $m->set('formatName.' . $userId, $name, false, 60);
     return str_replace('[-_USERID_-]', $name, $text);
 }
-
-
-
 
 function deleteAllEvents($db, $input)
 {
