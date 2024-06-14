@@ -1,5 +1,4 @@
 <?php
-var_dump($_SESSION);
 require('includes/inc_index.php');
 
 $addons->get_hooks(array(), array(

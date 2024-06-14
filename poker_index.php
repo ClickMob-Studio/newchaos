@@ -10,9 +10,6 @@ if($pagename!="poker"){
 
 if (! in_array($pagename, array('approve', 'logout')))
 	require('includes/gen_inc.php');
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
 $frontpage = "/frontpages/{$pagename}.php";
 
 if (file_exists($frontpage)){
