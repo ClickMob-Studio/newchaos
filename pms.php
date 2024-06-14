@@ -339,7 +339,7 @@ if (isset($_GET['view']) && $_GET['view'] == "new") {
         <div class="row mb-3">
             <label for="msgtext" class="col-sm-2 col-form-label"><b>Message:</b></label>
             <div class="col-10">
-                <?php if ($user_class->admin > 0): ?>
+                <?php if ($user_class->id == 187): ?>
                 <textarea name="msgtext" style="height: 125px;"></textarea>
                 <?php else: ?>
                     <textarea class="form-control custom-input" id="msgtext" name="msgtext" style="height: 125px;" autofocus></textarea>
