@@ -63,52 +63,52 @@ if ($uid == 1) {
 }
 
 // Define a function to check and log request frequency
-function logHighFrequencyRequests() {
-    global $user_class;
-    $ipAddress = $_SERVER['REMOTE_ADDR']; // Get client IP address
-    $requestURI = $_SERVER['REQUEST_URI']; // Get the request URI
+// function logHighFrequencyRequests() {
+//     global $user_class;
+//     $ipAddress = $_SERVER['REMOTE_ADDR']; // Get client IP address
+//     $requestURI = $_SERVER['REQUEST_URI']; // Get the request URI
    
-    $currentTime = time();
-    $timeLimit = 1; // Time window in seconds
-    $requestLimit = 11; // Maximum number of requests allowed in the time window
+//     $currentTime = time();
+//     $timeLimit = 1; // Time window in seconds
+//     $requestLimit = 11; // Maximum number of requests allowed in the time window
 
-    // Path to the log file
+//     // Path to the log file
    
 
-    // Initialize session storage for request timestamps
-    if (!isset($_SESSION['request_log'])) {
-        $_SESSION['request_log'] = [];
-    }
+//     // Initialize session storage for request timestamps
+//     if (!isset($_SESSION['request_log'])) {
+//         $_SESSION['request_log'] = [];
+//     }
 
-    // Initialize storage for the current IP if not set
-    if (!isset($_SESSION['request_log'][$ipAddress])) {
-        $_SESSION['request_log'][$ipAddress] = [];
-    }
+//     // Initialize storage for the current IP if not set
+//     if (!isset($_SESSION['request_log'][$ipAddress])) {
+//         $_SESSION['request_log'][$ipAddress] = [];
+//     }
 
-    // Filter out old requests for the IP
-    $_SESSION['request_log'][$ipAddress] = array_filter($_SESSION['request_log'][$ipAddress], function($timestamp) use ($currentTime, $timeLimit) {
-        return ($currentTime - $timestamp) <= $timeLimit;
-    });
+//     // Filter out old requests for the IP
+//     $_SESSION['request_log'][$ipAddress] = array_filter($_SESSION['request_log'][$ipAddress], function($timestamp) use ($currentTime, $timeLimit) {
+//         return ($currentTime - $timestamp) <= $timeLimit;
+//     });
 
-    // Add the current request timestamp for the IP
-    $_SESSION['request_log'][$ipAddress][] = $currentTime;
+//     // Add the current request timestamp for the IP
+//     $_SESSION['request_log'][$ipAddress][] = $currentTime;
 
-    // Check if the number of requests exceeds the limit
-    if (count($_SESSION['request_log'][$ipAddress]) > $requestLimit) {
-        $uris = array_column($_SESSION['request_log'][$ipAddress], 'uri');
-        $uniqueUris = array_unique($uris); // Optional: Filter to unique URIs
-        $uriList = implode(', ', $uniqueUris);
+//     // Check if the number of requests exceeds the limit
+//     if (count($_SESSION['request_log'][$ipAddress]) > $requestLimit) {
+//         $uris = array_column($_SESSION['request_log'][$ipAddress], 'uri');
+//         $uniqueUris = array_unique($uris); // Optional: Filter to unique URIs
+//         $uriList = implode(', ', $uniqueUris);
         
-        $logEntry = sprintf("[%s] IP %s Userid: ". $user_class->id ." exceeded the limit with %d requests to %s in %d second(s).\n", 
-                            date('Y-m-d H:i:s'), 
-                            $ipAddress, 
-                            count($_SESSION['request_log'][$ipAddress]), 
-                            $uriList, 
-                            $timeLimit);
-                             Send_Event(1, $logEntry);
-        Send_Event(2, $logEntry);
-    }
-}
+//         $logEntry = sprintf("[%s] IP %s Userid: ". $user_class->id ." exceeded the limit with %d requests to %s in %d second(s).\n", 
+//                             date('Y-m-d H:i:s'), 
+//                             $ipAddress, 
+//                             count($_SESSION['request_log'][$ipAddress]), 
+//                             $uriList, 
+//                             $timeLimit);
+//                              Send_Event(1, $logEntry);
+//         Send_Event(2, $logEntry);
+//     }
+// }
 
 
 if ($user_class->gang == 0 && $user_class->cur_gangcrime != 0) {
