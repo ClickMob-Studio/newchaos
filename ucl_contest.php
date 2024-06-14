@@ -177,7 +177,7 @@ if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && is
                 <h2>Daily</h2>
                 <p><strong>Prize:</strong></p>
                 <ul>
-                    <li>1st: 100,000 points. 1 x Stone (Rare) & 1 x Hourglass Gem (Rare)</li>
+                    <li>1st: 100,000 points, 2 x Stone (Rare) & 1 x Hourglass Gem (Rare)</li>
                     <li>2nd: 25,000 points & 1 x Stone (Rare)</li>
                     <li>3rd: 1 x Stone (Rare)</li>
                 </ul>
