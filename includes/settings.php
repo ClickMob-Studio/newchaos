@@ -1,5 +1,5 @@
 <?php
-error_reporting(0);
+error_reporting(1);
 $configuration_query = $pdo->prepare("SELECT Xkey AS cfgKey, Xvalue AS cfgValue FROM " . DB_SETTINGS);
 $configuration_query->execute();
 while ($configuration = $configuration_query->fetch(PDO::FETCH_ASSOC))
