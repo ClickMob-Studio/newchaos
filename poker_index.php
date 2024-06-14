@@ -17,19 +17,19 @@ if (! in_array($pagename, array('approve', 'logout')))
 
 $frontpage = "frontpages/{$pagename}.php";
 
-if (file_exists($frontpage)){
-	include $frontpage;
-}else{
-	echo $addons->get_hooks(
-		array(
-			'page' => $pagename
-		),
-		array(
-			'page'     => 'general',
-			'location'  => 'frontpage'
-		)
-	);
-}
+// if (file_exists($frontpage)){
+// 	include $frontpage;
+// }else{
+// 	echo $addons->get_hooks(
+// 		array(
+// 			'page' => $pagename
+// 		),
+// 		array(
+// 			'page'     => 'general',
+// 			'location'  => 'frontpage'
+// 		)
+// 	);
+// }
 
 if($pagename!="poker"){
 	require_once 'footer.php';
