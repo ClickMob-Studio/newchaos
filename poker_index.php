@@ -3,11 +3,11 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 $pagename = (isset($_GET['pagename'])) ? $_GET['pagename'] : 'index';
-
+$m = new Memcache();
+$m->addServer('127.0.0.1', 11212, 33);
 if($pagename!="poker"){
 	require_once 'header.php';
-    $m = new Memcache();
-$m->addServer('127.0.0.1', 11212, 33);
+
 }else{
 	session_start();
 }
