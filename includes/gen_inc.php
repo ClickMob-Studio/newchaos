@@ -15,7 +15,7 @@ require_once 'includes/tables.php';
 require_once 'includes/settings.php';
 
 /* THEME */
-$themeCFN = 'Theme.class.php';
+$themeCFN = 'includes/Theme.class.php';
 $themeCF  = $themeCFN;
 if (!file_exists($themeCF)) $themeCF = 'includes/' . $themeCF;
 if (!file_exists($themeCF)) $themeCF = '../' . $themeCF;
