@@ -452,6 +452,13 @@ $city = mysql_real_escape_string($user_class->city);
         addToBpCategoryUser($bpCategory, $user_class, 'attacks', 1);
     }
 
+    $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
+    $db->execute();
+    $activityContest = $db->fetch_row(true);
+    if ($activityContest['type'] == 'attacks') {
+        addToUserCompLeaderboard($user_class->id, 'activity_complete', 1);
+    }
+
     Send_Event($attack_person->id, "[-_USERID_-] attacked you and won! They gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".", $user_class->id);
     Send_Event1($attack_person->id, "Was attacked by [-_USERID_-]  and lost the fight! They gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".", $user_class->id);
     $count = count($rtn);

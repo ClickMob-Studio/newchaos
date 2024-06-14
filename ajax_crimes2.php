@@ -403,6 +403,13 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
             }
 
+            $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
+            $db->execute();
+            $activityContest = $db->fetch_row(true);
+            if ($activityContest['type'] == 'crimes') {
+                addToUserCompLeaderboard($user_class->id, 'activity_complete', $crime_multiplier);
+            }
+
             addToGangCompLeaderboard($user_class->gang, 'crimes_complete', $crime_multiplier);
             $bpCategory = getBpCategory();
             if ($bpCategory) {
