@@ -6,6 +6,8 @@ $pagename = (isset($_GET['pagename'])) ? $_GET['pagename'] : 'index';
 
 if($pagename!="poker"){
 	require_once 'header.php';
+    $m = new Memcache();
+$m->addServer('127.0.0.1', 11212, 33);
 }else{
 	session_start();
 }
