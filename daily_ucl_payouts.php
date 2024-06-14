@@ -40,4 +40,7 @@ if ($_GET['key'] === 'srunit') {
 
         $i++;
     }
+
+    $db->query("UPDATE `user_comp_leaderboard` SET `daily_activity_complete` = 0");
+    $db->execute();
 }
