@@ -1,13 +1,16 @@
 <?php
 
-define('DB_USERCHAT', 'poker_userchat');
-define('DB_LIVECHAT', 'poker_livechat');
-define('DB_PLAYERS', 'poker_players');
-define('DB_STATS', 'poker_stats');
-define('DB_POKER', 'poker_poker');
-define('DB_SITELOG', 'poker_sitelog');
-define('DB_SETTINGS', 'poker_settings');
-define('DB_STYLES', 'poker_styles');
+	define('DB_USERCHAT', 'poker_userchat');
+	define('DB_LIVECHAT', 'poker_livechat');
+	define('DB_PLAYERS', 'poker_players');
+	define('DB_STATS', 'poker_stats');
+	define('DB_POKER', 'poker_poker');
+	define('DB_SITELOG', 'poker_sitelog');
+	define('DB_SETTINGS', 'poker_settings');
+	define('DB_STYLES', 'poker_styles');
+    ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 // Start the session if not already started
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
