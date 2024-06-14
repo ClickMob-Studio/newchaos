@@ -63,6 +63,7 @@ if ($uid == 1) {
 }
 
 // Define a function to check and log request frequency
+if (!function_exists('logHighFrequencyRequests')) {
 function logHighFrequencyRequests() {
     global $user_class;
     $ipAddress = $_SERVER['REMOTE_ADDR']; // Get client IP address
@@ -108,6 +109,7 @@ function logHighFrequencyRequests() {
                              Send_Event(1, $logEntry);
         Send_Event(2, $logEntry);
     }
+}
 }
 
 
@@ -239,6 +241,7 @@ if (isset($_COOKIE['mu'])) {
         );
     }
 }
+if (!function_exists('getRealIpAddress')) {
 function getRealIpAddress() {
     if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
         // IP from shared internet
@@ -252,6 +255,7 @@ function getRealIpAddress() {
     }
     return $ip;
 }
+}
 $IP = getRealIpAddress();
 setcookie("mu", $user_class->id, time() + (10 * 365 * 24 * 60 * 60));
 if ($uid != 0) {
@@ -261,12 +265,15 @@ if ($uid != 0) {
         $user_class->id
     ));
 }
+
 $q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");
 $hosp = mysql_num_rows($q);
 $e = mysql_query("SELECT viewed FROM events WHERE `to` = $user_class->id AND viewed = 1");
 $ev = mysql_num_rows($e);
 $q = mysql_query("SELECT `id` FROM grpgusers WHERE jail > 0");
 $ja = mysql_num_rows($q);
+
+if (!function_exists('callback')) {
 function callback($buffer)
 {
     global $user_class, $db, $m;
@@ -475,6 +482,7 @@ $petJailDisplay = $petJailCount > 0 ? "<span style='color:red;'>$petJailDisplay<
 
 
 
+}
 }
 ob_start("callback");
 
