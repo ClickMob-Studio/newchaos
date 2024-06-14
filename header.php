@@ -768,7 +768,7 @@ if ($user_class->view_preference === '1') { ?>
                     <li><a class="dropdown-item" href="/psmuggling.php"><i class="fa-solid fa-person-through-window"></i> Point Smuggling</a></li>
                 <?php endif; ?>
                 <?php if ($user_class->rtsmuggling > 0): ?>
-                    <li><a class="dropdown-item" href="/raidtokensmuggling.php.php"><i class="fa-solid fa-person-through-window"></i> Raid Token Smuggling</a></li>
+                    <li><a class="dropdown-item" href="/raidtokensmuggling.php"><i class="fa-solid fa-person-through-window"></i> Raid Token Smuggling</a></li>
                 <?php endif; ?>
 
             </ul>
