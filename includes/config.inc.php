@@ -20,4 +20,4 @@ try {
 } catch (PDOException $e) {
     die("Unable to connect to database: " . $e->getMessage());
 }
-?>
+
