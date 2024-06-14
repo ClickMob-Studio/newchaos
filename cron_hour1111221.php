@@ -411,3 +411,16 @@ $results = mysql_query($querys);
                         Send_Event($r['id'], 'You got rewarded '.$points.' for hitting your milesstone in the contest');
                     }
 }
+
+
+
+$activityContestTypes = array(
+    'crimes',
+    'backalley',
+    'attacks',
+    'mugs',
+    'busts',
+);
+$typeToUse = $activityContestTypes[mt_rand(0, count($activityContestTypes) - 1)];
+
+mysql_query("UPDATE `activity_contest` SET `type` = `type` + " . $typeToUse);

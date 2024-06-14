@@ -1,106 +1,13 @@
 <?php
 include 'header.php';
+$activityContestTypes = array(
+    'crimes',
+    'backalley',
+    'attacks',
+    'mugs',
+    'busts',
+);
+$typeToUse = $activityContestTypes[mt_rand(0, count($activityContestTypes) - 1)];
 
-if ($_GET['key'] === 'srunit') {
-    $now = new \DateTime();
-    $hour = $now->format('H');
-
-    // Only run between 8am and 10pm to make it look more legit
-    if ($hour > 8 && $hour < 22) {
-        $db->query("SELECT * FROM grpgusers WHERE is_auto_user = 1");
-        $db->execute();
-        $rows = $db->fetch_row();
-
-        foreach ($rows as $r) {
-            $user = new User($r['id']);
-
-            $db->query("SELECT * FROM missions WHERE userid= " . $user->id . " AND completed='no' LIMIT 1");
-            $db->execute();
-            $check = $db->fetch_row();
-
-            if (isset($check[0]['id'])) {
-                // Run with active mission
-                $activeMission = $check[0]['id'];
-
-                $db->query("SELECT * FROM mission WHERE id = " . $activeMission['mid'] . " LIMIT 1");
-                $db->execute();
-                $mMission = $db->fetch_row();
-
-                if (isset($mMission[0]['id'])) {
-                    $mMission = $mMission[0]['id'];
-
-                    if ($mMission['crimes'] > 0) {
-
-                        $timesToRun = mt_rand(1,100);
-
-                        while ($i < $timesToRun) {
-                            // Crime Mission
-                            $durl = "https://chaoscity.co.uk/ajax_crimes2.php?alv=yes&au_user_or=" . $user->id;
-                            $ch =  curl_init()  ;
-                            curl_setopt($ch,CURLOPT_URL, $durl);
-                            curl_setopt ($ch, CURLOPT_HEADER, 0);
-                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                            curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
-                            curl_setopt($ch, CURLOPT_POST, 1);
-                            curl_setopt($ch, CURLOPT_POSTFIELDS,
-                                "id=1&cm=1");
-                            $dinf = curl_exec ($ch);
-                            if(!curl_errno($ch) ){
-
-                            }else{
-
-                            }
-
-                            $i++;
-                        }
-                    }
-                }
-
-
-            }
-
-            // Check whether to start an active mission - 25% chance of starting a mission
-            if (mt_rand(1,4) === 1) {
-                if (!isset($check[0]['id'])) {
-
-                    $timeCheck = time() - 87400;
-
-                    $db->query("SELECT * FROM missions WHERE userid= " . $user->id . " AND timestamp > " . $timeCheck);
-                    $db->execute();
-                    $mChecks = $db->fetch_row();
-
-                    $missionsComplete = array();
-                    foreach ($mChecks as $mCheck) {
-                        $missionsComplete[] = $mCheck['mid'];
-                    }
-
-                    // Check if any Crime missions
-                    $db->query("SELECT * FROM mission WHERE category = 2 AND id NOT IN (" . join(',', $missionsComplete) . ")");
-                    $db->execute();
-                    $cmChecks = $db->fetch_row(true);
-
-                    if (isset($cmChecks['id'])) {
-                        $now = time();
-                        $db->query("INSERT INTO missions (`userid`, `timestamp`, `mid`) VALUES({$user->id}, {$now}, {$cmChecks['id']})");
-                        $db->execute();
-                        $db->query("INSERT INTO missionlog (`text`, `timestamp`) VALUES('[x] started a {$cmChecks['name']},{$user->id}', unix_timestamp())");
-                        $db->execute();
-                    }
-
-                    // Check if any bust missions
-                    if (!isset($cmChecks['id'])) {
-
-                    }
-
-                    // Check if any mug missions
-                }
-            }
-        }
-    }
-}
-
-
-echo 'done';
-
-include 'footer.php';
+mysql_query("UPDATE `activity_contest` SET `type` = `type` + " . $typeToUse);
 ?>
