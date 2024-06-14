@@ -37,9 +37,7 @@ define('ABSPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 //require_once ABSPATH . DS . 'lib' . DS . 'php7-mysql-shim.php';
 require_once ABSPATH . 'consts.inc.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php';
-// Load environment variables
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . DIRECTORY_SEPARATOR . '..');
-$dotenv->load();
+
 
 // Security fix. (don't trust $_SERVER['PHP_SELF']
 if (PHP_SAPI != 'cli') {
@@ -163,10 +161,10 @@ function flushOutput()
 }
 register_shutdown_function('flushOutput');
 
-$host    = getenv('MYSQL_HOST');
-$ln      = getenv('MYSQL_USER');
-$pw      = getenv('MYSQL_PASS');
-$db      = getenv('MYSQL_DB');
+$host    = 'localhost';
+$ln      = 'chaoscit_user';
+$pw      = '3lrKBlrfMGl2ic14';
+$db      = 'chaoscit_game';
 $charset = 'utf8mb4';
 
 try {
