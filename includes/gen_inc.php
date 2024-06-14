@@ -51,7 +51,7 @@ $_SESSION['playername'] = $plyrname;
 $_SESSION['SGUID'] = $SGUID;
 
 $valid = true;
-$ADMIN = ($user_class) ? $user_class->IsAdmin() : false;
+$ADMIN = ($user_class) ? $user_class->admin > 0 : false;
 $gID   = '';
 
 $opsTheme->addVariable('is_admin', 0);
