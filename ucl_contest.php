@@ -1,23 +1,23 @@
 <?php
-exit;
 include 'header.php';
 
 date_default_timezone_set('Europe/London'); // This will automatically account for BST as well.
 
-$targetDateMilliseconds = strtotime('June 09, 2024 22:00:00') * 1000;
+$targetDateMilliseconds = strtotime('June 17, 2024 21:00:00') * 1000;
 
 $userCompLeaderboard = getUserCompLeaderboard($user_class->id);
 
-$db->query("SELECT * FROM `user_comp_leaderboard` ORDER BY `overall_ba_complete` DESC LIMIT 15");
+$db->query("SELECT * FROM `user_comp_leaderboard` ORDER BY `daily_activity_complete` DESC LIMIT 15");
 $db->execute();
-$overallBaRows = $db->fetch_row();
+$overallRows = $db->fetch_row();
 
-$db->query("SELECT * FROM `user_comp_leaderboard` ORDER BY `overall_attacks_complete` DESC LIMIT 15");
+$db->query("SELECT * FROM `user_comp_leaderboard` ORDER BY `overall_activity_complete` DESC LIMIT 15");
 $db->execute();
-$overallAttackRows = $db->fetch_row();
+$dailyRows = $db->fetch_row();
 
 // CRIME MILESTONES
 if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['type']) && $_GET['type'] === 'ba') {
+    exit;
     $milestones = array(
         500 => 5000,
         1000 => 15000,
@@ -54,6 +54,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
 
 // ATTACK MILESTONES
 if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['type']) && $_GET['type'] === 'attacks') {
+    exit;
     $milestones = array(
         100 => 1500,
         1000 => 20000,
@@ -88,6 +89,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
 
 // CONTEST TOKEN SHOP
 if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && isset($_GET['type'])) {
+    exit;
     // 1 Police Badge = 1
     // 200 Gold = 2
     // 1 Nerve Vial = 3
@@ -148,24 +150,36 @@ if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && is
 }
 ?>
 
-    <h1>BA & Attack Contest</h1>
+    <h1>Activity Contest</h1>
     <p>
-        Welcome to the BA & Attack Contest, complete Backalley searches and attacks to work your way up the leaderboards and earn
-        some great prizes. Milestone payments can be collected manually.
+        Welcome to the Activity Contest, complete actions to earn points and push yourself up the leaderboard, but there's a twist! Each hour the required action to earn
+        activity points will change so keep an eye out and grind your way way to some great prizes!
     </p>
 
-    <p style="color: red">Contest Ends June 09, 2024 22:00:00</p>
+    <p>
+        We have a daily leaderboard which will reset daily as well as an overall leaderboard!
+    </p>
+
+    <?php
+    $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
+    $db->execute();
+    $activityContest = $db->fetch_row(true);
+    ?>
+
+    <p><strong>Current Requirement: Complete <?php echo ucfirst($activityContest['type']) ?> to earn activity points</strong></p>
+
+    <p style="color: red">Contest Ends June 17, 2024 21:00:00 Server Time</p>
     <hr />
 
     <div class="row">
         <div class="col-md-6">
             <div class="table-container">
-                <h2>BA Searches</h2>
-                <p><strong>Prizes:</strong></p>
+                <h2>Daily</h2>
+                <p><strong>Prize:</strong></p>
                 <ul>
-                    <li>1st: 300,000 points</li>
-                    <li>2nd: 100,000 points</li>
-                    <li>3rd: 25,000 points</li>
+                    <li>1st: 100,000 points. 1 x Stone (Rare) & 1 x Hourglass Gem (Rare)</li>
+                    <li>2nd: 25,000 points & 1 x Stone (Rare)</li>
+                    <li>3rd: 1 x Stone (Rare)</li>
                 </ul>
                 <table class="new_table" id="newtables" style="width:100%;">
                     <tr>
@@ -173,13 +187,13 @@ if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && is
                         <th>User</th>
                         <th>Points</th>
                     </tr>
-                    <?php if (count($overallBaRows) > 0): ?>
+                    <?php if (count($dailyRows) > 0): ?>
                         <?php $i = 1; ?>
-                        <?php foreach ($overallBaRows as $overallBaRow): ?>
+                        <?php foreach ($dailyRows as $dailyRow): ?>
                             <tr>
                                 <td><?php echo $i ?></td>
-                                <td><?php echo formatName($overallBaRow['user_id']) ?></td>
-                                <td><?php echo number_format($overallBaRow['overall_ba_complete'], 0) ?></td>
+                                <td><?php echo formatName($dailyRow['user_id']) ?></td>
+                                <td><?php echo number_format($dailyRow['daily_activity_complete'], 0) ?></td>
                             </tr>
 
                             <?php $i++; ?>
@@ -197,12 +211,12 @@ if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && is
 
         <div class="col-md-6">
             <div class="table-container">
-                <h2>Attacks</h2>
+                <h2>Overall</h2>
                 <p><strong>Prizes:</strong></p>
                 <ul>
-                    <li>1st: 300,000 points</li>
-                    <li>2nd: 100,000 points</li>
-                    <li>3rd: 25,000 points</li>
+                    <li>1st: 900,000 points, 1 x Space Infinity Stone (Ultra Rare) &  1 x Fireplace</li>
+                    <li>2nd: 500,000 points, 1 x Voidglass (Rare) & 1 x Sofa</li>
+                    <li>3rd: 250,000 points, 5 x Stone (Rare)</li>
                 </ul>
                 <table class="new_table" id="newtables" style="width:100%;">
                     <tr>
@@ -210,13 +224,13 @@ if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && is
                         <th>User</th>
                         <th>Points</th>
                     </tr>
-                    <?php if (count($overallAttackRows) > 0): ?>
+                    <?php if (count($overallRows) > 0): ?>
                         <?php $i = 1; ?>
-                        <?php foreach ($overallAttackRows as $overallAttackRow): ?>
+                        <?php foreach ($overallRows as $overallRow): ?>
                             <tr>
                                 <td><?php echo $i ?></td>
-                                <td><?php echo formatName($overallAttackRow['user_id']) ?></td>
-                                <td><?php echo number_format($overallAttackRow['overall_attacks_complete'], 0) ?></td>
+                                <td><?php echo formatName($overallRow['user_id']) ?></td>
+                                <td><?php echo number_format($overallRow['overall_activity_complete'], 0) ?></td>
                             </tr>
 
                             <?php $i++; ?>
@@ -232,43 +246,6 @@ if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && is
             </div>
         </div>
     </div>
-
-    <hr />
-    <h2>Milestone Payments</h2>
-    <div class="row">
-        <div class="col-md-6">
-            <h3>Overall BA Milestones</h3>
-            <ul>
-                <li>500 Searches: 5,000 points</li>
-                <li>1,000 Searches: 15,000 points</li>
-                <li>1,500 Searches: 25,000 points</li>
-                <li>2,000 Searches: 35,000 points</li>
-                <li>2,500 Searches: 50,000 points</li>
-                <li>5,000 Searches: 100,000 points</li>
-                <li>7,500 Searches: 200,000 points</li>
-            </ul>
-
-            <a href="ucl_contest.php?action=milestone&type=ba"><button>Collect Milestones</button></a>
-        </div>
-        <div class="col-md-6">
-            <h3>Overall Attack Milestones</h3>
-            <ul>
-                <li>100 attacks: 1,500 points</li>
-                <li>1,000 attacks: 20,000 points</li>
-                <li>2,500 attacks: 40,000 points</li>
-                <li>5,000 attacks: 80,000 points</li>
-                <li>15,000 attacks: 150,000 points</li>
-                <li>35,000 attacks: 350,000 points</li>
-            </ul>
-
-            <a href="ucl_contest.php?action=milestone&type=attacks"><button>Collect Milestones</button></a>
-        </div>
-    </div>
-
-
-
-
-
 <?php
 
 require "footer.php";
