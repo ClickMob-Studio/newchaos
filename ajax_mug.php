@@ -169,6 +169,15 @@ if ($mug <= 8) {
         if ($bpCategory) {
             addToBpCategoryUser($bpCategory, $user_class, 'mugs', 1);
         }
+        addToUserCompLeaderboard($user_class->id, 'mugs_complete', 1);
+
+        $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
+        $db->execute();
+        $activityContest = $db->fetch_row(true);
+        if ($activityContest['type'] == 'mugs') {
+            addToUserCompLeaderboard($user_class->id, 'activity_complete', 1);
+        }
+
 
         if ($mugamount < 1) {
             mission('m');

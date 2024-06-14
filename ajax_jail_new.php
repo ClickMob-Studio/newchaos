@@ -84,6 +84,14 @@ if (isset($_GET['jailbreak'])  && $_GET['jailbreak'] == 'bot') {
 
         addToGangCompLeaderboard($user_class->gang, 'busts_complete', 1);
 
+        addToUserCompLeaderboard($user_class->id, 'busts_complete', 1);
+        $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
+        $db->execute();
+        $activityContest = $db->fetch_row(true);
+        if ($activityContest['type'] == 'busts') {
+            addToUserCompLeaderboard($user_class->id, 'activity_complete', 1);
+        }
+
         $bpCategory = getBpCategory();
         if ($bpCategory) {
             addToBpCategoryUser($bpCategory, $user_class, 'busts', 1);

@@ -142,6 +142,14 @@ if ($jailbreak != ""){
                             addToBpCategoryUser($bpCategory, $user_class, 'busts', 1);
                         }
 
+                        addToUserCompLeaderboard($user_class->id, 'busts_complete', 1);
+                        $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
+                        $db->execute();
+                        $activityContest = $db->fetch_row(true);
+                        if ($activityContest['type'] == 'busts') {
+                            addToUserCompLeaderboard($user_class->id, 'activity_complete', 1);
+                        }
+
                         //header('Location: jail.php');
                     }elseif ($chance >= 150) {
                         $_SESSION['message'] = "You were caught. You were hauled off to jail for 10  minutes.";
