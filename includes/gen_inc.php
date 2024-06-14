@@ -189,4 +189,6 @@ $tournamentTypes = $addons->get_hooks(
         'location' => 'tournament_types'
     )
 );
+
+var_dump($_SESSION);
 ?>
