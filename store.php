@@ -34,7 +34,7 @@ if (!isset($_SESSION['exclude_event']) || (isset($_SESSION['last_vipstore_visit'
     $_SESSION['last_vipstore_visit'] = time();
 }
 
-$db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 2");
+$db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 3");
 $db->execute();
 $limitedPack = $db->fetch_row();
 $limitedPack = $limitedPack[0];
@@ -785,10 +785,10 @@ document.addEventListener("DOMContentLoaded", function() {
                         <?php if ($limitedPack['id'] == 3): ?>
                             <p>Pack Contains:</p>
                             <ul>
-                                <li>1m Points</li>
+                                <li>400,000 Points</li>
                                 <li>5 x Double EXP</li>
                                 <li>5 x Crime Boosters</li>
-                                <li>2 x Nerve Vials</li>
+                                <li>1 x Nerve Vials</li>
                             </ul>
                         <?php endif; ?>
 
