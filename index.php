@@ -1,9 +1,8 @@
 <?php
 session_start();
-if($_SESSION['id'] != 1 && $_SESSION['id'] != 2)
+
 include 'header.php';
-else
-include 'headertest.php';
+
 ?>
 
 <div class='container mt-3'>
