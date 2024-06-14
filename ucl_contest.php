@@ -3,7 +3,7 @@ include 'header.php';
 
 date_default_timezone_set('Europe/London'); // This will automatically account for BST as well.
 
-$targetDateMilliseconds = strtotime('June 17, 2024 21:00:00') * 1000;
+$targetDateMilliseconds = strtotime('June 10, 2024 21:00:00') * 1000;
 
 $userCompLeaderboard = getUserCompLeaderboard($user_class->id);
 
@@ -168,7 +168,7 @@ if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && is
 
     <p><strong>Current Requirement: Complete <?php echo ucfirst($activityContest['type']) ?> to earn activity points</strong></p>
 
-    <p style="color: red">Contest Ends June 17, 2024 21:00:00 Server Time</p>
+    <p style="color: red">Contest Ends June 19, 2024 21:00:00 Server Time</p>
     <hr />
 
     <div class="row">
