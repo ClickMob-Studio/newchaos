@@ -3,9 +3,9 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once 'config.inc.php';
-//require 'tables.php';
-//require 'settings.php';
+require_once 'includes/config.inc.php';
+require 'tables.php';
+require 'settings.php';
 
 /* THEME */
 $themeCFN = 'Theme.class.php';
