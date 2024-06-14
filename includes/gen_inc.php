@@ -2,7 +2,6 @@
 
 require_once 'config.inc.php';
 require 'tables.php';
-
 require 'settings.php';
 
 /* THEME */
@@ -14,21 +13,12 @@ if (!file_exists($themeCF)) die("Theme not found");
 require($themeCF);
 /* THEME */
 
-
 $addonClassFileName = 'Addon.class.php';
 $addonClassFile     = $addonClassFileName;
 
-if (!file_exists($addonClassFile))
-    $addonClassFile = 'includes/' . $addonClassFile;
-    
-if (!file_exists($addonClassFile))
-    $addonClassFile = '../' . $addonClassFile;
-    
-if (!file_exists($addonClassFile))
-    die("Addon class not found");
-
-if (!file_exists($addonClassFile))
-    die("Addon Class file not found");
+if (!file_exists($addonClassFile)) $addonClassFile = 'includes/' . $addonClassFile;
+if (!file_exists($addonClassFile)) $addonClassFile = '../' . $addonClassFile;
+if (!file_exists($addonClassFile)) die("Addon class not found");
 
 require($addonClassFile);
 
@@ -39,69 +29,67 @@ require($addonDir . '/autoloader.php');
 
 echo $addons->get_hooks(array(), array(
     'page'     => 'includes/gen_inc.php',
-    'location'  => 'start'
+    'location' => 'start'
 ));
 
 require 'poker_inc.php';
-
-
 require 'language.php';
-$plyrname  = (isset($_SESSION['username'])) ? addslashes($_SESSION['username']) : '';
-$SGUID     = (isset($_SESSION['id'])) ? addslashes($_SESSION['id']) : '';
+
+$plyrname = isset($_SESSION['username']) ? addslashes($_SESSION['username']) : '';
+$SGUID    = isset($_SESSION['id']) ? addslashes($_SESSION['id']) : '';
 $_SESSION['playername'] = $plyrname;
 $_SESSION['SGUID'] = $SGUID;
-$valid     = true;
-$ADMIN     = ($user_class)?$user_class->IsAdmin():false;
-$gID       = '';
+
+$valid = true;
+$ADMIN = ($user_class) ? $user_class->IsAdmin() : false;
+$gID   = '';
 
 $opsTheme->addVariable('is_admin', 0);
 $opsTheme->addVariable('is_logged', 0);
 
 if ($plyrname != '' && $SGUID != '') {
-    $idq    = $pdo->prepare("select GUID, gID, ID, vID from " . DB_PLAYERS . " where GUID = '" . $SGUID . "'"); $idq->execute();
-    $idr    = $idq->fetch(PDO::FETCH_ASSOC);
-    if($idq->rowCount() == 0){
-        $pdo->query("INSERT INTO " . DB_PLAYERS . " SET username= '".$plyrname."', GUID = '".$SGUID."'");
-        $pdo->query("INSERT INTO " . DB_STATS . " SET player = '".$plyrname."'");
-        
+    $idq = $pdo->prepare("SELECT GUID, gID, ID, vID FROM " . DB_PLAYERS . " WHERE GUID = :sguid");
+    $idq->execute([':sguid' => $SGUID]);
+    $idr = $idq->fetch(PDO::FETCH_ASSOC);
+
+    if ($idq->rowCount() == 0) {
+        $pdo->query("INSERT INTO " . DB_PLAYERS . " SET username= '{$plyrname}', GUID = '{$SGUID}'");
+        $pdo->query("INSERT INTO " . DB_STATS . " SET player = '{$plyrname}'");
     }
 
     $gID    = $idr['gID'];
     $pID    = $idr['ID'];
     $gameID = $idr['vID'];
-    $sitecurrency	= MONEY_PREFIX;
+    $sitecurrency = MONEY_PREFIX;
 
     if ($plyrname != '') {
         $time     = time();
         $i        = 0;
 
-        //$getstats = $pdo->prepare("select * from ".DB_STATS." where player = '{$plyrname}' ");
-        $getstats = $pdo->prepare("select a.*, b.bank from ".DB_STATS." a, grpgusers b where a.player = '{$plyrname}' and a.player=b.username ");
-        $getstats->execute();
+        $getstats = $pdo->prepare("SELECT a.*, b.bank FROM ".DB_STATS." a, grpgusers b WHERE a.player = :plyrname AND a.player = b.username");
+        $getstats->execute([':plyrname' => $plyrname]);
         $usestats = $getstats->fetch(PDO::FETCH_ASSOC);
 
         $current_chipcount = $usestats['b.bank'];
-        $current_money = money($usestats['b.bank']);
+        $current_money     = money($usestats['b.bank']);
 
         $opsTheme->addVariable('current_chipcount', $current_chipcount);
-        $opsTheme->addVariable('current_money',     $current_money);
+        $opsTheme->addVariable('current_money', $current_money);
         $opsTheme->addVariable('username', $plyrname);
         $opsTheme->addVariable('is_logged', 1);
-        
         $opsTheme->addVariable('sitecurrency', $sitecurrency);
-    } 
+    }
 }
-// ef function: 
-if ($ADMIN == true)
-{
+
+if ($ADMIN == true) {
     $opsTheme->addVariable('is_admin', 1);
+
     /*
     $now               = time();
     $updateCheckTimer  = (isset($_GET['force'])) ? (60) : (60 * 60 * 3);
     $last_update_check = LASTUPDATECH + $updateCheckTimer;
 
-    if ($now > $last_update_check)
-    {
+    if ($now > $last_update_check) {
         $pdo->query("UPDATE " . DB_SETTINGS . " SET Xvalue = '$now' WHERE setting = 'lastupdatech'");
         $updateJson = json_decode(file_get_contents_su(base64_decode('aHR0cHM6Ly91cGRhdGVzLm9ubGluZXBva2Vyc2NyaXB0LmNvbS9jb3JlL3NjcmlwdA==')));
 
@@ -110,19 +98,15 @@ if ($ADMIN == true)
         else
             $pdo->query("UPDATE " . DB_SETTINGS . " SET Xvalue = '0' WHERE setting = 'updatealert'");
 
-
         $newAddonUpdates = 0;
-        foreach (glob('includes/addons/*', GLOB_ONLYDIR) as $addonDir)
-        {
+        foreach (glob('includes/addons/*', GLOB_ONLYDIR) as $addonDir) {
             $addonInfoFile = "{$addonDir}/info.json";
 
-            if (! file_exists($addonInfoFile))
-                continue;
+            if (! file_exists($addonInfoFile)) continue;
 
             $addonInfo = json_decode(file_get_contents($addonInfoFile));
 
-            if (! isset($addonInfo->version, $addonInfo->update_url))
-                continue;
+            if (! isset($addonInfo->version, $addonInfo->update_url)) continue;
 
             $addonJson = json_decode(file_get_contents_ssl($addonInfo->update_url, array(
                 'ip'      => get_user_ip_addr(),
@@ -136,19 +120,15 @@ if ($ADMIN == true)
         }
         $pdo->query("UPDATE " . DB_SETTINGS . " SET Xvalue = '{$newAddonUpdates}' WHERE setting = 'addonupdatea'");
 
-
         $newThemeUpdates = 0;
-        foreach (glob('themes/*', GLOB_ONLYDIR) as $themeDir)
-        {
+        foreach (glob('themes/*', GLOB_ONLYDIR) as $themeDir) {
             $themeInfoFile = "{$themeDir}/info.json";
 
-            if (! file_exists($themeInfoFile))
-                continue;
+            if (! file_exists($themeInfoFile)) continue;
 
             $themeInfo = json_decode(file_get_contents($themeInfoFile));
 
-            if (! isset($themeInfo->version, $themeInfo->update_url))
-                continue;
+            if (! isset($themeInfo->version, $themeInfo->update_url)) continue;
 
             $themeJson = json_decode(file_get_contents_ssl($themeInfo->update_url, array(
                 'ip'      => get_user_ip_addr(),
@@ -168,14 +148,14 @@ if ($ADMIN == true)
 }
 
 $time     = time();
-$tq       = $pdo->prepare("select waitimer from " . DB_PLAYERS . " where username = '" . $plyrname . "' "); $tq->execute();
+$tq       = $pdo->prepare("SELECT waitimer FROM " . DB_PLAYERS . " WHERE username = :plyrname");
+$tq->execute([':plyrname' => $plyrname]);
 $tr       = $tq->fetch(PDO::FETCH_ASSOC);
 $waitimer = $tr['waitimer'];
 
-/*if ($waitimer > $time)
-{
-    header('Location sitout.php');
-}*/
+/* if ($waitimer > $time) {
+    header('Location: sitout.php');
+} */
 
 $tableTypes = $addons->get_hooks(
     array(
@@ -186,9 +166,10 @@ $tableTypes = $addons->get_hooks(
     ),
     array(
         'page'     => 'general',
-        'location'  => 'table_types'
+        'location' => 'table_types'
     )
 );
+
 $tournamentTypes = $addons->get_hooks(
     array(
         'content' => array(
@@ -197,8 +178,7 @@ $tournamentTypes = $addons->get_hooks(
     ),
     array(
         'page'     => 'general',
-        'location'  => 'tournament_types'
+        'location' => 'tournament_types'
     )
 );
-
 ?>
