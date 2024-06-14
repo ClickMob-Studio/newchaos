@@ -190,5 +190,5 @@ $tournamentTypes = $addons->get_hooks(
     )
 );
 
-var_dump($_SESSION);
+
 ?>
