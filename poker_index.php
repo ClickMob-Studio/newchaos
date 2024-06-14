@@ -12,7 +12,7 @@ if (! in_array($pagename, array('approve', 'logout')))
 	require('includes/gen_inc.php');
 
 $frontpage = "frontpages/{$pagename}.php";
-
+var_dump($_SESSION);
 if (file_exists($frontpage)){
 	include $frontpage;
 }else{
@@ -26,7 +26,7 @@ if (file_exists($frontpage)){
 		)
 	);
 }
-var_dump($_SESSION);
+
 if($pagename!="poker"){
 	require_once 'footer.php';
 }
