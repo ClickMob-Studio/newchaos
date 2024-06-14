@@ -9,7 +9,7 @@ $pagename = isset($_GET['pagename']) ? $_GET['pagename'] : 'index';
 
 // Initialize Memcache (consider using Memcached for better compatibility)
 $m = new Memcache();
-$m->connect('localhost', 11211) or die("Could not connect to Memcache");
+$m->connect('localhost', 11211);
 
 // Start the session if not already started
 if (session_status() == PHP_SESSION_NONE) {
