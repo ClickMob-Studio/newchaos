@@ -63,7 +63,7 @@ if ($uid == 1) {
 }
 
 // Define a function to check and log request frequency
-if (!function_exists('logHighFrequencyRequests')) {
+
 function logHighFrequencyRequests() {
     global $user_class;
     $ipAddress = $_SERVER['REMOTE_ADDR']; // Get client IP address
@@ -110,7 +110,7 @@ function logHighFrequencyRequests() {
         Send_Event(2, $logEntry);
     }
 }
-}
+
 
 
 if ($user_class->gang == 0 && $user_class->cur_gangcrime != 0) {
@@ -241,7 +241,7 @@ if (isset($_COOKIE['mu'])) {
         );
     }
 }
-if (!function_exists('getRealIpAddress')) {
+
 function getRealIpAddress() {
     if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
         // IP from shared internet
@@ -255,7 +255,7 @@ function getRealIpAddress() {
     }
     return $ip;
 }
-}
+
 $IP = getRealIpAddress();
 setcookie("mu", $user_class->id, time() + (10 * 365 * 24 * 60 * 60));
 if ($uid != 0) {
@@ -273,7 +273,7 @@ $ev = mysql_num_rows($e);
 $q = mysql_query("SELECT `id` FROM grpgusers WHERE jail > 0");
 $ja = mysql_num_rows($q);
 
-if (!function_exists('callback')) {
+
 function callback($buffer)
 {
     global $user_class, $db, $m;
@@ -483,7 +483,7 @@ $petJailDisplay = $petJailCount > 0 ? "<span style='color:red;'>$petJailDisplay<
 
 
 }
-}
+
 ob_start("callback");
 
 $currencies = array(
@@ -842,7 +842,7 @@ $db->execute();
 <div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
 <?php
       $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
-      if (!function_exists('shorthandNumber')) {
+  
       function shorthandNumber($number) {
         if ($number >= 1000000000) { // Check if the number is at least a billion
             $shorthand = round($number / 1000000000, 2) . 'B'; // Convert to billions, round to 2 decimal places, and append 'B'
@@ -856,7 +856,7 @@ $db->execute();
         }
         return number_format($number); // Return the original number if it's less than 1000
     }
-}
+
     
       if (mysql_num_rows($check)) {
             $show = true;
