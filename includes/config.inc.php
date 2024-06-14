@@ -1,6 +1,7 @@
 <?php
 $request_uri = $_SERVER['REQUEST_URI'];
-
+$m = new Memcache();
+$m->addServer('127.0.0.1', 11212, 33);
 // Handle specific redirections
 // if ($request_uri == '/crime.php') {
 //     header('Location: /Missions.php', true, 301);
