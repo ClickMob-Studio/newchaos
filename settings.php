@@ -1,9 +1,8 @@
 <?php
 session_start();
-if($_SESSION['id'] != 1 && $_SESSION['id'] != 2)
+
 include 'header.php';
-else
-include 'headertest.php';
+
 ?>
 <script type="text/javascript" data-cfasync="false" src="js/cp/jscolor.js"></script>
 <script>
