@@ -1849,6 +1849,7 @@ if (distance < 0) {
 
 
 
+if (!function_exists('secondsToHumanReadable')) {
 function secondsToHumanReadable($seconds, $requiredParts = null)
 {
     $from     = new \DateTime('@0');
@@ -1894,7 +1895,7 @@ function secondsToHumanReadable($seconds, $requiredParts = null)
 
     return $str;
 }
-
+}
 function microtime_float()
 {
     $time = microtime();
