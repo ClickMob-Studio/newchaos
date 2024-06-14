@@ -10,9 +10,7 @@ if (session_status() == PHP_SESSION_NONE) {
 require_once 'dbcon.php';
 require_once 'tables.php';
 require_once 'includes/settings.php';
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+
 /* THEME */
 
 $themeCFN = 'includes/Theme.class.php';
@@ -26,7 +24,9 @@ $themeCF  = $themeCFN;
 
 $addonClassFileName = 'Addon.class.php';
 $addonClassFile     = $addonClassFileName;
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 if (!file_exists($addonClassFile)) $addonClassFile = 'includes/' . $addonClassFile;
 if (!file_exists($addonClassFile)) $addonClassFile = '../' . $addonClassFile;
 if (!file_exists($addonClassFile)) die("Addon class not found");
