@@ -1,4 +1,5 @@
 <?php
+var_dump($_SESSION);
 require('includes/inc_index.php');
 
 $addons->get_hooks(array(), array(
@@ -9,7 +10,7 @@ $addons->get_hooks(array(), array(
 ));
 
 include 'templates/header.php';
-var_dump($_SESSION);
+
 echo $addons->get_hooks(array(), array(
 	'page'     => 'index.php',
 	'location'  => 'html_start'
