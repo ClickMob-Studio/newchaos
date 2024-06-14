@@ -10,7 +10,7 @@ if($pagename!="poker"){
 
 if (! in_array($pagename, array('approve', 'logout')))
 	require('includes/gen_inc.php');
-$frontpage = "frontpages/index.php";
+$frontpage = "frontpages/{$pagename}.php";
 
 if (file_exists($frontpage)){
 	include $frontpage;

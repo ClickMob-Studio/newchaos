@@ -1,5 +1,5 @@
 <?php
-require('includes/inc_index.php');
+//require('includes/inc_index.php');
 
 $addons->get_hooks(array(), array(
 
