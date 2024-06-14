@@ -20,7 +20,7 @@ if ($_GET['key'] === 'srunit') {
             Give_Item(270, $row['user_id'], 2);
             Give_Item(266, $row['user_id'], 1);
 
-            Send_Event($row['user_id'], 'Congratulations on finishing 1st in the Daily Activity Contest, you have been awarded 100k points, 2 x Hourglass Gem & 2 x Stone.');
+            Send_Event($row['user_id'], 'Congratulations on finishing 1st in the Daily Activity Contest, you have been awarded 100k points, 1 x Hourglass Gem & 2 x Stone.');
         }
 
         if ($i == 2) {

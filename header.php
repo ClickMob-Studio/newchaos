@@ -1508,7 +1508,7 @@ if ($user_class->admin > 0) {
     $db->execute();
     $activityContest = $db->fetch_row(true);
 
-    $messages[] = '<a href="ucl_contest.php"><font color=red>Activity Content: Complete ' . ucfirst($activityContest['type']) . ' </font></a>';
+    $messages[] = '<a href="ucl_contest.php"><font color=red>Activity Contest: Complete ' . ucfirst($activityContest['type']) . ' </font></a>';
 }
 
 //if ($user_class->gang > 0) {
