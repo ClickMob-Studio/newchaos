@@ -18,18 +18,23 @@ $addons->get_hooks(array(), array(
     'location'  => 'tabs_left'
 ));
 
+// Initialize variables
+$navHtml = '';
+$tabpanelHtml = '';
 
+// Add tab
 $opsTheme->addVariable('tab', array(
-	'id'   => 'tables',
-	'name' => 'All Tables',
-	'html' => $opsTheme->viewPart('lobby-gamelist-tabpanel')
+    'id'   => 'tables',
+    'name' => 'All Tables',
+    'html' => $opsTheme->viewPart('lobby-gamelist-tabpanel')
 ));
 
+// Append tabpanel HTML
 $tabpanelHtml .= $opsTheme->viewPart('lobby-tabpanel');
 
 $opsTheme->addVariable('lobby', array(
-	'tabs'      => $navHtml,
-	'tabpanels' => $tabpanelHtml
+    'tabs'      => $navHtml,
+    'tabpanels' => $tabpanelHtml
 ));
 
 echo $opsTheme->viewPage('lobby');
@@ -40,5 +45,4 @@ echo $addons->get_hooks(array(), array(
 ));
 
 include 'templates/footer.php';
-
 ?>
