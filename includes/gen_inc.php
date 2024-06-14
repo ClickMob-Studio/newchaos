@@ -53,7 +53,7 @@ $_SESSION['SGUID'] = $SGUID;
 $valid = true;
 $ADMIN = ($user_class) ? $user_class->admin > 0 : false;
 $gID   = '';
-
+echo "test";
 $opsTheme->addVariable('is_admin', 0);
 $opsTheme->addVariable('is_logged', 0);
 
