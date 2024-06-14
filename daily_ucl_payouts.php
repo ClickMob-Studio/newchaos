@@ -14,7 +14,7 @@ if ($_GET['key'] === 'srunit') {
         $row['user_id'] = 2;
 
         if ($i == 1) {
-            $db->query("UPDATE `grpgusers` SET `points` = `points` + 100000 WHERE `user_id` = " . $row['user_id']);
+            $db->query("UPDATE `grpgusers` SET `points` = `points` + 100000 WHERE `id` = " . $row['user_id']);
             $db->execute();
 
             Give_Item(270, $row['user_id'], 2);
@@ -24,7 +24,7 @@ if ($_GET['key'] === 'srunit') {
         }
 
         if ($i == 2) {
-            $db->query("UPDATE `grpgusers` SET `points` = `points` + 25000 WHERE `user_id` = " . $row['user_id']);
+            $db->query("UPDATE `grpgusers` SET `points` = `points` + 25000 WHERE `id` = " . $row['user_id']);
             $db->execute();
 
             Give_Item(270, $row['user_id'], 1);
