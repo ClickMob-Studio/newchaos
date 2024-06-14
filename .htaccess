@@ -1,0 +1,14 @@
+RewriteEngine on
+
+
+RewriteRule ^(admin|faq|lobby|pokerrules|sitout|poker)\.php$  poker_index.php?pagename=$1 [NC,QSA]
+DirectoryIndex home.php
+
+# Disable index view
+Options -Indexes
+
+# Hide a specific file
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
