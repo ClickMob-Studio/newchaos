@@ -842,6 +842,7 @@ $db->execute();
 <div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
 <?php
       $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
+      if (!function_exists('shorthandNumber')) {
       function shorthandNumber($number) {
         if ($number >= 1000000000) { // Check if the number is at least a billion
             $shorthand = round($number / 1000000000, 2) . 'B'; // Convert to billions, round to 2 decimal places, and append 'B'
@@ -855,6 +856,7 @@ $db->execute();
         }
         return number_format($number); // Return the original number if it's less than 1000
     }
+}
     
       if (mysql_num_rows($check)) {
             $show = true;
