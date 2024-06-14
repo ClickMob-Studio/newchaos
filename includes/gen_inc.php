@@ -1,11 +1,18 @@
 <?php
+// Enable error reporting for debugging
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// Start the session if not already started
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Include necessary files
 require_once 'dbcon.php';
-require 'tables.php';
-require 'settings.php';
+require_once 'tables.php';
+require_once 'settings.php';
 
 /* THEME */
 $themeCFN = 'Theme.class.php';
@@ -13,7 +20,7 @@ $themeCF  = $themeCFN;
 if (!file_exists($themeCF)) $themeCF = 'includes/' . $themeCF;
 if (!file_exists($themeCF)) $themeCF = '../' . $themeCF;
 if (!file_exists($themeCF)) die("Theme not found");
-require($themeCF);
+require_once $themeCF;
 /* THEME */
 
 $addonClassFileName = 'Addon.class.php';
@@ -23,20 +30,20 @@ if (!file_exists($addonClassFile)) $addonClassFile = 'includes/' . $addonClassFi
 if (!file_exists($addonClassFile)) $addonClassFile = '../' . $addonClassFile;
 if (!file_exists($addonClassFile)) die("Addon class not found");
 
-require($addonClassFile);
+require_once $addonClassFile;
 
 $addonDir      = str_replace($addonClassFileName, '', $addonClassFile) . 'addons';
 $addonSettings = array();
 $addons        = new \OPSAddon();
-require($addonDir . '/autoloader.php');
+require_once $addonDir . '/autoloader.php';
 
 echo $addons->get_hooks(array(), array(
     'page'     => 'includes/gen_inc.php',
     'location' => 'start'
 ));
 
-require 'poker_inc.php';
-require 'language.php';
+require_once 'poker_inc.php';
+require_once 'language.php';
 
 $plyrname = isset($_SESSION['username']) ? addslashes($_SESSION['username']) : '';
 $SGUID    = isset($_SESSION['id']) ? addslashes($_SESSION['id']) : '';
