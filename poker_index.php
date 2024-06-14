@@ -7,9 +7,6 @@ error_reporting(E_ALL);
 // Get the pagename from the query parameters or set it to 'index' by default
 $pagename = isset($_GET['pagename']) ? $_GET['pagename'] : 'index';
 
-// Initialize Memcache (consider using Memcached for better compatibility)
-$m = new Memcache();
-$m->connect('localhost', 11211);
 
 // Start the session if not already started
 if (session_status() == PHP_SESSION_NONE) {
