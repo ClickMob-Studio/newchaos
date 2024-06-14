@@ -1,12 +1,11 @@
 <?php
 // Enable error reporting for debugging
- ini_set('display_errors', 1);
- ini_set('display_startup_errors', 1);
- error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 // Get the pagename from the query parameters or set it to 'index' by default
 $pagename = isset($_GET['pagename']) ? $_GET['pagename'] : 'index';
-
 
 // Start the session if not already started
 if (session_status() == PHP_SESSION_NONE) {
@@ -20,13 +19,12 @@ if ($pagename != "poker") {
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
-    
 }
 
 // Include general includes file unless on specific pages
 if (!in_array($pagename, array('approve', 'logout'))) {
     if (file_exists('includes/gen_inc.php')) {
-        require 'includes/gen_inc.php';
+        require_once 'includes/gen_inc.php';
     } else {
         die('General includes file not found.');
     }
