@@ -26,5 +26,5 @@ echo $addons->get_hooks(array(), array(
 
 ));
 
-include 'templates/footer.php';
+include '/templates/footer.php';
 ?>
