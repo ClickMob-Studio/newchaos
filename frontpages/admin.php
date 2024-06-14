@@ -1,5 +1,5 @@
 <?php
-var_dump($_SESSION);
+
 require('includes/inc_admin.php');
 
 $addons->get_hooks(array(), array(

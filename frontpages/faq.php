@@ -8,7 +8,7 @@ $addons->get_hooks(array(), array(
 
 $opsTheme->addVariable('faq', FAQ);
 
-include 'templates/header.php';
+include '/templates/header.php';
 
 echo $addons->get_hooks(array(), array(
 
