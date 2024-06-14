@@ -17,7 +17,10 @@ if (session_status() == PHP_SESSION_NONE) {
 if ($pagename != "poker") {
     require_once 'header.php';
 } else {
-    session_start();
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+    
 }
 
 // Include general includes file unless on specific pages
