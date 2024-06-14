@@ -12,13 +12,14 @@ require_once 'includes/tables.php';
 require_once 'includes/settings.php';
 
 /* THEME */
-var_dump($_SESSION);
+
 $themeCFN = 'includes/Theme.class.php';
 $themeCF  = $themeCFN;
-// if (!file_exists($themeCF)) $themeCF = 'includes/' . $themeCF;
-// if (!file_exists($themeCF)) $themeCF = '../' . $themeCF;
-// if (!file_exists($themeCF)) die("Theme not found");
-// require_once $themeCF;
+ if (!file_exists($themeCF)) $themeCF = 'includes/' . $themeCF;
+ if (!file_exists($themeCF)) $themeCF = '../' . $themeCF;
+ if (!file_exists($themeCF)) die("Theme not found");
+ require_once $themeCF;
+ var_dump($_SESSION);
 // /* THEME */
 
 // $addonClassFileName = 'Addon.class.php';
