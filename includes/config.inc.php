@@ -2,18 +2,18 @@
 $request_uri = $_SERVER['REQUEST_URI'];
 
 // Handle specific redirections
-if ($request_uri == '/crime.php') {
-    header('Location: /Missions.php', true, 301);
-    exit();
-} elseif (preg_match('/^(admin|faq|lobby|pokerrules|sitout|poker)\.php$/', $request_uri)) {
-    // Extract the page name from the URI
-    preg_match('/^(admin|faq|lobby|pokerrules|sitout|poker)\.php$/', $request_uri, $matches);
-    $page_name = $matches[1];
+// if ($request_uri == '/crime.php') {
+//     header('Location: /Missions.php', true, 301);
+//     exit();
+// } elseif (preg_match('/^(admin|faq|lobby|pokerrules|sitout|poker)\.php$/', $request_uri)) {
+//     // Extract the page name from the URI
+//     preg_match('/^(admin|faq|lobby|pokerrules|sitout|poker)\.php$/', $request_uri, $matches);
+//     $page_name = $matches[1];
     
-    // Redirect to poker_index.php with the page name as a query parameter
-    header("Location: /poker_index.php?pagename=$page_name", true, 301);
-    exit();
-}
+//     // Redirect to poker_index.php with the page name as a query parameter
+//     header("Location: /poker_index.php?pagename=$page_name", true, 301);
+//     exit();
+// }
 define('DS', DIRECTORY_SEPARATOR);
 define('ABSPATH', dirname(__FILE__) . DIRECTORY_SEPARATOR);
 //  ini_set('display_errors', 0);
