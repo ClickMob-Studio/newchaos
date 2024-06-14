@@ -35,7 +35,7 @@ $addonDir      = str_replace($addonClassFileName, '', $addonClassFile) . 'addons
 $addonSettings = array();
 $addons        = new \OPSAddon();
 require_once $addonDir . '/autoloader.php';
-var_dump($_SESSION);
+
 echo $addons->get_hooks(array(), array(
     'page'     => 'includes/gen_inc.php',
     'location' => 'start'

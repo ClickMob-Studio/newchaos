@@ -26,7 +26,7 @@ if (file_exists($frontpage)){
 		)
 	);
 }
-
+var_dump($_SESSION);
 if($pagename!="poker"){
 	require_once 'footer.php';
 }
