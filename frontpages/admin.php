@@ -1,7 +1,9 @@
 <?php
 
 require('includes/inc_admin.php');
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 $addons->get_hooks(array(), array(
 
 	'page'     => 'admin.php',
