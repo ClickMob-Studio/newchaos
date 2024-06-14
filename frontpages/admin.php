@@ -1,6 +1,7 @@
 <?php
-require('includes/inc_admin.php');
 var_dump($_SESSION);
+require('includes/inc_admin.php');
+
 $addons->get_hooks(array(), array(
 
 	'page'     => 'admin.php',
