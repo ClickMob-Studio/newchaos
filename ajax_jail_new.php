@@ -89,7 +89,7 @@ if (isset($_GET['jailbreak'])  && $_GET['jailbreak'] == 'bot') {
         $db->execute();
         $activityContest = $db->fetch_row(true);
         if ($activityContest['type'] == 'busts') {
-            addToUserCompLeaderboard($user_class->id, 'activity_complete', 1);
+            addToUserCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
         }
 
         $bpCategory = getBpCategory();

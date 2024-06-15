@@ -491,7 +491,7 @@ if ($theirhp <= 0) {
     $db->execute();
     $activityContest = $db->fetch_row(true);
     if ($activityContest['type'] == 'attacks') {
-        addToUserCompLeaderboard($user_class->id, 'activity_complete', 1);
+        addToUserCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
     }
 
     Send_Event($attack_person->id, "[-_USERID_-] attacked you and won! They gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".", $user_class->id);

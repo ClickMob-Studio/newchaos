@@ -423,4 +423,10 @@ $activityContestTypes = array(
 );
 $typeToUse = $activityContestTypes[mt_rand(0, count($activityContestTypes) - 1)];
 
+if ($typeToUse === 'crimes') {
+    $typeValue = 1;
+} else {
+    $typeValue = mt_rand(1,100);
+}
+
 mysql_query("UPDATE `activity_contest` SET `type` = '" . $typeToUse . "'");
