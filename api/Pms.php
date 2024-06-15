@@ -110,7 +110,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 }
 function getInbox($userId) {
     global $db;
-    $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
+    $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 5;
     $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 
     try {
@@ -138,7 +138,7 @@ function getInbox($userId) {
 
 function getOutbox($userId) {
     global $db;
-    $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
+    $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 5;
     $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 
     try {
