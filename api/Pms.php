@@ -27,8 +27,22 @@ function respond($data, $status = 200) {
     exit;
 }
 
+function getallheaders() {
+    if (!is_array($_SERVER)) {
+        return [];
+    }
+
+    $headers = [];
+    foreach ($_SERVER as $name => $value) {
+        if (substr($name, 0, 5) == 'HTTP_') {
+            $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+        }
+    }
+    return $headers;
+}
+
 function getUserId() {
-    $headers = apache_request_headers();
+    $headers = getallheaders();
     if (isset($headers['UserId'])) {
         return intval($headers['UserId']);
     } else {
