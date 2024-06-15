@@ -7,7 +7,7 @@ include_once "includes/functions.php";
 // Set error reporting level and log location
 error_reporting(E_ALL);
 ini_set('display_errors', 1); // Disable display of errors to the user
-
+var_dump(getInbox(1));
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
 
