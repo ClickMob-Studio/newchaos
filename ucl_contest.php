@@ -162,8 +162,8 @@ if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && is
 
     <p><strong>Your current points:</strong></p>
     <ul>
-        <li><strong>Daily:</strong> <?php echo number_format($userCompLeaderboard['daily_activity_complete'], ); ?></li>
-        <li><strong>Overall:</strong> <?php echo number_format($userCompLeaderboard['overall_activity_complete'], ); ?></li>
+        <li><strong>Daily:</strong> <?php echo number_format($userCompLeaderboard['daily_activity_complete'], 0); ?></li>
+        <li><strong>Overall:</strong> <?php echo number_format($userCompLeaderboard['overall_activity_complete'], 0); ?></li>
     </ul>
 
     <?php
