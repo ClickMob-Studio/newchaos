@@ -116,17 +116,25 @@ function getInbox($userId) {
     try {
         $db->query("SELECT * FROM pms WHERE `to` = :userId ORDER BY timesent DESC LIMIT :limit OFFSET :offset");
         $db->bind(':userId', $userId, PDO::PARAM_INT);
-        $db->bind(':limit', $limit, PDO::PARAM_INT);
+        $db->bind(':limit', $limit + 1, PDO::PARAM_INT); // Fetch one more than the limit
         $db->bind(':offset', $offset, PDO::PARAM_INT);
         $db->execute();
         $messages = $db->fetch_row();
-        $hasMore = count($messages) === $limit; // Determine if there are more messages to load
+
+        // Determine if there are more messages to load
+        $hasMore = count($messages) > $limit;
+        if ($hasMore) {
+            // Remove the extra message that was fetched
+            array_pop($messages);
+        }
+
         respond(['inbox' => $messages, 'hasMore' => $hasMore]);
     } catch (Exception $e) {
         error_log('Error in getInbox: ' . $e->getMessage());
         respond(['error' => 'An error occurred while fetching inbox'], 500);
     }
 }
+
 
 function getOutbox($userId) {
     global $db;
@@ -140,7 +148,7 @@ function getOutbox($userId) {
         $db->bind(':offset', $offset, PDO::PARAM_INT);
         $db->execute();
         $messages = $db->fetch_row();
-        $hasMore = count($messages) === $limit; // Determine if there are more messages to load
+        $hasMore = count($messages) == $limit; // Determine if there are more messages to load
         respond(['outbox' => $messages, 'hasMore' => $hasMore]);
     } catch (Exception $e) {
         error_log('Error in getOutbox: ' . $e->getMessage());
