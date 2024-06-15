@@ -4,10 +4,11 @@ include "../classes.php";
 include "../codeparser.php";
 include_once "includes/functions.php";
 
-// Set error reporting level and log location
+// Set error reporting level and use default error log
 error_reporting(E_ALL);
-ini_set('display_errors', 1); // Disable display of errors to the user
-var_dump(getInbox(1));
+ini_set('display_errors', 0); // Disable display of errors to the user
+ini_set('log_errors', 1);
+
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
 
@@ -51,8 +52,16 @@ function getUserId() {
     }
 }
 
+function logRequestDetails() {
+    error_log('Request Method: ' . $_SERVER['REQUEST_METHOD']);
+    error_log('Request Headers: ' . json_encode(getallheaders()));
+    error_log('Request Params: ' . json_encode($_GET));
+    error_log('Request Body: ' . file_get_contents('php://input'));
+}
+
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
+        logRequestDetails(); // Log request details
         if (isset($_GET['action'])) {
             try {
                 $userId = getUserId();
