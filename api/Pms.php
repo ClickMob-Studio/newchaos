@@ -45,8 +45,8 @@ function getallheaders() {
 function getUserId() {
     $headers = getallheaders();
     error_log('Request Headers: ' . json_encode($headers));
-    if (isset($headers['UserId'])) {
-        return intval($headers['UserId']);
+    if (isset($headers['Userid'])) {
+        return intval($headers['Userid']);
     } else {
         respond(['error' => 'User ID is required'], 400);
     }
