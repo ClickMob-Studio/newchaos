@@ -5,8 +5,6 @@ include "../codeparser.php";
 include_once "includes/functions.php";
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-ini_set('log_errors', 1);
-ini_set('error_log', 'php_errors.log'); // Ensure this path is writable by your web server
 
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
@@ -43,6 +41,7 @@ function getallheaders() {
 
 function getUserId() {
     $headers = getallheaders();
+    error_log('Request Headers: ' . json_encode($headers));
     if (isset($headers['UserId'])) {
         return intval($headers['UserId']);
     } else {
