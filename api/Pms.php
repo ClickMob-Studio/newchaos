@@ -3,10 +3,10 @@ include "../database/pdo_class.php";
 include "../classes.php";
 include "../codeparser.php";
 include_once "includes/functions.php";
+
+// Set error reporting level and log location
 error_reporting(E_ALL);
-ini_set('display_errors', 0); // Disable display of errors to the user
-ini_set('log_errors', 1);
-ini_set('error_log', '/home/chaoscit/logs/php-error.log'); 
+ini_set('display_errors', 1); // Disable display of errors to the user
 
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
@@ -56,6 +56,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         if (isset($_GET['action'])) {
             try {
                 $userId = getUserId();
+                error_log('Action: ' . $_GET['action']);
                 switch ($_GET['action']) {
                     case 'inbox':
                         getInbox($userId);
@@ -116,6 +117,7 @@ function getInbox($userId) {
         $db->query("SELECT * FROM pms WHERE `to` = ? ORDER BY timesent DESC");
         $db->execute([$userId]);
         $messages = $db->fetch_row();
+        error_log('Inbox Messages: ' . json_encode($messages));
         respond(['inbox' => $messages]);
     } catch (Exception $e) {
         error_log('Error in getInbox: ' . $e->getMessage());
@@ -129,6 +131,7 @@ function getOutbox($userId) {
         $db->query("SELECT * FROM pms WHERE `from` = ? ORDER BY timesent DESC");
         $db->execute([$userId]);
         $messages = $db->fetch_row();
+        error_log('Outbox Messages: ' . json_encode($messages));
         respond(['outbox' => $messages]);
     } catch (Exception $e) {
         error_log('Error in getOutbox: ' . $e->getMessage());
@@ -142,6 +145,7 @@ function viewMessage($userId, $id) {
         $db->query("SELECT * FROM pms WHERE id = ? AND (`to` = ? OR `from` = ?)");
         $db->execute([$id, $userId, $userId]);
         $message = $db->fetch_row(true);
+        error_log('View Message: ' . json_encode($message));
         if ($message) {
             respond(['message' => $message]);
         } else {
@@ -157,6 +161,7 @@ function sendMessage($userId) {
     global $db;
     try {
         $data = json_decode(file_get_contents('php://input'), true);
+        error_log('Send Message Data: ' . json_encode($data));
 
         if (!isset($data['to']) || !isset($data['subject']) || !isset($data['msgtext'])) {
             respond(['error' => 'Missing required fields'], 400);
