@@ -50,16 +50,8 @@ function getUserId() {
     }
 }
 
-function logRequestDetails() {
-    error_log('Request Method: ' . $_SERVER['REQUEST_METHOD']);
-    error_log('Request Headers: ' . json_encode(getallheaders()));
-    error_log('Request Params: ' . json_encode($_GET));
-    error_log('Request Body: ' . file_get_contents('php://input'));
-}
-
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
-        logRequestDetails(); // Log request details
         if (isset($_GET['action'])) {
             try {
                 $userId = getUserId();
