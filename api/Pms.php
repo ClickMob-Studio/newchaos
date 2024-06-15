@@ -3,15 +3,18 @@ include "../database/pdo_class.php";
 include "../classes.php";
 include "../codeparser.php";
 include_once "includes/functions.php";
-error_reporting(0);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+ini_set('error_log', 'php_errors.log'); // Ensure this path is writable by your web server
+
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
 
 header('Access-Control-Allow-Origin: *'); // Allows all origins, replace '*' with specific domain for production
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS'); // Allowed HTTP methods
 header('Access-Control-Allow-Headers: Content-Type, Authorization, UserId'); // Allowed headers
-header('Access-Control-Max-Age: 86400'); 
-
+header('Access-Control-Max-Age: 86400');
 
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
@@ -36,47 +39,52 @@ function getUserId() {
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
         if (isset($_GET['action'])) {
-            $userId = getUserId();
-            switch ($_GET['action']) {
-                case 'inbox':
-                    getInbox($userId);
-                    break;
-                case 'outbox':
-                    getOutbox($userId);
-                    break;
-                case 'view':
-                    if (isset($_GET['id'])) {
-                        viewMessage($userId, $_GET['id']);
-                    } else {
-                        respond(['error' => 'Message ID is required'], 400);
-                    }
-                    break;
-                case 'send':
-                    sendMessage($userId);
-                    break;
-                case 'delete':
-                    if (isset($_GET['id'])) {
-                        deleteMessage($userId, $_GET['id']);
-                    } else {
-                        respond(['error' => 'Message ID is required'], 400);
-                    }
-                    break;
-                case 'report':
-                    if (isset($_GET['id'])) {
-                        reportMessage($userId, $_GET['id']);
-                    } else {
-                        respond(['error' => 'Message ID is required'], 400);
-                    }
-                    break;
-                case 'star':
-                    if (isset($_GET['id'])) {
-                        starMessage($userId, $_GET['id']);
-                    } else {
-                        respond(['error' => 'Message ID is required'], 400);
-                    }
-                    break;
-                default:
-                    respond(['error' => 'Invalid action'], 400);
+            try {
+                $userId = getUserId();
+                switch ($_GET['action']) {
+                    case 'inbox':
+                        getInbox($userId);
+                        break;
+                    case 'outbox':
+                        getOutbox($userId);
+                        break;
+                    case 'view':
+                        if (isset($_GET['id'])) {
+                            viewMessage($userId, $_GET['id']);
+                        } else {
+                            respond(['error' => 'Message ID is required'], 400);
+                        }
+                        break;
+                    case 'send':
+                        sendMessage($userId);
+                        break;
+                    case 'delete':
+                        if (isset($_GET['id'])) {
+                            deleteMessage($userId, $_GET['id']);
+                        } else {
+                            respond(['error' => 'Message ID is required'], 400);
+                        }
+                        break;
+                    case 'report':
+                        if (isset($_GET['id'])) {
+                            reportMessage($userId, $_GET['id']);
+                        } else {
+                            respond(['error' => 'Message ID is required'], 400);
+                        }
+                        break;
+                    case 'star':
+                        if (isset($_GET['id'])) {
+                            starMessage($userId, $_GET['id']);
+                        } else {
+                            respond(['error' => 'Message ID is required'], 400);
+                        }
+                        break;
+                    default:
+                        respond(['error' => 'Invalid action'], 400);
+                }
+            } catch (Exception $e) {
+                error_log('Error in switch case: ' . $e->getMessage());
+                respond(['error' => 'An error occurred: ' . $e->getMessage()], 500);
             }
         } else {
             respond(['error' => 'Action is required'], 400);
@@ -89,88 +97,116 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 function getInbox($userId) {
     global $db;
-
-    $db->query("SELECT * FROM pms WHERE `to` = ? ORDER BY timesent DESC");
-    $db->execute([$userId]);
-    $messages = $db->fetch_row();
-    respond(['inbox' => $messages]);
+    try {
+        $db->query("SELECT * FROM pms WHERE `to` = ? ORDER BY timesent DESC");
+        $db->execute([$userId]);
+        $messages = $db->fetch_row();
+        respond(['inbox' => $messages]);
+    } catch (Exception $e) {
+        error_log('Error in getInbox: ' . $e->getMessage());
+        respond(['error' => 'An error occurred while fetching inbox'], 500);
+    }
 }
 
 function getOutbox($userId) {
     global $db;
-
-    $db->query("SELECT * FROM pms WHERE `from` = ? ORDER BY timesent DESC");
-    $db->execute([$userId]);
-    $messages = $db->fetch_row();
-    respond(['outbox' => $messages]);
+    try {
+        $db->query("SELECT * FROM pms WHERE `from` = ? ORDER BY timesent DESC");
+        $db->execute([$userId]);
+        $messages = $db->fetch_row();
+        respond(['outbox' => $messages]);
+    } catch (Exception $e) {
+        error_log('Error in getOutbox: ' . $e->getMessage());
+        respond(['error' => 'An error occurred while fetching outbox'], 500);
+    }
 }
 
 function viewMessage($userId, $id) {
     global $db;
-
-    $db->query("SELECT * FROM pms WHERE id = ? AND (`to` = ? OR `from` = ?)");
-    $db->execute([$id, $userId, $userId]);
-    $message = $db->fetch_row(true);
-    if ($message) {
-        respond(['message' => $message]);
-    } else {
-        respond(['error' => 'Message not found'], 404);
+    try {
+        $db->query("SELECT * FROM pms WHERE id = ? AND (`to` = ? OR `from` = ?)");
+        $db->execute([$id, $userId, $userId]);
+        $message = $db->fetch_row(true);
+        if ($message) {
+            respond(['message' => $message]);
+        } else {
+            respond(['error' => 'Message not found'], 404);
+        }
+    } catch (Exception $e) {
+        error_log('Error in viewMessage: ' . $e->getMessage());
+        respond(['error' => 'An error occurred while viewing message'], 500);
     }
 }
 
 function sendMessage($userId) {
     global $db;
+    try {
+        $data = json_decode(file_get_contents('php://input'), true);
 
-    $data = json_decode(file_get_contents('php://input'), true);
+        if (!isset($data['to']) || !isset($data['subject']) || !isset($data['msgtext'])) {
+            respond(['error' => 'Missing required fields'], 400);
+        }
 
-    if (!isset($data['to']) || !isset($data['subject']) || !isset($data['msgtext'])) {
-        respond(['error' => 'Missing required fields'], 400);
+        $to = $data['to'];
+        $subject = strip_tags($data['subject']);
+        $msgtext = strip_tags(nl2br($data['msgtext']));
+        $bomb = isset($data['bomb']) ? $data['bomb'] : 0;
+
+        $to_user = new User($to);
+        $parent = 0; // Customize as needed
+
+        $db->query("INSERT INTO pms (parent, `to`, `from`, timesent, subject, msgtext, bomb) VALUES (?, ?, ?, unix_timestamp(), ?, ?, ?)");
+        $db->execute([$parent, $to, $userId, $subject, $msgtext, $bomb]);
+
+        $db->query("INSERT INTO maillog (`to`, `from`, timesent, subject, msgtext) VALUES (?, ?, unix_timestamp(), ?, ?)");
+        $db->execute([$to, $userId, $subject, $msgtext]);
+
+        respond(['message' => 'Message sent successfully']);
+    } catch (Exception $e) {
+        error_log('Error in sendMessage: ' . $e->getMessage());
+        respond(['error' => 'An error occurred while sending message'], 500);
     }
-
-    $to = $data['to'];
-    $subject = strip_tags($data['subject']);
-    $msgtext = strip_tags(nl2br($data['msgtext']));
-    $bomb = isset($data['bomb']) ? $data['bomb'] : 0;
-
-    $to_user = new User($to);
-    $parent = 0; // Customize as needed
-
-    $db->query("INSERT INTO pms (parent, `to`, `from`, timesent, subject, msgtext, bomb) VALUES (?, ?, ?, unix_timestamp(), ?, ?, ?)");
-    $db->execute([$parent, $to, $userId, $subject, $msgtext, $bomb]);
-
-    $db->query("INSERT INTO maillog (`to`, `from`, timesent, subject, msgtext) VALUES (?, ?, unix_timestamp(), ?, ?)");
-    $db->execute([$to, $userId, $subject, $msgtext]);
-
-    respond(['message' => 'Message sent successfully']);
 }
 
 function deleteMessage($userId, $id) {
     global $db;
-
-    $db->query("DELETE FROM pms WHERE id = ? AND `to` = ? AND starred = 0");
-    $db->execute([$id, $userId]);
-    respond(['message' => 'Message deleted successfully']);
+    try {
+        $db->query("DELETE FROM pms WHERE id = ? AND `to` = ? AND starred = 0");
+        $db->execute([$id, $userId]);
+        respond(['message' => 'Message deleted successfully']);
+    } catch (Exception $e) {
+        error_log('Error in deleteMessage: ' . $e->getMessage());
+        respond(['error' => 'An error occurred while deleting message'], 500);
+    }
 }
 
 function reportMessage($userId, $id) {
     global $db;
-
-    $db->query("UPDATE maillog SET reported = 1 WHERE id = ? AND `to` = ?");
-    $db->execute([$id, $userId]);
-    respond(['message' => 'Message reported successfully']);
+    try {
+        $db->query("UPDATE maillog SET reported = 1 WHERE id = ? AND `to` = ?");
+        $db->execute([$id, $userId]);
+        respond(['message' => 'Message reported successfully']);
+    } catch (Exception $e) {
+        error_log('Error in reportMessage: ' . $e->getMessage());
+        respond(['error' => 'An error occurred while reporting message'], 500);
+    }
 }
 
 function starMessage($userId, $id) {
     global $db;
+    try {
+        $db->query("SELECT starred FROM pms WHERE id = ? AND `to` = ?");
+        $db->execute([$id, $userId]);
+        $star = $db->fetch_single();
+        $newStar = $star ? 0 : 1;
 
-    $db->query("SELECT starred FROM pms WHERE id = ? AND `to` = ?");
-    $db->execute([$id, $userId]);
-    $star = $db->fetch_single();
-    $newStar = $star ? 0 : 1;
-
-    $db->query("UPDATE pms SET starred = ? WHERE id = ? AND `to` = ?");
-    $db->execute([$newStar, $id, $userId]);
-    $message = $newStar ? 'Message starred successfully' : 'Message unstarred successfully';
-    respond(['message' => $message]);
+        $db->query("UPDATE pms SET starred = ? WHERE id = ? AND `to` = ?");
+        $db->execute([$newStar, $id, $userId]);
+        $message = $newStar ? 'Message starred successfully' : 'Message unstarred successfully';
+        respond(['message' => $message]);
+    } catch (Exception $e) {
+        error_log('Error in starMessage: ' . $e->getMessage());
+        respond(['error' => 'An error occurred while starring message'], 500);
+    }
 }
 ?>
