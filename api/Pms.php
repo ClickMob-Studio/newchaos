@@ -4,7 +4,6 @@ include "../classes.php";
 include "../codeparser.php";
 include_once "includes/functions.php";
 
-// Set error reporting level and use default error log
 error_reporting(E_ALL);
 ini_set('display_errors', 0); // Disable display of errors to the user
 ini_set('log_errors', 1);
@@ -51,8 +50,16 @@ function getUserId() {
     }
 }
 
+function logRequestDetails() {
+    error_log('Request Method: ' . $_SERVER['REQUEST_METHOD']);
+    error_log('Request Headers: ' . json_encode(getallheaders()));
+    error_log('Request Params: ' . json_encode($_GET));
+    error_log('Request Body: ' . file_get_contents('php://input'));
+}
+
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
+        logRequestDetails(); // Log request details
         if (isset($_GET['action'])) {
             try {
                 $userId = getUserId();
@@ -98,6 +105,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                         respond(['error' => 'Invalid action'], 400);
                 }
             } catch (Exception $e) {
+                error_log('Error in switch case: ' . $e->getMessage());
                 respond(['error' => 'An error occurred: ' . $e->getMessage()], 500);
             }
         } else {
@@ -111,24 +119,32 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 function getInbox($userId) {
     global $db;
+    $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
+    $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
+
     try {
-        $db->query("SELECT * FROM pms WHERE `to` = ? ORDER BY timesent DESC");
-        $db->execute([$userId]);
+        $db->query("SELECT * FROM pms WHERE `to` = ? ORDER BY timesent DESC LIMIT ? OFFSET ?");
+        $db->execute([$userId, $limit, $offset]);
         $messages = $db->fetch_row();
         respond(['inbox' => $messages]);
     } catch (Exception $e) {
+        error_log('Error in getInbox: ' . $e->getMessage());
         respond(['error' => 'An error occurred while fetching inbox'], 500);
     }
 }
 
 function getOutbox($userId) {
     global $db;
+    $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
+    $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
+
     try {
-        $db->query("SELECT * FROM pms WHERE `from` = ? ORDER BY timesent DESC");
-        $db->execute([$userId]);
+        $db->query("SELECT * FROM pms WHERE `from` = ? ORDER BY timesent DESC LIMIT ? OFFSET ?");
+        $db->execute([$userId, $limit, $offset]);
         $messages = $db->fetch_row();
         respond(['outbox' => $messages]);
     } catch (Exception $e) {
+        error_log('Error in getOutbox: ' . $e->getMessage());
         respond(['error' => 'An error occurred while fetching outbox'], 500);
     }
 }
@@ -145,6 +161,7 @@ function viewMessage($userId, $id) {
             respond(['error' => 'Message not found'], 404);
         }
     } catch (Exception $e) {
+        error_log('Error in viewMessage: ' . $e->getMessage());
         respond(['error' => 'An error occurred while viewing message'], 500);
     }
 }
@@ -174,6 +191,7 @@ function sendMessage($userId) {
 
         respond(['message' => 'Message sent successfully']);
     } catch (Exception $e) {
+        error_log('Error in sendMessage: ' . $e->getMessage());
         respond(['error' => 'An error occurred while sending message'], 500);
     }
 }
@@ -185,6 +203,7 @@ function deleteMessage($userId, $id) {
         $db->execute([$id, $userId]);
         respond(['message' => 'Message deleted successfully']);
     } catch (Exception $e) {
+        error_log('Error in deleteMessage: ' . $e->getMessage());
         respond(['error' => 'An error occurred while deleting message'], 500);
     }
 }
@@ -196,6 +215,7 @@ function reportMessage($userId, $id) {
         $db->execute([$id, $userId]);
         respond(['message' => 'Message reported successfully']);
     } catch (Exception $e) {
+        error_log('Error in reportMessage: ' . $e->getMessage());
         respond(['error' => 'An error occurred while reporting message'], 500);
     }
 }
@@ -213,6 +233,7 @@ function starMessage($userId, $id) {
         $message = $newStar ? 'Message starred successfully' : 'Message unstarred successfully';
         respond(['message' => $message]);
     } catch (Exception $e) {
+        error_log('Error in starMessage: ' . $e->getMessage());
         respond(['error' => 'An error occurred while starring message'], 500);
     }
 }
