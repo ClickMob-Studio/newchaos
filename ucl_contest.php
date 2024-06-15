@@ -157,7 +157,7 @@ if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && is
     </p>
 
     <p>
-        We have a daily leaderboard which will reset daily as well as an overall leaderboard! Daily leaderboard will be paid out and reset at Midnight server time.
+        We have a daily leaderboard which will reset daily as well as an overall leaderboard! Daily leaderboard will be paid out and reset at Rollover.
     </p>
 
     <?php
