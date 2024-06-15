@@ -4,7 +4,9 @@ include "../classes.php";
 include "../codeparser.php";
 include_once "includes/functions.php";
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+ini_set('display_errors', 0); // Disable display of errors to the user
+ini_set('log_errors', 1);
+ini_set('error_log', '/home/chaoscit/log/php-error.log'); 
 
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
