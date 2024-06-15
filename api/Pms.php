@@ -121,7 +121,8 @@ function getInbox($userId) {
         $db->bind(':offset', $offset, PDO::PARAM_INT);
         $db->execute();
         $messages = $db->fetch_row();
-        respond(['inbox' => $messages]);
+        $hasMore = count($messages) == $limit; 
+        respond(['inbox' => $messages, 'hasMore' => $hasMore]);
     } catch (Exception $e) {
         error_log('Error in getInbox: ' . $e->getMessage());
         respond(['error' => 'An error occurred while fetching inbox'], 500);
@@ -140,7 +141,8 @@ function getOutbox($userId) {
         $db->bind(':offset', $offset, PDO::PARAM_INT);
         $db->execute();
         $messages = $db->fetch_row();
-        respond(['outbox' => $messages]);
+        $hasMore = count($messages) == $limit; 
+        respond(['outbox' => $messages, 'hasMore' => $hasMore]);
     } catch (Exception $e) {
         error_log('Error in getOutbox: ' . $e->getMessage());
         respond(['error' => 'An error occurred while fetching outbox'], 500);
