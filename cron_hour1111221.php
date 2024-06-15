@@ -429,4 +429,4 @@ if ($typeToUse === 'crimes') {
     $typeValue = mt_rand(1,100);
 }
 
-mysql_query("UPDATE `activity_contest` SET `type` = '" . $typeToUse . "'");
+mysql_query("UPDATE `activity_contest` SET `type` = '" . $typeToUse . "', `type_value` = " . $typeValue);
