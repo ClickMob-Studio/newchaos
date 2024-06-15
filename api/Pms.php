@@ -108,20 +108,16 @@ switch ($_SERVER['REQUEST_METHOD']) {
     default:
         respond(['error' => 'Method not allowed'], 405);
 }
-
 function getInbox($userId) {
     global $db;
     $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10;
     $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 
     try {
-        $db->query("SELECT * FROM pms WHERE `to` = :userId ORDER BY timesent DESC LIMIT :limit OFFSET :offset");
-        $db->bind(':userId', $userId, PDO::PARAM_INT);
-        $db->bind(':limit', $limit, PDO::PARAM_INT);
-        $db->bind(':offset', $offset, PDO::PARAM_INT);
-        $db->execute();
+        $db->query("SELECT * FROM pms WHERE `to` = ? ORDER BY timesent DESC LIMIT ? OFFSET ?");
+        $db->execute([$userId, $limit, $offset]);
         $messages = $db->fetch_row();
-        $hasMore = count($messages) == $limit; 
+        $hasMore = count($messages) === $limit; // Determine if there are more messages to load
         respond(['inbox' => $messages, 'hasMore' => $hasMore]);
     } catch (Exception $e) {
         error_log('Error in getInbox: ' . $e->getMessage());
@@ -135,20 +131,16 @@ function getOutbox($userId) {
     $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 
     try {
-        $db->query("SELECT * FROM pms WHERE `from` = :userId ORDER BY timesent DESC LIMIT :limit OFFSET :offset");
-        $db->bind(':userId', $userId, PDO::PARAM_INT);
-        $db->bind(':limit', $limit, PDO::PARAM_INT);
-        $db->bind(':offset', $offset, PDO::PARAM_INT);
-        $db->execute();
+        $db->query("SELECT * FROM pms WHERE `from` = ? ORDER BY timesent DESC LIMIT ? OFFSET ?");
+        $db->execute([$userId, $limit, $offset]);
         $messages = $db->fetch_row();
-        $hasMore = count($messages) == $limit; 
+        $hasMore = count($messages) === $limit; // Determine if there are more messages to load
         respond(['outbox' => $messages, 'hasMore' => $hasMore]);
     } catch (Exception $e) {
         error_log('Error in getOutbox: ' . $e->getMessage());
         respond(['error' => 'An error occurred while fetching outbox'], 500);
     }
 }
-
 function viewMessage($userId, $id) {
     global $db;
     try {
