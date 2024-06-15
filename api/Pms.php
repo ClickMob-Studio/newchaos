@@ -44,7 +44,6 @@ function getallheaders() {
 
 function getUserId() {
     $headers = getallheaders();
-    error_log('Request Headers: ' . json_encode($headers));
     if (isset($headers['Userid'])) {
         return intval($headers['Userid']);
     } else {
@@ -52,20 +51,11 @@ function getUserId() {
     }
 }
 
-function logRequestDetails() {
-    error_log('Request Method: ' . $_SERVER['REQUEST_METHOD']);
-    error_log('Request Headers: ' . json_encode(getallheaders()));
-    error_log('Request Params: ' . json_encode($_GET));
-    error_log('Request Body: ' . file_get_contents('php://input'));
-}
-
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
-        logRequestDetails(); // Log request details
         if (isset($_GET['action'])) {
             try {
                 $userId = getUserId();
-                error_log('Action: ' . $_GET['action']);
                 switch ($_GET['action']) {
                     case 'inbox':
                         getInbox($userId);
@@ -108,7 +98,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
                         respond(['error' => 'Invalid action'], 400);
                 }
             } catch (Exception $e) {
-                error_log('Error in switch case: ' . $e->getMessage());
                 respond(['error' => 'An error occurred: ' . $e->getMessage()], 500);
             }
         } else {
@@ -126,10 +115,8 @@ function getInbox($userId) {
         $db->query("SELECT * FROM pms WHERE `to` = ? ORDER BY timesent DESC");
         $db->execute([$userId]);
         $messages = $db->fetch_row();
-        error_log('Inbox Messages: ' . json_encode($messages));
         respond(['inbox' => $messages]);
     } catch (Exception $e) {
-        error_log('Error in getInbox: ' . $e->getMessage());
         respond(['error' => 'An error occurred while fetching inbox'], 500);
     }
 }
@@ -140,10 +127,8 @@ function getOutbox($userId) {
         $db->query("SELECT * FROM pms WHERE `from` = ? ORDER BY timesent DESC");
         $db->execute([$userId]);
         $messages = $db->fetch_row();
-        error_log('Outbox Messages: ' . json_encode($messages));
         respond(['outbox' => $messages]);
     } catch (Exception $e) {
-        error_log('Error in getOutbox: ' . $e->getMessage());
         respond(['error' => 'An error occurred while fetching outbox'], 500);
     }
 }
@@ -154,14 +139,12 @@ function viewMessage($userId, $id) {
         $db->query("SELECT * FROM pms WHERE id = ? AND (`to` = ? OR `from` = ?)");
         $db->execute([$id, $userId, $userId]);
         $message = $db->fetch_row(true);
-        error_log('View Message: ' . json_encode($message));
         if ($message) {
             respond(['message' => $message]);
         } else {
             respond(['error' => 'Message not found'], 404);
         }
     } catch (Exception $e) {
-        error_log('Error in viewMessage: ' . $e->getMessage());
         respond(['error' => 'An error occurred while viewing message'], 500);
     }
 }
@@ -170,7 +153,6 @@ function sendMessage($userId) {
     global $db;
     try {
         $data = json_decode(file_get_contents('php://input'), true);
-        error_log('Send Message Data: ' . json_encode($data));
 
         if (!isset($data['to']) || !isset($data['subject']) || !isset($data['msgtext'])) {
             respond(['error' => 'Missing required fields'], 400);
@@ -192,7 +174,6 @@ function sendMessage($userId) {
 
         respond(['message' => 'Message sent successfully']);
     } catch (Exception $e) {
-        error_log('Error in sendMessage: ' . $e->getMessage());
         respond(['error' => 'An error occurred while sending message'], 500);
     }
 }
@@ -204,7 +185,6 @@ function deleteMessage($userId, $id) {
         $db->execute([$id, $userId]);
         respond(['message' => 'Message deleted successfully']);
     } catch (Exception $e) {
-        error_log('Error in deleteMessage: ' . $e->getMessage());
         respond(['error' => 'An error occurred while deleting message'], 500);
     }
 }
@@ -216,7 +196,6 @@ function reportMessage($userId, $id) {
         $db->execute([$id, $userId]);
         respond(['message' => 'Message reported successfully']);
     } catch (Exception $e) {
-        error_log('Error in reportMessage: ' . $e->getMessage());
         respond(['error' => 'An error occurred while reporting message'], 500);
     }
 }
@@ -234,7 +213,6 @@ function starMessage($userId, $id) {
         $message = $newStar ? 'Message starred successfully' : 'Message unstarred successfully';
         respond(['message' => $message]);
     } catch (Exception $e) {
-        error_log('Error in starMessage: ' . $e->getMessage());
         respond(['error' => 'An error occurred while starring message'], 500);
     }
 }
