@@ -116,7 +116,7 @@ function getInbox($userId) {
 
     try {
         $db->query("SELECT * FROM pms WHERE `to` = ? ORDER BY timesent DESC LIMIT ? OFFSET ?");
-        $db->execute([$userId, $limit, $offset]);
+        $db->execute([$userId, intval($limit), intval($offset)]);
         $messages = $db->fetch_row();
         respond(['inbox' => $messages]);
     } catch (Exception $e) {
