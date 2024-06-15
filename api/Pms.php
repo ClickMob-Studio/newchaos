@@ -7,10 +7,16 @@ error_reporting(0);
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
-header("Content-Type: application/json; charset=UTF-8");
+header('Access-Control-Allow-Origin: *'); // Allows all origins, replace '*' with specific domain for production
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS'); // Allowed HTTP methods
+header('Access-Control-Allow-Headers: Content-Type, Authorization, UserId'); // Allowed headers
+header('Access-Control-Max-Age: 86400'); 
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 function respond($data, $status = 200) {
     http_response_code($status);
