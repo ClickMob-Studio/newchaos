@@ -160,6 +160,12 @@ if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && is
         We have a daily leaderboard which will reset daily as well as an overall leaderboard! Daily leaderboard will be paid out and reset at Rollover.
     </p>
 
+    <p><strong>Your current points:</strong></p>
+    <ul>
+        <li><strong>Daily:</strong> <?php echo number_format($userCompLeaderboard['daily_activity_complete'], ); ?></li>
+        <li><strong>Overall:</strong> <?php echo number_format($userCompLeaderboard['overall_activity_complete'], ); ?></li>
+    </ul>
+
     <?php
     $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
     $db->execute();
