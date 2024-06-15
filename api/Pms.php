@@ -114,8 +114,11 @@ function getInbox($userId) {
     $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 
     try {
-        $db->query("SELECT * FROM pms WHERE `to` = ? ORDER BY timesent DESC LIMIT ? OFFSET ?");
-        $db->execute([$userId, $limit, $offset]);
+        $db->query("SELECT * FROM pms WHERE `to` = :userId ORDER BY timesent DESC LIMIT :limit OFFSET :offset");
+        $db->bind(':userId', $userId, PDO::PARAM_INT);
+        $db->bind(':limit', $limit, PDO::PARAM_INT);
+        $db->bind(':offset', $offset, PDO::PARAM_INT);
+        $db->execute();
         $messages = $db->fetch_row();
         $hasMore = count($messages) === $limit; // Determine if there are more messages to load
         respond(['inbox' => $messages, 'hasMore' => $hasMore]);
@@ -131,8 +134,11 @@ function getOutbox($userId) {
     $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 
     try {
-        $db->query("SELECT * FROM pms WHERE `from` = ? ORDER BY timesent DESC LIMIT ? OFFSET ?");
-        $db->execute([$userId, $limit, $offset]);
+        $db->query("SELECT * FROM pms WHERE `from` = :userId ORDER BY timesent DESC LIMIT :limit OFFSET :offset");
+        $db->bind(':userId', $userId, PDO::PARAM_INT);
+        $db->bind(':limit', $limit, PDO::PARAM_INT);
+        $db->bind(':offset', $offset, PDO::PARAM_INT);
+        $db->execute();
         $messages = $db->fetch_row();
         $hasMore = count($messages) === $limit; // Determine if there are more messages to load
         respond(['outbox' => $messages, 'hasMore' => $hasMore]);
@@ -141,6 +147,8 @@ function getOutbox($userId) {
         respond(['error' => 'An error occurred while fetching outbox'], 500);
     }
 }
+
+
 function viewMessage($userId, $id) {
     global $db;
     try {
