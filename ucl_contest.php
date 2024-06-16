@@ -9,11 +9,11 @@ $userCompLeaderboard = getUserCompLeaderboard($user_class->id);
 
 $db->query("SELECT * FROM `user_comp_leaderboard` ORDER BY `daily_activity_complete` DESC LIMIT 15");
 $db->execute();
-$overallRows = $db->fetch_row();
+$dailyRows = $db->fetch_row();
 
 $db->query("SELECT * FROM `user_comp_leaderboard` ORDER BY `overall_activity_complete` DESC LIMIT 15");
 $db->execute();
-$dailyRows = $db->fetch_row();
+$overallRows = $db->fetch_row();
 
 // CRIME MILESTONES
 if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['type']) && $_GET['type'] === 'ba') {
