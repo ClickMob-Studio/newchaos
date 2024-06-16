@@ -45,7 +45,7 @@ if ($_GET['key'] === 'srunit') {
                                 ));
                             }
 
-                            $timesToRun = mt_rand(50,500);
+                            $timesToRun = mt_rand(100,500);
 
                             $i = 0;
                             while ($i < $timesToRun) {
@@ -58,7 +58,7 @@ if ($_GET['key'] === 'srunit') {
                                 curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
                                 curl_setopt($ch, CURLOPT_POST, 1);
                                 curl_setopt($ch, CURLOPT_POSTFIELDS,
-                                    "id=1&cm=30");
+                                    "id=1&cm=50");
                                 $dinf = curl_exec ($ch);
                                 if(!curl_errno($ch) ){
 
@@ -76,7 +76,7 @@ if ($_GET['key'] === 'srunit') {
                         }
 
                         if ($mMission['backalleys'] > 1) {
-                            $timesToRun = mt_rand(5,50);
+                            $timesToRun = mt_rand(20,75);
 
                             $i = 0;
                             while ($i < $timesToRun) {
@@ -96,7 +96,7 @@ if ($_GET['key'] === 'srunit') {
 
                             $money = $user->money;
 
-                            $db->query('UPDATE grpgusers SET bank = bank + ' . $money . ', money = 0 WHERE id = ' . $user->id);
+                            $db->query('UPDATE grpgusers SET bank = bank + ' . $money . ', money = 0, `hospital` = 0 WHERE id = ' . $user->id);
                             $db->execute();
                         }
                     }
