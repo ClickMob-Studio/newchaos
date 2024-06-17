@@ -206,13 +206,13 @@ try {
                 $user_class->nerve -= $nerve;
                 $db->query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ? WHERE id = ?");
                 $db->execute(array($nerve, $user_class->id));
-                $db->commit();
+                $db->endTrans();
                 die($ftext . ".|" . number_format($user_class->points) . "|" . number_format($user_class->money) . "|" . number_format($user_class->level) . "|" . genBars());
             } elseif ($chance == 6) {
                 $user_class->nerve -= $nerve;
                 $db->query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ?, caught = caught + 1, jail = 300 WHERE id = ?");
                 $db->execute(array($nerve, $user_class->id));
-                $db->commit();
+                $db->endTrans();
                 echo json_encode(array('text' => 'You were hauled off to jail for 5 minutes'));
                 die();
             } else {
@@ -339,7 +339,7 @@ try {
             echo json_encode(array('error' => 'refresh', 'text' => "You don't have enough nerve for that crime."));
         }
     }
-    $db->commit();
+    $db->endTrans();
 } catch (Exception $e) {
     $db->rollBack();
     die("Error: " . $e->getMessage());
