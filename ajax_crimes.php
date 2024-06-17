@@ -7,6 +7,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 session_start();
+
 function getItemTempUse($user_id) {
     global $db;
     $db->query("SELECT crime_booster_time, crime_potion_time, gang_double_exp_time, nerve_vial_time FROM item_temporary_effects WHERE user_id = ?");
@@ -35,7 +36,7 @@ if (isset($data['user_id'])) {
 include "classes.php";
 include "database/pdo_class.php";
 
-
+// Initialize Memcache
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11211, 33);
 
@@ -51,7 +52,7 @@ if (isset($_POST['cm']) && in_array($_POST['cm'], [1, 2, 4, 10, 20, 30, 50])) {
 }
 
 if (!$user_class) {
-    die();
+    die(json_encode(['error' => 'User not found']));
 }
 
 $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
@@ -75,7 +76,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
     }
 
     if (empty($row)) {
-        echo json_encode(['error' => 'refresh']);
+        echo json_encode(['error' => 'Crime not found, please refresh.']);
         die();
     }
 
@@ -84,7 +85,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $nerve = $row['nerve'];
     $name = $row['name'];
     if ($user_class->maxnerve < $nerve) {
-        echo json_encode(['error' => 'refresh']);
+        echo json_encode(['error' => 'Not enough nerve, please refresh.']);
         die();
     }
 
@@ -179,7 +180,8 @@ if (isset($_POST['id']) || isset($input['id'])) {
         }
 
         if ($cost > $user_class->points || $user_class->points < 10) {
-            return 0;
+            echo json_encode(['error' => 'Not enough points']);
+            die();
         }
 
         if ($tempItemUse['nerve_vial_time'] > time()) {
@@ -193,7 +195,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $db->execute([$cost, $user_class->maxnerve, $user_class->id]);
         $prepaid = true;
     } else if ($nerve > $user_class->nerve) {
-        echo json_encode(['error' => 'refresh']);
+        echo json_encode(['error' => 'Not enough nerve, please refresh.']);
         die();
     }
 
@@ -340,4 +342,3 @@ if (isset($_POST['id']) || isset($input['id'])) {
     }
 }
 $db = null;
-?>
