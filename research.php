@@ -1,5 +1,19 @@
 <?php
 include 'header.php';
+
+
+$levels = 5;
+$levelRows = array();
+
+$i = 1;
+while ($i <= 5) {
+    $db->query("SELECT * FROM research_type WHERE `level` = 1")
+    $db->execute();
+    $levelRows[$i] = $db->fetch_row();
+
+    $i++;
+}
+
 ?>
 
 <div class='box_top'>Research</div>
@@ -11,110 +25,30 @@ include 'header.php';
 
             <div class="table-container">
                 <table class="new_table" id="newtables" style="width:100%;">
-                    <tr>
-                        <!-- LEVEL 1 -->
-                        <td>
-                            <div class="card text-white bg-info mb-3">
-                                <div class="card-header">
-                                    Research 1
-                                </div>
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        Some information here about what your researching
-                                    </p>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="#" class="btn btn-primary">Research</a>
-                                </div>
-                            </div>
-                        </td>
-
-                        <!-- LEVEL 2 -->
-                        <td>
-                            <div class="card text-white bg-info mb-3">
-                                <div class="card-header">
-                                    Research 2
-                                </div>
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        Some information here about what your researching
-                                    </p>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="#" class="btn btn-primary">Research</a>
-                                </div>
-                            </div>
-
-                            <br /><br />
-
-                            <div class="card text-white bg-info mb-3">
-                                <div class="card-header">
-                                    Research 2
-                                </div>
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        Some information here about what your researching
-                                    </p>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="#" class="btn btn-primary">Research</a>
-                                </div>
-                            </div>
-
-                        </td>
-
-                        <!-- LEVEL 3 -->
-                        <td>
-                            <div class="card text-white bg-info mb-3">
-                                <div class="card-header">
-                                    Research 2
-                                </div>
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        Some information here about what your researching
-                                    </p>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="#" class="btn btn-primary">Research</a>
-                                </div>
-                            </div>
-
-                            <br /><br />
-
-                            <div class="card text-white bg-info mb-3">
-                                <div class="card-header">
-                                    Research 2
-                                </div>
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        Some information here about what your researching
-                                    </p>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="#" class="btn btn-primary">Research</a>
-                                </div>
-                            </div>
-
-                            <br /><br />
-
-                            <div class="card text-white bg-info mb-3">
-                                <div class="card-header">
-                                    Research 2
-                                </div>
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        Some information here about what your researching
-                                    </p>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="#" class="btn btn-primary">Research</a>
-                                </div>
-                            </div>
-
-                        </td>
-                    </tr>
-
-
+                        <tr>
+                            <?php
+                            $i = 1;
+                            while ($i <= 5):
+                            ?>
+                                <td>
+                                    <?php foreach ($levelRows[$i] as $levelRow): ?>
+                                        <div class="card text-white bg-info mb-3">
+                                            <div class="card-header">
+                                                <?php echo $levelRow['name'] ?>
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="card-text">
+                                                    <?php echo $levelRow['description'] ?>
+                                                </p>
+                                            </div>
+                                            <div class="card-footer">
+                                                <a href="#" class="btn btn-primary">Research</a>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                </td>
+                            <?php endwhile; ?>
+                        </tr>
                 </table>
             </div>
         </div>
