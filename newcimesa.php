@@ -214,103 +214,58 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
         </tbody>
     </table>
 
-<script>
-var doingcrime = false;
+<script>var doingcrime = false;
 var id = 0;
 var refresh = 75;
-
 
 var submitCrime = function (id, cm=1) {
     $("#noti").show();
     $('#spinner').show();
 
-        var request = $.ajax({
-            url: "ajax_crimes.php",
-            method: "POST",
-            data: { id : id, cm : cm },
-            dataType: "json"
-        });
-
-        request.fail(function(res) {
-            console.log(res);
-            if (res.error == 'refresh') {
-                finish();
-            }
-        });
-
-        request.done(function(res) {
-            console.log(res.debug.cost);
-            if (res.error == 'refresh') {
-                finish();
-            }
-            // console.log('debug *****');
-            // console.log(res.stats.mb_points);
-           
-            $('.money').html(res.stats.money)
-            $(".level").html(res.stats.level)
-            $(".points").html(res.stats.points)
-            $(".mb-points").html(res.stats.mb_points)
-            $(".mb-money").html(res.stats.mb_money)
-            $(".response-text").html(res.text)
-            $("#missiontext").html(res.stats.mission)
-
-            $('.after_title').eq(0).text(res.bars.energy.title)
-            $('.after_title').eq(1).text(res.bars.nerve.title)
-            $('.after_title').eq(2).text(res.bars.awake.title + '%')
-            $('.after_title').eq(4).text(res.bars.exp.title + '%')
-
-            $('.stat-bar').eq(1).width(res.bars.energy.percent + '%')
-            $('.stat-bar').eq(2).width(res.bars.nerve.percent + '%')
-            $('.stat-bar').eq(3).width(res.bars.awake.percent + '%')
-            $('.expbar').width(res.bars.exp.percent + '%')
-        });
-
-}
-
-
-
-$(document).ready(function() {
-    // This function updates the star rating when the selected crime changes
-    $('#scrime').change(function() {
-    var selectedOption = $(this).find('option:selected');
-    var stars = selectedOption.data('stars');
-        var starRatingHtml = '';
-
-        // Create the star rating based on the data-stars attribute
-        for (var i = 1; i <= 5; i++) {
-            starRatingHtml += i <= stars ? '<span class="gold">&#9733;</span>' : '<span class="gray">&#9733;</span>';
-        }
-
-        var requiredCrimeCount = 10000;
-        if (stars < 1) {
-            var requiredCrimeCount = 10000;
-        } else if (stars < 2) {
-            var requiredCrimeCount = 100000;
-        } else if (stars < 3) {
-            var requiredCrimeCount = 1000000;
-        } else if (stars < 4) {
-            var requiredCrimeCount = 5000000;
-        } else if (stars < 5) {
-            var requiredCrimeCount = 15000000;
-        }
-        var actualCrimeCount = selectedOption.data('crime-count');
-
-
-        var pbStarWidth = actualCrimeCount / requiredCrimeCount * 100;
-        $('.pb-star-bar').width(pbStarWidth + '%');
-        $('.pb-star-holder').prop('title', addCommas(actualCrimeCount) + '/' + addCommas(requiredCrimeCount));
-        $('.pb-star-text').html(addCommas(actualCrimeCount) + '/' + addCommas(requiredCrimeCount) + ' (' + pbStarWidth.toFixed(2) + '%' + ')');
-
-        // Update the star rating container
-        $('.star-rating').html(starRatingHtml);
+    var request = $.ajax({
+        url: "ajax_crimes.php",
+        method: "POST",
+        data: { id: id, cm: cm },
+        dataType: "json"
     });
 
-    // Trigger the change event on page load to display the initial star rating
-    $('#scrime').change();
-    
-    // Other JavaScript and jQuery code can follow here
-});
+    request.fail(function (res) {
+        console.log(res);
+        $('#spinner').hide();
+        if (res.responseJSON && res.responseJSON.error == 'refresh') {
+            finish();
+        }
+    });
 
+    request.done(function (res) {
+        console.log(res.debug.cost);
+        $('#spinner').hide();
+        if (res.error == 'refresh') {
+            finish();
+        }
+        if (res.text) {
+            $(".response-text").html(res.text);
+        }
+        if (res.stats) {
+            $('.money').html(res.stats.money);
+            $(".level").html(res.stats.level);
+            $(".points").html(res.stats.points);
+            $(".mb-points").html(res.stats.mb_points);
+            $(".mb-money").html(res.stats.mb_money);
+            $("#missiontext").html(res.stats.mission);
+
+            $('.after_title').eq(0).text(res.bars.energy.title);
+            $('.after_title').eq(1).text(res.bars.nerve.title);
+            $('.after_title').eq(2).text(res.bars.awake.title + '%');
+            $('.after_title').eq(4).text(res.bars.exp.title + '%');
+
+            $('.stat-bar').eq(1).width(res.bars.energy.percent + '%');
+            $('.stat-bar').eq(2).width(res.bars.nerve.percent + '%');
+            $('.stat-bar').eq(3).width(res.bars.awake.percent + '%');
+            $('.expbar').width(res.bars.exp.percent + '%');
+        }
+    });
+}
 
 function start() {
     if (doingcrime) return;
@@ -330,26 +285,55 @@ function start() {
                 submitCrime(id, cm);
             } else {
                 resetAction();
-              
             }
         }
-    },20);
+    }, 20);
     document.addEventListener('mouseup', resetAction, { once: true });
     document.addEventListener('touchend', resetAction, { once: true });
-  
 }
 
 $(document).ready(function() {
-    // Set the cookie when the selection changes
     $('#scrime').change(function() {
-        var selectedCrime = $(this).val();
-        setCookie("selectedCrime", selectedCrime, 30); // Change 30 to the number of days you want the cookie to last
+        var selectedOption = $(this).find('option:selected');
+        var stars = selectedOption.data('stars');
+        var starRatingHtml = '';
+
+        for (var i = 1; i <= 5; i++) {
+            starRatingHtml += i <= stars ? '<span class="gold">&#9733;</span>' : '<span class="gray">&#9733;</span>';
+        }
+
+        var requiredCrimeCount = 10000;
+        if (stars < 1) {
+            requiredCrimeCount = 10000;
+        } else if (stars < 2) {
+            requiredCrimeCount = 100000;
+        } else if (stars < 3) {
+            requiredCrimeCount = 1000000;
+        } else if (stars < 4) {
+            requiredCrimeCount = 5000000;
+        } else if (stars < 5) {
+            requiredCrimeCount = 15000000;
+        }
+        var actualCrimeCount = selectedOption.data('crime-count');
+
+        var pbStarWidth = actualCrimeCount / requiredCrimeCount * 100;
+        $('.pb-star-bar').width(pbStarWidth + '%');
+        $('.pb-star-holder').prop('title', addCommas(actualCrimeCount) + '/' + addCommas(requiredCrimeCount));
+        $('.pb-star-text').html(addCommas(actualCrimeCount) + '/' + addCommas(requiredCrimeCount) + ' (' + pbStarWidth.toFixed(2) + '%' + ')');
+
+        $('.star-rating').html(starRatingHtml);
     });
 
-    // Get the selected option from the cookie and set it
+    $('#scrime').change();
+
+    $('#scrime').change(function() {
+        var selectedCrime = $(this).val();
+        setCookie("selectedCrime", selectedCrime, 30);
+    });
+
     var selectedCrime = getCookie("selectedCrime");
     if (selectedCrime) {
-        $("#scrime").val(selectedCrime).change(); // Trigger change event after setting the value
+        $("#scrime").val(selectedCrime).change();
     }
 });
 
@@ -368,6 +352,7 @@ function setCookie(name, value, days) {
     }
     document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
+
 document.onblur = function () {
     finish();
 }
@@ -390,8 +375,7 @@ $(document).ready(function () {
     id = 0;
 });
 
-function addCommas(nStr)
-{
+function addCommas(nStr) {
     nStr += '';
     x = nStr.split('.');
     x1 = x[0];
@@ -402,11 +386,6 @@ function addCommas(nStr)
     }
     return x1 + x2;
 }
-
-
-
-
-
 
 fetch('ajax_crimes.php', {
     method: 'POST', // or 'GET'
