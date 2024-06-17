@@ -214,7 +214,8 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
         </tbody>
     </table>
 
-<script>var doingcrime = false;
+<script>
+    var doingcrime = false;
 var id = 0;
 var refresh = 75;
 
@@ -238,7 +239,6 @@ var submitCrime = function (id, cm=1) {
     });
 
     request.done(function (res) {
-        console.log(res.debug.cost);
         $('#spinner').hide();
         if (res.error == 'refresh') {
             finish();
@@ -290,6 +290,8 @@ function start() {
     }, 20);
     document.addEventListener('mouseup', resetAction, { once: true });
     document.addEventListener('touchend', resetAction, { once: true });
+    document.addEventListener('mouseleave', resetAction, { once: true });
+    document.addEventListener('blur', resetAction, { once: true });
 }
 
 $(document).ready(function() {
@@ -365,11 +367,12 @@ document.body.onmouseup = function (evt) {
 document.addEventListener('orientationchange', finish);
 
 function finish() {
-    if (doingcrime)
-        location.reload();
+    if (doingcrime) {
+        doingcrime = false;
+    }
     id = 0;
-    doingcrime = false;
 }
+
 $(document).ready(function () {
     doingcrime = false;
     id = 0;
@@ -386,6 +389,7 @@ function addCommas(nStr) {
     }
     return x1 + x2;
 }
+
 
 fetch('ajax_crimes.php', {
     method: 'POST', // or 'GET'
