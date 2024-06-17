@@ -21,7 +21,7 @@ while ($i <= 5) {
     <!-- Combat Research -->
     <div class="row">
         <div class="col-md-12">
-            <h2>Combat Research</h2>
+            <h2>Research</h2>
 
             <div class="table-container">
                 <table class="new_table" id="newtables" style="width:100%;">
@@ -52,13 +52,6 @@ while ($i <= 5) {
                         </tr>
                 </table>
             </div>
-        </div>
-    </div>
-
-    <!-- Economic Research -->
-    <div class="row">
-        <div class="col-md-12">
-            <h2>Economic Research</h2>
         </div>
     </div>
 </div>
