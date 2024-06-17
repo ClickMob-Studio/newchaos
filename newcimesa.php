@@ -1,6 +1,8 @@
 <?php
 include 'header.php';
-
+if($user_class->id != 1){
+    exit();
+}
 $db->query("UPDATE grpgusers SET crimes = 'newcrimes', lastactive = unix_timestamp() WHERE id = ?");
 $db->execute(array(
     $user_class->id
@@ -33,8 +35,7 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
 
 }</style>
     <h1>Crimes</h1>
-    <div class='box_middle'>
-        <div class='pad'>
+
             <?php
             $error = ($user_class->fbitime > 0) ? "You can't do crimes if you're in FBI Jail!" : "";
             $error = ($user_class->jail > 0) ? "You can't do crimes if you're in prison!" : "";
@@ -85,7 +86,6 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
             }
 
         ?>
-
     <table>
         <tbody>
             <tr>
@@ -108,7 +108,7 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                             <p>Select your crime and click and <strong>hold</strong> the button to do fast crimes</p>
 
                             <div class="selectors-container">
-                                <select name="crime" id="scrime" style="padding: 1em; margin-right: 10px;">
+                                <select name="crime" id="scrime" style="padding: 1em; margin-right: 10px; width: 100%;">
                                     <?php
                                     foreach ($rows as $row) {
                                         $db->query("SELECT `count` FROM crimeranks WHERE userid = ? AND crimeid = ?");
@@ -124,23 +124,25 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                                             $crimeCount = 0;
                                         }
                                         if ($crimeCount >= 10000 && $crimeCount < 100000) {
-                                            $level = 1;
-                                        } elseif ($crimeCount >= 100000 && $crimeCount < 100000000000) {
-                                            $level = 2;
-                                        } elseif ($crimeCount >= 10000000 && $crimeCount < 20000000) {
-                                            $level = 3;
-                                        } elseif ($crimeCount >= 20000000 && $crimeCount < 40000000) {
-                                            $level = 4;
-                                        } elseif ($crimeCount >= 40000000) {
-                                            $level = 5;
+                                            $star_level = 1;
+                                        } elseif ($crimeCount >= 100000 && $crimeCount < 1000000) {
+                                            $star_level = 2;
+                                        } elseif ($crimeCount >= 1000000 && $crimeCount < 5000000) {
+                                            $star_level = 3;
+                                        } elseif ($crimeCount >= 5000000 && $crimeCount < 15000000) {
+                                            $star_level = 4;
+                                        } elseif ($crimeCount >= 15000000) {
+                                            $star_level = 5;
+                                        } else {
+                                            $star_level = 0; // No bonus if the conditions are not met
                                         }
-                                        echo "<!-- Crime ID: {$row['id']}, Count: $crimeCount, Level: $level -->";
+                                        echo "<!-- Crime ID: {$row['id']}, Count: $crimeCount, Level: $star_level -->";
                                         // Output the option with the data-stars attribute
                                         $hasEnoughNerve = $row['nerve'] <= $user_class->nerve;
 
                                         $disabled = $hasEnoughNerve ? '' : 'disabled';
 
-                                        echo '<option value="' . $row['id'] . '" data-stars="' . $level . '" ' . $disabled . '>' . $row['name'] . ' | Cost: ' . $row['nerve'] . ' Nerve</option>';
+                                        echo '<option value="' . $row['id'] . '" data-stars="' . $star_level . '" data-crime-count="' . $crimeCount . '" ' . $disabled . '>' . $row['name'] . ' | Cost: ' . $row['nerve'] . ' Nerve</option>';
 
                                     }
                                     ?>
@@ -156,11 +158,24 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                             </div>
 
                             <div class="star-rating" style="margin-top: 10px;"></div>
+                            <div class="row">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+                                    <p>Progress to next star:</p>
+                                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="39.84" aria-valuemin="0" aria-valuemax="100" title="3984/10,000">
+                                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: 39.84%">
+                                            <span class="pb-star-text"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4"></div>
+                            </div>
+                            <br />
 
                             <button id="acrimebtn2" onblue="finish();" onmouseup="finish();" ontouchend="finish();" onmouseleave="finish();"onmousedown="start();" ontouchstart="start();" style="padding: 1em; margin-bottom:5px;">Do Crimes</button>
 
                             <br />
-                            <br><span style="color:red">Warning: Using the multiplier will increase points consumption considerably!</span>';
+                            <br><span style="color:red">Warning: Using the multiplier will increase points consumption considerably!</span>
 
                             <h3>Recommendation: Use a <?php echo item_popup('Double EXP', 10) ?> to double your EXP and have 100% success rate! (1h)</h3>
                             <hr />
@@ -210,28 +225,32 @@ var submitCrime = function (id, cm=1) {
     $('#spinner').show();
 
         var request = $.ajax({
-            url: "ajax_crimes21.php",
+            url: "ajax_crimes.php",
             method: "POST",
             data: { id : id, cm : cm },
             dataType: "json"
         });
 
         request.fail(function(res) {
+            console.log(res);
             if (res.error == 'refresh') {
                 finish();
             }
         });
 
         request.done(function(res) {
+            console.log(res.debug.cost);
             if (res.error == 'refresh') {
                 finish();
             }
-            console.log('debug *****');
-            console.log(res.debug);
+            // console.log('debug *****');
+            // console.log(res.stats.mb_points);
            
             $('.money').html(res.stats.money)
             $(".level").html(res.stats.level)
             $(".points").html(res.stats.points)
+            $(".mb-points").html(res.stats.mb_points)
+            $(".mb-money").html(res.stats.mb_money)
             $(".response-text").html(res.text)
             $("#missiontext").html(res.stats.mission)
 
@@ -262,6 +281,26 @@ $(document).ready(function() {
             starRatingHtml += i <= stars ? '<span class="gold">&#9733;</span>' : '<span class="gray">&#9733;</span>';
         }
 
+        var requiredCrimeCount = 10000;
+        if (stars < 1) {
+            var requiredCrimeCount = 10000;
+        } else if (stars < 2) {
+            var requiredCrimeCount = 100000;
+        } else if (stars < 3) {
+            var requiredCrimeCount = 1000000;
+        } else if (stars < 4) {
+            var requiredCrimeCount = 5000000;
+        } else if (stars < 5) {
+            var requiredCrimeCount = 15000000;
+        }
+        var actualCrimeCount = selectedOption.data('crime-count');
+
+
+        var pbStarWidth = actualCrimeCount / requiredCrimeCount * 100;
+        $('.pb-star-bar').width(pbStarWidth + '%');
+        $('.pb-star-holder').prop('title', addCommas(actualCrimeCount) + '/' + addCommas(requiredCrimeCount));
+        $('.pb-star-text').html(addCommas(actualCrimeCount) + '/' + addCommas(requiredCrimeCount) + ' (' + pbStarWidth.toFixed(2) + '%' + ')');
+
         // Update the star rating container
         $('.star-rating').html(starRatingHtml);
     });
@@ -274,19 +313,30 @@ $(document).ready(function() {
 
 
 function start() {
+    if (doingcrime) return;
+
     var id = $('#scrime').val();
     var cm = $('#cm').val();
     doingcrime = true;
+
+    var resetAction = function() {
+        doingcrime = false;
+        clearInterval(timerId);
+    };
+
     var timerId = setInterval(function () {
         if (doingcrime) {
             if (id > 0) {
                 submitCrime(id, cm);
             } else {
-                clearInterval(timerId);
-                timerId = null;
+                resetAction();
+              
             }
         }
-    }, refresh);
+    },20);
+    document.addEventListener('mouseup', resetAction, { once: true });
+    document.addEventListener('touchend', resetAction, { once: true });
+  
 }
 
 $(document).ready(function() {
@@ -336,17 +386,29 @@ function finish() {
     doingcrime = false;
 }
 $(document).ready(function () {
-    clearInterval(window.crimeInterval);
     doingcrime = false;
     id = 0;
 });
 
+function addCommas(nStr)
+{
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    var rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    }
+    return x1 + x2;
+}
 
 
 
 
 
-fetch('ajax_crimes21.php', {
+
+fetch('ajax_crimes.php', {
     method: 'POST', // or 'GET'
     body: JSON.stringify({/* your data here */}),
     headers: {'Content-Type': 'application/json'}
