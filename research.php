@@ -47,6 +47,7 @@ while ($i <= 5) {
                                         </div>
                                     <?php endforeach; ?>
                                 </td>
+                                <?php $i++; ?>
                             <?php endwhile; ?>
                         </tr>
                 </table>
