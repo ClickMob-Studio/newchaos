@@ -45,7 +45,7 @@ while ($i <= 5) {
                                                 <a href="#" class="btn btn-primary">Research</a>
                                             </div>
                                         </div>
-                                    <?php endif; ?>
+                                    <?php endforeach; ?>
                                 </td>
                             <?php endwhile; ?>
                         </tr>
