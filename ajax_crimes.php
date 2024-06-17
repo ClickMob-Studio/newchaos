@@ -8,13 +8,6 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 session_start();
 
-function getItemTempUse($user_id) {
-    global $db;
-    $db->query("SELECT crime_booster_time, crime_potion_time, gang_double_exp_time, nerve_vial_time FROM item_temporary_effects WHERE user_id = ?");
-    $db->execute([$user_id]);
-    return $db->fetch_row(true);
-}
-
 function shorthandNumber($number) {
     if ($number >= 1000000000) {
         return round($number / 1000000000, 2) . 'B';
