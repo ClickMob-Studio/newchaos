@@ -39,7 +39,7 @@ while ($i <= 5) {
                                             <div class="card-body">
                                                 <p class="card-text">
                                                     <?php echo $levelRow['description'] ?><br /><br />
-                                                    <strong>Cost:</strong> $<?php echo number_format($levelRow['cost'], 0) ?>
+                                                    <strong>Cost:</strong> $<?php echo number_format($levelRow['cost'], 0) ?><br />
                                                     <strong>Length:</strong> <?php echo number_format($levelRow['duration_in_days'], 0) ?> Days
                                                 </p>
                                             </div>
