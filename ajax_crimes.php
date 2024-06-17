@@ -61,7 +61,8 @@ try {
     }
 
     $input = json_decode(file_get_contents('php://input'), true);
-    $id = $_POST['id'] ?? $input['id'] ?? null;
+    $id = isset($_POST['id']) ? $_POST['id'] : (isset($input['id']) ? $input['id'] : null);
+
 
     if ($id) {
         $crime_key = 'crimes.' . $id;
