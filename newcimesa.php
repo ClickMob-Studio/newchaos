@@ -215,7 +215,7 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
     </table>
 
 <script>
-    var doingcrime = false;
+var doingcrime = false;
 var id = 0;
 var refresh = 75;
 
@@ -247,6 +247,7 @@ var submitCrime = function (id, cm=1) {
             $(".response-text").html(res.text);
         }
         if (res.stats) {
+            console.log("Stats:", res.stats);  // Debugging line
             $('.money').html(res.stats.money);
             $(".level").html(res.stats.level);
             $(".points").html(res.stats.points);
@@ -292,6 +293,7 @@ function start() {
     document.addEventListener('touchend', resetAction, { once: true });
     document.addEventListener('mouseleave', resetAction, { once: true });
     document.addEventListener('blur', resetAction, { once: true });
+    document.addEventListener('contextmenu', resetAction, { once: true });
 }
 
 $(document).ready(function() {
