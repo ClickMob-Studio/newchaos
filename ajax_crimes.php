@@ -46,7 +46,7 @@ if (!$user_class) {
     die();
 }
 
-$db->beginTransaction();
+$db->startTrans();
 
 try {
     $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
