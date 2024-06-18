@@ -59,7 +59,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
         }
     }
 
-    if (!$isAllComplete)
+    if (!$isAllComplete) {
+        
+    }
 
 
 
