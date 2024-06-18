@@ -519,14 +519,12 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
         $this->maxawake = floor(($this->houseawake) * (1 + ($this->gangawake / 100)));
         $this->directmaxawake = floor(($this->houseawake) * (1 + ($this->gangawake / 100)));
 
-        if ($this->id == 2) {
-            $db->query("SELECT SUM(i.awake_boost * inv.quantity) AS total FROM inventory AS inv LEFT JOIN items AS i on inv.itemid = i.id WHERE inv.userid = " . $this->id . " AND i.awake_boost > 0");
-            $db->execute();
-            $hiaTotal = $db->fetch_single();
-            $this->maxawake = $this->maxawake + $hiaTotal;
-            $this->directmaxawake = $this->directmaxawake + $hiaTotal;
-        }
-
+        $db->query("SELECT SUM(i.awake_boost * inv.quantity) AS total FROM inventory AS inv LEFT JOIN items AS i on inv.itemid = i.id WHERE inv.userid = " . $this->id . " AND i.awake_boost > 0");
+        $db->execute();
+        $hiaTotal = $db->fetch_single();
+        $this->maxawake = $this->maxawake + $hiaTotal;
+        $this->directmaxawake = $this->directmaxawake + $hiaTotal;
+    
         $this->directawake = ($this->directawake > $this->directmaxawake) ? $this->directmaxawake : $this->directawake;
         $this->directawake = ($this->directawake <= 0) ? 0 : $this->directawake;
         $this->awakepercent = floor(($this->directawake / $this->directmaxawake) * 100);
