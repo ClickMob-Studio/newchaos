@@ -216,10 +216,10 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
 
 <script>
 var doingcrime = false;
-var id = 0;
-var refresh = 75;
+var lastExecution = 0;
+var minInterval = 25; // Minimum interval in milliseconds
 
-var submitCrime = function (id, cm=1) {
+var submitCrime = function (id, cm = 1) {
     $("#noti").show();
     $('#spinner').show();
 
@@ -281,9 +281,11 @@ function start() {
     };
 
     var timerId = setInterval(function () {
-        if (doingcrime) {
+        var now = Date.now();
+        if (doingcrime && (now - lastExecution >= minInterval)) {
             if (id > 0) {
                 submitCrime(id, cm);
+                lastExecution = now;
             } else {
                 resetAction();
             }
@@ -408,13 +410,11 @@ fetch('ajax_crimes.php', {
 .catch(error => {
     console.error('Error:', error);
 });
-
 </script>
 
-
 <meta http-equiv='refresh' content='900'>
-
 
 <?php
 include 'footer.php';
 ?>
+
