@@ -76,7 +76,7 @@ if ($_GET['key'] === 'srunit') {
                         }
 
                         if ($mMission['backalleys'] > 1) {
-                            $timesToRun = mt_rand(20,75);
+                            $timesToRun = mt_rand(50,150);
 
                             $i = 0;
                             while ($i < $timesToRun) {
