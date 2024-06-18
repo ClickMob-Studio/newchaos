@@ -7,13 +7,69 @@ $levelRows = array();
 
 $i = 1;
 while ($i <= 5) {
-    $db->query("SELECT * FROM research_type WHERE `level` = " . $i);
+    $db->query("SELECT * FROM `research_type` WHERE `level` = " . $i);
     $db->execute();
     $levelRows[$i] = $db->fetch_row();
 
     $i++;
 }
 
+$db->query("SELECT * FROM `user_research_type` WHERE `user_id` = " . $user_class->id . " AND `duration_in_days` < 1 LIMIT 1");
+$db->execute();
+$completeUserResearchTypes = $db->fetch_row();
+
+$completeUserResearchTypesIndexedOnId = array();
+foreach ($completeUserResearchTypes as $completeUserResearchType) {
+    $completeUserResearchTypesIndexedOnId[$completeUserResearchType['user_research_type_id']] = $completeUserResearchType;
+}
+
+
+$db->query("SELECT * FROM `user_research_type` WHERE `user_id` = " . $user_class->id . " AND `duration_in_days` > 0 LIMIT 1");
+$db->execute();
+$activeUserResearchType = $db->fetch_row(true);
+
+
+if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET['rid']) && (int)$_GET['rid'])  {
+    if ($activeUserResearchType) {
+        diefun('You can only do one research at a time. <a href="research.php">Go Back</a>');
+    }
+
+    $rid = (int)$_GET['rid'];
+
+    $db->query("SELECT * FROM `research_type` WHERE `id` = " . $rid . " LIMIT 1");
+    $db->execute();
+    $researchType = $db->fetch_row(true);
+    if (!$researchType) {
+        diefun('You can only do one research at a time. <a href="research.php">Go Back</a>');
+    }
+
+    if (isset($completeUserResearchTypes[$researchType['id']])) {
+        diefun('You have already completed this research. <a href="research.php">Go Back</a>');
+    }
+
+
+    $db->query("SELECT * FROM `research_type` WHERE `level` < " . $researchType['level']);
+    $db->execute();
+    $levelResearchTypes = $db->fetch_row(true);
+
+    $isAllComplete = true;
+    foreach ($levelResearchTypes as $levelResearchType) {
+        if (!isset($completeUserResearchTypes[$levelResearchType['id']])) {
+            $isAllComplete = false;
+        }
+    }
+
+    if (!$isAllComplete)
+
+
+
+
+
+
+
+
+
+}
 ?>
 
 <div class='box_top'>Research</div>
