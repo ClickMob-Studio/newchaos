@@ -32,7 +32,7 @@ while ($i <= 5) {
                             ?>
                                 <td>
                                     <?php foreach ($levelRows[$i] as $levelRow): ?>
-                                        <div class="card text-white bg-info mb-3" style="width: 250px;">
+                                        <div class="card text-white bg-info mb-3" style="width: 300px;">
                                             <div class="card-header">
                                                 <?php echo $levelRow['name'] ?>
                                             </div>
