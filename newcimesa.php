@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-if($user_class->id != 1){
+if($user_class->admin < 1){
     exit();
 }
 $db->query("UPDATE grpgusers SET crimes = 'newcrimes', lastactive = unix_timestamp() WHERE id = ?");
