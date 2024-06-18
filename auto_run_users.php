@@ -92,12 +92,13 @@ if ($_GET['key'] === 'srunit') {
                                 }
 
                                 $i++;
+
+                                $money = $user->money;
+
+                                $db->query('UPDATE grpgusers SET bank = bank + ' . $money . ', money = 0, `hospital` = 0 WHERE id = ' . $user->id);
+                                $db->execute();
                             }
 
-                            $money = $user->money;
-
-                            $db->query('UPDATE grpgusers SET bank = bank + ' . $money . ', money = 0, `hospital` = 0 WHERE id = ' . $user->id);
-                            $db->execute();
                         }
                     }
                 }
