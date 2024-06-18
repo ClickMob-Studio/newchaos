@@ -63,17 +63,19 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
         diefun('You need to complete all researches from the previous level to complete this research. <a href="research.php">Go Back</a>');
     }
 
-    // TODO: Check Cash
+    if ($researchType['cost'] > $user_class->money) {
+        diefun('You need more cash on hand to complete this research. <a href="research.php">Go Back</a>');
+    }
 
-    // TODO: Create
+    $db->query("
+      INSERT INTO 
+        user_research_type (user_id, research_type_id, duration_in_days)
+      VALUES
+        (" . $user_class->id . ", " . $researchType['id'] . ", " . $researchType['duration_in_days'] . ");
+    ");
+    $db->execute();
 
-
-
-
-
-
-
-
+    diefun('You have successfully started researching ' .  $researchType['name'] . '<a href="research.php">Go Back</a>');
 }
 ?>
 
