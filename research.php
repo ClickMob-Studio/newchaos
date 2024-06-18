@@ -60,9 +60,12 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
     }
 
     if (!$isAllComplete) {
-        
+        diefun('You need to complete all researches from the previous level to complete this research. <a href="research.php">Go Back</a>');
     }
 
+    // TODO: Check Cash
+
+    // TODO: Create
 
 
 
