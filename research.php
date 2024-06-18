@@ -88,7 +88,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
 
             <?php if ($activeUserResearchType): ?>
                 <div class='alert alert-success'>
-                    <p>Your currently researching <?php echo $activeUserResearchType['name'] ?> and have <?php echo $activeUserResearchType['duration_in_days'] ?> days remaining until it's complete.</p>
+                    <p>Your currently researching and have <?php echo $activeUserResearchType['duration_in_days'] ?> days remaining until it's complete.</p>
                 </div>
             <?php endif; ?>
 
@@ -113,7 +113,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
                                                 </p>
                                             </div>
                                             <div class="card-footer">
-                                                <a href="research.php?action=start_research&rid=<?php echo $levelRow['id'] ?>" class="btn btn-primary">Research</a>
+                                                <?php if (!$activeUserResearchType): ?>
+                                                    <a href="research.php?action=start_research&rid=<?php echo $levelRow['id'] ?>" class="btn btn-primary">Research</a>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
