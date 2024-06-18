@@ -86,6 +86,12 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
         <div class="col-md-12">
             <h2>Research</h2>
 
+            <?php if ($activeUserResearchType): ?>
+                <div class='alert alert-success'>
+                    <p>Your currently researching <?php echo $activeUserResearchType['name'] ?> and have <?php echo $activeUserResearchType['duration_in_days'] ?> days remaining until it's complete.</p>
+                </div>
+            <?php endif; ?>
+
             <div class="table-container">
                 <table class="new_table" id="newtables" style="width:100%;">
                         <tr>
