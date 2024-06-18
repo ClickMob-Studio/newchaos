@@ -107,7 +107,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
                                                 </p>
                                             </div>
                                             <div class="card-footer">
-                                                <a href="#" class="btn btn-primary">Research</a>
+                                                <a href="research.php?action=start_research&rid=<?php echo $levelRow['id'] ?>" class="btn btn-primary">Research</a>
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
