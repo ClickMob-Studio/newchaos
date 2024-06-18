@@ -31,7 +31,7 @@ $activeUserResearchType = $db->fetch_row(true);
 
 if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET['rid']) && (int)$_GET['rid'])  {
     if ($activeUserResearchType) {
-        diefun('You can only do one research at a time. <a href="research.php">Go Back</a>');
+        diefun('You can only do one research at a time. <a href="research.php" style="color: red;">Go Back</a>');
     }
 
     $rid = (int)$_GET['rid'];
@@ -40,11 +40,11 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
     $db->execute();
     $researchType = $db->fetch_row(true);
     if (!$researchType) {
-        diefun('You can only do one research at a time. <a href="research.php">Go Back</a>');
+        diefun('You can only do one research at a time. <a href="research.php" style="color: red;">Go Back</a>');
     }
 
     if (isset($completeUserResearchTypes[$researchType['id']])) {
-        diefun('You have already completed this research. <a href="research.php">Go Back</a>');
+        diefun('You have already completed this research. <a href="research.php" style="color: red;">Go Back</a>');
     }
 
 
@@ -60,11 +60,11 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
     }
 
     if (!$isAllComplete) {
-        diefun('You need to complete all researches from the previous level to complete this research. <a href="research.php">Go Back</a>');
+        diefun('You need to complete all researches from the previous level to complete this research. <a href="research.php" style="color: red;">Go Back</a>');
     }
 
     if ($researchType['cost'] > $user_class->money) {
-        diefun('You need more cash on hand to complete this research. <a href="research.php">Go Back</a>');
+        diefun('You need more cash on hand to complete this research. <a href="research.php" style="color: red;">Go Back</a>');
     }
 
     $db->query("
@@ -75,7 +75,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
     ");
     $db->execute();
 
-    diefun('You have successfully started researching ' .  $researchType['name'] . '<a href="research.php">Go Back</a>');
+    diefun('You have successfully started researching ' .  $researchType['name'] . '<a href="research.php" style="color: red;">Go Back</a>');
 }
 ?>
 
