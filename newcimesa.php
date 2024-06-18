@@ -278,6 +278,7 @@ function start() {
     var resetAction = function() {
         doingcrime = false;
         clearInterval(timerId);
+        location.reload();
     };
 
     var timerId = setInterval(function () {
@@ -373,6 +374,7 @@ document.addEventListener('orientationchange', finish);
 function finish() {
     if (doingcrime) {
         doingcrime = false;
+        location.reload();
     }
     id = 0;
 }
@@ -417,4 +419,3 @@ fetch('ajax_crimes.php', {
 <?php
 include 'footer.php';
 ?>
-
