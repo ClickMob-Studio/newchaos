@@ -396,22 +396,6 @@ function addCommas(nStr) {
     return x1 + x2;
 }
 
-
-fetch('ajax_crimes.php', {
-    method: 'POST', // or 'GET'
-    body: JSON.stringify({/* your data here */}),
-    headers: {'Content-Type': 'application/json'}
-})
-.then(data => {
-    // Assuming 'data' is the response from your server with the structure:
-    // { "stats": { "points": "new points value", "money": "new money value" } }
-    if(data.stats) {
-        updateHeaderStats(data.stats.points, data.stats.money);
-    }
-})
-.catch(error => {
-    console.error('Error:', error);
-});
 </script>
 
 <meta http-equiv='refresh' content='900'>
