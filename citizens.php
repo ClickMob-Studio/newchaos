@@ -110,7 +110,6 @@ echo "</td></tr>";
 
 ?>
 
-<?php if ($user_class->admin > 0): ?>
     <script type="text/javascript">
         let clickCount = 0;
 
@@ -124,7 +123,6 @@ echo "</td></tr>";
         });
 
     </script>
-<?php endif; ?>
 
 <?php
 include 'footer.php'
