@@ -14,13 +14,13 @@ while ($i <= 5) {
     $i++;
 }
 
-$db->query("SELECT * FROM `user_research_type` WHERE `user_id` = " . $user_class->id . " AND `duration_in_days` < 1 LIMIT 1");
+$db->query("SELECT * FROM `user_research_type` WHERE `user_id` = " . $user_class->id . " AND `duration_in_days` < 1");
 $db->execute();
 $completeUserResearchTypes = $db->fetch_row();
 
 $completeUserResearchTypesIndexedOnId = array();
 foreach ($completeUserResearchTypes as $completeUserResearchType) {
-    $completeUserResearchTypesIndexedOnId[$completeUserResearchType['user_research_type_id']] = $completeUserResearchType;
+    $completeUserResearchTypesIndexedOnId[$completeUserResearchType['research_type_id']] = $completeUserResearchType;
 }
 
 
