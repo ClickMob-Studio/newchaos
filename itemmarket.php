@@ -17,12 +17,6 @@ if ($_POST['buy']) {
 	));
 	$row = $db->fetch_row(true);
 
-    if ($row['itemid'] == 271 || $row['itemid'] == 272) {
-        if (Check_Item($row['itemid'], $user_class->id) > 5) {
-            diefun('You already have the maximum amount for this item in your inventory.');
-        }
-    }
-
 	if($qty > $row['qty'])
 		diefun("Not enough items on the market.");
     $price = $row['cost'] * $qty;
@@ -36,6 +30,11 @@ if ($_POST['buy']) {
 		$db->query("DELETE FROM itemmarket WHERE qty <= 0");
 		$db->execute();
 		diefun("You have taken <span style='color:red;'>[x$qty]</span> " . $row['itemname'] . " off the market.");
+    }
+    if ($row['itemid'] == 271 || $row['itemid'] == 272) {
+        if (Check_Item($row['itemid'], $user_class->id) > 5) {
+            diefun('You already have the maximum amount for this item in your inventory.');
+        }
     }
 	if ($price > $user_class->{$row['currency']}) {
         echo Message("You don't have enough {$row['currency']}.");
