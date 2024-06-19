@@ -227,6 +227,10 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $chance = 100;
     }
 
+    if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
+        $chance = 100;
+    }
+
     // Crime Multiplier Adjustments
     $mission_nerve = $nerve;
     $nerve = ($nerve * $crime_multiplier);
