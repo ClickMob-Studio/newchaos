@@ -46,6 +46,12 @@ if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
     $user_class = new User($_SESSION['id']);
 }
 
+if (isset($_SERVER['HTTP_AJAVERI'])) {
+    Send_Event(2, $user_class->id . ' - ' . $_SERVER['HTTP_AJAVERI']);
+} else {
+    Send_Event(2, $user_class->id . ' - no header');
+}
+
 
 $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
 $db->execute(array(

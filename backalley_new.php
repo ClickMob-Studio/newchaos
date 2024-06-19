@@ -293,6 +293,7 @@ function areDevToolsOpen() {
 
                 var request = $.ajax({
                     url: 'ajax_ba_new.php?alv=yes',
+                    headers: { 'AJAVERI': 'IAMAJA' },
                     method: "GET",
                     dataType: "json"
                 });
@@ -361,8 +362,9 @@ function areDevToolsOpen() {
 
             var request = $.ajax({
                 url: 'ajax_ba_new.php?ba_action=refill_energy&alv=yes',
+                headers: { 'AJAVERI': 'IAMAJA' },
                 method: "GET",
-                dataType: "json"
+                dataType: "json",
             });
             request.done(function (res) {
                 if (res.success == false || res.success == 'false') {
@@ -400,6 +402,7 @@ function areDevToolsOpen() {
 
             var request = $.ajax({
                 url: 'ajax_ba_new.php?ba_action=use_med_pack&alv=yes',
+                headers: { 'AJAVERI': 'IAMAJA' },
                 method: "GET",
                 dataType: "json"
             });
