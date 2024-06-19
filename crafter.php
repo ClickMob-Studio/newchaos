@@ -43,6 +43,20 @@ function handleTrade($tradeId) {
     }    
     $trade = mysql_fetch_assoc($tradeResult);
 
+    // Check for quantity capped crafting - Sofa
+    if ($tradeId == 28) {
+        if (Check_Item(271, $user_class->id) > 5) {
+            return 'You can only have a maximum of 5 Sofa\'s in your inventory.';
+        }
+    }
+
+    // Check for quantity capped crafting - Fireplace
+    if ($tradeId == 29) {
+        if (Check_Item(272, $user_class->id) > 5) {
+            return 'You can only have a maximum of 5 Fireplaces\'s in your inventory.';
+        }
+    }
+
     // List to hold items that the user lacks
     $lackingItems = [];
 
@@ -99,6 +113,8 @@ function handleTrade($tradeId) {
           
         }
     }
+
+
     // Add reward items to user's inventory
     for ($i = 1; $i <= 6; $i++) {
         if (!empty($trade["itemreward$i"])) {
