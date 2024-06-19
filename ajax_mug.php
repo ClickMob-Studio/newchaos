@@ -46,6 +46,11 @@ if ($_GET['alv'] !== 'yes') {
 $attack_person = new User($_GET['mug']);
 $gang_class = new Gang($user_class->gang);
 
+$db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
+$db->execute(array(
+    $user_class->id
+));
+
 
 if ($attack_person->mprotection > time() ) {
     $response = error("This player is currently under mug protection.");
