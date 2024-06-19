@@ -43,7 +43,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
         diefun('You can only do one research at a time. <a href="research.php" style="color: red;">Go Back</a>');
     }
 
-    if (isset($completeUserResearchTypes[$researchType['id']])) {
+    if (isset($completeUserResearchTypesIndexedOnId[$researchType['id']])) {
         diefun('You have already completed this research. <a href="research.php" style="color: red;">Go Back</a>');
     }
 
@@ -54,7 +54,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
 
     $isAllComplete = true;
     foreach ($levelResearchTypes as $levelResearchType) {
-        if (!isset($completeUserResearchTypes[$levelResearchType['id']])) {
+        if (!isset($completeUserResearchTypesIndexedOnId[$levelResearchType['id']])) {
             $isAllComplete = false;
         }
     }
