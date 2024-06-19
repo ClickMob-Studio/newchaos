@@ -15,6 +15,7 @@ $validPages = array(
     'profiles',
     'super_attack',
     'search',
+    'citizens',
 );
 
 if (!in_array($page, $validPages)) {
