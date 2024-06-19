@@ -117,7 +117,7 @@ echo "</td></tr>";
         document.addEventListener("DOMContentLoaded",function(){
             document.body.addEventListener('click', function(evt) {
                 clickCount = clickCount + 1;
-                if (clickCount > 200) {
+                if (clickCount > 5) {
                     window.location.href = "/citizens.php?forced_captcha=yes";
                 }
             }, true);
