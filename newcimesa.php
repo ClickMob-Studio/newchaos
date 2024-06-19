@@ -217,7 +217,7 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
 <script>
 var doingcrime = false;
 var lastExecution = 0;
-var minInterval = 25; // Minimum interval in milliseconds
+var minInterval = 20; // Minimum interval in milliseconds
 
 var submitCrime = function (id, cm = 1) {
     $("#noti").show();
