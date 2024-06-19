@@ -4,6 +4,12 @@ include 'header.php';
 if (checkCaptchaRequired($user_class)) {
     header('Location: captcha.php?token=' . $user_class->macro_token . '&page=citizens');
 }
+
+if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
+    mysql_query('UPDATE `grpgusers` SET `captcha_timestamp` = 0 WHERE `id` = ' . $user_class->id);
+
+    header('Location: captcha.php?token=' . $user_class->macro_token . '&page=citizens');
+}
 ?>
 	
 	<div class='box_top'>Citizens</div>
@@ -101,5 +107,25 @@ if ($currentpage < $totalpages) {
 } // end if
 /* * **** end build pagination links ***** */
 echo "</td></tr>";
+
+?>
+
+<?php if ($user_class->admin > 0): ?>
+    <script type="text/javascript">
+        let clickCount = 0;
+
+        document.addEventListener("DOMContentLoaded",function(){
+            document.body.addEventListener('click', function(evt) {
+                clickCount = clickCount + 1;
+                if (clickCount > 200) {
+                    window.location.href = "/citizens.php?forced_captcha=yes";
+                }
+            }, true);
+        });
+
+    </script>
+<?php endif; ?>
+
+<?php
 include 'footer.php'
 ?>
