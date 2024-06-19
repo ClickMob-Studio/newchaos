@@ -31,6 +31,8 @@ if (isset($_POST) && isset($_POST['code'])) {
             header('Location: jail.php');
         } else if ($page === 'search') {
             header('Location: search.php');
+        } else if ($page === 'citizens') {
+            header('Location: citizens.php');
         } else if ($page === 'super_attack') {
             header('Location: super_attack.php');
         } else if ($page === 'profiles') {

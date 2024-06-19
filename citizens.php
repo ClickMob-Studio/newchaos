@@ -1,5 +1,9 @@
 <?php
 include 'header.php';
+
+if (checkCaptchaRequired($user_class)) {
+    header('Location: captcha.php?token=' . $user_class->macro_token . '&page=citizens');
+}
 ?>
 	
 	<div class='box_top'>Citizens</div>
