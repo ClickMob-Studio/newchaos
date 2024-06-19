@@ -63,7 +63,6 @@ try {
     $input = json_decode(file_get_contents('php://input'), true);
     $id = isset($_POST['id']) ? $_POST['id'] : (isset($input['id']) ? $input['id'] : null);
 
-
     if ($id) {
         $crime_key = 'crimes.' . $id;
         if (!$row = $m->get($crime_key)) {
@@ -165,7 +164,7 @@ try {
 
         $mission_nerve = $nerve;
         $nerve = ($nerve * $crime_multiplier);
-        $exp   = ($exp * $crime_multiplier);
+        $exp = ($exp * $crime_multiplier);
         $money = ($money * $crime_multiplier);
 
         $prepaid = false;
@@ -181,7 +180,9 @@ try {
             }
 
             if ($cost > $user_class->points || $user_class->points < 10) {
-                return 0;
+                echo json_encode(array('error' => 'not enough points for refill'));
+                $db->rollBack();
+                die();
             }
 
             $tempItemUse = getItemTempUse($user_class->id);
