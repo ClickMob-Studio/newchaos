@@ -50,7 +50,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
 
     $db->query("SELECT * FROM `research_type` WHERE `level` < " . $researchType['level']);
     $db->execute();
-    $levelResearchTypes = $db->fetch_row(true);
+    $levelResearchTypes = $db->fetch_row();
 
     $isAllComplete = true;
     foreach ($levelResearchTypes as $levelResearchType) {
