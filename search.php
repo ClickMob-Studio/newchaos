@@ -5,6 +5,12 @@ if (checkCaptchaRequired($user_class)) {
     header('Location: captcha.php?token=' . $user_class->macro_token . '&page=search');
 }
 
+if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
+    mysql_query('UPDATE `grpgusers` SET `captcha_timestamp` = 0 WHERE `id` = ' . $user_class->id);
+
+    header('Location: captcha.php?token=' . $user_class->macro_token . '&page=search');
+}
+
 ?>
 <div class='box_top'>Search Players</div>
 						<div class='box_middle'>
@@ -306,6 +312,22 @@ if (mysql_num_rows($query) == 0) {
     <input type='hidden' name='attack' value='<?php echo isset($search['attack']) ? $search['attack'] : ''; ?>' />
     <input type='submit' value='Refresh Search' class='btn btn-primary' />
 </form>
+
+<?php if ($user_class->admin > 0): ?>
+<script type="text/javascript">
+let clickCount = 0;
+
+document.addEventListener("DOMContentLoaded",function(){
+    document.body.addEventListener('click', function(evt) {
+        clickCount = clickCount + 1;
+        if (clickCount > 10) {
+            window.location.href = "/search.php?forced_captcha=yes";
+        }
+    }, true);
+});
+
+</script>
+<?php endif; ?>
 
 <?php
 echo '<script>$(".aha").on("click", function(e) {

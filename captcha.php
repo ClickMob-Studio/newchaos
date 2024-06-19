@@ -14,6 +14,7 @@ $validPages = array(
     'search',
     'profiles',
     'super_attack',
+    'search',
 );
 
 if (!in_array($page, $validPages)) {
