@@ -101,6 +101,12 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
                             ?>
                                 <td>
                                     <?php foreach ($levelRows[$i] as $levelRow): ?>
+                                        <?php
+                                        $bgClass = 'bg-info';
+                                        if (isset($completeUserResearchTypesIndexedOnId[$levelRow['id']])) {
+                                            $bgClass = 'bg-success';
+                                        }
+                                        ?>
                                         <div class="card text-white bg-info mb-3" style="width: 300px;">
                                             <div class="card-header">
                                                 <?php echo $levelRow['name'] ?>
@@ -113,7 +119,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
                                                 </p>
                                             </div>
                                             <div class="card-footer">
-                                                <?php if (!$activeUserResearchType): ?>
+                                                <?php if (!$activeUserResearchType && !isset($completeUserResearchTypesIndexedOnId[$levelRow['id']])): ?>
                                                     <a href="research.php?action=start_research&rid=<?php echo $levelRow['id'] ?>" class="btn btn-primary">Research</a>
                                                 <?php endif; ?>
                                             </div>
