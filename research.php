@@ -28,6 +28,10 @@ $db->query("SELECT * FROM `user_research_type` WHERE `user_id` = " . $user_class
 $db->execute();
 $activeUserResearchType = $db->fetch_row(true);
 
+$db->query("SELECT * FROM `research_type` WHERE `id` = " . $activeUserResearchType['research_type_id']);
+$db->execute();
+$activeResearchType = $db->fetch_row(true);
+
 
 if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET['rid']) && (int)$_GET['rid'])  {
     if ($activeUserResearchType) {
@@ -93,7 +97,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
 
             <?php if ($activeUserResearchType): ?>
                 <div class='alert alert-success'>
-                    <p>Your currently researching and have <?php echo $activeUserResearchType['duration_in_days'] ?> days remaining until it's complete.</p>
+                    <p>Your currently researching <?php echo $activeResearchType['name'] ?> and have <?php echo $activeUserResearchType['duration_in_days'] ?> days remaining until it's complete.</p>
                 </div>
             <?php endif; ?>
 
