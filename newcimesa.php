@@ -289,7 +289,7 @@ function start() {
                 resetAction();
             }
         }
-    }, minInterval);
+    }, 25);
     document.addEventListener('mouseup', resetAction, { once: true });
     document.addEventListener('touchend', resetAction, { once: true });
     document.addEventListener('mouseleave', resetAction, { once: true });
