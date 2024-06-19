@@ -43,7 +43,7 @@ if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
 session_write_close();
 
 if (!$user_class) {
-    die(json_encode(array('error' => 'No user class found')));
+    die();
 }
 
 $db->startTrans();
@@ -73,7 +73,7 @@ try {
         }
 
         if (empty($row)) {
-            echo json_encode(array('error' => 'refresh', 'debug' => 'No crime row found'));
+            echo json_encode(array('error' => 'refresh'));
             $db->rollBack();
             die();
         }
@@ -83,89 +83,21 @@ try {
         $name = $row['name'];
 
         if ($user_class->maxnerve < $nerve) {
-            echo json_encode(array('error' => 'refresh', 'debug' => array('maxnerve' => $user_class->maxnerve, 'needed' => $nerve)));
+            echo json_encode(array('error' => 'refresh'));
             $db->rollBack();
             die();
         }
 
-        $time = floor(($nerve - ($nerve * 0.5)) * 6);
-        $stext = 'You successfully managed to ' . $name;
-        $ftext = 'You failed to ' . $name;
-        $chance = rand(1, 250);
-        $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
-        $exp = ((10 * $nerve) + 8 * ($nerve - 1)) * 1.0;
-
-        $db->query("SELECT `count` FROM crimeranks WHERE userid = ? AND crimeid = ?");
-        $db->execute(array($user_class->id, $row['id']));
-        $crimeRankResult = $db->fetch_row(true);
-
-        $crimeCount = $crimeRankResult ? (int)$crimeRankResult['count'] : 0;
-
-        $star_level = 0;
-        if ($crimeCount >= 10000 && $crimeCount < 100000) {
-            $star_level = 1;
-        } elseif ($crimeCount >= 100000 && $crimeCount < 1000000) {
-            $star_level = 2;
-        } elseif ($crimeCount >= 1000000 && $crimeCount < 5000000) {
-            $star_level = 3;
-        } elseif ($crimeCount >= 5000000 && $crimeCount < 15000000) {
-            $star_level = 4;
-        } elseif ($crimeCount >= 15000000) {
-            $star_level = 5;
-        }
-
-        $bonus_exp_per_star_level = 0.10;
-        $star_bonus_exp = $exp * $star_level * $bonus_exp_per_star_level;
-        $exp += $star_bonus_exp;
-
-        $crimeexpbonus = 0;
-        if ($user_class->crimeexpboost > 1) {
-            $crimeexpbonus += 0.2;
-            $crimeexpbonus += ($user_class->crimeexpboost - 1) * 0.0333;
-        } elseif ($user_class->crimeexpboost == 1) {
-            $crimeexpbonus = 0.2;
-        }
-
-        $bonus = $exp * $crimeexpbonus;
-        $exp = round($exp + $bonus, 2);
-
-        if ($user_class->prestige > 0) {
-            $exp *= (.20 * $user_class->prestige) + 1;
-        }
-
-        if ($user_class->exppill >= time()) {
-            $exp *= 2.0;
-            $chance = 100;
-        }
-
-        $tempItemUse = getItemTempUse($user_class->id);
-        if ($tempItemUse['crime_booster_time'] > time()) {
-            $exp += round(($exp / 5));
-        } else if ($tempItemUse['crime_potion_time'] > time()) {
-            $exp += round(($exp / 10));
-        }
-
-        $db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
-        $db->execute();
-        $bonus_row = $db->fetch_row(true);
-
-        if ($tempItemUse['gang_double_exp_time'] > time() || $bonus_row['Time'] > 0 || time() < 1673827199) {
-            $exp *= 2;
-            $chance = 100;
-        }
-
-        $crime_multiplier = 1;
-        if (isset($_POST['cm'])) {
-            $allowed = array(1, 2, 4, 10, 20, 30, 50);
-            if (in_array($_POST['cm'], $allowed)) {
-                $crime_multiplier = $_POST['cm'];
-            }
+        $crime_multiplier = isset($_POST['cm']) ? $_POST['cm'] : 1;
+        $allowed_multipliers = array(1, 2, 4, 10, 20, 30, 50);
+        if (!in_array($crime_multiplier, $allowed_multipliers)) {
+            $crime_multiplier = 1;
         }
 
         $mission_nerve = $nerve;
         $nerve = ($nerve * $crime_multiplier);
-        $exp = ($exp * $crime_multiplier);
-        $money = ($money * $crime_multiplier);
+        $exp = ((10 * $row['nerve']) + 8 * ($row['nerve'] - 1)) * $crime_multiplier;
+        $money = ((50 * $row['nerve']) + 15 * ($row['nerve'] - 1)) * $crime_multiplier;
 
         $prepaid = false;
         if ($nerve > $user_class->nerve && $user_class->nerref == 2) {
@@ -180,7 +112,7 @@ try {
             }
 
             if ($cost > $user_class->points || $user_class->points < 10) {
-                echo json_encode(array('error' => 'not enough points for refill', 'debug' => array('cost' => $cost, 'points' => $user_class->points)));
+                echo json_encode(array('error' => 'refresh', 'debug' => array('nerve' => $user_class->nerve, 'needed' => $nerve, 'points' => $user_class->points, 'cost' => $cost)));
                 $db->rollBack();
                 die();
             }
@@ -203,18 +135,82 @@ try {
         }
 
         if ($user_class->nerve >= $nerve || $prepaid) {
+            $time = floor(($row['nerve'] - ($row['nerve'] * 0.5)) * 6);
+            $stext = 'You successfully managed to ' . $name;
+            $ftext = 'You failed to ' . $name;
+            $chance = rand(1, 250);
+
+            $db->query("SELECT `count` FROM crimeranks WHERE userid = ? AND crimeid = ?");
+            $db->execute(array($user_class->id, $row['id']));
+            $crimeRankResult = $db->fetch_row(true);
+            $crimeCount = $crimeRankResult ? (int)$crimeRankResult['count'] : 0;
+
+            $star_level = 0;
+            if ($crimeCount >= 10000 && $crimeCount < 100000) {
+                $star_level = 1;
+            } elseif ($crimeCount >= 100000 && $crimeCount < 1000000) {
+                $star_level = 2;
+            } elseif ($crimeCount >= 1000000 && $crimeCount < 5000000) {
+                $star_level = 3;
+            } elseif ($crimeCount >= 5000000 && $crimeCount < 15000000) {
+                $star_level = 4;
+            } elseif ($crimeCount >= 15000000) {
+                $star_level = 5;
+            }
+
+            $bonus_exp_per_star_level = 0.10;
+            $star_bonus_exp = $exp * $star_level * $bonus_exp_per_star_level;
+            $exp += $star_bonus_exp;
+
+            $crimeexpbonus = 0;
+            if ($user_class->crimeexpboost > 1) {
+                $crimeexpbonus += 0.2;
+                $crimeexpbonus += ($user_class->crimeexpboost - 1) * 0.0333;
+            } elseif ($user_class->crimeexpboost == 1) {
+                $crimeexpbonus = 0.2;
+            }
+
+            $bonus = $exp * $crimeexpbonus;
+            $exp = round($exp + $bonus, 2);
+
+            if ($user_class->prestige > 0) {
+                $exp *= (.20 * $user_class->prestige) + 1;
+            }
+
+            if ($user_class->exppill >= time()) {
+                $exp *= 2.0;
+                $chance = 100;
+            }
+
+            $tempItemUse = getItemTempUse($user_class->id);
+            if ($tempItemUse['crime_booster_time'] > time()) {
+                $exp += round(($exp / 5));
+            } else if ($tempItemUse['crime_potion_time'] > time()) {
+                $exp += round(($exp / 10));
+            }
+
+            $db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
+            $db->execute();
+            $bonus_row = $db->fetch_row(true);
+
+            if ($tempItemUse['gang_double_exp_time'] > time() || $bonus_row['Time'] > 0 || time() < 1673827199) {
+                $exp *= 2;
+                $chance = 100;
+            }
+
             if ($chance < 5) {
                 $user_class->nerve -= $nerve;
                 $db->query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ? WHERE id = ?");
                 $db->execute(array($nerve, $user_class->id));
                 $db->endTrans();
-                die($ftext . ".|" . number_format($user_class->points) . "|" . number_format($user_class->money) . "|" . number_format($user_class->level) . "|" . genBars());
+                echo json_encode(array('error' => 'refresh', 'text' => $ftext . "."));
+                die();
             } elseif ($chance == 6) {
                 $user_class->nerve -= $nerve;
                 $db->query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ?, caught = caught + 1, jail = 300 WHERE id = ?");
                 $db->execute(array($nerve, $user_class->id));
                 $db->endTrans();
-                echo json_encode(array('text' => 'You were hauled off to jail for 5 minutes'));
+                echo json_encode(array('text' => 'You were hauled off to jail for 5 minutes', 'error' => 'refresh'));
                 die();
             } else {
                 $bbnerve = $prepaid ? $nerve : ($nerve / $user_class->level);
@@ -337,7 +333,7 @@ try {
                 ));
             }
         } else {
-            echo json_encode(array('error' => 'refresh', 'text' => "You don't have enough nerve for that crime.", 'debug' => array('nerve' => $user_class->nerve, 'needed' => $nerve)));
+            echo json_encode(array('error' => 'refresh', 'text' => "You don't have enough nerve for that crime."));
         }
     }
     $db->endTrans();
