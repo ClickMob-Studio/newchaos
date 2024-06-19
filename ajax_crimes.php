@@ -43,7 +43,7 @@ if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
 session_write_close();
 
 if (!$user_class) {
-    die();
+    die(json_encode(array('error' => 'No user class found')));
 }
 
 $db->startTrans();
@@ -73,7 +73,7 @@ try {
         }
 
         if (empty($row)) {
-            echo json_encode(array('error' => 'refresh'));
+            echo json_encode(array('error' => 'refresh', 'debug' => 'No crime row found'));
             $db->rollBack();
             die();
         }
@@ -83,7 +83,7 @@ try {
         $name = $row['name'];
 
         if ($user_class->maxnerve < $nerve) {
-            echo json_encode(array('error' => 'refresh'));
+            echo json_encode(array('error' => 'refresh', 'debug' => array('maxnerve' => $user_class->maxnerve, 'needed' => $nerve)));
             $db->rollBack();
             die();
         }
@@ -180,7 +180,7 @@ try {
             }
 
             if ($cost > $user_class->points || $user_class->points < 10) {
-                echo json_encode(array('error' => 'not enough points for refill'));
+                echo json_encode(array('error' => 'not enough points for refill', 'debug' => array('cost' => $cost, 'points' => $user_class->points)));
                 $db->rollBack();
                 die();
             }
@@ -197,7 +197,7 @@ try {
             $db->execute(array($cost, $user_class->maxnerve, $user_class->id));
             $prepaid = true;
         } else if ($nerve > $user_class->nerve) {
-            echo json_encode(array('error' => 'refresh'));
+            echo json_encode(array('error' => 'refresh', 'debug' => array('nerve' => $user_class->nerve, 'needed' => $nerve)));
             $db->rollBack();
             die();
         }
@@ -337,7 +337,7 @@ try {
                 ));
             }
         } else {
-            echo json_encode(array('error' => 'refresh', 'text' => "You don't have enough nerve for that crime."));
+            echo json_encode(array('error' => 'refresh', 'text' => "You don't have enough nerve for that crime.", 'debug' => array('nerve' => $user_class->nerve, 'needed' => $nerve)));
         }
     }
     $db->endTrans();
