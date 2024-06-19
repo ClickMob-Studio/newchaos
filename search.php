@@ -313,21 +313,20 @@ if (mysql_num_rows($query) == 0) {
     <input type='submit' value='Refresh Search' class='btn btn-primary' />
 </form>
 
-<?php if ($user_class->admin > 0): ?>
+
 <script type="text/javascript">
 let clickCount = 0;
 
 document.addEventListener("DOMContentLoaded",function(){
     document.body.addEventListener('click', function(evt) {
         clickCount = clickCount + 1;
-        if (clickCount > 10) {
+        if (clickCount > 200) {
             window.location.href = "/search.php?forced_captcha=yes";
         }
     }, true);
 });
 
 </script>
-<?php endif; ?>
 
 <?php
 echo '<script>$(".aha").on("click", function(e) {
