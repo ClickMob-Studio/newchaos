@@ -279,6 +279,11 @@ $(document).ready(function() {
             starRatingHtml += i <= stars ? '<span class="gold">&#9733;</span>' : '<span class="gray">&#9733;</span>';
         }
 
+        <?php if (isset($user_class->completeUserResearchTypesIndexedOnId[16])): ?>
+           starRatingHtml += 6 <= stars ? '<span class="gold">&#9733;</span>' : '<span class="gray">&#9733;</span>';
+        <?php endif; ?>
+
+
         var requiredCrimeCount = 10000;
         if (stars < 1) {
             var requiredCrimeCount = 10000;
