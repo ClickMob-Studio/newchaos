@@ -46,7 +46,7 @@ if (!empty($error)) {
 }
 
 if (isset($_GET['ner'])) {
-    switch ($_GET['ner'])) {
+    switch ($_GET['ner']) {
         case 0:
             if ($user_class->nerref != 0)
                 diefun("Nice Try.");
