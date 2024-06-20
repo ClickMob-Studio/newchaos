@@ -379,6 +379,25 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 $money = $money + $mPerIc;
             }
 
+            $researchExpBoost = 0;
+            if (isset($user_class->completeUserResearchTypesIndexedOnId[4])) {
+                $researchExpBoost += 5;
+            }
+            if (isset($user_class->completeUserResearchTypesIndexedOnId[4])) {
+                $researchExpBoost += 5;
+            }
+            if (isset($user_class->completeUserResearchTypesIndexedOnId[9])) {
+                $researchExpBoost += 5;
+            }
+            if (isset($user_class->completeUserResearchTypesIndexedOnId[12])) {
+                $researchExpBoost += 10;
+            }
+
+            if ($researchExpBoost > 0) {
+                $resExpInc = $exp / ceil($exp / 100 * $researchExpBoost);
+                $exp = $exp + $resExpInc;
+            }
+
             $gtax = 0;
             if ($user_class->gang != 0) {
                 // Attempt to retrieve gang tax details from cache
