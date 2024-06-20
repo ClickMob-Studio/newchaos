@@ -397,6 +397,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 $resExpInc = $exp / ceil($exp / 100 * $researchExpBoost);
                 $exp = $exp + $resExpInc;
             }
+            $exp = ceil($exp);
 
             $gtax = 0;
             if ($user_class->gang != 0) {
