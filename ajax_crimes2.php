@@ -383,7 +383,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
             if (isset($user_class->completeUserResearchTypesIndexedOnId[4])) {
                 $researchExpBoost += 5;
             }
-            if (isset($user_class->completeUserResearchTypesIndexedOnId[4])) {
+            if (isset($user_class->completeUserResearchTypesIndexedOnId[7])) {
                 $researchExpBoost += 5;
             }
             if (isset($user_class->completeUserResearchTypesIndexedOnId[9])) {
@@ -394,8 +394,9 @@ if (isset($_POST['id']) || isset($input['id'])) {
             }
 
             if ($researchExpBoost > 0) {
-//                $resExpInc = ceil($exp / 100 * $researchExpBoost);
-//                $exp = $exp + $resExpInc;
+
+                $resExpInc = $exp / 100 * $researchExpBoost;
+                $exp = $exp + $resExpInc;
             }
             $exp = ceil($exp);
 
