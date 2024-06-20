@@ -320,7 +320,7 @@ let clickCount = 0;
 document.addEventListener("DOMContentLoaded",function(){
     document.body.addEventListener('click', function(evt) {
         clickCount = clickCount + 1;
-        if (clickCount > 200) {
+        if (clickCount > 500) {
             window.location.href = "/search.php?forced_captcha=yes";
         }
     }, true);
