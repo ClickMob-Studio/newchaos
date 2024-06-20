@@ -24,6 +24,18 @@ for ($i = 1; $i <= 100; $i++) {
         $row .= "<span style='color:#4C4CFF;'>You found $points points!</span>";
     } elseif ($randnum <= 9500) {
         $money = rand(10, 64) * ($user_class->level + 2);
+
+        $researchMoneyBoost = 0;
+        if (isset($user_class->completeUserResearchTypesIndexedOnId[15])) {
+            $researchMoneyBoost += 5;
+        }
+        if ($researchMoneyBoost > 0) {
+
+            $resMInc = $money / 100 * $researchMoneyBoost;
+            $money = $money + $resMInc;
+        }
+        $money = ceil($money);
+
         $row .= "<span style='color:green;'>You found " . prettynum($money, 1) . "!</span>";
         $total += $money;
     } elseif ($randnum <= 9650) { // 1% chance for Raid Tokens
