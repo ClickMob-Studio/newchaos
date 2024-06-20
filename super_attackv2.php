@@ -62,7 +62,7 @@ $_SESSION['csrf'] = $csrf;
                     $(".ajax-message-holder").show();
                 } else {
                     for (const attackingId of res.attack_id) {
-                        alert(attackingId);
+                        console.log(attackingId);
                     }
 
                     //var request = $.ajax({
