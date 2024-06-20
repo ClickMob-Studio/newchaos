@@ -1154,6 +1154,16 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
             }
         }
 
+        $db->query("SELECT * FROM `user_research_type` WHERE `user_id` = " . $this->id . " AND `duration_in_days` < 1");
+        $db->execute();
+        $completeUserResearchTypes = $db->fetch_row();
+        $completeUserResearchTypesIndexedOnId = array();
+        foreach ($completeUserResearchTypes as $completeUserResearchType) {
+            $completeUserResearchTypesIndexedOnId[$completeUserResearchType['research_type_id']] = $completeUserResearchType;
+        }
+        $this->completeUserResearchTypes = $completeUserResearchTypes;
+        $this->completeUserResearchTypesIndexedOnId = $completeUserResearchTypesIndexedOnId;
+
         $this->formattedname = formatName($this->id);
         $this->formattedname2 = formatName($this->id);
         $this->invent = ($this->rmdays > 0) ? 5000 : 2500;
