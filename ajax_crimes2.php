@@ -163,7 +163,15 @@ if (isset($_POST['id']) || isset($input['id'])) {
     } elseif ($crimeCount >= 5000000 && $crimeCount < 15000000) {
         $star_level = 4;
     } elseif ($crimeCount >= 15000000) {
-        $star_level = 5;
+        if (isset($user_class->completeUserResearchTypesIndexedOnId[16])) {
+            if ($crimeCount >= 30000000) {
+                $star_level = 6;
+            } else {
+                $star_level = 5;
+            }
+        } else {
+            $star_level = 5;
+        }
     } else {
         $star_level = 0; // No bonus if the conditions are not met
     }
