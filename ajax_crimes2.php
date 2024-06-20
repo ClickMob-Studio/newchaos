@@ -394,8 +394,8 @@ if (isset($_POST['id']) || isset($input['id'])) {
             }
 
             if ($researchExpBoost > 0) {
-                $resExpInc = ceil($exp / 100 * $researchExpBoost);
-                $exp = $exp + $resExpInc;
+//                $resExpInc = ceil($exp / 100 * $researchExpBoost);
+//                $exp = $exp + $resExpInc;
             }
             $exp = ceil($exp);
 
