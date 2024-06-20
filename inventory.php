@@ -1859,7 +1859,15 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
                 echo Message("You have added 60 Minutes to your Police Pass.");
                 break;
             case 253:
-                $db->query("UPDATE user_ba_stats SET gold_rush_credits = gold_rush_credits + 10 WHERE user_id = ?");
+                $goldRushCredits = 10;
+                if (isset($user_class->completeUserResearchTypesIndexedOnId[6])) {
+                    $goldRushCredits += 5;
+                }
+                if (isset($user_class->completeUserResearchTypesIndexedOnId[15])) {
+                    $goldRushCredits += 5;
+                }
+
+                $db->query("UPDATE user_ba_stats SET gold_rush_credits = gold_rush_credits + " . $goldRushCredits . " WHERE user_id = ?");
                 $db->execute(array(
                     $user_class->id
                 ));
