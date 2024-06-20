@@ -49,7 +49,6 @@ if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
 if (isset($_SERVER['HTTP_AJAVERI'])) {
 
 } else {
-    Send_Event(2, $user_class->id . ' - no header');
 }
 
 
