@@ -112,7 +112,21 @@ if (isset($_POST['what']) AND $_POST['what'] == 'trainrefill') {
 
     if ($_POST['amnt'] <= $user_class->energy && $_POST['amnt'] > 0) {
         // Calculate stats addition based on the multiplier
-        $add = round($_POST['amnt'] * ($user_class->awake / 100 * 6 / 2) * $modifier) * $mega_train_multiplier;
+        $add = round($_POST['amnt'] * ($user_class->awake / 100 * 6 / 2) * $modifier) * $mega_train_multiplier
+            
+        $researchAddBoost = 0;
+        if (isset($user_class->completeUserResearchTypesIndexedOnId[2])) {
+            $researchAddBoost += 5;
+        }
+        if (isset($user_class->completeUserResearchTypesIndexedOnId[10])) {
+            $researchAddBoost += 5;
+        }
+        if ($researchAddBoost > 0) {
+            $resAddInc = $add / 100 * $researchAddBoost;
+            $add = $add + $resAddInc;
+        }
+        $add = ceil($add);
+
         $user_class->$stat += $add;
         $user_class->dailytrains += $add;
 
