@@ -81,6 +81,7 @@ $_SESSION['csrf'] = $csrf;
                             $(".temp-spinner").remove();
                         });
 
+                        console.log((arLength - 1));
                         if (i > (arLength - 1)) {
                             location.reload();
                         }
