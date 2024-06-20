@@ -280,7 +280,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1, `turns` = `turns` + 1, `wins` = `wins` + 1, `cash_gained` = `cash_gained` +  " . $cashWon . ", `exp_gained` = `exp_gained` + " . $expWon . " WHERE `user_id` = '" . $user_class->id . "'");
         $db->execute();
 
-        addUserBaStatExp($userBaStats, $baExpWon);
+        addUserBaStatExp($userBaStats, $baExpWon, $user_class);
         $userBaStats['gold_rush_credits'] = $userBaStats['gold_rush_credits'] - 1;
         $userBaStats['turns'] = $userBaStats['turns'] + 1;
         $userBaStats['wins'] = $userBaStats['wins'] + 1;
@@ -332,7 +332,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1, `turns` = `turns` + 1, `wins` = `wins` + 1, `items_gained` = `items_gained` + 1, `cash_gained` = `cash_gained` + " . $cashWon . "  WHERE `user_id` = '" . $user_class->id . "'");
         $db->execute();
 
-        addUserBaStatExp($userBaStats, $baExpWon);
+        addUserBaStatExp($userBaStats, $baExpWon, $user_class);
         $userBaStats['gold_rush_credits'] = $userBaStats['gold_rush_credits'] - 1;
         $userBaStats['turns'] = $userBaStats['turns'] + 1;
         $userBaStats['wins'] = $userBaStats['wins'] + 1;
@@ -358,7 +358,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1, `turns` = `turns` + 1, `wins` = `wins` + 1, `points_gained` = `points_gained` + " . $pointsWon . "  WHERE `user_id` = '" . $user_class->id . "'");
         $db->execute();
 
-        addUserBaStatExp($userBaStats, $baExpWon);
+        addUserBaStatExp($userBaStats, $baExpWon, $user_class);
         $userBaStats['gold_rush_credits'] = $userBaStats['gold_rush_credits'] - 1;
         $userBaStats['turns'] = $userBaStats['turns'] + 1;
         $userBaStats['wins'] = $userBaStats['wins'] + 1;
@@ -383,7 +383,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `user_ba_stats` SET `gold_rush_credits` = `gold_rush_credits` - 1, `turns` = `turns` + 1, `wins` = `wins` + 1  WHERE `user_id` = '" . $user_class->id . "'");
         $db->execute();
 
-        addUserBaStatExp($userBaStats, $baExpWon);
+        addUserBaStatExp($userBaStats, $baExpWon, $user_class);
         $userBaStats['gold_rush_credits'] = $userBaStats['gold_rush_credits'] - 1;
         $userBaStats['turns'] = $userBaStats['turns'] + 1;
         $userBaStats['wins'] = $userBaStats['wins'] + 1;
@@ -462,7 +462,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `wins` = `wins` + 1, `cash_gained` = `cash_gained` + " . $cashWon . ", `exp_gained` = `exp_gained` + " . $expWon . "  WHERE `user_id` = '" . $user_class->id . "'");
         $db->execute();
 
-        addUserBaStatExp($userBaStats, $baExpWon);
+        addUserBaStatExp($userBaStats, $baExpWon, $user_class);
         $userBaStats['turns'] = $userBaStats['turns'] + 1;
         $userBaStats['wins'] = $userBaStats['wins'] + 1;
 
@@ -512,7 +512,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `wins` = `wins` + 1, `items_gained` = `items_gained` + 1, `cash_gained` = `cash_gained` + " . $cashWon . "  WHERE `user_id` = '" . $user_class->id . "'");
         $db->execute();
 
-        addUserBaStatExp($userBaStats, $baExpWon);
+        addUserBaStatExp($userBaStats, $baExpWon, $user_class);
         $userBaStats['turns'] = $userBaStats['turns'] + 1;
         $userBaStats['wins'] = $userBaStats['wins'] + 1;
 
@@ -541,7 +541,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
             $db->query("UPDATE `user_ba_stats` SET `turns` = `turns` + 1, `wins` = `wins` + 1, `points_gained` = `points_gained` + " . $pointsWon . "  WHERE `user_id` = '" . $user_class->id . "'");
             $db->execute();
 
-            addUserBaStatExp($userBaStats, $baExpWon);
+            addUserBaStatExp($userBaStats, $baExpWon, $user_class);
             $userBaStats['turns'] = $userBaStats['turns'] + 1;
             $userBaStats['wins'] = $userBaStats['wins'] + 1;
 
@@ -561,7 +561,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
             $db->query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + " . $raidTokensWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
             $db->execute();
 
-            addUserBaStatExp($userBaStats, $baExpWon);
+            addUserBaStatExp($userBaStats, $baExpWon, $user_class);
             $userBaStats['turns'] = $userBaStats['turns'] + 1;
             $userBaStats['wins'] = $userBaStats['wins'] + 1;
 

@@ -1990,7 +1990,7 @@ function getUserBaStats($user_class)
     }
 }
 
-function addUserBaStatExp($userBaStats, $baExpWon)
+function addUserBaStatExp($userBaStats, $baExpWon, $user_class)
 {
     global $db;
 
