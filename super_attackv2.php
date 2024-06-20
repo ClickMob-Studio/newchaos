@@ -61,6 +61,7 @@ $_SESSION['csrf'] = $csrf;
                     $(".ajax-message-holder").html(resMes);
                     $(".ajax-message-holder").show();
                 } else {
+                    var i = 1;
                     for (const attackingId of res.attack_id) {
                         var request = $.ajax({
                             url: 'ajax_attack.php?attack=' + attackingId.id + '&csrf=<?php echo $csrf  ?>&alv=yes',
@@ -78,9 +79,12 @@ $_SESSION['csrf'] = $csrf;
                             $(".ajax-message-holder").show();
                             $(".temp-spinner").remove();
                         });
-                    }
 
-                    location.reload();
+                        if (i > 19) {
+                            location.reload();
+                        }
+                        i++;
+                    }
                 }
             });
 
