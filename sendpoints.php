@@ -28,7 +28,7 @@ if ($_POST['sendpoints2'] != "" && $user_class->level > 9) {
     if ($user_class->points >= $_POST['amount'] && $_POST['amount'] > 0) {
         if ($user_class->id != $money_person->id) {
             if ($check > 0) {
-                if ($_POST['amount'] <= 100000) {
+                if ($_POST['amount'] <= 1000000000) {
                     // $newpoints = $user_class->points - $_POST['amount'];
                     // $result = mysql_query("UPDATE `grpgusers` SET `points` = '" . $newpoints . "' WHERE `id`='" . $_SESSION['id'] . "'");
                     // $newpoints = $money_person->points + $_POST['amount'];
