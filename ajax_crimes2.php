@@ -374,6 +374,11 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 $money = $money + ($money / 100 * (2 * $userPrestigeSkills['crime_cash_boost_level']));
             }
 
+            if (isset($user_class->completeUserResearchTypesIndexedOnId[1])) {
+                $mPerIc = ceil($money / 100 * 2);
+                $money = $money + $mPerIc;
+            }
+
             $gtax = 0;
             if ($user_class->gang != 0) {
                 // Attempt to retrieve gang tax details from cache
