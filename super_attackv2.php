@@ -62,26 +62,25 @@ $_SESSION['csrf'] = $csrf;
                     $(".ajax-message-holder").show();
                 } else {
                     for (const attackingId of res.attack_id) {
-                        console.log(attackingId.id);
+                        var request = $.ajax({
+                            url: 'ajax_attack.php?attack=' + res.attack_id + '&csrf=<?php echo $csrf  ?>&alv=yes',
+                            method: "GET",
+                            dataType: "json"
+                        });
+                        request.done(function (resTwo) {
+                            if (resTwo.success == false || resTwo.success == 'false') {
+                                var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + resTwo.error + "</p></div>";
+                            } else {
+                                var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + resTwo.message + "</p></div>";
+                            }
+
+                            $(".ajax-message-holder").html(resMes);
+                            $(".ajax-message-holder").show();
+                            $(".temp-spinner").remove();
+                        });
                     }
 
-                    //var request = $.ajax({
-                    //    url: 'ajax_attack.php?attack=' + res.attack_id + '&csrf=<?php //echo $csrf  ?>//&alv=yes',
-                    //    method: "GET",
-                    //    dataType: "json"
-                    //});
-                    //request.done(function (resTwo) {
-                    //    if (resTwo.success == false || resTwo.success == 'false') {
-                    //        var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + resTwo.error + "</p></div>";
-                    //    } else {
-                    //        var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + resTwo.message + "</p></div>";
-                    //    }
-                    //
-                    //    $(".ajax-message-holder").html(resMes);
-                    //    $(".ajax-message-holder").show();
-                    //    $(".temp-spinner").remove();
-                    //});
-
+                    location.reload();
                 }
             });
 
