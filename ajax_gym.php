@@ -98,6 +98,20 @@ try {
         
         if (isset($data['amnt']) && $data['amnt'] <= $user_class->energy && $data['amnt'] > 0) {
             $add = round($data['amnt'] * ($user_class->awake / 100 * 6 / 2) * $modifier);
+
+            $researchAddBoost = 0;
+            if (isset($user_class->completeUserResearchTypesIndexedOnId[2])) {
+                $researchAddBoost += 5;
+            }
+            if (isset($user_class->completeUserResearchTypesIndexedOnId[10])) {
+                $researchAddBoost += 5;
+            }
+            if ($researchAddBoost > 0) {
+                $resAddInc = $add / 100 * $researchAddBoost;
+                $add = $add + $resAddInc;
+            }
+            $add = ceil($add);
+
             $user_class->{$stat} += $add;
             $user_class->dailytrains += $add;
             $user_class->points -= $ptsreq;
