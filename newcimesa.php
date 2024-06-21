@@ -231,7 +231,7 @@ var submitCrime = function (id, cm=1) {
     $('#spinner').show();
 
         var request = $.ajax({
-            url: "ajax_crimes2.php",
+            url: "ajax_crimes.php",
             method: "POST",
             data: { id : id, cm : cm },
             dataType: "json"
@@ -421,7 +421,7 @@ function addCommas(nStr)
 
 
 
-fetch('ajax_crimes2.php', {
+fetch('ajax_crimes.php', {
     method: 'POST', // or 'GET'
     body: JSON.stringify({/* your data here */}),
     headers: {'Content-Type': 'application/json'}
