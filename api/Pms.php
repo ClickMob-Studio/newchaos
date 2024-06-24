@@ -110,7 +110,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 function getInbox($userId) {
     global $db;
     $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 5;
-    $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
+    $offset = isset($_POST['offset']) ? intval($_POST['offset']) : 0;
 
     error_log("Fetching inbox for userId: $userId with limit: $limit and offset: $offset");
 
@@ -122,6 +122,8 @@ function getInbox($userId) {
         $db->bind(':offset', $offset);
         $db->execute();
         $messages = $db->fetch_row();
+
+        error_log("Fetched messages: " . print_r($messages, true));
 
         $hasMore = count($messages) === $limit;
         respond(['inbox' => $messages, 'hasMore' => $hasMore]);
@@ -147,6 +149,8 @@ function getOutbox($userId) {
         $db->execute();
         $messages = $db->fetch_row();
 
+        error_log("Fetched messages: " . print_r($messages, true));
+
         $hasMore = count($messages) === $limit;
         respond(['outbox' => $messages, 'hasMore' => $hasMore]);
     } catch (Exception $e) {
@@ -154,7 +158,6 @@ function getOutbox($userId) {
         respond(['error' => 'An error occurred while fetching outbox'], 500);
     }
 }
-
 function viewMessage($userId, $id) {
     global $db;
     try {
