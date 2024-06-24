@@ -121,7 +121,7 @@ function getInbox($userId) {
         $query = "SELECT * FROM pms WHERE `to` = :userId ORDER BY timesent DESC LIMIT :limit OFFSET :offset";
         $db->query($query);
         $db->bind(':userId', $userId);
-        $db->bind(':limit', $limit + 1); // Fetch one more than the limit
+        $db->bind(':limit', $limit);
         $db->bind(':offset', $offset);
         $db->execute();
         $messages = $db->fetch_row();
@@ -137,6 +137,7 @@ function getInbox($userId) {
         respond(['error' => 'An error occurred while fetching inbox'], 500);
     }
 }
+
 
 function getOutbox($userId) {
     global $db;
