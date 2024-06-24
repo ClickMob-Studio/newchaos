@@ -118,10 +118,11 @@ function getInbox($userId) {
     error_log("Fetching inbox for userId: $userId with limit: $limit and offset: $offset");
 
     try {
+        // Fetch one more than the limit to check if there are more messages
         $query = "SELECT * FROM pms WHERE `to` = :userId ORDER BY timesent DESC LIMIT :limit OFFSET :offset";
         $db->query($query);
         $db->bind(':userId', $userId);
-        $db->bind(':limit', $limit);
+        $db->bind(':limit', $limit + 1); // Fetch one more than the limit to check for more
         $db->bind(':offset', $offset);
         $db->execute();
         $messages = $db->fetch_row();
@@ -130,7 +131,7 @@ function getInbox($userId) {
 
         $hasMore = count($messages) > $limit;
         if ($hasMore) {
-            array_pop($messages);
+            array_pop($messages); // Remove the extra message fetched for checking hasMore
         }
 
         respond(['inbox' => $messages, 'hasMore' => $hasMore]);
@@ -140,19 +141,17 @@ function getInbox($userId) {
     }
 }
 
-
-
 function getOutbox($userId) {
     global $db;
     $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 5;
     $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 
     try {
-        $query = "SELECT * FROM pms WHERE `from` = :userId ORDER BY timesent DESC LIMIT :limit OFFSET :offset";
+        $query = "SELECT * FROM pms WHERE `from` = :userId ORDER BY timesent DESC";
         $db->query($query);
         $db->bind(':userId', $userId);
-        $db->bind(':limit', $limit);
-        $db->bind(':offset', $offset);
+        //$db->bind(':limit', $limit);
+        //$db->bind(':offset', $offset);
         $db->execute();
         $messages = $db->fetch_row();
 
