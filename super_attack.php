@@ -63,7 +63,7 @@ $_SESSION['csrf'] = $csrf;
                 } else {
                     var i = 1;
                     var arLength = res.attack_id.length;
-                    for (const attackingId of res.attack_id) {
+                    for (let attackingId of res.attack_id) {
                         var request = $.ajax({
                             url: 'ajax_attack.php?attack=' + attackingId.id + '&csrf=<?php echo $csrf  ?>&alv=yes',
                             method: "GET",
