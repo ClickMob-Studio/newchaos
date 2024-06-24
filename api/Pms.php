@@ -109,7 +109,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
     default:
         respond(['error' => 'Method not allowed'], 405);
 }
-
 function getInbox($userId) {
     global $db;
     $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 5;
