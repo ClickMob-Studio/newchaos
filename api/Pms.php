@@ -50,6 +50,7 @@ function getUserId() {
     }
 }
 
+
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
         if (isset($_GET['action'])) {
@@ -108,23 +109,23 @@ switch ($_SERVER['REQUEST_METHOD']) {
     default:
         respond(['error' => 'Method not allowed'], 405);
 }
+
 function getInbox($userId) {
     global $db;
     $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 5;
     $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 
     try {
-        $db->query("SELECT * FROM pms WHERE `to` = :userId ORDER BY timesent DESC LIMIT :limit OFFSET :offset");
-        $db->bind(':userId', $userId, PDO::PARAM_INT);
-        $db->bind(':limit', $limit + 1, PDO::PARAM_INT); // Fetch one more than the limit
-        $db->bind(':offset', $offset, PDO::PARAM_INT);
+        $query = "SELECT * FROM pms WHERE `to` = :userId ORDER BY timesent DESC LIMIT :limit OFFSET :offset";
+        $db->query($query);
+        $db->bind(':userId', $userId);
+        $db->bind(':limit', $limit + 1); // Fetch one more than the limit
+        $db->bind(':offset', $offset);
         $db->execute();
         $messages = $db->fetch_row();
 
-        // Determine if there are more messages to load
         $hasMore = count($messages) > $limit;
         if ($hasMore) {
-            // Remove the extra message that was fetched
             array_pop($messages);
         }
 
@@ -135,20 +136,21 @@ function getInbox($userId) {
     }
 }
 
-
 function getOutbox($userId) {
     global $db;
     $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 5;
     $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 
     try {
-        $db->query("SELECT * FROM pms WHERE `from` = :userId ORDER BY timesent DESC LIMIT :limit OFFSET :offset");
-        $db->bind(':userId', $userId, PDO::PARAM_INT);
-        $db->bind(':limit', $limit, PDO::PARAM_INT);
-        $db->bind(':offset', $offset, PDO::PARAM_INT);
+        $query = "SELECT * FROM pms WHERE `from` = :userId ORDER BY timesent DESC LIMIT :limit OFFSET :offset";
+        $db->query($query);
+        $db->bind(':userId', $userId);
+        $db->bind(':limit', $limit);
+        $db->bind(':offset', $offset);
         $db->execute();
         $messages = $db->fetch_row();
-        $hasMore = count($messages) == $limit; // Determine if there are more messages to load
+
+        $hasMore = count($messages) == $limit;
         respond(['outbox' => $messages, 'hasMore' => $hasMore]);
     } catch (Exception $e) {
         error_log('Error in getOutbox: ' . $e->getMessage());
@@ -156,11 +158,11 @@ function getOutbox($userId) {
     }
 }
 
-
 function viewMessage($userId, $id) {
     global $db;
     try {
-        $db->query("SELECT * FROM pms WHERE id = ? AND (`to` = ? OR `from` = ?)");
+        $query = "SELECT * FROM pms WHERE id = ? AND (`to` = ? OR `from` = ?)";
+        $db->query($query);
         $db->execute([$id, $userId, $userId]);
         $message = $db->fetch_row(true);
         if ($message) {
@@ -188,13 +190,12 @@ function sendMessage($userId) {
         $msgtext = strip_tags(nl2br($data['msgtext']));
         $bomb = isset($data['bomb']) ? $data['bomb'] : 0;
 
-        $to_user = new User($to);
-        $parent = 0; // Customize as needed
+        $query = "INSERT INTO pms (parent, `to`, `from`, timesent, subject, msgtext, bomb) VALUES (?, ?, ?, unix_timestamp(), ?, ?, ?)";
+        $db->query($query);
+        $db->execute([0, $to, $userId, $subject, $msgtext, $bomb]);
 
-        $db->query("INSERT INTO pms (parent, `to`, `from`, timesent, subject, msgtext, bomb) VALUES (?, ?, ?, unix_timestamp(), ?, ?, ?)");
-        $db->execute([$parent, $to, $userId, $subject, $msgtext, $bomb]);
-
-        $db->query("INSERT INTO maillog (`to`, `from`, timesent, subject, msgtext) VALUES (?, ?, unix_timestamp(), ?, ?)");
+        $query = "INSERT INTO maillog (`to`, `from`, timesent, subject, msgtext) VALUES (?, ?, unix_timestamp(), ?, ?)";
+        $db->query($query);
         $db->execute([$to, $userId, $subject, $msgtext]);
 
         respond(['message' => 'Message sent successfully']);
@@ -207,7 +208,8 @@ function sendMessage($userId) {
 function deleteMessage($userId, $id) {
     global $db;
     try {
-        $db->query("DELETE FROM pms WHERE id = ? AND `to` = ? AND starred = 0");
+        $query = "DELETE FROM pms WHERE id = ? AND `to` = ? AND starred = 0";
+        $db->query($query);
         $db->execute([$id, $userId]);
         respond(['message' => 'Message deleted successfully']);
     } catch (Exception $e) {
@@ -219,7 +221,8 @@ function deleteMessage($userId, $id) {
 function reportMessage($userId, $id) {
     global $db;
     try {
-        $db->query("UPDATE maillog SET reported = 1 WHERE id = ? AND `to` = ?");
+        $query = "UPDATE maillog SET reported = 1 WHERE id = ? AND `to` = ?";
+        $db->query($query);
         $db->execute([$id, $userId]);
         respond(['message' => 'Message reported successfully']);
     } catch (Exception $e) {
@@ -231,12 +234,14 @@ function reportMessage($userId, $id) {
 function starMessage($userId, $id) {
     global $db;
     try {
-        $db->query("SELECT starred FROM pms WHERE id = ? AND `to` = ?");
+        $query = "SELECT starred FROM pms WHERE id = ? AND `to` = ?";
+        $db->query($query);
         $db->execute([$id, $userId]);
         $star = $db->fetch_single();
         $newStar = $star ? 0 : 1;
 
-        $db->query("UPDATE pms SET starred = ? WHERE id = ? AND `to` = ?");
+        $query = "UPDATE pms SET starred = ? WHERE id = ? AND `to` = ?";
+        $db->query($query);
         $db->execute([$newStar, $id, $userId]);
         $message = $newStar ? 'Message starred successfully' : 'Message unstarred successfully';
         respond(['message' => $message]);
