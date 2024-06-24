@@ -123,7 +123,7 @@ include 'header.php';
                     echo 'You last clocked in <span class="text-danger">', ($jobinfo['lastClockin'] == 0) ? 'never' : date('h:i:s a', $jobinfo['lastClockin']), '</span>.<br />';
                     echo 'You clocked in <span class="text-danger">' . $user_class->dailyClockins . '</span> time', ($user_class->dailyClockins == 1) ? '' : 's', ' today.<br />';
                     echo '<br />';
-                    //echo '<a href="jobs.php?clockin" class="btn btn-primary">Clockin</a> <a href="jobs.php?action=quit" class="btn btn-danger">Quit Job</a>';
+                    echo '<a href="jobs.php?clockin" class="btn btn-primary">Clockin</a>';
                 echo '</div>';
             }
             ?>
