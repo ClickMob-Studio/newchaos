@@ -1,15 +1,13 @@
 <?php
 include "../database/pdo_class.php";
-//include "../classes.php";
+include "../classes.php";
 include "../codeparser.php";
 include_once "includes/functions.php";
-ini_set('error_log', '/home/chaoscit/logs/api.log');
+
 error_reporting(E_ALL);
 ini_set('display_errors', 0); // Disable display of errors to the user
 ini_set('log_errors', 1);
-
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11212, 33);
+ini_set('error_log', 'api.log');
 
 header('Access-Control-Allow-Origin: *'); // Allows all origins, replace '*' with specific domain for production
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS'); // Allowed HTTP methods
@@ -49,7 +47,6 @@ function getUserId() {
         respond(['error' => 'User ID is required'], 400);
     }
 }
-
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
@@ -109,6 +106,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
     default:
         respond(['error' => 'Method not allowed'], 405);
 }
+
 function getInbox($userId) {
     global $db;
     $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 5;
@@ -117,22 +115,15 @@ function getInbox($userId) {
     error_log("Fetching inbox for userId: $userId with limit: $limit and offset: $offset");
 
     try {
-        // Fetch one more than the limit to check if there are more messages
         $query = "SELECT * FROM pms WHERE `to` = :userId ORDER BY timesent DESC LIMIT :limit OFFSET :offset";
         $db->query($query);
         $db->bind(':userId', $userId);
-        $db->bind(':limit', $limit + 1); // Fetch one more than the limit to check for more
+        $db->bind(':limit', $limit);
         $db->bind(':offset', $offset);
         $db->execute();
         $messages = $db->fetch_row();
 
-        error_log("Fetched messages: " . print_r($messages, true));
-
-        $hasMore = count($messages) > $limit;
-        if ($hasMore) {
-            array_pop($messages); // Remove the extra message fetched for checking hasMore
-        }
-
+        $hasMore = count($messages) === $limit;
         respond(['inbox' => $messages, 'hasMore' => $hasMore]);
     } catch (Exception $e) {
         error_log('Error in getInbox: ' . $e->getMessage());
@@ -145,16 +136,18 @@ function getOutbox($userId) {
     $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 5;
     $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 
+    error_log("Fetching outbox for userId: $userId with limit: $limit and offset: $offset");
+
     try {
-        $query = "SELECT * FROM pms WHERE `from` = :userId ORDER BY timesent DESC";
+        $query = "SELECT * FROM pms WHERE `from` = :userId ORDER BY timesent DESC LIMIT :limit OFFSET :offset";
         $db->query($query);
         $db->bind(':userId', $userId);
-        //$db->bind(':limit', $limit);
-        //$db->bind(':offset', $offset);
+        $db->bind(':limit', $limit);
+        $db->bind(':offset', $offset);
         $db->execute();
         $messages = $db->fetch_row();
 
-        $hasMore = count($messages) == $limit;
+        $hasMore = count($messages) === $limit;
         respond(['outbox' => $messages, 'hasMore' => $hasMore]);
     } catch (Exception $e) {
         error_log('Error in getOutbox: ' . $e->getMessage());
