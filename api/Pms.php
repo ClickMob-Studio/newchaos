@@ -115,6 +115,8 @@ function getInbox($userId) {
     $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 5;
     $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
 
+    error_log("Fetching inbox for userId: $userId with limit: $limit and offset: $offset");
+
     try {
         $query = "SELECT * FROM pms WHERE `to` = :userId ORDER BY timesent DESC LIMIT :limit OFFSET :offset";
         $db->query($query);
