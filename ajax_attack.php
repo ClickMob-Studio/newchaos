@@ -468,7 +468,7 @@ if ($theirhp <= 0) {
         $moneywon,
         $user_class->id
     ));
-    $db->query("UPDATE grpgusers SET money = money - ?, hwho = ?, hhow = 'wasattacked', hwhen = ?, hospital = 300, battlelost = battlelost + 1, delay = delay + 10, battlemoney = battlemoney - ? WHERE id = ?");
+    $db->query("UPDATE grpgusers SET money = money - ?, hwho = ?, hhow = 'wasattacked', hwhen = ?, hospital = 120, battlelost = battlelost + 1, delay = delay + 10, battlemoney = battlemoney - ? WHERE id = ?");
     $db->execute(array(
         $moneywon,
         $user_class->id,
