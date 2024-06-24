@@ -3,7 +3,7 @@ include "../database/pdo_class.php";
 //include "../classes.php";
 include "../codeparser.php";
 include_once "includes/functions.php";
-
+ini_set('error_log', '/home/chaoscit/logs/api.log');
 error_reporting(E_ALL);
 ini_set('display_errors', 0); // Disable display of errors to the user
 ini_set('log_errors', 1);
@@ -126,6 +126,8 @@ function getInbox($userId) {
         $db->execute();
         $messages = $db->fetch_row();
 
+        error_log("Fetched messages: " . print_r($messages, true));
+
         $hasMore = count($messages) > $limit;
         if ($hasMore) {
             array_pop($messages);
@@ -137,6 +139,7 @@ function getInbox($userId) {
         respond(['error' => 'An error occurred while fetching inbox'], 500);
     }
 }
+
 
 
 function getOutbox($userId) {
