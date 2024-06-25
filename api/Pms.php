@@ -17,7 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
     exit;
 }
-
+$m = new Memcache();
+$m->addServer('127.0.0.1', 11212, 33);
 function respond($data, $status = 200) {
     http_response_code($status);
     echo json_encode($data);
