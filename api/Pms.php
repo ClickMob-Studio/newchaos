@@ -204,7 +204,7 @@ function getInbox($userId) {
     error_log("Fetching inbox for userId: $userId with limit: $limit and offset: $offset");
 
     try {
-        $query = "SELECT pms.*, grpgusers.username as from_username, grpgusers.image_name as from_image, u2.username as to_username
+        $query = "SELECT pms.*, grpgusers.username as from_username, u2.username as to_username
                   FROM pms 
                   JOIN grpgusers ON pms.from = grpgusers.id
                   JOIN grpgusers u2 ON pms.to = u2.id
@@ -240,7 +240,7 @@ function getOutbox($userId) {
     error_log("Fetching outbox for userId: $userId with limit: $limit and offset: $offset");
 
     try {
-        $query = "SELECT pms.*, grpgusers.username as from_username, grpgusers.image_name as from_image, u2.username as to_username
+        $query = "SELECT pms.*, grpgusers.username as from_username, u2.username as to_username
                   FROM pms 
                   JOIN grpgusers ON pms.from = grpgusers.id
                   JOIN grpgusers u2 ON pms.to = u2.id
@@ -271,7 +271,7 @@ function getOutbox($userId) {
 function viewMessage($userId, $id) {
     global $db;
     try {
-        $query = "SELECT pms.*, grpgusers.username as from_username, grpgusers.image_name as from_image, u2.username as to_username
+        $query = "SELECT pms.*, grpgusers.username as from_username, u2.username as to_username
                   FROM pms 
                   JOIN grpgusers ON pms.from = grpgusers.id
                   JOIN grpgusers u2 ON pms.to = u2.id
