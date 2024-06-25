@@ -5,7 +5,7 @@ include "../codeparser.php";
 include_once "includes/functions.php";
 
 error_reporting(E_ALL);
-ini_set('display_errors', 1); // Disable display of errors to the user
+ini_set('display_errors', 0); // Disable display of errors to the user
 ini_set('log_errors', 1);
 
 header('Access-Control-Allow-Origin: *'); // Allows all origins, replace '*' with specific domain for production
