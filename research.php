@@ -55,11 +55,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
     $isAllComplete = true;
     foreach ($levelResearchTypes as $levelResearchType) {
         if (!isset($completeUserResearchTypesIndexedOnId[$levelResearchType['id']])) {
-            var_dump($completeUserResearchTypesIndexedOnId);
-            echo '<br />';
-            echo '<br />';
-            var_dump($levelResearchType);
-            exit;
             $isAllComplete = false;
         }
     }
