@@ -212,8 +212,7 @@ if (isset($_GET['ner'])) {
     </tbody>
 </table>
 
-<script>
-var doingcrime = false;
+<script>var doingcrime = false;
 var lastExecution = 0;
 var minInterval = 25; // Minimum interval in milliseconds
 
@@ -262,6 +261,10 @@ var submitCrime = function (id, cm = 1) {
             $('.stat-bar').eq(2).width(res.bars.nerve.percent + '%');
             $('.stat-bar').eq(3).width(res.bars.awake.percent + '%');
             $('.expbar').width(res.bars.exp.percent + '%');
+        }
+        // Stop crime if no enough nerve
+        if (res.stats && res.stats.bars.nerve.percent === 0) {
+            finish();
         }
     });
 }
@@ -393,6 +396,7 @@ function addCommas(nStr) {
     }
     return x1 + x2;
 }
+
 
 </script>
 
