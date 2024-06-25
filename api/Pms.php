@@ -2,7 +2,7 @@
 include "../database/pdo_class.php";
 include "../classes.php";
 include "../codeparser.php";
-include_once "includes/functions.php";
+include_once "../includes/functions.php";
 
 error_reporting(E_ALL);
 ini_set('display_errors', 0); // Disable display of errors to the user
