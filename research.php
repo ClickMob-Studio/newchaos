@@ -97,6 +97,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
                 </div>
             <?php endif; ?>
 
+            <h3>Economic Tree</h3>
             <div class="table-container">
                 <table class="new_table" id="newtables" style="width:100%;">
                         <tr>
@@ -136,6 +137,11 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
                         </tr>
                 </table>
             </div>
+
+            <br /><hr /><br />
+
+            <h3>Combat Tree</h3>
+            <p>Coming Soon.</p>
         </div>
     </div>
 </div>
