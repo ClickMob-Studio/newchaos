@@ -32,6 +32,12 @@ if (isset($_POST['what']) AND $_POST['what'] == 'trainrefill') {
         die("You do not have enough points to train.");
     if ($_POST['amnt'] <= $pet_class->energy && $_POST['amnt'] > 0) {
         $add = round($egy * ($pet_class->awake / 100 * 3.14 / 2) * 1.25 * $modifier);
+
+        if (isset($user_class->completeUserResearchTypesIndexedOnId[11])) {
+            $resAddInc = $add / 100 * 5;
+            $add = $add + $resAddInc;
+        }
+
         $pet_class->$stat += $add;
         $user_class->points -= $ptsreq;
         mysql_query("UPDATE pets SET $stat = '" . $pet_class->{$stat} . "', energy = $pet_class->maxenergy, awake = $pet_class->maxawake WHERE userid = $user_class->id");
@@ -43,6 +49,10 @@ if (isset($_POST['what']) AND $_POST['what'] == 'trainrefill') {
 if (isset($_POST['what']) AND $_POST['what'] == 'train') {
     if ($_POST['amnt'] <= $pet_class->energy && $_POST['amnt'] > 0) {
         $add = round($egy * ($pet_class->awake / 100 * 3.14 / 2) * 1.25 * $modifier);
+        if (isset($user_class->completeUserResearchTypesIndexedOnId[11])) {
+            $resAddInc = $add / 100 * 5;
+            $add = $add + $resAddInc;
+        }
         $pet_class->$stat += $add;
         $pet_class->energy -= $_POST['amnt'];
         $pet_class->awakepercent = floor(($pet_class->awake / $pet_class->maxawake) * 100);
