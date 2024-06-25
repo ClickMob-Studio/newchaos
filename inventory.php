@@ -1937,6 +1937,20 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
 
                 echo Message("You swallow your double EXP pill and your whole gang feels the effects, you'll all have 4 hours of double EXP added!");
                 break;
+            case 276:
+                $db->query("SELECT * FROM `user_research_type` WHERE `user_id` = " . $user_class->id . " AND `duration_in_days` > 0 LIMIT 1");
+                $db->execute();
+                $activeUserResearchType = $db->fetch_row(true);
+
+                if ($activeUserResearchType) {
+                    $db->query("UPDATE `user_research_type` SET `duration_in_days` = `duration_in_days` - 1 WHERE `user_id` = " . $user_class->id);
+                    $db->execute();
+                } else {
+                    diefun('You do not have a research active at the moment');
+                }
+
+                echo Message("You use your research token and knock 1 day off of your current research time!");
+                break;
             case 258:
                 $db->query("UPDATE grpgusers SET points = points + 400000 WHERE id = " . $user_class->id);
                 $db->execute();
