@@ -115,10 +115,10 @@ function getInbox($userId) {
     error_log("Fetching inbox for userId: $userId with limit: $limit and offset: $offset");
 
     try {
-        $query = "SELECT pms.*, users.username as from_username, u2.username as to_username
+        $query = "SELECT pms.*, grpgusers.username as from_username, u2.username as to_username
                   FROM pms 
-                  JOIN users ON pms.from = users.id
-                  JOIN users u2 ON pms.to = u2.id
+                  JOIN grpgusers ON pms.from = grpgusers.id
+                  JOIN grpgusers u2 ON pms.to = u2.id
                   WHERE pms.`to` = :userId 
                   ORDER BY timesent DESC 
                   LIMIT :limit OFFSET :offset";
@@ -147,10 +147,10 @@ function getOutbox($userId) {
     error_log("Fetching outbox for userId: $userId with limit: $limit and offset: $offset");
 
     try {
-        $query = "SELECT pms.*, users.username as from_username, u2.username as to_username
+        $query = "SELECT pms.*, grpgusers.username as from_username, u2.username as to_username
                   FROM pms 
-                  JOIN users ON pms.from = users.id
-                  JOIN users u2 ON pms.to = u2.id
+                  JOIN grpgusers ON pms.from = grpgusers.id
+                  JOIN grpgusers u2 ON pms.to = u2.id
                   WHERE pms.`from` = :userId 
                   ORDER BY timesent DESC 
                   LIMIT :limit OFFSET :offset";
@@ -174,10 +174,10 @@ function getOutbox($userId) {
 function viewMessage($userId, $id) {
     global $db;
     try {
-        $query = "SELECT pms.*, users.username as from_username, u2.username as to_username
+        $query = "SELECT pms.*, grpgusers.username as from_username, u2.username as to_username
                   FROM pms 
-                  JOIN users ON pms.from = users.id
-                  JOIN users u2 ON pms.to = u2.id
+                  JOIN grpgusers ON pms.from = grpgusers.id
+                  JOIN grpgusers u2 ON pms.to = u2.id
                   WHERE pms.id = ? AND (pms.`to` = ? OR pms.`from` = ?)";
         $db->query($query);
         $db->execute([$id, $userId, $userId]);
