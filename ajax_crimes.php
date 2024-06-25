@@ -43,6 +43,7 @@ if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
 session_write_close();
 
 if (!$user_class) {
+    echo json_encode(['error' => 'User not found']);
     die();
 }
 
@@ -53,9 +54,7 @@ try {
     $db->execute(array($user_class->id));
 
     if ($user_class->jail || $user_class->hospital) {
-        echo json_encode(array(
-            'text' => "You are not able to do crimes at the moment."
-        ));
+        echo json_encode(['text' => "You are not able to do crimes at the moment."]);
         $db->rollBack();
         die();
     }
@@ -74,7 +73,7 @@ try {
         }
 
         if (empty($row)) {
-            echo json_encode(array('error' => 'refresh'));
+            echo json_encode(['error' => 'refresh']);
             $db->rollBack();
             die();
         }
@@ -84,7 +83,7 @@ try {
         $name = $row['name'];
 
         if ($user_class->nerve < $nerve) {
-            echo json_encode(array('error' => 'refresh', 'text' => "You don't have enough nerve for that crime."));
+            echo json_encode(['error' => 'refresh', 'text' => "You don't have enough nerve for that crime."]);
             $db->rollBack();
             die();
         }
@@ -168,7 +167,7 @@ try {
             }
 
             if ($cost > $user_class->points || $user_class->points < 10) {
-                echo json_encode(array('error' => 'not enough points for refill'));
+                echo json_encode(['error' => 'not enough points for refill']);
                 $db->rollBack();
                 die();
             }
@@ -185,7 +184,7 @@ try {
             $db->execute(array($cost, $user_class->maxnerve, $user_class->id));
             $prepaid = true;
         } else if ($nerve > $user_class->nerve) {
-            echo json_encode(array('error' => 'refresh', 'text' => "You don't have enough nerve for that crime."));
+            echo json_encode(['error' => 'refresh', 'text' => "You don't have enough nerve for that crime."]);
             $db->rollBack();
             die();
         }
@@ -196,31 +195,47 @@ try {
                 $db->query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ? WHERE id = ?");
                 $db->execute(array($nerve, $user_class->id));
                 $db->endTrans();
-                die($ftext . ".|" . number_format($user_class->points) . "|" . number_format($user_class->money) . "|" . number_format($user_class->level) . "|" . genBars());
+                echo json_encode([
+                    'text' => $ftext . ".",
+                    'stats' => [
+                        'points' => number_format($user_class->points),
+                        'mb_points' => shorthandNumber($user_class->points),
+                        'money' => number_format($user_class->money),
+                        'mb_money' => shorthandNumber($user_class->money),
+                        'level' => number_format($user_class->level)
+                    ],
+                    'bars' => [
+                        'energy' => ['percent' => $user_class->energypercent, 'title' => $user_class->formattedenergy],
+                        'nerve' => ['percent' => $user_class->nervepercent, 'title' => $user_class->formattednerve],
+                        'awake' => ['percent' => $user_class->awakepercent, 'title' => $user_class->awakepercent],
+                        'exp' => ['percent' => $user_class->exppercent, 'title' => $user_class->exppercent]
+                    ]
+                ]);
+                die();
             } elseif ($chance == 6) {
                 $user_class->nerve -= $nerve;
                 $db->query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ?, caught = caught + 1, jail = 300 WHERE id = ?");
                 $db->execute(array($nerve, $user_class->id));
                 $db->endTrans();
-                echo json_encode(array('text' => 'You were hauled off to jail for 5 minutes'));
+                echo json_encode(['text' => 'You were hauled off to jail for 5 minutes']);
                 die();
             } else {
                 $bbnerve = $prepaid ? $nerve : ($nerve / $user_class->level);
 
-                if ($mission_nerve >= 50) {
+                if ($row['nerve'] >= 50) {
                     $which = "crimes50";
-                } elseif ($mission_nerve >= 25) {
+                } elseif ($row['nerve'] >= 25) {
                     $which = "crimes25";
-                } elseif ($mission_nerve >= 10) {
+                } elseif ($row['nerve'] >= 10) {
                     $which = "crimes10";
-                } elseif ($mission_nerve >= 5) {
+                } elseif ($row['nerve'] >= 5) {
                     $which = "crimes5";
                 } else {
                     $which = "crimes1";
                 }
                 newmissions($which, $crime_multiplier);
                 mission('c', $crime_multiplier);
-                gangContest(array('crimes' => $crime_multiplier, 'exp' => $exp));
+                gangContest(['crimes' => $crime_multiplier, 'exp' => $exp]);
                 bloodbath('crimes', $user_class->id, $bbnerve / $user_class->level, $crime_multiplier);
 
                 $userPrestigeSkills = getUserPrestigeSkills($user_class);
@@ -242,13 +257,13 @@ try {
                     }
                     if (isset($gangTax['tax']) && $gangTax['tax'] > 0) {
                         $gtax = $money * ($gangTax['tax'] / 100);
-                        gangContest(array('tax' => $gtax));
+                        gangContest(['tax' => $gtax]);
                     }
                 }
                 $money -= $gtax;
                 $totaltax = $gtax;
 
-                $maxnervePercCheck = $mission_nerve / $user_class->maxnerve * 100;
+                $maxnervePercCheck = $row['nerve'] / $user_class->maxnerve * 100;
                 if ($maxnervePercCheck >= 50) {
                     addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
                 }
@@ -294,44 +309,34 @@ try {
 
                 $text = ($gtax > 0) ? "$stext. You received $exp exp and $$money.(Gang Tax: $$gtax)" : "$stext. You received $exp exp and $$money";
 
-                echo json_encode(array(
+                echo json_encode([
                     'text' => $text,
-                    'stats' => array(
+                    'stats' => [
                         'points' => number_format($user_class->points),
                         'mb_points' => shorthandNumber($user_class->points),
                         'money' => number_format($user_class->money),
                         'mb_money' => shorthandNumber($user_class->money),
                         'level' => number_format($user_class->level),
                         'mission' => $mt
-                    ),
-                    'bars' => array(
-                        'energy' => array(
-                            'percent' => $user_class->energypercent,
-                            'title' => $user_class->formattedenergy
-                        ),
-                        'nerve' => array(
-                            'percent' => $user_class->nervepercent,
-                            'title' => $user_class->formattednerve
-                        ),
-                        'awake' => array(
-                            'percent' => $user_class->awakepercent,
-                            'title' => $user_class->awakepercent
-                        ),
-                        'exp' => array(
-                            'percent' => $user_class->exppercent,
-                            'title' => $user_class->exppercent
-                        ),
-                    )
-                ));
+                    ],
+                    'bars' => [
+                        'energy' => ['percent' => $user_class->energypercent, 'title' => $user_class->formattedenergy],
+                        'nerve' => ['percent' => $user_class->nervepercent, 'title' => $user_class->formattednerve],
+                        'awake' => ['percent' => $user_class->awakepercent, 'title' => $user_class->awakepercent],
+                        'exp' => ['percent' => $user_class->exppercent, 'title' => $user_class->exppercent]
+                    ]
+                ]);
+                die();
             }
         } else {
-            echo json_encode(array('error' => 'refresh', 'text' => "You don't have enough nerve for that crime."));
+            echo json_encode(['error' => 'refresh', 'text' => "You don't have enough nerve for that crime."]);
         }
     }
     $db->endTrans();
 } catch (Exception $e) {
     $db->rollBack();
-    die("Error: " . $e->getMessage());
+    echo json_encode(['error' => 'Exception', 'message' => $e->getMessage()]);
+    die();
 }
 
 $db = null;
