@@ -106,7 +106,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
                                 <td>
                                     <?php foreach ($levelRows[$i] as $levelRow): ?>
                                         <?php
-                                        $bgClass = 'bg-info';
+                                        $bgClass = 'bg-danger';
                                         if (isset($completeUserResearchTypesIndexedOnId[$levelRow['id']])) {
                                             $bgClass = 'bg-success';
                                         }
