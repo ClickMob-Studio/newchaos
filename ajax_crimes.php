@@ -82,7 +82,7 @@ try {
         $nerve = $row['nerve'];
         $name = $row['name'];
 
-        if ($user_class->maxnerve < $nerve) {
+        if ($user_class->nerve < $nerve) {
             echo json_encode(array('error' => 'refresh'));
             $db->rollBack();
             die();
