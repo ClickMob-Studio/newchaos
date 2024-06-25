@@ -75,7 +75,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
     ");
     $db->execute();
 
-    $db->query("UPDATE grpgusers SET money = money - " . $researchType['cost'] . " WHERE user_id = " . $user_class->id);
+    $db->query("UPDATE grpgusers SET money = money - " . $researchType['cost'] . " WHERE id = " . $user_class->id);
     $db->execute();
 
     diefun('You have successfully started researching ' .  $researchType['name'] . '<a href="research.php" style="color: red;">Go Back</a>');
