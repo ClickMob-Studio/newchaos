@@ -50,10 +50,10 @@ function getUserId() {
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
-        if (isset($_GET['action'])) {
+        if (isset($_POST['action'])) {
             try {
                 $userId = getUserId();
-                switch ($_GET['action']) {
+                switch ($_POST['action']) {
                     case 'inbox':
                         getInbox($userId);
                         break;
@@ -61,8 +61,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
                         getOutbox($userId);
                         break;
                     case 'view':
-                        if (isset($_GET['id'])) {
-                            viewMessage($userId, $_GET['id']);
+                        if (isset($_POST['id'])) {
+                            viewMessage($userId, $_POST['id']);
                         } else {
                             respond(['error' => 'Message ID is required'], 400);
                         }
@@ -71,22 +71,22 @@ switch ($_SERVER['REQUEST_METHOD']) {
                         sendMessage($userId);
                         break;
                     case 'delete':
-                        if (isset($_GET['id'])) {
-                            deleteMessage($userId, $_GET['id']);
+                        if (isset($_POST['id'])) {
+                            deleteMessage($userId, $_POST['id']);
                         } else {
                             respond(['error' => 'Message ID is required'], 400);
                         }
                         break;
                     case 'report':
-                        if (isset($_GET['id'])) {
-                            reportMessage($userId, $_GET['id']);
+                        if (isset($_POST['id'])) {
+                            reportMessage($userId, $_POST['id']);
                         } else {
                             respond(['error' => 'Message ID is required'], 400);
                         }
                         break;
                     case 'star':
-                        if (isset($_GET['id'])) {
-                            starMessage($userId, $_GET['id']);
+                        if (isset($_POST['id'])) {
+                            starMessage($userId, $_POST['id']);
                         } else {
                             respond(['error' => 'Message ID is required'], 400);
                         }
@@ -109,8 +109,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
 function getInbox($userId) {
     global $db, $m;
-    $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 5;
-    $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
+    $limit = isset($_POST['limit']) ? intval($_POST['limit']) : 5;
+    $offset = isset($_POST['offset']) ? intval($_POST['offset']) : 0;
 
     error_log("Fetching inbox for userId: $userId with limit: $limit and offset: $offset");
 
