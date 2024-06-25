@@ -15,20 +15,20 @@ $activeMission = $db->fetch_row(true);
 
 $db->query("SELECT * FROM crimes ORDER BY nerve DESC");
 $db->execute();
-$rows = $db->fetch_row();
+$rows = $db->fetch_all();
 
 $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $user_class->id) : "";
 ?>
 
 <style>
 .gold {
-    color: gold;
-    font-size: 24px;
+    color: gold; /* Or any other color code you prefer */
+    font-size: 24px; /* Adjust this value to increase or decrease the size of the stars */
 }
 
 .gray {
-    color: gray;
-    font-size: 24px;
+    color: gray; /* Or any other color code you prefer */
+    font-size: 24px; /* Adjust this value to increase or decrease the size of the stars */
 }
 </style>
 
@@ -86,8 +86,7 @@ if (isset($_GET['ner'])) {
     <tbody>
         <tr>
             <td>
-                <div class="flexele floaty" style="margin:3px;">
-                    <hr style="border:0;border-bottom:thin solid #333;">
+                <div class="flexele floaty" style="margin:3px;"><hr style="border:0;border-bottom:thin solid #333;">
                     <center>
                         <div style="display:flex;min-height:60px;flex-direction:row;">
                             <div id="noti" class="alert alert-info" style="display: none;">
@@ -112,12 +111,14 @@ if (isset($_GET['ner'])) {
                                     $db->execute(array($user_class->id, $row['id']));
                                     $crimeRankResult = $db->fetch_row(true);
 
+                                    // Debugging
                                     if ($crimeRankResult) {
                                         $crimeCount = (int)$crimeRankResult['count'];
+                                        // Log or echo to check the value
+                                        error_log("Crime ID: {$row['id']}, Count: {$crimeCount}");
                                     } else {
                                         $crimeCount = 0;
                                     }
-
                                     if ($crimeCount >= 10000 && $crimeCount < 100000) {
                                         $star_level = 1;
                                     } elseif ($crimeCount >= 100000 && $crimeCount < 1000000) {
@@ -129,13 +130,14 @@ if (isset($_GET['ner'])) {
                                     } elseif ($crimeCount >= 15000000) {
                                         $star_level = 5;
                                     } else {
-                                        $star_level = 0;
+                                        $star_level = 0; // No bonus if the conditions are not met
                                     }
-
                                     echo "<!-- Crime ID: {$row['id']}, Count: $crimeCount, Level: $star_level -->";
-                                    
+                                    // Output the option with the data-stars attribute
                                     $hasEnoughNerve = $row['nerve'] <= $user_class->nerve;
+
                                     $disabled = $hasEnoughNerve ? '' : 'disabled';
+
                                     echo '<option value="' . $row['id'] . '" data-stars="' . $star_level . '" data-crime-count="' . $crimeCount . '" ' . $disabled . '>' . $row['name'] . ' | Cost: ' . $row['nerve'] . ' Nerve</option>';
                                 }
                                 ?>
@@ -144,6 +146,8 @@ if (isset($_GET['ner'])) {
                             <?php $rmOnly = ($user_class->rmdays <= 0) ? 'disabled' : ''; ?>
                             <select name="cm" id="cm" style="padding: 1em;">
                                 <option value="1">1X</option>
+                               <!-- <option value="2">2X</option> -->
+                                <!--<option value="4" --><?php // echo $rmOnly ?><!-->4X (VIP Only)</option>-->
                                 <option value="10" <?php echo $rmOnly ?>>10X (VIP Only)</option>
                             </select>
                         </div>
