@@ -49,37 +49,10 @@ function getUserId() {
     }
 }
 
-function textGradient($startcol, $endcol, $fontsize, $user) {
-    $letters = str_split($user, 1);
-    $graduations = count($letters) - 1;
-    $startcoln['r'] = hexdec(substr($startcol, 0, 2));
-    $startcoln['g'] = hexdec(substr($startcol, 2, 2));
-    $startcoln['b'] = hexdec(substr($startcol, 4, 2));
-    $GSize['r'] = (hexdec(substr($endcol, 0, 2)) - $startcoln['r']) / $graduations;
-    $GSize['g'] = (hexdec(substr($endcol, 2, 2)) - $startcoln['g']) / $graduations;
-    $GSize['b'] = (hexdec(substr($endcol, 4, 2)) - $startcoln['b']) / $graduations;
-    for ($i = 0; $i <= $graduations; $i++) {
-        $HexR = dechex(intval($startcoln['r'] + ($GSize['r'] * $i)));
-        $HexG = dechex(intval($startcoln['g'] + ($GSize['g'] * $i)));
-        $HexB = dechex(intval($startcoln['b'] + ($GSize['b'] * $i)));
-        if (strlen($HexR) == 1) $HexR = "0$HexR";
-        if (strlen($HexG) == 1) $HexG = "0$HexG";
-        if (strlen($HexB) == 1) $HexB = "0$HexB";
-        $HexCol[] = "$HexR$HexG$HexB";
-    }
-    $i = 0;
-    $user = "";
-    while ($i < count($letters)) {
-        $user .= "<span style=\"color:#$HexCol[$i]\">{$letters[$i]}</span>";
-        $i++;
-    }
-    return $user;
-}
-
 function replaceUserIdWithUsername($db, $text, $userId) {
     global $m;
     $name = "";
-    $db->query("SELECT username, gang, admin, rmdays, gm, colours, pdimgname, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
+    $db->query("SELECT username, gang, admin, rmdays, gm, colours, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
     $db->execute(array($userId));
     $row = $db->fetch_row(true);
 
@@ -119,7 +92,7 @@ function replaceUserIdWithUsername($db, $text, $userId) {
     } elseif (!empty($row['colours']) && $row['gradient'] == 2 && $row['gndays']) {
         $row['colours'] = str_replace('#', '', $row['colours']);
         $colours = explode("~", $row['colours']);
-        $gradient = textGradient($colours[0], $colours[1], 1, $row['username']);
+        $gradient = generateGradientText($colours[0], $colours[1], $row['username']);
         $name .= "<span style='color: $whichfont; display: inline-block;'><b><i>{$gradient}</i></b></span>";
     } elseif (!empty($row['colours']) && $row['gradient'] == 3 && $row['gndays']) {
         $row['colours'] = str_replace('#', '', $row['colours']);
@@ -128,8 +101,7 @@ function replaceUserIdWithUsername($db, $text, $userId) {
         $half = (int) ((strlen($username) / 2));
         $left = substr($username, 0, $half);
         $right = substr($username, $half);
-        $gradient = textGradient($gn[0], $gn[1], 1, $left);
-        $gradient .= textGradient($gn[1], $gn[2], 1, $right);
+        $gradient = generateGradientText($gn[0], $gn[1], $left) . generateGradientText($gn[1], $gn[2], $right);
         if ($userId == 146) $gradient = "<span style='text-shadow: 0 0 2px #404200;letter-spacing:-1px;font-weight:900;font-size:16px;'>$gradient</span>";
         $name .= "<span style='color: $whichfont; display: inline-block;'><b><i>{$gradient}</i></b></span>";
     } elseif ($userId == 146) {
@@ -163,7 +135,32 @@ function replaceUserIdWithUsername($db, $text, $userId) {
     return str_replace('[-_USERID_-]', $name, $text);
 }
 
-
+function generateGradientText($startcol, $endcol, $text) {
+    $letters = str_split($text);
+    $graduations = count($letters) - 1;
+    $startcoln = [
+        'r' => hexdec(substr($startcol, 0, 2)),
+        'g' => hexdec(substr($startcol, 2, 2)),
+        'b' => hexdec(substr($startcol, 4, 2))
+    ];
+    $GSize = [
+        'r' => (hexdec(substr($endcol, 0, 2)) - $startcoln['r']) / $graduations,
+        'g' => (hexdec(substr($endcol, 2, 2)) - $startcoln['g']) / $graduations,
+        'b' => (hexdec(substr($endcol, 4, 2)) - $startcoln['b']) / $graduations
+    ];
+    $HexCol = [];
+    for ($i = 0; $i <= $graduations; $i++) {
+        $HexR = dechex(intval($startcoln['r'] + ($GSize['r'] * $i)));
+        $HexG = dechex(intval($startcoln['g'] + ($GSize['g'] * $i)));
+        $HexB = dechex(intval($startcoln['b'] + ($GSize['b'] * $i)));
+        $HexCol[] = sprintf("%02s%02s%02s", $HexR, $HexG, $HexB);
+    }
+    $gradientText = "";
+    foreach ($letters as $i => $letter) {
+        $gradientText .= "<span style=\"color:#{$HexCol[$i]}\">{$letter}</span>";
+    }
+    return $gradientText;
+}
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST':
@@ -283,7 +280,7 @@ function getOutbox($userId) {
         $messages = $db->fetch_row();
 
         foreach ($messages as &$message) {
-            $message['to_username'] = replaceUserIdWithUsername($db, $message['to']);
+            $message['to_username'] = replaceUserIdWithUsername($db, $message['to_username'], $message['to']);
         }
 
         error_log("Fetched messages: " . print_r($messages, true));
@@ -308,8 +305,6 @@ function viewMessage($userId, $id) {
         $db->execute([$id, $userId, $userId]);
         $message = $db->fetch_row(true);
         if ($message) {
-            $message['from_username'] = replaceUserIdWithUsername($db, $message['from']);
-            $message['to_username'] = replaceUserIdWithUsername($db, $message['to']);
             respond(['message' => $message]);
         } else {
             respond(['error' => 'Message not found'], 404);
@@ -394,4 +389,3 @@ function starMessage($userId, $id) {
         respond(['error' => 'An error occurred while starring message'], 500);
     }
 }
-?>
