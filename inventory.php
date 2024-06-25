@@ -1943,7 +1943,7 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
                 $activeUserResearchType = $db->fetch_row(true);
 
                 if ($activeUserResearchType) {
-                    $db->query("UPDATE `user_research_type` SET `duration_in_days` = `duration_in_days` - 1 WHERE `user_id` = " . $user_class->id);
+                    $db->query("UPDATE `user_research_type` SET `duration_in_days` = `duration_in_days` - 1 WHERE `duration_in_days` > 0 AND `user_id` = " . $user_class->id);
                     $db->execute();
                 } else {
                     diefun('You do not have a research active at the moment');
