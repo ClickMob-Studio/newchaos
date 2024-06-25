@@ -1,21 +1,24 @@
 <?php
 include 'header.php';
-
-if ($user_class->admin < 1) {
+if($user_class->admin < 1){
     exit();
 }
-
 $db->query("UPDATE grpgusers SET crimes = 'newcrimes', lastactive = unix_timestamp() WHERE id = ?");
-$db->execute(array($user_class->id));
-$m->set('lastcrimeload.' . $user_class->id, time());
+$db->execute(array(
+    $user_class->id
+));
+$m->set('lastcrimeload.'.$user_class->id, time());
+error_reporting(0);
 
-$db->query("SELECT `name`, mission.crimes as crimestarget, missions.crimes as crimesdone FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE `userid` = ? AND `completed` = 'no' LIMIT 1");
-$db->execute(array($user_class->id));
-$activeMission = $db->fetch_row(true);
+$db->query("SELECT `name`, mission.crimes as crimestarget, missions.crimes as crimesdone FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE `userid` = ? AND `completed` = \"no\" LIMIT 1");
+$db->execute(array(
+    $user_class->id
+));
+$activeMission = $db->fetch_row()[0];
 
 $db->query("SELECT * FROM crimes ORDER BY nerve DESC");
 $db->execute();
-$rows = $db->fetch_all();
+$rows = $db->fetch_row();
 
 $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $user_class->id) : "";
 ?>
