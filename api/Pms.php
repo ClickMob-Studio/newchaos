@@ -52,7 +52,7 @@ function replaceUserIdWithUsername($db, $text, $userId) {
     global $m;
     $name = "";
 
-    $db->query("SELECT username, gang, admin, rmdays,image_name, gm, colours, pdimgname, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
+    $db->query("SELECT username, gang, admin, rmdays, gm, colours, image_name, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
     $db->execute(array($userId));
     $row = $db->fetch_row(true);
 
@@ -87,10 +87,8 @@ function replaceUserIdWithUsername($db, $text, $userId) {
 
     if ($bdays) {
         $name .= $usernameElement;
-    } elseif (!empty($row['image_name']) && $row['pdimgname'] > 0) {
+    } elseif (!empty($row['image_name'])) {
         $name .= "<img src='{$row['image_name']}' class='img-fluid' style='max-width:84px; max-height:50px; display: inline-block; vertical-align: middle;' title='{$row['username']}' />";
-    } elseif (!empty($row['pdimgname'])) {
-        $name .= "<img src='{$row['pdimgname']}' class='img-fluid' style='max-width:84px; max-height:50px; display: inline-block; vertical-align: middle;' title='{$row['username']}' />";
     } elseif ($row['gndays']) {
         $name .= "<span style='color: $whichfont; display: inline-block;'>" . nameGen($row['gndays'], $row['rmdays'], $row['uninfo'], $row['username']) . "</span>";
     } elseif (!empty($row['colours']) && $row['gradient'] == 2 && $row['gndays']) {
@@ -401,3 +399,4 @@ function starMessage($userId, $id) {
         respond(['error' => 'An error occurred while starring message'], 500);
     }
 }
+?>
