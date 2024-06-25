@@ -218,7 +218,7 @@ function displayTradeTile($trade) {
 
 // Fetch all the trades from the database
 $tradesQuery = "SELECT * FROM trades";
-if (isset($_GET['filter_results']) && in_array($_GET['filter_results'], array('Materials', 'Boosters', 'HI'))) {
+if (isset($_GET['filter_results']) && in_array($_GET['filter_results'], array('Materials', 'Boosters', 'HI', 'Consumables'))) {
     $tradesQuery .= " WHERE trade_group_name = '" . $_GET['filter_results'] . "'";
 }
 $tradesResult = mysql_query($tradesQuery);
@@ -232,7 +232,7 @@ $tradesResult = mysql_query($tradesQuery);
             <h2>Welcome to the Crafting Station!</h2>
             <p>Here at the crafting, you can exchange items you've collected on your adventures for rare and powerful goods. Our friendly shopkeeper has a keen eye for value and will offer you the best deals for your treasures. Take a look and see what wonders await!</p>
 
-            <p><strong>Filter:</strong> <a href="crafter.php">All</a> | <a href="crafter.php?filter_results=Materials">Materials</a> | <a href="crafter.php?filter_results=Boosters">Boosters</a> | <a href="crafter.php?filter_results=HI">Home Improvement</a></p>
+            <p><strong>Filter:</strong> <a href="crafter.php">All</a> | <a href="crafter.php?filter_results=Materials">Materials</a> | <a href="crafter.php?filter_results=Boosters">Boosters</a> | <a href="crafter.php?filter_results=HI">Home Improvement</a> | <a href="crafter.php?filter_results=Consumables">Consumables</a></p>
         </div>
     </div>
 </div>
