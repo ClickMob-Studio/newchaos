@@ -62,6 +62,7 @@ try {
 
     $input = json_decode(file_get_contents('php://input'), true);
     $id = isset($_POST['id']) ? $_POST['id'] : (isset($input['id']) ? $input['id'] : null);
+    $crime_multiplier = isset($_POST['cm']) ? (int)$_POST['cm'] : 1;
 
     if ($id) {
         $crime_key = 'crimes.' . $id;
@@ -79,11 +80,11 @@ try {
         }
 
         $m->set('crimesave' . $user_class->id, $row['id']);
-        $nerve = $row['nerve'];
+        $nerve = $row['nerve'] * $crime_multiplier;
         $name = $row['name'];
 
         if ($user_class->nerve < $nerve) {
-            echo json_encode(array('error' => 'refresh'));
+            echo json_encode(array('error' => 'refresh', 'text' => "You don't have enough nerve for that crime."));
             $db->rollBack();
             die();
         }
@@ -154,19 +155,6 @@ try {
             $chance = 100;
         }
 
-        $crime_multiplier = 1;
-        if (isset($_POST['cm'])) {
-            $allowed = array(1, 2, 4, 10, 20, 30, 50);
-            if (in_array($_POST['cm'], $allowed)) {
-                $crime_multiplier = $_POST['cm'];
-            }
-        }
-
-        $mission_nerve = $nerve;
-        $nerve = ($nerve * $crime_multiplier);
-        $exp = ($exp * $crime_multiplier);
-        $money = ($money * $crime_multiplier);
-
         $prepaid = false;
         if ($nerve > $user_class->nerve && $user_class->nerref == 2) {
             $nerveneeded = $nerve - $user_class->nerve;
@@ -197,7 +185,7 @@ try {
             $db->execute(array($cost, $user_class->maxnerve, $user_class->id));
             $prepaid = true;
         } else if ($nerve > $user_class->nerve) {
-            echo json_encode(array('error' => 'refresh'));
+            echo json_encode(array('error' => 'refresh', 'text' => "You don't have enough nerve for that crime."));
             $db->rollBack();
             die();
         }
