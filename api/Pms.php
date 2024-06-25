@@ -7,6 +7,7 @@ include_once "includes/functions.php";
 error_reporting(E_ALL);
 ini_set('display_errors', 0); // Disable display of errors to the user
 ini_set('log_errors', 1);
+ini_set('error_log', 'api.log');
 
 header('Access-Control-Allow-Origin: *'); // Allows all origins, replace '*' with specific domain for production
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS'); // Allowed HTTP methods
@@ -55,10 +56,6 @@ function replaceUserIdWithUsername($db, $text, $userId) {
     $db->execute(array($userId));
     $row = $db->fetch_row(true);
 
-    if (!$row) {
-        return str_replace('[-_USERID_-]', 'Unknown User', $text);
-    }
-
     $db->query("SELECT days FROM bans WHERE id = ? AND type IN ('perm','freeze')");
     $db->execute(array($userId));
     $bdays = $db->fetch_single();
@@ -91,7 +88,7 @@ function replaceUserIdWithUsername($db, $text, $userId) {
     if ($bdays) {
         $name .= $usernameElement;
     } elseif ($row['gndays']) {
-        $name .= "<span style='color: $whichfont; display: inline-block;'>" . generateGradientText($row['gndays'], $row['rmdays'], $row['uninfo'], $row['username']) . "</span>";
+        $name .= "<span style='color: $whichfont; display: inline-block;'>" . generateGradientText($row['colours'], $row['username']) . "</span>";
     } elseif (!empty($row['colours']) && $row['gradient'] == 2 && $row['gndays']) {
         $row['colours'] = str_replace('#', '', $row['colours']);
         $colours = explode("~", $row['colours']);
@@ -249,7 +246,7 @@ function getInbox($userId) {
         $messages = $db->fetch_row();
 
         foreach ($messages as &$message) {
-            $message['msgtext'] = replaceUserIdWithUsername($db, $message['msgtext'], $userId);
+            $message['msgtext'] = replaceUserIdWithUsername($db, $message['msgtext'], $message['from']);
         }
 
         error_log("Fetched messages: " . print_r($messages, true));
@@ -285,7 +282,7 @@ function getOutbox($userId) {
         $messages = $db->fetch_row();
 
         foreach ($messages as &$message) {
-            $message['msgtext'] = replaceUserIdWithUsername($db, $message['msgtext'], $userId);
+            $message['msgtext'] = replaceUserIdWithUsername($db, $message['msgtext'], $message['to']);
         }
 
         error_log("Fetched messages: " . print_r($messages, true));
@@ -310,7 +307,7 @@ function viewMessage($userId, $id) {
         $db->execute([$id, $userId, $userId]);
         $message = $db->fetch_row(true);
         if ($message) {
-            $message['msgtext'] = replaceUserIdWithUsername($db, $message['msgtext'], $userId);
+            $message['msgtext'] = replaceUserIdWithUsername($db, $message['msgtext'], $message['from']);
             respond(['message' => $message]);
         } else {
             respond(['error' => 'Message not found'], 404);
