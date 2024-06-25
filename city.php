@@ -299,6 +299,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
             <a href='tickets.php'>Support Center</a><br>
             <a href='refer.php'>Your Referrals</a><br>
             <a href='contactlist.php'>Your Friends/Enemy list</a><br>
+            <a href='research.php'>Research</a><br>
             <a href='crafter.php'>Crafter</a><br>
             <a href='gameupdates.php'>Updates</a><br>
         </div>
