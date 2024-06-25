@@ -26,11 +26,10 @@ for ($i = 1; $i <= 100; $i++) {
         $money = rand(10, 64) * ($user_class->level + 2);
 
         $researchMoneyBoost = 0;
-        if (isset($user_class->completeUserResearchTypesIndexedOnId[15])) {
+        if (isset($user_class->completeUserResearchTypesIndexedOnId[14])) {
             $researchMoneyBoost += 5;
         }
         if ($researchMoneyBoost > 0) {
-
             $resMInc = $money / 100 * $researchMoneyBoost;
             $money = $money + $resMInc;
         }
