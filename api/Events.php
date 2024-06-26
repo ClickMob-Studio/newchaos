@@ -144,7 +144,7 @@ function generateFormattedName($id, $nogang = 0)
         $name .= "<a title='$title' href='profiles.php?id=$id'>&nbsp;<font color='$whichfont'>{$row['username']}</font></a>";
     } elseif (!empty($row['image_name']) && $row['pdimgname'] > 0) {
         $name .= "<a title='" . $title . " [" . $row['username'] . "]' href='profiles.php?id=" . $id . "'>";
-        $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='" . $row['username'] . "' />";
+        $name .= "<img src='https://chaoscity.co.uk/{$row['image_name']}' style='max-width:84px; max-height:50px;' title='" . $row['username'] . "' />";
         $name .= "</a>";
     } elseif ($row['gndays']) {
         $name .= "<a href='profiles.php?id=" . $id . "'>" . nameGen($row['gndays'], $row['rmdays'], $row['uninfo'], $row['username']) . "</a>";
@@ -174,7 +174,7 @@ function generateFormattedName($id, $nogang = 0)
     }
 
     if ($row['prestige'] > 0) {
-        $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
+        $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
     }
 
     if ($nogang == 0) {
@@ -183,10 +183,6 @@ function generateFormattedName($id, $nogang = 0)
 
     return $name;
 }
-
-
-
-
 
 // Routing logic
 $method = $_SERVER['REQUEST_METHOD'];
