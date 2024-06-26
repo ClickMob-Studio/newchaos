@@ -46,7 +46,6 @@ try {
         'message' => $e->getMessage()
     ));
 }
-
 function generateFormattedName($id, $nogang = 0)
 {
     global $db, $m;
@@ -56,6 +55,8 @@ function generateFormattedName($id, $nogang = 0)
     $db->query("SELECT username, gang, admin, rmdays, gm, colours, image_name, pdimgname, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
     $db->execute(array($id));
     $row = $db->fetch_row(true);
+
+    // Gang logic
     if ($row['gang'] != 0 and $nogang != 1) {
         if ($id == 2) {
             if ($row['gndays'] > 0) {
@@ -71,6 +72,8 @@ function generateFormattedName($id, $nogang = 0)
         else
             $name .= ($row['leader'] == $id) ? " title='Gang Leader'><font color=blue>[<b>{$row['tag']}</b>]</font></a> " : "><font color=white>[{$row['tag']}]</font></a> ";
     }
+
+    // Determine title and font color based on user status
     $db->query("SELECT days FROM bans WHERE id = ? AND type IN ('perm','freeze')");
     $db->execute(array($id));
     $bdays = $db->fetch_single();
@@ -90,6 +93,8 @@ function generateFormattedName($id, $nogang = 0)
         $title = "Not Respected";
         $whichfont = "#009102";
     }
+
+    // User name with image
     if ($bdays) {
         $name .= "<a title='$title' href='profiles.php?id=$id'>&nbsp;<font color = '$whichfont'>{$row['username']}</s></font></a>";
     } else if (!empty($row['image_name']) && $row['pdimgname'] > 0) {
@@ -126,10 +131,18 @@ function generateFormattedName($id, $nogang = 0)
     } else {
         $name .= "<a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</font></a>";
     }
+
+    // Add prestige image and remove additional images
     if ($row['prestige'] > 0) {
         $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
     }
+
+    // Ensure only the first image is used and remove any additional images
+    $name = preg_replace('/(<img[^>]*>)(.*)(<img[^>]*>)/', '$1', $name);
+
     if ($nogang == 0)
         $m->set('generateFormattedName.' . $id, $name, false, 60);
+
     return $name;
 }
+
