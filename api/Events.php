@@ -61,7 +61,7 @@ function getEvents($db)
 
     foreach ($events as &$event) {
         if (strpos($event['text'], '[-_USERID_-]') !== false) {
-            $event['text'] = replaceUserIdWithUsername($db, $event['text'], $event['extra']);
+            //$event['text'] = replaceUserIdWithUsername($db, $event['text'], $event['extra']);
         }
         $event['timesent'] = howlongago($event['timesent']);
         $event['text'] = preg_replace_callback(
