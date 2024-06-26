@@ -51,8 +51,10 @@ function generateFormattedName($id, $nogang = 0)
 {
     global $db, $m;
     $name = "";
+
     if ($nogang == 0 && $id != 864 and !empty($rtn = $m->get('generateFormattedName.' . $id)))
         return $rtn;
+
     $db->query("SELECT username, gang, admin, rmdays, gm, colours, image_name, pdimgname, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
     $db->execute(array($id));
     $row = $db->fetch_row(true);
@@ -60,7 +62,7 @@ function generateFormattedName($id, $nogang = 0)
     // Gang logic
     if ($row['gang'] != 0 && $nogang != 1) {
         if ($row['formattedTag'] == "Yes") {
-            $name .= "[" . ($row['leader'] == $id ? "<b>" . gradientTag($row['gang']) . "</b>" : gradientTag($row['gang'])) . "] ";
+            $name .= "[" . ($row['leader'] == $id ? "[" . gradientTag($row['gang']) . "]" : gradientTag($row['gang'])) . "] ";
         } else {
             $name .= "[" . ($row['leader'] == $id ? "<b>{$row['tag']}</b>" : "{$row['tag']}") . "] ";
         }
@@ -70,16 +72,17 @@ function generateFormattedName($id, $nogang = 0)
     $db->query("SELECT days FROM bans WHERE id = ? AND type IN ('perm','freeze')");
     $db->execute(array($id));
     $bdays = $db->fetch_single();
+
     if ($bdays) {
         $title = "Banned";
         $whichfont = "#FFFFFF";
-    } else if ($row['admin'] == 1) {
+    } elseif ($row['admin'] == 1) {
         $title = "Admin";
         $whichfont = "#FF1111";
-    } else if ($row['gm'] == 1) {
+    } elseif ($row['gm'] == 1) {
         $title = "Chat Moderator";
         $whichfont = "#FFFFFF";
-    } else if ($row['rmdays'] >= 1) {
+    } elseif ($row['rmdays'] >= 1) {
         $title = "VIP ({$row['rmdays']} VIP Days Left)";
         $whichfont = "#00BF03";
     } else {
@@ -87,16 +90,11 @@ function generateFormattedName($id, $nogang = 0)
         $whichfont = "#009102";
     }
 
-    // User name with image
-    if (!empty($row['image_name']) && $row['pdimgname'] > 0) {
-        $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='{$row['username']}' /> ";
-    } else {
-        $name .= "<span style='color:$whichfont;'>{$row['username']}</span> ";
-    }
+    // User name with image and prestige image
+    $name .= $row['username'];
 
-    // Add prestige image
     if ($row['prestige'] > 0) {
-        $name .= "<img src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
+        $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
     }
 
     if ($nogang == 0) {
@@ -105,4 +103,4 @@ function generateFormattedName($id, $nogang = 0)
 
     return $name;
 }
-
+?>
