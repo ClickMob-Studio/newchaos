@@ -77,7 +77,7 @@ function replaceUserIdWithUsername($db, $text, $userId)
     $text = str_replace('[-_USERID_-]', $formattedName, $text);
     $text = preg_replace_callback(
         "/<a [^>]*href='profiles.php\?id=(\d+)'[^>]*>(.*?)<\/a>/",
-        function ($matches) use ($db, $formattedName) {
+        function ($matches) use ($formattedName) {
             return "<span style='color: inherit; text-decoration: none; display:inline;'>$formattedName</span>";
         },
         $text
@@ -99,11 +99,10 @@ function generateFormattedName($id, $nogang = 0)
     $row = $db->fetch_row(true);
 
     if ($row['gang'] != 0 && $nogang != 1) {
-        $name .= "<a href='viewgang.php?id={$row['gang']}'>";
         if ($row['formattedTag'] == "Yes") {
-            $name .= "<font color=grey>[" . gradientTag($row['gang']) . "]</font></a> ";
+            $name .= "<font color=grey>[" . gradientTag($row['gang']) . "]</font> ";
         } else {
-            $name .= "<font color=white>[{$row['tag']}]</font></a> ";
+            $name .= "<font color=white>[{$row['tag']}]</font> ";
         }
     }
 
@@ -129,13 +128,11 @@ function generateFormattedName($id, $nogang = 0)
     }
 
     if ($bdays) {
-        $name .= "<a title='$title' href='profiles.php?id=$id'>&nbsp;<font color='$whichfont'>{$row['username']}</font></a>";
+        $name .= "<span style='color: $whichfont;'>{$row['username']}</span>";
     } elseif (!empty($row['image_name']) && $row['pdimgname'] > 0) {
-        $name .= "<a title='" . $title . " [" . $row['username'] . "]' href='profiles.php?id=" . $id . "'>";
-        $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='" . $row['username'] . "' />";
-        $name .= "</a>";
+        $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='{$row['username']}' />";
     } else {
-        $name .= "<a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</font></a>";
+        $name .= "<span style='color: $whichfont;'>{$row['username']}</span>";
     }
 
     if ($nogang == 0) {
