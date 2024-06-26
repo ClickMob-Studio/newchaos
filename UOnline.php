@@ -94,12 +94,15 @@ function generateFormattedName($id, $nogang = 0)
     $name .= $row['username'];
 
     if ($row['prestige'] > 0) {
-        $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
+        $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png' alt='Prestige ({$row['prestige']})' />";
     }
 
     if ($nogang == 0) {
         $m->set('generateFormattedName.' . $id, $name, false, 60);
     }
+
+    // Strip any remaining HTML tags and return clean text
+    $name = strip_tags($name);
 
     return $name;
 }
