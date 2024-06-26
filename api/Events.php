@@ -64,7 +64,7 @@ function getEvents($db)
         if (strpos($event['text'], '[-_USERID_-]') !== false) {
             $event['text'] = replaceUserIdWithUsername($db, $event['text'], $event['extra']);
         }
-
+        $event['timesent'] = howlongago($event['timesent']);
         // Extract and replace user IDs from profile links
         $event['text'] = preg_replace_callback(
             "/<a [^>]*href='profiles.php\?id=(\d+)'[^>]*>(.*?)<\/a>/",
