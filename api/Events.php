@@ -61,14 +61,14 @@ function getEvents($db)
 
     foreach ($events as &$event) {
         if (strpos($event['text'], '[-_USERID_-]') !== false) {
-            //$event['text'] = replaceUserIdWithUsername($db, $event['text'], $event['extra']);
+            $event['text'] = replaceUserIdWithUsername($db, $event['text'], $event['extra']);
         }
         $event['timesent'] = howlongago($event['timesent']);
         $event['text'] = preg_replace_callback(
             "/<a [^>]*href='profiles.php\?id=(\d+)'[^>]*>(.*?)<\/a>/",
             function ($matches) use ($db) {
                 $userId = $matches[1];
-                $username = replaceUserIdWithUsername($db, '[-_USERID_-]', $userId);
+               // $username = replaceUserIdWithUsername($db, '[-_USERID_-]', $userId);
                 return "<span style='color: inherit; text-decoration: none; display:inline;'>$username</span>";
             },
             $event['text']
