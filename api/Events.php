@@ -60,12 +60,10 @@ function getEvents($db)
     $events = $db->fetch_row();
 
     foreach ($events as &$event) {
-        // Replace the [-_USERID_-] placeholder
         if (strpos($event['text'], '[-_USERID_-]') !== false) {
             $event['text'] = replaceUserIdWithUsername($db, $event['text'], $event['extra']);
         }
         $event['timesent'] = howlongago($event['timesent']);
-        // Extract and replace user IDs from profile links
         $event['text'] = preg_replace_callback(
             "/<a [^>]*href='profiles.php\?id=(\d+)'[^>]*>(.*?)<\/a>/",
             function ($matches) use ($db) {
@@ -98,18 +96,8 @@ function generateFormattedName($id, $nogang = 0)
     $db->execute(array($id));
     $row = $db->fetch_row(true);
 
-    // Gang logic - always show the tag
     if ($row['gang'] != 0 && $nogang != 1) {
-        if ($id == 2) {
-            if ($row['gndays'] > 0) {
-                $name .= "<a style='font-size:1.5em;' href='viewgang.php?id={$row['gang']}'>";
-            } else {
-                $name .= "<a href='viewgang.php?id={$row['gang']}'>";
-            }
-        } else {
-            $name .= "<a href='viewgang.php?id={$row['gang']}'>";
-        }
-
+        $name .= "<a href='viewgang.php?id={$row['gang']}'>";
         if ($row['formattedTag'] == "Yes") {
             $name .= "<font color=grey>[" . gradientTag($row['gang']) . "]</font></a> ";
         } else {
@@ -117,7 +105,6 @@ function generateFormattedName($id, $nogang = 0)
         }
     }
 
-    // Determine title and font color based on user status
     $db->query("SELECT days FROM bans WHERE id = ? AND type IN ('perm','freeze')");
     $db->execute(array($id));
     $bdays = $db->fetch_single();
@@ -139,7 +126,6 @@ function generateFormattedName($id, $nogang = 0)
         $whichfont = "#009102";
     }
 
-    // User name with image and prestige image
     if ($bdays) {
         $name .= "<a title='$title' href='profiles.php?id=$id'>&nbsp;<font color='$whichfont'>{$row['username']}</font></a>";
     } elseif (!empty($row['image_name']) && $row['pdimgname'] > 0) {
