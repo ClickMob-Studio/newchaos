@@ -60,9 +60,9 @@ function generateFormattedName($id, $nogang = 0)
     // Gang logic
     if ($row['gang'] != 0 && $nogang != 1) {
         if ($row['formattedTag'] == "Yes") {
-            $name .= "<a href='viewgang.php?id={$row['gang']}'><span style='color:grey;'>[" . ($row['leader'] == $id ? "<b>" . gradientTag($row['gang']) . "</b>" : gradientTag($row['gang'])) . "]</span></a> ";
+            $name .= "[" . ($row['leader'] == $id ? "<b>" . gradientTag($row['gang']) . "</b>" : gradientTag($row['gang'])) . "] ";
         } else {
-            $name .= "<a href='viewgang.php?id={$row['gang']}'><span style='color:white;'>[" . ($row['leader'] == $id ? "<b>{$row['tag']}</b>" : "{$row['tag']}") . "]</span></a> ";
+            $name .= "[" . ($row['leader'] == $id ? "<b>{$row['tag']}</b>" : "{$row['tag']}") . "] ";
         }
     }
 
@@ -89,9 +89,9 @@ function generateFormattedName($id, $nogang = 0)
 
     // User name with image
     if (!empty($row['image_name']) && $row['pdimgname'] > 0) {
-        $name .= "<a title='$title' href='profiles.php?id=$id'><img src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='{$row['username']}' /></a> ";
+        $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='{$row['username']}' /> ";
     } else {
-        $name .= "<a title='$title' href='profiles.php?id=$id'><span style='color:$whichfont;'>{$row['username']}</span></a> ";
+        $name .= "<span style='color:$whichfont;'>{$row['username']}</span> ";
     }
 
     // Add prestige image
@@ -105,4 +105,4 @@ function generateFormattedName($id, $nogang = 0)
 
     return $name;
 }
-?>
+
