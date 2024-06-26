@@ -46,6 +46,7 @@ try {
         'message' => $e->getMessage()
     ));
 }
+
 function generateFormattedName($id, $nogang = 0)
 {
     global $db, $m;
@@ -58,19 +59,12 @@ function generateFormattedName($id, $nogang = 0)
 
     // Gang logic
     if ($row['gang'] != 0 and $nogang != 1) {
-        if ($id == 2) {
-            if ($row['gndays'] > 0) {
-                $name .= "<a style='font-size:1.5em;' href='viewgang.php?id={$row['gang']}'";
-            } else {
-                $name .= "<a href='viewgang.php?id={$row['gang']}'";
-            }
-        } else {
-            $name .= "<a href='viewgang.php?id={$row['gang']}'";
-        }
+        $name .= "<div class='gang-tag'>";
         if ($row['formattedTag'] == "Yes")
-            $name .= ($row['leader'] == $id) ? " title='Gang Leader'><font color=grey>[<b>" . gradientTag($row['gang']) . "</b>]</font></a> " : "><font color=grey>[" . gradientTag($row['gang']) . "]</font></a> ";
+            $name .= ($row['leader'] == $id) ? "<a style='font-size:1.5em;' href='viewgang.php?id={$row['gang']}' title='Gang Leader'><font color=grey>[<b>" . gradientTag($row['gang']) . "</b>]</font></a> " : "<a href='viewgang.php?id={$row['gang']}'><font color=grey>[" . gradientTag($row['gang']) . "]</font></a> ";
         else
-            $name .= ($row['leader'] == $id) ? " title='Gang Leader'><font color=blue>[<b>{$row['tag']}</b>]</font></a> " : "><font color=white>[{$row['tag']}]</font></a> ";
+            $name .= ($row['leader'] == $id) ? "<a style='font-size:1.5em;' href='viewgang.php?id={$row['gang']}' title='Gang Leader'><font color=blue>[<b>{$row['tag']}</b>]</font></a> " : "<a href='viewgang.php?id={$row['gang']}'><font color=white>[{$row['tag']}]</font></a> ";
+        $name .= "</div>";
     }
 
     // Determine title and font color based on user status
@@ -95,6 +89,7 @@ function generateFormattedName($id, $nogang = 0)
     }
 
     // User name with image
+    $name .= "<div class='user-info'>";
     if (!empty($row['image_name']) && $row['pdimgname'] > 0) {
         $name .= "<a title='" . $title . " [" . $row['username'] . "]' href='profiles.php?id=" . $id . "'>";
         $name .= "<img id='main-image' src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='" . $row['username'] . "' />";
@@ -107,12 +102,11 @@ function generateFormattedName($id, $nogang = 0)
     if ($row['prestige'] > 0) {
         $name .= " <img id='prestige-image' src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
     }
+    $name .= "</div>";
 
     if ($nogang == 0)
         $m->set('generateFormattedName.' . $id, $name, false, 60);
 
     return $name;
 }
-
-
-
+?>
