@@ -97,7 +97,7 @@ function generateFormattedName($id, $nogang = 0)
     // User name with image
     if (!empty($row['image_name']) && $row['pdimgname'] > 0) {
         $name .= "<a title='" . $title . " [" . $row['username'] . "]' href='profiles.php?id=" . $id . "'>";
-        $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='" . $row['username'] . "' />";
+        $name .= "<img id='main-image' src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='" . $row['username'] . "' />";
         $name .= "</a>";
     } else {
         $name .= "<a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</font></a>";
@@ -105,7 +105,7 @@ function generateFormattedName($id, $nogang = 0)
 
     // Add prestige image
     if ($row['prestige'] > 0) {
-        $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
+        $name .= " <img id='prestige-image' src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
     }
 
     if ($nogang == 0)
@@ -113,5 +113,6 @@ function generateFormattedName($id, $nogang = 0)
 
     return $name;
 }
+
 
 
