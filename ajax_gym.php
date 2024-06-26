@@ -10,7 +10,9 @@ try {
     // Log the incoming data for debugging
     error_log('Received data: ' . print_r($data, true));
 
-    if (isset($data['user_id'])) {
+    if (!isset($data['user_id'])) {
+        throw new Exception("User ID is not set.");
+    } else {
         $_SESSION['user_id'] = $data['user_id'];
         $_SESSION['id'] = $data['user_id'];
     }
