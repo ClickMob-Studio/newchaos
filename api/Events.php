@@ -98,9 +98,23 @@ function generateFormattedName($id, $nogang = 0)
     $db->execute(array($id));
     $row = $db->fetch_row(true);
 
-    // Gang logic
+    // Gang logic - always show the tag
     if ($row['gang'] != 0 && $nogang != 1) {
-        $name .= "[{$row['tag']}] ";
+        if ($id == 2) {
+            if ($row['gndays'] > 0) {
+                $name .= "<a style='font-size:1.5em;' href='viewgang.php?id={$row['gang']}'>";
+            } else {
+                $name .= "<a href='viewgang.php?id={$row['gang']}'>";
+            }
+        } else {
+            $name .= "<a href='viewgang.php?id={$row['gang']}'>";
+        }
+
+        if ($row['formattedTag'] == "Yes") {
+            $name .= "<font color=grey>[" . gradientTag($row['gang']) . "]</font></a> ";
+        } else {
+            $name .= "<font color=white>[{$row['tag']}]</font></a> ";
+        }
     }
 
     // Determine title and font color based on user status
@@ -126,7 +140,38 @@ function generateFormattedName($id, $nogang = 0)
     }
 
     // User name with image and prestige image
-    $name .= $row['username'];
+    if ($bdays) {
+        $name .= "<a title='$title' href='profiles.php?id=$id'>&nbsp;<font color='$whichfont'>{$row['username']}</font></a>";
+    } elseif (!empty($row['image_name']) && $row['pdimgname'] > 0) {
+        $name .= "<a title='" . $title . " [" . $row['username'] . "]' href='profiles.php?id=" . $id . "'>";
+        $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='" . $row['username'] . "' />";
+        $name .= "</a>";
+    } elseif ($row['gndays']) {
+        $name .= "<a href='profiles.php?id=" . $id . "'>" . nameGen($row['gndays'], $row['rmdays'], $row['uninfo'], $row['username']) . "</a>";
+    } elseif (!empty($row['colours']) && $row['gradient'] == 2 && $row['gndays']) {
+        $row['colours'] = str_replace('#', '', $row['colours']);
+        $colours = explode("~", $row['colours']);
+        $gradient = text_gradient($colours[0], $colours[1], 1, $row['username']);
+        $name .= "<b><i><a title='$title' href='profiles.php?id=$id'>$gradient</a></i></b>";
+    } elseif (!empty($row['colours']) && $row['gradient'] == 3 && $row['gndays']) {
+        $row['colours'] = str_replace('#', '', $row['colours']);
+        $gn = explode("~", $row['colours']);
+        $username = $row['username'];
+        $half = (int)((strlen($username) / 2));
+        $left = substr($username, 0, $half);
+        $right = substr($username, $half);
+        $gradient = text_gradient($gn[0], $gn[1], 1, $left);
+        $gradient .= text_gradient($gn[1], $gn[2], 1, $right);
+        $name .= "<b><i><a title='$title' href='profiles.php?id=$id'>$gradient</a></i></b>";
+    } elseif ($id == 146) {
+        $name .= "<a title='$title' href='profiles.php?id=$id'>{$row['username']}</a>";
+    } elseif ($row['admin'] == 1 || $row['gm'] == 1) {
+        $name .= "<i><b><a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</font></a></b></i>";
+    } elseif ($row['rmdays'] > 0) {
+        $name .= "<b><a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</font></a></b>";
+    } else {
+        $name .= "<a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</font></a>";
+    }
 
     if ($row['prestige'] > 0) {
         $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
@@ -138,6 +183,7 @@ function generateFormattedName($id, $nogang = 0)
 
     return $name;
 }
+
 
 
 
