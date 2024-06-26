@@ -60,19 +60,11 @@ function getEvents($db)
     $events = $db->fetch_row();
 
     foreach ($events as &$event) {
+        // Replace the [-_USERID_-] placeholder
         if (strpos($event['text'], '[-_USERID_-]') !== false) {
             $event['text'] = replaceUserIdWithUsername($db, $event['text'], $event['extra']);
         }
         $event['timesent'] = howlongago($event['timesent']);
-        $event['text'] = preg_replace_callback(
-            "/<a [^>]*href='profiles.php\?id=(\d+)'[^>]*>(.*?)<\/a>/",
-            function ($matches) use ($db) {
-                $userId = $matches[1];
-               // $username = replaceUserIdWithUsername($db, '[-_USERID_-]', $userId);
-                return "<span style='color: inherit; text-decoration: none; display:inline;'>$username</span>";
-            },
-            $event['text']
-        );
     }
 
     echo json_encode($events);
@@ -80,7 +72,17 @@ function getEvents($db)
 
 function replaceUserIdWithUsername($db, $text, $userId)
 {
-    return str_replace('[-_USERID_-]', generateFormattedName($userId), $text);
+    $formattedName = generateFormattedName($userId);
+    // Replace both the placeholder and profile link in one go
+    $text = str_replace('[-_USERID_-]', $formattedName, $text);
+    $text = preg_replace_callback(
+        "/<a [^>]*href='profiles.php\?id=(\d+)'[^>]*>(.*?)<\/a>/",
+        function ($matches) use ($db, $formattedName) {
+            return "<span style='color: inherit; text-decoration: none; display:inline;'>$formattedName</span>";
+        },
+        $text
+    );
+    return $text;
 }
 
 function generateFormattedName($id, $nogang = 0)
