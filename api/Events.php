@@ -138,10 +138,6 @@ function generateFormattedName($id, $nogang = 0)
         $name .= "<a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</font></a>";
     }
 
-    if ($row['prestige'] > 0) {
-        $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
-    }
-
     if ($nogang == 0) {
         $m->set('generateFormattedName.' . $id, $name, false, 60);
     }
