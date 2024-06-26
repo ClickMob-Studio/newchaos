@@ -90,8 +90,9 @@ function generateFormattedName($id, $nogang = 0)
     global $db, $m;
     $name = "";
 
-    if ($nogang == 0 && $id != 864 and !empty($rtn = $m->get('generateFormattedName.' . $id)))
+    if ($nogang == 0 && $id != 864 && !empty($rtn = $m->get('generateFormattedName.' . $id))) {
         return $rtn;
+    }
 
     $db->query("SELECT username, gang, admin, rmdays, gm, colours, image_name, pdimgname, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
     $db->execute(array($id));
@@ -100,7 +101,7 @@ function generateFormattedName($id, $nogang = 0)
     // Gang logic
     if ($row['gang'] != 0 && $nogang != 1) {
         if ($row['formattedTag'] == "Yes") {
-            $name .= "[" . ($row['leader'] == $id ? "[" . gradientTag($row['gang']) . "]" : gradientTag($row['gang'])) . "] ";
+            $name .= "[" . ($row['leader'] == $id ? "<b>" . gradientTag($row['gang']) . "</b>" : gradientTag($row['gang'])) . "] ";
         } else {
             $name .= "[" . ($row['leader'] == $id ? "<b>{$row['tag']}</b>" : "{$row['tag']}") . "] ";
         }
@@ -141,6 +142,9 @@ function generateFormattedName($id, $nogang = 0)
 
     return $name;
 }
+
+
+
 
 // Routing logic
 $method = $_SERVER['REQUEST_METHOD'];
