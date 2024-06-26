@@ -100,11 +100,8 @@ function generateFormattedName($id, $nogang = 0)
 
     // Gang logic
     if ($row['gang'] != 0 && $nogang != 1) {
-        if ($row['formattedTag'] == "Yes") {
-            $name .= "[" . ($row['leader'] == $id ? "<b>" . gradientTag($row['gang']) . "</b>" : gradientTag($row['gang'])) . "] ";
-        } else {
+
             $name .= "[" . ($row['leader'] == $id ? "<b>{$row['tag']}</b>" : "{$row['tag']}") . "] ";
-        }
     }
 
     // Determine title and font color based on user status
