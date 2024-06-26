@@ -98,5 +98,5 @@ $db->query("UPDATE `gang_comp_leaderboard` SET `daily_missions_complete` = 0");
 $db->execute();
 
 $db->query("UPDATE user_research_type SET duration_in_days = duration_in_days - 1 WHERE duration_in_days > 0");
-$db->execute()
+$db->execute();
 ?>
