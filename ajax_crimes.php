@@ -335,7 +335,7 @@ try {
     $db->endTrans();
 } catch (Exception $e) {
     $db->rollBack();
-    echo json_encode(['error' => 'Exception', 'message' => $e->getMessage()]);
+    echo json_encode(['error' => 'error', 'message' => $e->getMessage()]);
     die();
 }
 
