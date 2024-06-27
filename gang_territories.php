@@ -135,7 +135,7 @@ $ownedGangTerritoryZones = $db->fetch_row();
                                 <?php if ($gangTerritoryZone['owned_by_gang_id'] > 0): ?>
                                     <?php if ($gangTerritoryZone['owned_by_gang_id'] == $user_class->gang): ?>
                                         <?php if (getActiveGangTerritoryZoneBattle($gangTerritoryZone['id'])): ?>
-                                            <?php $activeGangTerritoryBattle = getActiveGangTerritoryZoneBattle($gangTerritoryZone['id'])); ?>
+                                            <?php $activeGangTerritoryBattle = getActiveGangTerritoryZoneBattle($gangTerritoryZone['id']); ?>
                                             <a href="gang_territory_battle.php?id=<?php echo $activeGangTerritoryBattle['id'] ?>" class="button">Defend</a>
                                         <?php endif; ?>
                                     <?php else: ?>
