@@ -228,6 +228,7 @@ var submitCrime = function (id, cm = 1) {
     });
 
     request.fail(function (res) {
+        console.log('** submitCrime fail');
         console.log(res);
         $('#spinner').hide();
         if (res.responseJSON && res.responseJSON.error == 'refresh') {
