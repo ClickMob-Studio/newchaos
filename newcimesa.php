@@ -237,6 +237,7 @@ var submitCrime = function (id, cm = 1) {
 
     request.done(function (res) {
         $('#spinner').hide();
+        console.log(res.error);
         if (res.error) {
             location.reload();
         }
