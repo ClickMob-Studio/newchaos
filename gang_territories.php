@@ -17,6 +17,7 @@ $ownedGangTerritoryZones = $db->fetch_row();
 <div class='box_top'>Protection Rackets</div>
 <div class='box_middle'>
     <div class='pad'>
+        <br />
         <h2>Your Protection Rackets</h2>
         <div class="table-container">
             <table class="new_table" id="newtables" style="width:100%;">
@@ -71,6 +72,7 @@ $ownedGangTerritoryZones = $db->fetch_row();
                 </tbody>
             </table>
         </div>
+        <br /><br /><hr />
 
         <h2>All Protection Rackets</h2>
         <div class="table-container">
