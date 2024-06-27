@@ -131,23 +131,19 @@ $ownedGangTerritoryZones = $db->fetch_row();
                                 <?php endif; ?>
                             </td>
                             <td>
-<!--                                --><?php //if ($view->territoryPerm): ?>
-<!--                                    --><?php //if ($gangTerritoryZone->owned_by_gang_id > 0): ?>
-<!--                                        --><?php //if ($gangTerritoryZone->owned_by_gang_id == $view->user->gang): ?>
-<!--                                            --><?php //if ($gangTerritoryZone->getActiveGangTerritoryZoneBattle()): ?>
-<!--                                                <a href="gang_territory_battle.php?id=--><?php //echo $gangTerritoryZone->getActiveGangTerritoryZoneBattle()->id ?><!--" class="button">Defend</a>-->
-<!--                                            --><?php //endif; ?>
-<!--                                        --><?php //else: ?>
-<!--                                            --><?php //if ($view->territoryPerm): ?>
-<!--                                                <a href="gang_territories.php?action=attack&id=--><?php //echo $gangTerritoryZone->id ?><!--" class="button">Attack</a>-->
-<!--                                            --><?php //endif; ?>
-<!--                                        --><?php //endif; ?>
-<!--                                    --><?php //else: ?>
-<!--                                        --><?php //if ($view->territoryPerm): ?>
-<!--                                            <a href="gang_territories.php?action=claim&id=--><?php //echo $gangTerritoryZone->id ?><!--" class="button">Claim</a>-->
-<!--                                        --><?php //endif; ?>
-<!--                                    --><?php //endif; ?>
-<!--                                --><?php //endif; ?>
+                                <!-- TODO: Permissions -->
+                                <?php if ($gangTerritoryZone['owned_by_gang_id'] > 0): ?>
+                                    <?php if ($gangTerritoryZone['owned_by_gang_id'] == $user_class->gang): ?>
+                                        <?php if (getActiveGangTerritoryZoneBattle($gangTerritoryZone['id'])): ?>
+                                            <?php $activeGangTerritoryBattle = getActiveGangTerritoryZoneBattle($gangTerritoryZone['id'])); ?>
+                                            <a href="gang_territory_battle.php?id=<?php echo $activeGangTerritoryBattle['id'] ?>" class="button">Defend</a>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <a href="gang_territories.php?action=attack&id=<?php echo $gangTerritoryZone['id'] ?>" class="button">Attack</a>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <a href="gang_territories.php?action=claim&id=<?php echo $gangTerritoryZone['id'] ?>" class="button">Claim</a>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

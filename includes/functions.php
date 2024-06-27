@@ -2389,3 +2389,13 @@ function addToBpCategoryUser($bpCategory, $user_class, $field, $qty = 1)
     $db->query("UPDATE bp_category_user SET {$field} = {$field} + {$qty} WHERE id = " . $data['id']);
     $db->execute();
 }
+
+function getActiveGangTerritoryZoneBattle($gangTerritoryZone)
+{
+    global $db;
+
+    $db->query("SELECT * FROM gang_territory_zone_battle WHERE (is_complete IS NULL OR is_complete = 0) AND gang_territory_zone_id = " . $gangTerritoryZone['id'] . " LIMIT 1");
+    $db->execute();
+
+    return $db->fetch_row(true);
+}
