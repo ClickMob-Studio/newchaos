@@ -17,6 +17,62 @@ $ownedGangTerritoryZones = $db->fetch_row();
 <div class='box_top'>Protection Rackets</div>
 <div class='box_middle'>
     <div class='pad'>
+        <h2>Your Protection Rackets</h2>
+        <div class="table-container">
+            <table class="new_table" id="newtables" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>City</th>
+                        <th>Payout</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($gangTerritoryZones as $gangTerritoryZone): ?>
+                        <tr>
+                            <td>
+                                <?php echo $gangTerritoryZone['name'] ?>
+
+                                <?php
+                                if ($gangTerritoryZone['shield_time'] > time()) {
+                                    $remaining = $gangTerritoryZone['shield_time'] - time();
+                                    $remaining = $remaining / 60;
+                                } else {
+                                    $remaining = 0;
+                                }
+                                ?>
+                                <?php if ($remaining > 0): ?>
+                                    <span style="color: #FF0000"><i class="fa-solid fa-shield" title="<?php echo number_format($remaining, 0) ?> minutes shield time remaining"></i></span>
+                                <?php endif; ?>
+                            </td>
+                            <td><?php echo getCityNameByID($gangTerritoryZone['city_id']) ?></td>
+                            <td>
+                                <?php if ($gangTerritoryZone['daily_points_payout'] > 0): ?>
+                                    - <?php echo number_format($gangTerritoryZone['daily_points_payout'], 0) ?> Points<br />
+                                <?php endif; ?>
+                                <?php if ($gangTerritoryZone['daily_money_payout'] > 0): ?>
+                                    - $<?php echo number_format($gangTerritoryZone['daily_money_payout'], 0) ?><br />
+                                <?php endif; ?>
+                                <?php if ($gangTerritoryZone['daily_raid_tokens_payout'] > 0): ?>
+                                    - <?php echo $gangTerritoryZone['daily_raid_tokens_payout'] ?> Raid Tokens<br />
+                                <?php endif; ?>
+                                <?php if ($gangTerritoryZone['daily_exp_payout'] > 0): ?>
+                                    - <?php echo number_format($gangTerritoryZone['daily_exp_payout'], 0) ?> EXP<br />
+                                <?php endif; ?>
+                                <?php if ($gangTerritoryZone['daily_item_payout'] > 0): ?>
+                                    - <?php echo Get_Item_name($gangTerritoryZone['daily_item_payout']); ?><br />
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
+        <h2>All Protection Rackets</h2>
         <div class="table-container">
             <table class="new_table" id="newtables" style="width:100%;">
                 <thead>
