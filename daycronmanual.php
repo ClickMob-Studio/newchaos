@@ -293,5 +293,8 @@ Gang_Event($topBusts, "Respect Gang Of The Day -Bustss +100 Respect", 0);
 $db->query("UPDATE gangs SET dailyCrimes = 0, dailyKills = 0, dailyBusts = 0, dailyMugs = 0");
 $db->execute();
 
+$db->query("UPDATE user_research_type SET duration_in_days = duration_in_days - 1 WHERE duration_in_days > 0");
+$db->execute();
+
 Send_Event(1, "daycronmanual.php");
 ?>
