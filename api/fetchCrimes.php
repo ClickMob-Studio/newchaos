@@ -11,7 +11,7 @@ header('Content-Type: application/json');
 try {
     $db->query("SELECT * FROM crimes ORDER BY nerve DESC");
     $db->execute();
-    $rows = $db->fetchAll(PDO::FETCH_ASSOC);
+    $rows = $db->fetch_row();
 
     echo json_encode(array('success' => true, 'crimes' => $rows));
 } catch (Exception $e) {
