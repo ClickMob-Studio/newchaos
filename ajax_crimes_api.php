@@ -84,7 +84,7 @@ try {
         }
 
         if (empty($row)) {
-            throw new Exception("Empty Crimes Row");
+            throw new Exception("Not enough nerve to complete this crime");
         }
 
         $m->set('crimesave' . $user_class->id, $row['id']);
