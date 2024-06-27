@@ -6,14 +6,17 @@ header('Content-type: application/json');
 session_start();
 
 function shorthandNumber($number) {
-    if ($number >= 1000000000) {
-        return round($number / 1000000000, 2) . 'B';
-    } elseif ($number >= 1000000) {
-        return round($number / 1000000, 2) . 'M';
-    } elseif ($number >= 1000) {
-        return round($number / 1000, 1) . 'k';
+    if ($number >= 1000000000) { // Check if the number is at least a billion
+        $shorthand = round($number / 1000000000, 2) . 'B'; // Convert to billions, round to 2 decimal places, and append 'B'
+        return $shorthand;
+    } elseif ($number >= 1000000) { // Check if the number is at least a million
+        $shorthand = round($number / 1000000, 2) . 'M'; // Convert to millions, round to 2 decimal places, and append 'M'
+        return $shorthand;
+    } elseif ($number >= 1000) { // Check if the number is at least a thousand
+        $shorthand = round($number / 1000, 1) . 'k'; // Convert to thousands, round to 1 decimal place, and append 'k'
+        return $shorthand;
     }
-    return number_format($number);
+    return number_format($number); // Return the original number if it's less than 1000
 }
 
 $data = json_decode(file_get_contents("php://input"), true);
@@ -50,7 +53,7 @@ try {
     }
 
     $debug = array(
-        'id' => $user_class->id,
+        'id'               => $user_class->id,
         'crime_multiplier' => $crime_multiplier,
         'data' => $data
     );
@@ -60,7 +63,9 @@ try {
     }
 
     $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
-    $db->execute(array($user_class->id));
+    $db->execute(array(
+        $user_class->id
+    ));
 
     if ($user_class->jail || $user_class->hospital) {
         throw new Exception("You are not able to do crimes at the moment.");
@@ -71,7 +76,9 @@ try {
 
         if (!$row = $m->get('crimes.' . $id)) {
             $db->query("SELECT `id`, `nerve`, `name` FROM crimes WHERE id = ? LIMIT 1");
-            $db->execute(array($id));
+            $db->execute(array(
+                $id
+            ));
             $row = $db->fetch_row(true);
             $m->set('crimes.' . $id, $row, false, 120);
         }
@@ -190,7 +197,7 @@ try {
         // Crime Multiplier Adjustments
         $mission_nerve = $nerve;
         $nerve = ($nerve * $crime_multiplier);
-        $exp = ($exp * $crime_multiplier);
+        $exp   = ($exp * $crime_multiplier);
         $money = ($money * $crime_multiplier);
 
         $prepaid = false;
@@ -227,7 +234,7 @@ try {
             if ($tempItemUse['nerve_vial_time'] > $now) {
                 $extraCost = $cost / 2;
                 $cost = ceil($cost - ($extraCost / 2));
-            }
+            } 
 
             $debug['cost'] = $cost;
 
@@ -441,7 +448,7 @@ try {
                 exit;
             }
         } else {
-            throw new Exception("Invalid crime ID.");
+            throw new Exception("Not enough nerve.");
         }
     } else {
         throw new Exception("Invalid crime ID.");
