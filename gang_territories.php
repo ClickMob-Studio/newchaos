@@ -6,6 +6,7 @@ if ($user_class->gang == 0) {
 }
 
 if (isset($_GET['action']) && $_GET['action'] === 'claim' && isset($_GET['id']) && (int)$_GET['id']) {
+    security($_GET['id']);
     $db->query("SELECT * FROM gang_territory_zone WHERE id = " . (int)$_GET['id']);
     $db->execute();
     $gangTerritoryZone = $db->fetch_row(true);
@@ -14,6 +15,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'claim' && isset($_GET['id']) 
 }
 
 if (isset($_GET['action']) && $_GET['action'] === 'attack' && isset($_GET['id']) && (int)$_GET['id']) {
+    security($_GET['id']);
     $db->query("SELECT * FROM gang_territory_zone WHERE id = " . (int)$_GET['id']);
     $db->execute();
     $gangTerritoryZone = $db->fetch_row(true);
