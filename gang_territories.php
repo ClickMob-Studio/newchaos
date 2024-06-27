@@ -5,6 +5,22 @@ if ($user_class->gang == 0) {
     diefun('Your not in a gang');
 }
 
+if (isset($_GET['action']) && $_GET['action'] === 'claim' && isset($_GET['id']) && (int)$_GET['id']) {
+    $db->query("SELECT * FROM gang_territory_zone WHERE id = " . (int)$_GET['id']);
+    $db->execute();
+    $gangTerritoryZone = $db->fetch_row(true);
+
+//    $gangTerritoryZone->claim($user_class);
+}
+
+if (isset($_GET['action']) && $_GET['action'] === 'attack' && isset($_GET['id']) && (int)$_GET['id']) {
+    $db->query("SELECT * FROM gang_territory_zone WHERE id = " . (int)$_GET['id']);
+    $db->execute();
+    $gangTerritoryZone = $db->fetch_row(true);
+
+//    $gangTerritoryZone->startAttack($user_class);
+}
+
 $db->query("SELECT * FROM gang_territory_zone");
 $db->execute();
 $gangTerritoryZones = $db->fetch_row();
