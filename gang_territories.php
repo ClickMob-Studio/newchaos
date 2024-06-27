@@ -72,7 +72,7 @@ $ownedGangTerritoryZones = $db->fetch_row();
                 </tbody>
             </table>
         </div>
-        <br /><br /><hr />
+        <br /><hr />
 
         <h2>All Protection Rackets</h2>
         <div class="table-container">
