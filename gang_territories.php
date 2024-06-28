@@ -34,7 +34,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'claim' && isset($_GET['id']) 
 
 //    $gangTerritoryZone->claim($user_class);
 
-    diefun('You have successfully claimed the protection racket: ' . $gangTerritoryZone['name']);
+    diefun('You have successfully claimed the protection racket: ' . $gangTerritoryZone['name'] . '. <a href="gang_territories.php">Go Back</a>');
     exit;
 }
 
