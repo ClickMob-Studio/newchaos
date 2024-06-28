@@ -11,7 +11,28 @@ if (isset($_GET['action']) && $_GET['action'] === 'claim' && isset($_GET['id']) 
     $db->execute();
     $gangTerritoryZone = $db->fetch_row(true);
 
+    if ($gangTerritoryZone['owned_by_gang_id']) {
+        diefun('You can\'t claim a territory that is already owned by a regiment.');
+    }
+
+    // TODO: Permissions
+
+    $shieldTime = time() + 7200;
+    $db->query("UPDATE gang_territory_zone SET owned_by_gang_id = " . $user_class->gang . ", shield_time = " . $shieldTime . " WHERE id = " . $gangTerritoryZone['id']);
+    $db->execute();
+
+    // TODO: Update members with event
+//    foreach ($gang->GetAllMembers() as $gangMember) {
+//        Event::Add($gangMember->id, 'Your regiment has claimed the territory ' . $this->name . '. Keep an eye out for any potential takeover attempts from other regiments.');
+//    }
+
+    // TODO: Do this
+//    GangTerritoryZoneHistory::create($this, $gang->id);
+
 //    $gangTerritoryZone->claim($user_class);
+
+    diefun('You have successfully claimed the protection racket: ' . $gangTerritoryZone['name']);
+    exit;
 }
 
 if (isset($_GET['action']) && $_GET['action'] === 'attack' && isset($_GET['id']) && (int)$_GET['id']) {
