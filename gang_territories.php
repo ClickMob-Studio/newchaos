@@ -29,7 +29,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'claim' && isset($_GET['id']) 
 //        Event::Add($gangMember->id, 'Your regiment has claimed the territory ' . $this->name . '. Keep an eye out for any potential takeover attempts from other regiments.');
 //    }
 
-    $db->query("INSERT INTO gang_territory_zone_history (gang_territory_zone_id, gang_id, takeover_time) VALUES (" . $gangTerritoryZone['id'] . ", " . $user_class->gang . ", " . time() . ");");
+    $db->query("INSERT INTO gang_territory_zone_history (gang_territory_zone__id, gang_id, takeover_time) VALUES (" . $gangTerritoryZone['id'] . ", " . $user_class->gang . ", " . time() . ");");
     $db->execute();
 
     diefun('You have successfully claimed the protection racket: ' . $gangTerritoryZone['name'] . '. <a href="gang_territories.php">Go Back</a>');
@@ -46,7 +46,60 @@ if (isset($_GET['action']) && $_GET['action'] === 'attack' && isset($_GET['id'])
     $db->execute();
     $gangTerritoryZone = $db->fetch_row(true);
 
-//    $gangTerritoryZone->startAttack($user_class);
+    $gang = $user_class->gang;
+
+    // TODO: Check Permissions
+
+    if (!$gangTerritoryZone['owned_by_gang_id']) {
+        diefun('You can only attempt a takeover on a territory that has already been claimed.');
+    }
+
+    if ($gangTerritoryZone['owned_by_gang_id'] == $user_class->gang) {
+        diefun('You can\'t takeover a territory that your regiment already owns.');
+    }
+
+    if ($gangTerritoryZone['shield_time'] > time()) {
+        diefun('You can\'t takeover a territory that is under shield.');
+    }
+
+    $db->query("SELECT id FROM gang_territory_zone_battle WHERE gang_territory_zone_id = " . $gangTerritoryZone['id'] . " AND (is_complete IS NULL OR is_complete = 0)");
+    $db->execute();
+    $activeGangTerritoryBattles = $db->fetch_row();
+
+    if ($activeGangTerritoryBattle) {
+        diefun('You can\'t takeover a Protection Racket that is already in a takeover attempt.');
+    }
+
+    $db->query("SELECT id FROM gang_territory_zone_battle WHERE attacking_gang_id = " . $user_class->gang . " AND (is_complete IS NULL OR is_complete = 0)");
+    $db->execute();
+    $attackingGangTerritoryBattles = $db->fetch_row();
+
+    if (count($attackingGangTerritoryBattles) > 0) {
+        throw new SoftException('Your gang can only attempt one takeover at a time.');
+    }
+
+    $db->query("
+      INSERT INTO 
+        gang_territory_zone_battle (gang_territory_zone_id, attacking_gang_id, defending_gang_id, time_started)
+      VALUES
+        (" . $gangTerritoryZone['id'] . ", " . $user_class->gang . ", " . $gangTerritoryZone['owned_by_gang_id'] . ", " . time() . ")
+    ");
+    $db->execute();
+
+
+
+    // TODO:
+//    $defendingGang = new Gang($this->owned_by_gang_id);
+//    foreach ($defendingGang->GetAllMembers() as $defendingGangMember) {
+//        Event::Add($defendingGangMember->id, 'Soldier, ready yourself for battle! ' . Gang::StaticGetPublicFormattedName($gang->id) . ' are attempting a takeover on one of your territories. <a href="gang_territories.php">Go to Territories</a>');
+//    }
+
+    // TODO:
+//    foreach ($gang->GetAllMembers() as $attackingGangMember) {
+//        Event::Add($attackingGangMember->id, 'Soldier, ready yourself for battle! Your regiment is attempting a territory takeover. <a href="gang_territories.php">Go to Territories</a>');
+//    }
+
+    diefun('You have successfully initiated a takeover of the Protection Racket. All gang members will be informed to prepare for the battle. The battle will commence in 30 minutes time.');
 }
 
 $db->query("SELECT * FROM gang_territory_zone");
