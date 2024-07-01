@@ -29,14 +29,13 @@ if (isset($_GET['action']) && $_GET['action'] === 'claim' && isset($_GET['id']) 
 //        Event::Add($gangMember->id, 'Your regiment has claimed the territory ' . $this->name . '. Keep an eye out for any potential takeover attempts from other regiments.');
 //    }
 
-    // TODO: Do this
-//    GangTerritoryZoneHistory::create($this, $gang->id);
-
-//    $gangTerritoryZone->claim($user_class);
+    $db->query("INSERT INTO gang_territory_zone_history (gang_territory_zone_id, gang_id, takeover_time) VALUES (" . $gangTerritoryZone['id'] . ", " . $user_class->gang . ", " . time() . ");");
+    $db->execute();
 
     diefun('You have successfully claimed the protection racket: ' . $gangTerritoryZone['name'] . '. <a href="gang_territories.php">Go Back</a>');
     exit;
 }
+
 
 if (isset($_GET['action']) && $_GET['action'] === 'attack' && isset($_GET['id']) && (int)$_GET['id']) {
     $attackId = (int)$_GET['id'];
