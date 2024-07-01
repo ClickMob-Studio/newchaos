@@ -2,12 +2,6 @@
 
 include 'header.php';
 
-?>
-    <div class='box_top'><h1>New Battle Pass Coming Shortly</h1></div>
-<?php
-include 'footer.php';
-exit;
-
 $now = new \DateTime();
 
 $bpCategory = getBpCategory();
