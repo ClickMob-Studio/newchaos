@@ -27,11 +27,117 @@ if ($gangTerritoryZoneBattle['is_complete']) {
     exit;
 }
 
-?>
-<?php
-
 $attackingGang = new Gang($gangTerritoryZoneBattle['attacking_gang_id']);
 $defendingGang = new Gang($gangTerritoryZoneBattle['defending_gang_id']);
+
+if (isset($_GET['action']) && $_GET['action'] === 'join' && isset($_GET['spot'])) {
+    $spot = $_GET['spot'];
+    if ($user_class->gang == $attackingGang->id) {
+        $validSpots = array(
+            'strength_attacker',
+            'defense_attacker',
+            'speed_attacker'
+        );
+    } else {
+        $validSpots = array(
+            'strength_defender',
+            'defense_defender',
+            'speed_defender'
+        );
+    }
+
+    $db->query("
+        SELECT 
+            id 
+        FROM 
+            gang_territory_zone_battle
+        WHERE
+            (strength_defending_user_id = :user_id OR
+            defense_defending_user_id = :user_id OR
+            speed_defending_user_id = :user_id OR
+            strength_attacking_user_id = :user_id OR
+            defense_attacking_user_id = :user_id OR
+            speed_attacking_user_id = :user_id) AND (is_complete IS NULL OR is_complete = 0)
+    ");
+    $db->bind(':user_id', $user_class->id);
+    $db->execute();
+    $userActiveGangTerritoryZoneBattles = $db->fetch_row();
+
+    if ($userActiveGangTerritoryZoneBattles) {
+        diefun('You can\'t join another regiment territory battle until your current one has taken place.');
+    }
+
+    if ($gangTerritoryZoneBattle['is_complete']) {
+        diefun('This battle has already taken place.');
+    }
+
+    if (!in_array($spot, $validSpots)) {
+        diefun('Please ensure you are trying to fill a valid spot.');
+    }
+
+    $url = 'gang_territory_battle.php?id=' . $gangTerritoryZoneBattle['id'];
+    if ($spot == 'strength_attacker') {
+        if ($gangTerritoryZoneBattle['strength_attacking_user_id']) {
+            diefun('Someone has already occupied the spot your trying to fill.');
+        } else {
+            $db->query("UPDATE gang_territory_zone_battle SET strength_attacking_user_id = " . $user_class->id);
+            $db->execute();
+
+            header('Location: ' . $url);
+        }
+    }
+    if ($spot == 'defense_attacker') {
+        if ($gangTerritoryZoneBattle['defense_attacking_user_id']) {
+            diefun('Someone has already occupied the spot your trying to fill.');
+        } else {
+            $db->query("UPDATE gang_territory_zone_battle SET defense_attacking_user_id = " . $user_class->id);
+            $db->execute();
+
+            header('Location: ' . $url);
+        }
+    }
+    if ($spot == 'speed_attacker') {
+        if ($gangTerritoryZoneBattle['speed_attacking_user_id']) {
+            diefun('Someone has already occupied the spot your trying to fill.');
+        } else {
+            $db->query("UPDATE gang_territory_zone_battle SET speed_attacking_user_id = " . $user_class->id);
+            $db->execute();
+
+            header('Location: ' . $url);
+        }
+    }
+
+    if ($spot == 'strength_defender') {
+        if ($gangTerritoryZoneBattle['strength_defending_user_id']) {
+            diefun('Someone has already occupied the spot your trying to fill.');
+        } else {
+            $db->query("UPDATE gang_territory_zone_battle SET strength_defending_user_id = " . $user_class->id);
+            $db->execute();
+
+            header('Location: ' . $url);
+        }
+    }
+    if ($spot == 'defense_defender') {
+        if ($gangTerritoryZoneBattle['defense_defending_user_id']) {
+            diefun('Someone has already occupied the spot your trying to fill.');
+        } else {
+            $db->query("UPDATE gang_territory_zone_battle SET defense_defending_user_id = " . $user_class->id);
+            $db->execute();
+
+            header('Location: ' . $url);
+        }
+    }
+    if ($spot == 'speed_defender') {
+        if ($gangTerritoryZoneBattle['speed_defending_user_id']) {
+            diefun('Someone has already occupied the spot your trying to fill.');
+        } else {
+            $db->query("UPDATE gang_territory_zone_battle SET speed_defending_user_id = " . $user_class->id);
+            $db->execute();
+
+            header('Location: ' . $url);
+        }
+    }
+}
 
 $strengthAttackingUser = null;
 if ($gangTerritoryZoneBattle['strength_attacking_user_id']) {
