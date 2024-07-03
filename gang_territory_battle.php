@@ -30,10 +30,6 @@ if ($gangTerritoryZoneBattle['is_complete']) {
 ?>
 <?php
 
-if (strpos($_SERVER['PHP_SELF'], '.inc.php') !== false || !isset($view)) {
-    die('You cannot access this file directly.');
-}
-
 $attackingGang = new Gang($gangTerritoryZoneBattle['attacking_gang_id']);
 $defendingGang = new Gang($gangTerritoryZoneBattle['defending_gang_id']);
 
