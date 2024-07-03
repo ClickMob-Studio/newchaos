@@ -5,6 +5,10 @@ if ($user_class->gang == 0) {
     diefun('Your not in a gang');
 }
 
+$db->query("SELECT id FROM gang_territory_zone_battle WHERE attacking_gang_id = " . $user_class->gang . " AND (is_complete IS NULL OR is_complete = 0)");
+$db->execute();
+$attackingGangTerritoryBattles = $db->fetch_row();
+
 if (isset($_GET['action']) && $_GET['action'] === 'claim' && isset($_GET['id']) && (int)$_GET['id']) {
     $claimId = (int)$_GET['id'];
 
@@ -70,10 +74,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'attack' && isset($_GET['id'])
         diefun('You can\'t takeover a Protection Racket that is already in a takeover attempt.');
     }
 
-    $db->query("SELECT id FROM gang_territory_zone_battle WHERE attacking_gang_id = " . $user_class->gang . " AND (is_complete IS NULL OR is_complete = 0)");
-    $db->execute();
-    $attackingGangTerritoryBattles = $db->fetch_row();
-
     if (count($attackingGangTerritoryBattles) > 0) {
         diefun('Your gang can only attempt one takeover at a time.');
     }
@@ -114,6 +114,43 @@ $ownedGangTerritoryZones = $db->fetch_row();
 <div class='box_top'>Protection Rackets</div>
 <div class='box_middle'>
     <div class='pad'>
+
+        <?php if ($attackingGangTerritoryBattles): ?>
+            <h1>Active Protection Racket Takeovers</h1>
+            <div class="contentBox">
+                <table class="cleanTable">
+                    <thead>
+                    <tr>
+                        <th>Territory</th>
+                        <th>Defending Gang</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($attackingGangTerritoryBattles as $attackingGangTerritoryBattle): ?>
+                        <?php
+                        $db->query("SELECT name FROM gang_territory_zone WHERE id = " . $attackingGangTerritoryBattle['gang_territory_zone_id'] . " LIMIT 1");
+                        $db->execute();
+                        $gName = $db->fetch_single();
+
+                        $defendingGang = new Gang($attackingGangTerritoryBattle['defending_gang_id']);
+                        ?>
+                        <tr>
+                            <td><?php echo $gName ?></td>
+                            <td><?php echo $defendingGang->formattedname ?></td>
+                            <td>
+                                <?php getTimeRemainingForDisplay($attackingGangTerritoryBattle['time_started']) ?>
+                            </td>
+                            <td>
+                                <a href="gang_territory_battle.php?id=<?php echo $attackingGangTerritoryBattle['id'] ?>" class="button">View</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
         <br />
         <h2>Your Protection Rackets</h2>
         <div class="table-container">

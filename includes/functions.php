@@ -2399,3 +2399,10 @@ function getActiveGangTerritoryZoneBattle($gangTerritoryZone)
 
     return $db->fetch_row(true);
 }
+
+function getTimeRemainingForDisplay($time)
+{
+    $time = $time - time();
+
+    return number_format(($time / 60), 0) . ' minutes until battle';
+}
