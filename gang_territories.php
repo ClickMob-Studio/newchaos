@@ -116,7 +116,7 @@ $ownedGangTerritoryZones = $db->fetch_row();
     <div class='pad'>
 
         <?php if ($attackingGangTerritoryBattles): ?>
-            <h1>Active Protection Racket Takeovers</h1>
+            <h2>Active Protection Racket Takeovers</h2>
             <div class="contentBox">
                 <table class="cleanTable">
                     <thead>
