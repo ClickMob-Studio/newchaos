@@ -164,7 +164,7 @@ $ownedGangTerritoryZones = $db->fetch_row();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($gangTerritoryZones as $gangTerritoryZone): ?>
+                    <?php foreach ($ownedGangTerritoryZones as $gangTerritoryZone): ?>
                         <tr>
                             <td>
                                 <?php echo $gangTerritoryZone['name'] ?>
