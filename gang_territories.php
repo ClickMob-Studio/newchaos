@@ -66,7 +66,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'attack' && isset($_GET['id'])
     $db->execute();
     $activeGangTerritoryBattles = $db->fetch_row();
 
-    if ($activeGangTerritoryBattle) {
+    if ($activeGangTerritoryBattles) {
         diefun('You can\'t takeover a Protection Racket that is already in a takeover attempt.');
     }
 
@@ -75,7 +75,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'attack' && isset($_GET['id'])
     $attackingGangTerritoryBattles = $db->fetch_row();
 
     if (count($attackingGangTerritoryBattles) > 0) {
-        throw new SoftException('Your gang can only attempt one takeover at a time.');
+        diefun('Your gang can only attempt one takeover at a time.');
     }
 
     $db->query("
