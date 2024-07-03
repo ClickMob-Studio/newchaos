@@ -109,10 +109,9 @@ if ($gangTerritoryZoneBattle['speed_defending_user_id']) {
         /* end AttackReport */
     </style>
 
-    <h1>Territory Battle Preperation</h1>
+    <h1>Protection Racket Takeover Preperation</h1>
 
     <div class='contentBox' >
-        <?php echo User::renderFlashAlert() ?>
 
         <div class="players">
             <div class="player">
