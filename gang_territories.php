@@ -5,7 +5,7 @@ if ($user_class->gang == 0) {
     diefun('Your not in a gang');
 }
 
-$db->query("SELECT id FROM gang_territory_zone_battle WHERE attacking_gang_id = " . $user_class->gang . " AND (is_complete IS NULL OR is_complete = 0)");
+$db->query("SELECT * FROM gang_territory_zone_battle WHERE attacking_gang_id = " . $user_class->gang . " AND (is_complete IS NULL OR is_complete = 0)");
 $db->execute();
 $attackingGangTerritoryBattles = $db->fetch_row();
 
