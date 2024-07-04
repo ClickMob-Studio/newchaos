@@ -23,7 +23,7 @@ if ($user_class->gang != $gangTerritoryZoneBattle['defending_gang_id'] && $user_
 }
 
 if ($gangTerritoryZoneBattle['is_complete']) {
-    header('Location: /gang_territory_battle_result.php?id=' . $gangTerritoryZoneBattle->id);
+    header('Location: /gang_territory_battle_result.php?id=' . $gangTerritoryZoneBattle['id']);
     exit;
 }
 
