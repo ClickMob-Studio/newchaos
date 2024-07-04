@@ -1517,18 +1517,18 @@ if ($bonus_row['Time'] > 0) {
     $db->execute();
     $gymbonus_row = $db->fetch_row(true);
 
-     if ($gymbonus_row['Time'] > 0 && $user_class->admin > 0) {
+     if ($gymbonus_row['Time'] > 0) {
 
         $_tt = secondsToHumanReadable($gymbonus_row['Time'] * 60);
         $messages[] = 'Server Wide Double Gym Gains: ' . (($_tt == 'NOW') ? '@None@' : $_tt);
 
     }
 
-//$db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
-//$db->execute();
-//$activityContest = $db->fetch_row(true);
+$db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
+$db->execute();
+$activityContest = $db->fetch_row(true);
 
-//$messages[] = '<a href="ucl_contest.php"><font color=red>Activity Contest: Complete ' . ucfirst($activityContest['type']) . ' </font></a>';
+$messages[] = '<a href="ucl_contest.php"><font color=red>Activity Contest: Complete ' . ucfirst($activityContest['type']) . ' </font></a>';
 
 //if ($user_class->gang > 0) {
 //    $messages[] = '<a href="gang_doubleexp.php"><font color=red>Gang Challenge</font></a>';
