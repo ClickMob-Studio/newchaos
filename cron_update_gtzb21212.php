@@ -113,7 +113,7 @@ if ($_GET['key'] === 'srunit') {
                     $attackingHealth = $attackingHealth - $damage;
 
                     $db->query("
-                        INSERT INTO
+                        INSERT INTO gang_territory_zone_battle_log
                           (gang_territory_zone_battle_id, attacking_gang_id, defending_gang_id, is_first_attack, damage) VALUES
                           (:gang_territory_zone_battle_id,:attacking_gang_id,:defending_gang_id,:is_first_attack, :damage)
                     ");
@@ -140,7 +140,7 @@ if ($_GET['key'] === 'srunit') {
                     $defendingHealth = $defendingHealth - $damage;
 
                     $db->query("
-                        INSERT INTO
+                        INSERT INTO gang_territory_zone_battle_log
                           (gang_territory_zone_battle_id, attacking_gang_id, defending_gang_id, is_first_attack, damage) VALUES
                           (:gang_territory_zone_battle_id,:attacking_gang_id,:defending_gang_id,:is_first_attack, :damage)
                     ");
