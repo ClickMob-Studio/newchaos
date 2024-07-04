@@ -13,7 +13,7 @@ if ($_GET['key'] === 'srunit') {
     $gangTerritoryZoneBattles = $db->fetch_row();
 
     foreach ($gangTerritoryZoneBattles as $gangTerritoryZoneBattle) {
-        $db->query("SELECT * FROM gang_territory_zone WHERE id = " . $gangTerritoryZoneBattles['gang_territory_zone_id'] . " LIMIT 1");
+        $db->query("SELECT * FROM gang_territory_zone WHERE id = " . $gangTerritoryZoneBattle['gang_territory_zone_id'] . " LIMIT 1");
         $db->execute();
         $gangTerritoryZone = $db->fetch_row(true);
 
