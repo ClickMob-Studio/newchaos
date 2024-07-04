@@ -22,8 +22,8 @@ if ($_GET['key'] === 'srunit') {
         $battleInitiationTime = $gangTerritoryZoneBattle['time_started'] + $seconds;
 
         if ($battleInitiationTime < time()) {
-            $attackingGang = new Gang($gangTerritoryZone['attacking_gang_id']);
-            $defendingGang = new Gang($gangTerritoryZone['defending_gang_id']);
+            $attackingGang = new Gang($gangTerritoryZoneBattle['attacking_gang_id']);
+            $defendingGang = new Gang($gangTerritoryZoneBattle['defending_gang_id']);
 
             /*
              * DEFENDING STATS
