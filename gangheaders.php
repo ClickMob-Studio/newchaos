@@ -51,7 +51,7 @@ if ($user_class->gang != 0) {
         <div class="row row-cols-2 row-cols-md-4 g-4">
             <div class="col"><a href="giftgang.php" class="btn btn-primary w-100">Gift Gang</a></div>
             <div class="col"><a href="gangmail.php" class="btn btn-primary w-100">Gang Mail</a></div>
-            <div class="col"><div class="btn btn-secondary w-100 disabled">-</div></div>
+            <div class="col"><a href="gang_territories.php" class="btn btn-primary w-100">Protection Rackets</a></div>
             <div class="col"><div class="btn btn-secondary w-100 disabled">-</div></div>
         </div>
 

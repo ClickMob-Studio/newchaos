@@ -116,6 +116,19 @@ $ownedGangTerritoryZones = $db->fetch_row();
 <div class='box_top'>Protection Rackets</div>
 <div class='box_middle'>
     <div class='pad'>
+        <p>
+            Welcome to Protection Rackets, here you can see all the protection rackets for your gang and other gangs. Protection Rackets provide you with a daily payout that goes to each member at rollover.
+        </p>
+        <p>
+            You'll need to be vigilant with your protection rackets, another gang can try to takeover your protection racket by starting a battle. Once a battle has been initiated, each gang has 30 minutes to add a
+            member into the strength, defense and speed stat slot to take part in the battle on behalf of the gang. If the slots aren't filled then the stat will run as 0. You also need to make sure each member in
+            the battle is in the correct city for the Protection Racket when the battle takes part otherwise they'll miss it!
+        </p>
+        <p>
+            Winning protection racket battles will also give each member of the winning side an EXP payout.
+        </p>
+        <p>Daily payouts on Protection Rackets will change on occassion.</p>
+
 
         <?php if ($attackingGangTerritoryBattles): ?>
             <h2>Active Protection Racket Takeovers</h2>
