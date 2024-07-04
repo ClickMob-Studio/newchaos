@@ -718,8 +718,14 @@ if ($user_class->donate_token > 0) {
     echo Message('<h4>You have ' . $user_class->donate_token . 'x ' .  item_popup('Donation Boost Token', 0, 'red') . '</h4>');
 }
 
+?>
+
+                                <div class="alert alert-danger" role="alert">CREDITS ARE HALF PRICE FOR THE NEXT 48-HOURS!</div>
+
+<?php
+
 // Display information
-echo '<center><font size="3px" color="white">$1 = <img src="https://chaoscity.co.uk/goldbar.png"></img><font color=red><b>10</font></center>';
+echo '<center><font size="3px" color="white">$1 = <img src="https://chaoscity.co.uk/goldbar.png"></img><font color=red><b>20</font></center>';
 echo '<center><font color=white>Your GOLD balance is:</font> <span style="color:red;font-weight:bold;"><img src="https://chaoscity.co.uk/goldbar.png"></img>' . $user_class->credits . ' </size></center></span><br />';
 
 echo '<center>';
@@ -740,6 +746,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateCredits() {
         var donationAmount = parseFloat(amountInput.value) || 0;
         var credits = donationAmount * 10; // Assuming each dollar gives 10 credits, adjust as needed
+        var credits = credits * 2;
 
         donationAmountDisplay.textContent = donationAmount.toFixed(2); // Update the displayed donation amount
         creditDisplayAmount.textContent = credits; // Update the displayed credits amount
