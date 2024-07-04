@@ -1513,6 +1513,17 @@ if ($bonus_row['Time'] > 0) {
 
 }
 
+    $db->query("SELECT * FROM gamebonus WHERE ID = 2 LIMIT 1");
+    $db->execute();
+    $gymbonus_row = $db->fetch_row(true);
+
+     if ($gymbonus_row['Time'] > 0 && $user_class->admin > 0) {
+
+        $_tt = secondsToHumanReadable($gymbonus_row['Time'] * 60);
+        $messages[] = 'Server Wide Double Gym Gains: ' . (($_tt == 'NOW') ? '@None@' : $_tt);
+
+    }
+
 //$db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
 //$db->execute();
 //$activityContest = $db->fetch_row(true);
