@@ -258,7 +258,7 @@ if ($_GET['key'] === 'srunit') {
                 $db->execute();
 
 
-                $db->query("INSERT INTO gang_territory_zone_history (gang_territory_zone__id, gang_id, takeover_time) VALUES (" . $gangTerritoryZone['id'] . ", " . $attackingGang->id . ", " . time() . ");");
+                $db->query("INSERT INTO gang_territory_zone_history (gang_territory_zone_id, gang_id, takeover_time) VALUES (" . $gangTerritoryZone['id'] . ", " . $attackingGang->id . ", " . time() . ");");
                 $db->execute();
 
                 $db->query("UPDATE gang_territory_zone_battle SET winning_gang_id = " . $attackingGang->id . ", attacking_total_stats = " . $totalAttackingStats . ", defending_total_stats = " . $totalDefendingStats . ", is_complete = 1  WHERE id = " . $gangTerritoryZone['id']);
