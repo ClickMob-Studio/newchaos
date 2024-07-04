@@ -51,6 +51,7 @@ class Gang {
         ));
         $members = $db->fetch_row();
         $this->members = count($members);
+        $this->memberids = $members;
         //  style='border:1px solid #000000;'
         if ($row['banner'] != "")
             $this->formattedname = "<a href='viewgang.php?id=" . $row['id'] . "'><img src='" . $row['banner'] . "' height='75' width='250' /></a>";
