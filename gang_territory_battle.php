@@ -324,7 +324,7 @@ if ($gangTerritoryZoneBattle['speed_defending_user_id']) {
 
 
                 <?php if ($battleInitiationTime > time()): ?>
-                    This battle will take place in <?php echo $battleInitiationTimeForDisplay ?>. Any spots not filled will be left empty for the battle  resulting in a zero value for the empty stat.
+                    There is currently <?php echo $battleInitiationTimeForDisplay ?>. Any spots not filled will be left empty for the battle  resulting in a zero value for the empty stat.
                 <?php else: ?>
                     This battle is ready to take place. All gang members will receive an event once the battle has been complete.
                 <?php endif; ?>
