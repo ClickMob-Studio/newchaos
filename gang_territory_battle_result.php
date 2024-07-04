@@ -284,6 +284,8 @@ if ($gangTerritoryZoneBattle['defense_defending_user_id']) {
         </table>
     </div>
 
+<br /><hr /><br /><br />
+
 <?php
 include("gangheaders.php");
 include 'footer.php';
