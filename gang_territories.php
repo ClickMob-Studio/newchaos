@@ -222,6 +222,11 @@ $ownedGangTerritoryZones = $db->fetch_row();
                 </thead>
                 <tbody>
                     <?php foreach ($gangTerritoryZones as $gangTerritoryZone): ?>
+                        <?php
+                        $db->query("SELECT * FROM gang_territory_zone_battle WHERE (is_complete = 0 OR is_complete IS NULL) AND gang_territory_zone_id = " . $gangTerritoryZone['id']);
+                        $db->execute();
+                        $activegtzb = $db->fetch_row();
+                        ?>
                         <tr>
                             <td>
                                 <?php echo $gangTerritoryZone['name'] ?>
@@ -236,6 +241,10 @@ $ownedGangTerritoryZones = $db->fetch_row();
                                 ?>
                                 <?php if ($remaining > 0): ?>
                                     <span style="color: #FF0000"><i class="fa-solid fa-shield" title="<?php echo number_format($remaining, 0) ?> minutes shield time remaining"></i></span>
+                                <?php endif; ?>
+
+                                <?php if ($activegtzb): ?>
+                                    <span style="color: #FF0000"><i class="fa-solid fa-gun" title="Protection Racket is in a takeover attempt"></i></span>
                                 <?php endif; ?>
                             </td>
                             <td><?php echo getCityNameByID($gangTerritoryZone['city_id']) ?></td>
