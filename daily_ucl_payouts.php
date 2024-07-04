@@ -12,13 +12,13 @@ include 'database/pdo_class.php';
 //    $i = 1;
 //    foreach ($rows as $row) {
 //        if ($i == 1) {
-//            $db->query("UPDATE `grpgusers` SET `points` = `points` + 100000 WHERE `id` = " . $row['user_id']);
+//            $db->query("UPDATE `grpgusers` SET `points` = `points` + 150000 WHERE `id` = " . $row['user_id']);
 //            $db->execute();
 //
 //            Give_Item(270, $row['user_id'], 2);
 //            Give_Item(266, $row['user_id'], 1);
 //
-//            Send_Event($row['user_id'], 'Congratulations on finishing 1st in the Daily Activity Contest, you have been awarded 100k points, 1 x Hourglass Gem & 2 x Stone.');
+//            Send_Event($row['user_id'], 'Congratulations on finishing 1st in the Daily Activity Contest, you have been awarded 150k points, 1 x Hourglass Gem & 2 x Stone.');
 //        }
 //
 //        if ($i == 2) {

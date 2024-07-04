@@ -415,7 +415,6 @@ $results = mysql_query($querys);
 
 
 $activityContestTypes = array(
-    'crimes',
     'backalley',
     'attacks',
     'mugs',
