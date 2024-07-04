@@ -253,7 +253,7 @@ if ($_GET['key'] === 'srunit') {
                     $db->execute();
                 }
 
-                $shieldTime = time() + 7200;
+                $shieldTime = time() + 10800;
                 $db->query("UPDATE gang_territory_zone SET shield_time = " . $shieldTime . ", owned_by_gang_id =  " . $attackingGang->id . " WHERE id = " . $gangTerritoryZone['id']);
                 $db->execute();
 
