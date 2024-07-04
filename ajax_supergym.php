@@ -25,7 +25,7 @@ $modifier = 1.0;
 $mega_train_multiplier = (isset($_POST['mega_train']) && $_POST['mega_train'] === 'yes') ? 10 : 1;
 
 $gymBonus = 0;
-$result = mysql_query("SELECT * FROM gamebonus WHERE ID = 2 LIMIT 1");
+$result = mysql_query("SELECT time FROM gamebonus WHERE ID = 2 LIMIT 1");
 if ($result) {
     $gymbonus = mysql_fetch_assoc($result);
     if ($gymbonus && $gymbonus['time'] > 0) {
