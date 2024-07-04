@@ -200,6 +200,9 @@ if ($gangTerritoryZoneBattle['defense_defending_user_id']) {
             <div class="player">
                 <div class="playerWin <?php if ($gangTerritoryZoneBattle['defending_gang_id'] == $gangTerritoryZoneBattle['winning_gang_id']): ?> winner <?php else: ?> looser <?php endif; ?>">
                     Defending Gang<br />
+                    <?php if ($gangTerritoryZoneBattle['defending_gang_id'] == $gangTerritoryZoneBattle['winning_gang_id']): ?>
+                        <i class="fa-solid fa-trophy"></i>
+                    <?php endif; ?>
                     <?php echo $defendingGang->formattedname ?>
                 </div>
                 <div class="playerName">
