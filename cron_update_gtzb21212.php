@@ -291,11 +291,11 @@ if ($_GET['key'] === 'srunit') {
             }
 
             foreach ($defendingGang->memberids as $member) {
-                Send_Event($member['id'], 'Mobster, a protection racket battle has taken place. <a href="gang_territory_battle_result.php?id=' . $gangTerritoryZoneBattle['id'] . '">Click here to see the results<\/a>.');
+                Send_Event($member['id'], 'Mobster, a protection racket battle has taken place. <a href="gang_territory_battle_result.php?id=' . $gangTerritoryZoneBattle['id'] . '">Click here to see the results</a>.');
             }
 
             foreach ($attackingGang->memberids as $member) {
-                Send_Event($member['id'], 'Mobster, a protection racket battle has taken place. <a href="gang_territory_battle_result.php?id=' . $gangTerritoryZoneBattle['id'] . '">Click here to see the results<\/a>.');
+                Send_Event($member['id'], 'Mobster, a protection racket battle has taken place. <a href="gang_territory_battle_result.php?id=' . $gangTerritoryZoneBattle['id'] . '">Click here to see the results</a>.');
             }
 
         }
