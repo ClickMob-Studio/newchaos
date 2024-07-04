@@ -206,7 +206,7 @@ $ownedGangTerritoryZones = $db->fetch_row();
                 </tbody>
             </table>
         </div>
-        <br /><hr />
+        <br />
 
         <h2>All Protection Rackets</h2>
         <div class="table-container">
@@ -297,7 +297,7 @@ $ownedGangTerritoryZones = $db->fetch_row();
     </div>
 </div>
 
-<br /><hr />
+<br /><br /><hr />
 
 <?php
 include("gangheaders.php");
