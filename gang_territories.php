@@ -5,6 +5,9 @@ if ($user_class->gang == 0) {
     diefun('Your not in a gang');
 }
 
+$gang = new Gang($user_class->gang);
+$user_rank = new GangRank($user_class->grank);
+
 $db->query("SELECT * FROM gang_territory_zone_battle WHERE attacking_gang_id = " . $user_class->gang . " AND (is_complete IS NULL OR is_complete = 0)");
 $db->execute();
 $attackingGangTerritoryBattles = $db->fetch_row();
@@ -19,19 +22,20 @@ if (isset($_GET['action']) && $_GET['action'] === 'claim' && isset($_GET['id']) 
     $gangTerritoryZone = $db->fetch_row(true);
 
     if ($gangTerritoryZone['owned_by_gang_id']) {
-        diefun('You can\'t claim a territory that is already owned by a regiment.');
+        diefun('You can\'t claim a protection racket that is already owned by a gang.');
     }
 
-    // TODO: Permissions
+    if ($user_rank->gangwars != 1) {
+        diefun('You don\'t have permission to claim a protection racket');
+    }
 
     $shieldTime = time() + 7200;
     $db->query("UPDATE gang_territory_zone SET owned_by_gang_id = " . $user_class->gang . ", shield_time = " . $shieldTime . " WHERE id = " . $gangTerritoryZone['id']);
     $db->execute();
 
-    // TODO: Update members with event
-//    foreach ($gang->GetAllMembers() as $gangMember) {
-//        Event::Add($gangMember->id, 'Your regiment has claimed the territory ' . $this->name . '. Keep an eye out for any potential takeover attempts from other regiments.');
-//    }
+    foreach ($gang->memberids as $memberids) {
+        Send_Event($memberids['id'], 'Your gang has claimed the protection racket ' . $gangTerritoryZone['name'] . '. Keep an eye out for any potential takeover attempts from other gangs.');
+    }
 
     $db->query("INSERT INTO gang_territory_zone_history (gang_territory_zone__id, gang_id, takeover_time) VALUES (" . $gangTerritoryZone['id'] . ", " . $user_class->gang . ", " . time() . ");");
     $db->execute();
@@ -52,7 +56,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'attack' && isset($_GET['id'])
 
     $gang = $user_class->gang;
 
-    // TODO: Check Permissions
+    if ($user_rank->gangwars != 1) {
+        diefun('You don\'t have permission to do this');
+    }
 
     if (!$gangTerritoryZone['owned_by_gang_id']) {
         diefun('You can only attempt a takeover on a territory that has already been claimed.');
@@ -86,18 +92,14 @@ if (isset($_GET['action']) && $_GET['action'] === 'attack' && isset($_GET['id'])
     ");
     $db->execute();
 
+    $defendingGang = new Gang($gangTerritoryZone['owned_by_gang_id']);
+    foreach ($defendingGang->memberids as $memberids) {
+        Send_Event($memberids['id'], 'Mobster, ready yourself for battle! A gang is attempting a takeover on one of your protection rackets. <a href="gang_territories.php">Go to Protection Rackets</a>');
+    }
 
-
-    // TODO:
-//    $defendingGang = new Gang($this->owned_by_gang_id);
-//    foreach ($defendingGang->GetAllMembers() as $defendingGangMember) {
-//        Event::Add($defendingGangMember->id, 'Soldier, ready yourself for battle! ' . Gang::StaticGetPublicFormattedName($gang->id) . ' are attempting a takeover on one of your territories. <a href="gang_territories.php">Go to Territories</a>');
-//    }
-
-    // TODO:
-//    foreach ($gang->GetAllMembers() as $attackingGangMember) {
-//        Event::Add($attackingGangMember->id, 'Soldier, ready yourself for battle! Your regiment is attempting a territory takeover. <a href="gang_territories.php">Go to Territories</a>');
-//    }
+    foreach ($gang->memberids as $memberids) {
+        Send_Event($memberids['id'], 'Mobster, ready yourself for battle! Your gang is attempting a takeover of a protection racket. <a href="gang_territories.php">Go to Protection Rackets</a>');
+    }
 
     diefun('You have successfully initiated a takeover of the Protection Racket. All gang members will be informed to prepare for the battle. The battle will commence in 30 minutes time.');
 }
@@ -274,7 +276,6 @@ $ownedGangTerritoryZones = $db->fetch_row();
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <!-- TODO: Permissions -->
                                 <?php if ($gangTerritoryZone['owned_by_gang_id'] > 0): ?>
                                     <?php if ($gangTerritoryZone['owned_by_gang_id'] == $user_class->gang): ?>
                                         <?php if (getActiveGangTerritoryZoneBattle($gangTerritoryZone['id'])): ?>
@@ -282,10 +283,14 @@ $ownedGangTerritoryZones = $db->fetch_row();
                                             <a href="gang_territory_battle.php?id=<?php echo $activeGangTerritoryBattle['id'] ?>" class="button">Defend</a>
                                         <?php endif; ?>
                                     <?php else: ?>
-                                        <a href="gang_territories.php?action=attack&id=<?php echo $gangTerritoryZone['id'] ?>" class="button">Attack</a>
+                                        <?php if ($user_rank->gangwars = 1): ?>
+                                            <a href="gang_territories.php?action=attack&id=<?php echo $gangTerritoryZone['id'] ?>" class="button">Attack</a>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 <?php else: ?>
-                                    <a href="gang_territories.php?action=claim&id=<?php echo $gangTerritoryZone['id'] ?>" class="button">Claim</a>
+                                    <?php if ($user_rank->gangwars = 1): ?>
+                                        <a href="gang_territories.php?action=claim&id=<?php echo $gangTerritoryZone['id'] ?>" class="button">Claim</a>
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             </td>
                         </tr>
