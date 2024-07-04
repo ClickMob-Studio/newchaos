@@ -61,7 +61,7 @@ if ($payment_status == "Completed") {
 
     $creditsbought = $creditsbought * 2;
 
-    $result = mysql_query("UPDATE `grpgusders` SET credits = credits + $creditsbought, christmasraffle = christmasraffle + $payment_amount, donationmonth = donationmonth + $creditsbought WHERE `id` = {$userId}");
+    $result = mysql_query("UPDATE `grpgusers` SET credits = credits + $creditsbought, christmasraffle = christmasraffle + $payment_amount, donationmonth = donationmonth + $creditsbought WHERE `id` = {$userId}");
     Send_Event($userId, "Your $creditsbought Credit(s) have just been credited. PayPal Transaction ID: " . $txn_id . ".", $userId);
     Send_Event(1, "$payment_amount Dolla Donation for $creditsbought credits. by $userId. PayPal Transaction ID: " . $txn_id . ".", 1);
     Send_Event(2, "$payment_amount Dolla Donation for $creditsbought credits. by $userId. PayPal Transaction ID: " . $txn_id . ".", 1);
