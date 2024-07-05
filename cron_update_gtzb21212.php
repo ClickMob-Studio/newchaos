@@ -189,15 +189,15 @@ if ($_GET['key'] === 'srunit') {
                 // Attacking users go to hospital
                 $hosptime = 120;
                 $hosphow = 'territorybattle';
-                if (isset($strengthAttackingUser) && $strengthAttackingUser) {
+                if ($gangTerritoryZoneBattle['strength_attacking_user_id'] > 0 && isset($strengthAttackingUser) && $strengthAttackingUser) {
                     $db->query("UPDATE grpgusers SET hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $strengthAttackingUser->id);
                     $db->execute();
                 }
-                if (isset($defenseAttackingUser) && $defenseAttackingUser) {
+                if ($gangTerritoryZoneBattle['defense_attacking_user_id'] > 0 &&  isset($defenseAttackingUser) && $defenseAttackingUser) {
                     $db->query("UPDATE grpgusers SET hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $defenseAttackingUser->id);
                     $db->execute();
                 }
-                if (isset($speedAttackingUser) && $speedAttackingUser) {
+                if ($gangTerritoryZoneBattle['speed_attacking_user_id'] > 0 && isset($speedAttackingUser) && $speedAttackingUser) {
                     $db->query("UPDATE grpgusers SET hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $speedAttackingUser->id);
                     $db->execute();
                 }
@@ -240,15 +240,15 @@ if ($_GET['key'] === 'srunit') {
                 // Defending users go to hospital
                 $hosptime = 120;
                 $hosphow = 'territorybattle';
-                if (isset($strengthDefendingUser) && $strengthDefendingUser) {
+                if ($gangTerritoryZoneBattle['strength_defending_user_id'] > 0 && isset($strengthDefendingUser) && $strengthDefendingUser) {
                     $db->query("UPDATE grpgusers SET hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $strengthDefendingUser->id);
                     $db->execute();
                 }
-                if (isset($defenseDefendingUser) && $defenseDefendingUser) {
+                if ($gangTerritoryZoneBattle['defense_defending_user_id'] > 0 && isset($defenseDefendingUser) && $defenseDefendingUser) {
                     $db->query("UPDATE grpgusers SET hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $defenseDefendingUser->id);
                     $db->execute();
                 }
-                if (isset($speedDefendingUser) && $speedDefendingUser) {
+                if ($gangTerritoryZoneBattle['speed_defending_user_id'] > 0 && isset($speedDefendingUser) && $speedDefendingUser) {
                     $db->query("UPDATE grpgusers SET hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $speedDefendingUser->id);
                     $db->execute();
                 }
