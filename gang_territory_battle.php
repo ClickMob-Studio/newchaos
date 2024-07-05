@@ -80,7 +80,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'join' && isset($_GET['spot'])
         if ($gangTerritoryZoneBattle['strength_attacking_user_id']) {
             diefun('Someone has already occupied the spot your trying to fill.');
         } else {
-            $db->query("UPDATE gang_territory_zone_battle SET strength_attacking_user_id = " . $user_class->id);
+            $db->query("UPDATE gang_territory_zone_battle SET strength_attacking_user_id = " . $user_class->id . " WHERE id = " . $gangTerritoryZoneBattle['id']);
             $db->execute();
 
             header('Location: ' . $url);
@@ -90,7 +90,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'join' && isset($_GET['spot'])
         if ($gangTerritoryZoneBattle['defense_attacking_user_id']) {
             diefun('Someone has already occupied the spot your trying to fill.');
         } else {
-            $db->query("UPDATE gang_territory_zone_battle SET defense_attacking_user_id = " . $user_class->id);
+            $db->query("UPDATE gang_territory_zone_battle SET defense_attacking_user_id = " . $user_class->id . " WHERE id = " . $gangTerritoryZoneBattle['id']);
             $db->execute();
 
             header('Location: ' . $url);
@@ -100,7 +100,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'join' && isset($_GET['spot'])
         if ($gangTerritoryZoneBattle['speed_attacking_user_id']) {
             diefun('Someone has already occupied the spot your trying to fill.');
         } else {
-            $db->query("UPDATE gang_territory_zone_battle SET speed_attacking_user_id = " . $user_class->id);
+            $db->query("UPDATE gang_territory_zone_battle SET speed_attacking_user_id = " . $user_class->id . " WHERE id = " . $gangTerritoryZoneBattle['id']);
             $db->execute();
 
             header('Location: ' . $url);
@@ -111,7 +111,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'join' && isset($_GET['spot'])
         if ($gangTerritoryZoneBattle['strength_defending_user_id']) {
             diefun('Someone has already occupied the spot your trying to fill.');
         } else {
-            $db->query("UPDATE gang_territory_zone_battle SET strength_defending_user_id = " . $user_class->id);
+            $db->query("UPDATE gang_territory_zone_battle SET strength_defending_user_id = " . $user_class->id . " WHERE id = " . $gangTerritoryZoneBattle['id']);
             $db->execute();
 
             header('Location: ' . $url);
@@ -121,7 +121,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'join' && isset($_GET['spot'])
         if ($gangTerritoryZoneBattle['defense_defending_user_id']) {
             diefun('Someone has already occupied the spot your trying to fill.');
         } else {
-            $db->query("UPDATE gang_territory_zone_battle SET defense_defending_user_id = " . $user_class->id);
+            $db->query("UPDATE gang_territory_zone_battle SET defense_defending_user_id = " . $user_class->id . " WHERE id = " . $gangTerritoryZoneBattle['id']);
             $db->execute();
 
             header('Location: ' . $url);
@@ -131,7 +131,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'join' && isset($_GET['spot'])
         if ($gangTerritoryZoneBattle['speed_defending_user_id']) {
             diefun('Someone has already occupied the spot your trying to fill.');
         } else {
-            $db->query("UPDATE gang_territory_zone_battle SET speed_defending_user_id = " . $user_class->id);
+            $db->query("UPDATE gang_territory_zone_battle SET speed_defending_user_id = " . $user_class->id . " WHERE id = " . $gangTerritoryZoneBattle['id']);
             $db->execute();
 
             header('Location: ' . $url);
