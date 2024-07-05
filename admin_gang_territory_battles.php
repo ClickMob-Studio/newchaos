@@ -4,7 +4,7 @@ if($user_class->admin < 1) {
     exit();
 }
 
-$db->query("SELECT * FROM gang_territory_zone_battle WHERE is_complete = 1 ORDER BY `timme_started` DESC");
+$db->query("SELECT * FROM gang_territory_zone_battle WHERE is_complete = 1 ORDER BY `time_started` DESC");
 $db->execute();
 $fetch = $db->fetch_row();
 
