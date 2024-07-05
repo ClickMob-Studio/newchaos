@@ -49,7 +49,7 @@ if ($_GET['key'] === 'srunit') {
             }
             $defendingSpeed = 0;
             if ($gangTerritoryZoneBattle['speed_defending_user_id']) {
-                $speedDefendingUser = new User($gangTerritoryZoneBattle['defense_defending_user_id']);
+                $speedDefendingUser = new User($gangTerritoryZoneBattle['speed_defending_user_id']);
 
                 if ($defenseDefendingUser->city == $gangTerritoryZone['city_id']) {
                     $defendingSpeed += $strengthDefendingUser->moddedspeed;
@@ -82,7 +82,7 @@ if ($_GET['key'] === 'srunit') {
             }
             $attackingSpeed = 0;
             if ($gangTerritoryZoneBattle['speed_attacking_user_id']) {
-                $speedAttackingUser = new User($gangTerritoryZoneBattle['defense_attacking_user_id']);
+                $speedAttackingUser = new User($gangTerritoryZoneBattle['speed_attacking_user_id']);
 
                 if ($speedAttackingUser->city == $gangTerritoryZone['city_id']) {
                     $attackingSpeed += $speedAttackingUser->moddedspeed;
@@ -190,15 +190,15 @@ if ($_GET['key'] === 'srunit') {
                 $hosptime = 120;
                 $hosphow = 'territorybattle';
                 if ($gangTerritoryZoneBattle['strength_attacking_user_id'] > 0 && isset($strengthAttackingUser) && $strengthAttackingUser) {
-                    $db->query("UPDATE grpgusers SET 6hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $strengthAttackingUser->id);
+                    $db->query("UPDATE grpgusers SET hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $strengthAttackingUser->id);
                     $db->execute();
                 }
                 if ($gangTerritoryZoneBattle['defense_attacking_user_id'] > 0 &&  isset($defenseAttackingUser) && $defenseAttackingUser) {
-                    $db->query("UPDATE grpgusers SET 5hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $defenseAttackingUser->id);
+                    $db->query("UPDATE grpgusers SET hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $defenseAttackingUser->id);
                     $db->execute();
                 }
                 if ($gangTerritoryZoneBattle['speed_attacking_user_id'] > 0 && isset($speedAttackingUser) && $speedAttackingUser) {
-                    $db->query("UPDATE grpgusers SET 4hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $speedAttackingUser->id);
+                    $db->query("UPDATE grpgusers SET hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $speedAttackingUser->id);
                     $db->execute();
                 }
 
@@ -241,15 +241,15 @@ if ($_GET['key'] === 'srunit') {
                 $hosptime = 120;
                 $hosphow = 'territorybattle';
                 if ($gangTerritoryZoneBattle['strength_defending_user_id'] > 0 && isset($strengthDefendingUser) && $strengthDefendingUser) {
-                    $db->query("UPDATE grpgusers SET 1hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $strengthDefendingUser->id);
+                    $db->query("UPDATE grpgusers SET hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $strengthDefendingUser->id);
                     $db->execute();
                 }
                 if ($gangTerritoryZoneBattle['defense_defending_user_id'] > 0 && isset($defenseDefendingUser) && $defenseDefendingUser) {
-                    $db->query("UPDATE grpgusers SET 2hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $defenseDefendingUser->id);
+                    $db->query("UPDATE grpgusers SET hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $defenseDefendingUser->id);
                     $db->execute();
                 }
                 if ($gangTerritoryZoneBattle['speed_defending_user_id'] > 0 && isset($speedDefendingUser) && $speedDefendingUser) {
-                    $db->query("UPDATE grpgusers SET 3hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $speedDefendingUser->id);
+                    $db->query("UPDATE grpgusers SET hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $speedDefendingUser->id);
                     $db->execute();
                 }
 
