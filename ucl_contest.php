@@ -1,6 +1,10 @@
 <?php
 include 'header.php';
 
+if ($user_class->admin < 1) {
+    exit;
+}
+
 date_default_timezone_set('Europe/London'); // This will automatically account for BST as well.
 
 $targetDateMilliseconds = strtotime('June 10, 2024 21:00:00') * 1000;
