@@ -29,6 +29,14 @@ if (isset($_GET['action']) && $_GET['action'] === 'claim' && isset($_GET['id']) 
         diefun('You don\'t have permission to claim a protection racket');
     }
 
+    $db->query("SELECT * FROM gang_territory_zone WHERE owned_by_gang_id = " . $user_class->gang);
+    $db->execute();
+    $ownedGangTerritoryZones = $db->fetch_row();
+
+    if (count($ownedGangTerritoryZones) >= 4) {
+        diefun('Gangs are limited to owning 4 territories. You must loose a territory before you can claim another.');
+    }
+
     $shieldTime = time() + 7200;
     $db->query("UPDATE gang_territory_zone SET owned_by_gang_id = " . $user_class->gang . ", shield_time = " . $shieldTime . " WHERE id = " . $gangTerritoryZone['id']);
     $db->execute();
@@ -53,6 +61,14 @@ if (isset($_GET['action']) && $_GET['action'] === 'attack' && isset($_GET['id'])
     $db->query("SELECT * FROM gang_territory_zone WHERE id = " . $attackId);
     $db->execute();
     $gangTerritoryZone = $db->fetch_row(true);
+
+    $db->query("SELECT * FROM gang_territory_zone WHERE owned_by_gang_id = " . $user_class->gang);
+    $db->execute();
+    $ownedGangTerritoryZones = $db->fetch_row();
+
+    if (count($ownedGangTerritoryZones) >= 4) {
+        diefun('Gangs are limited to owning 4 territories. You must loose a territory before you can claim another.');
+    }
 
     $gang = $user_class->gang;
 
