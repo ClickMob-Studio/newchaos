@@ -19,6 +19,18 @@ foreach ($rows as $row)
 							<div class='pad'>
 <?php
 
+if ($user_class->gang > 0) {
+    $tempItemUse = getItemTempUse($user_class->id);
+    $now = time();
+    if ($tempItemUse['gang_double_exp_hours'] > 0 && $tempItemUse['gang_double_exp_time'] < $now) {
+        echo '
+            <hr />
+            <a href="trigger_doublexp_hour.php" onclick="return confirm(\'Are you sure you want to trigger double EXP?\');"><font color=red>You have ' . $tempItemUse['gang_double_exp_hours'] . ' hours of double EXP! Click to run 1 hour of double exp.</font></a>
+            <hr />
+        ';
+    }
+}
+
 if (isset($_POST['move_to_cabinet'])) {
     $itemid = intval($_POST['itemid']);
     $quantity = intval($_POST['quantity']);  // Assuming you want to allow users to specify a quantity
