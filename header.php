@@ -1535,13 +1535,13 @@ if ($bonus_row['Time'] > 0) {
 //}
 
 
-if ($user_class->gang > 0) {
-    $tempItemUse = getItemTempUse($user_class->id);
-    $now = time();
-    if ($tempItemUse['gang_double_exp_hours'] > 0 && $tempItemUse['gang_double_exp_time'] < $now) {
-        $messages[] = '<a href="trigger_doublexp_hour.php" onclick="return confirm(\'Are you sure you want to trigger double EXP?\');"><font color=red>You have ' . $tempItemUse['gang_double_exp_hours'] . ' hours of double EXP! Click to run 1 hour of double exp.</font></a>';
-    }
-}
+//if ($user_class->gang > 0) {
+//    $tempItemUse = getItemTempUse($user_class->id);
+//    $now = time();
+//    if ($tempItemUse['gang_double_exp_hours'] > 0 && $tempItemUse['gang_double_exp_time'] < $now) {
+//        $messages[] = '<a href="trigger_doublexp_hour.php" onclick="return confirm(\'Are you sure you want to trigger double EXP?\');"><font color=red>You have ' . $tempItemUse['gang_double_exp_hours'] . ' hours of double EXP! Click to run 1 hour of double exp.</font></a>';
+//    }
+//}
 
 // if ($user_class->cityturns > 29) {
 //     $messages[] = '<a href="maze.php">You Have Maze Searches Available</a>';
