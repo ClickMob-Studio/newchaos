@@ -257,14 +257,19 @@ if ($gangTerritoryZoneBattle['defense_defending_user_id']) {
         <table class="fightTable" style="width: 100%;" cellpadding="0" cellspacing="0">
             <tbody>
             <?php foreach ($gangTerritoryZoneBattleLogs as $gangTerritoryZoneBattleLog): ?>
+                <?php
+                $btzblAttackingGang = new Gang($gangTerritoryZoneBattleLog['attacking_gang_id']);
+                $btzblDefendingGang = new Gang($gangTerritoryZoneBattleLog['defending_gang_id']);
+                ?>
+
                 <tr class="sectionProfile">
                     <td class="sectionProfile" style="text-align: center;">
                         <?php if ($gangTerritoryZoneBattleLog['is_first_attack']): ?>
-                            Due to their impeccable speed, <strong><?php echo $attackingGang->formattedname ?></strong> attack first and deal
-                            <strong><?php echo number_format($gangTerritoryZoneBattleLog['damage'], 0) ?></strong> damage against <strong><?php echo $defendingGang->formattedname ?></strong>.
+                            Due to their impeccable speed, <strong><?php echo $btzblAttackingGang->formattedname ?></strong> attack first and deal
+                            <strong><?php echo number_format($gangTerritoryZoneBattleLog['damage'], 0) ?></strong> damage against <strong><?php echo $btzblDefendingGang->formattedname ?></strong>.
                         <?php else: ?>
-                            <strong><?php echo $attackingGang->formattedname ?></strong> attack and deal <strong><?php echo number_format($gangTerritoryZoneBattleLog['damage'], 0) ?></strong> damage against
-                            <strong><?php echo $defendingGang->formattedname ?></strong>.
+                            <strong><?php echo $btzblAttackingGang->formattedname ?></strong> attack and deal <strong><?php echo number_format($gangTerritoryZoneBattleLog['damage'], 0) ?></strong> damage against
+                            <strong><?php echo $btzblDefendingGang->formattedname ?></strong>.
                         <?php endif; ?>
                     </td>
                 </tr>
