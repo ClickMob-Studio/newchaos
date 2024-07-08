@@ -118,8 +118,8 @@ if ($_GET['key'] === 'srunit') {
                           (:gang_territory_zone_battle_id,:attacking_gang_id,:defending_gang_id,:is_first_attack, :damage)
                     ");
                     $db->bind(':gang_territory_zone_battle_id', $gangTerritoryZoneBattle['id']);
-                    $db->bind(':attacking_gang_id', $attackingGang->id);
-                    $db->bind(':defending_gang_id', $defendingGang->id);
+                    $db->bind(':attacking_gang_id', $defendingGang->id);
+                    $db->bind(':defending_gang_id', $attackingGang->id);
                     $db->bind(':is_first_attack', $isFirstAttack);
                     $db->bind(':damage', $damage);
                     $db->execute();
