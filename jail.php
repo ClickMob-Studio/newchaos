@@ -71,6 +71,7 @@ if ($jailbreak != ""){
                     'busts' => 1,
                     'exp' => $exp
                 ));
+                updateGangActiveMission($user_class, 'busts', 1);
                 $toadd = array('botd' => 1);
                 ofthes($user_class->id, $toadd);
                 bloodbath('busts', $user_class->id);
