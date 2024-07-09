@@ -1857,7 +1857,7 @@ function updateGangActiveMission($field, $value) {// Function to check if the us
             }
 
             // Update the field in the active mission
-            $updateQuery = "UPDATE active_gang_missions SET {$field} = {$field} + {$value} WHERE gangid = '{$user_class->gang}' AND completed = 0 LIMIT 1";
+            $updateQuery = "UPDATE active_gang_missions SET {$field} = {$field} + {$value} WHERE gangid = {$user_class->gang} AND completed = 0 LIMIT 1";
             if (!mysql_query($updateQuery)) {
                 die('Failed to update the mission: ' . mysql_error());
             }
