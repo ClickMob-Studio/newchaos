@@ -106,10 +106,8 @@ if ($_GET['key'] === 'srunit') {
                     $damage = $defendingStrength - $attackingDefense;
                     $damage = ($damage < 1) ? 1 : $damage;
 
-                    if ($damage == 1) {
-                        if ($attackingSpeed < $defendingSpeed) {
-                            $damage = rand(100, 200);
-                        }
+                    if ($damage <= 1) {
+                        $damage = rand(100, 200);
                     }
 
 
@@ -134,10 +132,8 @@ if ($_GET['key'] === 'srunit') {
                     $damage = $attackingStrength - $defendingDefense;
                     $damage = ($damage < 1) ? 1 : $damage;
 
-                    if ($damage == 1) {
-                        if ($defendingSpeed < $attackingSpeed) {
-                            $damage = rand(100, 200);
-                        }
+                    if ($damage <= 1) {
+                        $damage = rand(100, 200);
                     }
 
                     $defendingHealth = $defendingHealth - $damage;
