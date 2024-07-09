@@ -91,6 +91,13 @@ if ($_GET['key'] === 'srunit') {
             }
             $totalAttackingStats = $attackingHealth + $attackingStrength + $attackingSpeed + $attackingDefense;
 
+            if ($attackingHealth <= 1) {
+                $attackingHealth = 100;
+            }
+            if ($defendingHealth <= 1) {
+                $defendingHealth = 100;
+            }
+
             // Attacking gang goes first naturally, check if defending have greater speed, if they do they'll go first.
             $wait = 0;
             $isFirstAttack = 1;
