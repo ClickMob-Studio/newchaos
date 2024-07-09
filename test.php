@@ -1,3 +1,3 @@
 <?php
 require "header.php";
-updateGangActiveMission($user_class, 'busts', 1);
+updateGangActiveMission('busts', 1);
