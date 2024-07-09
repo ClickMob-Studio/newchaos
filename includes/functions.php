@@ -1841,26 +1841,39 @@ function Get_Item_name($id){
         return 'Unknown Item';
     }
 }
-// Function to check if the user is in a gang with a current mission and update the active mission
-function updateGangActiveMission( $field, $value) {
-    global $user_class;
+function updateGangActiveMission($field, $value) {
+    global $user_class, $db;
     // Check if the user is in a gang
     if ($user_class->gang != 0) {
+
+        
         // Check for an active mission
-        $checkActiveMission = mysql_query("SELECT agm.kills, agm.busts, agm.crimes, agm.mugs, gm.name, gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.reward, gm.time AS 'mission_time', UNIX_TIMESTAMP() AS 'current_time', agm.end_time FROM active_gang_missions agm JOIN gang_missions gm ON agm.mission_id = gm.id WHERE agm.gangid = '{$user_class->gang}' AND agm.completed = 0 LIMIT 1");
-        if (!$checkActiveMission) {
-            die('Invalid query: ' . mysql_error());
-        }
+        $checkActiveMissionQuery = "SELECT agm.kills, agm.busts, agm.crimes, agm.mugs, gm.name, gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.reward, gm.time AS 'mission_time', UNIX_TIMESTAMP() AS 'current_time', agm.end_time 
+                                    FROM active_gang_missions agm 
+                                    JOIN gang_missions gm ON agm.mission_id = gm.id 
+                                    WHERE agm.gangid = :gangid AND agm.completed = 0 
+                                    LIMIT 1";
+        $db->query($checkActiveMissionQuery);
+        $db->bind(':gangid', $user_class->gang);
+        $activeMission = $db->fetch_row(true);
 
         // If there's an active mission, update the specified field
-        if ($activeMission = mysql_fetch_assoc($checkActiveMission)) {
+        if ($activeMission) {
             // Update the field in the active mission
-            $updateQuery = "UPDATE active_gang_missions SET {$field} = {$field} + {$value} WHERE gangid = '{$user_class->gang}' AND completed = 0 LIMIT 1";
-            if (!mysql_query($updateQuery)) {
-                die('Failed to update the mission: ' . mysql_error());
+            $updateQuery = "UPDATE active_gang_missions 
+                            SET {$field} = {$field} + :value 
+                            WHERE gangid = :gangid AND completed = 0 
+                            LIMIT 1";
+            $db->query($updateQuery);
+            $db->bind(':value', $value);
+            $db->bind(':gangid', $user_class->gang);
+
+            if (!$db->execute()) {
+                die('Failed to update the mission: ' . $db->error());
             }
         }
     }
+}  }
 }
 function generateMacroToken($length = 10) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
