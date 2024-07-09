@@ -1841,8 +1841,8 @@ function Get_Item_name($id){
         return 'Unknown Item';
     }
 }
-function updateGangActiveMission($user_class, $field, $value) {
-  global $db;
+function updateGangActiveMission( $field, $value) {
+  global $db, $user_class;
 
     // Check if the user is in a gang
     if ($user_class->gang != 0) {

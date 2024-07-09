@@ -74,7 +74,7 @@ if (isset($_GET['jailbreak'])  && $_GET['jailbreak'] == 'bot') {
         $user_class->jail_bot_credits = $user_class->jail_bot_credits - 1;
         mission('b');
         newmissions('busts');
-        updateGangActiveMission($user_class, 'busts', 1);
+        updateGangActiveMission('busts', 1);
         gangContest(array(
             'busts' => 1,
             'exp' => $exp
