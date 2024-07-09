@@ -1842,7 +1842,8 @@ function Get_Item_name($id){
     }
 }
 // Function to check if the user is in a gang with a current mission and update the active mission
-function updateGangActiveMission($user_class, $field, $value) {
+function updateGangActiveMission( $field, $value) {
+    global $user_class;
     // Check if the user is in a gang
     if ($user_class->gang != 0) {
         // Check for an active mission
