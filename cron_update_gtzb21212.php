@@ -97,6 +97,9 @@ if ($_GET['key'] === 'srunit') {
             if ($attackingSpeed > $defendingSpeed) {
                 $wait = 1;
             }
+            if ($attackingSpeed == $defendingSpeed) {
+                $wait = 1;
+            }
 
             while ($defendingHealth > 0 && $attackingHealth > 0) {
                 if ($wait == 0) {
