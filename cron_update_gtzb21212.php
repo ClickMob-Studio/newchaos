@@ -99,13 +99,10 @@ if ($_GET['key'] === 'srunit') {
             }
 
             // Attacking gang goes first naturally, check if defending have greater speed, if they do they'll go first.
-            $wait = 0;
+            $wait = 1;
             $isFirstAttack = 1;
-            if ($attackingSpeed > $defendingSpeed) {
-                $wait = 1;
-            }
-            if ($attackingSpeed == $defendingSpeed) {
-                $wait = 1;
+            if ($defendingSpeed > $attackingSpeed) {
+                $wait = 0;
             }
 
             while ($defendingHealth > 0 && $attackingHealth > 0) {
