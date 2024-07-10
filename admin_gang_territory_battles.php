@@ -10,11 +10,12 @@ $fetch = $db->fetch_row();
 
 ?>
 
-<h1>Protection Rackety Battles</h1>
+<h1>Protection Racket Battles</h1>
 <table>
     <thead>
     <th>Attacking Gang</th>
     <th>Defending Gang</th>
+    <th>Time Started</th>
     <th>View</th>
     </thead>
     <tbody>

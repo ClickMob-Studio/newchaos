@@ -143,6 +143,20 @@ if ($gangTerritoryZoneBattle['defense_defending_user_id']) {
     /* end AttackReport */
 </style>
 
+    <?php if ($user_class->admin > 0): ?>
+        <h1>Admin Logs</h1>
+
+        <ul>
+            <li><strong>Initial Wait:</strong> <?php echo $gangTerritoryZoneBattle['initial_wait'] ?></li>
+            <li><strong>Attacking Strength:</strong> <?php echo number_format($gangTerritoryZoneBattle['attacking_strength'], 0) ?></li>
+            <li><strong>Defending Strength:</strong> <?php echo number_format($gangTerritoryZoneBattle['defending_strength'], 0) ?></li>
+            <li><strong>Attacking Speed:</strong> <?php echo number_format($gangTerritoryZoneBattle['attacking_speed'], 0) ?></li>
+            <li><strong>Defending Speed:</strong> <?php echo number_format($gangTerritoryZoneBattle['defending_speed'], 0) ?></li>
+            <li><strong>Attacking Defense:</strong> <?php echo number_format($gangTerritoryZoneBattle['attacking_defense'], 0) ?></li>
+            <li><strong>Defending Defense:</strong> <?php echo number_format($gangTerritoryZoneBattle['defending_defense'], 0) ?></li>
+        </ul>
+    <?php endif; ?>
+
     <h1>Protection Racket Battle Result</h1>
 
     <div class='contentBox' >
