@@ -515,6 +515,7 @@ if ($theirhp <= 0) {
 
     mission('k');
     newmissions('kills');
+    updateGangActiveMission('kills', 1);
     gangContest(array(
         'kills' => 1,
         'exp' => $expwon
