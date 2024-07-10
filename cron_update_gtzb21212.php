@@ -104,6 +104,7 @@ if ($_GET['key'] === 'srunit') {
             if ($defendingSpeed > $attackingSpeed) {
                 $wait = 0;
             }
+            $initialWait = $wait;
 
             while ($defendingHealth > 0 && $attackingHealth > 0) {
                 if ($wait == 0) {
@@ -209,7 +210,7 @@ if ($_GET['key'] === 'srunit') {
                 $db->query("UPDATE gang_territory_zone SET shield_time = " . $shieldTime . "  WHERE id = " . $gangTerritoryZone['id']);
                 $db->execute();
 
-                $db->query("UPDATE gang_territory_zone_battle SET winning_gang_id = " . $defendingGang->id . ", attacking_total_stats = " . $totalAttackingStats . ", defending_total_stats = " . $totalDefendingStats . ", is_complete = 1  WHERE id = " . $gangTerritoryZoneBattle['id']);
+                $db->query("UPDATE gang_territory_zone_battle SET initial_wait = " . $initialWait . ", winning_gang_id = " . $defendingGang->id . ", attacking_total_stats = " . $totalAttackingStats . ", defending_total_stats = " . $totalDefendingStats . ", is_complete = 1  WHERE id = " . $gangTerritoryZoneBattle['id']);
                 $db->execute();
             } else {
                 // Attacking Team Won
@@ -264,7 +265,7 @@ if ($_GET['key'] === 'srunit') {
                 $db->query("INSERT INTO gang_territory_zone_history (gang_territory_zone_id, gang_id, takeover_time) VALUES (" . $gangTerritoryZone['id'] . ", " . $attackingGang->id . ", " . time() . ");");
                 $db->execute();
 
-                $db->query("UPDATE gang_territory_zone_battle SET winning_gang_id = " . $attackingGang->id . ", attacking_total_stats = " . $totalAttackingStats . ", defending_total_stats = " . $totalDefendingStats . ", is_complete = 1  WHERE id = " . $gangTerritoryZoneBattle['id']);
+                $db->query("UPDATE gang_territory_zone_battle SET initial_wait = " . $initialWait . ", winning_gang_id = " . $attackingGang->id . ", attacking_total_stats = " . $totalAttackingStats . ", defending_total_stats = " . $totalDefendingStats . ", is_complete = 1  WHERE id = " . $gangTerritoryZoneBattle['id']);
                 $db->execute();
             }
 
