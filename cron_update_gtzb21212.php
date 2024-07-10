@@ -269,27 +269,27 @@ if ($_GET['key'] === 'srunit') {
             }
 
             if ($strengthDefendingUser && $strengthDefendingUser->city == $gangTerritoryZone['city_id']) {
-                $db->query("UPDATE gang_territory_zone_battle SET is_strength_defending_user = 1  WHERE id = " . $gangTerritoryZoneBattle['id']);
+                $db->query("UPDATE gang_territory_zone_battle SET defending_strength = " . $defendingStrength . ", is_strength_defending_user = 1  WHERE id = " . $gangTerritoryZoneBattle['id']);
                 $db->execute();
             }
             if ($defenseDefendingUser && $defenseDefendingUser->city == $gangTerritoryZone['city_id']) {
-                $db->query("UPDATE gang_territory_zone_battle SET is_defense_defending_user = 1  WHERE id = " . $gangTerritoryZoneBattle['id']);
+                $db->query("UPDATE gang_territory_zone_battle SET defending_defense = " . $defendingDefense . ", is_defense_defending_user = 1  WHERE id = " . $gangTerritoryZoneBattle['id']);
                 $db->execute();
             }
             if ($speedDefendingUser && $speedDefendingUser->city == $gangTerritoryZone['city_id']) {
-                $db->query("UPDATE gang_territory_zone_battle SET is_speed_defending_user = 1  WHERE id = " . $gangTerritoryZoneBattle['id']);
+                $db->query("UPDATE gang_territory_zone_battle SET defending_speed = " . $defendingSpeed . ", is_speed_defending_user = 1  WHERE id = " . $gangTerritoryZoneBattle['id']);
                 $db->execute();
             }
             if ($strengthAttackingUser && $strengthAttackingUser->city == $gangTerritoryZone['city_id']) {
-                $db->query("UPDATE gang_territory_zone_battle SET is_strength_attacking_user = 1  WHERE id = " . $gangTerritoryZoneBattle['id']);
+                $db->query("UPDATE gang_territory_zone_battle SET attacking_strength = " . $attackingStrength . ", is_strength_attacking_user = 1  WHERE id = " . $gangTerritoryZoneBattle['id']);
                 $db->execute();
             }
             if ($defenseAttackingUser && $defenseAttackingUser->city == $gangTerritoryZone['city_id']) {
-                $db->query("UPDATE gang_territory_zone_battle SET is_defense_attacking_user = 1  WHERE id = " . $gangTerritoryZoneBattle['id']);
+                $db->query("UPDATE gang_territory_zone_battle SET attacking_defense = " . $attackingDefense . ", is_defense_attacking_user = 1  WHERE id = " . $gangTerritoryZoneBattle['id']);
                 $db->execute();
             }
             if ($speedAttackingUser && $speedAttackingUser->city == $gangTerritoryZone['city_id']) {
-                $db->query("UPDATE gang_territory_zone_battle SET is_speed_attacking_user = 1  WHERE id = " . $gangTerritoryZoneBattle['id']);
+                $db->query("UPDATE gang_territory_zone_battle SET attacking_speed = " . $attackingSpeed . ", is_speed_attacking_user = 1  WHERE id = " . $gangTerritoryZoneBattle['id']);
                 $db->execute();
             }
 
