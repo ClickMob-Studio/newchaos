@@ -26,7 +26,7 @@ $fetch = $db->fetch_row();
         <tr>
             <td><?php echo $attackingGang->name ?></td>
             <td><?php echo $defendingGang->name ?></td>
-            <td><?php echo date( "m/d/Y", strtotime($row['time_started'])); ?></td>
+            <td><?php echo date( "m/d/Y", $row['time_started']); ?></td>
             <td><a href="gang_territory_battle_result.php?id=<?php echo $row['id'] ?>">View</a></td>
         </tr>
     <?php endforeach;?>
