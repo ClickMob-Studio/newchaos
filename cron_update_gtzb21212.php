@@ -43,8 +43,8 @@ if ($_GET['key'] === 'srunit') {
                 $defenseDefendingUser = new User($gangTerritoryZoneBattle['defense_defending_user_id']);
 
                 if ($defenseDefendingUser->city == $gangTerritoryZone['city_id']) {
-                    $defendingDefense += $strengthDefendingUser->moddeddefense;
-                    $defendingHealth += $strengthDefendingUser->hp;
+                    $defendingDefense += $defenseDefendingUser->moddeddefense;
+                    $defendingHealth += $defenseDefendingUser->hp;
                 }
             }
             $defendingSpeed = 0;
@@ -52,8 +52,8 @@ if ($_GET['key'] === 'srunit') {
                 $speedDefendingUser = new User($gangTerritoryZoneBattle['speed_defending_user_id']);
 
                 if ($defenseDefendingUser->city == $gangTerritoryZone['city_id']) {
-                    $defendingSpeed += $strengthDefendingUser->moddedspeed;
-                    $defendingHealth += $strengthDefendingUser->hp;
+                    $defendingSpeed += $speedDefendingUser->moddedspeed;
+                    $defendingHealth += $speedDefendingUser->hp;
                 }
             }
             $totalDefendingStats = $defendingHealth + $defendingStrength + $defendingSpeed + $defendingDefense;
