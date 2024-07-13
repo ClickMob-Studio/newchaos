@@ -3,9 +3,10 @@ include 'header.php';
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+if ($user_class->gang != 0) {
     $gang_class = new Gang($user_class->gang);
 
-    // Fetch the active mission for the gang
+
     $checkActiveMission = mysql_query("SELECT agm.kills AS current_kills, agm.busts AS current_busts, agm.crimes AS current_crimes, agm.mugs AS current_mugs, gm.name, gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.reward, gm.time AS 'mission_time', UNIX_TIMESTAMP() AS 'current_time', agm.end_time FROM active_gang_missions agm JOIN gang_missions gm ON agm.mission_id = gm.id WHERE agm.gangid = '{$user_class->gang}' AND agm.completed = 0 LIMIT 1");
 
     if (!$checkActiveMission) {
@@ -28,10 +29,10 @@ error_reporting(E_ALL);
                 </tr>
                 <tr>
                     <td>{$activeMission['name']}</td>
-                    <td>{$activeMission['current_kills']} / " . ($activeMission['target_kills'] ?? '0') . "</td>
-                    <td>{$activeMission['current_busts']} / " . ($activeMission['target_busts'] ?? '0') . "</td>
+                    <td>{$activeMission['current_kills']} / " . (isset($activeMission['target_kills']) ? $activeMission['target_kills'] : '0') . "</td>
+                    <td>{$activeMission['current_busts']} / " . (isset($activeMission['target_busts']) ? $activeMission['target_busts'] : '0') . "</td>
                     <td>{$activeMission['current_crimes']} / {$activeMission['target_crimes']}</td>
-                    <td>{$activeMission['current_mugs']} / " . ($activeMission['target_mugs'] ?? '0') . "</td>
+                    <td>{$activeMission['current_mugs']} / " . (isset($activeMission['target_mugs']) ? $activeMission['target_mugs'] : '0') . "</td>
                     <td>{$activeMission['reward']}</td>
                     <td><div id='countdown'>Loading...</div></td>
                 </tr>
@@ -96,7 +97,7 @@ error_reporting(E_ALL);
     }
 
     if (isset($_GET['acceptMission'])) {
-        // First, check if there's already an active, incomplete mission for the gang
+
         $activeMissionCheckQuery = "SELECT 1 FROM active_gang_missions WHERE gangid = '{$user_class->gang}' AND completed = 0 LIMIT 1";
         $activeMissionCheckResult = mysql_query($activeMissionCheckQuery);
         if (!$activeMissionCheckResult) {
@@ -104,10 +105,10 @@ error_reporting(E_ALL);
         }
 
         if (mysql_num_rows($activeMissionCheckResult) > 0) {
-            // There's already an active mission, so don't allow a new one to start
+          
             echo Message("Your gang already has an active mission. Please complete it before starting a new one.");
         } else {
-            // No active mission, proceed to accept a new one
+         
             $missionId = intval($_GET['acceptMission']);
             $missionQuery = "SELECT time FROM gang_missions WHERE id = '{$missionId}' LIMIT 1";
             $missionResult = mysql_query($missionQuery);
@@ -116,10 +117,9 @@ error_reporting(E_ALL);
             }
 
             if ($mission = mysql_fetch_assoc($missionResult)) {
-                $duration = $mission['time'] * 3600; // Assuming 'time' is in hours, converting to seconds
-                $endTime = time() + $duration; // Calculating end time as current time + duration
+                $duration = $mission['time'] * 3600; 
+                $endTime = time() + $duration; 
 
-                // Correctly insert end_time as a Unix timestamp
                 $insertMission = "INSERT INTO active_gang_missions (gangid, mission_id, kills, busts, crimes, mugs, completed, time, end_time) VALUES ('{$user_class->gang}', '{$missionId}', 0, 0, 0, 0, 0, UNIX_TIMESTAMP(), '{$endTime}')";
                 if (!mysql_query($insertMission)) {
                     die('Failed to accept the mission. Error: ' . mysql_error());
