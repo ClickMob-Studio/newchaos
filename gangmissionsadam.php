@@ -82,10 +82,10 @@ if ($user_class->gang != 0) {
             while ($mission = mysql_fetch_assoc($missionsResult)) {
                 echo "<tr>
                         <td>{$mission['name']}</td>
-                        <td>0 / 0</td>
-                        <td>0 / 0</td>
+                        <td>{$mission['kills']}</td>
+                        <td>{$mission['busts']}</td>
                         <td>{$mission['crimes']}</td>
-                        <td>0 / 0</td>
+                        <td>{$mission['mugs']}</td>
                         <td>{$mission['reward']}</td>
                         <td>{$mission['time']}</td>
                         <td><a href='?acceptMission={$mission['id']}'>Accept</a></td>
