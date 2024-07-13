@@ -60,13 +60,13 @@ if ($user_class->gang != 0) {
               </script>";
     } else {
         echo "<h2>Available Missions</h2>";
-        $missionsResult = mysql_query("SELECT * FROM gang_missions WHERE crimes > 0");
+        $missionsResult = mysql_query("SELECT * FROM gang_missions");
 
         if (!$missionsResult) {
             die('Invalid query: ' . mysql_error());
         }
 
-        if (mysql_num_rows($missionsResult) > 0) {
+        while ($mysql_num_rows($missionsResult) > 0) {
             echo "<table border='1'>
                   <tr>
                     <th>Name</th>
