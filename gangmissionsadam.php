@@ -66,7 +66,7 @@ if ($user_class->gang != 0) {
             die('Invalid query: ' . mysql_error());
         }
 
-        while ($mysql_num_rows($missionsResult) > 0) {
+        if (mysql_num_rows($missionsResult) > 0) {
             echo "<table border='1'>
                   <tr>
                     <th>Name</th>
