@@ -34,7 +34,7 @@ if ($user_class->gang != 0) {
                     <td>" . (($activeMission['target_busts'] > 0) ? $activeMission['current_busts'] : '0') . " / " . ($activeMission['target_busts'] ?: '0') . "</td>
                     <td>" . (($activeMission['target_crimes'] > 0) ? $activeMission['current_crimes'] : '0') . " / {$activeMission['target_crimes']}</td>
                     <td>" . (($activeMission['target_mugs'] > 0) ? $activeMission['current_mugs'] : '0') . " / " . ($activeMission['target_mugs'] ?: '0') . "</td>
-                    <td>{$activeMission['reward']}</td>
+                    <td>".number_format($activeMission['reward'])." points</td>
                     <td><div id='countdown'>Loading...</div></td>
                 </tr>
               </table>";
