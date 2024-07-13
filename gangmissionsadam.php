@@ -29,10 +29,10 @@ if ($user_class->gang != 0) {
                 </tr>
                 <tr>
                     <td>{$activeMission['name']}</td>
-                    <td>{$activeMission['current_kills']} / " . (isset($activeMission['target_kills']) ? $activeMission['current_kills'] : '0') . "</td>
-                    <td>{$activeMission['current_busts']} / " . (isset($activeMission['target_busts']) ? $activeMission['current_busts'] : '0') . "</td>
+                    <td>{$activeMission['current_kills']} / " . (isset($activeMission['target_kills']) ? $activeMission['target_kills'] : '0') . "</td>
+                    <td>{$activeMission['current_busts']} / " . (isset($activeMission['target_busts']) ? $activeMission['target_busts'] : '0') . "</td>
                     <td>{$activeMission['current_crimes']} / {$activeMission['target_crimes']}</td>
-                    <td>{$activeMission['current_mugs']} / " . (isset($activeMission['target_mugs']) ? $activeMission['current_mugs'] : '0') . "</td>
+                    <td>{$activeMission['current_mugs']} / " . (isset($activeMission['target_mugs']) ? $activeMission['target_mugs'] : '0') . "</td>
                     <td>{$activeMission['reward']}</td>
                     <td><div id='countdown'>Loading...</div></td>
                 </tr>
