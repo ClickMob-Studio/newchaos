@@ -187,6 +187,7 @@ if ($mug <= 8) {
         if ($mugamount < 1) {
             mission('m');
             newmissions('mugs');
+            updateGangActiveMission('mugs', 1);
             gangContest(array('mugs' => 1));
             bloodbath('mugs', $user_class->id);
             $db->query("UPDATE grpgusers SET mugsucceeded = mugsucceeded + 1, moth = moth + 1, motd = motd + 1 WHERE id = $user_class->id");

@@ -71,6 +71,7 @@ if ($jailbreak != ""){
                     'busts' => 1,
                     'exp' => $exp
                 ));
+                updateGangActiveMission('busts', 1);
                 $toadd = array('botd' => 1);
                 ofthes($user_class->id, $toadd);
                 bloodbath('busts', $user_class->id);
@@ -132,6 +133,7 @@ if ($jailbreak != ""){
                         $toadd = array('botd' => 1);
                         ofthes($user_class->id, $toadd);
                         bloodbath('busts', $user_class->id);
+                        updateGangActiveMission('busts', 1);
                         $result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='".$jailed_person['id']."'");
                         //send even to that person
                         Send_Event($jailed_person['id'], "You have been busted out of Jail by [-_USERID_-].", $user_class->id);

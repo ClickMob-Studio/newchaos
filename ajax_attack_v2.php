@@ -310,6 +310,19 @@ $rtn = array();
 if ($user_class->invincible == 0) {
     if ($attack_person->invincible == 0) {
         while ($yourhp > 0 && $theirhp > 0) {
+            $hitChance = 50;
+            $maxDamage = 100;
+            $criticalHit = 1;
+            $counterAttack = 0;
+
+            if ($wait == 0) {
+                // Attacking Person Attack
+                $damageDifferential = ($attack_person->moddedstrength - $user_class->moddeddefense) / $user_class->moddeddefense;
+
+            } else {
+                // Defending Person Attack
+            }
+
             $damage = round($attack_person->moddedstrength) - $user_class->moddeddefense;
             $damage = ($damage < 1) ? 1 : $damage;
             if ($wait == 0) {

@@ -43,18 +43,29 @@ class Poll {
         } else {
             $ended = (time() > $poll['end']) ? '<font color="red">The Poll has Ended</font>' : '';
             echo "You can only vote for one option on the poll";
-            echo sprintf('%s 
+
+            ?>
+
+            <?php echo $ended ?>
+
             <table width="300px">
-            <tr><td><h1>Question:</h1> %s</td></tr>
-            <tr><td>%s </td><td> %u </td><td> <a href="?x=vote&ID=1">[Vote]</a></td></tr>
-            <tr><td>%s </td><td> %s </td><td> <a href="?x=vote&ID=2">[Vote]</a></td></tr>
-            <tr><td>Ends: %s</td></tr>
-            </table>',
-            $ended,
-            $poll['question'], 
-            $poll['1'], $poll['1_r'], 
-            $poll['2'], $poll['2_r'], 
-            date('Y-m-d', $poll['end']));
+                <tr><td><h1>Question:</h1> <?php echo $poll['question'] ?></td></tr>
+                <?php if ($poll['1']): ?>
+                    <tr><td><?php echo $poll['1'] ?></td><td> <?php echo $poll['1_r'] ?> </td><td> <a href="?x=vote&ID=1">[Vote]</a></td></tr>
+                <?php endif; ?>
+                <?php if ($poll['2']): ?>
+                    <tr><td><?php echo $poll['2'] ?></td><td> <?php echo $poll['2_r'] ?> </td><td> <a href="?x=vote&ID=2">[Vote]</a></td></tr>
+                <?php endif; ?>
+                <?php if ($poll['3']): ?>
+                    <tr><td><?php echo $poll['3'] ?></td><td> <?php echo $poll['3_r'] ?> </td><td> <a href="?x=vote&ID=3">[Vote]</a></td></tr>
+                <?php endif; ?>
+                <?php if ($poll['4']): ?>
+                    <tr><td><?php echo $poll['4'] ?></td><td> <?php echo $poll['4_r'] ?> </td><td> <a href="?x=vote&ID=4">[Vote]</a></td></tr>
+                <?php endif; ?>
+
+                <tr><td>Ends: <?php echo date('Y-m-d', $poll['end']); ?></td></tr>
+            </table>
+            <?php
         }
     }
 

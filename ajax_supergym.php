@@ -24,6 +24,14 @@ $modifier = 1.0;
 
 $mega_train_multiplier = (isset($_POST['mega_train']) && $_POST['mega_train'] === 'yes') ? 10 : 1;
 
+$gymBonus = 0;
+$result = mysql_query("SELECT time FROM gamebonus WHERE ID = 2 LIMIT 1");
+if ($result) {
+    $gymbonus = mysql_fetch_assoc($result);
+    if ($gymbonus && $gymbonus['time'] > 0) {
+        $gymBonus = 2;
+    }
+}
 
 // Fetch the Player's Gang Upgrades
 $result = mysql_query("SELECT upgrade1, upgrade2, upgrade3, upgrade4, upgrade5, upgrade6 from `gangs` WHERE `id` = '" . $user_class->gang . "'");
@@ -124,7 +132,15 @@ if (isset($_POST['what']) AND $_POST['what'] == 'trainrefill') {
             $resAddInc = $add / 100 * $researchAddBoost;
             $add = $add + $resAddInc;
         }
+
+        if ($gymBonus > 0) {
+            $add = $add * 2;
+        }
+
         $add = ceil($add);
+
+
+
         $user_class->$stat += $add;
         $user_class->dailytrains += $add;
 

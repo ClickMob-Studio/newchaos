@@ -370,6 +370,8 @@ if (isset($_POST['id']) || isset($input['id'])) {
             // $db->query("INSERT INTO crime_log (userid, nerve, exp) VALUES (?, ?, ?)");
             // $db->execute(array($user_class->id, $nerve, $exp));
             newmissions($which, $crime_multiplier);
+            updateGangActiveMission('crimes', $crime_multiplier);
+            
             mission('c', $crime_multiplier);
             gangContest(array('crimes' => $crime_multiplier, 'exp' => $exp));
             bloodbath('crimes', $user_class->id, $bbnerve / $user_class->level, $crime_multiplier);

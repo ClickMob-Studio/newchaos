@@ -12,7 +12,7 @@ $perms = array(
     "gforum" => "Gang Forum Powers",
     "upgrade" => "Gang Upgrade",
     "polls" => "Gang Poll Access",
-    "gangwars" => "Manage Gang Wars",
+    "gangwars" => "Manage Gang Wars & Rackets",
     "ganggrad" => "Manage Gang Gradient"
 );
 include 'header.php';
