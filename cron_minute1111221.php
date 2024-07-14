@@ -99,7 +99,7 @@ while ($expiredMission = mysql_fetch_assoc($expiredMissionsResult)) {
         }
 
         // Mark the mission as completed
-        $markCompletedQuery = "UPDATE active_gang_missions SET completed = 1 WHERE id = '$missionId'";
+        $markCompletedQuery = "UPDATE active_gang_missions SET completed = 1 WHERE id = $missionId";
         mysql_query($markCompletedQuery);
     }
 }
