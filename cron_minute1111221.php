@@ -71,9 +71,9 @@ while ($expiredMission = mysql_fetch_assoc($expiredMissionsResult)) {
     }
     $missionDetails = mysql_fetch_assoc($missionDetailsResult);
 
-    $isSuccessful = $expiredMission['kills'] >= $missionDetails['target_kills'] && 
-                    $expiredMission['busts'] >= $missionDetails['target_busts'] &&
-                    $expiredMission['crimes'] >= $missionDetails['target_crimes'] &&
+    $isSuccessful = $expiredMission['kills'] >= $missionDetails['target_kills'] || 
+                    $expiredMission['busts'] >= $missionDetails['target_busts'] ||
+                    $expiredMission['crimes'] >= $missionDetails['target_crimes'] ||
                     $expiredMission['mugs'] >= $missionDetails['target_mugs'];
 
     // Determine if the mission is either successful or has expired
