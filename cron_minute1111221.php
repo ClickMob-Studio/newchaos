@@ -80,7 +80,7 @@ while ($expiredMission = mysql_fetch_assoc($expiredMissionsResult)) {
     if ($isSuccessful || $expiredMission['is_expired']) {
         // Mission is successful or expired, reward the gang if successful
         if ($isSuccessful) {
-            $rewardQuery = "UPDATE gangs SET pointsvault = pointsvault + {$missionDetails['reward']} WHERE id = '{$gangId}'";
+            $rewardQuery = "UPDATE gangs SET pointsvault = pointsvault + {$missionDetails['reward']} WHERE id = {$gangId}";
             mysql_query($rewardQuery);
 
             // Notify gang members about mission completion
@@ -91,7 +91,7 @@ while ($expiredMission = mysql_fetch_assoc($expiredMissionsResult)) {
         }
 
         // Notify all gang members
-        $gangMembersQuery = "SELECT id FROM grpgusers WHERE gang = '$gangId'";
+        $gangMembersQuery = "SELECT id FROM grpgusers WHERE gang = $gangId";
         $gangMembersResult = mysql_query($gangMembersQuery);
         while ($member = mysql_fetch_assoc($gangMembersResult)) {
             $userId = $member['id'];
