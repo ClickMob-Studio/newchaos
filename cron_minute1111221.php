@@ -68,7 +68,7 @@ function checkAndCompleteMission($expiredMission) {
     $missionDetailsQuery = "SELECT gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.reward 
                             FROM gang_missions gm 
                             JOIN active_gang_missions agm ON gm.id = agm.mission_id 
-                            WHERE agm.id = '$missionId' 
+                            WHERE agm.id = $missionId
                             LIMIT 1";
     $missionDetailsResult = mysql_query($missionDetailsQuery);
     $missionDetails = mysql_fetch_assoc($missionDetailsResult);
@@ -79,7 +79,7 @@ function checkAndCompleteMission($expiredMission) {
         $expiredMission['mugs'] >= $missionDetails['target_mugs']) {
         
         // Mission is successful, reward the gang
-        $rewardQuery = "UPDATE gangs SET pointsvault = pointsvault + {$missionDetails['reward']} WHERE id = '{$gangId}'";
+        $rewardQuery = "UPDATE gangs SET pointsvault = pointsvault + {$missionDetails['reward']} WHERE id = {$gangId}";
         mysql_query($rewardQuery);
 
         // Notify gang members about mission completion
