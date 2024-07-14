@@ -45,7 +45,7 @@ while ($yourhp > 0 && $theirhp > 0) {
         $criticalHit = 1;
         $counterAttack = 0;
 
-        $damageDifferential = ($attack_person->moddedstrength - $user_class->moddeddefense) / $user_class->moddeddefense * 100;
+        $damageDifferential = ($attack_person->moddedstrength - $user_class->moddeddefense) / $user_class->moddeddefense * 1000;
         echo $damageDifferential; exit;
 
     } else {
