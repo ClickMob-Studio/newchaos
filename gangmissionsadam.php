@@ -30,10 +30,10 @@ if ($user_class->gang != 0) {
                 </tr>
                 <tr>
                     <td>{$activeMission['name']}</td>
-                    <td>" . (($activeMission['target_kills'] > 0) ? $activeMission['current_kills'] : '0') . " / " . ($activeMission['target_kills'] ?: '0') . "</td>
-                    <td>" . (($activeMission['target_busts'] > 0) ? $activeMission['current_busts'] : '0') . " / " . ($activeMission['target_busts'] ?: '0') . "</td>
-                    <td>" . (($activeMission['target_crimes'] > 0) ? $activeMission['current_crimes'] : '0') . " / {$activeMission['target_crimes']}</td>
-                    <td>" . (($activeMission['target_mugs'] > 0) ? $activeMission['current_mugs'] : '0') . " / " . ($activeMission['target_mugs'] ?: '0') . "</td>
+                    <td>" . (($activeMission['target_kills'] > 0) ? number_format($activeMission['current_kills'], 0) : '0') . " / " . (number_format($activeMission['target_kills'], 0) ?: '0') . "</td>
+                    <td>" . (($activeMission['target_busts'] > 0) ? number_format($activeMission['current_busts'], 0) : '0') . " / " . (number_format($activeMission['target_busts'], 0) ?: '0') . "</td>
+                    <td>" . (($activeMission['target_crimes'] > 0) ? number_format($activeMission['current_crimes'], 0) : '0') . " / " . (number_format($activeMission['target_crimes'], 0) ?: '0') . "</td>
+                    <td>" . (($activeMission['target_mugs'] > 0) ? number_format($activeMission['current_mugs'], 0) : '0') . " / " . (number_format($activeMission['target_mugs'], 0) ?: '0') . "</td>
                     <td>".number_format($activeMission['reward'])." points</td>
                     <td><div id='countdown'>Loading...</div></td>
                 </tr>
@@ -74,7 +74,7 @@ if ($user_class->gang != 0) {
                     <th>Busts</th>
                     <th>Crimes</th>
                     <th>Mugs</th>
-                    <th>Reward</th>
+                    <th>Reward (points)</th>
                     <th>Time (hours)</th>
                     <th>Action</th>
                   </tr>";
@@ -82,11 +82,11 @@ if ($user_class->gang != 0) {
             while ($mission = mysql_fetch_assoc($missionsResult)) {
                 echo "<tr>
                         <td>{$mission['name']}</td>
-                        <td>{$mission['kills']}</td>
-                        <td>{$mission['busts']}</td>
-                        <td>{$mission['crimes']}</td>
-                        <td>{$mission['mugs']}</td>
-                        <td>{$mission['reward']}</td>
+                        <td>" . number_format($mission['kills'], 0) . "</td>
+                        <td>" . number_format($mission['busts'], 0) . "</td>
+                        <td>" . number_format($mission['crimes'], 0) . "</td>
+                        <td>" . number_format($mission['mugs'], 0) . "</td>
+                        <td>" . number_format($mission['reward'], 0) . "</td>
                         <td>{$mission['time']}</td>
                         <td><a href='?acceptMission={$mission['id']}'>Accept</a></td>
                       </tr>";
