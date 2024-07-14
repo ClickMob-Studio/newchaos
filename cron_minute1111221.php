@@ -51,43 +51,51 @@ while ($line = mysql_fetch_assoc($result)) {
         
         
         
-        
- // Check for expired missions
-$expiredMissionsQuery = "SELECT agm.id AS mission_id, agm.gangid FROM active_gang_missions agm WHERE agm.completed = 0 AND agm.end_time < UNIX_TIMESTAMP()";
+ // Check for active missions that are either expired or might have been completed before the end time
+$expiredMissionsQuery = "SELECT agm.id AS mission_id, agm.gangid, agm.end_time < UNIX_TIMESTAMP() AS is_expired FROM active_gang_missions agm WHERE agm.completed = 0";
 $expiredMissionsResult = mysql_query($expiredMissionsQuery);
 
 if (!$expiredMissionsResult) {
-    die('Failed to query expired missions: ' . mysql_error());
+    die('Failed to query missions: ' . mysql_error());
 }
 
-function checkAndCompleteMission($expiredMission) {
+while ($expiredMission = mysql_fetch_assoc($expiredMissionsResult)) {
     $missionId = $expiredMission['mission_id'];
     $gangId = $expiredMission['gangid'];
-
+    
     // Fetch the target criteria from the gang_missions table
-    $missionDetailsQuery = "SELECT gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.reward 
-                            FROM gang_missions gm 
-                            JOIN active_gang_missions agm ON gm.id = agm.mission_id 
-                            WHERE agm.id = $missionId
-                            LIMIT 1";
+    $missionDetailsQuery = "SELECT gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.reward FROM gang_missions gm JOIN active_gang_missions agm ON gm.id = agm.mission_id WHERE agm.id = '$missionId' LIMIT 1";
     $missionDetailsResult = mysql_query($missionDetailsQuery);
+    if (!$missionDetailsResult) {
+        continue;  // Skip if details can't be fetched
+    }
     $missionDetails = mysql_fetch_assoc($missionDetailsResult);
 
-    if ($expiredMission['kills'] >= $missionDetails['target_kills'] && 
-        $expiredMission['busts'] >= $missionDetails['target_busts'] && 
-        $expiredMission['crimes'] >= $missionDetails['target_crimes'] && 
-        $expiredMission['mugs'] >= $missionDetails['target_mugs']) {
-        
-        // Mission is successful, reward the gang
-        $rewardQuery = "UPDATE gangs SET pointsvault = pointsvault + {$missionDetails['reward']} WHERE id = {$gangId}";
-        mysql_query($rewardQuery);
+    $isSuccessful = $expiredMission['kills'] >= $missionDetails['target_kills'] && 
+                    $expiredMission['busts'] >= $missionDetails['target_busts'] &&
+                    $expiredMission['crimes'] >= $missionDetails['target_crimes'] &&
+                    $expiredMission['mugs'] >= $missionDetails['target_mugs'];
 
-        // Notify gang members about mission completion
+    // Determine if the mission is either successful or has expired
+    if ($isSuccessful || $expiredMission['is_expired']) {
+        // Mission is successful or expired, reward the gang if successful
+        if ($isSuccessful) {
+            $rewardQuery = "UPDATE gangs SET pointsvault = pointsvault + {$missionDetails['reward']} WHERE id = '{$gangId}'";
+            mysql_query($rewardQuery);
+
+            // Notify gang members about mission completion
+            $notification = "Congratulations! Your gang has successfully completed the mission. The gang's vault has been rewarded with {$missionDetails['reward']} money.";
+        } else {
+            // Mission failed due to expiration and not meeting criteria
+            $notification = "The mission has ended. Unfortunately, your gang did not complete the mission in time.";
+        }
+
+        // Notify all gang members
         $gangMembersQuery = "SELECT id FROM grpgusers WHERE gang = '$gangId'";
         $gangMembersResult = mysql_query($gangMembersQuery);
         while ($member = mysql_fetch_assoc($gangMembersResult)) {
             $userId = $member['id'];
-            Send_event($userId, "Congratulations! Your gang has successfully completed the mission. The gang's vault has been rewarded with {$missionDetails['reward']} money.");
+            Send_event($userId, $notification);
         }
 
         // Mark the mission as completed
@@ -96,14 +104,7 @@ function checkAndCompleteMission($expiredMission) {
     }
 }
 
-// Fetch missions that are either expired or potentially complete
-$missionsQuery = "SELECT * FROM active_gang_missions WHERE completed = 0 AND (expiry_time <= NOW() OR (kills >= target_kills AND busts >= target_busts AND crimes >= target_crimes AND mugs >= target_mugs))";
-$missionsResult = mysql_query($missionsQuery);
-
-while ($mission = mysql_fetch_assoc($missionsResult)) {
-    checkAndCompleteMission($mission);
-}
-
+        
         
         
         
