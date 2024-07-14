@@ -52,12 +52,12 @@ while ($yourhp > 0 && $theirhp > 0) {
          } else if ($damageDifferential > 25) {
              $damMinPerc = 60;
              $damMaxPerc = 70;
-         } else if ($damageDifferential > -25) {
-             $damMinPerc = 20;
-             $damMaxPerc = 40;
          } else if ($damageDifferential > -50) {
              $damMinPerc = 10;
              $damMaxPerc = 20;
+         } else if ($damageDifferential > -50) {
+             $damMinPerc = 20;
+             $damMaxPerc = 40;
          } else {
              $damMinPerc = 40;
              $damMaxPerc = 50;
