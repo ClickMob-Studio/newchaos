@@ -21,10 +21,10 @@ if ($user_class->gang != 0) {
         echo "<table border='1'>
                 <tr>
                     <th>Name</th>
-                    <th>Kills (Current / Target)</th>
-                    <th>Busts (Current / Target)</th>
-                    <th>Crimes (Current / Target)</th>
-                    <th>Mugs (Current / Target)</th>
+                    <th>Kills</th>
+                    <th>Busts</th>
+                    <th>Crimes</th>
+                    <th>Mugs</th>
                     <th>Reward</th>
                     <th>Time Remaining</th>
                 </tr>
