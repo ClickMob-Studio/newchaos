@@ -63,7 +63,31 @@ if ($damageDifferential > 50) {
 }
 
 echo $damMinPerc . ' - ' . $damMaxPerc . ' - ';
-echo $damageDifferential; exit;
+echo $damageDifferential;
+
+echo '<br /><hr /><br />';
+
+$damageDifferential = ($user_class->moddedstrength - $attack_person->moddeddefense) / $attack_person->moddeddefense;
+if ($damageDifferential > 50) {
+    $damMinPerc = 70;
+    $damMaxPerc = 80;
+} else if ($damageDifferential > 25) {
+    $damMinPerc = 60;
+    $damMaxPerc = 70;
+} else if ($damageDifferential > -50) {
+    $damMinPerc = 10;
+    $damMaxPerc = 20;
+} else if ($damageDifferential > -50) {
+    $damMinPerc = 20;
+    $damMaxPerc = 40;
+} else {
+    $damMinPerc = 40;
+    $damMaxPerc = 50;
+}
+
+echo $damMinPerc . ' - ' . $damMaxPerc . ' - ';
+echo $damageDifferential;
+
 
 while ($yourhp > 0 && $theirhp > 0) {
     if ($wait == 0) {
