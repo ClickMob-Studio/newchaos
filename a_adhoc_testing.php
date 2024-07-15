@@ -9,11 +9,14 @@ $maxDamage = 100;
 $criticalHit = 1;
 $counterAttack = 0;
 
+
+echo $attack_person->formattedname . '<br />';
 echo 'Defender Strength: ' . $attack_person->moddedstrength . '<br />';
 echo 'Defender Defense: ' . $attack_person->moddeddefense . '<br />';
 echo 'Defender Speed: ' . $attack_person->moddedspeed . '<br />';
 echo '<br />';
 
+echo $user_class->formattedname . '<br />';
 echo 'Attacker Strength: ' . $user_class->moddedstrength . '<br />';
 echo 'Attacker Defense: ' . $user_class->moddeddefense . '<br />';
 echo 'Attacker Speed: ' . $user_class->moddedspeed . '<br />';
