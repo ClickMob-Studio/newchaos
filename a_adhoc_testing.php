@@ -35,36 +35,39 @@ $theirhp = $attack_person->hp;
 
 $wait = 0;
 
+// Person being attacked, attacking user
+$hitChance = 50;
+$maxDamage = 100;
+if ($attack_person->moddedstrength > $user_class->moddeddefense) {
+    $maxDamage = $maxDamage * 2;
+}
+$criticalHit = 1;
+$counterAttack = 0;
+
+$damageDifferential = ($attack_person->moddedstrength - $user_class->moddeddefense) / $user_class->moddeddefense;
+if ($damageDifferential > 50) {
+    $damMinPerc = 70;
+    $damMaxPerc = 80;
+} else if ($damageDifferential > 25) {
+    $damMinPerc = 60;
+    $damMaxPerc = 70;
+} else if ($damageDifferential > -50) {
+    $damMinPerc = 10;
+    $damMaxPerc = 20;
+} else if ($damageDifferential > -50) {
+    $damMinPerc = 20;
+    $damMaxPerc = 40;
+} else {
+    $damMinPerc = 40;
+    $damMaxPerc = 50;
+}
+
+echo $damMinPerc . ' - ' . $damMaxPerc . ' - ';
+echo $damageDifferential; exit;
+
 while ($yourhp > 0 && $theirhp > 0) {
     if ($wait == 0) {
-        $hitChance = 50;
-        $maxDamage = 100;
-        if ($attack_person->moddedstrength > $user_class->moddeddefense) {
-            $maxDamage = $maxDamage * 2;
-        }
-        $criticalHit = 1;
-        $counterAttack = 0;
 
-        $damageDifferential = ($attack_person->moddedstrength - $user_class->moddeddefense) / $user_class->moddeddefense;
-         if ($damageDifferential > 50) {
-             $damMinPerc = 70;
-             $damMaxPerc = 80;
-         } else if ($damageDifferential > 25) {
-             $damMinPerc = 60;
-             $damMaxPerc = 70;
-         } else if ($damageDifferential > -50) {
-             $damMinPerc = 10;
-             $damMaxPerc = 20;
-         } else if ($damageDifferential > -50) {
-             $damMinPerc = 20;
-             $damMaxPerc = 40;
-         } else {
-             $damMinPerc = 40;
-             $damMaxPerc = 50;
-         }
-
-        echo $damMinPerc . ' - ' . $damMaxPerc . ' - ';
-        echo $damageDifferential; exit;
 
     } else {
     }
