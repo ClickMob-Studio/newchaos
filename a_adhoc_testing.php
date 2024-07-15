@@ -2,7 +2,7 @@
 
 include 'header.php';
 
-$attack_person = new User(720);
+$attack_person = new User(5);
 
 $hitChance = 50;
 $maxDamage = 100;
