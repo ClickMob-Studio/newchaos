@@ -54,6 +54,10 @@ while ($yourhp > 0 && $theirhp > 0) {
         echo '<hr />';
 
     } else {
+        $wait = 0;
+    }
+
+    if ($yourhp > 0) {
         $damage = getAttackDamage($user_class, $attack_person);
         $theirhp = $theirhp - $damage;
 
@@ -63,8 +67,6 @@ while ($yourhp > 0 && $theirhp > 0) {
         echo 'Their HP: ' . $theirhp . ' <br />';
         echo '<hr />';
     }
-
-    $wait = 0;
 }
 
 if ($theirhp > 0) {
@@ -72,9 +74,6 @@ if ($theirhp > 0) {
 } else {
     echo 'Winner: ' . $user_class->formattedname;
 }
-
-
-var_dump($damageDifferential);
 exit;
 
 echo 'done'; exit;
