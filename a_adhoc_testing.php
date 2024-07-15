@@ -30,8 +30,8 @@ echo '<br />';
 
 echo '<hr />';
 
-$yourhp = $user_class->hp;
-$theirhp = $attack_person->hp;
+$yourhp = $user_class->maxhp;
+$theirhp = $attack_person->maxhp;
 
 // Person being attacked, attacking user
 $hitChance = 50;
