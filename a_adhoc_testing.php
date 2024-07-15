@@ -33,85 +33,44 @@ echo '<hr />';
 $yourhp = $user_class->hp;
 $theirhp = $attack_person->hp;
 
-$wait = 0;
-
 // Person being attacked, attacking user
 $hitChance = 50;
-$maxDamage = 100;
-if ($attack_person->moddedstrength > $user_class->moddeddefense) {
-    $maxDamage = $maxDamage * 2;
-}
 $criticalHit = 1;
 $counterAttack = 0;
 
-$damageDifferential = ($attack_person->moddedstrength - $user_class->moddeddefense) / $user_class->moddeddefense;
-if ($damageDifferential > 50) {
-    $damMinPerc = 70;
-    $damMaxPerc = 80;
-} else if ($damageDifferential > 25) {
-    $damMinPerc = 60;
-    $damMaxPerc = 70;
-} else if ($damageDifferential > -50) {
-    $damMinPerc = 10;
-    $damMaxPerc = 20;
-} else if ($damageDifferential > -50) {
-    $damMinPerc = 20;
-    $damMaxPerc = 40;
-} else {
-    $damMinPerc = 40;
-    $damMaxPerc = 50;
-}
-
-echo $damMinPerc . ' - ' . $damMaxPerc . ' - ';
-echo $damageDifferential;
-
-echo '<br /><hr /><br />';
-
-$damageDifferential = ($user_class->moddedstrength - $attack_person->moddeddefense) / $attack_person->moddeddefense;
-if ($damageDifferential > 50) {
-    $damMinPerc = 70;
-    $damMaxPerc = 80;
-} else if ($damageDifferential > 25) {
-    $damMinPerc = 60;
-    $damMaxPerc = 70;
-} else if ($damageDifferential > -50) {
-    $damMinPerc = 10;
-    $damMaxPerc = 20;
-} else if ($damageDifferential > -50) {
-    $damMinPerc = 20;
-    $damMaxPerc = 40;
-} else {
-    $damMinPerc = 40;
-    $damMaxPerc = 50;
-}
-
-echo $damMinPerc . ' - ' . $damMaxPerc . ' - ';
-echo $damageDifferential;
-
+echo 'Your HP: ' . $yourhp . ' <br />';
+echo 'Their HP: ' . $theirhp . ' <br />';
+echo '<hr />';
 
 while ($yourhp > 0 && $theirhp > 0) {
     if ($wait == 0) {
+        $damage = getAttackDamage($attack_person, $user_class);
+        $yourhp = $yourhp - $damage;
 
+        echo 'Attacker: ' . $attack_person->formattedname . ' <br />';
+        echo 'Damage: ' . $damage . ' <br />';
+        echo 'Your HP: ' . $yourhp . ' <br />';
+        echo 'Their HP: ' . $theirhp . ' <br />';
+        echo '<hr />';
 
     } else {
+        $damage = getAttackDamage($user_class, $attack_person);
+        $theirhp = $theirhp - $damage;
+
+        echo 'Attacker: ' . $user_class->formattedname . ' <br />';
+        echo 'Damage: ' . $damage . ' <br />';
+        echo 'Your HP: ' . $yourhp . ' <br />';
+        echo 'Their HP: ' . $theirhp . ' <br />';
+        echo '<hr />';
     }
 
-//    $damage = round($attack_person->moddedstrength) - $user_class->moddeddefense;
-//    $damage = ($damage < 1) ? 1 : $damage;
-//    if ($wait == 0) {
-//        $yourhp = $yourhp - $damage;
-//        $number++;
-//        $rtn[] = $number . ":&nbsp;" . $attack_person->formattedname . " hit you for " . prettynum($damage) . " damage using their " . $attack_person->weaponname . ". <br>";
-//    } else {
-//        $wait = 0;
-//    }
-//    if ($yourhp > 0) {
-//        $damage = round($user_class->moddedstrength) - $attack_person->moddeddefense;
-//        $damage = ($damage < 1) ? 1 : $damage;
-//        $theirhp = $theirhp - $damage;
-//        $number++;
-//        $rtn[] = $number . ":&nbsp;" . "You hit " . $attack_person->formattedname . " for " . prettynum($damage) . " damage using your " . $user_class->weaponname . ". <br>";
-//    }
+    $wait = 0;
+}
+
+if ($theirhp > 0) {
+    echo 'Winner: ' . $attack_person->formattedname;
+} else {
+    echo 'Winner: ' . $user_class->formattedname;
 }
 
 

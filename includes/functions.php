@@ -2436,3 +2436,34 @@ function getTimeRemainingForDisplay($time)
 
     return number_format(($time / 60), 0) . ' minutes until battle';
 }
+
+function getAttackDamage($attacker, $defender)
+{
+    $maxDamage = 100;
+    if ($attacker->moddedstrength > $defender->moddeddefense) {
+        $maxDamage = $maxDamage * 2;
+    }
+
+    $damageDifferential = ($attacker->moddedstrength - $defender->moddeddefense) / $defender->moddeddefense;
+    if ($damageDifferential > 50) {
+        $damMinPerc = 70;
+        $damMaxPerc = 80;
+    } else if ($damageDifferential > 25) {
+        $damMinPerc = 60;
+        $damMaxPerc = 70;
+    } else if ($damageDifferential > -50) {
+        $damMinPerc = 10;
+        $damMaxPerc = 20;
+    } else if ($damageDifferential > -50) {
+        $damMinPerc = 20;
+        $damMaxPerc = 40;
+    } else {
+        $damMinPerc = 40;
+        $damMaxPerc = 50;
+    }
+
+    $lowMaxDamage = $maxDamage / 100 * $damMinPerc;
+    $highMaxDamage = $maxDamage / 100 * $damMaxPerc;
+
+    return  mt_rand($lowMaxDamage, $highMaxDamage);
+}
