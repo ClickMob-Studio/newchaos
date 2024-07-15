@@ -11,15 +11,15 @@ $counterAttack = 0;
 
 
 echo $attack_person->formattedname . '<br />';
-echo 'Defender Strength: ' . $attack_person->moddedstrength . '<br />';
-echo 'Defender Defense: ' . $attack_person->moddeddefense . '<br />';
-echo 'Defender Speed: ' . $attack_person->moddedspeed . '<br />';
+echo 'Defender Strength: ' . number_format($attack_person->moddedstrength, 0) . '<br />';
+echo 'Defender Defense: ' . number_format($attack_person->moddeddefense, 0) . '<br />';
+echo 'Defender Speed: ' . number_format($attack_person->moddedspeed, 0) . '<br />';
 echo '<br />';
 
 echo $user_class->formattedname . '<br />';
-echo 'Attacker Strength: ' . $user_class->moddedstrength . '<br />';
-echo 'Attacker Defense: ' . $user_class->moddeddefense . '<br />';
-echo 'Attacker Speed: ' . $user_class->moddedspeed . '<br />';
+echo 'Attacker Strength: ' . number_format($user_class->moddedstrength, 0) . '<br />';
+echo 'Attacker Defense: ' . number_format($user_class->moddeddefense, 0) . '<br />';
+echo 'Attacker Speed: ' . number_format($user_class->moddedspeed, 0) . '<br />';
 echo '<br />';
 
 echo '<hr />';
