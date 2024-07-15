@@ -2440,9 +2440,6 @@ function getTimeRemainingForDisplay($time)
 function getAttackDamage($attacker, $defender)
 {
     $maxDamage = 5000;
-    if ($attacker->moddedstrength > $defender->moddeddefense) {
-        $maxDamage = $maxDamage * 2;
-    }
 
     $damageDifferential = ($attacker->moddedstrength - $defender->moddeddefense) / $defender->moddeddefense;
     if ($damageDifferential > 50) {
@@ -2463,7 +2460,9 @@ function getAttackDamage($attacker, $defender)
     }
 
     $damageDifferentialThousand = $damageDifferential / 100;
-    echo $damageDifferentialThousand; exit;
+    if ($damageDifferentialThousand > 0) {
+        $maxDamage = $maxDamage + ceil($damageDifferentialThousand);
+    }
 
     $lowMaxDamage = $maxDamage / 100 * $damMinPerc;
     $highMaxDamage = $maxDamage / 100 * $damMaxPerc;
