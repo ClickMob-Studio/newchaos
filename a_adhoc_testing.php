@@ -47,7 +47,6 @@ echo '<hr />';
 
 echo log($attack_person->moddedstrength, $user_class->moddeddefense) . '<br />';
 echo log($user_class->moddedstrength, $attack_person->moddeddefense) . '<br />';
-exit;
 
 while ($yourhp > 0 && $theirhp > 0) {
     if ($wait == 0) {
