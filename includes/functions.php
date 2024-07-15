@@ -2439,7 +2439,7 @@ function getTimeRemainingForDisplay($time)
 
 function getAttackDamage($attacker, $defender)
 {
-    $maxDamage = 1000;
+    $maxDamage = 2000;
     if ($attacker->moddedstrength > $defender->moddeddefense) {
         $maxDamage = $maxDamage * 2;
     }
