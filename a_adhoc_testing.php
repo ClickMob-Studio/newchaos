@@ -2,7 +2,7 @@
 
 include 'header.php';
 
-$attack_person = new User(1);
+$attack_person = new User(4);
 
 $hitChance = 50;
 $maxDamage = 100;
@@ -44,6 +44,10 @@ $counterAttack = 0;
 echo 'Your HP: ' . $yourhp . ' <br />';
 echo 'Their HP: ' . $theirhp . ' <br />';
 echo '<hr />';
+
+echo log($attack_person->moddedstrength, $user_class->moddeddefense) . '<br />';
+echo log($user_class->moddedstrength, $attack_person->moddeddefense) . '<br />';
+exit;
 
 while ($yourhp > 0 && $theirhp > 0) {
     if ($wait == 0) {
