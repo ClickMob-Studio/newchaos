@@ -2459,8 +2459,7 @@ function getAttackDamage($attacker, $defender)
         $damMaxPerc = 50;
     }
 
-    $damageDifferentialThousand = $damageDifferential / 10;
-    echo $damageDifferentialThousand . ' - ';
+    $damageDifferentialThousand = $damageDifferential;
     if ($damageDifferentialThousand > 0) {
         $maxDamage = $maxDamage + ceil($damageDifferentialThousand);
     }
