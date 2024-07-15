@@ -17,7 +17,7 @@ include 'header.php';
 if (isset($_POST['attack_id']) && $_POST['attack_id']) {
     $attackId = (int)$_GET['attack_id'];
 
-    $attack_person = new User(1);
+    $attack_person = new User($attackId);
 
     $hitChance = 50;
     $maxDamage = 100;
