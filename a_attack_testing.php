@@ -29,12 +29,14 @@ if (isset($_POST['attack_id']) && $_POST['attack_id']) {
     echo 'Defender Strength: ' . number_format($attack_person->moddedstrength, 0) . '<br />';
     echo 'Defender Defense: ' . number_format($attack_person->moddeddefense, 0) . '<br />';
     echo 'Defender Speed: ' . number_format($attack_person->moddedspeed, 0) . '<br />';
+    echo 'Defender Agility: ' . number_format($attack_person->moddedagility, 0) . '<br />';
     echo '<br />';
 
     echo $user_class->formattedname . '<br />';
     echo 'Attacker Strength: ' . number_format($user_class->moddedstrength, 0) . '<br />';
     echo 'Attacker Defense: ' . number_format($user_class->moddeddefense, 0) . '<br />';
     echo 'Attacker Speed: ' . number_format($user_class->moddedspeed, 0) . '<br />';
+    echo 'Attacker Agility: ' . number_format($user_class->moddedagility, 0) . '<br />';
     echo '<br />';
 
     echo '<hr />';
@@ -51,7 +53,7 @@ if (isset($_POST['attack_id']) && $_POST['attack_id']) {
     $yourhp = $user_class->maxhp;
     $theirhp = $attack_person->maxhp;
 
-// Person being attacked, attacking user
+    // Person being attacked, attacking user
     $hitChance = 50;
     $criticalHit = 1;
     $counterAttack = 0;
@@ -62,37 +64,67 @@ if (isset($_POST['attack_id']) && $_POST['attack_id']) {
 
     while ($yourhp > 0 && $theirhp > 0) {
         if ($wait == 0) {
-            $damageResult = getAttackDamage($attack_person, $user_class);
-            $damage = $damageResult['damage'];
-            $yourhp = $yourhp - $damage;
-
-            echo 'Attacker: ' . $attack_person->formattedname . ' <br />';
-            if ($damageResult['is_critical_hit']) {
-                echo 'Damage: ' . $damage . ' *** CRITICAL HIT ***<br />';
-            } else {
-                echo 'Damage: ' . $damage . ' <br />';
+            $hitChance = 50;
+            if ($attack_person->moddedspeed > $user_class->moddedagility) {
+                $hitChance = $hitChance + 20;
             }
-            echo 'Your HP: ' . $yourhp . ' <br />';
-            echo 'Their HP: ' . $theirhp . ' <br />';
-            echo '<hr />';
+
+            if (mt_rand(1,100) > $hitChance) {
+                // Missed
+                echo 'Attacker: ' . $attack_person->formattedname . ' <br />';
+                echo 'MISSED<br />';
+                echo 'Your HP: ' . $yourhp . ' <br />';
+                echo 'Their HP: ' . $theirhp . ' <br />';
+                echo '<hr />';
+            } else {
+                // Hit
+                $damageResult = getAttackDamage($attack_person, $user_class);
+                $damage = $damageResult['damage'];
+                $yourhp = $yourhp - $damage;
+
+                echo 'Attacker: ' . $attack_person->formattedname . ' <br />';
+                if ($damageResult['is_critical_hit']) {
+                    echo 'Damage: ' . $damage . ' *** CRITICAL HIT ***<br />';
+                } else {
+                    echo 'Damage: ' . $damage . ' <br />';
+                }
+                echo 'Your HP: ' . $yourhp . ' <br />';
+                echo 'Their HP: ' . $theirhp . ' <br />';
+                echo '<hr />';
+            }
         } else {
             $wait = 0;
         }
 
         if ($yourhp > 0) {
-            $damageResult = getAttackDamage($user_class, $attack_person);
-            $damage = $damageResult['damage'];
-            $theirhp = $theirhp - $damage;
-
-            echo 'Attacker: ' . $user_class->formattedname . ' <br />';
-            if ($damageResult['is_critical_hit']) {
-                echo 'Damage: ' . $damage . ' *** CRITICAL HIT ***<br />';
-            } else {
-                echo 'Damage: ' . $damage . ' <br />';
+            $hitChance = 50;
+            if ($user_class->moddedspeed > $attack_person->moddedagility) {
+                $hitChance = $hitChance + 20;
             }
-            echo 'Your HP: ' . $yourhp . ' <br />';
-            echo 'Their HP: ' . $theirhp . ' <br />';
-            echo '<hr />';
+
+            if (mt_rand(1,100) > $hitChance) {
+                // Missed
+                echo 'Attacker: ' . $user_class->formattedname . ' <br />';
+                echo 'MISSED<br />';
+                echo 'Your HP: ' . $yourhp . ' <br />';
+                echo 'Their HP: ' . $theirhp . ' <br />';
+                echo '<hr />';
+            } else {
+                // Hit
+                $damageResult = getAttackDamage($user_class, $attack_person);
+                $damage = $damageResult['damage'];
+                $theirhp = $theirhp - $damage;
+
+                echo 'Attacker: ' . $user_class->formattedname . ' <br />';
+                if ($damageResult['is_critical_hit']) {
+                    echo 'Damage: ' . $damage . ' *** CRITICAL HIT ***<br />';
+                } else {
+                    echo 'Damage: ' . $damage . ' <br />';
+                }
+                echo 'Your HP: ' . $yourhp . ' <br />';
+                echo 'Their HP: ' . $theirhp . ' <br />';
+                echo '<hr />';
+            }
         }
     }
 
