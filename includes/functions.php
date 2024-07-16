@@ -2444,6 +2444,7 @@ function getAttackDamage($attacker, $defender)
 
     $log = log($attacker->moddedstrength, $defender->moddeddefense);
     $maxDamage = $maxDamage * $log;
+    $maxDamage = ceil($maxDamage);
 
     if ($log > 2) {
         $damMinPerc = 70;
