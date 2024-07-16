@@ -97,7 +97,7 @@ if (isset($_POST['attack_id']) && $_POST['attack_id']) {
         }
 
         if ($yourhp > 0) {
-            $hitChance = 50;
+            $hitChance = 60;
             if ($user_class->moddedspeed > $attack_person->moddedagility) {
                 $hitChance = $hitChance + 20;
             }
@@ -106,6 +106,7 @@ if (isset($_POST['attack_id']) && $_POST['attack_id']) {
                 // Missed
                 echo 'Attacker: ' . $user_class->formattedname . ' <br />';
                 echo 'MISSED<br />';
+                echo 'HIT CHANCE ' . $hitChance . '<br />';
                 echo 'Your HP: ' . $yourhp . ' <br />';
                 echo 'Their HP: ' . $theirhp . ' <br />';
                 echo '<hr />';
