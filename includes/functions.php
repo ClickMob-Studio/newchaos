@@ -2441,9 +2441,9 @@ function getAttackDamage($attacker, $defender)
 {
     $criticalHit = 1;
     if ($attacker->moddedstrength > $defender->moddeddefense) {
-        $maxDamage = 7000;
+        $maxDamage = 10000;
     } else {
-        $maxDamage = 5000;
+        $maxDamage = 7000;
     }
 
     $log = log($attacker->moddedstrength, $defender->moddeddefense);
@@ -2463,7 +2463,7 @@ function getAttackDamage($attacker, $defender)
         $damMinPerc = 40;
         $damMaxPerc = 50;
     } else {
-        $damMinPerc = 10;
+        $damMinPerc = 20;
         $damMaxPerc = 30;
     }
 
