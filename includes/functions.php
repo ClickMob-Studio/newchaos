@@ -2444,12 +2444,21 @@ function getAttackDamage($attacker, $defender)
     $log = log($attacker->moddedstrength, $defender->moddeddefense);
     $maxDamage = $maxDamage * $log;
 
-    if ($log > 1) {
-        $damMinPerc = 50;
+    if ($log > 2) {
+        $damMinPerc = 70;
         $damMaxPerc = 80;
+    } else if ($log > 1.6) {
+        $damMinPerc = 60;
+        $damMaxPerc = 70;
+    } else if ($log > 1.3) {
+        $damMinPerc = 50;
+        $damMaxPerc = 60;
+    } else if ($log > 1) {
+        $damMinPerc = 40;
+        $damMaxPerc = 50;
     } else {
         $damMinPerc = 10;
-        $damMaxPerc = 40;
+        $damMaxPerc = 30;
     }
 
     $lowMaxDamage = $maxDamage / 100 * $damMinPerc;
