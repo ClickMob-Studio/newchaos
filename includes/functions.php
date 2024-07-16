@@ -2440,7 +2440,11 @@ function getTimeRemainingForDisplay($time)
 function getAttackDamage($attacker, $defender)
 {
     $criticalHit = 1;
-    $maxDamage = 5000;
+    if ($attacker->moddedstrength > $defender->moddeddefense) {
+        $maxDamage = 6000;
+    } else {
+        $maxDamage = 4000;
+    }
 
     $log = log($attacker->moddedstrength, $defender->moddeddefense);
     $maxDamage = $maxDamage * $log;
