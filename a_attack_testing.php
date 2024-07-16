@@ -56,7 +56,7 @@ if (isset($_POST['attack_id']) && $_POST['attack_id']) {
 
     while ($yourhp > 0 && $theirhp > 0) {
         if ($wait == 0) {
-            $hitChance = 50;
+            $hitChance = 70;
             if ($attack_person->moddedspeed > $user_class->moddedagility) {
                 $hitChance = $hitChance + 20;
             }
@@ -90,7 +90,7 @@ if (isset($_POST['attack_id']) && $_POST['attack_id']) {
         }
 
         if ($yourhp > 0) {
-            $hitChance = 60;
+            $hitChance = 70;
             if ($user_class->moddedspeed > $attack_person->moddedagility) {
                 $hitChance = $hitChance + 20;
             }
