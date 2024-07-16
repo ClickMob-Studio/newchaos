@@ -80,7 +80,7 @@ if (isset($_POST['attack_id']) && $_POST['attack_id']) {
         }
 
         if ($yourhp > 0) {
-            $damageResult = getAttackDamage($attack_person, $user_class);
+            $damageResult = getAttackDamage($user_class, $attack_person);
             $damage = $damageResult['damage'];
             $theirhp = $theirhp - $damage;
 
