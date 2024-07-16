@@ -62,6 +62,7 @@ if (isset($_POST['attack_id']) && $_POST['attack_id']) {
                 // Missed
                 echo 'Attacker: ' . $attack_person->formattedname . ' <br />';
                 echo 'MISSED<br />';
+                echo 'HIT CHANCE ' . $hitChance . '<br />';
                 echo 'Your HP: ' . $yourhp . ' <br />';
                 echo 'Their HP: ' . $theirhp . ' <br />';
                 echo '<hr />';
