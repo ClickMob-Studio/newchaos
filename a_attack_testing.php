@@ -19,12 +19,6 @@ if (isset($_POST['attack_id']) && $_POST['attack_id']) {
 
     $attack_person = new User($attackId);
 
-    $hitChance = 50;
-    $maxDamage = 100;
-    $criticalHit = 1;
-    $counterAttack = 0;
-
-
     echo $attack_person->formattedname . '<br />';
     echo 'Defender Strength: ' . number_format($attack_person->moddedstrength, 0) . '<br />';
     echo 'Defender Defense: ' . number_format($attack_person->moddeddefense, 0) . '<br />';
@@ -52,11 +46,6 @@ if (isset($_POST['attack_id']) && $_POST['attack_id']) {
 
     $yourhp = $user_class->maxhp;
     $theirhp = $attack_person->maxhp;
-
-    // Person being attacked, attacking user
-    $hitChance = 50;
-    $criticalHit = 1;
-    $counterAttack = 0;
 
     echo 'Your HP: ' . $yourhp . ' <br />';
     echo 'Their HP: ' . $theirhp . ' <br />';
