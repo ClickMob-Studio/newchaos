@@ -2031,9 +2031,9 @@ function addUserBaStatExp($userBaStats, $baExpWon, $user_class)
         $maxLevels += 1;
     }
 
-    if ($userBaStats['level'] < $maxLevels) {
+    if ($userBaStats['level'] <= $maxLevels) {
         $newExp = $userBaStats['exp'] + $baExpWon;
-        if ($newExp > $userBaStats['maxexp']) {
+        if ($newExp > $userBaStats['maxexp'] && $userBaStats['level'] < $maxLevels) {
             $db->query("UPDATE `user_ba_stats` SET `exp` = 0, `level` = `level` + 1  WHERE `id` = '" . $userBaStats['id'] . "'");
             $db->execute();
         } else {
