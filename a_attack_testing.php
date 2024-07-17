@@ -35,8 +35,8 @@ if (isset($_POST['attack_id']) && $_POST['attack_id']) {
 
     echo '<hr />';
 
-    echo log($attack_person->moddedstrength, $user_class->moddeddefense) . '<br />';
-    echo log($user_class->moddedstrength, $attack_person->moddeddefense) . '<br />';
+    echo $attack_person->formattedname . ': ' . ceil(log($attack_person->moddedstrength, $user_class->moddeddefense)) . '<br />';
+    echo $user_class->formattedname . ': '. ceil(log($user_class->moddedstrength, $attack_person->moddeddefense)) . '<br />';
 
     $userspeed = $user_class->moddedspeed;
     $attackspeed = $attack_person->moddedspeed;
