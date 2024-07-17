@@ -2433,9 +2433,9 @@ function getAttackDamage($attacker, $defender)
 {
     $criticalHit = 1;
     if ($attacker->moddedstrength > $defender->moddeddefense) {
-        $maxDamage = 15000;
+        $maxDamage = 20000;
     } else {
-        $maxDamage = 10000;
+        $maxDamage = 15000;
     }
 
     $log = log($attacker->moddedstrength, $defender->moddeddefense);
