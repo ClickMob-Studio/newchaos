@@ -2,21 +2,24 @@
 
 include 'header.php';
 
-$attack_person = new User(825);
+$attack_person = new User(4);
 
 $hitChance = 50;
 $maxDamage = 100;
 $criticalHit = 1;
 $counterAttack = 0;
 
-echo 'Defender Strength: ' . $attack_person->moddedstrength . '<br />';
-echo 'Defender Defense: ' . $attack_person->moddeddefense . '<br />';
-echo 'Defender Speed: ' . $attack_person->moddedspeed . '<br />';
+
+echo $attack_person->formattedname . '<br />';
+echo 'Defender Strength: ' . number_format($attack_person->moddedstrength, 0) . '<br />';
+echo 'Defender Defense: ' . number_format($attack_person->moddeddefense, 0) . '<br />';
+echo 'Defender Speed: ' . number_format($attack_person->moddedspeed, 0) . '<br />';
 echo '<br />';
 
-echo 'Attacker Strength: ' . $user_class->moddedstrength . '<br />';
-echo 'Attacker Defense: ' . $user_class->moddeddefense . '<br />';
-echo 'Attacker Speed: ' . $user_class->moddedspeed . '<br />';
+echo $user_class->formattedname . '<br />';
+echo 'Attacker Strength: ' . number_format($user_class->moddedstrength, 0) . '<br />';
+echo 'Attacker Defense: ' . number_format($user_class->moddeddefense, 0) . '<br />';
+echo 'Attacker Speed: ' . number_format($user_class->moddedspeed, 0) . '<br />';
 echo '<br />';
 
 echo '<hr />';
@@ -30,65 +33,63 @@ echo '<br />';
 
 echo '<hr />';
 
-$yourhp = $user_class->hp;
-$theirhp = $attack_person->hp;
+$yourhp = $user_class->maxhp;
+$theirhp = $attack_person->maxhp;
 
-$wait = 0;
+// Person being attacked, attacking user
+$hitChance = 50;
+$criticalHit = 1;
+$counterAttack = 0;
+
+echo 'Your HP: ' . $yourhp . ' <br />';
+echo 'Their HP: ' . $theirhp . ' <br />';
+echo '<hr />';
+
+echo log($attack_person->moddedstrength, $user_class->moddeddefense) . '<br />';
+echo log($user_class->moddedstrength, $attack_person->moddeddefense) . '<br />';
 
 while ($yourhp > 0 && $theirhp > 0) {
     if ($wait == 0) {
-        $hitChance = 50;
-        $maxDamage = 100;
-        if ($attack_person->moddedstrength > $user_class->moddeddefense) {
-            $maxDamage = $maxDamage * 2;
+        $damageResult = getAttackDamage($attack_person, $user_class);
+        $damage = $damageResult['damage'];
+        $yourhp = $yourhp - $damage;
+
+        echo 'Attacker: ' . $attack_person->formattedname . ' <br />';
+        if ($damageResult['is_critical_hit']) {
+            echo 'Damage: ' . $damage . ' *** CRITICAL HIT ***<br />';
+        } else {
+            echo 'Damage: ' . $damage . ' <br />';
         }
-        $criticalHit = 1;
-        $counterAttack = 0;
-
-        $damageDifferential = ($attack_person->moddedstrength - $user_class->moddeddefense) / $user_class->moddeddefense;
-         if ($damageDifferential > 50) {
-             $damMinPerc = 70;
-             $damMaxPerc = 80;
-         } else if ($damageDifferential > 25) {
-             $damMinPerc = 60;
-             $damMaxPerc = 70;
-         } else if ($damageDifferential > -50) {
-             $damMinPerc = 10;
-             $damMaxPerc = 20;
-         } else if ($damageDifferential > -50) {
-             $damMinPerc = 20;
-             $damMaxPerc = 40;
-         } else {
-             $damMinPerc = 40;
-             $damMaxPerc = 50;
-         }
-
-        echo $damMinPerc . ' - ' . $damMaxPerc . ' - ';
-        echo $damageDifferential; exit;
+        echo 'Your HP: ' . $yourhp . ' <br />';
+        echo 'Their HP: ' . $theirhp . ' <br />';
+        echo '<hr />';
 
     } else {
+        $wait = 0;
     }
 
-//    $damage = round($attack_person->moddedstrength) - $user_class->moddeddefense;
-//    $damage = ($damage < 1) ? 1 : $damage;
-//    if ($wait == 0) {
-//        $yourhp = $yourhp - $damage;
-//        $number++;
-//        $rtn[] = $number . ":&nbsp;" . $attack_person->formattedname . " hit you for " . prettynum($damage) . " damage using their " . $attack_person->weaponname . ". <br>";
-//    } else {
-//        $wait = 0;
-//    }
-//    if ($yourhp > 0) {
-//        $damage = round($user_class->moddedstrength) - $attack_person->moddeddefense;
-//        $damage = ($damage < 1) ? 1 : $damage;
-//        $theirhp = $theirhp - $damage;
-//        $number++;
-//        $rtn[] = $number . ":&nbsp;" . "You hit " . $attack_person->formattedname . " for " . prettynum($damage) . " damage using your " . $user_class->weaponname . ". <br>";
-//    }
+    if ($yourhp > 0) {
+        $damageResult = getAttackDamage($attack_person, $user_class);
+        $damage = $damageResult['damage'];
+        $theirhp = $theirhp - $damage;
+
+        echo 'Attacker: ' . $user_class->formattedname . ' <br />';
+        if ($damageResult['is_critical_hit']) {
+            echo 'Damage: ' . $damage . ' *** CRITICAL HIT ***<br />';
+        } else {
+            echo 'Damage: ' . $damage . ' <br />';
+        }
+        echo 'Your HP: ' . $yourhp . ' <br />';
+        echo 'Their HP: ' . $theirhp . ' <br />';
+        echo '<hr />';
+    }
 }
 
-
-var_dump($damageDifferential);
+if ($theirhp > 0) {
+    echo 'Winner: ' . $attack_person->formattedname;
+} else {
+    echo 'Winner: ' . $user_class->formattedname;
+}
 exit;
 
 echo 'done'; exit;

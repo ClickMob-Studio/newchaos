@@ -389,8 +389,9 @@ $m->set('ipn.' . $id, $donations, 0, 60);
         $this->drugall = (isset($this->druggie[3]) && $this->druggie[3] > time() - 900) ? 1.50 : 1;
 
         $this->moddedstrength = round((($pet['str'] + $worked['strength']) * ($this->weaponoffense * .01 + 1)) * $this->drugstr);
-$this->moddeddefense = round((($pet['def'] + $worked['defense']) * ($this->armordefense * .01 + 1)) * ($this->drugdef * $this->drugall));
-$this->moddedspeed = round((($pet['spe'] + $worked['speed']) * ($this->shoesspeed * .01 + 1)) * ($this->drugspe * $this->drugall));
+        $this->moddeddefense = round((($pet['def'] + $worked['defense']) * ($this->armordefense * .01 + 1)) * ($this->drugdef * $this->drugall));
+        $this->moddedspeed = round((($pet['spe'] + $worked['speed']) * ($this->shoesspeed * .01 + 1)) * ($this->drugspe * $this->drugall));
+        $this->moddedagility = $this->moddedspeed; // TODO: SORT AGILITY
 
         $this->moddedtotalattrib = $this->moddedspeed + $this->moddedstrength + $this->moddeddefense;
         $this->maxexp = experience($this->level + 1);

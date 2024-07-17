@@ -2436,3 +2436,51 @@ function getTimeRemainingForDisplay($time)
 
     return number_format(($time / 60), 0) . ' minutes until battle';
 }
+
+function getAttackDamage($attacker, $defender)
+{
+    $criticalHit = 1;
+    if ($attacker->moddedstrength > $defender->moddeddefense) {
+        $maxDamage = 10000;
+    } else {
+        $maxDamage = 7000;
+    }
+
+    $log = log($attacker->moddedstrength, $defender->moddeddefense);
+    $maxDamage = $maxDamage * $log;
+    $maxDamage = ceil($maxDamage);
+
+    if ($log > 2) {
+        $damMinPerc = 70;
+        $damMaxPerc = 80;
+    } else if ($log > 1.6) {
+        $damMinPerc = 60;
+        $damMaxPerc = 70;
+    } else if ($log > 1.3) {
+        $damMinPerc = 50;
+        $damMaxPerc = 60;
+    } else if ($log > 1) {
+        $damMinPerc = 40;
+        $damMaxPerc = 50;
+    } else {
+        $damMinPerc = 20;
+        $damMaxPerc = 30;
+    }
+
+
+    // Critical Hit
+    if (mt_rand(1,100) <= $criticalHit) {
+        return array(
+            'damage' => $maxDamage,
+            'is_critical_hit' => true
+        );
+    }
+
+    $lowMaxDamage = $maxDamage / 100 * $damMinPerc;
+    $highMaxDamage = $maxDamage / 100 * $damMaxPerc;
+
+    return array(
+        'damage' => mt_rand($lowMaxDamage, $highMaxDamage),
+        'is_critical_hit' => false
+    );
+}
