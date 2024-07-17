@@ -90,9 +90,9 @@ if (isset($_POST['attack_id']) && $_POST['attack_id']) {
         }
 
         if ($yourhp > 0) {
-            $hitChance = 70;
+            $hitChance = 80;
             if ($user_class->moddedspeed > $attack_person->moddedagility) {
-                $hitChance = $hitChance + 20;
+                $hitChance = $hitChance + 15;
             }
 
             if (mt_rand(1,100) > $hitChance) {
