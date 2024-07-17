@@ -2446,16 +2446,22 @@ function getAttackDamage($attacker, $defender)
         }
     }
 
-    $log = ceil(log($attacker->moddedstrength, $defender->moddeddefense));
+    $log = log($attacker->moddedstrength, $defender->moddeddefense);
     $maxDamage = $maxDamage * $log;
     $maxDamage = ceil($maxDamage);
 
-    if ($log >= 1.5) {
+    if ($log > 1.9) {
         $damMinPerc = 70;
         $damMaxPerc = 80;
-    } else if ($log >= 1) {
-        $damMinPerc = 50;
+    } else if ($log > 1.5) {
+        $damMinPerc = 60;
         $damMaxPerc = 70;
+    } else if ($log > 1) {
+        $damMinPerc = 50;
+        $damMaxPerc = 60;
+    } else if ($log > 0.9) {
+        $damMinPerc = 40;
+        $damMaxPerc = 50;
     } else {
         $damMinPerc = 20;
         $damMaxPerc = 30;
