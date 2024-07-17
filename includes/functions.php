@@ -2429,7 +2429,7 @@ function getTimeRemainingForDisplay($time)
     return number_format(($time / 60), 0) . ' minutes until battle';
 }
 
-function getAttackDamage($attacker, $defender)
+function getAttackDamageOLD($attacker, $defender)
 {
     $criticalHit = 1;
     if ($attacker->moddedstrength > $defender->moddeddefense) {
@@ -2466,6 +2466,47 @@ function getAttackDamage($attacker, $defender)
         $damMinPerc = 20;
         $damMaxPerc = 30;
     }
+
+
+    // Critical Hit
+    if (mt_rand(1,100) <= $criticalHit) {
+        return array(
+            'damage' => $maxDamage,
+            'is_critical_hit' => true
+        );
+    }
+
+    $lowMaxDamage = $maxDamage / 100 * $damMinPerc;
+    $highMaxDamage = $maxDamage / 100 * $damMaxPerc;
+
+    return array(
+        'damage' => mt_rand($lowMaxDamage, $highMaxDamage),
+        'is_critical_hit' => false
+    );
+}
+
+function getAttackDamage($attacker, $defender)
+{
+    $criticalHit = 1;
+
+    $logStrength = log($attacker->moddedstrength);
+    $logDefence = log($defender->moddeddefense);
+
+    $maxDamage = ceil($logStrength / $logDefence * 10000);
+
+
+
+    if ($logStrength > $logDefence) {
+        $damMinPerc = 70;
+        $damMaxPerc = 80;
+    } else if ($logDefence > $logStrength) {
+        $damMinPerc = 20;
+        $damMaxPerc = 30;
+    } else {
+        $damMinPerc = 40;
+        $damMaxPerc = 50;
+    }
+
 
 
     // Critical Hit
