@@ -2446,7 +2446,7 @@ function getAttackDamage($attacker, $defender)
         }
     }
 
-    $log = log($attacker->moddedstrength, $defender->moddeddefense);
+    $log = log($defender->moddeddefense, $attacker->moddedstrength);
     $maxDamage = $maxDamage * $log;
     $maxDamage = ceil($maxDamage);
 
