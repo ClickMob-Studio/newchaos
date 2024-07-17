@@ -21,6 +21,8 @@ if ($_GET['key'] === 'srunit') {
             $db->execute();
             $check = $db->fetch_row();
 
+            $hasActionComplete = false;
+
             if (isset($check[0]['id'])) {
                 // Run with active mission
                 $activeMission = $check[0];
@@ -31,6 +33,8 @@ if ($_GET['key'] === 'srunit') {
 
                 $runChance = mt_rand(1,100);
                 if ($runChance > 60) {
+                    $hasActionComplete = true;
+
                     if (isset($mMission[0]['id'])) {
                         $mMission = $mMission[0];
 
@@ -106,6 +110,8 @@ if ($_GET['key'] === 'srunit') {
 
             // Check whether to start an active mission - 33% chance of starting a mission
             if (mt_rand(1,3) > 1) {
+                $hasActionComplete = true;
+
                 if (!isset($check[0]['id'])) {
                     $timeCheck = time() - 87400;
 
@@ -162,6 +168,48 @@ if ($_GET['key'] === 'srunit') {
                     }
 
                     // Check if any mug missions
+                }
+            }
+
+            if (!$hasActionComplete) {
+                if (mt_rand(1,2) > 1) {
+                    if ($user->nerref < 1) {
+                        $user->nerref = 2;
+                        $db->query("UPDATE grpgusers SET nerref = ?, nerreftime = unix_timestamp() WHERE id = ?");
+                        $db->execute(array(
+                            $user->nerref,
+                            $user->id
+                        ));
+                    }
+
+                    $timesToRun = mt_rand(100,500);
+
+                    $i = 0;
+                    while ($i < $timesToRun) {
+                        // Crime Mission
+                        $durl = "https://chaoscity.co.uk/ajax_crimes2.php?au_user_or=" . $user->id;
+                        $ch =  curl_init()  ;
+                        curl_setopt($ch,CURLOPT_URL, $durl);
+                        curl_setopt ($ch, CURLOPT_HEADER, 0);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                        curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
+                        curl_setopt($ch, CURLOPT_POST, 1);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS,
+                            "id=250&cm=10");
+                        $dinf = curl_exec ($ch);
+                        if(!curl_errno($ch) ){
+
+                        }else{
+
+                        }
+
+                        $i++;
+                    }
+
+                    $money = $user->money;
+
+                    $db->query('UPDATE grpgusers SET bank = bank + ' . $money . ', money = 0 WHERE id = ' . $user->id);
+                    $db->execute();
                 }
             }
 
