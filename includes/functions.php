@@ -2507,8 +2507,6 @@ function getAttackDamage($attacker, $defender)
         $damMaxPerc = 50;
     }
 
-
-
     // Critical Hit
     if (mt_rand(1,100) <= $criticalHit) {
         return array(
