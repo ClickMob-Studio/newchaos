@@ -7,7 +7,7 @@ $sql = "DELETE FROM events WHERE timesent < $two_weeks_ago";
 mysql_query($sql);
 $sql = "DELETE FROM attlog WHERE timesent < $two_weeks_ago";
 mysql_query($sql);
-$sql = "DELETE FROM attacklog WHERE `	timestamp` < $two_weeks_ago";
+$sql = "DELETE FROM attacklog WHERE `timestamp` < $two_weeks_ago";
 mysql_query($sql);
 $sql = "DELETE FROM cityevents WHERE timesent < $two_weeks_ago";
 mysql_query($sql);
