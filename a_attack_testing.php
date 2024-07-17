@@ -35,10 +35,10 @@ if (isset($_POST['attack_id']) && $_POST['attack_id']) {
 
     echo '<hr />';
 
-    echo $attack_person->formattedname . ' S: ' . log($attack_person->moddedstrength, 10) . '<br />';
-    echo $attack_person->formattedname . ' D: ' . log($attack_person->moddeddefense, 10) . '<br />';
-    echo $user_class->formattedname . ' S: ' . log($user_class->moddedstrength, 10) . '<br />';
-    echo $user_class->formattedname . ' D: ' . log($user_class->moddeddefense, 10) . '<br />';
+    echo $attack_person->formattedname . ' S: ' . log($attack_person->moddedstrength) . '<br />';
+    echo $attack_person->formattedname . ' D: ' . log($attack_person->moddeddefense) . '<br />';
+    echo $user_class->formattedname . ' S: ' . log($user_class->moddedstrength) . '<br />';
+    echo $user_class->formattedname . ' D: ' . log($user_class->moddeddefense) . '<br />';
 
     $userspeed = $user_class->moddedspeed;
     $attackspeed = $attack_person->moddedspeed;
