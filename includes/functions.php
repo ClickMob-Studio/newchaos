@@ -511,15 +511,7 @@ function Send_Event($id, $text, $extra = "0")
 }
 function Send_Event1($id, $text, $extra = "0")
 {
-    global $db;
-    if (empty($id))
-        return;
-    $db->query("INSERT INTO cityevents (`to`, timesent, `text`, `extra`) VALUES (?, unix_timestamp(), ?, ?)");
-    $db->execute(array(
-        $id,
-        $text,
-        $extra
-    ));
+  
 }
 function Send_Event2($id, $text, $extra = "0")
 {
