@@ -2494,14 +2494,6 @@ function getAttackDamage($attacker, $defender)
 
     $maxDamage = ceil($logStrength / $logDefence * 10000);
 
-    $milDifference = $attacker->moddedstrength - $defender->moddeddefense;
-    if ($milDifference > 0) {
-        $milDifference = $milDifference / 10000000;
-        if ($milDifference > 0) {
-            $maxDamage += ceil($milDifference);
-        }
-    }
-
     if ($logStrength > $logDefence) {
         $damMinPerc = 70;
         $damMaxPerc = 80;
