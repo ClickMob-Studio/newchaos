@@ -2483,16 +2483,8 @@ function getAttackDamage($attacker, $defender)
         $maxDamage = 25000;
     }
 
-    if ($logStrength > $logDefence) {
-        $damMinPerc = 70;
-        $damMaxPerc = 80;
-    } else if ($logDefence > $logStrength) {
-        $damMinPerc = 20;
-        $damMaxPerc = 30;
-    } else {
-        $damMinPerc = 40;
-        $damMaxPerc = 50;
-    }
+    $damMinPerc = 60;
+    $damMaxPerc = 80;
 
     // Critical Hit
     if (mt_rand(1,100) <= $criticalHit) {
