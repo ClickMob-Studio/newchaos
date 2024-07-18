@@ -107,7 +107,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
 
 ?>
 
-<div class='box_top'><h1>Gang Double EXP Challenge</h1></div>
+<div class='box_top'><h1>Gang Challenge</h1></div>
 <div class='box_middle'>
     <div class='pad'>
         <br />
@@ -136,7 +136,8 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
         <table id="newtables" style="width:100%; text-align: left;">
             <tr>
                 <th><b>Mission</b></th>
-                <th width="40%"><b>Progress</b></th>
+                <th width="30%"><b>Progress</b></th>
+                <th>Rewards</th>
                 <th><b>Claim</b></th>
             </tr>
 
@@ -145,18 +146,24 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 <td>
                     <center>
                         <strong>Crimes</strong><br />
-                        Complete 10,000,000 Crimes
+                        Complete 12,000,000 Crimes
                     </center>
                 </td>
                 <td>
                     <?php
-                    $barWidthPer = $gangCompLeaderboard['weekly_crimes_complete'] / 10000000 * 100;
+                    $barWidthPer = $gangCompLeaderboard['weekly_crimes_complete'] / 12000000 * 100;
                     ?>
                     <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($gangCompLeaderboard['weekly_crimes_complete'], 0) ?>/10,000,000">
                         <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: <?php echo $barWidthPer ?>%">
                             <?php echo number_format($gangCompLeaderboard['weekly_crimes_complete'], 0) ?>/10,000,000
                         </div>
                     </div>
+                </td>
+                <td>
+                    <ul>
+                        <li>1 x Gang Double EXP Pill</li>
+                        <li>500,000 points</li>
+                    </ul>
                 </td>
                 <td>
                     <center>
@@ -190,6 +197,12 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                     </div>
                 </td>
                 <td>
+                    <ul>
+                        <li>1 x Lifewood Crystal (Rare)</li>
+                        <li>200,000 points</li>
+                    </ul>
+                </td>
+                <td>
                     <center>
                         <?php if ($isLeader && !in_array('kills', $prizesClaimed) && $gangCompLeaderboard['weekly_attacks_complete'] >= 150000): ?>
                             <a class="btn btn-success" href="gang_doubleexp.php?claim_prize=kills">Claim Prize</a>
@@ -221,6 +234,12 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                     </div>
                 </td>
                 <td>
+                    <ul>
+                        <li>1 x Gang Double EXP Pill</li>
+                        <li>200,000 points</li>
+                    </ul>
+                </td>
+                <td>
                     <center>
                         <?php if ($isLeader && !in_array('busts', $prizesClaimed) && $gangCompLeaderboard['weekly_busts_complete'] >= 200000): ?>
                             <a class="btn btn-success" href="gang_doubleexp.php?claim_prize=busts">Claim Prize</a>
@@ -250,6 +269,12 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                             <?php echo number_format($gangCompLeaderboard['weekly_mugs_complete'], 0) ?>/150,000
                         </div>
                     </div>
+                </td>
+                <td>
+                    <ul>
+                        <li>5 x Research Tokens</li>
+                        <li>200,000 points</li>
+                    </ul>
                 </td>
                 <td>
                     <center>
