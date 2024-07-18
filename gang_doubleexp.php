@@ -295,6 +295,43 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                     </center>
                 </td>
             </tr>
+
+            <!-- MUGS -->
+            <tr>
+                <td>
+                    <center>
+                        <strong>Backalley</strong><br />
+                        Complete 85,000 BA Searches
+                    </center>
+                </td>
+                <td>
+                    <?php
+                    $barWidthPer = $gangCompLeaderboard['weekly_ba_complete'] / 85000 * 100;
+                    ?>
+                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($gangCompLeaderboard['weekly_ba_complete'], 0) ?>/85,000">
+                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: <?php echo $barWidthPer ?>%">
+                            <?php echo number_format($gangCompLeaderboard['weekly_ba_complete'], 0) ?>/85,000
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <ul>
+                        <li>5 x Research Tokens</li>
+                        <li>200,000 points</li>
+                    </ul>
+                </td>
+                <td>
+                    <center>
+                        <?php if ($isLeader && !in_array('ba', $prizesClaimed) && $gangCompLeaderboard['weekly_ba_complete'] >= 85000): ?>
+                            <a class="btn btn-success" href="gang_doubleexp.php?claim_prize=ba">Claim Prize</a>
+                        <?php endif; ?>
+
+                        <?php if (in_array('ba', $prizesClaimed)): ?>
+                            <span style="color: green">Claimed</span>
+                        <?php endif; ?>
+                    </center>
+                </td>
+            </tr>
         </table>
     </div>
 </div>
