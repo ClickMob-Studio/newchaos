@@ -2470,15 +2470,16 @@ function getAttackDamage($attacker, $defender)
 {
     $criticalHit = 1;
 
-    $maxDamage = ceil($attacker->moddedstrength / $defender->moddeddefense);
+    $maxDamage = $attacker->moddedstrength / $defender->moddeddefense;
 
-    $maxDamage = ceil($maxDamage * 5000);
+    $maxDamage = $maxDamage * 5000;
     if ($maxDamage < 100) {
         $maxDamage = 100;
     }
     if ($maxDamage > 35000) {
         $maxDamage = 35000;
     }
+    $maxDamage = ceil($maxDamage);
 
     $damMinPerc = 70;
     $damMaxPerc = 90;
