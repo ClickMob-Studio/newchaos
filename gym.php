@@ -185,6 +185,7 @@ if ($printcaptcha != "") {
             $("#strength").val(info[3]);
             $("#defense").val(info[3]);
             $("#speed").val(info[3]);
+            $("#agility").val(info[3]);
         }
     });
 }
@@ -200,6 +201,7 @@ if ($printcaptcha != "") {
                     $("#strength").val(info[3]);
                     $("#defense").val(info[3]);
                     $("#speed").val(info[3]);
+                    $("#agility").val(info[3]);
                 }
             });
         }
@@ -219,11 +221,13 @@ if ($printcaptcha != "") {
             <th align="center" style="padding-bottom: 10px;width:33%;"><b><center>STRENGTH</center></b></th>
             <th align="center" style="padding-bottom: 10px;width:33%;"><b><center>DEFENSE</center></b></th>
             <th align="center" style="padding-bottom: 10px;width:33%;"><b><center>SPEED</center></b></th>
+            <th align="center" style="padding-bottom: 10px;width:33%;"><b><center>AGILITY</center></b></th>
         </tr>
         <tr>
             <td align="center" style="padding-bottom: 10px;"><input id='strength' type='text' name='energy1'  value="<?php echo $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"></td>
             <td align="center" style="padding-bottom: 10px;"><input id='defense' type='text' name='energy2' value="<?php echo $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"></td>
             <td align="center" style="padding-bottom: 10px;"><input id='speed' type='text' name='energy3'  value="<?php echo $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"/></td>
+            <td align="center" style="padding-bottom: 10px;"><input id='agility' type='text' name='energy3'  value="<?php echo $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"/></td>
         </tr>
         <tr><td align="center" style="padding-bottom: 10px;"><span id='strengthamnt'><?php
                     echo prettynum($user_class->strength);
@@ -237,11 +241,16 @@ if ($printcaptcha != "") {
                     echo prettynum($user_class->speed);
                     ?></span> [Ranked: <?php
                     echo getRank("$user_class->id", "speed");
+                    ?>]</td><td align="center" style="padding-bottom: 10px;"><span id='agilityamnt'><?php
+                    echo prettynum($user_class->agility);
+                    ?></span> [Ranked: <?php
+                    echo getRank("$user_class->id", "agility");
                     ?>]</td>
         <tr>
             <td align="center" style="padding-bottom: 10px;"><button onclick="train('strength');">Strength</button></td>
             <td align="center" style="padding-bottom: 10px;"><button onclick="train('defense');">Defense</button></td>
             <td align="center" style="padding-bottom: 10px;"><button onclick="train('speed');">Speed</button></td>
+            <td align="center" style="padding-bottom: 10px;"><button onclick="train('agility');">Agility</button></td>
         </tr>
     </table>
     
