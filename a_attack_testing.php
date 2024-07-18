@@ -33,6 +33,9 @@ if (isset($_POST['attack_id']) && $_POST['attack_id']) {
     echo 'Attacker Agility: ' . number_format($user_class->moddedagility, 0) . '<br />';
     echo '<br />';
 
+    $attack_person->moddedagility = $attack_person->moddedspeed;
+    $user_class->moddedagility = $user_class->moddedspeed;
+
     echo '<hr />';
 
     echo $attack_person->formattedname . ' S: ' . log($attack_person->moddedstrength) . '<br />';
