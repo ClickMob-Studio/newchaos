@@ -57,6 +57,7 @@ $m->set('lastcrimeload.'.$user_class->id, time());
                         $("#strength").val(info[3]);
                         $("#defense").val(info[3]);
                         $("#speed").val(info[3]);
+                        $("#agility").val(info[3]);
                     }
                 });
             }
@@ -118,6 +119,7 @@ $m->set('lastcrimeload.'.$user_class->id, time());
         const strengths = data.map(item => item.strength);
         const defenses = data.map(item => item.defense);
         const speeds = data.map(item => item.speed);
+        const agilitys = data.map(item => item.agility);
 
         const ctx = document.getElementById('statsChart').getContext('2d');
         const statsChart = new Chart(ctx, {
@@ -141,6 +143,12 @@ $m->set('lastcrimeload.'.$user_class->id, time());
                         label: 'Speed',
                         data: speeds,
                         borderColor: 'blue',
+                        backgroundColor: 'rgba(0, 0, 255, 0.1)',
+                    },
+                    {
+                        label: 'Agility',
+                        data: agilitys,
+                        borderColor: 'yellow',
                         backgroundColor: 'rgba(0, 0, 255, 0.1)',
                     }
                 ]
