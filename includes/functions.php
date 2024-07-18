@@ -2476,8 +2476,8 @@ function getAttackDamage($attacker, $defender)
     $logDefence = log($defender->moddeddefense);
 
     $maxDamage = ceil($maxDamage * ($logStrength * 1000));
-    if ($maxDamage < 1000) {
-        $maxDamage = 1000;
+    if ($maxDamage < 100) {
+        $maxDamage = 100;
     }
     if ($maxDamage > 30000) {
         $maxDamage = 30000;
