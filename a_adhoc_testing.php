@@ -98,7 +98,7 @@ $m->set('lastcrimeload.'.$user_class->id, time());
             <td><button onmousedown='start(\"agility\");' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"agility\");'>Agility + Refills</button></td>
         </tr>
         <tr>
-            <td colspan='3'><span style='color:red;font-weight:bold;'>Click and hold down the mouse on the stat + refills button.</span></td>
+            <td colspan='4'><span style='color:red;font-weight:bold;'>Click and hold down the mouse on the stat + refills button.</span></td>
         </tr>
     </table></div>";
     }
