@@ -2479,8 +2479,8 @@ function getAttackDamage($attacker, $defender)
     if ($maxDamage < 1000) {
         $maxDamage = 1000;
     }
-    if ($maxDamage > 25000) {
-        $maxDamage = 25000;
+    if ($maxDamage > 30000) {
+        $maxDamage = 30000;
     }
 
     $damMinPerc = 60;
