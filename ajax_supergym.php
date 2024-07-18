@@ -63,7 +63,8 @@ if ($result) {
 if (!isset($_POST['stat']) || in_array($_POST['stat'], array(
             'strength',
             'defense',
-            'speed'
+            'speed',
+            'agility',
         ))) {
     $stat = $_POST['stat'];
 } else {
