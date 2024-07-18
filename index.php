@@ -86,6 +86,11 @@ if($user_class->level >= 10){
         <th width="15%">Speed:</th>
         <td><?= prettynum($user_class->speed) ?></td>
         <td>[Ranked: <?= getRank("$user_class->id", "speed") ?>]</td>
+        <th width="15%">Agility:</th>
+        <td><?= prettynum($user_class->agility) ?></td>
+        <td>[Ranked: <?= getRank("$user_class->id", "agility") ?>]</td>
+    </tr>
+    <tr>
         <th width="15%">Total:</th>
         <td><?= prettynum($user_class->totalattrib) ?></td>
         <td>[Ranked: <?= getRank("$user_class->id", "total") ?>]</td>
