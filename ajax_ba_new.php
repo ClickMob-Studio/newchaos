@@ -203,6 +203,10 @@ if ($activityContest['type'] == 'backalley') {
     addToUserCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
 }
 
+if ($user_class->gang > 0) {
+    addToGangCompLeaderboard($user_class->gang,'ba_complete', 1);
+}
+
 // ATTACKERS
 $baAttackerNames = array();
 $baAttackerNames[] = "Private Niev";
