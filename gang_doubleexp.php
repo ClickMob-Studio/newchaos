@@ -29,7 +29,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
     $claimPrize = $_GET['claim_prize'];
 
     if ($claimPrize === 'crimes') {
-        if ($gangCompLeaderboard['weekly_crimes_complete'] >= 10000000) {
+        if ($gangCompLeaderboard['weekly_crimes_complete'] >= 12000000) {
             if (in_array($claimPrize, $prizesClaimed)) {
                 diefun('You have already claimed this prize.');
             } else {
@@ -39,8 +39,10 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 $db->execute();
 
                 Give_Item(257, $user_class->id);
+                $db->query("UPDATE grpgusers SET points = points + 500000 WHERE id = " . $user_class->id);
+                $db->execute();
 
-                $resMes = 'You have successfully claimed your Gang Double EXP Pill for completing the crimes mission. It has been added to your inventory.';
+                $resMes = 'You have successfully claimed your rewards for completing the crimes mission.';
             }
         } else {
             diefun('You have not earned the prize yet.');
@@ -57,9 +59,11 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE gang_id = " . $user_class->gang);
                 $db->execute();
 
-                Give_Item(257, $user_class->id);
+                Give_Item(267, $user_class->id);
+                $db->query("UPDATE grpgusers SET points = points + 200000 WHERE id = " . $user_class->id);
+                $db->execute();
 
-                $resMes = 'You have successfully claimed your Gang Double EXP Pill for completing the kills mission. It has been added to your inventory.';
+                $resMes = 'You have successfully claimed your rewards for completing the kills mission.';
             }
         } else {
             diefun('You have not earned the prize yet.');
@@ -77,8 +81,10 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 $db->execute();
 
                 Give_Item(257, $user_class->id);
+                $db->query("UPDATE grpgusers SET points = points + 200000 WHERE id = " . $user_class->id);
+                $db->execute();
 
-                $resMes = 'You have successfully claimed your Gang Double EXP Pill for completing the busts mission. It has been added to your inventory.';
+                $resMes = 'You have successfully claimed your rewards for completing the busts mission.';
             }
         } else {
             diefun('You have not earned the prize yet.');
@@ -95,9 +101,11 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE gang_id = " . $user_class->gang);
                 $db->execute();
 
-                Give_Item(257, $user_class->id);
+                Give_Item(276, $user_class->id, 5);
+                $db->query("UPDATE grpgusers SET points = points + 200000 WHERE id = " . $user_class->id);
+                $db->execute();
 
-                $resMes = 'You have successfully claimed your Gang Double EXP Pill for completing the mugs mission. It has been added to your inventory.';
+                $resMes = 'You have successfully claimed your rewards for completing the mugs mission.';
             }
         } else {
             diefun('You have not earned the prize yet.');
@@ -119,14 +127,13 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
             <?php endif; ?>
 
             <p>
-                Mobsters, it's time to gang up and show what you & the homies are made of! Complete the missions below with 4 x Gang Double EXP Pills up for grabs!
+                Mobsters, it's time to gang up and show what you & the homies are made of! Complete the missions below and earn the rewards listed!
             </p>
             <p>
-                Each mission complete will earn your 1 x Gang Double EXP Pill. Once the mission is complete, your gang leader will be able to claim the prize on this page
-                and the pill will be added to their inventory, ready for them to activate double EXP for your gang at anytime!
+                Once a mission is complete, your gang leader will be able to claim the prize on this page and they will be given the rewards.
             </p>
 
-            <p style="color: red;"><strong>Challenge Ends 26th May at 9am Server Time.</strong></p>
+            <p style="color: red;"><strong>Challenge Ends 23rd July at 10am Server Time.</strong></p>
 
             <p>Enjoy!</p>
             <br /><br /><hr />
