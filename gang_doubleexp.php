@@ -20,7 +20,7 @@ if ($gang_class->leader == $user_class->id) {
 }
 
 
-$claimPrizeOptions = array('crimes','kills','busts','mugs');
+$claimPrizeOptions = array('crimes','kills','busts','mugs', 'ba');
 if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOptions)) {
     if (!$isLeader) {
         diefun('Only a gang leader can claim a prize.');
