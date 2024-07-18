@@ -2432,41 +2432,22 @@ function getTimeRemainingForDisplay($time)
 function getAttackDamageOLD($attacker, $defender)
 {
     $criticalHit = 1;
-    if ($attacker->moddedstrength > $defender->moddeddefense) {
-        $maxDamage = 15000;
-    } else {
-        $maxDamage = 12000;
-    }
 
-    $milDifference = $attacker->moddedstrength - $defender->moddeddefense;
-    if ($milDifference > 0) {
-        $milDifference = $milDifference / 10000000;
-        if ($milDifference > 0) {
-            $maxDamage += ceil($milDifference);
-        }
-    }
+    $logStrength = log($attacker->moddedstrength);
+    $logDefence = log($defender->moddeddefense);
 
-    $log = log($attacker->moddedstrength, $defender->moddeddefense);
-    $maxDamage = $maxDamage * $log;
-    $maxDamage = ceil($maxDamage);
+    $maxDamage = ceil($logStrength / $logDefence * 10000);
 
-    if ($log > 1.9) {
+    if ($logStrength > $logDefence) {
         $damMinPerc = 70;
         $damMaxPerc = 80;
-    } else if ($log > 1.5) {
-        $damMinPerc = 60;
-        $damMaxPerc = 70;
-    } else if ($log > 1) {
-        $damMinPerc = 50;
-        $damMaxPerc = 60;
-    } else if ($log > 0.9) {
-        $damMinPerc = 40;
-        $damMaxPerc = 50;
-    } else {
+    } else if ($logDefence > $logStrength) {
         $damMinPerc = 20;
         $damMaxPerc = 30;
+    } else {
+        $damMinPerc = 40;
+        $damMaxPerc = 50;
     }
-
 
     // Critical Hit
     if (mt_rand(1,100) <= $criticalHit) {
@@ -2489,10 +2470,15 @@ function getAttackDamage($attacker, $defender)
 {
     $criticalHit = 1;
 
+    $maxDamage = ceil($attacker->moddedstrength / $defender->moddeddefense);
+
     $logStrength = log($attacker->moddedstrength);
     $logDefence = log($defender->moddeddefense);
 
-    $maxDamage = ceil($logStrength / $logDefence * 10000);
+    $maxDamage = ceil($maxDamage * $logStrength);
+    if ($maxDamage < 1000) {
+        $maxDamage = 1000;
+    }
 
     if ($logStrength > $logDefence) {
         $damMinPerc = 70;
