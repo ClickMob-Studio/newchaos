@@ -136,7 +136,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
         <table id="newtables" style="width:100%; text-align: left;">
             <tr>
                 <th><b>Mission</b></th>
-                <th width="30%"><b>Progress</b></th>
+                <th width="25%"><b>Progress</b></th>
                 <th>Rewards</th>
                 <th><b>Claim</b></th>
             </tr>
