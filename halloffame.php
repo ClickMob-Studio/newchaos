@@ -44,6 +44,9 @@ include 'header.php';?>
                         <option value='speed' <?php
                         echo ($_GET['view'] == "speed") ? " selected" : "";
                         ?>>Speed</option>
+                        <option value='agility' <?php
+                        echo ($_GET['view'] == "agility") ? " selected" : "";
+                        ?>>Agility</option>
                         <option value='money' <?php
                         echo ($_GET['view'] == "money") ? " selected" : "";
                         ?>>Money</option>
