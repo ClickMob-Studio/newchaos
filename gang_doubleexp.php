@@ -111,6 +111,26 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
             diefun('You have not earned the prize yet.');
         }
     }
+    if ($claimPrize === 'ba') {
+        if ($gangCompLeaderboard['weekly_ba_complete'] >= 150000) {
+            if (in_array($claimPrize, $prizesClaimed)) {
+                diefun('You have already claimed this prize.');
+            } else {
+                $prizesClaimed[] = 'ba';
+
+                $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE gang_id = " . $user_class->gang);
+                $db->execute();
+
+                Give_Item(276, $user_class->id, 5);
+                $db->query("UPDATE grpgusers SET points = points + 200000 WHERE id = " . $user_class->id);
+                $db->execute();
+
+                $resMes = 'You have successfully claimed your rewards for completing the mugs mission.';
+            }
+        } else {
+            diefun('You have not earned the prize yet.');
+        }
+    }
 }
 
 ?>
