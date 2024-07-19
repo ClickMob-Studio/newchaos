@@ -194,7 +194,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 </td>
                 <td>
                     <center>
-                        <?php if ($isLeader && !in_array('crimes', $prizesClaimed) && $gangCompLeaderboard['weekly_crimes_complete'] >= 10000000): ?>
+                        <?php if ($isLeader && !in_array('crimes', $prizesClaimed) && $gangCompLeaderboard['weekly_crimes_complete'] >= 12000000): ?>
                             <a class="btn btn-success" href="gang_doubleexp.php?claim_prize=crimes">Claim Prize</a>
                         <?php endif; ?>
 
