@@ -47,6 +47,7 @@ if ($allTargetsMet) {
 // Update gang points and notify members about successful mission completion
 $rewardQuery = "UPDATE gangs SET pointsvault = pointsvault + {$missionDetails['reward']} WHERE id = $gangId";
 mysql_query($rewardQuery);
+mysql_query("INSERT INTO gang_vault_log (gang_id, user_id, type, added, balance) VALUES (" . $gangId . ", 1, 'points', " . $missionDetails['reward']. ", " . $gang_class->pointsvault . ")");
 
 $successMessage = "Your gang has successfully completed the mission and earned a reward of {$missionDetails['reward']} points.";
 
