@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 // Check for active missions that might have been completed
-$activeMissionsQuery = "SELECT agm.id AS mission_id, agm.gangid, agm.start_time, gm.duration, agm.kills, agm.busts, agm.crimes, agm.mugs 
+$activeMissionsQuery = "SELECT agm.id AS mission_id, agm.gangid, agm.time, gm.duration, agm.kills, agm.busts, agm.crimes, agm.mugs 
 FROM active_gang_missions agm 
 JOIN gang_missions gm ON agm.mission_id = gm.id 
 WHERE agm.completed = 0";
@@ -20,7 +20,7 @@ $currentTime = time();
 while ($mission = mysql_fetch_assoc($activeMissionsResult)) {
 $missionId = $mission['mission_id'];
 $gangId = $mission['gangid'];
-$startTime = strtotime($mission['start_time']);
+$startTime = strtotime($mission['time']);
 $duration = $mission['duration'];
 
 // Fetch the target criteria from the gang_missions table
