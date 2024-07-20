@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 // Check for active missions that might have been completed
-$activeMissionsQuery = "SELECT agm.id AS mission_id, agm.gangid, agm.time, gm.duration, agm.kills, agm.busts, agm.crimes, agm.mugs 
+$activeMissionsQuery = "SELECT agm.id AS mission_id, agm.gangid, agm.time, agm.end_time, agm.kills, agm.busts, agm.crimes, agm.mugs 
 FROM active_gang_missions agm 
 JOIN gang_missions gm ON agm.mission_id = gm.id 
 WHERE agm.completed = 0";
@@ -56,11 +56,11 @@ while ($member = mysql_fetch_assoc($gangMembersResult)) {
 $userId = $member['id'];
 Send_event($userId, "Congratulations! " . $successMessage);
 }
-
+$endTime = $activeMissionsResult['end_time'];
 // Mark the mission as completed
 $markCompletedQuery = "UPDATE active_gang_missions SET completed = 1 WHERE id = $missionId";
 mysql_query($markCompletedQuery);
-} elseif ($currentTime - $startTime > $duration) {
+} elseif ($currentTime >= $endTime) {
 // Notify gang members about mission failure due to time running out
 $failureMessage = "The mission was not completed in time.";
 
