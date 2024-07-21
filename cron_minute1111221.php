@@ -893,7 +893,7 @@ if ($activeMissionsResult) {
 
         // Check each mission type separately
         foreach (['kills', 'busts', 'crimes', 'mugs'] as $type) {
-            if ($mission[$type] < $missionDetails["target_$type"]) {
+            if ($mission[$type] < $missionDetails[$type]) {
                 $allTargetsMet = false;
                 break;  // No need to check further if any target is not met
             }
