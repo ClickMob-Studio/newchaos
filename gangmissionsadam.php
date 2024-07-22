@@ -90,7 +90,7 @@ if ($user_class->gang != 0) {
                     $nowTime = time();
                     $nextStartTime = $lastMission['time'] + (7 * 24 * 60 * 60);
                     if ($nowTime < $nextStartTime) {
-                        $startBtn = 'Available in ' . secondsToTime($nextStartTime);
+                        $startBtn = 'Available in ' . secondsToTime($nowTime - $nextStartTime);
                     }
                 }
 
