@@ -1,7 +1,7 @@
 <?php
 
 include 'header.php';
-exit;
+
 if ($_GET['wekey'] === 'herewego') {
 
     // Define Dates
