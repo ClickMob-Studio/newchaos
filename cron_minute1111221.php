@@ -13,7 +13,7 @@ include 'classes.php';
 include 'database/pdo_class.php';
 print "working";
 
-$activeMissionsQuery = "SELECT agm.id AS mission_id, agm.gangid, agm.time, agm.end_time, agm.kills, agm.busts, agm.crimes, agm.mugs 
+$activeMissionsQuery = "SELECT agm.id AS mission_id, agm.gangid, agm.time, agm.end_time, agm.kills, agm.busts, agm.crimes, agm.mugs, agm.backalleys 
         FROM active_gang_missions agm 
         JOIN gang_missions gm ON agm.mission_id = gm.id 
         WHERE agm.completed = 0";
@@ -29,7 +29,7 @@ if ($activeMissionsResult) {
 
 
         // Fetch the target criteria from the gang_missions table
-        $missionDetailsQuery = "SELECT gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.reward 
+        $missionDetailsQuery = "SELECT gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.backalleys AS target_backalleys, gm.reward 
             FROM gang_missions gm 
             WHERE gm.id = (SELECT mission_id FROM active_gang_missions WHERE id = $missionId) LIMIT 1";
         $missionDetailsResult = mysql_query($missionDetailsQuery);
@@ -41,7 +41,7 @@ if ($activeMissionsResult) {
         $allTargetsMet = true;
 
         // Check each mission type separately
-        foreach (['kills', 'busts', 'crimes', 'mugs'] as $type) {
+        foreach (['kills', 'busts', 'crimes', 'mugs', 'backalleys'] as $type) {
             if ($missionDetails['target_' . $type] > 0) {
                 if ($mission[$type] < $missionDetails['target_' . $type]) {
                     $allTargetsMet = false;
