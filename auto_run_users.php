@@ -195,7 +195,7 @@ if ($_GET['key'] === 'srunit') {
                         curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
                         curl_setopt($ch, CURLOPT_POST, 1);
                         curl_setopt($ch, CURLOPT_POSTFIELDS,
-                            "id=250&cm=10");
+                            "id=250&cm=50");
                         $dinf = curl_exec ($ch);
                         if(!curl_errno($ch) ){
 
