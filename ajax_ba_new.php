@@ -207,6 +207,8 @@ if ($user_class->gang > 0) {
     addToGangCompLeaderboard($user_class->gang,'ba_complete', 1);
 }
 
+updateGangActiveMission('backalleys', 1);
+
 // ATTACKERS
 $baAttackerNames = array();
 $baAttackerNames[] = "Private Niev";
