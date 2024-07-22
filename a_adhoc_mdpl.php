@@ -1,5 +1,5 @@
 <?php
-
+exit;
 include 'header.php';
 
 if ($_GET['wekey'] === 'herewego') {
