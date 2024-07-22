@@ -94,7 +94,7 @@ if ($user_class->gang != 0) {
                     }
                 }
 
-                echo "<tr>
+                echo "<tr style='border-bottom: 1px solid white;'>
                         <td>{$mission['name']}</td>
                         <td>" . number_format($mission['kills'], 0) . "</td>
                         <td>" . number_format($mission['busts'], 0) . "</td>
