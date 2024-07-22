@@ -113,6 +113,12 @@ function secondsToTime($seconds)
     $dtT = new DateTime("@$seconds");
     return $dtF->diff($dtT)->format('%h hours, %i minutes and %s seconds');
 }
+function daysToTime($seconds)
+{
+    $dtF = new DateTime("@0");
+    $dtT = new DateTime("@$seconds");
+    return $dtF->diff($dtT)->format('%d days, %h hours, %i minutes and %s seconds');
+}
 function plane_popup($text, $id)
 {
     return "<a href='javascript:;' onclick=\"javascript:window.open( 'planedesc.php?id=" . $id . "', '60', 'left = 20, top = 20, width = 400, height = 350, toolbar = 0, resizable = 0, scrollbars=1' );\">" . $text . "</a>";
