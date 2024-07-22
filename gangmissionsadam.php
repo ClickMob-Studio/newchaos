@@ -90,6 +90,7 @@ if ($user_class->gang != 0) {
                     $nowTime = time();
                     $nextStartTime = $lastMission['start_time'] + (168 * 36000);
                     if ($nowTime < $nextStartTime) {
+                        $startBtn = '';
                         // TODO: Figure out how long left until they can start the mission
                     }
                 }
@@ -102,7 +103,7 @@ if ($user_class->gang != 0) {
                         <td>" . number_format($mission['mugs'], 0) . "</td>
                         <td>" . number_format($mission['reward'], 0) . "</td>
                         <td>{$mission['time']}</td>
-                        <td><a href='?acceptMission={$mission['id']}'>Accept</a></td>
+                        <td>{$startBtn}</td>
                       </tr>";
             }
             echo "</table>";
