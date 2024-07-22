@@ -80,6 +80,20 @@ if ($user_class->gang != 0) {
                   </tr>";
 
             while ($mission = mysql_fetch_assoc($missionsResult)) {
+
+                $db->query("SELECT * FROM active_gang_missions WHERE gangid = " . $user_class->gang . " AND mission_id = " . $mission['id'] . " ORDER BY start_time DESC LIMIT 1");
+                $db->execute();
+                $lastMission = $db->fetch_row(true);
+
+                $startBtn = "<a href='?acceptMission={$mission['id']}'>Accept</a>";
+                if ($lastMission) {
+                    $nowTime = time();
+                    $nextStartTime = $lastMission['start_time'] + (168 * 36000);
+                    if ($nowTime < $nextStartTime) {
+                        // TODO: Figure out how long left until they can start the mission
+                    }
+                }
+
                 echo "<tr>
                         <td>{$mission['name']}</td>
                         <td>" . number_format($mission['kills'], 0) . "</td>
@@ -136,6 +150,12 @@ if ($user_class->gang != 0) {
 } else {
     echo Message("You aren't in a gang.");
 }
+
+?>
+
+<br /><br /><hr />
+
+<?php
 
 include("gangheaders.php");
 include 'footer.php';
