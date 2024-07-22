@@ -81,7 +81,7 @@ if ($user_class->gang != 0) {
 
             while ($mission = mysql_fetch_assoc($missionsResult)) {
 
-                $db->query("SELECT * FROM active_gang_missions WHERE gangid = " . $user_class->gang . " AND mission_id = " . $mission['id'] . " ORDER BY start_time DESC LIMIT 1");
+                $db->query("SELECT * FROM active_gang_missions WHERE gangid = " . $user_class->gang . " AND mission_id = " . $mission['id'] . " ORDER BY time DESC LIMIT 1");
                 $db->execute();
                 $lastMission = $db->fetch_row(true);
 
