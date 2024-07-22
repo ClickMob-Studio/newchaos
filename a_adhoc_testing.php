@@ -16,6 +16,7 @@ $activeMissionsQuery = "SELECT agm.id AS mission_id, agm.gangid, agm.time, agm.e
 $activeMissionsResult = mysql_query($activeMissionsQuery);
 
 if ($activeMissionsResult) {
+    echo 'misson found - ';
     $currentTime = time();
 
     while ($mission = mysql_fetch_assoc($activeMissionsResult)) {
@@ -44,6 +45,12 @@ if ($activeMissionsResult) {
                     break;  // No need to check further if any target is not met
                 }
             }
+        }
+
+        if ($allTargetsMet) {
+            echo 'targets met - ';
+        } else {
+            echo 'targets not met - ';
         }
 
         if ($allTargetsMet) {
