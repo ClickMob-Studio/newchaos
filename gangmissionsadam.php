@@ -90,7 +90,7 @@ if ($user_class->gang != 0) {
                     $nowTime = time();
                     $nextStartTime = $lastMission['time'] + (168 * 36000);
                     if ($nowTime < $nextStartTime) {
-                        $startBtn = '';
+                        $startBtn = secondsToTime($nextStartTime);
                         // TODO: Figure out how long left until they can start the mission
                     }
                 }
