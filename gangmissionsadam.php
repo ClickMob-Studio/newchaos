@@ -8,7 +8,7 @@ if ($user_class->gang != 0) {
     $gang_class = new Gang($user_class->gang);
 
  
-    $checkActiveMission = mysql_query("SELECT agm.kills AS current_kills, agm.busts AS current_busts, agm.crimes AS current_crimes, agm.mugs AS current_mugs, gm.name, gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.reward, gm.time AS 'mission_time', UNIX_TIMESTAMP() AS 'current_time', agm.end_time FROM active_gang_missions agm JOIN gang_missions gm ON agm.mission_id = gm.id WHERE agm.gangid = '{$user_class->gang}' AND agm.completed = 0 LIMIT 1");
+    $checkActiveMission = mysql_query("SELECT agm.kills AS current_kills, agm.busts AS current_busts, agm.crimes AS current_crimes, agm.mugs AS current_mugs, agm.backalleys AS current_backalleys, gm.name, gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.backalleys AS target_backalleys, gm.reward, gm.time AS 'mission_time', UNIX_TIMESTAMP() AS 'current_time', agm.end_time FROM active_gang_missions agm JOIN gang_missions gm ON agm.mission_id = gm.id WHERE agm.gangid = '{$user_class->gang}' AND agm.completed = 0 LIMIT 1");
 
     if (!$checkActiveMission) {
         die('Invalid query: ' . mysql_error());
@@ -25,6 +25,7 @@ if ($user_class->gang != 0) {
                     <th>Busts</th>
                     <th>Crimes</th>
                     <th>Mugs</th>
+                    <th>Backalley</th>
                     <th>Reward</th>
                     <th>Time Remaining</th>
                 </tr>
@@ -34,6 +35,7 @@ if ($user_class->gang != 0) {
                     <td>" . (($activeMission['target_busts'] > 0) ? number_format($activeMission['current_busts'], 0) : '0') . " / " . (number_format($activeMission['target_busts'], 0) ?: '0') . "</td>
                     <td>" . (($activeMission['target_crimes'] > 0) ? number_format($activeMission['current_crimes'], 0) : '0') . " / " . (number_format($activeMission['target_crimes'], 0) ?: '0') . "</td>
                     <td>" . (($activeMission['target_mugs'] > 0) ? number_format($activeMission['current_mugs'], 0) : '0') . " / " . (number_format($activeMission['target_mugs'], 0) ?: '0') . "</td>
+                    <td>" . (($activeMission['target_backalleys'] > 0) ? number_format($activeMission['current_backalleys'], 0) : '0') . " / " . (number_format($activeMission['target_backalleys'], 0) ?: '0') . "</td>
                     <td>".number_format($activeMission['reward'])." points</td>
                     <td><div id='countdown'>Loading...</div></td>
                 </tr>
@@ -74,6 +76,7 @@ if ($user_class->gang != 0) {
                     <th>Busts</th>
                     <th>Crimes</th>
                     <th>Mugs</th>
+                    <th>Backalleys</th>
                     <th>Reward (points)</th>
                     <th>Time (hours)</th>
                     <th>Action</th>
@@ -100,6 +103,7 @@ if ($user_class->gang != 0) {
                         <td>" . number_format($mission['busts'], 0) . "</td>
                         <td>" . number_format($mission['crimes'], 0) . "</td>
                         <td>" . number_format($mission['mugs'], 0) . "</td>
+                        <td>" . number_format($mission['backalleys'], 0) . "</td>
                         <td>" . number_format($mission['reward'], 0) . "</td>
                         <td>{$mission['time']}</td>
                         <td>{$startBtn}</td>
