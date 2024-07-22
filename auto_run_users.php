@@ -32,7 +32,7 @@ if ($_GET['key'] === 'srunit') {
                 $mMission = $db->fetch_row();
 
                 $runChance = mt_rand(1,100);
-                if ($runChance > 60) {
+                if ($runChance > 50) {
                     $hasActionComplete = true;
 
                     if (isset($mMission[0]['id'])) {
@@ -109,7 +109,7 @@ if ($_GET['key'] === 'srunit') {
             }
 
             // Check whether to start an active mission - 33% chance of starting a mission
-            if (mt_rand(1,3) > 1) {
+            if (mt_rand(1,4) > 1) {
                 $hasActionComplete = true;
 
                 if (!isset($check[0]['id'])) {
