@@ -237,6 +237,7 @@ if ($mug <= 8) {
 
             mission('m');
             newmissions('mugs');
+            updateGangActiveMission('mugs', 1);
             gangContest(array('mugs' => 1));
             bloodbath('mugs', $user_class->id);
 
