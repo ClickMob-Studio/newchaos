@@ -486,6 +486,7 @@ $city = mysql_real_escape_string($user_class->city);
    
    mission('k');
     newmissions('kills');
+    updateGangActiveMission('kills', 1);
     gangContest(array(
         'kills' => 1,
         'exp' => $expwon
