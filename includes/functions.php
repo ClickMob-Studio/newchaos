@@ -1845,14 +1845,14 @@ function updateGangActiveMission( $field, $value) {
     // Check if the user is in a gang
     if ($user_class->gang != 0) {
         // Prepare and execute the query to check for an active mission
-        $sql = "SELECT agm.kills, agm.busts, agm.crimes, agm.mugs, gm.name, gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.reward, gm.time AS 'mission_time', UNIX_TIMESTAMP() AS 'current_time', agm.end_time FROM active_gang_missions agm JOIN gang_missions gm ON agm.mission_id = gm.id WHERE agm.gangid = :gangid AND agm.completed = 0 LIMIT 1";
+        $sql = "SELECT agm.kills, agm.busts, agm.crimes, agm.mugs, agm.backalleys, gm.name, gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.backalleys AS target_backalleys, gm.reward, gm.time AS 'mission_time', UNIX_TIMESTAMP() AS 'current_time', agm.end_time FROM active_gang_missions agm JOIN gang_missions gm ON agm.mission_id = gm.id WHERE agm.gangid = :gangid AND agm.completed = 0 LIMIT 1";
         $db->query($sql);
         $db->bind(':gangid', $user_class->gang);
         $activeMission = $db->fetch_row(true);
 
         if ($activeMission) {
             // Sanitize the field name to prevent SQL injection
-            $allowed_fields = ['kills', 'busts', 'crimes', 'mugs'];
+            $allowed_fields = ['kills', 'busts', 'crimes', 'mugs', 'backalleys'];
             if (!in_array($field, $allowed_fields)) {
                 die('Invalid field specified.');
             }
