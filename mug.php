@@ -145,6 +145,7 @@ if ($success) {
             echo Message("You reach into $attack_person->formattedname's pockets and find nothing!");
             mission('m');
             newmissions('mugs');
+            updateGangActiveMission('mugs', 1);
             gangContest(array('mugs' => 1));
             bloodbath('mugs', $user_class->id);
             mysql_query("UPDATE grpgusers SET moth = moth + 1, motd = motd + 1 WHERE id = $user_class->id");
@@ -187,6 +188,7 @@ if ($user_class->gang != 0){
             mysql_query("INSERT INTO muglog (mugger, mugged, amount, active, timestamp) VALUES($user_class->id,$attack_person->id,$mugamount,$online,unix_timestamp())");
             mission('m');
             newmissions('mugs');
+            updateGangActiveMission('mugs', 1);
             gangContest(array('mugs' => 1));
             bloodbath('mugs', $user_class->id);
         }
