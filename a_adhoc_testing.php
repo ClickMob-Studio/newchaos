@@ -3,7 +3,7 @@
 include 'dbcon.php';
 include 'classes.php';
 include 'database/pdo_class.php';
-print "working";
+print "working - ";
 
 $activeMissionsQuery = "SELECT agm.id AS mission_id, agm.gangid, agm.time, agm.end_time, agm.kills, agm.busts, agm.crimes, agm.mugs 
         FROM active_gang_missions agm 
@@ -27,6 +27,7 @@ if ($activeMissionsResult) {
             WHERE gm.id = (SELECT mission_id FROM active_gang_missions WHERE id = $missionId) LIMIT 1";
         $missionDetailsResult = mysql_query($missionDetailsQuery);
         if (!$missionDetailsResult) {
+            echo 'Skip if details cant be fetched - ';
             continue;  // Skip if details can't be fetched
         }
         $missionDetails = mysql_fetch_assoc($missionDetailsResult);
