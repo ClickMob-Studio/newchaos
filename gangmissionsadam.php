@@ -89,6 +89,7 @@ if ($user_class->gang != 0) {
                 if ($lastMission) {
                     $nowTime = time();
                     $nextStartTime = $lastMission['time'] + (168 * 36000);
+                    echo $nextStartTime; 
                     if ($nowTime < $nextStartTime) {
                         $startBtn = 'Available in ' . secondsToTime($nextStartTime);
                     }
