@@ -85,7 +85,7 @@ if ($user_class->gang != 0) {
                 $db->execute();
                 $lastMission = $db->fetch_row(true);
 
-                $startBtn = "<a href='?acceptMission={$mission['id']}'>Accept</a>";
+                $startBtn = "<a class='btn btn-primary' href='?acceptMission={$mission['id']}'>Accept</a>";
                 if ($lastMission) {
                     $nowTime = time();
                     $nextStartTime = $lastMission['time'] + (7 * 24 * 60 * 60);
@@ -94,7 +94,7 @@ if ($user_class->gang != 0) {
                     }
                 }
 
-                echo "<tr style='border-bottom: 1px solid white;'>
+                echo "<tr>
                         <td>{$mission['name']}</td>
                         <td>" . number_format($mission['kills'], 0) . "</td>
                         <td>" . number_format($mission['busts'], 0) . "</td>
