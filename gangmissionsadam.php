@@ -88,7 +88,7 @@ if ($user_class->gang != 0) {
                 $startBtn = "<a href='?acceptMission={$mission['id']}'>Accept</a>";
                 if ($lastMission) {
                     $nowTime = time();
-                    $nextStartTime = $lastMission['start_time'] + (168 * 36000);
+                    $nextStartTime = $lastMission['time'] + (168 * 36000);
                     if ($nowTime < $nextStartTime) {
                         $startBtn = '';
                         // TODO: Figure out how long left until they can start the mission
