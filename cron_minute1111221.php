@@ -906,7 +906,7 @@ if ($activeMissionsResult) {
             $rewardQuery = "UPDATE gangs SET pointsvault = pointsvault + {$missionDetails['reward']} WHERE id = $gangId";
             mysql_query($rewardQuery);
 
-            $successMessage = "Your gang has successfully completed the mission and earned a reward of {$missionDetails['reward']} points.";
+            $successMessage = "Your gang has successfully completed the mission and earned a reward of " . number_format($missionDetails['reward'], 0). " points.";
 
             $gangMembersQuery = "SELECT id FROM grpgusers WHERE gang = $gangId";
             $gangMembersResult = mysql_query($gangMembersQuery);
