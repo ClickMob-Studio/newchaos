@@ -1531,7 +1531,7 @@ if ($bonus_row['Time'] > 0) {
 //$messages[] = '<a href="ucl_contest.php"><font color=red>Activity Contest: Complete ' . ucfirst($activityContest['type']) . ' </font></a>';
 
 if ($user_class->gang > 0) {
-    $messages[] = '<a href="gang_doubleexp.php"><font color=red>Gang Challenge</font></a>';
+    //$messages[] = '<a href="gang_doubleexp.php"><font color=red>Gang Challenge</font></a>';
 }
 
 
