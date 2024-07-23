@@ -1813,8 +1813,8 @@ if ($user_class->id == 0) {
                         <h5 class="modal-title" id="timeModalLabel">Current Time</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body" id="timeDisplay">
-                        <!-- Time will be displayed here -->
+                    <div class="modal-body">
+                        <?php echo date('m/d h:i a', time()); ?>
                     </div>
                 </div>
             </div>
