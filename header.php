@@ -214,11 +214,11 @@ if ($user_class->gang != 0) {
         ));
     }
 }
-if($user_class->id == 699){
-    session_destroy();
-    session_unset();
-    header("Location: index.php");
-}
+// if($user_class->id == 699){
+//     session_destroy();
+//     session_unset();
+//     header("Location: index.php");
+// }
 $db->query("SELECT type, id FROM bans WHERE type IN ('freeze', 'perm') AND id = ?");
 $db->execute(array(
     $user_class->id
