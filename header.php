@@ -2,6 +2,41 @@
 
 session_start();
 header('Content-Type: text/html; charset=utf-8');
+function getUserIP() {
+    // Check for shared internet/ISP IP
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    // Check for IPs passing through proxies
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    // Use the remote address
+    } else {
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
+}
+
+// Function to log the page view
+function logPageView() {
+    // Get the user's IP address
+    $ip = getUserIP();
+    
+    // Get the current page URL
+    $pageURL = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    
+    // Get the current date and time
+    $dateTime = date("Y-m-d H:i:s");
+    
+    // Create a log entry
+    $logEntry = "IP: $ip | Page: $pageURL | DateTime: $dateTime\n";
+    
+    // Specify the log file path
+    $logFilePath = 'page_views.log';
+    
+    // Write the log entry to the log file
+    file_put_contents($logFilePath, $logEntry, FILE_APPEND);
+}
+
 
 
 // Get the name of the current script and the full request URI to check for specific query parameters
@@ -57,7 +92,10 @@ if (isset($_GET['action']) && $_GET['action'] == "logout") {
 }
 $uid = $_SESSION['id'];
 $user_class = new User($uid);
-
+if($user_class->id == 18){
+    // Call the function to log the page view
+logPageView();
+}
 if ($uid == 1) {
     $user_class->admin = 1;
 }
