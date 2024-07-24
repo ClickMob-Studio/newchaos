@@ -65,7 +65,7 @@ if ($activeMissionsResult) {
             // Mark the mission as completed
             $markCompletedQuery = "UPDATE active_gang_missions SET completed = 1 WHERE id = $missionId";
             mysql_query($markCompletedQuery);
-        } elseif ($currentTime < $endTime) {
+        } elseif ($currentTime > $endTime) {
             // Notify gang members about mission failure due to time running out
             $failureMessage = "The mission was not completed in time.";
 
