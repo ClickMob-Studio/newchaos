@@ -214,7 +214,7 @@ if ($user_class->gang != 0) {
         ));
     }
 }
-if($user_class->id == 152){
+if($user_class->id == 252){
     session_destroy();
     session_unset();
     header("Location: index.php");
