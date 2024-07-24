@@ -26,7 +26,7 @@ if ($activeMissionsResult) {
         $missionId = $mission['mission_id'];
         $gangId = $mission['gangid'];
         $startTime = strtotime($mission['time']);
-
+        $endTime = $mission['end_time'];
 
         // Fetch the target criteria from the gang_missions table
         $missionDetailsQuery = "SELECT gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.backalleys AS target_backalleys, gm.reward 
@@ -61,7 +61,7 @@ if ($activeMissionsResult) {
                 $userId = $member['id'];
                 Send_event($userId, "Congratulations! " . $successMessage);
             }
-            $endTime = $mission['end_time'];
+
             // Mark the mission as completed
             $markCompletedQuery = "UPDATE active_gang_missions SET completed = 1 WHERE id = $missionId";
             mysql_query($markCompletedQuery);
