@@ -15,4 +15,12 @@ foreach ($events as $event) {
     $rows[$event['to']]++;
 }
 
-print_r($rows); exit;
+foreach ($rows as $userid => $amount) {
+    $reward = 150000000 * $amount;
+    echo 'UPDATE grpgusers SET bank = bank + ' . $reward . ' WHERE id = ' . $userid;
+    echo '<br />';
+
+//    $db->query('UPDATE grpgusers SET bank = bank + ' . $reward . ' WHERE id = ' . $userid);
+//    $db->execute();
+}
+exit;
