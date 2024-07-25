@@ -20,7 +20,6 @@ foreach ($rows as $userid => $amount) {
     echo 'UPDATE grpgusers SET bank = bank + ' . $reward . ' WHERE id = ' . $userid;
     echo '<br />';
 
-//    $db->query('UPDATE grpgusers SET bank = bank + ' . $reward . ' WHERE id = ' . $userid);
-//    $db->execute();
+    $db->query('UPDATE grpgusers SET bank = bank + ' . $reward . ' WHERE id = ' . $userid);
+    $db->execute();
 }
-exit;
