@@ -1,5 +1,5 @@
 <?php
-
+exit;
 include 'header.php';
 
 
