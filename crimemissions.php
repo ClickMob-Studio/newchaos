@@ -149,7 +149,7 @@ if (mysql_fetch_array($check)) {
             if ($tempItemUse['mission_passes'] > 0) {
                 $secondButton = '
                 <br />
-                <a href="#">Reset Mission</a>
+                <a href="#" style="color:#ff6218;">Reset Mission</a>
                 ';
             }
         } else {
