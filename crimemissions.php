@@ -140,12 +140,22 @@ if (mysql_fetch_array($check)) {
     $currenttime = time();
     while ($v = mysql_fetch_array($q2)) {
 
+        $secondButton = '';
         $r = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid={$user_class->id} AND mid={$v['id']} ORDER BY timestamp DESC LIMIT 1"));
         if ($v['between'] + $r['timestamp'] > $currenttime) {
             $button = "Available in " . secondsToTime(($v['between'] + $r['timestamp']) - $currenttime);
+
+            $tempItemUse = getItemTempUse($user_class->id);
+            if ($tempItemUse['mission_passes'] > 0) {
+                $secondButton = '
+                <br />
+                <a href="#">Reset Mission</a>
+                ';
+            }
         } else {
             $button = "<input TYPE='button' value='Do Mission' onclick=window.location.href='?do={$v['id']}'>";
         }
+
 
         print "
         <div class='myTable' style='margin-top: 20px;'>
@@ -162,7 +172,10 @@ if (mysql_fetch_array($check)) {
                 <td class='mission-columns'>{$v['name']}</td>
                 <td class='mission-columns'>Kills: <span class='text-green'>{$v['kills']}<br /></span>Crimes: <span class='text-green'>{$v['crimes']}<br /></span>Mugs: <span class='text-green'>{$v['mugs']}<br /></span>Busts: <span class='text-green'>{$v['busts']}</span></td>
                 <td class='mission-columns'>Kills: <span class='text-green'>{$v['payKills']}</span> Points<br/>Crimes: <span class='text-green'>{$v['payCrimes']}</span> Points<br/>Mugs: <span class='text-green'>{$v['payMugs']}</span> Points<br/>Busts: <span class='text-green'>{$v['payBusts']}</span> Points<br/>EXP: <span class='text-green'>{$v['exp_level']}%</span> of max EXP<br/></td>
-                <td class='mission-columns'>{$button}</td>
+                <td class='mission-columns'>
+                    {$button}
+                    {$secondButton}
+                </td>
             </tr>
 
         </table>
