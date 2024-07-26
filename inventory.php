@@ -1975,6 +1975,13 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
 
                 echo Message("You open your loot crate and inside find 400,000 points, 5 x Double EXPs, 5 x Crime Boosters, 2 x Nerve Vials!");
                 break;
+            case 277:
+                $tempItemUse = getItemTempUse($user_class->id);
+
+                addItemTempUse($user_class, 'mission_passes', 1);
+
+                echo Message("Now you have used your mission pass, you can go to the missions page and you'll be able to reset any mission you have already completed today!");
+                break;
 
 case 197: // Nuke item
     // Check if the form has been submitted
