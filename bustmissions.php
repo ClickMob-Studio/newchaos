@@ -5,6 +5,24 @@ include "header.php";
 						<div class='box_middle'>
 							<div class='pad'>
 <?php
+if (isset($_GET['reset_mission']) && (int)$_GET['reset_mission']) {
+    $tempItemUse = getItemTempUse($user_class->id);
+    if ($tempItemUse['mission_passes'] < 1) {
+        diefun('You do not have any mission passes available to reset this mission.');
+    }
+
+    $resetMissionId = (int)$_GET['reset_mission'];
+    $now = time();
+
+    $r = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid={$user_class->id} AND mid={$resetMissionId} ORDER BY timestamp DESC LIMIT 1"));
+
+    mysql_query("UPDATE missions SET completed = 'no', timestamp = " . $now . ", crimes = 0, mugs = 0, kills = 0, busts = 0, backalleys = 0, crimes_paid = 0 WHERE id = " . $r['id']);
+
+    removeItemTempUse($user_class->id, 'mission_passes', 1);
+
+    diefun('You have successfully reset your mission.');
+}
+
 if (isset($_GET['do'])) {
     $do = abs(intval($_GET['do']));
     if ($do != 1 && $do != 2 && $do != 3 && $do != 4 && $do != 5 && $do != 6  && $do != 7 && $do != 8 && $do != 9 && $do != 10 && $do != 22 && $do != 23 && $do != 24 && $do != 25 && $do != 26 && $do != 27 && $do != 40)
@@ -130,6 +148,13 @@ if (mysql_fetch_array($check)) {
         $r = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid={$user_class->id} AND mid={$v['id']} ORDER BY timestamp DESC LIMIT 1"));
         if ($v['between'] + $r['timestamp'] > $currenttime) {
             $button = "Available in " . secondsToTime(($v['between'] + $r['timestamp']) - $currenttime);
+            $tempItemUse = getItemTempUse($user_class->id);
+            if ($tempItemUse['mission_passes'] > 0) {
+                $secondButton = '
+                <br /><br />
+                <a href="?reset_mission=' . $v['id'] . '" style="color:#ff6218;">Reset Mission</a>
+                ';
+            }
         } else {
             $button = "<input TYPE='button' value='Do Mission' onclick=window.location.href='?do={$v['id']}'>";
         }
@@ -150,7 +175,10 @@ if (mysql_fetch_array($check)) {
                 <td class='mission-columns'>{$v['name']}</td>
                 <td class='mission-columns'>Kills: <span class='text-green'>{$v['kills']}<br /></span>Crimes: <span class='text-green'>{$v['crimes']}<br /></span>Mugs: <span class='text-green'>{$v['mugs']}<br /></span>Busts: <span class='text-green'>{$v['busts']}</span></td>
                 <td class='mission-columns'>Kills: <span class='text-green'>{$v['payKills']}</span> Points<br/>Crimes: <span class='text-green'>{$v['payCrimes']}</span> Points<br/>Mugs: <span class='text-green'>{$v['payMugs']}</span> Points<br/>Busts: <span class='text-green'>{$v['payBusts']}</span> Points<br/>EXP: <span class='text-green'>{$v['exp_level']}%</span> of max EXP<br/></td>
-                <td class='mission-columns'>{$button}</td>
+                <td class='mission-columns'>
+                    {$button}
+                    {$secondButton}
+                </td>
             </tr>
 
         </table>
