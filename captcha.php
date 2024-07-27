@@ -90,6 +90,8 @@ mysql_query('UPDATE `grpgusers` SET `captcha` = "' . $code . '" WHERE `id` = ' .
                 request.done(function (res) {
                     console.log(res);
                 });
+
+                clickCount = 0;
             }
 
             // Check for an actual mouse click (1, 2 & 3)
