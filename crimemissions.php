@@ -7,6 +7,26 @@ include "header.php";
 						<div class='box_middle'>
 							<div class='pad'>
 <?php
+
+
+if (isset($_GET['reset_mission']) && (int)$_GET['reset_mission']) {
+    $tempItemUse = getItemTempUse($user_class->id);
+    if ($tempItemUse['mission_passes'] < 1) {
+        diefun('You do not have any mission passes available to reset this mission.');
+    }
+
+    $resetMissionId = (int)$_GET['reset_mission'];
+    $now = time();
+
+    $r = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid={$user_class->id} AND mid={$resetMissionId} ORDER BY timestamp DESC LIMIT 1"));
+
+    mysql_query("UPDATE missions SET completed = 'no', timestamp = " . $now . " WHERE id = " . $r['id']);
+
+    removeItemTempUse($user_class->id, 'mission_passes', 1);
+
+    diefun('You have successfully reset your mission.');
+}
+
 if (isset($_GET['do'])) {
     $do = abs(intval($_GET['do']));
     // if ($do != 1 && $do != 2 && $do != 3 && $do != 4 && $do != 5 && $do != 6  && $do != 7 && $do != 8 && $do != 9 && $do != 10 && $do != 11 && $do != 12 && $do != 13 && $do != 14 )
