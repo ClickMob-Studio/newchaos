@@ -7,7 +7,8 @@ if (isset($_GET['page'])) {
 
     $validPageChoices = array(
         'jail',
-        'backalley'
+        'backalley',
+        'captcha'
     );
     if (!in_array($page, $validPageChoices)) {
         echo json_encode(array('success' => false, 'message' => 'Invalid page'));
@@ -24,7 +25,8 @@ if (isset($_GET['reason'])) {
     $validReasonChoices = array(
         'invalid_click',
         'click_not_trusted',
-        'dev_tools_is_open'
+        'dev_tools_is_open',
+        'click_count',
     );
     if (!in_array($reason, $validReasonChoices)) {
         echo json_encode(array('success' => false, 'message' => 'Invalid reason'));

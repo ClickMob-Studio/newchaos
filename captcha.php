@@ -75,6 +75,51 @@ mysql_query('UPDATE `grpgusers` SET `captcha` = "' . $code . '" WHERE `id` = ' .
     <div class="col-md-3"></div>
 </div>
 
+<script type="text/javascript">
+    let clickCount = 0;
+
+    document.addEventListener("DOMContentLoaded",function(){
+        document.body.addEventListener('click', function(evt) {
+            clickCount = clickCount + 1;
+            if (clickCount > 20) {
+                var request = $.ajax({
+                    url: 'ajax_autoclick_detection.php?page=captcha&reason=click_count',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    console.log(res);
+                });
+            }
+
+            // Check for an actual mouse click (1, 2 & 3)
+            if (evt.which > 3) {
+                var request = $.ajax({
+                    url: 'ajax_autoclick_detection.php?page=backalley&reason=invalid_click',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    console.log(res);
+                });
+            }
+
+            if (evt.isTrusted) {
+
+            } else {
+                var request = $.ajax({
+                    url: 'ajax_autoclick_detection.php?page=backalley&reason=click_not_trusted',
+                    method: "GET",
+                    dataType: "json"
+                });
+                request.done(function (res) {
+                    console.log(res);
+                });
+            }
+        }, true);
+    });
+</script>
+
 <?php
 include 'footer.php';
 ?>
