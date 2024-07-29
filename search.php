@@ -280,8 +280,10 @@ if (mysql_num_rows($query) == 0) {
             <td>$userfound->formattedonline</td>";
 			if($userfound->id != 1 && $userfound->id != 2){
         echo '<td><a class="btn btn-primary" href="attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">Attack</a></td>';
-            echo '<td><a class="btn btn-primary ajax-link" href="ajax_attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">S Attack</a></td>';
-
+        echo '<td><a class="btn btn-primary ajax-link" href="ajax_attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">S Attack</a></td>';
+        if ($user_class->admin > 0) {
+            echo '<td><a class="btn btn-primary ajax-link" href="ajax_attack_v2.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">Attack V2</a></td>';
+        }
 		echo '<td><a class="btn btn-primary ajax-link" href="ajax_mug.php?mug=' . $userfound->id . '&token=' . $user_class->macro_token . '">Mug</a></td>';
 	}else{
 		echo "<td></td><td></td><td></td>";
