@@ -120,7 +120,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'attack' && isset($_GET['id'])
     diefun('You have successfully initiated a takeover of the Protection Racket. All gang members will be informed to prepare for the battle. The battle will commence in 30 minutes time.');
 }
 
-$db->query("SELECT * FROM gang_territory_zone");
+$db->query("SELECT * FROM gang_territory_zone ORDER BY city_id DESC");
 $db->execute();
 $gangTerritoryZones = $db->fetch_row();
 
