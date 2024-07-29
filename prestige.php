@@ -86,6 +86,11 @@ stats-contents {
 
 $prestigeLevelRequired = 1000;
 if ($user_class->prestige > 0) {
+    if($user_class->prestige > 4 ){
+    }
+    $prestigeLevelRequired = $prestigeLevelRequired + (200 * $user_class->prestige);
+
+    }else{
     $prestigeLevelRequired = $prestigeLevelRequired + (200 * $user_class->prestige);
 }
 
@@ -186,7 +191,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'reset_spends') {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if the user has reached the maximum prestige level
-    if ($user_class->prestige >= 5) {
+    if ($user_class->prestige >= 6) {
         echo Message("You cannot Prestige again!!");
     } else if ($user_class->level >= $prestigeLevelRequired) {
         if ($user_class->prestige < 1) {
@@ -209,8 +214,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $bankCashRequired = 25000000000;
             $pointsRequired = 1500000;
             $statPercentage = 60;
+        
+        } else if ($user_class->prestige < 6) {
+        $bankCashRequired = 50000000000;
+        $pointsRequired = 2500000;
+        $statPercentage = 70;
         }
-
         if ($user_class->bank < $bankCashRequired) {
             diefun('You do not have enough cash in the bank to prestige.');
         }
@@ -468,6 +477,12 @@ echo '</table>';
         <li>$25,000,000,000 from your bank</li>
         <li>1,500,000 points</li>
         <li>60% of your stats</li>
+    </ul>
+<?php elseif ($user_class->prestige < 5): ?>
+    <ul>
+        <li>50,000,000,000 from your bank</li>
+        <li>2,500,000 points</li>
+        <li>70% of your stats</li>
     </ul>
 <?php endif; ?>
 
