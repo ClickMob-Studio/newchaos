@@ -310,34 +310,84 @@ $rtn = array();
 if ($user_class->invincible == 0) {
     if ($attack_person->invincible == 0) {
         while ($yourhp > 0 && $theirhp > 0) {
-            $hitChance = 50;
-            $maxDamage = 100;
-            $criticalHit = 1;
-            $counterAttack = 0;
-
             if ($wait == 0) {
-                // Attacking Person Attack
-                $damageDifferential = ($attack_person->moddedstrength - $user_class->moddeddefense) / $user_class->moddeddefense;
+                $hitChance = 80;
+                if ($attack_person->moddedspeed > $user_class->moddedagility) {
+                    $hitChance = $hitChance + 15;
+                }
 
-            } else {
-                // Defending Person Attack
-            }
+                if (mt_rand(1,100) > $hitChance) {
+                    // Missed
+                    $rtn[] = array(
+                        'attacking_person' => $attack_person->id,
+                        'defending_person' => $user_class->id,
+                        'is_first_attack' => $wait,
+                        'is_hit' => 0,
+                        'is_critical_hit' => 0,
+                        'is_counter_attack' => 0,
+                        'damage' => 0,
+                        'yourhp' => $yourhp,
+                        'theirhp' => $theirhp,
+                    );
+                } else {
+                    // Hit
+                    $damageResult = getAttackDamage($attack_person, $user_class);
+                    $damage = $damageResult['damage'];
+                    $yourhp = $yourhp - $damage;
 
-            $damage = round($attack_person->moddedstrength) - $user_class->moddeddefense;
-            $damage = ($damage < 1) ? 1 : $damage;
-            if ($wait == 0) {
-                $yourhp = $yourhp - $damage;
-                $number++;
-                $rtn[] = $number . ":&nbsp;" . $attack_person->formattedname . " hit you for " . prettynum($damage) . " damage using their " . $attack_person->weaponname . ". <br>";
+                    $rtn[] = array(
+                        'attacking_person' => $attack_person->id,
+                        'defending_person' => $user_class->id,
+                        'is_first_attack' => $wait,
+                        'is_hit' => 1,
+                        'is_critical_hit' => $damageResult['is_critical_hit'],
+                        'is_counter_attack' => 0,
+                        'damage' => $damage,
+                        'yourhp' => $yourhp,
+                        'theirhp' => $theirhp,
+                    );
+                }
             } else {
                 $wait = 0;
             }
+
             if ($yourhp > 0) {
-                $damage = round($user_class->moddedstrength) - $attack_person->moddeddefense;
-                $damage = ($damage < 1) ? 1 : $damage;
-                $theirhp = $theirhp - $damage;
-                $number++;
-                $rtn[] = $number . ":&nbsp;" . "You hit " . $attack_person->formattedname . " for " . prettynum($damage) . " damage using your " . $user_class->weaponname . ". <br>";
+                $hitChance = 80;
+                if ($user_class->moddedspeed > $attack_person->moddedagility) {
+                    $hitChance = $hitChance + 15;
+                }
+
+                if (mt_rand(1,100) > $hitChance) {
+                    // Missed
+                    $rtn[] = array(
+                        'attacking_person' => $user_class->id,
+                        'defending_person' => $attack_person->id,
+                        'is_first_attack' => $wait,
+                        'is_hit' => 0,
+                        'is_critical_hit' => 0,
+                        'is_counter_attack' => 0,
+                        'damage' => 0,
+                        'yourhp' => $yourhp,
+                        'theirhp' => $theirhp,
+                    );
+                } else {
+                    // Hit
+                    $damageResult = getAttackDamage($user_class, $attack_person);
+                    $damage = $damageResult['damage'];
+                    $theirhp = $theirhp - $damage;
+
+                    $rtn[] = array(
+                        'attacking_person' => $user_class->id,
+                        'defending_person' => $attack_person->id,
+                        'is_first_attack' => $wait,
+                        'is_hit' => 1,
+                        'is_critical_hit' => $damageResult['is_critical_hit'],
+                        'is_counter_attack' => 0,
+                        'damage' => $damage,
+                        'yourhp' => $yourhp,
+                        'theirhp' => $theirhp,
+                    );
+                }
             }
         }
     } else {
@@ -396,8 +446,6 @@ if ($theirhp <= 0) {
             Send_Event($winner, "Congratulations! You have defeated the Under Boss and now you are the new Under Boss of " . $cityname . ".");
         }
     }
-
-
 
     $city = mysql_real_escape_string($user_class->city);
 
@@ -589,8 +637,8 @@ if ($yourhp <= 0) {
         ));
     }
 }
-$db->query("INSERT INTO attacklog (`timestamp`, attacker, defender, winner, exp, money, active) VALUES (?, ?, ?, ?, ?, ?, ?)");
-$db->execute([time(), $user_class->id, $attack_person->id, $winner, $expwon, $moneywon, (time() - $attack_person->lastactive <= 900) ? 1 : 0]);
+//$db->query("INSERT INTO attacklog (`timestamp`, attacker, defender, winner, exp, money, active) VALUES (?, ?, ?, ?, ?, ?, ?)");
+//$db->execute([time(), $user_class->id, $attack_person->id, $winner, $expwon, $moneywon, (time() - $attack_person->lastactive <= 900) ? 1 : 0]);
 $expwon2 = intval($expwon);
 if ($attack_person->gang != 0) {
     $active = (time() - $attack_person->lastactive < 900) ? 1 : 0;
@@ -618,6 +666,43 @@ if ($user_class->gang != 0) {
         $respect_earnt
     ));
 }
+
+
+$db->query("INSERT INTO attack_v2 (timestamp, attacking_user_id, defending_user_id, winning_user_id, exp, money) VALUES (unix_timestamp(), ?, ?, ?, ?, ?, ?, ?)");
+$db->execute(array(
+    $user_class->id,
+    $attack_person->id,
+    $winner,
+    $expwon2,
+    $moneywon
+));
+
+$lastInsertId = $db->lastInsertId();
+
+foreach ($rtn as $round) {
+
+    $rtn[] = array(
+        'is_first_attack' => $wait,
+        'is_hit' => 0,
+        'is_critical_hit' => 0,
+        'is_counter_attack' => 0,
+        'damage' => 0,
+    );
+
+    $db->query("
+      INSERT INTO 
+        attack_turn_log (attack_id, attacking_user_id, defending_user_id, is_first_attack, is_hit, is_critical_hit, is_counter_attack, damage, yourhp, theirhp) 
+      VALUES 
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $db->execute(array(
+        $lastInsertId,
+        $round['att'],
+        $winner,
+        $expwon2,
+        $moneywon
+    ));
+}
+
 $winner_class = new User($winner);
 $db->query("SELECT * FROM gangwars WHERE (gang1 = ? OR gang2 = ?) AND (gang1 = ? OR gang2 = ?) AND accepted = 1 LIMIT 1");
 $db->execute(array(
