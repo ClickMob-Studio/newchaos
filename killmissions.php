@@ -6,6 +6,11 @@ include "header.php";
 							<div class='pad'>
 <?php
 if (isset($_GET['reset_mission']) && (int)$_GET['reset_mission']) {
+    $q = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid={$user_class->id} AND completed='no' ORDER BY timestamp DESC LIMIT 1"));
+    if ($q) {
+        diefun('You already have an active mission.');
+    }
+
     $tempItemUse = getItemTempUse($user_class->id);
     if ($tempItemUse['mission_passes'] < 1) {
         diefun('You do not have any mission passes available to reset this mission.');
@@ -20,7 +25,7 @@ if (isset($_GET['reset_mission']) && (int)$_GET['reset_mission']) {
 
     removeItemTempUse($user_class->id, 'mission_passes', 1);
 
-    diefun('You have successfully reset your mission.');
+    diefun('You have successfully reset your mission. <a href="killmissions.php">Go Back</a>');
 }
 
 if (isset($_GET['do'])) {
@@ -164,7 +169,7 @@ if (mysql_fetch_array($check)) {
             if ($tempItemUse['mission_passes'] > 0) {
                 $secondButton = '
                 <br /><br />
-                <a href="?reset_mission=' . $v['id'] . '" style="color:#ff6218;">Reset Mission</a>
+                <a href="?reset_mission=' . $v['id'] . '" style="color:#ff6218;">Reset Mission (Resetting a mission will start it instantly)</a>
                 ';
             }
         } else {

@@ -19,6 +19,7 @@ if ($user_class->admin < 1) {
     <li><a href="admin_pmlogs.php">PM Logs</a></li>
     <li><a href="admin_eco.php">Economy Logs</a></li>
     <li><a href="admin_gang_territory_battles.php">Protection Racket Battles</a></li>
+    <li><a href="admin_autoclick.php">Click Checks</a></li>
 </ul>
 
 <?php
