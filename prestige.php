@@ -86,12 +86,11 @@ stats-contents {
 
 $prestigeLevelRequired = 1000;
 if ($user_class->prestige > 0) {
-    if($user_class->prestige > 4 ){
-    }
     $prestigeLevelRequired = $prestigeLevelRequired + (200 * $user_class->prestige);
 
-    }else{
-    $prestigeLevelRequired = $prestigeLevelRequired + (200 * $user_class->prestige);
+    if($user_class->prestige >= 5 ){
+        $prestigeLevelRequired = $prestigeLevelRequired + (200 * $user_class->prestige) + (500 * ($user_class->prestige - 5));
+    }
 }
 
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
