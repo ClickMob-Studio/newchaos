@@ -784,7 +784,7 @@ document.addEventListener("DOMContentLoaded", function() {
     function updateCredits() {
         var donationAmount = parseFloat(amountInput.value) || 0;
         var credits = donationAmount * 10; // Assuming each dollar gives 10 credits, adjust as needed
-        var credits = credits * 2;
+        var credits = credits;
 
         donationAmountDisplay.textContent = donationAmount.toFixed(2); // Update the displayed donation amount
         creditDisplayAmount.textContent = credits; // Update the displayed credits amount
