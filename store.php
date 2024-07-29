@@ -34,7 +34,7 @@ if (!isset($_SESSION['exclude_event']) || (isset($_SESSION['last_vipstore_visit'
     $_SESSION['last_vipstore_visit'] = time();
 }
 
-$db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 4");
+$db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 5");
 $db->execute();
 $limitedPack = $db->fetch_row();
 $limitedPack = $limitedPack[0];
@@ -639,6 +639,40 @@ if ($_GET['buy'] == "freebie") {
     }
 
     if ($_GET['buy'] === 'lep_4') {
+        if ($user_class->credits < $limitedPack['gold_cost']) {
+            echo diefun("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+
+        if ($limitedPack['times_purchased'] >= $limitedPack['available']) {
+            echo diefun("This pack is no longer available. You can buy some at the upgrade store.");
+        }
+
+        if ($limitedStorePackPurchase['purchases'] >= $limitedPack['per_person_limit']) {
+            echo diefun("You have purchased the max amount of packs. You can buy some at the upgrade store.");
+        }
+
+        $db->query("UPDATE grpgusers SET credits = credits - " . $limitedPack['gold_cost'] . " WHERE id = ?");
+        $db->execute(array(
+            $user_class->id
+        ));
+
+        $db->query("UPDATE limited_store_pack SET times_purchased = times_purchased + 1 WHERE id = ?");
+        $db->execute(array(
+            $limitedPack['id']
+        ));
+
+        Give_Item($limitedPack['item_id'], $user_class->id,$limitedPack['item_quantity']);
+        addLimitedStorePackPurchase($user_class, $limitedPack['id']);
+        Send_Event($user_class->id, "You have been credited with your " . $limitedPack['name'] . ". You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
+        $db->execute(array());
+
+        Send_Event(1, $user_class->formattedname ." bought " . $limitedPack['name']);
+        Send_Event(2, $user_class->formattedname ." bought " . $limitedPack['name']);
+
+        echo Message("You spent " . $limitedPack['gold_cost'] . " GOLD for a " . $limitedPack['name']);
+    }
+
+    if ($_GET['buy'] === 'lep_5') {
         if ($user_class->credits < $limitedPack['gold_cost']) {
             echo diefun("You don't have enough credits. You can buy some at the upgrade store.");
         }
