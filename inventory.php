@@ -1815,8 +1815,8 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
                     mysql_query("UPDATE grpgusers SET points = points + " . $randpoints . " WHERE id = " . $user_class->id);
 
                     echo Message("You open the mystery box and find <span style='color:green;font-weight:bold;'>$randpoints</span> Points.");
-                } elseif ($randnum <= 60) {
-                    $randraidtokens = mt_rand(10, 250);
+                } elseif ($randnum <= 55) {
+                    $randraidtokens = mt_rand(10, 200);
                     $user_class->raitokens += $randraidtokens;
 
                     mysql_query("UPDATE grpgusers SET raidtokens = raidtokens + " . $randraidtokens . " WHERE id = " . $user_class->id);
