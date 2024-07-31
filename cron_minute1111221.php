@@ -67,7 +67,7 @@ if ($activeMissionsResult) {
             mysql_query($markCompletedQuery);
         } elseif ($currentTime > $endTime) {
             // Notify gang members about mission failure due to time running out
-            $failureMessage = "The mission was not completed in time.";
+            $failureMessage = "Your gang missions was not completed in-time resulting in failure.";
 
             $gangMembersQuery = "SELECT id FROM grpgusers WHERE gang = $gangId";
             $gangMembersResult = mysql_query($gangMembersQuery);
