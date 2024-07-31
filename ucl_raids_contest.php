@@ -60,7 +60,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
 
     <h1>Raids Contest</h1>
     <p>
-        Welcome to the Raids Contest, complete raids to earn points and push yourself up the leaderboard! Also earn and collect your milestones to earn additional points.
+        Welcome to the Raids Contest, complete raids to earn points and push yourself up the leaderboard! <strong>Also earn and collect your milestones at the bottom of the page to earn additional points</strong>.
     </p>
 
     <p><strong>Your current points:</strong></p>
@@ -110,6 +110,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
         </div>
     </div>
 
+    <br />
     <div class="row">
         <div class="col-md-12">
             <div class="table-container">
