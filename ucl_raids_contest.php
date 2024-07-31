@@ -72,7 +72,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
     <hr />
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="table-container">
                 <h2>Leaderboard</h2>
                 <p><strong>Prizes:</strong></p>
@@ -108,8 +108,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
                 </table>
             </div>
         </div>
+    </div>
 
-        <div class="col-md-6">
+    <div class="row">
+        <div class="col-md-12">
             <div class="table-container">
                 <h2>Milestones</h2>
                 <table class="new_table" id="newtables" style="width:100%;">
