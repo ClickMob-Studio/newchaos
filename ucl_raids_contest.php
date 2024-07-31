@@ -63,10 +63,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
         Welcome to the Raids Contest, complete raids to earn points and push yourself up the leaderboard! <strong>Also earn and collect your milestones at the bottom of the page to earn additional points</strong>.
     </p>
 
-    <p><strong>Your current points:</strong></p>
-    <ul>
-        <li><strong>Overall:</strong> <?php echo number_format($userCompLeaderboard['overall_raids_complete'], 0); ?></li>
-    </ul>
+    <p><strong>Your current points:</strong> <?php echo number_format($userCompLeaderboard['overall_raids_complete'], 0); ?></p>
 
     <p style="color: red">Contest Ends August 04, 2024 19:00:00 Server Time</p>
     <hr />
