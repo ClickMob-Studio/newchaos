@@ -15,6 +15,7 @@ $fetch = $db->fetch_row();
         <th>Money</th>
         <th>Credits</th>
         <th>Points</th>
+        <th>Raid Tokens</th>
         <th>Inactive Users</th>
         <th>Users</th>
     </thead>
@@ -25,6 +26,7 @@ $fetch = $db->fetch_row();
             <td>$<?php echo number_format($row['money'])?></td>
             <td><?php echo number_format($row['credits'])?></td>
             <td><?php echo number_format($row['points'])?></td>
+            <td><?php echo number_format($row['raidtokens'])?></td>
             <td><?php echo $row['inactive_users']?></td>
             <td><?php echo $row['users']?></td>
         </tr>

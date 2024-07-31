@@ -33,6 +33,12 @@ $db->execute();
 $b = $db->fetch_row(true);
 $money = $b['tmoney'] + $b['bmoney'];
 
+$db->query("SELECT sum(raidtokens) as traidtokens FROM grpgusers");
+$db->execute();
+
+$raidtokens = $db->fetch_row(true);
+$raidtoken = $raidtokens['traidtokens'];
+
 
 $db->query("INSERT INTO daily_eco (`timestamp`, credits, inactive_users, points, users, `money`) VALUES (".time().", ".$r['tcredits'].", ".$inactiveUser.", ".$points.", ".$totalUser.", ".$money.")");
 $db->execute();
