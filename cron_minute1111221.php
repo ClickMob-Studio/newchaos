@@ -343,6 +343,8 @@ if ($raid_successful) {
     
         if ($raid_successful) {
 
+            addToUserCompLeaderboard($participant['user_id'], 'raids_complete', 1);
+
             $total_min_points = 0;
             $total_max_points = 0;
             $total_min_money = 0;
