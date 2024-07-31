@@ -308,7 +308,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $itemIds = array();
         //$itemIds[10] = 13; // Med Cert 75
         $itemIds[20] = 14; // Med Cert 100
-        $itemIds[40] = 10; // Double Exp [1Hour]
+        $itemIds[45] = 10; // Double Exp [1Hour]
         $itemIds[60] = 42; // Mystery Box
         $itemIds[80] = 194; // Raid Speedup
         $itemIds[100] = 251; // Raid Pass
