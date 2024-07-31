@@ -115,6 +115,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
             <div class="table-container">
                 <h2>Milestones</h2>
                 <table class="new_table" id="newtables" style="width:100%;">
+                    <tr>
+                        <th>Required Raids</th>
+                        <th>Points Prize</th>
+                    </tr>
                     <?php foreach ($milestones as $number => $points): ?>
                         <tr>
                             <td><?php echo number_format($number, 0) ?></td>
