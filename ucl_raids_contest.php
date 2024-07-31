@@ -49,9 +49,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
     }
 
     if ($mileCollected > 0) {
-        echo Message('You have successfully collected your milestone prizes, check your events to see which ones you claimed.');
+        echo Message('You have successfully collected your milestone prizes, check your events to see which ones you claimed. <a href="ucl_raids_contest.php">Go Back</a>');
     } else {
-        echo Message('You had no milestone prizes to collect.');
+        echo Message('You had no milestone prizes to collect. <a href="ucl_raids_contest.php">Go Back</a>');
     }
 
 }
