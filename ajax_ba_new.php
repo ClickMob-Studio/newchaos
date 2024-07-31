@@ -561,7 +561,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
             echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
             exit;
         } else {
-            $raidTokensWon = mt_rand(1,3) * $userBaStats['level'];
+            $raidTokensWon = mt_rand(1,2) * $userBaStats['level'];
             $baExpWon = mt_rand(1,15);
 
             $db->query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + " . $raidTokensWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
