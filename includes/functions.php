@@ -2339,7 +2339,7 @@ function getBpCategoryChallenges($bpCategory)
 
     $now = new \DateTime();
 
-    $db->query("SELECT * FROM bp_category_challenges WHERE bp_category_id = " . $bpCategory['id']);
+    $db->query("SELECT * FROM bp_category_challenges WHERE bp_category_id = " . $bpCategory['id'] . " ORDER BY type ASC, amount ASC");
     $db->execute();
     $r = $db->fetch_row();
 
