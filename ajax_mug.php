@@ -29,10 +29,7 @@ $m = new Memcache();
 $m->addServer('127.0.0.1', 11211, 33);
 
 $user_class = new User($_SESSION['id']);
-if($user_class->id == 152){
-    session_destroy();
-    header('Location: home.php');
-}
+
 session_write_close();
 
 $response = array();

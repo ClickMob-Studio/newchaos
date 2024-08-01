@@ -41,7 +41,10 @@ if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
 } else {
     $user_class = new User($_SESSION['id']);
 }
-
+if($user_class->id == 152){
+    session_destroy();
+    header('Location: home.php');
+}
 session_write_close();
 
 // $logger = new Katzgrau\KLogger\Logger('/var/www/logs/speedcrimes', Psr\Log\LogLevel::INFO, array(
