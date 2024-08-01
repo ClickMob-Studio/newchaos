@@ -3,9 +3,9 @@ session_start();
 
 require "header.php";
 
- if($user_class->id == 24) {
-     exit();
- }
+// if($user_class->id == 24) {
+//     exit();
+// }
 if($_GET['action'] == 'ban'){
     $db->query("UPDATE `grpgusers` SET `ffban` = 1 WHERE `id` = " . $user_class->id);
     $db->execute();
