@@ -123,7 +123,7 @@ if ($jailbreak != ""){
                         if ($user_class->gang != 0) {
                             mysql_query("UPDATE gangs SET dailyBusts = dailyBusts + 1 WHERE id = ".$user_class->gang);
                         }
-                        mysql_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ".$exp.", busts = busts + 1, points = points + 3, nerve = nerve - ".$nerve." WHERE id = ".$user_class->id);
+                        mysql_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ".$exp.", busts = busts + 1, points = points + 3, nerve = nerve - 10 WHERE id = ".$user_class->id);
                         mission('b');
                         newmissions('busts');
                         gangContest(array(
@@ -158,12 +158,12 @@ if ($jailbreak != ""){
                         $crimefailed = 1 + $user_class->crimefailed;
                         $jail = 10800;
                         $nerve = $user_class->nerve - $nerve;
-                        $result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, caught = caught + 1, jail = 600, nerve = nerve - ".$nerve." WHERE id =".$user_class->id);
+                        $result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, caught = caught + 1, jail = 600, nerve = nerve - 10 WHERE id =".$user_class->id);
                     }else{
                         $_SESSION['message'] ="You failed.";
                         $crimefailed = 1 + $user_class->crimefailed;
                         $nerve = $user_class->nerve - $nerve;
-                        $result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ".$nerve." WHERE id = '".$_SESSION['id']."'");
+                        $result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - 10 WHERE id = '".$_SESSION['id']."'");
                     }
                 } else {
                     echo Message("You don't have enough nerve for that crime.");
