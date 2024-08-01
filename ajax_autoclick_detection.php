@@ -38,11 +38,12 @@ if (isset($_GET['reason'])) {
 }
 
 
-$db->query("INSERT INTO autoclick_detection (userid, page, reason) VALUES (?, ?, ?)");
+$db->query("INSERT INTO autoclick_detection (userid, page, reason, timestamp) VALUES (?, ?, ?, ?)");
 $db->execute(array(
     $userId,
     $page,
-    $reason
+    $reason,
+    time()
 ));
 
 echo json_encode(array('success' => true, 'message' => 'Added'));
