@@ -1673,6 +1673,32 @@ if ($user_class->fbitime > 0) {
     $messages[] = 'You are currently in FBI Jail for ' . $user_class->fbitime . ' minutes.';
 }
 
+if ($user_class->gang > 0) {
+    $db->query("SELECT * FROM gang_territory_zone_battle WHERE attacking_gang_id = " . $user_class->gang . " AND (is_complete IS NULL OR is_complete = 0)");
+    $db->execute();
+    $attackingGangTerritoryBattles = $db->fetch_row();
+
+    if (count($attackingGangTerritoryBattles) > 0) {
+        $messages[] = "<a href='gang_territories.php'><span style='color:red;'>Protection Racket Attack!</span></a>";
+    }
+
+    $db->query("SELECT * FROM gang_territory_zone WHERE owned_by_gang_id = " . $user_class->gang);
+    $db->execute();
+    $ownedGangTerritoryZones = $db->fetch_row();
+
+    $isDefense = false;
+    foreach ($ownedGangTerritoryZones as $ownedGangTerritoryZone) {
+        if (getActiveGangTerritoryZoneBattle($ownedGangTerritoryZone)) {
+            $isDefense = true;
+        }
+    }
+
+    if ($isDefense) {
+        $messages[] = "<a href='gang_territories.php'><span style='color:red;'>Protection Racket Defense!</span></a>";
+    }
+}
+
+
 
 if (!empty($messages)) {
     echo '<script type="text/javascript">';

@@ -231,6 +231,10 @@ $ownedGangTerritoryZones = $db->fetch_row();
                                 <?php endif; ?>
                             </td>
                             <td>
+                                <?php if (getActiveGangTerritoryZoneBattle($gangTerritoryZone)): ?>
+                                    <?php $activeGangTerritoryBattle = getActiveGangTerritoryZoneBattle($gangTerritoryZone); ?>
+                                    <a href="gang_territory_battle.php?id=<?php echo $activeGangTerritoryBattle['id'] ?>" class="button">Defend</a>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>
