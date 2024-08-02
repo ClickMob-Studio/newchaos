@@ -18,7 +18,8 @@ $m->set('lastcrimeload.'.$user_class->id, time());
         ?>
         <script>
             var doingtrain = false, what = "";
-            function start(statName) {
+            function start(statName, multiplier) {
+                console.log('***** ' + multiplier);
                 what = statName;
                 doingtrain = true;
                 var isMegaTrain = $('#mega_train').is(':checked') ? 'yes' : 'no';
@@ -74,6 +75,20 @@ $m->set('lastcrimeload.'.$user_class->id, time());
         </div>
 
         <?php
+
+        if ($user_class->admin > 0) {
+            $tenXSection = "
+                <tr>
+                    <td><button onmousedown='start(\"strength\", 10);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"strength\", 10);'>10x Strength + Refills</button></td>
+                    <td><button onmousedown='start(\"defense\", 10);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"defense\", 10);'>10x Defense + Refills</button></td>
+                    <td><button onmousedown='start(\"speed\", 10);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"speed\", 10);'>10x Speed + Refills</button></td>
+                    <td><button onmousedown='start(\"agility\", 10);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"agility\", 10);'>10x Agility + Refills</button></td>
+                </tr>
+            ";
+        } else {
+            $tenXSection = "";
+        }
+
         echo "
     <br />
     
@@ -93,10 +108,10 @@ $m->set('lastcrimeload.'.$user_class->id, time());
             <td><span id='agilityamnt'>".prettynum($user_class->agility)."</span> [Ranked: ".getRank("$user_class->id", "agility")."]</td>
         </tr>
         <tr>
-            <td><button onmousedown='start(\"strength\");' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"strength\");'>Strength + Refills</button></td>
-            <td><button onmousedown='start(\"defense\");' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"defense\");'>Defense + Refills</button></td>
-            <td><button onmousedown='start(\"speed\");' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"speed\");'>Speed + Refills</button></td>
-            <td><button onmousedown='start(\"agility\");' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"agility\");'>Agility + Refills</button></td>
+            <td><button onmousedown='start(\"strength\", 1);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"strength\", 1);'>Strength + Refills</button></td>
+            <td><button onmousedown='start(\"defense\", 1);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"defense\", 1);'>Defense + Refills</button></td>
+            <td><button onmousedown='start(\"speed\", 1);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"speed\", 1);'>Speed + Refills</button></td>
+            <td><button onmousedown='start(\"agility\", 1);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"agility\", 1);'>Agility + Refills</button></td>
         </tr>
         <tr>
             <td colspan='4'><span style='color:red;font-weight:bold;'>Click and hold down the mouse on the stat + refills button.</span></td>
