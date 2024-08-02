@@ -20,6 +20,11 @@ if ($user_class->hospital > 0) {
 }
 $modifier = 1.0;
 
+$multiplier = 1;
+if (isset($_POST['multiplier']) && (int)$_POST['multiplier'] && (int)$_POST['multiplier'] == 10) {
+    $multiplier = 10;
+}
+
 // Additional Code for Mega Train Feature
 
 $mega_train_multiplier = (isset($_POST['mega_train']) && $_POST['mega_train'] === 'yes') ? 10 : 1;
@@ -114,6 +119,10 @@ if (isset($_POST['what']) AND $_POST['what'] == 'trainrefill') {
     $ptsforawake = 100 - (($user_class->directawake / $user_class->directmaxawake) * 100);
     $ptsreq = 10 + ceil($ptsforawake); // Base points required for refill, not multiplied
 
+    if ($multiplier > 1) {
+        $ptsreq = $ptsreq * $multiplier;
+    }
+
     // Check if user has enough points for the operation
     if ($user_class->points < $ptsreq * $mega_train_multiplier) {
         die("You do not have enough points to train.");
@@ -140,7 +149,9 @@ if (isset($_POST['what']) AND $_POST['what'] == 'trainrefill') {
 
         $add = ceil($add);
 
-
+        if ($multiplier > 1) {
+            $add = $add * $multiplier;
+        }
 
         $user_class->$stat += $add;
         $user_class->dailytrains += $add;
