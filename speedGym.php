@@ -77,7 +77,7 @@ $m->set('lastcrimeload.'.$user_class->id, time());
 
         <?php
 
-        if ($user_class->admin > 0) {
+        if ($user_class->admin > 0 || $user_class->id == 4) {
             $tenXSection = "
                 <tr>
                     <td><button onmousedown='start(\"strength\", 10);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"strength\", 10);'>10x Strength + Refills</button></td>
