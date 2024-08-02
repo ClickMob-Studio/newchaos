@@ -371,6 +371,10 @@ if ($_GET['buy'] == "vip7") {
                 $newcredit = $user_class->credits -= 30;
                 $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", 'QOL 10x GYM', ".$current .", ".$newcredit.")");
                 $db->execute();
+                $db->query("UPDATE grpgusers SET credits = credits - 30 WHERE id = ?");
+                $db->execute(array(
+                    $user_class->id
+                ));
 
                 $newTime = time() + 1800;
                 addItemTempUse($user_class, 'gym_10_multiplier_time', $newTime);
@@ -395,6 +399,10 @@ if ($_GET['buy'] == "vip7") {
                 $newcredit = $user_class->credits -= 30;
                 $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", 'QOL 10x GYM', ".$current .", ".$newcredit.")");
                 $db->execute();
+                $db->query("UPDATE grpgusers SET credits = credits - 30 WHERE id = ?");
+                $db->execute(array(
+                    $user_class->id
+                ));
 
                 $newTime = time() + 1800;
                 addItemTempUse($user_class, 'crime_15_multiplier_time', $newTime);
