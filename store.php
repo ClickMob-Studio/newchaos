@@ -417,6 +417,34 @@ if ($_GET['buy'] == "vip7") {
         }
     }
 
+    if ($_GET['buy'] == "qolsupercrime") {
+        if ($user_class->credits >= 50) {
+            $itemTempUse = getItemTempUse($user_class->id);
+            if ($itemTempUse['supercrime_time'] > time()) {
+                echo Message("You already have super crime access activated");
+            } else {
+                $current = $user_class->credits;
+                $newcredit = $user_class->credits -= 50;
+                $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", 'QOL 10x GYM', ".$current .", ".$newcredit.")");
+                $db->execute();
+                $db->query("UPDATE grpgusers SET credits = credits - 50 WHERE id = ?");
+                $db->execute(array(
+                    $user_class->id
+                ));
+
+                $newTime = time() + 1800;
+                addItemTempUse($user_class, 'supercrime_time', $newTime);
+
+                Send_Event(1, $user_class->formattedname ." bought QOL Super Crime");
+                Send_Event(2, $user_class->formattedname ." bought QOL Super Crime");
+
+                echo Message("You spent 50 credits for 30 minutes access to Super Crime.");
+            }
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
 if ($_GET['buy'] == "freebie") {
         if ($user_class->claimed == 1) {
             echo Message("You have already Claimed your Freebie.");
@@ -1148,12 +1176,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 <h4>Purchase now for only<br><a href="store.php?buy=qol15crimes"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
             </div>
 
-            <!-- Super Mugs -->
+            <!-- Super Crime -->
             <div class="vip-package">
-                <h4 style="color: brown;">30 mins of Super Mugs</h4>
-                <p>Unlock 30 mins of access to Super Mugs, allowing you to complete your mug missions quicker.</p>
+                <h4 style="color: brown;">15 mins of Super Crime</h4>
+                <p>Unlock 15 mins of access to Super Crime, a special crime that earns you more EXP than the standard crimes.</p>
 
-                <h4>Purchase now for only<br><a href="store.php?buy=qolsupermugs"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+                <h4>Purchase now for only<br><a href="store.php?buy=qolsupercrime"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
             </div>
 
         </div>
