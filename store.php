@@ -1069,6 +1069,45 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <br /><br />
 
+<?php if ($user_class->admin > 0): ?>
+    <br>
+    <div class="floaty" style="margin: 3px;">
+        <h4>QUALITY OF LIFE UPGRADES</h4>
+        <hr>
+        <div class="quality-of-life-upgrades" style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
+
+            <!-- 10x Super Gym -->
+            <div class="vip-package">
+                <h4 style="color: brown;">30 mins of 10x Super Gym</h4>
+                <p>Unlock 30 mins of the 10x Super Gym, allowing you to complete trains 10x quicker.</p>
+
+                <h4>Purchase now for only<br><a href="store.php?buy=qol10gym"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+            </div>
+
+            <!-- 15x Crimes -->
+            <div class="vip-package">
+                <h4 style="color: brown;">30 mins of 15x Crimes</h4>
+                <p>Unlock 30 mins of the 15x Crimes, allowing you to complete crimes 15x quicker.</p>
+
+                <h4>Purchase now for only<br><a href="store.php?buy=qol15crimes"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+            </div>
+
+            <!-- Super Mugs -->
+            <div class="vip-package">
+                <h4 style="color: brown;">30 mins of Super Mugs</h4>
+                <p>Unlock 30 mins of access to Super Mugs, allowing you to complete your mug missions quicker.</p>
+
+                <h4>Purchase now for only<br><a href="store.php?buy=qolsupermugs"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+            </div>
+
+        </div>
+        <br>
+    </div>
+
+    <br /><br />
+<?php endif; ?>
+
+
 <?php
 $bpCategory = getBpCategory();
 $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
