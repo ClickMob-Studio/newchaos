@@ -107,13 +107,13 @@ $m->set('lastcrimeload.'.$user_class->id, time());
             <td><span id='speedamnt'>".prettynum($user_class->speed)."</span> [Ranked: ".getRank("$user_class->id", "speed")."]</td>
             <td><span id='agilityamnt'>".prettynum($user_class->agility)."</span> [Ranked: ".getRank("$user_class->id", "agility")."]</td>
         </tr>
-        " . $tenXSection . "
         <tr>
             <td><button onmousedown='start(\"strength\", 1);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"strength\", 1);'>Strength + Refills</button></td>
             <td><button onmousedown='start(\"defense\", 1);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"defense\", 1);'>Defense + Refills</button></td>
             <td><button onmousedown='start(\"speed\", 1);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"speed\", 1);'>Speed + Refills</button></td>
             <td><button onmousedown='start(\"agility\", 1);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"agility\", 1);'>Agility + Refills</button></td>
         </tr>
+        " . $tenXSection . "
         <tr>
             <td colspan='4'><span style='color:red;font-weight:bold;'>Click and hold down the mouse on the stat + refills button.</span></td>
         </tr>
