@@ -160,6 +160,10 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                                    <!-- <option value="2">2X</option> -->
                                     <!--<option value="4" --><?php // echo $rmOnly ?><!-->4X (VIP Only)</option>-->
                                     <option value="10" <?php echo $rmOnly ?>>10X (VIP Only)</option>
+
+                                    <?php if ($user_class->admin > 0 || $user_class->id == 4): ?>
+                                        <option value="15">15x</option>
+                                    <?php endif; ?>
                                 </select>
                             </div>
 
