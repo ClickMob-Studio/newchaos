@@ -361,6 +361,30 @@ if ($_GET['buy'] == "vip7") {
         }
     }
 
+    if ($_GET['buy'] == "qol10gym") {
+        if ($user_class->credits >= 30) {
+            $itemTempUse = getItemTempUse($user_class->id);
+            if ($itemTempUse['gym_10_multiplier_time'] > time()) {
+                echo Message("You already have 10x gym access activated");
+            } else {
+                $current = $user_class->credits;
+                $newcredit = $user_class->credits -= 30;
+                $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", 'QOL 10x GYM', ".$current .", ".$newcredit.")");
+                $db->execute();
+
+                $newTime = time() + 1800;
+                addItemTempUse($user_class, 'gym_10_multiplier_time', $newTime);
+
+                Send_Event(1, $user_class->formattedname ." bought QOL 10x GYM");
+                Send_Event(2, $user_class->formattedname ." bought QOL 10x GYM");
+
+                echo Message("You spent 30 credits for 30 minutes access to 10x Gym.");
+            }
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
 if ($_GET['buy'] == "freebie") {
         if ($user_class->claimed == 1) {
             echo Message("You have already Claimed your Freebie.");
