@@ -56,6 +56,20 @@ if (isset($_POST['cm'])) {
     }
 }
 
+if ($crime_multiplier == 15) {
+    $tempItemUse = getItemTempUse($user_class->id);
+    if ($tempItemUse['crime_15_multiplier_time'] < time()) {
+        echo json_encode(array(
+            'text' => "You do not have access to 15x crimes.",
+            //'error' => 'refresh'
+        ));
+        $debug['error'] = "15X CRIMES";
+        //$logger->info("", $debug);
+        die();
+
+    }
+}
+
 $debug = array(
     'id'               => $user_class->id,
     'crime_multiplier' => $crime_multiplier,
