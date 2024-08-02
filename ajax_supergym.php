@@ -22,7 +22,10 @@ $modifier = 1.0;
 
 $multiplier = 1;
 if (isset($_POST['multiplier']) && (int)$_POST['multiplier'] && (int)$_POST['multiplier'] == 10) {
-    $multiplier = 10;
+    $tempItemUse = getItemTempUse($user_class->id);
+    if ($tempItemUse['gym_10_multiplier_time'] > time()) {
+        $multiplier = 10;
+    }
 }
 
 // Additional Code for Mega Train Feature
