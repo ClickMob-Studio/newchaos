@@ -155,7 +155,11 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
 
                                         $disabled = $hasEnoughNerve ? '' : 'disabled';
 
-                                        echo '<option value="' . $row['id'] . '" data-stars="' . $star_level . '" data-crime-count="' . $crimeCount . '" ' . $disabled . '>' . $row['name'] . ' | Cost: ' . $row['nerve'] . ' Nerve</option>';
+                                        $additionalStyles = '';
+                                        if ($row['id'] == 51) {
+                                            $additionalStyles = 'style="color: red; font-weight: bold;"';
+                                        }
+                                        echo '<option ' . $additionalStyles . ' value="' . $row['id'] . '" data-stars="' . $star_level . '" data-crime-count="' . $crimeCount . '" ' . $disabled . '>' . $row['name'] . ' | Cost: ' . $row['nerve'] . ' Nerve</option>';
 
                                     }
                                     ?>
