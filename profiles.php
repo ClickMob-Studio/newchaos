@@ -363,6 +363,19 @@ if ($user_class->admin == 1 || $user_class->gm == 1 || $user_class->fm == 1) {
         echo Message("You have added " . prettynum($_POST['credits']) . " credits to $point_user->formattedname.");
         Send_Event($point_user->id, "You have been credited " . prettynum($_POST['credits']) . " credits.", $point_user->id);
     }
+
+    if (isset($_POST['senditems'])) {
+        $point_user = new User($_POST['id']);
+
+        $itemId = (int)$_POST['admin_item_id'];
+        $quantity = (int)$_POST['quantity'];
+        $itemName = Item_Name($itemId);
+
+        Give_Item($itemId, $point_user->id, $quantity);
+
+        echo Message("You have added " . prettynum($quantity) . " x " . $itemName . " to $point_user->formattedname.");
+        Send_Event($point_user->id, "You have been credited " . prettynum($quantity) . " x." . $itemName, $point_user->id);
+    }
     if (isset($_POST['addnotes'])) {
         $result = mysql_query("UPDATE `grpgusers` SET `notes` = '{$_POST['notes']}' WHERE id='{$_POST['id']}'");
         echo Message("You have edited the notes for $profile_class->formattedname.");
@@ -1693,7 +1706,7 @@ echo "</div></div>";
                                     </select><br />
 
 
-                                       <input type="number" name="quanity" placeholder="quantity" />
+                                       <input type="number" name="quantity" placeholder="quantity" />
                                 </td>
                                 <td><input type="hidden" name="id" value="<?php
                                     echo $profile_class->id;
