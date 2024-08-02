@@ -107,6 +107,7 @@ $m->set('lastcrimeload.'.$user_class->id, time());
             <td><span id='speedamnt'>".prettynum($user_class->speed)."</span> [Ranked: ".getRank("$user_class->id", "speed")."]</td>
             <td><span id='agilityamnt'>".prettynum($user_class->agility)."</span> [Ranked: ".getRank("$user_class->id", "agility")."]</td>
         </tr>
+        " . $tenXSection . "
         <tr>
             <td><button onmousedown='start(\"strength\", 1);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"strength\", 1);'>Strength + Refills</button></td>
             <td><button onmousedown='start(\"defense\", 1);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"defense\", 1);'>Defense + Refills</button></td>
