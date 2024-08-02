@@ -25,7 +25,7 @@ $m->set('lastcrimeload.'.$user_class->id, time());
                 var isMegaTrain = $('#mega_train').is(':checked') ? 'yes' : 'no';
                 var intervalId = setInterval(function() {
                     if (doingtrain && what) {
-                        trainrefill(what, isMegaTrain);
+                        trainrefill(what, isMegaTrain, multiplier);
                     } else {
                         clearInterval(intervalId);
                         intervalId = null;
@@ -41,13 +41,14 @@ $m->set('lastcrimeload.'.$user_class->id, time());
                 doingtrain = false;
             }
 
-            function trainrefill(stat, isMegaTrain) {
+            function trainrefill(stat, isMegaTrain, multiplier) {
                 $("#noti").html("<img src='images/ajax-loader.gif?' />");
                 $.post("ajax_supergym.php", {
                     amnt: <?php echo $user_class->maxenergy ?>,
                     stat: stat,
                     what: "trainrefill",
-                    mega_train: isMegaTrain // Pass the mega train status to the server
+                    mega_train: isMegaTrain, // Pass the mega train status to the server,
+                    multiplier: multiplier
                 }, function(response) {
                     var info = response.split("|");
                     $(".hidden-alert").show();
