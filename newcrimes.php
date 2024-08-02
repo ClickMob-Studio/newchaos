@@ -15,7 +15,7 @@ $db->execute(array(
 $activeMission = $db->fetch_row()[0];
 
 $itemTempUse = getItemTempUse($user_class->id);
-if ($itemTempUse['speedcrime_time'] > time()) {
+if ($itemTempUse['supercrime_time'] > time()) {
     $db->query("SELECT * FROM crimes ORDER BY nerve DESC");
     $db->execute();
 } else {
