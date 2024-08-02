@@ -1178,8 +1178,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
             <!-- Super Crime -->
             <div class="vip-package">
-                <h4 style="color: brown;">15 mins of Super Crime</h4>
-                <p>Unlock 15 mins of access to Super Crime, a special crime that earns you more EXP than the standard crimes.</p>
+                <h4 style="color: brown;">30 mins of Super Crime</h4>
+                <p>Unlock 30 mins of access to Super Crime, a special crime that earns you more EXP than the standard crimes.</p>
 
                 <h4>Purchase now for only<br><a href="store.php?buy=qolsupercrime"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
             </div>
