@@ -14,7 +14,7 @@ $db->execute(array(
 ));
 $activeMission = $db->fetch_row()[0];
 
-$db->query("SELECT * FROM crimes ORDER BY nerve DESC");
+$db->query("SELECT * FROM crimes WHERE id < 51 ORDER BY nerve DESC");
 $db->execute();
 $rows = $db->fetch_row();
 
