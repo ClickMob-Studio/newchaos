@@ -160,6 +160,10 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $db->execute(array($user_class->id, $row['id']));
     $crimeRankResult = $db->fetch_row(true);
 
+    if ($id == 51) {
+        $exp = $exp * 3;
+    }
+
     if ($crimeRankResult) {
         $crimeCount = (int)$crimeRankResult['count'];
     } else {
