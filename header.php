@@ -1644,6 +1644,12 @@ if ($tempItemUse['gang_double_exp_time'] > $time) {
     $messages[] = 'Gang Double EXP: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
 }
 
+// 10x GYM
+if ($tempItemUse['gym_10_multiplier_time'] > $time) {
+    $rtn = howlongtil($tempItemUse['gym_10_multiplier_time']);
+    $messages[] = '10x GYM: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
 
 
 // Jail
