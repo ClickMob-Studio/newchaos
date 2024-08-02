@@ -1676,6 +1676,31 @@ echo "</div></div>";
                                 <td><input type="submit" name="addcredits" value="Add Credits" /></td>
                             </form>
                             </tr>
+
+                            <tr>
+                            <form method="post">
+                                <td>Send Item:</td>
+                                <td>
+                                    <select name='admin_item_id'>
+                                        <?php
+                                        $db->query("SELECT * FROM items");
+                                        $db->execute();
+                                        $aditems = $db->fetch_row();
+                                        foreach ($aditems as $aditem):
+                                        ?>
+                                            <option value="<?php echo $aditem['id'] ?>"><?php echo $aditem['itemname'] ?></option>
+                                        <?php endforeach; ?>
+                                    </select><br />
+
+
+                                       <input type="number" name="quanity" placeholder="quantity" />
+                                </td>
+                                <td><input type="hidden" name="id" value="<?php
+                                    echo $profile_class->id;
+                                    ?>" /></td>
+                                <td><input type="submit" name="senditems" value="Send Items" /></td>
+                            </form>
+                            </tr>
                             </table>
                             </td></tr>
                             <?php
