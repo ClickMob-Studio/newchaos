@@ -1656,9 +1656,14 @@ if ($tempItemUse['crime_15_multiplier_time'] > $time) {
     $messages[] = '15x Crimes: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
 }
 
+// Super Crime
+if ($tempItemUse['supercrime_time'] > $time) {
+    $rtn = howlongtil($tempItemUse['supercrime_time']);
+    $messages[] = 'Super Crime: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
 
 
-// Jail
+    // Jail
 if ($user_class->jail > $time) {
     $rtn = howlongtil($user_class->jail);
     $messages[] = 'Jail: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
