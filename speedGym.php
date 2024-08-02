@@ -76,8 +76,8 @@ $m->set('lastcrimeload.'.$user_class->id, time());
         </div>
 
         <?php
-
-        if ($user_class->admin > 0 || $user_class->id == 4) {
+        $tempItemUse = getItemTempUse($user_class->id);
+        if ($tempItemUse['gym_10_multiplier_time'] > time()) {
             $tenXSection = "
                 <tr>
                     <td><button onmousedown='start(\"strength\", 10);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"strength\", 10);'>10x Strength + Refills</button></td>
