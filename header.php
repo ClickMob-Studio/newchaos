@@ -1647,7 +1647,13 @@ if ($tempItemUse['gang_double_exp_time'] > $time) {
 // 10x GYM
 if ($tempItemUse['gym_10_multiplier_time'] > $time) {
     $rtn = howlongtil($tempItemUse['gym_10_multiplier_time']);
-    $messages[] = '10x GYM: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+    $messages[] = '10x Gym: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
+// 15x Crimes
+if ($tempItemUse['crime_15_multiplier_time'] > $time) {
+    $rtn = howlongtil($tempItemUse['crime_15_multiplier_time']);
+    $messages[] = '15x Crimes: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
 }
 
 
