@@ -156,12 +156,12 @@ $winner = new User($attack['winning_user_id']);
 
                 <tr class="sectionProfile">
                     <td class="sectionProfile" style="text-align: center;">
-                        <?php if ($attack['is_first_attack']): ?>
+                        <?php if ($attackTurnLog['is_first_attack']): ?>
                             Due to their impeccable speed, <strong><?php echo $turnAttacker->formattedname ?></strong> attack first and dealt
                             <strong><?php echo number_format($attackTurnLog['damage'], 0) ?></strong> damage against <strong><?php echo $turnDefender->formattedname ?></strong>.
-                        <?php elseif (!$attack['is_hit']): ?>
+                        <?php elseif (!$attackTurnLog['is_hit']): ?>
                             <strong><?php echo $turnAttacker->formattedname ?></strong> attempted an attack but <strong><?php echo $turnDefender->formattedname ?></strong> used their agility to avoid the attack, taking 0 damage.
-                        <?php elseif ($attack['is_critical_hit']): ?>
+                        <?php elseif ($attackTurnLog['is_critical_hit']): ?>
                             <strong><?php echo $turnAttacker->formattedname ?></strong> launched a <span style="color: red; font-weight: bold;">CRITICAL HIT</span>
                             and dealt <strong><?php echo number_format($attackTurnLog['damage'], 0) ?></strong> damage against
                             <strong><?php echo $turnDefender->formattedname ?></strong>.
