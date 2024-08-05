@@ -171,8 +171,8 @@ $winner = new User($attack['winning_user_id']);
                         <?php endif; ?>
                         <br />
                         <br />
-                        <strong>Attackers Health:</strong> <?php echo number_format($attackTurnLog['yourhp'], 0) ?><br />
-                        <strong>Defenders Health:</strong> <?php echo number_format($attackTurnLog['theirhp'], 0) ?>
+                        <strong><?php echo $attacker->formattedname ?>:</strong> <?php echo number_format($attackTurnLog['yourhp'], 0) ?> HP<br />
+                        <strong><?php echo $defender->formattedname ?>:</strong> <?php echo number_format($attackTurnLog['theirhp'], 0) ?> HP
                     </td>
                 </tr>
             <?php endforeach; ?>
