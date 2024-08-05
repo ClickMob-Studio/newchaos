@@ -445,6 +445,72 @@ if ($_GET['buy'] == "vip7") {
         }
     }
 
+    if ($_GET['buy'] == "1missionpass") {
+        if ($user_class->credits >= 30) {
+            $current = $user_class->credits;
+            $newcredit = $user_class->credits -= 30;
+            $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", '1 x Mission Pass', ".$current .", ".$newcredit.")");
+            $db->execute();
+            $db->query("UPDATE grpgusers SET credits = credits - 30 WHERE id = ?");
+            $db->execute(array(
+                $user_class->id
+            ));
+
+            Give_Item(277, $user_class->id, 1);
+
+            Send_Event(1, $user_class->formattedname ." bought 1 x Mission Pass");
+            Send_Event(2, $user_class->formattedname ." bought 1 x Mission Pass");
+
+            echo Message("You spent 30 credits for 1 x Mission Pass.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+    if ($_GET['buy'] == "1researchtoken") {
+        if ($user_class->credits >= 50) {
+            $current = $user_class->credits;
+            $newcredit = $user_class->credits -= 50;
+            $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", '1 x Research Token', ".$current .", ".$newcredit.")");
+            $db->execute();
+            $db->query("UPDATE grpgusers SET credits = credits - 50 WHERE id = ?");
+            $db->execute(array(
+                $user_class->id
+            ));
+
+            Give_Item(276, $user_class->id, 1);
+
+            Send_Event(1, $user_class->formattedname ." bought 1 x Research Token");
+            Send_Event(2, $user_class->formattedname ." bought 1 x Research Token");
+
+            echo Message("You spent 50 credits for 1 x Research Token.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+    if ($_GET['buy'] == "1gangdoubleexp") {
+        if ($user_class->credits >= 200) {
+            $current = $user_class->credits;
+            $newcredit = $user_class->credits -= 200;
+            $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", '1 x Gang DEP', ".$current .", ".$newcredit.")");
+            $db->execute();
+            $db->query("UPDATE grpgusers SET credits = credits - 200 WHERE id = ?");
+            $db->execute(array(
+                $user_class->id
+            ));
+
+            Give_Item(257, $user_class->id, 1);
+
+            Send_Event(1, $user_class->formattedname ." bought 1 x Gang DEP");
+            Send_Event(2, $user_class->formattedname ." bought 1 x Gang DEP");
+
+            echo Message("You spent 200 credits for 1 x Gang DEP.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
 if ($_GET['buy'] == "freebie") {
         if ($user_class->claimed == 1) {
             echo Message("You have already Claimed your Freebie.");
@@ -1184,6 +1250,41 @@ document.addEventListener("DOMContentLoaded", function() {
 <!--                <h4>Purchase now for only<br><a href="store.php?buy=qolsupercrime"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>-->
 <!--            </div>-->
 
+        </div>
+        <br>
+    </div>
+
+    <br /><br />
+
+    <br>
+    <div class="floaty" style="margin: 3px;">
+        <h4>ITEMS</h4>
+        <hr>
+        <div class="items-upgrades" style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
+
+            <!-- Limited Edition Pack 1 -->
+            <div class="vip-package">
+                <h4 style="color: brown;">1 x Mission Pass</h4>
+                <img src="/css/images/NewGameImages/mission-pass.png" alt="Mission Pass">
+
+                <h4>Purchase now for only<br><a href="store.php?buy=1missionpass"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+            </div>
+
+            <!-- 1 x Research Token -->
+            <div class="vip-package">
+                <h4 style="color: brown;">1 x Research Token</h4>
+                <img src="/css/images/NewGameImages/research-token.png" alt="Research Token">
+
+                <h4>Purchase now for only<br><a href="store.php?buy=1researchtoken"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+            </div>
+
+            <!-- 1 x Gang Double EXP -->
+            <div class="vip-package">
+                <h4 style="color: brown;">1 x Gang Double EXP</h4>
+                <img src="/css/images/NewGameImages/gang-dep.png" alt="Gang Double EXP">
+
+                <h4>Purchase now for only<br><a href="store.php?buy=1gangdoubleexp"><button class="gold-button">200 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+            </div>
         </div>
         <br>
     </div>
