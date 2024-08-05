@@ -184,5 +184,5 @@ $winner = new User($attack['winning_user_id']);
     <br /><hr /><br /><br />
 
 <?php
-include("gangheaders.php");
+
 include 'footer.php';
