@@ -16,7 +16,7 @@ if (!$attack) {
     diefun('Something went wrong, if this issue persists please message an Admin.');
 }
 
-if ($user_class->id != $gangTerritoryZoneBattle['attacking_user_id'] && $user_class->id !== $gangTerritoryZoneBattle['defending_user_id'] && $user_class->admin < 1) {
+if ($user_class->id != $attack['attacking_user_id'] && $user_class->id !== $attack['defending_user_id'] && $user_class->admin < 1) {
     diefun('Your trying to view an attack you was not involved in');
 }
 
