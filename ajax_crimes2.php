@@ -154,15 +154,15 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $ftext = 'You failed to ' . $name;
     $chance = rand(1, 250);
     $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
-    $exp = ((10 * $nerve) + 8 * ($nerve - 1)) * 1.0;
+    if ($id == 51) {
+        $exp = ceil($user_class->maxexp / 1000);
+    } else {
+        $exp = ((10 * $nerve) + 8 * ($nerve - 1)) * 1.0;
+    }
     // Fetch the crime count and determine the star level
     $db->query("SELECT `count` FROM crimeranks WHERE userid = ? AND crimeid = ?");
     $db->execute(array($user_class->id, $row['id']));
     $crimeRankResult = $db->fetch_row(true);
-
-    if ($id == 51) {
-        $exp = $exp * 3;
-    }
 
     if ($crimeRankResult) {
         $crimeCount = (int)$crimeRankResult['count'];
