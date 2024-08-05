@@ -677,8 +677,7 @@ $db->execute(array(
     $moneywon
 ));
 
-//$lastInsertId = $db->lastInsertId();
-$lastInsertId = 1;
+$lastInsertId = $db->insert_id();
 
 foreach ($rtn as $round) {
 
