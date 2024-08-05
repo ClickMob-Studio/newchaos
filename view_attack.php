@@ -169,6 +169,10 @@ $winner = new User($attack['winning_user_id']);
                             <strong><?php echo $turnAttacker->formattedname ?></strong> attack and dealt <strong><?php echo number_format($attackTurnLog['damage'], 0) ?></strong> damage against
                             <strong><?php echo $turnDefender->formattedname ?></strong>.
                         <?php endif; ?>
+                        <br />
+                        <br />
+                        <strong>Attackers Health:</strong> <?php echo number_format($attackTurnLog['yourhp'], 0) ?><br />
+                        <strong>Defenders Health:</strong> <?php echo number_format($attackTurnLog['theirhp'], 0) ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
