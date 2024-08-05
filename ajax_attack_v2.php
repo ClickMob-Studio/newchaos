@@ -670,6 +670,7 @@ if ($user_class->gang != 0) {
 
 $db->query("INSERT INTO attack_v2 (timestamp, attacking_user_id, defending_user_id, winning_user_id, exp, money) VALUES (unix_timestamp(), ?, ?, ?, ?, ?, ?, ?)");
 $db->execute(array(
+    time(),
     $user_class->id,
     $attack_person->id,
     $winner,
@@ -681,13 +682,17 @@ $lastInsertId = $db->lastInsertId();
 
 foreach ($rtn as $round) {
 
-    $rtn[] = array(
-        'is_first_attack' => $wait,
-        'is_hit' => 0,
-        'is_critical_hit' => 0,
-        'is_counter_attack' => 0,
-        'damage' => 0,
-    );
+//    $rtn[] = array(
+//        'attacking_person' => $user_class->id,
+//        'defending_person' => $attack_person->id,
+//        'is_first_attack' => $wait,
+//        'is_hit' => 1,
+//        'is_critical_hit' => $damageResult['is_critical_hit'],
+//        'is_counter_attack' => 0,
+//        'damage' => $damage,
+//        'yourhp' => $yourhp,
+//        'theirhp' => $theirhp,
+//    );
 
     $db->query("
       INSERT INTO 
@@ -696,10 +701,15 @@ foreach ($rtn as $round) {
         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $db->execute(array(
         $lastInsertId,
-        $round['att'],
-        $winner,
-        $expwon2,
-        $moneywon
+        $round['attacking_person'],
+        $round['defending_person'],
+        $round['is_first_attack'],
+        $round['is_hit'],
+        $round['is_critical_hit'],
+        $round['is_counter_attack'],
+        $round['damage'],
+        $round['yourhp'],
+        $round['theirhp']
     ));
 }
 
