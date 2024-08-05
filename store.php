@@ -238,47 +238,27 @@ if (isset($_GET['buy'])) {
     }
 
     if ($_GET['buy'] == "points_five") {
-        $cost = 1000;
+        $cost = 750;
         if ($user_class->credits >= $cost) {
             $current = $user_class->credits;
             $newcredit = $user_class->credits -= $cost;
-            $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", '175000 points', ".$current .", ".$newcredit.")");
+            $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", '200000 points', ".$current .", ".$newcredit.")");
             $db->execute();
-            $db->query("UPDATE grpgusers SET points = points + 175000, credits = credits - ? WHERE id = ?");
+            $db->query("UPDATE grpgusers SET points = points + 200000, credits = credits - ? WHERE id = ?");
             $db->execute(array(
                 $cost,
                 $user_class->id
             ));
-            echo Message("You spent " . $cost . " credits for 175000 Points.");
-            Send_Event(2, $user_class->formattedname ." bought 175000 points");
-            Send_Event(1, $user_class->formattedname ." bought 175000 points");
+            echo Message("You spent " . $cost . " credits for 200000 Points.");
+            Send_Event(2, $user_class->formattedname ." bought 200000 points");
+            Send_Event(1, $user_class->formattedname ." bought 200000 points");
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
     }
 
     if ($_GET['buy'] == "points_six") {
-        $cost = 2500;
-        if ($user_class->credits >= $cost) {
-            $current = $user_class->credits;
-            $newcredit = $user_class->credits -= $cost;
-            $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", '500000 points', ".$current .", ".$newcredit.")");
-            $db->execute();
-            $db->query("UPDATE grpgusers SET points = points + 500000, credits = credits - ? WHERE id = ?");
-            $db->execute(array(
-                $cost,
-                $user_class->id
-            ));
-            echo Message("You spent " . $cost . " credits for 500000 Points.");
-            Send_Event(2, $user_class->formattedname ." bought 500000 points");
-            Send_Event(1, $user_class->formattedname ." bought 500000 points");
-        } else {
-            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-        }
-    }
-
-    if ($_GET['buy'] == "points_seven") {
-        $cost = 3250;
+        $cost = 2000;
         if ($user_class->credits >= $cost) {
             $current = $user_class->credits;
             $newcredit = $user_class->credits -= $cost;
@@ -290,9 +270,29 @@ if (isset($_GET['buy'])) {
                 $user_class->id
             ));
             echo Message("You spent " . $cost . " credits for 900000 Points.");
-
             Send_Event(2, $user_class->formattedname ." bought 900000 points");
             Send_Event(1, $user_class->formattedname ." bought 900000 points");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+    if ($_GET['buy'] == "points_seven") {
+        $cost = 2500;
+        if ($user_class->credits >= $cost) {
+            $current = $user_class->credits;
+            $newcredit = $user_class->credits -= $cost;
+            $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", '1300000 points', ".$current .", ".$newcredit.")");
+            $db->execute();
+            $db->query("UPDATE grpgusers SET points = points + 1300000, credits = credits - ? WHERE id = ?");
+            $db->execute(array(
+                $cost,
+                $user_class->id
+            ));
+            echo Message("You spent " . $cost . " credits for 1300000 Points.");
+
+            Send_Event(2, $user_class->formattedname ." bought 1300000 points");
+            Send_Event(1, $user_class->formattedname ." bought 1300000 points");
             
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
@@ -1044,7 +1044,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <h4 class="section-title">Point Packs</h4>
         <hr>
         <div class="section-items">
-            <div class="new-shop-item" data-tooltip="5,000 points added to your account">
+            <div class="new-shop-item" data-tooltip="10,000 points added to your account">
                 <div class="new-shop-item--img">
                     <h5>5,000 Points</h5>
                 </div>
@@ -1056,7 +1056,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <a class="cta" href="?buy=points_one">[Buy Now]</a>
                 </div>
             </div>
-            <div class="new-shop-item" data-tooltip="10,000 points added to your account">
+            <div class="new-shop-item" data-tooltip="5,000 points added to your account">
                 <div class="new-shop-item--img">
                     <h5>10,000 Points</h5>
                 </div>
@@ -1092,28 +1092,16 @@ document.addEventListener("DOMContentLoaded", function() {
                     <a class="cta" href="?buy=points_four">[Buy Now]</a>
                 </div>
             </div>
-            <div class="new-shop-item" data-tooltip="175,000 points added to your account">
+            <div class="new-shop-item" data-tooltip="200,000 points added to your account">
                 <div class="new-shop-item--img">
-                    <h5>175,000 Points</h5>
+                    <h5>200,000 Points</h5>
                 </div>
                 <div class="new-shop-item--price">
                     <img src="css/images/coin.png">
-                    <span>1000</span>
+                    <span>750</span>
                 </div>
                 <div class="new-shop-item--buy">
                     <a class="cta" href="?buy=points_five">[Buy Now]</a>
-                </div>
-            </div>
-            <div class="new-shop-item" data-tooltip="500,000 points added to your account">
-                <div class="new-shop-item--img">
-                    <h5>500,000 Points</h5>
-                </div>
-                <div class="new-shop-item--price">
-                    <img src="css/images/coin.png">
-                    <span>2500</span>
-                </div>
-                <div class="new-shop-item--buy">
-                    <a class="cta" href="?buy=points_six">[Buy Now]</a>
                 </div>
             </div>
             <div class="new-shop-item" data-tooltip="900,000 points added to your account">
@@ -1122,7 +1110,19 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>
                 <div class="new-shop-item--price">
                     <img src="css/images/coin.png">
-                    <span>3250</span>
+                    <span>2000</span>
+                </div>
+                <div class="new-shop-item--buy">
+                    <a class="cta" href="?buy=points_six">[Buy Now]</a>
+                </div>
+            </div>
+            <div class="new-shop-item" data-tooltip="1,300,000 points added to your account">
+                <div class="new-shop-item--img">
+                    <h5>1,300,000 Points</h5>
+                </div>
+                <div class="new-shop-item--price">
+                    <img src="css/images/coin.png">
+                    <span>2500</span>
                 </div>
                 <div class="new-shop-item--buy">
                     <a class="cta" href="?buy=points_seven">[Buy Now]</a>
@@ -1219,30 +1219,29 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <br /><br />
 
-<?php if ($user_class->admin > 0): ?>
-    <br>
-    <div class="floaty" style="margin: 3px;">
-        <h4>QUALITY OF LIFE UPGRADES</h4>
-        <hr>
-        <div class="quality-of-life-upgrades" style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
+<br>
+<div class="floaty" style="margin: 3px;">
+    <h4>QUALITY OF LIFE UPGRADES</h4>
+    <hr>
+    <div class="quality-of-life-upgrades" style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
 
-            <!-- 10x Super Gym -->
-            <div class="vip-package">
-                <h4 style="color: brown;">30 mins of 10x Super Gym</h4>
-                <p>Unlock 30 mins of the 10x Super Gym, allowing you to complete trains 10x quicker.</p>
+        <!-- 10x Super Gym -->
+        <div class="vip-package">
+            <h4 style="color: brown;">30 mins of 10x Super Gym</h4>
+            <p>Unlock 30 mins of the 10x Super Gym, allowing you to complete trains 10x quicker.</p>
 
-                <h4>Purchase now for only<br><a href="store.php?buy=qol10gym"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
-            </div>
+            <h4>Purchase now for only<br><a href="store.php?buy=qol10gym"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+        </div>
 
-            <!-- 15x Crimes -->
-            <div class="vip-package">
-                <h4 style="color: brown;">30 mins of 15x Crimes</h4>
-                <p>Unlock 30 mins of the 15x Crimes, allowing you to complete crimes 15x quicker.</p>
+        <!-- 15x Crimes -->
+        <div class="vip-package">
+            <h4 style="color: brown;">30 mins of 15x Crimes</h4>
+            <p>Unlock 30 mins of the 15x Crimes, allowing you to complete crimes 15x quicker.</p>
 
-                <h4>Purchase now for only<br><a href="store.php?buy=qol15crimes"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
-            </div>
+            <h4>Purchase now for only<br><a href="store.php?buy=qol15crimes"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+        </div>
 
-            <!-- Super Crime -->
+        <!-- Super Crime -->
 <!--            <div class="vip-package">-->
 <!--                <h4 style="color: brown;">30 mins of Super Crime</h4>-->
 <!--                <p>Unlock 30 mins of access to Super Crime, a special crime that earns you more EXP than the standard crimes.</p>-->
@@ -1250,47 +1249,46 @@ document.addEventListener("DOMContentLoaded", function() {
 <!--                <h4>Purchase now for only<br><a href="store.php?buy=qolsupercrime"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>-->
 <!--            </div>-->
 
-        </div>
-        <br>
     </div>
-
-    <br /><br />
-
     <br>
-    <div class="floaty" style="margin: 3px;">
-        <h4>ITEMS</h4>
-        <hr>
-        <div class="items-upgrades" style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
+</div>
 
-            <!-- Limited Edition Pack 1 -->
-            <div class="vip-package">
-                <h4 style="color: brown;">1 x Mission Pass</h4>
-                <img src="/css/images/NewGameImages/mission-pass.png" height="100" alt="Mission Pass">
+<br /><br />
 
-                <h4>Purchase now for only<br><a href="store.php?buy=1missionpass"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
-            </div>
+<br>
+<div class="floaty" style="margin: 3px;">
+    <h4>ITEMS</h4>
+    <hr>
+    <div class="items-upgrades" style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
 
-            <!-- 1 x Research Token -->
-            <div class="vip-package">
-                <h4 style="color: brown;">1 x Research Token</h4>
-                <img src="/css/images/NewGameImages/research-token.png" height="100" alt="Research Token">
+        <!-- Limited Edition Pack 1 -->
+        <div class="vip-package">
+            <h4 style="color: brown;">1 x Mission Pass</h4>
+            <img src="/css/images/NewGameImages/mission-pass.png" height="100" alt="Mission Pass">
 
-                <h4>Purchase now for only<br><a href="store.php?buy=1researchtoken"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
-            </div>
-
-            <!-- 1 x Gang Double EXP -->
-            <div class="vip-package">
-                <h4 style="color: brown;">1 x Gang Double EXP</h4>
-                <img src="/css/images/NewGameImages/gang-dep.png" height="100" alt="Gang Double EXP">
-
-                <h4>Purchase now for only<br><a href="store.php?buy=1gangdoubleexp"><button class="gold-button">200 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
-            </div>
+            <h4>Purchase now for only<br><a href="store.php?buy=1missionpass"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
-        <br>
-    </div>
 
-    <br /><br />
-<?php endif; ?>
+        <!-- 1 x Research Token -->
+        <div class="vip-package">
+            <h4 style="color: brown;">1 x Research Token</h4>
+            <img src="/css/images/NewGameImages/research-token.png" height="100" alt="Research Token">
+
+            <h4>Purchase now for only<br><a href="store.php?buy=1researchtoken"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+        </div>
+
+        <!-- 1 x Gang Double EXP -->
+        <div class="vip-package">
+            <h4 style="color: brown;">1 x Gang Double EXP</h4>
+            <img src="/css/images/NewGameImages/gang-dep.png" height="100" alt="Gang Double EXP">
+
+            <h4>Purchase now for only<br><a href="store.php?buy=1gangdoubleexp"><button class="gold-button">200 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+        </div>
+    </div>
+    <br>
+</div>
+
+<br /><br />
 
 
 <?php
