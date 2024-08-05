@@ -178,7 +178,7 @@ $winner = new User($attack['winning_user_id']);
             <?php endforeach; ?>
             <tr class="sectionProfile">
                 <td class="sectionProfile" style="text-align: center;">
-                    After an intense battle, <?php echo $winningUser->formattedname ?> has come out victorious.
+                    After an intense battle, <?php echo $winner->formattedname ?> has come out victorious.
                 </td>
             </tr>
             </tbody>
