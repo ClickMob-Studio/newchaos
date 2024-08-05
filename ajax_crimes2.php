@@ -155,7 +155,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $chance = rand(1, 250);
     $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
     if ($id == 51) {
-        $exp = ceil($user_class->maxexp / 5000);
+        $exp = ceil($user_class->maxexp / 4000);
     } else {
         $exp = ((10 * $nerve) + 8 * ($nerve - 1)) * 1.0;
     }
