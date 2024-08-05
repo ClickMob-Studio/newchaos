@@ -668,9 +668,8 @@ if ($user_class->gang != 0) {
 }
 
 
-$db->query("INSERT INTO attack_v2 (timestamp, attacking_user_id, defending_user_id, winning_user_id, exp, money) VALUES (unix_timestamp(), ?, ?, ?, ?, ?, ?, ?)");
+$db->query("INSERT INTO attack_v2 (timestamp, attacking_user_id, defending_user_id, winning_user_id, exp, money) VALUES (unix_timestamp(), ?, ?, ?, ?, ?)");
 $db->execute(array(
-    time(),
     $user_class->id,
     $attack_person->id,
     $winner,
