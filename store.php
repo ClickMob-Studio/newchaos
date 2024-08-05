@@ -1265,7 +1265,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <!-- Limited Edition Pack 1 -->
             <div class="vip-package">
                 <h4 style="color: brown;">1 x Mission Pass</h4>
-                <img src="/css/images/NewGameImages/mission-pass.png" alt="Mission Pass">
+                <img src="/css/images/NewGameImages/mission-pass.png" height="100" alt="Mission Pass">
 
                 <h4>Purchase now for only<br><a href="store.php?buy=1missionpass"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
             </div>
@@ -1273,7 +1273,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <!-- 1 x Research Token -->
             <div class="vip-package">
                 <h4 style="color: brown;">1 x Research Token</h4>
-                <img src="/css/images/NewGameImages/research-token.png" alt="Research Token">
+                <img src="/css/images/NewGameImages/research-token.png" height="100" alt="Research Token">
 
                 <h4>Purchase now for only<br><a href="store.php?buy=1researchtoken"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
             </div>
@@ -1281,7 +1281,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <!-- 1 x Gang Double EXP -->
             <div class="vip-package">
                 <h4 style="color: brown;">1 x Gang Double EXP</h4>
-                <img src="/css/images/NewGameImages/gang-dep.png" alt="Gang Double EXP">
+                <img src="/css/images/NewGameImages/gang-dep.png" height="100" alt="Gang Double EXP">
 
                 <h4>Purchase now for only<br><a href="store.php?buy=1gangdoubleexp"><button class="gold-button">200 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
             </div>
