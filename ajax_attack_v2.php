@@ -668,16 +668,17 @@ if ($user_class->gang != 0) {
 }
 
 
-$db->query("INSERT INTO attack_v2 (attack_time, attacking_user_id, defending_user_id, winning_user_id, exp, money) VALUES (unix_timestamp(), ?, ?, ?, ?, ?)");
-$db->execute(array(
-    $user_class->id,
-    $attack_person->id,
-    $winner,
-    $expwon2,
-    $moneywon
-));
+//$db->query("INSERT INTO attack_v2 (attack_time, attacking_user_id, defending_user_id, winning_user_id, exp, money) VALUES (unix_timestamp(), ?, ?, ?, ?, ?)");
+//$db->execute(array(
+//    $user_class->id,
+//    $attack_person->id,
+//    $winner,
+//    $expwon2,
+//    $moneywon
+//));
 
-$lastInsertId = $db->lastInsertId();
+//$lastInsertId = $db->lastInsertId();
+$lastInsertId = 1;
 
 foreach ($rtn as $round) {
 
