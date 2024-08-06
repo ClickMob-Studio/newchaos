@@ -39,16 +39,21 @@ $_SESSION['csrf'] = $csrf;
         $('.commit-super-attack-link').click(function(e) {
             e.preventDefault();
 
-            $('.commit-super-attack-link').hide();
-
             if (inProcess > 0) {
-                location.reload();
+                return false;
             }
             inProcess = 1;
 
+            $('.commit-super-attack-link').hide();
             $(".ajax-alert-div").remove();
             $(this).hide();
-            $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
+            $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/> <span class="loading-msg">Loading...</span>');
+
+            window.setTimeout(function(){
+                $('.commit-super-attack-link').show();
+                inProcess = 0;
+            },500);
+
 
             var request = $.ajax({
                 url: $(this).attr('href') + '&alv=yes',
@@ -79,58 +84,18 @@ $_SESSION['csrf'] = $csrf;
                             $(".ajax-message-holder").html(resMes);
                             $(".ajax-message-holder").show();
                             $(".temp-spinner").remove();
+                            $(".loading-msg").remove();
                         });
 
                         console.log((arLength - 1));
                         if (i > (arLength - 1)) {
-                            location.reload();
+                            //$('.commit-super-attack-link').show();
+                            // inProcess = 0;
                         }
                         i++;
                     }
                 }
             });
-
-            //for (var i = 1; i < 20; i++) {
-            //    var request = $.ajax({
-            //        url: $(this).attr('href') + '&alv=yes',
-            //        method: "GET",
-            //        dataType: "json"
-            //    });
-            //    request.done(function (res) {
-            //        if (res.success == false || res.success == 'false') {
-            //            var resMes = "<div class='alert alert-danger ajax-alert-div'><p>You don't have anyone you can attack at the moment. Consider trying a different city.</p></div>";
-            //            $(".ajax-message-holder").html(resMes);
-            //            $(".ajax-message-holder").show();
-            //        } else {
-            //            var request = $.ajax({
-            //                url: 'ajax_attack.php?attack=' + res.attack_id + '&csrf=<?php //echo $csrf  ?>//&alv=yes',
-            //                method: "GET",
-            //                dataType: "json"
-            //            });
-            //            request.done(function (resTwo) {
-            //                if (resTwo.success == false || resTwo.success == 'false') {
-            //                    var resMes = "<div class='alert alert-danger ajax-alert-div'><p>" + resTwo.error + "</p></div>";
-            //                } else {
-            //                    var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + resTwo.message + "</p></div>";
-            //                }
-            //
-            //                $(".ajax-message-holder").html(resMes);
-            //                $(".ajax-message-holder").show();
-            //                $(".temp-spinner").remove();
-            //            });
-            //
-            //        }
-            //    });
-            //
-            //    if (i > 19) {
-            //        location.reload();
-            //    }
-            //}
-
-
-            $('.commit-super-attack-link').show();
-
-            //location.reload();
         });
     </script>
 
