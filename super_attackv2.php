@@ -35,6 +35,34 @@ $_SESSION['csrf'] = $csrf;
     </div>
 
     <script type="text/javascript">
+
+        function start() {
+            if (doingcrime) return;
+
+            var id = $('#scrime').val();
+            var cm = $('#cm').val();
+            doingcrime = true;
+
+            var resetAction = function() {
+                doingcrime = false;
+                clearInterval(timerId);
+            };
+
+            var timerId = setInterval(function () {
+                if (doingcrime) {
+                    if (id > 0) {
+                        submitCrime(id, cm);
+                    } else {
+                        resetAction();
+
+                    }
+                }
+            },25);
+            document.addEventListener('mouseup', resetAction, { once: true });
+            document.addEventListener('touchend', resetAction, { once: true });
+
+        }
+
         let inProcess = 0;
         $('.commit-super-attack-link').click(function(e) {
             e.preventDefault();
@@ -44,11 +72,14 @@ $_SESSION['csrf'] = $csrf;
             }
             inProcess = 1;
 
-            $('.commit-super-attack-link').hide();
-
             $(".ajax-alert-div").remove();
             $(this).hide();
             $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
+
+            window.setTimeout(function(){
+                $('.commit-super-attack-link').show();
+            },2000);
+
 
             var request = $.ajax({
                 url: $(this).attr('href') + '&alv=yes',
