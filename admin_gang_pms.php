@@ -40,7 +40,7 @@ if ($_GET['gang_id']) {
                             <?php echo formatName($row['playerid']); ?>
                         </td>
                         <td>
-                            <?php howlongago($row['timesent']) . ' ago' ?>
+                            <?php echo howlongago($row['timesent']) . ' ago' ?>
                         </td>
                         <td>
                             <?php echo $row['type'] ?>
@@ -54,6 +54,13 @@ if ($_GET['gang_id']) {
         </table>
     </div>
 <?php else: ?>
+    <h1>Select a gang</h1>
+    <ul>
+        <?php foreach ($gangs as $gang): ?>
+            <?php $gang_class = new Gang($gang['id']); ?>
+            <li><a href="admin_gang_pms.php?gang_id=<?php echo $gang_class->id ?>"><?php echo $gang_class->formattedname ?></a></li>
+        <?php endforeach; ?>
+    </ul>
 <?php endif; ?>
 
 <?php
