@@ -9,7 +9,7 @@ if ($_GET['key'] === 'srunit') {
     $hour = $now->format('H');
 
     // Only run between 8am and 10pm to make it look more legit
-    if ($hour >= 7 && $hour < 22) {
+    if ($hour >= 7 && $hour < 21) {
         $db->query("SELECT * FROM grpgusers WHERE is_auto_user = 1");
         $db->execute();
         $rows = $db->fetch_row();
@@ -32,7 +32,7 @@ if ($_GET['key'] === 'srunit') {
                 $mMission = $db->fetch_row();
 
                 $runChance = mt_rand(1,100);
-                if ($runChance > 50) {
+                if ($runChance > 60) {
                     $hasActionComplete = true;
 
                     if (isset($mMission[0]['id'])) {
@@ -172,7 +172,7 @@ if ($_GET['key'] === 'srunit') {
             }
 
             if (!$hasActionComplete) {
-                if (mt_rand(1,2) > 1) {
+                if (mt_rand(1,20) < 2) {
                     if ($user->nerref < 1) {
                         $user->nerref = 2;
                         $db->query("UPDATE grpgusers SET nerref = ?, nerreftime = unix_timestamp() WHERE id = ?");
