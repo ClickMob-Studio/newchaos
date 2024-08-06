@@ -72,13 +72,15 @@ $_SESSION['csrf'] = $csrf;
             }
             inProcess = 1;
 
+            $('.commit-super-attack-link').hide();
             $(".ajax-alert-div").remove();
             $(this).hide();
             $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
 
             window.setTimeout(function(){
                 $('.commit-super-attack-link').show();
-            },10000);
+                inProcess = 0;
+            },2000);
 
 
             var request = $.ajax({
@@ -115,7 +117,7 @@ $_SESSION['csrf'] = $csrf;
                         console.log((arLength - 1));
                         if (i > (arLength - 1)) {
                             //$('.commit-super-attack-link').show();
-                            inProcess = 0;
+                            // inProcess = 0;
                         }
                         i++;
                     }
