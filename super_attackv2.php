@@ -1,5 +1,4 @@
 <?php
-exit;
 include "header.php";
 
 
@@ -26,9 +25,9 @@ $_SESSION['csrf'] = $csrf;
 
                 <br />
                 <a href="ajax_super_attack_id.php?v2=yes&level_limit=50" class="commit-super-attack-link"><button>Attack Up To Level 50</button></a>
-                <a href="ajax_super_attack_id.php?level_limit=100" class="commit-super-attack-link"><button>Attack Up To Level 100</button></a>
-                <a href="ajax_super_attack_id.php?level_limit=250" class="commit-super-attack-link"><button>Attack Up To Level 250</button></a>
-                <a href="ajax_super_attack_id.php?level_limit=5000" class="commit-super-attack-link"><button>Attack All</button></a>
+                <a href="ajax_super_attack_id.php?v2=yes&level_limit=100" class="commit-super-attack-link"><button>Attack Up To Level 100</button></a>
+                <a href="ajax_super_attack_id.php?v2=yes&level_limit=250" class="commit-super-attack-link"><button>Attack Up To Level 250</button></a>
+                <a href="ajax_super_attack_id.php?v2=yes&level_limit=5000" class="commit-super-attack-link"><button>Attack All</button></a>
             </center>
 
 
@@ -43,7 +42,7 @@ $_SESSION['csrf'] = $csrf;
             $('.commit-super-attack-link').hide();
 
             if (inProcess > 0) {
-                location.reload();
+                return false;
             }
             inProcess = 1;
 
@@ -64,7 +63,7 @@ $_SESSION['csrf'] = $csrf;
                 } else {
                     var i = 1;
                     var arLength = res.attack_id.length;
-                    for (const attackingId of res.attack_id) {
+                    for (let attackingId of res.attack_id) {
                         var request = $.ajax({
                             url: 'ajax_attack.php?attack=' + attackingId.id + '&csrf=<?php echo $csrf  ?>&alv=yes',
                             method: "GET",
@@ -84,7 +83,7 @@ $_SESSION['csrf'] = $csrf;
 
                         console.log((arLength - 1));
                         if (i > (arLength - 1)) {
-                            location.reload();
+                            inProcess = 0;
                         }
                         i++;
                     }
