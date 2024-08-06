@@ -10,7 +10,7 @@ $db->query("SELECT * FROM gangs");
 $db->execute();
 $gangs = $db->fetch_row();
 
-$pms = null;
+$rows = null;
 
 if (isset($_GET['gang_id'])) {
     $db->query("SELECT g.*, avatar FROM gangmail g JOIN grpgusers u ON g.playerid = u.id WHERE gangid = ? ORDER BY timesent DESC" . $pages->limit());
