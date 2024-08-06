@@ -35,34 +35,6 @@ $_SESSION['csrf'] = $csrf;
     </div>
 
     <script type="text/javascript">
-
-        function start() {
-            if (doingcrime) return;
-
-            var id = $('#scrime').val();
-            var cm = $('#cm').val();
-            doingcrime = true;
-
-            var resetAction = function() {
-                doingcrime = false;
-                clearInterval(timerId);
-            };
-
-            var timerId = setInterval(function () {
-                if (doingcrime) {
-                    if (id > 0) {
-                        submitCrime(id, cm);
-                    } else {
-                        resetAction();
-
-                    }
-                }
-            },25);
-            document.addEventListener('mouseup', resetAction, { once: true });
-            document.addEventListener('touchend', resetAction, { once: true });
-
-        }
-
         let inProcess = 0;
         $('.commit-super-attack-link').click(function(e) {
             e.preventDefault();
