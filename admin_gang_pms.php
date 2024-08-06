@@ -58,7 +58,7 @@ if (isset($_GET['gang_id'])) {
     <ul>
         <?php foreach ($gangs as $gang): ?>
             <?php $gang_class = new Gang($gang['id']); ?>
-            <li><a href="admin_gang_pms.php?gang_id=<?php echo $gang_class->id ?>"><?php echo $gang_class->formattedname ?></a></li>
+            <li><a href="admin_gang_pms.php?gang_id=<?php echo $gang_class->id ?>"><?php echo $gang_class->name ?></a></li>
         <?php endforeach; ?>
     </ul>
 <?php endif; ?>
