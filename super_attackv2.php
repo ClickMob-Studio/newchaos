@@ -75,12 +75,12 @@ $_SESSION['csrf'] = $csrf;
             $('.commit-super-attack-link').hide();
             $(".ajax-alert-div").remove();
             $(this).hide();
-            $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/>');
+            $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/> Loading...');
 
             window.setTimeout(function(){
                 $('.commit-super-attack-link').show();
                 inProcess = 0;
-            },1000);
+            },500);
 
 
             var request = $.ajax({
