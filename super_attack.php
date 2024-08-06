@@ -22,12 +22,15 @@ $_SESSION['csrf'] = $csrf;
             <center>
                 <p>Welcome to Super Attacks, click the button below to start attacking! With every click, you'll attack a random attackable offline player.</p>
 
-
                 <br />
                 <a href="ajax_super_attack_id.php?v2=yes&level_limit=50" class="commit-super-attack-link"><button>Attack Up To Level 50</button></a>
                 <a href="ajax_super_attack_id.php?v2=yes&level_limit=100" class="commit-super-attack-link"><button>Attack Up To Level 100</button></a>
                 <a href="ajax_super_attack_id.php?v2=yes&level_limit=250" class="commit-super-attack-link"><button>Attack Up To Level 250</button></a>
                 <a href="ajax_super_attack_id.php?v2=yes&level_limit=5000" class="commit-super-attack-link"><button>Attack All</button></a>
+
+                <div class="notification-holder" style="min-height:70px;">
+
+                </div>
             </center>
 
 
@@ -63,8 +66,8 @@ $_SESSION['csrf'] = $csrf;
             request.done(function (res) {
                 if (res.success == false || res.success == 'false') {
                     var resMes = "<div class='alert alert-danger ajax-alert-div'><p>You don't have anyone you can attack at the moment. Consider trying a different city.</p></div>";
-                    $(".ajax-message-holder").html(resMes);
-                    $(".ajax-message-holder").show();
+                    $(".notification-holder").html(resMes);
+                    $(".notification-holder").show();
                 } else {
                     var i = 1;
                     var arLength = res.attack_id.length;
@@ -81,8 +84,8 @@ $_SESSION['csrf'] = $csrf;
                                 var resMes = "<div class='alert alert-info ajax-alert-div'><p>" + resTwo.message + "</p></div>";
                             }
 
-                            $(".ajax-message-holder").html(resMes);
-                            $(".ajax-message-holder").show();
+                            $(".notification-holder").html(resMes);
+                            $(".notification-holder").show();
                             $(".temp-spinner").remove();
                             $(".loading-msg").remove();
                         });
