@@ -43,6 +43,7 @@ $_SESSION['csrf'] = $csrf;
 
             console.log(inProcess);
             if (inProcess > 0) {
+                $(this).show();
                 return false;
             }
             inProcess = 1;
@@ -84,6 +85,7 @@ $_SESSION['csrf'] = $csrf;
 
                         console.log((arLength - 1));
                         if (i > (arLength - 1)) {
+                            $(this).show();
                             inProcess = 0;
                         }
                         i++;
