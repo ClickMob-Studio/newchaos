@@ -1463,12 +1463,12 @@ if ($user_class->fbitime > 0) {
     echo '<a href="home.php"><span style="color:red;">You are currently in FBI Jail for ' . $user_class->fbitime . ' minutes.</span></a><br />';
 }
 
-foreach ($array as $sub => $in) {
-    echo '<span style="color:white;">&bull; ' . $sub . ' : <span style="color:red;">' . $in . '</span></span> &nbsp;';
-}
-if (!empty($array)) {
-    echo '<br />';
-}
+//foreach ($array as $sub => $in) {
+//    echo '<span style="color:white;">&bull; ' . $sub . ' : <span style="color:red;">' . $in . '</span></span> &nbsp;';
+//}
+//if (!empty($array)) {
+//    echo '<br />';
+//}
 
 echo '<br />';
 
