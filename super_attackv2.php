@@ -78,7 +78,7 @@ $_SESSION['csrf'] = $csrf;
 
             window.setTimeout(function(){
                 $('.commit-super-attack-link').show();
-            },2000);
+            },10000);
 
 
             var request = $.ajax({
@@ -114,7 +114,7 @@ $_SESSION['csrf'] = $csrf;
 
                         console.log((arLength - 1));
                         if (i > (arLength - 1)) {
-                            $('.commit-super-attack-link').show();
+                            //$('.commit-super-attack-link').show();
                             inProcess = 0;
                         }
                         i++;
