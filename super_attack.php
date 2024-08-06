@@ -21,12 +21,12 @@ $_SESSION['csrf'] = $csrf;
         <div class='pad'>
             <center>
                 <p>Welcome to Super Attacks, click the button below to start attacking! With every click, you'll attack a random attackable offline player.</p>
+                <p>Select a level category below to attack...</p>
 
-                <br />
-                <a href="ajax_super_attack_id.php?v2=yes&level_limit=50" class="commit-super-attack-link"><button>Attack Up To Level 50</button></a>
-                <a href="ajax_super_attack_id.php?v2=yes&level_limit=100" class="commit-super-attack-link"><button>Attack Up To Level 100</button></a>
-                <a href="ajax_super_attack_id.php?v2=yes&level_limit=250" class="commit-super-attack-link"><button>Attack Up To Level 250</button></a>
-                <a href="ajax_super_attack_id.php?v2=yes&level_limit=5000" class="commit-super-attack-link"><button>Attack All</button></a>
+                <a href="ajax_super_attack_id.php?v2=yes&level_limit=50" class="commit-super-attack-link"><button>0-50</button></a>
+                <a href="ajax_super_attack_id.php?v2=yes&level_limit=100" class="commit-super-attack-link"><button>0-100</button></a>
+                <a href="ajax_super_attack_id.php?v2=yes&level_limit=250" class="commit-super-attack-link"><button>0-250</button></a>
+                <a href="ajax_super_attack_id.php?v2=yes&level_limit=5000" class="commit-super-attack-link"><button>All</button></a>
 
                 <div class="notification-holder" style="min-height:70px;">
 
