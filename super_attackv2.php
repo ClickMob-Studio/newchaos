@@ -75,7 +75,7 @@ $_SESSION['csrf'] = $csrf;
             $('.commit-super-attack-link').hide();
             $(".ajax-alert-div").remove();
             $(this).hide();
-            $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/> Loading...');
+            $(this).after('<img id="spinner" class="temp-spinner" src="images/ajax-loader.gif"/> <span class="loading-msg">Loading...</span>');
 
             window.setTimeout(function(){
                 $('.commit-super-attack-link').show();
@@ -112,6 +112,7 @@ $_SESSION['csrf'] = $csrf;
                             $(".ajax-message-holder").html(resMes);
                             $(".ajax-message-holder").show();
                             $(".temp-spinner").remove();
+                            $(".loading-msg").remove();
                         });
 
                         console.log((arLength - 1));
