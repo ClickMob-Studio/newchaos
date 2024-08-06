@@ -913,7 +913,7 @@ if ($user_class->donate_token > 0) {
 <?php
 
 // Display information
-echo '<center><font size="3px" color="white">$1 = <img src="https://chaoscity.co.uk/goldbar.png"></img><font color=red><b>20</font></center>';
+echo '<center><font size="3px" color="white">$1 = <img src="https://chaoscity.co.uk/goldbar.png"></img><font color=red><b>10</font></center>';
 echo '<center><font color=white>Your GOLD balance is:</font> <span style="color:red;font-weight:bold;"><img src="https://chaoscity.co.uk/goldbar.png"></img>' . $user_class->credits . ' </size></center></span><br />';
 
 echo '<center>';
@@ -923,6 +923,8 @@ echo '<center>';
     <font color=red><b id="creditsAmount">0</b></font> <img src="https://chaoscity.co.uk/goldbar.png"></img>
     </font>
 </span>
+
+<p style="font: 1rem 'Montserrat', sans-serif">This calculator does not include Boost Donation tokens. Tokens are used automatically at the time of donating.</p>
 
 
 <script>
