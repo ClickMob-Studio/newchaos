@@ -41,6 +41,7 @@ $_SESSION['csrf'] = $csrf;
 
             $('.commit-super-attack-link').hide();
 
+            console.log(inProcess);
             if (inProcess > 0) {
                 return false;
             }
