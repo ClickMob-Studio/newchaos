@@ -83,15 +83,13 @@ $_SESSION['csrf'] = $csrf;
 
                         console.log((arLength - 1));
                         if (i > (arLength - 1)) {
+                            $('.commit-super-attack-link').show();
                             inProcess = 0;
                         }
                         i++;
                     }
                 }
             });
-
-
-            $('.commit-super-attack-link').show();
         });
     </script>
 
