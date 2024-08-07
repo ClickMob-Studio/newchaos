@@ -32,7 +32,7 @@ if ($_GET['key'] === 'srunit') {
                 $mMission = $db->fetch_row();
 
                 $runChance = mt_rand(1,100);
-                if ($runChance > 60) {
+                if ($runChance > 80) {
                     $hasActionComplete = true;
 
                     if (isset($mMission[0]['id'])) {
@@ -171,47 +171,47 @@ if ($_GET['key'] === 'srunit') {
                 }
             }
 
-            if (!$hasActionComplete) {
-                if (mt_rand(1,20) < 2) {
-                    if ($user->nerref < 1) {
-                        $user->nerref = 2;
-                        $db->query("UPDATE grpgusers SET nerref = ?, nerreftime = unix_timestamp() WHERE id = ?");
-                        $db->execute(array(
-                            $user->nerref,
-                            $user->id
-                        ));
-                    }
-
-                    $timesToRun = mt_rand(100,500);
-
-                    $i = 0;
-                    while ($i < $timesToRun) {
-                        // Crime Mission
-                        $durl = "https://chaoscity.co.uk/ajax_crimes2.php?au_user_or=" . $user->id;
-                        $ch =  curl_init()  ;
-                        curl_setopt($ch,CURLOPT_URL, $durl);
-                        curl_setopt ($ch, CURLOPT_HEADER, 0);
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                        curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
-                        curl_setopt($ch, CURLOPT_POST, 1);
-                        curl_setopt($ch, CURLOPT_POSTFIELDS,
-                            "id=250&cm=50");
-                        $dinf = curl_exec ($ch);
-                        if(!curl_errno($ch) ){
-
-                        }else{
-
-                        }
-
-                        $i++;
-                    }
-
-                    $money = $user->money;
-
-                    $db->query('UPDATE grpgusers SET bank = bank + ' . $money . ', money = 0 WHERE id = ' . $user->id);
-                    $db->execute();
-                }
-            }
+//            if (!$hasActionComplete) {
+//                if (mt_rand(1,100) < 2) {
+//                    if ($user->nerref < 1) {
+//                        $user->nerref = 2;
+//                        $db->query("UPDATE grpgusers SET nerref = ?, nerreftime = unix_timestamp() WHERE id = ?");
+//                        $db->execute(array(
+//                            $user->nerref,
+//                            $user->id
+//                        ));
+//                    }
+//
+//                    $timesToRun = mt_rand(100,500);
+//
+//                    $i = 0;
+//                    while ($i < $timesToRun) {
+//                        // Crime Mission
+//                        $durl = "https://chaoscity.co.uk/ajax_crimes2.php?au_user_or=" . $user->id;
+//                        $ch =  curl_init()  ;
+//                        curl_setopt($ch,CURLOPT_URL, $durl);
+//                        curl_setopt ($ch, CURLOPT_HEADER, 0);
+//                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//                        curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
+//                        curl_setopt($ch, CURLOPT_POST, 1);
+//                        curl_setopt($ch, CURLOPT_POSTFIELDS,
+//                            "id=250&cm=50");
+//                        $dinf = curl_exec ($ch);
+//                        if(!curl_errno($ch) ){
+//
+//                        }else{
+//
+//                        }
+//
+//                        $i++;
+//                    }
+//
+//                    $money = $user->money;
+//
+//                    $db->query('UPDATE grpgusers SET bank = bank + ' . $money . ', money = 0 WHERE id = ' . $user->id);
+//                    $db->execute();
+//                }
+//            }
 
 
 
