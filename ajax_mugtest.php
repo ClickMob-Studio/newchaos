@@ -19,6 +19,7 @@ function success($msg) {
 }
 
 include "SlimUser.php";
+include "classes.php";
 include "database/pdo_class.php";
 
 function ofthes_wrapper($id, $toadd) {
