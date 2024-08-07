@@ -2478,7 +2478,7 @@ function getAttackDamage($attacker, $defender)
 
     $maxDamage = $attacker->moddedstrength / $defender->moddeddefense;
 
-    $maxDamage = $maxDamage * 5000;
+    $maxDamage = $maxDamage * 7000;
     if ($maxDamage < 100) {
         $maxDamage = 100;
     }
