@@ -23,7 +23,7 @@ include "database/pdo_class.php";
 function ofthes_wrapper($id, $toadd) {
     ofthes($id, $toadd);
 }
-
+$active = time() - 604800;
 try {
     $m = new Memcache();
     $m->addServer('127.0.0.1', 11211, 33);
@@ -172,20 +172,23 @@ try {
                 updateGangActiveMission('mugs', 1);
                 gangContest(array('mugs' => 1));
                 bloodbath('mugs', $user_class->id);
-
+                if($attackingperson->lastactive > $active){
                 Send_Event($attack_person->id, "You were mugged by [-_USERID_-]. They stole " . prettynum($mugamount, 1) . ".", $user_class->id);
-
+                }
                 echo json_encode(success("You successfully mugged {$attack_person->formattedname} for " . prettynum($mugamount, 1) . "."));
                 exit;
             }
         } else {
+            if($attackingperson->lastactive > $active){
             Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
+            }
             echo json_encode(success("You failed to mug {$attack_person->formattedname}."));
             exit;
         }
     } else {
+        if($attackingperson->lastactive > $active){
         Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
-
+        }
         $db->query("UPDATE grpgusers SET jail = ? WHERE id = ?");
         $db->execute(array(300, $user_class->id));
 
