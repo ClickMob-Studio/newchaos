@@ -16,7 +16,7 @@ function success($msg) {
     );
 }
 
-include "classes.php";
+include "SlimUser.php";
 include "database/pdo_class.php";
 
 function ofthes_wrapper($id, $toadd) {
@@ -27,7 +27,7 @@ try {
     $m = new Memcache();
     $m->addServer('127.0.0.1', 11211, 33);
 
-    $user_class = new User($_SESSION['id']);
+    $user_class = new SlimUser($_SESSION['id']);
     session_write_close();
 
     $response = array();
