@@ -71,7 +71,17 @@ while ($line = mysql_fetch_array($result)) {
     <td>" . $user_online->level . "</td>
     <td>" . $user_online->formattedonline . "</td>
     <td>
-    <a class='action btn btn-primary ajax-link' href='ajax_mug.php?mug=".$user_online->id."&token=" . $user_class->macro_token . "'>Mug</a> 
+    ";
+    if($user_class->admin > 0){
+        echo "
+    <a class='action btn btn-primary ajax-link' href='ajax_mugtest.php?mug=".$user_online->id."&token=" . $user_class->macro_token . "'>Mug</a> 
+    ";
+    }else{
+        echo "
+        <a class='action btn btn-primary ajax-link' href='ajax_mug.php?mug=".$user_online->id."&token=" . $user_class->macro_token . "'>Mug</a> 
+        ";
+    }
+    echo "
     <a class='action btn btn-primary' href='attack.php?attack=" . $user_online->id . "&csrf=" . $csrf . "'>Attack</a>
     </td>
     </tr>";
