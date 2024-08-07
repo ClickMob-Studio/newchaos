@@ -23,8 +23,8 @@ class SlimUser {
         global $db;
 
         $query = $db->prepare("SELECT * FROM grpgusers WHERE id = ? LIMIT 1");
-        $query->execute(array($id));
-        $this->data = $query->fetch_row();
+        $db->execute(array($id));
+        $this->data = $db->fetch_row();
 
         if ($this->data) {
             $this->money = $this->data['money'];
