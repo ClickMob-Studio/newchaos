@@ -166,7 +166,7 @@ if ($mug <= 8) {
                 $mugamount = floor($mugamount * (1 + 0.10 * $gang_class->upgrade8));
             } else {
                 // Log error if upgrade8 is not set or not numeric
-                error_log("upgrade8 is not set or not a valid number for gang ID: " . $user_class->gang);
+                //error_log("upgrade8 is not set or not a valid number for gang ID: " . $user_class->gang);
             }
         }
 
@@ -247,19 +247,19 @@ if ($mug <= 8) {
             exit;
         }
     } else {
-        Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
+        //Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
         $response = success("You failed to mug " . $attack_person->formattedname . ".");
         echo json_encode($response);
         exit;
     }
 } else if ($mug == 9) {
-    Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
+    //Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
 
     $response = success("You failed to mug " . $attack_person->formattedname . ".");
     echo json_encode($response);
     exit;
 } else {
-    Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
+    //Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
     $timee = 300;
 
     $db->query("UPDATE `grpgusers` SET `jail` = '" . $timee . "' WHERE `id`='" . $user_class->id . "'");

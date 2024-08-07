@@ -194,14 +194,14 @@ if ($user_class->gang != 0){
         }
     } else {
         echo Message("You failed to mug " . $attack_person->formattedname . ".<br /><br /><a href='mug.php?mug=" . $_GET['mug'] . "'>Try Again</a>");
-        Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
+        //Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
     }
 } else if ($mug == 9) {
     echo Message("You failed to mug " . $attack_person->formattedname . ".<br /><br /><a href='mug.php?mug=" . $_GET['mug'] . "'>Try Again</a>");
-    Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
+    //Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
 } else {
     echo Message("You failed and were sent to prison for 5 minutes!.");
-    Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
+    //Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
     $timee = 300;
     $result = mysql_query("UPDATE `grpgusers` SET `jail` = '" . $timee . "' WHERE `id`='" . $user_class->id . "'");
 }
