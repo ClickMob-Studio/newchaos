@@ -1,7 +1,4 @@
 <?php
-error_reporting(E_ALL);
-error_reporting(-1);
-ini_set('error_reporting', E_ALL);
 class SlimUser {
     public $data;
     public $gang;
@@ -17,17 +14,22 @@ class SlimUser {
     public $relplayer;
     public $admin;
 
-    public $money;
-
     function __construct($id) {    
         global $db;
 
-        $query = $db->prepare("SELECT * FROM grpgusers WHERE id = ? LIMIT 1");
-        $db->execute(array($id));
-        $this->data = $db->fetch_row();
+        // Prepare the SQL query with a parameter placeholder
+        $db->query("SELECT * FROM grpgusers WHERE id = ? LIMIT 1");
+        
+        // Bind the parameter
+        $db->bind(1, $id);
+        
+        // Execute the query
+        $db->execute();
+        
+        // Fetch the data as an associative array
+        $this->data = $db->fetch_row(true);
 
         if ($this->data) {
-            $this->money = $this->data['money'];
             $this->gang = isset($this->data['gang']) ? $this->data['gang'] : null;
             $this->id = isset($this->data['id']) ? $this->data['id'] : null;
             $this->mprotection = isset($this->data['mprotection']) ? $this->data['mprotection'] : null;
@@ -40,7 +42,22 @@ class SlimUser {
             $this->username = isset($this->data['username']) ? $this->data['username'] : null;
             $this->relplayer = isset($this->data['relplayer']) ? $this->data['relplayer'] : null;
             $this->admin = isset($this->data['admin']) ? $this->data['admin'] : null;
-        } 
+        } else {
+            // Handle case when no data is found for the given id
+            $this->data = array();
+            $this->gang = null;
+            $this->id = null;
+            $this->mprotection = null;
+            $this->fbitime = null;
+            $this->city = null;
+            $this->nerve = null;
+            $this->level = null;
+            $this->jail = null;
+            $this->hospital = null;
+            $this->username = null;
+            $this->relplayer = null;
+            $this->admin = null;
+        }
     }
 }
 ?>
