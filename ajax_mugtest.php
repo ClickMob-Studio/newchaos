@@ -39,7 +39,7 @@ try {
         exit;
     }
 
-    $attack_person = new User($_GET['mug']);
+    $attack_person = new SlimUser($_GET['mug']);
     $gang_class = new Gang($user_class->gang);
 
     $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
