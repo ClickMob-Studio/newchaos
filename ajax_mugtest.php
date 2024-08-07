@@ -127,7 +127,7 @@ try {
 
             $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
             $db->execute();
-            $activityContest = $db->fetch_row);
+            $activityContest = $db->fetch_row();
             if ($activityContest['type'] == 'mugs') {
                 addToUserCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
             }
