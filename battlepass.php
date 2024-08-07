@@ -175,9 +175,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                             Filter: <a href="#" class="filter-link" data-filter-type="all">All</a> | <a href="#" class="filter-link" data-filter-type="crimes">Crimes</a> |
                             <a href="#" class="filter-link" data-filter-type="attacks">Attacks</a> | <a href="#" class="filter-link" data-filter-type="mugs">Mugs</a> |
                             <a href="#" class="filter-link" data-filter-type="busts">Busts</a> | <a href="#" class="filter-link" data-filter-type="backalley">Backalley</a>
-                            <?php if ($user_class->admin > 0): ?>
                             | <a href="#" class="filter-link" data-filter-type="incomplete">Incomplete</a>
-                            <?php endif; ?>
                             <br /><br />
                         </td>
                     </tr>
