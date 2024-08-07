@@ -17,6 +17,7 @@ if ($user_class->admin < 1) {
     <li><a href="admin_gang_vault_logs.php">Gang Vault Logs</a></li>
     <li><a href="admin_packs.php">Pack Logs</a></li>
     <li><a href="admin_pmlogs.php">PM Logs</a></li>
+    <li><a href="admin_gang_pms.php">Gang PM Logs</a></li>
     <li><a href="admin_eco.php">Economy Logs</a></li>
     <li><a href="admin_gang_territory_battles.php">Protection Racket Battles</a></li>
     <li><a href="admin_autoclick.php">Click Checks</a></li>
