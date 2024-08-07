@@ -15,6 +15,8 @@ class SlimUser {
     public $relplayer;
     public $admin;
 
+    public $formattedname;
+
     function __construct($id) {    
         global $db;
 
@@ -43,6 +45,7 @@ class SlimUser {
             $this->username = isset($this->data['username']) ? $this->data['username'] : null;
             $this->relplayer = isset($this->data['relplayer']) ? $this->data['relplayer'] : null;
             $this->admin = isset($this->data['admin']) ? $this->data['admin'] : null;
+            $this->formattedname = formatName($this->id);
         } else {
             // Handle case when no data is found for the given id
             $this->data = array();
@@ -58,6 +61,7 @@ class SlimUser {
             $this->username = null;
             $this->relplayer = null;
             $this->admin = null;
+            $this->formattedname = null;
         }
     }
 }
