@@ -314,8 +314,16 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                 $('.busts-c-card').show();
                 $('.backalley-c-card').show();
                 $('.trains-c-card').show();
+                $('.bg-success').show();
+
+            } else if (filterType == 'incomplete') {
+                $('.bg-success').hide();
+                $('.bg-danger').show();
 
             } else {
+                $('.bg-success').show();
+                $('.bg-danger').show();
+
                 $('.crimes-c-card').hide();
                 $('.attacks-c-card').hide();
                 $('.mugs-c-card').hide();
