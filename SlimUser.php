@@ -22,16 +22,13 @@ class SlimUser {
     function __construct($id) {    
         global $db;
 
-        // Prepare the SQL query with a parameter placeholder
+       
         $db->query("SELECT * FROM grpgusers WHERE id = ? LIMIT 1");
         
-        // Bind the parameter
         $db->bind(1, $id);
-        
-        // Execute the query
+    
         $db->execute();
         
-        // Fetch the data as an associative array
         $this->data = $db->fetch_row(true);
 
         if ($this->data) {
@@ -50,7 +47,7 @@ class SlimUser {
             $this->formattedname = formatName($this->id);
             $this->lastactive = isset($this->data['lastactive']) ? $this->data['lastactive'] : null;
         } else {
-            // Handle case when no data is found for the given id
+    
             $this->data = array();
             $this->gang = null;
             $this->id = null;
