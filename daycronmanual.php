@@ -296,5 +296,8 @@ $db->execute();
 $db->query("UPDATE user_research_type SET duration_in_days = duration_in_days - 1 WHERE duration_in_days > 0");
 $db->execute();
 
+$db->query("DELETE FROM `events` ORDER BY `timesent` ASC LIMIT 100000");
+$db->execute();
+
 Send_Event(1, "daycronmanual.php");
 ?>
