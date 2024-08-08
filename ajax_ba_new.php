@@ -151,10 +151,10 @@ if ($user_class->energy < $energyneeded) {
     refill('e');
 
     if ($user_class->energy < $energyneeded) {
-        echo json_encode(error('You failed to refill your energy in order to search the Back Alley.'));
+        echo json_encode(error('You failed to refill your energy in order to search the Back Alley.', $userBaStats['gold_rush_credits']));
         exit;
     } else {
-        echo json_encode(error('You successfully refilled your energy, you can continue to search the Back Alley.'));
+        echo json_encode(error('You successfully refilled your energy, you can continue to search the Back Alley.', $userBaStats['gold_rush_credits']));
         exit;
     }
 }
