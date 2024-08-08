@@ -910,12 +910,12 @@ function formatName($id, $nogang = 0)
             $skull = $db->fetch_single();
 
             if ($skull !== false) {
-                $name .= " <img src='images/skullpres_" . $skull . ".png' title='Prestige ({$row['prestige']})' />";
+                $name .= " <img src='images/skullpres_" . $skull . ".png?v=5' title='Prestige ({$row['prestige']})' height='24' width='24' />";
             } else {
-                $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
+                $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png?v=5' title='Prestige ({$row['prestige']})'height='24' width='24' />";
             }
         } else {
-            $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
+            $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png?v=5' title='Prestige ({$row['prestige']})' height='24' width='24' />";
         }
     }
     if ($nogang == 0)
@@ -2442,11 +2442,11 @@ function getAttackDamageOLD($attacker, $defender)
     $logStrength = log($attacker->moddedstrength);
     $logDefence = log($defender->moddeddefense);
 
-    $maxDamage = ceil($logStrength / $logDefence * 10000);
+    $maxDamage = ceil($logStrength / $logDefence * 15000);
 
     if ($logStrength > $logDefence) {
         $damMinPerc = 70;
-        $damMaxPerc = 80;
+        $damMaxPerc = 85;
     } else if ($logDefence > $logStrength) {
         $damMinPerc = 20;
         $damMaxPerc = 30;
@@ -2478,12 +2478,12 @@ function getAttackDamage($attacker, $defender)
 
     $maxDamage = $attacker->moddedstrength / $defender->moddeddefense;
 
-    $maxDamage = $maxDamage * 7000;
+    $maxDamage = $maxDamage * 15000;
     if ($maxDamage < 100) {
         $maxDamage = 100;
     }
-    if ($maxDamage > 35000) {
-        $maxDamage = 35000;
+    if ($maxDamage > 40000) {
+        $maxDamage = 40000;
     }
     $maxDamage = ceil($maxDamage);
 

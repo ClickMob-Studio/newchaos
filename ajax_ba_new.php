@@ -13,11 +13,12 @@ if (isset($data['user_id'])) {
     $_SESSION['id'] = $data['user_id'];
 }
 
-function error($msg, $userBaStats = array())
+function error($msg, $goldRushCredits = 0, $userBaStats = array())
 {
     $response = array();
     $response['success'] = false;
     $response['error'] = $msg;
+    $response['gold_rush_credits'] = $goldRushCredits;
     $response['user_ba_stats'] = $userBaStats;
 
 
@@ -75,6 +76,7 @@ if ($_GET['alv'] !== 'yes') {
 }
 
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
+$userBaStats = getUserBaStats($user_class);
 
 // USE MED PACK
 if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'use_med_pack') {
@@ -123,11 +125,11 @@ if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'use_med_pack') {
 // ENERGY REFILL
 if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'refill_energy') {
     if (10 > $user_class->points) {
-        echo json_encode(error('You do not have enough points to refill your energy.'));
+        echo json_encode(error('You do not have enough points to refill your energy.', $userBaStats['gold_rush_credits']));
         exit;
     }
     if ($user_class->energy == $user_class->maxenergy) {
-        echo json_encode(error('You already have full energy.'));
+        echo json_encode(error('You already have full energy.', $userBaStats['gold_rush_credits']));
         exit;
     }
 
@@ -149,16 +151,16 @@ if ($user_class->energy < $energyneeded) {
     refill('e');
 
     if ($user_class->energy < $energyneeded) {
-        echo json_encode(error('You failed to refill your energy in order to search the Back Alley.'));
+        echo json_encode(error('You failed to refill your energy in order to search the Back Alley.', $userBaStats['gold_rush_credits']));
         exit;
     } else {
-        echo json_encode(error('You successfully refilled your energy, you can continue to search the Back Alley.'));
+        echo json_encode(error('You successfully refilled your energy, you can continue to search the Back Alley.', $userBaStats['gold_rush_credits']));
         exit;
     }
 }
 
 if ($user_class->energy < $energyneeded) {
-    echo json_encode(error("You need at least 20% of your energy to explore the back alley!"));
+    echo json_encode(error("You need at least 20% of your energy to explore the back alley!", $userBaStats['gold_rush_credits']));
     exit;
 
     if ($user_class->ngyref > 0) {
@@ -176,11 +178,11 @@ if ($user_class->energy < $energyneeded) {
     }
 }
 if ($user_class->jail > 0) {
-    echo json_encode(error("You cannot go in the back alley if you are in Jail."));
+    echo json_encode(error("You cannot go in the back alley if you are in Jail.", $userBaStats['gold_rush_credits']));
     exit;
 }
 if ($user_class->hospital > 0) {
-    echo json_encode(error("You cannot go in the back alley if you are in Hospital."));
+    echo json_encode(error("You cannot go in the back alley if you are in Hospital.", $userBaStats['gold_rush_credits']));
     exit;
 }
 
@@ -259,7 +261,7 @@ $scenario['start'] = str_replace('__ANAME__', $attacker, $scenario['start']);
 // - 30% Win Cash & Item
 // - 10% Nothing, onto next turn
 
-$userBaStats = getUserBaStats($user_class);
+
 $totalMedPackCount = check_items(14, $user_class->id);
 
 if ($userBaStats['gold_rush_credits'] > 0) {

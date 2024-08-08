@@ -28,7 +28,7 @@ if ($_POST['sendpoints2'] != "" && $user_class->level > 9) {
     if ($user_class->points >= $_POST['amount'] && $_POST['amount'] > 0) {
         if ($user_class->id != $money_person->id) {
             if ($check > 0) {
-                if ($_POST['amount'] <= 100000) {
+                if ($_POST['amount'] <= 500000) {
                     // $newpoints = $user_class->points - $_POST['amount'];
                     // $result = mysql_query("UPDATE `grpgusers` SET `points` = '" . $newpoints . "' WHERE `id`='" . $_SESSION['id'] . "'");
                     // $newpoints = $money_person->points + $_POST['amount'];
@@ -42,7 +42,7 @@ if ($_POST['sendpoints2'] != "" && $user_class->level > 9) {
                     Send_Event($money_person->id, "[-_USERID_-] sent you " . prettynum($_POST['amount']) . " points.", $user_class->id);
                     echo Message("You have successfully sent " . prettynum($_POST['amount']) . " points to " . $money_person->formattedname . ".");
                 } else {
-                    echo Message("You can only send a maximum of 10,000 points.");
+                    echo Message("You can only send a maximum of 500,000 points.");
                 }
             } else { // Invalid ID
                 echo Message("You can't send points to someone that doesn't exist.");
@@ -74,7 +74,7 @@ if ($_POST['sendpoints2'] != "" && $user_class->level > 9) {
         <tr>
             <td width='10%' height='27'><b>Amount:</b></td>
             <td width='45%'>
-                <input name='amount' type='text' onKeyPress="return numbersonly(this, event)" size='7' value='<?php echo ($user_class->points > 100000) ? 100000 : $user_class->points; ?>'>&nbsp;&nbsp;100,000 points max.
+                <input name='amount' type='text' onKeyPress="return numbersonly(this, event)" size='7' value='<?php echo ($user_class->points > 500000) ? 500000 : $user_class->points; ?>'>&nbsp;&nbsp;500,000 points max.
             </td>
         </tr>
         <tr><td height="5px"></td></tr>

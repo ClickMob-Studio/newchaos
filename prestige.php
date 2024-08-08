@@ -196,35 +196,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user_class->prestige < 1) {
             $bankCashRequired = 500000000;
             $pointsRequired = 250000;
+            $totalStatsRequired = 0;
             $statPercentage = 40;
         } else if ($user_class->prestige < 2) {
             $bankCashRequired = 1000000000;
             $pointsRequired = 500000;
+            $totalStatsRequired = 0;
             $statPercentage = 50;
         } else if ($user_class->prestige < 3) {
             $bankCashRequired = 5000000000;
             $pointsRequired = 750000;
+            $totalStatsRequired = 0;
             $statPercentage = 50;
         } else if ($user_class->prestige < 4) {
             $bankCashRequired = 10000000000;
             $pointsRequired = 1000000;
+            $totalStatsRequired = 0;
             $statPercentage = 60;
         } else if ($user_class->prestige < 5) {
             $bankCashRequired = 25000000000;
             $pointsRequired = 1500000;
+            $totalStatsRequired = 0;
             $statPercentage = 60;
-        
         } else if ($user_class->prestige < 6) {
-        $bankCashRequired = 50000000000;
-        $pointsRequired = 2500000;
-        $statPercentage = 70;
+            $bankCashRequired = 50000000000;
+            $pointsRequired = 5000000;
+            $totalStatsRequired = 5000000000000;
+            $statPercentage = 70;
+        } else if ($user_class->prestige < 7) {
+            $bankCashRequired = 100000000000;
+            $pointsRequired = 10000000;
+            $totalStatsRequired = 10000000000000;
+            $statPercentage = 70;
+        } else if ($user_class->prestige < 8) {
+            $bankCashRequired = 150000000000;
+            $pointsRequired = 20000000;
+            $totalStatsRequired = 25000000000000;
+            $statPercentage = 75;
+        } else if ($user_class->prestige < 9) {
+            $bankCashRequired = 200000000000;
+            $pointsRequired = 30000000;
+            $totalStatsRequired = 75000000000000;
+            $statPercentage = 80;
+        } else if ($user_class->prestige < 10) {
+            $bankCashRequired = 500000000000;
+            $pointsRequired = 50000000;
+            $totalStatsRequired = 100000000000000;
+            $statPercentage = 90;
         }
+
+        $totalStats = $user_class->strength + $user_class->defense + $user_class->speed + $user_class->agility;
+
         if ($user_class->bank < $bankCashRequired) {
             diefun('You do not have enough cash in the bank to prestige.');
         }
 
         if ($user_class->points < $pointsRequired) {
             diefun('You do not have enough points to prestige.');
+        }
+
+        if ($totalStatsRequired > 0 && $totalStats < $totalStatsRequired) {
+            diefun('You do not have the required total stats to prestige.');
         }
 
         $newStrength = $user_class->strength - ($user_class->strength / 100 * $statPercentage);
@@ -406,7 +438,7 @@ echo '<div style="text-align:center; margin-bottom:20px;">';
                         // Generate cells for badges and descriptions
                         for ($i = 1; $i <= 5; $i++) {
                             echo '<td class="text-center">';
-                            echo '<img src="images/prestige_' . $i . '.png" class="img-fluid" style="max-width: 80px; height: auto;">';
+                            echo '<img src="images/skullpres_' . $i . '.png?v=4" class="img-fluid" style="max-width: 80px; height: auto;">';
                             echo '<br><p style="color:#fff">Prestige ' . $i.'</p>';
                             echo '</td>';
                         }
@@ -482,6 +514,41 @@ echo '</table>';
         <li>50,000,000,000 from your bank</li>
         <li>2,500,000 points</li>
         <li>70% of your stats</li>
+    </ul>
+<?php elseif ($user_class->prestige < 6): ?>
+    <ul>
+        <li>50,000,000,000 from your bank</li>
+        <li>5,000,000 points</li>
+        <li>5,000,000,000,000 Total Stats</li>
+        <li>70% of your stats</li>
+    </ul>
+<?php elseif ($user_class->prestige < 7): ?>
+    <ul>
+        <li>100,000,000,000 from your bank</li>
+        <li>10,000,000 points</li>
+        <li>10,000,000,000,000 Total Stats</li>
+        <li>70% of your stats</li>
+    </ul>
+<?php elseif ($user_class->prestige < 8): ?>
+    <ul>
+        <li>150,000,000,000 from your bank</li>
+        <li>20,000,000 points</li>
+        <li>25,000,000,000,000 Total Stats</li>
+        <li>75% of your stats</li>
+    </ul>
+<?php elseif ($user_class->prestige < 9): ?>
+    <ul>
+        <li>200,000,000,000 from your bank</li>
+        <li>30,000,000 points</li>
+        <li>75,000,000,000,000 Total Stats</li>
+        <li>80% of your stats</li>
+    </ul>
+<?php elseif ($user_class->prestige < 10): ?>
+    <ul>
+        <li>500,000,000,000 from your bank</li>
+        <li>50,000,000 points</li>
+        <li>100,000,000,000,000 Total Stats</li>
+        <li>90% of your stats</li>
     </ul>
 <?php endif; ?>
 

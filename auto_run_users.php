@@ -32,7 +32,7 @@ if ($_GET['key'] === 'srunit') {
                 $mMission = $db->fetch_row();
 
                 $runChance = mt_rand(1,100);
-                if ($runChance > 80) {
+                if ($runChance > 90) {
                     $hasActionComplete = true;
 
                     if (isset($mMission[0]['id'])) {

@@ -74,7 +74,7 @@ include 'header.php';
             <div class="card">
                 <div class="card-header">Mobsters</div>
                 <div class="card-body">
-                    <h5 class="card-title"><?php echo prettynum($totalmobsters) ?></h5>
+                    <h5 class="card-title">Mobsters: <?php echo prettynum($totalmobsters) ?></h5>
                     <p class="card-text">Respected Mobsters: <?php echo prettynum($totalrm) ?></p>
                 </div>
             </div>
