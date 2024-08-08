@@ -1,8 +1,8 @@
 <?php
 
 include "ajax_header.php";
-
-$user_class = new User($_SESSION['id']);
+include "SlimUser.php";
+$user_class = new SlimUser($_SESSION['id']);
 
 //
 // FETCH JAIL USERS
