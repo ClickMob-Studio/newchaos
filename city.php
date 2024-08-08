@@ -270,7 +270,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
             <a href='worldstats.php'>Game Stats</a><br>
             <a href='pointsdealer.php'>Points Dealer</a>
         </div>
-        <div class="col-md-4 text-center d-none d-md-block">
+        <div class="col-md-4 text-center">
         <div class="col-12 text-center mb-2 section-header">
             <strong>Personal and Pet Management</strong>
         </div>
