@@ -23,6 +23,9 @@ class SlimUser {
     public $jail_bot_credits;
     public $exp;
     public $crimesucceeded;
+    public $nerref;
+    public $maxnerve;
+    public $points;
 
     function __construct($id) {    
         global $db;
@@ -56,6 +59,9 @@ class SlimUser {
             $this->is_jail_bots_active = isset($this->data['is_jail_bots_active'])? $this->data['is_jail_bots_active'] : null;
             $this->exp = isset($this->data['exp']) ? $this->data['exp'] : null;
             $this->crimesucceeded = isset($this->data['crimesucceeded'])? $this->data['crimesucceeded'] : null;
+            $this->nerref = isset($this->data['nerref']) ? $this->data['nerref'] : null;
+            $this->maxnerve = 4 + $this->level;
+            $this->points = isset($this->data['points'])? $this->data['points'] : null;
         } else {
     
             $this->data = array();
