@@ -2442,11 +2442,11 @@ function getAttackDamageOLD($attacker, $defender)
     $logStrength = log($attacker->moddedstrength);
     $logDefence = log($defender->moddeddefense);
 
-    $maxDamage = ceil($logStrength / $logDefence * 10000);
+    $maxDamage = ceil($logStrength / $logDefence * 15000);
 
     if ($logStrength > $logDefence) {
         $damMinPerc = 70;
-        $damMaxPerc = 80;
+        $damMaxPerc = 85;
     } else if ($logDefence > $logStrength) {
         $damMinPerc = 20;
         $damMaxPerc = 30;
