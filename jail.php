@@ -359,7 +359,11 @@ if($user_class->jail > 0){
                 $(this).closest('tr').remove();
 
                 var request = $.ajax({
-                    url: 'ajax_jail_new.php?jailbreak=bot',
+                    <?php if($user_class->admin > 0){
+                    echo "url: 'ajax_jail_test.php?jailbreak=bot',";
+                    }else{
+                        echo "url: 'ajax_jail_new.php?jailbreak=bot',";
+                    }
                     method: "GET",
                     dataType: "json"
                 });

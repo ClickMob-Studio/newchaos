@@ -20,6 +20,9 @@ class SlimUser {
     public $formattedname;
 
     public $lastactive;
+    public $jail_bot_credits;
+    public $exp;
+    public $crimesucceeded;
 
     function __construct($id) {    
         global $db;
@@ -49,6 +52,10 @@ class SlimUser {
             $this->formattedname = formatName($this->id);
             $this->lastactive = isset($this->data['lastactive']) ? $this->data['lastactive'] : null;
             $this->bustpill = isset($this->data['bustpill'])? $this->data['bustpill'] : null;
+            $this->jail_bot_credits = isset($this->data['jail_bot_credits']) ? $this->data['jail_bot_credits'] : null;
+            $this->is_jail_bots_active = isset($this->data['is_jail_bots_active'])? $this->data['is_jail_bots_active'] : null;
+            $this->exp = isset($this->data['exp']) ? $this->data['exp'] : null;
+            $this->crimesucceeded = isset($this->data['crimesucceeded'])? $this->data['crimesucceeded'] : null;
         } else {
     
             $this->data = array();
@@ -67,6 +74,11 @@ class SlimUser {
             $this->formattedname = null;
             $this->lastactive = null;
             $this->bustpill = null;
+            $this->jail_bot_credits = null;
+            $this->is_jail_bots_active = null;
+            $this->exp = null;
+            $this->crimesucceeded = null;
+
         }
     }
 }
