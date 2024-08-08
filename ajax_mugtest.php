@@ -17,6 +17,7 @@ function success($msg) {
 }
 
 include "SlimUser.php";
+include "SlimUser.php";
 include "classes.php";
 include "database/pdo_class.php";
 
@@ -25,6 +26,7 @@ function ofthes_wrapper($id, $toadd) {
 }
 
 $active = time() - 604800;
+
 try {
     $m = new Memcache();
     $m->addServer('127.0.0.1', 11211, 33);
@@ -50,18 +52,23 @@ try {
         exit;
     }
 
+    // Attempt to refill nerve if it's less than 10
+    if ($user_class->nerve < 10) {
+        refill('n');
+    }
+
     $conditions = array(
         array($user_class->fbitime > 0, 'You can\'t perform a mug whilst in FBI Jail.'),
         array($attack_person->fbitime > 0, 'This user is currently in FBI Jail.'),
         array($attack_person->city != $user_class->city, 'You must be in the same city as the person you are mugging.'),
-        array($user_class->nerve < 10 && !refill('n'), 'You need to have at least 10 nerve if you want to mug someone.'),
+        array($user_class->nerve < 10, 'You need to have at least 10 nerve if you want to mug someone.'),
         array($attack_person->level < 0, 'This player is under newbie protection.'),
         array($user_class->jail > 0, 'You can\'t mug someone if you\'re in prison.'),
         array($user_class->hospital > 0, 'You can\'t mug someone if you\'re in the hospital.'),
         array(empty($_GET['mug']), 'You didn\'t choose someone to mug.'),
         array($_GET['mug'] == $user_class->id, 'You can\'t mug yourself.'),
         array(empty($attack_person->username), 'That person doesn\'t exist.'),
-       // array($attack_person->hospital > 0, 'You can\'t mug someone that\'s in hospital.'),
+        // array($attack_person->hospital > 0, 'You can\'t mug someone that\'s in hospital.'),
         array($attack_person->jail > 0, 'You can\'t mug someone that\'s in prison.'),
         array($attack_person->gang == $user_class->gang && $user_class->gang > 0, 'You can\'t mug someone that\'s in your gang.'),
         array($attack_person->id == $user_class->relplayer, 'You can\'t mug your partner.'),
@@ -173,28 +180,28 @@ try {
                 updateGangActiveMission('mugs', 1);
                 gangContest(array('mugs' => 1));
                 bloodbath('mugs', $user_class->id);
-                if ($attack_person->lastactive > $active) {
+                if($attack_person->lastactive > $active){
                     Send_Event($attack_person->id, "You were mugged by [-_USERID_-]. They stole " . prettynum($mugamount, 1) . ".", $user_class->id);
                 }
                 echo json_encode(success("You successfully mugged {$attack_person->formattedname} for " . prettynum($mugamount, 1) . "."));
                 exit;
             }
         } else {
-            if ($attack_person->lastactive > $active) {
+            if($attack_person->lastactive > $active){
                 Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
             }
             echo json_encode(success("You failed to mug {$attack_person->formattedname}."));
             exit;
         }
     } else if ($mug == 9) {
-        if ($attack_person->lastactive > $active) {
+        if($attack_person->lastactive > $active){
             Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
         }
         $response = success("You failed to mug " . $attack_person->formattedname . ".");
         echo json_encode($response);
         exit;
     } else {
-        if ($attack_person->lastactive > $active) {
+        if($attack_person->lastactive > $active){
             Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
         }
         $db->query("UPDATE grpgusers SET jail = ? WHERE id = ?");
