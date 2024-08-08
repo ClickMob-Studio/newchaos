@@ -79,7 +79,7 @@ if(isset($_GET['buy']) && isset($_POST['qty'])){
                 // Confirm the purchase to the user
                 echo "
                     <div class='alert alert-success'>
-                      <p>You have successfully purchased {$message} for {$item[2]} Raid Points.</p>
+                      <p>You have successfully purchased {$message} for {$cost} Raid Points.</p>
                     </div>                   
                 ";
             } else {
