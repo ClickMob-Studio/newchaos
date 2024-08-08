@@ -28,7 +28,7 @@ if ($_POST['sendmoney2'] != "" && $user_class->level > 24) {
         if ($user_class->id != $money_person->id) {
             if ($check > 0) {
                 if ((time() - $money_person->lastactive) < 86400 || $user_class->admin == 1) {
-                    if ($_POST['amount'] <= 100000000) {
+                    if ($_POST['amount'] <= 1000000000) {
                         // $newmoney = $user_class->money - $_POST['amount'];
                         // $result = mysql_query("UPDATE `grpgusers` SET `money` = '" . $newmoney . "' WHERE `id`='" . $_SESSION['id'] . "'");
                         // $newmoney = $money_person->money + $_POST['amount'];
@@ -40,7 +40,7 @@ if ($_POST['sendmoney2'] != "" && $user_class->level > 24) {
                         Send_Event($money_person->id, "[-_USERID_-] sent you $" . prettynum($_POST['amount']) . ".", $user_class->id);
                         echo Message("You have successfully sent $" . prettynum($_POST['amount']) . " to " . $money_person->formattedname . ".");
                     } else {
-                        echo Message("You can only send a maximum of $100,000,000.");
+                        echo Message("You can only send a maximum of $1,000,000,000.");
                     }
                 } else {
                     echo Message("You can only send money to those who have been active in the last day");
@@ -81,7 +81,7 @@ if ($_POST['sendmoney2'] != "" && $user_class->level > 24) {
                 <tr>
                     <td width='10%' height='27'><b>Amount:</b></td>
                     <td width='45%'>
-                        <input name='amount' type='text' onKeyPress="return numbersonly(this, event)" size='9' value='<?php echo ($user_class->money > 100000000) ? 100000000 : $user_class->money; ?>'>&nbsp;&nbsp;$100,000,000 max.
+                        <input name='amount' type='text' onKeyPress="return numbersonly(this, event)" size='9' value='<?php echo ($user_class->money > 1000000000) ? 1000000000 : $user_class->money; ?>'>&nbsp;&nbsp;$1,000,000,000 max.
                     </td>
                 </tr>
                 <tr>
