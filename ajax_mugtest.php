@@ -56,7 +56,7 @@ try {
         array($user_class->nerve < 10 && !refill('n'), 'You need to have at least 10 nerve if you want to mug someone.'),
         array($attack_person->level < 0, 'This player is under newbie protection.'),
         array($user_class->jail > 0, 'You can\'t mug someone if you\'re in prison.'),
-        array($user_class->hospital > 0, 'You can\'t mug someone if you\'re in the hospital.'),
+        //array($user_class->hospital > 0, 'You can\'t mug someone if you\'re in the hospital.'),
         array(empty($_GET['mug']), 'You didn\'t choose someone to mug.'),
         array($_GET['mug'] == $user_class->id, 'You can\'t mug yourself.'),
         array(empty($attack_person->username), 'That person doesn\'t exist.'),
