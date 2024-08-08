@@ -33,10 +33,11 @@ if(isset($_GET['buy']) && isset($_POST['qty'])){
     if ($qty < 1) {
         diefun('Please ensure you enter a valid quantity. <a href="raidpointstore.php">Go Back</a>');
     }
-    $cost = $item[2] * $qty;
 
     foreach($items as $item) {
         if($_GET['buy'] == $item[0]) {
+            $cost = $item[2] * $qty;
+            
             if(purchaseItem($cost, $user_class, $db)) {
                 // Handle the purchase based on item code
                 switch ($item[0]) {
