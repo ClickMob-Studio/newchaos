@@ -36,42 +36,43 @@ if(isset($_GET['buy']) && isset($_POST['qty'])){
 
     foreach($items as $item) {
         if($_GET['buy'] == $item[0]) {
-
-            $cost = $item[2] * $qty;
-            echo $cost; exit;
-
-            if(purchaseItem($item[2], $user_class, $db)) {
+            if(purchaseItem($cost, $user_class, $db)) {
                 // Handle the purchase based on item code
                 switch ($item[0]) {
                     case 'JBO':
-                        $db->query("UPDATE grpgusers SET jail_bot_credits = jail_bot_credits + 100 WHERE id = ?");
-                        $db->execute(array($user_class->id));
-                        $message = "100 Jail Bot Credits Points";
+                        $reward = 100 * $qty;
+
+                        $db->query("UPDATE grpgusers SET jail_bot_credits = jail_bot_credits + ? WHERE id = ?");
+                        $db->execute(array($reward, $user_class->id));
+                        $message = $reward . " Jail Bot Credits Points";
                         break;
                     case 'RT':
-                        $db->query("UPDATE grpgusers SET raidtokens = raidtokens + 10 WHERE id = ?");
-                        $db->execute(array($user_class->id));
-                        $message = "10 Raid Tokens";
+                        $reward = 10 * $qty;
+
+                        $db->query("UPDATE grpgusers SET raidtokens = raidtokens + ? WHERE id = ?");
+                        $db->execute(array($reward, $user_class->id));
+                        $message = $reward . " Raid Tokens";
                         break;
                     case 'RSU':
-                        Give_Item(194, $user_class->id, 1);
-                        $message = "1 Raid Speed Up Token";
+
+                        Give_Item(194, $user_class->id, $qty);
+                        $message = $qty . " x Raid Speed Up Token";
                         break;
                     case 'RPA':
-                        Give_Item(251, $user_class->id, 1);
-                        $message = "1 Raid Pass";
+                        Give_Item(251, $user_class->id, $qty);
+                        $message = $qty . " x Raid Pass";
                         break;
                     case 'RB':
-                        Give_Item(252, $user_class->id, 1);
-                        $message = "1 Raid Booster";
+                        Give_Item(252, $user_class->id, $qty);
+                        $message = $qty . " x Raid Booster";
                         break;
                     case 'PB':
-                        Give_Item(163, $user_class->id, 1);
-                        $message = "1 Police Badge";
+                        Give_Item(163, $user_class->id, $qty);
+                        $message = $qty . " x Police Badge";
                         break;
                     case 'EB':
-                        Give_Item(69, $user_class->id, 1);
-                        $message = "1 Energy Booster";
+                        Give_Item(69, $user_class->id, $qty);
+                        $message = $qty . " x Energy Booster";
                         break;
                 }
 
