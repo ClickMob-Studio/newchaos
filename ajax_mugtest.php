@@ -60,7 +60,7 @@ try {
         array(empty($_GET['mug']), 'You didn\'t choose someone to mug.'),
         array($_GET['mug'] == $user_class->id, 'You can\'t mug yourself.'),
         array(empty($attack_person->username), 'That person doesn\'t exist.'),
-        //array($attack_person->hospital > 0, 'You can\'t mug someone that\'s in hospital.'),
+        array($attack_person->hospital > 0, 'You can\'t mug someone that\'s in hospital.'),
         array($attack_person->jail > 0, 'You can\'t mug someone that\'s in prison.'),
         array($attack_person->gang == $user_class->gang && $user_class->gang > 0, 'You can\'t mug someone that\'s in your gang.'),
         array($attack_person->id == $user_class->relplayer, 'You can\'t mug your partner.'),
