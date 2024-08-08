@@ -1305,7 +1305,7 @@ color: #fff;
                                 </div>
                                 <div class="row my-1 g-0">
                                     <div class="col-2 d-flex align-items-center"><i class="mx-auto fab fa-medium-m"></i></div>
-                                    <div class="col-10 d-flex align-items-center credits"><?= number_format($user_class->credits); ?> credits</div>
+                                    <div class="col-10 d-flex align-items-center credits"><a href="store.php" style="text-decoration: none;"><?= number_format($user_class->credits); ?> credits</a></div>
                                 </div>
                             </div>
 
