@@ -19,7 +19,6 @@ function success($msg) {
 }
 
 include "SlimUser.php";
-include "SlimUser.php";
 include "classes.php";
 include "database/pdo_class.php";
 
