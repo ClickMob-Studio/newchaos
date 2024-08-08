@@ -910,12 +910,12 @@ function formatName($id, $nogang = 0)
             $skull = $db->fetch_single();
 
             if ($skull !== false) {
-                $name .= " <img src='images/skullpres_" . $skull . ".png?v=1' title='Prestige ({$row['prestige']})' height='25' width='25'' />";
+                $name .= " <img src='images/skullpres_" . $skull . ".png?v=2' title='Prestige ({$row['prestige']})' height='25' width='25'' />";
             } else {
-                $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png?v=1' title='Prestige ({$row['prestige']})' height='25'' width='25'' />";
+                $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png?v=2' title='Prestige ({$row['prestige']})' height='25'' width='25'' />";
             }
         } else {
-            $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png?v=1' title='Prestige ({$row['prestige']})' height='25'' width='25'' />";
+            $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png?v=2' title='Prestige ({$row['prestige']})' height='25'' width='25'' />";
         }
     }
     if ($nogang == 0)
