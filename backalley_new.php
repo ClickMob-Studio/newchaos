@@ -96,7 +96,7 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                     <p style="color: #000;">YOU CURRENTLY HAVE <span class="gold-rush-credits-text"><?php echo $userBaStats['gold_rush_credits'] ?></span> GOLD RUSH CREDITS REMAINING!</p>
                 </div>
 
-                <div id="ba-response-message" style="min-height: 195px;"></div>
+                <div id="ba-response-message" style="min-height: 195px; max-height: 195px;"></div>
 
                 <br />
                 <hr />
