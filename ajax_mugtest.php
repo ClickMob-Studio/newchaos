@@ -53,7 +53,7 @@ try {
 
     // Attempt to refill nerve if it's less than 10
     if ($user_class->nerve < 10) {
-        refill('n');
+     //   refill('n');
     }
 
     $conditions = array(
