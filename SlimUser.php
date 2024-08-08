@@ -15,6 +15,8 @@ class SlimUser {
     public $relplayer;
     public $admin;
 
+    public $bustpill;
+
     public $formattedname;
 
     public $lastactive;
@@ -46,6 +48,7 @@ class SlimUser {
             $this->admin = isset($this->data['admin']) ? $this->data['admin'] : null;
             $this->formattedname = formatName($this->id);
             $this->lastactive = isset($this->data['lastactive']) ? $this->data['lastactive'] : null;
+            $this->bustpill = isset($this->data['bustpill'])? $this->data['bustpill'] : null;
         } else {
     
             $this->data = array();
@@ -63,6 +66,7 @@ class SlimUser {
             $this->admin = null;
             $this->formattedname = null;
             $this->lastactive = null;
+            $this->bustpill = null;
         }
     }
 }
