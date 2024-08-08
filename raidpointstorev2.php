@@ -27,11 +27,19 @@ $items = array(
     array("EB", "Energy Booster", 750),
 );
 
-if(isset($_GET['buy'])){
+if(isset($_GET['buy']) && isset($_POST['qty'])){
+    security($_POST['qty']);
+    $qty = (int)$_POST['qty'];
+    if ($qty < 1) {
+        diefun('Please ensure you enter a valid quantity. <a href="raidpointstore.php">Go Back</a>');
+    }
+
     foreach($items as $item) {
         if($_GET['buy'] == $item[0]) {
-            echo $_POST['qty']; exit;
-            //Send_Event(2, $user_class->formattedname . ' RAID STORE: ' . $item[1] . ' - ' . $item[2] . ' - ' . $user_class->raidpoints, 2);
+
+            $cost = $item[2] * $qty;
+            echo $cost; exit;
+
             if(purchaseItem($item[2], $user_class, $db)) {
                 // Handle the purchase based on item code
                 switch ($item[0]) {
