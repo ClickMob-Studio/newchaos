@@ -89,7 +89,7 @@ if ($user_class->prestige > 0) {
     $prestigeLevelRequired = $prestigeLevelRequired + (200 * $user_class->prestige);
 
     if($user_class->prestige >= 5 ){
-        $prestigeLevelRequired = $prestigeLevelRequired + (200 * $user_class->prestige) + (500 * ($user_class->prestige - 5));
+        $prestigeLevelRequired = $prestigeLevelRequired + (200 * $user_class->prestige);
     }
 }
 
