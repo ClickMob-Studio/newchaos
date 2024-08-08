@@ -83,7 +83,7 @@ try {
     $mug = mt_rand(0, 10);
 
     if ($mug > 9 && $user_class->bustpill > 0) {
-        $mug = 8;
+        $mug = 9;
     }
 
     if ($mug <= 8) {
@@ -185,7 +185,14 @@ try {
             echo json_encode(success("You failed to mug {$attack_person->formattedname}."));
             exit;
         }
-    } else {
+    }
+    else if ($mug == 9) {
+        //Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
+    
+        $response = success("You failed to mug " . $attack_person->formattedname . ".");
+        echo json_encode($response);
+        exit;
+    }else {
         if($attackingperson->lastactive > $active){
         Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
         }
