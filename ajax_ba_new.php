@@ -13,11 +13,14 @@ if (isset($data['user_id'])) {
     $_SESSION['id'] = $data['user_id'];
 }
 
-function error($msg, $userBaStats = array())
+function error($msg, $goldRushCredit = 0, $userBaStats = array())
 {
     $response = array();
     $response['success'] = false;
     $response['error'] = $msg;
+    $response['gold_rush_credits'] = $goldRushCredits;
+    $response['user_ba_stats'] = $userBaStats;
+
 
     return $response;
 }
