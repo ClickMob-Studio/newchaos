@@ -1,7 +1,7 @@
 <?php
 
 include "ajax_header.php";
-incude "SlimUser.php";
+include "SlimUser.php";
 $user_class = new SlimUser($_SESSION['id']);
 
 //
