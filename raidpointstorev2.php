@@ -107,7 +107,7 @@ if(isset($_GET['buy'])){
                     <tr>
                         <td><?php echo $item[1] ?></td>
                         <td><?php echo prettynum($item[2]) ?> Raid Points</td>
-                        <td><input type="number" name="qty" width="100px;" /></td>
+                        <td><input type="number" name="qty" style="width: 100px;" /></td>
                         <td><input type="submit" class="btn btn-primary" value="BUY NOW" /></td>
                     </tr>
                 </form>
