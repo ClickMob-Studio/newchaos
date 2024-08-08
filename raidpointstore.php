@@ -27,49 +27,61 @@ $items = array(
     array("EB", "Energy Booster", 750),
 );
 
-if(isset($_GET['buy'])){
+if(isset($_GET['buy']) && isset($_POST['qty'])){
+    security($_POST['qty']);
+    $qty = (int)$_POST['qty'];
+    if ($qty < 1) {
+        diefun('Please ensure you enter a valid quantity. <a href="raidpointstore.php">Go Back</a>');
+    }
+
     foreach($items as $item) {
         if($_GET['buy'] == $item[0]) {
-            //Send_Event(2, $user_class->formattedname . ' RAID STORE: ' . $item[1] . ' - ' . $item[2] . ' - ' . $user_class->raidpoints, 2);
-            if(purchaseItem($item[2], $user_class, $db)) {
+            $cost = $item[2] * $qty;
+
+            if(purchaseItem($cost, $user_class, $db)) {
                 // Handle the purchase based on item code
                 switch ($item[0]) {
                     case 'JBO':
-                        $db->query("UPDATE grpgusers SET jail_bot_credits = jail_bot_credits + 100 WHERE id = ?");
-                        $db->execute(array($user_class->id));
-                        $message = "100 Jail Bot Credits Points";
+                        $reward = 100 * $qty;
+
+                        $db->query("UPDATE grpgusers SET jail_bot_credits = jail_bot_credits + ? WHERE id = ?");
+                        $db->execute(array($reward, $user_class->id));
+                        $message = $reward . " Jail Bot Credits Points";
                         break;
                     case 'RT':
-                        $db->query("UPDATE grpgusers SET raidtokens = raidtokens + 10 WHERE id = ?");
-                        $db->execute(array($user_class->id));
-                        $message = "10 Raid Tokens";
+                        $reward = 10 * $qty;
+
+                        $db->query("UPDATE grpgusers SET raidtokens = raidtokens + ? WHERE id = ?");
+                        $db->execute(array($reward, $user_class->id));
+                        $message = $reward . " Raid Tokens";
                         break;
                     case 'RSU':
-                        Give_Item(194, $user_class->id, 1);
-                        $message = "1 Raid Speed Up Token";
+
+                        Give_Item(194, $user_class->id, $qty);
+                        $message = $qty . " x Raid Speed Up Token";
                         break;
                     case 'RPA':
-                        Give_Item(251, $user_class->id, 1);
-                        $message = "1 Raid Pass";
+                        Give_Item(251, $user_class->id, $qty);
+                        $message = $qty . " x Raid Pass";
                         break;
                     case 'RB':
-                        Give_Item(252, $user_class->id, 1);
-                        $message = "1 Raid Booster";
+                        Give_Item(252, $user_class->id, $qty);
+                        $message = $qty . " x Raid Booster";
                         break;
                     case 'PB':
-                        Give_Item(163, $user_class->id, 1);
-                        $message = "1 Police Badge";
+                        Give_Item(163, $user_class->id, $qty);
+                        $message = $qty . " x Police Badge";
                         break;
                     case 'EB':
-                        Give_Item(69, $user_class->id, 1);
-                        $message = "1 Energy Booster";
+                        Give_Item(69, $user_class->id, $qty);
+                        $message = $qty . " x Energy Booster";
                         break;
                 }
 
                 // Confirm the purchase to the user
                 echo "
                     <div class='alert alert-success'>
-                      <p>You have successfully purchased {$message} for {$item[2]} Raid Points.</p>
+                      <p>You have successfully purchased {$message} for {$cost} Raid Points.</p>
                     </div>                   
                 ";
             } else {
@@ -94,18 +106,23 @@ if(isset($_GET['buy'])){
             <strong><?php echo number_format($user_class->raidpoints, 0) ?> raid points</strong> to spend.
         </p>
 
+
         <table id="newtables" style="width:100%;">
             <tr>
                 <th>Item</th>
                 <th>Cost (Raid Points)</th>
-                <th>Action</th>
+                <th width="10%">Qty</th>
+                <th>Purchase</th>
             </tr>
             <?php foreach ($items as $item): ?>
-                <tr>
-                    <td><?php echo $item[1] ?></td>
-                    <td><?php echo prettynum($item[2]) ?> Raid Points</td>
-                    <td><a class='ycbutton' style='padding:2px 10px;' href='?buy=<?php echo $item[0] ?>'>Buy Now</a></td>
-                </tr>
+                <form method="POST" action="?buy=<?php echo $item[0] ?>">
+                    <tr>
+                        <td><?php echo $item[1] ?></td>
+                        <td><?php echo prettynum($item[2]) ?> Raid Points</td>
+                        <td><input type="number" name="qty" style="width: 100px;" /></td>
+                        <td><input type="submit" class="btn btn-primary" value="BUY NOW" /></td>
+                    </tr>
+                </form>
             <?php endforeach; ?>
         </table>
     </div>
