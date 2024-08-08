@@ -83,7 +83,7 @@ try {
     $mug = mt_rand(0, 10);
 
     if ($mug > 9 && $user_class->bustpill > 0) {
-        $mug = 9;
+        $mug = 8;
     }
 
     if ($mug <= 8) {
