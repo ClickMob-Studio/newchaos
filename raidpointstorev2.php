@@ -99,7 +99,7 @@ if(isset($_GET['buy'])){
             <tr>
                 <th>Item</th>
                 <th>Cost (Raid Points)</th>
-                <th>Qty</th>
+                <th width="10%">Qty</th>
                 <th>Purchase</th>
             </tr>
             <?php foreach ($items as $item): ?>
