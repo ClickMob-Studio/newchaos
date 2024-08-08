@@ -37,7 +37,7 @@ if(isset($_GET['buy']) && isset($_POST['qty'])){
     foreach($items as $item) {
         if($_GET['buy'] == $item[0]) {
             $cost = $item[2] * $qty;
-            
+
             if(purchaseItem($cost, $user_class, $db)) {
                 // Handle the purchase based on item code
                 switch ($item[0]) {
