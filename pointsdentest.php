@@ -12,7 +12,7 @@ include 'header.php';
             background-color: #8e8e8e21;
         }
         </style>
-        <div class="card-body" style="background-color: #8e8e8e21;">
+        <div class="card-body" style="background-color: #8e8e8e21; color:white">
             <?php
             $cost = array();
 
