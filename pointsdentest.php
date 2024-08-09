@@ -279,7 +279,7 @@ include 'header.php';
                     </tr>
                 </tbody>
             </table>
-            <?php } ?>
+    
         </div>
     </div>
 
