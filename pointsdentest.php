@@ -3,6 +3,9 @@ include 'header.php';
 ?>
 
 <div class="container mt-5">
+<?php 
+if ($user_class->admin) {
+    ?>
     <div class="card">
         <div class="card-header bg-primary text-white">
             <h3 class="mb-0">Game Updates</h3>
@@ -63,7 +66,7 @@ include 'header.php';
             ?>
         </div>
     </div>
-
+<?php } ?>
     <div class="mt-4">
         <div class="card">
             <div class="card-header bg-info text-white">
