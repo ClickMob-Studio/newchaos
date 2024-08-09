@@ -229,7 +229,7 @@ include 'header.php';
             }
             ?>
 
-            <table class="table table-striped table-hover mt-4">
+            <table class="table table-striped table-hover mt-4"  style="background-color: #8e8e8e21;">
                 <thead class="thead-dark">
                     <tr>
                         <th>Upgrade</th>
@@ -289,7 +289,7 @@ include 'header.php';
                 <div class="card-header bg-info text-white">
                     <h4>Points + Nerve Upgrades</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body"  style="background-color: #8e8e8e21;">
                     <p>Total of 100 Upgrades - Maximum Boost of +100 Nerve & Energy</p>
                     <ul class="list-group">
                         <li class="list-group-item">Level 1-19 Cost: 500 Points Per level or  10,000 Points in total</li>
@@ -309,7 +309,7 @@ include 'header.php';
                 <div class="card-header bg-warning text-white">
                     <h4>Bank Income Upgrade</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body"  style="background-color: #8e8e8e21;">
                     <p>Total of 10 Upgrades - Maximum Boost of +100%</p>
                     <ul class="list-group">
                         <li class="list-group-item">Each upgrade costs 20K Points and grants +10% Bank Daily Income</li>
