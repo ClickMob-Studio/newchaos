@@ -235,7 +235,7 @@ include 'header.php';
             ?>
 
             <table class="table table-striped table-hover mt-4"  style="background-color: #8e8e8e21;">
-                <thead class="thead-dark"  style="background-color: #8e8e8e21;">
+                <thead class="thead-dark"  style="background-color: #8e8e8e21; color:white;">
                     <tr>
                         <th>Upgrade</th>
                         <th>Costs</th>
@@ -246,9 +246,9 @@ include 'header.php';
                 <tbody  style="background-color: #8e8e8e21; color:white;">
                     <tr>
                         <td>Energy + 1</td>
-                        <td><?php echo $cost['energy'] . ' points'; ?></td>
-                        <td><?php echo ($user_class->energyboost) . '/250'; ?></td>
-                        <td>
+                        <td style="color:white;"><?php echo $cost['energy'] . ' points'; ?></td>
+                        <td style="color:white;"><?php echo ($user_class->energyboost) . '/250'; ?></td>
+                        <td style="color:white;">
                             <?php if ($user_class->energyboost < 250) {
                                 echo '<a href="pointsden.php?spend=energy1" class="btn btn-sm btn-success">Buy</a>';
                             } else {
@@ -257,7 +257,7 @@ include 'header.php';
                         </td>
                     </tr>
 
-                    <tr>
+                    <tr style="color:white;">
                         <td>Nerve + 1</td>
                         <td><?php echo $cost['nerve'] . ' points'; ?></td>
                         <td><?php echo ($user_class->nerveboost) . '/250'; ?></td>
@@ -270,7 +270,7 @@ include 'header.php';
                         </td>
                     </tr>
 
-                    <tr>
+                    <tr style="color:white;">
                         <td>Bank Daily Income +10%</td>
                         <td><?php echo number_format($cost['bankboost'], 0) . ' points'; ?></td>
                         <td><?php echo ($user_class->bankboost) . '/10'; ?></td>
