@@ -4,6 +4,24 @@ include 'header.php';
 
 <div class="container mt-5">
 <?php 
+
+$find = ['[con]', '[ui]', '[bug]', '[sys]', '[func]', '[other]'];
+$repl = [
+    "<span style='color:#FFF;font-weight:700;'>[CONTENT]</span>",
+    "<span style='color:#FF0;font-weight:700;'>[UI]</span>",
+    "<span style='color:#215E21;font-weight:700;'>[BUGFIX]</span>",
+    "<span style='color:#99182C;font-weight:700;'>[SYSTEM]</span>",
+    "<span style='color:#436EEE;font-weight:700;'>[FUNCTIONALITY]</span>",
+    "<span style='color:#898;font-weight:700;'>[OTHER]</span>"
+];
+$types = [
+    'con' => "<span style='color:#FFF;font-weight:700;'>[CONTENT]</span>",
+    'ui' => "<span style='color:#FF0;font-weight:700;'>[UI]</span>",
+    'bug' => "<span style='color:#215E21;font-weight:700;'>[BUGFIX]</span>",
+    'sys' => "<span style='color:#99182C;font-weight:700;'>[SYSTEM]</span>",
+    'func' => "<span style='color:#436EEE;font-weight:700;'>[FUNCTIONALITY]</span>",
+    'other' => "<span style='color:#898;font-weight:700;'>[OTHER]</span>"
+];
 if ($user_class->admin) {
     ?>
     <div class="card">
@@ -12,23 +30,6 @@ if ($user_class->admin) {
         </div>
         <div class="card-body" style="background-color: #8e8e8e21;">
             <?php
-            $find = ['[con]', '[ui]', '[bug]', '[sys]', '[func]', '[other]'];
-            $repl = [
-                "<span style='color:#FFF;font-weight:700;'>[CONTENT]</span>",
-                "<span style='color:#FF0;font-weight:700;'>[UI]</span>",
-                "<span style='color:#215E21;font-weight:700;'>[BUGFIX]</span>",
-                "<span style='color:#99182C;font-weight:700;'>[SYSTEM]</span>",
-                "<span style='color:#436EEE;font-weight:700;'>[FUNCTIONALITY]</span>",
-                "<span style='color:#898;font-weight:700;'>[OTHER]</span>"
-            ];
-            $types = [
-                'con' => "<span style='color:#FFF;font-weight:700;'>[CONTENT]</span>",
-                'ui' => "<span style='color:#FF0;font-weight:700;'>[UI]</span>",
-                'bug' => "<span style='color:#215E21;font-weight:700;'>[BUGFIX]</span>",
-                'sys' => "<span style='color:#99182C;font-weight:700;'>[SYSTEM]</span>",
-                'func' => "<span style='color:#436EEE;font-weight:700;'>[FUNCTIONALITY]</span>",
-                'other' => "<span style='color:#898;font-weight:700;'>[OTHER]</span>"
-            ];
 
             if (array_key_exists('submit', $_POST) && ($user_class->admin)) {
                 $text = "[{$_POST['type']}] {$_POST['update']}";
