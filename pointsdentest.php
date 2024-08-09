@@ -235,7 +235,7 @@ include 'header.php';
             ?>
 
             <table class="table table-striped table-hover mt-4"  style="background-color: #8e8e8e21;">
-                <thead class="thead-dark">
+                <thead class="thead-dark"  style="background-color: #8e8e8e21;">
                     <tr>
                         <th>Upgrade</th>
                         <th>Costs</th>
@@ -243,7 +243,7 @@ include 'header.php';
                         <th>Buy</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody  style="background-color: #8e8e8e21;">
                     <tr>
                         <td>Energy + 1</td>
                         <td><?php echo $cost['energy'] . ' points'; ?></td>
