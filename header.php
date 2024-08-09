@@ -1088,7 +1088,7 @@ $(document).ready(function() {
             </div>
         </div>
         <div class="col-3">
-        <p class="text-center">Level: <?= shorthandNumber($user_class->level);?></p>
+        <p class="text-center">Level: <?= $user_class->level;?></p>
             <div class="progress">
                 <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->exppercent; ?>%" aria-valuenow="<?= $user_class->exppercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->exppercent; ?>"></div>
             </div>
