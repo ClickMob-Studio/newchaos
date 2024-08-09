@@ -7,6 +7,11 @@ include 'header.php';
         <div class="card-header bg-primary text-white">
             <h3 class="mb-0">Points Den</h3>
         </div>
+        <style>
+        .list-group-item{
+            background-color: #8e8e8e21;
+        }
+        </style>
         <div class="card-body">
             <?php
             $cost = array();
