@@ -244,7 +244,7 @@ include 'header.php';
                     </tr>
                 </thead>
                 <tbody  style="background-color: #8e8e8e21; color:white;">
-                    <tr>
+                    <tr style="color:white;">
                         <td>Energy + 1</td>
                         <td style="color:white;"><?php echo $cost['energy'] . ' points'; ?></td>
                         <td style="color:white;"><?php echo ($user_class->energyboost) . '/250'; ?></td>
