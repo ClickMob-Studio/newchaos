@@ -26,6 +26,7 @@ class SlimUser {
     public $nerref;
     public $maxnerve;
     public $points;
+    public $money;
 
     function __construct($id) {    
         global $db;
@@ -62,6 +63,7 @@ class SlimUser {
             $this->nerref = isset($this->data['nerref']) ? $this->data['nerref'] : null;
             $this->maxnerve = 4 + $this->level;
             $this->points = isset($this->data['points'])? $this->data['points'] : null;
+            $this->money = isset($this->data['money'])? $this->data['money'] : null;
         } else {
     
             $this->data = array();
