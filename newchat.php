@@ -192,7 +192,7 @@ foreach ($rows as $row) {
     $avatarSize = "100px"; // Set a consistent size for all avatars
     $quotetext = str_replace(array('\'','"'),array('\\\'','&quot;'),$row['body']);
 
-    echo '<div class="card my-3" style="background-color: rgba(0, 0, 0, 0); border: none;">';
+    echo '<div class="card my-3" style="background-color: #292929; border: none; border-bottom: 1px solid #444;">';
     echo '<div class="card-body d-flex">';
     echo '<div class="flex-shrink-0 me-3 text-center">';
     echo '<img src="' . $avatar . '" class="img-fluid rounded-circle" style="width: ' . $avatarSize . '; height: ' . $avatarSize . ';" />';
