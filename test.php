@@ -1,3 +1,3 @@
 <?php
 
-$hashedPassword = sha1('password');
+echo $hashedPassword = sha1('password');
