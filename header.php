@@ -641,7 +641,7 @@ if ($user_class->view_preference === '1') { ?>
         $eve = "(".$ev.")";
     }else{
         $eve = "";
-    }
+    }?>
     <title><?php echo $eve; ?> ChaosCity</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
