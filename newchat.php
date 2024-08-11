@@ -101,43 +101,40 @@ error_reporting(E_ALL);
             if ($user_class->level < 2 && $user_class->prestige == 0)
                 diefun("You must be level 2 to use this feature.");
             $lastid = (!empty($lastid['id'])) ? $lastid['id'] : 0;
-            print <<<TEXT
-            <script>
-            var lastGmailID = $lastid;
-            syncGmail();
-            </script>
 
-            <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                function handleRating(event) {
-                    var button = event.target;
-                    var action = button.getAttribute('data-action');
-                    var postId = button.getAttribute('data-id');
+            echo '<script>
+                    var lastGmailID = ' . $lastid . ';
+                    syncGmail();
+                  </script>';
 
-                    console.log("Rating button clicked: Action - " + action + ", Post ID - " + postId);
+            echo "<script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        function handleRating(event) {
+                            var button = event.target;
+                            var action = button.getAttribute('data-action');
+                            var postId = button.getAttribute('data-id');
 
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'ajax_gc_new.php', true);
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                    xhr.onload = function () {
-                        if (this.status === 200) {
-                            console.log(this.responseText);
+                            console.log('Rating button clicked: Action - ' + action + ', Post ID - ' + postId);
+
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('POST', 'ajax_gc_new.php', true);
+                            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                            xhr.onload = function () {
+                                if (this.status === 200) {
+                                    console.log(this.responseText);
+                                }
+                            };
+                            xhr.send('action=' + action + '&post_id=' + postId);
                         }
-                    };
-                    xhr.send('action=' + action + '&post_id=' + postId);
-                }
 
-                var ratingButtons = document.querySelectorAll('.rating-btn');
-                ratingButtons.forEach(function(button) {
-                    button.addEventListener('click', handleRating);
-                });
-            });
-            </script>
-            TEXT;
-            echo'
-            <div id="gccontainer">
-                ' . gcTalking() . '
-            </div>';
+                        var ratingButtons = document.querySelectorAll('.rating-btn');
+                        ratingButtons.forEach(function(button) {
+                            button.addEventListener('click', handleRating);
+                        });
+                    });
+                  </script>";
+
+            echo '<div id="gccontainer">' . gcTalking() . '</div>';
             ?>
             <div class="d-flex justify-content-center my-3">
                 <button id="trigger" class="btn btn-secondary me-2">Emoji</button>
