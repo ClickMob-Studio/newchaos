@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-mysql_query("UPDATE grpgusers SET game_updates = 0 WHERE id = ".$_SESSION['id'])
+mysql_query("UPDATE grpgusers SET new_updates = 0 WHERE id = ".$_SESSION['id'])
 ?>
 
 <div class="container mt-5">
