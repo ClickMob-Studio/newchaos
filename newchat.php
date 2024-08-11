@@ -5,8 +5,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 ?>
 <div class="container mt-4">
-    <div class="card">
-        <div class="card-header">
+    <div class="card" style="background-color: rgba(0, 0, 0, 0); border: none;">
+        <div class="card-header text-center">
             Global Chat
         </div>
         <div class="card-body">
@@ -189,12 +189,13 @@ foreach ($rows as $row) {
         $array = $m->get('tavcache.'.$row['playerid']);
     }
     $avatar = ($array['avatar'] != "") ? $array['avatar'] : "/images/no-avatar.png";
+    $avatarSize = "100px"; // Set a consistent size for all avatars
     $quotetext = str_replace(array('\'','"'),array('\\\'','&quot;'),$row['body']);
 
-    echo '<div class="card my-3">';
-    echo '<div class="card-body d-flex">';
+    echo '<div class="card my-3" style="background-color: rgba(0, 0, 0, 0); border: none;">';
+    echo '<div class="card-body d-flex align-items-center justify-content-center text-center">';
     echo '<div class="flex-shrink-0 me-3 text-center">';
-    echo '<img src="' . $avatar . '" class="img-fluid rounded-circle" style="max-width: 150px;" />';
+    echo '<img src="' . $avatar . '" class="img-fluid rounded-circle" style="width: ' . $avatarSize . '; height: ' . $avatarSize . ';" />';
     echo '<p class="mt-2 mb-0">' . (($row['playerid'] > 0) ? $array['name'] : '<span class="text-danger">System</span>') . '</p>';
     echo '</div>';
     echo '<div>';
@@ -202,7 +203,7 @@ foreach ($rows as $row) {
     echo '<small>' . howlongago($row['timesent']) . ' ago</small>';
     echo '</div>';
     echo '</div>';
-    echo '<div class="card-footer">';
+    echo '<div class="card-footer text-center">';
     echo ($user_class->admin || $user_class->gm || $user_class->cm) && (!$array['admin'] && !$array['gm']) ? '<a href="?gcban=' . $row['playerid'] . '&conf=' . $_SESSION['security'] . '" class="btn btn-danger btn-sm">Ban User</a> ' : '';
     echo ($user_class->admin || $user_class->gm || $user_class->cm) ? '<a href="?delgc=' . $row['id'] . '" class="btn btn-danger btn-sm">Delete Post</a>' : '';
     echo '</div>';
