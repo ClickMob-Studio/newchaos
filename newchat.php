@@ -193,13 +193,13 @@ foreach ($rows as $row) {
     $quotetext = str_replace(array('\'','"'),array('\\\'','&quot;'),$row['body']);
 
     echo '<div class="card my-3" style="background-color: rgba(0, 0, 0, 0); border: none;">';
-    echo '<div class="card-body d-flex align-items-center justify-content-center text-center">';
+    echo '<div class="card-body d-flex">';
     echo '<div class="flex-shrink-0 me-3 text-center">';
     echo '<img src="' . $avatar . '" class="img-fluid rounded-circle" style="width: ' . $avatarSize . '; height: ' . $avatarSize . ';" />';
     echo '<p class="mt-2 mb-0">' . (($row['playerid'] > 0) ? $array['name'] : '<span class="text-danger">System</span>') . '</p>';
     echo '</div>';
     echo '<div>';
-    echo '<p>' . BBCodeParse(stripslashes($row['body'])) . '</p>';
+    echo '<p style="text-align: center;">' . BBCodeParse(stripslashes($row['body'])) . '</p>';
     echo '<small>' . howlongago($row['timesent']) . ' ago</small>';
     echo '</div>';
     echo '</div>';
