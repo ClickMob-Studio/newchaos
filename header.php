@@ -637,7 +637,12 @@ if ($user_class->view_preference === '1') { ?>
     <script src="js/java.js?12" type="text/javascript"></script><!doctype html>
 <html lang="en">
 <head>
-    <title>(<?php echo $ev; ?>) ChaosCity</title>
+    <?php if($ev > 0){
+        $eve = "(".$ev.")";
+    }else{
+        $eve = "";
+    }
+    <title><?php echo $eve; ?> ChaosCity</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
