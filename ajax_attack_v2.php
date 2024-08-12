@@ -555,8 +555,6 @@ if ($theirhp <= 0) {
         addToUserCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
     }
 
-    Send_Event($attack_person->id, "[-_USERID_-] attacked you and won! They gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".", $user_class->id);
-    Send_Event1($attack_person->id, "Was attacked by [-_USERID_-]  and lost the fight! They gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".", $user_class->id);
     $count = count($rtn);
     if ($count > 5) {
         //echo $rtn[0] . $rtn[1] . '...<br />' . $rtn[$count - 3] . $rtn[$count - 2] . $rtn[$count - 1];
@@ -619,7 +617,7 @@ if ($yourhp <= 0) {
     ));
     $db->query("UPDATE pets SET exp = exp + ($expwon) / 10 WHERE userid = $attack_person->id AND leash = 1");
     $db->execute();
-    Send_Event($attack_person->id, "[-_USERID_-] attacked you and lost! You gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".", $user_class->id);
+
     $count = count($rtn);
     if ($count > 5) {
         //echo $rtn[0] . $rtn[1] . '...<br />' . $rtn[$count - 3] . $rtn[$count - 2] . $rtn[$count - 1];
@@ -680,19 +678,6 @@ $db->execute(array(
 $lastInsertId = $db->insert_id();
 
 foreach ($rtn as $round) {
-
-//    $rtn[] = array(
-//        'attacking_person' => $user_class->id,
-//        'defending_person' => $attack_person->id,
-//        'is_first_attack' => $wait,
-//        'is_hit' => 1,
-//        'is_critical_hit' => $damageResult['is_critical_hit'],
-//        'is_counter_attack' => 0,
-//        'damage' => $damage,
-//        'yourhp' => $yourhp,
-//        'theirhp' => $theirhp,
-//    );
-
     $db->query("
       INSERT INTO 
         attack_turn_log (attack_id, attacking_user_id, defending_user_id, is_first_attack, is_hit, is_critical_hit, is_counter_attack, damage, yourhp, theirhp) 
@@ -711,6 +696,13 @@ foreach ($rtn as $round) {
         $round['theirhp']
     ));
 }
+
+if ($user_class->id == $winner) {
+    Send_Event($attack_person->id, "[-_USERID_-] attacked you and won! They gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ". <a href='view_attack.php?id=" . $lastInsertId . "'>View Result<\/a>", $user_class->id);
+} else {
+    Send_Event($attack_person->id, "[-_USERID_-] attacked you and lost! You gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ". <a href='view_attack.php?id=" . $lastInsertId . "'>View Result<\/a>", $user_class->id);
+}
+
 
 $winner_class = new User($winner);
 $db->query("SELECT * FROM gangwars WHERE (gang1 = ? OR gang2 = ?) AND (gang1 = ? OR gang2 = ?) AND accepted = 1 LIMIT 1");
