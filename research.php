@@ -58,7 +58,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
     }
 
 
-    $db->query("SELECT * FROM `research_type` WHERE `level` < " . $researchType['level']);
+    $db->query("SELECT * FROM `research_type` WHERE `level` < " . $researchType['level'] . " AND `type` = '" . $researchType['type'] . "'");
     $db->execute();
     $levelResearchTypes = $db->fetch_row();
 
