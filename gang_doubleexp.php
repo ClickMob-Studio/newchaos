@@ -1,7 +1,9 @@
 <?php
 
 include 'header.php';
-exit;
+if ($user_class->admin < 1) {
+    exit; 
+}
 if ($user_class->gang < 1) {
     diefun('You are not in a gang.');
 }
