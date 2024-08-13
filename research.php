@@ -4,12 +4,22 @@ include 'header.php';
 
 $levels = 5;
 $levelRows = array();
+$combatTreeLevelRows = array();
 
 $i = 1;
 while ($i <= 5) {
     $db->query("SELECT * FROM `research_type` WHERE `level` = " . $i . " AND `type` = 'economy'");
     $db->execute();
     $levelRows[$i] = $db->fetch_row();
+
+    $i++;
+}
+
+$i = 1;
+while ($i <= 5) {
+    $db->query("SELECT * FROM `research_type` WHERE `level` = " . $i . " AND `type` = 'combat'");
+    $db->execute();
+    $combatTreeLevelRows[$i] = $db->fetch_row();
 
     $i++;
 }
@@ -139,7 +149,45 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
             <br /><hr /><br />
 
             <h3>Combat Tree</h3>
-            <p>Coming Soon.</p>
+            <div class="table-container">
+                <table class="new_table" id="newtables" style="width:100%;">
+                    <tr>
+                        <?php
+                        $i = 1;
+                        while ($i <= 5):
+                            ?>
+                            <td>
+                                <?php foreach ($combatTreeLevelRows[$i] as $combatTreeLevelRow): ?>
+                                    <?php
+                                    $bgClass = 'bg-danger';
+                                    if (isset($completeUserResearchTypesIndexedOnId[$combatTreeLevelRow['id']])) {
+                                        $bgClass = 'bg-success';
+                                    }
+                                    ?>
+                                    <div class="card text-white <?php echo $bgClass ?> mb-3" style="width: 200px;">
+                                        <div class="card-header">
+                                            <?php echo $combatTreeLevelRow['name'] ?>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text">
+                                                <?php echo $combatTreeLevelRow['description'] ?><br /><br />
+                                                <strong>Cost:</strong> $<?php echo number_format($combatTreeLevelRow['cost'], 0) ?><br />
+                                                <strong>Length:</strong> <?php echo number_format($combatTreeLevelRow['duration_in_days'], 0) ?> Days
+                                            </p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <?php if (!$activeUserResearchType && !isset($completeUserResearchTypesIndexedOnId[$combatTreeLevelRow['id']])): ?>
+                                                <a href="research.php?action=start_research&rid=<?php echo $combatTreeLevelRow['id'] ?>" class="btn btn-primary">Research</a>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </td>
+                            <?php $i++; ?>
+                        <?php endwhile; ?>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </div>
