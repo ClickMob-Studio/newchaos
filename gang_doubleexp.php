@@ -2,7 +2,7 @@
 
 include 'header.php';
 if ($user_class->admin < 1) {
-    exit; 
+    //exit;
 }
 if ($user_class->gang < 1) {
     diefun('You are not in a gang.');
@@ -114,7 +114,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
         }
     }
     if ($claimPrize === 'ba') {
-        if ($gangCompLeaderboard['weekly_ba_complete'] >= 85000) {
+        if ($gangCompLeaderboard['weekly_ba_complete'] >= 125000) {
             if (in_array($claimPrize, $prizesClaimed)) {
                 diefun('You have already claimed this prize.');
             } else {
@@ -123,11 +123,11 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE gang_id = " . $user_class->gang);
                 $db->execute();
 
-                Give_Item(276, $user_class->id, 5);
+                Give_Item(263, $user_class->id, 1);
                 $db->query("UPDATE grpgusers SET points = points + 200000 WHERE id = " . $user_class->id);
                 $db->execute();
 
-                $resMes = 'You have successfully claimed your rewards for completing the mugs mission.';
+                $resMes = 'You have successfully claimed your rewards for completing the BA mission.';
             }
         } else {
             diefun('You have not earned the prize yet.');
@@ -155,7 +155,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 Once a mission is complete, your gang leader will be able to claim the prize on this page and they will be given the rewards.
             </p>
 
-            <p style="color: red;"><strong>Challenge Ends 23rd July at 10am Server Time.</strong></p>
+            <p style="color: red;"><strong>Challenge Ends 20th August at 10am Server Time.</strong></p>
 
             <p>Enjoy!</p>
             <br /><br /><hr />
@@ -323,28 +323,28 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 <td>
                     <center>
                         <strong>Backalley</strong><br />
-                        Complete 85,000 BA Searches
+                        Complete 125,000 BA Searches
                     </center>
                 </td>
                 <td>
                     <?php
-                    $barWidthPer = $gangCompLeaderboard['weekly_ba_complete'] / 85000 * 100;
+                    $barWidthPer = $gangCompLeaderboard['weekly_ba_complete'] / 125000 * 100;
                     ?>
-                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($gangCompLeaderboard['weekly_ba_complete'], 0) ?>/85,000">
+                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($gangCompLeaderboard['weekly_ba_complete'], 0) ?>/125,000">
                         <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: <?php echo $barWidthPer ?>%">
-                            <?php echo number_format($gangCompLeaderboard['weekly_ba_complete'], 0) ?>/85,000
+                            <?php echo number_format($gangCompLeaderboard['weekly_ba_complete'], 0) ?>/125,000
                         </div>
                     </div>
                 </td>
                 <td>
                     <ul>
-                        <li>5 x Research Tokens</li>
+                        <li>1 x Time Infinity Stone</li>
                         <li>200,000 points</li>
                     </ul>
                 </td>
                 <td>
                     <center>
-                        <?php if ($isLeader && !in_array('ba', $prizesClaimed) && $gangCompLeaderboard['weekly_ba_complete'] >= 85000): ?>
+                        <?php if ($isLeader && !in_array('ba', $prizesClaimed) && $gangCompLeaderboard['weekly_ba_complete'] >= 125000): ?>
                             <a class="btn btn-success" href="gang_doubleexp.php?claim_prize=ba">Claim Prize</a>
                         <?php endif; ?>
 
