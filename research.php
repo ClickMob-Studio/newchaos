@@ -111,7 +111,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
                         <tr>
                             <?php
                             $i = 1;
-                            while ($i <= 5):
+                            while ($i <= 6):
                             ?>
                                 <td>
                                     <?php foreach ($levelRows[$i] as $levelRow): ?>
