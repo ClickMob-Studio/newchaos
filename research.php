@@ -7,7 +7,7 @@ $levelRows = array();
 $combatTreeLevelRows = array();
 
 $i = 1;
-while ($i <= 5) {
+while ($i <= 6) {
     $db->query("SELECT * FROM `research_type` WHERE `level` = " . $i . " AND `type` = 'economy'");
     $db->execute();
     $levelRows[$i] = $db->fetch_row();
