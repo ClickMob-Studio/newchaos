@@ -2,7 +2,7 @@
 include 'header.php';
 ?>
 	
-	<div class='box_top'>Item Market</div>
+	<div class='box_top'>Item Market t</div>
 						<div class='box_middle'>
 							<div class='pad'>
 								<?php
