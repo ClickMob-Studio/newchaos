@@ -80,7 +80,7 @@ $rows = $db->fetch_row();
                 <tr>
                     <th>Item</th>
                     <th>Price</th>
-                    <th>&nbsp;</th>
+                    <th>&nbsp;``</th>
                 </tr>
                 <?php foreach ($yourRows as $yourRow): ?>
                     <?php
@@ -93,7 +93,7 @@ $rows = $db->fetch_row();
                     ?>
 
                     <tr>
-                        <td><?php echo $yourRow['itemname'] ?> <span style="color:red;">[x<?php $yourRow['qty'] ?>] </td>
+                        <td><?php echo $yourRow['itemname'] ?> <span style="color:red;">[x<?php echo $yourRow['qty'] ?>] </td>
                         <td><?php echo $currency ?></td>
                         <td>
                             <form method="post">
