@@ -29,7 +29,7 @@ if($user_class->level >= 10){
   }
 
 ?>
-<h1>General Information</h1>
+<h1>General Information hhh</h1>
 <div class="table-container">
 <table id="newtables" style="width:100%;">
     <tr>
