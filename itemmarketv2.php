@@ -80,25 +80,25 @@ $rows = $db->fetch_row();
                 <tr>
                     <th>Item</th>
                     <th>Price</th>
-                    <th>&nbps;</th>
+                    <th>&nbsp;</th>
                 </tr>
-                <?php foreach ($rows as $row): ?>
+                <?php foreach ($yourRows as $yourRow): ?>
                     <?php
-                    $submittext = ($row['userid'] == $user_class->id) ? "Remove" : "Buy";
-                    if ($row['currency'] == 'money') {
-                        $currency = prettynum($row['cost'], 1);
+                    $submittext = ($yourRow['userid'] == $user_class->id) ? "Remove" : "Buy";
+                    if ($yourRow['currency'] == 'money') {
+                        $currency = prettynum($yourRow['cost'], 1);
                     } else {
-                        $currency = prettynum($row['cost']) . ' points';
+                        $currency = prettynum($yourRow['cost']) . ' points';
                     }
                     ?>
 
                     <tr>
-                        <td><?php echo $row['itemname'] ?> <span style="color:red;">[x<?php $row['qty'] ?>] </td>
+                        <td><?php echo $yourRow['itemname'] ?> <span style="color:red;">[x<?php $yourRow['qty'] ?>] </td>
                         <td><?php echo $currency ?></td>
                         <td>
                             <form method="post">
-                                <input type="hidden" name="id" value="<?php echo $row['id'] ?>">
-                                <input type="text" size="5" name="qty" value="<?php echo min(floor(($row['currency'] == 'money' ? $user_class->money : $user_class->points) / $row['cost']), $row['qty']) ?>">
+                                <input type="hidden" name="id" value="<?php echo $yourRow['id'] ?>">
+                                <input type="text" size="5" name="qty" value="<?php echo min(floor(($yourRow['currency'] == 'money' ? $user_class->money : $user_class->points) / $yourRow['cost']), $yourRow['qty']) ?>">
                                 <input type="submit" name="buy" value="<?php echo $submittext ?>">
                             </form>
                         </td>
