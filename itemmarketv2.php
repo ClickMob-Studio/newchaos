@@ -146,7 +146,9 @@ foreach ($rows as $row) {
                         <td><?php echo formatName($row['userid']) ?></td>
                         <td>
                             <?php echo $row['itemname'] ?> <span style="color:red;">[x<?php $row['qty'] ?>] <br />
-                            count: <?php echo $row['count'] ?>
+                            <?php if ($row['count'] > 1): ?>
+                                <a href="#">See Other Listings</a>
+                            <?php endif; ?>
                         </td>
                         <td><?php echo $currency ?></td>
                         <td>
