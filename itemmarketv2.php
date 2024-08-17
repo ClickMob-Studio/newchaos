@@ -94,49 +94,14 @@ if (isset($_GET['itemid']) && (int)$_GET['itemid']) {
 }
 ?>
 
-<div class='box_top'>Your Listings</div>
-<div class='box_middle'>
-    <div class='pad'>
-        <div class="floaty">
-            <table id="newtables" style="width:100%;">
-                <tr>
-                    <th>Item</th>
-                    <th>Price</th>
-                    <th>&nbsp;``</th>
-                </tr>
-                <?php foreach ($yourRows as $yourRow): ?>
-                    <?php
-                    $submittext = ($yourRow['userid'] == $user_class->id) ? "Remove" : "Buy";
-                    if ($yourRow['currency'] == 'money') {
-                        $currency = prettynum($yourRow['cost'], 1);
-                    } else {
-                        $currency = prettynum($yourRow['cost']) . ' points';
-                    }
-                    ?>
-
-                    <tr>
-                        <td><?php echo $yourRow['itemname'] ?> <span style="color:red;">[x<?php echo $yourRow['qty'] ?>] </td>
-                        <td><?php echo $currency ?></td>
-                        <td>
-                            <form method="post">
-                                <input type="hidden" name="id" value="<?php echo $yourRow['id'] ?>">
-                                <input type="text" size="5" name="qty" value="<?php echo min(floor(($yourRow['currency'] == 'money' ? $user_class->money : $user_class->points) / $yourRow['cost']), $yourRow['qty']) ?>">
-                                <input type="submit" name="buy" value="<?php echo $submittext ?>">
-                            </form>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </table>
-        </div>
-    </div>
-</div>
-
-
 
 <div class='box_top'>Item Market</div>
 <div class='box_middle'>
     <div class='pad'>
         <div class="floaty">
+            <?php if (isset($_GET['itemid']) && (int)$_GET['itemid']): ?>
+                <p><a href="itemmarketv2.php">Back to all listings</a></p>
+            <?php endif; ?>
             <table id="newtables" style="width:100%;">
                 <tr>
                     <th>Seller</th>
@@ -170,6 +135,43 @@ if (isset($_GET['itemid']) && (int)$_GET['itemid']) {
                                 <input type="submit" name="buy" value="<?php echo $submittext ?>">
                             </form>
 
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class='box_top'>Your Listings</div>
+<div class='box_middle'>
+    <div class='pad'>
+        <div class="floaty">
+            <table id="newtables" style="width:100%;">
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>&nbsp;``</th>
+                </tr>
+                <?php foreach ($yourRows as $yourRow): ?>
+                    <?php
+                    $submittext = ($yourRow['userid'] == $user_class->id) ? "Remove" : "Buy";
+                    if ($yourRow['currency'] == 'money') {
+                        $currency = prettynum($yourRow['cost'], 1);
+                    } else {
+                        $currency = prettynum($yourRow['cost']) . ' points';
+                    }
+                    ?>
+
+                    <tr>
+                        <td><?php echo $yourRow['itemname'] ?> <span style="color:red;">[x<?php echo $yourRow['qty'] ?>] </td>
+                        <td><?php echo $currency ?></td>
+                        <td>
+                            <form method="post">
+                                <input type="hidden" name="id" value="<?php echo $yourRow['id'] ?>">
+                                <input type="text" size="5" name="qty" value="<?php echo min(floor(($yourRow['currency'] == 'money' ? $user_class->money : $user_class->points) / $yourRow['cost']), $yourRow['qty']) ?>">
+                                <input type="submit" name="buy" value="<?php echo $submittext ?>">
+                            </form>
                         </td>
                     </tr>
                 <?php endforeach; ?>
