@@ -67,18 +67,30 @@ $db->query("SELECT im.*, itemname FROM itemmarket im JOIN items i on i.id = im.i
 $db->execute();
 $yourRows = $db->fetch_row();
 
-$db->query("SELECT im.*, itemname FROM itemmarket im JOIN items i on i.id = im.itemid WHERE im.userid <> " . $user_class->id . " ORDER BY cost ASC");
-$db->execute();
-$rows = $db->fetch_row();
+if (isset($_GET['itemid']) && (int)$_GET['itemid']) {
+    security($_GET['itemid']);
+    $db->query("SELECT im.*, itemname FROM itemmarket im JOIN items i on i.id = im.itemid WHERE im.userid <> " . $user_class->id . " AND im.itemid = " . (int)$_GET['itemid'] . " ORDER BY cost ASC");
+    $db->execute();
+    $rows = $db->fetch_row();
+} else {
+    $db->query("SELECT im.*, itemname FROM itemmarket im JOIN items i on i.id = im.itemid WHERE im.userid <> " . $user_class->id . " ORDER BY cost ASC");
+    $db->execute();
+    $rows = $db->fetch_row();
+}
 
 $indexedRows = array();
-foreach ($rows as $row) {
-    if (!isset($indexedRows[$row['itemid']])) {
-        $indexedRows[$row['itemid']] = $row;
-        $indexedRows[$row['itemid']]['count'] = 1;
-    } else {
-        $indexedRows[$row['itemid']]['count']++;
+if (isset($_GET['itemid']) && (int)$_GET['itemid']) {
+    $indexedRows = $rows;
+} else {
+    foreach ($rows as $row) {
+        if (!isset($indexedRows[$row['itemid']])) {
+            $indexedRows[$row['itemid']] = $row;
+            $indexedRows[$row['itemid']]['count'] = 1;
+        } else {
+            $indexedRows[$row['itemid']]['count']++;
+        }
     }
+
 }
 ?>
 
@@ -147,7 +159,7 @@ foreach ($rows as $row) {
                         <td>
                             <?php echo $row['itemname'] ?> <span style="color:red;">[x<?php $row['qty'] ?>] <br />
                             <?php if ($row['count'] > 1): ?>
-                                <a href="#">See Other Listings</a>
+                                <a style="color: red;" href="itemmarketv2.php?itemid=<?php echo $row['itemid'] ?>">See Other Listings</a>
                             <?php endif; ?>
                         </td>
                         <td><?php echo $currency ?></td>
