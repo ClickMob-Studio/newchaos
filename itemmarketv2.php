@@ -75,6 +75,9 @@ $indexedRows = array();
 foreach ($rows as $row) {
     if (!isset($indexedRows[$row['itemid']])) {
         $indexedRows[$row['itemid']] = $row;
+        $indexedRows[$row['itemid']]['count'] = 1;
+    } else {
+        $indexedRows[$row['itemid']]['count']++;
     }
 }
 ?>
@@ -141,7 +144,10 @@ foreach ($rows as $row) {
 
                     <tr>
                         <td><?php echo formatName($row['userid']) ?></td>
-                        <td><?php echo $row['itemname'] ?> <span style="color:red;">[x<?php $row['qty'] ?>] </td>
+                        <td>
+                            <?php echo $row['itemname'] ?> <span style="color:red;">[x<?php $row['qty'] ?>] <br />
+                            count: <?php echo $row['count'] ?>
+                        </td>
                         <td><?php echo $currency ?></td>
                         <td>
                             <form method="post">
