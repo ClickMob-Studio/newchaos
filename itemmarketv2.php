@@ -108,11 +108,12 @@ $items = $db->fetch_row();
                 Filter:
                 <form method="GET">
                     <select name="itemid">
-                        <option value="">--- Item --></option>
+                        <option value="">--- Item --</option>
                         <?php foreach ($items as $item): ?>
                             <option value="<?php echo $item['id'] ?>"><?php echo $item['itemname'] ?></option>
                         <?php endforeach; ?>
                     </select>
+                    <input type="submit" class="btn" value="Filter" />
                 </form>
             </p>
             <hr />
