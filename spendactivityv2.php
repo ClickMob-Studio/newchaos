@@ -174,7 +174,7 @@ if(isset($_GET['buy'])){
 
             if (totalCost > userPoints) {
                 event.preventDefault();
-                alert('You do not have enough Raid Points to make this purchase.');
+                alert('You do not have enough activity to make this purchase.');
             }
         });
     });
