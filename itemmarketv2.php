@@ -67,7 +67,7 @@ $db->query("SELECT im.*, itemname FROM itemmarket im JOIN items i on i.id = im.i
 $db->execute();
 $yourRows = $db->fetch_row();
 
-$db->query("SELECT im.*, itemname FROM itemmarket im JOIN items i on i.id = im.itemid WHERE im.userid <> " . $user_class->id . " ORDER BY cost ASC");
+$db->query("SELECT im.*, itemname FROM itemmarket im JOIN items i on i.id = im.itemid WHERE im.userid <> " . $user_class->id . " GROUP BY im.itemid ORDER BY cost ASC");
 $db->execute();
 $rows = $db->fetch_row();
 ?>
