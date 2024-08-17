@@ -122,7 +122,7 @@ if (isset($_GET['itemid']) && (int)$_GET['itemid']) {
                     <tr>
                         <td><?php echo formatName($row['userid']) ?></td>
                         <td>
-                            <?php echo $row['itemname'] ?> <span style="color:red;">[x<?php $row['qty'] ?>] <br />
+                            <?php echo $row['itemname'] ?> <span style="color:red;">[x<?php echo $row['qty'] ?>] <br />
                             <?php if ($row['count'] > 1): ?>
                                 <a style="color: red;" href="itemmarketv2.php?itemid=<?php echo $row['itemid'] ?>">See Other Listings</a>
                             <?php endif; ?>
