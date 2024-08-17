@@ -92,6 +92,10 @@ if (isset($_GET['itemid']) && (int)$_GET['itemid']) {
     }
 
 }
+
+$db->query('SELECT * FROM items ORDER BY itemname');
+$db->execute();
+$items = $db->fetch_row();
 ?>
 
 
@@ -99,6 +103,21 @@ if (isset($_GET['itemid']) && (int)$_GET['itemid']) {
 <div class='box_middle'>
     <div class='pad'>
         <div class="floaty">
+            <hr />
+            <p>
+                Filter:
+                <form method="GET">
+                    <select name="itemid">
+                        <option value="">--- Item --></option>
+                        <?php foreach ($items as $item): ?>
+                            <option value="<?php echo $item['id'] ?>"><?php echo $item['itemname'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </form>
+            </p>
+            <hr />
+
+
             <?php if (isset($_GET['itemid']) && (int)$_GET['itemid']): ?>
                 <p><a href="itemmarketv2.php">Back to all listings</a></p>
             <?php endif; ?>
