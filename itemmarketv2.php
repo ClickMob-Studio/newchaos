@@ -113,7 +113,8 @@ $items = $db->fetch_row();
                             <option value="<?php echo $item['id'] ?>"><?php echo $item['itemname'] ?></option>
                         <?php endforeach; ?>
                     </select>
-                    <input type="submit" class="btn" value="Filter" />
+                    <input type="submit" value="Filter" />
+                    <a href="itemmarketv2.php">Clear Filter</a>
                 </form>
             </p>
             <hr />
