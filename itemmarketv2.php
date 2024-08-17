@@ -67,9 +67,16 @@ $db->query("SELECT im.*, itemname FROM itemmarket im JOIN items i on i.id = im.i
 $db->execute();
 $yourRows = $db->fetch_row();
 
-$db->query("SELECT im.*, itemname FROM itemmarket im JOIN items i on i.id = im.itemid WHERE im.userid <> " . $user_class->id . " ORDER BY cost ASC GROUP BY im.itemid");
+$db->query("SELECT im.*, itemname FROM itemmarket im JOIN items i on i.id = im.itemid WHERE im.userid <> " . $user_class->id . " ORDER BY cost ASC");
 $db->execute();
 $rows = $db->fetch_row();
+
+$indexedRows = array();
+foreach ($rows as $row) {
+    if (!isset($indexedRows[$row['itemid']])) {
+        $indexedRows[$row['itemid']] = $row;
+    }
+}
 ?>
 
 <div class='box_top'>Your Listings</div>
@@ -122,7 +129,7 @@ $rows = $db->fetch_row();
                     <th>Price</th>
                     <th>Buy</th>
                 </tr>
-                <?php foreach ($rows as $row): ?>
+                <?php foreach ($indexedRows as $row): ?>
                     <?php
                     $submittext = ($row['userid'] == $user_class->id) ? "Remove" : "Buy";
                     if ($row['currency'] == 'money') {
