@@ -1952,7 +1952,7 @@ function addItemTempUse($user_class, $field, $qty = 1)
 
     $itemTempUse = getItemTempUse($user_class->id);
 
-    if ($field == 'crime_potion_time' || $field == 'crime_booster_time' || $field == 'nerve_vial_time' || $field == 'gang_double_exp_time' || $field == 'gym_10_multiplier_time' || $field == 'crime_15_multiplier_time') {
+    if ($field == 'crime_potion_time' || $field == 'crime_booster_time' || $field == 'nerve_vial_time' || $field == 'gang_double_exp_time' || $field == 'gym_10_multiplier_time' || $field == 'crime_15_multiplier_time' || $field == 'gym_protein_bar_time' || $field == 'gym_super_pills_time') {
         $db->query("UPDATE item_temp_use SET {$field} = {$qty} WHERE id = " . $itemTempUse['id']);
         $db->execute();
     } else {

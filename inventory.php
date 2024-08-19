@@ -1982,6 +1982,32 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
 
                 echo Message("Now you have used your mission pass, you can go to the missions page and you'll be able to reset any mission you have already completed today!");
                 break;
+            case 279:
+                $tempItemUse = getItemTempUse($user_class->id);
+                $now = time();
+                if ($tempItemUse['gym_protein_bar_time'] > $now) {
+                    diefun('You already have a gym protein bar active.');
+                }
+
+                $newTime = time() + 900;
+
+                addItemTempUse($user_class, 'gym_protein_bar_time', $newTime);
+
+                echo Message("You eat the protein bar, for the next 15 minutes you will gain an extra 20% in the gym!");
+                break;
+            case 281:
+                $tempItemUse = getItemTempUse($user_class->id);
+                $now = time();
+                if ($tempItemUse['gym_super_pills_time'] > $now) {
+                    diefun('You already have a gym super pills active.');
+                }
+
+                $newTime = time() + 900;
+
+                addItemTempUse($user_class, 'gym_super_pills_time', $newTime);
+
+                echo Message("You eat youer gym super pills, for the next 15 minutes you will have an extra 10% awake!");
+                break;
 
 case 197: // Nuke item
     // Check if the form has been submitted
