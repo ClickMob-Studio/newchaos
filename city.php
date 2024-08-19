@@ -247,6 +247,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
             <a href='stores.php'>Item Stores</a><br>
             <a href='pharmacy.php'>General Pharmacy</a><br>
             <a href='raidpointstore.php'>Raid Point Store</a><br>
+            <a href='spendactivity.php'>Activity Store</a><br>
             <a href="itemmarket.php">Item Market</a><br>
             <a href="pointmarket.php">Points Market</a><br>
             <a href="goldmarket.php">Gold Market</a><br>
