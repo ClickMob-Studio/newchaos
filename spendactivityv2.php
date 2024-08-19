@@ -29,7 +29,7 @@ $items = array(
 );
 
 // Check if the 'buy' GET parameter is set
-if(isset($_GET['buy'])){
+if(isset($_POST['buy'])){
     $total_cost = 0;
     $purchases = [];
     foreach($items as $item) {
