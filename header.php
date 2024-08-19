@@ -1667,6 +1667,18 @@ if ($tempItemUse['supercrime_time'] > $time) {
     $messages[] = 'Super Crime: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
 }
 
+// Protein Bar
+if ($tempItemUse['gym_protein_bar_time'] > $time) {
+    $rtn = howlongtil($tempItemUse['gym_protein_bar_time']);
+    $messages[] = 'Protein Bar: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
+// Super Pills
+if ($tempItemUse['gym_super_pills_time'] > $time) {
+    $rtn = howlongtil($tempItemUse['gym_super_pills_time']);
+    $messages[] = 'Gym Super Pills: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
 
     // Jail
 if ($user_class->jail > $time) {
