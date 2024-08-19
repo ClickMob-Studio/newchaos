@@ -1,4 +1,5 @@
 <?php
+exit;
 include 'header.php';
 
 // Function to handle item purchase and update user's points in the database
