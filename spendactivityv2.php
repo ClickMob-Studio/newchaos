@@ -19,13 +19,15 @@ function purchaseItem($apoints, $user_class, $db){
 
 // Define the available items in the store
 $items = array(
-    array("DE", "1 Double EXP Pill", 500),
-    array("MS", "15 Maze Searches", 500),
-    array("JBO", "50 Jail Bot Credits", 250),
-    array("RT", "10 Raid Tokens", 1500),
-    array("MNY", "$5,000,000 Money", 250),
-    array("RSU", "1 Raid Speed Up Token", 250),
-    array("PT", "10,000 Points", 500), // New item: 10,000 Points for 500 Activity Points
+    array("DE", "1 Double EXP Pill", 250),
+    array("MS", "15 Maze Searches", 250),
+    array("JBO", "100 Jail Bot Credits", 150),
+    array("RT", "10 Raid Tokens", 250),
+    array("MNY", "$5,000,000 Money", 100),
+    array("RSU", "1 Raid Speed Up Token", 100),
+    array("PT", "15,000 Points", 500), // New item: 10,000 Points for 500 Activity Points
+    array("GRT", "1 Gold Rush Token", 200),
+    array("CMB", "1 Crime Booster", 250),
 );
 
 // Check if the 'buy' GET parameter is set
@@ -43,7 +45,7 @@ if(isset($_POST['buy'])){
     }
 
     if($total_cost == 0) {
-        diefun('Please ensure you enter a valid quantity. <a href="raidpointstore.php">Go Back</a>');
+        diefun('Please ensure you enter a valid quantity. <a href="spendactivity.php">Go Back</a>');
     }
 
     if(purchaseItem($total_cost, $user_class, $db)) {
@@ -65,7 +67,7 @@ if(isset($_POST['buy'])){
                     $message = $reward . " Maze Searches";
                     break;
                 case 'JBO':
-                    $reward = 50 * $qty;
+                    $reward = 100 * $qty;
 
                     $db->query("UPDATE grpgusers SET jail_bot_credits = jail_bot_credits + " . $reward . " WHERE id = ?");
                     $db->execute(array($user_class->id));
@@ -85,27 +87,35 @@ if(isset($_POST['buy'])){
                     break;
                 case 'RSU':
                     Give_Item(194, $user_class->id, $qty);
-                    $message = $qty . " x Raid Speed Up Token";
+                    $message = $qty . " x Raid Speed Up Token(s)";
                     break;
                 case 'PT':
-                    $reward = 10000 * $qty;
+                    $reward = 15000 * $qty;
                     $db->query("UPDATE grpgusers SET points = points + " . $reward . " WHERE id = ?");
                     $db->execute(array($user_class->id));
                     $message = number_format($reward) . " Points";
+                    break;
+                case 'GRT':
+                    Give_Item(253, $user_class->id, $qty);
+                    $message = $qty . " x Gold Rush Token(s)";
+                    break;
+                case 'CMB':
+                    Give_Item(255, $user_class->id, $qty);
+                    $message = $qty . " x Crime Booster(s)";
                     break;
             }
 
             // Confirm the purchase to the user
             echo "
                 <div class='alert alert-success'>
-                    <p>You have successfully purchased {$message} for {$cost} Raid Points.</p>
+                    <p>You have successfully purchased {$message} for {$cost} Activity Points.</p>
                 </div>                   
             ";
         }
     } else {
         echo "
         <div class='alert alert-danger'>
-            <p>You do not have enough Raid Points for this purchase.</p>
+            <p>You do not have enough Activity Points for this purchase.</p>
         </div>
         ";
     }
@@ -131,7 +141,7 @@ if(isset($_POST['buy'])){
                 <?php foreach ($items as $item): ?>
                     <tr>
                         <td><?php echo $item[1] ?></td>
-                        <td><?php echo prettynum($item[2]) ?> Raid Points</td>
+                        <td><?php echo prettynum($item[2]) ?> Activity Points</td>
                         <td><input type="number" name="<?php echo $item[0] ?>" style="width: 100px;" min="0" data-cost="<?php echo $item[2] ?>" class="item-qty" /></td>
                     </tr>
                 <?php endforeach; ?>
