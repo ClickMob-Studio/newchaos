@@ -62,7 +62,7 @@ if(isset($_POST['buy'])){
                     break;
                 case 'MS':
                     $reward = 15 * $qty;
-                    $db->query("UPDATE grpgusers SET cityturns = cityturns + " . $qty . " WHERE id = ?");
+                    $db->query("UPDATE grpgusers SET cityturns = cityturns + " . $reward . " WHERE id = ?");
                     $db->execute(array($user_class->id));
                     $message = $reward . " Maze Searches";
                     break;
