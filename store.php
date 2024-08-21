@@ -1348,7 +1348,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <h4 style="color: brown;">5 x Gym Super Pills</h4>
             <img src="/css/images/NewGameImages/gym-super-pills.png" height="100" alt="Gym Super Pills">
 
-            <h4>Purchase now for only<br><a href="store.php?buy=5gymsuperpills"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+            <h4>Purchase now for only<br><a href="store.php?buy=5gymsuperpills"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
 
         <div class="vip-package">
