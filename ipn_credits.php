@@ -53,7 +53,7 @@ if ($payment_status == "Completed") {
     $buyer = new User($userId);
 
     if ($boost && $buyer->donate_token > 0) {
-        $creditsbought = (floor($creditsbought * 10));
+        $creditsbought = (floor($creditsbought * 10)) * 2;
         mysql_query("UPDATE grpgusers SET donate_token = donate_token - 1 WHERE id = $buyer->id");
     } else {
         $creditsbought = floor($creditsbought * 10);
