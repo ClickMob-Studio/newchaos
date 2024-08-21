@@ -526,7 +526,14 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
         $hiaTotal = $db->fetch_single();
         $this->maxawake = $this->maxawake + $hiaTotal;
         $this->directmaxawake = $this->directmaxawake + $hiaTotal;
-    
+
+        $tempItemUse = getItemTempUse($this->id);
+        if ($tempItemUse['gym_super_pills_time'] > time()) {
+            $awakeAdd = $this->maxawake / 100 * 10;
+            $this->maxawake = $this->maxawake + $awakeAdd;
+            $this->directmaxawake = $this->directmaxawake + $awakeAdd;
+        }
+
         $this->directawake = ($this->directawake > $this->directmaxawake) ? $this->directmaxawake : $this->directawake;
         $this->directawake = ($this->directawake <= 0) ? 0 : $this->directawake;
         $this->awakepercent = floor(($this->directawake / $this->directmaxawake) * 100);
