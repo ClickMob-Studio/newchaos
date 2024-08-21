@@ -34,7 +34,7 @@ if (!isset($_SESSION['exclude_event']) || (isset($_SESSION['last_vipstore_visit'
     $_SESSION['last_vipstore_visit'] = time();
 }
 
-$db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 5");
+$db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 6");
 $db->execute();
 $limitedPack = $db->fetch_row();
 $limitedPack = $limitedPack[0];
@@ -1104,9 +1104,17 @@ document.addEventListener("DOMContentLoaded", function() {
                             </ul>
                         <?php endif; ?>
 
+                        <?php if ($limitedPack['id'] == 5): ?>
+                            <p>Pack Contains:</p>
+                            <ul>
+                                <li>400,000 Points</li>
+                                <li>5 x Protein Bars</li>
+                                <li>5 x Gym Super Pills</li>
+                                <li>1 x Sound System</li>
+                            </ul>
+                        <?php endif; ?>
+
                         <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img> <?php echo $limitedPack['gold_cost'] ?></font></h4>
-
-
                     </td>
                 </tr>
                 <tr>
