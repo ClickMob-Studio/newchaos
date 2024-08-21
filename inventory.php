@@ -2006,7 +2006,17 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
 
                 addItemTempUse($user_class, 'gym_super_pills_time', $newTime);
 
-                echo Message("You eat youer gym super pills, for the next 15 minutes you will have an extra 10% awake!");
+                echo Message("You eat your gym super pills, for the next 15 minutes you will have an extra 10% awake!");
+                break;
+            case 282:
+                $db->query("UPDATE grpgusers SET points = points + 400000 WHERE id = " . $user_class->id);
+                $db->execute();
+
+                Give_Item(279, $user_class->id, 5);
+                Give_Item(281, $user_class->id, 5);
+                Give_Item(278, $user_class->id, 1);
+
+                echo Message("You open your gym crate and inside find 400,000 points, 5 x Protein Bars, 5 x Gym Super Pills, 1 x Sound System!");
                 break;
 
 case 197: // Nuke item
