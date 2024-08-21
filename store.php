@@ -1104,7 +1104,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             </ul>
                         <?php endif; ?>
 
-                        <?php if ($limitedPack['id'] == 5): ?>
+                        <?php if ($limitedPack['id'] == 6): ?>
                             <p>Pack Contains:</p>
                             <ul>
                                 <li>400,000 Points</li>
