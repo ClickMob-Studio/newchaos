@@ -115,6 +115,13 @@ try {
                 $resAddInc = $add / 100 * $researchAddBoost;
                 $add = $add + $resAddInc;
             }
+
+            $tempItemUse = getItemTempUse($user_class->id);
+            if ($tempItemUse['gym_protein_bar_time'] > time()) {
+                $gymProteinBarAdd = $add / 100 * 20;
+                $add = $add + $gymProteinBarAdd;
+            }
+
             $add = ceil($add);
 
             $user_class->{$stat} += $add;

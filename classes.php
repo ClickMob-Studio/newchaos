@@ -529,9 +529,9 @@ $m->set('rentedp.' . $this->id, $row, 0, 60);
 
         $tempItemUse = getItemTempUse($this->id);
         if ($tempItemUse['gym_super_pills_time'] > time()) {
-            $awakeAdd = ceil($this->maxawake / 100 * 10);
-            $this->maxawake = $this->maxawake + $awakeAdd;
-            $this->directmaxawake = $this->directmaxawake + $awakeAdd;
+            $gymSuperPillAdd = ceil($this->maxawake / 100 * 10);
+            $this->maxawake = $this->maxawake + $gymSuperPillAdd;
+            $this->directmaxawake = $this->directmaxawake + $gymSuperPillAdd;
         }
 
         $this->directawake = ($this->directawake > $this->directmaxawake) ? $this->directmaxawake : $this->directawake;
