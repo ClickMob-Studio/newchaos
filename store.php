@@ -511,25 +511,72 @@ if ($_GET['buy'] == "vip7") {
         }
     }
 
-if ($_GET['buy'] == "freebie") {
-        if ($user_class->claimed == 1) {
-            echo Message("You have already Claimed your Freebie.");
-        } else if ($user_class->claimed == 0) {
-            $newcredit = $user_class->credits -= 0;
-            $result    = mysql_query("UPDATE `grpgusers` SET `claimed` = 1 WHERE id = ?");
-                         $db->query("UPDATE grpgusers SET  points = points + 25000, raidtokens = raidtokens + 50, claimed = 1, credits = credits - 0 WHERE id = ?");
-
-                $db->execute(array(
-                               $user_class->id
+    if ($_GET['buy'] == "1nervevial") {
+        if ($user_class->credits >= 50) {
+            $current = $user_class->credits;
+            $newcredit = $user_class->credits -= 50;
+            $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", '1 x Nerve Vial', ".$current .", ".$newcredit.")");
+            $db->execute();
+            $db->query("UPDATE grpgusers SET credits = credits - 50 WHERE id = ?");
+            $db->execute(array(
+                $user_class->id
             ));
 
-            Send_Event($user_class->id, "You have been credited your Free Package 25,000 Points + 50 Raid Tokens <a href='contest.php'>Click Here To see the new contest!</a>.", $user_class->id);
-            $db->execute(array());
-            echo Message("You have been credited 25,000 Points & 50x Raid Tokens!");
+            Give_Item(256, $user_class->id, 1);
+
+            Send_Event(1, $user_class->formattedname ." bought 1 x Nerve Vial");
+            Send_Event(2, $user_class->formattedname ." bought 1 x Nerve Vial");
+
+            echo Message("You spent 50 credits for 1 x Nerve Vial.");
         } else {
-            echo Message("You have already claimed your Free Package");
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
     }
+
+    if ($_GET['buy'] == "5proteinbar") {
+        if ($user_class->credits >= 30) {
+            $current = $user_class->credits;
+            $newcredit = $user_class->credits -= 30;
+            $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", '5 x Protein Bars', ".$current .", ".$newcredit.")");
+            $db->execute();
+            $db->query("UPDATE grpgusers SET credits = credits - 30 WHERE id = ?");
+            $db->execute(array(
+                $user_class->id
+            ));
+
+            Give_Item(279, $user_class->id, 5);
+
+            Send_Event(1, $user_class->formattedname ." bought 5 x Protein Bars");
+            Send_Event(2, $user_class->formattedname ." bought 5 x Protein Bars");
+
+            echo Message("You spent 50 credits for 5 x Protein Bars.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+    if ($_GET['buy'] == "5gymsuperpills") {
+        if ($user_class->credits >= 30) {
+            $current = $user_class->credits;
+            $newcredit = $user_class->credits -= 30;
+            $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", '5 x Gym Super Pills', ".$current .", ".$newcredit.")");
+            $db->execute();
+            $db->query("UPDATE grpgusers SET credits = credits - 30 WHERE id = ?");
+            $db->execute(array(
+                $user_class->id
+            ));
+
+            Give_Item(281, $user_class->id, 5);
+
+            Send_Event(1, $user_class->formattedname ." bought 5 x Gym Super Pills");
+            Send_Event(2, $user_class->formattedname ." bought 5 x Gym Super Pills");
+
+            echo Message("You spent 50 credits for 5 x Gym Super Pills.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
    if ($_GET['buy'] == "7daygrad") {
         if ($user_class->credits >= 50) {
             $newcredit = $user_class->credits -= 50;
@@ -1288,6 +1335,30 @@ document.addEventListener("DOMContentLoaded", function() {
         </div>
     </div>
     <br>
+    <div class="items-upgrades" style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
+
+        <div class="vip-package">
+            <h4 style="color: brown;">5 x Protein Bars</h4>
+            <img src="/css/images/NewGameImages/gym-protein-bar.png" height="100" alt="Protein Bar">
+
+            <h4>Purchase now for only<br><a href="store.php?buy=5proteinbar"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+        </div>
+
+        <div class="vip-package">
+            <h4 style="color: brown;">5 x Gym Super Pills</h4>
+            <img src="/css/images/NewGameImages/gym-super-pills.png" height="100" alt="Gym Super Pills">
+
+            <h4>Purchase now for only<br><a href="store.php?buy=5gymsuperpills"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+        </div>
+
+        <div class="vip-package">
+            <h4 style="color: brown;">1 x Nerve Vial</h4>
+            <img src="/css/images/NewGameImages/nerve-vial.png" height="100" alt="Nerve Vial">
+
+            <h4>Purchase now for only<br><a href="store.php?buy=1nervevial"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+        </div>
+    </div>
+    <br />
 </div>
 
 <br /><br />
