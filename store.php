@@ -549,7 +549,7 @@ if ($_GET['buy'] == "vip7") {
             Send_Event(1, $user_class->formattedname ." bought 5 x Protein Bars");
             Send_Event(2, $user_class->formattedname ." bought 5 x Protein Bars");
 
-            echo Message("You spent 50 credits for 5 x Protein Bars.");
+            echo Message("You spent 30 credits for 5 x Protein Bars.");
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
@@ -571,7 +571,7 @@ if ($_GET['buy'] == "vip7") {
             Send_Event(1, $user_class->formattedname ." bought 5 x Gym Super Pills");
             Send_Event(2, $user_class->formattedname ." bought 5 x Gym Super Pills");
 
-            echo Message("You spent 50 credits for 5 x Gym Super Pills.");
+            echo Message("You spent 30 credits for 5 x Gym Super Pills.");
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
