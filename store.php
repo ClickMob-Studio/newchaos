@@ -985,11 +985,11 @@ if ($user_class->donate_token > 0) {
 
 ?>
 
-<!--                                <div class="alert alert-success" role="alert">-->
-<!--                                    <center>-->
-<!--                                        CREDITS ARE HALF PRICE FOR THE NEXT 48-HOURS!-->
-<!--                                    </center>-->
-<!--                                </div>-->
+                                <div class="alert alert-success" role="alert">
+                                    <center>
+                                        CREDITS ARE HALF PRICE FOR THE NEXT 48-HOURS!
+                                    </center>
+                                </div>
 
 <?php
 
@@ -1005,7 +1005,7 @@ echo '<center>';
     </font>
 </span>
 
-<p style="font: 1rem 'Montserrat', sans-serif">This calculator does not include Boost Donation tokens. Tokens are used automatically at the time of donating.</p>
+<p style="font: 1rem 'Montserrat', sans-serif">This calculator does not include Boost Donation tokens or half price credit events. They are used automatically at the time of donating.</p>
 
 
 <script>
