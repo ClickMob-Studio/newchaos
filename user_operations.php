@@ -67,6 +67,56 @@ if (isset($indexedOperations[$nextUserOperation])) {
                             0/<?php echo number_format($currentOperation['busts'], 0) ?>
                         </td>
                     </tr>
+
+                    <!-- ONLINE ATTACKS -->
+                    <tr>
+                        <th>
+                            Online Attacks
+                        </th>
+                        <td>
+                            0/<?php echo number_format($currentOperation['online_attacks'], 0) ?>
+                        </td>
+                    </tr>
+
+                    <!-- OFFLINE ATTACKS -->
+                    <tr>
+                        <th>
+                            Offline Attacks
+                        </th>
+                        <td>
+                            0/<?php echo number_format($currentOperation['offline_attacks'], 0) ?>
+                        </td>
+                    </tr>
+
+                    <!-- FULL ENERGY TRAINS -->
+                    <tr>
+                        <th>
+                            Full Energy Trains
+                        </th>
+                        <td>
+                            0/<?php echo number_format($currentOperation['full_energy_trains'], 0) ?>
+                        </td>
+                    </tr>
+
+                    <!-- CITY BOSS WINS -->
+                    <tr>
+                        <th>
+                            City Boss Wins
+                        </th>
+                        <td>
+                            0/<?php echo number_format($currentOperation['city_boss_wins'], 0) ?>
+                        </td>
+                    </tr>
+
+                    <!-- BACKALLEY WINS -->
+                    <tr>
+                        <th>
+                            Backalley Wins
+                        </th>
+                        <td>
+                            0/<?php echo number_format($currentOperation['backalley_wins'], 0) ?>
+                        </td>
+                    </tr>
                 </table>
             </div>
         <?php else: ?>
