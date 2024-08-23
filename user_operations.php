@@ -37,6 +37,36 @@ if (isset($indexedOperations[$nextUserOperation])) {
                     <tr>
                         <th colspan="2">Operation #<?php echo $currentOperation['id'] ?></th>
                     </tr>
+
+                    <!-- CRIMES -->
+                    <tr>
+                        <th>
+                            Crimes
+                        </th>
+                        <td>
+                            0/<?php echo number_format($currentOperation['crimes'], 0) ?>
+                        </td>
+                    </tr>
+
+                    <!-- MUGS -->
+                    <tr>
+                        <th>
+                            Mugs
+                        </th>
+                        <td>
+                            0/<?php echo number_format($currentOperation['mugs'], 0) ?>
+                        </td>
+                    </tr>
+
+                    <!-- BUSTS -->
+                    <tr>
+                        <th>
+                            Busts
+                        </th>
+                        <td>
+                            0/<?php echo number_format($currentOperation['busts'], 0) ?>
+                        </td>
+                    </tr>
                 </table>
             </div>
         <?php else: ?>
