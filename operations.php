@@ -1,4 +1,5 @@
 <?php
+exit;
 include 'header.php';
 $opsach = array(
 	10 => 1000,
