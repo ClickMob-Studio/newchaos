@@ -912,6 +912,7 @@ $db->execute();
           $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>" . shorthandNumber($usermission['mugs']) . "/".shorthandNumber($miss['mugs'])."</font>" : "<font color='green'>" . shorthandNumber($miss['mugs']) . "/".shorthandNumber($miss['mugs'])."</font>";
           $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>" . shorthandNumber($usermission['busts']) . "/".shorthandNumber($miss['busts'])."</font>" : "<font color='green'>" . shorthandNumber($miss['busts']) . "/".shorthandNumber($miss['busts'])."</font>";
           $backalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>" . shorthandNumber($usermission['backalleys']) . "/".shorthandNumber($miss['backalleys'])."</font>" : "<font color='green'>" . shorthandNumber($miss['backalleys']) . "/" .shorthandNumber($miss['backalleys'])."</font>";
+          $raids = ($miss['raids'] > $usermission['raids']) ? "<font color='red'>" . shorthandNumber($usermission['raids']) . "/".shorthandNumber($miss['raids'])."</font>" : "<font color='green'>" . shorthandNumber($miss['raids']) . "/" .shorthandNumber($miss['raids'])."</font>";
           $currenttime = time();
           $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
       }else{
@@ -958,6 +959,7 @@ $db->execute();
                 <div class="job-item">Busts: <?= $busts; ?></div>
                 <div class="job-item">Mugs: <?= $mugs; ?></div>
                 <div class="job-item">BA: <?= $backalleys; ?></div>
+                <div class="job-item">Raids: <?= $raids; ?></div>
             </div>
         </div>
     </div>
