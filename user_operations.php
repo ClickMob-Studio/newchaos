@@ -117,6 +117,16 @@ if (isset($indexedOperations[$nextUserOperation])) {
                             0/<?php echo number_format($currentOperation['backalley_wins'], 0) ?>
                         </td>
                     </tr>
+
+                    <!-- RAIDS -->
+                    <tr>
+                        <th>
+                            Raids
+                        </th>
+                        <td>
+                            0/<?php echo number_format($currentOperation['raids'], 0) ?>
+                        </td>
+                    </tr>
                 </table>
             </div>
         <?php else: ?>
