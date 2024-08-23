@@ -1194,6 +1194,10 @@ color: #fff;
                                                     <p class="missionTo">BA:</p>
                                                     <p style="font-size: 10px;"><?= $backalleys; ?></p>
                                                 </div>
+                                                <div class="missionDiv">
+                                                    <p class="missionTo">Raids:</p>
+                                                    <p style="font-size: 10px;"><?= $raids; ?></p>
+                                                </div>
                                               <?php else: ?>
                                                 
                                                <a href="missions.php" class="dcSecondaryButton my-3">Start Mission</a>
