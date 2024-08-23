@@ -13,7 +13,7 @@ $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
 
 //$db->query("SELECT * FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE missions.crimes >= mission.crimes AND completed = 'no' AND userid = 174 LIMIT 1");
-$db->query("SELECT *, ms.id as missionid, m.crimes as reqCrimes, m.kills as reqKills, m.busts as reqBusts, m.mugs as reqMugs, m.backalleys as reqBackalleys, ms.crimes as cCrimes, ms.kills as cKills, ms.mugs as cMugs, ms.backalleys as cBackalleys, ms.busts as cBusts, m.exp_level AS mExpLevel FROM missions ms LEFT JOIN mission m ON ms.mid = m.id WHERE completed = 'no'");
+$db->query("SELECT *, ms.id as missionid, m.crimes as reqCrimes, m.kills as reqKills, m.busts as reqBusts, m.mugs as reqMugs, m.backalleys as reqBackalleys, m.raids as reqRaids, ms.crimes as cCrimes, ms.kills as cKills, ms.mugs as cMugs, ms.backalleys as cBackalleys, ms.raids as cRaids, ms.busts as cBusts, m.exp_level AS mExpLevel FROM missions ms LEFT JOIN mission m ON ms.mid = m.id WHERE completed = 'no'");
 $db->execute();
 
 $missions = $db->fetch_row();
@@ -48,7 +48,7 @@ foreach ($missions as $mission) {
         Send_event($mission['userid'], "You have completed {$mission['name']} objective to get {$mission['crimes']} crimes. [+ {$mission['payCrimes']} Points]");
     }
 
-    if ($mission['cKills'] >= $mission['reqKills'] && $mission['cCrimes'] >= $mission['reqCrimes'] && $mission['cBusts'] >= $mission['reqBusts'] && $mission['cMugs'] >= $mission['reqMugs'] && $mission['cBackalleys'] >= $mission['reqBackalleys']) {
+    if ($mission['cKills'] >= $mission['reqKills'] && $mission['cCrimes'] >= $mission['reqCrimes'] && $mission['cBusts'] >= $mission['reqBusts'] && $mission['cMugs'] >= $mission['reqMugs'] && $mission['cBackalleys'] >= $mission['reqBackalleys'] && $mission['cRaids'] >= $mission['reqRaids']) {
 
 //        $exp = 5 + (5 * ($mission['mExpLevel'] + 2));
 //        $levelhurts = floor($user_class->level / 10);
