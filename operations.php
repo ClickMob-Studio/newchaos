@@ -162,32 +162,32 @@ echo'</div>';
 			echo'</div>';
 		echo'</div>';
     }
-	$db->query("SELECT operations FROM statistics WHERE userid = ?");
-	$db->execute(array(
-		$user_class->id
-	));
-	$ops = $db->fetch_single();
-	echo'<div class="floaty">';
-		echo'<span style="color:red;font-weight:bold;">Operation Achievement Progress</span>';
-		echo'<hr style="border:0;border-bottom:thin solid #333;" />';
-		echo'<table id="newtables" style="table-layout:fixed;width:100%;">';
-		$cur = 0;
-		foreach($opsach as $req => $pay){
-			if($ops >= $req || $cur)
-				$opc = ' style="opacity:.33;"';
-			else{
-				$opc = '';
-				$cur = 1;
-			}
-			echo'<tr' . $opc . '>';
-				echo'<th>Complete ' . $req . ' Operations</th>';
-				echo'<td>' . min($ops, $req) . ' / ' . $req . '</td>';
-				echo'<td>' . progbar(($ops / $req) * 100) . '</td>';
-				echo'<td>' . prettynum($pay) . ' Points</td>';
-			echo'</tr>';
-		}
-		echo'</table>';
-	echo'</div>';
+//	$db->query("SELECT operations FROM statistics WHERE userid = ?");
+//	$db->execute(array(
+//		$user_class->id
+//	));
+//	$ops = $db->fetch_single();
+//	echo'<div class="floaty">';
+//		echo'<span style="color:red;font-weight:bold;">Operation Achievement Progress</span>';
+//		echo'<hr style="border:0;border-bottom:thin solid #333;" />';
+//		echo'<table id="newtables" style="table-layout:fixed;width:100%;">';
+//		$cur = 0;
+//		foreach($opsach as $req => $pay){
+//			if($ops >= $req || $cur)
+//				$opc = ' style="opacity:.33;"';
+//			else{
+//				$opc = '';
+//				$cur = 1;
+//			}
+//			echo'<tr' . $opc . '>';
+//				echo'<th>Complete ' . $req . ' Operations</th>';
+//				echo'<td>' . min($ops, $req) . ' / ' . $req . '</td>';
+//				echo'<td>' . progbar(($ops / $req) * 100) . '</td>';
+//				echo'<td>' . prettynum($pay) . ' Points</td>';
+//			echo'</tr>';
+//		}
+//		echo'</table>';
+//	echo'</div>';
 }
 include"footer.php";
 function progbar($perc){
