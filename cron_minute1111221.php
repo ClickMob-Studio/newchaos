@@ -470,6 +470,7 @@ if (!empty($items_won)) {
  // Add a link to view the battle log
             $event_message .= "<br><a href='view_battle_log.php?raid_id=" . $raid['id'] . "'>View Battle Log</a>";
 
+            raidMission($participant['user_id']);
 
             send_event($participant['user_id'], $event_message);
 
