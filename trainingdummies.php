@@ -26,7 +26,7 @@ if (count($trainingDummyUsers) < 1) {
 
 $trainingDummyUsersIndexed = array();
 foreach ($trainingDummyUsers as $trainingDummyUser) {
-    $trainingDummyUsersIndexed[$trainingDummyUser['training_dummy_id']] = $trainingDummyUsers;
+    $trainingDummyUsersIndexed[$trainingDummyUser['training_dummy_id']] = $trainingDummyUser;
 }
 
 if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) {
@@ -58,10 +58,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
 
     $trainingDummyToUse = $trainingDummiesIndexed[$attack];
     $trainingDummyUserToUse = $trainingDummyUsersIndexed[$attack];
-    var_dump($trainingDummyToUse);
-    echo '<br /><hr />';
-    var_dump($trainingDummyUserToUse);
-
+    
     $totalUserHealth = $user_class->hp;
     $totalUserSpeed = $user_class->moddedspeed;
     $totalUserDefense = $user_class->moddeddefense;
