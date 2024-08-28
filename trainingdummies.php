@@ -119,7 +119,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
 
     if ($bossHp <= 0) {
         // Won Fight
-        $expBoost = mt_rand(5,10);
+        $expBoost = mt_rand(2,5);
 
         $newExp = $trainingDummyUserToUse['exp'] + $expBoost;
         if ($newExp > 100) {
