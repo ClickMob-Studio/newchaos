@@ -58,7 +58,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
 
     $trainingDummyToUse = $trainingDummiesIndexed[$attack];
     $trainingDummyUserToUse = $trainingDummyUsersIndexed[$attack];
-    
+
     $totalUserHealth = $user_class->hp;
     $totalUserSpeed = $user_class->moddedspeed;
     $totalUserDefense = $user_class->moddeddefense;
@@ -136,8 +136,8 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
         $db->query('UPDATE grpgusers SET energy = 0, money = money + ?, exp = exp + ? WHERE id = ?');
         $db->execute(array($cashReward, $expReward, $user_class->id));
 
-        $db->query('UPDATE training_dummy_user SET level = level + 1, exp + ?, last_fight_time = ? WHERE id = ?');
-        $db->execute(array($newExp, time(), $trainingDummyUserToUse['id']));
+        $db->query('UPDATE training_dummy_user SET level = level + 1, exp + ' . $newExp . ', last_fight_time = ' . time() . ' WHERE id = ' . $trainingDummyUserToUse['id']);
+        $db->execute();
 
         diefun('You have successfully beaten the training dummy and you have been rewarded ' . number_format($expReward, 0) . ' EXP & $' . number_format($cashReward, 0) .'! <a href="trainingdummies.php">Go Back</a>.');
     } else {
