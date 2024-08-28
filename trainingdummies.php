@@ -43,10 +43,10 @@ foreach ($trainingDummyUsers as $trainingDummyUser) {
                         $expRequired = 100;
 
                         if ((($toUse['exp'] / $expRequired) * 100) > 100) {
-                            return 100;
+                            $progressWidth = 100;
                         }
 
-                        return ($toUse['exp'] / $expRequired) * 100;
+                        $progressWidth = ($toUse['exp'] / $expRequired) * 100;
                     }
                     ?>
 
