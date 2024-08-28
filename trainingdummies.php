@@ -28,7 +28,7 @@ foreach ($trainingDummyUsers as $trainingDummyUser) {
 
 <style>
     .tiers {
-        border: 4px solid #ffd800;
+        border: 4px solid #ff6218;
         margin-right: 5px;
         margin-top: 5px;
         width: 75px;
