@@ -131,7 +131,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
             $expReward = mt_rand(1,10);
         }
 
-        $cashReward = mt_rand(100000, 1000000);
+        $cashReward = mt_rand(50000, 250000);
 
         $db->query('UPDATE grpgusers SET energy = 0, money = money + ?, exp = exp + ? WHERE id = ?');
         $db->execute(array($cashReward, $expReward, $user_class->id));
