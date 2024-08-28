@@ -208,7 +208,17 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
                             </center>
                         </td>
                         <td>
-                            <a href="trainingdummies.php?attack=<?php echo $trainingDummy['id'] ?>" class="btn btn-primary">Attack</a>
+                            <?php
+                            $trainingDummyUserToUse = $trainingDummyUsersIndexed[$trainingDummy['id']];
+
+                            $nextFightTime = $trainingDummyUserToUse['last_fight_time'] + 3600;
+                            ?>
+
+                            <?php if ($nextFightTime > time()): ?>
+                                <a href="trainingdummies.php?attack=<?php echo $trainingDummy['id'] ?>" class="btn btn-primary">Attack</a>
+                            <?php else: ?>
+                                <?php echo howlongtil($nextFightTime) ?>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
