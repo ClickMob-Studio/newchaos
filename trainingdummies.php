@@ -224,7 +224,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
                                 </div>
                             </center>
                         </td>
-                        <td>
+                        <td width="20%">
                             <?php
                             $trainingDummyUserToUse = $trainingDummyUsersIndexed[$trainingDummy['id']];
 
