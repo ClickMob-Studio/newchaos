@@ -210,19 +210,19 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
                             </center>
 
                         </td>
-                        <td style="text-align:center;">
-                            <center>
-                                <div class="tiers text-center">
-                                    <img height="65px" width="65px" src="<?php echo Item_Image($trainingDummy['reward_item_id']) ?>" />
-                                </div>
-                            </center>
-                        </td>
                         <td>
                             <div class="progress" style="margin-top: 10px;">
                                 <div class="progress-bar bg-success" role="progressbar" aria-label="Success example" title="<?php echo $progressWidth ?>%" style="width: <?php echo $progressWidth ?>%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
                                     <?php echo $progressWidth ?>%
                                 </div>
                             </div>
+                        </td>
+                        <td style="text-align:center;">
+                            <center>
+                                <div class="tiers text-center">
+                                    <img height="65px" width="65px" src="<?php echo Item_Image($trainingDummy['reward_item_id']) ?>" />
+                                </div>
+                            </center>
                         </td>
                         <td>
                             <?php
