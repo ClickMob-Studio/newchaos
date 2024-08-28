@@ -174,6 +174,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
             <table class="new_table" id="newtables">
                 <tr>
                     <th>Dummy</th>
+                    <th>Progress</th>
                     <th>Reward</th>
                     <th>&nbsp;</th>
                 </tr>
@@ -206,13 +207,14 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
                                 <div class="tiers text-center">
                                     <img height="65px" width="65px" src="<?php echo Item_Image($trainingDummy['reward_item_id']) ?>" />
                                 </div>
-
-                                <div class="progress" style="margin-top: 10px; width: 50%">
-                                    <div class="progress-bar bg-success" role="progressbar" aria-label="Success example" title="<?php echo $progressWidth ?>%" style="width: <?php echo $progressWidth ?>%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                                        <?php echo $progressWidth ?>%
-                                    </div>
-                                </div>
                             </center>
+                        </td>
+                        <td>
+                            <div class="progress" style="margin-top: 10px; width: 50%">
+                                <div class="progress-bar bg-success" role="progressbar" aria-label="Success example" title="<?php echo $progressWidth ?>%" style="width: <?php echo $progressWidth ?>%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                    <?php echo $progressWidth ?>%
+                                </div>
+                            </div>
                         </td>
                         <td>
                             <?php
