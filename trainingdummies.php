@@ -25,6 +25,17 @@ foreach ($trainingDummyUsers as $trainingDummyUser) {
 }
 ?>
 
+
+<style>
+    .tiers {
+        border: 4px solid #ffd800;
+        margin-right: 5px;
+        margin-top: 5px;
+        width: 75px;
+        height: 75px;
+    }
+</style>
+
 <div class='box_top'>Training Dummies</div>
 <div class='box_middle'>
     <div class='pad'>
