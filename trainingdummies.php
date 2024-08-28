@@ -37,7 +37,7 @@ if (count($trainingDummyUsers) < 1) {
                         <td>
                             <!-- TODO -->
                         </td>
-                        <td><?php Item_Name($trainingDummy['reward_item_id']) ?></td>
+                        <td><?php echo Item_Name($trainingDummy['reward_item_id']) ?></td>
                         <td>
                             <a href="#" class="btn btn-primary">Attack</a>
                         </td>
