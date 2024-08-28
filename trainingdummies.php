@@ -193,7 +193,14 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
                     ?>
 
                     <tr>
-                        <td><?php echo $trainingDummy['name'] ?></td>
+                        <td>
+                            <center>
+                                <div class="tiers text-center">
+                                    <img height="65px" width="65px" src="<?php echo $trainingDummy['image'] ?>" />
+                                </div>
+                            </center>
+
+                        </td>
                         <td style="text-align:center;">
                             <center>
                                 <div class="tiers text-center">
