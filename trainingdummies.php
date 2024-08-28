@@ -3,7 +3,7 @@ include 'header.php';
 
 $db->query("SELECT * FROM training_dummy");
 $db->execute();
-$trainingDummies = $db->fetch_rows();
+$trainingDummies = $db->fetch_row();
 
 ?>
 
@@ -20,11 +20,11 @@ $trainingDummies = $db->fetch_rows();
                 </tr>
                 <?php foreach ($trainingDummies as $trainingDummy): ?>
                     <tr>
-                        <td><?php echo $trainingDummies['name'] ?></td>
+                        <td><?php echo $trainingDummy['name'] ?></td>
                         <td>
                             <!-- TODO -->
                         </td>
-                        <td><?php echo Item_Name($trainingDummies['item_id']) ?></td>
+                        <td><?php echo Item_Name($trainingDummy['item_id']) ?></td>
                     </tr>
                 <?php endforeach; ?>
             </table>
