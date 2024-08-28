@@ -318,6 +318,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
             <a href='bloodbath.php'>Bloodbath</a><br>
             <a href='missions.php'>Missions</a><br>
             <a href='chapel.php'>Chapel</a><br>
+            <a href='trainingdummies.php'>City Goons</a><br>
         </div>
         <div class="col-md-4 text-center">
         <div class="col-12 text-center mb-2 section-header">
