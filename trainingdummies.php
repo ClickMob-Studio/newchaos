@@ -25,6 +25,9 @@ $trainingDummies = $db->fetch_row();
                             <!-- TODO -->
                         </td>
                         <td><?php echo Item_Name($trainingDummy['item_id']) ?></td>
+                        <td>
+                            <a href="#" class="btn">Attack</a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </table>
