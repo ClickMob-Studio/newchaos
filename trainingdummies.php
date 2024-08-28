@@ -210,7 +210,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
                             </center>
                         </td>
                         <td>
-                            <div class="progress" style="margin-top: 10px; width: 50%">
+                            <div class="progress" style="margin-top: 10px;">
                                 <div class="progress-bar bg-success" role="progressbar" aria-label="Success example" title="<?php echo $progressWidth ?>%" style="width: <?php echo $progressWidth ?>%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
                                     <?php echo $progressWidth ?>%
                                 </div>
