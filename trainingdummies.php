@@ -13,6 +13,9 @@ if (count($trainingDummyUsers) < 1) {
     foreach ($trainingDummies as $trainingDummy) {
         $db->query("INSERT INTO training_dummy_user (training_dummy_id, user_id, level, exp, is_fight_available) VALUES (?, ?, 1, 0, 1)");
         $db->execute(array($trainingDummy['id'], $user_class->id));
+
+        header('Location: trainingdummies.php');
+        exit();
     }
 }
 ?>
@@ -34,7 +37,7 @@ if (count($trainingDummyUsers) < 1) {
                         <td>
                             <!-- TODO -->
                         </td>
-                        <td><?php echo Item_Name($trainingDummy['item_id']) ?></td>
+                        <td><?php var_dump(Item_Name($trainingDummy['item_id'])) ?></td>
                         <td>
                             <a href="#" class="btn btn-primary">Attack</a>
                         </td>
