@@ -3,7 +3,7 @@ include 'header.php';
 
 $db->query("SELECT * FROM training_dummy");
 $db->execute();
-$trainingDummies = $db->fetch_row();
+$trainingDummies = $db->fetch_rows();
 
 ?>
 
