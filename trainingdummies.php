@@ -59,6 +59,11 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
     $trainingDummyToUse = $trainingDummiesIndexed[$attack];
     $trainingDummyUserToUse = $trainingDummyUsersIndexed[$attack];
 
+    $nextFightTime = $trainingDummyUserToUse['last_fight_time'] + 3600;
+    if ($nextFightTime > time()) {
+        diefun('You can only . <a href="trainingdummies.php">Go Back</a>.');
+    }
+
     $totalUserHealth = $user_class->hp;
     $totalUserSpeed = $user_class->moddedspeed;
     $totalUserDefense = $user_class->moddeddefense;
