@@ -5,6 +5,16 @@ $db->query("SELECT * FROM training_dummy");
 $db->execute();
 $trainingDummies = $db->fetch_row();
 
+$db->query("SELECT * FROM training_dummy_user WHERE user_id = ?");
+$db->execute(array($user_class->id));
+$trainingDummyUsers = $db->fetch_row();
+
+if (count($trainingDummyUsers) < 1) {
+    foreach ($trainingDummies as $trainingDummy) {
+        $db->query("INSERT INTO training_dummy_user (training_dummy_id, user_id, level, exp, is_fight_available) VALUES (?, ?, 1, 0, 1)");
+        $db->execute(array($trainingDummy['id'], $user_class->id));
+    }
+}
 ?>
 
 <div class='box_top'>Training Dummies</div>
@@ -26,7 +36,7 @@ $trainingDummies = $db->fetch_row();
                         </td>
                         <td><?php echo Item_Name($trainingDummy['item_id']) ?></td>
                         <td>
-                            <a href="#" class="btn">Attack</a>
+                            <a href="#" class="btn btn-primary">Attack</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
