@@ -18,6 +18,11 @@ if (count($trainingDummyUsers) < 1) {
         exit();
     }
 }
+
+$trainingDummyUsersIndexed = array();
+foreach ($trainingDummyUsers as $trainingDummyUser) {
+    $trainingDummyUsersIndexed[$trainingDummyUser['training_dummy_id']] = $trainingDummyUsers;
+}
 ?>
 
 <div class='box_top'>Training Dummies</div>
@@ -27,17 +32,39 @@ if (count($trainingDummyUsers) < 1) {
             <table class="new_table" id="newtables">
                 <tr>
                     <th>Dummy</th>
-                    <th>EXP</th>
                     <th>Reward</th>
                     <th>&nbsp;</th>
                 </tr>
                 <?php foreach ($trainingDummies as $trainingDummy): ?>
+                    <?php
+                    $progressWidth = 0;
+                    if (isset($trainingDummyUsersIndexed[$trainingDummy['id']])) {
+                        $toUse = $trainingDummyUsersIndexed[$trainingDummy['id']];
+                        $expRequired = 100;
+
+                        if ((($toUse['exp'] / $expRequired) * 100) > 100) {
+                            return 100;
+                        }
+
+                        return ($toUse['exp'] / $expRequired) * 100;
+                    }
+                    ?>
+
                     <tr>
                         <td><?php echo $trainingDummy['name'] ?></td>
-                        <td>
-                            <!-- TODO -->
+                        <td style="text-align:center;">
+                            <center>
+                                <div class="tiers text-center">
+                                    <img height="65px" width="65px" src="<?php echo Item_Image($trainingDummy['reward_item_id']) ?>" />
+                                </div>
+
+                                <div class="progress" style="margin-top: 10px;">
+                                    <div class="progress-bar bg-success" role="progressbar" aria-label="Success example" title="<?php echo $progressWidth ?>%" style="width: <?php echo $progressWidth ?>%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                        <?php echo $progressWidth ?>%
+                                    </div>
+                                </div>
+                            </center>
                         </td>
-                        <td><?php echo Item_Name($trainingDummy['reward_item_id']) ?></td>
                         <td>
                             <a href="#" class="btn btn-primary">Attack</a>
                         </td>

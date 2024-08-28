@@ -428,6 +428,15 @@ function Item_Name($itemId)
     ));
     return $db->fetch_single();
 }
+function Item_Image($itemId)
+{
+    global $db;
+    $db->query("SELECT image FROM items WHERE id = ?");
+    $db->execute(array(
+        $itemId
+    ));
+    return $db->fetch_single();
+}
 function Take_Loan($itemid, $userid, $quantity = 1)
 {
     global $db;
