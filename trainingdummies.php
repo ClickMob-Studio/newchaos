@@ -147,11 +147,11 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
         diefun('You have successfully beaten the training dummy and you have been rewarded ' . number_format($expReward, 0) . ' EXP & $' . number_format($cashReward, 0) .'! <a href="trainingdummies.php">Go Back</a>.');
     } else {
         // Lost Fight
-        $db->query('UPDATE grpgusers SET hp = 0, energy = 0, hospital = 10 WHERE id = ?');
+        $db->query('UPDATE grpgusers SET hp = 0, energy = 0, hospital = 300 WHERE id = ?');
         $db->execute(array($user_class->id));
 
 
-        diefun('You lost to the training dummy and you will now need to spend 10 minutes in hospital! <a href="trainingdummies.php">Go Back</a>.');
+        diefun('You lost to the training dummy and you will now need to spend some time in hospital! <a href="trainingdummies.php">Go Back</a>.');
     }
 }
 ?>
@@ -173,7 +173,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
         <p>Welcome to the City Goons! Here you will find some of the goons that have been lurking around Chaos City.</p>
         <p>
             You can attack each City Goon every 2 hours and from every attack win you'll earn a EXP & cash prize. You'll also
-            earn progress towards winning the reward item that the City Goon paysout.
+            earn progress towards winning the reward item that the City Goon payouts.
         </p>
         <p>
             Be careful though, every time you win an attack against a City Goon, they get stronger!
