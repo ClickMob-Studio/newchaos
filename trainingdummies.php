@@ -215,9 +215,9 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
                             ?>
 
                             <?php if ($nextFightTime > time()): ?>
-                                <a href="trainingdummies.php?attack=<?php echo $trainingDummy['id'] ?>" class="btn btn-primary">Attack</a>
-                            <?php else: ?>
                                 <?php echo howlongtil($nextFightTime) ?>
+                            <?php else: ?>
+                                <a href="trainingdummies.php?attack=<?php echo $trainingDummy['id'] ?>" class="btn btn-primary">Attack</a>
                             <?php endif; ?>
                         </td>
                     </tr>
