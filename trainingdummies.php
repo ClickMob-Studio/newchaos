@@ -58,6 +58,9 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
 
     $trainingDummyToUse = $trainingDummiesIndexed[$attack];
     $trainingDummyUserToUse = $trainingDummyUsersIndexed[$attack];
+    var_dump($trainingDummyToUse);
+    echo '<br />';
+    var_dump($trainingDummyUserToUse);
 
     $totalUserHealth = $user_class->hp;
     $totalUserSpeed = $user_class->moddedspeed;
