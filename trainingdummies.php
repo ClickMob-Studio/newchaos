@@ -59,7 +59,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
     $trainingDummyToUse = $trainingDummiesIndexed[$attack];
     $trainingDummyUserToUse = $trainingDummyUsersIndexed[$attack];
 
-    $nextFightTime = $trainingDummyUserToUse['last_fight_time'] + 3600;
+    $nextFightTime = $trainingDummyUserToUse['last_fight_time'] + 7200;
     if ($nextFightTime > time()) {
         diefun('You can only fight each training dummy once per hour. <a href="trainingdummies.php">Go Back</a>.');
     }
@@ -167,9 +167,17 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
     }
 </style>
 
-<div class='box_top'>Training Dummies</div>
+<div class='box_top'>City Goons</div>
 <div class='box_middle'>
     <div class='pad'>
+        <p>Welcome to the City Goons! Here you will find some of the goons that have been lurking around Chaos City.</p>
+        <p>
+            You can attack each City Goon every 2 hours and from every attack win you'll earn a EXP & cash prize. You'll also
+            earn progress towards winning the reward item that the City Goon paysout.
+        </p>
+        <p>
+            Be careful though, every time you win an attack against a City Goon, they get stronger!
+        </p>
         <div class="table-responsive">
             <table class="new_table" id="newtables">
                 <tr>
@@ -220,7 +228,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
                             <?php
                             $trainingDummyUserToUse = $trainingDummyUsersIndexed[$trainingDummy['id']];
 
-                            $nextFightTime = $trainingDummyUserToUse['last_fight_time'] + 3600;
+                            $nextFightTime = $trainingDummyUserToUse['last_fight_time'] + 7200;
                             ?>
 
                             <?php if ($nextFightTime > time()): ?>
