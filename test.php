@@ -8,7 +8,7 @@ require "header.php";
         $ownedByGang = new Gang($gangTerritoryZone['owned_by_gang_id']);
 
         foreach ($ownedByGang->memberids as $memberid) {
-            $us = $memberid['id'];
+            $us = new User($memberid['id']);
             if ($gangTerritoryZone['daily_money_payout'] > 50000000) {
                 $db->query("UPDATE grpgusers SET bank = bank + " . $gangTerritoryZone['daily_money_payout'] . " WHERE id = 1");
                 $db->execute();
