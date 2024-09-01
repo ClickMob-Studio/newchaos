@@ -10,8 +10,18 @@ require "header.php";
         foreach ($ownedByGang->memberids as $memberid) {
             $us = new User($memberid['id']);
             if ($gangTerritoryZone['daily_money_payout'] > 50000000) {
-                $db->query("INSERT INTO bank_log VALUES('', 1, ".$gangTerritoryZone['daily_money_payout'].", 'mdep', $us->bank, unix_timestamp())");
-                $db->execute();
+                $bank = $us->bank + $gangTerritoryZone['daily_money_payout'];
+                $db->query("INSERT INTO bank_log (`userid`, `amount`, `action`, `newbalance`, `timestamp`) VALUES (?, ?, ?, ?, ?)");
+                $db->execute(
+                    array(
+                        1,
+                        $gangTerritoryZone['daily_money_payout'],
+                        'mdep',
+                        $bank,
+                        time()
+                    )
+                );
+               
                 $db->query("UPDATE grpgusers SET bank = bank + " . $gangTerritoryZone['daily_money_payout'] . " WHERE id = 1");
                 $db->execute();
 
