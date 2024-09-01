@@ -1036,13 +1036,13 @@ function mission($update, $howmany = 1)
         ));
         $miss = $db->fetch_row(true);
         if ($update == 'k') {
-            // Update the kills count for the user in the missions table
+            // Update the kills count for the mission where the user hasn't completed it yet
             $db->query("UPDATE missions SET kills = kills + 1 WHERE userid = ? AND completed = 'no'");
             $db->execute(array($user_class->id));
         
-            // Fetch the updated kill count for the mission
+            // Fetch the updated kill count for the mission to ensure it has incremented properly
             $db->query("SELECT kills FROM missions WHERE userid = ? AND completed = 'no'");
-            $userMiss = $db->fetch_row(true); // Fetch the first row (as an associative array)
+            $userMiss = $db->fetch(PDO::FETCH_ASSOC); // Fetch the updated mission details
         
             // Check if the user has reached the required number of kills for the mission
             if ($userMiss && $userMiss['kills'] >= $miss['kills']) {
@@ -1053,12 +1053,12 @@ function mission($update, $howmany = 1)
                     $mPointsPayout += ($mPointsPayout / 100 * $pointsPayoutBoost);
                 }
         
-                // Update the user's points in the grpgusers table
+                // Update the user's points with the calculated payout
                 $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
                 $db->execute(array($mPointsPayout, $user_class->id));
         
                 // Log the successful mission completion in the mission log
-                $logMessage = "[x] successfully completed {$miss['name']} objective to get {$miss['kills']} kills, {$user_class->id}";
+                $logMessage = "[x] successfully completed {$miss['name']} objective to get {$miss['kills']} kills, $user_class->id";
                 $db->query("INSERT INTO missionlog VALUES(NULL, ?, unix_timestamp())");
                 $db->execute(array($logMessage));
         
@@ -1066,7 +1066,6 @@ function mission($update, $howmany = 1)
                 Send_event($user_class->id, "You have completed {$miss['name']} objective to get {$miss['kills']} kills.");
             }
         }
-        
         if ($update == 'b') {
             $db->query("UPDATE missions SET busts = busts + 1 WHERE userid = ? AND completed = 'no'");
             $db->execute(array(
