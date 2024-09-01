@@ -13,7 +13,8 @@ require "header.php";
                 $db->query("UPDATE grpgusers SET bank = bank + " . $gangTerritoryZone['daily_money_payout'] . " WHERE id = 1");
                 $db->execute();
 
-                mysql_query("INSERT INTO bank_log VALUES('', 1, ".$gangTerritoryZone['daily_money_payout'].", 'mdep', $us->bank, unix_timestamp())");
+                $db->query("INSERT INTO bank_log VALUES('', 1, ".$gangTerritoryZone['daily_money_payout'].", 'mdep', $us->bank, unix_timestamp())");
+                $db->execute();
                 Send_Event(1, 'You gained $' . number_format($gangTerritoryZone['daily_money_payout'], 0) . ' for your gangs protection racket ' . $gangTerritoryZone['name']);
             }
             }
