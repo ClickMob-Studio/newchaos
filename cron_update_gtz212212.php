@@ -21,11 +21,26 @@ if ($_GET['key'] === 'srunit') {
                 Send_Event($memberid['id'], 'You gained ' . number_format($gangTerritoryZone['daily_points_payout'], 0) . ' points for your gangs protection racket ' . $gangTerritoryZone['name']);
             }
 
+            
             if ($gangTerritoryZone['daily_money_payout'] > 0) {
-                $db->query("UPDATE grpgusers SET bank = bank + " . $gangTerritoryZone['daily_money_payout'] . " WHERE id = " . $memberid['id']);
+                $us = new User($memberid['id']);
+                $bank = $us->bank + $gangTerritoryZone['daily_money_payout'];
+                $db->query("INSERT INTO bank_log (`userid`, `amount`, `action`, `newbalance`, `timestamp`) VALUES (?, ?, ?, ?, ?)");
+                $db->execute(
+                    array(
+                        1,
+                        $gangTerritoryZone['daily_money_payout'],
+                        'mdep',
+                        $bank,
+                        time()
+                    )
+                );
+               
+                $db->query("UPDATE grpgusers SET bank = bank + " . $gangTerritoryZone['daily_money_payout'] . " WHERE id = 1");
                 $db->execute();
 
-                Send_Event($memberid['id'], 'You gained $' . number_format($gangTerritoryZone['daily_money_payout'], 0) . ' for your gangs protection racket ' . $gangTerritoryZone['name']);
+                
+                Send_Event(1, 'You gained $' . number_format($gangTerritoryZone['daily_money_payout'], 0) . ' for your gangs protection racket ' . $gangTerritoryZone['name']);
             }
 
             if ($gangTerritoryZone['daily_raid_tokens_payout'] > 0) {
