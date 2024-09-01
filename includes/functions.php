@@ -1056,10 +1056,7 @@ function mission($update, $howmany = 1)
                 // Update the user's points in the grpgusers table
                 $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
                 $db->execute(array($mPointsPayout, $user_class->id));
-                $newpoints = $user_class->points + $mPointsPayout;
-                $db->query("INSERT INTO payout_log (user_id, mission_id, points_payout, payout_boost, before_points, after_points) VALUES (?, ?, ?, ?, ? ,?)");
-                $db->execute(array($user_class->id, $miss['id'], $mPointsPayout, $boostApplied, $user_class->points, $newpoints));
-
+        
                 // Log the successful mission completion in the mission log
                 $logMessage = "[x] successfully completed {$miss['name']} objective to get {$miss['kills']} kills, {$user_class->id}";
                 $db->query("INSERT INTO missionlog VALUES(NULL, ?, unix_timestamp())");
