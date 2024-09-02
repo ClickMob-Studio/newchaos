@@ -87,13 +87,47 @@ function processMissionUpdate($type, &$userMission, $missionDetails, $pointsPayo
     $userMission[$type]++;
 
     $requiredCount = $missionDetails[$type];
+
+    // Debugging: Check what value is being fetched from mission details
+    $payKey = "pay" . ucfirst($type);
+    if (!isset($missionDetails[$payKey])) {
+        echo "Error: Mission payout key '$payKey' not found in mission details.";
+        return;
+    }
+
+    $basePayout = $missionDetails[$payKey];
+
+    // Debugging: Check the base payout before calculation
+    echo "Base Payout for $type: $basePayout<br>";
+
+    $payout = calculatePayout($basePayout, $pointsPayoutBoost);
+
+    // Debugging: Check the calculated payout
+    echo "Calculated Payout: $payout<br>";
+
     if ($userMission[$type] == $requiredCount) {
-        $payout = calculatePayout($missionDetails["pay$type"], $pointsPayoutBoost);
         rewardUser($payout, $user_class->id, $db);
         logMissionCompletion($missionDetails['name'], $type, $requiredCount, $user_class->id, $db);
         sendEvent($user_class->id, "You have completed {$missionDetails['name']} objective to get {$requiredCount} $type.");
     }
 }
+
+function calculatePayout($basePayout, $boost)
+{
+    // Ensure both values are numbers
+    if (!is_numeric($basePayout) || !is_numeric($boost)) {
+        echo "Invalid payout or boost values: Base - $basePayout, Boost - $boost<br>";
+        return $basePayout; // Return base if the boost is not valid
+    }
+
+    $calculatedPayout = $basePayout + ($basePayout * $boost / 100);
+
+    // Debugging: Print the calculation
+    echo "Calculated Payout with Boost: $calculatedPayout<br>";
+
+    return $calculatedPayout;
+}
+
 
 function processCrimeUpdate($howmany, &$userMission, $missionDetails, $db, $user_class)
 {
@@ -104,10 +138,7 @@ function processCrimeUpdate($howmany, &$userMission, $missionDetails, $db, $user
     // Add further checks and logic as necessary
 }
 
-function calculatePayout($basePayout, $boost)
-{
-    return $basePayout + ($basePayout / 100 * $boost);
-}
+
 
 function rewardUser($points, $userId, $db)
 {
