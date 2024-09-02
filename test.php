@@ -1,17 +1,20 @@
 <?php
 require "header.php";
-if($user_class->id > 2){
+
+if ($user_class->id > 2) {
     exit;
 }
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 function mission($update, $howmany = 1)
 {
     global $user_class, $db;
 
     $prestigeUserSkills = getUserPrestigeSkills($user_class);
-    $pointsPayoutBoost = $prestigeUserSkills['mission_point_boost_level'] > 0 
+    $pointsPayoutBoost = ($prestigeUserSkills['mission_point_boost_level'] > 0) 
         ? 2 * $prestigeUserSkills['mission_point_boost_level'] 
         : 0;
 
@@ -67,21 +70,21 @@ function mission($update, $howmany = 1)
 function getCurrentMission($userId, $db)
 {
     $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no'");
-    $db->execute([$userId]);
+    $db->execute(array($userId));
     return $db->fetch_row(true);
 }
 
 function getMissionDetails($missionId, $db)
 {
     $db->query("SELECT * FROM mission WHERE id = ?");
-    $db->execute([$missionId]);
+    $db->execute(array($missionId));
     return $db->fetch_row(true);
 }
 
 function processMissionUpdate($type, &$userMission, $missionDetails, $pointsPayoutBoost, $db, $user_class)
 {
     $db->query("UPDATE missions SET $type = $type + 1 WHERE userid = ? AND completed = 'no'");
-    $db->execute([$user_class->id]);
+    $db->execute(array($user_class->id));
     $userMission[$type]++;
 
     $requiredCount = $missionDetails[$type];
@@ -96,7 +99,7 @@ function processMissionUpdate($type, &$userMission, $missionDetails, $pointsPayo
 function processCrimeUpdate($howmany, &$userMission, $missionDetails, $db, $user_class)
 {
     $db->query("UPDATE missions SET crimes = crimes + ? WHERE userid = ? AND completed = 'no'");
-    $db->execute([$howmany, $user_class->id]);
+    $db->execute(array($howmany, $user_class->id));
     $userMission['crimes'] += $howmany;
 
     // Add further checks and logic as necessary
@@ -110,7 +113,7 @@ function calculatePayout($basePayout, $boost)
 function rewardUser($points, $userId, $db)
 {
     $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
-    $db->execute([$points, $userId]);
+    $db->execute(array($points, $userId));
 }
 
 function logMissionCompletion($missionName, $type, $count, $userId, $db)
@@ -124,5 +127,5 @@ function sendEvent($userId, $message)
     Send_event($userId, $message);
 }
 
-
+// Call the mission function to update kills as an example
 mission('k');
