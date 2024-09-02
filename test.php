@@ -10,7 +10,7 @@ if ($user_class->id > 2) {
 
 
 
-function mission($update, $howmany = 1)
+function mission1($update, $howmany = 1)
 {
     global $user_class, $db;
 
@@ -129,4 +129,4 @@ function sendEvent($userId, $message)
 }
 
 // Call the mission function to update kills as an example
-//mission('k');
+mission1('k');
