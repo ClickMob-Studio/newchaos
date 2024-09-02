@@ -128,4 +128,4 @@ function sendEvent($userId, $message)
 }
 
 // Call the mission function to update kills as an example
-mission('k');
+//mission('k');
