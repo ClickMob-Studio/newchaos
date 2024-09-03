@@ -1,7 +1,6 @@
 <?php
 require "header.php";
-?>
-<!-- Chat Interface -->
+?><!-- Chat Interface -->
 <div class="fixed-bottom p-2" id="chat-container" style="max-width: 350px; right: 10px; bottom: 0; z-index: 1030; background-color: rgba(142, 142, 142, 0.13); color: #fff; border-top: 1px solid rgba(78, 77, 72, 0.8); cursor: pointer;">
     <div class="d-flex align-items-center justify-content-between" id="chat-header">
         <h6 class="mb-0 text-white">Global Chat</h6>
@@ -10,7 +9,12 @@ require "header.php";
     <div id="chatbox" class="border rounded mt-2" style="height: 200px; overflow-y: auto; background-color: #2e2e2a; display: none; color: #fff;"></div>
     <div class="input-group mt-2" id="chat-input-container" style="display: none;">
         <input type="text" id="message" class="form-control" placeholder="Type a message..." style="background-color: #3a3935; color: #fff; border: 1px solid rgba(78, 77, 72, 0.8);">
+        <button class="btn text-white" id="emoji-btn" style="background-color: rgba(78, 77, 72, 0.8); border-color: rgba(78, 77, 72, 0.8);">😊</button>
         <button class="btn text-white" id="send" style="background-color: rgba(78, 77, 72, 0.8); border-color: rgba(78, 77, 72, 0.8);">Send</button>
+    </div>
+    <div id="emoji-picker" style="display: none; position: absolute; bottom: 50px; right: 20px; background: #2e2e2a; border: 1px solid rgba(78, 77, 72, 0.8); padding: 5px; border-radius: 5px;">
+        <!-- Emoji icons will be populated here -->
+        <?php emotes(); ?>
     </div>
 </div>
 
@@ -20,14 +24,8 @@ $(document).ready(function () {
     $('#chat-header, #toggle-chat').click(function() {
         $('#chatbox, #chat-input-container').toggle();
         let isExpanded = $('#chatbox').is(':visible');
-
-        // Change the background color based on the expanded state
         $('#chat-container').css('background-color', isExpanded ? '#21201C' : 'rgba(142, 142, 142, 0.13)');
-        
-        // Update the toggle button text
         $('#toggle-chat').text(isExpanded ? '-' : '+');
-
-        // Scroll to the bottom when expanding
         if (isExpanded) {
             scrollToBottom();
         }
@@ -36,32 +34,22 @@ $(document).ready(function () {
     // Fetch messages periodically
     function fetchMessages() {
         const chatbox = $('#chatbox');
-        const isScrolledToBottom = chatbox[0].scrollHeight - chatbox.scrollTop() <= chatbox.outerHeight() + 1; // Check if user is near the bottom
-
+        const isScrolledToBottom = chatbox[0].scrollHeight - chatbox.scrollTop() <= chatbox.outerHeight() + 1;
         $.ajax({
-            url: 'api/fetch_messages.php', // Replace with your correct PHP script path
+            url: 'api/fetch_messages.php',
             method: 'GET',
             success: function (data) {
                 try {
                     let messages = JSON.parse(data);
-
                     if (!Array.isArray(messages)) {
                         console.error('Unexpected data format:', messages);
                         $('#chatbox').html('<p>Error: Unexpected data format received.</p>');
                         return;
                     }
-
                     $('#chatbox').html('');
                     messages.reverse().forEach(function (message) {
-                        // Render the formatted_name as HTML along with the parsed body
-                        if (message.formatted_name) {
-                            $('#chatbox').append(`<p class="mb-1"><span style="font-size: 70%;" class="text-white">${message.formatted_name}:</span> ${message.body}</p>`);
-                        } else {
-                            $('#chatbox').append(`<p class="mb-1"><span style="font-size: 70%;" class="text-white">Unknown User:</span> ${message.body}</p>`);
-                        }
+                        $('#chatbox').append(`<p class="mb-1"><span style="font-size: 70%;" class="text-white">${message.formatted_name}:</span> ${message.body}</p>`);
                     });
-
-                    // Only scroll to the bottom if the user was already near the bottom
                     if (isScrolledToBottom) {
                         scrollToBottom();
                     }
@@ -82,33 +70,6 @@ $(document).ready(function () {
         $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
     }
 
-    // Function to send a message
-    function sendMessage() {
-        let message = $('#message').val().trim();
-        if (message === '') return;
-
-        $.ajax({
-            url: 'api/send_message.php', // Ensure this file is in the correct path
-            method: 'POST',
-            data: {
-                playerid: 1, // Replace with the actual player ID or dynamically retrieve it
-                body: message
-            },
-            success: function (response) {
-                let result = JSON.parse(response);
-                if (result.status === 'success') {
-                    $('#message').val(''); // Clear the input field
-                    fetchMessages(); // Refresh messages
-                } else {
-                    alert(result.message); // Show error message
-                }
-            }
-        });
-    }
-
-    // Set an interval to fetch messages every 2 seconds
-    setInterval(fetchMessages, 2000);
-
     // Send message on button click
     $('#send').on('click', function () {
         sendMessage();
@@ -118,11 +79,56 @@ $(document).ready(function () {
     $('#message').on('keypress', function (e) {
         if (e.which === 13) {
             sendMessage();
-            e.preventDefault(); // Prevent the default form submission
+            e.preventDefault();
         }
     });
 
+    // Function to send a message
+    function sendMessage() {
+        let message = $('#message').val().trim();
+        if (message === '') return;
+        $.ajax({
+            url: 'api/send_message.php',
+            method: 'POST',
+            data: {
+                playerid: 1, // Replace with the actual player ID or dynamically retrieve it
+                body: message
+            },
+            success: function (response) {
+                let result = JSON.parse(response);
+                if (result.status === 'success') {
+                    $('#message').val('');
+                    fetchMessages();
+                } else {
+                    alert(result.message);
+                }
+            }
+        });
+    }
+
+    // Set an interval to fetch messages every 2 seconds
+    setInterval(fetchMessages, 2000);
+
     // Initial fetch of messages
     fetchMessages();
+
+    // Toggle emoji picker visibility
+    $('#emoji-btn').on('click', function (e) {
+        e.stopPropagation();
+        $('#emoji-picker').toggle();
+    });
+
+    // Hide emoji picker when clicking outside
+    $(document).on('click', function () {
+        $('#emoji-picker').hide();
+    });
+
+    // Insert emoji into the input field when clicked
+    $(document).on('click', '#emoji-picker img', function () {
+        let emojiCode = $(this).attr('onclick').match(/'([^']+)'/)[1].trim(); // Extracts the emoji code
+        let currentText = $('#message').val();
+        $('#message').val(currentText + emojiCode);
+        $('#message').focus();
+    });
 });
 </script>
