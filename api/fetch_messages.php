@@ -3,7 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 include "../database/pdo_class.php";
-include_once "includes/functions.php";
+include_once "../includes/functions.php";
 // Fetch the latest 50 messages from the globalchat table
 $db->query("SELECT * FROM globalchat ORDER BY id DESC LIMIT 50");
 $messages = $db->fetch_row();
