@@ -18,17 +18,12 @@ if (!$messages || empty($messages) || !is_array($messages)) {
 // Format the user names using the formatName function
 foreach ($messages as &$message) {
     if (isset($message['playerid']) && !empty($message['playerid'])) {
-        $formattedName = formatName($message['playerid']);
-        $message['formatted_name'] = !empty($formattedName) ? $formattedName : "Unknown User";
+        $formattedName = formatName($message['playerid']); // Call formatName with playerid
+        var_dump($formattedName); // Debug: Check the output of formatName
+        $message['formatted_name'] = !empty($formattedName) ? $formattedName : "Unknown User"; // Fallback if formatName returns empty
     } else {
-        $message['formatted_name'] = "Unknown User";
+        $message['formatted_name'] = "Unknown User"; // Default name if playerid is missing or invalid
     }
-}
-
-// Debug: Verify the structure of the messages array
-if (!is_array($messages)) {
-    echo json_encode(['error' => 'Fetched data is not an array.']);
-    exit;
 }
 
 // Encode the modified array into JSON format and output it
