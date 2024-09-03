@@ -1,7 +1,10 @@
 <?php
+session_start(); // Start the session to access session variables
+
 include "../database/pdo_class.php";
-// Get data from POST request
-$playerid = isset($_POST['playerid']) ? intval($_POST['playerid']) : 0;
+
+// Get the player ID from the session
+$playerid = isset($_SESSION['id']) ? intval($_SESSION['id']) : 0;
 $body = isset($_POST['body']) ? trim($_POST['body']) : '';
 $timesent = time(); // Current timestamp
 
