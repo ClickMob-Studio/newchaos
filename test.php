@@ -2,34 +2,31 @@
 require "header.php";
 ?>
 <style>
-    /* Chatbox animations */
-#chatbox {
-    transition: height 0.3s ease, opacity 0.3s ease;
-}
-
-/* Smooth transitions for the chat container */
-#chat-container.open {
-    bottom: 0px; /* Fully open position */
+#chat-container {
+    transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
     opacity: 1;
-    transition: bottom 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
 #chat-container.closed {
-    bottom: -400px; /* Hidden position */
+    transform: translateY(100%); /* Moves the container down when closed */
     opacity: 0;
+}
+
+#chat-container.open {
+    transform: translateY(0); /* Fully open position */
+    opacity: 1;
 }
 
 /* Emoji Picker animations */
 #emoji-picker {
-    display: none; /* Hide by default */
     transition: max-height 0.3s ease, opacity 0.3s ease;
     max-height: 0;
-    overflow: hidden;
     opacity: 0;
+    overflow: hidden;
 }
 
 #emoji-picker.open {
-    max-height: 200px; /* Maximum height when open */
+    max-height: 200px; /* Adjust to desired max height when open */
     opacity: 1;
 }
 
@@ -57,19 +54,9 @@ require "header.php";
     // Toggle chat visibility when clicking the header
     $('#chat-header, #toggle-chat').click(function () {
         const chatContainer = $('#chat-container');
-        const chatbox = $('#chatbox');
-        const inputContainer = $('#chat-input-container');
 
-        // Toggle classes for animation
+        // Toggle classes to animate open/closed states
         chatContainer.toggleClass('open closed');
-
-        // Toggle visibility of chatbox and input with slide animation
-        chatbox.slideToggle(300);
-        inputContainer.slideToggle(300, function () {
-            if (chatbox.is(':visible')) {
-                scrollToBottom();
-            }
-        });
     });
 
     function fetchMessages() {
@@ -174,11 +161,13 @@ require "header.php";
     setInterval(fetchMessages, 2000);
     fetchMessages();
 
+    // Toggle emoji picker visibility with animation
     $('#emoji-btn').on('click', function (e) {
         e.stopPropagation();
         $('#emoji-picker').toggleClass('open');
     });
 
+    // Close emoji picker when clicking outside
     $(document).on('click', function () {
         $('#emoji-picker').removeClass('open');
     });
