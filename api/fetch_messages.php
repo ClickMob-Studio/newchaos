@@ -2,12 +2,12 @@
 include "../database/pdo_class.php";
 include "../functions.php"; // Ensure this path is correct
 
-// Fetch the latest 50 messages
+// Fetch the latest 50 messages from the globalchat table
 $db->query("SELECT * FROM globalchat ORDER BY id DESC LIMIT 50");
 $messages = $db->fetch_row();
 
-// Debugging: Check if messages are fetched correctly
-if (empty($messages)) {
+// Check if messages are fetched correctly
+if (!$messages || empty($messages)) {
     echo "No messages fetched or database query error.";
     exit;
 }
@@ -19,7 +19,7 @@ foreach ($messages as &$message) {
         // Call formatName with playerid to get the formatted name
         $formattedName = formatName($message['playerid']);
         // Add the formatted name to the message array
-        $message['formatted_name'] = $formattedName ? $formattedName : "Unknown User"; // Fallback if formatName returns empty
+        $message['formatted_name'] = !empty($formattedName) ? $formattedName : "Unknown User"; // Fallback if formatName returns empty
     } else {
         $message['formatted_name'] = "Unknown User"; // Default name if playerid is missing or invalid
     }
