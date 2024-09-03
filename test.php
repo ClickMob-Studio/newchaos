@@ -35,17 +35,22 @@ $(document).ready(function () {
 
     // Fetch messages periodically
     function fetchMessages() {
+        const chatbox = $('#chatbox');
+        const isScrolledToBottom = chatbox[0].scrollHeight - chatbox.scrollTop() === chatbox.outerHeight();
+
         $.ajax({
             url: 'api/fetch_messages.php', // Ensure this file is in the correct path
             method: 'GET',
             success: function (data) {
                 let messages = JSON.parse(data);
-                $('#chatbox').html('');
+                chatbox.html('');
                 messages.reverse().forEach(function (message) {
-                    $('#chatbox').append('<p class="mb-1"><strong class="text-white">User ' + message.playerid + ':</strong> ' + message.body + '</p>');
+                    chatbox.append('<p class="mb-1"><strong class="text-white">User ' + message.playerid + ':</strong> ' + message.body + '</p>');
                 });
-                // Scroll to the bottom after loading messages
-                scrollToBottom();
+                // Scroll to the bottom if the user was already at the bottom
+                if (isScrolledToBottom) {
+                    scrollToBottom();
+                }
             }
         });
     }
@@ -99,3 +104,4 @@ $(document).ready(function () {
     fetchMessages();
 });
 </script>
+
