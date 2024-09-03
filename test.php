@@ -1,7 +1,8 @@
 <?php
-
 require "header.php";
-?><!-- Chat Interface -->
+?>
+
+require "header.php";<!-- Chat Interface -->
 <div class="fixed-bottom p-2" id="chat-container" style="max-width: 350px; right: 10px; bottom: 0; z-index: 1030; background-color: rgba(142, 142, 142, 0.13); color: #fff; border-top: 1px solid rgba(78, 77, 72, 0.8); cursor: pointer;">
     <div class="d-flex align-items-center justify-content-between" id="chat-header">
         <h6 class="mb-0 text-white">Global Chat</h6>
@@ -39,40 +40,42 @@ $(document).ready(function () {
         const isScrolledToBottom = chatbox[0].scrollHeight - chatbox.scrollTop() <= chatbox.outerHeight() + 1; // Check if user is near the bottom
 
         $.ajax({
-    url: 'api/fetch_messages.php', // Replace with your correct PHP script path
-    method: 'GET',
-    success: function (data) {
-        try {
-            let messages = JSON.parse(data);
+            url: 'api/fetch_messages.php', // Replace with your correct PHP script path
+            method: 'GET',
+            success: function (data) {
+                try {
+                    let messages = JSON.parse(data);
 
-            if (!Array.isArray(messages)) {
-                console.error('Unexpected data format:', messages);
-                $('#chatbox').html('<p>Error: Unexpected data format received.</p>');
-                return;
-            }
+                    if (!Array.isArray(messages)) {
+                        console.error('Unexpected data format:', messages);
+                        $('#chatbox').html('<p>Error: Unexpected data format received.</p>');
+                        return;
+                    }
 
-            $('#chatbox').html('');
-            messages.reverse().forEach(function (message) {
-                // Render the formatted_name as HTML along with the parsed body
-                if (message.formatted_name) {
-                    $('#chatbox').append(`<p class="mb-1"><strong class="text-white">${message.formatted_name}:</strong> </p><p>${message.body}</p>`);
-                } else {
-                    $('#chatbox').append(`<p class="mb-1"><strong>Unknown User:</strong> </p><p>${message.body}</p>`);
+                    $('#chatbox').html('');
+                    messages.reverse().forEach(function (message) {
+                        // Render the formatted_name as HTML along with the parsed body
+                        if (message.formatted_name) {
+                            $('#chatbox').append(`<p class="mb-1"><span style="font-size: 70%;" class="text-white">${message.formatted_name}:</span> ${message.body}</p>`);
+                        } else {
+                            $('#chatbox').append(`<p class="mb-1"><span style="font-size: 70%;" class="text-white">Unknown User:</span> ${message.body}</p>`);
+                        }
+                    });
+
+                    // Only scroll to the bottom if the user was already near the bottom
+                    if (isScrolledToBottom) {
+                        scrollToBottom();
+                    }
+                } catch (error) {
+                    console.error('Error parsing JSON:', error, data);
+                    $('#chatbox').html('<p>Error parsing the server response.</p>');
                 }
-            });
-
-            scrollToBottom();
-        } catch (error) {
-            console.error('Error parsing JSON:', error, data);
-            $('#chatbox').html('<p>Error parsing the server response.</p>');
-        }
-    },
-    error: function (xhr, status, error) {
-        console.error('AJAX Error:', status, error);
-        $('#chatbox').html('<p>Failed to fetch messages from the server.</p>');
-    }
-});
-
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', status, error);
+                $('#chatbox').html('<p>Failed to fetch messages from the server.</p>');
+            }
+        });
     }
 
     // Scroll to the bottom of the chatbox
@@ -123,6 +126,4 @@ $(document).ready(function () {
     // Initial fetch of messages
     fetchMessages();
 });
-
 </script>
-
