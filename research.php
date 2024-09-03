@@ -72,7 +72,13 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
     if (!$isAllComplete) {
         diefun('You need to complete all researches from the previous level to complete this research. <a href="research.php" style="color: red;">Go Back</a>');
     }
-
+    $userPrestigeSkills = getUserPrestigeSkills($user_class);
+    if ($userPrestigeSkills['research_cash_unlock'] > 0) {
+        $researchType['cost'] = $researchType['cost'] - ($researchType['cost'] / 100 * 10);
+    }
+    if ($userPrestigeSkills['research_cash_boost_level'] > 0) {
+        $researchType['cost'] = $researchType['cost'] - ($researchType['cost'] / 100 * (2 * $userPrestigeSkills['research_cash_boost_level']));
+    }
     if ($researchType['cost'] > $user_class->money) {
         diefun('You need more cash on hand to complete this research. <a href="research.php" style="color: red;">Go Back</a>');
     }
@@ -84,7 +90,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
         (" . $user_class->id . ", " . $researchType['id'] . ", " . $researchType['duration_in_days'] . ");
     ");
     $db->execute();
-
+    
     $db->query("UPDATE grpgusers SET money = money - " . $researchType['cost'] . " WHERE id = " . $user_class->id);
     $db->execute();
 
@@ -114,8 +120,16 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
                             while ($i <= 6):
                             ?>
                                 <td>
-                                    <?php foreach ($levelRows[$i] as $levelRow): ?>
+                                    <?php foreach ($levelRows[$i] as $levelRow):?>
+                                        
                                         <?php
+                                         $userPrestigeSkills = getUserPrestigeSkills($user_class);
+                                         if ($userPrestigeSkills['research_cash_unlock'] > 0) {
+                                             $levelRow['cost'] = $levelRow['cost'] - ($levelRow['cost'] / 100 * 10);
+                                         }
+                                         if ($userPrestigeSkills['research_cash_boost_level'] > 0) {
+                                             $levelRow['cost'] = $levelRow['cost'] - ($levelRow['cost'] / 100 * (2 * $userPrestigeSkills['research_cash_boost_level']));
+                                         }
                                         $bgClass = 'bg-danger';
                                         if (isset($completeUserResearchTypesIndexedOnId[$levelRow['id']])) {
                                             $bgClass = 'bg-success';
