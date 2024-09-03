@@ -1,6 +1,6 @@
 <?php
 include "../database/pdo_class.php";
-include "../includes/functions.php";
+include "../functions.php";
 // Fetch the latest 50 messages
 $db->query("SELECT * FROM globalchat ORDER BY id DESC LIMIT 50");
 
