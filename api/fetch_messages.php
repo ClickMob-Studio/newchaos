@@ -28,8 +28,6 @@ foreach ($messages as &$message) {
     }
 }
 
-// Debugging: Output the modified array to check formatted names
-var_dump($message);
 
 // Encode the modified array into JSON format and output it
 echo json_encode($messages);
