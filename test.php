@@ -50,7 +50,6 @@ require "header.php";
     </div>
 </div>
 
-
 <script>
 $(document).ready(function () {
     // Check if user is an admin
@@ -64,12 +63,12 @@ $(document).ready(function () {
         chatContainer.toggleClass('open closed');
         
         // Slide toggle for chatbox and input
-        $('#chatbox').slideToggle(300);
-        $('#chat-input-container').slideToggle(300, function () {
-            if ($('#chatbox').is(':visible')) {
-                scrollToBottom();
+        $('#chatbox').slideToggle(300, function() {
+            if ($(this).is(':visible')) {
+                scrollToBottom(); // Ensure the chatbox starts at the bottom when it opens
             }
         });
+        $('#chat-input-container').slideToggle(300);
     });
 
     function fetchMessages() {
