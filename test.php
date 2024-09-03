@@ -42,16 +42,15 @@ $(document).ready(function () {
             url: 'api/fetch_messages.php', // Ensure this file is in the correct path
             method: 'GET',
             success: function (data) {
-                let messages = JSON.parse(data);
-                chatbox.html('');
-                messages.reverse().forEach(function (message) {
-                    chatbox.append('<p class="mb-1"><strong class="text-white">User ' + message.playerid + ':</strong> ' + message.body + '</p>');
-                });
-                // Scroll to the bottom if the user was already at the bottom
-                if (isScrolledToBottom) {
-                    scrollToBottom();
-                }
-            }
+    let messages = JSON.parse(data);
+    $('#chatbox').html('');
+    messages.reverse().forEach(function (message) {
+        // Use the formatted name instead of 'User {playerid}'
+        $('#chatbox').append('<p class="mb-1"><strong class="text-white">' + message.formatted_name + ':</strong> ' + message.body + '</p>');
+    });
+    // Scroll to the bottom after loading messages
+    scrollToBottom();
+}
         });
     }
 
