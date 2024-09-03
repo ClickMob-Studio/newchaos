@@ -45,12 +45,14 @@ $(document).ready(function () {
     let messages = JSON.parse(data);
     $('#chatbox').html('');
     messages.reverse().forEach(function (message) {
-        // Display the formatted name from the backend
-        $('#chatbox').append('<p class="mb-1"><strong class="text-white">' + message.formatted_name + ':</strong> ' + message.body + '</p>');
+        // Use .html() to correctly render the formatted name as HTML
+        $('#chatbox').append('<p class="mb-1"><strong class="text-white"></strong> ' + message.body + '</p>')
+            .children('strong:last').html(message.formatted_name);
     });
     // Scroll to the bottom after loading messages
     scrollToBottom();
 }
+
         });
     }
 
