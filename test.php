@@ -16,7 +16,7 @@ require "header.php";
         <!-- Emoji icons will be populated here -->
         <?php emotes(); ?>
     </div>
-</div>>
+</div>
 </div>
 
 <script>
