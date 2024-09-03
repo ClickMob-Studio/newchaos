@@ -1,40 +1,43 @@
 <?php
 require "header.php";
 ?>
+
 <style>
-#chat-container {
-    transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
-    opacity: 1;
-}
+    /* Smooth transitions for the chat container */
+    #chat-container {
+        transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+        opacity: 1;
+        transform: translateY(0); /* Default open position */
+    }
 
-#chat-container.closed {
-    transform: translateY(100%); /* Moves the container down when closed */
-    opacity: 0;
-}
+    #chat-container.closed {
+        transform: translateY(100%); /* Moves the container down when closed */
+        opacity: 0;
+    }
 
-#chat-container.open {
-    transform: translateY(0); /* Fully open position */
-    opacity: 1;
-}
+    #chat-container.open {
+        transform: translateY(0); /* Fully open position */
+        opacity: 1;
+    }
 
-/* Emoji Picker animations */
-#emoji-picker {
-    transition: max-height 0.3s ease, opacity 0.3s ease;
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-}
+    /* Emoji Picker animations */
+    #emoji-picker {
+        transition: max-height 0.3s ease, opacity 0.3s ease;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+    }
 
-#emoji-picker.open {
-    max-height: 200px; /* Adjust to desired max height when open */
-    opacity: 1;
-}
-
+    #emoji-picker.open {
+        max-height: 200px; /* Adjust to desired max height when open */
+        opacity: 1;
+    }
 </style>
+
 <div class="p-2" id="chat-container" style="position: fixed; max-width: 350px; right: 10px; bottom: 10px; z-index: 1030; background-color: rgba(142, 142, 142, 0.13); color: #fff; border-top: 1px solid rgba(78, 77, 72, 0.8); cursor: pointer;">
     <div class="d-flex align-items-center justify-content-between" id="chat-header">
         <h6 class="mb-0 text-white">Global Chat</h6>
-        <span class="btn btn-sm btn-secondary text-white" style="background-color: rgba(78, 77, 72, 0.8); border-color: rgba(78, 77, 72, 0.8); font-size: 0.75rem;">-</span>
+        <span class="btn btn-sm btn-secondary text-white" id="toggle-chat" style="background-color: rgba(78, 77, 72, 0.8); border-color: rgba(78, 77, 72, 0.8); font-size: 0.75rem;">-</span>
     </div>
     <div id="chatbox" class="border rounded mt-2" style="height: 400px; overflow-y: auto; background-color: #2e2e2a; display: none; color: #fff;"></div>
     <div class="input-group mt-2" id="chat-input-container" style="display: none;">
@@ -42,12 +45,14 @@ require "header.php";
         <button class="btn text-white" id="emoji-btn" style="background-color: rgba(78, 77, 72, 0.8); border-color: rgba(78, 77, 72, 0.8);">😊</button>
         <button class="btn text-white" id="send" style="background-color: rgba(78, 77, 72, 0.8); border-color: rgba(78, 77, 72, 0.8);">Send</button>
     </div>
-    <div id="emoji-picker" style="display: none; position: absolute; bottom: 50px; right: 20px; background: #2e2e2a; border: 1px solid rgba(78, 77, 72, 0.8); padding: 5px; border-radius: 5px;">
+    <div id="emoji-picker" style="position: absolute; bottom: 50px; right: 20px; background: #2e2e2a; border: 1px solid rgba(78, 77, 72, 0.8); padding: 5px; border-radius: 5px;">
         <?php emotes(); ?>
     </div>
 </div>
 
-<script>$(document).ready(function () {
+
+<script>
+$(document).ready(function () {
     // Check if user is an admin
     let isAdmin = <?php echo $user_class->admin > 0 ? 'true' : 'false'; ?>;
 
@@ -57,6 +62,14 @@ require "header.php";
 
         // Toggle classes to animate open/closed states
         chatContainer.toggleClass('open closed');
+        
+        // Slide toggle for chatbox and input
+        $('#chatbox').slideToggle(300);
+        $('#chat-input-container').slideToggle(300, function () {
+            if ($('#chatbox').is(':visible')) {
+                scrollToBottom();
+            }
+        });
     });
 
     function fetchMessages() {
@@ -203,5 +216,4 @@ require "header.php";
         }
     });
 });
-
 </script>
