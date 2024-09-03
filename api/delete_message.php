@@ -1,6 +1,7 @@
 <?php
 
 require '../ajax_header.php'; 
+$user_class = new User($_SESSION['id']);
 // Ensure the user is logged in and is an admin
 if (!isset($user_class) || $user_class->admin <= 0) {
     echo json_encode(['status' => 'error', 'message' => 'Unauthorized access.']);
