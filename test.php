@@ -1,12 +1,12 @@
 <?php
 require "header.php";
-?><!-- Chat Interface -->
-<div class="fixed-bottom p-2" id="chat-container" style="max-width: 350px; right: 10px; bottom: 0; z-index: 1030; background-color: rgba(142, 142, 142, 0.13); color: #fff; border-top: 1px solid rgba(78, 77, 72, 0.8); cursor: pointer;">
+?>
+<div class="fixed-bottom p-2" id="chat-container" style="max-width: 350px; position: fixed; right: 10px; bottom: 10px; z-index: 1030; background-color: rgba(142, 142, 142, 0.13); color: #fff; border-top: 1px solid rgba(78, 77, 72, 0.8); cursor: pointer;">
     <div class="d-flex align-items-center justify-content-between" id="chat-header">
         <h6 class="mb-0 text-white">Global Chat</h6>
         <button class="btn btn-sm btn-secondary text-white" id="toggle-chat" style="background-color: rgba(78, 77, 72, 0.8); border-color: rgba(78, 77, 72, 0.8); font-size: 0.75rem;">-</button>
     </div>
-    <div id="chatbox" class="border rounded mt-2" style="height: 400px; overflow-y: auto; background-color: #2e2e2a; display: none; color: #fff;"></div>
+    <div id="chatbox" class="border rounded mt-2" style="height: 300px; overflow-y: auto; background-color: #2e2e2a; display: none; color: #fff;"></div>
     <div class="input-group mt-2" id="chat-input-container" style="display: none;">
         <input type="text" id="message" class="form-control" placeholder="Type a message..." style="background-color: #3a3935; color: #fff; border: 1px solid rgba(78, 77, 72, 0.8);">
         <button class="btn text-white" id="emoji-btn" style="background-color: rgba(78, 77, 72, 0.8); border-color: rgba(78, 77, 72, 0.8);">😊</button>
