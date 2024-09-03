@@ -30,13 +30,16 @@ $(document).ready(function () {
         $('#chat-container').css('background-color', isExpanded ? '#21201C' : 'rgba(142, 142, 142, 0.13)');
         $('#toggle-chat').text(isExpanded ? '-' : '+');
         if (isExpanded) {
-            scrollToBottom();
+            scrollToBottom(); // Only scroll to the bottom when chat is expanded
         }
     });
 
     function fetchMessages() {
         const chatbox = $('#chatbox');
+        // Save the current scroll position
+        const previousScrollTop = chatbox.scrollTop();
         const isScrolledToBottom = chatbox[0].scrollHeight - chatbox.scrollTop() <= chatbox.outerHeight() + 1;
+
         $.ajax({
             url: 'api/fetch_messages.php',
             method: 'GET',
@@ -48,6 +51,11 @@ $(document).ready(function () {
                         $('#chatbox').html('<p>Error: Unexpected data format received.</p>');
                         return;
                     }
+
+                    // Temporarily disable scroll events to prevent jumping
+                    chatbox.off('scroll');
+
+                    // Clear the chatbox and append new messages
                     $('#chatbox').html('');
                     messages.reverse().forEach(function (message) {
                         // Append messages and check for images
@@ -58,9 +66,18 @@ $(document).ready(function () {
                     // Check for images and limit their size
                     limitImageSize('#chatbox img', 100, 100); // Example limit: 100x100 pixels
 
+                    // Restore the previous scroll position if not at the bottom
                     if (isScrolledToBottom) {
                         scrollToBottom();
+                    } else {
+                        chatbox.scrollTop(previousScrollTop);
                     }
+
+                    // Re-enable scroll events
+                    chatbox.on('scroll', function () {
+                        // Additional scroll handling if needed
+                    });
+
                 } catch (error) {
                     console.error('Error parsing JSON:', error, data);
                     $('#chatbox').html('<p>Error parsing the server response.</p>');
@@ -187,4 +204,5 @@ $(document).ready(function () {
     });
 
 });
+
 </script>
