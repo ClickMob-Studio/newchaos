@@ -132,7 +132,7 @@ $prestigeBoosts['crime_cash_boost_level'] = '+2% Crime Cash Boost';
 $prestigeBoosts['mission_point_boost_level'] = '+2% Mission Point Boost';
 $prestigeBoosts['mission_exp_boost_level'] = '+2% Mission EXP Boost';
 $prestigeBoosts['ba_point_boost_level'] = '+1 Backalley Level';
-if($user_class->prestige > 4 && $user_class->id == 1){
+if($user_class->prestige > 4){
     $prestigeBoosts['research_cash_boost_level'] = '-2% Research Cost';
 }
 //$prestigeBoosts['hourly_searches_boost_level'] = '+10 Hourly Searches';
