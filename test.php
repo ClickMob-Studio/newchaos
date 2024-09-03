@@ -31,7 +31,6 @@ $(document).ready(function () {
         }
     });
 
-    // Fetch messages periodically
     function fetchMessages() {
         const chatbox = $('#chatbox');
         const isScrolledToBottom = chatbox[0].scrollHeight - chatbox.scrollTop() <= chatbox.outerHeight() + 1;
@@ -48,8 +47,13 @@ $(document).ready(function () {
                     }
                     $('#chatbox').html('');
                     messages.reverse().forEach(function (message) {
+                        // Append messages and check for images
                         $('#chatbox').append(`<p class="mb-1"><span style="font-size: 70%;" class="text-white">${message.formatted_name}:</span> ${message.body}</p>`);
                     });
+
+                    // Check for images and limit their size
+                    limitImageSize('#chatbox img', 100, 100); // Example limit: 100x100 pixels
+
                     if (isScrolledToBottom) {
                         scrollToBottom();
                     }
@@ -65,6 +69,27 @@ $(document).ready(function () {
         });
     }
 
+    // Function to limit the size of images
+    function limitImageSize(selector, maxWidth, maxHeight) {
+        $(selector).each(function () {
+            const img = $(this);
+            const imgWidth = img.width();
+            const imgHeight = img.height();
+
+            // Calculate the scaling factor to maintain the aspect ratio
+            const widthScale = maxWidth / imgWidth;
+            const heightScale = maxHeight / imgHeight;
+            const scale = Math.min(widthScale, heightScale, 1); // Never upscale
+
+            // Apply new dimensions
+            img.css({
+                width: imgWidth * scale,
+                height: imgHeight * scale,
+                maxWidth: maxWidth + 'px',
+                maxHeight: maxHeight + 'px',
+            });
+        });
+    }
     // Scroll to the bottom of the chatbox
     function scrollToBottom() {
         $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
