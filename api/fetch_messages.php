@@ -4,28 +4,29 @@ $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
 
 include_once "../includes/functions.php";
+include_once "../bbcode_parser.php"; // Include your BBCode parser file
 
 // Fetch the latest 50 messages from the globalchat table
 $db->query("SELECT * FROM globalchat ORDER BY id DESC LIMIT 50");
 $messages = $db->fetch_row();
 
-// Check if messages are fetched correctly
-if (!$messages || empty($messages) || !is_array($messages)) {
+if (!$messages || empty($messages)) {
     echo json_encode(['error' => 'No messages fetched or database query error.']);
     exit;
 }
 
-// Format the user names using the formatName function
+// Format the user names using the formatName function and parse BBCode
 foreach ($messages as &$message) {
     if (isset($message['playerid']) && !empty($message['playerid'])) {
-        $formattedName = formatName($message['playerid']); // Call formatName with playerid
-       // var_dump($formattedName); // Debug: Check the output of formatName
-        $message['formatted_name'] = !empty($formattedName) ? $formattedName : "Unknown User"; // Fallback if formatName returns empty
+        $formattedName = formatName($message['playerid']);
+        $message['formatted_name'] = !empty($formattedName) ? $formattedName : "Unknown User";
     } else {
-        $message['formatted_name'] = "Unknown User"; // Default name if playerid is missing or invalid
+        $message['formatted_name'] = "Unknown User";
     }
+
+    // Parse the body of the message using the BBCode parser
+    $message['body'] = BBCodeParse($message['body']); // Apply BBCode parsing to the message body
 }
 
 // Encode the modified array into JSON format and output it
-echo json_encode(array_values($messages)); // Use array_values to ensure it is properly indexed
-?>
+echo json_encode(array_values($messages));

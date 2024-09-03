@@ -39,42 +39,40 @@ $(document).ready(function () {
         const isScrolledToBottom = chatbox[0].scrollHeight - chatbox.scrollTop() <= chatbox.outerHeight() + 1; // Check if user is near the bottom
 
         $.ajax({
-            url: 'api/fetch_messages.php', // Replace with your correct PHP script path
-            method: 'GET',
-            success: function (data) {
-                try {
-                    let messages = JSON.parse(data);
+    url: 'api/fetch_messages.php', // Replace with your correct PHP script path
+    method: 'GET',
+    success: function (data) {
+        try {
+            let messages = JSON.parse(data);
 
-                    // Check if messages is an array
-                    if (!Array.isArray(messages)) {
-                        console.error('Unexpected data format:', messages);
-                        $('#chatbox').html('<p>Error: Unexpected data format received.</p>');
-                        return;
-                    }
-
-                    $('#chatbox').html('');
-                    messages.reverse().forEach(function (message) {
-                        if (message.formatted_name) {
-                            $('#chatbox').append(`<p class="mb-1"><strong class="text-white">${message.formatted_name}:</strong> ${message.body}</p>`);
-                        } else {
-                            $('#chatbox').append('<p class="mb-1"><strong>Unknown User:</strong> ' + message.body + '</p>');
-                        }
-                    });
-
-                    // Only scroll to the bottom if the user was already near the bottom
-                    if (isScrolledToBottom) {
-                        scrollToBottom();
-                    }
-                } catch (error) {
-                    console.error('Error parsing JSON:', error, data);
-                    $('#chatbox').html('<p>Error parsing the server response.</p>');
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error('AJAX Error:', status, error);
-                $('#chatbox').html('<p>Failed to fetch messages from the server.</p>');
+            if (!Array.isArray(messages)) {
+                console.error('Unexpected data format:', messages);
+                $('#chatbox').html('<p>Error: Unexpected data format received.</p>');
+                return;
             }
-        });
+
+            $('#chatbox').html('');
+            messages.reverse().forEach(function (message) {
+                // Render the formatted_name as HTML along with the parsed body
+                if (message.formatted_name) {
+                    $('#chatbox').append(`<p class="mb-1"><strong class="text-white">${message.formatted_name}:</strong> </p><p>${message.body}</p>`);
+                } else {
+                    $('#chatbox').append(`<p class="mb-1"><strong>Unknown User:</strong> </p><p>${message.body}</p>`);
+                }
+            });
+
+            scrollToBottom();
+        } catch (error) {
+            console.error('Error parsing JSON:', error, data);
+            $('#chatbox').html('<p>Error parsing the server response.</p>');
+        }
+    },
+    error: function (xhr, status, error) {
+        console.error('AJAX Error:', status, error);
+        $('#chatbox').html('<p>Failed to fetch messages from the server.</p>');
+    }
+});
+
     }
 
     // Scroll to the bottom of the chatbox
