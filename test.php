@@ -161,29 +161,30 @@ $(document).ready(function () {
         $('#message').focus();
     });
 
-    // Delete message on button click
-    $(document).on('click', '.delete-message', function () {
-        let messageId = $(this).data('id');
-        if (confirm('Are you sure you want to delete this message?')) {
-            $.ajax({
-                url: 'api/delete_message.php',
-                method: 'POST',
-                data: {
-                    message_id: messageId
-                },
-                success: function (response) {
-                    let result = JSON.parse(response);
-                    if (result.status === 'success') {
-                        fetchMessages();
-                    } else {
-                        alert(result.message);
-                    }
-                },
-                error: function (xhr, status, error) {
-                    alert('Failed to delete the message.');
+    /// Delete message on button click
+$(document).on('click', '.delete-message', function () {
+    let messageId = $(this).data('id');
+    if (confirm('Are you sure you want to delete this message?')) {
+        $.ajax({
+            url: 'api/delete_message.php',
+            method: 'POST',
+            data: {
+                message_id: messageId
+            },
+            success: function (response) {
+                let result = JSON.parse(response);
+                if (result.status === 'success') {
+                    fetchMessages();
+                } else {
+                    alert(result.message);
                 }
-            });
-        }
-    });
+            },
+            error: function (xhr, status, error) {
+                alert('Failed to delete the message.');
+            }
+        });
+    }
+});
+
 });
 </script>
