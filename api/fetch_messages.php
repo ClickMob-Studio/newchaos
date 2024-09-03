@@ -19,7 +19,7 @@ if (!$messages || empty($messages) || !is_array($messages)) {
 foreach ($messages as &$message) {
     if (isset($message['playerid']) && !empty($message['playerid'])) {
         $formattedName = formatName($message['playerid']); // Call formatName with playerid
-        var_dump($formattedName); // Debug: Check the output of formatName
+       // var_dump($formattedName); // Debug: Check the output of formatName
         $message['formatted_name'] = !empty($formattedName) ? $formattedName : "Unknown User"; // Fallback if formatName returns empty
     } else {
         $message['formatted_name'] = "Unknown User"; // Default name if playerid is missing or invalid
