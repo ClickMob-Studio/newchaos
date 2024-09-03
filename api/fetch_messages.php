@@ -22,9 +22,9 @@ foreach ($messages as &$message) {
         // Call formatName with playerid to get the formatted name
         $formattedName = formatName($message['playerid']);
         // Add the formatted name to the message array
-        $message['formatted_name'] = !empty($formattedName) ? $formattedName : "Unknown User"; // Fallback if formatName returns empty
+        $messages['formatted_name'] = !empty($formattedName) ? $formattedName : "Unknown User"; // Fallback if formatName returns empty
     } else {
-        $message['formatted_name'] = "Unknown User"; // Default name if playerid is missing or invalid
+        $messages['formatted_name'] = "Unknown User"; // Default name if playerid is missing or invalid
     }
 }
 
