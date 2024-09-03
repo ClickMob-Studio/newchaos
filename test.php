@@ -3,18 +3,17 @@
 require "header.php";
 ?>
 <!-- Chat Interface -->
-<div class="fixed-bottom bg-light border-top shadow-sm p-2" id="chat-container" style="background-color:#21201c;max-width: 350px; right: 10px; bottom: 0; z-index: 1030;">
+<div class="fixed-bottom p-2" id="chat-container" style="max-width: 350px; right: 10px; bottom: 0; z-index: 1030; background-color: #21201C; color: #fff; border-top: 1px solid #4e4d48;">
     <div class="d-flex align-items-center justify-content-between">
-        <h6 class="mb-0">Global Chat</h6>
-        <button class="btn btn-sm btn-secondary" id="toggle-chat" style="font-size: 0.75rem;">-</button>
+        <h6 class="mb-0 text-white">Global Chat</h6>
+        <button class="btn btn-sm btn-secondary text-white" id="toggle-chat" style="background-color: #4e4d48; border-color: #4e4d48; font-size: 0.75rem;">-</button>
     </div>
-    <div id="chatbox" class="border rounded bg-white mt-2" style="height: 200px; overflow-y: auto; display: none;"></div>
+    <div id="chatbox" class="border rounded mt-2" style="height: 200px; overflow-y: auto; background-color: #2e2e2a; display: none; color: #fff;"></div>
     <div class="input-group mt-2" id="chat-input-container" style="display: none;">
-        <input type="text" id="message" class="form-control" placeholder="Type a message...">
-        <button class="btn btn-primary" id="send">Send</button>
+        <input type="text" id="message" class="form-control" placeholder="Type a message..." style="background-color: #3a3935; color: #fff; border: 1px solid #4e4d48;">
+        <button class="btn text-white" id="send" style="background-color: #4e4d48; border-color: #4e4d48;">Send</button>
     </div>
 </div>
-
 <script>
 $(document).ready(function () {
     // Toggle chat visibility
@@ -32,7 +31,7 @@ $(document).ready(function () {
                 let messages = JSON.parse(data);
                 $('#chatbox').html('');
                 messages.reverse().forEach(function (message) {
-                    $('#chatbox').append('<p class="mb-1"><strong>User ' + message.playerid + ':</strong> ' + message.body + '</p>');
+                    $('#chatbox').append('<p class="mb-1"><strong class="text-white">User ' + message.playerid + ':</strong> ' + message.body + '</p>');
                 });
                 $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
             }
@@ -48,7 +47,7 @@ $(document).ready(function () {
             url: 'api/send_message.php', // Ensure this file is in the correct path
             method: 'POST',
             data: {
-                playerid: <?php echo $user_class->id; ?>, // Replace with the actual player ID or dynamically retrieve it
+                playerid: 1, // Replace with the actual player ID or dynamically retrieve it
                 body: message
             },
             success: function (response) {
