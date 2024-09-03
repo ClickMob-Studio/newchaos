@@ -12,11 +12,9 @@ require "header.php";
     </div>
     <div id="chatbox" class="border rounded mt-2" style="height: 200px; overflow-y: auto; background-color: #2e2e2a; display: none; color: #fff;"></div>
     <div class="input-group mt-2" id="chat-input-container" style="display: none;">
+        <button class="btn btn-secondary" id="emoji-picker" style="background-color: rgba(78, 77, 72, 0.8); border-color: rgba(78, 77, 72, 0.8);">😀</button> <!-- Emoji Picker Button -->
         <input type="text" id="message" class="form-control" placeholder="Type a message..." style="background-color: #3a3935; color: #fff; border: 1px solid rgba(78, 77, 72, 0.8);">
         <button class="btn text-white" id="send" style="background-color: rgba(78, 77, 72, 0.8); border-color: rgba(78, 77, 72, 0.8);">Send</button>
-        <span id="basic-smiley" style="cursor: pointer; margin-left: 10px;">😊</span>
-        <!-- This is the button to open the emoji picker modal -->
-        <button class="btn btn-secondary" id="emoji-picker" style="background-color: rgba(78, 77, 72, 0.8); border-color: rgba(78, 77, 72, 0.8); margin-left: 5px;">😀</button>
     </div>
 </div>
 
@@ -139,4 +137,5 @@ $(document).ready(function () {
     fetchMessages();
 });
 </script>
+
 
