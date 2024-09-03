@@ -6,18 +6,18 @@ require "header.php";
     /* Smooth transitions for the chat container */
     #chat-container {
         transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
-        opacity: 1;
-        transform: translateY(0); /* Default open position */
+        opacity: 0; /* Set initial opacity to 0 */
+        transform: translateY(100%); /* Start hidden off-screen */
     }
 
     #chat-container.closed {
         transform: translateY(100%); /* Moves the container down when closed */
-        opacity: 0;
+        opacity: 1; /* Fully visible when closed */
     }
 
     #chat-container.open {
         transform: translateY(0); /* Fully open position */
-        opacity: 1;
+        opacity: 0; /* Set to 0 when open */
     }
 
     /* Emoji Picker animations */
@@ -50,6 +50,7 @@ require "header.php";
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
 $(document).ready(function () {
