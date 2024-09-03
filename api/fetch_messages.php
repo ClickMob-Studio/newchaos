@@ -9,6 +9,6 @@ foreach ($messages as &$message) {
     $message['formatted_name'] = formatName($message['playerid']); // Use formatName with playerid
 }  
 $messages = $db->fetch_row();
-
+var_dump($messages);
 echo json_encode($messages);
 ?>
