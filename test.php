@@ -3,7 +3,7 @@
 require "header.php";
 ?>
 <!-- Chat Interface -->
-<div class="fixed-bottom bg-light border-top shadow-sm p-2" id="chat-container" style="max-width: 350px; right: 10px; bottom: 0; z-index: 1030;">
+<div class="fixed-bottom bg-light border-top shadow-sm p-2" id="chat-container" style="background-color:#21201c;max-width: 350px; right: 10px; bottom: 0; z-index: 1030;">
     <div class="d-flex align-items-center justify-content-between">
         <h6 class="mb-0">Global Chat</h6>
         <button class="btn btn-sm btn-secondary" id="toggle-chat" style="font-size: 0.75rem;">-</button>
