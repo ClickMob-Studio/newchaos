@@ -45,7 +45,7 @@ $(document).ready(function () {
     let messages = JSON.parse(data);
     $('#chatbox').html('');
     messages.reverse().forEach(function (message) {
-        // Use the formatted name instead of 'User {playerid}'
+        // Display the formatted name from the backend
         $('#chatbox').append('<p class="mb-1"><strong class="text-white">' + message.formatted_name + ':</strong> ' + message.body + '</p>');
     });
     // Scroll to the bottom after loading messages
