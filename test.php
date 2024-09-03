@@ -6,18 +6,18 @@ require "header.php";
     /* Smooth transitions for the chat container */
     #chat-container {
         transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
-        transform: translateY(100%); /* Start hidden off-screen */
-        opacity: 0; /* Hidden by default */
+        opacity: 1;
+        transform: translateY(0); /* Default open position */
     }
 
     #chat-container.closed {
         transform: translateY(100%); /* Moves the container down when closed */
-        opacity: 0; /* Fully hidden when closed */
+        opacity: 0;
     }
 
     #chat-container.open {
-        transform: translateY(0); /* Slide into view */
-        opacity: 1; /* Fully visible when open */
+        transform: translateY(0); /* Fully open position */
+        opacity: 1;
     }
 
     /* Emoji Picker animations */
@@ -34,7 +34,7 @@ require "header.php";
     }
 </style>
 
-<div class="p-2" id="chat-container" class="closed" style="position: fixed; max-width: 350px; right: 10px; bottom: 10px; z-index: 1030; background-color: rgba(142, 142, 142, 0.13); color: #fff; border-top: 1px solid rgba(78, 77, 72, 0.8); cursor: pointer;">
+<div class="p-2" id="chat-container" style="position: fixed; max-width: 350px; right: 10px; bottom: 10px; z-index: 1030; background-color: rgba(142, 142, 142, 0.13); color: #fff; border-top: 1px solid rgba(78, 77, 72, 0.8); cursor: pointer;">
     <div class="d-flex align-items-center justify-content-between" id="chat-header">
         <h6 class="mb-0 text-white">Global Chat</h6>
         <span class="btn btn-sm btn-secondary text-white" id="toggle-chat" style="background-color: rgba(78, 77, 72, 0.8); border-color: rgba(78, 77, 72, 0.8); font-size: 0.75rem;">-</span>
@@ -50,7 +50,6 @@ require "header.php";
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
 $(document).ready(function () {
@@ -62,11 +61,7 @@ $(document).ready(function () {
         const chatContainer = $('#chat-container');
 
         // Toggle classes to animate open/closed states
-        if (chatContainer.hasClass('closed')) {
-            chatContainer.removeClass('closed').addClass('open');
-        } else {
-            chatContainer.removeClass('open').addClass('closed');
-        }
+        chatContainer.toggleClass('open closed');
         
         // Slide toggle for chatbox and input
         $('#chatbox').slideToggle(300);
