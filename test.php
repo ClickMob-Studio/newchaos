@@ -51,8 +51,8 @@ $(document).ready(function () {
                     $('#chatbox').html('');
                     messages.reverse().forEach(function (message) {
                         // Append messages and check for images
-                        let deleteButton = isAdmin ? `<button class="btn btn-sm btn-danger delete-message" data-id="${message.id}" style="margin-left: 10px;">Delete</button>` : '';
-                        $('#chatbox').append(`<p class="mb-1"><span style="font-size: 70%;" class="text-white">${message.formatted_name}:</span> ${message.body} ${deleteButton}</p>`);
+                        let deleteButton = isAdmin ? `<button class="btn btn-sm delete-message" data-id="${message.id}" style="background: none; border: none; color: #ff4d4d; cursor: pointer;"><i class="fa fa-trash" aria-hidden="true"></i></button>` : '';
+                        $('#chatbox').append(`<p class="mb-1 d-flex justify-content-between align-items-center" style="padding: 0 5px;"><span class="text-white" style="font-size: 70%;">${message.formatted_name}:</span> <span>${message.body}</span> ${deleteButton}</p>`);
                     });
 
                     // Check for images and limit their size
@@ -161,30 +161,30 @@ $(document).ready(function () {
         $('#message').focus();
     });
 
-    /// Delete message on button click
-$(document).on('click', '.delete-message', function () {
-    let messageId = $(this).data('id');
-    if (confirm('Are you sure you want to delete this message?')) {
-        $.ajax({
-            url: 'api/delete_message.php',
-            method: 'POST',
-            data: {
-                message_id: messageId
-            },
-            success: function (response) {
-                let result = JSON.parse(response);
-                if (result.status === 'success') {
-                    fetchMessages();
-                } else {
-                    alert(result.message);
+    // Delete message on button click
+    $(document).on('click', '.delete-message', function () {
+        let messageId = $(this).data('id');
+        if (confirm('Are you sure you want to delete this message?')) {
+            $.ajax({
+                url: 'api/delete_message.php',
+                method: 'POST',
+                data: {
+                    message_id: messageId
+                },
+                success: function (response) {
+                    let result = JSON.parse(response);
+                    if (result.status === 'success') {
+                        fetchMessages();
+                    } else {
+                        alert(result.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Failed to delete the message.');
                 }
-            },
-            error: function (xhr, status, error) {
-                alert('Failed to delete the message.');
-            }
-        });
-    }
-});
+            });
+        }
+    });
 
 });
 </script>
