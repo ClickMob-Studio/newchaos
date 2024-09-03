@@ -1,7 +1,39 @@
 <?php
 require "header.php";
 ?>
+<style>
+    /* Chatbox animations */
+#chatbox {
+    transition: height 0.3s ease, opacity 0.3s ease;
+}
 
+/* Smooth transitions for the chat container */
+#chat-container.open {
+    bottom: 0px; /* Fully open position */
+    opacity: 1;
+    transition: bottom 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+#chat-container.closed {
+    bottom: -400px; /* Hidden position */
+    opacity: 0;
+}
+
+/* Emoji Picker animations */
+#emoji-picker {
+    display: none; /* Hide by default */
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+}
+
+#emoji-picker.open {
+    max-height: 200px; /* Maximum height when open */
+    opacity: 1;
+}
+
+</style>
 <div class="p-2" id="chat-container" style="position: fixed; max-width: 350px; right: 10px; bottom: 10px; z-index: 1030; background-color: rgba(142, 142, 142, 0.13); color: #fff; border-top: 1px solid rgba(78, 77, 72, 0.8); cursor: pointer;">
     <div class="d-flex align-items-center justify-content-between" id="chat-header">
         <h6 class="mb-0 text-white">Global Chat</h6>
@@ -18,25 +50,30 @@ require "header.php";
     </div>
 </div>
 
-<script>
-$(document).ready(function () {
+<script>$(document).ready(function () {
     // Check if user is an admin
     let isAdmin = <?php echo $user_class->admin > 0 ? 'true' : 'false'; ?>;
 
     // Toggle chat visibility when clicking the header
-    $('#chat-header, #toggle-chat').click(function() {
-        $('#chatbox, #chat-input-container').toggle();
-        let isExpanded = $('#chatbox').is(':visible');
-        $('#chat-container').css('background-color', isExpanded ? '#21201C' : 'rgba(142, 142, 142, 0.13)');
-        $('#toggle-chat').text(isExpanded ? '-' : '+');
-        if (isExpanded) {
-            scrollToBottom(); // Only scroll to the bottom when chat is expanded
-        }
+    $('#chat-header, #toggle-chat').click(function () {
+        const chatContainer = $('#chat-container');
+        const chatbox = $('#chatbox');
+        const inputContainer = $('#chat-input-container');
+
+        // Toggle classes for animation
+        chatContainer.toggleClass('open closed');
+
+        // Toggle visibility of chatbox and input with slide animation
+        chatbox.slideToggle(300);
+        inputContainer.slideToggle(300, function () {
+            if (chatbox.is(':visible')) {
+                scrollToBottom();
+            }
+        });
     });
 
     function fetchMessages() {
         const chatbox = $('#chatbox');
-        // Save the current scroll position
         const previousScrollTop = chatbox.scrollTop();
         const isScrolledToBottom = chatbox[0].scrollHeight - chatbox.scrollTop() <= chatbox.outerHeight() + 1;
 
@@ -52,32 +89,22 @@ $(document).ready(function () {
                         return;
                     }
 
-                    // Temporarily disable scroll events to prevent jumping
                     chatbox.off('scroll');
-
-                    // Clear the chatbox and append new messages
                     $('#chatbox').html('');
                     messages.reverse().forEach(function (message) {
-                        // Append messages and check for images
                         let deleteButton = isAdmin ? `<button class="btn btn-sm delete-message" data-id="${message.id}" style="background: none; border: none; color: #ff4d4d; cursor: pointer;"><i class="fa fa-trash" aria-hidden="true"></i></button>` : '';
                         $('#chatbox').append(`<p class="mb-1 d-flex justify-content-between align-items-center" style="padding: 0 5px;"><span class="text-white" style="font-size: 70%;">${message.formatted_name}:</span> <span>${message.body}</span> ${deleteButton}</p>`);
                     });
 
-                    // Check for images and limit their size
-                    limitImageSize('#chatbox img', 100, 100); // Example limit: 100x100 pixels
+                    limitImageSize('#chatbox img', 100, 100);
 
-                    // Restore the previous scroll position if not at the bottom
                     if (isScrolledToBottom) {
                         scrollToBottom();
                     } else {
                         chatbox.scrollTop(previousScrollTop);
                     }
 
-                    // Re-enable scroll events
-                    chatbox.on('scroll', function () {
-                        // Additional scroll handling if needed
-                    });
-
+                    chatbox.on('scroll', function () {});
                 } catch (error) {
                     console.error('Error parsing JSON:', error, data);
                     $('#chatbox').html('<p>Error parsing the server response.</p>');
@@ -90,19 +117,14 @@ $(document).ready(function () {
         });
     }
 
-    // Function to limit the size of images
     function limitImageSize(selector, maxWidth, maxHeight) {
         $(selector).each(function () {
             const img = $(this);
             const imgWidth = img.width();
             const imgHeight = img.height();
-
-            // Calculate the scaling factor to maintain the aspect ratio
             const widthScale = maxWidth / imgWidth;
             const heightScale = maxHeight / imgHeight;
-            const scale = Math.min(widthScale, heightScale, 1); // Never upscale
-
-            // Apply new dimensions
+            const scale = Math.min(widthScale, heightScale, 1);
             img.css({
                 width: imgWidth * scale,
                 height: imgHeight * scale,
@@ -112,17 +134,14 @@ $(document).ready(function () {
         });
     }
 
-    // Scroll to the bottom of the chatbox
     function scrollToBottom() {
         $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
     }
 
-    // Send message on button click
     $('#send').on('click', function () {
         sendMessage();
     });
 
-    // Send message on Enter key press
     $('#message').on('keypress', function (e) {
         if (e.which === 13) {
             sendMessage();
@@ -130,7 +149,6 @@ $(document).ready(function () {
         }
     });
 
-    // Function to send a message
     function sendMessage() {
         let message = $('#message').val().trim();
         if (message === '') return;
@@ -138,7 +156,7 @@ $(document).ready(function () {
             url: 'api/send_message.php',
             method: 'POST',
             data: {
-                playerid: 1, // Replace with the actual player ID or dynamically retrieve it
+                playerid: 1,
                 body: message
             },
             success: function (response) {
@@ -153,32 +171,25 @@ $(document).ready(function () {
         });
     }
 
-    // Set an interval to fetch messages every 2 seconds
     setInterval(fetchMessages, 2000);
-
-    // Initial fetch of messages
     fetchMessages();
 
-    // Toggle emoji picker visibility
     $('#emoji-btn').on('click', function (e) {
         e.stopPropagation();
-        $('#emoji-picker').toggle();
+        $('#emoji-picker').toggleClass('open');
     });
 
-    // Hide emoji picker when clicking outside
     $(document).on('click', function () {
-        $('#emoji-picker').hide();
+        $('#emoji-picker').removeClass('open');
     });
 
-    // Insert emoji into the input field when clicked
     $(document).on('click', '#emoji-picker img', function () {
-        let emojiCode = $(this).attr('onclick').match(/'([^']+)'/)[1].trim(); // Extracts the emoji code
+        let emojiCode = $(this).attr('onclick').match(/'([^']+)'/)[1].trim();
         let currentText = $('#message').val();
         $('#message').val(currentText + emojiCode);
         $('#message').focus();
     });
 
-    // Delete message on button click
     $(document).on('click', '.delete-message', function () {
         let messageId = $(this).data('id');
         if (confirm('Are you sure you want to delete this message?')) {
@@ -202,7 +213,6 @@ $(document).ready(function () {
             });
         }
     });
-
 });
 
 </script>
