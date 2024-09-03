@@ -2,7 +2,7 @@
 
 include "../database/pdo_class.php";
 include "../classes.php";
-include "../includes/functions.php"; // Ensure this path is correct
+//include "../includes/functions.php"; // Ensure this path is correct
 
 // Fetch the latest 50 messages from the globalchat table
 // $db->query("SELECT * FROM globalchat ORDER BY id DESC LIMIT 50");
