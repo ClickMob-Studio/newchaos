@@ -4,7 +4,7 @@ $m = new Memcache();
 $m->addServer('127.0.0.1', 11212, 33);
 
 include_once "../includes/functions.php";
-include_once "../bbcode_parser.php"; // Include your BBCode parser file
+include_once "../codeparser.php"; 
 
 // Fetch the latest 50 messages from the globalchat table
 $db->query("SELECT * FROM globalchat ORDER BY id DESC LIMIT 50");
