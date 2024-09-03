@@ -36,45 +36,45 @@ $(document).ready(function () {
     // Fetch messages periodically
     function fetchMessages() {
         const chatbox = $('#chatbox');
-        const isScrolledToBottom = chatbox[0].scrollHeight - chatbox.scrollTop() === chatbox.outerHeight();
+        const isScrolledToBottom = chatbox[0].scrollHeight - chatbox.scrollTop() <= chatbox.outerHeight() + 1; // Check if user is near the bottom
+
         $.ajax({
-    url: 'api/fetch_messages.php', // Replace with your correct PHP script path
-    method: 'GET',
-    success: function (data) {
-        try {
-            // Parse the data and ensure it is an array
-            let messages = JSON.parse(data);
+            url: 'api/fetch_messages.php', // Replace with your correct PHP script path
+            method: 'GET',
+            success: function (data) {
+                try {
+                    let messages = JSON.parse(data);
 
-            // Check if messages is an array
-            if (!Array.isArray(messages)) {
-                console.error('Unexpected data format:', messages);
-                $('#chatbox').html('<p>Error: Unexpected data format received.</p>');
-                return;
-            }
+                    // Check if messages is an array
+                    if (!Array.isArray(messages)) {
+                        console.error('Unexpected data format:', messages);
+                        $('#chatbox').html('<p>Error: Unexpected data format received.</p>');
+                        return;
+                    }
 
-            console.log(messages); // Inspect the structure of the received data
-            $('#chatbox').html('');
-            messages.reverse().forEach(function (message) {
-                // Render the formatted_name as HTML
-                if (message.formatted_name) {
-                    // Append the message with the formatted username correctly
-                    $('#chatbox').append(`<p class="mb-1"><strong class="text-white">${message.formatted_name}:</strong> ${message.body}</p>`);
-                } else {
-                    $('#chatbox').append('<p class="mb-1"><strong>Unknown User:</strong> ' + message.body + '</p>');
+                    $('#chatbox').html('');
+                    messages.reverse().forEach(function (message) {
+                        if (message.formatted_name) {
+                            $('#chatbox').append(`<p class="mb-1"><strong class="text-white">${message.formatted_name}:</strong> ${message.body}</p>`);
+                        } else {
+                            $('#chatbox').append('<p class="mb-1"><strong>Unknown User:</strong> ' + message.body + '</p>');
+                        }
+                    });
+
+                    // Only scroll to the bottom if the user was already near the bottom
+                    if (isScrolledToBottom) {
+                        scrollToBottom();
+                    }
+                } catch (error) {
+                    console.error('Error parsing JSON:', error, data);
+                    $('#chatbox').html('<p>Error parsing the server response.</p>');
                 }
-            });
-            scrollToBottom();
-        } catch (error) {
-            console.error('Error parsing JSON:', error, data);
-            $('#chatbox').html('<p>Error parsing the server response.</p>');
-        }
-    },
-    error: function (xhr, status, error) {
-        console.error('AJAX Error:', status, error);
-        $('#chatbox').html('<p>Failed to fetch messages from the server.</p>');
-    }
-});
-
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', status, error);
+                $('#chatbox').html('<p>Failed to fetch messages from the server.</p>');
+            }
+        });
     }
 
     // Scroll to the bottom of the chatbox
@@ -125,5 +125,6 @@ $(document).ready(function () {
     // Initial fetch of messages
     fetchMessages();
 });
+
 </script>
 
