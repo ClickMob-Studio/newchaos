@@ -189,7 +189,7 @@ if ($user_class->hospital > 0) {
 $db->query("UPDATE grpgusers SET energy = energy - " . $energyneeded . " WHERE id = " . $user_class->id);
 $db->execute();
 
-mission('ba', 1, $user_class);
+// mission('ba', 1, $user_class);
 $toadd = array('baotd' => 1);
 ofthes($user_class->id, $toadd);
 
