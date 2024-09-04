@@ -125,6 +125,26 @@ $prestigeUnlocks['travel_cost_unlock'] = array(
     'name' => 'Travel Cost Reduction',
     'description' => 'Unlocking Travel Cost Reduction gives you a 20% reduction on all travel costs.'
 );
+// Travel Cost Reduction
+$prestigeUnlocks['travel_cost_unlock'] = array(
+    'name' => 'Travel Cost Reduction',
+    'description' => 'Unlocking Travel Cost Reduction gives you a 20% reduction on all travel costs.'
+);
+// BA Cash
+$prestigeUnlocks['ba_cash_unlock'] = array(
+    'name' => 'Ba Cash Boost',
+    'description' => 'Unlocking BA Cash Boost gives an extra 10% cash from all BA cash payouts.'
+);
+// Training Dummy Cash
+$prestigeUnlocks['training_dummy_cash_unlock'] = array(
+    'name' => 'City Goons Cash Boost',
+    'description' => 'Unlocking City Goons Cash Boost gives an extra 20% cash from all City Goon attacks.'
+);
+// Crime EXP
+$prestigeUnlocks['crime_exp_unlock'] = array(
+    'name' => 'Crime EXP Boost',
+    'description' => 'Unlocking Crime EXP Boost gives an extra 20% EXP from all crimes.'
+);
 
 $prestigeBoosts = array();
 $prestigeBoosts['energy_boost_level'] = '+50 Energy Boost';
