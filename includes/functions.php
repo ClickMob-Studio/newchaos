@@ -1013,8 +1013,11 @@ function raidMission($userId)
 
     return 1;
 }
-function mission($update, $howmany = 1,  $user_class = null)
-{
+function mission($update, $howmany = 1,  $user_class = null, $db = null)
+{  
+    if ($db === null) {
+  global $db;
+}
     global $db;
     if ($user_class === null) {
         global $user_class;
