@@ -1013,9 +1013,12 @@ function raidMission($userId)
 
     return 1;
 }
-function mission($update, $howmany = 1)
+function mission($update, $howmany = 1,  $user_class = null)
 {
-    global $user_class, $db;
+    global $db;
+    if ($user_class === null) {
+        global $user_class;
+    }
 
     $prestigeUserSkills = getUserPrestigeSkills($user_class);
     $pointsPayoutBoost = ($prestigeUserSkills['mission_point_boost_level'] > 0) 
