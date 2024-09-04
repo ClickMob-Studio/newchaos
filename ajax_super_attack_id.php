@@ -62,6 +62,11 @@ if (isset($_GET['v2']) && $_GET['v2'] == 'yes') {
     $attack_id = $db->fetch_single();
 }
 
+if ($user_class->id == 830) {
+    Send_Event(2, 'SA: ' . $user_class->city);
+    Send_Event(2, 'SA: ' . count($attack_id));
+}
+
 
 if ($attack_id > 0) {
     echo json_encode(array(
