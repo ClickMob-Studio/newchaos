@@ -433,6 +433,9 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 $resExpInc = $exp / 100 * $researchExpBoost;
                 $exp = $exp + $resExpInc;
             }
+            if ($userPrestigeSkills['crime_exp_unlock'] > 0) {
+                $exp = $exp + ($exp / 100  * 20);
+            }
             $exp = ceil($exp);
 
             $gtax = 0;

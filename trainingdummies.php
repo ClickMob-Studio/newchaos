@@ -24,6 +24,8 @@ if (count($trainingDummyUsers) < 1) {
     }
 }
 
+$userPrestigeSkills = getUserPrestigeSkills($user_class);
+
 $trainingDummyUsersIndexed = array();
 foreach ($trainingDummyUsers as $trainingDummyUser) {
     $trainingDummyUsersIndexed[$trainingDummyUser['training_dummy_id']] = $trainingDummyUser;
@@ -137,6 +139,10 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
         }
 
         $cashReward = mt_rand(50000, 250000);
+        if ($userPrestigeSkills['training_dummy_cash_unlock'] > 0) {
+            $cashReward = $cashReward + ($cashReward / 100 * 20);
+            $cashReward = ceil($cashReward);
+        }
 
         $db->query('UPDATE grpgusers SET energy = 0, money = money + ?, exp = exp + ? WHERE id = ?');
         $db->execute(array($cashReward, $expReward, $user_class->id));
