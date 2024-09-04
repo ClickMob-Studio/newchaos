@@ -2018,6 +2018,11 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
 
                 echo Message("You open your gym crate and inside find 400,000 points, 5 x Protein Bars, 5 x Gym Super Pills, 1 x Sound System!");
                 break;
+            case 283:
+                Give_Item(253, $user_class->id, 10);
+
+                echo Message("You open your Gold Rush Token Chest and find 10 x Gold Rush Tokens inside.");
+                break;
 
 case 197: // Nuke item
     // Check if the form has been submitted
