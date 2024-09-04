@@ -63,8 +63,8 @@ if (isset($_GET['v2']) && $_GET['v2'] == 'yes') {
 }
 
 if ($user_class->id == 830) {
-    Send_Event(2, 'SA: ' . $user_class->city);
-    Send_Event(2, 'SA: ' . count($attack_id));
+    Send_Event(2, 'SA: City ' . $user_class->city);
+    Send_Event(2, 'SA: Attacks ' . count($attack_id));
 }
 
 
