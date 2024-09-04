@@ -274,6 +274,10 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     if ($outcome <= 20) {
         // 20% Win Cash & EXP
         $cashWon = mt_rand(10,5000) * $userBaStats['level'];
+        if ($userPrestigeSkills['ba_cash_unlock'] > 0) {
+            $cashWon = $cashWon + ($cashWon / 100 * 10);
+            $cashWon = ceil($cashWon);
+        }
         $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 3));
         if ($user_class->level < 100) {
             $expWon = round(($user_class->maxexp / 100) * mt_rand(1, 8));
@@ -307,6 +311,10 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     } else if ($outcome <= 70) {
         // 40% Win Cash & Item
         $cashWon = mt_rand(10,5000) * $userBaStats['level'];
+        if ($userPrestigeSkills['ba_cash_unlock'] > 0) {
+            $cashWon = $cashWon + ($cashWon / 100 * 10);
+            $cashWon = ceil($cashWon);
+        }
         $baExpWon = mt_rand(5,25);
 
         $itemIds = array();
@@ -455,6 +463,10 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     } else if ($outcome <= 55) {
         // 30% Win Cash & EXP
         $cashWon = mt_rand(10,1000) * $userBaStats['level'];
+        if ($userPrestigeSkills['ba_cash_unlock'] > 0) {
+            $cashWon = $cashWon + ($cashWon / 100 * 10);
+            $cashWon = ceil($cashWon);
+        }
         $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 2));
         if ($user_class->level < 100) {
             $expWon = round(($user_class->maxexp / 100) * mt_rand(1, 4));
@@ -488,6 +500,10 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     } else if ($outcome <= 85) {
         // 30% Win Cash & Item
         $cashWon = mt_rand(100,1500) * $userBaStats['level'];
+        if ($userPrestigeSkills['ba_cash_unlock'] > 0) {
+            $cashWon = $cashWon + ($cashWon / 100 * 10);
+            $cashWon = ceil($cashWon);
+        }
         $baExpWon = mt_rand(1,15);
 
 
