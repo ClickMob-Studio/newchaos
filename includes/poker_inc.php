@@ -1,5 +1,7 @@
 <?php
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include "gen_inc.php";
 $addons->get_hooks(array(), array(
     'page'     => 'includes/poker_inc.php',
@@ -11,49 +13,39 @@ $final_cards = array();
 
 function ops_minify_html($input)
 {
-    if (trim($input) === "") {
+    if (trim($input) === "")
         return $input;
-    }
 
-    // Minify the input HTML tags
     $input = preg_replace_callback(
-        '#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s',
-        create_function(
-            '$matches',
-            'return "<" . $matches[1] . preg_replace(
-                "#([^\s=]+)(\=([\'\"]?)(.*?)\3)?(\s+|$)#s",
-                " $1$2",
-                isset($matches[2]) ? $matches[2] : ""
-            ) . (isset($matches[3]) ? $matches[3] : "") . ">";'
-        ),
+        '#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s', 
+        create_function('$matches', 'return "<" . $matches[1] . preg_replace("#([^\s=]+)(\=([\'"]?)(.*?)\3)?(\s+|$)#s", " $1$2", $matches[2]) . $matches[3] . ">";'),
         str_replace("\r", "", $input)
     );
 
-    // Minify style tags
+    if (strpos($input, ' style=') !== false) {
+        $input = preg_replace_callback(
+            '#<([^<]+?)\s+style=([\'"])(.*?)\2(?=[\/\s>])#s', 
+            create_function('$matches', 'return "<" . $matches[1] . " style=" . $matches[2] . ops_minify_css($matches[3]) . $matches[2];'), 
+            $input
+        );
+    }
+
     if (strpos($input, '</style>') !== false) {
         $input = preg_replace_callback(
-            '#<style(.*?)>(.*?)</style>#is',
-            create_function(
-                '$matches',
-                'return "<style" . $matches[1] . ">" . ops_minify_css($matches[2]) . "</style>";'
-            ),
+            '#<style(.*?)>(.*?)</style>#is', 
+            create_function('$matches', 'return "<style" . $matches[1] . ">" . ops_minify_css($matches[2]) . "</style>";'), 
             $input
         );
     }
 
-    // Minify script tags
     if (strpos($input, '</script>') !== false) {
         $input = preg_replace_callback(
-            '#<script(.*?)>(.*?)</script>#is',
-            create_function(
-                '$matches',
-                'return "<script" . $matches[1] . ">" . ops_minify_js($matches[2]) . "</script>";'
-            ),
+            '#<script(.*?)>(.*?)</script>#is', 
+            create_function('$matches', 'return "<script" . $matches[1] . ">" . ops_minify_js($matches[2]) . "</script>";'), 
             $input
         );
     }
 
-    // Minify the HTML content by removing unnecessary whitespace and comments
     return preg_replace(
         array(
             '#<(img|input)(>| .*?>)#s',
@@ -82,7 +74,6 @@ function ops_minify_html($input)
         $input
     );
 }
-
 
 
 function ops_minify_css($input)
