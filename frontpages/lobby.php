@@ -1,5 +1,5 @@
 <?php 
-require('includes/inc_lobby.php');
+require('../includes/inc_lobby.php');
 
 $addons->get_hooks(array(), array(
     'page'     => 'lobby.php',
