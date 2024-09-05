@@ -25,6 +25,7 @@ $themeCF  = $themeCFN;
 if (!file_exists($themeCF)) $themeCF = 'includes/' . $themeCF;
 if (!file_exists($themeCF)) $themeCF = '../' . $themeCF;
 if (!file_exists($themeCF)) die("Theme not found");
+var_dump($themeCF);
 require_once $themeCF;
 
 /* THEME */
