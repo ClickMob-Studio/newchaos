@@ -16,6 +16,33 @@ foreach ($operations as $operation) {
 $db->query("SELECT * FROM `user_operations` WHERE `user_id` = ? AND (`is_complete` = 0 OR `is_complete` IS NULL) AND (`is_skipped` = 0 OR `is_skipped` IS NULL) ORDER BY `id` DESC LIMIT 1");
 $db->execute(array($user_class->id));
 $currentUserOperation = $db->fetch_row(true);
+
+$nextOperationsIndexedOnCategory = array();
+foreach ($indexedOperations as $category => $operations) {
+    $db->query("
+        SELECT * FROM 
+            `user_operations` AS `uo` 
+            LEFT JOIN `operations` AS `o` ON `uo.operation_id` = `o.id`
+        WHERE 
+            `uo.user_id` = ? AND (`is_complete` = 1 OR `is_skipped` = 1)
+            AND `o.category` = ?        
+        ORDER BY 
+            `id` DESC 
+        LIMIT 1");
+    $db->execute(array($user_class->id, $category));
+    $lastUserOperation = $db->fetch_row(true);
+
+    if ($lastUserOperation && isset($lastUserOperation['id'])) {
+        $nextUserOperation = $lastUserOperation['id'] + 1;
+    } else {
+        $nextUserOperation = 1;
+    }
+
+    $nextOperationsIndexedOnCategory[$category] = $nextUserOperation;
+}
+
+var_dump($nextOperationsIndexedOnCategory); 
+
 ?>
 
 <h1>Operations</h1><hr />
