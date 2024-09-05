@@ -16,7 +16,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 // Include necessary files
 require_once '../dbcon.php';
-require_once '../includes/tables.php';
+//require_once '../includes/tables.php';
 require_once '../includes/settings.php';
 
 /* THEME */
