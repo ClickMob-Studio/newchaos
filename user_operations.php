@@ -42,8 +42,6 @@ foreach ($indexedOperations as $category => $operations) {
     $nextOperationsIndexedOnCategory[$category] = $nextUserOperation;
 }
 
-var_dump($nextOperationsIndexedOnCategory);
-
 ?>
 
 <h1>Operations</h1><hr />
@@ -150,18 +148,27 @@ var_dump($nextOperationsIndexedOnCategory);
             <div class="row">
                 <div class="col-md-6">
                     <table class="new_table">
-                        <tr>
-                            <th>Crime Cash #1</th>
-                        </tr>
-                        <tr>
-                            <td>1,000,000 Crimes</td>
-                        </tr>
-                        <tr>
-                            <td>$100,000</td>
-                        </tr>
-                        <tr>
-                            <td><a href="#">Start Operation</a></td>
-                        </tr>
+                        <?php $next = $nextOperationsIndexedOnCategory['crime_cash'] ?>
+                        <?php if (isset($indexedOperations['crime_cash'][$next])): ?>
+                            <?php $toUse = $indexedOperations['crime_cash'][$next]; ?>
+                            <tr>
+                                <th>Crime Cash #<?php echo $toUse['id'] ?></th>
+                            </tr>
+                            <tr>
+                                <td><?php echo number_format($toUse['crimes'], 0) ?> Crimes</td>
+                            </tr>
+                            <tr>
+                                <td>$<?php echo number_format($toUse['money_reward'], 0) ?></td>
+                            </tr>
+                            <tr>
+                                <td><a href="user_operations.php?start=<?php echo $toUse['id'] ?>">Start Operation</a></td>
+                            </tr>
+                        <?php else: ?>
+                            <tr>
+                                <th>Crime Cash</th>
+                                <td>Operations Complete</td>
+                            </tr>
+                        <?php endif; ?>
                     </table>
                 </div>
                 <div class="col-md-6">
