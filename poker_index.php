@@ -10,6 +10,10 @@ if ($pagename != "poker") {
     session_start();
 }
 
+// Display errors for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 // Include general include file unless pagename is 'approve' or 'logout'
 if (!in_array($pagename, array('approve', 'logout'))) {
