@@ -1,6 +1,8 @@
 <?php
 
-define('BASE_DIR', dirname(__FILE__));
+define('BASE_DIR', realpath(__DIR__));
+echo "Base Directory: " . BASE_DIR; // Debugging line
+exit;
 
 // Start the session if not already started
 if (session_status() == PHP_SESSION_NONE) {
