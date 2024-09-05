@@ -1,5 +1,7 @@
 <?php
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include "gen_inc.php";
 $addons->get_hooks(array(), array(
     'page'     => 'includes/poker_inc.php',
