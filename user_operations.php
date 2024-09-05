@@ -121,6 +121,36 @@ $currentUserOperation = $db->fetch_row(true);
             <h1>Crimes</h1><hr />
             <div class="row">
                 <div class="col-md-6">
+                    <table class="new_table">
+                        <tr>
+                            <th>Crime Cash #1</th>
+                        </tr>
+                        <tr>
+                            <td>1,000,000 Crimes</td>
+                        </tr>
+                        <tr>
+                            <td>$100,000</td>
+                        </tr>
+                        <tr>
+                            <a href="#">Start Operation</a>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="new_table">
+                        <tr>
+                            <th>Crime Points #1</th>
+                        </tr>
+                        <tr>
+                            <td>1,000,000 Crimes</td>
+                        </tr>
+                        <tr>
+                            <td>100,000 Points</td>
+                        </tr>
+                        <tr>
+                            <a href="#">Start Operation</a>
+                        </tr>
+                    </table>
                 </div>
             </div>
         <?php endif; ?>
