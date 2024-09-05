@@ -161,7 +161,7 @@ foreach ($indexedOperations as $category => $operations) {
                                 <td>$<?php echo number_format($toUse['money_reward'], 0) ?></td>
                             </tr>
                             <tr>
-                                <td><a href="user_operations.php?start=<?php echo $toUse['id'] ?>">Start Operation</a></td>
+                                <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $toUse['id'] ?>">Start Operation</a></td>
                             </tr>
                         <?php else: ?>
                             <tr>
