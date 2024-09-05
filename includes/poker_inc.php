@@ -11,21 +11,41 @@ $final_cards = array();
 
 function ops_minify_html($input)
 {
-    if (trim($input) === "")
+    if (trim($input) === "") {
         return $input;
+    }
 
-        $input = preg_replace_callback(
-            '#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s', 
-            create_function('$matches', 'return "<" . $matches[1] . preg_replace("#([^\s=]+)(\=([\'\"]?)(.*?)\3)?(\s+|$)#s", " $1$2", $matches[2]) . $matches[3] . ">";'),
-            str_replace("\r", "", $input)
-        );
-        
-
+    // First replacement
     $input = preg_replace_callback(
-    '#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s', 
-    create_function('$matches', 'return "<" . $matches[1] . preg_replace("#([^\s=]+)(\=([\'\"]?)(.*?)\3)?(\s+|$)#s", " $1$2", $matches[2]) . $matches[3] . ">";'),
-    str_replace("\r", "", $input)
-);
+        '#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s',
+        create_function(
+            '$matches',
+            'return "<" . $matches[1] . preg_replace(
+                "#([^\s=]+)(\=([\'\"]?)(.*?)\3)?(\s+|$)#s",
+                " $1$2",
+                isset($matches[2]) ? $matches[2] : ""
+            ) . (isset($matches[3]) ? $matches[3] : "") . ">";'
+        ),
+        str_replace("\r", "", $input)
+    );
+
+    // Second replacement (which seems redundant, but kept as per your original function)
+    $input = preg_replace_callback(
+        '#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s',
+        create_function(
+            '$matches',
+            'return "<" . $matches[1] . preg_replace(
+                "#([^\s=]+)(\=([\'\"]?)(.*?)\3)?(\s+|$)#s",
+                " $1$2",
+                isset($matches[2]) ? $matches[2] : ""
+            ) . (isset($matches[3]) ? $matches[3] : "") . ">";'
+        ),
+        str_replace("\r", "", $input)
+    );
+
+    return $input;
+}
+
 
 
     if (strpos($input, '</style>') !== false) {
