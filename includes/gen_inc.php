@@ -35,6 +35,8 @@ if (!file_exists($addonClassFile)) $addonClassFile = 'includes/' . $addonClassFi
 if (!file_exists($addonClassFile)) $addonClassFile = '../' . $addonClassFile;
 if (!file_exists($addonClassFile)) die("Addon class not found");
 
+var_dump($addonClassFile);
+
 require_once $addonClassFile;
 
 $addonDir      = str_replace($addonClassFileName, '', $addonClassFile) . 'addons';
