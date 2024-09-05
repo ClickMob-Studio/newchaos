@@ -41,6 +41,7 @@ foreach ($indexedOperations as $category => $operations) {
 
     $nextOperationsIndexedOnCategory[$category] = $nextUserOperation;
 }
+var_dump($nextOperationsIndexedOnCategory);
 
 ?>
 
