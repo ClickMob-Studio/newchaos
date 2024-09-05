@@ -16,19 +16,19 @@ function ops_minify_html($input)
     if (trim($input) === "")
         return $input;
 
-    $input = preg_replace_callback(
-        '#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s', 
-        create_function('$matches', 'return "<" . $matches[1] . preg_replace("#([^\s=]+)(\=([\'"]?)(.*?)\3)?(\s+|$)#s", " $1$2", $matches[2]) . $matches[3] . ">";'),
-        str_replace("\r", "", $input)
-    );
-
-    if (strpos($input, ' style=') !== false) {
         $input = preg_replace_callback(
-            '#<([^<]+?)\s+style=([\'"])(.*?)\2(?=[\/\s>])#s', 
-            create_function('$matches', 'return "<" . $matches[1] . " style=" . $matches[2] . ops_minify_css($matches[3]) . $matches[2];'), 
-            $input
+            '#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s', 
+            create_function('$matches', 'return "<" . $matches[1] . preg_replace("#([^\s=]+)(\=([\'\"]?)(.*?)\3)?(\s+|$)#s", " $1$2", $matches[2]) . $matches[3] . ">";'),
+            str_replace("\r", "", $input)
         );
-    }
+        
+
+    $input = preg_replace_callback(
+    '#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s', 
+    create_function('$matches', 'return "<" . $matches[1] . preg_replace("#([^\s=]+)(\=([\'\"]?)(.*?)\3)?(\s+|$)#s", " $1$2", $matches[2]) . $matches[3] . ">";'),
+    str_replace("\r", "", $input)
+);
+
 
     if (strpos($input, '</style>') !== false) {
         $input = preg_replace_callback(
