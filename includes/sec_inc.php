@@ -1,99 +1,101 @@
 <?php
 session_start();
 
-if (isset($_GET['debug']))
-{
+// Debug mode setup
+if (isset($_GET['debug'])) {
     ini_set('display_errors', true);
     ini_set("log_errors", 1);
     error_reporting(E_ALL);
-}
-else
-{
+} else {
     ini_set('display_errors', false);
     error_reporting(0);
 }
 
+// Required configuration and settings
 require_once 'config.inc.php';
-
 require 'tables.php';
 require 'settings.php';
 
-
 /* THEME */
-if (! isset($opsTheme))
-{
-	$themeCFN = 'Theme.class.php';
-	$themeCF  = $themeCFN;
-	if (!file_exists($themeCF)) $themeCF = 'includes/' . $themeCF;
-	if (!file_exists($themeCF)) $themeCF = '../' . $themeCF;
-	if (!file_exists($themeCF)) die();
-	require($themeCF);
-}
-/* THEME */
+if (!isset($opsTheme)) {
+    $themeCFN = 'Theme.class.php';
+    $themeCF  = $themeCFN;
 
+    // Check various paths for the Theme class
+    if (!file_exists($themeCF)) $themeCF = 'includes/' . $themeCF;
+    if (!file_exists($themeCF)) $themeCF = '../' . $themeCF;
+    if (!file_exists($themeCF)) die("Theme class file not found.");
 
-if (! isset($addons))
-{
-	$addonClassFileName = 'Addon.class.php';
-	$addonClassFile     = $addonClassFileName;
-	
-	if (!file_exists($addonClassFile))
-	    $addonClassFile = 'includes/' . $addonClassFile;
-	if (!file_exists($addonClassFile))
-	    $addonClassFile = '../' . $addonClassFile;
-	if (!file_exists($addonClassFile))
-	    die();
-	
-	$addonDir = str_replace($addonClassFileName, '', $addonClassFile) . 'addons';
-	
-	require($addonClassFile);
-	$addonSettings = array();
-	$addons        = new \OPSAddon();
-	require($addonDir . '/autoloader.php');
+    require($themeCF);
 }
 
+/* THEME */
+
+if (!isset($addons)) {
+    $addonClassFileName = 'Addon.class.php';
+    $addonClassFile     = $addonClassFileName;
+
+    // Check various paths for the Addon class
+    if (!file_exists($addonClassFile)) $addonClassFile = 'includes/' . $addonClassFile;
+    if (!file_exists($addonClassFile)) $addonClassFile = '../' . $addonClassFile;
+    if (!file_exists($addonClassFile)) die("Addon class file not found.");
+
+    // Set the addons directory
+    $addonDir = str_replace($addonClassFileName, '', $addonClassFile) . 'addons';
+
+    require($addonClassFile);
+    $addonSettings = array();
+    $addons        = new OPSAddon(); // Removed the namespace slash for PHP 5.6 compatibility
+    require($addonDir . '/autoloader.php');
+}
+
+// Execute addon hooks
 echo $addons->get_hooks(array(), array(
     'page'     => 'includes/sec_inc.php',
-    'location'  => 'start'
+    'location' => 'start'
 ));
 
 require 'poker_inc.php';
 
-$plyrname = addslashes($_SESSION['username']);
-$SGUID    = addslashes($_SESSION['id']);
+// Retrieve player details from session
+$plyrname = isset($_SESSION['username']) ? addslashes($_SESSION['username']) : 'Chaos';
+$SGUID    = isset($_SESSION['id']) ? addslashes($_SESSION['id']) : '';
 
-if ($plyrname == '' || $SGUID == '')
-{
-	die("no playrname or guid set!");
+if ($plyrname == '' || $SGUID == '') {
+    die("no player name or GUID set!");
 }
 
 $valid  = false;
 $gameID = '';
 $gID    = '';
-$idq    = $pdo->prepare("select GUID, vID, gID, banned from " . DB_PLAYERS . " where username = '" . $plyrname . "' and GUID = '" . $SGUID . "'"); $idq->execute();
-$idr    = $idq->fetch(PDO::FETCH_ASSOC);
 
-if ($idq->rowCount() == 1 && $idr['banned'] != 1)
-{
+// Prepare and execute query to validate player
+$idq = $pdo->prepare("SELECT GUID, vID, gID, banned FROM " . DB_PLAYERS . " WHERE username = :plyrname AND GUID = :sguid");
+$idq->execute(array(':plyrname' => $plyrname, ':sguid' => $SGUID));
+$idr = $idq->fetch(PDO::FETCH_ASSOC);
+
+// Check if user is valid and not banned
+if ($idq->rowCount() == 1 && $idr['banned'] != 1) {
     $valid  = true;
     $gameID = $idr['vID'];
     $gID    = $idr['gID'];
-    
-    //$getstats = $pdo->prepare("select * from ".DB_STATS." where player = '{$plyrname}' ");
-    $getstats = $pdo->prepare("select a.*, b.bank from ".DB_STATS." a, grpgusers b where a.player = '{$plyrname}' and a.player=b.username ");
-    $getstats->execute();
+
+    // Fetch user stats
+    $getstats = $pdo->prepare("SELECT a.*, b.bank FROM " . DB_STATS . " a, grpgusers b WHERE a.player = :plyrname AND a.player = b.username");
+    $getstats->execute(array(':plyrname' => $plyrname));
     $usestats = $getstats->fetch(PDO::FETCH_ASSOC);
 
-    $current_chipcount = $usestats['b.bank'];
-    $current_money = money($usestats['b.bank']);
+    $current_chipcount = isset($usestats['bank']) ? $usestats['bank'] : 0;
+    $current_money = money($current_chipcount);
 
+    // Set theme variables
     $opsTheme->addVariable('current_chipcount', $current_chipcount);
-    $opsTheme->addVariable('current_money',     $current_money);
+    $opsTheme->addVariable('current_money', $current_money);
     $opsTheme->addVariable('username', $plyrname);
 }
 
-if ($valid == false || $gameID == '')
-{
+// Check if the user is invalid or game ID is missing
+if ($valid == false || $gameID == '') {
     die("invalid user");
 }
 

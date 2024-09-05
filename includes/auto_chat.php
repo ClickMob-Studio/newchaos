@@ -6,99 +6,99 @@ echo $addons->get_hooks(
     array(),
     array(
         'page'     => 'includes/auto_chat.php',
-        'location'  => 'page_start'
+        'location' => 'page_start'
     )
 );
 
 $time = time();
 
-$cq = $pdo->query("SELECT * FROM " . DB_LIVECHAT . " WHERE gameID = " . $gameID);
+// Fetch live chat data
+$cq = $pdo->query("SELECT * FROM " . DB_LIVECHAT . " WHERE gameID = " . (int)$gameID);
 $cr = $cq->fetch(PDO::FETCH_ASSOC);
 $lastLog = '';
 
-if ($cr['updatescreen'] > $time)
-{
-    $i    = 1;
+if ($cr && $cr['updatescreen'] > $time) {
+    $i = 1;
     $chat = '';
 
-    while ($i < 6)
-    {
-        $cThis = $cr['c' . $i];
+    while ($i < 6) {
+        $cThis = isset($cr['c' . $i]) ? $cr['c' . $i] : '';
 
-        if (empty($cThis))
-        {
+        if (empty($cThis)) {
             $i++;
             continue;
         }
 
-        $lMsg = "<log>{$cThis}</log>";
+        $lMsg = "<log>" . htmlspecialchars($cThis, ENT_QUOTES, 'UTF-8') . "</log>";
         $lXml = simplexml_load_string($lMsg);
 
         $opsTheme->addVariable('chatter', array(
-            'id'     => (int) $lXml->user->id,
-            'name'   => (string) $lXml->user->name,
-            'avatar' => (string) $lXml->user->avatar,
+            'id'     => (int)$lXml->user->id,
+            'name'   => (string)$lXml->user->name,
+            'avatar' => (string)$lXml->user->avatar,
         ));
-        $opsTheme->addVariable('message', (string) $lXml->message);
+        $opsTheme->addVariable('message', (string)$lXml->message);
         $lastLog = $opsTheme->viewPart('poker-log-message');
 
         $chat .= $lastLog;
         $i++;
     }
-?>
-var chatxt = '<?php echo $chat; ?>';
-document.getElementById('chatdiv').innerHTML = chatxt;
+    ?>
+    var chatxt = '<?php echo addslashes($chat); ?>';
+    document.getElementById('chatdiv').innerHTML = chatxt;
 
-<?php if (!empty($cThis)) { ?>
-if (typeof(document.getElementById('tablelog')) != 'undefined')
-{
-    document.getElementById('tablelog').innerHTML = '<?php echo $lastLog; ?>';
-}
-<?php
+    <?php if (!empty($cThis)) { ?>
+    if (typeof document.getElementById('tablelog') != 'undefined') {
+        document.getElementById('tablelog').innerHTML = '<?php echo addslashes($lastLog); ?>';
     }
+    <?php } ?>
+<?php
 }
 
-$ucq = $pdo->query("SELECT * FROM " . DB_USERCHAT . " WHERE gameID = {$gameID}");
+// Fetch user chat data
+$ucq = $pdo->query("SELECT * FROM " . DB_USERCHAT . " WHERE gameID = " . (int)$gameID);
 $ucr = $ucq->fetch(PDO::FETCH_ASSOC);
 
-if ($ucr['updatescreen'] > $time)
-{
-    $i    = 1;
+if ($ucr && $ucr['updatescreen'] > $time) {
+    $i = 1;
     $chat = '';
 
-    while ($i < 6)
-    {
-        $cThis = $ucr['c' . $i];
+    while ($i < 6) {
+        $cThis = isset($ucr['c' . $i]) ? $ucr['c' . $i] : '';
 
-        if (empty($cThis))
-        {
+        if (empty($cThis)) {
             $i++;
             continue;
         }
 
-        $uMsg = "<chat>{$cThis}</chat>";
+        $uMsg = "<chat>" . htmlspecialchars($cThis, ENT_QUOTES, 'UTF-8') . "</chat>";
         $uXml = simplexml_load_string($uMsg);
 
         $opsTheme->addVariable('chatter', array(
-            'id'     => (int) $uXml->user->id,
-            'name'   => (string) $uXml->user->name,
-            'avatar' => (string) $uXml->user->avatar,
+            'id'     => (int)$uXml->user->id,
+            'name'   => (string)$uXml->user->name,
+            'avatar' => (string)$uXml->user->avatar,
         ));
-        $opsTheme->addVariable('message', (string) $uXml->message);
+        $opsTheme->addVariable('message', (string)$uXml->message);
 
-        if ($uXml->user->name == $plyrname)
+        if ((string)$uXml->user->name == $plyrname) {
             $chat .= $opsTheme->viewPart('poker-chat-message-me');
-        else
+        } else {
             $chat .= $opsTheme->viewPart('poker-chat-message-other');
+        }
 
         $i++;
     }
-?>
-var userchatxt = '<?php echo $chat; ?>';
-document.getElementById('userchatdiv').innerHTML = userchatxt;
+    ?>
+    var userchatxt = '<?php echo addslashes($chat); ?>';
+    document.getElementById('userchatdiv').innerHTML = userchatxt;
 
-if (userchatxt != '')
-    document.getElementById("chataudio").play();
-    !$('.poker__chat').hasClass('active') && $("#chatButton").addClass("newMsg");
-<?php
+    if (userchatxt != '') {
+        document.getElementById("chataudio").play();
+        if (!$('.poker__chat').hasClass('active')) {
+            $("#chatButton").addClass("newMsg");
+        }
+    }
+    <?php
 }
+?>
