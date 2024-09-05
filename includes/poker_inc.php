@@ -11,35 +11,48 @@ $final_cards = array();
 
 function ops_minify_html($input)
 {
-    if (trim($input) === "")
+    if (trim($input) === "") {
         return $input;
+    }
 
     $input = preg_replace_callback(
-        '#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s', 
-        create_function('$matches', 'return "<" . $matches[1] . preg_replace("#([^\s=]+)(\=([\'"]?)(.*?)\3)?(\s+|$)#s", " $1$2", $matches[2]) . $matches[3] . ">";'),
+        '#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s',
+        create_function(
+            '$matches',
+            'return "<" . $matches[1] . preg_replace("#([^\s=]+)(\=([\'"]?)(.*?)\3)?(\s+|$)#s", " $1$2", $matches[2]) . $matches[3] . ">";'
+        ),
         str_replace("\r", "", $input)
     );
 
     if (strpos($input, ' style=') !== false) {
         $input = preg_replace_callback(
-            '#<([^<]+?)\s+style=([\'"])(.*?)\2(?=[\/\s>])#s', 
-            create_function('$matches', 'return "<" . $matches[1] . " style=" . $matches[2] . ops_minify_css($matches[3]) . $matches[2];'), 
+            '#<([^<]+?)\s+style=([\'"])(.*?)\2(?=[\/\s>])#s',
+            create_function(
+                '$matches',
+                'return "<" . $matches[1] . " style=" . $matches[2] . ops_minify_css($matches[3]) . $matches[2];'
+            ),
             $input
         );
     }
 
     if (strpos($input, '</style>') !== false) {
         $input = preg_replace_callback(
-            '#<style(.*?)>(.*?)</style>#is', 
-            create_function('$matches', 'return "<style" . $matches[1] . ">" . ops_minify_css($matches[2]) . "</style>";'), 
+            '#<style(.*?)>(.*?)</style>#is',
+            create_function(
+                '$matches',
+                'return "<style" . $matches[1] . ">" . ops_minify_css($matches[2]) . "</style>";'
+            ),
             $input
         );
     }
 
     if (strpos($input, '</script>') !== false) {
         $input = preg_replace_callback(
-            '#<script(.*?)>(.*?)</script>#is', 
-            create_function('$matches', 'return "<script" . $matches[1] . ">" . ops_minify_js($matches[2]) . "</script>";'), 
+            '#<script(.*?)>(.*?)</script>#is',
+            create_function(
+                '$matches',
+                'return "<script" . $matches[1] . ">" . ops_minify_js($matches[2]) . "</script>";'
+            ),
             $input
         );
     }
