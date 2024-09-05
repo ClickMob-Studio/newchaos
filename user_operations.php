@@ -18,7 +18,7 @@ $db->execute(array($user_class->id));
 $currentUserOperation = $db->fetch_row(true);
 ?>
 
-<h1>Operations</h1>
+<h1>Operations</h1><hr />
 
 <div class="row">
     <div class="col-md-12">
@@ -118,7 +118,7 @@ $currentUserOperation = $db->fetch_row(true);
                 </tr>
             </table>
         <?php else: ?>
-            <h1>Crimes</h1><hr />
+            <h1>Crimes</h1>
             <div class="row">
                 <div class="col-md-6">
                     <table class="new_table">
