@@ -1,0 +1,31 @@
+
+	<!-- Latest compiled and minified CSS -->
+	{$styles}
+    
+	<!-- Latest compiled and minified JavaScript -->
+	{$scripts.header}
+	[jsPokerScript]
+	
+	
+	<h1 class="hideOnPokerTable">Poker</h1>
+	<nav id="head-nav" class="navbar navbar-expand-lg navbar-dark">
+		
+		<div class="container contentBox">
+			<a class="navbar-brand" href="lobby.php">Tables</a>
+			{$admin_nav <!-- html/parts/admin-nav.html -->}
+
+			<div class="collapse navbar-collapse" id="usernav">
+				<ul class="navbar-nav ml-auto">
+					<li class="navbar-nav ml-auto"><a class="nav-link" href="faq.php">FAQ</a>
+					<li class="navbar-nav ml-auto"><a class="nav-link" href="pokerrules.php">Rules</a>
+
+				</ul>
+			</div>
+
+			<div class="collapse navbar-collapse" id="adminnav">
+				<ul class="navbar-nav ml-auto">
+					{$nav_content <!-- html/parts/nav-each.html -->}
+				</ul>
+			</div>
+		</div>
+	</nav>
