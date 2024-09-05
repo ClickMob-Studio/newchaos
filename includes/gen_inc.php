@@ -9,7 +9,7 @@ if (session_status() == PHP_SESSION_NONE) {
 // Include necessary files
 require_once 'dbcon.php';
 //require_once '../includes/tables.php';
-require_once 'includes/settings.php';
+
 
 define('DB_USERCHAT', 'poker_userchat');
 define('DB_LIVECHAT', 'poker_livechat');
@@ -19,6 +19,7 @@ define('DB_POKER', 'poker_poker');
 define('DB_SITELOG', 'poker_sitelog');
 define('DB_SETTINGS', 'poker_settings');
 define('DB_STYLES', 'poker_styles');
+require_once 'includes/settings.php';
 /* THEME */
 $themeCFN = 'includes/Theme.class.php';
 $themeCF  = $themeCFN;
