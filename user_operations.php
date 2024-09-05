@@ -166,6 +166,8 @@ foreach ($indexedOperations as $category => $operations) {
                         <?php else: ?>
                             <tr>
                                 <th>Crime Cash</th>
+                            </tr>
+                            <tr>
                                 <td>Operations Complete</td>
                             </tr>
                         <?php endif; ?>
