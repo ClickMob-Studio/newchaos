@@ -55,6 +55,7 @@ require_once 'language.php';
 // Retrieve player name and session ID
 $plyrname = isset($_SESSION['username']) ? addslashes($_SESSION['username']) : 'Chaos';
 $SGUID    = isset($_SESSION['id']) ? addslashes($_SESSION['id']) : '';
+
 $_SESSION['playername'] = $plyrname;
 $_SESSION['SGUID'] = $SGUID;
 
@@ -87,7 +88,7 @@ if ($plyrname != '' && $SGUID != '') {
         $getstats = $pdo->prepare("SELECT a.*, b.bank FROM ".DB_STATS." a, grpgusers b WHERE a.player = :plyrname AND a.player = b.username");
         $getstats->execute(array(':plyrname' => $plyrname));
         $usestats = $getstats->fetch(PDO::FETCH_ASSOC);
-var_dump($userstat);
+var_dump($usestats);
         $current_chipcount = isset($usestats['bank']) ? $usestats['bank'] : 0;
         $current_money     = money($current_chipcount);
 
