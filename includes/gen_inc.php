@@ -97,6 +97,7 @@ if ($plyrname != '' && $SGUID != '') {
         $opsTheme->addVariable('sitecurrency', $sitecurrency);
     }
 }
+var_dump($opsTheme);
 
 if ($ADMIN) {
     $opsTheme->addVariable('is_admin', 1);
