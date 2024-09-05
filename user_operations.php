@@ -20,9 +20,9 @@ $currentUserOperation = $db->fetch_row(true);
 $nextOperationsIndexedOnCategory = array();
 foreach ($indexedOperations as $category => $operations) {
     $db->query("
-        SELECT * FROM 
+        SELECT uo.* FROM 
             user_operations AS uo
-            LEFT JOIN operations AS o ON uo.operation_id = o.id
+            LEFT JOIN operations AS o ON uo.operations_id = o.id
         WHERE 
             uo.user_id = ? 
             AND (uo.is_complete = 1 OR uo.is_skipped = 1)
