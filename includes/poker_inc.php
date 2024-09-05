@@ -1152,8 +1152,13 @@ function evaluate_texas_hand($player)
     if (!empty($results['4'])) $res = '4s';
     if (!empty($results['3']) && !empty($results['2']) || !empty($results['3']) > 1) $res = 'FH';
 
-    $multipair = array_keys(array_filter($ispair, fn($v) => $v == 2));
-    $threepair = array_keys(array_filter($ispair, fn($v) => $v == 3));
+    $multipair = array_keys(array_filter($ispair, function($v) {
+        return $v == 2;
+    }));
+    $threepair = array_keys(array_filter($ispair, function($v) {
+        return $v == 3;
+    }));
+    
     
     // High card calculations
     $hcs = array_slice(array_reverse(array_diff($sortvalues, $multipair)), 0, 5);
