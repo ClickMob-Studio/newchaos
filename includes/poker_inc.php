@@ -1169,14 +1169,15 @@ function evaluate_texas_hand($player)
 
     // Points based on poker hand ranking
     if (in_array($res, ['1pair', '2pair', 'FH'])) {
-        if ($res == '1pair') $points = (($multipair[0] ?? 0) * 10) + $high3;
-        if ($res == '2pair') $points = (($multipair[1] ?? 0) * 100) + (($multipair[0] ?? 0) * 10) + $high1;
-        if ($res == 'FH') $points = (($threepair[1] ?? 0) * 1000000) + (($multipair[1] ?? 0) * 100000);
+        if ($res == '1pair') $points = (isset($multipair[0]) ? $multipair[0] : 0) * 10 + $high3;
+        if ($res == '2pair') $points = (isset($multipair[1]) ? $multipair[1] : 0) * 100 + (isset($multipair[0]) ? $multipair[0] : 0) * 10 + $high1;
+        if ($res == 'FH') $points = (isset($threepair[1]) ? $threepair[1] : 0) * 1000000 + (isset($multipair[1]) ? $multipair[1] : 0) * 100000;
     } elseif ($res == '3s') {
         $points = max(array_keys($ispair, 3)) * 1000 + $high2;
     } elseif ($res == '4s') {
         $points = max(array_keys($ispair, 4)) * 10000000 + $high1;
     }
+    
 
     // Flush and straight calculations
     $flushsuit = array_search(max(array_count_values($flush)), array_count_values($flush));
