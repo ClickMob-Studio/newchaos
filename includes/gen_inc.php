@@ -1,13 +1,14 @@
 <?php
 
+define('BASE_DIR', __DIR__);
 
 // Start the session if not already started
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Include necessary files
-require_once 'dbcon.php';
+// Include necessary files using the base directory
+require_once BASE_DIR . '/dbcon.php';
 //require_once '../includes/tables.php';
 
 
