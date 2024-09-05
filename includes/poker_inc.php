@@ -1,4 +1,5 @@
-<?php$addons->get_hooks(array(), array(
+<?php
+$addons->get_hooks(array(), array(
     'page'     => 'includes/poker_inc.php',
     'location'  => 'page_start'
 ));
