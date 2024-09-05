@@ -87,6 +87,8 @@ function ops_minify_html($input)
 }
 
 
+
+
 function ops_minify_css($input)
 {
     if (trim($input) === "") {
