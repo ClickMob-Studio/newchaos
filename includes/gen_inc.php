@@ -55,6 +55,7 @@ require_once 'language.php';
 // Retrieve player name and session ID
 $plyrname = isset($_SESSION['username']) ? addslashes($_SESSION['username']) : 'Chaos';
 $SGUID    = isset($_SESSION['id']) ? addslashes($_SESSION['id']) : '';
+var_dump($plyername);
 $_SESSION['playername'] = $plyrname;
 $_SESSION['SGUID'] = $SGUID;
 
