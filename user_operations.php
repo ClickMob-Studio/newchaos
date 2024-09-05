@@ -41,7 +41,6 @@ foreach ($indexedOperations as $category => $operations) {
 
     $nextOperationsIndexedOnCategory[$category] = $nextUserOperation;
 }
-var_dump($nextOperationsIndexedOnCategory);
 
 ?>
 
@@ -150,7 +149,6 @@ var_dump($nextOperationsIndexedOnCategory);
                 <div class="col-md-6">
                     <table class="new_table">
                         <?php $next = $nextOperationsIndexedOnCategory['crimes_cash'] ?>
-                        <?php echo 'Next: ' . $next; ?>
                         <?php if (isset($indexedOperations['crimes_cash'][$next])): ?>
                             <?php $toUse = $indexedOperations['crimes_cash'][$next]; ?>
                             <tr>
