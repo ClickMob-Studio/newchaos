@@ -15,9 +15,9 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 // Include necessary files
-require_once '../dbcon.php';
-require_once '../includes/tables.php';
-require_once '../includes/settings.php';
+require_once 'dbcon.php';
+require_once 'includes/tables.php';
+require_once 'includes/settings.php';
 
 /* THEME */
 $themeCFN = 'includes/Theme.class.php';
@@ -42,7 +42,7 @@ $addons        = new OPSAddon();
 require_once $addonDir . '/autoloader.php';
 
 echo $addons->get_hooks(array(), array(
-    'page'     => '../includes/gen_inc.php',
+    'page'     => 'includes/gen_inc.php',
     'location' => 'start'
 ));
 
