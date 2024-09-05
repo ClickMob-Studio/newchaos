@@ -60,6 +60,7 @@ $_SESSION['SGUID'] = $SGUID;
 
 $valid = true;
 $ADMIN = isset($user_class) && $user_class->admin > 0;
+var_dump($user_class);
 $gID   = '';
 $opsTheme->addVariable('is_admin', 0);
 $opsTheme->addVariable('is_logged', 0);
