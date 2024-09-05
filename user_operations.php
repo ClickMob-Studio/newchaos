@@ -7,8 +7,12 @@ $operations = $db->fetch_row();
 
 $indexedOperations = array();
 foreach ($operations as $operation) {
-    $indexedOperations[$operation['id']] = $operation;
+    if (!isset($indexedOperations[$operation['category']])) {
+        $indexedOperations[$operation['category']] = array();
+    }
+    $indexedOperations[$operation['category']][$operation['id']] = $operation;
 }
+print_r($indexedOperations); exit;
 
 $db->query("SELECT * FROM `user_operations` WHERE `user_id` = ? AND (`is_complete` = 1 OR `is_skipped` = 1) ORDER BY `id` DESC LIMIT 1");
 $db->execute(array($user_class->id));
@@ -31,109 +35,13 @@ if (isset($indexedOperations[$nextUserOperation])) {
 
 <div class="row">
     <div class="col-md-12">
-        <?php if ($currentOperation): ?>
-            <div class="table-container">
-                <table class="new_table" id="newtables" style="width:100%;">
-                    <tr>
-                        <th colspan="2">Operation #<?php echo $currentOperation['id'] ?></th>
-                    </tr>
+        <h1>Crimes</h1><hr />
+        <div class="row">
+            <div class="col-md-6">
 
-                    <!-- CRIMES -->
-                    <tr>
-                        <th>
-                            Crimes
-                        </th>
-                        <td>
-                            0/<?php echo number_format($currentOperation['crimes'], 0) ?>
-                        </td>
-                    </tr>
-
-                    <!-- MUGS -->
-                    <tr>
-                        <th>
-                            Mugs
-                        </th>
-                        <td>
-                            0/<?php echo number_format($currentOperation['mugs'], 0) ?>
-                        </td>
-                    </tr>
-
-                    <!-- BUSTS -->
-                    <tr>
-                        <th>
-                            Busts
-                        </th>
-                        <td>
-                            0/<?php echo number_format($currentOperation['busts'], 0) ?>
-                        </td>
-                    </tr>
-
-                    <!-- ONLINE ATTACKS -->
-                    <tr>
-                        <th>
-                            Online Attacks
-                        </th>
-                        <td>
-                            0/<?php echo number_format($currentOperation['online_attacks'], 0) ?>
-                        </td>
-                    </tr>
-
-                    <!-- OFFLINE ATTACKS -->
-                    <tr>
-                        <th>
-                            Offline Attacks
-                        </th>
-                        <td>
-                            0/<?php echo number_format($currentOperation['offline_attacks'], 0) ?>
-                        </td>
-                    </tr>
-
-                    <!-- FULL ENERGY TRAINS -->
-                    <tr>
-                        <th>
-                            Full Energy Trains
-                        </th>
-                        <td>
-                            0/<?php echo number_format($currentOperation['full_energy_trains'], 0) ?>
-                        </td>
-                    </tr>
-
-                    <!-- CITY BOSS WINS -->
-                    <tr>
-                        <th>
-                            City Boss Wins
-                        </th>
-                        <td>
-                            0/<?php echo number_format($currentOperation['city_boss_wins'], 0) ?>
-                        </td>
-                    </tr>
-
-                    <!-- BACKALLEY WINS -->
-                    <tr>
-                        <th>
-                            Backalley Wins
-                        </th>
-                        <td>
-                            0/<?php echo number_format($currentOperation['backalley_wins'], 0) ?>
-                        </td>
-                    </tr>
-
-                    <!-- RAIDS -->
-                    <tr>
-                        <th>
-                            Raids
-                        </th>
-                        <td>
-                            0/<?php echo number_format($currentOperation['raids'], 0) ?>
-                        </td>
-                    </tr>
-                </table>
             </div>
-        <?php else: ?>
-            <div class="alert alert-danger">
-                <p>You do not have anymore operations to complete.</p>
-            </div>
-        <?php endif; ?>
+        </div>
+
     </div>
 </div>
 
