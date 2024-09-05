@@ -16,7 +16,6 @@ $sql        = $addons->get_hooks(
         'location'  => 'tq_sql',
     )
 );
-echo "SQL Query: " . $sql . "<br>";
 $tq         = $pdo->query($sql);
 $tr         = $tq->fetch(PDO::FETCH_ASSOC);
 $tablehand  = $tr['hand'];
