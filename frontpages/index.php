@@ -16,8 +16,8 @@ echo $addons->get_hooks(array(), array(
 ));
 
 
-include 'includes/scores.php';
-$opsTheme->addVariable('scoreboard', $scoreboard);
+// include 'includes/scores.php';
+// $opsTheme->addVariable('scoreboard', $scoreboard);
 
 // addon hook for index page content
 $lhpc = $addons->get_hooks(
