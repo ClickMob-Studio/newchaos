@@ -132,7 +132,7 @@ $currentUserOperation = $db->fetch_row(true);
                             <td>$100,000</td>
                         </tr>
                         <tr>
-                            <a href="#">Start Operation</a>
+                            <td><a href="#">Start Operation</a></td>
                         </tr>
                     </table>
                 </div>
@@ -148,7 +148,7 @@ $currentUserOperation = $db->fetch_row(true);
                             <td>100,000 Points</td>
                         </tr>
                         <tr>
-                            <a href="#">Start Operation</a>
+                            <td><a href="#">Start Operation</a></td>
                         </tr>
                     </table>
                 </div>
