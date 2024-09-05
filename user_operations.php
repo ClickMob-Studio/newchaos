@@ -21,14 +21,14 @@ $nextOperationsIndexedOnCategory = array();
 foreach ($indexedOperations as $category => $operations) {
     $db->query("
         SELECT * FROM 
-            `user_operations` AS `uo` 
-            LEFT JOIN `operations` AS `o` ON `uo.operation_id` = `o.id`
+            user_operations AS uo
+            LEFT JOIN operations AS o ON uo.operation_id = o.id
         WHERE 
-            `uo.user_id` = ? 
-            AND (`uo.is_complete` = 1 OR `uo.is_skipped` = 1)
-            AND `o.category` = ?        
+            uo.user_id = ? 
+            AND (uo.is_complete = 1 OR uo.is_skipped = 1)
+            AND o.category = ?        
         ORDER BY 
-            `uo.id` DESC 
+            uo.id DESC 
         LIMIT 1");
     $db->execute(array($user_class->id, $category));
     $lastUserOperation = $db->fetch_row(true);
