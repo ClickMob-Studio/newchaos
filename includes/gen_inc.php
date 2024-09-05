@@ -2,9 +2,7 @@
 
 define('BASE_DIR', dirname(__DIR__)); // Goes up one level from the current directory
 
-// Debug to verify the correct base directory
-echo "Base Directory: " . BASE_DIR; // This should now output: /home/chaoscit/public_html
-exit;
+
 
 // Start the session if not already started
 if (session_status() == PHP_SESSION_NONE) {
