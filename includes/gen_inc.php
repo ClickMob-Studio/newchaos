@@ -87,7 +87,7 @@ if ($plyrname != '' && $SGUID != '') {
         $getstats = $pdo->prepare("SELECT a.*, b.bank FROM ".DB_STATS." a, grpgusers b WHERE a.player = :plyrname AND a.player = b.username");
         $getstats->execute(array(':plyrname' => $plyrname));
         $usestats = $getstats->fetch(PDO::FETCH_ASSOC);
-
+var_dump($userstats);
         $current_chipcount = isset($usestats['bank']) ? $usestats['bank'] : 0;
         $current_money     = money($current_chipcount);
 
