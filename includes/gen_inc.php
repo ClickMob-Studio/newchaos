@@ -22,9 +22,9 @@ define('DB_POKER', 'poker_poker');
 define('DB_SITELOG', 'poker_sitelog');
 define('DB_SETTINGS', 'poker_settings');
 define('DB_STYLES', 'poker_styles');
-require_once 'includes/settings.php';
+require_once BASE_DIR . 'includes/settings.php';
 /* THEME */
-$themeCFN = 'includes/Theme.class.php';
+$themeCFN = BASE_DIR . 'includes/Theme.class.php';
 $themeCF  = $themeCFN;
 if (!file_exists($themeCF)) $themeCF = 'includes/' . $themeCF;
 if (!file_exists($themeCF)) $themeCF = '../' . $themeCF;
