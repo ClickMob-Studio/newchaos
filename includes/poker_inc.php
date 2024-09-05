@@ -17,10 +17,9 @@ function ops_minify_html($input)
 
     $input = preg_replace_callback(
         '#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s',
-        create_function(
-            '$matches',
-            'return "<" . $matches[1] . preg_replace("#([^\s=]+)(\=([\'"]?)(.*?)\3)?(\s+|$)#s", " $1$2", $matches[2]) . $matches[3] . ">";'
-        ),
+        function ($matches) {
+            return "<" . $matches[1] . preg_replace("#([^\s=]+)(\=([\'\"]?)(.*?)\\3)?(\\s+|$)#s", " $1$2", $matches[2]) . $matches[3] . ">";
+        },
         str_replace("\r", "", $input)
     );
 
