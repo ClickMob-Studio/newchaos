@@ -1,77 +1,76 @@
 <?php
-
-if ($valid == false)
+if ($valid === false) {
     header('Location: login.php');
+    exit;
+}
 
-if ($gameID == '')
+if (empty($gameID)) {
     header('Location: lobby.php');
+    exit;
+}
 
-$time       = time();
-$sql        = $addons->get_hooks(
+$time = time();
+$sql = $addons->get_hooks(
     array(
-        'content' => "SELECT * FROM " . DB_POKER . " WHERE gameID = " . $gameID
+        'content' => "SELECT * FROM " . DB_POKER . " WHERE gameID = :gameID"
     ),
     array(
-        'page'      => 'includes/inc_poker.php',
-        'location'  => 'tq_sql',
+        'page' => 'includes/inc_poker.php',
+        'location' => 'tq_sql',
     )
 );
-$tq         = $pdo->query($sql);
-$tr         = $tq->fetch(PDO::FETCH_ASSOC);
+
+$tq = $pdo->prepare($sql);
+$tq->execute(['gameID' => $gameID]);
+$tr = $tq->fetch(PDO::FETCH_ASSOC);
+
+if (!$tr) {
+    // Handle case where the game is not found
+    header('Location: lobby.php');
+    exit;
+}
+
 $tablehand  = $tr['hand'];
 $tableid    = $tr['gameID'];
 $tablename  = $tr['tablename'];
 $tabletype  = $tr['tabletype'];
 $tablelimit = $tr['tablelimit'];
 $tablestyle = $tr['tablestyle'];
-$sbamount	= $tr['sbamount'];
-$bbamount	= $tr['bbamount'];
+$sbamount   = $tr['sbamount'];
+$bbamount   = $tr['bbamount'];
 $gamestyle  = $tr['gamestyle'];
+
 $isPlaying = false;
-$mySeat    = 0;
-for ($pi = 1; $pi < 11; $pi++)
-{ 
-    if ($tr["p{$pi}name"] == $plyrname)
-    {
-        $mySeat    = $pi;
+$mySeat = 0;
+
+for ($pi = 1; $pi < 11; $pi++) {
+    if ($tr["p{$pi}name"] === $plyrname) {
+        $mySeat = $pi;
         $isPlaying = true;
         break;
     }
 }
 
-$addons->get_hooks(array(),
-    array(
-        'page'     => 'includes/inc_poker.php',
-        'location' => 'after_tablestyle_var',
-    )
-);
+// Additional hooks if needed
 
 $tomove = $tr['move'];
-$min    = $tr['tablelow'];
-$sq     = $pdo->query("SELECT style_name, style_lic FROM styles WHERE style_name = '{$tablestyle}'");
+$min = $tr['tablelow'];
+$sq = $pdo->prepare("SELECT style_name, style_lic FROM styles WHERE style_name = :styleName");
+$sq->execute(['styleName' => $tablestyle]);
 
 $officialstylepack = 'normal';
+$action = isset($_GET['action']) ? $_GET['action'] : '';
 
-$action = (isset($_GET['action'])) ? $_GET['action'] : '';
+// Additional hooks for actions
 
-$addons->get_hooks(array(),
-    array(
-        'page'     => 'includes/inc_poker.php',
-        'location' => 'actions',
-    )
-);
-
-$leave = ($action === 'leave' && ($isPlaying === false || $tablehand < 3)) ? true : false;
+$leave = ($action === 'leave' && (!$isPlaying || $tablehand < 3));
 $leave = $addons->get_hooks(
+    array('content' => $leave),
     array(
-        'content' => $leave
-    ),
-    array(
-        'page'     => 'includes/inc_poker.php',
+        'page' => 'includes/inc_poker.php',
         'location' => 'leave_bool',
     )
-);
-    
+);  
 if ($leave)
 {
     $tpq       = $pdo->query("SELECT * FROM " . DB_POKER . " WHERE gameID = " . $gameID);
