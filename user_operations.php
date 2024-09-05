@@ -149,6 +149,7 @@ foreach ($indexedOperations as $category => $operations) {
                 <div class="col-md-6">
                     <table class="new_table">
                         <?php $next = $nextOperationsIndexedOnCategory['crime_cash'] ?>
+                        <?php echo 'Next: ' . $next; ?>
                         <?php if (isset($indexedOperations['crime_cash'][$next])): ?>
                             <?php $toUse = $indexedOperations['crime_cash'][$next]; ?>
                             <tr>
