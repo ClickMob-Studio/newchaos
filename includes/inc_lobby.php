@@ -21,7 +21,7 @@ $is_omaha = $addons->get_hooks(
 // Use isset to check both GET and POST, ensuring that gameID is set correctly
 $gameID = isset($_GET['gameID']) ? addslashes($_GET['gameID']) : '';
 $gameID = isset($_POST['gameID']) ? addslashes($_POST['gameID']) : $gameID;
-
+var_dump($gameID);
 if ($gameID != '') {
     // Use positional parameter binding for compatibility with older PHP versions
     $gq = $pdo->prepare("SELECT gamestyle FROM " . DB_POKER . " WHERE gameID = ?");
