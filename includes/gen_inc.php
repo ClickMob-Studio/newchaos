@@ -25,7 +25,7 @@ $themeCF  = $themeCFN;
 if (!file_exists($themeCF)) $themeCF = 'includes/' . $themeCF;
 if (!file_exists($themeCF)) $themeCF = '../' . $themeCF;
 if (!file_exists($themeCF)) die("Theme not found");
-var_dump($themeCF);
+
 require_once $themeCF;
 
 /* THEME */
@@ -35,7 +35,6 @@ if (!file_exists($addonClassFile)) $addonClassFile = 'includes/' . $addonClassFi
 if (!file_exists($addonClassFile)) $addonClassFile = '../' . $addonClassFile;
 if (!file_exists($addonClassFile)) die("Addon class not found");
 
-var_dump($addonClassFile);
 
 require_once $addonClassFile;
 
@@ -98,7 +97,7 @@ if ($plyrname != '' && $SGUID != '') {
         $opsTheme->addVariable('sitecurrency', $sitecurrency);
     }
 }
-var_dump($opsTheme);
+
 
 if ($ADMIN) {
     $opsTheme->addVariable('is_admin', 1);
