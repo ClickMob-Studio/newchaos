@@ -149,10 +149,10 @@ var_dump($nextOperationsIndexedOnCategory);
             <div class="row">
                 <div class="col-md-6">
                     <table class="new_table">
-                        <?php $next = $nextOperationsIndexedOnCategory['crime_cash'] ?>
+                        <?php $next = $nextOperationsIndexedOnCategory['crimes_cash'] ?>
                         <?php echo 'Next: ' . $next; ?>
-                        <?php if (isset($indexedOperations['crime_cash'][$next])): ?>
-                            <?php $toUse = $indexedOperations['crime_cash'][$next]; ?>
+                        <?php if (isset($indexedOperations['crimes_cash'][$next])): ?>
+                            <?php $toUse = $indexedOperations['crimes_cash'][$next]; ?>
                             <tr>
                                 <th>Crime Cash #<?php echo $toUse['id'] ?></th>
                             </tr>
