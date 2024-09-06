@@ -17,6 +17,13 @@ $db->query("SELECT * FROM `user_operations` WHERE `user_id` = ? AND (`is_complet
 $db->execute(array($user_class->id));
 $currentUserOperation = $db->fetch_row(true);
 
+$currentOperation = null;
+if ($currentUserOperation) {
+    $db->query("SELECT * FROM operations WHERE id = " . $currentUserOperation['operations_id'] . " LIMIT 1");
+    $db->execute();
+    $currentOperation = $db->fetch_row(true);
+}
+
 $nextOperationsIndexedOnCategory = array();
 foreach ($indexedOperations as $category => $operations) {
     $db->query("
@@ -96,7 +103,7 @@ if (isset($_GET['start'])) {
         <?php if ($currentUserOperation): ?>
             <table class="new_table" id="newtables" style="width:100%;">
                 <tr>
-                    <th colspan="2">Operation #<?php echo $currentUserOperation['id'] ?></th>
+                    <th colspan="2">Operation #<?php echo $currentOperation['id'] ?></th>
                 </tr>
                 <!-- CRIMES -->
                 <tr>
@@ -104,7 +111,7 @@ if (isset($_GET['start'])) {
                         Crimes
                     </th>
                     <td>
-                        0/<?php echo number_format($currentUserOperation['crimes'], 0) ?>
+                        <?php echo number_format($currentUserOperation['crimes'], 0) ?>/<?php echo number_format($currentOperation['crimes'], 0) ?>
                     </td>
                 </tr>
 
@@ -114,7 +121,7 @@ if (isset($_GET['start'])) {
                         Mugs
                     </th>
                     <td>
-                        0/<?php echo number_format($currentUserOperation['mugs'], 0) ?>
+                        <?php echo number_format($currentUserOperation['mugs'], 0) ?>/<?php echo number_format($currentOperation['mugs'], 0) ?>
                     </td>
                 </tr>
 
@@ -124,8 +131,8 @@ if (isset($_GET['start'])) {
                         Busts
                     </th>
                     <td>
-                        0/<?php echo number_format($currentUserOperation['busts'], 0) ?>
-                    </td>
+                        <?php echo number_format($currentUserOperation['busts'], 0) ?>/<?php echo number_format($currentOperation['busts'], 0) ?>
+                   </td>
                 </tr>
 
                 <!-- ONLINE ATTACKS -->
@@ -134,7 +141,7 @@ if (isset($_GET['start'])) {
                         Online Attacks
                     </th>
                     <td>
-                        0/<?php echo number_format($currentUserOperation['online_attacks'], 0) ?>
+                        <?php echo number_format($currentUserOperation['online_attacks'], 0) ?>/<?php echo number_format($currentOperation['online_attacks'], 0) ?>
                     </td>
                 </tr>
 
@@ -144,7 +151,7 @@ if (isset($_GET['start'])) {
                         City Goons Wins
                     </th>
                     <td>
-                        0/<?php echo number_format($currentUserOperation['city_boss_wins'], 0) ?>
+                        <?php echo number_format($currentUserOperation['city_boss_wins'], 0) ?>/<?php echo number_format($currentOperation['city_boss_wins'], 0) ?>
                     </td>
                 </tr>
 
@@ -154,17 +161,7 @@ if (isset($_GET['start'])) {
                         Backalley Wins
                     </th>
                     <td>
-                        0/<?php echo number_format($currentUserOperation['backalley_wins'], 0) ?>
-                    </td>
-                </tr>
-
-                <!-- RAIDS -->
-                <tr>
-                    <th>
-                        Raids
-                    </th>
-                    <td>
-                        0/<?php echo number_format($currentUserOperation['raids'], 0) ?>
+                        <?php echo number_format($currentUserOperation['backalley_wins'], 0) ?>/<?php echo number_format($currentOperation['backalley_wins'], 0) ?>
                     </td>
                 </tr>
             </table>
