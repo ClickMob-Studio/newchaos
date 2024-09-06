@@ -45,13 +45,13 @@ function push_poker()
     var xend = url.lastIndexOf("/") + 1; 
     var base_url = url.substring(0, xend); 
 
-    thisurl = base_url + 'includes/push_poker.php?ts='+unixts+'&h='+Xhand+'&m='+Xmove+'&f='+force;
+    thisurl = base_url + '../includes/push_poker.php?ts='+unixts+'&h='+Xhand+'&m='+Xmove+'&f='+force;
     checkloadfile(thisurl, "js"); 
 
-    thisurl = base_url + 'includes/auto_move.php'; 
+    thisurl = base_url + '../includes/auto_move.php'; 
     checkloadfile(thisurl, "js"); 
 
-    thisurl = base_url + 'includes/auto_chat.php'; 
+    thisurl = base_url + '../includes/auto_chat.php'; 
     checkloadfile(thisurl, "js"); 
 
     dochatbox(); 
