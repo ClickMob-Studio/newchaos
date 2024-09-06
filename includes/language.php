@@ -318,15 +318,15 @@ ops_define('ADMIN_USERS_LABEL', 'Admin Users');
 ops_define('ADMIN_USERS_LABEL_HELP', 'Usernames of admins (separated by comma)');
 ops_define('REG_WINPOT_LABEL', 'Registration Chips');
 ops_define('REG_WINPOT_LABEL_HELP', 'The amount of chips a user gets after creating a new account.');
-if (!function_exists('ops_define')) {
-    function ops_define($label, $definition)
-    {
-        if (!defined($label)) {
-            define($label, $definition);
-            return true;
-        }
 
-        return false;
-    }
+function ops_define($label, $definition)
+{
+	if (! defined($label))
+	{
+		define($label, $definition);
+		return true;
+	}
+
+	return false;
 }
 ?>
