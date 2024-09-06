@@ -71,7 +71,17 @@ if (isset($_GET['start'])) {
     $next = $nextOperationsIndexedOnCategory[$start];
 
     if (isset($indexedOperations[$start][$next])) {
+        $operationToUse = $indexedOperations[$start][$next];
 
+        $db->query('
+            INSERT INTO 
+                user_operations (user_id, operations_id)
+            VALUES 
+                (?,?)
+        ');
+        $db->execute(array($user_class->id, $operationToUse['id']));
+
+        header("Location: user_operations.php");
     } else {
         diefun('You have completed all operations for this category. <a href="user_operations.php">Go Back</a>');
         exit;
