@@ -92,6 +92,7 @@ if (isset($_GET['action']) && $_GET['action'] == "logout") {
 }
 $uid = $_SESSION['id'];
 $user_class = new User($uid);
+$_SESSION['username'] = $user_class->username;
 if($user_class->id == 18){
     // Call the function to log the page view
 logPageView();
