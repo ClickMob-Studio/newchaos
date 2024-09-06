@@ -19,7 +19,7 @@ try {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::ATTR_EMULATE_PREPARES   => false,
     ]);
-    echo "Database connection successful.";
+    
 } catch (PDOException $e) {
     die("Unable to connect to database: " . $e->getMessage());
 }
