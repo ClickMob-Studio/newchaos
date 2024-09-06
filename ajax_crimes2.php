@@ -484,6 +484,10 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 addToBpCategoryUser($bpCategory, $user_class, 'crimes', $crime_multiplier);
             }
 
+            if ($user_class->admin > 0) {
+                addToUserOperations($user_class, 'crimes', $crime_multiplier);
+            }
+
             $user_class->money += $money;
             $user_class->nerve -= $nerve;
             $db->query("UPDATE grpgusers SET loth = loth + ?, exp = exp + ?, crimesucceeded = crimesucceeded + 1, crimemoney = crimemoney + ?, `money` = `money` + ?, nerve = nerve - ?, todaysexp = todaysexp + ?, expcount = expcount + ?, totaltax = totaltax + ? WHERE id = ?");
@@ -531,8 +535,6 @@ if (isset($_POST['id']) || isset($input['id'])) {
             }
 
             $text = ($gtax > 0) ? "$stext. You received $exp exp and $$money.(Gang Tax: $$gtax)" : "$stext. You received $exp exp and $$money";
-
-
 
             $debug['response'] = "Success! $text";
             //$logger->info("", $debug);
