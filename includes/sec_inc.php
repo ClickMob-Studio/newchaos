@@ -58,7 +58,7 @@ echo $addons->get_hooks(array(), array(
 require 'poker_inc.php';
 
 // Retrieve player details from session
-$plyrname = isset($_SESSION['username']) ? addslashes($_SESSION['username']) : 'Chaos';
+$plyrname = isset($_SESSION['username']) ? addslashes($_SESSION['username']) : '';
 $SGUID    = isset($_SESSION['id']) ? addslashes($_SESSION['id']) : '';
 
 if ($plyrname == '' || $SGUID == '') {

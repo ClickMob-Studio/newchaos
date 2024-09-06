@@ -56,7 +56,7 @@ require_once 'poker_inc.php';
 require_once 'language.php';
 
 // Retrieve player name and session ID
-$plyrname = isset($_SESSION['username']) ? addslashes($_SESSION['username']) : 'Chaos';
+$plyrname = isset($_SESSION['username']) ? addslashes($_SESSION['username']) : '';
 $SGUID    = isset($_SESSION['id']) ? addslashes($_SESSION['id']) : '';
 
 $_SESSION['playername'] = $plyrname;
