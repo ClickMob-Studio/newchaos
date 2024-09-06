@@ -1,15 +1,17 @@
 <?php
 session_start();
-
-// Debug mode setup
-if (isset($_GET['debug'])) {
-    ini_set('display_errors', true);
-    ini_set("log_errors", 1);
-    error_reporting(E_ALL);
-} else {
-    ini_set('display_errors', false);
-    error_reporting(0);
-}
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+// // Debug mode setup
+// if (isset($_GET['debug'])) {
+//     ini_set('display_errors', true);
+//     ini_set("log_errors", 1);
+//     error_reporting(E_ALL);
+// } else {
+//     ini_set('display_errors', false);
+//     error_reporting(0);
+// }
 
 // Required configuration and settings
 require_once 'config.inc.php';
