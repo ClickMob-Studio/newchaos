@@ -58,7 +58,7 @@ if (isset($_GET['start'])) {
         'backalley_points',
     );
 
-    if (!isset($validOptions[$_GET['start']])) {
+    if (!in_array($_GET['start'], $validOptions)) {
         diefun('Something went wrong, if this issue persists please DM an admin. <a href="user_operations.php">Go Back</a>');
         exit;
     }
