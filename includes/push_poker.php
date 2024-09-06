@@ -444,7 +444,7 @@ function getNameImg($plyrname)
 function isAdmin()
 {
     global $pdo, $plyrname;
-    $tpq = $pdo->query("SELECT mods FROM `grpgusers` WHERE username = '$plyrname'");
+    $tpq = $pdo->query("SELECT admin FROM `grpgusers` WHERE username = '$plyrname'");
     return $tpq->fetchColumn();
 }
 
