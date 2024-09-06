@@ -1,27 +1,25 @@
 <?php
-require ('sec_inc.php');
+require('sec_inc.php');
 
 header('Content-Type: text/javascript');
 
 echo $addons->get_hooks(array(), array(
     'page'     => 'includes/player_move.php',
-    'location'  => 'page_start'
+    'location' => 'page_start'
 ));
 
-if ($gID == '' || $gID == 0)
-{
+if ($gID == '' || $gID == 0) {
     die();
 }
 
-
-$time    = time();
+$time = time();
 $tpq_sql = $addons->get_hooks(
     array(
         'content' => "SELECT * FROM " . DB_POKER . " WHERE gameID = " . $gameID
     ),
     array(
         'page'     => 'includes/player_move.php',
-        'location'  => 'tpq_sql'
+        'location' => 'tpq_sql'
     )
 );
 $tpq = $pdo->prepare($tpq_sql);
@@ -33,7 +31,7 @@ $addons->get_hooks(
     array(),
     array(
         'page'     => 'includes/player_move.php',
-        'location'  => 'tpr_variables'
+        'location' => 'tpr_variables'
     )
 );
 
@@ -49,69 +47,45 @@ $playerpot = $tpr['p' . $player . 'pot'];
 $playerbet = $tpr['p' . $player . 'bet'];
 $gamestyle = $tpr['gamestyle'];
 
-
 // Action
-
 $action = addslashes($_GET['action']);
 
 // All doable actions
-
 $numactions = array();
-/*$step       = 50;
-$max        = ((int) $playerpot) / $step;
-for ($ni = 1; $ni <= $max; $ni++)
-{ 
-    $numactions[] = $ni * $step;
-}*/
 $max = (int) $playerpot;
-for ($ni = 1; $ni <= $max; $ni++)
-{ 
+for ($ni = 1; $ni <= $max; $ni++) {
     $numactions[] = $ni;
 }
 
-
-$actions_array = array_merge(array(
-    'check',
-    'call',
-    'allin',
-    'fold',
-    'start'
-), $numactions);
+$actions_array = array_merge(
+    array('check', 'call', 'allin', 'fold', 'start'),
+    $numactions
+);
 
 // Actions you can do after game starts
-
-$betactions_array = array_merge(array(
-    'check',
-    'call',
-    'allin',
-    'fold'
-), $numactions);
+$betactions_array = array_merge(
+    array('check', 'call', 'allin', 'fold'),
+    $numactions
+);
 
 // if action is not in the list, die
-
-if (!in_array($action, $actions_array))
-{
+if (!in_array($action, $actions_array)) {
     die();
 }
 
 // if action is a bet
-
 $isbet = false;
 
-if (in_array($action, $betactions_array))
-{
+if (in_array($action, $betactions_array)) {
     $isbet = true;
 }
 
 // if player doesn't exist
-
-if ($player == '')
-{
+if ($player == '') {
     die();
 }
 
 // get number of players
-
 $numplayers = get_num_players();
 
 // if action is start the game
@@ -119,21 +93,19 @@ echo $addons->get_hooks(
     array(),
     array(
         'page'     => 'includes/player_move.php',
-        'location'  => 'beginning_of_action'
+        'location' => 'beginning_of_action'
     )
 );
 
-
-if ($hand < 0 && $numplayers > 1 && $action == 'start')
-{
-    $msg        = GAME_STARTING;
+if ($hand < 0 && $numplayers > 1 && $action == 'start') {
+    $msg = GAME_STARTING;
     $result_sql = $addons->get_hooks(
         array(
             'content' => "UPDATE " . DB_POKER . " SET hand = 0, msg = '$msg', move = $player, dealer = $player WHERE gameID = $gameID"
         ),
         array(
             'page'     => 'includes/player_move.php',
-            'location'  => 'start_sql1'
+            'location' => 'start_sql1'
         )
     );
     $pdo->query($result_sql);
@@ -143,88 +115,68 @@ if ($hand < 0 && $numplayers > 1 && $action == 'start')
         array(),
         array(
             'page'     => 'includes/player_move.php',
-            'location'  => 'game_start'
+            'location' => 'game_start'
         )
     );
     die();
 }
 
-
 // if it's not player's move, die
-
-if ($tomove != $player)
-{
+if ($tomove != $player) {
     die();
 }
 
 $process = false;
 
-if (substr($playerbet, 0, 1) == 'F')
-{
+if (substr($playerbet, 0, 1) == 'F') {
     die();
 }
 
 // if player's pot is empty, die
-
-if ($playerpot == 0)
-{
+if ($playerpot == 0) {
     die();
 }
 
 // if everything is okay
-
 $everythingOkayLogic = ($hand > 4 && $hand < 12 && $player == $tomove && $numplayers > 1 && $isbet == true) ? true : false;
 $everythingOkayLogic = $addons->get_hooks(
     array(
-        'state' => $everythingOkayLogic,
+        'state'   => $everythingOkayLogic,
         'content' => $everythingOkayLogic,
     ),
     array(
         'page'     => 'includes/player_move.php',
-        'location'  => 'everything_okay_logic'
+        'location' => 'everything_okay_logic'
     )
 );
-if ($everythingOkayLogic)
-{
+
+if ($everythingOkayLogic) {
     $goallin = false;
     $nextup = nextplayer($player);
     $newr = '';
-    if ($hand == 6)
-    {
+    if ($hand == 6) {
         $newr = ", hand = 7 ";
     }
 
-    if ($hand == 8)
-    {
+    if ($hand == 8) {
         $newr = ", hand = 9 ";
     }
 
-    if ($hand == 10)
-    {
+    if ($hand == 10) {
         $newr = ", hand = 11 ";
     }
 
-    if ($action == 'allin')
-    {
+    if ($action == 'allin') {
         $result = $pdo->exec("update " . DB_STATS . " set allin = allin+1 where player  = '$plyrname' ");
         $goallin = true;
-    }
-    elseif ($action == 'fold')
-    {
-        if ($hand < 6)
-        {
+    } elseif ($action == 'fold') {
+        if ($hand < 6) {
             $result = $pdo->exec("update " . DB_STATS . " set fold_pf = fold_pf+1 where player  = '$plyrname' ");
-        }
-        elseif ($hand < 8)
-        {
+        } elseif ($hand < 8) {
             $result = $pdo->exec("update " . DB_STATS . " set fold_f = fold_f+1 where player  = '$plyrname' ");
-        }
-        elseif ($hand < 10)
-        {
+        } elseif ($hand < 10) {
             $result = $pdo->exec("update " . DB_STATS . " set fold_t = fold_t+1 where player  = '$plyrname' ");
-        }
-        else
-        {
+        } else {
             $result = $pdo->exec("update " . DB_STATS . " set fold_r = fold_r+1 where player  = '$plyrname' ");
         }
 
@@ -234,9 +186,7 @@ if ($everythingOkayLogic)
         $result = $pdo->exec("update " . DB_PLAYERS . " set  lastmove = " . ($time + 1) . " where username = '$plyrname' ");
 
         poker_log($plyrname, GAME_PLAYER_FOLDS, $gameID);
-    }
-    elseif ($action == 'check')
-    {
+    } elseif ($action == 'check') {
         $msg = '<span class="chatName">' . $plyrname . '</span> ' . GAME_PLAYER_CHECKS;
 
         $result = $pdo->exec("update " . DB_STATS . " set checked = checked+1 where player  = '$plyrname' ");
@@ -244,18 +194,13 @@ if ($everythingOkayLogic)
         $result = $pdo->exec("update " . DB_PLAYERS . " set  lastmove = " . ($time + 1) . " where username = '$plyrname' ");
 
         poker_log($plyrname, GAME_PLAYER_CHECKS, $gameID);
-    }
-    elseif ($action == 'call')
-    {
+    } elseif ($action == 'call') {
         $result = $pdo->exec("update " . DB_STATS . " set called = called+1 where player  = '$plyrname' ");
         $process = true;
         $callbet = $tablebet - $playerbet;
-        if ($playerpot <= $callbet)
-        {
+        if ($playerpot <= $callbet) {
             $goallin = true;
-        }
-        else
-        {
+        } else {
             $potleft = $playerpot - $callbet;
             $tablepot = $tablepot + $callbet;
             $pbet = $tablebet;
@@ -264,23 +209,16 @@ if ($everythingOkayLogic)
 
         $msg = '<span class="chatName">' . $plyrname . '</span> ' . GAME_PLAYER_CALLS . ' ' . money_small($callbet, $gamestyle);
         poker_log($plyrname, GAME_PLAYER_CALLS . ' ' . money_small($callbet, $gamestyle), $gameID);
-    }
-    elseif ($action >= $playerpot)
-    {
+    } elseif ($action >= $playerpot) {
         $result = $pdo->exec("update " . DB_STATS . " set allin = allin+1 where player  = '$plyrname' ");
         $goallin = true;
-    }
-    else
-    {
+    } else {
         $result = $pdo->exec("update " . DB_STATS . " set bet = bet+1 where player  = '$plyrname' ");
         $diff = ($tablebet - $playerbet);
         $checkbet = ($diff + $action);
-        if ($checkbet >= $playerpot)
-        {
+        if ($checkbet >= $playerpot) {
             $goallin = true;
-        }
-        else
-        {
+        } else {
             $process = true;
             $pbet = $tablebet + $action;
             $tablepot = $tablepot + $checkbet;
@@ -292,8 +230,7 @@ if ($everythingOkayLogic)
         poker_log($plyrname, GAME_PLAYER_RAISES . ' ' . money_small($action, $gamestyle), $gameID);
     }
 
-    if ($goallin == true)
-    {
+    if ($goallin == true) {
         $process = true;
         $diff = ($tablebet - $playerbet);
         $raise = $playerpot - $diff;
@@ -306,8 +243,7 @@ if ($everythingOkayLogic)
         poker_log($plyrname, GAME_PLAYER_GOES_ALLIN, $gameID);
     }
 
-    if ($process == true)
-    {
+    if ($process == true) {
         $lastbet = ($tablebet2 > $tablebet || $lastbet == 0) ? $player . '|' . $tablebet : $lastbet;
         $result = $pdo->exec("update " . DB_POKER . " set msg = '$msg', pot = $tablepot, bet = $tablebet2, lastbet = '$lastbet', p" . $player . "bet = '$pbet', move = $nextup, lastmove = " . ($time + 1) . " , p" . $player . "pot = '$potleft' " . $newr . "where gameID = " . $gameID);
         $result = $pdo->exec("update " . DB_PLAYERS . " set  lastmove = $time where username = '$plyrname' ");
@@ -317,7 +253,7 @@ if ($everythingOkayLogic)
         array(),
         array(
             'page'     => 'includes/player_move.php',
-            'location'  => 'after_move'
+            'location' => 'after_move'
         )
     );
 }
