@@ -185,7 +185,7 @@ if ($ucr['updatescreen'] < $time) {
         $i++;
     }
 
-    $userchat .= $chat;
+    //$userchat .= $chat;
 }
 $opsTheme->addVariable('userchat', $userchat);
 
