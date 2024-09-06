@@ -1,5 +1,5 @@
 <?php 
-require('../includes/gen_inc.php'); 
+require('includes/gen_inc.php'); 
 
 header('Content-Type: text/javascript');
 ?>
