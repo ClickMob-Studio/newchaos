@@ -42,6 +42,41 @@ foreach ($indexedOperations as $category => $operations) {
     $nextOperationsIndexedOnCategory[$category] = $nextUserOperation;
 }
 
+if (isset($_GET['start'])) {
+    $validOptions = array(
+        'crimes_cash',
+        'crimes_points',
+        'mugs_cash',
+        'mugs_points',
+        'busts_cash',
+        'busts_points',
+        'online_attacks_cash',
+        'online_attacks_points',
+        'city_boss_cash',
+        'city_boss_points',
+        'backalley_cash',
+        'backalley_points',
+    );
+
+    if (!isset($validOptions[$_GET['start']])) {
+        diefun('Something went wrong, if this issue persists please DM an admin. <a href="user_operations.php">Go Back</a>');
+        exit;
+    }
+
+    if ($currentUserOperation) {
+        diefun('You already have an active operation. <a href="user_operations.php">Go Back</a>');
+        exit;
+    }
+    $start = $_GET['start'];
+    $next = $nextOperationsIndexedOnCategory[$start];
+
+    if (isset($indexedOperations[$start][$next])) {
+
+    } else {
+        diefun('You have completed all operations for this category. <a href="user_operations.php">Go Back</a>');
+        exit;
+    }
+}
 ?>
 
 <h1>Operations</h1><hr />
@@ -141,7 +176,7 @@ foreach ($indexedOperations as $category => $operations) {
                                 <td>$<?php echo number_format($toUse['money_reward'], 0) ?></td>
                             </tr>
                             <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $toUse['id'] ?>">Start Operation</a></td>
+                                <td><a class="dcSecondaryButton" href="user_operations.php?start=crimes_cash">Start Operation</a></td>
                             </tr>
                         <?php else: ?>
                             <tr>
@@ -168,7 +203,7 @@ foreach ($indexedOperations as $category => $operations) {
                                 <td>$<?php echo number_format($toUse['points_reward'], 0) ?></td>
                             </tr>
                             <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $toUse['id'] ?>">Start Operation</a></td>
+                                <td><a class="dcSecondaryButton" href="user_operations.php?start=crimes_points">Start Operation</a></td>
                             </tr>
                         <?php else: ?>
                             <tr>
@@ -199,7 +234,7 @@ foreach ($indexedOperations as $category => $operations) {
                                 <td>$<?php echo number_format($toUse['money_reward'], 0) ?></td>
                             </tr>
                             <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $toUse['id'] ?>">Start Operation</a></td>
+                                <td><a class="dcSecondaryButton" href="user_operations.php?start=mugs_cash">Start Operation</a></td>
                             </tr>
                         <?php else: ?>
                             <tr>
@@ -226,7 +261,7 @@ foreach ($indexedOperations as $category => $operations) {
                                 <td>$<?php echo number_format($toUse['points_reward'], 0) ?></td>
                             </tr>
                             <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $toUse['id'] ?>">Start Operation</a></td>
+                                <td><a class="dcSecondaryButton" href="user_operations.php?start=mugs_points">Start Operation</a></td>
                             </tr>
                         <?php else: ?>
                             <tr>
@@ -257,7 +292,7 @@ foreach ($indexedOperations as $category => $operations) {
                                 <td>$<?php echo number_format($toUse['money_reward'], 0) ?></td>
                             </tr>
                             <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $toUse['id'] ?>">Start Operation</a></td>
+                                <td><a class="dcSecondaryButton" href="user_operations.php?start=busts_cash">Start Operation</a></td>
                             </tr>
                         <?php else: ?>
                             <tr>
@@ -284,7 +319,7 @@ foreach ($indexedOperations as $category => $operations) {
                                 <td>$<?php echo number_format($toUse['points_reward'], 0) ?></td>
                             </tr>
                             <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $toUse['id'] ?>">Start Operation</a></td>
+                                <td><a class="dcSecondaryButton" href="user_operations.php?start=busts_points">Start Operation</a></td>
                             </tr>
                         <?php else: ?>
                             <tr>
@@ -315,7 +350,7 @@ foreach ($indexedOperations as $category => $operations) {
                                 <td>$<?php echo number_format($toUse['money_reward'], 0) ?></td>
                             </tr>
                             <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $toUse['id'] ?>">Start Operation</a></td>
+                                <td><a class="dcSecondaryButton" href="user_operations.php?start=online_attacks_cash">Start Operation</a></td>
                             </tr>
                         <?php else: ?>
                             <tr>
@@ -342,7 +377,7 @@ foreach ($indexedOperations as $category => $operations) {
                                 <td><?php echo number_format($toUse['points_reward'], 0) ?> Points</td>
                             </tr>
                             <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $toUse['id'] ?>">Start Operation</a></td>
+                                <td><a class="dcSecondaryButton" href="user_operations.php?start=online_attacks_points">Start Operation</a></td>
                             </tr>
                         <?php else: ?>
                             <tr>
@@ -373,7 +408,7 @@ foreach ($indexedOperations as $category => $operations) {
                                 <td>$<?php echo number_format($toUse['money_reward'], 0) ?></td>
                             </tr>
                             <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $toUse['id'] ?>">Start Operation</a></td>
+                                <td><a class="dcSecondaryButton" href="user_operations.php?start=city_boss_cash">Start Operation</a></td>
                             </tr>
                         <?php else: ?>
                             <tr>
@@ -400,7 +435,7 @@ foreach ($indexedOperations as $category => $operations) {
                                 <td>$<?php echo number_format($toUse['points_reward'], 0) ?></td>
                             </tr>
                             <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $toUse['id'] ?>">Start Operation</a></td>
+                                <td><a class="dcSecondaryButton" href="user_operations.php?start=city_boss_points">Start Operation</a></td>
                             </tr>
                         <?php else: ?>
                             <tr>
@@ -431,7 +466,7 @@ foreach ($indexedOperations as $category => $operations) {
                                 <td>$<?php echo number_format($toUse['money_reward'], 0) ?></td>
                             </tr>
                             <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $toUse['id'] ?>">Start Operation</a></td>
+                                <td><a class="dcSecondaryButton" href="user_operations.php?start=backalley_cash">Start Operation</a></td>
                             </tr>
                         <?php else: ?>
                             <tr>
@@ -458,7 +493,7 @@ foreach ($indexedOperations as $category => $operations) {
                                 <td><?php echo number_format($toUse['points_reward'], 0) ?> Points</td>
                             </tr>
                             <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $toUse['id'] ?>">Start Operation</a></td>
+                                <td><a class="dcSecondaryButton" href="user_operations.php?start=backalley_points">Start Operation</a></td>
                             </tr>
                         <?php else: ?>
                             <tr>
