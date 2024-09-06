@@ -63,7 +63,7 @@ function push_action(action){
 	var url = document.location.href; 
     var xend = url.lastIndexOf("/") + 1; 
     var base_url = url.substring(0, xend);
-	thisurl = base_url + 'includes/player_move.php?action='+ action; checkloadfile(thisurl, "js") ; 
+	thisurl = base_url + '../includes/player_move.php?action='+ action; checkloadfile(thisurl, "js") ; 
 } 
     
 function push_talk(){ 
@@ -71,7 +71,7 @@ function push_talk(){
     var url = document.location.href;
 	var xend = url.lastIndexOf("/") + 1; 
     var base_url = url.substring(0, xend); 
-    thisurl = base_url + 'includes/push_chat.php?msg='+ msg;  
+    thisurl = base_url + '../includes/push_chat.php?msg='+ msg;  
     checkloadfile(thisurl, "js"); 
     document.talk.talk.value = ""; 
 } 
@@ -81,7 +81,7 @@ function sit_down(pos){
 	var url = document.location.href; 
     var xend = url.lastIndexOf("/") + 1; 
     var base_url = url.substring(0, xend); 
-    thisurl = base_url + 'includes/join.php?action='+ pos;
+    thisurl = base_url + '../includes/join.php?action='+ pos;
 	checkloadfile(thisurl, "js"); 
 } 
 
