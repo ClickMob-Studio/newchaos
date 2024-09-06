@@ -2641,7 +2641,7 @@ function addToUserOperations($user_class, $field, $qty = 1)
                 $expReward = (($newExp / 100) * $currentOperation['exp_reward']);
                 $newExp = $newExp + $expReward;
 
-                $message .= ' & ' . number_format($expReward);
+                $message .= ' & ' . number_format($expReward) . ' EXP';
             }
 
             $db->query("UPDATE grpgusers SET money = {$newMoney}, exp = {$newExp}, points = {$newPoints} WHERE id = " . $user_class->id);
