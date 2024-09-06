@@ -2599,3 +2599,59 @@ function getAttackDamage($attacker, $defender)
         'is_critical_hit' => false
     );
 }
+
+function addToUserOperations($user_class, $field, $qty = 1)
+{
+    global $db;
+
+    $db->query("SELECT * FROM `user_operations` WHERE `user_id` = ? AND (`is_complete` = 0 OR `is_complete` IS NULL) AND (`is_skipped` = 0 OR `is_skipped` IS NULL) ORDER BY `id` DESC LIMIT 1");
+    $db->execute(array($user_class->id));
+    $currentUserOperation = $db->fetch_row(true);
+
+    if ($currentUserOperation) {
+        $db->query("SELECT * FROM operations WHERE id = " . $currentUserOperation['operations_id'] . " LIMIT 1");
+        $db->execute();
+        $currentOperation = $db->fetch_row(true);
+
+        $db->query("UPDATE user_operations SET {$field} = {$field} + {$qty} WHERE id = " . $currentUserOperation['id']);
+        $db->execute();
+
+        $currentUserOperation[$field] = $currentUserOperation[$field] + $qty;
+
+        if ($currentUserOperation[$field] >= $currentOperation[$field]) {
+            $newMoney = $user_class->money;
+            $newExp = $user_class->exp;
+            $newPoints = $user_class->points;
+
+            $message = 'You have successfully completed your operation and earned ';
+            if ($currentOperation['money_reward']) {
+                $newMoney = $newMoney + $currentOperation['money_reward'];
+
+                $message .= '$' . number_format($currentOperation['money_reward']);
+            }
+
+            if ($currentOperation['points_reward']) {
+                $newPoints = $newPoints + $currentOperation['points_reward'];
+
+                $message .= '' . number_format($currentOperation['points_reward']);
+            }
+
+
+            if ($currentOperation['exp_reward']) {
+                $expReward = (($newExp / 100) * $currentOperation['exp_reward']);
+                $newExp = $newExp + $expReward;
+
+                $message .= ' & ' . number_format($expReward);
+            }
+
+            $db->query("UPDATE grpgusers SET money = {$newMoney}, exp = {$newExp}, points = {$newPoints} WHERE id = " . $user_class->id);
+            $db->execute();
+
+            $db->query("UPDATE user_operations SET is_complete = 1 WHERE id = " . $currentUserOperation['id']);
+            $db->execute();
+
+            Send_Event($user_class->id, $message);
+        }
+
+    }
+}
