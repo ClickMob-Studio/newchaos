@@ -101,5 +101,5 @@ if ($valid == false || $gameID == '') {
     die("invalid user");
 }
 
-require_once 'language.php';
+//require_once 'language.php';
 ?>
