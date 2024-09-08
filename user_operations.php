@@ -10,7 +10,7 @@ foreach ($operations as $operation) {
     if (!isset($indexedOperations[$operation['category']])) {
         $indexedOperations[$operation['category']] = array();
     }
-    $indexedOperations[$operation['category']][$operation['id']] = $operation;
+    $indexedOperations[$operation['category']][] = $operation;
 }
 
 $db->query("SELECT * FROM `user_operations` WHERE `user_id` = ? AND (`is_complete` = 0 OR `is_complete` IS NULL) AND (`is_skipped` = 0 OR `is_skipped` IS NULL) ORDER BY `id` DESC LIMIT 1");
@@ -35,16 +35,12 @@ foreach ($indexedOperations as $category => $operations) {
             AND (uo.is_complete = 1 OR uo.is_skipped = 1)
             AND o.category = ?        
         ORDER BY 
-            uo.id DESC 
-        LIMIT 1");
+            uo.id DESC
+        ");
     $db->execute(array($user_class->id, $category));
-    $lastUserOperation = $db->fetch_row(true);
+    $lastUserOperations = $db->fetch_row();
 
-    if ($lastUserOperation && isset($lastUserOperation['id'])) {
-        $nextUserOperation = $lastUserOperation['id'] + 1;
-    } else {
-        $nextUserOperation = 1;
-    }
+    $nextUserOperation = count($lastUserOperations);
 
     $nextOperationsIndexedOnCategory[$category] = $nextUserOperation;
 }
