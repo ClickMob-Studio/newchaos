@@ -1,6 +1,3 @@
-<?php
-require "header.php";
-?>
 
 <style>
     /* Smooth transitions for the chat container */

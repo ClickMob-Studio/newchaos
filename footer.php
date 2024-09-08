@@ -9,6 +9,11 @@
 </footer>
 </body>
 </html>
+<?php
+if($user_class->id == 1){
+    require "chatbox.php";
+}
+?>
 <script>
 function calcEXP(){
 	$.post("ajax_expcalc.php", {level : $("#levelcalc").val()}, function(d){
