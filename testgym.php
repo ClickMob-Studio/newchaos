@@ -18,12 +18,12 @@ require "header.php";
 
             
             if ($gangTerritoryZone['daily_money_payout'] > 0) {
-                $us = new User(1);
+                $us = new User($memberid['id']);
                 $bank = $us->bank + $gangTerritoryZone['daily_money_payout'];
                 $db->query("INSERT INTO bank_log (`userid`, `amount`, `action`, `newbalance`, `timestamp`) VALUES (?, ?, ?, ?, ?)");
                 $db->execute(
                     array(
-                        1,
+                        $memberid['id'],
                         $gangTerritoryZone['daily_money_payout'],
                         'mdep',
                         $bank,
@@ -31,11 +31,11 @@ require "header.php";
                     )
                 );
                
-                $db->query("UPDATE grpgusers SET bank = ". $bank . " WHERE id = 1");
+                $db->query("UPDATE grpgusers SET bank = ". $bank . " WHERE id = ". $memberid['id']);
                 $db->execute();
 
                 
-               // Send_Event($memberid['id'], 'You gained $' . number_format($gangTerritoryZone['daily_money_payout'], 0) . ' for your gangs protection racket ' . $gangTerritoryZone['name']);
+                Send_Event($memberid['id'], 'You gained $' . number_format($gangTerritoryZone['daily_money_payout'], 0) . ' for your gangs protection racket ' . $gangTerritoryZone['name']);
             }
 
             // if ($gangTerritoryZone['daily_raid_tokens_payout'] > 0) {
@@ -45,14 +45,15 @@ require "header.php";
             //     Send_Event($memberid['id'], 'You gained ' . number_format($gangTerritoryZone['daily_raid_tokens_payout'], 0) . ' Raid Tokens for your gangs protection racket ' . $gangTerritoryZone['name']);
             // }
 
-            // // TODO: Daily EXP Payout
+            // TODO: Daily EXP Payout
 
-            // if ($gangTerritoryZone['daily_item_payout'] > 0) {
-            //     $itemname = Item_Name($gangTerritoryZone['daily_item_payout']);
-            //     Give_Item($gangTerritoryZone['daily_item_payout'], $memberid['id'], 1);
+        //     if ($gangTerritoryZone['daily_item_payout'] > 0) {
+        //         $itemname = Item_Name($gangTerritoryZone['daily_item_payout']);
+        //         Give_Item($gangTerritoryZone['daily_item_payout'], $memberid['id'], 1);
 
-            //     Send_Event($memberid['id'], 'You gained 1 x ' . $itemname . ' for your gangs protection racket ' . $gangTerritoryZone['name']);
-            // }
-        }
+        //         Send_Event($memberid['id'], 'You gained 1 x ' . $itemname . ' for your gangs protection racket ' . $gangTerritoryZone['name']);
+        //     }
+        // }
     }
 
+}
