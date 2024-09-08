@@ -12,6 +12,8 @@ foreach ($operations as $operation) {
     }
     $indexedOperations[$operation['category']][$operation['id']] = $operation;
 }
+print_r($indexedOperations);
+echo '<br />';
 
 $db->query("SELECT * FROM `user_operations` WHERE `user_id` = ? AND (`is_complete` = 0 OR `is_complete` IS NULL) AND (`is_skipped` = 0 OR `is_skipped` IS NULL) ORDER BY `id` DESC LIMIT 1");
 $db->execute(array($user_class->id));
@@ -48,6 +50,7 @@ foreach ($indexedOperations as $category => $operations) {
 
     $nextOperationsIndexedOnCategory[$category] = $nextUserOperation;
 }
+print_r($nextOperationsIndexedOnCategory);
 
 if (isset($_GET['start'])) {
     $validOptions = array(
