@@ -224,6 +224,26 @@ include 'header.php';
             });
         });
     });
+    $(document).ready(function () {
+        $("#updateChatDisplayBtn").click(function () {
+            var mobileDisplay = $("#chatDisplaySelect").val();
+            $.ajax({
+                url: '/ajax_settings.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    action: 'cdisplay',
+                    chatDisplay: chatDisplay
+                },
+                success: function (response) {
+                    $('.info-alert').html(response.text).show();
+                },
+                error: function () {
+                    alert("An error occurred. Please try again.");
+                }
+            });
+        });
+    });
     document.addEventListener('DOMContentLoaded', function () {
         const refillButton = document.querySelector('.nerve-action');
         refillButton.addEventListener('click', function (event) {
@@ -509,6 +529,15 @@ include 'header.php';
             <button id="updateMobileDisplayBtn" type="button">Update Mobile Display</button>
         </div>
 
+        <div class="col-md-4 col-6">
+            <h1>Disable Chat Box?</h1>
+            <p>Turning to on will disable the chat box in the right hand side</p>
+            <select id="chatDisplaySelect">
+                <option value="1" <?php echo $user_class->is_chat_disabled == 1 ? 'selected' : ''; ?>>On</option>
+                <option value="0" <?php echo $user_class->is_chat_disabled == 0 ? 'selected' : ''; ?>>Off</option>
+            </select>
+            <button id="updateChatDisplayBtn" type="button">Update Mobile Display</button>
+        </div>
         <?php if ($user_class->aprotection > time()): ?>
             <div class="col-md-4 col-6">
                 <h1>Remove Attack Protection</h1>

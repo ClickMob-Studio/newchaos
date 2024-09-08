@@ -179,6 +179,20 @@ if(isset($_POST["action"]) && $_POST["action"] == "mdisplay"){
         "text"=> "You have updated your mobile display settings"
     ));
 }
+if(isset($_POST["action"]) && $_POST["action"] == "cdisplay"){
+    $mdisplay = intval($_POST['chatDisplay']);
+    if($mdisplay != 1 && $mdisplay != 0){
+        echo json_encode(array(
+            'text'=> 'You did not select a correct value'
+        ));
+        exit;
+    }
+    $db->query("UPDATE grpgusers SET is_chat_disabled = ? WHERE id = ".$user_class->id);
+    $db->execute(array($mdisplay));
+    echo json_encode(array(
+        "text"=> "You have updated your mobile display settings"
+    ));
+}
 if(isset($_POST["action"]) && $_POST["action"] == "privacy"){
     $privacy = intval($_POST['privacy']);
     if($privacy != 1 && $privacy !=0){

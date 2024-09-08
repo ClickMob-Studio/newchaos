@@ -469,6 +469,7 @@ $this->nerveboost =  $this->nerveboost;
         $this->hppercent = floor((($this->hp + 1) / ($this->maxhp + 1)) * 100);
         $this->formattedhp = $this->hp . " / " . $this->maxhp . " [" . $this->hppercent . "%]";
         $this->view_preference = $worked['is_mobile_disabled'];
+        $this->is_chat_disabled = $worked['is_chat_disabled'];
         $this->relationshipended = $worked['relationshipended'];
         if ($this->relationship > 0) {
 			$db->query("SELECT h.* FROM houses h JOIN grpgusers g ON h.id = g.house WHERE g.id = ?");
