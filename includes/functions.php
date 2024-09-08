@@ -2633,7 +2633,7 @@ function addToUserOperations($user_class, $field, $qty = 1)
             if ($currentOperation['points_reward']) {
                 $newPoints = $newPoints + $currentOperation['points_reward'];
 
-                $message .= '' . number_format($currentOperation['points_reward']);
+                $message .= '' . number_format($currentOperation['points_reward']) . ' points';
             }
 
 
