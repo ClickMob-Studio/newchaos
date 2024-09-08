@@ -100,7 +100,7 @@ if (isset($_GET['start'])) {
         <?php if ($currentUserOperation): ?>
             <table class="new_table" id="newtables" style="width:100%;">
                 <tr>
-                    <th colspan="2">Operation #<?php echo $currentOperation['id'] ?></th>
+                    <th colspan="2">Operation</th>
                 </tr>
                 <!-- CRIMES -->
                 <tr>
@@ -171,7 +171,7 @@ if (isset($_GET['start'])) {
                         <?php if (isset($indexedOperations['crimes_cash'][$next])): ?>
                             <?php $toUse = $indexedOperations['crimes_cash'][$next]; ?>
                             <tr>
-                                <th>Crime Cash #<?php echo $toUse['id'] ?></th>
+                                <th>Crime Cash</th>
                             </tr>
                             <tr>
                                 <td><?php echo number_format($toUse['crimes'], 0) ?> Crimes</td>
@@ -198,7 +198,7 @@ if (isset($_GET['start'])) {
                         <?php if (isset($indexedOperations['crimes_points'][$next])): ?>
                             <?php $toUse = $indexedOperations['crimes_points'][$next]; ?>
                             <tr>
-                                <th>Crime Points #<?php echo $toUse['id'] ?></th>
+                                <th>Crime Points</th>
                             </tr>
                             <tr>
                                 <td><?php echo number_format($toUse['crimes'], 0) ?> Crimes</td>
@@ -229,7 +229,7 @@ if (isset($_GET['start'])) {
                         <?php if (isset($indexedOperations['mugs_cash'][$next])): ?>
                             <?php $toUse = $indexedOperations['mugs_cash'][$next]; ?>
                             <tr>
-                                <th>Mugs Cash #<?php echo $toUse['id'] ?></th>
+                                <th>Mugs Cash</th>
                             </tr>
                             <tr>
                                 <td><?php echo number_format($toUse['mugs'], 0) ?> Mugs</td>
@@ -256,7 +256,7 @@ if (isset($_GET['start'])) {
                         <?php if (isset($indexedOperations['mugs_points'][$next])): ?>
                             <?php $toUse = $indexedOperations['mugs_points'][$next]; ?>
                             <tr>
-                                <th>Mugs Points #<?php echo $toUse['id'] ?></th>
+                                <th>Mugs Points</th>
                             </tr>
                             <tr>
                                 <td><?php echo number_format($toUse['mugs'], 0) ?> Mugs</td>
@@ -287,7 +287,7 @@ if (isset($_GET['start'])) {
                         <?php if (isset($indexedOperations['busts_cash'][$next])): ?>
                             <?php $toUse = $indexedOperations['busts_cash'][$next]; ?>
                             <tr>
-                                <th>Busts Cash #<?php echo $toUse['id'] ?></th>
+                                <th>Busts Cash</th>
                             </tr>
                             <tr>
                                 <td><?php echo number_format($toUse['busts'], 0) ?> Busts</td>
@@ -314,7 +314,7 @@ if (isset($_GET['start'])) {
                         <?php if (isset($indexedOperations['busts_points'][$next])): ?>
                             <?php $toUse = $indexedOperations['busts_points'][$next]; ?>
                             <tr>
-                                <th>Busts Points #<?php echo $toUse['id'] ?></th>
+                                <th>Busts Points</th>
                             </tr>
                             <tr>
                                 <td><?php echo number_format($toUse['busts'], 0) ?> Busts</td>
@@ -345,7 +345,7 @@ if (isset($_GET['start'])) {
                         <?php if (isset($indexedOperations['online_attacks_cash'][$next])): ?>
                             <?php $toUse = $indexedOperations['online_attacks_cash'][$next]; ?>
                             <tr>
-                                <th>Online Attacks Cash #<?php echo $toUse['id'] ?></th>
+                                <th>Online Attacks Cash</th>
                             </tr>
                             <tr>
                                 <td><?php echo number_format($toUse['online_attacks'], 0) ?> Online Attacks</td>
@@ -372,7 +372,7 @@ if (isset($_GET['start'])) {
                         <?php if (isset($indexedOperations['online_attacks_points'][$next])): ?>
                             <?php $toUse = $indexedOperations['online_attacks_points'][$next]; ?>
                             <tr>
-                                <th>Online Attacks Points #<?php echo $toUse['id'] ?></th>
+                                <th>Online Attacks Points</th>
                             </tr>
                             <tr>
                                 <td><?php echo number_format($toUse['online_attacks'], 0) ?> Online Attacks</td>
@@ -403,7 +403,7 @@ if (isset($_GET['start'])) {
                         <?php if (isset($indexedOperations['city_boss_cash'][$next])): ?>
                             <?php $toUse = $indexedOperations['city_boss_cash'][$next]; ?>
                             <tr>
-                                <th>City Goons Cash #<?php echo $toUse['id'] ?></th>
+                                <th>City Goons Cash</th>
                             </tr>
                             <tr>
                                 <td><?php echo number_format($toUse['city_boss_wins'], 0) ?> City Goon Wins</td>
@@ -430,7 +430,7 @@ if (isset($_GET['start'])) {
                         <?php if (isset($indexedOperations['city_boss_points'][$next])): ?>
                             <?php $toUse = $indexedOperations['city_boss_points'][$next]; ?>
                             <tr>
-                                <th>City Goons Points #<?php echo $toUse['id'] ?></th>
+                                <th>City Goons Points</th>
                             </tr>
                             <tr>
                                 <td><?php echo number_format($toUse['city_boss_wins'], 0) ?> City Goon Wins</td>
@@ -461,7 +461,7 @@ if (isset($_GET['start'])) {
                         <?php if (isset($indexedOperations['backalley_cash'][$next])): ?>
                             <?php $toUse = $indexedOperations['backalley_cash'][$next]; ?>
                             <tr>
-                                <th>City Goons Cash #<?php echo $toUse['id'] ?></th>
+                                <th>City Goons Cash</th>
                             </tr>
                             <tr>
                                 <td><?php echo number_format($toUse['backalleys'], 0) ?> Backalley wins</td>
@@ -488,7 +488,7 @@ if (isset($_GET['start'])) {
                         <?php if (isset($indexedOperations['backalley_points'][$next])): ?>
                             <?php $toUse = $indexedOperations['backalley_points'][$next]; ?>
                             <tr>
-                                <th>Backalley Points #<?php echo $toUse['id'] ?></th>
+                                <th>Backalley Points</th>
                             </tr>
                             <tr>
                                 <td><?php echo number_format($toUse['backalleys'], 0) ?> Backalley Wins</td>
