@@ -12,8 +12,6 @@ foreach ($operations as $operation) {
     }
     $indexedOperations[$operation['category']][$operation['id']] = $operation;
 }
-print_r($indexedOperations);
-echo '<br />';
 
 $db->query("SELECT * FROM `user_operations` WHERE `user_id` = ? AND (`is_complete` = 0 OR `is_complete` IS NULL) AND (`is_skipped` = 0 OR `is_skipped` IS NULL) ORDER BY `id` DESC LIMIT 1");
 $db->execute(array($user_class->id));
@@ -210,7 +208,7 @@ if (isset($_GET['start'])) {
                                 <td><?php echo number_format($toUse['crimes'], 0) ?> Crimes</td>
                             </tr>
                             <tr>
-                                <td>$<?php echo number_format($toUse['points_reward'], 0) ?></td>
+                                <td><?php echo number_format($toUse['points_reward'], 0) ?> Points</td>
                             </tr>
                             <tr>
                                 <td><a class="dcSecondaryButton" href="user_operations.php?start=crimes_points">Start Operation</a></td>
