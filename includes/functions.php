@@ -1045,7 +1045,7 @@ function mission($update, $howmany = 1,  $user_class = null, $db = null)
             $db->execute(array(
                 $user_class->id
             ));
-            if (++$userMiss['kills'] >= $miss['kills']) {
+            if (++$userMiss['kills'] == $miss['kills']) {
                 $mPointsPayout = $miss['payKills'];
                 if ($pointsPayoutBoost) {
                     $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
