@@ -15,7 +15,7 @@ if ($_GET['key'] === 'srunit') {
 
         foreach ($ownedByGang->memberids as $memberid) {
              if ($gangTerritoryZone['daily_points_payout'] > 0) {
-                 $db->query("UPDATE grpgusers SET points = points + " . $gangTerritoryZone['daily_points_payout'] . " WHERE id = " . $memberid['id'].' ORDER BY `id` DESC');
+                 $db->query("UPDATE grpgusers SET points = points + " . $gangTerritoryZone['daily_points_payout'] . " WHERE id = " . $memberid['id'].' ORDER BY `id` ASC');
                  $db->execute();
 
                  Send_Event($memberid['id'], 'You gained ' . number_format($gangTerritoryZone['daily_points_payout'], 0) . ' points for your gangs protection racket ' . $gangTerritoryZone['name']);
