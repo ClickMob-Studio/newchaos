@@ -49,9 +49,6 @@ if ($_GET['key'] === 'srunit') {
 
                 Send_Event($memberid['id'], 'You gained ' . number_format($gangTerritoryZone['daily_raid_tokens_payout'], 0) . ' Raid Tokens for your gangs protection racket ' . $gangTerritoryZone['name']);
             }
-
-            TODO: Daily EXP Payout
-
             if ($gangTerritoryZone['daily_item_payout'] > 0) {
                 $itemname = Item_Name($gangTerritoryZone['daily_item_payout']);
                 Give_Item($gangTerritoryZone['daily_item_payout'], $memberid['id'], 1);
@@ -61,5 +58,4 @@ if ($_GET['key'] === 'srunit') {
         }
     }
 
-}
 }
