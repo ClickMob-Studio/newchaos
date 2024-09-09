@@ -28,7 +28,7 @@ foreach ($missions as $mission) {
         $pointsPayoutBoost = 2 * $prestigeUserSKills['mission_point_boost_level'];
     }
 
-    if ($mission['cKills'] >= $mission['reqKills'] && $mission['reqKills'] > 0 && $mission['kills`_paid'] == 0) {
+    if ($mission['cKills'] >= $mission['reqKills'] && $mission['reqKills'] > 0 && $mission['kills_paid'] == 0) {
         $mPointsPayout = $mission['payKills'];
         if ($pointsPayoutBoost) {
             $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
