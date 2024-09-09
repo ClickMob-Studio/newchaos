@@ -45,7 +45,7 @@ foreach ($missions as $mission) {
         $db->execute(array(
             $mission['missionid']
         ));
-        Send_event($mission['userid'], "You have completed {$mission['name']} objective to get {$mission['kills']} crimes. [+ {$mission['payKills']} Points]");
+        Send_event($mission['userid'], "You have completed {$mission['name']} objective to get {$mission['kills']} kills. [+ {$mission['payKills']} Points]");
     }
     if ($mission['cCrimes'] >= $mission['reqCrimes'] && $mission['reqCrimes'] > 0 && $mission['crimes_paid'] == 0) {
         $mPointsPayout = $mission['payCrimes'];
