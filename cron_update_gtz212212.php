@@ -36,8 +36,9 @@ if ($_GET['key'] === 'srunit') {
                     )
                 );
                
-                $db->query("UPDATE grpgusers SET bank = ". $bank . " WHERE id = ". $memberid['id']);
-                $db->execute();
+                $db->query("UPDATE grpgusers SET bank = ". $bank . " WHERE id = ?");
+                $db->execute(array($user_class->id));
+                
 
                 
                 Send_Event($memberid['id'], 'You gained $' . number_format($gangTerritoryZone['daily_money_payout'], 0) . ' for your gangs protection racket ' . $gangTerritoryZone['name']);
