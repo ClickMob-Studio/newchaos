@@ -25,19 +25,19 @@ if ($_GET['key'] === 'srunit') {
             if ($gangTerritoryZone['daily_money_payout'] > 0) {
                 $us = new User($memberid['id']);
                 $bank = $us->bank + $gangTerritoryZone['daily_money_payout'];
-                $db->query("INSERT INTO bank_log (`userid`, `amount`, `action`, `newbalance`, `timestamp`) VALUES (?, ?, ?, ?, ?)");
-                $db->execute(
-                    array(
-                        $memberid['id'],
-                        $gangTerritoryZone['daily_money_payout'],
-                        'mdep',
-                        $bank,
-                        time()
-                    )
-                );
-               
-                $db->query("UPDATE grpgusers SET bank = ". $bank . " WHERE id = ?");
-                $db->execute(array($user_class->id));
+                // $db->query("INSERT INTO bank_log (`userid`, `amount`, `action`, `newbalance`, `timestamp`) VALUES (?, ?, ?, ?, ?)");
+                // $db->execute(
+                //     array(
+                //         $memberid['id'],
+                //         $gangTerritoryZone['daily_money_payout'],
+                //         'mdep',
+                //         $bank,
+                //         time()
+                //     )
+                // );
+               echo $bank;
+                //$db->query("UPDATE grpgusers SET bank = ". $bank . " WHERE id = ?");
+                //$db->execute(array($user_class->id));
                 
 
                 
