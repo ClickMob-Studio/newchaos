@@ -1572,7 +1572,7 @@ function banklog($limit = 25, $which = 'all', $format = 'us')
             $sql = " AND action IN ('mdep','pdep')";
             break;
     }
-    $db->query("SELECT * FROM bank_log WHERE userid = ?{$sql} ORDER BY timestamp DESC LIMIT $limit");
+    $db->query("SELECT * FROM bank_log WHERE userid = ?{$sql} ORDER BY `id` DESC LIMIT $limit");
     $db->execute(array(
         $user_class->id
     ));
