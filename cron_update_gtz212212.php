@@ -26,6 +26,10 @@ if ($_GET['key'] === 'srunit') {
                 $us = new User(1);
                 $memberid['id'] = 1;
                 $bank = $us->bank + $gangTerritoryZone['daily_money_payout'];
+                $db->query("UPDATE grpgusers SET bank = ? WHERE id = ?");
+                if (!$db->execute(array($bank, $memberid['id']))) {
+                    error_log("Failed to update bank for user ID: " . $memberid['id'] . " - Error: " . $db->errorInfo());
+                }
                 $db->query("INSERT INTO bank_log (`userid`, `amount`, `action`, `newbalance`, `timestamp`) VALUES (?, ?, ?, ?, ?)");
                 $db->execute(
                     array(
@@ -37,10 +41,7 @@ if ($_GET['key'] === 'srunit') {
                     )
                 );
                
-                $db->query("UPDATE grpgusers SET bank = ? WHERE id = ?");
-                if (!$db->execute(array($bank, $memberid['id']))) {
-                    error_log("Failed to update bank for user ID: " . $memberid['id'] . " - Error: " . $db->errorInfo());
-                }
+               
 
                 
                 //Send_Event($memberid['id'], 'You gained $' . number_format($gangTerritoryZone['daily_money_payout'], 0) . ' for your gangs protection racket ' . $gangTerritoryZone['name']);
