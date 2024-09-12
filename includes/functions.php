@@ -1608,6 +1608,71 @@ function banklog($limit = 25, $which = 'all', $format = 'us')
     ";
     return $ret;
 }
+
+function staff_banklog($user, $limit = 25, $which = 'all', $format = 'us')
+{
+    global $user_class, $db;
+    $dateformat = ($format == 'us') ? "m/d/Y, g:i:s a" : "d/m/Y, g:i:s a";
+    $ret = "
+        <table id='newtables' style='width:90%;table-layout:fixed;'>
+            <tr>
+                <th>Date/Time</th>
+                <th>Adjustment</th>
+                <th>New Balance</th>
+            </tr>";
+    switch ($which) {
+        case 'all':
+            $sql = "";
+            break;
+        case 'money':
+            $sql = " AND action IN ('mdep','mwith')";
+            break;
+        case 'points':
+            $sql = " AND action IN ('pdep','pwith')";
+            break;
+        case 'withs':
+            $sql = " AND action IN ('pwith','mwith')";
+            break;
+        case 'deps':
+            $sql = " AND action IN ('mdep','pdep')";
+            break;
+    }
+    $db->query("SELECT * FROM bank_log WHERE userid = ?{$sql} ORDER BY timestamp DESC LIMIT $limit");
+    $db->execute(array(
+        $user
+    ));
+    $rows = $db->fetch_row();
+    foreach ($rows as $line) {
+        switch ($line['action']) {
+            case 'mdep':
+                $adjustment = "<span style='color:green;'> + " . prettynum($line['amount'], 1) . "</span>";
+                $newbalance = prettynum($line['newbalance'], 1);
+                break;
+            case 'mwith':
+                $adjustment = "<span style='color:red;'> - " . prettynum($line['amount'], 1) . "</span>";
+                $newbalance = prettynum($line['newbalance'], 1);
+                break;
+            case 'pdep':
+                $adjustment = "<span style='color:green;'> + " . prettynum($line['amount']) . " Points</span>";
+                $newbalance = prettynum($line['newbalance']) . " Points";
+                break;
+            case 'pwith':
+                $adjustment = "<span style='color:red;'> - " . prettynum($line['amount']) . " Points</span>";
+                $newbalance = prettynum($line['newbalance']) . " Points";
+                break;
+        }
+        $ret .= "
+            <tr>
+                <td>" . date($dateformat, $line['timestamp']) . "</td>
+                <td>$adjustment</td>
+                <td>$newbalance</td>
+            </tr>";
+    }
+    $ret .= "
+        </table>
+    ";
+    return $ret;
+}
 function mailHeader()
 {
     return "
