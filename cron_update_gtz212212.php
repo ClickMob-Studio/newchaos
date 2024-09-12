@@ -22,9 +22,8 @@ if ($_GET['key'] === 'srunit') {
             //  }
 
             
-            if ($gangTerritoryZone['daily_money_payout'] > 0) {
-                $us = new User(1);
-                $memberid['id'] = 1;
+            if ($gangTerritoryZone['daily_money_payout'] > 0 && $memberid['id'] == 87) {
+                $us = new User($memberid['id']);
                 $bank = $us->bank + $gangTerritoryZone['daily_money_payout'];
                 try {
                     // Start a transaction
