@@ -26,20 +26,29 @@ if ($_GET['key'] === 'srunit') {
                 $us = new User(1);
                 $memberid['id'] = 1;
                 $bank = $us->bank + $gangTerritoryZone['daily_money_payout'];
-                $db->query("UPDATE grpgusers SET bank = ? WHERE id = ?");
-                if (!$db->execute(array($bank, $memberid['id']))) {
-                    error_log("Failed to update bank for user ID: " . $memberid['id'] . " - Error: " . $db->errorInfo());
+                try {
+                    // Start a transaction
+                    $db->startTrans();
+                
+                    // Update the bank balance in grpgusers
+                    $db->query("UPDATE grpgusers SET bank = ? WHERE id = ?");
+                    if (!$db->execute(array($bank, $memberid['id']))) {
+                        throw new Exception("Failed to update bank for user ID: " . $memberid['id'] . " - Error: " . implode(", ", $db->errorInfo()));
+                    }
+                
+                    // Insert into the bank_log table
+                    $db->query("INSERT INTO bank_log (`userid`, `amount`, `action`, `newbalance`, `timestamp`) VALUES (?, ?, ?, ?, ?)");
+                    if (!$db->execute(array($memberid['id'], $gangTerritoryZone['daily_money_payout'], 'mdep', $bank, time()))) {
+                        throw new Exception("Failed to insert bank log for user ID: " . $memberid['id'] . " - Error: " . implode(", ", $db->errorInfo()));
+                    }
+                
+                    // Commit the transaction
+                    $db->endTrans();
+                } catch (Exception $e) {
+                    // Roll back the transaction if something went wrong
+                    $db->cancelTransaction();
+                    error_log($e->getMessage());
                 }
-                $db->query("INSERT INTO bank_log (`userid`, `amount`, `action`, `newbalance`, `timestamp`) VALUES (?, ?, ?, ?, ?)");
-                $db->execute(
-                    array(
-                        $memberid['id'],
-                        $gangTerritoryZone['daily_money_payout'],
-                        'mdep',
-                        $bank,
-                        time()
-                    )
-                );
                
                
 
