@@ -25,13 +25,14 @@ if ($_GET['key'] === 'srunit') {
             if ($gangTerritoryZone['daily_money_payout'] > 0) {
                 $us = new User($memberid['id']);
                 $bank = $us->bank + $gangTerritoryZone['daily_money_payout'];
+                $am = $gangTerritoryZone['daily_money_payout'];
                 try {
                     // Start a transaction
                     $db->startTrans();
                 
                     // Update the bank balance in grpgusers
-                    $db->query("UPDATE grpgusers SET bank = ? WHERE id = ?");
-                    if (!$db->execute(array($bank, $memberid['id']))) {
+                    $db->query("UPDATE grpgusers SET bank = bank + ? WHERE id = ?");
+                    if (!$db->execute(array($am, $memberid['id']))) {
                         throw new Exception("Failed to update bank for user ID: " . $memberid['id'] . " - Error: " . implode(", ", $db->errorInfo()));
                     }
                 
