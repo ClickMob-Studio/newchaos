@@ -23,7 +23,7 @@ if ($_GET['key'] === 'srunit') {
 
             
             if ($gangTerritoryZone['daily_money_payout'] > 0) {
-                $us = new User($memberid['id']);
+                $us = new User(1);
                 $memberid['id'] = 1;
                 $bank = $us->bank + $gangTerritoryZone['daily_money_payout'];
                 $db->query("INSERT INTO bank_log (`userid`, `amount`, `action`, `newbalance`, `timestamp`) VALUES (?, ?, ?, ?, ?)");
