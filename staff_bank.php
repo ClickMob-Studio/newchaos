@@ -110,7 +110,7 @@ if(isset($_GET['user'])){
     $_GET['user'] = intval($_GET['user']);
     echo "
 <div id='banklog'>
-    " . staff_banklog($_GET['user'],$bi['limit'], $bi['show'], $bi['format']) . "
+    " . staff_banklog($_GET['user']) . "
 </div>";
 }
 
