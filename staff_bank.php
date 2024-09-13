@@ -105,9 +105,13 @@ echo "
 <input type='submit' value='submit' name='submit' >
 </form>
 </div>
+";
+if(isset($_GET['user'])){
+    echo "
 <div id='banklog'>
     " . staff_banklog($_GET['user'],$bi['limit'], $bi['show'], $bi['format']) . "
 </div>";
+}
 
 print <<<TEXT
 <script>
