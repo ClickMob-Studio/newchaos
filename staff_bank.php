@@ -109,6 +109,7 @@ echo "
 if(isset($_GET['user'])){
     $_GET['user'] = intval($_GET['user']);
     echo "
+    Showing bank logs for ".formatName($_GET['user'])."
 <div id='banklog'>
     " . staff_banklog($_GET['user']) . "
 </div>";
