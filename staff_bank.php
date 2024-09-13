@@ -101,12 +101,13 @@ echo "
 <div>
 <form method='GET'>
 <label>Input a userid to view transaction</label>
-<input type='number' name='user' id='name' required>
-<input type='submit' value='submit' name='submit' >
+<input type='number'name='user' id='name' required>
+<button type='submit'> Submit</button>
 </form>
 </div>
 ";
 if(isset($_GET['user'])){
+    $_GET['user'] = intval($_GET['user']);
     echo "
 <div id='banklog'>
     " . staff_banklog($_GET['user'],$bi['limit'], $bi['show'], $bi['format']) . "
