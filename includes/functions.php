@@ -1102,8 +1102,9 @@ function mission($update, $howmany = 1,  $user_class = null, $db = null)
             // }
         }
         if ($update == 'm') {
-            $db->query("UPDATE missions SET mugs = mugs + 1 WHERE userid = $user_class->id AND completed = 'no'");
+            $db->query("UPDATE missions SET mugs = mugs + ? WHERE userid = $user_class->id AND completed = 'no'");
             $db->execute(array(
+                $howmany,
                 $user_class->id
             ));
             if (++$userMiss['mugs'] == $miss['mugs']) {

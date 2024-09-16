@@ -182,7 +182,7 @@ try {
                 bloodbath('mugs', $user_class->id, $compQty);
                 ofthes_wrapper($user_class->id, array('motd' => $compQty));
 
-                echo json_encode(success("You reach into {$attack_person->formattedname}'s pockets and find nothing! x " . $compQty));
+                echo json_encode(success("You reach into {$attack_person->formattedname}'s pockets and find nothing!"));
                 exit;
             } else {
                 if ($user_class->gang != 0 && $gang_class->tax > 0) {
