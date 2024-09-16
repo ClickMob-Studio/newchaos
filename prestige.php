@@ -146,6 +146,12 @@ $prestigeUnlocks['crime_exp_unlock'] = array(
     'description' => 'Unlocking Crime EXP Boost gives an extra 20% EXP from all crimes.'
 );
 
+// Super Mugs
+$prestigeUnlocks['super_mugs_unlock'] = array(
+    'name' => 'Super Mugs',
+    'description' => 'Unlocking Super Mugs gives you a super mug button on a players profile, earning you 10 mugs for just 1 click, allowing to complete all your missions faster!'
+);
+
 $prestigeBoosts = array();
 $prestigeBoosts['energy_boost_level'] = '+50 Energy Boost';
 $prestigeBoosts['crime_cash_boost_level'] = '+2% Crime Cash Boost';
