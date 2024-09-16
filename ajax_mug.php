@@ -42,6 +42,7 @@ try {
 
     $attack_person = new SlimUser($_GET['mug']);
     $gang_class = new Gang($user_class->gang);
+    $userPrestigeSkills = getUserPrestigeSkills($user_class);
 
     $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
     $db->execute(array($user_class->id));
@@ -51,9 +52,24 @@ try {
         exit;
     }
 
+    if (isset($_GET['action']) && $_GET['action'] == 'super') {
+        if ($userPrestigeSkills['super_mugs_unlock'] < 1) {
+            diefun("You need to unlock this feature with prestige unlocks.");
+        }
+    }
+
+
+
     // Attempt to refill nerve if it's less than 10
-    if ($user_class->nerve < 10) {
-        refill('n');
+    if (isset($_GET['action']) && $_GET['action'] == 'super') {
+        if ($user_class->nerve < 100) {
+            refill('n');
+        }
+    } else {
+        if ($user_class->nerve < 10) {
+            refill('n');
+        }
+
     }
 
     $conditions = array(
@@ -83,7 +99,18 @@ try {
         }
     }
 
-    $newnerve = $user_class->nerve - 10;
+    if (isset($_GET['action']) && $_GET['action'] == 'super') {
+        if ($user_class->nerve < 100) {
+            echo json_encode('You need at least 100 nerve to complete super mugs');
+            exit;
+        }
+    }
+
+    if (isset($_GET['action']) && $_GET['action'] == 'super') {
+        $newnerve = $user_class->nerve - 10;
+    } else {
+        $newnerve = $user_class->nerve - 100;
+    }
     $db->query("UPDATE grpgusers SET nerve = ?, last_mug_time = ? WHERE id = ?");
     $db->execute(array($newnerve, time(), $user_class->id));
 
@@ -116,6 +143,12 @@ try {
             $divide = rand(7, 8);
             $mugamount = floor($attack_person->money / $divide);
 
+             if (isset($_GET['action']) && $_GET['action'] == 'super') {
+                 $compQty = 10;
+             } else {
+                 $compQty = 1;
+             }
+
             if ($gang_class->upgrade8 >= 1) {
                 $mugamount = floor($mugamount * (1 + 0.10 * $gang_class->upgrade8));
             }
@@ -124,12 +157,12 @@ try {
                 $mugamount = floor($mugamount * (1 + 0.10 * $gang_class->upgrade8));
             }
 
-            addToGangCompLeaderboard($user_class->gang, 'mugs_complete', 1);
+            addToGangCompLeaderboard($user_class->gang, 'mugs_complete', $compQty);
             $bpCategory = getBpCategory();
             if ($bpCategory) {
-                addToBpCategoryUser($bpCategory, $user_class, 'mugs', 1);
+                addToBpCategoryUser($bpCategory, $user_class, 'mugs', $compQty);
             }
-            addToUserCompLeaderboard($user_class->id, 'mugs_complete', 1);
+            addToUserCompLeaderboard($user_class->id, 'mugs_complete', $compQty);
 
             $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
             $db->execute();
@@ -139,15 +172,15 @@ try {
             }
 
             if ($mugamount < 1) {
-                $db->query("UPDATE grpgusers SET mugsucceeded = mugsucceeded + 1, moth = moth + 1, motd = motd + 1 WHERE id = ?");
+                $db->query("UPDATE grpgusers SET mugsucceeded = mugsucceeded + {$compQty}, moth = moth + {$compQty}, motd = motd + {$compQty} WHERE id = ?");
                 $db->execute(array($user_class->id));
 
-                mission('m');
-                newmissions('mugs');
-                updateGangActiveMission('mugs', 1);
-                gangContest(array('mugs' => 1));
-                bloodbath('mugs', $user_class->id);
-                ofthes_wrapper($user_class->id, array('motd' => 1));
+                mission('m', $compQty);
+                newmissions('mugs', $compQty);
+                updateGangActiveMission('mugs', $compQty);
+                gangContest(array('mugs' => $compQty));
+                bloodbath('mugs', $user_class->id, $compQty);
+                ofthes_wrapper($user_class->id, array('motd' => $compQty));
 
                 echo json_encode(success("You reach into {$attack_person->formattedname}'s pockets and find nothing!"));
                 exit;
@@ -174,11 +207,11 @@ try {
                 $db->query("INSERT INTO muglog (mugger, mugged, amount, active, timestamp) VALUES (?, ?, ?, ?, unix_timestamp())");
                 $db->execute(array($user_class->id, $attack_person->id, $mugamount, $online));
 
-                mission('m');
-                newmissions('mugs');
-                updateGangActiveMission('mugs', 1);
-                gangContest(array('mugs' => 1));
-                bloodbath('mugs', $user_class->id);
+                mission('m', $compQty);
+                newmissions('mugs', $compQty);
+                updateGangActiveMission('mugs', $compQty);
+                gangContest(array('mugs' => $compQty));
+                bloodbath('mugs', $user_class->id, $compQty);
                 if($attack_person->lastactive > $active){
                     Send_Event($attack_person->id, "You were mugged by [-_USERID_-]. They stole " . prettynum($mugamount, 1) . ".", $user_class->id);
                 }
