@@ -990,7 +990,7 @@ $resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$profile_
             <a class='action' href='sendpoints.php?person=" . $profile_class->id . "'>Send Points</a>
             <a class='action' href='sendgold.php?person=" . $profile_class->id . "'>Send GOLD</a>
                <a class='action' href='profiles.php?id=" . $profile_class->id . "&contact=ignore'>Ignore User</a>";
-            if ($userPrestigeSkills['super_mugs_unlock'] < 1) {
+            if ($userPrestigeSkills['super_mugs_unlock'] >= 1) {
                 echo "<a class='action ajax-link' href='ajax_mug.php?action=super&mug=" . $profile_class->id . "&token=" . $user_class->macro_token . "'>Super Mug</a>";
             }
 
