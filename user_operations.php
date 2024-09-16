@@ -225,7 +225,7 @@ if (isset($_GET['start'])) {
                                             <?php endif; ?>
 
                                             <?php if ($toUse['points_reward'] > 0): ?>
-                                                <li>?php echo number_format($toUse['points_reward'], 0) ?> Points</li>
+                                                <li><?php echo number_format($toUse['points_reward'], 0) ?> Points</li>
                                             <?php endif; ?>
 
                                             <?php if ($toUse['exp_reward'] > 0): ?>
@@ -313,7 +313,7 @@ if (isset($_GET['start'])) {
                                             <?php endif; ?>
 
                                             <?php if ($toUse['points_reward'] > 0): ?>
-                                                <li>?php echo number_format($toUse['points_reward'], 0) ?> Points</li>
+                                                <li><?php echo number_format($toUse['points_reward'], 0) ?> Points</li>
                                             <?php endif; ?>
 
                                             <?php if ($toUse['exp_reward'] > 0): ?>
@@ -341,234 +341,354 @@ if (isset($_GET['start'])) {
 
             <h1>Busts</h1>
             <div class="row">
-                <div class="col-md-6">
-                    <table class="new_table">
-                        <?php $next = $nextOperationsIndexedOnCategory['busts_cash'] ?>
-                        <?php if (isset($indexedOperations['busts_cash'][$next])): ?>
-                            <?php $toUse = $indexedOperations['busts_cash'][$next]; ?>
-                            <tr>
-                                <th>Busts Cash</th>
-                            </tr>
-                            <tr>
-                                <td><?php echo number_format($toUse['busts'], 0) ?> Busts</td>
-                            </tr>
-                            <tr>
-                                <td>$<?php echo number_format($toUse['money_reward'], 0) ?></td>
-                            </tr>
-                            <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=busts_cash">Start Operation</a></td>
-                            </tr>
-                        <?php else: ?>
-                            <tr>
-                                <th>Busts Cash</th>
-                            </tr>
-                            <tr>
-                                <td>Operations Complete</td>
-                            </tr>
-                        <?php endif; ?>
-                    </table>
-                </div>
-                <div class="col-md-6">
-                    <table class="new_table">
-                        <?php $next = $nextOperationsIndexedOnCategory['busts_points'] ?>
-                        <?php if (isset($indexedOperations['busts_points'][$next])): ?>
-                            <?php $toUse = $indexedOperations['busts_points'][$next]; ?>
-                            <tr>
-                                <th>Busts Points</th>
-                            </tr>
-                            <tr>
-                                <td><?php echo number_format($toUse['busts'], 0) ?> Busts</td>
-                            </tr>
-                            <tr>
-                                <td>$<?php echo number_format($toUse['points_reward'], 0) ?></td>
-                            </tr>
-                            <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=busts_points">Start Operation</a></td>
-                            </tr>
-                        <?php else: ?>
-                            <tr>
-                                <th>Busts Points</th>
-                            </tr>
-                            <tr>
-                                <td>Operations Complete</td>
-                            </tr>
-                        <?php endif; ?>
-                    </table>
-                </div>
+                <?php $categories = array('busts_cash', 'busts_points'); ?>
+
+                <?php foreach ($categories as $category): ?>
+                    <?php
+                    $categoryForDisplay = explode('_', $category);
+                    $categoryForDisplay = join($categoryForDisplay, ' ');
+                    $categoryForDisplay = ucwords($categoryForDisplay);
+                    ?>
+
+                    <div class="col-md-6">
+                        <table class="new_table">
+                            <?php $next = $nextOperationsIndexedOnCategory[$category] ?>
+                            <?php if (isset($indexedOperations[$category][$next])): ?>
+                                <?php $toUse = $indexedOperations[$category][$next]; ?>
+                                <tr>
+                                    <th><?php echo $categoryForDisplay ?></th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <?php if ($toUse['crimes'] > 0): ?>
+                                            <?php echo number_format($toUse['crimes'], 0) ?> Crimes
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['mugs'] > 0): ?>
+                                            <?php echo number_format($toUse['mugs'], 0) ?> Mugs
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['busts'] > 0): ?>
+                                            <?php echo number_format($toUse['busts'], 0) ?> Busts
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['online_attacks'] > 0): ?>
+                                            <?php echo number_format($toUse['online_attacks'], 0) ?> Online Attacks
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['offline_attacks'] > 0): ?>
+                                            <?php echo number_format($toUse['offline_attacks'], 0) ?> Offline Attacks
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['full_energy_trains'] > 0): ?>
+                                            <?php echo number_format($toUse['full_energy_trains'], 0) ?> Full Energy Trains
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['city_boss_wins'] > 0): ?>
+                                            <?php echo number_format($toUse['city_boss_wins'], 0) ?> City Goon Wins
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['backalleys'] > 0): ?>
+                                            <?php echo number_format($toUse['backalleys'], 0) ?> Backalley Wins
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <ul>
+                                            <?php if ($toUse['money_reward'] > 0): ?>
+                                                <li>$<?php echo number_format($toUse['money_reward'], 0) ?></li>
+                                            <?php endif; ?>
+
+                                            <?php if ($toUse['points_reward'] > 0): ?>
+                                                <li><?php echo number_format($toUse['points_reward'], 0) ?> Points</li>
+                                            <?php endif; ?>
+
+                                            <?php if ($toUse['exp_reward'] > 0): ?>
+                                                <li><?php echo number_format($toUse['exp_reward'], 0) ?>% EXP</li>
+                                            <?php endif; ?>
+                                        </ul>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $category ?>">Start Operation</a></td>
+                                </tr>
+                            <?php else: ?>
+                                <tr>
+                                    <th><?php echo $categoryForDisplay ?></th>
+                                </tr>
+                                <tr>
+                                    <td>Operations Complete</td>
+                                </tr>
+                            <?php endif; ?>
+                        </table>
+                    </div>
+                <?php endforeach; ?>
             </div>
 
             <h1>Online Attacks</h1>
             <div class="row">
-                <div class="col-md-6">
-                    <table class="new_table">
-                        <?php $next = $nextOperationsIndexedOnCategory['online_attacks_cash'] ?>
-                        <?php if (isset($indexedOperations['online_attacks_cash'][$next])): ?>
-                            <?php $toUse = $indexedOperations['online_attacks_cash'][$next]; ?>
-                            <tr>
-                                <th>Online Attacks Cash</th>
-                            </tr>
-                            <tr>
-                                <td><?php echo number_format($toUse['online_attacks'], 0) ?> Online Attacks</td>
-                            </tr>
-                            <tr>
-                                <td>$<?php echo number_format($toUse['money_reward'], 0) ?></td>
-                            </tr>
-                            <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=online_attacks_cash">Start Operation</a></td>
-                            </tr>
-                        <?php else: ?>
-                            <tr>
-                                <th>Online Attacks Cash</th>
-                            </tr>
-                            <tr>
-                                <td>Operations Complete</td>
-                            </tr>
-                        <?php endif; ?>
-                    </table>
-                </div>
-                <div class="col-md-6">
-                    <table class="new_table">
-                        <?php $next = $nextOperationsIndexedOnCategory['online_attacks_points'] ?>
-                        <?php if (isset($indexedOperations['online_attacks_points'][$next])): ?>
-                            <?php $toUse = $indexedOperations['online_attacks_points'][$next]; ?>
-                            <tr>
-                                <th>Online Attacks Points</th>
-                            </tr>
-                            <tr>
-                                <td><?php echo number_format($toUse['online_attacks'], 0) ?> Online Attacks</td>
-                            </tr>
-                            <tr>
-                                <td><?php echo number_format($toUse['points_reward'], 0) ?> Points</td>
-                            </tr>
-                            <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=online_attacks_points">Start Operation</a></td>
-                            </tr>
-                        <?php else: ?>
-                            <tr>
-                                <th>Online Attacks Points</th>
-                            </tr>
-                            <tr>
-                                <td>Operations Complete</td>
-                            </tr>
-                        <?php endif; ?>
-                    </table>
-                </div>
+                <?php $categories = array('online_attacks_cash', 'online_attacks_points'); ?>
+
+                <?php foreach ($categories as $category): ?>
+                    <?php
+                    $categoryForDisplay = explode('_', $category);
+                    $categoryForDisplay = join($categoryForDisplay, ' ');
+                    $categoryForDisplay = ucwords($categoryForDisplay);
+                    ?>
+
+                    <div class="col-md-6">
+                        <table class="new_table">
+                            <?php $next = $nextOperationsIndexedOnCategory[$category] ?>
+                            <?php if (isset($indexedOperations[$category][$next])): ?>
+                                <?php $toUse = $indexedOperations[$category][$next]; ?>
+                                <tr>
+                                    <th><?php echo $categoryForDisplay ?></th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <?php if ($toUse['crimes'] > 0): ?>
+                                            <?php echo number_format($toUse['crimes'], 0) ?> Crimes
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['mugs'] > 0): ?>
+                                            <?php echo number_format($toUse['mugs'], 0) ?> Mugs
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['busts'] > 0): ?>
+                                            <?php echo number_format($toUse['busts'], 0) ?> Busts
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['online_attacks'] > 0): ?>
+                                            <?php echo number_format($toUse['online_attacks'], 0) ?> Online Attacks
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['offline_attacks'] > 0): ?>
+                                            <?php echo number_format($toUse['offline_attacks'], 0) ?> Offline Attacks
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['full_energy_trains'] > 0): ?>
+                                            <?php echo number_format($toUse['full_energy_trains'], 0) ?> Full Energy Trains
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['city_boss_wins'] > 0): ?>
+                                            <?php echo number_format($toUse['city_boss_wins'], 0) ?> City Goon Wins
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['backalleys'] > 0): ?>
+                                            <?php echo number_format($toUse['backalleys'], 0) ?> Backalley Wins
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <ul>
+                                            <?php if ($toUse['money_reward'] > 0): ?>
+                                                <li>$<?php echo number_format($toUse['money_reward'], 0) ?></li>
+                                            <?php endif; ?>
+
+                                            <?php if ($toUse['points_reward'] > 0): ?>
+                                                <li><?php echo number_format($toUse['points_reward'], 0) ?> Points</li>
+                                            <?php endif; ?>
+
+                                            <?php if ($toUse['exp_reward'] > 0): ?>
+                                                <li><?php echo number_format($toUse['exp_reward'], 0) ?>% EXP</li>
+                                            <?php endif; ?>
+                                        </ul>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $category ?>">Start Operation</a></td>
+                                </tr>
+                            <?php else: ?>
+                                <tr>
+                                    <th><?php echo $categoryForDisplay ?></th>
+                                </tr>
+                                <tr>
+                                    <td>Operations Complete</td>
+                                </tr>
+                            <?php endif; ?>
+                        </table>
+                    </div>
+                <?php endforeach; ?>
             </div>
 
             <h1>City Goons Cash</h1>
             <div class="row">
-                <div class="col-md-6">
-                    <table class="new_table">
-                        <?php $next = $nextOperationsIndexedOnCategory['city_boss_cash'] ?>
-                        <?php if (isset($indexedOperations['city_boss_cash'][$next])): ?>
-                            <?php $toUse = $indexedOperations['city_boss_cash'][$next]; ?>
-                            <tr>
-                                <th>City Goons Cash</th>
-                            </tr>
-                            <tr>
-                                <td><?php echo number_format($toUse['city_boss_wins'], 0) ?> City Goon Wins</td>
-                            </tr>
-                            <tr>
-                                <td>$<?php echo number_format($toUse['money_reward'], 0) ?></td>
-                            </tr>
-                            <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=city_boss_cash">Start Operation</a></td>
-                            </tr>
-                        <?php else: ?>
-                            <tr>
-                                <th>City Goons Cash</th>
-                            </tr>
-                            <tr>
-                                <td>Operations Complete</td>
-                            </tr>
-                        <?php endif; ?>
-                    </table>
-                </div>
-                <div class="col-md-6">
-                    <table class="new_table">
-                        <?php $next = $nextOperationsIndexedOnCategory['city_boss_points'] ?>
-                        <?php if (isset($indexedOperations['city_boss_points'][$next])): ?>
-                            <?php $toUse = $indexedOperations['city_boss_points'][$next]; ?>
-                            <tr>
-                                <th>City Goons Points</th>
-                            </tr>
-                            <tr>
-                                <td><?php echo number_format($toUse['city_boss_wins'], 0) ?> City Goon Wins</td>
-                            </tr>
-                            <tr>
-                                <td>$<?php echo number_format($toUse['points_reward'], 0) ?></td>
-                            </tr>
-                            <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=city_boss_points">Start Operation</a></td>
-                            </tr>
-                        <?php else: ?>
-                            <tr>
-                                <th>City Goons Points</th>
-                            </tr>
-                            <tr>
-                                <td>Operations Complete</td>
-                            </tr>
-                        <?php endif; ?>
-                    </table>
-                </div>
+                <?php $categories = array('city_boss_cash', 'city_boss_points'); ?>
+
+                <?php foreach ($categories as $category): ?>
+                    <?php
+                    $categoryForDisplay = explode('_', $category);
+                    $categoryForDisplay = join($categoryForDisplay, ' ');
+                    $categoryForDisplay = ucwords($categoryForDisplay);
+                    ?>
+
+                    <div class="col-md-6">
+                        <table class="new_table">
+                            <?php $next = $nextOperationsIndexedOnCategory[$category] ?>
+                            <?php if (isset($indexedOperations[$category][$next])): ?>
+                                <?php $toUse = $indexedOperations[$category][$next]; ?>
+                                <tr>
+                                    <th><?php echo $categoryForDisplay ?></th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <?php if ($toUse['crimes'] > 0): ?>
+                                            <?php echo number_format($toUse['crimes'], 0) ?> Crimes
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['mugs'] > 0): ?>
+                                            <?php echo number_format($toUse['mugs'], 0) ?> Mugs
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['busts'] > 0): ?>
+                                            <?php echo number_format($toUse['busts'], 0) ?> Busts
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['online_attacks'] > 0): ?>
+                                            <?php echo number_format($toUse['online_attacks'], 0) ?> Online Attacks
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['offline_attacks'] > 0): ?>
+                                            <?php echo number_format($toUse['offline_attacks'], 0) ?> Offline Attacks
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['full_energy_trains'] > 0): ?>
+                                            <?php echo number_format($toUse['full_energy_trains'], 0) ?> Full Energy Trains
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['city_boss_wins'] > 0): ?>
+                                            <?php echo number_format($toUse['city_boss_wins'], 0) ?> City Goon Wins
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['backalleys'] > 0): ?>
+                                            <?php echo number_format($toUse['backalleys'], 0) ?> Backalley Wins
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <ul>
+                                            <?php if ($toUse['money_reward'] > 0): ?>
+                                                <li>$<?php echo number_format($toUse['money_reward'], 0) ?></li>
+                                            <?php endif; ?>
+
+                                            <?php if ($toUse['points_reward'] > 0): ?>
+                                                <li><?php echo number_format($toUse['points_reward'], 0) ?> Points</li>
+                                            <?php endif; ?>
+
+                                            <?php if ($toUse['exp_reward'] > 0): ?>
+                                                <li><?php echo number_format($toUse['exp_reward'], 0) ?>% EXP</li>
+                                            <?php endif; ?>
+                                        </ul>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $category ?>">Start Operation</a></td>
+                                </tr>
+                            <?php else: ?>
+                                <tr>
+                                    <th><?php echo $categoryForDisplay ?></th>
+                                </tr>
+                                <tr>
+                                    <td>Operations Complete</td>
+                                </tr>
+                            <?php endif; ?>
+                        </table>
+                    </div>
+                <?php endforeach; ?>
             </div>
 
             <h1>Backalley Wins Cash</h1>
             <div class="row">
-                <div class="col-md-6">
-                    <table class="new_table">
-                        <?php $next = $nextOperationsIndexedOnCategory['backalley_cash'] ?>
-                        <?php if (isset($indexedOperations['backalley_cash'][$next])): ?>
-                            <?php $toUse = $indexedOperations['backalley_cash'][$next]; ?>
-                            <tr>
-                                <th>City Goons Cash</th>
-                            </tr>
-                            <tr>
-                                <td><?php echo number_format($toUse['backalleys'], 0) ?> Backalley wins</td>
-                            </tr>
-                            <tr>
-                                <td>$<?php echo number_format($toUse['money_reward'], 0) ?></td>
-                            </tr>
-                            <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=backalley_cash">Start Operation</a></td>
-                            </tr>
-                        <?php else: ?>
-                            <tr>
-                                <th>Backalley Wins Cash</th>
-                            </tr>
-                            <tr>
-                                <td>Operations Complete</td>
-                            </tr>
-                        <?php endif; ?>
-                    </table>
-                </div>
-                <div class="col-md-6">
-                    <table class="new_table">
-                        <?php $next = $nextOperationsIndexedOnCategory['backalley_points'] ?>
-                        <?php if (isset($indexedOperations['backalley_points'][$next])): ?>
-                            <?php $toUse = $indexedOperations['backalley_points'][$next]; ?>
-                            <tr>
-                                <th>Backalley Points</th>
-                            </tr>
-                            <tr>
-                                <td><?php echo number_format($toUse['backalleys'], 0) ?> Backalley Wins</td>
-                            </tr>
-                            <tr>
-                                <td><?php echo number_format($toUse['points_reward'], 0) ?> Points</td>
-                            </tr>
-                            <tr>
-                                <td><a class="dcSecondaryButton" href="user_operations.php?start=backalley_points">Start Operation</a></td>
-                            </tr>
-                        <?php else: ?>
-                            <tr>
-                                <th>Backalley Points</th>
-                            </tr>
-                            <tr>
-                                <td>Operations Complete</td>
-                            </tr>
-                        <?php endif; ?>
-                    </table>
-                </div>
+                <?php $categories = array('backalley_cash', 'backalley_points'); ?>
+
+                <?php foreach ($categories as $category): ?>
+                    <?php
+                    $categoryForDisplay = explode('_', $category);
+                    $categoryForDisplay = join($categoryForDisplay, ' ');
+                    $categoryForDisplay = ucwords($categoryForDisplay);
+                    ?>
+
+                    <div class="col-md-6">
+                        <table class="new_table">
+                            <?php $next = $nextOperationsIndexedOnCategory[$category] ?>
+                            <?php if (isset($indexedOperations[$category][$next])): ?>
+                                <?php $toUse = $indexedOperations[$category][$next]; ?>
+                                <tr>
+                                    <th><?php echo $categoryForDisplay ?></th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <?php if ($toUse['crimes'] > 0): ?>
+                                            <?php echo number_format($toUse['crimes'], 0) ?> Crimes
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['mugs'] > 0): ?>
+                                            <?php echo number_format($toUse['mugs'], 0) ?> Mugs
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['busts'] > 0): ?>
+                                            <?php echo number_format($toUse['busts'], 0) ?> Busts
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['online_attacks'] > 0): ?>
+                                            <?php echo number_format($toUse['online_attacks'], 0) ?> Online Attacks
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['offline_attacks'] > 0): ?>
+                                            <?php echo number_format($toUse['offline_attacks'], 0) ?> Offline Attacks
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['full_energy_trains'] > 0): ?>
+                                            <?php echo number_format($toUse['full_energy_trains'], 0) ?> Full Energy Trains
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['city_boss_wins'] > 0): ?>
+                                            <?php echo number_format($toUse['city_boss_wins'], 0) ?> City Goon Wins
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['backalleys'] > 0): ?>
+                                            <?php echo number_format($toUse['backalleys'], 0) ?> Backalley Wins
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <ul>
+                                            <?php if ($toUse['money_reward'] > 0): ?>
+                                                <li>$<?php echo number_format($toUse['money_reward'], 0) ?></li>
+                                            <?php endif; ?>
+
+                                            <?php if ($toUse['points_reward'] > 0): ?>
+                                                <li><?php echo number_format($toUse['points_reward'], 0) ?> Points</li>
+                                            <?php endif; ?>
+
+                                            <?php if ($toUse['exp_reward'] > 0): ?>
+                                                <li><?php echo number_format($toUse['exp_reward'], 0) ?>% EXP</li>
+                                            <?php endif; ?>
+                                        </ul>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $category ?>">Start Operation</a></td>
+                                </tr>
+                            <?php else: ?>
+                                <tr>
+                                    <th><?php echo $categoryForDisplay ?></th>
+                                </tr>
+                                <tr>
+                                    <td>Operations Complete</td>
+                                </tr>
+                            <?php endif; ?>
+                        </table>
+                    </div>
+                <?php endforeach; ?>
             </div>
         <?php endif; ?>
 
