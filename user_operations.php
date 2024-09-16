@@ -44,7 +44,6 @@ foreach ($indexedOperations as $category => $operations) {
 
     $nextOperationsIndexedOnCategory[$category] = $nextUserOperation;
 }
-print_r($nextOperationsIndexedOnCategory);
 
 if (isset($_GET['start'])) {
     $validOptions = array(
