@@ -49,16 +49,22 @@ if (isset($_GET['start'])) {
     $validOptions = array(
         'crimes_cash',
         'crimes_points',
+        'crimes_premium',
         'mugs_cash',
         'mugs_points',
+        'mugs_premium',
         'busts_cash',
         'busts_points',
+        'busts_premium',
         'online_attacks_cash',
         'online_attacks_points',
+        'online_attacks_premium',
         'city_boss_cash',
         'city_boss_points',
+        'city_boss_premium',
         'backalley_cash',
         'backalley_points',
+        'backalley_premium',
     );
 
     if (!in_array($_GET['start'], $validOptions)) {
@@ -75,6 +81,16 @@ if (isset($_GET['start'])) {
 
     if (isset($indexedOperations[$start][$next])) {
         $operationToUse = $indexedOperations[$start][$next];
+
+        if ($operationToUse['premium_cost'] > 0) {
+            if ($user_class->credits < $operationToUse['premium_cost']) {
+                diefun('You do not have enough credits to start this operation. <a href="user_operations.php">Go Back</a>');
+                exit;
+            }
+
+            $db->query("UPDATE grpgusers SET credits = credits - " . $user_class->credits . " WHERE id = " . $user_class->id);
+            $db->execute();
+        }
 
         $db->query('
             INSERT INTO 
