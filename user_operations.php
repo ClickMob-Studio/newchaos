@@ -173,7 +173,7 @@ if (isset($_GET['start'])) {
                     $categoryForDisplay = ucwords($categoryForDisplay);
                     ?>
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <table class="new_table">
                             <?php $next = $nextOperationsIndexedOnCategory[$category] ?>
                             <?php if (isset($indexedOperations[$category][$next])): ?>
