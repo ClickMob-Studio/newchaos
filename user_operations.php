@@ -88,7 +88,7 @@ if (isset($_GET['start'])) {
                 exit;
             }
 
-            $db->query("UPDATE grpgusers SET credits = credits - " . $user_class->credits . " WHERE id = " . $user_class->id);
+            $db->query("UPDATE grpgusers SET credits = credits - " . $operationToUse['premium_cost'] . " WHERE id = " . $user_class->id);
             $db->execute();
         }
 
