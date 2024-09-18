@@ -164,7 +164,7 @@ if (isset($_GET['start'])) {
         <?php else: ?>
             <h1>Crimes</h1>
             <div class="row">
-                <?php $categories = array('crimes_cash', 'crimes_points'); ?>
+                <?php $categories = array('crimes_cash', 'crimes_points', , 'crimes_premium'); ?>
 
                 <?php foreach ($categories as $category): ?>
                     <?php
