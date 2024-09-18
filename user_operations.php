@@ -233,6 +233,11 @@ if (isset($_GET['start'])) {
                                             <?php endif; ?>
                                         </ul>
 
+                                        <?php if ($toUse['premium_cost'] > 0): ?>
+                                            <hr />
+                                            <strong>Cost:</strong> <?php echo number_format($toUse['premium_cost'], 0) ?> Credits
+                                        <?php endif; ?>
+
                                     </td>
                                 </tr>
                                 <tr>
