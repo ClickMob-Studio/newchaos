@@ -274,7 +274,7 @@ if (isset($_GET['start'])) {
 
             <h1>Mugs</h1>
             <div class="row">
-                <?php $categories = array('mugs_cash', 'mugs_points'); ?>
+                <?php $categories = array('mugs_cash', 'mugs_points', 'mugs_premium'); ?>
 
                 <?php foreach ($categories as $category): ?>
                     <?php
