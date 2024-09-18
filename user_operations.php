@@ -362,7 +362,7 @@ if (isset($_GET['start'])) {
 
             <h1>Busts</h1>
             <div class="row">
-                <?php $categories = array('busts_cash', 'busts_points'); ?>
+                <?php $categories = array('busts_cash', 'busts_points', 'busts_premium'); ?>
 
                 <?php foreach ($categories as $category): ?>
                     <?php
@@ -371,7 +371,7 @@ if (isset($_GET['start'])) {
                     $categoryForDisplay = ucwords($categoryForDisplay);
                     ?>
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <table class="new_table">
                             <?php $next = $nextOperationsIndexedOnCategory[$category] ?>
                             <?php if (isset($indexedOperations[$category][$next])): ?>
@@ -450,7 +450,7 @@ if (isset($_GET['start'])) {
 
             <h1>Online Attacks</h1>
             <div class="row">
-                <?php $categories = array('online_attacks_cash', 'online_attacks_points'); ?>
+                <?php $categories = array('online_attacks_cash', 'online_attacks_points', 'online_attacks_premium'); ?>
 
                 <?php foreach ($categories as $category): ?>
                     <?php
@@ -459,7 +459,7 @@ if (isset($_GET['start'])) {
                     $categoryForDisplay = ucwords($categoryForDisplay);
                     ?>
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <table class="new_table">
                             <?php $next = $nextOperationsIndexedOnCategory[$category] ?>
                             <?php if (isset($indexedOperations[$category][$next])): ?>
