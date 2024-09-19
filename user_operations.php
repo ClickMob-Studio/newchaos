@@ -538,7 +538,7 @@ if (isset($_GET['start'])) {
 
             <h1>City Goons Cash</h1>
             <div class="row">
-                <?php $categories = array('city_boss_cash', 'city_boss_points'); ?>
+                <?php $categories = array('city_boss_cash', 'city_boss_points', 'city_boss_premium'); ?>
 
                 <?php foreach ($categories as $category): ?>
                     <?php
@@ -626,7 +626,7 @@ if (isset($_GET['start'])) {
 
             <h1>Backalley Wins Cash</h1>
             <div class="row">
-                <?php $categories = array('backalley_cash', 'backalley_points'); ?>
+                <?php $categories = array('backalley_cash', 'backalley_points', 'backalley_premium'); ?>
 
                 <?php foreach ($categories as $category): ?>
                     <?php
