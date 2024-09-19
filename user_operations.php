@@ -324,6 +324,7 @@ if (isset($_GET['start'])) {
                                         <?php if ($toUse['backalleys'] > 0): ?>
                                             <?php echo number_format($toUse['backalleys'], 0) ?> Backalley Wins
                                         <?php endif; ?>
+                                        <hr/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -412,6 +413,7 @@ if (isset($_GET['start'])) {
                                         <?php if ($toUse['backalleys'] > 0): ?>
                                             <?php echo number_format($toUse['backalleys'], 0) ?> Backalley Wins
                                         <?php endif; ?>
+                                        <hr/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -500,6 +502,7 @@ if (isset($_GET['start'])) {
                                         <?php if ($toUse['backalleys'] > 0): ?>
                                             <?php echo number_format($toUse['backalleys'], 0) ?> Backalley Wins
                                         <?php endif; ?>
+                                        <hr/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -588,6 +591,7 @@ if (isset($_GET['start'])) {
                                         <?php if ($toUse['backalleys'] > 0): ?>
                                             <?php echo number_format($toUse['backalleys'], 0) ?> Backalley Wins
                                         <?php endif; ?>
+                                        <hr/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -676,6 +680,7 @@ if (isset($_GET['start'])) {
                                         <?php if ($toUse['backalleys'] > 0): ?>
                                             <?php echo number_format($toUse['backalleys'], 0) ?> Backalley Wins
                                         <?php endif; ?>
+                                        <hr/>
                                     </td>
                                 </tr>
                                 <tr>
