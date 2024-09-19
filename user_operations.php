@@ -173,7 +173,7 @@ if (isset($_GET['start'])) {
                         Backalley Wins
                     </th>
                     <td>
-                        <?php echo number_format($currentUserOperation['backalleys'], 0) ?>/<?php echo number_format($currentOperation['backalley_wins'], 0) ?>
+                        <?php echo number_format($currentUserOperation['backalley'], 0) ?>/<?php echo number_format($currentOperation['backalley_wins'], 0) ?>
                     </td>
                 </tr>
             </table>
