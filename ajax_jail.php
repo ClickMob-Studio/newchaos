@@ -74,6 +74,7 @@ if (isset($_POST['bust'])) {
                 $toadd = array('botd' => 1);
                 ofthes($user_class->id, $toadd);
                 bloodbath('busts', $user_class->id);
+                addToUserOperations($user_class, 'busts', 1);
             } elseif ($chance >= 96) {
                 $error = "You attempted to break " . formatName($bust) . " out of jail but you were caught. You were hauled into jail with them for 10 minutes. <a onclick='bail();'>Bail Out</a>";
                 $db->query("UPDATE grpgusers SET crimefailed = crimefailed + 1, caught = caught + 1, jail = 600, nerve = nerve - ? WHERE id = ?");

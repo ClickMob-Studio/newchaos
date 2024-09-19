@@ -484,9 +484,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 addToBpCategoryUser($bpCategory, $user_class, 'crimes', $crime_multiplier);
             }
 
-            if ($user_class->admin > 0) {
-                addToUserOperations($user_class, 'crimes', $crime_multiplier);
-            }
+            addToUserOperations($user_class, 'crimes', $crime_multiplier);
 
             $user_class->money += $money;
             $user_class->nerve -= $nerve;

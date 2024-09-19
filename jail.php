@@ -75,6 +75,7 @@ if ($jailbreak != ""){
                 $toadd = array('botd' => 1);
                 ofthes($user_class->id, $toadd);
                 bloodbath('busts', $user_class->id);
+                addToUserOperations($user_class, 'busts', 1);
 
             }
         } else {
@@ -133,6 +134,7 @@ if ($jailbreak != ""){
                         $toadd = array('botd' => 1);
                         ofthes($user_class->id, $toadd);
                         bloodbath('busts', $user_class->id);
+                        addToUserOperations($user_class, 'busts', 1);
                         updateGangActiveMission('busts', 1);
                         $result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='".$jailed_person['id']."'");
                         //send even to that person
