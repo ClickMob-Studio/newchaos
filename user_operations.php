@@ -157,15 +157,15 @@ if (isset($_GET['start'])) {
                     </td>
                 </tr>
 
-                <!-- CITY BOSS WINS -->
-                <tr>
-                    <th>
-                        City Goons Wins
-                    </th>
-                    <td>
-                        <?php echo number_format($currentUserOperation['city_boss_wins'], 0) ?>/<?php echo number_format($currentOperation['city_boss_wins'], 0) ?>
-                    </td>
-                </tr>
+<!--                <!-- CITY BOSS WINS -->-->
+<!--                <tr>-->
+<!--                    <th>-->
+<!--                        City Goons Wins-->
+<!--                    </th>-->
+<!--                    <td>-->
+<!--                        --><?php //echo number_format($currentUserOperation['city_boss_wins'], 0) ?><!--/--><?php //echo number_format($currentOperation['city_boss_wins'], 0) ?>
+<!--                    </td>-->
+<!--                </tr>-->
 
                 <!-- BACKALLEY WINS -->
                 <tr>
@@ -554,98 +554,98 @@ if (isset($_GET['start'])) {
                 <?php endforeach; ?>
             </div>
 
-            <h1>City Goons Cash</h1>
-            <div class="row">
-                <?php $categories = array('city_boss_cash', 'city_boss_points', 'city_boss_premium'); ?>
-
-                <?php foreach ($categories as $category): ?>
-                    <?php
-                    $categoryForDisplay = explode('_', $category);
-                    $categoryForDisplay = join($categoryForDisplay, ' ');
-                    $categoryForDisplay = ucwords($categoryForDisplay);
-                    ?>
-
-                    <div class="col-md-4">
-                        <table class="new_table">
-                            <?php $next = $nextOperationsIndexedOnCategory[$category] ?>
-                            <?php if (isset($indexedOperations[$category][$next])): ?>
-                                <?php $toUse = $indexedOperations[$category][$next]; ?>
-                                <tr>
-                                    <th><?php echo $categoryForDisplay ?></th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <?php if ($toUse['crimes'] > 0): ?>
-                                            <?php echo number_format($toUse['crimes'], 0) ?> Crimes
-                                        <?php endif; ?>
-
-                                        <?php if ($toUse['mugs'] > 0): ?>
-                                            <?php echo number_format($toUse['mugs'], 0) ?> Mugs
-                                        <?php endif; ?>
-
-                                        <?php if ($toUse['busts'] > 0): ?>
-                                            <?php echo number_format($toUse['busts'], 0) ?> Busts
-                                        <?php endif; ?>
-
-                                        <?php if ($toUse['online_attacks'] > 0): ?>
-                                            <?php echo number_format($toUse['online_attacks'], 0) ?> Online Attacks
-                                        <?php endif; ?>
-
-                                        <?php if ($toUse['offline_attacks'] > 0): ?>
-                                            <?php echo number_format($toUse['offline_attacks'], 0) ?> Offline Attacks
-                                        <?php endif; ?>
-
-                                        <?php if ($toUse['full_energy_trains'] > 0): ?>
-                                            <?php echo number_format($toUse['full_energy_trains'], 0) ?> Full Energy Trains
-                                        <?php endif; ?>
-
-                                        <?php if ($toUse['city_boss_wins'] > 0): ?>
-                                            <?php echo number_format($toUse['city_boss_wins'], 0) ?> City Goon Wins
-                                        <?php endif; ?>
-
-                                        <?php if ($toUse['backalleys'] > 0): ?>
-                                            <?php echo number_format($toUse['backalleys'], 0) ?> Backalley Wins
-                                        <?php endif; ?>
-                                        <hr/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <ul>
-                                            <?php if ($toUse['money_reward'] > 0): ?>
-                                                <li>$<?php echo number_format($toUse['money_reward'], 0) ?></li>
-                                            <?php endif; ?>
-
-                                            <?php if ($toUse['points_reward'] > 0): ?>
-                                                <li><?php echo number_format($toUse['points_reward'], 0) ?> Points</li>
-                                            <?php endif; ?>
-
-                                            <?php if ($toUse['exp_reward'] > 0): ?>
-                                                <li><?php echo number_format($toUse['exp_reward'], 0) ?>% EXP</li>
-                                            <?php endif; ?>
-                                        </ul>
-
-                                        <?php if ($toUse['premium_cost'] > 0): ?>
-                                            <hr />
-                                            <strong>Cost:</strong> <?php echo number_format($toUse['premium_cost'], 0) ?> Credits
-                                        <?php endif; ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $category ?>">Start Operation</a></td>
-                                </tr>
-                            <?php else: ?>
-                                <tr>
-                                    <th><?php echo $categoryForDisplay ?></th>
-                                </tr>
-                                <tr>
-                                    <td>Operations Complete</td>
-                                </tr>
-                            <?php endif; ?>
-                        </table>
-                    </div>
-                <?php endforeach; ?>
-            </div>
+<!--            <h1>City Goons Cash</h1>-->
+<!--            <div class="row">-->
+<!--                --><?php //$categories = array('city_boss_cash', 'city_boss_points', 'city_boss_premium'); ?>
+<!---->
+<!--                --><?php //foreach ($categories as $category): ?>
+<!--                    --><?php
+//                    $categoryForDisplay = explode('_', $category);
+//                    $categoryForDisplay = join($categoryForDisplay, ' ');
+//                    $categoryForDisplay = ucwords($categoryForDisplay);
+//                    ?>
+<!---->
+<!--                    <div class="col-md-4">-->
+<!--                        <table class="new_table">-->
+<!--                            --><?php //$next = $nextOperationsIndexedOnCategory[$category] ?>
+<!--                            --><?php //if (isset($indexedOperations[$category][$next])): ?>
+<!--                                --><?php //$toUse = $indexedOperations[$category][$next]; ?>
+<!--                                <tr>-->
+<!--                                    <th>--><?php //echo $categoryForDisplay ?><!--</th>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td>-->
+<!--                                        --><?php //if ($toUse['crimes'] > 0): ?>
+<!--                                            --><?php //echo number_format($toUse['crimes'], 0) ?><!-- Crimes-->
+<!--                                        --><?php //endif; ?>
+<!---->
+<!--                                        --><?php //if ($toUse['mugs'] > 0): ?>
+<!--                                            --><?php //echo number_format($toUse['mugs'], 0) ?><!-- Mugs-->
+<!--                                        --><?php //endif; ?>
+<!---->
+<!--                                        --><?php //if ($toUse['busts'] > 0): ?>
+<!--                                            --><?php //echo number_format($toUse['busts'], 0) ?><!-- Busts-->
+<!--                                        --><?php //endif; ?>
+<!---->
+<!--                                        --><?php //if ($toUse['online_attacks'] > 0): ?>
+<!--                                            --><?php //echo number_format($toUse['online_attacks'], 0) ?><!-- Online Attacks-->
+<!--                                        --><?php //endif; ?>
+<!---->
+<!--                                        --><?php //if ($toUse['offline_attacks'] > 0): ?>
+<!--                                            --><?php //echo number_format($toUse['offline_attacks'], 0) ?><!-- Offline Attacks-->
+<!--                                        --><?php //endif; ?>
+<!---->
+<!--                                        --><?php //if ($toUse['full_energy_trains'] > 0): ?>
+<!--                                            --><?php //echo number_format($toUse['full_energy_trains'], 0) ?><!-- Full Energy Trains-->
+<!--                                        --><?php //endif; ?>
+<!---->
+<!--                                        --><?php //if ($toUse['city_boss_wins'] > 0): ?>
+<!--                                            --><?php //echo number_format($toUse['city_boss_wins'], 0) ?><!-- City Goon Wins-->
+<!--                                        --><?php //endif; ?>
+<!---->
+<!--                                        --><?php //if ($toUse['backalleys'] > 0): ?>
+<!--                                            --><?php //echo number_format($toUse['backalleys'], 0) ?><!-- Backalley Wins-->
+<!--                                        --><?php //endif; ?>
+<!--                                        <hr/>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td>-->
+<!--                                        <ul>-->
+<!--                                            --><?php //if ($toUse['money_reward'] > 0): ?>
+<!--                                                <li>$--><?php //echo number_format($toUse['money_reward'], 0) ?><!--</li>-->
+<!--                                            --><?php //endif; ?>
+<!---->
+<!--                                            --><?php //if ($toUse['points_reward'] > 0): ?>
+<!--                                                <li>--><?php //echo number_format($toUse['points_reward'], 0) ?><!-- Points</li>-->
+<!--                                            --><?php //endif; ?>
+<!---->
+<!--                                            --><?php //if ($toUse['exp_reward'] > 0): ?>
+<!--                                                <li>--><?php //echo number_format($toUse['exp_reward'], 0) ?><!--% EXP</li>-->
+<!--                                            --><?php //endif; ?>
+<!--                                        </ul>-->
+<!---->
+<!--                                        --><?php //if ($toUse['premium_cost'] > 0): ?>
+<!--                                            <hr />-->
+<!--                                            <strong>Cost:</strong> --><?php //echo number_format($toUse['premium_cost'], 0) ?><!-- Credits-->
+<!--                                        --><?php //endif; ?>
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td><a class="dcSecondaryButton" href="user_operations.php?start=--><?php //echo $category ?><!--">Start Operation</a></td>-->
+<!--                                </tr>-->
+<!--                            --><?php //else: ?>
+<!--                                <tr>-->
+<!--                                    <th>--><?php //echo $categoryForDisplay ?><!--</th>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td>Operations Complete</td>-->
+<!--                                </tr>-->
+<!--                            --><?php //endif; ?>
+<!--                        </table>-->
+<!--                    </div>-->
+<!--                --><?php //endforeach; ?>
+<!--            </div>-->
 
             <h1>Backalley Wins Cash</h1>
             <div class="row">
