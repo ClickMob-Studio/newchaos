@@ -199,6 +199,7 @@ if (isset($_GET['start'])) {
                                 </tr>
                                 <tr>
                                     <td>
+                                        <br/>
                                         <?php if ($toUse['crimes'] > 0): ?>
                                             <?php echo number_format($toUse['crimes'], 0) ?> Crimes
                                         <?php endif; ?>
@@ -252,6 +253,7 @@ if (isset($_GET['start'])) {
                                         <?php if ($toUse['premium_cost'] > 0): ?>
                                             <hr />
                                             <strong>Cost:</strong> <?php echo number_format($toUse['premium_cost'], 0) ?> Credits
+                                            <br/>
                                         <?php endif; ?>
 
                                     </td>
@@ -293,6 +295,7 @@ if (isset($_GET['start'])) {
                                 </tr>
                                 <tr>
                                     <td>
+                                        <br/>
                                         <?php if ($toUse['crimes'] > 0): ?>
                                             <?php echo number_format($toUse['crimes'], 0) ?> Crimes
                                         <?php endif; ?>
@@ -346,6 +349,7 @@ if (isset($_GET['start'])) {
                                         <?php if ($toUse['premium_cost'] > 0): ?>
                                             <hr />
                                             <strong>Cost:</strong> <?php echo number_format($toUse['premium_cost'], 0) ?> Credits
+                                            <br/>
                                         <?php endif; ?>
 
                                     </td>
@@ -387,6 +391,7 @@ if (isset($_GET['start'])) {
                                 </tr>
                                 <tr>
                                     <td>
+                                        <br/>
                                         <?php if ($toUse['crimes'] > 0): ?>
                                             <?php echo number_format($toUse['crimes'], 0) ?> Crimes
                                         <?php endif; ?>
@@ -440,6 +445,7 @@ if (isset($_GET['start'])) {
                                         <?php if ($toUse['premium_cost'] > 0): ?>
                                             <hr />
                                             <strong>Cost:</strong> <?php echo number_format($toUse['premium_cost'], 0) ?> Credits
+                                            <br/>
                                         <?php endif; ?>
 
                                     </td>
@@ -481,6 +487,7 @@ if (isset($_GET['start'])) {
                                 </tr>
                                 <tr>
                                     <td>
+                                        <br/>
                                         <?php if ($toUse['crimes'] > 0): ?>
                                             <?php echo number_format($toUse['crimes'], 0) ?> Crimes
                                         <?php endif; ?>
@@ -534,7 +541,9 @@ if (isset($_GET['start'])) {
                                         <?php if ($toUse['premium_cost'] > 0): ?>
                                             <hr />
                                             <strong>Cost:</strong> <?php echo number_format($toUse['premium_cost'], 0) ?> Credits
+                                            <br/>
                                         <?php endif; ?>
+
 
                                     </td>
                                 </tr>
@@ -668,6 +677,7 @@ if (isset($_GET['start'])) {
                                 </tr>
                                 <tr>
                                     <td>
+                                        <br/>
                                         <?php if ($toUse['crimes'] > 0): ?>
                                             <?php echo number_format($toUse['crimes'], 0) ?> Crimes
                                         <?php endif; ?>
@@ -721,6 +731,7 @@ if (isset($_GET['start'])) {
                                         <?php if ($toUse['premium_cost'] > 0): ?>
                                             <hr />
                                             <strong>Cost:</strong> <?php echo number_format($toUse['premium_cost'], 0) ?> Credits
+                                            <br/>
                                         <?php endif; ?>
 
                                     </td>
