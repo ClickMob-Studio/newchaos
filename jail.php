@@ -76,7 +76,6 @@ if ($jailbreak != ""){
                 ofthes($user_class->id, $toadd);
                 bloodbath('busts', $user_class->id);
                 addToUserOperations($user_class, 'busts', 1);
-
             }
         } else {
             $db->query("SELECT * FROM grpgusers WHERE id = " . $jailbreak);
