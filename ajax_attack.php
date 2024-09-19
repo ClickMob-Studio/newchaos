@@ -520,6 +520,10 @@ if ($theirhp <= 0) {
         'kills' => 1,
         'exp' => $expwon
     ));
+
+    if ((time() - $attack_person->lastactive) < 900) {
+        addToUserOperations($user_class, 'online_attacks', 1);
+    }
 }
 
 if ($yourhp <= 0) {

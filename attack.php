@@ -491,6 +491,9 @@ $city = mysql_real_escape_string($user_class->city);
         'kills' => 1,
         'exp' => $expwon
     ));
+    if ((time() - $attack_person->lastactive) < 900) {
+        addToUserOperations($user_class, 'online_attacks', 1);
+    }
 }
 if ($yourhp <= 0) {
     $winner = $attack_person->id;
