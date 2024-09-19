@@ -101,7 +101,7 @@ try {
 
     if (isset($_GET['action']) && $_GET['action'] == 'super') {
         if ($user_class->nerve < 100) {
-            echo json_encode('You need at least 100 nerve to complete super mugs');
+            echo json_encode(error('You need at least 100 nerve to complete super mugs'));
             exit;
         }
     }
@@ -235,7 +235,7 @@ try {
             Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
         }
         $response = success("You failed to mug " . $attack_person->formattedname . ".");
-        echo json_encode($response);
+        echo json_encode(error($response));
         exit;
     } else {
         if($attack_person->lastactive > $active){
