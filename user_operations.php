@@ -253,7 +253,7 @@ if (isset($_GET['start'])) {
                                         <?php if ($toUse['premium_cost'] > 0): ?>
                                             <hr />
                                             <strong>Cost:</strong> <?php echo number_format($toUse['premium_cost'], 0) ?> Credits
-                                            <br/>
+                                            <br/><br/>
                                         <?php endif; ?>
 
                                     </td>
@@ -349,7 +349,7 @@ if (isset($_GET['start'])) {
                                         <?php if ($toUse['premium_cost'] > 0): ?>
                                             <hr />
                                             <strong>Cost:</strong> <?php echo number_format($toUse['premium_cost'], 0) ?> Credits
-                                            <br/>
+                                            <br/><br/>
                                         <?php endif; ?>
 
                                     </td>
@@ -445,7 +445,7 @@ if (isset($_GET['start'])) {
                                         <?php if ($toUse['premium_cost'] > 0): ?>
                                             <hr />
                                             <strong>Cost:</strong> <?php echo number_format($toUse['premium_cost'], 0) ?> Credits
-                                            <br/>
+                                            <br/><br/>
                                         <?php endif; ?>
 
                                     </td>
@@ -541,7 +541,7 @@ if (isset($_GET['start'])) {
                                         <?php if ($toUse['premium_cost'] > 0): ?>
                                             <hr />
                                             <strong>Cost:</strong> <?php echo number_format($toUse['premium_cost'], 0) ?> Credits
-                                            <br/>
+                                            <br/><br/>
                                         <?php endif; ?>
 
 
@@ -731,7 +731,7 @@ if (isset($_GET['start'])) {
                                         <?php if ($toUse['premium_cost'] > 0): ?>
                                             <hr />
                                             <strong>Cost:</strong> <?php echo number_format($toUse['premium_cost'], 0) ?> Credits
-                                            <br/>
+                                            <br/><br/>
                                         <?php endif; ?>
 
                                     </td>
