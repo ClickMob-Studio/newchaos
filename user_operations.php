@@ -157,7 +157,7 @@ if (isset($_GET['start'])) {
                     </td>
                 </tr>
 
-<!--                <!-- CITY BOSS WINS -->-->
+<!--                CITY BOSS WINS -->
 <!--                <tr>-->
 <!--                    <th>-->
 <!--                        City Goons Wins-->
