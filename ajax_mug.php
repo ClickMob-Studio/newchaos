@@ -182,6 +182,10 @@ try {
                 bloodbath('mugs', $user_class->id, $compQty);
                 ofthes_wrapper($user_class->id, array('motd' => $compQty));
 
+                if ($user_class->admin > 0) {
+                    addToUserOperations($user_class, 'mugs', $compQty);
+                }
+
                 echo json_encode(success("You reach into {$attack_person->formattedname}'s pockets and find nothing!"));
                 exit;
             } else {
@@ -212,6 +216,11 @@ try {
                 updateGangActiveMission('mugs', $compQty);
                 gangContest(array('mugs' => $compQty));
                 bloodbath('mugs', $user_class->id, $compQty);
+
+                if ($user_class->admin > 0) {
+                    addToUserOperations($user_class, 'mugs', $compQty);
+                }
+
                 if($attack_person->lastactive > $active){
                     Send_Event($attack_person->id, "You were mugged by [-_USERID_-]. They stole " . prettynum($mugamount, 1) . ".", $user_class->id);
                 }
