@@ -212,7 +212,7 @@ if ($user_class->gang > 0) {
 }
 
 updateGangActiveMission('backalleys', 1);
-addToUserOperations($user_class, 'backalley_wins', 1);
+addToUserOperations($user_class, 'backalleys', 1);
 
 // ATTACKERS
 $baAttackerNames = array();
