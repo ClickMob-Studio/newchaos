@@ -2690,6 +2690,7 @@ function addToUserOperations($user_class, $field, $qty = 1)
 
             $message = 'You have successfully completed your operation and earned ';
             if ($currentOperation['money_reward']) {
+                $h = true;
                 $newMoney = $newMoney + $currentOperation['money_reward'];
 
                 $message .= '$' . number_format($currentOperation['money_reward']);
@@ -2698,6 +2699,9 @@ function addToUserOperations($user_class, $field, $qty = 1)
             if ($currentOperation['points_reward']) {
                 $newPoints = $newPoints + $currentOperation['points_reward'];
 
+                if (isset($h) && $h) {
+                    $message .= ' & ';
+                }
                 $message .= '' . number_format($currentOperation['points_reward']) . ' points';
             }
 
