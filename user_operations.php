@@ -110,6 +110,11 @@ if (isset($_GET['start'])) {
 
 <h1>Operations</h1><hr />
 
+<p>
+    Welcome to operations, complete activities to earn rewards with each category hosting 7 levels of challenges! Operations run monthly and reset for you
+    to complete on the first day of each month.
+</p>
+
 <div class="row">
     <div class="col-md-12">
         <?php if ($currentUserOperation): ?>
