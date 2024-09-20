@@ -2703,7 +2703,7 @@ function addToUserOperations($user_class, $field, $qty = 1)
 
 
             if ($currentOperation['exp_reward']) {
-                $expReward = (($newExp / 100) * $currentOperation['exp_reward']);
+                $expReward = ($user_class->maxexp / 100) * $currentOperation['exp_reward'];
                 $newExp = $newExp + $expReward;
 
                 $message .= ' & ' . number_format($expReward) . ' EXP';
