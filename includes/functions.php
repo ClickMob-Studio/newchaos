@@ -2683,7 +2683,7 @@ function addToUserOperations($user_class, $field, $qty = 1)
 
         $currentUserOperation[$field] = $currentUserOperation[$field] + $qty;
 
-        if ($currentUserOperation[$field] >= $currentOperation[$field]) {
+        if ($currentOperation[$field] > 0 && $currentUserOperation[$field] >= $currentOperation[$field]) {
             $newMoney = $user_class->money;
             $newExp = $user_class->exp;
             $newPoints = $user_class->points;
