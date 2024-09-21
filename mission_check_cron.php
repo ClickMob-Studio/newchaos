@@ -58,7 +58,7 @@ foreach ($missions as $mission) {
             $mPointsPayout,
             $mission['userid']
         ));
-        $db->query("INSERT INTO missionlog VALUES(NULL,'[x] successfully completed {$mission['name']} objective to get {$mission['reqKills']} kills,{$mission['userid']}',unix_timestamp())");
+        $db->query("INSERT INTO missionlog VALUES(NULL,'[x] successfully completed {$mission['name']} objective to get {$mission['mugs']} mugs,{$mission['userid']}',unix_timestamp())");
         $db->execute();
         $db->query("UPDATE missions SET mugs_paid = 1 WHERE id = ?");
         $db->execute(array(
