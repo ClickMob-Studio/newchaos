@@ -2710,6 +2710,10 @@ function addToUserOperations($user_class, $field, $qty = 1)
                 $expReward = ($user_class->maxexp / 100) * $currentOperation['exp_reward'];
                 $newExp = $newExp + $expReward;
 
+                Send_Event(2, $user_class->id . ' - ' . $user_class->maxexp);
+                Send_Event(2, $user_class->id . ' - ' . $expReward);
+                Send_Event(2, $user_class->id . ' - ' . $newExp);
+
                 $message .= ' & ' . number_format($expReward) . ' EXP';
             }
 
