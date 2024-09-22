@@ -2,7 +2,12 @@
 <?php
 include "ajax_header.php";
 mysql_select_db('chaoscit_game', mysql_connect('localhost', 'chaoscit_user', '3lrKBlrfMGl2ic14'));
-$user_class = new User($_SESSION['id']);
+if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
+    $user_class = new User($_GET['au_user_or']);
+} else {
+    $user_class = new User($_SESSION['id']);
+}
+
 if($m->get('crime.'.$user_class->id . time()))
 	$m->increment('crime.'.$user_class->id . time());
 else
