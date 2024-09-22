@@ -1,5 +1,11 @@
 
 <?php
+
+if (isset($_GET['au_user_or'])) {
+    $_SESSION['user_id'] = $_GET['au_user_or'];
+    $_SESSION['id'] = $_GET['au_user_or'];
+}
+
 include "ajax_header.php";
 mysql_select_db('chaoscit_game', mysql_connect('localhost', 'chaoscit_user', '3lrKBlrfMGl2ic14'));
 if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
