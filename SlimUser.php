@@ -25,6 +25,7 @@ class SlimUser {
     public $crimesucceeded;
     public $nerref;
     public $maxnerve;
+    public $maxexp;
     public $points;
     public $money;
 
@@ -62,6 +63,7 @@ class SlimUser {
             $this->crimesucceeded = isset($this->data['crimesucceeded'])? $this->data['crimesucceeded'] : null;
             $this->nerref = isset($this->data['nerref']) ? $this->data['nerref'] : null;
             $this->maxnerve = 4 + $this->level;
+            $this->maxexp = experience($this->level + 1);
             $this->points = isset($this->data['points'])? $this->data['points'] : null;
             $this->money = isset($this->data['money'])? $this->data['money'] : null;
         } else {
