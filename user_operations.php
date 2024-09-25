@@ -196,11 +196,9 @@ if (isset($_GET['cancel']) && $_GET['cancel'] == 'yes') {
             </table>
 
             <br /><br /><hr />
-            <?php if ($user_class->admin > 0): ?>
-                <center>
-                    <a class="dcSecondaryButton" href="user_operations.php?cancel=yes" onclick="return confirm('Are you sure you want to cancel this operation?');">Cancel Operation</a>
-                </center>
-            <?php endif; ?>
+            <center>
+                <a class="dcSecondaryButton" href="user_operations.php?cancel=yes" onclick="return confirm('Are you sure you want to cancel this operation?');">Cancel Operation</a>
+            </center>
     <?php else: ?>
             <h1>Crimes</h1>
             <div class="row">
