@@ -186,7 +186,8 @@ if (isset($_GET['start'])) {
             <br /><br /><hr />
             <?php if ($user_class->admin > 0): ?>
                 <a class="dcSecondaryButton" href="user_operations.php?cancel=yes" onclick="return confirm('Are you sure you want to cancel this operation?');">Cancel Operation</a>
-        <?php else: ?>
+            <?php endif; ?>
+    <?php else: ?>
             <h1>Crimes</h1>
             <div class="row">
                 <?php $categories = array('crimes_cash', 'crimes_points', 'crimes_premium'); ?>
