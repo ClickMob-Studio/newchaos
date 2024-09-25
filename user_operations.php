@@ -106,6 +106,18 @@ if (isset($_GET['start'])) {
         exit;
     }
 }
+
+if (isset($_GET['cancel']) && $_GET['cancel'] == 'yes') {
+    if ($currentUserOperation) {
+        $db->query('DELETE FROM user_operations WHERE id = ' . $currentUserOperation['id'] . ' AND user_id = ' . $user_class->id);
+        $db->execute();
+
+        header("Location: user_operations.php");
+        exit;
+    } else {
+        diefun('You don\'t have an active operation to cancel.');
+    }
+}
 ?>
 
 <h1>Operations</h1><hr />
@@ -185,7 +197,9 @@ if (isset($_GET['start'])) {
 
             <br /><br /><hr />
             <?php if ($user_class->admin > 0): ?>
-                <a class="dcSecondaryButton" href="user_operations.php?cancel=yes" onclick="return confirm('Are you sure you want to cancel this operation?');">Cancel Operation</a>
+                <center>
+                    <a class="dcSecondaryButton" href="user_operations.php?cancel=yes" onclick="return confirm('Are you sure you want to cancel this operation?');">Cancel Operation</a>
+                </center>
             <?php endif; ?>
     <?php else: ?>
             <h1>Crimes</h1>
