@@ -38,7 +38,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
     }
 
     if ($claimPrize === 'kills') {
-        if ($userCompLeaderboard['overall_attacks_complete'] >= 50000) {
+        if ($userCompLeaderboard['overall_attacks_complete'] >= 30000) {
             if (in_array($claimPrize, $prizesClaimed)) {
                 diefun('You have already claimed this prize.');
             } else {
@@ -195,16 +195,16 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 <td>
                     <center>
                         <strong>Kills</strong><br />
-                        Complete 100,000 Kills
+                        Complete 30,000 Kills
                     </center>
                 </td>
                 <td>
                     <?php
-                    $barWidthPer = $userCompLeaderboard['overall_attacks_complete'] / 100000 * 100;
+                    $barWidthPer = $userCompLeaderboard['overall_attacks_complete'] / 30000 * 100;
                     ?>
-                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($userCompLeaderboard['overall_attacks_complete'], 0) ?>/100,000">
+                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($userCompLeaderboard['overall_attacks_complete'], 0) ?>/30,000">
                         <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: <?php echo $barWidthPer ?>%">
-                            <?php echo number_format($userCompLeaderboard['overall_attacks_complete'], 0) ?>/100,000
+                            <?php echo number_format($userCompLeaderboard['overall_attacks_complete'], 0) ?>/30,000
                         </div>
                     </div>
                 </td>
