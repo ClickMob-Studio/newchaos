@@ -987,7 +987,7 @@ if ($user_class->donate_token > 0) {
 
                                 <div class="alert alert-success" role="alert">
                                     <center>
-                                        CREDITS ARE HALF PRICE FOR THE NEXT 48-HOURS!
+                                        DONATE NOW WITH CREDITS HALF PRICE!
                                     </center>
                                 </div>
 
