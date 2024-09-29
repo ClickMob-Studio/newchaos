@@ -216,7 +216,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 </td>
                 <td>
                     <center>
-                        <?php if (!in_array('kills', $prizesClaimed) && $userCompLeaderboard['overall_attacks_complete'] >= 100000): ?>
+                        <?php if (!in_array('kills', $prizesClaimed) && $userCompLeaderboard['overall_attacks_complete'] >= 30000): ?>
                             <a class="btn btn-success" href="user_challenge.php?claim_prize=kills">Claim Prize</a>
                         <?php endif; ?>
 
