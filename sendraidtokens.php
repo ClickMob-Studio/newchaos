@@ -1,4 +1,5 @@
 <?php
+exit;
 include 'header.php';
 if (isset($_POST['sendraidtokens']))
     error("
