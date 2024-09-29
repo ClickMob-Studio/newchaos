@@ -1,0 +1,309 @@
+<?php
+
+include 'header.php';
+if ($user_class->admin < 1) {
+    //exit;
+}
+$userCompLeaderboard = getUserCompLeaderboard($user_class->id);
+
+$prizesClaimed = unserialize($userCompLeaderboard['serialised_prizes_claimed']);
+if (!$prizesClaimed || $prizesClaimed == '') {
+    $prizesClaimed = array();
+}
+
+
+$claimPrizeOptions = array('crimes','kills','busts','mugs', 'ba');
+if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOptions)) {
+    $claimPrize = $_GET['claim_prize'];
+
+    if ($claimPrize === 'crimes') {
+        if ($userCompLeaderboard['overall_crimes_complete'] >= 2500000) {
+            if (in_array($claimPrize, $prizesClaimed)) {
+                diefun('You have already claimed this prize.');
+            } else {
+                $prizesClaimed[] = 'crimes';
+
+                $db->query("UPDATE user_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE user_id = " . $user_class->id);
+                $db->execute();
+
+                Give_Item(285, $user_class->id, 5);
+                $db->query("UPDATE grpgusers SET points = points + 300000 WHERE id = " . $user_class->id);
+                $db->execute();
+
+                $resMes = 'You have successfully claimed your rewards for completing the crimes mission.';
+            }
+        } else {
+            diefun('You have not earned the prize yet.');
+        }
+    }
+
+    if ($claimPrize === 'kills') {
+        if ($userCompLeaderboard['overall_attacks_complete'] >= 50000) {
+            if (in_array($claimPrize, $prizesClaimed)) {
+                diefun('You have already claimed this prize.');
+            } else {
+                $prizesClaimed[] = 'kills';
+
+                $db->query("UPDATE user_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE user_id = " . $user_class->id);
+                $db->execute();
+
+                Give_Item(281, $user_class->id, 3);
+                $db->query("UPDATE grpgusers SET points = points + 100000 WHERE id = " . $user_class->id);
+                $db->execute();
+
+                $resMes = 'You have successfully claimed your rewards for completing the kills mission.';
+            }
+        } else {
+            diefun('You have not earned the prize yet.');
+        }
+    }
+
+    if ($claimPrize === 'busts') {
+        if ($userCompLeaderboard['overall_busts_complete'] >= 20000) {
+            if (in_array($claimPrize, $prizesClaimed)) {
+                diefun('You have already claimed this prize.');
+            } else {
+                $prizesClaimed[] = 'busts';
+
+                $db->query("UPDATE user_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE user_id = " . $user_class->id);
+                $db->execute();
+
+                Give_Item(277, $user_class->id, 3);
+                $db->query("UPDATE grpgusers SET points = points + 100000 WHERE id = " . $user_class->id);
+                $db->execute();
+
+                $resMes = 'You have successfully claimed your rewards for completing the busts mission.';
+            }
+        } else {
+            diefun('You have not earned the prize yet.');
+        }
+    }
+
+    if ($claimPrize === 'mugs') {
+        if ($userCompLeaderboard['overall_mugs_complete'] >= 25000) {
+            if (in_array($claimPrize, $prizesClaimed)) {
+                diefun('You have already claimed this prize.');
+            } else {
+                $prizesClaimed[] = 'mugs';
+
+                $db->query("UPDATE user_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE user_id = " . $user_class->id);
+                $db->execute();
+
+                Give_Item(276, $user_class->id, 3);
+                $db->query("UPDATE grpgusers SET points = points + 100000 WHERE id = " . $user_class->id);
+                $db->execute();
+
+                $resMes = 'You have successfully claimed your rewards for completing the mugs mission.';
+            }
+        } else {
+            diefun('You have not earned the prize yet.');
+        }
+    }
+//    if ($claimPrize === 'ba') {
+//        if ($gangCompLeaderboard['weekly_ba_complete'] >= 125000) {
+//            if (in_array($claimPrize, $prizesClaimed)) {
+//                diefun('You have already claimed this prize.');
+//            } else {
+//                $prizesClaimed[] = 'ba';
+//
+//                $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE gang_id = " . $user_class->gang);
+//                $db->execute();
+//
+//                Give_Item(263, $user_class->id, 1);
+//                $db->query("UPDATE grpgusers SET points = points + 200000 WHERE id = " . $user_class->id);
+//                $db->execute();
+//
+//                $resMes = 'You have successfully claimed your rewards for completing the BA mission.';
+//            }
+//        } else {
+//            diefun('You have not earned the prize yet.');
+//        }
+//    }
+}
+
+?>
+
+<div class='box_top'><h1>User Challenge</h1></div>
+<div class='box_middle'>
+    <div class='pad'>
+        <br />
+        <center>
+            <?php if (isset($resMes) && $resMes): ?>
+                <div class="alert alert-success" role="alert">
+                    <?php echo $resMes ?>
+                </div>
+            <?php endif; ?>
+
+            <p>
+                Mobsters, it's time to and show what your made of! Complete the missions below and earn the rewards listed!
+            </p>
+
+            <p style="color: red;"><strong>Challenge Ends 6th October at 7pm Server Time.</strong></p>
+
+            <p>Enjoy!</p>
+            <br /><br /><hr />
+        </center>
+
+
+        <table id="newtables" style="width:100%; text-align: left;">
+            <tr>
+                <th><b>Mission</b></th>
+                <th width="25%"><b>Progress</b></th>
+                <th>Rewards</th>
+                <th><b>Claim</b></th>
+            </tr>
+
+            <!-- CRIMES -->
+            <tr>
+                <td>
+                    <center>
+                        <strong>Crimes</strong><br />
+                        Complete 2,500,000 Crimes
+                    </center>
+                </td>
+                <td>
+                    <?php
+                    $barWidthPer = $userCompLeaderboard['overall_crimes_complete'] / 2500000 * 100;
+                    ?>
+                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($userCompLeaderboard['overall_crimes_complete'], 0) ?>/2,500,000">
+                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: <?php echo $barWidthPer ?>%">
+                            <?php echo number_format($userCompLeaderboard['overall_crimes_complete'], 0) ?>/2,500,000
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <ul>
+                        <li>5 x Gold Rush Token Chests</li>
+                        <li>300,000 points</li>
+                    </ul>
+                </td>
+                <td>
+                    <center>
+                        <?php if (!in_array('crimes', $prizesClaimed) && $userCompLeaderboard['overall_crimes_complete'] >= 2500000): ?>
+                            <a class="btn btn-success" href="user_challenge.php?claim_prize=crimes">Claim Prize</a>
+                        <?php endif; ?>
+
+                        <?php if (in_array('crimes', $prizesClaimed)): ?>
+                            <span style="color: green">Claimed</span>
+                        <?php endif; ?>
+                    </center>
+                </td>
+            </tr>
+
+            <!-- ATTACKS -->
+            <tr>
+                <td>
+                    <center>
+                        <strong>Kills</strong><br />
+                        Complete 100,000 Kills
+                    </center>
+                </td>
+                <td>
+                    <?php
+                    $barWidthPer = $userCompLeaderboard['overall_attacks_complete'] / 100000 * 100;
+                    ?>
+                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($userCompLeaderboard['overall_attacks_complete'], 0) ?>/100,000">
+                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: <?php echo $barWidthPer ?>%">
+                            <?php echo number_format($userCompLeaderboard['overall_attacks_complete'], 0) ?>/100,000
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <ul>
+                        <li>3 x Gym Super Pills</li>
+                        <li>100,000 points</li>
+                    </ul>
+                </td>
+                <td>
+                    <center>
+                        <?php if (!in_array('kills', $prizesClaimed) && $userCompLeaderboard['overall_attacks_complete'] >= 100000): ?>
+                            <a class="btn btn-success" href="user_challenge.php?claim_prize=kills">Claim Prize</a>
+                        <?php endif; ?>
+
+                        <?php if (in_array('kills', $prizesClaimed)): ?>
+                            <span style="color: green">Claimed</span>
+                        <?php endif; ?>
+                    </center>
+                </td>
+            </tr>
+
+            <!-- BUSTS -->
+            <tr>
+                <td>
+                    <center>
+                        <strong>Busts</strong><br />
+                        Complete 20,000 Busts
+                    </center>
+                </td>
+                <td>
+                    <?php
+                    $barWidthPer = $userCompLeaderboard['overall_busts_complete'] / 20000 * 100;
+                    ?>
+                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($userCompLeaderboard['overall_busts_complete'], 0) ?>/20,000">
+                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: <?php echo $barWidthPer ?>%">
+                            <?php echo number_format($userCompLeaderboard['overall_busts_complete'], 0) ?>/20,000
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <ul>
+                        <li>3 x Mission Passes</li>
+                        <li>100,000 points</li>
+                    </ul>
+                </td>
+                <td>
+                    <center>
+                        <?php if (!in_array('busts', $prizesClaimed) && $userCompLeaderboard['overall_busts_complete'] >= 20000): ?>
+                            <a class="btn btn-success" href="user_challenge.php?claim_prize=busts">Claim Prize</a>
+                        <?php endif; ?>
+
+                        <?php if (in_array('busts', $prizesClaimed)): ?>
+                            <span style="color: green">Claimed</span>
+                        <?php endif; ?>
+                    </center>
+                </td>
+            </tr>
+
+            <!-- MUGS -->
+            <tr>
+                <td>
+                    <center>
+                        <strong>Mugs</strong><br />
+                        Complete 25,000 Mugs
+                    </center>
+                </td>
+                <td>
+                    <?php
+                    $barWidthPer = $userCompLeaderboard['overall_mugs_complete'] / 25000 * 100;
+                    ?>
+                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($userCompLeaderboard['overall_mugs_complete'], 0) ?>/25,000">
+                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: <?php echo $barWidthPer ?>%">
+                            <?php echo number_format($userCompLeaderboard['overall_mugs_complete'], 0) ?>/25,000
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <ul>
+                        <li>3 x Research Tokens</li>
+                        <li>100,000 points</li>
+                    </ul>
+                </td>
+                <td>
+                    <center>
+                        <?php if (!in_array('mugs', $prizesClaimed) && $userCompLeaderboard['overall_mugs_complete'] >= 25000): ?>
+                            <a class="btn btn-success" href="user_challenge.php?claim_prize=mugs">Claim Prize</a>
+                        <?php endif; ?>
+
+                        <?php if (in_array('mugs', $prizesClaimed)): ?>
+                            <span style="color: green">Claimed</span>
+                        <?php endif; ?>
+                    </center>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<?php
+include 'footer.php';
+?>
