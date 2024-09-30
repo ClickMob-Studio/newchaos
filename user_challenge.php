@@ -26,7 +26,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 $db->query("UPDATE user_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE user_id = " . $user_class->id);
                 $db->execute();
 
-                Give_Item(285, $user_class->id, 5);
+                Give_Item(283, $user_class->id, 5);
                 $db->query("UPDATE grpgusers SET points = points + 300000 WHERE id = " . $user_class->id);
                 $db->execute();
 
