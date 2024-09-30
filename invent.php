@@ -1,13 +1,22 @@
 <?php
 require_once "header.php";
+
+
 function getInventoryItems() {
     global $db, $user_class;
-    $db->query("SELECT * FROM inventory WHERE user_id = :user_id");
+    
+    $db->query("
+        SELECT i.itemname AS name, i.type, inv.quantity 
+        FROM inventory inv 
+        JOIN items i ON inv.itemid = i.id 
+        WHERE inv.userid = :user_id
+    ");
+  
     $db->bind(':user_id', $user_class->id);  
     return $db->fetch_row();
 }
 
-$items = getInventoryItems(); // Function that fetches the inventory items
+$items = getInventoryItems(); 
 ?>
 
 <div class="inventory-container">
@@ -45,7 +54,7 @@ $items = getInventoryItems(); // Function that fetches the inventory items
 <?php include 'footer.php'; ?>
 
 <style>
-	.inventory-container {
+.inventory-container {
     width: 80%;
     margin: 20px auto;
     background-color: #fff;
