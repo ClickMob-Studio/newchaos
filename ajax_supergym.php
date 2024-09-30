@@ -87,7 +87,7 @@ if (!isset($_POST['stat']) || in_array($_POST['stat'], array(
         ))) {
     $stat = $_POST['stat'];
 } else {
-    die("Invalid stat.");
+    die("Invalid stat. " . $_POST['stat']);
 }
 
 $user_class->directawake -= (round(.75 * $_POST['amnt']));
