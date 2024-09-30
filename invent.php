@@ -73,12 +73,12 @@ foreach ($items as $item) {
                             </div>
                             <div class="item-details">
                                 <h3><?= htmlspecialchars($item['name']); ?></h3>
-                                <p>Quantity: <?= (int)$item['quantity']; ?></p>
+                                <p>Quantity: <span class="item-quantity"><?= (int)$item['quantity']; ?></span></p>
                                 <button class="use-btn">Use</button>
                                 <button class="drop-btn">Drop</button>
                                 <!-- Conditionally display the "Send" button if item is not restricted -->
                                 <?php if (!in_array($item['id'], $restrictedItems)): ?>
-                                    <button class="send-btn" data-item-id="<?= $item['id']; ?>" data-item-name="<?= htmlspecialchars($item['name']); ?>">Send</button>
+                                    <button class="send-btn" data-item-id="<?= $item['id']; ?>" data-item-name="<?= htmlspecialchars($item['name']); ?>" data-item-quantity="<?= (int)$item['quantity']; ?>">Send</button>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -112,6 +112,7 @@ foreach ($items as $item) {
     </div>
 </div>
 <?php include 'footer.php'; ?>
+
 <style>
 	/* Global container for the entire inventory */
 .inventory-container {
@@ -301,13 +302,12 @@ document.querySelectorAll('.send-btn').forEach(function(button) {
     button.addEventListener('click', function() {
         var itemId = this.getAttribute('data-item-id');
         var itemName = this.getAttribute('data-item-name');
-        var itemQuantity = this.closest('.inventory-item').querySelector('.item-quantity').textContent; // Get current quantity
+        var itemQuantity = this.getAttribute('data-item-quantity'); // Get current quantity from the button
 
         currentItemId = itemId; // Set current item ID for later use
         currentItemQuantityElement = this.closest('.inventory-item').querySelector('.item-quantity'); // Store reference to quantity element
         
         document.getElementById('item-id').value = itemId;
-        document.getElementById('current-item-id').value = itemId;
         document.getElementById('item-name').textContent = itemName;
 
         // Set the max value of the quantity input based on the user's item quantity
@@ -376,4 +376,5 @@ document.getElementById("sendForm").addEventListener('submit', function(event) {
     
     xhr.send(formData);
 });
+
 </script>
