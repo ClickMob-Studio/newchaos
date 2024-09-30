@@ -274,3 +274,31 @@ foreach ($items as $item) {
     background-color: #45a049;
 }
 </style>
+<script>
+	// Modal functionality
+var modal = document.getElementById("sendModal");
+var span = document.getElementsByClassName("close")[0];
+
+// Open modal when "Send" button is clicked
+document.querySelectorAll('.send-btn').forEach(function(button) {
+    button.addEventListener('click', function() {
+        var itemId = this.getAttribute('data-item-id');
+        var itemName = this.getAttribute('data-item-name');
+        document.getElementById('item-id').value = itemId;
+        document.getElementById('item-name').textContent = itemName;
+        modal.style.display = "block";
+    });
+});
+
+// Close modal when clicking the close button
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// Close modal when clicking outside of the modal
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
