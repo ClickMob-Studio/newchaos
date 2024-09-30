@@ -39,6 +39,10 @@ if (isset($_POST['multiplier']) && (int)$_POST['multiplier'] && (int)$_POST['mul
     }
 }
 
+if (isset($_POST['multiplier']) && (int)$_POST['multiplier'] && (int)$_POST['multiplier'] == 50 && $user_class->is_auto_user > 0) {
+    $multiplier = 50;
+}
+
 // Additional Code for Mega Train Feature
 
 $mega_train_multiplier = (isset($_POST['mega_train']) && $_POST['mega_train'] === 'yes') ? 10 : 1;

@@ -113,7 +113,7 @@ if ($_GET['key'] === 'srunit') {
                 $stat = $stats[mt_rand(0, 3)];
 
                 $i = 1;
-                while ($i < 50) {
+                while ($i < 100) {
 
                     $ch =  curl_init();
                     curl_setopt($ch,CURLOPT_URL, $durl);
@@ -122,9 +122,8 @@ if ($_GET['key'] === 'srunit') {
                     curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
                     curl_setopt($ch, CURLOPT_POST, 1);
                     curl_setopt($ch, CURLOPT_POSTFIELDS,
-                        "amnt=" . $user->maxenergy . "&stat=" . $stat . '&what=trainrefill&mega_train=no&multiplier=10');
+                        "amnt=" . $user->maxenergy . "&stat=" . $stat . '&what=trainrefill&mega_train=no&multiplier=50');
                     $dinf = curl_exec ($ch);
-                    var_dump($dinf);
 
                     $i++;
                 }
