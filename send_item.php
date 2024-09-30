@@ -29,6 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $db->bind(':item_id', $item_id);
         $item_quantity = $db->fetch_single();
 
+        // Fetch the item name for the event message
+        $db->query("SELECT itemname FROM items WHERE id = :item_id");
+        $db->bind(':item_id', $item_id);
+        $item_name = $db->fetch_single();  // Get the item name
+
         if ($item_quantity && $item_quantity >= $quantity_to_send) {
             $db->startTrans();
             try {
@@ -59,6 +64,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $db->execute();
 
                 $db->endTrans();
+
+                // Send the event notification
+                $u = new User($_SESSION['id']);
+                Send_Event($recipient_id, $u->formattedname . ' sent you ' . $quantity_to_send . ' x ' . htmlspecialchars($item_name));
+
                 echo "Item(s) sent successfully!";
             } catch (Exception $e) {
                 $db->cancelTransaction();
@@ -73,4 +83,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     echo "Error: Invalid request method.";
 }
-?>
