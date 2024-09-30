@@ -95,16 +95,23 @@ foreach ($items as $item) {
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Send Item</h2>
-        <form id="sendForm" action="send_item.php" method="POST">
+        <form id="sendForm">
             <p>Sending <strong id="item-name"></strong></p>
             <input type="hidden" name="item_id" id="item-id">
             <label for="recipient">Recipient Username/ID:</label>
             <input type="text" id="recipient" name="recipient" required>
+
+            <!-- This input is shown if the item quantity is more than 1 -->
+            <div id="quantity-div">
+                <label for="quantity">Quantity to send:</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1">
+            </div>
+            
             <button type="submit" class="send-confirm-btn">Send Item</button>
         </form>
+        <p id="message"></p>
     </div>
 </div>
-
 <?php include 'footer.php'; ?>
 <style>
 	/* Global container for the entire inventory */
@@ -274,31 +281,64 @@ foreach ($items as $item) {
     background-color: #45a049;
 }
 </style>
+<!-- Modal Trigger JavaScript -->
 <script>
-	// Modal functionality
 var modal = document.getElementById("sendModal");
 var span = document.getElementsByClassName("close")[0];
+var quantityDiv = document.getElementById("quantity-div");
 
 // Open modal when "Send" button is clicked
 document.querySelectorAll('.send-btn').forEach(function(button) {
     button.addEventListener('click', function() {
         var itemId = this.getAttribute('data-item-id');
         var itemName = this.getAttribute('data-item-name');
+        var itemQuantity = this.getAttribute('data-item-quantity'); // Pass the quantity
+
         document.getElementById('item-id').value = itemId;
         document.getElementById('item-name').textContent = itemName;
+
+        // Show quantity input only if item quantity > 1
+        if (itemQuantity > 1) {
+            quantityDiv.style.display = 'block';
+            document.getElementById('quantity').max = itemQuantity; // Set the max value
+            document.getElementById('quantity').value = 1; // Default quantity
+        } else {
+            quantityDiv.style.display = 'none';
+        }
+
         modal.style.display = "block";
     });
 });
 
-// Close modal when clicking the close button
+// Close modal
 span.onclick = function() {
     modal.style.display = "none";
 }
 
-// Close modal when clicking outside of the modal
+// Close modal when clicking outside of it
 window.onclick = function(event) {
     if (event.target == modal) {
         modal.style.display = "none";
     }
 }
+
+// Handle the form submission with AJAX
+document.getElementById("sendForm").addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var formData = new FormData(this);
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "send_item.php", true);
+
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            document.getElementById('message').textContent = xhr.responseText;
+            modal.style.display = "none"; // Close modal after success
+        } else {
+            document.getElementById('message').textContent = "Error sending item.";
+        }
+    };
+    
+    xhr.send(formData);
+});
 </script>
