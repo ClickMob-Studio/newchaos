@@ -58,6 +58,7 @@ foreach ($items as $item) {
     $groupedItems[$itemType][] = $item;
 }
 ?>
+<div id="message" style="display: none; padding: 10px; background-color: #4CAF50; color: white; margin-bottom: 20px;"></div>
 
 <div class="inventory-container">
     <?php if (!empty($groupedItems)): ?>
@@ -98,18 +99,16 @@ foreach ($items as $item) {
         <form id="sendForm">
             <p>Sending <strong id="item-name"></strong></p>
             <input type="hidden" name="item_id" id="item-id">
+            
             <label for="recipient">Recipient Username/ID:</label>
             <input type="text" id="recipient" name="recipient" required>
 
-            <!-- This input is shown if the item quantity is more than 1 -->
-            <div id="quantity-div">
-                <label for="quantity">Quantity to send:</label>
-                <input type="number" id="quantity" name="quantity" min="1" value="1">
-            </div>
+            <!-- Quantity input is now always visible -->
+            <label for="quantity">Quantity to send:</label>
+            <input type="number" id="quantity" name="quantity" min="1" value="1">
             
             <button type="submit" class="send-confirm-btn">Send Item</button>
         </form>
-        <p id="message"></p>
     </div>
 </div>
 <?php include 'footer.php'; ?>
@@ -242,17 +241,27 @@ foreach ($items as $item) {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-/* Modal Content */
+/* Modal styling remains the same */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
 .modal-content {
     background-color: #21201c;
     margin: auto;
     padding: 20px;
-    border: 1px solid #888;
-    width: 40%;
     border-radius: 8px;
+    width: 40%;
 }
 
-/* Close Button */
 .close {
     color: #aaa;
     float: right;
@@ -262,10 +271,8 @@ foreach ($items as $item) {
 
 .close:hover, .close:focus {
     color: #fff;
-    text-decoration: none;
     cursor: pointer;
 }
-
 /* Send Confirmation Button */
 .send-confirm-btn {
     background-color: #4CAF50;
@@ -285,7 +292,7 @@ foreach ($items as $item) {
 <script>
 var modal = document.getElementById("sendModal");
 var span = document.getElementsByClassName("close")[0];
-var quantityDiv = document.getElementById("quantity-div");
+var messageDiv = document.getElementById('message');
 
 // Open modal when "Send" button is clicked
 document.querySelectorAll('.send-btn').forEach(function(button) {
@@ -297,14 +304,9 @@ document.querySelectorAll('.send-btn').forEach(function(button) {
         document.getElementById('item-id').value = itemId;
         document.getElementById('item-name').textContent = itemName;
 
-        // Show quantity input only if item quantity > 1
-        if (itemQuantity > 1) {
-            quantityDiv.style.display = 'block';
-            document.getElementById('quantity').max = itemQuantity; // Set the max value
-            document.getElementById('quantity').value = 1; // Default quantity
-        } else {
-            quantityDiv.style.display = 'none';
-        }
+        // Set the max value of the quantity input based on the user's item quantity
+        document.getElementById('quantity').max = itemQuantity;
+        document.getElementById('quantity').value = 1; // Default quantity to 1
 
         modal.style.display = "block";
     });
@@ -332,10 +334,22 @@ document.getElementById("sendForm").addEventListener('submit', function(event) {
 
     xhr.onload = function() {
         if (xhr.status === 200) {
-            document.getElementById('message').textContent = xhr.responseText;
-            modal.style.display = "none"; // Close modal after success
+            // Show success message and update page without reloading
+            messageDiv.textContent = xhr.responseText;
+            messageDiv.style.display = 'block';
+
+            // Auto close modal
+            modal.style.display = "none";
+
+            // Optionally, hide the message after a few seconds
+            setTimeout(function() {
+                messageDiv.style.display = 'none';
+            }, 5000); // Hide after 5 seconds
         } else {
-            document.getElementById('message').textContent = "Error sending item.";
+            // Handle error messages
+            messageDiv.textContent = "Error sending item.";
+            messageDiv.style.backgroundColor = '#f44336'; // Change background color to red for error
+            messageDiv.style.display = 'block';
         }
     };
     
