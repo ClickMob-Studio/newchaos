@@ -4,22 +4,50 @@ require_once "header.php";
 function getInventoryItems() {
     global $db, $user_class;
     
+    // Query to join the inventory and items tables
     $db->query("
         SELECT 
             i.itemname AS name, 
-            IF(i.type = '' OR i.type IS NULL, 'Misc', i.type) AS type, 
+            i.offense, i.defense, i.speed, i.rare, i.awake_boost,
             inv.quantity, 
             i.image 
         FROM inventory inv 
         JOIN items i ON inv.itemid = i.id 
         WHERE inv.userid = :user_id
-        ORDER BY type, i.itemname
+        ORDER BY i.itemname
     ");
   
     $db->bind(':user_id', $user_class->id);  
     return $db->fetch_row();
 }
 
+// Function to categorize items based on their attributes
+function categorizeItem($row) {
+    if ($row['offense'] > 0 && $row['rare'] == 0) {
+        $type = 'weapon';
+    } elseif ($row['defense'] > 0 && $row['rare'] == 0) {
+        $type = 'armor';
+    } elseif ($row['speed'] > 0 && $row['rare'] == 0) {
+        $type = 'shoes';
+    } elseif ($row['rare'] == 1) {
+        $type = 'rare';
+        if ($row['offense'] > 0) {
+            $subtype = 'weapon';
+        } elseif ($row['defense'] > 0) {
+            $subtype = 'armor';
+        } elseif ($row['speed'] > 0) {
+            $subtype = 'shoes';
+        }
+    } elseif ($row['awake_boost'] > 0) {
+        $type = 'house';
+    } else {
+        $type = 'consumable';
+    }
+
+    return isset($subtype) ? $type . ' (' . $subtype . ')' : $type;
+}
+
+// Fetch inventory items
 $items = getInventoryItems(); 
 ?>
 
@@ -30,26 +58,31 @@ $items = getInventoryItems();
                 <th>Item</th>
                 <th>Image</th>
                 <th>Quantity</th>
+                <th>Type</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php if (!empty($items)): ?>
                 <?php 
-                $currentType = null;  
+                $currentType = null;  // To track the current item type
                 foreach ($items as $item): 
+                    // Categorize the item based on its attributes
+                    $itemType = categorizeItem($item);
                     
-                    if ($item['type'] != $currentType): 
-                        $currentType = $item['type'];
+                    // If the type has changed, output a new row with the item type as a header
+                    if ($itemType !== $currentType): 
+                        $currentType = $itemType;
                 ?>
                     <tr>
-                        <td colspan="4" class="item-type-header"><?= htmlspecialchars($currentType); ?></td>
+                        <td colspan="5" class="item-type-header"><?= htmlspecialchars($currentType); ?></td>
                     </tr>
                 <?php endif; ?>
                     <tr>
                         <td><?= htmlspecialchars($item['name']); ?></td>
                         <td><img src="<?= htmlspecialchars($item['image']); ?>" alt="<?= htmlspecialchars($item['name']); ?>" class="item-image"></td>
                         <td><?= (int)$item['quantity']; ?></td>
+                        <td><?= htmlspecialchars($itemType); ?></td>
                         <td>
                             <button class="use-btn">Use</button>
                             <button class="drop-btn">Drop</button>
@@ -58,7 +91,7 @@ $items = getInventoryItems();
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="4">No items found.</td>
+                    <td colspan="5">No items found.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
