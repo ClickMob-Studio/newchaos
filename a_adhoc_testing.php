@@ -15,6 +15,6 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS,
-    "amnt=" . $user_class->maxenergy . "&stat=" . $stat . '^&what=trainrefill&mega_train=no&multipler=10');
+    "amnt=" . $user_class->maxenergy . "&stat=" . $stat . '&what=trainrefill&mega_train=no&multiplier=10');
 $dinf = curl_exec ($ch);
 var_dump($dinf);
