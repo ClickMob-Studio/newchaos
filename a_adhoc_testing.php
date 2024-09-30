@@ -9,7 +9,7 @@ $stats = array('strength', 'defense', 'speed', 'agility');
 $stat = $stats[mt_rand(0, 3)];
 
 $i = 1;
-while ($i < 100) {
+while ($i < 50) {
 
     $ch =  curl_init();
     curl_setopt($ch,CURLOPT_URL, $durl);
