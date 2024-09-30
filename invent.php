@@ -106,3 +106,171 @@ foreach ($items as $item) {
 </div>
 
 <?php include 'footer.php'; ?>
+<style>
+	/* Global container for the entire inventory */
+.inventory-container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* Group of items per category (Weapons, Armor, etc.) */
+.inventory-group {
+    background-color: #21201c;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Header for each item type (Weapons, Armor, etc.) */
+.item-type-header {
+    background-color: #33312e;
+    color: white;
+    padding: 10px;
+    font-size: 1.5em;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Flex container for items inside each type group */
+.inventory-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Individual item container */
+.inventory-item {
+    background-color: #2d2c28;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: calc(33.333% - 20px); /* 3 items per row */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Container for item image */
+.item-image-container {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+/* Item image style */
+.item-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Details for each item (name, quantity, etc.) */
+.item-details h3 {
+    color: white;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.item-details p {
+    color: #aaa;
+    margin-bottom: 10px;
+}
+
+/* Button styles for use and drop actions */
+.use-btn, .drop-btn {
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.drop-btn {
+    background-color: #f44336;
+}
+
+/* Hover effect for buttons */
+.use-btn:hover {
+    background-color: #45a049;
+}
+
+.drop-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* Responsive design for smaller screens */
+@media screen and (max-width: 768px) {
+    .inventory-item {
+        width: calc(50% - 20px); /* 2 items per row on tablets */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .inventory-item {
+        width: 100%; /* 1 item per row on mobile */
+    }
+}
+/* The Modal (background) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #21201c;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+    border-radius: 8px;
+}
+
+/* Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Send Confirmation Button */
+.send-confirm-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.send-confirm-btn:hover {
+    background-color: #45a049;
+}
+</style>
