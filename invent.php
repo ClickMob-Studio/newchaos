@@ -4,7 +4,7 @@ require_once "header.php";
 function getInventoryItems() {
     global $db, $user_class;
     
-    // Query to join the inventory and items tables
+   
     $db->query("
         SELECT 
             i.itemname AS name, 
@@ -21,7 +21,6 @@ function getInventoryItems() {
     return $db->fetch_row();
 }
 
-// Function to categorize items based on their attributes
 function categorizeItem($row) {
     if ($row['offense'] > 0 && $row['rare'] == 0) {
         $type = 'weapon';
@@ -47,55 +46,40 @@ function categorizeItem($row) {
     return isset($subtype) ? $type . ' (' . $subtype . ')' : $type;
 }
 
-// Fetch inventory items
-$items = getInventoryItems(); 
+$items = getInventoryItems();
+
+$groupedItems = [];
+foreach ($items as $item) {
+    $itemType = categorizeItem($item);
+    $groupedItems[$itemType][] = $item;
+}
 ?>
 
 <div class="inventory-container">
-    <table>
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th>Image</th>
-                <th>Quantity</th>
-                <th>Type</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!empty($items)): ?>
-                <?php 
-                $currentType = null;  // To track the current item type
-                foreach ($items as $item): 
-                    // Categorize the item based on its attributes
-                    $itemType = categorizeItem($item);
-                    
-                    // If the type has changed, output a new row with the item type as a header
-                    if ($itemType !== $currentType): 
-                        $currentType = $itemType;
-                ?>
-                    <tr>
-                        <td colspan="5" class="item-type-header"><?= htmlspecialchars($currentType); ?></td>
-                    </tr>
-                <?php endif; ?>
-                    <tr>
-                        <td><?= htmlspecialchars($item['name']); ?></td>
-                        <td><img src="<?= htmlspecialchars($item['image']); ?>" alt="<?= htmlspecialchars($item['name']); ?>" class="item-image"></td>
-                        <td><?= (int)$item['quantity']; ?></td>
-                        <td><?= htmlspecialchars($itemType); ?></td>
-                        <td>
-                            <button class="use-btn">Use</button>
-                            <button class="drop-btn">Drop</button>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="5">No items found.</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
+    <?php if (!empty($groupedItems)): ?>
+        <?php foreach ($groupedItems as $type => $items): ?>
+            <div class="inventory-group">
+                <h2 class="item-type-header"><?= htmlspecialchars(ucfirst($type)); ?></h2>
+                <div class="inventory-items">
+                    <?php foreach ($items as $item): ?>
+                        <div class="inventory-item">
+                            <div class="item-image-container">
+                                <img src="<?= htmlspecialchars($item['image']); ?>" alt="<?= htmlspecialchars($item['name']); ?>" class="item-image">
+                            </div>
+                            <div class="item-details">
+                                <h3><?= htmlspecialchars($item['name']); ?></h3>
+                                <p>Quantity: <?= (int)$item['quantity']; ?></p>
+                                <button class="use-btn">Use</button>
+                                <button class="drop-btn">Drop</button>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>No items found.</p>
+    <?php endif; ?>
 </div>
 
 <?php include 'footer.php'; ?>
@@ -110,31 +94,55 @@ $items = getInventoryItems();
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+.inventory-group {
     margin-bottom: 20px;
-}
-
-table th, table td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
 }
 
 .item-type-header {
     background-color: #f0f0f0;
-    font-weight: bold;
-    text-align: center;
     padding: 10px;
-    font-size: 1.2em;
-    border-bottom: 2px solid #ddd;
+    font-size: 1.5em;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.inventory-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.inventory-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: calc(33.333% - 20px); /* 3 items per row */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.item-image-container {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
 }
 
 .item-image {
-    width: 50px;
-    height: 50px;
+    max-width: 100%;
+    max-height: 100%;
     object-fit: cover;
+    border-radius: 8px;
+}
+
+.item-details h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
 }
 
 .use-btn, .drop-btn {
@@ -149,5 +157,18 @@ table th, table td {
 
 .drop-btn {
     background-color: #f44336;
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+    .inventory-item {
+        width: calc(50% - 20px); /* 2 items per row on tablets */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .inventory-item {
+        width: 100%; /* 1 item per row on mobile */
+    }
 }
 </style>
