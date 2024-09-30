@@ -288,20 +288,26 @@ foreach ($items as $item) {
     background-color: #45a049;
 }
 </style>
-<!-- Modal Trigger JavaScript -->
+
 <script>
 var modal = document.getElementById("sendModal");
 var span = document.getElementsByClassName("close")[0];
 var messageDiv = document.getElementById('message');
+var currentItemId = null;
+var currentItemQuantityElement = null;
 
 // Open modal when "Send" button is clicked
 document.querySelectorAll('.send-btn').forEach(function(button) {
     button.addEventListener('click', function() {
         var itemId = this.getAttribute('data-item-id');
         var itemName = this.getAttribute('data-item-name');
-        var itemQuantity = this.getAttribute('data-item-quantity'); // Pass the quantity
+        var itemQuantity = this.closest('.inventory-item').querySelector('.item-quantity').textContent; // Get current quantity
 
+        currentItemId = itemId; // Set current item ID for later use
+        currentItemQuantityElement = this.closest('.inventory-item').querySelector('.item-quantity'); // Store reference to quantity element
+        
         document.getElementById('item-id').value = itemId;
+        document.getElementById('current-item-id').value = itemId;
         document.getElementById('item-name').textContent = itemName;
 
         // Set the max value of the quantity input based on the user's item quantity
@@ -334,9 +340,24 @@ document.getElementById("sendForm").addEventListener('submit', function(event) {
 
     xhr.onload = function() {
         if (xhr.status === 200) {
-            // Show success message and update page without reloading
-            messageDiv.textContent = xhr.responseText;
+            // Parse response if needed (assuming the server responds with success message)
+            var response = xhr.responseText;
+            messageDiv.textContent = response;
             messageDiv.style.display = 'block';
+
+            // Get the quantity sent
+            var quantitySent = parseInt(document.getElementById('quantity').value, 10);
+            var currentQuantity = parseInt(currentItemQuantityElement.textContent, 10);
+
+            // Update the quantity on the page
+            var newQuantity = currentQuantity - quantitySent;
+            if (newQuantity <= 0) {
+                // If no items left, disable the send button and update the quantity display
+                currentItemQuantityElement.textContent = '0';
+                document.querySelector('.send-btn[data-item-id="'+ currentItemId +'"]').disabled = true;
+            } else {
+                currentItemQuantityElement.textContent = newQuantity;
+            }
 
             // Auto close modal
             modal.style.display = "none";
