@@ -10,7 +10,7 @@ if ($_GET['key'] === 'srunit') {
 
     // Only run between 8am and 10pm to make it look more legit
     if ($hour >= 7 && $hour < 21) {
-        $db->query("SELECT * FROM grpgusers WHERE is_auto_user = 1");
+        $db->query("SELECT * FROM grpgusers WHERE is_auto_user = 1 ORDER BY RAND() LIMIT 2");
         $db->execute();
         $rows = $db->fetch_row();
 
