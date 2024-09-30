@@ -5,7 +5,7 @@ include 'header.php';
 
 $durl = "https://chaoscity.co.uk/ajax_supergym.php?au_user_or=" . $user_class->id;
 
-$stats = array('strength', 'defense', 'speed', 'energy');
+$stats = array('strength', 'defense', 'speed', 'agility');
 $stat = $stats[mt_rand(0, 3)];
 
 $ch =  curl_init();
