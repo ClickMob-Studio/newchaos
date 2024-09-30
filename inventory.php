@@ -49,7 +49,7 @@ function categorizeItem($row) {
 $items = getInventoryItems();
 
 // List of items that can't be sent
-$restrictedItems = [155, 195, 157, 194, 156, 158, 159, 167, 256];
+$restrictedItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
 
 $groupedItems = [];
 foreach ($items as $item) {
