@@ -49,8 +49,11 @@ function categorizeItem($row) {
 
 $items = getInventoryItems();
 
-// List of items that can't be sent
-$restrictedItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
+$restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
+$restrictedConsumableItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167);
+$restrictedRareItems = array(155, 195, 209, 231, 210, 250, 211, 229, 230, 212, 156, 194, 68, 69, 157, 158, 159, 165, 167, 264);
+$restrictedMarketItems = array(155, 195, 156, 194, 157, 158, 159, 165, 167, 256);
+
 
 $groupedItems = array();
 foreach ($items as $item) {
@@ -74,17 +77,7 @@ foreach ($items as $item) {
                             <div class="item-details">
                                 <h3><?= htmlspecialchars($item['name']); ?></h3>
                                 <p>Quantity: <span class="item-quantity"><?= (int)$item['quantity']; ?></span></p>
-								<?php
-                                // If the item is a weapon, armor, or similar, change to "Equip"
-                                if (in_array($item['type'], ['weapon', 'armor', 'shoes', 'shield'])) {
-                                    $buttonText = "Equip";
-                                    $buttonUrl = "equip.php?item=" . $item['id'];  // Use equip URL for equippable items
-                                }
-
-                                // Add the button with the dynamic label and URL
-                                ?>
-                                <a class="button-sm" href="<?= $buttonUrl; ?>"><?= $buttonText; ?></a>
-
+                                <button class="use-btn">Use</button>
                                 <button class="drop-btn" data-item-id="<?= $item['id']; ?>" data-item-name="<?= htmlspecialchars($item['name']); ?>" data-item-quantity="<?= (int)$item['quantity']; ?>">Drop</button>
                                 <!-- Conditionally display the "Send" button if item is not restricted -->
                                 <?php if (!in_array($item['id'], $restrictedItems)): ?>
@@ -112,7 +105,13 @@ foreach ($items as $item) {
                                 if (!$loan && !in_array($item['id'], $restrictedMarketItems)) {
                                     $additionalButtons .= ' <a class="button-sm" href="putonmarket.php?id=' . $item['id'] . '">Market</a> ';
                                 }
-
+								if (in_array($item['type'], array('weapon', 'armor', 'shoes')) || in_array($item['subtype'], array('weapon', 'armor', 'shoes'))) {
+                                    $buttonUrl = "equip.php?eq=";
+                                    $buttonUrl .= (!empty($item['subtype'])) ? $item['subtype'] : $item['type'];
+                                    $buttonUrl .= '&id=' . $item['id'];
+                                    $buttonUrl .= ($loan) ? '&loaned=1' : '';
+                                    $additionalButtons .= ' <a class="button-sm" href="' . $buttonUrl . '">Equip</a> ';
+                                }
                                 // Output the additional buttons
                                 echo $additionalButtons;
                                 ?>
