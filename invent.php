@@ -8,7 +8,7 @@ function getInventoryItems() {
     $db->query("
         SELECT 
             i.id, 
-            i.itemname AS name, 
+            i.itemname AS name, i.cost as cost,
             i.offense, i.defense, i.speed, i.rare, i.awake_boost,
             inv.quantity, 
             i.image 
