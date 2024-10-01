@@ -81,7 +81,7 @@ foreach ($items as $item) {
 								if (in_array($type, ['weapon', 'armor', 'shoes'])) {
 									$loanStatus = isset($item['loanid']) && $item['loanid'] > 0 ? 1 : 0;
 									echo '<button class="equip-btn" data-item-id="' . $item['id'] . '" data-type="' . $type . '" data-loaned="' . $loanStatus . '">Equip</button>';
-								} elseif ($type == 'consumable') {
+								} elseif ($type == 'consumable' || $type == "rare" ) {
                                     // Use button for consumable items
                                     echo ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Use</a> ';
                                 }
