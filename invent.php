@@ -66,6 +66,39 @@ foreach ($items as $item) {
 <div class="inventory-container">
     <?php if (!empty($groupedItems)): ?>
         <?php foreach ($groupedItems as $type => $items): ?>
+			<?php
+            // Determine item type and subtype
+            if ($item['offense'] > 0 && $item['rare'] == 0) {
+                $type = 'weapon';
+            } elseif ($item['defense'] > 0 && $item['rare'] == 0) {
+                $type = 'armor';
+            } elseif ($item['speed'] > 0 && $item['rare'] == 0) {
+                $type = 'shoes';
+            } elseif ($item['rare'] == 1) {
+                $type = 'rare';
+                $subtype = '';
+                if ($item['offense']) {
+                    $subtype = 'weapon';
+                }
+                if ($item['defense']) {
+                    $subtype = 'armor';
+                }
+                if ($item['speed']) {
+                    $subtype = 'shoes';
+                }
+            } elseif ($item['awake_boost'] > 0) {
+                $type = 'house';
+            } else {
+                $type = 'consumable';
+            }
+
+            // Dynamically assign the type or subtype for display logic
+            $finalType = (!empty($subtype)) ? $subtype : $type;
+
+            // Loan condition (modify logic as per your need)
+            $loan = isset($item['loanid']) && $item['loanid'] > 0;
+            ?>
+
             <div class="inventory-group">
                 <h2 class="item-type-header"><?= htmlspecialchars(ucfirst($type)); ?></h2>
                 <div class="inventory-items">
@@ -77,43 +110,30 @@ foreach ($items as $item) {
                             <div class="item-details">
                                 <h3><?= htmlspecialchars($item['name']); ?></h3>
                                 <p>Quantity: <span class="item-quantity"><?= (int)$item['quantity']; ?></span></p>
-                                <button class="use-btn">Use</button>
-                                <button class="drop-btn" data-item-id="<?= $item['id']; ?>" data-item-name="<?= htmlspecialchars($item['name']); ?>" data-item-quantity="<?= (int)$item['quantity']; ?>">Drop</button>
-                                <!-- Conditionally display the "Send" button if item is not restricted -->
-                                <?php if (!in_array($item['id'], $restrictedItems)): ?>
-                                    <button class="send-btn" data-item-id="<?= $item['id']; ?>" data-item-name="<?= htmlspecialchars($item['name']); ?>" data-item-quantity="<?= (int)$item['quantity']; ?>">Send</button>
-                                <?php endif; 
-								if ($item['cost'] > 0) {
-                                    echo "<a class='button-sm' href='sellitem.php?id=" . $item['id'] . "'>Sell</a>";
-                                }
-								?>
-								 <?php
-                                $additionalButtons = '';
+                                <?php
+                    // Equip button logic for items like weapons, armor, or shoes
+                    if (in_array($finalType, ['weapon', 'armor', 'shoes'])) {
+                        $buttonUrl = "equip.php?eq=" . $finalType . "&id=" . $item['id'];
+                        $buttonUrl .= ($loan) ? "&loaned=1" : "";
+                        echo ' <a class="button-sm" href="' . $buttonUrl . '">Equip</a> ';
+                    } elseif ($type == 'consumable') {
+                        // Use button for consumable items
+                        echo ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Use</a> ';
+                    }
 
-                                // Consumable type check
-                                if ($item['type'] == "consumable" && !in_array($item['id'], $restrictedConsumableItems)) {
-                                    $additionalButtons .= ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Use</a> ';
-                                }
+                    // Drop button logic (add if applicable)
+                    echo ' <button class="drop-btn" data-item-id="' . $item['id'] . '">Drop</button> ';
+                    
+                    // Sell button if item has a cost
+                    if ($item['cost'] > 0) {
+                        echo ' <a class="button-sm" href="sellitem.php?id=' . $item['id'] . '">Sell</a> ';
+                    }
 
-                                // Rare type check
-                                if ($item['type'] == "rare" && !in_array($item['id'], $restrictedRareItems)) {
-                                    $additionalButtons .= ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Use</a> ';
-                                }
-
-                                // Market button if no loan and not restricted
-                                $loan = false; // Modify this based on your logic for determining loan status
-                                if (!$loan && !in_array($item['id'], $restrictedMarketItems)) {
-                                    $additionalButtons .= ' <a class="button-sm" href="putonmarket.php?id=' . $item['id'] . '">Market</a> ';
-                                }
-								if (in_array($item['type'], array('weapon', 'armor', 'shoes')) || in_array($item['subtype'], array('weapon', 'armor', 'shoes'))) {
-                                    $buttonUrl = "equip.php?eq=";
-                                    $buttonUrl .= (!empty($item['subtype'])) ? $item['subtype'] : $item['type'];
-                                    $buttonUrl .= '&id=' . $item['id'];
-                                    $buttonUrl .= ($loan) ? '&loaned=1' : '';
-                                    $additionalButtons .= ' <a class="button-sm" href="' . $buttonUrl . '">Equip</a> ';
-                                }
-                                // Output the additional buttons
-                                echo $additionalButtons;
+                    // Market button if item is not on loan and meets market conditions
+                    if (!$loan) {
+                        echo ' <a class="button-sm" href="putonmarket.php?id=' . $item['id'] . '">Market</a> ';
+                    }
+                    
                                 ?>
 
                             </div>
