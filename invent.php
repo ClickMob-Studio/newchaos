@@ -85,7 +85,9 @@ foreach ($items as $item) {
                                     // Use button for consumable items
                                     echo ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Use</a> ';
                                 }
-
+								if($item['id'] == 194) {
+									echo ' <a class="button-sm" href="raids.php">Use Speedup</a> ';
+								}
                                 // Drop button
                                 if (!in_array($item['id'], $restrictedDropItems)) {
                                     echo ' <button class="drop-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '">Drop</button> ';
