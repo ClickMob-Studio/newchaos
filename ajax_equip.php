@@ -1,6 +1,6 @@
 <?php
 include 'ajax_header.php';  // Include your AJAX-compatible header
-$user_class = $_SESSION['id'];
+$user_class = new User($_SESSION['id']);
 $error = "";
 $response = array("success" => false, "message" => "");
 

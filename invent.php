@@ -521,22 +521,36 @@ function equipItem(itemId, type, loaned = 0) {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var response = JSON.parse(xhr.responseText);
-            if (response.success) {
-                alert(response.message);  // Show success message
+            var messageDiv = document.getElementById('message');
 
-                // Update the button to reflect that the item is equipped
+            if (response.success) {
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#4CAF50'; // Success color (green)
+                messageDiv.style.color = 'white';
+                messageDiv.textContent = response.message;
+
+                // Optionally update the UI (for example, disable the equip button)
                 var button = document.querySelector('.equip-btn[data-item-id="' + itemId + '"]');
                 if (button) {
                     button.textContent = 'Equipped';
-                    button.disabled = true;  // Disable the button after equipping
+                    button.disabled = true;
                 }
             } else {
-                alert('Error: ' + response.message);  // Show error message
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#f44336'; // Error color (red)
+                messageDiv.style.color = 'white';
+                messageDiv.textContent = 'Error: ' + response.message;
             }
+
+            // Optionally hide the message after a few seconds
+            setTimeout(function () {
+                messageDiv.style.display = 'none';
+            }, 5000); // Hide after 5 seconds
         }
     };
     xhr.send();
 }
-	
+
+
 
 </script>
