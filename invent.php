@@ -389,7 +389,7 @@ document.getElementById("dropForm").addEventListener('submit', function(event) {
     
     xhr.send(formData);
 });
-
+	
 var modal = document.getElementById("sendModal");
 var span = document.getElementsByClassName("close")[0];
 var messageDiv = document.getElementById('message');

@@ -38,11 +38,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $db->startTrans();
             try {
                 // Deduct the specified quantity from the sender
-                $db->query("UPDATE inventory SET quantity = quantity - :quantity WHERE userid = :sender_id AND itemid = :item_id AND quantity >= :quantity");
+                $db->query("UPDATE inventory SET quantity = quantity - :quantity WHERE userid = :sender_id AND itemid = :item_id");
                 $db->bind(':sender_id', $sender_id);
                 $db->bind(':item_id', $item_id);
                 $db->bind(':quantity', $quantity_to_send);
                 $db->execute();
+
+                // If the sender's quantity is now 0, delete the item from their inventory
+                if ($item_quantity - $quantity_to_send <= 0) {
+                    $db->query("DELETE FROM inventory WHERE userid = :sender_id AND itemid = :item_id");
+                    $db->bind(':sender_id', $sender_id);
+                    $db->bind(':item_id', $item_id);
+                    $db->execute();
+                }
 
                 // Check if the recipient already has this item
                 $db->query("SELECT quantity FROM inventory WHERE userid = :recipient_id AND itemid = :item_id");
