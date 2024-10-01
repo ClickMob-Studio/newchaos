@@ -537,6 +537,6 @@ function equipItem(itemId, type, loaned = 0) {
     };
     xhr.send();
 }
-
+	
 
 </script>
