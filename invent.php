@@ -84,6 +84,29 @@ foreach ($items as $item) {
                                     echo "<a class='button-sm' href='sellitem.php?id=" . $item['id'] . "'>Sell</a>";
                                 }
 								?>
+								 <?php
+                                $additionalButtons = '';
+
+                                // Consumable type check
+                                if ($item['type'] == "consumable" && !in_array($item['id'], $restrictedConsumableItems)) {
+                                    $additionalButtons .= ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Use</a> ';
+                                }
+
+                                // Rare type check
+                                if ($item['type'] == "rare" && !in_array($item['id'], $restrictedRareItems)) {
+                                    $additionalButtons .= ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Use</a> ';
+                                }
+
+                                // Market button if no loan and not restricted
+                                $loan = false; // Modify this based on your logic for determining loan status
+                                if (!$loan && !in_array($item['id'], $restrictedMarketItems)) {
+                                    $additionalButtons .= ' <a class="button-sm" href="putonmarket.php?id=' . $item['id'] . '">Market</a> ';
+                                }
+
+                                // Output the additional buttons
+                                echo $additionalButtons;
+                                ?>
+
                             </div>
                         </div>
                     <?php endforeach; ?>
