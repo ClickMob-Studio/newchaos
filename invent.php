@@ -78,10 +78,10 @@ foreach ($items as $item) {
 
                                 <?php
                                 // Equip button logic for items like weapons, armor, or shoes
-                                if (in_array($type, ['weapon', 'armor', 'shoes'])) {
-                                    $buttonUrl = "equip.php?eq=" . $type . "&id=" . $item['id'];
-                                    echo ' <a class="button-sm" href="' . $buttonUrl . '">Equip</a> ';
-                                } elseif ($type == 'consumable') {
+								if (in_array($type, ['weapon', 'armor', 'shoes'])) {
+									$loanStatus = isset($item['loanid']) && $item['loanid'] > 0 ? 1 : 0;
+									echo '<button class="equip-btn" data-item-id="' . $item['id'] . '" data-type="' . $type . '" data-loaned="' . $loanStatus . '">Equip</button>';
+								} elseif ($type == 'consumable') {
                                     // Use button for consumable items
                                     echo ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Use</a> ';
                                 }
@@ -496,4 +496,47 @@ document.getElementById("sendForm").addEventListener('submit', function(event) {
     
     xhr.send(formData);
 });
+document.addEventListener('DOMContentLoaded', function () {
+    // Select all equip buttons
+    var equipButtons = document.querySelectorAll('.equip-btn');
+
+    // Add click event listener to each equip button
+    equipButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var itemId = this.getAttribute('data-item-id');
+            var type = this.getAttribute('data-type');
+            var loaned = this.getAttribute('data-loaned');
+
+            // Call the equipItem function with the item ID, type, and loaned status
+            equipItem(itemId, type, loaned);
+        });
+    });
+});
+
+function equipItem(itemId, type, loaned = 0) {
+    var url = 'ajax_equip.php?eq=' + type + '&id=' + itemId + '&loaned=' + loaned;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            if (response.success) {
+                alert(response.message);  // Show success message
+
+                // Update the button to reflect that the item is equipped
+                var button = document.querySelector('.equip-btn[data-item-id="' + itemId + '"]');
+                if (button) {
+                    button.textContent = 'Equipped';
+                    button.disabled = true;  // Disable the button after equipping
+                }
+            } else {
+                alert('Error: ' + response.message);  // Show error message
+            }
+        }
+    };
+    xhr.send();
+}
+
+
 </script>
