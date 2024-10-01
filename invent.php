@@ -75,7 +75,7 @@ foreach ($items as $item) {
                                 <h3><?= htmlspecialchars($item['name']); ?></h3>
                                 <p>Quantity: <span class="item-quantity"><?= (int)$item['quantity']; ?></span></p>
                                 <button class="use-btn">Use</button>
-                                <button class="drop-btn">Drop</button>
+                                <button class="drop-btn" data-item-id="<?= $item['id']; ?>" data-item-name="<?= htmlspecialchars($item['name']); ?>" data-item-quantity="<?= (int)$item['quantity']; ?>">Drop</button>
                                 <!-- Conditionally display the "Send" button if item is not restricted -->
                                 <?php if (!in_array($item['id'], $restrictedItems)): ?>
                                     <button class="send-btn" data-item-id="<?= $item['id']; ?>" data-item-name="<?= htmlspecialchars($item['name']); ?>" data-item-quantity="<?= (int)$item['quantity']; ?>">Send</button>
@@ -90,7 +90,22 @@ foreach ($items as $item) {
         <p>No items found.</p>
     <?php endif; ?>
 </div>
-
+<!-- Modal for Dropping Items -->
+<div id="dropModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Drop Item</h2>
+        <form id="dropForm">
+            <p>Dropping <strong id="drop-item-name"></strong></p>
+            <input type="hidden" name="item_id" id="drop-item-id">
+            
+            <label for="drop-quantity">Quantity to drop:</label>
+            <input type="number" id="drop-quantity" name="quantity" min="1" value="1">
+            
+            <button type="submit" class="drop-confirm-btn">Drop Item</button>
+        </form>
+    </div>
+</div>
 <!-- Modal for Sending Items -->
 <div id="sendModal" class="modal">
     <div class="modal-content">
@@ -291,6 +306,90 @@ foreach ($items as $item) {
 </style>
 
 <script>
+	var dropModal = document.getElementById("dropModal");
+var span = document.getElementsByClassName("close")[0];
+var messageDiv = document.getElementById('message');
+var currentDropItemQuantityElement = null;
+
+// Open modal when "Drop" button is clicked
+document.querySelectorAll('.drop-btn').forEach(function(button) {
+    button.addEventListener('click', function() {
+        var itemId = this.getAttribute('data-item-id');
+        var itemName = this.getAttribute('data-item-name');
+        var itemQuantity = this.getAttribute('data-item-quantity'); // Get current quantity from the button
+
+        currentDropItemQuantityElement = this.closest('.inventory-item').querySelector('.item-quantity'); // Store reference to quantity element
+        
+        document.getElementById('drop-item-id').value = itemId;
+        document.getElementById('drop-item-name').textContent = itemName;
+
+        // Set the max value of the quantity input based on the user's item quantity
+        document.getElementById('drop-quantity').max = itemQuantity;
+        document.getElementById('drop-quantity').value = 1; // Default quantity to 1
+
+        dropModal.style.display = "block";
+    });
+});
+
+// Close modal
+span.onclick = function() {
+    dropModal.style.display = "none";
+}
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+    if (event.target == dropModal) {
+        dropModal.style.display = "none";
+    }
+}
+
+// Handle the form submission with AJAX
+document.getElementById("dropForm").addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var formData = new FormData(this);
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "drop_item.php", true);
+
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            // Parse response if needed (assuming the server responds with success message)
+            var response = xhr.responseText;
+            messageDiv.textContent = response;
+            messageDiv.style.display = 'block';
+
+            // Get the quantity dropped
+            var quantityDropped = parseInt(document.getElementById('drop-quantity').value, 10);
+            var currentQuantity = parseInt(currentDropItemQuantityElement.textContent, 10);
+
+            // Update the quantity on the page
+            var newQuantity = currentQuantity - quantityDropped;
+            if (newQuantity <= 0) {
+                // If no items left, disable the drop button and update the quantity display
+                currentDropItemQuantityElement.textContent = '0';
+                document.querySelector('.drop-btn[data-item-id="'+ document.getElementById('drop-item-id').value +'"]').disabled = true;
+            } else {
+                currentDropItemQuantityElement.textContent = newQuantity;
+            }
+
+            // Auto close modal
+            dropModal.style.display = "none";
+
+            // Optionally, hide the message after a few seconds
+            setTimeout(function() {
+                messageDiv.style.display = 'none';
+            }, 5000); // Hide after 5 seconds
+        } else {
+            // Handle error messages
+            messageDiv.textContent = "Error dropping item.";
+            messageDiv.style.backgroundColor = '#f44336'; // Change background color to red for error
+            messageDiv.style.display = 'block';
+        }
+    };
+    
+    xhr.send(formData);
+});
+
 var modal = document.getElementById("sendModal");
 var span = document.getElementsByClassName("close")[0];
 var messageDiv = document.getElementById('message');
