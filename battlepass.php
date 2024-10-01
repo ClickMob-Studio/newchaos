@@ -5,6 +5,11 @@ include 'header.php';
 $now = new \DateTime();
 
 $bpCategory = getBpCategory();
+if (!$bpCategory) {
+    echo '<h1>New BP Coming Soon</h1>';
+    echo '<p>This months Battle Pass isn\'t quite ready for launch yet, please check back shortly.</p>';
+    exit;
+}
 $latestBpCategory = getBpCategory();
 if (isset($_GET['override_id']) && (int)$_GET['override_id'] > 0) {
     $overrideId = (int)$_GET['override_id'];
