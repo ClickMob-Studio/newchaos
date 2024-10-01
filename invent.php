@@ -74,7 +74,17 @@ foreach ($items as $item) {
                             <div class="item-details">
                                 <h3><?= htmlspecialchars($item['name']); ?></h3>
                                 <p>Quantity: <span class="item-quantity"><?= (int)$item['quantity']; ?></span></p>
-                                <button class="use-btn">Use</button>
+								<?php
+                                // If the item is a weapon, armor, or similar, change to "Equip"
+                                if (in_array($item['type'], ['weapon', 'armor', 'shoes', 'shield'])) {
+                                    $buttonText = "Equip";
+                                    $buttonUrl = "equip.php?item=" . $item['id'];  // Use equip URL for equippable items
+                                }
+
+                                // Add the button with the dynamic label and URL
+                                ?>
+                                <a class="button-sm" href="<?= $buttonUrl; ?>"><?= $buttonText; ?></a>
+
                                 <button class="drop-btn" data-item-id="<?= $item['id']; ?>" data-item-name="<?= htmlspecialchars($item['name']); ?>" data-item-quantity="<?= (int)$item['quantity']; ?>">Drop</button>
                                 <!-- Conditionally display the "Send" button if item is not restricted -->
                                 <?php if (!in_array($item['id'], $restrictedItems)): ?>
