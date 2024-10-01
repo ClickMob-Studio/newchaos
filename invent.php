@@ -24,24 +24,24 @@ function getInventoryItems() {
 
 function categorizeItem($row) {
     if ($row['offense'] > 0 && $row['rare'] == 0) {
-        $type = 'Weapon';
+        $type = 'weapon';
     } elseif ($row['defense'] > 0 && $row['rare'] == 0) {
-        $type = 'Armor';
+        $type = 'armor';
     } elseif ($row['speed'] > 0 && $row['rare'] == 0) {
-        $type = 'Shoes';
+        $type = 'shoes';
     } elseif ($row['rare'] == 1) {
-        $type = 'Rare';
+        $type = 'rare';
         if ($row['offense'] > 0) {
-            $subtype = 'Weapon';
+            $subtype = 'weapon';
         } elseif ($row['defense'] > 0) {
-            $subtype = 'Armor';
+            $subtype = 'armor';
         } elseif ($row['speed'] > 0) {
-            $subtype = 'Shoes';
+            $subtype = 'shoes';
         }
     } elseif ($row['awake_boost'] > 0) {
-        $type = 'House';
+        $type = 'house';
     } else {
-        $type = 'Consumable';
+        $type = 'consumable';
     }
 
     return isset($subtype) ? $type . ' (' . $subtype . ')' : $type;
@@ -49,10 +49,8 @@ function categorizeItem($row) {
 
 $items = getInventoryItems();
 
+$restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256);
 $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
-$restrictedConsumableItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167);
-$restrictedRareItems = array(155, 195, 209, 231, 210, 250, 211, 229, 230, 212, 156, 194, 68, 69, 157, 158, 159, 165, 167, 264);
-$restrictedMarketItems = array(155, 195, 156, 194, 157, 158, 159, 165, 167, 256);
 
 $groupedItems = array();
 foreach ($items as $item) {
@@ -70,38 +68,6 @@ foreach ($items as $item) {
                 <h2 class="item-type-header"><?= htmlspecialchars(ucfirst($type)); ?></h2>
                 <div class="inventory-items">
                     <?php foreach ($items as $item): ?>
-                        <?php
-                        // Determine item type and subtype
-                        if ($item['offense'] > 0 && $item['rare'] == 0) {
-                            $type = 'weapon';
-                        } elseif ($item['defense'] > 0 && $item['rare'] == 0) {
-                            $type = 'armor';
-                        } elseif ($item['speed'] > 0 && $item['rare'] == 0) {
-                            $type = 'shoes';
-                        } elseif ($item['rare'] == 1) {
-                            $type = 'rare';
-                            $subtype = '';
-                            if ($item['offense']) {
-                                $subtype = 'weapon';
-                            }
-                            if ($item['defense']) {
-                                $subtype = 'armor';
-                            }
-                            if ($item['speed']) {
-                                $subtype = 'shoes';
-                            }
-                        } elseif ($item['awake_boost'] > 0) {
-                            $type = 'house';
-                        } else {
-                            $type = 'consumable';
-                        }
-
-                        // Dynamically assign the type or subtype for display logic
-                        $finalType = (!empty($subtype)) ? $subtype : $type;
-
-                        // Loan condition (modify logic as per your need)
-                        $loan = isset($item['loanid']) && $item['loanid'] > 0;
-                        ?>
                         <div class="inventory-item">
                             <div class="item-image-container">
                                 <img src="<?= isset($item['image']) && $item['image'] != '' ? htmlspecialchars($item['image']) : 'path/to/default-image.png'; ?>" alt="<?= htmlspecialchars($item['name']); ?>" class="item-image">
@@ -109,30 +75,30 @@ foreach ($items as $item) {
                             <div class="item-details">
                                 <h3><?= htmlspecialchars($item['name']); ?></h3>
                                 <p>Quantity: <span class="item-quantity"><?= (int)$item['quantity']; ?></span></p>
-                                
-                                <!-- Equip or Use Button based on type/subtype -->
+
                                 <?php
                                 // Equip button logic for items like weapons, armor, or shoes
-                                if (in_array($finalType, ['weapon', 'armor', 'shoes'])) {
-                                    $buttonUrl = "equip.php?eq=" . $finalType . "&id=" . $item['id'];
-                                    $buttonUrl .= ($loan) ? "&loaned=1" : "";
+                                if (in_array($type, ['weapon', 'armor', 'shoes'])) {
+                                    $buttonUrl = "equip.php?eq=" . $type . "&id=" . $item['id'];
                                     echo ' <a class="button-sm" href="' . $buttonUrl . '">Equip</a> ';
                                 } elseif ($type == 'consumable') {
                                     // Use button for consumable items
                                     echo ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Use</a> ';
                                 }
 
-                                // Drop button logic (add if applicable)
-                                echo ' <button class="drop-btn" data-item-id="' . $item['id'] . '">Drop</button> ';
-                                
+                                // Drop button
+                                if (!in_array($item['id'], $restrictedDropItems)) {
+                                    echo ' <button class="drop-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '">Drop</button> ';
+                                }
+
+                                // Send button (not restricted)
+                                if (!in_array($item['id'], $restrictedSendItems)) {
+                                    echo ' <button class="send-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Send</button> ';
+                                }
+
                                 // Sell button if item has a cost
                                 if ($item['cost'] > 0) {
                                     echo ' <a class="button-sm" href="sellitem.php?id=' . $item['id'] . '">Sell</a> ';
-                                }
-
-                                // Market button if item is not on loan and meets market conditions
-                                if (!$loan) {
-                                    echo ' <a class="button-sm" href="putonmarket.php?id=' . $item['id'] . '">Market</a> ';
                                 }
                                 ?>
                             </div>
@@ -277,7 +243,7 @@ foreach ($items as $item) {
 }
 
 /* Button styles for use and drop actions */
-.use-btn, .drop-btn {
+.use-btn, .drop-btn, .send-btn {
     padding: 5px 10px;
     margin-right: 5px;
     cursor: pointer;
@@ -292,13 +258,20 @@ foreach ($items as $item) {
     background-color: #f44336;
 }
 
-/* Hover effect for buttons */
+.send-btn {
+    background-color: #ffa500;
+}
+
 .use-btn:hover {
     background-color: #45a049;
 }
 
 .drop-btn:hover {
     background-color: #d32f2f;
+}
+
+.send-btn:hover {
+    background-color: #ff8c00;
 }
 
 /* Responsive design for smaller screens */
@@ -445,8 +418,8 @@ document.getElementById("dropForm").addEventListener('submit', function(event) {
 });
 
 // Send Modal functionality
-var modal = document.getElementById("sendModal");
-var span = document.getElementsByClassName("close")[1];
+var sendModal = document.getElementById("sendModal");
+var spanSend = document.getElementsByClassName("close")[1];
 var currentItemId = null;
 var currentItemQuantityElement = null;
 
@@ -467,19 +440,19 @@ document.querySelectorAll('.send-btn').forEach(function(button) {
         document.getElementById('quantity').max = itemQuantity;
         document.getElementById('quantity').value = 1; // Default quantity to 1
 
-        modal.style.display = "block";
+        sendModal.style.display = "block";
     });
 });
 
 // Close modal
-span.onclick = function() {
-    modal.style.display = "none";
+spanSend.onclick = function() {
+    sendModal.style.display = "none";
 }
 
 // Close modal when clicking outside of it
 window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
+    if (event.target == sendModal) {
+        sendModal.style.display = "none";
     }
 }
 
@@ -509,7 +482,7 @@ document.getElementById("sendForm").addEventListener('submit', function(event) {
                 currentItemQuantityElement.textContent = newQuantity;
             }
 
-            modal.style.display = "none";
+            sendModal.style.display = "none";
 
             setTimeout(function() {
                 messageDiv.style.display = 'none';
