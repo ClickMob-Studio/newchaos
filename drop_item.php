@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Check if the user has the item and enough quantity
         $db->query("SELECT quantity FROM inventory WHERE userid = :user_id AND itemid = :item_id");
         $db->bind(':user_id', $user_id);
-        $db->bind(':item_id', $item_id);
+        $db->bind(':item_id', $item_id); 
         $item_quantity = $db->fetch_single();
 
         if ($item_quantity && $item_quantity >= $quantity_to_drop) {
