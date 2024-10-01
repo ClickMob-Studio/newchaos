@@ -54,55 +54,54 @@ $restrictedConsumableItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167);
 $restrictedRareItems = array(155, 195, 209, 231, 210, 250, 211, 229, 230, 212, 156, 194, 68, 69, 157, 158, 159, 165, 167, 264);
 $restrictedMarketItems = array(155, 195, 156, 194, 157, 158, 159, 165, 167, 256);
 
-
 $groupedItems = array();
 foreach ($items as $item) {
     $itemType = categorizeItem($item);
     $groupedItems[$itemType][] = $item;
 }
 ?>
+
 <div id="message" style="display: none; padding: 10px; background-color: #4CAF50; color: white; margin-bottom: 20px;"></div>
 
 <div class="inventory-container">
     <?php if (!empty($groupedItems)): ?>
         <?php foreach ($groupedItems as $type => $items): ?>
-			<?php
-            // Determine item type and subtype
-            if ($item['offense'] > 0 && $item['rare'] == 0) {
-                $type = 'weapon';
-            } elseif ($item['defense'] > 0 && $item['rare'] == 0) {
-                $type = 'armor';
-            } elseif ($item['speed'] > 0 && $item['rare'] == 0) {
-                $type = 'shoes';
-            } elseif ($item['rare'] == 1) {
-                $type = 'rare';
-                $subtype = '';
-                if ($item['offense']) {
-                    $subtype = 'weapon';
-                }
-                if ($item['defense']) {
-                    $subtype = 'armor';
-                }
-                if ($item['speed']) {
-                    $subtype = 'shoes';
-                }
-            } elseif ($item['awake_boost'] > 0) {
-                $type = 'house';
-            } else {
-                $type = 'consumable';
-            }
-
-            // Dynamically assign the type or subtype for display logic
-            $finalType = (!empty($subtype)) ? $subtype : $type;
-
-            // Loan condition (modify logic as per your need)
-            $loan = isset($item['loanid']) && $item['loanid'] > 0;
-            ?>
-
             <div class="inventory-group">
                 <h2 class="item-type-header"><?= htmlspecialchars(ucfirst($type)); ?></h2>
                 <div class="inventory-items">
                     <?php foreach ($items as $item): ?>
+                        <?php
+                        // Determine item type and subtype
+                        if ($item['offense'] > 0 && $item['rare'] == 0) {
+                            $type = 'weapon';
+                        } elseif ($item['defense'] > 0 && $item['rare'] == 0) {
+                            $type = 'armor';
+                        } elseif ($item['speed'] > 0 && $item['rare'] == 0) {
+                            $type = 'shoes';
+                        } elseif ($item['rare'] == 1) {
+                            $type = 'rare';
+                            $subtype = '';
+                            if ($item['offense']) {
+                                $subtype = 'weapon';
+                            }
+                            if ($item['defense']) {
+                                $subtype = 'armor';
+                            }
+                            if ($item['speed']) {
+                                $subtype = 'shoes';
+                            }
+                        } elseif ($item['awake_boost'] > 0) {
+                            $type = 'house';
+                        } else {
+                            $type = 'consumable';
+                        }
+
+                        // Dynamically assign the type or subtype for display logic
+                        $finalType = (!empty($subtype)) ? $subtype : $type;
+
+                        // Loan condition (modify logic as per your need)
+                        $loan = isset($item['loanid']) && $item['loanid'] > 0;
+                        ?>
                         <div class="inventory-item">
                             <div class="item-image-container">
                                 <img src="<?= isset($item['image']) && $item['image'] != '' ? htmlspecialchars($item['image']) : 'path/to/default-image.png'; ?>" alt="<?= htmlspecialchars($item['name']); ?>" class="item-image">
@@ -110,32 +109,32 @@ foreach ($items as $item) {
                             <div class="item-details">
                                 <h3><?= htmlspecialchars($item['name']); ?></h3>
                                 <p>Quantity: <span class="item-quantity"><?= (int)$item['quantity']; ?></span></p>
+                                
+                                <!-- Equip or Use Button based on type/subtype -->
                                 <?php
-                    // Equip button logic for items like weapons, armor, or shoes
-                    if (in_array($finalType, ['weapon', 'armor', 'shoes'])) {
-                        $buttonUrl = "equip.php?eq=" . $finalType . "&id=" . $item['id'];
-                        $buttonUrl .= ($loan) ? "&loaned=1" : "";
-                        echo ' <a class="button-sm" href="' . $buttonUrl . '">Equip</a> ';
-                    } elseif ($type == 'consumable') {
-                        // Use button for consumable items
-                        echo ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Use</a> ';
-                    }
+                                // Equip button logic for items like weapons, armor, or shoes
+                                if (in_array($finalType, ['weapon', 'armor', 'shoes'])) {
+                                    $buttonUrl = "equip.php?eq=" . $finalType . "&id=" . $item['id'];
+                                    $buttonUrl .= ($loan) ? "&loaned=1" : "";
+                                    echo ' <a class="button-sm" href="' . $buttonUrl . '">Equip</a> ';
+                                } elseif ($type == 'consumable') {
+                                    // Use button for consumable items
+                                    echo ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Use</a> ';
+                                }
 
-                    // Drop button logic (add if applicable)
-                    echo ' <button class="drop-btn" data-item-id="' . $item['id'] . '">Drop</button> ';
-                    
-                    // Sell button if item has a cost
-                    if ($item['cost'] > 0) {
-                        echo ' <a class="button-sm" href="sellitem.php?id=' . $item['id'] . '">Sell</a> ';
-                    }
+                                // Drop button logic (add if applicable)
+                                echo ' <button class="drop-btn" data-item-id="' . $item['id'] . '">Drop</button> ';
+                                
+                                // Sell button if item has a cost
+                                if ($item['cost'] > 0) {
+                                    echo ' <a class="button-sm" href="sellitem.php?id=' . $item['id'] . '">Sell</a> ';
+                                }
 
-                    // Market button if item is not on loan and meets market conditions
-                    if (!$loan) {
-                        echo ' <a class="button-sm" href="putonmarket.php?id=' . $item['id'] . '">Market</a> ';
-                    }
-                    
+                                // Market button if item is not on loan and meets market conditions
+                                if (!$loan) {
+                                    echo ' <a class="button-sm" href="putonmarket.php?id=' . $item['id'] . '">Market</a> ';
+                                }
                                 ?>
-
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -146,6 +145,7 @@ foreach ($items as $item) {
         <p>No items found.</p>
     <?php endif; ?>
 </div>
+
 <!-- Modal for Dropping Items -->
 <div id="dropModal" class="modal">
     <div class="modal-content">
@@ -162,6 +162,7 @@ foreach ($items as $item) {
         </form>
     </div>
 </div>
+
 <!-- Modal for Sending Items -->
 <div id="sendModal" class="modal">
     <div class="modal-content">
@@ -182,10 +183,11 @@ foreach ($items as $item) {
         </form>
     </div>
 </div>
+
 <?php include 'footer.php'; ?>
 
 <style>
-	/* Global container for the entire inventory */
+/* Global container for the entire inventory */
 .inventory-container {
     width: 80%;
     margin: 20px auto;
@@ -326,19 +328,6 @@ foreach ($items as $item) {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-/* Modal styling remains the same */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    padding-top: 100px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-}
-
 .modal-content {
     background-color: #21201c;
     margin: auto;
@@ -358,6 +347,7 @@ foreach ($items as $item) {
     color: #fff;
     cursor: pointer;
 }
+
 /* Send Confirmation Button */
 .send-confirm-btn {
     background-color: #4CAF50;
@@ -375,8 +365,9 @@ foreach ($items as $item) {
 </style>
 
 <script>
-	var dropModal = document.getElementById("dropModal");
-var span = document.getElementsByClassName("close")[0];
+// Drop Modal functionality
+var dropModal = document.getElementById("dropModal");
+var spanDrop = document.getElementsByClassName("close")[0];
 var messageDiv = document.getElementById('message');
 var currentDropItemQuantityElement = null;
 
@@ -401,7 +392,7 @@ document.querySelectorAll('.drop-btn').forEach(function(button) {
 });
 
 // Close modal
-span.onclick = function() {
+spanDrop.onclick = function() {
     dropModal.style.display = "none";
 }
 
@@ -422,34 +413,28 @@ document.getElementById("dropForm").addEventListener('submit', function(event) {
 
     xhr.onload = function() {
         if (xhr.status === 200) {
-            // Parse response if needed (assuming the server responds with success message)
             var response = xhr.responseText;
             messageDiv.textContent = response;
             messageDiv.style.display = 'block';
 
-            // Get the quantity dropped
             var quantityDropped = parseInt(document.getElementById('drop-quantity').value, 10);
             var currentQuantity = parseInt(currentDropItemQuantityElement.textContent, 10);
 
             // Update the quantity on the page
             var newQuantity = currentQuantity - quantityDropped;
             if (newQuantity <= 0) {
-                // If no items left, disable the drop button and update the quantity display
                 currentDropItemQuantityElement.textContent = '0';
                 document.querySelector('.drop-btn[data-item-id="'+ document.getElementById('drop-item-id').value +'"]').disabled = true;
             } else {
                 currentDropItemQuantityElement.textContent = newQuantity;
             }
 
-            // Auto close modal
             dropModal.style.display = "none";
 
-            // Optionally, hide the message after a few seconds
             setTimeout(function() {
                 messageDiv.style.display = 'none';
             }, 5000); // Hide after 5 seconds
         } else {
-            // Handle error messages
             messageDiv.textContent = "Error dropping item.";
             messageDiv.style.backgroundColor = '#f44336'; // Change background color to red for error
             messageDiv.style.display = 'block';
@@ -458,10 +443,10 @@ document.getElementById("dropForm").addEventListener('submit', function(event) {
     
     xhr.send(formData);
 });
-	
+
+// Send Modal functionality
 var modal = document.getElementById("sendModal");
-var span = document.getElementsByClassName("close")[0];
-var messageDiv = document.getElementById('message');
+var span = document.getElementsByClassName("close")[1];
 var currentItemId = null;
 var currentItemQuantityElement = null;
 
@@ -508,34 +493,28 @@ document.getElementById("sendForm").addEventListener('submit', function(event) {
 
     xhr.onload = function() {
         if (xhr.status === 200) {
-            // Parse response if needed (assuming the server responds with success message)
             var response = xhr.responseText;
             messageDiv.textContent = response;
             messageDiv.style.display = 'block';
 
-            // Get the quantity sent
             var quantitySent = parseInt(document.getElementById('quantity').value, 10);
             var currentQuantity = parseInt(currentItemQuantityElement.textContent, 10);
 
             // Update the quantity on the page
             var newQuantity = currentQuantity - quantitySent;
             if (newQuantity <= 0) {
-                // If no items left, disable the send button and update the quantity display
                 currentItemQuantityElement.textContent = '0';
                 document.querySelector('.send-btn[data-item-id="'+ currentItemId +'"]').disabled = true;
             } else {
                 currentItemQuantityElement.textContent = newQuantity;
             }
 
-            // Auto close modal
             modal.style.display = "none";
 
-            // Optionally, hide the message after a few seconds
             setTimeout(function() {
                 messageDiv.style.display = 'none';
             }, 5000); // Hide after 5 seconds
         } else {
-            // Handle error messages
             messageDiv.textContent = "Error sending item.";
             messageDiv.style.backgroundColor = '#f44336'; // Change background color to red for error
             messageDiv.style.display = 'block';
@@ -544,5 +523,4 @@ document.getElementById("sendForm").addEventListener('submit', function(event) {
     
     xhr.send(formData);
 });
-
 </script>
