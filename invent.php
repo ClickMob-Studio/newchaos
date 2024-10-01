@@ -79,12 +79,11 @@ foreach ($items as $item) {
                                 <!-- Conditionally display the "Send" button if item is not restricted -->
                                 <?php if (!in_array($item['id'], $restrictedItems)): ?>
                                     <button class="send-btn" data-item-id="<?= $item['id']; ?>" data-item-name="<?= htmlspecialchars($item['name']); ?>" data-item-quantity="<?= (int)$item['quantity']; ?>">Send</button>
-                                <?php endif; ?>
-								<?php 
-                                // Add the sell button only if the item has a cost
-                                $sell = ($item['cost'] > 0) ? "<a class='button-sm' href='sellitem.php?id=" . $item['id'] . "'>Sell</a>" : ""; 
-                                echo $sell; 
-                                ?>
+                                <?php endif; 
+								if ($item['cost'] > 0) {
+                                    echo "<a class='button-sm' href='sellitem.php?id=" . $item['id'] . "'>Sell</a>";
+                                }
+								?>
                             </div>
                         </div>
                     <?php endforeach; ?>
