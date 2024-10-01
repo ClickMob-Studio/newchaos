@@ -51,6 +51,7 @@ $items = getInventoryItems();
 
 $restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256);
 $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
+$restrictedUseItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167);
 $groupedItems = array();
 foreach ($items as $item) {
     $itemType = categorizeItem($item);
@@ -80,7 +81,7 @@ foreach ($items as $item) {
 								if (in_array($type, ['weapon', 'armor', 'shoes'])) {
 									$loanStatus = isset($item['loanid']) && $item['loanid'] > 0 ? 1 : 0;
 									echo '<button class="equip-btn" data-item-id="' . $item['id'] . '" data-type="' . $type . '" data-loaned="' . $loanStatus . '">Equip</button>';
-								} elseif ($type == 'consumable' || $type == "rare" && !in_array($item['id'], $restrictedDropItems)) {
+								} elseif ($type == 'consumable' || $type == "rare" && !in_array($item['id'], $restrictedUseItems)) {
                                     // Use button for consumable items
                                     echo ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Use</a> ';
                                 }
