@@ -179,6 +179,19 @@ foreach ($items as $item) {
     align-items: center;
     text-align: center;
 }
+.button-sm {
+    padding: 5px 10px;
+    background-color: #FFA500;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.button-sm:hover {
+    background-color: #FF8C00;
+}
 
 /* Container for item image */
 .item-image-container {
