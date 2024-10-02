@@ -38,39 +38,46 @@ if (isset($_GET['action']) && $_GET['action'] == 'load') {
 }
 
 if (isset($_GET['id']) && $_GET['id'] == 69) {
-    // Special case for item ID 69
-
+    $a = $db->query("SELECT itemname, `image` FROM items WHERE id = ".$_GET['id']);
+    $items = $db->fetch_row();
+    $itemName = $items['itemname'];
+    $itemImg == $row['image'];
     // First, check which slot is empty
     if ($user_class->eqweapon == 0) {
         // Equip in the weapon slot if it's empty
         $db->query("UPDATE grpgusers SET eqweapon = ?, weploaned = 0 WHERE id = ?");
         $db->execute(array(69, $user_class->id));
-        $response['newItemHtml'] = getEquippedItemHtml("weapon", 69, 'path/to/item69_image.jpg', 'Item 69');
-        $response['message'] = "Item 69 equipped as weapon!";
+        $response['newItemHtml'] = getEquippedItemHtml("weapon", 69, $itemImg, $itemName);
+        $response['message'] = "Equipped $itemName as weapon!";
+        $response['slot'] = 'weapon';
     } elseif ($user_class->eqarmor == 0) {
         // Equip in the armor slot if it's empty
         $db->query("UPDATE grpgusers SET eqarmor = ?, armloaned = 0 WHERE id = ?");
         $db->execute(array(69, $user_class->id));
-        $response['newItemHtml'] = getEquippedItemHtml("armor", 69, 'path/to/item69_image.jpg', 'Item 69');
-        $response['message'] = "Item 69 equipped as armor!";
+        $response['newItemHtml'] = getEquippedItemHtml("armor", 69, $itemImg, $itemName);
+        $response['message'] = "Equipped $itemName as armor!";
+        $response['slot'] = 'armor';
     } elseif ($user_class->eqshoes == 0) {
         // Equip in the shoes slot if it's empty
         $db->query("UPDATE grpgusers SET eqshoes = ?, shoeloaned = 0 WHERE id = ?");
         $db->execute(array(69, $user_class->id));
-        $response['newItemHtml'] = getEquippedItemHtml("shoes", 69, 'path/to/item69_image.jpg', 'Item 69');
-        $response['message'] = "Item 69 equipped as shoes!";
+        $response['newItemHtml'] = getEquippedItemHtml("shoes", 69, $itemImg, $itemName);
+        $response['message'] = "Equipped $itemName as shoes!";
+        $response['slot'] = 'shoes';
     } else {
         // Overwrite the shoes slot if all slots are filled
         $db->query("UPDATE grpgusers SET eqshoes = ?, shoeloaned = 0 WHERE id = ?");
         $db->execute(array(69, $user_class->id));
-        $response['newItemHtml'] = getEquippedItemHtml("shoes", 69, 'path/to/item69_image.jpg', 'Item 69');
-        $response['message'] = "Item 69 equipped as shoes, overwriting the previous shoes!";
+        $response['newItemHtml'] = getEquippedItemHtml("shoes", 69, $itemImg, $itemName);
+        $response['message'] = "All slots were full. Replaced shoes with $itemName!";
+        $response['slot'] = 'shoes';
     }
 
     $response['success'] = true;
     echo json_encode($response);
     exit;
 }
+
 
 // If a request to get equipped items on page load
 if (isset($_GET['action']) && $_GET['action'] == 'load') {
