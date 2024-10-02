@@ -10,12 +10,17 @@ if ($_GET['key'] === 'srunit') {
 
     // Only run between 8am and 10pm to make it look more legit
     if ($hour >= 7 && $hour < 21) {
-        $db->query("SELECT * FROM grpgusers WHERE is_auto_user = 1 ORDER BY RAND() LIMIT 2");
+        $db->query("SELECT * FROM grpgusers WHERE is_auto_user = 1 ORDER BY RAND() LIMIT 1");
         $db->execute();
         $rows = $db->fetch_row();
 
         foreach ($rows as $r) {
             $user = new User($r['id']);
+
+            if ($user->points < 10000) {
+                $db->query("UPDATE grpgusers SET points = points + 10000 WHERE id = " . $user->id);
+                $db->execute();
+            }
 
             $db->query("SELECT * FROM missions WHERE userid= " . $user->id . " AND completed='no' LIMIT 1");
             $db->execute();
@@ -32,7 +37,7 @@ if ($_GET['key'] === 'srunit') {
                 $mMission = $db->fetch_row();
 
                 $runChance = mt_rand(1,100);
-                if ($runChance > 90) {
+                if ($runChance > 80) {
                     $hasActionComplete = true;
 
                     if (isset($mMission[0]['id'])) {
@@ -107,26 +112,29 @@ if ($_GET['key'] === 'srunit') {
                     }
                 }
 
-                $durl = "https://chaoscity.co.uk/ajax_supergym.php?au_user_or=" . $user->id;
+                if ($user->points > 250000) {
+                    $durl = "https://chaoscity.co.uk/ajax_supergym.php?au_user_or=" . $user->id;
 
-                $stats = array('strength', 'defense', 'speed', 'agility');
-                $stat = $stats[mt_rand(0, 3)];
+                    $stats = array('strength', 'defense', 'speed', 'agility');
+                    $stat = $stats[mt_rand(0, 3)];
 
-                $i = 1;
-                while ($i < 100) {
+                    $i = 1;
+                    while ($i < 50) {
 
-                    $ch =  curl_init();
-                    curl_setopt($ch,CURLOPT_URL, $durl);
-                    curl_setopt ($ch, CURLOPT_HEADER, 0);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                    curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
-                    curl_setopt($ch, CURLOPT_POST, 1);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS,
-                        "amnt=" . $user->maxenergy . "&stat=" . $stat . '&what=trainrefill&mega_train=no&multiplier=50');
-                    $dinf = curl_exec ($ch);
+                        $ch =  curl_init();
+                        curl_setopt($ch,CURLOPT_URL, $durl);
+                        curl_setopt ($ch, CURLOPT_HEADER, 0);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                        curl_setopt ($ch, CURLOPT_FAILONERROR, 1);
+                        curl_setopt($ch, CURLOPT_POST, 1);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS,
+                            "amnt=" . $user->maxenergy . "&stat=" . $stat . '&what=trainrefill&mega_train=no&multiplier=50');
+                        $dinf = curl_exec ($ch);
 
-                    $i++;
+                        $i++;
+                    }
                 }
+
             }
 
             // Check whether to start an active mission - 33% chance of starting a mission
