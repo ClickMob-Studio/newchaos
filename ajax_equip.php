@@ -38,10 +38,11 @@ if (isset($_GET['action']) && $_GET['action'] == 'load') {
 }
 
 if (isset($_GET['id']) && $_GET['id'] == 69) {
-    $a = $db->query("SELECT itemname, `image` FROM items WHERE id = ".$_GET['id']);
+    $a = $db->query("SELECT itemname, `image` FROM items WHERE id = ?");
+    $db->execute(array($_GET['id']));
     $items = $db->fetch_row();
     $itemName = $items['itemname'];
-    $itemImg == $row['image'];
+    $itemImg = $items['image'];
     // First, check which slot is empty
     if ($user_class->eqweapon == 0) {
         // Equip in the weapon slot if it's empty
