@@ -83,7 +83,9 @@ foreach ($items as $item) {
 									echo '<button class="equip-btn" data-item-id="' . $item['id'] . '" data-type="' . $type . '" data-loaned="' . $loanStatus . '">Equip</button>';
 								} elseif ($type == 'consumable' || $type == "rare" && !in_array($item['id'], $restrictedUseItems)) {
                                     // Use button for consumable items
-                                    echo ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Use</a> ';
+                                    ?>
+									<button class="use-btn" data-item-id="<?= $item['id']; ?>" data-item-name="<?= htmlspecialchars($item['name']); ?>">Use</button>
+									<?php
                                 }
 								if($item['id'] == 194) {
 									echo ' <a class="button-sm" href="raids.php">Use Speedup</a> ';
@@ -553,6 +555,34 @@ function equipItem(itemId, type, loaned = 0) {
     xhr.send();
 }
 
+// JavaScript to handle the "Use" button click
+document.querySelectorAll('.use-btn').forEach(function(button) {
+    button.addEventListener('click', function() {
+        var itemId = this.getAttribute('data-item-id');
+        var itemName = this.getAttribute('data-item-name');
+        
+        // Send the AJAX request to use the item
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'ajax_use_item.php?use=' + itemId, true);
+        
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                // Display the message at the top of the page
+                var response = xhr.responseText;
+                var messageDiv = document.getElementById('message');
+                messageDiv.innerHTML = response;
+                messageDiv.style.display = 'block';
+
+                // Optionally, hide the message after a few seconds
+                setTimeout(function() {
+                    messageDiv.style.display = 'none';
+                }, 5000); // Hide after 5 seconds
+            }
+        };
+        
+        xhr.send();
+    });
+});
 
 
 </script>
