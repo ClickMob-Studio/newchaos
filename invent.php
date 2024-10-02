@@ -60,7 +60,52 @@ foreach ($items as $item) {
 ?>
 
 <div id="message" style="display: none; padding: 10px; background-color: #4CAF50; color: white; margin-bottom: 20px;"></div>
+<div class="equipped-items-container">
+    <h2>Equipped Items</h2>
+    <div class="equipped-items">
+        <div class="equipped-item">
+            <h3>Weapon</h3>
+            <?php if ($user_class->eqweapon != 0): ?>
+                <?= image_popup($user_class->weaponimg, $user_class->eqweapon); ?>
+                <br />
+                <?= item_popup($user_class->weaponname, $user_class->eqweapon); ?>
+                <br />
+                <a class="button-sm" href="equip.php?unequip=weapon">Unequip</a>
+            <?php else: ?>
+                <img width="100" height="100" src="/css/images/empty.jpg" />
+                <br /> You are not holding a weapon.
+            <?php endif; ?>
+        </div>
 
+        <div class="equipped-item">
+            <h3>Armor</h3>
+            <?php if ($user_class->eqarmor != 0): ?>
+                <?= image_popup($user_class->armorimg, $user_class->eqarmor); ?>
+                <br />
+                <?= item_popup($user_class->armorname, $user_class->eqarmor); ?>
+                <br />
+                <a class="button-sm" href="equip.php?unequip=armor">Unequip</a>
+            <?php else: ?>
+                <img width="100" height="100" src="/css/images/empty.jpg" />
+                <br /> You are not wearing armor.
+            <?php endif; ?>
+        </div>
+
+        <div class="equipped-item">
+            <h3>Shoes</h3>
+            <?php if ($user_class->eqshoes != 0): ?>
+                <?= image_popup($user_class->shoesimg, $user_class->eqshoes); ?>
+                <br />
+                <?= item_popup($user_class->shoesname, $user_class->eqshoes); ?>
+                <br />
+                <a class="button-sm" href="equip.php?unequip=shoes">Unequip</a>
+            <?php else: ?>
+                <img width="100" height="100" src="/css/images/empty.jpg" />
+                <br /> You are not wearing boots.
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
 <div class="inventory-container">
     <?php if (!empty($groupedItems)): ?>
         <?php foreach ($groupedItems as $type => $items): ?>
@@ -339,6 +384,58 @@ foreach ($items as $item) {
 .send-confirm-btn:hover {
     background-color: #45a049;
 }
+.equipped-items-container {
+    background-color: #21201c;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.equipped-items {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.equipped-item {
+    background-color: #2d2c28;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: calc(33.333% - 20px); /* 3 items per row */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.equipped-item h3 {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.equipped-item img {
+    border-radius: 8px;
+    max-width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.button-sm {
+    padding: 5px 10px;
+    background-color: #FFA500;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.button-sm:hover {
+    background-color: #FF8C00;
+}
+
 </style>
 
 <script>

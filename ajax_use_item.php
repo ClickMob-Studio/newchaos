@@ -115,7 +115,45 @@ if (isset($_GET['use'])) {
                 druggie(2);
                 $response = Message("You successfully used some PCP. Your strength has been increased for 15 minutes.");
                 break;
-
+                case 42:
+                    $randnum = rand(0, 100); // Generate a random number between 0 and 100
+                    if ($randnum <= 30) {
+                        $randpoints = rand(1000, 5000); // Random points between 1000 and 5000
+                        $user_class->points += $randpoints;
+                
+                        $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
+                        $db->execute(array($randpoints, $user_class->id));
+                
+                        echo Message("You open the mystery box and find <span style='color:green;font-weight:bold;'>$randpoints</span> Points.");
+                    } elseif ($randnum <= 55) {
+                        $randraidtokens = rand(10, 200); // Random raid tokens between 10 and 200
+                        $user_class->raitokens += $randraidtokens;
+                
+                        $db->query("UPDATE grpgusers SET raidtokens = raidtokens + ? WHERE id = ?");
+                        $db->execute(array($randraidtokens, $user_class->id));
+                
+                        echo Message("You open the mystery box and find <span style='color:green;font-weight:bold;'>$randraidtokens</span> Raid Tokens.");
+                    } elseif ($randnum <= 80) {
+                        $randcash = rand(1000000, 5000000); // Random cash between 1 million and 5 million
+                        $user_class->money += $randcash;
+                
+                        $db->query("UPDATE grpgusers SET money = money + ? WHERE id = ?");
+                        $db->execute(array($randcash, $user_class->id));
+                
+                        echo Message("You open the mystery box and find $<span style='color:green;font-weight:bold;'>$randcash</span>.");
+                    } elseif ($randnum <= 95) {
+                        $itemid = 252; // Raid Booster item ID
+                        Give_Item($itemid, $user_class->id, 1); // Give the Raid Booster to the user
+                
+                        echo Message("You open the mystery box and find <span style='color:green;font-weight:bold;'>1 x Raid Booster</span>.");
+                    } else {
+                        $itemid = 163; // Police Badge item ID
+                        Give_Item($itemid, $user_class->id, 1); // Give the Police Badge to the user
+                
+                        echo Message("You open the mystery box and find <span style='color:green;font-weight:bold;'>1 x Police Badge</span>.");
+                    }
+                    break;
+                
             case 235: // Serenity Serum
                 druggie(3);
                 $response = Message("You successfully used some Serenity Serum. Your strength, defense and speed have been increased for 15 minutes.");
