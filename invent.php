@@ -568,8 +568,7 @@ document.getElementById("sendForm").addEventListener('submit', function(event) {
     };
     
     xhr.send(formData);
-});
-document.addEventListener('DOMContentLoaded', function () {
+});document.addEventListener('DOMContentLoaded', function () {
     // Load equipped items on page load
     loadEquippedItems();
 
@@ -614,14 +613,15 @@ function equipItem(itemId, type, loaned = 0) {
             var messageDiv = document.getElementById('message');
 
             if (response.success) {
+                // Display the success message with item name
                 messageDiv.style.display = 'block';
                 messageDiv.style.backgroundColor = '#4CAF50'; // Success color (green)
                 messageDiv.style.color = 'white';
                 messageDiv.textContent = response.message;
 
                 // Update the equipped item section with the new HTML
-                if (response.newItemHtml) {
-                    updateEquippedItem(type, response.newItemHtml);
+                if (response.newItemHtml && response.slot) {
+                    updateEquippedItem(response.slot, response.newItemHtml);
                 }
 
                 // Optionally disable the equip button and enable the old one
