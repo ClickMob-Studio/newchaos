@@ -65,15 +65,15 @@ foreach ($items as $item) {
     <div class="equipped-items">
         <div class="equipped-item" data-type="weapon">
             <h3>Weapon</h3>
-            <!-- Weapon equipped section will be updated here dynamically -->
+            
         </div>
         <div class="equipped-item" data-type="armor">
             <h3>Armor</h3>
-            <!-- Armor equipped section will be updated here dynamically -->
+            
         </div>
         <div class="equipped-item" data-type="shoes">
             <h3>Shoes</h3>
-            <!-- Shoes equipped section will be updated here dynamically -->
+           
         </div>
     </div>
 </div>
