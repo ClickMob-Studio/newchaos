@@ -37,13 +37,35 @@ if (isset($_GET['action']) && $_GET['action'] == 'load') {
     exit;
 }
 
+// Equip item with ID 69 and handle inventory updates
 if (isset($_GET['id']) && $_GET['id'] == 69) {
-    $a = $db->query("SELECT itemname, `image` FROM items WHERE id = ?");
-    $db->execute(array($_GET['id']));
+    $db->query("SELECT itemname, `image`, quantity FROM inventory inv JOIN items i ON inv.itemid = i.id WHERE inv.userid = ? AND inv.itemid = 69");
+    $db->execute(array($user_class->id));
     $items = $db->fetch_row();
+
+    if (!$items) {
+        // No item found in inventory
+        $response['message'] = "Item not found in your inventory.";
+        echo json_encode($response);
+        exit;
+    }
+
     $itemName = $items['itemname'];
     $itemImg = $items['image'];
-    // First, check which slot is empty
+    $itemQuantity = (int) $items['quantity'];
+
+    // If the quantity is 1, remove the item completely from the inventory
+    if ($itemQuantity == 1) {
+        $db->query("DELETE FROM inventory WHERE userid = ? AND itemid = 69");
+        $db->execute(array($user_class->id));
+    } else {
+        // Deduct 1 from the inventory
+        $newQuantity = $itemQuantity - 1;
+        $db->query("UPDATE inventory SET quantity = ? WHERE userid = ? AND itemid = 69");
+        $db->execute(array($newQuantity, $user_class->id));
+    }
+
+    // Equip the item in an available slot or overwrite the shoes slot
     if ($user_class->eqweapon == 0) {
         // Equip in the weapon slot if it's empty
         $db->query("UPDATE grpgusers SET eqweapon = ?, weploaned = 0 WHERE id = ?");
@@ -79,15 +101,7 @@ if (isset($_GET['id']) && $_GET['id'] == 69) {
     exit;
 }
 
-
-// If a request to get equipped items on page load
-if (isset($_GET['action']) && $_GET['action'] == 'load') {
-    $equippedItems = getEquippedItems($user_class);
-    $response['success'] = true;
-    $response['equippedItems'] = $equippedItems;
-    echo json_encode($response);
-    exit;
-}
+// Handle equipping with loaned items
 if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
     if (empty($_GET['id'])) {
         $response['message'] = "No item picked.";
@@ -194,8 +208,10 @@ if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
         echo json_encode($response);
         exit;
     }
-} else {
-    // Handle unequip
+}
+
+// Handle unequipping logic
+if (isset($_GET['unequip'])) {
     if ($_GET['unequip'] == "weapon" && $user_class->eqweapon != 0) {
         if ($user_class->weploaned == 1)
             Loan_Item($user_class->gang, $user_class->eqweapon, $user_class->id);
@@ -234,8 +250,10 @@ if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
         echo json_encode($response);
         exit;
     }
-    
-    // General equip handling
+}
+
+// General equip handling
+if (isset($_GET['eq']) && isset($_GET['id'])) {
     if (empty($_GET['id'])) {
         $response['message'] = "No item picked.";
         echo json_encode($response);
