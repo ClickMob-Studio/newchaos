@@ -23,29 +23,24 @@ function getInventoryItems() {
 }
 
 function categorizeItem($row) {
-    if ($row['offense'] > 0 && $row['rare'] == 0) {
-        $type = 'weapon';
-    } elseif ($row['defense'] > 0 && $row['rare'] == 0) {
-        $type = 'armor';
-    } elseif ($row['speed'] > 0 && $row['rare'] == 0) {
-        $type = 'shoes';
-    } elseif ($row['rare'] == 1) {
+    if ($row['rare'] == 1) {
+        // All rare items should be categorized as 'rare' only
         $type = 'rare';
-        if ($row['offense'] > 0) {
-            $subtype = 'weapon';
-        } elseif ($row['defense'] > 0) {
-            $subtype = 'armor';
-        } elseif ($row['speed'] > 0) {
-            $subtype = 'shoes';
-        }
+    } elseif ($row['offense'] > 0) {
+        $type = 'weapon';
+    } elseif ($row['defense'] > 0) {
+        $type = 'armor';
+    } elseif ($row['speed'] > 0) {
+        $type = 'shoes';
     } elseif ($row['awake_boost'] > 0) {
         $type = 'house';
     } else {
         $type = 'consumable';
     }
 
-    return isset($subtype) ? $type . ' (' . $subtype . ')' : $type;
+    return $type;
 }
+
 
 $items = getInventoryItems();
 
