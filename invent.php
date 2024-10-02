@@ -63,7 +63,7 @@ foreach ($items as $item) {
 <div class="equipped-items-container">
     <h2>Equipped Items</h2>
     <div class="equipped-items">
-        <div class="equipped-item">
+        <div class="equipped-item" data-type="weapon">
             <h3>Weapon</h3>
             <?php if ($user_class->eqweapon != 0): ?>
                 <?= image_popup($user_class->weaponimg, $user_class->eqweapon); ?>
@@ -77,7 +77,7 @@ foreach ($items as $item) {
             <?php endif; ?>
         </div>
 
-        <div class="equipped-item">
+        <div class="equipped-item" data-type="armor">
             <h3>Armor</h3>
             <?php if ($user_class->eqarmor != 0): ?>
                 <?= image_popup($user_class->armorimg, $user_class->eqarmor); ?>
@@ -91,7 +91,7 @@ foreach ($items as $item) {
             <?php endif; ?>
         </div>
 
-        <div class="equipped-item">
+        <div class="equipped-item" data-type="shoes">
             <h3>Shoes</h3>
             <?php if ($user_class->eqshoes != 0): ?>
                 <?= image_popup($user_class->shoesimg, $user_class->eqshoes); ?>
@@ -106,6 +106,7 @@ foreach ($items as $item) {
         </div>
     </div>
 </div>
+
 <div class="inventory-container">
     <?php if (!empty($groupedItems)): ?>
         <?php foreach ($groupedItems as $type => $items): ?>
@@ -625,18 +626,20 @@ function equipItem(itemId, type, loaned = 0) {
             var messageDiv = document.getElementById('message');
 
             if (response.success) {
+                // Show success message
                 messageDiv.style.display = 'block';
                 messageDiv.style.backgroundColor = '#4CAF50'; // Success color (green)
                 messageDiv.style.color = 'white';
                 messageDiv.textContent = response.message;
 
-                // Optionally update the UI (for example, disable the equip button)
-                var button = document.querySelector('.equip-btn[data-item-id="' + itemId + '"]');
-                if (button) {
-                    button.textContent = 'Equipped';
-                    button.disabled = true;
-                }
+                // Automatically replace the equipped item in the UI
+                updateEquippedItem(type, response.newItemHtml);
+
+                // Disable the new equip button and enable the old one
+                updateEquipButtons(itemId, type);
+
             } else {
+                // Show error message
                 messageDiv.style.display = 'block';
                 messageDiv.style.backgroundColor = '#f44336'; // Error color (red)
                 messageDiv.style.color = 'white';
@@ -651,6 +654,33 @@ function equipItem(itemId, type, loaned = 0) {
     };
     xhr.send();
 }
+
+function updateEquippedItem(type, newItemHtml) {
+    // Update the equipped item section for the given type (weapon, armor, shoes)
+    var equippedItemContainer = document.querySelector('.equipped-item[data-type="' + type + '"]');
+    if (equippedItemContainer) {
+        equippedItemContainer.innerHTML = newItemHtml;
+    }
+}
+
+function updateEquipButtons(newItemId, type) {
+    // Disable the equip button for the newly equipped item
+    var newButton = document.querySelector('.equip-btn[data-item-id="' + newItemId + '"]');
+    if (newButton) {
+        newButton.textContent = 'Equipped';
+        newButton.disabled = true;
+    }
+
+    // Re-enable all other equip buttons of the same type
+    var otherButtons = document.querySelectorAll('.equip-btn[data-type="' + type + '"]');
+    otherButtons.forEach(function (button) {
+        if (button.getAttribute('data-item-id') !== newItemId) {
+            button.textContent = 'Equip';
+            button.disabled = false;
+        }
+    });
+}
+
 
 // JavaScript to handle the "Use" button click
 document.querySelectorAll('.use-btn').forEach(function(button) {
