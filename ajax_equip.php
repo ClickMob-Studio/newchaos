@@ -1,11 +1,14 @@
 <?php
 include 'ajax_header.php';  // Include your AJAX-compatible header
 $user_class = new User($_SESSION['id']);
-$error = "";
 $response = array("success" => false, "message" => "");
-
+$error = '';
 // Function to generate the HTML for the equipped item
 function getEquippedItemHtml($itemType, $itemId, $itemImg, $itemName) {
+    if ($itemId == 0) {
+        return '<img width="100" height="100" src="/css/images/empty.jpg" /><br /> You are not using a ' . $itemType . '.';
+    }
+
     $html = '';
     $html .= image_popup($itemImg, $itemId);
     $html .= '<br />';
@@ -15,6 +18,23 @@ function getEquippedItemHtml($itemType, $itemId, $itemImg, $itemName) {
     return $html;
 }
 
+// Function to get the equipped items for page load or reloading
+function getEquippedItems($user_class) {
+    return array(
+        'weapon' => getEquippedItemHtml('weapon', $user_class->eqweapon, $user_class->weaponimg, $user_class->weaponname),
+        'armor' => getEquippedItemHtml('armor', $user_class->eqarmor, $user_class->armorimg, $user_class->armorname),
+        'shoes' => getEquippedItemHtml('shoes', $user_class->eqshoes, $user_class->shoesimg, $user_class->shoesname),
+    );
+}
+
+// If a request to get equipped items on page load
+if (isset($_GET['action']) && $_GET['action'] == 'load') {
+    $equippedItems = getEquippedItems($user_class);
+    $response['success'] = true;
+    $response['equippedItems'] = $equippedItems;
+    echo json_encode($response);
+    exit;
+}
 if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
     if (empty($_GET['id'])) {
         $response['message'] = "No item picked.";

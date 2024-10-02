@@ -571,21 +571,38 @@ document.getElementById("sendForm").addEventListener('submit', function(event) {
     xhr.send(formData);
 });
 document.addEventListener('DOMContentLoaded', function () {
+    // Load equipped items on page load
+    loadEquippedItems();
+
     // Select all equip buttons
     var equipButtons = document.querySelectorAll('.equip-btn');
-
-    // Add click event listener to each equip button
     equipButtons.forEach(function (button) {
         button.addEventListener('click', function () {
             var itemId = this.getAttribute('data-item-id');
             var type = this.getAttribute('data-type');
             var loaned = this.getAttribute('data-loaned');
 
-            // Call the equipItem function with the item ID, type, and loaned status
             equipItem(itemId, type, loaned);
         });
     });
 });
+
+function loadEquippedItems() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'ajax_equip.php?action=load', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            if (response.success) {
+                // Populate the equipped items
+                updateEquippedItem('weapon', response.equippedItems.weapon);
+                updateEquippedItem('armor', response.equippedItems.armor);
+                updateEquippedItem('shoes', response.equippedItems.shoes);
+            }
+        }
+    };
+    xhr.send();
+}
 
 function equipItem(itemId, type, loaned = 0) {
     var url = 'ajax_equip.php?eq=' + type + '&id=' + itemId + '&loaned=' + loaned;
@@ -626,7 +643,6 @@ function equipItem(itemId, type, loaned = 0) {
     xhr.send();
 }
 
-// Function to update the equipped item section
 function updateEquippedItem(type, newItemHtml) {
     var equippedItemContainer = document.querySelector('.equipped-item[data-type="' + type + '"]');
     if (equippedItemContainer) {
@@ -634,7 +650,6 @@ function updateEquippedItem(type, newItemHtml) {
     }
 }
 
-// Function to disable the new equip button
 function updateEquipButtons(itemId, type) {
     var button = document.querySelector('.equip-btn[data-item-id="' + itemId + '"]');
     if (button) {
@@ -642,6 +657,7 @@ function updateEquipButtons(itemId, type) {
         button.disabled = true;
     }
 }
+
 
 // JavaScript to handle the "Use" button click
 document.querySelectorAll('.use-btn').forEach(function(button) {
