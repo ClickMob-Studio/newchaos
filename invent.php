@@ -65,47 +65,19 @@ foreach ($items as $item) {
     <div class="equipped-items">
         <div class="equipped-item" data-type="weapon">
             <h3>Weapon</h3>
-            <?php if ($user_class->eqweapon != 0): ?>
-                <?= image_popup($user_class->weaponimg, $user_class->eqweapon); ?>
-                <br />
-                <?= item_popup($user_class->weaponname, $user_class->eqweapon); ?>
-                <br />
-                <a class="button-sm" href="equip.php?unequip=weapon">Unequip</a>
-            <?php else: ?>
-                <img width="100" height="100" src="/css/images/empty.jpg" />
-                <br /> You are not holding a weapon.
-            <?php endif; ?>
+            <!-- Weapon equipped section will be updated here dynamically -->
         </div>
-
         <div class="equipped-item" data-type="armor">
             <h3>Armor</h3>
-            <?php if ($user_class->eqarmor != 0): ?>
-                <?= image_popup($user_class->armorimg, $user_class->eqarmor); ?>
-                <br />
-                <?= item_popup($user_class->armorname, $user_class->eqarmor); ?>
-                <br />
-                <a class="button-sm" href="equip.php?unequip=armor">Unequip</a>
-            <?php else: ?>
-                <img width="100" height="100" src="/css/images/empty.jpg" />
-                <br /> You are not wearing armor.
-            <?php endif; ?>
+            <!-- Armor equipped section will be updated here dynamically -->
         </div>
-
         <div class="equipped-item" data-type="shoes">
             <h3>Shoes</h3>
-            <?php if ($user_class->eqshoes != 0): ?>
-                <?= image_popup($user_class->shoesimg, $user_class->eqshoes); ?>
-                <br />
-                <?= item_popup($user_class->shoesname, $user_class->eqshoes); ?>
-                <br />
-                <a class="button-sm" href="equip.php?unequip=shoes">Unequip</a>
-            <?php else: ?>
-                <img width="100" height="100" src="/css/images/empty.jpg" />
-                <br /> You are not wearing boots.
-            <?php endif; ?>
+            <!-- Shoes equipped section will be updated here dynamically -->
         </div>
     </div>
 </div>
+
 
 <div class="inventory-container">
     <?php if (!empty($groupedItems)): ?>
@@ -626,20 +598,19 @@ function equipItem(itemId, type, loaned = 0) {
             var messageDiv = document.getElementById('message');
 
             if (response.success) {
-                // Show success message
                 messageDiv.style.display = 'block';
                 messageDiv.style.backgroundColor = '#4CAF50'; // Success color (green)
                 messageDiv.style.color = 'white';
                 messageDiv.textContent = response.message;
 
-                // Automatically replace the equipped item in the UI
-                updateEquippedItem(type, response.newItemHtml);
+                // Update the equipped item section with the new HTML
+                if (response.newItemHtml) {
+                    updateEquippedItem(type, response.newItemHtml);
+                }
 
-                // Disable the new equip button and enable the old one
+                // Optionally disable the equip button and enable the old one
                 updateEquipButtons(itemId, type);
-
             } else {
-                // Show error message
                 messageDiv.style.display = 'block';
                 messageDiv.style.backgroundColor = '#f44336'; // Error color (red)
                 messageDiv.style.color = 'white';
@@ -655,32 +626,22 @@ function equipItem(itemId, type, loaned = 0) {
     xhr.send();
 }
 
+// Function to update the equipped item section
 function updateEquippedItem(type, newItemHtml) {
-    // Update the equipped item section for the given type (weapon, armor, shoes)
     var equippedItemContainer = document.querySelector('.equipped-item[data-type="' + type + '"]');
     if (equippedItemContainer) {
         equippedItemContainer.innerHTML = newItemHtml;
     }
 }
 
-function updateEquipButtons(newItemId, type) {
-    // Disable the equip button for the newly equipped item
-    var newButton = document.querySelector('.equip-btn[data-item-id="' + newItemId + '"]');
-    if (newButton) {
-        newButton.textContent = 'Equipped';
-        newButton.disabled = true;
+// Function to disable the new equip button
+function updateEquipButtons(itemId, type) {
+    var button = document.querySelector('.equip-btn[data-item-id="' + itemId + '"]');
+    if (button) {
+        button.textContent = 'Equipped';
+        button.disabled = true;
     }
-
-    // Re-enable all other equip buttons of the same type
-    var otherButtons = document.querySelectorAll('.equip-btn[data-type="' + type + '"]');
-    otherButtons.forEach(function (button) {
-        if (button.getAttribute('data-item-id') !== newItemId) {
-            button.textContent = 'Equip';
-            button.disabled = false;
-        }
-    });
 }
-
 
 // JavaScript to handle the "Use" button click
 document.querySelectorAll('.use-btn').forEach(function(button) {

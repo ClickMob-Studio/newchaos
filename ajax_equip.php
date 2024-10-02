@@ -4,6 +4,17 @@ $user_class = new User($_SESSION['id']);
 $error = "";
 $response = array("success" => false, "message" => "");
 
+// Function to generate the HTML for the equipped item
+function getEquippedItemHtml($itemType, $itemId, $itemImg, $itemName) {
+    $html = '';
+    $html .= image_popup($itemImg, $itemId);
+    $html .= '<br />';
+    $html .= item_popup($itemName, $itemId);
+    $html .= '<br />';
+    $html .= '<a class="button-sm" href="equip.php?unequip=' . $itemType . '">Unequip</a>';
+    return $html;
+}
+
 if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
     if (empty($_GET['id'])) {
         $response['message'] = "No item picked.";
@@ -46,8 +57,13 @@ if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
         $db->execute(array($_GET['id'], $user_class->id));
         
         Take_Loan($_GET['id'], $user_class->id);
+
+        // Generate the new HTML for the equipped weapon
+        $newItemHtml = getEquippedItemHtml("weapon", $_GET['id'], $row['image'], $row['itemname']);
+        
         $response['success'] = true;
         $response['message'] = "Weapon equipped successfully!";
+        $response['newItemHtml'] = $newItemHtml;  // Add the new HTML to the response
         echo json_encode($response);
         exit;
     }
@@ -68,8 +84,13 @@ if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
         $db->execute(array($_GET['id'], $user_class->id));
         
         Take_Loan($_GET['id'], $user_class->id);
+
+        // Generate the new HTML for the equipped armor
+        $newItemHtml = getEquippedItemHtml("armor", $_GET['id'], $row['image'], $row['itemname']);
+
         $response['success'] = true;
         $response['message'] = "Armor equipped successfully!";
+        $response['newItemHtml'] = $newItemHtml;  // Add the new HTML to the response
         echo json_encode($response);
         exit;
     }
@@ -90,8 +111,13 @@ if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
         $db->execute(array($_GET['id'], $user_class->id));
         
         Take_Loan($_GET['id'], $user_class->id);
+
+        // Generate the new HTML for the equipped shoes
+        $newItemHtml = getEquippedItemHtml("shoes", $_GET['id'], $row['image'], $row['itemname']);
+
         $response['success'] = true;
         $response['message'] = "Shoes equipped successfully!";
+        $response['newItemHtml'] = $newItemHtml;  // Add the new HTML to the response
         echo json_encode($response);
         exit;
     }
@@ -173,8 +199,13 @@ if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
         $db->query("UPDATE grpgusers SET eqweapon = ?, weploaned = 0 WHERE id = ?");
         $db->execute(array($_GET['id'], $user_class->id));
         Take_Item($_GET['id'], $user_class->id);
+
+        // Generate the new HTML for the equipped weapon
+        $newItemHtml = getEquippedItemHtml("weapon", $_GET['id'], $row['image'], $row['itemname']);
+
         $response['success'] = true;
         $response['message'] = "Weapon equipped successfully!";
+        $response['newItemHtml'] = $newItemHtml;
         echo json_encode($response);
         exit;
     }
@@ -195,8 +226,13 @@ if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
         $db->query("UPDATE grpgusers SET eqarmor = ?, armloaned = 0 WHERE id = ?");
         $db->execute(array($_GET['id'], $user_class->id));
         Take_Item($_GET['id'], $user_class->id);
+
+        // Generate the new HTML for the equipped armor
+        $newItemHtml = getEquippedItemHtml("armor", $_GET['id'], $row['image'], $row['itemname']);
+
         $response['success'] = true;
         $response['message'] = "Armor equipped successfully!";
+        $response['newItemHtml'] = $newItemHtml;
         echo json_encode($response);
         exit;
     }
@@ -217,8 +253,13 @@ if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
         $db->query("UPDATE grpgusers SET eqshoes = ?, shoeloaned = 0 WHERE id = ?");
         $db->execute(array($_GET['id'], $user_class->id));
         Take_Item($_GET['id'], $user_class->id);
+
+        // Generate the new HTML for the equipped shoes
+        $newItemHtml = getEquippedItemHtml("shoes", $_GET['id'], $row['image'], $row['itemname']);
+
         $response['success'] = true;
         $response['message'] = "Shoes equipped successfully!";
+        $response['newItemHtml'] = $newItemHtml;
         echo json_encode($response);
         exit;
     }
