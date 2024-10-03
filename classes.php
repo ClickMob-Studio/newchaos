@@ -360,16 +360,16 @@ if ($this->nightvision > 0) {
             $this->shoesimg = $this->shoesname = $this->shoesspeed = $this->eqshoes = 0;
         }
 
-        if (!$m->get('ipn.' . $id)) {
-            $db->query("SELECT SUM(paymentamount) FROM ipn WHERE user_id = ? AND date > unix_timestamp() - 2592000");
-            $db->execute(array(
-                $id
-            ));
-            $donations = $db->fetch_single();
-$m->set('ipn.' . $id, $donations, 0, 60);
-        } else {
-            $donations = $m->get('ipn.' . $id);
-        }
+//       //  if (!$m->get('ipn.' . $id)) {
+//             $db->query("SELECT SUM(paymentamount) FROM ipn WHERE user_id = ? AND date > unix_timestamp() - 2592000");
+//             $db->execute(array(
+//                 $id
+//           //  ));
+//             $donations = $db->fetch_single();
+// $m->set('ipn.' . $id, $donations, 0, 60);
+//         } else {
+//             $donations = $m->get('ipn.' . $id);
+//         }
 		// $db->query("SELECT SUM(paymentamount) FROM ipn WHERE user_id = ? AND date > unix_timestamp() - 2592000");
 		// $db->execute(array(
 		// 	$id
