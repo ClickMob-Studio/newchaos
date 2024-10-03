@@ -1,5 +1,15 @@
 <?php
 include 'header.php';
+?>
+<script>
+    window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        // Handle the page being loaded from the cache, e.g., reload it
+        window.location.reload();  // This forces a full reload if needed
+    }
+});
+</script>
+<?php
 if(isset($_GET['jailbreak'])){
     $jailbreak = $_GET['jailbreak'];
 }else{
