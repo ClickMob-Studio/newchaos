@@ -624,6 +624,8 @@ $no2 = mysql_num_rows($nogame2);
 echo '<script src="js/java.js?12" type="text/javascript"></script>';
 ?><!doctype html>
 <html lang="en">
+<meta http-equiv="x-dns-prefetch-control" content="off">
+
 <meta charset="UTF-8">
 <head>
 
