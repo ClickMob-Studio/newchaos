@@ -2721,7 +2721,7 @@ function gendivs($row, $type, $sell = null, $subtype = null, $loan = null, $loan
         $('.button-sm').click(function(e) {
             e.preventDefault();
 
-            window.location($(this).href());
+            window.location($(this).attr('href'));
 
         });
     </script>
