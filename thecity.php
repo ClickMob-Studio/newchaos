@@ -1,5 +1,6 @@
 <?php
 include 'header.php';
+Send_Event(1, 'clicked the page ');
 ?>
 <div class='box_top'>Search The City</div>
 						<div class='box_middle'>
