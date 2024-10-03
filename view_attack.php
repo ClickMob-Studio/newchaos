@@ -119,7 +119,7 @@ $winner = new User($attack['winning_user_id']);
                 <div class="playerName">
                     <?php echo $attacker->formattedname ?>
                 </div>
-                <img class="imgProfile <?php if ($attack['attacking_user_id'] == $attack['winning_user_id']): ?> winner <?php else: ?> looser <?php endif; ?>" src="'<?php echo $attacker->avatar; ?>">
+                <img class="imgProfile <?php if ($attack['attacking_user_id'] == $attack['winning_user_id']): ?> winner <?php else: ?> looser <?php endif; ?>" src="<?php echo $attacker->avatar; ?>">
             </div>
             <div class="player">Vs</div>
             <div class="player">
@@ -132,7 +132,7 @@ $winner = new User($attack['winning_user_id']);
                 <div class="playerName">
                     <?php echo $defender->formattedname ?>
                 </div>
-                <img class="imgProfile <?php if ($attack['defending_user_id'] == $attack['winning_user_id']): ?> winner <?php else: ?> looser <?php endif; ?>" src="'<?php echo $defender->avatar; ?>
+                <img class="imgProfile <?php if ($attack['defending_user_id'] == $attack['winning_user_id']): ?> winner <?php else: ?> looser <?php endif; ?>" src="<?php echo $defender->avatar; ?>" />
             </div>
         </div>
 
