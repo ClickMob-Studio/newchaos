@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 
-$db->query("SELECT * FROM attack_v2 WHERE attacking_user_id = " . $user_class->id . " OR defending_user_id = " . $user_class->id . " ORDER BY timestamp DESC LIMIT 50");
+$db->query("SELECT * FROM attack_v2 WHERE attacking_user_id = " . $user_class->id . " OR defending_user_id = " . $user_class->id . " ORDER BY attack_time DESC LIMIT 50");
 $db->execute();
 $attacks = $db->fetch_row();
 
