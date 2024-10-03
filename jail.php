@@ -299,7 +299,7 @@ if($user_class->jail > 0){
                             }
 
                             if($line['jail'] != 0){
-                                echo "<tr class='jail-cell-row'><td>".$formattedName."</td><td>".floor($line['jail'] / 60)." m"."</td><td><a class='jail-break-link btn btn-primary w-100' data-jid='".$line['id']."' href='?jailbreak=".$line['id']."&token=".$token."' class='btn btn-primary w-100'>Break Out</a></td></tr>";
+                                echo "<tr class='jail-cell-row'><td>".$formattedName."</td><td>".floor($line['jail'] / 60)." m"."</td><td><a class='jail-break-link btn btn-primary w-100' data-jid='".$line['id']."' href='?jailbreak=".$line['id']."&token=".$token."' rel='nofollow noopener' class='btn btn-primary w-100'>Break Out</a></td></tr>";
                             }
                         }
                     }
