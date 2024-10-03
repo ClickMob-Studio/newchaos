@@ -495,16 +495,16 @@ $this->nerveboost =  $this->nerveboost;
         if($this->house == 0){
 
 
-            if (!$m->get('rentedp.' . $this->id)) {
-                $db->query("SELECT * FROM rentedProperties r JOIN houses h ON r.houseid = h.id WHERE renter = ? ORDER BY awake DESC LIMIT 1");
-                $db->execute(array(
-                    $this->id
-                ));
-                $row = $db->fetch_row(true);
-$m->set('rentedp.' . $this->id, $row, 0, 60);
-            } else {
-                $row = $m->get('rentedp.' . $this->id);
-            }
+//             if (!$m->get('rentedp.' . $this->id)) {
+//                 $db->query("SELECT * FROM rentedProperties r JOIN houses h ON r.houseid = h.id WHERE renter = ? ORDER BY awake DESC LIMIT 1");
+//                 $db->execute(array(
+//                     $this->id
+//                 ));
+//                 $row = $db->fetch_row(true);
+// $m->set('rentedp.' . $this->id, $row, 0, 60);
+//             } else {
+//                 $row = $m->get('rentedp.' . $this->id);
+//             }
 
             if(!empty($row)){
                 $worked['houseid'] = $row['houseid'];
