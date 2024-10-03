@@ -3,7 +3,33 @@ include 'header.php';
 if (isset($_GET['delete'])) {
     mysql_query("UPDATE attacklog SET attackerhide = 1 WHERE attacker = $user_class->id");
 }
+
+$db->query("SELECT * FROM attack_v2 WHERE attacking_user_id = " . $user_class->id . " OR defending_user_id = " . $user_class->id);
+$db->execute();
+$attacks = $db->fetch_row();
 ?>
+    <div class="box_top">Attacks</div>
+    <div class="box_middle">
+        <div class="pad">
+            <table id="newtables" style="width:100%;">
+                <tr>
+                    <th>Time</td>
+                    <th>Attacker</th>
+                    <th>Defender</th>
+                    <th>Winner</th>
+                    <th>View Logs</th>
+                </tr>
+                <?php foreach ($attacks as $attack): ?>
+                    <tr>
+                        <td>
+
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
+    </div>
+
     <div class="box_top">Attack Logs</div>
     <div class="box_middle">
         <div class="pad">
