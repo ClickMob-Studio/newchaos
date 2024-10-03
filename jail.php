@@ -29,11 +29,7 @@ if ($jailbreak != ""){
         echo Message("There has been a issue");
     }
     if($_GET['token'] != $_SESSION['tokens']){
-        if($user_class->admin > 0){
-            var_dump($_GET['token']);
-            echo '<br>';
-            var_dump($_SESSION['tokens']); 
-        }
+      
         $mes = "Something has gone wrong";
         $error = true;
     }else{
