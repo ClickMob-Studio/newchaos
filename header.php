@@ -1,3 +1,5 @@
+<meta http-equiv="x-dns-prefetch-control" content="off">
+
 <?php
 
 session_start();
