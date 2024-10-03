@@ -2719,9 +2719,9 @@ function gendivs($row, $type, $sell = null, $subtype = null, $loan = null, $loan
 <?php if ($user_class->admin > 0): ?>
     <script type="text/javascript">
         $('.button-sm').click(function(e) {
-            //e.preventDefault();
+            e.preventDefault();
 
-            alert('clicked');
+            window.location($(this).href());
 
         });
     </script>
