@@ -173,6 +173,7 @@ if($user_class->level >= 10){
     <div class="d-flex flex-wrap justify-content-center">
         <a href="achievements.php" class="p-2 text-white bg-secondary m-2">[Achievements]</a>
         <a href="translog.php" class="p-2 text-white bg-secondary m-2">[Transfer Logs]</a>
+        <a href="attackv2_logs.php" class="p-2 text-white bg-secondary m-2">[Attack Log NEW]</a>
         <a href="attacklog.php" class="p-2 text-white bg-secondary m-2">[Attack Log]</a>
         <a href="defenselog.php" class="p-2 text-white bg-secondary m-2">[Defense Log]</a>
         <a href="muglog.php" class="p-2 text-white bg-secondary m-2">[Mug Log]</a>
