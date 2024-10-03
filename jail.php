@@ -29,8 +29,8 @@ if ($jailbreak != ""){
         echo Message("There has been a issue");
     }
     if($_GET['token'] != $_SESSION['tokens']){
-        $mes = "Something has gone wrong";
-        $error = true;
+//        $mes = "Something has gone wrong";
+//        $error = true;
     }else{
         unset($_SESSION['tokens']);
     }
