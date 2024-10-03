@@ -2717,15 +2717,15 @@ function gendivs($row, $type, $sell = null, $subtype = null, $loan = null, $loan
 ?>
 
 <?php if ($user_class->admin > 0): ?>
-    <script type="text/javascript">
-        $('a').click(function(e) {
-            e.preventDefault();
-
-            alert('g');
-
-            window.location.replace($(this).attr('href'));
-
-        });
-    </script>
+<!--    <script type="text/javascript">-->
+<!--        $('a').click(function(e) {-->
+<!--            e.preventDefault();-->
+<!---->
+<!--            alert('g');-->
+<!---->
+<!--            window.location.replace($(this).attr('href'));-->
+<!---->
+<!--        });-->
+<!--    </script>-->
 <?php endif; ?>
 
