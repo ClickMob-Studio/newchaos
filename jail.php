@@ -1,6 +1,17 @@
 <?php
 include 'header.php';
+?>
 
+<script>
+    document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') {
+        // Handle when the page is hidden (e.g., prevent reloading)
+    } else if (document.visibilityState === 'visible') {
+        // Handle when the page comes back into view (prevent double load)
+    }
+});
+</script>
+<?php
 if(isset($_GET['jailbreak'])){
     $jailbreak = $_GET['jailbreak'];
 }else{
