@@ -10,9 +10,9 @@
 </body>
 </html>
 <?php
-if($user_class->id == 1){
-    require "chatbox.php";
-}
+// if($user_class->id == 1){
+//     require "chatbox.php";
+// }
 ?>
 <script>
 function calcEXP(){
