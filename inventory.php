@@ -2721,6 +2721,8 @@ function gendivs($row, $type, $sell = null, $subtype = null, $loan = null, $loan
         $('a').click(function(e) {
             e.preventDefault();
 
+            alert('g');
+
             window.location.replace($(this).attr('href'));
 
         });
