@@ -640,7 +640,7 @@ if ($user_class->view_preference === '1') { ?>
         ?>
 	<title>(<?php echo $ev; ?>) ChaosCity</title>
 
-    <script src="js/java.js?12" type="text/javascript"></script><!doctype html>
+
 <html lang="en">
 <head>
     <?php if($ev > 0){
@@ -659,7 +659,7 @@ if ($user_class->view_preference === '1') { ?>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-   
+    <script src="js/java.js?12" type="text/javascript"></script><!doctype html>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
