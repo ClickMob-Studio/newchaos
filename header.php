@@ -1430,12 +1430,12 @@ if ($user_class->bustpill > 0) {
     $array['Police Badge'] = ($rtn == 'NOW') ? '@None@' : $rtn;
 }
 
-if ($bonus_row['Time'] > 0) {
+// if ($bonus_row['Time'] > 0) {
 
-    $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
-    echo '<div style="font-family:timesnewroman;font-size: 1.5em;color:red;text-align: center;margin-bottom: 20px;margin-top: -20px;"><font color=green>Server Wide Double EXP Active </font>  <font color=white>' . $_tt . '</font> 
-                                                </div>';
-}
+//     $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
+//     echo '<div style="font-family:timesnewroman;font-size: 1.5em;color:red;text-align: center;margin-bottom: 20px;margin-top: -20px;"><font color=green>Server Wide Double EXP Active </font>  <font color=white>' . $_tt . '</font> 
+//                                                 </div>';
+// }
 
 if ($user_class->outofjail > 0) {
     $rtn = ($user_class->outofjail);
