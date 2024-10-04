@@ -1,6 +1,7 @@
 <?php
 include 'header.php';
-
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Pragma: no-cache");
 ?>
 <div class='box_top'>Vote</div>
 						<div class='box_middle'>
@@ -38,7 +39,7 @@ if (isset($_GET['vote']) && array_key_exists($_GET['vote'], $sites)) {
 //	$db->execute(array(
 //		$user_class->id
 //	));
-    header('location: ' . $sites[$_GET['vote']]);
+    header('Location: ' . $sites[$_GET['vote']]);
 }
 echo'<div class="floaty" style="margin:5px;width:75%;>';
 	echo'<span style="color:red;font-weight:bold;">Vote Tokens Availible: <span style="color:#FFA500;"> ' . prettynum($user_class->votetokens) . ' Vote Points</span></br></span>';
