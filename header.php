@@ -1544,7 +1544,7 @@ if ($user_class->aprotection > $time) {
 $db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
     $db->execute();
     $bonus_row = $db->fetch_row(true);
-
+    if(isset($bonus_row))
     $debug['worked'] = $bonus_row;
 
 
