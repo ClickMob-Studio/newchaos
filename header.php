@@ -1516,20 +1516,20 @@ if (time() <  1661122799) {
             <span id="countdown">Ends In ' . countdown(1662965999) . '</span></div>';
 }
 
-$db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
-    $db->execute();
-    $bonus_row = $db->fetch_row(true);
+// $db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
+//     $db->execute();
+//     $bonus_row = $db->fetch_row(true);
 
-    $debug['worked'] = $bonus_row;
+//     $debug['worked'] = $bonus_row;
 
 
 
-if ($bonus_row['Time'] > 0) {
+// if ($bonus_row['Time'] > 0) {
 
-    $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
-   $messages[] = 'Attackgfgdgdfgdfgsdfg: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+//     $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
+//    $messages[] = 'Attackgfgdgdfgdfgsdfg: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
 
-}
+// }
 
 $time = time();
 $messages = array();
