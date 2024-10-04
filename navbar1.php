@@ -154,7 +154,6 @@ $leftLinks[] =
 $navPage = str_replace( '/', '', $_SERVER['REQUEST_URI'] );
 
 ?> 
-
 <nav class="navbar navbar-expand-lg p-0 dcNav dcTopNav">
     <div class="container-fluid scrollNav">
         <a class="navbar-brand" href="index.php">
@@ -176,8 +175,9 @@ $navPage = str_replace( '/', '', $_SERVER['REQUEST_URI'] );
                 <?php foreach ($topLinks as $link) : ?>
                     <li class="nav-item">
                         <?php
-                            $linkText    = $link['name'] . ($link['count'] ? ' [' . $link['count'] . ']' : '');
-                            $linkClasses = $link['url'] === $navPage ? ' active' : '' . ($link['count'] ? ' hasNew' : '');
+                            // Check if 'count' exists before accessing it
+                            $linkText    = $link['name'] . (isset($link['count']) ? ' [' . $link['count'] . ']' : '');
+                            $linkClasses = ($link['url'] === $navPage ? ' active' : '') . (isset($link['count']) ? ' hasNew' : '');
                         ?>
                         <a class="nav-link px-4 py-lg-5<?php echo $linkClasses; ?>" aria-current="page" href="<?php echo $link['url']; ?>"><?php echo $linkText; ?></a>
                     </li>
@@ -186,8 +186,9 @@ $navPage = str_replace( '/', '', $_SERVER['REQUEST_URI'] );
                 <?php foreach ($leftLinks as $link) : ?>
                     <li class="nav-item d-lg-none">
                         <?php
-                            $linkText    = $link['name'] . ($link['count'] ? ' [' . $link['count'] . ']' : '');
-                            $linkClasses = $link['url'] === $navPage ? ' active' : '' . ($link['count'] ? ' hasNew' : '');
+                            // Check if 'count' exists before accessing it
+                            $linkText    = $link['name'] . (isset($link['count']) ? ' [' . $link['count'] . ']' : '');
+                            $linkClasses = ($link['url'] === $navPage ? ' active' : '') . (isset($link['count']) ? ' hasNew' : '');
                         ?>
                         <a class="nav-link px-4 py-lg-5<?php echo $linkClasses; ?>" aria-current="page" href="<?php echo $link['url']; ?>"><?php echo $linkText; ?></a>
                     </li>
