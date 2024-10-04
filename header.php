@@ -1,7 +1,7 @@
 <meta http-equiv="x-dns-prefetch-control" content="off">
 
 <?php
-
+ob_start(); 
 session_start();
 
 header('Content-Type: text/html; charset=utf-8');
