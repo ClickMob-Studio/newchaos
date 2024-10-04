@@ -5,18 +5,17 @@ This is necessary to allow the main menu to include the left menu on mobile devi
  **/
 ?>
 <nav class="navbar navbar-expand-lg p-0 dcNav dcLeftNav">
-    <div class="navbar d-block w-100 p-0">
-        <ul class="navbar-nav text-center">
-            <?php foreach ( $leftLinks as $link ) : ?>
-                <li class="nav-item">
-                    <?php
-                        // Check if 'count' exists before accessing it
-                        $linkText    = $link['name'] . ( isset($link['count']) ? ' [' . $link['count'] . ']' : '' );
-                        $linkClasses = ($link['url'] === $navPage ? ' active' : '') . ( isset($link['count']) ? ' hasNew' : '' );
-                    ?>
-                    <a class="nav-link px-4 py-3<?php echo $linkClasses; ?>" aria-current="page" href="<?php echo $link['url']; ?>"><?php echo $linkText; ?></a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
-</nav>
+            <div class="navbar d-block w-100 p-0">
+                <ul class="navbar-nav text-center">
+				<?php foreach ( $leftLinks as $link ) : ?>
+                    <li class="nav-item">
+					<?php
+						$linkText = $link['name'] . ( $link['count'] ? ' [' . $link['count'] . ']' : '' );
+						$linkClasses = $link['url'] === $navPage ? ' active' : '' . ( $link['count'] ? ' hasNew' : '' );
+					?>
+					<a class="nav-link px-4 py-3<?php echo $linkClasses; ?>" aria-current="page" href="<?php echo $link['url']; ?>"><?php echo $linkText; ?></a>
+				</li>
+			<?php endforeach; ?>
+                </ul>
+            </div>
+        </nav>
