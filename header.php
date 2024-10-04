@@ -688,24 +688,7 @@ if ($user_class->view_preference === '1') { ?>
     }
   
 	</style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Generate a unique tab identifier if it doesn't exist
-            if (!sessionStorage.tabId) {
-                sessionStorage.tabId = Math.random().toString(36).substr(2, 9);
-            }
-
-            // Send the tab ID to the server
-            fetch('tab_tracker.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'tabId=' + sessionStorage.tabId
-            }).then(response => response.text())
-              .then(data => console.log(data));
-        });
-    </script>
+    
 </head>
 <body>
 	<header class="mainHeader">
