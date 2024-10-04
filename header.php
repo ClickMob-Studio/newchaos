@@ -1,5 +1,3 @@
-<meta http-equiv="x-dns-prefetch-control" content="off">
-
 <?php
 ob_start(); 
 session_start();
@@ -631,7 +629,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
 <meta charset="UTF-8">
 <head>
-
+<meta http-equiv="x-dns-prefetch-control" content="off">
 <?php 
 
 if ($user_class->view_preference === '1') { ?>
