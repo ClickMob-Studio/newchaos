@@ -107,9 +107,9 @@ try {
     }
 
     if (isset($_GET['action']) && $_GET['action'] == 'super') {
-        $newnerve = $user_class->nerve - 10;
-    } else {
         $newnerve = $user_class->nerve - 100;
+    } else {
+        $newnerve = $user_class->nerve - 10;
     }
     $db->query("UPDATE grpgusers SET nerve = ?, last_mug_time = ? WHERE id = ?");
     $db->execute(array($newnerve, time(), $user_class->id));
