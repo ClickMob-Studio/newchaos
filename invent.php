@@ -166,11 +166,29 @@ foreach ($items as $item) {
 <?php include 'footer.php'; ?>
 
 <style>
-/* Global container for the entire inventory */
-.inventory-container {
-    width: 80%;
-    margin: 20px auto;
-    padding: 20px;
+/* Modify the item container for a better layout across devices */
+.inventory-item {
+    background-color: #2d2c28;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 220px; /* Set a minimum width for the item */
+    flex-grow: 1; /* Allow it to grow if space permits */
+}
+
+/* Responsive container adjustments for images */
+.item-image-container {
+    width: 100%;
+    max-width: 150px; /* Set a max width for images */
+    height: 150px; /* Fixed height for better consistency */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
 }
 
 /* Group of items per category (Weapons, Armor, etc.) */
@@ -199,18 +217,7 @@ foreach ($items as $item) {
     gap: 20px;
 }
 
-/* Individual item container */
-.inventory-item {
-    background-color: #2d2c28;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: calc(33.333% - 20px); /* 3 items per row */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
+
 .button-sm {
     padding: 5px 10px;
     background-color: #FFA500;
@@ -235,14 +242,12 @@ foreach ($items as $item) {
     margin-bottom: 10px;
 }
 
-/* Item image style */
 .item-image {
     max-width: 100%;
     max-height: 100%;
     object-fit: cover;
     border-radius: 8px;
 }
-
 /* Details for each item (name, quantity, etc.) */
 .item-details h3 {
     color: white;
@@ -398,6 +403,18 @@ foreach ($items as $item) {
 
 .button-sm:hover {
     background-color: #FF8C00;
+}
+/* Fine-tune spacing for smaller screens */
+@media screen and (max-width: 768px) {
+    .inventory-item {
+        min-width: 180px; /* Smaller minimum width on mobile */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .inventory-item {
+        min-width: 160px; /* Further reduce for very small screens */
+    }
 }
 
 </style>
