@@ -15,7 +15,7 @@ function getEquippedItemHtml($itemType, $itemId, $itemImg, $itemName) {
     $html .= '<br />';
     $html .= item_popup($itemName, $itemId);
     $html .= '<br />';
-    $html .= '<a class="button-sm" href="equip.php?unequip=' . $itemType . '">Unequip</a>';
+    $html .= '<a class="button-sm unequip-btn" href="#" data-type="' . $itemType . '">Unequip</a>';
     return $html;
 }
 
@@ -219,6 +219,9 @@ if (isset($_GET['unequip'])) {
             Give_Item($user_class->eqweapon, $user_class->id);
         $db->query("UPDATE grpgusers SET eqweapon = 0, weploaned = 0 WHERE id = ?");
         $db->execute(array($user_class->id));
+
+        // Return updated slot HTML for the weapon
+        $response['newItemHtml'] = getEquippedItemHtml('weapon', 0, '', '');
         $response['success'] = true;
         $response['message'] = "Weapon unequipped successfully!";
         echo json_encode($response);
@@ -232,6 +235,9 @@ if (isset($_GET['unequip'])) {
             Give_Item($user_class->eqarmor, $user_class->id);
         $db->query("UPDATE grpgusers SET eqarmor = 0, armloaned = 0 WHERE id = ?");
         $db->execute(array($user_class->id));
+
+        // Return updated slot HTML for the armor
+        $response['newItemHtml'] = getEquippedItemHtml('armor', 0, '', '');
         $response['success'] = true;
         $response['message'] = "Armor unequipped successfully!";
         echo json_encode($response);
@@ -245,6 +251,9 @@ if (isset($_GET['unequip'])) {
             Give_Item($user_class->eqshoes, $user_class->id);
         $db->query("UPDATE grpgusers SET eqshoes = 0, shoeloaned = 0 WHERE id = ?");
         $db->execute(array($user_class->id));
+
+        // Return updated slot HTML for the shoes
+        $response['newItemHtml'] = getEquippedItemHtml('shoes', 0, '', '');
         $response['success'] = true;
         $response['message'] = "Shoes unequipped successfully!";
         echo json_encode($response);

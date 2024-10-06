@@ -687,5 +687,58 @@ document.querySelectorAll('.use-btn').forEach(function(button) {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    // Attach event listeners to all unequip buttons
+    document.querySelectorAll('.unequip-btn').forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            var itemType = this.getAttribute('data-type');
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'ajax_equip.php?unequip=' + itemType, true);
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var messageDiv = document.getElementById('message');
+
+                    if (response.success) {
+                        // Display the success message
+                        messageDiv.style.display = 'block';
+                        messageDiv.style.backgroundColor = '#4CAF50'; // Success color (green)
+                        messageDiv.style.color = 'white';
+                        messageDiv.textContent = response.message;
+
+                        // Update the equipped item slot with the new HTML
+                        if (response.newItemHtml) {
+                            updateEquippedItem(itemType, response.newItemHtml);
+                        }
+                    } else {
+                        // Display an error message
+                        messageDiv.style.display = 'block';
+                        messageDiv.style.backgroundColor = '#f44336'; // Error color (red)
+                        messageDiv.style.color = 'white';
+                        messageDiv.textContent = 'Error: ' + response.message;
+                    }
+
+                    // Optionally hide the message after a few seconds
+                    setTimeout(function() {
+                        messageDiv.style.display = 'none';
+                    }, 5000); // Hide after 5 seconds
+                }
+            };
+
+            xhr.send();
+        });
+    });
+});
+
+// Function to update the equipped item slot with new HTML
+function updateEquippedItem(type, newItemHtml) {
+    var equippedItemContainer = document.querySelector('.equipped-item[data-type="' + type + '"]');
+    if (equippedItemContainer) {
+        equippedItemContainer.innerHTML = newItemHtml;
+    }
+}
 
 </script>
