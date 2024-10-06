@@ -79,41 +79,49 @@ foreach ($items as $item) {
         <?php foreach ($groupedItems as $type => $items): ?>
             <div class="inventory-group">
                 <h2 class="item-type-header"><?= htmlspecialchars(ucfirst($type)); ?></h2>
-                <div class="row inventory-items">
+                <div class="inventory-items">
                     <?php foreach ($items as $item): ?>
-                        <div class="col-6 col-md-4 mb-4">
-                            <div class="inventory-item">
-                                <div class="item-image-container">
-                                    <img src="<?= isset($item['image']) && $item['image'] != '' ? htmlspecialchars($item['image']) : 'path/to/default-image.png'; ?>" alt="<?= htmlspecialchars($item['name']); ?>" class="item-image">
-                                </div>
-                                <div class="item-details">
-                                    <h3><?= htmlspecialchars($item['name']); ?></h3>
-                                    <p>Quantity: <span class="item-quantity"><?= (int)$item['quantity']; ?></span></p>
+                        <div class="inventory-item">
+                            <div class="item-image-container">
+                                <img src="<?= isset($item['image']) && $item['image'] != '' ? htmlspecialchars($item['image']) : 'path/to/default-image.png'; ?>" alt="<?= htmlspecialchars($item['name']); ?>" class="item-image">
+                            </div>
+                            <div class="item-details">
+                                <h3><?= htmlspecialchars($item['name']); ?></h3>
+                                <p>Quantity: <span class="item-quantity"><?= (int)$item['quantity']; ?></span></p>
 
-                                    <?php
-                                    if (in_array($type, ['weapon', 'armor', 'shoes']) || $item['id'] == 69) {
-                                        $loanStatus = isset($item['loanid']) && $item['loanid'] > 0 ? 1 : 0;
-                                        echo '<button class="equip-btn" data-item-id="' . $item['id'] . '" data-type="' . $type . '" data-loaned="' . $loanStatus . '">Equip</button>';
-                                    } elseif ($type == 'consumable' || $type == "rare" && !in_array($item['id'], $restrictedUseItems)) {
-                                        echo '<button class="use-btn" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Use</button>';
-                                    }
-                                    if($item['id'] == 194) {
-                                        echo ' <a class="button-sm" href="raids.php">Use Speedup</a> ';
-                                    }
-                                    if (!in_array($item['id'], $restrictedDropItems)) {
-                                        echo ' <button class="drop-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '">Drop</button> ';
-                                    }
-                                    if (!in_array($item['id'], $restrictedSendItems)) {
-                                        echo ' <button class="send-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Send</button> ';
-                                    }
-                                    if ($type == 'house') {
-                                        echo ' <a class="button-sm" href="market.php?item=' . $item['id'] . '">Sell on Market</a> ';
-                                    }
-                                    if ($item['cost'] > 0) {
-                                        echo ' <a class="button-sm" href="sellitem.php?id=' . $item['id'] . '">Sell</a> ';
-                                    }
+                                <?php
+                                // Equip button logic for items like weapons, armor, or shoes
+								if (in_array($type, ['weapon', 'armor', 'shoes']) || $item['id'] == 69) {
+									$loanStatus = isset($item['loanid']) && $item['loanid'] > 0 ? 1 : 0;
+									echo '<button class="equip-btn" data-item-id="' . $item['id'] . '" data-type="' . $type . '" data-loaned="' . $loanStatus . '">Equip</button>';
+								} elseif ($type == 'consumable' || $type == "rare" && !in_array($item['id'], $restrictedUseItems)) {
+                                    // Use button for consumable items
                                     ?>
-                                </div>
+									<button class="use-btn" data-item-id="<?= $item['id']; ?>" data-item-name="<?= htmlspecialchars($item['name']); ?>">Use</button>
+									<?php
+                                }
+								if($item['id'] == 194) {
+									echo ' <a class="button-sm" href="raids.php">Use Speedup</a> ';
+								}
+                                // Drop button
+                                if (!in_array($item['id'], $restrictedDropItems)) {
+                                    echo ' <button class="drop-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '">Drop</button> ';
+                                }
+
+                                // Send button (not restricted)
+                                if (!in_array($item['id'], $restrictedSendItems)) {
+                                    echo ' <button class="send-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Send</button> ';
+                                }
+								// Market button for "house" items
+								if ($type == 'house') {
+									echo ' <a class="button-sm" href="market.php?item=' . $item['id'] . '">Sell on Market</a> ';
+								}
+
+                                // Sell button if item has a cost
+                                if ($item['cost'] > 0) {
+                                    echo ' <a class="button-sm" href="sellitem.php?id=' . $item['id'] . '">Sell</a> ';
+                                }
+                                ?>
                             </div>
                         </div>
                     <?php endforeach; ?>
