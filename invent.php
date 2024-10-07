@@ -423,7 +423,7 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
 <style>
 /* Global container for the entire inventory */
 .inventory-container {
-    width: 100%;
+    width: 80%;
     margin: 20px auto;
     padding: 20px;
 }
@@ -464,7 +464,7 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
     flex-direction: column;
     align-items: center;
     text-align: center;
-    width: calc(33.333% - 20px); /* 3 items per row */
+    width: calc(33.333% - 20px); /* 3 items per row on desktop */
 }
 
 /* Container for item image */
@@ -529,23 +529,22 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
     background-color: #ff8c00;
 }
 
-/* Responsive design for smaller screens */
+/* Responsive design for tablets */
 @media screen and (max-width: 768px) {
-    /* 2 items per row on tablets */
     .inventory-item {
-        width: calc(50% - 20px);
+        width: calc(50% - 20px); /* 2 items per row on tablets */
     }
 }
 
+/* Responsive design for mobile (2 items per row on mobile) */
 @media screen and (max-width: 480px) {
-    /* 1 item per row on mobile, taking 100% width */
     .inventory-item {
-        width: 50%; /* 100% width on mobile */
-        margin-bottom: 10px; /* Add spacing at the bottom between rows */
+        width: calc(50% - 10px); /* 2 items per row on mobile */
+        margin-bottom: 10px;
     }
 
     .inventory-items {
-        gap: 10px;
+        gap: 10px; /* Adjust gap for better spacing on smaller screens */
     }
 }
 
