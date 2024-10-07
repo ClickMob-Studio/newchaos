@@ -540,7 +540,7 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
 @media screen and (max-width: 480px) {
     /* 1 item per row on mobile, taking 100% width */
     .inventory-item {
-        width: 100%; /* 100% width on mobile */
+        width: 50%; /* 100% width on mobile */
         margin-bottom: 10px; /* Add spacing at the bottom between rows */
     }
 
