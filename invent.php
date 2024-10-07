@@ -460,24 +460,15 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: calc(33.333% - 20px); /* 3 items per row */
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
 }
-.button-sm {
-    padding: 5px 10px;
-    background-color: #FFA500;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    text-decoration: none;
-    cursor: pointer;
-}
 
-.button-sm:hover {
-    background-color: #FF8C00;
+/* For larger screens (default), display 3 items per row */
+.inventory-item {
+    width: calc(33.333% - 20px); /* 3 items per row */
 }
 
 /* Container for item image */
@@ -544,16 +535,24 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
 
 /* Responsive design for smaller screens */
 @media screen and (max-width: 768px) {
+    /* 2 items per row on tablets */
     .inventory-item {
-        width: calc(50% - 20px); /* 2 items per row on tablets */
+        width: calc(50% - 20px); 
     }
 }
 
 @media screen and (max-width: 480px) {
+    /* 2 items per row on mobile, ensuring they fit well */
     .inventory-item {
-        width: 100%; /* 1 item per row on mobile */
+        width: calc(50% - 10px); /* Reduce gap for better fit */
+    }
+
+    /* Ensure equipped items and inventory items fit well on mobile */
+    .equipped-items, .inventory-items {
+        gap: 10px;
     }
 }
+
 /* The Modal (background) */
 .modal {
     display: none;
@@ -603,6 +602,7 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
 .send-confirm-btn:hover {
     background-color: #45a049;
 }
+
 .equipped-items-container {
     background-color: #21201c;
     padding: 20px;
@@ -654,5 +654,6 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
 .button-sm:hover {
     background-color: #FF8C00;
 }
+
 
 </style>
