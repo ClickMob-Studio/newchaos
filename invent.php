@@ -553,6 +553,7 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
 
     .inventory-items {
         gap: 10px; /* Adjust gap for better spacing on smaller screens */
+		width: calc(50% - 20px);
     }
 
     /* Buttons inside each item are centered and have enough space */
