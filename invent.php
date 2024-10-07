@@ -156,7 +156,10 @@ foreach ($items as $item) {
 </div>
 
 <?php include 'footer.php'; ?>
-<script>// Equip and Unequip functions
+
+<!-- JavaScript for handling item usage, equip, drop, and send functionality -->
+<script>
+// Equip and Unequip functions
 document.addEventListener('DOMContentLoaded', function () {
     loadEquippedItems();
 
@@ -165,6 +168,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Attach event listeners for opening modals
     attachModalListeners();
+
+    // Attach event listeners to use buttons
+    attachUseListeners();
 });
 
 // Function to load equipped items on page load
@@ -207,6 +213,17 @@ function attachUnequipListeners() {
             event.preventDefault();
             var itemType = this.getAttribute('data-type');
             unequipItem(itemType);
+        });
+    });
+}
+
+// Attach event listeners to use buttons
+function attachUseListeners() {
+    var useButtons = document.querySelectorAll('.use-btn');
+    useButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var itemId = this.getAttribute('data-item-id');
+            useItem(itemId);
         });
     });
 }
@@ -280,6 +297,29 @@ function unequipItem(itemType) {
                 messageDiv.style.backgroundColor = '#f44336';
                 messageDiv.textContent = 'Error: ' + response.message;
             }
+
+            setTimeout(function () {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+    };
+    xhr.send();
+}
+
+// Function to handle using an item
+function useItem(itemId) {
+    var url = 'ajax_use_item.php?use=' + itemId;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = xhr.responseText;
+            var messageDiv = document.getElementById('message');
+            messageDiv.textContent = response;
+            messageDiv.style.display = 'block';
+
+            // Optionally, you can refresh the inventory here after using the item
+            // loadInventory();
 
             setTimeout(function () {
                 messageDiv.style.display = 'none';
@@ -417,7 +457,6 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
     };
     xhr.send(formData);
 });
-
 </script>
 
 <style>
