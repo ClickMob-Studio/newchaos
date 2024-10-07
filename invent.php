@@ -156,79 +156,17 @@ foreach ($items as $item) {
 </div>
 
 <?php include 'footer.php'; ?>
-
-<style>
-/* Add your modal and inventory styling here */
-</style>
-
 <script>
 // Equip and Unequip functions
 document.addEventListener('DOMContentLoaded', function () {
     loadEquippedItems();
-    
+
     // Attach event listeners to equip buttons
-    var equipButtons = document.querySelectorAll('.equip-btn');
-    equipButtons.forEach(function(button) {
-        button.addEventListener('click', function() {
-            var itemId = this.getAttribute('data-item-id');
-            var type = this.getAttribute('data-type');
-            var loaned = this.getAttribute('data-loaned');
-            equipItem(itemId, type, loaned);
-        });
-    });
+    attachEquipListeners();
 
-    // Attach event listeners to unequip buttons after equipped items are loaded
-    document.querySelectorAll('.equipped-items').forEach(function(equippedItem) {
-        equippedItem.addEventListener('click', function(event) {
-            if (event.target.classList.contains('unequip-btn')) {
-                var itemType = event.target.getAttribute('data-type');
-                unequipItem(itemType);
-            }
-        });
-    });
+    // Attach event listeners for opening modals
+    attachModalListeners();
 });
-
-// Function to unequip an item
-function unequipItem(itemType) {
-    var url = 'ajax_equip.php?unequip=' + itemType;
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            var messageDiv = document.getElementById('message');
-            
-            if (response.success) {
-                messageDiv.style.display = 'block';
-                messageDiv.style.backgroundColor = '#4CAF50';
-                messageDiv.textContent = response.message;
-
-                // Update the equipped item slot with the new HTML (empty slot)
-                if (response.newItemHtml) {
-                    updateEquippedItem(itemType, response.newItemHtml);
-                }
-            } else {
-                messageDiv.style.display = 'block';
-                messageDiv.style.backgroundColor = '#f44336';
-                messageDiv.textContent = 'Error: ' + response.message;
-            }
-
-            // Hide message after 5 seconds
-            setTimeout(function () {
-                messageDiv.style.display = 'none';
-            }, 5000);
-        }
-    };
-    xhr.send();
-}
-
-// Function to update the equipped item slot with new HTML
-function updateEquippedItem(type, newItemHtml) {
-    var equippedItemContainer = document.querySelector('.equipped-item[data-type="' + type + '"]');
-    if (equippedItemContainer) {
-        equippedItemContainer.innerHTML = newItemHtml;
-    }
-}
 
 // Function to load equipped items on page load
 function loadEquippedItems() {
@@ -250,10 +188,23 @@ function loadEquippedItems() {
     xhr.send();
 }
 
-// Attach unequip event listeners after items are loaded
+// Attach event listeners to equip buttons
+function attachEquipListeners() {
+    var equipButtons = document.querySelectorAll('.equip-btn');
+    equipButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var itemId = this.getAttribute('data-item-id');
+            var type = this.getAttribute('data-type');
+            var loaned = this.getAttribute('data-loaned');
+            equipItem(itemId, type, loaned);
+        });
+    });
+}
+
+// Attach event listeners to unequip buttons
 function attachUnequipListeners() {
-    document.querySelectorAll('.unequip-btn').forEach(function(button) {
-        button.addEventListener('click', function(event) {
+    document.querySelectorAll('.unequip-btn').forEach(function (button) {
+        button.addEventListener('click', function (event) {
             event.preventDefault();
             var itemType = this.getAttribute('data-type');
             unequipItem(itemType);
@@ -261,51 +212,135 @@ function attachUnequipListeners() {
     });
 }
 
+// Function to handle equipping an item
+function equipItem(itemId, type, loaned = 0) {
+    var url = 'ajax_equip.php?eq=' + type + '&id=' + itemId + '&loaned=' + loaned;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            var messageDiv = document.getElementById('message');
+            if (response.success) {
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#4CAF50';
+                messageDiv.textContent = response.message;
 
-// Drop and Send Modals
-var dropModal = document.getElementById("dropModal");
-var sendModal = document.getElementById("sendModal");
+                if (response.newItemHtml && response.slot) {
+                    updateEquippedItem(response.slot, response.newItemHtml);
+                }
 
-// Event listeners for opening modals
-document.querySelectorAll('.drop-btn').forEach(function(button) {
-    button.addEventListener('click', function() {
-        var itemId = this.getAttribute('data-item-id');
-        var itemName = this.getAttribute('data-item-name');
-        var itemQuantity = this.getAttribute('data-item-quantity');
-        document.getElementById('drop-item-id').value = itemId;
-        document.getElementById('drop-item-name').textContent = itemName;
-        document.getElementById('drop-quantity').max = itemQuantity;
-        document.getElementById('drop-quantity').value = 1;
-        dropModal.style.display = "block";
+                // Re-attach event listeners after equipping an item
+                attachUnequipListeners();
+            } else {
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#f44336';
+                messageDiv.textContent = 'Error: ' + response.message;
+            }
+
+            setTimeout(function () {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+    };
+    xhr.send();
+}
+
+// Function to handle unequipping an item
+function unequipItem(itemType) {
+    var url = 'ajax_equip.php?unequip=' + itemType;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            var messageDiv = document.getElementById('message');
+
+            if (response.success) {
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#4CAF50';
+                messageDiv.textContent = response.message;
+
+                // Update the equipped item slot with the new HTML (empty slot)
+                if (response.newItemHtml) {
+                    updateEquippedItem(itemType, response.newItemHtml);
+                }
+            } else {
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#f44336';
+                messageDiv.textContent = 'Error: ' + response.message;
+            }
+
+            setTimeout(function () {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+    };
+    xhr.send();
+}
+
+// Function to update the equipped item slot with new HTML
+function updateEquippedItem(type, newItemHtml) {
+    var equippedItemContainer = document.querySelector('.equipped-item[data-type="' + type + '"]');
+    if (equippedItemContainer) {
+        equippedItemContainer.innerHTML = newItemHtml;
+    }
+}
+
+// Attach modal event listeners for Drop and Send modals
+function attachModalListeners() {
+    var dropModal = document.getElementById("dropModal");
+    var sendModal = document.getElementById("sendModal");
+
+    // Event listeners for opening modals
+    document.querySelectorAll('.drop-btn').forEach(function (button) {
+        button.addEventListener('click', function () {
+            var itemId = this.getAttribute('data-item-id');
+            var itemName = this.getAttribute('data-item-name');
+            var itemQuantity = this.getAttribute('data-item-quantity');
+            document.getElementById('drop-item-id').value = itemId;
+            document.getElementById('drop-item-name').textContent = itemName;
+            document.getElementById('drop-quantity').max = itemQuantity;
+            document.getElementById('drop-quantity').value = 1;
+            dropModal.style.display = "block";
+        });
     });
-});
 
-document.querySelectorAll('.send-btn').forEach(function(button) {
-    button.addEventListener('click', function() {
-        var itemId = this.getAttribute('data-item-id');
-        var itemName = this.getAttribute('data-item-name');
-        var itemQuantity = this.getAttribute('data-item-quantity');
-        document.getElementById('item-id').value = itemId;
-        document.getElementById('item-name').textContent = itemName;
-        document.getElementById('quantity').max = itemQuantity;
-        document.getElementById('quantity').value = 1;
-        sendModal.style.display = "block";
+    document.querySelectorAll('.send-btn').forEach(function (button) {
+        button.addEventListener('click', function () {
+            var itemId = this.getAttribute('data-item-id');
+            var itemName = this.getAttribute('data-item-name');
+            var itemQuantity = this.getAttribute('data-item-quantity');
+            document.getElementById('item-id').value = itemId;
+            document.getElementById('item-name').textContent = itemName;
+            document.getElementById('quantity').max = itemQuantity;
+            document.getElementById('quantity').value = 1;
+            sendModal.style.display = "block";
+        });
     });
-});
 
-// Form submission logic for drop and send
-document.getElementById("dropForm").addEventListener('submit', function(event) {
+    // Close modal when clicking on the close button
+    document.querySelectorAll('.close').forEach(function (span) {
+        span.onclick = function () {
+            dropModal.style.display = "none";
+            sendModal.style.display = "none";
+        };
+    });
+}
+
+// Form submission logic for Drop and Send modals
+document.getElementById("dropForm").addEventListener('submit', function (event) {
     event.preventDefault();
     var formData = new FormData(this);
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "drop_item.php", true);
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (xhr.status === 200) {
-            var response = xhr.responseText;
-            messageDiv.textContent = response;
+            var messageDiv = document.getElementById('message');
+            messageDiv.textContent = xhr.responseText;
             messageDiv.style.display = 'block';
-            dropModal.style.display = "none";
-            setTimeout(function() {
+            document.getElementById("dropModal").style.display = "none";
+            setTimeout(function () {
                 messageDiv.style.display = 'none';
             }, 5000);
         }
@@ -313,31 +348,23 @@ document.getElementById("dropForm").addEventListener('submit', function(event) {
     xhr.send(formData);
 });
 
-document.getElementById("sendForm").addEventListener('submit', function(event) {
+document.getElementById("sendForm").addEventListener('submit', function (event) {
     event.preventDefault();
     var formData = new FormData(this);
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "send_item.php", true);
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (xhr.status === 200) {
-            var response = xhr.responseText;
-            messageDiv.textContent = response;
+            var messageDiv = document.getElementById('message');
+            messageDiv.textContent = xhr.responseText;
             messageDiv.style.display = 'block';
-            sendModal.style.display = "none";
-            setTimeout(function() {
+            document.getElementById("sendModal").style.display = "none";
+            setTimeout(function () {
                 messageDiv.style.display = 'none';
             }, 5000);
         }
     };
     xhr.send(formData);
-});
-
-// Close modal when clicking on the close button
-document.querySelectorAll('.close').forEach(function(span) {
-    span.onclick = function() {
-        dropModal.style.display = "none";
-        sendModal.style.display = "none";
-    };
 });
 
 </script>
