@@ -24,7 +24,6 @@ function getInventoryItems() {
 
 function categorizeItem($row) {
     if ($row['rare'] == 1) {
-        // All rare items should be categorized as 'rare' only
         $type = 'rare';
     } elseif ($row['offense'] > 0) {
         $type = 'weapon';
@@ -40,7 +39,6 @@ function categorizeItem($row) {
 
     return $type;
 }
-
 
 $items = getInventoryItems();
 
@@ -60,19 +58,15 @@ foreach ($items as $item) {
     <div class="equipped-items">
         <div class="equipped-item" data-type="weapon">
             <h3>Weapon</h3>
-            
         </div>
         <div class="equipped-item" data-type="armor">
             <h3>Armor</h3>
-            
         </div>
         <div class="equipped-item" data-type="shoes">
             <h3>Shoes</h3>
-           
         </div>
     </div>
 </div>
-
 
 <div class="inventory-container">
     <?php if (!empty($groupedItems)): ?>
@@ -91,33 +85,24 @@ foreach ($items as $item) {
 
                                 <?php
                                 // Equip button logic for items like weapons, armor, or shoes
-								if (in_array($type, ['weapon', 'armor', 'shoes']) || $item['id'] == 69) {
-									$loanStatus = isset($item['loanid']) && $item['loanid'] > 0 ? 1 : 0;
-									echo '<button class="equip-btn" data-item-id="' . $item['id'] . '" data-type="' . $type . '" data-loaned="' . $loanStatus . '">Equip</button>';
-								} elseif ($type == 'consumable' || $type == "rare" && !in_array($item['id'], $restrictedUseItems)) {
-                                    // Use button for consumable items
-                                    ?>
-									<button class="use-btn" data-item-id="<?= $item['id']; ?>" data-item-name="<?= htmlspecialchars($item['name']); ?>">Use</button>
-									<?php
+                                if (in_array($type, ['weapon', 'armor', 'shoes']) || $item['id'] == 69) {
+                                    $loanStatus = isset($item['loanid']) && $item['loanid'] > 0 ? 1 : 0;
+                                    echo '<button class="equip-btn" data-item-id="' . $item['id'] . '" data-type="' . $type . '" data-loaned="' . $loanStatus . '">Equip</button>';
+                                } elseif ($type == 'consumable' || $type == "rare" && !in_array($item['id'], $restrictedUseItems)) {
+                                    echo '<button class="use-btn" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Use</button>';
                                 }
-								if($item['id'] == 194) {
-									echo ' <a class="button-sm" href="raids.php">Use Speedup</a> ';
-								}
-                                // Drop button
+                                if ($item['id'] == 194) {
+                                    echo ' <a class="button-sm" href="raids.php">Use Speedup</a> ';
+                                }
                                 if (!in_array($item['id'], $restrictedDropItems)) {
                                     echo ' <button class="drop-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '">Drop</button> ';
                                 }
-
-                                // Send button (not restricted)
                                 if (!in_array($item['id'], $restrictedSendItems)) {
                                     echo ' <button class="send-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Send</button> ';
                                 }
-								// Market button for "house" items
-								if ($type == 'house') {
-									echo ' <a class="button-sm" href="market.php?item=' . $item['id'] . '">Sell on Market</a> ';
-								}
-
-                                // Sell button if item has a cost
+                                if ($type == 'house') {
+                                    echo ' <a class="button-sm" href="market.php?item=' . $item['id'] . '">Sell on Market</a> ';
+                                }
                                 if ($item['cost'] > 0) {
                                     echo ' <a class="button-sm" href="sellitem.php?id=' . $item['id'] . '">Sell</a> ';
                                 }
@@ -162,7 +147,6 @@ foreach ($items as $item) {
             <label for="recipient">Recipient Username/ID:</label>
             <input type="text" id="recipient" name="recipient" required>
 
-            <!-- Quantity input is now always visible -->
             <label for="quantity">Quantity to send:</label>
             <input type="number" id="quantity" name="quantity" min="1" value="1">
             
@@ -172,6 +156,158 @@ foreach ($items as $item) {
 </div>
 
 <?php include 'footer.php'; ?>
+
+<style>
+/* Add your modal and inventory styling here */
+</style>
+
+<script>
+// Equip and Unequip functions
+document.addEventListener('DOMContentLoaded', function () {
+    loadEquippedItems();
+    // Attach event listeners to equip buttons
+    var equipButtons = document.querySelectorAll('.equip-btn');
+    equipButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var itemId = this.getAttribute('data-item-id');
+            var type = this.getAttribute('data-type');
+            var loaned = this.getAttribute('data-loaned');
+            equipItem(itemId, type, loaned);
+        });
+    });
+});
+
+function loadEquippedItems() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'ajax_equip.php?action=load', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            if (response.success) {
+                updateEquippedItem('weapon', response.equippedItems.weapon);
+                updateEquippedItem('armor', response.equippedItems.armor);
+                updateEquippedItem('shoes', response.equippedItems.shoes);
+            }
+        }
+    };
+    xhr.send();
+}
+
+function equipItem(itemId, type, loaned = 0) {
+    var url = 'ajax_equip.php?eq=' + type + '&id=' + itemId + '&loaned=' + loaned;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            var messageDiv = document.getElementById('message');
+            if (response.success) {
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#4CAF50';
+                messageDiv.textContent = response.message;
+                if (response.newItemHtml && response.slot) {
+                    updateEquippedItem(response.slot, response.newItemHtml);
+                }
+                updateEquipButtons(itemId, type);
+            } else {
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#f44336';
+                messageDiv.textContent = 'Error: ' + response.message;
+            }
+            setTimeout(function () {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+    };
+    xhr.send();
+}
+
+function updateEquippedItem(type, newItemHtml) {
+    var equippedItemContainer = document.querySelector('.equipped-item[data-type="' + type + '"]');
+    if (equippedItemContainer) {
+        equippedItemContainer.innerHTML = newItemHtml;
+    }
+}
+
+// Drop and Send Modals
+var dropModal = document.getElementById("dropModal");
+var sendModal = document.getElementById("sendModal");
+
+// Event listeners for opening modals
+document.querySelectorAll('.drop-btn').forEach(function(button) {
+    button.addEventListener('click', function() {
+        var itemId = this.getAttribute('data-item-id');
+        var itemName = this.getAttribute('data-item-name');
+        var itemQuantity = this.getAttribute('data-item-quantity');
+        document.getElementById('drop-item-id').value = itemId;
+        document.getElementById('drop-item-name').textContent = itemName;
+        document.getElementById('drop-quantity').max = itemQuantity;
+        document.getElementById('drop-quantity').value = 1;
+        dropModal.style.display = "block";
+    });
+});
+
+document.querySelectorAll('.send-btn').forEach(function(button) {
+    button.addEventListener('click', function() {
+        var itemId = this.getAttribute('data-item-id');
+        var itemName = this.getAttribute('data-item-name');
+        var itemQuantity = this.getAttribute('data-item-quantity');
+        document.getElementById('item-id').value = itemId;
+        document.getElementById('item-name').textContent = itemName;
+        document.getElementById('quantity').max = itemQuantity;
+        document.getElementById('quantity').value = 1;
+        sendModal.style.display = "block";
+    });
+});
+
+// Form submission logic for drop and send
+document.getElementById("dropForm").addEventListener('submit', function(event) {
+    event.preventDefault();
+    var formData = new FormData(this);
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "drop_item.php", true);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            var response = xhr.responseText;
+            messageDiv.textContent = response;
+            messageDiv.style.display = 'block';
+            dropModal.style.display = "none";
+            setTimeout(function() {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+    };
+    xhr.send(formData);
+});
+
+document.getElementById("sendForm").addEventListener('submit', function(event) {
+    event.preventDefault();
+    var formData = new FormData(this);
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "send_item.php", true);
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            var response = xhr.responseText;
+            messageDiv.textContent = response;
+            messageDiv.style.display = 'block';
+            sendModal.style.display = "none";
+            setTimeout(function() {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+    };
+    xhr.send(formData);
+});
+
+// Close modal when clicking on the close button
+document.querySelectorAll('.close').forEach(function(span) {
+    span.onclick = function() {
+        dropModal.style.display = "none";
+        sendModal.style.display = "none";
+    };
+});
+
+</script>
 
 <style>
 /* Global container for the entire inventory */
@@ -409,336 +545,3 @@ foreach ($items as $item) {
 }
 
 </style>
-
-<script>
-// Drop Modal functionality
-var dropModal = document.getElementById("dropModal");
-var spanDrop = document.getElementsByClassName("close")[0];
-var messageDiv = document.getElementById('message');
-var currentDropItemQuantityElement = null;
-
-// Open modal when "Drop" button is clicked
-document.querySelectorAll('.drop-btn').forEach(function(button) {
-    button.addEventListener('click', function() {
-        var itemId = this.getAttribute('data-item-id');
-        var itemName = this.getAttribute('data-item-name');
-        var itemQuantity = this.getAttribute('data-item-quantity'); // Get current quantity from the button
-
-        currentDropItemQuantityElement = this.closest('.inventory-item').querySelector('.item-quantity'); // Store reference to quantity element
-        
-        document.getElementById('drop-item-id').value = itemId;
-        document.getElementById('drop-item-name').textContent = itemName;
-
-        // Set the max value of the quantity input based on the user's item quantity
-        document.getElementById('drop-quantity').max = itemQuantity;
-        document.getElementById('drop-quantity').value = 1; // Default quantity to 1
-
-        dropModal.style.display = "block";
-    });
-});
-
-// Close modal
-spanDrop.onclick = function() {
-    dropModal.style.display = "none";
-}
-
-// Close modal when clicking outside of it
-window.onclick = function(event) {
-    if (event.target == dropModal) {
-        dropModal.style.display = "none";
-    }
-}
-
-// Handle the form submission with AJAX
-document.getElementById("dropForm").addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    var formData = new FormData(this);
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "drop_item.php", true);
-
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            var response = xhr.responseText;
-            messageDiv.textContent = response;
-            messageDiv.style.display = 'block';
-
-            var quantityDropped = parseInt(document.getElementById('drop-quantity').value, 10);
-            var currentQuantity = parseInt(currentDropItemQuantityElement.textContent, 10);
-
-            // Update the quantity on the page
-            var newQuantity = currentQuantity - quantityDropped;
-            if (newQuantity <= 0) {
-                currentDropItemQuantityElement.textContent = '0';
-                document.querySelector('.drop-btn[data-item-id="'+ document.getElementById('drop-item-id').value +'"]').disabled = true;
-            } else {
-                currentDropItemQuantityElement.textContent = newQuantity;
-            }
-
-            dropModal.style.display = "none";
-
-            setTimeout(function() {
-                messageDiv.style.display = 'none';
-            }, 5000); // Hide after 5 seconds
-        } else {
-            messageDiv.textContent = "Error dropping item.";
-            messageDiv.style.backgroundColor = '#f44336'; // Change background color to red for error
-            messageDiv.style.display = 'block';
-        }
-    };
-    
-    xhr.send(formData);
-});
-
-// Send Modal functionality
-var sendModal = document.getElementById("sendModal");
-var spanSend = document.getElementsByClassName("close")[1];
-var currentItemId = null;
-var currentItemQuantityElement = null;
-
-// Open modal when "Send" button is clicked
-document.querySelectorAll('.send-btn').forEach(function(button) {
-    button.addEventListener('click', function() {
-        var itemId = this.getAttribute('data-item-id');
-        var itemName = this.getAttribute('data-item-name');
-        var itemQuantity = this.getAttribute('data-item-quantity'); // Get current quantity from the button
-
-        currentItemId = itemId; // Set current item ID for later use
-        currentItemQuantityElement = this.closest('.inventory-item').querySelector('.item-quantity'); // Store reference to quantity element
-        
-        document.getElementById('item-id').value = itemId;
-        document.getElementById('item-name').textContent = itemName;
-
-        // Set the max value of the quantity input based on the user's item quantity
-        document.getElementById('quantity').max = itemQuantity;
-        document.getElementById('quantity').value = 1; // Default quantity to 1
-
-        sendModal.style.display = "block";
-    });
-});
-
-// Close modal
-spanSend.onclick = function() {
-    sendModal.style.display = "none";
-}
-
-// Close modal when clicking outside of it
-window.onclick = function(event) {
-    if (event.target == sendModal) {
-        sendModal.style.display = "none";
-    }
-}
-
-// Handle the form submission with AJAX
-document.getElementById("sendForm").addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    var formData = new FormData(this);
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "send_item.php", true);
-
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            var response = xhr.responseText;
-            messageDiv.textContent = response;
-            messageDiv.style.display = 'block';
-
-            var quantitySent = parseInt(document.getElementById('quantity').value, 10);
-            var currentQuantity = parseInt(currentItemQuantityElement.textContent, 10);
-
-            // Update the quantity on the page
-            var newQuantity = currentQuantity - quantitySent;
-            if (newQuantity <= 0) {
-                currentItemQuantityElement.textContent = '0';
-                document.querySelector('.send-btn[data-item-id="'+ currentItemId +'"]').disabled = true;
-            } else {
-                currentItemQuantityElement.textContent = newQuantity;
-            }
-
-            sendModal.style.display = "none";
-
-            setTimeout(function() {
-                messageDiv.style.display = 'none';
-            }, 5000); // Hide after 5 seconds
-        } else {
-            messageDiv.textContent = "Error sending item.";
-            messageDiv.style.backgroundColor = '#f44336'; // Change background color to red for error
-            messageDiv.style.display = 'block';
-        }
-    };
-    
-    xhr.send(formData);
-});document.addEventListener('DOMContentLoaded', function () {
-    // Load equipped items on page load
-    loadEquippedItems();
-
-    // Select all equip buttons
-    var equipButtons = document.querySelectorAll('.equip-btn');
-    equipButtons.forEach(function (button) {
-        button.addEventListener('click', function () {
-            var itemId = this.getAttribute('data-item-id');
-            var type = this.getAttribute('data-type');
-            var loaned = this.getAttribute('data-loaned');
-
-            equipItem(itemId, type, loaned);
-        });
-    });
-});
-
-function loadEquippedItems() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'ajax_equip.php?action=load', true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            if (response.success) {
-                // Populate the equipped items
-                updateEquippedItem('weapon', response.equippedItems.weapon);
-                updateEquippedItem('armor', response.equippedItems.armor);
-                updateEquippedItem('shoes', response.equippedItems.shoes);
-            }
-        }
-    };
-    xhr.send();
-}
-
-function equipItem(itemId, type, loaned = 0) {
-    var url = 'ajax_equip.php?eq=' + type + '&id=' + itemId + '&loaned=' + loaned;
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            var messageDiv = document.getElementById('message');
-
-            if (response.success) {
-                // Display the success message with item name
-                messageDiv.style.display = 'block';
-                messageDiv.style.backgroundColor = '#4CAF50'; // Success color (green)
-                messageDiv.style.color = 'white';
-                messageDiv.textContent = response.message;
-
-                // Update the equipped item section with the new HTML
-                if (response.newItemHtml && response.slot) {
-                    updateEquippedItem(response.slot, response.newItemHtml);
-                }
-
-                // Optionally disable the equip button and enable the old one
-                updateEquipButtons(itemId, type);
-            } else {
-                messageDiv.style.display = 'block';
-                messageDiv.style.backgroundColor = '#f44336'; // Error color (red)
-                messageDiv.style.color = 'white';
-                messageDiv.textContent = 'Error: ' + response.message;
-            }
-
-            // Optionally hide the message after a few seconds
-            setTimeout(function () {
-                messageDiv.style.display = 'none';
-            }, 5000); // Hide after 5 seconds
-        }
-    };
-    xhr.send();
-}
-
-function updateEquippedItem(type, newItemHtml) {
-    var equippedItemContainer = document.querySelector('.equipped-item[data-type="' + type + '"]');
-    if (equippedItemContainer) {
-        equippedItemContainer.innerHTML = newItemHtml;
-    }
-}
-
-function updateEquipButtons(itemId, type) {
-    var button = document.querySelector('.equip-btn[data-item-id="' + itemId + '"]');
-    if (button) {
-        button.textContent = 'Equipped';
-        button.disabled = true;
-    }
-}
-
-
-// JavaScript to handle the "Use" button click
-document.querySelectorAll('.use-btn').forEach(function(button) {
-    button.addEventListener('click', function() {
-        var itemId = this.getAttribute('data-item-id');
-        var itemName = this.getAttribute('data-item-name');
-        
-        // Send the AJAX request to use the item
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'ajax_use_item.php?use=' + itemId, true);
-        
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                // Display the message at the top of the page
-                var response = xhr.responseText;
-                var messageDiv = document.getElementById('message');
-                messageDiv.innerHTML = response;
-                messageDiv.style.display = 'block';
-
-                // Optionally, hide the message after a few seconds
-                setTimeout(function() {
-                    messageDiv.style.display = 'none';
-                }, 5000); // Hide after 5 seconds
-            }
-        };
-        
-        xhr.send();
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    // Attach event listeners to all unequip buttons
-    document.querySelectorAll('.unequip-btn').forEach(function(button) {
-        button.addEventListener('click', function(event) {
-            event.preventDefault();
-
-            var itemType = this.getAttribute('data-type');
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'ajax_equip.php?unequip=' + itemType, true);
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    var messageDiv = document.getElementById('message');
-
-                    if (response.success) {
-                        // Display the success message
-                        messageDiv.style.display = 'block';
-                        messageDiv.style.backgroundColor = '#4CAF50'; // Success color (green)
-                        messageDiv.style.color = 'white';
-                        messageDiv.textContent = response.message;
-
-                        // Update the equipped item slot with the new HTML
-                        if (response.newItemHtml) {
-                            updateEquippedItem(itemType, response.newItemHtml);
-                        }
-                    } else {
-                        // Display an error message
-                        messageDiv.style.display = 'block';
-                        messageDiv.style.backgroundColor = '#f44336'; // Error color (red)
-                        messageDiv.style.color = 'white';
-                        messageDiv.textContent = 'Error: ' + response.message;
-                    }
-
-                    // Optionally hide the message after a few seconds
-                    setTimeout(function() {
-                        messageDiv.style.display = 'none';
-                    }, 5000); // Hide after 5 seconds
-                }
-            };
-
-            xhr.send();
-        });
-    });
-});
-
-// Function to update the equipped item slot with new HTML
-function updateEquippedItem(type, newItemHtml) {
-    var equippedItemContainer = document.querySelector('.equipped-item[data-type="' + type + '"]');
-    if (equippedItemContainer) {
-        equippedItemContainer.innerHTML = newItemHtml;
-    }
-}
-
-</script>
