@@ -423,7 +423,7 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
 <style>
 /* Global container for the entire inventory */
 .inventory-container {
-    width: 80%;
+    width: 100%;
     margin: 20px auto;
     padding: 20px;
 }
