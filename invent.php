@@ -497,16 +497,24 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
     margin-bottom: 10px;
 }
 
+/* Button container to prevent overlapping */
+.item-button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
 /* Button styles for use and drop actions */
 .use-btn, .drop-btn, .send-btn {
     padding: 5px 10px;
-    margin-right: 5px;
     cursor: pointer;
     background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 4px;
     transition: background-color 0.3s ease;
+    margin-top: 10px;  /* Add margin to avoid overlap */
 }
 
 .drop-btn {
@@ -536,15 +544,22 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
     }
 }
 
-/* Responsive design for mobile (2 items per row on mobile) */
+/* Responsive design for mobile */
 @media screen and (max-width: 480px) {
     .inventory-item {
-        width: calc(50% - 10px); /* 2 items per row on mobile */
+        width: 100%; /* Full width when there's only one item in the row */
         margin-bottom: 10px;
     }
 
     .inventory-items {
         gap: 10px; /* Adjust gap for better spacing on smaller screens */
+    }
+
+    /* Buttons inside each item are centered and have enough space */
+    .item-button-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
     }
 }
 
