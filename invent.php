@@ -101,7 +101,7 @@ foreach ($items as $item) {
                                     echo ' <button class="send-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Send</button> ';
                                 }
                                 if ($type == 'house') {
-                                    echo ' <a class="button-sm" href="market.php?item=' . $item['id'] . '">Sell on Market</a> ';
+                                    echo ' <a class="button-sm" href="market.php?item=' . $item['id'] . '">Market</a> ';
                                 }
                                 if ($item['cost'] > 0) {
                                     echo ' <a class="button-sm" href="sellitem.php?id=' . $item['id'] . '">Sell</a> ';
