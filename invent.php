@@ -547,19 +547,25 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
 /* Responsive design for mobile */
 @media screen and (max-width: 480px) {
     .inventory-item {
-        width: 100%; /* Full width when there's only one item in the row */
+        width: calc(50% - 10px); /* 2 items per row on mobile */
         margin-bottom: 10px;
     }
 
     .inventory-items {
         gap: 10px; /* Adjust gap for better spacing on smaller screens */
-		width: calc(50% - 20px);
     }
 
     /* Buttons inside each item are centered and have enough space */
     .item-button-container {
         display: flex;
         flex-direction: column;
+        width: 100%;
+    }
+}
+
+/* Full width if there's only one item in the row */
+@media screen and (max-width: 480px) {
+    .inventory-item:nth-child(odd):last-child {
         width: 100%;
     }
 }
