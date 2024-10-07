@@ -308,19 +308,26 @@ function unequipItem(itemType) {
 
 // Function to handle using an item
 function useItem(itemId) {
-    var url = 'ajax_use_item.php?use=' + itemId;
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
+    xhr.open('GET', 'ajax_use_item.php?use=' + itemId, true); // Make sure the URL points to your use item script
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = xhr.responseText;
-            var messageDiv = document.getElementById('message');
-            messageDiv.textContent = response;
-            messageDiv.style.display = 'block';
+            var response = JSON.parse(xhr.responseText); // Parse the JSON response
+            var messageDiv = document.getElementById('message'); // Assuming you have a message div
 
-            // Optionally, you can refresh the inventory here after using the item
-            // loadInventory();
+            if (response.success) {
+                // Show success message
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#4CAF50';
+                messageDiv.innerHTML = response.message; // Display the message
+            } else {
+                // Show error message
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#f44336';
+                messageDiv.innerHTML = response.message; // Display the error message
+            }
 
+            // Hide the message after 5 seconds
             setTimeout(function () {
                 messageDiv.style.display = 'none';
             }, 5000);
