@@ -327,6 +327,9 @@ function useItem(itemId) {
                 messageDiv.innerHTML = response.message; // Display the error message
             }
 
+            // Scroll to the message div
+            messageDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
             // Hide the message after 5 seconds
             setTimeout(function () {
                 messageDiv.style.display = 'none';
