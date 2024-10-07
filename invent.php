@@ -537,14 +537,15 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
 @media screen and (max-width: 768px) {
     /* 2 items per row on tablets */
     .inventory-item {
-        width: calc(50% - 20px); 
+        width: calc(50% - 20px);
     }
 }
 
 @media screen and (max-width: 480px) {
-    /* 2 items per row on mobile, ensuring they fit well */
+    /* 1 item per row on mobile, taking 100% width */
     .inventory-item {
-        width: calc(50% - 10px); /* Reduce gap for better fit */
+        width: 100%; /* 100% width on mobile */
+        margin-bottom: 10px; /* Add spacing at the bottom between rows */
     }
 
     /* Ensure equipped items and inventory items fit well on mobile */
