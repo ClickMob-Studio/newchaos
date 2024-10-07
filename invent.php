@@ -156,8 +156,7 @@ foreach ($items as $item) {
 </div>
 
 <?php include 'footer.php'; ?>
-<script>
-// Equip and Unequip functions
+<script>// Equip and Unequip functions
 document.addEventListener('DOMContentLoaded', function () {
     loadEquippedItems();
 
@@ -222,17 +221,23 @@ function equipItem(itemId, type, loaned = 0) {
             var response = JSON.parse(xhr.responseText);
             var messageDiv = document.getElementById('message');
             if (response.success) {
+                // Show success message
                 messageDiv.style.display = 'block';
                 messageDiv.style.backgroundColor = '#4CAF50';
                 messageDiv.textContent = response.message;
 
+                // Update the equipped item slot with the new item
                 if (response.newItemHtml && response.slot) {
                     updateEquippedItem(response.slot, response.newItemHtml);
                 }
 
+                // Remove the item from the inventory (if necessary)
+                removeFromInventory(itemId);
+
                 // Re-attach event listeners after equipping an item
                 attachUnequipListeners();
             } else {
+                // Show error message
                 messageDiv.style.display = 'block';
                 messageDiv.style.backgroundColor = '#f44336';
                 messageDiv.textContent = 'Error: ' + response.message;
@@ -257,15 +262,20 @@ function unequipItem(itemType) {
             var messageDiv = document.getElementById('message');
 
             if (response.success) {
+                // Show success message
                 messageDiv.style.display = 'block';
                 messageDiv.style.backgroundColor = '#4CAF50';
                 messageDiv.textContent = response.message;
 
-                // Update the equipped item slot with the new HTML (empty slot)
+                // Update the equipped item slot with the new (empty) HTML
                 if (response.newItemHtml) {
                     updateEquippedItem(itemType, response.newItemHtml);
                 }
+
+                // Add the unequipped item back to the inventory
+                addToInventory(response.itemData);
             } else {
+                // Show error message
                 messageDiv.style.display = 'block';
                 messageDiv.style.backgroundColor = '#f44336';
                 messageDiv.textContent = 'Error: ' + response.message;
@@ -285,6 +295,47 @@ function updateEquippedItem(type, newItemHtml) {
     if (equippedItemContainer) {
         equippedItemContainer.innerHTML = newItemHtml;
     }
+}
+
+// Function to remove the item from the inventory after equipping
+function removeFromInventory(itemId) {
+    var inventoryItem = document.querySelector('.inventory-item[data-item-id="' + itemId + '"]');
+    if (inventoryItem) {
+        var quantityElement = inventoryItem.querySelector('.item-quantity');
+        var currentQuantity = parseInt(quantityElement.textContent);
+
+        if (currentQuantity > 1) {
+            quantityElement.textContent = currentQuantity - 1;
+        } else {
+            inventoryItem.remove();
+        }
+    }
+}
+
+// Function to add the item back to the inventory after unequipping
+function addToInventory(itemData) {
+    var inventoryContainer = document.querySelector('.inventory-items');
+    var newItem = document.createElement('div');
+    newItem.classList.add('inventory-item');
+    newItem.setAttribute('data-item-id', itemData.id);
+
+    // Example HTML for the new item (you may need to adjust this based on your design)
+    newItem.innerHTML = `
+        <div class="item-image-container">
+            <img src="${itemData.image}" alt="${itemData.name}" class="item-image">
+        </div>
+        <div class="item-details">
+            <h3>${itemData.name}</h3>
+            <p>Quantity: <span class="item-quantity">${itemData.quantity}</span></p>
+            <button class="equip-btn" data-item-id="${itemData.id}" data-type="${itemData.type}">Equip</button>
+        </div>
+    `;
+
+    // Append the item back to the inventory
+    inventoryContainer.appendChild(newItem);
+
+    // Re-attach event listener for the new equip button
+    attachEquipListeners();
 }
 
 // Attach modal event listeners for Drop and Send modals

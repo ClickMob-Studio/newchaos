@@ -19,6 +19,16 @@ function getEquippedItemHtml($itemType, $itemId, $itemImg, $itemName) {
     return $html;
 }
 
+// Function to prepare item data for the inventory
+function getInventoryItemData($itemId, $itemImg, $itemName, $quantity) {
+    return array(
+        'id' => $itemId,
+        'image' => $itemImg,
+        'name' => $itemName,
+        'quantity' => $quantity
+    );
+}
+
 // Function to get the equipped items for page load or reloading
 function getEquippedItems($user_class) {
     return array(
@@ -37,10 +47,13 @@ if (isset($_GET['action']) && $_GET['action'] == 'load') {
     exit;
 }
 
-// Handle equipping item with ID 69 and manage inventory updates
-if (isset($_GET['id']) && $_GET['id'] == 69) {
-    $db->query("SELECT itemname, `image`, quantity FROM inventory inv JOIN items i ON inv.itemid = i.id WHERE inv.userid = ? AND inv.itemid = 69");
-    $db->execute(array($user_class->id));
+// Handle equipping an item and manage inventory updates
+if (isset($_GET['eq']) && isset($_GET['id'])) {
+    $itemId = (int)$_GET['id'];
+
+    // Check if user has the item in their inventory
+    $db->query("SELECT itemname, `image`, quantity FROM inventory inv JOIN items i ON inv.itemid = i.id WHERE inv.userid = ? AND inv.itemid = ?");
+    $db->execute(array($user_class->id, $itemId));
     $items = $db->fetch_row();
 
     if (!$items) {
@@ -53,194 +66,93 @@ if (isset($_GET['id']) && $_GET['id'] == 69) {
     $itemImg = $items['image'];
     $itemQuantity = (int)$items['quantity'];
 
-    // Remove or decrement item in inventory
-    if ($itemQuantity == 1) {
-        $db->query("DELETE FROM inventory WHERE userid = ? AND itemid = 69");
-        $db->execute(array($user_class->id));
+    // Equip the item based on the type
+    if ($_GET['eq'] == "weapon" && $user_class->eqweapon == 0) {
+        // Equip weapon
+        $db->query("UPDATE grpgusers SET eqweapon = ?, weploaned = 0 WHERE id = ?");
+        $db->execute(array($itemId, $user_class->id));
+        $response['newItemHtml'] = getEquippedItemHtml("weapon", $itemId, $itemImg, $itemName);
+        $response['slot'] = 'weapon';
+    } elseif ($_GET['eq'] == "armor" && $user_class->eqarmor == 0) {
+        // Equip armor
+        $db->query("UPDATE grpgusers SET eqarmor = ?, armloaned = 0 WHERE id = ?");
+        $db->execute(array($itemId, $user_class->id));
+        $response['newItemHtml'] = getEquippedItemHtml("armor", $itemId, $itemImg, $itemName);
+        $response['slot'] = 'armor';
+    } elseif ($_GET['eq'] == "shoes" && $user_class->eqshoes == 0) {
+        // Equip shoes
+        $db->query("UPDATE grpgusers SET eqshoes = ?, shoeloaned = 0 WHERE id = ?");
+        $db->execute(array($itemId, $user_class->id));
+        $response['newItemHtml'] = getEquippedItemHtml("shoes", $itemId, $itemImg, $itemName);
+        $response['slot'] = 'shoes';
     } else {
-        $newQuantity = $itemQuantity - 1;
-        $db->query("UPDATE inventory SET quantity = ? WHERE userid = ? AND itemid = 69");
-        $db->execute(array($newQuantity, $user_class->id));
+        $response['message'] = "Item could not be equipped.";
+        echo json_encode($response);
+        exit;
     }
 
-    // Equip the item in an available slot or overwrite the shoes slot
-    if ($user_class->eqweapon == 0) {
-        $db->query("UPDATE grpgusers SET eqweapon = ?, weploaned = 0 WHERE id = ?");
-        $db->execute(array(69, $user_class->id));
-        $response['newItemHtml'] = getEquippedItemHtml("weapon", 69, $itemImg, $itemName);
-        $response['message'] = "Equipped $itemName as weapon!";
-        $response['slot'] = 'weapon';
-    } elseif ($user_class->eqarmor == 0) {
-        $db->query("UPDATE grpgusers SET eqarmor = ?, armloaned = 0 WHERE id = ?");
-        $db->execute(array(69, $user_class->id));
-        $response['newItemHtml'] = getEquippedItemHtml("armor", 69, $itemImg, $itemName);
-        $response['message'] = "Equipped $itemName as armor!";
-        $response['slot'] = 'armor';
-    } elseif ($user_class->eqshoes == 0) {
-        $db->query("UPDATE grpgusers SET eqshoes = ?, shoeloaned = 0 WHERE id = ?");
-        $db->execute(array(69, $user_class->id));
-        $response['newItemHtml'] = getEquippedItemHtml("shoes", 69, $itemImg, $itemName);
-        $response['message'] = "Equipped $itemName as shoes!";
-        $response['slot'] = 'shoes';
+    // Update inventory (decrement or remove item)
+    if ($itemQuantity == 1) {
+        $db->query("DELETE FROM inventory WHERE userid = ? AND itemid = ?");
+        $db->execute(array($user_class->id, $itemId));
     } else {
-        $db->query("UPDATE grpgusers SET eqshoes = ?, shoeloaned = 0 WHERE id = ?");
-        $db->execute(array(69, $user_class->id));
-        $response['newItemHtml'] = getEquippedItemHtml("shoes", 69, $itemImg, $itemName);
-        $response['message'] = "Replaced shoes with $itemName!";
-        $response['slot'] = 'shoes';
+        $newQuantity = $itemQuantity - 1;
+        $db->query("UPDATE inventory SET quantity = ? WHERE userid = ? AND itemid = ?");
+        $db->execute(array($newQuantity, $user_class->id, $itemId));
     }
 
     $response['success'] = true;
+    $response['message'] = "$itemName equipped successfully!";
     echo json_encode($response);
     exit;
 }
 
 // Handle unequipping logic
 if (isset($_GET['unequip'])) {
-    if ($_GET['unequip'] == "weapon" && $user_class->eqweapon != 0) {
-        if ($user_class->weploaned == 1) {
-            Loan_Item($user_class->gang, $user_class->eqweapon, $user_class->id);
-        } else {
-            Give_Item($user_class->eqweapon, $user_class->id);
-        }
+    $itemType = $_GET['unequip'];
+    $unequipped = false;
+
+    // Unequip weapon
+    if ($itemType == "weapon" && $user_class->eqweapon != 0) {
+        Give_Item($user_class->eqweapon, $user_class->id);
         $db->query("UPDATE grpgusers SET eqweapon = 0, weploaned = 0 WHERE id = ?");
         $db->execute(array($user_class->id));
-
         $response['newItemHtml'] = getEquippedItemHtml('weapon', 0, '', '');
-        $response['success'] = true;
-        $response['message'] = "Weapon unequipped successfully!";
-        echo json_encode($response);
-        exit;
+        $unequipped = true;
     }
 
-    if ($_GET['unequip'] == "armor" && $user_class->eqarmor != 0) {
-        if ($user_class->armloaned == 1) {
-            Loan_Item($user_class->gang, $user_class->eqarmor, $user_class->id);
-        } else {
-            Give_Item($user_class->eqarmor, $user_class->id);
-        }
+    // Unequip armor
+    if ($itemType == "armor" && $user_class->eqarmor != 0) {
+        Give_Item($user_class->eqarmor, $user_class->id);
         $db->query("UPDATE grpgusers SET eqarmor = 0, armloaned = 0 WHERE id = ?");
         $db->execute(array($user_class->id));
-
         $response['newItemHtml'] = getEquippedItemHtml('armor', 0, '', '');
-        $response['success'] = true;
-        $response['message'] = "Armor unequipped successfully!";
-        echo json_encode($response);
-        exit;
+        $unequipped = true;
     }
 
-    if ($_GET['unequip'] == "shoes" && $user_class->eqshoes != 0) {
-        if ($user_class->shoeloaned == 1) {
-            Loan_Item($user_class->gang, $user_class->eqshoes, $user_class->id);
-        } else {
-            Give_Item($user_class->eqshoes, $user_class->id);
-        }
+    // Unequip shoes
+    if ($itemType == "shoes" && $user_class->eqshoes != 0) {
+        Give_Item($user_class->eqshoes, $user_class->id);
         $db->query("UPDATE grpgusers SET eqshoes = 0, shoeloaned = 0 WHERE id = ?");
         $db->execute(array($user_class->id));
-
         $response['newItemHtml'] = getEquippedItemHtml('shoes', 0, '', '');
+        $unequipped = true;
+    }
+
+    if ($unequipped) {
+        // Fetch item data to send back to inventory
+        $db->query("SELECT itemname, `image`, quantity FROM items WHERE id = ?");
+        $db->execute(array($user_class->eqweapon));  // Adjust for different items
+        $item = $db->fetch_row();
+
         $response['success'] = true;
-        $response['message'] = "Shoes unequipped successfully!";
-        echo json_encode($response);
-        exit;
-    }
-}
-
-// General equip handling
-if (isset($_GET['eq']) && isset($_GET['id'])) {
-    if (empty($_GET['id'])) {
-        $response['message'] = "No item picked.";
-        echo json_encode($response);
-        exit;
+        $response['message'] = ucfirst($itemType) . " unequipped successfully!";
+        $response['itemData'] = getInventoryItemData($user_class->eqweapon, $item['image'], $item['itemname'], $item['quantity']);
+    } else {
+        $response['message'] = "Error unequipping item.";
     }
 
-    // Check if user has the item
-    $howmany = Check_Item($_GET['id'], $user_class->id);
-    $db->query("SELECT * FROM items WHERE id = ?");
-    $db->execute(array($_GET['id']));
-    $row = $db->fetch_row(true);
-    $error = ($howmany == 0) ? "You don't have any of those." : $error;
-    $error = ($row['level'] > $user_class->level) ? "You aren't high enough level to use this." : $error;
-    
-    if (!empty($error)) {
-        $response['message'] = $error;
-        echo json_encode($response);
-        exit;
-    }
-
-    // Equip weapon
-    if ($_GET['eq'] == "weapon") {
-        if ($row['offense'] <= 0) {
-            $response['message'] = "This item is not a weapon.";
-            echo json_encode($response);
-            exit;
-        }
-        if ($user_class->eqweapon != 0) {
-            if ($user_class->weploaned == 1)
-                Loan_Item($user_class->gang, $user_class->eqweapon, $user_class->id);
-            else
-                Give_Item($user_class->eqweapon, $user_class->id);
-        }
-        $db->query("UPDATE grpgusers SET eqweapon = ?, weploaned = 0 WHERE id = ?");
-        $db->execute(array($_GET['id'], $user_class->id));
-        Take_Item($_GET['id'], $user_class->id);
-
-        $newItemHtml = getEquippedItemHtml("weapon", $_GET['id'], $row['image'], $row['itemname']);
-        $response['success'] = true;
-        $response['message'] = "Weapon equipped successfully!";
-        $response['newItemHtml'] = $newItemHtml;
-        echo json_encode($response);
-        exit;
-    }
-
-    // Equip armor
-    if ($_GET['eq'] == "armor") {
-        if ($row['defense'] <= 0) {
-            $response['message'] = "This item is not an armor.";
-            echo json_encode($response);
-            exit;
-        }
-        if ($user_class->eqarmor != 0) {
-            if ($user_class->armloaned == 1)
-                Loan_Item($user_class->gang, $user_class->eqarmor, $user_class->id);
-            else
-                Give_Item($user_class->eqarmor, $user_class->id);
-        }
-        $db->query("UPDATE grpgusers SET eqarmor = ?, armloaned = 0 WHERE id = ?");
-        $db->execute(array($_GET['id'], $user_class->id));
-        Take_Item($_GET['id'], $user_class->id);
-
-        $newItemHtml = getEquippedItemHtml("armor", $_GET['id'], $row['image'], $row['itemname']);
-        $response['success'] = true;
-        $response['message'] = "Armor equipped successfully!";
-        $response['newItemHtml'] = $newItemHtml;
-        echo json_encode($response);
-        exit;
-    }
-
-    // Equip shoes
-    if ($_GET['eq'] == "shoes") {
-        if ($row['speed'] <= 0) {
-            $response['message'] = "This item is not shoes.";
-            echo json_encode($response);
-            exit;
-        }
-        if ($user_class->eqshoes != 0) {
-            if ($user_class->shoeloaned == 1)
-                Loan_Item($user_class->gang, $user_class->eqshoes, $user_class->id);
-            else
-                Give_Item($user_class->eqshoes, $user_class->id);
-        }
-        $db->query("UPDATE grpgusers SET eqshoes = ?, shoeloaned = 0 WHERE id = ?");
-        $db->execute(array($_GET['id'], $user_class->id));
-        Take_Item($_GET['id'], $user_class->id);
-
-        $newItemHtml = getEquippedItemHtml("shoes", $_GET['id'], $row['image'], $row['itemname']);
-        $response['success'] = true;
-        $response['message'] = "Shoes equipped successfully!";
-        $response['newItemHtml'] = $newItemHtml;
-        echo json_encode($response);
-        exit;
-    }
+    echo json_encode($response);
+    exit;
 }
 ?>
