@@ -121,11 +121,11 @@ if (isset($_GET['use'])) {
                 if ($user_class->purehp >= $user_class->puremaxhp && !$user_class->hospital)
                    $response['message'] = "You already have full HP and are not in the hospital.";
                    $response['success'] = false;
-                   exit;
+                   break;
                 if ($user_class->hhow == "bombed" || $user_class->hhow == "cbombed" || $user_class->hhow == "abombed")
                 $response['message'] = "These won't help you when you are in bits.. you are going to have to wait it out.";
                 $response['success'] = false;
-                exit;
+                break;
                 $db->query("SELECT * FROM items WHERE id = ?");
                 $db->execute(array($id));
                 $row = $db->fetch_row(true);
