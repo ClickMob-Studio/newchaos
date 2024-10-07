@@ -285,8 +285,167 @@ if (isset($_GET['use'])) {
                 }
                 break;
 
-            // Add remaining cases similarly
-            // ...
+                case 251:
+                    addItemTempUse($user_class, 'raid_pass');
+                    $response['success'] = true;
+                    $response['message'] = "You have used your raid pass. The next raid you host will be successful.";
+                    break;
+                case 252:
+                    addItemTempUse($user_class, 'raid_booster');
+                    $response['success'] = true;
+                    $response['message'] = "You have used your raid booster. All payouts in your next raid will be boosted.";
+                    break;
+                case 163:
+                    $db->query("UPDATE grpgusers SET bustpill = bustpill + 60 WHERE id = ?");
+                    $db->execute(array($user_class->id));
+                    $response['success'] = true;
+                    $response['message'] = "You have added 60 Minutes to your Police Pass.";
+                    break;
+                case 253:
+                    $goldRushCredits = 10;
+                    if (isset($user_class->completeUserResearchTypesIndexedOnId[6])) {
+                        $goldRushCredits += 5;
+                    }
+                    if (isset($user_class->completeUserResearchTypesIndexedOnId[15])) {
+                        $goldRushCredits += 5;
+                    }
+                    $db->query("UPDATE user_ba_stats SET gold_rush_credits = gold_rush_credits + ? WHERE user_id = ?");
+                    $db->execute(array($goldRushCredits, $user_class->id));
+                    $response['success'] = true;
+                    $response['message'] = "Head to the Backalley now and start your Gold Rush!";
+                    break;
+                case 254:
+                    $tempItemUse = getItemTempUse($user_class->id);
+                    $now = time();
+                    if ($tempItemUse['crime_potion_time'] > $now) {
+                        $response['message'] = 'You already have a crime potion active.';
+                        echo json_encode($response);
+                        exit;
+                    }
+                    if ($tempItemUse['crime_booster_time'] > $now) {
+                        $response['message'] = 'You cannot stack a Crime Potion & Crime Booster.';
+                        echo json_encode($response);
+                        exit;
+                    }
+                    $newTime = $now + 3600;
+                    addItemTempUse($user_class, 'crime_potion_time', $newTime);
+                    $response['success'] = true;
+                    $response['message'] = "You drank the crime potion, for the next hour you will gain an extra 10% EXP from crimes!";
+                    break;
+                case 255:
+                    $tempItemUse = getItemTempUse($user_class->id);
+                    $now = time();
+                    if ($tempItemUse['crime_booster_time'] > $now) {
+                        $response['message'] = 'You already have a crime booster active.';
+                        echo json_encode($response);
+                        exit;
+                    }
+                    if ($tempItemUse['crime_potion_time'] > $now) {
+                        $response['message'] = 'You cannot stack a Crime Potion & Crime Booster.';
+                        echo json_encode($response);
+                        exit;
+                    }
+                    $newTime = $now + 3600;
+                    addItemTempUse($user_class, 'crime_booster_time', $newTime);
+                    $response['success'] = true;
+                    $response['message'] = "You used the crime booster, for the next hour you will gain an extra 20% EXP from crimes!";
+                    break;
+                case 256:
+                    $tempItemUse = getItemTempUse($user_class->id);
+                    $now = time();
+                    if ($tempItemUse['nerve_vial_time'] > $now) {
+                        $response['message'] = 'You already have a nerve vial active.';
+                        echo json_encode($response);
+                        exit;
+                    }
+                    $newTime = $now + 1800;
+                    addItemTempUse($user_class, 'nerve_vial_time', $newTime);
+                    $response['success'] = true;
+                    $response['message'] = "You drank the nerve vial, for the next 30 minutes you will have double nerve!";
+                    break;
+                case 257:
+                    if ($user_class->gang < 1) {
+                        $response['message'] = 'You are not in a gang.';
+                        echo json_encode($response);
+                        exit;
+                    }
+                    $db->query("SELECT * FROM grpgusers WHERE gang = ?");
+                    $db->execute(array($user_class->gang));
+                    $uRes = $db->fetch_row();
+                    foreach ($uRes as $ur) {
+                        $uClass = new User($ur['id']);
+                        addItemTempUse($uClass, 'gang_double_exp_hours', 4);
+                    }
+                    $response['success'] = true;
+                    $response['message'] = "You used your double EXP pill and your whole gang will enjoy 4 hours of double EXP!";
+                    break;
+                case 276:
+                    $db->query("SELECT * FROM `user_research_type` WHERE `user_id` = ? AND `duration_in_days` > 0 LIMIT 1");
+                    $db->execute(array($user_class->id));
+                    $activeUserResearchType = $db->fetch_row(true);
+                    if ($activeUserResearchType) {
+                        $db->query("UPDATE `user_research_type` SET `duration_in_days` = `duration_in_days` - 1 WHERE `duration_in_days` > 0 AND `user_id` = ?");
+                        $db->execute(array($user_class->id));
+                        $response['success'] = true;
+                        $response['message'] = "You used your research token and knocked 1 day off of your current research time!";
+                    } else {
+                        $response['message'] = "You do not have any active research at the moment.";
+                    }
+                    break;
+                case 258:
+                    $db->query("UPDATE grpgusers SET points = points + 400000 WHERE id = ?");
+                    $db->execute(array($user_class->id));
+                    Give_Item(10, $user_class->id, 5);
+                    Give_Item(255, $user_class->id, 5);
+                    Give_Item(256, $user_class->id, 2);
+                    $response['success'] = true;
+                    $response['message'] = "You opened your loot crate and found 400,000 points, 5 x Double EXPs, 5 x Crime Boosters, and 2 x Nerve Vials!";
+                    break;
+                case 277:
+                    addItemTempUse($user_class, 'mission_passes', 1);
+                    $response['success'] = true;
+                    $response['message'] = "You used your mission pass. Now you can reset any mission you have already completed today!";
+                    break;
+                case 279:
+                    $tempItemUse = getItemTempUse($user_class->id);
+                    $now = time();
+                    if ($tempItemUse['gym_protein_bar_time'] > $now) {
+                        $response['message'] = 'You already have a gym protein bar active.';
+                        echo json_encode($response);
+                        exit;
+                    }
+                    $newTime = $now + 900;
+                    addItemTempUse($user_class, 'gym_protein_bar_time', $newTime);
+                    $response['success'] = true;
+                    $response['message'] = "You ate the protein bar, for the next 15 minutes you will gain an extra 20% in the gym!";
+                    break;
+                case 281:
+                    $tempItemUse = getItemTempUse($user_class->id);
+                    $now = time();
+                    if ($tempItemUse['gym_super_pills_time'] > $now) {
+                        $response['message'] = 'You already have a gym super pill active.';
+                        echo json_encode($response);
+                        exit;
+                    }
+                    $newTime = $now + 900;
+                    addItemTempUse($user_class, 'gym_super_pills_time', $newTime);
+                    $response['success'] = true;
+                    $response['message'] = "You took your gym super pills, for the next 15 minutes you will have an extra 10% awake!";
+                    break;
+                case 282:
+                    $db->query("UPDATE grpgusers SET points = points + 400000 WHERE id = ?");
+                    $db->execute(array($user_class->id));
+                    Give_Item(279, $user_class->id, 5);
+                    Give_Item(281, $user_class->id, 5);
+                    Give_Item(278, $user_class->id, 1);
+                    $response['success'] = true;
+                    $response['message'] = "You opened your gym crate and found 400,000 points, 5 x Protein Bars, 5 x Gym Super Pills, and 1 x Sound System!";
+                    break;
+                case 283:
+                    Give_Item(253, $user_class->id, 10);
+                    $response['success'] = true;
+                    $response['message'] = "You opened your Gold Rush Token Chest and found 10 x Gold Rush Tokens!";
+                    break;
             
             default:
                 $response['message'] = "Item not recognized or cannot be used.";
