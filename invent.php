@@ -165,6 +165,7 @@ foreach ($items as $item) {
 // Equip and Unequip functions
 document.addEventListener('DOMContentLoaded', function () {
     loadEquippedItems();
+    
     // Attach event listeners to equip buttons
     var equipButtons = document.querySelectorAll('.equip-btn');
     equipButtons.forEach(function(button) {
@@ -175,8 +176,61 @@ document.addEventListener('DOMContentLoaded', function () {
             equipItem(itemId, type, loaned);
         });
     });
+
+    // Attach event listeners to unequip buttons after equipped items are loaded
+    document.querySelectorAll('.equipped-items').forEach(function(equippedItem) {
+        equippedItem.addEventListener('click', function(event) {
+            if (event.target.classList.contains('unequip-btn')) {
+                var itemType = event.target.getAttribute('data-type');
+                unequipItem(itemType);
+            }
+        });
+    });
 });
 
+// Function to unequip an item
+function unequipItem(itemType) {
+    var url = 'ajax_equip.php?unequip=' + itemType;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            var messageDiv = document.getElementById('message');
+            
+            if (response.success) {
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#4CAF50';
+                messageDiv.textContent = response.message;
+
+                // Update the equipped item slot with the new HTML (empty slot)
+                if (response.newItemHtml) {
+                    updateEquippedItem(itemType, response.newItemHtml);
+                }
+            } else {
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#f44336';
+                messageDiv.textContent = 'Error: ' + response.message;
+            }
+
+            // Hide message after 5 seconds
+            setTimeout(function () {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+    };
+    xhr.send();
+}
+
+// Function to update the equipped item slot with new HTML
+function updateEquippedItem(type, newItemHtml) {
+    var equippedItemContainer = document.querySelector('.equipped-item[data-type="' + type + '"]');
+    if (equippedItemContainer) {
+        equippedItemContainer.innerHTML = newItemHtml;
+    }
+}
+
+// Function to load equipped items on page load
 function loadEquippedItems() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', 'ajax_equip.php?action=load', true);
@@ -187,47 +241,26 @@ function loadEquippedItems() {
                 updateEquippedItem('weapon', response.equippedItems.weapon);
                 updateEquippedItem('armor', response.equippedItems.armor);
                 updateEquippedItem('shoes', response.equippedItems.shoes);
+
+                // After loading equipped items, attach event listeners to the unequip buttons
+                attachUnequipListeners();
             }
         }
     };
     xhr.send();
 }
 
-function equipItem(itemId, type, loaned = 0) {
-    var url = 'ajax_equip.php?eq=' + type + '&id=' + itemId + '&loaned=' + loaned;
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            var messageDiv = document.getElementById('message');
-            if (response.success) {
-                messageDiv.style.display = 'block';
-                messageDiv.style.backgroundColor = '#4CAF50';
-                messageDiv.textContent = response.message;
-                if (response.newItemHtml && response.slot) {
-                    updateEquippedItem(response.slot, response.newItemHtml);
-                }
-                updateEquipButtons(itemId, type);
-            } else {
-                messageDiv.style.display = 'block';
-                messageDiv.style.backgroundColor = '#f44336';
-                messageDiv.textContent = 'Error: ' + response.message;
-            }
-            setTimeout(function () {
-                messageDiv.style.display = 'none';
-            }, 5000);
-        }
-    };
-    xhr.send();
+// Attach unequip event listeners after items are loaded
+function attachUnequipListeners() {
+    document.querySelectorAll('.unequip-btn').forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            var itemType = this.getAttribute('data-type');
+            unequipItem(itemType);
+        });
+    });
 }
 
-function updateEquippedItem(type, newItemHtml) {
-    var equippedItemContainer = document.querySelector('.equipped-item[data-type="' + type + '"]');
-    if (equippedItemContainer) {
-        equippedItemContainer.innerHTML = newItemHtml;
-    }
-}
 
 // Drop and Send Modals
 var dropModal = document.getElementById("dropModal");
