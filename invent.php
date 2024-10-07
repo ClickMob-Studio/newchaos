@@ -464,10 +464,6 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
     flex-direction: column;
     align-items: center;
     text-align: center;
-}
-
-/* For larger screens (default), display 3 items per row */
-.inventory-item {
     width: calc(33.333% - 20px); /* 3 items per row */
 }
 
@@ -548,8 +544,7 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
         margin-bottom: 10px; /* Add spacing at the bottom between rows */
     }
 
-    /* Ensure equipped items and inventory items fit well on mobile */
-    .equipped-items, .inventory-items {
+    .inventory-items {
         gap: 10px;
     }
 }
