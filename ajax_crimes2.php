@@ -468,9 +468,9 @@ if (isset($_POST['id']) || isset($input['id'])) {
             // UserCompLeaderboard
             $maxnervePercCheck = $mission_nerve / $user_class->maxnerve * 100;
             if ($maxnervePercCheck >= 50) {
-                //addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
+                addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
             }
-            addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
+            //addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
 
             $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
             $db->execute();
