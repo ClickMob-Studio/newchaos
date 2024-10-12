@@ -93,7 +93,9 @@ if (isset($_GET['use'])) {
             break;
 
             case 196:
-                $db->query("UPDATE grpgusers SET nightvision = nightvision + 15 WHERE id = ?");
+                $db->query("UPDATE grpgusers 
+                SET nightvision = IF(nightvision > unix_timestamp(), nightvision + 900, unix_timestamp() + 900) 
+                WHERE id = ?");
                 $db->execute(array($user_class->id));
                 $response['success'] = true;
                 $response['message'] = "You have added 15 minutes to your Night Vision!";

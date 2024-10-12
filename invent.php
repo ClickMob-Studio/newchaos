@@ -45,6 +45,7 @@ $items = getInventoryItems();
 $restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256);
 $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
 $restrictedUseItems = array(69, 155, 195, 156, 157, 194, 158, 159, 165, 167);
+$multiUseItems = array(251, 10, 163, 256);  // Items allowing multiple uses
 $groupedItems = array();
 foreach ($items as $item) {
     $itemType = categorizeItem($item);
@@ -84,13 +85,17 @@ foreach ($items as $item) {
                                 <p>Quantity: <span class="item-quantity"><?= (int)$item['quantity']; ?></span></p>
 
                                 <?php
-								$equipItems = array(68,69,229, 230,231,250,252, 255, 264);
+                                $equipItems = array(68,69,229, 230,231,250,252, 255, 264);
                                 // Equip button logic for items like weapons, armor, or shoes
                                 if (in_array($type, ['weapon', 'armor', 'shoes']) || in_array($item['id'], $equipItems)) {
                                     $loanStatus = isset($item['loanid']) && $item['loanid'] > 0 ? 1 : 0;
                                     echo '<button class="equip-btn" data-item-id="' . $item['id'] . '" data-type="' . $type . '" data-loaned="' . $loanStatus . '">Equip</button>';
                                 } elseif ($type == 'consumable' || $type == "rare" && !in_array($item['id'], $restrictedUseItems)) {
-                                    echo '<button class="use-btn" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Use</button>';
+                                    if (in_array($item['id'], $multiUseItems)) {
+                                        echo '<button class="use-btn-multi" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($item['name']) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
+                                    } else {
+                                        echo '<button class="use-btn" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Use</button>';
+                                    }
                                 }
                                 if ($item['id'] == 194) {
                                     echo ' <a class="button-sm" href="raids.php">Use Speedup</a> ';
@@ -152,6 +157,23 @@ foreach ($items as $item) {
             <input type="number" id="quantity" name="quantity" min="1" value="1">
             
             <button type="submit" class="send-confirm-btn">Send Item</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal for Using Multiple Items -->
+<div id="useMultiModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Use Multiple Items</h2>
+        <form id="useMultiForm">
+            <p>Using <strong id="use-item-name"></strong></p>
+            <input type="hidden" name="item_id" id="use-item-id">
+            
+            <label for="use-quantity">Quantity to use:</label>
+            <input type="number" id="use-quantity" name="quantity" min="1" value="1">
+            
+            <button type="submit" class="use-confirm-btn">Use Items</button>
         </form>
     </div>
 </div>
@@ -225,6 +247,16 @@ function attachUseListeners() {
         button.addEventListener('click', function () {
             var itemId = this.getAttribute('data-item-id');
             useItem(itemId);
+        });
+    });
+
+    var useMultiButtons = document.querySelectorAll('.use-btn-multi');
+    useMultiButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var itemId = this.getAttribute('data-item-id');
+            var itemName = this.getAttribute('data-item-name');
+            var itemQuantity = this.getAttribute('data-item-quantity');
+            openUseMultiModal(itemId, itemName, itemQuantity);
         });
     });
 }
@@ -339,6 +371,35 @@ function useItem(itemId) {
     };
     xhr.send();
 }
+
+// Function to open the Use Multiple Items modal
+function openUseMultiModal(itemId, itemName, itemQuantity) {
+    var useModal = document.getElementById("useMultiModal");
+    document.getElementById('use-item-id').value = itemId;
+    document.getElementById('use-item-name').textContent = itemName;
+    document.getElementById('use-quantity').max = itemQuantity;
+    useModal.style.display = "block";
+}
+
+// Function to handle using multiple items
+document.getElementById("useMultiForm").addEventListener('submit', function (event) {
+    event.preventDefault();
+    var formData = new FormData(this);
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "ajax_use_multi_item.php", true); // Update with the appropriate use item script
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var messageDiv = document.getElementById('message');
+            messageDiv.textContent = xhr.responseText;
+            messageDiv.style.display = 'block';
+            document.getElementById("useMultiModal").style.display = "none";
+            setTimeout(function () {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+    };
+    xhr.send(formData);
+});
 
 // Function to update the equipped item slot with new HTML
 function updateEquippedItem(type, newItemHtml) {
@@ -721,6 +782,4 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
 .button-sm:hover {
     background-color: #FF8C00;
 }
-
-
 </style>
