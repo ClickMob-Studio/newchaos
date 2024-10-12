@@ -84,11 +84,13 @@ if (isset($_GET['use'])) {
                 break;
 
             case 10:
-                $db->query("UPDATE grpgusers SET exppill = unix_timestamp() + 3600 WHERE id = ?");
-                $db->execute(array($user_class->id));
-                $response['success'] = true;
-                $response['message'] = "You will receive double exp on crimes for 1 hour.";
-                break;
+                $db->query("UPDATE grpgusers 
+            SET exppill = IF(exppill > unix_timestamp(), exppill + 3600, unix_timestamp() + 3600) 
+            WHERE id = ?");
+            $db->execute(array($user_class->id));
+            $response['success'] = true;
+            $response['message'] = "You will receive double exp on crimes for 1 hour.";
+            break;
 
             case 196:
                 $db->query("UPDATE grpgusers SET nightvision = nightvision + 15 WHERE id = ?");
