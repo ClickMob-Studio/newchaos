@@ -373,6 +373,7 @@ function useItem(itemId) {
     xhr.send();
 }
 
+
 // Function to open the Use Multiple Items modal
 function openUseMultiModal(itemId, itemName, itemQuantity) {
     var useModal = document.getElementById("useMultiModal");
@@ -382,6 +383,25 @@ function openUseMultiModal(itemId, itemName, itemQuantity) {
     document.getElementById('use-quantity').value = 1;              // Default quantity value
     useModal.style.display = "block";                               // Display the modal
 }
+
+// Attach the modal close button functionality
+document.querySelectorAll('.close').forEach(function(closeButton) {
+    closeButton.onclick = function () {
+        var modals = document.querySelectorAll('.modal'); // Close all modals that are open
+        modals.forEach(function(modal) {
+            modal.style.display = "none";  // Hide the modal
+        });
+    };
+});
+
+// Close modal if clicking outside of the modal content
+window.onclick = function (event) {
+    var useModal = document.getElementById("useMultiModal");
+    if (event.target == useModal) {
+        useModal.style.display = "none";  // Hide modal when user clicks outside of it
+    }
+};
+
 
 // Function to handle using multiple items
 document.getElementById("useMultiForm").addEventListener('submit', function (event) {
