@@ -84,7 +84,7 @@ foreach ($items as $item) {
                                 <p>Quantity: <span class="item-quantity"><?= (int)$item['quantity']; ?></span></p>
 
                                 <?php
-								$equipItems = array(68,69,229, 230,231,250,252, 255, 264)
+								$equipItems = array(68,69,229, 230,231,250,252, 255, 264);
                                 // Equip button logic for items like weapons, armor, or shoes
                                 if (in_array($type, ['weapon', 'armor', 'shoes']) || in_array($item['id'], $equipItems)) {
                                     $loanStatus = isset($item['loanid']) && $item['loanid'] > 0 ? 1 : 0;

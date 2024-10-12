@@ -38,7 +38,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'load') {
 }
 
 // Handle equipping item with ID 69 and manage inventory updates
-if (isset($_GET['id']) && $_GET['id'] == 69) {
+$equipItems = array(68,69,229, 230,231,250,252, 255, 264);
+if (isset($_GET['id']) && in_array($_GET['id'], $equipItems)) {
     $db->query("SELECT itemname, `image`, quantity FROM inventory inv JOIN items i ON inv.itemid = i.id WHERE inv.userid = ? AND inv.itemid = 69");
     $db->execute(array($user_class->id));
     $items = $db->fetch_row();
