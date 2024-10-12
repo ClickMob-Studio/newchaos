@@ -164,16 +164,14 @@ foreach ($items as $item) {
 <!-- Modal for Using Multiple Items -->
 <div id="useMultiModal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>  <!-- Close button -->
+        <span class="close">&times;</span>
         <h2>Use Multiple Items</h2>
         <form id="useMultiForm">
-            <input type="hidden" name="item_id" id="use-item-id"> <!-- Hidden input for item ID -->
-            <p>Using <strong id="use-item-name"></strong></p>  <!-- Display item name -->
-            
+            <input type="hidden" name="item_id" id="use-item-id">
+            <p>Using <strong id="use-item-name"></strong></p>
             <label for="use-quantity">Quantity to use:</label>
-            <input type="number" id="use-quantity" name="quantity" min="1" value="1">  <!-- Quantity input -->
-            
-            <button type="submit" class="use-confirm-btn">Use Item(s)</button>  <!-- Submit button -->
+            <input type="number" id="use-quantity" name="quantity" min="1" value="1">
+            <button type="submit" class="use-confirm-btn">Use Item(s)</button>
         </form>
     </div>
 </div>
@@ -242,24 +240,19 @@ function attachUnequipListeners() {
 }
 
 // Attach event listeners to use buttons
+// Function to attach event listeners to use buttons
 function attachUseListeners() {
     var useButtons = document.querySelectorAll('.use-btn');
     useButtons.forEach(function (button) {
         button.addEventListener('click', function () {
             var itemId = this.getAttribute('data-item-id');
-            useItem(itemId);
-        });
-    });
-
-    var useMultiButtons = document.querySelectorAll('.use-btn-multi');
-    useMultiButtons.forEach(function (button) {
-        button.addEventListener('click', function () {
-            var itemId = this.getAttribute('data-item-id');
             var itemName = this.getAttribute('data-item-name');
-            var itemQuantity = this.getAttribute('data-item-quantity');
+            var itemQuantity = this.closest('.inventory-item').getAttribute('data-quantity');
             openUseMultiModal(itemId, itemName, itemQuantity);
         });
     });
+}
+;
 }
 
 // Function to handle equipping an item
@@ -373,32 +366,41 @@ function useItem(itemId) {
     xhr.send();
 }
 
-// Function to open the Use Multiple Items modal for item 251
 function openUseMultiModal(itemId, itemName, itemQuantity) {
     var useModal = document.getElementById("useMultiModal");
     document.getElementById('use-item-id').value = itemId;
     document.getElementById('use-item-name').textContent = itemName;
-    document.getElementById('use-quantity').max = itemQuantity; // Set maximum quantity user can use
+    document.getElementById('use-quantity').max = itemQuantity;
     useModal.style.display = "block";
 }
 
-// Attach the event listener for the form submission
+
+// Function to handle using multiple items
 document.getElementById("useMultiForm").addEventListener('submit', function (event) {
     event.preventDefault();
     var formData = new FormData(this);
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "ajax_use_multi_item.php", true); // Link to your new handler script
+    xhr.open("POST", "ajax_use_multi_item.php", true);
     xhr.onload = function () {
         if (xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText); // Parse the response from the server
+            var response = JSON.parse(xhr.responseText);
             var messageDiv = document.getElementById('message');
             messageDiv.textContent = response.message;
             messageDiv.style.display = 'block';
-            document.getElementById("useMultiModal").style.display = "none"; // Close modal on success
+            document.getElementById("useMultiModal").style.display = "none";
+
+            if (response.success) {
+                var itemElement = document.querySelector('.inventory-item[data-item-id="' + formData.get('item_id') + '"]');
+                var newQuantity = itemElement.getAttribute('data-quantity') - formData.get('quantity');
+                itemElement.setAttribute('data-quantity', newQuantity);
+                itemElement.querySelector('.item-quantity').textContent = newQuantity;
+            }
 
             setTimeout(function () {
-                messageDiv.style.display = 'none'; // Hide the message after 5 seconds
+                messageDiv.style.display = 'none';
             }, 5000);
+
+            messageDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     };
     xhr.send(formData);
