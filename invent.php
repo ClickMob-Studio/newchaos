@@ -164,19 +164,20 @@ foreach ($items as $item) {
 <!-- Modal for Using Multiple Items -->
 <div id="useMultiModal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close">&times;</span>  <!-- Close button -->
         <h2>Use Multiple Items</h2>
         <form id="useMultiForm">
-            <p>Using <strong id="use-item-name"></strong></p>
-            <input type="hidden" name="item_id" id="use-item-id">
+            <input type="hidden" name="item_id" id="use-item-id"> <!-- Hidden input for item ID -->
+            <p>Using <strong id="use-item-name"></strong></p>  <!-- Display item name -->
             
             <label for="use-quantity">Quantity to use:</label>
-            <input type="number" id="use-quantity" name="quantity" min="1" value="1">
+            <input type="number" id="use-quantity" name="quantity" min="1" value="1">  <!-- Quantity input -->
             
-            <button type="submit" class="use-confirm-btn">Use Items</button>
+            <button type="submit" class="use-confirm-btn">Use Item(s)</button>  <!-- Submit button -->
         </form>
     </div>
 </div>
+
 
 <?php include 'footer.php'; ?>
 
@@ -375,31 +376,38 @@ function useItem(itemId) {
 // Function to open the Use Multiple Items modal
 function openUseMultiModal(itemId, itemName, itemQuantity) {
     var useModal = document.getElementById("useMultiModal");
-    document.getElementById('use-item-id').value = itemId;
-    document.getElementById('use-item-name').textContent = itemName;
-    document.getElementById('use-quantity').max = itemQuantity;
-    useModal.style.display = "block";
+    document.getElementById('use-item-id').value = itemId;         // Set item ID in hidden input
+    document.getElementById('use-item-name').textContent = itemName; // Set item name in modal
+    document.getElementById('use-quantity').max = itemQuantity;     // Set the max quantity allowed for use
+    document.getElementById('use-quantity').value = 1;              // Default quantity value
+    useModal.style.display = "block";                               // Display the modal
 }
 
 // Function to handle using multiple items
 document.getElementById("useMultiForm").addEventListener('submit', function (event) {
-    event.preventDefault();
-    var formData = new FormData(this);
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "ajax_use_multi_item.php", true); // Update with the appropriate use item script
+    event.preventDefault();                                         // Prevent the form from submitting normally
+    var formData = new FormData(this);                              // Create form data object
+    var xhr = new XMLHttpRequest();                                 // Create new AJAX request
+    xhr.open("POST", "ajax_use_multi_item.php", true);              // Update with the appropriate use item script
     xhr.onload = function () {
-        if (xhr.status === 200) {
-            var messageDiv = document.getElementById('message');
-            messageDiv.textContent = xhr.responseText;
-            messageDiv.style.display = 'block';
-            document.getElementById("useMultiModal").style.display = "none";
+        if (xhr.status === 200) {                                   // If the request was successful
+            var messageDiv = document.getElementById('message');     // Get message div for displaying feedback
+            messageDiv.textContent = xhr.responseText;               // Show server response message
+            messageDiv.style.display = 'block';                     // Display the message div
+            document.getElementById("useMultiModal").style.display = "none"; // Hide the modal
+
+            // Scroll to message div for better user feedback visibility
+            messageDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Hide the message after 5 seconds
             setTimeout(function () {
                 messageDiv.style.display = 'none';
             }, 5000);
         }
     };
-    xhr.send(formData);
+    xhr.send(formData);                                              // Send the form data via AJAX
 });
+
 
 // Function to update the equipped item slot with new HTML
 function updateEquippedItem(type, newItemHtml) {
