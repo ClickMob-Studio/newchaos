@@ -373,60 +373,37 @@ function useItem(itemId) {
     xhr.send();
 }
 
-
-// Function to open the Use Multiple Items modal
+// Function to open the Use Multiple Items modal for item 251
 function openUseMultiModal(itemId, itemName, itemQuantity) {
     var useModal = document.getElementById("useMultiModal");
-    document.getElementById('use-item-id').value = itemId;         // Set item ID in hidden input
-    document.getElementById('use-item-name').textContent = itemName; // Set item name in modal
-    document.getElementById('use-quantity').max = itemQuantity;     // Set the max quantity allowed for use
-    document.getElementById('use-quantity').value = 1;              // Default quantity value
-    useModal.style.display = "block";                               // Display the modal
+    document.getElementById('use-item-id').value = itemId;
+    document.getElementById('use-item-name').textContent = itemName;
+    document.getElementById('use-quantity').max = itemQuantity; // Set maximum quantity user can use
+    useModal.style.display = "block";
 }
 
-// Attach the modal close button functionality
-document.querySelectorAll('.close').forEach(function(closeButton) {
-    closeButton.onclick = function () {
-        var modals = document.querySelectorAll('.modal'); // Close all modals that are open
-        modals.forEach(function(modal) {
-            modal.style.display = "none";  // Hide the modal
-        });
-    };
-});
-
-// Close modal if clicking outside of the modal content
-window.onclick = function (event) {
-    var useModal = document.getElementById("useMultiModal");
-    if (event.target == useModal) {
-        useModal.style.display = "none";  // Hide modal when user clicks outside of it
-    }
-};
-
-
-// Function to handle using multiple items
+// Attach the event listener for the form submission
 document.getElementById("useMultiForm").addEventListener('submit', function (event) {
-    event.preventDefault();                                         // Prevent the form from submitting normally
-    var formData = new FormData(this);                              // Create form data object
-    var xhr = new XMLHttpRequest();                                 // Create new AJAX request
-    xhr.open("POST", "ajax_use_multi_item.php", true);              // Update with the appropriate use item script
+    event.preventDefault();
+    var formData = new FormData(this);
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "ajax_use_multi_item.php", true); // Link to your new handler script
     xhr.onload = function () {
-        if (xhr.status === 200) {                                   // If the request was successful
-            var messageDiv = document.getElementById('message');     // Get message div for displaying feedback
-            messageDiv.textContent = xhr.responseText;               // Show server response message
-            messageDiv.style.display = 'block';                     // Display the message div
-            document.getElementById("useMultiModal").style.display = "none"; // Hide the modal
+        if (xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText); // Parse the response from the server
+            var messageDiv = document.getElementById('message');
+            messageDiv.textContent = response.message;
+            messageDiv.style.display = 'block';
+            document.getElementById("useMultiModal").style.display = "none"; // Close modal on success
 
-            // Scroll to message div for better user feedback visibility
-            messageDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-            // Hide the message after 5 seconds
             setTimeout(function () {
-                messageDiv.style.display = 'none';
+                messageDiv.style.display = 'none'; // Hide the message after 5 seconds
             }, 5000);
         }
     };
-    xhr.send(formData);                                              // Send the form data via AJAX
+    xhr.send(formData);
 });
+
 
 
 // Function to update the equipped item slot with new HTML
