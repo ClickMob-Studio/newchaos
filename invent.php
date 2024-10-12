@@ -253,7 +253,6 @@ function attachUseListeners() {
     });
 }
 ;
-}
 
 // Function to handle equipping an item
 function equipItem(itemId, type, loaned = 0) {
