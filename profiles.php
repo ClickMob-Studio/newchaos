@@ -19,7 +19,7 @@ $profile_class = new User($_GET['id']);
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
 
 if ($user_class->admin > 0) {
-    $halloweenUserList = getHalloweenUserList($userId);
+    $halloweenUserList = getHalloweenUserList($user_class->id);
 }
 ?>
 <div class='box_top'><?php echo $profile_class->formattedname;?>'s Profile</div>
