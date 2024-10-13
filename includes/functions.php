@@ -2726,3 +2726,27 @@ function addToUserOperations($user_class, $field, $qty = 1)
 
     }
 }
+
+function getHalloweenUserList($userId)
+{
+    global $db;
+
+    $now = new \DateTime();
+
+    $db->query("SELECT * FROM halloween_user_list WHERE user_id = " . $userId . " AND month_year = '" . $now->format('m-Y') . "' LIMIT 1");
+    $db->execute();
+
+    $r = $db->fetch_row(true);
+
+    if (isset($r['id'])) {
+        return $r;
+    } else {
+        $db->query("INSERT INTO halloween_user_list (user_id, month_year) VALUES (" . $userId . ", " . $now->format('m-Y') . ")");
+        $db->execute();
+        $r = getBpCategoryUser($userId);
+
+        return $r;
+    }
+
+    return $db->fetch_row(true);
+}
