@@ -2738,15 +2738,15 @@ function getHalloweenUserList($userId)
 
     $r = $db->fetch_row(true);
 
-    if (isset($r['id'])) {
-        return $r;
-    } else {
-        $db->query("INSERT INTO halloween_user_list (user_id, month_year) VALUES (" . $userId . ", " . $now->format('m-Y') . ")");
-        $db->execute();
-        $r = getHalloweenUserList($userId);
-
-        return $r;
-    }
+//    if (isset($r['id'])) {
+//        return $r;
+//    } else {
+//        $db->query("INSERT INTO halloween_user_list (user_id, month_year) VALUES (" . $userId . ", " . $now->format('m-Y') . ")");
+//        $db->execute();
+//        $r = getHalloweenUserList($userId);
+//
+//        return $r;
+//    }
 
     return $db->fetch_row(true);
 }
