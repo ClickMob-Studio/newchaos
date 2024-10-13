@@ -2743,7 +2743,7 @@ function getHalloweenUserList($userId)
     } else {
         $db->query("INSERT INTO halloween_user_list (user_id, month_year) VALUES (" . $userId . ", " . $now->format('m-Y') . ")");
         $db->execute();
-        $r = getBpCategoryUser($userId);
+        $r = getHalloweenUserList($userId);
 
         return $r;
     }
