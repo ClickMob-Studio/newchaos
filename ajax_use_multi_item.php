@@ -26,7 +26,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['item_id']) && isset($_
                 $response['success'] = true;
                 $response['message'] = "You will receive double exp on crimes for $hoursAdded hour(s).";
                 break;
-            
+                case 253:  // Gold Rush Credits
+                    // Base credits per use
+                    $goldRushCredits = 10 * $quantity;  // 10 credits per item used, multiplied by quantity
+                    
+                    // Additional credits for specific research completed
+                    if (isset($user_class->completeUserResearchTypesIndexedOnId[6])) {
+                        $goldRushCredits += 5 * $quantity;  // +5 credits per item used if research type 6 is complete
+                    }
+                    if (isset($user_class->completeUserResearchTypesIndexedOnId[15])) {
+                        $goldRushCredits += 5 * $quantity;  // +5 credits per item used if research type 15 is complete
+                    }
+                
+                    // Update the user's gold rush credits in the database
+                    $db->query("UPDATE user_ba_stats SET gold_rush_credits = gold_rush_credits + ? WHERE user_id = ?");
+                    $db->execute(array($goldRushCredits, $user_class->id));
+                
+                    // Set success message
+                    $response['success'] = true;
+                    $response['message'] = "You have gained $goldRushCredits Gold Rush Credits. Head to the Backalley now and start your Gold Rush!";
+                    break;
+                
             case 251:
                 addItemTempUse($user_class, 'raid_pass');
 
