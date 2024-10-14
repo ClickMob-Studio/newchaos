@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['item_id']) && isset($_
                             SET exppill = IF(exppill > unix_timestamp(), exppill + ?, unix_timestamp() + ?) 
                             WHERE id = ?");
                 $db->execute(array($timeToAdd, $timeToAdd, $user_class->id));
-            
+                Take_Item($item_id, $user_class->id, $quantity);
                 // Set success message indicating how many hours of double EXP have been added
                 $hoursAdded = $quantity;  // Since each item adds 1 hour, $quantity equals hours added
                 $response['success'] = true;
