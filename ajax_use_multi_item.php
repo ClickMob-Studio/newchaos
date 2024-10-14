@@ -79,19 +79,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['item_id']) && isset($_
                
                 $message = "You opened $quantity mystery box(es) and found:";
                 if ($total_points > 0) {
-                    $message .= " <span style='color:green;font-weight:bold;'>$total_points</span> Points,";
+                    $message .= " <span style='color:red;font-weight:bold;'>$total_points</span> Points,";
                 }
                 if ($total_raidtokens > 0) {
-                    $message .= " <span style='color:green;font-weight:bold;'>$total_raidtokens</span> Raid Tokens,";
+                    $message .= " <span style='color:red;font-weight:bold;'>$total_raidtokens</span> Raid Tokens,";
                 }
                 if ($total_cash > 0) {
-                    $message .= " $<span style='color:green;font-weight:bold;'>$total_cash</span>,";
+                    $message .= " $<span style='color:red;font-weight:bold;'>$total_cash</span>,";
                 }
                 if ($raid_boosters > 0) {
-                    $message .= " <span style='color:green;font-weight:bold;'>$raid_boosters</span> Raid Booster(s),";
+                    $message .= " <span style='color:red;font-weight:bold;'>$raid_boosters</span> Raid Booster(s),";
                 }
                 if ($police_badges > 0) {
-                    $message .= " <span style='color:green;font-weight:bold;'>$police_badges</span> Police Badge(s),";
+                    $message .= " <span style='color:red;font-weight:bold;'>$police_badges</span> Police Badge(s),";
                 }
                 $response['message'] = rtrim($message, ',');
                 $response['success'] = true;

@@ -402,7 +402,6 @@ window.onclick = function (event) {
     }
 };
 
-
 document.getElementById("useMultiForm").addEventListener('submit', function (event) {
     event.preventDefault();
     var formData = new FormData(this);
@@ -411,24 +410,33 @@ document.getElementById("useMultiForm").addEventListener('submit', function (eve
     xhr.onload = function () {
         if (xhr.status === 200) {
             try {
-                var response = JSON.parse(xhr.responseText);
+                var response = JSON.parse(xhr.responseText); 
 
                 var messageDiv = document.getElementById('message');
-                messageDiv.innerHTML = response.message; 
-
-                messageDiv.style.display = 'block';
-                document.getElementById("useMultiModal").style.display = "none";
-
+                messageDiv.innerHTML = response.message;
                 if (response.success) {
+                    messageDiv.style.backgroundColor = '#4CAF50'; 
                     var itemElement = document.querySelector('.inventory-item[data-item-id="' + formData.get('item_id') + '"]');
                     var newQuantity = itemElement.getAttribute('data-quantity') - formData.get('quantity');
                     itemElement.setAttribute('data-quantity', newQuantity);
                     itemElement.querySelector('.item-quantity').textContent = newQuantity;
+
+                  
+                    if (newQuantity <= 0) {
+                        itemElement.remove();
+                    }
+
+                    // Hide the modal after successful use
+                    document.getElementById("useMultiModal").style.display = "none";
+                } else {
+                    // Show error message if success = false
+                    messageDiv.style.backgroundColor = '#f44336'; // Red for failure
                 }
 
                 // Scroll to the message div
                 messageDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
+        
                 setTimeout(function () {
                     messageDiv.style.display = 'none';
                 }, 5000);
@@ -440,6 +448,7 @@ document.getElementById("useMultiForm").addEventListener('submit', function (eve
     };
     xhr.send(formData);
 });
+
 
 
 // Function to update the equipped item slot with new HTML
