@@ -241,7 +241,6 @@ function attachUnequipListeners() {
     });
 }
 
-// Attach event listeners to use buttons
 function attachUseListeners() {
     var useButtons = document.querySelectorAll('.use-btn');
     useButtons.forEach(function (button) {
@@ -251,7 +250,7 @@ function attachUseListeners() {
         });
     });
 
-    var useMultiButtons = document.querySelectorAll('.use-btn-multi');
+	var useMultiButtons = document.querySelectorAll('.use-btn-multi');
     useMultiButtons.forEach(function (button) {
         button.addEventListener('click', function () {
             var itemId = this.getAttribute('data-item-id');
@@ -374,7 +373,6 @@ function useItem(itemId) {
 }
 
 
-// Function to open the Use Multiple Items modal
 function openUseMultiModal(itemId, itemName, itemQuantity) {
     var useModal = document.getElementById("useMultiModal");
     document.getElementById('use-item-id').value = itemId;         // Set item ID in hidden input
@@ -402,44 +400,47 @@ window.onclick = function (event) {
     }
 };
 
+// Function to handle using multiple items
 document.getElementById("useMultiForm").addEventListener('submit', function (event) {
     event.preventDefault();
     var formData = new FormData(this);
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "ajax_use_multi_item.php", true); 
+    xhr.open("POST", "ajax_use_multi_item.php", true);
     xhr.onload = function () {
         if (xhr.status === 200) {
             try {
-                var response = JSON.parse(xhr.responseText); 
+                var response = JSON.parse(xhr.responseText); // Parse JSON response
 
                 var messageDiv = document.getElementById('message');
-                messageDiv.innerHTML = response.message;
+                messageDiv.innerHTML = response.message; // Show message content
+
                 if (response.success) {
-                    messageDiv.style.backgroundColor = '#4CAF50'; 
+                    messageDiv.style.backgroundColor = '#4CAF50'; // Green for success
                     var itemElement = document.querySelector('.inventory-item[data-item-id="' + formData.get('item_id') + '"]');
-                    var newQuantity = itemElement.getAttribute('data-quantity') - formData.get('quantity');
-                    itemElement.setAttribute('data-quantity', newQuantity);
+                    var newQuantity = itemElement.getAttribute('data-item-quantity') - formData.get('quantity');
+                    itemElement.setAttribute('data-item-quantity', newQuantity);
                     itemElement.querySelector('.item-quantity').textContent = newQuantity;
 
-                  
+                    // Remove item if the quantity reaches zero
                     if (newQuantity <= 0) {
                         itemElement.remove();
                     }
 
-                    // Hide the modal after successful use
+                    // Hide modal on successful item use
                     document.getElementById("useMultiModal").style.display = "none";
                 } else {
-                    // Show error message if success = false
                     messageDiv.style.backgroundColor = '#f44336'; // Red for failure
                 }
 
-                // Scroll to the message div
+                // Scroll to the message box
+                messageDiv.style.display = 'block';
                 messageDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-        
+                // Hide the message after 5 seconds
                 setTimeout(function () {
                     messageDiv.style.display = 'none';
                 }, 5000);
+
             } catch (e) {
                 console.error('Error parsing JSON response:', e);
                 console.error('Response text:', xhr.responseText);
@@ -448,6 +449,7 @@ document.getElementById("useMultiForm").addEventListener('submit', function (eve
     };
     xhr.send(formData);
 });
+
 
 
 
