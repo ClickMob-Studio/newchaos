@@ -11,6 +11,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['item_id']) && isset($_
 
     if ($howmany && $howmany >= $quantity) {
         switch ($item_id) {
+            case 10:  // Double EXP Item case
+                $db->query("UPDATE grpgusers 
+                    SET exppill = IF(exppill > unix_timestamp(), exppill + 3600, unix_timestamp() + 3600) 
+                    WHERE id = ?");
+                $db->execute(array($user_class->id));
+                $response['success'] = true;
+                $response['message'] = "You will receive double exp on crimes for 1 hour.";
+                break;
             case 251:
                 addItemTempUse($user_class, 'raid_pass');
 
