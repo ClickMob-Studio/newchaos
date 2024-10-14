@@ -417,9 +417,19 @@ document.getElementById("useMultiForm").addEventListener('submit', function (eve
                 if (response.success) {
                     messageDiv.style.backgroundColor = '#4CAF50'; // Green for success
                     var itemElement = document.querySelector('.inventory-item[data-item-id="' + formData.get('item_id') + '"]');
-                    var newQuantity = itemElement.getAttribute('data-item-quantity') - formData.get('quantity');
-                    itemElement.setAttribute('data-item-quantity', newQuantity);
-                    itemElement.querySelector('.item-quantity').textContent = newQuantity;
+
+if (itemElement) {
+    var newQuantity = itemElement.getAttribute('data-item-quantity') - formData.get('quantity');
+    itemElement.setAttribute('data-item-quantity', newQuantity);
+    itemElement.querySelector('.item-quantity').textContent = newQuantity;
+
+    if (newQuantity <= 0) {
+        itemElement.remove();
+    }
+} else {
+    console.error('Item not found in the DOM.');
+}
+
 
                     // Remove item if the quantity reaches zero
                     if (newQuantity <= 0) {
