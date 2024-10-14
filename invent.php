@@ -403,30 +403,42 @@ window.onclick = function (event) {
 };
 
 
-// Function to handle using multiple items
 document.getElementById("useMultiForm").addEventListener('submit', function (event) {
-    event.preventDefault();                                         // Prevent the form from submitting normally
-    var formData = new FormData(this);                              // Create form data object
-    var xhr = new XMLHttpRequest();                                 // Create new AJAX request
-    xhr.open("POST", "ajax_use_multi_item.php", true);              // Update with the appropriate use item script
+    event.preventDefault();
+    var formData = new FormData(this);
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "ajax_use_multi_item.php", true); 
     xhr.onload = function () {
-        if (xhr.status === 200) {                        
-			var response = JSON.parse(xhr.responseText);           // If the request was successful
-            var messageDiv = document.getElementById('message');     // Get message div for displaying feedback
-            messageDiv.textContent = xhr.response.message;               // Show server response message
-            messageDiv.style.display = 'block';                     // Display the message div
-            document.getElementById("useMultiModal").style.display = "none"; // Hide the modal
+        if (xhr.status === 200) {
+            try {
+                var response = JSON.parse(xhr.responseText);
 
-            // Scroll to message div for better user feedback visibility
-            messageDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                var messageDiv = document.getElementById('message');
+                messageDiv.innerHTML = response.message; 
 
-            // Hide the message after 5 seconds
-            setTimeout(function () {
-                messageDiv.style.display = 'none';
-            }, 5000);
+                messageDiv.style.display = 'block';
+                document.getElementById("useMultiModal").style.display = "none";
+
+                if (response.success) {
+                    var itemElement = document.querySelector('.inventory-item[data-item-id="' + formData.get('item_id') + '"]');
+                    var newQuantity = itemElement.getAttribute('data-quantity') - formData.get('quantity');
+                    itemElement.setAttribute('data-quantity', newQuantity);
+                    itemElement.querySelector('.item-quantity').textContent = newQuantity;
+                }
+
+                // Scroll to the message div
+                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                setTimeout(function () {
+                    messageDiv.style.display = 'none';
+                }, 5000);
+            } catch (e) {
+                console.error('Error parsing JSON response:', e);
+                console.error('Response text:', xhr.responseText);
+            }
         }
     };
-    xhr.send(formData);                                              // Send the form data via AJAX
+    xhr.send(formData);
 });
 
 
