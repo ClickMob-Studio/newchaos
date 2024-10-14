@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['item_id']) && isset($_
                     // Update the user's gold rush credits in the database
                     $db->query("UPDATE user_ba_stats SET gold_rush_credits = gold_rush_credits + ? WHERE user_id = ?");
                     $db->execute(array($goldRushCredits, $user_class->id));
-                
+                    Take_Item($item_id, $user_class->id, $quantity);
                     // Set success message
                     $response['success'] = true;
                     $response['message'] = "You have gained $goldRushCredits Gold Rush Credits. Head to the Backalley now and start your Gold Rush!";
@@ -49,14 +49,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['item_id']) && isset($_
                 
             case 251:
                 addItemTempUse($user_class, 'raid_pass');
-
+                Take_Item($item_id, $user_class->id, $quantity);
                 $response['success'] = true;
                 $response['message'] = "You have used your raid pass. The next raid you host will be successful.";
                 break;
 
             case 252:
                 addItemTempUse($user_class, 'raid_booster');
-
+                Take_Item($item_id, $user_class->id, $quantity);
                 $response['success'] = true;
                 $response['message'] = "You have used your raid booster. All payouts in your next raid will be boosted.";
                 break;
