@@ -70,58 +70,59 @@ foreach ($items as $item) {
 </div>
 
 <div class="inventory-container">
-    <?php if (!empty($groupedItems)): ?>
-        <?php foreach ($groupedItems as $type => $items): ?>
-            <div class="inventory-group">
-                <h2 class="item-type-header"><?= htmlspecialchars(ucfirst($type)); ?></h2>
-                <div class="inventory-items">
-                    <?php foreach ($items as $item): ?>
-                        <div class="inventory-item">
-                            <div class="item-image-container">
-                                <img src="<?= isset($item['image']) && $item['image'] != '' ? htmlspecialchars($item['image']) : 'path/to/default-image.png'; ?>" alt="<?= htmlspecialchars($item['name']); ?>" class="item-image">
-                            </div>
-                            <div class="item-details">
-                                <h3><?= htmlspecialchars($item['name']); ?></h3>
-                                <p>Quantity: <span class="item-quantity"><?= (int)$item['quantity']; ?></span></p>
+    <div class="inventory-groups">
+        <?php if (!empty($groupedItems)): ?>
+            <?php foreach ($groupedItems as $type => $items): ?>
+                <div class="inventory-group">
+                    <h2 class="item-type-header"><?= htmlspecialchars(ucfirst($type)); ?></h2>
+                    <div class="inventory-items">
+                        <?php foreach ($items as $item): ?>
+                            <div class="inventory-item">
+                                <div class="item-image-container">
+                                    <img src="<?= isset($item['image']) && $item['image'] != '' ? htmlspecialchars($item['image']) : 'path/to/default-image.png'; ?>" alt="<?= htmlspecialchars($item['name']); ?>" class="item-image">
+                                </div>
+                                <div class="item-details">
+                                    <h3><?= htmlspecialchars($item['name']); ?></h3>
+                                    <p>Quantity: <span class="item-quantity"><?= (int)$item['quantity']; ?></span></p>
 
-                                <?php
-                                $equipItems = array(68,69,229, 230,231,250,252, 255, 264);
-                                // Equip button logic for items like weapons, armor, or shoes
-                                if (in_array($type, ['weapon', 'armor', 'shoes']) || in_array($item['id'], $equipItems)) {
-                                    $loanStatus = isset($item['loanid']) && $item['loanid'] > 0 ? 1 : 0;
-                                    echo '<button class="equip-btn" data-item-id="' . $item['id'] . '" data-type="' . $type . '" data-loaned="' . $loanStatus . '">Equip</button>';
-                                } elseif ($type == 'consumable' || $type == "rare" && !in_array($item['id'], $restrictedUseItems)) {
-                                    if (in_array($item['id'], $multiUseItems)) {
-                                        echo '<button class="use-btn-multi" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($item['name']) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
-                                    } else {
-                                        echo '<button class="use-btn" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Use</button>';
+                                    <?php
+                                    $equipItems = array(68,69,229, 230,231,250,252, 255, 264);
+                                    if (in_array($type, ['weapon', 'armor', 'shoes']) || in_array($item['id'], $equipItems)) {
+                                        $loanStatus = isset($item['loanid']) && $item['loanid'] > 0 ? 1 : 0;
+                                        echo '<button class="equip-btn" data-item-id="' . $item['id'] . '" data-type="' . $type . '" data-loaned="' . $loanStatus . '">Equip</button>';
+                                    } elseif ($type == 'consumable' || $type == "rare" && !in_array($item['id'], $restrictedUseItems)) {
+                                        if (in_array($item['id'], $multiUseItems)) {
+                                            echo '<button class="use-btn-multi" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($item['name']) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
+                                        } else {
+                                            echo '<button class="use-btn" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Use</button>';
+                                        }
                                     }
-                                }
-                                if ($item['id'] == 194) {
-                                    echo ' <a class="button-sm" href="raids.php">Use Speedup</a> ';
-                                }
-                                if (!in_array($item['id'], $restrictedDropItems)) {
-                                    echo ' <button class="drop-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '">Drop</button> ';
-                                }
-                                if (!in_array($item['id'], $restrictedSendItems)) {
-                                    echo ' <button class="send-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Send</button> ';
-                                }
-                                if ($type == 'house') {
-                                    echo ' <a class="button-sm" href="market.php?item=' . $item['id'] . '">Market</a> ';
-                                }
-                                if ($item['cost'] > 0) {
-                                    echo ' <a class="button-sm" href="sellitem.php?id=' . $item['id'] . '">Sell</a> ';
-                                }
-                                ?>
+                                    if ($item['id'] == 194) {
+                                        echo ' <a class="button-sm" href="raids.php">Use Speedup</a> ';
+                                    }
+                                    if (!in_array($item['id'], $restrictedDropItems)) {
+                                        echo ' <button class="drop-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '">Drop</button> ';
+                                    }
+                                    if (!in_array($item['id'], $restrictedSendItems)) {
+                                        echo ' <button class="send-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Send</button> ';
+                                    }
+                                    if ($type == 'house') {
+                                        echo ' <a class="button-sm" href="market.php?item=' . $item['id'] . '">Market</a> ';
+                                    }
+                                    if ($item['cost'] > 0) {
+                                        echo ' <a class="button-sm" href="sellitem.php?id=' . $item['id'] . '">Sell</a> ';
+                                    }
+                                    ?>
+                                </div>
                             </div>
-                        </div>
-                    <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
-            </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <p>No items found.</p>
-    <?php endif; ?>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p>No items found.</p>
+        <?php endif; ?>
+    </div>
 </div>
 
 <!-- Modal for Dropping Items -->
@@ -594,37 +595,31 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
 </script>
 
 <style>
-/* Global container for the entire inventory */
 .inventory-container {
     width: 80%;
     margin: 20px auto;
     padding: 20px;
 }
 
-/* Group of items per category (Weapons, Armor, etc.) */
+.inventory-groups {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between sections */
+}
+
 .inventory-group {
     background-color: #21201c;
     padding: 20px;
     border-radius: 8px;
+    width: calc(50% - 20px); /* 50% width for two columns with space between them */
     margin-bottom: 20px;
 }
 
-/* Header for each item type (Weapons, Armor, etc.) */
-.item-type-header {
-    background-color: #33312e;
-    color: white;
-    padding: 10px;
-    font-size: 1.5em;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-/* Flex container for items inside each type group */
-.inventory-items {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+/* Responsive design for tablets */
+@media screen and (max-width: 768px) {
+    .inventory-group {
+        width: 100%; /* Full width for smaller screens */
+    }
 }
 
 /* Individual item container */
@@ -637,10 +632,9 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
     flex-direction: column;
     align-items: center;
     text-align: center;
-    width: calc(33.333% - 20px); /* 3 items per row on desktop */
+    width: 100%;
 }
 
-/* Container for item image */
 .item-image-container {
     width: 100%;
     height: 100px;
@@ -650,7 +644,6 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
     margin-bottom: 10px;
 }
 
-/* Item image style */
 .item-image {
     max-width: 100%;
     max-height: 100%;
@@ -670,15 +663,6 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
     margin-bottom: 10px;
 }
 
-/* Button container to prevent overlapping */
-.item-button-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-}
-
-/* Button styles for use and drop actions */
 .use-btn, .drop-btn, .send-btn {
     padding: 5px 10px;
     cursor: pointer;
@@ -687,7 +671,7 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
     border: none;
     border-radius: 4px;
     transition: background-color 0.3s ease;
-    margin-top: 10px;  /* Add margin to avoid overlap */
+    margin-top: 10px;
 }
 
 .drop-btn {
@@ -710,31 +694,6 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
     background-color: #ff8c00;
 }
 
-/* Responsive design for tablets */
-@media screen and (max-width: 768px) {
-    .inventory-item {
-        width: calc(50% - 20px); /* 2 items per row on tablets */
-    }
-}
-
-/* Responsive design for mobile */
-@media screen and (max-width: 480px) {
-    .inventory-item {
-        width: calc(50% - 10px); /* 2 items per row on mobile */
-        margin-bottom: 10px;
-    }
-
-    .inventory-items {
-        gap: 10px; /* Adjust gap for better spacing on smaller screens */
-    }
-
-    /* Buttons inside each item are centered and have enough space */
-    .item-button-container {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-}
 
 /* Full width if there's only one item in the row */
 @media screen and (max-width: 480px) {
