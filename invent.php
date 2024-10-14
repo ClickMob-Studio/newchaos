@@ -70,59 +70,58 @@ foreach ($items as $item) {
 </div>
 
 <div class="inventory-container">
-    <div class="inventory-groups">
-        <?php if (!empty($groupedItems)): ?>
-            <?php foreach ($groupedItems as $type => $items): ?>
-                <div class="inventory-group">
-                    <h2 class="item-type-header"><?= htmlspecialchars(ucfirst($type)); ?></h2>
-                    <div class="inventory-items">
-                        <?php foreach ($items as $item): ?>
-                            <div class="inventory-item">
-                                <div class="item-image-container">
-                                    <img src="<?= isset($item['image']) && $item['image'] != '' ? htmlspecialchars($item['image']) : 'path/to/default-image.png'; ?>" alt="<?= htmlspecialchars($item['name']); ?>" class="item-image">
-                                </div>
-                                <div class="item-details">
-                                    <h3><?= htmlspecialchars($item['name']); ?></h3>
-                                    <p>Quantity: <span class="item-quantity"><?= (int)$item['quantity']; ?></span></p>
-
-                                    <?php
-                                    $equipItems = array(68,69,229, 230,231,250,252, 255, 264);
-                                    if (in_array($type, ['weapon', 'armor', 'shoes']) || in_array($item['id'], $equipItems)) {
-                                        $loanStatus = isset($item['loanid']) && $item['loanid'] > 0 ? 1 : 0;
-                                        echo '<button class="equip-btn" data-item-id="' . $item['id'] . '" data-type="' . $type . '" data-loaned="' . $loanStatus . '">Equip</button>';
-                                    } elseif ($type == 'consumable' || $type == "rare" && !in_array($item['id'], $restrictedUseItems)) {
-                                        if (in_array($item['id'], $multiUseItems)) {
-                                            echo '<button class="use-btn-multi" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($item['name']) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
-                                        } else {
-                                            echo '<button class="use-btn" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Use</button>';
-                                        }
-                                    }
-                                    if ($item['id'] == 194) {
-                                        echo ' <a class="button-sm" href="raids.php">Use Speedup</a> ';
-                                    }
-                                    if (!in_array($item['id'], $restrictedDropItems)) {
-                                        echo ' <button class="drop-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '">Drop</button> ';
-                                    }
-                                    if (!in_array($item['id'], $restrictedSendItems)) {
-                                        echo ' <button class="send-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Send</button> ';
-                                    }
-                                    if ($type == 'house') {
-                                        echo ' <a class="button-sm" href="market.php?item=' . $item['id'] . '">Market</a> ';
-                                    }
-                                    if ($item['cost'] > 0) {
-                                        echo ' <a class="button-sm" href="sellitem.php?id=' . $item['id'] . '">Sell</a> ';
-                                    }
-                                    ?>
-                                </div>
+    <?php if (!empty($groupedItems)): ?>
+        <?php foreach ($groupedItems as $type => $items): ?>
+            <div class="inventory-group">
+                <h2 class="item-type-header"><?= htmlspecialchars(ucfirst($type)); ?></h2>
+                <div class="inventory-items">
+                    <?php foreach ($items as $item): ?>
+                        <div class="inventory-item">
+                            <div class="item-image-container">
+                                <img src="<?= isset($item['image']) && $item['image'] != '' ? htmlspecialchars($item['image']) : 'path/to/default-image.png'; ?>" alt="<?= htmlspecialchars($item['name']); ?>" class="item-image">
                             </div>
-                        <?php endforeach; ?>
-                    </div>
+                            <div class="item-details">
+                                <h3><?= htmlspecialchars($item['name']); ?></h3>
+                                <p>Quantity: <span class="item-quantity"><?= (int)$item['quantity']; ?></span></p>
+
+                                <?php
+                                $equipItems = array(68,69,229, 230,231,250,252, 255, 264);
+                                // Equip button logic for items like weapons, armor, or shoes
+                                if (in_array($type, ['weapon', 'armor', 'shoes']) || in_array($item['id'], $equipItems)) {
+                                    $loanStatus = isset($item['loanid']) && $item['loanid'] > 0 ? 1 : 0;
+                                    echo '<button class="equip-btn" data-item-id="' . $item['id'] . '" data-type="' . $type . '" data-loaned="' . $loanStatus . '">Equip</button>';
+                                } elseif ($type == 'consumable' || $type == "rare" && !in_array($item['id'], $restrictedUseItems)) {
+                                    if (in_array($item['id'], $multiUseItems)) {
+                                        echo '<button class="use-btn-multi" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($item['name']) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
+                                    } else {
+                                        echo '<button class="use-btn" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Use</button>';
+                                    }
+                                }
+                                if ($item['id'] == 194) {
+                                    echo ' <a class="button-sm" href="raids.php">Use Speedup</a> ';
+                                }
+                                if (!in_array($item['id'], $restrictedDropItems)) {
+                                    echo ' <button class="drop-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '">Drop</button> ';
+                                }
+                                if (!in_array($item['id'], $restrictedSendItems)) {
+                                    echo ' <button class="send-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Send</button> ';
+                                }
+                                if ($type == 'house') {
+                                    echo ' <a class="button-sm" href="market.php?item=' . $item['id'] . '">Market</a> ';
+                                }
+                                if ($item['cost'] > 0) {
+                                    echo ' <a class="button-sm" href="sellitem.php?id=' . $item['id'] . '">Sell</a> ';
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>No items found.</p>
-        <?php endif; ?>
-    </div>
+            </div>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <p>No items found.</p>
+    <?php endif; ?>
 </div>
 
 <!-- Modal for Dropping Items -->
