@@ -12,13 +12,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['item_id']) && isset($_
     if ($howmany && $howmany >= $quantity) {
         switch ($item_id) {
             case 10:  // Double EXP Item case
+                // Calculate total time based on the quantity of items used
+                $timeToAdd = 3600 * $quantity;  // 1 hour (3600 seconds) * number of items used
+            
+                // Update the exppill time, adding the calculated time based on whether it's already active
                 $db->query("UPDATE grpgusers 
-                    SET exppill = IF(exppill > unix_timestamp(), exppill + 3600, unix_timestamp() + 3600) 
-                    WHERE id = ?");
-                $db->execute(array($user_class->id));
+                            SET exppill = IF(exppill > unix_timestamp(), exppill + ?, unix_timestamp() + ?) 
+                            WHERE id = ?");
+                $db->execute(array($timeToAdd, $timeToAdd, $user_class->id));
+            
+                // Set success message indicating how many hours of double EXP have been added
+                $hoursAdded = $quantity;  // Since each item adds 1 hour, $quantity equals hours added
                 $response['success'] = true;
-                $response['message'] = "You will receive double exp on crimes for 1 hour.";
+                $response['message'] = "You will receive double exp on crimes for $hoursAdded hour(s).";
                 break;
+            
             case 251:
                 addItemTempUse($user_class, 'raid_pass');
 
