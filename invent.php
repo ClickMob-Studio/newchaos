@@ -410,9 +410,10 @@ document.getElementById("useMultiForm").addEventListener('submit', function (eve
     var xhr = new XMLHttpRequest();                                 // Create new AJAX request
     xhr.open("POST", "ajax_use_multi_item.php", true);              // Update with the appropriate use item script
     xhr.onload = function () {
-        if (xhr.status === 200) {                                   // If the request was successful
+        if (xhr.status === 200) {                        
+			var response = JSON.parse(xhr.responseText);           // If the request was successful
             var messageDiv = document.getElementById('message');     // Get message div for displaying feedback
-            messageDiv.textContent = xhr.responseText;               // Show server response message
+            messageDiv.textContent = xhr.response.message;               // Show server response message
             messageDiv.style.display = 'block';                     // Display the message div
             document.getElementById("useMultiModal").style.display = "none"; // Hide the modal
 
