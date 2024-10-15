@@ -2689,10 +2689,10 @@ function gendivs($row, $type, $sell = null, $subtype = null, $loan = null, $loan
     }
         
     // Add other buttons based on type and loan condition
-    if ($type == "consumable" && !in_array($row['id'], [155, 195, 156, 157, 194, 158, 159, 165, 167])) {
+    if ($type == "consumable" && !in_array($row['id'], [285, 155, 195, 156, 157, 194, 158, 159, 165, 167])) {
         $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Use</a> ';
     }
-    if ($type == "rare"  && !in_array($row['id'], [155, 195, 209, 231, 210, 250, 211, 229, 230, 212, 156, 194, 68, 69, 157, 158, 159, 165, 167, 264])) {
+    if ($type == "rare"  && !in_array($row['id'], [285, 155, 195, 209, 231, 210, 250, 211, 229, 230, 212, 156, 194, 68, 69, 157, 158, 159, 165, 167, 264])) {
         $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Use</a> ';
     }
     if (!$loan && !in_array($row['id'], [155, 195, 156, 194, 157, 158, 159, 165, 167, 256])) {
