@@ -30,7 +30,7 @@ if ($user_class->admin > 0) {
 							        <div class="alert alert-danger" style="background: #ff6218;">
 							            <center>
 							            <p style="color: ffffff;">Mobster, do you have the guts to try a trick and treat?</p>
-                                        <a href="profiles.php?pid=<?php $profile_class->id ?>" class="dcSecondaryButton">Trick or Treat</a>
+                                        <a href="profiles.php?pid=<?php echo $profile_class->id ?>&caction=trickortreat" class="dcSecondaryButton">Trick or Treat</a>
                                         </center>
                                     </div>
 							    <?php endif; ?>
