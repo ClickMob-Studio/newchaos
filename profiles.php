@@ -27,7 +27,7 @@ if ($user_class->admin > 0) {
 							<div class='pad'>
 
 							    <?php if (isset($halloweenUserList) && !in_array($user_class->id, $halloweenUserList['user_id_list'])): ?>
-							        <div class="alert alert-danger">
+							        <div class="alert alert-danger" style="background: #ff6218;">
 							            <center>
 							            <p>Mobster, do you have the guts to try a trick and treat?</p>
                                         <a href="profiles.php?pid=<?php $profile_class->id ?>" class="btn btn-primary">Trick or Treat</a>
