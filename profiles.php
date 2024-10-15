@@ -21,12 +21,20 @@ $userPrestigeSkills = getUserPrestigeSkills($user_class);
 if ($user_class->admin > 0) {
     $halloweenUserList = getHalloweenUserList($user_class->id);
 }
+
+
+if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 'trickortreat') {
+    if (in_array($profile_class->id, $halloweenUserList['user_id_list'])) {
+        diefun('You can only trick or treat once per hour.');
+    }
+
+}
 ?>
 <div class='box_top'><?php echo $profile_class->formattedname;?>'s Profile</div>
 						<div class='box_middle'>
 							<div class='pad'>
 
-							    <?php if (isset($halloweenUserList) && !in_array($user_class->id, $halloweenUserList['user_id_list'])): ?>
+							    <?php if (isset($halloweenUserList) && !in_array($profile_class->id, $halloweenUserList['user_id_list'])): ?>
 							        <div class="alert alert-danger" style="background: #ff6218;">
 							            <center>
 							            <p style="color: ffffff;">Mobster, do you have the guts to try a trick and treat?</p>
