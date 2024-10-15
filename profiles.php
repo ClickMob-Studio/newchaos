@@ -25,6 +25,15 @@ if ($user_class->admin > 0) {
 <div class='box_top'><?php echo $profile_class->formattedname;?>'s Profile</div>
 						<div class='box_middle'>
 							<div class='pad'>
+
+							    <?php if (isset($halloweenUserList) && !in_array($user_class->id, $halloweenUserList['user_id_list'])): ?>
+							        <div class="alert alert-danger">
+							            <center>
+							            <p>Mobster, do you have the guts to try a trick and treat?</p>
+                                        <a href="profiles.php?pid=<?php $profile_class->id ?>" class="btn btn-primary">Trick or Treat</a>
+                                        </center>
+                                    </div>
+							    <?php endif; ?>
                                 <?php
 
 
