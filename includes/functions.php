@@ -2741,7 +2741,7 @@ function getHalloweenUserList($userId)
     if (isset($r['id'])) {
         return $r;
     } else {
-        $db->query("INSERT INTO halloween_user_list (user_id, month_year) VALUES (" . $user_class->id . ", '" . $now->format('d-m-Y-h') . "')");
+        $db->query("INSERT INTO halloween_user_list (user_id, month_year) VALUES (" . $userId . ", '" . $now->format('d-m-Y-h') . "')");
         $db->execute();
         $r = getHalloweenUserList($userId);
 
