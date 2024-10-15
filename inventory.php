@@ -2023,6 +2023,19 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
 
                 echo Message("You open your Gold Rush Token Chest and find 10 x Gold Rush Tokens inside.");
                 break;
+            case 284:
+                $tempItemUse = getItemTempUse($user_class->id);
+                $now = time();
+                if ($tempItemUse['ghost_vacuum_time'] > $now) {
+                    diefun('You already have a ghost vacuum active.');
+                }
+
+                $newTime = time() + 900;
+
+                addItemTempUse($user_class, 'ghost_vacuum_time', $newTime);
+
+                echo Message("You use your ghost vacuum and you feel ready to hunt ghosts for the next 15 minutes!");
+                break;
 
 case 197: // Nuke item
     // Check if the form has been submitted
