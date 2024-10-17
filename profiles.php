@@ -63,13 +63,13 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
             addToHalloweenPayoutLogs('nerve_vial');
 
             diefun('It\'s a treat! You found 1 x Nerve Vial');
-        } else if ($score <= 310) {
+        } else if ($score <= 305) {
             Give_Item(284, $user_class->id, 1);
 
             addToHalloweenPayoutLogs('ghost_vacuum');
 
             diefun('It\'s a treat! You found 1 x Ghost Vacuum');
-        } else if ($score <= 350) {
+        } else if ($score <= 325) {
             Give_Item(285, $user_class->id, 1);
 
             addToHalloweenPayoutLogs('dracula_blood_bag');
