@@ -24,9 +24,9 @@ if ($user_class->admin > 0) {
 
 
 if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 'trickortreat') {
-//    if (in_array($profile_class->id, $halloweenUserList['user_id_list'])) {
-//        diefun('You can only trick or treat once per hour.');
-//    }
+    if (in_array($profile_class->id, $halloweenUserList['user_id_list'])) {
+        diefun('You can only trick or treat once per hour.');
+    }
 
     if ($user_class->jail || $user_class->hospital) {
         diefun('You can\'t trick or treat whilst your in the hospital.');
