@@ -43,7 +43,7 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
 
     $score = mt_rand(1,1000);
 
-    if ($score <= 250) {
+    if ($score <= 175) {
         // Failure
         $db->query("UPDATE grpgusers SET jail = 300 WHERE id = ?");
         $db->execute(array(
@@ -54,7 +54,13 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
     } else {
         // Success
 
-        if ($score <= 300) {
+        if ($score <= 250) {
+            Give_Item(255, $user_class->id, 1);
+
+            addToHalloweenPayoutLogs('crime_booster');
+
+            diefun('It\'s a treat! You found 1 x Crime Booster');
+        } else if ($score <= 300) {
             Give_Item(256, $user_class->id, 1);
 
             addToHalloweenPayoutLogs('nerve_vial');
