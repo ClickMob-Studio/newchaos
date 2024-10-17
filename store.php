@@ -34,7 +34,7 @@ if (!isset($_SESSION['exclude_event']) || (isset($_SESSION['last_vipstore_visit'
     $_SESSION['last_vipstore_visit'] = time();
 }
 
-$db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 6");
+$db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 7");
 $db->execute();
 $limitedPack = $db->fetch_row();
 $limitedPack = $limitedPack[0];
@@ -981,6 +981,40 @@ if ($_GET['buy'] == "vip7") {
         echo Message("You spent " . $limitedPack['gold_cost'] . " GOLD for a " . $limitedPack['name']);
     }
 
+    if ($_GET['buy'] === 'lep_7') {
+        if ($user_class->credits < $limitedPack['gold_cost']) {
+            echo diefun("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+
+        if ($limitedPack['times_purchased'] >= $limitedPack['available']) {
+            echo diefun("This pack is no longer available. You can buy some at the upgrade store.");
+        }
+
+        if ($limitedStorePackPurchase['purchases'] >= $limitedPack['per_person_limit']) {
+            echo diefun("You have purchased the max amount of packs. You can buy some at the upgrade store.");
+        }
+
+        $db->query("UPDATE grpgusers SET credits = credits - " . $limitedPack['gold_cost'] . " WHERE id = ?");
+        $db->execute(array(
+            $user_class->id
+        ));
+
+        $db->query("UPDATE limited_store_pack SET times_purchased = times_purchased + 1 WHERE id = ?");
+        $db->execute(array(
+            $limitedPack['id']
+        ));
+
+        Give_Item($limitedPack['item_id'], $user_class->id,$limitedPack['item_quantity']);
+        addLimitedStorePackPurchase($user_class, $limitedPack['id']);
+        Send_Event($user_class->id, "You have been credited with your " . $limitedPack['name'] . ". You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
+        $db->execute(array());
+
+        Send_Event(1, $user_class->formattedname ." bought " . $limitedPack['name']);
+        Send_Event(2, $user_class->formattedname ." bought " . $limitedPack['name']);
+
+        echo Message("You spent " . $limitedPack['gold_cost'] . " GOLD for a " . $limitedPack['name']);
+    }
+
     if ($_GET['buy'] == "bapre") {
         $bpCategory = getBpCategory();
         $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
@@ -1175,31 +1209,31 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <br><br>
 
-<!--    <br>-->
-<!--    <div class="floaty" style="margin: 3px;">-->
-<!--        <h4>HALLOWEEN PACKS</h4>-->
-<!--        <hr>-->
-<!--        <div class="items-upgrades" style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">-->
-<!---->
-<!--            <!-- Ghost Vacuum -->-->
-<!--            <div class="vip-package">-->
-<!--                <h4 style="color: brown;">1 x Ghost Vacuum</h4>-->
-<!--                <img src="/css/images/NewGameImages/ghost-vacuum.png" height="100" alt="Ghost Vacuum">-->
-<!---->
-<!--                <h4>Purchase now for only<br><a href="store.php?buy=halloween_1"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>-->
-<!--            </div>-->
-<!---->
-<!--            <!-- 1 x Research Token -->-->
-<!--            <div class="vip-package">-->
-<!--                <h4 style="color: brown;">5 x Dracula Blood Bag</h4>-->
-<!--                <img src="/css/images/NewGameImages/dracula-blood-bag.png" height="100" alt="Dracula Blood Bag">-->
-<!---->
-<!--                <h4>Purchase now for only<br><a href="store.php?buy=halloween_2"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!---->
-<!--    <br /><br />-->
+    <br>
+    <div class="floaty" style="margin: 3px;">
+        <h4>HALLOWEEN PACKS</h4>
+        <hr>
+        <div class="items-upgrades" style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
+
+            <!-- Ghost Vacuum -->
+            <div class="vip-package">
+                <h4 style="color: brown;">1 x Ghost Vacuum</h4>
+                <img src="/css/images/NewGameImages/ghost-vacuum.png" height="100" alt="Ghost Vacuum">
+
+                <h4>Purchase now for only<br><a href="store.php?buy=halloween_1"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+            </div>
+
+            <!-- 1 x Research Token -->
+            <div class="vip-package">
+                <h4 style="color: brown;">5 x Dracula Blood Bag</h4>
+                <img src="/css/images/NewGameImages/dracula-blood-bag.png" height="100" alt="Dracula Blood Bag">
+
+                <h4>Purchase now for only<br><a href="store.php?buy=halloween_2"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+            </div>
+        </div>
+    </div>
+
+    <br /><br />
 
     <div class="floaty" style="margin:3px;">
         <h4 class="section-title">Point Packs</h4>
