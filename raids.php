@@ -323,9 +323,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
 
     $user_tokens = mysql_fetch_assoc($token_check_result)['raidtokens'];
 
-    if ($user_tokens < $tokencost) {
-        echo "<script>alert('You do not have enough raid tokens to summon this boss. Required: $tokencost raid token(s).');</script>";
-        return;  // Exit early so the rest of the code doesn't run
+    if ($boss_id == 21) {
+        $totalDraculaBloodBagCount = check_items(14, $user_class->id);
+
+        if (!$totalDraculaBloodBagCount) {
+            echo "<script>alert('You need Dracula Blood Bags to raid Dracula.');</script>";
+            return;  // Exit early so the rest of the code doesn't run
+        }
+
+    } else {
+        if ($user_tokens < $tokencost) {
+            echo "<script>alert('You do not have enough raid tokens to summon this boss. Required: $tokencost raid token(s).');</script>";
+            return;  // Exit early so the rest of the code doesn't run
+        }
     }
 
     // Check if the user is already a participant in any active raid
