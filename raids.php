@@ -296,7 +296,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
     $boss_id = intval($_POST['boss_id']);
 
 
- $raid_type = $_POST['raid_type'];
+    $raid_type = $_POST['raid_type'];
     // Ensure $raid_type is one of the expected values
     if (!in_array($raid_type, ['Public', 'Private', 'Gang'])) {
         $raid_type = 'Public'; // Default to Public if an unexpected value is provided
@@ -669,7 +669,12 @@ function showTooltip(event, element) {
                     echo "<p>Available for: <strong>$days days $hours hours $minutes minutes</strong></p>";
                 }
                 echo "<p><strong>Level:</strong> " . $boss['level'] . "</p>";
-                echo "<p><strong>Token Cost to Summon:</strong> $tokencost</p>";
+
+                if ($boss['id'] == 21) {
+                    echo "<p><strong>1 x Dracula Blood Bag to Summon:</strong></p>";
+                } else {
+                    echo "<p><strong>Token Cost to Summon:</strong> $tokencost</p>";
+                }
 
                 $rewards_query = "SELECT l.*, i.itemname, l.bonus FROM loot l JOIN items i ON l.item_id = i.id WHERE l.boss_id = " . $boss['id'];
                 $rewards_result = mysql_query($rewards_query);
