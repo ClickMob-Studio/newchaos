@@ -577,6 +577,50 @@ if ($_GET['buy'] == "vip7") {
         }
     }
 
+    if ($_GET['buy'] == "halloween_1") {
+        if ($user_class->credits >= 30) {
+            $current = $user_class->credits;
+            $newcredit = $user_class->credits -= 30;
+            $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", '1 x Ghost Vacuum', ".$current .", ".$newcredit.")");
+            $db->execute();
+            $db->query("UPDATE grpgusers SET credits = credits - 30 WHERE id = ?");
+            $db->execute(array(
+                $user_class->id
+            ));
+
+            Give_Item(284, $user_class->id, 1);
+
+            Send_Event(1, $user_class->formattedname ." 1 x Ghost Vacuum");
+            Send_Event(2, $user_class->formattedname ." bought 1 x Ghost Vacuum");
+
+            echo Message("You spent 30 credits for 1 x Ghost Vacuum.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
+    if ($_GET['buy'] == "halloween_2") {
+        if ($user_class->credits >= 50) {
+            $current = $user_class->credits;
+            $newcredit = $user_class->credits -= 50;
+            $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", '5 x Dracula Blood Bag', ".$current .", ".$newcredit.")");
+            $db->execute();
+            $db->query("UPDATE grpgusers SET credits = credits - 50 WHERE id = ?");
+            $db->execute(array(
+                $user_class->id
+            ));
+
+            Give_Item(285, $user_class->id, 5);
+
+            Send_Event(1, $user_class->formattedname ." 5 x Dracula Blood Bag");
+            Send_Event(2, $user_class->formattedname ." bought 5 x Dracula Blood Bag");
+
+            echo Message("You spent 50 credits for 5 x Dracula Blood Bag.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
    if ($_GET['buy'] == "7daygrad") {
         if ($user_class->credits >= 50) {
             $newcredit = $user_class->credits -= 50;
@@ -1130,6 +1174,32 @@ document.addEventListener("DOMContentLoaded", function() {
 <?php endif; ?>
 
 <br><br>
+
+<!--    <br>-->
+<!--    <div class="floaty" style="margin: 3px;">-->
+<!--        <h4>HALLOWEEN PACKS</h4>-->
+<!--        <hr>-->
+<!--        <div class="items-upgrades" style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">-->
+<!---->
+<!--            <!-- Ghost Vacuum -->-->
+<!--            <div class="vip-package">-->
+<!--                <h4 style="color: brown;">1 x Ghost Vacuum</h4>-->
+<!--                <img src="/css/images/NewGameImages/ghost-vacuum.png" height="100" alt="Ghost Vacuum">-->
+<!---->
+<!--                <h4>Purchase now for only<br><a href="store.php?buy=halloween_1"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>-->
+<!--            </div>-->
+<!---->
+<!--            <!-- 1 x Research Token -->-->
+<!--            <div class="vip-package">-->
+<!--                <h4 style="color: brown;">5 x Dracula Blood Bag</h4>-->
+<!--                <img src="/css/images/NewGameImages/dracula-blood-bag.png" height="100" alt="Dracula Blood Bag">-->
+<!---->
+<!--                <h4>Purchase now for only<br><a href="store.php?buy=halloween_2"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!---->
+<!--    <br /><br />-->
 
     <div class="floaty" style="margin:3px;">
         <h4 class="section-title">Point Packs</h4>
