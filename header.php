@@ -1678,6 +1678,12 @@ if ($tempItemUse['gym_super_pills_time'] > $time) {
     $messages[] = 'Gym Super Pills: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
 }
 
+// Ghost Vacuum
+if ($tempItemUse['ghost_vacuum_time'] > $time) {
+    $rtn = howlongtil($tempItemUse['ghost_vacuum_time']);
+    $messages[] = 'Ghost Vacuum: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
 
     // Jail
 if ($user_class->jail > $time) {
