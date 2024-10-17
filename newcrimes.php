@@ -14,7 +14,9 @@ $db->execute(array(
 ));
 $activeMission = $db->fetch_row()[0];
 
-if ($user_class->admin > 0) {
+$tempItemUse = getItemTempUse($user_class->id);
+
+if ($tempItemUse['ghost_vacuum_time'] > time()) {
     $db->query("SELECT * FROM crimes ORDER BY nerve DESC");
     $db->execute();
 } else {
