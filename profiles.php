@@ -28,6 +28,43 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
         diefun('You can only trick or treat once per hour.');
     }
 
+    if ($user_class->jail || $user_class->hospital) {
+        diefun('You can\'t trick or treat whilst your in the hospital.');
+    }
+
+    $halloweenUserList['user_id_list'][] = $profile_class->id;
+    $newHalloweenUserList = join(',', $halloweenUserList);
+
+    $db->query("UPDATE halloween_user_list SET listed_user_ids = ? WHERE user_id = ?");
+    $db->execute(array(
+        $newHalloweenUserList,
+        $user_class->id
+    ));
+
+    $db->query("UPDATE grpgusers SET jail = 300 WHERE id = ?");
+    $db->execute(array(
+        $user_class->id
+    ));
+
+
+
+    $score = mt(1,1000);
+
+    if ($score <= 200) {
+        // Failure
+        $db->query("UPDATE grpgusers SET jail = 300 WHERE id = ?");
+        $db->execute(array(
+            $user_class->id
+        ));
+
+        echo 'fail';
+
+    } else {
+        // Success
+        echo 'success';
+    }
+
+    exit;
 }
 ?>
 <div class='box_top'><?php echo $profile_class->formattedname;?>'s Profile</div>
