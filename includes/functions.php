@@ -2752,3 +2752,12 @@ function getHalloweenUserList($userId)
 
     return $db->fetch_row(true);
 }
+
+function addToHalloweenPayoutLogs($field)
+{
+    global $db;
+
+    $db->query("UPDATE `halloween_payout_logs` SET `" . $field ."` = `" . $field ."` + 1 WHERE `id` = 1");
+    $db->execute();
+
+}

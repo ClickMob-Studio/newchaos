@@ -43,17 +43,54 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
 
     $score = mt_rand(1,1000);
 
-    if ($score <= 200) {
+    if ($score <= 300) {
         // Failure
         $db->query("UPDATE grpgusers SET jail = 300 WHERE id = ?");
         $db->execute(array(
             $user_class->id
         ));
 
-        diefun('You try to trick or treat this mobster but they panic thinking your coming for the hit and they call the police. You\'ll need to spend the next 5 minutes in jail.');
+        diefun('It\'s a trick! You\'ll need to spend the next 5 minutes in jail.');
     } else {
         // Success
-        diefun('success');
+
+        if ($score <= 310) {
+            Give_Item(284, $user_class->id, 1);
+
+            addToHalloweenPayoutLogs('ghost_vacuum');
+
+            diefun('It\'s a treat! You found 1 x Ghost Vacuum');
+        } else if ($score <= 350) {
+            Give_Item(285, $user_class->id, 1);
+
+            addToHalloweenPayoutLogs('dracula_blood_bag');
+
+            diefun('It\'s a treat! You found 1 x Dracula Blood Bag');
+        } else if ($score <= 450) {
+            Give_Item(281, $user_class->id, 1);
+
+            addToHalloweenPayoutLogs('gym_super_pills');
+
+            diefun('It\'s a treat! You found 1 x Gym Super Pill');
+        } else if ($score <= 550) {
+            Give_Item(283, $user_class->id, 1);
+
+            addToHalloweenPayoutLogs('gold_rush_token_chest');
+
+            diefun('It\'s a treat! You found 1 x Gold Rush Token Chest');
+        } else if ($score <= 650) {
+            Give_Item(42, $user_class->id, 1);
+
+            addToHalloweenPayoutLogs('myster_box');
+
+            diefun('It\'s a treat! You found 1 x Mystery Box');
+        } else if ($score <= 1000) {
+            addToUserCompLeaderboard($user_class->id, 'vampire_teeth', 1);
+
+            addToHalloweenPayoutLogs('vampire_teeth');
+
+            diefun('It\'s a treat! You found 1 x Vampire Teeth');
+        }
     }
 
     exit;
