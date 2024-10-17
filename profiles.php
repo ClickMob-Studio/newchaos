@@ -33,14 +33,14 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
     }
 
     $halloweenUserList['user_id_list'][] = $profile_class->id;
-    $newHalloweenUserList = join(',', $halloweenUserList);
+    $newHalloweenUserList = join(',', $halloweenUserList['user_id_list']);
 
     $db->query("UPDATE halloween_user_list SET listed_user_ids = ? WHERE user_id = ?");
     $db->execute(array(
         $newHalloweenUserList,
         $user_class->id
     ));
-    
+
     $score = mt(1,1000);
 
     if ($score <= 200) {
