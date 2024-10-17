@@ -81,7 +81,7 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
         } else if ($score <= 650) {
             Give_Item(42, $user_class->id, 1);
 
-            addToHalloweenPayoutLogs('myster_box');
+            addToHalloweenPayoutLogs('mystery_box');
 
             diefun('It\'s a treat! You found 1 x Mystery Box');
         } else if ($score <= 1000) {
