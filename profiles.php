@@ -18,10 +18,7 @@ $profile_class = new User($_GET['id']);
 
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
 
-if ($user_class->admin > 0) {
-    $halloweenUserList = getHalloweenUserList($user_class->id);
-}
-
+$halloweenUserList = getHalloweenUserList($user_class->id);
 
 if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 'trickortreat') {
     if (in_array($profile_class->id, $halloweenUserList['user_id_list'])) {
