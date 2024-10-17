@@ -41,7 +41,7 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
         $user_class->id
     ));
 
-    $score = mt(1,1000);
+    $score = mt_rand(1,1000);
 
     if ($score <= 200) {
         // Failure
