@@ -116,7 +116,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
             <div class="col-md-12">
                 <ul>
                     <?php foreach ($milestones as $teeth => $points): ?>
-                        <li><?php echo numnber_format($teeth, 0) ?> Vampire Teeth: <?php echo number_format($points, 0) ?> points</li>
+                        <li><?php echo number_format($teeth, 0) ?> Vampire Teeth: <?php echo number_format($points, 0) ?> points</li>
                     <?php endforeach; ?>
                 </ul>
 
