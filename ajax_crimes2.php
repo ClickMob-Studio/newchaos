@@ -48,6 +48,8 @@ session_write_close();
 //     'prefix' => $user_class->id . "-",
 // ));
 
+$tempItemUse = getItemTempUse($user_class->id);
+
 $crime_multiplier = 1;
 if (isset($_POST['cm'])) {
     $allowed = array(1, 2, 4, 10, 15, 20, 30, 50);
@@ -57,7 +59,6 @@ if (isset($_POST['cm'])) {
 }
 
 if ($crime_multiplier == 15) {
-    $tempItemUse = getItemTempUse($user_class->id);
     if ($tempItemUse['crime_15_multiplier_time'] < time()) {
         echo json_encode(array(
             'text' => "You do not have access to 15x crimes.",
@@ -154,7 +155,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $ftext = 'You failed to ' . $name;
     $chance = rand(1, 250);
     $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
-    if ($id == 51) {
+    if ($id == 51 && $tempItemUse['ghost_vacuum_time'] > time()) {
         $exp = ceil($user_class->maxexp / 4000);
     } else {
         $exp = ((10 * $nerve) + 8 * ($nerve - 1)) * 1.0;
@@ -219,7 +220,6 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $chance = 100;
     }
 
-    $tempItemUse = getItemTempUse($user_class->id);
     if ($tempItemUse['crime_booster_time'] > time()) {
         $exp += round(($exp / 5));
     } else if ($tempItemUse['crime_potion_time'] > time()) {
