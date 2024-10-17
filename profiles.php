@@ -40,14 +40,7 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
         $newHalloweenUserList,
         $user_class->id
     ));
-
-    $db->query("UPDATE grpgusers SET jail = 300 WHERE id = ?");
-    $db->execute(array(
-        $user_class->id
-    ));
-
-
-
+    
     $score = mt(1,1000);
 
     if ($score <= 200) {
