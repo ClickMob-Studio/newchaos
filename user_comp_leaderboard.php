@@ -36,7 +36,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
         if ($userCompLeaderboard['vampire_teeth_milestone_collected'] < $mile && $userCompLeaderboard['overall_vampire_teeth'] >= $mile) {
             $mileCollected = $mile;
 
-            Send_Event($user_class->id, 'You collected your ' . number_format($mile, 0) . ' milestone and claimed ' . number_format($prize, 0) . ' points.');
+            Send_Event($user_class->id, 'You collected your ' . number_format($mile, 0) . ' vampire teeth milestone and claimed ' . number_format($prize, 0) . ' points.');
 
             $db->query("UPDATE grpgusers SET points = points + " . $prize . " WHERE id = " . $user_class->id);
             $db->execute();
