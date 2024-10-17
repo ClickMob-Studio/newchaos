@@ -324,7 +324,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
     $user_tokens = mysql_fetch_assoc($token_check_result)['raidtokens'];
 
     if ($boss_id == 21) {
-        $totalDraculaBloodBagCount = check_items(14, $user_class->id);
+        $totalDraculaBloodBagCount = check_items(285, $user_class->id);
 
         if (!$totalDraculaBloodBagCount) {
             echo "<script>alert('You need Dracula Blood Bags to raid Dracula.');</script>";
@@ -383,6 +383,11 @@ mysql_query($query);
         // Deduct the correct number of raid tokens from the user's account
         $deduct_token_query = "UPDATE grpgusers SET raidtokens = raidtokens - $tokencost, raidshosted = raidshosted + 1, raidcomp = raidcomp + $tokencost,  raidsjoined = raidsjoined + 1 WHERE id = $user_id";
         mysql_query($deduct_token_query);
+
+        if ($boss_id == 21) {
+            Take_Car(285, $user_class->id, 1);
+        }
+
         echo "<script>alert('$tokencost raid token(s) have been spent to summon the boss.');</script>";
 
         // Redirect to raids.php to refresh the page

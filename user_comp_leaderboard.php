@@ -120,7 +120,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
                     <?php endforeach; ?>
                 </ul>
 
-                <a href="crime_contest.php?action=milestone"><button>Collect Milestones</button></a>
+                <a href="user_comp_leaderboard.php?action=milestone"><button>Collect Milestones</button></a>
             </div>
         </div>
     </div>
