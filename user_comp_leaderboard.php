@@ -74,7 +74,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
 
         <center>
             <h2>Daily Leaderboard</h2>
-            <p><strong>Prizes (paid to each gang member):</strong></p>
+            <p><strong>Prizes:</strong></p>
             <ul>
                 <li><strong>1st: 1,000,000 points, 10 x Dracula Blood Bags & 10 x Ghost Vacuums</strong></li>
                 <li><strong>2nd: 500,000 points, 5 x Dracula Blood Bags & 5 x Ghost Vacuums</strong></li>
