@@ -1,9 +1,57 @@
 <?php
 include 'header.php';
 
-$db->query("SELECT * FROM `user_comp_leaderboard` ORDER BY `overall_vampire_teeth` DESC");
+$db->query("SELECT * FROM `user_comp_leaderboard` ORDER BY `overall_vampire_teeth` DESC LIMIT 20");
 $db->execute();
 $rows = $db->fetch_row();
+
+$userCompLeaderboard = getUserCompLeaderboard($user_class->id);
+
+$milestones = array(
+    10 => 1000,
+    5000 => 5000,
+    50000 => 15000,
+    250000 => 300000,
+    500000 => 750000,
+    750000 => 1250000
+);
+
+// MILESTONE
+if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
+    $milestones = array(
+        10 => 1000,
+        100 => 5000,
+        500 => 15000,
+        1000 => 30000,
+        5000 => 120000,
+        10000 => 250000,
+        15000 => 400000,
+        30000 => 600000,
+        50000 => 750000,
+        75000 => 1000000,
+    );
+
+    $mileCollected = 0;
+    foreach ($milestones as $mile => $prize) {
+        if ($userCompLeaderboard['vampire_teeth_milestone_collected'] < $mile && $userCompLeaderboard['overall_vampire_teeth'] >= $mile) {
+            $mileCollected = $mile;
+
+            Send_Event($user_class->id, 'You collected your ' . number_format($mile, 0) . ' milestone and claimed ' . number_format($prize, 0) . ' points.');
+
+            $db->query("UPDATE grpgusers SET points = points + " . $prize . " WHERE id = " . $user_class->id);
+            $db->execute();
+
+            $db->query("UPDATE user_comp_leaderboard SET vampire_teeth_milestone_collected = " . $mile . " WHERE user_id = " . $user_class->id);
+            $db->execute();
+        }
+    }
+
+    if ($mileCollected > 0) {
+        echo Message('You have successfully collected your milestone prizes, check your events to see which ones you claimed.');
+    } else {
+        echo Message('You had no milestone prizes to collect.');
+    }
+}
 ?>
 
 <div class='box_top'><h1>Halloween Contest Leaderboard</h1></div>
@@ -60,6 +108,21 @@ $rows = $db->fetch_row();
                 </tr>
             <?php endif; ?>
         </table>
+
+        <hr />
+        <h2>Milestone Payments</h2>
+        <p>You currently have <?php echo number_format($userCompLeaderboard['overall_vampire_teeth']) ?> Vampire Teeth.</p>
+        <div class="row">
+            <div class="col-md-12">
+                <ul>
+                    <?php foreach ($milestones as $teeth => $points): ?>
+                        <li><?php echo numnber_format($teeth, 0) ?> Vampire Teeth: <?php echo number_format($points, 0) ?> points</li>
+                    <?php endforeach; ?>
+                </ul>
+
+                <a href="crime_contest.php?action=milestone"><button>Collect Milestones</button></a>
+            </div>
+        </div>
     </div>
 </div>
 
