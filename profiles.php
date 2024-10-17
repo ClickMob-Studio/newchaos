@@ -50,11 +50,10 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
             $user_class->id
         ));
 
-        echo 'fail';
-
+        diefun('You try to trick or treat this mobster but they panic thinking your coming for the hit and they call the police. You\'ll need to spend the next 5 minutes in jail.');
     } else {
         // Success
-        echo 'success';
+        diefun('success');
     }
 
     exit;
