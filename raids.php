@@ -385,7 +385,7 @@ mysql_query($query);
         mysql_query($deduct_token_query);
 
         if ($boss_id == 21) {
-            Take_Car(285, $user_class->id, 1);
+            Take_Item(285, $user_class->id, 1);
         }
 
         echo "<script>alert('$tokencost raid token(s) have been spent to summon the boss.');</script>";
