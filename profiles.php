@@ -63,13 +63,13 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
             addToHalloweenPayoutLogs('nerve_vial');
 
             diefun('It\'s a treat! You found 1 x Nerve Vial');
-        } else if ($score <= 305) {
+        } else if ($score <= 301) {
             Give_Item(284, $user_class->id, 1);
 
             addToHalloweenPayoutLogs('ghost_vacuum');
 
             diefun('It\'s a treat! You found 1 x Ghost Vacuum');
-        } else if ($score <= 325) {
+        } else if ($score <= 315) {
             Give_Item(285, $user_class->id, 1);
 
             addToHalloweenPayoutLogs('dracula_blood_bag');
@@ -81,13 +81,13 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
             addToHalloweenPayoutLogs('gym_super_pills');
 
             diefun('It\'s a treat! You found 1 x Gym Super Pill');
-        } else if ($score <= 550) {
-            Give_Item(283, $user_class->id, 1);
+        } else if ($score <= 525) {
+            Give_Item(194, $user_class->id, 1);
 
             addToHalloweenPayoutLogs('gold_rush_token_chest');
 
-            diefun('It\'s a treat! You found 1 x Gold Rush Token Chest');
-        } else if ($score <= 650) {
+            diefun('It\'s a treat! You found 1 x Raid Speed Up');
+        } else if ($score <= 600) {
             Give_Item(42, $user_class->id, 1);
 
             addToHalloweenPayoutLogs('mystery_box');
