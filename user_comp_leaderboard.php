@@ -8,28 +8,16 @@ $rows = $db->fetch_row();
 $userCompLeaderboard = getUserCompLeaderboard($user_class->id);
 
 $milestones = array(
-    10 => 1000,
-    5000 => 5000,
-    50000 => 15000,
-    250000 => 300000,
-    500000 => 750000,
-    750000 => 1250000
+    100 => 1000,
+    1000 => 5000,
+    10000 => 15000,
+    25000 => 300000,
+    50000 => 750000,
+    75000 => 1250000
 );
 
 // MILESTONE
 if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
-    $milestones = array(
-        10 => 1000,
-        100 => 5000,
-        500 => 15000,
-        1000 => 30000,
-        5000 => 120000,
-        10000 => 250000,
-        15000 => 400000,
-        30000 => 600000,
-        50000 => 750000,
-        75000 => 1000000,
-    );
 
     $mileCollected = 0;
     foreach ($milestones as $mile => $prize) {
