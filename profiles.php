@@ -57,37 +57,43 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
             addToHalloweenPayoutLogs('crime_booster');
 
             diefun('It\'s a treat! You found 1 x Crime Booster');
-        } else if ($score <= 300) {
+        } else if ($score <= 255) {
             Give_Item(256, $user_class->id, 1);
 
             addToHalloweenPayoutLogs('nerve_vial');
 
             diefun('It\'s a treat! You found 1 x Nerve Vial');
-        } else if ($score <= 301) {
+        } else if ($score <= 256) {
             Give_Item(284, $user_class->id, 1);
 
             addToHalloweenPayoutLogs('ghost_vacuum');
 
             diefun('It\'s a treat! You found 1 x Ghost Vacuum');
-        } else if ($score <= 315) {
+        } else if ($score <= 300) {
+            Give_Item(251, $user_class->id, 1);
+
+            addToHalloweenPayoutLogs('ghost_vacuum');
+
+            diefun('It\'s a treat! You found 1 x Raid Pass');
+        } else if ($score <= 400) {
             Give_Item(285, $user_class->id, 1);
 
             addToHalloweenPayoutLogs('dracula_blood_bag');
 
             diefun('It\'s a treat! You found 1 x Dracula Blood Bag');
-        } else if ($score <= 450) {
-            Give_Item(281, $user_class->id, 1);
+        } else if ($score <= 410) {
+            Give_Item(10, $user_class->id, 1);
 
             addToHalloweenPayoutLogs('gym_super_pills');
 
-            diefun('It\'s a treat! You found 1 x Gym Super Pill');
-        } else if ($score <= 525) {
+            diefun('It\'s a treat! You found 1 x Double EXP');
+        } else if ($score <= 450) {
             Give_Item(194, $user_class->id, 1);
 
             addToHalloweenPayoutLogs('gold_rush_token_chest');
 
             diefun('It\'s a treat! You found 1 x Raid Speed Up');
-        } else if ($score <= 600) {
+        } else if ($score <= 575) {
             Give_Item(42, $user_class->id, 1);
 
             addToHalloweenPayoutLogs('mystery_box');
