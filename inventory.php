@@ -2049,6 +2049,15 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
 
                 echo Message("You eat your Cotton Candy and gain " . number_format($expRand) . "!");
                 break;
+            case 289:
+                $moneyRand = mt_rand(1000, 20000);
+
+                $db->query("UPDATE grpgusers SET money = money + " . $moneyRand . " WHERE id = " . $user_class->id);
+                $db->execute();
+
+
+                echo Message("You search inside the crate and find $" . number_format($moneyRand) . "!");
+                break;
 
 case 197: // Nuke item
     // Check if the form has been submitted
