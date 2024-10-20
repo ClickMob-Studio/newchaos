@@ -93,6 +93,12 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
             addToHalloweenPayoutLogs('gold_rush_token_chest');
 
             diefun('It\'s a treat! You found 1 x Raid Speed Up');
+        } else if ($score <= 500) {
+            Give_Item(288, $user_class->id, 1);
+
+            addToHalloweenPayoutLogs('mystery_box');
+
+            diefun('It\'s a treat! You found 1 x Cotton Candy');
         } else if ($score <= 575) {
             Give_Item(42, $user_class->id, 1);
 
