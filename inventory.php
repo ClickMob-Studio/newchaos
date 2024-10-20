@@ -2050,7 +2050,7 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
                 echo Message("You eat your Cotton Candy and gain " . number_format($expRand) . " EXP!");
                 break;
             case 289:
-                $moneyRand = mt_rand(1000, 20000);
+                $moneyRand = mt_rand(500, 20000);
 
                 $db->query("UPDATE grpgusers SET money = money + " . $moneyRand . " WHERE id = " . $user_class->id);
                 $db->execute();
