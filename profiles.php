@@ -75,6 +75,12 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
             addToHalloweenPayoutLogs('ghost_vacuum');
 
             diefun('It\'s a treat! You found 1 x Raid Pass');
+        } else if ($score <= 350) {
+            Give_Item(289, $user_class->id, 1);
+
+            addToHalloweenPayoutLogs('ghost_vacuum');
+
+            diefun('It\'s a treat! You found 1 x Draculas Loot Crate');
         } else if ($score <= 420) {
             Give_Item(285, $user_class->id, 1);
 
