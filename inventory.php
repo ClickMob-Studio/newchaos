@@ -2037,16 +2037,17 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
                 echo Message("You use your ghost vacuum and you feel ready to hunt ghosts for the next 15 minutes!");
                 break;
             case 288:
-                $expRand = $user_class->maxexp / mt_rand(10000, 20000);
+                $expRand = ceil($user_class->maxexp / mt_rand(10000, 20000));
                 if ($expRand < 10) {
                     $expRand = 10;
                 }
+
 
                 $db->query("UPDATE grpgusers SET exp = exp + " . $expRand . " WHERE id = " . $user_class->id);
                 $db->execute();
 
 
-                echo Message("You eat your Cotton Candy and gain " . $expRand . "!");
+                echo Message("You eat your Cotton Candy and gain " . number_format($expRand) . "!");
                 break;
 
 case 197: // Nuke item
