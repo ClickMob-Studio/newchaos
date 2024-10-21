@@ -2753,11 +2753,21 @@ function getHalloweenUserList($userId)
     return $db->fetch_row(true);
 }
 
-function addToHalloweenPayoutLogs($field)
+function addToHalloweenPayoutLogs($item)
 {
     global $db;
 
-    $db->query("UPDATE `halloween_payout_logs` SET `" . $field ."` = `" . $field ."` + 1 WHERE `id` = 1");
-    $db->execute();
+    $now = new \DateTime();
 
+    $db->query("SELECT * FROM new_halloween_payout_logs WHERE find_date = ? AND item = ? LIMIT 1");
+    $db->execute(array($now->format('d-m'), $item));
+
+    $r = $db->fetch_row(true);
+    if (isset($r['id'])) {
+        $db->query("UPDATE `new_halloween_payout_logs` SET `count` = `count` + 1 WHERE `id` = "  .$r['id']);
+        $db->execute();
+    } else {
+        $db->query("INSERT INTO new_halloween_payout_logs (find_date, item, count) VALUES ('" . $now->format('d-m') . "', '" . $item . "', 1)");
+        $db->execute();
+    }
 }
