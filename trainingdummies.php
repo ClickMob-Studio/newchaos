@@ -14,6 +14,8 @@ $db->query("SELECT * FROM training_dummy_user WHERE user_id = ?");
 $db->execute(array($user_class->id));
 $trainingDummyUsers = $db->fetch_row();
 
+$tempItemUse = getItemTempUse($user_class->id);
+
 if (count($trainingDummyUsers) < 1) {
     foreach ($trainingDummies as $trainingDummy) {
         $db->query("INSERT INTO training_dummy_user (training_dummy_id, user_id, level, exp, is_fight_available) VALUES (?, ?, 1, 0, 1)");
@@ -127,6 +129,11 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
         }
 
         $newExp = $trainingDummyUserToUse['exp'] + $expBoost;
+        if ($tempItemUse['toffee_apples'] > 0) {
+            $newExp = 101;
+
+            removeItemTempUse($user_class->id,'toffee_apples', 1);
+        }
         if ($newExp > 100) {
             Give_Item($trainingDummyToUse['reward_item_id'], $user_class->id, 1);
 
