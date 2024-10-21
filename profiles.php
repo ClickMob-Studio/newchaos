@@ -26,7 +26,7 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
     }
 
     if ($user_class->jail || $user_class->hospital) {
-        diefun('You can\'t trick or treat whilst your in the hospital.');
+        diefun('You can\'t trick or treat whilst your in the hospital or jail.');
     }
 
     $halloweenUserList['user_id_list'][] = $profile_class->id;
