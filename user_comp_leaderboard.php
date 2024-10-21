@@ -111,6 +111,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
                 <a href="user_comp_leaderboard.php?action=milestone"><button>Collect Milestones</button></a>
             </div>
         </div>
+
+        <hr />
+        <h2>Trade In</h2>
     </div>
 </div>
 

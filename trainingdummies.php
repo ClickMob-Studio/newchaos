@@ -144,13 +144,26 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
             $cashReward = ceil($cashReward);
         }
 
-        $db->query('UPDATE grpgusers SET energy = 0, money = money + ?, exp = exp + ? WHERE id = ?');
-        $db->execute(array($cashReward, $expReward, $user_class->id));
+        if ($attack == 21) {
+            $cashReward = $cashReward * 5;
+        }
+
+        $pointsReward = 0;
+        if ($attack == 21) {
+            $pointsReward = mt_rand(100,200);
+        }
+
+        $db->query('UPDATE grpgusers SET energy = 0, money = money + ?, exp = exp + ?, points = points + ? WHERE id = ?');
+        $db->execute(array($cashReward, $expReward, $pointsReward, $user_class->id));
 
         $db->query('UPDATE training_dummy_user SET level = level + 1, exp = ' . $newExp . ', last_fight_time = ' . time() . ' WHERE id = ' . $trainingDummyUserToUse['id']);
         $db->execute();
 
-        diefun('You have successfully beaten the training dummy and you have been rewarded ' . number_format($expReward, 0) . ' EXP & $' . number_format($cashReward, 0) .'! <a href="trainingdummies.php">Go Back</a>.');
+        if ($attack == 21) {
+            diefun('You have successfully beaten the training dummy and you have been rewarded ' . number_format($expReward, 0) . ' EXP & $' . number_format($cashReward, 0) .'! <a href="trainingdummies.php">Go Back</a>.');
+        } else {
+            diefun('You have successfully beaten the training dummy and you have been rewarded ' . number_format($expReward, 0) . ' EXP & $' . number_format($cashReward, 0) .'! <a href="trainingdummies.php">Go Back</a>.');
+        }
     } else {
         // Lost Fight
         $db->query('UPDATE grpgusers SET hp = 0, energy = 0, hospital = 300 WHERE id = ?');
