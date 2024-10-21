@@ -2058,6 +2058,13 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
 
                 echo Message("You search inside the crate and find $" . number_format($moneyRand) . "!");
                 break;
+            case 290:
+                $tempItemUse = getItemTempUse($user_class->id);
+
+                addItemTempUse($user_class, 'toffee_apples', 1);
+
+                echo Message("You eat your Toffee Apple and now your ready to go and attack some City Goons.");
+                break;
 
 case 197: // Nuke item
     // Check if the form has been submitted
