@@ -12,6 +12,7 @@ $rows = $db->fetch_row();
     <table class="new_table" id="newtables" style="width:100%;">
         <thead>
             <tr>
+                <th></th>
                 <th>Item</th>
                 <th>Quantity</th>
             </tr>
@@ -19,6 +20,7 @@ $rows = $db->fetch_row();
         <tbody>
             <?php foreach ($rows as $row): ?>
                 <tr>
+                    <td><?php echo $row['itemid'] ?></td>
                     <td><?php echo Item_Name($row['itemid']) ?></td>
                     <td><?php echo number_format($row['total']) ?></td>
                 </tr>

@@ -112,8 +112,16 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
             </div>
         </div>
 
-        <hr />
-        <h2>Trade In</h2>
+        <?php if ($user_class->admin > 0): ?>
+            <?php
+            $tradeIns = array();
+            $tradeIns[]
+
+            ?>
+            <hr />
+            <h2>Trade In</h2>
+
+        <?php endif; ?>
     </div>
 </div>
 
