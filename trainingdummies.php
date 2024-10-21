@@ -123,7 +123,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
         // Won Fight
         $expBoost = mt_rand(2,5);
         if ($attack == 8) {
-            $expBoost * 3;
+            $expBoost = $expBoost * 5;
         }
 
         $newExp = $trainingDummyUserToUse['exp'] + $expBoost;
