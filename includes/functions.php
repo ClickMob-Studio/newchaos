@@ -2733,7 +2733,7 @@ function getHalloweenUserList($userId)
 
     $now = new \DateTime();
 
-    $db->query("SELECT * FROM halloween_user_list WHERE user_id = " . $userId . " AND month_year = '" . $now->format('d-m-Y-h') . "' LIMIT 1");
+    $db->query("SELECT * FROM halloween_user_list WHERE user_id = " . $userId . " AND month_year = '" . $now->format('d-m-Y-H') . "' LIMIT 1");
     $db->execute();
 
     $r = $db->fetch_row(true);
@@ -2743,7 +2743,7 @@ function getHalloweenUserList($userId)
 
         return $r;
     } else {
-        $db->query("INSERT INTO halloween_user_list (user_id, month_year) VALUES (" . $userId . ", '" . $now->format('d-m-Y-h') . "')");
+        $db->query("INSERT INTO halloween_user_list (user_id, month_year) VALUES (" . $userId . ", '" . $now->format('d-m-Y-H') . "')");
         $db->execute();
         $r = getHalloweenUserList($userId);
 
