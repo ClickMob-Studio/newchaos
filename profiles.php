@@ -94,11 +94,11 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
 
             diefun('It\'s a treat! You found 1 x Double EXP');
         } else if ($score <= 450) {
-            Give_Item(194, $user_class->id, 1);
+            Give_Item(290, $user_class->id, 1);
 
-            addToHalloweenPayoutLogs('Raid Speed Up');
+            addToHalloweenPayoutLogs('Toffee Apple');
 
-            diefun('It\'s a treat! You found 1 x Raid Speed Up');
+            diefun('It\'s a treat! You found 1 x Toffee Apple');
         } else if ($score <= 500) {
             Give_Item(288, $user_class->id, 1);
 
