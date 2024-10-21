@@ -122,7 +122,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
     if ($bossHp <= 0) {
         // Won Fight
         $expBoost = mt_rand(2,5);
-        if ($attack == 21) {
+        if ($attack == 8) {
             $expBoost * 3;
         }
 
@@ -147,12 +147,12 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
             $cashReward = ceil($cashReward);
         }
 
-        if ($attack == 21) {
+        if ($attack == 8) {
             $cashReward = $cashReward * 5;
         }
 
         $pointsReward = 0;
-        if ($attack == 21) {
+        if ($attack == 8) {
             $pointsReward = mt_rand(100,200);
         }
 
@@ -162,7 +162,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
         $db->query('UPDATE training_dummy_user SET level = level + 1, exp = ' . $newExp . ', last_fight_time = ' . time() . ' WHERE id = ' . $trainingDummyUserToUse['id']);
         $db->execute();
 
-        if ($attack == 21) {
+        if ($attack == 8) {
             diefun('You have successfully beaten the training dummy and you have been rewarded ' . number_format($expReward, 0) . ' EXP & $' . number_format($cashReward, 0) .'! <a href="trainingdummies.php">Go Back</a>.');
         } else {
             diefun('You have successfully beaten the training dummy and you have been rewarded ' . number_format($expReward, 0) . ' EXP & $' . number_format($cashReward, 0) .'! <a href="trainingdummies.php">Go Back</a>.');
