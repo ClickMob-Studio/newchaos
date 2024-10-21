@@ -163,7 +163,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
         $db->execute();
 
         if ($attack == 8) {
-            diefun('You have successfully beaten the training dummy and you have been rewarded ' . number_format($expReward, 0) . ' EXP & $' . number_format($cashReward, 0) .'! <a href="trainingdummies.php">Go Back</a>.');
+            diefun('You have successfully beaten the training dummy and you have been rewarded ' . number_format($expReward, 0) . ' EXP, ' . number_format($pointsReward, 0) . ' points & $' . number_format($cashReward, 0) .'! <a href="trainingdummies.php">Go Back</a>.');
         } else {
             diefun('You have successfully beaten the training dummy and you have been rewarded ' . number_format($expReward, 0) . ' EXP & $' . number_format($cashReward, 0) .'! <a href="trainingdummies.php">Go Back</a>.');
         }
