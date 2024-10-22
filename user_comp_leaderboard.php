@@ -115,7 +115,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
         <?php if ($user_class->admin > 0): ?>
             <?php
             $tradeIns = array();
-            $tradeIns[]
+            //$tradeIns[]
 
             ?>
             <hr />
