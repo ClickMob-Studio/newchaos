@@ -261,7 +261,9 @@ function areDevToolsOpen() {
         //     lastClick = (new Date()).getTime();
         // });
 
-        <?php if ($userBaStats['gold_rush_credits'] > 0): ?>
+        <?php if ($userBaStats['zombie_rush_credits'] > 0): ?>
+            $('.ba-btn').addClass('zombie-rush-mode');
+        <?php elseif ($userBaStats['gold_rush_credits'] > 0): ?>
             $('.ba-btn').addClass('gold-rush-mode');
         <?php endif; ?>
 
