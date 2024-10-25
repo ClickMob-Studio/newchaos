@@ -31,6 +31,12 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
         border-color: #F1B801;
         color: #000000;
     }
+
+    .zombie-rush-mode {
+        background-color: #ff0000;
+        border-color: #ff0000;
+        color: #000000;
+    }
 </style>
 
 <div class="box_top"><h1>Back Alley</h1></div>
@@ -91,6 +97,10 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 </div>
                 <hr />
 
+
+                <div class="alert alert-info zombie-rush-mode" <?php if ($userBaStats['zombie_rush_credits'] < 1): ?> style="display:none;"<?php endif; ?>>
+                    <p style="color: #000;">YOU CURRENTLY HAVE <span class="zombie-rush-credits-text"><?php echo $userBaStats['zombie_rush_credits'] ?></span> ZOMBIE RUSH CREDITS REMAINING!</p>
+                </div>
 
                 <div class="alert alert-info gold-rush-mode" <?php if ($userBaStats['gold_rush_credits'] < 1): ?> style="display:none;"<?php endif; ?>>
                     <p style="color: #000;">YOU CURRENTLY HAVE <span class="gold-rush-credits-text"><?php echo $userBaStats['gold_rush_credits'] ?></span> GOLD RUSH CREDITS REMAINING!</p>

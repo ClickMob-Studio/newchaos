@@ -20,6 +20,10 @@ function error($msg, $goldRushCredits = 0, $userBaStats = array())
     $response['error'] = $msg;
     $response['gold_rush_credits'] = $goldRushCredits;
     $response['user_ba_stats'] = $userBaStats;
+    $response['zombie_rush_credits'] = 0;
+    if (isset($userBaStats['zombie_rush_credits'])) {
+        $response['zombie_rush_credits'] = $userBaStats['zombie_rush_credits'];
+    }
 
 
     return $response;
@@ -33,6 +37,9 @@ function success($msg, $goldRushCredits = 0, $medPackCount = 0, $userBaStats = n
     $response['gold_rush_credits'] = $goldRushCredits;
     $response['med_pack_count'] = $medPackCount;
     $response['user_ba_stats'] = $userBaStats;
+    if (isset($userBaStats['zombie_rush_credits'])) {
+        $response['zombie_rush_credits'] = $userBaStats['zombie_rush_credits'];
+    }
 
     return $response;
 }
