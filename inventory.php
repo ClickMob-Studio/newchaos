@@ -2065,6 +2065,16 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
 
                 echo Message("You eat your Toffee Apple and now your ready to go and attack some City Goons.");
                 break;
+            case 291:
+                $zombieRushCredits = 10;
+
+                $db->query("UPDATE user_ba_stats SET zombie_rush_credits = zombie_rush_credits + " . $zombieRushCredits . " WHERE user_id = ?");
+                $db->execute(array(
+                    $user_class->id
+                ));
+
+                echo Message("Head to the Backalley now and start your Zombie Rush!");
+                break;
 
 case 197: // Nuke item
     // Check if the form has been submitted
