@@ -219,7 +219,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'reset_spends') {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if the user has reached the maximum prestige level
-    if ($user_class->prestige >= 6) {
+    if ($user_class->prestige >= 10) {
         echo Message("You cannot Prestige again!!");
     } else if ($user_class->level >= $prestigeLevelRequired) {
         if ($user_class->prestige < 1) {
