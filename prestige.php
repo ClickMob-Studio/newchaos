@@ -317,7 +317,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class='pad'>
         <p>
             Welcome to Account Prestiges! By increasing your prestige, you allow your level to be reset, as well as pay a forfeit, and in return you receive special bonuses. The first prestige allows you to prestige
-            at level 1000, and they increase by 200 thereon. Once you hit prestige 5, it then increases by 500.
+            at level 1000, and they increase by 200 thereon. Once you hit prestige 5, it then increases by 700.
         </p>
 
         <h2>Prestige Unlocks</h2>
