@@ -111,12 +111,6 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
             addToHalloweenPayoutLogs('Cotton Candy');
 
             diefun('It\'s a treat! You found 1 x Cotton Candy');
-        } else if ($score <= 550) {
-            Give_Item(42, $user_class->id, 1);
-
-            addToHalloweenPayoutLogs('Mystery Box');
-
-            diefun('It\'s a treat! You found 1 x Mystery Box');
         } else if ($score <= 1000) {
             addToUserCompLeaderboard($user_class->id, 'vampire_teeth', 1);
 
