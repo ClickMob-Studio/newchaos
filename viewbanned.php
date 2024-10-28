@@ -7,8 +7,8 @@ include 'header.php';
     <div class='pad'>
         <table style="width:100%;">
             <tr>
-                <th style="text-align: left;">Player</th>
-                <th style="text-align: left;">Type</th>
+                <th >Player</th>
+                <th >Type</th>
             </tr>
 
             <?php
