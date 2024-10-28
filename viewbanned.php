@@ -13,7 +13,7 @@ include 'header.php';
             </tr>
 
             <?php
-            $db->query("SELECT id, avatar, lastactive FROM grpgusers WHERE banned > 0 id ASC");
+            $db->query("SELECT id, avatar, lastactive FROM grpgusers WHERE banned > 0");
             $db->execute();
             $rows = $db->fetch_row();
             foreach ($rows as $row) {
