@@ -2797,7 +2797,7 @@ function getCurrentQuestSeasonForUser($user_class)
     if (!$questSeasonId) {
         $questSeasonId = 1;
     }
-
+echo $questSeasonId; exit;
     $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " LIMIT 1");
     $db->execute();
     $questSeason = $db->fetch_row(true);
