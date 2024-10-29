@@ -2816,7 +2816,7 @@ function getQuestSeasonUser($userId, $questSeasonId)
     if (isset($r['id'])) {
         return $r;
     } else {
-        $db->query("INSERT INTO quest_season_user (user_id, quest_season_ud) VALUES (" . $userId . ", " . $questSeasonId . ")");
+        $db->query("INSERT INTO quest_season_user (user_id, quest_season_id) VALUES (" . $userId . ", " . $questSeasonId . ")");
         $db->execute();
         $r = getQuestSeasonUser($userId, $questSeasonId);
 
