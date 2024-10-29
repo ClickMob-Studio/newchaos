@@ -3,9 +3,11 @@
 require "header.php";
 
 $currentQuestSeason = getCurrentQuestSeasonForUser($user_class);
-$questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
-$questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
-$questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+if (isset($currentQuestSeason['id'])) {
+    $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+    $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
+    $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+}
 
 if ($questSeasonUser) {
 
