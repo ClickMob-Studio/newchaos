@@ -2771,3 +2771,57 @@ function addToHalloweenPayoutLogs($item)
         $db->execute();
     }
 }
+
+function getCurrentQuestSeasonForUser($user_class)
+{
+    global $db;
+
+    $db->query("SELECT * FROM quest_season_user WHERE (is_complete IS NULL OR is_complete = 0) ORDER BY quest_season_id DESC LIMIT 1");
+    $db->execute();
+    $questSeasonUser = $db->fetch_row(true);
+
+    if ($questSeasonUser && isset($questSeasonUser['id'])) {
+        $questSeasonId = $questSeasonUser['quest_season_id'];
+    }
+
+    if (!$questSeasonId) {
+        $db->query("SELECT * FROM quest_season_user WHERE is_complete = 1 ORDER BY quest_season_id DESC LIMIT 1");
+        $db->execute();
+        $questSeasonUser = $db->fetch_row(true);
+
+        if ($questSeasonUser && isset($questSeasonUser['id'])) {
+            $questSeasonId = $questSeasonUser['quest_season_id'] + 1;
+        }
+    }
+
+    if (!$questSeasonId) {
+        $questSeasonId = 1;
+    }
+
+    $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " LIMIT 1");
+    $db->execute();
+    $questSeason = $db->fetch_row(true);
+
+    return $questSeason;
+}
+
+function getQuestSeasonUser($userId, $questSeasonId)
+{
+    global $db;
+
+    $db->query("SELECT * FROM quest_season_user WHERE user_id = " . $userId . " AND quest_season_id = " . $questSeasonId . " LIMIT 1");
+    $db->execute();
+
+    $r = $db->fetch_row(true);
+    if (isset($r['id'])) {
+        return $r;
+    } else {
+        $db->query("INSERT INTO quest_season_user (user_id, quest_season_ud) VALUES (" . $userId . ", " . $questSeasonId . ")");
+        $db->execute();
+        $r = getQuestSeasonUser($userId, $questSeasonId);
+
+        return $r;
+    }
+
+    return $db->fetch_row(true);
+}
