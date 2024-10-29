@@ -2875,3 +2875,12 @@ function getQuestSeasonMission($userId, $questSeasonId)
 
     return $questSeasonMission;
 }
+
+function getDisplayForQuestReq($req, $num)
+{
+    if ($req === 'vinny_the_fish_delivery') {
+        return 'Deliver the package to Vinny The Fish';
+    } else {
+        return '<strong>' . $req . ': . ' . number_format($num) . '</strong>';
+    }
+}

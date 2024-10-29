@@ -21,7 +21,7 @@ if ($questSeasonUser) {
 <h2><strong>Progress:</strong></h2>
 <ul>
     <?php foreach ($questSeasonMission['requirements'] as $req => $num): ?>
-        <li><strong><?php echo $req ?>:</strong> <?php echo $num ?></li>
+        <li><?php echo getDisplayForQuestReq($req, $num) ?>></li>
     <?php endforeach; ?>
 </ul>
 
