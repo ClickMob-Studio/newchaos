@@ -2075,6 +2075,19 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
 
                 echo Message("Head to the Backalley now and start your Zombie Rush!");
                 break;
+            case 292:
+                $tempItemUse = getItemTempUse($user_class->id);
+                $now = time();
+                if ($tempItemUse['trick_or_treat_pass_time'] > $now) {
+                    diefun('You already have a Trick or Treat Pass active.');
+                }
+
+                $newTime = time() + 900;
+
+                addItemTempUse($user_class, 'trick_or_treat_pass_time', $newTime);
+
+                echo Message("You use your trick or treat pass and you feel ready to go searching player profiles for the next 15 minutes!");
+                break;
 
 case 197: // Nuke item
     // Check if the form has been submitted
