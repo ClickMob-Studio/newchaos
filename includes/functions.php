@@ -2825,3 +2825,39 @@ function getQuestSeasonUser($userId, $questSeasonId)
 
     return $db->fetch_row(true);
 }
+
+function getQuestSeasonMissionUser($userId, $questSeasonId)
+{
+    global $db;
+
+    $db->query("SELECT * FROM quest_season_mission_user WHERE quest_season_id = " . $questSeasonId . " AND (is_complete IS NULL OR is_complete = 0) ORDER BY id DESC LIMIT 1");
+    $db->execute();
+    $questSeasonMissionUser = $db->fetch_row(true);
+
+    if ($questSeasonMissionUser && isset($questSeasonMissionUser['id'])) {
+        return $questSeasonMissionUser;
+    }
+
+    $db->query("SELECT * FROM quest_season_mission_user WHERE quest_season_id = " . $questSeasonId . " AND is_complete = 1 ORDER BY id DESC LIMIT 1");
+    $db->execute();
+    $questSeasonMissionUser = $db->fetch_row(true);
+
+    if ($questSeasonMissionUser && isset($questSeasonMissionUser['id'])) {
+        return $questSeasonMissionUser;
+    }
+
+    $db->query("SELECT * FROM quest_season_mission WHERE quest_season_id = " . $questSeasonId . " ORDER BY id ASC LIMIT 1");
+    $db->execute();
+    $questSeasonMission = $db->fetch_row(true);
+
+    if ($questSeasonMission) {
+        $db->query("INSERT INTO quest_season_mission_user (user_id, quest_season_id, quest_season_mission_id) VALUES (" . $userId . ", " . $questSeasonId . ", " . $questSeasonMission['id'] . ")");
+        $db->execute();
+        $r = getQuestSeasonMission($userId, $questSeasonId);
+
+        return $r;
+    }
+
+
+    return null;
+}
