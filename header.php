@@ -1686,6 +1686,12 @@ if ($tempItemUse['ghost_vacuum_time'] > $time) {
     $messages[] = 'Ghost Vacuum: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
 }
 
+// Trick or Treat Pass
+if ($tempItemUse['trick_or_treat_pass_time'] > $time) {
+    $rtn = howlongtil($tempItemUse['trick_or_treat_pass_time']);
+    $messages[] = 'Trick or Treat Pass: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
 
     // Jail
 if ($user_class->jail > $time) {
