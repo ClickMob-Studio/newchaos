@@ -50,7 +50,12 @@ $mission['requirements'] = json_encode(array('backalley' => 500));
 $mission['payouts'] = json_encode(array('cash' => 500000, 'exp' => 50, 'items' => array(array('id' => 277, 'quantity' => 1))));
 $missions[] = $mission;
 
-var_dump($missions);
+foreach ($missions as $mission) {
+    $db->query('INSERT INTO quest_season_mission (quest_season_id, name, description, requirements, payouts) VALUES (?, ?, ?, ?, ?)');
+    $db->execute(array($quest, $mission['name'], $mission['description'], $mission['requirements'], $mission['payouts']));
+}
+
+
 
 
 
