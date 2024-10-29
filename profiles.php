@@ -111,7 +111,7 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
             addToHalloweenPayoutLogs('Toffee Apple');
 
             diefun('It\'s a treat! You found 1 x Toffee Apple');
-        else if ($score <= 475) {
+        } else if ($score <= 475) {
             Give_Item(292, $user_class->id, 1);
 
             addToHalloweenPayoutLogs('Trick or Treat Pass');
