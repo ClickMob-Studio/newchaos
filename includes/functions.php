@@ -2861,3 +2861,16 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
 
     return null;
 }
+
+function getQuestSeasonMission($userId, $questSeasonId)
+{
+    global $db;
+
+    $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $questSeasonId);
+
+    $db->query("SELECT * FROM quest_season_mission WHERE quest_season_id = " . $questSeasonMissionUser['quest_season_mission_id'] . " LIMIT 1");
+    $db->execute();
+    $questSeasonMission = $db->fetch_row(true);
+
+    return $questSeasonMission;
+}
