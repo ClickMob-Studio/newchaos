@@ -20,6 +20,8 @@ $userPrestigeSkills = getUserPrestigeSkills($user_class);
 
 $halloweenUserList = getHalloweenUserList($user_class->id);
 
+$tempItemUse = getItemTempUse($user_class->id);
+
 if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 'trickortreat') {
     if (in_array($profile_class->id, $halloweenUserList['user_id_list'])) {
         diefun('You can only trick or treat once per hour.');
@@ -38,7 +40,11 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
         $user_class->id
     ));
 
-    $score = mt_rand(1,1000);
+    if ($tempItemUse['trick_or_treat_pass_time'] > time()) {
+        $score = mt_rand(226,1000);
+    } else {
+        $score = mt_rand(1,1000);
+    }
 
     if ($score <= 225) {
         // Failure
