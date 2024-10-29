@@ -18,7 +18,8 @@ if ($questSeasonUser) {
 <h2>Mission: <?php echo $questSeasonMission['name'] ?></h2>
 <p><?php echo $questSeasonMission['description'] ?></p>
 
-<p><strong>Progress:</strong></p>
+<h2><strong>Progress:</strong></h2>
+    <?php var_dump($questSeasonMission['requirements']); exit;
 <ul>
     <?php foreach ($questSeasonMission['requirements'] as $req => $num): ?>
         <li><strong><?php echo $req ?>:</strong> <?php echo $num ?></li>
