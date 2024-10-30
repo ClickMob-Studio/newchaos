@@ -249,7 +249,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
             <strong>Economic Activities</strong>
         </div>
             <?php if (isset($questSeasonMission) && $questSeasonMission['id'] == 1 && $user_class->admin > 0): ?>
-                <a href="quest.php?mode=therustnail">The Rusty Nail</a>
+                <a href="quest.php?mode=therustnail">The Rusty Nail</a><br />
             <?php endif; ?>
 
             <a href='stores.php'>Item Stores</a><br>
