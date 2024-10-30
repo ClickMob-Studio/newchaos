@@ -30,7 +30,7 @@ if (isset($_POST['submit'])) {
         }
     }
 
-    if $_GET['id'] == 287) {
+    if ($_GET['id'] == 287) {
         if (Check_Item($_GET['id'], $_POST['theirid']) > 10) {
             $error = 'The player your sending this item too already has the maximum amount in their inventory.';
         }
