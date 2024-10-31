@@ -26,13 +26,13 @@ if (isset($_POST['submit'])) {
 
     if ($_GET['id'] == 271 || $_GET['id'] == 272 || $_GET['id'] == 278 || $_GET['id'] == 287) {
         if (Check_Item($_GET['id'], $_POST['theirid']) > 5) {
-            $error = 'The player your sending this item too already has the maximum amount in their inventory.';
+            $error = 'The player your sending this item too already has the maximum amount of 5 in their inventory.';
         }
     }
 
-    if ($_GET['id'] == 287) {
+    if ($_GET['id'] == 287 || $_GET['id'] == 293) {
         if (Check_Item($_GET['id'], $_POST['theirid']) > 10) {
-            $error = 'The player your sending this item too already has the maximum amount in their inventory.';
+            $error = 'The player your sending this item too already has the maximum amount of 10 in their inventory.';
         }
     }
 

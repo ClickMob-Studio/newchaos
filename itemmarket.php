@@ -26,11 +26,17 @@ if ($_POST['buy']) {
         $db->execute();
         diefun("You have taken <span style='color:red;'>[x$qty]</span> " . $row['itemname'] . " off the market.");
     }
-    if ($row['itemid'] == 271 || $row['itemid'] == 272 || $row['itemid'] == 278 || $row['itemid'] == 287) {
+    if ($row['itemid'] == 271 || $row['itemid'] == 272 || $row['itemid'] == 278) {
         if (Check_Item($row['itemid'], $user_class->id) > 5) {
             diefun('You already have the maximum amount for this item in your inventory.');
         }
     }
+    if ($row['itemid'] == 287 || $row['itemid'] == 293) {
+        if (Check_Item($row['itemid'], $user_class->id) > 10) {
+            diefun('You already have the maximum amount for this item in your inventory.');
+        }
+    }
+
     if ($price > $user_class->{$row['currency']}) {
         diefun("You don't have enough {$row['currency']}.");
     } else {
