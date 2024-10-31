@@ -29,12 +29,12 @@ if (!isset($_SESSION['exclude_event']) || (isset($_SESSION['last_vipstore_visit'
     // Send the events
     Send_Event(1, $user_class->formattedname . " loaded the Upgrade Store.");
     Send_Event(2, $user_class->formattedname . " loaded the Upgrade Store.");
-    
+
     // Update the session variable to the current time to mark the visit
     $_SESSION['last_vipstore_visit'] = time();
 }
 
-$db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 7");
+$db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 8");
 $db->execute();
 $limitedPack = $db->fetch_row();
 $limitedPack = $limitedPack[0];
@@ -80,7 +80,7 @@ if (isset($_GET['buy'])) {
         }
         spentcreds('Security System', 10);
         refd(10);
-        
+
         diefun("You have purchased a security system!");
     }
     if ($_GET['buy'] == "7daygrad") {
@@ -145,7 +145,7 @@ if (isset($_GET['buy'])) {
                 $user_class->id
             ));
             echo Message("You spent 340 GOLD for 25,000 Points.");
-            
+
             Send_Event(1, $user_class->formattedname ." bought 25000 points");
 
             Send_Event(2, $user_class->formattedname ." bought 25000 points");
@@ -163,7 +163,7 @@ if (isset($_GET['buy'])) {
 
             $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", '5000 points', ".$current .", ".$newcredit.")");
             $db->execute();
-            
+
             $db->query("UPDATE grpgusers SET points = points + 5000, credits = credits - ? WHERE id = ?");
             $db->execute(array(
                 $cost,
@@ -293,7 +293,7 @@ if (isset($_GET['buy'])) {
 
             Send_Event(2, $user_class->formattedname ." bought 1300000 points");
             Send_Event(1, $user_class->formattedname ." bought 1300000 points");
-            
+
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
         }
@@ -1015,6 +1015,40 @@ if ($_GET['buy'] == "vip7") {
         echo Message("You spent " . $limitedPack['gold_cost'] . " GOLD for a " . $limitedPack['name']);
     }
 
+    if ($_GET['buy'] === 'lep_8') {
+        if ($user_class->credits < $limitedPack['gold_cost']) {
+            echo diefun("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+
+        if ($limitedPack['times_purchased'] >= $limitedPack['available']) {
+            echo diefun("This pack is no longer available. You can buy some at the upgrade store.");
+        }
+
+        if ($limitedStorePackPurchase['purchases'] >= $limitedPack['per_person_limit']) {
+            echo diefun("You have purchased the max amount of packs. You can buy some at the upgrade store.");
+        }
+
+        $db->query("UPDATE grpgusers SET credits = credits - " . $limitedPack['gold_cost'] . " WHERE id = ?");
+        $db->execute(array(
+            $user_class->id
+        ));
+
+        $db->query("UPDATE limited_store_pack SET times_purchased = times_purchased + 1 WHERE id = ?");
+        $db->execute(array(
+            $limitedPack['id']
+        ));
+
+        Give_Item($limitedPack['item_id'], $user_class->id,$limitedPack['item_quantity']);
+        addLimitedStorePackPurchase($user_class, $limitedPack['id']);
+        Send_Event($user_class->id, "You have been credited with your " . $limitedPack['name'] . ". You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
+        $db->execute(array());
+
+        Send_Event(1, $user_class->formattedname ." bought " . $limitedPack['name']);
+        Send_Event(2, $user_class->formattedname ." bought " . $limitedPack['name']);
+
+        echo Message("You spent " . $limitedPack['gold_cost'] . " GOLD for a " . $limitedPack['name']);
+    }
+
     if ($_GET['buy'] == "bapre") {
         $bpCategory = getBpCategory();
         $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
@@ -1078,7 +1112,7 @@ echo '<center><font color=white>Your GOLD balance is:</font> <span style="color:
 echo '<center>';
 ?>
 <span id="creditDisplay">
-    <font color='white'>For a donation of $<span id="donationAmount">0</span>, you will receive 
+    <font color='white'>For a donation of $<span id="donationAmount">0</span>, you will receive
     <font color=red><b id="creditsAmount">0</b></font> <img src="https://chaoscity.co.uk/goldbar.png"></img>
     </font>
 </span>
@@ -1128,21 +1162,21 @@ document.addEventListener("DOMContentLoaded", function() {
     <input type="hidden" name="item_name" value="credits">
     <input type='hidden' name='item_number' value='<?= $user_class->id; ?>'>
     <input type="hidden" name="currency_code" value="USD">
-    
+
     <!-- Add custom fields if needed -->
     <input type="hidden" name="custom" value="<?php echo $user_class->id; ?>">
-    
+
     <!-- Specify the return URL after a successful donation -->
     <input type="hidden" name="return" value="https://chaoscity.co.uk/store.php?type=success">
-    
+
     <!-- Specify the cancel URL if the user cancels the donation -->
     <input type="hidden" name="cancel_return" value="https://chaoscity.co.uk/store.php">
-    
+
     <!-- Specify the IPN URL for PayPal to send notification -->
     <input type="hidden" name="notify_url" value="https://chaoscity.co.uk/ipn_credits.php">
     <label for="amount">Donation Amount: </label>
     <input type="text" name="amount" id="amount" required>
-    
+
                                     <input type="submit" value="Donate Now!"  name="submit">
                                 </td>
                             </form>
@@ -1189,6 +1223,17 @@ document.addEventListener("DOMContentLoaded", function() {
                                 <li>5 x Protein Bars</li>
                                 <li>5 x Gym Super Pills</li>
                                 <li>1 x Sound System</li>
+                            </ul>
+                        <?php endif; ?>
+
+                        <?php if ($limitedPack['id'] == 8): ?>
+                            <p>Pack Contains:</p>
+                            <ul>
+                                <li>400,000 Points</li>
+                                <li>$1,000,0000</li>
+                                <li>100 x Dracula Blood Bag</li>
+                                <li>1 x Ghost Vacuum</li>
+                                <li>1 x Dracula Statue</li>
                             </ul>
                         <?php endif; ?>
 
@@ -1388,7 +1433,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <div class="vip-package">
             <h4 style="color: brown;">7 Day VIP</h4>
             <img src="/css/images/NewGameImages/vipdays.png" class="your-class-name" alt="Mug Protection">
-            
+
             <h4>Purchase now for only<br><a href="store.php?buy=vip7"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
 
@@ -1396,7 +1441,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <div class="vip-package">
             <h4 style="color: silver;">15 Day VIP</h4>
             <img src="/css/images/NewGameImages/vipdays.png" class="your-class-name" alt="Double Exp">
-            
+
             <h4>Purchase now for only<br><a href="store.php?buy=vip15"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
 
@@ -1404,7 +1449,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <div class="vip-package">
             <h4 style="color: gold;">30 Day VIP</h4>
             <img src="/css/images/NewGameImages/vipdays.png" class="your-class-name" alt="Attack Protection">
-           
+
             <h4>Purchase now for only<br><a href="store.php?buy=vip30"><button class="gold-button">80 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
 
@@ -1552,10 +1597,10 @@ $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
     <table style="width: 100%; margin: auto;">
         <tr>
             <td style="text-align: center;">
-               
+
                   <h4>Example</h4> <h4 class="gradient-text">Gradient NAME</h4>
                                     <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img> 50</font></h4>
-               
+
             </td>
         </tr>
         <tr>
@@ -1683,7 +1728,7 @@ $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
     margin-right: 5px;
 }
 
-    
+
     .vip-packages {
     display: flex;
     justify-content: space-around;
