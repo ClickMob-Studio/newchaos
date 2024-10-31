@@ -1230,7 +1230,7 @@ document.addEventListener("DOMContentLoaded", function() {
                             <p>Pack Contains:</p>
                             <ul>
                                 <li>400,000 Points</li>
-                                <li>$1,000,0000</li>
+                                <li>$1,000,000,000</li>
                                 <li>100 x Dracula Blood Bag</li>
                                 <li>1 x Ghost Vacuum</li>
                                 <li>1 x Dracula Statue</li>
