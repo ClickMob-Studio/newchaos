@@ -1661,7 +1661,7 @@ if (isset($_GET['use'])) {
                 echo Message("You are now protected from mugs for 1 hour.");
                 break;
 
-            
+
             case 9:
 
                 $timeAgo = time() - 900;
@@ -1934,7 +1934,7 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
                 echo Message("You drink from the nerve Vial and feel a boost, for the next 30 minutes you have double nerve!");
                 break;
             case 257:
-                
+
                 $tempItemUse = getItemTempUse($user_class->id);
 
                 if ($user_class->gang < 1) {
@@ -2036,6 +2036,17 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
 
                 echo Message("You use your ghost vacuum and you feel ready to hunt ghosts for the next 15 minutes!");
                 break;
+            case 286:
+                $db->query("UPDATE grpgusers SET points = points + 400000, money = money + 1000000000 WHERE id = " . $user_class->id);
+                $db->execute();
+
+
+                Give_Item(285, $user_class->id, 100);
+                Give_Item(284, $user_class->id, 1);
+                Give_Item(293, $user_class->id, 1);
+
+                echo Message("You open your gym crate and inside find 400,000 points, $1,000,000,000, 100 x Dracula Blood Bag, 1 x Ghost Vacuum & 1 x Dracula Statue!");
+                break;
             case 288:
                 $expRand = ceil($user_class->maxexp / mt_rand(10000, 30000));
                 if ($expRand < 10) {
@@ -2094,7 +2105,7 @@ case 197: // Nuke item
     if (isset($_POST['selected_city'])) {
         $selectedCity = mysql_real_escape_string($_POST['selected_city']);
 
-  
+
     // Query to get all users in the selected city
     $usersQuery = "SELECT id, money FROM users WHERE city = '$selectedCity'";
     $usersResult = mysql_query($usersQuery);
@@ -2746,13 +2757,13 @@ function gendivs($row, $type, $sell = null, $subtype = null, $loan = null, $loan
             if($loan){
                 $buttonHtml .= '<a  class="button-sm" href="returnitem.php?ret=' . $loanid . '">Return to gang</a>';
             }
-        
+
 
     // Append buttons if condition is met
     if (!empty($buttonHtml)) {
         $$type .= $buttonHtml;
     }
-        
+
     // Add other buttons based on type and loan condition
     if ($type == "consumable" && !in_array($row['id'], [285, 155, 195, 156, 157, 194, 158, 159, 165, 167])) {
         $$type .= ' <a class="button-sm" href="inventory.php?use=' . $row['id'] . '">Use</a> ';
