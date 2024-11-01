@@ -22,7 +22,7 @@ $halloweenUserList = getHalloweenUserList($user_class->id);
 
 $tempItemUse = getItemTempUse($user_class->id);
 
-if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 'trickortreat') {
+if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 'trickortreatdeniedandcancelled') {
     if (in_array($profile_class->id, $halloweenUserList['user_id_list'])) {
         diefun('You can only trick or treat once per hour.');
     }
@@ -140,12 +140,12 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
 							<div class='pad'>
 
 							    <?php if (isset($halloweenUserList) && !in_array($profile_class->id, $halloweenUserList['user_id_list'])): ?>
-							        <div class="alert alert-danger" style="background: #ff6218;">
-							            <center>
-							            <p style="color: ffffff;">Mobster, do you have the guts to try a trick and treat?</p>
-                                        <a href="profiles.php?id=<?php echo $profile_class->id ?>&caction=trickortreat" class="dcSecondaryButton">Trick or Treat</a>
-                                        </center>
-                                    </div>
+<!--							        <div class="alert alert-danger" style="background: #ff6218;">-->
+<!--							            <center>-->
+<!--							            <p style="color: ffffff;">Mobster, do you have the guts to try a trick and treat?</p>-->
+<!--                                        <a href="profiles.php?id=--><?php //echo $profile_class->id ?><!--&caction=trickortreat" class="dcSecondaryButton">Trick or Treat</a>-->
+<!--                                        </center>-->
+<!--                                    </div>-->
 							    <?php endif; ?>
                                 <?php
 
@@ -1004,10 +1004,10 @@ $missionsCount = $missionsR['mission_count'];
 }
 
 .card-body {
-    background-color: transparent; 
+    background-color: transparent;
 }
 .bg-body{
-    background-color: transparent !important; 
+    background-color: transparent !important;
 }
 .img-thumbnail{
     background-color: transparent !important;
@@ -1093,7 +1093,7 @@ $missionsCount = $missionsR['mission_count'];
     </div>
 </div>
 
-    
+
     <?php
 
 
@@ -1558,7 +1558,7 @@ if (!empty($profile_class->sig)) {
 
 
 
-    
+
 genHead("<Br />");
 $db->query("SELECT note FROM personalnotes WHERE noter = ? AND noted = ?");
 $db->execute(array(
@@ -1606,9 +1606,9 @@ print"
 
     echo "<div class='profile_container' style='background: rgba(0,0,0,0.2);'>
     <div class='profile_header'>Equipped</div>
-    <div class='equipped_main padded row'>";  
+    <div class='equipped_main padded row'>";
 
-$count = 0;  
+$count = 0;
 foreach ($slots as $slot) {
     $img  = $slot['img'];
     $name = $slot['name'];
@@ -1645,7 +1645,7 @@ if ($pinfo->id > 0) {
           </div>";
 }
 
-echo "</div></div>";  
+echo "</div></div>";
 
 
 
@@ -1653,7 +1653,7 @@ echo "</div></div>";
 
     echo "<style>#total { flex-basis: 100%; }</style>";
 
-   
+
 
 
                 // ADMIN/GM STUFF
