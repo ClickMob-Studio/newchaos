@@ -130,7 +130,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
             if (isset($_GET['tradein']) && (int)$_GET['tradein']) {
                 $tradeIn = (int)$_GET['tradein'];
 
-                if (isset($tradeIns[$tradeIns])) {
+                if (isset($tradeIns[$tradeIn])) {
                     $itemId = $tradeIns[$tradeIn];
 
                     if ($userCompLeaderboard['overall_vampire_teeth'] >= $tradeIn) {
