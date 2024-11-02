@@ -140,10 +140,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
                         Give_Item($itemId, $user_class->id, 1);
 
                         echo Message('You have successfully traded in ' . number_format($tradeIn) . ' vampire teeth for ' . Item_Name($itemId) . '.');
-                        exit;
                     } else {
                         echo Message('You do not have enough vampire teeth to trade in for ' . Item_Name($itemId) . '.');
-                        exit;
                     }
                 }
             }
