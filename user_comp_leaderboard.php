@@ -134,7 +134,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
                     $itemId = $tradeIns[$tradeIn];
 
                     if ($userCompLeaderboard['overall_vampire_teeth'] >= $tradeIn) {
-                        $db->query("UPDATE grpgusers SET overall_vampire_teeth = overall_vampire_teeth - " . $tradeIn . " WHERE id = " . $user_class->id);
+                        $db->query("UPDATE user_comp_leaderboard SET overall_vampire_teeth = overall_vampire_teeth - " . $tradeIn . " WHERE user_id = " . $user_class->id);
                         $db->execute();
 
                         Give_Item($itemId, $user_class->id, 1);
