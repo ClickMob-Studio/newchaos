@@ -166,9 +166,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
                     <tbody>
                         <?php foreach ($tradeIns as $cost => $itemId): ?>
                             <tr>
-                                <td><?php echo number_format($cost); ?></td>
-                                <td><?php echo Item_Name($itemId) ?></td>
-                                <td><a href="user_comp_leaderboard.php?tradein=<?php echo $cost ?>">Buy</a></td>
+                                <td style="text-align: center !important;"><?php echo number_format($cost); ?></td>
+                                <td style="text-align: center !important;"><?php echo Item_Name($itemId) ?></td>
+                                <td style="text-align: center !important;"><a href="user_comp_leaderboard.php?tradein=<?php echo $cost ?>">Buy</a></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
