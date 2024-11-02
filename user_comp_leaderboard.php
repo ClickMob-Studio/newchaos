@@ -71,7 +71,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
         </center>
 
 
-        <!--
+
         <table id="newtables" style="width:100%; text-align: left;">
             <tr>
                 <th><b>Position</b></th>
@@ -96,6 +96,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
                 </tr>
             <?php endif; ?>
         </table>
+        <!--
 
 
         <hr />
@@ -117,11 +118,24 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
         <?php if ($user_class->admin > 0): ?>
             <?php
             $tradeIns = array();
-            //$tradeIns[]
+            $tradeIns[1000] = 285;
 
             ?>
             <hr />
-            <h2>Trade In</h2>
+            <center>
+                <h2>Trade In</h2>
+
+                <table id="newtables" style="width:100%; text-align: left;">
+                    <thead>
+                        <tr>
+                            <th>Vampire Teeth</th>
+                            <th>Reward</th>
+                            <th>Trade</th>
+                        </tr>
+                    </thead>
+
+                </table>
+            </center>
 
         <?php endif; ?>
     </div>
