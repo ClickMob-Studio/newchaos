@@ -125,7 +125,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
             $tradeIns[1000] = 285;
             $tradeIns[5000] = 271;
             $tradeIns[10000] = 278;
-            $tradeIns[20000] = 203;
+            $tradeIns[20000] = 293;
 
             ?>
             <hr />
