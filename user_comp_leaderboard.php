@@ -155,7 +155,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
 
                 <p>You currently have <?php echo number_format($userCompLeaderboard['overall_vampire_teeth'], 0) ?> Vampire Teeth.</p>
 
-                <table id="newtables" style="width:100%; text-align: left;">
+                <table id="newtables" style="width:100%;">
                     <thead>
                         <tr>
                             <th>Vampire Teeth</th>
