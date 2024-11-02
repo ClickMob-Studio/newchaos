@@ -115,66 +115,63 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
         </div>
         -->
 
-        <?php if ($user_class->admin > 0): ?>
-            <?php
-            $tradeIns = array();
-            $tradeIns[50] = 288;
-            $tradeIns[100] = 255;
-            $tradeIns[250] = 257;
-            $tradeIns[500] = 253;
-            $tradeIns[1000] = 285;
-            $tradeIns[5000] = 271;
-            $tradeIns[10000] = 278;
-            $tradeIns[20000] = 293;
+        <?php
+        $tradeIns = array();
+        $tradeIns[50] = 288;
+        $tradeIns[100] = 255;
+        $tradeIns[250] = 257;
+        $tradeIns[500] = 253;
+        $tradeIns[1000] = 285;
+        $tradeIns[5000] = 271;
+        $tradeIns[10000] = 278;
+        $tradeIns[20000] = 293;
 
-            if (isset($_GET['tradein']) && (int)$_GET['tradein']) {
-                $tradeIn = (int)$_GET['tradein'];
+        if (isset($_GET['tradein']) && (int)$_GET['tradein']) {
+            $tradeIn = (int)$_GET['tradein'];
 
-                if (isset($tradeIns[$tradeIn])) {
-                    $itemId = $tradeIns[$tradeIn];
+            if (isset($tradeIns[$tradeIn])) {
+                $itemId = $tradeIns[$tradeIn];
 
-                    if ($userCompLeaderboard['overall_vampire_teeth'] >= $tradeIn) {
-                        $db->query("UPDATE user_comp_leaderboard SET overall_vampire_teeth = overall_vampire_teeth - " . $tradeIn . " WHERE user_id = " . $user_class->id);
-                        $db->execute();
+                if ($userCompLeaderboard['overall_vampire_teeth'] >= $tradeIn) {
+                    $db->query("UPDATE user_comp_leaderboard SET overall_vampire_teeth = overall_vampire_teeth - " . $tradeIn . " WHERE user_id = " . $user_class->id);
+                    $db->execute();
 
-                        Give_Item($itemId, $user_class->id, 1);
+                    Give_Item($itemId, $user_class->id, 1);
 
-                        echo Message('You have successfully traded in ' . number_format($tradeIn) . ' vampire teeth for ' . Item_Name($itemId) . '.');
-                    } else {
-                        echo Message('You do not have enough vampire teeth to trade in for ' . Item_Name($itemId) . '.');
-                    }
+                    echo Message('You have successfully traded in ' . number_format($tradeIn) . ' vampire teeth for ' . Item_Name($itemId) . '.');
+                } else {
+                    echo Message('You do not have enough vampire teeth to trade in for ' . Item_Name($itemId) . '.');
                 }
             }
+        }
 
-            ?>
-            <hr />
-            <center>
-                <h2>Trade In</h2>
+        ?>
+        <hr />
+        <center>
+            <h2>Trade In</h2>
 
-                <p>You currently have <?php echo number_format($userCompLeaderboard['overall_vampire_teeth'], 0) ?> Vampire Teeth.</p>
+            <p>You currently have <?php echo number_format($userCompLeaderboard['overall_vampire_teeth'], 0) ?> Vampire Teeth.</p>
 
-                <table id="newtables" style="width:100%;">
-                    <thead>
+            <table id="newtables" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>Vampire Teeth</th>
+                        <th>Reward</th>
+                        <th>Trade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($tradeIns as $cost => $itemId): ?>
                         <tr>
-                            <th>Vampire Teeth</th>
-                            <th>Reward</th>
-                            <th>Trade</th>
+                            <td style="text-align: center !important;"><?php echo number_format($cost); ?></td>
+                            <td style="text-align: center !important;"><?php echo Item_Name($itemId) ?></td>
+                            <td style="text-align: center !important;"><a href="user_comp_leaderboard.php?tradein=<?php echo $cost ?>">Buy</a></td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($tradeIns as $cost => $itemId): ?>
-                            <tr>
-                                <td style="text-align: center !important;"><?php echo number_format($cost); ?></td>
-                                <td style="text-align: center !important;"><?php echo Item_Name($itemId) ?></td>
-                                <td style="text-align: center !important;"><a href="user_comp_leaderboard.php?tradein=<?php echo $cost ?>">Buy</a></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
+                    <?php endforeach; ?>
+                </tbody>
 
-                </table>
-            </center>
-
-        <?php endif; ?>
+            </table>
+        </center>
     </div>
 </div>
 
