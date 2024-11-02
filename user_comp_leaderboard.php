@@ -119,6 +119,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
             <?php
             $tradeIns = array();
             $tradeIns[1000] = 285;
+            $tradeIns[5000] = 271;
+            $tradeIns[10000] = 278;
+            $tradeIns[20000] = 203;
 
             ?>
             <hr />
@@ -133,6 +136,15 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
                             <th>Trade</th>
                         </tr>
                     </thead>
+                    <tbody>
+                        <?php foreach ($tradeIns as $cost => $itemId): ?>
+                            <tr>
+                                <td><?php echo number_format($cost); ?></td>
+                                <td><?php echo Item_Name($itemId) ?></td>
+                                <td><a href="#">Buy</a></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
 
                 </table>
             </center>
