@@ -118,6 +118,10 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
         <?php if ($user_class->admin > 0): ?>
             <?php
             $tradeIns = array();
+            $tradeIns[50] = 288;
+            $tradeIns[100] = 255;
+            $tradeIns[250] = 257;
+            $tradeIns[500] = 253;
             $tradeIns[1000] = 285;
             $tradeIns[5000] = 271;
             $tradeIns[10000] = 278;
