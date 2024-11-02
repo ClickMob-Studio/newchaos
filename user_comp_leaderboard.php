@@ -127,10 +127,33 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
             $tradeIns[10000] = 278;
             $tradeIns[20000] = 293;
 
+            if (isset($_GET['tradein']) && (int)$_GET['tradein']) {
+                $tradeIn = (int)$_GET['tradein'];
+
+                if (isset($tradeIns[$tradeIns])) {
+                    $itemId = $tradeIns[$tradeIn];
+
+                    if ($userCompLeaderboard['overall_vampire_teeth'] >= $tradeIn) {
+                        $db->query("UPDATE grpgusers SET overall_vampire_teeth = overall_vampire_teeth - " . $tradeIn . " WHERE id = " . $user_class->id);
+                        $db->execute();
+
+                        Give_Item($itemId, $user_class->id, 1);
+
+                        echo Message('You have successfully traded in ' . number_format($tradeIn) . ' vampire teeth for ' . Item_Name($itemId) . '.');
+                        exit;
+                    } else {
+                        echo Message('You do not have enough vampire teeth to trade in for ' . Item_Name($itemId) . '.');
+                        exit;
+                    }
+                }
+            }
+
             ?>
             <hr />
             <center>
                 <h2>Trade In</h2>
+
+                <p>You currently have <?php echo number_format($userCompLeaderboard['overall_vampire_teeth'], 0) ?> Vampire Teeth.</p>
 
                 <table id="newtables" style="width:100%; text-align: left;">
                     <thead>
@@ -145,7 +168,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
                             <tr>
                                 <td><?php echo number_format($cost); ?></td>
                                 <td><?php echo Item_Name($itemId) ?></td>
-                                <td><a href="#">Buy</a></td>
+                                <td><a href="user_comp_leaderboard.php?tradein=<?php echo $cost ?>">Buy</a></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
