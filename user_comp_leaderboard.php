@@ -71,7 +71,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
         </center>
 
 
-
+        <!--
         <table id="newtables" style="width:100%; text-align: left;">
             <tr>
                 <th><b>Position</b></th>
@@ -97,6 +97,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
             <?php endif; ?>
         </table>
 
+
         <hr />
         <h2>Milestone Payments</h2>
         <p>You currently have <?php echo number_format($userCompLeaderboard['overall_vampire_teeth']) ?> Vampire Teeth.</p>
@@ -111,6 +112,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone') {
                 <a href="user_comp_leaderboard.php?action=milestone"><button>Collect Milestones</button></a>
             </div>
         </div>
+        -->
 
         <?php if ($user_class->admin > 0): ?>
             <?php
