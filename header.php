@@ -1,5 +1,5 @@
 <?php
-ob_start(); 
+ob_start();
 session_start();
 // if($_SESSION['id'] == 1){
 //     ini_set('display_errors', 1);
@@ -25,19 +25,19 @@ function getUserIP() {
 function logPageView() {
     // Get the user's IP address
     $ip = getUserIP();
-    
+
     // Get the current page URL
     $pageURL = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    
+
     // Get the current date and time
     $dateTime = date("Y-m-d H:i:s");
-    
+
     // Create a log entry
     $logEntry = "IP: $ip | Page: $pageURL | DateTime: $dateTime\n";
-    
+
     // Specify the log file path
     $logFilePath = 'page_views.log';
-    
+
     // Write the log entry to the log file
     file_put_contents($logFilePath, $logEntry, FILE_APPEND);
 }
@@ -112,13 +112,13 @@ function logHighFrequencyRequests() {
     global $user_class;
     $ipAddress = $_SERVER['REMOTE_ADDR']; // Get client IP address
     $requestURI = $_SERVER['REQUEST_URI']; // Get the request URI
-   
+
     $currentTime = time();
     $timeLimit = 1; // Time window in seconds
     $requestLimit = 11; // Maximum number of requests allowed in the time window
 
     // Path to the log file
-   
+
 
     // Initialize session storage for request timestamps
     if (!isset($_SESSION['request_log'])) {
@@ -143,12 +143,12 @@ function logHighFrequencyRequests() {
         $uris = array_column($_SESSION['request_log'][$ipAddress], 'uri');
         $uniqueUris = array_unique($uris); // Optional: Filter to unique URIs
         $uriList = implode(', ', $uniqueUris);
-        
-        $logEntry = sprintf("[%s] IP %s Userid: ". $user_class->id ." exceeded the limit with %d requests to %s in %d second(s).\n", 
-                            date('Y-m-d H:i:s'), 
-                            $ipAddress, 
-                            count($_SESSION['request_log'][$ipAddress]), 
-                            $uriList, 
+
+        $logEntry = sprintf("[%s] IP %s Userid: ". $user_class->id ." exceeded the limit with %d requests to %s in %d second(s).\n",
+                            date('Y-m-d H:i:s'),
+                            $ipAddress,
+                            count($_SESSION['request_log'][$ipAddress]),
+                            $uriList,
                             $timeLimit);
                              Send_Event(1, $logEntry);
         Send_Event(2, $logEntry);
@@ -630,13 +630,13 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 <meta charset="UTF-8">
 <head>
 <meta http-equiv="x-dns-prefetch-control" content="off">
-<?php 
+<?php
 
 if ($user_class->view_preference === '1') { ?>
             <meta name="viewport" content="width=1024">
         <?php } else { ?>
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
-        <?php } 
+        <?php }
         $q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");
         $hosp = mysql_num_rows($q);
         ?>
@@ -671,8 +671,8 @@ if ($user_class->view_preference === '1') { ?>
     <script src="js/java.js?v=12" type="text/javascript"></script>
 
 
-	
-	
+
+
 <style>
 	a{
 		text-decoration: none;
@@ -688,15 +688,15 @@ if ($user_class->view_preference === '1') { ?>
     position: static;
         }
     }
-  
+
 	</style>
-    
+
 </head>
 <body>
 	<header class="mainHeader">
 		<div class="row mx-auto mainHeaderContent d-none d-md-block">
-		<?php 
-        
+		<?php
+
         require 'navbar1.php'; ?>
 		</div>
 
@@ -736,12 +736,12 @@ if ($user_class->view_preference === '1') { ?>
 }
 /* Custom styling for the modal */
 .modal-content {
-            background-color: #333; 
-            color: #fff;  
+            background-color: #333;
+            color: #fff;
         }
         .dropdown-menu{
-            background-color: #333; 
-            color: #fff;  
+            background-color: #333;
+            color: #fff;
             position: absolute !important;
         }
         .dropdown-item{
@@ -749,7 +749,7 @@ if ($user_class->view_preference === '1') { ?>
             font-size:18px;
         }
         .modal-header, .modal-body {
-            border-bottom: none;  
+            border-bottom: none;
         }
         .fa-solid, .fas {
          font-weight: 900;
@@ -764,7 +764,7 @@ if ($user_class->view_preference === '1') { ?>
 #edit-button.text-button {
   z-index: 1000; /* Higher z-index to make sure it's clickable */
 }
-        
+
 </style>
 <div class="container clearfix d-block d-md-none">
   <div class="d-flex justify-content-between align-items-center">
@@ -774,7 +774,7 @@ if ($user_class->view_preference === '1') { ?>
         <img src="asset/halloween.png" style="width:30px"/>
         <h1 class="h3 ms-2">ChaosCity</h1>
       </a>
-   
+
     </div>
     <div class="d-flex justify-content-end align-items-center">
         <a href="#" data-bs-toggle="modal" data-bs-target="#timeModal">
@@ -861,7 +861,7 @@ $requiredItems = array(
 if (empty($carousel_order)) {
     $carousel_order = $requiredItems;
 } else {
-   
+
     foreach ($requiredItems as $item) {
         if (!in_array($item, $carousel_order)) {
             $carousel_order[] = $item;
@@ -880,7 +880,7 @@ $db->execute();
 <div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
 <?php
       $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
-  
+
       function shorthandNumber($number) {
         if ($number >= 1000000000) { // Check if the number is at least a billion
             $shorthand = round($number / 1000000000, 2) . 'B'; // Convert to billions, round to 2 decimal places, and append 'B'
@@ -895,7 +895,7 @@ $db->execute();
         return number_format($number); // Return the original number if it's less than 1000
     }
 
-    
+
       if (mysql_num_rows($check)) {
             $show = true;
           $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
@@ -913,7 +913,7 @@ $db->execute();
       }
         ?>
 <style>
-       
+
         .daily-jobs .card-header {
             background-color: #ff5722;
             color: white;
@@ -937,7 +937,7 @@ $db->execute();
             white-space: normal;
             width: 200px; /* Adjust as necessary */
         }
-        
+
     </style>
     <?php if($show == true): ?>
         <div class="daily-jobs d-md-none d-lg-none">
@@ -990,7 +990,7 @@ $(document).ready(function() {
                     type: 'POST',
                     data: { order: JSON.stringify(newOrder) },
                     success: function(response) {
-                        
+
                     },
                     error: function() {
                         alert('Error saving order.');
@@ -1033,7 +1033,7 @@ $(document).ready(function() {
             <div class="progress">
                 <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->hppercent; ?>%" aria-valuenow="<?= $user_class->hppercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->hppercent; ?>"></div>
             </div>
-            
+
         </div>
 
         <div class="col-3">
@@ -1042,7 +1042,7 @@ $(document).ready(function() {
             <div class="progress">
                 <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->energypercent; ?>%" aria-valuenow="<?= $user_class->energypercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->energypercent; ?>"></div>
             </div>
-            
+
         </div>
         <div class="col-3">
         <p class="text-center"><a href='index.php?spend=refnerve'><i class="fa-brands fa-brave" style="color:#ff6218"></i>
@@ -1050,7 +1050,7 @@ $(document).ready(function() {
             <div class="progress">
                 <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->nervepercent; ?>%" aria-valuenow="<?= $user_class->nervepercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->nervepercent; ?>"></div>
             </div>
-            
+
         </div>
         <div class="col-3">
         <p class="text-center"><i class="fa-solid fa-bed" style="color:#ff6218"></i>
@@ -1058,7 +1058,7 @@ $(document).ready(function() {
             <div class="progress">
                 <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->awakepercent; ?>%" aria-valuenow="<?= $user_class->awakepercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->awakepercent; ?>"></div>
             </div>
-            
+
         </div>
     </div>
 
@@ -1092,7 +1092,7 @@ $(document).ready(function() {
             <div class="progress">
                 <div class="progress-bar bg-success" role="progressbar" style="background-color: #ff6218 !important; width: <?= $user_class->exppercent; ?>%" aria-valuenow="<?= $user_class->exppercent; ?>" aria-valuemin="0" aria-valuemax="<?= $user_class->exppercent; ?>"></div>
             </div>
-            
+
         </div>
     </div>
 </div>
@@ -1105,7 +1105,7 @@ $(document).ready(function() {
         <header class="row">
         <div class="col-12 col-lg-8 mt-3 mt-lg-0">
                 <div class="dcPanel h-100">
-                    
+
                     <div class="text-center dcBannerButtonsContainer">
 
                         <div class="dcBannerButtonsContainerMain">
@@ -1162,7 +1162,7 @@ color: #fff;
                                     <div class="row mb-3 mission">
                                         <h3 class='box_top'>Mission</h3>
                                     </div>
-                                    
+
                                     <div class="row heroTop heroTop2">
                                             <div class="col-12 col-lg-7 offset-lg-1 g-0 row realMission">
                                             <?php if($show == true): ?>
@@ -1171,7 +1171,7 @@ color: #fff;
                                                     <p style="font-size: 10px;"><?= $kills; ?></p>
                                                 </div>
                                                 <div class="missionDiv">
-                                                
+
                                                     <p class="missionTo">Crimes:</p>
                                                     <p style="font-size: 10px;"><?= $crimes; ?></p>
                                                 </div>
@@ -1192,18 +1192,18 @@ color: #fff;
                                                     <p style="font-size: 10px;"><?= $raids; ?></p>
                                                 </div>
                                               <?php else: ?>
-                                                
+
                                                <a href="missions.php" class="dcSecondaryButton my-3">Start Mission</a>
-                                                
+
                                                 <?php endif; ?>
                                             </div>
                                     </div>
                                 </div>
                             </div>
-    
+
                             <div class="dcBannerButtonsContainer2">
                                 <a href="vote.php" class="dcSecondaryButton my-3">Vote for <i class="far fa-gem"></i></a>
-    
+
                                 <a href="refer.php" class="dcSecondaryButton my-3">Refer for <i class="far fa-gem"></i></a>
                                 <a href="store.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
                             </div>
@@ -1230,7 +1230,7 @@ color: #fff;
                         <?php endif; ?>
                         <?php
                     } else {
-                        
+
                                            $row = mysql_fetch_array($result);
                         $user_ads = new User($row['poster']);
                         $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
@@ -1255,7 +1255,7 @@ color: #fff;
                                                     </svg>
                                                 </a>
 
-                                                
+
                                             </li>
                                             <?php endif;?>
                                         </ul>
@@ -1276,7 +1276,7 @@ color: #fff;
                         <div class="col-7 dcUserName">
 
                             <span class="dcHeaderUsername">
-                            <?= $user_class->formattedname; ?>        
+                            <?= $user_class->formattedname; ?>
                         </span></div>
                         <div class="col-3 text-center new_avarta">
                             Level <?= $user_class->level; ?>				<div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip" title="<?= $user_class->formattedexp;?>">
@@ -1414,7 +1414,7 @@ color: #fff;
     </div>
 </div>
 <?php endif; ?>
-            
+
 			<div class="row mt-4">
 				<main>
 					<div class="dcPanel p-3">
@@ -1434,7 +1434,7 @@ if ($user_class->bustpill > 0) {
 // if ($bonus_row['Time'] > 0) {
 
 //     $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
-//     echo '<div style="font-family:timesnewroman;font-size: 1.5em;color:red;text-align: center;margin-bottom: 20px;margin-top: -20px;"><font color=green>Server Wide Double EXP Active </font>  <font color=white>' . $_tt . '</font> 
+//     echo '<div style="font-family:timesnewroman;font-size: 1.5em;color:red;text-align: center;margin-bottom: 20px;margin-top: -20px;"><font color=green>Server Wide Double EXP Active </font>  <font color=white>' . $_tt . '</font>
 //                                                 </div>';
 // }
 
@@ -1580,7 +1580,7 @@ if ($bonus_row['Time'] > 0) {
 //}
 
 //$messages[] = '<a href="user_challenge.php"><font color=red>User Challenge</font></a>';
-$messages[] = '<a href="user_comp_leaderboard.php"><font color=red>Halloween Challenge</font></a>';
+//$messages[] = '<a href="user_comp_leaderboard.php"><font color=red>Halloween Challenge</font></a>';
 
 //if ($user_class->gang > 0) {
 //    $tempItemUse = getItemTempUse($user_class->id);
@@ -1884,7 +1884,7 @@ if (!empty($messages)) {
                 alert("Ad report successful");
             });
         }
-        
+
     </script>
 
     <?php
