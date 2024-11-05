@@ -770,8 +770,8 @@ if ($user_class->view_preference === '1') { ?>
   <div class="d-flex justify-content-between align-items-center">
     <div class="logo pe-3" role="banner">
       <a href="/index.php" class="d-flex align-items-center text-decoration-none">
-        <!-- <img src="asset/img/logo1.png" style="width:30px"/> -->
-        <img src="asset/halloween.png" style="width:30px"/>
+        <img src="asset/img/logo1.png" style="width:30px"/>
+        <!-- <img src="asset/halloween.png" style="width:30px"/> -->
         <h1 class="h3 ms-2">ChaosCity</h1>
       </a>
 
