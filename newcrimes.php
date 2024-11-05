@@ -270,7 +270,7 @@ var submitCrime = function (id, cm=1) {
             }
             // console.log('debug *****');
             // console.log(res.stats.mb_points);
-           
+
             $('.money').html(res.stats.money)
             $(".level").html(res.stats.level)
             $(".points").html(res.stats.points)
@@ -339,7 +339,7 @@ $(document).ready(function() {
 
     // Trigger the change event on page load to display the initial star rating
     $('#scrime').change();
-    
+
     // Other JavaScript and jQuery code can follow here
 });
 
@@ -362,13 +362,13 @@ function start() {
                 submitCrime(id, cm);
             } else {
                 resetAction();
-              
+
             }
         }
-    },23);
+    },22);
     document.addEventListener('mouseup', resetAction, { once: true });
     document.addEventListener('touchend', resetAction, { once: true });
-  
+
 }
 
 $(document).ready(function() {
