@@ -48,8 +48,8 @@ $_SESSION['cap'] = $rand;
       </script>
    </head>
    <body>
-      <!-- <img class="dcMascot d-none d-lg-block" src="/asset/img/man1.png"> -->
-      <img class="dcMascot d-none d-lg-block" src="/asset/pumpkinman.png">
+      <img class="dcMascot d-none d-lg-block" src="/asset/img/man1.png">
+      <!-- <img class="dcMascot d-none d-lg-block" src="/asset/pumpkinman.png"> -->
       <div class="row h-100 m-0">
          <div class="col-12 col-lg-4 offset-lg-2 loginPanel text-center">
             <img class="m-5" src="/asset/img/logo1.png" style="max-width:200px">
