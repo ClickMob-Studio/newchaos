@@ -12,15 +12,7 @@ if (isset($currentQuestSeason['id'])) {
 if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail'):
     $doors = ['fail', 'fail', 'fail', 'success'];
     shuffle($doors);
-    ?>
-    <h1>The Rusty Nail</h1><hr />
-    <p>Choose a door:</p>
-    <ul>
-        <?php foreach ($doors as $index => $outcome): ?>
-            <li><a href="?mode=therustnail&door=<?php echo $index; ?>">Door <?php echo $index + 1; ?></a></li>
-        <?php endforeach; ?>
-    </ul>
-    <?php
+
     if (isset($_GET['door'])) {
         $selectedDoor = (int)$_GET['door'];
         if ($doors[$selectedDoor] === 'success') {
@@ -29,6 +21,22 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail'):
             echo "<p>Sorry, this door is a fail. Try again!</p>";
         }
     }
+    ?>
+    <h1>The Rusty Nail</h1><hr />
+    <p>
+        You enter the Rusty Nail and the bartender tells you to leave the package in the secret hiding spot in the toilet. Your confused because
+        the Don never mentioned this, but either way you head to the toilet. You see 4 doors, which one do you choose?
+    </p>
+
+    <div class="row">
+        <?php foreach ($doors as $index => $outcome): ?>
+            <div class="col-md-3">
+                <a href="?mode=therustnail&door=<?php echo $index; ?>"><img src="images/door1.jpg" class="img-responsive" /></a>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+    <?php
     exit;
 endif;
 ?>
