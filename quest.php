@@ -10,10 +10,28 @@ if (isset($currentQuestSeason['id'])) {
 }
 
 if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail'):
-?>
+    $doors = ['fail', 'fail', 'fail', 'success'];
+    shuffle($doors);
+    ?>
     <h1>The Rusty Nail</h1><hr />
-<?php endif; ?>
-
+    <p>Choose a door:</p>
+    <ul>
+        <?php foreach ($doors as $index => $outcome): ?>
+            <li><a href="?mode=therustnail&door=<?php echo $index; ?>">Door <?php echo $index + 1; ?></a></li>
+        <?php endforeach; ?>
+    </ul>
+    <?php
+    if (isset($_GET['door'])) {
+        $selectedDoor = (int)$_GET['door'];
+        if ($doors[$selectedDoor] === 'success') {
+            echo "<p>Congratulations! You have found the success door!</p>";
+        } else {
+            echo "<p>Sorry, this door is a fail. Try again!</p>";
+        }
+    }
+    exit;
+endif;
+?>
 
 <?php
 if ($questSeasonUser) {
