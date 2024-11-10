@@ -9,7 +9,7 @@ if (isset($currentQuestSeason['id'])) {
     $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 }
 
-if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail' && isset($questSeasonMission['requirements']['vinny_the_fish_delivery'])):
+if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail'):
 ?>
     <h1>The Rusty Nail</h1><hr />
 <?php endif; ?>
