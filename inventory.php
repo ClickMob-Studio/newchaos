@@ -2045,7 +2045,7 @@ $db->query("UPDATE grpgusers SET fbitime = 0 WHERE id = ?");
                 Give_Item(284, $user_class->id, 1);
                 Give_Item(293, $user_class->id, 1);
 
-                echo Message("You open your gym crate and inside find 400,000 points, $1,000,000,000, 100 x Dracula Blood Bag, 1 x Ghost Vacuum & 1 x Dracula Statue!");
+                echo Message("You open your halloween crate and inside find 400,000 points, $1,000,000,000, 100 x Dracula Blood Bag, 1 x Ghost Vacuum & 1 x Dracula Statue!");
                 break;
             case 288:
                 $expRand = ceil($user_class->maxexp / mt_rand(10000, 30000));
