@@ -1,21 +1,18 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 include_once "header.php";
 
 if($user_class->jail > 0 ){
-    diefun("You can not access this page whilst in jail");
-
+    diefun("You cannot access this page while in jail");
 }
 ?>
 
-
 <div class="container my-5">
-    <?php if ($fetch->cc == "0") { ?>
+    <?php 
+    // if ($fetch->cc == "0") { 
+    ?>
         <h2 class="text-center">Starting Classified Crimes</h2>
-        <p class="text-center">TOTAL LOOT: <strong>£<?= htmlspecialchars(number_format($fetch->octotloot)) ?></strong></p>
+        <p class="text-center">TOTAL LOOT: <strong>£<?= htmlspecialchars(number_format(/*$fetch->octotloot*/ 0)) ?></strong></p> 
 
         <form action="" method="post">
             <div class="mb-3">
@@ -49,7 +46,9 @@ if($user_class->jail > 0 ){
             <button type="submit" name="NewCC" class="btn btn-primary mt-4 w-100">Permit Classified Crime</button>
         </form>
 
-    <?php } elseif ($fetch->cc == "1") { ?>
+    <?php 
+    // } elseif ($fetch->cc == "1") { 
+    ?>
         
         <h2 class="text-center">Classified Crime Team</h2>
         <table class="table table-dark table-striped">
@@ -60,17 +59,25 @@ if($user_class->jail > 0 ){
                     <th scope="col">Equipment</th>
                     <th scope="col">Rank</th>
                     <th scope="col">Percent</th>
-                    <?php if ($fetch->ccpost == "leader") { echo "<th scope='col'>Action</th>"; } ?>
+                    <?php 
+                    // if ($fetch->ccpost == "leader") { 
+                        echo "<th scope='col'>Action</th>"; 
+                    // } 
+                    ?>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>CC Leader</td>
-                    <td><a href="profile.php?viewing=<?= htmlspecialchars($fetchcc->leader) ?>" class="text-light"><?= htmlspecialchars($fetchcc->leader) ?></a></td>
+                    <td><a href="profile.php?viewing=<?= htmlspecialchars(/*$fetchcc->leader*/ 'leader') ?>" class="text-light"><?= htmlspecialchars(/*$fetchcc->leader*/ 'leader') ?></a></td>
                     <td>Not Available</td>
-                    <td><?= htmlspecialchars($fetchleader->rank) ?></td>
-                    <td><?= htmlspecialchars($fetchcc->leaderperc) ?>%</td>
-                    <?php if ($fetch->ccpost == "leader") { echo "<td><input type='checkbox' name='kickleader'></td>"; } ?>
+                    <td><?= htmlspecialchars(/*$fetchleader->rank*/ 'rank') ?></td>
+                    <td><?= htmlspecialchars(/*$fetchcc->leaderperc*/ '0') ?>%</td>
+                    <?php 
+                    // if ($fetch->ccpost == "leader") { 
+                        echo "<td><input type='checkbox' name='kickleader'></td>"; 
+                    // } 
+                    ?>
                 </tr>
                 <!-- Repeat for other roles -->
             </tbody>
@@ -80,7 +87,9 @@ if($user_class->jail > 0 ){
             <button type="submit" name="leave" class="btn btn-danger w-100">Leave Classified Crime</button>
         </form>
 
-        <?php if ($fetch->ccpost == "leader") { ?>
+        <?php 
+        // if ($fetch->ccpost == "leader") { 
+        ?>
             <h4 class="text-center mt-5">Leader Control Panel</h4>
             <form action="" method="post">
                 <div class="row g-2">
@@ -101,6 +110,7 @@ if($user_class->jail > 0 ){
                 <button type="submit" name="kick" class="btn btn-warning mt-3">Kick Selected Accounts</button>
                 <button type="submit" name="finish" class="btn btn-success mt-3">Complete & Finish</button>
             </form>
-        <?php } ?>
-    <?php } ?>
+        <?php 
+        // } 
+        ?>
 </div>
