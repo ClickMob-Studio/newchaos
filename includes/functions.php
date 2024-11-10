@@ -526,7 +526,7 @@ function Send_Event($id, $text, $extra = "0")
 }
 function Send_Event1($id, $text, $extra = "0")
 {
-  
+
 }
 function Send_Event2($id, $text, $extra = "0")
 {
@@ -819,13 +819,13 @@ function formatName($id, $nogang = 0)
 {
     global $db;
     $name = "";
-    
+
     // Removed the Memcache part
-    
+
     $db->query("SELECT username, gang, admin, rmdays, gm, colours, image_name, pdimgname, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
     $db->execute(array($id));
     $row = $db->fetch_row(true);
-    
+
     if ($row['gang'] != 0 and $nogang != 1) {
         if ($id == 2) {
             if ($row['gndays'] > 0) {
@@ -841,11 +841,11 @@ function formatName($id, $nogang = 0)
         else
             $name .= ($row['leader'] == $id) ? " title='Gang Leader'><font color=blue>[<b>{$row['tag']}</b>]</font></a> " : "><font color=white>[{$row['tag']}]</font></a> ";
     }
-    
+
     $db->query("SELECT days FROM bans WHERE id = ? AND type IN ('perm','freeze')");
     $db->execute(array($id));
     $bdays = $db->fetch_single();
-    
+
     if ($bdays) {
         $title = "Banned";
         $whichfont = "#FFFFFF";
@@ -862,7 +862,7 @@ function formatName($id, $nogang = 0)
         $title = "Not Respected";
         $whichfont = "#009102";
     }
-    
+
     if ($bdays) {
         $name .= "<a title='$title' href='profiles.php?id=$id'>&nbsp;<font color = '$whichfont'>{$row['username']}</s></font></a>";
     } else if (!empty($row['image_name']) && $row['pdimgname'] > 0) {
@@ -1016,7 +1016,7 @@ function raidMission($userId)
     return 1;
 }
 function mission($update, $howmany = 1,  $user_class = null, $db = null)
-{  
+{
     if ($db == null) {
   global $db;
 }
@@ -1253,29 +1253,29 @@ OUT;
 function genBars() {
     global $user_class;
     $rtn = '<div class="row" align="center">';
-    
+
     // Energy Bar
     $rtn .= '<div class="col" style="padding: 0px !important;">';
     $rtn .= 'Energy';
     $rtn .= '<div class="progress" style="height: 8px;width: 95%;">';
     $rtn .= '<div class="progress-bar bg-danger" role="progressbar" style="width: ' . $user_class->energypercent . '%;" aria-valuemin="0" aria-valuemax="100"></div>';
     $rtn .= '</div></div>';
-    
+
     // Nerve Bar
     $rtn .= '<div class="col" style="padding: 0px !important;">';
     $rtn .= 'Nerve';
     $rtn .= '<div class="progress" style="height: 8px;width: 95%;">';
     $rtn .= '<div class="progress-bar bg-warning" role="progressbar" style="width: ' . $user_class->nervepercent . '%;" aria-valuemin="0" aria-valuemax="100"></div>';
     $rtn .= '</div></div>';
-    
+
     // Awake Bar
     $rtn .= '<div class="col" style="padding: 0px !important;">';
     $rtn .= 'Awake';
     $rtn .= '<div class="progress" style="height: 8px;width: 95%;">';
     $rtn .= '<div class="progress-bar bg-info" role="progressbar" style="width: ' . $user_class->awakepercent . '%;" aria-valuemin="0" aria-valuemax="100"></div>';
     $rtn .= '</div></div>';
-    
-    
+
+
     // EXP Bar
     $rtn .= '<div class="col" style="padding: 0px !important;">';
     $rtn .= 'EXP';
@@ -1287,8 +1287,8 @@ function genBars() {
     $rtn .= '</div>'; // Close row
     return $rtn;
 }
-    
-    
+
+
 function gangContest($adds)
 {
     global $user_class, $db;
@@ -1402,7 +1402,7 @@ function refill($which)
     global $user_class, $db;
 
     // Define the lock file path
- 
+
 
     // Open the lock file for writing
 
@@ -1420,7 +1420,7 @@ function refill($which)
                         //     ));
                         // }
                     $nerveneeded = $user_class->maxnerve;
-                    
+
                     $cost = floor($nerveneeded / 10);
                     if ($cost < 10)
                         $cost = 10;
@@ -2176,7 +2176,7 @@ function addUserBaStatExp($userBaStats, $baExpWon, $user_class)
 {
     global $db;
 
-    $maxLevels = 15;
+    $maxLevels = 20;
     if (isset($userBaStats['additional_max_levels']) && $userBaStats['additional_max_levels'] > 0) {
         $maxLevels = $maxLevels + $userBaStats['additional_max_levels'];
     }
