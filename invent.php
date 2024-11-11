@@ -610,7 +610,7 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
     background-color: #21201c;
     padding: 20px;
     border-radius: 8px;
-    width: calc(50% - 20px); /* 50% width for two columns with space between them */
+    width: 100%; /* 50% width for two columns with space between them */
     margin-bottom: 20px;
 }
 
