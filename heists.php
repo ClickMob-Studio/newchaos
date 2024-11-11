@@ -17,7 +17,7 @@ if ($result) {
 
 // Fetch available heists from the `heists` table
 $db->query("SELECT * FROM heists");
-$heists = $db->fetch_all();
+$heists = $db->fetch_row();
 ?>
 
 <div class="container my-5">
