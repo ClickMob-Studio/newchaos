@@ -31,7 +31,7 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail'):
     <div class="row">
         <?php foreach ($doors as $index => $outcome): ?>
             <div class="col-md-3">
-                <a href="?mode=therustnail&door=<?php echo $index; ?>"><img src="images/door1.jpg" class="img-responsive" /></a>
+                <a href="?mode=therustnail&door=<?php echo $index; ?>"><img src="css/images/NewGameImages/cubical-door.png" class="img-responsive" /></a>
             </div>
         <?php endforeach; ?>
     </div>
