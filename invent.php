@@ -74,10 +74,18 @@ foreach ($items as $item) {
     </div>
 </div>
 
+<p>
+    Filter:
+    <a href="#" class="button-sm filter-type-container-btn" data-type="all">All</a>
+    <?php foreach ($groupedItems as $type => $items): ?>
+        <a href="#" class="button-sm filter-type-container-btn" data-type="<?= $type ?>"><?= ucfirst($type); ?></a>
+    <?php endforeach; ?>
+</p>
+
 <div class="inventory-container">
     <?php if (!empty($groupedItems)): ?>
         <?php foreach ($groupedItems as $type => $items): ?>
-            <div class="inventory-group">
+            <div class="inventory-group <?php $type ?>-container">
                 <h2 class="item-type-header"><?= htmlspecialchars(ucfirst($type)); ?></h2>
                 <div class="inventory-items">
                     <?php foreach ($items as $item): ?>
@@ -595,6 +603,20 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
         }
     };
     xhr.send(formData);
+});
+
+$(document).ready(function() {
+    $('.filter-type-container-btn').on('click', function(event) {
+        event.preventDefault();
+        var type = $(this).data('type');
+
+        if (type === 'all') {
+            $('.inventory-group').show();
+        } else {
+            $('.inventory-group').hide();
+            $('.' + type + '-container').show();
+        }
+    });
 });
 </script>
 
