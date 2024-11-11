@@ -1,13 +1,9 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 include_once "header.php";
 
 if ($user_class->jail > 0) {
     diefun("You cannot access this page while in jail");
 }
-
 
 // Fetch classified crime data for the user
 $crime_data = null;
@@ -24,7 +20,7 @@ if ($result) {
 <div class="container my-5">
     <?php if (!$crime_data) { // User is not involved in a classified crime ?>
         <h2 class="text-center">Starting Classified Crimes</h2>
-        <p class="text-center">TOTAL LOOT: <strong>£<?= htmlspecialchars(number_format(0)) ?></strong></p> <!-- Placeholder -->
+        <p class="text-center">TOTAL LOOT: <strong>£<?php echo htmlspecialchars(number_format(0)); ?></strong></p> <!-- Placeholder -->
 
         <form action="" method="post">
             <div class="mb-3">
@@ -74,12 +70,12 @@ if ($result) {
             <tbody>
                 <?php
                 // Define roles and their corresponding fields in `cc` table
-                $roles = [
-                    'CC Leader' => ['user_id' => $crime_data['leader'], 'perc' => $crime_data['leaderperc']],
-                    'Weapons Master' => ['user_id' => $crime_data['wmaster'], 'equipment' => $crime_data['weapons'], 'perc' => $crime_data['wmasterperc']],
-                    'Explosion Master' => ['user_id' => $crime_data['emaster'], 'equipment' => $crime_data['explosives'], 'perc' => $crime_data['emasterperc']],
-                    'Getaway Driver' => ['user_id' => $crime_data['gdriver'], 'equipment' => $crime_data['car'], 'perc' => $crime_data['driverperc']]
-                ];
+                $roles = array(
+                    'CC Leader' => array('user_id' => $crime_data['leader'], 'perc' => $crime_data['leaderperc']),
+                    'Weapons Master' => array('user_id' => $crime_data['wmaster'], 'equipment' => isset($crime_data['weapons']) ? $crime_data['weapons'] : 'Not Available', 'perc' => $crime_data['wmasterperc']),
+                    'Explosion Master' => array('user_id' => $crime_data['emaster'], 'equipment' => isset($crime_data['explosives']) ? $crime_data['explosives'] : 'Not Available', 'perc' => $crime_data['emasterperc']),
+                    'Getaway Driver' => array('user_id' => $crime_data['gdriver'], 'equipment' => isset($crime_data['car']) ? $crime_data['car'] : 'Not Available', 'perc' => $crime_data['driverperc'])
+                );
 
                 // Display each role in the classified crime
                 foreach ($roles as $role => $data) {
@@ -89,11 +85,11 @@ if ($result) {
                         $user_info = $db->fetch_row(true);
                         ?>
                         <tr>
-                            <td><?= $role ?></td>
-                            <td><a href="profile.php?viewing=<?= htmlspecialchars($user_info['username']) ?>" class="text-light"><?= htmlspecialchars($user_info['username']) ?></a></td>
-                            <td><?= htmlspecialchars($data['equipment'] ?? 'Not Available') ?></td>
-                            <td><?= htmlspecialchars($user_info['rank']) ?></td>
-                            <td><?= htmlspecialchars($data['perc']) ?>%</td>
+                            <td><?php echo $role; ?></td>
+                            <td><a href="profile.php?viewing=<?php echo htmlspecialchars($user_info['username']); ?>" class="text-light"><?php echo htmlspecialchars($user_info['username']); ?></a></td>
+                            <td><?php echo htmlspecialchars($data['equipment']); ?></td>
+                            <td><?php echo htmlspecialchars($user_info['rank']); ?></td>
+                            <td><?php echo htmlspecialchars($data['perc']); ?>%</td>
                             <?php if ($crime_data['leader'] == $user_class->id) { echo "<td><input type='checkbox' name='kick[]' value='{$data['user_id']}'></td>"; } ?>
                         </tr>
                         <?php
