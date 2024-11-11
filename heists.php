@@ -1,9 +1,9 @@
 <?php
-
-include_once "header.php";
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+include_once "header.php";
+
 if ($user_class->jail > 0) {
     diefun("You cannot access this page while in jail");
 }
