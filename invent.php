@@ -76,9 +76,9 @@ foreach ($items as $item) {
 
 <p>
     Filter:
-    <a href="#" class="button-sm filter-type-container-btn" data-type="all">All</a>
+    <a href="#" class="button-sm filter-type-container-btn" data-type="all">All</a> |
     <?php foreach ($groupedItems as $type => $items): ?>
-        <a href="#" class="button-sm filter-type-container-btn" data-type="<?= $type ?>"><?= ucfirst($type); ?></a>
+        <a href="#" class="button-sm filter-type-container-btn" data-type="<?= $type ?>"><?= ucfirst($type); ?></a> |
     <?php endforeach; ?>
 </p>
 
