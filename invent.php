@@ -45,6 +45,24 @@ function categorizeItem($row) {
     return $type;
 }
 
+function getItemType($row) {
+    if ($row['rare'] == 1) {
+        $type = 'rare';
+    } elseif ($row['offense'] > 0) {
+        $type = 'weapon';
+    } elseif ($row['defense'] > 0) {
+        $type = 'armor';
+    } elseif ($row['speed'] > 0) {
+        $type = 'shoes';
+    } elseif ($row['awake_boost'] > 0) {
+        $type = 'house';
+    } else {
+        $type = 'consumable';
+    }
+
+    return $type;
+}
+
 $items = getInventoryItems();
 
 $restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256);
@@ -84,11 +102,13 @@ foreach ($items as $item) {
 
 <div class="inventory-container">
     <?php if (!empty($groupedItems)): ?>
-        <?php foreach ($groupedItems as $type => $items): ?>
-            <div class="inventory-group <?php echo $type ?>-container">
-                <h2 class="item-type-header"><?= htmlspecialchars(ucfirst($type)); ?></h2>
+        <?php foreach ($groupedItems as $category => $items): ?>
+            <div class="inventory-group <?php echo $category ?>-container">
+                <h2 class="item-type-header"><?= htmlspecialchars(ucfirst($category)); ?></h2>
                 <div class="inventory-items">
                     <?php foreach ($items as $item): ?>
+                        <?php $type = getItemType($item); ?>
+
                         <div class="inventory-item">
                             <div class="item-image-container">
                                 <img src="<?= isset($item['image']) && $item['image'] != '' ? htmlspecialchars($item['image']) : 'path/to/default-image.png'; ?>" alt="<?= htmlspecialchars($item['name']); ?>" class="item-image">
