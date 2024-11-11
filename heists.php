@@ -9,15 +9,14 @@ if ($user_class->jail > 0) {
 $crime_data = null;
 $db->query("SELECT * FROM cc WHERE leader = :user_id OR wmaster = :user_id OR emaster = :user_id OR gdriver = :user_id");
 $db->bind(':user_id', $user_class->id);
-$result = $db->fetch_row(true);
-
-if ($result) {
-    $crime_data = $result;
-}
+$crime_data = $db->fetch_row(true);
 
 // Fetch available heists from the `heists` table
 $db->query("SELECT * FROM heists");
-$heists = $db->fetch_row();
+$heists = [];
+while ($heist = $db->fetch_row()) {
+    $heists[] = $heist;
+}
 ?>
 
 <div class="container my-5">
