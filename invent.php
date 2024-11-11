@@ -594,14 +594,11 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
 </script>
 
 <style>
-    .inventory-container {
-        width: 80%;
-        margin: 20px auto;
-        padding: 20px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px; /* Space between sections */
-    }
+.inventory-container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+}
 
 .inventory-groups {
     display: flex;
@@ -609,30 +606,30 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
     gap: 20px; /* Space between sections */
 }
 
+.inventory-group {
+    background-color: #21201c;
+    padding: 20px;
+    border-radius: 8px;
+    width: calc(50% - 20px); /* 50% width for two columns with space between them */
+    margin-bottom: 20px;
+}
+
+/* Responsive design for tablets */
+@media screen and (max-width: 768px) {
     .inventory-group {
-        background-color: #21201c;
-        padding: 20px;
-        border-radius: 8px;
-        flex: 1 1 calc(25% - 20px); /* 25% width for 4 columns with space between them */
-        margin-bottom: 20px;
+        width: 100%; /* Full width for smaller screens */
     }
+}
 
-    /* Responsive design for tablets */
-    @media screen and (max-width: 768px) {
-        .inventory-group {
-            flex: 1 1 calc(50% - 20px); /* 50% width for 2 columns on smaller screens */
-        }
-    }
+.inventory-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between items */
+}
 
-    /* Responsive design for mobile */
-    @media screen and (max-width: 480px) {
-        .inventory-group {
-            flex: 1 1 100%; /* Full width for smaller screens */
-        }
-    }
-
-/* Individual item container */
 .inventory-item {
+    flex: 1 1 calc(25% - 20px); /* 25% width minus the gap */
+    max-width: calc(25% - 20px); /* Ensure max width is also 25% minus the gap */
     background-color: #2d2c28;
     padding: 15px;
     border-radius: 8px;
@@ -641,7 +638,6 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
     flex-direction: column;
     align-items: center;
     text-align: center;
-    width: 100%;
 }
 
 .item-image-container {
