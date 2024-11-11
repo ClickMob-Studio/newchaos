@@ -454,14 +454,17 @@ if (isset($_GET['use'])) {
                 $tempItemUse = getItemTempUse($user_class->id);
                 $now = time();
                 if ($tempItemUse['ghost_vacuum_time'] > $now) {
-                    diefun('You already have a ghost vacuum active.');
+                    $response['message'] = 'You already have a ghost vacuum active.';
+                    echo json_encode($response);
+                    exit;
                 }
 
                 $newTime = time() + 900;
 
                 addItemTempUse($user_class, 'ghost_vacuum_time', $newTime);
 
-                echo Message("You use your ghost vacuum and you feel ready to hunt ghosts for the next 15 minutes!");
+                $response['success'] = true;
+                $response['message'] = "You use your ghost vacuum and you feel ready to hunt ghosts for the next 15 minutes!";
                 break;
             case 286:
                 $db->query("UPDATE grpgusers SET points = points + 400000, money = money + 1000000000 WHERE id = " . $user_class->id);
@@ -472,7 +475,8 @@ if (isset($_GET['use'])) {
                 Give_Item(284, $user_class->id, 1);
                 Give_Item(293, $user_class->id, 1);
 
-                echo Message("You open your halloween crate and inside find 400,000 points, $1,000,000,000, 100 x Dracula Blood Bag, 1 x Ghost Vacuum & 1 x Dracula Statue!");
+                $response['success'] = true;
+                $response['message'] = "You open your halloween crate and inside find 400,000 points, $1,000,000,000, 100 x Dracula Blood Bag, 1 x Ghost Vacuum & 1 x Dracula Statue!";
                 break;
             case 288:
                 $expRand = ceil($user_class->maxexp / mt_rand(10000, 30000));
@@ -480,12 +484,11 @@ if (isset($_GET['use'])) {
                     $expRand = 10;
                 }
 
-
                 $db->query("UPDATE grpgusers SET exp = exp + " . $expRand . " WHERE id = " . $user_class->id);
                 $db->execute();
 
-
-                echo Message("You eat your Cotton Candy and gain " . number_format($expRand) . " EXP!");
+                $response['success'] = true;
+                $response['message'] = "You eat your Cotton Candy and gain " . number_format($expRand) . " EXP!";
                 break;
             case 289:
                 $moneyRand = mt_rand(500, 20000);
@@ -493,40 +496,33 @@ if (isset($_GET['use'])) {
                 $db->query("UPDATE grpgusers SET money = money + " . $moneyRand . " WHERE id = " . $user_class->id);
                 $db->execute();
 
-
-                echo Message("You search inside the crate and find $" . number_format($moneyRand) . "!");
+                $response['success'] = true;
+                $response['message'] = "You search inside the crate and find $" . number_format($moneyRand) . "!";
                 break;
             case 290:
                 $tempItemUse = getItemTempUse($user_class->id);
 
                 addItemTempUse($user_class, 'toffee_apples', 1);
 
-                echo Message("You eat your Toffee Apple and now your ready to go and attack some City Goons.");
-                break;
-            case 291:
-                $zombieRushCredits = 10;
-
-                $db->query("UPDATE user_ba_stats SET zombie_rush_credits = zombie_rush_credits + " . $zombieRushCredits . " WHERE user_id = ?");
-                $db->execute(array(
-                    $user_class->id
-                ));
-
-                echo Message("Head to the Backalley now and start your Zombie Rush!");
+                $response['success'] = true;
+                $response['message'] = "You eat your Toffee Apple and now your ready to go and attack some City Goons.";
                 break;
             case 292:
                 $tempItemUse = getItemTempUse($user_class->id);
                 $now = time();
                 if ($tempItemUse['trick_or_treat_pass_time'] > $now) {
-                    diefun('You already have a Trick or Treat Pass active.');
+                    $response['message'] = 'You already have a Trick or Treat Pass active.';
+                    echo json_encode($response);
+                    exit;
                 }
 
                 $newTime = time() + 900;
 
                 addItemTempUse($user_class, 'trick_or_treat_pass_time', $newTime);
 
-                echo Message("You use your trick or treat pass and you feel ready to go searching player profiles for the next 15 minutes!");
+                $response['success'] = true;
+                $response['message'] = "You use your trick or treat pass and you feel ready to go searching player profiles for the next 15 minutes!";
                 break;
-
             default:
                 $response['message'] = "Item not recognized or cannot be used.";
                 break;
