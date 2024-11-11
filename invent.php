@@ -11,7 +11,7 @@ function getInventoryItems() {
             i.itemname AS name, i.cost as cost,
             i.offense, i.defense, i.speed, i.rare, i.awake_boost,
             inv.quantity, 
-            i.image 
+            i.image, i.category
         FROM inventory inv 
         JOIN items i ON inv.itemid = i.id 
         WHERE inv.userid = :user_id
@@ -23,19 +23,24 @@ function getInventoryItems() {
 }
 
 function categorizeItem($row) {
-    if ($row['rare'] == 1) {
-        $type = 'rare';
-    } elseif ($row['offense'] > 0) {
-        $type = 'weapon';
-    } elseif ($row['defense'] > 0) {
-        $type = 'armor';
-    } elseif ($row['speed'] > 0) {
-        $type = 'shoes';
-    } elseif ($row['awake_boost'] > 0) {
-        $type = 'house';
+    if ($row['category']) {
+        $type = $row['category'];
     } else {
         $type = 'consumable';
     }
+//    if ($row['rare'] == 1) {
+//        $type = 'rare';
+//    } elseif ($row['offense'] > 0) {
+//        $type = 'weapon';
+//    } elseif ($row['defense'] > 0) {
+//        $type = 'armor';
+//    } elseif ($row['speed'] > 0) {
+//        $type = 'shoes';
+//    } elseif ($row['awake_boost'] > 0) {
+//        $type = 'house';
+//    } else {
+//        $type = 'consumable';
+//    }
 
     return $type;
 }
