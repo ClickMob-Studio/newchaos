@@ -10,7 +10,7 @@ if (isset($currentQuestSeason['id'])) {
 }
 
 if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail'):
-    $doors = ['fail', 'fail', 'fail', 'success'];
+    $doors = ['fail', 'fail', 'success'];
     shuffle($doors);
 
     if (isset($_GET['door'])) {
@@ -30,7 +30,7 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail'):
 
     <div class="row">
         <?php foreach ($doors as $index => $outcome): ?>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <a href="?mode=therustnail&door=<?php echo $index; ?>"><img src="css/images/NewGameImages/cubical-door.png" class="img-responsive" /></a>
             </div>
         <?php endforeach; ?>
