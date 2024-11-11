@@ -44,7 +44,7 @@ $items = getInventoryItems();
 
 $restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256);
 $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
-$restrictedUseItems = array(69, 155, 195, 156, 157, 194, 158, 159, 165, 167);
+$restrictedUseItems = array(69, 155, 195, 156, 157, 194, 158, 159, 165, 167, 285);
 $multiUseItems = array(251,253,42, 10, 163, 256);  // Items allowing multiple uses
 $groupedItems = array();
 foreach ($items as $item) {
