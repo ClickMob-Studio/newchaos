@@ -628,8 +628,8 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
 }
 
 .inventory-item {
-    flex: 1 1 calc(25% - 20px); /* 25% width minus the gap */
-    max-width: calc(25% - 20px); /* Ensure max width is also 25% minus the gap */
+    flex: 1 1 calc(50% - 20px); /* 25% width minus the gap */
+    max-width: calc(50% - 20px); /* Ensure max width is also 25% minus the gap */
     background-color: #2d2c28;
     padding: 15px;
     border-radius: 8px;
