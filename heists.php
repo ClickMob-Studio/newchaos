@@ -15,20 +15,25 @@ if ($result) {
     $crime_data = $result;
 }
 
-// Display the content based on whether the user is involved in a classified crime
+// Fetch available heists from the `heists` table
+$db->query("SELECT * FROM heists");
+$heists = $db->fetch_all();
 ?>
+
 <div class="container my-5">
     <?php if (!$crime_data) { // User is not involved in a classified crime ?>
         <h2 class="text-center">Starting Classified Crimes</h2>
-        <p class="text-center">TOTAL LOOT: <strong>£<?php echo htmlspecialchars(number_format(0)); ?></strong></p> <!-- Placeholder -->
+        <p class="text-center">TOTAL LOOT: <strong>$<?= htmlspecialchars(number_format(0, 2)) ?></strong></p> <!-- Placeholder -->
 
         <form action="" method="post">
             <div class="mb-3">
                 <label for="class" class="form-label">Classified Crime Class</label>
                 <select name="class" id="class" class="form-select">
-                    <option value="terrorism">Terrorism Act - £500,000</option>
-                    <option value="execute">Execution Act - £750,000</option>
-                    <option value="assassinate">Assassination Act - £1,250,000</option>
+                    <?php foreach ($heists as $heist): ?>
+                        <option value="<?= htmlspecialchars($heist['type']) ?>">
+                            <?= htmlspecialchars($heist['name']) ?> - $<?= number_format($heist['cost'], 2) ?>
+                        </option>
+                    <?php endforeach; ?>
                 </select>
             </div>
             
@@ -70,12 +75,12 @@ if ($result) {
             <tbody>
                 <?php
                 // Define roles and their corresponding fields in `cc` table
-                $roles = array(
-                    'CC Leader' => array('user_id' => $crime_data['leader'], 'perc' => $crime_data['leaderperc']),
-                    'Weapons Master' => array('user_id' => $crime_data['wmaster'], 'equipment' => isset($crime_data['weapons']) ? $crime_data['weapons'] : 'Not Available', 'perc' => $crime_data['wmasterperc']),
-                    'Explosion Master' => array('user_id' => $crime_data['emaster'], 'equipment' => isset($crime_data['explosives']) ? $crime_data['explosives'] : 'Not Available', 'perc' => $crime_data['emasterperc']),
-                    'Getaway Driver' => array('user_id' => $crime_data['gdriver'], 'equipment' => isset($crime_data['car']) ? $crime_data['car'] : 'Not Available', 'perc' => $crime_data['driverperc'])
-                );
+                $roles = [
+                    'CC Leader' => ['user_id' => $crime_data['leader'], 'perc' => $crime_data['leaderperc']],
+                    'Weapons Master' => ['user_id' => $crime_data['wmaster'], 'equipment' => $crime_data['weapons'], 'perc' => $crime_data['wmasterperc']],
+                    'Explosion Master' => ['user_id' => $crime_data['emaster'], 'equipment' => $crime_data['explosives'], 'perc' => $crime_data['emasterperc']],
+                    'Getaway Driver' => ['user_id' => $crime_data['gdriver'], 'equipment' => $crime_data['car'], 'perc' => $crime_data['driverperc']]
+                ];
 
                 // Display each role in the classified crime
                 foreach ($roles as $role => $data) {
@@ -85,11 +90,11 @@ if ($result) {
                         $user_info = $db->fetch_row(true);
                         ?>
                         <tr>
-                            <td><?php echo $role; ?></td>
-                            <td><a href="profile.php?viewing=<?php echo htmlspecialchars($user_info['username']); ?>" class="text-light"><?php echo htmlspecialchars($user_info['username']); ?></a></td>
-                            <td><?php echo htmlspecialchars($data['equipment']); ?></td>
-                            <td><?php echo htmlspecialchars($user_info['rank']); ?></td>
-                            <td><?php echo htmlspecialchars($data['perc']); ?>%</td>
+                            <td><?= $role ?></td>
+                            <td><a href="profile.php?viewing=<?= htmlspecialchars($user_info['username']) ?>" class="text-light"><?= htmlspecialchars($user_info['username']) ?></a></td>
+                            <td><?= htmlspecialchars($data['equipment'] ?? 'Not Available') ?></td>
+                            <td><?= htmlspecialchars($user_info['rank']) ?></td>
+                            <td><?= htmlspecialchars($data['perc']) ?>%</td>
                             <?php if ($crime_data['leader'] == $user_class->id) { echo "<td><input type='checkbox' name='kick[]' value='{$data['user_id']}'></td>"; } ?>
                         </tr>
                         <?php
