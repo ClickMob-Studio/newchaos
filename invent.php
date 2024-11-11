@@ -17,8 +17,8 @@ function getInventoryItems() {
         WHERE inv.userid = :user_id
         ORDER BY i.itemname
     ");
-  
-    $db->bind(':user_id', $user_class->id);  
+
+    $db->bind(':user_id', $user_class->id);
     return $db->fetch_row();  // Ensure this returns valid rows or empty array
 }
 
@@ -132,10 +132,10 @@ foreach ($items as $item) {
         <form id="dropForm">
             <p>Dropping <strong id="drop-item-name"></strong></p>
             <input type="hidden" name="item_id" id="drop-item-id">
-            
+
             <label for="drop-quantity">Quantity to drop:</label>
             <input type="number" id="drop-quantity" name="quantity" min="1" value="1">
-            
+
             <button type="submit" class="drop-confirm-btn">Drop Item</button>
         </form>
     </div>
@@ -149,13 +149,13 @@ foreach ($items as $item) {
         <form id="sendForm">
             <p>Sending <strong id="item-name"></strong></p>
             <input type="hidden" name="item_id" id="item-id">
-            
+
             <label for="recipient">Recipient Username/ID:</label>
             <input type="text" id="recipient" name="recipient" required>
 
             <label for="quantity">Quantity to send:</label>
             <input type="number" id="quantity" name="quantity" min="1" value="1">
-            
+
             <button type="submit" class="send-confirm-btn">Send Item</button>
         </form>
     </div>
@@ -169,10 +169,10 @@ foreach ($items as $item) {
         <form id="useMultiForm">
             <input type="hidden" name="item_id" id="use-item-id"> <!-- Hidden input for item ID -->
             <p>Using <strong id="use-item-name"></strong></p>  <!-- Display item name -->
-            
+
             <label for="use-quantity">Quantity to use:</label>
             <input type="number" id="use-quantity" name="quantity" min="1" value="1">  <!-- Quantity input -->
-            
+
             <button type="submit" class="use-confirm-btn">Use Item(s)</button>  <!-- Submit button -->
         </form>
     </div>
@@ -594,11 +594,14 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
 </script>
 
 <style>
-.inventory-container {
-    width: 80%;
-    margin: 20px auto;
-    padding: 20px;
-}
+    .inventory-container {
+        width: 80%;
+        margin: 20px auto;
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Space between sections */
+    }
 
 .inventory-groups {
     display: flex;
@@ -606,20 +609,27 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
     gap: 20px; /* Space between sections */
 }
 
-.inventory-group {
-    background-color: #21201c;
-    padding: 20px;
-    border-radius: 8px;
-    width: calc(50% - 20px); /* 50% width for two columns with space between them */
-    margin-bottom: 20px;
-}
-
-/* Responsive design for tablets */
-@media screen and (max-width: 768px) {
     .inventory-group {
-        width: 100%; /* Full width for smaller screens */
+        background-color: #21201c;
+        padding: 20px;
+        border-radius: 8px;
+        flex: 1 1 calc(25% - 20px); /* 25% width for 4 columns with space between them */
+        margin-bottom: 20px;
     }
-}
+
+    /* Responsive design for tablets */
+    @media screen and (max-width: 768px) {
+        .inventory-group {
+            flex: 1 1 calc(50% - 20px); /* 50% width for 2 columns on smaller screens */
+        }
+    }
+
+    /* Responsive design for mobile */
+    @media screen and (max-width: 480px) {
+        .inventory-group {
+            flex: 1 1 100%; /* Full width for smaller screens */
+        }
+    }
 
 /* Individual item container */
 .inventory-item {
