@@ -85,7 +85,7 @@ foreach ($items as $item) {
 <div class="inventory-container">
     <?php if (!empty($groupedItems)): ?>
         <?php foreach ($groupedItems as $type => $items): ?>
-            <div class="inventory-group <?php $type ?>-container">
+            <div class="inventory-group <?php echo $type ?>-container">
                 <h2 class="item-type-header"><?= htmlspecialchars(ucfirst($type)); ?></h2>
                 <div class="inventory-items">
                     <?php foreach ($items as $item): ?>
