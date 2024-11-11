@@ -595,9 +595,9 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
 
 <style>
 .inventory-container {
-    width: 80%;
+    width: 100%;
     margin: 20px auto;
-    padding: 20px;
+    padding: 0px;
 }
 
 .inventory-groups {
@@ -628,8 +628,8 @@ document.getElementById("sendForm").addEventListener('submit', function (event) 
 }
 
 .inventory-item {
-    flex: 1 1 calc(50% - 20px); /* 25% width minus the gap */
-    max-width: calc(50% - 20px); /* Ensure max width is also 25% minus the gap */
+    flex: 1 1 calc(33.333% - 20px); /* 33.333% width minus the gap */
+    max-width: calc(33.333% - 20px); /* Ensure max width is also 33.333% minus the gap */
     background-color: #2d2c28;
     padding: 15px;
     border-radius: 8px;
