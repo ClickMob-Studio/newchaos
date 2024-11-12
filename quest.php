@@ -31,6 +31,8 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
     }
     $payoutsToDisplay .= '</ul>';
 
+    // TODO: Sort starting next mission.
+    
     echo "
         <div class='alert alert-success'>
             <strong>Success!</strong> You have completed the mission <strong>{$questSeasonMission['name']}</strong> for the quest <strong>{$currentQuestSeason['name']}</strong>.<br /><br />
