@@ -10,15 +10,37 @@ if (isset($currentQuestSeason['id'])) {
 }
 
 if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail'):
-    $doors = ['fail', 'fail', 'success', 'fail'];
+    $doors = ['jail', 'hospital', 'success', 'fail'];
     shuffle($doors);
 
     if (isset($_GET['door'])) {
         $selectedDoor = (int)$_GET['door'];
-        if ($doors[$selectedDoor] === 'success') {
-            echo "<p>Congratulations! You have found the success door!</p>";
+
+            echo "
+               <div class='alert alert-success'>
+                    <strong>Success!</strong> Congratulations! You have found the success door!
+               </div>
+            ";
         } else {
-            echo "<p>Sorry, this door is a fail. Try again!</p>";
+            if ($doors[$selectedDoor] === 'jail') {
+                echo "
+                    <div class='alert alert-danger'>
+                        <strong>Fail!</strong> You open the door to find a police officer waiting for you. You have been arrested!
+                    </div>
+                ";
+            } elseif ($doors[$selectedDoor] === 'hospital') {
+                echo "
+                    <div class='alert alert-danger'>
+                        <strong>Fail!</strong> You open the door on a disgruntled man taking a piss, he punches you in the face and you fall to the ground!
+                    </div>
+                ";
+            } else {
+                echo "
+                    <div class='alert alert-danger'>
+                        <strong>Fail!</strong> You opened the wrong door.
+                    </div>
+                ";
+            }
         }
     }
     ?>
