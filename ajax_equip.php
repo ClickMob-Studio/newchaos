@@ -41,7 +41,8 @@ if (isset($_GET['id']) && in_array($_GET['id'], $equipItems)) {
 
     $db->query("SELECT itemname, `image`, quantity FROM inventory inv JOIN items i ON inv.itemid = i.id WHERE inv.userid = ? AND inv.itemid = ? ");
     $db->execute(array($user_class->id, $itemId));
-    $items = $db->fetch_row();
+    $items = $db->fetch_row(true);
+    
 
     if (!$items) {
         $response['message'] = "Item not found in your inventory.";
