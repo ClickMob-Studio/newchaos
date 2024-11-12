@@ -12,23 +12,24 @@ if (isset($currentQuestSeason['id'])) {
 if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMissionUser['is_complete'] > 0) {
     $payouts = json_decode($questSeasonMission['payouts'], true);
     $payoutsToDisplay = 'You have received the following payouts:<br />';
+    $payoutsToDisplay .= '<ul>';
     foreach ($payouts as $field => $value) {
         if ($field === 'items') {
             foreach ($value as $itemId => $quantity) {
                 Give_Item($itemId, $user_class->id, $quantity);
 
-                $payoutsToDisplay .= number_format($quantity, 0) . ' x ' . Item_Name($itemId) . '<br />';
+                $payoutsToDisplay .= '<li>' . number_format($quantity, 0) . ' x ' . Item_Name($itemId) . '</li>';
             }
         } else {
             if ($field === 'exp') {
                 $value = $user_class->maxexp / 100 * $value;
             }
-            $payoutsToDisplay .= number_format($value, 0) . ' ' . ucwords($field) . '<br />';
+            $payoutsToDisplay .= '<li>' . number_format($value, 0) . ' ' . ucwords($field) . '</li>';
             $db->query('UPDATE grpgusers SET ' . $field . ' = ' . $field . ' + ? WHERE id = ?');
             $db->execute(array($value, $user_class->id));
         }
     }
-
+    $payoutsToDisplay .= '</ul>';
 
     echo "
         <div class='alert alert-success'>
