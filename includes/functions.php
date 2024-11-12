@@ -2901,7 +2901,6 @@ function updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $req, $va
     $questSeasonMission = $db->fetch_row(true);
 
     if ($questSeasonMissionUser) {
-        echo 'here'; exit;
         $isComplete = false;
 
         $progress = json_decode($questSeasonMissionUser['progress']);
