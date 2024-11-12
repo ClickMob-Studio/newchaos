@@ -10,12 +10,13 @@ function getEquippedItemHtml($itemType, $itemId, $itemImg, $itemName) {
         return '<img width="100" height="100" src="/css/images/empty.jpg" /><br /> You are not using a ' . $itemType . '.';
     }
 
-    $html = '';
-    $html .= image_popup($itemImg, $itemId);
+    $html = '<div>';
+    $html .= '<img width="100" height="100" src="' . htmlspecialchars($itemImg) . '" alt="' . htmlspecialchars($itemName) . '" /><br />';
+    $html .= htmlspecialchars($itemName);
     $html .= '<br />';
-    $html .= item_popup($itemName, $itemId);
-    $html .= '<br />';
-    $html .= '<a class="button-sm unequip-btn" href="#" data-type="' . $itemType . '">Unequip</a>';
+    $html .= '<a class="button-sm unequip-btn" href="#" data-type="' . htmlspecialchars($itemType) . '">Unequip</a>';
+    $html .= '</div>';
+
     return $html;
 }
 
