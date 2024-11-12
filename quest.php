@@ -10,7 +10,7 @@ if (isset($currentQuestSeason['id'])) {
 }
 
 if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMissionUser['is_complete'] > 0) {
-    $payouts = json_decode($questSeasonMissionUser['payouts'], true);
+    $payouts = json_decode($questSeasonMission['payouts'], true);
     $payoutToDisplay = 'You have received the following payouts:<br />';
     foreach ($payouts as $field => $value) {
         if ($field === 'items') {
@@ -31,7 +31,7 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
 
     echo "
         <div class='alert alert-success'>
-            <strong>Success!</strong> You have completed the missiom <strong>{$questSeasonMission['name']}</strong> for the quest <strong>{$currentQuestSeason['name']}</strong>.<br />
+            <strong>Success!</strong> You have completed the mission <strong>{$questSeasonMission['name']}</strong> for the quest <strong>{$currentQuestSeason['name']}</strong>.<br />
             {$payoutsToDisplay}
             <a href='quest.php'>Start your next mission</a>.
         </div>
