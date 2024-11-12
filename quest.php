@@ -9,6 +9,36 @@ if (isset($currentQuestSeason['id'])) {
     $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 }
 
+if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMissionUser['is_complete'] > 0) {
+    $payouts = json_decode($questSeasonMissionUser['payouts'], true);
+    $payoutToDisplay = 'You have received the following payouts:<br />';
+    foreach ($payouts as $field => $value) {
+        if ($field === 'items') {
+            foreach ($value as $itemId => $quantity) {
+                Give_Item($itemId, $user_class->id, $quantity);
+
+                $payoutsToDisplay .= number_format($quantity, 0) . ' x ' . Item_Name($itemId) . '<br />';
+            }
+        } else {
+            if ($field === 'exp') {
+                $value = $user_class->maxexp / 100 * $value;
+            }
+            $payoutsToDisplay .= number_format($value, 0) . ' ' . ucwords($field) . '<br />';
+            $db->query('UPDATE grpgusers SET ' . $field . ' = ' . $field . ' + ? WHERE id = ?');
+            $db->execute(array($value, $user_class->id));
+        }
+    }
+
+    echo "
+        <div class='alert alert-success'>
+            <strong>Success!</strong> You have completed the missiom <strong>{$questSeasonMission['name']}</strong> for the quest <strong>{$currentQuestSeason['name']}</strong>.<br />
+            {$payoutsToDisplay}
+            <a href='quest.php'>Start your next mission</a>.
+        </div>
+    ";
+    exit;
+}
+
 if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail' && isset($questSeasonMission['requirements']->vinny_the_fish_delivery)) :
     $doors = ['fail', 'success', 'jail', 'hospital'];
     shuffle($doors);
@@ -50,7 +80,6 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail' && isset($questSeaso
                         <strong>Fail!</strong> You open the door on a disgruntled man taking a piss, he punches you in the face and you fall to the ground!
                     </div>
                 ";
-
             $db->query("UPDATE grpgusers SET hospital = 120 WHERE id = ?");
             $db->execute(array($user_class->id));
         } else {
