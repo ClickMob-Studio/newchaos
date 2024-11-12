@@ -36,7 +36,7 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
             <strong>Success!</strong> You have completed the mission <strong>{$questSeasonMission['name']}</strong> for the quest <strong>{$currentQuestSeason['name']}</strong>.<br /><br />
             {$payoutsToDisplay}
             <br /><br />
-            <a href='quest.php' class='dcSecondaryButton'>Start your next mission</a>.
+            <a href='quest.php' class='btn btn-primary'>Start your next mission</a>.
         </div>
     ";
     exit;
