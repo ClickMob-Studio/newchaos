@@ -18,7 +18,9 @@ function getEquippedItemHtml($itemType, $itemId, $itemImg, $itemName) {
     $html .= '<a class="button-sm unequip-btn" href="#" data-type="' . $itemType . '">Unequip</a>';
     return $html;
 }
-echo json_encode($_GET['id']);
+$response['success'] = true;
+$response['equippedItems'] = $_GET['id'];
+echo json_encode($response);
 // Function to get the equipped items for page load or reloading
 function getEquippedItems($user_class) {
     return array(
