@@ -13,6 +13,15 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail' && isset($questSeaso
     $doors = ['jail', 'hospital', 'success', 'fail'];
     shuffle($doors);
 
+    if ($user_class->jail > 0 || $user_class->hospital > 0) {
+        echo "
+            <div class='alert alert-danger'>
+                <strong>Fail!</strong> You are currently in jail or hospital and cannot complete this quest.
+            </div>
+        ";
+        exit;
+    }
+
     if (isset($_GET['door'])) {
         $selectedDoor = (int)$_GET['door'];
 
