@@ -2906,6 +2906,7 @@ function updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $req, $va
         echo 'here';
 
         $progress = json_decode($questSeasonMissionUser['progress']);
+        var_dump($progress);
         foreach ($progress as $key => $r) {
             if ($key === $req) {
                 $progress[$key] = $progress[$key] + $value;
@@ -2923,7 +2924,7 @@ function updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $req, $va
             }
         }
 
-        var_dump($progress); exit;
+        var_dump($progress);
         $db->query("UPDATE quest_season_mission_user SET progress = ?, is_complete = ? WHERE id = ?");
         $db->execute(array(json_encode($progress), $isComplete, $questSeasonMissionUser['id']));
     }
