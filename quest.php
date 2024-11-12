@@ -28,12 +28,17 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail' && isset($questSeaso
                         <strong>Fail!</strong> You open the door to find a police officer waiting for you. You have been arrested!
                     </div>
                 ";
+            $db->query("UPDATE grpgusers SET jail = 300 WHERE id = ?");
+            $db->execute(array($user_class->id));
         } elseif ($doors[$selectedDoor] === 'hospital') {
             echo "
                     <div class='alert alert-danger'>
                         <strong>Fail!</strong> You open the door on a disgruntled man taking a piss, he punches you in the face and you fall to the ground!
                     </div>
                 ";
+
+            $db->query("UPDATE grpgusers SET hospital = 120 WHERE id = ?");
+            $db->execute(array($user_class->id));
         } else {
             echo "
                     <div class='alert alert-danger'>
