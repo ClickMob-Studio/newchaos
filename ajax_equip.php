@@ -56,37 +56,37 @@ if (isset($_GET['id']) && in_array($_GET['id'], $equipItems)) {
 
     // Remove or decrement item in inventory
     if ($itemQuantity == 1) {
-        $db->query("DELETE FROM inventory WHERE userid = ? AND itemid = 69");
-        $db->execute(array($user_class->id));
+        $db->query("DELETE FROM inventory WHERE userid = ? AND itemid = ?");
+        $db->execute(array($user_class->id, $_GET['id']));
     } else {
         $newQuantity = $itemQuantity - 1;
-        $db->query("UPDATE inventory SET quantity = ? WHERE userid = ? AND itemid = 69");
-        $db->execute(array($newQuantity, $user_class->id));
+        $db->query("UPDATE inventory SET quantity = ? WHERE userid = ? AND itemid = ?");
+        $db->execute(array($newQuantity, $user_class->id. $_GET['id']));
     }
 
     // Equip the item in an available slot or overwrite the shoes slot
     if ($user_class->eqweapon == 0) {
         $db->query("UPDATE grpgusers SET eqweapon = ?, weploaned = 0 WHERE id = ?");
-        $db->execute(array(69, $user_class->id));
-        $response['newItemHtml'] = getEquippedItemHtml("weapon", 69, $itemImg, $itemName);
+        $db->execute(array($_GET['id'], $user_class->id));
+        $response['newItemHtml'] = getEquippedItemHtml("weapon", $_GET['id'], $itemImg, $itemName);
         $response['message'] = "Equipped $itemName as weapon!";
         $response['slot'] = 'weapon';
     } elseif ($user_class->eqarmor == 0) {
         $db->query("UPDATE grpgusers SET eqarmor = ?, armloaned = 0 WHERE id = ?");
-        $db->execute(array(69, $user_class->id));
-        $response['newItemHtml'] = getEquippedItemHtml("armor", 69, $itemImg, $itemName);
+        $db->execute(array($_GET['id'], $user_class->id));
+        $response['newItemHtml'] = getEquippedItemHtml("armor", $_GET['id'], $itemImg, $itemName);
         $response['message'] = "Equipped $itemName as armor!";
         $response['slot'] = 'armor';
     } elseif ($user_class->eqshoes == 0) {
         $db->query("UPDATE grpgusers SET eqshoes = ?, shoeloaned = 0 WHERE id = ?");
-        $db->execute(array(69, $user_class->id));
-        $response['newItemHtml'] = getEquippedItemHtml("shoes", 69, $itemImg, $itemName);
+        $db->execute(array($_GET['id'], $user_class->id));
+        $response['newItemHtml'] = getEquippedItemHtml("shoes", $_GET['id'], $itemImg, $itemName);
         $response['message'] = "Equipped $itemName as shoes!";
         $response['slot'] = 'shoes';
     } else {
         $db->query("UPDATE grpgusers SET eqshoes = ?, shoeloaned = 0 WHERE id = ?");
-        $db->execute(array(69, $user_class->id));
-        $response['newItemHtml'] = getEquippedItemHtml("shoes", 69, $itemImg, $itemName);
+        $db->execute(array($_GET['id'], $user_class->id));
+        $response['newItemHtml'] = getEquippedItemHtml("shoes", $_GET['id'], $itemImg, $itemName);
         $response['message'] = "Replaced shoes with $itemName!";
         $response['slot'] = 'shoes';
     }
