@@ -308,8 +308,8 @@
                 updateEquippedItem(response.slot, response.newItemHtml);
                 console.log("Equipped item ID:", itemId, "in slot:", response.slot);
                 messageDiv.style.display = 'block';
-                    messageDiv.style.backgroundColor = '#f44336';
-                    messageDiv.textContent = 'Error: ' + response.message;
+                messageDiv.style.backgroundColor = '#f44336';
+                messageDiv.textContent = 'Error: ' + response.message;
             } else {
                 messageDiv.style.display = 'block';
                 messageDiv.style.backgroundColor = '#f44336'; // Red for error
