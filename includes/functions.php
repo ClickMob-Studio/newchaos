@@ -2896,9 +2896,6 @@ function updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $req, $va
 {
     global $db;
 
-    var_dump($questSeasonMissionUser);
-    echo '<br />';
-
     $db->query("SELECT * FROM quest_season_mission WHERE id = ? LIMIT 1");
     $db->execute(array($questSeasonMissionUser['quest_season_mission_id']));
     $questSeasonMission = $db->fetch_row(true);
