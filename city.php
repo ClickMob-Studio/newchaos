@@ -248,7 +248,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
         <div class="col-12 text-center mb-2 section-header">
             <strong>Economic Activities</strong>
         </div>
-            
+
 
             <a href='stores.php'>Item Stores</a><br>
             <a href='pharmacy.php'>General Pharmacy</a><br>
