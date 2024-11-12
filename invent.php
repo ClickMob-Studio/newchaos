@@ -307,20 +307,27 @@
             if (response.success) {
                 updateEquippedItem(response.slot, response.newItemHtml);
                 console.log("Equipped item ID:", itemId, "in slot:", response.slot);
+                
+                // Show success message
                 messageDiv.style.display = 'block';
-                messageDiv.style.backgroundColor = '#f44336';
-                messageDiv.textContent = 'Error: ' + response.message;
+                messageDiv.style.backgroundColor = '#4CAF50'; // Green for success
+                messageDiv.textContent = response.message;
             } else {
+                // Show error message
                 messageDiv.style.display = 'block';
                 messageDiv.style.backgroundColor = '#f44336'; // Red for error
                 messageDiv.textContent = response.message;
                 console.error("Equip error:", response.message);
             }
+
+            // Hide the message after 5 seconds
+            setTimeout(function () {
+                messageDiv.style.display = 'none';
+            }, 5000);
         }
     };
     xhr.send();
 }
-
     // Function to handle unequipping an item
     function unequipItem(itemType) {
         var url = 'ajax_equip.php?unequip=' + itemType;
@@ -480,16 +487,12 @@
         xhr.send(formData);
     });
 
-
-
-
-    // Function to update the equipped item slot with new HTML
     function updateEquippedItem(type, newItemHtml) {
-        var equippedItemContainer = document.querySelector('.equipped-item[data-type="' + type + '"]');
-        if (equippedItemContainer) {
-            equippedItemContainer.innerHTML = newItemHtml;
-        }
+    var equippedItemContainer = document.querySelector('.equipped-item[data-type="' + type + '"]');
+    if (equippedItemContainer) {
+        equippedItemContainer.innerHTML = newItemHtml;
     }
+}
 
     // Function to remove the item from the inventory after equipping
     function removeFromInventory(itemId) {
