@@ -2851,7 +2851,14 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
     $questSeasonMission = $db->fetch_row(true);
 
     if ($questSeasonMission) {
-        $db->query("INSERT INTO quest_season_mission_user (user_id, quest_season_id, quest_season_mission_id) VALUES (" . $userId . ", " . $questSeasonId . ", " . $questSeasonMission['id'] . ")");
+        $progress = array();
+        $questSeasonMission['requirements'] = json_decode($questSeasonMission['requirements']);
+        foreach ($questSeasonMission['requirements'] as $req) {
+            $progress[$req] = 0;
+        }
+
+
+        $db->query("INSERT INTO quest_season_mission_user (user_id, quest_season_id, quest_season_mission_id, progress) VALUES (" . $userId . ", " . $questSeasonId . ", " . $questSeasonMission['id'] . ", '" . json_encode($progress) . "')");
         $db->execute();
         $r = getQuestSeasonMission($userId, $questSeasonId);
 

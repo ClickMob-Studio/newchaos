@@ -31,6 +31,8 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail' && isset($questSeaso
                     <strong>Success!</strong> Congratulations! You have found the success door!
                </div>
             ";
+
+
         } elseif ($doors[$selectedDoor] === 'jail') {
             echo "
                     <div class='alert alert-danger'>
