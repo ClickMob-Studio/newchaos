@@ -32,7 +32,10 @@ if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail' && isset($questSeaso
                </div>
             ";
 
+            updateQuestSeasonMissionUserProgress($questSeasonMissionUser['id'], 'vinny_the_fish_delivery', 1);
 
+            header('Location: quest.php');
+            exit;
         } elseif ($doors[$selectedDoor] === 'jail') {
             echo "
                     <div class='alert alert-danger'>
