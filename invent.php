@@ -305,7 +305,13 @@
             if (response.success) {
                 updateEquippedItem(response.slot, response.newItemHtml);
                 console.log("Equipped item ID:", itemId, "in slot:", response.slot);
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#4CAF50'; // Green for success
+                messageDiv.textContent = response.message;
             } else {
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#f44336'; // Red for error
+                messageDiv.textContent = response.message;
                 console.error("Equip error:", response.message);
             }
         }
