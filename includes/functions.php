@@ -2905,7 +2905,7 @@ function updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $req, $va
 
         echo 'here';
 
-        $progress = json_decode($questSeasonMissionUser['progress']);
+        $progress = json_decode($questSeasonMissionUser['progress'], true);
         var_dump($progress);
         foreach ($progress as $key => $r) {
             if ($key === $req) {
