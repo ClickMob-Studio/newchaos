@@ -2860,7 +2860,6 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
 
         $db->query("INSERT INTO quest_season_mission_user (user_id, quest_season_id, quest_season_mission_id, progress) VALUES (?, ?, ?, ?)");
         $db->execute(array($userId, $questSeasonId, $questSeasonMission['id'], json_encode($progress)));
-        $db->execute();
         $r = getQuestSeasonMission($userId, $questSeasonId);
 
         return $r;
@@ -2891,4 +2890,40 @@ function getDisplayForQuestReq($req, $num)
     } else {
         return '<strong>' . $req . ': . ' . number_format($num) . '</strong>';
     }
+}
+
+function updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $req, $value)
+{
+    global $db;
+
+    $db->query("SELECT * FROM quest_season_mission WHERE id = ? LIMIT 1");
+    $db->execute(array($questSeasonMissionUser['quest_season_mission_id']));
+    $questSeasonMission = $db->fetch_row(true);
+
+    if ($questSeasonMissionUser) {
+        $isComplete = false;
+
+        $progress = json_decode($questSeasonMissionUser['progress']);
+        foreach ($progress as $key => $r) {
+            if ($key === $req) {
+                $progress[$key] = $progress[$key] + $value;
+            }
+        }
+        $questSeasonMissionUser['progress'] = $progress;
+
+        $requirements = json_decode($questSeasonMission['requirements']);
+        foreach ($requirements as $key => $r) {
+            if ($progress[$key] >= $r) {
+                $isComplete = true;
+            } else {
+                $isComplete = false;
+                break;
+            }
+        }
+
+        $db->query("UPDATE quest_season_mission_user SET progress = ?, is_complete = ? WHERE id = ?");
+        $db->execute(array(json_encode($progress), $isComplete, $questSeasonMissionUser['id']));
+    }
+
+    return $questSeasonMissionUser;
 }
