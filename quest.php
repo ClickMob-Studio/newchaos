@@ -10,7 +10,7 @@ if (isset($currentQuestSeason['id'])) {
 }
 
 if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail' && isset($questSeasonMission['requirements']->vinny_the_fish_delivery)) :
-    $doors = ['success', 'success', 'success', 'success'];
+    $doors = ['fail', 'success', 'jail', 'hospital'];
     shuffle($doors);
 
     if ($user_class->jail > 0 || $user_class->hospital > 0) {
