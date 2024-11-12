@@ -2853,8 +2853,8 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
     if ($questSeasonMission) {
         $progress = array();
         $questSeasonMission['requirements'] = json_decode($questSeasonMission['requirements']);
-        foreach ($questSeasonMission['requirements'] as $req) {
-            $progress[$req] = 0;
+        foreach ($questSeasonMission['requirements'] as $key => $req) {
+            $progress[$key] = 0;
         }
 
 
