@@ -59,18 +59,21 @@ if (isset($_GET['id']) && in_array($_GET['id'], $equipItems)) {
     } elseif ($user_class->eqarmor == 0) {
         $db->query("UPDATE grpgusers SET eqarmor = ?, armloaned = 0 WHERE id = ?");
         $db->execute(array($itemId, $user_class->id));
+        $response['success'] = true;
         $response['newItemHtml'] = getEquippedItemHtml("armor", $itemId, $items['image'], $items['itemname']);
         $response['message'] = "Equipped {$items['itemname']} as armor!";
         $response['slot'] = 'armor';
     } elseif ($user_class->eqshoes == 0) {
         $db->query("UPDATE grpgusers SET eqshoes = ?, shoeloaned = 0 WHERE id = ?");
         $db->execute(array($itemId, $user_class->id));
+        $response['success'] = true;
         $response['newItemHtml'] = getEquippedItemHtml("shoes", $itemId, $items['image'], $items['itemname']);
         $response['message'] = "Equipped {$items['itemname']} as shoes!";
         $response['slot'] = 'shoes';
     } else {
         $db->query("UPDATE grpgusers SET eqshoes = ?, shoeloaned = 0 WHERE id = ?");
         $db->execute(array($itemId, $user_class->id));
+        $response['success'] = true;
         $response['newItemHtml'] = getEquippedItemHtml("shoes", $itemId, $items['image'], $items['itemname']);
         $response['message'] = "Replaced shoes with {$items['itemname']}!";
         $response['slot'] = 'shoes';
