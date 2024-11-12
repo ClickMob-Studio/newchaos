@@ -2900,8 +2900,10 @@ function updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $req, $va
     $db->execute(array($questSeasonMissionUser['quest_season_mission_id']));
     $questSeasonMission = $db->fetch_row(true);
 
-    if ($questSeasonMissionUser) {
+    if ($questSeasonMission) {
         $isComplete = false;
+
+        echo 'here';
 
         $progress = json_decode($questSeasonMissionUser['progress']);
         foreach ($progress as $key => $r) {
