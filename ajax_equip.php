@@ -18,78 +18,61 @@ function getEquippedItemHtml($itemType, $itemId, $itemImg, $itemName) {
     $html .= '<a class="button-sm unequip-btn" href="#" data-type="' . $itemType . '">Unequip</a>';
     return $html;
 }
-$response['success'] = true;
-$response['equippedItems'] = $_GET['id'];
-echo json_encode($response);
-// Function to get the equipped items for page load or reloading
-function getEquippedItems($user_class) {
-    return array(
+
+// Handle requests to load equipped items on page load
+if (isset($_GET['action']) && $_GET['action'] == 'load') {
+    $equippedItems = array(
         'weapon' => getEquippedItemHtml('weapon', $user_class->eqweapon, $user_class->weaponimg, $user_class->weaponname),
         'armor' => getEquippedItemHtml('armor', $user_class->eqarmor, $user_class->armorimg, $user_class->armorname),
         'shoes' => getEquippedItemHtml('shoes', $user_class->eqshoes, $user_class->shoesimg, $user_class->shoesname),
     );
-}
-
-// Handle requests to load equipped items on page load
-if (isset($_GET['action']) && $_GET['action'] == 'load') {
-    $equippedItems = getEquippedItems($user_class);
     $response['success'] = true;
     $response['equippedItems'] = $equippedItems;
     echo json_encode($response);
     exit;
 }
 
-// Handle equipping item with ID 69 and manage inventory updates
-$equipItems = array(68,69,229, 230,231,250,252, 255, 264);
+// Equip handling
+$equipItems = array(68, 69, 229, 230, 231, 250, 252, 255, 264);
 if (isset($_GET['id']) && in_array($_GET['id'], $equipItems)) {
+    $itemId = $_GET['id'];
+    error_log("Attempting to equip item ID: $itemId"); // Log for debugging
+
     $db->query("SELECT itemname, `image`, quantity FROM inventory inv JOIN items i ON inv.itemid = i.id WHERE inv.userid = ? AND inv.itemid = ? ");
-    $db->execute(array($user_class->id, $_GET['id']));
+    $db->execute(array($user_class->id, $itemId));
     $items = $db->fetch_row();
 
     if (!$items) {
         $response['message'] = "Item not found in your inventory.";
+        error_log("Equip failed: Item not found for ID $itemId"); // Log error
         echo json_encode($response);
         exit;
     }
 
-    $itemName = $items['itemname'];
-    $itemImg = $items['image'];
-    $itemQuantity = (int)$items['quantity'];
-
-    // Remove or decrement item in inventory
-    if ($itemQuantity == 1) {
-        $db->query("DELETE FROM inventory WHERE userid = ? AND itemid = ?");
-        $db->execute(array($user_class->id, $_GET['id']));
-    } else {
-        $newQuantity = $itemQuantity - 1;
-        $db->query("UPDATE inventory SET quantity = ? WHERE userid = ? AND itemid = ?");
-        $db->execute(array($newQuantity, $user_class->id. $_GET['id']));
-    }
-
-    // Equip the item in an available slot or overwrite the shoes slot
+    // Equip the item based on available slot or replace shoes if all slots are occupied
     if ($user_class->eqweapon == 0) {
         $db->query("UPDATE grpgusers SET eqweapon = ?, weploaned = 0 WHERE id = ?");
-        $db->execute(array($_GET['id'], $user_class->id));
-        $response['newItemHtml'] = getEquippedItemHtml("weapon", $_GET['id'], $itemImg, $itemName);
-        $response['message'] = "Equipped $itemName as weapon!";
+        $db->execute(array($itemId, $user_class->id));
+        $response['newItemHtml'] = getEquippedItemHtml("weapon", $itemId, $items['image'], $items['itemname']);
+        $response['message'] = "Equipped {$items['itemname']} as weapon!";
         $response['slot'] = 'weapon';
     } elseif ($user_class->eqarmor == 0) {
         $db->query("UPDATE grpgusers SET eqarmor = ?, armloaned = 0 WHERE id = ?");
-        $db->execute(array($_GET['id'], $user_class->id));
-        $response['newItemHtml'] = getEquippedItemHtml("armor", $_GET['id'], $itemImg, $itemName);
-        $response['message'] = "Equipped $itemName as armor!";
+        $db->execute(array($itemId, $user_class->id));
+        $response['newItemHtml'] = getEquippedItemHtml("armor", $itemId, $items['image'], $items['itemname']);
+        $response['message'] = "Equipped {$items['itemname']} as armor!";
         $response['slot'] = 'armor';
     } elseif ($user_class->eqshoes == 0) {
         $db->query("UPDATE grpgusers SET eqshoes = ?, shoeloaned = 0 WHERE id = ?");
-        $db->execute(array($_GET['id'], $user_class->id));
-        $response['newItemHtml'] = getEquippedItemHtml("shoes", $_GET['id'], $itemImg, $itemName);
-        $response['message'] = "Equipped $itemName as shoes!";
+        $db->execute(array($itemId, $user_class->id));
+        $response['newItemHtml'] = getEquippedItemHtml("shoes", $itemId, $items['image'], $items['itemname']);
+        $response['message'] = "Equipped {$items['itemname']} as shoes!";
         $response['slot'] = 'shoes';
     } else {
         $db->query("UPDATE grpgusers SET eqshoes = ?, shoeloaned = 0 WHERE id = ?");
-        $db->execute(array($_GET['id'], $user_class->id));
-        $response['newItemHtml'] = getEquippedItemHtml("shoes", $_GET['id'], $itemImg, $itemName);
-        $response['message'] = "Replaced shoes with $itemName!";
+        $db->execute(array($itemId, $user_class->id));
+        $response['newItemHtml'] = getEquippedItemHtml("shoes", $itemId, $items['image'], $items['itemname']);
+        $response['message'] = "Replaced shoes with {$items['itemname']}!";
         $response['slot'] = 'shoes';
     }
 
@@ -97,6 +80,7 @@ if (isset($_GET['id']) && in_array($_GET['id'], $equipItems)) {
     echo json_encode($response);
     exit;
 }
+
 
 // Handle unequipping logic
 if (isset($_GET['unequip'])) {
