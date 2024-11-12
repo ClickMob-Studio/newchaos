@@ -74,12 +74,12 @@ if (isset($_GET['claim_king']) && $_GET['claim_king'] == 'claimnow') {
                 $db->bind(':user_id', $user_class->id);
                 $db->execute();
                 header('Location: city.php');
-                exit(); 
+                exit();
             }
-        
+
     }
   }
-  
+
   if (isset($_GET['claim_queen']) && $_GET['claim_queen'] == 'claimnow') {
     if($user_class->hospital > 0){
         echo Message("You can not become an Under Boss whilst in hospital");
@@ -109,11 +109,11 @@ if (isset($_GET['claim_king']) && $_GET['claim_king'] == 'claimnow') {
                 $db->bind(':current_city', $user_class->city);
                 $db->bind(':user_id', $user_class->id);
                 $db->execute();
-            
+
                 header('Location: city.php');
-                exit(); 
+                exit();
             }
-        
+
     }
   }
 
@@ -141,14 +141,14 @@ $admin_ids = array_map(function($a) {
     return $a['id'];
 }, $rows);
 
-$currentQuestSeason = getCurrentQuestSeasonForUser($user_class);
-if (isset($currentQuestSeason['id'])) {
-    $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
-}
+//$currentQuestSeason = getCurrentQuestSeasonForUser($user_class);
+////if (isset($currentQuestSeason['id'])) {
+//////    $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+//////}
 ?>
 <br>
 <div class="contenthead floaty">
-<?php 
+<?php
         $csrf = md5(uniqid(rand(), true));
         $_SESSION['csrf'] = $csrf;
         ?>
@@ -168,7 +168,7 @@ if (isset($currentQuestSeason['id'])) {
             <h4>VACANT</h4>
             <p>Boss of <!_-cityname-_!></p>
             <a href="?claim_king=claimnow" style="text-decoration: underline;">Claim</a>
-            
+
         <?php endif; ?>
         <br />
 
@@ -181,7 +181,7 @@ if (isset($currentQuestSeason['id'])) {
 
         ?>
         <p style="font-weight: bold; margin-top: 5px;">By being the Boss of this city you will earn <?php echo number_format($owned_points, 0) ?> points an hour.</p>
-       
+
 
 
 </div>
@@ -198,7 +198,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
             <h4>Under Boss of <!_-cityname-_!></h4>
             <p><strong><?php echo formatName($queen_result['id']); ?></strong></p>
             <a href="/attack.php?attack=<?php echo $queen_result['id']; ?>&csrf=<?php echo $csrf;?>&thrones=attack"  class="challenge-btn" style="text-decoration: underline;">Challenge</a>
-        
+
             <?php else: ?>
             <img src="images/vacant.png" style="width: 100px; height: 100px;" alt="No Under Boss" class="vacant-throne">
             <h4>VACANT</h4>
@@ -248,9 +248,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
         <div class="col-12 text-center mb-2 section-header">
             <strong>Economic Activities</strong>
         </div>
-            <?php if (isset($questSeasonMission) && $questSeasonMission['id'] == 1 && $user_class->admin > 0): ?>
-                <a href="quest.php?mode=therustnail">The Rusty Nail</a><br />
-            <?php endif; ?>
+            
 
             <a href='stores.php'>Item Stores</a><br>
             <a href='pharmacy.php'>General Pharmacy</a><br>
@@ -296,7 +294,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
     </div>
     <!-- Community and Social -->
     <div class="row">
-        
+
         <div class="col-6 col-md-4 text-center">
         <div class="col-12 text-center mb-2 section-header">
             <strong>Community and Social</strong>
@@ -597,25 +595,25 @@ include 'footer.php';
 ?>
 <style>
     .special-users {
-        background-color: #333; 
-        padding: 10px 0; 
+        background-color: #333;
+        padding: 10px 0;
         text-align: center;
         margin-bottom: 20px;
     }
-    
+
     .user {
         display: inline-block;
         margin: 0 10px;
     }
-    
+
     .user img {
-        width: 50px; 
+        width: 50px;
         height: 50px;
         border-radius: 50%;
         display: block;
         margin: 0 auto;
     }
-    
+
     .user span {
         color: #fff;
         display: block;
@@ -654,7 +652,7 @@ include 'footer.php';
         background-color: #333;
         padding: 20px 0;
     }
-    
+
     .of-the-hour, .of-the-day {
         flex: 0 0 100%;
         display: flex;
