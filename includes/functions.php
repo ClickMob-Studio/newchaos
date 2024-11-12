@@ -2922,6 +2922,7 @@ function updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $req, $va
             }
         }
 
+        var_dump($progress); exit;
         $db->query("UPDATE quest_season_mission_user SET progress = ?, is_complete = ? WHERE id = ?");
         $db->execute(array(json_encode($progress), $isComplete, $questSeasonMissionUser['id']));
     }
