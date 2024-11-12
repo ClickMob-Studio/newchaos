@@ -302,12 +302,14 @@
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var response = JSON.parse(xhr.responseText);
+            var messageDiv = document.getElementById('message');
+            
             if (response.success) {
                 updateEquippedItem(response.slot, response.newItemHtml);
                 console.log("Equipped item ID:", itemId, "in slot:", response.slot);
                 messageDiv.style.display = 'block';
-                messageDiv.style.backgroundColor = '#4CAF50'; // Green for success
-                messageDiv.textContent = response.message;
+                    messageDiv.style.backgroundColor = '#f44336';
+                    messageDiv.textContent = 'Error: ' + response.message;
             } else {
                 messageDiv.style.display = 'block';
                 messageDiv.style.backgroundColor = '#f44336'; // Red for error
