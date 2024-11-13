@@ -37,7 +37,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'next_mission' && $questSeason
         $db->query('INSERT INTO quest_season_mission_user (user_id, quest_season_id, quest_season_mission_id, progress, is_complete) VALUES (?, ?, ?, ?, 0)');
         $db->execute(array($user_class->id, $currentQuestSeason['id'], $nextMission['id'], json_encode($progress)));
     } else {
-        echo 'no next mission found. Ending...<br />';
         // Mark the quest season as completed
         $db->query('UPDATE quest_season_user SET is_complete = 1 WHERE user_id = ? AND quest_season_id = ?');
         $db->execute(array($user_class->id, $currentQuestSeason['id']));
@@ -199,5 +198,9 @@ if ($questSeasonUser) {
     <?php
 
 } else {
-
+    echo "
+        <div class='alert alert-danger'>
+            <strong>Error!</strong> You do not have any quests available.
+        </div>
+    ";
 }
