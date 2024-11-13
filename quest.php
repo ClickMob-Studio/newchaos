@@ -43,11 +43,15 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
     }
     $payoutsToDisplay .= '</ul>';
 
+    echo 'here 1';
     $currentMissionId = $questSeasonMission['id'];
+    echo 'here 2';
     $nextMission = $db->query('SELECT * FROM quest_season_missions WHERE quest_season_id = ? AND id > ? ORDER BY id ASC LIMIT 1');
+    echo 'here 3';
     $nextMission->execute(array($currentQuestSeason['id'], $currentMissionId));
+    echo 'here 4';
     $nextMission = $nextMission->fetch_row(true);
-    echo 'here';
+    echo 'here 5';
 
     if ($nextMission) {
         $progress = array();
