@@ -1,55 +1,64 @@
 <?php
 require "header.php";
-// Fetch all items in user's inventory
-$db->query("SELECT inv.*, it.*, c.name AS overridename, c.image AS overrideimage 
-            FROM inventory inv 
-            JOIN items it ON inv.itemid = it.id 
-            LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid 
-            WHERE inv.userid = ?");
-$db->execute([$user_class->id]);
+$userId = $user_class->id; // Assuming $user_class->id holds the current user's ID
 
-$inventoryItems = $db->fetch_row();  // Fetch all results
+// Fetch equipped items for weapon, armor, and shoes
+$db->query("
+    SELECT 
+        eqweapon.id AS weapon_id, eqweapon.itemname AS weapon_name, eqweapon.image AS weapon_image,
+        eqarmor.id AS armor_id, eqarmor.itemname AS armor_name, eqarmor.image AS armor_image,
+        eqshoes.id AS shoes_id, eqshoes.itemname AS shoes_name, eqshoes.image AS shoes_image
+    FROM 
+        grpgusers u
+    LEFT JOIN 
+        items eqweapon ON u.eqweapon = eqweapon.id
+    LEFT JOIN 
+        items eqarmor ON u.eqarmor = eqarmor.id
+    LEFT JOIN 
+        items eqshoes ON u.eqshoes = eqshoes.id
+    WHERE 
+        u.id = ?
+");
+$db->execute([$userId]);
+
+// Fetch the results as an associative array
+$equippedItems = $db->fetch_row(true);
+
+// Display equipped items
+echo '<div class="equipped-items">';
+
+if ($equippedItems['weapon_id']) {
+    echo "<div class='equipped-item'>
+            <img src='{$equippedItems['weapon_image']}' alt='{$equippedItems['weapon_name']}'>
+            <p>Weapon: {$equippedItems['weapon_name']}</p>
+          </div>";
+} else {
+    echo "<div class='equipped-item'>
+            <p>Weapon: None</p>
+          </div>";
+}
+
+if ($equippedItems['armor_id']) {
+    echo "<div class='equipped-item'>
+            <img src='{$equippedItems['armor_image']}' alt='{$equippedItems['armor_name']}'>
+            <p>Armor: {$equippedItems['armor_name']}</p>
+          </div>";
+} else {
+    echo "<div class='equipped-item'>
+            <p>Armor: None</p>
+          </div>";
+}
+
+if ($equippedItems['shoes_id']) {
+    echo "<div class='equipped-item'>
+            <img src='{$equippedItems['shoes_image']}' alt='{$equippedItems['shoes_name']}'>
+            <p>Shoes: {$equippedItems['shoes_name']}</p>
+          </div>";
+} else {
+    echo "<div class='equipped-item'>
+            <p>Shoes: None</p>
+          </div>";
+}
+
+echo '</div>';
 ?>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<div id="inventory">
-    <?php foreach ($inventoryItems as $item): ?>
-        <div class="item" id="item-<?= $item['id'] ?>">
-            <span><?= $item['name'] ?> (x<?= $item['quantity'] ?>)</span>
-            <button class="equip-item" data-id="<?= $item['id'] ?>" data-type="weapon" data-loaned="0">Equip Weapon</button>
-            <button class="unequip-item" data-type="weapon">Unequip Weapon</button>
-            <button class="equip-item" data-id="<?= $item['id'] ?>" data-type="armor" data-loaned="1">Equip Armor (Loaned)</button>
-            <button class="unequip-item" data-type="armor">Unequip Armor</button>
-            <button class="equip-item" data-id="<?= $item['id'] ?>" data-type="shoes" data-loaned="0">Equip Shoes</button>
-            <button class="unequip-item" data-type="shoes">Unequip Shoes</button>
-        </div>
-    <?php endforeach; ?>
-</div>
-
-<script>
-$(document).ready(function() {
-    $('.equip-item').click(function() {
-        const itemId = $(this).data('id');
-        const type = $(this).data('type');
-        const loaned = $(this).data('loaned');
-        
-        $.post('equip_actions.php', { action: 'equip', item_id: itemId, type: type, loaned: loaned }, function(response) {
-            alert(response.message);
-            if (response.status === 'success') {
-                // Optional: Update UI to reflect equipment status
-            }
-        }, 'json');
-    });
-
-    $('.unequip-item').click(function() {
-        const type = $(this).data('type');
-        
-        $.post('equip_actions.php', { action: 'unequip', type: type }, function(response) {
-            alert(response.message);
-            if (response.status === 'success') {
-                // Optional: Update UI to reflect unequipment status
-            }
-        }, 'json');
-    });
-});
-</script>
