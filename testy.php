@@ -3,6 +3,8 @@ include 'header.php';
 ?>
 
 <div class="container mt-5">
+<div id="messageBox" class="alert" style="display: none;"></div>
+
     <h2>Your Inventory</h2>
     <div id="inventoryItems" class="row">
         <?php
@@ -32,8 +34,14 @@ include 'header.php';
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+function showMessage(message, isSuccess) {
+    const messageBox = document.getElementById("messageBox");
+    messageBox.innerText = message;
+    messageBox.className = "alert"; // Reset classes
+    messageBox.classList.add(isSuccess ? "alert-success" : "alert-error"); // Add success or error styling
+    messageBox.style.display = "block"; // Show the message box
+}
 $(document).ready(function () {
     $('.unequip-button').click(function () {
         const itemType = $(this).data('type');
@@ -50,10 +58,10 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.status === 'success') {
                     // Update the inventory on success
-                    alert(response.message);
+                    showMessage(response.message, true);
                     location.reload(); // Reloads the page to reflect changes; adjust if dynamic updates are desired
                 } else {
-                    alert(response.message);
+                    showMessage(response.message, false);
                 }
             },
             error: function () {
@@ -65,3 +73,25 @@ $(document).ready(function () {
 </script>
 
 
+<style>
+    .alert {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    font-size: 16px;
+    display: none; /* Hidden by default */
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+</style>
