@@ -126,6 +126,7 @@ function getItemType($row) {
     renderCategory("Boosters", $categorizedItems['booster']); // Display all boosters without specific subtype
     renderCategory("Home Improvements", $categorizedItems['house']);
     renderCategory("Consumables", $categorizedItems['consumable']);
+    renderCategory("Rare Items", $categorizedItems['rare']); // Render Rare Items category
     ?>
 
     <h1 class="text-center mt-5">Equipped Items</h1>
