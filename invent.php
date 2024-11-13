@@ -294,11 +294,12 @@
         });
     }
     
-   function equipItem(itemId, type, loaned) {
+    function equipItem(itemId, type, loaned) {
     console.log("Sending AJAX request with ID:", itemId, "Type:", type, "Loaned:", loaned);
-    
-    var url = 'ajax_equip.php?eq=' + encodeURIComponent(type) + 
-              '&id=' + encodeURIComponent(itemId) + 
+
+    // Build the URL, ensuring `eq` (type) is included
+    var url = 'ajax_equip.php?eq=' + encodeURIComponent(type) +
+              '&id=' + encodeURIComponent(itemId) +
               '&loaned=' + encodeURIComponent(loaned);
 
     var xhr = new XMLHttpRequest();
@@ -313,7 +314,6 @@
                     console.error("Equip error:", response.message || "Unknown error.");
                 } else {
                     console.log("Equip successful:", response.message);
-                    // Update UI with response data here if needed
                 }
             } catch (e) {
                 console.error("JSON parse error:", e, "Response text:", xhr.responseText);
@@ -322,6 +322,7 @@
     };
     xhr.send();
 }
+
     // Function to handle unequipping an item
     function unequipItem(itemType) {
         var url = 'ajax_equip.php?unequip=' + itemType;
