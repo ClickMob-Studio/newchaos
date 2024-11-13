@@ -294,36 +294,30 @@
         });
     }
     
-    function equipItem(itemId, type) {
-    console.log("Equipping item with ID:", itemId); // Log for debugging
-    var url = 'ajax_equip.php?eq=' + type + '&id=' + itemId;
+   function equipItem(itemId, type, loaned) {
+    console.log("Sending AJAX request with ID:", itemId, "Type:", type, "Loaned:", loaned);
+    
+    var url = 'ajax_equip.php?eq=' + encodeURIComponent(type) + 
+              '&id=' + encodeURIComponent(itemId) + 
+              '&loaned=' + encodeURIComponent(loaned);
+
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            var messageDiv = document.getElementById('message');
-            
-            if (response.success) {
-                updateEquippedItem(response.slot, response.newItemHtml);
-                console.log("Equipped item ID:", itemId, "in slot:", response.slot);
-                
-                // Show success message
-                messageDiv.style.display = 'block';
-                messageDiv.style.backgroundColor = '#4CAF50'; // Green for success
-                messageDiv.textContent = response.message;
-            } else {
-                // Show error message
-                messageDiv.style.display = 'block';
-                messageDiv.style.backgroundColor = '#f44336'; // Red for error
-                messageDiv.textContent = response.message;
-                console.error("Equip error:", response.message);
-            }
+            try {
+                var response = JSON.parse(xhr.responseText);
+                console.log("Server response:", response);
 
-            // Hide the message after 5 seconds
-            setTimeout(function () {
-                messageDiv.style.display = 'none';
-            }, 5000);
+                if (!response.success) {
+                    console.error("Equip error:", response.message || "Unknown error.");
+                } else {
+                    console.log("Equip successful:", response.message);
+                    // Update UI with response data here if needed
+                }
+            } catch (e) {
+                console.error("JSON parse error:", e, "Response text:", xhr.responseText);
+            }
         }
     };
     xhr.send();
