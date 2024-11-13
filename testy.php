@@ -19,7 +19,7 @@ include 'header.php';
         $items = $db->fetch_row(true); // Fetch all items associated with the user
 
         foreach ($items as $item) {
-            $itemName = !empty($item['overridename']) ? $item['overridename'] : $item['itemname'];
+            $itemName = !empty($item['itemname']) ? $item['itemname'] : $item['itemname'];
             $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
             $itemType = htmlspecialchars($item['type']); // type: weapon, armor, shoes, etc.
             
