@@ -115,6 +115,7 @@ $actions = array(
                     responseDiv.className = 'alert alert-success';
                     responseDiv.innerHTML = 'You have successfully intimidated Marco.';
                     successMsgSection.appendChild(responseDiv);
+                    return;
                 }
             }
 
