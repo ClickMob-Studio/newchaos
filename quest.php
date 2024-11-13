@@ -178,7 +178,6 @@ endif;
 
 <?php
 if ($questSeasonUser) {
-var_dump($questSeasonMission);
 ?>
 
 <h1>Quest: <?php echo $currentQuestSeason['name'] ?></h1><hr />
