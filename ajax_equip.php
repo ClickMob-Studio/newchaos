@@ -102,7 +102,6 @@ if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
                 exit;
             }
             equipItem('weapon', $user_class, $row, $db, $response);
-            Take_Item($row['id'], $user_class->id);
             break;
 
         case "armor":
@@ -112,7 +111,7 @@ if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
                 exit;
             }
             equipItem('armor', $user_class, $row, $db, $response);
-            Take_Item($row['id'], $user_class->id);
+            
             break;
 
         case "shoes":
@@ -123,7 +122,7 @@ if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
             
             }
             equipItem('shoes', $user_class, $row, $db, $response);
-            Take_Item($row['id'], $user_class->id);
+            Take_Item($_GET['id'], $user_class->id);
             break;
     }
 
