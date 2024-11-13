@@ -163,6 +163,9 @@ function unequipItem($user_class, $type, $db, &$response) {
     if ($loanedColumn === "weaponloaned") {
         $loanedColumn = "weploaned";
     }
+    if ($loanedColumn == "armorloaned") {
+        $loanedColumn = "armloaned";
+    }
     if ($user_class->$column != 0) {
         if ($user_class->$loanedColumn == 1) {
             Loan_Item($user_class->gang, $user_class->$column, $user_class->id);
@@ -182,8 +185,11 @@ function unequipItem($user_class, $type, $db, &$response) {
 function equipItem($type, $user_class, $item, $db, &$response) {
     $column = "eq" . $type;
     $loanedColumn = $type . "loaned";
-    if ($loanedColumn === "weaponloaned") {
+    if ($loanedColumn == "weaponloaned") {
         $loanedColumn = "weploaned";
+    
+    }if ($loanedColumn == "armorloaned") {
+        $loanedColumn = "armloaned";
     }
     if ($user_class->$column != 0) {
         if ($user_class->$loanedColumn == 1) {
