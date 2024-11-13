@@ -17,15 +17,24 @@ include 'header.php';
                     WHERE inv.userid = ?");
         $db->execute(array($user_class->id));
         $items = $db->fetch_row(); // Fetch all items associated with the user
-        var_dump($items);
+
+        // Function to determine item type based on item properties
+        function getItemType($item) {
+            if ($item['offense'] > 0) return 'weapon';
+            if ($item['defense'] > 0) return 'armor';
+            if ($item['speed'] > 0) return 'shoes';
+            return 'general'; // Default if no specific category fits
+        }
+
         foreach ($items as $item) {
-            $itemName = !empty($item['itemname']) ? $item['itemname'] : $item['itemname'];
+            // Check if override name or image exists; fallback to default name and image
+            $itemName = !empty($item['overridename']) ? $item['overridename'] : $item['itemname'];
             $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
-            $itemType = htmlspecialchars($item['type']); // type: weapon, armor, shoes, etc.
-            
+            $itemType = getItemType($item); // Determine type based on item attributes
+
             echo '<div class="col-md-3 mb-3">';
             echo '<img width="100" height="100" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '"><br />';
-            echo '<strong>' . $item['itemname'] . '</strong><br />';
+            echo '<strong>' . htmlspecialchars($itemName) . '</strong><br />';
             echo '<button class="btn btn-sm btn-primary mt-2 equip-btn" data-type="' . $itemType . '" data-id="' . intval($item['itemid']) . '">Equip</button>';
             echo '</div>';
         }

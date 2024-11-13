@@ -4,17 +4,17 @@ include "ajax_header.php"; // Ensures session data and headers are set up for AJ
 $user_class = new User($_SESSION['id']); // Creates a User object for the logged-in user
 $response = array("status" => "error", "message" => "Invalid request"); // Default response
 
-if (isset($_POST['action']) && isset($_POST['item_id'])) { // Checks if the required parameters are passed in the POST request
+if (isset($_GET['action']) && isset($_GET['item_id'])) { // Checks if the required parameters are passed in the POST request
     $user_id = $user_class->id;
-    $item_id = intval($_POST['item_id']); // Sanitizes item_id
-    $loaned = isset($_POST['loaned']) ? intval($_POST['loaned']) : 0; // Checks if the item is on loan (optional)
+    $item_id = intval($_GET['item_id']); // Sanitizes item_id
+    $loaned = isset($_GET['loaned']) ? intval($_GET['loaned']) : 0; // Checks if the item is on loan (optional)
 
-    switch ($_POST['action']) {
+    switch ($_GET['action']) {
         case 'equip': // Handles item equip action
-            $response = equipItem($user_id, $item_id, $_POST['type'], $loaned);
+            $response = equipItem($user_id, $item_id, $_GET['type'], $loaned);
             break;
         case 'unequip': // Handles item unequip action
-            $response = unequipItem($user_id, $_POST['type']);
+            $response = unequipItem($user_id, $_GET['type']);
             break;
         default:
             $response['message'] = 'Invalid action'; // Updates message for invalid action
