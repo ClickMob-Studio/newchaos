@@ -31,8 +31,32 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
     }
     $payoutsToDisplay .= '</ul>';
 
-    // TODO: Sort starting next mission.
-    
+    $currentMissionId = $questSeasonMission['id'];
+    $nextMission = $db->query('SELECT * FROM quest_season_missions WHERE quest_season_id = ? AND id > ? ORDER BY id ASC LIMIT 1', array($currentQuestSeason['id'], $currentMissionId))->fetch();
+
+    if ($nextMission) {
+        $progress = array();
+        $nextMission['requirements'] = json_decode($nextMission['requirements']);
+        foreach ($nextMission['requirements'] as $key => $req) {
+            $progress[$key] = 0;
+        }
+
+        $db->query('INSERT INTO quest_season_mission_user (user_id, quest_season_id, quest_season_mission_id, progress, is_complete) VALUES (?, ?, ?, ?, 0)', array($user_class->id, $currentQuestSeason['id'], $nextMission['id'], json_encode($progress)));
+        echo "
+        <div class='alert alert-info'>
+            <strong>Next Mission!</strong> You have a new mission: <strong>{$nextMission['name']}</strong>.
+        </div>
+    ";
+    } else {
+        // Mark the quest season as completed
+        $db->query('UPDATE quest_season_users SET is_complete = 1 WHERE user_id = ? AND quest_season_id = ?', array($user_class->id, $currentQuestSeason['id']));
+        echo "
+        <div class='alert alert-success'>
+            <strong>Congratulations!</strong> You have completed the quest season: <strong>{$currentQuestSeason['name']}</strong>.
+        </div>
+    ";
+    }
+
     echo "
         <div class='alert alert-success'>
             <strong>Success!</strong> You have completed the mission <strong>{$questSeasonMission['name']}</strong> for the quest <strong>{$currentQuestSeason['name']}</strong>.<br /><br />
