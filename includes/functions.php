@@ -2887,8 +2887,10 @@ function getDisplayForQuestReq($req, $num)
 {
     if ($req === 'vinny_the_fish_delivery') {
         return 'Deliver the package to Vinny The Fish';
+    } else if ($req === 'pharmacy_protection') {
+            return 'Get Marco at the pharmacy to pay up';
     } else {
-        return '<strong>' . $req . ': . ' . number_format($num) . '</strong>';
+        return '<strong>' . $req . ': ' . number_format($num) . '</strong>';
     }
 }
 
