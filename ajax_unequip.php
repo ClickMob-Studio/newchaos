@@ -32,7 +32,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'unequip' && isset($_POST['t
         case 'shoes':
             if ($user_class->eqshoes != 0) {
                 unequipItem($user_class->id, 'shoes');
-                $response = ["status" => "success", "message" => "Shoes unequipped successfully.";
+                $response = ["status" => "success", "message" => "Shoes unequipped successfully."];
             } else {
                 $response["message"] = "No shoes to unequip.";
             }
