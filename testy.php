@@ -10,26 +10,26 @@ include 'header.php';
     <div class="row text-center">
         <?php
         // Array to manage equipped items with respective properties
-        $equippedItems = [
-            'weapon' => [
+        $equippedItems = array(
+            'weapon' => array(
                 'id' => $user_class->eqweapon,
                 'img' => $user_class->weaponimg,
                 'name' => $user_class->weaponname,
                 'placeholder' => 'You are not holding a weapon.'
-            ],
-            'armor' => [
+            ),
+            'armor' => array(
                 'id' => $user_class->eqarmor,
                 'img' => $user_class->armorimg,
                 'name' => $user_class->armorname,
                 'placeholder' => 'You are not wearing armor.'
-            ],
-            'shoes' => [
+            ),
+            'shoes' => array(
                 'id' => $user_class->eqshoes,
                 'img' => $user_class->shoesimg,
                 'name' => $user_class->shoesname,
                 'placeholder' => 'You are not wearing boots.'
-            ]
-        ];
+            )
+        );
 
         // Display equipped items with placeholders if not equipped
         foreach ($equippedItems as $type => $item) {
@@ -39,7 +39,7 @@ include 'header.php';
                 echo '<br />';
                 echo item_popup($item['name'], $item['id']);
                 echo '<br />';
-                echo '<button class="btn btn-sm btn-warning mt-2 unequip-btn" data-type="' . $type . '">Unequip</button>';
+                echo '<button class="btn btn-sm btn-warning mt-2 unequip-btn" data-type="' . $type . '" data-id="' . $item['id'] . '">Unequip</button>';
             } else {
                 echo '<img width="100" height="100" src="/css/images/empty.jpg" alt="Empty Slot"><br />';
                 echo $item['placeholder'];
@@ -54,7 +54,7 @@ include 'header.php';
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
     function showMessage(message, isSuccess) {
-        const messageBox = $("#messageBox");
+        var messageBox = $("#messageBox");
         messageBox
             .text(message)
             .removeClass("alert-success alert-danger")
@@ -62,33 +62,31 @@ include 'header.php';
             .fadeIn();
 
         // Hide message after 3 seconds
-        setTimeout(() => messageBox.fadeOut(), 3000);
+        setTimeout(function() { messageBox.fadeOut(); }, 3000);
     }
 
     $(document).on('click', '.unequip-btn', function () {
-    const type = $(this).data('type');
+        var type = $(this).data('type');
+        var itemId = $(this).data('id'); // Get the item ID from data-id attribute
 
-    $.ajax({
-        url: 'equip_action.php',
-        type: 'POST',
-        dataType: 'json',
-        data: { action: 'unequip', type: type },
-        success: function (response) {
-            console.log(response); // Log the response for debugging
-            if (response.status === 'success') {
-                showMessage(response.message, true);
-                location.reload(); // Reload items to reflect unequipped status
-            } else {
-                showMessage(response.message, false);
+        $.ajax({
+            url: 'equip_action.php',
+            type: 'POST',
+            dataType: 'json',
+            data: { action: 'unequip', type: type, item_id: itemId }, // Send item ID in request
+            success: function (response) {
+                console.log(response); // Log the response for debugging
+                if (response.status === 'success') {
+                    showMessage(response.message, true);
+                    location.reload(); // Reload items to reflect unequipped status
+                } else {
+                    showMessage(response.message, false);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX Error: " + textStatus + ": " + errorThrown); // Log detailed error
+                showMessage('Error processing the request: ' + textStatus, false);
             }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.error("AJAX Error: " + textStatus + ": " + errorThrown); // Log detailed error
-            showMessage('Error processing the request: ' + textStatus, false);
-        }
+        });
     });
-});
-
 </script>
-
-
