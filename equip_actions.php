@@ -1,43 +1,41 @@
 <?php
-include "ajax_header.php";
-$user_class = new User($_SESSION['id']);
-$response = ["status" => "error", "message" => "Invalid request"];
+include "ajax_header.php"; // Ensures session data and headers are set up for AJAX responses
+$user_class = new User($_SESSION['id']); // Creates a User object for the logged-in user
+$response = ["status" => "error", "message" => "Invalid request"]; // Default response
 
-if (isset($_POST['action']) && isset($_POST['item_id'])) {
+if (isset($_POST['action']) && isset($_POST['item_id'])) { // Checks if the required parameters are passed in the POST request
     $user_id = $user_class->id;
-    $item_id = intval($_POST['item_id']);
-    $loaned = intval($_POST['loaned'] ?? 0);
+    $item_id = intval($_POST['item_id']); // Sanitizes item_id
+    $loaned = intval($_POST['loaned'] ?? 0); // Checks if the item is on loan (optional)
 
     switch ($_POST['action']) {
-        case 'equip':
+        case 'equip': // Handles item equip action
             $response = equipItem($user_id, $item_id, $_POST['type'], $loaned);
             break;
-        case 'unequip':
+        case 'unequip': // Handles item unequip action
             $response = unequipItem($user_id, $_POST['type']);
             break;
         default:
-            $response['message'] = 'Invalid action';
+            $response['message'] = 'Invalid action'; // Updates message for invalid action
     }
 }
 
-header('Content-Type: application/json');
-echo json_encode($response);
+header('Content-Type: application/json'); // Sets the header for JSON response
+echo json_encode($response); // Outputs the response as JSON
 
 // Equip item function
 function equipItem($user_id, $item_id, $type, $loaned) {
     global $db, $user_class;
 
-    // Fetch item details
-    $db->query("SELECT * FROM items WHERE id = ?");
+    $db->query("SELECT * FROM items WHERE id = ?"); // Fetches item details
     $db->execute([$item_id]);
     if (!$db->num_rows()) return ["status" => "error", "message" => "Item not found"];
 
     $item = $db->fetch_row(true);
     if ($item['level'] > $user_class->level) return ["status" => "error", "message" => "You aren't high enough level to use this."];
 
-    switch ($type) {
+    switch ($type) { // Checks if the item matches the requested equipment type
         case 'weapon':
-            // Ensure the item has offense
             if ($item['offense'] <= 0) return ["status" => "error", "message" => "This item is not a weapon"];
             return equipSpecificItem($user_id, 'weapon', $item_id, $loaned);
         case 'armor':
@@ -55,11 +53,12 @@ function equipItem($user_id, $item_id, $type, $loaned) {
 function unequipItem($user_id, $type) {
     global $db, $user_class;
 
+    // Checks if the specified type of item is equipped and unequips it if so
     switch ($type) {
         case 'weapon':
             if ($user_class->eqweapon != 0) {
-                handleReturnOrLoan('weapon', $user_class->eqweapon, $user_class->weploaned);
-                $db->query("UPDATE grpgusers SET eqweapon = 0, weploaned = 0 WHERE id = ?");
+                handleReturnOrLoan('weapon', $user_class->eqweapon, $user_class->weploaned); // Handles item return or loan
+                $db->query("UPDATE grpgusers SET eqweapon = 0, weploaned = 0 WHERE id = ?"); // Updates DB
                 $db->execute([$user_id]);
                 return ["status" => "success", "message" => "Weapon unequipped"];
             }
@@ -85,19 +84,19 @@ function unequipItem($user_id, $type) {
     return ["status" => "error", "message" => "No item to unequip"];
 }
 
-// Helper function to equip item
+// Helper function to equip specific item
 function equipSpecificItem($user_id, $type, $item_id, $loaned) {
     global $db;
 
     $column = "eq" . $type;
     $loaned_column = $type . "loaned";
 
-    // Handle currently equipped item
+    // Handles currently equipped item before equipping the new one
     if ($user_class->$column != 0) {
         handleReturnOrLoan($type, $user_class->$column, $user_class->$loaned_column);
     }
 
-    $db->query("UPDATE grpgusers SET $column = ?, $loaned_column = ? WHERE id = ?");
+    $db->query("UPDATE grpgusers SET $column = ?, $loaned_column = ? WHERE id = ?"); // Updates DB with the new equipment
     $db->execute([$item_id, $loaned, $user_id]);
 
     return ["status" => "success", "message" => ucfirst($type) . " equipped"];
@@ -107,9 +106,9 @@ function equipSpecificItem($user_id, $type, $item_id, $loaned) {
 function handleReturnOrLoan($type, $item_id, $loaned) {
     global $user_class;
     if ($loaned == 1) {
-        Loan_Item($user_class->gang, $item_id, $user_class->id);
+        Loan_Item($user_class->gang, $item_id, $user_class->id); // Returns item to the gang if it was loaned
     } else {
-        Give_Item($item_id, $user_class->id);
+        Give_Item($item_id, $user_class->id); // Returns item to inventory if not on loan
     }
 }
 ?>
