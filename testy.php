@@ -69,7 +69,7 @@ include 'header.php';
 
         echo '<div class="card my-4">';
         echo '<div class="card-header text-white text-center" style="background-color: #8e8e8e21;">';
-        echo "<h2 style='color:white'>$categoryName</h2>";
+        echo "<h2 class='text-dark'>$categoryName</h2>";
         echo '</div>';
         echo '<div class="card-body">';
         echo '<div class="row g-3 text-center">';
@@ -79,12 +79,23 @@ include 'header.php';
             $itemName = !empty($item['overridename']) ? $item['overridename'] : $item['itemname'];
             $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
 
+            // Determine item type
+            $itemType = getItemType($item);
+
+            // Determine if "Equip" button should be shown based on conditions
+            $showEquipButton = in_array($itemType, array('weapon', 'armor', 'shoes'));
+
             echo '<div class="col-6 col-md-4 col-lg-3 mb-3">';
             echo '<div class="card shadow-sm h-100">';
             echo '<img class="card-img-top" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '">';
             echo '<div class="card-body d-flex flex-column">';
             echo '<h6 class="card-title">' . htmlspecialchars($itemName) . '</h6>';
-            echo '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $itemType . '" data-id="' . intval($item['itemid']) . '">Equip</button>';
+            
+            // Show the "Equip" button if the item is a weapon, armor, or shoes
+            if ($showEquipButton) {
+                echo '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $itemType . '" data-id="' . intval($item['itemid']) . '">Equip</button>';
+            }
+
             echo '</div>';
             echo '</div>';
             echo '</div>';
