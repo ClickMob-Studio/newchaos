@@ -241,23 +241,33 @@
 
     // Function to load equipped items on page load
     function loadEquippedItems() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'ajax_equip.php?action=load', true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var response = JSON.parse(xhr.responseText);
-                if (response.success) {
-                    updateEquippedItem('weapon', response.equippedItems.weapon);
-                    updateEquippedItem('armor', response.equippedItems.armor);
-                    updateEquippedItem('shoes', response.equippedItems.shoes);
-
-                    // After loading equipped items, attach event listeners to the unequip buttons
-                    attachUnequipListeners();
-                }
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'ajax_fetch_equipped.php', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            if (response.success) {
+                renderEquippedItems(response.equippedItems);
+            } else {
+                console.error("Error fetching equipped items:", response.message);
             }
-        };
-        xhr.send();
+        }
+    };
+    xhr.send();
+}
+function renderEquippedItems(equippedItems) {
+    // Loop through equipped items and place them in the correct slot
+    for (const [type, item] of Object.entries(equippedItems)) {
+        var equippedItemContainer = document.querySelector(`.equipped-item[data-type="${type}"]`);
+        if (equippedItemContainer) {
+            equippedItemContainer.innerHTML = `
+                <h3>${type.charAt(0).toUpperCase() + type.slice(1)}</h3>
+                <img src="${item.image || 'path/to/default-image.png'}" alt="${item.name}" class="item-image">
+                <p>${item.name}</p>
+            `;
+        }
     }
+}
 
     // Attach event listeners to equip buttons
     function attachEquipListeners() {
