@@ -18,7 +18,7 @@ include 'header.php';
         $db->execute(array($user_class->id));
          // Fetch all items associated with the user
         var_dump($items);
-        while ($item = $db->fetch_row(true);) {
+        while ($item = $db->fetch_row(true)); {
             $itemName = !empty($item['itemname']) ? $item['itemname'] : $item['itemname'];
             $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
             $itemType = htmlspecialchars($item['type']); // type: weapon, armor, shoes, etc.
