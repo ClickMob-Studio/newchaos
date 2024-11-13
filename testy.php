@@ -69,7 +69,7 @@ include 'header.php';
     const type = $(this).data('type');
 
     $.ajax({
-        url: 'ajax_unequip.php',
+        url: 'equip_action.php',
         type: 'POST',
         dataType: 'json',
         data: { action: 'unequip', type: type },
