@@ -79,6 +79,7 @@ $actions = array(
     // Generate random success thresholds between 40-50 and 60-70
     const lowerThreshold = Math.floor(Math.random() * (50 - 40 + 1)) + 40;
     const upperThreshold = Math.floor(Math.random() * (70 - 60 + 1)) + 60;
+    console.log(`You need to intimidate Marco to at least ${lowerThreshold}% to succeed. If you intimidate him to at least ${upperThreshold}%, you will succeed.`);
 
     document.querySelectorAll('.threat-btn').forEach(button => {
         button.addEventListener('click', function() {
@@ -90,6 +91,7 @@ $actions = array(
             let currentProgress = parseInt(progressBar.getAttribute('aria-valuenow'));
             let newProgress = currentProgress + impactValue;
             if (newProgress > 100) newProgress = 100;
+            console.log(newProgress);
 
             // Check if progress is at least 30
             if (newProgress >= 30) {
