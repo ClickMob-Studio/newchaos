@@ -28,18 +28,19 @@ if (isset($_GET['action']) && $_GET['action'] === 'next_mission') {
     $nextMission = $db->fetch_row(true);
 
     if ($nextMission) {
-        echo 'Next mission found. Starting...<br />'; 
         $progress = array();
         $nextMission['requirements'] = json_decode($nextMission['requirements']);
         foreach ($nextMission['requirements'] as $key => $req) {
             $progress[$key] = 0;
         }
 
-        $db->query('INSERT INTO quest_season_mission_user (user_id, quest_season_id, quest_season_mission_id, progress, is_complete) VALUES (?, ?, ?, ?, 0)', array($user_class->id, $currentQuestSeason['id'], $nextMission['id'], json_encode($progress)));
+        $db->query('INSERT INTO quest_season_mission_user (user_id, quest_season_id, quest_season_mission_id, progress, is_complete) VALUES (?, ?, ?, ?, 0)');
+        $db->execute(array($user_class->id, $currentQuestSeason['id'], $nextMission['id'], json_encode($progress)));
     } else {
         echo 'no next mission found. Ending...<br />';
         // Mark the quest season as completed
-        $db->query('UPDATE quest_season_user SET is_complete = 1 WHERE user_id = ? AND quest_season_id = ?', array($user_class->id, $currentQuestSeason['id']));
+        $db->query('UPDATE quest_season_user SET is_complete = 1 WHERE user_id = ? AND quest_season_id = ?');
+        $db->execute(array($user_class->id, $currentQuestSeason['id']));
     }
 
 
