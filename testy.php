@@ -41,11 +41,11 @@ function getItemType($row) {
         } elseif ($row['rare'] == 1) {
             $type = 'rare';
             if ($row['offense'] > 0) {
-                $subtype = 'weapon';
+                $itemSubtype = 'weapon';
             } elseif ($row['defense'] > 0) {
-                $subtype = 'armor';
+                $itemSubtype = 'armor';
             } elseif ($row['speed'] > 0) {
-                $subtype = 'shoes';
+                $itemSubtype = 'shoes';
             }
         } elseif ($row['awake_boost'] > 0) {
             $type = 'house';
@@ -54,7 +54,7 @@ function getItemType($row) {
         }
     }
 
-    return array($type, $subtype);
+    return array($type, $itemSubtype);
 }
 
 
