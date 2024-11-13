@@ -3,6 +3,24 @@ include 'ajax_header.php';
 $user_class= new User($_SESSION['id']);
 $response = array("success" => false, "message" => "");
 $error = "";
+function jsonResponse($message, $success = false, $newItemHtml = "", $slot = "") {
+    $response = array(
+        "success" => $success,
+        "message" => $message,
+    );
+    
+    if ($newItemHtml !== "") {
+        $response['newItemHtml'] = $newItemHtml;
+    }
+    
+    if ($slot !== "") {
+        $response['slot'] = $slot;
+    }
+
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit;
+}
 // Function to generate the HTML for the equipped item
 function getEquippedItemHtml($itemType, $itemId, $itemImg, $itemName) {
     if ($itemId == 0) {
@@ -18,11 +36,7 @@ function getEquippedItemHtml($itemType, $itemId, $itemImg, $itemName) {
 
     return $html;
 }
-// Utility function to respond with JSON
-function jsonResponse($message, $success = false, $newItemHtml = null, $slot = null) {
-    echo json_encode(array("success" => $success, "message" => $message, "newItemHtml" => $newItemHtml, "slot" => $slot));
-    exit;
-}
+
 
 if ($_GET['loaned'] == 1) {
     if (empty($_GET['id'])) {
