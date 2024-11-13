@@ -130,7 +130,9 @@ if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
 // Helper function for equipping loaned items
 function equipLoanedItem($type, $user_class, $item, $db, &$response) {
     $column = "eq" . $type;
-    
+    if($type == 'weapon'){
+        $type = 'wep';
+    }
     $loanedColumn = $type . "loaned";
     
     if ($user_class->$column != 0) {
