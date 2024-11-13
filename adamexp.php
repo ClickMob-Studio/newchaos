@@ -64,5 +64,30 @@ if (mysql_num_rows($result) > 0) {
 } else {
     echo "0 results";
 }
+
+// Fetch month by month total income
+$sql = "SELECT DATE_FORMAT(FROM_UNIXTIME(date), '%Y-%m') AS month, SUM(paymentamount) AS totalIncome 
+                FROM ipn 
+                GROUP BY month 
+                ORDER BY month DESC";
+$resultMonthlyIncome = mysql_query($sql);
+
+// Check if there are any rows
+if (mysql_num_rows($resultMonthlyIncome) > 0) {
+    // Output table header
+    echo "<br /><hr /><br /><h1>Month by Month Total Income</h1>";
+    echo "<table border='1'><tr><th>Month</th><th>Total Income</th></tr>";
+
+    // Output data from rows
+    while($row = mysql_fetch_assoc($resultMonthlyIncome)) {
+        echo "<tr><td>" . $row["month"]. "</td><td>$" . number_format($row["totalIncome"], 2). "</td></tr>";
+    }
+
+    // Output table footer
+    echo "</table>";
+} else {
+    echo "No monthly income data available.";
+}
+
 require "footer.php";
 
