@@ -45,7 +45,7 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
         }
         $payoutsToDisplay .= '</ul>';
 
-        $db->query('UPDATE quest_season_mission_user SET is_paid_out = 1 WHERE id = ?', array($questSeasonMissionUser['id']);
+        $db->query('UPDATE quest_season_mission_user SET is_paid_out = 1 WHERE id = ?', array($questSeasonMissionUser['id']));
         $db->execute();
     }
 
