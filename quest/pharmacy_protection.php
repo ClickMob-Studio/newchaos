@@ -107,7 +107,7 @@ $actions = array(
                     return;
                 }
 
-                if (newProgress > lowerThreshold && newProgress > upperThreshold) {
+                if (newProgress > lowerThreshold && newProgress < upperThreshold) {
                     const successMsgSection = document.getElementById('success-msg-section');
                     successMsgSection.innerHTML = '';
 
