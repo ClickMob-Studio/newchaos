@@ -19,7 +19,7 @@ include 'header.php';
     $items = $db->fetch_row(); // Fetch all items associated with the user
 
   // Function to determine item type based on item properties
-function getItemType($row) {
+  function getItemType($row) {
     $type = '';
     $subtype = '';
 
@@ -41,11 +41,11 @@ function getItemType($row) {
         } elseif ($row['rare'] == 1) {
             $type = 'rare';
             if ($row['offense'] > 0) {
-                $itemSubtype = 'weapon';
+                $subtype = 'weapon';
             } elseif ($row['defense'] > 0) {
-                $itemSubtype = 'armor';
+                $subtype = 'armor';
             } elseif ($row['speed'] > 0) {
-                $itemSubtype = 'shoes';
+                $subtype = 'shoes';
             }
         } elseif ($row['awake_boost'] > 0) {
             $type = 'house';
@@ -54,7 +54,21 @@ function getItemType($row) {
         }
     }
 
-    return array($type, $itemSubtype);
+    return array($type, $subtype);
+}
+
+// Adjusted categorization logic for "Equip" button display
+foreach ($items as $item) {
+    list($itemType, $itemSubtype) = getItemType($item);
+
+    // Add items to categorized array
+    if ($itemType === 'rare') {
+        $categorizedItems['rare'][] = $item;
+    } elseif ($itemType === 'booster' && $itemSubtype) {
+        $categorizedItems[$itemSubtype][] = $item; 
+    } else {
+        $categorizedItems[$itemType][] = $item;
+    }
 }
 
 
@@ -82,48 +96,49 @@ function getItemType($row) {
         }
     }
 
-    // Function to render a category of items inside a Bootstrap card
-    function renderCategory($categoryName, $items) {
-        if (empty($items)) return;
 
-        echo '<div class="card my-4">';
-        echo '<div class="card-header text-white text-center" style="background-color: #8e8e8e21;">';
-        echo "<h2 class='text-white'>$categoryName</h2>";
-        echo '</div>';
-        echo '<div class="card-body">';
-        echo '<div class="row g-3 text-center">';
+  // Render category with Equip button check
+function renderCategory($categoryName, $items) {
+    if (empty($items)) return;
 
-        foreach ($items as $item) {
-            // Check if override name or image exists; fallback to default name and image
-            $itemName = !empty($item['overridename']) ? $item['overridename'] : $item['itemname'];
-            $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
+    echo '<div class="card my-4">';
+    echo '<div class="card-header text-white text-center" style="background-color: #8e8e8e21;">';
+    echo "<h2 class='text-white'>$categoryName</h2>";
+    echo '</div>';
+    echo '<div class="card-body">';
+    echo '<div class="row g-3 text-center">';
 
-            // Determine item type and subtype
-            list($itemType, $itemSubtype) = getItemType($item);
+    foreach ($items as $item) {
+        // Check if override name or image exists; fallback to default name and image
+        $itemName = !empty($item['overridename']) ? $item['overridename'] : $item['itemname'];
+        $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
 
-            // Determine if "Equip" button should be shown based on conditions
-            $showEquipButton = in_array($itemType, array('weapon', 'armor', 'shoes'));
+        // Determine item type and subtype
+        list($itemType, $itemSubtype) = getItemType($item);
 
-            echo '<div class="col-6 col-md-4 col-lg-3 mb-3">';
-            echo '<div class="card shadow-sm h-100">';
-            echo '<img class="card-img-top" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '">';
-            echo '<div class="card-body d-flex flex-column">';
-            echo '<h6 class="card-title">' . htmlspecialchars($itemName) . '</h6>';
-            
-            // Show the "Equip" button if the item is a weapon, armor, or shoes
-            if ($showEquipButton) {
-                echo '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $itemType . '" data-id="' . intval($item['itemid']) . '">Equip</button>';
-            }
+        // Show "Equip" button for weapons, armor, shoes, or rare subtypes
+        $showEquipButton = in_array($itemType, ['weapon', 'armor', 'shoes']) || in_array($itemSubtype, ['weapon', 'armor', 'shoes']);
 
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
+        echo '<div class="col-6 col-md-4 col-lg-3 mb-3">';
+        echo '<div class="card shadow-sm h-100">';
+        echo '<img class="card-img-top" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '">';
+        echo '<div class="card-body d-flex flex-column">';
+        echo '<h6 class="card-title">' . htmlspecialchars($itemName) . '</h6>';
+        
+        // Show the "Equip" button if the item is eligible
+        if ($showEquipButton) {
+            echo '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $itemType . '" data-id="' . intval($item['itemid']) . '">Equip</button>';
         }
 
         echo '</div>';
         echo '</div>';
         echo '</div>';
     }
+
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+}
 
     // Render each category section within a card
     renderCategory("Weapons", $categorizedItems['weapon']);
