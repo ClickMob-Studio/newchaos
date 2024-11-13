@@ -55,6 +55,7 @@ $actions = array(
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
+            <div id="success-msg-section"></div>
             <h3>Threat Level</h3>
             <div class="progress">
                 <div id="progress-bar" class="progress-bar progress-bar-blue" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
@@ -91,7 +92,7 @@ $actions = array(
             const responseDiv = document.createElement('div');
             responseDiv.className = 'alert alert-info';
             responseDiv.innerHTML = `<strong>Response:</strong> ${responseMsg}`;
-            document.body.appendChild(responseDiv);
+            document.getElementById('success-msg-section').appendChild(responseDiv);
         });
     });
 
