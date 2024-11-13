@@ -16,16 +16,16 @@ include 'header.php';
                     LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid 
                     WHERE inv.userid = ?");
         $db->execute(array($user_class->id));
-        $items = $db->fetch_row(true); // Fetch all items associated with the user
+         // Fetch all items associated with the user
         var_dump($items);
-        foreach ($items as $item) {
+        while ($item = $db->fetch_row(true);) {
             $itemName = !empty($item['itemname']) ? $item['itemname'] : $item['itemname'];
             $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
             $itemType = htmlspecialchars($item['type']); // type: weapon, armor, shoes, etc.
             
             echo '<div class="col-md-3 mb-3">';
             echo '<img width="100" height="100" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '"><br />';
-            echo '<strong>' . htmlspecialchars($itemName) . '</strong><br />';
+            echo '<strong>' . htmlspecialchars($itemname) . '</strong><br />';
             echo '<button class="btn btn-sm btn-primary mt-2 equip-btn" data-type="' . $itemType . '" data-id="' . intval($item['itemid']) . '">Equip</button>';
             echo '</div>';
         }
