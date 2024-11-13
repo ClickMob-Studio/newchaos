@@ -45,9 +45,9 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
 
     $currentMissionId = $questSeasonMission['id'];
     $db->query('SELECT * FROM quest_season_mission WHERE quest_season_id = ? AND id > ? ORDER BY id ASC LIMIT 1');
-    $db->execute(array($currentMissionId));
+    $db->execute(array($currentQuestSeason['id'], $currentMissionId));
     $nextMission = $db->fetch_row(true);
-    
+
     if ($nextMission) {
         $progress = array();
         $nextMission['requirements'] = json_decode($nextMission['requirements']);
