@@ -56,12 +56,8 @@ $actions = [
         }
     }
 
-    // Example usage:
-    let progressValue = 0;
-    setInterval(() => {
-        if (progressValue <= 100) {
-            updateProgressBar(progressValue);
-            progressValue += 10;
-        }
-    }, 1000);
+
 </script>
+
+<?php
+exit;
