@@ -8,12 +8,25 @@ if ($user_class->jail > 0 || $user_class->hospital > 0) {
     exit;
 }
 
-$actions = [
-    'knock_over_shelves' => 3,   // High impact
-    'smash_counter' => 5,        // Very high impact
-    'calmly_warn' => 1,          // Low impact
-    'talk_about_don_luca' => 2   // Medium impact
-];
+
+$actions = array(
+    'knock_over_shelves' => array(
+        'description' => 'Knock over shelves',
+        'impact' => mt_rand(3,4)
+    ),
+    'smash_counter' => array(
+        'description' => 'Smash counter',
+        'impact' => mt_rand(5,7)
+    ),
+    'calmly_warn' => array(
+        'description' => 'Calmly warn',
+        'impact' => mt_rand(1,2)
+    ),
+    'talk_about_don_luca' => array(
+        'description' => 'Talk about Don Luca',
+        'impact' => mt_rand(2,3)
+    )
+);
 ?>
 <style>
     .progress-bar-blue {
@@ -45,14 +58,14 @@ $actions = [
 </div>
 
 <div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
         <p style="font-weight: bold;">What's your next action?</p>
-        <?php foreach ($actions as $action => $impact): ?>
-            <a href="#" class="btn btn-primary threat-btn"><?php echo $action ?></a>
+        <?php foreach ($actions as $action => $details): ?>
+            <a href="#" class="btn btn-primary threat-btn" data-impact-value="<?php echo $details['impact'] ?>"><?php echo $details['description'] ?></a> &nbsp;
         <?php endforeach; ?>
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-md-2"></div>
 </div>
 
 <script>
