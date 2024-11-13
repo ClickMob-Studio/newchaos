@@ -121,8 +121,8 @@
                                     $equipItems = array(68,69,229, 230,231,250,252, 255, 264);
                                     // Equip button logic for items like weapons, armor, or shoes
                                     if (in_array($type, ['weapon', 'armor', 'shoes']) || in_array($item['id'], $equipItems)) {
-                                        $loanStatus = isset($item['loanid']) && $item['loanid'] > 0 ? 1 : 0;
-                                        echo '<button class="equip-btn" data-item-id="' . $item['id'] . '" data-type="' . $type . '" data-loaned="' . $loanStatus . '">Equip</button>';
+                                        $loanStatus = isset($item['loanid']) && $item['loanid'] > 0 ? '&loaned=1' : '';
+                                        echo '<a class="button-sm" href="equip.php?eq=' . $type . '&id=' . $item['id'] . $loanStatus . '">Equip</a>';
                                     } elseif ($type == 'consumable' || $type == "rare" && !in_array($item['id'], $restrictedUseItems)) {
                                         if (in_array($item['id'], $multiUseItems)) {
                                             echo '<button class="use-btn-multi" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($item['name']) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
