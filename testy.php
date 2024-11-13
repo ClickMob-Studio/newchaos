@@ -36,15 +36,19 @@ include 'header.php';
             } elseif ($row['speed'] > 0 && $row['rare'] == 0) {
                 $type = 'shoes';
             } elseif ($row['rare'] == 1) {
-                $type = 'booster'; // All rare items are classified as boosters
+                $type = 'booster';
+                $row['subtype'] = ''; // default for boosters without specific type
+                if ($row['offense'] > 0) $row['subtype'] = 'weapon';
+                elseif ($row['defense'] > 0) $row['subtype'] = 'armor';
+                elseif ($row['speed'] > 0) $row['subtype'] = 'shoes';
             } elseif ($row['awake_boost'] > 0) {
                 $type = 'house';
             } else {
                 $type = 'consumable';
             }
         }
-        
-        return $type;
+
+        return [$type, $row['subtype'] ?? ''];
     }
 
     // Arrays to hold items by category
@@ -52,15 +56,21 @@ include 'header.php';
         'weapon' => [],
         'armor' => [],
         'shoes' => [],
-        'booster' => [], // Combined category for all rare items
+        'booster' => [], // General booster category for rare items without subtype
         'house' => [],
         'consumable' => []
     ];
 
-    // Categorize each item based on its type
+    // Categorize each item based on its type and subtype
     foreach ($items as $item) {
-        $itemType = getItemType($item);
-        $categorizedItems[$itemType][] = $item;
+        list($itemType, $itemSubtype) = getItemType($item);
+
+        // If it's a booster with a specific subtype, categorize separately
+        if ($itemType === 'booster' && $itemSubtype) {
+            $categorizedItems[$itemSubtype][] = $item; // Place in specific subtype (weapon, armor, or shoes)
+        } else {
+            $categorizedItems[$itemType][] = $item;
+        }
     }
 
     // Function to render a category of items inside a Bootstrap card
@@ -69,7 +79,7 @@ include 'header.php';
 
         echo '<div class="card my-4">';
         echo '<div class="card-header text-white text-center" style="background-color: #8e8e8e21;">';
-        echo "<h2 class='text-dark'>$categoryName</h2>";
+        echo "<h2 class='text-white'>$categoryName</h2>";
         echo '</div>';
         echo '<div class="card-body">';
         echo '<div class="row g-3 text-center">';
@@ -79,8 +89,8 @@ include 'header.php';
             $itemName = !empty($item['overridename']) ? $item['overridename'] : $item['itemname'];
             $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
 
-            // Determine item type
-            $itemType = getItemType($item);
+            // Determine item type and subtype
+            list($itemType, $itemSubtype) = getItemType($item);
 
             // Determine if "Equip" button should be shown based on conditions
             $showEquipButton = in_array($itemType, array('weapon', 'armor', 'shoes'));
@@ -110,7 +120,7 @@ include 'header.php';
     renderCategory("Weapons", $categorizedItems['weapon']);
     renderCategory("Armor", $categorizedItems['armor']);
     renderCategory("Shoes", $categorizedItems['shoes']);
-    renderCategory("Boosters", $categorizedItems['booster']); // Display all rare items under Boosters
+    renderCategory("Boosters", $categorizedItems['booster']); // Display all boosters without specific subtype
     renderCategory("Home Improvements", $categorizedItems['house']);
     renderCategory("Consumables", $categorizedItems['consumable']);
     ?>
@@ -187,7 +197,6 @@ include 'header.php';
             dataType: 'json',
             data: { action: 'equip', type: type, item_id: itemId }, // Send item ID and type in request
             success: function (response) {
-                console.log(response); // Log the response for debugging
                 if (response.status === 'success') {
                     showMessage(response.message, true);
                     location.reload(); // Reload items to reflect equipped status
@@ -196,7 +205,6 @@ include 'header.php';
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.error("AJAX Error: " + textStatus + ": " + errorThrown); // Log detailed error
                 showMessage('Error processing the request: ' + textStatus, false);
             }
         });
@@ -212,7 +220,6 @@ include 'header.php';
             dataType: 'json',
             data: { action: 'unequip', type: type, item_id: itemId }, // Send item ID in request
             success: function (response) {
-                console.log(response); // Log the response for debugging
                 if (response.status === 'success') {
                     showMessage(response.message, true);
                     location.reload(); // Reload items to reflect unequipped status
@@ -221,7 +228,6 @@ include 'header.php';
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.error("AJAX Error: " + textStatus + ": " + errorThrown); // Log detailed error
                 showMessage('Error processing the request: ' + textStatus, false);
             }
         });
