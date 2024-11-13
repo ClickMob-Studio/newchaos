@@ -9,16 +9,24 @@ include 'header.php';
     <h2>All Items</h2>
     <div class="row text-center">
         <?php
-        // Sample code for fetching items from the database
-        $db->query("SELECT id, name, img, type FROM items WHERE user_id = ?");
+        // Query to get all items with custom overrides for this user
+        $db->query("SELECT inv.*, it.*, c.name AS overridename, c.image AS overrideimage 
+                    FROM inventory inv 
+                    JOIN items it ON inv.itemid = it.id 
+                    LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid 
+                    WHERE inv.userid = ?");
         $db->execute(array($user_class->id));
         $items = $db->fetch_all(true); // Fetch all items associated with the user
 
         foreach ($items as $item) {
+            $itemName = !empty($item['overridename']) ? $item['overridename'] : $item['name'];
+            $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
+            $itemType = htmlspecialchars($item['type']); // type: weapon, armor, shoes, etc.
+            
             echo '<div class="col-md-3 mb-3">';
-            echo '<img width="100" height="100" src="' . htmlspecialchars($item['img']) . '" alt="' . htmlspecialchars($item['name']) . '"><br />';
-            echo '<strong>' . htmlspecialchars($item['name']) . '</strong><br />';
-            echo '<button class="btn btn-sm btn-primary mt-2 equip-btn" data-type="' . htmlspecialchars($item['type']) . '" data-id="' . intval($item['id']) . '">Equip</button>';
+            echo '<img width="100" height="100" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '"><br />';
+            echo '<strong>' . htmlspecialchars($itemName) . '</strong><br />';
+            echo '<button class="btn btn-sm btn-primary mt-2 equip-btn" data-type="' . $itemType . '" data-id="' . intval($item['itemid']) . '">Equip</button>';
             echo '</div>';
         }
         ?>
