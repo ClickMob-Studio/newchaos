@@ -1,5 +1,8 @@
 <?php
 include "ajax_header.php"; // Ensures session data and headers are set up for AJAX responses
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 $user_class = new User($_SESSION['id']); // Creates a User object for the logged-in user
 $response = ["status" => "error", "message" => "Invalid request"]; // Default response
 
