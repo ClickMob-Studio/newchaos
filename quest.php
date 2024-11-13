@@ -22,26 +22,33 @@ if ($questSeasonUser['is_complete'] > 0) {
 }
 
 if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMissionUser['is_complete'] > 0) {
-    $payouts = json_decode($questSeasonMission['payouts'], true);
-    $payoutsToDisplay = 'You have received the following payouts:<br />';
-    $payoutsToDisplay .= '<ul>';
-    foreach ($payouts as $field => $value) {
-        if ($field === 'items') {
-            foreach ($value as $itemId => $quantity) {
-                Give_Item($itemId, $user_class->id, $quantity);
+    $payoutsToDisplay = '';
+    if (!$questSeasonMissionUser['is_paid_out']) {
+        $payouts = json_decode($questSeasonMission['payouts'], true);
+        $payoutsToDisplay = 'You have received the following payouts:<br />';
+        $payoutsToDisplay .= '<ul>';
+        foreach ($payouts as $field => $value) {
+            if ($field === 'items') {
+                foreach ($value as $itemId => $quantity) {
+                    Give_Item($itemId, $user_class->id, $quantity);
 
-                $payoutsToDisplay .= '<li>' . number_format($quantity, 0) . ' x ' . Item_Name($itemId) . '</li>';
+                    $payoutsToDisplay .= '<li>' . number_format($quantity, 0) . ' x ' . Item_Name($itemId) . '</li>';
+                }
+            } else {
+                if ($field === 'exp') {
+                    $value = $user_class->maxexp / 100 * $value;
+                }
+                $payoutsToDisplay .= '<li>' . number_format($value, 0) . ' ' . ucwords($field) . '</li>';
+                $db->query('UPDATE grpgusers SET ' . $field . ' = ' . $field . ' + ? WHERE id = ?');
+                $db->execute(array($value, $user_class->id));
             }
-        } else {
-            if ($field === 'exp') {
-                $value = $user_class->maxexp / 100 * $value;
-            }
-            $payoutsToDisplay .= '<li>' . number_format($value, 0) . ' ' . ucwords($field) . '</li>';
-            $db->query('UPDATE grpgusers SET ' . $field . ' = ' . $field . ' + ? WHERE id = ?');
-            $db->execute(array($value, $user_class->id));
         }
+        $payoutsToDisplay .= '</ul>';
+
+        $db->query('UPDATE quest_season_mission_user SET is_paid_out = 1 WHERE id = ?', array($questSeasonMissionUser['id']);
+        $db->execute();
     }
-    $payoutsToDisplay .= '</ul>';
+
 
     $currentMissionId = $questSeasonMission['id'];
     $db->query('SELECT * FROM quest_season_mission WHERE quest_season_id = ? AND id > ? ORDER BY id ASC LIMIT 1');
