@@ -1,6 +1,19 @@
+<?php
+require "header.php";
+// Fetch all items in user's inventory
+$db->query("SELECT inv.*, it.*, c.name AS overridename, c.image AS overrideimage 
+            FROM inventory inv 
+            JOIN items it ON inv.itemid = it.id 
+            LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid 
+            WHERE inv.userid = ?");
+$db->execute([$user_class->id]);
+
+$inventoryItems = $db->fetch_row();  // Fetch all results
+?>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <div id="inventory">
-    <?php foreach ($items as $item): ?>
+    <?php foreach ($inventoryItems as $item): ?>
         <div class="item" id="item-<?= $item['id'] ?>">
             <span><?= $item['name'] ?> (x<?= $item['quantity'] ?>)</span>
             <button class="equip-item" data-id="<?= $item['id'] ?>" data-type="weapon" data-loaned="0">Equip Weapon</button>
