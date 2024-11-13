@@ -34,11 +34,25 @@ $actions = [
 </p>
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <h3>Threat Level</h3>
         <div class="progress">
             <div id="progress-bar" class="progress-bar progress-bar-blue" role="progressbar" style="width: 10%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
     </div>
+    <div class="col-md-4"></div>
+</div>
+
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <p style="font-weight: bold;">What's your next action?</p>
+        <?php foreach ($actions as $action => $impact): ?>
+            <a href="#" class="btn btn-primary threat-btn"><?php echo $action ?></a>
+        <?php endforeach; ?>
+    </div>
+    <div class="col-md-4"></div>
 </div>
 
 <script>
