@@ -88,10 +88,14 @@ $actions = array(
             if (newProgress > 100) newProgress = 100;
             updateProgressBar(newProgress);
 
+            // Clear old response messages
+            const successMsgSection = document.getElementById('success-msg-section');
+            successMsgSection.innerHTML = '';
+
             // Show the response message
             const responseDiv = document.createElement('div');
             responseDiv.className = 'alert alert-info';
-            responseDiv.innerHTML = `<strong>Response:</strong> ${responseMsg}`;
+            responseDiv.innerHTML = `${responseMsg}`;
             document.getElementById('success-msg-section').appendChild(responseDiv);
         });
     });
