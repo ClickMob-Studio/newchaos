@@ -6,7 +6,25 @@ include 'header.php';
     <!-- Message Box for Success/Error -->
     <div id="messageBox" class="alert" style="display: none;"></div>
 
-    <h2>Equipped Items</h2>
+    <h2>All Items</h2>
+    <div class="row text-center">
+        <?php
+        // Sample code for fetching items from the database
+        $db->query("SELECT id, name, img, type FROM items WHERE user_id = ?");
+        $db->execute(array($user_class->id));
+        $items = $db->fetch_all(true); // Fetch all items associated with the user
+
+        foreach ($items as $item) {
+            echo '<div class="col-md-3 mb-3">';
+            echo '<img width="100" height="100" src="' . htmlspecialchars($item['img']) . '" alt="' . htmlspecialchars($item['name']) . '"><br />';
+            echo '<strong>' . htmlspecialchars($item['name']) . '</strong><br />';
+            echo '<button class="btn btn-sm btn-primary mt-2 equip-btn" data-type="' . htmlspecialchars($item['type']) . '" data-id="' . intval($item['id']) . '">Equip</button>';
+            echo '</div>';
+        }
+        ?>
+    </div>
+
+    <h2 class="mt-5">Equipped Items</h2>
     <div class="row text-center">
         <?php
         // Array to manage equipped items with respective properties
@@ -50,7 +68,7 @@ include 'header.php';
     </div>
 </div>
 
-<!-- jQuery for AJAX and AJAX-based Unequip functionality -->
+<!-- jQuery for AJAX -->
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
     function showMessage(message, isSuccess) {
@@ -65,9 +83,34 @@ include 'header.php';
         setTimeout(function() { messageBox.fadeOut(); }, 3000);
     }
 
+    $(document).on('click', '.equip-btn', function () {
+        var type = $(this).data('type');
+        var itemId = $(this).data('id'); // Get the item ID for equipping
+
+        $.ajax({
+            url: 'equip_action.php',
+            type: 'POST',
+            dataType: 'json',
+            data: { action: 'equip', type: type, item_id: itemId }, // Send item ID and type in request
+            success: function (response) {
+                console.log(response); // Log the response for debugging
+                if (response.status === 'success') {
+                    showMessage(response.message, true);
+                    location.reload(); // Reload items to reflect equipped status
+                } else {
+                    showMessage(response.message, false);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("AJAX Error: " + textStatus + ": " + errorThrown); // Log detailed error
+                showMessage('Error processing the request: ' + textStatus, false);
+            }
+        });
+    });
+
     $(document).on('click', '.unequip-btn', function () {
         var type = $(this).data('type');
-        var itemId = $(this).data('id'); // Get the item ID from data-id attribute
+        var itemId = $(this).data('id'); // Get the item ID for unequipping
 
         $.ajax({
             url: 'equip_action.php',
