@@ -12,22 +12,22 @@ if ($user_class->jail > 0 || $user_class->hospital > 0) {
 $actions = array(
     'knock_over_shelves' => array(
         'description' => 'Knock over shelves',
-        'impact' => mt_rand(3,4),
+        'impact' => mt_rand(16,20),
         'response' => 'You knock over the shelves and Marco looks at you in shock.'
     ),
     'smash_counter' => array(
         'description' => 'Smash counter',
-        'impact' => mt_rand(5,7),
+        'impact' => mt_rand(20,25),
         'response' => 'You smash the counter and Marco looks at you in horror.'
     ),
     'calmly_warn' => array(
         'description' => 'Calmly warn',
-        'impact' => mt_rand(1,2),
+        'impact' => mt_rand(1,10),
         'response' => 'You calmly warn Marco that he needs to pay up or else. He looks at you with a confused look on his face.',
     ),
     'talk_about_don_luca' => array(
         'description' => 'Talk about Don Luca',
-        'impact' => mt_rand(2,3),
+        'impact' => mt_rand(10,15),
         'response' => 'You talk about Don Luca and how he is not happy with Marco. Marco looks at you with a confused look on his face.'
     )
 );
