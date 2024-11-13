@@ -43,16 +43,11 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
     }
     $payoutsToDisplay .= '</ul>';
 
-    echo 'here 1';
     $currentMissionId = $questSeasonMission['id'];
-    echo 'here 2';
-    $nextMission = $db->query('SELECT * FROM quest_season_missions WHERE quest_season_id = ? AND id > ? ORDER BY id ASC LIMIT 1');
-    echo 'here 3';
-    $nextMission->execute(array($currentQuestSeason['id'], $currentMissionId));
-    echo 'here 4';
-    $nextMission = $nextMission->fetch_row(true);
-    echo 'here 5';
-
+    $db->query('SELECT * FROM quest_season_mission WHERE quest_season_id = ? AND id > ? ORDER BY id ASC LIMIT 1');
+    $db->execute(array($currentMissionId));
+    $nextMission = $db->fetch_row(true);
+    
     if ($nextMission) {
         $progress = array();
         $nextMission['requirements'] = json_decode($nextMission['requirements']);
@@ -63,7 +58,7 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
         $db->query('INSERT INTO quest_season_mission_user (user_id, quest_season_id, quest_season_mission_id, progress, is_complete) VALUES (?, ?, ?, ?, 0)', array($user_class->id, $currentQuestSeason['id'], $nextMission['id'], json_encode($progress)));
     } else {
         // Mark the quest season as completed
-        $db->query('UPDATE quest_season_users SET is_complete = 1 WHERE user_id = ? AND quest_season_id = ?', array($user_class->id, $currentQuestSeason['id']));
+        $db->query('UPDATE quest_season_user SET is_complete = 1 WHERE user_id = ? AND quest_season_id = ?', array($user_class->id, $currentQuestSeason['id']));
     }
 
     echo "
