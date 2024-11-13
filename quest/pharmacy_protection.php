@@ -86,6 +86,36 @@ $actions = array(
             let currentProgress = parseInt(progressBar.getAttribute('aria-valuenow'));
             let newProgress = currentProgress + impactValue;
             if (newProgress > 100) newProgress = 100;
+
+            // Check if progress is at least 30
+            if (newProgress >= 30) {
+                // Generate random success thresholds between 40-50 and 60-70
+                const lowerThreshold = Math.floor(Math.random() * (50 - 40 + 1)) + 40;
+                const upperThreshold = Math.floor(Math.random() * (70 - 60 + 1)) + 60;
+
+                // If new progress is not between the success thresholds, display failure message
+                if (newProgress > upperThreshold) {
+                    const successMsgSection = document.getElementById('success-msg-section');
+                    successMsgSection.innerHTML = '';
+
+                    const responseDiv = document.createElement('div');
+                    responseDiv.className = 'alert alert-danger';
+                    responseDiv.innerHTML = 'You have failed to intimidate Marco successfully.';
+                    successMsgSection.appendChild(responseDiv);
+                    return;
+                }
+
+                if (newProgress > lowerThreshold && newProgress > upperThreshold) {
+                    const successMsgSection = document.getElementById('success-msg-section');
+                    successMsgSection.innerHTML = '';
+
+                    const responseDiv = document.createElement('div');
+                    responseDiv.className = 'alert alert-success';
+                    responseDiv.innerHTML = 'You have successfully intimidated Marco.';
+                    successMsgSection.appendChild(responseDiv);
+                }
+            }
+
             updateProgressBar(newProgress);
 
             // Clear old response messages
@@ -96,7 +126,7 @@ $actions = array(
             const responseDiv = document.createElement('div');
             responseDiv.className = 'alert alert-info';
             responseDiv.innerHTML = `${responseMsg}`;
-            document.getElementById('success-msg-section').appendChild(responseDiv);
+            successMsgSection.appendChild(responseDiv);
         });
     });
 
