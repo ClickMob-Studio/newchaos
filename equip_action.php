@@ -1,20 +1,23 @@
 <?php
 include "ajax_header.php"; // Ensures session data and headers are set up for AJAX responses
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 $user_class = new User($_SESSION['id']); // Creates a User object for the logged-in user
 $response = array("status" => "error", "message" => "Invalid request"); // Default response
 
-if (isset($_GET['action']) && isset($_GET['item_id'])) { // Checks if the required parameters are passed in the POST request
+if (isset($_POST['action']) && isset($_POST['item_id'])) { // Checks if the required parameters are passed in the POST request
     $user_id = $user_class->id;
-    $item_id = intval($_GET['item_id']); // Sanitizes item_id
-    $loaned = isset($_GET['loaned']) ? intval($_GET['loaned']) : 0; // Checks if the item is on loan (optional)
+    $item_id = intval($_POST['item_id']); // Sanitizes item_id
+    $loaned = isset($_POST['loaned']) ? intval($_POST['loaned']) : 0; // Checks if the item is on loan (optional)
 
-    switch ($_GET['action']) {
+    switch ($_POST['action']) {
         case 'equip': // Handles item equip action
-            $response = equipItem($user_id, $item_id, $_GET['type'], $loaned);
+            $response = equipItem($user_id, $item_id, $_POST['type'], $loaned);
             break;
         case 'unequip': // Handles item unequip action
-            $response = unequipItem($user_id, $_GET['type']);
+            $response = unequipItem($user_id, $_POST['type']);
             break;
         default:
             $response['message'] = 'Invalid action'; // Updates message for invalid action
@@ -38,13 +41,13 @@ function equipItem($user_id, $item_id, $type, $loaned) {
     switch ($type) { // Checks if the item matches the requested equipment type
         case 'weapon':
             if ($item['offense'] <= 0) return array("status" => "error", "message" => "This item is not a weapon");
-            return equipSpecificItem($user_id, 'weapon', $item_id, $loaned);
+            return equipSpecificItem($user_id, 'weapon', $item_id, $loaned, 'weploaned');
         case 'armor':
             if ($item['defense'] <= 0) return array("status" => "error", "message" => "This item is not armor");
-            return equipSpecificItem($user_id, 'armor', $item_id, $loaned);
+            return equipSpecificItem($user_id, 'armor', $item_id, $loaned, 'armloaned');
         case 'shoes':
             if ($item['speed'] <= 0) return array("status" => "error", "message" => "This item is not a shoe");
-            return equipSpecificItem($user_id, 'shoes', $item_id, $loaned);
+            return equipSpecificItem($user_id, 'shoes', $item_id, $loaned, 'shoeloaned');
         default:
             return array("status" => "error", "message" => "Invalid equipment type");
     }
@@ -67,7 +70,7 @@ function unequipItem($user_id, $type) {
         case 'armor':
             if ($user_class->eqarmor != 0) {
                 handleReturnOrLoan('armor', $user_class->eqarmor, $user_class->armloaned);
-                $db->query("UPDATE grpgusers SET eqarmor = 0, armloaned = 0 WHERE id = ?");
+                $db->query("UPDATE grpgusers SET eqarmor = 0, armloaned = 0 WHERE id = ?"); 
                 $db->execute(array($user_id));
                 return array("status" => "success", "message" => "Armor unequipped");
             }
@@ -75,7 +78,7 @@ function unequipItem($user_id, $type) {
         case 'shoes':
             if ($user_class->eqshoes != 0) {
                 handleReturnOrLoan('shoes', $user_class->eqshoes, $user_class->shoeloaned);
-                $db->query("UPDATE grpgusers SET eqshoes = 0, shoeloaned = 0 WHERE id = ?");
+                $db->query("UPDATE grpgusers SET eqshoes = 0, shoeloaned = 0 WHERE id = ?"); 
                 $db->execute(array($user_id));
                 return array("status" => "success", "message" => "Shoes unequipped");
             }
@@ -86,11 +89,10 @@ function unequipItem($user_id, $type) {
 }
 
 // Helper function to equip specific item
-function equipSpecificItem($user_id, $type, $item_id, $loaned) {
-    global $db;
+function equipSpecificItem($user_id, $type, $item_id, $loaned, $loaned_column) {
+    global $db, $user_class;
 
     $column = "eq" . $type;
-    $loaned_column = $type . "loaned";
 
     // Handles currently equipped item before equipping the new one
     if ($user_class->$column != 0) {
