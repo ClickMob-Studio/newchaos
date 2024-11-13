@@ -40,13 +40,7 @@ function getItemType($row) {
             $type = 'shoes';
         } elseif ($row['rare'] == 1) {
             $type = 'rare';
-            if ($row['offense'] > 0) {
-                $subtype = 'weapon';
-            } elseif ($row['defense'] > 0) {
-                $subtype = 'armor';
-            } elseif ($row['speed'] > 0) {
-                $subtype = 'shoes';
-            }
+           
         } elseif ($row['awake_boost'] > 0) {
             $type = 'house';
         } else {
@@ -63,7 +57,7 @@ function getItemType($row) {
         'weapon' => [],
         'armor' => [],
         'shoes' => [],
-        'booster' => [], // General booster category for rare items without subtype
+        'booster' => [],
         'house' => [],
         'consumable' => []
     ];
