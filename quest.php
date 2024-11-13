@@ -21,7 +21,7 @@ if ($questSeasonUser['is_complete'] > 0) {
     exit;
 }
 
-if (isset($_GET['action']) && $_GET['action'] === 'next_mission') {
+if (isset($_GET['action']) && $_GET['action'] === 'next_mission' && $questSeasonMissionUser['is_complete'] > 0 && $questSeasonMissionUser['is_paid_out'] > 0) {
     $currentMissionId = $questSeasonMission['id'];
     $db->query('SELECT * FROM quest_season_mission WHERE quest_season_id = ? AND id > ? ORDER BY id ASC LIMIT 1');
     $db->execute(array($currentQuestSeason['id'], $currentMissionId));
@@ -44,7 +44,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'next_mission') {
     }
 
 
-    //header('Location: quest.php');
+    header('Location: quest.php');
     exit;
 }
 
