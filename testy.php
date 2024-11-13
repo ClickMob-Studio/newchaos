@@ -6,7 +6,7 @@ include 'header.php';
     <!-- Message Box for Success/Error -->
     <div id="messageBox" class="alert" style="display: none;"></div>
 
-    <h1 class="text-center mb-4">All Items</h1>
+    <h1 class="text-center mb-4">Inventory</h1>
 
     <?php
     // Query to get all items with custom overrides for this user
@@ -63,11 +63,15 @@ include 'header.php';
         $categorizedItems[$itemType][] = $item;
     }
 
-    // Function to render a category of items
+    // Function to render a category of items inside a Bootstrap card
     function renderCategory($categoryName, $items) {
         if (empty($items)) return;
 
-        echo "<h2 class='text-center mt-5'>$categoryName</h2>";
+        echo '<div class="card my-4">';
+        echo '<div class="card-header bg-primary text-white text-center">';
+        echo "<h2>$categoryName</h2>";
+        echo '</div>';
+        echo '<div class="card-body">';
         echo '<div class="row g-3 text-center">';
 
         foreach ($items as $item) {
@@ -76,9 +80,9 @@ include 'header.php';
             $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
 
             echo '<div class="col-6 col-md-4 col-lg-3 mb-3">';
-            echo '<div class="card shadow-sm">';
+            echo '<div class="card shadow-sm h-100">';
             echo '<img class="card-img-top" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '">';
-            echo '<div class="card-body">';
+            echo '<div class="card-body d-flex flex-column">';
             echo '<h6 class="card-title">' . htmlspecialchars($itemName) . '</h6>';
             echo '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $itemType . '" data-id="' . intval($item['itemid']) . '">Equip</button>';
             echo '</div>';
@@ -87,9 +91,11 @@ include 'header.php';
         }
 
         echo '</div>';
+        echo '</div>';
+        echo '</div>';
     }
 
-    // Render each category section
+    // Render each category section within a card
     renderCategory("Weapons", $categorizedItems['weapon']);
     renderCategory("Armor", $categorizedItems['armor']);
     renderCategory("Shoes", $categorizedItems['shoes']);
@@ -126,15 +132,15 @@ include 'header.php';
         // Display equipped items with placeholders if not equipped
         foreach ($equippedItems as $type => $item) {
             echo '<div class="col-6 col-md-4 mb-3">';
-            echo '<div class="card shadow-sm">';
+            echo '<div class="card shadow-sm h-100">';
             if ($item['id'] != 0) {
                 echo '<img class="card-img-top" src="' . htmlspecialchars($item['img']) . '" alt="' . htmlspecialchars($item['name']) . '">';
-                echo '<div class="card-body">';
+                echo '<div class="card-body d-flex flex-column">';
                 echo '<h6 class="card-title">' . htmlspecialchars($item['name']) . '</h6>';
                 echo '<button class="btn btn-sm btn-warning unequip-btn mt-2" data-type="' . $type . '" data-id="' . $item['id'] . '">Unequip</button>';
             } else {
                 echo '<img class="card-img-top" src="/css/images/empty.jpg" alt="Empty Slot">';
-                echo '<div class="card-body">';
+                echo '<div class="card-body d-flex flex-column">';
                 echo '<p class="card-text">' . $item['placeholder'] . '</p>';
             }
             echo '</div>';
