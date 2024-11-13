@@ -102,6 +102,7 @@ if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
                 exit;
             }
             equipItem('weapon', $user_class, $row, $db, $response);
+            Take_Item($row['id'], $user_class->id);
             break;
 
         case "armor":
@@ -111,6 +112,7 @@ if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
                 exit;
             }
             equipItem('armor', $user_class, $row, $db, $response);
+            Take_Item($row['id'], $user_class->id);
             break;
 
         case "shoes":
@@ -118,8 +120,10 @@ if (isset($_GET['loaned']) && $_GET['loaned'] == 1) {
                 $response['message'] = "This item is not a shoe.";
                 echo json_encode($response);
                 exit;
+            
             }
             equipItem('shoes', $user_class, $row, $db, $response);
+            Take_Item($row['id'], $user_class->id);
             break;
     }
 
@@ -146,12 +150,12 @@ function equipLoanedItem($type, $user_class, $item, $db, &$response) {
 
     $db->query("UPDATE grpgusers SET $column = ?, `$loanedColumn` = 1 WHERE id = ?");
     $db->execute(array($item['id'], $user_class->id));
-
+   
     $db->query("SELECT id FROM gang_loans WHERE item = ? AND idto = ?");
     $db->execute(array($item['id'], $user_class->id));
     $takeid = $db->fetch_single();
     Take_Loan($takeid, $user_class->id);
-
+    
     $response['success'] = true;
     $response['message'] = ucfirst($type) . " equipped successfully!";
 }
