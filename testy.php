@@ -68,8 +68,8 @@ include 'header.php';
         if (empty($items)) return;
 
         echo '<div class="card my-4">';
-        echo '<div class="card-header bg-primary text-white text-center">';
-        echo "<h2>$categoryName</h2>";
+        echo '<div class="card-header text-white text-center" style="background-color: #8e8e8e21;">';
+        echo "<h2 class='text-dark'>$categoryName</h2>";
         echo '</div>';
         echo '<div class="card-body">';
         echo '<div class="row g-3 text-center">';
