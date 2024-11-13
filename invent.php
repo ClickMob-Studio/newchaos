@@ -260,13 +260,17 @@ function renderEquippedItems(equippedItems) {
     for (const [type, item] of Object.entries(equippedItems)) {
         var equippedItemContainer = document.querySelector(`.equipped-item[data-type="${type}"]`);
         if (equippedItemContainer) {
+            // Add item details and an "Unequip" button
             equippedItemContainer.innerHTML = `
                 <h3>${type.charAt(0).toUpperCase() + type.slice(1)}</h3>
                 <img src="${item.image || 'path/to/default-image.png'}" alt="${item.name}" class="item-image">
                 <p>${item.name}</p>
+                <button class="unequip-btn" data-type="${type}">Unequip</button>
             `;
         }
     }
+    // Attach event listeners to the "Unequip" buttons after rendering
+    attachUnequipListeners();
 }
 
     // Attach event listeners to equip buttons
@@ -282,16 +286,16 @@ function renderEquippedItems(equippedItems) {
         });
     }
 
-    // Attach event listeners to unequip buttons
-    function attachUnequipListeners() {
-        document.querySelectorAll('.unequip-btn').forEach(function (button) {
-            button.addEventListener('click', function (event) {
-                event.preventDefault();
-                var itemType = this.getAttribute('data-type');
-                unequipItem(itemType);
-            });
+ // Attach event listeners to "Unequip" buttons
+function attachUnequipListeners() {
+    var unequipButtons = document.querySelectorAll('.unequip-btn');
+    unequipButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var itemType = this.getAttribute('data-type');
+            unequipItem(itemType);
         });
-    }
+    });
+}
 
     function attachUseListeners() {
         var useButtons = document.querySelectorAll('.use-btn');
@@ -342,44 +346,27 @@ function renderEquippedItems(equippedItems) {
     xhr.send();
 }
 
-    // Function to handle unequipping an item
-    function unequipItem(itemType) {
-        var url = 'ajax_equip.php?unequip=' + itemType;
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var response = JSON.parse(xhr.responseText);
-                var messageDiv = document.getElementById('message');
-
-                if (response.success) {
-                    // Show success message
-                    messageDiv.style.display = 'block';
-                    messageDiv.style.backgroundColor = '#4CAF50';
-                    messageDiv.textContent = response.message;
-
-                    // Update the equipped item slot with the new (empty) HTML
-                    if (response.newItemHtml) {
-                        updateEquippedItem(itemType, response.newItemHtml);
-                    }
-
-                    // Add the unequipped item back to the inventory
-                    addToInventory(response.itemData);
-                } else {
-                    // Show error message
-                    messageDiv.style.display = 'block';
-                    messageDiv.style.backgroundColor = '#f44336';
-                    messageDiv.textContent = 'Error: ' + response.message;
-                }
-
-                setTimeout(function () {
-                    messageDiv.style.display = 'none';
-                }, 5000);
+function unequipItem(itemType) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'ajax_equip.php?unequip=' + encodeURIComponent(itemType), true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            if (response.success) {
+                // Update the UI to show that the item is unequipped
+                var equippedItemContainer = document.querySelector(`.equipped-item[data-type="${itemType}"]`);
+                equippedItemContainer.innerHTML = `
+                    <img width="100" height="100" src="/css/images/empty.jpg" /><br />
+                    <p>You are not holding ${itemType}.</p>
+                `;
+                console.log(response.message);
+            } else {
+                console.error("Error unequipping item:", response.message);
             }
-        };
-        xhr.send();
-    }
-
+        }
+    };
+    xhr.send();
+}
     // Function to handle using an item
     function useItem(itemId) {
         var xhr = new XMLHttpRequest();
