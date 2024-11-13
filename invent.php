@@ -1,4 +1,4 @@
-    <?php
+<?php
     require_once "header.php";
 
     function getInventoryItems() {
@@ -230,24 +230,25 @@
         attachUseListeners();
     });
 
+    // Function to load equipped items on page load
     function loadEquippedItems() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'ajax_equip.php?action=load', true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            if (response.success && response.equippedItems) {
-                // Parse the equippedItems and update each slot
-                var equippedItems = JSON.parse(response.equippedItems);
-                updateEquippedItem('weapon', equippedItems.weapon);
-                updateEquippedItem('armor', equippedItems.armor);
-                updateEquippedItem('shoes', equippedItems.shoes);
-            }
-        }
-    };
-    xhr.send();
-}
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'ajax_equip.php?action=load', true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    updateEquippedItem('weapon', response.equippedItems.weapon);
+                    updateEquippedItem('armor', response.equippedItems.armor);
+                    updateEquippedItem('shoes', response.equippedItems.shoes);
 
+                    // After loading equipped items, attach event listeners to the unequip buttons
+                    attachUnequipListeners();
+                }
+            }
+        };
+        xhr.send();
+    }
 
     // Attach event listeners to equip buttons
     function attachEquipListeners() {
