@@ -7,30 +7,84 @@ include 'header.php';
     <div id="messageBox" class="alert" style="display: none;"></div>
 
     <h2>All Items</h2>
-    <div class="row text-center">
-        <?php
-        // Query to get all items with custom overrides for this user
-        $db->query("SELECT inv.*, it.*, c.name AS overridename, c.image AS overrideimage 
-                    FROM inventory inv 
-                    JOIN items it ON inv.itemid = it.id 
-                    LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid 
-                    WHERE inv.userid = ?");
-        $db->execute(array($user_class->id));
-        $items = $db->fetch_row(); // Fetch all items associated with the user
 
-        // Function to determine item type based on item properties
-        function getItemType($item) {
-            if ($item['offense'] > 0) return 'weapon';
-            if ($item['defense'] > 0) return 'armor';
-            if ($item['speed'] > 0) return 'shoes';
-            return 'general'; // Default if no specific category fits
+    <?php
+    // Query to get all items with custom overrides for this user
+    $db->query("SELECT inv.*, it.*, c.name AS overridename, c.image AS overrideimage 
+                FROM inventory inv 
+                JOIN items it ON inv.itemid = it.id 
+                LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid 
+                WHERE inv.userid = ?");
+    $db->execute(array($user_class->id));
+    $items = $db->fetch_row(); // Fetch all items associated with the user
+
+    // Function to determine item type based on item properties
+    function getItemType($row) {
+        $type = '';
+        $subtype = '';
+
+        if ($row['offense'] > 0 && ($row['defense'] > 0 || $row['speed'] > 0)) {
+            if ($row['offense'] > $row['defense']) {
+                if ($row['offense'] > $row['speed']) {
+                    $type = 'weapon';
+                } else {
+                    $type = 'shoes';
+                }
+            } else if ($row['defense'] > $row['speed']) {
+                $type = 'armor';
+            } else {
+                $type = 'shoes';
+            }
+        } else {
+            if ($row['offense'] > 0 && $row['rare'] == 0) {
+                $type = 'weapon';
+            } elseif ($row['defense'] > 0 && $row['rare'] == 0) {
+                $type = 'armor';
+            } elseif ($row['speed'] > 0 && $row['rare'] == 0) {
+                $type = 'shoes';
+            } elseif ($row['rare'] == 1) {
+                $type = 'rare';
+                if ($row['offense']) $subtype = 'weapon';
+                if ($row['defense']) $subtype = 'armor';
+                if ($row['speed']) $subtype = 'shoes';
+            } elseif ($row['awake_boost'] > 0) {
+                $type = 'house';
+            } else {
+                $type = 'consumable';
+            }
         }
+        
+        return [$type, $subtype];
+    }
+
+    // Arrays to hold items by category
+    $categorizedItems = [
+        'weapon' => [],
+        'armor' => [],
+        'shoes' => [],
+        'rare' => [],
+        'house' => [],
+        'consumable' => [],
+    ];
+
+    // Categorize each item based on its type
+    foreach ($items as $item) {
+        list($itemType, $subType) = getItemType($item);
+        $categorizedItems[$itemType][] = $item;
+    }
+
+    // Function to render a category of items
+    function renderCategory($categoryName, $items) {
+        if (empty($items)) return;
+
+        echo "<h3>$categoryName</h3>";
+        echo '<div class="row text-center">';
 
         foreach ($items as $item) {
             // Check if override name or image exists; fallback to default name and image
             $itemName = !empty($item['overridename']) ? $item['overridename'] : $item['itemname'];
             $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
-            $itemType = getItemType($item); // Determine type based on item attributes
+            list($itemType, $subType) = getItemType($item);
 
             echo '<div class="col-md-3 mb-3">';
             echo '<img width="100" height="100" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '"><br />';
@@ -38,8 +92,18 @@ include 'header.php';
             echo '<button class="btn btn-sm btn-primary mt-2 equip-btn" data-type="' . $itemType . '" data-id="' . intval($item['itemid']) . '">Equip</button>';
             echo '</div>';
         }
-        ?>
-    </div>
+
+        echo '</div>';
+    }
+
+    // Render each category section
+    renderCategory("Weapons", $categorizedItems['weapon']);
+    renderCategory("Armor", $categorizedItems['armor']);
+    renderCategory("Shoes", $categorizedItems['shoes']);
+    renderCategory("Rares", $categorizedItems['rare']);
+    renderCategory("Home Improvements", $categorizedItems['house']);
+    renderCategory("Consumables", $categorizedItems['consumable']);
+    ?>
 
     <h2 class="mt-5">Equipped Items</h2>
     <div class="row text-center">
