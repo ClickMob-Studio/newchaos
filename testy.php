@@ -66,27 +66,29 @@ include 'header.php';
     }
 
     $(document).on('click', '.unequip-btn', function () {
-        const type = $(this).data('type');
+    const type = $(this).data('type');
 
-        $.ajax({
-            url: 'ajax_unequip.php',
-            type: 'POST',
-            dataType: 'json',
-            data: { action: 'unequip', type: type },
-            success: function (response) {
-                if (response.status === 'success') {
-                    showMessage(response.message, true);
-                    // Reload items to reflect unequipped status
-                    location.reload();
-                } else {
-                    showMessage(response.message, false);
-                }
-            },
-            error: function () {
-                showMessage('Error processing the request.', false);
+    $.ajax({
+        url: 'ajax_unequip.php',
+        type: 'POST',
+        dataType: 'json',
+        data: { action: 'unequip', type: type },
+        success: function (response) {
+            console.log(response); // Log the response for debugging
+            if (response.status === 'success') {
+                showMessage(response.message, true);
+                location.reload(); // Reload items to reflect unequipped status
+            } else {
+                showMessage(response.message, false);
             }
-        });
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX Error: " + textStatus + ": " + errorThrown); // Log detailed error
+            showMessage('Error processing the request: ' + textStatus, false);
+        }
     });
+});
+
 </script>
 
 
