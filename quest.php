@@ -28,7 +28,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'next_mission') {
     $nextMission = $db->fetch_row(true);
 
     if ($nextMission) {
-        echo 'Next mission found. Starting...<br />';
+        echo 'Next mission found. Starting...<br />'; exit;
         $progress = array();
         $nextMission['requirements'] = json_decode($nextMission['requirements']);
         foreach ($nextMission['requirements'] as $key => $req) {
