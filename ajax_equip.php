@@ -132,11 +132,12 @@ function equipLoanedItem($type, $user_class, $item, $db, &$response) {
     $column = "eq" . $type;
     
     $loanedColumn = $type . "loaned";
-    if ($loanedColumn === "weaponloaned") {
-        $loanedColumn = "weploaned";
-    }
+    
     if ($user_class->$column != 0) {
         if ($user_class->$loanedColumn == 1) {
+            if ($loanedColumn === "weaponloaned") {
+                $loanedColumn = "weploaned";
+            }
             Loan_Item($user_class->gang, $user_class->$column, $user_class->id);
         } else {
             Give_Item($user_class->$column, $user_class->id);
