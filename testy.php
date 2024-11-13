@@ -6,7 +6,7 @@ include 'header.php';
     <!-- Message Box for Success/Error -->
     <div id="messageBox" class="alert" style="display: none;"></div>
 
-    <h2>All Items</h2>
+    <h1>All Items</h1>
 
     <?php
     // Query to get all items with custom overrides for this user
@@ -18,22 +18,16 @@ include 'header.php';
     $db->execute(array($user_class->id));
     $items = $db->fetch_row(); // Fetch all items associated with the user
 
-    // Function to determine item type based on item properties
+    // Function to determine item type and subtype based on item properties
     function getItemType($row) {
         $type = '';
         $subtype = '';
 
         if ($row['offense'] > 0 && ($row['defense'] > 0 || $row['speed'] > 0)) {
             if ($row['offense'] > $row['defense']) {
-                if ($row['offense'] > $row['speed']) {
-                    $type = 'weapon';
-                } else {
-                    $type = 'shoes';
-                }
-            } else if ($row['defense'] > $row['speed']) {
-                $type = 'armor';
+                $type = ($row['offense'] > $row['speed']) ? 'weapon' : 'shoes';
             } else {
-                $type = 'shoes';
+                $type = ($row['defense'] > $row['speed']) ? 'armor' : 'shoes';
             }
         } else {
             if ($row['offense'] > 0 && $row['rare'] == 0) {
@@ -57,27 +51,35 @@ include 'header.php';
         return [$type, $subtype];
     }
 
-    // Arrays to hold items by category
+    // Arrays to hold items by category and subtype
     $categorizedItems = [
         'weapon' => [],
         'armor' => [],
         'shoes' => [],
-        'rare' => [],
+        'rare' => [
+            'weapon' => [],
+            'armor' => [],
+            'shoes' => []
+        ],
         'house' => [],
-        'consumable' => [],
+        'consumable' => []
     ];
 
-    // Categorize each item based on its type
+    // Categorize each item based on its type and subtype
     foreach ($items as $item) {
         list($itemType, $subType) = getItemType($item);
-        $categorizedItems[$itemType][] = $item;
+        if ($itemType == 'rare' && $subType) {
+            $categorizedItems['rare'][$subType][] = $item;
+        } else {
+            $categorizedItems[$itemType][] = $item;
+        }
     }
 
     // Function to render a category of items
     function renderCategory($categoryName, $items) {
         if (empty($items)) return;
 
-        echo "<h3>$categoryName</h3>";
+        echo "<h1>$categoryName</h1>";
         echo '<div class="row text-center">';
 
         foreach ($items as $item) {
@@ -100,12 +102,14 @@ include 'header.php';
     renderCategory("Weapons", $categorizedItems['weapon']);
     renderCategory("Armor", $categorizedItems['armor']);
     renderCategory("Shoes", $categorizedItems['shoes']);
-    renderCategory("Rares", $categorizedItems['rare']);
+    renderCategory("Rare Weapons", $categorizedItems['rare']['weapon']);
+    renderCategory("Rare Armor", $categorizedItems['rare']['armor']);
+    renderCategory("Rare Shoes", $categorizedItems['rare']['shoes']);
     renderCategory("Home Improvements", $categorizedItems['house']);
     renderCategory("Consumables", $categorizedItems['consumable']);
     ?>
 
-    <h2 class="mt-5">Equipped Items</h2>
+    <h1 class="mt-5">Equipped Items</h1>
     <div class="row text-center">
         <?php
         // Array to manage equipped items with respective properties
