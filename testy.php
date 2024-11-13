@@ -67,7 +67,9 @@ function getItemType($row) {
         list($itemType, $itemSubtype) = getItemType($item);
 
         // If it's a booster with a specific subtype, categorize separately
-        if ($itemType === 'booster' && $itemSubtype) {
+        if ($itemType === 'rare') {
+            $categorizedItems['rare'][] = $item;
+        }else if ($itemType === 'booster' && $itemSubtype) {
             $categorizedItems[$itemSubtype][] = $item; // Place in specific subtype (weapon, armor, or shoes)
         } else {
             $categorizedItems[$itemType][] = $item;
