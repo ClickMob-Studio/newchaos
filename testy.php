@@ -48,7 +48,7 @@ include 'header.php';
             }
         }
 
-        return [$type, $row['subtype'] ?? ''];
+        return array($type, isset($row['subtype']) ? $row['subtype'] : '');
     }
 
     // Arrays to hold items by category
