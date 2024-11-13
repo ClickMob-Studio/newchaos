@@ -3,6 +3,15 @@ include 'ajax_header.php';
 $user_class= new User($_SESSION['id']);
 $response = array("success" => false, "message" => "");
 $error = "";
+if ($_GET['action'] === 'load') {
+    $equippedItems = [
+        'weapon' => getEquippedItemHtml('weapon', $user_class->eqweapon, 'path/to/weapon/image.jpg', 'Weapon Name'),
+        'armor' => getEquippedItemHtml('armor', $user_class->eqarmor, 'path/to/armor/image.jpg', 'Armor Name'),
+        'shoes' => getEquippedItemHtml('shoes', $user_class->eqshoes, 'path/to/shoes/image.jpg', 'Shoes Name'),
+    ];
+    
+    jsonResponse("Equipped items loaded", true, json_encode($equippedItems), 'equippedItems');
+}
 function jsonResponse($message, $success = false, $newItemHtml = "", $slot = "") {
     $response = array(
         "success" => $success,
