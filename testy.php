@@ -16,7 +16,7 @@ include 'header.php';
                     LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid 
                     WHERE inv.userid = ?");
         $db->execute(array($user_class->id));
-        $items = $db->fetch_all(true); // Fetch all items associated with the user
+        $items = $db->fetch_row(true); // Fetch all items associated with the user
 
         foreach ($items as $item) {
             $itemName = !empty($item['overridename']) ? $item['overridename'] : $item['name'];
