@@ -60,14 +60,12 @@ $actions = array(
     </div>
 
     <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
+        <div class="col-md-12">
             <p style="font-weight: bold;">What's your next action?</p>
             <?php foreach ($actions as $action => $details): ?>
-                <a href="#" class="btn btn-primary threat-btn" data-impact-value="<?php echo $details['impact'] ?>"><?php echo $details['description'] ?></a> &nbsp;
+                <a href="#" class="btn btn-sm btn-primary threat-btn" data-impact-value="<?php echo $details['impact'] ?>"><?php echo $details['description'] ?></a> &nbsp;
             <?php endforeach; ?>
         </div>
-        <div class="col-md-2"></div>
     </div>
 </center>
 
