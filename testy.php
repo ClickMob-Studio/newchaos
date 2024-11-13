@@ -17,7 +17,7 @@ include 'header.php';
                     WHERE inv.userid = ?");
         $db->execute(array($user_class->id));
         $items = $db->fetch_row(true); // Fetch all items associated with the user
-
+        var_dump($items);
         foreach ($items as $item) {
             $itemName = !empty($item['itemname']) ? $item['itemname'] : $item['itemname'];
             $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
