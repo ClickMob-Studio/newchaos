@@ -57,7 +57,7 @@ function getItemType($row) {
         'weapon' => [],
         'armor' => [],
         'shoes' => [],
-        'booster' => [],
+        'rare' => [],
         'house' => [],
         'consumable' => []
     ];
