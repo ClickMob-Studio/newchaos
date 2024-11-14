@@ -2,7 +2,7 @@
 include 'header.php';
 
 // Define restricted and multi-use item arrays
-$restrictedUseItems = array(68,69, 155, 195, 156, 157, 194, 158, 159, 165, 167, 285);
+$restrictedUseItems = array(68, 69, 155, 195, 156, 157, 194, 158, 159, 165, 167, 285);
 $restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256);
 $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
 $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple uses
@@ -409,7 +409,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
     </script>
 </div>
 <style>
-     .modal {
+    .modal {
         display: none;
         position: fixed;
         z-index: 1000;
