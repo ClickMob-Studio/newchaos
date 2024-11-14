@@ -393,7 +393,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
         $("#sendForm").on('submit', function(event) {
             event.preventDefault();
             $.ajax({
-                url: 'ajax_send_item.php',
+                url: 'send_item.php',
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',
