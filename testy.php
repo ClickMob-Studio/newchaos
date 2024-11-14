@@ -417,15 +417,16 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
     align-items: center;
 }
 
+    
 .modal-content {
     background-color: #000;
     color: #fff;
     padding: 20px;
     border-radius: 5px;
-    width: 90%;
-    max-width: 500px;
+    width: 90%;             /* Adjusted width for responsiveness */
+    max-width: 500px;       /* Limit max width */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-} transform: translate(0, 0); /* Center the content within the modal */
+    transform: translate(0, 0); /* Center the content within the modal */
 }
 
     .close {
