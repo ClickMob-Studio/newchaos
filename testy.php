@@ -294,7 +294,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
             success: function (response) {
                 if (response.status === 'success') {
                     showMessage(response.message, true);
-                    location.reload();
+                   
                window.scrollTo(0, 0);
                 } else {
                     showMessage(response.message, false);
@@ -318,7 +318,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
             success: function (response) {
                 if (response.status === 'success') {
                     showMessage(response.message, true);
-                    location.reload();
+                    
                     window.scrollTo(0, 0);
                 } else {
                     showMessage(response.message, false);
@@ -363,7 +363,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
             success: function(response) {
                 showMessage(response.message, response.success);
                 if (response.success) {
-                    location.reload();
+                   
                 }
             },
             error: function(jqXHR, textStatus) {
