@@ -384,7 +384,10 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
             document.getElementById('use-quantity').value = 1;
             document.getElementById('useMultiModal').style.display = "flex";
         });
-    });
+    });  
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = "none";
+    }
 
     // Submit Use Multiple Form via AJAX
     document.getElementById("useMultiForm").addEventListener('submit', function(event) {
@@ -397,7 +400,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
                 try {
                     var response = JSON.parse(xhr.responseText);
                     showMessage(response.message, response.success);
-                    
+                    closeModal("useMultiModal");
                 } catch (e) {
                     console.error('Error parsing JSON:', e);
                 }
