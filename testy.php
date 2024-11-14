@@ -1,6 +1,6 @@
 <?php
+include 'header.php';
 
-require "header.php";
 // Define restricted and multi-use item arrays
 $restrictedUseItems = array(68,69, 155, 195, 156, 157, 194, 158, 159, 165, 167, 285);
 $restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256);
@@ -14,11 +14,26 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
     <h1 class="text-center mb-4">Equipped Items</h1>
     <div class="row text-center g-3">
         <?php
-        // Render equipped items
+        // Array to manage equipped items with respective properties
         $equippedItems = array(
-            'weapon' => array('id' => $user_class->eqweapon, 'img' => $user_class->weaponimg, 'name' => $user_class->weaponname, 'placeholder' => 'You are not holding a weapon.'),
-            'armor' => array('id' => $user_class->eqarmor, 'img' => $user_class->armorimg, 'name' => $user_class->armorname, 'placeholder' => 'You are not wearing armor.'),
-            'shoes' => array('id' => $user_class->eqshoes, 'img' => $user_class->shoesimg, 'name' => $user_class->shoesname, 'placeholder' => 'You are not wearing boots.')
+            'weapon' => array(
+                'id' => $user_class->eqweapon,
+                'img' => $user_class->weaponimg,
+                'name' => $user_class->weaponname,
+                'placeholder' => 'You are not holding a weapon.'
+            ),
+            'armor' => array(
+                'id' => $user_class->eqarmor,
+                'img' => $user_class->armorimg,
+                'name' => $user_class->armorname,
+                'placeholder' => 'You are not wearing armor.'
+            ),
+            'shoes' => array(
+                'id' => $user_class->eqshoes,
+                'img' => $user_class->shoesimg,
+                'name' => $user_class->shoesname,
+                'placeholder' => 'You are not wearing boots.'
+            )
         );
 
         foreach ($equippedItems as $type => $item) {
@@ -42,8 +57,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
     </div>
 
     <h1 class="text-center mt-5">Inventory</h1>
-    
-    <!-- Filter Buttons -->
+    <!-- <h2 class="text-center mt-5">Inventory Filters</h2>
     <div class="text-center my-4">
         <button class="btn btn-outline-secondary filter-btn" data-category="all">All</button>
         <button class="btn btn-outline-secondary filter-btn" data-category="weapon">Weapons</button>
@@ -54,11 +68,11 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
         <button class="btn btn-outline-secondary filter-btn" data-category="consumable">Consumables</button>
         <button class="btn btn-outline-secondary filter-btn" data-category="rare">Rare Items</button>
         <button class="btn btn-outline-secondary filter-btn" data-category="gem">Gems</button>
-    </div>
-
+    </div> -->
     <?php
-    // Query and render items in categories
-    $db->query("SELECT inv.*, it.*, c.name AS overridename, c.image AS overrideimage FROM inventory inv 
+    // Query to get all items with custom overrides for this user
+    $db->query("SELECT inv.*, it.*, c.name AS overridename, c.image AS overrideimage 
+                FROM inventory inv 
                 JOIN items it ON inv.itemid = it.id 
                 LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid 
                 WHERE inv.userid = ?");
@@ -66,29 +80,60 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
     $items = $db->fetch_row();
 
     function getItemType($row) {
+        $type = '';
+        $subtype = '';
+
         if ($row['offense'] > 0 && ($row['defense'] > 0 || $row['speed'] > 0)) {
-            return ($row['offense'] > $row['defense']) ? (($row['offense'] > $row['speed']) ? 'weapon' : 'shoes') : ($row['defense'] > $row['speed'] ? 'armor' : 'shoes');
-        } elseif ($row['rare'] == 1) {
-            return 'rare';
-        } elseif ($row['awake_boost'] > 0) {
-            return 'house';
-        } elseif ($row['offense'] > 0) {
-            return 'weapon';
-        } elseif ($row['defense'] > 0) {
-            return 'armor';
-        } elseif ($row['speed'] > 0) {
-            return 'shoes';
+            if ($row['offense'] > $row['defense']) {
+                $type = ($row['offense'] > $row['speed']) ? 'weapon' : 'shoes';
+            } elseif ($row['defense'] > $row['speed']) {
+                $type = 'armor';
+            } else {
+                $type = 'shoes';
+            }
         } else {
-            return 'consumable';
+            if ($row['offense'] > 0 && $row['rare'] == 0) {
+                $type = 'weapon';
+            } elseif ($row['defense'] > 0 && $row['rare'] == 0) {
+                $type = 'armor';
+            } elseif ($row['speed'] > 0 && $row['rare'] == 0) {
+                $type = 'shoes';
+            } elseif ($row['rare'] == 1) {
+                $type = 'rare';
+                if ($row['offense'] > 0) {
+                    $subtype = 'weapon';
+                } elseif ($row['defense'] > 0) {
+                    $subtype = 'armor';
+                } elseif ($row['speed'] > 0) {
+                    $subtype = 'shoes';
+                }
+            } elseif ($row['awake_boost'] > 0) {
+                $type = 'house';
+            } else {
+                $type = 'consumable';
+            }
         }
+
+        return array($type, $subtype);
     }
 
-    $categorizedItems = array('weapon' => array(), 'armor' => array(), 'shoes' => array(), 'rare' => array(), 'house' => array(), 'consumable' => array(), 'gem' => array());
+    $categorizedItems = array(
+        'weapon' => array(),
+        'armor' => array(),
+        'shoes' => array(),
+        'rare' => array(),
+        'house' => array(),
+        'consumable' => array(),
+        'gem' => array()
+    );
 
     foreach ($items as $item) {
-        $itemType = getItemType($item);
+        list($itemType, $itemSubtype) = getItemType($item);
+
         if (isset($item['type']) && $item['type'] == 'Gems') {
             $categorizedItems['gem'][] = $item;
+        } elseif ($itemType === 'rare') {
+            $categorizedItems['rare'][] = $item;
         } elseif ($item['type'] == 'booster') {
             $categorizedItems['booster'][] = $item;
         } else {
@@ -98,10 +143,10 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
 
     function renderCategory($categoryName, $items) {
         global $restrictedSendItems, $multiUseItems, $restrictedUseItems, $loan;
-
+    
         if (empty($items)) return;
 
-        $categoryClass = strtolower(str_replace(' ', '-', $categoryName));
+        $categoryClass = strtolower(str_replace(' ', '-', $categoryName)); // e.g., "weapon", "armor"
     
         echo '<div class="card my-4 category-card category-' . $categoryClass . '">';
         echo '<div class="card-header text-white text-center" style="background-color: #8e8e8e21;">';
@@ -125,12 +170,12 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
             echo '<div class="card-body d-flex flex-column">';
             echo '<h6 class="card-title text-white">' . htmlspecialchars($itemName) . '</h6>';
             echo 'x ' . $item['quantity'];
-
+    
             // Equip button
             if ($showEquipButton) {
                 $buttonHtml .= '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $dataType . '" data-id="' . intval($item['itemid']) . '">Equip</button>';
             }
-
+    
             // Custom Buttons based on Item ID
             if (in_array($item['id'], [155, 195, 156, 157, 194, 158, 159, 165, 167])) {
                 switch ($item['id']) {
@@ -163,12 +208,12 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
                         break;
                 }
             }
-
+    
             // Market button if no loan and item is not in restricted list
             if (!$loan && !in_array($item['id'], [155, 195, 156, 194, 157, 158, 159, 165, 167, 256])) {
                 $buttonHtml .= ' <a class="btn btn-sm btn-warning mt-2" href="putonmarket.php?id=' . $item['id'] . '">Market</a> ';
             }
-
+    
             // Use or Use Multiple buttons for consumables or eligible rare items
             if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems))) {
                 if (in_array($item['id'], $multiUseItems)) {
@@ -177,18 +222,24 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
                     $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '">Use</button>';
                 }
             }
-
+    
             // Send button for items not in the restricted send list
             if (!in_array($item['id'], $restrictedSendItems)) {
                 $buttonHtml .= ' <button class="btn btn-sm btn-info send-btn mt-2" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '" data-item-name="' . htmlspecialchars($itemName) . '">Send</button> ';
             }
-
+    
             echo $buttonHtml;
-            echo '</div></div></div>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
         }
     
-        echo '</div></div></div>';
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
     }
+    
+    
 
     renderCategory("Weapons", $categorizedItems['weapon']);
     renderCategory("Armor", $categorizedItems['armor']);
@@ -199,7 +250,6 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
     renderCategory("Rare Items", $categorizedItems['rare']);
     renderCategory("Gems", $categorizedItems['gem']); 
     ?>
-
 
     <!-- Modal for Sending Items -->
     <div id="sendModal" class="modal">
