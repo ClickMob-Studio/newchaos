@@ -1,98 +1,82 @@
 <?php
-include 'ajax_header.php'; // Use AJAX compatible header
+include 'ajax_header.php';
 
 $response = array("success" => false, "message" => "");
-$user_class = new User($_SESSION['id']); // Assuming session contains the user ID
+$user_class = new User($_SESSION['id']); // Ensure $_SESSION['id'] is set
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['item_id']) && isset($_POST['quantity'])) {
-    $item_id = (int) $_POST['item_id'];
-    $quantity = (int) $_POST['quantity'];
+// Verify request method and necessary POST variables
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['quantity'])) {
+    $item_id = (int)$_POST['item_id'];
+    $quantity = (int)$_POST['quantity'];
     $howmany = check_items($item_id);
 
+    // Check if user has enough items
     if ($howmany && $howmany >= $quantity) {
         switch ($item_id) {
-            case 10:  // Double EXP Item case
-                // Calculate total time based on the quantity of items used
-                $timeToAdd = 3600 * $quantity;  // 1 hour (3600 seconds) * number of items used
-            
-                // Update the exppill time, adding the calculated time based on whether it's already active
+            case 10: // Double EXP item
+                $timeToAdd = 3600 * $quantity;
                 $db->query("UPDATE grpgusers 
                             SET exppill = IF(exppill > unix_timestamp(), exppill + ?, unix_timestamp() + ?) 
                             WHERE id = ?");
                 $db->execute(array($timeToAdd, $timeToAdd, $user_class->id));
                 Take_Item($item_id, $user_class->id, $quantity);
-                // Set success message indicating how many hours of double EXP have been added
-                $hoursAdded = $quantity;  // Since each item adds 1 hour, $quantity equals hours added
                 $response['success'] = true;
-                $response['message'] = "You will receive double exp on crimes for $hoursAdded hour(s).";
+                $response['message'] = "You will receive double exp on crimes for $quantity hour(s).";
                 break;
-                case 253:  // Gold Rush Credits
-                    // Base credits per use
-                    $goldRushCredits = 10 * $quantity;  // 10 credits per item used, multiplied by quantity
-                    
-                    // Additional credits for specific research completed
-                    if (isset($user_class->completeUserResearchTypesIndexedOnId[6])) {
-                        $goldRushCredits += 5 * $quantity;  // +5 credits per item used if research type 6 is complete
-                    }
-                    if (isset($user_class->completeUserResearchTypesIndexedOnId[15])) {
-                        $goldRushCredits += 5 * $quantity;  // +5 credits per item used if research type 15 is complete
-                    }
-                
-                    // Update the user's gold rush credits in the database
-                    $db->query("UPDATE user_ba_stats SET gold_rush_credits = gold_rush_credits + ? WHERE user_id = ?");
-                    $db->execute(array($goldRushCredits, $user_class->id));
-                    Take_Item($item_id, $user_class->id, $quantity);
-                    // Set success message
-                    $response['success'] = true;
-                    $response['message'] = "You have gained $goldRushCredits Gold Rush Credits. Head to the Backalley now and start your Gold Rush!";
-                    break;
-                
-            case 251:
+
+            case 253: // Gold Rush Credits
+                $goldRushCredits = 10 * $quantity;
+                if (isset($user_class->completeUserResearchTypesIndexedOnId[6])) {
+                    $goldRushCredits += 5 * $quantity;
+                }
+                if (isset($user_class->completeUserResearchTypesIndexedOnId[15])) {
+                    $goldRushCredits += 5 * $quantity;
+                }
+                $db->query("UPDATE user_ba_stats SET gold_rush_credits = gold_rush_credits + ? WHERE user_id = ?");
+                $db->execute(array($goldRushCredits, $user_class->id));
+                Take_Item($item_id, $user_class->id, $quantity);
+                $response['success'] = true;
+                $response['message'] = "You have gained $goldRushCredits Gold Rush Credits.";
+                break;
+
+            case 251: // Raid Pass
                 addItemTempUse($user_class, 'raid_pass');
                 Take_Item($item_id, $user_class->id, $quantity);
                 $response['success'] = true;
-                $response['message'] = "You have used your raid pass. The next raid you host will be successful.";
+                $response['message'] = "You have used your raid pass.";
                 break;
 
-            case 252:
+            case 252: // Raid Booster
                 addItemTempUse($user_class, 'raid_booster');
                 Take_Item($item_id, $user_class->id, $quantity);
                 $response['success'] = true;
-                $response['message'] = "You have used your raid booster. All payouts in your next raid will be boosted.";
+                $response['message'] = "You have used your raid booster.";
                 break;
 
-            case 42: // Mystery Box functionality
-                // Initialize variables to accumulate total rewards
+            case 42: // Mystery Box
                 $total_points = 0;
                 $total_raidtokens = 0;
                 $total_cash = 0;
                 $raid_boosters = 0;
                 $police_badges = 0;
 
-                // Loop for each mystery box usage
+                // Iterate over each mystery box
                 for ($i = 0; $i < $quantity; $i++) {
                     $randnum = rand(0, 100);
                     if ($randnum <= 30) {
-                        $randpoints = rand(1000, 5000);
-                        $total_points += $randpoints;
-
+                        $total_points += rand(1000, 5000);
                     } elseif ($randnum <= 55) {
-                        $randraidtokens = mt_rand(10, 200);
-                        $total_raidtokens += $randraidtokens;
-
+                        $total_raidtokens += mt_rand(10, 200);
                     } elseif ($randnum <= 80) {
-                        $randcash = rand(1000000, 5000000);
-                        $total_cash += $randcash;
-
+                        $total_cash += rand(1000000, 5000000);
                     } elseif ($randnum <= 95) {
                         $raid_boosters++;
-
                     } else {
                         $police_badges++;
                     }
                 }
 
-                // Update the database with accumulated totals
+                // Update user data with accumulated totals
                 if ($total_points > 0) {
                     $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
                     $db->execute(array($total_points, $user_class->id));
@@ -106,37 +90,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['item_id']) && isset($_
                     $db->execute(array($total_cash, $user_class->id));
                 }
                 if ($raid_boosters > 0) {
-                    Give_Item(252, $user_class->id, $raid_boosters); // Assuming item ID 252 is Raid Booster
+                    Give_Item(252, $user_class->id, $raid_boosters);
                 }
                 if ($police_badges > 0) {
-                    Give_Item(163, $user_class->id, $police_badges); // Assuming item ID 163 is Police Badge
+                    Give_Item(163, $user_class->id, $police_badges);
                 }
 
-               
+                // Construct response message
                 $message = "You opened $quantity mystery box(es) and found:";
-                if ($total_points > 0) {
-                    $message .= " <span style='color:red;font-weight:bold;'>$total_points</span> Points,";
-                }
-                if ($total_raidtokens > 0) {
-                    $message .= " <span style='color:red;font-weight:bold;'>$total_raidtokens</span> Raid Tokens,";
-                }
-                if ($total_cash > 0) {
-                    $message .= " $<span style='color:red;font-weight:bold;'>$total_cash</span>,";
-                }
-                if ($raid_boosters > 0) {
-                    $message .= " <span style='color:red;font-weight:bold;'>$raid_boosters</span> Raid Booster(s),";
-                }
-                if ($police_badges > 0) {
-                    $message .= " <span style='color:red;font-weight:bold;'>$police_badges</span> Police Badge(s),";
-                }
+                if ($total_points > 0) $message .= " $total_points Points,";
+                if ($total_raidtokens > 0) $message .= " $total_raidtokens Raid Tokens,";
+                if ($total_cash > 0) $message .= " $$total_cash,";
+                if ($raid_boosters > 0) $message .= " $raid_boosters Raid Booster(s),";
+                if ($police_badges > 0) $message .= " $police_badges Police Badge(s),";
+
                 $response['message'] = rtrim($message, ',');
                 $response['success'] = true;
-
-           
                 Take_Item($item_id, $user_class->id, $quantity);
                 break;
-
-           
 
             default:
                 $response['message'] = "Item not recognized or cannot be used.";
@@ -149,6 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['item_id']) && isset($_
     $response['message'] = "Invalid request.";
 }
 
-// Output the response in JSON format
+// Send JSON response
+header('Content-Type: application/json');
 echo json_encode($response);
 exit;
