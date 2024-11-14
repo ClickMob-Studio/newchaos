@@ -15,8 +15,6 @@ if (isset($_POST['user_id'])) {
 }
 session_write_close();
 
-echo $user_class->id;
-
 $currentQuestSeason = getCurrentQuestSeasonForUser($user_class);
 if (isset($currentQuestSeason['id'])) {
     $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
