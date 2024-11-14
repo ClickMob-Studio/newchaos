@@ -157,7 +157,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
             echo '<div class="card-body d-flex flex-column">';
             echo '<h6 class="card-title text-white">' . htmlspecialchars($itemName) . '</h6>';
             echo 'x ' . $item['quantity'];
-    
+            
             // Equip button
             if ($showEquipButton) {
                 $buttonHtml .= '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $dataType . '" data-id="' . intval($item['itemid']) . '">Equip</button>';
@@ -167,38 +167,47 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
             if (in_array($item['id'], [155, 195, 156, 157, 194, 158, 159, 165, 167])) {
                 switch ($item['id']) {
                     case 155:
-                        $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Share The Love</a> ';
+                        $buttonHtml .= ' <a class="btn btn-sm btn-info mt-2" href="inventory.php?use=' . $item['id'] . '">Share The Love</a> ';
                         break;
                     case 194:
-                        $buttonHtml .= ' <a class="button-sm" href="raids.php">Use Speedup</a> ';
+                        $buttonHtml .= ' <a class="btn btn-sm btn-success mt-2" href="raids.php">Use Speedup</a> ';
                         break;
                     case 195:
-                        $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Trick Or Treat</a> ';
+                        $buttonHtml .= ' <a class="btn btn-sm btn-warning mt-2" href="inventory.php?use=' . $item['id'] . '">Trick Or Treat</a> ';
                         break;
                     case 156:
-                        $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Share</a> ';
+                        $buttonHtml .= ' <a class="btn btn-sm btn-secondary mt-2" href="inventory.php?use=' . $item['id'] . '">Share</a> ';
                         break;
                     case 157:
-                        $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Send Egg</a> ';
+                        $buttonHtml .= ' <a class="btn btn-sm btn-danger mt-2" href="inventory.php?use=' . $item['id'] . '">Send Egg</a> ';
                         break;
                     case 158:
-                        $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Independence!</a> ';
+                        $buttonHtml .= ' <a class="btn btn-sm btn-success mt-2" href="inventory.php?use=' . $item['id'] . '">Independence!</a> ';
                         break;
                     case 159:
-                        $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Send Rayz</a> ';
+                        $buttonHtml .= ' <a class="btn btn-sm btn-danger mt-2" href="inventory.php?use=' . $item['id'] . '">Send Rayz</a> ';
                         break;
                     case 165:
-                        $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Send Ghosts</a> ';
+                        $buttonHtml .= ' <a class="btn btn-sm btn-dark mt-2" href="inventory.php?use=' . $item['id'] . '">Send Ghosts</a> ';
                         break;
                     case 167:
-                        $buttonHtml .= ' <a class="button-sm" href="inventory.php?use=' . $item['id'] . '">Send Christmas Present</a> ';
+                        $buttonHtml .= ' <a class="btn btn-sm btn-info mt-2" href="inventory.php?use=' . $item['id'] . '">Send Christmas Present</a> ';
                         break;
                 }
             }
     
-            // Loan return button if loaned
-            if (isset($item['loan']) && $item['loan']) {
-                $buttonHtml .= '<a class="button-sm" href="returnitem.php?ret=' . $item['loanid'] . '">Return to gang</a>';
+            // Use or Use Multiple buttons for consumables or eligible rare items
+            if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems))) {
+                if (in_array($item['id'], $multiUseItems)) {
+                    $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
+                } else {
+                    $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '">Use</button>';
+                }
+            }
+    
+            // Send button for items not in the restricted send list
+            if (!in_array($item['id'], $restrictedSendItems)) {
+                $buttonHtml .= ' <button class="btn btn-sm btn-info send-btn mt-2" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '" data-item-name="' . htmlspecialchars($itemName) . '">Send</button> ';
             }
     
             echo $buttonHtml;
