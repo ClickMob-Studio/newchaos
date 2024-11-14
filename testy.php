@@ -130,7 +130,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
         }
     }
 
-    ffunction renderCategory($categoryName, $items) {
+    function renderCategory($categoryName, $items) {
         global $restrictedSendItems, $multiUseItems, $restrictedUseItems;
     
         if (empty($items)) return;
