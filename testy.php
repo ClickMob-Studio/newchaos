@@ -351,26 +351,26 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
         });
     });
 
-    // Use Item AJAX Function
     $(document).on('click', '.use-btn', function () {
-        var itemId = $(this).data('item-id');
+    var itemId = $(this).data('item-id');
 
-        $.ajax({
-            url: 'ajax_use_item.php',
-            type: 'POST',
-            dataType: 'json',
-            data: { item_id: itemId },
-            success: function(response) {
-                showMessage(response.message, response.success);
-                if (response.success) {
-                   
-                }
-            },
-            error: function(jqXHR, textStatus) {
-                showMessage("Error using the item: " + textStatus, false);
+    $.ajax({
+        url: 'ajax_use_item.php',  // Make sure this points to the correct path of `ajax_use_item.php`
+        type: 'GET',  // Use GET since you are using $_GET['use'] in PHP script
+        dataType: 'json',
+        data: { use: itemId },
+        success: function (response) {
+            showMessage(response.message, response.success);
+            if (response.success) {
+                // Optionally, refresh or update inventory UI
             }
-        });
+        },
+        error: function () {
+            showMessage("Error using the item.", false);
+        }
     });
+});
+
 
     // Use Multiple Items Modal Functionality
     document.querySelectorAll('.use-btn-multi').forEach(function(button) {
