@@ -122,7 +122,7 @@ include 'header.php';
             $categorizedItems['gem'][] = $item;
         } elseif ($itemType === 'rare') {
             $categorizedItems['rare'][] = $item;
-        } elseif ($item['type'] == 'booster' && $itemSubtype) {
+        } elseif ($item['type'] == 'booster') {
             $categorizedItems[$itemSubtype][] = $item;
         } else {
             $categorizedItems[$itemType][] = $item;
