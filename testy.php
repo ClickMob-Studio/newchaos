@@ -110,14 +110,17 @@ include 'header.php';
         'shoes' => array(),
         'rare' => array(),
         'house' => array(),
-        'consumable' => array()
+        'consumable' => array(),
+        'gem' => array()
     );
 
     // Categorize each item based on its type and subtype
     foreach ($items as $item) {
         list($itemType, $itemSubtype) = getItemType($item);
-
-        if ($itemType === 'rare') {
+        
+        if ($itemType === 'rare' && isset($item['type']) && $item['type'] === 'Gem') {
+            $categorizedItems['gem'][] = $item;
+        } elseif ($itemType === 'rare') {
             $categorizedItems['rare'][] = $item;
         } elseif ($itemType === 'booster' && $itemSubtype) {
             $categorizedItems[$itemSubtype][] = $item;
