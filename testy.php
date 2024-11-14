@@ -318,6 +318,9 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
         cursor: pointer;
         color: #fff; /* Close button in white for visibility */
     }
+    .category-card {
+        display: block;
+    }
 </style>
 
 
