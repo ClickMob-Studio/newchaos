@@ -187,7 +187,7 @@ $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
     ?>
 
     <!-- Modal for Sending Items -->
-    <div id="sendModal" class="modal" style="display:none;">
+    <div id="sendModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Send Item</h2>
@@ -206,9 +206,7 @@ $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
         </div>
     </div>
 
-</div>
-
-<style>
+    <style>
         /* Modal styles */
         .modal {
             display: none;
@@ -240,6 +238,9 @@ $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
             cursor: pointer;
         }
     </style>
+
+</div>
+
 <!-- jQuery for AJAX -->
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
@@ -301,6 +302,7 @@ $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
             }
         });
     });
+
     // Send Item Modal Functionality
     document.querySelectorAll('.send-btn').forEach(function (button) {
         button.addEventListener('click', function () {
@@ -311,7 +313,7 @@ $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
             document.getElementById('item-name').textContent = itemName;
             document.getElementById('quantity').max = itemQuantity;
             document.getElementById('quantity').value = 1;
-            document.getElementById('sendModal').style.display = "block";
+            document.getElementById('sendModal').style.display = "flex";
         });
     });
 
