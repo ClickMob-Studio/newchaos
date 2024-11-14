@@ -225,7 +225,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
     ?>
 
     <!-- Modal for Sending Items -->
-    <div id="sendModal" class="modal"  style="display: none;">
+    <div id="sendModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Send Item</h2>
@@ -242,7 +242,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
     </div>
 
     <!-- Modal for Using Multiple Items -->
-    <div id="useMultiModal" class="modal"  style="display: none;">
+    <div id="useMultiModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Use Multiple Items</h2>
