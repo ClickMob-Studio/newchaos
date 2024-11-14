@@ -57,6 +57,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
     </div>
 
     <h1 class="text-center mt-5">Inventory</h1>
+    <h2 class="text-center mt-5">Inventory Filters</h2>
     <div class="text-center my-4">
         <button class="btn btn-outline-secondary filter-btn" data-category="all">All</button>
         <button class="btn btn-outline-secondary filter-btn" data-category="weapon">Weapons</button>
@@ -144,8 +145,10 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
         global $restrictedSendItems, $multiUseItems, $restrictedUseItems, $loan;
     
         if (empty($items)) return;
+
+        $categoryClass = strtolower(str_replace(' ', '-', $categoryName)); // e.g., "weapon", "armor"
     
-        echo '<div class="card my-4">';
+        echo '<div class="card my-4 category-card category-' . $categoryClass . '">';
         echo '<div class="card-header text-white text-center" style="background-color: #8e8e8e21;">';
         echo "<h2 class='text-white'>$categoryName</h2>";
         echo '</div>';
@@ -333,7 +336,24 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
 
         setTimeout(function() { messageBox.fadeOut(); }, 3000);
     }
+    document.querySelectorAll('.filter-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const category = this.getAttribute('data-category');
+            
+            // Show all if "All" is selected, otherwise show only selected category
+            document.querySelectorAll('.category-card').forEach(card => {
+                if (category === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = card.classList.contains('category-' + category) ? 'block' : 'none';
+                }
+            });
 
+            // Update active button styling
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
     $(document).on('click', '.equip-btn', function () {
         var type = $(this).data('type');
         var itemId = $(this).data('id');
