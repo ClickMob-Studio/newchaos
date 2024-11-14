@@ -122,7 +122,7 @@ include 'header.php';
             $categorizedItems['gem'][] = $item;
         } elseif ($itemType === 'rare') {
             $categorizedItems['rare'][] = $item;
-        } elseif ($itemType === 'booster' && $itemSubtype) {
+        } elseif ($item['type'] == 'booster' && $itemSubtype) {
             $categorizedItems[$itemSubtype][] = $item;
         } else {
             $categorizedItems[$itemType][] = $item;
@@ -182,7 +182,7 @@ include 'header.php';
     renderCategory("Home Improvements", $categorizedItems['house']);
     renderCategory("Consumables", $categorizedItems['consumable']);
     renderCategory("Rare Items", $categorizedItems['rare']);
-    renderCategory("Gem", $categorizedItems['gem']); // Render Gem category with custom heading
+    renderCategory("Gems", $categorizedItems['gem']); 
    ?>
 
 </div>
