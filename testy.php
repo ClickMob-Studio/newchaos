@@ -57,7 +57,6 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
 
     <h1 class="text-center mt-5">Inventory</h1>
     <?php
-    // Query to get all items with custom overrides for this user
     $db->query("SELECT inv.*, it.*, c.name AS overridename, c.image AS overrideimage 
                 FROM inventory inv 
                 JOIN items it ON inv.itemid = it.id 
@@ -190,12 +189,12 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
                     $buttonHtml .= '<a class="btn btn-sm btn-info mt-2" href="inventory.php?use=' . $item['id'] . '">Send Christmas Present</a> ';
                     break;
             }
-    
+
             // Market button
             if (!$loan && !in_array($item['id'], $restrictedDropItems)) {
                 $buttonHtml .= '<a class="btn btn-sm btn-warning mt-2" href="putonmarket.php?id=' . $item['id'] . '">Market</a> ';
             }
-    
+
             if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems))) {
                 if (in_array($item['id'], $multiUseItems)) {
                     $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
@@ -203,7 +202,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
                     $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '">Use</button>';
                 }
             }
-    
+
             if (!in_array($item['id'], $restrictedSendItems)) {
                 $buttonHtml .= '<button class="btn btn-sm btn-info send-btn mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Send</button> ';
             }
@@ -211,7 +210,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
             echo $buttonHtml;
             echo '</div></div></div>';
         }
-    
+
         echo '</div></div></div>';
     }
 
@@ -224,6 +223,72 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
     renderCategory("Rare Items", $categorizedItems['rare']);
     renderCategory("Gems", $categorizedItems['gem']); 
     ?>
+
+    <!-- Modal for Sending Items -->
+    <div id="sendModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Send Item</h2>
+            <form id="sendForm">
+                <p>Sending <strong id="item-name"></strong></p>
+                <input type="hidden" name="item_id" id="item-id">
+                <label for="recipient">Recipient Username/ID:</label>
+                <input type="text" id="recipient" name="recipient" required>
+                <label for="quantity">Quantity to send:</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1">
+                <button type="submit" class="send-confirm-btn">Send Item</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Using Multiple Items -->
+    <div id="useMultiModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Use Multiple Items</h2>
+            <form id="useMultiForm">
+                <input type="hidden" name="item_id" id="use-item-id">
+                <p>Using <strong id="use-item-name"></strong></p>
+                <label for="use-quantity">Quantity to use:</label>
+                <input type="number" id="use-quantity" name="quantity" min="1" value="1">
+                <button type="submit" class="use-confirm-btn">Use Item(s)</button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+    /* Modal styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: #000;
+        color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        width: 50%;
+        max-width: 500px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .close {
+        float: right;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #fff;
+    }
+    </style>
 
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script>
@@ -299,6 +364,18 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
             });
         });
 
+        // Modal control
+        $(document).on('click', '.send-btn', function () {
+            var itemId = $(this).data('item-id');
+            var itemName = $(this).data('item-name');
+            var itemQuantity = $(this).data('item-quantity');
+            $("#sendModal").show();
+            $("#item-id").val(itemId);
+            $("#item-name").text(itemName);
+            $("#quantity").attr("max", itemQuantity);
+            $("#quantity").val(1);
+        });
+
         $(document).on('click', '.use-btn', function () {
             var itemId = $(this).data('item-id');
 
@@ -315,42 +392,54 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
                 }
             });
         });
+
+        $(document).on('click', '.use-btn-multi', function () {
+            var itemId = $(this).data('item-id');
+            var itemName = $(this).data('item-name');
+            var itemQuantity = $(this).data('item-quantity');
+            $("#useMultiModal").show();
+            $("#use-item-id").val(itemId);
+            $("#use-item-name").text(itemName);
+            $("#use-quantity").attr("max", itemQuantity);
+            $("#use-quantity").val(1);
+        });
+
+        $(".close").on('click', function () {
+            $(this).closest(".modal").hide();
+        });
+
+        $("#useMultiForm").on('submit', function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: 'ajax_use_multi_item.php',
+                type: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    showMessage(response.message, response.success);
+                    $("#useMultiModal").hide();
+                },
+                error: function() {
+                    showMessage("Error processing the request.", false);
+                }
+            });
+        });
+
+        $("#sendForm").on('submit', function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: 'ajax_send_item.php',
+                type: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    showMessage(response.message, response.success);
+                    $("#sendModal").hide();
+                },
+                error: function() {
+                    showMessage("Error processing the request.", false);
+                }
+            });
+        });
     </script>
 </div>
-
-<style>
-    /* Modal styles */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal-content {
-        background-color: #000; /* Black background */
-        color: #fff; /* White text for contrast */
-        padding: 20px;
-        border-radius: 5px;
-        width: 50%;
-        max-width: 500px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .close {
-        float: right;
-        font-size: 1.5rem;
-        cursor: pointer;
-        color: #fff; /* Close button in white for visibility */
-    }
-    .category-card {
-        display: block;
-    }
-</style>
