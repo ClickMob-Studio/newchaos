@@ -218,7 +218,7 @@ $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
             height: 100%;
             overflow: auto;
             background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
+            display: none; /* Ensure modal is hidden initially */
             justify-content: center;
             align-items: center;
         }
@@ -313,7 +313,7 @@ $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
             document.getElementById('item-name').textContent = itemName;
             document.getElementById('quantity').max = itemQuantity;
             document.getElementById('quantity').value = 1;
-            document.getElementById('sendModal').style.display = "flex";
+            document.getElementById('sendModal').style.display = "flex"; // Set to flex to show the modal
         });
     });
 
