@@ -334,7 +334,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
         var itemId = $(this).data('item-id');
         var itemName = $(this).data('item-name');
         var itemQuantity = $(this).data('item-quantity');
-        $("#sendModal").css('display', 'flex');  // Set display to flex to show the modal
+        $("#sendModal").removeAttr("inert").show();  // Set display to flex to show the modal
         $("#item-id").val(itemId);
         $("#item-name").text(itemName);
         $("#quantity").attr("max", itemQuantity);
