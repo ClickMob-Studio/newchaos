@@ -1,6 +1,10 @@
 <?php
 include "ajax_header.php";
 
+header('Content-Type: application/json');
+
+$response = [];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $item_id = isset($_POST['item_id']) ? (int)$_POST['item_id'] : 0;
     $recipient = isset($_POST['recipient']) ? trim($_POST['recipient']) : '';
@@ -9,7 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($item_id > 0 && !empty($recipient) && $quantity_to_send > 0) {
         $sender_id = $_SESSION['id'];
         if (!$sender_id) {
-            echo "Error: You must be logged in to send items.";
+            $response['success'] = false;
+            $response['message'] = "Error: You must be logged in to send items.";
+            echo json_encode($response);
             exit;
         }
 
@@ -19,7 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $recipient_id = $db->fetch_single();
 
         if (!$recipient_id) {
-            echo "Error: Recipient not found.";
+            $response['success'] = false;
+            $response['message'] = "Error: Recipient not found.";
+            echo json_encode($response);
             exit;
         }
 
@@ -32,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Fetch the item name for the event message
         $db->query("SELECT itemname FROM items WHERE id = :item_id");
         $db->bind(':item_id', $item_id);
-        $item_name = $db->fetch_single();  // Get the item name
+        $item_name = $db->fetch_single();
 
         if ($item_quantity && $item_quantity >= $quantity_to_send) {
             $db->startTrans();
@@ -77,17 +85,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $u = new User($_SESSION['id']);
                 Send_Event($recipient_id, $u->formattedname . ' sent you ' . $quantity_to_send . ' x ' . htmlspecialchars($item_name));
 
-                echo "Item(s) sent successfully!";
+                $response['success'] = true;
+                $response['message'] = "Item(s) sent successfully!";
             } catch (Exception $e) {
                 $db->cancelTransaction();
-                echo "Error: Failed to send item(s). Please try again.";
+                $response['success'] = false;
+                $response['message'] = "Error: Failed to send item(s). Please try again.";
             }
         } else {
-            echo "Error: You do not have enough quantity of this item.";
+            $response['success'] = false;
+            $response['message'] = "Error: You do not have enough quantity of this item.";
         }
     } else {
-        echo "Error: Invalid item, recipient, or quantity.";
+        $response['success'] = false;
+        $response['message'] = "Error: Invalid item, recipient, or quantity.";
     }
 } else {
-    echo "Error: Invalid request method.";
+    $response['success'] = false;
+    $response['message'] = "Error: Invalid request method.";
 }
+
+echo json_encode($response);
