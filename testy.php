@@ -330,27 +330,33 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
         });
 
         // Modal control
-        $$(document).on('click', '.send-btn', function() {
-        var itemId = $(this).data('item-id');
-        var itemName = $(this).data('item-name');
-        var itemQuantity = $(this).data('item-quantity');
-        $("#sendModal").css('display', 'flex');  // Set display to flex to show the modal
-        $("#item-id").val(itemId);
-        $("#item-name").text(itemName);
-        $("#quantity").attr("max", itemQuantity);
-        $("#quantity").val(1);
-    });
+        $(document).on('click', '.send-btn', function () {
+            var itemId = $(this).data('item-id');
+            var itemName = $(this).data('item-name');
+            var itemQuantity = $(this).data('item-quantity');
+            $("#sendModal").show();
+            $("#item-id").val(itemId);
+            $("#item-name").text(itemName);
+            $("#quantity").attr("max", itemQuantity);
+            $("#quantity").val(1);
+        });
 
-    $(document).on('click', '.use-btn-multi', function() {
-        var itemId = $(this).data('item-id');
-        var itemName = $(this).data('item-name');
-        var itemQuantity = $(this).data('item-quantity');
-        $("#useMultiModal").css('display', 'flex');  // Set display to flex to show the modal
-        $("#use-item-id").val(itemId);
-        $("#use-item-name").text(itemName);
-        $("#use-quantity").attr("max", itemQuantity);
-        $("#use-quantity").val(1);
-    });
+        $(document).on('click', '.use-btn', function () {
+            var itemId = $(this).data('item-id');
+
+            $.ajax({
+                url: 'ajax_use_item.php',
+                type: 'GET',
+                dataType: 'json',
+                data: { use: itemId },
+                success: function (response) {
+                    showMessage(response.message, response.success);
+                },
+                error: function () {
+                    showMessage("Error using the item.", false);
+                }
+            });
+        });
 
         $(document).on('click', '.use-btn-multi', function () {
             var itemId = $(this).data('item-id');
@@ -403,8 +409,8 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
     </script>
 </div>
 <style>
-.modal {
-    display: none;  /* Ensure the modal is hidden by default */
+    .modal {
+    display: none;  /* Hidden by default */
     position: fixed;
     z-index: 1000;
     top: 0;
