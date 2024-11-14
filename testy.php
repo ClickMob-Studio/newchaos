@@ -131,7 +131,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
     }
 
     function renderCategory($categoryName, $items) {
-        global $restrictedSendItems, $multiUseItems, $restrictedUseItems;
+        global $restrictedSendItems, $multiUseItems, $restrictedUseItems, $loan;
     
         if (empty($items)) return;
     
@@ -157,7 +157,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
             echo '<div class="card-body d-flex flex-column">';
             echo '<h6 class="card-title text-white">' . htmlspecialchars($itemName) . '</h6>';
             echo 'x ' . $item['quantity'];
-            
+    
             // Equip button
             if ($showEquipButton) {
                 $buttonHtml .= '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $dataType . '" data-id="' . intval($item['itemid']) . '">Equip</button>';
@@ -196,6 +196,11 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
                 }
             }
     
+            // Market button if no loan and item is not in restricted list
+            if (!$loan && !in_array($item['id'], [155, 195, 156, 194, 157, 158, 159, 165, 167, 256])) {
+                $buttonHtml .= ' <a class="btn btn-sm btn-warning mt-2" href="putonmarket.php?id=' . $item['id'] . '">Market</a> ';
+            }
+    
             // Use or Use Multiple buttons for consumables or eligible rare items
             if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems))) {
                 if (in_array($item['id'], $multiUseItems)) {
@@ -220,6 +225,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
         echo '</div>';
         echo '</div>';
     }
+    
     
 
     renderCategory("Weapons", $categorizedItems['weapon']);
