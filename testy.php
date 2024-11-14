@@ -264,7 +264,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
                 .removeClass("alert-success alert-danger")
                 .addClass(isSuccess ? "alert-success" : "alert-danger")
                 .fadeIn();
-
+                $('html, body').animate({ scrollTop: 0 }, 'slow');
             setTimeout(function() { messageBox.fadeOut(); }, 3000);
         }
 
