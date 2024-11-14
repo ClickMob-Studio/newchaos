@@ -9,6 +9,8 @@ $m->addServer('127.0.0.1', 11211, 33);
 $user_class = new User($_SESSION['id']);
 session_write_close();
 
+echo $user_class->id;
+
 $currentQuestSeason = getCurrentQuestSeasonForUser($user_class);
 if (isset($currentQuestSeason['id'])) {
     $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
