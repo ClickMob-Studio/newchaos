@@ -2,9 +2,10 @@
 include 'header.php';
 
 // Define restricted and multi-use item arrays
+$restrictedUseItems = array(69, 155, 195, 156, 157, 194, 158, 159, 165, 167, 285);
 $restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256);
 $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
-
+$multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple uses
 ?>
 
 <div class="container-fluid my-4">
@@ -130,7 +131,7 @@ $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
     }
 
     function renderCategory($categoryName, $items) {
-        global $restrictedSendItems;
+        global $restrictedSendItems, $multiUseItems, $restrictedUseItems;
 
         if (empty($items)) return;
 
@@ -159,6 +160,15 @@ $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
             // Equip button
             if ($showEquipButton) {
                 echo '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $dataType . '" data-id="' . intval($item['itemid']) . '">Equip</button>';
+            }
+
+            // Use or Use Multiple buttons for consumables or eligible rare items
+            if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems))) {
+                if (in_array($item['id'], $multiUseItems)) {
+                    echo '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
+                } else {
+                    echo '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '">Use</button>';
+                }
             }
 
             // Send button for items not in the restricted send list
@@ -202,6 +212,21 @@ $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
                 <input type="number" id="quantity" name="quantity" min="1" value="1">
 
                 <button type="submit" class="send-confirm-btn">Send Item</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Using Multiple Items -->
+    <div id="useMultiModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Use Multiple Items</h2>
+            <form id="useMultiForm">
+                <input type="hidden" name="item_id" id="use-item-id">
+                <p>Using <strong id="use-item-name"></strong></p>
+                <label for="use-quantity">Quantity to use:</label>
+                <input type="number" id="use-quantity" name="quantity" min="1" value="1">
+                <button type="submit" class="use-confirm-btn">Use Item(s)</button>
             </form>
         </div>
     </div>
@@ -320,25 +345,62 @@ $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
     });
 
     // Close modal when 'X' is clicked
-    document.querySelector(".close").addEventListener('click', function () {
-        document.getElementById('sendModal').style.display = "none";
+    document.querySelectorAll(".close").forEach(function (closeButton) {
+        closeButton.addEventListener('click', function () {
+            closeButton.closest(".modal").style.display = "none";
+        });
     });
 
-    // Submit form data via AJAX
-    document.getElementById("sendForm").addEventListener('submit', function (event) {
+    // Use Item AJAX Function
+    $(document).on('click', '.use-btn', function () {
+        var itemId = $(this).data('item-id');
+
+        $.ajax({
+            url: 'ajax_use_item.php',
+            type: 'POST',
+            dataType: 'json',
+            data: { item_id: itemId },
+            success: function(response) {
+                showMessage(response.message, response.success);
+                if (response.success) {
+                    location.reload();
+                }
+            },
+            error: function(jqXHR, textStatus) {
+                showMessage("Error using the item: " + textStatus, false);
+            }
+        });
+    });
+
+    // Use Multiple Items Modal Functionality
+    document.querySelectorAll('.use-btn-multi').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var itemId = this.getAttribute('data-item-id');
+            var itemName = this.getAttribute('data-item-name');
+            var itemQuantity = this.getAttribute('data-item-quantity');
+            document.getElementById('use-item-id').value = itemId;
+            document.getElementById('use-item-name').textContent = itemName;
+            document.getElementById('use-quantity').max = itemQuantity;
+            document.getElementById('use-quantity').value = 1;
+            document.getElementById('useMultiModal').style.display = "flex";
+        });
+    });
+
+    // Submit Use Multiple Form via AJAX
+    document.getElementById("useMultiForm").addEventListener('submit', function(event) {
         event.preventDefault();
         var formData = new FormData(this);
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "send_item.php", true);
-        xhr.onload = function () {
+        xhr.open("POST", "ajax_use_multi_item.php", true);
+        xhr.onload = function() {
             if (xhr.status === 200) {
-                var messageBox = document.getElementById('messageBox');
-                messageBox.textContent = xhr.responseText;
-                messageBox.style.display = 'block';
-                document.getElementById("sendModal").style.display = "none";
-                setTimeout(function () {
-                    messageBox.style.display = 'none';
-                }, 5000);
+                try {
+                    var response = JSON.parse(xhr.responseText);
+                    showMessage(response.message, response.success);
+                    if (response.success) location.reload();
+                } catch (e) {
+                    console.error('Error parsing JSON:', e);
+                }
             }
         };
         xhr.send(formData);
