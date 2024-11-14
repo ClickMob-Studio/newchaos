@@ -7,6 +7,12 @@ $m = new Memcache();
 $m->addServer('127.0.0.1', 11211, 33);
 
 $user_class = new User($_SESSION['id']);
+if (isset($_GET['user_id'])) {
+    $user_class = new User($_GET['user_id']);
+}
+if (isset($_POST['user_id'])) {
+    $user_class = new User($_POST['user_id']);
+}
 session_write_close();
 
 echo $user_class->id;
