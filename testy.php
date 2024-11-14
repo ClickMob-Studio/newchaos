@@ -207,37 +207,39 @@ $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
     </div>
 
     <style>
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none; /* Ensure modal is hidden initially */
-            justify-content: center;
-            align-items: center;
-        }
+    /* Modal styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+        justify-content: center;
+        align-items: center;
+    }
 
-        .modal-content {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            width: 50%;
-            max-width: 500px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        }
+    .modal-content {
+        background-color: #000; /* Black background */
+        color: #fff; /* White text for contrast */
+        padding: 20px;
+        border-radius: 5px;
+        width: 50%;
+        max-width: 500px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
 
-        .close {
-            float: right;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-    </style>
+    .close {
+        float: right;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #fff; /* Close button in white for visibility */
+    }
+</style>
+
 
 </div>
 
@@ -268,7 +270,7 @@ $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
                 if (response.status === 'success') {
                     showMessage(response.message, true);
                     location.reload();
-                    window.scrollTo(0, 0);
+               window.scrollTo(0, 0);
                 } else {
                     showMessage(response.message, false);
                 }
