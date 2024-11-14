@@ -255,41 +255,6 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
             </form>
         </div>
     </div>
-
-    <style>
-    /* Modal styles */
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.5);
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal-content {
-        background-color: #000;
-        color: #fff;
-        padding: 20px;
-        border-radius: 5px;
-        width: 50%;
-        max-width: 500px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .close {
-        float: right;
-        font-size: 1.5rem;
-        cursor: pointer;
-        color: #fff;
-    }
-    </style>
-
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script>
         function showMessage(message, isSuccess) {
@@ -443,3 +408,35 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
         });
     </script>
 </div>
+<style>
+     .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background-color: #000;
+        color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        width: 50%;
+        max-width: 500px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .close {
+        float: right;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #fff;
+    }
+</style>
