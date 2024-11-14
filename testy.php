@@ -418,7 +418,6 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
         width: 100%;
         height: 100%;
         overflow: auto;
-        background-color: rgba(0, 0, 0, 0.5);
         justify-content: center;
         align-items: center;
     }
