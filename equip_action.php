@@ -15,7 +15,7 @@ if (isset($_POST['action']) && isset($_POST['item_id'])) { // Checks if the requ
     switch ($_POST['action']) {
         case 'equip': // Handles item equip action
             $response = equipItem($user_id, $item_id, $_POST['type'], $loaned);
-            Take_Item($user_id, $item_id, 1);
+            
             break;
         case 'unequip': // Handles item unequip action
             $response = unequipItem($user_id, $_POST['type']);
@@ -38,7 +38,7 @@ function equipItem($user_id, $item_id, $type, $loaned) {
 
     $item = $db->fetch_row(true);
     if ($item['level'] > $user_class->level) return array("status" => "error", "message" => "You aren't high enough level to use this.");
-
+    Take_Item($item_id, $user_class->id);
     switch ($type) { // Checks if the item matches the requested equipment type
         case 'weapon':
             if ($item['offense'] <= 0) return array("status" => "error", "message" => "This item is not a weapon");
