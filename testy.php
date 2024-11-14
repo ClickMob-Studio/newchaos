@@ -397,7 +397,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
                 try {
                     var response = JSON.parse(xhr.responseText);
                     showMessage(response.message, response.success);
-                    if (response.success) location.reload();
+                    
                 } catch (e) {
                     console.error('Error parsing JSON:', e);
                 }
