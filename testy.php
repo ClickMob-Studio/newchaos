@@ -413,8 +413,8 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
         display: none;
         position: fixed;
         z-index: 1000;
-        top: 50%;
-        left: 27%;
+        top: 25%;
+        left: 25%;
         width: 100%;
         height: 100%;
         overflow: auto;
