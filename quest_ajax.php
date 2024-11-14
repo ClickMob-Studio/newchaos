@@ -19,12 +19,17 @@ if (isset($currentQuestSeason['id'])) {
     if (isset($_POST['field'])) {
         $field = $_POST['field'];
     }
+    if (isset($_GET['field'])) {
+        $field = $_GET['field'];
+    }
 
     $value = null;
     if (isset($_POST['value'])) {
         $value = $_POST['value'];
     }
-ß
+    if (isset($_GET['value'])) {
+        $value = $_GET['value'];
+    }
 
     if (isset($questSeasonMission['requirements']->$field) && $field && $value) {
         updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $field, $value);
