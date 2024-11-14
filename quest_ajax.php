@@ -16,13 +16,13 @@ if (isset($currentQuestSeason['id'])) {
     $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
     $field = null;
-    if (isset($_GET['field'])) {
-        $field = $_GET['field'];
+    if (isset($_POST['field'])) {
+        $field = $_POST['field'];
     }
 
     $value = null;
-    if (isset($_GET['value'])) {
-        $value = $_GET['value'];
+    if (isset($_POST['value'])) {
+        $value = $_POST['value'];
     }
 ß
 
