@@ -57,7 +57,17 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
     </div>
 
     <h1 class="text-center mt-5">Inventory</h1>
-
+    <div class="text-center my-4">
+        <button class="btn btn-outline-secondary filter-btn" data-category="all">All</button>
+        <button class="btn btn-outline-secondary filter-btn" data-category="weapon">Weapons</button>
+        <button class="btn btn-outline-secondary filter-btn" data-category="armor">Armor</button>
+        <button class="btn btn-outline-secondary filter-btn" data-category="shoes">Shoes</button>
+        <button class="btn btn-outline-secondary filter-btn" data-category="booster">Boosters</button>
+        <button class="btn btn-outline-secondary filter-btn" data-category="house">Home Improvements</button>
+        <button class="btn btn-outline-secondary filter-btn" data-category="consumable">Consumables</button>
+        <button class="btn btn-outline-secondary filter-btn" data-category="rare">Rare Items</button>
+        <button class="btn btn-outline-secondary filter-btn" data-category="gem">Gems</button>
+    </div>
     <?php
     // Query to get all items with custom overrides for this user
     $db->query("SELECT inv.*, it.*, c.name AS overridename, c.image AS overrideimage 
@@ -151,7 +161,9 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
             $showEquipButton = in_array($itemType, array('weapon', 'armor', 'shoes')) || in_array($itemSubtype, array('weapon', 'armor', 'shoes'));
             $dataType = $itemSubtype ?: $itemType;
     
-            echo '<div class="col-6 col-md-4 col-lg-3 mb-3">';
+            $categoryClass = strtolower(str_replace(' ', '-', $categoryName));  // Create a CSS-friendly category name
+    
+            echo '<div class="card my-4 category-card ' . $categoryClass . '">';
             echo '<div class="card shadow-sm h-100">';
             echo '<img class="card-img-top" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '">';
             echo '<div class="card-body d-flex flex-column">';
@@ -305,6 +317,11 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
         cursor: pointer;
         color: #fff; /* Close button in white for visibility */
     }
+    .filter-btn.active {
+        font-weight: bold;
+        color: #fff;
+        background-color: #007bff;
+    }
 </style>
 
 
@@ -313,6 +330,25 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
 <!-- jQuery for AJAX -->
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
+    // JavaScript to filter categories
+    document.querySelectorAll('.filter-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const category = this.getAttribute('data-category');
+            
+            // Show all if "All" is selected
+            document.querySelectorAll('.category-card').forEach(card => {
+                if (category === 'all') {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = card.classList.contains(category) ? 'block' : 'none';
+                }
+            });
+
+            // Update button styles for active category
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
     function showMessage(message, isSuccess) {
         var messageBox = $("#messageBox");
         messageBox
