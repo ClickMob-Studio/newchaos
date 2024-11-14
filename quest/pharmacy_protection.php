@@ -91,7 +91,6 @@ $actions = array(
             let currentProgress = parseInt(progressBar.getAttribute('aria-valuenow'));
             let newProgress = currentProgress + impactValue;
             if (newProgress > 100) newProgress = 100;
-            console.log(newProgress);
 
             // Check if progress is at least 30
             if (newProgress >= 30) {
@@ -111,9 +110,23 @@ $actions = array(
                     const successMsgSection = document.getElementById('success-msg-section');
                     successMsgSection.innerHTML = '';
 
+                    // AJAX request to mark the quest as complete
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', 'quest_ajax.php', true);
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            const responseDiv = document.createElement('div');
+                            responseDiv.className = 'alert alert-success';
+                            responseDiv.innerHTML = 'You have successfully intimidated Marco and completed the quest.';
+                            successMsgSection.appendChild(responseDiv);
+                        }
+                    };
+                    xhr.send('user_id=' + userId + '&quest_id=' + questId);
+
                     const responseDiv = document.createElement('div');
                     responseDiv.className = 'alert alert-success';
-                    responseDiv.innerHTML = 'You have successfully intimidated Marco.';
+                    responseDiv.innerHTML = 'You have successfully intimidated Marco. <a href="quest.php">Click here to complete the quest.</a>';
                     successMsgSection.appendChild(responseDiv);
                     return;
                 }
