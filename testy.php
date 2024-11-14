@@ -118,7 +118,7 @@ include 'header.php';
     foreach ($items as $item) {
         list($itemType, $itemSubtype) = getItemType($item);
         
-        if (isset($item['type']) && $item['type'] === 'Gem') {
+        if (isset($item['type']) && $item['type'] == 'Gem') {
             $categorizedItems['gem'][] = $item;
         } elseif ($itemType === 'rare') {
             $categorizedItems['rare'][] = $item;
