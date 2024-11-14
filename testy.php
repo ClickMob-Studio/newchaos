@@ -4,8 +4,6 @@ include 'header.php';
 // Define restricted and multi-use item arrays
 $restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256);
 $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
-$restrictedUseItems = array(69, 155, 195, 156, 157, 194, 158, 159, 165, 167, 285);
-$multiUseItems = array(251, 253, 42, 10, 163, 256);
 
 ?>
 
@@ -132,7 +130,7 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);
     }
 
     function renderCategory($categoryName, $items) {
-        global $restrictedSendItems, $restrictedDropItems;
+        global $restrictedSendItems;
 
         if (empty($items)) return;
 
@@ -163,29 +161,9 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);
                 echo '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $dataType . '" data-id="' . intval($item['itemid']) . '">Equip</button>';
             }
 
-            // Specific Use Speedup button for item id 194
-            if ($item['id'] == 194) {
-                echo ' <a class="btn btn-sm btn-secondary mt-2" href="raids.php">Use Speedup</a> ';
-            }
-
-            // Drop button for items not in the restricted drop list
-            if (!in_array($item['id'], $restrictedDropItems)) {
-                echo ' <button class="btn btn-sm btn-danger drop-btn mt-2" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '">Drop</button> ';
-            }
-
             // Send button for items not in the restricted send list
             if (!in_array($item['id'], $restrictedSendItems)) {
                 echo ' <button class="btn btn-sm btn-info send-btn mt-2" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '" data-item-name="' . htmlspecialchars($itemName) . '">Send</button> ';
-            }
-
-            // Market link for items of type house
-            if ($itemType == 'house') {
-                echo ' <a class="btn btn-sm btn-secondary mt-2" href="market.php?item=' . $item['id'] . '">Market</a> ';
-            }
-
-            // Sell link for items with a cost
-            if ($item['cost'] > 0) {
-                echo ' <a class="btn btn-sm btn-warning mt-2" href="sellitem.php?id=' . $item['id'] . '">Sell</a> ';
             }
 
             echo '</div>';
@@ -206,7 +184,27 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);
     renderCategory("Consumables", $categorizedItems['consumable']);
     renderCategory("Rare Items", $categorizedItems['rare']);
     renderCategory("Gems", $categorizedItems['gem']); 
-   ?>
+    ?>
+
+    <!-- Modal for Sending Items -->
+    <div id="sendModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Send Item</h2>
+            <form id="sendForm">
+                <p>Sending <strong id="item-name"></strong></p>
+                <input type="hidden" name="item_id" id="item-id">
+
+                <label for="recipient">Recipient Username/ID:</label>
+                <input type="text" id="recipient" name="recipient" required>
+
+                <label for="quantity">Quantity to send:</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1">
+
+                <button type="submit" class="send-confirm-btn">Send Item</button>
+            </form>
+        </div>
+    </div>
 
 </div>
 
@@ -270,5 +268,43 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);
                 showMessage('Error processing the request: ' + textStatus, false);
             }
         });
+    });
+    // Send Item Modal Functionality
+    document.querySelectorAll('.send-btn').forEach(function (button) {
+        button.addEventListener('click', function () {
+            var itemId = this.getAttribute('data-item-id');
+            var itemName = this.getAttribute('data-item-name');
+            var itemQuantity = this.getAttribute('data-item-quantity');
+            document.getElementById('item-id').value = itemId;
+            document.getElementById('item-name').textContent = itemName;
+            document.getElementById('quantity').max = itemQuantity;
+            document.getElementById('quantity').value = 1;
+            document.getElementById('sendModal').style.display = "block";
+        });
+    });
+
+    // Close modal when 'X' is clicked
+    document.querySelector(".close").addEventListener('click', function () {
+        document.getElementById('sendModal').style.display = "none";
+    });
+
+    // Submit form data via AJAX
+    document.getElementById("sendForm").addEventListener('submit', function (event) {
+        event.preventDefault();
+        var formData = new FormData(this);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "send_item.php", true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var messageBox = document.getElementById('messageBox');
+                messageBox.textContent = xhr.responseText;
+                messageBox.style.display = 'block';
+                document.getElementById("sendModal").style.display = "none";
+                setTimeout(function () {
+                    messageBox.style.display = 'none';
+                }, 5000);
+            }
+        };
+        xhr.send(formData);
     });
 </script>
