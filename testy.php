@@ -410,30 +410,28 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
 </div>
 <style>
     .modal {
-    display: none;  /* Hidden by default */
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+    }
 
-    
-.modal-content {
-    background-color: #000;
-    color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    width: 90%;             /* Adjusted width for responsiveness */
-    max-width: 500px;       /* Limit max width */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    transform: translate(0, 0); /* Center the content within the modal */
-}
+    .modal-content {
+        background-color: #000;
+        color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        width: 50%;
+        max-width: 500px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
 
     .close {
         float: right;
