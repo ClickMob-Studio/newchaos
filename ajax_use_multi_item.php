@@ -13,17 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['qu
     // Check if user has enough items
     if ($howmany && $howmany >= $quantity) {
         switch ($item_id) {
-            case 10: // Double EXP item
-                $timeToAdd = 3600 * $quantity;
-                $db->query("UPDATE grpgusers 
-                            SET exppill = IF(exppill > unix_timestamp(), exppill + ?, unix_timestamp() + ?) 
-                            WHERE id = ?");
-                $db->execute(array($timeToAdd, $timeToAdd, $user_class->id));
+            case 251: // Raid Pass
+                addItemTempUse($user_class, 'raid_pass');
                 Take_Item($item_id, $user_class->id, $quantity);
                 $response['success'] = true;
-                $response['message'] = "You will receive double exp on crimes for $quantity hour(s).";
+                $response['message'] = "You have used your raid pass.";
                 break;
-
+        
             case 253: // Gold Rush Credits
                 $goldRushCredits = 10 * $quantity;
                 if (isset($user_class->completeUserResearchTypesIndexedOnId[6])) {
@@ -38,29 +34,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['qu
                 $response['success'] = true;
                 $response['message'] = "You have gained $goldRushCredits Gold Rush Credits.";
                 break;
-
-            case 251: // Raid Pass
-                addItemTempUse($user_class, 'raid_pass');
-                Take_Item($item_id, $user_class->id, $quantity);
-                $response['success'] = true;
-                $response['message'] = "You have used your raid pass.";
-                break;
-
-            case 252: // Raid Booster
-                addItemTempUse($user_class, 'raid_booster');
-                Take_Item($item_id, $user_class->id, $quantity);
-                $response['success'] = true;
-                $response['message'] = "You have used your raid booster.";
-                break;
-
+        
             case 42: // Mystery Box
                 $total_points = 0;
                 $total_raidtokens = 0;
                 $total_cash = 0;
                 $raid_boosters = 0;
                 $police_badges = 0;
-
-                // Iterate over each mystery box
+        
                 for ($i = 0; $i < $quantity; $i++) {
                     $randnum = rand(0, 100);
                     if ($randnum <= 30) {
@@ -75,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['qu
                         $police_badges++;
                     }
                 }
-
+        
                 // Update user data with accumulated totals
                 if ($total_points > 0) {
                     $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
@@ -95,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['qu
                 if ($police_badges > 0) {
                     Give_Item(163, $user_class->id, $police_badges);
                 }
-
+        
                 // Construct response message
                 $message = "You opened $quantity mystery box(es) and found:";
                 if ($total_points > 0) $message .= " $total_points Points,";
@@ -103,16 +84,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['qu
                 if ($total_cash > 0) $message .= " $$total_cash,";
                 if ($raid_boosters > 0) $message .= " $raid_boosters Raid Booster(s),";
                 if ($police_badges > 0) $message .= " $police_badges Police Badge(s),";
-
+        
                 $response['message'] = rtrim($message, ',');
                 $response['success'] = true;
                 Take_Item($item_id, $user_class->id, $quantity);
                 break;
-
+        
+            case 10: // Double EXP item
+                $timeToAdd = 3600 * $quantity;
+                $db->query("UPDATE grpgusers 
+                            SET exppill = IF(exppill > unix_timestamp(), exppill + ?, unix_timestamp() + ?) 
+                            WHERE id = ?");
+                $db->execute(array($timeToAdd, $timeToAdd, $user_class->id));
+                Take_Item($item_id, $user_class->id, $quantity);
+                $response['success'] = true;
+                $response['message'] = "You will receive double exp on crimes for $quantity hour(s).";
+                break;
+        
+            case 163: // Police Pass
+                $db->query("UPDATE grpgusers SET bustpill = bustpill + 60 * ? WHERE id = ?");
+                $db->execute(array($quantity, $user_class->id));
+                Take_Item($item_id, $user_class->id, $quantity);
+                $response['success'] = true;
+                $response['message'] = "You have added " . (60 * $quantity) . " minutes to your Police Pass.";
+                break;
+        
+            case 256: // Nerve Vial
+                $newTime = time() + (1800 * $quantity);
+                addItemTempUse($user_class, 'nerve_vial_time', $newTime);
+                Take_Item($item_id, $user_class->id, $quantity);
+                $response['success'] = true;
+                $response['message'] = "You drank from the nerve vial, gaining double nerve for " . (30 * $quantity) . " minutes!";
+                break;
+        
             default:
                 $response['message'] = "Item not recognized or cannot be used.";
                 break;
         }
+        
     } else {
         $response['message'] = "You don't have enough of the item in your inventory.";
     }
