@@ -15,6 +15,7 @@ if (isset($_POST['action']) && isset($_POST['item_id'])) { // Checks if the requ
     switch ($_POST['action']) {
         case 'equip': // Handles item equip action
             $response = equipItem($user_id, $item_id, $_POST['type'], $loaned);
+            Take_Item($user_id, $item_id, 1);
             break;
         case 'unequip': // Handles item unequip action
             $response = unequipItem($user_id, $_POST['type']);
