@@ -159,6 +159,7 @@ include 'header.php';
             echo '<img class="card-img-top" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '">';
             echo '<div class="card-body d-flex flex-column">';
             echo '<h6 class="card-title text-white">' . htmlspecialchars($itemName) . '</h6>';
+            echo 'x ' .$item['quantity'];
             
             // Show the "Equip" button if the item is eligible
             if ($showEquipButton) {
