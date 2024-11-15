@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo json_encode($response);
                 exit;
             }
-            if (Check_Item($item_id , $_POST['recipient']) > 5) {
+            if (Check_Item($item_id , $recipient) > 5) {
                 $response['success'] = false;
                 $response['message'] = "Error: The player you are sending these to already has the max.";
                 echo json_encode($response);
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo json_encode($response);
                 exit;
             }
-            if (Check_Item($item_id , $_POST['recipient']) > 10) {
+            if (Check_Item($item_id , $recipient) > 10) {
                 $response['success'] = false;
                 $response['message'] = "Error: The player you are sending these to already has the max.";   
                 echo json_encode($response);
