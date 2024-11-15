@@ -122,7 +122,7 @@ $actions = array(
                             successMsgSection.appendChild(responseDiv);
                         }
                     };
-                    xhr.send('user_id=<?php echo $user_class->id ?>field=pharmacy_protection&value=1');
+                    xhr.send('user_id=<?php echo $user_class->id ?>&field=pharmacy_protection&value=1');
 
                     const responseDiv = document.createElement('div');
                     responseDiv.className = 'alert alert-success';
