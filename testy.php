@@ -116,7 +116,7 @@ $multiUseItems = array(252, 253, 42, 10, 163, 256, 283);  // Items allowing mult
     foreach ($items as $item) {
         list($itemType, $itemSubtype) = getItemType($item);
 
-        if (isset($item['type']) && $item['type'] == 'crafting') {
+        if (isset($item['type']) && $item['category'] == 'crafting') {
             $categorizedItems['gem'][] = $item;
         } elseif ($itemType === 'rare') {
             $categorizedItems['rare'][] = $item;
