@@ -18,14 +18,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode($response);
             exit;
         }
-        if ($_GET['item_id'] == 271 || $_GET['item_id'] == 272 || $_GET['item_id'] == 278) {
+        if ($item_id  == 271 || $item_id  == 272 || $item_id  == 278) {
             if($quantity > 5){
                 $response['success'] = false;
                 $response['message'] = "Error: you can only send 5 of these at a time.";
                 echo json_encode($response);
                 exit;
             }
-            if (Check_Item($_GET['item_id'], $_POST['recipient']) > 5) {
+            if (Check_Item($item_id , $_POST['recipient']) > 5) {
                 $response['success'] = false;
                 $response['message'] = "Error: The player you are sending these to already has the max.";
                 echo json_encode($response);
@@ -33,14 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     
-        if ($_GET['item_id'] == 287 || $_GET['item_id'] == 293) {
+        if ($item_id  == 287 || $item_id  == 293) {
             if($quantity > 10){
                 $response['success'] = false;
                 $response['message'] = "Error: You can only send 10 of these at a time.";
                 echo json_encode($response);
                 exit;
             }
-            if (Check_Item($_GET['item_id'], $_POST['recipient']) > 10) {
+            if (Check_Item($item_id , $_POST['recipient']) > 10) {
                 $response['success'] = false;
                 $response['message'] = "Error: The player you are sending these to already has the max.";   
                 echo json_encode($response);
