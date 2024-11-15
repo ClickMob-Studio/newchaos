@@ -111,7 +111,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['qu
                 case 252:
                     // Add temporary use for 'raid_booster'
                     addItemTempUse($user_class, 'raid_booster', $quantity );
+                    Take_Item($item_id, $user_class->id, $quantity);
                     $response['success'] = true;
+                    
                     $response['message'] = ("You have used ".$quantity." x raid boosters. All payouts in your next raid will be boosted.");
                     break;
         
@@ -125,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['qu
             case 283:
                 $amount = $quantity * 10;
                 Give_Item(253, $user_class->id, $amount);
-    
+                Take_Item($item_id, $user_class->id, $quantity);
                 $response["success"] = true;
                 $response["message"] = ("You open ".$quantity."x Gold Rush Token Chests and find ".$amount." x Gold Rush Tokens inside.");
                 break;
