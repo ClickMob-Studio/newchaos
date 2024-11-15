@@ -24,8 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $response['message'] = "Error: you can only send 5 of these at a time.";
                 echo json_encode($response);
                 exit;
-            }
-            if (Check_Item($item_id , $recipient) > 5) {
+            }else if (Check_Item($item_id, $recipient) > 5) {
                 $response['success'] = false;
                 $response['message'] = "Error: The player you are sending these to already has the max.";
                 echo json_encode($response);
