@@ -108,6 +108,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['qu
                 $response['success'] = true;
                 $response['message'] = "You have added " . (60 * $quantity) . " minutes to your Police Pass.";
                 break;
+                case 252:
+                    // Add temporary use for 'raid_booster'
+                    addItemTempUse($user_class, 'raid_booster', $quantity );
+                    $response['success'] = true;
+                    $response['message'] = ("You have used ".$quantity." x raid boosters. All payouts in your next raid will be boosted.")
         
             case 256: // Nerve Vial
                 $newTime = time() + (1800 * $quantity);
@@ -115,6 +120,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['qu
                 Take_Item($item_id, $user_class->id, $quantity);
                 $response['success'] = true;
                 $response['message'] = "You drank from the nerve vial, gaining double nerve for " . (30 * $quantity) . " minutes!";
+                break;
+            case 283:
+                $amount = $quantity * 10
+                Give_Item(253, $user_class->id, $amount);
+    
+                $response["success"] = true;
+                $response["message"] = ("You open ".$quantity."x Gold Rush Token Chests and find ".$amount." x Gold Rush Tokens inside.")
                 break;
         
             default:

@@ -5,7 +5,7 @@ include 'header.php';
 $restrictedUseItems = array(68, 69, 155, 195, 156, 157, 194, 158, 159, 165, 167, 285);
 $restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256);
 $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
-$multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple uses
+$multiUseItems = array(252, 253, 42, 10, 163, 256, 283);  // Items allowing multiple uses
 ?>
 
 <div class="container-fluid my-4">
@@ -191,8 +191,8 @@ $multiUseItems = array(251, 253, 42, 10, 163, 256);  // Items allowing multiple 
             }
 
             // Market button
-            if (!$loan && !in_array($item['id'], $restrictedDropItems)) {
-                $buttonHtml .= '<a class="btn btn-sm btn-warning mt-2" href="putonmarket.php?id=' . $item['id'] . '">Market</a> ';
+            if (!$loan && !in_array($row['id'], [155, 195, 156, 194, 157, 158, 159, 165, 167, 256])) {
+                $$type .= ' <a class="button-sm" href="putonmarket.php?id=' . $row['id'] . '">Market</a> ';
             }
 
             if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems))) {
