@@ -116,10 +116,10 @@ $actions = array(
                     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState === 4 && xhr.status === 200) {
-                            const responseDiv = document.createElement('div');
-                            responseDiv.className = 'alert alert-success';
-                            responseDiv.innerHTML = 'You have successfully intimidated Marco and completed the quest.';
-                            successMsgSection.appendChild(responseDiv);
+                            // const responseDiv = document.createElement('div');
+                            // responseDiv.className = 'alert alert-success';
+                            // responseDiv.innerHTML = 'You have successfully intimidated Marco and completed the quest.';
+                            // successMsgSection.appendChild(responseDiv);
                         }
                     };
                     xhr.send('user_id=<?php echo $user_class->id ?>&field=pharmacy_protection&value=1');
