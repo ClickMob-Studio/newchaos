@@ -122,7 +122,10 @@ $multiUseItems = array(252, 253, 42, 10, 163, 256, 283);  // Items allowing mult
             $categorizedItems['rare'][] = $item;
         } elseif ($item['type'] == 'booster') {
             $categorizedItems['booster'][] = $item;
-        } else {
+        }elseif ($item['type'] == 'Gems') {
+                $categorizedItems['consumable'][] = $item;
+
+            } else {
             $categorizedItems[$itemType][] = $item;
         }
     }
