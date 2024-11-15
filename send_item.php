@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
         if ($item_id  == 271 || $item_id  == 272 || $item_id  == 278) {
-            if($quantity > 5){
+            if($quantity_to_send > 5){
                 $response['success'] = false;
                 $response['message'] = "Error: you can only send 5 of these at a time.";
                 echo json_encode($response);
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     
         if ($item_id  == 287 || $item_id  == 293) {
-            if($quantity > 10){
+            if($quantity_to_send > 10){
                 $response['success'] = false;
                 $response['message'] = "Error: You can only send 10 of these at a time.";
                 echo json_encode($response);
