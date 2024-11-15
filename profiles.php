@@ -1109,6 +1109,7 @@ $resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$profile_
         <div class='actions_grid'>
             <a class='action' href='pms.php?view=new&to=" . $profile_class->id . "'>Message</a>
             <a class='action' href='attack.php?attack=" . $profile_class->id . "&csrf=" . $csrf . "'>Attack</a>
+            <a class='action ajax-link' href='ajax_attack_v2.php?attack=" . $userfound->id . "&csrf=" . $csrf . "'>Attack V2</a>
             <a class='action ajax-link' href='ajax_mug.php?mug=" . $profile_class->id . "&token=" . $user_class->macro_token . "'>Mug</a>
             <a class='action' href='spy.php?id=" . $profile_class->id . "'>Spy</a>
             <a class='action' href='display_cabinet.php?userid=" . $profile_class->id . "'>View Display Cabinet</a>
