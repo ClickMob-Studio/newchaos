@@ -18,7 +18,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode($response);
             exit;
         }
+        if ($_GET['id'] == 271 || $_GET['id'] == 272 || $_GET['id'] == 278) {
+            if (Check_Item($_GET['id'], $_POST['theirid']) > 5) {
+                $response['success'] = false;
+                $response['message'] = "Error: The player you are sending these to already has the max.";
+                echo json_encode($response);
+                exit;
+            }
+        }
+    
+        if ($_GET['id'] == 287 || $_GET['id'] == 293) {
+            if (Check_Item($_GET['id'], $_POST['theirid']) > 10) {
+                $response['success'] = false;
+                $response['message'] = "Error: The player you are sending these to already has the max.";   
+                echo json_encode($response);
+                exit;   
 
+            }
+        }
+    
         // Check if the recipient exists
         $db->query("SELECT id FROM grpgusers WHERE username = :recipient OR id = :recipient LIMIT 1");
         $db->bind(':recipient', $recipient);
