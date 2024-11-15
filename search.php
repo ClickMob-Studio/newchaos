@@ -169,7 +169,7 @@ echo"
         flex-direction: column;
         align-items: center;
     }
-    
+
     .flex-container form, .flex-container a button {
         margin-bottom: 20px; /* Adds spacing between forms on mobile */
     }
@@ -188,7 +188,7 @@ echo"
         <input type='hidden' name='loadsearch' value='doet' />
         <input type='submit' value='Load Search' />
     </form>
-    
+
     <form method='post'>
         Delete Search: <select name='searchid'>
         <?php
@@ -200,12 +200,12 @@ echo"
         <input type='hidden' name='delsearch' value='doet' />
         <input type='submit' value='Delete Search' />
     </form>
-    
+
     <form method='post'>
         Name: <input type='text' name='name' />
         <input value='Save Last Search' name='newsearch' type='submit' />
     </form>
-    
+
     <a href='?reset'><button>Reset Search Form</button></a>
 </div>
 
@@ -259,7 +259,7 @@ if (isset($_POST['id'])) {
 				print_r($sql);
 				echo "</pre>";
 			}
-			
+
 		// Determine the limit based on user_class->rmdays
 $limit = ($user_class->rmdays > 0) ? 20 : 10;
 
@@ -279,9 +279,7 @@ if (mysql_num_rows($query) == 0) {
             <td>" . prettynum($line['money'], 1) . "</td>
             <td>$userfound->formattedonline</td>";
 			if($userfound->id != 1 && $userfound->id != 2){
-        echo '<td><a class="btn btn-primary" href="attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">Attack</a></td>';
-        echo '<td><a class="btn btn-primary ajax-link" href="ajax_attack.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">S Attack</a></td>';
-        echo '<td><a class="btn btn-primary ajax-link" href="ajax_attack_v2.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">Attack V2</a></td>';
+        echo '<td><a class="btn btn-primary ajax-link" href="ajax_attack_v2.php?attack=' . $userfound->id . '&csrf=' . $csrf . '">Attack</a></td>';
        echo '<td><a class="btn btn-primary ajax-link" href="ajax_mug.php?mug=' . $userfound->id . '&token=' . $user_class->macro_token . '">Mug</a></td>';
 	}else{
 		echo "<td></td><td></td><td></td>";
