@@ -118,14 +118,14 @@ $multiUseItems = array(252, 253, 42, 10, 163, 256, 283);  // Items allowing mult
 
         if (isset($item['type']) && $item['category'] == 'crafting') {
             $categorizedItems['gem'][] = $item;
-        } elseif ($itemType === 'rare') {
-            $categorizedItems['rare'][] = $item;
-        } elseif ($item['type'] == 'booster') {
-            $categorizedItems['booster'][] = $item;
         }elseif ($item['type'] == 'Gems') {
                 $categorizedItems['consumable'][] = $item;
-
-            } else {
+        } elseif ($itemType === 'rare') {
+            $categorizedItems['rare'][] = $item;
+           
+        } elseif ($item['type'] == 'booster') {
+            $categorizedItems['booster'][] = $item;
+        }else {
             $categorizedItems[$itemType][] = $item;
         }
     }
