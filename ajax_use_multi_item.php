@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['qu
     if ($howmany && $howmany >= $quantity) {
         switch ($item_id) {
             case 251: // Raid Pass
-                addItemTempUse($user_class, 'raid_pass');
+                addItemTempUse($user_class, 'raid_pass', $quantity);
                 Take_Item($item_id, $user_class->id, $quantity);
                 $response['success'] = true;
                 $response['message'] = "You have used your raid pass.";
