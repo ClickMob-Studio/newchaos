@@ -19,7 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
         if ($_GET['id'] == 271 || $_GET['id'] == 272 || $_GET['id'] == 278) {
-            if (Check_Item($_GET['id'], $_POST['theirid']) > 5) {
+            if($quantity > 5){
+                $response['success'] = false;
+                $response['message'] = "Error: you can only send 5 of these at a time.";
+                echo json_encode($response);
+                exit;
+            }
+            if (Check_Item($_GET['id'], $_POST['recipient']) > 5) {
                 $response['success'] = false;
                 $response['message'] = "Error: The player you are sending these to already has the max.";
                 echo json_encode($response);
@@ -28,7 +34,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     
         if ($_GET['id'] == 287 || $_GET['id'] == 293) {
-            if (Check_Item($_GET['id'], $_POST['theirid']) > 10) {
+            if($quantity > 10){
+                $response['success'] = false;
+                $response['message'] = "Error: You can only send 10 of these at a time.";
+                echo json_encode($response);
+                exit;
+            }
+            if (Check_Item($_GET['id'], $_POST['recipient']) > 10) {
                 $response['success'] = false;
                 $response['message'] = "Error: The player you are sending these to already has the max.";   
                 echo json_encode($response);
