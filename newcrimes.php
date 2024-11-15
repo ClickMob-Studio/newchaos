@@ -171,13 +171,13 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
                                     <option value="1">1X</option>
                                    <!-- <option value="2">2X</option> -->
                                     <!--<option value="4" --><?php // echo $rmOnly ?><!-->4X (VIP Only)</option>-->
-                                    <option value="10" <?php echo $rmOnly ?>>10X (VIP Only)</option>
+                                    <option value="15" <?php echo $rmOnly ?>>15X (VIP Only)</option>
 
                                     <?php
                                     $tempItemUse = getItemTempUse($user_class->id);
                                     if ($tempItemUse['crime_15_multiplier_time'] > time()):
                                     ?>
-                                        <option value="15">15x</option>
+                                        <option value="20">20x</option>
                                     <?php endif; ?>
                                 </select>
                             </div>

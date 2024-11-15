@@ -393,7 +393,7 @@ if ($_GET['buy'] == "vip7") {
         if ($user_class->credits >= 30) {
             $itemTempUse = getItemTempUse($user_class->id);
             if ($itemTempUse['crime_15_multiplier_time'] > time()) {
-                echo Message("You already have 15x crime access activated");
+                echo Message("You already have 20x crime access activated");
             } else {
                 $current = $user_class->credits;
                 $newcredit = $user_class->credits -= 30;
@@ -407,10 +407,10 @@ if ($_GET['buy'] == "vip7") {
                 $newTime = time() + 1800;
                 addItemTempUse($user_class, 'crime_15_multiplier_time', $newTime);
 
-                Send_Event(1, $user_class->formattedname ." bought QOL 15x Crimes");
-                Send_Event(2, $user_class->formattedname ." bought QOL 15x Crimes");
+                Send_Event(1, $user_class->formattedname ." bought QOL 20x Crimes");
+                Send_Event(2, $user_class->formattedname ." bought QOL 20x Crimes");
 
-                echo Message("You spent 30 credits for 30 minutes access to 15x Crimes.");
+                echo Message("You spent 30 credits for 30 minutes access to 20x Crimes.");
             }
         } else {
             echo Message("You don't have enough credits. You can buy some at the upgrade store.");
@@ -1475,8 +1475,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
         <!-- 15x Crimes -->
         <div class="vip-package">
-            <h4 style="color: brown;">30 mins of 15x Crimes</h4>
-            <p>Unlock 30 mins of the 15x Crimes, allowing you to complete crimes 15x quicker.</p>
+            <h4 style="color: brown;">30 mins of 20x Crimes</h4>
+            <p>Unlock 30 mins of the 20x Crimes, allowing you to complete crimes 20x quicker.</p>
 
             <h4>Purchase now for only<br><a href="store.php?buy=qol15crimes"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>

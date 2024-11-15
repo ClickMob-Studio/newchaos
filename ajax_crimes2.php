@@ -58,10 +58,10 @@ if (isset($_POST['cm'])) {
     }
 }
 
-if ($crime_multiplier == 15) {
+if ($crime_multiplier == 20) {
     if ($tempItemUse['crime_15_multiplier_time'] < time()) {
         echo json_encode(array(
-            'text' => "You do not have access to 15x crimes.",
+            'text' => "You do not have access to 20x crimes.",
             //'error' => 'refresh'
         ));
         $debug['error'] = "15X CRIMES";
@@ -303,7 +303,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
             $extraCost = $cost / 2;
             $cost = ceil($cost - ($extraCost / 2));
 
-        } 
+        }
 
         $debug['cost'] = $cost;
 
@@ -389,7 +389,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
             // $db->execute(array($user_class->id, $nerve, $exp));
             newmissions($which, $crime_multiplier);
             updateGangActiveMission('crimes', $crime_multiplier);
-            
+
             mission('c', $crime_multiplier);
             gangContest(array('crimes' => $crime_multiplier, 'exp' => $exp));
             bloodbath('crimes', $user_class->id, $bbnerve / $user_class->level, $crime_multiplier);
