@@ -19,20 +19,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
         if ($item_id  == 271 || $item_id  == 272 || $item_id  == 278) {
+            $newQuantity = Check_Item($item_id, $recipient) + $quantity_to_send;
             if($quantity_to_send > 5){
                 $response['success'] = false;
                 $response['message'] = "Error: you can only send 5 of these at a time.";
                 echo json_encode($response);
                 exit;
-            }else if (Check_Item($item_id, $recipient) > 5) {
+            }
+            if (Check_Item($item_id, $recipient) > 5) {
+                $response['success'] = false;
+                $response['message'] = "Error: The player you are sending these to already has the max.";
+                echo json_encode($response);
+                exit;
+            }
+            if ($newQuantity > 5) {
                 $response['success'] = false;
                 $response['message'] = "Error: The player you are sending these to already has the max.";
                 echo json_encode($response);
                 exit;
             }
         }
-    
+
         if ($item_id  == 287 || $item_id  == 293) {
+            $newQuantity = Check_Item($item_id, $recipient) + $quantity_to_send;
             if($quantity_to_send > 10){
                 $response['success'] = false;
                 $response['message'] = "Error: You can only send 10 of these at a time.";
@@ -41,13 +50,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             if (Check_Item($item_id , $recipient) > 10) {
                 $response['success'] = false;
-                $response['message'] = "Error: The player you are sending these to already has the max.";   
+                $response['message'] = "Error: The player you are sending these to already has the max.";
                 echo json_encode($response);
-                exit;   
+                exit;
+
+            }
+            if ($newQuantity > 10) {
+                $response['success'] = false;
+                $response['message'] = "Error: The player you are sending these to already has the max.";
+                echo json_encode($response);
+                exit;
 
             }
         }
-    
+
         // Check if the recipient exists
         $db->query("SELECT id FROM grpgusers WHERE username = :recipient OR id = :recipient LIMIT 1");
         $db->bind(':recipient', $recipient);
