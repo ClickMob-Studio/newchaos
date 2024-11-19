@@ -198,7 +198,7 @@ $multiUseItems = array(252, 253, 42, 10, 163, 256, 283);  // Items allowing mult
                 $$type .= ' <a class="button-sm" href="putonmarket.php?id=' . $row['id'] . '">Market</a> ';
             }
 
-            if ($item['category'] !== 'crafting') {
+            if ($item['category'] !== 'crafting' && $item['category'] !== 'booster') {
                 if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems))) {
                     if (in_array($item['id'], $multiUseItems)) {
                         $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
