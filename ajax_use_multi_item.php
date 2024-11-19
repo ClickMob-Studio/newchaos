@@ -145,7 +145,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['qu
                 $response["success"] = true;
                 $response["message"] = ("You eat " . $quantity . " x Cotton Candies and gain " . number_format($expRand) . " EXP!");
                 break;
+            case 289:
+                $moneyRand = mt_rand(500, 20000);
+                $moneyRand = $moneyRand * $quantity;
 
+                $db->query("UPDATE grpgusers SET money = money + " . $moneyRand . " WHERE id = " . $user_class->id);
+                $db->execute();
+
+
+                Take_Item($item_id, $user_class->id, $quantity);
+                $response["success"] = true;
+                $response["message"] = ("You search inside " . $quantity . " x crates and find $" . number_format($moneyRand) . "!");
+                break;
             default:
                 $response['message'] = "Item not recognized or cannot be used.";
                 break;
