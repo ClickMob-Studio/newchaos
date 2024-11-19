@@ -122,7 +122,7 @@ $multiUseItems = array(252, 253, 42, 10, 163, 256, 283);  // Items allowing mult
                 $categorizedItems['consumable'][] = $item;
         } elseif ($itemType === 'rare') {
             $categorizedItems['rare'][] = $item;
-           
+
         } elseif ($item['type'] == 'booster') {
             $categorizedItems['booster'][] = $item;
         }else {
@@ -132,7 +132,7 @@ $multiUseItems = array(252, 253, 42, 10, 163, 256, 283);  // Items allowing mult
 
     function renderCategory($categoryName, $items) {
         global $restrictedSendItems, $multiUseItems, $restrictedUseItems, $loan;
-    
+
         if (empty($items)) return;
 
         echo '<div class="card my-4 category-card">';
@@ -141,23 +141,23 @@ $multiUseItems = array(252, 253, 42, 10, 163, 256, 283);  // Items allowing mult
         echo '</div>';
         echo '<div class="card-body">';
         echo '<div class="row g-3 text-center">';
-    
+
         foreach ($items as $item) {
             $itemName = !empty($item['overridename']) ? $item['overridename'] : $item['itemname'];
             $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
             $buttonHtml = '';
-    
+
             list($itemType, $itemSubtype) = getItemType($item);
             $showEquipButton = in_array($itemType, array('weapon', 'armor', 'shoes')) || in_array($itemSubtype, array('weapon', 'armor', 'shoes'));
             $dataType = $itemSubtype ?: $itemType;
-    
+
             echo '<div class="col-6 col-md-4 col-lg-3 mb-3">';
             echo '<div class="card shadow-sm h-100">';
             echo '<img class="card-img-top" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '">';
             echo '<div class="card-body d-flex flex-column">';
             echo '<h6 class="card-title text-white">' . htmlspecialchars($itemName) . '</h6>';
             echo 'x ' . $item['quantity'];
-    
+
             if ($showEquipButton) {
                 $buttonHtml .= '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $dataType . '" data-id="' . intval($item['itemid']) . '" data-name="' . htmlspecialchars($itemName) . '" data-img="' . htmlspecialchars($itemImage) . '">Equip</button>';
             }
@@ -198,13 +198,16 @@ $multiUseItems = array(252, 253, 42, 10, 163, 256, 283);  // Items allowing mult
                 $$type .= ' <a class="button-sm" href="putonmarket.php?id=' . $row['id'] . '">Market</a> ';
             }
 
-            if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems))) {
-                if (in_array($item['id'], $multiUseItems)) {
-                    $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
-                } else {
-                    $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '">Use</button>';
+            if ($item['category'] !== 'crafting') {
+                if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems))) {
+                    if (in_array($item['id'], $multiUseItems)) {
+                        $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
+                    } else {
+                        $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '">Use</button>';
+                    }
                 }
             }
+
 
             if (!in_array($item['id'], $restrictedSendItems)) {
                 $buttonHtml .= '<button class="btn btn-sm btn-info send-btn mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Send</button> ';
@@ -224,7 +227,7 @@ $multiUseItems = array(252, 253, 42, 10, 163, 256, 283);  // Items allowing mult
     renderCategory("Home Improvements", $categorizedItems['house']);
     renderCategory("Consumables", $categorizedItems['consumable']);
     renderCategory("Rare Items", $categorizedItems['rare']);
-    renderCategory("Gems", $categorizedItems['gem']); 
+    renderCategory("Gems", $categorizedItems['gem']);
     ?>
 
     <!-- Modal for Sending Items -->
