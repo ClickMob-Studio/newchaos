@@ -6,8 +6,21 @@ $restrictedUseItems = array(68, 69, 155, 195, 156, 157, 194, 158, 159, 165, 167,
 $restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256);
 $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
 $multiUseItems = array(252, 253, 42, 10, 163, 256, 283, 251, 288, 289);  // Items allowing multiple uses
-?>
 
+if ($user_class->gang > 0) {
+    $tempItemUse = getItemTempUse($user_class->id);
+    $now = time();
+    if ($tempItemUse['gang_double_exp_hours'] > 0 && $tempItemUse['gang_double_exp_time'] < $now) {
+        echo '
+            <hr />
+            <center>
+             <a href="trigger_doublexp_hour.php" onclick="return confirm(\'Are you sure you want to trigger double EXP?\');"><font color=red>You have ' . $tempItemUse['gang_double_exp_hours'] . ' hours of double EXP! Click to run 1 hour of double exp.</font></a>
+            </center>
+            <hr />
+        ';
+    }
+}
+?>
 <div class="container-fluid my-4">
     <div id="messageBox" class="alert" style="display: none;"></div>
 
