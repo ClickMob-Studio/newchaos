@@ -210,7 +210,7 @@ if ($user_class->gang > 0) {
 
             // Market button
             if (!$loan && !in_array($item['id'], [155, 195, 156, 194, 157, 158, 159, 165, 167, 256])) {
-                $buttonHtml .= '<a class="btn btn-sm btn-primary mt-2" href="putonmarket.php?id=' . $row['id'] . '">Market</a> ';
+                $buttonHtml .= '<a class="btn btn-sm btn-primary mt-2" href="putonmarket.php?id=' . $item['id'] . '">Market</a> ';
             }
             
 
