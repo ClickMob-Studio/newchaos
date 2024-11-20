@@ -120,7 +120,7 @@ if (isset($_GET['use'])) {
                 $response['message'] = "You have escaped FBI jail using the escape item!";
                 break;
 
-            case 13:
+          
                 case 14:
                     if ($user_class->purehp >= $user_class->puremaxhp && !$user_class->hospital) {
                         $response['success'] = false;
