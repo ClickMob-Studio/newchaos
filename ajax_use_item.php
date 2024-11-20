@@ -122,10 +122,11 @@ if (isset($_GET['use'])) {
 
           
                 case 14:
-                    if ($user_class->purehp >= $user_class->puremaxhp || !$user_class->hospital) {
+                    if ($user_class->purehp >= $user_class->puremaxhp && !$user_class->hospital) {
                         $response['success'] = false;
                         $response['message'] = "You already have full HP and are not in the hospital.";
                         echo json_encode($response);
+                        error_log("Debug: Full HP or not in hospital. User ID: " . $user_class->id);
                         break;
                     }
                 
@@ -133,6 +134,7 @@ if (isset($_GET['use'])) {
                         $response['success'] = false;
                         $response['message'] = "These won't help you when you are in bits.. you are going to have to wait it out.";
                         echo json_encode($response);
+                        error_log("Debug: User is bombed. User ID: " . $user_class->id);
                         break;
                     }
                 
@@ -144,6 +146,7 @@ if (isset($_GET['use'])) {
                         $response['success'] = false;
                         $response['message'] = "Item not found.";
                         echo json_encode($response);
+                        error_log("Debug: Item not found. Item ID: $id");
                         break;
                     }
                 
@@ -158,6 +161,7 @@ if (isset($_GET['use'])) {
                     $response['success'] = true;
                     $response['message'] = "You successfully used a {$row['itemname']}.";
                     echo json_encode($response);
+                    error_log("Debug: Item successfully used. User ID: " . $user_class->id . ", Item Name: " . $row['itemname']);
                     break;
                 
 
