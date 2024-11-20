@@ -140,6 +140,11 @@ $leftLinks[] =
 		'name' => 'Settings',
 		'url'  => 'settings.php',
 	);
+    $leftLinks[] =
+        array(
+            'name' => 'Forum',
+            'url'  => 'forums.php',
+        );
 $leftLinks[] =
     array(
         'name' => 'Discord',
