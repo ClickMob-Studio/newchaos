@@ -351,18 +351,22 @@ $multiUseItems = array(252, 253, 42, 10, 163, 256, 283, 251, 288, 289);  // Item
             var itemId = $(this).data('item-id');
 
             $.ajax({
-                url: 'ajax_use_item.php',
-                type: 'GET',
-                dataType: 'json',
-                data: { use: itemId },
-                success: function (response) {
-                    showMessage(response.message, response.success);
-                },
-                error: function () {
-                    showMessage(response.message, false);
-                }
-            });
-        });
+    url: 'ajax_use_item.php', // URL to PHP script
+    type: 'GET', // Using GET method as per your example
+    dataType: 'json', // Expect JSON response
+    data: { use: itemId }, // Send item ID
+    success: function (response) {
+        if (response.success) {
+            showMessage(response.message, true); // Show success message
+        } else {
+            showMessage(response.message || "An unknown error occurred.", false); // Handle failure
+        }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+        console.error("AJAX Error:", textStatus, errorThrown); // Log error for debugging
+        showMessage("Error using the item. Please try again later.", false); // Show generic error message
+    }
+});
 
         $(document).on('click', '.use-btn-multi', function () {
             var itemId = $(this).data('item-id');
