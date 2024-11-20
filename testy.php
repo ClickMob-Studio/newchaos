@@ -52,12 +52,12 @@ if ($user_class->gang > 0) {
             echo '<div class="col-6 col-md-4 mb-3 equipped-' . $type . '">';
             echo '<div class="card shadow-sm h-100">';
             if ($item['id'] != 0) {
-                echo '<img class="card-img-top" src="' . htmlspecialchars($item['img']) . '" alt="' . htmlspecialchars($item['name']) . '">';
+                echo '<img class="card-img-top" style="max-width: 120px; max-height: 120px; margin: auto;" src="' . htmlspecialchars($item['img']) . '" alt="' . htmlspecialchars($item['name']) . '">';
                 echo '<div class="card-body d-flex flex-column">';
                 echo '<h6 class="card-title text-white">' . htmlspecialchars($item['name']) . '</h6>';
                 echo '<button class="btn btn-sm btn-warning unequip-btn mt-2" data-type="' . $type . '" data-id="' . $item['id'] . '">Unequip</button>';
             } else {
-                echo '<img class="card-img-top" src="/css/images/empty.jpg" alt="Empty Slot">';
+                echo '<img class="card-img-top" style="max-width: 120px; max-height: 120px; margin: auto;"src="/css/images/empty.jpg" alt="Empty Slot">';
                 echo '<div class="card-body d-flex flex-column">';
                 echo '<p class="card-text">' . $item['placeholder'] . '</p>';
             }
@@ -297,7 +297,8 @@ if ($user_class->gang > 0) {
             const equippedItemContainer = document.querySelector(`.equipped-${type}`);
             if (equippedItemContainer) {
                 equippedItemContainer.innerHTML = `
-                    <img class="card-img-top" src="${itemImage}" alt="${itemName}">
+                    <img class="card-img-top" style="max-width: 120px; max-height: 120px; margin: auto;"
+src="${itemImage}" alt="${itemName}">
                     <div class="card-body d-flex flex-column">
                         <h6 class="card-title text-white">${itemName}</h6>
                         <button class="btn btn-sm btn-warning unequip-btn mt-2" data-type="${type}" data-id="${itemId}">Unequip</button>
