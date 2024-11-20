@@ -165,6 +165,10 @@ if (isset($_GET['use'])) {
                     $db->execute(array($newhosp, $hp, $user_class->id));
                 
                     // Send success response
+                    if (ob_get_length()) {
+                        ob_clean();
+                    }
+                    header('Content-Type: application/json');
                     $response['success'] = true;
                     $response['message'] = "You successfully used a Med Cert.";
                     echo json_encode($response);
