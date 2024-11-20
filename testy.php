@@ -214,17 +214,19 @@ if ($user_class->gang > 0) {
             }
 
             if ($item['category'] !== 'crafting' && $item['category'] !== 'booster') {
+                // Check if the item is consumable or rare (not restricted)
                 if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems || $item['id'] != 257))) {
+                    // Multi-use items
                     if (in_array($item['id'], $multiUseItems)) {
                         $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
-                    } else {
-                        $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '">Use</button>';
+                    } 
+                    // Single-use consumables
+                    elseif (!in_array($item['id'], [285, 155, 195, 156, 157, 194, 158, 159, 165, 167])) {
+                        $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use</button>';
                     }
                 }
             }
-            if ($itemType == "consumable" && !in_array($item['id'], [285, 155, 195, 156, 157, 194, 158, 159, 165, 167])) {
-                $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use</button>';
-            }
+            
 
 
             if (!in_array($item['id'], $restrictedSendItems)) {
