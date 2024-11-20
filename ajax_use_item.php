@@ -123,66 +123,67 @@ if (isset($_GET['use'])) {
                 $response['message'] = "You have escaped FBI jail using the escape item!";
                 break;
 
-                case 14:
+                case 14: // Med Cert Case
+                    // Check for already sent headers
+                    if (headers_sent($file, $line)) {
+                        error_log("Headers already sent in $file on line $line");
+                        $response['success'] = false;
+                        $response['message'] = "Headers already sent, cannot process the request.";
+                        echo json_encode($response);
+                        exit;
+                    }
+    
+                    // Clear any buffered output to avoid conflicts with JSON
                     if (ob_get_length()) {
                         ob_clean();
                     }
-                
-                    // Ensure headers are not already sent
-                    if (headers_sent($file, $line)) {
-                        error_log("Headers already sent in $file on line $line");
-                        echo json_encode(array(
-                            'success' => false,
-                            'message' => "Cannot send JSON response, headers already sent."
-                        ));
-                        exit;
-                    }
-                    // Check if the user already has full HP and is not in the hospital
+    
+                    // Validate user health and hospital status
                     if ($user_class->purehp >= $user_class->puremaxhp && !$user_class->hospital) {
                         $response['success'] = false;
                         $response['message'] = "You already have full HP and are not in the hospital.";
                         echo json_encode($response);
                         exit;
                     }
-                
-                    // Check if the user is "bombed"
+    
+                    // Check if the user is in a bombed state
                     if (in_array($user_class->hhow, ["bombed", "cbombed", "abombed"])) {
                         $response['success'] = false;
-                        $response['message'] = "These won't help you when you are in bits. You have to wait it out.";
+                        $response['message'] = "These won't help you when you're in bits. You have to wait it out.";
                         echo json_encode($response);
                         exit;
                     }
-                
+    
                     // Fetch item details
                     $db->query("SELECT * FROM items WHERE id = ?");
                     $db->execute(array($id));
                     $row = $db->fetch_row(true);
-                
+    
                     if (!$row) {
                         $response['success'] = false;
                         $response['message'] = "Item not found.";
                         echo json_encode($response);
                         exit;
                     }
-                
-                    // Calculate hospital time reduction
+    
+                    // Calculate hospital time reduction (if hospital is 0, this will remain 0)
                     $hosp = floor(($user_class->hospital / 100) * $row['reduce']);
                     $newhosp = max($user_class->hospital - $hosp, 0); // Ensure hospital time is non-negative
-                
+    
                     // Calculate HP healing
                     $hp = floor(($user_class->puremaxhp / 4) * $row['heal']);
                     $hp = min($user_class->purehp + $hp, $user_class->puremaxhp); // Cap HP at max HP
-                
-                    // Update the database
+    
+                    // Update the database with new hospital and HP values
                     $db->query("UPDATE grpgusers SET hospital = ?, hp = ? WHERE id = ?");
                     $db->execute(array($newhosp, $hp, $user_class->id));
-                
-                    // Send success response
-                    
+    
+                    // Prepare and send the JSON response
                     $response['success'] = true;
-                    $response['message'] = "You successfully used a Med Cert.";
+                    $response['message'] = "You successfully used a Med Cert. HP is now {$hp}, and hospital time reduced to {$newhosp}.";
                     echo json_encode($response);
-                    break;
+                    exit;
+    
                 
                 
             case 27:
