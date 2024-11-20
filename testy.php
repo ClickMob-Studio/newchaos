@@ -210,8 +210,9 @@ if ($user_class->gang > 0) {
 
             // Market button
             if (!$loan && !in_array($row['id'], [155, 195, 156, 194, 157, 158, 159, 165, 167, 256])) {
-                $$type .= ' <a class="button-sm" href="putonmarket.php?id=' . $row['id'] . '">Market</a> ';
+                $buttonHtml .= ' <a class="button-sm" href="putonmarket.php?id=' . $row['id'] . '">Market</a> ';
             }
+            
 
           
                 if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems) && $item['category'] != 'crafting')) {
