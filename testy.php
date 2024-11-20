@@ -215,7 +215,7 @@ if ($user_class->gang > 0) {
 
             if ($item['category'] !== 'crafting' && $item['category'] !== 'booster') {
                 // Check if the item is consumable or rare (not restricted)
-                if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems || $item['id'] != 257))) {
+                if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems))) {
                     // Multi-use items
                     if (in_array($item['id'], $multiUseItems)) {
                         $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
