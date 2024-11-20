@@ -348,25 +348,32 @@ $multiUseItems = array(252, 253, 42, 10, 163, 256, 283, 251, 288, 289);  // Item
         });
 
         $(document).on('click', '.use-btn', function () {
-            var itemId = $(this).data('item-id');
+    var itemId = $(this).data('item-id'); // Extract item ID from data attribute
 
-            $.ajax({
-    url: 'ajax_use_item.php', // URL to PHP script
-    type: 'GET', // Using GET method as per your example
-    dataType: 'json', // Expect JSON response
-    data: { use: itemId }, // Send item ID
-    success: function (response) {
-        if (response.success) {
-            showMessage(response.message, true); // Show success message
-        } else {
-            showMessage(response.message || "An unknown error occurred.", false); // Handle failure
-        }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-        console.error("AJAX Error:", textStatus, errorThrown); // Log error for debugging
-        showMessage("Error using the item. Please try again later.", false); // Show generic error message
+    if (!itemId) {
+        showMessage("Invalid item selected.", false); // Prevent unnecessary AJAX call
+        return;
     }
+
+    $.ajax({
+        url: 'ajax_use_item.php', // Endpoint for item usage
+        type: 'GET', // HTTP method
+        dataType: 'json', // Expect JSON response
+        data: { use: itemId }, // Send item ID
+        success: function (response) {
+            if (response.success) {
+                showMessage(response.message, true); // Show success message
+            } else {
+                showMessage(response.message || "An unknown error occurred.", false); // Show error from response
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX Error:", textStatus, errorThrown); // Log error for debugging
+            showMessage("Error using the item. Please try again later.", false); // Display a generic error
+        }
+    });
 });
+
 
         $(document).on('click', '.use-btn-multi', function () {
             var itemId = $(this).data('item-id');
