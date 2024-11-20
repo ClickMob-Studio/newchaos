@@ -2,7 +2,7 @@
 include 'header.php';
 
 // Define restricted and multi-use item arrays
-$restrictedUseItems = array(68, 69, 155, 195, 156, 157, 194, 158, 159, 165, 167, 285,257);
+$restrictedUseItems = array(68, 69, 155, 195, 156, 157, 194, 158, 159, 165, 167, 285);
 $restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256);
 $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
 $multiUseItems = array(252, 253, 42, 10, 163, 256, 283, 251, 288, 289);  // Items allowing multiple uses
@@ -199,7 +199,7 @@ $multiUseItems = array(252, 253, 42, 10, 163, 256, 283, 251, 288, 289);  // Item
             }
 
             if ($item['category'] !== 'crafting' && $item['category'] !== 'booster') {
-                if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems))) {
+                if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems || $item['id'] != 257))) {
                     if (in_array($item['id'], $multiUseItems)) {
                         $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
                     } else {
