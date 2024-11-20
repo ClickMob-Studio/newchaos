@@ -122,7 +122,7 @@ if (isset($_GET['use'])) {
 
           
                 case 14:
-                    if ($user_class->purehp >= $user_class->puremaxhp && !$user_class->hospital) {
+                    if ($user_class->purehp >= $user_class->puremaxhp || !$user_class->hospital) {
                         $response['success'] = false;
                         $response['message'] = "You already have full HP and are not in the hospital.";
                         echo json_encode($response);
