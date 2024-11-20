@@ -1,5 +1,7 @@
 <?php
 include 'ajax_header.php'; // Use AJAX compatible header
+error_reporting(0);
+ini_set('display_errors', 0);
 $response = array("success" => false, "message" => "");
 $user_class = new User($_SESSION['id']); // Assuming session contains the user ID
 function add_rm_days($days, $money, $points)
