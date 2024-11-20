@@ -159,7 +159,9 @@ if ($user_class->gang > 0) {
             $itemName = !empty($item['overridename']) ? $item['overridename'] : $item['itemname'];
             $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
             $buttonHtml = '';
-
+            $sell = ($item['cost'] > 0) 
+            ? "<a class='button-sm btn btn-sm btn-secondary mt-2' href='sellitem.php?id=" . $item['id'] . "'>Sell</a>"
+            : "";
             list($itemType, $itemSubtype) = getItemType($item);
             $showEquipButton = in_array($itemType, array('weapon', 'armor', 'shoes')) || in_array($itemSubtype, array('weapon', 'armor', 'shoes'));
             $dataType = $itemSubtype ?: $itemType;
