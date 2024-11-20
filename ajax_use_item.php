@@ -143,7 +143,7 @@ if (isset($_GET['use'])) {
                 $db->execute(array($newhosp, $hp, $user_class->id));
                 $response['success'] = true;
                 $response['message'] = "You successfully used a {$row['itemname']}.";
-                echo json_encode($response);
+                
                 break;
 
             case 27:
