@@ -28,31 +28,64 @@ if ($_GET['buy'] == "hospitalyes") {
    } else
       echo Message("You don't have enough money in the bank. You need $$cost");
 }
-?><?php
 if ($user_class->hospital != "0" && ($user_class->hhow != "bombed" && $user_class->hhow != "abombed")) {
    $cost = $user_class->level * 300;
    echo "- <a href='hospital.php?buy=hospitalyes'><font color=red><b>Buy Out for $$cost<b></font></a></br></br>";
 
    $meds = '11, 12, 13, 14';
    $db->query("SELECT * FROM inventory LEFT JOIN items ON inventory.itemid = items.id WHERE itemid IN ($meds) AND userid = ?");
-   $db->execute(array(
-      $user_class->id
-   ));
-
+   $db->execute(array($user_class->id));
    $meds = $db->fetch_row();
+
    echo "<div style='text-align:center;display: flex;flex-direction: row;justify-content: space-evenly;align-items: center;margin-bottom:10px;'>";
+
    foreach ($meds as $med) {
-      echo "<div>";
-      echo image_popup($med['image'], $med['id']);
-      echo '<br />';
-      echo item_popup($med['itemname'], $med['id']) . ' [x' . $med['quantity'] . ']</br>';
-      echo '<a class="button-sm" href="inventory.php?use=' . $med['id'] . '">Use</a> ';
-      echo "</div>";
+       echo "<div>";
+       echo image_popup($med['image'], $med['id']);
+       echo '<br />';
+       echo item_popup($med['itemname'], $med['id']) . ' [x' . $med['quantity'] . ']</br>';
+
+       if ($med['id'] == 14) { // Use ajax for item ID 14
+           echo '<button class="use-btn button-sm" data-item-id="' . $med['id'] . '">Use</button>';
+       } else { // Regular link for other items
+           echo '<a class="button-sm" href="inventory.php?use=' . $med['id'] . '">Use</a>';
+       }
+       echo "</div>";
    }
    echo "</div>";
-
 }
 ?>
+
+<!-- Include JavaScript -->
+<script>
+   $(document).on('click', '.use-btn', function () {
+       var itemId = $(this).data('item-id'); // Get item ID from button
+
+       if (!itemId) {
+           alert("Invalid item selected.");
+           return;
+       }
+
+       $.ajax({
+           url: 'ajax_use_item.php', // AJAX endpoint
+           type: 'GET',
+           dataType: 'json',
+           data: { use: itemId },
+           success: function (response) {
+               if (response.success) {
+                   // Show a success message or an image
+                   alert(response.message);
+               } else {
+                   alert(response.message || "An error occurred while using the item.");
+               }
+           },
+           error: function () {
+               alert("Error processing your request.");
+           }
+       });
+   });
+</script>
+
 </td></tr>
 <tr><td class="contentcontent">
 <table width="100%">
