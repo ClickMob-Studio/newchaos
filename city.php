@@ -310,6 +310,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
             <a href='research.php'>Research</a><br>
             <a href='crafter.php'>Crafter</a><br>
             <a href='gameupdates.php'>Updates</a><br>
+            <a href="forum.php">Forums</a>
         </div>
         <div class="col-6 col-md-4 text-center">
         <div class="col-12 text-center mb-2 section-header">
