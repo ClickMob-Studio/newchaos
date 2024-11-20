@@ -121,31 +121,52 @@ if (isset($_GET['use'])) {
                 break;
 
                 case 14:
-                    if ($user_class->purehp >= $user_class->puremaxhp && !$user_class->hospital)
-                        diefun("You already have full HP and are not in the hospital.");
-    
-                    if ($user_class->hhow == "bombed" || $user_class->hhow == "cbombed" || $user_class->hhow == "abombed")
-                        diefun("These won't help you when you are in bits.. you are going to have to wait it out.");
-    
+                    // Check if HP is full and not in the hospital
+                    if ($user_class->purehp >= $user_class->puremaxhp && !$user_class->hospital) {
+                        $response['success'] = false;
+                        $response['message'] = "You already have full HP and are not in the hospital.";
+                        echo json_encode($response);
+                        break;
+                    }
+                
+                    // Check if the user is "bombed"
+                    if (in_array($user_class->hhow, ["bombed", "cbombed", "abombed"])) {
+                        $response['success'] = false;
+                        $response['message'] = "These won't help you when you are in bits.. you are going to have to wait it out.";
+                        echo json_encode($response);
+                        break;
+                    }
+                
+                    // Fetch item details
                     $db->query("SELECT * FROM items WHERE id = ?");
-                    $db->execute(array(
-                        $id
-                    ));
+                    $db->execute(array($id));
                     $row = $db->fetch_row(true);
+                
+                    if (!$row) {
+                        $response['success'] = false;
+                        $response['message'] = "Item not found.";
+                        echo json_encode($response);
+                        break;
+                    }
+                
+                    // Calculate hospital time reduction
                     $hosp = floor(($user_class->hospital / 100) * $row['reduce']);
-                    $newhosp = $user_class->hospital - $hosp;
-                    $newhosp = ($newhosp < 0) ? 0 : $newhosp;
+                    $newhosp = max($user_class->hospital - $hosp, 0); // Ensure hospital time is non-negative
+                
+                    // Calculate HP healing
                     $hp = floor(($user_class->puremaxhp / 4) * $row['heal']);
-                    $hp = $user_class->purehp + $hp;
-                    $hp = ($hp > $user_class->puremaxhp) ? $user_class->puremaxhp : $hp;
+                    $hp = min($user_class->purehp + $hp, $user_class->puremaxhp); // Cap HP at max HP
+                
+                    // Update the database
                     $db->query("UPDATE grpgusers SET hospital = ?, hp = ? WHERE id = ?");
-                    $db->execute(array(
-                        $newhosp,
-                        $hp,
-                        $user_class->id
-                    ));
-                    echo Message("You successfully used a {$row['itemname']}.");
+                    $db->execute(array($newhosp, $hp, $user_class->id));
+                
+                    // Send success response
+                    $response['success'] = true;
+                    $response['message'] = "You successfully used a {$row['itemname']}.";
+                    echo json_encode($response);
                     break;
+                
             case 27:
                 druggie(0);
                 $response['success'] = true;
