@@ -166,7 +166,7 @@ if (isset($_GET['use'])) {
                 
                     // Send success response
                     $response['success'] = true;
-                    $response['message'] = "You successfully used a Med Cert. Your HP is now {$hp} and hospital time reduced to {$newhosp}.";
+                    $response['message'] = "You successfully used a Med Cert.";
                     echo json_encode($response);
                     break;
                 
