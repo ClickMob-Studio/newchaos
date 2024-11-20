@@ -125,6 +125,11 @@ if ($user_class->gang) {
         );
 
 }
+$leftLinks[] =
+        array(
+            'name' => 'Forum',
+            'url'  => 'forums.php',
+        );
 //$leftLinks[] =
 //	array(
 //		'name' => 'Speed Crimes',
