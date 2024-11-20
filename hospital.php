@@ -1,6 +1,8 @@
 <?php
 include 'header.php';
 ?>
+<!-- Add a div for displaying the success message -->
+<div id="messageBox" class="alert" style="display: none;"></div>
 <div class='box_top'>Hospital</div>
 						<div class='box_middle'>
 							<div class='pad'>
@@ -46,9 +48,9 @@ if ($user_class->hospital != "0" && ($user_class->hhow != "bombed" && $user_clas
        echo item_popup($med['itemname'], $med['id']) . ' [x' . $med['quantity'] . ']</br>';
 
        if ($med['id'] == 14) { // Use ajax for item ID 14
-           echo '<button class="use-btn button-sm" data-item-id="' . $med['id'] . '">Use</button>';
+           echo '<button class="use-btn button-sm btn btn-primary" data-item-id="' . $med['id'] . '">Use</button>';
        } else { // Regular link for other items
-           echo '<a class="button-sm" href="inventory.php?use=' . $med['id'] . '">Use</a>';
+           echo '<a class="button-sm btn btn-secondary" href="inventory.php?use=' . $med['id'] . '">Use</a>';
        }
        echo "</div>";
    }
@@ -56,13 +58,15 @@ if ($user_class->hospital != "0" && ($user_class->hhow != "bombed" && $user_clas
 }
 ?>
 
+
+
 <!-- Include JavaScript -->
 <script>
    $(document).on('click', '.use-btn', function () {
        var itemId = $(this).data('item-id'); // Get item ID from button
 
        if (!itemId) {
-           alert("Invalid item selected.");
+           showMessage("Invalid item selected.", false);
            return;
        }
 
@@ -73,18 +77,40 @@ if ($user_class->hospital != "0" && ($user_class->hhow != "bombed" && $user_clas
            data: { use: itemId },
            success: function (response) {
                if (response.success) {
-                   // Show a success message or an image
-                   alert(response.message);
+                   // Show success message in the Bootstrap alert
+                   showMessage(response.message, true);
                } else {
-                   alert(response.message || "An error occurred while using the item.");
+                   showMessage(response.message || "An error occurred while using the item.", false);
                }
            },
            error: function () {
-               alert("Error processing your request.");
+               showMessage("Error processing your request.", false);
            }
        });
    });
+
+   function showMessage(message, isSuccess) {
+       var messageBox = $("#messageBox");
+       messageBox
+           .text(message)
+           .removeClass("alert-success alert-danger")
+           .addClass(isSuccess ? "alert-success" : "alert-danger")
+           .fadeIn();
+
+       // Auto-hide the alert after 5 seconds
+       setTimeout(function () {
+           messageBox.fadeOut();
+       }, 5000);
+   }
 </script>
+
+<style>
+   #messageBox {
+       margin: 20px auto;
+       width: 50%;
+       text-align: center;
+   }
+</style>
 
 </td></tr>
 <tr><td class="contentcontent">
