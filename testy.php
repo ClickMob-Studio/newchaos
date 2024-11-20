@@ -363,6 +363,9 @@ $multiUseItems = array(252, 253, 42, 10, 163, 256, 283, 251, 288, 289);  // Item
         success: function (response) {
             if (response.success) {
                 showMessage(response.message, true); // Show success message
+                // Optional: Update UI to reflect the changes, e.g., reduce item quantity, update HP display, etc.
+                updateHP(response.newHP); // Example for updating HP display
+                updateHospitalTime(response.newHospitalTime); // Example for updating hospital time
             } else {
                 showMessage(response.message || "An unknown error occurred.", false); // Show error from response
             }
