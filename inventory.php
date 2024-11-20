@@ -359,7 +359,7 @@ $multiUseItems = array(252, 253, 42, 10, 163, 256, 283, 251, 288, 289);  // Item
                     showMessage(response.message, response.success);
                 },
                 error: function () {
-                    showMessage("Error using the item.", false);
+                    showMessage(response.message, false);
                 }
             });
         });
