@@ -2891,6 +2891,8 @@ function getDisplayForQuestReq($req, $num)
         return 'Get Marco at the pharmacy to pay up';
     } else if ($req === 'attack_player') {
         return 'Attack Player: ' . formatName($num);
+    } else if ($req === 'crime_cash') {
+        return 'Cash from crimes: $' . number_format($num);
     } else {
         return '<strong>' . $req . ': ' . number_format($num) . '</strong>';
     }
