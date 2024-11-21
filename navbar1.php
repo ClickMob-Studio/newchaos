@@ -143,7 +143,7 @@ $leftLinks[] =
     $leftLinks[] =
         array(
             'name' => 'Forum',
-            'url'  => 'forums.php',
+            'url'  => 'forum.php',
         );
 $leftLinks[] =
     array(
@@ -158,14 +158,14 @@ $leftLinks[] =
 
 $navPage = str_replace( '/', '', $_SERVER['REQUEST_URI'] );
 
-?> 
+?>
 
 <nav class="navbar navbar-expand-lg p-0 dcNav dcTopNav">
     <div class="container-fluid scrollNav">
         <a class="navbar-brand" href="index.php">
             <img src="asset/img/logo1.png" alt="Deadly Cartel logo" class="mainLogo mx-5">
             <!-- <img src="asset/halloween.png" alt="Deadly Cartel logo" class="mainLogo mx-5"> -->
-       
+
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-bars fa-2x"></i>

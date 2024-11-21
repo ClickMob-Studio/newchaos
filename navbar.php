@@ -128,7 +128,7 @@ if ($user_class->gang) {
 $leftLinks[] =
         array(
             'name' => 'Forum',
-            'url'  => 'forums.php',
+            'url'  => 'forum.php',
         );
 //$leftLinks[] =
 //	array(
@@ -158,7 +158,7 @@ $leftLinks[] =
 
 $navPage = str_replace( '/', '', $_SERVER['REQUEST_URI'] );
 
-?> 
+?>
 
 <nav class="navbar navbar-expand-lg p-0 dcNav dcTopNav">
 	<div class="container-fluid scrollNav">
@@ -171,10 +171,10 @@ $navPage = str_replace( '/', '', $_SERVER['REQUEST_URI'] );
 		<div class="dcPanel h-100">
                             <div class="text-center dcBannerButtonsContainer voteMobile">
                                 <a href="vote.php" class="dcSecondaryButton my-3">Vote for <i class="far fa-gem"></i></a>
-        
+
                                 <a href="refer.php" class="dcSecondaryButton my-3">Refer for <i class="far fa-gem"></i></a>
                                 <a href="store.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
-        
+
                             </div>
                             <!-- Sever Time: 09/04/2024  10:24:56					 -->
                         </div>
