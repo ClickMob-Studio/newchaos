@@ -487,6 +487,19 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
             addToUserOperations($user_class, 'crimes', $crime_multiplier);
 
+            if ($user_class->admin > 0) {
+                $currentQuestSeason = getCurrentQuestSeasonForUser($user_class);
+                if (isset($currentQuestSeason['id'])) {
+                    $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+                    $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
+                    $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+
+                    if (isset($questSeasonMission['requirements']->crime_cash)) {
+                        updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'crime_cash', $money);
+                    }
+                }
+            }
+
             $user_class->money += $money;
             $user_class->nerve -= $nerve;
             $db->query("UPDATE grpgusers SET loth = loth + ?, exp = exp + ?, crimesucceeded = crimesucceeded + 1, crimemoney = crimemoney + ?, `money` = `money` + ?, nerve = nerve - ?, todaysexp = todaysexp + ?, expcount = expcount + ?, totaltax = totaltax + ? WHERE id = ?");
