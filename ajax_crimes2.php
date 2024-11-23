@@ -500,6 +500,14 @@ if (isset($_POST['id']) || isset($input['id'])) {
 //                }
 //            }
 
+            if ($user_class->gang > 0) {
+                $db->query("SELECT upgrade_crimecash FROM gangs WHERE id = ".$user_class->gang);
+                $db->execute();
+                $u = $db->fetch_row(true);
+                $percent = $u['upgrade_crimecash']*2;
+                $money += round(($money * $percent) / 100);
+            }
+
             $user_class->money += $money;
             $user_class->nerve -= $nerve;
             $db->query("UPDATE grpgusers SET loth = loth + ?, exp = exp + ?, crimesucceeded = crimesucceeded + 1, crimemoney = crimemoney + ?, `money` = `money` + ?, nerve = nerve - ?, todaysexp = todaysexp + ?, expcount = expcount + ?, totaltax = totaltax + ? WHERE id = ?");
