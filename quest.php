@@ -10,12 +10,12 @@ if (isset($currentQuestSeason['id'])) {
 }
 
 if ($questSeasonUser['is_complete'] > 0) {
-    // TODO: Check whether there is another quest season to start
+    // TODO: Check whether there is another quest season to start & add ability to start it
 
     echo "
         <div class='alert alert-success'>
             <strong>Success!</strong> You have completed the quest <strong>{$currentQuestSeason['name']}</strong>.<br /><br />
-            <a href='quest.php' class='btn btn-primary'>Start your next quest</a>.
+            
         </div>
     ";
     exit;
