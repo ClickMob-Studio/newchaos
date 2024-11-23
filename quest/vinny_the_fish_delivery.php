@@ -1,5 +1,5 @@
 <?php
-$doors = ['fail', 'success', 'jail', 'hospital'];
+$doors = ['fail', 'success', 'jail', 'success'];
 shuffle($doors);
 
 if ($user_class->jail > 0 || $user_class->hospital > 0) {
