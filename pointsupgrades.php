@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 ?>
-	
+
 	<div class='box_top'>Points Upgrades</div>
 						<div class='box_middle'>
 							<div class='pad'>
@@ -67,20 +67,24 @@ $upgrades_data = mysql_fetch_assoc($result);
 // Define upgrade details and tooltips
 $upgrade_details = array(
     'upgrade6' => array(
-        'name' => 'Training Upgrade', 
+        'name' => 'Training Upgrade',
         'benefit' => isset($upgrades_data['upgrade6']) ? 'You are currently getting ' . ($upgrades_data['upgrade6'] * 5) . '% Training Boost during training!' : 'Upgrade information not available'
     ),
     'upgrade7' => array(
-        'name' => 'Battle Upgrades', 
+        'name' => 'Battle Upgrades',
         'benefit' => isset($upgrades_data['upgrade7']) ? 'You are currently getting a ' . ($upgrades_data['upgrade7'] * 10) . '% Attributes Boost During Battles!' : 'Upgrade information not available'
     ),
     'upgrade8' => array(
-        'name' => 'Mugging Upgrades', 
+        'name' => 'Mugging Upgrades',
         'benefit' => isset($upgrades_data['upgrade8']) ? 'You are currently getting ' . ($upgrades_data['upgrade8'] * 20) . '% Bonus to Mugs When Mugging!' : 'Upgrade information not available'
     ),
     'upgrade9' => array(
-        'name' => 'Faster Regeneration Bars', 
+        'name' => 'Faster Regeneration Bars',
         'benefit' => isset($upgrades_data['upgrade9']) ? 'You are currently getting ' . ($upgrades_data['upgrade9'] * 10) . '% Faster Regeneration Bars!!' : 'Upgrade information not available'
+    ),
+    'upgrade_crimecash' => array(
+        'name' => 'Crime Cash',
+        'benefit' => isset($upgrades_data['upgrade_crimecash']) ? 'You are currently getting ' . ($upgrades_data['upgrade_crimecash'] * 2) . '% Crime Cash Boost!!' : 'Upgrade information not available'
     ),
 );
 
@@ -105,7 +109,7 @@ $costs = array(
     10 => 10000000,
 );
 
-$upgrade_keys = ['upgrade6', 'upgrade7', 'upgrade8', 'upgrade9'];
+$upgrade_keys = ['upgrade6', 'upgrade7', 'upgrade8', 'upgrade9', 'upgrade_crimecash'];
 
 foreach ($upgrade_keys as $key) {
     if (isset($_POST[$key])) {
@@ -304,7 +308,7 @@ mysql_query($points_update_query);
     display: block;
 }
                 </style>
-     
+
 <div class="info-box">
     <h4>Gang Point Upgrades</h4>
     <p>Enhance your gang's capabilities by upgrading your gangs upgrades with points</p>
