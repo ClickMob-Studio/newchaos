@@ -55,6 +55,7 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
         $payoutsToDisplay .= '<ul>';
         foreach ($payouts as $field => $value) {
             if ($field === 'items') {
+                print_r($value);
                 foreach ($value as $itemId => $quantity) {
                     Give_Item($itemId, $user_class->id, $quantity);
 
