@@ -56,23 +56,32 @@ if ($user_class->gang != 0) {
        // Define upgrade details and tooltips
     $upgrade_details = array(
 'upgrade1' => array(
-    'name' => 'Strength Upgrade', 
+    'name' => 'Strength Upgrade',
     'benefit' => isset($upgrades_data['upgrade1']) ? 'You are currently getting ' . ($upgrades_data['upgrade1'] * 20) . '% Bonus to Strength during battles!' : 'Upgrade information not available'
 ),
        'upgrade2' => array(
-    'name' => 'Defense Upgrade', 
+    'name' => 'Defense Upgrade',
     'benefit' => isset($upgrades_data['upgrade2']) ? 'You are currently getting ' . ($upgrades_data['upgrade2'] * 20) . '% Bonus to Defense during battles!' : 'Upgrade information not available'
 ),
 
        'upgrade3' => array(
-    'name' => 'Speed Upgrade', 
+    'name' => 'Speed Upgrade',
     'benefit' => isset($upgrades_data['upgrade3']) ? 'You are currently getting ' . ($upgrades_data['upgrade3'] * 20) . '% Bonus to Speed during battles!' : 'Upgrade information not available'
 ),
              'upgrade4' => array(
-    'name' => 'Raid Drop Chance', 
+    'name' => 'Raid Drop Chance',
     'benefit' => isset($upgrades_data['upgrade3']) ? 'You are currently getting ' . ($upgrades_data['upgrade4'] * 10) . '% Bonus to finding items in raids!' : 'Upgrade information not available'
 ),
            );
+
+    if ($user_class->admin > 0) {
+        $upgrade_details = array(
+            'upgrade_agility' => array(
+                'name' => 'Agility Upgrade',
+                'benefit' => isset($upgrades_data['upgrade_agility']) ? 'You are currently getting ' . ($upgrades_data['upgrade_agility'] * 20) . '% Bonus to Agility during battles!' : 'Upgrade information not available'
+            ),
+        );
+    }
 
     $tooltips = array(
         'upgrade1' => array(),
@@ -286,8 +295,8 @@ if ($user_class->gang != 0) {
     display: block;
 }
                 </style>
-                
-                
+
+
              <div class="info-box">
     <p>Enhance your gang's capabilities by upgrading your gangs upgrades with points</p>
 </div>
