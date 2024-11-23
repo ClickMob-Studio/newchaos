@@ -2883,8 +2883,10 @@ function getQuestSeasonMission($userId, $questSeasonId)
     return $questSeasonMission;
 }
 
-function getDisplayForQuestReq($req, $num)
+function getDisplayForQuestReq($req, $num, $progress)
 {
+    $progress = json_decode($progress, true);
+
     if ($req === 'vinny_the_fish_delivery') {
         return 'Deliver the package to Vinny The Fish';
     } else if ($req === 'pharmacy_protection') {
@@ -2892,7 +2894,10 @@ function getDisplayForQuestReq($req, $num)
     } else if ($req === 'attack_player') {
         return 'Attack Player: ' . formatName($num);
     } else if ($req === 'crime_cash') {
-        return 'Cash from crimes: $' . number_format($num);
+        if (isset($progress[$req])) {
+            return 'Cash from crimes: $' . number_format($progress[$req]) . '/$' . number_format($num);
+        }
+        return 'Cash from crimes: $0/$' . number_format($num);
     } else {
         return '<strong>' . $req . ': ' . number_format($num) . '</strong>';
     }
