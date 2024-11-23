@@ -135,6 +135,9 @@ print "
                     <tr>
                         <td colspan='4'>Faster Regeneration Bars:  " . generateStars($gang_class->upgrade9) . " ($gang_class->upgrade9/10)</td>
                     </tr>
+                    <tr>
+                        <td colspan='4'>Crime Cash Upgrade:  " . generateStars($gang_class->upgrade_crimecash) . " ($gang_class->upgrade_crimecash/10)</td>
+                    </tr>
                 </table>
             </div>
         </div>
