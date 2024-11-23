@@ -81,6 +81,8 @@ if ($user_class->gang != 0) {
                 'benefit' => isset($upgrades_data['upgrade_agility']) ? 'You are currently getting ' . ($upgrades_data['upgrade_agility'] * 20) . '% Bonus to Agility during battles!' : 'Upgrade information not available'
             ),
         );
+
+        var_dump($upgrade_details);
     }
 
     $tooltips = array(
