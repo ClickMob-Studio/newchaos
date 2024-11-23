@@ -221,6 +221,17 @@ if ($user_class->gang > 0) {
 updateGangActiveMission('backalleys', 1);
 addToUserOperations($user_class, 'backalleys', 1);
 
+$currentQuestSeason = getCurrentQuestSeasonForUser($user_class);
+if (isset($currentQuestSeason['id'])) {
+    $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+    $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
+    $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+
+    if (isset($questSeasonMission['requirements']->backalley)) {
+        updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'backalley', 1);
+    }
+}
+
 // ATTACKERS
 $baAttackerNames = array();
 $baAttackerNames[] = "Private Niev";
