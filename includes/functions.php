@@ -2873,7 +2873,7 @@ function getQuestSeasonMission($userId, $questSeasonId)
 {
     global $db;
 
-    $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $questSeasonId);
+    $questSeasonMissionUser = getQuestSeasonMissionUser($userId, $questSeasonId);
 
     $db->query("SELECT * FROM quest_season_mission WHERE id = " . $questSeasonMissionUser['quest_season_mission_id'] . " LIMIT 1");
     $db->execute();
