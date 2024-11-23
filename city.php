@@ -141,10 +141,10 @@ $admin_ids = array_map(function($a) {
     return $a['id'];
 }, $rows);
 
-//$currentQuestSeason = getCurrentQuestSeasonForUser($user_class);
-////if (isset($currentQuestSeason['id'])) {
-//////    $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
-//////}
+$currentQuestSeason = getCurrentQuestSeasonForUser($user_class);
+if (isset($currentQuestSeason['id'])) {
+    $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+}
 ?>
 <br>
 <div class="contenthead floaty">
@@ -248,7 +248,8 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
         <div class="col-12 text-center mb-2 section-header">
             <strong>Economic Activities</strong>
         </div>
-
+            <?php if (isset($questSeasonMission['requirements']->vinny_the_fish_delivery)) : ?>
+            <?php endif; ?>
 
             <a href='stores.php'>Item Stores</a><br>
             <a href='pharmacy.php'>General Pharmacy</a><br>
