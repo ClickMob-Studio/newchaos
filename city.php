@@ -252,6 +252,10 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
                 <a href='quest.php?mode=therustnail'>The Rusty Nail</a><br>
             <?php endif; ?>
 
+            <?php if (isset($questSeasonMission['requirements']->pharmacy_protection)) : ?>
+                <a href='quest.php?mode=marocs_pharmacy'>Marcos Pharmacy</a><br>
+            <?php endif; ?>
+
             <a href='stores.php'>Item Stores</a><br>
             <a href='pharmacy.php'>General Pharmacy</a><br>
             <a href='raidpointstore.php'>Raid Point Store</a><br>
