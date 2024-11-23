@@ -55,13 +55,10 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
         $payoutsToDisplay .= '<ul>';
         foreach ($payouts as $field => $value) {
             if ($field === 'items') {
-                foreach ($value as $itemId => $quantity) {
-                    print_r($itemId);
-                    echo '<hr />';
-                    print_r($quantity);
-                    Give_Item($itemId, $user_class->id, $quantity);
+                foreach ($value as $key => $item) {
+                    Give_Item($item['id'], $user_class->id, $item['quantity']);
 
-                    $payoutsToDisplay .= '<li>' . number_format($quantity, 0) . ' x ' . Item_Name($itemId) . '</li>';
+                    $payoutsToDisplay .= '<li>' . number_format($item['quantity'], 0) . ' x ' . Item_Name($item['id']) . '</li>';
                 }
             } else {
                 if ($field === 'exp') {
