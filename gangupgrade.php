@@ -74,12 +74,10 @@ if ($user_class->gang != 0) {
 ),
            );
 
-    if ($user_class->admin > 0) {
-        $upgrade_details['upgrade_agility'] = array(
-                'name' => 'Agility Upgrade',
-                'benefit' => isset($upgrades_data['upgrade_agility']) ? 'You are currently getting ' . ($upgrades_data['upgrade_agility'] * 20) . '% Bonus to Agility during battles!' : 'Upgrade information not available'
-        );
-    }
+    $upgrade_details['upgrade_agility'] = array(
+            'name' => 'Agility Upgrade',
+            'benefit' => isset($upgrades_data['upgrade_agility']) ? 'You are currently getting ' . ($upgrades_data['upgrade_agility'] * 20) . '% Bonus to Agility during battles!' : 'Upgrade information not available'
+    );
 
     $tooltips = array(
         'upgrade1' => array(),
@@ -104,11 +102,7 @@ if ($user_class->gang != 0) {
     );
 
     // Add this after the banner upgrade check, but before the HTML rendering:
-    if ($user_class->admin > 0) {
-        $upgrade_keys = ['upgrade1', 'upgrade2', 'upgrade3', 'upgrade_agility', 'upgrade4'];
-    } else {
-        $upgrade_keys = ['upgrade1', 'upgrade2', 'upgrade3', 'upgrade4'];
-    }
+    $upgrade_keys = ['upgrade1', 'upgrade2', 'upgrade3', 'upgrade_agility', 'upgrade4'];
 
     foreach ($upgrade_keys as $key) {
         if (isset($_POST[$key])) {

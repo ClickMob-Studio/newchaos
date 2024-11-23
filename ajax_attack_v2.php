@@ -251,6 +251,7 @@ $attackStatBonusMultiplier = 1 + ($attackGangUpgradeLevel * 0.10);
 $user_class->moddedstrength = round($user_class->moddedstrength * $userStatBonusMultiplier);
 $user_class->moddeddefense = round($user_class->moddeddefense * $userStatBonusMultiplier);
 $user_class->moddedspeed = round($user_class->moddedspeed * $userStatBonusMultiplier);
+$user_class->moddedagility = round($user_class->moddedagility * $userStatBonusMultiplier);
 if($user_class->gang > 0){
     // Strength
     $db->query("SELECT upgrade1 FROM gangs WHERE id = ".$user_class->gang);
@@ -272,6 +273,13 @@ if($user_class->gang > 0){
     $u = $db->fetch_row(true);
     $percent = $u['upgrade3']*20;
     $user_class->moddedspeed += round(($user_class->moddedspeed * $percent) / 100);
+
+    // Agility
+    $db->query("SELECT upgrade_agility FROM gangs WHERE id = ".$user_class->gang);
+    $db->execute();
+    $u = $db->fetch_row(true);
+    $percent = $u['upgrade_agility']*20;
+    $user_class->moddedagility += round(($user_class->moddedagility * $percent) / 100);
 }
 
 $attack_person->moddedstrength = round($attack_person->moddedstrength * $attackStatBonusMultiplier);

@@ -112,6 +112,9 @@ print "
                         <td colspan='4'>Speed Upgrade:  " . generateStars($gang_class->upgrade3) . " ($gang_class->upgrade3/10)</td>
                     </tr>
                     <tr>
+                        <td colspan='4'>Agility Upgrade:  " . generateStars($gang_class->upgrade_agility) . " ($gang_class->upgrade_agility/10)</td>
+                    </tr>
+                    <tr>
                         <td colspan='4'>Raid Item Drop Chance: " . generateStars($gang_class->upgrade4) . " ($gang_class->upgrade4/10)</td>
                     </tr>
                 </table>
