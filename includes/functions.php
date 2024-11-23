@@ -2887,19 +2887,25 @@ function getDisplayForQuestReq($req, $num, $progress)
 {
     $progress = json_decode($progress, true);
 
+    if (isset($progress[$req]) && $progress[$req] >= $num) {
+        $status = ' <span style="color: green;">(Complete)</span>';
+    } else {
+        $status = ' <span style="color: red;">(Incomplete)</span>';
+    }
+
     if ($req === 'vinny_the_fish_delivery') {
-        return 'Deliver the package to Vinny The Fish';
+        return 'Deliver the package to Vinny The Fish' . $status;
     } else if ($req === 'pharmacy_protection') {
-        return 'Get Marco at the pharmacy to pay up';
+        return 'Get Marco at the pharmacy to pay up' . $status;
     } else if ($req === 'attack_player') {
-        return 'Attack Player: ' . formatName($num);
+        return 'Attack Player: ' . formatName($num) . $status;
     } else if ($req === 'crime_cash') {
         if (isset($progress[$req])) {
-            return 'Cash from crimes: $' . number_format($progress[$req]) . '/$' . number_format($num);
+            return 'Cash from crimes: $' . number_format($progress[$req]) . '/$' . number_format($num) . $status;
         }
-        return 'Cash from crimes: $0/$' . number_format($num);
+        return 'Cash from crimes: $0/$' . number_format($num) . $status;
     } else {
-        return '<strong>' . $req . ': ' . number_format($num) . '</strong>';
+        return '<strong>' . $req . ': ' . number_format($num) . '</strong>' . $status;
     }
 }
 
