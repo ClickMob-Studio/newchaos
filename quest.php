@@ -57,6 +57,7 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
             if ($field === 'items') {
                 print_r($value);
                 foreach ($value as $itemId => $quantity) {
+                    print_r($itemId);
                     Give_Item($itemId, $user_class->id, $quantity);
 
                     $payoutsToDisplay .= '<li>' . number_format($quantity, 0) . ' x ' . Item_Name($itemId) . '</li>';
