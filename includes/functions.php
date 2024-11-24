@@ -2785,7 +2785,7 @@ function getCurrentQuestSeasonForUser($userId)
     }
 
     if (!$questSeasonId) {
-        $db->query("SELECT * FROM quest_season_user WHERE WHERE user_id = " . $userId . " AND is_complete = 1 ORDER BY quest_season_id DESC LIMIT 1");
+        $db->query("SELECT * FROM quest_season_user WHERE user_id = " . $userId . " AND is_complete = 1 ORDER BY quest_season_id DESC LIMIT 1");
         $db->execute();
         $questSeasonUser = $db->fetch_row(true);
 
