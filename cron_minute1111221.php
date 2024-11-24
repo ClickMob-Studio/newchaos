@@ -113,7 +113,7 @@ while ($line = mysql_fetch_assoc($result)) {
                 $mul = .15;
             }
         }
-        
+
         // Correctly fetch and check the gang's upgrade9 level
 if ($updates_user->gang > 0) {
     $gangResult = mysql_query("SELECT upgrade9 FROM gangs WHERE id = " . intval($updates_user->gang), $conn);
@@ -184,7 +184,7 @@ if (strtotime($lastGiveawayTime) <= strtotime('-1 hour')) {
         // Reward the third user with credits
        //mysql_query("UPDATE `grpgusers` SET `credits` = `credits` + 25 WHERE `id` = " . $winners[2]);
         //        Send_event($winners[2], "You have been randomly selected this hour! You won 25 Gold!");
-                
+
                   // Reward the third user with Tokens
         mysql_query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + 10 WHERE `id` = " . $winners[2]);
                Send_event($winners[3], "You have been randomly selected this hour! You won 10 Raid Tokens!");
@@ -273,15 +273,15 @@ while ($boss_hp > 0) {
 
         // Determine weapon
         $weapon = $participant['itemname'] ? $participant['itemname'] : "fists";
-        
+
         // Player's turn
         $strength_percentage = ($participant['strength'] / $total_strength);
         $base_damage = 100 * $strength_percentage;
         $damage_variation = $base_damage * 0.2;  // 20% variation
         $damage_to_boss = round(rand($base_damage - $damage_variation, $base_damage + $damage_variation));
-        
+
         $boss_hp -= $damage_to_boss;
-        
+
         $formatted_name = formatName($participant['user_id']);
         $battle_log .= "$formatted_name dealt $damage_to_boss damage to the boss with $weapon.\n";
 
@@ -290,7 +290,7 @@ while ($boss_hp > 0) {
         $user_hp -= $damage_to_user;
 
         // The following line can be uncommented if you want to keep track of the HP for some other reason
-        // $participant['hp'] = $user_hp;  
+        // $participant['hp'] = $user_hp;
 
         $battle_log .= "$boss_name hit $formatted_name for $damage_to_user damage.\n";
     }
@@ -335,15 +335,26 @@ if ($raid_successful) {
     // For each participant of the raid
     foreach ($participants as $participant) {
         echo "Debug: Processing participant with ID: " . $participant['user_id'] . "\n";  // Debug line
-        $formatted_name = formatName($participant['user_id']); 
+        $formatted_name = formatName($participant['user_id']);
         echo "Debug: formatted_name = $formatted_name\n";
-    
+
         // Initialize formatted_name here.
-        
-    
+
+
         if ($raid_successful) {
 
             addToUserCompLeaderboard($participant['user_id'], 'raids_complete', 1);
+
+            $currentQuestSeason = getCurrentQuestSeasonForUser($participant['user_id']);
+            if (isset($currentQuestSeason['id'])) {
+                $questSeasonUser = getQuestSeasonUser($participant['user_id'], $currentQuestSeason['id']);
+                $questSeasonMissionUser = getQuestSeasonMissionUser($participant['user_id'], $currentQuestSeason['id']);
+                $questSeasonMission = getQuestSeasonMission($participant['user_id'], $currentQuestSeason['id']);
+
+                if (isset($questSeasonMission['requirements']->raids)) {
+                    updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'raids', 1);
+                }
+            }
 
             $total_min_points = 0;
             $total_max_points = 0;
@@ -423,7 +434,7 @@ if(!empty($loot_table)){
             }
 
             $items_won[] = $itemName;
- 
+
             // Add to the found items log
             $found_items_log[] = "$formatted_name found a $itemName.\n";
             echo "Debug: Added to found_items_log for $formatted_name\n";
@@ -434,7 +445,7 @@ if(!empty($loot_table)){
         }else{
             mysql_query("INSERT INTO inventory (userid, itemid, quantity) VALUES ('$participant[user_id]', '$loot[item_id]', '1')");
         }
-    
+
         $items_won_global = array_merge($items_won_global, $items_won);  // Merge the items won for this participant into the global list
     }
    // var_dump($participant);
@@ -480,7 +491,7 @@ if (!empty($items_won)) {
         $update_stats_query = "UPDATE grpgusers SET raidlosses = raidlosses + 1 WHERE id = " . $participant['user_id'];
         mysql_query($update_stats_query);
             $event_message = "Your Raid, led by " . formatName($raid['summoned_by']) . " with " . count($participants) . " participants, against " . $raid['boss_name'] . " has failed!";
-          
+
  // Add a link to view the battle log
             $event_message .= "<br><a href='view_battle_log.php?raid_id=" . $raid['id'] . "'>View Battle Log</a>";
 
@@ -494,8 +505,8 @@ if (!empty($items_won)) {
     $battle_log .= "\nItems Found During the Raid:\n" . implode("", $found_items_log);
     $insert_battle_log_query = "INSERT INTO raid_battle_logs (raid_id, battle_log) VALUES (" . $raid['id'] . ", '" . mysql_real_escape_string($battle_log) . "')";
     mysql_query($insert_battle_log_query);
-    
-    $found_items_log = []; 
+
+    $found_items_log = [];
 
 }
 
@@ -884,7 +895,7 @@ foreach ($winners_data as $user_data) {
                     echo "------------------------<br>";
 
                 }
-                
+
                 $position++;
             }
         }
