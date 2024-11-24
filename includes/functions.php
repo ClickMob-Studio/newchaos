@@ -2909,6 +2909,11 @@ function getDisplayForQuestReq($req, $num, $progress)
             return 'Backalley Searches: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
         }
         return 'Backalley Searches: 0/' . number_format($num) . $status;
+    } else if ($req === 'raids') {
+        if (isset($progress[$req])) {
+            return 'Raods: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
+        }
+        return 'Raids: 0/' . number_format($num) . $status;
     } else {
         return '<strong>' . $req . ': ' . number_format($num) . '</strong>' . $status;
     }
