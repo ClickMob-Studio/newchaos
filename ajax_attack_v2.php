@@ -588,16 +588,14 @@ if ($theirhp <= 0) {
         'exp' => $expwon
     ));
 
-    if ($user_class->admin > 0) {
-        $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
-        if (isset($currentQuestSeason['id'])) {
-            $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
-            $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
-            $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+    $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
+    if (isset($currentQuestSeason['id'])) {
+        $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+        $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
+        $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
-            if (isset($questSeasonMission['requirements']->attack_player) && $questSeasonMission['requirements']->attack_player == $attack_person->id) {
-                updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'attack_player', $attack_person->id);
-            }
+        if (isset($questSeasonMission['requirements']->attack_player) && $questSeasonMission['requirements']->attack_player == $attack_person->id) {
+            updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'attack_player', $attack_person->id);
         }
     }
 }
