@@ -2948,6 +2948,10 @@ function updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $req, $va
             }
         }
 
+        if ($isComplete && !$questSeasonMissionUser['is_complete']) {
+            Send_Event($questSeasonMissionUser['user_id'], 'You have completed the mission: ' . $questSeasonMission['name'] . '! <a href="quest.php">Click here to claim your reward</a>');
+        }
+
         $db->query("UPDATE quest_season_mission_user SET progress = ?, is_complete = ? WHERE id = ?");
         $db->execute(array(json_encode($progress), $isComplete, $questSeasonMissionUser['id']));
     }
