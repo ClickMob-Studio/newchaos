@@ -2772,11 +2772,11 @@ function addToHalloweenPayoutLogs($item)
     }
 }
 
-function getCurrentQuestSeasonForUser($user_class)
+function getCurrentQuestSeasonForUser($userId)
 {
     global $db;
 
-    $db->query("SELECT * FROM quest_season_user WHERE (is_complete IS NULL OR is_complete = 0) ORDER BY quest_season_id DESC LIMIT 1");
+    $db->query("SELECT * FROM quest_season_user WHERE user_id = " . $userId . " AND (is_complete IS NULL OR is_complete = 0) ORDER BY quest_season_id DESC LIMIT 1");
     $db->execute();
     $questSeasonUser = $db->fetch_row(true);
 
@@ -2785,7 +2785,7 @@ function getCurrentQuestSeasonForUser($user_class)
     }
 
     if (!$questSeasonId) {
-        $db->query("SELECT * FROM quest_season_user WHERE is_complete = 1 ORDER BY quest_season_id DESC LIMIT 1");
+        $db->query("SELECT * FROM quest_season_user WHERE WHERE user_id = " . $userId . " AND is_complete = 1 ORDER BY quest_season_id DESC LIMIT 1");
         $db->execute();
         $questSeasonUser = $db->fetch_row(true);
 

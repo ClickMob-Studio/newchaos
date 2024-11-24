@@ -221,7 +221,7 @@ if ($user_class->gang > 0) {
 updateGangActiveMission('backalleys', 1);
 addToUserOperations($user_class, 'backalleys', 1);
 
-$currentQuestSeason = getCurrentQuestSeasonForUser($user_class);
+$currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
 if (isset($currentQuestSeason['id'])) {
     $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
     $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);

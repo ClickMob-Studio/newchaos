@@ -487,7 +487,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
             addToUserOperations($user_class, 'crimes', $crime_multiplier);
 
-            $currentQuestSeason = getCurrentQuestSeasonForUser($user_class);
+            $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
             if (isset($currentQuestSeason['id'])) {
                 $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
                 $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
