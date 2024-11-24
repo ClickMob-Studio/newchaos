@@ -249,7 +249,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
             <strong>Economic Activities</strong>
         </div>
             <?php if (isset($questSeasonMission['requirements']->vinny_the_fish_delivery)) : ?>
-<!--                <a href='quest.php?mode=therustnail'>The Rusty Nail</a><br>-->
+                <a href='quest.php?mode=therustnail'>The Rusty Nail</a><br>
             <?php endif; ?>
 
             <?php if (isset($questSeasonMission['requirements']->pharmacy_protection)) : ?>
