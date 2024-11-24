@@ -2830,7 +2830,7 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
 {
     global $db;
 
-    $db->query("SELECT * FROM quest_season_mission_user WHERE quest_season_id = " . $questSeasonId . " AND (is_complete IS NULL OR is_complete = 0) ORDER BY id DESC LIMIT 1");
+    $db->query("SELECT * FROM quest_season_mission_user WHERE user_id = " . $userId . " AND quest_season_id = " . $questSeasonId . " AND (is_complete IS NULL OR is_complete = 0) ORDER BY id DESC LIMIT 1");
     $db->execute();
     $questSeasonMissionUser = $db->fetch_row(true);
 
@@ -2838,7 +2838,7 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
         return $questSeasonMissionUser;
     }
 
-    $db->query("SELECT * FROM quest_season_mission_user WHERE quest_season_id = " . $questSeasonId . " AND is_complete = 1 ORDER BY id DESC LIMIT 1");
+    $db->query("SELECT * FROM quest_season_mission_user WHERE user_id = " . $userId . " AND quest_season_id = " . $questSeasonId . " AND is_complete = 1 ORDER BY id DESC LIMIT 1");
     $db->execute();
     $questSeasonMissionUser = $db->fetch_row(true);
 
