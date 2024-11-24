@@ -677,6 +677,9 @@ function experience2($L)
 }
 function experience($L)
 {
+    if ($L > 4000) {
+        $L = 4000;
+    }
     $a = 0;
     $end = 0;
     for ($x = 1; $x < $L; $x++)
