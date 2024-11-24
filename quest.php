@@ -137,7 +137,7 @@ if ($questSeasonUser) {
 } else {
     echo "
         <div class='alert alert-danger'>
-            <strong>Error!</strong> You do not have any quests available.
+           You have completed all available quests. Check back another time for more quests.
         </div>
     ";
 }
