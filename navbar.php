@@ -95,6 +95,11 @@ $leftLinks[] =
 		'name' => 'Backalley',
 		'url'  => 'backalley_new.php',
 	);
+$leftLinks[] =
+    array(
+        'name' => 'Quests',
+        'url'  => 'quest.php',
+    );
 
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
 if ($userPrestigeSkills['speed_attack_unlock'] > 0) {

@@ -80,6 +80,11 @@ $leftLinks[] =
 		'url'  => 'missions.php',
 	);
 $leftLinks[] =
+    array(
+        'name' => 'Quests',
+        'url'  => 'quest.php',
+    );
+$leftLinks[] =
 	array(
 		'name' => 'Inventory',
 		'url'  => 'inventory.php',
