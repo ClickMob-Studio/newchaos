@@ -149,13 +149,13 @@ require "header.php";
         max-width: 600px;
         margin: 0 auto;
         padding: 20px;
-        background-color: #f7f7f7;
+        background-color: #8e8e8e21;
         border-radius: 10px;
     }
 
     .gradient-settings {
         padding: 20px;
-        background-color: #fff;
+        background-color: #000;
         border-radius: 8px;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     }
