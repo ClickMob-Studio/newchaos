@@ -24,15 +24,20 @@ require "header.php";
         <input type="color" id="endColor" value="#0000FF" />
         </div>
         </div>
+        <div class="row">
+            <div class="col-4">
         <label for="bold">Bold:</label>
         <input type="checkbox" id="bold" />
-
+        </div>
+        <div class="col-4">
         <label for="italic">Italic:</label>
         <input type="checkbox" id="italic" />
-
+        </div>
+        <div class="col-4">
         <label for="glow">Glow Effect:</label>
         <input type="checkbox" id="glow" />
-
+        </div>
+        </div>
         <button class="apply-btn" onclick="applySettings(); saveGradientSettings()">Apply Gradient</button>
     </div>
 
