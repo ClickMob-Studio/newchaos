@@ -168,8 +168,7 @@ include 'includes/pagination.class.php';
                         </div>
                         <div class='d-flex justify-content-center'><?php echo $pages->displayPages(); ?></div>
                         <?php
-                        if (!($user_class->admin || $user_class->gm || $user_class->cm || $user_class->eo) && $i == 1) continue;
-                        ?>
+                         ?>
                         <div class="card mt-4">
                             <div class="card-body">
                                 <h5 class="card-title text-danger text-center">New Topic</h5>
