@@ -360,7 +360,7 @@ src="${itemImage}" alt="${itemName}">
                 url: 'equip_action.php',
                 type: 'POST',
                 dataType: 'json',
-                data: { action: 'equip', type: type, item_id: itemId },
+                data: { action: 'equip', type: type, item_id: itemId,  loaned: loaned },
                 success: function (response) {
                     if (response.status === 'success') {
                         showMessage(response.message, true);
