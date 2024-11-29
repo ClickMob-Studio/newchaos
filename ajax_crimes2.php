@@ -487,16 +487,19 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
             addToUserOperations($user_class, 'crimes', $crime_multiplier);
 
-            //$currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
-            //if (isset($currentQuestSeason['id'])) {
-               // $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
-                //$questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
-               // $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+            $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
+            if (isset($currentQuestSeason['id'])) {
+                $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+                $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
+                if (isset($questSeasonMissionUser['id'])) {
+                    $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
-                //if (isset($questSeasonMission['requirements']->crime_cash) && $questSeasonMission['requirements']->crime_cash > 0) {
-                  //  updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'crime_cash', $money);
-               // }
-           //}
+                    if (isset($questSeasonMission['requirements']->crime_cash) && $questSeasonMission['requirements']->crime_cash > 0) {
+                        updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'crime_cash', $money);
+                    }
+
+                }
+           }
 
             if ($user_class->gang > 0) {
                 $db->query("SELECT upgrade_crimecash FROM gangs WHERE id = ".$user_class->gang);
