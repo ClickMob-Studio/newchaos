@@ -208,7 +208,7 @@ if ($user_class->gang > 0) {
             echo 'x ' . $item['quantity'];
 
             if ($showEquipButton) {
-                $buttonHtml .= '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $dataType . '" data-id="' . intval($item['itemid']) . '" data-name="' . htmlspecialchars($itemName) . '" data-img="' . htmlspecialchars($itemImage) . '">Equip</button>';
+                $buttonHtml .= '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $dataType . '" data-id="' . intval($item['itemid']) . '" data-name="' . htmlspecialchars($itemName) . '" data-img="' . htmlspecialchars($itemImage) . '" data-loan-id="'.$item['loanid'] .'">Equip</button>';
             }
 
             // Special buttons based on item ID
@@ -354,6 +354,7 @@ src="${itemImage}" alt="${itemName}">
             var itemId = $(this).data('id');
             var itemName = $(this).data('name');
             var itemImage = $(this).data('img');
+            var loaned = (loanId) ? 1 : 0;
 
             $.ajax({
                 url: 'equip_action.php',
