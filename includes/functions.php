@@ -883,7 +883,7 @@ function formatName($id, $nogang = 0)
         $name .= $gradient;
         $name .= "</b></a>";
     } elseif ($row['gndays']) {
-        $name .= "<a href='profiles.php?id=" . $id . "'>" . nameGen($row['gndays'], $row['rmdays'], $row['uninfo'], $row['username']) . "</a>";
+        $name .= "<a href='profiles.php?id=" . $id . "'>" . generateGradientName($id) . "</a>";
     } else if (!empty($row['colours']) and $row['gradient'] == 2 and $row['gndays']) {
         $row['colours'] = str_replace('#', '', $row['colours']);
         $colours = explode("~", $row['colours']);
