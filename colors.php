@@ -9,7 +9,7 @@
     <input type="color" id="endColor" value="#0000FF" />
 
     <label for="fontSize">Font Size:</label>
-    <input type="number" id="fontSize" value="20" />
+    <input type="number" id="fontSize" value="40" />
 
     <label for="bold">Bold:</label>
     <input type="checkbox" id="bold" />
@@ -18,17 +18,19 @@
     <input type="checkbox" id="italic" />
 
     <label for="letterSpacing">Letter Spacing:</label>
-    <input type="number" id="letterSpacing" value="0" />
+    <input type="number" id="letterSpacing" value="1" />
 
     <button onclick="applySettings()">Apply Gradient</button>
 </div>
 
 <div id="preview">
     <h3>Preview:</h3>
-    <div id="gradientPreview"></div>
+    <div id="gradientPreview" style="font-size: 40px;"></div>
 </div>
+
 <script>
-    function applySettings() {
+    // Apply user settings and preview the result
+function applySettings() {
     const username = document.getElementById("username").value;
     const startColor = document.getElementById("startColor").value;
     const endColor = document.getElementById("endColor").value;
@@ -37,32 +39,31 @@
     const isItalic = document.getElementById("italic").checked ? "italic" : "normal";
     const letterSpacing = document.getElementById("letterSpacing").value + "px";
 
-    // Create gradient name
-    const gradientName = generateGradientName(startColor, endColor, username);
+    // Generate gradient name and apply styles
+    const gradientText = generateGradientName(startColor, endColor, username);
 
-    // Apply styles dynamically
-    const styles = `font-size: ${fontSize}; font-weight: ${isBold}; font-style: ${isItalic}; letter-spacing: ${letterSpacing};`;
-    
+    // Apply the styles to the preview element
     const previewElement = document.getElementById("gradientPreview");
-    previewElement.innerHTML = `<span style="color: ${gradientName.color}; ${styles}">${gradientName.username}</span>`;
+    previewElement.innerHTML = gradientText; // Apply the gradient HTML
+    previewElement.style.fontSize = fontSize;
+    previewElement.style.fontWeight = isBold;
+    previewElement.style.fontStyle = isItalic;
+    previewElement.style.letterSpacing = letterSpacing;
 }
 
-// Function to generate a gradient for the username
+// Function to generate the gradient for the username
 function generateGradientName(startColor, endColor, username) {
-    const gradient = generateGradient(startColor, endColor, username.length);
+    const gradientColors = generateGradient(startColor, endColor, username.length);
 
     let gradientText = "";
     for (let i = 0; i < username.length; i++) {
-        gradientText += `<span style="color: ${gradient[i]}">${username[i]}</span>`;
+        gradientText += `<span style="color: ${gradientColors[i]}">${username[i]}</span>`;
     }
 
-    return {
-        color: gradientText,
-        username: username
-    };
+    return gradientText;
 }
 
-// Gradient generation function
+// Function to generate a gradient between two colors for each letter
 function generateGradient(startColor, endColor, length) {
     let start = hexToRgb(startColor);
     let end = hexToRgb(endColor);
