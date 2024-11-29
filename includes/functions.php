@@ -2997,7 +2997,6 @@ function generateGradientName($user_id) {
         return $gradientText;
     }
 
-    return "<span>Default Username</span>";  // If no settings, return default username
 }
 
 // Function to generate a gradient between two colors for each letter
