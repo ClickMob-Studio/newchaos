@@ -24,7 +24,7 @@
     <h3>Preview:</h3>
     <div id="gradientPreview" style="font-size: 40px;"></div>
 </div>
-<style>
+<script>
     // Apply user settings and preview the result
 function applySettings() {
     const username = document.getElementById("username").value;
@@ -90,4 +90,4 @@ function rgbToHex(r, g, b) {
     return "#" + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1).toUpperCase();
 }
 
-</style>
+</script>
