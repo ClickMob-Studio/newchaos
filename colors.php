@@ -1,86 +1,99 @@
-<!-- Color Picker Inputs -->
-<label for="startColor">Start Color:</label>
-<input type="color" id="startColor" value="#FF0000">
+<div class="gradient-settings">
+    <label for="username">Username:</label>
+    <input type="text" id="username" placeholder="Enter your username" />
 
-<label for="endColor">End Color:</label>
-<input type="color" id="endColor" value="#00FF00">
+    <label for="startColor">Start Color:</label>
+    <input type="color" id="startColor" value="#FF0000" />
 
-<!-- Username Input -->
-<label for="username">Username:</label>
-<input type="text" id="username" placeholder="Enter your username">
+    <label for="endColor">End Color:</label>
+    <input type="color" id="endColor" value="#0000FF" />
 
-<!-- Preview Area -->
-<div>
-  <h3>Preview:</h3>
-  <div id="previewText" style="font-size: 20px;">ExampleUser</div>
+    <label for="fontSize">Font Size:</label>
+    <input type="number" id="fontSize" value="20" />
+
+    <label for="bold">Bold:</label>
+    <input type="checkbox" id="bold" />
+
+    <label for="italic">Italic:</label>
+    <input type="checkbox" id="italic" />
+
+    <label for="letterSpacing">Letter Spacing:</label>
+    <input type="number" id="letterSpacing" value="0" />
+
+    <button onclick="applySettings()">Apply Gradient</button>
 </div>
 
-<!-- Submit Button -->
-<button onclick="applyGradient()">Save Gradient</button>
-
-<!-- Hidden Form for Backend Submission -->
-<form id="gradientForm" method="POST" action="/saveGradient.php" style="display: none;">
-  <input type="hidden" id="gradientStart" name="startColor">
-  <input type="hidden" id="gradientEnd" name="endColor">
-  <input type="hidden" id="gradientUsername" name="username">
-  <button type="submit">Submit</button>
-</form>
+<div id="preview">
+    <h3>Preview:</h3>
+    <div id="gradientPreview"></div>
+</div>
 <script>
-    // Function to apply the gradient and update the preview
-function applyGradient() {
-  var startColor = document.getElementById('startColor').value;
-  var endColor = document.getElementById('endColor').value;
-  var username = document.getElementById('username').value;
+    function applySettings() {
+    const username = document.getElementById("username").value;
+    const startColor = document.getElementById("startColor").value;
+    const endColor = document.getElementById("endColor").value;
+    const fontSize = document.getElementById("fontSize").value + "px";
+    const isBold = document.getElementById("bold").checked ? "bold" : "normal";
+    const isItalic = document.getElementById("italic").checked ? "italic" : "normal";
+    const letterSpacing = document.getElementById("letterSpacing").value + "px";
 
-  // Create gradient effect using text_gradient function
-  var gradientText = textGradient(startColor.substring(1), endColor.substring(1), 20, username);
+    // Create gradient name
+    const gradientName = generateGradientName(startColor, endColor, username);
 
-  // Update preview
-  document.getElementById('previewText').innerHTML = gradientText;
-
-  // Set values to hidden inputs for backend submission
-  document.getElementById('gradientStart').value = startColor;
-  document.getElementById('gradientEnd').value = endColor;
-  document.getElementById('gradientUsername').value = username;
-
-  // Optionally, submit the form (if you want to save it directly)
-  // document.getElementById('gradientForm').submit();
+    // Apply styles dynamically
+    const styles = `font-size: ${fontSize}; font-weight: ${isBold}; font-style: ${isItalic}; letter-spacing: ${letterSpacing};`;
+    
+    const previewElement = document.getElementById("gradientPreview");
+    previewElement.innerHTML = `<span style="color: ${gradientName.color}; ${styles}">${gradientName.username}</span>`;
 }
 
-// Example of text_gradient function (as we discussed earlier)
-function textGradient(startcol, endcol, fontsize, user) {
-  var letters = user.split('');
-  var graduations = letters.length - 1;
-  var startcoln = {
-    r: parseInt(startcol.substring(0, 2), 16),
-    g: parseInt(startcol.substring(2, 4), 16),
-    b: parseInt(startcol.substring(4, 6), 16)
-  };
-  var endcoln = {
-    r: parseInt(endcol.substring(0, 2), 16),
-    g: parseInt(endcol.substring(2, 4), 16),
-    b: parseInt(endcol.substring(4, 6), 16)
-  };
-  var GSize = {
-    r: (endcoln.r - startcoln.r) / graduations,
-    g: (endcoln.g - startcoln.g) / graduations,
-    b: (endcoln.b - startcoln.b) / graduations
-  };
+// Function to generate a gradient for the username
+function generateGradientName(startColor, endColor, username) {
+    const gradient = generateGradient(startColor, endColor, username.length);
 
-  var hexCol = [];
-  for (var i = 0; i <= graduations; i++) {
-    var HexR = Math.round(startcoln.r + (GSize.r * i)).toString(16).padStart(2, '0');
-    var HexG = Math.round(startcoln.g + (GSize.g * i)).toString(16).padStart(2, '0');
-    var HexB = Math.round(startcoln.b + (GSize.b * i)).toString(16).padStart(2, '0');
-    hexCol.push(HexR + HexG + HexB);
-  }
+    let gradientText = "";
+    for (let i = 0; i < username.length; i++) {
+        gradientText += `<span style="color: ${gradient[i]}">${username[i]}</span>`;
+    }
 
-  var result = "";
-  for (var i = 0; i < letters.length; i++) {
-    result += "<span style='color:#" + hexCol[i] + "; font-size:" + fontsize + "px'>" + letters[i] + "</span>";
-  }
+    return {
+        color: gradientText,
+        username: username
+    };
+}
 
-  return result;
+// Gradient generation function
+function generateGradient(startColor, endColor, length) {
+    let start = hexToRgb(startColor);
+    let end = hexToRgb(endColor);
+    
+    let gradientColors = [];
+    let stepR = (end.r - start.r) / (length - 1);
+    let stepG = (end.g - start.g) / (length - 1);
+    let stepB = (end.b - start.b) / (length - 1);
+
+    for (let i = 0; i < length; i++) {
+        let r = Math.round(start.r + stepR * i);
+        let g = Math.round(start.g + stepG * i);
+        let b = Math.round(start.b + stepB * i);
+        
+        gradientColors.push(rgbToHex(r, g, b));
+    }
+
+    return gradientColors;
+}
+
+// Helper functions for color conversion
+function hexToRgb(hex) {
+    let r = parseInt(hex.slice(1, 3), 16);
+    let g = parseInt(hex.slice(3, 5), 16);
+    let b = parseInt(hex.slice(5, 7), 16);
+    
+    return { r, g, b };
+}
+
+function rgbToHex(r, g, b) {
+    return "#" + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1).toUpperCase();
 }
 
 </script>
