@@ -883,7 +883,7 @@ function formatName($id, $nogang = 0)
         $name .= $gradient;
         $name .= "</b></a>";
     } elseif ($row['gndays']) {
-        $name .= "<a href='profiles.php?id=" . $id . "'>" . generateGradientName($id) . "</a>";
+        $name .= "<a href='profiles.php?id=" . $id . "' >" . generateGradientName($id) . "</a>";
     } else if (!empty($row['colours']) and $row['gradient'] == 2 and $row['gndays']) {
         $row['colours'] = str_replace('#', '', $row['colours']);
         $colours = explode("~", $row['colours']);
@@ -2990,7 +2990,7 @@ function generateGradientName($user_id) {
         for ($i = 0; $i < strlen($username); $i++) {
             $gradientText .= "<span style=\"color: {$gradientColors[$i]};" . 
                              ($glow ? " text-shadow: 0 0 10px {$gradientColors[$i]}" : '') . 
-                             "; font-weight: " . ($isBold ? "bold" : "normal") . "; font-style: " . ($isItalic ? "italic" : "normal") . ";\">" . 
+                             "; font-size:16px; font-weight: " . ($isBold ? "bold" : "normal") . "; font-style: " . ($isItalic ? "italic" : "normal") . ";\">" . 
                              $username[$i] . "</span>";
         }
 
