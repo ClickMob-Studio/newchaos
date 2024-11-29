@@ -1,18 +1,29 @@
 <?php
 require "header.php";
 ?>
+ <div id="preview" class="preview">
+        <h3>Preview:</h3>
+        <div id="gradientPreview" class="preview-text"></div>
+    </div>
 
+    <!-- Success Message -->
+    <div id="successMessage" class="alert alert-success" style="display:none;">
+        Gradient settings saved successfully!
+    </div>
 <div class="gradient-settings-container">
     <div class="gradient-settings">
         <h3>Customize Your Username Gradient</h3>
         <input type="hidden" id="username" value="<?= $user_class->username; ?>"/>
-
+        <div class="row">
+            <div class="col-6">
         <label for="startColor">Start Color:</label>
         <input type="color" id="startColor" value="#FF0000" />
-
+        </div>
+        <div class="col-6">
         <label for="endColor">End Color:</label>
         <input type="color" id="endColor" value="#0000FF" />
-
+        </div>
+        </div>
         <label for="bold">Bold:</label>
         <input type="checkbox" id="bold" />
 
@@ -25,15 +36,7 @@ require "header.php";
         <button class="apply-btn" onclick="applySettings(); saveGradientSettings()">Apply Gradient</button>
     </div>
 
-    <div id="preview" class="preview">
-        <h3>Preview:</h3>
-        <div id="gradientPreview" class="preview-text"></div>
-    </div>
-
-    <!-- Success Message -->
-    <div id="successMessage" class="alert alert-success" style="display:none;">
-        Gradient settings saved successfully!
-    </div>
+   
 </div>
 
 <script>
