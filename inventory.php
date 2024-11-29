@@ -288,37 +288,7 @@ if ($user_class->gang > 0) {
         // Close category card
         echo '</div></div></div>';
     }
-// Fetch the loaned items
-$db->query("SELECT *, gl.id as loanid FROM gang_loans gl JOIN items i ON gl.item = i.id WHERE idto = ?");
-$db->execute(array($user_class->id));
-$loanedItems = $db->fetch_row();
-
-// Categorize and render loaned items
-foreach ($loanedItems as $row) {
-    // Determine item type and subtype
-    if ($row['offense'] > 0 && $row['rare'] == 0)
-        $type = 'weapon';
-    elseif ($row['defense'] > 0 && $row['rare'] == 0)
-        $type = 'armor';
-    elseif ($row['speed'] > 0 && $row['rare'] == 0)
-        $type = 'shoes';
-    elseif ($row['rare'] == 1) {
-        $type = 'rare';
-        if ($row['offense'])
-            $subtype = 'weapon';
-        if ($row['defense'])
-            $subtype = 'armor';
-        if ($row['speed'])
-            $subtype = 'shoes';
-    } elseif ($row['awake_boost'] > 0) {
-        $type = 'house';
-    } else {
-        $type = 'consumable';
-    }
-
-    // Render the loaned item using renderCategory
-    renderCategory($type, $row, $subtype, true, $row['loanid']);
-}    
+    
 
     renderCategory("Weapons", $categorizedItems['weapon']);
     renderCategory("Armor", $categorizedItems['armor']);
