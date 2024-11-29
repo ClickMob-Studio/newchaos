@@ -5,7 +5,7 @@ require "header.php";
 <div class="gradient-settings-container">
     <div class="gradient-settings">
         <h3>Customize Your Username Gradient</h3>
-        <input type="hidden" id="username" placeholder="Enter your username" />
+        <input type="hidden" id="username" value="<?= $user_class->username; ?>"/>
 
         <label for="startColor">Start Color:</label>
         <input type="color" id="startColor" value="#FF0000" />
