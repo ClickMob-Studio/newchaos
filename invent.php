@@ -354,7 +354,7 @@ src="${itemImage}" alt="${itemName}">
             var itemId = $(this).data('id');
             var itemName = $(this).data('name');
             var itemImage = $(this).data('img');
-            var loaned = (loanId) ? 1 : 0;
+            var loaned = $(this).data('loan-id') ? 1 : 0;
 
             $.ajax({
                 url: 'equip_action.php',
