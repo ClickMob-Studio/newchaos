@@ -1,44 +1,38 @@
 <?php
 include 'dbcon.php';
-
 function prettynum($num, $dollar = "0") {
+// Basic send a number or string to this and it will add commas. If you want a dollar sign added to the
+// front and it is a number add a 1 for the 2nd variable.
+// Example prettynum(123452838,1)  will return $123,452,838 take out the ,1 and it looses the dollar sign.
     $out = strrev((string) preg_replace('/(\d{3})(?=\d)(?!\d*\.)/', '$1,', strrev($num)));
     if ($dollar && is_numeric($num)) {
         $out = "$" . $out;
     }
     return $out;
 }
-
 $result = mysql_query("SELECT * FROM `items` WHERE `id` = '" . $_GET['id'] . "'");
 $worked = mysql_fetch_array($result);
 ?>		
 <html>
     <head>
+
         <title><?php echo $worked['itemname'] ?></title>
 
         <style>
-            body {
-                background: url('/asset/img/background.png') top center / cover no-repeat #21201c;
-                font-family: 'Montserrat', sans-serif;
-                font-size: 1.4rem;
-                color: #fff;
-                padding: 85px 0;
-            }
-
             * {
-                font-size: 1.4rem;
+                font-family: tahoma;
+                font-size: 12px;
+                color: #FFFFFF;
             }
 
-            .container {
-                width: 90%;
-                max-width: 1200px;
-                margin: 0 auto;
+            body {
+                background-color: #000000;
+                margin: 15px;
             }
 
             .wrap {
-                background-color: #000;
+                background-color: #000000;
                 border: 1px solid #333;
-                padding: 15px;
             }
 
             .header {
@@ -46,107 +40,182 @@ $worked = mysql_fetch_array($result);
                 border: 1px solid #333;
             }
 
-            .header p {
-                color: white;
-                font-size: 16px;
-                font-weight: bold;
-                text-align: center;
-            }
-
-            .style1, .style2 {
+            .head_text {
                 padding: 5px;
                 border: 1px solid #333;
-                font-weight: bold;
-                color: #FFFFFF;
                 background-color: #1A1A1A;
+                color: #999999;
+                font-weight: bold;
             }
 
-            .textl, .textr, .text, .textm, .text2, .textl2, .textr2, .textm2 {
+            .head_text2l {
                 padding: 5px;
-                border: 1px solid #333;
+                border-left: 1px solid #333;
+                border-bottom: 1px solid #333;
+                background-color: #555555;
+                color: #999999;
+                font-weight: bold;
             }
 
-            .textr {
+            .head_text2r {
+                padding: 5px;
+                border-right: 1px solid #333;
+                border-bottom: 1px solid #333;
+                background-color: #555555;
+                color: #999999;
+                font-weight: bold;
+            }
+
+            .head_text2 {
+                padding: 5px;
+                border-bottom: 1px solid #333;
+                background-color: #555555;
+                color: #999999;
+                font-weight: bold;
+            }
+
+            .head_text3 {
+                padding: 5px;
+                border-left: 1px solid #333;
+                border-right: 1px solid #333;
+                border-bottom: 1px solid #333;
+                background-color: #111111;
+                color: #111111;
+            }
+
+            .textl {
+                padding: 5px;
+                border-left: 1px solid #333;
+                border-bottom: 1px solid #333;
                 background-color: #111111;
             }
 
-            .textl2, .textr2 {
+            .textr {
+                padding: 5px;
+                border-right: 1px solid #333;
+                border-bottom: 1px solid #333;
+                background-color: #111111;
+            }
+
+            .text {
+                padding: 5px;
+                border-bottom: 1px solid #333;
+                background-color: #111111;
+            }
+
+            .textl2 {
+                padding: 5px;
+                border-left: 1px solid #333;
+                border-bottom: 1px solid #333;
                 background-color: #333333;
             }
 
-            /* Maintain fixed table width */
-            table {
-                width: 100%;
-                table-layout: fixed;
+            .textr2 {
+                padding: 5px;
+                border-right: 1px solid #333;
+                border-bottom: 1px solid #333;
+                background-color: #333333;
             }
 
-            /* Ensure content is centered within the container */
-            .wrap td {
-                text-align: center;
+            .text2 {
+                padding: 5px;
+                border-bottom: 1px solid #333;
+                background-color: #333333;
             }
 
+            .textm {
+                padding: 5px;
+                background-color: #111111;
+                border-left: 1px solid #333;
+                border-right: 1px solid #333;
+                border-bottom: 1px solid #333;
+            }
+
+            .textm2 {
+                padding: 5px;
+                background-color: #111111;
+                border-left: 1px solid #333;
+                border-right: 1px solid #333;
+                border-bottom: 1px solid #333;
+            }
+            .style1 {padding: 5px; border: 1px solid #333333; background-color: #1A1A1A; color: #FFFFFF; font-weight: bold; }
+            .style2 {padding: 5px; border: 1px solid #333; background-color: #1A1A1A; color: #FFFFFF; font-weight: bold; }
         </style>
 
     </head>
-    <body>
+    <body background="images/background.gif">
 
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="header">
-                        <p><?php echo $worked['itemname'] ?></p>
-                    </div>
+        <table class='wrap' width='100%' height='100%' cellpadding='5' cellspacing='0' align='center'>
+            <tr>
 
-                    <table class='wrap table table-bordered table-dark'>
-                        <tr>
-                            <td colspan='2' class='style1'>Description</td>
-                        </tr>
-                        <tr>
-                            <td class='textl' align='center'>
-                                <img src='<?php echo $worked['image'] ?>' width='100' height='100' class="img-fluid" style='border: 1px solid #000'>
-                            </td>
-                            <td class='textm2'><?php echo $worked['description'] ?></td>
-                        </tr>
-                    </table>
+                <td valign='top'>
 
-                    <br>
+                    <table class='header' width='100%' cellpadding='5' cellspacing='0' align='center'>
+                        <tr>
+                            <td><p style='color:white;font-size:16px;font-weight:bold;'><center><?php echo $worked['itemname'] ?></center></p></td>
+            </tr>
+        </table>
 
-                    <table class='table table-bordered table-dark'>
-                        <tr>
-                            <td colspan='4' class='style2'>Details</td>
-                        </tr>
-                        <tr>
-                            <td class='textm'>Name:</td>
-                            <td class='textr'><?php echo $worked['itemname'] ?></td>
-                        </tr>
-                        <tr>
-                            <td class='textm'>Sell Value:</td>
-                            <td class='textr'><?php echo prettynum($worked['cost'] * .6) ?></td>
-                        </tr>
-                        <tr>
-                            <td class='textm'>Shop Cost:</td>
-                            <td class='textr'><?php echo prettynum($worked['cost']) ?></td>
-                        </tr>
-                        <tr>
-                            <td class='textm'>Attack Bonus:</td>
-                            <td class='textr'><?php echo $worked['offense'] ?>%</td>
-                        </tr>
-                        <tr>
-                            <td class='textm'>Defense Bonus:</td>
-                            <td class='textr'><?php echo $worked['defense'] ?>%</td>
-                        </tr>
-                        <tr>
-                            <td class='textm'>Speed Bonus:</td>
-                            <td class='textr'><?php echo $worked['speed'] ?>%</td>
-                        </tr>
-                        <tr>
-                            <td class='textm'>Required Level:</td>
-                            <td class='textr'><?php echo $worked['level'] ?></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
+        <br>
 
-    </body>
-</html>
+        <table width='100%' cellpadding='4' cellspacing='0'>
+
+            <tr>
+                <td colspan='2' class='style1'>Description</td>
+            </tr>
+            <tr>
+                <td class='textl' align='center'><img src='<?php echo $worked['image'] ?>' width='100' height='100' style='border: 1px solid #000000'></td>				
+                <td class='textm2'><?php echo $worked['description'] ?></td>
+            </tr>
+        </table>
+
+
+        <br>
+
+        <table width='100%' cellpadding='4' cellspacing='0'>
+            <tr>
+                <td colspan='4' class='style2'>Details</td>
+            </tr>
+            <tr>
+                <td class='textm'>Name: </td>
+                <td class='textr'><?php echo $worked['itemname'] ?></td>
+
+            </tr>
+            <tr>
+                <td class='textm'>Sell Value: </td>
+                <td class='textr'>$<?php echo prettynum($worked['cost'] * .6) ?></td>
+            </tr>
+            <tr>
+                <td class='textm'>Shop Cost: </td>
+
+                <td class='textr'>$<?php echo prettynum($worked['cost']) ?></td>
+            </tr>
+            <tr>
+                <td class='textm' valign='top'>Attack Bonus: </td>
+                <td class='textr'>
+                    <?php echo $worked['offense'] ?>%<br>				</td>
+            </tr>
+            <tr>
+                <td class='textm' valign='top'>Defense Bonus: </td>
+                <td class='textr'>
+                    <?php echo $worked['defense'] ?>%<br>				</td>
+            </tr>
+            <tr>
+                <td class='textm' valign='top'>Speed Bonus: </td>
+                <td class='textr'>
+                    <?php echo $worked['speed'] ?>%<br>				</td>
+            </tr>
+            <tr>
+                <td class='textm' valign='top'>Required Level: </td>
+                <td class='textr'>
+                    <?php echo $worked['level'] ?><br>				</td>
+            </tr>
+        </table>
+
+    </td>
+</tr>
+</table>
+
+</body>
+</table>
+
