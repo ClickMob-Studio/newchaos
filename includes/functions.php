@@ -2990,7 +2990,7 @@ function generateGradientName($user_id) {
         for ($i = 0; $i < strlen($username); $i++) {
             $gradientText .= "<span style=\"color: {$gradientColors[$i]};" . 
                              ($glow ? " text-shadow: 0 0 10px {$gradientColors[$i]}" : '') . 
-                             "; font-size:16px; font-weight: " . ($isBold ? "bold" : "normal") . "; font-style: " . ($isItalic ? "italic" : "normal") . ";\">" . 
+                             "; font-size:22px; font-weight: " . ($isBold ? "bold" : "normal") . "; font-style: " . ($isItalic ? "italic" : "normal") . ";\">" . 
                              $username[$i] . "</span>";
         }
 
