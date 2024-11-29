@@ -204,7 +204,7 @@ if ($user_class->gang > 0) {
             echo '<div class="card shadow-sm h-100">';
             echo '<img class="card-img-top" style="max-width: 120px; max-height: 120px; margin: auto;" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '">';
             echo '<div class="card-body d-flex flex-column">';
-            echo '<h6 class="card-title text-white">' . htmlspecialchars($itemName) . '</h6>';
+            echo '<h6 class="card-title text-white">' . item_popup($itemName, $item['id']) . '</h6>';
             echo 'x ' . $item['quantity'];
 
             if ($showEquipButton) {
