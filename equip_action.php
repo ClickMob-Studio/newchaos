@@ -31,29 +31,31 @@ echo json_encode($response); // Outputs the response as JSON
 function equipItem($user_id, $item_id, $type, $loaned) {
     global $db, $user_class;
 
-    // If the item is loaned, fetch it from the gang_loans table
+    // Check if the item is loaned
     if ($loaned == 1) {
         $db->query("SELECT * FROM gang_loans gl JOIN items i ON gl.item = i.id WHERE gl.idto = ? AND i.id = ?");
-        $db->execute(array($user_class->id, $item_id)); // Use loan_id to fetch the loaned item
+        $db->execute(array($user_class->id, $item_id));
         if ($db->num_rows() == 0) return array("status" => "error", "message" => "Loaned item not found");
         $item = $db->fetch_row(true);
 
-        // Remove from gang_loans when equipped
+        // Remove from gang_loans when equipping the new loaned item
         $db->query("DELETE FROM gang_loans WHERE item = ? AND idto = ?");
         $db->execute(array($item_id, $user_class->id));
     } else {
-        // Non-loaned item from the items table
+        // If not loaned, retrieve from regular items
         $db->query("SELECT * FROM items WHERE id = ?");
         $db->execute(array($item_id));
         if ($db->num_rows() == 0) return array("status" => "error", "message" => "Item not found");
         $item = $db->fetch_row(true);
-        
     }
 
-    if ($item['level'] > $user_class->level) return array("status" => "error", "message" => "You aren't high enough level to use this.");
+    // Check if user level is enough to equip the item
+    if ($item['level'] > $user_class->level) {
+        return array("status" => "error", "message" => "You aren't high enough level to use this.");
+    }
 
-    // Equip the item depending on the type
-    switch ($type) { // Checks if the item matches the requested equipment type
+    // Equip the item based on its type
+    switch ($type) {
         case 'weapon':
             if ($item['offense'] <= 0) return array("status" => "error", "message" => "This item is not a weapon");
             return equipSpecificItem($user_id, 'weapon', $item_id, $loaned, 'weploaned');
@@ -72,12 +74,11 @@ function equipItem($user_id, $item_id, $type, $loaned) {
 function unequipItem($user_id, $type) {
     global $db, $user_class;
 
-    // Checks if the specified type of item is equipped and unequips it if so
     switch ($type) {
         case 'weapon':
             if ($user_class->eqweapon != 0) {
-                handleReturnOrLoan('weapon', $user_class->eqweapon, $user_class->weploaned); // Handles item return or loan
-                $db->query("UPDATE grpgusers SET eqweapon = 0, weploaned = 0 WHERE id = ?"); // Updates DB
+                handleReturnOrLoan('weapon', $user_class->eqweapon, $user_class->weploaned);
+                $db->query("UPDATE grpgusers SET eqweapon = 0, weploaned = 0 WHERE id = ?");
                 $db->execute(array($user_id));
 
                 // If loaned, add it back to gang_loans
@@ -92,7 +93,7 @@ function unequipItem($user_id, $type) {
         case 'armor':
             if ($user_class->eqarmor != 0) {
                 handleReturnOrLoan('armor', $user_class->eqarmor, $user_class->armloaned);
-                $db->query("UPDATE grpgusers SET eqarmor = 0, armloaned = 0 WHERE id = ?"); 
+                $db->query("UPDATE grpgusers SET eqarmor = 0, armloaned = 0 WHERE id = ?");
                 $db->execute(array($user_id));
 
                 // If loaned, add it back to gang_loans
@@ -107,7 +108,7 @@ function unequipItem($user_id, $type) {
         case 'shoes':
             if ($user_class->eqshoes != 0) {
                 handleReturnOrLoan('shoes', $user_class->eqshoes, $user_class->shoeloaned);
-                $db->query("UPDATE grpgusers SET eqshoes = 0, shoeloaned = 0 WHERE id = ?"); 
+                $db->query("UPDATE grpgusers SET eqshoes = 0, shoeloaned = 0 WHERE id = ?");
                 $db->execute(array($user_id));
 
                 // If loaned, add it back to gang_loans
@@ -136,19 +137,26 @@ function equipSpecificItem($user_id, $type, $item_id, $loaned, $loaned_column) {
     }
 
     // Update DB with the new equipment
-    $db->query("UPDATE grpgusers SET $column = ?, $loaned_column = ? WHERE id = ?"); // Updates DB with the new equipment
+    $db->query("UPDATE grpgusers SET $column = ?, $loaned_column = ? WHERE id = ?");
     $db->execute(array($item_id, $loaned, $user_id));
-    if($loaned < 1){
+
+    // If the item is not loaned, remove it from the user's inventory
+    if ($loaned == 0) {
         Take_Item($item_id, $user_class->id);
     }
+    
     return array("status" => "success", "message" => ucfirst($type) . " equipped");
 }
 
 // Helper function to handle return/loan
 function handleReturnOrLoan($type, $item_id, $loaned) {
     global $user_class;
-    if ($loaned == 0) {
-        Give_Item($item_id, $user_class->id); // Returns item to inventory if not on loan
+    // If the item is loaned, return it to gang_loans
+    if ($loaned == 1) {
+        $db->query("INSERT INTO gang_loans (item, idto) VALUES (?, ?)");
+        $db->execute(array($item_id, $user_class->id));
+    } else {
+        // If not loaned, return it to inventory
+        Give_Item($item_id, $user_class->id);
     }
 }
-?>
