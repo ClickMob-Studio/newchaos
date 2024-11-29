@@ -209,35 +209,64 @@ include 'includes/pagination.class.php';
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $db->query("SELECT * FROM ftopics WHERE sectionid = ? ORDER BY FIELD( status, 3,1,0,2 ), case when (SELECT MAX(timesent) FROM freplies WHERE forumid = topicid) > timesent then (SELECT MAX(timesent) FROM freplies WHERE forumid = topicid) else timesent end DESC, lastreply DESC" . $pages->limit());
-                                    $db->execute(array($i));
-                                    if (!$db->num_rows()) {
-                                        echo "<tr><td colspan='5' class='text-center'>There are no topics</td></tr>";
-                                    } else {
-                                        $rows = $db->fetch_row();
-                                        foreach ($rows as $row) {
-                                            $rating = $row['rateup'] - $row['ratedown'];
-                                            $rating = ($rating == 0) ? '-' : $rating;
-                                            if ($rating != 0) {
-                                                $rating = ($rating > 0) ? '<span class="text-success">+' . $rating . '</span>' : '<span class="text-danger">' . $rating . '</span>';
-                                            }
-                                            ?>
-                                            <tr>
-                                                <td><a href='forum.php?topic=<?php echo $row['forumid']; ?>' class="text-decoration-none"><?php echo $row['subject'] . ' '; ?></a>
-                                                    <?php
-                                                    echo $row['status'] == 1 ? "[Sticky]" : '';
-                                                    echo $row['status'] == 2 ? "[Lock]" : '';
-                                                    echo $row['status'] == 3 ? "[Sticky,Lock]" : '';
-                                                    ?>
-                                                </td>
-                                                <td><?php echo formatName($row['playerid']); ?></td>
-                                                <td><?php echo $rating; ?></td>
-                                                <td><?php echo $db->query("SELECT COUNT(postid) FROM freplies WHERE sectionid = ? AND topicid = ?", array($i, $row['forumid']))->fetch_single(); ?></td>
-                                                <td><?php echo $row['views']; ?></td>
-                                            </tr>
-                                            <?php
-                                        }
-                                    }
+                                    $db->query("SELECT * 
+                                    FROM ftopics 
+                                    WHERE sectionid = ? 
+                                    ORDER BY FIELD(status, 3, 1, 0, 2), 
+                                             CASE 
+                                                 WHEN (SELECT MAX(timesent) 
+                                                       FROM freplies 
+                                                       WHERE forumid = topicid) > timesent 
+                                                 THEN (SELECT MAX(timesent) 
+                                                       FROM freplies 
+                                                       WHERE forumid = topicid) 
+                                                 ELSE timesent 
+                                             END DESC, 
+                                             lastreply DESC" . $pages->limit());
+                        $db->execute(array($i));
+                        
+                        if (!$db->num_rows()) {
+                            echo "<tr><td colspan='5' class='text-center'>There are no topics</td></tr>";
+                        } else {
+                            $rows = $db->fetch_row();
+                            foreach ($rows as $row) {
+                                // Calculate rating
+                                $rating = $row['rateup'] - $row['ratedown'];
+                                $rating = ($rating == 0) ? '-' : $rating;
+                                if ($rating != 0) {
+                                    $rating = ($rating > 0) ? '<span class="text-success">+' . $rating . '</span>' : '<span class="text-danger">' . $rating . '</span>';
+                                }
+                        
+                                // Fetch the number of replies using LEFT JOIN to count replies including 0 replies
+                                $db->query("SELECT COUNT(postid) 
+                                            FROM freplies 
+                                            WHERE sectionid = ? 
+                                            AND topicid = ?");
+                                $db->execute(array($i, $row['forumid']));
+                                $replies = $db->fetch_single();
+                        
+                                // If no replies, set it to 0
+                                $replies = ($replies === null) ? 0 : $replies;
+                        
+                                ?>
+                                <tr>
+                                    <td><a href='forum.php?topic=<?php echo $row['forumid']; ?>' class="text-decoration-none">
+                                        <?php echo $row['subject'] . ' '; ?>
+                                        <?php
+                                        echo $row['status'] == 1 ? "[Sticky]" : '';
+                                        echo $row['status'] == 2 ? "[Lock]" : '';
+                                        echo $row['status'] == 3 ? "[Sticky, Lock]" : '';
+                                        ?>
+                                    </a></td>
+                                    <td><?php echo formatName($row['playerid']); ?></td>
+                                    <td><?php echo $rating; ?></td>
+                                    <td><?php echo $replies; ?></td>
+                                    <td><?php echo $row['views']; ?></td>
+                                </tr>
+                                <?php
+                            }
+                        }
+                        
                                     ?>
                                 </tbody>
                             </table>
