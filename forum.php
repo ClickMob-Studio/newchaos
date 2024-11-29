@@ -120,53 +120,70 @@ include 'includes/pagination.class.php';
                         $db->execute(array($i));
                         $pages->items_total = $db->fetch_single();
                         ?>
-                        <div class="card mt-4">
-                            <div class="card-body">
-                                <h5 class="card-title text-danger text-center">New Topic</h5>
-                                <hr>
-                                <div class="d-flex justify-content-around mb-2">
-                                    <span class="badge bg-secondary forumhover" onclick="insertAtCursor('[b][/b]', 4);">[b]</span>
-                                    <span class="badge bg-secondary forumhover" onclick="insertAtCursor('[u][/u]', 4);">[u]</span>
-                                    <span class="badge bg-secondary forumhover" onclick="insertAtCursor('[i][/i]', 4);">[i]</span>
-                                    <span class="badge bg-secondary forumhover" onclick="insertAtCursor('[s][/s]', 4);">[s]</span>
-                                    <span class="badge bg-secondary forumhover" onclick="insertAtCursor('[url][/url]', 6);">[url]</span>
-                                    <span class="badge bg-secondary forumhover" onclick="insertAtCursor('[img][/img]', 6);">[img]</span>
-                                    <span class="badge bg-secondary forumhover" onclick="insertAtCursor('[tag][/tag]', 6);">[tag]</span>
-                                    <span class="badge bg-secondary forumhover" onclick="insertAtCursor('[youtube][/youtube]', 10);">[youtube]</span>
-                                    <span class="badge bg-secondary forumhover" id="semojis" onclick="return showemojis();" style="display:<?php echo ($user_class->hideemojis) ? 'block' : 'none'; ?>;">Show Emojis</span>
-                                    <span class="badge bg-secondary forumhover" id="hemojis" onclick="return hideemojis();" style="display:<?php echo ($user_class->hideemojis) ? 'none' : 'block'; ?>;">Hide Emojis</span>
-                                </div>
-                                <hr>
-                                <form name="message" method="post">
-                                    <div class="mb-3">
-                                        <label for="topic" class="form-label">Topic:</label>
-                                        <input type="text" class="form-control" name="topic" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="msgtext" class="form-label">Message:</label>
-                                        <textarea class="form-control" name="msgtext" id="reply" rows="5" required></textarea>
-                                    </div>
-                                    <div id="poll" class="mb-3" style="display: none;">
-                                        <label for="poll_title" class="form-label">Poll Title:</label>
-                                        <input type="text" class="form-control" id="poll_title" name="poll_title">
-                                        <label for="poll_choice[]" class="form-label">Choices:</label>
-                                        <div class="choices">
-                                            <input class="form-control mb-2" type="text" name="poll_choice[]">
-                                            <input class="form-control mb-2" type="text" name="poll_choice[]">
-                                        </div>
-                                        <button class="btn btn-secondary" id="addchoice">Add Another</button>
-                                        <label for="poll_finish" class="form-label mt-3">Finish:</label>
-                                        <input type="date" class="form-control" id="poll_finish" name="poll_finish" required value="<?php echo date('Y-m-d', strtotime("+2 day")); ?>">
-                                    </div>
-                                    <div class="d-grid">
-                                        <button type="submit" class="btn btn-primary" id="createTopic" name="submit">Create Topic</button>
-                                    </div>
-                                </form>
-                                <div id="emojis" style="display:<?php echo ($user_class->hideemojis) ? 'none' : 'block'; ?>;">
-                                    <?php emotes(); ?>
-                                </div>
-                            </div>
-                        </div>
+                       <!-- Link to show/hide the "New Topic" form -->
+<a href="javascript:void(0);" onclick="toggleNewTopicForm();" class="btn btn-primary mb-3">Create New Topic</a>
+
+<!-- The "New Topic" form, initially hidden -->
+<div id="newTopicForm" class="card mt-4" style="display:none;">
+    <div class="card-body">
+        <h5 class="card-title text-danger text-center">New Topic</h5>
+        <hr>
+        <div class="d-flex justify-content-around mb-2">
+            <span class="badge bg-secondary forumhover" onclick="insertAtCursor('[b][/b]', 4);">[b]</span>
+            <span class="badge bg-secondary forumhover" onclick="insertAtCursor('[u][/u]', 4);">[u]</span>
+            <span class="badge bg-secondary forumhover" onclick="insertAtCursor('[i][/i]', 4);">[i]</span>
+            <span class="badge bg-secondary forumhover" onclick="insertAtCursor('[s][/s]', 4);">[s]</span>
+            <span class="badge bg-secondary forumhover" onclick="insertAtCursor('[url][/url]', 6);">[url]</span>
+            <span class="badge bg-secondary forumhover" onclick="insertAtCursor('[img][/img]', 6);">[img]</span>
+            <span class="badge bg-secondary forumhover" onclick="insertAtCursor('[tag][/tag]', 6);">[tag]</span>
+            <span class="badge bg-secondary forumhover" onclick="insertAtCursor('[youtube][/youtube]', 10);">[youtube]</span>
+            <span class="badge bg-secondary forumhover" id="semojis" onclick="return showemojis();" style="display:<?php echo ($user_class->hideemojis) ? 'block' : 'none'; ?>;">Show Emojis</span>
+            <span class="badge bg-secondary forumhover" id="hemojis" onclick="return hideemojis();" style="display:<?php echo ($user_class->hideemojis) ? 'none' : 'block'; ?>;">Hide Emojis</span>
+        </div>
+        <hr>
+        <form name="message" method="post">
+            <div class="mb-3">
+                <label for="topic" class="form-label">Topic:</label>
+                <input type="text" class="form-control" name="topic" required>
+            </div>
+            <div class="mb-3">
+                <label for="msgtext" class="form-label">Message:</label>
+                <textarea class="form-control" name="msgtext" id="reply" rows="5" required></textarea>
+            </div>
+            <div id="poll" class="mb-3" style="display: none;">
+                <label for="poll_title" class="form-label">Poll Title:</label>
+                <input type="text" class="form-control" id="poll_title" name="poll_title">
+                <label for="poll_choice[]" class="form-label">Choices:</label>
+                <div class="choices">
+                    <input class="form-control mb-2" type="text" name="poll_choice[]">
+                    <input class="form-control mb-2" type="text" name="poll_choice[]">
+                </div>
+                <button class="btn btn-secondary" id="addchoice">Add Another</button>
+                <label for="poll_finish" class="form-label mt-3">Finish:</label>
+                <input type="date" class="form-control" id="poll_finish" name="poll_finish" required value="<?php echo date('Y-m-d', strtotime("+2 day")); ?>">
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary" id="createTopic" name="submit">Create Topic</button>
+            </div>
+        </form>
+        <div id="emojis" style="display:<?php echo ($user_class->hideemojis) ? 'none' : 'block'; ?>;">
+            <?php emotes(); ?>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to toggle the visibility of the "New Topic" form -->
+<script type="text/javascript">
+    function toggleNewTopicForm() {
+        var form = document.getElementById('newTopicForm');
+        if (form.style.display === "none" || form.style.display === "") {
+            form.style.display = "block"; // Show the form
+        } else {
+            form.style.display = "none"; // Hide the form
+        }
+    }
+</script>
+
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead>
