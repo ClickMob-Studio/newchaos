@@ -34,7 +34,7 @@ if (!isset($_SESSION['exclude_event']) || (isset($_SESSION['last_vipstore_visit'
     $_SESSION['last_vipstore_visit'] = time();
 }
 
-$db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 8");
+$db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 9");
 $db->execute();
 $limitedPack = $db->fetch_row();
 $limitedPack = $limitedPack[0];
