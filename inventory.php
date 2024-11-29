@@ -1,887 +1,482 @@
 <?php
-        require_once "header.php";
+include 'header.php';
 
-        if (isset($_GET['exchangetoken'])) {
-            if ($user_class->donate_token > 0) {
-                $db->query("UPDATE grpgusers SET donate_token = donate_token - 1, points = points + 15000 WHERE id = ?");
-                $db->execute(
-                    array(
-                        $user_class->id,
-                    )
-                );
-                $message = "You have exchanged a " . item_popup('Donation Boost Token', 156) . " for 15,000 Points";
-                Send_Event($user_class->id, "You have exchanged a Donation Boost Token for 15,000 Points.", $user_class->id);
-                diefun($message);
+// Define restricted and multi-use item arrays
+$restrictedUseItems = array(68, 69, 155, 195, 156, 157, 194, 158, 159, 165, 167, 285);
+$restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256);
+$restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
+$multiUseItems = array(252, 253, 42, 10, 163, 256, 283, 251, 288, 289);  // Items allowing multiple uses
+
+if ($user_class->gang > 0) {
+    $tempItemUse = getItemTempUse($user_class->id);
+    $now = time();
+    if ($tempItemUse['gang_double_exp_hours'] > 0 && $tempItemUse['gang_double_exp_time'] < $now) {
+        echo '
+            <hr />
+            <center>
+             <a href="trigger_doublexp_hour.php" onclick="return confirm(\'Are you sure you want to trigger double EXP?\');"><font color=red>You have ' . $tempItemUse['gang_double_exp_hours'] . ' hours of double EXP! Click to run 1 hour of double exp.</font></a>
+            </center>
+            <hr />
+        ';
+    }
+}
+?>
+<div class="container-fluid my-4">
+    <div id="messageBox" class="alert" style="display: none;"></div>
+
+    <h1 class="text-center mb-4">Equipped Items</h1>
+    <div class="row text-center g-3">
+        <?php
+        $equippedItems = array(
+            'weapon' => array(
+                'id' => $user_class->eqweapon,
+                'img' => $user_class->weaponimg,
+                'name' => $user_class->weaponname,
+                'placeholder' => 'You are not holding a weapon.'
+            ),
+            'armor' => array(
+                'id' => $user_class->eqarmor,
+                'img' => $user_class->armorimg,
+                'name' => $user_class->armorname,
+                'placeholder' => 'You are not wearing armor.'
+            ),
+            'shoes' => array(
+                'id' => $user_class->eqshoes,
+                'img' => $user_class->shoesimg,
+                'name' => $user_class->shoesname,
+                'placeholder' => 'You are not wearing boots.'
+            )
+        );
+
+        foreach ($equippedItems as $type => $item) {
+            echo '<div class="col-6 col-md-4 mb-3 equipped-' . $type . '">';
+            echo '<div class="card shadow-sm h-100">';
+            if ($item['id'] != 0) {
+                echo '<img class="card-img-top" style="max-width: 120px; max-height: 120px; margin: auto;" src="' . htmlspecialchars($item['img']) . '" alt="' . htmlspecialchars($item['name']) . '">';
+                echo '<div class="card-body d-flex flex-column">';
+                echo '<h6 class="card-title text-white">' . htmlspecialchars($item['name']) . '</h6>';
+                echo '<button class="btn btn-sm btn-warning unequip-btn mt-2" data-type="' . $type . '" data-id="' . $item['id'] . '">Unequip</button>';
             } else {
-                diefun('Sorry you do not have any tokens to exchange');
+                echo '<img class="card-img-top" style="max-width: 120px; max-height: 120px; margin: auto;" src="/css/images/empty.jpg" alt="Empty Slot">';
+                echo '<div class="card-body d-flex flex-column">';
+                echo '<p class="card-text">' . $item['placeholder'] . '</p>';
             }
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
         }
-        function getInventoryItems() {
-            global $db, $user_class;
+        ?>
+    </div>
 
-            // Fetching inventory items with relevant fields
-            $db->query("
-                SELECT 
-                    i.id, 
-                    i.itemname AS name, i.cost as cost,
-                    i.offense, i.defense, i.speed, i.rare, i.awake_boost,
-                    inv.quantity, 
-                    i.image, i.category
+    <h1 class="text-center mt-5">Inventory</h1>
+    <?php
+    $db->query("SELECT inv.*, it.*, c.name AS overridename, c.image AS overrideimage 
                 FROM inventory inv 
-                JOIN items i ON inv.itemid = i.id 
-                WHERE inv.userid = :user_id
-                ORDER BY i.itemname
-            ");
+                JOIN items it ON inv.itemid = it.id 
+                LEFT JOIN customitems c ON it.id = c.itemid AND c.userid = inv.userid 
+                WHERE inv.userid = ?");
+    $db->execute(array($user_class->id));
+    $items = $db->fetch_row();
 
-            $db->bind(':user_id', $user_class->id);
-            return $db->fetch_row();  // Ensure this returns valid rows or empty array
-        }
+    function getItemType($row) {
+        $type = '';
+        $subtype = '';
 
-        function categorizeItem($row) {
-            if ($row['category']) {
-                $type = $row['category'];
-            } else {
-                $type = 'consumable';
-            }
-        //    if ($row['rare'] == 1) {
-        //        $type = 'rare';
-        //    } elseif ($row['offense'] > 0) {
-        //        $type = 'weapon';
-        //    } elseif ($row['defense'] > 0) {
-        //        $type = 'armor';
-        //    } elseif ($row['speed'] > 0) {
-        //        $type = 'shoes';
-        //    } elseif ($row['awake_boost'] > 0) {
-        //        $type = 'house';
-        //    } else {
-        //        $type = 'consumable';
-        //    }
-
-            return $type;
-        }
-
-        function getItemType($row) {
-            if ($row['rare'] == 1) {
-                $type = 'rare';
-            } elseif ($row['offense'] > 0) {
-                $type = 'weapon';
-            } elseif ($row['defense'] > 0) {
+        if ($row['offense'] > 0 && ($row['defense'] > 0 || $row['speed'] > 0)) {
+            if ($row['offense'] > $row['defense']) {
+                $type = ($row['offense'] > $row['speed']) ? 'weapon' : 'shoes';
+            } elseif ($row['defense'] > $row['speed']) {
                 $type = 'armor';
-            } elseif ($row['speed'] > 0) {
+            } else {
                 $type = 'shoes';
+            }
+        } else {
+            if ($row['offense'] > 0 && $row['rare'] == 0) {
+                $type = 'weapon';
+            } elseif ($row['defense'] > 0 && $row['rare'] == 0) {
+                $type = 'armor';
+            } elseif ($row['speed'] > 0 && $row['rare'] == 0) {
+                $type = 'shoes';
+            } elseif ($row['rare'] == 1) {
+                $type = 'rare';
+                if ($row['offense'] > 0) {
+                    $subtype = 'weapon';
+                } elseif ($row['defense'] > 0) {
+                    $subtype = 'armor';
+                } elseif ($row['speed'] > 0) {
+                    $subtype = 'shoes';
+                }
             } elseif ($row['awake_boost'] > 0) {
                 $type = 'house';
             } else {
                 $type = 'consumable';
             }
-
-            return $type;
         }
 
-        $items = getInventoryItems();
-
-        $restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256);
-        $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
-        $restrictedUseItems = array(69, 155, 195, 156, 157, 194, 158, 159, 165, 167, 285);
-        $multiUseItems = array(251,253,42, 10, 163, 256);  // Items allowing multiple uses
-        $groupedItems = array();
-        foreach ($items as $item) {
-            $itemType = categorizeItem($item);
-            $groupedItems[$itemType][] = $item;
-        }
-        ?>
-
-        <div id="message" style="display: none; padding: 10px; background-color: #4CAF50; color: white; margin-bottom: 20px;"></div>
-        <div class="equipped-items-container">
-            <h2>Equipped Items</h2>
-            <div class="equipped-items">
-                <div class="equipped-item" data-type="weapon">
-                    <h3>Weapon</h3>
-                </div>
-                <div class="equipped-item" data-type="armor">
-                    <h3>Armor</h3>
-                </div>
-                <div class="equipped-item" data-type="shoes">
-                    <h3>Shoes</h3>
-                </div>
-            </div>
-        </div>
-
-        <p>
-            Filter:
-            <a href="#" class="button-sm filter-type-container-btn" data-type="all">All</a> |
-            <?php foreach ($groupedItems as $type => $items): ?>
-                <a href="#" class="button-sm filter-type-container-btn" data-type="<?= $type ?>"><?= ucfirst($type); ?></a> |
-            <?php endforeach; ?>
-        </p>
-
-        <div class="inventory-container">
-        <?php if ($user_class->donate_token > 0) {
-    echo '<div class="flexcont" border = "thick solid #0000FF"; style="text-align:center;position: relative;flex-flow:row wrap;">';
-    echo image_popup('css/newgame/items/donate_boost.png', 156) . '<br/>';
-    echo '<span class="text-14">x' . $user_class->donate_token . '</span><br/>';
-    echo '<a class="text-14 text-yellow" href="store.php">Boost Donation</a><br/><br/>';
-    echo '<a class="text-14 text-yellow" href="inventory.php?exchangetoken">Exchange x1 for 15,000 Points</a>
-    </div>';
-}
-?>
-            <?php if (!empty($groupedItems)): ?>
-                <?php foreach ($groupedItems as $category => $items): ?>
-                    <div class="inventory-group <?php echo $category ?>-container">
-                        <h2 class="item-type-header"><?= htmlspecialchars(ucfirst($category)); ?></h2>
-                        <div class="inventory-items">
-                            <?php foreach ($items as $item): ?>
-                                <?php $type = getItemType($item); ?>
-
-                                <div class="inventory-item">
-                                    <div class="item-image-container">
-                                        <img src="<?= isset($item['image']) && $item['image'] != '' ? htmlspecialchars($item['image']) : 'path/to/default-image.png'; ?>" alt="<?= htmlspecialchars($item['name']); ?>" class="item-image">
-                                    </div>
-                                    <div class="item-details">
-                                        <h3><?= htmlspecialchars($item['name']); ?></h3>
-                                        <p>Quantity: <span class="item-quantity"><?= (int)$item['quantity']; ?></span></p>
-
-                                        <?php
-                                        $equipItems = array(68, 69, 229, 230, 231, 250, 252, 255, 264);
-
-                                        // Determine if item should be treated as armor
-                                        if (in_array($item['id'], $equipItems)) {
-                                            $type = 'armor';
-                                        } else {
-                                            $type = getItemType($item); // Fallback to the actual item type if not in $equipItems
-                                        }
-                                        
-                                        // Equip button logic for items like weapons, armor, or shoes
-                                        if (in_array($type, ['weapon', 'armor', 'shoes'])) {
-                                            $loanStatus = isset($item['loanid']) && $item['loanid'] > 0 ? 1 : 0;
-                                            echo '<button class="equip-btn" data-item-id="' . $item['id'] . '" data-type="' . $type . '" data-loaned="' . $loanStatus . '">Equip</button>';
-                                        } elseif ($type == 'consumable' || ($type == "rare" && !in_array($item['id'], $restrictedUseItems))) {
-                                            if (in_array($item['id'], $multiUseItems)) {
-                                                echo '<button class="use-btn-multi" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($item['name']) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
-                                            } else {
-                                                echo '<button class="use-btn" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Use</button>';
-                                            }
-                                        }
-                                        
-                                        if ($item['id'] == 194) {
-                                            echo ' <a class="button-sm" href="raids.php">Use Speedup</a> ';
-                                        }
-                                        if (!in_array($item['id'], $restrictedDropItems)) {
-                                            echo ' <button class="drop-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '">Drop</button> ';
-                                        }
-                                        if (!in_array($item['id'], $restrictedSendItems)) {
-                                            echo ' <button class="send-btn" data-item-id="' . $item['id'] . '" data-item-quantity="' . (int)$item['quantity'] . '" data-item-name="' . htmlspecialchars($item['name']) . '">Send</button> ';
-                                        }
-                                        if ($type == 'house') {
-                                            echo ' <a class="button-sm" href="market.php?item=' . $item['id'] . '">Market</a> ';
-                                        }
-                                        if ($item['cost'] > 0) {
-                                            echo ' <a class="button-sm" href="sellitem.php?id=' . $item['id'] . '">Sell</a> ';
-                                        }
-                                        ?>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>No items found.</p>
-            <?php endif; ?>
-        </div>
-
-        <!-- Modal for Dropping Items -->
-        <div id="dropModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Drop Item</h2>
-                <form id="dropForm">
-                    <p>Dropping <strong id="drop-item-name"></strong></p>
-                    <input type="hidden" name="item_id" id="drop-item-id">
-
-                    <label for="drop-quantity">Quantity to drop:</label>
-                    <input type="number" id="drop-quantity" name="quantity" min="1" value="1">
-
-                    <button type="submit" class="drop-confirm-btn">Drop Item</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Modal for Sending Items -->
-        <div id="sendModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Send Item</h2>
-                <form id="sendForm">
-                    <p>Sending <strong id="item-name"></strong></p>
-                    <input type="hidden" name="item_id" id="item-id">
-
-                    <label for="recipient">Recipient Username/ID:</label>
-                    <input type="text" id="recipient" name="recipient" required>
-
-                    <label for="quantity">Quantity to send:</label>
-                    <input type="number" id="quantity" name="quantity" min="1" value="1">
-
-                    <button type="submit" class="send-confirm-btn">Send Item</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Modal for Using Multiple Items -->
-        <div id="useMultiModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>  <!-- Close button -->
-                <h2>Use Multiple Items</h2>
-                <form id="useMultiForm">
-                    <input type="hidden" name="item_id" id="use-item-id"> <!-- Hidden input for item ID -->
-                    <p>Using <strong id="use-item-name"></strong></p>  <!-- Display item name -->
-
-                    <label for="use-quantity">Quantity to use:</label>
-                    <input type="number" id="use-quantity" name="quantity" min="1" value="1">  <!-- Quantity input -->
-
-                    <button type="submit" class="use-confirm-btn">Use Item(s)</button>  <!-- Submit button -->
-                </form>
-            </div>
-        </div>
-
-
-        <?php include 'footer.php'; ?>
-
-        <!-- JavaScript for handling item usage, equip, drop, and send functionality -->
-        <script>
-
-
-        // Equip and Unequip functions
-        document.addEventListener('DOMContentLoaded', function () {
-            loadEquippedItems();
-
-            // Attach event listeners to equip buttons
-            attachEquipListeners();
-
-            // Attach event listeners for opening modals
-            attachModalListeners();
-
-            // Attach event listeners to use buttons
-            attachUseListeners();
-        });
-function showMessage(message, isSuccess = true) {
-    var messageDiv = document.getElementById('message');
-    messageDiv.style.display = 'block';
-    messageDiv.style.backgroundColor = isSuccess ? '#4CAF50' : '#f44336'; // Green for success, red for error
-    messageDiv.textContent = message;
-
-    // Hide the message after a few seconds
-    setTimeout(function () {
-        messageDiv.style.display = 'none';
-    }, 5000);
-}
-        // Function to load equipped items on page load
-        function loadEquippedItems() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'ajax_fetch_equipped.php', true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var response = JSON.parse(xhr.responseText);
-                if (response.success) {
-                    renderEquippedItems(response.equippedItems);
-                } else {
-                    console.error("Error fetching equipped items:", response.message);
-                }
-            }
-        };
-        xhr.send();
+        return array($type, $subtype);
     }
-    function renderEquippedItems(equippedItems) {
-        // Loop through equipped items and place them in the correct slot
-        for (const [type, item] of Object.entries(equippedItems)) {
-            var equippedItemContainer = document.querySelector(`.equipped-item[data-type="${type}"]`);
+
+    $categorizedItems = array(
+        'weapon' => array(),
+        'armor' => array(),
+        'shoes' => array(),
+        'rare' => array(),
+        'house' => array(),
+        'consumable' => array(),
+        'gem' => array()
+    );
+
+    foreach ($items as $item) {
+        list($itemType, $itemSubtype) = getItemType($item);
+
+        if (isset($item['type']) && $item['category'] == 'crafting') {
+            $categorizedItems['gem'][] = $item;
+        }elseif ($item['type'] == 'Gems') {
+                $categorizedItems['consumable'][] = $item;
+        } elseif ($itemType === 'rare') {
+            $categorizedItems['rare'][] = $item;
+
+        } elseif ($item['type'] == 'booster') {
+            $categorizedItems['booster'][] = $item;
+        }else {
+            $categorizedItems[$itemType][] = $item;
+        }
+    }
+
+    function renderCategory($categoryName, $items) {
+        global $restrictedSendItems, $multiUseItems, $restrictedUseItems, $loan;
+
+        if (empty($items)) return;
+
+        echo '<div class="card my-4 category-card">';
+        echo '<div class="card-header text-white text-center" style="background-color: #8e8e8e21;">';
+        echo "<h2 class='text-white'>$categoryName</h2>";
+        echo '</div>';
+        echo '<div class="card-body">';
+        echo '<div class="row g-3 text-center">';
+
+        foreach ($items as $item) {
+            $itemName = !empty($item['overridename']) ? $item['overridename'] : $item['itemname'];
+            $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
+            $buttonHtml = '';
+            $sell = ($item['cost'] > 0) 
+            ? "<a class='button-sm btn btn-sm btn-secondary mt-2' href='sellitem.php?id=" . $item['id'] . "'>Sell</a>"
+            : "";
+            list($itemType, $itemSubtype) = getItemType($item);
+            $showEquipButton = in_array($itemType, array('weapon', 'armor', 'shoes')) || in_array($itemSubtype, array('weapon', 'armor', 'shoes'));
+            $dataType = $itemSubtype ?: $itemType;
+
+            echo '<div class="col-6 col-md-4 col-lg-3 mb-3">';
+            echo '<div class="card shadow-sm h-100">';
+            echo '<img class="card-img-top" style="max-width: 120px; max-height: 120px; margin: auto;" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '">';
+            echo '<div class="card-body d-flex flex-column">';
+            echo '<h6 class="card-title text-white">' . htmlspecialchars($itemName) . '</h6>';
+            echo 'x ' . $item['quantity'];
+
+            if ($showEquipButton) {
+                $buttonHtml .= '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $dataType . '" data-id="' . intval($item['itemid']) . '" data-name="' . htmlspecialchars($itemName) . '" data-img="' . htmlspecialchars($itemImage) . '">Equip</button>';
+            }
+
+            // Special buttons based on item ID
+            switch ($item['id']) {
+                case 155:
+                    $buttonHtml .= '<a class="btn btn-sm btn-info mt-2" href="inventory.php?use=' . $item['id'] . '">Share The Love</a> ';
+                    break;
+                case 194:
+                    $buttonHtml .= '<a class="btn btn-sm btn-success mt-2" href="raids.php">Use Speedup</a> ';
+                    break;
+                case 195:
+                    $buttonHtml .= '<a class="btn btn-sm btn-warning mt-2" href="inventory.php?use=' . $item['id'] . '">Trick Or Treat</a> ';
+                    break;
+                case 156:
+                    $buttonHtml .= '<a class="btn btn-sm btn-secondary mt-2" href="inventory.php?use=' . $item['id'] . '">Share</a> ';
+                    break;
+                case 157:
+                    $buttonHtml .= '<a class="btn btn-sm btn-danger mt-2" href="inventory.php?use=' . $item['id'] . '">Send Egg</a> ';
+                    break;
+                case 158:
+                    $buttonHtml .= '<a class="btn btn-sm btn-success mt-2" href="inventory.php?use=' . $item['id'] . '">Independence!</a> ';
+                    break;
+                case 159:
+                    $buttonHtml .= '<a class="btn btn-sm btn-danger mt-2" href="inventory.php?use=' . $item['id'] . '">Send Rayz</a> ';
+                    break;
+                case 165:
+                    $buttonHtml .= '<a class="btn btn-sm btn-dark mt-2" href="inventory.php?use=' . $item['id'] . '">Send Ghosts</a> ';
+                    break;
+                case 167:
+                    $buttonHtml .= '<a class="btn btn-sm btn-info mt-2" href="inventory.php?use=' . $item['id'] . '">Send Christmas Present</a> ';
+                    break;
+            }
+
+            // Market button
+            if (!$loan && !in_array($item['id'], [155, 195, 156, 194, 157, 158, 159, 165, 167, 256])) {
+                $buttonHtml .= '<a class="btn btn-sm btn-primary mt-2" href="putonmarket.php?id=' . $item['id'] . '">Market</a> ';
+            }
+            
+
+          
+                if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems) && $item['category'] != 'crafting')) {
+                    // Multi-use items
+                    if (in_array($item['id'], $multiUseItems)) {
+                        $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
+                    } 
+                    // Single-use consumables
+                    elseif (!in_array($item['id'], [285, 155, 195, 156, 157, 194, 158, 159, 165, 167])) {
+                        $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use</button>';
+                    }
+                }
+            
+            
+
+
+            if (!in_array($item['id'], $restrictedSendItems)) {
+                $buttonHtml .= '<button class="btn btn-sm btn-info send-btn mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Send</button> ';
+            }
+            $buttonHtml .= $sell;
+            echo $buttonHtml;
+            echo '</div></div></div>';
+        }
+
+        echo '</div></div></div>';
+    }
+
+    renderCategory("Weapons", $categorizedItems['weapon']);
+    renderCategory("Armor", $categorizedItems['armor']);
+    renderCategory("Shoes", $categorizedItems['shoes']);
+    renderCategory("Boosters", $categorizedItems['booster']);
+    renderCategory("Home Improvements", $categorizedItems['house']);
+    renderCategory("Consumables", $categorizedItems['consumable']);
+    renderCategory("Rare Items", $categorizedItems['rare']);
+    renderCategory("Gems", $categorizedItems['gem']);
+    ?>
+
+    <!-- Modal for Sending Items -->
+    <div id="sendModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Send Item</h2>
+            <form id="sendForm">
+                <p>Sending <strong id="item-name"></strong></p>
+                <input type="hidden" name="item_id" id="item-id">
+                <label for="recipient">Recipient Username/ID:</label>
+                <input type="text" id="recipient" name="recipient" required>
+                <label for="quantity">Quantity to send:</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1">
+                <button type="submit" class="send-confirm-btn">Send Item</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Using Multiple Items -->
+    <div id="useMultiModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Use Multiple Items</h2>
+            <form id="useMultiForm">
+                <input type="hidden" name="item_id" id="use-item-id">
+                <p>Using <strong id="use-item-name"></strong></p>
+                <label for="use-quantity">Quantity to use:</label>
+                <input type="number" id="use-quantity" name="quantity" min="1" value="1">
+                <button type="submit" class="use-confirm-btn">Use Item(s)</button>
+            </form>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script>
+        function showMessage(message, isSuccess) {
+            var messageBox = $("#messageBox");
+            messageBox
+                .text(message)
+                .removeClass("alert-success alert-danger")
+                .addClass(isSuccess ? "alert-success" : "alert-danger")
+                .fadeIn();
+                $('html, body').animate({ scrollTop: 0 }, 'slow');
+            setTimeout(function() { messageBox.fadeOut(); }, 3000);
+        }
+
+        function updateEquippedItem(type, itemId, itemName, itemImage) {
+            const equippedItemContainer = document.querySelector(`.equipped-${type}`);
             if (equippedItemContainer) {
-                // Add item details and an "Unequip" button
                 equippedItemContainer.innerHTML = `
-                    <h3>${type.charAt(0).toUpperCase() + type.slice(1)}</h3>
-                    <img src="${item.image || 'path/to/default-image.png'}" alt="${item.name}" class="item-image">
-                    <p>${item.name}</p>
-                    <button class="unequip-btn" data-type="${type}">Unequip</button>
+                    <img class="card-img-top" style="max-width: 120px; max-height: 120px; margin: auto;"
+src="${itemImage}" alt="${itemName}">
+                    <div class="card-body d-flex flex-column">
+                        <h6 class="card-title text-white">${itemName}</h6>
+                        <button class="btn btn-sm btn-warning unequip-btn mt-2" data-type="${type}" data-id="${itemId}">Unequip</button>
+                    </div>
                 `;
             }
         }
-        // Attach event listeners to the "Unequip" buttons after rendering
-        attachUnequipListeners();
-    }
 
-        // Attach event listeners to equip buttons
-        function attachEquipListeners() {
-            var equipButtons = document.querySelectorAll('.equip-btn');
-            equipButtons.forEach(function (button) {
-                button.addEventListener('click', function () {
-                    var itemId = this.getAttribute('data-item-id');
-                    var type = this.getAttribute('data-type');
-                    var loaned = this.getAttribute('data-loaned');
-                    equipItem(itemId, type, loaned);
-                });
-            });
-        }
+        $(document).on('click', '.equip-btn', function () {
+            var type = $(this).data('type');
+            var itemId = $(this).data('id');
+            var itemName = $(this).data('name');
+            var itemImage = $(this).data('img');
 
-    // Attach event listeners to "Unequip" buttons
-    function attachUnequipListeners() {
-        var unequipButtons = document.querySelectorAll('.unequip-btn');
-        unequipButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
-                var itemType = this.getAttribute('data-type');
-                unequipItem(itemType);
-            });
-        });
-    }
-
-        function attachUseListeners() {
-            var useButtons = document.querySelectorAll('.use-btn');
-            useButtons.forEach(function (button) {
-                button.addEventListener('click', function () {
-                    var itemId = this.getAttribute('data-item-id');
-                    useItem(itemId);
-                });
-            });
-
-            var useMultiButtons = document.querySelectorAll('.use-btn-multi');
-            useMultiButtons.forEach(function (button) {
-                button.addEventListener('click', function () {
-                    var itemId = this.getAttribute('data-item-id');
-                    var itemName = this.getAttribute('data-item-name');
-                    var itemQuantity = this.getAttribute('data-item-quantity');
-                    openUseMultiModal(itemId, itemName, itemQuantity);
-                });
-            });
-        }
-        
-        function equipItem(itemId, type, loaned) {
-        console.log("Sending AJAX request with ID:", itemId, "Type:", type, "Loaned:", loaned);
-
-        // Build the URL, ensuring `eq` (type) is included
-        var url = 'ajax_equip.php?eq=' + encodeURIComponent(type) +
-                '&id=' + encodeURIComponent(itemId) +
-                '&loaned=' + encodeURIComponent(loaned);
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                try {
-                    var response = JSON.parse(xhr.responseText);
-                    console.log("Server response:", response);
-
-                    if (!response.success) {
+            $.ajax({
+                url: 'equip_action.php',
+                type: 'POST',
+                dataType: 'json',
+                data: { action: 'equip', type: type, item_id: itemId },
+                success: function (response) {
+                    if (response.status === 'success') {
                         showMessage(response.message, true);
-                        console.error("Equip error:", response.message || "Unknown error.");
+                        updateEquippedItem(type, itemId, itemName, itemImage);
                     } else {
-                        console.log("Equip successful:", response.message);
+                        showMessage(response.message, false);
                     }
-                } catch (e) {
-                    console.error("JSON parse error:", e, "Response text:", xhr.responseText);
+                },
+                error: function () {
+                    showMessage("Error processing the request.", false);
                 }
-            }
-        };
-        xhr.send();
-    }
+            });
+        });
 
-    function unequipItem(itemType) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'ajax_equip.php?unequip=' + encodeURIComponent(itemType), true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var response = JSON.parse(xhr.responseText);
-                if (response.success) {
-                    showMessage(response.message, true);
-                    // Update the UI to show that the item is unequipped
-                    var equippedItemContainer = document.querySelector(`.equipped-item[data-type="${itemType}"]`);
-                    equippedItemContainer.innerHTML = `
-                        <img width="100" height="100" src="/css/images/empty.jpg" /><br />
-                        <p>You are not holding ${itemType}.</p>
-                    `;
-                    console.log(response.message);
-                } else {
-                    console.error("Error unequipping item:", response.message);
-                }
-            }
-        };
-        xhr.send();
-    }
-        // Function to handle using an item
-        function useItem(itemId) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'ajax_use_item.php?use=' + itemId, true); // Make sure the URL points to your use item script
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText); // Parse the JSON response
-                    var messageDiv = document.getElementById('message'); // Assuming you have a message div
+        $(document).on('click', '.unequip-btn', function () {
+            var type = $(this).data('type');
+            var itemId = $(this).data('id');
 
-                    if (response.success) {
-                        // Show success message
-                        messageDiv.style.display = 'block';
-                        messageDiv.style.backgroundColor = '#4CAF50';
-                        messageDiv.innerHTML = response.message; // Display the message
+            $.ajax({
+                url: 'equip_action.php',
+                type: 'POST',
+                dataType: 'json',
+                data: { action: 'unequip', type: type, item_id: itemId },
+                success: function (response) {
+                    if (response.status === 'success') {
+                        showMessage(response.message, true);
+                        updateEquippedItem(type, 0, "Empty Slot", "/css/images/empty.jpg");
                     } else {
-                        // Show error message
-                        messageDiv.style.display = 'block';
-                        messageDiv.style.backgroundColor = '#f44336';
-                        messageDiv.innerHTML = response.message; // Display the error message
+                        showMessage(response.message, false);
                     }
-
-                    // Scroll to the message div
-                    messageDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-                    // Hide the message after 5 seconds
-                    setTimeout(function () {
-                        messageDiv.style.display = 'none';
-                    }, 5000);
+                },
+                error: function () {
+                    showMessage("Error processing the request.", false);
                 }
-            };
-            xhr.send();
-        }
-
-
-        function openUseMultiModal(itemId, itemName, itemQuantity) {
-            var useModal = document.getElementById("useMultiModal");
-            document.getElementById('use-item-id').value = itemId;         // Set item ID in hidden input
-            document.getElementById('use-item-name').textContent = itemName; // Set item name in modal
-            document.getElementById('use-quantity').max = itemQuantity;     // Set the max quantity allowed for use
-            document.getElementById('use-quantity').value = 1;              // Default quantity value
-            useModal.style.display = "block";                               // Display the modal
-        }
-
-        // Attach the modal close button functionality
-        document.querySelectorAll('.close').forEach(function(closeButton) {
-            closeButton.onclick = function () {
-                var modals = document.querySelectorAll('.modal'); // Close all modals that are open
-                modals.forEach(function(modal) {
-                    modal.style.display = "none";  // Hide the modal
-                });
-            };
+            });
         });
 
-        // Close modal if clicking outside of the modal content
-        window.onclick = function (event) {
-            var useModal = document.getElementById("useMultiModal");
-            if (event.target == useModal) {
-                useModal.style.display = "none";  // Hide modal when user clicks outside of it
-            }
-        };
-
-        // Function to handle using multiple items
-        document.getElementById("useMultiForm").addEventListener('submit', function (event) {
-            event.preventDefault();
-            var formData = new FormData(this);
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "ajax_use_multi_item.php", true);
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    try {
-                        var response = JSON.parse(xhr.responseText); // Parse JSON response
-
-                        var messageDiv = document.getElementById('message');
-                        messageDiv.innerHTML = response.message; // Show message content
-
-                        if (response.success) {
-                            messageDiv.style.backgroundColor = '#4CAF50'; // Green for success
-                            var itemElement = document.querySelector('.inventory-item[data-item-id="' + formData.get('item_id') + '"]');
-
-        if (itemElement) {
-            var newQuantity = itemElement.getAttribute('data-item-quantity') - formData.get('quantity');
-            itemElement.setAttribute('data-item-quantity', newQuantity);
-            itemElement.querySelector('.item-quantity').textContent = newQuantity;
-
-            if (newQuantity <= 0) {
-                itemElement.remove();
-            }
-        } else {
-            console.error('Item not found in the DOM.');
-        }
-
-
-                            // Remove item if the quantity reaches zero
-                            if (newQuantity <= 0) {
-                                itemElement.remove();
-                            }
-
-                            // Hide modal on successful item use
-                            document.getElementById("useMultiModal").style.display = "none";
-                        } else {
-                            messageDiv.style.backgroundColor = '#f44336'; // Red for failure
-                        }
-
-                        // Scroll to the message box
-                        messageDiv.style.display = 'block';
-                        messageDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-                        // Hide the message after 5 seconds
-                        setTimeout(function () {
-                            messageDiv.style.display = 'none';
-                        }, 5000);
-
-                    } catch (e) {
-                        console.error('Error parsing JSON response:', e);
-                        console.error('Response text:', xhr.responseText);
-                    }
-                }
-            };
-            xhr.send(formData);
+        // Modal control
+        $(document).on('click', '.send-btn', function () {
+            var itemId = $(this).data('item-id');
+            var itemName = $(this).data('item-name');
+            var itemQuantity = $(this).data('item-quantity');
+            $("#sendModal").show();
+            $("#item-id").val(itemId);
+            $("#item-name").text(itemName);
+            $("#quantity").attr("max", itemQuantity);
+            $("#quantity").val(1);
         });
 
-        function updateEquippedItem(type, newItemHtml) {
-        var equippedItemContainer = document.querySelector('.equipped-item[data-type="' + type + '"]');
-        if (equippedItemContainer) {
-            equippedItemContainer.innerHTML = newItemHtml;
-        }
+        $(document).on('click', '.use-btn', function () {
+    var itemId = $(this).data('item-id'); // Extract item ID from data attribute
+
+    if (!itemId) {
+        showMessage("Invalid item selected.", false); // Prevent unnecessary AJAX call
+        return;
     }
 
-        // Function to remove the item from the inventory after equipping
-        function removeFromInventory(itemId) {
-            var inventoryItem = document.querySelector('.inventory-item[data-item-id="' + itemId + '"]');
-            if (inventoryItem) {
-                var quantityElement = inventoryItem.querySelector('.item-quantity');
-                var currentQuantity = parseInt(quantityElement.textContent);
-
-                if (currentQuantity > 1) {
-                    quantityElement.textContent = currentQuantity - 1;
-                } else {
-                    inventoryItem.remove();
-                }
+    $.ajax({
+        url: 'ajax_use_item.php', // Endpoint for item usage
+        type: 'GET', // HTTP method
+        dataType: 'json', // Expect JSON response
+        data: { use: itemId }, // Send item ID
+        success: function (response) {
+            if (response.success) {
+                showMessage(response.message, true); // Show success message
+                // Optional: Update UI to reflect the changes, e.g., reduce item quantity, update HP display, etc.
+                updateHP(response.newHP); // Example for updating HP display
+                updateHospitalTime(response.newHospitalTime); // Example for updating hospital time
+            } else {
+                showMessage(response.message || "An unknown error occurred.", false); // Show error from response
             }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX Error:", textStatus, errorThrown); // Log error for debugging
+            showMessage("Error using the item. Please try again later.", false); // Display a generic error
         }
+    });
+});
 
-        // Function to add the item back to the inventory after unequipping
-        function addToInventory(itemData) {
-            var inventoryContainer = document.querySelector('.inventory-items');
-            var newItem = document.createElement('div');
-            newItem.classList.add('inventory-item');
-            newItem.setAttribute('data-item-id', itemData.id);
 
-            // Example HTML for the new item (you may need to adjust this based on your design)
-            newItem.innerHTML = `
-                <div class="item-image-container">
-                    <img src="${itemData.image}" alt="${itemData.name}" class="item-image">
-                </div>
-                <div class="item-details">
-                    <h3>${itemData.name}</h3>
-                    <p>Quantity: <span class="item-quantity">${itemData.quantity}</span></p>
-                    <button class="equip-btn" data-item-id="${itemData.id}" data-type="${itemData.type}">Equip</button>
-                </div>
-            `;
+        $(document).on('click', '.use-btn-multi', function () {
+            var itemId = $(this).data('item-id');
+            var itemName = $(this).data('item-name');
+            var itemQuantity = $(this).data('item-quantity');
+            $("#useMultiModal").show();
+            $("#use-item-id").val(itemId);
+            $("#use-item-name").text(itemName);
+            $("#use-quantity").attr("max", itemQuantity);
+            $("#use-quantity").val(1);
+        });
 
-            // Append the item back to the inventory
-            inventoryContainer.appendChild(newItem);
+        $(".close").on('click', function () {
+            $(this).closest(".modal").hide();
+        });
 
-            // Re-attach event listener for the new equip button
-            attachEquipListeners();
-        }
-
-        // Attach modal event listeners for Drop and Send modals
-        function attachModalListeners() {
-            var dropModal = document.getElementById("dropModal");
-            var sendModal = document.getElementById("sendModal");
-
-            // Event listeners for opening modals
-            document.querySelectorAll('.drop-btn').forEach(function (button) {
-                button.addEventListener('click', function () {
-                    var itemId = this.getAttribute('data-item-id');
-                    var itemName = this.getAttribute('data-item-name');
-                    var itemQuantity = this.getAttribute('data-item-quantity');
-                    document.getElementById('drop-item-id').value = itemId;
-                    document.getElementById('drop-item-name').textContent = itemName;
-                    document.getElementById('drop-quantity').max = itemQuantity;
-                    document.getElementById('drop-quantity').value = 1;
-                    dropModal.style.display = "block";
-                });
-            });
-
-            document.querySelectorAll('.send-btn').forEach(function (button) {
-                button.addEventListener('click', function () {
-                    var itemId = this.getAttribute('data-item-id');
-                    var itemName = this.getAttribute('data-item-name');
-                    var itemQuantity = this.getAttribute('data-item-quantity');
-                    document.getElementById('item-id').value = itemId;
-                    document.getElementById('item-name').textContent = itemName;
-                    document.getElementById('quantity').max = itemQuantity;
-                    document.getElementById('quantity').value = 1;
-                    sendModal.style.display = "block";
-                });
-            });
-
-            // Close modal when clicking on the close button
-            document.querySelectorAll('.close').forEach(function (span) {
-                span.onclick = function () {
-                    dropModal.style.display = "none";
-                    sendModal.style.display = "none";
-                };
-            });
-        }
-
-        // Form submission logic for Drop and Send modals
-        document.getElementById("dropForm").addEventListener('submit', function (event) {
+        $("#useMultiForm").on('submit', function(event) {
             event.preventDefault();
-            var formData = new FormData(this);
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "drop_item.php", true);
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    var messageDiv = document.getElementById('message');
-                    messageDiv.textContent = xhr.responseText;
-                    messageDiv.style.display = 'block';
-                    document.getElementById("dropModal").style.display = "none";
-                    setTimeout(function () {
-                        messageDiv.style.display = 'none';
-                    }, 5000);
-                }
-            };
-            xhr.send(formData);
-        });
-
-        document.getElementById("sendForm").addEventListener('submit', function (event) {
-            event.preventDefault();
-            var formData = new FormData(this);
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "send_item.php", true);
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    var messageDiv = document.getElementById('message');
-                    messageDiv.textContent = xhr.responseText;
-                    messageDiv.style.display = 'block';
-                    document.getElementById("sendModal").style.display = "none";
-                    setTimeout(function () {
-                        messageDiv.style.display = 'none';
-                    }, 5000);
-                }
-            };
-            xhr.send(formData);
-        });
-
-        $(document).ready(function() {
-            $('.filter-type-container-btn').on('click', function(event) {
-                event.preventDefault();
-                var type = $(this).data('type');
-
-                if (type === 'all') {
-                    $('.inventory-group').show();
-                } else {
-                    $('.inventory-group').hide();
-                    $('.' + type + '-container').show();
+            $.ajax({
+                url: 'ajax_use_multi_item.php',
+                type: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    showMessage(response.message, response.success);
+                    $("#useMultiModal").hide();
+                },
+                error: function() {
+                    showMessage("Error processing the request.", false);
                 }
             });
         });
-        </script>
 
-        <style>
-        .inventory-container {
-            width: 100%;
-            margin: 20px auto;
-            padding: 0px;
-        }
+        $("#sendForm").on('submit', function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: 'send_item.php',
+                type: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    showMessage(response.message, response.success);
+                    $("#sendModal").hide();
+                },
+                error: function() {
+                    showMessage("Error processing the request.", false);
+                }
+            });
+        });
+    </script>
+</div>
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        top: 25%;
+        left: 25%;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        justify-content: center;
+        align-items: center;
+    }
 
-        .inventory-groups {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px; /* Space between sections */
-        }
+    .modal-content {
+        background-color: #000;
+        color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        width: 50%;
+        max-width: 500px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
 
-        .inventory-group {
-            background-color: #21201c;
-            padding: 20px;
-            border-radius: 8px;
-            width: 100%; /* 50% width for two columns with space between them */
-            margin-bottom: 20px;
-        }
-
-        /* Responsive design for tablets */
-        @media screen and (max-width: 768px) {
-            .inventory-group {
-                width: 100%; /* Full width for smaller screens */
-            }
-        }
-
-        .inventory-items {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px; /* Space between items */
-        }
-
-        .inventory-item {
-            flex: 1 1 calc(33.333% - 20px); /* 33.333% width minus the gap */
-            max-width: calc(33.333% - 20px); /* Ensure max width is also 33.333% minus the gap */
-            background-color: #2d2c28;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .item-image-container {
-            width: 100%;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
-
-        .item-image {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        /* Details for each item (name, quantity, etc.) */
-        .item-details h3 {
-            color: white;
-            font-size: 1.2em;
-            margin-bottom: 10px;
-        }
-
-        .item-details p {
-            color: #aaa;
-            margin-bottom: 10px;
-        }
-
-        .use-btn, .drop-btn, .send-btn {
-            padding: 5px 10px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-            margin-top: 10px;
-        }
-
-        .drop-btn {
-            background-color: #f44336;
-        }
-
-        .send-btn {
-            background-color: #ffa500;
-        }
-
-        .use-btn:hover {
-            background-color: #45a049;
-        }
-
-        .drop-btn:hover {
-            background-color: #d32f2f;
-        }
-
-        .send-btn:hover {
-            background-color: #ff8c00;
-        }
-
-
-        /* Full width if there's only one item in the row */
-        @media screen and (max-width: 480px) {
-            .inventory-item:nth-child(odd):last-child {
-                width: 100%;
-            }
-        }
-
-        /* The Modal (background) */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            padding-top: 100px;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgb(0, 0, 0);
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-content {
-            background-color: #21201c;
-            margin: auto;
-            padding: 20px;
-            border-radius: 8px;
-            width: 40%;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover, .close:focus {
-            color: #fff;
-            cursor: pointer;
-        }
-
-        /* Send Confirmation Button */
-        .send-confirm-btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-
-        .send-confirm-btn:hover {
-            background-color: #45a049;
-        }
-
-        .equipped-items-container {
-            background-color: #21201c;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .equipped-items {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .equipped-item {
-            background-color: #2d2c28;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            width: calc(33.333% - 20px); /* 3 items per row */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .equipped-item h3 {
-            color: white;
-            margin-bottom: 10px;
-        }
-
-        .equipped-item img {
-            border-radius: 8px;
-            max-width: 100px;
-            height: 100px;
-            object-fit: cover;
-        }
-
-        .button-sm {
-            padding: 5px 10px;
-            background-color: #FFA500;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .button-sm:hover {
-            background-color: #FF8C00;
-        }
-        </style>
+    .close {
+        float: right;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #fff;
+    }
+</style>
