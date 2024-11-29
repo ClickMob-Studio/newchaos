@@ -37,8 +37,17 @@ function equipItem($user_id, $item_id, $type, $loaned) {
     if (!$db->num_rows()) return array("status" => "error", "message" => "Item not found");
 
     $item = $db->fetch_row(true);
+
     if ($item['level'] > $user_class->level) return array("status" => "error", "message" => "You aren't high enough level to use this.");
-    Take_Item($item_id, $user_class->id);
+
+    // If the item is loaned, set loaned flag
+    $loanedColumn = '';
+    if ($loaned == 1) {
+        // If the item is loaned, we need to make sure it's still available to equip
+        $loanedColumn = "loaned"; // Assuming this is the column that tracks if the item is loaned
+    }
+
+    // Equip the item depending on the type
     switch ($type) { // Checks if the item matches the requested equipment type
         case 'weapon':
             if ($item['offense'] <= 0) return array("status" => "error", "message" => "This item is not a weapon");
@@ -100,6 +109,7 @@ function equipSpecificItem($user_id, $type, $item_id, $loaned, $loaned_column) {
         handleReturnOrLoan($type, $user_class->$column, $user_class->$loaned_column);
     }
 
+    // Update DB with the new equipment
     $db->query("UPDATE grpgusers SET $column = ?, $loaned_column = ? WHERE id = ?"); // Updates DB with the new equipment
     $db->execute(array($item_id, $loaned, $user_id));
 
