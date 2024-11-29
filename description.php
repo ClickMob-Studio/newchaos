@@ -16,16 +16,11 @@ $worked = mysql_fetch_array($result);
     <head>
         <title><?php echo $worked['itemname'] ?></title>
 
-        <!-- Google Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-        
-        <!-- Bootstrap 5 -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
         <style>
             body {
                 background: url('/asset/img/background.png') top center / cover no-repeat #21201c;
                 font-family: 'Montserrat', sans-serif;
+                font-size: 1.4rem;
                 color: #fff;
                 padding: 85px 0;
             }
@@ -35,13 +30,15 @@ $worked = mysql_fetch_array($result);
             }
 
             .container {
-                width: 90%; /* Ensures content does not stretch too wide */
-                max-width: 1200px; /* Keeps a max width for large screens */
+                width: 90%;
+                max-width: 1200px;
+                margin: 0 auto;
             }
 
             .wrap {
                 background-color: #000;
                 border: 1px solid #333;
+                padding: 15px;
             }
 
             .header {
@@ -150,9 +147,6 @@ $worked = mysql_fetch_array($result);
                 </div>
             </div>
         </div>
-
-        <!-- Bootstrap 5 JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     </body>
 </html>
