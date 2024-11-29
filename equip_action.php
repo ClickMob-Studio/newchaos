@@ -15,7 +15,6 @@ if (isset($_POST['action']) && isset($_POST['item_id'])) { // Checks if the requ
     switch ($_POST['action']) {
         case 'equip': // Handles item equip action
             $response = equipItem($user_id, $item_id, $_POST['type'], $loaned);
-            
             break;
         case 'unequip': // Handles item unequip action
             $response = unequipItem($user_id, $_POST['type']);
@@ -32,20 +31,23 @@ echo json_encode($response); // Outputs the response as JSON
 function equipItem($user_id, $item_id, $type, $loaned) {
     global $db, $user_class;
 
-    $db->query("SELECT * FROM items WHERE id = ?"); // Fetches item details
-    $db->execute(array($item_id));
-    if (!$db->num_rows()) return array("status" => "error", "message" => "Item not found");
-
-    $item = $db->fetch_row(true);
+    // If the item is loaned, fetch it from the gang_loans table
+    if ($loaned == 1) {
+        $db->query("SELECT * FROM gang_loans gl 
+                    JOIN items i ON gl.item = i.id 
+                    WHERE gl.id = ? AND gl.idto = ?");
+        $db->execute(array($item_id, $user_class->id)); // Use loan_id to fetch the loaned item
+        if ($db->num_rows() == 0) return array("status" => "error", "message" => "Loaned item not found");
+        $item = $db->fetch_row(true);
+    } else {
+        // Non-loaned item from the items table
+        $db->query("SELECT * FROM items WHERE id = ?");
+        $db->execute(array($item_id));
+        if ($db->num_rows() == 0) return array("status" => "error", "message" => "Item not found");
+        $item = $db->fetch_row(true);
+    }
 
     if ($item['level'] > $user_class->level) return array("status" => "error", "message" => "You aren't high enough level to use this.");
-
-    // If the item is loaned, set loaned flag
-    $loanedColumn = '';
-    if ($loaned == 1) {
-        // If the item is loaned, we need to make sure it's still available to equip
-        $loanedColumn = "loaned"; // Assuming this is the column that tracks if the item is loaned
-    }
 
     // Equip the item depending on the type
     switch ($type) { // Checks if the item matches the requested equipment type
