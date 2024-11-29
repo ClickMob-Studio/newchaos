@@ -120,52 +120,6 @@ include 'includes/pagination.class.php';
                         $db->execute(array($i));
                         $pages->items_total = $db->fetch_single();
                         ?>
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Topic</th>
-                                        <th>Starter</th>
-                                        <th>Rating</th>
-                                        <th>Replies</th>
-                                        <th>Views</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $db->query("SELECT * FROM ftopics WHERE sectionid = ? ORDER BY FIELD( status, 3,1,0,2 ), case when (SELECT MAX(timesent) FROM freplies WHERE forumid = topicid) > timesent then (SELECT MAX(timesent) FROM freplies WHERE forumid = topicid) else timesent end DESC, lastreply DESC" . $pages->limit());
-                                    $db->execute(array($i));
-                                    if (!$db->num_rows()) {
-                                        echo "<tr><td colspan='5' class='text-center'>There are no topics</td></tr>";
-                                    } else {
-                                        $rows = $db->fetch_row();
-                                        foreach ($rows as $row) {
-                                            $rating = $row['rateup'] - $row['ratedown'];
-                                            $rating = ($rating == 0) ? '-' : $rating;
-                                            if ($rating != 0) {
-                                                $rating = ($rating > 0) ? '<span class="text-success">+' . $rating . '</span>' : '<span class="text-danger">' . $rating . '</span>';
-                                            }
-                                            ?>
-                                            <tr>
-                                                <td><a href='forum.php?topic=<?php echo $row['forumid']; ?>' class="text-decoration-none"><?php echo $row['subject'] . ' '; ?></a>
-                                                    <?php
-                                                    echo $row['status'] == 1 ? "[Sticky]" : '';
-                                                    echo $row['status'] == 2 ? "[Lock]" : '';
-                                                    echo $row['status'] == 3 ? "[Sticky,Lock]" : '';
-                                                    ?>
-                                                </td>
-                                                <td><?php echo formatName($row['playerid']); ?></td>
-                                                <td><?php echo $rating; ?></td>
-                                                <td><?php echo $db->query("SELECT COUNT(postid) FROM freplies WHERE sectionid = ? AND topicid = ?", array($i, $row['forumid']))->fetch_single(); ?></td>
-                                                <td><?php echo $row['views']; ?></td>
-                                            </tr>
-                                            <?php
-                                        }
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
                         <div class="card mt-4">
                             <div class="card-body">
                                 <h5 class="card-title text-danger text-center">New Topic</h5>
@@ -213,6 +167,53 @@ include 'includes/pagination.class.php';
                                 </div>
                             </div>
                         </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Topic</th>
+                                        <th>Starter</th>
+                                        <th>Rating</th>
+                                        <th>Replies</th>
+                                        <th>Views</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $db->query("SELECT * FROM ftopics WHERE sectionid = ? ORDER BY FIELD( status, 3,1,0,2 ), case when (SELECT MAX(timesent) FROM freplies WHERE forumid = topicid) > timesent then (SELECT MAX(timesent) FROM freplies WHERE forumid = topicid) else timesent end DESC, lastreply DESC" . $pages->limit());
+                                    $db->execute(array($i));
+                                    if (!$db->num_rows()) {
+                                        echo "<tr><td colspan='5' class='text-center'>There are no topics</td></tr>";
+                                    } else {
+                                        $rows = $db->fetch_row();
+                                        foreach ($rows as $row) {
+                                            $rating = $row['rateup'] - $row['ratedown'];
+                                            $rating = ($rating == 0) ? '-' : $rating;
+                                            if ($rating != 0) {
+                                                $rating = ($rating > 0) ? '<span class="text-success">+' . $rating . '</span>' : '<span class="text-danger">' . $rating . '</span>';
+                                            }
+                                            ?>
+                                            <tr>
+                                                <td><a href='forum.php?topic=<?php echo $row['forumid']; ?>' class="text-decoration-none"><?php echo $row['subject'] . ' '; ?></a>
+                                                    <?php
+                                                    echo $row['status'] == 1 ? "[Sticky]" : '';
+                                                    echo $row['status'] == 2 ? "[Lock]" : '';
+                                                    echo $row['status'] == 3 ? "[Sticky,Lock]" : '';
+                                                    ?>
+                                                </td>
+                                                <td><?php echo formatName($row['playerid']); ?></td>
+                                                <td><?php echo $rating; ?></td>
+                                                <td><?php echo $db->query("SELECT COUNT(postid) FROM freplies WHERE sectionid = ? AND topicid = ?", array($i, $row['forumid']))->fetch_single(); ?></td>
+                                                <td><?php echo $row['views']; ?></td>
+                                            </tr>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        
                         <div class='d-flex justify-content-center'><?php echo $pages->displayPages(); ?></div>
                         <?php
                          ?>
