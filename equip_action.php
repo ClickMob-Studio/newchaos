@@ -33,8 +33,8 @@ function equipItem($user_id, $item_id, $type, $loaned) {
 
     // If the item is loaned, fetch it from the gang_loans table
     if ($loaned == 1) {
-        $db->query("SELECT * FROM gang_loans gl JOIN items i ON gl.item = i.id WHERE gl.idto = ? AND i.id = ?");
-        $db->execute(array($user_class->id, $item_id)); // Use loan_id to fetch the loaned item
+        $db->query("SELECT * FROM gang_loans gl JOIN items i ON gl.item = i.id WHERE gl.idto = ? AND i.id = 264");
+        $db->execute(array($user_class->id)); // Use loan_id to fetch the loaned item
         if ($db->num_rows() == 0) return array("status" => "error", "message" => "Loaned item not found");
         $item = $db->fetch_row(true);
     } else {
