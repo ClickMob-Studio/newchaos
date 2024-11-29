@@ -350,30 +350,38 @@ src="${itemImage}" alt="${itemName}">
         }
 
         $(document).on('click', '.equip-btn', function () {
-            var type = $(this).data('type');
-            var itemId = $(this).data('id');
-            var itemName = $(this).data('name');
-            var itemImage = $(this).data('img');
-            var loaned = $(this).data('loan-id') ? 1 : 0;
+    var type = $(this).data('type');
+    var itemId = $(this).data('id');
+    var loanId = $(this).data('loan-id');  // Get loanid
+    var itemName = $(this).data('name');
+    var itemImage = $(this).data('img');
 
-            $.ajax({
-                url: 'equip_action.php',
-                type: 'POST',
-                dataType: 'json',
-                data: { action: 'equip', type: type, item_id: itemId,  loaned: loaned },
-                success: function (response) {
-                    if (response.status === 'success') {
-                        showMessage(response.message, true);
-                        updateEquippedItem(type, itemId, itemName, itemImage);
-                    } else {
-                        showMessage(response.message, false);
-                    }
-                },
-                error: function () {
-                    showMessage("Error processing the request.", false);
-                }
-            });
-        });
+    // If loanId is set, it means the item is loaned, so send loaned = 1
+    var loaned = (loanId) ? 1 : 0;
+
+    $.ajax({
+        url: 'equip_action.php',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            action: 'equip',
+            type: type,
+            item_id: itemId,
+            loaned: loaned  // Send loaned flag as part of the data
+        },
+        success: function (response) {
+            if (response.status === 'success') {
+                showMessage(response.message, true);
+                updateEquippedItem(type, itemId, itemName, itemImage);
+            } else {
+                showMessage(response.message, false);
+            }
+        },
+        error: function () {
+            showMessage("Error processing the request.", false);
+        }
+    });
+});
 
         $(document).on('click', '.unequip-btn', function () {
             var type = $(this).data('type');
