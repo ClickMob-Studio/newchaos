@@ -55,6 +55,7 @@ function equipItem($user_id, $item_id, $type, $loaned) {
 }
 
 // Unequip item function
+// Unequip item function
 function unequipItem($user_id, $type) {
     global $db, $user_class;
 
@@ -88,6 +89,18 @@ function unequipItem($user_id, $type) {
 
     return array("status" => "error", "message" => "No item to unequip");
 }
+
+// Helper function to handle return/loan
+function handleReturnOrLoan($type, $item_id, $loaned) {
+    global $user_class;
+
+    if ($loaned == 1) {
+        Loan_Item($user_class->gang, $item_id, $user_class->id); // Returns item to the gang if it was loaned
+    } else {
+        Give_Item($item_id, $user_class->id); // Returns item to inventory if not on loan
+    }
+}
+
 
 // Helper function to equip specific item
 function equipSpecificItem($user_id, $type, $item_id, $loaned, $loaned_column) {
