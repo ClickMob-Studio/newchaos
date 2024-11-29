@@ -74,6 +74,11 @@ function unequipItem($user_id, $type) {
                 handleReturnOrLoan('weapon', $user_class->eqweapon, $user_class->weploaned); // Handles item return or loan
                 $db->query("UPDATE grpgusers SET eqweapon = 0, weploaned = 0 WHERE id = ?"); // Updates DB
                 $db->execute(array($user_id));
+
+                // Clean up loan record
+                $db->query("DELETE FROM gang_loans WHERE item = ? AND idto = ?");
+                $db->execute(array($user_class->eqweapon, $user_class->id));
+
                 return array("status" => "success", "message" => "Weapon unequipped");
             }
             break;
@@ -82,6 +87,11 @@ function unequipItem($user_id, $type) {
                 handleReturnOrLoan('armor', $user_class->eqarmor, $user_class->armloaned);
                 $db->query("UPDATE grpgusers SET eqarmor = 0, armloaned = 0 WHERE id = ?"); 
                 $db->execute(array($user_id));
+
+                // Clean up loan record
+                $db->query("DELETE FROM gang_loans WHERE item = ? AND idto = ?");
+                $db->execute(array($user_class->eqarmor, $user_class->id));
+
                 return array("status" => "success", "message" => "Armor unequipped");
             }
             break;
@@ -90,6 +100,11 @@ function unequipItem($user_id, $type) {
                 handleReturnOrLoan('shoes', $user_class->eqshoes, $user_class->shoeloaned);
                 $db->query("UPDATE grpgusers SET eqshoes = 0, shoeloaned = 0 WHERE id = ?"); 
                 $db->execute(array($user_id));
+
+                // Clean up loan record
+                $db->query("DELETE FROM gang_loans WHERE item = ? AND idto = ?");
+                $db->execute(array($user_class->eqshoes, $user_class->id));
+
                 return array("status" => "success", "message" => "Shoes unequipped");
             }
             break;
