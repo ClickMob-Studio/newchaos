@@ -2783,6 +2783,7 @@ function getCurrentQuestSeasonForUser($userId)
     $db->execute();
     $questSeasonUser = $db->fetch_row(true);
 
+    $questSeasonId = null;
     if ($questSeasonUser && isset($questSeasonUser['id'])) {
         $questSeasonId = $questSeasonUser['quest_season_id'];
     }
