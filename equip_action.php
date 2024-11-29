@@ -79,13 +79,14 @@ function unequipItem($user_id, $type) {
         case 'weapon':
             if ($user_class->eqweapon != 0) {
                 handleReturnOrLoan('weapon', $user_class->eqweapon, $user_class->weploaned);
-                $db->query("UPDATE grpgusers SET eqweapon = 0, weploaned = 0 WHERE id = ?");
-                $db->execute(array($user_id));
-
                 // If loaned, add it back to gang_loans using Loan_Item function
                 if ($user_class->weploaned == 1) {
                     Loan_Item($user_class->gang, $user_class->eqweapon, $user_class->id);
                 }
+                $db->query("UPDATE grpgusers SET eqweapon = 0, weploaned = 0 WHERE id = ?");
+                $db->execute(array($user_id));
+
+                
 
                 return array("status" => "success", "message" => "Weapon unequipped");
             }
@@ -93,13 +94,14 @@ function unequipItem($user_id, $type) {
         case 'armor':
             if ($user_class->eqarmor != 0) {
                 handleReturnOrLoan('armor', $user_class->eqarmor, $user_class->armloaned);
+                if ($user_class->armloaned == 1) {
+                    Loan_Item($user_class->gang, $user_class->eqarmor, $user_class->id);
+                }
                 $db->query("UPDATE grpgusers SET eqarmor = 0, armloaned = 0 WHERE id = ?");
                 $db->execute(array($user_id));
 
                 // If loaned, add it back to gang_loans using Loan_Item function
-                if ($user_class->armloaned == 1) {
-                    Loan_Item($user_class->gang, $user_class->eqarmor, $user_class->id);
-                }
+                
 
                 return array("status" => "success", "message" => "Armor unequipped");
             }
@@ -107,13 +109,14 @@ function unequipItem($user_id, $type) {
         case 'shoes':
             if ($user_class->eqshoes != 0) {
                 handleReturnOrLoan('shoes', $user_class->eqshoes, $user_class->shoeloaned);
+               // If loaned, add it back to gang_loans using Loan_Item function
+               if ($user_class->shoeloaned == 1) {
+                Loan_Item($user_class->gang, $user_class->eqshoes, $user_class->id);
+            }
                 $db->query("UPDATE grpgusers SET eqshoes = 0, shoeloaned = 0 WHERE id = ?");
                 $db->execute(array($user_id));
 
-                // If loaned, add it back to gang_loans using Loan_Item function
-                if ($user_class->shoeloaned == 1) {
-                    Loan_Item($user_class->gang, $user_class->eqshoes, $user_class->id);
-                }
+                
 
                 return array("status" => "success", "message" => "Shoes unequipped");
             }
