@@ -26,7 +26,9 @@ $worked = mysql_fetch_array($result);
             }
 
             body {
-                background-color: #000000;
+                font: 1.4rem 'Montserrat', sans-serif;
+    color: #fff;
+    background: url(/asset/img/background.png) top center / cover no-repeat #21201c;
                 margin: 15px;
             }
 

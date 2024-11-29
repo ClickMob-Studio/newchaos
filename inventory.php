@@ -1,6 +1,21 @@
 <?php
 include 'header.php';
 
+if (isset($_GET['exchangetoken'])) {
+    if ($user_class->donate_token > 0) {
+        $db->query("UPDATE grpgusers SET donate_token = donate_token - 1, points = points + 15000 WHERE id = ?");
+        $db->execute(
+            array(
+                $user_class->id,
+            )
+        );
+        $message = "You have exchanged a " . item_popup('Donation Boost Token', 156) . " for 15,000 Points";
+        Send_Event($user_class->id, "You have exchanged a Donation Boost Token for 15,000 Points.", $user_class->id);
+        diefun($message);
+    } else {
+        diefun('Sorry you do not have any tokens to exchange');
+    }
+}
 // Define restricted and multi-use item arrays
 $restrictedUseItems = array(68, 69, 155, 195, 156, 157, 194, 158, 159, 165, 167, 285);
 $restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256);
@@ -69,6 +84,22 @@ if ($user_class->gang > 0) {
     </div>
 
     <h1 class="text-center mt-5">Inventory</h1>
+    <?php 
+    if ($user_class->donate_token > 0) {
+    echo '<div class="card my-4 category-card">';
+        echo '<div class="card-header text-white text-center" style="background-color: #8e8e8e21;">';
+        echo "<h2 class='text-white'>Special</h2>";
+        echo '</div>';
+        echo '<div class="card-body">';
+        echo '<div class="row g-3 text-center">';
+    echo '<div class="flexcont" border = "thick solid #0000FF"; style="text-align:center;position: relative;flex-flow:row wrap;">';
+    echo image_popup('css/newgame/items/donate_boost.png', 156) . '<br/>';
+    echo '<span class="text-14">x' . $user_class->donate_token . '</span><br/>';
+    echo '<a class="text-14 text-yellow" href="store.php">Boost Donation</a><br/><br/>';
+    echo '<a class="text-14 text-yellow" href="inventory.php?exchangetoken">Exchange x1 for 15,000 Points</a>
+    </div> </div></div></div>';
+}
+?>
     <?php
     $db->query("SELECT inv.*, it.*, c.name AS overridename, c.image AS overrideimage 
                 FROM inventory inv 
@@ -106,6 +137,8 @@ if ($user_class->gang > 0) {
                 } elseif ($row['speed'] > 0) {
                     $subtype = 'shoes';
                 }
+            }elseif($row['category'] == 'booster'){
+                $type = 'booster';
             } elseif ($row['awake_boost'] > 0) {
                 $type = 'house';
             } else {
@@ -123,7 +156,8 @@ if ($user_class->gang > 0) {
         'rare' => array(),
         'house' => array(),
         'consumable' => array(),
-        'gem' => array()
+        'gem' => array(),
+        'booster' => array()
     );
 
     foreach ($items as $item) {
@@ -170,7 +204,7 @@ if ($user_class->gang > 0) {
             echo '<div class="card shadow-sm h-100">';
             echo '<img class="card-img-top" style="max-width: 120px; max-height: 120px; margin: auto;" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '">';
             echo '<div class="card-body d-flex flex-column">';
-            echo '<h6 class="card-title text-white">' . htmlspecialchars($itemName) . '</h6>';
+            echo '<h6 class="card-title text-white">' . item_popup($itemName, $item['id']) . '</h6>';
             echo 'x ' . $item['quantity'];
 
             if ($showEquipButton) {
@@ -219,6 +253,7 @@ if ($user_class->gang > 0) {
                     // Multi-use items
                     if (in_array($item['id'], $multiUseItems)) {
                         $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
+                        $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use</button>';
                     } 
                     // Single-use consumables
                     elseif (!in_array($item['id'], [285, 155, 195, 156, 157, 194, 158, 159, 165, 167])) {

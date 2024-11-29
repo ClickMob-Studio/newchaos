@@ -883,7 +883,15 @@ function formatName($id, $nogang = 0)
         $name .= $gradient;
         $name .= "</b></a>";
     } elseif ($row['gndays']) {
-        $name .= "<a href='profiles.php?id=" . $id . "'>" . nameGen($row['gndays'], $row['rmdays'], $row['uninfo'], $row['username']) . "</a>";
+          // Check if gradient is generated
+          $gradientText = generateGradientName($id);
+          if (empty($gradientText)) {
+              // If no gradient is generated, use normal username
+              $name .= "<a href='profiles.php?id=" . $id . "'>{$row['username']}</a>";
+          } else {
+              // Use generated gradient
+              $name .= "<a href='profiles.php?id=" . $id . "' >" . $gradientText . "</a>";
+          }
     } else if (!empty($row['colours']) and $row['gradient'] == 2 and $row['gndays']) {
         $row['colours'] = str_replace('#', '', $row['colours']);
         $colours = explode("~", $row['colours']);
@@ -2961,4 +2969,76 @@ function updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $req, $va
     }
 
     return $questSeasonMissionUser;
+}
+
+function generateGradientName($user_id) {
+    // Fetch user settings from the database based on the user_id
+    global $db;
+    $db->query("SELECT start_color, end_color, is_bold, is_italic, glow, u.username 
+                FROM user_gradients ug
+                JOIN grpgusers u ON u.id = ug.user_id
+                WHERE ug.user_id = ? AND u.gndays > 0");
+    $db->execute([$user_id]);
+    $settings = $db->fetch_row(true);
+
+    // If settings are found, generate the gradient text
+    if ($settings) {
+        $startColor = $settings['start_color'];
+        $endColor = $settings['end_color'];
+        $username = $settings['username'];
+        $isBold = $settings['is_bold'];
+        $isItalic = $settings['is_italic'];
+        $glow = $settings['glow'];
+
+        // Generate the gradient colors for each letter of the username
+        $gradientColors = generateGradient($startColor, $endColor, strlen($username));
+        $gradientText = "";
+
+        // Loop through each character of the username and apply the gradient
+        for ($i = 0; $i < strlen($username); $i++) {
+            $gradientText .= "<span style=\"color: {$gradientColors[$i]};" . 
+                             ($glow ? " text-shadow: 0 0 10px {$gradientColors[$i]}" : '') . 
+                             "; font-size:22px; font-weight: " . ($isBold ? "bold" : "normal") . "; font-style: " . ($isItalic ? "italic" : "normal") . ";\">" . 
+                             $username[$i] . "</span>";
+        }
+
+        return $gradientText;
+    }
+
+}
+
+// Function to generate a gradient between two colors for each letter
+function generateGradient($startColor, $endColor, $length) {
+    $start = hexToRgb($startColor);
+    $end = hexToRgb($endColor);
+    
+    $gradientColors = [];
+    $stepR = ($end['r'] - $start['r']) / ($length - 1);
+    $stepG = ($end['g'] - $start['g']) / ($length - 1);
+    $stepB = ($end['b'] - $start['b']) / ($length - 1);
+
+    for ($i = 0; $i < $length; $i++) {
+        $r = round($start['r'] + $stepR * $i);
+        $g = round($start['g'] + $stepG * $i);
+        $b = round($start['b'] + $stepB * $i);
+        
+        $gradientColors[] = rgbToHex($r, $g, $b);
+    }
+
+    return $gradientColors;
+}
+
+// Helper functions for color conversion
+function hexToRgb($hex) {
+    $r = hexdec(substr($hex, 1, 2));
+    $g = hexdec(substr($hex, 3, 2));
+    $b = hexdec(substr($hex, 5, 2));
+    
+    return ['r' => $r, 'g' => $g, 'b' => $b];
+}
+
+function rgbToHex($r, $g, $b) {
+    return "#" . str_pad(dechex($r), 2, "0", STR_PAD_LEFT) . 
+           str_pad(dechex($g), 2, "0", STR_PAD_LEFT) . 
+           str_pad(dechex($b), 2, "0", STR_PAD_LEFT);
 }
