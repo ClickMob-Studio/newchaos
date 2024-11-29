@@ -84,13 +84,20 @@ if ($user_class->gang > 0) {
     </div>
 
     <h1 class="text-center mt-5">Inventory</h1>
-    <?php if ($user_class->donate_token > 0) {
+    <?php 
+    if ($user_class->donate_token > 0) {
+    echo '<div class="card my-4 category-card">';
+        echo '<div class="card-header text-white text-center" style="background-color: #8e8e8e21;">';
+        echo "<h2 class='text-white'>Special</h2>";
+        echo '</div>';
+        echo '<div class="card-body">';
+        echo '<div class="row g-3 text-center">';
     echo '<div class="flexcont" border = "thick solid #0000FF"; style="text-align:center;position: relative;flex-flow:row wrap;">';
     echo image_popup('css/newgame/items/donate_boost.png', 156) . '<br/>';
     echo '<span class="text-14">x' . $user_class->donate_token . '</span><br/>';
     echo '<a class="text-14 text-yellow" href="store.php">Boost Donation</a><br/><br/>';
     echo '<a class="text-14 text-yellow" href="inventory.php?exchangetoken">Exchange x1 for 15,000 Points</a>
-    </div>';
+    </div> </div></div></div>';
 }
 ?>
     <?php
