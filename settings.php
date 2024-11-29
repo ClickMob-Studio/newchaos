@@ -498,15 +498,10 @@ include 'header.php';
         <div class="col-md-4 col-6">
             <h1>Gradient Name</h1>
             <p>You have <?= $user_class->gndays; ?> gradient name days left.</p>
-            <form id="gradientNameForm">
-                <label>Starting Color</label>
-                <input type="text" class="color" value="<?= $st; ?>" name="startcolor">
-                <label>Middle Color</label>
-                <input type="text" class="color" value="<?= $mid; ?>" name="midcolor">
-                <label>Ending Color</label>
-                <input type="text" class="color" value="<?= $ed; ?>" name="endcolor">
-                <button type="submit">Update Gradient Name</button>
-            </form>
+            <form action="https://www.example.com" method="get">
+  <button type="submit">Gradient Name</button>
+</form> 
+            
         </div>
 
         <div class="col-md-4 col-6">
