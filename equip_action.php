@@ -47,6 +47,7 @@ function equipItem($user_id, $item_id, $type, $loaned) {
         $db->execute(array($item_id));
         if ($db->num_rows() == 0) return array("status" => "error", "message" => "Item not found");
         $item = $db->fetch_row(true);
+        
     }
 
     if ($item['level'] > $user_class->level) return array("status" => "error", "message" => "You aren't high enough level to use this.");
@@ -137,7 +138,9 @@ function equipSpecificItem($user_id, $type, $item_id, $loaned, $loaned_column) {
     // Update DB with the new equipment
     $db->query("UPDATE grpgusers SET $column = ?, $loaned_column = ? WHERE id = ?"); // Updates DB with the new equipment
     $db->execute(array($item_id, $loaned, $user_id));
-
+    if($loaned < 1){
+        Take_Item($item_id, $user_class->id);
+    }
     return array("status" => "success", "message" => ucfirst($type) . " equipped");
 }
 
