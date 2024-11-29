@@ -33,8 +33,8 @@ function equipItem($user_id, $item_id, $type, $loaned) {
 
     // If the item is loaned, fetch it from the gang_loans table
     if ($loaned == 1) {
-        $db->query("SELECT * FROM gang_loans gl JOIN items i ON gl.item = i.id WHERE gl.idto = ? AND i.id = 264");
-        $db->execute(array($user_class->id)); // Use loan_id to fetch the loaned item
+        $db->query("SELECT * FROM gang_loans gl JOIN items i ON gl.item = i.id WHERE gl.idto = ? AND i.id = ?");
+        $db->execute(array($user_class->id, $item_id)); // Use loan_id to fetch the loaned item
         if ($db->num_rows() == 0) return array("status" => "error", "message" => "Loaned item not found");
         $item = $db->fetch_row(true);
     } else {
@@ -56,7 +56,7 @@ function equipItem($user_id, $item_id, $type, $loaned) {
             if ($item['defense'] <= 0) return array("status" => "error", "message" => "This item is not armor");
             return equipSpecificItem($user_id, 'armor', $item_id, $loaned, 'armloaned');
         case 'shoes':
-            if ($item['speed'] <= 0) return array("status" => "error", "message" => "This item is not a shoe");
+            if ($item['speed'] <= 0) return array("status" => "error", "message" => "This item is not shoes");
             return equipSpecificItem($user_id, 'shoes', $item_id, $loaned, 'shoeloaned');
         default:
             return array("status" => "error", "message" => "Invalid equipment type");
