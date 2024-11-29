@@ -15,6 +15,22 @@ include 'includes/pagination.class.php';
     box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
 }
 </style>
+<?php
+ $names = array(
+    1 => 'News',
+    2 => 'General Chat',
+    3 => 'Gang Chat',
+    4 => 'Marketplace',
+    5 => 'Competitions',
+    6 => 'Off-Topic',
+    7 => 'Suggestions',
+    8 => 'Help',
+    9 => 'Bugs/Errors',
+    10 => 'Graphics',
+    11 => 'Staff',
+    12 => 'Missing Items'
+);
+?>
 <div class='container mt-4'>
 <div class='box_top'>
     Forums 
@@ -36,20 +52,7 @@ include 'includes/pagination.class.php';
                 $db->execute(array($user_class->id));
             }
             addBrowser($user_class->id, $user_class->username);
-            $names = array(
-                1 => 'News',
-                2 => 'General Chat',
-                3 => 'Gang Chat',
-                4 => 'Marketplace',
-                5 => 'Competitions',
-                6 => 'Off-Topic',
-                7 => 'Suggestions',
-                8 => 'Help',
-                9 => 'Bugs/Errors',
-                10 => 'Graphics',
-                11 => 'Staff',
-                12 => 'Missing Items'
-            );
+           
             $_GET['topic'] = isset($_GET['topic']) && ctype_digit($_GET['topic']) ? $_GET['topic'] : null;
             $_GET['id'] = isset($_GET['id']) && ctype_digit($_GET['id']) ? $_GET['id'] : null;
             if (!empty($_GET['id'])) {
