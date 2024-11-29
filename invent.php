@@ -274,7 +274,7 @@ if ($user_class->gang > 0) {
 
         echo '</div></div></div>';
     }
-    $db->query("SELECT *, gl.id as loanid FROM gang_loans gl JOIN items i ON gl.item = i.id WHERE idto = ?");
+    $db->query("SELECT *, gl.id as loanid, i.id as itemid FROM gang_loans gl JOIN items i ON gl.item = i.id WHERE idto = ?");
     $db->execute(array($user_class->id));
     $loanedItems = $db->fetch_row();
 
