@@ -157,7 +157,7 @@ if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && is
     <h1>Activity Contest</h1>
     <p>
         Welcome to the Activity Contest, complete actions to earn points and push yourself up the leaderboard, but there's a twist! Each hour the required action to earn
-        activity points will change so keep an eye out and grind your way way to some great prizes!
+        activity points will change so keep an eye out and grind your way to some great prizes!
     </p>
 
     <p>
@@ -178,7 +178,7 @@ if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && is
 
     <p><strong>Current Requirement: Complete <?php echo ucfirst($activityContest['type']) ?> to earn activity points</strong></p>
 
-    <p style="color: red">Contest Ends July 06, 2024 19:00:00 Server Time</p>
+    <p style="color: red">Contest Ends December 03, 2024 09:00:00 Server Time</p>
     <hr />
 
     <div class="row">
@@ -187,9 +187,9 @@ if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && is
                 <h2>Daily</h2>
                 <p><strong>Prize:</strong></p>
                 <ul>
-                    <li>1st: 150,000 points, 2 x Stone (Rare) & 1 x Hourglass Gem (Rare)</li>
-                    <li>2nd: 25,000 points & 1 x Stone (Rare)</li>
-                    <li>3rd: 1 x Stone (Rare)</li>
+                    <li>1st: 150,000 points</li>
+                    <li>2nd: 25,000 points</li>
+                    <li>3rd: 10,000 points</li>
                 </ul>
                 <table class="new_table" id="newtables" style="width:100%;">
                     <tr>
@@ -224,9 +224,9 @@ if (false && isset($_GET['action']) && $_GET['action'] === 'contest_token' && is
                 <h2>Overall</h2>
                 <p><strong>Prizes:</strong></p>
                 <ul>
-                    <li>1st: 1,000,000 points, 1 x Space Infinity Stone (Ultra Rare), 1 x Research Token &  1 x Fireplace</li>
-                    <li>2nd: 500,000 points, 1 x Voidglass (Rare) & 1 x Sofa</li>
-                    <li>3rd: 250,000 points, 5 x Stone (Rare)</li>
+                    <li>1st: 500,000 points</li>
+                    <li>2nd: 250,000 points</li>
+                    <li>3rd: 100,000 points</li>
                 </ul>
                 <table class="new_table" id="newtables" style="width:100%;">
                     <tr>
