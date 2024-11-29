@@ -1,3 +1,7 @@
+<?php
+require "header.php";
+?>
+
 <div class="gradient-settings">
     <label for="username">Username:</label>
     <input type="text" id="username" placeholder="Enter your username" />
