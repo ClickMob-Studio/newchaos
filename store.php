@@ -1237,6 +1237,19 @@ document.addEventListener("DOMContentLoaded", function() {
                             </ul>
                         <?php endif; ?>
 
+                        <?php if ($limitedPack['id'] == 9): ?>
+                            <p>Pack Contains:</p>
+                            <ul>
+                                <li>800,000 Points</li>
+                                <li>$1,000,000,000</li>
+                                <li>50 x Dracula Blood Bag</li>
+                                <li>1 x Dracula Statue</li>
+                                <li>1 x Sound System</li>
+                                <li>5 x Mission Passes</li>
+                                <li>5 x Gold Token Chests</li>
+                            </ul>
+                        <?php endif; ?>
+
                         <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img> <?php echo $limitedPack['gold_cost'] ?></font></h4>
                     </td>
                 </tr>
