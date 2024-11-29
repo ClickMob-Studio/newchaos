@@ -37,6 +37,10 @@ function equipItem($user_id, $item_id, $type, $loaned) {
         $db->execute(array($user_class->id, $item_id)); // Use loan_id to fetch the loaned item
         if ($db->num_rows() == 0) return array("status" => "error", "message" => "Loaned item not found");
         $item = $db->fetch_row(true);
+
+        // Remove from gang_loans when equipped
+        $db->query("DELETE FROM gang_loans WHERE item = ? AND idto = ?");
+        $db->execute(array($item_id, $user_class->id));
     } else {
         // Non-loaned item from the items table
         $db->query("SELECT * FROM items WHERE id = ?");
@@ -75,9 +79,11 @@ function unequipItem($user_id, $type) {
                 $db->query("UPDATE grpgusers SET eqweapon = 0, weploaned = 0 WHERE id = ?"); // Updates DB
                 $db->execute(array($user_id));
 
-                // Clean up loan record
-                $db->query("DELETE FROM gang_loans WHERE item = ? AND idto = ?");
-                $db->execute(array($user_class->eqweapon, $user_class->id));
+                // If loaned, add it back to gang_loans
+                if ($user_class->weploaned == 1) {
+                    $db->query("INSERT INTO gang_loans (item, idto) VALUES (?, ?)");
+                    $db->execute(array($user_class->eqweapon, $user_class->id));
+                }
 
                 return array("status" => "success", "message" => "Weapon unequipped");
             }
@@ -88,9 +94,11 @@ function unequipItem($user_id, $type) {
                 $db->query("UPDATE grpgusers SET eqarmor = 0, armloaned = 0 WHERE id = ?"); 
                 $db->execute(array($user_id));
 
-                // Clean up loan record
-                $db->query("DELETE FROM gang_loans WHERE item = ? AND idto = ?");
-                $db->execute(array($user_class->eqarmor, $user_class->id));
+                // If loaned, add it back to gang_loans
+                if ($user_class->armloaned == 1) {
+                    $db->query("INSERT INTO gang_loans (item, idto) VALUES (?, ?)");
+                    $db->execute(array($user_class->eqarmor, $user_class->id));
+                }
 
                 return array("status" => "success", "message" => "Armor unequipped");
             }
@@ -101,9 +109,11 @@ function unequipItem($user_id, $type) {
                 $db->query("UPDATE grpgusers SET eqshoes = 0, shoeloaned = 0 WHERE id = ?"); 
                 $db->execute(array($user_id));
 
-                // Clean up loan record
-                $db->query("DELETE FROM gang_loans WHERE item = ? AND idto = ?");
-                $db->execute(array($user_class->eqshoes, $user_class->id));
+                // If loaned, add it back to gang_loans
+                if ($user_class->shoeloaned == 1) {
+                    $db->query("INSERT INTO gang_loans (item, idto) VALUES (?, ?)");
+                    $db->execute(array($user_class->eqshoes, $user_class->id));
+                }
 
                 return array("status" => "success", "message" => "Shoes unequipped");
             }
@@ -134,9 +144,7 @@ function equipSpecificItem($user_id, $type, $item_id, $loaned, $loaned_column) {
 // Helper function to handle return/loan
 function handleReturnOrLoan($type, $item_id, $loaned) {
     global $user_class;
-    if ($loaned == 1) {
-        Loan_Item($user_class->gang, $item_id, $user_class->id); // Returns item to the gang if it was loaned
-    } else {
+    if ($loaned == 0) {
         Give_Item($item_id, $user_class->id); // Returns item to inventory if not on loan
     }
 }
