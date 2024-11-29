@@ -47,7 +47,29 @@ function applySettings() {
     previewElement.style.fontWeight = isBold;
     previewElement.style.fontStyle = isItalic;
 }
+function saveGradientSettings() {
+    const user_id = <?php echo $_SESSION['id']; ?>;  // Get the user_id from the session
+    const startColor = document.getElementById("startColor").value;
+    const endColor = document.getElementById("endColor").value;
+    const isBold = document.getElementById("bold").checked ? 'true' : 'false';
+    const isItalic = document.getElementById("italic").checked ? 'true' : 'false';
+    const glow = document.getElementById("glow").checked ? 'true' : 'false';
 
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "saveGradientSettings.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    // Prepare the data to be sent to the server
+    const params = `user_id=${encodeURIComponent(user_id)}&startColor=${encodeURIComponent(startColor)}&endColor=${encodeURIComponent(endColor)}&bold=${encodeURIComponent(isBold)}&italic=${encodeURIComponent(isItalic)}&glow=${encodeURIComponent(glow)}`;
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // Display the server response (Success or error message)
+            alert(xhr.responseText);
+        }
+    };
+    xhr.send(params);
+}
 // Function to generate the gradient for the username
 function generateGradientName(startColor, endColor, username, glow) {
     const gradientColors = generateGradient(startColor, endColor, username.length);
