@@ -177,41 +177,55 @@ if ($user_class->gang > 0) {
         }
     }
 
-    function renderCategory($categoryName, $items) {
+    function renderCategory($categoryName, $items, $loan = false) {
         global $restrictedSendItems, $multiUseItems, $restrictedUseItems, $loan;
-
+    
         if (empty($items)) return;
-
+    
+        // Start category card
         echo '<div class="card my-4 category-card">';
         echo '<div class="card-header text-white text-center" style="background-color: #8e8e8e21;">';
         echo "<h2 class='text-white'>$categoryName</h2>";
         echo '</div>';
         echo '<div class="card-body">';
         echo '<div class="row g-3 text-center">';
-
+    
+        // Loop through items and render them
         foreach ($items as $item) {
+            // Check for loaned items and add a label for loaned items
             $itemName = !empty($item['overridename']) ? $item['overridename'] : $item['itemname'];
             $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
             $buttonHtml = '';
             $sell = ($item['cost'] > 0) 
             ? "<a class='button-sm btn btn-sm btn-secondary mt-2' href='sellitem.php?id=" . $item['id'] . "'>Sell</a>"
             : "";
+    
+            // Determine item type
             list($itemType, $itemSubtype) = getItemType($item);
             $showEquipButton = in_array($itemType, array('weapon', 'armor', 'shoes')) || in_array($itemSubtype, array('weapon', 'armor', 'shoes'));
             $dataType = $itemSubtype ?: $itemType;
-
+    
+            // Render item card
             echo '<div class="col-6 col-md-4 col-lg-3 mb-3">';
             echo '<div class="card shadow-sm h-100">';
             echo '<img class="card-img-top" style="max-width: 120px; max-height: 120px; margin: auto;" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '">';
             echo '<div class="card-body d-flex flex-column">';
-            echo '<h6 class="card-title text-white">' . item_popup($itemName, $item['id']) . '</h6>';
+            echo '<h6 class="card-title text-white">' . item_popup($itemName, $item['id']);
+            
+            // If the item is loaned, append a label indicating it
+            if ($loan) {
+                echo ' <span class="badge bg-warning text-dark">Loaned</span>';
+            }
+    
+            echo '</h6>';
             echo 'x ' . $item['quantity'];
-
+    
+            // Add equip button if item is a weapon, armor, or shoes
             if ($showEquipButton) {
                 $buttonHtml .= '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $dataType . '" data-id="' . intval($item['itemid']) . '" data-name="' . htmlspecialchars($itemName) . '" data-img="' . htmlspecialchars($itemImage) . '">Equip</button>';
             }
-
-            // Special buttons based on item ID
+    
+            // Special item actions based on item ID
             switch ($item['id']) {
                 case 155:
                     $buttonHtml .= '<a class="btn btn-sm btn-info mt-2" href="inventory.php?use=' . $item['id'] . '">Share The Love</a> ';
@@ -241,39 +255,70 @@ if ($user_class->gang > 0) {
                     $buttonHtml .= '<a class="btn btn-sm btn-info mt-2" href="inventory.php?use=' . $item['id'] . '">Send Christmas Present</a> ';
                     break;
             }
-
-            // Market button
+    
+            // Market button (if item is not restricted and not loaned)
             if (!$loan && !in_array($item['id'], [155, 195, 156, 194, 157, 158, 159, 165, 167, 256])) {
                 $buttonHtml .= '<a class="btn btn-sm btn-primary mt-2" href="putonmarket.php?id=' . $item['id'] . '">Market</a> ';
             }
-            
-
-          
-                if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems) && $item['category'] != 'crafting')) {
-                    // Multi-use items
-                    if (in_array($item['id'], $multiUseItems)) {
-                        $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
-                        $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use</button>';
-                    } 
-                    // Single-use consumables
-                    elseif (!in_array($item['id'], [285, 155, 195, 156, 157, 194, 158, 159, 165, 167])) {
-                        $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use</button>';
-                    }
+    
+            // Handle multi-use items
+            if ($itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems) && $item['category'] != 'crafting')) {
+                // Multi-use items
+                if (in_array($item['id'], $multiUseItems)) {
+                    $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
+                    $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use</button>';
                 }
-            
-            
-
-
+                // Single-use consumables
+                elseif (!in_array($item['id'], [285, 155, 195, 156, 157, 194, 158, 159, 165, 167])) {
+                    $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use</button>';
+                }
+            }
+    
+            // Send button (for non-restricted items)
             if (!in_array($item['id'], $restrictedSendItems)) {
                 $buttonHtml .= '<button class="btn btn-sm btn-info send-btn mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Send</button> ';
             }
-            $buttonHtml .= $sell;
+    
             echo $buttonHtml;
-            echo '</div></div></div>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
         }
-
+    
+        // Close category card
         echo '</div></div></div>';
     }
+// Fetch the loaned items
+$db->query("SELECT *, gl.id as loanid FROM gang_loans gl JOIN items i ON gl.item = i.id WHERE idto = ?");
+$db->execute(array($user_class->id));
+$loanedItems = $db->fetch_row();
+
+// Categorize and render loaned items
+foreach ($loanedItems as $row) {
+    // Determine item type and subtype
+    if ($row['offense'] > 0 && $row['rare'] == 0)
+        $type = 'weapon';
+    elseif ($row['defense'] > 0 && $row['rare'] == 0)
+        $type = 'armor';
+    elseif ($row['speed'] > 0 && $row['rare'] == 0)
+        $type = 'shoes';
+    elseif ($row['rare'] == 1) {
+        $type = 'rare';
+        if ($row['offense'])
+            $subtype = 'weapon';
+        if ($row['defense'])
+            $subtype = 'armor';
+        if ($row['speed'])
+            $subtype = 'shoes';
+    } elseif ($row['awake_boost'] > 0) {
+        $type = 'house';
+    } else {
+        $type = 'consumable';
+    }
+
+    // Render the loaned item using renderCategory
+    renderCategory($type, $row, $subtype, true, $row['loanid']);
+}    
 
     renderCategory("Weapons", $categorizedItems['weapon']);
     renderCategory("Armor", $categorizedItems['armor']);
