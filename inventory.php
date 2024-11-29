@@ -137,6 +137,8 @@ if ($user_class->gang > 0) {
                 } elseif ($row['speed'] > 0) {
                     $subtype = 'shoes';
                 }
+            }elseif($row['category'] == 'booster'){
+                $type = 'booster';
             } elseif ($row['awake_boost'] > 0) {
                 $type = 'house';
             } else {
@@ -154,7 +156,8 @@ if ($user_class->gang > 0) {
         'rare' => array(),
         'house' => array(),
         'consumable' => array(),
-        'gem' => array()
+        'gem' => array(),
+        'booster' => array()
     );
 
     foreach ($items as $item) {
