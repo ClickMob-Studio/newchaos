@@ -498,7 +498,7 @@ include 'header.php';
         <div class="col-md-4 col-6">
             <h1>Gradient Name</h1>
             <p>You have <?= $user_class->gndays; ?> gradient name days left.</p>
-            <form action="https://www.example.com" method="get">
+            <form action="colors.php" method="get">
   <button type="submit">Gradient Name</button>
 </form> 
             
