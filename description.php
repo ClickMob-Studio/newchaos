@@ -34,6 +34,11 @@ $worked = mysql_fetch_array($result);
                 font-size: 1.4rem;
             }
 
+            .container {
+                width: 90%; /* Ensures content does not stretch too wide */
+                max-width: 1200px; /* Keeps a max width for large screens */
+            }
+
             .wrap {
                 background-color: #000;
                 border: 1px solid #333;
@@ -71,6 +76,18 @@ $worked = mysql_fetch_array($result);
             .textl2, .textr2 {
                 background-color: #333333;
             }
+
+            /* Maintain fixed table width */
+            table {
+                width: 100%;
+                table-layout: fixed;
+            }
+
+            /* Ensure content is centered within the container */
+            .wrap td {
+                text-align: center;
+            }
+
         </style>
 
     </head>
