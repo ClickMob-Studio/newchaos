@@ -104,8 +104,8 @@ function generateGradientName($user_id) {
     global $db;
     $db->query("SELECT start_color, end_color, is_bold, is_italic, glow, u.username 
                 FROM user_gradients ug
-                JOIN users u ON u.id = ug.user_id
-                WHERE ug.user_id = ?");
+                JOIN grpgusers u ON u.id = ug.user_id
+                WHERE ug.user_id = ? AND u.gndays > 0");
     $db->execute([$user_id]);
     $settings = $db->fetch_row(true);
 
