@@ -150,7 +150,7 @@ function equipSpecificItem($user_id, $type, $item_id, $loaned, $loaned_column) {
 
 // Helper function to handle return/loan
 function handleReturnOrLoan($type, $item_id, $loaned) {
-    global $user_class;
+    global $user_class, $db;
     // If the item is loaned, return it to gang_loans
     if ($loaned == 1) {
         $db->query("INSERT INTO gang_loans (item, idto) VALUES (?, ?)");
