@@ -56,7 +56,7 @@ function saveGradientSettings() {
     const glow = document.getElementById("glow").checked ? 'true' : 'false';
 
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "saveGradientSettings.php", true);
+    xhr.open("POST", "saveGradient.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
     // Prepare the data to be sent to the server
