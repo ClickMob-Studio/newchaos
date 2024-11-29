@@ -21,7 +21,7 @@ require "header.php";
     <label for="glow">Glow:</label>
     <input type="checkbox" id="glow" />
 
-    <button onclick="applySettings() saveGradientSettings()">Apply Gradient</button>
+    <button onclick="applySettings(); saveGradientSettings()">Apply Gradient</button>
 </div>
 
 <div id="preview">
