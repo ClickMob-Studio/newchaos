@@ -2,6 +2,10 @@
 require "header.php";
 ?>
 
+    <!-- Success Message -->
+    <div id="successMessage" class="alert alert-success" style="display:none;">
+        Gradient settings saved successfully!
+    </div>
 <div class="gradient-settings-container">
     <div class="gradient-settings">
         <h3>Customize Your Username Gradient</h3>
@@ -30,10 +34,6 @@ require "header.php";
         <div id="gradientPreview" class="preview-text"></div>
     </div>
 
-    <!-- Success Message -->
-    <div id="successMessage" class="alert alert-success" style="display:none;">
-        Gradient settings saved successfully!
-    </div>
 </div>
 
 <script>
