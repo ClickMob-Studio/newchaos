@@ -16,7 +16,16 @@ include 'includes/pagination.class.php';
 }
 </style>
 <div class='container mt-4'>
-    <div class='box_top'>Forums</div>
+<div class='box_top'>
+    Forums 
+    <?php
+    // Check if a forum ID is set in the URL (through GET)
+    if (isset($_GET['id']) && isset($names[$_GET['id']])) {
+        // Display the name of the selected forum
+        echo " - " . $names[$_GET['id']];
+    }
+    ?>
+</div>
     <div class='box_middle'>
         <div class='pad'>
             <?php
