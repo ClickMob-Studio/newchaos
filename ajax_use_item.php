@@ -132,12 +132,12 @@ if (isset($_GET['use'])) {
                         echo json_encode($response);
                         exit;
                     }
-    
+
                     // Clear any buffered output to avoid conflicts with JSON
                     if (ob_get_length()) {
                         ob_clean();
                     }
-    
+
                     // Validate user health and hospital status
                     if ($user_class->purehp >= $user_class->puremaxhp && !$user_class->hospital) {
                         $response['success'] = false;
@@ -145,7 +145,7 @@ if (isset($_GET['use'])) {
                         echo json_encode($response);
                         exit;
                     }
-    
+
                     // Check if the user is in a bombed state
                     if (in_array($user_class->hhow, ["bombed", "cbombed", "abombed"])) {
                         $response['success'] = false;
@@ -153,39 +153,39 @@ if (isset($_GET['use'])) {
                         echo json_encode($response);
                         exit;
                     }
-    
+
                     // Fetch item details
                     $db->query("SELECT * FROM items WHERE id = ?");
                     $db->execute(array($id));
                     $row = $db->fetch_row(true);
-    
+
                     if (!$row) {
                         $response['success'] = false;
                         $response['message'] = "Item not found.";
                         echo json_encode($response);
                         exit;
                     }
-    
+
                     // Calculate hospital time reduction (if hospital is 0, this will remain 0)
                     $hosp = floor(($user_class->hospital / 100) * $row['reduce']);
                     $newhosp = max($user_class->hospital - $hosp, 0); // Ensure hospital time is non-negative
-    
+
                     // Calculate HP healing
                     $hp = floor(($user_class->puremaxhp / 4) * $row['heal']);
                     $hp = min($user_class->purehp + $hp, $user_class->puremaxhp); // Cap HP at max HP
-    
+
                     // Update the database with new hospital and HP values
                     $db->query("UPDATE grpgusers SET hospital = ?, hp = ? WHERE id = ?");
                     $db->execute(array($newhosp, $hp, $user_class->id));
-    
+
                     // Prepare and send the JSON response
                     $response['success'] = true;
                     $response['message'] = "You successfully used a Med Cert. HP is now {$hp}, and hospital time reduced to {$newhosp}.";
                     echo json_encode($response);
                     exit;
-    
-                
-                
+
+
+
             case 27:
                 druggie(0);
                 $response['success'] = true;
@@ -563,6 +563,20 @@ if (isset($_GET['use'])) {
 
                 $response['success'] = true;
                 $response['message'] = "You use your trick or treat pass and you feel ready to go searching player profiles for the next 15 minutes!";
+                break;
+            case 294:
+                $db->query("UPDATE grpgusers SET points = points + 800000, money = money + 1000000000 WHERE id = " . $user_class->id);
+                $db->execute();
+
+
+                Give_Item(285, $user_class->id, 50); // Blood Bags
+                Give_Item(293, $user_class->id, 1); // Dracula Statue
+                Give_Item(278, $user_class->id, 1); // Sound System
+                Give_Item(277, $user_class->id, 5); // Mission Passes
+                Give_Item(283, $user_class->id, 5); // Gold Rush Token Chest
+
+                $response['success'] = true;
+                $response['message'] = "You open your black friday crate and inside find 800,000 points, $1,000,000,000, 50 x Dracula Blood Bag, 1 x Dracula Statue, 1 x Sound System, 5 x Gold Rush Token Chest & 5 x Mission Passes!";
                 break;
             default:
                 $response['message'] = "Item not recognized or cannot be used.";
