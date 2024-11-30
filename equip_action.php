@@ -57,8 +57,11 @@ function equipItem($user_id, $item_id, $type, $loaned) {
         if ($db->num_rows() == 0) return array("status" => "error", "message" => "Loaned item not found");
         $item = $db->fetch_row(true);
 
-        // Remove from gang_loans when equipping the new loaned item
-        $db->query("DELETE FROM gang_loans WHERE item = ? AND idto = ?");
+        $db->query("UPDATE gang_loans SET quantity = quantity - 1 WHERE item = ? AND idto = ?");
+        $db->execute(array($item_id, $user_class->id));
+
+        // If quantity is 0, delete the record from gang_loans
+        $db->query("DELETE FROM gang_loans WHERE item = ? AND idto = ? AND quantity <= 0");
         $db->execute(array($item_id, $user_class->id));
     } else {
         $db->query("SELECT * FROM items WHERE id = ?");
