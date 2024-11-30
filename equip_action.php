@@ -31,9 +31,27 @@ echo json_encode($response); // Outputs the response as JSON
 function equipItem($user_id, $item_id, $type, $loaned) {
     global $db, $user_class;
 
-    // Check if the item is loaned
+    // Before equipping the new item, handle any current equipped loaned items
+    switch ($type) {
+        case 'weapon':
+            if ($user_class->eqweapon != 0 && $user_class->weploaned == 1) {
+                Loan_Item($user_class->gang, $user_class->eqweapon, $user_class->id); // Return the loaned weapon to gang_loans
+            }
+            break;
+        case 'armor':
+            if ($user_class->eqarmor != 0 && $user_class->armloaned == 1) {
+                Loan_Item($user_class->gang, $user_class->eqarmor, $user_class->id); // Return the loaned armor to gang_loans
+            }
+            break;
+        case 'shoes':
+            if ($user_class->eqshoes != 0 && $user_class->shoeloaned == 1) {
+                Loan_Item($user_class->gang, $user_class->eqshoes, $user_class->id); // Return the loaned shoes to gang_loans
+            }
+            break;
+    }
+
+    // Fetch the new item (loaned or not)
     if ($loaned == 1) {
-        // Fetch the loaned item
         $db->query("SELECT * FROM gang_loans gl JOIN items i ON gl.item = i.id WHERE gl.idto = ? AND i.id = ?");
         $db->execute(array($user_class->id, $item_id));
         if ($db->num_rows() == 0) return array("status" => "error", "message" => "Loaned item not found");
@@ -43,7 +61,6 @@ function equipItem($user_id, $item_id, $type, $loaned) {
         $db->query("DELETE FROM gang_loans WHERE item = ? AND idto = ?");
         $db->execute(array($item_id, $user_class->id));
     } else {
-        // If not loaned, retrieve from regular items
         $db->query("SELECT * FROM items WHERE id = ?");
         $db->execute(array($item_id));
         if ($db->num_rows() == 0) return array("status" => "error", "message" => "Item not found");
@@ -86,8 +103,6 @@ function unequipItem($user_id, $type) {
                 $db->query("UPDATE grpgusers SET eqweapon = 0, weploaned = 0 WHERE id = ?");
                 $db->execute(array($user_id));
 
-                
-
                 return array("status" => "success", "message" => "Weapon unequipped");
             }
             break;
@@ -100,23 +115,18 @@ function unequipItem($user_id, $type) {
                 $db->query("UPDATE grpgusers SET eqarmor = 0, armloaned = 0 WHERE id = ?");
                 $db->execute(array($user_id));
 
-                // If loaned, add it back to gang_loans using Loan_Item function
-                
-
                 return array("status" => "success", "message" => "Armor unequipped");
             }
             break;
         case 'shoes':
             if ($user_class->eqshoes != 0) {
                 handleReturnOrLoan('shoes', $user_class->eqshoes, $user_class->shoeloaned);
-               // If loaned, add it back to gang_loans using Loan_Item function
-               if ($user_class->shoeloaned == 1) {
-                Loan_Item($user_class->gang, $user_class->eqshoes, $user_class->id);
-            }
+                // If loaned, add it back to gang_loans using Loan_Item function
+                if ($user_class->shoeloaned == 1) {
+                    Loan_Item($user_class->gang, $user_class->eqshoes, $user_class->id);
+                }
                 $db->query("UPDATE grpgusers SET eqshoes = 0, shoeloaned = 0 WHERE id = ?");
                 $db->execute(array($user_id));
-
-                
 
                 return array("status" => "success", "message" => "Shoes unequipped");
             }
@@ -155,8 +165,7 @@ function handleReturnOrLoan($type, $item_id, $loaned) {
     global $user_class, $db;
     // If the item is loaned, return it to gang_loans
     if ($loaned == 1) {
-      //  $db->query("INSERT INTO gang_loans (item, idto) VALUES (?, ?)");
-        //$db->execute(array($item_id, $user_class->id));
+        // Do nothing, the item is already returned to the gang_loans table in the equip process
     } else {
         // If not loaned, return it to inventory
         Give_Item($item_id, $user_class->id);
