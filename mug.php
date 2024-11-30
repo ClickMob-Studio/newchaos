@@ -192,9 +192,9 @@ if ($user_class->gang != 0){
             gangContest(array('mugs' => 1));
             bloodbath('mugs', $user_class->id);
 
-            db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
+            $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
             $db->execute();
-            $activityContest = $db->fetch_row();
+            $activityContest = $db->fetch_row(true);
             if ($activityContest['type'] == 'mugs') {
                 addToUserCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
             }
