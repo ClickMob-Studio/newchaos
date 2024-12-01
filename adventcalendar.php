@@ -103,7 +103,7 @@ $today = date('j');
                         <div class="card-body">
                             <p class="card-text">
                             <center>
-                                    <strong>Day <?php echo $day ?></strong>
+                                    <strong>Day <?php echo $day ?></strong><br />
 
                                     <?php
                                     if ($day == $today) {
