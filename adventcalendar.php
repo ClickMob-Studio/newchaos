@@ -75,9 +75,13 @@ function displayCalendar($userId) {
 if (isset($_GET['open']) && $_GET['open'] == date('j')) {
     if (!hasOpenedToday($user_class->id)) {
         $item = awardItem($user_class->id);
-        echo "You have been awarded: 1 x " . Item_Name($item);
+        echo "
+            <div class='alert alert-success'>
+                You have been awarded: 1 x " . Item_Name($item) . "
+            </div> 
+        ";
     } else {
-        echo "You have already opened today's calendar.";
+        echo "<div class='alert alert-danger'>You have already opened today's calendar.</div>";
     }
 }
 
