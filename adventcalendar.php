@@ -4,9 +4,9 @@ include 'header.php';
 function hasOpenedToday($userId) {
     global $db;
     $today = date('Y-m-d');
-    $db->query("SELECT COUNT(*) FROM `advent_calendar` WHERE `user_id` = ? AND `date_opened` = ?");
+    $db->query("SELECT COUNT(id) FROM `advent_calendar` WHERE `user_id` = ? AND `date_opened` = ?");
     $db->execute([$userId, $today]);
-    var_dump($db->fetch_row());
+    var_dump($db->fetch_row()[0]);
     return $db->fetch_row()[0] > 0;
 }
 
