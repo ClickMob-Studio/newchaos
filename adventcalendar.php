@@ -14,31 +14,31 @@ function awardItem($userId) {
     global $db;
 
     $prizesIndexedOnDate = array(
-        '2021-12-01' => 277, // Mission Pass
-        '2021-12-02' => 290, // Toffee Apple
-        '2021-12-03' => 283, // Gold Rush Token Chest
-        '2021-12-04' => 277, // Mission Pass
-        '2021-12-05' => 277, // Mission Pass
-        '2021-12-06' => 277, // Mission Pass
-        '2021-12-07' => 277, // Mission Pass
-        '2021-12-08' => 277, // Mission Pass
-        '2021-12-09' => 277, // Mission Pass
-        '2021-12-10' => 277, // Mission Pass
-        '2021-12-11' => 277, // Mission Pass
-        '2021-12-12' => 277, // Mission Pass
-        '2021-12-13' => 277, // Mission Pass
-        '2021-12-14' => 277, // Mission Pass
-        '2021-12-15' => 277, // Mission Pass
-        '2021-12-16' => 277, // Mission Pass
-        '2021-12-17' => 277, // Mission Pass
-        '2021-12-18' => 277, // Mission Pass
-        '2021-12-19' => 277, // Mission Pass
-        '2021-12-20' => 277, // Mission Pass
-        '2021-12-21' => 277, // Mission Pass
-        '2021-12-22' => 277, // Mission Pass
-        '2021-12-23' => 277, // Mission Pass
-        '2021-12-24' => 277, // Mission Pass
-        '2021-12-25' => 277, // Mission Pass
+        '2024-12-01' => 277, // Mission Pass
+        '2024-12-02' => 290, // Toffee Apple
+        '2024-12-03' => 283, // Gold Rush Token Chest
+        '2024-12-04' => 277, // Mission Pass
+        '2024-12-05' => 277, // Mission Pass
+        '2024-12-06' => 277, // Mission Pass
+        '2024-12-07' => 277, // Mission Pass
+        '2024-12-08' => 277, // Mission Pass
+        '2024-12-09' => 277, // Mission Pass
+        '2024-12-10' => 277, // Mission Pass
+        '2024-12-11' => 277, // Mission Pass
+        '2024-12-12' => 277, // Mission Pass
+        '2024-12-13' => 277, // Mission Pass
+        '2024-12-14' => 277, // Mission Pass
+        '2024-12-15' => 277, // Mission Pass
+        '2024-12-16' => 277, // Mission Pass
+        '2024-12-17' => 277, // Mission Pass
+        '2024-12-18' => 277, // Mission Pass
+        '2024-12-19' => 277, // Mission Pass
+        '2024-12-20' => 277, // Mission Pass
+        '2024-12-21' => 277, // Mission Pass
+        '2024-12-22' => 277, // Mission Pass
+        '2024-12-23' => 277, // Mission Pass
+        '2024-12-24' => 277, // Mission Pass
+        '2024-12-25' => 277, // Mission Pass
 
     );
 
