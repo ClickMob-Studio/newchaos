@@ -119,7 +119,7 @@ $today = date('j');
                     </div>
                 </div>
 
-                <?php if ($day % 3 == 1 && $day != 1): ?>
+                <?php if ($day % 3 == 1): ?>
                     </div><div class="row">
                 <?php endif; ?>
             <?php endfor; ?>
