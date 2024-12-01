@@ -6,8 +6,8 @@ function hasOpenedToday($userId) {
     $today = date('Y-m-d');
     $db->query("SELECT COUNT(id) as account FROM `advent_calendar` WHERE `user_id` = ? AND `date_opened` = ?");
     $db->execute([$userId, $today]);
-    var_dump($db->fetch_row()[0]['account']);
-    return $db->fetch_row()[0] > 0;
+    
+    return (int)$db->fetch_row()[0]['account'] > 0;
 }
 
 function awardItem($userId) {
