@@ -102,21 +102,20 @@ $today = date('j');
                     <div class="card text-white <?php echo $divClass ?> mb-3">
                         <div class="card-body">
                             <p class="card-text">
-                                <strong>Day <?php echo $day ?></strong>
-                            </p>
-                        </div>
-                        <div class="card-footer">
                             <center>
-                                <?php
-                                if ($day == $today) {
-                                    if (hasOpenedToday($userId)) {
-                                    } else {
-                                        echo '<a href="?open" class="btn btn-primary">Claim</a>';
+                                    <strong>Day <?php echo $day ?></strong>
+
+                                    <?php
+                                    if ($day == $today) {
+                                        if (hasOpenedToday($userId)) {
+                                        } else {
+                                            echo '<a href="?open" class="btn btn-primary">Claim</a>';
+                                        }
                                     }
-                                }
-                                ?>
-                             </center>
-                        </div>
+                                    ?>
+                                </center>
+                            </p>
+                    </div>
                     </div>
                 </div>
 
