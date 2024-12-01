@@ -43,10 +43,8 @@ function awardItem($userId) {
     );
 
     $today = date('Y-m-d');
-    echo $today;
 
     $itemId = $prizesIndexedOnDate[$today];
-    var_dump($itemId); exit;
 
     $db->query("INSERT INTO `advent_calendar` (`user_id`, `date_opened`, `item_awarded`) VALUES (?, ?, ?)");
     $db->execute([$userId, $today, $itemId]);
