@@ -1574,6 +1574,7 @@ $activityContest = $db->fetch_row(true);
 
 $messages[] = '<a href="ucl_contest.php"><font color=red>Activity Contest: Complete ' . ucfirst($activityContest['type']) . ' </font></a>';
 //$messages[] = '<a href="ucl_raids_contest.php"><font color=red>Raid Contest</font></a>';
+$messages[] = '<a href="adventcalendar.php"><font color=red>Advent Calendar</font></a>';
 
 //if ($user_class->gang > 0) {
 //    $messages[] = '<a href="gang_doubleexp.php"><font color=red>Gang Challenge</font></a>';
