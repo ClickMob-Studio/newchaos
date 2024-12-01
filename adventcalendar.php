@@ -91,11 +91,13 @@ $today = date('j');
         <div class="row">
             <?php for ($day = 1; $day <= 25; $day++): ?>
                 <?php
-                $divClass = 'bg-danger';
-                if (hasOpenedToday($user_class->id)) {
-                    $divClass = 'bg-success';
-                } else if ($day == $today) {
-                    $divClass = 'bg-info';
+                $divClass = 'bg-info';
+                if ($day == $today) {
+                    if (hasOpenedToday($user_class->id)) {
+                        $divClass = 'bg-success';
+                    } else {
+                        $divClass = 'bg-danger';
+                    }
                 }
                 ?>
                 <div class="col-md-4">
