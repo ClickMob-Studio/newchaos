@@ -101,8 +101,8 @@ $today = date('j');
                 <div class="col-md-4">
                     <div class="card text-white <?php echo $divClass ?> mb-3">
                         <div class="card-body">
-                            <p class="card-text">
-                            <center>
+                            <h2 class="card-text">
+                                <center>
                                     <strong>Day <?php echo $day ?></strong><br />
 
                                     <?php
