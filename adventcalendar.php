@@ -111,7 +111,7 @@ $today = date('j');
                                     if ($day == $today) {
                                         if (hasOpenedToday($userId)) {
                                         } else {
-                                            echo '<a href="?open" class="btn btn-primary">Claim</a>';
+                                            echo '<a href="?open=' . $day . '" class="btn btn-primary">Claim</a>';
                                         }
                                     }
                                     ?>
