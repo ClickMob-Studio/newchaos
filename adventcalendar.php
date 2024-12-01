@@ -57,7 +57,7 @@ function awardItem($userId) {
 
 function displayCalendar($userId) {
     $today = date('j');
-    echo '<div class="calendar">';
+    echo '<div class="row">';
     for ($day = 1; $day <= 25; $day++) {
         if ($day == $today) {
             if (hasOpenedToday($userId)) {
@@ -81,7 +81,53 @@ if (isset($_GET['open']) && $_GET['open'] == date('j')) {
     }
 }
 
-displayCalendar($user_class->id);
+$today = date('j');
+?>
 
+
+<div class='box_top'><h1>Advent Calendar</h1></div>
+<div class='box_middle'>
+    <div class='pad'>
+        <div class="row">
+            <?php for ($day = 1; $day <= 25; $day++): ?>
+                <?php
+                $divClass = 'bg-danger';
+                if (hasOpenedToday($user_class->id)) {
+                    $divClass = 'bg-success';
+                } else if ($day == $today) {
+                    $divClass = 'bg-info';
+                }
+                ?>
+                <div class="col-md-4">
+                    <div class="card text-white <?php echo $divClass ?> mb-3">
+                        <div class="card-body">
+                            <p class="card-text">
+                                <strong>Day <?php echo $day ?></strong>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <center>
+                                <?php
+                                if ($day == $today) {
+                                    if (hasOpenedToday($userId)) {
+                                    } else {
+                                        echo '<a href="?open" class="btn btn-primary">Claim</a>';
+                                    }
+                                }
+                                ?>
+                             </center>
+                        </div>
+                    </div>
+                </div>
+
+                <?php if ($day % 3 == 1 && $day != 1): ?>
+                    </div><div class="row">
+                <?php endif; ?>
+            <?php endfor; ?>
+        </div>
+    </div>
+</div>
+
+<?php
 include 'footer.php';
 ?>
