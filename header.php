@@ -1568,11 +1568,11 @@ if ($bonus_row['Time'] > 0) {
 
     }
 
-$db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
-$db->execute();
-$activityContest = $db->fetch_row(true);
+//$db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
+//$db->execute();
+//$activityContest = $db->fetch_row(true);
 
-$messages[] = '<a href="ucl_contest.php"><font color=red>Activity Contest: Complete ' . ucfirst($activityContest['type']) . ' </font></a>';
+//$messages[] = '<a href="ucl_contest.php"><font color=red>Activity Contest: Complete ' . ucfirst($activityContest['type']) . ' </font></a>';
 //$messages[] = '<a href="ucl_raids_contest.php"><font color=red>Raid Contest</font></a>';
 $messages[] = '<a href="adventcalendar.php"><font color=red>Advent Calendar</font></a>';
 
