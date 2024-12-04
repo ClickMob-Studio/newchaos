@@ -242,23 +242,23 @@ if (isset($_GET['use'])) {
                 if ($randnum <= 30) {
                     $randpoints = rand(1000, 5000);
                     $db->query("UPDATE grpgusers SET points = points + " . $randpoints . " WHERE id = " . $user_class->id);
-                    $response['message'] = "You open the mystery box and find <span style='color:green;font-weight:bold;'>$randpoints</span> Points.";
+                    $response['message'] = "You open the mystery box and find  " . number_format($randpoints, 0) . " Points.";
                 } elseif ($randnum <= 55) {
                     $randraidtokens = mt_rand(10, 200);
                     $db->query("UPDATE grpgusers SET raidtokens = raidtokens + " . $randraidtokens . " WHERE id = " . $user_class->id);
-                    $response['message'] = "You open the mystery box and find <span style='color:green;font-weight:bold;'>$randraidtokens</span> Raid Tokens.";
+                    $response['message'] = "You open the mystery box and find " . number_format($randraidtokens, 0) . " Raid Tokens.";
                 } elseif ($randnum <= 80) {
                     $randcash = rand(1000000, 5000000);
                     $db->query("UPDATE grpgusers SET money = money + " . $randcash . " WHERE id = " . $user_class->id);
-                    $response['message'] = "You open the mystery box and find $<span style='color:green;font-weight:bold;'>$randcash</span>.";
+                    $response['message'] = "You open the mystery box and find $" . number_format($randcash, 0) . ".";
                 } elseif ($randnum <= 95) {
                     $itemid = 252;
                     Give_Item($itemid, $user_class->id, 1);
-                    $response['message'] = "You open the mystery box and find <span style='color:green;font-weight:bold;'>1 x Raid Booster</span>.";
+                    $response['message'] = "You open the mystery box and find 1 x Raid Booster.";
                 } else {
                     $itemid = 163;
                     Give_Item($itemid, $user_class->id, 1);
-                    $response['message'] = "You open the mystery box and find <span style='color:green;font-weight:bold;'>1 x Police Badge</span>.";
+                    $response['message'] = "You open the mystery box and find 1 x Police Badge.";
                 }
                 $response['success'] = true;
                 break;
