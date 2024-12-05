@@ -19,8 +19,8 @@ function awardItem($userId) {
         '2024-12-03' => 283, // Gold Rush Token Chest
         '2024-12-04' => 277, // Mission Pass
         '2024-12-05' => 277, // Mission Pass
-        '2024-12-06' => 277, // Mission Pass
-        '2024-12-07' => 277, // Mission Pass
+        '2024-12-06' => 271, // Sofa
+        '2024-12-07' => 276, // Research Token
         '2024-12-08' => 277, // Mission Pass
         '2024-12-09' => 277, // Mission Pass
         '2024-12-10' => 277, // Mission Pass
