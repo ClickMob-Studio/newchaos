@@ -112,6 +112,9 @@ $nor = 3; // number of ranks to be shown per category
                      }
                  } else {
                      $name = ($line['dprivacy'] == 1) ? 'Anonymous' : formatName($line['userid']);
+                     if ($user_class->admin > 0) {
+                            $name .= ' (' . formatName($line['userid']) . ')';
+                     }
                  }
 
                  echo (!empty($rankcolours[$rank - 1])) ? "</span></td>" : "</td>";
