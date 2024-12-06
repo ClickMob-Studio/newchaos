@@ -242,15 +242,16 @@ if (isset($_GET['use'])) {
                 if ($randnum <= 30) {
                     $randpoints = rand(1000, 5000);
                     $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
-                    $db->execute(array($total_points, $user_class->id));
+                    $db->execute(array($randpoints, $user_class->id));
                     $response['message'] = "You open the mystery box and find  " . number_format($randpoints, 0) . " Points.";
                 } elseif ($randnum <= 55) {
                     $randraidtokens = mt_rand(10, 200);
                     $db->query("UPDATE grpgusers SET raidtokens = raidtokens + " . $randraidtokens . " WHERE id = " . $user_class->id);
                     $response['message'] = "You open the mystery box and find " . number_format($randraidtokens, 0) . " Raid Tokens.";
                 } elseif ($randnum <= 80) {
+                    $randcash = rand(1000000, 5000000);
                     $db->query("UPDATE grpgusers SET money = money + ? WHERE id = ?");
-                    $db->execute(array($total_cash, $user_class->id));
+                    $db->execute(array($randcash, $user_class->id));
                     $response['message'] = "You open the mystery box and find $" . number_format($randcash, 0) . ".";
                 } elseif ($randnum <= 95) {
                     $itemid = 252;
