@@ -139,7 +139,7 @@ window.onload = function () {
         <b>Reward:</b> <span style="color:red;">50 Gold</span> per referral.
     </div>
     <p>
-        Your Gold will be automatically added to your account once we have checked Multiple accounts.
+        Referrals are paid out once the player referred hits level 100. If your referral hasn't been paid, please message an admin.
     </p>
 </div>
 

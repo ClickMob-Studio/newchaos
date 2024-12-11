@@ -20,9 +20,7 @@ if (isset($_GET['donate']) && $_GET['donate'] == 'yes') {
             }
         }
 
-
-
-        $db->query("UPDATE user_santas_grotto SET exp = ?, level = ? WHERE user_id = ?");
+        $db->query("UPDATE user_santas_grotto SET exp = ?, level = ?, gifts_donated = gifts_donated + 1 WHERE user_id = ?");
         $db->execute([$newExp, $newLevel, $user_class->id]);
 
        Take_Item(295, $user_class->id);
@@ -30,8 +28,21 @@ if (isset($_GET['donate']) && $_GET['donate'] == 'yes') {
         $prizeChance = mt_rand(1,100);
        if ($newLevel == 1) {
            if ($prizeChance <= 20) {
+               // Cash
+               $cashPrize = mt_rand(100000, 500000);
 
+               $db->query('UPDATE grpgusers SET money = money + ? WHERE id = ?');
+               $db->execute([$cashPrize, $user_class->id]);
+
+                echo '
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> You have successfully donated a Christmas Gift. You have received $' . number_format($cashPrize) . ' in return. <a href="santasgrotto.php">Go back</a>.
+                    </div>';
+                exit;
            } else if ($prizeChance <= 40) {
+               // Points
+               $pointsPrize = mt_rand(10000, 20000);
+
 
            } else if ($prizeChance <= 60) {
 
