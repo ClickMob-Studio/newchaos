@@ -10,7 +10,7 @@ include 'header.php';
     <div class='pad'>
         <div class="row">
             <div class="col-md-12">
-                <img src="santas-grotto.jpeg" class="img-responsive">
+                <img src="/css/images/NewGameImages/santas-grotto.jpeg" class="img-responsive">
             </div>
         </div>
     </div>
