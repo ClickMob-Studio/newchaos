@@ -13,6 +13,7 @@ include 'header.php';
                 <img src="css/images/NewGameImages/santas-grotto.jpeg" class="img-responsive" style="width:100%;height:auto;max-width:100%;max-height:100%;"/>
 
                 <center>
+                    <br />
                     <p>
                         Welcome to Santa's Grotto. Being in the Mafia isn't just about killing, committing crimes and earning the big bucks. We've got to let
                         our community know that we support them to bring the future mafia bosses into the world. Santa's Grotto is a place where you can donate
@@ -22,6 +23,10 @@ include 'header.php';
                     <div class="row">
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
+                            <hr />
+                            <h2><strong>Your Level: 3</strong></h2>
+                            <br />
+                            <p>Progress to next level:</p>
                             <div class="progress">
                                 <div id="progress-bar" class="progress-bar progress-bar-blue" role="progressbar" style="width: 50%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
