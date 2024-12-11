@@ -34,6 +34,10 @@ $christmasGiftCount = Check_Item(295, $user_class->id);
 
                             <br />
                             <p style="color: red;"><strong>You currently have <?php echo $christmasGiftCount ?> Christmas Gifts</strong></p>
+
+                            <?php if ($christmasGiftCount > 0): ?>
+                                <a href="santasgrotto.php?donate=true" class="btn btn-success">Donate Christmas Gift</a>
+                            <?php endif; ?>
                         </div>
                         <div class="col-md-4"></div>
                     </div>
