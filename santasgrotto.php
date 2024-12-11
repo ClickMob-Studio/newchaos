@@ -8,6 +8,77 @@ $userSantasGrotto = getUserSantasGrotto($user_class->id);
 
 if (isset($_GET['donate']) && $_GET['donate'] == 'yes') {
 
+    if ($christmasGiftCount > 0) {
+        $newProgress = $userSantasGrotto['progress'] + 1;
+        $newLevel = $userSantasGrotto['level'];
+        if ($newLevel < 3) {
+            $newExp = $userSantasGrotto['exp'] + mt_rand(1,10);
+
+            if ($newExp >= 100) {
+                $newExp = 0;
+                $newLevel = $newLevel + 1;
+            }
+        }
+
+
+
+        $db->query("UPDATE user_santas_grotto SET exp = ?, level = ? WHERE user_id = ?");
+        $db->execute([$newExp, $newLevel, $user_class->id]);
+
+       Take_Item(295, $user_class->id);
+
+        $prizeChance = mt_rand(1,100);
+       if ($newLevel == 1) {
+           if ($prizeChance <= 20) {
+
+           } else if ($prizeChance <= 40) {
+
+           } else if ($prizeChance <= 60) {
+
+           } else if ($prizeChance <= 80) {
+
+           } else {
+           }
+
+       } elseif ($newLevel == 2) {
+           if ($prizeChance <= 20) {
+
+           } else if ($prizeChance <= 40) {
+
+           } else if ($prizeChance <= 60) {
+
+           } else if ($prizeChance <= 80) {
+
+           } else {
+           }
+
+       } else {
+           if ($prizeChance <= 20) {
+
+           } else if ($prizeChance <= 40) {
+
+           } else if ($prizeChance <= 60) {
+
+           } else if ($prizeChance <= 80) {
+
+           } else {
+           }
+
+       }
+
+        echo '
+            <div class="alert alert-success">
+                <strong>Success!</strong> You have successfully donated a Christmas Gift. You have received a random gift in return. <a href="santasgrotto.php">Go back</a>.
+            </div>
+        ';
+    } else {
+        echo '
+            <div class="alert alert-danger">
+                <strong>Fail!</strong> You do not have any Christmas Gifts to donate. <a href="santasgrotto.php">Go back</a>.
+            </div>
+        ';
+    }
+
 }
 ?>
 
