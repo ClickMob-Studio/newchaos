@@ -24,7 +24,7 @@ include 'header.php';
                         <div class="col-md-4"></div>
                         <div class="col-md-4">
                             <hr />
-                            <h2><strong>Your Level: 3</strong></h2>
+                            <h3><strong>Your Gifting Level: 3</strong></h3>
                             <br />
                             <p>Progress to next level:</p>
                             <div class="progress">
