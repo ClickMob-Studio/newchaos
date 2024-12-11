@@ -2996,9 +2996,9 @@ function generateGradientName($user_id) {
 
         // Loop through each character of the username and apply the gradient
         for ($i = 0; $i < strlen($username); $i++) {
-            $gradientText .= "<span style=\"color: {$gradientColors[$i]};" . 
-                             ($glow ? " text-shadow: 0 0 10px {$gradientColors[$i]}" : '') . 
-                             "; font-size:22px; font-weight: " . ($isBold ? "bold" : "normal") . "; font-style: " . ($isItalic ? "italic" : "normal") . ";\">" . 
+            $gradientText .= "<span style=\"color: {$gradientColors[$i]};" .
+                             ($glow ? " text-shadow: 0 0 10px {$gradientColors[$i]}" : '') .
+                             "; font-size:22px; font-weight: " . ($isBold ? "bold" : "normal") . "; font-style: " . ($isItalic ? "italic" : "normal") . ";\">" .
                              $username[$i] . "</span>";
         }
 
@@ -3011,7 +3011,7 @@ function generateGradientName($user_id) {
 function generateGradient($startColor, $endColor, $length) {
     $start = hexToRgb($startColor);
     $end = hexToRgb($endColor);
-    
+
     $gradientColors = [];
     $stepR = ($end['r'] - $start['r']) / ($length - 1);
     $stepG = ($end['g'] - $start['g']) / ($length - 1);
@@ -3021,7 +3021,7 @@ function generateGradient($startColor, $endColor, $length) {
         $r = round($start['r'] + $stepR * $i);
         $g = round($start['g'] + $stepG * $i);
         $b = round($start['b'] + $stepB * $i);
-        
+
         $gradientColors[] = rgbToHex($r, $g, $b);
     }
 
@@ -3033,12 +3033,33 @@ function hexToRgb($hex) {
     $r = hexdec(substr($hex, 1, 2));
     $g = hexdec(substr($hex, 3, 2));
     $b = hexdec(substr($hex, 5, 2));
-    
+
     return ['r' => $r, 'g' => $g, 'b' => $b];
 }
 
 function rgbToHex($r, $g, $b) {
-    return "#" . str_pad(dechex($r), 2, "0", STR_PAD_LEFT) . 
-           str_pad(dechex($g), 2, "0", STR_PAD_LEFT) . 
+    return "#" . str_pad(dechex($r), 2, "0", STR_PAD_LEFT) .
+           str_pad(dechex($g), 2, "0", STR_PAD_LEFT) .
            str_pad(dechex($b), 2, "0", STR_PAD_LEFT);
+}
+
+function getUserSantasGrotto($userId)
+{
+    global $db;
+
+    $db->query("SELECT * FROM user_santas_grotto WHERE user_id = " . $userId . " LIMIT 1");
+    $db->execute();
+
+    $r = $db->fetch_row(true);
+    if (isset($r['id'])) {
+        return $r;
+    } else {
+        $db->query("INSERT INTO user_santas_grotto (user_id) VALUES (" . $userId . ")");
+        $db->execute();
+        $r = getUserSantasGrotto($userId);
+
+        return $r;
+    }
+
+    return $db->fetch_row(true);
 }
