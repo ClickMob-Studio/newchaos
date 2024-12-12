@@ -56,7 +56,7 @@ if (isset($_GET['donate']) && $_GET['donate'] == 'yes') {
                // Raid Tokens
                $raidTokensPrize = mt_rand(10, 20);
 
-               $db->query('UPDATE grpgusers SET points = points + ? WHERE id = ?');
+               $db->query('UPDATE grpgusers SET raidtokens = raidtokens + ? WHERE id = ?');
                $db->execute([$raidTokensPrize, $user_class->id]);
 
                echo '
@@ -116,7 +116,7 @@ if (isset($_GET['donate']) && $_GET['donate'] == 'yes') {
                // Raid Tokens
                $raidTokensPrize = mt_rand(20, 40);
 
-               $db->query('UPDATE grpgusers SET points = points + ? WHERE id = ?');
+               $db->query('UPDATE grpgusers SET raidtokens = raidtokens + ? WHERE id = ?');
                $db->execute([$raidTokensPrize, $user_class->id]);
 
                echo '
@@ -175,7 +175,7 @@ if (isset($_GET['donate']) && $_GET['donate'] == 'yes') {
                // Raid Tokens
                $raidTokensPrize = mt_rand(40, 100);
 
-               $db->query('UPDATE grpgusers SET points = points + ? WHERE id = ?');
+               $db->query('UPDATE grpgusers SET raidtokens = raidtokens + ? WHERE id = ?');
                $db->execute([$raidTokensPrize, $user_class->id]);
 
                echo '
@@ -185,11 +185,13 @@ if (isset($_GET['donate']) && $_GET['donate'] == 'yes') {
                exit;
            } else {
                $itemIds = array(
-                   42, // Mystery Box
-                   163, // Police Badge
-                   251, // Raid Pass
-                   255, // Crime Booster
-                   281, // Gym Super Pills
+                   277, // Mission Pass
+                   279, // Protein Bar
+                   283, // GRT Chest
+                   256, // Nerve Vial
+                   265, // Voidglass
+                   266, // Hour Glass
+                   267, // Lifewood
                );
 
                $itemId = $itemIds[array_rand($itemIds)];
