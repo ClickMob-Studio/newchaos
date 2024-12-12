@@ -41,38 +41,168 @@ if (isset($_GET['donate']) && $_GET['donate'] == 'yes') {
                 exit;
            } else if ($prizeChance <= 40) {
                // Points
-               $pointsPrize = mt_rand(10000, 20000);
+               $pointsPrize = mt_rand(5000, 15000);
 
+               $db->query('UPDATE grpgusers SET points = points + ? WHERE id = ?');
+               $db->execute([$pointsPrize, $user_class->id]);
+
+               echo '
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> You have successfully donated a Christmas Gift. You have received ' . number_format($pointsPrize) . ' points in return. <a href="santasgrotto.php">Go back</a>.
+                    </div>';
+               exit;
 
            } else if ($prizeChance <= 60) {
+               // Raid Tokens
+               $raidTokensPrize = mt_rand(10, 20);
 
-           } else if ($prizeChance <= 80) {
+               $db->query('UPDATE grpgusers SET points = points + ? WHERE id = ?');
+               $db->execute([$raidTokensPrize, $user_class->id]);
 
+               echo '
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> You have successfully donated a Christmas Gift. You have received ' . number_format($raidTokensPrize) . ' raid tokens in return. <a href="santasgrotto.php">Go back</a>.
+                    </div>';
+               exit;
            } else {
+               $itemIds = array(
+                    10,
+                    254, // Crime Potion
+                    288, // Cotton Candy
+                    289, // Draculas Loot Crate
+                    253, // Gold Rush Token
+               );
+
+               $itemId = $itemIds[array_rand($itemIds)];
+
+               Give_Item($itemId, $user_class->id);
+
+                $itemName = Get_Item_Name($itemId);
+
+                echo '
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> You have successfully donated a Christmas Gift. You have received a ' . $itemName . ' in return. <a href="santasgrotto.php">Go back</a>.
+                    </div>';
+                exit;
            }
 
        } elseif ($newLevel == 2) {
            if ($prizeChance <= 20) {
+               // Cash
+               $cashPrize = mt_rand(500000, 1000000);
 
+               $db->query('UPDATE grpgusers SET money = money + ? WHERE id = ?');
+               $db->execute([$cashPrize, $user_class->id]);
+
+               echo '
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> You have successfully donated a Christmas Gift. You have received $' . number_format($cashPrize) . ' in return. <a href="santasgrotto.php">Go back</a>.
+                    </div>';
+               exit;
            } else if ($prizeChance <= 40) {
+               // Points
+               $pointsPrize = mt_rand(10000, 25000);
+
+               $db->query('UPDATE grpgusers SET points = points + ? WHERE id = ?');
+               $db->execute([$pointsPrize, $user_class->id]);
+
+               echo '
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> You have successfully donated a Christmas Gift. You have received ' . number_format($pointsPrize) . ' points in return. <a href="santasgrotto.php">Go back</a>.
+                    </div>';
+               exit;
 
            } else if ($prizeChance <= 60) {
+               // Raid Tokens
+               $raidTokensPrize = mt_rand(20, 40);
 
-           } else if ($prizeChance <= 80) {
+               $db->query('UPDATE grpgusers SET points = points + ? WHERE id = ?');
+               $db->execute([$raidTokensPrize, $user_class->id]);
 
+               echo '
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> You have successfully donated a Christmas Gift. You have received ' . number_format($raidTokensPrize) . ' raid tokens in return. <a href="santasgrotto.php">Go back</a>.
+                    </div>';
+               exit;
            } else {
-           }
+               $itemIds = array(
+                   42, // Mystery Box
+                   163, // Police Badge
+                   251, // Raid Pass
+                   255, // Crime Booster
+                   281, // Gym Super Pills
+               );
 
+               $itemId = $itemIds[array_rand($itemIds)];
+
+               Give_Item($itemId, $user_class->id);
+
+               $itemName = Get_Item_Name($itemId);
+
+               echo '
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> You have successfully donated a Christmas Gift. You have received a ' . $itemName . ' in return. <a href="santasgrotto.php">Go back</a>.
+                    </div>';
+               exit;
+           }
        } else {
            if ($prizeChance <= 20) {
+               // Cash
+               $cashPrize = mt_rand(1000000, 5000000);
 
+               $db->query('UPDATE grpgusers SET money = money + ? WHERE id = ?');
+               $db->execute([$cashPrize, $user_class->id]);
+
+               echo '
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> You have successfully donated a Christmas Gift. You have received $' . number_format($cashPrize) . ' in return. <a href="santasgrotto.php">Go back</a>.
+                    </div>';
+               exit;
            } else if ($prizeChance <= 40) {
+               // Points
+               $pointsPrize = mt_rand(25000, 50000);
+
+               $db->query('UPDATE grpgusers SET points = points + ? WHERE id = ?');
+               $db->execute([$pointsPrize, $user_class->id]);
+
+               echo '
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> You have successfully donated a Christmas Gift. You have received ' . number_format($pointsPrize) . ' points in return. <a href="santasgrotto.php">Go back</a>.
+                    </div>';
+               exit;
 
            } else if ($prizeChance <= 60) {
+               // Raid Tokens
+               $raidTokensPrize = mt_rand(40, 100);
 
-           } else if ($prizeChance <= 80) {
+               $db->query('UPDATE grpgusers SET points = points + ? WHERE id = ?');
+               $db->execute([$raidTokensPrize, $user_class->id]);
 
+               echo '
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> You have successfully donated a Christmas Gift. You have received ' . number_format($raidTokensPrize) . ' raid tokens in return. <a href="santasgrotto.php">Go back</a>.
+                    </div>';
+               exit;
            } else {
+               $itemIds = array(
+                   42, // Mystery Box
+                   163, // Police Badge
+                   251, // Raid Pass
+                   255, // Crime Booster
+                   281, // Gym Super Pills
+               );
+
+               $itemId = $itemIds[array_rand($itemIds)];
+
+               Give_Item($itemId, $user_class->id);
+
+               $itemName = Get_Item_Name($itemId);
+
+               echo '
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> You have successfully donated a Christmas Gift. You have received a ' . $itemName . ' in return. <a href="santasgrotto.php">Go back</a>.
+                    </div>';
+               exit;
            }
 
        }

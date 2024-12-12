@@ -28,17 +28,17 @@ function awardItem($userId) {
         '2024-12-12' => 290, // Toffee Apple
         '2024-12-13' => 276, // Research Token
         '2024-12-14' => 283, // Gold Rush Token Chest
-        '2024-12-15' => 277, // Mission Pass
-        '2024-12-16' => 277, // Mission Pass
-        '2024-12-17' => 277, // Mission Pass
-        '2024-12-18' => 277, // Mission Pass
-        '2024-12-19' => 277, // Mission Pass
-        '2024-12-20' => 277, // Mission Pass
-        '2024-12-21' => 277, // Mission Pass
+        '2024-12-15' => 295, // Christmas Gift
+        '2024-12-16' => 290, // Toffee Apple
+        '2024-12-17' => 295, // Christmas Gift
+        '2024-12-18' => 283, // Gold Rush Token Chest
+        '2024-12-19' => 276, // Research Token
+        '2024-12-20' => 295, // Christmas Gift
+        '2024-12-21' => 271, // Sofa
         '2024-12-22' => 277, // Mission Pass
-        '2024-12-23' => 277, // Mission Pass
-        '2024-12-24' => 277, // Mission Pass
-        '2024-12-25' => 277, // Mission Pass
+        '2024-12-23' => 295, // Christmas Gift
+        '2024-12-24' => 283, // Gold Rush Token Chest
+        '2024-12-25' => 278, // Sound System
 
     );
 
