@@ -247,8 +247,8 @@ if (isset($_GET['donate']) && $_GET['donate'] == 'yes') {
                             <h3><strong>Your Gifting Level: 3</strong></h3>
                             <br />
                             <p>Progress to next level:</p>
-                            <div class="progress">
-                                <div id="progress-bar" class="progress-bar progress-bar-blue" role="progressbar" style="width: 50%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress" role="progressbar" aria-valuenow="<?php echo ($userSantasGrotto['exp'] / 100 * 100 ); ?>" aria-valuemin="0" aria-valuemax="100" title="<?php echo $userSantasGrotto['exp'] . '/100'; ?>">
+                                <div class="progress-bar bg-success ba-level-progress-bar" style="width: <?php echo ($userSantasGrotto['exp'] / 100 * 100 ); ?>%"></div>
                             </div>
 
                             <br />
