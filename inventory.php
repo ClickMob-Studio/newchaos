@@ -18,7 +18,7 @@ if (isset($_GET['exchangetoken'])) {
 }
 // Define restricted and multi-use item arrays
 $restrictedUseItems = array(68, 69, 155, 195, 156, 157, 194, 158, 159, 165, 167, 285, 295);
-$restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256);
+$restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256, 295);
 $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
 $multiUseItems = array(252, 253, 42, 10, 163, 256, 283, 251, 288, 289);  // Items allowing multiple uses
 
