@@ -123,6 +123,10 @@ try {
     if ($mug <= 8) {
         $success = true;
 
+        if ($user_class->admin > 0) {
+            payoutChristmasGift($user_class->id);
+        }
+
         $robinfo = explode("|", $attack_person->robInfo);
         if ($robinfo[0] == 1) {
             $success = mt_rand(0, 2) != 0;
