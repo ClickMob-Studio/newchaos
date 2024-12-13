@@ -3071,7 +3071,7 @@ function payoutChristmasGift($userId)
     $userSantasGrotto = getUserSantasGrotto($userId);
 
     if ($userSantasGrotto['todays_gifts_found'] < 12) {
-        $findChance = mt_rand(1,100000);
+        $findChance = mt_rand(1,50000);
 
         if ($findChance <= 10) {
             $db->query("UPDATE user_santas_grotto SET todays_gifts_found = todays_gifts_found + 1 WHERE user_id = " . $userId);
