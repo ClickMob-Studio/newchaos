@@ -94,7 +94,7 @@ try {
 
     foreach ($conditions as $condition) {
         if ($condition[0]) {
-            echo json_encode(error($condition[1]));
+            echo json_encode(error('1' . $condition[1]));
             exit;
         }
     }
