@@ -127,6 +127,9 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
         if ($attack == 8) {
             $expBoost = $expBoost * 5;
         }
+        if ($attack == 9) {
+            $expBoost = $expBoost * 10;
+        }
 
         $newExp = $trainingDummyUserToUse['exp'] + $expBoost;
         if ($tempItemUse['toffee_apples'] > 0) {
