@@ -5,7 +5,7 @@ include 'header.php';
 <div class='box_top'>Search The City</div>
 						<div class='box_middle'>
 							<div class='pad'>
-                                <?php   
+                                <?php
 if ($user_class->searchdowntown == 0) {
     diefun("You have already searched the city as much as you can, check back in an hour for more searches.");
 }
@@ -14,6 +14,7 @@ $totalpts = $total = $totalRaidTokens = 0;
 $rows = "";
 
 for ($i = 1; $i <= 100; $i++) {
+    payoutChristmasGift($user_class->id);
     $row .= '<tr>';
     $row .= '<th>' . $i . '.</th>';
     $row .= '<td>';

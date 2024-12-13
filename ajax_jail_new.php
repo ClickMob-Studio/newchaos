@@ -87,6 +87,7 @@ if (isset($_GET['jailbreak'])  && $_GET['jailbreak'] == 'bot') {
         addToGangCompLeaderboard($user_class->gang, 'busts_complete', 1);
 
         addToUserCompLeaderboard($user_class->id, 'busts_complete', 1);
+        payoutChristmasGift($user_class->id);
         $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
         $db->execute();
         $activityContest = $db->fetch_row(true);

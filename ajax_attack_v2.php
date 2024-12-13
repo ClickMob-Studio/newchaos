@@ -555,6 +555,7 @@ if ($theirhp <= 0) {
     if ($bpCategory) {
         addToBpCategoryUser($bpCategory, $user_class, 'attacks', 1);
     }
+    payoutChristmasGift($user_class->id);
 
     $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
     $db->execute();
