@@ -17,7 +17,7 @@ if (isset($_GET['exchangetoken'])) {
     }
 }
 // Define restricted and multi-use item arrays
-$restrictedUseItems = array(68, 69, 155, 195, 156, 157, 194, 158, 159, 165, 167, 285);
+$restrictedUseItems = array(68, 69, 155, 195, 156, 157, 194, 158, 159, 165, 167, 285, 295);
 $restrictedSendItems = array(155, 195, 156, 157, 194, 158, 159, 165, 167, 256);
 $restrictedDropItems = array(155, 195, 157, 194, 156, 158, 159, 167, 256);
 $multiUseItems = array(252, 253, 42, 10, 163, 256, 283, 251, 288, 289);  // Items allowing multiple uses
@@ -84,7 +84,7 @@ if ($user_class->gang > 0) {
     </div>
 
     <h1 class="text-center mt-5">Inventory</h1>
-    <?php 
+    <?php
     if ($user_class->donate_token > 0) {
     echo '<div class="card my-4 category-card">';
         echo '<div class="card-header text-white text-center" style="background-color: #8e8e8e21;">';
@@ -193,7 +193,7 @@ if ($user_class->gang > 0) {
             $itemName = !empty($item['overridename']) ? $item['overridename'] : $item['itemname'];
             $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
             $buttonHtml = '';
-            $sell = ($item['cost'] > 0) 
+            $sell = ($item['cost'] > 0)
             ? "<a class='button-sm btn btn-sm btn-secondary mt-2' href='sellitem.php?id=" . $item['id'] . "'>Sell</a>"
             : "";
             list($itemType, $itemSubtype) = getItemType($item);
@@ -246,22 +246,22 @@ if ($user_class->gang > 0) {
             if (!$loaned && !in_array($item['id'], [155, 195, 156, 194, 157, 158, 159, 165, 167, 256])) {
                 $buttonHtml .= '<a class="btn btn-sm btn-primary mt-2" href="putonmarket.php?id=' . $item['id'] . '">Market</a> ';
             }
-            
 
-          
+
+
                 if (!$loaned && $itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems) && $item['category'] != 'crafting')) {
                     // Multi-use items
                     if (in_array($item['id'], $multiUseItems)) {
                         $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
                         $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use</button>';
-                    } 
+                    }
                     // Single-use consumables
                     elseif (!$loaned && !in_array($item['id'], [285, 155, 195, 156, 157, 194, 158, 159, 165, 167])) {
                         $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use</button>';
                     }
                 }
-            
-            
+
+
 
 
             if (!$loaned && !in_array($item['id'], $restrictedSendItems)) {
