@@ -12,7 +12,7 @@ if (isset($_GET['donate']) && $_GET['donate'] == 'yes') {
         $newProgress = $userSantasGrotto['progress'] + 1;
         $newLevel = $userSantasGrotto['level'];
         if ($newLevel < 3) {
-            $newExp = $userSantasGrotto['exp'] + mt_rand(1,10);
+            $newExp = $userSantasGrotto['exp'] + mt_rand(4,12);
 
             if ($newExp >= 100) {
                 $newExp = 0;
