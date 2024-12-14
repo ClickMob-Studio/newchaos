@@ -141,9 +141,9 @@ $interest += $addmul;
 
 // Calculate the effective interest amount based on the user's bank balance
 if ($person_class->bank >= 15000000) {
-    $interest = ceil(15000000 * $interest);  
+    $interest = ceil(15000000 * $interest);
     if ($person_class->bankboost > 0) {
-        $interest += ($interest * ($person_class->bankboost / 10)); 
+        $interest += ($interest * ($person_class->bankboost / 10));
     }
 } else {
     $interest = ceil($person_class->bank * $interest);  // Interest based on the actual bank balance
@@ -294,6 +294,9 @@ $db->query("UPDATE gangs SET dailyCrimes = 0, dailyKills = 0, dailyBusts = 0, da
 $db->execute();
 
 $db->query("UPDATE user_research_type SET duration_in_days = duration_in_days - 1 WHERE duration_in_days > 0");
+$db->execute();
+
+$db->query("UPDATE `user_santas_grotto` SET `todays_gifts_found` = 0");
 $db->execute();
 
 $db->query("DELETE FROM `events` ORDER BY `timesent` ASC LIMIT 100000");

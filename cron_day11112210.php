@@ -99,4 +99,7 @@ $db->execute();
 
 $db->query("UPDATE user_research_type SET duration_in_days = duration_in_days - 1 WHERE duration_in_days > 0");
 $db->execute();
+
+$db->query("UPDATE `user_santas_grotto` SET `todays_gifts_found` = 0");
+$db->execute();
 ?>
