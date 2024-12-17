@@ -11,8 +11,12 @@ if (isset($_GET['donate']) && $_GET['donate'] == 'yes') {
     if ($christmasGiftCount > 0) {
         $newProgress = $userSantasGrotto['progress'] + 1;
         $newLevel = $userSantasGrotto['level'];
-        if ($newLevel < 3) {
-            $newExp = $userSantasGrotto['exp'] + mt_rand(4,12);
+        if ($newLevel < 4) {
+            if ($newLevel < 3) {
+                $newExp = $userSantasGrotto['exp'] + mt_rand(4,12);
+            } else {
+                $newExp = $userSantasGrotto['exp'] + mt_rand(2,4);
+            }
 
             if ($newExp >= 100) {
                 $newExp = 0;
@@ -145,7 +149,7 @@ if (isset($_GET['donate']) && $_GET['donate'] == 'yes') {
                     </div>';
                exit;
            }
-       } else {
+       } elseif ($newLevel == 3) {
            if ($prizeChance <= 20) {
                // Cash
                $cashPrize = mt_rand(1000000, 5000000);
@@ -183,6 +187,55 @@ if (isset($_GET['donate']) && $_GET['donate'] == 'yes') {
                         <strong>Success!</strong> You have successfully donated a Christmas Gift. You have received ' . number_format($raidTokensPrize) . ' raid tokens in return. <a href="santasgrotto.php">Go back</a>.
                     </div>';
                exit;
+           } else {
+               $itemIds = array(
+                   277, // Mission Pass
+                   279, // Protein Bar
+                   283, // GRT Chest
+                   256, // Nerve Vial
+                   265, // Voidglass
+                   266, // Hour Glass
+                   267, // Lifewood
+               );
+
+               $itemId = $itemIds[array_rand($itemIds)];
+
+               Give_Item($itemId, $user_class->id);
+
+               $itemName = Get_Item_Name($itemId);
+
+               echo '
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> You have successfully donated a Christmas Gift. You have received a ' . $itemName . ' in return. <a href="santasgrotto.php">Go back</a>.
+                    </div>';
+               exit;
+           }
+       } else {
+           if ($prizeChance <= 20) {
+               // Cash
+               $cashPrize = mt_rand(5000000, 10000000);
+
+               $db->query('UPDATE grpgusers SET money = money + ? WHERE id = ?');
+               $db->execute([$cashPrize, $user_class->id]);
+
+               echo '
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> You have successfully donated a Christmas Gift. You have received $' . number_format($cashPrize) . ' in return. <a href="santasgrotto.php">Go back</a>.
+                    </div>';
+               exit;
+           } else if ($prizeChance <= 70) {
+               // Points
+               $pointsPrize = mt_rand(50000, 75000);
+
+               $db->query('UPDATE grpgusers SET points = points + ? WHERE id = ?');
+               $db->execute([$pointsPrize, $user_class->id]);
+
+               echo '
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> You have successfully donated a Christmas Gift. You have received ' . number_format($pointsPrize) . ' points in return. <a href="santasgrotto.php">Go back</a>.
+                    </div>';
+               exit;
+
            } else {
                $itemIds = array(
                    277, // Mission Pass
@@ -246,7 +299,7 @@ if (isset($_GET['donate']) && $_GET['donate'] == 'yes') {
                         <div class="col-md-4">
 
                             <h3><strong>Your Gifting Level: <?php echo $userSantasGrotto['level'] ?></strong></h3>
-                            <h3 style="color: red"><strong>Level 3 is max level</strong></h3>
+                            <h3 style="color: red"><strong>Level 4 is max level</strong></h3>
                             <br />
                             <p>Progress to next level:</p>
                             <div class="progress" role="progressbar" aria-valuenow="<?php echo ($userSantasGrotto['exp'] / 100 * 100 ); ?>" aria-valuemin="0" aria-valuemax="100" title="<?php echo $userSantasGrotto['exp'] . '/100'; ?>">
