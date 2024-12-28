@@ -1,4 +1,5 @@
 <?php
+exit;
 include 'header.php';
 
 function hasOpenedToday($userId) {
