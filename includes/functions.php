@@ -2810,11 +2810,33 @@ function getCurrentQuestSeasonForUser($userId)
         $questSeasonId = 1;
     }
 
-    $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " LIMIT 1");
+    $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " AND is_active > 0 LIMIT 1");
     $db->execute();
     $questSeason = $db->fetch_row(true);
 
     return $questSeason;
+}
+
+function getNextQuestSeason($userId)
+{
+    global $db;
+
+    $db->query("SELECT * FROM quest_season_user WHERE user_id = " . $userId . " AND is_complete = 1 ORDER BY quest_season_id DESC LIMIT 1");
+    $db->execute();
+    $questSeasonUser = $db->fetch_row(true);
+
+    if ($questSeasonUser && isset($questSeasonUser['id'])) {
+        $questSeasonId = $questSeasonUser['quest_season_id'] + 1;
+    } else {
+        $questSeasonId = 1;
+    }
+
+    $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " AND is_active > 0 LIMIT 1");
+    $db->execute();
+    $questSeason = $db->fetch_row(true);
+
+    return $questSeason;
+
 }
 
 function getQuestSeasonUser($userId, $questSeasonId)
