@@ -1458,7 +1458,7 @@ echo "</div></div>";
     $questSeasons = $db->fetch_row();
 
     foreach ($questSeasons as $questSeason) {
-        $userQuestSeason = $db->query("SELECT * FROM quest_season_user WHERE user_id = ? AND quest_season_id = ? LIMIT 1", [$profile_class->id, $questSeason['id']]);
+        $userQuestSeason = $db->query("SELECT * FROM quest_season_user WHERE user_id = " . $profile_class->id . " AND quest_season_id = " . $questSeason['id'] . " LIMIT 1");
         $userQuestSeason = $db->fetch_row(true);
 
         if ($userQuestSeason && isset($userQuestSeason['id']) && $userQuestSeason['is_complete']) {
