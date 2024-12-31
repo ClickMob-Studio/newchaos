@@ -83,7 +83,7 @@ $expRows = $db->fetch_row();
                             <td><?php echo $i ?></td>
                             <td><?php echo formatName($pet['userid']) ?></td>
                             <td><?php echo $pet['pname'] ?></td>
-                            <td><?php echo number_format($trainingRow['attacks'], 0) ?></td>
+                            <td><?php echo number_format($trainingRow['gym'], 0) ?></td>
                         </tr>
 
                         <?php $i++; ?>
@@ -121,7 +121,7 @@ $expRows = $db->fetch_row();
                             <td><?php echo $i ?></td>
                             <td><?php echo formatName($pet['userid']) ?></td>
                             <td><?php echo $pet['pname'] ?></td>
-                            <td><?php echo number_format($expRow['attacks'], 0) ?></td>
+                            <td><?php echo number_format($expRow['exp'], 0) ?></td>
                         </tr>
 
                         <?php $i++; ?>
