@@ -42,6 +42,7 @@ if (isset($_POST['what']) AND $_POST['what'] == 'trainrefill') {
         $user_class->points -= $ptsreq;
         mysql_query("UPDATE pets SET $stat = '" . $pet_class->{$stat} . "', energy = $pet_class->maxenergy, awake = $pet_class->maxawake WHERE userid = $user_class->id");
         mysql_query("UPDATE grpgusers SET points = points - $ptsreq WHERE id = $user_class->id");
+        addToPetladder($pet_class->id, 'gym', $add);
         die("You trained with {$_POST['amnt']} energy and received " . prettynum($add) . " $stat.|" . prettynum($user_class->points) . "|" . prettynum($pet_class->$stat) . "|$pet_class->maxenergy");
     } else
         die("You don't have enough energy.");
@@ -60,6 +61,7 @@ if (isset($_POST['what']) AND $_POST['what'] == 'train') {
         $pet_class->energypercent = floor(($pet_class->energy / $pet_class->maxenergy) * 100);
         $pet_class->formattedenergy = $pet_class->energy . " / " . $pet_class->maxenergy . " [" . $pet_class->energypercent . "%]";
         mysql_query("UPDATE pets SET $stat = '" . $pet_class->{$stat} . "', awake = $pet_class->awake, energy = $pet_class->energy WHERE userid = $user_class->id");
+        addToPetladder($pet_class->id, 'gym', $add);
         print("You trained with {$_POST['amnt']} energy and received " . prettynum($add) . " $stat.|" . prettynum($pet_class->$stat) . "|$pet_class->energy|");
         include 'includepet.php';
         die();
