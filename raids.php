@@ -422,7 +422,10 @@ if ($user_class->admin > 0) {
 
 if ($pet && isset($pet['id'])): ?>
     <div class="alert alert-info">
-        You currently have a pet on the leash. They will join in with any raids that they have the relevant level for.
+        <strong>
+            You currently have a pet on the leash. They will join in with any raids that they have the relevant level for.
+            Raid costs are double for a pet to join.
+        </strong>
     </div>
 <?php endif; ?>
 <?php
