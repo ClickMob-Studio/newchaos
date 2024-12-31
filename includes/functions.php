@@ -3105,3 +3105,32 @@ function payoutChristmasGift($userId)
 //        }
 //    }
 }
+
+function getPetladder($petId)
+{
+    global $db;
+
+    $db->query("SELECT * FROM petladder WHERE pet_id = " . $petId . " LIMIT 1");
+    $db->execute();
+    $r = $db->fetch_row();
+
+    if (isset($r[0]['id'])) {
+        return $r[0];
+    } else {
+        $db->query("INSERT INTO petladder (pet_id) VALUES (" . $petId . ")");
+        $db->execute();
+        $r = getPetladder($petId);
+
+        return $r;
+    }
+}
+
+function addToPetladder($petId, $field, $qty = 1)
+{
+    global $db;
+
+    $petladder = getPetladder($petId);
+
+    $db->query("UPDATE petladder SET {$field} = {$field} + {$qty} WHERE id = " . $petladder['id']);
+    $db->execute();
+}
