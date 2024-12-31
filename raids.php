@@ -147,6 +147,12 @@ while ($row = mysql_fetch_assoc($result)) {
     $bosses[] = $row;
 }
 
+if ($user_class->admin > 0) {
+    $db->query("SELECT * FROM pets WHERE leash = 1 AND userid = $user_class->id LIMIT 1");
+    $pet = $db->fetch_row(true);
+} else {
+    $pet = null;
+}
 
 
 
@@ -374,10 +380,17 @@ mysql_query($query);
         $raid_id = mysql_insert_id();
         $name = mysql_query("SELECT username FROM grpgusers WHERE id = ".$user_id);
         $username = mysql_fetch_row($name)[0];
+
+        if (isset($pet['id']) && $pet['level'] >= $boss_level) {
+            $leashed_pet_id = $pet['id'];
+        } else {
+            $leashed_pet_id = 0;
+        }
+
        // mysql_query("INSERT INTO `globalchat` (`id`, `playerid`, `timesent`, `body`) VALUES (NULL, '0', ".time().", 'A new raid has been started')");
        // sendDiscordWebhook($username." has summoned a new boss", "New Boss Summoned");
         // Insert the user into the raid_participants table
-        $insert_participant_query = "INSERT INTO raid_participants (raid_id, user_id) VALUES ($raid_id, $user_id)";
+        $insert_participant_query = "INSERT INTO raid_participants (raid_id, user_id, leashed_pet_id) VALUES ($raid_id, $user_id, $leashed_pet_id)";
         mysql_query($insert_participant_query);
 
         // Deduct the correct number of raid tokens from the user's account
@@ -411,13 +424,6 @@ $active_raids_result = mysql_query($active_raids_query);
 $active_raids = [];
 while ($row = mysql_fetch_assoc($active_raids_result)) {
     $active_raids[] = $row;
-}
-
-if ($user_class->admin > 0) {
-    $db->query("SELECT * FROM pets WHERE leash = 1 AND userid = $user_class->id LIMIT 1");
-    $pet = $db->fetch_row(true);
-} else {
-    $pet = null;
 }
 
 if ($pet && isset($pet['id'])): ?>
