@@ -66,3 +66,6 @@ foreach ($row as $row) {
 
     $i++;
 }
+
+$db->query("UPDATE petladder SET exp = 0, gym = 0, attacks = 0");
+$db->execute();
