@@ -67,16 +67,23 @@ $expRows = $db->fetch_row();
             <table class="new_table" id="newtables" style="width:100%;">
                 <tr>
                     <th>&nbsp;</th>
+                    <th>Pet</th>
                     <th>User</th>
                     <th>Points</th>
                 </tr>
-                <?php if (count($attackRows) > 0): ?>
+                <?php if (count($trainingRows) > 0): ?>
                     <?php $i = 1; ?>
-                    <?php foreach ($overallRows as $overallRow): ?>
+                    <?php foreach ($trainingRows as $trainingRow): ?>
+                        <?php
+                        $pet = $db->query("SELECT * FROM pets WHERE id = " . $trainingRow['pet_id'] . " LIMIT 1");
+                        $pet = $db->fetch_row(true);
+                        ?>
+
                         <tr>
                             <td><?php echo $i ?></td>
-                            <td><?php echo formatName($overallRow['user_id']) ?></td>
-                            <td><?php echo number_format($overallRow['overall_raids_complete'], 0) ?></td>
+                            <td><?php echo formatName($pet['userid']) ?></td>
+                            <td><?php echo $pet['pname'] ?></td>
+                            <td><?php echo number_format($trainingRow['attacks'], 0) ?></td>
                         </tr>
 
                         <?php $i++; ?>
@@ -98,18 +105,23 @@ $expRows = $db->fetch_row();
             <table class="new_table" id="newtables" style="width:100%;">
                 <tr>
                     <th>&nbsp;</th>
-                    <th>User</th>
                     <th>Pet</th>
+                    <th>User</th>
                     <th>Points</th>
                 </tr>
-                <?php if (count($attackRows) > 0): ?>
+                <?php if (count($expRows) > 0): ?>
                     <?php $i = 1; ?>
-                    <?php foreach ($overallRows as $overallRow): ?>
+                    <?php foreach ($expRows as $expRow): ?>
+                        <?php
+                        $pet = $db->query("SELECT * FROM pets WHERE id = " . $expRow['pet_id'] . " LIMIT 1");
+                        $pet = $db->fetch_row(true);
+                        ?>
+
                         <tr>
                             <td><?php echo $i ?></td>
-                            <td><?php echo formatName($overallRow['user_id']) ?></td>
-                            <td><?php echo formatName($overallRow['user_id']) ?></td>
-                            <td><?php echo number_format($overallRow['overall_raids_complete'], 0) ?></td>
+                            <td><?php echo formatName($pet['userid']) ?></td>
+                            <td><?php echo $pet['pname'] ?></td>
+                            <td><?php echo number_format($expRow['attacks'], 0) ?></td>
                         </tr>
 
                         <?php $i++; ?>
