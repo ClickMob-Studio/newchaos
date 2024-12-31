@@ -52,7 +52,7 @@ $expRows = $db->fetch_row();
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="3">
+                        <td colspan="4">
                             No Results
                         </td>
                     </tr>
@@ -90,7 +90,7 @@ $expRows = $db->fetch_row();
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="3">
+                        <td colspan="4">
                             No Results
                         </td>
                     </tr>
@@ -128,7 +128,7 @@ $expRows = $db->fetch_row();
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="3">
+                        <td colspan="4">
                             No Results
                         </td>
                     </tr>
