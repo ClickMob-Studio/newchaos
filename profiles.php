@@ -1465,7 +1465,8 @@ echo "</div></div>";
             ?>
                 <div class='achievement' style='text-align: center;'>
                     <div title="<?php echo $questSeason['name']  ?>"><img width="100px" src="css/images/NewGameImages/<?php echo $questSeason['medal']  ?>"></img></div>
-                </div>";
+                    <?php echo $questSeason['name']  ?>
+                </div>
             <?php
         }
 
