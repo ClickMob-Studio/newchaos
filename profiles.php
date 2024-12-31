@@ -1454,7 +1454,7 @@ echo "</div></div>";
     <h4>Quests</h4>
     <div class='achievements_main padded' style='display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 10px; justify-content: start;'>";
 
-    $questSeasons = $db->query("SELECT * FROM quest_season WHERE active = 1");
+    $questSeasons = $db->query("SELECT * FROM quest_season WHERE is_active = 1");
     $questSeasons = $db->fetch_row();
 
     foreach ($questSeasons as $questSeason) {
