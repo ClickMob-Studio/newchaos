@@ -1454,11 +1454,11 @@ echo "</div></div>";
     <h4>Quests</h4>
     <div class='achievements_main padded' style='display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 10px; justify-content: start;'>";
 
-    $questSeasons = $db->query("SELECT * FROM quest_seasons WHERE active = 1");
+    $questSeasons = $db->query("SELECT * FROM quest_season WHERE active = 1");
     $questSeasons = $db->fetch_row();
 
     foreach ($questSeasons as $questSeason) {
-        $userQuestSeason = $db->query("SELECT * FROM user_quest_seasons WHERE user_id = ? AND quest_season_id = ? LIMIT 1", [$profile_class->id, $questSeason['id']]);
+        $userQuestSeason = $db->query("SELECT * FROM quest_season_user WHERE user_id = ? AND quest_season_id = ? LIMIT 1", [$profile_class->id, $questSeason['id']]);
         $userQuestSeason = $db->fetch_row(true);
 
         if ($userQuestSeason && isset($userQuestSeason['id']) && $userQuestSeason['is_complete']) {
