@@ -101,7 +101,7 @@ $expRows = $db->fetch_row();
 
     <div class="col-md-4">
         <div class="table-container">
-            <h2>EXP</h2>
+            <h2>Crime EXP</h2>
             <table class="new_table" id="newtables" style="width:100%;">
                 <tr>
                     <th>&nbsp;</th>

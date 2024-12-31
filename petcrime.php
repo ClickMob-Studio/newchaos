@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 ?>
-	
+
 	<div class='box_top'>Pet Crime</div>
 						<div class='box_middle'>
 							<div class='pad'>
@@ -31,6 +31,7 @@ if (!empty($_GET['id'])) {
         echo Message("Your pet doesn't have enough nerve");
     elseif ($chance <= $successchance) {
         mysql_query("UPDATE pets SET exp = exp + $exp, nerve = nerve - {$row['nerve']} WHERE userid = $user_class->id");
+        addToPetladder($pet_class->id, 'exp', $exp);
         echo Message("Your pet successfully managed to {$row['name']}<br />Your  pet received $exp exp.<br /><br /><a href='petcrime.php?id={$_GET['id']}'>Retry</a> | <a href='petcrime.php'>Back</a>");
     } elseif ($chance <= $successchance + $jailchance) {
         $pet_class->nerve -= $row['nerve'];
