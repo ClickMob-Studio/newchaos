@@ -192,7 +192,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
             return;
         }
     }
-    
+
 
 
         // Fetch the boss ID associated with the raid
@@ -261,7 +261,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
 
             echo Message("Successfully joined the raid and 1 raid token(s) have been deducted.");
         }
-    
+
 }
 
 
@@ -281,7 +281,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['use_speedup'], $_POST
         $reduce_item_query = "UPDATE inventory SET quantity = quantity - 1  WHERE `id` = ".$fetch['id'];
     mysql_query($reduce_item_query);
     }
-   
+
 
     // Set the summoned_at column in the active_raids table to the current timestamp
 $end_raid_query = "UPDATE active_raids SET summoned_at = DATE_SUB(NOW(), INTERVAL 15 MINUTE) WHERE id = $raid_id";
@@ -412,6 +412,20 @@ $active_raids = [];
 while ($row = mysql_fetch_assoc($active_raids_result)) {
     $active_raids[] = $row;
 }
+
+if ($user_class->admin > 0) {
+    $db->query("SELECT * FROM pets WHERE leash = 1 AND userid = $user_class->id LIMIT 1");
+    $pet = $db->fetch_row(true);
+} else {
+    $pet = null;
+}
+
+if ($pet && isset($pet['id'])): ?>
+    <div class="alert alert-info">
+        You currently have a pet on the leash. They will join in with any raids that they have the relevant level for.
+    </div>
+<?php endif; ?>
+<?php
 
 // Display active raids
 echo "<div class='box_top'>Active Raids</div>";
@@ -551,7 +565,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <script>
 function showTooltip(event, element) {
     var tooltip = element.nextElementSibling;
-    
+
     // Get the mouse coordinates and set the tooltip's position
     var left = event.clientX;
     var top = event.clientY;
@@ -918,7 +932,7 @@ function showTooltip(event, element) {
         margin-bottom: 20px;
         border-radius: 10px;
         box-shadow: 0px 2px 10px rgba(93, 93, 93, 1);
-    }    
+    }
     .active-raids-grid .boss-image {
         width: 100px;
         height: 100px;
@@ -928,7 +942,7 @@ function showTooltip(event, element) {
         display: block;
         margin-bottom: 15px;
     }
-    
+
     .active-raids-grid h3, .active-raids-grid p {
         text-align: center;
     }
