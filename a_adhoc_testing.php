@@ -11,7 +11,7 @@ $db->query("SELECT * FROM petladder WHERE attacks > 0 ORDER BY attacks DESC LIMI
 $rows = $db->fetch_row();
 
 $i = 1;
-foreach ($row as $row) {
+foreach ($rows as $row) {
     $pet = $db->query("SELECT * FROM pets WHERE id = " . $row['pet_id'] . " LIMIT 1");
     $pet = $db->fetch_row(true);
 
@@ -31,7 +31,7 @@ $db->query("SELECT * FROM petladder WHERE gym > 0 ORDER BY gym DESC LIMIT 3");
 $rows = $db->fetch_row();
 
 $i = 1;
-foreach ($row as $row) {
+foreach ($rows as $row) {
     $pet = $db->query("SELECT * FROM pets WHERE id = " . $row['pet_id'] . " LIMIT 1");
     $pet = $db->fetch_row(true);
 
@@ -51,7 +51,7 @@ $db->query("SELECT * FROM petladder WHERE exp > 0 ORDER BY exp DESC LIMIT 3");
 $rows = $db->fetch_row();
 
 $i = 1;
-foreach ($row as $row) {
+foreach ($rows as $row) {
     $pet = $db->query("SELECT * FROM pets WHERE id = " . $row['pet_id'] . " LIMIT 1");
     $pet = $db->fetch_row(true);
 
