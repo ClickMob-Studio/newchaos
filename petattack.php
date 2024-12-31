@@ -51,6 +51,7 @@ if ($theirhp <= 0) {
     mysql_query("UPDATE pets SET exp = exp + $expwon, hp = $yourhp, energy = $mypet->energy, attacksWon = attacksWon + 1 WHERE userid = $user_class->id");
     mysql_query("UPDATE pets SET hospital = 300, hp = 0, attacksLost = attacksLost + 1 WHERE userid = $attack_person->id");
     Send_Event($attack_person->id, $mypet->formatName() . " attacked you and won! They gained " . prettynum($expwon) . " exp.");
+    addToPetladder($mypet->id, 'attacks', 1);
     echo Message("You attacked " . $theirpet->formatName() . " and won! You gain " . prettynum($expwon) . " exp.");
 }
 if ($yourhp <= 0) {
