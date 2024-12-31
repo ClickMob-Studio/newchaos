@@ -1,20 +1,25 @@
 <?php
 include 'header.php';
 
-$attackRows = array();
-$trainingRows = array();
-$expRows = array();
+$attackRows = $db->query("SELECT * FROM petladder WHERE attacks > 0 ORDER BY attacks DESC LIMIT 10");
+$attackRows = $db->fetch_row();
+
+$trainingRows = $db->query("SELECT * FROM petladder WHERE gym > 0 ORDER BY gym DESC LIMIT 10");
+$trainingRows = $db->fetch_row();
+
+$expRows = $db->query("SELECT * FROM petladder WHERE exp > 0 ORDER BY exp DESC LIMIT 10");
+$expRows = $db->fetch_row();
 
 ?>
 
 <h1>Pet Ladder</h1>
-<p>Welcome to the Pet Ladder, here you can earn points by trying to be the best pet owner in CC! Prizes are paid and the ladder resets daily.</p>
+<p>Welcome to the Pet Ladder, here you can earn points by trying to be the best pet owner in CC! Prizes are paid and the ladder resets hourly.</p>
 
 <p><strong>Prizes:</strong></p>
 <ul>
-    <lil>1st Place: 50,000 points</lil>
-    <lil>2nd Place: 25,000 points</lil>
-    <lil>3rd Place: 10,000 points</lil>
+    <li>1st Place: 3,000 points</li>
+    <li>2nd Place: 1,500 points</li>
+    <li>3rd Place: 500 points</li>
 </ul>
 
 <div class="row">
@@ -24,16 +29,23 @@ $expRows = array();
             <table class="new_table" id="newtables" style="width:100%;">
                 <tr>
                     <th>&nbsp;</th>
+                    <th>Pet</th>
                     <th>User</th>
                     <th>Points</th>
                 </tr>
                 <?php if (count($attackRows) > 0): ?>
                     <?php $i = 1; ?>
-                    <?php foreach ($overallRows as $overallRow): ?>
+                    <?php foreach ($attackRows as $attackRow): ?>
+                        <?php
+                        $pet = $db->query("SELECT * FROM pets WHERE id = " . $attackRow['pet_id'] . " LIMIT 1");
+                        $pet = $db->fetch_row(true);
+                        ?>
+
                         <tr>
                             <td><?php echo $i ?></td>
-                            <td><?php echo formatName($overallRow['user_id']) ?></td>
-                            <td><?php echo number_format($overallRow['overall_raids_complete'], 0) ?></td>
+                            <td><?php echo formatName($pet['user_id']) ?></td>
+                            <td><?php echo $pet['pname'] ?></td>
+                            <td><?php echo number_format($attackRow['attacks'], 0) ?></td>
                         </tr>
 
                         <?php $i++; ?>
@@ -87,6 +99,7 @@ $expRows = array();
                 <tr>
                     <th>&nbsp;</th>
                     <th>User</th>
+                    <th>Pet</th>
                     <th>Points</th>
                 </tr>
                 <?php if (count($attackRows) > 0): ?>
@@ -94,6 +107,7 @@ $expRows = array();
                     <?php foreach ($overallRows as $overallRow): ?>
                         <tr>
                             <td><?php echo $i ?></td>
+                            <td><?php echo formatName($overallRow['user_id']) ?></td>
                             <td><?php echo formatName($overallRow['user_id']) ?></td>
                             <td><?php echo number_format($overallRow['overall_raids_complete'], 0) ?></td>
                         </tr>
