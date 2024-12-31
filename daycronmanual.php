@@ -371,4 +371,5 @@ $db->query("UPDATE petladder SET exp = 0, gym = 0, attacks = 0");
 $db->execute();
 
 Send_Event(1, "daycronmanual.php");
+Send_Event(2, "daycronmanual.php");
 ?>
