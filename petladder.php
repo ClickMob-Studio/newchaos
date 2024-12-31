@@ -43,7 +43,7 @@ $expRows = $db->fetch_row();
 
                         <tr>
                             <td><?php echo $i ?></td>
-                            <td><?php echo formatName($pet['user_id']) ?></td>
+                            <td><?php echo formatName($pet['userid']) ?></td>
                             <td><?php echo $pet['pname'] ?></td>
                             <td><?php echo number_format($attackRow['attacks'], 0) ?></td>
                         </tr>
