@@ -467,7 +467,7 @@ while ($row = mysql_fetch_array($q)) {
                                             <option value='0' <?php if (!$row['leash']): ?> selected='selected' <?php endif; ?>>Unleash</option>
                                         </select>
                                         <br />
-                                        <select name='raid_leash' onchange='javascript:raidLeash(this.value,{$row['petid']});'>
+                                        <select name='raid_leash' onchange='javascript:raidLeash(this.value,<?php echo $row['petid'] ?>);'>
                                             <option value='1' <?php if ($row['raid_leash']): ?> selected='selected' <?php endif; ?>>Leash for Raids</option>
                                             <option value='0' <?php if (!$row['raid_leash']): ?> selected='selected' <?php endif; ?>>Unleash for Raids</option>
                                         </select>
