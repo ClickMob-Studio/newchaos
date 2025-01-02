@@ -433,7 +433,7 @@ while ($row = mysql_fetch_array($q)) {
         <!-- Use Bootstrap's row and col classes for responsiveness -->
         <div class="row">
             <!-- First Card -->
-            <div class="col-md-6 col-12">
+            <div class="col-md-12 col-12">
                 <div class="card" style="margin: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.3) !important; background: rgba(0,0,0,0.2);">
                     <div class="card-body">
                         <div class="profile-container d-flex justify-content-around">
