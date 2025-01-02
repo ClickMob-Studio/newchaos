@@ -440,7 +440,7 @@ while ($row = mysql_fetch_array($q)) {
                             <div class='profile-package shadow-sm p-3 mb-5 rounded' style='flex: 1; margin: 5px;'>
                                 <div style="text-align: center;">
                                     <img src='<?php echo $petinfo->avi; ?>' class='img-thumbnail' alt='User Avatar' style='width: 100px; height: 100px;'>
-                                    <h4><?php echo $petinfo->formatName(); ?></h4>
+                                    <h4><?php echo $petinfo->formatName(); ?> (<?php echo $pet['name'] ?>)</h4>
                                 </div>
                                 <div class="text-center p-2" style="background-color: #111; color: white;">Actions:</div>
                                 <div class="text-center p-2">
