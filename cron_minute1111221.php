@@ -507,10 +507,13 @@ if (!empty($items_won)) {
     $event_message .= "<br>&bull; No items were found during this raid.";
 }
 
-if (!empty($pet_items_won)) {
-    $event_message .= "<br>&bull; Your Pet also found: " . implode(", ", $pet_items_won) . ".";
-} else {
-    $event_message .= "<br>&bull; No items were found by your pet during this raid.";
+
+if ($participant['leashed_pet_id']) {
+    if (!empty($pet_items_won)) {
+        $event_message .= "<br>&bull; Your Pet also found: " . implode(", ", $pet_items_won) . ".";
+    } else {
+        $event_message .= "<br>&bull; No items were found by your pet during this raid.";
+    }
 }
 
 
