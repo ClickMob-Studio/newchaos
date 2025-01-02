@@ -715,7 +715,7 @@ function showTooltip(event, element) {
                 }
 
                 if ($pet && isset($pet['id']) && $pet['level'] >= $boss['level']) {
-                    echo "<p><strong>Your Pet Can Join This Raid</strong></p>";
+                    echo "<p style='font-size: 10px; color: red;'><strong>Your Pet Can Join This Raid</strong></p>";
                 }
 
                 $rewards_query = "SELECT l.*, i.itemname, l.bonus FROM loot l JOIN items i ON l.item_id = i.id WHERE l.boss_id = " . $boss['id'];
