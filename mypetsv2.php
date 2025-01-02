@@ -3,6 +3,249 @@ include 'header.php';
 include 'includepet.php';
 ?>
 
+<style>
+    .contenthead {
+
+  color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px; /* Adjust as necessary */
+}
+
+.floaty {
+  /* Your existing .floaty styles */
+}
+
+.profile_container {
+    margin-top: 14px;
+     /* Slightly lighter than #333 for a subtle border */
+ /* Dark background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow at the top */
+    padding: 15px; /* Consistent padding from .floaty */
+    color: white; /* Light text */
+}
+
+
+.profile-package, .profile-stats {
+  flex: 1;
+  padding: 18px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  margin: 5px;
+       /* Slightly lighter than #333 for a subtle border */
+   /* Slightly different background for contrast */
+  border-radius: 10px; /* Rounded corners for the profile boxes */
+}
+.profile-stats-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px; /* Adjust as needed */
+    background: #333; /* Dark background */
+    padding: 20px;
+     /* Slightly lighter than #333 for a subtle border */
+    border-radius: 10px; /* Rounded corners */
+    color: #fff; /* white text color */
+    font-family: 'Arial', sans-serif; /* Modern font */
+    margin: 5px;
+}
+.profile-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+    grid-gap: 10px;
+    padding: 18px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    margin: 5px;
+    background-color: #444; /* Slightly lighter background for the grid container */
+}
+
+.profile-stats div {
+    padding: 10px; /* Padding inside each grid item */
+}
+
+.profile-stat:last-child {
+    margin-bottom: 0;
+}
+
+.profile-stat-title {
+    font-weight: bold; /* Bold title */
+}
+
+.online-status {
+    color: #4CAF50; /* Green color for online status */
+    font-weight: bold;
+}
+
+.last-active {
+    color: #aaa; /* Lighter text for last active info */
+}
+
+/* Additional styles for icons, arrows, etc. */
+.green-arrow {
+    color: #76C043; /* Green color for the up arrow */
+}
+
+.red-arrow {
+    color: #E53E3E; /* Red color for the down arrow */
+}
+
+/* Responsive design adjustments if necessary */
+@media (max-width: 768px) {
+    .profile-stats-container {
+        width: 100%;
+    }
+}
+.user-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%; /* Circular avatar */
+  margin-bottom: 10px;
+}
+
+/* Adjust the following as needed for responsive design */
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+  }
+
+  .profile-package, .profile-stats {
+    flex: 0 0 auto; /* Adjust this to change the mobile layout */
+    margin: 5px auto; /* Center the boxes on smaller screens */
+    width: 90%; /* Adjust width as necessary */
+  }
+}
+
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.basic_info h2, .basic_info p {
+  margin: 0;
+  padding: 5px 0;
+}
+
+/* Adjust the following as needed for responsive design */
+@media (max-width: 768px) {
+  .profile_container {
+    flex-direction: column;
+  }
+
+  .profile_left, .profile_right {
+    flex: 0 0 auto;
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.basic_info h2, .basic_info p {
+  margin: 0;
+  padding: 5px 0;
+}
+
+.stats_table {
+  width: 100%;
+  margin-left: 20px;
+}
+
+.stats_table th, .stats_table td {
+  padding: 5px;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .profile_flex_container {
+    flex-direction: column;
+  }
+
+  .profile_left, .profile_right {
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .stats_table {
+    margin-left: 0;
+  }
+}
+
+.stats_table th, .stats_table td {
+  padding: 5px;
+  text-align: left;
+}
+
+.stats_table th {
+  width: 30%; /* Adjust as necessary */
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+  .profile_flex_container {
+    flex-direction: column;
+  }
+
+  .profile_left, .profile_right {
+    width: 100%;
+    padding: 10px 0; /* Adjust padding for mobile */
+  }
+
+  .stats_table {
+    margin-left: 0; /* Adjust table margin for mobile */
+  }
+}
+
+.actions_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Smaller button width */
+    gap: 8px; /* Adjust the gap between grid items if needed */
+    padding: 0; /* Remove padding if necessary */
+}
+
+.action {
+    background: var(--colorHighlight);
+    color: #fff !important; /* Example text color */
+    padding: 5px 10px; /* Reduced padding for smaller height, but maintain horizontal padding for comfort */
+    text-align: center;
+    border-radius: 4px; /* Rounded corners */
+    text-decoration: none; /* Removes underline from links */
+    font-size: 0.8em; /* Smaller font size */
+    display: block; /* Ensure it takes up the full grid cell */
+}
+
+.action:hover {
+    background: #444; /* Example hover background color change */
+    /* Add other hover effects as necessary */
+
+     .profile_comment {
+     /* Replace with your desired background color */
+        color: #fff; /* This is for the text color */
+        border-radius: 4px; /* Adjust as necessary for rounded corners */
+        padding: 10px; /* Add some padding inside the comments */
+        margin-bottom: 10px; /* Adds space between the comments */
+    }
+    .profile_comment_user {
+        font-weight: bold; /* Make the user's name bold */
+    }
+    .profile_comment_message {
+        margin-top: 5px; /* Space between the user's name and their message */
+    }
+    /* If you want to style the delete button [x] differently: */
+    .profile_comment_user a {
+        color: red; /* or any other color */
+        margin-left: 5px; /* Space out the delete button a bit */
+    }
+
+
+        </style>
     <div class='box_top'>My Pets</div>
     <div class='box_middle'>
         <div class='pad'>
