@@ -147,12 +147,9 @@ while ($row = mysql_fetch_assoc($result)) {
     $bosses[] = $row;
 }
 
-if ($user_class->admin > 0) {
     $db->query("SELECT * FROM pets WHERE raid_leash = 1 AND userid = $user_class->id LIMIT 1");
     $pet = $db->fetch_row(true);
-} else {
-    $pet = null;
-}
+
 
 
 
