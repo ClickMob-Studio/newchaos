@@ -448,6 +448,18 @@ while ($row = mysql_fetch_array($q)) {
                                     <a href='mypets.php?name=change&pet=<?php echo $row['petid'] ?>' id='botlink'>Change Name</a> |
                                     <a href='loanpet.php' id='botlink'>Loan Pet</a>
                                 </div>
+                                <div class="text-center p-2" style="background-color: #111; color: white;">Strength:</div>
+                                <div class="text-center p-2">
+                                    <?php echo prettynum($row['str']) ?>
+                                </div>
+                                <div class="text-center p-2" style="background-color: #111; color: white;">Defense:</div>
+                                <div class="text-center p-2">
+                                    <?php echo prettynum($row['def']) ?>
+                                </div>
+                                <div class="text-center p-2" style="background-color: #111; color: white;">Speed:</div>
+                                <div class="text-center p-2">
+                                    <?php echo prettynum($row['spe']) ?>
+                                </div>
                             </div>
                         </div>
                     </div>
