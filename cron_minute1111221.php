@@ -360,8 +360,8 @@ if ($raid_successful) {
             $total_max_points = 0;
             $total_min_money = 0;
             $total_max_money = 0;
-  $total_min_raidpoints = 0;  // New
-        $total_max_raidpoints = 0;  // New
+            $total_min_raidpoints = 0;  // New
+            $total_max_raidpoints = 0;  // New
 
 
             foreach ($loot_table as $loot) {
@@ -369,8 +369,8 @@ if ($raid_successful) {
                 $total_max_points += $loot['max_points'];
                 $total_min_money += $loot['min_money'];
                 $total_max_money += $loot['max_money'];
- $total_min_raidpoints += $loot['min_raidpoints'];  // New
-            $total_max_raidpoints += $loot['max_raidpoints'];  // New
+                $total_min_raidpoints += $loot['min_raidpoints'];  // New
+                $total_max_raidpoints += $loot['max_raidpoints'];  // New
             }
 
             $points_won = rand($total_min_points, $total_max_points);
@@ -413,6 +413,7 @@ $event_message = "Your raid against " . $raid['boss_name'] . " has ended. You wo
 
             // Determine items from the loot table
 $items_won = []; // Store the names of items won
+$pet_items_won = []; // Store the names of items won
 if(!empty($loot_table)){
     foreach ($loot_table as $loot) {
         $random_chance = rand(0, 100); // Generate a number between 0 and 100
@@ -438,18 +439,47 @@ if(!empty($loot_table)){
             // Add to the found items log
             $found_items_log[] = "$formatted_name found a $itemName.\n";
             echo "Debug: Added to found_items_log for $formatted_name\n";
-        $check_inv = mysql_query("SELECT * FROM inventory WHERE userid = " . $participant['user_id'] . " AND itemid = " . $loot['item_id']);
-        if(mysql_num_rows($check_inv)){
-            mysql_query("UPDATE inventory SET quantity = quantity + 1 WHERE userid = " . $participant['user_id'] . " AND itemid = " . $loot['item_id']);
+            $check_inv = mysql_query("SELECT * FROM inventory WHERE userid = " . $participant['user_id'] . " AND itemid = " . $loot['item_id']);
+            if(mysql_num_rows($check_inv)){
+                mysql_query("UPDATE inventory SET quantity = quantity + 1 WHERE userid = " . $participant['user_id'] . " AND itemid = " . $loot['item_id']);
 
-        }else{
-            mysql_query("INSERT INTO inventory (userid, itemid, quantity) VALUES ('$participant[user_id]', '$loot[item_id]', '1')");
+            }else{
+                mysql_query("INSERT INTO inventory (userid, itemid, quantity) VALUES ('$participant[user_id]', '$loot[item_id]', '1')");
+            }
+
+            $items_won_global = array_merge($items_won_global, $items_won);  // Merge the items won for this participant into the global list
+        }
+    }
+
+    if ($participant['leashed_pet_id']) {
+        foreach ($loot_table as $loot) {
+            $random_chance = rand(0, 100); // Generate a number between 0 and 100
+
+            if ($random_chance <= ($loot['drop_rate'] * 100)) {
+                // Attempt to fetch the name of the item
+                $itemName = getItemName($loot['item_id']);
+
+                // Check if the item name is valid
+                if ($itemName === null || $itemName === "" || $itemName === "Unknown Item") {
+                    // This means either the item ID is invalid or the item does not exist in the database.
+                    // You can choose to log this error, notify an admin, or simply continue to the next loot item.
+                    echo "You Found no items During this Raid";
+                    continue; // Skip adding this item
+                }
+
+                $pet_items_won[] = $itemName;
+
+                $check_inv = mysql_query("SELECT * FROM inventory WHERE userid = " . $participant['user_id'] . " AND itemid = " . $loot['item_id']);
+                if(mysql_num_rows($check_inv)){
+                    mysql_query("UPDATE inventory SET quantity = quantity + 1 WHERE userid = " . $participant['user_id'] . " AND itemid = " . $loot['item_id']);
+
+                }else{
+                    mysql_query("INSERT INTO inventory (userid, itemid, quantity) VALUES ('$participant[user_id]', '$loot[item_id]', '1')");
+                }
+           }
         }
 
-        $items_won_global = array_merge($items_won_global, $items_won);  // Merge the items won for this participant into the global list
     }
-   // var_dump($participant);
-}
 }
             $bullet = "&bull;";
             // Fetch the number of participants for the raid
@@ -476,6 +506,14 @@ if (!empty($items_won)) {
 } else {
     $event_message .= "<br>&bull; No items were found during this raid.";
 }
+
+if (!empty($pet_items_won)) {
+    $event_message .= "<br>&bull; Your Pet also found: " . implode(", ", $pet_items_won) . ".";
+} else {
+    $event_message .= "<br>&bull; No items were found by your pet during this raid.";
+}
+
+
 
 // Here, you can send or display $event_message as needed
  // Add a link to view the battle log
