@@ -714,6 +714,10 @@ function showTooltip(event, element) {
                     echo "<p><strong>Token Cost to Summon:</strong> $tokencost</p>";
                 }
 
+                if ($pet && isset($pet['id']) && $pet['level'] >= $boss['level']) {
+                    echo "<p><strong>Your Pet Can Join This Raid</strong></p>";
+                }
+
                 $rewards_query = "SELECT l.*, i.itemname, l.bonus FROM loot l JOIN items i ON l.item_id = i.id WHERE l.boss_id = " . $boss['id'];
                 $rewards_result = mysql_query($rewards_query);
                 $rewards = [];
