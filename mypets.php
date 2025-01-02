@@ -2,7 +2,7 @@
 include 'header.php';
 include 'includepet.php';
 ?>
-	
+
 	<div class='box_top'>My Pets</div>
 						<div class='box_middle'>
 							<div class='pad'>
@@ -106,7 +106,7 @@ if (array_key_exists('avi', $_POST)) {
 			<strong>New Avatar:</strong> <input type='text' name='avi' placeholder='$petinfo->avi' /><br />
 			<input type='submit' name='submit' value='Change Pet Avatar' />
 		</form>";
-} 
+}
 $_GET['use'] = isset($_GET['use']) && ctype_digit($_GET['use']) ? $_GET['use'] : null;
 if (!empty($_GET['use'])) {
     $q = mysql_query("SELECT itemname FROM items WHERE id = {$_GET['use']}");
@@ -147,10 +147,36 @@ if (isset($_GET['leash']) && !empty($_GET['pet'])) {
     );
     echo Message("You've {$opts[$_GET['leash']]} your pet");
 }
+
+if (isset($_GET['raid_leash']) && !empty($_GET['pet'])) {
+    $_GET['raid_leash'] = isset($_GET['raid_leash']) && in_array($_GET['raid_leash'], array(
+        0,
+        1
+    )) ? $_GET['raid_leash'] : 0;
+    $q = mysql_query("SELECT * FROM pets WHERE userid = $user_class->id AND petid = {$_GET['pet']}");
+    if (!mysql_num_rows($q))
+        diefun("Either that pet doesn't exist or it's not yours");
+    $row = mysql_fetch_array($q);
+    if ($row['raid_leash'] == 1 && $_GET['raid_leash'] == 1)
+        diefun("This pet is already joining you in raids.");
+    if ($row['raid_leash'] == 0 && $_GET['raid_leash'] == 0)
+        diefun("This pet is already not joining you in raids.");
+    mysql_query("UPDATE pets SET raid_leash = {$_GET['raid_leash']} WHERE userid = $user_class->id AND petid = {$_GET['pet']}");
+    $opts = array(
+        0 => 'unleashed for raids',
+        1 => 'leashed for raids'
+    );
+    echo Message("You've {$opts[$_GET['leash']]} your pet");
+}
 print'<script type="text/javascript">
 function leash(value,pets) {
 	if(value!="")
 		window.location="mypets.php?leash="+value+"&pet="+pets;
+}
+
+function raidLeash(value,pets) {
+	if(value!="")
+		window.location="mypets.php?raid_leash="+value+"&pet="+pets;
 }
 </script>';
 $q = mysql_query("SELECT * FROM pets WHERE userid = $user_class->id ORDER BY petid ASC");
@@ -179,6 +205,12 @@ while ($row = mysql_fetch_array($q)) {
 					<option value='0'", (!$row['leash']) ? " selected='selected'" : '', ">Unleash</option>
 				</select>
 			</td>
+			<td>
+                <select name='raid_leash' onchange='javascript:raidLeash(this.value,{$row['petid']});'>
+                    <option value='1'", ($row['raid_leash']) ? " selected='selected'" : '', ">Leash for Raids</option>
+                    <option value='0'", (!$row['raid_leash']) ? " selected='selected'" : '', ">Unleash for Raids</option>
+                </select>
+            </td>
 		</tr>
 	</table>";
 }
