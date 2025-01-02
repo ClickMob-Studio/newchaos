@@ -695,6 +695,10 @@ function showTooltip(event, element) {
                 $boss_cost_row = mysql_fetch_assoc($boss_cost_result);
                 $tokencost = $boss_cost_row['tokencost'];
 
+                if ($pet && isset($pet['id'])) {
+                    $tokencost = $tokencost * 2;
+                }
+
                 echo "<div class='boss-card'>";
                 echo "<img src='" . $boss['image_link'] . "' alt='Boss Image' class='boss-image'>";
                 echo "<h3>" . $boss['name'] . "</h3>";
