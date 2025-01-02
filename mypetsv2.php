@@ -437,7 +437,7 @@ while ($row = mysql_fetch_array($q)) {
                 <div class="card" style="margin: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.3) !important; background: rgba(0,0,0,0.2);">
                     <div class="card-body">
                         <div class="profile-container d-flex justify-content-around">
-                            <div class='profile-package shadow-sm p-3 mb-5 bg-body rounded' style='flex: 1; margin: 5px;'>
+                            <div class='profile-package shadow-sm p-3 mb-5 rounded' style='flex: 1; margin: 5px;'>
                                 <div style="text-align: center;">
                                     <img src='<?php echo $petinfo->avi; ?>' class='img-thumbnail' alt='User Avatar' style='width: 100px; height: 100px;'>
                                     <h4><?php echo $petinfo->formatName(); ?></h4>
