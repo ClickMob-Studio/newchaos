@@ -442,8 +442,12 @@ while ($row = mysql_fetch_array($q)) {
                                     <img src='<?php echo $petinfo->avi; ?>' class='img-thumbnail' alt='User Avatar' style='width: 100px; height: 100px;'>
                                     <h4><?php echo $petinfo->formatName(); ?></h4>
                                 </div>
-                                <div class="text-center p-2" style="background-color: #111; color: white;">Player Rating:</div>
-                                <div class="text-center p-2"> Hereeee</div>
+                                <div class="text-center p-2" style="background-color: #111; color: white;">Actions:</div>
+                                <div class="text-center p-2">
+                                    <a href='mypets.php?avi' id='botlink'>Change Avatar</a> |
+                                    <a href='mypets.php?name=change&pet=<?php echo $row['petid'] ?>' id='botlink'>Change Name</a> |
+                                    <a href='loanpet.php' id='botlink'>Loan Pet</a>
+                                </div>
                             </div>
                         </div>
                     </div>
