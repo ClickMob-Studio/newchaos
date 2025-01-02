@@ -3,10 +3,10 @@ include 'header.php';
 include 'includepet.php';
 ?>
 
-	<div class='box_top'>My Pets</div>
-						<div class='box_middle'>
-							<div class='pad'>
-								<?php
+    <div class='box_top'>My Pets</div>
+    <div class='box_middle'>
+        <div class='pad'>
+<?php
 $_GET['pet'] = isset($_GET['pet']) && ctype_digit($_GET['pet']) ? $_GET['pet'] : null;
 $q = mysql_query("SELECT userid FROM petmarket WHERE userid = $user_class->id");
 if (mysql_num_rows($q))
@@ -83,26 +83,26 @@ if (isset($_GET['name']) && $_GET['name'] == 'change' && !empty($_GET['pet'])) {
     }
 }
 if (array_key_exists('avi', $_POST)) {
-	$avi = $_POST['avi'];
-	if(!getimagesize($avi) && $avi != '')
-		diefun("Invalid image detected.");
-	if($avi == ''){
-		$db->query("SELECT picture FROM petshop ps JOIN pets p ON ps.id = p.petid WHERE userid = ?");
-		$db->execute(array(
-			$user_class->id
-		));
-		$avi = $db->fetch_single();
-	}
-	$db->query("UPDATE pets SET avi = ? WHERE userid = ?");
-	$db->execute(array(
-		$avi,
-		$user_class->id
-	));
-	mysql_query("UPDATE pets SET avi = '" . implode("|", $colors) . "' WHERE userid = $user_class->id AND petid = {$_GET['pet']}");
-	echo Message("You've changed your pet's avatar.");
+    $avi = $_POST['avi'];
+    if(!getimagesize($avi) && $avi != '')
+        diefun("Invalid image detected.");
+    if($avi == ''){
+        $db->query("SELECT picture FROM petshop ps JOIN pets p ON ps.id = p.petid WHERE userid = ?");
+        $db->execute(array(
+            $user_class->id
+        ));
+        $avi = $db->fetch_single();
+    }
+    $db->query("UPDATE pets SET avi = ? WHERE userid = ?");
+    $db->execute(array(
+        $avi,
+        $user_class->id
+    ));
+    mysql_query("UPDATE pets SET avi = '" . implode("|", $colors) . "' WHERE userid = $user_class->id AND petid = {$_GET['pet']}");
+    echo Message("You've changed your pet's avatar.");
 } elseif(isset($_GET['avi'])){
-		$petinfo = new Pet($user_class->id);
-        print"<form action='mypets.php' method='post'>
+    $petinfo = new Pet($user_class->id);
+    print"<form action='mypets.php' method='post'>
 			<strong>New Avatar:</strong> <input type='text' name='avi' placeholder='$petinfo->avi' /><br />
 			<input type='submit' name='submit' value='Change Pet Avatar' />
 		</form>";
@@ -129,9 +129,9 @@ if (!empty($_GET['use'])) {
 }
 if (isset($_GET['leash']) && !empty($_GET['pet'])) {
     $_GET['leash'] = isset($_GET['leash']) && in_array($_GET['leash'], array(
-                0,
-                1
-            )) ? $_GET['leash'] : 0;
+        0,
+        1
+    )) ? $_GET['leash'] : 0;
     $q = mysql_query("SELECT * FROM pets WHERE userid = $user_class->id AND petid = {$_GET['pet']}");
     if (!mysql_num_rows($q))
         diefun("Either that pet doesn't exist or it's not yours");
@@ -180,6 +180,33 @@ function raidLeash(value,pets) {
 }
 </script>';
 $q = mysql_query("SELECT * FROM pets WHERE userid = $user_class->id ORDER BY petid ASC");
+
+?>
+
+    <div class="container">
+        <!-- Use Bootstrap's row and col classes for responsiveness -->
+        <div class="row">
+            <!-- First Card -->
+            <div class="col-md-6 col-12">
+                <div class="card" style="margin: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.3) !important; background: rgba(0,0,0,0.2);">
+                    <div class="card-body">
+                        <div class="profile-container d-flex justify-content-around">
+                            <div class='profile-package shadow-sm p-3 mb-5 bg-body rounded' style='flex: 1; margin: 5px;'>
+                                <div style="text-align: center;">
+                                    <img src='<?php echo $petinfo->avi; ?>' class='img-thumbnail' alt='User Avatar' style='width: 100px; height: 100px;'>
+                                    <h4><?php echo $petinfo->formatName(); ?></h4>
+                                </div>
+                                <div class="text-center p-2" style="background-color: #111; color: white;">Player Rating:</div>
+                                <div class="text-center p-2"> Hereeee</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<?php
 print"<tr><td class='contentcontent'>
 <table id='newtables' style='width:100%;'>
 	<tr>
@@ -204,6 +231,11 @@ while ($row = mysql_fetch_array($q)) {
 					<option value='1'", ($row['leash']) ? " selected='selected'" : '', ">Leash</option>
 					<option value='0'", (!$row['leash']) ? " selected='selected'" : '', ">Unleash</option>
 				</select>
+			    <br /><br />
+                <select name='raid_leash' onchange='javascript:raidLeash(this.value,{$row['petid']});'>
+                    <option value='1'", ($row['raid_leash']) ? " selected='selected'" : '', ">Leash for Raids</option>
+                    <option value='0'", (!$row['raid_leash']) ? " selected='selected'" : '', ">Unleash for Raids</option>
+                </select>
             </td>
 		</tr>
 	</table>";
