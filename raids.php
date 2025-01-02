@@ -432,10 +432,12 @@ while ($row = mysql_fetch_assoc($active_raids_result)) {
 
 if ($pet && isset($pet['id'])): ?>
     <div class="alert alert-info">
-        <strong>
-            You currently have a pet on the leash. They will join in with any raids that they have the relevant level for.
-            Raid costs are double for a pet to join.
-        </strong>
+        <center>
+            <strong>
+                You currently have a pet on the leash. They will join in with any raids that they have the relevant level for.
+                Raid costs are double for a pet to join. <span style="color: red;">Pet's Can Only Join The Raids You Start.</span>
+            </strong>
+        </center>
     </div>
 <?php endif; ?>
 <?php
