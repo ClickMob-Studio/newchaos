@@ -319,6 +319,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
     $boss_cost_row = mysql_fetch_assoc($boss_cost_result);
     $tokencost = $boss_cost_row['tokencost'];
 
+    if ($pet && isset($pet['id'])) {
+        $tokencost *= 2; // Double the cost if the user has a pet
+    }
+
     // Check user's raid tokens
     $token_check_query = "SELECT raidtokens FROM grpgusers WHERE id = $user_id";
     $token_check_result = mysql_query($token_check_query);
