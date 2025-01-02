@@ -460,6 +460,19 @@ while ($row = mysql_fetch_array($q)) {
                                 <div class="text-center p-2">
                                     <?php echo prettynum($row['spe']) ?>
                                 </div>
+                                <div class="text-center p-2" style="background-color: #111; color: white;"></div>
+                                <div class="text-center p-2">
+                                <select name='leash' onchange='javascript:leash(this.value,{$row['petid']});'>
+                                    <option value='1'", ($row['leash']) ? " selected='selected'" : '', ">Leash</option>
+                                    <option value='0'", (!$row['leash']) ? " selected='selected'" : '', ">Unleash</option>
+                                </select>
+                                <br /><br />
+                                <select name='raid_leash' onchange='javascript:raidLeash(this.value,{$row['petid']});'>
+                                    <option value='1'", ($row['raid_leash']) ? " selected='selected'" : '', ">Leash for Raids</option>
+                                    <option value='0'", (!$row['raid_leash']) ? " selected='selected'" : '', ">Unleash for Raids</option>
+                                </select>
+
+                                </div>
                             </div>
                         </div>
                     </div>
