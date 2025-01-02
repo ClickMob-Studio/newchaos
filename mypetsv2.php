@@ -462,14 +462,14 @@ while ($row = mysql_fetch_array($q)) {
                                 </div>
                                 <div class="text-center p-2">
                                     <center>
-                                        <select name='leash' onchange='javascript:leash(this.value,{$row['petid']});'>
-                                            <option value='1'", ($row['leash']) ? " selected='selected'" : '', ">Leash</option>
-                                            <option value='0'", (!$row['leash']) ? " selected='selected'" : '', ">Unleash</option>
+                                        <select name='leash' onchange='javascript:leash(this.value,<?php echo $row['petid'] ?>);'>
+                                            <option value='1' <?php if ($row['leash']): ?> selected='selected' <?php endif; ?>>Leash</option>
+                                            <option value='0' <?php if (!$row['leash']): ?> selected='selected' <?php endif; ?>>Unleash</option>
                                         </select>
-                                        <br /><br />
+                                        <br />
                                         <select name='raid_leash' onchange='javascript:raidLeash(this.value,{$row['petid']});'>
-                                            <option value='1'", ($row['raid_leash']) ? " selected='selected'" : '', ">Leash for Raids</option>
-                                            <option value='0'", (!$row['raid_leash']) ? " selected='selected'" : '', ">Unleash for Raids</option>
+                                            <option value='1' <?php if ($row['raid_leash']): ?> selected='selected' <?php endif; ?>>Leash for Raids</option>
+                                            <option value='0' <?php if (!$row['raid_leash']): ?> selected='selected' <?php endif; ?>>Unleash for Raids</option>
                                         </select>
                                     </center>
 
@@ -483,38 +483,5 @@ while ($row = mysql_fetch_array($q)) {
     </div>
 
 <?php
-}
-print"<tr><td class='contentcontent'>
-<table id='newtables' style='width:100%;'>
-	<tr>
-		<th colspan='6'>My Pet</th>
-	</tr>";
-while ($row = mysql_fetch_array($q)) {
-    $y = mysql_query("SELECT * FROM petshop WHERE id = {$row['petid']}");
-    $pet = mysql_fetch_array($y);
-    $petinfo = new Pet($user_class->id);
-    echo "<tr class='center'>
-			<td><img src='$petinfo->avi' width='100' height='100'> <br /><br /> <a href='mypets.php?avi' id='botlink'>Change Avatar</a><br /><br /></td>
-			<td><br /><b>Pet Type:</b> {$pet['name']}<br /><br /><b>Pet Name:</b> ", $petinfo->formatName(), " <br /><br /> <a href='mypets.php?name=change&amp;pet={$row['petid']}' id='botlink'>Change Name</a><br /><br /></td>
-			<td><br /><a href='loanpet.php' id='botlink'>Loan Pet</a>
-				<br /><br /></td>
-			<td>
-				<b>Strength:</b> ", prettynum($row['str']), "<br /><br />
-				<b>Speed:</b> ", prettynum($row['spe']), "<br /><br />
-				<b>Defense:</b> ", prettynum($row['def']), "
-			</td>
-			<td>
-				<select name='leash' onchange='javascript:leash(this.value,{$row['petid']});'>
-					<option value='1'", ($row['leash']) ? " selected='selected'" : '', ">Leash</option>
-					<option value='0'", (!$row['leash']) ? " selected='selected'" : '', ">Unleash</option>
-				</select>
-			    <br /><br />
-                <select name='raid_leash' onchange='javascript:raidLeash(this.value,{$row['petid']});'>
-                    <option value='1'", ($row['raid_leash']) ? " selected='selected'" : '', ">Leash for Raids</option>
-                    <option value='0'", (!$row['raid_leash']) ? " selected='selected'" : '', ">Unleash for Raids</option>
-                </select>
-            </td>
-		</tr>
-	</table>";
 }
 include 'footer.php';
