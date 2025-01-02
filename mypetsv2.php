@@ -1,4 +1,5 @@
 <?php
+exit;
 include 'header.php';
 include 'includepet.php';
 ?>
