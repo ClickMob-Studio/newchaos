@@ -180,7 +180,10 @@ function raidLeash(value,pets) {
 }
 </script>';
 $q = mysql_query("SELECT * FROM pets WHERE userid = $user_class->id ORDER BY petid ASC");
-
+while ($row = mysql_fetch_array($q)) {
+    $y = mysql_query("SELECT * FROM petshop WHERE id = {$row['petid']}");
+    $pet = mysql_fetch_array($y);
+    $petinfo = new Pet($user_class->id);
 ?>
 
     <div class="container">
@@ -207,6 +210,7 @@ $q = mysql_query("SELECT * FROM pets WHERE userid = $user_class->id ORDER BY pet
     </div>
 
 <?php
+}
 print"<tr><td class='contentcontent'>
 <table id='newtables' style='width:100%;'>
 	<tr>
