@@ -204,8 +204,7 @@ while ($row = mysql_fetch_array($q)) {
 					<option value='1'", ($row['leash']) ? " selected='selected'" : '', ">Leash</option>
 					<option value='0'", (!$row['leash']) ? " selected='selected'" : '', ">Unleash</option>
 				</select>
-			</td>
-			<td>
+			    <br /><br />
                 <select name='raid_leash' onchange='javascript:raidLeash(this.value,{$row['petid']});'>
                     <option value='1'", ($row['raid_leash']) ? " selected='selected'" : '', ">Leash for Raids</option>
                     <option value='0'", (!$row['raid_leash']) ? " selected='selected'" : '', ">Unleash for Raids</option>
