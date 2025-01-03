@@ -64,8 +64,8 @@ try {
         $modifier = isset($modifier) ? $modifier : 1;
 
         if ($upgrade_level > 0) {
-            $bonus_percentage = $bonus_per_level * $upgrade_level; 
-            $modifier *= (1 + $bonus_percentage); 
+            $bonus_percentage = $bonus_per_level * $upgrade_level;
+            $modifier *= (1 + $bonus_percentage);
         }
     }
 
@@ -76,10 +76,10 @@ try {
 
     $stat = $data['stat'];
 
-    $amount = isset($data['amnt']) ? (int)$data['amnt'] : 0; 
+    $amount = isset($data['amnt']) ? (int)$data['amnt'] : 0;
 
     $user_class->directawake -= round(0.75 * $amount);
-    $modifier = 1.5; 
+    $modifier = 1.5;
 
     $prestigeBonus = (0.20 * $user_class->prestige) + 1.5;
     $modifier = max($prestigeBonus, $modifier);
@@ -93,11 +93,11 @@ try {
     if (isset($data['what']) && $data['what'] == 'trainrefill') {
         $ptsforawake = 100 - (($user_class->directawake / $user_class->directmaxawake) * 100);
         $ptsreq = 10 + ceil($ptsforawake);
-        
+
         if ($ptsreq > $user_class->points) {
             throw new Exception("You do not have enough points to train.");
         }
-        
+
         if (isset($data['amnt']) && $data['amnt'] <= $user_class->energy && $data['amnt'] > 0) {
             $add = round($data['amnt'] * ($user_class->awake / 100 * 6 / 2) * $modifier);
 
@@ -121,13 +121,16 @@ try {
                 $gymProteinBarAdd = $add / 100 * 20;
                 $add = $add + $gymProteinBarAdd;
             }
+            if ($tempItemUse['double_gym_time'] > time()) {
+                $add = $add * 2;
+            }
 
             $add = ceil($add);
 
             $user_class->{$stat} += $add;
             $user_class->dailytrains += $add;
             $user_class->points -= $ptsreq;
-            
+
             $stmt = "UPDATE grpgusers SET $stat = :stat, dailytrains = :dailytrains, points = points - :ptsreq, energy = :maxenergy WHERE id = :id";
             $db->query($stmt);
             $db->bind(':stat', $user_class->{$stat});
@@ -136,7 +139,7 @@ try {
             $db->bind(':maxenergy', $user_class->maxenergy);
             $db->bind(':id', $user_class->id);
             $db->execute();
-            
+
             echo json_encode(array(
                 'message' => "You trained with {$data['amnt']} energy and received " . prettynum($add) . " $stat.",
                 'points' => number_format($user_class->points),
@@ -157,7 +160,7 @@ try {
             $user_class->$stat += $add;
             $user_class->dailytrains += $add;
 
-            $awakeReduction = round(0.03 * $data['amnt']); 
+            $awakeReduction = round(0.03 * $data['amnt']);
             $user_class->directawake -= $awakeReduction;
             $user_class->directawake = max(0, $user_class->directawake);
 
@@ -180,7 +183,7 @@ try {
             $db->bind(':ptsreq', $ptsreq);
             $db->bind(':userId', $user_class->id);
             $db->execute();
-            
+
             $displayedEnergyUsed = $mega_train_multiplier == 10 ? $data['amnt'] * $mega_train_multiplier : $data['amnt'];
             echo json_encode(array(
                 'message' => "You trained with " . $displayedEnergyUsed . " energy and received " . prettynum($add) . " $stat.",
@@ -209,7 +212,7 @@ try {
                 throw new Exception("You do not have enough points to refill your energy.");
             }
             $user_class->energy = $user_class->maxenergy;
-            $pointsToUse += 10; 
+            $pointsToUse += 10;
         }
 
         if ($att === 'awake' || $att === 'both') {
@@ -236,7 +239,7 @@ try {
         $db->bind(':id', $user_class->id);
         $db->execute();
 
-        $user_class->points -= $pointsToUse; 
+        $user_class->points -= $pointsToUse;
 
         $responseMessage = "You have refilled ";
         if ($att === 'both') {

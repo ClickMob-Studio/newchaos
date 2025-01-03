@@ -169,6 +169,9 @@ if (isset($_POST['what']) AND $_POST['what'] == 'trainrefill') {
             $gymProteinBarAdd = $add / 100 * 20;
             $add = $add + $gymProteinBarAdd;
         }
+        if ($tempItemUse['double_gym_time'] > time()) {
+            $add = $add * 2;
+        }
 
         if ($gymBonus > 0) {
             $add = $add * 2;
