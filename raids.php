@@ -313,10 +313,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
         return; // Exit early due to error
     }
 
+    // Fetch boss level
+    $boss_level_query = "SELECT level FROM bosses WHERE id = $boss_id";
+    $boss_level_result = mysql_query($boss_level_query);
+    $boss_level = mysql_fetch_assoc($boss_level_result)['level'];
+
     $boss_cost_row = mysql_fetch_assoc($boss_cost_result);
     $tokencost = $boss_cost_row['tokencost'];
 
-    if ($pet && isset($pet['id'])) {
+    if ($pet && isset($pet['id']) && $pet['level'] >= $boss_level) {
         $tokencost *= 2; // Double the cost if the user has a pet
     }
 
@@ -357,10 +362,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
         // The user is already in an active raid, display an error message
         echo "<script>alert('You are already in an active raid. You cannot summon another one at the moment.');</script>";
     } else {
-        // Fetch boss level
-        $boss_level_query = "SELECT level FROM bosses WHERE id = $boss_id";
-        $boss_level_result = mysql_query($boss_level_query);
-        $boss_level = mysql_fetch_assoc($boss_level_result)['level'];
 
         // Fetch user level
         $user_level_query = "SELECT level FROM grpgusers WHERE id = $user_id";
