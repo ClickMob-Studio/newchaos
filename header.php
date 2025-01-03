@@ -1694,6 +1694,12 @@ if ($tempItemUse['trick_or_treat_pass_time'] > $time) {
     $messages[] = 'Trick or Treat Pass: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
 }
 
+// Double Gym
+if ($tempItemUse['double_gym_yime'] > $time) {
+    $rtn = howlongtil($tempItemUse['double_gym_yime']);
+    $messages[] = 'Double Gym: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
 
     // Jail
 if ($user_class->jail > $time) {
