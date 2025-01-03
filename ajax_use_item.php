@@ -593,6 +593,21 @@ if (isset($_GET['use'])) {
                 $response['success'] = true;
                 $response['message'] = "You shoot up, for the next 30 minutes you will have double gym!";
                 break;
+            case 306:
+                $db->query("UPDATE grpgusers SET points = points + 1000000, money = money + 1250000000 WHERE id = " . $user_class->id);
+                $db->execute();
+
+
+                Give_Item(279, $user_class->id, 1); // Protein Bar
+                Give_Item(281, $user_class->id, 1); // Gym Super Pills
+                Give_Item(305, $user_class->id, 1); // Double Gym Injection
+                Give_Item(278, $user_class->id, 1); // Sound System
+                Give_Item(277, $user_class->id, 5); // Mission Passes
+                Give_Item(283, $user_class->id, 5); // Gold Rush Token Chest
+
+                $response['success'] = true;
+                $response['message'] = "You open your new year box and inside find 1,000,000 points, $1,250,000,000, 1 x Protein Bar, 1 x Gym Super Pill, 1 x Double Gym Injection, 1 x Sound System, 5 x Gold Rush Token Chest & 5 x Mission Passes!";
+                break;
             default:
                 $response['message'] = "Item not recognized or cannot be used.";
                 break;
