@@ -533,6 +533,28 @@ if ($_GET['buy'] == "vip7") {
         }
     }
 
+    if ($_GET['buy'] == "1doublegym") {
+        if ($user_class->credits >= 200) {
+            $current = $user_class->credits;
+            $newcredit = $user_class->credits -= 200;
+            $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (". $user_class->id .", '1 x Double Gym Injection', ".$current .", ".$newcredit.")");
+            $db->execute();
+            $db->query("UPDATE grpgusers SET credits = credits - 200 WHERE id = ?");
+            $db->execute(array(
+                $user_class->id
+            ));
+
+            Give_Item(305, $user_class->id, 1);
+
+            Send_Event(1, $user_class->formattedname ." bought 1 x Double Gym Injection");
+            Send_Event(2, $user_class->formattedname ." bought 1 x Double Gym Injection");
+
+            echo Message("You spent 200 credits for 1 x Double Gym Injection.");
+        } else {
+            echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+        }
+    }
+
     if ($_GET['buy'] == "5proteinbar") {
         if ($user_class->credits >= 30) {
             $current = $user_class->credits;
@@ -1597,6 +1619,15 @@ document.addEventListener("DOMContentLoaded", function() {
         </div>
     </div>
     <br />
+    <div class="items-upgrades" style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
+
+        <div class="vip-package">
+            <h4 style="color: brown;">1 x Double Gym Injection</h4>
+            <img src="/css/images/NewGameImages/double-gym-injection.png" height="100" alt="Double Gym Injection">
+
+            <h4>Purchase now for only<br><a href="store.php?buy=1doublegym"><button class="gold-button">200 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+        </div>
+    </div>
 </div>
 
 <br /><br />
