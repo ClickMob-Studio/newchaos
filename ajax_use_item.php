@@ -580,6 +580,19 @@ if (isset($_GET['use'])) {
                 $response['success'] = true;
                 $response['message'] = "You open your black friday crate and inside find 800,000 points, $1,000,000,000, 50 x Dracula Blood Bag, 1 x Dracula Statue, 1 x Sound System, 5 x Gold Rush Token Chest & 5 x Mission Passes!";
                 break;
+            case 305:
+                $tempItemUse = getItemTempUse($user_class->id);
+                $now = time();
+                if ($tempItemUse['double_gym_time'] > $now) {
+                    $response['message'] = 'You already have a Double Gym Injection active.';
+                    echo json_encode($response);
+                    exit;
+                }
+                $newTime = $now + 1800;
+                addItemTempUse($user_class, 'double_gym_time', $newTime);
+                $response['success'] = true;
+                $response['message'] = "You shoot up, for the next 30 minutes you will have double gym!";
+                break;
             default:
                 $response['message'] = "Item not recognized or cannot be used.";
                 break;
