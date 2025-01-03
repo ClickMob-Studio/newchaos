@@ -698,7 +698,7 @@ function showTooltip(event, element) {
                 $boss_cost_row = mysql_fetch_assoc($boss_cost_result);
                 $tokencost = $boss_cost_row['tokencost'];
 
-                if ($pet && isset($pet['id'])) {
+                if ($pet && isset($pet['id']) && $pet['level'] >= $boss['level']) {
                     $tokencost = $tokencost * 2;
                 }
 
