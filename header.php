@@ -1695,8 +1695,8 @@ if ($tempItemUse['trick_or_treat_pass_time'] > $time) {
 }
 
 // Double Gym
-if ($tempItemUse['double_gym_yime'] > $time) {
-    $rtn = howlongtil($tempItemUse['double_gym_yime']);
+if ($tempItemUse['double_gym_time'] > $time) {
+    $rtn = howlongtil($tempItemUse['double_gym_time']);
     $messages[] = 'Double Gym: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
 }
 
