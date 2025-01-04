@@ -18,8 +18,8 @@ if (isset($error))
     diefun($error . "<br /><br /><a href='index.php'>Home</a>");
 $yourhp = $mypet->hp;
 $theirhp = $theirpet->hp;
-genHead("Fight House");
-print "You are in a fight with " . $theirpet->formatName() . ".<br /><br />";
+genHead("Pet Fight");
+print "<br />You are in a fight with " . $theirpet->formatName() . ".<br /><br />";
 $userspeed = $mypet->speed;
 $attackspeed = $theirpet->speed;
 $wait = ($userspeed > $attackspeed) ? 1 : 0;
