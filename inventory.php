@@ -337,7 +337,7 @@ if ($user_class->gang > 0) {
                 .addClass(isSuccess ? "alert-success" : "alert-danger")
                 .fadeIn();
                 $('html, body').animate({ scrollTop: 0 }, 'slow');
-            setTimeout(function() { messageBox.fadeOut(); }, 3000);
+            // setTimeout(function() { messageBox.fadeOut(); }, 3000);
         }
 
         function updateEquippedItem(type, itemId, itemName, itemImage) {
