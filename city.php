@@ -292,6 +292,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
             <a href='petcrime.php'>Pet Crimes</a><br>
             <a href='petgym.php'>Pet Gym</a><br>
             <a href='pethouse.php'>Pet House</a><br>
+            <a href='petlist.php'>Pet List</a><br>
             <a href='pethof.php'>Pet HOF</a><br>
             <a href='petmarket.php'>Pet Market</a><br>
             <a href='pettrack.php'>Pet Track</a><br>
