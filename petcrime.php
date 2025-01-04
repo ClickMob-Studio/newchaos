@@ -43,9 +43,16 @@ if (!empty($_GET['id'])) {
     if ($row['nerve'] > $pet_class->nerve && !pet_refill('n'))
         echo Message("Your pet doesn't have enough nerve");
     elseif ($chance <= $successchance) {
-        mysql_query("UPDATE pets SET exp = exp + $exp, nerve = nerve - {$row['nerve']} WHERE userid = $user_class->id");
-        addToPetladder($pet_class->id, 'exp', $exp);
-        echo Message("Your pet successfully managed to {$row['name']}<br />Your  pet received $exp exp.<br /><br /><a href='petcrime.php?id={$_GET['id']}'>Retry</a> | <a href='petcrime.php'>Back</a>");
+        if (isset($user_class->completeUserResearchTypesIndexedOnId[41])) {
+            $money = $row['nerve'] * 100;
+            mysql_query("UPDATE pets SET exp = exp + $exp, money = money + {$money}, nerve = nerve - {$row['nerve']} WHERE userid = $user_class->id");
+            addToPetladder($pet_class->id, 'exp', $exp);
+            echo Message("Your pet successfully managed to {$row['name']}<br />Your pet received $exp exp & you gained ${$money}.<br /><br /><a href='petcrime.php?id={$_GET['id']}'>Retry</a> | <a href='petcrime.php'>Back</a>");
+        } else {
+            mysql_query("UPDATE pets SET exp = exp + $exp, nerve = nerve - {$row['nerve']} WHERE userid = $user_class->id");
+            addToPetladder($pet_class->id, 'exp', $exp);
+            echo Message("Your pet successfully managed to {$row['name']}<br />Your  pet received $exp exp.<br /><br /><a href='petcrime.php?id={$_GET['id']}'>Retry</a> | <a href='petcrime.php'>Back</a>");
+        }
     } elseif ($chance <= $successchance + $jailchance) {
         $pet_class->nerve -= $row['nerve'];
         mysql_query("UPDATE pets SET jail = ($jailtime*60), nerve = $pet_class->nerve WHERE userid = $user_class->id");
