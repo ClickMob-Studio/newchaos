@@ -27,6 +27,19 @@ if (!empty($_GET['id'])) {
     $money = (50 * $row['nerve']) + 15 * ($row['nerve'] - 1);
     $exp = (10 * $row['nerve']) + 2 * ($row['nerve'] - 1);
 	$exp *= 1.0;
+
+    $researchAddBoost = 0;
+    if (isset($user_class->completeUserResearchTypesIndexedOnId[39])) {
+        $researchAddBoost += 5;
+    }
+    if (isset($user_class->completeUserResearchTypesIndexedOnId[42])) {
+        $researchAddBoost += 5;
+    }
+    if ($researchAddBoost > 0) {
+        $resAddInc = $exp / 100 * $researchAddBoost;
+        $exp = $exp + $resAddInc;
+    }
+
     if ($row['nerve'] > $pet_class->nerve && !pet_refill('n'))
         echo Message("Your pet doesn't have enough nerve");
     elseif ($chance <= $successchance) {
