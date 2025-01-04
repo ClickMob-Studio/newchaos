@@ -55,7 +55,7 @@ $result = mysql_query("SELECT * FROM `pets` ORDER BY `id` ASC LIMIT $offset, $ro
 while ($line = mysql_fetch_array($result)) {
     $user = new User($line['userid']);
     echo "<tr>
-    <td>" . $line['pname'] . "</td>
+    <td><a href='petprofile.php?id=" . $line['id'] . "'>" . $line['pname'] . "</a></td>
     <td>" . $user->formattedname . "</td>
     <td>" . $line['level'] . "</td>
     <td>
