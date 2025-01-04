@@ -113,7 +113,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
     <!-- Combat Research -->
     <div class="row">
         <div class="col-md-12">
-            <h2>Research</h2>
 
             <?php if ($activeUserResearchType): ?>
                 <div class='alert alert-success'>
