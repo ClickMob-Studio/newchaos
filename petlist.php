@@ -51,7 +51,7 @@ echo '<th><b>User</b></th>';
 echo '<th><b>Level</b></th>';
 echo '<th><b>Actions</b></th>';
 echo '</tr>';
-$result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `id` ASC LIMIT $offset, $rowsperpage");
+$result = mysql_query("SELECT * FROM `pets` ORDER BY `id` ASC LIMIT $offset, $rowsperpage");
 while ($line = mysql_fetch_array($result)) {
     $user = new User($line['userid']);
     echo "<tr>
