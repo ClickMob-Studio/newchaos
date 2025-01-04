@@ -269,7 +269,7 @@ if ($user_class->gang > 0) {
             }
 
             if ($loaned) {
-                $buttonHtml .= '<a class="btn btn-sm btn-danger mt-2" href="inventory.php?return=">Return</a> ';
+                $buttonHtml .= '<a class="btn btn-sm btn-danger mt-2" href="inventory.php?return=' . $item['id'] . '">Return</a> ';
             }
 
             $buttonHtml .= $sell;
