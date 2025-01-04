@@ -38,6 +38,21 @@ if (isset($_POST['what']) AND $_POST['what'] == 'trainrefill') {
             $add = $add + $resAddInc;
         }
 
+        $researchAddBoost = 0;
+        if (isset($user_class->completeUserResearchTypesIndexedOnId[38])) {
+            $researchAddBoost += 10;
+        }
+        if (isset($user_class->completeUserResearchTypesIndexedOnId[40])) {
+            $researchAddBoost += 10;
+        }
+        if (isset($user_class->completeUserResearchTypesIndexedOnId[43])) {
+            $researchAddBoost += 10;
+        }
+        if ($researchAddBoost > 0) {
+            $resAddInc = $add / 100 * $researchAddBoost;
+            $add = $add + $resAddInc;
+        }
+
         $pet_class->$stat += $add;
         $user_class->points -= $ptsreq;
         mysql_query("UPDATE pets SET $stat = '" . $pet_class->{$stat} . "', energy = $pet_class->maxenergy, awake = $pet_class->maxawake WHERE userid = $user_class->id");
