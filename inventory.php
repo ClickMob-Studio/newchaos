@@ -267,6 +267,10 @@ if ($user_class->gang > 0) {
             if (!$loaned && !in_array($item['id'], $restrictedSendItems)) {
                 $buttonHtml .= '<button class="btn btn-sm btn-info send-btn mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Send</button> ';
             }
+
+            if ($loaned && $user_class->admin > 0) {
+                $buttonHtml .= '<a class="btn btn-sm btn-danger mt-2" href="inventory.php?return=' . $item['loanid'] . '">Return</a> ';
+            }
             $buttonHtml .= $sell;
             echo $buttonHtml;
             echo '</div></div></div>';
