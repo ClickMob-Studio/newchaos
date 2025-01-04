@@ -183,50 +183,50 @@ class OwnedBusiness {
 
   public function deposit($amount) {
     global $db, $user_class;  // Make sure $user_class is global
-    
+
     // Update user's money
     $newUserMoney = $user_class->money - $amount;
     mysql_query("UPDATE grpgusers SET money = '$newUserMoney' WHERE id = '{$_SESSION['id']}'");
-            
+
         // Check for errors
         if(mysql_error()) {
             die("Error while updating user's money: " . mysql_error());
         }
-        
+
         // Update business vault
         $newVaultValue = $this->vault + $amount;
         mysql_query("UPDATE OwnedBusinesses SET vault = '$newVaultValue' WHERE ownership_id = '{$this->ownership_id}'");
-        
+
         // Check for errors
         if(mysql_error()) {
             die("Error while updating business vault: " . mysql_error());
         }
-        
+
         // Log transaction
         // TODO: Add your logging mechanism here
     }
 
    public function withdraw($amount) {
     global $db, $user_class;  // Make sure $user_class is global
-    
+
     // Update user's money
     $newUserMoney = $user_class->money + $amount;
     mysql_query("UPDATE grpgusers SET money = '$newUserMoney' WHERE id = '{$_SESSION['id']}'");
-            
+
         // Check for errors
         if(mysql_error()) {
             die("Error while updating user's money: " . mysql_error());
         }
-        
+
         // Update business vault
         $newVaultValue = $this->vault - $amount;
         mysql_query("UPDATE OwnedBusinesses SET vault = '$newVaultValue' WHERE ownership_id = '{$this->ownership_id}'");
-        
+
         // Check for errors
         if(mysql_error()) {
             die("Error while updating business vault: " . mysql_error());
         }
-        
+
         // Log transaction
         // TODO: Add your logging mechanism here
     }
@@ -344,7 +344,7 @@ if ($this->nightvision > 0) {
 } else if ($this->eqarmor == 43) {
     // The user does not have nightvision and has the item equipped that hides the city
    $this->cityname = "Unknown";
-} 
+}
       if ($worked['eqshoes']) {
 			$db->execute(array(
 				$id,
@@ -1036,7 +1036,7 @@ $this->nerveboost =  $this->nerveboost;
 //                    }
                 }
                 if (!isset($this->badge1) && $this->level >= $badgers['needed']) {
-                    $this->badge1 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img width="100px" src="css/images/'.$badgers["img"].'.png"></img></div>';
+                    $this->badge1 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img width="100px" src="css/images/'.$badgers["img"].'.png?v100"></img></div>';
                     $this->badge = 1;
                 }
             }
@@ -1055,7 +1055,7 @@ $this->nerveboost =  $this->nerveboost;
 //                    $this->badgesex[1] = $number;
                 }
                 if (!isset($this->badge2) && $this->crimesucceeded >= $badgers['needed']) {
-                    $this->badge2 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png"></img></div>';
+                    $this->badge2 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v100"></img></div>';
                     $this->badge = 1;
                 }
             }
@@ -1074,7 +1074,7 @@ $this->nerveboost =  $this->nerveboost;
 //                    $this->badgesex[2] = $number;
                 }
                 if (!isset($this->badge5) && $this->totalattrib >= $badgers['needed']) {
-                    $this->badge5 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png"></img></div>';
+                    $this->badge5 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v100"></img></div>';
                     $this->badge = 1;
                 }
             }
@@ -1093,7 +1093,7 @@ $this->nerveboost =  $this->nerveboost;
 //                    $this->badgesex[3] = $number;
                 }
                 if (!isset($this->badge4) && $this->battlewon >= $badgers['needed']) {
-                    $this->badge4 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png"></img></div>';
+                    $this->badge4 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v100"></img></div>';
                     $this->badge = 1;
                 }
             }
@@ -1112,7 +1112,7 @@ $this->nerveboost =  $this->nerveboost;
 //                    $this->badgesex[4] = $number;
                 }
                 if (!isset($this->badge6) && $this->banklog >= $badgers['needed']) {
-                    $this->badge6 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png"></img></div>';
+                    $this->badge6 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v100"></img></div>';
                     $this->badge = 1;
                 }
             }
@@ -1131,7 +1131,7 @@ $this->nerveboost =  $this->nerveboost;
 //                    $this->badgesex[5] = $number;
                 }
                 if (!isset($this->badge7) && $this->mugsucceeded >= $badgers['needed']) {
-                    $this->badge7 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png"></img></div>';
+                    $this->badge7 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v100"></img></div>';
                     $this->badge = 1;
                 }
             }
@@ -1150,7 +1150,7 @@ $this->nerveboost =  $this->nerveboost;
 //                    $this->badgesex[6] = $number;
                 }
                 if (!isset($this->badge8) && $this->busts >= $badgers['needed']) {
-                    $this->badge8 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png"></img></div>';
+                    $this->badge8 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v100"></img></div>';
                     $this->badge = 1;
                 }
             }
@@ -1188,8 +1188,8 @@ $this->nerveboost =  $this->nerveboost;
             $this->exp -= $this->maxexp;
             $this->maxexp = experience($this->level + 1);
             bloodbath('level', $this->id);
-			
-		
+
+
             Send_Event($this->id, "You have just gained a level. You are now level <span style='color:red;'><b>$this->level</b></span>", $this->id);
             if ($this->level == 1000) {
                 //Send_Event($this->id, "Congratulations on reaching level 1000!.  You are now able to <a href='prestige.php'>prestige</a>");
@@ -1201,7 +1201,7 @@ $this->nerveboost =  $this->nerveboost;
 				$this->energy,
 				$this->nerve,
 				$this->exp,
-			
+
 				$id
 			));
         }
