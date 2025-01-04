@@ -5,6 +5,7 @@ include 'header.php';
 $levels = 5;
 $levelRows = array();
 $combatTreeLevelRows = array();
+$petTreeLevelRows = array();
 
 $i = 1;
 while ($i <= 6) {
@@ -20,6 +21,15 @@ while ($i <= 5) {
     $db->query("SELECT * FROM `research_type` WHERE `level` = " . $i . " AND `type` = 'combat'");
     $db->execute();
     $combatTreeLevelRows[$i] = $db->fetch_row();
+
+    $i++;
+}
+
+$i = 1;
+while ($i <= 5) {
+    $db->query("SELECT * FROM `research_type` WHERE `level` = " . $i . " AND `type` = 'pet'");
+    $db->execute();
+    $petTreeLevelRows[$i] = $db->fetch_row();
 
     $i++;
 }
@@ -90,7 +100,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
         (" . $user_class->id . ", " . $researchType['id'] . ", " . $researchType['duration_in_days'] . ");
     ");
     $db->execute();
-    
+
     $db->query("UPDATE grpgusers SET money = money - " . $researchType['cost'] . " WHERE id = " . $user_class->id);
     $db->execute();
 
@@ -121,7 +131,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
                             ?>
                                 <td>
                                     <?php foreach ($levelRows[$i] as $levelRow):?>
-                                        
+
                                         <?php
                                          $userPrestigeSkills = getUserPrestigeSkills($user_class);
                                          if ($userPrestigeSkills['research_cash_unlock'] > 0) {
@@ -192,6 +202,47 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
                                         <div class="card-footer">
                                             <?php if (!$activeUserResearchType && !isset($completeUserResearchTypesIndexedOnId[$combatTreeLevelRow['id']])): ?>
                                                 <a href="research.php?action=start_research&rid=<?php echo $combatTreeLevelRow['id'] ?>" class="btn btn-primary">Research</a>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </td>
+                            <?php $i++; ?>
+                        <?php endwhile; ?>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>Pet Tree</h3>
+            <div class="table-container">
+                <table class="new_table" id="newtables" style="width:100%;">
+                    <tr>
+                        <?php
+                        $i = 1;
+                        while ($i <= 5):
+                            ?>
+                            <td>
+                                <?php foreach ($petTreeLevelRows[$i] as $petTreeLevelRow): ?>
+                                    <?php
+                                    $bgClass = 'bg-danger';
+                                    if (isset($completeUserResearchTypesIndexedOnId[$petTreeLevelRow['id']])) {
+                                        $bgClass = 'bg-success';
+                                    }
+                                    ?>
+                                    <div class="card text-white <?php echo $bgClass ?> mb-3" style="width: 200px;">
+                                        <div class="card-header">
+                                            <?php echo $petTreeLevelRow['name'] ?>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="card-text">
+                                                <?php echo $petTreeLevelRow['description'] ?><br /><br />
+                                                <strong>Cost:</strong> $<?php echo number_format($petTreeLevelRow['cost'], 0) ?><br />
+                                                <strong>Length:</strong> <?php echo number_format($petTreeLevelRow['duration_in_days'], 0) ?> Days
+                                            </p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <?php if (!$activeUserResearchType && !isset($completeUserResearchTypesIndexedOnId[$petTreeLevelRow['id']])): ?>
+                                                <a href="research.php?action=start_research&rid=<?php echo $petTreeLevelRow['id'] ?>" class="btn btn-primary">Research</a>
                                             <?php endif; ?>
                                         </div>
                                     </div>
