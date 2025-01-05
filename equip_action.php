@@ -48,6 +48,11 @@ function equipItem($user_id, $item_id, $type, $loaned) {
                 Loan_Item($user_class->gang, $user_class->eqshoes, $user_class->id); // Return the loaned shoes to gang_loans
             }
             break;
+        case 'gloves':
+            if ($user_class->eqgloves != 0 && $user_class->glovesloaned == 1) {
+                Loan_Item($user_class->gang, $user_class->eqgloves, $user_class->id); // Return the loaned gloves to gang_loans
+            }
+            break;
     }
 
     // Fetch the new item (loaned or not)
@@ -86,6 +91,9 @@ function equipItem($user_id, $item_id, $type, $loaned) {
         case 'shoes':
             if ($item['speed'] <= 0) return array("status" => "error", "message" => "This item is not shoes");
             return equipSpecificItem($user_id, 'shoes', $item_id, $loaned, 'shoeloaned');
+        case 'gloves':
+            if ($item['agility'] <= 0) return array("status" => "error", "message" => "This item is not gloves");
+            return equipSpecificItem($user_id, 'gloves', $item_id, $loaned, 'glovesloaned');
         default:
             return array("status" => "error", "message" => "Invalid equipment type");
     }
@@ -134,6 +142,19 @@ function unequipItem($user_id, $type) {
                 return array("status" => "success", "message" => "Shoes unequipped");
             }
             break;
+        case 'gloves':
+            if ($user_class->eqgloves != 0) {
+                handleReturnOrLoan('gloves', $user_class->eqgloves, $user_class->glovesloaned);
+                // If loaned, add it back to gang_loans using Loan_Item function
+                if ($user_class->glovesloaned == 1) {
+                    Loan_Item($user_class->gang, $user_class->eqgloves, $user_class->id);
+                }
+                $db->query("UPDATE grpgusers SET eqgloves = 0, glovesloaned = 0 WHERE id = ?");
+                $db->execute(array($user_id));
+
+                return array("status" => "success", "message" => "Gloves unequipped");
+            }
+            break;
     }
 
     return array("status" => "error", "message" => "No item to unequip");
@@ -159,7 +180,7 @@ function equipSpecificItem($user_id, $type, $item_id, $loaned, $loaned_column) {
     if ($loaned == 0) {
         Take_Item($item_id, $user_class->id);
     }
-    
+
     return array("status" => "success", "message" => ucfirst($type) . " equipped");
 }
 

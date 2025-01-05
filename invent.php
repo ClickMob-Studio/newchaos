@@ -134,6 +134,8 @@ if ($user_class->gang > 0) {
                 $type = 'armor';
             } elseif ($row['speed'] > 0 && $row['rare'] == 0) {
                 $type = 'shoes';
+            } elseif ($row['agility'] > 0 && $row['rare'] == 0) {
+                $type = 'gloves';
             } elseif ($row['rare'] == 1) {
                 $type = 'rare';
                 if ($row['offense'] > 0) {
@@ -142,6 +144,8 @@ if ($user_class->gang > 0) {
                     $subtype = 'armor';
                 } elseif ($row['speed'] > 0) {
                     $subtype = 'shoes';
+                } elseif ($row['agility'] > 0) {
+                    $subtype = 'gloves';
                 }
             }elseif($row['category'] == 'booster'){
                 $type = 'booster';
@@ -159,6 +163,7 @@ if ($user_class->gang > 0) {
         'weapon' => array(),
         'armor' => array(),
         'shoes' => array(),
+        'gloves' => array(),
         'rare' => array(),
         'house' => array(),
         'consumable' => array(),
@@ -203,7 +208,7 @@ if ($user_class->gang > 0) {
                 ? "<a class='button-sm btn btn-sm btn-secondary mt-2' href='sellitem.php?id=" . $item['id'] . "'>Sell</a>"
                 : "";
             list($itemType, $itemSubtype) = getItemType($item);
-            $showEquipButton = in_array($itemType, array('weapon', 'armor', 'shoes')) || in_array($itemSubtype, array('weapon', 'armor', 'shoes'));
+            $showEquipButton = in_array($itemType, array('weapon', 'armor', 'shoes', 'gloves')) || in_array($itemSubtype, array('weapon', 'armor', 'shoes', 'gloves'));
             $dataType = $itemSubtype ?: $itemType;
 
             echo '<div class="col-6 col-md-4 col-lg-3 mb-3">';
@@ -295,6 +300,7 @@ if ($user_class->gang > 0) {
     renderCategory("Weapons", $categorizedItems['weapon']);
     renderCategory("Armor", $categorizedItems['armor']);
     renderCategory("Shoes", $categorizedItems['shoes']);
+    renderCategory("Gloves", $categorizedItems['gloves']);
     renderCategory("Boosters", $categorizedItems['booster']);
     renderCategory("Home Improvements", $categorizedItems['house']);
     renderCategory("Consumables", $categorizedItems['consumable']);
