@@ -13,6 +13,7 @@ echo "
            <span> <a href='#' class='nav-link'  style='display:inline;' onclick='showSection(\"weapons\")'>Weapons</a> |</span>
            <span> <a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"armors\")'>Armors</a> |</span>
            <span><a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"shoes\")'>Shoes</a> |</span>
+           <span><a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"gloves\")'>Gloves</a> |</span>
            <span><a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"consumables\")'>Consumables</a> |</span>
            <span><a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"rares\")'>Rares</a> |</span>
            <span><a href='#' class='nav-link' style='display:inline;' onclick='showSection(\"house\")'>Home Improvement</a></span>
@@ -46,6 +47,16 @@ $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) 
 $db->execute();
 $rows = $db->fetch_row();
 echo displayItem($rows, 'speed');
+echo "
+        </div>
+    </div>
+    <div id='gloves' class='item-section' style='display:none;'>
+        <h2>Gloves</h2>
+        <div class='row'>";
+$db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE agility != 0 AND buyable = 1 ORDER BY agility ASC");
+$db->execute();
+$rows = $db->fetch_row();
+echo displayItem($rows, 'gloves');
 echo "
         </div>
     </div>
@@ -95,6 +106,8 @@ function displayItem($rows, $type = null) {
                 $boost = "<p>Boost: {$row['defense']}% Defense</p>";
             elseif ($row['speed'])
                 $boost = "<p>Boost: {$row['speed']}% Speed</p>";
+            elseif ($row['agility'])
+                $boost = "<p>Boost: {$row['agility']}% Agility</p>";
         }
         $city = $row['city'] > 0 ? getCityNameByID($row['city']) : "Every City";
         $rtn .= "
@@ -123,7 +136,7 @@ function showSection(sectionId) {
     sections.forEach(function(sec) {
         sec.style.display = 'none';
     });
-    
+
     // Show the selected section
     document.getElementById(sectionId).style.display = 'block';
 }
