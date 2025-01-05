@@ -108,9 +108,13 @@ if($user_class->level >= 10){
     <tr>
         <th width="15%">Modded Speed:</th>
         <td width="25%"><?= prettynum($user_class->moddedspeed) ?></td>
-        <th width="15%">Modded Total:</th>
-        <td width="25%"><?= prettynum($user_class->moddedtotalattrib) ?></td>
+        <th width="15%">Modded Agility:</th>
+        <td width="25%"><?= prettynum($user_class->moddedagility) ?></td>
     </tr>
+    <th width="15%">Modded Total:</th>
+    <td width="25%"><?= prettynum($user_class->moddedtotalattrib) ?></td>
+    <th width="15%"></th>
+    <td width="25%"></td>
 </table>
 
 <h1>Battle Statistics</h1>

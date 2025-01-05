@@ -406,9 +406,9 @@ if ($this->nightvision > 0) {
         $this->moddedstrength = round((($pet['str'] + $worked['strength']) * ($this->weaponoffense * .01 + 1)) * $this->drugstr);
         $this->moddeddefense = round((($pet['def'] + $worked['defense']) * ($this->armordefense * .01 + 1)) * ($this->drugdef * $this->drugall));
         $this->moddedspeed = round((($pet['spe'] + $worked['speed']) * ($this->shoesspeed * .01 + 1)) * ($this->drugspe * $this->drugall));
-        $this->moddedagility = $worked['agility']; // TODO: SORT AGILITY
+        $this->moddedagility = round((($worked['agility']) * ($this->glovesagility * .01 + 1)) * ($this->drugall));
 
-        $this->moddedtotalattrib = $this->moddedspeed + $this->moddedstrength + $this->moddeddefense;
+        $this->moddedtotalattrib = $this->moddedspeed + $this->moddedstrength + $this->moddeddefense + $this->moddedagility;
         $this->maxexp = experience($this->level + 1);
         $this->exppercent = ($this->exp == 0) ? 0 : floor(($this->exp / $this->maxexp) * 100);
         $this->formattedexp = prettynum($this->exp) . " / " . prettynum($this->maxexp) . " [" . $this->exppercent . "%]";
