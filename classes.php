@@ -360,6 +360,21 @@ if ($this->nightvision > 0) {
             $this->shoesimg = $this->shoesname = $this->shoesspeed = $this->eqshoes = 0;
         }
 
+        if ($worked['eqgloves']) {
+            $db->execute(array(
+                $id,
+                $worked['eqgloves']
+            ));
+            $worked6 = $db->fetch_row(true);
+            $this->eqgloves = $worked6['id'];
+            $this->glovesagility = $worked6['agility'];
+            $this->glovesname = (!empty($worked6['overridename'])) ? $worked6['overridename'] : $worked6['itemname'];
+            $this->glovesimg = (!empty($worked6['overrideimage'])) ? $worked6['overrideimage'] : $worked6['image'];
+            $this->bonuses[] = $worked6['bonuses'];
+        } else {
+            $this->glovesimg = $this->glovesname = $this->glovesagility = $this->eqgloves = 0;
+        }
+
 //       //  if (!$m->get('ipn.' . $id)) {
           $db->query("SELECT SUM(paymentamount) FROM ipn WHERE user_id = ? AND date > unix_timestamp() - 2592000");
             $db->execute(array(
