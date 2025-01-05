@@ -56,7 +56,7 @@ echo "
 $db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE agility != 0 AND buyable = 1 ORDER BY agility ASC");
 $db->execute();
 $rows = $db->fetch_row();
-echo displayItem($rows, 'gloves');
+echo displayItem($rows, 'agility');
 echo "
         </div>
     </div>
