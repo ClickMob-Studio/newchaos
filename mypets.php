@@ -246,7 +246,7 @@ include 'includepet.php';
 
 
         </style>
-    <div class='box_top'>My Pets 2</div>
+    <div class='box_top'>My Pets</div>
     <div class='box_middle'>
         <div class='pad'>
 <?php
