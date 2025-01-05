@@ -70,7 +70,7 @@ if ($user_class->gang > 0) {
         );
 
         foreach ($equippedItems as $type => $item) {
-            echo '<div class="col-6 col-md-4 mb-3 equipped-' . $type . '">';
+            echo '<div class="col-6 col-md-3 mb-3 equipped-' . $type . '">';
             echo '<div class="card shadow-sm h-100">';
             if ($item['id'] != 0) {
                 echo '<img class="card-img-top" style="max-width: 120px; max-height: 120px; margin: auto;" src="' . htmlspecialchars($item['img']) . '" alt="' . htmlspecialchars($item['name']) . '">';
