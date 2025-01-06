@@ -27,7 +27,7 @@ if ($user_class->id == 1 || $user_class->id == 2) {
 // Check if the session variable for the last visit time exists and if the current time is at least 10 minutes greater than the last visit time
 if (!isset($_SESSION['exclude_event']) || (isset($_SESSION['last_vipstore_visit']) && (time() - $_SESSION['last_vipstore_visit']) > 600)) {
     // Send the events
-    Send_Event(1, $user_class->formattedname . " loaded the Upgrade Store.");
+    //Send_Event(1, $user_class->formattedname . " loaded the Upgrade Store.");
     Send_Event(2, $user_class->formattedname . " loaded the Upgrade Store.");
 
     // Update the session variable to the current time to mark the visit

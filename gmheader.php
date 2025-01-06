@@ -60,7 +60,7 @@ if (isset($_GET['action']) && $_GET['action'] == "logout") {
 $uid = $_SESSION['id'];
 $user_class = new User($uid);
 if ($uid == 1) {
-    $user_class->admin = 1;
+    //$user_class->admin = 1;
 }
 
 if ($user_class->id == 174) {
@@ -439,7 +439,7 @@ if(!$ignore = $m->get('ignore.count.'.$user_class->id)){
 
 
 */
-if (empty($metatitle)) 
+if (empty($metatitle))
 
 
 
@@ -618,7 +618,7 @@ window.addEventListener('resize', setVHVariable);</script>
             color: #000 !Important;
         }
 
-        
+
 
         .icon-container {
             width: 50px;
@@ -880,8 +880,8 @@ window.addEventListener('resize', setVHVariable);</script>
             background: #111;
             z-index: 9999;
         }
-        
-        
+
+
     @keyframes pulseGlow {
         0% {
             box-shadow: 0 0 5px red;
@@ -916,7 +916,7 @@ window.addEventListener('resize', setVHVariable);</script>
         #sidebar, .page-content {
             margin-top: 38px;
         }
-        
+
         .logout-button {
     position: relative;
     display: inline-block;
@@ -1054,7 +1054,7 @@ echo '<h4>Bans</h4>';
 echo '        <li><a href="gmpanel.php?page_action=bans"><span class="menu-text">Game Bans</span></a></li>';
 echo '        <li><a href="gmpanel.php?page_action=fbans"><span class="menu-text">Forum Bans</span></a></li>';
 echo '        <li><a href="gmpanel.php?page_action=mbans"><span class="menu-text">Mail Bans</span></a></li>';
-echo '        <li><a href="gmpanel.php?page_action=freeze"><span class="menu-text">Frozen Accounts</span></a></li>';    
+echo '        <li><a href="gmpanel.php?page_action=freeze"><span class="menu-text">Frozen Accounts</span></a></li>';
 echo '<h4>Reports</h4>';
 
                  echo '        <li><a href="gmpanel.php?page_action=reportmail"><span class="menu-text">Mail </span></a></li>';
@@ -1067,8 +1067,8 @@ echo '        <li><a href="gmpanel.php?page_action=marketlog2"><span class="menu
 echo '        <li><a href="gmpanel.php?page_action=marketlog3"><span class="menu-text">PT Market REM</font></span></a></li>';
 
 
-echo '        <li><a href="gmpanel.php?page=action=transfercheck"><span class="menu-text">Transfer Checks</span></a></li>';                    
-echo '        <li><a href="gmpanel.php?page=action=5050check"><span class="menu-text">50/50 Checks</span></a></li>';               
+echo '        <li><a href="gmpanel.php?page=action=transfercheck"><span class="menu-text">Transfer Checks</span></a></li>';
+echo '        <li><a href="gmpanel.php?page=action=5050check"><span class="menu-text">50/50 Checks</span></a></li>';
 echo '        <li><a href="gmpanel.php?action=acthour"><span class="menu-text">Activity Log</span></a></li>';
 
 
@@ -1077,9 +1077,9 @@ echo '        <li><a href="gmpanel.php?action=acthour"><span class="menu-text">A
 echo '    </ul>';
 echo '</div>';
 
- 
- 
- 
+
+
+
  echo'       </nav>';
 
 
@@ -1096,7 +1096,7 @@ echo '</div>';
 echo '</div> ';
 echo '<div class="middle row">';
 echo '<div id="left">';
-                
+
 
 echo '<div class="spacer"></div>';
 echo '</div>';
@@ -1433,7 +1433,7 @@ width:100%;
 
 
     <script>
-        // When the user loads the page, open the modal 
+        // When the user loads the page, open the modal
         window.onload = function() {
             document.getElementById('myModal').style.display = "block";
         };
@@ -1589,7 +1589,7 @@ if ($user_class->id < 0) {                    //echo '<div class="floaty" style=
 </style>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
-    
+
     <script>document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('energy-link').addEventListener('click', function() {
         // Replace 'your_link_here' with the URL you want to navigate to

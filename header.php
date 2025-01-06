@@ -103,7 +103,7 @@ if($user_class->id == 18){
 logPageView();
 }
 if ($uid == 1) {
-    $user_class->admin = 1;
+    //$user_class->admin = 1;
 }
 
 // Define a function to check and log request frequency
