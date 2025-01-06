@@ -10,7 +10,7 @@ if (isset($currentQuestSeason['id'])) {
 }
 
 if ($questSeasonUser['is_complete'] > 0) {
-    $nextQuestSeason = getNextQuestSeason($user_class->id);
+    $nextQuestSeason = getNextQuestSeason($user_class->id, $user_class->admin);
 
     if ($nextQuestSeason && isset($nextQuestSeason['id'])) {
         $db->query('INSERT INTO quest_season_user (user_id, quest_season_id, is_complete) VALUES (?, ?, 0)');
