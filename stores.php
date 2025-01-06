@@ -34,7 +34,7 @@ if (isset($_POST['qty'])) {
     } else
         echo Message("That isn't a real item.");
 }
-$db->query("SELECT * FROM items WHERE (offense > 0 OR defense > 0 OR speed > 0) AND buyable = 1 AND city = ? ORDER BY offense DESC, defense DESC, speed DESC");
+$db->query("SELECT * FROM items WHERE (offense > 0 OR defense > 0 OR speed > 0 OR agility > 0) AND buyable = 1 AND city = ? ORDER BY offense DESC, defense DESC, speed DESC");
 $db->execute(array(
 	$user_class->city
 ));
@@ -45,10 +45,14 @@ foreach($rows as $row){
 		$thistype = 'Weapon';
 		$which = 'offense';
 		$stat = 'Strength';
-	}elseif($row['defense']){
-		$thistype = 'Armor';
-		$which = 'defense';
-		$stat = 'Defense';
+	}elseif($row['defense']) {
+        $thistype = 'Armor';
+        $which = 'defense';
+        $stat = 'Defense';
+    }elseif($row['agility']){
+        $thistype = 'Gloves';
+        $which = 'agility';
+        $stat = 'Agility';
 	}else{
 		$thistype = 'Shoe';
 		$which = 'speed';
