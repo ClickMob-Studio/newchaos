@@ -9,7 +9,8 @@ if (isset($currentQuestSeason['id'])) {
     $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 }
 
-if ($questSeasonUser['is_complete'] > 0) {
+
+if (!$currentQuestSeason) {
     $nextQuestSeason = getNextQuestSeason($user_class->id, $user_class->admin);
 
     if ($nextQuestSeason && isset($nextQuestSeason['id'])) {
@@ -31,6 +32,31 @@ if ($questSeasonUser['is_complete'] > 0) {
             </div>
         ";
         exit;
+    }
+} else {
+    if ($questSeasonUser['is_complete'] > 0) {
+        $nextQuestSeason = getNextQuestSeason($user_class->id, $user_class->admin);
+
+        if ($nextQuestSeason && isset($nextQuestSeason['id'])) {
+            $db->query('INSERT INTO quest_season_user (user_id, quest_season_id, is_complete) VALUES (?, ?, 0)');
+            $db->execute(array($user_class->id, $nextQuestSeason['id']));
+
+            echo "
+            <div class='alert alert-success'>
+                <strong>Success!</strong> You have completed the quest <strong>{$currentQuestSeason['name']}</strong>.<br /><br />
+                <a href='quest.php' class='btn btn-primary'>Start the next quest</a>.
+            </div>
+        ";
+            exit;
+        } else {
+            echo "
+            <div class='alert alert-success'>
+                <strong>Success!</strong> You have completed the quest <strong>{$currentQuestSeason['name']}</strong>.<br /><br />
+                You have completed all available quests. Check back another time for more quests.
+            </div>
+        ";
+            exit;
+        }
     }
 }
 
