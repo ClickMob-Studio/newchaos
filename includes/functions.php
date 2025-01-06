@@ -2817,7 +2817,7 @@ function getCurrentQuestSeasonForUser($userId)
     return $questSeason;
 }
 
-function getNextQuestSeason($userId)
+function getNextQuestSeason($userId ,$isAdmin = 0)
 {
     global $db;
 
@@ -2831,7 +2831,11 @@ function getNextQuestSeason($userId)
         $questSeasonId = 1;
     }
 
-    $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " AND is_active > 0 LIMIT 1");
+    if ($isAdmin) {
+        $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " LIMIT 1");
+    } else {
+        $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " AND is_active > 0 LIMIT 1");
+    }
     $db->execute();
     $questSeason = $db->fetch_row(true);
 
