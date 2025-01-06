@@ -2939,6 +2939,8 @@ function getDisplayForQuestReq($req, $num, $progress)
         return 'Deliver the package to Vinny The Fish' . $status;
     } else if ($req === 'pharmacy_protection') {
         return 'Get Marco at the pharmacy to pay up' . $status;
+    } else if ($req === 'follow_salvatore') {
+        return 'Follow Salvatore' . $status;
     } else if ($req === 'attack_player') {
         return 'Attack Player: ' . formatName($num) . $status;
     } else if ($req === 'crime_cash') {
