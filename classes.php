@@ -1235,7 +1235,7 @@ $this->nerveboost =  $this->nerveboost;
         }
 
         if ($this->id == 1)
-            //$this->admin = 1;
+            $this->admin = 1;
     }
 
     function addPoints($id, $points)
