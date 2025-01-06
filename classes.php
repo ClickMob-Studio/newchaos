@@ -1233,9 +1233,6 @@ $this->nerveboost =  $this->nerveboost;
             $this->nervepercent = floor(($this->nerve / $this->maxnerve) * 100);
             $this->formattednerve = $this->nerve . " / " . $this->maxnerve . " [" . $this->nervepercent . "%]";
         }
-
-        if ($this->id == 1)
-            $this->admin = 1;
     }
 
     function addPoints($id, $points)
