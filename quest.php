@@ -2,7 +2,7 @@
 
 require "header.php";
 
-$currentQuestSeason = getCurrentQuxestSeasonForUser($user_class->id);
+$currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
 if ($user_class->admin > 0) {
     var_dump($currentQuestSeason);
 }
