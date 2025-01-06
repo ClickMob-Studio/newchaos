@@ -60,11 +60,17 @@ if ($user_class->gang > 0) {
                 'img' => $user_class->shoesimg,
                 'name' => $user_class->shoesname,
                 'placeholder' => 'You are not wearing boots.'
+            ),
+            'gloves' => array(
+                'id' => $user_class->eqgloves,
+                'img' => $user_class->glovesimg,
+                'name' => $user_class->glovesname,
+                'placeholder' => 'You are not wearing gloves.'
             )
         );
 
         foreach ($equippedItems as $type => $item) {
-            echo '<div class="col-6 col-md-4 mb-3 equipped-' . $type . '">';
+            echo '<div class="col-6 col-md-3 mb-3 equipped-' . $type . '">';
             echo '<div class="card shadow-sm h-100">';
             if ($item['id'] != 0) {
                 echo '<img class="card-img-top" style="max-width: 120px; max-height: 120px; margin: auto;" src="' . htmlspecialchars($item['img']) . '" alt="' . htmlspecialchars($item['name']) . '">';
@@ -86,20 +92,20 @@ if ($user_class->gang > 0) {
     <h1 class="text-center mt-5">Inventory</h1>
     <?php
     if ($user_class->donate_token > 0) {
-    echo '<div class="card my-4 category-card">';
+        echo '<div class="card my-4 category-card">';
         echo '<div class="card-header text-white text-center" style="background-color: #8e8e8e21;">';
         echo "<h2 class='text-white'>Special</h2>";
         echo '</div>';
         echo '<div class="card-body">';
         echo '<div class="row g-3 text-center">';
-    echo '<div class="flexcont" border = "thick solid #0000FF"; style="text-align:center;position: relative;flex-flow:row wrap;">';
-    echo image_popup('css/newgame/items/donate_boost.png', 156) . '<br/>';
-    echo '<span class="text-14">x' . $user_class->donate_token . '</span><br/>';
-    echo '<a class="text-14 text-yellow" href="store.php">Boost Donation</a><br/><br/>';
-    echo '<a class="text-14 text-yellow" href="inventory.php?exchangetoken">Exchange x1 for 15,000 Points</a>
+        echo '<div class="flexcont" border = "thick solid #0000FF"; style="text-align:center;position: relative;flex-flow:row wrap;">';
+        echo image_popup('css/newgame/items/donate_boost.png', 156) . '<br/>';
+        echo '<span class="text-14">x' . $user_class->donate_token . '</span><br/>';
+        echo '<a class="text-14 text-yellow" href="store.php">Boost Donation</a><br/><br/>';
+        echo '<a class="text-14 text-yellow" href="inventory.php?exchangetoken">Exchange x1 for 15,000 Points</a>
     </div> </div></div></div>';
-}
-?>
+    }
+    ?>
     <?php
     $db->query("SELECT inv.*, it.*, c.name AS overridename, c.image AS overrideimage 
                 FROM inventory inv 
@@ -128,6 +134,8 @@ if ($user_class->gang > 0) {
                 $type = 'armor';
             } elseif ($row['speed'] > 0 && $row['rare'] == 0) {
                 $type = 'shoes';
+            } elseif ($row['agility'] > 0 && $row['rare'] == 0) {
+                $type = 'gloves';
             } elseif ($row['rare'] == 1) {
                 $type = 'rare';
                 if ($row['offense'] > 0) {
@@ -136,6 +144,8 @@ if ($user_class->gang > 0) {
                     $subtype = 'armor';
                 } elseif ($row['speed'] > 0) {
                     $subtype = 'shoes';
+                } elseif ($row['agility'] > 0) {
+                    $subtype = 'gloves';
                 }
             }elseif($row['category'] == 'booster'){
                 $type = 'booster';
@@ -153,6 +163,7 @@ if ($user_class->gang > 0) {
         'weapon' => array(),
         'armor' => array(),
         'shoes' => array(),
+        'gloves' => array(),
         'rare' => array(),
         'house' => array(),
         'consumable' => array(),
@@ -166,7 +177,7 @@ if ($user_class->gang > 0) {
         if (isset($item['type']) && $item['category'] == 'crafting') {
             $categorizedItems['gem'][] = $item;
         }elseif ($item['type'] == 'Gems') {
-                $categorizedItems['consumable'][] = $item;
+            $categorizedItems['consumable'][] = $item;
         } elseif ($itemType === 'rare') {
             $categorizedItems['rare'][] = $item;
 
@@ -194,10 +205,10 @@ if ($user_class->gang > 0) {
             $itemImage = !empty($item['overrideimage']) ? $item['overrideimage'] : $item['image'];
             $buttonHtml = '';
             $sell = ($item['cost'] > 0)
-            ? "<a class='button-sm btn btn-sm btn-secondary mt-2' href='sellitem.php?id=" . $item['id'] . "'>Sell</a>"
-            : "";
+                ? "<a class='button-sm btn btn-sm btn-secondary mt-2' href='sellitem.php?id=" . $item['id'] . "'>Sell</a>"
+                : "";
             list($itemType, $itemSubtype) = getItemType($item);
-            $showEquipButton = in_array($itemType, array('weapon', 'armor', 'shoes')) || in_array($itemSubtype, array('weapon', 'armor', 'shoes'));
+            $showEquipButton = in_array($itemType, array('weapon', 'armor', 'shoes', 'gloves')) || in_array($itemSubtype, array('weapon', 'armor', 'shoes', 'gloves'));
             $dataType = $itemSubtype ?: $itemType;
 
             echo '<div class="col-6 col-md-4 col-lg-3 mb-3">';
@@ -249,17 +260,17 @@ if ($user_class->gang > 0) {
 
 
 
-                if (!$loaned && $itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems) && $item['category'] != 'crafting')) {
-                    // Multi-use items
-                    if (in_array($item['id'], $multiUseItems)) {
-                        $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
-                        $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use</button>';
-                    }
-                    // Single-use consumables
-                    elseif (!$loaned && !in_array($item['id'], [285, 155, 195, 156, 157, 194, 158, 159, 165, 167])) {
-                        $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use</button>';
-                    }
+            if (!$loaned && $itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems) && $item['category'] != 'crafting')) {
+                // Multi-use items
+                if (in_array($item['id'], $multiUseItems)) {
+                    $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
+                    $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use</button>';
                 }
+                // Single-use consumables
+                elseif (!$loaned && !in_array($item['id'], [285, 155, 195, 156, 157, 194, 158, 159, 165, 167])) {
+                    $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use</button>';
+                }
+            }
 
 
 
@@ -289,6 +300,7 @@ if ($user_class->gang > 0) {
     renderCategory("Weapons", $categorizedItems['weapon']);
     renderCategory("Armor", $categorizedItems['armor']);
     renderCategory("Shoes", $categorizedItems['shoes']);
+    renderCategory("Gloves", $categorizedItems['gloves']);
     renderCategory("Boosters", $categorizedItems['booster']);
     renderCategory("Home Improvements", $categorizedItems['house']);
     renderCategory("Consumables", $categorizedItems['consumable']);
@@ -336,7 +348,7 @@ if ($user_class->gang > 0) {
                 .removeClass("alert-success alert-danger")
                 .addClass(isSuccess ? "alert-success" : "alert-danger")
                 .fadeIn();
-                $('html, body').animate({ scrollTop: 0 }, 'slow');
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
             // setTimeout(function() { messageBox.fadeOut(); }, 3000);
         }
 
@@ -355,38 +367,38 @@ src="${itemImage}" alt="${itemName}">
         }
 
         $(document).on('click', '.equip-btn', function () {
-    var type = $(this).data('type');
-    var itemId = $(this).data('id');
-    var loanId = $(this).data('loan-id');  // Get loanid
-    var itemName = $(this).data('name');
-    var itemImage = $(this).data('img');
+            var type = $(this).data('type');
+            var itemId = $(this).data('id');
+            var loanId = $(this).data('loan-id');  // Get loanid
+            var itemName = $(this).data('name');
+            var itemImage = $(this).data('img');
 
-    // If loanId is set, it means the item is loaned, so send loaned = 1
-    var loaned = (loanId) ? 1 : 0;
+            // If loanId is set, it means the item is loaned, so send loaned = 1
+            var loaned = (loanId) ? 1 : 0;
 
-    $.ajax({
-        url: 'equip_action.php',
-        type: 'POST',
-        dataType: 'json',
-        data: {
-            action: 'equip',
-            type: type,
-            item_id: itemId,
-            loaned: loaned  // Send loaned flag as part of the data
-        },
-        success: function (response) {
-            if (response.status === 'success') {
-                showMessage(response.message, true);
-                updateEquippedItem(type, itemId, itemName, itemImage);
-            } else {
-                showMessage(response.message, false);
-            }
-        },
-        error: function () {
-            showMessage("Error processing the request.", false);
-        }
-    });
-});
+            $.ajax({
+                url: 'equip_action.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    action: 'equip',
+                    type: type,
+                    item_id: itemId,
+                    loaned: loaned  // Send loaned flag as part of the data
+                },
+                success: function (response) {
+                    if (response.status === 'success') {
+                        showMessage(response.message, true);
+                        updateEquippedItem(type, itemId, itemName, itemImage);
+                    } else {
+                        showMessage(response.message, false);
+                    }
+                },
+                error: function () {
+                    showMessage("Error processing the request.", false);
+                }
+            });
+        });
 
         $(document).on('click', '.unequip-btn', function () {
             var type = $(this).data('type');
@@ -424,35 +436,34 @@ src="${itemImage}" alt="${itemName}">
         });
 
         $(document).on('click', '.use-btn', function () {
-    var itemId = $(this).data('item-id'); // Extract item ID from data attribute
+            var itemId = $(this).data('item-id'); // Extract item ID from data attribute
 
-    if (!itemId) {
-        showMessage("Invalid item selected.", false); // Prevent unnecessary AJAX call
-        return;
-    }
-
-    $.ajax({
-        url: 'ajax_use_item.php', // Endpoint for item usage
-        type: 'GET', // HTTP method
-        dataType: 'json', // Expect JSON response
-        data: { use: itemId }, // Send item ID
-        success: function (response) {
-            if (response.success) {
-                showMessage(response.message, true); // Show success message
-                // Optional: Update UI to reflect the changes, e.g., reduce item quantity, update HP display, etc.
-                updateHP(response.newHP); // Example for updating HP display
-                updateHospitalTime(response.newHospitalTime); // Example for updating hospital time
-            } else {
-                showMessage(response.message || "An unknown error occurred.", false); // Show error from response
+            if (!itemId) {
+                showMessage("Invalid item selected.", false); // Prevent unnecessary AJAX call
+                return;
             }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.error("AJAX Error:", textStatus, errorThrown); // Log error for debugging
-            showMessage("Error using the item. Please try again later.", false); // Display a generic error
-        }
-    });
-});
 
+            $.ajax({
+                url: 'ajax_use_item.php', // Endpoint for item usage
+                type: 'GET', // HTTP method
+                dataType: 'json', // Expect JSON response
+                data: { use: itemId }, // Send item ID
+                success: function (response) {
+                    if (response.success) {
+                        showMessage(response.message, true); // Show success message
+                        // Optional: Update UI to reflect the changes, e.g., reduce item quantity, update HP display, etc.
+                        updateHP(response.newHP); // Example for updating HP display
+                        updateHospitalTime(response.newHospitalTime); // Example for updating hospital time
+                    } else {
+                        showMessage(response.message || "An unknown error occurred.", false); // Show error from response
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error("AJAX Error:", textStatus, errorThrown); // Log error for debugging
+                    showMessage("Error using the item. Please try again later.", false); // Display a generic error
+                }
+            });
+        });
 
         $(document).on('click', '.use-btn-multi', function () {
             var itemId = $(this).data('item-id');
