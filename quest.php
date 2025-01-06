@@ -2,7 +2,10 @@
 
 require "header.php";
 
-$currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
+$currentQuestSeason = getCurrentQuxestSeasonForUser($user_class->id);
+if ($user_class->admin > 0) {
+    var_dump($currentQuestSeason);
+}
 if (isset($currentQuestSeason['id'])) {
     $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
     $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
