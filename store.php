@@ -1245,7 +1245,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" onsubmit="return validateForm()" target="_top">
 
     <!-- Identify your business email or account ID -->
-    <input type="hidden" name="business" value="support@generalforces.com">
+    <input type="hidden" name="business" value="aaron@proficiomedia.co.uk">
 
     <!-- Specify donation-related settings -->
     <input type="hidden" name="cmd" value="_donations">
