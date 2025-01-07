@@ -66,10 +66,12 @@ if (isset($_GET['follow_salvatore']) && in_array($_GET['follow_salvatore'], arra
 
         header('Location: quest.php');
     } else {
-        // Continue
+        echo "
+            <div class='alert alert-info'>
+                You head " . ucfirst($direction) . ", following Salvatore's trail. Where do you think he'll head next?
+            </div>
+            ";
     }
-
-
 }
 ?>
 
