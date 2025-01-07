@@ -54,7 +54,7 @@ if (isset($_GET['follow_salvatore']) && in_array($_GET['follow_salvatore'], arra
             <div class='alert alert-danger'>
                 <strong>Fail!</strong> You head " . ucfirst($direction) . " and bump into one of Salvatore's men. He punches you in the face and you fall to the ground. You'll need to spend some time in the hospital.
             </div>";
-    } else if ($chance <= 40) {
+    } else if ($chance <= 30) {
         // Success
         echo "
                <div class='alert alert-success'>
