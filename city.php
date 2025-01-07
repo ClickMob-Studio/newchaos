@@ -256,7 +256,7 @@ $twenty_percent =$owned_points - $owned_points * 0.20;
                 <a href='quest.php?mode=marocs_pharmacy'>Marcos Pharmacy</a><br>
             <?php endif; ?>
 
-            <?php if (isset($questSeasonMission['requirements']->pharmacy_protection)) : ?>
+            <?php if (isset($questSeasonMission['requirements']->follow_salvatore)) : ?>
                 <a href='quest.php?mode=follow_salvatore'>Follow Salvatore</a><br>
             <?php endif; ?>
 
