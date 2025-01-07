@@ -151,6 +151,10 @@ endif;
 if (isset($_GET['mode']) && $_GET['mode'] === 'marocs_pharmacy' && isset($questSeasonMission['requirements']->pharmacy_protection)) :
     include 'quest/pharmacy_protection.php';
 endif;
+
+if (isset($_GET['mode']) && $_GET['mode'] === 'follow_salvatore' && isset($questSeasonMission['requirements']->follow_salvatore)) :
+    include 'quest/follow_salvatore.php';
+endif;
 ?>
 
 <?php

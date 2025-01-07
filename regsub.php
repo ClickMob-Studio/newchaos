@@ -95,7 +95,7 @@ $subject = "Welcome to Chaos City - <font color=ywllow>Please Read</font>";
 $msgtext = strip_tags($msgtext);
 $msgtext = nl2br($msgtext);
 $msgtext = addslashes($msgtext);
-$result = mysql_query("INSERT INTO `pms` (id,`to`, `from`, timesent, `subject`, msgtext) VALUES ('', $newid, 1, unix_timestamp(), '$subject', '$msgtext')");
+$result = mysql_query("INSERT INTO `pms` (id,`to`, `from`, timesent, `subject`, msgtext) VALUES ('', $newid, 2, unix_timestamp(), '$subject', '$msgtext')");
 
 header("Location: index.php");
 exit;
