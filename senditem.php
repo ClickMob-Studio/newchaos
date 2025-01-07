@@ -24,7 +24,7 @@ if (isset($_POST['submit'])) {
     $error = ($_POST['amnt'] == 0) ? "You have to send at least 1." : $error;
     $error = ($userexist == 0) ? "That User ID is invalid." : $error;
 
-    if ($_GET['id'] == 271 || $_GET['id'] == 272 || $_GET['id'] == 278) {
+    if ($_GET['id'] == 271 || $_GET['id'] == 272 || $_GET['id'] == 278 || $_GET['id'] == 320) {
         if (Check_Item($_GET['id'], $_POST['theirid']) > 5) {
             $error = 'The player your sending this item too already has the maximum amount of 5 in their inventory.';
         }

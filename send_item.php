@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode($response);
             exit;
         }
-        if ($item_id  == 271 || $item_id  == 272 || $item_id  == 278) {
+        if ($item_id  == 271 || $item_id  == 272 || $item_id  == 278 || $item_id  == 320) {
             $newQuantity = Check_Item($item_id, $recipient) + $quantity_to_send;
             if($quantity_to_send > 5){
                 $response['success'] = false;
