@@ -18,3 +18,6 @@ if ($user_class->jail > 0 || $user_class->hospital > 0) {
     <button class="direction-button" href="#">East</button><br><br>
     <button class="direction-button" href="#">South</button>
 </div>
+
+<?php
+exit;
