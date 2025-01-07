@@ -40,12 +40,12 @@
 }
 
     .contenthead.floaty {
-        text-align: center; 
-        padding: 20px; 
-        margin-bottom: 20px; 
+        text-align: center;
+        padding: 20px;
+        margin-bottom: 20px;
         border-radius: 8px;
     }
- 
+
 </style>
 <?php
 include 'header.php';
@@ -179,7 +179,7 @@ case 'injuredStranger':
 case 'raidtokens':
     $raidtokens = rand($event['min_value'], $event['max_value']);
         $description = str_replace('[raidtokens_amount]', "<span style='color: red; font-weight: bold;'>".$raidtokens." raid tokens</span>", $event['description_template']);
-    
+
  $logDescription = "Has found " . $raidtokens . " Raid Tokens whilst searching downtown.";
 $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'raidtokens', '{$logDescription}', UNIX_TIMESTAMP())";
 mysql_query($log_query);
@@ -226,13 +226,13 @@ case 'hospital':
     $item = mysql_fetch_assoc($item_result);
 
     $description = str_replace('[item_name]', $item['itemname'], $event['description_template']);
-    
+
   // Log the event in user_logs table with the item name
 $logDescription = "Has found a(n) " . $item['itemname'] . " whilst searching downtown.";
 $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'item', '{$logDescription}', UNIX_TIMESTAMP())";
 mysql_query($log_query);
 break;
-    
+
             // Add the item to the user's inventory. This step will depend on how you handle inventory in your game
             break;
 
@@ -248,7 +248,7 @@ break;
     echo "You walked " . $chosenDirection . ".<br>"; // Display the chosen direction
     echo $description . "</p>";
 
-    
+
 
 
 // Display remaining turns
@@ -371,6 +371,15 @@ echo '
             </div>
             <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
                 <img src="css/images/NewGameImages/leather.png" width="50" height="50" alt="Leather">
+            </div>
+            <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
+                <img src="css/images/NewGameImages/cpu.png" width="50" height="50" alt="CPU">
+            </div>
+         </div>
+         <br />
+         <div style="display: flex; justify-content: center; gap: 20px;"> <!-- Flex container for item spacing -->
+         <div class="item-container" style="padding: 10px; box-shadow: 0 0 15px rgba(255, 215, 0, 0.6); border-radius: 8px;">
+                <img src="css/images/NewGameImages/plastic.png" width="50" height="50" alt="Plastic">
             </div>
          </div>
     </div>
