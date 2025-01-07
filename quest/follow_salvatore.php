@@ -28,6 +28,51 @@ if ($user_class->jail > 0 || $user_class->hospital > 0) {
 </style>
 <h1>Follow Salvatore</h1><hr />
 
+<?php
+if (isset($_GET['follow_salvatore']) && in_array($_GET['follow_salvatore'], array('north', 'west', 'east', 'south'))) {
+    $direction = $_GET['follow_salvatore'];
+
+    $chance = mt_rand(1, 100);
+
+    if ($chance <= 10) {
+        // Jail
+        $jailTime = mt_rand(60, 300);
+        $db->query("UPDATE grpgusers SET jail = ? WHERE id = ?");
+        $db->execute(array($jailTime, $user_class->id));
+
+        echo "
+            <div class='alert alert-danger'>
+                <strong>Fail!</strong> You head " . ucfirst($direction) . " and bump into a police officer that's been looking for you. You have been arrested.
+            </div>";
+    } else if ($chance <= 20) {
+        // Hospital
+        $hospitalTime = mt_rand(60, 300);
+        $db->query("UPDATE grpgusers SET hospital = ? WHERE id = ?");
+        $db->execute(array($hospitalTime, $user_class->id));
+
+        echo "
+            <div class='alert alert-danger'>
+                <strong>Fail!</strong> You head " . ucfirst($direction) . " and bump into one of Salvatore's men. He punches you in the face and you fall to the ground. You'll need to spend some time in the hospital.
+            </div>";
+    } else if ($chance <= 40) {
+        // Success
+        echo "
+               <div class='alert alert-success'>
+                    <strong>Success!</strong> Congratulations! You have completed the search for Salvatore!
+               </div>
+            ";
+
+        updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'follow_salvatore', 1);
+
+        header('Location: quest.php');
+    } else {
+        // Continue
+    }
+
+
+}
+?>
+
 <div class="contenthead floaty" style="text-align: center; padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 88%;">
     <br>
     <a class="direction-button" href="?mode=follow_salvatore&follow_salvatore=north">North</a><br><br>
