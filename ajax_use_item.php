@@ -61,7 +61,6 @@ if (isset($_GET['use'])) {
                 $db->execute(array($user_class->id));
                 $response['success'] = true;
                 $response['message'] = "You are now protected from mugs for 1 hour.";
-                echo json_encode($response);
                 break;
 
             case 9:
