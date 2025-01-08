@@ -172,6 +172,18 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
         $db->query('UPDATE training_dummy_user SET level = level + 1, exp = ' . $newExp . ', last_fight_time = ' . time() . ' WHERE id = ' . $trainingDummyUserToUse['id']);
         $db->execute();
 
+        $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
+        if (isset($currentQuestSeason['id'])) {
+            $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+            $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
+            $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+
+            if (isset($questSeasonMission['requirements']->city_goons)) {
+                updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'city_goons', 1);
+            }
+        }
+
+
         if ($attack == 8) {
             diefun('You have successfully beaten the training dummy and you have been rewarded ' . number_format($expReward, 0) . ' EXP, ' . number_format($pointsReward, 0) . ' points & $' . number_format($cashReward, 0) .'! <a href="trainingdummies.php">Go Back</a>.');
         } else {

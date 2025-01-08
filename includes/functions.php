@@ -2960,6 +2960,11 @@ function getDisplayForQuestReq($req, $num, $progress)
             return 'Raids: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
         }
         return 'Raids: 0/' . number_format($num) . $status;
+    } else if ($req === 'city_goons') {
+            if (isset($progress[$req])) {
+                return 'City Goons: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
+            }
+            return 'City Goons: 0/' . number_format($num) . $status;
     } else {
         return '<strong>' . $req . ': ' . number_format($num) . '</strong>' . $status;
     }
