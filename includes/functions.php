@@ -2965,6 +2965,11 @@ function getDisplayForQuestReq($req, $num, $progress)
                 return 'City Goons: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
             }
             return 'City Goons: 0/' . number_format($num) . $status;
+    } else if ($req === 'busts') {
+        if (isset($progress[$req])) {
+            return 'Busts: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
+        }
+        return 'Busts: 0/' . number_format($num) . $status;
     } else {
         return '<strong>' . $req . ': ' . number_format($num) . '</strong>' . $status;
     }
