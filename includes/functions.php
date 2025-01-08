@@ -2941,6 +2941,8 @@ function getDisplayForQuestReq($req, $num, $progress)
         return 'Get Marco at the pharmacy to pay up' . $status;
     } else if ($req === 'follow_salvatore') {
         return 'Follow Salvatore' . $status;
+    } else if ($req === 'steal_books') {
+        return 'Steal The Books' . $status;
     } else if ($req === 'attack_player') {
         return 'Attack Player: ' . formatName($num) . $status;
     } else if ($req === 'crime_cash') {
