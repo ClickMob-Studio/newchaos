@@ -1371,30 +1371,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 <br><br>
 
-    <br>
-    <div class="floaty" style="margin: 3px;">
-        <h4>HALLOWEEN PACKS</h4>
-        <hr>
-        <div class="items-upgrades" style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
-
-            <!-- Ghost Vacuum -->
-            <div class="vip-package">
-                <h4 style="color: brown;">1 x Ghost Vacuum</h4>
-                <img src="/css/images/NewGameImages/ghost-vacuum.png" height="100" alt="Ghost Vacuum">
-
-                <h4>Purchase now for only<br><a href="store.php?buy=halloween_1"><button class="gold-button">30 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
-            </div>
-
-            <!-- 1 x Research Token -->
-            <div class="vip-package">
-                <h4 style="color: brown;">5 x Dracula Blood Bag</h4>
-                <img src="/css/images/NewGameImages/dracula-blood-bag.png" height="100" alt="Dracula Blood Bag">
-
-                <h4>Purchase now for only<br><a href="store.php?buy=halloween_2"><button class="gold-button">50 <img src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
-            </div>
-        </div>
-    </div>
-
     <br /><br />
 
     <div class="floaty" style="margin:3px;">
