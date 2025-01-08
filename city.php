@@ -143,6 +143,8 @@ $admin_ids = array_map(function($a) {
 
 $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
 if (isset($currentQuestSeason['id'])) {
+    $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+    $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
     $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 }
 ?>
