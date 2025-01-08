@@ -3,6 +3,13 @@ include 'header.php';
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Pragma: no-cache");
 
+$currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
+if (isset($currentQuestSeason['id'])) {
+    $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+    $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
+    $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+}
+
 ?>
 
 <script>
@@ -44,7 +51,7 @@ if ($jailbreak != ""){
         echo Message("There has been a issue");
     }
     if($_GET['token'] != $_SESSION['tokens']){
-      
+
         $mes = "Something has gone wrong";
         $error = true;
     }else{
@@ -92,6 +99,9 @@ if ($jailbreak != ""){
                 ofthes($user_class->id, $toadd);
                 bloodbath('busts', $user_class->id);
                 addToUserOperations($user_class, 'busts', 1);
+                if (isset($questSeasonMission['requirements']->busts)) {
+                    updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'busts', 1);
+                }
             }
         } else {
             $db->query("SELECT * FROM grpgusers WHERE id = " . $jailbreak);
@@ -151,6 +161,9 @@ if ($jailbreak != ""){
                         bloodbath('busts', $user_class->id);
                         addToUserOperations($user_class, 'busts', 1);
                         updateGangActiveMission('busts', 1);
+                        if (isset($questSeasonMission['requirements']->busts)) {
+                            updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'busts', 1);
+                        }
                         $result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='".$jailed_person['id']."'");
                         //send even to that person
                         Send_Event($jailed_person['id'], "You have been busted out of Jail by [-_USERID_-].", $user_class->id);

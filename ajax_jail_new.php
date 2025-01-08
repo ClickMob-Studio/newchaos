@@ -4,6 +4,13 @@ include "ajax_header.php";
 include "SlimUser.php";
 $user_class = new SlimUser($_SESSION['id']);
 
+$currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
+if (isset($currentQuestSeason['id'])) {
+    $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+    $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
+    $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+}
+
 //
 // FETCH JAIL USERS
 //
@@ -87,6 +94,9 @@ if (isset($_GET['jailbreak'])  && $_GET['jailbreak'] == 'bot') {
         addToGangCompLeaderboard($user_class->gang, 'busts_complete', 1);
 
         addToUserCompLeaderboard($user_class->id, 'busts_complete', 1);
+        if (isset($questSeasonMission['requirements']->busts)) {
+            updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'busts', 1);
+        }
         payoutChristmasGift($user_class->id);
         $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
         $db->execute();
