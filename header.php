@@ -1583,6 +1583,7 @@ if ($bonus_row['Time'] > 0) {
 
 //$messages[] = '<a href="user_challenge.php"><font color=red>User Challenge</font></a>';
 //$messages[] = '<a href="user_comp_leaderboard.php"><font color=red>Halloween Challenge</font></a>';
+$messages[] = '<a href="gang_doubleexp.php"><font color=red>Gang Challenge</font></a>';
 
 //if ($user_class->gang > 0) {
 //    $tempItemUse = getItemTempUse($user_class->id);
