@@ -111,6 +111,9 @@ try {
             if (isset($user_class->completeUserResearchTypesIndexedOnId[36])) {
                 $researchAddBoost += 5;
             }
+            if (isset($user_class->completeUserResearchTypesIndexedOnId[48])) {
+                $researchAddBoost += 5;
+            }
             if ($researchAddBoost > 0) {
                 $resAddInc = $add / 100 * $researchAddBoost;
                 $add = $add + $resAddInc;
