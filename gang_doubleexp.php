@@ -61,7 +61,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE gang_id = " . $user_class->gang);
                 $db->execute();
 
-                Give_Item(267, $user_class->id);
+                Give_Item(305, $user_class->id, 5);
                 $db->query("UPDATE grpgusers SET points = points + 200000 WHERE id = " . $user_class->id);
                 $db->execute();
 
@@ -155,7 +155,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 Once a mission is complete, your gang leader will be able to claim the prize on this page and they will be given the rewards.
             </p>
 
-            <p style="color: red;"><strong>Challenge Ends 20th August at 10am Server Time.</strong></p>
+            <p style="color: red;"><strong>Challenge Ends 14th January at 10am Server Time.</strong></p>
 
             <p>Enjoy!</p>
             <br /><br /><hr />
@@ -227,7 +227,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 </td>
                 <td>
                     <ul>
-                        <li>1 x Lifewood Crystal (Rare)</li>
+                        <li>5 x Double Gym Injections</li>
                         <li>200,000 points</li>
                     </ul>
                 </td>
