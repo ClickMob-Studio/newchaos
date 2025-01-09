@@ -140,7 +140,7 @@ function toggleDropdown(element) {
 // Ensure a connection to the database is established
 
 // Fetch all the bosses
-$query = "SELECT * FROM bosses";
+$query = "SELECT * FROM bosses WHERE is_active > 0";
 $result = mysql_query($query);
 $bosses = [];
 while ($row = mysql_fetch_assoc($result)) {
