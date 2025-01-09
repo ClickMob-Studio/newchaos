@@ -40,7 +40,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE gang_id = " . $user_class->gang);
                 $db->execute();
 
-                Give_Item(257, $user_class->id);
+                Give_Item(276, $user_class->id, 5);
                 $db->query("UPDATE grpgusers SET points = points + 500000 WHERE id = " . $user_class->id);
                 $db->execute();
 
@@ -190,7 +190,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 </td>
                 <td>
                     <ul>
-                        <li>1 x Gang Double EXP Pill</li>
+                        <li>5 x Research Tokens</li>
                         <li>500,000 points</li>
                     </ul>
                 </td>
