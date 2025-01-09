@@ -34,6 +34,9 @@ for ($i = 1; $i <= 100; $i++) {
         if (isset($user_class->completeUserResearchTypesIndexedOnId[37])) {
             $researchMoneyBoost += 25;
         }
+        if (isset($user_class->completeUserResearchTypesIndexedOnId[47])) {
+            $researchMoneyBoost += 25;
+        }
         if ($researchMoneyBoost > 0) {
             $resMInc = $money / 100 * $researchMoneyBoost;
             $money = $money + $resMInc;
