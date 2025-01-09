@@ -72,12 +72,7 @@ if (isset($_GET['jailbreak'])  && $_GET['jailbreak'] == 'bot') {
         $db->execute();
 
         $user_class->jail_bot_credits = $user_class->jail_bot_credits - 1;
-        $userPrestigeSkills = getUserPrestigeSkills($user_class);
-        if ($userPrestigeSkills['super_busts_unlock'] >= 1) {
-            mission('b', 5);
-        } else {
-            mission('b');
-        }
+        mission('b');
         newmissions('busts');
         updateGangActiveMission('busts', 1);
         gangContest(array(

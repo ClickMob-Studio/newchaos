@@ -1074,7 +1074,12 @@ function mission($update, $howmany = 1,  $user_class = null, $db = null)
             // }
         }
         if ($update == 'b') {
-            $db->query("UPDATE missions SET busts = busts + 1 WHERE userid = ? AND completed = 'no'");
+            if ($prestigeUserSKills['super_busts_unlock'] > 0) {
+                $db->query("UPDATE missions SET busts = busts + 5 WHERE userid = ? AND completed = 'no'");
+            } else {
+                $db->query("UPDATE missions SET busts = busts + 1 WHERE userid = ? AND completed = 'no'");
+            }
+
             $db->execute(array(
                 $user_class->id
             ));
