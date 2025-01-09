@@ -2212,6 +2212,16 @@ function addUserBaStatExp($userBaStats, $baExpWon, $user_class)
     if (isset($user_class->completeUserResearchTypesIndexedOnId[34])) {
         $maxLevels += 1;
     }
+    if (isset($user_class->completeUserResearchTypesIndexedOnId[44])) {
+        $maxLevels += 1;
+    }
+    if (isset($user_class->completeUserResearchTypesIndexedOnId[45])) {
+        $maxLevels += 1;
+    }
+    if (isset($user_class->completeUserResearchTypesIndexedOnId[46])) {
+        $maxLevels += 1;
+    }
+
 
     if ($userBaStats['level'] <= $maxLevels) {
         $newExp = $userBaStats['exp'] + $baExpWon;
