@@ -8,7 +8,7 @@ $combatTreeLevelRows = array();
 $petTreeLevelRows = array();
 
 $i = 1;
-while ($i <= 6) {
+while ($i <= 7) {
     $db->query("SELECT * FROM `research_type` WHERE `level` = " . $i . " AND `type` = 'economy'");
     $db->execute();
     $levelRows[$i] = $db->fetch_row();
@@ -126,7 +126,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'start_research' && isset($_GET
                         <tr>
                             <?php
                             $i = 1;
-                            while ($i <= 6):
+                            while ($i <= 7):
                             ?>
                                 <td>
                                     <?php foreach ($levelRows[$i] as $levelRow):?>
