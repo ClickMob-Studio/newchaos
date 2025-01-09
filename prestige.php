@@ -152,6 +152,12 @@ $prestigeUnlocks['super_mugs_unlock'] = array(
     'description' => 'Unlocking Super Mugs gives you a super mug button on a players profile, earning you 10 mugs for just 1 click, allowing to complete all your missions faster!'
 );
 
+// Super Busts
+$prestigeUnlocks['super_busts_unlock'] = array(
+    'name' => 'Super Busts',
+    'description' => 'Unlocking Super Busts give you boost to completing your own bust missions, earning you 5 busts for just 1 click, allowing to complete all your missions faster!'
+);
+
 $prestigeBoosts = array();
 $prestigeBoosts['energy_boost_level'] = '+50 Energy Boost';
 $prestigeBoosts['crime_cash_boost_level'] = '+2% Crime Cash Boost';
