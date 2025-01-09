@@ -201,7 +201,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_boost' && isset($_GET['bo
         diefun('You do not have any prestige boosts available');
     }
 
-    if ($userPrestigeSkills[$boostType] >= 10) {
+    if ($userPrestigeSkills[$boostType] >= 15) {
         diefun('You have already maxed out this boost.');
     }
     $userPrestigeSkills[$boostType] = $userPrestigeSkills[$boostType] + 1;
@@ -374,7 +374,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php foreach ($prestigeBoosts as $key => $name): ?>
                     <tr>
                         <td><?php echo $name ?></td>
-                        <td><?php echo $userPrestigeSkills[$key] ?>/10</td>
+                        <td><?php echo $userPrestigeSkills[$key] ?>/15</td>
                         <td><a href="prestige.php?action=add_boost&boost_type=<?php echo $key ?>"><button>Add</button></a></td>
                     </tr>
                 <?php endforeach; ?>
