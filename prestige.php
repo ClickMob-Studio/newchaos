@@ -155,7 +155,7 @@ $prestigeUnlocks['super_mugs_unlock'] = array(
 // Super Busts
 $prestigeUnlocks['super_busts_unlock'] = array(
     'name' => 'Super Busts',
-    'description' => 'Unlocking Super Busts give you boost to completing your own bust missions, earning you 5 busts for just 1 click, allowing to complete all your missions faster!'
+    'description' => 'Unlocking Super Busts give you a boost to completing your own bust missions, earning you 5 busts for just 1 click, allowing to complete all your missions faster!'
 );
 
 $prestigeBoosts = array();
