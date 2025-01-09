@@ -410,6 +410,14 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 $mPerIc = ceil($money / 100 * 2);
                 $money = $money + $mPerIc;
             }
+            if (isset($user_class->completeUserResearchTypesIndexedOnId[49])) {
+                $mPerIc = ceil($money / 100 * 2);
+                $money = $money + $mPerIc;
+            }
+            if (isset($user_class->completeUserResearchTypesIndexedOnId[50])) {
+                $mPerIc = ceil($money / 100 * 2);
+                $money = $money + $mPerIc;
+            }
 
             $researchExpBoost = 0;
             if (isset($user_class->completeUserResearchTypesIndexedOnId[4])) {
