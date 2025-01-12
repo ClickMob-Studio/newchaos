@@ -1076,14 +1076,16 @@ function mission($update, $howmany = 1,  $user_class = null, $db = null)
         if ($update == 'b') {
             if ($prestigeUserSKills['super_busts_unlock'] > 0) {
                 $db->query("UPDATE missions SET busts = busts + 5 WHERE userid = ? AND completed = 'no'");
+                $userMiss['busts'] =  $userMiss['busts'] + 5;
             } else {
                 $db->query("UPDATE missions SET busts = busts + 1 WHERE userid = ? AND completed = 'no'");
+                $userMiss['busts'] = $userMiss['busts'] + 1;
             }
 
             $db->execute(array(
                 $user_class->id
             ));
-            if (++$userMiss['busts'] == $miss['busts']) {
+            if (++$userMiss['busts'] >= $miss['busts']) {
                 $mPointsPayout = $miss['payBusts'];
                 if ($pointsPayoutBoost) {
                     $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
