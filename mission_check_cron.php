@@ -86,6 +86,26 @@ foreach ($missions as $mission) {
         Send_event($mission['userid'], "You have completed {$mission['name']} objective to get {$mission['crimes']} crimes. [+ {$mission['payCrimes']} Points]");
     }
 
+    if ($mission['cBusts'] >= $mission['reqBusts'] && $mission['reqBusts'] > 0 && $mission['busts_paid'] == 0) {
+        $mPointsPayout = $mission['payBusts'];
+        if ($pointsPayoutBoost) {
+            $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
+        }
+
+        $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
+        $db->execute(array(
+            $mPointsPayout,
+            $mission['userid']
+        ));
+        $db->query("INSERT INTO missionlog VALUES(NULL,'[x] successfully completed {$mission['name']} objective to get {$mission['busts']} busts,{$mission['userid']}',unix_timestamp())");
+        $db->execute();
+        $db->query("UPDATE missions SET busts_paid = 1 WHERE id = ?");
+        $db->execute(array(
+            $mission['missionid']
+        ));
+        Send_event($mission['userid'], "You have completed {$mission['name']} objective to get {$mission['busts']} busts. [+ {$mission['payBusts']} Points]");
+    }
+
     if ($mission['cKills'] >= $mission['reqKills'] && $mission['cCrimes'] >= $mission['reqCrimes'] && $mission['cBusts'] >= $mission['reqBusts'] && $mission['cMugs'] >= $mission['reqMugs'] && $mission['cBackalleys'] >= $mission['reqBackalleys'] && $mission['cRaids'] >= $mission['reqRaids']) {
 
 //        $exp = 5 + (5 * ($mission['mExpLevel'] + 2));
