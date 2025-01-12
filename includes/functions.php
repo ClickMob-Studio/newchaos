@@ -1085,21 +1085,21 @@ function mission($update, $howmany = 1,  $user_class = null, $db = null)
             $db->execute(array(
                 $user_class->id
             ));
-            if (++$userMiss['busts'] >= $miss['busts']) {
-                $mPointsPayout = $miss['payBusts'];
-                if ($pointsPayoutBoost) {
-                    $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
-                }
-
-                $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
-                $db->execute(array(
-                    $mPointsPayout,
-                    $user_class->id
-                ));
-                $db->query("INSERT INTO missionlog VALUES(NULL,'[x] successfully completed {$miss['name']} objective to get {$miss['busts']} busts,$user_class->id',unix_timestamp())");
-                $db->execute();
-                Send_event($user_class->id, "You have completed {$miss['name']} objective to get {$miss['busts']} busts.");
-            }
+//            if (++$userMiss['busts'] >= $miss['busts']) {
+//                $mPointsPayout = $miss['payBusts'];
+//                if ($pointsPayoutBoost) {
+//                    $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
+//                }
+//
+//                $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
+//                $db->execute(array(
+//                    $mPointsPayout,
+//                    $user_class->id
+//                ));
+//                $db->query("INSERT INTO missionlog VALUES(NULL,'[x] successfully completed {$miss['name']} objective to get {$miss['busts']} busts,$user_class->id',unix_timestamp())");
+//                $db->execute();
+//                Send_event($user_class->id, "You have completed {$miss['name']} objective to get {$miss['busts']} busts.");
+//            }
         }
         if ($update == 'c') {
             $db->query("UPDATE missions SET crimes = crimes + ? WHERE userid = ? AND completed = 'no'");
