@@ -93,7 +93,7 @@ if(isset($_GET['presnap'])) {
 	}
 } elseif(!isset($_GET['totals'])) {
 	echo'<br />';
-	echo'<table style="width:100%;table-layout:fixed;" id="newtables">';
+	echo'<table style="width:100%;s" id="newtables">';
 		echo'<tr>';
 			echo'<th>Gang Mate</th>';
 			echo'<th>Exp Gained</th>';
