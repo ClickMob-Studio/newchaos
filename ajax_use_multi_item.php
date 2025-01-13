@@ -172,6 +172,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['qu
                 $response['success'] = true;
                 $response['message'] = "You ate the protein bar, for the next " . (15 * $quantity) . " minutes you will gain an extra 20% in the gym!";
                 break;
+            case 281: // Gym Super Pills
+                $tempItemUse = getItemTempUse($user_class->id);
+                $now = time();
+                if ($tempItemUse['gym_super_pills_time'] > $now) {
+                    $response['message'] = 'You already have a gym super pill active.';
+                    echo json_encode($response);
+                    exit;
+                }
+
+                $newTime = $now + (900 * $quantity);
+                addItemTempUse($user_class, 'gym_super_pills_time', $newTime);
+                Take_Item($item_id, $user_class->id, $quantity);
+                $response['success'] = true;
+                $response['message'] = "You took your gym super pills, for the next " . (15 * $quantity) . " minutes you will have an extra 10% awake!";
+                break;
             default:
                 $response['message'] = "Item not recognized or cannot be used.";
                 break;
