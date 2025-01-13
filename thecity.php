@@ -25,7 +25,7 @@ for ($i = 1; $i <= 100; $i++) {
         $points = rand(8, 17);
         $totalpts += $points;
         $row .= "<span style='color:#4C4CFF;'>You found $points points!</span>";
-    } elseif ($randnum <= 7700) {
+    } elseif ($randnum <= 7650) {
         $db->query("SELECT * FROM items WHERE category = 'crafting' AND searchable > 0");
         $db->execute();
         $craftingItems = $db->fetch_row();
