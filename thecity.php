@@ -11,6 +11,7 @@ if ($user_class->searchdowntown == 0) {
 }
 
 $totalpts = $total = $totalRaidTokens = 0;
+$totalCraftingItems = 0;
 $rows = "";
 
 for ($i = 1; $i <= 100; $i++) {
@@ -32,6 +33,8 @@ for ($i = 1; $i <= 100; $i++) {
         $craftingItem = $craftingItems[rand(0, count($craftingItems) - 1)];
 
         Give_Item($craftingItem['id'], $user_class->id, 1);
+
+        $totalCraftingItems++;
 
         $row .= "<span style='color:orange;'>You found a " . $craftingItem['itemname'] . "!</span>";
     } elseif ($randnum <= 9500) {
@@ -72,7 +75,7 @@ for ($i = 1; $i <= 100; $i++) {
 
 echo '<table id="newtables">';
 echo '<tr>';
-echo '<th colspan="2">You found a total of <span style="color:green;">' . prettynum($total, 1) . '</span>, <span style="color:#4C4CFF;">' . $totalpts . ' points</span>, and <span style="color:purple;">' . $totalRaidTokens . ' Raid Tokens</span> searching the city!</th>';
+echo '<th colspan="2">You found a total of <span style="color:green;">' . prettynum($total, 1) . '</span>, <span style="color:#4C4CFF;">' . $totalpts . ' points</span>, <span style="color:yellow;">' . $totalCraftingItems . ' Crafting Items</span>, and <span style="color:purple;">' . $totalRaidTokens . ' Raid Tokens</span> searching the city!</th>';
 echo '</tr>';
 echo $row;
 echo '</table>';
