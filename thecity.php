@@ -25,18 +25,18 @@ for ($i = 1; $i <= 100; $i++) {
         $points = rand(8, 17);
         $totalpts += $points;
         $row .= "<span style='color:#4C4CFF;'>You found $points points!</span>";
-//    } elseif ($randnum <= 9400) {
-//        $db->query("SELECT * FROM items WHERE category = 'crafting'");
-//        $db->execute();
-//        $craftingItems = $db->fetch_row();
-//
-//        $craftingItem = $craftingItems[rand(0, count($craftingItems) - 1)];
-//
-//        Give_Item($craftingItem['id'], $user_class->id, 1);
-//
-//        $totalCraftingItems++;
-//
-//        $row .= "<span style='color:orange;'>You found a " . $craftingItem['itemname'] . "!</span>";
+    } elseif ($randnum <= 9400) {
+        $db->query("SELECT * FROM items WHERE category = 'crafting' AND searchable > 0");
+        $db->execute();
+        $craftingItems = $db->fetch_row();
+
+        $craftingItem = $craftingItems[rand(0, count($craftingItems) - 1)];
+
+        Give_Item($craftingItem['id'], $user_class->id, 1);
+
+        $totalCraftingItems++;
+
+        $row .= "<span style='color:orange;'>You found a " . $craftingItem['itemname'] . "!</span>";
     } elseif ($randnum <= 9500) {
         $money = rand(10, 64) * ($user_class->level + 2);
 
