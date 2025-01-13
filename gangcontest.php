@@ -111,7 +111,11 @@ if(isset($_GET['presnap'])) {
 	foreach($conusers as $user){
 		echo'<tr>';
 			echo'<td>' . formatName($user['userid']) . '</td>';
-			echo'<td>' . prettynum($user['exp']) . '</td>';
+            if ($user_class->admin > 0) {
+                echo'<td>' . number_format_short($user['exp']) . '</td>';
+            } else {
+                echo'<td>' . prettynum($user['exp']) . '</td>';
+            }
 			echo'<td>' . prettynum($user['crimes']) . '</td>';
 			echo'<td>' . prettynum($user['mugs']) . '</td>';
 			echo'<td>' . prettynum($user['kills']) . '</td>';
