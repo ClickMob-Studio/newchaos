@@ -21,7 +21,7 @@ if (isset($_GET['reset_mission']) && (int)$_GET['reset_mission']) {
 
     $r = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid={$user_class->id} AND mid={$resetMissionId} ORDER BY timestamp DESC LIMIT 1"));
 
-    mysql_query("UPDATE missions SET completed = 'no', timestamp = " . $now . ", crimes = 0, mugs = 0, kills = 0, busts = 0, backalleys = 0, crimes_paid = 0, kills_paid = 0, mugs_paid = 0 WHERE id = " . $r['id']);
+    mysql_query("UPDATE missions SET completed = 'no', timestamp = " . $now . ", crimes = 0, mugs = 0, kills = 0, busts = 0, backalleys = 0, crimes_paid = 0,  busts_paid = 0, kills_paid = 0, mugs_paid = 0 WHERE id = " . $r['id']);
 
     removeItemTempUse($user_class->id, 'mission_passes', 1);
 
