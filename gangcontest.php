@@ -121,7 +121,7 @@ if(isset($_GET['presnap'])) {
 	}
 } else {
 	echo'<br />';
-	echo'<table style="width:100%;table-layout:fixed;" id="newtables">';
+	echo'<table style="width:100%;" id="newtables">';
 	echo'<tr>';
 		echo'<th>Gang Mate</th>';
 		echo'<th>Exp Gained</th>';
@@ -139,7 +139,11 @@ if(isset($_GET['presnap'])) {
 	foreach($conusers as $user){
 		echo'<tr>';
 			echo'<td>' . formatName($user['userid']) . '</td>';
-			echo'<td>' . prettynum($user['total_exp']) . '</td>';
+            if ($user_class->admin > 0) {
+                echo'<td>' . number_format_short($user['total_exp']) . '</td>';
+            } else {
+                echo'<td>' . prettynum($user['total_exp']) . '</td>';
+            }
 			echo'<td>' . prettynum($user['total_crimes']) . '</td>';
 			echo'<td>' . prettynum($user['total_mugs']) . '</td>';
 			echo'<td>' . prettynum($user['total_kills']) . '</td>';
