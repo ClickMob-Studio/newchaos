@@ -61,7 +61,7 @@ if(isset($_GET['presnap'])) {
 	echo'<br />';
 	echo'Snapshot from: ' . date('d F, Y g:ia', $ss);
 	echo'<br />';
-	echo'<table style="width:100%;table-layout:fixed;" id="newtables">';
+	echo'<table style="width:100%;" id="newtables">';
 	echo'<tr>';
 		echo'<th>Gang Mate</th>';
 		echo'<th>Exp Gained</th>';
@@ -81,7 +81,7 @@ if(isset($_GET['presnap'])) {
 		echo'<tr>';
 			echo'<td>' . formatName($user['userid']) . '</td>';
             if ($user_class->admin > 0) {
-                echo'<td>' . number_format_short($user['exp']) . '</td>';
+                echo'<td>--' . number_format_short($user['exp']) . '</td>';
             } else {
                 echo'<td>' . prettynum($user['exp']) . '</td>';
             }
