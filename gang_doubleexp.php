@@ -1,5 +1,5 @@
 <?php
-
+exit;
 include 'header.php';
 if ($user_class->admin < 1) {
     //exit;
