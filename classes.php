@@ -1171,9 +1171,7 @@ $this->nerveboost =  $this->nerveboost;
                 }
             }
             foreach ($missionBadges as $number => $badgers) {
-                $missionsQ = mysql_query("SELECT COUNT(id) AS mission_count FROM missions WHERE userid = " . $this->id . " AND completed = 'successful'");
-                $missionsR = mysql_fetch_assoc($missionsQ);
-                $missionsCount = $missionsR['mission_count'];
+                $missionsCount = $this->mission_count;
 
                 if ($missionsCount >= $badgers['needed'] && $this->badgesex[7] == $number - 1) {
                     Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " missions. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>" , $this->id);

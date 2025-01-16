@@ -543,9 +543,7 @@ $missionBadges = getMissionBadges();
             }
         }
         foreach ($missionBadges as $number => $badgers) {
-            $missionsQ = mysql_query("SELECT COUNT(id) AS mission_count FROM missions WHERE userid = " . $user_class->id . " AND completed = 'successful'");
-            $missionsR = mysql_fetch_assoc($missionsQ);
-            $missionsCount = $missionsR['mission_count'];
+            $missionsCount = $this->mission_count;
 
             if ($missionsCount >= $badgers['needed'] && $badgesclaimedex[7] == $number - 1) {
                 $somethingClaimed = true;
