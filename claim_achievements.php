@@ -419,6 +419,7 @@ $bustbadge = array(
         'title' => 'Good Buster: Bust 250 Mobsters'
     )
 );
+$missionBadges = getMissionBadges();
 
 ?>
 
@@ -539,6 +540,26 @@ $bustbadge = array(
                 $badgesclaimedex[6] = $number;
 
                 Send_Event(2, $user_class->id . ' claimed bust ' . $number, 2);
+            }
+        }
+        foreach ($missionBadges as $number => $badgers) {
+            $missionsQ = mysql_query("SELECT COUNT(id) AS mission_count FROM missions WHERE userid = " . $user_class->id . " AND completed = 'successful'");
+            $missionsR = mysql_fetch_assoc($missionsQ);
+            $missionsCount = $missionsR['mission_count'];
+
+            if ($missionsCount >= $badgers['needed'] && $badgesclaimedex[7] == $number - 1) {
+                $somethingClaimed = true;
+
+                echo "
+                    <div class='alert alert-success'>
+                        You have successfully claimed " . number_format($badgers['payout'], 0) . " points for reaching " . prettynum($badgers['needed']) . " missions.
+                    </div>
+                ";
+
+                $user_class->addPoints($user_class->id, $badgers['payout']);
+                $badgesclaimedex[7] = $number;
+
+                Send_Event(2, $user_class->id . ' claimed missions ' . $number, 2);
             }
         }
 

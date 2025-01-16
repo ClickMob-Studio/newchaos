@@ -1029,6 +1029,7 @@ $this->nerveboost =  $this->nerveboost;
                 'title' => 'Good Buster: Bust 250 Mobsters'
             )
         );
+
         //$db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
         $this->debugtest = 'yes';
         if (!isset($ignoreForAjax) && $_SERVER['REQUEST_METHOD'] === 'GET') {
