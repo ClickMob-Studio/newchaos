@@ -556,7 +556,7 @@ $missionBadges = getMissionBadges();
             }
         }
         foreach ($missionBadges as $number => $badgers) {
-            $missionsCount = $this->mission_count;
+            $missionsCount = $user_class->mission_count;
 
             if ($missionsCount >= $badgers['needed'] && $badgesclaimedex[7] == $number - 1) {
                 $somethingClaimed = true;
