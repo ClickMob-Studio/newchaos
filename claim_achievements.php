@@ -11,8 +11,6 @@ if ($user_class->admin < 1) {
     exit;
 }
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 $badgesex = explode(",", $user_class->badges);
 $badgesclaimedex = explode(",", $user_class->badges_claimed);
