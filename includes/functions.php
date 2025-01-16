@@ -3173,3 +3173,89 @@ function addToPetladder($petId, $field, $qty = 1)
     $db->query("UPDATE petladder SET {$field} = {$field} + {$qty} WHERE id = " . $petladder['id']);
     $db->execute();
 }
+
+function getMissionBadges()
+{
+    $badges = array(
+        '13' => array(
+            'needed' => 25000,
+            'payout' => 150000,
+            'img' => 'missions25k',
+            'title' => 'Mission Master: Complete 25000 Missions'
+        ),
+        '12' => array(
+            'needed' => 20000,
+            'payout' => 125000,
+            'img' => 'missions20k',
+            'title' => 'Mission Master: Complete 20000 Missions'
+        ),
+        '11' => array(
+            'needed' => 15000,
+            'payout' => 100000,
+            'img' => 'missions15k',
+            'title' => 'Mission Master: Complete 15000 Missions'
+        ),
+        '10' => array(
+            'needed' => 10000,
+            'payout' => 70000,
+            'img' => 'missions10k',
+            'title' => 'Mission Master: Complete 10000 Missions'
+        ),
+        '9' => array(
+            'needed' => 7500,
+            'payout' => 50000,
+            'img' => 'missions7.5k',
+            'title' => 'Mission Master: Complete 7500 Missions'
+        ),
+        '8' => array(
+            'needed' => 5000,
+            'payout' => 30000,
+            'img' => 'missions5k',
+            'title' => 'Mission Master: Complete 5000 Missions'
+        ),
+        '7' => array(
+            'needed' => 2500,
+            'payout' => 20000,
+            'img' => 'missions2.5k',
+            'title' => 'Mission Master: Complete 2500 Missions'
+        ),
+        '6' => array(
+            'needed' => 1000,
+            'payout' => 15000,
+            'img' => 'missions1k',
+            'title' => 'Mission Master: Complete 1000 Missions'
+        ),
+        '5' => array(
+            'needed' => 500,
+            'payout' => 10000,
+            'img' => 'missions500',
+            'title' => 'Mission Master: Complete 500 Missions'
+        ),
+        '4' => array(
+            'needed' => 250,
+            'payout' => 5000,
+            'img' => 'missions250',
+            'title' => 'Mission Master: Complete 250 Missions'
+        ),
+        '3' => array(
+            'needed' => 100,
+            'payout' => 3000,
+            'img' => 'missions100',
+            'title' => 'Mission Master: Complete 100 Missions'
+        ),
+        '2' => array(
+            'needed' => 50,
+            'payout' => 2000,
+            'img' => 'missions50',
+            'title' => 'Mission Master: Complete 50 Missions'
+        ),
+        '1' => array(
+            'needed' => 10,
+            'payout' => 1000,
+            'img' => 'missions10',
+            'title' => 'Mission Master: Complete 10 Missions'
+        )
+    );
+
+    return $badges;
+}

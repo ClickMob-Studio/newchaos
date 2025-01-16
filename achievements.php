@@ -421,6 +421,8 @@ $levelbadges = array(
                 'title' => 'Good Buster: Bust 250 Mobsters'
             )
         );
+
+        $missionBadges = getMissionBadges();
 ?>
 <div class="contenthead floaty">
 
@@ -437,6 +439,7 @@ $levelbadges = array(
                     echo (isset($user_class->badge6)) ? "<td align='center' style='width:100px;'>" . $user_class->badge6 . "</td>" : "";
                     echo (isset($user_class->badge7)) ? "<td align='center' style='width:100px;'>" . $user_class->badge7 . "</td>" : "";
                     echo (isset($user_class->badge8)) ? "<td align='center' style='width:100px;'>" . $user_class->badge8 . "</td>" : "";
+                    echo (isset($user_class->badge9)) ? "<td align='center' style='width:100px;'>" . $user_class->badge9 . "</td>" : "";
                     ?>
                 </tr>
             </table>
@@ -452,7 +455,8 @@ $achs = array(
 	'<h4>Kills</h4>' => 'battlebadge',
 	'<h4>Bank</h4>' => 'bankbadge',
 	'<h4>Mugs</h4>' => 'mugbadge',
-	'<h4>Busts</h4>' => 'bustbadge'
+	'<h4>Busts</h4>' => 'bustbadge',
+	'<h4>Missions</h4>' => 'missionBadges'
 );
 foreach($achs as $head => $var){
 	$cur = '';
@@ -491,6 +495,9 @@ foreach($achs as $head => $var){
 			case 'crimebadge':
 				echo'Successfully complete ' . prettynum($ach['needed']) . ' crimes.';
 				break;
+            case 'missionBadges':
+                echo'Successfully complete ' . prettynum($ach['needed']) . ' missions.';
+                break;
 		}
 			echo'</td>';
 		$cur .= '<th>' . prettynum($ach['payout']) . ' Points</th>';
