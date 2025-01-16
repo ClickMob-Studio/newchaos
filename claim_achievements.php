@@ -1,6 +1,13 @@
 <?php
 include 'header.php';
 
+echo "
+                    <div class='alert alert-danger'>
+                        Currently undergoing some updates, back shortly!
+                    </div>
+                ";
+exit;
+
 $badgesex = explode(",", $user_class->badges);
 $badgesclaimedex = explode(",", $user_class->badges_claimed);
 $levelbadges = array(
