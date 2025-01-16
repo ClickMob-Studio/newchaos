@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL);
+
 include 'header.php';
 
 if ($user_class->admin < 0) {
