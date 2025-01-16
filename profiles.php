@@ -1080,7 +1080,7 @@ $missionsCount = $missionsR['mission_count'];
                         </div>
                         <div class="col-6">
                             <div class="text-center p-2" style="background-color: #111; color: white;">Missions:</div>
-                            <div class="text-center p-2"><?php echo $missionsCount; ?></div>
+                            <div class="text-center p-2"><?php echo $missionsCount; ?> (<?php echo $profile_class->mission_count; ?>)</div>
                         </div>
                         <div class="col-6">
                             <div class="text-center p-2" style="background-color: #111; color: white;">Raids:</div>
