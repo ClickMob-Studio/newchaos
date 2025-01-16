@@ -120,7 +120,7 @@ if ($user_class->hospital != "0" && ($user_class->hhow != "bombed" && $user_clas
 $result      = mysql_query("SELECT COUNT(*) FROM `grpgusers` WHERE `hospital` != '0'");
 $r           = mysql_fetch_row($result);
 $numrows     = $r[0];
-$rowsperpage = 40;
+$rowsperpage = 20;
 $totalpages  = ceil($numrows / $rowsperpage);
 if ($totalpages <= 0)
    $totalpages = 1;
@@ -141,12 +141,12 @@ if ($people > 0) {
    while ($line = mysql_fetch_array($result)) {
       $secondsago     = time() - $line['lastactive'];
       $user_hospital  = new User($line['id']);
-      $hospital_class = new User($line['hwho']);
+      //$hospital_class = new User($line['hwho']);
       $someonehere    = 1;
       if ($line['hhow'] == "wasattacked")
-         $how = "Attacked by " . $hospital_class->formattedname;
+         $how = "Attacked by " . formatName($line['hwho']);
       else if ($line['hhow'] == "attacked")
-         $how = "Lost to " . $hospital_class->formattedname;
+         $how = "Lost to " . formatName($line['hwho']);
       else if ($line['hhow'] == "roulette")
          $how = "Wounded by Russian Roulette";
       else if ($line['hhow'] == "maze")
@@ -157,7 +157,7 @@ if ($people > 0) {
          if ($line['id'] == $line['hwho'])
             $how = "Blew up themself";
          else
-            $how = "Got blown up by " . $hospital_class->formattedname;
+            $how = "Got blown up by " . formatName($line['hwho']);
       }
       else if ($line['hhow'] == "abombed") {
          if ($line['id'] == $line['hwho'])
@@ -166,9 +166,9 @@ if ($people > 0) {
             $how = "Got blown up by someone";
       }
       else if ($line['hhow'] == "cbombed")
-         $how = "Got blown up by " . $hospital_class->formattedname . " (City Bomb)";
+         $how = "Got blown up by " . formatName($line['hwho']) . " (City Bomb)";
       else if ($line['hhow'] == "mbomb")
-         $how = "Mail Bombed by " . $hospital_class->formattedname;
+         $how = "Mail Bombed by " . formatName($line['hwho']);
       else if ($line['hhow'] == "backalley")
          $how = "Got beaten up in the back alley";
 	  else if ($line['hhow'] == "robbed")
