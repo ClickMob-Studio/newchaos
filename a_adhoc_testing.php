@@ -3,7 +3,7 @@
 include 'header.php';
 
 
-$db->query("SELECT * FROM grpgusers WHERE mission_count < 1 LIMIT 10");
+$db->query("SELECT * FROM grpgusers WHERE mission_count = 0 LIMIT 10");
 $rows = $db->fetch_row();
 
 foreach ($rows as $row) {
