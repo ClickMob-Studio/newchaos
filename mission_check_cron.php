@@ -121,7 +121,7 @@ foreach ($missions as $mission) {
             $expgain = $expgain + ($expgain / 100 * (2 * $prestigeUserSKills['mission_exp_boost_level']));
         }
 
-        $db->query("UPDATE grpgusers SET exp = exp + ? WHERE id = ?");
+        $db->query("UPDATE grpgusers SET exp = exp + ?, mission_count = mission_count + 1 WHERE id = ?");
         $db->execute(array(
             $expgain,
             $user_class->id
