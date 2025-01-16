@@ -5,7 +5,6 @@ include 'header.php';
 
 $db->query("SELECT * FROM grpgusers WHERE mission_count = 0 LIMIT 10");
 $rows = $db->fetch_row();
-var_dump($rows);
 
 foreach ($rows as $row) {
     $missionsQ = mysql_query("SELECT COUNT(id) AS mission_count FROM missions WHERE userid = " . $row['id'] . " AND completed = 'successful'");
