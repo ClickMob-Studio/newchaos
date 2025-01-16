@@ -992,9 +992,6 @@ $city = $result['name'];
 $city = $profile_class->cityname;
 }
 
-$missionsQ = mysql_query("SELECT COUNT(id) AS mission_count FROM missions WHERE userid = " . $profile_class->id . " AND completed = 'successful'");
-$missionsR = mysql_fetch_assoc($missionsQ);
-$missionsCount = $missionsR['mission_count'];
 ?>
 <style>.card {
     margin: 5px;
