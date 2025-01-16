@@ -1,12 +1,15 @@
 <?php
+
 include 'header.php';
 
-echo "
+if ($user_class->admin < 0) {
+    echo "
                     <div class='alert alert-danger'>
                         Currently undergoing some updates, back shortly!
                     </div>
                 ";
-exit;
+    exit;
+}
 
 $badgesex = explode(",", $user_class->badges);
 $badgesclaimedex = explode(",", $user_class->badges_claimed);
