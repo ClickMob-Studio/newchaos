@@ -120,7 +120,7 @@ if ($user_class->hospital != "0" && ($user_class->hhow != "bombed" && $user_clas
 $result      = mysql_query("SELECT COUNT(*) FROM `grpgusers` WHERE `hospital` != '0'");
 $r           = mysql_fetch_row($result);
 $numrows     = $r[0];
-$rowsperpage = 20;
+$rowsperpage = 30;
 $totalpages  = ceil($numrows / $rowsperpage);
 if ($totalpages <= 0)
    $totalpages = 1;
