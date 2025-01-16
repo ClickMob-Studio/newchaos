@@ -1029,7 +1029,7 @@ $this->nerveboost =  $this->nerveboost;
                 'title' => 'Good Buster: Bust 250 Mobsters'
             )
         );
-
+        $missionBadges = getMissionBadges();
         //$db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
         $this->debugtest = 'yes';
         if (!isset($ignoreForAjax) && $_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -1167,6 +1167,29 @@ $this->nerveboost =  $this->nerveboost;
                 }
                 if (!isset($this->badge8) && $this->busts >= $badgers['needed']) {
                     $this->badge8 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v200"></img></div>';
+                    $this->badge = 1;
+                }
+            }
+            foreach ($missionBadges as $number => $badgers) {
+                $missionsQ = mysql_query("SELECT COUNT(id) AS mission_count FROM missions WHERE userid = " . $this->id . " AND completed = 'successful'");
+                $missionsR = mysql_fetch_assoc($missionsQ);
+                $missionsCount = $missionsR['mission_count'];
+
+                if ($missionsCount >= $badgers['needed'] && $this->badgesex[7] == $number - 1) {
+                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " missions. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>" , $this->id);
+                    $this->badgesex[7] = $number;
+
+                    // $db->execute(array(
+                    // 	$badgers['payout'],
+                    // 	$id
+                    // ));
+//                    mysql_query("UPDATE grpgusers SET points = points + ".$badgers['payout']." WHERE id = ".$this->id);
+//                    Send_Event($this->id, "You have received {$badgers['payout']} Points for Reaching " . prettynum($badgers['needed']) . " busts.", $this->id);
+//                    Send_Event1($this->id, "Has just received {$badgers['payout']} Points for Reaching " . prettynum($badgers['needed']) . " busts.", $this->id);
+//                    $this->badgesex[6] = $number;
+                }
+                if (!isset($this->badge9) && $missionsCount >= $badgers['needed']) {
+                    $this->badge9 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v200"></img></div>';
                     $this->badge = 1;
                 }
             }
