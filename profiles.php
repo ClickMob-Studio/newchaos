@@ -1083,6 +1083,10 @@ $missionsCount = $missionsR['mission_count'];
                             <div class="text-center p-2"><?php echo $missionsCount; ?></div>
                         </div>
                         <div class="col-6">
+                            <div class="text-center p-2" style="background-color: #111; color: white;">Raids:</div>
+                            <div class="text-center p-2"><?php echo prettynum($profile_class->raidwins); ?></div>
+                        </div>
+                        <div class="col-6">
                             <div class="text-center p-2" style="background-color: #111; color: white;">Last Active:</div>
                             <div class="text-center p-2"><?php echo ($profile_class->lastactive != 0 ? $profile_class->formattedlastactive : 'Never'); ?> <span id='onlineStatus'>[online]</span></div>
                         </div>
