@@ -11,6 +11,10 @@ foreach ($rows as $row) {
     $missionsR = mysql_fetch_assoc($missionsQ);
     $missionsCount = $missionsR['mission_count'];
 
+    if ($missionsCount < 1) {
+        $missionsCount = 1;
+    }
+
     $db->query("UPDATE grpgusers SET mission_count = " . $missionsCount . " WHERE id = " . $row['id']);
     $db->execute();
 
