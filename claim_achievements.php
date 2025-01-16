@@ -1,10 +1,8 @@
 <?php
 
-error_reporting(E_ALL);
-
 include 'header.php';
 
-if ($user_class->admin < 0) {
+if ($user_class->admin < 1) {
     echo "
                     <div class='alert alert-danger'>
                         Currently undergoing some updates, back shortly!
@@ -12,6 +10,8 @@ if ($user_class->admin < 0) {
                 ";
     exit;
 }
+
+error_reporting(E_ALL);
 
 $badgesex = explode(",", $user_class->badges);
 $badgesclaimedex = explode(",", $user_class->badges_claimed);
