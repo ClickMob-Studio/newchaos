@@ -141,12 +141,12 @@ if ($people > 0) {
    while ($line = mysql_fetch_array($result)) {
       $secondsago     = time() - $line['lastactive'];
       $user_hospital  = new User($line['id']);
-      //$hospital_class = new User($line['hwho']);
+      $hospital_class = formatName($line['hwho']);
       $someonehere    = 1;
       if ($line['hhow'] == "wasattacked")
-         $how = "Attacked by " . formatName($line['hwho']);
+         $how = "Attacked by " . $hospital_class;
       else if ($line['hhow'] == "attacked")
-         $how = "Lost to " . formatName($line['hwho']);
+         $how = "Lost to " . $hospital_class;
       else if ($line['hhow'] == "roulette")
          $how = "Wounded by Russian Roulette";
       else if ($line['hhow'] == "maze")
@@ -157,7 +157,7 @@ if ($people > 0) {
          if ($line['id'] == $line['hwho'])
             $how = "Blew up themself";
          else
-            $how = "Got blown up by " . formatName($line['hwho']);
+            $how = "Got blown up by " . $hospital_class;
       }
       else if ($line['hhow'] == "abombed") {
          if ($line['id'] == $line['hwho'])
@@ -166,9 +166,9 @@ if ($people > 0) {
             $how = "Got blown up by someone";
       }
       else if ($line['hhow'] == "cbombed")
-         $how = "Got blown up by " . formatName($line['hwho']) . " (City Bomb)";
+         $how = "Got blown up by " . $hospital_class . " (City Bomb)";
       else if ($line['hhow'] == "mbomb")
-         $how = "Mail Bombed by " . formatName($line['hwho']);
+         $how = "Mail Bombed by " . $hospital_class;
       else if ($line['hhow'] == "backalley")
          $how = "Got beaten up in the back alley";
 	  else if ($line['hhow'] == "robbed")
