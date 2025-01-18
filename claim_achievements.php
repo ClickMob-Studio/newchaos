@@ -2,14 +2,14 @@
 
 include 'header.php';
 
-if ($user_class->admin < 1) {
-    echo "
-                    <div class='alert alert-danger'>
-                        Currently undergoing some updates, back shortly!
-                    </div>
-                ";
-    exit;
-}
+//if ($user_class->admin < 1) {
+//    echo "
+//                    <div class='alert alert-danger'>
+//                        Currently undergoing some updates, back shortly!
+//                    </div>
+//                ";
+//    exit;
+//}
 
 
 $badgesex = explode(",", $user_class->badges);
