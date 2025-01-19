@@ -168,7 +168,7 @@ if ($_GET['key'] === 'srunit') {
                 if (isset($strengthDefendingUser) && $strengthDefendingUser) {
                     $expEarning = $strengthDefendingUser->maxexp / 100 * 0.5;
 
-                    $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . " WHERE id = " . $strengthDefendingUser->id);
+                    $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . ", gtzb_count = gtzb_count + 1 WHERE id = " . $strengthDefendingUser->id);
                     $db->execute();
 
                     Send_Event($strengthDefendingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning,0) . ' EXP.');
@@ -176,7 +176,7 @@ if ($_GET['key'] === 'srunit') {
                 if (isset($defenseDefendingUser) && $defenseDefendingUser) {
                     $expEarning = $defenseDefendingUser->maxexp / 100 * 0.5;
 
-                    $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . " WHERE id = " . $defenseDefendingUser->id);
+                    $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . ", gtzb_count = gtzb_count + 1 WHERE id = " . $defenseDefendingUser->id);
                     $db->execute();
 
                     Send_Event($defenseDefendingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning,0) . ' EXP.');
@@ -184,7 +184,7 @@ if ($_GET['key'] === 'srunit') {
                 if (isset($speedDefendingUser) && $speedDefendingUser) {
                     $expEarning = $speedDefendingUser->maxexp / 100 * 0.5;
 
-                    $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . " WHERE id = " . $speedDefendingUser->id);
+                    $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . ", gtzb_count = gtzb_count + 1 WHERE id = " . $speedDefendingUser->id);
                     $db->execute();
 
                     Send_Event($speedDefendingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning,0) . ' EXP.');
@@ -219,7 +219,7 @@ if ($_GET['key'] === 'srunit') {
                 if (isset($strengthAttackingUser) && $strengthAttackingUser) {
                     $expEarning = $strengthAttackingUser->maxexp / 100 * 0.5;
 
-                    $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . " WHERE id = " . $strengthAttackingUser->id);
+                    $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . ", gtzb_count = gtzb_count + 1 WHERE id = " . $strengthAttackingUser->id);
                     $db->execute();
 
                     Send_Event($strengthAttackingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning,0) . ' EXP.');
@@ -227,7 +227,7 @@ if ($_GET['key'] === 'srunit') {
                 if (isset($defenseAttackingUser) && $defenseAttackingUser) {
                     $expEarning = $defenseAttackingUser->maxexp / 100 * 0.5;
 
-                    $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . " WHERE id = " . $defenseAttackingUser->id);
+                    $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . ", gtzb_count = gtzb_count + 1 WHERE id = " . $defenseAttackingUser->id);
                     $db->execute();
 
                     Send_Event($defenseAttackingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning,0) . ' EXP.');
@@ -235,7 +235,7 @@ if ($_GET['key'] === 'srunit') {
                 if (isset($speedAttackingUser) && $speedAttackingUser) {
                     $expEarning = $speedAttackingUser->maxexp / 100 * 0.5;
 
-                    $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . " WHERE id = " . $speedAttackingUser->id);
+                    $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . ", gtzb_count = gtzb_count + 1 WHERE id = " . $speedAttackingUser->id);
                     $db->execute();
 
                     Send_Event($speedAttackingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning,0) . ' EXP.');
