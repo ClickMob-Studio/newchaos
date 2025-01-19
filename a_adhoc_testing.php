@@ -1,22 +1,38 @@
 <?php
-//
-//include 'header.php';
-//
-//
-//$db->query("SELECT * FROM grpgusers WHERE mission_count = 0 LIMIT 100");
-//$rows = $db->fetch_row();
-//
-//foreach ($rows as $row) {
-//    $missionsQ = mysql_query("SELECT COUNT(id) AS mission_count FROM missions WHERE userid = " . $row['id'] . " AND completed = 'successful'");
-//    $missionsR = mysql_fetch_assoc($missionsQ);
-//    $missionsCount = $missionsR['mission_count'];
-//
-//    if ($missionsCount < 1) {
-//        $missionsCount = 1;
-//    }
-//
-//    $db->query("UPDATE grpgusers SET mission_count = " . $missionsCount . " WHERE id = " . $row['id']);
-//    $db->execute();
-//
-//    echo 'Updated ' . $row['id'] . ' to ' . $missionsCount . ' missions<br>';
-//}
+
+include 'header.php';
+
+
+$db->query("SELECT * FROM gang_territory_zone_battle WHERE is_complete > 0");
+$rows = $db->fetch_row();
+
+foreach ($rows as $row) {
+    if ($row['winning_gang_id'] == $row['attacking_gang_id']) {
+        if ($row['strength_attacking_user_id'] > 0) {
+            $db->query("UPDATE grpgusers SET gtzb_count = gtzb_count + 1 WHERE id = " . $row['strength_attacking_user_id']);
+            $db->execute();
+        }
+        if ($row['speed_attacking_user_id'] > 0) {
+            $db->query("UPDATE grpgusers SET gtzb_count = gtzb_count + 1 WHERE id = " . $row['speed_attacking_user_id']);
+            $db->execute();
+        }
+        if ($row['defense_attacking_user_id'] > 0) {
+            $db->query("UPDATE grpgusers SET gtzb_count = gtzb_count + 1 WHERE id = " . $row['defense_attacking_user_id']);
+            $db->execute();
+        }
+    } else {
+        if ($row['strength_defending_user_id'] > 0) {
+            $db->query("UPDATE grpgusers SET gtzb_count = gtzb_count + 1 WHERE id = " . $row['strength_defending_user_id']);
+            $db->execute();
+        }
+        if ($row['speed_defending_user_id'] > 0) {
+            $db->query("UPDATE grpgusers SET gtzb_count = gtzb_count + 1 WHERE id = " . $row['speed_defending_user_id']);
+            $db->execute();
+        }
+        if ($row['defense_defending_user_id'] > 0) {
+            $db->query("UPDATE grpgusers SET gtzb_count = gtzb_count + 1 WHERE id = " . $row['defense_defending_user_id']);
+            $db->execute();
+        }
+    }
+
+}
