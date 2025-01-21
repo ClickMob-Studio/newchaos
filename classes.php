@@ -1031,6 +1031,7 @@ $this->nerveboost =  $this->nerveboost;
         );
         $missionBadges = getMissionBadges();
         $raidBadges = getRaidBadges();
+        $racketBadges = getRacketBadges();
         //$db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
         $this->debugtest = 'yes';
         if (!isset($ignoreForAjax) && $_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -1201,6 +1202,18 @@ $this->nerveboost =  $this->nerveboost;
                 }
                 if (!isset($this->badge10) && $raidsCount >= $badgers['needed']) {
                     $this->badge10 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v200"></img></div>';
+                    $this->badge = 1;
+                }
+            }
+            foreach ($racketBadges as $number => $badgers) {
+                $racketWins = $this->gtzb_count;
+
+                if ($racketWins >= $badgers['needed'] && $this->badgesex[9] == $number - 1) {
+                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " protection racket wins. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>" , $this->id);
+                    $this->badgesex[9] = $number;
+                }
+                if (!isset($this->badge11) && $racketWins >= $badgers['needed']) {
+                    $this->badge11 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v200"></img></div>';
                     $this->badge = 1;
                 }
             }

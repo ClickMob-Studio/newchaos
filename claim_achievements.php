@@ -432,6 +432,7 @@ $bustbadge = array(
 );
 $missionBadges = getMissionBadges();
 $raidBadges = getRaidBadges();
+$racketBadges = getRacketBadges();
 
 ?>
 
@@ -590,6 +591,25 @@ $raidBadges = getRaidBadges();
                 Send_Event(2, $user_class->id . ' claimed raids ' . $number, 2);
             }
         }
+        foreach ($racketBadges as $number => $badgers) {
+            $racketWins = $user_class->gtzb_count;
+
+            if ($racketWins >= $badgers['needed'] && $badgesclaimedex[9] == $number - 1) {
+                $somethingClaimed = true;
+
+                echo "
+                    <div class='alert alert-success'>
+                        You have successfully claimed " . number_format($badgers['payout'], 0) . " points for reaching " . prettynum($badgers['needed']) . " protection racket wins.
+                    </div>
+                ";
+
+                $user_class->addPoints($user_class->id, $badgers['payout']);
+                $badgesclaimedex[9] = $number;
+
+                Send_Event(2, $user_class->id . ' claimed rackets ' . $number, 2);
+            }
+        }
+
 
         if (!$somethingClaimed) {
             echo "

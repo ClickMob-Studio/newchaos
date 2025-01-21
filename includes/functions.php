@@ -3333,3 +3333,89 @@ function getRaidBadges()
 
     return $badges;
 }
+
+function getRacketBadges()
+{
+    $badges = array(
+        '13' => array(
+            'needed' => 500,
+            'payout' => 180000,
+            'img' => 'rackets500',
+            'title' => 'Protection Racket Master: Win 500 Protection Racket Battles'
+        ),
+        '12' => array(
+            'needed' => 400,
+            'payout' => 160000,
+            'img' => 'rackets400',
+            'title' => 'Protection Racket Master: Win 400 Protection Racket Battles'
+        ),
+        '11' => array(
+            'needed' => 300,
+            'payout' => 140000,
+            'img' => 'rackets300',
+            'title' => 'Protection Racket Master: Win 300 Protection Racket Battles'
+        ),
+        '10' => array(
+            'needed' => 250,
+            'payout' => 120000,
+            'img' => 'rackets250',
+            'title' => 'Protection Racket Master: Win 250 Protection Racket Battles'
+        ),
+        '9' => array(
+            'needed' => 200,
+            'payout' => 100000,
+            'img' => 'rackets200',
+            'title' => 'Protection Racket Master: Win 200 Protection Racket Battles'
+        ),
+        '8' => array(
+            'needed' => 150,
+            'payout' => 80000,
+            'img' => 'rackets150',
+            'title' => 'Protection Racket Master: Win 150 Protection Racket Battles'
+        ),
+        '7' => array(
+            'needed' => 100,
+            'payout' => 60000,
+            'img' => 'rackets100',
+            'title' => 'Protection Racket Master: Win 100 Protection Racket Battles'
+        ),
+        '6' => array(
+            'needed' => 75,
+            'payout' => 40000,
+            'img' => 'rackets75',
+            'title' => 'Protection Racket Master: Win 75 Protection Racket Battles'
+        ),
+        '5' => array(
+            'needed' => 50,
+            'payout' => 20000,
+            'img' => 'rackets50',
+            'title' => 'Protection Racket Master: Win 50 Protection Racket Battles'
+        ),
+        '4' => array(
+            'needed' => 25,
+            'payout' => 10000,
+            'img' => 'rackets25',
+            'title' => 'Protection Racket Master: Win 25 Protection Racket Battles'
+        ),
+        '3' => array(
+            'needed' => 15,
+            'payout' => 5000,
+            'img' => 'rackets15',
+            'title' => 'Protection Racket Master: Win 15 Protection Racket Battles'
+        ),
+        '2' => array(
+            'needed' => 10,
+            'payout' => 2000,
+            'img' => 'rackets10',
+            'title' => 'Protection Racket Master: Win 10 Protection Racket Battles'
+        ),
+        '1' => array(
+            'needed' => 5,
+            'payout' => 1000,
+            'img' => 'rackets5',
+            'title' => 'Protection Racket Master: Win 5 Protection Racket Battles'
+        )
+    );
+
+    return $badges;
+}
