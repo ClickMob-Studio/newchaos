@@ -3259,3 +3259,77 @@ function getMissionBadges()
 
     return $badges;
 }
+
+function getRaidBadges()
+{
+    $badges = array(
+        '11' => array(
+            'needed' => 150000,
+            'payout' => 175000,
+            'img' => 'raids150k',
+            'title' => 'Raid Master: Complete 150,000 Raids'
+        ),
+        '10' => array(
+            'needed' => 125000,
+            'payout' => 150000,
+            'img' => 'raids125k',
+            'title' => 'Raid Master: Complete 125,000 Raids'
+        ),
+        '9' => array(
+            'needed' => 100000,
+            'payout' => 125000,
+            'img' => 'raids100k',
+            'title' => 'Raid Master: Complete 100,000 Raids'
+        ),
+        '8' => array(
+            'needed' => 75000,
+            'payout' => 100000,
+            'img' => 'raids75k',
+            'title' => 'Raid Master: Complete 75,000 Raids'
+        ),
+        '7' => array(
+            'needed' => 50000,
+            'payout' => 75000,
+            'img' => 'raids75k',
+            'title' => 'Raid Master: Complete 50,000 Raids'
+        ),
+        '6' => array(
+            'needed' => 25000,
+            'payout' => 30000,
+            'img' => 'raids30k',
+            'title' => 'Raid Master: Complete 25,000 Raids'
+        ),
+        '5' => array(
+            'needed' => 10000,
+            'payout' => 10000,
+            'img' => 'raids10k',
+            'title' => 'Raid Master: Complete 10,000 Raids'
+        ),
+        '4' => array(
+            'needed' => 5000,
+            'payout' => 5000,
+            'img' => 'raids5k',
+            'title' => 'Raid Master: Complete 5,000 Raids'
+        ),
+        '3' => array(
+            'needed' => 1000,
+            'payout' => 3000,
+            'img' => 'raids1k',
+            'title' => 'Raid Master: Complete 1,000 Raids'
+        ),
+        '2' => array(
+            'needed' => 100,
+            'payout' => 2000,
+            'img' => 'raids100',
+            'title' => 'Raid Master: Complete 100 Raids'
+        ),
+        '1' => array(
+            'needed' => 10,
+            'payout' => 1000,
+            'img' => 'raids10',
+            'title' => 'Raid Master: Complete 10 Raids'
+        )
+    );
+
+    return $badges;
+}

@@ -431,6 +431,7 @@ $bustbadge = array(
     )
 );
 $missionBadges = getMissionBadges();
+$raidBadges = getRaidBadges();
 
 ?>
 
@@ -567,6 +568,24 @@ $missionBadges = getMissionBadges();
 
                 $user_class->addPoints($user_class->id, $badgers['payout']);
                 $badgesclaimedex[7] = $number;
+
+                Send_Event(2, $user_class->id . ' claimed missions ' . $number, 2);
+            }
+        }
+        foreach ($raidBadges as $number => $badgers) {
+            $raidsCount = $user_class->raidwins;
+
+            if ($raidsCount >= $badgers['needed'] && $badgesclaimedex[8] == $number - 1) {
+                $somethingClaimed = true;
+
+                echo "
+                    <div class='alert alert-success'>
+                        You have successfully claimed " . number_format($badgers['payout'], 0) . " points for reaching " . prettynum($badgers['needed']) . " raids.
+                    </div>
+                ";
+
+                $user_class->addPoints($user_class->id, $badgers['payout']);
+                $badgesclaimedex[8] = $number;
 
                 Send_Event(2, $user_class->id . ' claimed missions ' . $number, 2);
             }
