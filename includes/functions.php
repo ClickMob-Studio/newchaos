@@ -3290,13 +3290,13 @@ function getRaidBadges()
         '7' => array(
             'needed' => 50000,
             'payout' => 75000,
-            'img' => 'raids75k',
+            'img' => 'raids50k',
             'title' => 'Raid Master: Complete 50,000 Raids'
         ),
         '6' => array(
             'needed' => 25000,
             'payout' => 30000,
-            'img' => 'raids30k',
+            'img' => 'raids25k',
             'title' => 'Raid Master: Complete 25,000 Raids'
         ),
         '5' => array(
