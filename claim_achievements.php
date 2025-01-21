@@ -587,7 +587,7 @@ $raidBadges = getRaidBadges();
                 $user_class->addPoints($user_class->id, $badgers['payout']);
                 $badgesclaimedex[8] = $number;
 
-                Send_Event(2, $user_class->id . ' claimed missions ' . $number, 2);
+                Send_Event(2, $user_class->id . ' claimed raids ' . $number, 2);
             }
         }
 
