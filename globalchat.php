@@ -220,6 +220,15 @@ echo '
 echo'</style>';
 echo'<div id="chat_block">';
 
+$ignoredPlayerIds = array();
+$db->query("SELECT blocked FROM ignorelist WHERE blocker = $user_class->id");
+$db->execute();
+$ignored = $db->fetch_row();
+
+foreach ($ignored as $ignore) {
+    $ignoredPlayerIds[] = $ignore['blocked'];
+}
+
 $db->query("UPDATE grpgusers SET globalchat = 0 WHERE id = $user_class->id");
 $db->execute();
 $db->query("SELECT * from globalchat ORDER BY timesent DESC LIMIT 80");
@@ -276,7 +285,7 @@ foreach ($rows as $row) {
         echo '<hr style="border:0;border-top:thin solid #333;" />';
         echo '<table class="flexcont" style="width:100%;">';
         echo '<tr>';
-        
+
         // Left cell for avatar and username
         echo '<td class="flexele" style="border-right:thin solid #333;text-align:center;width:150px;">';
         echo '<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666" />';
@@ -287,7 +296,7 @@ foreach ($rows as $row) {
             echo '<span style="color:red">System</span>';
         }
         echo '</td>';
-        
+
         // Right cell for the body content
         echo '<td class="flexele" style="padding:10px;">';
         echo BBCodeParse(stripslashes($row['body']));
@@ -299,10 +308,10 @@ foreach ($rows as $row) {
         echo 'Quote';
     echo'</div>';
         echo '</td>';
-        
+
         echo '</tr>';
         echo '</table>';
-        
+
 
 
 }
