@@ -53,7 +53,21 @@ if (isset($_POST['msg'])) {
 	$db->execute(array(
 		$user_class->id
 	));
-	$db->query("SELECT * FROM globalchat WHERE id > ? AND playerid <> ? ORDER BY timesent");
+
+    $ignoredPlayerIds = array();
+    $db->query("SELECT blocked FROM ignorelist WHERE blocker = $user_class->id");
+    $db->execute();
+    $ignored = $db->fetch_row();
+
+    foreach ($ignored as $ignore) {
+        $ignoredPlayerIds[] = $ignore['blocked'];
+    }
+
+    if (count($ignoredPlayerIds)) {
+        $db->query("SELECT * FROM globalchat WHERE id > ? AND playerid <> ? AND playerid NOT IN (" . implode(',', $ignoredPlayerIds) . ") ORDER BY timesent DESC LIMIT 80");
+    } else {
+        $db->query("SELECT * FROM globalchat WHERE id > ? AND playerid <> ? ORDER BY timesent");
+    }
 	$db->execute(array(
 		$_GET['lastID'],
 		$user_class->id
