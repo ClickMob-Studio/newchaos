@@ -231,7 +231,12 @@ foreach ($ignored as $ignore) {
 
 $db->query("UPDATE grpgusers SET globalchat = 0 WHERE id = $user_class->id");
 $db->execute();
-$db->query("SELECT * from globalchat ORDER BY timesent DESC LIMIT 80");
+if (count($ignoredPlayerIds)) {
+    $db->query("SELECT * FROM globalchat WHERE playerid NOT IN (" . implode(',', $ignoredPlayerIds) . ") ORDER BY timesent DESC LIMIT 80");
+} else {
+    $db->query("SELECT * FROM globalchat ORDER BY timesent DESC LIMIT 80");
+}
+//$db->query("SELECT * from globalchat ORDER BY timesent DESC LIMIT 80");
 $rows = $db->fetch_row();
 foreach ($rows as $row) {
 
