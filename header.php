@@ -1701,6 +1701,12 @@ if ($tempItemUse['double_gym_time'] > $time) {
     $messages[] = 'Double Gym: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
 }
 
+// Love Potion
+if ($tempItemUse['love_potion_time'] > $time) {
+    $rtn = howlongtil($tempItemUse['love_potion_time']);
+    $messages[] = 'Love Potion: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+}
+
 
     // Jail
 if ($user_class->jail > $time) {
