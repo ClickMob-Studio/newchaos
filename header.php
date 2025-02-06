@@ -1702,8 +1702,8 @@ if ($tempItemUse['double_gym_time'] > $time) {
 }
 
 // Love Potion
-if ($tempItemUse['love_potion_time'] > $time) {
-    $rtn = howlongtil($tempItemUse['love_potion_time']);
+if ($tempItemUse['love_potions_time'] > $time) {
+    $rtn = howlongtil($tempItemUse['love_potions_time']);
     $messages[] = 'Love Potion: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
 }
 
