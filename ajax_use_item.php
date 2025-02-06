@@ -607,6 +607,20 @@ if (isset($_GET['use'])) {
                 $response['success'] = true;
                 $response['message'] = "You open your new year box and inside find 1,000,000 points, $1,250,000,000, 1 x Protein Bar, 1 x Gym Super Pill, 1 x Double Gym Injection, 1 x Sound System, 5 x Gold Rush Token Chest & 5 x Mission Passes!";
                 break;
+            case 322:
+                $tempItemUse = getItemTempUse($user_class->id);
+                $now = time();
+                if ($tempItemUse['love_potions_time'] > $now) {
+                    $response['message'] = 'You already have a Love Potion active.';
+                    echo json_encode($response);
+                    exit;
+                }
+                $newTime = $now + 120;
+                addItemTempUse($user_class, 'love_potions_time', $newTime);
+
+                $response['success'] = true;
+                $response['message'] = "Your attacks for the next two minutes won't cost any energy!";
+                break;
             default:
                 $response['message'] = "Item not recognized or cannot be used.";
                 break;
