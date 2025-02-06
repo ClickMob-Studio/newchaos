@@ -46,7 +46,7 @@ if (!empty($_GET['id'])) {
     elseif ($chance <= $successchance) {
         if (isset($user_class->completeUserResearchTypesIndexedOnId[41])) {
             $money = $row['nerve'] * 100;
-            mysql_query("UPDATE pets SET exp = exp + $exp, money = money + {$money}, nerve = nerve - {$row['nerve']} WHERE userid = $user_class->id");
+            mysql_query("UPDATE pets SET exp = exp + {$exp}, money = money + {$money}, nerve = nerve - {$row['nerve']} WHERE userid = $user_class->id");
             addToPetladder($pet_class->id, 'exp', $exp);
             echo Message("Your pet successfully managed to {$row['name']}<br />Your pet received $exp exp & you gained ${$money}.<br /><br /><a href='petcrime.php?id={$_GET['id']}'>Retry</a> | <a href='petcrime.php'>Back</a>");
         } else {
