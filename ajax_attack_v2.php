@@ -121,7 +121,7 @@ $modifier = ($user_class->rmdays > 0) ? 0.2 : 0.25;
 $energyneeded = floor($user_class->maxenergy * $modifier);
 
 $tempItemUse = getItemTempUse($user_class->id);
-if ($tempItemUse['love_potion_time'] > time()) {
+if ($tempItemUse['love_potions_time'] > time()) {
     $energyneeded = 0;
 }
 
