@@ -621,6 +621,14 @@ if (isset($_GET['use'])) {
                 $response['success'] = true;
                 $response['message'] = "Your attacks for the next two minutes won't cost any energy!";
                 break;
+            case 324:
+                $tempItemUse = getItemTempUse($user_class->id);
+
+                addItemTempUse($user_class, 'perfume', 1);
+
+                $response['success'] = true;
+                $response['message'] = "You spray your perfume and feel fantastic! You'll earn double EXP from your next mission!";
+                break;
             default:
                 $response['message'] = "Item not recognized or cannot be used.";
                 break;
