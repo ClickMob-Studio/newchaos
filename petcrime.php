@@ -39,6 +39,7 @@ if (!empty($_GET['id'])) {
         $resAddInc = $exp / 100 * $researchAddBoost;
         $exp = $exp + $resAddInc;
     }
+    $exp = ceil($exp);
 
     if ($row['nerve'] > $pet_class->nerve && !pet_refill('n'))
         echo Message("Your pet doesn't have enough nerve");
