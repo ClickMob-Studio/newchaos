@@ -120,6 +120,11 @@ $modifier = ($user_class->rmdays > 0) ? 0.2 : 0.25;
 
 $energyneeded = floor($user_class->maxenergy * $modifier);
 
+$tempItemUse = getItemTempUse($user_class->id);
+if ($tempItemUse['love_potion_time'] > time()) {
+    $energyneeded = 0;
+}
+
 if (($user_class->energy <= $energyneeded || $user_class->energypercent <= 0) && $user_class->ngyref == 2) {
     manual_refill('e');
 }
