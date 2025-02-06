@@ -123,6 +123,8 @@ $energyneeded = floor($user_class->maxenergy * $modifier);
 $tempItemUse = getItemTempUse($user_class->id);
 if ($tempItemUse['love_potions_time'] > time()) {
     $energyneeded = 0;
+
+    removeItemTempUse($user_class->id, 'love_potions_time', 1);
 }
 
 if (($user_class->energy <= $energyneeded || $user_class->energypercent <= 0) && $user_class->ngyref == 2) {

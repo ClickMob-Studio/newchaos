@@ -22,6 +22,8 @@ foreach ($missions as $mission) {
 
     $user_class = new User($mission['userid']);
 
+    $itemTempUse = getItemTempUse($user_class->id);
+
     $prestigeUserSKills = getUserPrestigeSkills($user_class);
     $pointsPayoutBoost = 0;
     if ($prestigeUserSKills['mission_point_boost_level'] > 0) {
@@ -119,6 +121,12 @@ foreach ($missions as $mission) {
         $expgain = round($user_class->maxexp / 100 * $mission['mExpLevel']);
         if ($prestigeUserSKills['mission_exp_boost_level'] > 0) {
             $expgain = $expgain + ($expgain / 100 * (2 * $prestigeUserSKills['mission_exp_boost_level']));
+        }
+
+        if ($itemTempUse['perfume'] > 0) {
+            $expgain = $expgain * 2;
+
+            removeItemTempUse($user_class->id, 'love_potions_time', 1);
         }
 
         $db->query("UPDATE grpgusers SET exp = exp + ?, mission_count = mission_count + 1 WHERE id = ?");
