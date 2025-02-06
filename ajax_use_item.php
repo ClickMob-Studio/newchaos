@@ -629,6 +629,21 @@ if (isset($_GET['use'])) {
                 $response['success'] = true;
                 $response['message'] = "You spray your perfume and feel fantastic! You'll earn double EXP from your next mission!";
                 break;
+            case 326:
+                $db->query("UPDATE grpgusers SET points = points + 1200000, bank = bank + 1500000000 WHERE id = " . $user_class->id);
+                $db->execute();
+
+                Give_Item(305, $user_class->id, 1); // Double Gym Injection
+                Give_Item(325, $user_class->id, 1); // Love Heart Bed
+                Give_Item(277, $user_class->id, 5); // Mission Passes
+                Give_Item(283, $user_class->id, 5); // Gold Rush Token Chest
+                Give_Item(322, $user_class->id, 5); // Love Heart Potion
+                Give_Item(324, $user_class->id, 5); // Perfume
+
+
+                $response['success'] = true;
+                $response['message'] = "You open your new year box and inside find 1,w00,000 points, $1,500,000,000, 1 x Double Gym Injection, 1 x Love Heart Bed, 5 x Gold Rush Token Chest, 5 x Mission Passes, 5 x Love Heart Potions & 5 x Perfumes!";
+                break;
             default:
                 $response['message'] = "Item not recognized or cannot be used.";
                 break;
