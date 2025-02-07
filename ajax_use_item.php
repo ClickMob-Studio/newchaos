@@ -642,7 +642,7 @@ if (isset($_GET['use'])) {
 
 
                 $response['success'] = true;
-                $response['message'] = "You open your new year box and inside find 1,w00,000 points, $1,500,000,000, 1 x Double Gym Injection, 1 x Love Heart Bed, 5 x Gold Rush Token Chest, 5 x Mission Passes, 5 x Love Heart Potions & 5 x Perfumes!";
+                $response['message'] = "You open your new year box and inside find 1,200,000 points, $1,500,000,000, 1 x Double Gym Injection, 1 x Love Heart Bed, 5 x Gold Rush Token Chest, 5 x Mission Passes, 5 x Love Heart Potions & 5 x Perfumes!";
                 break;
             default:
                 $response['message'] = "Item not recognized or cannot be used.";
