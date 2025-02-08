@@ -477,6 +477,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
             $maxnervePercCheck = $mission_nerve / $user_class->maxnerve * 100;
             if ($maxnervePercCheck >= 50) {
                 addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
+                addToRelCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
             }
             //addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
 
@@ -485,6 +486,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
             $activityContest = $db->fetch_row(true);
             if ($activityContest['type'] == 'crimes') {
                 addToUserCompLeaderboard($user_class->id, 'activity_complete', $crime_multiplier);
+                addToRelCompLeaderboard($user_class->id, 'activity_complete', $crime_multiplier);
             }
 
             addToGangCompLeaderboard($user_class->gang, 'crimes_complete', $crime_multiplier);

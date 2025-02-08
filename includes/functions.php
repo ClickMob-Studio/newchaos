@@ -2301,21 +2301,6 @@ function getUserCompLeaderboard($userId)
     }
 }
 
-function geRelCompLeaderboard($userId)
-{
-    global $db;
-
-    $db->query("SELECT * FROM rel_comp_leaderboard WHERE (user_id = " . $userId . " OR two_user_id = " . $userId . ") LIMIT 1");
-    $db->execute();
-    $r = $db->fetch_row();
-
-    if (isset($r[0]['id'])) {
-        return $r[0];
-    }
-
-    return false;
-}
-
 function addToUserCompLeaderboard($userId, $field, $value)
 {
     global $db;
@@ -2334,6 +2319,40 @@ function addToUserCompLeaderboard($userId, $field, $value)
         $db->query("INSERT INTO `user_comp_leaderboard` (`user_id`, `" . $dailyField . "`, `" . $weeklyField . "`) VALUES (" . $userId .", " . $value . ", " . $value . ")");
         $db->execute();
     }
+}
+
+function geRelCompLeaderboard($userId)
+{
+    global $db;
+
+    $db->query("SELECT * FROM rel_comp_leaderboard WHERE (user_id = " . $userId . " OR two_user_id = " . $userId . ") LIMIT 1");
+    $db->execute();
+    $r = $db->fetch_row();
+
+    if (isset($r[0]['id'])) {
+        return $r[0];
+    }
+
+    return false;
+}
+
+function addToRelCompLeaderboard($userId, $field, $value)
+{
+    global $db;
+
+    $dailyField = 'daily_' . $field;
+    $weeklyField = 'overall_' . $field;
+
+    $db->query("SELECT `id` FROM `rel_comp_leaderboard` WHERE (`user_id` = " . $userId . " OR `two_user_id` = " . $userId . ") LIMIT 1");
+    $db->execute();
+    $gclId = $db->fetch_single();
+
+    if ($gclId) {
+        $db->query("UPDATE `rel_comp_leaderboard` SET `" . $dailyField ."` = `" . $dailyField ."` + " . $value . ", `" . $weeklyField ."` = `" . $weeklyField ."` + " . $value . " WHERE user_id = " . $userId);
+        $db->execute();
+    }
+
+    return null;
 }
 
 function addCountTracking($userId)
