@@ -3,7 +3,7 @@
 include 'header.php';
 
 
-$db->query("SELECT * FROM gprgusers WHERE relationship > 0 AND relplayer > 0");
+$db->query("SELECT * FROM grpgusers WHERE relationship > 0 AND relplayer > 0");
 $rows = $db->fetch_row();
 
 $usersComplete = array();
