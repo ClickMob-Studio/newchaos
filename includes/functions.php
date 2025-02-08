@@ -2301,6 +2301,21 @@ function getUserCompLeaderboard($userId)
     }
 }
 
+function geRelCompLeaderboard($userId)
+{
+    global $db;
+
+    $db->query("SELECT * FROM rel_comp_leaderboard WHERE (user_id = " . $userId . " OR two_user_id = " . $userId . ") LIMIT 1");
+    $db->execute();
+    $r = $db->fetch_row();
+
+    if (isset($r[0]['id'])) {
+        return $r[0];
+    }
+
+    return false;
+}
+
 function addToUserCompLeaderboard($userId, $field, $value)
 {
     global $db;
