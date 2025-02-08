@@ -122,11 +122,15 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
             } else {
                 $prizesClaimed[] = 'ba';
 
-                $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE gang_id = " . $user_class->gang);
+                $db->query("UPDATE rel_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE id = " . $relCompLeaderboard['id']);
                 $db->execute();
 
-                Give_Item(263, $user_class->id, 1);
-                $db->query("UPDATE grpgusers SET points = points + 200000 WHERE id = " . $user_class->id);
+                Give_Item(325, $relCompLeaderboard['user_id'], 3);
+                $db->query("UPDATE grpgusers SET points = points + 100000 WHERE id = " . $relCompLeaderboard['user_id']);
+                $db->execute();
+
+                Give_Item(325, $relCompLeaderboard['two_user_id'], 3);
+                $db->query("UPDATE grpgusers SET points = points + 100000 WHERE id = " . $relCompLeaderboard['two_user_id']);
                 $db->execute();
 
                 $resMes = 'You have successfully claimed your rewards for completing the BA mission.';
