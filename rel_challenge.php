@@ -4,7 +4,7 @@ include 'header.php';
 if ($user_class->admin < 1) {
     //exit;
 }
-$relCompLeaderboard = getRelCompLeaderboard($user_class->id);
+$relCompLeaderboard = geRelCompLeaderboard($user_class->id);
 
 $prizesClaimed = unserialize($relCompLeaderboard['serialised_prizes_claimed']);
 if (!$prizesClaimed || $prizesClaimed == '') {
