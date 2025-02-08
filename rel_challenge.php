@@ -347,7 +347,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 </td>
                 <td>
                     <center>
-                        <?php if (!in_array('mugs', $prizesClaimed) && $relCompLeaderboard['overall_ba_complete'] >= 40000): ?>
+                        <?php if (!in_array('ba', $prizesClaimed) && $relCompLeaderboard['overall_ba_complete'] >= 40000): ?>
                             <a class="btn btn-success" href="rel_challenge.php?claim_prize=ba">Claim Prize</a>
                         <?php endif; ?>
 
