@@ -171,6 +171,7 @@ try {
             $activityContest = $db->fetch_row(true);
             if ($activityContest['type'] == 'mugs') {
                 addToUserCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
+                addToRelCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
             }
 
             if ($mugamount < 1) {

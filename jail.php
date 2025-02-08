@@ -180,6 +180,7 @@ if ($jailbreak != ""){
                         $activityContest = $db->fetch_row(true);
                         if ($activityContest['type'] == 'busts') {
                             addToUserCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
+                            addToRelCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
                         }
 
                         //header('Location: jail.php');

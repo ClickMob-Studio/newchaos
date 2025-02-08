@@ -197,6 +197,7 @@ if ($user_class->gang != 0){
             $activityContest = $db->fetch_row(true);
             if ($activityContest['type'] == 'mugs') {
                 addToUserCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
+                addToRelCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
             }
         }
     } else {

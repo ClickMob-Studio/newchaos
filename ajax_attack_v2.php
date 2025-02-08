@@ -569,6 +569,7 @@ if ($theirhp <= 0) {
     $activityContest = $db->fetch_row(true);
     if ($activityContest['type'] == 'attacks') {
         addToUserCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
+        addToRelCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
     }
 
     $count = count($rtn);

@@ -62,8 +62,8 @@ if ($user_class->id != 0) {
     $error = ($user_class->hospital > 0) ? "You can't attack someone if you are in hospital." : $error;
     $error = ($_GET['attack'] == "") ? "You didn't choose someone to attack." : $error;
     $error = ($_GET['attack'] == $user_class->id) ? "You can't attack yourself." : $error;
-    
-    
+
+
     $currentTime = time();
 $oneHourAgo = $currentTime - 3600; // 3600 seconds = 1 hour
 
@@ -105,19 +105,19 @@ if ($user_class->aprotection != 0) {
         $attack_person->moddedstrength = rand(750 * (($attack_person->id - 404) / 10), 2200 * (($attack_person->id - 404) / 10));
         $attack_person->moddeddefense = rand(750 * (($attack_person->id - 404) / 10), 2200 * (($attack_person->id - 404) / 10));
         $attack_person->moddedspeed = rand(750 * (($attack_person->id - 404) / 10), 2200 * (($attack_person->id - 404) / 10));
-     
+
         $user_class->moddedstrength = rand(1000, 5000);
         $user_class->moddeddefense = rand(1000, 5000);
         $user_class->moddedspeed = rand(1000, 5000);
     }
     $error = ($user_class->hospital > 0) ? "You can't attack someone if you are in hospital." : $error;
-  
+
     $error = ($user_class->jail > 0 && $attack_person->jail == 0) ? "You can't attack someone if you are in prison." : $error;
     $error = ($attack_person->jail > 0 && $user_class->jail == 0) ? "You can't attack someone that is in prison." : $error;
     $error = ($attack_person->city != $user_class->city && $user_class->id != 0) ? "You must be in the same city as the person you're attacking!" : $error;
     $error = ($attack_person->username == "") ? "That person doesn't exist." : $error;
     $error = ($attack_person->hospital > 0  && !$throneAttack) ? "You can't attack someone that is in hospital." : $error;
-   
+
     $error = ($attack_person->hppercent < 25) ? "They need over 25% HP to be attacked." : $error;
     $error = ($attack_person->admin == 1 && $user_class->admin < 1) ? "Im sorry, You cannot attack the owner" : $error;
     $error = ($attack_person->id == $user_class->id) ? "Why would you want to attack yourself?" : $error;
@@ -278,9 +278,9 @@ if ($theirhp <= 0) {
     $expwon = floor($expwon);
     $theirhp = 0;
 
-    
-    
-    
+
+
+
   $db->query("SELECT `name` FROM cities WHERE `id` = ".$user_class->city);
   $db->execute();
 $cityn = $db->fetch_row(true);
@@ -411,7 +411,7 @@ $city = mysql_real_escape_string($user_class->city);
             }
         } else if ($attackedKey !== false && $winnerKey === false) { // attacked person is on ladder but winner is not
             $db->query("UPDATE `attackladder` SET `user` = ?, last_attack = ? WHERE `spot` = ?");
-            $db->execute([$winner, time(), $attackLadder[$attackedKey]['spot']]);            
+            $db->execute([$winner, time(), $attackLadder[$attackedKey]['spot']]);
             Send_Event($attack_person->id, "[-_USERID_-] You've been knocked from your place in the Attack Ladder ", $attack_person->id);
         }
     }
@@ -419,7 +419,7 @@ $city = mysql_real_escape_string($user_class->city);
 
     $db->query("UPDATE `attackladder` SET `last_attack` = ? WHERE `user` = ?");
     $db->execute([time(), $winner]);
- 
+
     bloodbath('defendlost', $attack_person->id);
     bloodbath('attackswon', $user_class->id);
     $toadd = array('kotd' => 1);
@@ -457,6 +457,7 @@ $city = mysql_real_escape_string($user_class->city);
     $activityContest = $db->fetch_row(true);
     if ($activityContest['type'] == 'attacks') {
         addToUserCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
+        addToRelCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
     }
 
     Send_Event($attack_person->id, "[-_USERID_-] attacked you and won! They gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".", $user_class->id);
@@ -481,9 +482,9 @@ $city = mysql_real_escape_string($user_class->city);
         //             $user_class->gang
         // ));
     }
-    
-    
-   
+
+
+
    mission('k');
     newmissions('kills');
     updateGangActiveMission('kills', 1);
