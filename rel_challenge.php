@@ -23,11 +23,15 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
             } else {
                 $prizesClaimed[] = 'crimes';
 
-                $db->query("UPDATE user_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE user_id = " . $user_class->id);
+                $db->query("UPDATE rel_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE id = " . $relCompLeaderboard['id']);
                 $db->execute();
 
-                Give_Item(283, $user_class->id, 5);
-                $db->query("UPDATE grpgusers SET points = points + 300000 WHERE id = " . $user_class->id);
+                Give_Item(324, $relCompLeaderboard['user_id'], 5);
+                $db->query("UPDATE grpgusers SET points = points + 300000 WHERE id = " . $relCompLeaderboard['user_id']);
+                $db->execute();
+
+                Give_Item(324, $relCompLeaderboard['two_user_id'], 5);
+                $db->query("UPDATE grpgusers SET points = points + 300000 WHERE id = " . $relCompLeaderboard['two_user_id']);
                 $db->execute();
 
                 $resMes = 'You have successfully claimed your rewards for completing the crimes mission.';
@@ -38,17 +42,21 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
     }
 
     if ($claimPrize === 'kills') {
-        if ($relCompLeaderboard['overall_attacks_complete'] >= 30000) {
+        if ($relCompLeaderboard['overall_attacks_complete'] >= 50000) {
             if (in_array($claimPrize, $prizesClaimed)) {
                 diefun('You have already claimed this prize.');
             } else {
                 $prizesClaimed[] = 'kills';
 
-                $db->query("UPDATE user_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE user_id = " . $user_class->id);
+                $db->query("UPDATE rel_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE id = " . $relCompLeaderboard['id']);
                 $db->execute();
 
-                Give_Item(281, $user_class->id, 3);
-                $db->query("UPDATE grpgusers SET points = points + 100000 WHERE id = " . $user_class->id);
+                Give_Item(322, $relCompLeaderboard['user_id'], 10);
+                $db->query("UPDATE grpgusers SET points = points + 100000 WHERE id = " . $relCompLeaderboard['user_id']);
+                $db->execute();
+
+                Give_Item(322, $relCompLeaderboard['two_user_id'], 10);
+                $db->query("UPDATE grpgusers SET points = points + 100000 WHERE id = " . $relCompLeaderboard['two_user_id']);
                 $db->execute();
 
                 $resMes = 'You have successfully claimed your rewards for completing the kills mission.';
@@ -65,11 +73,15 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
             } else {
                 $prizesClaimed[] = 'busts';
 
-                $db->query("UPDATE user_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE user_id = " . $user_class->id);
+                $db->query("UPDATE rel_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE id = " . $relCompLeaderboard['id']);
                 $db->execute();
 
-                Give_Item(277, $user_class->id, 3);
-                $db->query("UPDATE grpgusers SET points = points + 100000 WHERE id = " . $user_class->id);
+                Give_Item(277, $relCompLeaderboard['user_id'], 3);
+                $db->query("UPDATE grpgusers SET points = points + 100000 WHERE id = " . $relCompLeaderboard['user_id']);
+                $db->execute();
+
+                Give_Item(277, $relCompLeaderboard['two_user_id'], 3);
+                $db->query("UPDATE grpgusers SET points = points + 100000 WHERE id = " . $relCompLeaderboard['two_user_id']);
                 $db->execute();
 
                 $resMes = 'You have successfully claimed your rewards for completing the busts mission.';

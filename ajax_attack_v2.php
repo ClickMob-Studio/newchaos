@@ -557,6 +557,7 @@ if ($theirhp <= 0) {
 
     // UserCompLeaderboard
     addToUserCompLeaderboard($user_class->id, 'attacks_complete', 1);
+    addToRelCompLeaderboard($user_class->id, 'attacks_complete', 1);
     addToGangCompLeaderboard($user_class->gang, 'attacks_complete', 1);
     $bpCategory = getBpCategory();
     if ($bpCategory) {

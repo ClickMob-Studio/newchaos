@@ -206,6 +206,7 @@ if ($bpCategory) {
 }
 
 addToUserCompLeaderboard($user_class->id, 'ba_complete', 1);
+addToRelCompLeaderboard($user_class->id, 'ba_complete', 1);
 
 $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
 $db->execute();

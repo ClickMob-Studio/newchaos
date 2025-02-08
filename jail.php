@@ -175,6 +175,7 @@ if ($jailbreak != ""){
                         }
 
                         addToUserCompLeaderboard($user_class->id, 'busts_complete', 1);
+                        addToRelCompLeaderboard($user_class->id, 'busts_complete', 1);
                         $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
                         $db->execute();
                         $activityContest = $db->fetch_row(true);

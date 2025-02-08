@@ -165,6 +165,7 @@ try {
                 addToBpCategoryUser($bpCategory, $user_class, 'mugs', $compQty);
             }
             addToUserCompLeaderboard($user_class->id, 'mugs_complete', $compQty);
+            addToRelCompLeaderboard($user_class->id, 'mugs_complete', $compQty);
 
             $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
             $db->execute();
