@@ -98,11 +98,15 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
             } else {
                 $prizesClaimed[] = 'mugs';
 
-                $db->query("UPDATE user_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE user_id = " . $user_class->id);
+                $db->query("UPDATE rel_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE id = " . $relCompLeaderboard['id']);
                 $db->execute();
 
-                Give_Item(276, $user_class->id, 3);
-                $db->query("UPDATE grpgusers SET points = points + 100000 WHERE id = " . $user_class->id);
+                Give_Item(276, $relCompLeaderboard['user_id'], 3);
+                $db->query("UPDATE grpgusers SET points = points + 100000 WHERE id = " . $relCompLeaderboard['user_id']);
+                $db->execute();
+
+                Give_Item(276, $relCompLeaderboard['two_user_id'], 3);
+                $db->query("UPDATE grpgusers SET points = points + 100000 WHERE id = " . $relCompLeaderboard['two_user_id']);
                 $db->execute();
 
                 $resMes = 'You have successfully claimed your rewards for completing the mugs mission.';
@@ -111,26 +115,26 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
             diefun('You have not earned the prize yet.');
         }
     }
-//    if ($claimPrize === 'ba') {
-//        if ($gangCompLeaderboard['weekly_ba_complete'] >= 125000) {
-//            if (in_array($claimPrize, $prizesClaimed)) {
-//                diefun('You have already claimed this prize.');
-//            } else {
-//                $prizesClaimed[] = 'ba';
-//
-//                $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE gang_id = " . $user_class->gang);
-//                $db->execute();
-//
-//                Give_Item(263, $user_class->id, 1);
-//                $db->query("UPDATE grpgusers SET points = points + 200000 WHERE id = " . $user_class->id);
-//                $db->execute();
-//
-//                $resMes = 'You have successfully claimed your rewards for completing the BA mission.';
-//            }
-//        } else {
-//            diefun('You have not earned the prize yet.');
-//        }
-//    }
+    if ($claimPrize === 'ba') {
+        if ($gangCompLeaderboard['weekly_ba_complete'] >= 125000) {
+            if (in_array($claimPrize, $prizesClaimed)) {
+                diefun('You have already claimed this prize.');
+            } else {
+                $prizesClaimed[] = 'ba';
+
+                $db->query("UPDATE gang_comp_leaderboard SET serialised_prizes_claimed = '" . serialize($prizesClaimed) . "' WHERE gang_id = " . $user_class->gang);
+                $db->execute();
+
+                Give_Item(263, $user_class->id, 1);
+                $db->query("UPDATE grpgusers SET points = points + 200000 WHERE id = " . $user_class->id);
+                $db->execute();
+
+                $resMes = 'You have successfully claimed your rewards for completing the BA mission.';
+            }
+        } else {
+            diefun('You have not earned the prize yet.');
+        }
+    }
 }
 
 ?>
@@ -185,7 +189,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 </td>
                 <td>
                     <ul>
-                        <li>5 x Gold Rush Token Chests</li>
+                        <li>5 x Perfume</li>
                         <li>300,000 points</li>
                     </ul>
                 </td>
@@ -207,28 +211,28 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 <td>
                     <center>
                         <strong>Kills</strong><br />
-                        Complete 30,000 Kills
+                        Complete 50,000 Kills
                     </center>
                 </td>
                 <td>
                     <?php
-                    $barWidthPer = $relCompLeaderboard['overall_attacks_complete'] / 30000 * 100;
+                    $barWidthPer = $relCompLeaderboard['overall_attacks_complete'] / 50000 * 100;
                     ?>
-                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($relCompLeaderboard['overall_attacks_complete'], 0) ?>/30,000">
+                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($relCompLeaderboard['overall_attacks_complete'], 0) ?>/50,000">
                         <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: <?php echo $barWidthPer ?>%">
-                            <?php echo number_format($relCompLeaderboard['overall_attacks_complete'], 0) ?>/30,000
+                            <?php echo number_format($relCompLeaderboard['overall_attacks_complete'], 0) ?>/50,000
                         </div>
                     </div>
                 </td>
                 <td>
                     <ul>
-                        <li>3 x Gym Super Pills</li>
+                        <li>10 x Love Potions</li>
                         <li>100,000 points</li>
                     </ul>
                 </td>
                 <td>
                     <center>
-                        <?php if (!in_array('kills', $prizesClaimed) && $relCompLeaderboard['overall_attacks_complete'] >= 30000): ?>
+                        <?php if (!in_array('kills', $prizesClaimed) && $relCompLeaderboard['overall_attacks_complete'] >= 50000): ?>
                             <a class="btn btn-success" href="rel_challenge.php?claim_prize=kills">Claim Prize</a>
                         <?php endif; ?>
 
@@ -307,6 +311,43 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                         <?php endif; ?>
 
                         <?php if (in_array('mugs', $prizesClaimed)): ?>
+                            <span style="color: green">Claimed</span>
+                        <?php endif; ?>
+                    </center>
+                </td>
+            </tr>
+
+            <!-- BA -->
+            <tr>
+                <td>
+                    <center>
+                        <strong>Backalley</strong><br />
+                        Complete 40,000 BA Searches
+                    </center>
+                </td>
+                <td>
+                    <?php
+                    $barWidthPer = $relCompLeaderboard['overall_ba_complete'] / 40000 * 100;
+                    ?>
+                    <div class="progress pb-star-holder" style="height:2rem;" role="progressbar" aria-valuenow="<?php echo $barWidthPer ?>%" aria-valuemin="0" aria-valuemax="100" title="<?php echo number_format($relCompLeaderboard['overall_ba_complete'], 0) ?>/40,000">
+                        <div class="progress-bar bg-success pb-star-bar" style="background-color: #ff6218 !important; width: <?php echo $barWidthPer ?>%">
+                            <?php echo number_format($relCompLeaderboard['overall_ba_complete'], 0) ?>/40,000
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <ul>
+                        <li>1 x Heart Bed</li>
+                        <li>100,000 points</li>
+                    </ul>
+                </td>
+                <td>
+                    <center>
+                        <?php if (!in_array('mugs', $prizesClaimed) && $relCompLeaderboard['overall_ba_complete'] >= 40000): ?>
+                            <a class="btn btn-success" href="rel_challenge.php?claim_prize=ba">Claim Prize</a>
+                        <?php endif; ?>
+
+                        <?php if (in_array('ba', $prizesClaimed)): ?>
                             <span style="color: green">Claimed</span>
                         <?php endif; ?>
                     </center>
