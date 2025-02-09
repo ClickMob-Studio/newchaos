@@ -2350,6 +2350,9 @@ function addToRelCompLeaderboard($userId, $field, $value)
     if ($gclId) {
         $db->query("UPDATE `rel_comp_leaderboard` SET `" . $dailyField ."` = `" . $dailyField ."` + " . $value . ", `" . $weeklyField ."` = `" . $weeklyField ."` + " . $value . " WHERE user_id = " . $userId);
         $db->execute();
+
+        $db->query("UPDATE `rel_comp_leaderboard` SET `" . $dailyField ."` = `" . $dailyField ."` + " . $value . ", `" . $weeklyField ."` = `" . $weeklyField ."` + " . $value . " WHERE two_user_id = " . $userId);
+        $db->execute();
     }
 
     return null;
