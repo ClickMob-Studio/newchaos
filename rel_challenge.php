@@ -153,7 +153,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
             <?php endif; ?>
 
             <p>
-                Mobsters, it's time to and show what you and your parnter made of! Complete the missions below and earn the rewards listed!
+                Mobsters, it's time to and show what you and your partner made of! Complete the missions below and earn the rewards listed!
             </p>
 
             <p style="color: red">Challenge Ends February 15, 2025 09:00:00 Server Time</p>
