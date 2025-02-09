@@ -1,9 +1,7 @@
 <?php
 
 include 'header.php';
-if ($user_class->admin < 1) {
-    //exit;
-}
+
 $relCompLeaderboard = geRelCompLeaderboard($user_class->id);
 
 $prizesClaimed = unserialize($relCompLeaderboard['serialised_prizes_claimed']);

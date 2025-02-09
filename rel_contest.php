@@ -1,12 +1,6 @@
 <?php
 include 'header.php';
 
-if ($user_class->admin < 1) {
-    exit;
-}
-
-
-
 $relCompLeaderboard = geRelCompLeaderboard($user_class->id);
 
 $db->query("SELECT * FROM `rel_comp_leaderboard` ORDER BY `daily_activity_complete` DESC LIMIT 15");
