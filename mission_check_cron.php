@@ -137,6 +137,7 @@ foreach ($missions as $mission) {
 
         if ($user_class->admin > 0) {
             Send_event($user_class->id, $mission['mExpLevel']);
+            $expgain = number_format_short($expgain);
             Send_event($user_class->id, "You have completed the {$mission['name']}! [+ $expgain EXP]");
         } else {
             Send_event($user_class->id, "You have completed the {$mission['name']}! [+ $expgain EXP]");
