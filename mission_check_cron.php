@@ -140,6 +140,7 @@ foreach ($missions as $mission) {
             $expgain = number_format_short($expgain);
             Send_event($user_class->id, "You have completed the {$mission['name']}! [+ $expgain EXP]");
         } else {
+            $expgain = number_format_short($expgain);
             Send_event($user_class->id, "You have completed the {$mission['name']}! [+ $expgain EXP]");
         }
 
