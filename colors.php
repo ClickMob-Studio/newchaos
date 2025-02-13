@@ -38,10 +38,10 @@ require "header.php";
         <input type="checkbox" id="glow" />
         </div>
         </div>
-        <button class="apply-btn" onclick="applySettings(); saveGradientSettings()">Apply Gradient</button>
+        <button class="apply-btn" onclick="saveGradientSettings(); saveGradientSettings()">Apply Gradient</button>
     </div>
 
-   
+
 </div>
 
 <script>
@@ -143,7 +143,7 @@ require "header.php";
         let r = parseInt(hex.slice(1, 3), 16);
         let g = parseInt(hex.slice(3, 5), 16);
         let b = parseInt(hex.slice(5, 7), 16);
-        
+
         return { r, g, b };
     }
 
