@@ -3456,3 +3456,101 @@ function getRacketBadges()
 
     return $badges;
 }
+
+function getBackalleyBadges()
+{
+    $badges = array(
+        '15' => array(
+            'needed' => 3000000,
+            'payout' => 350000,
+            'img' => 'backalley3m',
+            'title' => 'Backalley Master: Win 3,000,000 Backalley Wins'
+        ),
+        '14' => array(
+            'needed' => 2750000,
+            'payout' => 300000,
+            'img' => 'backalley2_75m',
+            'title' => 'Backalley Master: Win 2,750,000 Backalley Wins'
+        ),
+        '13' => array(
+            'needed' => 2500000,
+            'payout' => 275000,
+            'img' => 'backalley2_5m',
+            'title' => 'Backalley Master: Win 2,500,000 Backalley Wins'
+        ),
+        '12' => array(
+            'needed' => 2250000,
+            'payout' => 250000,
+            'img' => 'backalley2_25m',
+            'title' => 'Backalley Master: Win 2,250,000 Backalley Wins'
+        ),
+        '11' => array(
+            'needed' => 2000000,
+            'payout' => 200000,
+            'img' => 'backalley2m',
+            'title' => 'Backalley Master: Win 2,000,000 Backalley Wins'
+        ),
+        '10' => array(
+            'needed' => 1500000,
+            'payout' => 175000,
+            'img' => 'backalley1_5m',
+            'title' => 'Backalley Master: Win 1,500,000 Backalley Wins'
+        ),
+        '9' => array(
+            'needed' => 1000000,
+            'payout' => 150000,
+            'img' => 'backalley1m',
+            'title' => 'Backalley Master: Win 1,000,000 Backalley Wins'
+        ),
+        '8' => array(
+            'needed' => 750000,
+            'payout' => 125000,
+            'img' => 'backalley750k',
+            'title' => 'Backalley Master: Win 750,000 Backalley Wins'
+        ),
+        '7' => array(
+            'needed' => 500000,
+            'payout' => 100000,
+            'img' => 'backalley500k',
+            'title' => 'Backalley Master: Win 500,000 Backalley Wins'
+        ),
+        '6' => array(
+            'needed' => 250000,
+            'payout' => 70000,
+            'img' => 'backalley250k',
+            'title' => 'Backalley Master: Win 250,000 Backalley Wins'
+        ),
+        '5' => array(
+            'needed' => 100000,
+            'payout' => 50000,
+            'img' => 'backalley100k',
+            'title' => 'Backalley Master: Win 100,000 Backalley Wins'
+        ),
+        '4' => array(
+            'needed' => 25000,
+            'payout' => 35000,
+            'img' => 'backalley25k',
+            'title' => 'Backalley Master: Win 25,000 Backalley Wins'
+        ),
+        '3' => array(
+            'needed' => 10000,
+            'payout' => 20000,
+            'img' => 'backalley10k',
+            'title' => 'Backalley Master: Win 10,000 Backalley Wins'
+        ),
+        '2' => array(
+            'needed' => 5000,
+            'payout' => 10000,
+            'img' => 'backalley5k',
+            'title' => 'Backalley Master: Win 5,000 Backalley Wins'
+        ),
+        '1' => array(
+            'needed' => 1000,
+            'payout' => 5000,
+            'img' => 'backalley1k',
+            'title' => 'Backalley Master: Win 1,000 Backalley Wins'
+        )
+    );
+
+    return $badges;
+}

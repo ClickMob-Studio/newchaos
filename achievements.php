@@ -425,6 +425,7 @@ $levelbadges = array(
         $missionBadges = getMissionBadges();
         $raidBadges = getRaidBadges();
         $racketBadges = getRacketBadges();
+        $backalleyBadges = getBackalleyBadges();
 ?>
 <div class="contenthead floaty">
 
@@ -444,6 +445,7 @@ $levelbadges = array(
                     echo (isset($user_class->badge9)) ? "<td align='center' style='width:100px;'>" . $user_class->badge9 . "</td>" : "";
                     echo (isset($user_class->badge10)) ? "<td align='center' style='width:100px;'>" . $user_class->badge10 . "</td>" : "";
                     echo (isset($user_class->badge11)) ? "<td align='center' style='width:100px;'>" . $user_class->badge11 . "</td>" : "";
+                    echo (isset($user_class->badge12)) ? "<td align='center' style='width:100px;'>" . $user_class->badge12 . "</td>" : "";
                     ?>
                 </tr>
             </table>
@@ -462,7 +464,8 @@ $achs = array(
 	'<h4>Busts</h4>' => 'bustbadge',
 	'<h4>Missions</h4>' => 'missionBadges',
 	'<h4>Raids</h4>' => 'raidBadges',
-	'<h4>Protection Rackets</h4>' => 'racketBadges'
+	'<h4>Protection Rackets</h4>' => 'racketBadges',
+	'<h4>Backalley</h4>' => 'backalleyBadges'
 );
 foreach($achs as $head => $var){
 	$cur = '';
@@ -509,6 +512,9 @@ foreach($achs as $head => $var){
                 break;
             case 'racketBadges':
                 echo'Successfully complete ' . prettynum($ach['needed']) . ' Protection Racket Wins.';
+                break;
+            case 'backalleyBadges':
+                echo'Successfully complete ' . prettynum($ach['needed']) . ' Backalley Wins.';
                 break;
 		}
 			echo'</td>';

@@ -433,6 +433,7 @@ $bustbadge = array(
 $missionBadges = getMissionBadges();
 $raidBadges = getRaidBadges();
 $racketBadges = getRacketBadges();
+$backalleyBadges = getBackalleyBadges();
 
 ?>
 
@@ -607,6 +608,24 @@ $racketBadges = getRacketBadges();
                 $badgesclaimedex[9] = $number;
 
                 Send_Event(2, $user_class->id . ' claimed rackets ' . $number, 2);
+            }
+        }
+        foreach ($backalleyBadges as $number => $badgers) {
+            $backalleyWins = $user_class->backalleywins;
+
+            if ($backalleyWins >= $badgers['needed'] && $badgesclaimedex[10] == $number - 1) {
+                $somethingClaimed = true;
+
+                echo "
+                    <div class='alert alert-success'>
+                        You have successfully claimed " . number_format($badgers['payout'], 0) . " points for reaching " . prettynum($badgers['needed']) . " backalley wins.
+                    </div>
+                ";
+
+                $user_class->addPoints($user_class->id, $badgers['payout']);
+                $badgesclaimedex[10] = $number;
+
+                Send_Event(2, $user_class->id . ' claimed backalleys ' . $number, 2);
             }
         }
 
