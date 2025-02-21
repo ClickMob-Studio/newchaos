@@ -155,7 +155,7 @@ if (isset($_GET['claim_prize']) && in_array($_GET['claim_prize'], $claimPrizeOpt
                 Once a mission is complete, your gang leader will be able to claim the prize on this page and they will be given the rewards.
             </p>
 
-            <p style="color: red;"><strong>Challenge Ends 14th January at 10am Server Time.</strong></p>
+            <p style="color: red;"><strong>Challenge Ends 28th February at 10am Server Time.</strong></p>
 
             <p>Enjoy!</p>
             <br /><br /><hr />
