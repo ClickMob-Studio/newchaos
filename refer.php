@@ -141,6 +141,9 @@ window.onload = function () {
     <p>
         Referrals are paid out once the player referred hits level 100. If your referral hasn't been paid, please message an admin.
     </p>
+    <p>
+        You also receive a bonus for any credits your referral buys.
+    </p>
 </div>
 
 <div class="rewards-info">
