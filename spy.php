@@ -4,7 +4,7 @@ include 'header.php';
 <div class='box_top'>Mug</div>
 						<div class='box_middle'>
 							<div class='pad'>
-                                
+
     <td class="contentcontent">	<table width="100%">
             <?php
             if ($_GET['id'] != "") {
@@ -21,7 +21,8 @@ include 'header.php';
                         $strength = (rand(0, 1) == 1) ? $spy_class->strength : "Your spy could not find their strength out.";
                         $defense = (rand(0, 1) == 1) ? $spy_class->defense : "Your spy could not find their defense out.";
                         $speed = (rand(0, 1) == 1) ? $spy_class->speed : "Your spy could not find their speed out.";
-                        echo "<b>Your spy found out the following about " . $spy_class->formattedname . ":</b><br /><br /><b>Strength:</b>&nbsp;" . prettynum($strength) . "<br /><b>Defense:</b>&nbsp;" . prettynum($defense) . "<br /><b>Speed:</b>&nbsp;" . prettynum($speed) . "<br /><b>Bank:</b>&nbsp;" . prettynum($bank, 1) . "<br /><b>Points:</b>&nbsp;" . prettynum($points) . "<br /><br /><a href='spylog.php'>View Spylog</a>";
+                        $agility = (rand(0, 1) == 1) ? $spy_class->agility : "Your spy could not find their agility out.";
+                        echo "<b>Your spy found out the following about " . $spy_class->formattedname . ":</b><br /><br /><b>Strength:</b>&nbsp;" . prettynum($strength) . "<br /><b>Defense:</b>&nbsp;" . prettynum($defense) . "<br /><b>Speed:</b>&nbsp;" . prettynum($speed) . "<br /><b>Agility:</b>&nbsp;" . prettynum($agility) . "<br /><b>Bank:</b>&nbsp;" . prettynum($bank, 1) . "<br /><b>Points:</b>&nbsp;" . prettynum($points) . "<br /><br /><a href='spylog.php'>View Spylog</a>";
                         $total = $user_class->money - $cost;
                         $todaysspys = $user_class->todaysspys + 1;
                         bloodbath('spies', $user_class->id);
@@ -41,7 +42,7 @@ include 'header.php';
                         if (!is_numeric($points)) {
                             $points = "-1";
                         }
-                        $result = mysql_query("INSERT INTO `spylog` (`id`, `spyid`, `strength`, `defense`, `speed`, `bank`, `points`, `age`) VALUES ('" . $user_class->id . "', '" . $spy_class->id . "', '" . $strength . "', '" . $defense . "', '" . $speed . "', '" . $bank . "', '" . $points . "', '" . time() . "')");
+                        $result = mysql_query("INSERT INTO `spylog` (`id`, `spyid`, `strength`, `defense`, `speed`, `agiltiy`, `bank`, `points`, `age`) VALUES ('" . $user_class->id . "', '" . $spy_class->id . "', '" . $strength . "', '" . $defense . "', '" . $speed . "', '" . $agility . "', '" . $bank . "', '" . $points . "', '" . time() . "')");
                     }
                 }
             }
