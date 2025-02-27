@@ -199,6 +199,9 @@ $db->execute();
 mission('ba', 1, $user_class, $db);
 $toadd = array('baotd' => 1);
 ofthes($user_class->id, $toadd);
+gangContest(array(
+    'backalley' => 1
+));
 
 $bpCategory = getBpCategory();
 if ($bpCategory) {
