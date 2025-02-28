@@ -1,5 +1,5 @@
 <?php
-
+exit;
 include 'header.php';
 
 $db->query("SELECT * FROM `user_comp_leaderboard` ORDER BY `overall_vampire_teeth` DESC LIMIT 20");

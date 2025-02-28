@@ -74,9 +74,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
                 <h2>Leaderboard</h2>
                 <p><strong>Prizes:</strong></p>
                 <ul>
-                    <li>1st: 200,000 points, 1 x Space Infinity Stone (Ultra Rare), 1 x Mission Pass</li>
-                    <li>2nd: 100,000 points, 1 x Voidglass (Rare)</li>
-                    <li>3rd: 50,000 points</li>
+                    <li>1st: 200,000 points, 1 x Galactic Booster</li>
+                    <li>2nd: 100,000 points, 1 x Dark Matter Core (Rare)</li>
+                    <li>3rd: 50,000 points, 1 x Quantum Coil</li>
                 </ul>
                 <table class="new_table" id="newtables" style="width:100%;">
                     <tr>
