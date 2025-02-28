@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-
+exit;
 if ($user_class->admin < 1) {
     //exit;
 }
