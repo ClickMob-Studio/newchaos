@@ -65,7 +65,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
 
     <p><strong>Your current points:</strong> <?php echo number_format($userCompLeaderboard['overall_raids_complete'], 0); ?></p>
 
-    <p style="color: red">Contest Ends August 04, 2024 19:00:00 Server Time</p>
+    <p style="color: red">Contest Ends March 04, 2025 09:00:00 Server Time</p>
     <hr />
 
     <div class="row">
