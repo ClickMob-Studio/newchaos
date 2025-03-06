@@ -65,6 +65,9 @@ if (isset($_GET['start'])) {
         'backalley_cash',
         'backalley_points',
         'backalley_premium',
+        'raids_cash',
+        'raids_points',
+        'raids_premium',
     );
 
     if (!in_array($_GET['start'], $validOptions)) {
@@ -191,6 +194,15 @@ if (isset($_GET['cancel']) && $_GET['cancel'] == 'yes') {
                     </th>
                     <td>
                         <?php echo number_format($currentUserOperation['backalleys'], 0) ?>/<?php echo number_format($currentOperation['backalleys'], 0) ?>
+                    </td>
+                </tr>
+                <!-- Raids -->
+                <tr>
+                    <th>
+                        Raids
+                    </th>
+                    <td>
+                        <?php echo number_format($currentUserOperation['raids'], 0) ?>/<?php echo number_format($currentOperation['raids'], 0) ?>
                     </td>
                 </tr>
             </table>
@@ -678,7 +690,7 @@ if (isset($_GET['cancel']) && $_GET['cancel'] == 'yes') {
 <!--                --><?php //endforeach; ?>
 <!--            </div>-->
 
-            <h1>Backalley Wins Cash</h1>
+            <h1>Backalley Wins</h1>
             <div class="row">
                 <?php $categories = array('backalley_cash', 'backalley_points', 'backalley_premium'); ?>
 
@@ -730,6 +742,106 @@ if (isset($_GET['cancel']) && $_GET['cancel'] == 'yes') {
 
                                         <?php if ($toUse['backalleys'] > 0): ?>
                                             <?php echo number_format($toUse['backalleys'], 0) ?> Backalley Wins
+                                        <?php endif; ?>
+                                        <hr/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <ul>
+                                            <?php if ($toUse['money_reward'] > 0): ?>
+                                                <li>$<?php echo number_format($toUse['money_reward'], 0) ?></li>
+                                            <?php endif; ?>
+
+                                            <?php if ($toUse['points_reward'] > 0): ?>
+                                                <li><?php echo number_format($toUse['points_reward'], 0) ?> Points</li>
+                                            <?php endif; ?>
+
+                                            <?php if ($toUse['exp_reward'] > 0): ?>
+                                                <li><?php echo number_format($toUse['exp_reward'], 0) ?>% EXP</li>
+                                            <?php endif; ?>
+                                        </ul>
+
+                                        <?php if ($toUse['premium_cost'] > 0): ?>
+                                            <hr />
+                                            <strong>Cost:</strong> <?php echo number_format($toUse['premium_cost'], 0) ?> Credits
+                                            <br/><br/>
+                                        <?php endif; ?>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><a class="dcSecondaryButton" href="user_operations.php?start=<?php echo $category ?>">Start Operation</a></td>
+                                </tr>
+                            <?php else: ?>
+                                <tr>
+                                    <th><?php echo $categoryForDisplay ?></th>
+                                </tr>
+                                <tr>
+                                    <td>Operations Complete</td>
+                                </tr>
+                            <?php endif; ?>
+                        </table>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+            <h1>Raids</h1>
+            <div class="row">
+                <?php $categories = array('raids_cash', 'raids_points', 'raids_premium'); ?>
+
+                <?php foreach ($categories as $category): ?>
+                    <?php
+                    $categoryForDisplay = explode('_', $category);
+                    $categoryForDisplay = join($categoryForDisplay, ' ');
+                    $categoryForDisplay = ucwords($categoryForDisplay);
+                    ?>
+
+                    <div class="col-md-4">
+                        <table class="new_table">
+                            <?php $next = $nextOperationsIndexedOnCategory[$category] ?>
+                            <?php if (isset($indexedOperations[$category][$next])): ?>
+                                <?php $toUse = $indexedOperations[$category][$next]; ?>
+                                <tr>
+                                    <th><?php echo $categoryForDisplay ?></th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <br/>
+                                        <?php if ($toUse['crimes'] > 0): ?>
+                                            <?php echo number_format($toUse['crimes'], 0) ?> Crimes
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['mugs'] > 0): ?>
+                                            <?php echo number_format($toUse['mugs'], 0) ?> Mugs
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['busts'] > 0): ?>
+                                            <?php echo number_format($toUse['busts'], 0) ?> Busts
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['online_attacks'] > 0): ?>
+                                            <?php echo number_format($toUse['online_attacks'], 0) ?> Online Attacks
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['offline_attacks'] > 0): ?>
+                                            <?php echo number_format($toUse['offline_attacks'], 0) ?> Offline Attacks
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['full_energy_trains'] > 0): ?>
+                                            <?php echo number_format($toUse['full_energy_trains'], 0) ?> Full Energy Trains
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['city_boss_wins'] > 0): ?>
+                                            <?php echo number_format($toUse['city_boss_wins'], 0) ?> City Goon Wins
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['backalleys'] > 0): ?>
+                                            <?php echo number_format($toUse['backalleys'], 0) ?> Backalley Wins
+                                        <?php endif; ?>
+
+                                        <?php if ($toUse['raids'] > 0): ?>
+                                            <?php echo number_format($toUse['raids'], 0) ?> Raids
                                         <?php endif; ?>
                                         <hr/>
                                     </td>
