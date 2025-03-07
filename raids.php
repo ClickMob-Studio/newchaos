@@ -169,6 +169,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
         return;
     }
 
+    $check_query = "SELECT *
+                    FROM 
+                        raid_participants
+                    WHERE
+                          user_id = " . $user_id . " AND 
+                          raid_id = " . $raid_id;
+    $check_result = mysql_query($check_query);
+
+    if (mysql_num_rows($check_result) > 0) {
+        echo Message("You are already in a raid!");
+        return;
+    }
+
     // Fetch raid details including raid type and summoner's gang
     $raid_details_query = "SELECT ar.raid_type, ar.summoned_by, g.gang FROM active_raids ar 
                            LEFT JOIN grpgusers g ON ar.summoned_by = g.id 
