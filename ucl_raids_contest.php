@@ -1,9 +1,6 @@
 <?php
 include 'header.php';
 
-if ($user_class->admin < 1) {
-    exit;
-}
 
 date_default_timezone_set('Europe/London'); // This will automatically account for BST as well.
 
