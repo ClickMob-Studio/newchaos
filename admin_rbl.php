@@ -18,8 +18,26 @@ $query = mysql_query("SELECT * FROM `raid_battle_logs` ORDER BY `timestamp` DESC
         </thead>
         <tbody>
         <?php while($res = mysql_fetch_array($query, MYSQL_ASSOC)): ?>
+            <?php
+            $participants_query = "SELECT * FROM raid_participants WHERE raid_id = " . $raid['id'];
+            $participants_result = mysql_query($participants_query);
+            $participants = [];
+            while ($participant = mysql_fetch_assoc($participants_result)) {
+                $participants[] = $participant;
+            }
+            ?>
+
             <tr>
                 <td>
+                    <storng>Participants:</storng>
+                    <?php foreach ($participants as $participant): ?>
+                        <p><?php echo formatName($participant['user_id']) ?></p>
+                    <?php endforeach; ?>
+                    <br />
+
+                    <hr />
+
+                    <strong>Logs:</strong><br />
                     <?php echo $res['battle_log'] ?>
                     <hr />
                 </td>
