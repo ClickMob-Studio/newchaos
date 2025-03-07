@@ -17,17 +17,18 @@ $overallRows = $db->fetch_row();
 
 $milestones = array(
     10 => 2500,
-    50 => 5000,
-    100 => 7500,
-    125 => 10000,
-    150 => 20000,
-    300 => 30000,
-    750 => 50000,
-    1000 => 70000,
-    1250 => 80000,
-    1500 => 100000,
-    2000 => 125000,
-    3000 => 200000
+    100 => 5000,
+    250 => 7500,
+    500 => 10000,
+    750 => 20000,
+    1000 => 30000,
+    1500 => 50000,
+    2000 => 70000,
+    2500 => 80000,
+    3000 => 100000,
+    5000 => 125000,
+    7500 => 200000,
+    10000 => 300000
 );
 
 // MILESTONES
@@ -65,7 +66,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
 
     <p><strong>Your current points:</strong> <?php echo number_format($userCompLeaderboard['overall_raids_complete'], 0); ?></p>
 
-    <p style="color: red">Contest Ends March 04, 2025 09:00:00 Server Time</p>
+    <p style="color: red">Contest Ends March 10, 2025 08:00:00 Server Time</p>
     <hr />
 
     <div class="row">
@@ -74,8 +75,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'milestone' && isset($_GET['ty
                 <h2>Leaderboard</h2>
                 <p><strong>Prizes:</strong></p>
                 <ul>
-                    <li>1st: 200,000 points, 1 x Galactic Booster</li>
-                    <li>2nd: 100,000 points, 1 x Dark Matter Core (Rare)</li>
+                    <li>1st: 300,000 points, 1 x Galactic Booster</li>
+                    <li>2nd: 100,000 points, 1 x Dark Matter Core</li>
                     <li>3rd: 50,000 points, 1 x Quantum Coil</li>
                 </ul>
                 <table class="new_table" id="newtables" style="width:100%;">
