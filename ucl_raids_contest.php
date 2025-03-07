@@ -11,9 +11,6 @@ $targetDateMilliseconds = strtotime('August 04, 2024 08:00:00') * 1000;
 
 $userCompLeaderboard = getUserCompLeaderboard($user_class->id);
 
-$db->query("TRUNCATE TABLE `user_comp_leaderboard`");
-$db->execute();
-
 $db->query("SELECT * FROM `user_comp_leaderboard` ORDER BY `overall_raids_complete` DESC LIMIT 15");
 $db->execute();
 $overallRows = $db->fetch_row();
