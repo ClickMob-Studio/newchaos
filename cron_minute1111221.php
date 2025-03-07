@@ -345,7 +345,7 @@ if ($raid_successful) {
             $raidUser = new User($participant['user_id']);
 
             addToUserCompLeaderboard($participant['user_id'], 'raids_complete', 1);
-//            addToUserOperations($raidUser, 'raids', 1);
+            addToUserOperations($raidUser, 'raids', 1);
 
             $currentQuestSeason = getCurrentQuestSeasonForUser($participant['user_id']);
             if (isset($currentQuestSeason['id'])) {
