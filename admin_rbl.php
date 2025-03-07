@@ -19,7 +19,7 @@ $query = mysql_query("SELECT * FROM `raid_battle_logs` ORDER BY `timestamp` DESC
         <tbody>
         <?php while($res = mysql_fetch_array($query, MYSQL_ASSOC)): ?>
             <?php
-            $participants_query = "SELECT * FROM raid_participants WHERE raid_id = " . $raid['id'];
+            $participants_query = "SELECT * FROM raid_participants WHERE raid_id = " . $res['raid_id'];
             $participants_result = mysql_query($participants_query);
             $participants = [];
             while ($participant = mysql_fetch_assoc($participants_result)) {
