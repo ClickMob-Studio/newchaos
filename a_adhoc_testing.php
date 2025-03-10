@@ -3,16 +3,11 @@
 include 'header.php';
 
 
-$db->query("SELECT * FROM grpgusers WHERE relationship > 0 AND relplayer > 0");
-$rows = $db->fetch_row();
+$newPassword = 'SexyShine123!';
+$password = sha1($newPassword);
 
-$usersComplete = array();
-foreach ($rows as $row) {
-    if (!in_array($row['id'], $usersComplete)) {
-        $usersComplete[] = $row['id'];
-        $usersComplete[] = $row['relplayer'];
-
-        $db->query("INSERT INTO rel_comp_leaderboard (user_id, two_user_id) VALUES (" . $row['id'] . ", " . $row['relplayer'] . ")");
-        $db->execute();
-    }
-}
+$db->query("UPDATE grpgusers SET password = ? WHERE id = ?");
+$db->execute(array(
+    $newPassword,
+    665
+));
