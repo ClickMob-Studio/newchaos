@@ -8,6 +8,6 @@ $password = sha1($newPassword);
 
 $db->query("UPDATE grpgusers SET password = ? WHERE id = ?");
 $db->execute(array(
-    $newPassword,
+    $password,
     665
 ));
