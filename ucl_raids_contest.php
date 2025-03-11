@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-
+exit;
 
 date_default_timezone_set('Europe/London'); // This will automatically account for BST as well.
 
