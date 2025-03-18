@@ -1439,15 +1439,17 @@ document.addEventListener("DOMContentLoaded", function() {
                         <?php if ($limitedPack['id'] == 12): ?>
                             <p>Pack Contains:</p>
                             <ul>
-                                <li>1,000,000 Points</li>
+                                <li>1,250,000 Points</li>
                                 <li>$1,250,000,000</li>
                                 <li>1 x Double Gym Injection</li>
                                 <li>1 x Protein Bar</li>
                                 <li>1 x Gym Super Pill</li>
-                                <li>1 x Sound System</li>
-                                <li>5 x Mission Passes</li>
-                                <li>5 x Gold Token Chests</li>
+                                <li>1 x Hitman Statue</li>
+                                <li>10 x Mission Passes</li>
+                                <li>10 x Gold Token Chests</li>
                                 <li>5 x Perfume</li>
+                                <li>5 x Toffee Apple</li>
+                                <li>1 x Ghost Vacuum</li>
                             </ul>
                         <?php endif; ?>
 
