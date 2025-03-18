@@ -6,8 +6,8 @@ error_reporting(E_ALL);
 
 if ($user_class->gang != 0) {
     $gang_class = new Gang($user_class->gang);
+    $user_rank = new GangRank($user_class->grank);
 
- 
     $checkActiveMission = mysql_query("SELECT agm.kills AS current_kills, agm.busts AS current_busts, agm.crimes AS current_crimes, agm.mugs AS current_mugs, agm.backalleys AS current_backalleys, gm.name, gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.backalleys AS target_backalleys, gm.reward, gm.time AS 'mission_time', UNIX_TIMESTAMP() AS 'current_time', agm.end_time FROM active_gang_missions agm JOIN gang_missions gm ON agm.mission_id = gm.id WHERE agm.gangid = '{$user_class->gang}' AND agm.completed = 0 LIMIT 1");
 
     if (!$checkActiveMission) {
@@ -88,13 +88,17 @@ if ($user_class->gang != 0) {
                 $db->execute();
                 $lastMission = $db->fetch_row(true);
 
-                $startBtn = "<a class='btn btn-primary' href='?acceptMission={$mission['id']}'>Accept</a>";
-                if ($lastMission) {
-                    $nowTime = time();
-                    $nextStartTime = $lastMission['time'] + (7 * 24 * 60 * 60);
-                    if ($nowTime < $nextStartTime) {
-                        $startBtn = 'Available in ' . daysToTime($nextStartTime - $nowTime);
+                if ($user_rank->crimes > 1) {
+                    $startBtn = "<a class='btn btn-primary' href='?acceptMission={$mission['id']}'>Accept</a>";
+                    if ($lastMission) {
+                        $nowTime = time();
+                        $nextStartTime = $lastMission['time'] + (7 * 24 * 60 * 60);
+                        if ($nowTime < $nextStartTime) {
+                            $startBtn = 'Available in ' . daysToTime($nextStartTime - $nowTime);
+                        }
                     }
+                } else {
+                    $startBtn = "";
                 }
 
                 echo "<tr>
@@ -116,7 +120,7 @@ if ($user_class->gang != 0) {
     }
 
     if (isset($_GET['acceptMission'])) {
-       
+
         $activeMissionCheckQuery = "SELECT 1 FROM active_gang_missions WHERE gangid = '{$user_class->gang}' AND completed = 0 LIMIT 1";
         $activeMissionCheckResult = mysql_query($activeMissionCheckQuery);
         if (!$activeMissionCheckResult) {
@@ -124,10 +128,10 @@ if ($user_class->gang != 0) {
         }
 
         if (mysql_num_rows($activeMissionCheckResult) > 0) {
-          
+
             echo Message("Your gang already has an active mission. Please complete it before starting a new one.");
         } else {
-          
+
             $missionId = intval($_GET['acceptMission']);
             $missionQuery = "SELECT time FROM gang_missions WHERE id = '{$missionId}' LIMIT 1";
             $missionResult = mysql_query($missionQuery);
@@ -136,8 +140,8 @@ if ($user_class->gang != 0) {
             }
 
             if ($mission = mysql_fetch_assoc($missionResult)) {
-                $duration = $mission['time'] * 3600; 
-                $endTime = time() + $duration; 
+                $duration = $mission['time'] * 3600;
+                $endTime = time() + $duration;
 
 
                 $insertMission = "INSERT INTO active_gang_missions (gangid, mission_id, kills, busts, crimes, mugs, completed, time, end_time) VALUES ('{$user_class->gang}', '{$missionId}', 0, 0, 0, 0, 0, UNIX_TIMESTAMP(), '{$endTime}')";

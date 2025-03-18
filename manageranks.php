@@ -1,7 +1,7 @@
 <?php
 $perms = array(
     "members" => "Manage Members",
-    "crime" => "Manage Gang Crimes",
+    "crime" => "Manage Gang Crimes & Missions",
     "vault" => "Manage Vault",
     "invite" => "Invite Mobsters",
     "massmail" => "Gang Mail Access",
