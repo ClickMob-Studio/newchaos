@@ -4,7 +4,8 @@ include "classes.php";
 include "database/pdo_class.php";
 file_put_contents('ipn_log/' . time() . '.txt', file_get_contents('php://input'));
 // Function to get the current microtime
-function microtime_float() {
+function microtime_float()
+{
     $time = microtime();
     return (double) substr($time, 11) + (double) substr($time, 0, 8);
 }
@@ -37,13 +38,13 @@ $last = $_POST['last_name'];
 $quantity = $_POST['quantity'];
 $userId = $_POST['custom'];
 //if($receiver_email != "ExcelledGaming@outlook.com")
-  //  die();
+//  die();
 
 //$custom = explode(',', $_POST['custom']);
 //$boost = ($custom[0] == 1) ? true : false;
 //$userId = $custom[1];
 $boost = true;
-    $result1000 = mysql_query("INSERT INTO `ipn` (`itemname`, `date`, `itemnumber`, `creditsbought`, `paymentstatus`, `paymentamount`, `currency`, `txnid`, `receiveremail`, `payeremail`, `first`, `last`, `quantity`, `user_id`)" . "VALUES ('" . $item_name . "', '$time',  '" . $item_number . "', '" . $creditsbought . "', '" . $payment_status . "', '" . $payment_amount . "', '" . $payment_currency . "', '" . $txn_id . "', '" . $receiver_email . "', '" . $payer_email . "', '" . $first . "', '" . $last . "', '" . $quantity . "', '" . $userId . "')");
+$result1000 = mysql_query("INSERT INTO `ipn` (`itemname`, `date`, `itemnumber`, `creditsbought`, `paymentstatus`, `paymentamount`, `currency`, `txnid`, `receiveremail`, `payeremail`, `first`, `last`, `quantity`, `user_id`)" . "VALUES ('" . $item_name . "', '$time',  '" . $item_number . "', '" . $creditsbought . "', '" . $payment_status . "', '" . $payment_amount . "', '" . $payment_currency . "', '" . $txn_id . "', '" . $receiver_email . "', '" . $payer_email . "', '" . $first . "', '" . $last . "', '" . $quantity . "', '" . $userId . "')");
 $result2 = mysql_query("SELECT * FROM `grpgusers` WHERE `id`='$userId'");
 $worked = mysql_fetch_array($result2);
 
