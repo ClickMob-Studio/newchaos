@@ -1432,7 +1432,7 @@ function give_nerve($amount)
         $amount += $user_class->nerve;
     }
 
-    $query = $db->query("UPDATE grpgusers SET nerve = nerve + ? WHERE id = ?");
+    $db->query("UPDATE grpgusers SET nerve = ? WHERE id = ?");
     $db->execute(array(
         $amount,
         $user_class->id
@@ -1457,7 +1457,7 @@ function give_energy($amount)
         $amount += $user_class->energy;
     }
 
-    $query = $db->query("UPDATE grpgusers SET energy = energy + ? WHERE id = ?");
+    $db->query("UPDATE grpgusers SET energy = ? WHERE id = ?");
     $db->execute(array(
         $amount,
         $user_class->id
