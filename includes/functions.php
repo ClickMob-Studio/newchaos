@@ -1,11 +1,12 @@
 <?php
-            function ordinal($number) {
-                $ends = array('th','st','nd','rd','th','th','th','th','th','th');
-                if ((($number % 100) >= 11) && (($number%100) <= 13))
-                    return $number. 'th';
-                else
-                    return $number. $ends[$number % 10];
-            }
+function ordinal($number)
+{
+    $ends = array('th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th');
+    if ((($number % 100) >= 11) && (($number % 100) <= 13))
+        return $number . 'th';
+    else
+        return $number . $ends[$number % 10];
+}
 function get_users_online()
 {
     global $db, $m;
@@ -502,7 +503,7 @@ function Message($text)
 {
     $rtn = '';
     $rtn .= '<div class="dcPanel p-3" style="text-align:center">';
-    $rtn .=  $text;
+    $rtn .= $text;
     $rtn .= '</div>';
     return $rtn;
 }
@@ -686,12 +687,12 @@ function experience($L)
         $a += round($x + 1500 * pow(4, ($x / 190)));
     if ($x >= 100)
         $a *= 3;
-     if ($x >= 800)
-         $a *= 0.5;
-if ($x >= 900)
-         $a *= 0.5;
-if ($x >= 1000)
-         $a *= 2;
+    if ($x >= 800)
+        $a *= 0.5;
+    if ($x >= 900)
+        $a *= 0.5;
+    if ($x >= 1000)
+        $a *= 2;
 
 
 
@@ -883,15 +884,15 @@ function formatName($id, $nogang = 0)
         $name .= $gradient;
         $name .= "</b></a>";
     } elseif ($row['gndays']) {
-          // Check if gradient is generated
-          $gradientText = generateGradientName($id);
-          if (empty($gradientText)) {
-              // If no gradient is generated, use normal username
-              $name .= "<a href='profiles.php?id=" . $id . "'>{$row['username']}</a>";
-          } else {
-              // Use generated gradient
-              $name .= "<a href='profiles.php?id=" . $id . "' >" . $gradientText . "</a>";
-          }
+        // Check if gradient is generated
+        $gradientText = generateGradientName($id);
+        if (empty($gradientText)) {
+            // If no gradient is generated, use normal username
+            $name .= "<a href='profiles.php?id=" . $id . "'>{$row['username']}</a>";
+        } else {
+            // Use generated gradient
+            $name .= "<a href='profiles.php?id=" . $id . "' >" . $gradientText . "</a>";
+        }
     } else if (!empty($row['colours']) and $row['gradient'] == 2 and $row['gndays']) {
         $row['colours'] = str_replace('#', '', $row['colours']);
         $colours = explode("~", $row['colours']);
@@ -1026,11 +1027,11 @@ function raidMission($userId)
 
     return 1;
 }
-function mission($update, $howmany = 1,  $user_class = null, $db = null)
+function mission($update, $howmany = 1, $user_class = null, $db = null)
 {
     if ($db == null) {
-  global $db;
-}
+        global $db;
+    }
     if ($user_class == null) {
         global $user_class;
     }
@@ -1076,7 +1077,7 @@ function mission($update, $howmany = 1,  $user_class = null, $db = null)
         if ($update == 'b') {
             if ($prestigeUserSKills['super_busts_unlock'] > 0) {
                 $db->query("UPDATE missions SET busts = busts + 5 WHERE userid = ? AND completed = 'no'");
-                $userMiss['busts'] =  $userMiss['busts'] + 5;
+                $userMiss['busts'] = $userMiss['busts'] + 5;
             } else {
                 $db->query("UPDATE missions SET busts = busts + 1 WHERE userid = ? AND completed = 'no'");
                 $userMiss['busts'] = $userMiss['busts'] + 1;
@@ -1085,7 +1086,7 @@ function mission($update, $howmany = 1,  $user_class = null, $db = null)
             $db->execute(array(
                 $user_class->id
             ));
-//            if (++$userMiss['busts'] >= $miss['busts']) {
+            //            if (++$userMiss['busts'] >= $miss['busts']) {
 //                $mPointsPayout = $miss['payBusts'];
 //                if ($pointsPayoutBoost) {
 //                    $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
@@ -1126,7 +1127,7 @@ function mission($update, $howmany = 1,  $user_class = null, $db = null)
             $db->execute(array(
                 $user_class->id
             ));
-//            if (++$userMiss['mugs'] == $miss['mugs']) {
+            //            if (++$userMiss['mugs'] == $miss['mugs']) {
 //                $mPointsPayout = $miss['payMugs'];
 //                if ($pointsPayoutBoost) {
 //                    $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
@@ -1268,7 +1269,8 @@ OUT;
         $innarr[$img[0]] = 1;
     }
 }
-function genBars() {
+function genBars()
+{
     global $user_class;
     $rtn = '<div class="row" align="center">';
 
@@ -1397,7 +1399,8 @@ function gcTalking($which = 0, $gang = 0)
     if ($count < 4)
         $leftover = 0;
     foreach ($rows as $row) {
-        if ($row['userid'] == 150) continue;
+        if ($row['userid'] == 150)
+            continue;
         $ret .= '<div class="flexele" style="margin:2px; flex-basis:22%;">';
         $ret .= '<div class="floaty" style="margin:0;height:20px;line-height:20px;';
         $ret .= ($row['typing']) ? 'background:rgba(0,255,0,.125);' : '';
@@ -1415,6 +1418,56 @@ function gcTalking($which = 0, $gang = 0)
 }
 
 
+function give_nerve($amount)
+{
+    global $user_class, $db;
+
+    if ($user_class->nerve >= $user_class->maxnerve) {
+        return 0;
+    }
+
+    if ($user_class->nerve + $amount > $user_class->maxnerve) {
+        $amount = $user_class->maxnerve;
+    } else {
+        $amount += $user_class->nerve;
+    }
+
+    $query = $db->query("UPDATE grpgusers SET nerve = nerve + ? WHERE id = ?");
+    $db->execute(array(
+        $amount,
+        $user_class->id
+    ));
+    $user_class->nerve = $amount;
+    $user_class->nervepercent = floor(($user_class->nerve / $user_class->maxnerve) * 100);
+
+    return $amount;
+}
+
+function give_energy($amount)
+{
+    global $user_class, $db;
+
+    if ($user_class->energy >= $user_class->maxenergy) {
+        return 0;
+    }
+
+    if ($user_class->energy + $amount > $user_class->maxenergy) {
+        $amount = $user_class->maxenergy;
+    } else {
+        $amount += $user_class->energy;
+    }
+
+    $query = $db->query("UPDATE grpgusers SET energy = energy + ? WHERE id = ?");
+    $db->execute(array(
+        $amount,
+        $user_class->id
+    ));
+    $user_class->energy = $amount;
+    $user_class->energypercent = floor(($user_class->energy / $user_class->maxenergy) * 100);
+
+    return $amount;
+}
+
 function refill($which)
 {
     global $user_class, $db;
@@ -1424,54 +1477,54 @@ function refill($which)
 
     // Open the lock file for writing
 
-        switch ($which) {
-            case 'n':
-                if ($user_class->nerref == 2) {
-                        // if($user_class->nerve < 0){
-                        //     if($user_class->points < 1){
-                        //         diefun("You do not have enough nerve to refill.");
-                        //     }
-                        //     $user_class->nerve = 0;
-                        //     $db->query("UPDATE grpgusers SET nerve = 0, points = points -1 WHERE id = ?");
-                        //     $db->execute(array(
-                        //         $user_class->id
-                        //     ));
-                        // }
-                    $nerveneeded = $user_class->maxnerve;
+    switch ($which) {
+        case 'n':
+            if ($user_class->nerref == 2) {
+                // if($user_class->nerve < 0){
+                //     if($user_class->points < 1){
+                //         diefun("You do not have enough nerve to refill.");
+                //     }
+                //     $user_class->nerve = 0;
+                //     $db->query("UPDATE grpgusers SET nerve = 0, points = points -1 WHERE id = ?");
+                //     $db->execute(array(
+                //         $user_class->id
+                //     ));
+                // }
+                $nerveneeded = $user_class->maxnerve;
 
-                    $cost = floor($nerveneeded / 10);
-                    if ($cost < 10)
-                        $cost = 10;
-                    if ($cost > $user_class->points)
-                        return 0;
-                    $user_class->nerve += $cost * 10;
-                    $user_class->nerve = $user_class->maxnerve;
-                    $user_class->points -= $cost;
-                    $db->query("UPDATE grpgusers SET nerve = ?, points = points - ? WHERE id = ?");
-                    $db->execute(array(
-                        $user_class->nerve,
-                        $cost,
-                        $user_class->id
-                    ));
-                } else
+                $cost = floor($nerveneeded / 10);
+                if ($cost < 10)
+                    $cost = 10;
+                if ($cost > $user_class->points)
                     return 0;
-                break;
-            case 'e':
-                if ($user_class->ngyref == 2) {
-                    if (10 > $user_class->points)
-                        return 0;
-                    $user_class->energypercent = 100;
-                    $user_class->energy = $user_class->maxenergy;
-                    $user_class->points -= 10;
-                    $db->query("UPDATE grpgusers SET energy = ?, points = points - 10 WHERE id = ?");
-                    $db->execute(array(
-                        $user_class->energy,
-                        $user_class->id
-                    ));
-                } else
+                $user_class->nerve += $cost * 10;
+                $user_class->nerve = $user_class->maxnerve;
+                $user_class->points -= $cost;
+                $db->query("UPDATE grpgusers SET nerve = ?, points = points - ? WHERE id = ?");
+                $db->execute(array(
+                    $user_class->nerve,
+                    $cost,
+                    $user_class->id
+                ));
+            } else
+                return 0;
+            break;
+        case 'e':
+            if ($user_class->ngyref == 2) {
+                if (10 > $user_class->points)
                     return 0;
-                break;
-        }
+                $user_class->energypercent = 100;
+                $user_class->energy = $user_class->maxenergy;
+                $user_class->points -= 10;
+                $db->query("UPDATE grpgusers SET energy = ?, points = points - 10 WHERE id = ?");
+                $db->execute(array(
+                    $user_class->energy,
+                    $user_class->id
+                ));
+            } else
+                return 0;
+            break;
+    }
 }
 
 function manual_refill($which)
@@ -1951,7 +2004,7 @@ function anticheat()
 function getCityNameByID($cityId)
 {
     global $db, $m;
-//    if (!$rtn = $m->get('citynames.' . $cityId)) {
+    //    if (!$rtn = $m->get('citynames.' . $cityId)) {
 //        $db->query("SELECT `name` FROM cities WHERE id = ?");
 //        $db->execute([$cityId]);
 //        $rtn = $db->fetch_single();
@@ -1973,15 +2026,21 @@ function countdown($time, $h = true, $m = true, $s = true)
     $sec = ($rem % 60);
 
     if ($day && !$h) {
-        if ($hr > 12) $day++; // round up if not displaying hours
+        if ($hr > 12)
+            $day++; // round up if not displaying hours
     }
 
     $ret = array();
-    if ($day && $h) $ret[] = ($day ? $day . "d" : "");
-    if ($day && !$h) $ret[] = ($day ? $day . "d" : "");
-    if ($hr && $h) $ret[] = ($hr ? $hr . "h" : "");
-    if ($min && $m && $h) $ret[] = ($min ? $min . "m" : "");
-    if ($sec && $s && $m && $h) $ret[] = ($sec ? $sec . "s" : "");
+    if ($day && $h)
+        $ret[] = ($day ? $day . "d" : "");
+    if ($day && !$h)
+        $ret[] = ($day ? $day . "d" : "");
+    if ($hr && $h)
+        $ret[] = ($hr ? $hr . "h" : "");
+    if ($min && $m && $h)
+        $ret[] = ($min ? $min . "m" : "");
+    if ($sec && $s && $m && $h)
+        $ret[] = ($sec ? $sec . "s" : "");
 
     $last = end($ret);
     array_pop($ret);
@@ -1995,24 +2054,27 @@ function calctime($seconds = 0)
     $interval = date_diff(date_create("@0"), date_create("@$seconds"));
 
     foreach (array('y' => 'Year', 'm' => 'Month', 'D' => 'day', 'h' => 'Hour', 'i' => 'Minute', 's' => 'Second') as $format => $desc) {
-        if ($interval->$format >= 1) $thetime[] = $interval->$format . ($interval->$format == 1 ? " $desc" : " {$desc}s");
+        if ($interval->$format >= 1)
+            $thetime[] = $interval->$format . ($interval->$format == 1 ? " $desc" : " {$desc}s");
     }
 
     return isset($thetime) ? implode(' ', $thetime) . ($interval->invert ? ' ago' : '') : NULL;
 }
 
-function Get_Item_name($id){
+function Get_Item_name($id)
+{
     $id = intval($id);
-    $query = mysql_query("SELECT * FROM items WHERE `id` = ".$id);
-    if(mysql_num_rows($query)){
+    $query = mysql_query("SELECT * FROM items WHERE `id` = " . $id);
+    if (mysql_num_rows($query)) {
         $result = mysql_fetch_assoc($query);
         return $result['itemname'];
-    }else{
+    } else {
         return 'Unknown Item';
     }
 }
-function updateGangActiveMission( $field, $value) {
-  global $db, $user_class;
+function updateGangActiveMission($field, $value)
+{
+    global $db, $user_class;
 
     // Check if the user is in a gang
     if ($user_class->gang != 0) {
@@ -2042,7 +2104,8 @@ function updateGangActiveMission( $field, $value) {
 }
 
 
-function generateMacroToken($length = 10) {
+function generateMacroToken($length = 10)
+{
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $randomString = '';
     for ($i = 0; $i < $length; $i++) {
@@ -2055,7 +2118,7 @@ function generateMacroToken($length = 10) {
 function macroTokenCheck($user_class)
 {
     if (!isset($_GET['token'])) {
-//        Send_Event(1, 'ID ' . $user_class-> id . ' MUGGING: NO TOKEN PROVIDED', 1);
+        //        Send_Event(1, 'ID ' . $user_class-> id . ' MUGGING: NO TOKEN PROVIDED', 1);
 //        Send_Event(2, 'ID ' . $user_class-> id . ' MUGGING: NO TOKEN PROVIDED', 2);
 
         echo "
@@ -2068,7 +2131,7 @@ function macroTokenCheck($user_class)
 
     $token = $_GET['token'];
     if (empty($token)) {
-//        Send_Event(1, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token, 1);
+        //        Send_Event(1, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token, 1);
 //        Send_Event(2, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token, 2);
 
         echo "
@@ -2080,12 +2143,12 @@ function macroTokenCheck($user_class)
     }
 
     if ($user_class->macro_token != $token) {
-//        Send_Event(1, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token . ' - ' . $user_class->macro_token, 1);
+        //        Send_Event(1, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token . ' - ' . $user_class->macro_token, 1);
 //        Send_Event(2, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token . ' - ' . $user_class->macro_token, 2);
 
 
         echo
-        "
+            "
             <div class='alert alert-danger'>
                 <p>3 Something went wrong, an Admin has been informed.
             </div>
@@ -2094,7 +2157,7 @@ function macroTokenCheck($user_class)
     }
 
     $newMacroToken = generateMacroToken();
-    mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken ."' WHERE id = " . $user_class->id);
+    mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken . "' WHERE id = " . $user_class->id);
 
     return $newMacroToken;
 }
@@ -2140,17 +2203,18 @@ function removeItemTempUse($userId, $field, $qty = 1)
     mysql_query("UPDATE item_temp_use SET {$field} = {$field} - {$qty} WHERE user_id = " . $userId);
 }
 
-function removeFromInventory($userId, $item, $qty = 1){
+function removeFromInventory($userId, $item, $qty = 1)
+{
     $item = intval($item);
     $check = mysql_query("SELECT * FROM inventory WHERE itemid = $item AND userid = $userId");
-    if(mysql_num_rows($check) < 0){
+    if (mysql_num_rows($check) < 0) {
         return false;
     }
     $ch = mysql_fetch_array($check);
-    if($ch['quantity'] > $qty){
+    if ($ch['quantity'] > $qty) {
         mysql_query("UPDATE inventory SET quantity = quantity - $qty WHERE itemid = $item AND userid = $userId");
         return true;
-    }else{
+    } else {
         mysql_query("DELETE FROM inventory WHERE itemid = $item AND userid = $userId");
         return true;
     }
@@ -2274,10 +2338,10 @@ function addToGangCompLeaderboard($gangId, $field, $value)
     $gclId = $db->fetch_single();
 
     if ($gclId) {
-        $db->query("UPDATE `gang_comp_leaderboard` SET `" . $dailyField ."` = `" . $dailyField ."` + " . $value . ", `" . $weeklyField ."` = `" . $weeklyField ."` + " . $value . " WHERE gang_id = " . $gangId);
+        $db->query("UPDATE `gang_comp_leaderboard` SET `" . $dailyField . "` = `" . $dailyField . "` + " . $value . ", `" . $weeklyField . "` = `" . $weeklyField . "` + " . $value . " WHERE gang_id = " . $gangId);
         $db->execute();
     } else {
-        $db->query("INSERT INTO `gang_comp_leaderboard` (`gang_id`, `" . $dailyField . "`, `" . $weeklyField . "`) VALUES (" . $gangId .", " . $value . ", " . $value . ")");
+        $db->query("INSERT INTO `gang_comp_leaderboard` (`gang_id`, `" . $dailyField . "`, `" . $weeklyField . "`) VALUES (" . $gangId . ", " . $value . ", " . $value . ")");
         $db->execute();
     }
 }
@@ -2313,10 +2377,10 @@ function addToUserCompLeaderboard($userId, $field, $value)
     $gclId = $db->fetch_single();
 
     if ($gclId) {
-        $db->query("UPDATE `user_comp_leaderboard` SET `" . $dailyField ."` = `" . $dailyField ."` + " . $value . ", `" . $weeklyField ."` = `" . $weeklyField ."` + " . $value . " WHERE user_id = " . $userId);
+        $db->query("UPDATE `user_comp_leaderboard` SET `" . $dailyField . "` = `" . $dailyField . "` + " . $value . ", `" . $weeklyField . "` = `" . $weeklyField . "` + " . $value . " WHERE user_id = " . $userId);
         $db->execute();
     } else {
-        $db->query("INSERT INTO `user_comp_leaderboard` (`user_id`, `" . $dailyField . "`, `" . $weeklyField . "`) VALUES (" . $userId .", " . $value . ", " . $value . ")");
+        $db->query("INSERT INTO `user_comp_leaderboard` (`user_id`, `" . $dailyField . "`, `" . $weeklyField . "`) VALUES (" . $userId . ", " . $value . ", " . $value . ")");
         $db->execute();
     }
 }
@@ -2348,10 +2412,10 @@ function addToRelCompLeaderboard($userId, $field, $value)
     $gclId = $db->fetch_single();
 
     if ($gclId) {
-        $db->query("UPDATE `rel_comp_leaderboard` SET `" . $dailyField ."` = `" . $dailyField ."` + " . $value . ", `" . $weeklyField ."` = `" . $weeklyField ."` + " . $value . " WHERE user_id = " . $userId);
+        $db->query("UPDATE `rel_comp_leaderboard` SET `" . $dailyField . "` = `" . $dailyField . "` + " . $value . ", `" . $weeklyField . "` = `" . $weeklyField . "` + " . $value . " WHERE user_id = " . $userId);
         $db->execute();
 
-        $db->query("UPDATE `rel_comp_leaderboard` SET `" . $dailyField ."` = `" . $dailyField ."` + " . $value . ", `" . $weeklyField ."` = `" . $weeklyField ."` + " . $value . " WHERE two_user_id = " . $userId);
+        $db->query("UPDATE `rel_comp_leaderboard` SET `" . $dailyField . "` = `" . $dailyField . "` + " . $value . ", `" . $weeklyField . "` = `" . $weeklyField . "` + " . $value . " WHERE two_user_id = " . $userId);
         $db->execute();
     }
 
@@ -2609,7 +2673,7 @@ function displayBpCategoryPrize($bpCategoryPrize)
     } else if ($bpCategoryPrize['type'] === 'vip') {
         return number_format($bpCategoryPrize['amount'], 0) . ' VIP Days';
     } else {
-        return number_format($bpCategoryPrize['amount'], 0) . ' x ' .  ucfirst($bpCategoryPrize['type']);
+        return number_format($bpCategoryPrize['amount'], 0) . ' x ' . ucfirst($bpCategoryPrize['type']);
     }
 }
 
@@ -2681,7 +2745,7 @@ function getAttackDamageOLD($attacker, $defender)
     }
 
     // Critical Hit
-    if (mt_rand(1,100) <= $criticalHit) {
+    if (mt_rand(1, 100) <= $criticalHit) {
         return array(
             'damage' => $maxDamage,
             'is_critical_hit' => true
@@ -2716,7 +2780,7 @@ function getAttackDamage($attacker, $defender)
     $damMaxPerc = 90;
 
     // Critical Hit
-    if (mt_rand(1,100) <= $criticalHit) {
+    if (mt_rand(1, 100) <= $criticalHit) {
         return array(
             'damage' => $maxDamage,
             'is_critical_hit' => true
@@ -2829,7 +2893,7 @@ function addToHalloweenPayoutLogs($item)
 
     $r = $db->fetch_row(true);
     if (isset($r['id'])) {
-        $db->query("UPDATE `new_halloween_payout_logs` SET `count` = `count` + 1 WHERE `id` = "  .$r['id']);
+        $db->query("UPDATE `new_halloween_payout_logs` SET `count` = `count` + 1 WHERE `id` = " . $r['id']);
         $db->execute();
     } else {
         $db->query("INSERT INTO new_halloween_payout_logs (find_date, item, count) VALUES ('" . $now->format('d-m') . "', '" . $item . "', 1)");
@@ -2875,7 +2939,7 @@ function getCurrentQuestSeasonForUser($userId)
     return $questSeason;
 }
 
-function getNextQuestSeason($userId ,$isAdmin = 0)
+function getNextQuestSeason($userId, $isAdmin = 0)
 {
     global $db;
 
@@ -3015,10 +3079,10 @@ function getDisplayForQuestReq($req, $num, $progress)
         }
         return 'Raids: 0/' . number_format($num) . $status;
     } else if ($req === 'city_goons') {
-            if (isset($progress[$req])) {
-                return 'City Goons: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
-            }
-            return 'City Goons: 0/' . number_format($num) . $status;
+        if (isset($progress[$req])) {
+            return 'City Goons: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
+        }
+        return 'City Goons: 0/' . number_format($num) . $status;
     } else if ($req === 'busts') {
         if (isset($progress[$req])) {
             return 'Busts: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
@@ -3069,7 +3133,8 @@ function updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $req, $va
     return $questSeasonMissionUser;
 }
 
-function generateGradientName($user_id) {
+function generateGradientName($user_id)
+{
     // Fetch user settings from the database based on the user_id
     global $db;
     $db->query("SELECT start_color, end_color, is_bold, is_italic, glow, u.username 
@@ -3095,9 +3160,9 @@ function generateGradientName($user_id) {
         // Loop through each character of the username and apply the gradient
         for ($i = 0; $i < strlen($username); $i++) {
             $gradientText .= "<span style=\"color: {$gradientColors[$i]};" .
-                             ($glow ? " text-shadow: 0 0 10px {$gradientColors[$i]}" : '') .
-                             "; font-size:22px; font-weight: " . ($isBold ? "bold" : "normal") . "; font-style: " . ($isItalic ? "italic" : "normal") . ";\">" .
-                             $username[$i] . "</span>";
+                ($glow ? " text-shadow: 0 0 10px {$gradientColors[$i]}" : '') .
+                "; font-size:22px; font-weight: " . ($isBold ? "bold" : "normal") . "; font-style: " . ($isItalic ? "italic" : "normal") . ";\">" .
+                $username[$i] . "</span>";
         }
 
         return $gradientText;
@@ -3106,7 +3171,8 @@ function generateGradientName($user_id) {
 }
 
 // Function to generate a gradient between two colors for each letter
-function generateGradient($startColor, $endColor, $length) {
+function generateGradient($startColor, $endColor, $length)
+{
     $start = hexToRgb($startColor);
     $end = hexToRgb($endColor);
 
@@ -3127,7 +3193,8 @@ function generateGradient($startColor, $endColor, $length) {
 }
 
 // Helper functions for color conversion
-function hexToRgb($hex) {
+function hexToRgb($hex)
+{
     $r = hexdec(substr($hex, 1, 2));
     $g = hexdec(substr($hex, 3, 2));
     $b = hexdec(substr($hex, 5, 2));
@@ -3135,10 +3202,11 @@ function hexToRgb($hex) {
     return ['r' => $r, 'g' => $g, 'b' => $b];
 }
 
-function rgbToHex($r, $g, $b) {
+function rgbToHex($r, $g, $b)
+{
     return "#" . str_pad(dechex($r), 2, "0", STR_PAD_LEFT) .
-           str_pad(dechex($g), 2, "0", STR_PAD_LEFT) .
-           str_pad(dechex($b), 2, "0", STR_PAD_LEFT);
+        str_pad(dechex($g), 2, "0", STR_PAD_LEFT) .
+        str_pad(dechex($b), 2, "0", STR_PAD_LEFT);
 }
 
 function getUserSantasGrotto($userId)
@@ -3164,7 +3232,7 @@ function getUserSantasGrotto($userId)
 
 function payoutChristmasGift($userId)
 {
-//    global $db;
+    //    global $db;
 //
 //    $userSantasGrotto = getUserSantasGrotto($userId);
 //
