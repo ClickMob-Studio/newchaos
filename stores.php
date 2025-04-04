@@ -85,7 +85,7 @@ foreach($rows as $row){
 	if ($user_class->admin == 1) {
 		echo'<div class="floaty"><h1>Easter 2025</h1>';
 
-		$db->query("SELECT * FROM easter_store ORDER BY egg_id ASC");
+		$db->query("SELECT * FROM easter_store ORDER BY egg_id ASC , ORDER BY quantity ASC");
 		$db->execute();
 		$rows = $db->fetch_row();
 		foreach ($rows as $row) {
@@ -99,7 +99,7 @@ foreach($rows as $row){
 				));
 				$item_row = $db->fetch_row(true);
 				$item_name = $item_row['itemname'];
-				$image = '"<img src="' . $item_row['image']. '" width="100" height="100" style="border: 0px solid #000000">';
+				$image = '<img src="' . $item_row['image']. '" width="100" height="100" style="border: 0px solid #000000">';
 			} else {
 				$image = 'No image available';
 			}
