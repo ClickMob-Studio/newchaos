@@ -115,7 +115,8 @@ if ($user_class->gang > 0) {
     $db->execute(array($user_class->id));
     $items = $db->fetch_row();
 
-    function getItemType($row) {
+    function getItemType($row)
+    {
         $type = '';
         $subtype = '';
 
@@ -147,7 +148,7 @@ if ($user_class->gang > 0) {
                 } elseif ($row['agility'] > 0) {
                     $subtype = 'gloves';
                 }
-            }elseif($row['category'] == 'booster'){
+            } elseif ($row['category'] == 'booster') {
                 $type = 'booster';
             } elseif ($row['awake_boost'] > 0) {
                 $type = 'house';
@@ -176,22 +177,24 @@ if ($user_class->gang > 0) {
 
         if (isset($item['type']) && $item['category'] == 'crafting') {
             $categorizedItems['gem'][] = $item;
-        }elseif ($item['type'] == 'Gems') {
+        } elseif ($item['type'] == 'Gems') {
             $categorizedItems['consumable'][] = $item;
         } elseif ($itemType === 'rare') {
             $categorizedItems['rare'][] = $item;
 
         } elseif ($item['type'] == 'booster') {
             $categorizedItems['booster'][] = $item;
-        }else {
+        } else {
             $categorizedItems[$itemType][] = $item;
         }
     }
 
-    function renderCategory($categoryName, $items, $loaned) {
+    function renderCategory($categoryName, $items, $loaned)
+    {
         global $restrictedSendItems, $multiUseItems, $restrictedUseItems, $loan;
 
-        if (empty($items)) return;
+        if (empty($items))
+            return;
 
         echo '<div class="card my-4 category-card">';
         echo '<div class="card-header text-white text-center" style="background-color: #8e8e8e21;">';
@@ -219,7 +222,7 @@ if ($user_class->gang > 0) {
             echo 'x ' . $item['quantity'];
 
             if ($showEquipButton) {
-                $buttonHtml .= '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $dataType . '" data-id="' . intval($item['itemid']) . '" data-name="' . htmlspecialchars($itemName) . '" data-img="' . htmlspecialchars($itemImage) . '" data-loan-id="'.$item['loanid'] .'">Equip</button>';
+                $buttonHtml .= '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $dataType . '" data-id="' . intval($item['itemid']) . '" data-name="' . htmlspecialchars($itemName) . '" data-img="' . htmlspecialchars($itemImage) . '" data-loan-id="' . $item['loanid'] . '">Equip</button>';
             }
 
             // Special buttons based on item ID
@@ -260,15 +263,15 @@ if ($user_class->gang > 0) {
 
 
 
-            if (!$loaned && $itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems) && $item['category'] != 'crafting')) {
+            if ($item['type'] != 'booster' && (!$loaned && $itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems) && $item['category'] != 'crafting'))) {
                 // Multi-use items
                 if (in_array($item['id'], $multiUseItems)) {
-                    $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use Multiple</button>';
-                    $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use</button>';
+                    $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int) $item['quantity'] . '">Use Multiple</button>';
+                    $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int) $item['quantity'] . '">Use</button>';
                 }
                 // Single-use consumables
                 elseif (!$loaned && !in_array($item['id'], [285, 155, 195, 156, 157, 194, 158, 159, 165, 167])) {
-                    $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Use</button>';
+                    $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int) $item['quantity'] . '">Use</button>';
                 }
             }
 
@@ -276,7 +279,7 @@ if ($user_class->gang > 0) {
 
 
             if (!$loaned && !in_array($item['id'], $restrictedSendItems)) {
-                $buttonHtml .= '<button class="btn btn-sm btn-info send-btn mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int)$item['quantity'] . '">Send</button> ';
+                $buttonHtml .= '<button class="btn btn-sm btn-info send-btn mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int) $item['quantity'] . '">Send</button> ';
             }
 
             if ($loaned && $item['loanid']) {
@@ -480,35 +483,35 @@ src="${itemImage}" alt="${itemName}">
             $(this).closest(".modal").hide();
         });
 
-        $("#useMultiForm").on('submit', function(event) {
+        $("#useMultiForm").on('submit', function (event) {
             event.preventDefault();
             $.ajax({
                 url: 'ajax_use_multi_item.php',
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',
-                success: function(response) {
+                success: function (response) {
                     showMessage(response.message, response.success);
                     $("#useMultiModal").hide();
                 },
-                error: function() {
+                error: function () {
                     showMessage("Error processing the request.", false);
                 }
             });
         });
 
-        $("#sendForm").on('submit', function(event) {
+        $("#sendForm").on('submit', function (event) {
             event.preventDefault();
             $.ajax({
                 url: 'send_item.php',
                 type: 'POST',
                 data: $(this).serialize(),
                 dataType: 'json',
-                success: function(response) {
+                success: function (response) {
                     showMessage(response.message, response.success);
                     $("#sendModal").hide();
                 },
-                error: function() {
+                error: function () {
                     showMessage("Error processing the request.", false);
                 }
             });
