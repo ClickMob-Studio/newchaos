@@ -86,6 +86,12 @@ foreach($rows as $row){
 
 // Easter 2025 Store
 if ($user_class->admin == 1) {
+	$egg_name_by_id = array(
+		336 => 'Common Easter Egg',
+		337 => 'Rare Easter Egg',
+		338 => 'Ulra Rare Easter Egg',
+	);
+
 	echo'<div class="floaty"><h1>Easter 2025</h1>';
 
 	$db->query("SELECT * FROM easter_store ORDER BY egg_id ASC, quantity ASC");
@@ -131,7 +137,7 @@ if ($user_class->admin == 1) {
 			echo'</div>';
 			echo'<div style="flex:1;">';
 				echo'<br />';
-				echo prettynum($row['quantity'], 1) . '<br>';
+				echo $row['quantity'] . 'x '. $egg_name_by_id[$row['egg_id']] . '<br>';
 				echo'<br>';
 				echo'<form method="post">';
 					echo'<input type="text" size="5" name="qty" value="1" /><br />';
