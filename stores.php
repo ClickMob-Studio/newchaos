@@ -83,7 +83,63 @@ foreach($rows as $row){
 	echo'</div>';
 
 	if ($user_class->admin == 1) {
-		echo "Admin";
+		echo'<div class="floaty"><h1>Easter 2025</h1>';
+
+		$db->query("SELECT * FROM easter_store ORDER BY egg_id ASC");
+		$db->execute();
+		$rows = $db->fetch_row();
+		foreach ($rows as $row) {
+			$image = '';
+			$item_name = '';
+			if ($row['item_id'] != 0) {
+				// Select the item from the database
+				$db->query("SELECT * FROM items WHERE id = ?");
+				$db->execute(array(
+					$row['item_id']
+				));
+				$item_row = $db->fetch_row(true);
+				$item_name = $item_row['itemname'];
+				$image = '"<img src="' . $item_row['image']. '" width="100" height="100" style="border: 0px solid #000000">';
+			} else {
+				$image = 'No image available';
+			}
+
+			if ($row['points' != 0]) {
+				$item_name = $row['points'] . ' Points';
+			} else if ($row['maze'] != 0) {
+				$item_name = $row['maze'] . ' Maze searches';
+			} else if ($row['achievement'] == 1) {
+				$item_name = 'Easter 2025 Achievement';
+			} else if ($row['achievement'] == 2) {
+				$item_name = 'You had no life during Easter 2025 Achievement';
+			}
+
+			echo'<hr style="border:0;border-bottom:thin solid #fff;" />';
+			echo'<div style="display:flex;">';
+				echo'<div style="flex:1;border-right:thin solid #333;">';
+				
+				if ($row['item_id'] != 0) {
+					echo item_popup($item_name, $row['item_id']) . '<br>';
+				} else {
+					echo $item_name . '<br>';
+				}
+
+					echo $image;
+				echo'</div>';
+				echo'<div style="flex:1;">';
+					echo'<br />';
+					echo prettynum($row['quantity'], 1) . '<br>';
+					echo'<br>';
+					echo'<form method="post">';
+						echo'<input type="text" size="5" name="qty" value="1" /><br />';
+						echo'<input type="hidden" name="item" value="' . $row['id'] . '" />';
+						echo'<input type="hidden" name="type" value="easter-2025" />';
+						echo'<br />';
+						echo'<input type="submit" value="Exchange" />';
+					echo'</form>';
+				echo'</div>';
+			echo'</div>';
+		}
 	}
 }
 print "</table>
