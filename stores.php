@@ -137,7 +137,7 @@ if ($user_class->admin == 1) {
 			echo'</div>';
 			echo'<div style="flex:1;">';
 				echo'<br />';
-				echo $row['quantity'] . 'x '. $egg_name_by_id[$row['egg_id']] . '<br>';
+				echo $row['quantity'] . 'x '. item_popup($egg_name_by_id[$row['egg_id']], $row['egg_id']) . '<br>';
 				echo'<br>';
 				echo'<form method="post">';
 					echo'<input type="text" size="5" name="qty" value="1" /><br />';
