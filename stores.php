@@ -113,8 +113,8 @@ if ($user_class->admin == 1) {
 			$image = 'No image available';
 		}
 
-		if ($row['points' != 0]) {
-			$item_name = $row['points'] . ' Points';
+		if ($row['points' > 0]) {
+			$item_name = $row['points'] . ' points';
 		} else if ($row['maze'] != 0) {
 			$item_name = $row['maze'] . ' Maze searches';
 		} else if ($row['achievement'] == 1) {
