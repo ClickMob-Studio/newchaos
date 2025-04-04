@@ -85,7 +85,7 @@ foreach($rows as $row){
 	if ($user_class->admin == 1) {
 		echo'<div class="floaty"><h1>Easter 2025</h1>';
 
-		$db->query("SELECT * FROM easter_store ORDER BY egg_id ASC , ORDER BY quantity ASC");
+		$db->query("SELECT * FROM easter_store ORDER BY egg_id ASC, quantity ASC");
 		$db->execute();
 		$rows = $db->fetch_row();
 		foreach ($rows as $row) {
