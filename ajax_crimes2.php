@@ -196,14 +196,15 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $star_level = 0; // No bonus if the conditions are not met
     }
 
+    $bonux_exp_easter_booster = $exp * 0.1; // 10% bonus from Easter Booster if equipped
+
     $bonus_exp_per_star_level = 0.10; // 10% bonus per star level
     $star_bonus_exp = $exp * $star_level * $bonus_exp_per_star_level;
     $exp += $star_bonus_exp;
 
     // Check if equipped weapon is an easter booster
     if ($user_class->eqweapon == 335) {
-        $bonux_exp_easter_egg = $exp * 1.1; // 10% bonus
-        $exp += $bonux_exp_easter_egg;
+        $exp += $bonux_exp_easter_booster;
     }
 
     $crimeexpbonus = 0;
