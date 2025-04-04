@@ -6,7 +6,8 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 //header('Content-type: application/json');
 session_start();
 
-function shorthandNumber($number) {
+function shorthandNumber($number)
+{
     if ($number >= 1000000000) { // Check if the number is at least a billion
         $shorthand = round($number / 1000000000, 2) . 'B'; // Convert to billions, round to 2 decimal places, and append 'B'
         return $shorthand;
@@ -36,8 +37,8 @@ error_reporting(E_ALL);
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11211, 33);
 
-if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
-    $user_class = new User((int)$_GET['au_user_or']);
+if (isset($_GET['au_user_or']) && (int) $_GET['au_user_or']) {
+    $user_class = new User((int) $_GET['au_user_or']);
 } else {
     $user_class = new User($_SESSION['id']);
 }
@@ -72,7 +73,7 @@ if ($crime_multiplier == 20) {
 }
 
 $debug = array(
-    'id'               => $user_class->id,
+    'id' => $user_class->id,
     'crime_multiplier' => $crime_multiplier,
     'post' => $_POST
 );
@@ -142,7 +143,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
     $nerve = $row['nerve'];
     $name = $row['name'];
-    if($user_class->maxnerve < $nerve){
+    if ($user_class->maxnerve < $nerve) {
         echo json_encode(array(
             'debug' => $debug,
             'error' => 'refresh'
@@ -166,12 +167,12 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $crimeRankResult = $db->fetch_row(true);
 
     if ($crimeRankResult) {
-        $crimeCount = (int)$crimeRankResult['count'];
+        $crimeCount = (int) $crimeRankResult['count'];
     } else {
         $crimeCount = 0;
     }
 
-// Determine the star level based on the crime count
+    // Determine the star level based on the crime count
 
     if ($crimeCount >= 10000 && $crimeCount < 100000) {
         $star_level = 1;
@@ -198,6 +199,12 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $bonus_exp_per_star_level = 0.10; // 10% bonus per star level
     $star_bonus_exp = $exp * $star_level * $bonus_exp_per_star_level;
     $exp += $star_bonus_exp;
+
+    // Check if equipped weapon is an easter booster
+    if ($user_class->eqweapon == 335) {
+        $bonux_exp_easter_egg = $exp * 1.1; // 10% bonus
+        $exp += $bonux_exp_easter_egg;
+    }
 
     $crimeexpbonus = 0;
     if ($user_class->crimeexpboost > 1) {
@@ -253,14 +260,14 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $chance = 100;
     }
 
-    if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
+    if (isset($_GET['au_user_or']) && (int) $_GET['au_user_or']) {
         $chance = 100;
     }
 
     // Crime Multiplier Adjustments
     $mission_nerve = $nerve;
     $nerve = ($nerve * $crime_multiplier);
-    $exp   = ($exp * $crime_multiplier);
+    $exp = ($exp * $crime_multiplier);
     $money = ($money * $crime_multiplier);
 
     $prepaid = false;
@@ -334,7 +341,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
         die();
     }
 
-//    if ($user_class->nerve < $nerve && !$prepaid) {
+    //    if ($user_class->nerve < $nerve && !$prepaid) {
 //        refill('n');
 //    }
 
@@ -354,7 +361,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
             ));
             $debug['response'] = "Failed Crime";
             //$logger->info("", $debug);
-            die($ftext.".|".number_format($user_class->points)."|".number_format($user_class->money)."|".number_format($user_class->level)."|".  genBars());
+            die($ftext . ".|" . number_format($user_class->points) . "|" . number_format($user_class->money) . "|" . number_format($user_class->level) . "|" . genBars());
         } elseif ($chance == 6) {
             $user_class->nerve -= $nerve;
             $db->query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ?, caught = caught + 1, jail = 300 WHERE id = ?");
@@ -442,7 +449,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 $exp = $exp + $resExpInc;
             }
             if ($userPrestigeSkills['crime_exp_unlock'] > 0) {
-                $exp = $exp + ($exp / 100  * 20);
+                $exp = $exp + ($exp / 100 * 20);
             }
             $exp = ceil($exp);
 
@@ -510,13 +517,13 @@ if (isset($_POST['id']) || isset($input['id'])) {
                     }
 
                 }
-           }
+            }
 
             if ($user_class->gang > 0) {
-                $db->query("SELECT upgrade_crimecash FROM gangs WHERE id = ".$user_class->gang);
+                $db->query("SELECT upgrade_crimecash FROM gangs WHERE id = " . $user_class->gang);
                 $db->execute();
                 $u = $db->fetch_row(true);
-                $percent = $u['upgrade_crimecash']*2;
+                $percent = $u['upgrade_crimecash'] * 2;
                 $money += round(($money * $percent) / 100);
             }
 
@@ -542,7 +549,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
             ));
 
 
-// Check if the user has already performed this crime and a row exists in crimeranks
+            // Check if the user has already performed this crime and a row exists in crimeranks
             $db->query("SELECT id FROM crimeranks WHERE userid = ? AND crimeid = ?");
             $db->execute(array($user_class->id, $id));
             $crimeRank = $db->fetch_row(true);

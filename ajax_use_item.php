@@ -662,32 +662,54 @@ if (isset($_GET['use'])) {
                 $response['success'] = true;
                 $response['message'] = "You open your Golden Chest and inside find 1,250,000 points, $1,250,000,000, 1 x Protein Bar, 1 x Gym Super Pill, 1 x Double Gym Injection, 1 x Hitman Statue, 10 x Gold Rush Token Chest, 10 x Mission Passes, 5 x Toffee Apple, 1 Ghost Vacuum & 5 x Perfume!";
                 break;
-            case 250: # Advanced Booster
+            case 333: # Nerve Tonic
+                $nr = give_nerve(100);
+                if ($nr == 0) {
+                    $response['message'] = "You cannot use the Nerve Tonic when you are at full nerve.";
+                    echo json_encode($response);
+                    exit;
+                } else {
+                    $response['success'] = true;
+                    $response["message"] = "You have used the Nerve Tonic and replenished " . $nr . " nerve!";
+                }
+                break;
+            case 334: # Balls of Steel
                 $nr = give_nerve(250);
-                $er = give_energy(250);
-
-                if ($er == 0 && $nr == 0) {
-                    $response['message'] = "You cannot use the Advanced Booster when you are at full energy and nerve.";
+                if ($nr == 0) {
+                    $response['message'] = "You cannot use the Balls of Steel when you are at full nerve.";
                     echo json_encode($response);
                     exit;
                 } else {
                     $response['success'] = true;
-                    $response["message"] = "You have used the Advanced Booster and replenished your energy and nerve!";
+                    $response["message"] = "You have used the Balls of Steel and replenished " . $nr . " nerve!";
                 }
                 break;
-            case 264: # Galactic Booster
-                $nr = give_nerve(275);
-                $er = give_energy(275);
+            // case 250: # Advanced Booster
+            //     $nr = give_nerve(250);
+            //     $er = give_energy(250);
 
-                if ($er == 0 && $nr == 0) {
-                    $response['message'] = "You cannot use the Galactic Booster when you are at full energy and nerve.";
-                    echo json_encode($response);
-                    exit;
-                } else {
-                    $response['success'] = true;
-                    $response["message"] = "You have used the Galactic Booster and replenished your energy and nerve!";
-                }
-                break;
+            //     if ($er == 0 && $nr == 0) {
+            //         $response['message'] = "You cannot use the Advanced Booster when you are at full energy and nerve.";
+            //         echo json_encode($response);
+            //         exit;
+            //     } else {
+            //         $response['success'] = true;
+            //         $response["message"] = "You have used the Advanced Booster and replenished your energy and nerve!";
+            //     }
+            //     break;
+            // case 264: # Galactic Booster
+            //     $nr = give_nerve(275);
+            //     $er = give_energy(275);
+
+            //     if ($er == 0 && $nr == 0) {
+            //         $response['message'] = "You cannot use the Galactic Booster when you are at full energy and nerve.";
+            //         echo json_encode($response);
+            //         exit;
+            //     } else {
+            //         $response['success'] = true;
+            //         $response["message"] = "You have used the Galactic Booster and replenished your energy and nerve!";
+            //     }
+            //     break;
             default:
                 $response['message'] = "Item not recognized or cannot be used.";
                 break;
