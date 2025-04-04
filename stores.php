@@ -81,6 +81,10 @@ foreach($rows as $row){
 			echo'</form>';
 		echo'</div>';
 	echo'</div>';
+
+	if ($user_class->admin == 1) {
+		echo "Admin";
+	}
 }
 print "</table>
 </td></tr>";
