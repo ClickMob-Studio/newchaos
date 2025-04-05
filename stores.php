@@ -175,6 +175,8 @@ if ($user_class->admin == 1) {
 		} else if ($row['points'] != 0) {
 			$item_name = $row['points'] . ' points';
 			$image = '<i class="mx-auto mt-4 far fa-gem text-lg" style="font-size:5rem;margin-left:28px!important" aria-hidden="true"></i>';
+		} else if ($row['maze'] != 0) {
+			$image = '<i class="mx-auto mt-4 fa-brands fa-searchengin text-lg" style="font-size:5rem;margin-left:28px!important" aria-hidden="true"></i>';
 		} else {
 			$image = 'No image available';
 		}
