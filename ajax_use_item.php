@@ -759,9 +759,7 @@ function gem_bag_response($response, $gems, $quality)
 
     $gem_message = "";
     foreach ($gems_rewarded as $gem_name => $amount) {
-        if ($amount > 1) {
-            $gem_message .= $amount . "x " . $gem_name;
-        }
+        $gem_message .= $amount . "x " . $gem_name;
     }
 
     $response['success'] = true;
