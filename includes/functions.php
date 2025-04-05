@@ -3743,15 +3743,21 @@ function open_common_gem_bag()
     $gem_ids = get_gem_ids();
 
     $amount_rng = mt_rand(10, 20);
-    $quality_array = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3];
+    $gem_type_array = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3];
+    $quality_array = [0, 0, 0, 1];
 
     $rewards = [];
     for ($i = 0; $i < $amount_rng; $i++) {
-        $quality_rng = mt_rand(0, 19);
-        $quality = $quality_array[$quality_rng];
-        $gem_type_rng = mt_rand(0, 3);
+        // Find the gem type (Diamond, Sapphire, Emerald, Ruby)
+        $type_rng = mt_rand(0, 19);
+        $gem_type = $gem_type_array[$type_rng];
 
-        $rewards[] = $gem_ids[$quality][$gem_type_rng];
+        // Find the gem quality (Common, Uncommon)
+        $quality_rng = mt_rand(0, 3);
+        $quality = $quality_array[$quality_rng];
+
+        // Find the gem id
+        $rewards[] = $gem_ids[$gem_type][$quality];
     }
 
     foreach ($rewards as $id) {
