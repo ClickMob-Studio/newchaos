@@ -9,12 +9,11 @@ $egg_name_by_id = array(
 
 ?>
 
-
-
 <div class='box_top'>Store</div>
 						<div class='box_middle'>
 							<div class='pad'>
                                 <?php
+// Easter 2025 Store Handling -- START
 if (isset($_POST['type']) && $_POST['type'] == 'easter-2025') {
 	$qty = security($_POST['qty']);
 	$item = security($_POST['item']);
@@ -42,6 +41,11 @@ if (isset($_POST['type']) && $_POST['type'] == 'easter-2025') {
 
 			// Give the item to the user
 			if ($row['item_id'] != 0) {
+				// Select the item from the database
+				$db->query("SELECT * FROM items WHERE id = ?");
+				$db->execute([$row['item_id']]);
+				$item_row = $db->fetch_row(true);
+				$item_name = $item_row['itemname'];
 				Give_Item($row['item_id'], $user_class->id, $qty);
 			} else if ($row['points'] != 0) {
 				$item_name = $row['points'] . ' points';
@@ -63,15 +67,15 @@ if (isset($_POST['type']) && $_POST['type'] == 'easter-2025') {
 			} else if ($row['achievement'] == 2) {
 			}
 
-			echo Message("You have exchanged {$qty}x {$egg_name_by_id[$egg_id]} for {$qty}x {$item_name}.");
+			echo Message("You have exchanged {$row['quantity']}x {$egg_name_by_id[$egg_id]} for {$qty}x {$item_name}.");
 		} else {
 			echo Message("You do not have enough {$egg_name_by_id[$egg_id]} to exchange for this item.");
 		}
 	} else {
 		echo Message("That isn't a real easter item.");
 	}
-
 }
+// Easter 2025 Store Handling -- END
 
 if (isset($_POST['qty']) && !isset($_POST['type'])) {
     $qty = security($_POST['qty']);
