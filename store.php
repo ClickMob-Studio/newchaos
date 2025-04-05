@@ -1257,7 +1257,7 @@ include 'header.php';
 
         <div class="alert alert-success" role="alert">
             <center>
-                DONATE NOW WITH CREDITS HALF PRICE!
+                DONATE NOW AND RECEIVE 200% CREDITS!
             </center>
         </div>
 
@@ -1271,7 +1271,9 @@ include 'header.php';
         ?>
         <span id="creditDisplay">
             <font color='white'>For a donation of $<span id="donationAmount">0</span>, you will receive
-                <font color=red><b id="creditsAmount">0</b></font> <img src="https://chaoscity.co.uk/goldbar.png"></img>
+                <b id="creditsAmount" style="text-decoration: line-through;color:gray;">0 </b>
+                <b id="newCreditsAmount" style="color:red;"></b>
+                <img src="https://chaoscity.co.uk/goldbar.png"></img>
             </font>
         </span>
 
@@ -1283,15 +1285,15 @@ include 'header.php';
             document.addEventListener("DOMContentLoaded", function () {
                 var amountInput = document.getElementById("amount");
                 var creditDisplayAmount = document.getElementById("creditsAmount"); // Element to display the credits amount
+                var newCreditDisplayAmount = document.getElementById("newCreditsAmount"); // Element to display the credits amount
                 var donationAmountDisplay = document.getElementById("donationAmount"); // Element to display the donation amount
 
                 function updateCredits() {
                     var donationAmount = parseFloat(amountInput.value) || 0;
                     var credits = donationAmount * 10; // Assuming each dollar gives 10 credits, adjust as needed
-                    var credits = credits;
-
                     donationAmountDisplay.textContent = donationAmount.toFixed(2); // Update the displayed donation amount
                     creditDisplayAmount.textContent = credits; // Update the displayed credits amount
+                    newCreditDisplayAmount.textContent = credits * 2; // Update the displayed credits amount
                 }
 
                 amountInput.addEventListener("input", updateCredits);
