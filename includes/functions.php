@@ -3709,7 +3709,7 @@ function get_gem_name_from_id($id)
             return 'Common Emerald';
         case 210:
             return 'Common Ruby';
-        case 255:
+        case 225:
             return 'Uncommon Diamond';
         case 228:
             return 'Uncommon Sapphire';
