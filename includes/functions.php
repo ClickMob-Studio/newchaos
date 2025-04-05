@@ -3745,18 +3745,18 @@ function open_common_gem_bag()
     $amount_rng = mt_rand(10, 20);
     $quality_array = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3];
 
-    $gem_ids = [];
+    $rewards = [];
     for ($i = 0; $i < $amount_rng; $i++) {
         $quality_rng = mt_rand(0, 19);
         $quality = $quality_array[$quality_rng];
         $gem_type_rng = mt_rand(0, 3);
 
-        $gem_ids[] = $gem_ids[$quality][$gem_type_rng];
+        $rewards[] = $gem_ids[$quality][$gem_type_rng];
     }
 
-    foreach ($gem_ids as $gem_id) {
-        Give_Item($gem_id, $user_class->id, 1);
+    foreach ($rewards as $id) {
+        Give_Item($id, $user_class->id, 1);
     }
 
-    return $gem_ids;
+    return $rewards;
 }
