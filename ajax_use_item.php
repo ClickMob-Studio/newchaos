@@ -684,6 +684,35 @@ if (isset($_GET['use'])) {
                     $response["message"] = "You have used the Balls of Steel and replenished " . $nr . " nerve!";
                 }
                 break;
+            case 339: # Common Gem Bag
+                $gems = open_common_gem_bag();
+                if ($gems) {
+                    $gems_rewarded = [];
+                    foreach ($gems as $gem) {
+                        $name = get_gem_name_from_id($gem);
+                        if (isset($gems_rewared[$name])) {
+                            $gems_rewarded[$name] += 1;
+                        } else {
+                            $gems_rewarded[$name] = 1;
+                        }
+                    }
+
+                    $gem_message = "";
+                    foreach ($gems_rewarded as $gem_name => $amount) {
+                        if ($amount > 1) {
+                            $gem_message .= "$amountx $gem_name ";
+                        }
+                    }
+
+                    $response['success'] = true;
+                    $response["message"] = "You have opened the Common Gem Bag and received: " . $gem_message . "!";
+                }
+
+                break;
+            case 340: # Rare Gem Bag
+                break;
+            case 341: # Ultra Rare Gem Bag
+                break;
             // case 250: # Advanced Booster
             //     $nr = give_nerve(250);
             //     $er = give_energy(250);

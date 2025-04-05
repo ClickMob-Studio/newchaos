@@ -3622,3 +3622,141 @@ function getBackalleyBadges()
 
     return $badges;
 }
+
+
+/**
+ * (0 -> DIAMOND, 1 -> SAPPHIRE, 2 -> EMERALD, 3 -> RUBY)
+ * (50, 30, 15, 5)
+ * 
+ * ---
+ * 
+ * COMMON GEM BAG (10-15 GEMS):
+ * 1st RNG -> Amount of gems: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+ * 
+ * 2nd RNG -> [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3] -> Index from 1 to 20, the higher 
+ * the number the better the gem, repeat for #amount of gems#
+ * 
+ * (0 -> Common, 1 -> Uncommon)
+ * (75, 25)
+ * 3rd RNG -> [0, 0, 0, 1] -> Index from 1 to 4 to decide rarity of gem, repeat for each gem
+ * 
+ * ---
+ * 
+ * RARE GEM BAG (10-20 GEMS):
+ * 1st RNG -> Amount of gems: [10, 11, 12, 13, 14, 15)
+ * 
+ * 2nd RNG -> [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3] -> Index from 1 to 20, the higher 
+ * the number the better the gem, repeat for #amount of gems#
+ * 
+ * (0 -> Common, 1 -> Uncommon, 2 -> Rare)
+ * (50, 35, 15)
+ * 3rd RNG -> [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2] -> Index from 1 to 20 to decide rarity of gem, repeat for each gem
+ * 
+ * ---
+ * 
+ * ULTRA RARE GEM BAG (10-20 GEMS):
+ * 1st RNG -> Amount of gems: [10, 11, 12, 13, 14, 15)
+ * 
+ * 2nd RNG -> [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3] -> Index from 1 to 20, the higher 
+ * the number the better the gem, repeat for #amount of gems#
+ * 
+ * (0 -> Uncommon, 1 -> Rare, 2 -> Ultra Rare)
+ * (50, 40, 10)
+ * 3rd RNG -> [0, 0, 0, 0, 0, 1, 1, 1, 1, 2] -> Index from 1 to 10 to decide rarity of gem, repeat for each gem
+ */
+function get_gem_ids()
+{
+    return [
+        // COMMON
+        0 => [
+            209, // Common Diamond
+            212, // Common Sapphire
+            211, // Common Emerald
+            210, // Common Ruby
+        ],
+        // UNCOMMON
+        1 => [
+            255, // Uncommon Diamond
+            228, // Uncommon Sapphire
+            227, // Uncommon Emerald
+            226, // Uncommon Ruby
+        ],
+        // RARE
+        2 => [
+            242, // Rare Diamond
+            245, // Rare Sapphire
+            244, // Rare Emerald
+            243, // Rare Ruby
+        ],
+        // ULTRA RARE
+        3 => [
+            246, // Ultra Rare Diamond
+            249, // Ultra Rare Sapphire
+            248, // Ultra Rare Emerald
+            247, // Ultra Rare Ruby
+        ],
+    ];
+}
+
+function get_gem_name_from_id($id)
+{
+    switch ($id) {
+        case 209:
+            return 'Common Diamond';
+        case 212:
+            return 'Common Sapphire';
+        case 211:
+            return 'Common Emerald';
+        case 210:
+            return 'Common Ruby';
+        case 255:
+            return 'Uncommon Diamond';
+        case 228:
+            return 'Uncommon Sapphire';
+        case 227:
+            return 'Uncommon Emerald';
+        case 226:
+            return 'Uncommon Ruby';
+        case 242:
+            return 'Rare Diamond';
+        case 245:
+            return 'Rare Sapphire';
+        case 244:
+            return 'Rare Emerald';
+        case 243:
+            return 'Rare Ruby';
+        case 246:
+            return 'Ultra Rare Diamond';
+        case 249:
+            return 'Ultra Rare Sapphire';
+        case 248:
+            return 'Ultra Rare Emerald';
+        case 247:
+            return 'Ultra Rare Ruby';
+    }
+}
+
+function open_common_gem_bag()
+{
+    global $user_class, $db;
+
+    $gem_ids = get_gem_ids();
+
+    $amount_rng = mt_rand(10, 20);
+    $quality_array = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3];
+
+    $gem_ids = [];
+    for ($i = 0; $i < $amount_rng; $i++) {
+        $quality_rng = mt_rand(0, 19);
+        $quality = $quality_array[$quality_rng];
+        $gem_type_rng = mt_rand(0, 3);
+
+        $gem_ids[] = $gem_ids[$quality][$gem_type_rng];
+    }
+
+    foreach ($gem_ids as $gem_id) {
+        Give_Item($gem_id, $user_class->id, 1);
+    }
+
+    return $gem_ids;
+}
