@@ -3668,28 +3668,28 @@ function get_gem_ids()
 {
     return [
         // COMMON
-        0 => [
+        [
             209, // Common Diamond
             212, // Common Sapphire
             211, // Common Emerald
             210, // Common Ruby
         ],
         // UNCOMMON
-        1 => [
-            255, // Uncommon Diamond
+        [
+            225, // Uncommon Diamond
             228, // Uncommon Sapphire
             227, // Uncommon Emerald
             226, // Uncommon Ruby
         ],
         // RARE
-        2 => [
+        [
             242, // Rare Diamond
             245, // Rare Sapphire
             244, // Rare Emerald
             243, // Rare Ruby
         ],
         // ULTRA RARE
-        3 => [
+        [
             246, // Ultra Rare Diamond
             249, // Ultra Rare Sapphire
             248, // Ultra Rare Emerald
@@ -3757,7 +3757,7 @@ function open_common_gem_bag()
         $quality = $quality_array[$quality_rng];
 
         // Find the gem id
-        $rewards[] = $gem_ids[$gem_type][$quality];
+        $rewards[] = $gem_ids[$quality][$gem_type];
     }
 
     foreach ($rewards as $id) {
