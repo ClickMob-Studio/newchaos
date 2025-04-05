@@ -1,12 +1,76 @@
 <?php
 include 'header.php';
+
+$egg_name_by_id = array(
+	336 => 'Common Easter Egg',
+	337 => 'Rare Easter Egg',
+	338 => 'Ulra Rare Easter Egg',
+);
+
 ?>
+
+
 
 <div class='box_top'>Store</div>
 						<div class='box_middle'>
 							<div class='pad'>
                                 <?php
-if (isset($_POST['qty'])) {
+if (isset($_POST['type']) && $_POST['type'] == 'easter-2025') {
+	$qty = security($_POST['qty']);
+	$item = security($_POST['item']);
+	if ($qty <= 0) {
+		diefun('You must enter a quantity.');
+	}
+	$db->query("SELECT * FROM easter_store WHERE id = ?");
+	$db->execute([$item]);
+	$row = $db->fetch_row(true);
+	if (!empty($row['id'])) {
+		$egg_id = $row['egg_id'];
+		$egg_quantity = $row['quantity'];
+
+		// Check if the user has enough eggs
+		$db->query("SELECT * FROM inventory WHERE user_id = ? AND itemid = ?");
+		$db->execute([$user_class->id, $egg_id]);
+		$inventory_row = $db->fetch_row(true);
+
+		if ($inventory_row['quantity'] >= $egg_quantity * $qty) {
+			// Deduct the eggs from the user's inventory
+			$db->query("UPDATE inventory SET quantity = quantity - ? WHERE user_id = ? AND itemid = ?");
+			$db->execute([$egg_quantity * $qty, $user_class->id, $egg_id]);
+
+			// Give the item to the user
+			if ($row['item_id'] != 0) {
+				Give_Item($row['item_id'], $user_class->id, $qty);
+			} else if ($row['points'] != 0) {
+				$user_class->points += $row['points'] * $qty;
+
+				$db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
+				$db->execute(array(
+					$row['points'] * $qty,
+					$user_class->id
+				));
+			} else if ($row['maze'] != 0) {
+				$user_class->cityturns += $row['maze'] * $qty;
+				$db->query('UPDATE grpgusers SET cityturns = cityturns + ? WHERE id = ?');
+				$db->execute(array(
+					$row['maze'] * $qty,
+					$user_class->id
+				));
+			} else if ($row['achievement'] == 1) {
+			} else if ($row['achievement'] == 2) {
+			}
+
+			echo Message("You have exchanged {$qty}x {$egg_name_by_id[$egg_id]} for {$qty}x {$item_name}.");
+		} else {
+			echo Message("You do not have enough {$egg_name_by_id[$egg_id]} to exchange for this item.");
+		}
+	} else {
+		echo Message("That isn't a real easter item.");
+	}
+
+}
+
+if (isset($_POST['qty']) && !isset($_POST['type'])) {
     $qty = security($_POST['qty']);
 	$item = security($_POST['item']);
 	if($qty <= 0)
@@ -86,12 +150,6 @@ foreach($rows as $row){
 
 // Easter 2025 Store
 if ($user_class->admin == 1) {
-	$egg_name_by_id = array(
-		336 => 'Common Easter Egg',
-		337 => 'Rare Easter Egg',
-		338 => 'Ulra Rare Easter Egg',
-	);
-
 	echo'<div class="floaty"><h1>Easter 2025</h1>';
 
 	$db->query("SELECT * FROM easter_store ORDER BY egg_id ASC, quantity ASC");
