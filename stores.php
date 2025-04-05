@@ -29,13 +29,13 @@ if (isset($_POST['type']) && $_POST['type'] == 'easter-2025') {
 		$egg_quantity = $row['quantity'];
 
 		// Check if the user has enough eggs
-		$db->query("SELECT * FROM inventory WHERE user_id = ? AND itemid = ?");
+		$db->query("SELECT * FROM inventory WHERE userid = ? AND itemid = ?");
 		$db->execute([$user_class->id, $egg_id]);
 		$inventory_row = $db->fetch_row(true);
 
 		if ($inventory_row['quantity'] >= $egg_quantity * $qty) {
 			// Deduct the eggs from the user's inventory
-			$db->query("UPDATE inventory SET quantity = quantity - ? WHERE user_id = ? AND itemid = ?");
+			$db->query("UPDATE inventory SET quantity = quantity - ? WHERE userid = ? AND itemid = ?");
 			$db->execute([$egg_quantity * $qty, $user_class->id, $egg_id]);
 
 			// Give the item to the user
