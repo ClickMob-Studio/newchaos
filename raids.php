@@ -993,10 +993,10 @@ echo "</div>"; // Close active-raids-grid
     }
 
     .active-raids-grid .boss-image {
-        width: 100px;
-        height: 100px;
+        width: 112;
+        height: 112;
         object-fit: cover;
-        border-radius: 50%;
+        border-radius: 8%;
         margin: 0 auto;
         display: block;
         margin-bottom: 15px;
