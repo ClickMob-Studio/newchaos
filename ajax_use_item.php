@@ -685,33 +685,16 @@ if (isset($_GET['use'])) {
                 }
                 break;
             case 339: # Common Gem Bag
-                $gems = open_common_gem_bag();
-                if ($gems) {
-                    $gems_rewarded = [];
-                    foreach ($gems as $gem) {
-                        $name = get_gem_name_from_id($gem);
-                        if (isset($gems_rewared[$name])) {
-                            $gems_rewarded[$name] += 1;
-                        } else {
-                            $gems_rewarded[$name] = 1;
-                        }
-                    }
-
-                    $gem_message = "";
-                    foreach ($gems_rewarded as $gem_name => $amount) {
-                        if ($amount > 1) {
-                            $gem_message .= "$amountx $gem_name ";
-                        }
-                    }
-
-                    $response['success'] = true;
-                    $response["message"] = "You have opened the Common Gem Bag and received: " . $gem_message . "!";
-                }
-
+                $gems = open_gem_bag([0, 0, 0, 1]);
+                gem_bag_response($gems, 0);
                 break;
             case 340: # Rare Gem Bag
+                $gems = open_gem_bag([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2]);
+                gem_bag_response($gems, 1);
                 break;
             case 341: # Ultra Rare Gem Bag
+                $gems = open_gem_bag([1, 1, 1, 1, 1, 2, 2, 2, 2, 3]);
+                gem_bag_response($gems, 2);
                 break;
             // case 250: # Advanced Booster
             //     $nr = give_nerve(250);
@@ -754,3 +737,33 @@ if (isset($_GET['use'])) {
 // Output the response in JSON format
 echo json_encode($response);
 exit;
+
+
+function gem_bag_response($gems, $quality)
+{
+    $bag_names = [
+        "Common Gem Bag",
+        "Rare Gem Bag",
+        "Ultra Rare Gem Bag",
+    ];
+
+    $gems_rewarded = [];
+    foreach ($gems as $gem) {
+        $name = get_gem_name_from_id($gem);
+        if (isset($gems_rewared[$name])) {
+            $gems_rewarded[$name] += 1;
+        } else {
+            $gems_rewarded[$name] = 1;
+        }
+    }
+
+    $gem_message = "";
+    foreach ($gems_rewarded as $gem_name => $amount) {
+        if ($amount > 1) {
+            $gem_message .= $amount . "x " . $gem_name;
+        }
+    }
+
+    $response['success'] = true;
+    $response["message"] = "You have opened the " . $bag_names[$quality] . " and received: " . $gem_message . "!";
+}

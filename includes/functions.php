@@ -3736,15 +3736,14 @@ function get_gem_name_from_id($id)
     }
 }
 
-function open_common_gem_bag()
+function open_gem_bag($quality_array = [])
 {
-    global $user_class, $db;
+    global $user_class;
 
     $gem_ids = get_gem_ids();
 
-    $amount_rng = mt_rand(10, 20);
+    $amount_rng = mt_rand(10, 15);
     $gem_type_array = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3];
-    $quality_array = [0, 0, 0, 1];
 
     $rewards = [];
     for ($i = 0; $i < $amount_rng; $i++) {
@@ -3752,8 +3751,8 @@ function open_common_gem_bag()
         $type_rng = mt_rand(0, 19);
         $gem_type = $gem_type_array[$type_rng];
 
-        // Find the gem quality (Common, Uncommon)
-        $quality_rng = mt_rand(0, 3);
+        // Find the gem quality
+        $quality_rng = mt_rand(0, count($quality_array) - 1);
         $quality = $quality_array[$quality_rng];
 
         // Find the gem id
