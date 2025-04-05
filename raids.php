@@ -4,12 +4,13 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 
-	include 'header.php';
+include 'header.php';
 
 error_reporting(0); // Turn off all error reporting
 ini_set('display_errors', 0); // Don't display errors
 
-function sendDiscordWebhook($message, $title = '', $color = '', $username = 'Raid Bot', $avatar = '') {
+function sendDiscordWebhook($message, $title = '', $color = '', $username = 'Raid Bot', $avatar = '')
+{
     // Discord Webhook URL
     //$webhookUrl = 'https://discord.com/api/webhooks/1180814608466968656/m6UcV6PKbOAz2CDhTJTMmzpT1aTFlBvOxYf-h2zHbpCtiPgfwSXLhrKxTgi17NukHjT3';
 
@@ -55,83 +56,83 @@ function sendDiscordWebhook($message, $title = '', $color = '', $username = 'Rai
 }
 ?>
 <script>
-function openModal(raidId) {
-    fetchParticipants(raidId);
-    document.getElementById('userModal').style.display = 'block';
-}
-
-function closeModal() {
-    document.getElementById('userModal').style.display = 'none';
-}
-
-function fetchParticipants(raidid) {
-    const raidId = raidid;
-    console.log(raidid);
-    fetch(`getParticipants.php?raidId=${raidId}`)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            updateModalContent(data);
-            openModal(); // Open the modal after updating content
-        })
-        .catch(error => console.error('Error fetching participants:', error));
-}
-function updateModalContent(participantsData) {
-    const modalContent = document.getElementById('modal-content');
-    modalContent.innerHTML = '';
-
-    if (Array.isArray(participantsData)) {
-        participantsData.forEach(participant => {
-            const participantElement = document.createElement('div');
-            participantElement.textContent = participant;
-            modalContent.appendChild(participantElement);
-        });
-    } else {
-        console.error('Error: Participants data is not an array');
+    function openModal(raidId) {
+        fetchParticipants(raidId);
+        document.getElementById('userModal').style.display = 'block';
     }
-}
+
+    function closeModal() {
+        document.getElementById('userModal').style.display = 'none';
+    }
+
+    function fetchParticipants(raidid) {
+        const raidId = raidid;
+        console.log(raidid);
+        fetch(`getParticipants.php?raidId=${raidId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                updateModalContent(data);
+                openModal(); // Open the modal after updating content
+            })
+            .catch(error => console.error('Error fetching participants:', error));
+    }
+    function updateModalContent(participantsData) {
+        const modalContent = document.getElementById('modal-content');
+        modalContent.innerHTML = '';
+
+        if (Array.isArray(participantsData)) {
+            participantsData.forEach(participant => {
+                const participantElement = document.createElement('div');
+                participantElement.textContent = participant;
+                modalContent.appendChild(participantElement);
+            });
+        } else {
+            console.error('Error: Participants data is not an array');
+        }
+    }
 
 
-document.addEventListener("DOMContentLoaded", function() {
-    const timers = document.querySelectorAll('.timer');
+    document.addEventListener("DOMContentLoaded", function () {
+        const timers = document.querySelectorAll('.timer');
 
-    timers.forEach(timer => {
-        const secondsRemaining = timer.getAttribute('data-seconds');
-        let countDownDate = new Date().getTime() + secondsRemaining * 1000;
+        timers.forEach(timer => {
+            const secondsRemaining = timer.getAttribute('data-seconds');
+            let countDownDate = new Date().getTime() + secondsRemaining * 1000;
 
-        let x = setInterval(function() {
-            let now = new Date().getTime();
-            let distance = countDownDate - now;
+            let x = setInterval(function () {
+                let now = new Date().getTime();
+                let distance = countDownDate - now;
 
-            let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            timer.textContent = hours + "h " + minutes + "m " + seconds + "s ";
+                timer.textContent = hours + "h " + minutes + "m " + seconds + "s ";
 
-            if (distance < 0) {
-                clearInterval(x);
-                timer.textContent = "EXPIRED";
-            }
-        }, 1000);
+                if (distance < 0) {
+                    clearInterval(x);
+                    timer.textContent = "EXPIRED";
+                }
+            }, 1000);
+        });
     });
-});
 </script>
 
 
 
 <script>
-function confirmSummon(cost) {
-    return confirm('Summoning this boss will cost ' + cost + ' raid token(s). Are you sure you want to proceed?');
-}
-function toggleDropdown(element) {
-    var dropdown = element.nextElementSibling;
-    if (dropdown.style.display === "block") {
-        dropdown.style.display = "none";
-    } else {
-        dropdown.style.display = "block";
+    function confirmSummon(cost) {
+        return confirm('Summoning this boss will cost ' + cost + ' raid token(s). Are you sure you want to proceed?');
     }
-}
+    function toggleDropdown(element) {
+        var dropdown = element.nextElementSibling;
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        } else {
+            dropdown.style.display = "block";
+        }
+    }
 </script>
 
 
@@ -147,8 +148,8 @@ while ($row = mysql_fetch_assoc($result)) {
     $bosses[] = $row;
 }
 
-    $db->query("SELECT * FROM pets WHERE raid_leash = 1 AND userid = $user_class->id LIMIT 1");
-    $pet = $db->fetch_row(true);
+$db->query("SELECT * FROM pets WHERE raid_leash = 1 AND userid = $user_class->id LIMIT 1");
+$pet = $db->fetch_row(true);
 
 
 
@@ -211,72 +212,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
 
 
 
-        // Fetch the boss ID associated with the raid
-        $boss_id_query = "SELECT boss_id FROM active_raids WHERE id = $raid_id";
-        $boss_id_result = mysql_query($boss_id_query);
-        $boss_id_row = mysql_fetch_assoc($boss_id_result);
-        $boss_id = $boss_id_row['boss_id'];
+    // Fetch the boss ID associated with the raid
+    $boss_id_query = "SELECT boss_id FROM active_raids WHERE id = $raid_id";
+    $boss_id_result = mysql_query($boss_id_query);
+    $boss_id_row = mysql_fetch_assoc($boss_id_result);
+    $boss_id = $boss_id_row['boss_id'];
 
-        // Fetch the tokencost for the boss
-        $tokencost_query = "SELECT tokencost FROM bosses WHERE id = $boss_id";
-        $tokencost_result = mysql_query($tokencost_query);
-        $tokencost_row = mysql_fetch_assoc($tokencost_result);
-        $tokencost = $tokencost_row['tokencost'];
+    // Fetch the tokencost for the boss
+    $tokencost_query = "SELECT tokencost FROM bosses WHERE id = $boss_id";
+    $tokencost_result = mysql_query($tokencost_query);
+    $tokencost_row = mysql_fetch_assoc($tokencost_result);
+    $tokencost = $tokencost_row['tokencost'];
 
-        // Fetch the maxraiders value for the boss
-        $maxraiders_query = "SELECT maxraiders FROM bosses WHERE id = $boss_id";
-        $maxraiders_result = mysql_query($maxraiders_query);
-        $maxraiders_row = mysql_fetch_assoc($maxraiders_result);
-        $maxraiders = $maxraiders_row['maxraiders'];
+    // Fetch the maxraiders value for the boss
+    $maxraiders_query = "SELECT maxraiders FROM bosses WHERE id = $boss_id";
+    $maxraiders_result = mysql_query($maxraiders_query);
+    $maxraiders_row = mysql_fetch_assoc($maxraiders_result);
+    $maxraiders = $maxraiders_row['maxraiders'];
 
-        // Count the current number of participants in the raid
-        $participant_count_query = "SELECT COUNT(*) AS participant_count FROM raid_participants WHERE raid_id = $raid_id";
-        $participant_count_result = mysql_query($participant_count_query);
-        $participant_count_row = mysql_fetch_assoc($participant_count_result);
-        $participant_count = $participant_count_row['participant_count'];
+    // Count the current number of participants in the raid
+    $participant_count_query = "SELECT COUNT(*) AS participant_count FROM raid_participants WHERE raid_id = $raid_id";
+    $participant_count_result = mysql_query($participant_count_query);
+    $participant_count_row = mysql_fetch_assoc($participant_count_result);
+    $participant_count = $participant_count_row['participant_count'];
 
-        // Check if the raid is already full
-        if ($participant_count >= $maxraiders) {
-            echo "This raid is already full with $participant_count/$maxraiders raiders.";
-            return; // Stop further execution if the raid is full
-        }
+    // Check if the raid is already full
+    if ($participant_count >= $maxraiders) {
+        echo "This raid is already full with $participant_count/$maxraiders raiders.";
+        return; // Stop further execution if the raid is full
+    }
 
-        // Check the user's raid tokens
-        $token_check_query = "SELECT raidtokens FROM grpgusers WHERE id = $user_id";
-        $token_check_result = mysql_query($token_check_query);
-        $user_data = mysql_fetch_assoc($token_check_result);
+    // Check the user's raid tokens
+    $token_check_query = "SELECT raidtokens FROM grpgusers WHERE id = $user_id";
+    $token_check_result = mysql_query($token_check_query);
+    $user_data = mysql_fetch_assoc($token_check_result);
 
-        // Check if the user has at least the required raid tokens
-        if ($user_data['raidtokens'] < 1) {
-            echo Message("You do not have enough raid tokens to join the raid. You need 1 token.");
-        } else {
-            // Deduct the required number of raid tokens from the user
-            $deduct_token_query = "UPDATE grpgusers SET raidtokens = raidtokens - 1 WHERE id = $user_id";
-            mysql_query($deduct_token_query);
+    // Check if the user has at least the required raid tokens
+    if ($user_data['raidtokens'] < 1) {
+        echo Message("You do not have enough raid tokens to join the raid. You need 1 token.");
+    } else {
+        // Deduct the required number of raid tokens from the user
+        $deduct_token_query = "UPDATE grpgusers SET raidtokens = raidtokens - 1 WHERE id = $user_id";
+        mysql_query($deduct_token_query);
 
-            // Proceed with joining the raid as before
-            $join_query = "INSERT INTO raid_participants (raid_id, user_id) VALUES ($raid_id, $user_id)";
-            mysql_query($join_query);
+        // Proceed with joining the raid as before
+        $join_query = "INSERT INTO raid_participants (raid_id, user_id) VALUES ($raid_id, $user_id)";
+        mysql_query($join_query);
 
-            // Update the raidsjoined count as before
-            $update_raidsjoined_query = "UPDATE grpgusers SET raidsjoined = raidsjoined + 1, raidcomp = raidcomp +1 WHERE id = $user_id";
-            mysql_query($update_raidsjoined_query);
+        // Update the raidsjoined count as before
+        $update_raidsjoined_query = "UPDATE grpgusers SET raidsjoined = raidsjoined + 1, raidcomp = raidcomp +1 WHERE id = $user_id";
+        mysql_query($update_raidsjoined_query);
 
-            // Get the owner of the raid as before
-            $owner_query = "SELECT summoned_by FROM active_raids WHERE id = $raid_id";
-            $owner_result = mysql_query($owner_query);
-            $owner_data = mysql_fetch_assoc($owner_result);
-            $owner_id = $owner_data['summoned_by'];
+        // Get the owner of the raid as before
+        $owner_query = "SELECT summoned_by FROM active_raids WHERE id = $raid_id";
+        $owner_result = mysql_query($owner_query);
+        $owner_data = mysql_fetch_assoc($owner_result);
+        $owner_id = $owner_data['summoned_by'];
 
-            // Convert the joining user's ID to their actual name as before
-            $joining_user_name = formatName($user_id);
+        // Convert the joining user's ID to their actual name as before
+        $joining_user_name = formatName($user_id);
 
-            // Create a notification for the raid owner as before
-            $event_message = "$joining_user_name has joined your raid!";
-            send_event($owner_id, $event_message);
+        // Create a notification for the raid owner as before
+        $event_message = "$joining_user_name has joined your raid!";
+        send_event($owner_id, $event_message);
 
-            echo Message("Successfully joined the raid and 1 raid token(s) have been deducted.");
-        }
+        echo Message("Successfully joined the raid and 1 raid token(s) have been deducted.");
+    }
 
 }
 
@@ -291,16 +292,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['use_speedup'], $_POST
         exit();
     }
     $fetch = mysql_fetch_assoc($check);
-    if($fetch['quantity'] == 1){
-        mysql_query("DELETE FROM inventory WHERE `id` = ".$fetch['id']);
-    }else{
-        $reduce_item_query = "UPDATE inventory SET quantity = quantity - 1  WHERE `id` = ".$fetch['id'];
-    mysql_query($reduce_item_query);
+    if ($fetch['quantity'] == 1) {
+        mysql_query("DELETE FROM inventory WHERE `id` = " . $fetch['id']);
+    } else {
+        $reduce_item_query = "UPDATE inventory SET quantity = quantity - 1  WHERE `id` = " . $fetch['id'];
+        mysql_query($reduce_item_query);
     }
 
 
     // Set the summoned_at column in the active_raids table to the current timestamp
-$end_raid_query = "UPDATE active_raids SET summoned_at = DATE_SUB(NOW(), INTERVAL 15 MINUTE) WHERE id = $raid_id";
+    $end_raid_query = "UPDATE active_raids SET summoned_at = DATE_SUB(NOW(), INTERVAL 15 MINUTE) WHERE id = $raid_id";
     mysql_query($end_raid_query);
 
     header("Location: raids.php");
@@ -385,15 +386,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
             echo "<script>alert('You must be at least level $boss_level to summon this boss.');</script>";
             return;
         }
-$raid_type = isset($_POST['raid_type']) ? mysql_real_escape_string($_POST['raid_type']) : 'Public'; // Default to Public if not set
+        $raid_type = isset($_POST['raid_type']) ? mysql_real_escape_string($_POST['raid_type']) : 'Public'; // Default to Public if not set
 
         $difficulty = mysql_real_escape_string($_POST['difficulty']);
         $query = "INSERT INTO active_raids (boss_id, summoned_by, difficulty, raid_type) VALUES ($boss_id, $user_id, '$difficulty', '$raid_type')";
-mysql_query($query);
+        mysql_query($query);
 
         // Get the ID of the raid that was just inserted
         $raid_id = mysql_insert_id();
-        $name = mysql_query("SELECT username FROM grpgusers WHERE id = ".$user_id);
+        $name = mysql_query("SELECT username FROM grpgusers WHERE id = " . $user_id);
         $username = mysql_fetch_row($name)[0];
 
         if (isset($pet['id']) && $pet['level'] >= $boss_level) {
@@ -402,8 +403,8 @@ mysql_query($query);
             $leashed_pet_id = 0;
         }
 
-       // mysql_query("INSERT INTO `globalchat` (`id`, `playerid`, `timesent`, `body`) VALUES (NULL, '0', ".time().", 'A new raid has been started')");
-       // sendDiscordWebhook($username." has summoned a new boss", "New Boss Summoned");
+        // mysql_query("INSERT INTO `globalchat` (`id`, `playerid`, `timesent`, `body`) VALUES (NULL, '0', ".time().", 'A new raid has been started')");
+        // sendDiscordWebhook($username." has summoned a new boss", "New Boss Summoned");
         // Insert the user into the raid_participants table
         $insert_participant_query = "INSERT INTO raid_participants (raid_id, user_id, leashed_pet_id) VALUES ($raid_id, $user_id, $leashed_pet_id)";
         mysql_query($insert_participant_query);
@@ -445,8 +446,10 @@ if ($pet && isset($pet['id'])): ?>
     <div class="alert alert-info">
         <center>
             <strong>
-                You currently have a pet on the leash. They will join in with any raids that they have the relevant level for.
-                Raid costs are double for a pet to join. <span style="color: red;">Pet's Can Only Join The Raids You Start.</span>
+                You currently have a pet on the leash. They will join in with any raids that they have the relevant level
+                for.
+                Raid costs are double for a pet to join. <span style="color: red;">Pet's Can Only Join The Raids You
+                    Start.</span>
             </strong>
         </center>
     </div>
@@ -465,7 +468,7 @@ echo "<a href='raids.php?ftype=private'>Private</a>";
 echo "<div class='active-raids-grid'>";
 
 foreach ($active_raids as $raid) {
-    $getGang = mysql_query("SELECT gang FROM grpgusers WHERE id = ".$raid['summoned_by']);
+    $getGang = mysql_query("SELECT gang FROM grpgusers WHERE id = " . $raid['summoned_by']);
     $gang = mysql_fetch_assoc($getGang);
     $summoner_name = formatName($raid['summoned_by']);
     $user_gang_id = $user_class->gang; // Assuming this is how you get the user's gang ID
@@ -517,7 +520,7 @@ foreach ($active_raids as $raid) {
         echo "<p>Participants: " . $participant_count . "/" . $maxraiders . "</p>";
     }
 
-  // Check if the user is already a participant of this raid
+    // Check if the user is already a participant of this raid
 
     // Check if the user has item 194 (Raid Speedups)
     $item_check_query = "SELECT SUM(quantity) as total_quantity FROM inventory WHERE itemid = 194 AND userid = " . $user_class->id;
@@ -545,7 +548,7 @@ foreach ($active_raids as $raid) {
         }
     }
 
-    if($user_class->id == 9){
+    if ($user_class->id == 9) {
         echo $raid['id'];
         echo "<button onclick=\"fetchParticipants(" . $raid['id'] . ")\">View Participants</button>";
     }
@@ -562,51 +565,51 @@ echo "</div>"; // Close active-raids-grid
 
 
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const timers = document.querySelectorAll('.timer');
+    document.addEventListener("DOMContentLoaded", function () {
+        const timers = document.querySelectorAll('.timer');
 
-    timers.forEach(timer => {
-        const secondsRemaining = timer.getAttribute('data-seconds');
-        let countDownDate = new Date().getTime() + secondsRemaining * 1000;
+        timers.forEach(timer => {
+            const secondsRemaining = timer.getAttribute('data-seconds');
+            let countDownDate = new Date().getTime() + secondsRemaining * 1000;
 
-        let x = setInterval(function() {
-            let now = new Date().getTime();
-            let distance = countDownDate - now;
+            let x = setInterval(function () {
+                let now = new Date().getTime();
+                let distance = countDownDate - now;
 
-            let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            timer.textContent = hours + "h " + minutes + "m " + seconds + "s ";
+                timer.textContent = hours + "h " + minutes + "m " + seconds + "s ";
 
-            if (distance < 0) {
-                clearInterval(x);
-                timer.textContent = "EXPIRED";
-            }
-        }, 1000);
+                if (distance < 0) {
+                    clearInterval(x);
+                    timer.textContent = "EXPIRED";
+                }
+            }, 1000);
+        });
     });
-});
 </script>
 
 <script>
-function showTooltip(event, element) {
-    var tooltip = element.nextElementSibling;
+    function showTooltip(event, element) {
+        var tooltip = element.nextElementSibling;
 
-    // Get the mouse coordinates and set the tooltip's position
-    var left = event.clientX;
-    var top = event.clientY;
+        // Get the mouse coordinates and set the tooltip's position
+        var left = event.clientX;
+        var top = event.clientY;
 
-    tooltip.style.left = left + 'px';
-    tooltip.style.top = top + 'px';
+        tooltip.style.left = left + 'px';
+        tooltip.style.top = top + 'px';
 
-    // Show the tooltip
-    tooltip.style.display = 'block';
+        // Show the tooltip
+        tooltip.style.display = 'block';
 
-    // Hide the tooltip after a short delay (2 seconds in this case)
-    setTimeout(function() {
-        tooltip.style.display = 'none';
-    }, 2000);
-}
+        // Hide the tooltip after a short delay (2 seconds in this case)
+        setTimeout(function () {
+            tooltip.style.display = 'none';
+        }, 2000);
+    }
 </script>
 
 <br /><br />
@@ -694,9 +697,16 @@ function showTooltip(event, element) {
 
         ?>
 
-        <h3><font color="brown">Embark on epic raids, where you challenge fearsome bosses in intense battles. As your level grows, so does the might of the adversaries you confront. Every boss presents distinct challenges and promises enticing rewards. Strategize your difficulty selection judiciously and join forces with fellow adventurers to conquer these formidable foes!</font></h3>
+        <h3>
+            <font color="brown">Embark on epic raids, where you challenge fearsome bosses in intense battles. As your
+                level grows, so does the might of the adversaries you confront. Every boss presents distinct challenges
+                and promises enticing rewards. Strategize your difficulty selection judiciously and join forces with
+                fellow adventurers to conquer these formidable foes!</font>
+        </h3>
 
-        <h4><font color="white"><u>Your Available Bosses</u></font></h4>
+        <h4>
+            <font color="white"><u>Your Available Bosses</u></font>
+        </h4>
 
         <div class="bosses-grid">
             <?php
@@ -778,54 +788,57 @@ function showTooltip(event, element) {
 
                 echo "</div>"; // Close boss-card
             }
-            ?></div>
+            ?>
+        </div>
     </div>
 </div>
 
 
 </div>
-    <div style="clear:both;"></div>
+<div style="clear:both;"></div>
 
 <style>
+    .btn-danger {
+        /* Styles for the red disabled button */
+        background-color: red;
+        color: white;
+        /* Other necessary styles */
+    }
 
-.btn-danger {
-    /* Styles for the red disabled button */
-    background-color: red;
-    color: white;
-    /* Other necessary styles */
-}
+    .btn-primary {
+        /* Styles for the regular join button */
+        background-color: blue;
+        color: white;
+        /* Other necessary styles */
+    }
 
-.btn-primary {
-    /* Styles for the regular join button */
-    background-color: blue;
-    color: white;
-    /* Other necessary styles */
-}
+    .difficulty-form {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        /* Align items to the start of the flex container */
+    }
 
-.difficulty-form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start; /* Align items to the start of the flex container */
-}
+    .form-group {
+        margin-bottom: 10px;
+        /* Add some space between each form group */
+    }
 
-.form-group {
-    margin-bottom: 10px; /* Add some space between each form group */
-}
+    .bonus-item {
+        color: red;
+        /* Highlight bonus items in red */
+        cursor: pointer;
+    }
 
-.bonus-item {
-    color: red; /* Highlight bonus items in red */
-    cursor: pointer;
-}
-
-.tooltip {
-    position: absolute;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    padding: 5px;
-    z-index: 1000;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+    .tooltip {
+        position: absolute;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        padding: 5px;
+        z-index: 1000;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
     .raids-container {
         background-color: #292727;
@@ -851,70 +864,78 @@ function showTooltip(event, element) {
         margin-bottom: 30px;
     }
 
-     .boss-card {
+    .boss-card {
 
-    color: white; /* Light text */
-    padding: 20px;
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow at the top */
-    padding: 15px 5px 10px;
-    text-align: center;
+        color: white;
+        /* Light text */
+        padding: 20px;
+        border-radius: 10px;
+        /* Rounded corners */
+        box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+        /* Subtle shadow at the top */
+        padding: 15px 5px 10px;
+        text-align: center;
 
-}
+    }
 
-        .boss-rewards {
-      position: relative; ;
-            top: 0;
-            left: 100%;
-            background-color: #f5f5f5;
-            border-left: 1px solid #ccc;
-            width: 200px;
-            height: 100%;
-            padding: 10px;
-            display: none;
-            overflow-y: auto;
-        }
+    .boss-rewards {
+        position: relative;
+        ;
+        top: 0;
+        left: 100%;
+        background-color: #f5f5f5;
+        border-left: 1px solid #ccc;
+        width: 200px;
+        height: 100%;
+        padding: 10px;
+        display: none;
+        overflow-y: auto;
+    }
 
-        .boss-card:hover .boss-rewards {
-            display: block;
-        }
+    .boss-card:hover .boss-rewards {
+        display: block;
+    }
 
-.rewards-btn {
-    cursor: pointer;
-    color: #007bff;
-    text-decoration: underline;
-}
+    .rewards-btn {
+        cursor: pointer;
+        color: #007bff;
+        text-decoration: underline;
+    }
 
-.rewards-dropdown {
-    display: none;
-    padding: 10px;
-    border: 1px solid #ccc;
-    background-color: #2b2a2a;
-    border-radius: 4px;
-    max-width: 250px;
-}
-.rewards-tooltip {
-    display: none;
-    position: fixed; /* Use fixed positioning instead of absolute */
-    white-space: nowrap;
-    padding: 10px;
-    color: black;
-    border: 1px solid #222;
-    border-radius: 5px;
-    z-index: 10;
-    transform: translate(-50%, -100%); /* Adjust the tooltip to appear slightly above the cursor */
-}
+    .rewards-dropdown {
+        display: none;
+        padding: 10px;
+        border: 1px solid #ccc;
+        background-color: #2b2a2a;
+        border-radius: 4px;
+        max-width: 250px;
+    }
 
-.boss-card:hover .rewards-tooltip {
-    display: block; /* Show tooltip when boss-card is hovered */
-}
+    .rewards-tooltip {
+        display: none;
+        position: fixed;
+        /* Use fixed positioning instead of absolute */
+        white-space: nowrap;
+        padding: 10px;
+        color: black;
+        border: 1px solid #222;
+        border-radius: 5px;
+        z-index: 10;
+        transform: translate(-50%, -100%);
+        /* Adjust the tooltip to appear slightly above the cursor */
+    }
+
+    .boss-card:hover .rewards-tooltip {
+        display: block;
+        /* Show tooltip when boss-card is hovered */
+    }
 
 
     .boss-image {
-        width: 100px;
-        height: 100px;
+        width: 112px;
+        height: 112px;
         object-fit: cover;
-        border-radius: 50%;
+        border-radius: 8%;
         margin: 0 auto;
         display: block;
         margin-bottom: 15px;
@@ -952,21 +973,25 @@ function showTooltip(event, element) {
         background-color: #3b3838;
     }
 
-   .active-raids-grid {
+    .active-raids-grid {
         display: flex;
         flex-wrap: wrap;
-        justify-content: flex-start; /* Adjusted from space-between to flex-start */
+        justify-content: flex-start;
+        /* Adjusted from space-between to flex-start */
         margin-bottom: 30px;
     }
 
     .active-raids-grid .raid-card {
-        flex-basis: calc(33.33% - 20px); /* Adjusted for 3 cards per row */
+        flex-basis: calc(33.33% - 20px);
+        /* Adjusted for 3 cards per row */
         padding: 15px;
-        margin-right: 20px; /* Added to create spacing between the cards */
+        margin-right: 20px;
+        /* Added to create spacing between the cards */
         margin-bottom: 20px;
         border-radius: 10px;
         box-shadow: 0px 2px 10px rgba(93, 93, 93, 1);
     }
+
     .active-raids-grid .boss-image {
         width: 100px;
         height: 100px;
@@ -977,7 +1002,8 @@ function showTooltip(event, element) {
         margin-bottom: 15px;
     }
 
-    .active-raids-grid h3, .active-raids-grid p {
+    .active-raids-grid h3,
+    .active-raids-grid p {
         text-align: center;
     }
 
@@ -995,40 +1021,40 @@ function showTooltip(event, element) {
     .active-raids-grid button:hover {
         background-color: #3b3838;
     }
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
-}
 
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-}
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
 
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
 </style>
 <div id="userModal" class="modal">
     <div class="modal-content">
@@ -1040,4 +1066,3 @@ function showTooltip(event, element) {
 <?php
 include 'footer.php';
 ?>
-
