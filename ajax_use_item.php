@@ -686,15 +686,15 @@ if (isset($_GET['use'])) {
                 break;
             case 339: # Common Gem Bag
                 $gems = open_gem_bag([0, 0, 0, 1]);
-                gem_bag_response($gems, 0);
+                $response = gem_bag_response($response, $gems, 0);
                 break;
             case 340: # Rare Gem Bag
                 $gems = open_gem_bag([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2]);
-                gem_bag_response($gems, 1);
+                $response = gem_bag_response($response, $gems, 1);
                 break;
             case 341: # Ultra Rare Gem Bag
                 $gems = open_gem_bag([1, 1, 1, 1, 1, 2, 2, 2, 2, 3]);
-                gem_bag_response($gems, 2);
+                $response = gem_bag_response($response, $gems, 2);
                 break;
             // case 250: # Advanced Booster
             //     $nr = give_nerve(250);
@@ -739,7 +739,7 @@ echo json_encode($response);
 exit;
 
 
-function gem_bag_response($gems, $quality)
+function gem_bag_response($response, $gems, $quality)
 {
     $bag_names = [
         "Common Gem Bag",
@@ -766,4 +766,5 @@ function gem_bag_response($gems, $quality)
 
     $response['success'] = true;
     $response["message"] = "You have opened the " . $bag_names[$quality] . " and received: " . $gem_message . "!";
+    return $response;
 }
