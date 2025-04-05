@@ -168,19 +168,18 @@ if ($user_class->admin == 1) {
 		if ($row['item_id'] != 0) {
 			// Select the item from the database
 			$db->query("SELECT * FROM items WHERE id = ?");
-			$db->execute(array(
-				$row['item_id']
-			));
+			$db->execute([$row['item_id']]);
 			$item_row = $db->fetch_row(true);
 			$item_name = $item_row['itemname'];
 			$image = '<img src="' . $item_row['image']. '" width="100" height="100" style="border: 0px solid #000000">';
+		} else if ($row['points'] != 0) {
+			$item_name = $row['points'] . ' points';
+			$image = '<i class="mx-auto far fa-gem text-lg" style="font-size:5rem" aria-hidden="true"></i>';
 		} else {
 			$image = 'No image available';
 		}
 
-		if ($row['points'] != 0) {
-			$item_name = $row['points'] . ' points';
-		} else if ($row['maze'] != 0) {
+		if ($row['maze'] != 0) {
 			$item_name = $row['maze'] . ' Maze searches';
 		} else if ($row['achievement'] == 1) {
 			$item_name = 'Easter 2025 Achievement';
