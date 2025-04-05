@@ -38,18 +38,21 @@ if (isset($_POST['type']) && $_POST['type'] == 'easter-2025') {
 			$db->query("UPDATE inventory SET quantity = quantity - ? WHERE userid = ? AND itemid = ?");
 			$db->execute([$egg_quantity * $qty, $user_class->id, $egg_id]);
 
+			$item_name = '';
+
 			// Give the item to the user
 			if ($row['item_id'] != 0) {
 				Give_Item($row['item_id'], $user_class->id, $qty);
 			} else if ($row['points'] != 0) {
+				$item_name = $row['points'] . ' points';
 				$user_class->points += $row['points'] * $qty;
-
 				$db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
 				$db->execute(array(
 					$row['points'] * $qty,
 					$user_class->id
 				));
 			} else if ($row['maze'] != 0) {
+				$item_name = $row['maze'] . ' maze searches';
 				$user_class->cityturns += $row['maze'] * $qty;
 				$db->query('UPDATE grpgusers SET cityturns = cityturns + ? WHERE id = ?');
 				$db->execute(array(
