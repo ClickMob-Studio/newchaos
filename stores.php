@@ -174,7 +174,7 @@ if ($user_class->admin == 1) {
 			$image = '<img src="' . $item_row['image']. '" width="100" height="100" style="border: 0px solid #000000">';
 		} else if ($row['points'] != 0) {
 			$item_name = $row['points'] . ' points';
-			$image = '<i class="mx-auto far fa-gem text-lg" style="font-size:5rem" aria-hidden="true"></i>';
+			$image = '<i class="mx-auto mt-4 far fa-gem text-lg" style="font-size:5rem;margin-left:28px!important" aria-hidden="true"></i>';
 		} else {
 			$image = 'No image available';
 		}
