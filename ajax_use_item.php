@@ -750,7 +750,7 @@ function gem_bag_response($response, $gems, $quality)
     $gems_rewarded = [];
     foreach ($gems as $gem) {
         $name = get_gem_name_from_id($gem);
-        if (isset($gems_rewared[$name])) {
+        if (isset($gems_rewarded[$name])) {
             $gems_rewarded[$name] += 1;
         } else {
             $gems_rewarded[$name] = 1;
