@@ -1,17 +1,17 @@
 <?php
-if($_GET['key'] != 'cron94'){
+if ($_GET['key'] != 'cron94') {
     die();
-  }
+}
 include 'database/pdo_class.php';
 
-$fetchQuery = "SELECT id, strength, defense, speed FROM grpgusers";
+$fetchQuery = "SELECT id, strength, defense, speed, agility FROM grpgusers";
 
 
 $db->query($fetchQuery);
 $userStats = $db->fetch_row();
 
 
-$insertQuery = "INSERT INTO daily_user_stats (user_id, strength, defense, speed, record_date) VALUES (:user_id, :strength, :defense, :speed, CURDATE())";
+$insertQuery = "INSERT INTO daily_user_stats (user_id, strength, defense, speed, agility, record_date) VALUES (:user_id, :strength, :defense, :speed, :agility, CURDATE())";
 $db->query($insertQuery);
 
 
@@ -23,6 +23,7 @@ try {
         $db->bind(':strength', $user['strength']);
         $db->bind(':defense', $user['defense']);
         $db->bind(':speed', $user['speed']);
+        $db->bind(':agility', $user['agility']);
         $db->execute();
     }
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 include "ajax_header.php";
 $user_class = new User($_SESSION['id']);
 
@@ -9,4 +9,3 @@ $gym = $db->fetch_row();
 echo json_encode($gym);
 
 ?>
-
