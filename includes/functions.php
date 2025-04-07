@@ -3765,3 +3765,18 @@ function open_gem_bag($quality_array = [])
 
     return $rewards;
 }
+// Function to format a number with abbreviations
+// e.g., 1,000 -> 1K, 1,000,000 -> 1M, etc.
+// This function will round the number to one decimal place and append the appropriate abbreviation.
+// 
+function pretty_format_number($value)
+{
+    $abbreviations = array(21 => 'Sx', 18 => 'Qi', 15 => 'Qa', 12 => 'T', 9 => 'B', 6 => 'M', 3 => 'K', 0 => '');
+    foreach ($abbreviations as $exponent => $abbreviation) {
+        if ($value >= pow(10, $exponent)) {
+            return round(floatval($value / pow(10, $exponent)), 1) . $abbreviation;
+        }
+    }
+
+    return $value;
+}

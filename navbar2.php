@@ -309,28 +309,28 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Cash</span>
                         <img src="assets/images/icons/Cash.png" />
-                        <span class="ml-2 text-white text-sm"><?= number_format($user_class->money); ?></span>
+                        <span class="ml-2 text-white text-sm"><?= pretty_format_number($user_class->money); ?></span>
                     </span>
 
                     <span class="relative flex items-center p-1 text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Money in bank</span>
                         <img src="assets/images/icons/Bank Building.png" />
-                        <span class="ml-2 text-white text-sm"><?= number_format($user_class->bank); ?></span>
+                        <span class="ml-2 text-white text-sm"><?= pretty_format_number($user_class->bank); ?></span>
                     </span>
 
                     <span class="relative flex items-center p-1 text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Points</span>
                         <img src="assets/images/icons/Diamond.png" />
-                        <span class="ml-2 text-white text-sm"><?= number_format($user_class->points); ?></span>
+                        <span class="ml-2 text-white text-sm"><?= pretty_format_number($user_class->points); ?></span>
                     </span>
 
                     <span class="relative flex items-center p-1 text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Gold</span>
                         <img src="assets/images/icons/Gold Bars.png" />
-                        <span class="ml-2 text-white text-sm"><?= number_format($user_class->credits); ?></span>
+                        <span class="ml-2 text-white text-sm"><?= pretty_format_number($user_class->credits); ?></span>
                     </span>
                 </div>
 
