@@ -177,7 +177,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                 <div
                     class="absolute inset-y-0 right-0 flex gap-x-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     <button type="button"
-                        class="relative p-1 <?php if ($user_class->rmdays <= 0) { echo 'opacity-50'; } ?> text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        class="relative p-1 <?php if ($user_class->rmdays <= 0) { echo 'opacity-50'; } ?> text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">VIP status
                             (<?php echo $user_class->rmdays > 1 ? 'VIP' : 'Not VIP'; ?>)</span>
@@ -185,21 +185,21 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                     </button>
 
                     <button type="button"
-                        class="relative p-1 cursor-pointer text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        class="relative p-1 cursor-pointer text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">View private messages</span>
                         <img src="assets/images/icons/Mailbox.png" class="w-[20px] sm:w-full" />
                     </button>
 
                     <button type="button"
-                        class="relative p-1 cursor-pointer text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        class="relative p-1 cursor-pointer text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Inventory</span>
                         <img src="assets/images/icons/Bag.png" class="w-[20px] sm:w-full" />
                     </button>
 
                     <button type="button"
-                        class="relative p-1 cursor-pointer text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        class="relative p-1 cursor-pointer text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Settings</span>
                         <img src="assets/images/icons/Settings.png" class="w-[20px] sm:w-full" />
@@ -209,7 +209,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                     <div class="relative ml-3">
                         <div>
                             <button type="button"
-                                class="relative flex cursor-pointer rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
+                                class="relative flex cursor-pointer rounded-full bg-gray-800 text-sm"
                                 id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                 <span class="absolute -inset-1.5"></span>
                                 <span class="sr-only">Open user menu</span>
@@ -222,17 +222,17 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                         <!--
                   Dropdown menu, show/hide based on menu state.
       
-                  Entering: "transition ease-out duration-100"
-                    From: "transform opacity-0 scale-95"
-                    To: "transform opacity-100 scale-100"
-                  Leaving: "transition ease-in duration-75"
-                    From: "transform opacity-100 scale-100"
-                    To: "transform opacity-0 scale-95"
+                  Entering:"transition ease-out duration-100"
+                    From:"transform opacity-0 scale-95"
+                    To:"transform opacity-100 scale-100"
+                  Leaving:"transition ease-in duration-75"
+                    From:"transform opacity-100 scale-100"
+                    To:"transform opacity-0 scale-95"
                 -->
                         <!-- <div
                   class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5 focus:outline-hidden"
                   role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1"> -->
-                        <!-- Active: "bg-gray-100 outline-hidden", Not Active: "" -->
+                        <!-- Active:"bg-gray-100 outline-hidden", Not Active:"" -->
                         <!-- <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
                     id="user-menu-item-0">Profile</a>
                   <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
@@ -309,7 +309,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                 <!-- Character Currencies, eg. Cash, Bank, Points & Gold -->
                 <div class="flex flex-1 items-center gap-x-3 sm:items-stretch justify-between sm:justify-start">
                     <span
-                        class="relative flex items-center p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        class="relative flex items-center p-1 text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Cash</span>
                         <img src="assets/images/icons/Cash.png" />
@@ -317,7 +317,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                     </span>
 
                     <span
-                        class="relative flex items-center p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        class="relative flex items-center p-1 text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Money in bank</span>
                         <img src="assets/images/icons/Bank Building.png" />
@@ -325,7 +325,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                     </span>
 
                     <span
-                        class="relative flex items-center p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        class="relative flex items-center p-1 text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Points</span>
                         <img src="assets/images/icons/Diamond.png" />
@@ -333,7 +333,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                     </span>
 
                     <span
-                        class="relative flex items-center p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        class="relative flex items-center p-1 text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Gold</span>
                         <img src="assets/images/icons/Gold Bars.png" />
@@ -359,7 +359,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                 <!-- Character Energy, eg. Nerve, Health, Energy, Awake -->
                 <div class="flex flex-1 gap-x-3 sm:items-stretch justify-between sm:justify-end">
                     <span
-                        class="relative flex items-center p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        class="relative flex items-center p-1 text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Awake</span>
                         <img src="assets/images/icons/Sleep.png" />
@@ -367,7 +367,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                     </span>
 
                     <span
-                        class="relative flex items-center p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        class="relative flex items-center p-1 text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Nerve</span>
                         <img src="assets/images/icons/Brain.png" />
@@ -375,7 +375,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                     </span>
 
                     <span
-                        class="relative flex items-center p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        class="relative flex items-center p-1 text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Energy</span>
                         <img src="assets/images/icons/Lightning Bolt.png" />
@@ -383,7 +383,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                     </span>
 
                     <span
-                        class="relative flex items-center p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        class="relative flex items-center p-1 text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Health</span>
                         <img src="assets/images/icons/Heart.png" />
