@@ -672,6 +672,16 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
     <script src="js/java.js?v=12" type="text/javascript"></script>
+</head>
+
+<body>
+    <header class="mainHeader">
+        <div class="row mx-auto mainHeaderContent d-none d-md-block">
+            <?php
+
+            require 'navbar2.php'; ?>
+        </div>
+    </header>
 
     <div class="container clearfix d-block d-md-none">
         <div class="d-flex justify-content-between align-items-center">
