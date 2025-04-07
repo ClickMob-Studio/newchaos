@@ -1246,15 +1246,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                 echo '<a href="home.php"><span style="color:red;">You are currently in FBI Jail for ' . $user_class->fbitime . ' minutes.</span></a><br />';
                             }
 
-                            //foreach ($array as $sub => $in) {
-//    echo '<span style="color:white;">&bull; ' . $sub . ' : <span style="color:red;">' . $in . '</span></span> &nbsp;';
-//}
-//if (!empty($array)) {
-//    echo '<br />';
-//}
-                            
                             echo '<br />';
-
 
                             // COUNTDOWN TIMER
 // ADD 000 TO END OF UNIX TIMESTAMP
@@ -1296,21 +1288,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             <span id="countdown">Ends In ' . countdown(1662965999) . '</span></div>';
                             }
 
-                            // $db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
-//     $db->execute();
-//     $bonus_row = $db->fetch_row(true);
-                            
-                            //     $debug['worked'] = $bonus_row;
-                            
-
-
-                            // if ($bonus_row['Time'] > 0) {
-                            
-                            //     $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
-//    $messages[] = 'Attackgfgdgdfgdfgsdfg: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
-                            
-                            // }
-                            
                             $time = time();
                             $messages = array();
 
@@ -1347,40 +1324,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
                             }
 
-                            //$db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
-//$db->execute();
-//$activityContest = $db->fetch_row(true);
-                            
-                            //$messages[] = '<a href="ucl_contest.php"><font color=red>Activity Contest: Complete ' . ucfirst($activityContest['type']) . ' </font></a>';
-//$messages[] = '<a href="ucl_raids_contest.php"><font color=red>Raid Contest</font></a>';
-//$messages[] = '<a href="adventcalendar.php"><font color=red>Advent Calendar</font></a>';
-//$messages[] = '<a href="santasgrotto.php"><font color=red>Santas Grotto</font></a>';
-                            
-                            //if ($user_class->gang > 0) {
-//    $messages[] = '<a href="gang_doubleexp.php"><font color=red>Gang Challenge</font></a>';
-//}
-                            
-                            //$messages[] = '<a href="user_challenge.php"><font color=red>User Challenge</font></a>';
-//$messages[] = '<a href="user_comp_leaderboard.php"><font color=red>Halloween Challenge</font></a>';
-//$messages[] = '<a href="gang_doubleexp.php"><font color=red>Gang Challenge</font></a>';
-                            
-                            //$messages[] = '<a href="rel_challenge.php"><font color=red>Valentines Challenge</font></a>';
-//$messages[] = '<a href="rel_contest.php"><font color=red>Valentines Contest</font></a>';
-                            
-                            //if ($user_class->gang > 0) {
-//    $tempItemUse = getItemTempUse($user_class->id);
-//    $now = time();
-//    if ($tempItemUse['gang_double_exp_hours'] > 0 && $tempItemUse['gang_double_exp_time'] < $now) {
-//        $messages[] = '<a href="trigger_doublexp_hour.php" onclick="return confirm(\'Are you sure you want to trigger double EXP?\');"><font color=red>You have ' . $tempItemUse['gang_double_exp_hours'] . ' hours of double EXP! Click to run 1 hour of double exp.</font></a>';
-//    }
-//}
-                            
-                            // if ($user_class->cityturns > 29) {
-//     $messages[] = '<a href="maze.php">You Have Maze Searches Available</a>';
-// }
-// if ($user_class->id > 0) {
-//     $messages[] = '<a href="contest_raid.php"><font color=red>Raid Comp Active</font></a>';
-// }
                             $db->query("SELECT * FROM ganginvites WHERE playerid = ?");
                             $db->execute(array($user_class->id));
                             if ($db->num_rows() > 0) {
@@ -1575,63 +1518,8 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                 echo '</script>';
                             }
 
-
-                            //if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'store.php') {    // The original echo statement for the claim message should be commented out or removed
-                            // echo '<div style="font-family:Creepster;font-size: 2.5em;color:red;text-align: center;margin-bottom: 20px;margin-top: -20px;"><a href="rmstore.php?buy=freebie">...</div>';
-                            
-                            // Insert the modal code here
                             ?>
-                            <!-- The Modal -->
-                            <!-- <div id="myModal" class="modal"> -->
-                            <!-- Modal content -->
-                            <!-- <div class="modal-content"> -->
-                            <!-- <span class="close">&times;</span> -->
-                            <!-- <h4><font color=red>A Free Gift</font></h4><br> -->
 
-                            <!-- <p><font color=white>Here is a free gift on us enjoy the competition</font></p> -->
-                            <!-- <ul class="gift-list"> -->
-                            <!-- <h4>+50 Raid Tokens</h4> -->
-                            <!-- <h4>25,000 Points</h4> -->
-
-
-
-
-                            <!-- </ul> -->
-                            <!-- <button onclick="window.location.href='store.php?buy=freebie'" class="claim-button">Claim Gift</button> -->
-                            <!-- </div> -->
-
-                            <!-- </div> -->
-                            <!-- <style> -->
-
-
-                            <!-- .gradient-background {
-    background: linear-gradient(to right, #484848, #303030, #181818);
-    color: white; /* Ensures text is readable on dark background */
-    padding: 20px;
-    text-align: center;
-}
-
-
-    @keyframes pulseGlow {
-        0% {
-            box-shadow: 0 0 5px red;
-        }
-        50% {
-            box-shadow: 0 0 20px red;
-        }
-        100% {
-            box-shadow: 0 0 5px red;
-        }
-    }
-    .glow-pulse {
-        animation: pulseGlow 2s infinite;
-        color: red !important;
-    }
-</style> -->
-
-                            <?php
-                            //}
-                            ?>
                             <style>
                                 .floaty12 {
                                     margin: 0 auto;
