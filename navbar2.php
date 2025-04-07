@@ -322,7 +322,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                     </span>
 
                     <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
-                        title="<?= $user_class->formattedpoints; ?>">
+                        title="<?= $user_class->points; ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Points</span>
                         <img src="assets/images/icons/Diamond.png" />
