@@ -662,7 +662,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/ca284bbf02.js" crossorigin="anonymous"></script>
-    <link href="newassets/css/style.css?v=1714569ss35a" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript"
