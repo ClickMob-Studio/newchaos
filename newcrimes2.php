@@ -40,6 +40,7 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
         font-size: 24px;
     }
 </style>
+
 <h1 class="text-5xl text-white">Crimes</h1>
 
 <?php
@@ -97,7 +98,7 @@ if (isset($_GET['ner'])) {
         <tr>
             <td>
                 <div class="flexele floaty" style="margin:3px;">
-                    <hr style="border:0;border-bottom:thin solid #333;">
+                    <hr class="my-4 border-black/30" />
 
                     <div style="flex flex-row">
                         <div id="noti" class="alert alert-info" style="display: none;">
