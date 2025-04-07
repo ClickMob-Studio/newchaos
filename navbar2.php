@@ -306,7 +306,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                 <!-- Character Currencies, eg. Cash, Bank, Points & Gold -->
                 <div class="flex flex-1 items-center gap-x-3 sm:items-stretch justify-between sm:justify-start">
                     <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
-                        title="<?= $user_class->money; ?>">
+                        title="<?= number_format($user_class->money); ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Cash</span>
                         <img src="assets/images/icons/Cash.png" />
@@ -314,7 +314,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                     </span>
 
                     <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
-                        title="<?= $user_class->bank; ?>">
+                        title="<?= number_format($user_class->bank); ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Money in bank</span>
                         <img src="assets/images/icons/Bank Building.png" />
@@ -330,7 +330,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                     </span>
 
                     <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
-                        title="<?= $user_class->credits; ?>">
+                        title="<?= number_format($user_class->credits); ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Gold</span>
                         <img src="assets/images/icons/Gold Bars.png" />
