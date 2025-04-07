@@ -171,7 +171,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
             <div class="relative flex h-16 items-center justify-between">
                 <div class="flex flex-1 items-center sm:justify-center sm:items-stretch sm:justify-start">
                     <div class="flex shrink-0 items-center text-2xl font-bold">
-                        <img src="assets/ChaosCity.png" alt="Logo" class="h-3 sm:h-4 w-auto" />
+                        <img src="assets/images/ChaosCity.png" alt="Logo" class="h-3 sm:h-4 w-auto" />
                     </div>
                 </div>
                 <div
