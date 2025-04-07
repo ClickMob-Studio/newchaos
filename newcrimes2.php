@@ -32,21 +32,15 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
 <style>
     .gold {
         color: gold;
-        /* Or any other color code you prefer */
         font-size: 24px;
-        /* Adjust this value to increase or decrease the size of the stars */
-
     }
 
     .gray {
         color: gray;
-        /* Or any other color code you prefer */
         font-size: 24px;
-        /* Adjust this value to increase or decrease the size of the stars */
-
     }
 </style>
-<h1>Crimes</h1>
+<h1 class="text-5xl text-white">Crimes</h1>
 
 <?php
 $error = ($user_class->fbitime > 0) ? "You can't do crimes if you're in FBI Jail!" : "";
@@ -104,14 +98,13 @@ if (isset($_GET['ner'])) {
             <td>
                 <div class="flexele floaty" style="margin:3px;">
                     <hr style="border:0;border-bottom:thin solid #333;">
-                    <center>
-                        <div style="display:flex;min-height:60px;flex-direction:row;">
-                            <div id="noti" class="alert alert-info" style="display: none;">
-                                <p><img style="display:none;" id="spinner" src="images/ajax-loader.gif" /> <span
-                                        class="response-text"></span></p>
-                            </div>
+
+                    <div style="flex flex-row">
+                        <div id="noti" class="alert alert-info" style="display: none;">
+                            <p><img style="display:none;" id="spinner" src="images/ajax-loader.gif" /> <span
+                                    class="response-text"></span></p>
                         </div>
-                    </center>
+                    </div>
 
                     <?php if ($activeMission) {
                         echo "<div id='missiontext' style='font-size: 1.2em'>Active Mission: {$activeMission['name']} Crimes: {$activeMission['crimesdone']}/{$activeMission['crimestarget']}</div></center>";
