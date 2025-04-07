@@ -180,7 +180,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                         class="relative p-1 opacity-50 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">VIP status</span>
-                        <img src="assets/VIPBadge.png" class="w-[20px] sm:w-full" />
+                        <img src="assets/images/VIPBadge.png" class="w-[20px] sm:w-full" />
                     </button>
 
                     <button type="button"
