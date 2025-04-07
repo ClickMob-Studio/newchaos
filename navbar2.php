@@ -215,7 +215,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                                 <span class="absolute -inset-1.5"></span>
                                 <span class="sr-only">Open user menu</span>
                                 <img class="size-6 sm:size-8 rounded-full"
-                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                    src="<?php echo $user_class->avatar ?>"
                                     alt="" />
                             </button>
                         </div>
