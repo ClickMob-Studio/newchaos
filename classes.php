@@ -4,8 +4,10 @@ include_once "includes/functions.php";
 if (!isset($_SESSION['id'])) {
     error_reporting(0);
 }
-class User_Stats {
-    function User_Stats($wutever) {
+class User_Stats
+{
+    function User_Stats($wutever)
+    {
         global $db, $m;
         if ($m->get('user_stats')) {
             $this->playersloggedin = $m->get('user_stats.playersloggedin');
@@ -33,8 +35,10 @@ class User_Stats {
         $m->set('user_stats', 1, false, 60);
     }
 }
-class Gang {
-    function Gang($id) {
+class Gang
+{
+    function Gang($id)
+    {
         global $db;
         $db->query("SELECT * FROM gangs WHERE id = ?");
         $db->execute(array(
@@ -93,8 +97,10 @@ class Gang {
     }
 }
 
-class crew {
-    function crew($id) {
+class crew
+{
+    function crew($id)
+    {
         global $db;
         $db->query("SELECT * FROM crews WHERE id = ?");
         $db->execute(array(
@@ -153,7 +159,8 @@ class crew {
 }
 
 
-class OwnedBusiness {
+class OwnedBusiness
+{
     public $ownership_id;
     public $user_id;
     public $name;
@@ -163,12 +170,14 @@ class OwnedBusiness {
     public $earnedtoday;
     public $business_id;
 
-    function OwnedBusiness($ownership_id) {
+    function OwnedBusiness($ownership_id)
+    {
         global $db;
         $db->query("SELECT * FROM OwnedBusinesses WHERE ownership_id = ?");
         $db->execute(array($ownership_id));
         $row = $db->fetch_row(true);
-        if (empty($row)) return;
+        if (empty($row))
+            return;
 
         // Assign values to the properties
         $this->ownership_id = $row['ownership_id'];
@@ -181,15 +190,16 @@ class OwnedBusiness {
         $this->earnedtoday = $row['earnedtoday'];
     }
 
-  public function deposit($amount) {
-    global $db, $user_class;  // Make sure $user_class is global
+    public function deposit($amount)
+    {
+        global $db, $user_class;  // Make sure $user_class is global
 
-    // Update user's money
-    $newUserMoney = $user_class->money - $amount;
-    mysql_query("UPDATE grpgusers SET money = '$newUserMoney' WHERE id = '{$_SESSION['id']}'");
+        // Update user's money
+        $newUserMoney = $user_class->money - $amount;
+        mysql_query("UPDATE grpgusers SET money = '$newUserMoney' WHERE id = '{$_SESSION['id']}'");
 
         // Check for errors
-        if(mysql_error()) {
+        if (mysql_error()) {
             die("Error while updating user's money: " . mysql_error());
         }
 
@@ -198,7 +208,7 @@ class OwnedBusiness {
         mysql_query("UPDATE OwnedBusinesses SET vault = '$newVaultValue' WHERE ownership_id = '{$this->ownership_id}'");
 
         // Check for errors
-        if(mysql_error()) {
+        if (mysql_error()) {
             die("Error while updating business vault: " . mysql_error());
         }
 
@@ -206,15 +216,16 @@ class OwnedBusiness {
         // TODO: Add your logging mechanism here
     }
 
-   public function withdraw($amount) {
-    global $db, $user_class;  // Make sure $user_class is global
+    public function withdraw($amount)
+    {
+        global $db, $user_class;  // Make sure $user_class is global
 
-    // Update user's money
-    $newUserMoney = $user_class->money + $amount;
-    mysql_query("UPDATE grpgusers SET money = '$newUserMoney' WHERE id = '{$_SESSION['id']}'");
+        // Update user's money
+        $newUserMoney = $user_class->money + $amount;
+        mysql_query("UPDATE grpgusers SET money = '$newUserMoney' WHERE id = '{$_SESSION['id']}'");
 
         // Check for errors
-        if(mysql_error()) {
+        if (mysql_error()) {
             die("Error while updating user's money: " . mysql_error());
         }
 
@@ -223,7 +234,7 @@ class OwnedBusiness {
         mysql_query("UPDATE OwnedBusinesses SET vault = '$newVaultValue' WHERE ownership_id = '{$this->ownership_id}'");
 
         // Check for errors
-        if(mysql_error()) {
+        if (mysql_error()) {
             die("Error while updating business vault: " . mysql_error());
         }
 
@@ -233,9 +244,11 @@ class OwnedBusiness {
 }
 
 
-class User {
-    function User($id) {
-	    global $db, $m;
+class User
+{
+    function User($id)
+    {
+        global $db, $m;
 
         $db->query("SELECT grpg.*,grpg.tag AS ptag,g.ghouse,g.name AS gangname,g.leader,g.tag,g.description,ci.name AS cityname,h.name AS housename,h.awake AS houseawake,
                     co.name AS countryname, gh.awake AS gangawake, r.title AS ranktitle, r.color as rankcolor, b.days AS bandays,
@@ -249,20 +262,20 @@ class User {
                 LEFT JOIN ghouses gh ON gh.id = g.ghouse
                 LEFT JOIN bans b ON b.id = grpg.id
                 WHERE grpg.id = ?");
-		$db->execute(array(
-			$id
-		));
-		$worked = $db->fetch_row(true);
+        $db->execute(array(
+            $id
+        ));
+        $worked = $db->fetch_row(true);
 
         if (empty($worked))
             return;
         foreach ($worked as $title => $value)
             $this->$title = $value;
 
-		$db->query("SELECT * FROM pets WHERE userid = ? AND leash = 1");
-		$db->execute(array(
-			$id
-		));
+        $db->query("SELECT * FROM pets WHERE userid = ? AND leash = 1");
+        $db->execute(array(
+            $id
+        ));
         if ($db->num_rows()) {
             $pet = $db->fetch_row(true);
         } else {
@@ -270,44 +283,44 @@ class User {
             $pet['def'] = 0;
             $pet['spe'] = 0;
         }
-		$db->query("SELECT days FROM bans WHERE id = ?");
-		$db->execute(array(
-			$id
-		));
+        $db->query("SELECT days FROM bans WHERE id = ?");
+        $db->execute(array(
+            $id
+        ));
         if ($db->num_rows()) {
-			$db->query("SELECT * FROM bans WHERE id = ? AND type = ?");
-			$db->execute(array(
-				$id,
-				'perm'
-			));
-			$permban = $db->num_rows();
-			$workedban = $db->fetch_row(true);
-			$db->execute(array(
-				$id,
-				'freeze'
-			));
-			$freezeban = $db->num_rows();
-			$workedban2 = $db->fetch_row(true);
-			$db->execute(array(
-				$id,
-				'mail'
-			));
-			$mailban = $db->num_rows();
-			$workedban3 = $db->fetch_row(true);
-			$db->execute(array(
-				$id,
-				'forum'
-			));
-			$forumban = $db->num_rows();
-			$workedban4 = $db->fetch_row(true);
+            $db->query("SELECT * FROM bans WHERE id = ? AND type = ?");
+            $db->execute(array(
+                $id,
+                'perm'
+            ));
+            $permban = $db->num_rows();
+            $workedban = $db->fetch_row(true);
+            $db->execute(array(
+                $id,
+                'freeze'
+            ));
+            $freezeban = $db->num_rows();
+            $workedban2 = $db->fetch_row(true);
+            $db->execute(array(
+                $id,
+                'mail'
+            ));
+            $mailban = $db->num_rows();
+            $workedban3 = $db->fetch_row(true);
+            $db->execute(array(
+                $id,
+                'forum'
+            ));
+            $forumban = $db->num_rows();
+            $workedban4 = $db->fetch_row(true);
         }
-		$db->query("SELECT i.*, c.image overrideimage, c.name overridename FROM items i LEFT JOIN customitems c ON i.id = c.itemid AND c.userid = ? WHERE id = ?");
+        $db->query("SELECT i.*, c.image overrideimage, c.name overridename FROM items i LEFT JOIN customitems c ON i.id = c.itemid AND c.userid = ? WHERE id = ?");
         if ($worked['eqweapon']) {
-			$db->execute(array(
-				$id,
-				$worked['eqweapon']
-			));
-			$worked6 = $db->fetch_row(true);
+            $db->execute(array(
+                $id,
+                $worked['eqweapon']
+            ));
+            $worked6 = $db->fetch_row(true);
             $this->eqweapon = $worked6['id'];
             $this->weaponoffense = $worked6['offense'];
             $this->weaponname = (!empty($worked6['overridename'])) ? $worked6['overridename'] : $worked6['itemname'];
@@ -316,14 +329,14 @@ class User {
         } else {
             $this->eqweapon = $this->weaponoffense = $this->weaponimg = 0;
             $this->weaponname = 'fists';
-	}
+        }
 
         if ($worked['eqarmor']) {
-			$db->execute(array(
-				$id,
-				$worked['eqarmor']
-			));
-			$worked6 = $db->fetch_row(true);
+            $db->execute(array(
+                $id,
+                $worked['eqarmor']
+            ));
+            $worked6 = $db->fetch_row(true);
             $this->eqarmor = $worked6['id'];
             $this->armordefense = $worked6['defense'];
             $this->armorname = (!empty($worked6['overridename'])) ? $worked6['overridename'] : $worked6['itemname'];
@@ -332,25 +345,25 @@ class User {
         } else {
             $this->eqarmor = $this->armordefense = $this->armorname = $this->armorimg = 0;
         }
-		if(in_array($this->gang, array(111,112))){
-			$this->city = 14;
-			$this->cityname = "Server War";
-		}
-       $this->mycityname = $this->cityname;
-// First check if the user has nightvision enabled
-if ($this->nightvision > 0) {
-    // The user has nightvision, so they should see the true city name
-    // You can handle this case as needed, possibly you don't need to do anything
-} else if ($this->eqarmor == 43) {
-    // The user does not have nightvision and has the item equipped that hides the city
-   $this->cityname = "Unknown";
-}
-      if ($worked['eqshoes']) {
-			$db->execute(array(
-				$id,
-				$worked['eqshoes']
-			));
-			$worked6 = $db->fetch_row(true);
+        if (in_array($this->gang, array(111, 112))) {
+            $this->city = 14;
+            $this->cityname = "Server War";
+        }
+        $this->mycityname = $this->cityname;
+        // First check if the user has nightvision enabled
+        if ($this->nightvision > 0) {
+            // The user has nightvision, so they should see the true city name
+            // You can handle this case as needed, possibly you don't need to do anything
+        } else if ($this->eqarmor == 43) {
+            // The user does not have nightvision and has the item equipped that hides the city
+            $this->cityname = "Unknown";
+        }
+        if ($worked['eqshoes']) {
+            $db->execute(array(
+                $id,
+                $worked['eqshoes']
+            ));
+            $worked6 = $db->fetch_row(true);
             $this->eqshoes = $worked6['id'];
             $this->shoesspeed = $worked6['speed'];
             $this->shoesname = (!empty($worked6['overridename'])) ? $worked6['overridename'] : $worked6['itemname'];
@@ -375,24 +388,24 @@ if ($this->nightvision > 0) {
             $this->glovesimg = $this->glovesname = $this->glovesagility = $this->eqgloves = 0;
         }
 
-//       //  if (!$m->get('ipn.' . $id)) {
-          $db->query("SELECT SUM(paymentamount) FROM ipn WHERE user_id = ? AND date > unix_timestamp() - 2592000");
-            $db->execute(array(
-                $id
-           ));
-           $donations = $db->fetch_single();
-// $m->set('ipn.' . $id, $donations, 0, 60);
+        //       //  if (!$m->get('ipn.' . $id)) {
+        $db->query("SELECT SUM(paymentamount) FROM ipn WHERE user_id = ? AND date > unix_timestamp() - 2592000");
+        $db->execute(array(
+            $id
+        ));
+        $donations = $db->fetch_single();
+        // $m->set('ipn.' . $id, $donations, 0, 60);
 //         } else {
 //             $donations = $m->get('ipn.' . $id);
 //         }
-		// $db->query("SELECT SUM(paymentamount) FROM ipn WHERE user_id = ? AND date > unix_timestamp() - 2592000");
-		// $db->execute(array(
-		// 	$id
-		// ));
+        // $db->query("SELECT SUM(paymentamount) FROM ipn WHERE user_id = ? AND date > unix_timestamp() - 2592000");
+        // $db->execute(array(
+        // 	$id
+        // ));
 
         $this->shared_bank = $worked["shared_bank"];
 
-		$this->donations = $donations;
+        $this->donations = $donations;
         $this->ffban = $worked["ffban"];
         $this->druggie = explode("|", $this->drugs);
         $this->drugstr = (isset($this->druggie[2]) && $this->druggie[2] > time() - 900) ? 1.25 : 1;
@@ -447,8 +460,8 @@ if ($this->nightvision > 0) {
         $this->maxhp = $this->puremaxhp;
         $this->gtachance = $worked['gtachance'];
         $this->lastgta = $worked['lastgta'];
-$this->energyboost =  $this->energyboost;
-$this->nerveboost =  $this->nerveboost;
+        $this->energyboost = $this->energyboost;
+        $this->nerveboost = $this->nerveboost;
 
 
         $this->maxenergy = 9 + $this->level + $this->energyboost;
@@ -469,30 +482,30 @@ $this->nerveboost =  $this->nerveboost;
             $bonuses = explode("|", implode("|", $this->bonuses));
             foreach ($bonuses as $bonus) {
                 $bon = explode(":", $bonus);
-                if(empty($bon[0]) || empty($bon[1]))
+                if (empty($bon[0]) || empty($bon[1]))
                     continue;
                 $var = $bon[0];
                 $this->$var += $bon[1];
             }
         }
         $this->energypercent = floor(($this->energy / $this->maxenergy) * 100);
-        $this->formattedenergy = $this->energy . " / " . $this->maxenergy . " [" . $this->energypercent . "%]";
+        $this->formattedenergy = prettynum($this->energy) . " / " . prettynum($this->maxenergy) . " [" . $this->energypercent . "%]";
         $this->staminapercent = floor(($this->stamina / $this->max_stamina) * 100);
-        $this->formattedstamina = $this->stamina . " / " . $this->max_stamina . " [" . $this->staminapercent . "%]";
+        $this->formattedstamina = prettynum($this->stamina) . " / " . prettynum($this->max_stamina) . " [" . $this->staminapercent . "%]";
         $this->nervepercent = floor(($this->nerve / $this->maxnerve) * 100);
-        $this->formattednerve = $this->nerve . " / " . $this->maxnerve . " [" . $this->nervepercent . "%]";
+        $this->formattednerve = prettynum($this->nerve) . " / " . prettynum($this->maxnerve) . " [" . $this->nervepercent . "%]";
         $this->hppercent = floor((($this->hp + 1) / ($this->maxhp + 1)) * 100);
-        $this->formattedhp = $this->hp . " / " . $this->maxhp . " [" . $this->hppercent . "%]";
+        $this->formattedhp = prettynum($this->hp) . " / " . prettynum($this->maxhp) . " [" . $this->hppercent . "%]";
         $this->view_preference = $worked['is_mobile_disabled'];
         $this->is_chat_disabled = $worked['is_chat_disabled'];
         $this->relationshipended = $worked['relationshipended'];
         if ($this->relationship > 0) {
-			$db->query("SELECT h.* FROM houses h JOIN grpgusers g ON h.id = g.house WHERE g.id = ?");
-			$db->execute(array(
-				$this->relplayer
-			));
+            $db->query("SELECT h.* FROM houses h JOIN grpgusers g ON h.id = g.house WHERE g.id = ?");
+            $db->execute(array(
+                $this->relplayer
+            ));
             $relhouse = $db->fetch_row(true);
-            if (!empty($relhouse['name']) && ($relhouse['id'] > $worked['houseid']) || ($worked['houseid'] == 0 AND isset($relhouse))) {
+            if (!empty($relhouse['name']) && ($relhouse['id'] > $worked['houseid']) || ($worked['houseid'] == 0 and isset($relhouse))) {
                 $worked['houseid'] = $relhouse['id'];
                 $worked['housename'] = $relhouse['name'];
                 $worked['houseawake'] = $relhouse['awake'];
@@ -501,16 +514,16 @@ $this->nerveboost =  $this->nerveboost;
             }
             if (($relhouse['id'] == $worked['house'])) {
                 $worked['houseawake'] = ceil(1.20 * $worked['houseawake']);
-				$this->house_shared = true;
-			} else {
-				$this->house_shared = false;
-			}
+                $this->house_shared = true;
+            } else {
+                $this->house_shared = false;
+            }
         }
         $this->house = $worked['house'];
-        if($this->house == 0){
+        if ($this->house == 0) {
 
 
-//             if (!$m->get('rentedp.' . $this->id)) {
+            //             if (!$m->get('rentedp.' . $this->id)) {
 //                 $db->query("SELECT * FROM rentedProperties r JOIN houses h ON r.houseid = h.id WHERE renter = ? ORDER BY awake DESC LIMIT 1");
 //                 $db->execute(array(
 //                     $this->id
@@ -521,7 +534,7 @@ $this->nerveboost =  $this->nerveboost;
 //                 $row = $m->get('rentedp.' . $this->id);
 //             }
 
-            if(!empty($row)){
+            if (!empty($row)) {
                 $worked['houseid'] = $row['houseid'];
                 $worked['housename'] = $row['name'];
                 $worked['houseawake'] = $row['awake'];
@@ -553,8 +566,8 @@ $this->nerveboost =  $this->nerveboost;
         $this->directawake = ($this->directawake > $this->directmaxawake) ? $this->directmaxawake : $this->directawake;
         $this->directawake = ($this->directawake <= 0) ? 0 : $this->directawake;
         $this->awakepercent = floor(($this->directawake / $this->directmaxawake) * 100);
-        $this->formattedawake = $this->directawake . " / " . $this->directmaxawake . " [" . $this->awakepercent . "%]";
-        $this->formattedawake2forbar = $this->directawake . " / " . $this->directmaxawake . " [" . $this->awakepercent . "%]";
+        $this->formattedawake = prettynum($this->directawake) . " / " . number_format($this->directmaxawake) . " [" . $this->awakepercent . "%]";
+        $this->formattedawake2forbar = prettynum($this->directawake) . " / " . number_format($this->directmaxawake) . " [" . $this->awakepercent . "%]";
         $this->gangleader = $worked['leader'];
         $this->crewleader = $worked['leader'];
         $this->gangtag = $worked['tag'];
@@ -568,7 +581,7 @@ $this->nerveboost =  $this->nerveboost;
         $this->mailban = (isset($mailban)) ? $mailban : 0;
         $this->mailbandays = (isset($workedban3['days'])) ? $workedban3['days'] : 0;
         $this->forumban = (isset($forumban)) ? $forumban : 0;
-	$this->prestige = $worked['prestige'];
+        $this->prestige = $worked['prestige'];
         $this->forumbandays = (isset($workedban4['days'])) ? $workedban4['days'] : 0;
         $this->rank = $worked['ranktitle'];
         $this->rank = ($this->rank == "") ? "Mobster" : $this->rank;
@@ -591,17 +604,16 @@ $this->nerveboost =  $this->nerveboost;
         $this->img_name = $worked['image_name'];
         if ($this->permban > 0)
             $this->type = "Banned";
-            else if ($this->id == 0)
+        else if ($this->id == 0)
             $this->type = "<u><b><font color=blue>Manager</font></b></u>";
-            else if ($this->id == 0)
+        else if ($this->id == 0)
             $this->type = "<u><b><font color=blue>Technical Support</font></b></u>";
-            else if ($this->id == 0)
+        else if ($this->id == 0)
             $this->type = "<font color='yellow'>Game Dev</font>";
         else if ($this->freezeban > 0)
             $this->type = "Temporarily Frozen";
         else if ($this->admin == 1)
-                        $this->type = "<span style='color:red;'>ADMIN</span>";
-
+            $this->type = "<span style='color:red;'>ADMIN</span>";
         else if ($this->pg == 1)
             $this->type = "Player Guide</font>";
         else if ($this->gm == 1)
@@ -912,12 +924,12 @@ $this->nerveboost =  $this->nerveboost;
                 'img' => 'mugs250k',
                 'title' => 'Golden Mugger: Mugged 250,000 times'
             ),
-			'6' => array(
-				'needed' => 100000,
-				'payout' => 65000,
-				'img' => 'mugs100k',
-				'title' => 'Golden Mugger: Mugged 100,000 times'
-			),
+            '6' => array(
+                'needed' => 100000,
+                'payout' => 65000,
+                'img' => 'mugs100k',
+                'title' => 'Golden Mugger: Mugged 100,000 times'
+            ),
             '5' => array(
                 'needed' => 50000,
                 'payout' => 30000,
@@ -1039,10 +1051,10 @@ $this->nerveboost =  $this->nerveboost;
             foreach ($levelbadges as $number => $badgers) {
                 if ($this->level >= $badgers['needed'] && $this->badgesex[0] == $number - 1) {
 
-                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching level " . prettynum($badgers['needed']) . ". <a style='color: red;' href='claim_achievements.php'>Claim Now</a>" , $this->id);
+                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching level " . prettynum($badgers['needed']) . ". <a style='color: red;' href='claim_achievements.php'>Claim Now</a>", $this->id);
                     $this->badgesex[0] = $number;
 
-//
+                    //
 //                    if ($this->admin > 0) {
 //                        Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching level " . prettynum($badgers['needed']) . ". <a style='color: red;' href='claim_achievements.php'>Claim Now</a>" , $this->id);
 //                        $this->badgesex[0] = $number;
@@ -1055,15 +1067,15 @@ $this->nerveboost =  $this->nerveboost;
 //                    }
                 }
                 if (!isset($this->badge1) && $this->level >= $badgers['needed']) {
-                    $this->badge1 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img width="100px" src="css/images/'.$badgers["img"].'.png?v200"></img></div>';
+                    $this->badge1 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img width="100px" src="css/images/' . $badgers["img"] . '.png?v200"></img></div>';
                     $this->badge = 1;
                 }
             }
             foreach ($crimebadge as $number => $badgers) {
                 if ($this->crimesucceeded >= $badgers['needed'] && $this->badgesex[1] == $number - 1) {
-                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " Crimes. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>" , $this->id);
+                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " Crimes. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>", $this->id);
                     $this->badgesex[1] = $number;
-//
+                    //
 //                    // $db->execute(array(
 //                    // 	$badgers['payout'],
 //                    // 	$id
@@ -1074,13 +1086,13 @@ $this->nerveboost =  $this->nerveboost;
 //                    $this->badgesex[1] = $number;
                 }
                 if (!isset($this->badge2) && $this->crimesucceeded >= $badgers['needed']) {
-                    $this->badge2 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v200"></img></div>';
+                    $this->badge2 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/' . $badgers["img"] . '.png?v200"></img></div>';
                     $this->badge = 1;
                 }
             }
             foreach ($statbadge as $number => $badgers) {
                 if ($this->totalattrib >= $badgers['needed'] && $this->badgesex[2] == $number - 1) {
-                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " in Stats. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>" , $this->id);
+                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " in Stats. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>", $this->id);
                     $this->badgesex[2] = $number;
 
                     // $db->execute(array(
@@ -1093,13 +1105,13 @@ $this->nerveboost =  $this->nerveboost;
 //                    $this->badgesex[2] = $number;
                 }
                 if (!isset($this->badge5) && $this->totalattrib >= $badgers['needed']) {
-                    $this->badge5 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v200"></img></div>';
+                    $this->badge5 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/' . $badgers["img"] . '.png?v200"></img></div>';
                     $this->badge = 1;
                 }
             }
             foreach ($battlebadge as $number => $badgers) {
                 if ($this->battlewon >= $badgers['needed'] && $this->badgesex[3] == $number - 1) {
-                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " kills. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>" , $this->id);
+                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " kills. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>", $this->id);
                     $this->badgesex[3] = $number;
 
                     // $db->execute(array(
@@ -1112,13 +1124,13 @@ $this->nerveboost =  $this->nerveboost;
 //                    $this->badgesex[3] = $number;
                 }
                 if (!isset($this->badge4) && $this->battlewon >= $badgers['needed']) {
-                    $this->badge4 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v200"></img></div>';
+                    $this->badge4 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/' . $badgers["img"] . '.png?v200"></img></div>';
                     $this->badge = 1;
                 }
             }
             foreach ($bankbadge as $number => $badgers) {
                 if (($this->banklog >= $badgers['needed'] || $this->bank >= $badgers['needed']) && $this->badgesex[4] == $number - 1) {
-                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for " . prettynum($badgers['needed']) . " bank. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>" , $this->id);
+                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for " . prettynum($badgers['needed']) . " bank. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>", $this->id);
                     $this->badgesex[4] = $number;
 
                     // $db->execute(array(
@@ -1131,13 +1143,13 @@ $this->nerveboost =  $this->nerveboost;
 //                    $this->badgesex[4] = $number;
                 }
                 if (!isset($this->badge6) && $this->banklog >= $badgers['needed']) {
-                    $this->badge6 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v200"></img></div>';
+                    $this->badge6 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/' . $badgers["img"] . '.png?v200"></img></div>';
                     $this->badge = 1;
                 }
             }
             foreach ($mugbadge as $number => $badgers) {
                 if ($this->mugsucceeded >= $badgers['needed'] && $this->badgesex[5] == $number - 1) {
-                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " mugs. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>" , $this->id);
+                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " mugs. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>", $this->id);
                     $this->badgesex[5] = $number;
 
                     // $db->execute(array(
@@ -1150,13 +1162,13 @@ $this->nerveboost =  $this->nerveboost;
 //                    $this->badgesex[5] = $number;
                 }
                 if (!isset($this->badge7) && $this->mugsucceeded >= $badgers['needed']) {
-                    $this->badge7 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v200"></img></div>';
+                    $this->badge7 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/' . $badgers["img"] . '.png?v200"></img></div>';
                     $this->badge = 1;
                 }
             }
             foreach ($bustbadge as $number => $badgers) {
                 if ($this->busts >= $badgers['needed'] && $this->badgesex[6] == $number - 1) {
-                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " busts. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>" , $this->id);
+                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " busts. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>", $this->id);
                     $this->badgesex[6] = $number;
 
                     // $db->execute(array(
@@ -1169,7 +1181,7 @@ $this->nerveboost =  $this->nerveboost;
 //                    $this->badgesex[6] = $number;
                 }
                 if (!isset($this->badge8) && $this->busts >= $badgers['needed']) {
-                    $this->badge8 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v200"></img></div>';
+                    $this->badge8 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/' . $badgers["img"] . '.png?v200"></img></div>';
                     $this->badge = 1;
                 }
             }
@@ -1177,7 +1189,7 @@ $this->nerveboost =  $this->nerveboost;
                 $missionsCount = $this->mission_count;
 
                 if ($missionsCount >= $badgers['needed'] && $this->badgesex[7] == $number - 1) {
-                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " missions. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>" , $this->id);
+                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " missions. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>", $this->id);
                     $this->badgesex[7] = $number;
 
                     // $db->execute(array(
@@ -1190,7 +1202,7 @@ $this->nerveboost =  $this->nerveboost;
 //                    $this->badgesex[6] = $number;
                 }
                 if (!isset($this->badge9) && $missionsCount >= $badgers['needed']) {
-                    $this->badge9 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v200"></img></div>';
+                    $this->badge9 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/' . $badgers["img"] . '.png?v200"></img></div>';
                     $this->badge = 1;
                 }
             }
@@ -1198,11 +1210,11 @@ $this->nerveboost =  $this->nerveboost;
                 $raidsCount = $this->raidwins;
 
                 if ($raidsCount >= $badgers['needed'] && $this->badgesex[8] == $number - 1) {
-                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " raids. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>" , $this->id);
+                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " raids. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>", $this->id);
                     $this->badgesex[8] = $number;
                 }
                 if (!isset($this->badge10) && $raidsCount >= $badgers['needed']) {
-                    $this->badge10 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v200"></img></div>';
+                    $this->badge10 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/' . $badgers["img"] . '.png?v200"></img></div>';
                     $this->badge = 1;
                 }
             }
@@ -1210,11 +1222,11 @@ $this->nerveboost =  $this->nerveboost;
                 $racketWins = $this->gtzb_count;
 
                 if ($racketWins >= $badgers['needed'] && $this->badgesex[9] == $number - 1) {
-                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " protection racket wins. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>" , $this->id);
+                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " protection racket wins. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>", $this->id);
                     $this->badgesex[9] = $number;
                 }
                 if (!isset($this->badge11) && $racketWins >= $badgers['needed']) {
-                    $this->badge11 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v200"></img></div>';
+                    $this->badge11 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/' . $badgers["img"] . '.png?v200"></img></div>';
                     $this->badge = 1;
                 }
             }
@@ -1222,16 +1234,16 @@ $this->nerveboost =  $this->nerveboost;
                 $backalleyWins = $this->backalleywins;
 
                 if ($backalleyWins >= $badgers['needed'] && $this->badgesex[10] == $number - 1) {
-                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " backalley wins. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>" , $this->id);
+                    Send_Event($this->id, "You have " . number_format($badgers['payout'], 0) . " points ready to be claimed for reaching " . prettynum($badgers['needed']) . " backalley wins. <a style='color: red;' href='claim_achievements.php'>Claim Now</a>", $this->id);
                     $this->badgesex[10] = $number;
                 }
                 if (!isset($this->badge12) && $backalleyWins >= $badgers['needed']) {
-                    $this->badge12 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/'.$badgers["img"].'.png?v200"></img></div>';
+                    $this->badge12 = '<div class="ach' . $badgers['img'] . '" title="' . $badgers['title'] . '"><img style="width:100px;" src="css/images/' . $badgers["img"] . '.png?v200"></img></div>';
                     $this->badge = 1;
                 }
             }
             $this->badgesfinal = implode(",", $this->badgesex);
-            if ($this->badgesfinal != $this->badges){
+            if ($this->badgesfinal != $this->badges) {
                 $db->query("UPDATE grpgusers SET badges = ? WHERE id = ?");
                 $db->execute(array(
                     $this->badgesfinal,
@@ -1270,29 +1282,29 @@ $this->nerveboost =  $this->nerveboost;
             if ($this->level == 1000) {
                 //Send_Event($this->id, "Congratulations on reaching level 1000!.  You are now able to <a href='prestige.php'>prestige</a>");
             }
-			$db->query("UPDATE grpgusers SET level = ?, hp = ?, energy = ?, nerve = ?, exp = ? WHERE id = ?");
-			$db->execute(array(
-				$this->level,
-				$this->hp,
-				$this->energy,
-				$this->nerve,
-				$this->exp,
+            $db->query("UPDATE grpgusers SET level = ?, hp = ?, energy = ?, nerve = ?, exp = ? WHERE id = ?");
+            $db->execute(array(
+                $this->level,
+                $this->hp,
+                $this->energy,
+                $this->nerve,
+                $this->exp,
 
-				$id
-			));
+                $id
+            ));
         }
         if (time() - $this->lastactive < 900) {
             $this->formattedonline = "<font style='color:green;padding:2px;font-weight:bold;'>[online]</font>";
         } else {
             $this->formattedonline = "<font style='color:red;padding:2px;font-weight:bold;'>[offline]</font>";
-	}
+        }
 
         $tempItemUse = getItemTempUse($this->id);
         $now = time();
         if ($tempItemUse['nerve_vial_time'] > $now) {
             $this->maxnerve = $this->maxnerve * 2;
             $this->nervepercent = floor(($this->nerve / $this->maxnerve) * 100);
-            $this->formattednerve = $this->nerve . " / " . $this->maxnerve . " [" . $this->nervepercent . "%]";
+            $this->formattednerve = prettynum($this->nerve) . " / " . prettynum($this->maxnerve) . " [" . $this->nervepercent . "%]";
         }
     }
 
@@ -1301,8 +1313,10 @@ $this->nerveboost =  $this->nerveboost;
         mysql_query("UPDATE grpgusers SET points = points +  " . $points . " WHERE id = " . $id);
     }
 }
-class GangRank {
-    function GangRank($rank, $notmyranks = 0) {
+class GangRank
+{
+    function GangRank($rank, $notmyranks = 0)
+    {
         global $user_class;
         $gang_class = (isset($GLOBALS['gang_class'])) ? $GLOBALS['gang_class'] : new Gang($user_class->gang);
         $field = mysql_fetch_array(mysql_query("SELECT * FROM ranks WHERE id = '$rank'"));
@@ -1315,8 +1329,10 @@ class GangRank {
                 $this->$title = ($user_class->leader == $user_class->id) ? 1 : $value;
     }
 }
-class crewRank {
-    function crewRank($rank, $notmyranks = 0) {
+class crewRank
+{
+    function crewRank($rank, $notmyranks = 0)
+    {
         global $user_class;
         $crew_class = (isset($GLOBALS['crew_class'])) ? $GLOBALS['crew_class'] : new crew($user_class->crew);
         $field = mysql_fetch_array(mysql_query("SELECT * FROM crewranks WHERE id = '$rank'"));
@@ -1329,8 +1345,10 @@ class crewRank {
                 $this->$title = ($crew_class->leader == $user_class->id) ? 1 : $value;
     }
 }
-class Pet {
-    function __construct($userid) {
+class Pet
+{
+    function __construct($userid)
+    {
         $q = mysql_query("SELECT * FROM pets WHERE userid = $userid");
         $row = mysql_fetch_array($q);
         if (empty($row))
@@ -1344,13 +1362,13 @@ class Pet {
         $this->maxhp = $this->level * 50;
         $this->maxexp = experience($this->level + 1);
         $this->hppercent = floor($this->hp / $this->maxhp * 100);
-        $this->formattedhp = $this->hp . " / " . $this->maxhp . " [" . $this->hppercent . "%]";
+        $this->formattedhp = prettynum($this->hp) . " / " . prettynum($this->maxhp) . " [" . $this->hppercent . "%]";
         $this->maxenergy = 9 + $this->level;
         $this->energypercent = floor(($this->energy / $this->maxenergy) * 100);
-        $this->formattedenergy = $this->energy . " / " . $this->maxenergy . " [" . $this->energypercent . "%]";
+        $this->formattedenergy = prettynum($this->energy) . " / " . prettynum($this->maxenergy) . " [" . $this->energypercent . "%]";
         $this->maxnerve = 4 + $this->level;
         $this->nervepercent = floor(($this->nerve / $this->maxnerve) * 100);
-        $this->formattednerve = $this->nerve . " / " . $this->maxnerve . " [" . $this->nervepercent . "%]";
+        $this->formattednerve = prettynum($this->nerve) . " / " . prettynum($this->maxnerve) . " [" . $this->nervepercent . "%]";
         $y = mysql_query("SELECT name, awake FROM pethouses WHERE id = $this->house");
         $house = mysql_fetch_array($y);
         if (empty($house)) {
@@ -1362,19 +1380,20 @@ class Pet {
         }
         $this->maxawake = $this->houseawake;
         $this->awakepercent = floor(($this->awake / $this->maxawake) * 100);
-        $this->formattedawake = $this->awake . " / " . $this->maxawake . " [" . $this->awakepercent . "%]";
+        $this->formattedawake = prettynum($this->awake) . " / " . prettynum($this->maxawake) . " [" . $this->awakepercent . "%]";
         $this->exppercent = ($this->exp == 0) ? 0 : floor(($this->exp / $this->maxexp) * 100);
         $this->formattedexp = prettynum($this->exp) . " / " . prettynum($this->maxexp) . " [" . $this->exppercent . "%]";
-		while($this->exp >= $this->maxexp AND $this->exp > 0){
-			$this->exp -= $this->maxexp;
-			$this->level++;
-			$this->maxexp = experience($this->level + 1);
+        while ($this->exp >= $this->maxexp and $this->exp > 0) {
+            $this->exp -= $this->maxexp;
+            $this->level++;
+            $this->maxexp = experience($this->level + 1);
             $newhp = ($this->level + 1) * 50;
             Send_Event($userid, "Your pet has just gained a level.");
             mysql_query("UPDATE pets SET level = level + 1, hp = $newhp, energy = " . $this->maxenergy . " + 1, nerve = " . $this->maxnerve . " + 1, exp = $this->exp WHERE userid = $userid");
         }
     }
-    function formatName() {
+    function formatName()
+    {
         $colors = explode("|", $this->coloredname);
         if ($this->coloredname != "FFFFFF|FFFFFF")
             return "<a href='petprofile.php?id=$this->userid'><b>" . text_gradient($colors[0], $colors[1], 1, $this->pname) . "</b></a>";
@@ -1382,8 +1401,10 @@ class Pet {
             return "<a href='petprofile.php?id=$this->userid'>" . $this->pname . "</a>";
     }
 }
-class formatGang {
-    function __construct($id) {
+class formatGang
+{
+    function __construct($id)
+    {
         global $db, $m;
         if (!$m->get('formatGang.' . $id)) {
             $db->query("SELECT tag, name, tColor1, tColor2, tColor3, formattedTag FROM gangs WHERE id = $id");
@@ -1398,7 +1419,8 @@ class formatGang {
         $this->id = $id;
         $this->colors = array($r['tColor1'], $r['tColor2'], $r['tColor3']);
     }
-    function formatName() {
+    function formatName()
+    {
         $name = $this->name;
         if ($this->formattedTag == 'Yes') {
             $half = (int) ((strlen($this->name) / 2));
@@ -1409,7 +1431,8 @@ class formatGang {
         }
         return "<a href='viewgang.php?id=$this->id'>" . $name . "</a>";
     }
-    function formatTag() {
+    function formatTag()
+    {
         if ($this->formattedTag == 'Yes') {
             $tag = str_split($this->tag);
             $this->tag = "";
