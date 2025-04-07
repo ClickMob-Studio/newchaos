@@ -177,7 +177,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                 <div
                     class="absolute inset-y-0 right-0 flex gap-x-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     <button type="button"
-                        <?php echo 'title="' . $user_class->rmdays > 1 ? 'VIP' : 'Not VIP' . '"'; ?>
+                        <?php echo 'title="' . ($user_class->rmdays > 1 ? 'VIP' : 'Not VIP') . '"'; ?>
                         class="relative p-1 <?php if ($user_class->rmdays <= 0) { echo 'opacity-50'; } ?> text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">VIP status
