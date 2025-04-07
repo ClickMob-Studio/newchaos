@@ -305,28 +305,32 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
             <div class="relative flex flex-col gap-y-2 sm:gap-y-0 sm:flex-row sm:h-14 items-center justify-between">
                 <!-- Character Currencies, eg. Cash, Bank, Points & Gold -->
                 <div class="flex flex-1 items-center gap-x-3 sm:items-stretch justify-between sm:justify-start">
-                    <span class="relative flex items-center p-1 text-gray-400 hover:text-white">
+                    <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
+                        title="<?= $user_class->money; ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Cash</span>
                         <img src="assets/images/icons/Cash.png" />
                         <span class="ml-2 text-white text-sm"><?= pretty_format_number($user_class->money); ?></span>
                     </span>
 
-                    <span class="relative flex items-center p-1 text-gray-400 hover:text-white">
+                    <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
+                        title="<?= $user_class->bank; ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Money in bank</span>
                         <img src="assets/images/icons/Bank Building.png" />
                         <span class="ml-2 text-white text-sm"><?= pretty_format_number($user_class->bank); ?></span>
                     </span>
 
-                    <span class="relative flex items-center p-1 text-gray-400 hover:text-white">
+                    <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
+                        title="<?= $user_class->formattedpoints; ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Points</span>
                         <img src="assets/images/icons/Diamond.png" />
                         <span class="ml-2 text-white text-sm"><?= pretty_format_number($user_class->points); ?></span>
                     </span>
 
-                    <span class="relative flex items-center p-1 text-gray-400 hover:text-white">
+                    <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
+                        title="<?= $user_class->credits; ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Gold</span>
                         <img src="assets/images/icons/Gold Bars.png" />
@@ -337,9 +341,9 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                 <!-- Character Level, current experience, and experience to next levet -->
                 <div class="flex w-full sm:flex-[0.5] flex-col order-first sm:order-none">
                     <div class="flex justify-between items-baseline">
-                        <span class="text-xs text-white"><?= $user_class->exp; ?></span>
+                        <span class="text-xs text-white"><?= pretty_format_number($user_class->exp); ?></span>
                         <span class="text-sm text-white font-medium">EXPERIENCE</span>
-                        <span class="text-xs text-white">10,000</span>
+                        <span class="text-xs text-white"><?= pretty_format_number(10000); ?></span>
                     </div>
                     <div class="h-2 bg-white/25">
                         <div class="h-2 w-[<?= $user_class->exppercent; ?>%] bg-[#FFA600]"></div>
