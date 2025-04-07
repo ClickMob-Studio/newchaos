@@ -673,7 +673,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
     <script src="js/java.js?v=12" type="text/javascript"></script>
 </head>
 
-<body>
+<body class="bg-[#272727] min-h-screen">
     <header class="mainHeader">
         <div class="row mx-auto mainHeaderContent d-none d-md-block">
             <?php
