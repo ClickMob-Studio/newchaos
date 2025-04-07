@@ -177,10 +177,10 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                 <div
                     class="absolute inset-y-0 right-0 flex gap-x-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                     <button type="button"
-                        class="relative p-1 <?php if ($user_class->rmdays <= 0) { echo 'opacity-50' } ?> text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        class="relative p-1 <?php if ($user_class->rmdays <= 0) { echo 'opacity-50'; } ?> text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">VIP status
-                            (<?php echo $user_class->rmdays > 1 ? 'VIP' : 'Not VIP' ?>)</span>
+                            (<?php echo $user_class->rmdays > 1 ? 'VIP' : 'Not VIP'; ?>)</span>
                         <img src="assets/images/VIPBadge.png" class="w-[20px] sm:w-full" />
                     </button>
 
