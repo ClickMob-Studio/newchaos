@@ -176,31 +176,29 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                 </div>
                 <div
                     class="absolute inset-y-0 right-0 flex gap-x-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                    <button type="button"
-                        <?php echo 'title="' . ($user_class->rmdays > 1 ? 'VIP' : 'Not VIP') . '"'; ?>
-                        class="relative p-1 <?php if ($user_class->rmdays <= 0) { echo 'opacity-50'; } ?> text-gray-400 hover:text-white">
+                    <button type="button" <?php echo 'title="' . ($user_class->rmdays > 1 ? 'VIP' : 'Not VIP') . '"'; ?>
+                        class="relative p-1 <?php if ($user_class->rmdays <= 0) {
+                            echo 'opacity-50';
+                        } ?> text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">VIP status
                             (<?php echo $user_class->rmdays > 1 ? 'VIP' : 'Not VIP'; ?>)</span>
                         <img src="assets/images/VIPBadge.png" class="w-[20px] sm:w-full" />
                     </button>
 
-                    <button type="button"
-                        class="relative p-1 cursor-pointer text-gray-400 hover:text-white">
+                    <button type="button" class="relative p-1 cursor-pointer text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">View private messages</span>
                         <img src="assets/images/icons/Mailbox.png" class="w-[20px] sm:w-full" />
                     </button>
 
-                    <button type="button"
-                        class="relative p-1 cursor-pointer text-gray-400 hover:text-white">
+                    <button type="button" class="relative p-1 cursor-pointer text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Inventory</span>
                         <img src="assets/images/icons/Bag.png" class="w-[20px] sm:w-full" />
                     </button>
 
-                    <button type="button"
-                        class="relative p-1 cursor-pointer text-gray-400 hover:text-white">
+                    <button type="button" class="relative p-1 cursor-pointer text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Settings</span>
                         <img src="assets/images/icons/Settings.png" class="w-[20px] sm:w-full" />
@@ -209,13 +207,11 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                     <!-- Profile dropdown -->
                     <div class="relative ml-3">
                         <div>
-                            <button type="button"
-                                class="relative flex cursor-pointer rounded-full bg-gray-800 text-sm"
+                            <button type="button" class="relative flex cursor-pointer rounded-full bg-gray-800 text-sm"
                                 id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                 <span class="absolute -inset-1.5"></span>
                                 <span class="sr-only">Open user menu</span>
-                                <img class="size-6 sm:size-8 rounded-full"
-                                    src="<?php echo $user_class->avatar ?>"
+                                <img class="size-6 sm:size-8 rounded-full" src="<?php echo $user_class->avatar ?>"
                                     alt="" />
                             </button>
                         </div>
@@ -309,86 +305,82 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
             <div class="relative flex flex-col gap-y-2 sm:gap-y-0 sm:flex-row sm:h-14 items-center justify-between">
                 <!-- Character Currencies, eg. Cash, Bank, Points & Gold -->
                 <div class="flex flex-1 items-center gap-x-3 sm:items-stretch justify-between sm:justify-start">
-                    <span
-                        class="relative flex items-center p-1 text-gray-400 hover:text-white">
+                    <span class="relative flex items-center p-1 text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Cash</span>
                         <img src="assets/images/icons/Cash.png" />
-                        <span class="ml-2 text-white text-sm">5.8k</span>
+                        <span class="ml-2 text-white text-sm"><?= number_format($user_class->money); ?></span>
                     </span>
 
-                    <span
-                        class="relative flex items-center p-1 text-gray-400 hover:text-white">
+                    <span class="relative flex items-center p-1 text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Money in bank</span>
                         <img src="assets/images/icons/Bank Building.png" />
-                        <span class="ml-2 text-white text-sm">974,9T</span>
+                        <span class="ml-2 text-white text-sm"><?= number_format($user_class->bank); ?></span>
                     </span>
 
-                    <span
-                        class="relative flex items-center p-1 text-gray-400 hover:text-white">
+                    <span class="relative flex items-center p-1 text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Points</span>
                         <img src="assets/images/icons/Diamond.png" />
-                        <span class="ml-2 text-white text-sm">2,9m</span>
+                        <span class="ml-2 text-white text-sm"><?= number_format($user_class->points); ?></span>
                     </span>
 
-                    <span
-                        class="relative flex items-center p-1 text-gray-400 hover:text-white">
+                    <span class="relative flex items-center p-1 text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Gold</span>
                         <img src="assets/images/icons/Gold Bars.png" />
-                        <span class="ml-2 text-white text-sm">364</span>
+                        <span class="ml-2 text-white text-sm"><?= number_format($user_class->credits); ?></span>
                     </span>
                 </div>
 
                 <!-- Character Level, current experience, and experience to next levet -->
                 <div class="flex w-full sm:flex-[0.5] flex-col order-first sm:order-none">
                     <div class="flex justify-between items-baseline">
-                        <span class="text-xs text-white">1,800</span>
+                        <span class="text-xs text-white"><?= $user_class->exp; ?></span>
                         <span class="text-sm text-white font-medium">EXPERIENCE</span>
                         <span class="text-xs text-white">10,000</span>
                     </div>
                     <div class="h-2 bg-white/25">
-                        <div class="h-2 w-[60%] bg-[#FFA600]"></div>
+                        <div class="h-2 w-[<?= $user_class->exppercent; ?>%] bg-[#FFA600]"></div>
                     </div>
                     <div class="flex justify-center">
-                        <span class="text-[red] text-sm">LV. 1249</span>
+                        <span class="text-[red] text-sm">LV. <?= $user_class->level; ?></span>
                     </div>
                 </div>
 
                 <!-- Character Energy, eg. Nerve, Health, Energy, Awake -->
                 <div class="flex flex-1 gap-x-3 sm:items-stretch justify-between sm:justify-end">
-                    <span
-                        class="relative flex items-center p-1 text-gray-400 hover:text-white">
+                    <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
+                        title="<?= $user_class->formattedawake; ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Awake</span>
                         <img src="assets/images/icons/Sleep.png" />
-                        <span class="ml-2 text-white text-sm">100%</span>
+                        <span class="ml-2 text-white text-sm"><?= $user_class->awakepercent; ?>%</span>
                     </span>
 
-                    <span
-                        class="relative flex items-center p-1 text-gray-400 hover:text-white">
+                    <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
+                        title="<?= $user_class->formattednerve; ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Nerve</span>
                         <img src="assets/images/icons/Brain.png" />
-                        <span class="ml-2 text-white text-sm">100%</span>
+                        <span class="ml-2 text-white text-sm"><?= $user_class->nervepercent; ?>%</span>
                     </span>
 
-                    <span
-                        class="relative flex items-center p-1 text-gray-400 hover:text-white">
+                    <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
+                        title="<?= $user_class->formattedenergy; ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Energy</span>
                         <img src="assets/images/icons/Lightning Bolt.png" />
-                        <span class="ml-2 text-white text-sm">100%</span>
+                        <span class="ml-2 text-white text-sm"><?= $user_class->energypercent; ?>%</span>
                     </span>
 
-                    <span
-                        class="relative flex items-center p-1 text-gray-400 hover:text-white">
+                    <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
+                        title="<?= $user_class->formattedhp; ?>">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Health</span>
                         <img src="assets/images/icons/Heart.png" />
-                        <span class="ml-2 text-white text-sm">100%</span>
+                        <span class="ml-2 text-white text-sm"><?= $user_class->hppercent; ?>%</span>
                     </span>
                 </div>
             </div>
