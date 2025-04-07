@@ -1,0 +1,451 @@
+<?php
+
+$topLinks = array(
+    array(
+        'name' => 'Home',
+        'url' => 'index.php',
+    ),
+    array(
+        'name' => '<!_-cityname-_!>',
+        'url' => 'city.php',
+    ),
+    array(
+        'name' => 'Crimes',
+        'url' => 'newcrimes.php',
+    ),
+    array(
+        'name' => 'Gym',
+        'url' => 'speedGym.php',
+    ),
+    array(
+        'name' => 'Bank',
+        'url' => 'bank.php',
+    ),
+    array(
+        'name' => 'Jail',
+        'url' => 'jail.php',
+        'count' => '<!_-jail-_!>',
+    ),
+    array(
+        'name' => 'Hospital',
+        'url' => 'hospital.php',
+        'count' => $counts['hospital'],
+    ),
+    array(
+        'name' => 'Online',
+        'url' => 'online.php',
+    ),
+);
+
+$leftLinks = array();
+$leftLinks[] =
+    array(
+        'name' => 'Search Players',
+        'url' => 'search.php'
+    );
+$leftLinks[] =
+    array(
+        'name' => 'Mail',
+        'url' => 'pms.php?view=inbox',
+        'count' => $counts['mail'],
+    );
+$leftLinks[] =
+    array(
+        'name' => 'Events',
+        'url' => 'events.php',
+        'count' => $counts['event'],
+    );
+if ($counts['updates'] > 0) {
+    $leftLinks[] =
+        array(
+            'name' => 'Updates',
+            'url' => 'gameupdates.php',
+            'count' => $counts['updates'],
+        );
+}
+$leftLinks[] =
+    array(
+        'name' => 'Chat',
+        'url' => 'globalchat.php',
+        'count' => $counts['gchat'],
+    );
+$leftLinks[] =
+    array(
+        'name' => 'Maze',
+        'url' => 'maze.php',
+    );
+$leftLinks[] =
+    array(
+        'name' => 'Missions',
+        'url' => 'missions.php',
+    );
+$leftLinks[] =
+    array(
+        'name' => 'Quests',
+        'url' => 'quest.php',
+    );
+$leftLinks[] =
+    array(
+        'name' => 'Inventory',
+        'url' => 'inventory.php',
+    );
+$leftLinks[] =
+    array(
+        'name' => 'Raids',
+        'url' => 'raids.php',
+        'count' => $counts['gang_raid_count'],
+    );
+$leftLinks[] =
+    array(
+        'name' => 'Backalley',
+        'url' => 'backalley_new.php',
+    );
+
+$userPrestigeSkills = getUserPrestigeSkills($user_class);
+if ($userPrestigeSkills['speed_attack_unlock'] > 0) {
+    $leftLinks[] =
+        array(
+            'name' => 'Super Attack',
+            'url' => 'super_attack.php',
+        );
+}
+if ($user_class->gang) {
+    $leftLinks[] =
+        array(
+            'name' => 'Gang',
+            'url' => 'gang.php',
+        );
+    $leftLinks[] =
+        array(
+            'name' => 'Gang Mail',
+            'url' => 'gangmail.php',
+            'count' => $counts['gangmail'],
+        );
+
+} else {
+    $leftLinks[] =
+        array(
+            'name' => 'Create Gang',
+            'url' => 'creategang.php',
+        );
+
+}
+//$leftLinks[] =
+//	array(
+//		'name' => 'Speed Crimes',
+//		'url'  => 'newcrimes.php',
+//	);
+//$leftLinks[] =
+//	array(
+//		'name' => 'Speed Gym',
+//		'url'  => 'speedGym.php',
+//	);
+$leftLinks[] =
+    array(
+        'name' => 'Settings',
+        'url' => 'settings.php',
+    );
+$leftLinks[] =
+    array(
+        'name' => 'Forum',
+        'url' => 'forum.php',
+    );
+$leftLinks[] =
+    array(
+        'name' => 'Discord',
+        'url' => 'https://discord.gg/7rkFUKwrPz',
+    );
+$leftLinks[] =
+    array(
+        'name' => 'Log Out',
+        'url' => 'index.php?action=logout',
+    );
+
+$navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
+
+?>
+
+<nav class="flex flex-col">
+    <div class="bg-[#242424]">
+        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+                <div class="flex flex-1 items-center sm:justify-center sm:items-stretch sm:justify-start">
+                    <div class="flex shrink-0 items-center text-2xl font-bold">
+                        <img src="assets/ChaosCity.png" alt="Logo" class="h-3 sm:h-4 w-auto" />
+                    </div>
+                </div>
+                <div
+                    class="absolute inset-y-0 right-0 flex gap-x-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                    <button type="button"
+                        class="relative p-1 opacity-50 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">VIP status</span>
+                        <img src="assets/VIPBadge.png" class="w-[20px] sm:w-full" />
+                    </button>
+
+                    <button type="button"
+                        class="relative p-1 cursor-pointer text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">View private messages</span>
+                        <img src="assets/icons/Mailbox.png" class="w-[20px] sm:w-full" />
+                    </button>
+
+                    <button type="button"
+                        class="relative p-1 cursor-pointer text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">Inventory</span>
+                        <img src="assets/icons/Bag.png" class="w-[20px] sm:w-full" />
+                    </button>
+
+                    <button type="button"
+                        class="relative p-1 cursor-pointer text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">Settings</span>
+                        <img src="assets/icons/Settings.png" class="w-[20px] sm:w-full" />
+                    </button>
+
+                    <!-- Profile dropdown -->
+                    <div class="relative ml-3">
+                        <div>
+                            <button type="button"
+                                class="relative flex cursor-pointer rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
+                                id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                                <span class="absolute -inset-1.5"></span>
+                                <span class="sr-only">Open user menu</span>
+                                <img class="size-6 sm:size-8 rounded-full"
+                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                    alt="" />
+                            </button>
+                        </div>
+
+                        <!--
+                  Dropdown menu, show/hide based on menu state.
+      
+                  Entering: "transition ease-out duration-100"
+                    From: "transform opacity-0 scale-95"
+                    To: "transform opacity-100 scale-100"
+                  Leaving: "transition ease-in duration-75"
+                    From: "transform opacity-100 scale-100"
+                    To: "transform opacity-0 scale-95"
+                -->
+                        <!-- <div
+                  class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 ring-1 shadow-lg ring-black/5 focus:outline-hidden"
+                  role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1"> -->
+                        <!-- Active: "bg-gray-100 outline-hidden", Not Active: "" -->
+                        <!-- <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                    id="user-menu-item-0">Profile</a>
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                    id="user-menu-item-0">Event log</a>
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                    id="user-menu-item-2">Sign out</a>
+                </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Bar -->
+    <div class="bg-black/40 sm:hidden border-b border-black/10 py-2">
+        <div class="mx-auto max-w-7xl px-0">
+            <div class="flex h-12 items-center gap-x-4 overflow-scroll text-white whitespace-nowrap px-2">
+                <div class="flex flex-col items-center justify-center">
+                    <img src="assets/svg/Home.svg" class="size-4">
+                    <a href="">Home</a>
+                </div>
+                <div class="flex flex-col items-center justify-center">
+                    <img src="assets/svg/Shop.svg" class="size-4">
+                    <a href="">Store</a>
+                </div>
+                <div class="flex flex-col items-center justify-center">
+                    <img src="assets/svg/Spy.svg" class="size-4">
+                    <a href="">Crimes</a>
+                </div>
+                <div class="flex flex-col items-center justify-center">
+                    <img src="assets/svg/Prison.svg" class="size-4">
+                    <a href="">Jail</a>
+                </div>
+                <div class="flex flex-col items-center justify-center">
+                    <img src="assets/svg/Hospital 3.svg" class="size-4">
+                    <a href="">Hospital</a>
+                </div>
+                <div class="flex flex-col items-center justify-center">
+                    <img src="assets/svg/Barbell.svg" class="size-4">
+                    <a href="">Gym</a>
+                </div>
+                <div class="flex flex-col items-center justify-center">
+                    <img src="assets/svg/Bank Building.svg" class="size-4">
+                    <a href="">Bank</a>
+                </div>
+                <div class="flex flex-col items-center justify-center">
+                    <img src="assets/svg/Building.svg" class="size-4">
+                    <a href="">Estate</a>
+                </div>
+                <div class="flex flex-col items-center justify-center">
+                    <img src="assets/svg/Pill.svg" class="size-4">
+                    <a href="">Drugs</a>
+                </div>
+                <div class="flex flex-col items-center justify-center">
+                    <img src="assets/svg/Gang.svg" class="size-4">
+                    <a href="">Gang</a>
+                </div>
+                <div class="flex flex-col items-center justify-center">
+                    <img src="assets/svg/Hammer.svg" class="size-4">
+                    <a href="">Crafting</a>
+                </div>
+                <div class="flex flex-col items-center justify-center">
+                    <img src="assets/svg/Parchment.svg" class="size-4">
+                    <a href="">Quests</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Secondary bar -->
+    <div class="bg-black/40">
+        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 py-4 sm:py-0">
+            <div class="relative flex flex-col gap-y-2 sm:gap-y-0 sm:flex-row sm:h-14 items-center justify-between">
+                <!-- Character Currencies, eg. Cash, Bank, Points & Gold -->
+                <div class="flex flex-1 items-center gap-x-3 sm:items-stretch justify-between sm:justify-start">
+                    <span
+                        class="relative flex items-center p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">Cash</span>
+                        <img src="assets/icons/Cash.png" />
+                        <span class="ml-2 text-white text-sm">5.8k</span>
+                    </span>
+
+                    <span
+                        class="relative flex items-center p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">Money in bank</span>
+                        <img src="assets/icons/Bank Building.png" />
+                        <span class="ml-2 text-white text-sm">974,9T</span>
+                    </span>
+
+                    <span
+                        class="relative flex items-center p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">Points</span>
+                        <img src="assets/icons/Diamond.png" />
+                        <span class="ml-2 text-white text-sm">2,9m</span>
+                    </span>
+
+                    <span
+                        class="relative flex items-center p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">Gold</span>
+                        <img src="assets/icons/Gold Bars.png" />
+                        <span class="ml-2 text-white text-sm">364</span>
+                    </span>
+                </div>
+
+                <!-- Character Level, current experience, and experience to next levet -->
+                <div class="flex w-full sm:flex-[0.5] flex-col order-first sm:order-none">
+                    <div class="flex justify-between items-baseline">
+                        <span class="text-xs text-white">1,800</span>
+                        <span class="text-sm text-white font-medium">EXPERIENCE</span>
+                        <span class="text-xs text-white">10,000</span>
+                    </div>
+                    <div class="h-2 bg-white/25">
+                        <div class="h-2 w-[60%] bg-[#FFA600]"></div>
+                    </div>
+                    <div class="flex justify-center">
+                        <span class="text-[red] text-sm">LV. 1249</span>
+                    </div>
+                </div>
+
+                <!-- Character Energy, eg. Nerve, Health, Energy, Awake -->
+                <div class="flex flex-1 gap-x-3 sm:items-stretch justify-between sm:justify-end">
+                    <span
+                        class="relative flex items-center p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">Awake</span>
+                        <img src="assets/icons/Sleep.png" />
+                        <span class="ml-2 text-white text-sm">100%</span>
+                    </span>
+
+                    <span
+                        class="relative flex items-center p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">Nerve</span>
+                        <img src="assets/icons/Brain.png" />
+                        <span class="ml-2 text-white text-sm">100%</span>
+                    </span>
+
+                    <span
+                        class="relative flex items-center p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">Energy</span>
+                        <img src="assets/icons/Lightning Bolt.png" />
+                        <span class="ml-2 text-white text-sm">100%</span>
+                    </span>
+
+                    <span
+                        class="relative flex items-center p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+                        <span class="absolute -inset-1.5"></span>
+                        <span class="sr-only">Health</span>
+                        <img src="assets/icons/Heart.png" />
+                        <span class="ml-2 text-white text-sm">100%</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile menu, show/hide based on menu state. -->
+    <!-- <div class="sm:hidden" id="mobile-menu">
+        <div class="space-y-1 px-2 pt-2 pb-3"> -->
+    <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+    <!-- <a href="#" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
+            aria-current="page">Dashboard</a>
+          <a href="#"
+            class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Team</a>
+          <a href="#"
+            class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Projects</a>
+          <a href="#"
+            class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Calendar</a>
+        </div>
+      </div> -->
+</nav>
+
+<!-- <nav class="navbar navbar-expand-lg p-0 dcNav dcTopNav">
+    <div class="container-fluid scrollNav">
+        <a class="navbar-brand" href="index.php">
+            <img src="asset/img/logo1.png" alt="Deadly Cartel logo" class="mainLogo mx-5">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars fa-2x"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="dcPanel h-100">
+                <div class="text-center dcBannerButtonsContainer voteMobile">
+                    <a href="vote.php" class="dcSecondaryButton my-3">Vote for <i class="far fa-gem"></i></a>
+                    <a href="refer.php" class="dcSecondaryButton my-3">Refer for <i class="far fa-gem"></i></a>
+                    <a href="store.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
+                </div>
+            </div>
+            <ul class="navbar-nav">
+                <?php foreach ($topLinks as $link): ?>
+                    <li class="nav-item">
+                        <?php
+                        $linkText = $link['name'] . ($link['count'] ? ' [' . $link['count'] . ']' : '');
+                        $linkClasses = $link['url'] === $navPage ? ' active' : '' . ($link['count'] ? ' hasNew' : '');
+                        ?>
+                        <a class="nav-link px-4 py-lg-5<?php echo $linkClasses; ?>" aria-current="page" href="<?php echo $link['url']; ?>"><?php echo $linkText; ?></a>
+                    </li>
+                <?php endforeach; ?>
+
+                <?php foreach ($leftLinks as $link): ?>
+                    <li class="nav-item d-lg-none">
+                        <?php
+                        // $linkText    = $link['name'] . ($link['count'] ? ' [' . $link['count'] . ']' : '');
+                        // $linkClasses = $link['url'] === $navPage ? ' active' : '' . ($link['count'] ? ' hasNew' : '');
+                        ?>
+                        <a class="nav-link px-4 py-lg-5<?php echo $linkClasses; ?>" aria-current="page" href="<?php echo $link['url']; ?>"><?php echo $linkText; ?></a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+</nav> -->
