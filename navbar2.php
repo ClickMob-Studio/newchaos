@@ -250,51 +250,51 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
         <div class="mx-auto max-w-7xl px-0">
             <div class="flex h-12 items-center gap-x-4 overflow-scroll text-white whitespace-nowrap px-2">
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/svg/Home.svg" class="size-4">
+                    <img src="assets/images/svg/Home.svg" class="size-4">
                     <a href="">Home</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/svg/Shop.svg" class="size-4">
+                    <img src="assets/images/svg/Shop.svg" class="size-4">
                     <a href="">Store</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/svg/Spy.svg" class="size-4">
+                    <img src="assets/images/svg/Spy.svg" class="size-4">
                     <a href="">Crimes</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/svg/Prison.svg" class="size-4">
+                    <img src="assets/images/svg/Prison.svg" class="size-4">
                     <a href="">Jail</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/svg/Hospital 3.svg" class="size-4">
+                    <img src="assets/images/svg/Hospital 3.svg" class="size-4">
                     <a href="">Hospital</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/svg/Barbell.svg" class="size-4">
+                    <img src="assets/images/svg/Barbell.svg" class="size-4">
                     <a href="">Gym</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/svg/Bank Building.svg" class="size-4">
+                    <img src="assets/images/svg/Bank Building.svg" class="size-4">
                     <a href="">Bank</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/svg/Building.svg" class="size-4">
+                    <img src="assets/images/svg/Building.svg" class="size-4">
                     <a href="">Estate</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/svg/Pill.svg" class="size-4">
+                    <img src="assets/images/svg/Pill.svg" class="size-4">
                     <a href="">Drugs</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/svg/Gang.svg" class="size-4">
+                    <img src="assets/images/svg/Gang.svg" class="size-4">
                     <a href="">Gang</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/svg/Hammer.svg" class="size-4">
+                    <img src="assets/images/svg/Hammer.svg" class="size-4">
                     <a href="">Crafting</a>
                 </div>
                 <div class="flex flex-col items-center justify-center">
-                    <img src="assets/svg/Parchment.svg" class="size-4">
+                    <img src="assets/images/svg/Parchment.svg" class="size-4">
                     <a href="">Quests</a>
                 </div>
             </div>
@@ -392,60 +392,4 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
             </div>
         </div>
     </div>
-
-    <!-- Mobile menu, show/hide based on menu state. -->
-    <!-- <div class="sm:hidden" id="mobile-menu">
-        <div class="space-y-1 px-2 pt-2 pb-3"> -->
-    <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-    <!-- <a href="#" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
-            aria-current="page">Dashboard</a>
-          <a href="#"
-            class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Team</a>
-          <a href="#"
-            class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Projects</a>
-          <a href="#"
-            class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Calendar</a>
-        </div>
-      </div> -->
 </nav>
-
-<!-- <nav class="navbar navbar-expand-lg p-0 dcNav dcTopNav">
-    <div class="container-fluid scrollNav">
-        <a class="navbar-brand" href="index.php">
-            <img src="asset/img/logo1.png" alt="Deadly Cartel logo" class="mainLogo mx-5">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fas fa-bars fa-2x"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <div class="dcPanel h-100">
-                <div class="text-center dcBannerButtonsContainer voteMobile">
-                    <a href="vote.php" class="dcSecondaryButton my-3">Vote for <i class="far fa-gem"></i></a>
-                    <a href="refer.php" class="dcSecondaryButton my-3">Refer for <i class="far fa-gem"></i></a>
-                    <a href="store.php" class="dcSecondaryButton my-3">Upgrades <i class="fas fa-level-up-alt"></i></a>
-                </div>
-            </div>
-            <ul class="navbar-nav">
-                <?php foreach ($topLinks as $link): ?>
-                    <li class="nav-item">
-                        <?php
-                        $linkText = $link['name'] . ($link['count'] ? ' [' . $link['count'] . ']' : '');
-                        $linkClasses = $link['url'] === $navPage ? ' active' : '' . ($link['count'] ? ' hasNew' : '');
-                        ?>
-                        <a class="nav-link px-4 py-lg-5<?php echo $linkClasses; ?>" aria-current="page" href="<?php echo $link['url']; ?>"><?php echo $linkText; ?></a>
-                    </li>
-                <?php endforeach; ?>
-
-                <?php foreach ($leftLinks as $link): ?>
-                    <li class="nav-item d-lg-none">
-                        <?php
-                        // $linkText    = $link['name'] . ($link['count'] ? ' [' . $link['count'] . ']' : '');
-                        // $linkClasses = $link['url'] === $navPage ? ' active' : '' . ($link['count'] ? ' hasNew' : '');
-                        ?>
-                        <a class="nav-link px-4 py-lg-5<?php echo $linkClasses; ?>" aria-current="page" href="<?php echo $link['url']; ?>"><?php echo $linkText; ?></a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </div>
-</nav> -->
