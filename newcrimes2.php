@@ -41,8 +41,11 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
     }
 </style>
 
-<div class="max-w-7xl mx-auto flex">
+<div class="max-w-7xl mx-auto mb-2">
     <h1 class="text-5xl text-white">Crimes</h1>
+</div>
+
+<div class="max-w-7xl mx-auto flex">
 
     <div class="w-full border border-[#FF9696]/10 bg-black/40 border-6 rounded-lg p-4"></div>
 
