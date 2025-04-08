@@ -340,16 +340,16 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
 
                 <!-- Character Level, current experience, and experience to next levet -->
                 <div class="flex w-full sm:flex-[0.5] flex-col order-first sm:order-none">
-                    <div class="flex justify-between items-baseline">
-                        <span class="text-xs text-white"><?= pretty_format_number($user_class->exp); ?></span>
+                    <div class="mx-auto">
                         <span class="text-sm text-white font-medium">EXPERIENCE</span>
-                        <span class="text-xs text-white"><?= pretty_format_number(10000); ?></span>
                     </div>
-                    <div class="h-2 bg-white/25">
+                    <div class="h-2 bg-white/25" data-toggle="tooltip"
+                        title="<?= pretty_format_number($user_class->exp) . ' - ' . $user_class->exppercent; ?>%">
                         <div class="h-2 w-[<?= $user_class->exppercent; ?>%] bg-[#FFA600]"></div>
                     </div>
-                    <div class="flex justify-center">
+                    <div class="flex justify-between">
                         <span class="text-[red] text-sm">LV. <?= $user_class->level; ?></span>
+                        <span class="text-white text-sm"><?= pretty_format_number($user_class->exp); ?></span>
                     </div>
                 </div>
 
