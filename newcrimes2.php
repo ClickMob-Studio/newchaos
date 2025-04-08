@@ -41,86 +41,89 @@ $crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $u
     }
 </style>
 
-<h1 class="text-5xl text-white">Crimes</h1>
+<div class="max-w-7xl mx-auto flex">
+    <h1 class="text-5xl text-white">Crimes</h1>
 
-<?php
-$error = ($user_class->fbitime > 0) ? "You can't do crimes if you're in FBI Jail!" : "";
-$error = ($user_class->jail > 0) ? "You can't do crimes if you're in prison!" : "";
-$error = ($user_class->hospital > 0) ? "You can't do crimes if you're in hospital!" : $error;
-if (!empty($error)) {
-    diefun($error);
+    <div class="w-full border border-[#FF9696]/10 bg-black/40 border-6 rounded-lg p-4"></div>
 
-}
+    <?php
+    $error = ($user_class->fbitime > 0) ? "You can't do crimes if you're in FBI Jail!" : "";
+    $error = ($user_class->jail > 0) ? "You can't do crimes if you're in prison!" : "";
+    $error = ($user_class->hospital > 0) ? "You can't do crimes if you're in hospital!" : $error;
+    if (!empty($error)) {
+        diefun($error);
 
-if (isset($_GET['ner'])) {
-    switch ($_GET['ner']) {
-        case 0:
-            if ($user_class->nerref != 0)
-                diefun("Nice Try.");
-            if ($user_class->points < 250)
-                diefun("You do not have enough points.");
-            $user_class->points -= 250;
-            $user_class->nerref = 2;
-            $db->query("UPDATE grpgusers SET nerref = ?, points = ?, nerreftime = unix_timestamp() WHERE id = ?");
-            $db->execute(array(
-                $user_class->nerref,
-                $user_class->points,
-                $user_class->id
-            ));
-            break;
-        case 1:
-            if ($user_class->nerref == 0)
-                diefun("Nice Try.");
-            $user_class->nerref = 2;
-            $db->query("UPDATE grpgusers SET nerref = ? WHERE id = ?");
-            $db->execute(array(
-                $user_class->nerref,
-                $user_class->id
-            ));
-            mysql_query("UPDATE grpgusers SET nerref = $user_class->nerref WHERE id = $user_class->id");
-            break;
-        case 2:
-            if ($user_class->nerref == 0)
-                diefun("Nice Try.");
-            $user_class->nerref = 1;
-            $db->query("UPDATE grpgusers SET nerref = ? WHERE id = ?");
-            $db->execute(array(
-                $user_class->nerref,
-                $user_class->id
-            ));
-            break;
     }
-}
 
-?>
-<table>
-    <tbody>
-        <tr>
-            <td>
-                <div class="flexele floaty" style="margin:3px;">
-                    <hr class="my-4 border-black/30" />
+    if (isset($_GET['ner'])) {
+        switch ($_GET['ner']) {
+            case 0:
+                if ($user_class->nerref != 0)
+                    diefun("Nice Try.");
+                if ($user_class->points < 250)
+                    diefun("You do not have enough points.");
+                $user_class->points -= 250;
+                $user_class->nerref = 2;
+                $db->query("UPDATE grpgusers SET nerref = ?, points = ?, nerreftime = unix_timestamp() WHERE id = ?");
+                $db->execute(array(
+                    $user_class->nerref,
+                    $user_class->points,
+                    $user_class->id
+                ));
+                break;
+            case 1:
+                if ($user_class->nerref == 0)
+                    diefun("Nice Try.");
+                $user_class->nerref = 2;
+                $db->query("UPDATE grpgusers SET nerref = ? WHERE id = ?");
+                $db->execute(array(
+                    $user_class->nerref,
+                    $user_class->id
+                ));
+                mysql_query("UPDATE grpgusers SET nerref = $user_class->nerref WHERE id = $user_class->id");
+                break;
+            case 2:
+                if ($user_class->nerref == 0)
+                    diefun("Nice Try.");
+                $user_class->nerref = 1;
+                $db->query("UPDATE grpgusers SET nerref = ? WHERE id = ?");
+                $db->execute(array(
+                    $user_class->nerref,
+                    $user_class->id
+                ));
+                break;
+        }
+    }
 
-                    <div style="flex flex-row">
-                        <div id="noti" class="alert alert-info" style="display: none;">
-                            <p><img style="display:none;" id="spinner" src="images/ajax-loader.gif" /> <span
-                                    class="response-text"></span></p>
+    ?>
+    <table>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="flexele floaty" style="margin:3px;">
+                        <hr class="my-4 border-black/30" />
+
+                        <div style="flex flex-row">
+                            <div id="noti" class="alert alert-info" style="display: none;">
+                                <p><img style="display:none;" id="spinner" src="images/ajax-loader.gif" /> <span
+                                        class="response-text"></span></p>
+                            </div>
                         </div>
+
+                        <?php if ($activeMission) {
+                            echo "<div id='missiontext' style='font-size: 1.2em'>Active Mission: {$activeMission['name']} Crimes: {$activeMission['crimesdone']}/{$activeMission['crimestarget']}</div></center>";
+                        } ?>
+
+
                     </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-                    <?php if ($activeMission) {
-                        echo "<div id='missiontext' style='font-size: 1.2em'>Active Mission: {$activeMission['name']} Crimes: {$activeMission['crimesdone']}/{$activeMission['crimestarget']}</div></center>";
-                    } ?>
-
-
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-<meta http-equiv='refresh' content='900'>
+    <meta http-equiv='refresh' content='900'>
 
 
-<?php
-include 'footer.php';
-?>
+    <?php
+    include 'footer.php';
+    ?>

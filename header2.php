@@ -1216,6 +1216,3 @@ if (distance < 0) {
                         ?>
 
                         <div class="ajax-message-holder" style="min-height: 60px; display: none;"></div>
-
-                        <div class="max-w-7xl mx-auto flex">
-                            <div class="w-full border border-[#FF9696]/10 bg-black/40 border-6 rounded-lg p-4">
