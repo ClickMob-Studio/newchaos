@@ -50,8 +50,8 @@ include "database/pdo_class.php";
 $m = new Memcache();
 $m->addServer('127.0.0.1', 11211, 33);
 
-if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
-    $user_class = new User((int)$_GET['au_user_or']);
+if (isset($_GET['au_user_or']) && (int) $_GET['au_user_or']) {
+    $user_class = new User((int) $_GET['au_user_or']);
 } else {
     $user_class = new User($_SESSION['id']);
 }
@@ -220,7 +220,7 @@ if ($activityContest['type'] == 'backalley') {
 }
 
 if ($user_class->gang > 0) {
-    addToGangCompLeaderboard($user_class->gang,'ba_complete', 1);
+    addToGangCompLeaderboard($user_class->gang, 'ba_complete', 1);
 }
 
 updateGangActiveMission('backalleys', 1);
@@ -295,10 +295,10 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     // - 50% Win Cash & Item
     // - 15% Win Points
     // - 15% Win Raid Tokens
-    $outcome = mt_rand(1,100);
+    $outcome = mt_rand(1, 100);
     if ($outcome <= 20) {
         // 20% Win Cash & EXP
-        $cashWon = mt_rand(10,5000) * $userBaStats['level'];
+        $cashWon = mt_rand(10, 5000) * $userBaStats['level'];
         if ($userPrestigeSkills['ba_cash_unlock'] > 0) {
             $cashWon = $cashWon + ($cashWon / 100 * 10);
             $cashWon = ceil($cashWon);
@@ -311,7 +311,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $expWon = $expWon + (($expWon / 100) * (6 * $userBaStats['level']));
 
         //$expWon = $expWon / 2;
-        $baExpWon = mt_rand(5,25);
+        $baExpWon = mt_rand(5, 25);
 
         $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `exp` = `exp` + " . $expWon . ", `backalleywins` = `backalleywins` + 1  WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
@@ -331,16 +331,18 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="font-weight: bold; color: green;">You won $' . number_format($cashWon, 0) . ' & ' . number_format($expWon, 0) . ' EXP!</span>';
 
+        $fullResponse = check_for_easter_egg($fullResponse);
+
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     } else if ($outcome <= 70) {
         // 40% Win Cash & Item
-        $cashWon = mt_rand(10,5000) * $userBaStats['level'];
+        $cashWon = mt_rand(10, 5000) * $userBaStats['level'];
         if ($userPrestigeSkills['ba_cash_unlock'] > 0) {
             $cashWon = $cashWon + ($cashWon / 100 * 10);
             $cashWon = ceil($cashWon);
         }
-        $baExpWon = mt_rand(5,25);
+        $baExpWon = mt_rand(5, 25);
 
         $itemIds = array();
         //$itemIds[10] = 13; // Med Cert 75
@@ -350,7 +352,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $itemIds[80] = 194; // Raid Speedup
         $itemIds[100] = 251; // Raid Pass
 
-        $itemChance = mt_rand(1,100);
+        $itemChance = mt_rand(1, 100);
         foreach ($itemIds as $key => $itemId) {
             if ($itemChance <= $key) {
                 $itemWonId = $itemId;
@@ -387,13 +389,15 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="font-weight: bold; color: green;">You won $' . number_format($cashWon, 0) . ' & found 1 x ' . $itemName . '!</span>';
 
+        $fullResponse = check_for_easter_egg($fullResponse);
+
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     } else if ($outcome <= 85) {
         // 15% Win Points
-        $pointsWon = mt_rand(5,45) * $userBaStats['level'];
+        $pointsWon = mt_rand(5, 45) * $userBaStats['level'];
 
-        $baExpWon = mt_rand(5,25);
+        $baExpWon = mt_rand(5, 25);
 
         $db->query("UPDATE `grpgusers` SET `points` = `points` + " . $pointsWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
@@ -413,12 +417,14 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="font-weight: bold; color: green;">You won ' . number_format($pointsWon, 0) . ' points!</span>';
 
+        $fullResponse = check_for_easter_egg($fullResponse);
+
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     } else {
         // 15% Win Raid Tokens
-        $raidTokensWon = mt_rand(1,3) * $userBaStats['level'];
-        $baExpWon = mt_rand(5,25);
+        $raidTokensWon = mt_rand(1, 3) * $userBaStats['level'];
+        $baExpWon = mt_rand(5, 25);
 
         $db->query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + " . $raidTokensWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
@@ -438,14 +444,15 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="font-weight: bold; color: green;">You won ' . number_format($raidTokensWon, 0) . ' raid tokens!</span>';
 
+        $fullResponse = check_for_easter_egg($fullResponse);
+
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     }
 } else {
-
-    $goldRushChance = mt_rand(1,12500);
+    $goldRushChance = mt_rand(1, 12500);
     if ($userPrestigeSkills['ba_gold_rush_unlock'] > 0) {
-        $goldRushChance = mt_rand(1,9000);
+        $goldRushChance = mt_rand(1, 9000);
     }
     if ($goldRushChance == 2) {
         $db->query("UPDATE user_ba_stats SET gold_rush_credits = gold_rush_credits + 15 WHERE user_id = " . $user_class->id);
@@ -463,7 +470,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
     // - 30% Win Cash & EXP
     // - 10% Win Cash & Item
     // - 10% Nothing, onto next turn
-    $outcome = mt_rand(1,100);
+    $outcome = mt_rand(1, 100);
     if ($outcome <= 30) {
         // 10% Loose & Go Hosp
         $hosp = 120;
@@ -487,7 +494,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         exit;
     } else if ($outcome <= 55) {
         // 30% Win Cash & EXP
-        $cashWon = mt_rand(10,1000) * $userBaStats['level'];
+        $cashWon = mt_rand(10, 1000) * $userBaStats['level'];
         if ($userPrestigeSkills['ba_cash_unlock'] > 0) {
             $cashWon = $cashWon + ($cashWon / 100 * 10);
             $cashWon = ceil($cashWon);
@@ -501,7 +508,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         if ($expWon < 100) {
             $expWon = 100;
         }
-        $baExpWon = mt_rand(1,15);
+        $baExpWon = mt_rand(1, 15);
 
         $db->query("UPDATE `grpgusers` SET `money` = `money` + " . $cashWon . ", `exp` = `exp` + " . $expWon . ", `backalleywins` = `backalleywins` + 1  WHERE `id` = '" . $user_class->id . "'");
         $db->execute();
@@ -520,17 +527,18 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="font-weight: bold; color: green;">You won $' . number_format($cashWon, 0) . ' & ' . number_format($expWon, 0) . ' EXP!</span>';
 
+        $fullResponse = check_for_easter_egg($fullResponse);
+
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     } else if ($outcome <= 85) {
         // 30% Win Cash & Item
-        $cashWon = mt_rand(100,1500) * $userBaStats['level'];
+        $cashWon = mt_rand(100, 1500) * $userBaStats['level'];
         if ($userPrestigeSkills['ba_cash_unlock'] > 0) {
             $cashWon = $cashWon + ($cashWon / 100 * 10);
             $cashWon = ceil($cashWon);
         }
-        $baExpWon = mt_rand(1,15);
-
+        $baExpWon = mt_rand(1, 15);
 
         $userItemDropLog = getUserItemDropLog($user_class->id);
 
@@ -540,7 +548,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $itemIds[99] = 14; // Med Cert 100
         $itemIds[100] = 253; // Gold Rush Token
 
-        $itemChance = mt_rand(1,100);
+        $itemChance = mt_rand(1, 100);
         foreach ($itemIds as $key => $itemId) {
             if ($itemChance <= $key) {
                 $itemWonId = $itemId;
@@ -574,17 +582,19 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="font-weight: bold; color: green;">You won $' . number_format($cashWon, 0) . ' & found 1 x ' . $itemName . '!</span>';
 
+        $fullResponse = check_for_easter_egg($fullResponse);
+
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
     } else if ($outcome <= 100) {
         if ($userPrestigeSkills['ba_raidtokens_unlock'] < 1) {
             $rtorpChance = 100;
         } else {
-            $rtorpChance = mt_rand(1,100);
+            $rtorpChance = mt_rand(1, 100);
         }
         if ($rtorpChance > 25) {
-            $pointsWon = mt_rand(2,4) * $userBaStats['level'];
-            $baExpWon = mt_rand(1,15);
+            $pointsWon = mt_rand(2, 4) * $userBaStats['level'];
+            $baExpWon = mt_rand(1, 15);
 
             $db->query("UPDATE `grpgusers` SET `points` = `points` + " . $pointsWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
             $db->execute();
@@ -603,11 +613,13 @@ if ($userBaStats['gold_rush_credits'] > 0) {
             $fullResponse .= '<br />';
             $fullResponse .= '<span style="font-weight: bold; color: green;">You won ' . number_format($pointsWon, 0) . ' points!</span>';
 
+            $fullResponse = check_for_easter_egg($fullResponse);
+
             echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
             exit;
         } else {
-            $raidTokensWon = mt_rand(1,2) * $userBaStats['level'];
-            $baExpWon = mt_rand(1,15);
+            $raidTokensWon = mt_rand(1, 2) * $userBaStats['level'];
+            $baExpWon = mt_rand(1, 15);
 
             $db->query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + " . $raidTokensWon . ", `backalleywins` = `backalleywins` + 1 WHERE `id` = '" . $user_class->id . "'");
             $db->execute();
@@ -622,6 +634,8 @@ if ($userBaStats['gold_rush_credits'] > 0) {
             $fullResponse .= '<span style="color: green; font-weight:bold;">' . $scenario['success'] . '</span>';
             $fullResponse .= '<br />';
             $fullResponse .= '<span style="font-weight: bold; color: green;">You won ' . number_format($raidTokensWon, 0) . ' raid tokens!</span>';
+
+            $fullResponse = check_for_easter_egg($fullResponse);
 
             echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
             exit;
@@ -648,3 +662,44 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 
 echo json_encode(success($outcome . ' - Something went wrong'));
 exit;
+
+
+function check_for_easter_egg($fullResponse) {
+    $egg = did_find_easter_egg();
+    if ($egg > 0) {
+        $db->query("SELECT * FROM items WHERE id = " . $egg);
+        $db->execute();
+        $item = $db->fetch_row(true);
+
+        $fullResponse .= '<br />'
+        $fullResponse .= '<span style="font-weight: bold; color: green;">You also found 1x ' . item_popup($item['itemname'], $egg) . '!</span>';
+    }
+
+    return $fullResponse;
+}
+
+function did_find_easter_egg()
+{
+    global $user_class;
+
+    if ($user_class->admin < 1) {
+        return 0;
+    }
+
+    $probability = mt_rand(1, 400);
+    if ($probability <= 1) {
+        // Ultra rare egg 0,5% chance
+        Give_Item(338, $user_class->id);
+        return 338;
+    } else if ($probability <= 3) {
+        // Rare egg 1% chance
+        Give_Item(337, $user_class->id);
+        return 337;
+    } else if ($probability <= 14) {
+        // Common egg 2,5% chance
+        Give_Item(336, $user_class->id);
+        return 336;
+    }
+
+    return 0;
+}
