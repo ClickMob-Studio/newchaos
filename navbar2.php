@@ -339,7 +339,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                 </div>
 
                 <!-- Character Level, current experience, and experience to next levet -->
-                <div class="flex w-full md:flex-[0.5] flex-col order-first md:order-none">
+                <div class="flex max-w-lg mx-auto md:flex-[0.5] flex-col order-first md:order-none">
                     <div class="mx-auto">
                         <span class="text-sm text-white font-medium">EXPERIENCE</span>
                     </div>
