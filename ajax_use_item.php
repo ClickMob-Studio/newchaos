@@ -706,6 +706,22 @@ if (isset($_GET['use'])) {
                 $response['success'] = true;
                 $response['message'] = "You open your easter crate and inside find 400,000 points, $1,000,000,000, 100 x Rare Egg Baskets & 1 x Easter Statue!";
                 break;
+            case 345:
+                $tempItemUse = getItemTempUse($user_class->id);
+                $now = time();
+                if ($tempItemUse['easter_bead'] > $now) {
+                    $response['message'] = 'You already have a easter bead active.';
+                    echo json_encode($response);
+                    exit;
+                }
+
+                $newTime = time() + 7200;
+
+                addItemTempUse($user_class, 'easter_bead', $newTime);
+
+                $response['success'] = true;
+                $response['message'] = "You break the easter bead, a magical aura wraps you and you feel the direction of easter eggs more clearly for the next 2 hours!";
+                break;
             // case 250: # Advanced Booster
             //     $nr = give_nerve(250);
             //     $er = give_energy(250);

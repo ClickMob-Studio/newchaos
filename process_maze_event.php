@@ -6,6 +6,8 @@ $user_class = new User($_SESSION['id']);
 error_reporting(1);
 //file_put_contents("post_log.txt", print_r($_POST, true));
 
+$tempItemUse = getItemTempUse($user_class->id);
+
 // Create a default response
 $response = [
     'direction' => 'unknown',
@@ -41,6 +43,10 @@ if (isset($_POST['direction'])) {
         die(json_encode(['error' => 'Invalid query: ' . mysql_error()]));
     }
 
+    // Time right now
+    $currentTime = time();
+    $easter_events = [41, 42, 43]; // Easter events IDs
+
     // Create a weighted array
     $weightedEvents = [];
     while ($event = mysql_fetch_assoc($result)) {
@@ -51,6 +57,11 @@ if (isset($_POST['direction'])) {
 
             // If the user is an admin, we reverse the negative probability to a positive one
             $event['probability'] = abs($event['probability']);
+        }
+
+        if ($tempItemUse['easter_bead'] > $currentTime && in_array($event['id'], $easter_events)) {
+            // Double the probability for Easter events if the user has the item enabled
+            $event['probability'] = $event['probability'] * 2;
         }
 
         $probability = (float) $event['probability'] * 10; // We multiply by 10 to make sure eg. 0.1 becomes 1
