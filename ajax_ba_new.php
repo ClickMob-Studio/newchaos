@@ -671,7 +671,7 @@ function check_for_easter_egg($fullResponse) {
         $db->execute();
         $item = $db->fetch_row(true);
 
-        $fullResponse .= '<br />'
+        $fullResponse .= '<br />';
         $fullResponse .= '<span style="font-weight: bold; color: green;">You also found 1x ' . item_popup($item['itemname'], $egg) . '!</span>';
     }
 
