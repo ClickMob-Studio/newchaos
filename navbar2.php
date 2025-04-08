@@ -305,7 +305,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
             <div class="relative flex flex-col gap-y-2 md:gap-y-0 md:flex-row md:h-14 items-center justify-between">
                 <!-- Character Currencies, eg. Cash, Bank, Points & Gold -->
                 <div
-                    class="flex max-w-md w-full items-center gap-x-3 md:items-stretch justify-between md:justify-start">
+                    class="flex max-w-md w-full md:w-auto items-center gap-x-3 md:items-stretch justify-between md:justify-start">
                     <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
                         title="<?= number_format($user_class->money); ?>">
                         <span class="absolute -inset-1.5"></span>
@@ -340,7 +340,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                 </div>
 
                 <!-- Character Level, current experience, and experience to next levet -->
-                <div class="flex max-w-md w-full md:flex-[0.5] flex-col order-first md:order-none">
+                <div class="flex max-w-md w-full md:w-auto md:flex-[0.5] flex-col order-first md:order-none">
                     <div class="mx-auto">
                         <span class="text-sm text-white font-medium">EXPERIENCE</span>
                     </div>
@@ -355,7 +355,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                 </div>
 
                 <!-- Character Energy, eg. Nerve, Health, Energy, Awake -->
-                <div class="flex max-w-md w-full gap-x-3 md:items-stretch justify-between md:justify-end">
+                <div class="flex max-w-md w-full md:w-auto gap-x-3 md:items-stretch justify-between md:justify-end">
                     <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
                         title="<?= $user_class->formattedawake; ?>">
                         <span class="absolute -inset-1.5"></span>
