@@ -1,4 +1,3 @@
-
 <style>
     .user-logs {
         margin-top: 20px;
@@ -8,36 +7,50 @@
         margin-left: auto;
         margin-right: auto;
     }
+
     .user-logs table {
         width: 100%;
-        background-color: #222; /* Dark background */
+        background-color: #222;
+        /* Dark background */
     }
-    .user-logs th, .user-logs td {
+
+    .user-logs th,
+    .user-logs td {
 
         padding: 8px 12px;
         text-align: left;
-        color: #f5f5f5; /* Light text color */
+        color: #f5f5f5;
+        /* Light text color */
     }
+
     .user-logs th {
-        background-color: #333; /* Slightly lighter than the row color */
+        background-color: #333;
+        /* Slightly lighter than the row color */
     }
+
     .user-logs tr:nth-child(even) {
-        background-color: #444; /* Slightly darker for alternate rows */
+        background-color: #444;
+        /* Slightly darker for alternate rows */
     }
 
-.loader {
-    border: 16px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 16px solid #3498db;
-    width: 50px;
-    height: 50px;
-    animation: spin 2s linear infinite;
-}
+    .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #3498db;
+        width: 50px;
+        height: 50px;
+        animation: spin 2s linear infinite;
+    }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
 
     .contenthead.floaty {
         text-align: center;
@@ -45,7 +58,6 @@
         margin-bottom: 20px;
         border-radius: 8px;
     }
-
 </style>
 <?php
 include 'header.php';
@@ -55,208 +67,198 @@ include 'header.php';
 // }
 ?>
 <div class='box_top'>Maze</div>
-						<div class='box_middle'>
-							<div class='pad'>
+<div class='box_middle'>
+    <div class='pad'>
 
-<?php
-if ($user_class->cityturns <= 0) {
-    echo "You have no turns left to search the streets!";
-    include 'footer.php';
-    exit;
-}
-
-// This script assumes that `handleDirectionChoice` is a function you've defined elsewhere
-// that returns the results of the direction chosen by the user.
-$chosenDirection = "";
-if (isset($_POST['direction'])) {
-    $chosenDirection = $_POST['direction']; // Sanitize this as necessary
-    $eventResult = handleDirectionChoice($chosenDirection);
-    // handleDirectionChoice needs to be implemented by you
-}
-
-
-
-
-
-
-$chosenDirection = "";
-
-// When user decides to search the street
-if (isset($_POST['direction'])) {
-    $chosenDirection = $_POST['direction']; // Store the direction
-    // Fetch all events from the citygame table
-    $query = "SELECT * FROM citygame";
-    $result = mysql_query($query);
-    if (!$result) {
-        die('Invalid query: ' . mysql_error());
-    }
-    // Create a weighted array
-    $weightedEvents = [];
-    while ($event = mysql_fetch_assoc($result)) {
-        for ($i = 0; $i < $event['probability']; $i++) {
-            $weightedEvents[] = $event;
+        <?php
+        if ($user_class->cityturns <= 0) {
+            echo "You have no turns left to search the streets!";
+            include 'footer.php';
+            exit;
         }
-    }
-    // Randomly select an event from the weighted array
-    $event = $weightedEvents[array_rand($weightedEvents)];
-    $description = "";
-    // Handle the event
-    switch ($event['event_type']) {
-        case 'text':
-            $description = $event['description_template'];
-            break;
 
-        case 'money':
-            $money = rand($event['min_value'], $event['max_value']);
-        $description = str_replace('[money_amount]', "<span style='color: green;'>$".$money."</span>", $event['description_template']);
-            // Add the money to the user's account
-            $money_query = "UPDATE grpgusers SET money = money + $money WHERE id = " . $user_class->id;
-            mysql_query($money_query);
-            break;
-case 'credits':
-    $credits = rand($event['min_value'], $event['max_value']);
-        $description = str_replace('[credits_amount]', "<span style='color: yellow; font-weight: bold;'>".$credits." credits</span>", $event['description_template']);
+        $chosenDirection = "";
+        // When user decides to search the street
+        if (isset($_POST['direction'])) {
+            $chosenDirection = $_POST['direction']; // Store the direction
+            // Fetch all events from the citygame table
+            $query = "SELECT * FROM citygame";
+            $result = mysql_query($query);
+            if (!$result) {
+                die('Invalid query: ' . mysql_error());
+            }
+            // Create a weighted array
+            $weightedEvents = [];
+            while ($event = mysql_fetch_assoc($result)) {
+                for ($i = 0; $i < $event['probability']; $i++) {
+                    $weightedEvents[] = $event;
+                }
+            }
+            // Randomly select an event from the weighted array
+            $event = $weightedEvents[array_rand($weightedEvents)];
+
+            if ($user_class->admin > 0) {
+                var_dump($weightedEvents);
+            }
+
+            $description = "";
+            // Handle the event
+            switch ($event['event_type']) {
+                case 'text':
+                    $description = $event['description_template'];
+                    break;
+
+                case 'money':
+                    $money = rand($event['min_value'], $event['max_value']);
+                    $description = str_replace('[money_amount]', "<span style='color: green;'>$" . $money . "</span>", $event['description_template']);
+                    // Add the money to the user's account
+                    $money_query = "UPDATE grpgusers SET money = money + $money WHERE id = " . $user_class->id;
+                    mysql_query($money_query);
+                    break;
+                case 'credits':
+                    $credits = rand($event['min_value'], $event['max_value']);
+                    $description = str_replace('[credits_amount]', "<span style='color: yellow; font-weight: bold;'>" . $credits . " credits</span>", $event['description_template']);
 
 
- // Log the event in user_logs table with the custom description
-$logDescription = "Has found " . $credits . " Credits whilst searching downtown.";
-$log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'credits', '{$logDescription}', UNIX_TIMESTAMP())";
-mysql_query($log_query);
+                    // Log the event in user_logs table with the custom description
+                    $logDescription = "Has found " . $credits . " Credits whilst searching downtown.";
+                    $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'credits', '{$logDescription}', UNIX_TIMESTAMP())";
+                    mysql_query($log_query);
 
 
-    // Add the credits to the user's account
-    $credits_query = "UPDATE grpgusers SET credits = credits + $credits WHERE id = " . $user_class->id;
-    mysql_query($credits_query);
-    break;
+                    // Add the credits to the user's account
+                    $credits_query = "UPDATE grpgusers SET credits = credits + $credits WHERE id = " . $user_class->id;
+                    mysql_query($credits_query);
+                    break;
 
 
-case 'shadyDealer':
-    $packageCost = 1000; // This is an example cost. Adjust as needed.
+                case 'shadyDealer':
+                    $packageCost = 1000; // This is an example cost. Adjust as needed.
+        
+                    if ($user_class->bank >= $packageCost) {
+                        // Deduct money from bank
+                        $deductMoneyQuery = "UPDATE grpgusers SET bank = bank - $packageCost WHERE id = " . $user_class->id;
+                        mysql_query($deductMoneyQuery);
 
-    if ($user_class->bank >= $packageCost) {
-        // Deduct money from bank
-        $deductMoneyQuery = "UPDATE grpgusers SET bank = bank - $packageCost WHERE id = " . $user_class->id;
-        mysql_query($deductMoneyQuery);
+                        // Randomly decide the outcome
+                        $outcome = rand(1, 2); // 1 for Good Outcome, 2 for Trap Outcome
+        
+                        if ($outcome == 1) {
+                            // Add rare item to inventory or give money/points
+                            // This is just an example. Adjust based on your game's structure.
+                            $description = "You received a rare item from the shady dealer!";
+                        } else {
+                            // Update player status to "in jail" or "in hospital"
+                            $description = "It was a trap! The shady dealer set you up, and you've been sent to jail!";
+                        }
+                    } else {
+                        $description = "You don't have enough money in your bank to engage with the shady dealer!";
+                    }
+                    break;
 
-        // Randomly decide the outcome
-        $outcome = rand(1, 2); // 1 for Good Outcome, 2 for Trap Outcome
+                case 'injuredStranger':
+                    // Deduct turns for helping
+                    $deductTurnsQuery = "UPDATE grpgusers SET cityturns = cityturns - 2 WHERE id = " . $user_class->id; // Deducting 2 turns as an example.
+                    mysql_query($deductTurnsQuery);
 
-        if ($outcome == 1) {
-            // Add rare item to inventory or give money/points
-            // This is just an example. Adjust based on your game's structure.
-            $description = "You received a rare item from the shady dealer!";
-        } else {
-            // Update player status to "in jail" or "in hospital"
-            $description = "It was a trap! The shady dealer set you up, and you've been sent to jail!";
+                    // Randomly decide the outcome
+                    $outcome = rand(1, 2); // 1 for Grateful Stranger, 2 for Deceitful Stranger
+        
+                    if ($outcome == 1) {
+                        // Add reward to player's account or inventory
+                        // This is just an example. Adjust based on your game's structure.
+                        $description = "The injured stranger was genuinely in need and, as a token of gratitude, gave you a reward!";
+                    } else {
+                        // Deduct a random amount from player's money
+                        $robAmount = rand(100, 500); // Random amount between 100 and 500 as an example.
+                        $robMoneyQuery = "UPDATE grpgusers SET money = money - $robAmount WHERE id = " . $user_class->id;
+                        mysql_query($robMoneyQuery);
+                        $description = "It was a trap! The injured stranger was a con artist, and you were robbed!";
+                    }
+                    break;
+
+
+                case 'raidtokens':
+                    $raidtokens = rand($event['min_value'], $event['max_value']);
+                    $description = str_replace('[raidtokens_amount]', "<span style='color: red; font-weight: bold;'>" . $raidtokens . " raid tokens</span>", $event['description_template']);
+
+                    $logDescription = "Has found " . $raidtokens . " Raid Tokens whilst searching downtown.";
+                    $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'raidtokens', '{$logDescription}', UNIX_TIMESTAMP())";
+                    mysql_query($log_query);
+
+                    // Add the raid tokens to the user's account
+                    $raidtokens_query = "UPDATE grpgusers SET raidtokens = raidtokens + $raidtokens WHERE id = " . $user_class->id;
+                    mysql_query($raidtokens_query);
+                    break;
+
+                case 'points':
+                    $points = rand($event['min_value'], $event['max_value']);
+                    $description = str_replace('[points_amount]', $points, $event['description_template']);
+                    // Add the points to the user's account
+                    $points_query = "UPDATE grpgusers SET points = points + $points WHERE id = " . $user_class->id;
+                    mysql_query($points_query);
+                    break;
+
+                case 'jail':
+                    $logDescription = "Has landed in some trouble. They are on the way to Jail!.";
+                    $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'jail', '{$logDescription}', UNIX_TIMESTAMP())";
+                    mysql_query($log_query);
+
+                    $jailTime = rand($event['min_value'], $event['max_value']);
+                    $description = "<strong style='color:red;'>" . $event['description_template'] . "</strong>";
+                    $jail_query = "UPDATE grpgusers SET jail = jail + $jailTime WHERE id = " . $user_class->id;
+                    mysql_query($jail_query);
+
+                    echo json_encode(['redirect' => 'jail_page.php']);
+                    exit;
+
+                case 'hospital':
+                    $hospitalTime = rand($event['min_value'], $event['max_value']);
+                    $description = "<strong style='color:red;'>" . $event['description_template'] . "</strong>";
+                    $hospital_query = "UPDATE grpgusers SET hospital = hospital + " . $hospitalTime . ", hhow = 'maze' WHERE id = " . $user_class->id;
+                    mysql_query($hospital_query);
+
+                    echo json_encode(['redirect' => 'hospital_page.php']);
+                    exit;
+
+
+                case 'item':
+                    $item_query = "SELECT itemname FROM items WHERE id = " . $event['item_id'];
+                    $item_result = mysql_query($item_query);
+                    $item = mysql_fetch_assoc($item_result);
+
+                    $description = str_replace('[item_name]', $item['itemname'], $event['description_template']);
+
+                    // Log the event in user_logs table with the item name
+                    $logDescription = "Has found a(n) " . $item['itemname'] . " whilst searching downtown.";
+                    $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'item', '{$logDescription}', UNIX_TIMESTAMP())";
+                    mysql_query($log_query);
+                    break;
+
+                    // Add the item to the user's inventory. This step will depend on how you handle inventory in your game
+                    break;
+
+                // Add more cases as needed
+            }
+
+            // Deduct a turn from the user's cityturns
+            $turns_query = "UPDATE grpgusers SET cityturns = cityturns - 1 WHERE id = " . $user_class->id;
+            mysql_query($turns_query);
+
+            // Display the description to the user
+            echo "<p><strong>Search Result:</strong><br>";
+            echo "You walked " . $chosenDirection . ".<br>"; // Display the chosen direction
+            echo $description . "</p>";
+
+
+
+
+            // Display remaining turns
+            echo "<p>You have <strong>" . $user_class->cityturns . "</strong> turns left to search the streets.</p>";
         }
-    } else {
-        $description = "You don't have enough money in your bank to engage with the shady dealer!";
-    }
-    break;
-
-case 'injuredStranger':
-    // Deduct turns for helping
-    $deductTurnsQuery = "UPDATE grpgusers SET cityturns = cityturns - 2 WHERE id = " . $user_class->id; // Deducting 2 turns as an example.
-    mysql_query($deductTurnsQuery);
-
-    // Randomly decide the outcome
-    $outcome = rand(1, 2); // 1 for Grateful Stranger, 2 for Deceitful Stranger
-
-    if ($outcome == 1) {
-        // Add reward to player's account or inventory
-        // This is just an example. Adjust based on your game's structure.
-        $description = "The injured stranger was genuinely in need and, as a token of gratitude, gave you a reward!";
-    } else {
-        // Deduct a random amount from player's money
-        $robAmount = rand(100, 500); // Random amount between 100 and 500 as an example.
-        $robMoneyQuery = "UPDATE grpgusers SET money = money - $robAmount WHERE id = " . $user_class->id;
-        mysql_query($robMoneyQuery);
-        $description = "It was a trap! The injured stranger was a con artist, and you were robbed!";
-    }
-    break;
 
 
-case 'raidtokens':
-    $raidtokens = rand($event['min_value'], $event['max_value']);
-        $description = str_replace('[raidtokens_amount]', "<span style='color: red; font-weight: bold;'>".$raidtokens." raid tokens</span>", $event['description_template']);
-
- $logDescription = "Has found " . $raidtokens . " Raid Tokens whilst searching downtown.";
-$log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'raidtokens', '{$logDescription}', UNIX_TIMESTAMP())";
-mysql_query($log_query);
-
-// Add the raid tokens to the user's account
-    $raidtokens_query = "UPDATE grpgusers SET raidtokens = raidtokens + $raidtokens WHERE id = " . $user_class->id;
-    mysql_query($raidtokens_query);
-    break;
-
-case 'points':
-    $points = rand($event['min_value'], $event['max_value']);
-    $description = str_replace('[points_amount]', $points, $event['description_template']);
-    // Add the points to the user's account
-    $points_query = "UPDATE grpgusers SET points = points + $points WHERE id = " . $user_class->id;
-    mysql_query($points_query);
-    break;
-
- case 'jail':
-    $logDescription = "Has landed in some trouble. They are on the way to Jail!.";
-    $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'jail', '{$logDescription}', UNIX_TIMESTAMP())";
-    mysql_query($log_query);
-
-    $jailTime = rand($event['min_value'], $event['max_value']);
-    $description = "<strong style='color:red;'>" . $event['description_template'] . "</strong>";
-    $jail_query = "UPDATE grpgusers SET jail = jail + $jailTime WHERE id = " . $user_class->id;
-    mysql_query($jail_query);
-
-    echo json_encode(['redirect' => 'jail_page.php']);
-    exit;
-
-case 'hospital':
-    $hospitalTime = rand($event['min_value'], $event['max_value']);
-    $description = "<strong style='color:red;'>" . $event['description_template'] . "</strong>";
-    $hospital_query = "UPDATE grpgusers SET hospital = hospital + " . $hospitalTime . ", hhow = 'maze' WHERE id = " . $user_class->id;
-    mysql_query($hospital_query);
-
-    echo json_encode(['redirect' => 'hospital_page.php']);
-    exit;
-
-
-        case 'item':
-    $item_query = "SELECT itemname FROM items WHERE id = " . $event['item_id'];
-    $item_result = mysql_query($item_query);
-    $item = mysql_fetch_assoc($item_result);
-
-    $description = str_replace('[item_name]', $item['itemname'], $event['description_template']);
-
-  // Log the event in user_logs table with the item name
-$logDescription = "Has found a(n) " . $item['itemname'] . " whilst searching downtown.";
-$log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'item', '{$logDescription}', UNIX_TIMESTAMP())";
-mysql_query($log_query);
-break;
-
-            // Add the item to the user's inventory. This step will depend on how you handle inventory in your game
-            break;
-
-        // Add more cases as needed
-    }
-
-    // Deduct a turn from the user's cityturns
-    $turns_query = "UPDATE grpgusers SET cityturns = cityturns - 1 WHERE id = " . $user_class->id;
-    mysql_query($turns_query);
-
-    // Display the description to the user
-    echo "<p><strong>Search Result:</strong><br>";
-    echo "You walked " . $chosenDirection . ".<br>"; // Display the chosen direction
-    echo $description . "</p>";
-
-
-
-
-// Display remaining turns
-    echo "<p>You have <strong>" . $user_class->cityturns . "</strong> turns left to search the streets.</p>";
-}
-
-
-$medPackHtml = '
+        $medPackHtml = '
 <br /><br />
 <center>
     <div id="med-pack-holder">
@@ -267,8 +269,8 @@ $medPackHtml = '
 <br />
 ';
 
-// Display the compass buttons
-echo '
+        // Display the compass buttons
+        echo '
 
     <div class="contenthead floaty" style="width: 100%;">
 
@@ -409,7 +411,7 @@ echo '
 
 
 
-echo "<style>
+        echo "<style>
 /* Style for new tables */
 #newtables, #usertables {
     width: 90%;
@@ -472,40 +474,40 @@ echo "<style>
 }
 </style>";
 
-echo "<div class='tab'>
+        echo "<div class='tab'>
   <button class='tablinks' onclick=\"openTab(event, 'Timestamp')\">Everyones Logs</button>
   <button class='tablinks' onclick=\"openTab(event, 'UserID')\">Your Personal Finds</button>
 </div>";
 
-// Tab content for logs ordered by timestamp
-echo "<div id='Timestamp' class='tabcontent'>
+        // Tab content for logs ordered by timestamp
+        echo "<div id='Timestamp' class='tabcontent'>
       <div class='contenthead floaty'><h1>Everyones Logs</h1>";
-$query = "SELECT * FROM user_logs ORDER BY timestamp DESC LIMIT 10";
-$result = mysql_query($query);
-echo "<table id='newtables'>";
-echo "<tr><th>Timestamp</th><th>User</th><th>Description</th></tr>";
-while ($log = mysql_fetch_assoc($result)) {
-    $username = formatName($log['user_id']);
-    $timeAgo = howlongago($log['timestamp']);
-    echo "<tr><td>{$timeAgo}</td><td>{$username}</td><td>{$log['description']}</td></tr>";
-}
-echo "</table></div></div>";
+        $query = "SELECT * FROM user_logs ORDER BY timestamp DESC LIMIT 10";
+        $result = mysql_query($query);
+        echo "<table id='newtables'>";
+        echo "<tr><th>Timestamp</th><th>User</th><th>Description</th></tr>";
+        while ($log = mysql_fetch_assoc($result)) {
+            $username = formatName($log['user_id']);
+            $timeAgo = howlongago($log['timestamp']);
+            echo "<tr><td>{$timeAgo}</td><td>{$username}</td><td>{$log['description']}</td></tr>";
+        }
+        echo "</table></div></div>";
 
-// Tab content for logs ordered by user_id
-echo "<div id='UserID' class='tabcontent'>
+        // Tab content for logs ordered by user_id
+        echo "<div id='UserID' class='tabcontent'>
       <div class='contenthead floaty'><h1>Your Maze Finds</h1>";
-$query2 = "SELECT * FROM user_logs WHERE user_id = '{$user_class->id}' ORDER BY timestamp DESC LIMIT 10";
-$result2 = mysql_query($query2);
-echo "<table id='usertables'>";
-echo "<tr><th>timestamp</th><th>User</th><th>Description</th></tr>";
-while ($log = mysql_fetch_assoc($result2)) {
-    $username = formatName($log['user_id']);
-    $timeAgo = howlongago($log['timestamp']);
-    echo "<tr><td>{$timeAgo}</td><td>{$username}</td><td>{$log['description']}</td></tr>";
-}
-echo "</table></div></div>";
+        $query2 = "SELECT * FROM user_logs WHERE user_id = '{$user_class->id}' ORDER BY timestamp DESC LIMIT 10";
+        $result2 = mysql_query($query2);
+        echo "<table id='usertables'>";
+        echo "<tr><th>timestamp</th><th>User</th><th>Description</th></tr>";
+        while ($log = mysql_fetch_assoc($result2)) {
+            $username = formatName($log['user_id']);
+            $timeAgo = howlongago($log['timestamp']);
+            echo "<tr><td>{$timeAgo}</td><td>{$username}</td><td>{$log['description']}</td></tr>";
+        }
+        echo "</table></div></div>";
 
-echo "<script>
+        echo "<script>
 function openTab(evt, tabName) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName('tabcontent');
@@ -523,9 +525,9 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('.tablinks').click();
 });
 </script>";
-?>
+        ?>
 
-</div>
+    </div>
 </div>
 
 <?php
@@ -533,91 +535,90 @@ include 'footer.php';
 ?>
 
 <script>
-$(document).ready(function() {
-    console.log("Document ready");
-    //updateLogs(); // Initialize log updates
-});
-
-<?php if ($user_class->hospital > 0): ?>
-    $('#med-pack-holder').show();
-<?php else: ?>
-    $('#med-pack-holder').hide();
-<?php endif; ?>
-
-function updateLogs() {
-    $.ajax({
-        url: 'fetch_logs.php',
-        cache: false,
-        success: function(data) {
-            console.log("Logs data:", data); // Debugging console log
-            $('.user-logs').html(data); // Update the log display area
-        },
-        complete: function() {
-            setTimeout(updateLogs, 1000); // Schedule the next update after 1 second
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.error("Error fetching logs:", textStatus, errorThrown); // Log errors to the console
-        }
+    $(document).ready(function () {
+        console.log("Document ready");
+        //updateLogs(); // Initialize log updates
     });
-}
 
-let canClick = true; // Flag to control button click frequency
+    <?php if ($user_class->hospital > 0): ?>
+        $('#med-pack-holder').show();
+    <?php else: ?>
+        $('#med-pack-holder').hide();
+    <?php endif; ?>
 
-function sendDirection(chosenDirection) {
-    if (!canClick) return; // Prevent function execution if a click has recently been processed
-    canClick = false; // Disable further clicks
-    toggleDirectionButtons(true); // Disable direction buttons immediately
-
-    document.querySelector("#searchFeedback").style.display = "none"; // Hide feedback section
-    document.querySelector(".spinner").style.display = "block"; // Show loading spinner
-
-    setTimeout(function() { // Correctly start the setTimeout function here
-        var formData = new FormData();
-        formData.append('direction', chosenDirection);
-
-        fetch('process_maze_event.php', {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => response.json())
-        .then(data => {
-            document.querySelector(".spinner").style.display = "none";
-
-            if (data.error) {
-                $('#searchResult').show();
-                document.querySelector("#searchResult").textContent = data.error;
-                document.querySelector("#remainingTurns").textContent = "";
-            } else {
-                // Display the new results
-                $('#searchResult').show();
-                document.querySelector("#searchResult").innerHTML = "You walked " + (data.direction || "unknown") + ".<br>" + data.description;
-                document.querySelector("#remainingTurns").textContent = (data.turnsLeft || "unknown");
+    function updateLogs() {
+        $.ajax({
+            url: 'fetch_logs.php',
+            cache: false,
+            success: function (data) {
+                console.log("Logs data:", data); // Debugging console log
+                $('.user-logs').html(data); // Update the log display area
+            },
+            complete: function () {
+                setTimeout(updateLogs, 1000); // Schedule the next update after 1 second
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("Error fetching logs:", textStatus, errorThrown); // Log errors to the console
             }
-
-            if (data.hospitalTime > 0) {
-                $('#med-pack-holder').show();
-            } else {
-                $('#med-pack-holder').hide();
-            }
-
-            document.querySelector("#searchFeedback").style.display = "block";
-        })
-        .finally(() => {
-            setTimeout(() => {
-                canClick = true; // Re-enable clicks after a delay
-                toggleDirectionButtons(false); // Re-enable direction buttons
-            }, 500); // Wait for 3 seconds before re-enabling clicks and buttons
         });
-    }, 200); // Wait 1 second before executing the request
-}
+    }
 
-function toggleDirectionButtons(disable) {
-    document.querySelectorAll('.direction-button').forEach(button => {
-        button.disabled = disable; // Disable or enable buttons based on the 'disable' parameter
-    });
-}
+    let canClick = true; // Flag to control button click frequency
 
-// Add your additional script here
-// You can paste your additional script below this line.
+    function sendDirection(chosenDirection) {
+        if (!canClick) return; // Prevent function execution if a click has recently been processed
+        canClick = false; // Disable further clicks
+        toggleDirectionButtons(true); // Disable direction buttons immediately
+
+        document.querySelector("#searchFeedback").style.display = "none"; // Hide feedback section
+        document.querySelector(".spinner").style.display = "block"; // Show loading spinner
+
+        setTimeout(function () { // Correctly start the setTimeout function here
+            var formData = new FormData();
+            formData.append('direction', chosenDirection);
+
+            fetch('process_maze_event.php', {
+                method: 'POST',
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(data => {
+                    document.querySelector(".spinner").style.display = "none";
+
+                    if (data.error) {
+                        $('#searchResult').show();
+                        document.querySelector("#searchResult").textContent = data.error;
+                        document.querySelector("#remainingTurns").textContent = "";
+                    } else {
+                        // Display the new results
+                        $('#searchResult').show();
+                        document.querySelector("#searchResult").innerHTML = "You walked " + (data.direction || "unknown") + ".<br>" + data.description;
+                        document.querySelector("#remainingTurns").textContent = (data.turnsLeft || "unknown");
+                    }
+
+                    if (data.hospitalTime > 0) {
+                        $('#med-pack-holder').show();
+                    } else {
+                        $('#med-pack-holder').hide();
+                    }
+
+                    document.querySelector("#searchFeedback").style.display = "block";
+                })
+                .finally(() => {
+                    setTimeout(() => {
+                        canClick = true; // Re-enable clicks after a delay
+                        toggleDirectionButtons(false); // Re-enable direction buttons
+                    }, 500); // Wait for 3 seconds before re-enabling clicks and buttons
+                });
+        }, 200); // Wait 1 second before executing the request
+    }
+
+    function toggleDirectionButtons(disable) {
+        document.querySelectorAll('.direction-button').forEach(button => {
+            button.disabled = disable; // Disable or enable buttons based on the 'disable' parameter
+        });
+    }
+
+    // Add your additional script here
+    // You can paste your additional script below this line.
 </script>
-
