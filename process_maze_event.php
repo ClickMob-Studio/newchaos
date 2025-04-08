@@ -53,7 +53,7 @@ if (isset($_POST['direction'])) {
             $event['probability'] = abs($event['probability']);
         }
 
-        $probability = (double) $event['probability'] * 10; // We multiply by 10 to make sure eg. 0.1 becomes 1
+        $probability = (float) $event['probability'] * 10; // We multiply by 10 to make sure eg. 0.1 becomes 1
         for ($i = 0; $i < $probability; $i++) {
             $weightedEvents[] = $event;
         }
