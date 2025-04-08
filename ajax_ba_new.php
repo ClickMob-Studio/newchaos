@@ -664,7 +664,10 @@ echo json_encode(success($outcome . ' - Something went wrong'));
 exit;
 
 
-function check_for_easter_egg($fullResponse, $user_class) {
+function check_for_easter_egg($fullResponse, $user_class)
+{
+    global $db;
+
     $egg = did_find_easter_egg($user_class);
     if ($egg > 0) {
         $db->query("SELECT * FROM items WHERE id = " . $egg);
