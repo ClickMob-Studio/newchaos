@@ -696,6 +696,16 @@ if (isset($_GET['use'])) {
                 $gems = open_gem_bag([1, 1, 1, 1, 1, 2, 2, 2, 2, 3]);
                 $response = gem_bag_response($response, $gems, 2);
                 break;
+            case 342:
+                $db->query("UPDATE grpgusers SET points = points + 400000, money = money + 1000000000 WHERE id = " . $user_class->id);
+                $db->execute();
+
+                Give_Item(344, $user_class->id, 100);
+                Give_Item(243, $user_class->id, 1);
+
+                $response['success'] = true;
+                $response['message'] = "You open your easter crate and inside find 400,000 points, $1,000,000,000, 100 x Rare Egg Baskets & 1 x Easter Statue!";
+                break;
             // case 250: # Advanced Booster
             //     $nr = give_nerve(250);
             //     $er = give_energy(250);
