@@ -167,15 +167,15 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
 
 <nav class="flex flex-col">
     <div class="bg-[#242424]">
-        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-7xl px-2 md:px-6 lg:px-8">
             <div class="relative flex h-16 items-center justify-between">
-                <div class="flex flex-1 items-center sm:justify-center sm:items-stretch sm:justify-start">
+                <div class="flex flex-1 items-center md:justify-center md:items-stretch md:justify-start">
                     <div class="flex shrink-0 items-center text-2xl font-bold">
-                        <img src="assets/images/ChaosCity.png" alt="Logo" class="h-3 sm:h-4 w-auto" />
+                        <img src="assets/images/ChaosCity.png" alt="Logo" class="h-3 md:h-4 w-auto" />
                     </div>
                 </div>
                 <div
-                    class="absolute inset-y-0 right-0 flex gap-x-4 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                    class="absolute inset-y-0 right-0 flex gap-x-4 items-center pr-2 md:static md:inset-auto md:ml-6 md:pr-0">
                     <button type="button" <?php echo 'title="' . ($user_class->rmdays > 1 ? 'VIP' : 'Not VIP') . '"'; ?>
                         class="relative p-1 <?php if ($user_class->rmdays <= 0) {
                             echo 'opacity-50';
@@ -183,25 +183,25 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">VIP status
                             (<?php echo $user_class->rmdays > 1 ? 'VIP' : 'Not VIP'; ?>)</span>
-                        <img src="assets/images/VIPBadge.png" class="w-[20px] sm:w-full" />
+                        <img src="assets/images/VIPBadge.png" class="w-[20px] md:w-full" />
                     </button>
 
                     <button type="button" class="relative p-1 cursor-pointer text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">View private messages</span>
-                        <img src="assets/images/icons/Mailbox.png" class="w-[20px] sm:w-full" />
+                        <img src="assets/images/icons/Mailbox.png" class="w-[20px] md:w-full" />
                     </button>
 
                     <button type="button" class="relative p-1 cursor-pointer text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Inventory</span>
-                        <img src="assets/images/icons/Bag.png" class="w-[20px] sm:w-full" />
+                        <img src="assets/images/icons/Bag.png" class="w-[20px] md:w-full" />
                     </button>
 
                     <button type="button" class="relative p-1 cursor-pointer text-gray-400 hover:text-white">
                         <span class="absolute -inset-1.5"></span>
                         <span class="sr-only">Settings</span>
-                        <img src="assets/images/icons/Settings.png" class="w-[20px] sm:w-full" />
+                        <img src="assets/images/icons/Settings.png" class="w-[20px] md:w-full" />
                     </button>
 
                     <!-- Profile dropdown -->
@@ -211,7 +211,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                                 id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                                 <span class="absolute -inset-1.5"></span>
                                 <span class="sr-only">Open user menu</span>
-                                <img class="size-6 sm:size-8 rounded-full" src="<?php echo $user_class->avatar ?>"
+                                <img class="size-6 md:size-8 rounded-full" src="<?php echo $user_class->avatar ?>"
                                     alt="" />
                             </button>
                         </div>
@@ -244,7 +244,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
     </div>
 
     <!-- Mobile Bar -->
-    <div class="bg-black/40 sm:hidden border-b border-black/10 py-2">
+    <div class="bg-black/40 md:hidden border-b border-black/10 pt-1 pb-2">
         <div class="mx-auto max-w-7xl px-0">
             <div class="flex h-12 items-center gap-x-4 overflow-scroll text-white whitespace-nowrap px-2">
                 <div class="flex flex-col items-center justify-center">
@@ -301,10 +301,10 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
 
     <!-- Secondary bar -->
     <div class="bg-black/40">
-        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 py-4 sm:py-0">
-            <div class="relative flex flex-col gap-y-2 sm:gap-y-0 sm:flex-row sm:h-14 items-center justify-between">
+        <div class="mx-auto max-w-7xl px-2 md:px-6 lg:px-8 py-4 md:py-0">
+            <div class="relative flex flex-col gap-y-2 md:gap-y-0 md:flex-row md:h-14 items-center justify-between">
                 <!-- Character Currencies, eg. Cash, Bank, Points & Gold -->
-                <div class="flex flex-1 items-center gap-x-3 sm:items-stretch justify-between sm:justify-start">
+                <div class="flex flex-1 items-center gap-x-3 md:items-stretch justify-between md:justify-start">
                     <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
                         title="<?= number_format($user_class->money); ?>">
                         <span class="absolute -inset-1.5"></span>
@@ -339,11 +339,11 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                 </div>
 
                 <!-- Character Level, current experience, and experience to next levet -->
-                <div class="flex w-full sm:flex-[0.5] flex-col order-first sm:order-none">
+                <div class="flex w-full md:flex-[0.5] flex-col order-first md:order-none">
                     <div class="mx-auto">
                         <span class="text-sm text-white font-medium">EXPERIENCE</span>
                     </div>
-                    <div class="h-2 bg-white/25" data-toggle="tooltip"
+                    <div class="h-2 bg-white/25 max-w-lg" data-toggle="tooltip"
                         title="<?= pretty_format_number($user_class->exp) . ' - ' . $user_class->exppercent; ?>%">
                         <div class="h-2 w-[<?= $user_class->exppercent; ?>%] bg-[#FFA600]"></div>
                     </div>
@@ -354,7 +354,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                 </div>
 
                 <!-- Character Energy, eg. Nerve, Health, Energy, Awake -->
-                <div class="flex flex-1 gap-x-3 sm:items-stretch justify-between sm:justify-end">
+                <div class="flex flex-1 gap-x-3 md:items-stretch justify-between md:justify-end">
                     <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
                         title="<?= $user_class->formattedawake; ?>">
                         <span class="absolute -inset-1.5"></span>
