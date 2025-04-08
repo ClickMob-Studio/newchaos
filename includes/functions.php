@@ -676,6 +676,7 @@ function experience2($L)
 
     return round($a / 4);
 }
+
 function experience($L)
 {
     if ($L > 4400) {
