@@ -343,7 +343,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                     <div class="mx-auto">
                         <span class="text-sm text-white font-medium">EXPERIENCE</span>
                     </div>
-                    <div class="h-2 bg-white/25 max-w-lg mx-auto" data-toggle="tooltip"
+                    <div class="h-2 bg-white/25 max-w-lg" data-toggle="tooltip"
                         title="<?= pretty_format_number($user_class->exp) . ' - ' . $user_class->exppercent; ?>%">
                         <div class="h-2 w-[<?= $user_class->exppercent; ?>%] bg-[#FFA600]"></div>
                     </div>
