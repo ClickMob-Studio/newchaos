@@ -16,18 +16,18 @@ $response = [
 // When user decides to search the street
 if (isset($_POST['direction'])) {
 
- // Check if the user is in jail or the hospital
+    // Check if the user is in jail or the hospital
     if ($user_class->jail > 0) {
         die(json_encode(['error' => 'You cannot search whilst you are in Jail!']));
     }
 
     if ($user_class->hospital > 0) {
         die(json_encode(['error' => 'You cannot search whilst you are in Hospital!']));
-    }	
+    }
 
     if ($user_class->cityturns == 0) {
         die(json_encode(['error' => 'You cannot search if you have no turns!']));
-    }	
+    }
 
 
     $chosenDirection = $_POST['direction']; // Store the direction
@@ -40,7 +40,7 @@ if (isset($_POST['direction'])) {
     if (!$result) {
         die(json_encode(['error' => 'Invalid query: ' . mysql_error()]));
     }
-	
+
     // Create a weighted array
     $weightedEvents = [];
     while ($event = mysql_fetch_assoc($result)) {
@@ -52,7 +52,11 @@ if (isset($_POST['direction'])) {
     // Randomly select an event from the weighted array
     $event = $weightedEvents[array_rand($weightedEvents)];
 
-       $description = "";
+    if ($user_class->admin > 0) {
+        var_dump($weightedEvents);
+    }
+
+    $description = "";
     // Handle the event
     switch ($event['event_type']) {
         case 'text':
@@ -61,99 +65,99 @@ if (isset($_POST['direction'])) {
 
         case 'money':
             $money = rand($event['min_value'], $event['max_value']);
-        $description = str_replace('[money_amount]', "<span style='color: green;'>$".$money."</span>", $event['description_template']);
+            $description = str_replace('[money_amount]', "<span style='color: green;'>$" . $money . "</span>", $event['description_template']);
             // Add the money to the user's account
             $money_query = "UPDATE grpgusers SET money = money + $money WHERE id = " . $user_class->id;
             mysql_query($money_query);
             break;
-case 'credits':
-    $credits = rand($event['min_value'], $event['max_value']);
-        $description = str_replace('[credits_amount]', "<span style='color: green; font-weight: bold;'>".$credits."</span>", $event['description_template']);
+        case 'credits':
+            $credits = rand($event['min_value'], $event['max_value']);
+            $description = str_replace('[credits_amount]', "<span style='color: green; font-weight: bold;'>" . $credits . "</span>", $event['description_template']);
 
 
- // Log the event in user_logs table with the custom description
-$logDescription = "Has found " . $credits . " Credits whilst searching downtown.";
-$log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'credits', '{$logDescription}', UNIX_TIMESTAMP())";
-mysql_query($log_query);
+            // Log the event in user_logs table with the custom description
+            $logDescription = "Has found " . $credits . " Credits whilst searching downtown.";
+            $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'credits', '{$logDescription}', UNIX_TIMESTAMP())";
+            mysql_query($log_query);
 
 
-    // Add the credits to the user's account
-    $credits_query = "UPDATE grpgusers SET credits = credits + $credits WHERE id = " . $user_class->id;
-    mysql_query($credits_query);
-    break;
+            // Add the credits to the user's account
+            $credits_query = "UPDATE grpgusers SET credits = credits + $credits WHERE id = " . $user_class->id;
+            mysql_query($credits_query);
+            break;
 
 
 
-case 'raidtokens':
-    $raidtokens = rand($event['min_value'], $event['max_value']);
-        $description = str_replace('[raidtokens_amount]', "<span style='color: red; font-weight: bold;'>".$raidtokens." raid tokens</span>", $event['description_template']);
-    
- $logDescription = "Has found " . $raidtokens . " Raid Tokens whilst searching downtown.";
-$log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'raidtokens', '{$logDescription}', UNIX_TIMESTAMP())";
-mysql_query($log_query);
+        case 'raidtokens':
+            $raidtokens = rand($event['min_value'], $event['max_value']);
+            $description = str_replace('[raidtokens_amount]', "<span style='color: red; font-weight: bold;'>" . $raidtokens . " raid tokens</span>", $event['description_template']);
 
-// Add the raid tokens to the user's account
-    $raidtokens_query = "UPDATE grpgusers SET raidtokens = raidtokens + $raidtokens WHERE id = " . $user_class->id;
-    mysql_query($raidtokens_query);
-    break;
+            $logDescription = "Has found " . $raidtokens . " Raid Tokens whilst searching downtown.";
+            $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'raidtokens', '{$logDescription}', UNIX_TIMESTAMP())";
+            mysql_query($log_query);
 
-case 'points':
-    $points = rand($event['min_value'], $event['max_value']);
-    $description = str_replace('[points_amount]', $points, $event['description_template']);
-    // Add the points to the user's account
-    $points_query = "UPDATE grpgusers SET points = points + $points WHERE id = " . $user_class->id;
-    mysql_query($points_query);
-    break;
+            // Add the raid tokens to the user's account
+            $raidtokens_query = "UPDATE grpgusers SET raidtokens = raidtokens + $raidtokens WHERE id = " . $user_class->id;
+            mysql_query($raidtokens_query);
+            break;
 
- case 'jail':
-   
- $logDescription = "Has landed in some trouble. They are on the way to Jail!.";
-$log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'jail', '{$logDescription}', UNIX_TIMESTAMP())";
-mysql_query($log_query);
+        case 'points':
+            $points = rand($event['min_value'], $event['max_value']);
+            $description = str_replace('[points_amount]', $points, $event['description_template']);
+            // Add the points to the user's account
+            $points_query = "UPDATE grpgusers SET points = points + $points WHERE id = " . $user_class->id;
+            mysql_query($points_query);
+            break;
 
-        $jailTime = rand($event['min_value'], $event['max_value']);
-        $description = "<strong style='color:red;'>" . $event['description_template'] . "</strong>";
-        $jail_query = "UPDATE grpgusers SET jail = jail + $jailTime WHERE id = " . $user_class->id;
-        mysql_query($jail_query);
-        break;
+        case 'jail':
 
-    case 'hospital':
- $logDescription = "Has ended up getting hurt. They are on the way to the hospital!.";
-$log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'hospital', '{$logDescription}', UNIX_TIMESTAMP())";
-mysql_query($log_query);
+            $logDescription = "Has landed in some trouble. They are on the way to Jail!.";
+            $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'jail', '{$logDescription}', UNIX_TIMESTAMP())";
+            mysql_query($log_query);
+
+            $jailTime = rand($event['min_value'], $event['max_value']);
+            $description = "<strong style='color:red;'>" . $event['description_template'] . "</strong>";
+            $jail_query = "UPDATE grpgusers SET jail = jail + $jailTime WHERE id = " . $user_class->id;
+            mysql_query($jail_query);
+            break;
+
+        case 'hospital':
+            $logDescription = "Has ended up getting hurt. They are on the way to the hospital!.";
+            $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'hospital', '{$logDescription}', UNIX_TIMESTAMP())";
+            mysql_query($log_query);
 
 
-        $hospitalTime = rand($event['min_value'], $event['max_value']);
-        $description = "<strong style='color:red;'>" . $event['description_template'] . "</strong>";
-        $hospital_query = "UPDATE grpgusers SET hospital = hospital + $hospitalTime, `hhow` = 'maze' WHERE id = " . $user_class->id;
-        mysql_query($hospital_query);
-        break;
+            $hospitalTime = rand($event['min_value'], $event['max_value']);
+            $description = "<strong style='color:red;'>" . $event['description_template'] . "</strong>";
+            $hospital_query = "UPDATE grpgusers SET hospital = hospital + $hospitalTime, `hhow` = 'maze' WHERE id = " . $user_class->id;
+            mysql_query($hospital_query);
+            break;
 
-     case 'item':
-    $item_query = "SELECT itemname FROM items WHERE id = " . $event['item_id'];
-    $item_result = mysql_query($item_query);
-    $item = mysql_fetch_assoc($item_result);
+        case 'item':
+            $item_query = "SELECT itemname FROM items WHERE id = " . $event['item_id'];
+            $item_result = mysql_query($item_query);
+            $item = mysql_fetch_assoc($item_result);
 
-    $description = str_replace('[item_name]', $item['itemname'], $event['description_template']);
-    
-    // Log the event in user_logs table with the item name
-    $logDescription = "Has found a(n) " . $item['itemname'] . " whilst searching downtown.";
-    $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'item', '{$logDescription}', UNIX_TIMESTAMP())";
-    mysql_query($log_query);
-    
-    // Check if user already has this item in their inventory
-    $inventory_check_query = "SELECT id, quantity FROM inventory WHERE userid = '{$user_class->id}' AND itemid = '{$event['item_id']}'";
-    $inventory_check_result = mysql_query($inventory_check_query);
-    if ($inventory_item = mysql_fetch_assoc($inventory_check_result)) {
-        // User already has the item, increment quantity
-        $update_inventory_query = "UPDATE inventory SET quantity = quantity + 1 WHERE id = '{$inventory_item['id']}'";
-        mysql_query($update_inventory_query);
-    } else {
-        // User doesn't have the item, insert a new row
-        $insert_inventory_query = "INSERT INTO inventory (userid, itemid, quantity) VALUES ('{$user_class->id}', '{$event['item_id']}', 1)";
-        mysql_query($insert_inventory_query);
-    }
-    break;
+            $description = str_replace('[item_name]', $item['itemname'], $event['description_template']);
+
+            // Log the event in user_logs table with the item name
+            $logDescription = "Has found a(n) " . $item['itemname'] . " whilst searching downtown.";
+            $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'item', '{$logDescription}', UNIX_TIMESTAMP())";
+            mysql_query($log_query);
+
+            // Check if user already has this item in their inventory
+            $inventory_check_query = "SELECT id, quantity FROM inventory WHERE userid = '{$user_class->id}' AND itemid = '{$event['item_id']}'";
+            $inventory_check_result = mysql_query($inventory_check_query);
+            if ($inventory_item = mysql_fetch_assoc($inventory_check_result)) {
+                // User already has the item, increment quantity
+                $update_inventory_query = "UPDATE inventory SET quantity = quantity + 1 WHERE id = '{$inventory_item['id']}'";
+                mysql_query($update_inventory_query);
+            } else {
+                // User doesn't have the item, insert a new row
+                $insert_inventory_query = "INSERT INTO inventory (userid, itemid, quantity) VALUES ('{$user_class->id}', '{$event['item_id']}', 1)";
+                mysql_query($insert_inventory_query);
+            }
+            break;
         // Add more cases as needed
     }
 
@@ -166,13 +170,13 @@ mysql_query($log_query);
     //echo "You walked " . $chosenDirection . ".<br>"; // Display the chosen direction
     //echo $description . "</p>";
 
-    
 
 
-// Display remaining turns
+
+    // Display remaining turns
     //echo "You have " . $user_class->cityturns . " turns left to search the streets.</p>";
 
- // Construct the search result and turns left messages
+    // Construct the search result and turns left messages
     $searchResult = "<p><strong>Search Result:</strong><br>";
     $searchResult .= "You walked " . $chosenDirection . ".<br>";
     $searchResult .= $description . "</p>";

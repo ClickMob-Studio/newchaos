@@ -97,10 +97,6 @@ include 'header.php';
             // Randomly select an event from the weighted array
             $event = $weightedEvents[array_rand($weightedEvents)];
 
-            if ($user_class->admin > 0) {
-                var_dump($weightedEvents);
-            }
-
             $description = "";
             // Handle the event
             switch ($event['event_type']) {
