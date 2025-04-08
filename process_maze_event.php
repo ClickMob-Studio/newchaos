@@ -44,7 +44,8 @@ if (isset($_POST['direction'])) {
     // Create a weighted array
     $weightedEvents = [];
     while ($event = mysql_fetch_assoc($result)) {
-        for ($i = 0; $i < $event['probability']; $i++) {
+        $probability = (double) $event['probability'] * 10; // We multiply by 10 to make sure eg. 0.1 becomes 1
+        for ($i = 0; $i < $probability; $i++) {
             $weightedEvents[] = $event;
         }
     }
