@@ -304,7 +304,8 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
         <div class="mx-auto max-w-7xl px-2 md:px-6 lg:px-8 py-4 md:py-0">
             <div class="relative flex flex-col gap-y-2 md:gap-y-0 md:flex-row md:h-14 items-center justify-between">
                 <!-- Character Currencies, eg. Cash, Bank, Points & Gold -->
-                <div class="flex flex-1 items-center gap-x-3 md:items-stretch justify-between md:justify-start">
+                <div
+                    class="flex max-w-md w-full items-center gap-x-3 md:items-stretch justify-between md:justify-start">
                     <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
                         title="<?= number_format($user_class->money); ?>">
                         <span class="absolute -inset-1.5"></span>
@@ -354,7 +355,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
                 </div>
 
                 <!-- Character Energy, eg. Nerve, Health, Energy, Awake -->
-                <div class="flex flex-1 gap-x-3 md:items-stretch justify-between md:justify-end">
+                <div class="flex max-w-md w-full gap-x-3 md:items-stretch justify-between md:justify-end">
                     <span class="relative flex items-center p-1 text-gray-400 hover:text-white" data-toggle="tooltip"
                         title="<?= $user_class->formattedawake; ?>">
                         <span class="absolute -inset-1.5"></span>
