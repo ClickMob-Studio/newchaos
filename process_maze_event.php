@@ -45,7 +45,12 @@ if (isset($_POST['direction'])) {
     $weightedEvents = [];
     while ($event = mysql_fetch_assoc($result)) {
         if ($event['probability'] < 0) {
-            continue; // Skip events with negative probability
+            if ($user_class->admin < 1) {
+                continue; // Skip events with negative probability
+            }
+
+            // If the user is an admin, we reverse the negative probability to a positive one
+            $event['probability'] = abs($event['probability']);
         }
 
         $probability = (double) $event['probability'] * 10; // We multiply by 10 to make sure eg. 0.1 becomes 1
