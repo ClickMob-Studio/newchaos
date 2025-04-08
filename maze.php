@@ -258,7 +258,7 @@ include 'header.php';
 <br /><br />
 <center>
     <div id="med-pack-holder">
-        <img src="https://generalforces.com/images/items/med-pack.png" style="max-width: 75px;" class="img-responsive" /><br />
+        <img src="css/images/NewGameImages/medi_cert.png" style="max-width: 75px;" class="img-responsive" /><br />
         <a class="ajax-link" href="ajax_med_cert.php?alv=yes">Use 100% Med Cert</a>
     </div>
 </center> 
