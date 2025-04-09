@@ -115,6 +115,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $mailer->Subject = 'Chaos City - Password Reset';
     $mailer->Body = "<h3>Dear $username, You have requested a new password reset at <a href='http://chaoscity.co.uk'>Chaos City</a>.<br><a href='https://chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>";
     
+    $mailer->SMTPDebug = 3;
+    $mailer->Debugoutput = "html";
+
     $db->query("UPDATE grpgusers SET forgot_password = ? WHERE email = ? AND username = ? LIMIT 1");
     $db->execute([$token, $row['email'], $username]);
 
@@ -122,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
         $_SESSION['failmessage'] = "Failed to send email. Please try again.";
         header("Location: forgot.php");
     } else {
-        $_SESSION['failmessage'] = "Password reset instructions have been sent to your email.";
+        $_SESSION['failmessage'] = "Password reset instructions have been sent to " . $email;
         header("Location: forgot.php");
     }
     exit();
