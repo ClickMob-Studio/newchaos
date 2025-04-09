@@ -6,11 +6,6 @@ include 'database/pdo_class.php';
 
 require_once(__DIR__ . '/vendor/autoload.php');
 
-// Import necessary classes
-use SendinBlue\Client\Api\TransactionalEmailsApi;
-use SendinBlue\Client\Configuration;
-use GuzzleHttp\Client;
-
 session_start();
 
 $desired_ip = '142.116.133.64';
@@ -104,7 +99,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $token = generateRandomToken();
 
     $config = SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key', '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');
-    $apiInstance = new SendinBlue\Client\Api\TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
+    $apiInstance = new SendinBlue\Client\Api\AccountApi(
+        new GuzzleHttp\Client(),
+        $config
+    );
+
 
     $sendSmtpEmail = new \SendinBlue\Client\Model\SendSmtpEmail([
         'subject' => 'Chaos City - Password Reset',
