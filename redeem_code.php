@@ -1,5 +1,7 @@
 <?php
 
+use Stripe\Terminal\Location;
+
 include 'header.php';
 
 if (isset($_GET['code'])) {
@@ -22,6 +24,7 @@ if (isset($_GET['code'])) {
 
         if ($redeemed) {
             // Already redeemed
+            header('Location: redeem_code.php?error=already_redeemed');
             exit;
         }
 
@@ -55,7 +58,20 @@ if (isset($_GET['code'])) {
             $user_class->id
         ));
     } else {
-        // Code doesn't exist
+        header('Location: redeem_code.php?error=invalid_code');
+        exit;
+    }
+}
+
+?>
+
+<?php
+
+if (isset($_GET['error'])) {
+    if ($_GET['error'] == 'already_redeemed') {
+        echo "<div class='error'>You have already redeemed this code.</div>";
+    } elseif ($_GET['error'] == 'invalid_code') {
+        echo "<div class='error'>Invalid code.</div>";
     }
 }
 
