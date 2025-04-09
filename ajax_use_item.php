@@ -714,7 +714,7 @@ if (isset($_GET['use'])) {
                 $tempItemUse = getItemTempUse($user_class->id);
                 $now = time();
                 if ($tempItemUse['easter_bead'] > $now) {
-                    $response['message'] = 'You already have a easter bead active.';
+                    $response['message'] = 'You already have an easter bead active.';
                     echo json_encode($response);
                     exit;
                 }
@@ -726,32 +726,22 @@ if (isset($_GET['use'])) {
                 $response['success'] = true;
                 $response['message'] = "You break the easter bead, a magical aura wraps you and you feel the direction of easter eggs more clearly for the next 2 hours!";
                 break;
-            // case 250: # Advanced Booster
-            //     $nr = give_nerve(250);
-            //     $er = give_energy(250);
+            case 346:
+                $tempItemUse = getItemTempUse($user_class->id);
+                $now = time();
+                if ($tempItemUse['maze_boost'] > $now) {
+                    $response['message'] = 'You already have a maze boost active.';
+                    echo json_encode($response);
+                    exit;
+                }
 
-            //     if ($er == 0 && $nr == 0) {
-            //         $response['message'] = "You cannot use the Advanced Booster when you are at full energy and nerve.";
-            //         echo json_encode($response);
-            //         exit;
-            //     } else {
-            //         $response['success'] = true;
-            //         $response["message"] = "You have used the Advanced Booster and replenished your energy and nerve!";
-            //     }
-            //     break;
-            // case 264: # Galactic Booster
-            //     $nr = give_nerve(275);
-            //     $er = give_energy(275);
+                $newTime = time() + 864000;
 
-            //     if ($er == 0 && $nr == 0) {
-            //         $response['message'] = "You cannot use the Galactic Booster when you are at full energy and nerve.";
-            //         echo json_encode($response);
-            //         exit;
-            //     } else {
-            //         $response['success'] = true;
-            //         $response["message"] = "You have used the Galactic Booster and replenished your energy and nerve!";
-            //     }
-            //     break;
+                addItemTempUse($user_class, 'maze_boost', $newTime);
+
+                $response['success'] = true;
+                $response['message'] = "You consume the Maze Boost and feel a tingling sense in your feet for the next 10 days!";
+                break;
             default:
                 $response['message'] = "Item not recognized or cannot be used.";
                 break;
