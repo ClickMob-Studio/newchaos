@@ -1448,7 +1448,7 @@ for ($i = 0; $i < $badges; $i++) {
     echo "<div class='achievement' style='text-align: center;'>" . $badge . "</div>";
 }
 
-$db->query("SELECT * FROM user_badges FULL OUTER JOIN badges ON user_badges.badge_id = badges.id WHERE user_id = " . $profile_class->id);
+$db->query("SELECT * FROM user_badges LEFT JOIN badges ON user_badges.badge_id = badges.id WHERE user_id = " . $profile_class->id);
 $user_badges = $db->fetch_row(true);
 foreach ($user_badges as $user_badge) {
     echo "<div class='achievement' style='text-align: center;' title='" . $user_badge["name"] . "'>" . "<img src='". $user_badge["image"] . "' width='100px' alt='" . $user_badge["name"] . "'></div>";
