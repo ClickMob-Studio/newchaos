@@ -1386,7 +1386,8 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                         <div class="col-2 d-flex align-items-center"><i class="mx-auto far fa-gem"></i>
                                         </div>
                                         <div class="col-10 d-flex align-items-center points">
-                                            <?= number_format($user_class->points); ?></div>
+                                            <?= number_format($user_class->points); ?>
+                                        </div>
                                     </div>
                                     <div class="row my-1 g-0">
                                         <div class="col-2 d-flex align-items-center"><i
@@ -1398,7 +1399,8 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                 </div>
 
                                 <div class='time col-4 d-none d-lg-block' style='text-align: left' ;>
-                                    <?php echo date('m/d h:i a', time()); ?></div>
+                                    <?php echo date('m/d h:i a', time()); ?>
+                                </div>
                             </div>
                             <div class="col-7 col-lg-12 g-0 row dcStatsPanel">
                                 <div class="row my-0 my-lg-1 dcStatContainer-health">
@@ -1816,6 +1818,12 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         if ($tempItemUse['easter_bead'] > $time) {
                             $rtn = howlongtil($tempItemUse['easter_bead']);
                             $messages[] = 'Easter Bead (Maze): ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                        }
+
+                        // Maze Boost
+                        if ($tempItemUse['maze_boost'] > $time) {
+                            $rtn = howlongtil($tempItemUse['maze_boost']);
+                            $messages[] = 'Maze Boost: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
                         }
 
 
