@@ -6,6 +6,8 @@ include 'database/pdo_class.php';
 
 require_once(__DIR__ . '/vendor/autoload.php');
 
+use \Mailjet\Resources;
+
 session_start();
 
 $desired_ip = '142.116.133.64';
