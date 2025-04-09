@@ -99,8 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $token = generateRandomToken();
 
     SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key', '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');
-    $apiInstance = new SendinBlue\Client\Api\AccountApi();
-
+    $apiInstance = new SendinBlue\Client\Api\SMTPApi();
 
     $sendSmtpEmail = new \SendinBlue\Client\Model\SendSmtpEmail([
         'subject' => 'Chaos City - Password Reset',
