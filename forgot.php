@@ -98,23 +98,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $row = $db->fetch_row(true);
     $token = generateRandomToken();
 
-    SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key', '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');
-    $apiInstance = new SendinBlue\Client\Api\SMTPApi();
+    $mailer = new PHPMailer();
+    $mailer->IsSMTP()();
+    $mailer->Host = 'smtp-relay.brevo.com';
+    $mailer->SMTPAuth = true;
+    $mailer->Username = '89f561001@smtp-brevo.com';
+    $mailer->Password = 'PVKxjvyR1CHG8TzM';
+    $mailer->SMTPSecure = 'tls';
+    $mailer->Port = 587;
 
-    $sendSmtpEmail = new \SendinBlue\Client\Model\SendSmtpEmail([
-        'subject' => 'Chaos City - Password Reset',
-        'sender' => ['name' => 'Chaos City', 'email' => 'noreply@chaoscity.co.uk'],
-        'to' => [['email' => 'noreply@chaoscity.co.uk']],
-        'htmlContent' => "<h3>Dear $username, You have requested a new password reset at <a href='http://chaoscity.co.uk'>Chaos City</a>.<br><a href='https://chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>",
-    ]);
+    $email = $row['email'];
+    $userid = $row['id'];
 
-    try {
-        $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
-        print_r($result);
-    } catch (Exception $e) {
-        echo 'Exception when calling TransactionalEmailsApi->sendTransacEmail: ', $e->getMessage(), PHP_EOL;
-        exit;
+    $mailer->setFrom('noreply@chaoscity.co.uk', 'Noreply');
+    $mailer->addAddress($email, $username);
+    $mailer->Subject = 'Chaos City - Password Reset';
+    $mailer->Body = "<h3>Dear $username, You have requested a new password reset at <a href='http://chaoscity.co.uk'>Chaos City</a>.<br><a href='https://chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>";
+
+    if (!$mail->send()) {
+        echo 'Mailer Error: ' . $mail->ErrorInfo;
+    } else {
+        echo 'Message sent!';
     }
+
+    // Failed attempt at using brevo/sendinblue
+    // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key', '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');
+    // $apiInstance = new SendinBlue\Client\Api\SMTPApi(
+    //     new GuzzleClient(),
+    //     $config
+    // );
+
+    // $sendSmtpEmail = new \SendinBlue\Client\Model\SendSmtpEmail([
+    //     'subject' => 'Chaos City - Password Reset',
+    //     'sender' => ['name' => 'Chaos City', 'email' => 'noreply@chaoscity.co.uk'],
+    //     'to' => [['email' => 'noreply@chaoscity.co.uk']],
+    //     'htmlContent' => "<h3>Dear $username, You have requested a new password reset at <a href='http://chaoscity.co.uk'>Chaos City</a>.<br><a href='https://chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>",
+    // ]);
+
+    // try {
+    //     $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
+    //     print_r($result);
+    // } catch (Exception $e) {
+    //     echo 'Exception when calling TransactionalEmailsApi->sendTransacEmail: ', $e->getMessage(), PHP_EOL;
+    //     exit;
+    // }
 
     // $apikey = '7dc2ad83e7f15563b1dee7d48109dbb7';
     // $apisecret = '15326068ed7ef53039e03ca05662bde2';
