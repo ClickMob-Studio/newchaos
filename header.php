@@ -1268,6 +1268,8 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                             class="far fa-gem"></i></a>
                                     <a href="store.php" class="dcSecondaryButton my-3">Upgrades <i
                                             class="fas fa-level-up-alt"></i></a>
+                                    <a href="redeem_code.php" class="dcSecondaryButton my-3">Redeem <i
+                                            class="fa-solid fa-gift"></i></a>
                                 </div>
                             </div>
                             <div class="vertical-text-slider floaty dcPanel p-1"
