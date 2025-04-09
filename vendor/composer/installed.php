@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '72c286d17f9756d37e294106810a64c36cd3a7ab',
+        'reference' => '0a80bf637991aa0a5cb09930da91beee1c8fd2a0',
         'name' => 'chaoscity/chaoscity-project',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '72c286d17f9756d37e294106810a64c36cd3a7ab',
+            'reference' => '0a80bf637991aa0a5cb09930da91beee1c8fd2a0',
             'dev_requirement' => false,
         ),
         'phpmailer/phpmailer' => array(
