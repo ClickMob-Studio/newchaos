@@ -6,6 +6,11 @@ include 'database/pdo_class.php';
 
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Import necessary classes
+use SendinBlue\Client\Api\TransactionalEmailsApi;
+use SendinBlue\Client\Configuration;
+use GuzzleHttp\Client;
+
 session_start();
 
 $desired_ip = '142.116.133.64';
