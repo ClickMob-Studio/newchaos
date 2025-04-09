@@ -1,22 +1,12 @@
 {
-    "name": "chaoscity/sendinblue-php56",
-    "description": "Sendinblue API client for PHP 5.6",
-    "keywords": [
-        "sendinblue",
-        "api",
-        "php",
-        "email"
-    ],
+    "name": "chaoscity/chaoscity-project",
+    "description": "ChaosCity",
+    "keywords": [],
     "license": "MIT",
     "require": {
         "php": ">=5.6",
         "ext-json": "*",
-        "guzzlehttp/guzzle": "~6.0",
-        "sendinblue/api-v3-sdk": "2.0.*"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^5",
-        "php-coveralls/php-coveralls": "^2.0"
+        "phpmailer/phpmailer": "^6.9"
     },
     "autoload": {
         "psr-4": {
