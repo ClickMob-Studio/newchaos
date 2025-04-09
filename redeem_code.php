@@ -79,15 +79,17 @@ if (isset($_GET['code'])) {
 <?php
 
 if (isset($_GET['error'])) {
+    $message = "";
     if ($_GET['error'] == 'already_redeemed') {
-        echo "<div class='error'>You have already redeemed this code.</div>";
+        $message = "You have already redeemed this code.";
     } elseif ($_GET['error'] == 'invalid_code') {
-        echo "<div class='error'>Invalid code.</div>";
+        $message = "Invalid code, please check the code and try again.";
     }
+    echo "<br /><div class='dcPanel p-3' style='color: red'>" . $message . "</div> <br />";
 }
 
 if (isset($_GET["success"])) {
-    echo "<div class='success'>Code redeemed successfully!</div>";
+    echo "<br /><div class='dcPanel p-3' style='color: green'>Code redeemed successfully!</div> <br />";
 }
 
 ?>
