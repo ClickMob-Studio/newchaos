@@ -1,6 +1,6 @@
 <?php
 
-function timeRemaining($futureTimestamp)
+function howlongtil($futureTimestamp)
 {
     $secondsLeft = $futureTimestamp - time();
 
@@ -656,34 +656,7 @@ function howlongago($ts, $stop = 'none')
     else
         return floor($ts / (60 * 60 * 24 * 365)) . " years ago";
 }
-function howlongtil($ts)
-{
-    $ts = $ts - time();
-    if ($ts < 1)
-        return " NOW";
-    elseif ($ts == 1)
-        return $ts . " second";
-    elseif ($ts < 60)
-        return $ts . " seconds";
-    elseif ($ts < 120)
-        return "1m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60)
-        return floor($ts / 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60 * 2)
-        return "1h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60 * 24)
-        return floor($ts / (60 * 60)) . "h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60 * 24 * 2)
-        return "1d " . floor($ts / (60 * 60) % 24) . "h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < (60 * 60 * 24 * 7))
-        return floor($ts / (60 * 60 * 24)) . "d " . floor($ts / (60 * 60) % 24) . "h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60 * 24 * 30.5)
-        return floor($ts / (60 * 60 * 24 * 7)) . " weeks";
-    elseif ($ts < 60 * 60 * 24 * 365)
-        return floor($ts / (60 * 60 * 24 * 30.5)) . " months";
-    else
-        return floor($ts / (60 * 60 * 24 * 365)) . " years";
-}
+
 function howlongleft($ts)
 {
     return howlongtil($ts);
