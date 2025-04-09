@@ -55,10 +55,10 @@ class GetContactCampaignStats implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'messagesSent' => '\SendinBlue\Client\Model\GetContactCampaignStatsMessagesSent[]',
-        'hardBounces' => '\SendinBlue\Client\Model\GetContactCampaignStatsMessagesSent[]',
-        'softBounces' => '\SendinBlue\Client\Model\GetContactCampaignStatsMessagesSent[]',
-        'complaints' => '\SendinBlue\Client\Model\GetContactCampaignStatsMessagesSent[]',
+        'messagesSent' => '\SendinBlue\Client\Model\GetExtendedContactDetailsStatisticsMessagesSent[]',
+        'hardBounces' => '\SendinBlue\Client\Model\GetExtendedContactDetailsStatisticsMessagesSent[]',
+        'softBounces' => '\SendinBlue\Client\Model\GetExtendedContactDetailsStatisticsMessagesSent[]',
+        'complaints' => '\SendinBlue\Client\Model\GetExtendedContactDetailsStatisticsMessagesSent[]',
         'unsubscriptions' => '\SendinBlue\Client\Model\GetContactCampaignStatsUnsubscriptions',
         'opened' => '\SendinBlue\Client\Model\GetContactCampaignStatsOpened[]',
         'clicked' => '\SendinBlue\Client\Model\GetContactCampaignStatsClicked[]',
@@ -205,7 +205,7 @@ class GetContactCampaignStats implements ArrayAccess
 
     /**
      * Gets messagesSent
-     * @return \SendinBlue\Client\Model\GetContactCampaignStatsMessagesSent[]
+     * @return \SendinBlue\Client\Model\GetExtendedContactDetailsStatisticsMessagesSent[]
      */
     public function getMessagesSent()
     {
@@ -214,7 +214,7 @@ class GetContactCampaignStats implements ArrayAccess
 
     /**
      * Sets messagesSent
-     * @param \SendinBlue\Client\Model\GetContactCampaignStatsMessagesSent[] $messagesSent
+     * @param \SendinBlue\Client\Model\GetExtendedContactDetailsStatisticsMessagesSent[] $messagesSent
      * @return $this
      */
     public function setMessagesSent($messagesSent)
@@ -226,7 +226,7 @@ class GetContactCampaignStats implements ArrayAccess
 
     /**
      * Gets hardBounces
-     * @return \SendinBlue\Client\Model\GetContactCampaignStatsMessagesSent[]
+     * @return \SendinBlue\Client\Model\GetExtendedContactDetailsStatisticsMessagesSent[]
      */
     public function getHardBounces()
     {
@@ -235,7 +235,7 @@ class GetContactCampaignStats implements ArrayAccess
 
     /**
      * Sets hardBounces
-     * @param \SendinBlue\Client\Model\GetContactCampaignStatsMessagesSent[] $hardBounces
+     * @param \SendinBlue\Client\Model\GetExtendedContactDetailsStatisticsMessagesSent[] $hardBounces
      * @return $this
      */
     public function setHardBounces($hardBounces)
@@ -247,7 +247,7 @@ class GetContactCampaignStats implements ArrayAccess
 
     /**
      * Gets softBounces
-     * @return \SendinBlue\Client\Model\GetContactCampaignStatsMessagesSent[]
+     * @return \SendinBlue\Client\Model\GetExtendedContactDetailsStatisticsMessagesSent[]
      */
     public function getSoftBounces()
     {
@@ -256,7 +256,7 @@ class GetContactCampaignStats implements ArrayAccess
 
     /**
      * Sets softBounces
-     * @param \SendinBlue\Client\Model\GetContactCampaignStatsMessagesSent[] $softBounces
+     * @param \SendinBlue\Client\Model\GetExtendedContactDetailsStatisticsMessagesSent[] $softBounces
      * @return $this
      */
     public function setSoftBounces($softBounces)
@@ -268,7 +268,7 @@ class GetContactCampaignStats implements ArrayAccess
 
     /**
      * Gets complaints
-     * @return \SendinBlue\Client\Model\GetContactCampaignStatsMessagesSent[]
+     * @return \SendinBlue\Client\Model\GetExtendedContactDetailsStatisticsMessagesSent[]
      */
     public function getComplaints()
     {
@@ -277,7 +277,7 @@ class GetContactCampaignStats implements ArrayAccess
 
     /**
      * Sets complaints
-     * @param \SendinBlue\Client\Model\GetContactCampaignStatsMessagesSent[] $complaints
+     * @param \SendinBlue\Client\Model\GetExtendedContactDetailsStatisticsMessagesSent[] $complaints
      * @return $this
      */
     public function setComplaints($complaints)

@@ -132,7 +132,7 @@ class CoverallsJobsCommand extends Command
     /**
      * @see \Symfony\Component\Console\Command\Command::execute()
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $stopwatch = new Stopwatch();
         $stopwatch->start(__CLASS__);

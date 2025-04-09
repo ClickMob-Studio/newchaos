@@ -55,7 +55,7 @@ class GetContactCampaignStatsClicked implements ArrayAccess
       */
     protected static $swaggerTypes = [
         'campaignId' => 'int',
-        'links' => '\SendinBlue\Client\Model\GetContactCampaignStatsLinks[]'
+        'links' => '\SendinBlue\Client\Model\GetExtendedContactDetailsStatisticsLinks[]'
     ];
 
     /**
@@ -201,7 +201,7 @@ class GetContactCampaignStatsClicked implements ArrayAccess
 
     /**
      * Gets links
-     * @return \SendinBlue\Client\Model\GetContactCampaignStatsLinks[]
+     * @return \SendinBlue\Client\Model\GetExtendedContactDetailsStatisticsLinks[]
      */
     public function getLinks()
     {
@@ -210,7 +210,7 @@ class GetContactCampaignStatsClicked implements ArrayAccess
 
     /**
      * Sets links
-     * @param \SendinBlue\Client\Model\GetContactCampaignStatsLinks[] $links
+     * @param \SendinBlue\Client\Model\GetExtendedContactDetailsStatisticsLinks[] $links
      * @return $this
      */
     public function setLinks($links)

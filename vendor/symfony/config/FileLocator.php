@@ -23,7 +23,7 @@ class FileLocator implements FileLocatorInterface
     protected $paths;
 
     /**
-     * @param string|string[] $paths A path or an array of paths where to look for resources
+     * @param string|array $paths A path or an array of paths where to look for resources
      */
     public function __construct($paths = [])
     {
@@ -33,9 +33,9 @@ class FileLocator implements FileLocatorInterface
     /**
      * {@inheritdoc}
      */
-    public function locate(string $name, ?string $currentPath = null, bool $first = true)
+    public function locate($name, $currentPath = null, $first = true)
     {
-        if ('' === $name) {
+        if ('' == $name) {
             throw new \InvalidArgumentException('An empty file name is not valid to be located.');
         }
 
@@ -76,16 +76,19 @@ class FileLocator implements FileLocatorInterface
 
     /**
      * Returns whether the file path is an absolute path.
+     *
+     * @param string $file A file path
+     *
+     * @return bool
      */
-    private function isAbsolutePath(string $file): bool
+    private function isAbsolutePath($file)
     {
         if ('/' === $file[0] || '\\' === $file[0]
             || (\strlen($file) > 3 && ctype_alpha($file[0])
                 && ':' === $file[1]
                 && ('\\' === $file[2] || '/' === $file[2])
             )
-            || parse_url($file, \PHP_URL_SCHEME)
-            || str_starts_with($file, 'phar:///') // "parse_url()" doesn't handle absolute phar path, despite being valid
+            || null !== parse_url($file, \PHP_URL_SCHEME)
         ) {
             return true;
         }

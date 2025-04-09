@@ -1,4 +1,4 @@
-s# CreateEmailCampaignSender
+# CreateEmailCampaignSender
 
 ## Properties
 Name | Type | Description | Notes

@@ -13,7 +13,6 @@ $config
     ->setRules([
         '@PhpCsFixer' => true,
         '@PhpCsFixer:risky' => true,
-        '@PHP70Migration' => true,
         'yoda_style' => [
             'equal' => false,
             'identical' => false,

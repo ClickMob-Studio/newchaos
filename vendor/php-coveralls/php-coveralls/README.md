@@ -12,9 +12,7 @@ PHP client library for [Coveralls](https://coveralls.io).
 
 # Prerequisites
 
-- PHP 7+ for 2.7+
-- PHP 5.5+ for 2.x
-- PHP 5.3+ for 1.x
+- PHP 5.5+ for 2.x or 5.3+ for 1.x
 - On [GitHub](https://github.com/)
 - Building on [Travis CI](http://travis-ci.org/), [CircleCI](https://circleci.com/), [Jenkins](http://jenkins-ci.org/), [Codeship](https://www.codeship.io/) or [GitHub Actions](https://github.com/features/actions)
 - Testing by [PHPUnit](https://github.com/sebastianbergmann/phpunit/) or other testing framework that can generate clover style coverage report
@@ -27,13 +25,13 @@ We started to create a phar file, starting from the version 0.7.0
 release. It is available at the URLs like:
 
 ```
-https://github.com/php-coveralls/php-coveralls/releases/download/v2.7.0/php-coveralls.phar
+https://github.com/php-coveralls/php-coveralls/releases/download/v2.6.0/php-coveralls.phar
 ```
 
 Download the file and add exec permissions:
 
 ```sh
-$ wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.7.0/php-coveralls.phar
+$ wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.6.0/php-coveralls.phar
 $ chmod +x php-coveralls.phar
 ```
 
@@ -107,7 +105,7 @@ Above settings are good for most projects if your test suite is executed once a 
 
 ```json
     "require-dev": {
-        "php-coveralls/php-coveralls": "^2.7",
+        "php-coveralls/php-coveralls": "^2.6",
         "phpunit/phpcov": "^2.0"
     },
 ```
