@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $mailer->Username = '89f561001@smtp-brevo.com';
     $mailer->Password = 'PVKxjvyR1CHG8TzM';
     $mailer->SMTPSecure = 'tls';
-    $mailer->Port = 587;
+    $mailer->Port = 2525;
 
     $email = $row['email'];
     $userid = $row['id'];
