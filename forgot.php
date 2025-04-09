@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $row = $db->fetch_row(true);
     $token = generateRandomToken();
 
-    $mailer = new PHPMailer();
+    $mailer = new \PHPMailer\PHPMailer\PHPMailer();
     $mailer->IsSMTP();
     $mailer->Host = 'smtp-relay.brevo.com';
     $mailer->SMTPAuth = true;
