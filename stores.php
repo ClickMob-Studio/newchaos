@@ -183,7 +183,7 @@ $egg_name_by_id = array(
 					$item_row = $db->fetch_row(true);
 
 					$item_name = $item_row["name"];
-					$image = $item_row["image"];
+					$image = '<img src="' . $item_row["image"] . '" width="100" height="100" style="border: 0px solid #000000">';
 				} else {
 					$image = 'No image available';
 				}
