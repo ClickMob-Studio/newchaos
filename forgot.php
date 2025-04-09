@@ -3,9 +3,10 @@ ob_start(); // Start output buffering
 
 include 'dbcon.php';
 include 'database/pdo_class.php';
-require 'vendor/autoload.php';
 
-use \Mailjet\Resources;
+require_once(__DIR__ . '/vendor/autoload.php');
+
+use \Brevo\Client;
 
 session_start();
 
