@@ -1440,13 +1440,18 @@ echo "</div></div>";
     <div class='achievements_main padded' style='display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 10px; justify-content: start;'>";
 
 $badges = 14;
-
 for ($i = 0; $i < $badges; $i++) {
     $name = "badge$i";
     $badge = $profile_class->{$name};
     if (!isset($badge))
         continue;
     echo "<div class='achievement' style='text-align: center;'>" . $badge . "</div>";
+}
+
+$db->query("SELECT * FROM user_badges WHERE user_id = " . $profile_class->id);
+$user_badges = $db->fetch_row(true);
+foreach ($user_badges as $user_badge) {
+    echo "<div class='achievement' style='text-align: center;' title='" . $user_badge["name"] . "'>" . "<img src='". $user_badge["image"] . "' width='100px' alt='" . $user_badge["name"] . "'></div>";
 }
 
 echo "</div></div>";
