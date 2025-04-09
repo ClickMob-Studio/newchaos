@@ -1095,8 +1095,8 @@ include 'header.php';
                                 <li>$1,000,000,000</li>
                                 <li>100 x <?= item_popup('Easter Egg Basket', 344) ?></li>
                                 <li>1 x <?= item_popup('Easter Statue', 343) ?></li>
-                                <li>3 x <?= item_popup('Nerve Tonic', 333) ?></li>
-                                <li>1 x <?= item_popup('Balls of Steel', 334) ?></li>
+                                <li>5 x <?= item_popup('Nerve Tonic', 333) ?></li>
+                                <li>2 x <?= item_popup('Balls of Steel', 334) ?></li>
                                 <li>1 x <?= item_popup('Ghost Vacuum', 284) ?></li>
                             </ul>
                         <?php endif; ?>
