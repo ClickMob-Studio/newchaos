@@ -57,6 +57,16 @@ if (isset($_GET['code'])) {
             $cityturns,
             $user_class->id
         ));
+
+        $db->query("INSERT INTO redeemed_codes (code_id, user_id, timestamp) VALUES (?, ?, ?)");
+        $db->execute([
+            $code['id'],
+            $user_class->id,
+            time(),
+        ]);
+
+        header('Location: redeem_code.php?success=redeemed');
+        exit;
     } else {
         header('Location: redeem_code.php?error=invalid_code');
         exit;
@@ -73,6 +83,10 @@ if (isset($_GET['error'])) {
     } elseif ($_GET['error'] == 'invalid_code') {
         echo "<div class='error'>Invalid code.</div>";
     }
+}
+
+if (isset($_GET["success"])) {
+    echo "<div class='success'>Code redeemed successfully!</div>";
 }
 
 ?>
