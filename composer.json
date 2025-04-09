@@ -1,8 +1,13 @@
-
 {
     "name": "mailjet/mailjet-apiv3-php",
     "description": "PHP wrapper for the Mailjet API",
-    "keywords": ["mailjet", "api", "v3", "php", "email"],
+    "keywords": [
+        "mailjet",
+        "api",
+        "v3",
+        "php",
+        "email"
+    ],
     "homepage": "https://github.com/mailjet/mailjet-apiv3-php-no-composer/",
     "license": "MIT",
     "authors": [
