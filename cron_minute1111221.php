@@ -340,8 +340,6 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
         echo "Debug: formatted_name = $formatted_name\n";
 
         // Initialize formatted_name here.
-
-
         if ($raid_successful) {
             $raidUser = new User($participant['user_id']);
 

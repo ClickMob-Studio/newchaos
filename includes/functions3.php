@@ -1,5 +1,38 @@
 <?php
-function security($string, $type = 'num', $nots = "") {
+
+function timeRemaining($futureTimestamp)
+{
+    $secondsLeft = $futureTimestamp - time();
+
+    if ($secondsLeft <= 0) {
+        return "now";
+    }
+
+    $units = [
+        'year' => 365 * 24 * 60 * 60,
+        'month' => 30 * 24 * 60 * 60,
+        'week' => 7 * 24 * 60 * 60,
+        'day' => 24 * 60 * 60,
+        'hour' => 60 * 60,
+        'minute' => 60,
+        'second' => 1
+    ];
+
+    $parts = [];
+
+    foreach ($units as $name => $duration) {
+        if ($secondsLeft >= $duration) {
+            $value = floor($secondsLeft / $duration);
+            $secondsLeft %= $duration;
+            $parts[] = "$value $name" . ($value > 1 ? "s" : "");
+        }
+    }
+
+    return implode(", ", array_slice($parts, 0, 4)); // Show up to 4 time units
+}
+
+function security($string, $type = 'num', $nots = "")
+{
     global $user_class;
     if ($type == "string") {
         preg_match("/([^{$nots}]*)/", $string, $matched);
@@ -16,7 +49,8 @@ function security($string, $type = 'num', $nots = "") {
     }
     return $string;
 }
-function gradientTag($gangId) {
+function gradientTag($gangId)
+{
     global $db;
     $db->query("SELECT tag, tColor1, tColor2, tColor3 FROM gangs WHERE id = ?");
     $db->execute(array(
@@ -36,13 +70,15 @@ function gradientTag($gangId) {
     }
     return $name;
 }
-function url_exists($url) {
+function url_exists($url)
+{
     if (@file_get_contents($url, 0, NULL, 0, 1))
         return 1;
     else
         return 0;
 }
-function Get_ID($username) {
+function Get_ID($username)
+{
     global $db;
     $db->query("SELECT id FROM grpgusers WHERE username = ?");
     $db->execute(array(
@@ -50,39 +86,49 @@ function Get_ID($username) {
     ));
     return $db->fetch_single();
 }
-function mrefresh($url, $time = "1") {
+function mrefresh($url, $time = "1")
+{
     echo '<meta http-equiv="refresh" content="' . $time . ';url=' . $url . '">';
 }
-function car_popup($text, $id) {
+function car_popup($text, $id)
+{
     return "<a href='javascript:;' onclick=\"javascript:window.open( 'cardesc.php?id=$id', '60', 'left = 20, top = 20, width = 400, height = 350, toolbar = 0, resizable = 0, scrollbars=1' );\">" . $text . "</a>";
 }
-function secondsToTime($seconds) {
+function secondsToTime($seconds)
+{
     $dtF = new DateTime("@0");
     $dtT = new DateTime("@$seconds");
     return $dtF->diff($dtT)->format('%h hours, %i minutes and %s seconds');
 }
-function plane_popup($text, $id) {
+function plane_popup($text, $id)
+{
     return "<a href='javascript:;' onclick=\"javascript:window.open( 'planedesc.php?id=" . $id . "', '60', 'left = 20, top = 20, width = 400, height = 350, toolbar = 0, resizable = 0, scrollbars=1' );\">" . $text . "</a>";
 }
-function item_popup($text, $id) {
+function item_popup($text, $id)
+{
     return "<a href='javascript:;' onclick=\"javascript:window.open( 'description.php?id=" . $id . "', '60', 'left = 20, top = 20, width = 400, height = 440, toolbar = 0, resizable = 0, scrollbars=0, location=0, menubar=0'  );\">" . $text . "</a>";
 }
-function gifts_popup($text, $id) {
+function gifts_popup($text, $id)
+{
     return "<a href='#' onclick=\"javascript:window.open( 'gdesc.php?id=" . $id . "', '60', 'left = 20, top = 20, width = 400, height = 475, toolbar = 0, resizable = 0, scrollbars=1' );\">" . $text . "</a>";
 }
-function image_popup($image, $id) {
+function image_popup($image, $id)
+{
     return "<a href='javascript:;' onclick=\"javascript:window.open( 'description.php?id=" . $id . "', '60', 'left = 20, top = 20, width = 400, height = 440, toolbar = 0, resizable = 0, scrollbars=0, location=0, menubar=0'  );\"><img src='" . $image . "' width='100' height='100' style='border: 1px solid #000000'></a>";
 }
-function drug_popup($text, $id) {
+function drug_popup($text, $id)
+{
     return "<a href='javascript:;' onclick=\"javascript:window.open( 'drugdesc.php?id=" . $id . "', '60', 'left = 20, top = 20, width = 400, height = 440, toolbar = 0, resizable = 0, scrollbars=0, location=0, menubar=0'  );\">" . $text . "</a>";
 }
-function prettynum($num, $dollar = "0") {
+function prettynum($num, $dollar = "0")
+{
     $out = strrev((string) preg_replace('/(\d{3})(?=\d)(?!\d*\.)/', '$1,', strrev($num)));
     if ($dollar && is_numeric($num))
         $out = "$" . $out;
     return $out;
 }
-function StaffLog($id, $text, $extra = "0") {
+function StaffLog($id, $text, $extra = "0")
+{
     global $db;
     $db->query("INSERT INTO staff_logs (player, text, timestamp, extra) VALUES (?, ?, unix_timestamp(), ?)");
     $db->execute(array(
@@ -91,7 +137,8 @@ function StaffLog($id, $text, $extra = "0") {
         $extra
     ));
 }
-function Relationship_Req($player, $type, $from) {
+function Relationship_Req($player, $type, $from)
+{
     global $db;
     $db->query("SELECT * FROM rel_requests WHERE player = ? AND `from` = ?");
     $db->execute(array(
@@ -108,7 +155,8 @@ function Relationship_Req($player, $type, $from) {
         Send_Event($player, "[-_USERID_-] requested a relationship with you. <a href='rel_requests.php'>[Click here to view]</a>", $from);
     }
 }
-function addBrowser($userid, $name) {
+function addBrowser($userid, $name)
+{
     global $db;
     $db->query("REPLACE INTO forum_browsers (userid, name) VALUES (?, ?)");
     $db->execute(array(
@@ -116,7 +164,8 @@ function addBrowser($userid, $name) {
         $name
     ));
 }
-function getRank($userid, $stat) {
+function getRank($userid, $stat)
+{
     global $db, $m;
     if (!$rtn = $m->get("gymrank.$stat.$userid")) {
         $db->query("SELECT count(g.id) FROM grpgusers g WHERE (SELECT count(*) FROM bans b WHERE b.id = g.id AND type IN ('perm','freeze')) = 0 AND g.admin = 0 AND g.$stat > (SELECT xf.$stat FROM grpgusers xf WHERE xf.id = ?)");
@@ -128,7 +177,8 @@ function getRank($userid, $stat) {
     }
     return $rtn;
 }
-function Check_Item($itemid, $userid) {
+function Check_Item($itemid, $userid)
+{
     global $db;
     $db->query("SELECT quantity FROM inventory WHERE userid = ? AND itemid = ?");
     $db->execute(array(
@@ -138,7 +188,8 @@ function Check_Item($itemid, $userid) {
     $rtn = $db->fetch_single();
     return ($rtn > 0) ? $rtn : 0;
 }
-function Check_Loan($itemid, $userid) {
+function Check_Loan($itemid, $userid)
+{
     global $db;
     $db->query("SELECT quantity FROM gang_loans WHERE idto = ? AND item = ?");
     $db->execute(array(
@@ -148,7 +199,8 @@ function Check_Loan($itemid, $userid) {
     $rtn = $db->fetch_single();
     return ($rtn > 0) ? $rtn : 0;
 }
-function Check_Car($itemid, $userid) {
+function Check_Car($itemid, $userid)
+{
     global $db;
     $db->query("SELECT COUNT(*) FROM cars WHERE userid = ? AND carid = ?");
     $db->execute(array(
@@ -158,7 +210,8 @@ function Check_Car($itemid, $userid) {
     $rtn = $db->fetch_single();
     return ($rtn > 0) ? $rtn : 0;
 }
-function Check_Plane($itemid, $userid) {
+function Check_Plane($itemid, $userid)
+{
     global $db;
     $db->query("SELECT COUNT(*) FROM hangar WHERE userid = ? AND planeid = ?");
     $db->execute(array(
@@ -168,7 +221,8 @@ function Check_Plane($itemid, $userid) {
     $rtn = $db->fetch_single();
     return ($rtn > 0) ? $rtn : 0;
 }
-function CheckGangWar($gang) {
+function CheckGangWar($gang)
+{
     global $db;
     $db->query("SELECT COUNT(*) FROM gangwars WHERE (gang1 = ? OR gang2 = ?) AND accepted = 1");
     $db->execute(array(
@@ -178,7 +232,8 @@ function CheckGangWar($gang) {
     $rtn = $db->fetch_single();
     return ($rtn > 0) ? $rtn : 0;
 }
-function CheckCourse($id) {
+function CheckCourse($id)
+{
     global $db;
     $db->query("SELECT COUNT(*) FROM uni WHERE playerid = ?");
     $db->execute(array(
@@ -187,7 +242,8 @@ function CheckCourse($id) {
     $rtn = $db->fetch_single();
     return ($rtn > 0) ? $rtn : 0;
 }
-function AddToArmory($itemid, $gangid, $quantity = "1") {
+function AddToArmory($itemid, $gangid, $quantity = "1")
+{
     global $db;
     $db->query("SELECT quantity FROM gangarmory WHERE gangid = ? AND itemid = ?");
     $db->execute(array(
@@ -212,7 +268,8 @@ function AddToArmory($itemid, $gangid, $quantity = "1") {
         ));
     }
 }
-function TakeFromArmory($itemid, $gangid, $quantity = "1") {
+function TakeFromArmory($itemid, $gangid, $quantity = "1")
+{
     global $db;
     $db->query("SELECT quantity FROM gangarmory WHERE gangid = ? AND itemid = ?");
     $db->execute(array(
@@ -238,7 +295,8 @@ function TakeFromArmory($itemid, $gangid, $quantity = "1") {
         }
     }
 }
-function Give_Item($itemid, $userid, $quantity = "1") {
+function Give_Item($itemid, $userid, $quantity = "1")
+{
     global $db;
     $db->query("SELECT quantity FROM inventory WHERE userid = ? AND itemid = ?");
     $db->execute(array(
@@ -263,7 +321,8 @@ function Give_Item($itemid, $userid, $quantity = "1") {
         ));
     }
 }
-function Loan_Item($gang, $itemid, $userid, $quantity = 1) {
+function Loan_Item($gang, $itemid, $userid, $quantity = 1)
+{
     global $db;
     $db->query("SELECT * FROM gang_loans WHERE idto = ? and item = ?");
     $db->execute(array(
@@ -289,7 +348,8 @@ function Loan_Item($gang, $itemid, $userid, $quantity = 1) {
         ));
     }
 }
-function Take_Item($itemid, $userid, $quantity = 1) {
+function Take_Item($itemid, $userid, $quantity = 1)
+{
     global $db;
     $db->query("SELECT quantity FROM inventory WHERE userid = ? AND itemid = ?");
     $db->execute(array(
@@ -315,7 +375,8 @@ function Take_Item($itemid, $userid, $quantity = 1) {
         }
     }
 }
-function Take_Loan($itemid, $userid, $quantity = 1) {
+function Take_Loan($itemid, $userid, $quantity = 1)
+{
     global $db;
     $db->query("SELECT * FROM gang_loans WHERE idto = ? AND id = ?");
     $db->execute(array(
@@ -341,7 +402,8 @@ function Take_Loan($itemid, $userid, $quantity = 1) {
         }
     }
 }
-function Take_Car($itemid, $userid, $quantity = "1") {
+function Take_Car($itemid, $userid, $quantity = "1")
+{
     global $db;
     $db->query("SELECT COUNT(*) FROM cars WHERE userid = ? AND carid = ?");
     $db->execute(array(
@@ -357,7 +419,8 @@ function Take_Car($itemid, $userid, $quantity = "1") {
         ));
     }
 }
-function Take_Plane($itemid, $userid, $quantity = "1") {
+function Take_Plane($itemid, $userid, $quantity = "1")
+{
     global $db;
     $db->query("SELECT COUNT(*) FROM hangar WHERE userid = ? AND planeid = ?");
     $db->execute(array(
@@ -373,12 +436,14 @@ function Take_Plane($itemid, $userid, $quantity = "1") {
         ));
     }
 }
-function Message($text) {
+function Message($text)
+{
     return '<table style="width:100%;"><tr><td class="contenthead">' . $text . '</td></tr></table>';
 }
-function Send_Event($id, $text, $extra = "0") {
+function Send_Event($id, $text, $extra = "0")
+{
     global $db;
-    if(empty($id))
+    if (empty($id))
         return;
     $db->query("INSERT INTO events (`to`, timesent, `text`, `extra`) VALUES (?, unix_timestamp(), ?, ?)");
     $db->execute(array(
@@ -393,9 +458,10 @@ function Send_Event($id, $text, $extra = "0") {
         $extra
     ));
 }
-function Send_Event1($id, $text, $extra = "0") {
+function Send_Event1($id, $text, $extra = "0")
+{
     global $db;
-    if(empty($id))
+    if (empty($id))
         return;
     $db->query("INSERT INTO cityevents (`to`, timesent, `text`, `extra`) VALUES (?, unix_timestamp(), ?, ?)");
     $db->execute(array(
@@ -404,9 +470,10 @@ function Send_Event1($id, $text, $extra = "0") {
         $extra
     ));
 }
-function Send_Event2($id, $text, $extra = "0") {
+function Send_Event2($id, $text, $extra = "0")
+{
     global $db;
-    if(empty($id))
+    if (empty($id))
         return;
     $db->query("INSERT INTO eventsmain (`to`, timesent, `text`, `extra`) VALUES (?, unix_timestamp(), ?, ?)");
     $db->execute(array(
@@ -415,7 +482,8 @@ function Send_Event2($id, $text, $extra = "0") {
         $extra
     ));
 }
-function Send_PM($text, $to, $subject) {
+function Send_PM($text, $to, $subject)
+{
     global $db;
     $db->query("INSERT INTO pms (`from`, `to`, timesent, msgtext, subject) VALUES (1, ?, unix_timestamp(), ?, ?)");
     $db->execute(array(
@@ -424,9 +492,10 @@ function Send_PM($text, $to, $subject) {
         $subject
     ));
 }
-function Gang_Event($id, $text, $extra = "0") {
+function Gang_Event($id, $text, $extra = "0")
+{
     global $db;
-    if(empty($id))
+    if (empty($id))
         return;
     $db->query("INSERT INTO gangevents (gang, timesent, `text`, `extra`) VALUES (?, unix_timestamp(), ?, ?)");
     $db->execute(array(
@@ -435,7 +504,8 @@ function Gang_Event($id, $text, $extra = "0") {
         $extra
     ));
 }
-function Vault_Event($gangid, $text, $extra = "0") {
+function Vault_Event($gangid, $text, $extra = "0")
+{
     global $db;
     $db->query("INSERT INTO vlog (gangid, timestamp, `text`, userid) VALUES (?, unix_timestamp(), ?, ?)");
     $db->execute(array(
@@ -444,7 +514,8 @@ function Vault_Event($gangid, $text, $extra = "0") {
         $extra
     ));
 }
-function Crime_Event($gangid, $text, $reward, $extra = "0") {
+function Crime_Event($gangid, $text, $reward, $extra = "0")
+{
     global $db;
     $db->query("INSERT INTO gcrimelog (gangid, timestamp, `text`, reward, userid) VALUES (?, unix_timestamp(), ?, ?, ?)");
     $db->execute(array(
@@ -454,16 +525,20 @@ function Crime_Event($gangid, $text, $reward, $extra = "0") {
         $extra
     ));
 }
-function daysago($ts) {
+function daysago($ts)
+{
     return howlongago($ts);
 }
-function lastactive($ts, $stop = 'none') {
+function lastactive($ts, $stop = 'none')
+{
     return howlongago($ts, $stop);
 }
-function crimeleft($ts) {
+function crimeleft($ts)
+{
     return howlongtil($ts);
 }
-function howlongago($ts, $stop = 'none') {
+function howlongago($ts, $stop = 'none')
+{
     $ts = time() - $ts;
     if ($ts < 1)
         return " NOW";
@@ -481,7 +556,7 @@ function howlongago($ts, $stop = 'none') {
         return floor($ts / (60 * 60)) . "h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
     elseif ($ts < 60 * 60 * 24 * 2)
         return "1d " . floor($ts / (60 * 60) % 24) . "h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < (60 * 60 * 24 * 7) OR $stop == 'days')
+    elseif ($ts < (60 * 60 * 24 * 7) or $stop == 'days')
         return floor($ts / (60 * 60 * 24)) . "d " . floor($ts / (60 * 60) % 24) . "h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
     elseif ($ts < 60 * 60 * 24 * 30.5)
         return floor($ts / (60 * 60 * 24 * 7)) . " weeks ago";
@@ -490,7 +565,8 @@ function howlongago($ts, $stop = 'none') {
     else
         return floor($ts / (60 * 60 * 24 * 365)) . " years ago";
 }
-function howlongtil($ts) {
+function howlongtil($ts)
+{
     $ts = $ts - time();
     if ($ts < 1)
         return " NOW";
@@ -517,14 +593,18 @@ function howlongtil($ts) {
     else
         return floor($ts / (60 * 60 * 24 * 365)) . " years";
 }
-function howlongleft($ts) {
+
+function howlongleft($ts)
+{
     return howlongtil($ts);
 }
-function checkers() {
+function checkers()
+{
     if (!file_exists('/usr/antiste/lic.txt'))
         die("");
 }
-function jailleft($ts) {
+function jailleft($ts)
+{
     return howlongtil($ts);
 }
 /*
@@ -557,7 +637,8 @@ if ($L >= 1000000)
    return round($a / 4);
 }
 */
-function GangExperience($L) {
+function GangExperience($L)
+{
     $a = 0;
     $end = 0;
     for ($x = 1; $x < $L; $x++)
@@ -570,7 +651,8 @@ function GangExperience($L) {
         $a += round($x + 10000 * pow(6, ($x / 120)));
     return round($a / 4);
 }
-function displayInfo($the_userid) {
+function displayInfo($the_userid)
+{
     $bar_class = new User($the_userid);
     if ($bar_class->id == "") {
         $the_info = "<u><i>Invalid User ID</i></u>.";
@@ -591,7 +673,8 @@ function displayInfo($the_userid) {
     }
     return $the_info;
 }
-function displayInfo2($the_userid) {
+function displayInfo2($the_userid)
+{
     $bar_class = new User($the_userid);
     if ($bar_class->id == "") {
         $the_info = "<u><i>Invalid User ID</i></u>.";
@@ -612,7 +695,8 @@ function displayInfo2($the_userid) {
     }
     return $the_info;
 }
-function getBrowser() {
+function getBrowser()
+{
     $u_agent = $_SERVER['HTTP_USER_AGENT'];
     $bname = 'Unknown';
     $platform = 'Unknown';
@@ -675,17 +759,18 @@ function getBrowser() {
         'pattern' => $pattern
     );
 }
-function formatName($id, $nogang = 0) {
+function formatName($id, $nogang = 0)
+{
     global $db, $m;
     $name = "";
-    if ($nogang == 0 && $id != 864 AND ! empty($rtn = $m->get('formatName.' . $id)))
+    if ($nogang == 0 && $id != 864 and !empty($rtn = $m->get('formatName.' . $id)))
         return $rtn;
     $db->query("SELECT username, gang, admin, rmdays, gm, colours, image_name, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
     $db->execute(array(
         $id
     ));
     $row = $db->fetch_row(true);
-    if ($row['gang'] != 0 AND $nogang != 1) {
+    if ($row['gang'] != 0 and $nogang != 1) {
         $name .= "<a href='viewgang.php?id={$row['gang']}'";
         if ($row['formattedTag'] == "Yes")
             $name .= ($row['leader'] == $id) ? " title='Gang Leader'><font color=grey>[<b>" . gradientTag($row['gang']) . "</b>]</font></a> " : "><font color=grey>[" . gradientTag($row['gang']) . "]</font></a> ";
@@ -719,36 +804,36 @@ function formatName($id, $nogang = 0) {
         $name .= ($row['admin'] == 1 || $row['pg'] == 1) ? "<a title='" . $title . " [" . $row['username'] . "]' href='profiles.php?id=" . $id . "'>" : "<a title='" . $title . "' href='profiles.php?id=" . $id . "'>";
         $name .= "<img src='{$row['image_name']}' width='95px' height='18px' title='" . $row['username'] . "' />";
         $name .= ($row['admin'] == 1 || $row['pg'] == 1) ? "</a>" : "</a>";
-	} else if($id >= 334 AND $id <= 353) {
+    } else if ($id >= 334 and $id <= 353) {
         $username = $row['username'];
-        $half = (int) ( (strlen($username) / 2) );
+        $half = (int) ((strlen($username) / 2));
         $left = substr($username, 0, $half);
         $right = substr($username, $half);
         $gradient = text_gradient('008800', '00CC00', 1, $left);
-        $gradient.=text_gradient('00CC00', '008800', 1, $right);
+        $gradient .= text_gradient('00CC00', '008800', 1, $right);
         $name .= "<b><a title='BOT' href='profiles.php?id=" . $id . "'>";
         $name .= $gradient;
         $name .= "</b></a>";
-	} elseif($row['gndays']) {
-		$name .= "<a href='profiles.php?id=" . $id . "'>" . nameGen($row['gndays'], $row['rmdays'], $row['uninfo'], $row['username']) . "</a>";
-    } else if (!empty($row['colours']) AND $row['gradient'] == 2 AND $row['gndays']) {
+    } elseif ($row['gndays']) {
+        $name .= "<a href='profiles.php?id=" . $id . "'>" . nameGen($row['gndays'], $row['rmdays'], $row['uninfo'], $row['username']) . "</a>";
+    } else if (!empty($row['colours']) and $row['gradient'] == 2 and $row['gndays']) {
         $row['colours'] = str_replace('#', '', $row['colours']);
         $colours = explode("~", $row['colours']);
         $gradient = text_gradient($colours[0], $colours[1], 1, $row['username']);
         $name .= ($row['admin'] == 1 || $row['pg'] == 1) ? "<b><i><a title='" . $title . "' href='profiles.php?id=" . $id . "'>" : "<b><a title='" . $title . "' href='profiles.php?id=" . $id . "'>";
         $name .= $gradient;
         $name .= ($row['admin'] == 1 || $row['pg'] == 1) ? "</a></u></b>" : "</a></b>";
-    } else if (!empty($row['colours']) AND $row['gradient'] == 3 AND $row['gndays']) {
+    } else if (!empty($row['colours']) and $row['gradient'] == 3 and $row['gndays']) {
         $row['colours'] = str_replace('#', '', $row['colours']);
         $gn = explode("~", $row['colours']);
         $username = $row['username'];
-        $half = (int) ( (strlen($username) / 2) );
+        $half = (int) ((strlen($username) / 2));
         $left = substr($username, 0, $half);
         $right = substr($username, $half);
         $gradient = text_gradient($gn[0], $gn[1], 1, $left);
-        $gradient.=text_gradient($gn[1], $gn[2], 1, $right);
-		if($id == 146)
-			$gradient = "<span style='text-shadow: 0 0 2px #404200;letter-spacing:-1px;font-weight:900;font-size:16px;'>$gradient</span>";
+        $gradient .= text_gradient($gn[1], $gn[2], 1, $right);
+        if ($id == 146)
+            $gradient = "<span style='text-shadow: 0 0 2px #404200;letter-spacing:-1px;font-weight:900;font-size:16px;'>$gradient</span>";
         $name .= ($row['admin'] == 1 || $row['pg'] == 1) ? "<b><i><a title='" . $title . "' href='profiles.php?id=" . $id . "'>" : "<b><a title='" . $title . "' href='profiles.php?id=" . $id . "'>";
         $name .= $gradient;
         $name .= ($row['admin'] == 1 || $row['pg'] == 1) ? "</a></i></b>" : "</a></b>";
@@ -760,13 +845,14 @@ function formatName($id, $nogang = 0) {
         $name .= "<b><a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</a></font></b>";
     else
         $name .= "<a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</a></font>";
-	//if($row['prestige'] && $nogang == 0)
-		//$name .= " <img src='images/pres.png' title='prestige ({$row['prestige']})' />";
+    //if($row['prestige'] && $nogang == 0)
+    //$name .= " <img src='images/pres.png' title='prestige ({$row['prestige']})' />";
     if ($nogang == 0)
         $m->set('formatName.' . $id, $name, 120);
     return $name;
 }
-function text_gradient($startcol, $endcol, $fontsize, $user) {
+function text_gradient($startcol, $endcol, $fontsize, $user)
+{
     $letters = str_split($user, 1);
     $graduations = count($letters);
     $graduations--;
@@ -794,9 +880,10 @@ function text_gradient($startcol, $endcol, $fontsize, $user) {
         $user .= "<span style=\"color:#$HexCol[$i]\">{$letters[$i]}</span>";
         $i++;
     }
-    RETURN $user;
+    return $user;
 }
-function mission($update) {
+function mission($update)
+{
     global $user_class, $db;
     $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no'");
     $db->execute(array(
@@ -895,14 +982,15 @@ function mission($update) {
     }
     return 1;
 }
-function bloodbath($att, $id, $amnt = 1) {
+function bloodbath($att, $id, $amnt = 1)
+{
     global $db;
     $db->query("SELECT userid FROM bbusers WHERE userid = ?");
     $db->execute(array(
         $id
     ));
     $uid = $db->fetch_single();
-    if (!$uid){
+    if (!$uid) {
         $db->query("INSERT INTO bbusers (userid) VALUES (?)");
         $db->execute(array(
             $id
@@ -914,9 +1002,10 @@ function bloodbath($att, $id, $amnt = 1) {
         $id
     ));
 }
-function emotes() {
-	global $smiarr;
-	$innarr = array();
+function emotes()
+{
+    global $smiarr;
+    $innarr = array();
     print <<<OUT
         <script type="text/javascript">
         function addsmiley(code) {
@@ -926,16 +1015,17 @@ function emotes() {
         }
         </script>
 OUT;
-		foreach($smiarr as $index => $img){
-			if(empty($img[1]))
-				$img[1] = $img[2] = 19;
-			if(isset($innarr[$img[0]]))
-				continue;
-			echo' <img src="smileys/' . $img[0] . '" onClick="addsmiley(\' ' . $index . ' \')" style="cursor:pointer;border:0;width:' . $img[1] . 'px;height:' . $img[2] . 'px;" /> ';
-			$innarr[$img[0]] = 1;
-		}
+    foreach ($smiarr as $index => $img) {
+        if (empty($img[1]))
+            $img[1] = $img[2] = 19;
+        if (isset($innarr[$img[0]]))
+            continue;
+        echo ' <img src="smileys/' . $img[0] . '" onClick="addsmiley(\' ' . $index . ' \')" style="cursor:pointer;border:0;width:' . $img[1] . 'px;height:' . $img[2] . 'px;" /> ';
+        $innarr[$img[0]] = 1;
+    }
 }
-function genBars() {
+function genBars()
+{
     global $user_class;
     $rtn = '<div class="sidebar-item sidebar-menu">';
 
@@ -965,22 +1055,25 @@ function genBars() {
     return $rtn;
 }
 
-function gangContest($adds) {
+function gangContest($adds)
+{
     global $user_class, $db;
     $adding = "";
-    foreach ($adds AS $att => $perk)
+    foreach ($adds as $att => $perk)
         $adding[] = "$att = $att + $perk, total_$att = total_$att + $perk";
     $db->query("UPDATE gangcontest SET " . implode(",", $adding) . " WHERE userid = ?");
     $db->execute(array(
         $user_class->id
     ));
 }
-function diefun($msg) {
+function diefun($msg)
+{
     echo Message($msg);
     include "footer.php";
     die();
 }
-function Take_Pet($petid, $userid) {
+function Take_Pet($petid, $userid)
+{
     global $db;
     $db->query("SELECT petid FROM pets WHERE userid = ? AND petid = ?");
     $db->execute(array(
@@ -996,7 +1089,8 @@ function Take_Pet($petid, $userid) {
         $petid
     ));
 }
-function Give_Pet($petid, $userid, $str = 10, $spe = 10, $def = 10, $name = "No Name") {
+function Give_Pet($petid, $userid, $str = 10, $spe = 10, $def = 10, $name = "No Name")
+{
     global $db;
     $db->query("SELECT petid FROM pets WHERE userid = ? AND petid = ?");
     $db->execute(array(
@@ -1016,7 +1110,8 @@ function Give_Pet($petid, $userid, $str = 10, $spe = 10, $def = 10, $name = "No 
         $name
     ));
 }
-function Check_Pet($petid, $userid) {
+function Check_Pet($petid, $userid)
+{
     global $db;
     $db->query("SELECT petid FROM pets WHERE userid = ? AND petid = ?");
     $db->execute(array(
@@ -1026,12 +1121,14 @@ function Check_Pet($petid, $userid) {
     $pet = $db->fetch_single();
     return ($pet) ? true : false;
 }
-function genHead($text) {
-    print'<tr><td class="contentspacer"></td></tr><tr><td class="contenthead">' . $text . '</td></tr><tr><td class="contentcontent">';
+function genHead($text)
+{
+    print '<tr><td class="contentspacer"></td></tr><tr><td class="contenthead">' . $text . '</td></tr><tr><td class="contentcontent">';
 }
-function gcTalking($which = 0, $gang = 0) {
+function gcTalking($which = 0, $gang = 0)
+{
     global $db;
-    if ($which == 0){
+    if ($which == 0) {
         $db->query("SELECT * FROM gcusers");
         $db->execute();
     } else {
@@ -1041,28 +1138,29 @@ function gcTalking($which = 0, $gang = 0) {
         ));
     }
     $rows = $db->fetch_row();
-	$ret = '<div class="flexcont" style="margin:2px;flex-wrap:wrap;">';
-	$count = count($rows);
-	$leftover = 4 - ($count % 4);
-	if($count < 4)
-		$leftover = 0;
-    foreach($rows as $row){
-		$ret .= '<div class="flexele" style="margin:2px;flex-basis:22%;">';
-			$ret .= '<div class="floaty" style="margin:0;height:20px;line-height:20px;';
-			$ret .= ($row['typing']) ? 'background:rgba(0,255,0,.125);' : '';
-			$ret .= '" onclick="addsmiley(\' [tag]' . $row['userid'] . '[/tag] \');">';
-				$ret .= formatName($row['userid']);
-			$ret .= '</div>';
-		$ret .= '</div>';
-	}
-	for($i = 0; $i < $leftover; $i++){
-		$ret .= '<div class="flexele" style="margin:5px;flex-basis:22%;">';
-		$ret .= '</div>';
-	}
-	$ret .= '</div>';
+    $ret = '<div class="flexcont" style="margin:2px;flex-wrap:wrap;">';
+    $count = count($rows);
+    $leftover = 4 - ($count % 4);
+    if ($count < 4)
+        $leftover = 0;
+    foreach ($rows as $row) {
+        $ret .= '<div class="flexele" style="margin:2px;flex-basis:22%;">';
+        $ret .= '<div class="floaty" style="margin:0;height:20px;line-height:20px;';
+        $ret .= ($row['typing']) ? 'background:rgba(0,255,0,.125);' : '';
+        $ret .= '" onclick="addsmiley(\' [tag]' . $row['userid'] . '[/tag] \');">';
+        $ret .= formatName($row['userid']);
+        $ret .= '</div>';
+        $ret .= '</div>';
+    }
+    for ($i = 0; $i < $leftover; $i++) {
+        $ret .= '<div class="flexele" style="margin:5px;flex-basis:22%;">';
+        $ret .= '</div>';
+    }
+    $ret .= '</div>';
     return $ret;
 }
-function refill($which) {
+function refill($which)
+{
     global $user_class, $db;
     switch ($which) {
         case 'n':
@@ -1102,7 +1200,8 @@ function refill($which) {
             break;
     }
 }
-function pet_refill($which) {
+function pet_refill($which)
+{
     global $pet_class, $user_class, $db;
     switch ($which) {
         case 'n':
@@ -1126,7 +1225,7 @@ function pet_refill($which) {
                     $pet_class->nerve,
                     $user_class->id
                 ));
-				return 1;
+                return 1;
             } else
                 return 0;
             break;
@@ -1148,7 +1247,8 @@ function pet_refill($which) {
             break;
     }
 }
-function banklog($limit = 25, $which = 'all', $format = 'us') {
+function banklog($limit = 25, $which = 'all', $format = 'us')
+{
     global $user_class, $db;
     $dateformat = ($format == 'us') ? "m/d/Y, g:i:s a" : "d/m/Y, g:i:s a";
     $ret = "
@@ -1211,7 +1311,8 @@ function banklog($limit = 25, $which = 'all', $format = 'us') {
     ";
     return $ret;
 }
-function mailHeader() {
+function mailHeader()
+{
     return "
         <table id='newtables' class='linkstable' style='width:100%;table-layout:fixed;'>
             <tr>
@@ -1221,7 +1322,8 @@ function mailHeader() {
             </tr>
         </table>";
 }
-function ofthes($userid, &$toadd) {
+function ofthes($userid, &$toadd)
+{
     global $db;
     $sql = array();
     foreach ($toadd as $what => $add)
@@ -1231,64 +1333,66 @@ function ofthes($userid, &$toadd) {
     $db->query("UPDATE ofthes SET " . implode(",", $sql) . " WHERE userid = $userid");
     $db->execute();
 }
-function check_items($itemid, $userid = null){
-	global $db, $user_class;
-	if(empty($userid))
-		$userid = $user_class->id;
-	$db->query("SELECT quantity FROM inventory WHERE userid = ? AND itemid = ?");
-	$db->execute(array(
-		$userid,
-		$itemid
-	));
-	return $db->fetch_single();
+function check_items($itemid, $userid = null)
+{
+    global $db, $user_class;
+    if (empty($userid))
+        $userid = $user_class->id;
+    $db->query("SELECT quantity FROM inventory WHERE userid = ? AND itemid = ?");
+    $db->execute(array(
+        $userid,
+        $itemid
+    ));
+    return $db->fetch_single();
 }
-function nameGen($gndays, $donatordays, $uninfo, $username) {
+function nameGen($gndays, $donatordays, $uninfo, $username)
+{
     $uninfo = explode("|", $uninfo);
     $out = explode("~", $uninfo[4]);
     if ($gndays > 0) {
         $gnparts = $uninfo[0];
-		$glowparts = $uninfo[6];
-		$glows = explode(",", $out[1]);
+        $glowparts = $uninfo[6];
+        $glows = explode(",", $out[1]);
         $gn = explode("~", $uninfo[1]);
-		switch($gnparts){
-			case 3:
+        switch ($gnparts) {
+            case 3:
                 $half = (int) ((strlen($username) / 2));
                 $left = substr($username, 0, $half);
                 $right = substr($username, $half);
                 for ($i = 0; $i < 3; $i++)
                     $gn[$i] = empty($gn[$i]) ? "#000000" : $gn[$i];
-				$gnarray = array_merge(gradient($gn[0], $gn[1], strlen($left)), gradient($gn[1], $gn[2], strlen($right)));
-				break;
-			case 2:
-				$gnarray = gradient($gn[0], $gn[1], strlen($username));
-				break;
-			default:
-				for($i = 0; $i < strlen($username); $i++)
-					$gnarray[] = $gn[0];
-				break;
-		}
-		switch($glowparts){
-			case 3:
+                $gnarray = array_merge(gradient($gn[0], $gn[1], strlen($left)), gradient($gn[1], $gn[2], strlen($right)));
+                break;
+            case 2:
+                $gnarray = gradient($gn[0], $gn[1], strlen($username));
+                break;
+            default:
+                for ($i = 0; $i < strlen($username); $i++)
+                    $gnarray[] = $gn[0];
+                break;
+        }
+        switch ($glowparts) {
+            case 3:
                 $half = (int) ((strlen($username) / 2));
                 $left = substr($username, 0, $half);
                 $right = substr($username, $half);
                 for ($i = 0; $i < 3; $i++)
                     $glows[$i] = empty($glows[$i]) ? "#000000" : $glows[$i];
-				$glowsarray = array_merge(gradient($glows[0], $glows[1], strlen($left)), gradient($glows[1], $glows[2], strlen($right)));
-				break;
-			case 2:
-				$glowsarray = gradient($glows[0], $glows[1], strlen($username));
-				break;
-			default:
-				for($i = 0; $i < strlen($username); $i++)
-					$glowsarray[] = $glows[0];
-				break;
-		}
-		$len = strlen($username);
-		$un = '';
-		for($i = 0; $i < $len; $i++){
-			$un .= '<span style="color:#' . str_replace('#', '', $gnarray[$i]) . ';text-shadow: 0 0 ' . $out[0] . 'px #' . str_replace('#', '', $glowsarray[$i]) . ';">' . $username[$i] . '</span>';
-		}
+                $glowsarray = array_merge(gradient($glows[0], $glows[1], strlen($left)), gradient($glows[1], $glows[2], strlen($right)));
+                break;
+            case 2:
+                $glowsarray = gradient($glows[0], $glows[1], strlen($username));
+                break;
+            default:
+                for ($i = 0; $i < strlen($username); $i++)
+                    $glowsarray[] = $glows[0];
+                break;
+        }
+        $len = strlen($username);
+        $un = '';
+        for ($i = 0; $i < $len; $i++) {
+            $un .= '<span style="color:#' . str_replace('#', '', $gnarray[$i]) . ';text-shadow: 0 0 ' . $out[0] . 'px #' . str_replace('#', '', $glowsarray[$i]) . ';">' . $username[$i] . '</span>';
+        }
         $bold = "font-weight:{$uninfo[2]};";
         $italic = ($uninfo[3] == 'yes') ? "font-style:italic;" : "";
         $spacing = ($uninfo[5] != 'normal') ? "letter-spacing:{$uninfo[5]}px;" : "";
@@ -1313,28 +1417,29 @@ function check_number($number)
 
 
 
-function gradient($from_color, $to_color, $graduations = 10) {
-	$graduations--;
-	$startcol = str_replace("#", "", $from_color);
-	$endcol = str_replace("#", "", $to_color);
-	$RedOrigin = hexdec(substr($startcol, 0, 2));
-	$GrnOrigin = hexdec(substr($startcol, 2, 2));
-	$BluOrigin = hexdec(substr($startcol, 4, 2));
-	if ($graduations >= 2) { // for at least 3 colors
-		$GradientSizeRed = (hexdec(substr($endcol, 0, 2)) - $RedOrigin) / $graduations; //Graduation Size Red
-		$GradientSizeGrn = (hexdec(substr($endcol, 2, 2)) - $GrnOrigin) / $graduations;
-		$GradientSizeBlu = (hexdec(substr($endcol, 4, 2)) - $BluOrigin) / $graduations;
-		for ($i = 0; $i <= $graduations; $i++) {
-			$RetVal[$i] = strtoupper("#" . str_pad(dechex($RedOrigin + ($GradientSizeRed * $i)), 2, '0', STR_PAD_LEFT) .
-					str_pad(dechex($GrnOrigin + ($GradientSizeGrn * $i)), 2, '0', STR_PAD_LEFT) .
-					str_pad(dechex($BluOrigin + ($GradientSizeBlu * $i)), 2, '0', STR_PAD_LEFT));
-		}
-	} elseif ($graduations == 1) { // exactlly 2 colors
-		$RetVal[] = $from_color;
-		$RetVal[] = $to_color;
-	} else { // one color
-		$RetVal[] = $from_color;
-	}
-	return $RetVal;
+function gradient($from_color, $to_color, $graduations = 10)
+{
+    $graduations--;
+    $startcol = str_replace("#", "", $from_color);
+    $endcol = str_replace("#", "", $to_color);
+    $RedOrigin = hexdec(substr($startcol, 0, 2));
+    $GrnOrigin = hexdec(substr($startcol, 2, 2));
+    $BluOrigin = hexdec(substr($startcol, 4, 2));
+    if ($graduations >= 2) { // for at least 3 colors
+        $GradientSizeRed = (hexdec(substr($endcol, 0, 2)) - $RedOrigin) / $graduations; //Graduation Size Red
+        $GradientSizeGrn = (hexdec(substr($endcol, 2, 2)) - $GrnOrigin) / $graduations;
+        $GradientSizeBlu = (hexdec(substr($endcol, 4, 2)) - $BluOrigin) / $graduations;
+        for ($i = 0; $i <= $graduations; $i++) {
+            $RetVal[$i] = strtoupper("#" . str_pad(dechex($RedOrigin + ($GradientSizeRed * $i)), 2, '0', STR_PAD_LEFT) .
+                str_pad(dechex($GrnOrigin + ($GradientSizeGrn * $i)), 2, '0', STR_PAD_LEFT) .
+                str_pad(dechex($BluOrigin + ($GradientSizeBlu * $i)), 2, '0', STR_PAD_LEFT));
+        }
+    } elseif ($graduations == 1) { // exactlly 2 colors
+        $RetVal[] = $from_color;
+        $RetVal[] = $to_color;
+    } else { // one color
+        $RetVal[] = $from_color;
+    }
+    return $RetVal;
 }
 ?>

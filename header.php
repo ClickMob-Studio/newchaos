@@ -1822,7 +1822,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
                         // Maze Boost
                         if ($tempItemUse['maze_boost'] > $time) {
-                            $rtn = howlongtil($tempItemUse['maze_boost']);
+                            $rtn = timeRemaining($tempItemUse['maze_boost']);
                             $messages[] = 'Maze Boost: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
                         }
 
