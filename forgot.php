@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $mailer->SMTPAuth = true;
     $mailer->Username = '89f561001@smtp-brevo.com';
     $mailer->Password = 'xsmtpsib-605b20664deb58e72b99bddfe5fbd862ff7d3de68ac2d14cddce929ff52b017f-PZKRYTxzyws73B8V';
-    // $mailer->SMTPSecure = 'tls';
+    $mailer->SMTPSecure = 'tls';
     $mailer->Port = 587;
 
     $email = $row['email'];
