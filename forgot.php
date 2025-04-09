@@ -114,34 +114,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $mailer->addAddress($email, $username);
     $mailer->Subject = 'Chaos City - Password Reset';
     $mailer->Body = "<h3>Dear $username, You have requested a new password reset at <a href='http://chaoscity.co.uk'>Chaos City</a>.<br><a href='https://chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>";
+    
+    $db->query("UPDATE grpgusers SET forgot_password = ? WHERE email = ? AND username = ? LIMIT 1");
+    $db->execute([$token, $row['email'], $username]);
 
     if (!$mailer->send()) {
-        echo 'Mailer Error: ' . $mailer->ErrorInfo;
+        $_SESSION['failmessage'] = "Password reset instructions have been sent to your email.";
+        header("Location: forgot.php");
     } else {
-        echo 'Message sent!';
+        $_SESSION['failmessage'] = "Failed to send email. Please try again.";
+        header("Location: forgot.php");
     }
-
-    // Failed attempt at using brevo/sendinblue
-    // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key', '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');
-    // $apiInstance = new SendinBlue\Client\Api\SMTPApi(
-    //     new GuzzleClient(),
-    //     $config
-    // );
-
-    // $sendSmtpEmail = new \SendinBlue\Client\Model\SendSmtpEmail([
-    //     'subject' => 'Chaos City - Password Reset',
-    //     'sender' => ['name' => 'Chaos City', 'email' => 'noreply@chaoscity.co.uk'],
-    //     'to' => [['email' => 'noreply@chaoscity.co.uk']],
-    //     'htmlContent' => "<h3>Dear $username, You have requested a new password reset at <a href='http://chaoscity.co.uk'>Chaos City</a>.<br><a href='https://chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>",
-    // ]);
-
-    // try {
-    //     $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
-    //     print_r($result);
-    // } catch (Exception $e) {
-    //     echo 'Exception when calling TransactionalEmailsApi->sendTransacEmail: ', $e->getMessage(), PHP_EOL;
-    //     exit;
-    // }
+    exit();
 
     // $apikey = '7dc2ad83e7f15563b1dee7d48109dbb7';
     // $apisecret = '15326068ed7ef53039e03ca05662bde2';
@@ -161,8 +145,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     //     ]
     // ];
     // $response = $mj->post(Resources::$Email, ['body' => $body]);
-
-
 
     $db->query("UPDATE grpgusers SET forgot_password = ? WHERE email = ? AND username = ? LIMIT 1");
     $db->execute([$token, $row['email'], $username]);
