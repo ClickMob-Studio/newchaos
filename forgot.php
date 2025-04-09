@@ -115,8 +115,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $mailer->Subject = 'Chaos City - Password Reset';
     $mailer->Body = "<h3>Dear $username, You have requested a new password reset at <a href='http://chaoscity.co.uk'>Chaos City</a>.<br><a href='https://chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>";
 
-    if (!$mail->send()) {
-        echo 'Mailer Error: ' . $mail->ErrorInfo;
+    if (!$mailer->send()) {
+        echo 'Mailer Error: ' . $mailer->ErrorInfo;
     } else {
         echo 'Message sent!';
     }
