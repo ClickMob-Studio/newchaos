@@ -121,19 +121,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $db->query("UPDATE grpgusers SET forgot_password = ? WHERE email = ? AND username = ? LIMIT 1");
     $db->execute([$token, $row['email'], $username]);
 
-    if (!$mailer->send()) {
-        echo 'Mailer Error: ' . $mailer->ErrorInfo;
-    } else {
-        echo 'Message has been sent';
-    }
-
     // if (!$mailer->send()) {
-    //     $_SESSION['failmessage'] = "Failed to send email. Please try again.";
-    //     header("Location: forgot.php");
+    //     echo 'Mailer Error: ' . $mailer->ErrorInfo;
     // } else {
-    //     $_SESSION['failmessage'] = "Password reset instructions have been sent to " . $email;
-    //     header("Location: forgot.php");
+    //     echo 'Message has been sent';
     // }
+
+    if (!$mailer->send()) {
+        $_SESSION['failmessage'] = "Failed to send email. Please try again.";
+        header("Location: forgot.php");
+    } else {
+        $_SESSION['failmessage'] = "Password reset instructions have been sent to " . $email;
+        header("Location: forgot.php");
+    }
     exit();
 
     // $apikey = '7dc2ad83e7f15563b1dee7d48109dbb7';
