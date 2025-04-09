@@ -596,7 +596,7 @@ $currentTime = time();
 
 $query = "
     UPDATE grpgusers g
-    LEFT JOIN temp_item_use t ON g.id = t.user_id
+    LEFT JOIN item_temp_use t ON g.id = t.user_id
     SET g.cityturns = g.cityturns + 
         CASE 
             WHEN t.maze_boost IS NOT NULL AND t.maze_boost > :currentTime AND g.cityturns < 50 THEN 2
