@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'dd0d4932ee0e35fe034747a476357986aba3c11f',
+        'reference' => 'bf79e510792c46e6f47646ac784a56964b1aa2f1',
         'name' => 'mailjet/mailjet-apiv3-php',
         'dev' => true,
     ),
@@ -47,15 +47,6 @@
             'install_path' => __DIR__ . '/../evenement/evenement',
             'aliases' => array(),
             'reference' => '6ba9a777870ab49f417e703229d53931ed40fd7a',
-            'dev_requirement' => false,
-        ),
-        'getbrevo/brevo-php' => array(
-            'pretty_version' => 'v1.0.0',
-            'version' => '1.0.0.0',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../getbrevo/brevo-php',
-            'aliases' => array(),
-            'reference' => '7c4992db95c5f1ddbd6d5600f47baf4f11847899',
             'dev_requirement' => false,
         ),
         'guzzlehttp/guzzle' => array(
@@ -117,7 +108,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'dd0d4932ee0e35fe034747a476357986aba3c11f',
+            'reference' => 'bf79e510792c46e6f47646ac784a56964b1aa2f1',
             'dev_requirement' => false,
         ),
         'mockery/mockery' => array(
