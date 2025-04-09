@@ -33,10 +33,7 @@ $egg_name_by_id = array(
 				$inventory_row = $db->fetch_row(true);
 
 				if ($inventory_row['quantity'] >= $egg_quantity * $qty) {
-					// Deduct the eggs from the user's inventory
-					$db->query("UPDATE inventory SET quantity = quantity - ? WHERE userid = ? AND itemid = ?");
-					$db->execute([$egg_quantity * $qty, $user_class->id, $egg_id]);
-
+					$failed = false;
 					$item_name = '';
 
 					// Give the item to the user
@@ -63,11 +60,36 @@ $egg_name_by_id = array(
 							$row['maze'] * $qty,
 							$user_class->id
 						));
-					} else if ($row['achievement'] == 1) {
-					} else if ($row['achievement'] == 2) {
+					} else if ($row['achievement'] != 0) {
+						$db->query("SELECT * FROM badges WHERE id = ?");
+						$db->execute([$row["achievement"]]);
+						$badge = $db->fetch_row(true);
+						if ($badge) {
+							$item_name = $badge["name"];
+
+							$db->query("SELECT * FROM user_badges WHERE user_id = ? AND badge_id = ?");
+							$db->execute([$user_class->id, $badge['id']]);
+							if ($db->fetch_row(true)) {
+								echo Message("You already have the {$item_name} achievement.");
+								$failed = true;
+							} else {
+								$db->query("INSERT INTO user_badges (user_id, badge_id, timestamp) VALUES (?, ?, ?)");
+								$db->execute([
+									$user_class->id,
+									$badge["id"],
+									time(),
+								]);
+							}
+						}
 					}
 
-					echo Message("You have exchanged {$row['quantity']}x {$egg_name_by_id[$egg_id]} for {$qty}x {$item_name}.");
+					if (!$failed) {
+						// Deduct the eggs from the user's inventory
+						$db->query("UPDATE inventory SET quantity = quantity - ? WHERE userid = ? AND itemid = ?");
+						$db->execute([$egg_quantity * $qty, $user_class->id, $egg_id]);
+
+						echo Message("You have exchanged {$row['quantity']}x {$egg_name_by_id[$egg_id]} for {$qty}x {$item_name}.");
+					}
 				} else {
 					echo Message("You do not have enough {$egg_name_by_id[$egg_id]} to exchange for this item.");
 				}
