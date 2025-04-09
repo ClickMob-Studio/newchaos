@@ -4,6 +4,7 @@ ob_start(); // Start output buffering
 include 'dbcon.php';
 include 'database/pdo_class.php';
 require 'vendor/autoload.php';
+
 use \Mailjet\Resources;
 
 session_start();
@@ -16,7 +17,8 @@ if ($client_ip == $desired_ip) {
     exit();
 }
 
-function generateRandomToken($length = 50) {
+function generateRandomToken($length = 50)
+{
     if (function_exists('openssl_random_pseudo_bytes')) {
         return bin2hex(openssl_random_pseudo_bytes($length / 2));
     } else {
@@ -27,7 +29,7 @@ function generateRandomToken($length = 50) {
 if (isset($_GET['action']) && $_GET['action'] == 'reset') {
     $token = $_GET['token'];
     $userid = $_GET['userid'];
-    if(empty($userid)) {
+    if (empty($userid)) {
         $_SESSION['failmessage'] = "Invalid token.";
         header("Location: forgot.php");
         exit();
@@ -48,7 +50,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'reset') {
     }
 
     $row = $db->fetch_row(true);
-    
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = $_POST['password'];
         $password2 = $_POST['confirm_password'];
@@ -97,26 +99,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $row = $db->fetch_row(true);
     $token = generateRandomToken();
 
-    $apikey = '7dc2ad83e7f15563b1dee7d48109dbb7';
-    $apisecret = '15326068ed7ef53039e03ca05662bde2';
-   $mj = new \Mailjet\Client($apikey, $apisecret);
-   $email = $row['email'];
-   $userid = $row['id'];
-   $body = [
-       'FromEmail' => "admin@chaoscity.co.uk",
-       'FromName' => "Chaos City",
-       'Subject' => "Forgot Password",
-       'Text-part' => "You have requested a password reset at ChaosCity!",
-       'Html-part' => "<h3>Dear $username, You have requested a new password reset at <a href='http://chaoscity.co.uk'>Chaos City</a>.<br><a href='https://chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>",
-        'Recipients' => [
-           [
-               'Email' => $email
-           ]
-       ]
-   ];
-   $response = $mj->post(Resources::$Email, ['body' => $body]);
-   
-       
+    $config = Brevo\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key', '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');
+
+    $apiInstance = new Brevo\Client\Api\TransactionalEmailsApi(
+        new GuzzleHttp\Client(),
+        $config
+    );
+    $sendSmtpEmail = new \Brevo\Client\Model\SendSmtpEmail([
+        'subject' => 'Chaos City - Password Reset',
+        'sender' => ['name' => 'Chaos City', 'email' => 'noreply@chaoscity.co.uk'],
+        'replyTo' => ['name' => 'noreply', 'email' => 'noreply@chaoscity.co.uk'],
+        'to' => [['email' => 'noreply@chaoscity.co.uk']],
+        'htmlContent' => "<h3>Dear $username, You have requested a new password reset at <a href='http://chaoscity.co.uk'>Chaos City</a>.<br><a href='https://chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>",
+    ]); // \Brevo\Client\Model\SendSmtpEmail | Values to send a transactional email
+
+    try {
+        $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
+        print_r($result);
+    } catch (Exception $e) {
+        echo 'Exception when calling TransactionalEmailsApi->sendTransacEmail: ', $e->getMessage(), PHP_EOL;
+        exit;
+    }
+
+    // $apikey = '7dc2ad83e7f15563b1dee7d48109dbb7';
+    // $apisecret = '15326068ed7ef53039e03ca05662bde2';
+    // $mj = new \Mailjet\Client($apikey, $apisecret);
+    // $email = $row['email'];
+    // $userid = $row['id'];
+    // $body = [
+    //     'FromEmail' => "admin@chaoscity.co.uk",
+    //     'FromName' => "Chaos City",
+    //     'Subject' => "Forgot Password",
+    //     'Text-part' => "You have requested a password reset at ChaosCity!",
+    //     'Html-part' => "<h3>Dear $username, You have requested a new password reset at <a href='http://chaoscity.co.uk'>Chaos City</a>.<br><a href='https://chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>",
+    //     'Recipients' => [
+    //         [
+    //             'Email' => $email
+    //         ]
+    //     ]
+    // ];
+    // $response = $mj->post(Resources::$Email, ['body' => $body]);
+
+
 
     $db->query("UPDATE grpgusers SET forgot_password = ? WHERE email = ? AND username = ? LIMIT 1");
     $db->execute([$token, $row['email'], $username]);
@@ -132,17 +156,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     exit();
 }
 
-ob_end_flush(); 
+ob_end_flush();
 ?>
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Chaos City - Free text based Mafia Crime MMORPG</title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-    <meta name="description" content="Chaos City is a mafia text based role-playing game with endless opportunities. Besides committing crimes, you can run your own Front and earn lots of money with your business. Being a successful businessman assumes participating in courses, so you could acquire new skills. Do you have what it takes?">
-    <meta name="keywords" content="mafia, rpg, online, crime, game, hustle, Chaos CIty, mmorpg, pocket mafia, text based, wars, text based rpg">
+    <meta name="description"
+        content="Chaos City is a mafia text based role-playing game with endless opportunities. Besides committing crimes, you can run your own Front and earn lots of money with your business. Being a successful businessman assumes participating in courses, so you could acquire new skills. Do you have what it takes?">
+    <meta name="keywords"
+        content="mafia, rpg, online, crime, game, hustle, Chaos CIty, mmorpg, pocket mafia, text based, wars, text based rpg">
     <meta property="og:title" content="Chaos CIty - Free text based RPG | Pocket Mafia | Gangster Game">
     <meta property="og:site_name" content="Chaos CIty - Free text based Mafia RPG">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
@@ -151,6 +178,7 @@ ob_end_flush();
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
     <img class="dcMascot d-none d-lg-block" src="/asset/img/man1.png">
     <div class="row h-100 m-0">
@@ -188,11 +216,13 @@ ob_end_flush();
                                         <input type="hidden" name="token" value="<?= htmlspecialchars($_GET['token']) ?>">
                                         <div class="mb-3">
                                             <label for="password" class="form-label">New Password</label>
-                                            <input type="password" class="form-control" id="password" name="password" required>
+                                            <input type="password" class="form-control" id="password" name="password"
+                                                required>
                                         </div>
                                         <div class="mb-3">
                                             <label for="confirm_password" class="form-label">Confirm New Password</label>
-                                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                                            <input type="password" class="form-control" id="confirm_password"
+                                                name="confirm_password" required>
                                         </div>
                                         <button type="submit" class="btn btn-primary w-100">Reset Password</button>
                                     </form>
@@ -236,4 +266,5 @@ ob_end_flush();
         </div>
     </footer>
 </body>
+
 </html>
