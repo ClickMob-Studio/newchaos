@@ -697,14 +697,18 @@ if (isset($_GET['use'])) {
                 $response = gem_bag_response($response, $gems, 2);
                 break;
             case 342:
-                $db->query("UPDATE grpgusers SET points = points + 400000, money = money + 1000000000 WHERE id = " . $user_class->id);
+                $db->query("UPDATE grpgusers SET points = points + 1250000, money = money + 1000000000 WHERE id = " . $user_class->id);
                 $db->execute();
 
                 Give_Item(344, $user_class->id, 100);
                 Give_Item(243, $user_class->id, 1);
+                Give_Item(284, $user_class->id, 1);
+                Give_Item(333, $user_class->id, 3);
+                Give_Item(334, $user_class->id, 1);
+                Give_Item(343, $user_class->id, 1);
 
                 $response['success'] = true;
-                $response['message'] = "You open your easter crate and inside find 400,000 points, $1,000,000,000, 100 x Rare Egg Baskets & 1 x Easter Statue!";
+                $response['message'] = "You open your easter crate and inside find 1,250,000 points, $1,000,000,000, 100 x Rare Egg Baskets, 1 x Easter Statue, 3 x Nerve Tonic, 1 x Balls of Steel & 1 x Ghost Vacuum!";
                 break;
             case 345:
                 $tempItemUse = getItemTempUse($user_class->id);

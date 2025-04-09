@@ -1088,6 +1088,19 @@ include 'header.php';
                             </ul>
                         <?php endif; ?>
 
+                        <?php if ($limitedPack['id'] == 13): ?>
+                            <p>Pack Contains:</p>
+                            <ul>
+                                <li>1,250,000 Points</li>
+                                <li>$1,000,000,000</li>
+                                <li>100 x <?= item_popup('Easter Egg Basket', 344) ?></li>
+                                <li>1 x <?= item_popup('Easter Statue', 343) ?></li>
+                                <li>3 x <?= item_popup('Nerve Tonic', 333) ?></li>
+                                <li>1 x <?= item_popup('Balls of Steel', 334) ?></li>
+                                <li>1 x <?= item_popup('Ghost Vacuum', 284) ?></li>
+                            </ul>
+                        <?php endif; ?>
+
                         <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img>
                                 <?php echo $limitedPack['gold_cost'] ?></font>
                         </h4>
