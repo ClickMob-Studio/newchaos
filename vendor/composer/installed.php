@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'bf79e510792c46e6f47646ac784a56964b1aa2f1',
+        'reference' => 'f94e2fc377eea349e7c404923c61a0eed0618169',
         'name' => 'mailjet/mailjet-apiv3-php',
         'dev' => true,
     ),
@@ -108,7 +108,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'bf79e510792c46e6f47646ac784a56964b1aa2f1',
+            'reference' => 'f94e2fc377eea349e7c404923c61a0eed0618169',
             'dev_requirement' => false,
         ),
         'mockery/mockery' => array(
@@ -521,6 +521,15 @@
             'aliases' => array(),
             'reference' => 'c6c1022351a901512170118436c764e473f6de8c',
             'dev_requirement' => true,
+        ),
+        'sendinblue/api-v3-sdk' => array(
+            'pretty_version' => 'v3.0.0',
+            'version' => '3.0.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../sendinblue/api-v3-sdk',
+            'aliases' => array(),
+            'reference' => '77305296880c4aa77ea2269a17e3facee4cb7496',
+            'dev_requirement' => false,
         ),
         'symfony/config' => array(
             'pretty_version' => 'v5.4.46',

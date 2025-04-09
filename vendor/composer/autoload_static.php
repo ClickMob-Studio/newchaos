@@ -48,6 +48,7 @@ class ComposerStaticInit1c4faa5ae4011691122fa96ea893a4ce
             'Symfony\\Component\\Filesystem\\' => 29,
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\Config\\' => 25,
+            'SendinBlue\\Client\\' => 18,
         ),
         'R' => 
         array (
@@ -159,6 +160,10 @@ class ComposerStaticInit1c4faa5ae4011691122fa96ea893a4ce
         'Symfony\\Component\\Config\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/config',
+        ),
+        'SendinBlue\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sendinblue/api-v3-sdk/lib',
         ),
         'React\\Stream\\' => 
         array (

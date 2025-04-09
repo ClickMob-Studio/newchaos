@@ -6,9 +6,6 @@ include 'database/pdo_class.php';
 
 require_once(__DIR__ . '/vendor/autoload.php');
 
-use \Brevo\Client;
-use \Brevo\Client\Configuration;
-
 session_start();
 
 $desired_ip = '142.116.133.64';
@@ -101,19 +98,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $row = $db->fetch_row(true);
     $token = generateRandomToken();
 
-    $config = Brevo\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key', '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');
+    $config = SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key', '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');
+    $apiInstance = new SendinBlue\Client\Api\TransactionalEmailsApi(new GuzzleHttp\Client(), $config);
 
-    $apiInstance = new Brevo\Client\Api\TransactionalEmailsApi(
-        new GuzzleHttp\Client(),
-        $config
-    );
-    $sendSmtpEmail = new \Brevo\Client\Model\SendSmtpEmail([
+    $sendSmtpEmail = new \SendinBlue\Client\Model\SendSmtpEmail([
         'subject' => 'Chaos City - Password Reset',
         'sender' => ['name' => 'Chaos City', 'email' => 'noreply@chaoscity.co.uk'],
-        'replyTo' => ['name' => 'noreply', 'email' => 'noreply@chaoscity.co.uk'],
         'to' => [['email' => 'noreply@chaoscity.co.uk']],
         'htmlContent' => "<h3>Dear $username, You have requested a new password reset at <a href='http://chaoscity.co.uk'>Chaos City</a>.<br><a href='https://chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>",
-    ]); // \Brevo\Client\Model\SendSmtpEmail | Values to send a transactional email
+    ]);
 
     try {
         $result = $apiInstance->sendTransacEmail($sendSmtpEmail);
