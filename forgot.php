@@ -119,10 +119,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $db->execute([$token, $row['email'], $username]);
 
     if (!$mailer->send()) {
-        $_SESSION['failmessage'] = "Password reset instructions have been sent to your email.";
+        $_SESSION['failmessage'] = "Failed to send email. Please try again.";
         header("Location: forgot.php");
     } else {
-        $_SESSION['failmessage'] = "Failed to send email. Please try again.";
+        $_SESSION['failmessage'] = "Password reset instructions have been sent to your email.";
         header("Location: forgot.php");
     }
     exit();
