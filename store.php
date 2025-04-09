@@ -1371,7 +1371,7 @@ include 'header.php';
         <?php if ($user_class->admin == 1): ?>
             <!-- Rare Egg Basket -->
             <div class="vip-package">
-                <h4 style="color: brown;">1 x <?= item_popup('Rare Egg Basket', 344); ?></h4>
+                <h4 style="color: brown;">1 x <?= item_popup('Rare Egg Basket', 344, 'brown'); ?></h4>
                 <img src="/css/images/2025/rare_easter_basket.png" height="100" alt="Mission Pass">
 
                 <h4>Purchase now for only<br><a href="store.php?buy=easterbasket"><button class="gold-button">25 <img
