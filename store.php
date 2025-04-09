@@ -1093,7 +1093,7 @@ include 'header.php';
                             <ul>
                                 <li>1,250,000 Points</li>
                                 <li>$1,000,000,000</li>
-                                <li>100 x <?= item_popup('Easter Egg Basket', 344) ?></li>
+                                <li>100 x <?= item_popup('Rare Egg Basket', 344) ?></li>
                                 <li>1 x <?= item_popup('Easter Statue', 343) ?></li>
                                 <li>5 x <?= item_popup('Nerve Tonic', 333) ?></li>
                                 <li>2 x <?= item_popup('Balls of Steel', 334) ?></li>
@@ -1368,8 +1368,16 @@ include 'header.php';
     <hr>
     <div class="items-upgrades"
         style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
+        <!-- Rare Egg Basket -->
+        <div class="vip-package">
+            <h4 style="color: brown;">1 x <?= item_popup('Rare Egg Basket', 344); ?></h4>
+            <img src="/css/images/2025/rare_easter_basket.png" height="100" alt="Mission Pass">
 
-        <!-- Limited Edition Pack 1 -->
+            <h4>Purchase now for only<br><a href="store.php?buy=easterbasket"><button class="gold-button">25 <img
+                            src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+        </div>
+
+        <!-- Mission Pass -->
         <div class="vip-package">
             <h4 style="color: brown;">1 x Mission Pass</h4>
             <img src="/css/images/NewGameImages/mission-pass.png" height="100" alt="Mission Pass">
