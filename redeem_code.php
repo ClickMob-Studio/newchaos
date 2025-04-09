@@ -9,7 +9,8 @@ if (isset($_GET['code'])) {
 
     // Example: AE9F4-FG12H-9OI82
     if (!preg_match('/^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}$/i', $code_input)) {
-        die('Invalid gift code format.');
+        header('Location: redeem_code.php?error=invalid_code');
+        exit;
     }
 
     $db->query('SELECT * FROM gift_codes WHERE code = ?');
