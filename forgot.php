@@ -105,12 +105,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     $mailer->Username = '89f561001@smtp-brevo.com';
     $mailer->Password = 'PVKxjvyR1CHG8TzM';
     $mailer->SMTPSecure = 'tls';
-    $mailer->Port = 2525;
+    $mailer->Port = 587;
 
     $email = $row['email'];
     $userid = $row['id'];
 
-    $mailer->setFrom('noreply@chaoscity.co.uk', 'Noreply');
+    $mailer->setFrom('noreply@chaoscity.co.uk', 'ChaosCity');
     $mailer->addAddress($email);
     $mailer->Subject = 'Chaos City - Password Reset';
     $mailer->Body = "<h3>Dear $username, You have requested a new password reset at <a href='http://chaoscity.co.uk'>Chaos City</a>.<br><a href='https://chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>";
