@@ -7,5 +7,4 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Mailjet' => array($baseDir . '/src'),
-    'Evenement' => array($vendorDir . '/evenement/evenement/src'),
 );
