@@ -64,7 +64,7 @@ class GetSmsCampaigns implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'campaigns' => null,
-        'count' => 'int64'
+        'count' => 'int32'
     ];
 
     public static function swaggerTypes()

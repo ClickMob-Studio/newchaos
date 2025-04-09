@@ -58,9 +58,7 @@ class CreateContact implements ArrayAccess
         'attributes' => 'object',
         'emailBlacklisted' => 'bool',
         'smsBlacklisted' => 'bool',
-        'listIds' => 'int[]',
-        'updateEnabled' => 'bool',
-        'smtpBlacklistSender' => 'string[]'
+        'listIds' => 'int[]'
     ];
 
     /**
@@ -72,9 +70,7 @@ class CreateContact implements ArrayAccess
         'attributes' => null,
         'emailBlacklisted' => null,
         'smsBlacklisted' => null,
-        'listIds' => 'int64',
-        'updateEnabled' => null,
-        'smtpBlacklistSender' => 'email'
+        'listIds' => 'int32'
     ];
 
     public static function swaggerTypes()
@@ -96,9 +92,7 @@ class CreateContact implements ArrayAccess
         'attributes' => 'attributes',
         'emailBlacklisted' => 'emailBlacklisted',
         'smsBlacklisted' => 'smsBlacklisted',
-        'listIds' => 'listIds',
-        'updateEnabled' => 'updateEnabled',
-        'smtpBlacklistSender' => 'smtpBlacklistSender'
+        'listIds' => 'listIds'
     ];
 
 
@@ -111,9 +105,7 @@ class CreateContact implements ArrayAccess
         'attributes' => 'setAttributes',
         'emailBlacklisted' => 'setEmailBlacklisted',
         'smsBlacklisted' => 'setSmsBlacklisted',
-        'listIds' => 'setListIds',
-        'updateEnabled' => 'setUpdateEnabled',
-        'smtpBlacklistSender' => 'setSmtpBlacklistSender'
+        'listIds' => 'setListIds'
     ];
 
 
@@ -126,9 +118,7 @@ class CreateContact implements ArrayAccess
         'attributes' => 'getAttributes',
         'emailBlacklisted' => 'getEmailBlacklisted',
         'smsBlacklisted' => 'getSmsBlacklisted',
-        'listIds' => 'getListIds',
-        'updateEnabled' => 'getUpdateEnabled',
-        'smtpBlacklistSender' => 'getSmtpBlacklistSender'
+        'listIds' => 'getListIds'
     ];
 
     public static function attributeMap()
@@ -167,8 +157,6 @@ class CreateContact implements ArrayAccess
         $this->container['emailBlacklisted'] = isset($data['emailBlacklisted']) ? $data['emailBlacklisted'] : null;
         $this->container['smsBlacklisted'] = isset($data['smsBlacklisted']) ? $data['smsBlacklisted'] : null;
         $this->container['listIds'] = isset($data['listIds']) ? $data['listIds'] : null;
-        $this->container['updateEnabled'] = isset($data['updateEnabled']) ? $data['updateEnabled'] : false;
-        $this->container['smtpBlacklistSender'] = isset($data['smtpBlacklistSender']) ? $data['smtpBlacklistSender'] : null;
     }
 
     /**
@@ -297,48 +285,6 @@ class CreateContact implements ArrayAccess
     public function setListIds($listIds)
     {
         $this->container['listIds'] = $listIds;
-
-        return $this;
-    }
-
-    /**
-     * Gets updateEnabled
-     * @return bool
-     */
-    public function getUpdateEnabled()
-    {
-        return $this->container['updateEnabled'];
-    }
-
-    /**
-     * Sets updateEnabled
-     * @param bool $updateEnabled Facilitate to update existing contact in same request (updateEnabled = true)
-     * @return $this
-     */
-    public function setUpdateEnabled($updateEnabled)
-    {
-        $this->container['updateEnabled'] = $updateEnabled;
-
-        return $this;
-    }
-
-    /**
-     * Gets smtpBlacklistSender
-     * @return string[]
-     */
-    public function getSmtpBlacklistSender()
-    {
-        return $this->container['smtpBlacklistSender'];
-    }
-
-    /**
-     * Sets smtpBlacklistSender
-     * @param string[] $smtpBlacklistSender SMTP forbidden sender for contact. Use only for email Contact ( only available if updateEnabled = true )
-     * @return $this
-     */
-    public function setSmtpBlacklistSender($smtpBlacklistSender)
-    {
-        $this->container['smtpBlacklistSender'] = $smtpBlacklistSender;
 
         return $this;
     }

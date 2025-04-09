@@ -1,6 +1,6 @@
 <?php
 /**
- * RequestSmsRecipientExport
+ * RequestSMSRecipientExport
  *
  * PHP version 5
  *
@@ -32,14 +32,14 @@ namespace SendinBlue\Client\Model;
 use \ArrayAccess;
 
 /**
- * RequestSmsRecipientExport Class Doc Comment
+ * RequestSMSRecipientExport Class Doc Comment
  *
  * @category    Class
  * @package     SendinBlue\Client
  * @author      Swagger Codegen team
  * @link        https://github.com/swagger-api/swagger-codegen
  */
-class RequestSmsRecipientExport implements ArrayAccess
+class RequestSMSRecipientExport implements ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -47,7 +47,7 @@ class RequestSmsRecipientExport implements ArrayAccess
       * The original name of the model.
       * @var string
       */
-    protected static $swaggerModelName = 'requestSmsRecipientExport';
+    protected static $swaggerModelName = 'requestSMSRecipientExport';
 
     /**
       * Array of property to type mappings. Used for (de)serialization

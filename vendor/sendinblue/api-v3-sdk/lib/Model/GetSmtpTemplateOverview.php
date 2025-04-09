@@ -64,8 +64,8 @@ class GetSmtpTemplateOverview implements ArrayAccess
         'toField' => 'string',
         'tag' => 'string',
         'htmlContent' => 'string',
-        'createdAt' => '\DateTime',
-        'modifiedAt' => '\DateTime'
+        'createdAt' => 'string',
+        'modifiedAt' => 'string'
     ];
 
     /**
@@ -73,7 +73,7 @@ class GetSmtpTemplateOverview implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'id' => 'int64',
+        'id' => 'int32',
         'name' => null,
         'subject' => null,
         'isActive' => null,
@@ -83,8 +83,8 @@ class GetSmtpTemplateOverview implements ArrayAccess
         'toField' => null,
         'tag' => null,
         'htmlContent' => null,
-        'createdAt' => 'date-time',
-        'modifiedAt' => 'date-time'
+        'createdAt' => null,
+        'modifiedAt' => null
     ];
 
     public static function swaggerTypes()
@@ -240,9 +240,17 @@ class GetSmtpTemplateOverview implements ArrayAccess
         if ($this->container['createdAt'] === null) {
             $invalid_properties[] = "'createdAt' can't be null";
         }
+        if (!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/", $this->container['createdAt'])) {
+            $invalid_properties[] = "invalid value for 'createdAt', must be conform to the pattern /^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/.";
+        }
+
         if ($this->container['modifiedAt'] === null) {
             $invalid_properties[] = "'modifiedAt' can't be null";
         }
+        if (!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/", $this->container['modifiedAt'])) {
+            $invalid_properties[] = "invalid value for 'modifiedAt', must be conform to the pattern /^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/.";
+        }
+
         return $invalid_properties;
     }
 
@@ -285,7 +293,13 @@ class GetSmtpTemplateOverview implements ArrayAccess
         if ($this->container['createdAt'] === null) {
             return false;
         }
+        if (!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/", $this->container['createdAt'])) {
+            return false;
+        }
         if ($this->container['modifiedAt'] === null) {
+            return false;
+        }
+        if (!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/", $this->container['modifiedAt'])) {
             return false;
         }
         return true;
@@ -504,7 +518,7 @@ class GetSmtpTemplateOverview implements ArrayAccess
 
     /**
      * Gets createdAt
-     * @return \DateTime
+     * @return string
      */
     public function getCreatedAt()
     {
@@ -513,11 +527,16 @@ class GetSmtpTemplateOverview implements ArrayAccess
 
     /**
      * Sets createdAt
-     * @param \DateTime $createdAt Creation UTC date-time of the template (YYYY-MM-DDTHH:mm:ss.SSSZ)
+     * @param string $createdAt Creation date of the template (YYYY-MM-DD HH:mm:ss)
      * @return $this
      */
     public function setCreatedAt($createdAt)
     {
+
+        if ((!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/", $createdAt))) {
+            throw new \InvalidArgumentException("invalid value for $createdAt when calling GetSmtpTemplateOverview., must conform to the pattern /^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/.");
+        }
+
         $this->container['createdAt'] = $createdAt;
 
         return $this;
@@ -525,7 +544,7 @@ class GetSmtpTemplateOverview implements ArrayAccess
 
     /**
      * Gets modifiedAt
-     * @return \DateTime
+     * @return string
      */
     public function getModifiedAt()
     {
@@ -534,11 +553,16 @@ class GetSmtpTemplateOverview implements ArrayAccess
 
     /**
      * Sets modifiedAt
-     * @param \DateTime $modifiedAt Last modification UTC date-time of the template (YYYY-MM-DDTHH:mm:ss.SSSZ)
+     * @param string $modifiedAt Last modification date of the template (YYYY-MM-DD HH:mm:ss)
      * @return $this
      */
     public function setModifiedAt($modifiedAt)
     {
+
+        if ((!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/", $modifiedAt))) {
+            throw new \InvalidArgumentException("invalid value for $modifiedAt when calling GetSmtpTemplateOverview., must conform to the pattern /^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/.");
+        }
+
         $this->container['modifiedAt'] = $modifiedAt;
 
         return $this;

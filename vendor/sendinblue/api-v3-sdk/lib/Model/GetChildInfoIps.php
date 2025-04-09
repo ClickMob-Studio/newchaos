@@ -63,7 +63,7 @@ class GetChildInfoIps implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'id' => 'int64',
+        'id' => 'int32',
         'ip' => 'ip'
     ];
 

@@ -64,7 +64,7 @@ class GetFolders implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'folders' => null,
-        'count' => 'int64'
+        'count' => 'int32'
     ];
 
     public static function swaggerTypes()

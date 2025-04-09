@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **createFolder**
-> \SendinBlue\Client\Model\CreateModel createFolder($createFolder)
+> \SendinBlue\Client\Model\CreateModel createFolder($name)
 
 Create a folder
 
@@ -28,10 +28,10 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\FoldersApi();
-$createFolder = new \SendinBlue\Client\Model\CreateUpdateFolder(); // \SendinBlue\Client\Model\CreateUpdateFolder | Name of the folder
+$name = new \SendinBlue\Client\Model\CreaUpdateFolder(); // \SendinBlue\Client\Model\CreaUpdateFolder | Name of the folder
 
 try {
-    $result = $api_instance->createFolder($createFolder);
+    $result = $api_instance->createFolder($name);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FoldersApi->createFolder: ', $e->getMessage(), PHP_EOL;
@@ -43,7 +43,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createFolder** | [**\SendinBlue\Client\Model\CreateUpdateFolder**](../Model/CreateUpdateFolder.md)| Name of the folder |
+ **name** | [**\SendinBlue\Client\Model\CreaUpdateFolder**](../Model/CreaUpdateFolder.md)| Name of the folder |
 
 ### Return type
 
@@ -76,7 +76,7 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\FoldersApi();
-$folderId = 789; // int | Id of the folder
+$folderId = "folderId_example"; // string | Id of the folder
 
 try {
     $api_instance->deleteFolder($folderId);
@@ -90,7 +90,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **folderId** | **int**| Id of the folder |
+ **folderId** | **string**| Id of the folder |
 
 ### Return type
 
@@ -123,7 +123,7 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\FoldersApi();
-$folderId = 789; // int | id of the folder
+$folderId = "folderId_example"; // string | id of the folder
 
 try {
     $result = $api_instance->getFolder($folderId);
@@ -138,7 +138,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **folderId** | **int**| id of the folder |
+ **folderId** | **string**| id of the folder |
 
 ### Return type
 
@@ -171,7 +171,7 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\FoldersApi();
-$folderId = 789; // int | Id of the folder
+$folderId = "folderId_example"; // string | Id of the folder
 $limit = 10; // int | Number of documents per page
 $offset = 0; // int | Index of the first document of the page
 
@@ -188,7 +188,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **folderId** | **int**| Id of the folder |
+ **folderId** | **string**| Id of the folder |
  **limit** | **int**| Number of documents per page | [optional] [default to 10]
  **offset** | **int**| Index of the first document of the page | [optional] [default to 0]
 
@@ -258,7 +258,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **updateFolder**
-> updateFolder($folderId, $updateFolder)
+> updateFolder($folderId, $name)
 
 Update a contact folder
 
@@ -273,11 +273,11 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\FoldersApi();
-$folderId = 789; // int | Id of the folder
-$updateFolder = new \SendinBlue\Client\Model\CreateUpdateFolder(); // \SendinBlue\Client\Model\CreateUpdateFolder | Name of the folder
+$folderId = "folderId_example"; // string | Id of the folder
+$name = new \SendinBlue\Client\Model\CreaUpdateFolder(); // \SendinBlue\Client\Model\CreaUpdateFolder | Name of the folder
 
 try {
-    $api_instance->updateFolder($folderId, $updateFolder);
+    $api_instance->updateFolder($folderId, $name);
 } catch (Exception $e) {
     echo 'Exception when calling FoldersApi->updateFolder: ', $e->getMessage(), PHP_EOL;
 }
@@ -288,8 +288,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **folderId** | **int**| Id of the folder |
- **updateFolder** | [**\SendinBlue\Client\Model\CreateUpdateFolder**](../Model/CreateUpdateFolder.md)| Name of the folder |
+ **folderId** | **string**| Id of the folder |
+ **name** | [**\SendinBlue\Client\Model\CreaUpdateFolder**](../Model/CreaUpdateFolder.md)| Name of the folder |
 
 ### Return type
 

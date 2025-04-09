@@ -83,11 +83,4 @@ class SendSmsTest extends \PHPUnit_Framework_TestCase
     public function testPropertyReference()
     {
     }
-
-    /**
-     * Test attribute "messageId"
-     */
-    public function testPropertyMessageId()
-    {
-    }
 }

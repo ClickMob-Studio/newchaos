@@ -67,8 +67,8 @@ class GetExtendedCampaignStats implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'campaignStats' => null,
-        'mirrorClick' => 'int64',
-        'remaining' => 'int64',
+        'mirrorClick' => 'int32',
+        'remaining' => 'int32',
         'linksStats' => null,
         'statsByDomain' => null
     ];

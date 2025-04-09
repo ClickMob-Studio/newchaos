@@ -59,8 +59,8 @@ class GetWebhook implements ArrayAccess
         'description' => 'string',
         'events' => 'string[]',
         'type' => 'string',
-        'createdAt' => '\DateTime',
-        'modifiedAt' => '\DateTime'
+        'createdAt' => 'string',
+        'modifiedAt' => 'string'
     ];
 
     /**
@@ -69,12 +69,12 @@ class GetWebhook implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'url' => 'url',
-        'id' => 'int64',
+        'id' => 'int32',
         'description' => null,
         'events' => null,
         'type' => null,
-        'createdAt' => 'date-time',
-        'modifiedAt' => 'date-time'
+        'createdAt' => null,
+        'modifiedAt' => null
     ];
 
     public static function swaggerTypes()
@@ -220,9 +220,17 @@ class GetWebhook implements ArrayAccess
         if ($this->container['createdAt'] === null) {
             $invalid_properties[] = "'createdAt' can't be null";
         }
+        if (!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2})?$/", $this->container['createdAt'])) {
+            $invalid_properties[] = "invalid value for 'createdAt', must be conform to the pattern /^([1-9]\\d{3}-\\d{2}-\\d{2})?$/.";
+        }
+
         if ($this->container['modifiedAt'] === null) {
             $invalid_properties[] = "'modifiedAt' can't be null";
         }
+        if (!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2})?$/", $this->container['modifiedAt'])) {
+            $invalid_properties[] = "invalid value for 'modifiedAt', must be conform to the pattern /^([1-9]\\d{3}-\\d{2}-\\d{2})?$/.";
+        }
+
         return $invalid_properties;
     }
 
@@ -257,7 +265,13 @@ class GetWebhook implements ArrayAccess
         if ($this->container['createdAt'] === null) {
             return false;
         }
+        if (!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2})?$/", $this->container['createdAt'])) {
+            return false;
+        }
         if ($this->container['modifiedAt'] === null) {
+            return false;
+        }
+        if (!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2})?$/", $this->container['modifiedAt'])) {
             return false;
         }
         return true;
@@ -380,7 +394,7 @@ class GetWebhook implements ArrayAccess
 
     /**
      * Gets createdAt
-     * @return \DateTime
+     * @return string
      */
     public function getCreatedAt()
     {
@@ -389,11 +403,16 @@ class GetWebhook implements ArrayAccess
 
     /**
      * Sets createdAt
-     * @param \DateTime $createdAt Creation UTC date-time of the webhook (YYYY-MM-DDTHH:mm:ss.SSSZ)
+     * @param string $createdAt Creation date of the webhook (YYYY-MM-DD)
      * @return $this
      */
     public function setCreatedAt($createdAt)
     {
+
+        if ((!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2})?$/", $createdAt))) {
+            throw new \InvalidArgumentException("invalid value for $createdAt when calling GetWebhook., must conform to the pattern /^([1-9]\\d{3}-\\d{2}-\\d{2})?$/.");
+        }
+
         $this->container['createdAt'] = $createdAt;
 
         return $this;
@@ -401,7 +420,7 @@ class GetWebhook implements ArrayAccess
 
     /**
      * Gets modifiedAt
-     * @return \DateTime
+     * @return string
      */
     public function getModifiedAt()
     {
@@ -410,11 +429,16 @@ class GetWebhook implements ArrayAccess
 
     /**
      * Sets modifiedAt
-     * @param \DateTime $modifiedAt Last modification UTC date-time of the webhook (YYYY-MM-DDTHH:mm:ss.SSSZ)
+     * @param string $modifiedAt Last modification date of the webhook (YYYY-MM-DD)
      * @return $this
      */
     public function setModifiedAt($modifiedAt)
     {
+
+        if ((!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2})?$/", $modifiedAt))) {
+            throw new \InvalidArgumentException("invalid value for $modifiedAt when calling GetWebhook., must conform to the pattern /^([1-9]\\d{3}-\\d{2}-\\d{2})?$/.");
+        }
+
         $this->container['modifiedAt'] = $modifiedAt;
 
         return $this;

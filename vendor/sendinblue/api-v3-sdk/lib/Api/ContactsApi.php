@@ -92,7 +92,7 @@ class ContactsApi
      *
      * Add existing contacts to a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @param \SendinBlue\Client\Model\AddRemoveContactToList $contactEmails Emails addresses of the contacts (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return \SendinBlue\Client\Model\PostContactInfo
@@ -108,7 +108,7 @@ class ContactsApi
      *
      * Add existing contacts to a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @param \SendinBlue\Client\Model\AddRemoveContactToList $contactEmails Emails addresses of the contacts (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of \SendinBlue\Client\Model\PostContactInfo, HTTP status code, HTTP response headers (array of strings)
@@ -196,47 +196,35 @@ class ContactsApi
     /**
      * Operation createAttribute
      *
-     * Creates contact attribute
+     * Creates contact attributes
      *
-     * @param string $attributeCategory Category of the attribute (required)
-     * @param string $attributeName Name of the attribute (required)
      * @param \SendinBlue\Client\Model\CreateAttribute $createAttribute Values to create an attribute (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
-     * @return void
+     * @return \SendinBlue\Client\Model\CreateModel
      */
-    public function createAttribute($attributeCategory, $attributeName, $createAttribute)
+    public function createAttribute($createAttribute)
     {
-        list($response) = $this->createAttributeWithHttpInfo($attributeCategory, $attributeName, $createAttribute);
+        list($response) = $this->createAttributeWithHttpInfo($createAttribute);
         return $response;
     }
 
     /**
      * Operation createAttributeWithHttpInfo
      *
-     * Creates contact attribute
+     * Creates contact attributes
      *
-     * @param string $attributeCategory Category of the attribute (required)
-     * @param string $attributeName Name of the attribute (required)
      * @param \SendinBlue\Client\Model\CreateAttribute $createAttribute Values to create an attribute (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
+     * @return array of \SendinBlue\Client\Model\CreateModel, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createAttributeWithHttpInfo($attributeCategory, $attributeName, $createAttribute)
+    public function createAttributeWithHttpInfo($createAttribute)
     {
-        // verify the required parameter 'attributeCategory' is set
-        if ($attributeCategory === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $attributeCategory when calling createAttribute');
-        }
-        // verify the required parameter 'attributeName' is set
-        if ($attributeName === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $attributeName when calling createAttribute');
-        }
         // verify the required parameter 'createAttribute' is set
         if ($createAttribute === null) {
             throw new \InvalidArgumentException('Missing the required parameter $createAttribute when calling createAttribute');
         }
         // parse inputs
-        $resourcePath = "/contacts/attributes/{attributeCategory}/{attributeName}";
+        $resourcePath = "/contacts/attributes";
         $httpBody = '';
         $queryParams = [];
         $headerParams = [];
@@ -247,22 +235,6 @@ class ContactsApi
         }
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
-        // path params
-        if ($attributeCategory !== null) {
-            $resourcePath = str_replace(
-                "{" . "attributeCategory" . "}",
-                $this->apiClient->getSerializer()->toPathValue($attributeCategory),
-                $resourcePath
-            );
-        }
-        // path params
-        if ($attributeName !== null) {
-            $resourcePath = str_replace(
-                "{" . "attributeName" . "}",
-                $this->apiClient->getSerializer()->toPathValue($attributeName),
-                $resourcePath
-            );
-        }
         // body params
         $_tempBody = null;
         if (isset($createAttribute)) {
@@ -288,13 +260,17 @@ class ContactsApi
                 $queryParams,
                 $httpBody,
                 $headerParams,
-                null,
-                '/contacts/attributes/{attributeCategory}/{attributeName}'
+                '\SendinBlue\Client\Model\CreateModel',
+                '/contacts/attributes'
             );
 
-            return [null, $statusCode, $httpHeader];
+            return [$this->apiClient->getSerializer()->deserialize($response, '\SendinBlue\Client\Model\CreateModel', $httpHeader), $statusCode, $httpHeader];
         } catch (ApiException $e) {
             switch ($e->getCode()) {
+                case 201:
+                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\SendinBlue\Client\Model\CreateModel', $e->getResponseHeaders());
+                    $e->setResponseObject($data);
+                    break;
                 case 400:
                     $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\SendinBlue\Client\Model\ErrorModel', $e->getResponseHeaders());
                     $e->setResponseObject($data);
@@ -398,13 +374,13 @@ class ContactsApi
      *
      * Create a folder
      *
-     * @param \SendinBlue\Client\Model\CreateUpdateFolder $createFolder Name of the folder (required)
+     * @param \SendinBlue\Client\Model\CreaUpdateFolder $name Name of the folder (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return \SendinBlue\Client\Model\CreateModel
      */
-    public function createFolder($createFolder)
+    public function createFolder($name)
     {
-        list($response) = $this->createFolderWithHttpInfo($createFolder);
+        list($response) = $this->createFolderWithHttpInfo($name);
         return $response;
     }
 
@@ -413,15 +389,15 @@ class ContactsApi
      *
      * Create a folder
      *
-     * @param \SendinBlue\Client\Model\CreateUpdateFolder $createFolder Name of the folder (required)
+     * @param \SendinBlue\Client\Model\CreaUpdateFolder $name Name of the folder (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of \SendinBlue\Client\Model\CreateModel, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createFolderWithHttpInfo($createFolder)
+    public function createFolderWithHttpInfo($name)
     {
-        // verify the required parameter 'createFolder' is set
-        if ($createFolder === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $createFolder when calling createFolder');
+        // verify the required parameter 'name' is set
+        if ($name === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $name when calling createFolder');
         }
         // parse inputs
         $resourcePath = "/contacts/folders";
@@ -437,8 +413,8 @@ class ContactsApi
 
         // body params
         $_tempBody = null;
-        if (isset($createFolder)) {
-            $_tempBody = $createFolder;
+        if (isset($name)) {
+            $_tempBody = $name;
         }
 
         // for model (json/xml)
@@ -574,14 +550,13 @@ class ContactsApi
      *
      * Deletes an attribute
      *
-     * @param string $attributeCategory Category of the attribute (required)
-     * @param string $attributeName Name of the existing attribute (required)
+     * @param string $attributeId id of the attribute (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return void
      */
-    public function deleteAttribute($attributeCategory, $attributeName)
+    public function deleteAttribute($attributeId)
     {
-        list($response) = $this->deleteAttributeWithHttpInfo($attributeCategory, $attributeName);
+        list($response) = $this->deleteAttributeWithHttpInfo($attributeId);
         return $response;
     }
 
@@ -590,23 +565,18 @@ class ContactsApi
      *
      * Deletes an attribute
      *
-     * @param string $attributeCategory Category of the attribute (required)
-     * @param string $attributeName Name of the existing attribute (required)
+     * @param string $attributeId id of the attribute (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function deleteAttributeWithHttpInfo($attributeCategory, $attributeName)
+    public function deleteAttributeWithHttpInfo($attributeId)
     {
-        // verify the required parameter 'attributeCategory' is set
-        if ($attributeCategory === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $attributeCategory when calling deleteAttribute');
-        }
-        // verify the required parameter 'attributeName' is set
-        if ($attributeName === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $attributeName when calling deleteAttribute');
+        // verify the required parameter 'attributeId' is set
+        if ($attributeId === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $attributeId when calling deleteAttribute');
         }
         // parse inputs
-        $resourcePath = "/contacts/attributes/{attributeCategory}/{attributeName}";
+        $resourcePath = "/contacts/attributes/{attributeId}";
         $httpBody = '';
         $queryParams = [];
         $headerParams = [];
@@ -618,18 +588,10 @@ class ContactsApi
         $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
 
         // path params
-        if ($attributeCategory !== null) {
+        if ($attributeId !== null) {
             $resourcePath = str_replace(
-                "{" . "attributeCategory" . "}",
-                $this->apiClient->getSerializer()->toPathValue($attributeCategory),
-                $resourcePath
-            );
-        }
-        // path params
-        if ($attributeName !== null) {
-            $resourcePath = str_replace(
-                "{" . "attributeName" . "}",
-                $this->apiClient->getSerializer()->toPathValue($attributeName),
+                "{" . "attributeId" . "}",
+                $this->apiClient->getSerializer()->toPathValue($attributeId),
                 $resourcePath
             );
         }
@@ -654,7 +616,7 @@ class ContactsApi
                 $httpBody,
                 $headerParams,
                 null,
-                '/contacts/attributes/{attributeCategory}/{attributeName}'
+                '/contacts/attributes/{attributeId}'
             );
 
             return [null, $statusCode, $httpHeader];
@@ -679,7 +641,7 @@ class ContactsApi
      *
      * Delete a folder (and all its lists)
      *
-     * @param int $folderId Id of the folder (required)
+     * @param string $folderId Id of the folder (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return void
      */
@@ -694,7 +656,7 @@ class ContactsApi
      *
      * Delete a folder (and all its lists)
      *
-     * @param int $folderId Id of the folder (required)
+     * @param string $folderId Id of the folder (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -770,7 +732,7 @@ class ContactsApi
      *
      * Delete a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return void
      */
@@ -785,7 +747,7 @@ class ContactsApi
      *
      * Delete a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -1126,13 +1088,12 @@ class ContactsApi
      *
      * @param int $limit Number of documents per page (optional, default to 50)
      * @param int $offset Index of the first document of the page (optional, default to 0)
-     * @param \DateTime $modifiedSince Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result. (optional)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return \SendinBlue\Client\Model\GetContacts
      */
-    public function getContacts($limit = '50', $offset = '0', $modifiedSince = null)
+    public function getContacts($limit = '50', $offset = '0')
     {
-        list($response) = $this->getContactsWithHttpInfo($limit, $offset, $modifiedSince);
+        list($response) = $this->getContactsWithHttpInfo($limit, $offset);
         return $response;
     }
 
@@ -1143,11 +1104,10 @@ class ContactsApi
      *
      * @param int $limit Number of documents per page (optional, default to 50)
      * @param int $offset Index of the first document of the page (optional, default to 0)
-     * @param \DateTime $modifiedSince Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result. (optional)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of \SendinBlue\Client\Model\GetContacts, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getContactsWithHttpInfo($limit = '50', $offset = '0', $modifiedSince = null)
+    public function getContactsWithHttpInfo($limit = '50', $offset = '0')
     {
         if (!is_null($limit) && ($limit > 1000)) {
             throw new \InvalidArgumentException('invalid value for "$limit" when calling ContactsApi.getContacts, must be smaller than or equal to 1000.');
@@ -1172,10 +1132,6 @@ class ContactsApi
         // query params
         if ($offset !== null) {
             $queryParams['offset'] = $this->apiClient->getSerializer()->toQueryValue($offset);
-        }
-        // query params
-        if ($modifiedSince !== null) {
-            $queryParams['modifiedSince'] = $this->apiClient->getSerializer()->toQueryValue($modifiedSince);
         }
 
         // for model (json/xml)
@@ -1223,8 +1179,8 @@ class ContactsApi
      *
      * Get the contacts in a list
      *
-     * @param int $listId Id of the list (required)
-     * @param \DateTime $modifiedSince Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result. (optional)
+     * @param string $listId Id of the list (required)
+     * @param string $modifiedSince Filter the contacts modified after a given date (YYYY-MM-DD HH:mm:ss) (optional)
      * @param int $limit Number of documents per page (optional, default to 50)
      * @param int $offset Index of the first document of the page (optional, default to 0)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
@@ -1241,8 +1197,8 @@ class ContactsApi
      *
      * Get the contacts in a list
      *
-     * @param int $listId Id of the list (required)
-     * @param \DateTime $modifiedSince Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result. (optional)
+     * @param string $listId Id of the list (required)
+     * @param string $modifiedSince Filter the contacts modified after a given date (YYYY-MM-DD HH:mm:ss) (optional)
      * @param int $limit Number of documents per page (optional, default to 50)
      * @param int $offset Index of the first document of the page (optional, default to 0)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
@@ -1254,6 +1210,10 @@ class ContactsApi
         if ($listId === null) {
             throw new \InvalidArgumentException('Missing the required parameter $listId when calling getContactsFromList');
         }
+        if (!is_null($modifiedSince) && !preg_match("/YYYY-MM-DD HH:mm:ss/", $modifiedSince)) {
+            throw new \InvalidArgumentException("invalid value for \"modifiedSince\" when calling ContactsApi.getContactsFromList, must conform to the pattern /YYYY-MM-DD HH:mm:ss/.");
+        }
+
         if (!is_null($limit) && ($limit > 500)) {
             throw new \InvalidArgumentException('invalid value for "$limit" when calling ContactsApi.getContactsFromList, must be smaller than or equal to 500.');
         }
@@ -1340,7 +1300,7 @@ class ContactsApi
      *
      * Returns folder details
      *
-     * @param int $folderId id of the folder (required)
+     * @param string $folderId id of the folder (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return \SendinBlue\Client\Model\GetFolder
      */
@@ -1355,7 +1315,7 @@ class ContactsApi
      *
      * Returns folder details
      *
-     * @param int $folderId id of the folder (required)
+     * @param string $folderId id of the folder (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of \SendinBlue\Client\Model\GetFolder, HTTP status code, HTTP response headers (array of strings)
      */
@@ -1435,7 +1395,7 @@ class ContactsApi
      *
      * Get the lists in a folder
      *
-     * @param int $folderId Id of the folder (required)
+     * @param string $folderId Id of the folder (required)
      * @param int $limit Number of documents per page (optional, default to 10)
      * @param int $offset Index of the first document of the page (optional, default to 0)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
@@ -1452,7 +1412,7 @@ class ContactsApi
      *
      * Get the lists in a folder
      *
-     * @param int $folderId Id of the folder (required)
+     * @param string $folderId Id of the folder (required)
      * @param int $limit Number of documents per page (optional, default to 10)
      * @param int $offset Index of the first document of the page (optional, default to 0)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
@@ -1647,7 +1607,7 @@ class ContactsApi
      *
      * Get the details of a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return \SendinBlue\Client\Model\GetExtendedList
      */
@@ -1662,7 +1622,7 @@ class ContactsApi
      *
      * Get the details of a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of \SendinBlue\Client\Model\GetExtendedList, HTTP status code, HTTP response headers (array of strings)
      */
@@ -1923,7 +1883,7 @@ class ContactsApi
      *
      * Remove existing contacts from a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @param \SendinBlue\Client\Model\AddRemoveContactToList $contactEmails Emails adresses of the contact (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return \SendinBlue\Client\Model\PostContactInfo
@@ -1939,7 +1899,7 @@ class ContactsApi
      *
      * Remove existing contacts from a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @param \SendinBlue\Client\Model\AddRemoveContactToList $contactEmails Emails adresses of the contact (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of \SendinBlue\Client\Model\PostContactInfo, HTTP status code, HTTP response headers (array of strings)
@@ -2113,122 +2073,6 @@ class ContactsApi
     }
 
     /**
-     * Operation updateAttribute
-     *
-     * Updates contact attribute
-     *
-     * @param string $attributeCategory Category of the attribute (required)
-     * @param string $attributeName Name of the existing attribute (required)
-     * @param \SendinBlue\Client\Model\UpdateAttribute $updateAttribute Values to update an attribute (required)
-     * @throws \SendinBlue\Client\ApiException on non-2xx response
-     * @return void
-     */
-    public function updateAttribute($attributeCategory, $attributeName, $updateAttribute)
-    {
-        list($response) = $this->updateAttributeWithHttpInfo($attributeCategory, $attributeName, $updateAttribute);
-        return $response;
-    }
-
-    /**
-     * Operation updateAttributeWithHttpInfo
-     *
-     * Updates contact attribute
-     *
-     * @param string $attributeCategory Category of the attribute (required)
-     * @param string $attributeName Name of the existing attribute (required)
-     * @param \SendinBlue\Client\Model\UpdateAttribute $updateAttribute Values to update an attribute (required)
-     * @throws \SendinBlue\Client\ApiException on non-2xx response
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
-     */
-    public function updateAttributeWithHttpInfo($attributeCategory, $attributeName, $updateAttribute)
-    {
-        // verify the required parameter 'attributeCategory' is set
-        if ($attributeCategory === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $attributeCategory when calling updateAttribute');
-        }
-        // verify the required parameter 'attributeName' is set
-        if ($attributeName === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $attributeName when calling updateAttribute');
-        }
-        // verify the required parameter 'updateAttribute' is set
-        if ($updateAttribute === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $updateAttribute when calling updateAttribute');
-        }
-        // parse inputs
-        $resourcePath = "/contacts/attributes/{attributeCategory}/{attributeName}";
-        $httpBody = '';
-        $queryParams = [];
-        $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
-
-        // path params
-        if ($attributeCategory !== null) {
-            $resourcePath = str_replace(
-                "{" . "attributeCategory" . "}",
-                $this->apiClient->getSerializer()->toPathValue($attributeCategory),
-                $resourcePath
-            );
-        }
-        // path params
-        if ($attributeName !== null) {
-            $resourcePath = str_replace(
-                "{" . "attributeName" . "}",
-                $this->apiClient->getSerializer()->toPathValue($attributeName),
-                $resourcePath
-            );
-        }
-        // body params
-        $_tempBody = null;
-        if (isset($updateAttribute)) {
-            $_tempBody = $updateAttribute;
-        }
-
-        // for model (json/xml)
-        if (isset($_tempBody)) {
-            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires API key authentication
-        $apiKey = $this->apiClient->getApiKeyWithPrefix('api-key');
-        if (strlen($apiKey) !== 0) {
-            $headerParams['api-key'] = $apiKey;
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'PUT',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/contacts/attributes/{attributeCategory}/{attributeName}'
-            );
-
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\SendinBlue\Client\Model\ErrorModel', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 404:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\SendinBlue\Client\Model\ErrorModel', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-            }
-
-            throw $e;
-        }
-    }
-
-    /**
      * Operation updateContact
      *
      * Updates a contact
@@ -2335,14 +2179,14 @@ class ContactsApi
      *
      * Update a contact folder
      *
-     * @param int $folderId Id of the folder (required)
-     * @param \SendinBlue\Client\Model\CreateUpdateFolder $updateFolder Name of the folder (required)
+     * @param string $folderId Id of the folder (required)
+     * @param \SendinBlue\Client\Model\CreaUpdateFolder $name Name of the folder (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return void
      */
-    public function updateFolder($folderId, $updateFolder)
+    public function updateFolder($folderId, $name)
     {
-        list($response) = $this->updateFolderWithHttpInfo($folderId, $updateFolder);
+        list($response) = $this->updateFolderWithHttpInfo($folderId, $name);
         return $response;
     }
 
@@ -2351,20 +2195,20 @@ class ContactsApi
      *
      * Update a contact folder
      *
-     * @param int $folderId Id of the folder (required)
-     * @param \SendinBlue\Client\Model\CreateUpdateFolder $updateFolder Name of the folder (required)
+     * @param string $folderId Id of the folder (required)
+     * @param \SendinBlue\Client\Model\CreaUpdateFolder $name Name of the folder (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateFolderWithHttpInfo($folderId, $updateFolder)
+    public function updateFolderWithHttpInfo($folderId, $name)
     {
         // verify the required parameter 'folderId' is set
         if ($folderId === null) {
             throw new \InvalidArgumentException('Missing the required parameter $folderId when calling updateFolder');
         }
-        // verify the required parameter 'updateFolder' is set
-        if ($updateFolder === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $updateFolder when calling updateFolder');
+        // verify the required parameter 'name' is set
+        if ($name === null) {
+            throw new \InvalidArgumentException('Missing the required parameter $name when calling updateFolder');
         }
         // parse inputs
         $resourcePath = "/contacts/folders/{folderId}";
@@ -2388,8 +2232,8 @@ class ContactsApi
         }
         // body params
         $_tempBody = null;
-        if (isset($updateFolder)) {
-            $_tempBody = $updateFolder;
+        if (isset($name)) {
+            $_tempBody = $name;
         }
 
         // for model (json/xml)
@@ -2437,7 +2281,7 @@ class ContactsApi
      *
      * Update a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @param \SendinBlue\Client\Model\UpdateList $updateList Values to update a list (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return void
@@ -2453,7 +2297,7 @@ class ContactsApi
      *
      * Update a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @param \SendinBlue\Client\Model\UpdateList $updateList Values to update a list (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)

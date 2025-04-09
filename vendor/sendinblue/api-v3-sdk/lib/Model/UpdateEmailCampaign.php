@@ -59,7 +59,7 @@ class UpdateEmailCampaign implements ArrayAccess
         'name' => 'string',
         'htmlContent' => 'string',
         'htmlUrl' => 'string',
-        'scheduledAt' => '\DateTime',
+        'scheduledAt' => 'string',
         'subject' => 'string',
         'replyTo' => 'string',
         'toField' => 'string',
@@ -83,7 +83,7 @@ class UpdateEmailCampaign implements ArrayAccess
         'name' => null,
         'htmlContent' => null,
         'htmlUrl' => 'url',
-        'scheduledAt' => 'date-time',
+        'scheduledAt' => null,
         'subject' => null,
         'replyTo' => 'email',
         'toField' => null,
@@ -240,6 +240,10 @@ class UpdateEmailCampaign implements ArrayAccess
     {
         $invalid_properties = [];
 
+        if (!is_null($this->container['scheduledAt']) && !preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/", $this->container['scheduledAt'])) {
+            $invalid_properties[] = "invalid value for 'scheduledAt', must be conform to the pattern /^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/.";
+        }
+
         return $invalid_properties;
     }
 
@@ -252,6 +256,9 @@ class UpdateEmailCampaign implements ArrayAccess
     public function valid()
     {
 
+        if (!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/", $this->container['scheduledAt'])) {
+            return false;
+        }
         return true;
     }
 
@@ -363,7 +370,7 @@ class UpdateEmailCampaign implements ArrayAccess
 
     /**
      * Gets scheduledAt
-     * @return \DateTime
+     * @return string
      */
     public function getScheduledAt()
     {
@@ -372,11 +379,16 @@ class UpdateEmailCampaign implements ArrayAccess
 
     /**
      * Sets scheduledAt
-     * @param \DateTime $scheduledAt UTC date-time on which the campaign has to run (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result.
+     * @param string $scheduledAt Date and time on which the campaign has to run (YYYY-MM-DD HH:mm:ss)
      * @return $this
      */
     public function setScheduledAt($scheduledAt)
     {
+
+        if (!is_null($scheduledAt) && (!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/", $scheduledAt))) {
+            throw new \InvalidArgumentException("invalid value for $scheduledAt when calling UpdateEmailCampaign., must conform to the pattern /^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/.");
+        }
+
         $this->container['scheduledAt'] = $scheduledAt;
 
         return $this;
@@ -477,7 +489,7 @@ class UpdateEmailCampaign implements ArrayAccess
 
     /**
      * Sets attachmentUrl
-     * @param string $attachmentUrl Absolute url of the attachment (no local file). Extension allowed: xlsx, xls, ods, docx, docm, doc, csv, pdf, txt, gif, jpg, jpeg, png, tif, tiff, rtf, bmp, cgm, css, shtml, html, htm, zip, xml, ppt, pptx, tar, ez, ics, mobi, msg, pub and eps
+     * @param string $attachmentUrl Absolute url of the attachment. Url not allowed from local machine. File must be hosted somewhere.Possilbe extension values are xlsx, xls, ods, docx, docm, doc, csv, pdf, txt, gif, jpg, jpeg, png, tif, tiff and rtf
      * @return $this
      */
     public function setAttachmentUrl($attachmentUrl)

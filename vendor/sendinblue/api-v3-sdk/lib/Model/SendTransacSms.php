@@ -57,7 +57,6 @@ class SendTransacSms implements ArrayAccess
         'sender' => 'string',
         'recipient' => 'string',
         'content' => 'string',
-        'type' => 'string',
         'tag' => 'string',
         'webUrl' => 'string'
     ];
@@ -70,7 +69,6 @@ class SendTransacSms implements ArrayAccess
         'sender' => null,
         'recipient' => null,
         'content' => null,
-        'type' => null,
         'tag' => null,
         'webUrl' => 'url'
     ];
@@ -93,7 +91,6 @@ class SendTransacSms implements ArrayAccess
         'sender' => 'sender',
         'recipient' => 'recipient',
         'content' => 'content',
-        'type' => 'type',
         'tag' => 'tag',
         'webUrl' => 'webUrl'
     ];
@@ -107,7 +104,6 @@ class SendTransacSms implements ArrayAccess
         'sender' => 'setSender',
         'recipient' => 'setRecipient',
         'content' => 'setContent',
-        'type' => 'setType',
         'tag' => 'setTag',
         'webUrl' => 'setWebUrl'
     ];
@@ -121,7 +117,6 @@ class SendTransacSms implements ArrayAccess
         'sender' => 'getSender',
         'recipient' => 'getRecipient',
         'content' => 'getContent',
-        'type' => 'getType',
         'tag' => 'getTag',
         'webUrl' => 'getWebUrl'
     ];
@@ -141,22 +136,8 @@ class SendTransacSms implements ArrayAccess
         return self::$getters;
     }
 
-    const TYPE_TRANSACTIONAL = 'transactional';
-    const TYPE_MARKETING = 'marketing';
     
 
-    
-    /**
-     * Gets allowable values of the enum
-     * @return string[]
-     */
-    public function getTypeAllowableValues()
-    {
-        return [
-            self::TYPE_TRANSACTIONAL,
-            self::TYPE_MARKETING,
-        ];
-    }
     
 
     /**
@@ -174,7 +155,6 @@ class SendTransacSms implements ArrayAccess
         $this->container['sender'] = isset($data['sender']) ? $data['sender'] : null;
         $this->container['recipient'] = isset($data['recipient']) ? $data['recipient'] : null;
         $this->container['content'] = isset($data['content']) ? $data['content'] : null;
-        $this->container['type'] = isset($data['type']) ? $data['type'] : 'transactional';
         $this->container['tag'] = isset($data['tag']) ? $data['tag'] : null;
         $this->container['webUrl'] = isset($data['webUrl']) ? $data['webUrl'] : null;
     }
@@ -205,14 +185,6 @@ class SendTransacSms implements ArrayAccess
             $invalid_properties[] = "invalid value for 'content', the character length must be smaller than or equal to 160.";
         }
 
-        $allowed_values = $this->getTypeAllowableValues();
-        if (!in_array($this->container['type'], $allowed_values)) {
-            $invalid_properties[] = sprintf(
-                "invalid value for 'type', must be one of '%s'",
-                implode("', '", $allowed_values)
-            );
-        }
-
         return $invalid_properties;
     }
 
@@ -238,10 +210,6 @@ class SendTransacSms implements ArrayAccess
             return false;
         }
         if (strlen($this->container['content']) > 160) {
-            return false;
-        }
-        $allowed_values = $this->getTypeAllowableValues();
-        if (!in_array($this->container['type'], $allowed_values)) {
             return false;
         }
         return true;
@@ -315,36 +283,6 @@ class SendTransacSms implements ArrayAccess
         }
 
         $this->container['content'] = $content;
-
-        return $this;
-    }
-
-    /**
-     * Gets type
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->container['type'];
-    }
-
-    /**
-     * Sets type
-     * @param string $type Type of the SMS
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $allowed_values = $this->getTypeAllowableValues();
-        if (!is_null($type) && !in_array($type, $allowed_values)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value for 'type', must be one of '%s'",
-                    implode("', '", $allowed_values)
-                )
-            );
-        }
-        $this->container['type'] = $type;
 
         return $this;
     }

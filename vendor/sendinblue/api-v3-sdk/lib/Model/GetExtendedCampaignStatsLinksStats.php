@@ -63,7 +63,7 @@ class GetExtendedCampaignStatsLinksStats implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'nbClick' => 'int64'
+        'nbClick' => 'int32'
     ];
 
     public static function swaggerTypes()

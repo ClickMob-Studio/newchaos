@@ -65,10 +65,10 @@ class GetList implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'id' => 'int64',
+        'id' => 'int32',
         'name' => null,
-        'totalBlacklisted' => 'int64',
-        'totalSubscribers' => 'int64'
+        'totalBlacklisted' => 'int32',
+        'totalSubscribers' => 'int32'
     ];
 
     public static function swaggerTypes()

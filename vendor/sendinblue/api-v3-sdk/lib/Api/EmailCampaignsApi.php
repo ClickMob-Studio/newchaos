@@ -176,34 +176,34 @@ class EmailCampaignsApi
     }
 
     /**
-     * Operation deleteEmailCampaign
+     * Operation deleteEmailCampaigns
      *
      * Delete an email campaign
      *
-     * @param int $campaignId id of the campaign (required)
+     * @param string $campaignId id of the campaign (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return void
      */
-    public function deleteEmailCampaign($campaignId)
+    public function deleteEmailCampaigns($campaignId)
     {
-        list($response) = $this->deleteEmailCampaignWithHttpInfo($campaignId);
+        list($response) = $this->deleteEmailCampaignsWithHttpInfo($campaignId);
         return $response;
     }
 
     /**
-     * Operation deleteEmailCampaignWithHttpInfo
+     * Operation deleteEmailCampaignsWithHttpInfo
      *
      * Delete an email campaign
      *
-     * @param int $campaignId id of the campaign (required)
+     * @param string $campaignId id of the campaign (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function deleteEmailCampaignWithHttpInfo($campaignId)
+    public function deleteEmailCampaignsWithHttpInfo($campaignId)
     {
         // verify the required parameter 'campaignId' is set
         if ($campaignId === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $campaignId when calling deleteEmailCampaign');
+            throw new \InvalidArgumentException('Missing the required parameter $campaignId when calling deleteEmailCampaigns');
         }
         // parse inputs
         $resourcePath = "/emailCampaigns/{campaignId}";
@@ -271,7 +271,7 @@ class EmailCampaignsApi
      *
      * Export the recipients of a campaign
      *
-     * @param int $campaignId Id of the campaign (required)
+     * @param string $campaignId Id of the campaign (required)
      * @param \SendinBlue\Client\Model\EmailExportRecipients $recipientExport Values to send for a recipient export request (optional)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return \SendinBlue\Client\Model\CreatedProcessId
@@ -287,7 +287,7 @@ class EmailCampaignsApi
      *
      * Export the recipients of a campaign
      *
-     * @param int $campaignId Id of the campaign (required)
+     * @param string $campaignId Id of the campaign (required)
      * @param \SendinBlue\Client\Model\EmailExportRecipients $recipientExport Values to send for a recipient export request (optional)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of \SendinBlue\Client\Model\CreatedProcessId, HTTP status code, HTTP response headers (array of strings)
@@ -373,7 +373,7 @@ class EmailCampaignsApi
      *
      * Get campaign informations
      *
-     * @param int $campaignId Id of the campaign (required)
+     * @param string $campaignId Id of the campaign (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return \SendinBlue\Client\Model\GetEmailCampaign
      */
@@ -388,7 +388,7 @@ class EmailCampaignsApi
      *
      * Get campaign informations
      *
-     * @param int $campaignId Id of the campaign (required)
+     * @param string $campaignId Id of the campaign (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of \SendinBlue\Client\Model\GetEmailCampaign, HTTP status code, HTTP response headers (array of strings)
      */
@@ -573,7 +573,7 @@ class EmailCampaignsApi
      *
      * Send an email campaign id of the campaign immediately
      *
-     * @param int $campaignId Id of the campaign (required)
+     * @param string $campaignId Id of the campaign (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return void
      */
@@ -588,7 +588,7 @@ class EmailCampaignsApi
      *
      * Send an email campaign id of the campaign immediately
      *
-     * @param int $campaignId Id of the campaign (required)
+     * @param string $campaignId Id of the campaign (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -668,7 +668,7 @@ class EmailCampaignsApi
      *
      * Send the report of a campaigns
      *
-     * @param int $campaignId Id of the campaign (required)
+     * @param string $campaignId Id of the campaign (required)
      * @param \SendinBlue\Client\Model\SendReport $sendReport Values for send a report (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return void
@@ -684,7 +684,7 @@ class EmailCampaignsApi
      *
      * Send the report of a campaigns
      *
-     * @param int $campaignId Id of the campaign (required)
+     * @param string $campaignId Id of the campaign (required)
      * @param \SendinBlue\Client\Model\SendReport $sendReport Values for send a report (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
@@ -770,7 +770,7 @@ class EmailCampaignsApi
      *
      * Send an email campaign to your test list
      *
-     * @param int $campaignId Id of the campaign (required)
+     * @param string $campaignId Id of the campaign (required)
      * @param \SendinBlue\Client\Model\SendTestEmail $emailTo  (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return void
@@ -786,7 +786,7 @@ class EmailCampaignsApi
      *
      * Send an email campaign to your test list
      *
-     * @param int $campaignId Id of the campaign (required)
+     * @param string $campaignId Id of the campaign (required)
      * @param \SendinBlue\Client\Model\SendTestEmail $emailTo  (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
@@ -872,7 +872,7 @@ class EmailCampaignsApi
      *
      * Update a campaign status
      *
-     * @param int $campaignId Id of the campaign (required)
+     * @param string $campaignId Id of the campaign (required)
      * @param \SendinBlue\Client\Model\UpdateCampaignStatus $status Status of the campaign (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return void
@@ -888,7 +888,7 @@ class EmailCampaignsApi
      *
      * Update a campaign status
      *
-     * @param int $campaignId Id of the campaign (required)
+     * @param string $campaignId Id of the campaign (required)
      * @param \SendinBlue\Client\Model\UpdateCampaignStatus $status Status of the campaign (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
@@ -970,40 +970,40 @@ class EmailCampaignsApi
     }
 
     /**
-     * Operation updateEmailCampaign
+     * Operation updateEmailCampaigns
      *
      * Update a campaign
      *
-     * @param int $campaignId Id of the campaign (required)
+     * @param string $campaignId Id of the campaign (required)
      * @param \SendinBlue\Client\Model\UpdateEmailCampaign $emailCampaign Values to update a campaign (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return void
      */
-    public function updateEmailCampaign($campaignId, $emailCampaign)
+    public function updateEmailCampaigns($campaignId, $emailCampaign)
     {
-        list($response) = $this->updateEmailCampaignWithHttpInfo($campaignId, $emailCampaign);
+        list($response) = $this->updateEmailCampaignsWithHttpInfo($campaignId, $emailCampaign);
         return $response;
     }
 
     /**
-     * Operation updateEmailCampaignWithHttpInfo
+     * Operation updateEmailCampaignsWithHttpInfo
      *
      * Update a campaign
      *
-     * @param int $campaignId Id of the campaign (required)
+     * @param string $campaignId Id of the campaign (required)
      * @param \SendinBlue\Client\Model\UpdateEmailCampaign $emailCampaign Values to update a campaign (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateEmailCampaignWithHttpInfo($campaignId, $emailCampaign)
+    public function updateEmailCampaignsWithHttpInfo($campaignId, $emailCampaign)
     {
         // verify the required parameter 'campaignId' is set
         if ($campaignId === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $campaignId when calling updateEmailCampaign');
+            throw new \InvalidArgumentException('Missing the required parameter $campaignId when calling updateEmailCampaigns');
         }
         // verify the required parameter 'emailCampaign' is set
         if ($emailCampaign === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $emailCampaign when calling updateEmailCampaign');
+            throw new \InvalidArgumentException('Missing the required parameter $emailCampaign when calling updateEmailCampaigns');
         }
         // parse inputs
         $resourcePath = "/emailCampaigns/{campaignId}";

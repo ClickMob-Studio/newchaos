@@ -55,6 +55,7 @@ class GetTransacSmsReportReports implements ArrayAccess
       */
     protected static $swaggerTypes = [
         'date' => '\DateTime',
+        'tag' => 'string',
         'requests' => 'int',
         'delivered' => 'int',
         'hardBounces' => 'int',
@@ -72,15 +73,16 @@ class GetTransacSmsReportReports implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'date' => 'date',
-        'requests' => 'int64',
-        'delivered' => 'int64',
-        'hardBounces' => 'int64',
-        'softBounces' => 'int64',
-        'blocked' => 'int64',
-        'unsubscribed' => 'int64',
-        'replied' => 'int64',
-        'accepted' => 'int64',
-        'rejected' => 'int64'
+        'tag' => null,
+        'requests' => 'int32',
+        'delivered' => 'int32',
+        'hardBounces' => 'int32',
+        'softBounces' => 'int32',
+        'blocked' => 'int32',
+        'unsubscribed' => 'int32',
+        'replied' => 'int32',
+        'accepted' => 'int32',
+        'rejected' => 'int32'
     ];
 
     public static function swaggerTypes()
@@ -99,6 +101,7 @@ class GetTransacSmsReportReports implements ArrayAccess
      */
     protected static $attributeMap = [
         'date' => 'date',
+        'tag' => 'tag',
         'requests' => 'requests',
         'delivered' => 'delivered',
         'hardBounces' => 'hardBounces',
@@ -117,6 +120,7 @@ class GetTransacSmsReportReports implements ArrayAccess
      */
     protected static $setters = [
         'date' => 'setDate',
+        'tag' => 'setTag',
         'requests' => 'setRequests',
         'delivered' => 'setDelivered',
         'hardBounces' => 'setHardBounces',
@@ -135,6 +139,7 @@ class GetTransacSmsReportReports implements ArrayAccess
      */
     protected static $getters = [
         'date' => 'getDate',
+        'tag' => 'getTag',
         'requests' => 'getRequests',
         'delivered' => 'getDelivered',
         'hardBounces' => 'getHardBounces',
@@ -178,6 +183,7 @@ class GetTransacSmsReportReports implements ArrayAccess
     public function __construct(array $data = null)
     {
         $this->container['date'] = isset($data['date']) ? $data['date'] : null;
+        $this->container['tag'] = isset($data['tag']) ? $data['tag'] : null;
         $this->container['requests'] = isset($data['requests']) ? $data['requests'] : null;
         $this->container['delivered'] = isset($data['delivered']) ? $data['delivered'] : null;
         $this->container['hardBounces'] = isset($data['hardBounces']) ? $data['hardBounces'] : null;
@@ -200,6 +206,9 @@ class GetTransacSmsReportReports implements ArrayAccess
 
         if ($this->container['date'] === null) {
             $invalid_properties[] = "'date' can't be null";
+        }
+        if ($this->container['tag'] === null) {
+            $invalid_properties[] = "'tag' can't be null";
         }
         if ($this->container['requests'] === null) {
             $invalid_properties[] = "'requests' can't be null";
@@ -241,6 +250,9 @@ class GetTransacSmsReportReports implements ArrayAccess
     {
 
         if ($this->container['date'] === null) {
+            return false;
+        }
+        if ($this->container['tag'] === null) {
             return false;
         }
         if ($this->container['requests'] === null) {
@@ -291,6 +303,27 @@ class GetTransacSmsReportReports implements ArrayAccess
     public function setDate($date)
     {
         $this->container['date'] = $date;
+
+        return $this;
+    }
+
+    /**
+     * Gets tag
+     * @return string
+     */
+    public function getTag()
+    {
+        return $this->container['tag'];
+    }
+
+    /**
+     * Sets tag
+     * @param string $tag Tag specified in request
+     * @return $this
+     */
+    public function setTag($tag)
+    {
+        $this->container['tag'] = $tag;
 
         return $this;
     }

@@ -92,13 +92,6 @@ class GetEmailEventReportEventsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "subject"
-     */
-    public function testPropertySubject()
-    {
-    }
-
-    /**
      * Test attribute "messageId"
      */
     public function testPropertyMessageId()
@@ -130,20 +123,6 @@ class GetEmailEventReportEventsTest extends \PHPUnit_Framework_TestCase
      * Test attribute "ip"
      */
     public function testPropertyIp()
-    {
-    }
-
-    /**
-     * Test attribute "link"
-     */
-    public function testPropertyLink()
-    {
-    }
-
-    /**
-     * Test attribute "from"
-     */
-    public function testPropertyFrom()
     {
     }
 }

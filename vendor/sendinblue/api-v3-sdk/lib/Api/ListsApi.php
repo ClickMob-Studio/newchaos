@@ -92,7 +92,7 @@ class ListsApi
      *
      * Add existing contacts to a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @param \SendinBlue\Client\Model\AddRemoveContactToList $contactEmails Emails addresses of the contacts (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return \SendinBlue\Client\Model\PostContactInfo
@@ -108,7 +108,7 @@ class ListsApi
      *
      * Add existing contacts to a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @param \SendinBlue\Client\Model\AddRemoveContactToList $contactEmails Emails addresses of the contacts (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of \SendinBlue\Client\Model\PostContactInfo, HTTP status code, HTTP response headers (array of strings)
@@ -286,7 +286,7 @@ class ListsApi
      *
      * Delete a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return void
      */
@@ -301,7 +301,7 @@ class ListsApi
      *
      * Delete a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
@@ -377,8 +377,8 @@ class ListsApi
      *
      * Get the contacts in a list
      *
-     * @param int $listId Id of the list (required)
-     * @param \DateTime $modifiedSince Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result. (optional)
+     * @param string $listId Id of the list (required)
+     * @param string $modifiedSince Filter the contacts modified after a given date (YYYY-MM-DD HH:mm:ss) (optional)
      * @param int $limit Number of documents per page (optional, default to 50)
      * @param int $offset Index of the first document of the page (optional, default to 0)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
@@ -395,8 +395,8 @@ class ListsApi
      *
      * Get the contacts in a list
      *
-     * @param int $listId Id of the list (required)
-     * @param \DateTime $modifiedSince Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result. (optional)
+     * @param string $listId Id of the list (required)
+     * @param string $modifiedSince Filter the contacts modified after a given date (YYYY-MM-DD HH:mm:ss) (optional)
      * @param int $limit Number of documents per page (optional, default to 50)
      * @param int $offset Index of the first document of the page (optional, default to 0)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
@@ -408,6 +408,10 @@ class ListsApi
         if ($listId === null) {
             throw new \InvalidArgumentException('Missing the required parameter $listId when calling getContactsFromList');
         }
+        if (!is_null($modifiedSince) && !preg_match("/YYYY-MM-DD HH:mm:ss/", $modifiedSince)) {
+            throw new \InvalidArgumentException("invalid value for \"modifiedSince\" when calling ListsApi.getContactsFromList, must conform to the pattern /YYYY-MM-DD HH:mm:ss/.");
+        }
+
         if (!is_null($limit) && ($limit > 500)) {
             throw new \InvalidArgumentException('invalid value for "$limit" when calling ListsApi.getContactsFromList, must be smaller than or equal to 500.');
         }
@@ -494,7 +498,7 @@ class ListsApi
      *
      * Get the lists in a folder
      *
-     * @param int $folderId Id of the folder (required)
+     * @param string $folderId Id of the folder (required)
      * @param int $limit Number of documents per page (optional, default to 10)
      * @param int $offset Index of the first document of the page (optional, default to 0)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
@@ -511,7 +515,7 @@ class ListsApi
      *
      * Get the lists in a folder
      *
-     * @param int $folderId Id of the folder (required)
+     * @param string $folderId Id of the folder (required)
      * @param int $limit Number of documents per page (optional, default to 10)
      * @param int $offset Index of the first document of the page (optional, default to 0)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
@@ -605,7 +609,7 @@ class ListsApi
      *
      * Get the details of a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return \SendinBlue\Client\Model\GetExtendedList
      */
@@ -620,7 +624,7 @@ class ListsApi
      *
      * Get the details of a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of \SendinBlue\Client\Model\GetExtendedList, HTTP status code, HTTP response headers (array of strings)
      */
@@ -793,7 +797,7 @@ class ListsApi
      *
      * Remove existing contacts from a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @param \SendinBlue\Client\Model\AddRemoveContactToList $contactEmails Emails adresses of the contact (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return \SendinBlue\Client\Model\PostContactInfo
@@ -809,7 +813,7 @@ class ListsApi
      *
      * Remove existing contacts from a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @param \SendinBlue\Client\Model\AddRemoveContactToList $contactEmails Emails adresses of the contact (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of \SendinBlue\Client\Model\PostContactInfo, HTTP status code, HTTP response headers (array of strings)
@@ -899,7 +903,7 @@ class ListsApi
      *
      * Update a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @param \SendinBlue\Client\Model\UpdateList $updateList Values to update a list (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return void
@@ -915,7 +919,7 @@ class ListsApi
      *
      * Update a list
      *
-     * @param int $listId Id of the list (required)
+     * @param string $listId Id of the list (required)
      * @param \SendinBlue\Client\Model\UpdateList $updateList Values to update a list (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)

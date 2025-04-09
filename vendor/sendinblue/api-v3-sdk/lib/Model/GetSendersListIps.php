@@ -66,7 +66,7 @@ class GetSendersListIps implements ArrayAccess
     protected static $swaggerFormats = [
         'ip' => null,
         'domain' => null,
-        'weight' => 'int64'
+        'weight' => 'int32'
     ];
 
     public static function swaggerTypes()

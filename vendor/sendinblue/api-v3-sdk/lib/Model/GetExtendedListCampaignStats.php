@@ -63,7 +63,7 @@ class GetExtendedListCampaignStats implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'campaignId' => 'int64',
+        'campaignId' => 'int32',
         'stats' => null
     ];
 

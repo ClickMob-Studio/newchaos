@@ -256,97 +256,6 @@ class SMTPApi
     }
 
     /**
-     * Operation deleteSmtpTemplate
-     *
-     * Delete an inactive smtp template
-     *
-     * @param int $templateId id of the template (required)
-     * @throws \SendinBlue\Client\ApiException on non-2xx response
-     * @return void
-     */
-    public function deleteSmtpTemplate($templateId)
-    {
-        list($response) = $this->deleteSmtpTemplateWithHttpInfo($templateId);
-        return $response;
-    }
-
-    /**
-     * Operation deleteSmtpTemplateWithHttpInfo
-     *
-     * Delete an inactive smtp template
-     *
-     * @param int $templateId id of the template (required)
-     * @throws \SendinBlue\Client\ApiException on non-2xx response
-     * @return array of null, HTTP status code, HTTP response headers (array of strings)
-     */
-    public function deleteSmtpTemplateWithHttpInfo($templateId)
-    {
-        // verify the required parameter 'templateId' is set
-        if ($templateId === null) {
-            throw new \InvalidArgumentException('Missing the required parameter $templateId when calling deleteSmtpTemplate');
-        }
-        // parse inputs
-        $resourcePath = "/smtp/templates/{templateId}";
-        $httpBody = '';
-        $queryParams = [];
-        $headerParams = [];
-        $formParams = [];
-        $_header_accept = $this->apiClient->selectHeaderAccept(['application/json']);
-        if (!is_null($_header_accept)) {
-            $headerParams['Accept'] = $_header_accept;
-        }
-        $headerParams['Content-Type'] = $this->apiClient->selectHeaderContentType(['application/json']);
-
-        // path params
-        if ($templateId !== null) {
-            $resourcePath = str_replace(
-                "{" . "templateId" . "}",
-                $this->apiClient->getSerializer()->toPathValue($templateId),
-                $resourcePath
-            );
-        }
-
-        // for model (json/xml)
-        if (isset($_tempBody)) {
-            $httpBody = $_tempBody; // $_tempBody is the method argument, if present
-        } elseif (count($formParams) > 0) {
-            $httpBody = $formParams; // for HTTP post (form)
-        }
-        // this endpoint requires API key authentication
-        $apiKey = $this->apiClient->getApiKeyWithPrefix('api-key');
-        if (strlen($apiKey) !== 0) {
-            $headerParams['api-key'] = $apiKey;
-        }
-        // make the API Call
-        try {
-            list($response, $statusCode, $httpHeader) = $this->apiClient->callApi(
-                $resourcePath,
-                'DELETE',
-                $queryParams,
-                $httpBody,
-                $headerParams,
-                null,
-                '/smtp/templates/{templateId}'
-            );
-
-            return [null, $statusCode, $httpHeader];
-        } catch (ApiException $e) {
-            switch ($e->getCode()) {
-                case 400:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\SendinBlue\Client\Model\ErrorModel', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-                case 404:
-                    $data = $this->apiClient->getSerializer()->deserialize($e->getResponseBody(), '\SendinBlue\Client\Model\ErrorModel', $e->getResponseHeaders());
-                    $e->setResponseObject($data);
-                    break;
-            }
-
-            throw $e;
-        }
-    }
-
-    /**
      * Operation getAggregatedSmtpReport
      *
      * Get your SMTP activity aggregated over a period of time
@@ -461,7 +370,7 @@ class SMTPApi
      * @param string $event Filter the report for a specific event type (optional)
      * @param string $tags Filter the report for tags (serialized and urlencoded array) (optional)
      * @param string $messageId Filter on a specific message id (optional)
-     * @param int $templateId Filter on a specific template id (optional)
+     * @param string $templateId Filter on a specific template id (optional)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return \SendinBlue\Client\Model\GetEmailEventReport
      */
@@ -485,7 +394,7 @@ class SMTPApi
      * @param string $event Filter the report for a specific event type (optional)
      * @param string $tags Filter the report for tags (serialized and urlencoded array) (optional)
      * @param string $messageId Filter on a specific message id (optional)
-     * @param int $templateId Filter on a specific template id (optional)
+     * @param string $templateId Filter on a specific template id (optional)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of \SendinBlue\Client\Model\GetEmailEventReport, HTTP status code, HTTP response headers (array of strings)
      */
@@ -710,7 +619,7 @@ class SMTPApi
      *
      * Returns the template informations
      *
-     * @param int $templateId id of the template (required)
+     * @param string $templateId id of the template (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return \SendinBlue\Client\Model\GetSmtpTemplateOverview
      */
@@ -725,7 +634,7 @@ class SMTPApi
      *
      * Returns the template informations
      *
-     * @param int $templateId id of the template (required)
+     * @param string $templateId id of the template (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of \SendinBlue\Client\Model\GetSmtpTemplateOverview, HTTP status code, HTTP response headers (array of strings)
      */
@@ -904,7 +813,7 @@ class SMTPApi
      *
      * Send a template
      *
-     * @param int $templateId Id of the template (required)
+     * @param string $templateId Id of the template (required)
      * @param \SendinBlue\Client\Model\SendEmail $sendEmail  (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return \SendinBlue\Client\Model\SendTemplateEmail
@@ -920,7 +829,7 @@ class SMTPApi
      *
      * Send a template
      *
-     * @param int $templateId Id of the template (required)
+     * @param string $templateId Id of the template (required)
      * @param \SendinBlue\Client\Model\SendEmail $sendEmail  (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of \SendinBlue\Client\Model\SendTemplateEmail, HTTP status code, HTTP response headers (array of strings)
@@ -1010,7 +919,7 @@ class SMTPApi
      *
      * Send a template to your test list
      *
-     * @param int $templateId Id of the template (required)
+     * @param string $templateId Id of the template (required)
      * @param \SendinBlue\Client\Model\SendTestEmail $sendTestEmail  (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return void
@@ -1026,7 +935,7 @@ class SMTPApi
      *
      * Send a template to your test list
      *
-     * @param int $templateId Id of the template (required)
+     * @param string $templateId Id of the template (required)
      * @param \SendinBlue\Client\Model\SendTestEmail $sendTestEmail  (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
@@ -1200,7 +1109,7 @@ class SMTPApi
      *
      * Updates an smtp templates
      *
-     * @param int $templateId id of the template (required)
+     * @param string $templateId id of the template (required)
      * @param \SendinBlue\Client\Model\UpdateSmtpTemplate $smtpTemplate values to update in smtp template (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return void
@@ -1216,7 +1125,7 @@ class SMTPApi
      *
      * Updates an smtp templates
      *
-     * @param int $templateId id of the template (required)
+     * @param string $templateId id of the template (required)
      * @param \SendinBlue\Client\Model\UpdateSmtpTemplate $smtpTemplate values to update in smtp template (required)
      * @throws \SendinBlue\Client\ApiException on non-2xx response
      * @return array of null, HTTP status code, HTTP response headers (array of strings)

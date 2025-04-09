@@ -62,7 +62,7 @@ class CreateModel implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'id' => 'int64'
+        'id' => 'int32'
     ];
 
     public static function swaggerTypes()

@@ -75,7 +75,7 @@ class AttributesApiTest extends \PHPUnit_Framework_TestCase
     /**
      * Test case for createAttribute
      *
-     * Creates contact attribute.
+     * Creates contact attributes.
      *
      */
     public function testCreateAttribute()
@@ -99,16 +99,6 @@ class AttributesApiTest extends \PHPUnit_Framework_TestCase
      *
      */
     public function testGetAttributes()
-    {
-    }
-
-    /**
-     * Test case for updateAttribute
-     *
-     * Updates contact attribute.
-     *
-     */
-    public function testUpdateAttribute()
     {
     }
 }

@@ -1,4 +1,4 @@
-# RequestSmsRecipientExport
+# RequestSMSRecipientExport
 
 ## Properties
 Name | Type | Description | Notes

@@ -132,11 +132,4 @@ class GetExtendedContactDetailsTest extends \PHPUnit_Framework_TestCase
     public function testPropertyAttributes()
     {
     }
-
-    /**
-     * Test attribute "statistics"
-     */
-    public function testPropertyStatistics()
-    {
-    }
 }

@@ -65,8 +65,8 @@ class GetContactCampaignStatsOpened implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'campaignId' => 'int64',
-        'count' => 'int64',
+        'campaignId' => 'int32',
+        'count' => 'int32',
         'eventTime' => 'date-time',
         'ip' => null
     ];
@@ -255,7 +255,7 @@ class GetContactCampaignStatsOpened implements ArrayAccess
 
     /**
      * Sets eventTime
-     * @param \DateTime $eventTime UTC date-time of the event
+     * @param \DateTime $eventTime Date of the event
      * @return $this
      */
     public function setEventTime($eventTime)

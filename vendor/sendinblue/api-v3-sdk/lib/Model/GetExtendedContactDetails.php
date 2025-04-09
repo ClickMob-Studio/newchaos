@@ -58,11 +58,10 @@ class GetExtendedContactDetails implements ArrayAccess
         'id' => 'int',
         'emailBlacklisted' => 'bool',
         'smsBlacklisted' => 'bool',
-        'modifiedAt' => '\DateTime',
+        'modifiedAt' => 'string',
         'listIds' => 'int[]',
         'listUnsubscribed' => 'int[]',
-        'attributes' => 'map[string,string]',
-        'statistics' => '\SendinBlue\Client\Model\GetExtendedContactDetailsStatistics'
+        'attributes' => 'map[string,string]'
     ];
 
     /**
@@ -71,14 +70,13 @@ class GetExtendedContactDetails implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'email' => 'email',
-        'id' => 'int64',
+        'id' => 'int32',
         'emailBlacklisted' => null,
         'smsBlacklisted' => null,
-        'modifiedAt' => 'date-time',
-        'listIds' => 'int64',
-        'listUnsubscribed' => 'int64',
-        'attributes' => null,
-        'statistics' => null
+        'modifiedAt' => null,
+        'listIds' => 'int32',
+        'listUnsubscribed' => 'int32',
+        'attributes' => null
     ];
 
     public static function swaggerTypes()
@@ -103,8 +101,7 @@ class GetExtendedContactDetails implements ArrayAccess
         'modifiedAt' => 'modifiedAt',
         'listIds' => 'listIds',
         'listUnsubscribed' => 'listUnsubscribed',
-        'attributes' => 'attributes',
-        'statistics' => 'statistics'
+        'attributes' => 'attributes'
     ];
 
 
@@ -120,8 +117,7 @@ class GetExtendedContactDetails implements ArrayAccess
         'modifiedAt' => 'setModifiedAt',
         'listIds' => 'setListIds',
         'listUnsubscribed' => 'setListUnsubscribed',
-        'attributes' => 'setAttributes',
-        'statistics' => 'setStatistics'
+        'attributes' => 'setAttributes'
     ];
 
 
@@ -137,8 +133,7 @@ class GetExtendedContactDetails implements ArrayAccess
         'modifiedAt' => 'getModifiedAt',
         'listIds' => 'getListIds',
         'listUnsubscribed' => 'getListUnsubscribed',
-        'attributes' => 'getAttributes',
-        'statistics' => 'getStatistics'
+        'attributes' => 'getAttributes'
     ];
 
     public static function attributeMap()
@@ -180,7 +175,6 @@ class GetExtendedContactDetails implements ArrayAccess
         $this->container['listIds'] = isset($data['listIds']) ? $data['listIds'] : null;
         $this->container['listUnsubscribed'] = isset($data['listUnsubscribed']) ? $data['listUnsubscribed'] : null;
         $this->container['attributes'] = isset($data['attributes']) ? $data['attributes'] : null;
-        $this->container['statistics'] = isset($data['statistics']) ? $data['statistics'] : null;
     }
 
     /**
@@ -207,6 +201,10 @@ class GetExtendedContactDetails implements ArrayAccess
         if ($this->container['modifiedAt'] === null) {
             $invalid_properties[] = "'modifiedAt' can't be null";
         }
+        if (!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/", $this->container['modifiedAt'])) {
+            $invalid_properties[] = "invalid value for 'modifiedAt', must be conform to the pattern /^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/.";
+        }
+
         if ($this->container['listIds'] === null) {
             $invalid_properties[] = "'listIds' can't be null";
         }
@@ -238,6 +236,9 @@ class GetExtendedContactDetails implements ArrayAccess
             return false;
         }
         if ($this->container['modifiedAt'] === null) {
+            return false;
+        }
+        if (!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/", $this->container['modifiedAt'])) {
             return false;
         }
         if ($this->container['listIds'] === null) {
@@ -336,7 +337,7 @@ class GetExtendedContactDetails implements ArrayAccess
 
     /**
      * Gets modifiedAt
-     * @return \DateTime
+     * @return string
      */
     public function getModifiedAt()
     {
@@ -345,11 +346,16 @@ class GetExtendedContactDetails implements ArrayAccess
 
     /**
      * Sets modifiedAt
-     * @param \DateTime $modifiedAt Last modification UTC date-time of the contact (YYYY-MM-DDTHH:mm:ss.SSSZ)
+     * @param string $modifiedAt Last modification date of the contact (YYYY-MM-DD HH:mm:ss)
      * @return $this
      */
     public function setModifiedAt($modifiedAt)
     {
+
+        if ((!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/", $modifiedAt))) {
+            throw new \InvalidArgumentException("invalid value for $modifiedAt when calling GetExtendedContactDetails., must conform to the pattern /^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/.");
+        }
+
         $this->container['modifiedAt'] = $modifiedAt;
 
         return $this;
@@ -414,27 +420,6 @@ class GetExtendedContactDetails implements ArrayAccess
     public function setAttributes($attributes)
     {
         $this->container['attributes'] = $attributes;
-
-        return $this;
-    }
-
-    /**
-     * Gets statistics
-     * @return \SendinBlue\Client\Model\GetExtendedContactDetailsStatistics
-     */
-    public function getStatistics()
-    {
-        return $this->container['statistics'];
-    }
-
-    /**
-     * Sets statistics
-     * @param \SendinBlue\Client\Model\GetExtendedContactDetailsStatistics $statistics
-     * @return $this
-     */
-    public function setStatistics($statistics)
-    {
-        $this->container['statistics'] = $statistics;
 
         return $this;
     }

@@ -58,7 +58,7 @@ class UpdateSmsCampaign implements ArrayAccess
         'sender' => 'string',
         'content' => 'string',
         'recipients' => '\SendinBlue\Client\Model\CreateSmsCampaignRecipients',
-        'scheduledAt' => '\DateTime'
+        'scheduledAt' => 'string'
     ];
 
     /**
@@ -70,7 +70,7 @@ class UpdateSmsCampaign implements ArrayAccess
         'sender' => null,
         'content' => null,
         'recipients' => null,
-        'scheduledAt' => 'date-time'
+        'scheduledAt' => null
     ];
 
     public static function swaggerTypes()
@@ -172,6 +172,10 @@ class UpdateSmsCampaign implements ArrayAccess
             $invalid_properties[] = "invalid value for 'sender', the character length must be smaller than or equal to 11.";
         }
 
+        if (!is_null($this->container['scheduledAt']) && !preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/", $this->container['scheduledAt'])) {
+            $invalid_properties[] = "invalid value for 'scheduledAt', must be conform to the pattern /^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/.";
+        }
+
         return $invalid_properties;
     }
 
@@ -185,6 +189,9 @@ class UpdateSmsCampaign implements ArrayAccess
     {
 
         if (strlen($this->container['sender']) > 11) {
+            return false;
+        }
+        if (!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/", $this->container['scheduledAt'])) {
             return false;
         }
         return true;
@@ -281,7 +288,7 @@ class UpdateSmsCampaign implements ArrayAccess
 
     /**
      * Gets scheduledAt
-     * @return \DateTime
+     * @return string
      */
     public function getScheduledAt()
     {
@@ -290,11 +297,16 @@ class UpdateSmsCampaign implements ArrayAccess
 
     /**
      * Sets scheduledAt
-     * @param \DateTime $scheduledAt UTC date-time on which the campaign has to run (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result.
+     * @param string $scheduledAt Date and time on which the campaign has to run (YYYY-MM-DD HH:mm:ss)
      * @return $this
      */
     public function setScheduledAt($scheduledAt)
     {
+
+        if (!is_null($scheduledAt) && (!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/", $scheduledAt))) {
+            throw new \InvalidArgumentException("invalid value for $scheduledAt when calling UpdateSmsCampaign., must conform to the pattern /^([1-9]\\d{3}-\\d{2}-\\d{2} [0-2]\\d:[0-5]\\d:[0-5]\\d)?$/.");
+        }
+
         $this->container['scheduledAt'] = $scheduledAt;
 
         return $this;

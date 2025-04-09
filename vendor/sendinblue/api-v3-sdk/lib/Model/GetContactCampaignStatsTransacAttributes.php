@@ -66,7 +66,7 @@ class GetContactCampaignStatsTransacAttributes implements ArrayAccess
     protected static $swaggerFormats = [
         'orderDate' => 'date',
         'orderPrice' => 'float',
-        'orderId' => 'int64'
+        'orderId' => 'int32'
     ];
 
     public static function swaggerTypes()

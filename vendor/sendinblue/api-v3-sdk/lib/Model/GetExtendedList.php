@@ -59,7 +59,7 @@ class GetExtendedList implements ArrayAccess
         'totalBlacklisted' => 'int',
         'totalSubscribers' => 'int',
         'folderId' => 'int',
-        'createdAt' => '\DateTime',
+        'createdAt' => 'string',
         'campaignStats' => '\SendinBlue\Client\Model\GetExtendedListCampaignStats[]',
         'dynamicList' => 'bool'
     ];
@@ -69,12 +69,12 @@ class GetExtendedList implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'id' => 'int64',
+        'id' => 'int32',
         'name' => null,
-        'totalBlacklisted' => 'int64',
-        'totalSubscribers' => 'int64',
-        'folderId' => 'int64',
-        'createdAt' => 'date-time',
+        'totalBlacklisted' => 'int32',
+        'totalSubscribers' => 'int32',
+        'folderId' => 'int32',
+        'createdAt' => null,
         'campaignStats' => null,
         'dynamicList' => null
     ];
@@ -204,6 +204,10 @@ class GetExtendedList implements ArrayAccess
         if ($this->container['createdAt'] === null) {
             $invalid_properties[] = "'createdAt' can't be null";
         }
+        if (!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2})?$/", $this->container['createdAt'])) {
+            $invalid_properties[] = "invalid value for 'createdAt', must be conform to the pattern /^([1-9]\\d{3}-\\d{2}-\\d{2})?$/.";
+        }
+
         return $invalid_properties;
     }
 
@@ -232,6 +236,9 @@ class GetExtendedList implements ArrayAccess
             return false;
         }
         if ($this->container['createdAt'] === null) {
+            return false;
+        }
+        if (!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2})?$/", $this->container['createdAt'])) {
             return false;
         }
         return true;
@@ -345,7 +352,7 @@ class GetExtendedList implements ArrayAccess
 
     /**
      * Gets createdAt
-     * @return \DateTime
+     * @return string
      */
     public function getCreatedAt()
     {
@@ -354,11 +361,16 @@ class GetExtendedList implements ArrayAccess
 
     /**
      * Sets createdAt
-     * @param \DateTime $createdAt Creation UTC date-time of the list (YYYY-MM-DDTHH:mm:ss.SSSZ)
+     * @param string $createdAt Creation Date of the list (YYYY-MM-DD)
      * @return $this
      */
     public function setCreatedAt($createdAt)
     {
+
+        if ((!preg_match("/^([1-9]\\d{3}-\\d{2}-\\d{2})?$/", $createdAt))) {
+            throw new \InvalidArgumentException("invalid value for $createdAt when calling GetExtendedList., must conform to the pattern /^([1-9]\\d{3}-\\d{2}-\\d{2})?$/.");
+        }
+
         $this->container['createdAt'] = $createdAt;
 
         return $this;

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d73bbf0fcf0e8a5d2696037767a1c962",
+    "content-hash": "3aab5c2a254082e3541ede2e50439ad9",
     "packages": [
         {
             "name": "cboden/ratchet",
@@ -1406,16 +1406,16 @@
         },
         {
             "name": "sendinblue/api-v3-sdk",
-            "version": "v3.0.0",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sendinblue/APIv3-php-library.git",
-                "reference": "77305296880c4aa77ea2269a17e3facee4cb7496"
+                "reference": "0b1d667b3db2cca23328269eeabbda38242e7e22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sendinblue/APIv3-php-library/zipball/77305296880c4aa77ea2269a17e3facee4cb7496",
-                "reference": "77305296880c4aa77ea2269a17e3facee4cb7496",
+                "url": "https://api.github.com/repos/sendinblue/APIv3-php-library/zipball/0b1d667b3db2cca23328269eeabbda38242e7e22",
+                "reference": "0b1d667b3db2cca23328269eeabbda38242e7e22",
                 "shasum": ""
             },
             "require": {
@@ -1433,7 +1433,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
@@ -1463,10 +1463,10 @@
             ],
             "support": {
                 "issues": "https://github.com/sendinblue/APIv3-php-library/issues",
-                "source": "https://github.com/sendinblue/APIv3-php-library/tree/master"
+                "source": "https://github.com/sendinblue/APIv3-php-library/tree/v2.0.0"
             },
             "abandoned": "getbrevo/brevo-php",
-            "time": "2018-01-18T11:00:07+00:00"
+            "time": "2017-09-12T10:28:46+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",

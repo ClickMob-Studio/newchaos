@@ -66,7 +66,7 @@ class PostSendFailed implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'code' => 'int64',
+        'code' => 'int32',
         'message' => null,
         'unexistingEmails' => 'email',
         'withoutListEmails' => 'email',

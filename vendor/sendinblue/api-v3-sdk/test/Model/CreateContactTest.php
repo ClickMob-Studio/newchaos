@@ -111,18 +111,4 @@ class CreateContactTest extends \PHPUnit_Framework_TestCase
     public function testPropertyListIds()
     {
     }
-
-    /**
-     * Test attribute "updateEnabled"
-     */
-    public function testPropertyUpdateEnabled()
-    {
-    }
-
-    /**
-     * Test attribute "smtpBlacklistSender"
-     */
-    public function testPropertySmtpBlacklistSender()
-    {
-    }
 }

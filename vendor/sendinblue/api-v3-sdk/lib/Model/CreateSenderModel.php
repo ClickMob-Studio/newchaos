@@ -64,7 +64,7 @@ class CreateSenderModel implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'id' => 'int64',
+        'id' => 'int32',
         'spfError' => null,
         'dkimError' => null
     ];

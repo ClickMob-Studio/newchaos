@@ -5,11 +5,11 @@ All URIs are relative to *https://api.sendinblue.com/v3*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**addContactToList**](ContactsApi.md#addContactToList) | **POST** /contacts/lists/{listId}/contacts/add | Add existing contacts to a list
-[**createAttribute**](ContactsApi.md#createAttribute) | **POST** /contacts/attributes/{attributeCategory}/{attributeName} | Creates contact attribute
+[**createAttribute**](ContactsApi.md#createAttribute) | **POST** /contacts/attributes | Creates contact attributes
 [**createContact**](ContactsApi.md#createContact) | **POST** /contacts | Create a contact
 [**createFolder**](ContactsApi.md#createFolder) | **POST** /contacts/folders | Create a folder
 [**createList**](ContactsApi.md#createList) | **POST** /contacts/lists | Create a list
-[**deleteAttribute**](ContactsApi.md#deleteAttribute) | **DELETE** /contacts/attributes/{attributeCategory}/{attributeName} | Deletes an attribute
+[**deleteAttribute**](ContactsApi.md#deleteAttribute) | **DELETE** /contacts/attributes/{attributeId} | Deletes an attribute
 [**deleteFolder**](ContactsApi.md#deleteFolder) | **DELETE** /contacts/folders/{folderId} | Delete a folder (and all its lists)
 [**deleteList**](ContactsApi.md#deleteList) | **DELETE** /contacts/lists/{listId} | Delete a list
 [**getAttributes**](ContactsApi.md#getAttributes) | **GET** /contacts/attributes | Lists all attributes
@@ -25,7 +25,6 @@ Method | HTTP request | Description
 [**importContacts**](ContactsApi.md#importContacts) | **POST** /contacts/import | Import contacts
 [**removeContactToList**](ContactsApi.md#removeContactToList) | **POST** /contacts/lists/{listId}/contacts/remove | Remove existing contacts from a list
 [**requestContactExport**](ContactsApi.md#requestContactExport) | **POST** /contacts/export | Export contacts
-[**updateAttribute**](ContactsApi.md#updateAttribute) | **PUT** /contacts/attributes/{attributeCategory}/{attributeName} | Updates contact attribute
 [**updateContact**](ContactsApi.md#updateContact) | **PUT** /contacts/{email} | Updates a contact
 [**updateFolder**](ContactsApi.md#updateFolder) | **PUT** /contacts/folders/{folderId} | Update a contact folder
 [**updateList**](ContactsApi.md#updateList) | **PUT** /contacts/lists/{listId} | Update a list
@@ -47,7 +46,7 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\ContactsApi();
-$listId = 789; // int | Id of the list
+$listId = "listId_example"; // string | Id of the list
 $contactEmails = new \SendinBlue\Client\Model\AddRemoveContactToList(); // \SendinBlue\Client\Model\AddRemoveContactToList | Emails addresses of the contacts
 
 try {
@@ -63,7 +62,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **listId** | **int**| Id of the list |
+ **listId** | **string**| Id of the list |
  **contactEmails** | [**\SendinBlue\Client\Model\AddRemoveContactToList**](../Model/AddRemoveContactToList.md)| Emails addresses of the contacts |
 
 ### Return type
@@ -82,9 +81,9 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **createAttribute**
-> createAttribute($attributeCategory, $attributeName, $createAttribute)
+> \SendinBlue\Client\Model\CreateModel createAttribute($createAttribute)
 
-Creates contact attribute
+Creates contact attributes
 
 ### Example
 ```php
@@ -97,12 +96,11 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\ContactsApi();
-$attributeCategory = "attributeCategory_example"; // string | Category of the attribute
-$attributeName = "attributeName_example"; // string | Name of the attribute
 $createAttribute = new \SendinBlue\Client\Model\CreateAttribute(); // \SendinBlue\Client\Model\CreateAttribute | Values to create an attribute
 
 try {
-    $api_instance->createAttribute($attributeCategory, $attributeName, $createAttribute);
+    $result = $api_instance->createAttribute($createAttribute);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ContactsApi->createAttribute: ', $e->getMessage(), PHP_EOL;
 }
@@ -113,13 +111,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **attributeCategory** | **string**| Category of the attribute |
- **attributeName** | **string**| Name of the attribute |
  **createAttribute** | [**\SendinBlue\Client\Model\CreateAttribute**](../Model/CreateAttribute.md)| Values to create an attribute |
 
 ### Return type
 
-void (empty response body)
+[**\SendinBlue\Client\Model\CreateModel**](../Model/CreateModel.md)
 
 ### Authorization
 
@@ -181,7 +177,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **createFolder**
-> \SendinBlue\Client\Model\CreateModel createFolder($createFolder)
+> \SendinBlue\Client\Model\CreateModel createFolder($name)
 
 Create a folder
 
@@ -196,10 +192,10 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\ContactsApi();
-$createFolder = new \SendinBlue\Client\Model\CreateUpdateFolder(); // \SendinBlue\Client\Model\CreateUpdateFolder | Name of the folder
+$name = new \SendinBlue\Client\Model\CreaUpdateFolder(); // \SendinBlue\Client\Model\CreaUpdateFolder | Name of the folder
 
 try {
-    $result = $api_instance->createFolder($createFolder);
+    $result = $api_instance->createFolder($name);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ContactsApi->createFolder: ', $e->getMessage(), PHP_EOL;
@@ -211,7 +207,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **createFolder** | [**\SendinBlue\Client\Model\CreateUpdateFolder**](../Model/CreateUpdateFolder.md)| Name of the folder |
+ **name** | [**\SendinBlue\Client\Model\CreaUpdateFolder**](../Model/CreaUpdateFolder.md)| Name of the folder |
 
 ### Return type
 
@@ -277,7 +273,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **deleteAttribute**
-> deleteAttribute($attributeCategory, $attributeName)
+> deleteAttribute($attributeId)
 
 Deletes an attribute
 
@@ -292,11 +288,10 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\ContactsApi();
-$attributeCategory = "attributeCategory_example"; // string | Category of the attribute
-$attributeName = "attributeName_example"; // string | Name of the existing attribute
+$attributeId = "attributeId_example"; // string | id of the attribute
 
 try {
-    $api_instance->deleteAttribute($attributeCategory, $attributeName);
+    $api_instance->deleteAttribute($attributeId);
 } catch (Exception $e) {
     echo 'Exception when calling ContactsApi->deleteAttribute: ', $e->getMessage(), PHP_EOL;
 }
@@ -307,8 +302,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **attributeCategory** | **string**| Category of the attribute |
- **attributeName** | **string**| Name of the existing attribute |
+ **attributeId** | **string**| id of the attribute |
 
 ### Return type
 
@@ -341,7 +335,7 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\ContactsApi();
-$folderId = 789; // int | Id of the folder
+$folderId = "folderId_example"; // string | Id of the folder
 
 try {
     $api_instance->deleteFolder($folderId);
@@ -355,7 +349,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **folderId** | **int**| Id of the folder |
+ **folderId** | **string**| Id of the folder |
 
 ### Return type
 
@@ -388,7 +382,7 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\ContactsApi();
-$listId = 789; // int | Id of the list
+$listId = "listId_example"; // string | Id of the list
 
 try {
     $api_instance->deleteList($listId);
@@ -402,7 +396,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **listId** | **int**| Id of the list |
+ **listId** | **string**| Id of the list |
 
 ### Return type
 
@@ -560,7 +554,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **getContacts**
-> \SendinBlue\Client\Model\GetContacts getContacts($limit, $offset, $modifiedSince)
+> \SendinBlue\Client\Model\GetContacts getContacts($limit, $offset)
 
 Get all the contacts
 
@@ -577,10 +571,9 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 $api_instance = new SendinBlue\Client\Api\ContactsApi();
 $limit = 50; // int | Number of documents per page
 $offset = 0; // int | Index of the first document of the page
-$modifiedSince = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result.
 
 try {
-    $result = $api_instance->getContacts($limit, $offset, $modifiedSince);
+    $result = $api_instance->getContacts($limit, $offset);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ContactsApi->getContacts: ', $e->getMessage(), PHP_EOL;
@@ -594,7 +587,6 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **limit** | **int**| Number of documents per page | [optional] [default to 50]
  **offset** | **int**| Index of the first document of the page | [optional] [default to 0]
- **modifiedSince** | **\DateTime**| Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result. | [optional]
 
 ### Return type
 
@@ -627,8 +619,8 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\ContactsApi();
-$listId = 789; // int | Id of the list
-$modifiedSince = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result.
+$listId = "listId_example"; // string | Id of the list
+$modifiedSince = "modifiedSince_example"; // string | Filter the contacts modified after a given date (YYYY-MM-DD HH:mm:ss)
 $limit = 50; // int | Number of documents per page
 $offset = 0; // int | Index of the first document of the page
 
@@ -645,8 +637,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **listId** | **int**| Id of the list |
- **modifiedSince** | **\DateTime**| Filter (urlencoded) the contacts modified after a given UTC date-time (YYYY-MM-DDTHH:mm:ss.SSSZ). Prefer to pass your timezone in date-time format for accurate result. | [optional]
+ **listId** | **string**| Id of the list |
+ **modifiedSince** | **string**| Filter the contacts modified after a given date (YYYY-MM-DD HH:mm:ss) | [optional]
  **limit** | **int**| Number of documents per page | [optional] [default to 50]
  **offset** | **int**| Index of the first document of the page | [optional] [default to 0]
 
@@ -681,7 +673,7 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\ContactsApi();
-$folderId = 789; // int | id of the folder
+$folderId = "folderId_example"; // string | id of the folder
 
 try {
     $result = $api_instance->getFolder($folderId);
@@ -696,7 +688,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **folderId** | **int**| id of the folder |
+ **folderId** | **string**| id of the folder |
 
 ### Return type
 
@@ -729,7 +721,7 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\ContactsApi();
-$folderId = 789; // int | Id of the folder
+$folderId = "folderId_example"; // string | Id of the folder
 $limit = 10; // int | Number of documents per page
 $offset = 0; // int | Index of the first document of the page
 
@@ -746,7 +738,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **folderId** | **int**| Id of the folder |
+ **folderId** | **string**| Id of the folder |
  **limit** | **int**| Number of documents per page | [optional] [default to 10]
  **offset** | **int**| Index of the first document of the page | [optional] [default to 0]
 
@@ -831,7 +823,7 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\ContactsApi();
-$listId = 789; // int | Id of the list
+$listId = "listId_example"; // string | Id of the list
 
 try {
     $result = $api_instance->getList($listId);
@@ -846,7 +838,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **listId** | **int**| Id of the list |
+ **listId** | **string**| Id of the list |
 
 ### Return type
 
@@ -979,7 +971,7 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\ContactsApi();
-$listId = 789; // int | Id of the list
+$listId = "listId_example"; // string | Id of the list
 $contactEmails = new \SendinBlue\Client\Model\AddRemoveContactToList(); // \SendinBlue\Client\Model\AddRemoveContactToList | Emails adresses of the contact
 
 try {
@@ -995,7 +987,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **listId** | **int**| Id of the list |
+ **listId** | **string**| Id of the list |
  **contactEmails** | [**\SendinBlue\Client\Model\AddRemoveContactToList**](../Model/AddRemoveContactToList.md)| Emails adresses of the contact |
 
 ### Return type
@@ -1063,57 +1055,6 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
-# **updateAttribute**
-> updateAttribute($attributeCategory, $attributeName, $updateAttribute)
-
-Updates contact attribute
-
-### Example
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-// Configure API key authorization: api-key
-SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key', 'YOUR_API_KEY');
-// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-// SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
-
-$api_instance = new SendinBlue\Client\Api\ContactsApi();
-$attributeCategory = "attributeCategory_example"; // string | Category of the attribute
-$attributeName = "attributeName_example"; // string | Name of the existing attribute
-$updateAttribute = new \SendinBlue\Client\Model\UpdateAttribute(); // \SendinBlue\Client\Model\UpdateAttribute | Values to update an attribute
-
-try {
-    $api_instance->updateAttribute($attributeCategory, $attributeName, $updateAttribute);
-} catch (Exception $e) {
-    echo 'Exception when calling ContactsApi->updateAttribute: ', $e->getMessage(), PHP_EOL;
-}
-?>
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **attributeCategory** | **string**| Category of the attribute |
- **attributeName** | **string**| Name of the existing attribute |
- **updateAttribute** | [**\SendinBlue\Client\Model\UpdateAttribute**](../Model/UpdateAttribute.md)| Values to update an attribute |
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[api-key](../../README.md#api-key)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
-
 # **updateContact**
 > updateContact($email, $updateContact)
 
@@ -1164,7 +1105,7 @@ void (empty response body)
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **updateFolder**
-> updateFolder($folderId, $updateFolder)
+> updateFolder($folderId, $name)
 
 Update a contact folder
 
@@ -1179,11 +1120,11 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\ContactsApi();
-$folderId = 789; // int | Id of the folder
-$updateFolder = new \SendinBlue\Client\Model\CreateUpdateFolder(); // \SendinBlue\Client\Model\CreateUpdateFolder | Name of the folder
+$folderId = "folderId_example"; // string | Id of the folder
+$name = new \SendinBlue\Client\Model\CreaUpdateFolder(); // \SendinBlue\Client\Model\CreaUpdateFolder | Name of the folder
 
 try {
-    $api_instance->updateFolder($folderId, $updateFolder);
+    $api_instance->updateFolder($folderId, $name);
 } catch (Exception $e) {
     echo 'Exception when calling ContactsApi->updateFolder: ', $e->getMessage(), PHP_EOL;
 }
@@ -1194,8 +1135,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **folderId** | **int**| Id of the folder |
- **updateFolder** | [**\SendinBlue\Client\Model\CreateUpdateFolder**](../Model/CreateUpdateFolder.md)| Name of the folder |
+ **folderId** | **string**| Id of the folder |
+ **name** | [**\SendinBlue\Client\Model\CreaUpdateFolder**](../Model/CreaUpdateFolder.md)| Name of the folder |
 
 ### Return type
 
@@ -1228,7 +1169,7 @@ SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKey('api-key',
 // SendinBlue\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('api-key', 'Bearer');
 
 $api_instance = new SendinBlue\Client\Api\ContactsApi();
-$listId = 789; // int | Id of the list
+$listId = "listId_example"; // string | Id of the list
 $updateList = new \SendinBlue\Client\Model\UpdateList(); // \SendinBlue\Client\Model\UpdateList | Values to update a list
 
 try {
@@ -1243,7 +1184,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **listId** | **int**| Id of the list |
+ **listId** | **string**| Id of the list |
  **updateList** | [**\SendinBlue\Client\Model\UpdateList**](../Model/UpdateList.md)| Values to update a list |
 
 ### Return type

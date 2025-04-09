@@ -56,14 +56,11 @@ class GetEmailEventReportEvents implements ArrayAccess
     protected static $swaggerTypes = [
         'email' => 'string',
         'date' => '\DateTime',
-        'subject' => 'string',
         'messageId' => 'string',
         'event' => 'string',
         'reason' => 'string',
         'tag' => 'string',
-        'ip' => 'string',
-        'link' => 'string',
-        'from' => 'string'
+        'ip' => 'string'
     ];
 
     /**
@@ -72,15 +69,12 @@ class GetEmailEventReportEvents implements ArrayAccess
       */
     protected static $swaggerFormats = [
         'email' => 'email',
-        'date' => 'date-time',
-        'subject' => null,
+        'date' => 'date',
         'messageId' => null,
         'event' => null,
         'reason' => null,
         'tag' => null,
-        'ip' => null,
-        'link' => null,
-        'from' => 'email'
+        'ip' => null
     ];
 
     public static function swaggerTypes()
@@ -100,14 +94,11 @@ class GetEmailEventReportEvents implements ArrayAccess
     protected static $attributeMap = [
         'email' => 'email',
         'date' => 'date',
-        'subject' => 'subject',
         'messageId' => 'messageId',
         'event' => 'event',
         'reason' => 'reason',
         'tag' => 'tag',
-        'ip' => 'ip',
-        'link' => 'link',
-        'from' => 'from'
+        'ip' => 'ip'
     ];
 
 
@@ -118,14 +109,11 @@ class GetEmailEventReportEvents implements ArrayAccess
     protected static $setters = [
         'email' => 'setEmail',
         'date' => 'setDate',
-        'subject' => 'setSubject',
         'messageId' => 'setMessageId',
         'event' => 'setEvent',
         'reason' => 'setReason',
         'tag' => 'setTag',
-        'ip' => 'setIp',
-        'link' => 'setLink',
-        'from' => 'setFrom'
+        'ip' => 'setIp'
     ];
 
 
@@ -136,14 +124,11 @@ class GetEmailEventReportEvents implements ArrayAccess
     protected static $getters = [
         'email' => 'getEmail',
         'date' => 'getDate',
-        'subject' => 'getSubject',
         'messageId' => 'getMessageId',
         'event' => 'getEvent',
         'reason' => 'getReason',
         'tag' => 'getTag',
-        'ip' => 'getIp',
-        'link' => 'getLink',
-        'from' => 'getFrom'
+        'ip' => 'getIp'
     ];
 
     public static function attributeMap()
@@ -211,14 +196,11 @@ class GetEmailEventReportEvents implements ArrayAccess
     {
         $this->container['email'] = isset($data['email']) ? $data['email'] : null;
         $this->container['date'] = isset($data['date']) ? $data['date'] : null;
-        $this->container['subject'] = isset($data['subject']) ? $data['subject'] : null;
         $this->container['messageId'] = isset($data['messageId']) ? $data['messageId'] : null;
         $this->container['event'] = isset($data['event']) ? $data['event'] : null;
         $this->container['reason'] = isset($data['reason']) ? $data['reason'] : null;
         $this->container['tag'] = isset($data['tag']) ? $data['tag'] : null;
         $this->container['ip'] = isset($data['ip']) ? $data['ip'] : null;
-        $this->container['link'] = isset($data['link']) ? $data['link'] : null;
-        $this->container['from'] = isset($data['from']) ? $data['from'] : null;
     }
 
     /**
@@ -250,11 +232,11 @@ class GetEmailEventReportEvents implements ArrayAccess
             );
         }
 
+        if ($this->container['reason'] === null) {
+            $invalid_properties[] = "'reason' can't be null";
+        }
         if ($this->container['tag'] === null) {
             $invalid_properties[] = "'tag' can't be null";
-        }
-        if ($this->container['from'] === null) {
-            $invalid_properties[] = "'from' can't be null";
         }
         return $invalid_properties;
     }
@@ -284,10 +266,10 @@ class GetEmailEventReportEvents implements ArrayAccess
         if (!in_array($this->container['event'], $allowed_values)) {
             return false;
         }
-        if ($this->container['tag'] === null) {
+        if ($this->container['reason'] === null) {
             return false;
         }
-        if ($this->container['from'] === null) {
+        if ($this->container['tag'] === null) {
             return false;
         }
         return true;
@@ -326,33 +308,12 @@ class GetEmailEventReportEvents implements ArrayAccess
 
     /**
      * Sets date
-     * @param \DateTime $date UTC date-time on which the event has been generated
+     * @param \DateTime $date Date on which the event has been generated
      * @return $this
      */
     public function setDate($date)
     {
         $this->container['date'] = $date;
-
-        return $this;
-    }
-
-    /**
-     * Gets subject
-     * @return string
-     */
-    public function getSubject()
-    {
-        return $this->container['subject'];
-    }
-
-    /**
-     * Sets subject
-     * @param string $subject Subject of the event
-     * @return $this
-     */
-    public function setSubject($subject)
-    {
-        $this->container['subject'] = $subject;
 
         return $this;
     }
@@ -389,7 +350,7 @@ class GetEmailEventReportEvents implements ArrayAccess
 
     /**
      * Sets event
-     * @param string $event Event which occurred
+     * @param string $event Event which occured
      * @return $this
      */
     public function setEvent($event)
@@ -419,7 +380,7 @@ class GetEmailEventReportEvents implements ArrayAccess
 
     /**
      * Sets reason
-     * @param string $reason Reason of bounce (only available if the event is hardbounce or softbounce)
+     * @param string $reason Reason of bounce (only availble if the event is hardbounce or softbounce)
      * @return $this
      */
     public function setReason($reason)
@@ -461,54 +422,12 @@ class GetEmailEventReportEvents implements ArrayAccess
 
     /**
      * Sets ip
-     * @param string $ip IP from which the user has opened the email or clicked on the link (only available if the event is opened or clicks)
+     * @param string $ip IP from which the user has opened the email or clicked on the link (only availble if the event is opened or clicks)
      * @return $this
      */
     public function setIp($ip)
     {
         $this->container['ip'] = $ip;
-
-        return $this;
-    }
-
-    /**
-     * Gets link
-     * @return string
-     */
-    public function getLink()
-    {
-        return $this->container['link'];
-    }
-
-    /**
-     * Sets link
-     * @param string $link The link which is sent to the user (only available if the event is requests or opened or clicks)
-     * @return $this
-     */
-    public function setLink($link)
-    {
-        $this->container['link'] = $link;
-
-        return $this;
-    }
-
-    /**
-     * Gets from
-     * @return string
-     */
-    public function getFrom()
-    {
-        return $this->container['from'];
-    }
-
-    /**
-     * Sets from
-     * @param string $from Sender email from which the emails are sent
-     * @return $this
-     */
-    public function setFrom($from)
-    {
-        $this->container['from'] = $from;
 
         return $this;
     }

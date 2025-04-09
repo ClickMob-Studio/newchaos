@@ -131,7 +131,6 @@ class ErrorModel implements ArrayAccess
     const CODE_NOT_ENOUGH_CREDITS = 'not_enough_credits';
     const CODE_PERMISSION_DENIED = 'permission_denied';
     const CODE_DUPLICATE_PARAMETER = 'duplicate_parameter';
-    const CODE_DUPLICATE_REQUEST = 'duplicate_request';
     const CODE_METHOD_NOT_ALLOWED = 'method_not_allowed';
     const CODE_UNAUTHORIZED = 'unauthorized';
     const CODE_ACCOUNT_UNDER_VALIDATION = 'account_under_validation';
@@ -156,7 +155,6 @@ class ErrorModel implements ArrayAccess
             self::CODE_NOT_ENOUGH_CREDITS,
             self::CODE_PERMISSION_DENIED,
             self::CODE_DUPLICATE_PARAMETER,
-            self::CODE_DUPLICATE_REQUEST,
             self::CODE_METHOD_NOT_ALLOWED,
             self::CODE_UNAUTHORIZED,
             self::CODE_ACCOUNT_UNDER_VALIDATION,

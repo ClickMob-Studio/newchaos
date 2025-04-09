@@ -73,29 +73,39 @@ class SMSCampaignsApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test case for createSmsCampaign
+     * Test case for createSMSCampaign
      *
-     * Creates an SMS campaign.
+     * Creates a SMS campaign.
      *
      */
-    public function testCreateSmsCampaign()
+    public function testCreateSMSCampaign()
     {
     }
 
     /**
-     * Test case for deleteSmsCampaign
+     * Test case for deleteSMSCampaigns
      *
      * Delete the SMS campaign.
      *
      */
-    public function testDeleteSmsCampaign()
+    public function testDeleteSMSCampaigns()
+    {
+    }
+
+    /**
+     * Test case for getSMSCampaigns
+     *
+     * Returns the informations for all your created SMS campaigns.
+     *
+     */
+    public function testGetSMSCampaigns()
     {
     }
 
     /**
      * Test case for getSmsCampaign
      *
-     * Get an SMS campaign.
+     * Get a SMS campaign.
      *
      */
     public function testGetSmsCampaign()
@@ -103,42 +113,32 @@ class SMSCampaignsApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test case for getSmsCampaigns
-     *
-     * Returns the informations for all your created SMS campaigns.
-     *
-     */
-    public function testGetSmsCampaigns()
-    {
-    }
-
-    /**
-     * Test case for requestSmsRecipientExport
+     * Test case for requestSMSRecipientExport
      *
      * Exports the recipients of the specified campaign..
      *
      */
-    public function testRequestSmsRecipientExport()
+    public function testRequestSMSRecipientExport()
     {
     }
 
     /**
-     * Test case for sendSmsCampaignNow
+     * Test case for sendSMSCampaignNow
      *
      * Send your SMS campaign immediately.
      *
      */
-    public function testSendSmsCampaignNow()
+    public function testSendSMSCampaignNow()
     {
     }
 
     /**
-     * Test case for sendSmsReport
+     * Test case for sendSMSReport
      *
      * Send report of SMS campaigns.
      *
      */
-    public function testSendSmsReport()
+    public function testSendSMSReport()
     {
     }
 
@@ -153,22 +153,22 @@ class SMSCampaignsApiTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test case for updateSmsCampaign
-     *
-     * Updates an SMS campaign.
-     *
-     */
-    public function testUpdateSmsCampaign()
-    {
-    }
-
-    /**
-     * Test case for updateSmsCampaignStatus
+     * Test case for updateSMSCampaignStatus
      *
      * Update the campaign status.
      *
      */
-    public function testUpdateSmsCampaignStatus()
+    public function testUpdateSMSCampaignStatus()
+    {
+    }
+
+    /**
+     * Test case for updateSmsCampaign
+     *
+     * Updates a SMS campaign.
+     *
+     */
+    public function testUpdateSmsCampaign()
     {
     }
 }

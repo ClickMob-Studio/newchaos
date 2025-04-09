@@ -63,7 +63,7 @@ class GetAttributesEnumeration implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'value' => 'int64',
+        'value' => 'int32',
         'label' => null
     ];
 

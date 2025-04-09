@@ -228,6 +228,12 @@ class GetSmsEventReportEvents implements ArrayAccess
             );
         }
 
+        if ($this->container['reason'] === null) {
+            $invalid_properties[] = "'reason' can't be null";
+        }
+        if ($this->container['tag'] === null) {
+            $invalid_properties[] = "'tag' can't be null";
+        }
         return $invalid_properties;
     }
 
@@ -254,6 +260,12 @@ class GetSmsEventReportEvents implements ArrayAccess
         }
         $allowed_values = $this->getEventAllowableValues();
         if (!in_array($this->container['event'], $allowed_values)) {
+            return false;
+        }
+        if ($this->container['reason'] === null) {
+            return false;
+        }
+        if ($this->container['tag'] === null) {
             return false;
         }
         return true;
@@ -334,7 +346,7 @@ class GetSmsEventReportEvents implements ArrayAccess
 
     /**
      * Sets event
-     * @param string $event Event which occurred
+     * @param string $event Event which occured
      * @return $this
      */
     public function setEvent($event)
@@ -364,7 +376,7 @@ class GetSmsEventReportEvents implements ArrayAccess
 
     /**
      * Sets reason
-     * @param string $reason Reason of bounce (only available if the event is hardbounce or softbounce)
+     * @param string $reason Reason of bounce (only availble if the event is hardbounce or softbounce)
      * @return $this
      */
     public function setReason($reason)

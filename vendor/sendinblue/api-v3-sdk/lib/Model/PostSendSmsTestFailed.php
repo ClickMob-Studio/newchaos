@@ -65,7 +65,7 @@ class PostSendSmsTestFailed implements ArrayAccess
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'code' => 'int64',
+        'code' => 'int32',
         'message' => null,
         'unexistingSms' => 'email',
         'withoutListSms' => 'email'
