@@ -569,7 +569,7 @@ include 'footer.php';
         document.querySelector("#searchFeedback").style.display = "none"; // Hide feedback section
         document.querySelector(".spinner").style.display = "block"; // Show loading spinner
 
-        setTimeout(function () { // Correctly start the setTimeout function here
+        
             var formData = new FormData();
             formData.append('direction', chosenDirection);
 
@@ -604,9 +604,8 @@ include 'footer.php';
                     setTimeout(() => {
                         canClick = true; // Re-enable clicks after a delay
                         toggleDirectionButtons(false); // Re-enable direction buttons
-                    }, 500); // Wait for 3 seconds before re-enabling clicks and buttons
+                    }, 500);
                 });
-        }, 200); // Wait 1 second before executing the request
     }
 
     function toggleDirectionButtons(disable) {
