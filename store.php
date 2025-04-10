@@ -980,13 +980,15 @@ include 'header.php';
                     var credits = donationAmount * 10; // Assuming each dollar gives 10 credits, adjust as needed
                     donationAmountDisplay.textContent = donationAmount.toFixed(2); // Update the displayed donation amount
                     creditDisplayAmount.textContent = credits; // Update the displayed credits amount
-                    newCreditDisplayAmount.textContent = credits * 2; // Update the displayed credits amount
+                    
                     <?php
                       if ($user_class->donate_token > 0) {
-                        echo 'newCreditDisplayAmount.textContent = credits * 2; // Account for donation token
-';
+                        echo 'newCreditDisplayAmount.textContent = credits * 4; // Account for donation token'
+                      } else {
+                        echo 'newCreditDisplayAmount.textContent = credits * 2; // Update the displayed credits amount'
                       }
                     ?>
+
                 }
 
                 amountInput.addEventListener("input", updateCredits);
