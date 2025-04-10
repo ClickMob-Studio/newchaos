@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $users = $db->fetch_row();
 
     foreach ($users as $user) {
-        $db->query("INSERT INTO pms (parent, to, from, timesent, subject, msgtext, bomb) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $db->query("INSERT INTO pms (`parent`, `to`, `from`, `timesent`, `subject`, `msgtext`, `bomb`) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $db->execute([0, $user['id'], $user_class->id, time(), $subject, $message, 0]);
     }
 }
