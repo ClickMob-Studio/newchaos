@@ -604,7 +604,7 @@ include 'footer.php';
                     setTimeout(() => {
                         canClick = true; // Re-enable clicks after a delay
                         toggleDirectionButtons(false); // Re-enable direction buttons
-                    }, 500);
+                    }, 250);
                 });
     }
 
