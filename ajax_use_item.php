@@ -33,6 +33,7 @@ if (isset($_GET['use'])) {
     $howmany = check_items($id);
 
     if ($howmany) {
+        $failed = false;
         switch ($id) {
             case 4:
                 $db->query("UPDATE grpgusers SET awake = ? WHERE id = ?");
@@ -743,12 +744,15 @@ if (isset($_GET['use'])) {
                 $response['message'] = "You consume the Maze Boost and feel a tingling sense in your feet for the next 10 days!";
                 break;
             default:
+                $failed = true;
                 $response['message'] = "Item not recognized or cannot be used.";
                 break;
         }
 
-        // Remove the item from inventory after use
-        Take_Item($id, $user_class->id);
+        if (!$failed) {
+            // Remove the item from inventory after use
+            Take_Item($id, $user_class->id);
+        }
     } else {
         $response['message'] = "You don't have the item in your inventory.";
     }
