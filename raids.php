@@ -357,6 +357,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
             return;  // Exit early so the rest of the code doesn't run
         }
 
+    } else if ($boss_id == 24) {
+        $totalbaskets = check_items(344, $user_class->id);
+
+        if (!$totalbaskets) {
+            echo "<script>alert('You need a Rare Egg Basket to raid Don Egghopper.');</script>";
+            return;  // Exit early so the rest of the code doesn't run
+        }
     } else {
         if ($user_tokens < $tokencost) {
             echo "<script>alert('You do not have enough raid tokens to summon this boss. Required: $tokencost raid token(s).');</script>";
@@ -415,6 +422,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
 
         if ($boss_id == 21) {
             Take_Item(285, $user_class->id, 1);
+        } else if ($boss_id == 24) {
+            Take_Item(344, $user_class->id, 1);
         }
 
         echo "<script>alert('$tokencost raid token(s) have been spent to summon the boss.');</script>";
@@ -741,6 +750,9 @@ echo "</div>"; // Close active-raids-grid
 
                 if ($boss['id'] == 21) {
                     echo "<p><strong>1 x Dracula Blood Bag to Summon:</strong></p>";
+                } else if ($boss['id'] == 24) {
+                    echo "<p><strong>1 x Rare Egg Basket to Summon:</strong></p>";
+
                 } else {
                     echo "<p><strong>Token Cost to Summon:</strong> $tokencost</p>";
                 }
