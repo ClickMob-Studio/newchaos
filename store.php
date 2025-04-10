@@ -983,9 +983,9 @@ include 'header.php';
                     
                     <?php
                       if ($user_class->donate_token > 0) {
-                        echo 'newCreditDisplayAmount.textContent = credits * 4; // Account for donation token'
+                        echo 'newCreditDisplayAmount.textContent = credits * 4; // Account for donation token';
                       } else {
-                        echo 'newCreditDisplayAmount.textContent = credits * 2; // Update the displayed credits amount'
+                        echo 'newCreditDisplayAmount.textContent = credits * 2; // Update the displayed credits amount';
                       }
                     ?>
 
