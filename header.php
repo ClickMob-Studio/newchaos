@@ -646,63 +646,64 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
     $q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");
     $hosp = mysql_num_rows($q);
     ?>
-    <title>(<?php echo $ev; ?>) ChaosCity</title>
 
+    <?php if ($ev > 0) {
+        $eve = "(" . $ev . ")";
+    } else {
+        $eve = "";
+    } ?>
+    <title><?php echo $eve; ?> ChaosCity</title>
 
-    <html lang="en">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/ca284bbf02.js" crossorigin="anonymous"></script>
+    <link href="newassets/css/style.css?v=1714569ss35a" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="js/java.js?12" type="text/javascript"></script>
+    <!doctype html>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 
-    <head>
-        <?php if ($ev > 0) {
-            $eve = "(" . $ev . ")";
-        } else {
-            $eve = "";
-        } ?>
-        <title><?php echo $eve; ?> ChaosCity</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/java.js?v=12" type="text/javascript"></script>
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
-        <script src="https://kit.fontawesome.com/ca284bbf02.js" crossorigin="anonymous"></script>
-        <link href="newassets/css/style.css?v=1714569ss35a" rel="stylesheet" type="text/css">
-        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-        <script src="js/java.js?12" type="text/javascript"></script>
-        <!doctype html>
-        <script type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <style>
+        a {
+            text-decoration: none;
+        }
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="js/java.js?v=12" type="text/javascript"></script>
+        .floaty {
+            color: white !important;
+        }
 
-
-
-
-        <style>
-            a {
-                text-decoration: none;
+        @media (max-width: 768px) {
+            .mainHeader {
+                background: #111;
+                margin-top: -84px;
+                margin-bottom: 10px;
+                position: static;
             }
+        }
+    </style>
+</head>
 
-            .floaty {
-                color: white !important;
-            }
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CRVCJ66JV7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-            @media (max-width: 768px) {
-                .mainHeader {
-                    background: #111;
-                    margin-top: -84px;
-                    margin-bottom: 10px;
-                    position: static;
-                }
-            }
-        </style>
-
-    </head>
+  gtag('config', 'G-CRVCJ66JV7');
+</script>
 
 <body>
     <header class="mainHeader">
