@@ -24,6 +24,7 @@ if ($user_class->admin < 1) {
     <li><a href="admin_edit_boss.php">Raid Bosses</a></li>
     <li><a href="admin_attack_logs.php">Attack Logs</a></li>
     <li><a href="admin_item_check.php">Item Check</a></li>
+    <li><a href="admin_mass_pm.php">Mass PM Users</a></li>
 </ul>
 
 <?php
