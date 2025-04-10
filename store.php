@@ -1273,45 +1273,43 @@ include 'header.php';
     </div>
 </div>
 
-<?php if ($user_class->admin == 1): ?>
-    <br>
-    <div class="floaty" style="margin: 3px;">
-        <h4>EASTER LIMITEDS</h4>
-        <hr>
-        <div class="vip-packages"
-            style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
+<br>
+<div class="floaty" style="margin: 3px;">
+    <h4>EASTER LIMITEDS</h4>
+    <hr>
+    <div class="vip-packages"
+        style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
 
-            <!-- Rare Egg Basket -->
-            <div class="vip-package">
-                <h4 style="color: brown;">1 x <?= item_popup('Rare Egg Basket', 344, 'brown'); ?></h4>
-                <img src="/css/images/2025/rare_easter_basket.png" height="100" alt="Rare Egg Basket">
+        <!-- Rare Egg Basket -->
+        <div class="vip-package">
+            <h4 style="color: brown;">1 x <?= item_popup('Rare Egg Basket', 344, 'brown'); ?></h4>
+            <img src="/css/images/2025/rare_easter_basket.png" height="100" alt="Rare Egg Basket">
 
-                <h4>Purchase now for only<br><a href="store.php?buy=easterbasket"><button class="gold-button">25 <img
-                                src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
-            </div>
-
-            <!-- Easter Bead -->
-            <div class="vip-package">
-                <h4 style="color: brown;">1 x <?= item_popup('Easter Bead', 345, 'brown'); ?></h4>
-                <img src="/css/images/2025/easter_bead.png" height="100" alt="Easter Bead">
-
-                <h4>Purchase now for only<br><a href="store.php?buy=easterbead"><button class="gold-button">50 <img
-                                src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
-            </div>
-
-            <!-- Maze Boost -->
-            <div class="vip-package">
-                <h4 style="color: brown;">1 x <?= item_popup('Maze Boost', 346, 'brown'); ?></h4>
-                <img src="/css/images/2025/maze_boost.png" height="100" alt="Maze Boost">
-
-                <h4>Purchase now for only<br><a href="store.php?buy=mazeboost"><button class="gold-button">500 <img
-                                src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
-            </div>
-
+            <h4>Purchase now for only<br><a href="store.php?buy=easterbasket"><button class="gold-button">25 <img
+                            src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
-        <br>
+
+        <!-- Easter Bead -->
+        <div class="vip-package">
+            <h4 style="color: brown;">1 x <?= item_popup('Easter Bead', 345, 'brown'); ?></h4>
+            <img src="/css/images/2025/easter_bead.png" height="100" alt="Easter Bead">
+
+            <h4>Purchase now for only<br><a href="store.php?buy=easterbead"><button class="gold-button">50 <img
+                            src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+        </div>
+
+        <!-- Maze Boost -->
+        <div class="vip-package">
+            <h4 style="color: brown;">1 x <?= item_popup('Maze Boost', 346, 'brown'); ?></h4>
+            <img src="/css/images/2025/maze_boost.png" height="100" alt="Maze Boost">
+
+            <h4>Purchase now for only<br><a href="store.php?buy=mazeboost"><button class="gold-button">500 <img
+                            src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+        </div>
+
     </div>
-<?php endif; ?>
+    <br>
+</div>
 
 <br />
 <div class="floaty" style="margin: 3px;">
