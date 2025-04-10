@@ -262,8 +262,9 @@ if ($user_class->gang > 0) {
             }
 
 
-
-            if ($item['type'] != 'booster' && (!$loaned && $itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems) && $item['category'] != 'crafting'))) {
+            if (in_array($item['id'], [336, 337, 338])) {
+                $buttonHtml .= '<a href="stores.php" class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '">Exchange</a>';
+            } else if ($item['type'] != 'booster' && (!$loaned && $itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems) && $item['category'] != 'crafting'))) {
                 // Multi-use items
                 if (in_array($item['id'], $multiUseItems)) {
                     $buttonHtml .= '<button class="use-btn-multi btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int) $item['quantity'] . '">Use Multiple</button>';
@@ -274,9 +275,6 @@ if ($user_class->gang > 0) {
                     $buttonHtml .= '<button class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int) $item['quantity'] . '">Use</button>';
                 }
             }
-
-
-
 
             if (!$loaned && !in_array($item['id'], $restrictedSendItems)) {
                 $buttonHtml .= '<button class="btn btn-sm btn-info send-btn mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '" data-item-quantity="' . (int) $item['quantity'] . '">Send</button> ';
