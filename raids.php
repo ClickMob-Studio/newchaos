@@ -752,7 +752,6 @@ echo "</div>"; // Close active-raids-grid
                     echo "<p><strong>1 x Dracula Blood Bag to Summon:</strong></p>";
                 } else if ($boss['id'] == 24) {
                     echo "<p><strong>1 x Rare Egg Basket to Summon:</strong></p>";
-
                 } else {
                     echo "<p><strong>Token Cost to Summon:</strong> $tokencost</p>";
                 }
