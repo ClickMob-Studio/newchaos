@@ -47,6 +47,15 @@ $_SESSION['cap'] = $rand;
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
       </script>
    </head>
+   <!-- Google tag (gtag.js) -->
+   <script async src="https://www.googletagmanager.com/gtag/js?id=G-CRVCJ66JV7"></script>
+   <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-CRVCJ66JV7');
+   </script>
    <body>
       <img class="dcMascot d-none d-lg-block" src="/asset/img/man1.png">
       <!-- <img class="dcMascot d-none d-lg-block" src="/asset/pumpkinman.png"> -->
