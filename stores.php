@@ -178,7 +178,7 @@ $egg_name_by_id = array(
 		}
 
 		// Easter 2025 Store
-		echo '<div class="floaty"><h1>Easter 2025</h1>';
+		echo '<div class="floaty" id="easter-2025"><h1>Easter 2025</h1>';
 
 		$db->query("SELECT * FROM easter_store ORDER BY egg_id ASC, quantity ASC");
 		$db->execute();
