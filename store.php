@@ -983,7 +983,8 @@ include 'header.php';
                     newCreditDisplayAmount.textContent = credits * 2; // Update the displayed credits amount
                     <?php
                       if ($user_class->donate_token > 0) {
-                        echo 'newCreditDisplayAmount.textContent = credits * 2; // Account for donation token';
+                        echo 'newCreditDisplayAmount.textContent = credits * 2; // Account for donation token
+';
                       }
                     ?>
                 }
