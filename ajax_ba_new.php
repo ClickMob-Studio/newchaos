@@ -683,9 +683,9 @@ function check_for_easter_egg($fullResponse, $user_class)
 
 function did_find_easter_egg($user_class)
 {
-    if ($user_class->admin < 1) {
-        return 0;
-    }
+    // if ($user_class->admin < 1) {
+    //     return 0;
+    // }
 
     $probability = mt_rand(1, 400);
     if ($probability <= 1) {

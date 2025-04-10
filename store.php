@@ -35,11 +35,7 @@ include 'header.php';
         }
 
 
-        if ($user_class->admin > 0) {
-            $db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 13");
-        } else {
-            $db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 12");
-        }
+        $db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 13");
         $db->execute();
         $limitedPack = $db->fetch_row();
         $limitedPack = $limitedPack[0];

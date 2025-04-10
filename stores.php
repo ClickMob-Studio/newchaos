@@ -178,73 +178,72 @@ $egg_name_by_id = array(
 		}
 
 		// Easter 2025 Store
-		if ($user_class->admin == 1) {
-			echo '<div class="floaty"><h1>Easter 2025</h1>';
+		echo '<div class="floaty"><h1>Easter 2025</h1>';
 
-			$db->query("SELECT * FROM easter_store ORDER BY egg_id ASC, quantity ASC");
-			$db->execute();
-			$rows = $db->fetch_row();
-			foreach ($rows as $row) {
-				$image = '';
-				$item_name = '';
-				if ($row['item_id'] != 0) {
-					// Select the item from the database
-					$db->query("SELECT * FROM items WHERE id = ?");
-					$db->execute([$row['item_id']]);
-					$item_row = $db->fetch_row(true);
-					$item_name = $item_row['itemname'];
-					$image = '<img src="' . $item_row['image'] . '" width="100" height="100" style="border: 0px solid #000000">';
-				} else if ($row['points'] != 0) {
-					$item_name = $row['points'] . ' points';
-					$image = '<i class="mx-auto mt-4 far fa-gem text-lg" style="font-size:5rem;margin-left:28px!important" aria-hidden="true"></i>';
-				} else if ($row['maze'] != 0) {
-					$image = '<i class="mx-auto mt-4 fa-brands fa-searchengin text-lg" style="font-size:5rem;margin-left:28px!important" aria-hidden="true"></i>';
-				} else if ($row['achievement'] != 0) {
-					$db->query("SELECT * FROM badges WHERE id = ?");
-					$db->execute([$row["achievement"]]);
-					$item_row = $db->fetch_row(true);
+		$db->query("SELECT * FROM easter_store ORDER BY egg_id ASC, quantity ASC");
+		$db->execute();
+		$rows = $db->fetch_row();
+		foreach ($rows as $row) {
+			$image = '';
+			$item_name = '';
+			if ($row['item_id'] != 0) {
+				// Select the item from the database
+				$db->query("SELECT * FROM items WHERE id = ?");
+				$db->execute([$row['item_id']]);
+				$item_row = $db->fetch_row(true);
+				$item_name = $item_row['itemname'];
+				$image = '<img src="' . $item_row['image'] . '" width="100" height="100" style="border: 0px solid #000000">';
+			} else if ($row['points'] != 0) {
+				$item_name = $row['points'] . ' points';
+				$image = '<i class="mx-auto mt-4 far fa-gem text-lg" style="font-size:5rem;margin-left:28px!important" aria-hidden="true"></i>';
+			} else if ($row['maze'] != 0) {
+				$image = '<i class="mx-auto mt-4 fa-brands fa-searchengin text-lg" style="font-size:5rem;margin-left:28px!important" aria-hidden="true"></i>';
+			} else if ($row['achievement'] != 0) {
+				$db->query("SELECT * FROM badges WHERE id = ?");
+				$db->execute([$row["achievement"]]);
+				$item_row = $db->fetch_row(true);
 
-					$item_name = $item_row["name"];
-					$image = '<img src="' . $item_row["image"] . '" width="100" height="100" style="border: 0px solid #000000">';
-				} else {
-					$image = 'No image available';
-				}
-
-				if ($row['maze'] != 0) {
-					$item_name = $row['maze'] . ' Maze searches';
-				} else if ($row['achievement'] == 1) {
-					$item_name = 'Easter 2025 Achievement';
-				} else if ($row['achievement'] == 2) {
-					$item_name = 'You had no life during Easter 2025 Achievement';
-				}
-
-				echo '<hr style="border:0;border-bottom:thin solid #fff;" />';
-				echo '<div style="display:flex;">';
-				echo '<div style="flex:1;border-right:thin solid #333;">';
-
-				if ($row['item_id'] != 0) {
-					echo item_popup($item_name, $row['item_id']) . '<br>';
-				} else {
-					echo $item_name . '<br>';
-				}
-
-				echo $image;
-				echo '</div>';
-				echo '<div style="flex:1;">';
-				echo '<br />';
-				echo $row['quantity'] . 'x ' . item_popup($egg_name_by_id[$row['egg_id']], $row['egg_id']) . '<br>';
-				echo '<br>';
-				echo '<form method="post">';
-				echo '<input type="text" size="5" name="qty" value="1" /><br />';
-				echo '<input type="hidden" name="item" value="' . $row['id'] . '" />';
-				echo '<input type="hidden" name="type" value="easter-2025" />';
-				echo '<br />';
-				echo '<input type="submit" value="Exchange" />';
-				echo '</form>';
-				echo '</div>';
-				echo '</div>';
+				$item_name = $item_row["name"];
+				$image = '<img src="' . $item_row["image"] . '" width="100" height="100" style="border: 0px solid #000000">';
+			} else {
+				$image = 'No image available';
 			}
+
+			if ($row['maze'] != 0) {
+				$item_name = $row['maze'] . ' Maze searches';
+			} else if ($row['achievement'] == 1) {
+				$item_name = 'Easter 2025 Achievement';
+			} else if ($row['achievement'] == 2) {
+				$item_name = 'You had no life during Easter 2025 Achievement';
+			}
+
+			echo '<hr style="border:0;border-bottom:thin solid #fff;" />';
+			echo '<div style="display:flex;">';
+			echo '<div style="flex:1;border-right:thin solid #333;">';
+
+			if ($row['item_id'] != 0) {
+				echo item_popup($item_name, $row['item_id']) . '<br>';
+			} else {
+				echo $item_name . '<br>';
+			}
+
+			echo $image;
+			echo '</div>';
+			echo '<div style="flex:1;">';
+			echo '<br />';
+			echo $row['quantity'] . 'x ' . item_popup($egg_name_by_id[$row['egg_id']], $row['egg_id']) . '<br>';
+			echo '<br>';
+			echo '<form method="post">';
+			echo '<input type="text" size="5" name="qty" value="1" /><br />';
+			echo '<input type="hidden" name="item" value="' . $row['id'] . '" />';
+			echo '<input type="hidden" name="type" value="easter-2025" />';
+			echo '<br />';
+			echo '<input type="submit" value="Exchange" />';
+			echo '</form>';
+			echo '</div>';
+			echo '</div>';
 		}
+		
 
 		print "</table>
 </td></tr>";
