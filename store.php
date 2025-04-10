@@ -964,10 +964,6 @@ include 'header.php';
             </font>
         </span>
 
-        <p style="font: 1rem 'Montserrat', sans-serif">This calculator does not include Boost Donation tokens or half
-            price credit events. They are used automatically at the time of donating.</p>
-
-
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 var amountInput = document.getElementById("amount");
