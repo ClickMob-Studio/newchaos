@@ -739,6 +739,7 @@ if (isset($_GET['use'])) {
                 $newTime = time() + 864000;
 
                 addItemTempUse($user_class, 'maze_boost', $newTime);
+                give_maze_turns(25);
 
                 $response['success'] = true;
                 $response['message'] = "You consume the Maze Boost and feel a tingling sense in your feet for the next 10 days!";

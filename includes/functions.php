@@ -1474,6 +1474,19 @@ function give_energy($amount)
     return $amount;
 }
 
+/// Adds $amount to current users' current amount of cityturns
+function give_maze_turns($amount)
+{
+    global $user_class, $db;
+
+    $db->query("UPDATE grpgusers SET cityturns = cityturns + ? WHERE id = ?");
+    $db->execute(array(
+        $amount,
+        $user_class->id
+    ));
+    $user_class->cityturns += $amount;
+}
+
 function refill($which)
 {
     global $user_class, $db;
