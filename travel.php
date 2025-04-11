@@ -3,12 +3,16 @@ include 'header.php';
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
 
 $goldenTicketCount = Check_Item(38, $user_class->id);
+
 if ($goldenTicketCount > 0) {
-    echo '<div class="dcPanel p-3 mt-2" style="text-align:center">You have a ' . item_popup('Golden Ticket', 38) . ' which enables you to travel for free!</div>';
+    if ($_GET['ticket']) {
+        echo '<div class="dcPanel p-3 mt-2" style="text-align:center">You are using a ' . item_popup('Golden Ticket', 38) . ' which enables you to travel for free. <b><a href="travel.php">Travel Normally</a></b></div>';
+    } else{
+        echo '<div class="dcPanel p-3 mt-2" style="text-align:center">You have a ' . item_popup('Golden Ticket', 38) . ' which enables you to travel for free. <b><a href="travel.php?ticket=1">Use Ticket</a></b></div>';
+    }
 }
 
 ?>
-
 
 
 <div class='box_top'>Travel</div>
@@ -31,7 +35,7 @@ if ($goldenTicketCount > 0) {
         $discount -= isset($mydiscount) ? $mydiscount[0] : 0;
 
         // Apply nightvision discount if applicable
-        if ($nightvision_level > 0 && $goldenTicketCount <= 0) {
+        if ($nightvision_level > 0 && ($goldenTicketCount <= 0 && !isset($_GET['ticket']))) {
             $discount -= 50; // additional 50% discount, subtract from 100%
             echo "Notification: Your nightvision ability has granted you a 50% discount on travel costs!<br>";
         }
@@ -49,7 +53,7 @@ if ($goldenTicketCount > 0) {
                 $cost = $cost - ($cost / 100 * 20);
             }
 
-            if ($goldenTicketCount > 0) {
+            if ($goldenTicketCount > 0 && isset($_GET['ticket'])) {
                 $cost = 0; // Free travel with Golden Ticket 
             }
 
@@ -64,12 +68,12 @@ if ($goldenTicketCount > 0) {
             if (!isset($error)) {
                 $newmoney = $user_class->money - $cost;
 
-                if ($goldenTicketCount > 0) {
+                if ($goldenTicketCount > 0 && isset($_GET['ticket'])) {
                     Take_Item(38, $user_class->id, 1); // Remove one Golden Ticket
                 }
 
                 $result = mysql_query("UPDATE grpgusers SET city = {$_GET['go']}, king = 0, queen = 0, money = $newmoney WHERE id = $user_class->id");
-                echo Message("You successfully paid " . prettynum($cost, 1) . ($goldenTicketCount ? ", and a Golden Ticket" : "") . " for a Plane ticket and got to your destination.");
+                echo Message("You successfully paid " . prettynum($cost, 1) . (($goldenTicketCount && isset($_GET['ticket'])) ? ", and a Golden Ticket" : "") . " for a Plane ticket and got to your destination.");
             } else
                 echo Message($error);
         }
@@ -119,14 +123,14 @@ if ($goldenTicketCount > 0) {
                 $cost = $cost - ($cost / 100 * 20);
             }
 
-            if ($goldenTicketCount > 0) {
+            if ($goldenTicketCount > 0 && isset($_GET['ticket'])) {
                 $cost = 0; // Free travel with Golden Ticket 
             }
 
             if ($line['rmonly'] == 1) {
-                echo "<tr><td><a href='travel.php?go={$line['id']}'>{$line['name']}</a> <a href='rmstore.php' class='rm' style='color:yellow;'>RY ONLY</a></td><td>" . prettynum($cost, 1) . "</td><td>{$line['levelreq']}</td><td>{$line['pres']}</td><td>$population</td><td>$king_status</td><td>$queen_status</td></tr>";
+                echo "<tr><td><a href='travel.php?go={$line['id']}" . (isset($_GET['ticket']) && $goldenTicketCount > 0)  ? "&ticket=1" : "" .  "'>{$line['name']}</a> <a href='rmstore.php' class='rm' style='color:yellow;'>RY ONLY</a></td><td>" . prettynum($cost, 1) . "</td><td>{$line['levelreq']}</td><td>{$line['pres']}</td><td>$population</td><td>$king_status</td><td>$queen_status</td></tr>";
             } else {
-                echo "<tr><td><a href='travel.php?go={$line['id']}'>{$line['name']}</a></td><td>" . prettynum($cost, 1) . "</td><td>{$line['levelreq']}</td><td>$population</td><td>$king_status</td><td>$queen_status</td></tr>";
+                echo "<tr><td><a href='travel.php?go={$line['id']}" . (isset($_GET['ticket']) && $goldenTicketCount > 0)  ? "&ticket=1" : "" .  "'>{$line['name']}</a></td><td>" . prettynum($cost, 1) . "</td><td>{$line['levelreq']}</td><td>$population</td><td>$king_status</td><td>$queen_status</td></tr>";
             }
         }
         echo "</table>";
