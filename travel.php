@@ -7,7 +7,7 @@ $goldenTicketCount = Check_Item(38, $user_class->id);
 if ($goldenTicketCount > 0) {
     if ($_GET['ticket']) {
         echo '<div class="dcPanel p-3 mt-2" style="text-align:center">You are using a ' . item_popup('Golden Ticket', 38) . ' which enables you to travel for free. <b><a href="travel.php">Travel Normally</a></b></div>';
-    } else{
+    } else {
         echo '<div class="dcPanel p-3 mt-2" style="text-align:center">You have a ' . item_popup('Golden Ticket', 38) . ' which enables you to travel for free. <b><a href="travel.php?ticket=1">Use Ticket</a></b></div>';
     }
 }
@@ -128,9 +128,9 @@ if ($goldenTicketCount > 0) {
             }
 
             if ($line['rmonly'] == 1) {
-                echo "<tr><td><a href='travel.php?go={$line['id']}" . (isset($_GET['ticket']) && $goldenTicketCount > 0)  ? "&ticket=1" : "" .  "'>{$line['name']}</a> <a href='rmstore.php' class='rm' style='color:yellow;'>RY ONLY</a></td><td>" . prettynum($cost, 1) . "</td><td>{$line['levelreq']}</td><td>{$line['pres']}</td><td>$population</td><td>$king_status</td><td>$queen_status</td></tr>";
+                echo "<tr><td><a href='travel.php?go={$line['id']}" . (isset($_GET['ticket']) && $goldenTicketCount > 0 ? "&ticket=1" : "") . "'>{$line['name']}</a> <a href='rmstore.php' class='rm' style='color:yellow;'>RY ONLY</a></td><td>" . prettynum($cost, 1) . "</td><td>{$line['levelreq']}</td><td>{$line['pres']}</td><td>$population</td><td>$king_status</td><td>$queen_status</td></tr>";
             } else {
-                echo "<tr><td><a href='travel.php?go={$line['id']}" . (isset($_GET['ticket']) && $goldenTicketCount > 0)  ? "&ticket=1" : "" .  "'>{$line['name']}</a></td><td>" . prettynum($cost, 1) . "</td><td>{$line['levelreq']}</td><td>$population</td><td>$king_status</td><td>$queen_status</td></tr>";
+                echo "<tr><td><a href='travel.php?go={$line['id']}" . (isset($_GET['ticket']) && $goldenTicketCount > 0 ? "&ticket=1" : "") . "'>{$line['name']}</a></td><td>" . prettynum($cost, 1) . "</td><td>{$line['levelreq']}</td><td>$population</td><td>$king_status</td><td>$queen_status</td></tr>";
             }
         }
         echo "</table>";
