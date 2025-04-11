@@ -925,6 +925,26 @@ include 'header.php';
                     echo Message("You don't have enough credits. You can buy some at the upgrade store.");
                 }
             }
+
+            if ($_GET['buy'] == "grt-chest") {
+                if ($user_class->credits >= 50) {
+                    $current = $user_class->credits;
+                    $newcredit = $user_class->credits -= 50;
+                    $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (" . $user_class->id . ", '1 x Gold Rush Token Chest', " . $current . ", " . $newcredit . ")");
+                    $db->execute();
+                    $db->query("UPDATE grpgusers SET credits = credits - 50 WHERE id = ?");
+                    $db->execute([$user_class->id]);
+
+                    Give_Item(283, $user_class->id, 1);
+
+                    Send_Event(1, $user_class->formattedname . " bought 1 x Gold Rush Token Chest");
+                    Send_Event(2, $user_class->formattedname . " bought 1 x Gold Rush Token Chest");
+
+                    echo Message("You spent 50 credits for 1 x Gold Rush Token Chest.");
+                } else {
+                    echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+                }
+            }
         }
         $donperc = ($user_class->donations / $donmax) * 100;
         $donperc = $donperc >= 100 ? 100 : $donperc;
@@ -976,13 +996,13 @@ include 'header.php';
                     var credits = donationAmount * 10; // Assuming each dollar gives 10 credits, adjust as needed
                     donationAmountDisplay.textContent = donationAmount.toFixed(2); // Update the displayed donation amount
                     creditDisplayAmount.textContent = credits; // Update the displayed credits amount
-                    
+
                     <?php
-                      if ($user_class->donate_token > 0) {
+                    if ($user_class->donate_token > 0) {
                         echo 'newCreditDisplayAmount.textContent = credits * 4; // Account for donation token';
-                      } else {
+                    } else {
                         echo 'newCreditDisplayAmount.textContent = credits * 2; // Update the displayed credits amount';
-                      }
+                    }
                     ?>
 
                 }
@@ -1308,6 +1328,15 @@ include 'header.php';
             <img src="/css/images/2025/maze_boost.png" height="100" alt="Maze Boost">
 
             <h4>Purchase now for only<br><a href="store.php?buy=mazeboost"><button class="gold-button">500 <img
+                            src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+        </div>
+
+        <!-- Gold Rush Token Chest -->
+        <div class="vip-package">
+            <h4 style="color: brown;">1 x <?= item_popup('Gold Rush Token Chest', 283, 'brown'); ?></h4>
+            <img src="/css/images/NewGameImages/grt-chest.png" height="100" alt="Maze Boost">
+
+            <h4>Purchase now for only<br><a href="store.php?buy=grt-chest"><button class="gold-button">50 <img
                             src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
 
