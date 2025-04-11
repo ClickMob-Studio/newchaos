@@ -5,17 +5,21 @@ This is necessary to allow the main menu to include the left menu on mobile devi
  **/
 ?>
 <nav class="navbar navbar-expand-lg p-0 dcNav dcLeftNav">
-            <div class="navbar d-block w-100 p-0">
-                <ul class="navbar-nav text-center">
-				<?php foreach ( $leftLinks as $link ) : ?>
-                    <li class="nav-item">
+	<div class="navbar d-block w-100 p-0">
+		<ul class="navbar-nav text-center">
+			<?php foreach ($leftLinks as $link): ?>
+				<li class="nav-item">
 					<?php
-						$linkText = $link['name'] . ( $link['count'] ? ' [' . $link['count'] . ']' : '' );
-						$linkClasses = $link['url'] === $navPage ? ' active' : '' . ( $link['count'] ? ' hasNew' : '' );
+					$linkText = $link['name'] . ($link['count'] ? ' [' . $link['count'] . ']' : '');
+					$linkClasses = $link['url'] === $navPage ? ' active' : '' . ($link['count'] ? ' hasNew' : '');
 					?>
-					<a class="nav-link px-4 py-3<?php echo $linkClasses; ?>" aria-current="page" href="<?php echo $link['url']; ?>"><?php echo $linkText; ?></a>
+					<a class="nav-link px-4 py-3<?php echo $linkClasses; ?>" aria-current="page"
+						href="<?php echo $link['url']; ?>"><?php echo $linkText; ?></a>
 				</li>
 			<?php endforeach; ?>
-                </ul>
-            </div>
-        </nav>
+			<?php if ($user_class->admin > 0): ?>
+				<a class="nav-link px-4 py-3" href="admin_panel.php">Admin Panel</a>
+			<?php endif; ?>
+		</ul>
+	</div>
+</nav>
