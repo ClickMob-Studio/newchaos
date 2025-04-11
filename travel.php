@@ -119,6 +119,10 @@ if ($goldenTicketCount > 0) {
                 $cost = $cost - ($cost / 100 * 20);
             }
 
+            if ($goldenTicketCount > 0) {
+                $cost = 0; // Free travel with Golden Ticket 
+            }
+
             if ($line['rmonly'] == 1) {
                 echo "<tr><td><a href='travel.php?go={$line['id']}'>{$line['name']}</a> <a href='rmstore.php' class='rm' style='color:yellow;'>RY ONLY</a></td><td>" . prettynum($cost, 1) . "</td><td>{$line['levelreq']}</td><td>{$line['pres']}</td><td>$population</td><td>$king_status</td><td>$queen_status</td></tr>";
             } else {
