@@ -331,7 +331,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="font-weight: bold; color: green;">You won $' . number_format($cashWon, 0) . ' & ' . number_format($expWon, 0) . ' EXP!</span>';
 
-        $fullResponse = check_for_easter_egg($fullResponse, $user_class);
+        $fullResponse = check_for_easter_egg($fullResponse, $user_class, $userBaStats['gold_rush_credits']);
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
@@ -389,7 +389,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="font-weight: bold; color: green;">You won $' . number_format($cashWon, 0) . ' & found 1 x ' . $itemName . '!</span>';
 
-        $fullResponse = check_for_easter_egg($fullResponse, $user_class);
+        $fullResponse = check_for_easter_egg($fullResponse, $user_class, $userBaStats['gold_rush_credits']);
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
@@ -417,7 +417,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="font-weight: bold; color: green;">You won ' . number_format($pointsWon, 0) . ' points!</span>';
 
-        $fullResponse = check_for_easter_egg($fullResponse, $user_class);
+        $fullResponse = check_for_easter_egg($fullResponse, $user_class, $userBaStats['gold_rush_credits']);
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
@@ -444,7 +444,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="font-weight: bold; color: green;">You won ' . number_format($raidTokensWon, 0) . ' raid tokens!</span>';
 
-        $fullResponse = check_for_easter_egg($fullResponse, $user_class);
+        $fullResponse = check_for_easter_egg($fullResponse, $user_class, $userBaStats['gold_rush_credits']);
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
@@ -527,7 +527,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="font-weight: bold; color: green;">You won $' . number_format($cashWon, 0) . ' & ' . number_format($expWon, 0) . ' EXP!</span>';
 
-        $fullResponse = check_for_easter_egg($fullResponse, $user_class);
+        $fullResponse = check_for_easter_egg($fullResponse, $user_class, $userBaStats['gold_rush_credits']);
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
@@ -582,7 +582,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         $fullResponse .= '<br />';
         $fullResponse .= '<span style="font-weight: bold; color: green;">You won $' . number_format($cashWon, 0) . ' & found 1 x ' . $itemName . '!</span>';
 
-        $fullResponse = check_for_easter_egg($fullResponse, $user_class);
+        $fullResponse = check_for_easter_egg($fullResponse, $user_class, $userBaStats['gold_rush_credits']);
 
         echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
         exit;
@@ -613,7 +613,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
             $fullResponse .= '<br />';
             $fullResponse .= '<span style="font-weight: bold; color: green;">You won ' . number_format($pointsWon, 0) . ' points!</span>';
 
-            $fullResponse = check_for_easter_egg($fullResponse, $user_class);
+            $fullResponse = check_for_easter_egg($fullResponse, $user_class, $userBaStats['gold_rush_credits']);
 
             echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
             exit;
@@ -635,7 +635,7 @@ if ($userBaStats['gold_rush_credits'] > 0) {
             $fullResponse .= '<br />';
             $fullResponse .= '<span style="font-weight: bold; color: green;">You won ' . number_format($raidTokensWon, 0) . ' raid tokens!</span>';
 
-            $fullResponse = check_for_easter_egg($fullResponse, $user_class);
+            $fullResponse = check_for_easter_egg($fullResponse, $user_class, $userBaStats['gold_rush_credits']);
 
             echo json_encode(success($fullResponse, $userBaStats['gold_rush_credits'], $totalMedPackCount, $userBaStats));
             exit;
@@ -664,11 +664,15 @@ echo json_encode(success($outcome . ' - Something went wrong'));
 exit;
 
 
-function check_for_easter_egg($fullResponse, $user_class)
+function check_for_easter_egg($fullResponse, $user_class, $goldRushEnabled = 0)
 {
     global $db;
 
     $egg = did_find_easter_egg($user_class);
+    if (!$egg && $goldRushEnabled) {
+        $egg = did_find_easter_egg($user_class);
+    }
+
     if ($egg > 0) {
         $db->query("SELECT * FROM items WHERE id = " . $egg);
         $db->execute();
