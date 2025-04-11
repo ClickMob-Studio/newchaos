@@ -2,7 +2,8 @@
 include 'header.php';
 
 // Function to handle item purchase and update user's points in the database
-function purchaseItem($apoints, $user_class, $db){
+function purchaseItem($apoints, $user_class, $db)
+{
     if ($user_class->apoints >= $apoints) {
         // Deduct points from the user's activity points
         $user_class->apoints -= $apoints;
@@ -28,28 +29,29 @@ $items = array(
     array("PT", "15,000 Points", 500), // New item: 10,000 Points for 500 Activity Points
     array("GRT", "1 Gold Rush Token", 200),
     array("CMB", "1 Crime Booster", 250),
+    array("GRTC", "1 Gold Rush Token Chest (10 Tokens)", 1800),
 );
 
 // Check if the 'buy' GET parameter is set
-if(isset($_POST['buy'])){
+if (isset($_POST['buy'])) {
     $total_cost = 0;
     $purchases = [];
-    foreach($items as $item) {
+    foreach ($items as $item) {
         $code = $item[0];
-        if(isset($_POST[$code]) && $_POST[$code] > 0) {
-            $qty = (int)$_POST[$code];
+        if (isset($_POST[$code]) && $_POST[$code] > 0) {
+            $qty = (int) $_POST[$code];
             $cost = $item[2] * $qty;
             $total_cost += $cost;
             $purchases[] = array($code, $qty, $cost, $item[1]);
         }
     }
 
-    if($total_cost == 0) {
+    if ($total_cost == 0) {
         diefun('Please ensure you enter a valid quantity. <a href="spendactivity.php">Go Back</a>');
     }
 
-    if(purchaseItem($total_cost, $user_class, $db)) {
-        foreach($purchases as $purchase) {
+    if (purchaseItem($total_cost, $user_class, $db)) {
+        foreach ($purchases as $purchase) {
             $code = $purchase[0];
             $qty = $purchase[1];
             $cost = $purchase[2];
@@ -103,6 +105,10 @@ if(isset($_POST['buy'])){
                     Give_Item(255, $user_class->id, $qty);
                     $message = $qty . " x Crime Booster(s)";
                     break;
+                case 'GRTC':
+                    Give_Item(283, $user_class->id, $qty);
+                    $message = $qty . " x Gold Rush Token(s)";
+                    break;
             }
 
             // Confirm the purchase to the user
@@ -123,12 +129,16 @@ if(isset($_POST['buy'])){
 
 ?>
 
-<div class="box_top"><h1>Activity Points Store</h1></div>
+<div class="box_top">
+    <h1>Activity Points Store</h1>
+</div>
 <div class="box_middle">
     <div class="pad">
         <p>
-            Welcome to the Activity Points Store. Here you can spend the points you've earned for playing the game. You currently have
-            <strong id="userPoints"><?php echo number_format($user_class->apoints, 0) ?> activity points</strong> to spend.
+            Welcome to the Activity Points Store. Here you can spend the points you've earned for playing the game. You
+            currently have
+            <strong id="userPoints"><?php echo number_format($user_class->apoints, 0) ?> activity points</strong> to
+            spend.
         </p>
 
         <form method="POST" action="" id="purchaseForm">
@@ -142,7 +152,8 @@ if(isset($_POST['buy'])){
                     <tr>
                         <td><?php echo $item[1] ?></td>
                         <td><?php echo prettynum($item[2]) ?> Activity Points</td>
-                        <td><input type="number" name="<?php echo $item[0] ?>" style="width: 100px;" min="0" data-cost="<?php echo $item[2] ?>" class="item-qty" /></td>
+                        <td><input type="number" name="<?php echo $item[0] ?>" style="width: 100px;" min="0"
+                                data-cost="<?php echo $item[2] ?>" class="item-qty" /></td>
                     </tr>
                 <?php endforeach; ?>
             </table>
@@ -152,35 +163,35 @@ if(isset($_POST['buy'])){
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const form = document.getElementById('purchaseForm');
         const userPoints = parseInt(document.getElementById('userPoints').innerText.replace(/,/g, ''));
         const itemQtyInputs = document.querySelectorAll('.item-qty');
 
         itemQtyInputs.forEach(input => {
-            input.addEventListener('input', function() {
+            input.addEventListener('input', function () {
+                let totalCost = 0;
+                itemQtyInputs.forEach(item => {
+                    const qty = parseInt(item.value) || 0;
+                    const cost = parseInt(item.dataset.cost);
+                    totalCost += qty * cost;
+                });
+
+                if (totalCost > userPoints) {
+                    input.style.borderColor = 'red';
+                } else {
+                    input.style.borderColor = '';
+                }
+            });
+        });
+
+        form.addEventListener('submit', function (event) {
             let totalCost = 0;
             itemQtyInputs.forEach(item => {
                 const qty = parseInt(item.value) || 0;
-            const cost = parseInt(item.dataset.cost);
-            totalCost += qty * cost;
-        });
-
-            if (totalCost > userPoints) {
-                input.style.borderColor = 'red';
-            } else {
-                input.style.borderColor = '';
-            }
-        });
-    });
-
-        form.addEventListener('submit', function(event) {
-            let totalCost = 0;
-            itemQtyInputs.forEach(item => {
-                const qty = parseInt(item.value) || 0;
-            const cost = parseInt(item.dataset.cost);
-            totalCost += qty * cost;
-        });
+                const cost = parseInt(item.dataset.cost);
+                totalCost += qty * cost;
+            });
 
             if (totalCost > userPoints) {
                 event.preventDefault();
