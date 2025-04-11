@@ -4,7 +4,7 @@ $userPrestigeSkills = getUserPrestigeSkills($user_class);
 
 $goldenTicketCount = Check_Item(38, $user_class->id);
 if ($goldenTicketCount > 0) {
-    echo '<div class="dcPanel p-3" style="text-align:center">You have a ' . item_popup('Golden Ticket', 38) . ' which enables you to travel for free!</div>';
+    echo '<div class="dcPanel p-3 mt-2" style="text-align:center">You have a ' . item_popup('Golden Ticket', 38) . ' which enables you to travel for free!</div>';
 }
 
 ?>
