@@ -41,28 +41,26 @@ function ordinal($number)
 }
 function get_users_online()
 {
-    global $db, $m;
-    if (!$rtn = $m->get('get.users.online')) {
-        $db->query("SELECT COUNT(id) c FROM grpgusers WHERE lastactive > unix_timestamp() - 3600");
-        $db->execute();
-        $r = $db->fetch_row(true);
-        $rtn = $r['c'];
-        $m->set('get.users.online', $rtn, false, 60);
-    }
+    global $db;
+
+    $db->query("SELECT COUNT(id) c FROM grpgusers WHERE lastactive > unix_timestamp() - 3600");
+    $db->execute();
+    $r = $db->fetch_row(true);
+    $rtn = $r['c'];
+
     return number_format($rtn);
 }
 
 function display_online_staff()
 {
-    global $db, $m;
-    if (!$rtn = $m->get('display.online.staff')) {
-        $db->query("SELECT id FROM grpgusers WHERE lastactive > unix_timestamp() - 3600 AND admin + gm + fm + cm + eo + st > 0");
-        $db->execute();
-        $r = $db->fetch_row();
-        foreach ($r as $row)
-            $rtn[] = formatName($row['id']);
-        $m->set('display.online.staff', $rtn, false, 60);
-    }
+    global $db;
+
+    $db->query("SELECT id FROM grpgusers WHERE lastactive > unix_timestamp() - 3600 AND admin + gm + fm + cm + eo + st > 0");
+    $db->execute();
+    $r = $db->fetch_row();
+    foreach ($r as $row)
+        $rtn[] = formatName($row['id']);
+
     return implode('<br />', $rtn);
 }
 function security($string, $type = 'num', $nots = "")
@@ -242,15 +240,14 @@ function addBrowser($userid, $name)
 }
 function getRank($userid, $stat)
 {
-    global $db, $m;
-    if (!$rtn = $m->get("gymrank.$stat.$userid")) {
-        $db->query("SELECT count(g.id) FROM grpgusers g WHERE (SELECT count(*) FROM bans b WHERE b.id = g.id AND type IN ('perm','freeze')) = 0 AND g.admin = 0 AND g.$stat > (SELECT xf.$stat FROM grpgusers xf WHERE xf.id = ?)");
-        $db->execute(array(
-            $userid
-        ));
-        $rtn = $db->fetch_single() + 1;
-        $m->set("gymrank.$stat.$userid", $rtn, false, 300);
-    }
+    global $db;
+
+    $db->query("SELECT count(g.id) FROM grpgusers g WHERE (SELECT count(*) FROM bans b WHERE b.id = g.id AND type IN ('perm','freeze')) = 0 AND g.admin = 0 AND g.$stat > (SELECT xf.$stat FROM grpgusers xf WHERE xf.id = ?)");
+    $db->execute(array(
+        $userid
+    ));
+    $rtn = $db->fetch_single() + 1;
+
     return $rtn;
 }
 function Check_Item($itemid, $userid)
@@ -830,8 +827,6 @@ function formatName($id, $nogang = 0)
     global $db;
     $name = "";
 
-    // Removed the Memcache part
-
     $db->query("SELECT username, gang, admin, rmdays, gm, colours, image_name, pdimgname, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
     $db->execute(array($id));
     $row = $db->fetch_row(true);
@@ -945,8 +940,6 @@ function formatName($id, $nogang = 0)
             $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png?v=5' title='Prestige ({$row['prestige']})' height='24' width='24' />";
         }
     }
-
-    // Removed the Memcache set
 
     return $name;
 }
@@ -2022,17 +2015,12 @@ function anticheat()
 
 function getCityNameByID($cityId)
 {
-    global $db, $m;
-    //    if (!$rtn = $m->get('citynames.' . $cityId)) {
-//        $db->query("SELECT `name` FROM cities WHERE id = ?");
-//        $db->execute([$cityId]);
-//        $rtn = $db->fetch_single();
-//        //$m->set('citynames.' . $cityId, $city, false, 60);
-//    }
+    global $db;
 
     $db->query("SELECT `name` FROM cities WHERE id = ?");
     $db->execute([$cityId]);
     $rtn = $db->fetch_single();
+
     return $rtn;
 }
 

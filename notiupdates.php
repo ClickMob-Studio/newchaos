@@ -28,7 +28,9 @@ $ignore = implode(',', $ignore);
 // ));
 // $logger->info("", $debug);
 
-$jailed = $m->get('jailCount');
+$db->query("SELECT count(id) FROM grpgusers WHERE jail <> 0");
+$db->execute();
+$jailed = $db->fetch_single();
 
 $checkhospital = mysql_query("SELECT COUNT(id) as hospi FROM grpgusers WHERE hospital > 0");
 $hospital = mysql_fetch_assoc($checkhospital);

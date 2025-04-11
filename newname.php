@@ -135,6 +135,5 @@ switch ($_POST['which']) {
 		));
         break;
 }
-$m->delete('formatName.' . $user_class->id);
 print formatName($user_class->id);
 ?>

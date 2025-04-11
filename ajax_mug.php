@@ -2,14 +2,16 @@
 
 session_start();
 
-function error($msg) {
+function error($msg)
+{
     return array(
         'success' => 'false',
         'error' => $msg
     );
 }
 
-function success($msg) {
+function success($msg)
+{
     return array(
         'success' => 'TRUE',
         'message' => $msg
@@ -20,16 +22,14 @@ include "SlimUser.php";
 include "classes.php";
 include "database/pdo_class.php";
 
-function ofthes_wrapper($id, $toadd) {
+function ofthes_wrapper($id, $toadd)
+{
     ofthes($id, $toadd);
 }
 
 $active = time() - 604800;
 
 try {
-    $m = new Memcache();
-    $m->addServer('127.0.0.1', 11211, 33);
-
     $user_class = new SlimUser($_SESSION['id']);
     session_write_close();
 
@@ -83,7 +83,7 @@ try {
         array(empty($_GET['mug']), 'You didn\'t choose someone to mug.'),
         array($_GET['mug'] == $user_class->id, 'You can\'t mug yourself.'),
         array(empty($attack_person->username), 'That person doesn\'t exist.'),
-         array($attack_person->hospital > 0, 'You can\'t mug someone that\'s in hospital.'),
+        array($attack_person->hospital > 0, 'You can\'t mug someone that\'s in hospital.'),
         array($attack_person->jail > 0, 'You can\'t mug someone that\'s in prison.'),
         array($attack_person->gang == $user_class->gang && $user_class->gang > 0, 'You can\'t mug someone that\'s in your gang.'),
         array($attack_person->id == $user_class->relplayer, 'You can\'t mug your partner.'),
@@ -145,11 +145,11 @@ try {
             $divide = rand(7, 8);
             $mugamount = floor($attack_person->money / $divide);
 
-             if (isset($_GET['action']) && $_GET['action'] == 'super') {
-                 $compQty = 10;
-             } else {
-                 $compQty = 1;
-             }
+            if (isset($_GET['action']) && $_GET['action'] == 'super') {
+                $compQty = 10;
+            } else {
+                $compQty = 1;
+            }
 
             if ($gang_class->upgrade8 >= 1) {
                 $mugamount = floor($mugamount * (1 + 0.10 * $gang_class->upgrade8));
@@ -221,28 +221,28 @@ try {
 
                 addToUserOperations($user_class, 'mugs', $compQty);
 
-                if($attack_person->lastactive > $active){
+                if ($attack_person->lastactive > $active) {
                     Send_Event($attack_person->id, "You were mugged by [-_USERID_-]. They stole " . prettynum($mugamount, 1) . ".", $user_class->id);
                 }
                 echo json_encode(success("You successfully mugged {$attack_person->formattedname} for " . prettynum($mugamount, 1) . "."));
                 exit;
             }
         } else {
-            if($attack_person->lastactive > $active){
+            if ($attack_person->lastactive > $active) {
                 Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
             }
             echo json_encode(success("You failed to mug {$attack_person->formattedname}."));
             exit;
         }
     } else if ($mug == 9) {
-        if($attack_person->lastactive > $active){
+        if ($attack_person->lastactive > $active) {
             Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
         }
         $response = success("You failed to mug " . $attack_person->formattedname . ".");
         echo json_encode(error($response));
         exit;
     } else {
-        if($attack_person->lastactive > $active){
+        if ($attack_person->lastactive > $active) {
             Send_Event($attack_person->id, "[-_USERID_-] tried to mug you, but failed.", $user_class->id);
         }
         $db->query("UPDATE grpgusers SET jail = ? WHERE id = ?");

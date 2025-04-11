@@ -176,18 +176,14 @@ foreach ($rows as $row) {
     $db->execute(array($row['id']));
     $userDisliked = $db->fetch_single();
 
-    if (!$m->get('tavcache.'.$row['playerid'])) {
-        $reply_class = new User($row['playerid']);
-        $array = array(
-            'name' => $reply_class->formattedname,
-            'avatar' => $reply_class->avatar,
-            'admin' => $reply_class->admin,
-            'gm' => $reply_class->gm
-        );
-        $m->set('tavcache.'.$row['playerid'], $array, 60);
-    } else {
-        $array = $m->get('tavcache.'.$row['playerid']);
-    }
+    $reply_class = new User($row['playerid']);
+    $array = array(
+        'name' => $reply_class->formattedname,
+        'avatar' => $reply_class->avatar,
+        'admin' => $reply_class->admin,
+        'gm' => $reply_class->gm
+    );
+
     $avatar = ($array['avatar'] != "") ? $array['avatar'] : "/images/no-avatar.png";
     $avatarSize = "100px"; // Set a consistent size for all avatars
     $quotetext = str_replace(array('\'','"'),array('\\\'','&quot;'),$row['body']);

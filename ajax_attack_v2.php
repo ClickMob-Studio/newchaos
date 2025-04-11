@@ -5,60 +5,44 @@ session_start();
 
 function get_respect_for_level($level_diff)
 {
-    global $m;
-    if (!$rtn = $m->get('respect_for_level')) {
-        $range = range(-100, 100);
-        $rtn = array();
-        $respect_payout = 0;
-        for ($i = 0; $i <= count($range) - 1; $i++) {
-            $rtn[$range[$i]] = ($respect_payout < .01) ? .01 : $respect_payout;
-            $respect_payout += .005;
-        }
-        $m->set('respect_for_level', $rtn);
+    $range = range(-100, 100);
+    $rtn = array();
+    $respect_payout = 0;
+    for ($i = 0; $i <= count($range) - 1; $i++) {
+        $rtn[$range[$i]] = ($respect_payout < .01) ? .01 : $respect_payout;
+        $respect_payout += .005;
     }
     return $rtn[max(-100, min(100, $level_diff))];
 }
 function get_user_streak($userid)
 {
-    global $m, $db;
-    if (!$rtn = $m->get('user.streak.' . $userid)) {
-        if ($m->getResultCode() == Memcached::RES_NOTFOUND) {
-            $db->query("SELECT streak FROM user_kill_streaks WHERE userid = ?");
-            $db->execute(array(
-                $userid
-            ));
-            $user_streak = $db->fetch_row(true);
-            $rtn = $user_streak['streak'];
-            $m->set('user.streak.' . $userid, $streak);
-        }
-    }
-    return $rtn;
+    global $db;
+
+    $db->query("SELECT streak FROM user_kill_streaks WHERE userid = ?");
+    $db->execute([$userid]);
+    $user_streak = $db->fetch_row(true);
+    return $user_streak['streak'];
 }
 function add_user_streak($userid)
 {
-    global $m, $db;
-    $m->increment('user.streak.' . $userid);
+    global $db;
     $db->query("INSERT INTO user_kill_streaks (userid, streak) VALUES (?, 1) ON DUPLICATE KEY UPDATE streak = streak + 1");
-    $db->execute(array(
-        $userid
-    ));
+    $db->execute([$userid]);
 }
 function kill_user_streak($userid)
 {
-    global $m, $db;
-    $m->delete('user.streak.' . $userid);
+    global $db;
     $db->query("DELETE FROM user_kill_streaks WHERE userid = ?");
-    $db->execute(array(
-        $userid
-    ));
+    $db->execute([$userid]);
 }
 function print_pre($print)
 {
-//    echo "<pre>";
-//    print_r($print);
-//    echo "<pre>";
+    //    echo "<pre>";
+    //    print_r($print);
+    //    echo "<pre>";
 }
-function fetchGangUpgradeLevel($gangId) {
+function fetchGangUpgradeLevel($gangId)
+{
     global $db;
 
     if (!$gangId) {
@@ -66,7 +50,7 @@ function fetchGangUpgradeLevel($gangId) {
         return 0;
     }
 
-    $db->query("SELECT upgrade7 FROM gangs WHERE id = ".$gangId);
+    $db->query("SELECT upgrade7 FROM gangs WHERE id = " . $gangId);
     $db->execute();
     $result = $db->fetch_row(true);
 
@@ -98,9 +82,6 @@ function success($msg)
 
 include "classes.php";
 include "database/pdo_class.php";
-
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11211, 33);
 
 $user_class = new User($_SESSION['id']);
 session_write_close();
@@ -160,15 +141,15 @@ if ($user_class->id != 0) {
     $currentTime = time();
     $oneHourAgo = $currentTime - 3600; // 3600 seconds = 1 hour
 
-// Check if user's HP is below 25%
+    // Check if user's HP is below 25%
     if ($user_class->hppercent < 25) {
         $error = "You need to have over 25% HP to attack someone.";
     }
-// Combine checks for user's attack protection and attack_person's last active time
+    // Combine checks for user's attack protection and attack_person's last active time
     else if ($user_class->aprotection > $currentTime && $attack_person->lastactive > $oneHourAgo) {
         $error = "You cannot attack due to you having an active protection or the target's recent activity.";
     }
-// If none of the conditions are met, then no error
+    // If none of the conditions are met, then no error
     else {
         $error = ""; // No error, ready to proceed
     }
@@ -209,7 +190,7 @@ if ($user_class->id != 0) {
     $error = ($attack_person->jail > 0 && $user_class->jail == 0) ? "You can't attack someone that is in prison." : $error;
     $error = ($attack_person->city != $user_class->city && $user_class->id != 0) ? "You must be in the same city as the person you're attacking!" : $error;
     $error = ($attack_person->username == "") ? "That person doesn't exist." : $error;
-    $error = ($attack_person->hospital > 0  && !$throneAttack) ? "You can't attack someone that is in hospital." : $error;
+    $error = ($attack_person->hospital > 0 && !$throneAttack) ? "You can't attack someone that is in hospital." : $error;
 
     $error = ($attack_person->hppercent < 25) ? "They need over 25% HP to be attacked." : $error;
     $error = ($attack_person->admin == 1 && $user_class->admin < 1) ? "Im sorry, You cannot attack the owner" : $error;
@@ -259,59 +240,59 @@ $user_class->moddedstrength = round($user_class->moddedstrength * $userStatBonus
 $user_class->moddeddefense = round($user_class->moddeddefense * $userStatBonusMultiplier);
 $user_class->moddedspeed = round($user_class->moddedspeed * $userStatBonusMultiplier);
 $user_class->moddedagility = round($user_class->moddedagility * $userStatBonusMultiplier);
-if($user_class->gang > 0){
+if ($user_class->gang > 0) {
     // Strength
-    $db->query("SELECT upgrade1 FROM gangs WHERE id = ".$user_class->gang);
+    $db->query("SELECT upgrade1 FROM gangs WHERE id = " . $user_class->gang);
     $db->execute();
     $u = $db->fetch_row(true);
-    $percent = $u['upgrade1']*20;
+    $percent = $u['upgrade1'] * 20;
     $user_class->moddedstrength += round(($user_class->moddedstrength * $percent) / 100);
 
     // Defense
-    $db->query("SELECT upgrade2 FROM gangs WHERE id = ".$user_class->gang);
+    $db->query("SELECT upgrade2 FROM gangs WHERE id = " . $user_class->gang);
     $db->execute();
     $u = $db->fetch_row(true);
-    $percent = $u['upgrade2']*20;
+    $percent = $u['upgrade2'] * 20;
     $user_class->moddeddefense += round(($user_class->moddeddefense * $percent) / 100);
 
     // Speed
-    $db->query("SELECT upgrade3 FROM gangs WHERE id = ".$user_class->gang);
+    $db->query("SELECT upgrade3 FROM gangs WHERE id = " . $user_class->gang);
     $db->execute();
     $u = $db->fetch_row(true);
-    $percent = $u['upgrade3']*20;
+    $percent = $u['upgrade3'] * 20;
     $user_class->moddedspeed += round(($user_class->moddedspeed * $percent) / 100);
 
     // Agility
-    $db->query("SELECT upgrade_agility FROM gangs WHERE id = ".$user_class->gang);
+    $db->query("SELECT upgrade_agility FROM gangs WHERE id = " . $user_class->gang);
     $db->execute();
     $u = $db->fetch_row(true);
-    $percent = $u['upgrade_agility']*20;
+    $percent = $u['upgrade_agility'] * 20;
     $user_class->moddedagility += round(($user_class->moddedagility * $percent) / 100);
 }
 
 $attack_person->moddedstrength = round($attack_person->moddedstrength * $attackStatBonusMultiplier);
 $attack_person->moddeddefense = round($attack_person->moddeddefense * $attackStatBonusMultiplier);
 $attack_person->moddedspeed = round($attack_person->moddedspeed * $attackStatBonusMultiplier);
-if($attack_person->gang > 0){
+if ($attack_person->gang > 0) {
     // Strength
-    $db->query("SELECT upgrade1 FROM gangs WHERE id = ".$attack_person->gang);
+    $db->query("SELECT upgrade1 FROM gangs WHERE id = " . $attack_person->gang);
     $db->execute();
     $u = $db->fetch_row(true);
-    $percent = $u['upgrade1']*20;
+    $percent = $u['upgrade1'] * 20;
     $attack_person->moddedstrength += round(($attack_person->moddedstrength * $percent) / 100);
 
     // Defense
-    $db->query("SELECT upgrade2 FROM gangs WHERE id = ".$attack_person->gang);
+    $db->query("SELECT upgrade2 FROM gangs WHERE id = " . $attack_person->gang);
     $db->execute();
     $u = $db->fetch_row(true);
-    $percent = $u['upgrade2']*20;
+    $percent = $u['upgrade2'] * 20;
     $attack_person->moddeddefense += round(($attack_person->moddeddefense * $percent) / 100);
 
     // Speed
-    $db->query("SELECT upgrade3 FROM gangs WHERE id = ".$attack_person->gang);
+    $db->query("SELECT upgrade3 FROM gangs WHERE id = " . $attack_person->gang);
     $db->execute();
     $u = $db->fetch_row(true);
-    $percent = $u['upgrade3']*20;
+    $percent = $u['upgrade3'] * 20;
     $attack_person->moddedspeed += round(($attack_person->moddedspeed * $percent) / 100);
 }
 
@@ -331,7 +312,7 @@ if ($user_class->invincible == 0) {
                     $hitChance = $hitChance + 15;
                 }
 
-                if (mt_rand(1,100) > $hitChance) {
+                if (mt_rand(1, 100) > $hitChance) {
                     // Missed
                     $rtn[] = array(
                         'attacking_person' => $attack_person->id,
@@ -372,7 +353,7 @@ if ($user_class->invincible == 0) {
                     $hitChance = $hitChance + 15;
                 }
 
-                if (mt_rand(1,100) > $hitChance) {
+                if (mt_rand(1, 100) > $hitChance) {
                     // Missed
                     $rtn[] = array(
                         'attacking_person' => $user_class->id,
@@ -422,11 +403,11 @@ if ($theirhp <= 0) {
     $expwon = floor($expwon);
     $theirhp = 0;
 
-    $db->query("SELECT `name` FROM cities WHERE `id` = ".$user_class->city);
+    $db->query("SELECT `name` FROM cities WHERE `id` = " . $user_class->city);
     $db->execute();
     $cityn = $db->fetch_row(true);
     $cityname = $cityn['name'];
-    $db->query("SELECT `id`, `city`, `king`, `queen` FROM `grpgusers` WHERE `id` = '".mysql_real_escape_string($attack_person->id)."'");
+    $db->query("SELECT `id`, `city`, `king`, `queen` FROM `grpgusers` WHERE `id` = '" . mysql_real_escape_string($attack_person->id) . "'");
     $db->execute();
     $row = $db->fetch_row();
     if (isset($row[0])) {
@@ -434,11 +415,11 @@ if ($theirhp <= 0) {
         // Check if the attacked person is king and the winner is male
         if ($row['king'] == $user_class->city) {
             // Dethrone the current king
-            $db->query("UPDATE `grpgusers` SET `king` = 0, `queen` = 0 WHERE `id` = '".mysql_real_escape_string($attack_person->id)."'");
+            $db->query("UPDATE `grpgusers` SET `king` = 0, `queen` = 0 WHERE `id` = '" . mysql_real_escape_string($attack_person->id) . "'");
             $db->execute();
 
             // Crown the new king
-            $db->query("UPDATE `grpgusers` SET `king` = '".mysql_real_escape_string($user_class->city)."', `queen` = 0 WHERE `id` = '".mysql_real_escape_string($winner->id)."'");
+            $db->query("UPDATE `grpgusers` SET `king` = '" . mysql_real_escape_string($user_class->city) . "', `queen` = 0 WHERE `id` = '" . mysql_real_escape_string($winner->id) . "'");
             $db->execute();
 
             // Send event notifications
@@ -449,11 +430,11 @@ if ($theirhp <= 0) {
         // Check if the attacked person is queen and the winner is female
         if ($row['queen'] == $user_class->city) {
             // Dethrone the current queen
-            $db->query("UPDATE `grpgusers` SET `queen` = 0, `king` = 0 WHERE `id` = '".mysql_real_escape_string($attack_person->id)."'");
+            $db->query("UPDATE `grpgusers` SET `queen` = 0, `king` = 0 WHERE `id` = '" . mysql_real_escape_string($attack_person->id) . "'");
             $db->execute();
 
             // Crown the new queen
-            $db->query("UPDATE `grpgusers` SET `queen` = '".mysql_real_escape_string($user_class->city)."', `king` = 0 WHERE `id` = '".mysql_real_escape_string($winner->id)."'");
+            $db->query("UPDATE `grpgusers` SET `queen` = '" . mysql_real_escape_string($user_class->city) . "', `king` = 0 WHERE `id` = '" . mysql_real_escape_string($winner->id) . "'");
             $db->execute();
 
             // Send event notifications

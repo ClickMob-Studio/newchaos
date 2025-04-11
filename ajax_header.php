@@ -13,8 +13,6 @@ include "classes.php";
 include "codeparser.php";
 include "database/pdo_class.php";
 
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11212, 33);
 
 //$db->query("UPDATE grpgusers SET lastactive = ".time()." WHERE id = ".$_SESSION['id']);
 //$db->execute();

@@ -5,7 +5,6 @@ $db->query("UPDATE grpgusers SET crimes = 'newcrimes', lastactive = unix_timesta
 $db->execute(array(
     $user_class->id
 ));
-$m->set('lastcrimeload.' . $user_class->id, time());
 error_reporting(0);
 
 $db->query("SELECT `name`, mission.crimes as crimestarget, missions.crimes as crimesdone FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE `userid` = ? AND `completed` = \"no\" LIMIT 1");
@@ -25,8 +24,6 @@ if ($tempItemUse['ghost_vacuum_time'] > time()) {
 }
 
 $rows = $db->fetch_row();
-
-$crimesave = ($m->get('crimesave' . $user_class->id)) ? $m->get('crimesave' . $user_class->id) : "";
 ?>
 
 <style>

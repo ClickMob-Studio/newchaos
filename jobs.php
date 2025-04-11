@@ -75,7 +75,6 @@ include 'header.php';
                     $pay,
                     $user_class->id
                 ));
-                $m->delete('clockin.'.$user_class->id);
             }
             if (isset($_GET['action']) AND $_GET['action'] == "quit") {
                 $user_class->job = 0;

@@ -8,13 +8,6 @@ if ($user_class->gangwait != 0)
 if (isset($_GET['accept'])) {
     $gang_class = new Gang($_GET['accept']);
 
-    if ($m->get('gang_leave_' . $user_class->id) == $gang_class->id) {
-        echo Message("You have only recently left this gang. You need to wait to join again");
-        include('footer.php');
-        die();
-    }
-
-
     $checkuser = mysql_query("SELECT playerid FROM ganginvites WHERE playerid = $user_class->id AND gangid = {$_GET['accept']}");
     $username_exist = mysql_num_rows($checkuser);
     if ($username_exist != 0) {

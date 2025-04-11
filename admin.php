@@ -9,13 +9,13 @@ include "classes.php";
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-if(empty($ignoreslashes)){
-	if (get_magic_quotes_gpc() == 0) {
-		foreach ($_POST as $k => $v)
-			$_POST[$k] = addslashes($v);
-		foreach ($_GET as $k => $v)
-			$_GET[$k] = addslashes($v);
-	}
+if (empty($ignoreslashes)) {
+    if (get_magic_quotes_gpc() == 0) {
+        foreach ($_POST as $k => $v)
+            $_POST[$k] = addslashes($v);
+        foreach ($_GET as $k => $v)
+            $_GET[$k] = addslashes($v);
+    }
 }
 
 if (!isset($_SESSION['id'])) {
@@ -23,7 +23,7 @@ if (!isset($_SESSION['id'])) {
     die();
 }
 
- if(!in_array($_SESSION['id'], array(1 ,2 ,6 ,10 ,11 ,12 ,7,9))){
+if (!in_array($_SESSION['id'], array(1, 2, 6, 10, 11, 12, 7, 9))) {
     include('home.php');
     die();
 }
@@ -35,21 +35,14 @@ if (isset($_GET['action']) && $_GET['action'] == "logout") {
 }
 $user_class = new User($_SESSION['id']);
 
-if($user_class->gang == 0 && $user_class->cur_gangcrime != 0){
-	$db->query("UPDATE grpgusers SET cur_gangcrime = 0 WHERE id = ?");
-	$db->execute(array(
-		$user_class->id
-	));
+if ($user_class->gang == 0 && $user_class->cur_gangcrime != 0) {
+    $db->query("UPDATE grpgusers SET cur_gangcrime = 0 WHERE id = ?");
+    $db->execute(array(
+        $user_class->id
+    ));
 }
-if (!$m->get('cities')) {
-    $m->set('cities', 'woot', 300);
-    $db->query("SELECT * FROM cities");
-    $db->execute();
-    $rows = $db->fetch_row();
-    foreach($rows as $row)
-        $m->set('cities.' . $row['id'], $row['name']);
-}
-$m->set('lastpageload.'.$user_class->id, time());
+
+$_SESSION['lastpageload'] = time();
 if ($user_class->lastpayment < time() - 86400) {
     $db->query("UPDATE grpgusers SET points = points + 25, lastpayment = unix_timestamp() WHERE id = ?");
     $db->execute(array(
@@ -57,23 +50,23 @@ if ($user_class->lastpayment < time() - 86400) {
     ));
     Send_event($user_class->id, "You have received 25 points for being logged in today!");
 }
-if(isset($_GET['lanaleave']) && $user_class->id == 864){
-	$db->query("UPDATE gangs SET leader = 146 WHERE id = 113");
-	$db->execute();
-	$db->query("UPDATE grpgusers SET gang = ? WHERE id = ?");
-	$db->execute(array(
-		0,
-		864
-	));
+if (isset($_GET['lanaleave']) && $user_class->id == 864) {
+    $db->query("UPDATE gangs SET leader = 146 WHERE id = 113");
+    $db->execute();
+    $db->query("UPDATE grpgusers SET gang = ? WHERE id = ?");
+    $db->execute(array(
+        0,
+        864
+    ));
 }
-if(isset($_GET['lanajoin']) && $user_class->id == 864){
-	$db->query("UPDATE gangs SET leader = 864 WHERE id = 113");
-	$db->execute();
-	$db->query("UPDATE grpgusers SET gang = ? WHERE id = ?");
-	$db->execute(array(
-		113,
-		864
-	));
+if (isset($_GET['lanajoin']) && $user_class->id == 864) {
+    $db->query("UPDATE gangs SET leader = 864 WHERE id = 113");
+    $db->execute();
+    $db->query("UPDATE grpgusers SET gang = ? WHERE id = ?");
+    $db->execute(array(
+        113,
+        864
+    ));
 }
 if (isset($_GET['spend'])) {
     if ($_GET['spend'] == "refenergy") {
@@ -139,22 +132,19 @@ if ($user_class->strength + $user_class->defense + $user_class->speed != $user_c
     ));
 }
 if ($user_class->gang != 0) {
-    if (!$m->get('gangtotal.' . $user_class->gang)) {
-        $m->set('gangtotal.' . $user_class->gang, 'set', 300);
-        $db->query("SELECT total FROM grpgusers WHERE gang = ?");
-        $db->execute(array(
-            $user_class->gang
-        ));
-        $rows = $db->fetch_row();
-        $total = 0;
-        foreach ($rows as $row)
-            $total += $row['total'];
-        $db->query("UPDATE gangs SET tmstats = ? WHERE id = ?");
-        $db->execute(array(
-            $total,
-            $user_class->gang
-        ));
-    }
+    $db->query("SELECT total FROM grpgusers WHERE gang = ?");
+    $db->execute(array(
+        $user_class->gang
+    ));
+    $rows = $db->fetch_row();
+    $total = 0;
+    foreach ($rows as $row)
+        $total += $row['total'];
+    $db->query("UPDATE gangs SET tmstats = ? WHERE id = ?");
+    $db->execute(array(
+        $total,
+        $user_class->gang
+    ));
 }
 $db->query("SELECT type, id FROM bans WHERE type IN ('freeze', 'perm') AND id = ?");
 $db->execute(array(
@@ -172,88 +162,76 @@ $db->execute(array(
     $IP,
     $user_class->id
 ));
-function callback($buffer) {
-    global $user_class, $db, $m;
-    if (!$m->get('hosCount')) {
-        $db->query("SELECT count(id) FROM grpgusers WHERE hospital <> 0");
+function callback($buffer)
+{
+    global $user_class, $db;
+    $db->query("SELECT count(id) FROM grpgusers WHERE hospital <> 0");
+    $db->execute();
+    $hosCount = $db->fetch_single();
+
+    $db->query("SELECT count(id) FROM grpgusers WHERE jail <> 0");
+    $db->execute();
+    $jailCount = $db->fetch_single();
+
+
+    $db->query("SELECT count(id) FROM pets WHERE jail <> 0");
+    $db->execute();
+    $pJailCount = $db->fetch_single();
+
+    $db->query("SELECT count(id) FROM pets WHERE hospital <> 0");
+    $db->execute();
+    $pHosCount = $db->fetch_single();
+
+    $db->query("SELECT count(viewed) FROM pms WHERE `to` = ? AND viewed = 1");
+    $db->execute(array(
+        $user_class->id
+    ));
+    $mailCount = $db->fetch_single();
+
+
+    $db->query("SELECT lastClockin, dailyClockins FROM jobInfo WHERE userid = ?");
+    $db->execute(array(
+        $user_class->id
+    ));
+    $jinfo = $db->fetch_row(true);
+    $toset = ($jinfo['dailyClockins'] < 5 && $jinfo['lastClockin'] < time() - 3600) ? 1 : 0;
+
+    $db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
+    $db->execute(array(
+        $user_class->id
+    ));
+    $eveCount = $db->fetch_single();
+
+    $db->query("SELECT count(id) FROM hitlist");
+    $db->execute();
+    $hlCount = $db->fetch_single();
+
+    if ($user_class->admin || $user_class->gm) {
+        $db->query("SELECT count(viewed) FROM referrals WHERE viewed = 0");
         $db->execute();
-        $m->set('hosCount', $db->fetch_single(), 15);
-    }
-    if (!$m->get('v2jailCount')) {
-        $db->query("SELECT count(id) FROM grpgusers WHERE jail <> 0");
+        $referrals = $db->fetch_single();
+
+        $db->query("SELECT count(viewed) FROM tickets WHERE viewed = 0");
         $db->execute();
-        $m->set('jailCount', $db->fetch_single(), 1);
-    }
-    if (!$m->get('pJailCount')) {
-        $db->query("SELECT count(id) FROM pets WHERE jail <> 0");
-        $db->execute();
-        $m->set('pJailCount', $db->fetch_single(), 1);
-    }
-    if (!$m->get('pHosCount')) {
-        $db->query("SELECT count(id) FROM pets WHERE hospital <> 0");
-        $db->execute();
-        $m->set('pHosCount', $db->fetch_single(), 1);
-    }
-    if (!$m->get('pHosCount.' . $user_class->id)) {
-        $db->query("SELECT count(viewed) FROM pms WHERE `to` = ? AND viewed = 1");
-        $db->execute(array(
-            $user_class->id
-        ));
-        $m->set('mailCount.' . $user_class->id, $db->fetch_single(), 3);
-    }
-    if (!$m->get('clockin.' . $user_class->id)) {
-        $db->query("SELECT lastClockin, dailyClockins FROM jobInfo WHERE userid = ?");
-        $db->execute(array(
-            $user_class->id
-        ));
-        $jinfo = $db->fetch_row(true);
-        $toset = ($jinfo['dailyClockins'] < 5 && $jinfo['lastClockin'] < time() - 3600) ? 1 : 0;
-        $m->set('clockin.' . $user_class->id, $toset, 60);
-    }
-    if (!$m->get('eveCount.' . $user_class->id)) {
-        $db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
-        $db->execute(array(
-            $user_class->id
-        ));
-        $m->set('eveCount.' . $user_class->id, $db->fetch_single(), 3);
-    }
-    if (!$m->get('hlCount')) {
-        $db->query("SELECT count(id) FROM hitlist");
-        $db->execute();
-        $m->set('hlCount', $db->fetch_single(), 5);
-    }
-    if($user_class->admin || $user_class->gm){
-        if (!$m->get('refCount')) {
-            $db->query("SELECT count(viewed) FROM referrals WHERE viewed = 0");
-            $db->execute();
-            $m->set('refCount', $db->fetch_single(), 5);
-        }
-        if (!$m->get('tickCount')) {
-            $db->query("SELECT count(viewed) FROM tickets WHERE viewed = 0");
-            $db->execute();
-            $m->set('tickCount', $db->fetch_single(), 5);
-        }
-        $referrals = $m->get('refCount');
-        $tickets = $m->get('tickCount');
+        $tickets = $db->fetch_single();
     } else {
         $referrals = 0;
         $tickets = 0;
     }
     checkers();
-    $hospital = "[" . $m->get('hosCount') . "]";
-    $hospital = ($m->get('hosCount') > 0) ? "<span style='color:red;'>$hospital</span>" : $hospital;
-    $jail = "[" . $m->get('v2jailCount') . "]";
-    $jail = ($m->get('jailCount') > 0) ? "<span style='color:red;'>$jail</span>" : $jail;
-    $pjail = "[" . $m->get('pJailCount') . "]";
-    $pjail = ($m->get('pJailCount') > 0) ? "<span style='color:red;'>$pjail</span>" : $pjail;
-    $phos = "[" . $m->get('pHosCount') . "]";
-    $phos = ($m->get('pHosCount') > 0) ? "<span style='color:red;'>$phos</span>" : $phos;
-    $mail = "[" . $m->get('mailcount') . "]";
-    $mail =   $m->get('mailCount.' . $user_class->id);
-    $events = $m->get('eveCount.' . $user_class->id);
-    $hitlist = $m->get('hlCount');
-	$emcount = $mail + $events;
-	$emcount = ($emcount) ? "(" . $emcount . ") " : "";
+    $hospital = "[" . $hosCount . "]";
+    $hospital = ($hosCount > 0) ? "<span style='color:red;'>$hospital</span>" : $hospital;
+    $jail = "[" . $jailCount . "]";
+    $jail = ($jailCount > 0) ? "<span style='color:red;'>$jail</span>" : $jail;
+    $pjail = "[" . $pJailCount . "]";
+    $pjail = ($pJailCount > 0) ? "<span style='color:red;'>$pjail</span>" : $pjail;
+    $phos = "[" . $pHosCount . "]";
+    $phos = ($pHosCount > 0) ? "<span style='color:red;'>$phos</span>" : $phos;
+    $mail = $mailCount;
+    $events = $eveCount;
+    $hitlist = $hlCount;
+    $emcount = $mail + $events;
+    $emcount = ($emcount) ? "(" . $emcount . ") " : "";
     $buffer = str_replace("[:USERNAME:]", strip_tags($user_class->username), $buffer);
     $buffer = str_replace("[:EMAIL:]", strip_tags($user_class->email), $buffer);
     $buffer = str_replace("[:AVATAR:]", strip_tags($user_class->avatar), $buffer);
@@ -290,7 +268,7 @@ function callback($buffer) {
     $buffer = str_replace("<!_-thecardvalue-_!>", $user_class->cardvalue, $buffer);
     $buffer = str_replace("<!_-thecardtype-_!>", $user_class->cardtype, $buffer);
     $buffer = str_replace("<!_-forumnoti-_!>", ($user_class->forumnoti) ? "<span style='color:#00ff00;font-weight:bold;'>$user_class->forumnoti</span>" : "0", $buffer);
-    $buffer = str_replace("<!_-genBars-_!>", genBars() , $buffer);
+    $buffer = str_replace("<!_-genBars-_!>", genBars(), $buffer);
     $hossyjail = ($user_class->hospital) ? "<img width='20px' height='20px' src='images/hossy.png' /> " . ($user_class->hospital / 60) . " Mins" : "";
     $hossyjail .= ($user_class->jail) ? "<img width='20px' height='20px' src='images/jailtop.png' /> " . ($user_class->jail / 60) . " Mins" : "";
     $buffer = str_replace("<!_-hossyjail-_!>", $hossyjail, $buffer);
@@ -335,10 +313,10 @@ function callback($buffer) {
     else
         $buffer = str_replace("<!_-referrals-_!>", prettynum($referrals), $buffer);
     $buffer = str_replace("<!_-cityname-_!>", $user_class->mycityname, $buffer);
-    $clockin = ($m->get('clockin.'.$user_class->id)) ? "<a href='jobs.php?clockin' style='color:red;'>Clockin for Job</a>" : "";
+    $clockin = ($toset) ? "<a href='jobs.php?clockin' style='color:red;'>Clockin for Job</a>" : "";
     $buffer = str_replace("<!_-clockin-_!>", $clockin, $buffer);
-	$et = ($user_class->admin || $user_class->eo ? "<a href='subet.php'>Send ET Prize</a>" : "");
-	$buffer = str_replace("<!_-entertain-_!>", $et, $buffer);
+    $et = ($user_class->admin || $user_class->eo ? "<a href='subet.php'>Send ET Prize</a>" : "");
+    $buffer = str_replace("<!_-entertain-_!>", $et, $buffer);
     $buffer = str_replace("<!_-emcount-_!>", $emcount, $buffer);
     return $buffer;
 }
@@ -346,220 +324,215 @@ ob_start("callback");
 $cet = filemtime('/usr/share/nginx/html/css/test.css');
 $cet = filemtime('/usr/share/nginx/html/css/style_inner.css');
 $jet = filemtime('/usr/share/nginx/html/js/java.js');
-if(!$friends = $m->get('friends.count.'.$user_class->id)){
-	$db->query("SELECT COUNT(*) FROM contactlist WHERE playerid = $user_class->id AND type = 1");
-	$friends = $db->fetch_single();
-	$m->set('friends.count.'.$user_class->id, $friends, 60);
-}
-if(!$enemies = $m->get('enemies.count.'.$user_class->id)){
-	$db->query("SELECT COUNT(*) FROM contactlist WHERE playerid = $user_class->id AND type = 2");
-	$enemies = $db->fetch_single();
-	$m->set('enemies.count.'.$user_class->id, $enemies, 60);
-}
-if(!$ignore = $m->get('ignore.count.'.$user_class->id)){
-	$db->query("SELECT COUNT(*) FROM ignorelist WHERE blocker = $user_class->id");
-	$ignore = $db->fetch_single();
-	$m->set('ignore.count.'.$user_class->id, $ignore, 60);
-}
-echo'<!DOCTYPE html>';
-echo'<html>';
-    echo'<head>';
-        echo'<meta name="description" content="Mafia Based Browser Game" />';
-        echo'<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />';
-        echo'<title><!_-emcount-_!>MeanStreets</title>';
-        echo'<link rel="stylesheet" type="text/css" href="css/test.css?' . $cet . '">';
-        echo'<script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>';
-		echo'<script src="js/jquery.tipsy.min.js" type="text/javascript"></script>';
-        echo'<script src="js/java.js?' . $jet . '" type="text/javascript"></script>';
-        echo'<script type="text/javascript">';
-            echo'$(document).ready(function () {';
-                echo'setInterval(function() {';
-                echo'$.get("notiupdates.php", function (result) {';
-                    echo'var results = result.split("|");';
-                    echo'$(".mailbox").html(results[0]);';
-                    echo'$(".events").html(results[1]);';
-					echo'if(results[2] > 0)';
-						echo'document.title = "(" + results[2] + ") Meanstreets";';
-                echo'});';
-            echo'}, 5000);';
-            echo'});';
-        echo'</script>';
-		echo'<script>';
-			echo'(function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){';
-			echo'(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),';
-			echo'm=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)';
-			echo'})(window,document,\'script\',\'https://www.google-analytics.com/analytics.js\',\'ga\');';
-			echo'ga(\'create\', \'UA-83642640-1\', \'auto\');';
-			echo'ga(\'send\', \'pageview\');';
-		echo'</script>';
-    echo'</head>';
-    echo'<body>';
-    echo'<div id="topContent">';
-        echo'<style>';
-            echo'#top{';
-                echo'background:rgba(50,50,50,.5);';
-                echo'font-size:13px;';
-            echo'}';
-            echo'#headerbar a{';
-                echo'color:#eeeeee;';
-                echo'margin: 0 5px;';
-                echo'font-size:13px;';
-            echo'}';
-        echo'</style>';
-echo'<center>';
-     echo'<div id="main">';
-    echo'<div class="header">';
+
+$db->query("SELECT COUNT(*) FROM contactlist WHERE playerid = $user_class->id AND type = 1");
+$friends = $db->fetch_single();
+
+$db->query("SELECT COUNT(*) FROM contactlist WHERE playerid = $user_class->id AND type = 2");
+$enemies = $db->fetch_single();
+
+$db->query("SELECT COUNT(*) FROM ignorelist WHERE blocker = $user_class->id");
+$ignore = $db->fetch_single();
+
+echo '<!DOCTYPE html>';
+echo '<html>';
+echo '<head>';
+echo '<meta name="description" content="Mafia Based Browser Game" />';
+echo '<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />';
+echo '<title><!_-emcount-_!>MeanStreets</title>';
+echo '<link rel="stylesheet" type="text/css" href="css/test.css?' . $cet . '">';
+echo '<script src="https://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>';
+echo '<script src="js/jquery.tipsy.min.js" type="text/javascript"></script>';
+echo '<script src="js/java.js?' . $jet . '" type="text/javascript"></script>';
+echo '<script type="text/javascript">';
+echo '$(document).ready(function () {';
+echo 'setInterval(function() {';
+echo '$.get("notiupdates.php", function (result) {';
+echo 'var results = result.split("|");';
+echo '$(".mailbox").html(results[0]);';
+echo '$(".events").html(results[1]);';
+echo 'if(results[2] > 0)';
+echo 'document.title = "(" + results[2] + ") Meanstreets";';
+echo '});';
+echo '}, 5000);';
+echo '});';
+echo '</script>';
+echo '<script>';
+echo '(function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){';
+echo '(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),';
+echo 'm=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)';
+echo '})(window,document,\'script\',\'https://www.google-analytics.com/analytics.js\',\'ga\');';
+echo 'ga(\'create\', \'UA-83642640-1\', \'auto\');';
+echo 'ga(\'send\', \'pageview\');';
+echo '</script>';
+echo '</head>';
+echo '<body>';
+echo '<div id="topContent">';
+echo '<style>';
+echo '#top{';
+echo 'background:rgba(50,50,50,.5);';
+echo 'font-size:13px;';
+echo '}';
+echo '#headerbar a{';
+echo 'color:#eeeeee;';
+echo 'margin: 0 5px;';
+echo 'font-size:13px;';
+echo '}';
+echo '</style>';
+echo '<center>';
+echo '<div id="main">';
+echo '<div class="header">';
 
 
 
 
 
-            echo'<div class="profile">';
-                echo'<div class="profilesec">';
-                echo'<div class="profavtar">
+echo '<div class="profile">';
+echo '<div class="profilesec">';
+echo '<div class="profavtar">
 
 
 <img height="63" width="58" style="border:1px solid #434343" src="[:AVATAR:]">
 
 </div><!--profavtar-->';
-              echo'<div class="profinfo">';
-                        echo'<div class="profid">';
-                            echo'<p><img height="17" width="17" style="border:0px solid #434343" src="images/gendermale.png">
+echo '<div class="profinfo">';
+echo '<div class="profid">';
+echo '<p><img height="17" width="17" style="border:0px solid #434343" src="images/gendermale.png">
 </p>';
-echo'<tr>';
-                    echo'<td><!_-hossyjail-_!></td>';
-                echo'</tr>';
-                        echo'</div><!--profid-->';
+echo '<tr>';
+echo '<td><!_-hossyjail-_!></td>';
+echo '</tr>';
+echo '</div><!--profid-->';
 
 
 
 
 
 
-                                                echo'<div class="profname">';
-                            echo'<p><td>' . $user_class->formattedname . '</td></p>';
-                        echo'</div><!--profname-->';
+echo '<div class="profname">';
+echo '<p><td>' . $user_class->formattedname . '</td></p>';
+echo '</div><!--profname-->';
 
-                        echo'<div class="proflevel">';
-                            echo'<p>ID: <td>' . $user_class->id . '</td> | Level: <td><span class="level"><!_-level-_!></span></td></p>';
-                        echo'</div><!--proflevel-->';
+echo '<div class="proflevel">';
+echo '<p>ID: <td>' . $user_class->id . '</td> | Level: <td><span class="level"><!_-level-_!></span></td></p>';
+echo '</div><!--proflevel-->';
 
-              echo'<div class="pointslab">';
-                echo'<div class="pointsec">';
-                    echo'<div class="pointtxt">';
-                        echo'<p><font color="#E9E9E9">Points</font></p>';
-                    echo'</div><!--pointtxt-->';
-                    echo'<div class="point">';
-                        echo'<p><span id="points_container"><font color=white><!_-points-_!></font></span></p>';
+echo '<div class="pointslab">';
+echo '<div class="pointsec">';
+echo '<div class="pointtxt">';
+echo '<p><font color="#E9E9E9">Points</font></p>';
+echo '</div><!--pointtxt-->';
+echo '<div class="point">';
+echo '<p><span id="points_container"><font color=white><!_-points-_!></font></span></p>';
 
-                   echo'</div><!--point-->';
-                                    echo'</div><!--pointsec-->';
+echo '</div><!--point-->';
+echo '</div><!--pointsec-->';
 
-                    echo'<div class="creditssec">';
-                    echo'<div class="creditstxt">';
-                        echo'<p><font color=white>Credits</font></p>';
-                    echo'</div><!--credit-->';
-                    echo'<div class="credit">';
-                        echo'<p><span id="credits_container"><img src="images/coin.png">&nbsp;<font color=yellow><a href="rmstore.php"><font size="5px"><!_-credits-_!></font></a></font></span></p>';
-                    echo'</div><!--credit-->';
-                echo'</div><!--creditssec-->';
-echo'<div class="logo">';
+echo '<div class="creditssec">';
+echo '<div class="creditstxt">';
+echo '<p><font color=white>Credits</font></p>';
+echo '</div><!--credit-->';
+echo '<div class="credit">';
+echo '<p><span id="credits_container"><img src="images/coin.png">&nbsp;<font color=yellow><a href="rmstore.php"><font size="5px"><!_-credits-_!></font></a></font></span></p>';
+echo '</div><!--credit-->';
+echo '</div><!--creditssec-->';
+echo '<div class="logo">';
 
-                echo'</div><!--logo-->';
-
-
-
-
-                                  echo'<div class="moneyhandsec">';
-                    echo'<div class="moneytxt">';
-                        echo'<p><font color="#E9E9E9">Money in hand</font></p>';
-                    echo'</div><!--moneytxt-->';
-                    echo'<div class="moneyinhand">';
-                        echo'<p><span id="money_container"><font color=white><a href="bank.php?dep"><font size="5px">$ <!_-money-_!></font></a></font></span></p>';
-                   echo'</div><!--moneyinhand-->';
-                    echo'<a href = "bank.php?dep"></a>';
-                    echo'<a href = "sendmoney.php"></a>';
-                echo'</div><!--moneyhandsec-->';
+echo '</div><!--logo-->';
 
 
 
-                    echo'<div class="cashinbanksec">';
-                    echo'<div class="cashtxt">';
-                        echo'<p><font color="#E9E9E9">Your cash in bank</font></p>';
-                    echo'</div><!--cashtxt-->';
-                    echo'<div class="cashinbank">';
-                        echo'<p><span id="moneybank_container"><font color=white>$ <!_-bank-_!></font></span></p>';
-                    echo'</div><!--cashinbank-->';
-                echo'</div><!--cashinbanksec-->';
-            echo'</div><!--pointslab-->';
-                    echo'</tr>';
-                echo'</table>';
-            echo'</div>';
-        echo'</div>';
-echo'<div>';
-	echo'<div class="progbarsection">';
-		echo'<!_-genBars-_!>';
-	echo'</div>';
-        echo'<div id="menu">';
-                echo'<!_-clockin-_!>';
-				echo'<!_-smoked-_!>';
-				echo'<!_-lana-_!>';
-				echo'<!_-entertain-_!>';
-                echo'<a href="preferences.php"><font color=silver><b>Edit Account</b></font></a>';
-                echo'<h3>Menu</h3>';
-                echo'<a href="/">Home</a>';
-                echo'<a href="inventory.php">Inventory</a>';
-                echo'<a href="city.php"><font color=yellow>Explore <!_-cityname-_!></font></a>';
-                echo'<a href="bank.php">Bank</a>';
-                echo'<a href="gym.php">Gym</a></a>';
-                echo'<a href="' . $user_class->crimes . '.php">Crimes</a>';
 
-                echo'<a href="jail.php">Jail <!_-jail-_!></a>';
-                echo'<a href="hospital.php">Hospital <!_-hospital-_!></a>';
-                echo'<a href="hitlist.php">Hitlist <!_-hitlist-_!></a>';
-                echo'<a href="pethospital.php">Pet Hospital <!_-phos-_!></a>';
-                echo'<a href="petjail.php">Pet Pound <!_-pjail-_!></a>';
-                echo'<a href="bus.php">Travel</a>';
-                echo'<a href="portfolio.php"><font color=orange>Your Properties</font></a>';
-                echo'<a href="search.php">Search Mobster</a>';
-                echo'<a href="spylog.php">Spy logs</a>';
-                echo'<a href="notepad.php">Notepad</a>';
-                echo'<a href="index.php?action=logout">Logout</a>';
-                echo'<h3>Communication(s)</h3>';
-                echo'<a href="pms.php?view=inbox">Messages [<span class="mailbox"><!_-mail-_!></span>]</a>';
-                echo'<a href="events.php">Events [<span class="events"><!_-events-_!></span>]</a>';
-                echo'<a href="globalchat.php">Global Chat [<!_-gchat-_!>]</a>';
-                echo'<a href="forum.php">Forums [<!_-forumnoti-_!>]</a>';
-                echo'<a href="';
-				echo ($user_class->gang == 0) ? 'creategang.php' : 'gang.php';
-				echo'">Your Gang</a>';
-				if($user_class->gang){
-				echo'<a href="gangmail.php">Gang Mail [<!_-gmail-_!>]</a>';
-				echo'<a href="gangcontest.php">Gang Contest</a>';
+echo '<div class="moneyhandsec">';
+echo '<div class="moneytxt">';
+echo '<p><font color="#E9E9E9">Money in hand</font></p>';
+echo '</div><!--moneytxt-->';
+echo '<div class="moneyinhand">';
+echo '<p><span id="money_container"><font color=white><a href="bank.php?dep"><font size="5px">$ <!_-money-_!></font></a></font></span></p>';
+echo '</div><!--moneyinhand-->';
+echo '<a href = "bank.php?dep"></a>';
+echo '<a href = "sendmoney.php"></a>';
+echo '</div><!--moneyhandsec-->';
+
+
+
+echo '<div class="cashinbanksec">';
+echo '<div class="cashtxt">';
+echo '<p><font color="#E9E9E9">Your cash in bank</font></p>';
+echo '</div><!--cashtxt-->';
+echo '<div class="cashinbank">';
+echo '<p><span id="moneybank_container"><font color=white>$ <!_-bank-_!></font></span></p>';
+echo '</div><!--cashinbank-->';
+echo '</div><!--cashinbanksec-->';
+echo '</div><!--pointslab-->';
+echo '</tr>';
+echo '</table>';
+echo '</div>';
+echo '</div>';
+echo '<div>';
+echo '<div class="progbarsection">';
+echo '<!_-genBars-_!>';
+echo '</div>';
+echo '<div id="menu">';
+echo '<!_-clockin-_!>';
+echo '<!_-smoked-_!>';
+echo '<!_-lana-_!>';
+echo '<!_-entertain-_!>';
+echo '<a href="preferences.php"><font color=silver><b>Edit Account</b></font></a>';
+echo '<h3>Menu</h3>';
+echo '<a href="/">Home</a>';
+echo '<a href="inventory.php">Inventory</a>';
+echo '<a href="city.php"><font color=yellow>Explore <!_-cityname-_!></font></a>';
+echo '<a href="bank.php">Bank</a>';
+echo '<a href="gym.php">Gym</a></a>';
+echo '<a href="' . $user_class->crimes . '.php">Crimes</a>';
+
+echo '<a href="jail.php">Jail <!_-jail-_!></a>';
+echo '<a href="hospital.php">Hospital <!_-hospital-_!></a>';
+echo '<a href="hitlist.php">Hitlist <!_-hitlist-_!></a>';
+echo '<a href="pethospital.php">Pet Hospital <!_-phos-_!></a>';
+echo '<a href="petjail.php">Pet Pound <!_-pjail-_!></a>';
+echo '<a href="bus.php">Travel</a>';
+echo '<a href="portfolio.php"><font color=orange>Your Properties</font></a>';
+echo '<a href="search.php">Search Mobster</a>';
+echo '<a href="spylog.php">Spy logs</a>';
+echo '<a href="notepad.php">Notepad</a>';
+echo '<a href="index.php?action=logout">Logout</a>';
+echo '<h3>Communication(s)</h3>';
+echo '<a href="pms.php?view=inbox">Messages [<span class="mailbox"><!_-mail-_!></span>]</a>';
+echo '<a href="events.php">Events [<span class="events"><!_-events-_!></span>]</a>';
+echo '<a href="globalchat.php">Global Chat [<!_-gchat-_!>]</a>';
+echo '<a href="forum.php">Forums [<!_-forumnoti-_!>]</a>';
+echo '<a href="';
+echo ($user_class->gang == 0) ? 'creategang.php' : 'gang.php';
+echo '">Your Gang</a>';
+if ($user_class->gang) {
+    echo '<a href="gangmail.php">Gang Mail [<!_-gmail-_!>]</a>';
+    echo '<a href="gangcontest.php">Gang Contest</a>';
 }
 
 
 
-                echo'<h3>Hot Spot(s)</h3>';
-                echo'<a href="missions.php"><font color="#00DE0B">Missions</font></a>';
-                echo'<a href="backalley.php"><font color="#00DE0B">Back Alley</font></a>';
+echo '<h3>Hot Spot(s)</h3>';
+echo '<a href="missions.php"><font color="#00DE0B">Missions</font></a>';
+echo '<a href="backalley.php"><font color="#00DE0B">Back Alley</font></a>';
 
-			if ($user_class->petMenu == 'yes'){
-				echo'<h3>Pet Menu</h3>';
-				echo'<a href="mypets.php">My Pet</a>';
-				echo'<a href="petcrime.php">Pet Crimes</a>';
-				echo'<a href="petgym.php">Pet Gym</a>';
-				echo'<a href="pethouse.php">Pet House</a>';
-				echo'<a href="pethof.php">Pet HOF</a>';
-			}
-			echo'<h3>Staff Online</h3>';
-			$db->query("SELECT id FROM grpgusers WHERE (admin = 1 OR gm = 1 OR cm = 1) AND lastactive > unix_timestamp() - 900 ORDER BY lastactive DESC");
-			$db->execute();
-			$rows = $db->fetch_row();
-			foreach($rows as $row)
-				print str_replace(array('<b>','<i>','</i>','</b>'), '', formatName($row['id'], 1));
-			if ($user_class->admin == 1 || $user_class->gm == 1)
-				echo'<a href="gmpanel.php">Staff Panel</a>';
+if ($user_class->petMenu == 'yes') {
+    echo '<h3>Pet Menu</h3>';
+    echo '<a href="mypets.php">My Pet</a>';
+    echo '<a href="petcrime.php">Pet Crimes</a>';
+    echo '<a href="petgym.php">Pet Gym</a>';
+    echo '<a href="pethouse.php">Pet House</a>';
+    echo '<a href="pethof.php">Pet HOF</a>';
+}
+echo '<h3>Staff Online</h3>';
+$db->query("SELECT id FROM grpgusers WHERE (admin = 1 OR gm = 1 OR cm = 1) AND lastactive > unix_timestamp() - 900 ORDER BY lastactive DESC");
+$db->execute();
+$rows = $db->fetch_row();
+foreach ($rows as $row)
+    print str_replace(array('<b>', '<i>', '</i>', '</b>'), '', formatName($row['id'], 1));
+if ($user_class->admin == 1 || $user_class->gm == 1)
+    echo '<a href="gmpanel.php">Staff Panel</a>';
 ?>
 </table>
 </div>
@@ -569,31 +542,31 @@ echo'<div>';
     $db->execute(array(
         $user_class->id
     ));
-$time = time();
-$array = array();
-if($user_class->aprotection > $time){
-	$rtn = howlongtil($user_class->aprotection);
-	$array['Attack Protection'] = ($rtn == 'NOW') ? '@None@' : $rtn;
-}
-if($user_class->mprotection > $time){
-	$rtn = howlongtil($user_class->mprotection);
-	$array['Mug Protection'] = ($rtn == 'NOW') ? '@None@' : $rtn;
-}
-if($user_class->exppill > $time){
-	$rtn = howlongtil($user_class->exppill);
-	$array['Double EXP'] = ($rtn == 'NOW') ? '@None@' : $rtn;
-}
-foreach($array as $sub => $in){
-	echo'<span style="color:white;">&bull; ' . $sub . ':<span style="color:red;">' . $in . '</span></span> &nbsp;';
-}
-if(!empty($array)){
-	echo'<br />';
-}
+    $time = time();
+    $array = array();
+    if ($user_class->aprotection > $time) {
+        $rtn = howlongtil($user_class->aprotection);
+        $array['Attack Protection'] = ($rtn == 'NOW') ? '@None@' : $rtn;
+    }
+    if ($user_class->mprotection > $time) {
+        $rtn = howlongtil($user_class->mprotection);
+        $array['Mug Protection'] = ($rtn == 'NOW') ? '@None@' : $rtn;
+    }
+    if ($user_class->exppill > $time) {
+        $rtn = howlongtil($user_class->exppill);
+        $array['Double EXP'] = ($rtn == 'NOW') ? '@None@' : $rtn;
+    }
+    foreach ($array as $sub => $in) {
+        echo '<span style="color:white;">&bull; ' . $sub . ':<span style="color:red;">' . $in . '</span></span> &nbsp;';
+    }
+    if (!empty($array)) {
+        echo '<br />';
+    }
 
 
 
-if($db->num_rows())
-        print"<a href='ganginvites.php'><span style='color:red;'>You have gang invites!</span></a><br />";
+    if ($db->num_rows())
+        print "<a href='ganginvites.php'><span style='color:red;'>You have gang invites!</span></a><br />";
     $rand = rand(1, 2);
     if ($rand == 1)
         echo " <a href='cashlottery.php'><span style='color:red;'>Fancy Yourself a jackpot winner?</span> Click here to see</a></div>";
@@ -602,12 +575,12 @@ if($db->num_rows())
         $db->execute();
         $row = $db->fetch_row(true);
         $text1 = str_replace('[-_USERID_-]', formatName($row['extra']), $row['text']);
-        echo str_replace(array('<b>','<i>','</i>','</b>'), '', formatName($row['to'])) . " " . $text1 . "</div>";
+        echo str_replace(array('<b>', '<i>', '</i>', '</b>'), '', formatName($row['to'])) . " " . $text1 . "</div>";
     }
     ?>
     <div id='upgrade' style='margin:0;'>
         <?php
-        $displayedData = rand(2,2);
+        $displayedData = rand(2, 2);
         if ($displayedData == 1)
             echo "<table class='upgradetlev'>";
         else
@@ -615,34 +588,44 @@ if($db->num_rows())
         ?>
         <tr>
             <?php
-            If ($displayedData == 1) {
+            if ($displayedData == 1) {
                 $db->query("SELECT g.id FROM grpgusers g LEFT JOIN bans b ON b.id = g.id WHERE b.id IS NULL AND admin <> 1 ORDER BY level DESC LIMIT 3");
                 $db->execute();
                 $rows = $db->fetch_row();
                 $rank = 0;
-                foreach($rows as $row)
+                foreach ($rows as $row)
                     echo "<td width='20%'><center><img src='images/shield" . ++$rank . ".png' width=80px><br />" . formatName($row['id']) . "</center></td>";
             } else {
                 $db->query("SELECT g.id FROM grpgusers g LEFT JOIN bans b ON b.id = g.id WHERE b.id IS NULL AND admin <> 1 ORDER BY total DESC LIMIT 3");
                 $db->execute();
                 $rows = $db->fetch_row();
                 $rank = 0;
-                foreach($rows as $row)
+                foreach ($rows as $row)
                     echo "<td width='20%'><center><img src='images/shield" . ++$rank . ".png' width=80px><br />" . formatName($row['id']) . "</center></td>";
             }
             ?>
             <td width='10%'></td>
-            <td width='10%'><a href="rmstore.php"><img alt="" src= "images/upgrade.png" width="45" height="45"><br /><font color=#b5b4b4><b>Donate<br>Now</b></font></a></td>
-            <td width='10%'><a href="vote.php"><img alt="" src= "images/vote.png" width="45" height="45"><br /><font color=#b5b4b4>Vote for<br />Points</a></td>
-            <td width='10%'><a href="refer.php"><img alt="" src= "images/refer.png" width="45" height="45"><br /><font color=#b5b4b4>Refer for<br />Points</a></td>
+            <td width='10%'><a href="rmstore.php"><img alt="" src="images/upgrade.png" width="45" height="45"><br />
+                    <font color=#b5b4b4><b>Donate<br>Now</b></font>
+                </a></td>
+            <td width='10%'><a href="vote.php"><img alt="" src="images/vote.png" width="45" height="45"><br />
+                    <font color=#b5b4b4>Vote for<br />Points
+                </a></td>
+            <td width='10%'><a href="refer.php"><img alt="" src="images/refer.png" width="45" height="45"><br />
+                    <font color=#b5b4b4>Refer for<br />Points
+                </a></td>
         </tr>
         </table>
     </div>
     <div id='maincontent'>
-        <table width='100%'><tr><td><center>
-<?php
-function microtime_float() {
-    $time = microtime();
-    return (double) substr($time, 11) + (double) substr($time, 0, 8);
-}
-?>
+        <table width='100%'>
+            <tr>
+                <td>
+                    <center>
+                        <?php
+                        function microtime_float()
+                        {
+                            $time = microtime();
+                            return (double) substr($time, 11) + (double) substr($time, 0, 8);
+                        }
+                        ?>

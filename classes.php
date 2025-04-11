@@ -8,13 +8,8 @@ class User_Stats
 {
     function User_Stats($wutever)
     {
-        global $db, $m;
-        if ($m->get('user_stats')) {
-            $this->playersloggedin = $m->get('user_stats.playersloggedin');
-            $this->playersonlineinlastday = $m->get('user_stats.playersonlineinlastday');
-            $this->playerstotal = $m->get('user_stats.playerstotal');
-            return;
-        }
+        global $db;
+
         $this->playersloggedin = 0;
         $this->playersonlineinlastday = 0;
         $this->playerstotal = 0;
@@ -29,10 +24,6 @@ class User_Stats
                 $this->playersonlineinlastday++;
             $this->playerstotal++;
         }
-        $m->set('user_stats.playersloggedin', $this->playersloggedin);
-        $m->set('user_stats.playersonlineinlastday', $this->playersonlineinlastday);
-        $m->set('user_stats.playerstotal', $this->playerstotal);
-        $m->set('user_stats', 1, false, 60);
     }
 }
 class Gang
@@ -248,7 +239,7 @@ class User
 {
     function User($id)
     {
-        global $db, $m;
+        global $db;
 
         $db->query("SELECT grpg.*,grpg.tag AS ptag,g.ghouse,g.name AS gangname,g.leader,g.tag,g.description,ci.name AS cityname,h.name AS housename,h.awake AS houseawake,
                     co.name AS countryname, gh.awake AS gangawake, r.title AS ranktitle, r.color as rankcolor, b.days AS bandays,
@@ -388,20 +379,11 @@ class User
             $this->glovesimg = $this->glovesname = $this->glovesagility = $this->eqgloves = 0;
         }
 
-        //       //  if (!$m->get('ipn.' . $id)) {
         $db->query("SELECT SUM(paymentamount) FROM ipn WHERE user_id = ? AND date > unix_timestamp() - 2592000");
         $db->execute(array(
             $id
         ));
         $donations = $db->fetch_single();
-        // $m->set('ipn.' . $id, $donations, 0, 60);
-//         } else {
-//             $donations = $m->get('ipn.' . $id);
-//         }
-        // $db->query("SELECT SUM(paymentamount) FROM ipn WHERE user_id = ? AND date > unix_timestamp() - 2592000");
-        // $db->execute(array(
-        // 	$id
-        // ));
 
         $this->shared_bank = $worked["shared_bank"];
 
@@ -521,19 +503,6 @@ class User
         }
         $this->house = $worked['house'];
         if ($this->house == 0) {
-
-
-            //             if (!$m->get('rentedp.' . $this->id)) {
-//                 $db->query("SELECT * FROM rentedProperties r JOIN houses h ON r.houseid = h.id WHERE renter = ? ORDER BY awake DESC LIMIT 1");
-//                 $db->execute(array(
-//                     $this->id
-//                 ));
-//                 $row = $db->fetch_row(true);
-// $m->set('rentedp.' . $this->id, $row, 0, 60);
-//             } else {
-//                 $row = $m->get('rentedp.' . $this->id);
-//             }
-
             if (!empty($row)) {
                 $worked['houseid'] = $row['houseid'];
                 $worked['housename'] = $row['name'];
@@ -1187,7 +1156,6 @@ class User
         $this->completeUserResearchTypesIndexedOnId = $completeUserResearchTypesIndexedOnId;
 
         $this->formattedname = formatName($this->id);
-        $this->formattedname2 = formatName($this->id);
         $this->invent = ($this->rmdays > 0) ? 5000 : 2500;
         while ($this->exp >= $this->maxexp && $this->exp != 0) {
             $this->level += 1;
@@ -1329,14 +1297,11 @@ class formatGang
 {
     function __construct($id)
     {
-        global $db, $m;
-        if (!$m->get('formatGang.' . $id)) {
-            $db->query("SELECT tag, name, tColor1, tColor2, tColor3, formattedTag FROM gangs WHERE id = $id");
-            $db->execute();
-            $r = $db->fetch_row(true);
-            $m->set('formatGang.' . $id, $r, 60);
-        } else
-            $r = $m->get('formatGang.' . $id);
+        global $db;
+        $db->query("SELECT tag, name, tColor1, tColor2, tColor3, formattedTag FROM gangs WHERE id = $id");
+        $db->execute();
+        $r = $db->fetch_row(true);
+
         $this->tag = $r['tag'];
         $this->name = $r['name'];
         $this->formattedTag = $r['formattedTag'];

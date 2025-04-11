@@ -4,9 +4,6 @@ include "codeparser.php";
 include "database/pdo_class.php";
 #include "includes/functions.php";
 
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11212, 33);
-
 mysql_select_db('ml2', mysql_connect('localhost', 'aa_user', 'GmUq38&SVccVSpt'));
 
 $db->query("SELECT id FROM grpgusers WHERE lastactive > unix_timestamp() - 3600 ORDER BY lastactive DESC");
@@ -29,7 +26,7 @@ if ($_POST['page'] == 'online') {
             'formattedgang' => $user_online->formattedgang,
             'type' => $user_online->type,
             'cityname' => $user_online->cityname,
-	    'cityid' => $user_online->city,
+            'cityid' => $user_online->city,
 
             'hospital' => $user_online->hospital, // Assuming the User class has hospital property
             'jail' => $user_online->jail,         // Assuming the User class has jail property
@@ -58,12 +55,12 @@ if ($_POST['page'] == 'online') {
             </tr>';
 
     foreach ($store as $user) {
-        if($user_class->nightvision > 1){
-//get city name
-            $query = mysql_query("SELECT name FROM cities WHERE id = ".$user['cityid']);
+        if ($user_class->nightvision > 1) {
+            //get city name
+            $query = mysql_query("SELECT name FROM cities WHERE id = " . $user['cityid']);
             $result = mysql_fetch_assoc($query);
             $city = $result['name'];
-        }else{
+        } else {
             $city = $user['cityname'];
         }
 
@@ -97,10 +94,10 @@ if ($_POST['page'] == 'online') {
     $db->query("SELECT id, lastactive FROM grpgusers ORDER BY lastactive DESC LIMIT 5");
     $rows2 = $db->fetch_row();
 
-    $html ='<table class="mtable" style="margin:auto;width:100%;text-align:left;"><tr><th colspan="3">Last 5 Active Players</th></tr>';
+    $html = '<table class="mtable" style="margin:auto;width:100%;text-align:left;"><tr><th colspan="3">Last 5 Active Players</th></tr>';
     $i = 1;
-    foreach($rows2 as $row){
-        $html .= '<tr><td>' . $i++ . '.</td><td>' . formatName($row['id']) . '</td><td style="text-align:center;">'.howLongAgo($row['lastactive']).'</td></tr>';
+    foreach ($rows2 as $row) {
+        $html .= '<tr><td>' . $i++ . '.</td><td>' . formatName($row['id']) . '</td><td style="text-align:center;">' . howLongAgo($row['lastactive']) . '</td></tr>';
     }
     $html .= '</table>
 

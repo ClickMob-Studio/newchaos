@@ -16,8 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 include "../database/pdo_class.php";
 include "../classes.php";
 include "../codeparser.php";
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11212, 33);
 
 header('Content-Type: application/json');
 
@@ -41,7 +39,7 @@ function getEvents($db)
     $input = json_decode(file_get_contents('php://input'), true);
     $user_id = isset($input['userId']) ? $input['userId'] : null;
     $search = isset($input['search']) ? '%' . $input['search'] . '%' : null;
-    $page = isset($input['page']) ? (int)$input['page'] : 1;
+    $page = isset($input['page']) ? (int) $input['page'] : 1;
     $rowsperpage = 30;
     $offset = ($page - 1) * $rowsperpage;
 
@@ -87,12 +85,8 @@ function replaceUserIdWithUsername($db, $text, $userId)
 
 function generateFormattedName($id, $nogang = 0)
 {
-    global $db, $m;
+    global $db;
     $name = "";
-
-    if ($nogang == 0 && $id != 864 && !empty($rtn = $m->get('generateFormattedName.' . $id))) {
-        return $rtn;
-    }
 
     $db->query("SELECT username, gang, admin, rmdays, gm, colours, image_name, pdimgname, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
     $db->execute(array($id));
@@ -133,10 +127,6 @@ function generateFormattedName($id, $nogang = 0)
         $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='{$row['username']}' />";
     } else {
         $name .= "<span style='color: $whichfont;'>{$row['username']}</span>";
-    }
-
-    if ($nogang == 0) {
-        $m->set('generateFormattedName.' . $id, $name, false, 60);
     }
 
     return $name;

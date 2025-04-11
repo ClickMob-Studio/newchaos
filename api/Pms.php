@@ -18,15 +18,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     http_response_code(200);
     exit;
 }
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11212, 33);
-function respond($data, $status = 200) {
+function respond($data, $status = 200)
+{
     http_response_code($status);
     echo json_encode($data);
     exit;
 }
 
-function getallheaders() {
+function getallheaders()
+{
     if (!is_array($_SERVER)) {
         return [];
     }
@@ -40,7 +40,8 @@ function getallheaders() {
     return $headers;
 }
 
-function getUserId() {
+function getUserId()
+{
     $headers = getallheaders();
     if (isset($headers['Userid'])) {
         return intval($headers['Userid']);
@@ -49,8 +50,8 @@ function getUserId() {
     }
 }
 
-function replaceUserIdWithUsername($db, $text, $userId) {
-    global $m;
+function replaceUserIdWithUsername($db, $text, $userId)
+{
     $name = "";
     $db->query("SELECT username, gang, admin, rmdays, gm, colours, pdimgname, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
     $db->execute(array($userId));
@@ -103,7 +104,8 @@ function replaceUserIdWithUsername($db, $text, $userId) {
         $right = substr($username, $half);
         $gradient = generateGradientText($gn[0], $gn[1], 1, $left);
         $gradient .= generateGradientText($gn[1], $gn[2], 1, $right);
-        if ($userId == 146) $gradient = "<span style='text-shadow: 0 0 2px #404200;letter-spacing:-1px;font-weight:900;font-size:16px;'>$gradient</span>";
+        if ($userId == 146)
+            $gradient = "<span style='text-shadow: 0 0 2px #404200;letter-spacing:-1px;font-weight:900;font-size:16px;'>$gradient</span>";
         $name .= "<span style='color: $whichfont; display: inline-block;'><b><i>{$gradient}</i></b></span>";
     } elseif ($userId == 146) {
         $name .= $usernameElement;
@@ -132,11 +134,11 @@ function replaceUserIdWithUsername($db, $text, $userId) {
 
     $name .= "</div>";
 
-    $m->set('formatName.' . $userId, $name, false, 60);
     return str_replace('[-_USERID_-]', $name, $text);
 }
 
-function generateGradientText($startcol, $endcol, $fontsize, $user) {
+function generateGradientText($startcol, $endcol, $fontsize, $user)
+{
     $letters = str_split($user, 1);
     $graduations = count($letters);
     $graduations--;
@@ -150,9 +152,12 @@ function generateGradientText($startcol, $endcol, $fontsize, $user) {
         $HexR = dechex(intval($startcoln['r'] + ($GSize['r'] * $i)));
         $HexG = dechex(intval($startcoln['g'] + ($GSize['g'] * $i)));
         $HexB = dechex(intval($startcoln['b'] + ($GSize['b'] * $i)));
-        if (strlen($HexR) == 1) $HexR = "0$HexR";
-        if (strlen($HexG) == 1) $HexG = "0$HexG";
-        if (strlen($HexB) == 1) $HexB = "0$HexB";
+        if (strlen($HexR) == 1)
+            $HexR = "0$HexR";
+        if (strlen($HexG) == 1)
+            $HexG = "0$HexG";
+        if (strlen($HexB) == 1)
+            $HexB = "0$HexB";
         $HexCol[] = "$HexR$HexG$HexB";
     }
     $i = 0;
@@ -223,7 +228,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
         respond(['error' => 'Method not allowed'], 405);
 }
 
-function getInbox($userId) {
+function getInbox($userId)
+{
     global $db;
     $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 5;
     $offset = isset($_POST['offset']) ? intval($_POST['offset']) : 0;
@@ -259,7 +265,8 @@ function getInbox($userId) {
     }
 }
 
-function getOutbox($userId) {
+function getOutbox($userId)
+{
     global $db;
     $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 5;
     $offset = isset($_GET['offset']) ? intval($_GET['offset']) : 0;
@@ -295,7 +302,8 @@ function getOutbox($userId) {
     }
 }
 
-function viewMessage($userId, $id) {
+function viewMessage($userId, $id)
+{
     global $db;
     try {
         $query = "SELECT pms.*, grpgusers.username as from_username, u2.username as to_username
@@ -318,7 +326,8 @@ function viewMessage($userId, $id) {
     }
 }
 
-function sendMessage($userId) {
+function sendMessage($userId)
+{
     global $db;
     try {
         $data = json_decode(file_get_contents('php://input'), true);
@@ -347,7 +356,8 @@ function sendMessage($userId) {
     }
 }
 
-function deleteMessage($userId, $id) {
+function deleteMessage($userId, $id)
+{
     global $db;
     try {
         $query = "DELETE FROM pms WHERE id = ? AND `to` = ? AND starred = 0";
@@ -360,7 +370,8 @@ function deleteMessage($userId, $id) {
     }
 }
 
-function reportMessage($userId, $id) {
+function reportMessage($userId, $id)
+{
     global $db;
     try {
         $query = "UPDATE maillog SET reported = 1 WHERE id = ? AND `to` = ?";
@@ -373,7 +384,8 @@ function reportMessage($userId, $id) {
     }
 }
 
-function starMessage($userId, $id) {
+function starMessage($userId, $id)
+{
     global $db;
     try {
         $query = "SELECT starred FROM pms WHERE id = ? AND `to` = ?";

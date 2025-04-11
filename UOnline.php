@@ -6,8 +6,6 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 include "../database/pdo_class.php";
 include "../classes.php";
 include "../codeparser.php";
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11212, 33);
 
 header('Content-Type: application/json');
 
@@ -49,10 +47,9 @@ try {
 
 function generateFormattedName($id, $nogang = 0)
 {
-    global $db, $m;
+    global $db;
     $name = "";
-    if ($nogang == 0 && $id != 864 and !empty($rtn = $m->get('generateFormattedName.' . $id)))
-        return $rtn;
+
     $db->query("SELECT username, gang, admin, rmdays, gm, colours, image_name, pdimgname, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
     $db->execute(array($id));
     $row = $db->fetch_row(true);
@@ -109,7 +106,7 @@ function generateFormattedName($id, $nogang = 0)
         $row['colours'] = str_replace('#', '', $row['colours']);
         $gn = explode("~", $row['colours']);
         $username = $row['username'];
-        $half = (int)((strlen($username) / 2));
+        $half = (int) ((strlen($username) / 2));
         $left = substr($username, 0, $half);
         $right = substr($username, $half);
         $gradient = text_gradient($gn[0], $gn[1], 1, $left);
@@ -129,7 +126,6 @@ function generateFormattedName($id, $nogang = 0)
     if ($row['prestige'] > 0) {
         $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
     }
-    if ($nogang == 0)
-        $m->set('generateFormattedName.' . $id, $name, false, 60);
+
     return $name;
 }

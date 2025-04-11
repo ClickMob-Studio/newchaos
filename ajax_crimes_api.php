@@ -5,7 +5,8 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header('Content-type: application/json');
 session_start();
 
-function shorthandNumber($number) {
+function shorthandNumber($number)
+{
     if ($number >= 1000000000) { // Check if the number is at least a billion
         $shorthand = round($number / 1000000000, 2) . 'B'; // Convert to billions, round to 2 decimal places, and append 'B'
         return $shorthand;
@@ -32,12 +33,10 @@ include "database/pdo_class.php";
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11211, 33);
 
 try {
-    if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
-        $user_class = new User((int)$_GET['au_user_or']);
+    if (isset($_GET['au_user_or']) && (int) $_GET['au_user_or']) {
+        $user_class = new User((int) $_GET['au_user_or']);
     } else {
         $user_class = new User($_SESSION['id']);
     }
@@ -53,7 +52,7 @@ try {
     }
 
     $debug = array(
-        'id'               => $user_class->id,
+        'id' => $user_class->id,
         'crime_multiplier' => $crime_multiplier,
         'data' => $data
     );
@@ -74,20 +73,13 @@ try {
     if (isset($data['crime_id'])) {
         $id = $data['crime_id'];
 
-        if (!$row = $m->get('crimes.' . $id)) {
-            $db->query("SELECT `id`, `nerve`, `name` FROM crimes WHERE id = ? LIMIT 1");
-            $db->execute(array(
-                $id
-            ));
-            $row = $db->fetch_row(true);
-            $m->set('crimes.' . $id, $row, false, 120);
-        }
+        $db->query("SELECT `id`, `nerve`, `name` FROM crimes WHERE id = ? LIMIT 1");
+        $db->execute([$id]);
+        $row = $db->fetch_row(true);
 
         if (empty($row)) {
             throw new Exception("Not enough nerve to complete this crime");
         }
-
-        $m->set('crimesave' . $user_class->id, $row['id']);
 
         $nerve = $row['nerve'];
         $name = $row['name'];
@@ -107,7 +99,7 @@ try {
         $crimeRankResult = $db->fetch_row(true);
 
         if ($crimeRankResult) {
-            $crimeCount = (int)$crimeRankResult['count'];
+            $crimeCount = (int) $crimeRankResult['count'];
         } else {
             $crimeCount = 0;
         }
@@ -190,14 +182,14 @@ try {
             $chance = 100;
         }
 
-        if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
+        if (isset($_GET['au_user_or']) && (int) $_GET['au_user_or']) {
             $chance = 100;
         }
 
         // Crime Multiplier Adjustments
         $mission_nerve = $nerve;
         $nerve = ($nerve * $crime_multiplier);
-        $exp   = ($exp * $crime_multiplier);
+        $exp = ($exp * $crime_multiplier);
         $money = ($money * $crime_multiplier);
 
         $prepaid = false;
@@ -234,7 +226,7 @@ try {
             if ($tempItemUse['nerve_vial_time'] > $now) {
                 $extraCost = $cost / 2;
                 $cost = ceil($cost - ($extraCost / 2));
-            } 
+            }
 
             $debug['cost'] = $cost;
 
@@ -267,7 +259,7 @@ try {
                     $nerve,
                     $user_class->id
                 ));
-                throw new Exception($ftext.".|".number_format($user_class->points)."|".number_format($user_class->money)."|".number_format($user_class->level)."|".  genBars());
+                throw new Exception($ftext . ".|" . number_format($user_class->points) . "|" . number_format($user_class->money) . "|" . number_format($user_class->level) . "|" . genBars());
             } elseif ($chance == 6) {
                 $user_class->nerve -= $nerve;
                 $db->query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - ?, caught = caught + 1, jail = 300 WHERE id = ?");
@@ -334,13 +326,9 @@ try {
 
                 $gtax = 0;
                 if ($user_class->gang != 0) {
-                    $gangTax = $m->get('gangtax.' . $user_class->gang);
-                    if (!$gangTax) {
-                        $db->query("SELECT `tax` FROM `gangs` WHERE `id` = ?");
-                        $db->execute(array($user_class->gang));
-                        $gangTax = $db->fetch_row(true);
-                        $m->set('gangtax.' . $user_class->gang, $gangTax, false, 120);
-                    }
+                    $db->query("SELECT `tax` FROM `gangs` WHERE `id` = ?");
+                    $db->execute(array($user_class->gang));
+                    $gangTax = $db->fetch_row(true);
                     if (isset($gangTax['tax']) && $gangTax['tax'] > 0) {
                         $gtax = $money * ($gangTax['tax'] / 100);
                         gangContest(array('tax' => $gtax));

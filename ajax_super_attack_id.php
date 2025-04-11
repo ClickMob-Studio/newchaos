@@ -24,9 +24,6 @@ function success($msg)
     return $response;
 }
 
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11211, 33);
-
 $user_class = new User($_SESSION['id']);
 session_write_close();
 
@@ -41,7 +38,7 @@ if ($_GET['alv'] !== 'yes') {
     exit;
 }
 
-$levelLimit = (int)$_GET['level_limit'];
+$levelLimit = (int) $_GET['level_limit'];
 if (!$levelLimit) {
     echo json_encode(error('Something went wrong.'));
     exit;
@@ -50,7 +47,7 @@ if (!$levelLimit) {
 $time = time() - 900;
 $protime = time();
 
-$sql = "level <= " . $levelLimit ." AND lastactive < '{$time}' AND city = " . $user_class->city . " AND hospital = 0 AND jail = 0 AND is_quest_user = 0 AND aprotection < {$protime} AND (gang <> $user_class->gang || gang = 0)  AND admin < 1 AND hp > (50*level)/4 AND id <> $user_class->id ";
+$sql = "level <= " . $levelLimit . " AND lastactive < '{$time}' AND city = " . $user_class->city . " AND hospital = 0 AND jail = 0 AND is_quest_user = 0 AND aprotection < {$protime} AND (gang <> $user_class->gang || gang = 0)  AND admin < 1 AND hp > (50*level)/4 AND id <> $user_class->id ";
 
 if (isset($_GET['v2']) && $_GET['v2'] == 'yes') {
     $db->query("SELECT `id` FROM `grpgusers` WHERE " . $sql . " ORDER BY rand() DESC LIMIT 10");

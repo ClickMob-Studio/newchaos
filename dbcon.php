@@ -4,10 +4,6 @@ date_default_timezone_set('UTC');
 $conn = mysql_connect("localhost", "chaoscit_user", '3lrKBlrfMGl2ic14');
 $db = mysql_select_db("chaoscit_game");
 mysql_query("SET NAMES 'utf8mb4'");
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11212, 33);
- 
-
 
 
 $db_host = 'localhost';
@@ -32,7 +28,7 @@ try {
 
     // Set PDO to throw exceptions on error
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     // If connection fails, display error message and exit
     die("Database connection failed: " . $e->getMessage());
 }

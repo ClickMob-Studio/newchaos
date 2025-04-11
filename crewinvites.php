@@ -8,13 +8,6 @@ if ($user_class->crewwait != 0)
 if (isset($_GET['accept'])) {
     $crew_class = new crew($_GET['accept']);
 
-    if ($m->get('crew_leave_' . $user_class->id) == $crew_class->id) {
-        echo Message("You have only recently left this crew. You need to wait to join again");
-        include('footer.php');
-        die();
-    }
-
-
     $checkuser = mysql_query("SELECT playerid FROM crewinvites WHERE playerid = $user_class->id AND crewid = {$_GET['accept']}");
     $username_exist = mysql_num_rows($checkuser);
     if ($username_exist != 0) {

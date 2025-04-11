@@ -85,14 +85,11 @@ include 'includes/pagination.class.php';
                             }
                         }
                         if (isset($_POST['topic'])) {
-                            if (!empty($m->get('lastpost.' . $user_class->id)))
-                                diefun("No spaming the forums.");
                             $_POST['topic'] = isset($_POST['topic']) && is_string($_POST['topic']) ? trim($_POST['topic']) : null;
                             $_POST['msgtext'] = isset($_POST['msgtext']) && is_string($_POST['msgtext']) ? trim($_POST['msgtext']) : null;
                             if (!empty($_POST['msgtext']) && !empty($_POST['topic'])) {
                                 $db->query("UPDATE grpgusers SET forumnoti = forumnoti + 1");
                                 $db->execute();
-                                $m->set('lastpost.' . $user_class->id, 1, 10);
                                 $res = $db->query("INSERT INTO ftopics (sectionid, playerid, lastreply, timesent, subject, body, lastposter, lastupdated) VALUES (?, ?, unix_timestamp(), unix_timestamp(), ?, ?, ?, unix_timestamp())");
                                 $db->execute(array(
                                     $i,
@@ -441,14 +438,11 @@ include 'includes/pagination.class.php';
                 if ($topic['sectionid'] == 11 && !($user_class->admin || $user_class->gm || $user_class->cm || $user_class->eo))
                     diefun("You don't have access");
                 if (isset($_POST['submit'])) {
-                    if (!empty($m->get('lastpost.' . $user_class->id)))
-                        diefun("No spaming the forums.");
                     $_POST['msgtext'] = isset($_POST['msgtext']) && is_string($_POST['msgtext']) ? trim($_POST['msgtext']) : null;
                     if (empty($_POST['msgtext']))
                         diefun("You didn't enter a valid response");
                     $db->query("UPDATE grpgusers SET forumnoti = forumnoti + 1");
                     $db->execute();
-                    $m->set('lastpost.' . $user_class->id, 1, 10);
                     preg_match_all("/\[tag\]([0-9]*)\[\/tag\]/", $_POST['msgtext'], $tags);
                     $count = count($tags[1]);
                     if ($count >= 1) {

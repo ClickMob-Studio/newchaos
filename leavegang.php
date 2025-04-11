@@ -46,7 +46,6 @@ if ($_GET['x'] == "leave") {
     Gang_Event($gang_class->id, "[-_USERID_-] has left the gang.", $user_class->id);
     mysql_query("UPDATE grpgusers SET gang = 0, gangwait = 1240, grank = 0, gangmail = 0 WHERE id= $user_class->id");
     echo Message("You have left your gang.");
-    $m->set('gang_leave_' . $user_class->id, $gang_class->id, 0, 1240);
 }
 include("gangheaders.php");
 include "footer.php";

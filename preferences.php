@@ -149,7 +149,6 @@ if(isset($_GET['username'])){
             $user_class->id
         ));
         $user_class->username = $un;
-        $m->delete('formatName.' . $user_class->id);
     }
     echo'<div class="floaty" style="width:60%;">';
         echo'<form method="post">';
@@ -457,7 +456,6 @@ if(isset($_GET['username'])){
             $user_class->id
         ));
         $user_class->colours = $final;
-        $m->delete('formatName.' . $user_class->id);
     }
     $colors = explode('~', $user_class->colours);
     if (count($colors) == 2) {
@@ -517,7 +515,6 @@ if(isset($_GET['username'])){
             $user_class->id
         ));
         $user_class->image_name = $image_name;
-        $m->delete('formatName.' . $user_class->id);
     }
     echo'<div class="floaty" style="width:80%;">';
         echo'<form method="post">';

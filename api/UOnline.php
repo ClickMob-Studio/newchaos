@@ -6,21 +6,19 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 include "../database/pdo_class.php";
 include "../classes.php";
 include "../codeparser.php";
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11212, 33);
 
 header('Content-Type: application/json');
 
 try {
     $db->query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
     $rows = $db->fetch_row();
-   
+
     if ($rows === false) {
         throw new Exception('Error fetching rows from the database.');
     }
     $onlineNow = count($rows);
 
-    $store = array(); 
+    $store = array();
     foreach ($rows as $row) {
         $user_online = new User($row['id']);
         $store[] = array(
@@ -45,4 +43,4 @@ try {
         'error' => true,
         'message' => $e->getMessage()
     ));
-   }
+}

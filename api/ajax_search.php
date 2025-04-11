@@ -5,9 +5,6 @@ include "../codeparser.php";
 include_once "includes/functions.php";
 error_reporting(0);
 
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11212, 33);
-
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
@@ -15,22 +12,21 @@ header("Content-Type: application/json; charset=UTF-8");
 
 function formatUName($id, $nogang = 0)
 {
-    global $db, $m;
+    global $db;
     $name = "";
-    if ($nogang == 0 && $id != 864 && !empty($rtn = $m->get('formatName.' . $id)))
-        return $rtn;
+
     $db->query("SELECT username, gang, admin, rmdays, gm, colours, image_name, pdimgname, gradient, gndays, leader, g.tag, formattedTag, prestige, uninfo FROM grpgusers gu LEFT JOIN gangs g ON g.id = gu.gang WHERE gu.id = ?");
     $db->execute(array($id));
     $row = $db->fetch_row(true);
 
     if ($row['gang'] != 0 && $nogang != 1) {
         if ($row['formattedTag'] == "Yes") {
-            $name .= ($row['leader'] == $id) 
-                ? "<span style='color: grey;'>[<b>" . gradientTag($row['gang']) . "</b>]</span> " 
+            $name .= ($row['leader'] == $id)
+                ? "<span style='color: grey;'>[<b>" . gradientTag($row['gang']) . "</b>]</span> "
                 : "<span style='color: grey;'>[" . gradientTag($row['gang']) . "]</span> ";
         } else {
-            $name .= ($row['leader'] == $id) 
-                ? "<span style='color: blue;'>[<b>{$row['tag']}</b>]</span> " 
+            $name .= ($row['leader'] == $id)
+                ? "<span style='color: blue;'>[<b>{$row['tag']}</b>]</span> "
                 : "<span style='color: white;'>[{$row['tag']}]</span> ";
         }
     }
@@ -105,8 +101,6 @@ function formatUName($id, $nogang = 0)
         }
     }
 
-    if ($nogang == 0)
-        $m->set('formatName.' . $id, $name, false, 60);
     return $name;
 }
 
@@ -116,7 +110,7 @@ $response = [
 ];
 
 try {
-    $userId = $_POST['user_id']; 
+    $userId = $_POST['user_id'];
     $user_class = new User($userId);
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -212,7 +206,7 @@ try {
         }
 
         $limit = ($user_class->rmdays > 0) ? 20 : 10;
-        $sql .= " ORDER BY rand() DESC LIMIT " . (int)$limit;
+        $sql .= " ORDER BY rand() DESC LIMIT " . (int) $limit;
 
         $db->query("SELECT id, username, level, money, city, gang, lastactive, hp FROM `grpgusers` WHERE $sql");
         $db->execute($bindParams);
@@ -221,7 +215,7 @@ try {
         if ($results) {
             foreach ($results as &$result) {
                 $result['username'] = formatUName($result['id']);
-                $result['money'] = '$'.number_format($result['money']);
+                $result['money'] = '$' . number_format($result['money']);
                 $result['lastactive'] = howlongago($result['lastactive']);
             }
 

@@ -1,4 +1,3 @@
-
 <?php
 
 if (isset($_GET['au_user_or'])) {
@@ -8,22 +7,12 @@ if (isset($_GET['au_user_or'])) {
 
 include "ajax_header.php";
 mysql_select_db('chaoscit_game', mysql_connect('localhost', 'chaoscit_user', '3lrKBlrfMGl2ic14'));
-if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
+if (isset($_GET['au_user_or']) && (int) $_GET['au_user_or']) {
     $user_class = new User($_GET['au_user_or']);
 } else {
     $user_class = new User($_SESSION['id']);
 }
 
-if($m->get('crime.'.$user_class->id . time()))
-	$m->increment('crime.'.$user_class->id . time());
-else
-    $m->set('crime.'.$user_class->id . time(), 1, MEMCACHE_COMPRESSED);
-if($m->get('crime.'.$user_class->id . time()) > 100)
-	die("Error, going too fast.");
-$lcl = $m->get('lastcrimeload.'.$user_class->id);
-$lpl = $m->get('lastpageload.'.$user_class->id);
-if($lpl > $lcl)
-    die("Error training.");
 if (isset($_POST['amnt']))
     security($_POST['amnt'], 'num');
 if ($user_class->hospital > 0) {
@@ -32,14 +21,14 @@ if ($user_class->hospital > 0) {
 $modifier = 1.0;
 
 $multiplier = 1;
-if (isset($_POST['multiplier']) && (int)$_POST['multiplier'] && (int)$_POST['multiplier'] == 10) {
+if (isset($_POST['multiplier']) && (int) $_POST['multiplier'] && (int) $_POST['multiplier'] == 10) {
     $tempItemUse = getItemTempUse($user_class->id);
     if ($tempItemUse['gym_10_multiplier_time'] > time()) {
         $multiplier = 10;
     }
 }
 
-if (isset($_POST['multiplier']) && (int)$_POST['multiplier'] && (int)$_POST['multiplier'] == 50 && $user_class->is_auto_user > 0) {
+if (isset($_POST['multiplier']) && (int) $_POST['multiplier'] && (int) $_POST['multiplier'] == 50 && $user_class->is_auto_user > 0) {
     $multiplier = 50;
 }
 
@@ -62,7 +51,7 @@ if ($result) {
     $gang_upgrades = mysql_fetch_assoc($result);
 
     // Check the Training Stat and Apply the Corresponding Bonus
-    switch($stat) {
+    switch ($stat) {
         case 'strength':
             $upgrade_level = $gang_upgrades['upgrade1'];
             break;
@@ -83,12 +72,14 @@ if ($result) {
     }
 }
 
-if (!isset($_POST['stat']) || in_array($_POST['stat'], array(
-            'strength',
-            'defense',
-            'speed',
-            'agility',
-        ))) {
+if (
+    !isset($_POST['stat']) || in_array($_POST['stat'], array(
+        'strength',
+        'defense',
+        'speed',
+        'agility',
+    ))
+) {
     $stat = $_POST['stat'];
 } else {
     die("Invalid stat. " . $_POST['stat']);
@@ -105,9 +96,9 @@ $modifier = max(((0.20 * $user_class->prestige) + 1.5), 1.5);
 if ($user_class->pack1 == 3) {
     $modifier *= 1.20;
 }
- // Check if the user has pack1 = 5 and apply the 25% bonus to mugged amount
-    if ($gang_class->upgrade6 >= 1) {
-      $bonus = 1 + (0.05 * $gang_class->upgrade6); // Correctly calculates the total bonus multiplier
+// Check if the user has pack1 = 5 and apply the 25% bonus to mugged amount
+if ($gang_class->upgrade6 >= 1) {
+    $bonus = 1 + (0.05 * $gang_class->upgrade6); // Correctly calculates the total bonus multiplier
 
     // Correctly applies the bonus multiplier to the modifier
     $modifier *= $bonus;
@@ -129,7 +120,7 @@ if ($user_class->gang) { // Check if the user is in a gang
 // }
 
 $user_class->directawake = ($user_class->directawake < 0) ? 0 : $user_class->directawake;
-if (isset($_POST['what']) AND $_POST['what'] == 'trainrefill') {
+if (isset($_POST['what']) and $_POST['what'] == 'trainrefill') {
     // Determine if Mega Train is active
     $mega_train_multiplier = (isset($_POST['mega_train']) && $_POST['mega_train'] === 'yes') ? 10 : 1;
 
@@ -204,7 +195,8 @@ if (isset($_POST['what']) AND $_POST['what'] == 'trainrefill') {
     } else {
         die("You don't have enough energy.");
     }
-}if (isset($_POST['what']) AND $_POST['what'] == 'train') {
+}
+if (isset($_POST['what']) and $_POST['what'] == 'train') {
     if ($_POST['amnt'] <= $user_class->energy && $_POST['amnt'] > 0) {
         $add = round($_POST['amnt'] * ($user_class->awake / 100 * 6 / 2) * $modifier);
         $user_class->$stat += $add;
@@ -220,18 +212,20 @@ if (isset($_POST['what']) AND $_POST['what'] == 'trainrefill') {
             addToBpCategoryUser($bpCategory, $user_class, 'trains', 1);
         }
 
-        print("You trained with {$_POST['amnt']} energy and received " . prettynum($add) . " $stat.|" . prettynum($user_class->$stat) . "|".genBars());
-        print"|$user_class->energy";
+        print ("You trained with {$_POST['amnt']} energy and received " . prettynum($add) . " $stat.|" . prettynum($user_class->$stat) . "|" . genBars());
+        print "|$user_class->energy";
         die();
     } else
         die("You don't have enough energy.");
 }
-if (isset($_POST['what']) AND $_POST['what'] == 'refill') {
-    if (in_array($_POST['att'], array(
-                'energy',
-                'awake',
-                'both'
-            ))) {
+if (isset($_POST['what']) and $_POST['what'] == 'refill') {
+    if (
+        in_array($_POST['att'], array(
+            'energy',
+            'awake',
+            'both'
+        ))
+    ) {
         $att = $_POST['att'];
     } else {
         die("Invalid stat.");
@@ -247,8 +241,8 @@ if (isset($_POST['what']) AND $_POST['what'] == 'refill') {
             $user_class->energypercent = floor(($user_class->energy / $user_class->maxenergy) * 100);
             $user_class->formattedenergy = $user_class->energy . " / " . $user_class->maxenergy . " [" . $user_class->energypercent . "%]";
             mysql_query("UPDATE grpgusers SET energy = $user_class->maxenergy, points = points - 10 WHERE id = $user_class->id");
-            print("You have refilled your energy for 10 points.|" . number_format($user_class->points) . "|".genBars());
-            print"|$user_class->energy";
+            print ("You have refilled your energy for 10 points.|" . number_format($user_class->points) . "|" . genBars());
+            print "|$user_class->energy";
             die();
         }
     } elseif ($att == 'awake') {
@@ -262,8 +256,8 @@ if (isset($_POST['what']) AND $_POST['what'] == 'refill') {
             $user_class->points -= $ptstouse;
             $user_class->awakepercent = 100;
             mysql_query("UPDATE grpgusers SET awake = $user_class->directawake, points = points - $ptstouse WHERE id = $user_class->id");
-            print("You have refilled your awake for $ptstouse points.|" . number_format($user_class->points) . "|".genBars());
-            print"|$user_class->energy";
+            print ("You have refilled your awake for $ptstouse points.|" . number_format($user_class->points) . "|" . genBars());
+            print "|$user_class->energy";
             die();
         }
     } elseif ($att == 'both') {
@@ -283,8 +277,8 @@ if (isset($_POST['what']) AND $_POST['what'] == 'refill') {
             $user_class->energypercent = floor(($user_class->energy / $user_class->maxenergy) * 100);
             $user_class->formattedenergy = $user_class->energy . " / " . $user_class->maxenergy . " [" . $user_class->energypercent . "%]";
             mysql_query("UPDATE grpgusers SET energy = $user_class->maxenergy, awake = $user_class->directawake, points = points - $ptstouse WHERE id = $user_class->id");
-            print("You have refilled your energy/awake for $ptstouse points.|" . number_format($user_class->points) . "|".genBars());
-            print"|$user_class->energy";
+            print ("You have refilled your energy/awake for $ptstouse points.|" . number_format($user_class->points) . "|" . genBars());
+            print "|$user_class->energy";
             die();
         }
     }

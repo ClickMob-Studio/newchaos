@@ -53,7 +53,6 @@ $current_uri = $_SERVER['REQUEST_URI']; // Gets the full request URI
 
 // }
 register_shutdown_function('ob_end_flush');
-//ini_set('memcached.sess_prefix', 'memc.sess.ml2.key.1');
 $starttime = microtime_float();
 include 'dbcon.php';
 include 'database/pdo_class.php';
@@ -172,18 +171,7 @@ if (empty($user_class->macro_token)) {
     $newMacroToken = generateMacroToken(10);
     mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken . "' WHERE id = " . $user_class->id);
 }
-
-// if (!$m->get('cities')) {
-//     $m->set('cities', 'woot', false, 300);
-//     $db->query("SELECT * FROM cities");
-//     $db->execute();
-//     $rows = $db->fetch_row();
-//     foreach ($rows as $row) {
-//         $m->set('cities.' . $row['id'], false, $row['name']);
-//     }
-// }
-
-$m->set('lastpageload.' . $user_class->id, false, time());
+$_SESSION['lastpageload'] = time();
 if ($user_class->lastpayment < time() - 86400) {
     $db->query("UPDATE grpgusers SET points = points + 250, lastpayment = unix_timestamp() WHERE id = ?");
     $db->execute(array(
@@ -244,29 +232,22 @@ if ($user_class->strength + $user_class->defense + $user_class->speed != $user_c
     ));
 }
 if ($user_class->gang != 0) {
-    if (!$m->get('gangtotal.' . $user_class->gang)) {
-        $m->set('gangtotal.' . $user_class->gang, 'set', false, 300);
-        $db->query("SELECT total FROM grpgusers WHERE gang = ?");
-        $db->execute(array(
-            $user_class->gang
-        ));
-        $rows = $db->fetch_row();
-        $total = 0;
-        foreach ($rows as $row) {
-            $total += $row['total'];
-        }
-        $db->query("UPDATE gangs SET tmstats = ? WHERE id = ?");
-        $db->execute(array(
-            $total,
-            $user_class->gang
-        ));
+    $db->query("SELECT total FROM grpgusers WHERE gang = ?");
+    $db->execute([$user_class->gang]);
+    $rows = $db->fetch_row();
+
+    $total = 0;
+    foreach ($rows as $row) {
+        $total += $row['total'];
     }
+
+    $db->query("UPDATE gangs SET tmstats = ? WHERE id = ?");
+    $db->execute([
+        $total,
+        $user_class->gang
+    ]);
 }
-//  if($user_class->id == 18){
-//     session_destroy();
-//      session_unset();
-//      header("Location: index.php");
-//  }
+
 $db->query("SELECT type, id FROM bans WHERE type IN ('freeze', 'perm') AND id = ?");
 $db->execute(array(
     $user_class->id
@@ -327,100 +308,67 @@ $ja = mysql_num_rows($q);
 
 function callback($buffer)
 {
-    global $user_class, $db, $m;
-    if (!$m->get('hosCount')) {
-        $db->query("SELECT count(id) FROM grpgusers WHERE hospital <> 0");
-        $db->execute();
-        $m->set('hosCount', $db->fetch_single(), false, 15);
-    }
-    if (!$m->get('pHosCount')) {
-        $db->query("SELECT count(id) FROM pets WHERE hospital <> 0");
-        $db->execute();
-        $m->set('pHosCount', $db->fetch_single(), false, 1);
-    }
+    global $user_class, $db;
+
+    $db->query("SELECT count(id) FROM grpgusers WHERE hospital <> 0");
+    $db->execute();
+    $hosCount = $db->fetch_single();
+
+    $db->query("SELECT count(id) FROM pets WHERE hospital <> 0");
+    $db->execute();
+    $pHosCount = $db->fetch_single();
+
     $db->query("SELECT count(viewed) FROM pms WHERE `to` = ? AND viewed = 1");
     $db->execute(array($user_class->id));
     $mailCount = $db->fetch_single();
-    $m->set('mailCount.' . $user_class->id, $mailCount, false, 3);
 
-    // Attempt to retrieve user jail count from cache
-    $userJailCount = $m->get('v2jailCount');
-    if (!$userJailCount) {
-        $db->query("SELECT count(id) FROM grpgusers WHERE jail <> 0");
-        $db->execute();
-        $userJailCount = $db->fetch_single();
-        $m->set('v2jailCount', $userJailCount, false, 1);
-    }
+    $db->query("SELECT count(id) FROM grpgusers WHERE jail <> 0");
+    $db->execute();
+    $userJailCount = $db->fetch_single();
 
-    // Attempt to retrieve pet jail count from cache
-    $petJailCount = $m->get('pJailCount');
-    if (!$petJailCount) {
-        $db->query("SELECT count(id) FROM pets WHERE jail <> 0");
-        $db->execute();
-        $petJailCount = $db->fetch_single();
-        $m->set('pJailCount', $petJailCount, false, 1);
-    }
+    $db->query("SELECT count(id) FROM pets WHERE jail <> 0");
+    $db->execute();
+    $petJailCount = $db->fetch_single();
+
+    $db->query("SELECT lastClockin, dailyClockins FROM jobinfo WHERE userid = ?");
+    $db->execute(array(
+        $user_class->id
+    ));
+    $jinfo = $db->fetch_row(true);
+    $toset = ($jinfo['dailyClockins'] < 8 && $jinfo['lastClockin'] < time() - 3600) ? 1 : 0;
+
+    $db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
+    $db->execute(array(
+        $user_class->id
+    ));
+    $eveCount = $db->fetch_single();
+
+    $db->query("SELECT count(id) FROM hitlist");
+    $db->execute();
+    $hitCount = $db->fetch_single();
+
+    $db->query("SELECT count(*) FROM votes WHERE userid = ?");
+    $db->execute(array(
+        $user_class->id
+    ));
+    $votes = ($db->fetch_single() == 0) ? 'notify' : 'null';
 
 
-
-    if (!$m->get('clockin.' . $user_class->id)) {
-        $db->query("SELECT lastClockin, dailyClockins FROM jobinfo WHERE userid = ?");
-        $db->execute(array(
-            $user_class->id
-        ));
-        $jinfo = $db->fetch_row(true);
-        $toset = ($jinfo['dailyClockins'] < 8 && $jinfo['lastClockin'] < time() - 3600) ? 1 : 0;
-        $m->set('clockin.' . $user_class->id, $toset, false, 60);
-    }
-    if (!$m->get('eveCount.' . $user_class->id)) {
-        $db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
-        $db->execute(array(
-            $user_class->id
-        ));
-        $m->set('eveCount.' . $user_class->id, $db->fetch_single(), false, 3);
-    }
-    if (!$m->get('hlCount')) {
-        $db->query("SELECT count(id) FROM hitlist");
-        $db->execute();
-        $m->set('hlCount', $db->fetch_single(), false, 5);
-    }
-    if (!$votes = $m->get('votes.' . $user_class->id)) {
-        $db->query("SELECT count(*) FROM votes WHERE userid = ?");
-        $db->execute(array(
-            $user_class->id
-        ));
-        $votes = ($db->fetch_single() == 0) ? 'notify' : 'null';
-        $m->set('votes.' . $user_class->id, $votes, false, 5);
-    }
-    if ($user_class->admin || $user_class->gm) {
-        if (!$m->get('refCount')) {
-            $db->query("SELECT count(viewed) FROM referrals WHERE viewed = 0");
-            $db->execute();
-            $m->set('refCount', $db->fetch_single(), false, 5);
-        }
-        if (!$m->get('tickCount')) {
-            $db->query("SELECT count(viewed) FROM tickets WHERE status <> 'CLOSED'");
-            $db->execute();
-            $m->set('tickCount', $db->fetch_single(), false, 5);
-        }
-        $referrals = $m->get('refCount');
-        $tickets = $m->get('tickCount');
-    } else {
+    if (!$user_class->admin && !$user_class->gm) {
         $referrals = 0;
         $tickets = 0;
     }
-    $hospital = "[" . $m->get('hosCount') . "]";
-    $hospital = ($m->get('hosCount') > 0) ? "<span style='color:red;'>$hospital</span>" : $hospital;
+    $hospital = "[" . $hosCount . "]";
+    $hospital = ($hosCount > 0) ? "<span style='color:red;'>$hospital</span>" : $hospital;
     $j = mysql_query("SELECT `id` FROM grpgusers WHERE jail > 0");
     $jail = mysql_num_rows($j);
     $petJailDisplay = "[" . $petJailCount . "]";
     $petJailDisplay = $petJailCount > 0 ? "<span style='color:red;'>$petJailDisplay</span>" : $petJailDisplay;
-    $phos = "[" . $m->get('pHosCount') . "]";
-    $phos = ($m->get('pHosCount') > 0) ? "<span style='color:red;'>$phos</span>" : $phos;
-    //$mail = "[" . $mailount . "]";
+    $phos = "[" . $pHosCount . "]";
+    $phos = ($pHosCount > 0) ? "<span style='color:red;'>$phos</span>" : $phos;
     $mail = $mailCount;
-    $events = $m->get('eveCount.' . $user_class->id);
-    $hitlist = $m->get('hlCount');
+    $events = $eveCount;
+    $hitlist = $hitCount;
     $emcount = $mail + $events;
     $emcount = ($emcount) ? "(" . $emcount . ") " : "";
     $buffer = str_replace("[:USERNAME:]", strip_tags($user_class->username), $buffer);
@@ -524,7 +472,7 @@ function callback($buffer)
         $buffer = str_replace("<!_-referrals-_!>", prettynum($referrals), $buffer);
     }
     $buffer = str_replace("<!_-cityname-_!>", $user_class->mycityname, $buffer);
-    $clockin = ($m->get('clockin.' . $user_class->id)) ? "<a href='jobs.php?clockin' style='color:red;'>Clockin for Job</a>" : "";
+    $clockin = $toset ? "<a href='jobs.php?clockin' style='color:red;'>Clockin for Job</a>" : "";
     $buffer = str_replace("<!_-clockin-_!>", $clockin, $buffer);
     $et = ($user_class->admin || $user_class->eo ? "<a href='subet.php'>Send ET Prize</a>" : "");
     $buffer = str_replace("<!_-entertain-_!>", $et, $buffer);
@@ -698,11 +646,11 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-CRVCJ66JV7"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  gtag('config', 'G-CRVCJ66JV7');
+    gtag('config', 'G-CRVCJ66JV7');
 </script>
 
 <body>

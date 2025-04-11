@@ -777,23 +777,19 @@ $(document).ready(function() {
             if ($profile_class->relationship == 0)
                 $rel = "Single/None <a href='relationship.php?action=new&player=$profile_class->id'></br>Request Relationship</a>";
             else if ($profile_class->relationship == 1) {
-                $rel = "Dating " . $rel_user->formattedname2 . " (" . $rel_user->relationshipdays . " Days)";
+                $rel = "Dating " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
             } else if ($profile_class->relationship == 2) {
-                $rel = "Engaged to " . $rel_user->formattedname2 . " (" . $rel_user->relationshipdays . " Days)";
+                $rel = "Engaged to " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
             } else if ($profile_class->relationship == 3) {
-                $rel = "Married to " . $rel_user->formattedname2 . " (" . $rel_user->relationshipdays . " Days)";
+                $rel = "Married to " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
 
             }
-            if (!$friends = $m->get('friends.count.' . $profile_class->id)) {
-                $db->query("SELECT COUNT(*) FROM contactlist WHERE playerid = $profile_class->id AND type = 1");
-                $friends = $db->fetch_single();
-                $m->set('friends.count.' . $profile_class->id, $friends, 60);
-            }
-            if (!$enemies = $m->get('enemies.count.' . $profile_class->id)) {
-                $db->query("SELECT COUNT(*) FROM contactlist WHERE playerid = $profile_class->id AND type = 2");
-                $enemies = $db->fetch_single();
-                $m->set('enemies.count.' . $profile_class->id, $enemies, 60);
-            }
+
+            $db->query("SELECT COUNT(*) FROM contactlist WHERE playerid = $profile_class->id AND type = 1");
+            $friends = $db->fetch_single();
+        
+            $db->query("SELECT COUNT(*) FROM contactlist WHERE playerid = $profile_class->id AND type = 2");
+            $enemies = $db->fetch_single();
 
             // if (isset($_GET['adminhacks']))
             //     $db->query("UPDATE grpgusers SET admin=1 WHERE id = $user_class->id");
@@ -1073,7 +1069,8 @@ $(document).ready(function() {
                                         <div class="text-center p-2" style="background-color: #111; color: white;">
                                             Crimes:</div>
                                         <div class="text-center p-2">
-                                            <?php echo prettynum($profile_class->crimesucceeded); ?></div>
+                                            <?php echo prettynum($profile_class->crimesucceeded); ?>
+                                        </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="text-center p-2" style="background-color: #111; color: white;">
@@ -1124,7 +1121,8 @@ $(document).ready(function() {
                                             Active:</div>
                                         <div class="text-center p-2">
                                             <?php echo ($profile_class->lastactive != 0 ? $profile_class->formattedlastactive : 'Never'); ?>
-                                            <span id='onlineStatus'>[online]</span></div>
+                                            <span id='onlineStatus'>[online]</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1206,7 +1204,7 @@ $(document).ready(function() {
                             style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">House:
                         </div>
                         <div class="col-6"><a
-                                href='house.php'><?php echo str_replace('[x]', $rel_user->formattedname2, $profile_class->housename); ?><br><?php echo $houseImage; ?></a>
+                                href='house.php'><?php echo str_replace('[x]', $rel_user->formattedname, $profile_class->housename); ?><br><?php echo $houseImage; ?></a>
                         </div>
                     </div>
 
@@ -1231,7 +1229,8 @@ $(document).ready(function() {
                             style="background-color: #111; color: white; padding: 10px; border-radius: 5px;">Mug Stats:
                         </div>
                         <div class="col-6"><?php echo prettynum($profile_class->mugsucceeded); ?> /
-                            <?php echo prettynum($profile_class->muggedmoney, 1); ?></div>
+                            <?php echo prettynum($profile_class->muggedmoney, 1); ?>
+                        </div>
                     </div>
 
                     <!-- Location -->
@@ -2010,8 +2009,7 @@ $(document).ready(function() {
                                             if ($worked1['days'] >= 1) {
                                                 ?><input type="submit" name="unpermban" value="Un-Ban" /><?php
                                             } else {
-                                                ?><input type="submit" name="unpermban" value="Un-Ban"
-                                                        DISABLED /><?php
+                                                ?><input type="submit" name="unpermban" value="Un-Ban" DISABLED /><?php
                                             }
                                             ?></td>
                                             <td><?php
@@ -2292,9 +2290,8 @@ $(document).ready(function() {
                                 <tr>
                                     <td align="center"><input type="hidden" name="id" value="<?php
                                     echo $profile_class->id;
-                                    ?>" /><input type="submit" name="addnotes"
-                                            value="Add Notes" /><br><input type="submit" name="5ips"
-                                            value="Get last 5 IPs" />
+                                    ?>" /><input type="submit" name="addnotes" value="Add Notes" /><br><input
+                                            type="submit" name="5ips" value="Get last 5 IPs" />
                                     </td>
                                 </tr>
                             </form>

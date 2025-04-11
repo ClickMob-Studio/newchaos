@@ -1,6 +1,5 @@
 <?php
 include 'header.php';
-$m->set('lastcrimeload.' . $user_class->id, time());
 ?>
 <div class='box_top'>Speed Gym</div>
 <div class='box_middle'>

@@ -59,38 +59,39 @@ $db->execute(array(
 ));
 $town_hall = $db->fetch_row(true);
 echo '<div class="flexcont">';
-	echo '<div class="flexele floaty flexcont" style="margin:5px;">';
-			echo '<div class="flexele">';
-				echo '<img src="/images/townhall.png" style="width:100px;" />';
-			echo '</div>';
-			echo '<div class="flexele">';
-				echo 'Town Hall<br />';
-				echo 'Level: ' . $town_hall['level'] . '<br />';
-			echo '</div>';
-	echo '</div>';
-	echo '<div class="flexele" style="text-align:left;padding:5px;">';
-		echo 'Stone: ' . number_format($resources['stone']) . '<br />';
-		echo 'Wood: ' . number_format($resources['wood']) . '<br />';
-		echo 'Iron: ' . number_format($resources['iron']) . '<br />';
-		echo 'Food: ' . number_format($resources['food']) . '<br />';
-	echo '</div>';
+echo '<div class="flexele floaty flexcont" style="margin:5px;">';
+echo '<div class="flexele">';
+echo '<img src="/images/townhall.png" style="width:100px;" />';
+echo '</div>';
+echo '<div class="flexele">';
+echo 'Town Hall<br />';
+echo 'Level: ' . $town_hall['level'] . '<br />';
+echo '</div>';
+echo '</div>';
+echo '<div class="flexele" style="text-align:left;padding:5px;">';
+echo 'Stone: ' . number_format($resources['stone']) . '<br />';
+echo 'Wood: ' . number_format($resources['wood']) . '<br />';
+echo 'Iron: ' . number_format($resources['iron']) . '<br />';
+echo 'Food: ' . number_format($resources['food']) . '<br />';
+echo '</div>';
 echo '</div>';
 echo '<div class="flexcont">';
-	$db->query("SELECT * FROM user_resource_plots WHERE userid = ? ORDER BY id ASC");
-	$db->execute(array(
-		$user_class->id
-	));
-	$rows = $db->fetch_row();
-	foreach ($rows as $row) {
-		echo '<div class="resource-plot">';
-			echo '<div class="floaty" style="margin:5px;">';
-				echo show_resource_button($row['id']);
-			echo '</div>';
-		echo '</div>';
-	}
+$db->query("SELECT * FROM user_resource_plots WHERE userid = ? ORDER BY id ASC");
+$db->execute(array(
+	$user_class->id
+));
+$rows = $db->fetch_row();
+foreach ($rows as $row) {
+	echo '<div class="resource-plot">';
+	echo '<div class="floaty" style="margin:5px;">';
+	echo show_resource_button($row['id']);
+	echo '</div>';
+	echo '</div>';
+}
 echo '</div>';
 include 'footer.php';
-function check_resource_timer($resource) {
+function check_resource_timer($resource)
+{
 	global $user_class, $db, $max_clockins_per_day, $clockin_every_x_seconds;
 	$db->query("SELECT timestamp, today FROM user_resource_clockins WHERE userid = ? AND resource = ?");
 	$db->execute(array(
@@ -110,12 +111,13 @@ function check_resource_timer($resource) {
 		return show_resource_button($resource);
 	}
 }
-function show_resource_button($id) {
-	global $m;
+function show_resource_button($id)
+{
 	$resource = get_resource_by_id($id);
 	return '<a href="?id=' . $id . '"><button>' . resource_action($resource) . ' ' . ucfirst($resource) . '</button></a>';
 }
-function resource_action($resource) {
+function resource_action($resource)
+{
 	switch ($resource) {
 		case 'stone':
 		case 'iron':
@@ -126,7 +128,8 @@ function resource_action($resource) {
 			return 'Harvest';
 	}
 }
-function add_resource($id, $amnt) {
+function add_resource($id, $amnt)
+{
 	global $user_class, $db, $max_clockins_per_day, $clockin_every_x_seconds;
 	$resource = get_resource_by_id($id);
 	$db->query("SELECT * FROM user_resource_plots WHERE userid = ? AND id = ?");
@@ -154,21 +157,15 @@ function add_resource($id, $amnt) {
 	));
 	return true;
 }
-function get_resource_by_id($id) {
-	global $m, $db, $user_class;
-	if (!$rtn = $m->get('resource.' . $id . '.' . $userid)) {
-		$db->query("SELECT resource FROM user_resource_plots WHERE id = ? AND userid = ?");
-		$db->execute(array(
-			$id,
-			$user_class->id
-		));
-		$row = $db->fetch_row(true);
-		if ($row) {
-			$rtn = $row['resource'];
-			$m->set('resource.' . $id . '.' . $userid, $rtn);
-		} else {
-			return false;
-		}
-	}
-	return $rtn;
+function get_resource_by_id($id)
+{
+	global $db, $user_class;
+
+	$db->query("SELECT resource FROM user_resource_plots WHERE id = ? AND userid = ?");
+	$db->execute(array(
+		$id,
+		$user_class->id
+	));
+	$row = $db->fetch_row(true);
+	return $row['resource'];
 }

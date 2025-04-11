@@ -5,7 +5,8 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 session_start();
 
-function shorthandNumber($number) {
+function shorthandNumber($number)
+{
     if ($number >= 1000000000) {
         return round($number / 1000000000, 2) . 'B';
     } elseif ($number >= 1000000) {
@@ -30,12 +31,9 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11211, 33);
-
 $user_class = null;
-if (isset($_GET['au_user_or']) && (int)$_GET['au_user_or']) {
-    $user_class = new User((int)$_GET['au_user_or']);
+if (isset($_GET['au_user_or']) && (int) $_GET['au_user_or']) {
+    $user_class = new User((int) $_GET['au_user_or']);
 } elseif (isset($_SESSION['id'])) {
     $user_class = new User($_SESSION['id']);
 }
@@ -61,16 +59,14 @@ try {
 
     $input = json_decode(file_get_contents('php://input'), true);
     $id = isset($_POST['id']) ? $_POST['id'] : (isset($input['id']) ? $input['id'] : null);
-    $crime_multiplier = isset($_POST['cm']) ? (int)$_POST['cm'] : 1;
+    $crime_multiplier = isset($_POST['cm']) ? (int) $_POST['cm'] : 1;
 
     if ($id) {
         $crime_key = 'crimes.' . $id;
-        if (!$row = $m->get($crime_key)) {
-            $db->query("SELECT `id`, `nerve`, `name` FROM crimes WHERE id = ? LIMIT 1");
-            $db->execute(array($id));
-            $row = $db->fetch_row(true);
-            $m->set($crime_key, $row, false, 120);
-        }
+
+        $db->query("SELECT `id`, `nerve`, `name` FROM crimes WHERE id = ? LIMIT 1");
+        $db->execute(array($id));
+        $row = $db->fetch_row(true);
 
         if (empty($row)) {
             echo json_encode(['error' => 'refresh']);
@@ -78,7 +74,6 @@ try {
             die();
         }
 
-        $m->set('crimesave' . $user_class->id, $row['id']);
         $nerve = $row['nerve'] * $crime_multiplier;
         $name = $row['name'];
 
@@ -99,7 +94,7 @@ try {
         $db->execute(array($user_class->id, $row['id']));
         $crimeRankResult = $db->fetch_row(true);
 
-        $crimeCount = $crimeRankResult ? (int)$crimeRankResult['count'] : 0;
+        $crimeCount = $crimeRankResult ? (int) $crimeRankResult['count'] : 0;
 
         $star_level = 0;
         if ($crimeCount >= 10000 && $crimeCount < 100000) {
@@ -248,13 +243,10 @@ try {
 
                 $gtax = 0;
                 if ($user_class->gang != 0) {
-                    $gangTax = $m->get('gangtax.' . $user_class->gang);
-                    if (!$gangTax) {
-                        $db->query("SELECT `tax` FROM `gangs` WHERE `id` = ?");
-                        $db->execute(array($user_class->gang));
-                        $gangTax = $db->fetch_row(true);
-                        $m->set('gangtax.' . $user_class->gang, $gangTax, false, 120);
-                    }
+                    $db->query("SELECT `tax` FROM `gangs` WHERE `id` = ?");
+                    $db->execute(array($user_class->gang));
+                    $gangTax = $db->fetch_row(true);
+
                     if (isset($gangTax['tax']) && $gangTax['tax'] > 0) {
                         $gtax = $money * ($gangTax['tax'] / 100);
                         gangContest(['tax' => $gtax]);

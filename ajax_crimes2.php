@@ -34,8 +34,6 @@ include "database/pdo_class.php";
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11211, 33);
 
 if (isset($_GET['au_user_or']) && (int) $_GET['au_user_or']) {
     $user_class = new User((int) $_GET['au_user_or']);
@@ -78,19 +76,6 @@ $debug = array(
     'post' => $_POST
 );
 
-// if($m->get('crime.'.$user_class->id . time()))
-//     $m->increment('crime.'.$user_class->id . time());
-// else
-//     $m->set('crime.'.$user_class->id . time(), 1, MEMCACHE_COMPRESSED);
-
-// if($m->get('crime.'.$user_class->id . time()) > 100)
-//     die("Error, going too fast.");
-
-// $lcl = $m->get('lastcrimeload.'.$user_class->id);
-// $lpl = $m->get('lastpageload.'.$user_class->id);
-// if($lpl > $lcl)
-//     die("Error training.");
-
 if (!$user_class) {
     die();
 }
@@ -114,16 +99,10 @@ $input = json_decode(file_get_contents('php://input'), true);
 
 if (isset($_POST['id']) || isset($input['id'])) {
     $id = (isset($_POST['id'])) ? $_POST['id'] : $input['id'];
-    //$id = $_POST['id'];
 
-    if (!$row = $m->get('crimes.' . $id)) {
-        $db->query("SELECT `id`, `nerve`, `name` FROM crimes WHERE id = ? LIMIT 1");
-        $db->execute(array(
-            $id
-        ));
-        $row = $db->fetch_row(true);
-        $m->set('crimes.' . $id, $row, false, 120);
-    }
+    $db->query("SELECT `id`, `nerve`, `name` FROM crimes WHERE id = ? LIMIT 1");
+    $db->execute([$id]);
+    $row = $db->fetch_row(true);
 
     $debug['crime'] = $id;
     $debug['nerve'] = $user_class->nerve;
@@ -131,15 +110,12 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
     if (empty($row)) {
         $debug['error'] = "Empty Crimes Row";
-        //$logger->info("", $debug);
         echo json_encode(array(
             'debug' => $debug,
             'error' => 'refresh'
         ));
         die();
     }
-
-    $m->set('crimesave' . $user_class->id, $row['id']);
 
     $nerve = $row['nerve'];
     $name = $row['name'];
@@ -453,18 +429,9 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
             $gtax = 0;
             if ($user_class->gang != 0) {
-                // Attempt to retrieve gang tax details from cache
-                $gangTax = $m->get('gangtax.' . $user_class->gang);
-
-                // If not found in cache, query the database
-                if (!$gangTax) {
-                    $db->query("SELECT `tax` FROM `gangs` WHERE `id` = ?");
-                    $db->execute(array($user_class->gang));
-                    $gangTax = $db->fetch_row(true);
-
-                    // Cache the retrieved details for future requests
-                    $m->set('gangtax.' . $user_class->gang, $gangTax, false, 120);
-                }
+                $db->query("SELECT `tax` FROM `gangs` WHERE `id` = ?");
+                $db->execute(array($user_class->gang));
+                $gangTax = $db->fetch_row(true);
 
                 // Check if 'tax' index exists and is greater than 0
                 if (isset($gangTax['tax']) && $gangTax['tax'] > 0) {

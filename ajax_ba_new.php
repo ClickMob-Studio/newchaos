@@ -47,9 +47,6 @@ function success($msg, $goldRushCredits = 0, $medPackCount = 0, $userBaStats = n
 include "classes.php";
 include "database/pdo_class.php";
 
-$m = new Memcache();
-$m->addServer('127.0.0.1', 11211, 33);
-
 if (isset($_GET['au_user_or']) && (int) $_GET['au_user_or']) {
     $user_class = new User((int) $_GET['au_user_or']);
 } else {
