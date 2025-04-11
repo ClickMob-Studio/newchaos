@@ -262,8 +262,10 @@ if ($user_class->gang > 0) {
             }
 
 
-            if (in_array($item['id'], [336, 337, 338])) {
+            if (in_array($item['id'], [336, 337, 338])) { // Easter Eggs
                 $buttonHtml .= '<a href="stores.php#easter-2025" class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '">Exchange</a>';
+            } else if ($item['id'] == 38) {
+                $buttonHtml .= '<a href="travel.php" class="use-btn btn btn-sm btn-primary mt-2" data-item-id="' . $item['id'] . '" data-item-name="' . htmlspecialchars($itemName) . '">Travel</a>';
             } else if ($item['type'] != 'booster' && (!$loaned && $itemType == 'consumable' || ($itemType == "rare" && !in_array($item['id'], $restrictedUseItems) && $item['category'] != 'crafting'))) {
                 // Multi-use items
                 if (in_array($item['id'], $multiUseItems)) {

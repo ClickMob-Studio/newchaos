@@ -210,32 +210,32 @@ if (isset($_GET['use'])) {
                 $response['message'] = "You successfully used some Serenity Serum. Your strength, defense and speed have been increased for 15 minutes.";
                 break;
 
-            case 38:
-                if (empty($_GET['cityid'])) {
-                    $db->query("SELECT id, name, levelreq FROM cities WHERE country = 1 ORDER BY levelreq DESC");
-                    $db->execute();
-                    $rows = $db->fetch_row();
-                    $opts = "";
-                    foreach ($rows as $row)
-                        $opts .= "<option value='{$row['id']}'>{$row['name']} (LVL: {$row['levelreq']})</option>";
-                    $response['success'] = false;
-                    $response['message'] = '<form method="get"><select name="cityid">' . $opts . '</select><input type="hidden" name="use" value="38" /><input type="submit" value="Move to City" /></form>';
-                    echo json_encode($response);
-                    exit;
-                } else {
-                    $cid = security($_GET['cityid']);
-                    $db->query("SELECT * FROM cities WHERE id = ? AND pres = 0");
-                    $db->execute(array($cid));
-                    if ($db->fetch_row()) {
-                        $db->query("UPDATE grpgusers SET city = ? WHERE id = ?");
-                        $db->execute(array($cid, $user_class->id));
-                        $response['success'] = true;
-                        $response['message'] = "You have moved cities for free!";
-                    } else {
-                        $response['message'] = "City does not exist.";
-                    }
-                }
-                break;
+            // case 38:
+            //     if (empty($_GET['cityid'])) {
+            //         $db->query("SELECT id, name, levelreq FROM cities WHERE country = 1 ORDER BY levelreq DESC");
+            //         $db->execute();
+            //         $rows = $db->fetch_row();
+            //         $opts = "";
+            //         foreach ($rows as $row)
+            //             $opts .= "<option value='{$row['id']}'>{$row['name']} (LVL: {$row['levelreq']})</option>";
+            //         $response['success'] = false;
+            //         $response['message'] = '<form method="get"><select name="cityid">' . $opts . '</select><input type="hidden" name="use" value="38" /><input type="submit" value="Move to City" /></form>';
+            //         echo json_encode($response);
+            //         exit;
+            //     } else {
+            //         $cid = security($_GET['cityid']);
+            //         $db->query("SELECT * FROM cities WHERE id = ? AND pres = 0");
+            //         $db->execute(array($cid));
+            //         if ($db->fetch_row()) {
+            //             $db->query("UPDATE grpgusers SET city = ? WHERE id = ?");
+            //             $db->execute(array($cid, $user_class->id));
+            //             $response['success'] = true;
+            //             $response['message'] = "You have moved cities for free!";
+            //         } else {
+            //             $response['message'] = "City does not exist.";
+            //         }
+            //     }
+            //     break;
 
             case 42:
                 $randnum = rand(0, 100);
