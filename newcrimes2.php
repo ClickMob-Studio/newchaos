@@ -57,7 +57,7 @@ $rows = $db->fetch_row();
 </style>
 
 <div class="max-w-7xl mx-auto mb-2">
-    <h1 class="text-5xl text-white">Crimes: <?= $m->get('lastactive_' . $user_class->id) ?></h1>
+    <h1 class="text-5xl text-white">Crimes: <?= $redis->get('lastactive_' . $user_class->id) ?></h1>
 </div>
 
 <div class="max-w-7xl mx-auto flex">
