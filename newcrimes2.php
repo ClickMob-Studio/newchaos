@@ -4,19 +4,17 @@ include 'header2.php';
 $redis = new Redis();
 $redis->connect("127.0.1", 6379);
 
-if (!$redis->ping()) {
-    die('Redis server is not responding.');
-}
-
 $lastactive = $redis->get('lastactive_' . $user_class->id);
-$timePassedEnough = (time() - $lastactive) > 120; // 2 minutes
-if ($timePassedEnough) {
-    $db->query("UPDATE grpgusers SET crimes = 'newcrimes', lastactive = unix_timestamp() WHERE id = ?");
-    $db->execute(array(
-        $user_class->id
-    ));
-    $redis->setEx('lastactive_' . $user_class->id, 60);
-    $lastactive = time();
+if ($lastactive) {
+    $timePassedEnough = (time() - $lastactive) > 120; // 2 minutes
+    if ($timePassedEnough) {
+        $db->query("UPDATE grpgusers SET crimes = 'newcrimes', lastactive = unix_timestamp() WHERE id = ?");
+        $db->execute(array(
+            $user_class->id
+        ));
+        $redis->setEx('lastactive_' . $user_class->id, 60);
+        $lastactive = time();
+    }
 }
 error_reporting(0);
 
