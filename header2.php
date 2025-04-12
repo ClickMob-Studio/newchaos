@@ -172,16 +172,6 @@ if (empty($user_class->macro_token)) {
     mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken . "' WHERE id = " . $user_class->id);
 }
 
-// if (!$m->get('cities')) {
-//     $m->set('cities', 'woot', false, 300);
-//     $db->query("SELECT * FROM cities");
-//     $db->execute();
-//     $rows = $db->fetch_row();
-//     foreach ($rows as $row) {
-//         $m->set('cities.' . $row['id'], false, $row['name']);
-//     }
-// }
-
 $redis->set('lastpageload.' . $user_class->id, false, time());
 if ($user_class->lastpayment < time() - 86400) {
     $db->query("UPDATE grpgusers SET points = points + 250, lastpayment = unix_timestamp() WHERE id = ?");
@@ -401,8 +391,8 @@ function callback($buffer)
             $db->execute();
             $redis->set('tickCount', $db->fetch_single(), 5);
         }
-        $referrals = $m->get('refCount');
-        $tickets = $m->get('tickCount');
+        $referrals = $redis->get('refCount');
+        $tickets = $redis->get('tickCount');
     } else {
         $referrals = 0;
         $tickets = 0;
