@@ -27,13 +27,13 @@ if (empty($crimes)) {
     $crimes = json_decode($crimes, true);
 }
 
-if ($tempItemUse['ghost_vacuum_time'] > time()) {
+if ($tempItemUse['ghost_vacuum_time'] < time()) {
     $crimes = array_filter($crimes, function ($item) {
         return (int) $item['id'] != 51;
     });
 }
 
-$rows = $db->fetch_row();
+$rows = $crimes;
 ?>
 
 <style>
