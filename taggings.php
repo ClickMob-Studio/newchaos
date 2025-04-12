@@ -3,7 +3,7 @@
 include("UserTag.inc");
 include("classes.php");
 $tag = new EntityTag();
-$user = mysql_query("SELECT * FROM grpgusers WHERE id='$_GET['uid']'");
+$user = mysql_query("SELECT * FROM grpgusers WHERE id='" . $_GET['uid'] . "'");
 $GangTag = ($user->GangTag != "") ? "[$user->GangTag] " : "";
 $GangLeader = (isset($user->GangLeader) && $user->GangLeader == 1);
 $DisplayName = $user->Name;
