@@ -15,6 +15,8 @@ $activeMission = $db->fetch_row()[0];
 
 $tempItemUse = getItemTempUse($user_class->id);
 
+$redis->delete("all_crimes");
+
 $crimes = $redis->get("all_crimes");
 if (empty($crimes)) {
     $db->query("SELECT * FROM crimes ORDER BY nerve DESC");
