@@ -787,7 +787,7 @@ $(document).ready(function() {
 
             $db->query("SELECT COUNT(*) FROM contactlist WHERE playerid = $profile_class->id AND type = 1");
             $friends = $db->fetch_single();
-        
+
             $db->query("SELECT COUNT(*) FROM contactlist WHERE playerid = $profile_class->id AND type = 2");
             $enemies = $db->fetch_single();
 
@@ -1121,7 +1121,7 @@ $(document).ready(function() {
                                             Active:</div>
                                         <div class="text-center p-2">
                                             <?php echo ($profile_class->lastactive != 0 ? $profile_class->formattedlastactive : 'Never'); ?>
-                                            <span id='onlineStatus'>[online]</span>
+                                            <?= ((time() - $profile_class->lastactive) < 900 ? "<span id='onlineStatus'>[online]</span>" : ""); ?>
                                         </div>
                                     </div>
                                 </div>
