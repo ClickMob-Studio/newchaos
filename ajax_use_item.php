@@ -764,7 +764,7 @@ if (isset($_GET['use'])) {
                 $db->execute([$rewardPoints, $rewardMoney, $rewardCredits, $user_class->id]);
 
                 $response["success"] = true;
-                $response["message"] = "You hammer the golden egg open, and receive " . number_format($rewardPoints, 0) . " points, $" . number_format($rewardMoney, 0) . ", " . $rewardCredits . " gold" . ($rewardToken ? " and 1 Gold Rush Token." : " but sadly no Gold Rush Token.");
+                $response["message"] = "You hammer the golden egg open, and receive " . ($rewardCredits ? $rewardCredits . " gold, " : "") . number_format($rewardPoints, 0) . " points, $" . number_format($rewardMoney, 0) . "" . ($rewardToken ? " and 1 Gold Rush Token." : ".");
 
                 break;
             default:
