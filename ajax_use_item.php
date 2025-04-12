@@ -744,6 +744,29 @@ if (isset($_GET['use'])) {
                 $response['success'] = true;
                 $response['message'] = "You consume the Maze Boost and feel a tingling sense in your feet for the next 10 days!";
                 break;
+            case 348:
+                # Decide how many points to give between 250 - 1500
+                $rewardPoints = rand(250, 1500);
+
+                # Decide how much money to give between $1,000,000 - $10,000,000
+                $rewardMoney = rand(1000000, 10000000);
+
+                # Decide how much gold to give between 0 - 5
+                $rewardCredits = rand(0, 5);
+
+                # Decide if there should be a Gold Rush Token
+                $rewardToken = rand(0, 10) <= 2 ? 1 : 0;
+                if ($rewardToken) {
+                    Give_Item(253, $user_class->id, 1);
+                }
+
+                $db->query("UPDATE `grpgusers` SET `points` = `points` + ?, `money` = `money` + ?, `credits` = `credits` + ? WHERE `id` = ?");
+                $db->execute([$rewardPoints, $rewardMoney, $rewardCredits, $user_class->id]);
+
+                $response["success"] = true;
+                $response["message"] = "You hammer the golden egg open, and receive " . number_format($rewardPoints, 0) . " points, $" . number_format($rewardMoney, 0) . ", " . $rewardCredits . " gold" . ($rewardToken ? " and 1 Gold Rush Token." : " but sadly no Gold Rush Token.");
+
+                break;
             default:
                 $failed = true;
                 $response['message'] = "Item not recognized or cannot be used.";
