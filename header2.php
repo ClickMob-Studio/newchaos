@@ -172,7 +172,7 @@ if (empty($user_class->macro_token)) {
     mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken . "' WHERE id = " . $user_class->id);
 }
 
-$redis->set('lastpageload.' . $user_class->id, false, time());
+$redis->setEx('lastpageload.' . $user_class->id, 1);
 if ($user_class->lastpayment < time() - 86400) {
     $db->query("UPDATE grpgusers SET points = points + 250, lastpayment = unix_timestamp() WHERE id = ?");
     $db->execute(array(
