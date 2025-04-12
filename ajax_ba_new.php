@@ -654,16 +654,13 @@ function check_for_easter_egg($fullResponse, $user_class, $goldRushEnabled = 0)
 
     if ($egg > 0) {
         $item = $redis->get('item_' . $egg);
-        error_log('[DEBUG] item_' . $egg . ' = ' . $item);
         if (!$item) {
             $db->query("SELECT * FROM items WHERE id = " . $egg);
             $db->execute();
             $item = $db->fetch_row(true);
             $redis->setEx("item_" . $egg, 3600, json_encode($item));
-            error_log('[DEBUG] item_' . $egg . ' - SET IN REDIS TO: ' . $item);
         } else {
             $item = json_decode($item, true);
-            error_log('[DEBUG] item_' . $egg . ' - FETCHED FROM REDIS TO: (' . $item['itemname'] . ') -> ' . $item);
         }
 
         $fullResponse .= '<br /><br />';
