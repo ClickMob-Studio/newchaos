@@ -11,7 +11,7 @@ if ($timePassedEnough) {
     $db->execute(array(
         $user_class->id
     ));
-    $redis->set('lastactive_' . $user_class->id, time());
+    $redis->setEx('lastactive_' . $user_class->id, 60);
     $lastactive = time();
 }
 error_reporting(0);
