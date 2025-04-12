@@ -13,7 +13,4 @@ include "classes.php";
 include "codeparser.php";
 include "database/pdo_class.php";
 
-
-//$db->query("UPDATE grpgusers SET lastactive = ".time()." WHERE id = ".$_SESSION['id']);
-//$db->execute();
 ?>

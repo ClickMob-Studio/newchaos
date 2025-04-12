@@ -10,7 +10,8 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 
 if (!function_exists('getallheaders')) {
-    function getallheaders() {
+    function getallheaders()
+    {
         $headers = [];
         foreach ($_SERVER as $name => $value) {
             if (substr($name, 0, 5) == 'HTTP_') {
@@ -47,10 +48,8 @@ try {
         $_SESSION['user_id'] = $user_id;
 
         $user_class = new User($_SESSION['user_id']);
-        $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
-        $db->execute(array(
-        $user_class->id
-        ));
+        set_last_active($user_class->id);
+
         if (isset($user_class->id)) {
             $user_data = $user_class;
 

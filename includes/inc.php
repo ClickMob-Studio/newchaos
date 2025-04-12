@@ -97,12 +97,9 @@ function microtime_float()
     return (double) substr($time, 11) + (double) substr($time, 0, 8);
 }
 $time = date("F d, Y g:i:sa", time());
-$db->query("UPDATE grpgusers SET lastactive = ?, ip = ? WHERE id = ?");
-$db->execute(array(
-    time(),
-    $mtg->_ip(),
-    $user_class->id
-));
+
+set_last_active_ip($user_class->id, $mtg->_ip());
+
 function callback($buffer)
 {
     global $user_class, $db, $includepets;

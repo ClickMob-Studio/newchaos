@@ -22,8 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && $user_cla
 
     Message("Update posted");
     if ($user_class->id == 9) {
-        $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = 1");
-        $db->execute();
+        set_last_active($user_class->id);
     }
 }
 
@@ -34,15 +33,39 @@ if ($user_class->game_updates) {
 }
 ?>
 <style>
-    .type-con { color: #FFF; } /* White */
-    .type-ui { color: #FFD700; } /* Gold */
-    .type-bug { color: #228B22; } /* Forest Green */
-    .type-sys { color: #FF4500; } /* OrangeRed */
-    .type-func { color: #1E90FF; } /* DodgerBlue */
-    .type-other { color: #6A5ACD; } /* SlateBlue */
+    .type-con {
+        color: #FFF;
+    }
+
+    /* White */
+    .type-ui {
+        color: #FFD700;
+    }
+
+    /* Gold */
+    .type-bug {
+        color: #228B22;
+    }
+
+    /* Forest Green */
+    .type-sys {
+        color: #FF4500;
+    }
+
+    /* OrangeRed */
+    .type-func {
+        color: #1E90FF;
+    }
+
+    /* DodgerBlue */
+    .type-other {
+        color: #6A5ACD;
+    }
+
+    /* SlateBlue */
     .dark-card {
         background-color: #000000;
-        color: #fff; 
+        color: #fff;
     }
 </style>
 <div class="container mt-4">
@@ -60,7 +83,8 @@ if ($user_class->game_updates) {
                         <label class="form-label">Type</label>
                         <?php foreach ($types as $type => $label): ?>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="type" id="type<?= $type ?>" value="<?= $type ?>" <?= $type == 'bug' ? 'checked' : '' ?>>
+                                <input class="form-check-input" type="radio" name="type" id="type<?= $type ?>"
+                                    value="<?= $type ?>" <?= $type == 'bug' ? 'checked' : '' ?>>
                                 <label class="form-check-label type-<?= $type ?>" for="type<?= $type ?>">
                                     <?= $label ?>
                                 </label>

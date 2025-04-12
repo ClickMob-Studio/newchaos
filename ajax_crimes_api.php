@@ -61,10 +61,7 @@ try {
         throw new Exception("Invalid user.");
     }
 
-    $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
-    $db->execute(array(
-        $user_class->id
-    ));
+    set_last_active($user_class->id);
 
     if ($user_class->jail || $user_class->hospital) {
         throw new Exception("You are not able to do crimes at the moment.");

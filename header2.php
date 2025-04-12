@@ -296,11 +296,7 @@ function getRealIpAddress()
 $IP = getRealIpAddress();
 setcookie("mu", $user_class->id, time() + (10 * 365 * 24 * 60 * 60));
 if ($uid != 0) {
-    $db->query("UPDATE grpgusers SET lastactive = unix_timestamp(), ip = ? WHERE id = ?");
-    $db->execute(array(
-        $IP,
-        $user_class->id
-    ));
+    set_last_active_ip($user_class->id, $IP);
 }
 
 $q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");

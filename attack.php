@@ -461,7 +461,6 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
             }
 
             Send_Event($attack_person->id, "[-_USERID_-] attacked you and won! They gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".", $user_class->id);
-            Send_Event1($attack_person->id, "Was attacked by [-_USERID_-]  and lost the fight! They gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".", $user_class->id);
             $count = count($rtn);
             if ($count > 5) {
                 echo $rtn[0] . $rtn[1] . '...<br />' . $rtn[$count - 3] . $rtn[$count - 2] . $rtn[$count - 1];

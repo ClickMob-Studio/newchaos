@@ -48,8 +48,7 @@ if (!$user_class) {
 $db->startTrans();
 
 try {
-    $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
-    $db->execute(array($user_class->id));
+    set_last_active($user_class->id);
 
     if ($user_class->jail || $user_class->hospital) {
         echo json_encode(['text' => "You are not able to do crimes at the moment."]);

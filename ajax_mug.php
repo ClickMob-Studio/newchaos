@@ -44,8 +44,7 @@ try {
     $gang_class = new Gang($user_class->gang);
     $userPrestigeSkills = getUserPrestigeSkills($user_class);
 
-    $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
-    $db->execute(array($user_class->id));
+    set_last_active($user_class->id);
 
     if ($attack_person->mprotection > time()) {
         echo json_encode(error("This player is currently under mug protection."));

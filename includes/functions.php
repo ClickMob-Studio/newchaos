@@ -1,5 +1,8 @@
 <?php
 
+$redis = new Redis();
+$redis->connect("127.0.1", 6379);
+
 function howlongtil($futureTimestamp)
 {
     $secondsLeft = $futureTimestamp - time();
@@ -451,21 +454,36 @@ function Take_Item($itemid, $userid, $quantity = 1)
 
 function Item_Name($itemId)
 {
-    global $db;
-    $db->query("SELECT itemname FROM items WHERE id = ?");
-    $db->execute(array(
-        $itemId
-    ));
-    return $db->fetch_single();
+    global $db, $redis;
+
+    $item = $redis->get('item_' . $itemId);
+    if (!$item) {
+        $db->query("SELECT * FROM items WHERE id = ?");
+        $db->execute([$itemId]);
+        $item = $db->fetch_row(true);
+        $redis->setEx("item_" . $itemId, 3600, json_encode($item));
+        return $item['itemname'];
+    } else {
+        $item = json_decode($item, true);
+        return $item['itemname'];
+    }
 }
+
 function Item_Image($itemId)
 {
-    global $db;
-    $db->query("SELECT image FROM items WHERE id = ?");
-    $db->execute(array(
-        $itemId
-    ));
-    return $db->fetch_single();
+    global $db, $redis;
+
+    $item = $redis->get('item_' . $itemId);
+    if (!$item) {
+        $db->query("SELECT * FROM items WHERE id = ?");
+        $db->execute([$itemId]);
+        $item = $db->fetch_row(true);
+        $redis->setEx("item_" . $itemId, 3600, json_encode($item));
+        return $item['image'];
+    } else {
+        $item = json_decode($item, true);
+        return $item['image'];
+    }
 }
 function Take_Loan($itemid, $userid, $quantity = 1)
 {
@@ -547,17 +565,8 @@ function Send_Event($id, $text, $extra = "0")
         $text,
         $extra
     ));
-    // $db->query("INSERT INTO eventslog (`to`, timesent, `text`, `extra`) VALUES (?, unix_timestamp(), ?, ?)");
-    // $db->execute(array(
-    //     $id,
-    //     $text,
-    //     $extra
-    // ));
 }
-function Send_Event1($id, $text, $extra = "0")
-{
 
-}
 function Send_Event2($id, $text, $extra = "0")
 {
     global $db;
@@ -1782,7 +1791,7 @@ function ofthes($userid, &$toadd)
 }
 function check_items($itemid, $userid = null)
 {
-    global $db, $user_class;
+    global $db, $user_class, $redis;
     if (empty($userid))
         $userid = $user_class->id;
     $db->query("SELECT quantity FROM inventory WHERE userid = ? AND itemid = ?");
@@ -3799,5 +3808,18 @@ function set_last_active($uid)
         $redis->setEx('lastactive_' . $uid, 60, $current);
         $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
         $db->execute([$uid]);
+    }
+}
+
+function set_last_active_ip($uid, $ip)
+{
+    global $db, $redis;
+
+    $current = time();
+    $lastactive = $redis->get('lastactive_' . $uid);
+    if (!$lastactive || $lastactive < ($current - 60)) {
+        $redis->setEx('lastactive_' . $uid, 60, $current);
+        $db->query("UPDATE grpgusers SET lastactive = unix_timestamp(), ip = ? WHERE id = ?");
+        $db->execute([$uid, $ip]);
     }
 }
