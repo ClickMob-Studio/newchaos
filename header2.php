@@ -2,6 +2,9 @@
 ob_start();
 session_start();
 
+$redis = new Redis();
+$redis->connect("127.0.1", 6379);
+
 header('Content-Type: text/html; charset=utf-8');
 function getUserIP()
 {

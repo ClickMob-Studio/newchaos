@@ -1,11 +1,7 @@
 <?php
 ob_start();
 session_start();
-// if($_SESSION['id'] == 1){
-//     ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
-// }
+
 header('Content-Type: text/html; charset=utf-8');
 function getUserIP()
 {
