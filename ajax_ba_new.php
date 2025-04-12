@@ -84,22 +84,18 @@ if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'use_med_pack') {
 
     $medPackCount = check_items(14, $user_class->id);
     if ($medPackCount > 0) {
-        $db->query("SELECT * FROM items WHERE id = 14");
-        $db->execute();
-        $row = $db->fetch_row(true);
-
-        $hosp = floor(($user_class->hospital / 100) * $row['reduce']);
+        $hosp = floor(($user_class->hospital / 100) * 100);
         $newhosp = $user_class->hospital - $hosp;
         $newhosp = ($newhosp < 0) ? 0 : $newhosp;
-        $hp = floor(($user_class->puremaxhp / 4) * $row['heal']);
+        $hp = floor(($user_class->puremaxhp / 4) * 100);
         $hp = $user_class->purehp + $hp;
         $hp = ($hp > $user_class->puremaxhp) ? $user_class->puremaxhp : $hp;
         $db->query("UPDATE grpgusers SET hospital = ?, hp = ? WHERE id = ?");
-        $db->execute(array(
+        $db->execute([
             $newhosp,
             $hp,
             $user_class->id
-        ));
+        ]);
 
         Take_Item(14, $user_class->id);
 
