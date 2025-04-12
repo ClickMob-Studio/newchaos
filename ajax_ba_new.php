@@ -661,7 +661,7 @@ function check_for_easter_egg($fullResponse, $user_class, $goldRushEnabled = 0)
             $redis->setEx("item_" . $egg, 3600, json_encode($item));
             error_log('[DEBUG] item_' . $egg . ' - SET IN REDIS TO: ' . $item);
         } else {
-            $item = json_decode($item);
+            $item = json_decode($item, true);
             error_log('[DEBUG] item_' . $egg . ' - FETCHED FROM REDIS TO: (' . $item['itemname'] . ') -> ' . $item);
         }
 
