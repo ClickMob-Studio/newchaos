@@ -1120,7 +1120,14 @@ $(document).ready(function() {
                                         <div class="text-center p-2" style="background-color: #111; color: white;">Last
                                             Active:</div>
                                         <div class="text-center p-2">
-                                            <?php echo ($profile_class->lastactive != 0 ? $profile_class->formattedlastactive : 'Never'); ?>
+                                            <?php
+                                            $lastactive = $redis->get("lastactive_" . $profile_class->id);
+                                            if (!empty($lastactive)) {
+                                                echo ($lastactive != 0 ? lastactive($lastactive) : 'Never');
+                                            } else {
+                                                echo ($profile_class->lastactive != 0 ? $profile_class->formattedlastactive : 'Never');
+                                            }
+                                            ?>
                                             <?= ((time() - $profile_class->lastactive) < 900 ? "<span id='onlineStatus'>[online]</span>" : ""); ?>
                                         </div>
                                     </div>
