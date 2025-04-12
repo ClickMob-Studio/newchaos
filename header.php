@@ -911,8 +911,10 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
         $usermission = $redis->get("userMission_" . $user_class->id);
         if (empty($usermission) || !$usermission) {
-            $query = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
-            $usermission = mysql_fetch_array($query);
+            $query = $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no'");
+            $db->execute([$user_class->id]);
+            $usermission = $db->fetch_row(true);
+
             if (!empty($usermission)) {
                 $redis->setEx("userMission_" . $user_class->id, 5, json_encode($usermission));
             }
@@ -922,7 +924,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
         if (!empty($usermission)) {
             $show = true;
-            $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
+            // $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
             $miss = mysql_fetch_array(mysql_query("SELECT * FROM mission WHERE id={$usermission['mid']}"));
             $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>" . shorthandNumber($usermission['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>";
             $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>" . shorthandNumber($usermission['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>";
