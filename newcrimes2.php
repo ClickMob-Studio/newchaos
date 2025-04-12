@@ -12,7 +12,7 @@ if ($lastactive) {
         $db->execute(array(
             $user_class->id
         ));
-        $redis->setEx('lastactive_' . $user_class->id, time(), 60); // 1 minute
+        $redis->setEx('lastactive_' . $user_class->id, 60, time()); // 1 minute
         $lastactive = time();
     }
 } else {
@@ -20,7 +20,7 @@ if ($lastactive) {
     $db->execute(array(
         $user_class->id
     ));
-    $redis->setEx('lastactive_' . $user_class->id, time(), 60);
+    $redis->setEx('lastactive_' . $user_class->id, 60, time());
     $lastactive = time();
 }
 error_reporting(0);
