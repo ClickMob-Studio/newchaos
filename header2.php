@@ -2,9 +2,6 @@
 ob_start();
 session_start();
 
-$redis = new Redis();
-$redis->connect('127.0.0.1', 6379);
-
 header('Content-Type: text/html; charset=utf-8');
 function getUserIP()
 {
@@ -52,7 +49,6 @@ $current_uri = $_SERVER['REQUEST_URI']; // Gets the full request URI
 
 // }
 register_shutdown_function('ob_end_flush');
-//ini_set('memcached.sess_prefix', 'memc.sess.ml2.key.1');
 $starttime = microtime_float();
 include 'dbcon.php';
 include 'database/pdo_class.php';
@@ -171,8 +167,7 @@ if (empty($user_class->macro_token)) {
     $newMacroToken = generateMacroToken(10);
     mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken . "' WHERE id = " . $user_class->id);
 }
-
-$redis->setEx('lastpageload.' . $user_class->id, 1);
+$_SESSION['lastpageload'] = time();
 if ($user_class->lastpayment < time() - 86400) {
     $db->query("UPDATE grpgusers SET points = points + 250, lastpayment = unix_timestamp() WHERE id = ?");
     $db->execute(array(
@@ -233,28 +228,22 @@ if ($user_class->strength + $user_class->defense + $user_class->speed != $user_c
     ));
 }
 if ($user_class->gang != 0) {
-
     $db->query("SELECT total FROM grpgusers WHERE gang = ?");
-    $db->execute(array(
-        $user_class->gang
-    ));
+    $db->execute([$user_class->gang]);
     $rows = $db->fetch_row();
+
     $total = 0;
     foreach ($rows as $row) {
         $total += $row['total'];
     }
+
     $db->query("UPDATE gangs SET tmstats = ? WHERE id = ?");
-    $db->execute(array(
+    $db->execute([
         $total,
         $user_class->gang
-    ));
+    ]);
 }
 
-//  if($user_class->id == 18){
-//     session_destroy();
-//      session_unset();
-//      header("Location: index.php");
-//  }
 $db->query("SELECT type, id FROM bans WHERE type IN ('freeze', 'perm') AND id = ?");
 $db->execute(array(
     $user_class->id
@@ -315,100 +304,67 @@ $ja = mysql_num_rows($q);
 
 function callback($buffer)
 {
-    global $user_class, $db, $redis;
-    if (!$redis->get('hosCount')) {
-        $db->query("SELECT count(id) FROM grpgusers WHERE hospital <> 0");
-        $db->execute();
-        $redis->setEx('hosCount', $db->fetch_single(), 15);
-    }
-    if (!$redis->get('pHosCount')) {
-        $db->query("SELECT count(id) FROM pets WHERE hospital <> 0");
-        $db->execute();
-        $redis->setEx('pHosCount', $db->fetch_single(), 15);
-    }
+    global $user_class, $db;
+
+    $db->query("SELECT count(id) FROM grpgusers WHERE hospital <> 0");
+    $db->execute();
+    $hosCount = $db->fetch_single();
+
+    $db->query("SELECT count(id) FROM pets WHERE hospital <> 0");
+    $db->execute();
+    $pHosCount = $db->fetch_single();
+
     $db->query("SELECT count(viewed) FROM pms WHERE `to` = ? AND viewed = 1");
     $db->execute(array($user_class->id));
     $mailCount = $db->fetch_single();
-    $redis->setEx('mailCount.' . $user_class->id, $mailCount, 3);
 
-    // Attempt to retrieve user jail count from cache
-    $userJailCount = $redis->get('v2jailCount');
-    if (!$userJailCount) {
-        $db->query("SELECT count(id) FROM grpgusers WHERE jail <> 0");
-        $db->execute();
-        $userJailCount = $db->fetch_single();
-        $redis->setEx('v2jailCount', $userJailCount, false, 5);
-    }
+    $db->query("SELECT count(id) FROM grpgusers WHERE jail <> 0");
+    $db->execute();
+    $userJailCount = $db->fetch_single();
 
-    // Attempt to retrieve pet jail count from cache
-    $petJailCount = $redis->get('pJailCount');
-    if (!$petJailCount) {
-        $db->query("SELECT count(id) FROM pets WHERE jail <> 0");
-        $db->execute();
-        $petJailCount = $db->fetch_single();
-        $redis->setEx('pJailCount', $petJailCount, 2);
-    }
+    $db->query("SELECT count(id) FROM pets WHERE jail <> 0");
+    $db->execute();
+    $petJailCount = $db->fetch_single();
+
+    $db->query("SELECT lastClockin, dailyClockins FROM jobinfo WHERE userid = ?");
+    $db->execute(array(
+        $user_class->id
+    ));
+    $jinfo = $db->fetch_row(true);
+    $toset = ($jinfo['dailyClockins'] < 8 && $jinfo['lastClockin'] < time() - 3600) ? 1 : 0;
+
+    $db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
+    $db->execute(array(
+        $user_class->id
+    ));
+    $eveCount = $db->fetch_single();
+
+    $db->query("SELECT count(id) FROM hitlist");
+    $db->execute();
+    $hitCount = $db->fetch_single();
+
+    $db->query("SELECT count(*) FROM votes WHERE userid = ?");
+    $db->execute(array(
+        $user_class->id
+    ));
+    $votes = ($db->fetch_single() == 0) ? 'notify' : 'null';
 
 
-
-    if (!$redis->get('clockin.' . $user_class->id)) {
-        $db->query("SELECT lastClockin, dailyClockins FROM jobinfo WHERE userid = ?");
-        $db->execute(array(
-            $user_class->id
-        ));
-        $jinfo = $db->fetch_row(true);
-        $toset = ($jinfo['dailyClockins'] < 8 && $jinfo['lastClockin'] < time() - 3600) ? 1 : 0;
-        $redis->setEx('clockin.' . $user_class->id, $toset, 60);
-    }
-    if (!$redis->get('eveCount.' . $user_class->id)) {
-        $db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
-        $db->execute(array(
-            $user_class->id
-        ));
-        $redis->setEx('eveCount.' . $user_class->id, $db->fetch_single(), 3);
-    }
-    if (!$redis->get('hlCount')) {
-        $db->query("SELECT count(id) FROM hitlist");
-        $db->execute();
-        $redis->setEx('hlCount', $db->fetch_single(), 5);
-    }
-    if (!$votes = $redis->get('votes.' . $user_class->id)) {
-        $db->query("SELECT count(*) FROM votes WHERE userid = ?");
-        $db->execute(array(
-            $user_class->id
-        ));
-        $votes = ($db->fetch_single() == 0) ? 'notify' : 'null';
-        $redis->setEx('votes.' . $user_class->id, $votes, 5);
-    }
-    if ($user_class->admin || $user_class->gm) {
-        if (!$redis->get('refCount')) {
-            $db->query("SELECT count(viewed) FROM referrals WHERE viewed = 0");
-            $db->execute();
-            $redis->setEx('refCount', $db->fetch_single(), 5);
-        }
-        if (!$redis->get('tickCount')) {
-            $db->query("SELECT count(viewed) FROM tickets WHERE status <> 'CLOSED'");
-            $db->execute();
-            $redis->set('tickCount', $db->fetch_single(), 5);
-        }
-        $referrals = $redis->get('refCount');
-        $tickets = $redis->get('tickCount');
-    } else {
+    if (!$user_class->admin && !$user_class->gm) {
         $referrals = 0;
         $tickets = 0;
     }
-    $hospital = "[" . $redis->get('hosCount') . "]";
-    $hospital = ($redis->get('hosCount') > 0) ? "<span style='color:red;'>$hospital</span>" : $hospital;
+    $hospital = "[" . $hosCount . "]";
+    $hospital = ($hosCount > 0) ? "<span style='color:red;'>$hospital</span>" : $hospital;
     $j = mysql_query("SELECT `id` FROM grpgusers WHERE jail > 0");
     $jail = mysql_num_rows($j);
     $petJailDisplay = "[" . $petJailCount . "]";
     $petJailDisplay = $petJailCount > 0 ? "<span style='color:red;'>$petJailDisplay</span>" : $petJailDisplay;
-    $phos = "[" . $redis->get('pHosCount') . "]";
-    $phos = ($redis->get('pHosCount') > 0) ? "<span style='color:red;'>$phos</span>" : $phos;
-    //$mail = "[" . $mailount . "]";
+    $phos = "[" . $pHosCount . "]";
+    $phos = ($pHosCount > 0) ? "<span style='color:red;'>$phos</span>" : $phos;
     $mail = $mailCount;
-    $events = $redis->get('eveCount.' . $user_class->id);
-    $hitlist = $redis->get('hlCount');
+    $events = $eveCount;
+    $hitlist = $hitCount;
     $emcount = $mail + $events;
     $emcount = ($emcount) ? "(" . $emcount . ") " : "";
     $buffer = str_replace("[:USERNAME:]", strip_tags($user_class->username), $buffer);
@@ -512,7 +468,7 @@ function callback($buffer)
         $buffer = str_replace("<!_-referrals-_!>", prettynum($referrals), $buffer);
     }
     $buffer = str_replace("<!_-cityname-_!>", $user_class->mycityname, $buffer);
-    $clockin = ($redis->get('clockin.' . $user_class->id)) ? "<a href='jobs.php?clockin' style='color:red;'>Clockin for Job</a>" : "";
+    $clockin = $toset ? "<a href='jobs.php?clockin' style='color:red;'>Clockin for Job</a>" : "";
     $buffer = str_replace("<!_-clockin-_!>", $clockin, $buffer);
     $et = ($user_class->admin || $user_class->eo ? "<a href='subet.php'>Send ET Prize</a>" : "");
     $buffer = str_replace("<!_-entertain-_!>", $et, $buffer);
@@ -794,15 +750,23 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
                             <?php
 
+
                             $time = time();
                             $array = array();
+
 
                             if ($user_class->bustpill > 0) {
                                 $rtn = ($user_class->bustpill);
                                 $array['Police Badge'] = ($rtn == 'NOW') ? '@None@' : $rtn;
                             }
 
-
+                            // if ($bonus_row['Time'] > 0) {
+                            
+                            //     $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
+//     echo '<div style="font-family:timesnewroman;font-size: 1.5em;color:red;text-align: center;margin-bottom: 20px;margin-top: -20px;"><font color=green>Server Wide Double EXP Active </font>  <font color=white>' . $_tt . '</font>
+//                                                 </div>';
+// }
+                            
                             if ($user_class->outofjail > 0) {
                                 $rtn = ($user_class->outofjail);
                                 $array['Jail Card'] = ($rtn == 'NOW') ? '@None@' : $rtn;
@@ -811,7 +775,13 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                             if ($user_class->news > 0) {
                                 $buffer = str_replace("<!_-news-_!>", "<div class='contenthead floaty'><span style='margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;'><h4 class='notify important'><a href='forum.php?id=1'>You have new game news [<span class='news-count'>$user_class->news</span>]</a></h4></span></div>", $buffer);
 
+                            } else {
+                                // if ($user_class->mjprotection > $time) {
+                                //     $rtn = howlongtil($user_class->mprotection);
+                                //     $array['Mug Protection'] = ($rtn == 'NOW') ? '@None@' : $rtn;
+                                // }
                             }
+
 
 
                             if ($user_class->nightvision > 0) {
@@ -826,7 +796,15 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                 echo '<a href="home.php"><span style="color:red;">You are currently in FBI Jail for ' . $user_class->fbitime . ' minutes.</span></a><br />';
                             }
 
+                            //foreach ($array as $sub => $in) {
+//    echo '<span style="color:white;">&bull; ' . $sub . ' : <span style="color:red;">' . $in . '</span></span> &nbsp;';
+//}
+//if (!empty($array)) {
+//    echo '<br />';
+//}
+                            
                             echo '<br />';
+
 
                             // COUNTDOWN TIMER
 // ADD 000 TO END OF UNIX TIMESTAMP
@@ -868,6 +846,21 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             <span id="countdown">Ends In ' . countdown(1662965999) . '</span></div>';
                             }
 
+                            // $db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
+//     $db->execute();
+//     $bonus_row = $db->fetch_row(true);
+                            
+                            //     $debug['worked'] = $bonus_row;
+                            
+
+
+                            // if ($bonus_row['Time'] > 0) {
+                            
+                            //     $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
+//    $messages[] = 'Attackgfgdgdfgdfgsdfg: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            
+                            // }
+                            
                             $time = time();
                             $messages = array();
 
@@ -1012,6 +1005,18 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                 $messages[] = 'Love Potion: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
                             }
 
+                            // Easter Bead
+                            if ($tempItemUse['easter_bead'] > $time) {
+                                $rtn = howlongtil($tempItemUse['easter_bead']);
+                                $messages[] = 'Easter Bead (Maze): ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            }
+
+                            // Maze Boost
+                            if ($tempItemUse['maze_boost'] > $time) {
+                                $rtn = howlongtil($tempItemUse['maze_boost']);
+                                $messages[] = 'Maze Boost: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            }
+
 
                             // Jail
                             if ($user_class->jail > $time) {
@@ -1098,14 +1103,165 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                 echo '</script>';
                             }
 
+
+                            //if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'store.php') {    // The original echo statement for the claim message should be commented out or removed
+                            // echo '<div style="font-family:Creepster;font-size: 2.5em;color:red;text-align: center;margin-bottom: 20px;margin-top: -20px;"><a href="rmstore.php?buy=freebie">...</div>';
+                            
+                            // Insert the modal code here
                             ?>
+                            <!-- The Modal -->
+                            <!-- <div id="myModal" class="modal"> -->
+                            <!-- Modal content -->
+                            <!-- <div class="modal-content"> -->
+                            <!-- <span class="close">&times;</span> -->
+                            <!-- <h4><font color=red>A Free Gift</font></h4><br> -->
+
+                            <!-- <p><font color=white>Here is a free gift on us enjoy the competition</font></p> -->
+                            <!-- <ul class="gift-list"> -->
+                            <!-- <h4>+50 Raid Tokens</h4> -->
+                            <!-- <h4>25,000 Points</h4> -->
+
+
+
+
+                            <!-- </ul> -->
+                            <!-- <button onclick="window.location.href='store.php?buy=freebie'" class="claim-button">Claim Gift</button> -->
+                            <!-- </div> -->
+
+                            <!-- </div> -->
+                            <!-- <style> -->
+
+
+                            <!-- .gradient-background {
+    background: linear-gradient(to right, #484848, #303030, #181818);
+    color: white; /* Ensures text is readable on dark background */
+    padding: 20px;
+    text-align: center;
+}
+
+
+    @keyframes pulseGlow {
+        0% {
+            box-shadow: 0 0 5px red;
+        }
+        50% {
+            box-shadow: 0 0 20px red;
+        }
+        100% {
+            box-shadow: 0 0 5px red;
+        }
+    }
+    .glow-pulse {
+        animation: pulseGlow 2s infinite;
+        color: red !important;
+    }
+</style> -->
+
+                            <?php
+                            //}
+                            ?>
+                            <style>
+                                .floaty12 {
+                                    margin: 0 auto;
+                                    margin-right: 10px;
+                                    color: #FFF;
+                                    width: 72%;
+                                    text-align: center;
+                                    background-color: #fff;
+                                    border-radius: 10px;
+                                    box-shadow: 0px 2px 10px rgba(93, 93, 93, 1);
+                                    padding: 5px 5px 4px;
+                                    margin-bottom: 10px;
+                                }
+
+                                .floaty12 a:link {
+                                    color: #000;
+                                }
+                            </style>
+
 
                             <div class="dcPanel p-3" style="text-align:center" id="message-container">
                                 <ul id="messages" style="list-style-type: none;">
+
                                 </ul>
                             </div>
 
 
+
+                            <script type="text/javascript"
+                                src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.5.9/slick.min.js"></script>
+
+                            <script type="text/javascript">
+                                $('.slides').slick({
+                                    vertical: true,
+                                    autoplay: true,
+                                    autoplaySpeed: 3000,
+                                    arrows: false,
+                                    speed: 300
+                                });
+
+                                function reportAd(id) {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/ajax_reportad.php",
+                                        data: {
+                                            id: id
+                                        }
+                                    }).done(function (msg) {
+                                        alert("Ad report successful");
+                                    });
+                                }
+
+                            </script>
+
+                            <?php
+
+                            $width = ($user_class->epoints / 1000) * 100;
+
+
+
+
+                            if (time() <= 1703577599) {
+                                if (pathinfo($_SERVER['PHP_SELF'], PATHINFO_FILENAME) != 'valentines') {
+                                    echo '<div class="container">';
+
+                                    echo '<div class="progress">
+                    <div class="progress-bar-heart"><a href="home.php">Activity Reward (' . number_format($width, 1) . '%)</a></div>
+                </div>
+            </div>';
+                                }
+                            }
+
+                            if ($user_class->id == 0) {
+                                if (pathinfo($_SERVER['PHP_SELF'], PATHINFO_FILENAME) != 'valentines') {
+                                    echo '<div class="container">';
+
+                                    echo '<div class="progress">
+                    <div class="progress-bar-heart"><a href="activitycontest.php">Earn Rayzz by playing the game!! ' . number_format($width, 2) . '%</a></div>
+                </div>
+            </div>';
+                                }
+                            }
+
+                            ?>
+
+
+
+                            <div class="modal fade" id="timeModal" tabindex="-1" aria-labelledby="timeModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="timeModalLabel">Current Time</h5>
+                                            <button type="button" class="btn-close btn-close-white"
+                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <?php echo date('m/d h:i a', time()); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <script>
                             var timeModal = document.getElementById('timeModal');
