@@ -652,8 +652,6 @@ function check_for_easter_egg($fullResponse, $user_class, $goldRushEnabled = 0)
         $egg = did_find_easter_egg($user_class);
     }
 
-    $redis->delete('item_' . $egg);
-
     if ($egg > 0) {
         $item = $redis->get('item_' . $egg);
         error_log('[DEBUG] item_' . $egg . ' = ' . $item);
