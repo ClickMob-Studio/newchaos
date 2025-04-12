@@ -1,10 +1,18 @@
 <?php
 include 'header2.php';
 
-$db->query("UPDATE grpgusers SET crimes = 'newcrimes', lastactive = unix_timestamp() WHERE id = ?");
-$db->execute(array(
-    $user_class->id
-));
+$redis = new Redis();
+$redis->connect('127.0.0.1', 6379);
+
+$lastactive = $redis->get('lastactive_' . $user_class->id);
+$timePassedEnough = (time() - $lastactive) > 120; // 2 minutes
+if ($timePassedEnough) {
+    $db->query("UPDATE grpgusers SET crimes = 'newcrimes', lastactive = unix_timestamp() WHERE id = ?");
+    $db->execute(array(
+        $user_class->id
+    ));
+    $redis->set('lastactive_' . $user_class->id, time());
+}
 error_reporting(0);
 
 $db->query("SELECT `name`, mission.crimes as crimestarget, missions.crimes as crimesdone FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE `userid` = ? AND `completed` = \"no\" LIMIT 1");
@@ -39,7 +47,7 @@ $rows = $db->fetch_row();
 </style>
 
 <div class="max-w-7xl mx-auto mb-2">
-    <h1 class="text-5xl text-white">Crimes</h1>
+    <h1 class="text-5xl text-white">Crimes: <?= $lastactive ?></h1>
 </div>
 
 <div class="max-w-7xl mx-auto flex">
