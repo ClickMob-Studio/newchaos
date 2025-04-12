@@ -646,10 +646,13 @@ function check_for_easter_egg($fullResponse, $user_class, $goldRushEnabled = 0)
 {
     global $db, $redis;
 
+
     $egg = did_find_easter_egg($user_class);
     if (!$egg && $goldRushEnabled) {
         $egg = did_find_easter_egg($user_class);
     }
+
+    $redis->delete('item_' . $egg);
 
     if ($egg > 0) {
         $item = $redis->get('item_' . $egg);
