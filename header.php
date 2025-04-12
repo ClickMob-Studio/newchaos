@@ -301,62 +301,90 @@ $ja = mysql_num_rows($q);
 
 function callback($buffer)
 {
-    global $user_class, $db;
+    global $user_class, $db, $redis;
 
-    $db->query("SELECT count(id) FROM grpgusers WHERE hospital <> 0");
-    $db->execute();
-    $hosCount = $db->fetch_single();
+    $hosCount = $redis->get("hosCount");
+    if (!$hosCount) {
+        $db->query("SELECT count(id) FROM grpgusers WHERE hospital <> 0");
+        $db->execute();
+        $hosCount = $db->fetch_single();
+        $redis->setEx("hosCount", 15, $hosCount);
+    }
 
-    $db->query("SELECT count(id) FROM pets WHERE hospital <> 0");
-    $db->execute();
-    $pHosCount = $db->fetch_single();
+    $pHosCount = $redis->get("pHosCount");
+    if (!$pHosCount) {
+        $db->query("SELECT count(id) FROM pets WHERE hospital <> 0");
+        $db->execute();
+        $pHosCount = $db->fetch_single();
+        $redis->setEx("pHosCount", 15, $pHosCount);
+    }
 
     $db->query("SELECT count(viewed) FROM pms WHERE `to` = ? AND viewed = 1");
     $db->execute(array($user_class->id));
     $mailCount = $db->fetch_single();
 
-    $db->query("SELECT count(id) FROM grpgusers WHERE jail <> 0");
-    $db->execute();
-    $userJailCount = $db->fetch_single();
+    $jailCount = $redis->get("jailCount");
+    if (!$jailCount) {
+        $db->query("SELECT count(id) FROM grpgusers WHERE jail <> 0");
+        $db->execute();
+        $jailCount = $db->fetch_single();
+        $redis->setEx("jailCount", 1, $jailCount);
+    }
 
-    $db->query("SELECT count(id) FROM pets WHERE jail <> 0");
-    $db->execute();
-    $petJailCount = $db->fetch_single();
+    $pJailCount = $redis->get("pJailCount");
+    if (!$pJailCount) {
+        $db->query("SELECT count(id) FROM pets WHERE jail <> 0");
+        $db->execute();
+        $pJailCount = $db->fetch_single();
+        $redis->setEx("pJailCount", 5, $pJailCount);
+    }
 
-    $db->query("SELECT lastClockin, dailyClockins FROM jobinfo WHERE userid = ?");
-    $db->execute(array(
-        $user_class->id
-    ));
-    $jinfo = $db->fetch_row(true);
-    $toset = ($jinfo['dailyClockins'] < 8 && $jinfo['lastClockin'] < time() - 3600) ? 1 : 0;
+    $toset = $redis->get("clockin_" . $user_class->id);
+    if (!$toset) {
+        $db->query("SELECT lastClockin, dailyClockins FROM jobinfo WHERE userid = ?");
+        $db->execute([$user_class->id]);
+        $jinfo = $db->fetch_row(true);
+        $toset = ($jinfo['dailyClockins'] < 8 && $jinfo['lastClockin'] < time() - 3600) ? 1 : 0;
+        $redis->setEx("clockin_" . $user_class->id, 60, $toset);
+    }
 
-    $db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
-    $db->execute(array(
-        $user_class->id
-    ));
-    $eveCount = $db->fetch_single();
+    $eveCount = $redis->get("eveCount_" . $user_class->id);
+    if (!$eveCount) {
+        $db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
+        $db->execute(array(
+            $user_class->id
+        ));
+        $eveCount = $db->fetch_single();
+        $redis->setEx("eveCount_" . $user_class->id, 3, $eveCount);
+    }
 
-    $db->query("SELECT count(id) FROM hitlist");
-    $db->execute();
-    $hitCount = $db->fetch_single();
+    $hitCount = $redis->get("hitCount");
+    if (!$hitCount) {
+        $db->query("SELECT count(id) FROM hitlist");
+        $db->execute();
+        $hitCount = $db->fetch_single();
+        $redis->setEx("hitCount", 5, $hitCount);
+    }
 
-    $db->query("SELECT count(*) FROM votes WHERE userid = ?");
-    $db->execute(array(
-        $user_class->id
-    ));
-    $votes = ($db->fetch_single() == 0) ? 'notify' : 'null';
-
+    $votes = $redis->get("votes_" . $user_class->id);
+    if (!$votes) {
+        $db->query("SELECT count(*) FROM votes WHERE userid = ?");
+        $db->execute([$user_class->id]);
+        $votes = ($db->fetch_single() == 0) ? 'notify' : 'null';
+        $redis->setEx("votes_" . $user_class->id, 60, $votes);
+    }
 
     if (!$user_class->admin && !$user_class->gm) {
         $referrals = 0;
         $tickets = 0;
     }
+
     $hospital = "[" . $hosCount . "]";
     $hospital = ($hosCount > 0) ? "<span style='color:red;'>$hospital</span>" : $hospital;
     $j = mysql_query("SELECT `id` FROM grpgusers WHERE jail > 0");
     $jail = mysql_num_rows($j);
-    $petJailDisplay = "[" . $petJailCount . "]";
-    $petJailDisplay = $petJailCount > 0 ? "<span style='color:red;'>$petJailDisplay</span>" : $petJailDisplay;
+    $petJailDisplay = "[" . $pJailCount . "]";
+    $petJailDisplay = $pJailCount > 0 ? "<span style='color:red;'>$petJailDisplay</span>" : $petJailDisplay;
     $phos = "[" . $pHosCount . "]";
     $phos = ($pHosCount > 0) ? "<span style='color:red;'>$phos</span>" : $phos;
     $mail = $mailCount;
@@ -556,14 +584,22 @@ $counts = array(
     'gchat' => $globalchat,
     'gang_raid_count' => $gang_raid_count,
 );
-$queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
 
-$usersOnline = mysql_num_rows($queryOnline);
+$usersOnline = $redis->get('usersOnline');
+if (empty($usersOnline) || !$usersOnline) {
+    $queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
+    $usersOnline = mysql_num_rows($queryOnline);
+    $redis->setEx("usersOnline", 60, $usersOnline);
+}
 
-$activeRaidsQuery = "SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE completed = 0"; // Replace 'end_time' with the actual column name that represents when the raid ends
-$activeRaidsResult = mysql_query($activeRaidsQuery);
-$activeRaidsData = mysql_fetch_assoc($activeRaidsResult);
-$activeRaidsCount = $activeRaidsData['activeRaidsCount'];
+$activeRaidsCount = $redis->get("activeRaidsCount");
+if (empty($activeRaidsCount) || !$activeRaidsCount) {
+    $activeRaidsQuery = "SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE completed = 0"; // Replace 'end_time' with the actual column name that represents when the raid ends
+    $activeRaidsResult = mysql_query($activeRaidsQuery);
+    $activeRaidsData = mysql_fetch_assoc($activeRaidsResult);
+    $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
+    $redis->setEx("activeRaidsCount", 10, $activeRaidsCount);
+}
 
 $nogame2 = mysql_query("SELECT * FROM numbergame WHERE userid=$user_class->id");
 $no2 = mysql_num_rows($nogame2);
@@ -858,8 +894,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
     ?>
     <div id="carouselExample" class="carousel slide d-lg-none" data-bs-ride="carousel">
         <?php
-        $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
-
         function shorthandNumber($number)
         {
             if ($number >= 1000000000) { // Check if the number is at least a billion
@@ -875,8 +909,18 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             return number_format($number); // Return the original number if it's less than 1000
         }
 
+        $usermission = $redis->get("userMission_" . $user_class->id);
+        if (empty($usermission) || !$usermission) {
+            $query = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
+            $usermission = mysql_fetch_array($query);
+            if (!empty($usermission)) {
+                $redis->setEx("userMission_" . $user_class->id, 5, json_encode($usermission));
+            }
+        } else {
+            $usermission = json_decode($usermission, true);
+        }
 
-        if (mysql_num_rows($check)) {
+        if (!empty($usermission)) {
             $show = true;
             $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
             $miss = mysql_fetch_array(mysql_query("SELECT * FROM mission WHERE id={$usermission['mid']}"));
