@@ -5,6 +5,10 @@ session_start();
 $redis = new Redis();
 $redis->connect("127.0.1", 6379);
 
+if (!$redis->ping()) {
+    die('Redis server is not responding.');
+}
+
 header('Content-Type: text/html; charset=utf-8');
 function getUserIP()
 {
