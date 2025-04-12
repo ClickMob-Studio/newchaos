@@ -4,6 +4,10 @@ include 'header2.php';
 $redis = new Redis();
 $redis->connect("127.0.1", 6379);
 
+if (!$redis->ping()) {
+    die('Redis server is not responding.');
+}
+
 $lastactive = $redis->get('lastactive_' . $user_class->id);
 $timePassedEnough = (time() - $lastactive) > 120; // 2 minutes
 if ($timePassedEnough) {
