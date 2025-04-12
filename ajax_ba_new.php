@@ -1,10 +1,14 @@
 <?php
 
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 //header('Content-type: application/json');
 session_start();
+
+$redis = new Redis();
+$redis->connect("127.0.1", 6379);
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -47,26 +51,8 @@ function success($msg, $goldRushCredits = 0, $medPackCount = 0, $userBaStats = n
 include "classes.php";
 include "database/pdo_class.php";
 
-if (isset($_GET['au_user_or']) && (int) $_GET['au_user_or']) {
-    $user_class = new User((int) $_GET['au_user_or']);
-} else {
-    $user_class = new User($_SESSION['id']);
-}
-
-if (isset($_SERVER['HTTP_AJAVERI'])) {
-
-} else {
-}
-
-
-$db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
-$db->execute(array(
-    $user_class->id
-));
-
-//if ($user_class->admin < 1 || $user_class->id < 398) {
-//    echo 'exit'; exit;
-//}
+$user_class = new User($_SESSION['id']);
+set_last_active($user_class->id);
 
 session_write_close();
 
@@ -98,10 +84,6 @@ if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'use_med_pack') {
 
     $medPackCount = check_items(14, $user_class->id);
     if ($medPackCount > 0) {
-        $db->query("SELECT * FROM items WHERE id = 14");
-        $db->execute();
-        $row = $db->fetch_row(true);
-
         $hosp = floor(($user_class->hospital / 100) * $row['reduce']);
         $newhosp = $user_class->hospital - $hosp;
         $newhosp = ($newhosp < 0) ? 0 : $newhosp;
@@ -109,17 +91,17 @@ if (isset($_GET['ba_action']) && $_GET['ba_action'] == 'use_med_pack') {
         $hp = $user_class->purehp + $hp;
         $hp = ($hp > $user_class->puremaxhp) ? $user_class->puremaxhp : $hp;
         $db->query("UPDATE grpgusers SET hospital = ?, hp = ? WHERE id = ?");
-        $db->execute(array(
+        $db->execute([
             $newhosp,
             $hp,
             $user_class->id
-        ));
+        ]);
 
         Take_Item(14, $user_class->id);
 
         echo json_encode(array(
             'success' => true,
-            'message' => 'You successfully used a ' . $row["itemname"] . '.',
+            'message' => 'You successfully used a Medi Cert 100%.',
             'med_pack_count' => ($totalMedPackCount - 1)
         ));
         exit;
@@ -196,9 +178,7 @@ $db->execute();
 mission('ba', 1, $user_class, $db);
 $toadd = array('baotd' => 1);
 ofthes($user_class->id, $toadd);
-gangContest(array(
-    'backalley' => 1
-));
+gangContest(['backalley' => 1]);
 
 $bpCategory = getBpCategory();
 if ($bpCategory) {
@@ -356,13 +336,14 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 
                 if ($itemWonId == 14) {
                     $totalMedPackCount = $totalMedPackCount + 1;
+                    $itemName = 'Medi Cert 100%';
+                    Give_Item($itemWonId, $user_class->id);
+                } else {
+                    Give_Item($itemWonId, $user_class->id);
+                    $db->query("SELECT `itemname` FROM `items` WHERE id = " . $itemWonId);
+                    $db->execute();
+                    $itemName = $db->fetch_single();
                 }
-
-                Give_Item($itemWonId, $user_class->id);
-
-                $db->query("SELECT `itemname` FROM `items` WHERE id = " . $itemWonId);
-                $db->execute();
-                $itemName = $db->fetch_single();
 
                 break;
             }
@@ -554,9 +535,13 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 
                 Give_Item($itemWonId, $user_class->id);
 
-                $db->query("SELECT `itemname` FROM `items` WHERE id = " . $itemWonId);
-                $db->execute();
-                $itemName = $db->fetch_single();
+                if ($itemWonId == 14) {
+                    $itemName = 'Medi Cert 100%';
+                } else {
+                    $db->query("SELECT `itemname` FROM `items` WHERE id = " . $itemWonId);
+                    $db->execute();
+                    $itemName = $db->fetch_single();
+                }
 
                 break;
             }
@@ -657,13 +642,9 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 
 }
 
-echo json_encode(success($outcome . ' - Something went wrong'));
-exit;
-
-
 function check_for_easter_egg($fullResponse, $user_class, $goldRushEnabled = 0)
 {
-    global $db;
+    global $db, $redis;
 
     $egg = did_find_easter_egg($user_class);
     if (!$egg && $goldRushEnabled) {
@@ -671,9 +652,18 @@ function check_for_easter_egg($fullResponse, $user_class, $goldRushEnabled = 0)
     }
 
     if ($egg > 0) {
-        $db->query("SELECT * FROM items WHERE id = " . $egg);
-        $db->execute();
-        $item = $db->fetch_row(true);
+        $item = $redis->get('item_' . $egg);
+        error_log('[DEBUG] item_' . $egg . ' = ' . $item);
+        if (!$item) {
+            $db->query("SELECT * FROM items WHERE id = " . $egg);
+            $db->execute();
+            $item = $db->fetch_row(true);
+            $redis->setEx("item_" . $egg, 3600, json_encode($item));
+            error_log('[DEBUG] item_' . $egg . ' - SET IN REDIS TO: ' . $item);
+        } else {
+            $item = json_decode($item);
+            error_log('[DEBUG] item_' . $egg . ' - FETCHED FROM REDIS TO: (' . $item['itemname'] . ') -> ' . $item);
+        }
 
         $fullResponse .= '<br /><br />';
         $fullResponse .= '<span style="font-weight: bold; color: green;">You also found 1x ' . item_popup($item['itemname'], $egg, '#ff00b1') . '!</span>';

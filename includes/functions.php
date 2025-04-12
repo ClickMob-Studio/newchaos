@@ -3787,3 +3787,17 @@ function pretty_format_number($value)
 
     return $value;
 }
+
+// Requires db and redis to be globally available
+function set_last_active($uid)
+{
+    global $db, $redis;
+
+    $current = time();
+    $lastactive = $redis->get('lastactive_' . $uid);
+    if (!$lastactive || $lastactive < ($current - 60)) {
+        $redis->setEx('lastactive_' . $uid, 60, $current);
+        $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
+        $db->execute([$uid]);
+    }
+}
