@@ -33,8 +33,6 @@ if (isset($_POST['direction'])) {
 
 
     $chosenDirection = $_POST['direction']; // Store the direction
-//file_put_contents("chosen_dir_log.txt", $chosenDirection);
-
 
     // Fetch all events from the citygame table
     $query = "SELECT * FROM citygame";
@@ -151,14 +149,11 @@ if (isset($_POST['direction'])) {
             break;
 
         case 'item':
-            $item_query = "SELECT itemname FROM items WHERE id = " . $event['item_id'];
-            $item_result = mysql_query($item_query);
-            $item = mysql_fetch_assoc($item_result);
-
-            $description = str_replace('[item_name]', $item['itemname'], $event['description_template']);
+            $item_name = Item_Name($event['item_id']);
+            $description = str_replace('[item_name]', $item_name, $event['description_template']);
 
             // Log the event in user_logs table with the item name
-            $logDescription = "Has found a(n) " . $item['itemname'] . " whilst searching downtown.";
+            $logDescription = "Has found a(n) " . $item_name . " whilst searching downtown.";
             $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'item', '{$logDescription}', UNIX_TIMESTAMP())";
             mysql_query($log_query);
 
