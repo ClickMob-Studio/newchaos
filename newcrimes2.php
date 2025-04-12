@@ -15,6 +15,13 @@ if ($lastactive) {
         $redis->setEx('lastactive_' . $user_class->id, 60);
         $lastactive = time();
     }
+} else {
+    $db->query("UPDATE grpgusers SET crimes = 'newcrimes', lastactive = unix_timestamp() WHERE id = ?");
+    $db->execute(array(
+        $user_class->id
+    ));
+    $redis->setEx('lastactive_' . $user_class->id, 60);
+    $lastactive = time();
 }
 error_reporting(0);
 
