@@ -43,8 +43,6 @@ function logPageView()
     file_put_contents($logFilePath, $logEntry, FILE_APPEND);
 }
 
-
-
 // Get the name of the current script and the full request URI to check for specific query parameters
 $current_page = basename($_SERVER['PHP_SELF']); // Gets the name of the current script
 $current_uri = $_SERVER['REQUEST_URI']; // Gets the full request URI
@@ -156,7 +154,6 @@ function logHighFrequencyRequests()
         Send_Event(2, $logEntry);
     }
 }
-
 
 
 if ($user_class->gang == 0 && $user_class->cur_gangcrime != 0) {
@@ -287,8 +284,9 @@ function getRealIpAddress()
     return $ip;
 }
 
-$IP = getRealIpAddress();
 setcookie("mu", $user_class->id, time() + (10 * 365 * 24 * 60 * 60));
+
+$IP = getRealIpAddress();
 if ($uid != 0) {
     set_last_active_ip($user_class->id, $IP);
 }
