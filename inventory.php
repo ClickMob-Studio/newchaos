@@ -300,15 +300,15 @@ if ($user_class->gang > 0) {
     // Categorize and render loaned items
     renderCategory("Loaned Items", $loanedItems, true);
 
-    renderCategory("Weapons", $categorizedItems['weapon'], true);
-    renderCategory("Armor", $categorizedItems['armor'], true);
-    renderCategory("Shoes", $categorizedItems['shoes'], true);
-    renderCategory("Gloves", $categorizedItems['gloves'], true);
-    renderCategory("Boosters", $categorizedItems['booster'], true);
-    renderCategory("Home Improvements", $categorizedItems['house'], true);
-    renderCategory("Consumables", $categorizedItems['consumable'], true);
+    renderCategory("Weapons", $categorizedItems['weapon']);
+    renderCategory("Armor", $categorizedItems['armor']);
+    renderCategory("Shoes", $categorizedItems['shoes']);
+    renderCategory("Gloves", $categorizedItems['gloves']);
+    renderCategory("Boosters", $categorizedItems['booster']);
+    renderCategory("Home Improvements", $categorizedItems['house']);
+    renderCategory("Consumables", $categorizedItems['consumable']);
     renderCategory("Rare Items", $categorizedItems['rare']);
-    renderCategory("Gems", $categorizedItems['gem'], true);
+    renderCategory("Gems", $categorizedItems['gem']);
     ?>
 
     <!-- Modal for Sending Items -->
