@@ -12,6 +12,7 @@ if ($timePassedEnough) {
         $user_class->id
     ));
     $redis->set('lastactive_' . $user_class->id, time());
+    $lastactive = time();
 }
 error_reporting(0);
 
