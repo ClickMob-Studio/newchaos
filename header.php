@@ -1816,6 +1816,15 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                             $messages[] = 'Maze Boost: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
                         }
 
+                        // Raid Pass
+                        if ($tempItemUse['raid_pass'] > 0) {
+                            $messages[] = $tempItemUse['raid_pass'] . 'x Raid Pass(es) Active';
+                        }
+
+                        // Raid Booster
+                        if ($tempItemUse['raid_booster'] > 0) {
+                            $messages[] = $tempItemUse['raid_booster'] . 'x Raid Booster(s) Active';
+                        }
 
                         // Jail
                         if ($user_class->jail > $time) {
