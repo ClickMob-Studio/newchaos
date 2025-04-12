@@ -1,11 +1,10 @@
 <?php
 ob_start();
 session_start();
-// if($_SESSION['id'] == 1){
-//     ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
-// }
+
+$redis = new Redis();
+$redis->connect('127.0.0.1', 6379);
+
 header('Content-Type: text/html; charset=utf-8');
 function getUserIP()
 {
@@ -183,7 +182,7 @@ if (empty($user_class->macro_token)) {
 //     }
 // }
 
-$m->set('lastpageload.' . $user_class->id, false, time());
+$redis->set('lastpageload.' . $user_class->id, false, time());
 if ($user_class->lastpayment < time() - 86400) {
     $db->query("UPDATE grpgusers SET points = points + 250, lastpayment = unix_timestamp() WHERE id = ?");
     $db->execute(array(
@@ -244,24 +243,23 @@ if ($user_class->strength + $user_class->defense + $user_class->speed != $user_c
     ));
 }
 if ($user_class->gang != 0) {
-    if (!$m->get('gangtotal.' . $user_class->gang)) {
-        $m->set('gangtotal.' . $user_class->gang, 'set', false, 300);
-        $db->query("SELECT total FROM grpgusers WHERE gang = ?");
-        $db->execute(array(
-            $user_class->gang
-        ));
-        $rows = $db->fetch_row();
-        $total = 0;
-        foreach ($rows as $row) {
-            $total += $row['total'];
-        }
-        $db->query("UPDATE gangs SET tmstats = ? WHERE id = ?");
-        $db->execute(array(
-            $total,
-            $user_class->gang
-        ));
+
+    $db->query("SELECT total FROM grpgusers WHERE gang = ?");
+    $db->execute(array(
+        $user_class->gang
+    ));
+    $rows = $db->fetch_row();
+    $total = 0;
+    foreach ($rows as $row) {
+        $total += $row['total'];
     }
+    $db->query("UPDATE gangs SET tmstats = ? WHERE id = ?");
+    $db->execute(array(
+        $total,
+        $user_class->gang
+    ));
 }
+
 //  if($user_class->id == 18){
 //     session_destroy();
 //      session_unset();
@@ -327,81 +325,81 @@ $ja = mysql_num_rows($q);
 
 function callback($buffer)
 {
-    global $user_class, $db, $m;
-    if (!$m->get('hosCount')) {
+    global $user_class, $db, $redis;
+    if (!$redis->get('hosCount')) {
         $db->query("SELECT count(id) FROM grpgusers WHERE hospital <> 0");
         $db->execute();
-        $m->set('hosCount', $db->fetch_single(), false, 15);
+        $redis->setEx('hosCount', $db->fetch_single(), 15);
     }
-    if (!$m->get('pHosCount')) {
+    if (!$redis->get('pHosCount')) {
         $db->query("SELECT count(id) FROM pets WHERE hospital <> 0");
         $db->execute();
-        $m->set('pHosCount', $db->fetch_single(), false, 1);
+        $redis->setEx('pHosCount', $db->fetch_single(), 15);
     }
     $db->query("SELECT count(viewed) FROM pms WHERE `to` = ? AND viewed = 1");
     $db->execute(array($user_class->id));
     $mailCount = $db->fetch_single();
-    $m->set('mailCount.' . $user_class->id, $mailCount, false, 3);
+    $redis->setEx('mailCount.' . $user_class->id, $mailCount, 3);
 
     // Attempt to retrieve user jail count from cache
-    $userJailCount = $m->get('v2jailCount');
+    $userJailCount = $redis->get('v2jailCount');
     if (!$userJailCount) {
         $db->query("SELECT count(id) FROM grpgusers WHERE jail <> 0");
         $db->execute();
         $userJailCount = $db->fetch_single();
-        $m->set('v2jailCount', $userJailCount, false, 1);
+        $redis->setEx('v2jailCount', $userJailCount, false, 5);
     }
 
     // Attempt to retrieve pet jail count from cache
-    $petJailCount = $m->get('pJailCount');
+    $petJailCount = $redis->get('pJailCount');
     if (!$petJailCount) {
         $db->query("SELECT count(id) FROM pets WHERE jail <> 0");
         $db->execute();
         $petJailCount = $db->fetch_single();
-        $m->set('pJailCount', $petJailCount, false, 1);
+        $redis->setEx('pJailCount', $petJailCount, 2);
     }
 
 
 
-    if (!$m->get('clockin.' . $user_class->id)) {
+    if (!$redis->get('clockin.' . $user_class->id)) {
         $db->query("SELECT lastClockin, dailyClockins FROM jobinfo WHERE userid = ?");
         $db->execute(array(
             $user_class->id
         ));
         $jinfo = $db->fetch_row(true);
         $toset = ($jinfo['dailyClockins'] < 8 && $jinfo['lastClockin'] < time() - 3600) ? 1 : 0;
-        $m->set('clockin.' . $user_class->id, $toset, false, 60);
+        $redis->setEx('clockin.' . $user_class->id, $toset, 60);
     }
-    if (!$m->get('eveCount.' . $user_class->id)) {
+    if (!$redis->get('eveCount.' . $user_class->id)) {
         $db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
         $db->execute(array(
             $user_class->id
         ));
-        $m->set('eveCount.' . $user_class->id, $db->fetch_single(), false, 3);
+        $redis->setEx('eveCount.' . $user_class->id, $db->fetch_single(), 3);
     }
-    if (!$m->get('hlCount')) {
+    if (!$redis->get('hlCount')) {
         $db->query("SELECT count(id) FROM hitlist");
         $db->execute();
-        $m->set('hlCount', $db->fetch_single(), false, 5);
+        $redis->setEx('hlCount', $db->fetch_single(), 5);
     }
-    if (!$votes = $m->get('votes.' . $user_class->id)) {
+    if (!$votes = $redis->get('votes.' . $user_class->id)) {
         $db->query("SELECT count(*) FROM votes WHERE userid = ?");
         $db->execute(array(
             $user_class->id
         ));
         $votes = ($db->fetch_single() == 0) ? 'notify' : 'null';
-        $m->set('votes.' . $user_class->id, $votes, false, 5);
+        $redis->setEx('votes.' . $user_class->id, $votes, 5);
     }
     if ($user_class->admin || $user_class->gm) {
-        if (!$m->get('refCount')) {
+        if (!$redis->get('refCount')) {
             $db->query("SELECT count(viewed) FROM referrals WHERE viewed = 0");
             $db->execute();
-            $m->set('refCount', $db->fetch_single(), false, 5);
+            $redis->setEx('refCount', $db->fetch_single(), 5);
         }
-        if (!$m->get('tickCount')) {
+        if (!$redis->get('tickCount')) {
             $db->query("SELECT count(viewed) FROM tickets WHERE status <> 'CLOSED'");
             $db->execute();
-            $m->set('tickCount', $db->fetch_single(), false, 5);
+            $redis->set('tickCount', $db->fetch_single(), 5);
         }
         $referrals = $m->get('refCount');
         $tickets = $m->get('tickCount');
@@ -409,18 +407,18 @@ function callback($buffer)
         $referrals = 0;
         $tickets = 0;
     }
-    $hospital = "[" . $m->get('hosCount') . "]";
-    $hospital = ($m->get('hosCount') > 0) ? "<span style='color:red;'>$hospital</span>" : $hospital;
+    $hospital = "[" . $redis->get('hosCount') . "]";
+    $hospital = ($redis->get('hosCount') > 0) ? "<span style='color:red;'>$hospital</span>" : $hospital;
     $j = mysql_query("SELECT `id` FROM grpgusers WHERE jail > 0");
     $jail = mysql_num_rows($j);
     $petJailDisplay = "[" . $petJailCount . "]";
     $petJailDisplay = $petJailCount > 0 ? "<span style='color:red;'>$petJailDisplay</span>" : $petJailDisplay;
-    $phos = "[" . $m->get('pHosCount') . "]";
-    $phos = ($m->get('pHosCount') > 0) ? "<span style='color:red;'>$phos</span>" : $phos;
+    $phos = "[" . $redis->get('pHosCount') . "]";
+    $phos = ($redis->get('pHosCount') > 0) ? "<span style='color:red;'>$phos</span>" : $phos;
     //$mail = "[" . $mailount . "]";
     $mail = $mailCount;
-    $events = $m->get('eveCount.' . $user_class->id);
-    $hitlist = $m->get('hlCount');
+    $events = $redis->get('eveCount.' . $user_class->id);
+    $hitlist = $redis->get('hlCount');
     $emcount = $mail + $events;
     $emcount = ($emcount) ? "(" . $emcount . ") " : "";
     $buffer = str_replace("[:USERNAME:]", strip_tags($user_class->username), $buffer);
@@ -524,7 +522,7 @@ function callback($buffer)
         $buffer = str_replace("<!_-referrals-_!>", prettynum($referrals), $buffer);
     }
     $buffer = str_replace("<!_-cityname-_!>", $user_class->mycityname, $buffer);
-    $clockin = ($m->get('clockin.' . $user_class->id)) ? "<a href='jobs.php?clockin' style='color:red;'>Clockin for Job</a>" : "";
+    $clockin = ($redis->get('clockin.' . $user_class->id)) ? "<a href='jobs.php?clockin' style='color:red;'>Clockin for Job</a>" : "";
     $buffer = str_replace("<!_-clockin-_!>", $clockin, $buffer);
     $et = ($user_class->admin || $user_class->eo ? "<a href='subet.php'>Send ET Prize</a>" : "");
     $buffer = str_replace("<!_-entertain-_!>", $et, $buffer);
