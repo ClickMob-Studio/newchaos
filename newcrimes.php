@@ -29,7 +29,7 @@ if (empty($crimes)) {
 
 if ($tempItemUse['ghost_vacuum_time'] < time()) {
     $crimes = array_filter($crimes, function ($item) {
-        return $item['id'] != 51;
+        return (int) $item['id'] != 51;
     });
 }
 
