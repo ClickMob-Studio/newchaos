@@ -3804,7 +3804,7 @@ function set_last_active($uid)
 
     $current = time();
     $lastactive = $redis->get('lastactive_' . $uid);
-    if (empty($lastactive) || ($current - $lastactive) >= 10) {
+    if (empty($lastactive) || ($current - $lastactive) > 5) {
         $redis->setEx('lastactive_' . $uid, 10, $current);
         $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
         $db->execute([$uid]);
