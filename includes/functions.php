@@ -3817,7 +3817,7 @@ function set_last_active_ip($uid, $ip)
 
     $current = time();
     $lastactive = $redis->get('lastactive_' . $uid);
-    if (!$lastactive || $lastactive < ($current - 10)) {
+    if (!$lastactive || ($current - $lastactive) >= 10) {
         $redis->setEx('lastactive_' . $uid, 10, $current);
         $db->query("UPDATE grpgusers SET lastactive = unix_timestamp(), ip = ? WHERE id = ?");
         $db->execute([$uid, $ip]);
