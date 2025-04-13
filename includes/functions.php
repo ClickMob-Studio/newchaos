@@ -3812,8 +3812,8 @@ function set_last_active($uid)
     
     if (empty($lastactive) || ($current - $lastactive) > 5) {
         $redis->setEx('lastactive_' . $uid, 10, $current);
-        $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
-        $db->execute([$uid]);
+        $db->query("UPDATE grpgusers SET lastactive = ? WHERE id = ?");
+        $db->execute([$current, $uid]);
 
         if ($uid == 1059) {
             error_log("[DEBUG] Updated lastactive for UID: $uid to $current");
@@ -3834,8 +3834,8 @@ function set_last_active_ip($uid, $ip)
 
     if (!$lastactive || ($current - $lastactive) >= 10) {
         $redis->setEx('lastactive_' . $uid, 10, $current);
-        $db->query("UPDATE grpgusers SET lastactive = unix_timestamp(), ip = ? WHERE id = ?");
-        $db->execute([$uid, $ip]);
+        $db->query("UPDATE grpgusers SET lastactive = ?, ip = ? WHERE id = ?");
+        $db->execute([$current, $uid, $ip]);
 
         if ($uid == 1059) {
             error_log("[DEBUG] Updated lastactive + ip for UID: $uid to $current");
