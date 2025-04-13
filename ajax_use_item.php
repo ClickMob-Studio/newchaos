@@ -720,7 +720,7 @@ if (isset($_GET['use'])) {
                     exit;
                 }
 
-                addItemTempUse($user_class, 'easter_bead', 7200);
+                addItemTempUse($user_class, 'easter_bead', $now + 7200);
 
                 $response['success'] = true;
                 $response['message'] = "You break the easter bead, a magical aura wraps you and you feel the direction of easter eggs more clearly for the next 2 hours!";
@@ -734,7 +734,7 @@ if (isset($_GET['use'])) {
                     exit;
                 }
 
-                addItemTempUse($user_class, 'maze_boost', 864000);
+                addItemTempUse($user_class, 'maze_boost', $now + 864000);
                 give_maze_turns(25);
 
                 $response['success'] = true;

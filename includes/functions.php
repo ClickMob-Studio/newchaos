@@ -2203,7 +2203,7 @@ function addItemTempUse($user_class, $field, $qty = 1)
 
     $itemTempUse = getItemTempUse($user_class->id);
 
-    if ($field == 'crime_potion_time' || $field == 'crime_booster_time' || $field == 'nerve_vial_time' || $field == 'gang_double_exp_time' || $field == 'gym_10_multiplier_time' || $field == 'crime_15_multiplier_time' || $field == 'gym_protein_bar_time' || $field == 'gym_super_pills_time' || $field == 'ghost_vacuum_time' || $field == 'trick_or_treat_pass_time' || $field == 'double_gym_time' || $field == 'love_potions_time') {
+    if ($field == 'maze_boost' || $field == 'easter_bead' || $field == 'crime_potion_time' || $field == 'crime_booster_time' || $field == 'nerve_vial_time' || $field == 'gang_double_exp_time' || $field == 'gym_10_multiplier_time' || $field == 'crime_15_multiplier_time' || $field == 'gym_protein_bar_time' || $field == 'gym_super_pills_time' || $field == 'ghost_vacuum_time' || $field == 'trick_or_treat_pass_time' || $field == 'double_gym_time' || $field == 'love_potions_time') {
         $db->query("UPDATE item_temp_use SET {$field} = {$qty} WHERE id = " . $itemTempUse['id']);
         $db->execute();
     } else {
@@ -3801,7 +3801,7 @@ function pretty_format_number($value)
 function set_last_active($uid)
 {
     global $db, $redis;
-    
+
     $current = time();
     $lastactive = $redis->get('lastactive_' . $uid);
     if (empty($lastactive) || ($current - $lastactive) > 5) {
@@ -3822,7 +3822,8 @@ function set_last_active_ip($uid, $ip)
     }
 }
 
-function perform_query($query, $params = []) {
+function perform_query($query, $params = [])
+{
     global $db;
 
     $db->query($query);
