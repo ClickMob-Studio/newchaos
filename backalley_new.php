@@ -6,13 +6,9 @@ include 'header.php';
 
 if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
     mysql_query('UPDATE `grpgusers` SET `captcha_timestamp` = 0 WHERE `id` = ' . $user_class->id);
-
     header('Location: backalley_new.php');
 }
 
-//if ($user_class->admin < 1 || $user_class->id < 398) {
-//    echo 'exit'; exit;
-//}
 
 if (checkCaptchaRequired($user_class)) {
     header('Location: captcha.php?token=' . $user_class->macro_token . '&page=backalley');
@@ -39,13 +35,16 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
     }
 </style>
 
-<div class="box_top"><h1>Back Alley</h1></div>
+<div class="box_top">
+    <h1>Back Alley</h1>
+</div>
 <div class="box_middle">
     <div class="row">
         <div class="col-md-12">
             <center>
                 <p>
-                    Welcome to the Back Alley! Here you will battle against different opponents in the hope of finding something great, but
+                    Welcome to the Back Alley! Here you will battle against different opponents in the hope of finding
+                    something great, but
                     be careful, you may just end up with a trip to the hospital!
                 </p>
 
@@ -64,10 +63,17 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                     </thead>
                     <tbody>
                         <tr>
-                            <td><span class="ba-stats-searches"><?php echo number_format($userBaStats['turns'], 0) ?></span></td>
-                            <td><span class="ba-stats-wins"><?php echo number_format($userBaStats['wins'], 0) ?></span></td>
-                            <td><span class="ba-stats-losses"><?php echo number_format($userBaStats['losses'], 0) ?></span></td>
-                            <td><span class="ba-stats-win-p"><?php echo number_format(($userBaStats['wins'] / $userBaStats['turns'] * 100), 0) ?>%</span></td>
+                            <td><span
+                                    class="ba-stats-searches"><?php echo number_format($userBaStats['turns'], 0) ?></span>
+                            </td>
+                            <td><span class="ba-stats-wins"><?php echo number_format($userBaStats['wins'], 0) ?></span>
+                            </td>
+                            <td><span
+                                    class="ba-stats-losses"><?php echo number_format($userBaStats['losses'], 0) ?></span>
+                            </td>
+                            <td><span
+                                    class="ba-stats-win-p"><?php echo number_format(($userBaStats['wins'] / $userBaStats['turns'] * 100), 0) ?>%</span>
+                            </td>
                         </tr>
                         <tr>
                             <th>Points</th>
@@ -76,21 +82,36 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                             <th>EXP</th>
                         </tr>
                         <tr>
-                            <td><span class="ba-stats-points"><?php echo number_format($userBaStats['points_gained'], 0) ?></span></td>
-                            <td><span class="ba-stats-cash">$<?php echo number_format($userBaStats['cash_gained'], 0) ?></span></td>
-                            <td><span class="ba-stats-items"><?php echo number_format($userBaStats['items_gained'], 0) ?></span></td>
-                            <td><span class="ba-stats-exp"><?php echo number_format($userBaStats['exp_gained'], 0) ?></span></td>
+                            <td><span
+                                    class="ba-stats-points"><?php echo number_format($userBaStats['points_gained'], 0) ?></span>
+                            </td>
+                            <td><span
+                                    class="ba-stats-cash">$<?php echo number_format($userBaStats['cash_gained'], 0) ?></span>
+                            </td>
+                            <td><span
+                                    class="ba-stats-items"><?php echo number_format($userBaStats['items_gained'], 0) ?></span>
+                            </td>
+                            <td><span
+                                    class="ba-stats-exp"><?php echo number_format($userBaStats['exp_gained'], 0) ?></span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
-                <br /><hr />
+                <br />
+                <hr />
 
-                <p style="font-weight: bold;">You Back Alley Skill Set is currently level <?php echo $userBaStats['level'] ?></p>
+                <p style="font-weight: bold;">You Back Alley Skill Set is currently level
+                    <?php echo $userBaStats['level'] ?></p>
                 <div class="row">
                     <div class="col-md-3"></div>
                     <div class="col-md-6">
-                        <div class="progress" role="progressbar" aria-valuenow="<?php echo ($userBaStats['exp'] / $userBaStats['maxexp'] * 100 ); ?>" aria-valuemin="0" aria-valuemax="100" title="<?php echo $userBaStats['exp'] . '/' . number_format($userBaStats['maxexp'], 0); ?>">
-                            <div class="progress-bar bg-success ba-level-progress-bar" style="width: <?php echo ($userBaStats['exp'] / $userBaStats['maxexp'] * 100 ); ?>%"></div>
+                        <div class="progress" role="progressbar"
+                            aria-valuenow="<?php echo (number_format($userBaStats['exp']) / $userBaStats['maxexp'] * 100); ?>"
+                            aria-valuemin="0" aria-valuemax="100"
+                            title="<?php echo $userBaStats['exp'] . '/' . number_format($userBaStats['maxexp'], 0); ?>">
+                            <div class="progress-bar bg-success ba-level-progress-bar"
+                                style="width: <?php echo ($userBaStats['exp'] / $userBaStats['maxexp'] * 100); ?>%">
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-3"></div>
@@ -98,12 +119,17 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                 <hr />
 
 
-                <div class="alert alert-info zombie-rush-mode" <?php if ($userBaStats['zombie_rush_credits'] < 1): ?> style="display:none;"<?php endif; ?>>
-                    <p style="color: #000;">YOU CURRENTLY HAVE <span class="zombie-rush-credits-text"><?php echo $userBaStats['zombie_rush_credits'] ?></span> ZOMBIE RUSH CREDITS REMAINING!</p>
+                <div class="alert alert-info zombie-rush-mode" <?php if ($userBaStats['zombie_rush_credits'] < 1): ?>
+                        style="display:none;" <?php endif; ?>>
+                    <p style="color: #000;">YOU CURRENTLY HAVE <span
+                            class="zombie-rush-credits-text"><?php echo $userBaStats['zombie_rush_credits'] ?></span>
+                        ZOMBIE RUSH CREDITS REMAINING!</p>
                 </div>
 
-                <div class="alert alert-info gold-rush-mode" <?php if ($userBaStats['gold_rush_credits'] < 1 || $userBaStats['zombie_rush_credits'] > 1): ?> style="display:none;"<?php endif; ?>>
-                    <p style="color: #000;">YOU CURRENTLY HAVE <span class="gold-rush-credits-text"><?php echo $userBaStats['gold_rush_credits'] ?></span> GOLD RUSH CREDITS REMAINING!</p>
+                <div class="alert alert-info gold-rush-mode" <?php if ($userBaStats['gold_rush_credits'] < 1 || $userBaStats['zombie_rush_credits'] > 1): ?> style="display:none;" <?php endif; ?>>
+                    <p style="color: #000;">YOU CURRENTLY HAVE <span
+                            class="gold-rush-credits-text"><?php echo $userBaStats['gold_rush_credits'] ?></span> GOLD
+                        RUSH CREDITS REMAINING!</p>
                 </div>
 
                 <div id="ba-response-message" style="min-height: 195px; max-height: 195px;"></div>
@@ -113,7 +139,8 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
 
                 <div id="btn-holder" style="min-height: 30px;">
                     <button class="ba-btn ba-search-link">Search</button>
-                    <button class="ba-btn ba-med-pack-link">Use Med Pack (x<span class="med-pack-count"><?php echo $medPackTotalCount ?></span>)</button>
+                    <button class="ba-btn ba-med-pack-link">Use Med Pack (x<span
+                            class="med-pack-count"><?php echo $medPackTotalCount ?></span>)</button>
                     <button class="ba-btn ba-refill-energy-link">Refill Energy</button>
                 </div>
 
@@ -126,7 +153,7 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                         </tr>
                     </thead>
                     <tbody id="ba-tbody">
-                    
+
                     </tbody>
                 </table>
             </center>
@@ -139,38 +166,38 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
 include 'footer.php';
 ?>
 <script type="text/javascript">
-        // Function to check if JavaScript is enabled
-        function isJavaScriptEnabled() {
-            // Add a class to the body indicating JavaScript is enabled
-            document.body.classList.add('js-enabled');
-        }
+    // Function to check if JavaScript is enabled
+    function isJavaScriptEnabled() {
+        // Add a class to the body indicating JavaScript is enabled
+        document.body.classList.add('js-enabled');
+    }
 
-        // Call the function to check if JavaScript is enabled
-        isJavaScriptEnabled();
-    </script>
+    // Call the function to check if JavaScript is enabled
+    isJavaScriptEnabled();
+</script>
 
-    <style>
-        /* Styles to hide content if JavaScript is disabled */
-        body:not(.js-enabled) main {
-            display: none;
-        }
-    </style>
+<style>
+    /* Styles to hide content if JavaScript is disabled */
+    body:not(.js-enabled) main {
+        display: none;
+    }
+</style>
 <script type="text/javascript">
 
-// Function to check if developer tools are open
-function areDevToolsOpen() {
-    // Start with an arbitrary large value
-    let widthThreshold = window.outerWidth - window.innerWidth > 160;
-    let heightThreshold = window.outerHeight - window.innerHeight > 160;
+    // Function to check if developer tools are open
+    function areDevToolsOpen() {
+        // Start with an arbitrary large value
+        let widthThreshold = window.outerWidth - window.innerWidth > 160;
+        let heightThreshold = window.outerHeight - window.innerHeight > 160;
 
-    // Check if the dimensions change when developer tools are opened
-    window.addEventListener('resize', function(event) {
-        // If the difference in dimensions is significant, consider developer tools open
-        let widthChanged = window.outerWidth - window.innerWidth > 160;
-        let heightChanged = window.outerHeight - window.innerHeight > 160;
-        
-        if (widthChanged !== widthThreshold || heightChanged !== heightThreshold) {
-            var request = $.ajax({
+        // Check if the dimensions change when developer tools are opened
+        window.addEventListener('resize', function (event) {
+            // If the difference in dimensions is significant, consider developer tools open
+            let widthChanged = window.outerWidth - window.innerWidth > 160;
+            let heightChanged = window.outerHeight - window.innerHeight > 160;
+
+            if (widthChanged !== widthThreshold || heightChanged !== heightThreshold) {
+                var request = $.ajax({
                     url: 'ajax_autoclick_detection.php?page=backalley&reason=dev_tools_is_open',
                     method: "GET",
                     dataType: "json"
@@ -178,39 +205,39 @@ function areDevToolsOpen() {
                 request.done(function (res) {
                     console.log(res);
                 });
-            window.location.reload();
-        }
-    });
+                window.location.reload();
+            }
+        });
 
-    // Check if dimensions are already at the threshold when the page loads
-    if (widthThreshold || heightThreshold) {
-        return true; // Consider developer tools open initially
+        // Check if dimensions are already at the threshold when the page loads
+        if (widthThreshold || heightThreshold) {
+            return true; // Consider developer tools open initially
+        }
+
+        return false;
     }
 
-    return false;
-}
+    // Check if developer tools are open when the page loads
+    // if (areDevToolsOpen()) {
+    //     var request = $.ajax({
+    //                     url: 'ajax_autoclick_detection.php?page=backalley&reason=dev_tools_is_open',
+    //                     method: "GET",
+    //                     dataType: "json"
+    //                 });
+    //                 request.done(function (res) {
+    //                     console.log(res);
+    //                 });
+    //     window.location.reload();
+    // }
 
-// Check if developer tools are open when the page loads
-// if (areDevToolsOpen()) {
-//     var request = $.ajax({
-//                     url: 'ajax_autoclick_detection.php?page=backalley&reason=dev_tools_is_open',
-//                     method: "GET",
-//                     dataType: "json"
-//                 });
-//                 request.done(function (res) {
-//                     console.log(res);
-//                 });
-//     window.location.reload();
-// }
-
-    window.setTimeout(function(){
+    window.setTimeout(function () {
         window.location.reload();
     }, 5 * 60 * 1000); // Reload after 5 mins of being on the page
 
     let clickCount = 0;
 
-    document.addEventListener("DOMContentLoaded",function(){
-        document.body.addEventListener('click', function(evt) {
+    document.addEventListener("DOMContentLoaded", function () {
+        document.body.addEventListener('click', function (evt) {
             clickCount = clickCount + 1;
             if (clickCount > 600) {
                 window.location.href = "/backalley_new.php?forced_captcha=yes";
@@ -243,7 +270,7 @@ function areDevToolsOpen() {
         }, true);
     });
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         let requestInProcess = false;
         let preventClickTime = false;
 
@@ -267,7 +294,7 @@ function areDevToolsOpen() {
             $('.ba-btn').addClass('gold-rush-mode');
         <?php endif; ?>
 
-        $('.ba-search-link').click(function(e) {
+        $('.ba-search-link').click(function (e) {
             e.preventDefault();
 
             if (lastClick > 0) {
@@ -328,7 +355,7 @@ function areDevToolsOpen() {
                         $('.gold-rush-mode').hide();
                     }
 
-                    if (res.med_pack_count)  {
+                    if (res.med_pack_count) {
                         $('.med-pack-count').html(res.med_pack_count);
                     }
 
@@ -357,7 +384,7 @@ function areDevToolsOpen() {
             }
         });
 
-        $('.ba-refill-energy-link').click(function(e) {
+        $('.ba-refill-energy-link').click(function (e) {
             e.preventDefault();
 
             let clicked = $(this);
@@ -397,7 +424,7 @@ function areDevToolsOpen() {
             });
         });
 
-        $('.ba-med-pack-link').click(function(e) {
+        $('.ba-med-pack-link').click(function (e) {
             e.preventDefault();
 
             let clicked = $(this);
@@ -438,8 +465,7 @@ function areDevToolsOpen() {
         });
     });
 
-    function addCommas(nStr)
-    {
+    function addCommas(nStr) {
         nStr += '';
         x = nStr.split('.');
         x1 = x[0];
