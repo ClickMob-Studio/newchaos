@@ -3840,3 +3840,10 @@ function set_last_active_ip($uid, $ip)
         }
     }
 }
+
+function perform_query($query, $params = []) {
+    global $db;
+
+    $db->query($query);
+    $db->execute($params);
+}
