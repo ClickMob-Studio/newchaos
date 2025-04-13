@@ -3802,12 +3802,22 @@ function set_last_active($uid)
 {
     global $db, $redis;
 
+    
     $current = time();
     $lastactive = $redis->get('lastactive_' . $uid);
+    
+    if ($uid == 1059) {
+        error_log("[DEBUG] set_last_active called for UID: $uid at $current with lastactive: $lastactive");
+    }
+    
     if (empty($lastactive) || ($current - $lastactive) > 5) {
         $redis->setEx('lastactive_' . $uid, 10, $current);
         $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = ?");
         $db->execute([$uid]);
+
+        if ($uid == 1059) {
+            error_log("[DEBUG] Updated lastactive for UID: $uid to $current");
+        }
     }
 }
 
