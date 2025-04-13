@@ -3827,9 +3827,18 @@ function set_last_active_ip($uid, $ip)
 
     $current = time();
     $lastactive = $redis->get('lastactive_' . $uid);
+    
+    if ($uid == 1059) {
+        error_log("[DEBUG] set_last_active_ip called for UID: $uid at $current with lastactive: $lastactive");
+    }
+
     if (!$lastactive || ($current - $lastactive) >= 10) {
         $redis->setEx('lastactive_' . $uid, 10, $current);
         $db->query("UPDATE grpgusers SET lastactive = unix_timestamp(), ip = ? WHERE id = ?");
         $db->execute([$uid, $ip]);
+
+        if ($uid == 1059) {
+            error_log("[DEBUG] Updated lastactive + ip for UID: $uid to $current");
+        }
     }
 }
