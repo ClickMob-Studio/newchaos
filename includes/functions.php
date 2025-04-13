@@ -3801,22 +3801,12 @@ function pretty_format_number($value)
 function set_last_active($uid)
 {
     global $db, $redis;
-
     
     $current = time();
     $lastactive = $redis->get('lastactive_' . $uid);
-    
-    if ($uid == 1059) {
-        error_log("[DEBUG] set_last_active called for UID: $uid at $current with lastactive: $lastactive");
-    }
-    
     if (empty($lastactive) || ($current - $lastactive) > 5) {
         $redis->setEx('lastactive_' . $uid, 10, $current);
         perform_query("UPDATE `grpgusers` SET `lastactive` = ? WHERE id = ?", [$current, $uid]);
-
-        if ($uid == 1059) {
-            error_log("[DEBUG] Updated lastactive for UID: $uid to $current");
-        }
     }
 }
 
@@ -3826,18 +3816,9 @@ function set_last_active_ip($uid, $ip)
 
     $current = time();
     $lastactive = $redis->get('lastactive_' . $uid);
-    
-    if ($uid == 1059) {
-        error_log("[DEBUG] set_last_active_ip called for UID: $uid at $current with lastactive: $lastactive");
-    }
-
     if (!$lastactive || ($current - $lastactive) >= 10) {
         $redis->setEx('lastactive_' . $uid, 10, $current);
         perform_query("UPDATE `grpgusers` SET `lastactive` = ?, ip = ? WHERE id = ?", [$current, $ip, $uid]);
-
-        if ($uid == 1059) {
-            error_log("[DEBUG] Updated lastactive + ip for UID: $uid to $current");
-        }
     }
 }
 
