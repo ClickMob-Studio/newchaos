@@ -95,6 +95,26 @@ if (empty($crimes)) {
             </div>
           </div>
         </div>
+
+        <div class="mt-4 flex flex-col gap-1">
+          <div>
+            <span class="text-[#ABABAB]">Multiplier time: </span><span class="text-white">1 second</span>
+          </div>
+          <div>
+            <span class="text-[#ABABAB]">Money: </span><span class="text-white">293.3M (After gang tax)</span>
+          </div>
+          <div>
+            <span class="text-[#ABABAB]">Experience: </span><span class="text-white">87.4k</span>
+          </div>
+          <div>
+            <span class="text-[#ABABAB]">Chance of jail: </span><span class="text-white">Small</span>
+          </div>
+          <div>
+            <span class="text-[#ABABAB]">Nerve refill</span> <span class="text-white">(x2)</span> <span
+              class="ml-2 text-[#ABABAB]">Cost:</span>
+            <span class="text-white">50</span>
+          </div>
+        </div>
       </div>
 
       <div class="w-full border border-white/10 bg-black/40 border-6 rounded-lg p-4"></div>
