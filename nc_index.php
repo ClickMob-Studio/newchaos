@@ -30,7 +30,7 @@ include 'nc_header.php';
         ?>
         <h1>General Information</h1>
         <div class="table-container">
-            <table id="newtables" style="width:100%;">
+            <table id="newtables" class="w-full text-white">
                 <tr>
                     <th width="10%">Name:</th>
                     <td width="30%">
@@ -73,7 +73,7 @@ include 'nc_header.php';
             </table>
 
             <h1>Stat Information</h1>
-            <table id="newtables" style="width:100%;">
+            <table id="newtables" class="w-full text-white">
                 <tr>
                     <th width="15%">Strength:</th>
                     <td><?= prettynum($user_class->strength) ?></td>
@@ -98,7 +98,7 @@ include 'nc_header.php';
             </table>
 
             <h1>Modded Stats Information</h1>
-            <table id="newtables" style="width:100%;">
+            <table id="newtables" class="w-full text-white">
                 <tr>
                     <th width="15%">Modded Strength:</th>
                     <td width="25%"><?= prettynum($user_class->moddedstrength) ?></td>
@@ -118,7 +118,7 @@ include 'nc_header.php';
             </table>
 
             <h1>Battle Statistics</h1>
-            <table id="newtables" style="width:100%;">
+            <table id="newtables" class="w-full text-white">
                 <tr>
                     <th width="10%">Won:</th>
                     <td width="30%"><?= prettynum($user_class->battlewon) ?></td>
@@ -134,7 +134,7 @@ include 'nc_header.php';
             </table>
 
             <h1>Crime Rankings</h1>
-            <table id="newtables" style="width:100%;">
+            <table id="newtables" class="w-full text-white">
                 <tr>
                     <th width="10%">Succeeded:</th>
                     <td width="30%"><?= prettynum($user_class->crimesucceeded) ?></td>
@@ -150,7 +150,7 @@ include 'nc_header.php';
             </table>
 
             <h1>Bonus Stats</h1>
-            <table id="newtables" style="width:100%;">
+            <table id="newtables" class="w-full text-white">
                 <tr>
                     <th width="10%">Total Tax Paid:</th>
                     <td width="30%">$<?= prettynum($user_class->totaltax) ?></td>
