@@ -611,7 +611,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
         </header>
 
         <?php if (!$user_class->is_ads_disabled): ?>
-            <div class="w-full border border-white/10 bg-black/40 border-6 rounded-lg p-4">
+            <div class="w-full flex flex-row gap-x-2 text-white border border-white/10 bg-black/40 border-6 rounded-lg p-4">
                 <?php
                 $now = time();
 
@@ -625,6 +625,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                     $formattedname = formatName($ads_user->id);
 
                     echo "<span>" . $formattedname . "</span>";
+                    echo "<span>" . $advertisement['message'] . "</span>";
                 }
                 ?>
             </div>
