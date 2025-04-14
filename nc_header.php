@@ -627,9 +627,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
         <header class="mainHeader">
             <div class="row mx-auto mainHeaderContent d-none d-md-block">
-                <?php
-
-                require 'navbar2.php'; ?>
+                <?php require 'nc_navbar.php'; ?>
             </div>
         </header>
 
