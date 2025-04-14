@@ -12,8 +12,8 @@ $db->query("SELECT * FROM gang_territory_zone_battle WHERE attacking_gang_id = "
 $db->execute();
 $attackingGangTerritoryBattles = $db->fetch_row();
 
-if (isset($_GET['action']) && $_GET['action'] === 'claim' && isset($_GET['id']) && (int)$_GET['id']) {
-    $claimId = (int)$_GET['id'];
+if (isset($_GET['action']) && $_GET['action'] === 'claim' && isset($_GET['id']) && (int) $_GET['id']) {
+    $claimId = (int) $_GET['id'];
 
     security($claimId);
 
@@ -53,8 +53,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'claim' && isset($_GET['id']) 
 }
 
 
-if (isset($_GET['action']) && $_GET['action'] === 'attack' && isset($_GET['id']) && (int)$_GET['id']) {
-    $attackId = (int)$_GET['id'];
+if (isset($_GET['action']) && $_GET['action'] === 'attack' && isset($_GET['id']) && (int) $_GET['id']) {
+    $attackId = (int) $_GET['id'];
 
     security($attackId);
 
@@ -133,12 +133,16 @@ $ownedGangTerritoryZones = $db->fetch_row();
 <div class='box_middle'>
     <div class='pad'>
         <p>
-            Welcome to Protection Rackets, here you can see all the protection rackets for your gang and other gangs. Protection Rackets provide you with a daily payout that goes to each member at rollover.
+            Welcome to Protection Rackets, here you can see all the protection rackets for your gang and other gangs.
+            Protection Rackets provide you with a daily payout that goes to each member at rollover.
         </p>
         <p>
-            You'll need to be vigilant with your protection rackets, another gang can try to takeover your protection racket by starting a battle. Once a battle has been initiated, each gang has 30 minutes to add a
-            member into the strength, defense and speed stat slot to take part in the battle on behalf of the gang. If the slots aren't filled then the stat will run as 0. You also need to make sure each member in
-            the battle is in the correct city for the Protection Racket when the battle takes part otherwise they'll miss it!
+            You'll need to be vigilant with your protection rackets, another gang can try to takeover your protection
+            racket by starting a battle. Once a battle has been initiated, each gang has 30 minutes to add a
+            member into the strength, defense and speed stat slot to take part in the battle on behalf of the gang. If
+            the slots aren't filled then the stat will run as 0. You also need to make sure each member in
+            the battle is in the correct city for the Protection Racket when the battle takes part otherwise they'll
+            miss it!
         </p>
         <p>
             Winning protection racket battles will also give each member of the winning side an EXP payout.
@@ -151,33 +155,34 @@ $ownedGangTerritoryZones = $db->fetch_row();
             <div class="contentBox">
                 <table class="cleanTable">
                     <thead>
-                    <tr>
-                        <th>Territory</th>
-                        <th>Defending Gang</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
+                        <tr>
+                            <th>Territory</th>
+                            <th>Defending Gang</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($attackingGangTerritoryBattles as $attackingGangTerritoryBattle): ?>
-                        <?php
-                        $db->query("SELECT name FROM gang_territory_zone WHERE id = " . $attackingGangTerritoryBattle['gang_territory_zone_id'] . " LIMIT 1");
-                        $db->execute();
-                        $gName = $db->fetch_single();
+                        <?php foreach ($attackingGangTerritoryBattles as $attackingGangTerritoryBattle): ?>
+                            <?php
+                            $db->query("SELECT name FROM gang_territory_zone WHERE id = " . $attackingGangTerritoryBattle['gang_territory_zone_id'] . " LIMIT 1");
+                            $db->execute();
+                            $gName = $db->fetch_single();
 
-                        $defendingGang = new Gang($attackingGangTerritoryBattle['defending_gang_id']);
-                        ?>
-                        <tr>
-                            <td><?php echo $gName ?></td>
-                            <td><?php echo $defendingGang->formattedname ?></td>
-                            <td>
-                                <?php getTimeRemainingForDisplay($attackingGangTerritoryBattle['time_started']) ?>
-                            </td>
-                            <td>
-                                <a href="gang_territory_battle.php?id=<?php echo $attackingGangTerritoryBattle['id'] ?>" class="button">View</a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
+                            $defendingGang = new Gang($attackingGangTerritoryBattle['defending_gang_id']);
+                            ?>
+                            <tr>
+                                <td><?php echo $gName ?></td>
+                                <td><?php echo $defendingGang->formattedname ?></td>
+                                <td>
+                                    <?php getTimeRemainingForDisplay($attackingGangTerritoryBattle['time_started']) ?>
+                                </td>
+                                <td>
+                                    <a href="gang_territory_battle.php?id=<?php echo $attackingGangTerritoryBattle['id'] ?>"
+                                        class="button">View</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -209,7 +214,8 @@ $ownedGangTerritoryZones = $db->fetch_row();
                                 }
                                 ?>
                                 <?php if ($remaining > 0): ?>
-                                    <span style="color: #FF0000"><i class="fa-solid fa-shield" title="<?php echo number_format($remaining, 0) ?> minutes shield time remaining"></i></span>
+                                    <span style="color: #FF0000"><i class="fa-solid fa-shield"
+                                            title="<?php echo number_format($remaining, 0) ?> minutes shield time remaining"></i></span>
                                 <?php endif; ?>
                             </td>
                             <td><?php echo getCityNameByID($gangTerritoryZone['city_id']) ?></td>
@@ -227,13 +233,14 @@ $ownedGangTerritoryZones = $db->fetch_row();
                                     - <?php echo number_format($gangTerritoryZone['daily_exp_payout'], 0) ?> EXP<br />
                                 <?php endif; ?>
                                 <?php if ($gangTerritoryZone['daily_item_payout'] > 0): ?>
-                                    - <?php echo Get_Item_name($gangTerritoryZone['daily_item_payout']); ?><br />
+                                    - <?php echo Item_Name($gangTerritoryZone['daily_item_payout']); ?><br />
                                 <?php endif; ?>
                             </td>
                             <td>
                                 <?php if (getActiveGangTerritoryZoneBattle($gangTerritoryZone)): ?>
                                     <?php $activeGangTerritoryBattle = getActiveGangTerritoryZoneBattle($gangTerritoryZone); ?>
-                                    <a href="gang_territory_battle.php?id=<?php echo $activeGangTerritoryBattle['id'] ?>" class="button">Defend</a>
+                                    <a href="gang_territory_battle.php?id=<?php echo $activeGangTerritoryBattle['id'] ?>"
+                                        class="button">Defend</a>
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -275,11 +282,13 @@ $ownedGangTerritoryZones = $db->fetch_row();
                                 }
                                 ?>
                                 <?php if ($remaining > 0): ?>
-                                    <span style="color: #FF0000"><i class="fa-solid fa-shield" title="<?php echo number_format($remaining, 0) ?> minutes shield time remaining"></i></span>
+                                    <span style="color: #FF0000"><i class="fa-solid fa-shield"
+                                            title="<?php echo number_format($remaining, 0) ?> minutes shield time remaining"></i></span>
                                 <?php endif; ?>
 
                                 <?php if ($activegtzb): ?>
-                                    <span style="color: #FF0000"><i class="fa-solid fa-gun" title="Protection Racket is in a takeover attempt"></i></span>
+                                    <span style="color: #FF0000"><i class="fa-solid fa-gun"
+                                            title="Protection Racket is in a takeover attempt"></i></span>
                                 <?php endif; ?>
                             </td>
                             <td><?php echo getCityNameByID($gangTerritoryZone['city_id']) ?></td>
@@ -305,7 +314,7 @@ $ownedGangTerritoryZones = $db->fetch_row();
                                     - <?php echo number_format($gangTerritoryZone['daily_exp_payout'], 0) ?> EXP<br />
                                 <?php endif; ?>
                                 <?php if ($gangTerritoryZone['daily_item_payout'] > 0): ?>
-                                    - <?php echo Get_Item_name($gangTerritoryZone['daily_item_payout']); ?><br />
+                                    - <?php echo Item_Name($gangTerritoryZone['daily_item_payout']); ?><br />
                                 <?php endif; ?>
                             </td>
                             <td>
@@ -313,16 +322,19 @@ $ownedGangTerritoryZones = $db->fetch_row();
                                     <?php if ($gangTerritoryZone['owned_by_gang_id'] == $user_class->gang): ?>
                                         <?php if (getActiveGangTerritoryZoneBattle($gangTerritoryZone)): ?>
                                             <?php $activeGangTerritoryBattle = getActiveGangTerritoryZoneBattle($gangTerritoryZone); ?>
-                                            <a href="gang_territory_battle.php?id=<?php echo $activeGangTerritoryBattle['id'] ?>" class="button">Defend</a>
+                                            <a href="gang_territory_battle.php?id=<?php echo $activeGangTerritoryBattle['id'] ?>"
+                                                class="button">Defend</a>
                                         <?php endif; ?>
                                     <?php else: ?>
                                         <?php if ($user_rank->gangwars = 1): ?>
-                                            <a href="gang_territories.php?action=attack&id=<?php echo $gangTerritoryZone['id'] ?>" class="button">Attack</a>
+                                            <a href="gang_territories.php?action=attack&id=<?php echo $gangTerritoryZone['id'] ?>"
+                                                class="button">Attack</a>
                                         <?php endif; ?>
                                     <?php endif; ?>
                                 <?php else: ?>
                                     <?php if ($user_rank->gangwars = 1): ?>
-                                        <a href="gang_territories.php?action=claim&id=<?php echo $gangTerritoryZone['id'] ?>" class="button">Claim</a>
+                                        <a href="gang_territories.php?action=claim&id=<?php echo $gangTerritoryZone['id'] ?>"
+                                            class="button">Claim</a>
                                     <?php endif; ?>
                                 <?php endif; ?>
                             </td>
@@ -335,7 +347,8 @@ $ownedGangTerritoryZones = $db->fetch_row();
     </div>
 </div>
 
-<br /><br /><hr />
+<br /><br />
+<hr />
 
 <?php
 include("gangheaders.php");
