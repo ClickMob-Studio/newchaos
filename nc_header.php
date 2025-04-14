@@ -604,11 +604,11 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
     <!-- NEW -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <!-- OLD -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/ca284bbf02.js" crossorigin="anonymous"></script>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
@@ -631,65 +631,32 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             </div>
         </header>
 
-        <script>
-            $(document).ready(function () {
-                var isEditable = false;  // Flag to track whether sorting should be enabled
-
-                function initializeSortable() {
-                    $('#sortable-container').sortable({
-                        axis: 'x',
-                        delay: 20,
-                        start: function (event, ui) {
-                            ui.item.addClass('dragging');
-                        },
-                        stop: function (event, ui) {
-                            ui.item.removeClass('dragging');
-                        },
-                        update: function (event, ui) {
-                            var newOrder = $(this).sortable('toArray', { attribute: 'data-id' });
-                            $.ajax({
-                                url: '/ajax_changemenu.php',
-                                type: 'POST',
-                                data: { order: JSON.stringify(newOrder) },
-                                success: function (response) {
-
-                                },
-                                error: function () {
-                                    alert('Error saving order.');
-                                }
-                            });
-                        }
-                    });
-                }
-
-                function destroySortable() {
-                    if ($('#sortable-container').hasClass('ui-sortable')) {
-                        $('#sortable-container').sortable('destroy');
-                    }
-                }
-
-                $('#edit-button').click(function () {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'  // This makes the scroll smoothly glide to the top rather than a sudden jump
-                    });
-                    isEditable = !isEditable;
-                    if (isEditable) {
-                        initializeSortable();  // Initialize sortable if entering edit mode
-                    } else {
-                        destroySortable();  // Destroy sortable if exiting edit mode
-                    }
-                    $(this).text(isEditable ? 'Finish Editing' : 'Edit');
-                });
-            });
-
-
-        </script>
-
         <div class="row mx-auto my-3 mainContent">
             <div class="col-12 col-lg-10">
 
                 <?php if (!$user_class->is_ads_disabled): ?>
+                    <div class="w-full border border-white/10 bg-black/40 border-6 rounded-lg p-4">
+                        <?php
+                        $now = time();
+
+                        $db->query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > ? ORDER BY RAND() LIMIT 1");
+                        $db->execute([$now]);
+                        $advertisement = $db->fetch_row(true);
+
+                        ?>
+
+                        <?php if (!empty($advertisement)): ?>
+                            <?php
+                            $ads_user = read_user_for_advertisement($advertisement["poster"], $advertisement["displaymins"] * 60);
+
+                            $avatar = $ads_user->avatar ?: "/images/no-avatar.png";
+                            $formattedname = formatName($ads_user['id']);
+                            ?>
+                            <span><?= $formattedname; ?></span>
+                        <?php endif; ?>
+                    </div>
+
+
                     <div class="vertical-text-slider d-md-none d-lg-none floaty dcPanel p-3"
                         style="width: 99%;margin-top: 10px;">
                         <div class="d-flex flex-column">

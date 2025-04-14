@@ -3827,3 +3827,20 @@ function perform_query($query, $params = [])
     $db->query($query);
     $db->execute($params);
 }
+
+function read_user_for_advertisement($uid, $ttl = 60)
+{
+    global $db, $redis;
+
+    if ($redis->exists("adv_user_" . $uid)) {
+        return json_decode($redis->get("adv_user_" . $uid));
+    }
+
+    $db->query("SELECT * FROM grpgusers WHERE id = ?");
+    $db->execute([$uid]);
+    $user = $db->fetch_row(true);
+
+    $redis->setEx("adv_user_" . $uid, $ttl, json_encode($user));
+
+    return $user;
+}
