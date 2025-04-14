@@ -42,7 +42,7 @@ if (empty($crimes)) {
     }
 </style>
 
-<div class="max-w-7xl mx-auto flex gap-x-4">
+<div class="max-w-7xl mx-auto md:flex gap-x-4">
 <div class="min-w-sm max-w-sm w-sm border border-white/10 bg-black/40 border-6 rounded-lg p-4">
         <h2 class="text-xl text-white">Serial Crimes</h2>
         <div class="mt-4 mb-2">
