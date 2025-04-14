@@ -6,7 +6,7 @@ include 'nc_header.php';
 ?>
 
 <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-y-4 md:gap-x-4">
-    <div class="w-full md:min-w-sm md:max-w-sm md:w-sm border border-white/10 bg-black/40 border-6 rounded-lg p-4">
+    <div class="w-full border border-white/10 bg-black/40 border-6 rounded-lg p-4">
         <?php
         if ($user_class->firstlogin1 == 0) {
             $stmt = mysql_query("UPDATE grpgusers SET firstlogin1 = 1 WHERE id = " . $user_class->id);
