@@ -1,25 +1,6 @@
 <?php
 include 'header2.php';
 
-$lastactive = $redis->get('lastactive_' . $user_class->id);
-if ($lastactive) {
-    $timePassedEnough = (time() - $lastactive) > 120; // 2 minutes
-    if ($timePassedEnough) {
-        $db->query("UPDATE grpgusers SET crimes = 'newcrimes', lastactive = unix_timestamp() WHERE id = ?");
-        $db->execute(array(
-            $user_class->id
-        ));
-        $redis->setEx('lastactive_' . $user_class->id, 60, time()); // 1 minute
-        $lastactive = time();
-    }
-} else {
-    $db->query("UPDATE grpgusers SET crimes = 'newcrimes', lastactive = unix_timestamp() WHERE id = ?");
-    $db->execute(array(
-        $user_class->id
-    ));
-    $redis->setEx('lastactive_' . $user_class->id, 60, time());
-    $lastactive = time();
-}
 error_reporting(0);
 
 $db->query("SELECT `name`, mission.crimes as crimestarget, missions.crimes as crimesdone FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE `userid` = ? AND `completed` = \"no\" LIMIT 1");
@@ -29,7 +10,6 @@ $db->execute(array(
 $activeMission = $db->fetch_row()[0];
 
 $tempItemUse = getItemTempUse($user_class->id);
-
 if ($tempItemUse['ghost_vacuum_time'] > time()) {
     $db->query("SELECT * FROM crimes ORDER BY nerve DESC");
     $db->execute();
@@ -53,13 +33,9 @@ $rows = $db->fetch_row();
     }
 </style>
 
-<div class="max-w-7xl mx-auto mb-2">
-    <h1 class="text-5xl text-white">Crimes: <?= $redis->get('lastactive_' . $user_class->id) ?></h1>
-</div>
-
 <div class="max-w-7xl mx-auto flex">
 
-    <div class="w-full border border-[#FF9696]/10 bg-black/40 border-6 rounded-lg p-4"></div>
+    <div class="w-full border border-[#FF9696]/10 bg-white/10 border-6 rounded-lg p-4"></div>
 
     <?php
     $error = ($user_class->fbitime > 0) ? "You can't do crimes if you're in FBI Jail!" : "";
@@ -116,7 +92,7 @@ $rows = $db->fetch_row();
             <tr>
                 <td>
                     <div class="flexele floaty" style="margin:3px;">
-                        <hr class="my-4 border-black/30" />
+                        <hr class="my-4 border-white/10" />
 
                         <div style="flex flex-row">
                             <div id="noti" class="alert alert-info" style="display: none;">
