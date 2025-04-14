@@ -627,7 +627,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         $avatar = $ads_user->avatar ?: "/images/no-avatar.png";
                         $formattedname = formatName($ads_user->id);
 
-                        echo '<img src="assets/images/svg/Ad Banner.svg" class="size-6 mr-2" alt="Advertisement">';
+                        echo '<img src="assets/images/svg/Ad.svg" class="size-6 mr-2" alt="Advertisement">';
                         echo '<span class="flex items-center pr-2">' . $formattedname . '</span>';
                         echo '<span class="flex items-center">' . $advertisement['message'] . '</span>';
                     }
