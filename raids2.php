@@ -350,10 +350,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
         $tempItemUse = getItemTempUse($user_class->id);
 
         $used_booster = $tempItemUse['raid_booster'];
-        removeItemTempUse($user_class->id, 'raid_pass', 1);
+        removeItemTempUse($user_class->id, 'raid_booster', 1);
 
         $used_pass = $tempItemUse['raid_pass'];
-        removeItemTempUse($user_class->id, 'raid_booster', 1);
+        removeItemTempUse($user_class->id, 'raid_pass', 1);
+
+        if ($user_class->id == 1059) {
+            error_log("[RAIDS2] ID(1059) RaidPass($used_pass) RaidBooster($used_booster)");
+        }
 
         $difficulty = mysql_real_escape_string($_POST['difficulty']);
         $query = "INSERT INTO active_raids (boss_id, summoned_by, difficulty, raid_type, used_booster, used_pass) VALUES ($boss_id, $user_id, '$difficulty', '$raid_type')";
