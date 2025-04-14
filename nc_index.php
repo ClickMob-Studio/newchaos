@@ -28,7 +28,7 @@ include 'nc_header.php';
         }
 
         ?>
-        <h1>General Information</h1>
+        <h1 class="text-lg text-white">General Information</h1>
         <div class="table-container">
             <table id="newtables" class="w-full text-white">
                 <tr>
@@ -72,7 +72,7 @@ include 'nc_header.php';
                 </tr>
             </table>
 
-            <h1>Stat Information</h1>
+            <h1 class="text-lg text-white">Stat Information</h1>
             <table id="newtables" class="w-full text-white">
                 <tr>
                     <th width="15%" class="bg-white/5 px-2">Strength:</th>
@@ -97,7 +97,7 @@ include 'nc_header.php';
                 </tr>
             </table>
 
-            <h1>Modded Stats Information</h1>
+            <h1 class="text-lg text-white">Modded Stats Information</h1>
             <table id="newtables" class="w-full text-white">
                 <tr>
                     <th width="15%" class="bg-white/5 px-2">Modded Strength:</th>
@@ -117,7 +117,7 @@ include 'nc_header.php';
                 <td width="25%" class="bg-white/10 px-2"></td>
             </table>
 
-            <h1>Battle Statistics</h1>
+            <h1 class="text-lg text-white">Battle Statistics</h1>
             <table id="newtables" class="w-full text-white">
                 <tr>
                     <th width="10%" class="bg-white/5 px-2">Won:</th>
@@ -133,7 +133,7 @@ include 'nc_header.php';
                 </tr>
             </table>
 
-            <h1>Crime Rankings</h1>
+            <h1 class="text-lg text-white">Crime Rankings</h1>
             <table id="newtables" class="w-full text-white">
                 <tr>
                     <th width="10%" class="bg-white/5 px-2">Succeeded:</th>
@@ -149,7 +149,7 @@ include 'nc_header.php';
                 </tr>
             </table>
 
-            <h1>Bonus Stats</h1>
+            <h1 class="text-lg text-white">Bonus Stats</h1>
             <table id="newtables" class="w-full text-white">
                 <tr>
                     <th width="10%" class="bg-white/5 px-2">Total Tax Paid:</th>
