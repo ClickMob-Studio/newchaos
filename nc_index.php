@@ -182,7 +182,7 @@ include 'nc_header.php';
     <div class="w-full border border-white/10 bg-black/40 border-6 rounded-lg p-4 text-white">
         <h1 class="text-lg font-medium">EXP Calculator</h1>
         <div class="d-flex">
-            <div class="flex flex-col p-2" style="border-right:thin solid #333;">
+            <div class="flex flex-col p-2">
                 What level are you aiming for?
                 <input type="text" oninput="calcEXP();" id="levelcalc" size="8"
                     class="bg-white/10 border min-w-md max-w-md border-gray rounded-lg mt-1" />
