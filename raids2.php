@@ -736,7 +736,7 @@ echo "</div>"; // Close active-raids-grid
                 echo "</div>";
 
 
-                echo "<form action='raids.php' method='post' class='difficulty-form' onsubmit='return confirmSummon(" . $tokencost . ");'>";
+                echo "<form action='raids2.php' method='post' class='difficulty-form' onsubmit='return confirmSummon(" . $tokencost . ");'>";
 
                 echo "<div class='form-group'><label>Select Difficulty: ";
                 echo "<select name='difficulty'>";
