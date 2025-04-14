@@ -349,10 +349,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
 
         $tempItemUse = getItemTempUse($user_class->id);
 
-        $used_booster = $tempItemUse['raid_booster'] > 0 ? 1 : 0;
+        $used_booster = (int) $tempItemUse['raid_booster'] > 0 ? 1 : 0;
         removeItemTempUse($user_class->id, 'raid_booster', 1);
 
-        $used_pass = $tempItemUse['raid_pass'] > 0 ? 1 : 0;
+        $used_pass = (int) $tempItemUse['raid_pass'] > 0 ? 1 : 0;
         removeItemTempUse($user_class->id, 'raid_pass', 1);
 
         if ($user_class->id == 1059) {
