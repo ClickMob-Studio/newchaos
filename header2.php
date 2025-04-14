@@ -622,7 +622,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
     <script src="js/java.js?v=12" type="text/javascript"></script>
 </head>
 
-<body class="bg-[#272727] min-h-screen">
+<body class="bg-[#181818] min-h-screen">
     <div class="bg-linear-to-b from-[#FF0000]/30 to-[#A40000]/30 min-h-screen">
 
         <header class="mainHeader">
