@@ -3,58 +3,13 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-
 include 'header.php';
 
 error_reporting(0); // Turn off all error reporting
 ini_set('display_errors', 0); // Don't display errors
 
-function sendDiscordWebhook($message, $title = '', $color = '', $username = 'Raid Bot', $avatar = '')
-{
-    // Discord Webhook URL
-    //$webhookUrl = 'https://discord.com/api/webhooks/1180814608466968656/m6UcV6PKbOAz2CDhTJTMmzpT1aTFlBvOxYf-h2zHbpCtiPgfwSXLhrKxTgi17NukHjT3';
-
-    // Prepare data to be sent as JSON
-    $data = json_encode([
-        'content' => $message,
-        'username' => $username,
-        'avatar_url' => $avatar,
-        'embeds' => [
-            [
-                'title' => $title,
-                'description' => $message,
-                'color' => hexdec($color), // Convert hex color to decimal
-            ],
-        ],
-    ]);
-
-    // Set up cURL
-    $ch = curl_init($webhookUrl);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-    // Execute cURL session and close
-    $response = curl_exec($ch);
-    curl_close($ch);
-
-    // Check for errors
-    if ($response === false) {
-        die('Error sending webhook: ' . curl_error($ch));
-    }
-
-    // Decode the response to a PHP array
-    $responseData = json_decode($response, true);
-
-    // Check if the webhook was successfully sent
-    if (isset($responseData['message'])) {
-        echo 'Webhook sent: ' . $responseData['message'];
-    } else {
-        echo 'Error sending webhook: ' . $response;
-    }
-}
 ?>
+
 <script>
     function openModal(raidId) {
         fetchParticipants(raidId);
@@ -150,9 +105,6 @@ while ($row = mysql_fetch_assoc($result)) {
 
 $db->query("SELECT * FROM pets WHERE raid_leash = 1 AND userid = $user_class->id LIMIT 1");
 $pet = $db->fetch_row(true);
-
-
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
     $raid_id = intval($_POST['join_raid_id']);
@@ -312,28 +264,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
     $user_id = $user_class->id;  // Assuming this is how you get the logged-in user's ID
     $boss_id = intval($_POST['boss_id']);
 
+    // Take boss by ID from $bosses array:
+    $boss = null;
+    foreach ($bosses as $b) {
+        if ($b['id'] == $boss_id) {
+            $boss = $b;
+            break;
+        }
+    }
+
+    if (empty($boss) || $boss == null) {
+        echo Message("Could not find a boss with ID($boss_id). Please try again.");
+        require "footer.php";
+        exit();
+    }
+
+    $tokencost = $boss['tokencost'];
+    $level = $boss['level'];
 
     $raid_type = $_POST['raid_type'];
     // Ensure $raid_type is one of the expected values
     if (!in_array($raid_type, ['Public', 'Private', 'Gang'])) {
         $raid_type = 'Public'; // Default to Public if an unexpected value is provided
     }
-
-    // Retrieve the token cost for the boss
-    $boss_cost_query = "SELECT tokencost FROM bosses WHERE id = $boss_id";
-    $boss_cost_result = mysql_query($boss_cost_query);
-    if (!$boss_cost_result) {
-        echo "<script>alert('Error retrieving boss token cost.');</script>";
-        return; // Exit early due to error
-    }
-
-    // Fetch boss level
-    $boss_level_query = "SELECT level FROM bosses WHERE id = $boss_id";
-    $boss_level_result = mysql_query($boss_level_query);
-    $boss_level = mysql_fetch_assoc($boss_level_result)['level'];
-
-    $boss_cost_row = mysql_fetch_assoc($boss_cost_result);
-    $tokencost = $boss_cost_row['tokencost'];
 
     if ($pet && isset($pet['id']) && $pet['level'] >= $boss_level) {
         $tokencost *= 2; // Double the cost if the user has a pet
@@ -383,7 +336,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
         // The user is already in an active raid, display an error message
         echo "<script>alert('You are already in an active raid. You cannot summon another one at the moment.');</script>";
     } else {
-
         // Fetch user level
         $user_level_query = "SELECT level FROM grpgusers WHERE id = $user_id";
         $user_level_result = mysql_query($user_level_query);
@@ -395,8 +347,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
         }
         $raid_type = isset($_POST['raid_type']) ? mysql_real_escape_string($_POST['raid_type']) : 'Public'; // Default to Public if not set
 
+        $tempItemUse = getItemTempUse($user_class->id);
+
+        $used_booster = (int) $tempItemUse['raid_booster'] > 0 ? 1 : 0;
+        removeItemTempUse($user_class->id, 'raid_booster', 1);
+
+        $used_pass = (int) $tempItemUse['raid_pass'] > 0 ? 1 : 0;
+        removeItemTempUse($user_class->id, 'raid_pass', 1);
+
+        if ($user_class->id == 1059) {
+            error_log("[RAIDS2] ID(1059) RaidPass($used_pass) RaidBooster($used_booster)");
+        }
+
         $difficulty = mysql_real_escape_string($_POST['difficulty']);
-        $query = "INSERT INTO active_raids (boss_id, summoned_by, difficulty, raid_type) VALUES ($boss_id, $user_id, '$difficulty', '$raid_type')";
+        $query = "INSERT INTO active_raids (boss_id, summoned_by, difficulty, raid_type, used_booster, used_pass) VALUES ($boss_id, $user_id, '$difficulty', '$raid_type', $used_booster, $used_pass)";
         mysql_query($query);
 
         // Get the ID of the raid that was just inserted
