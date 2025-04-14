@@ -349,10 +349,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
 
         $tempItemUse = getItemTempUse($user_class->id);
 
-        $used_booster = $tempItemUse['raid_booster'];
+        $used_booster = $tempItemUse['raid_booster'] > 0 ? 1 : 0;
         removeItemTempUse($user_class->id, 'raid_booster', 1);
 
-        $used_pass = $tempItemUse['raid_pass'];
+        $used_pass = $tempItemUse['raid_pass'] > 0 ? 1 : 0;
         removeItemTempUse($user_class->id, 'raid_pass', 1);
 
         if ($user_class->id == 1059) {
@@ -360,7 +360,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
         }
 
         $difficulty = mysql_real_escape_string($_POST['difficulty']);
-        $query = "INSERT INTO active_raids (boss_id, summoned_by, difficulty, raid_type, used_booster, used_pass) VALUES ($boss_id, $user_id, '$difficulty', '$raid_type')";
+        $query = "INSERT INTO active_raids (boss_id, summoned_by, difficulty, raid_type, used_booster, used_pass) VALUES ($boss_id, $user_id, '$difficulty', '$raid_type', $used_booster, $used_pass)";
         mysql_query($query);
 
         // Get the ID of the raid that was just inserted
