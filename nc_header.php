@@ -48,27 +48,14 @@ function logPageView()
 // Get the name of the current script and the full request URI to check for specific query parameters
 $current_page = basename($_SERVER['PHP_SELF']); // Gets the name of the current script
 $current_uri = $_SERVER['REQUEST_URI']; // Gets the full request URI
-// function security($h){
 
-// }
 register_shutdown_function('ob_end_flush');
-//ini_set('memcached.sess_prefix', 'memc.sess.ml2.key.1');
-$starttime = microtime_float();
+
 include 'dbcon.php';
 include 'database/pdo_class.php';
 include "classes.php";
 include "codeparser.php";
 include "pdo.php";
-if (empty($ignoreslashes)) {
-    if (get_magic_quotes_gpc() == 0) {
-        foreach ($_POST as $k => $v) {
-            $_POST[$k] = addslashes($v);
-        }
-        foreach ($_GET as $k => $v) {
-            $_GET[$k] = addslashes($v);
-        }
-    }
-}
 
 
 if (!isset($_SESSION['id'])) {
@@ -80,16 +67,13 @@ if (mysql_num_rows($l) < 1) {
     session_destroy();
     header('Location:index.php');
 }
+
 $g = mysql_fetch_assoc($l);
 if ($g['sessionid'] != $_SESSION['token']) {
     session_destroy();
     header('Location:index.php');
 }
 
-// $db->query("SELECT * FROM sessions WHERE userid = ?");
-// $db->execute(array(
-//     $_SESSION['id']
-// ));
 if (isset($_GET['action']) && $_GET['action'] == "logout") {
     session_destroy();
     header("Location: index.php");
@@ -99,15 +83,10 @@ $uid = $_SESSION['id'];
 $user_class = new User($uid);
 $_SESSION['username'] = $user_class->username;
 if ($user_class->id == 18) {
-    // Call the function to log the page view
     logPageView();
-}
-if ($uid == 1) {
-    $user_class->admin = 1;
 }
 
 // Define a function to check and log request frequency
-
 function logHighFrequencyRequests()
 {
     global $user_class;
