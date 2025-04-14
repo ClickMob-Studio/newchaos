@@ -34,8 +34,9 @@ $rows = $db->fetch_row();
 </style>
 
 <div class="max-w-7xl mx-auto flex">
-    <div class="max-w-[250px] border border-white/10 bg-black/40 border-6 rounded-lg p-4"></div>
-    <div class="w-full border border-white/10 bg-black/40 border-6 rounded-lg p-4"></div>
+      <div class="min-w-xs max-w-xs w-xs border border-white/10 bg-black/40 border-6 rounded-lg p-4"></div>
+      <div class="w-full border border-white/10 bg-black/40 border-6 rounded-lg p-4"></div>
+</div>
 
     <?php
     $error = ($user_class->fbitime > 0) ? "You can't do crimes if you're in FBI Jail!" : "";
