@@ -614,7 +614,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             <div class="max-w-7xl mx-auto my-4">
 
                 <div
-                    class="w-full flex flex-row gap-x-2 text-white border border-white/10 bg-black/40 border-6 rounded-lg p-2">
+                    class="w-full flex flex-row gap-x-2 text-white border border-white/10 bg-black/40 border-6 rounded-lg p-2 px-4">
                     <?php
                     $now = time();
 
@@ -627,8 +627,9 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         $avatar = $ads_user->avatar ?: "/images/no-avatar.png";
                         $formattedname = formatName($ads_user->id);
 
+                        echo '<img src="assets/images/svg/Ad Banner.svg" class="size-4 mr-2" alt="Advertisement">';
                         echo '<span class="flex items-center pr-2">' . $formattedname . '</span>';
-                        echo '<span class="items-center">' . $advertisement['message'] . '</span>';
+                        echo '<span class="flex items-center">' . $advertisement['message'] . '</span>';
                     }
                     ?>
                 </div>
