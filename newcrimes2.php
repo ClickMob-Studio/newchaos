@@ -96,23 +96,23 @@ if (empty($crimes)) {
           </div>
         </div>
 
-        <div class="mt-4 flex flex-col gap-1">
+        <div class="mt-4 flex flex-col gap-1 text-white text-sm uppercase">
           <div>
-            <span class="text-[#ABABAB]">Multiplier time: </span><span class="text-white">1 second</span>
+            <span class="text-[#ABABAB]">Multiplier time: </span><span>1 second</span>
           </div>
           <div>
-            <span class="text-[#ABABAB]">Money: </span><span class="text-white">293.3M (After gang tax)</span>
+            <span class="text-[#ABABAB]">Money: </span><span>293.3M</span> <span class="italic">(After gang tax)</span>
           </div>
           <div>
-            <span class="text-[#ABABAB]">Experience: </span><span class="text-white">87.4k</span>
+            <span class="text-[#ABABAB]">Experience: </span><span>87.4k</span>
           </div>
           <div>
-            <span class="text-[#ABABAB]">Chance of jail: </span><span class="text-white">Small</span>
+            <span class="text-[#ABABAB]">Chance of jail: </span><span>Small</span>
           </div>
           <div>
-            <span class="text-[#ABABAB]">Nerve refill</span> <span class="text-white">(x2)</span> <span
+            <span class="text-[#ABABAB]">Nerve refill</span> <span class="lowercase">(x2)</span> <span
               class="ml-2 text-[#ABABAB]">Cost:</span>
-            <span class="text-white">50</span>
+            <span>50</span>
           </div>
         </div>
       </div>
