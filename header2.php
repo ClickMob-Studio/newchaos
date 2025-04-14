@@ -623,7 +623,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 </head>
 
 <body class="bg-[#181818] min-h-screen">
-    <div class="bg-linear-to-b from-[#FF0000]/30 to-[#A40000]/30 min-h-screen">
+    <div class="min-h-screen">
 
         <header class="mainHeader">
             <div class="row mx-auto mainHeaderContent d-none d-md-block">
