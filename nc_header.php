@@ -601,8 +601,8 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
     <script src="js/java.js?v=12" type="text/javascript"></script>
 </head>
 
-<body class="bg-[#181818] min-h-screen">
-    <div class="min-h-screen">
+< class="bg-[#181818] min-h-screen">
+    < class="min-h-screen">
 
         <header class="mainHeader">
             <div class="row mx-auto mainHeaderContent d-none d-md-block">
@@ -619,19 +619,17 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                 $db->execute([$now]);
                 $advertisement = $db->fetch_row(true);
 
-                ?>
 
-                <?php if (!empty($advertisement)): ?>
-                    <?php
+                if (!empty($advertisement)) {
                     $ads_user = read_user_for_advertisement($advertisement["poster"], $advertisement["displaymins"] * 60);
 
                     $avatar = $ads_user->avatar ?: "/images/no-avatar.png";
                     $formattedname = formatName($ads_user['id']);
-                    ?>
-                    <span><?= $formattedname; ?></span>
-                <?php endif; ?>
+
+                    echo "<span>" . $formattedname . "</span>";
+                }
+                ?>
             </div>
         <?php endif; ?>
-    </div>
 
-    <div class="ajax-message-holder" style="min-height: 60px; display: none;"></div>
+        <div class="ajax-message-holder" style="min-height: 60px; display: none;"></div>
