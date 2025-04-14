@@ -632,5 +632,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                 <?php endif; ?>
             </div>
         <?php endif; ?>
+    </div>
 
-        <div class="ajax-message-holder" style="min-height: 60px; display: none;"></div>
+    <div class="ajax-message-holder" style="min-height: 60px; display: none;"></div>
