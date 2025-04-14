@@ -115,6 +115,12 @@ if (empty($crimes)) {
             <span>50</span>
           </div>
         </div>
+
+        <div class="mt-4">
+          <button type="submit"
+            class="uppercase bg-[#790000] w-full rounded-lg h-8 text-white font-medium tracking-wide">start
+            crimes</button>
+        </div>
       </div>
 
       <div class="w-full border border-white/10 bg-black/40 border-6 rounded-lg p-4"></div>
