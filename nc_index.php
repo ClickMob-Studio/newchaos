@@ -33,7 +33,7 @@ include 'nc_header.php';
             <table id="newtables" class="w-full text-white">
                 <tr>
                     <th width="10%">Name:</th>
-                    <td width="30%">
+                    <td width="30%" class="bg-white/10">
                         <a href="profiles.php?id=<?= $user_class->id ?>"><?= $user_class->formattedname ?></a>
                     </td>
                     <th width="10%">HP:</th>
