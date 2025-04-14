@@ -3,6 +3,8 @@ session_start();
 
 include 'nc_header.php';
 
+echo "REACHED HERE?";
+
 ?>
 
 <div class="max-w-7xl mx-auto flex flex-col gap-y-4">
