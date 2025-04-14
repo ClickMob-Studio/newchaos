@@ -5,8 +5,9 @@ include 'nc_header.php';
 
 ?>
 
-<div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-y-4 md:gap-x-4">
+<div class="max-w-7xl mx-auto flex flex-col gap-y-4">
     <div class="w-full border border-white/10 bg-black/40 border-6 rounded-lg p-4">
+
         <?php
         if ($user_class->firstlogin1 == 0) {
             $stmt = mysql_query("UPDATE grpgusers SET firstlogin1 = 1 WHERE id = " . $user_class->id);
@@ -178,7 +179,7 @@ include 'nc_header.php';
 
     </div>
 
-    <div class="w-full border border-white/10 bg-black/40 border-6 rounded-lg p-4 mt-4 text-white">
+    <div class="w-full border border-white/10 bg-black/40 border-6 rounded-lg p-4 text-white">
         <h1 class="text-lg font-medium">EXP Calculator</h1>
         <div class="d-flex">
             <div class="flex p-2" style="border-right:thin solid #333;">
