@@ -18,7 +18,16 @@ if ($tempItemUse['ghost_vacuum_time'] > time()) {
     $db->execute();
 }
 
-$rows = $db->fetch_row();
+$crimes = $redis->get("all_crimes");
+if (empty($crimes)) {
+    $db->query("SELECT * FROM crimes ORDER BY nerve DESC");
+    $db->execute();
+    $crimes = $db->fetch_row();
+    $redis->setEx("all_crimes", 7200, json_encode($crimes)); // Cache for 2 hours
+} else {
+    $crimes = json_decode($crimes, true);
+}
+
 ?>
 
 <style>
@@ -34,7 +43,23 @@ $rows = $db->fetch_row();
 </style>
 
 <div class="max-w-7xl mx-auto flex gap-x-4">
-      <div class="min-w-xs max-w-xs w-xs border border-white/10 bg-black/40 border-6 rounded-lg p-4"></div>
+<div class="min-w-sm max-w-sm w-sm border border-white/10 bg-black/40 border-6 rounded-lg p-4">
+        <h2 class="text-xl text-white">Serial Crimes</h2>
+        <div class="mt-4 mb-2">
+          <span class="text-white font-medium">Select Crime</span>
+          <div class="border-2 border-white/10 rounded-lg mt-1">
+            <select class="w-full text-white bg-black/40 text-sm rounded-lg p-2.5 block"
+              style="border-right: 12px solid transparent !important;">
+              <option value="1">Crack a skull | <span class="text-red">750 Nerve</span></option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-4 mb-2">
+          <span class="text-white font-medium">Multiplier</span>
+
+        </div>
+      </div>
+      
       <div class="w-full border border-white/10 bg-black/40 border-6 rounded-lg p-4"></div>
 </div>
 
