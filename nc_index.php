@@ -5,7 +5,7 @@ include 'nc_header.php';
 
 ?>
 
-<div class='container mt-3'>
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-y-4 md:gap-x-4">
 
     <?php
     if ($user_class->firstlogin1 == 0) {
