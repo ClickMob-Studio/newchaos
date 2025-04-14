@@ -611,7 +611,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
         </header>
 
         <?php if (!$user_class->is_ads_disabled): ?>
-            <div class="max-w-7xl mx-auto">
+            <div class="max-w-7xl mx-auto mb-4">
 
                 <div
                     class="w-full flex flex-row gap-x-2 text-white border border-white/10 bg-black/40 border-6 rounded-lg p-2">
@@ -627,8 +627,8 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         $avatar = $ads_user->avatar ?: "/images/no-avatar.png";
                         $formattedname = formatName($ads_user->id);
 
-                        echo "<span>" . $formattedname . "</span>";
-                        echo "<span>" . $advertisement['message'] . "</span>";
+                        echo '<span class="flex">' . $formattedname . '</span>';
+                        echo '<span>' . $advertisement['message'] . '</span>';
                     }
                     ?>
                 </div>
