@@ -136,15 +136,15 @@ include 'nc_header.php';
             <h1>Crime Rankings</h1>
             <table id="newtables" class="w-full text-white">
                 <tr>
-                    <th width="10%">Succeeded:</th>
+                    <th width="10%" class="bg-white/5 px-2">Succeeded:</th>
                     <td width="30%" class="bg-white/10 px-2"><?= prettynum($user_class->crimesucceeded) ?></td>
-                    <th width="10%">Failed:</th>
+                    <th width="10%" class="bg-white/5 px-2">Failed:</th>
                     <td width="30%" class="bg-white/10 px-2"><?= prettynum($user_class->crimefailed) ?></td>
                 </tr>
                 <tr>
-                    <th width="10%">Total:</th>
+                    <th width="10%" class="bg-white/5 px-2">Total:</th>
                     <td width="30%" class="bg-white/10 px-2"><?= prettynum($user_class->crimetotal) ?></td>
-                    <th width="10%">Money Gain:</th>
+                    <th width="10%" class="bg-white/5 px-2">Money Gain:</th>
                     <td width="30%" class="bg-white/10 px-2">$<?= prettynum($user_class->crimemoney) ?></td>
                 </tr>
             </table>
@@ -152,9 +152,9 @@ include 'nc_header.php';
             <h1>Bonus Stats</h1>
             <table id="newtables" class="w-full text-white">
                 <tr>
-                    <th width="10%">Total Tax Paid:</th>
+                    <th width="10%" class="bg-white/5 px-2">Total Tax Paid:</th>
                     <td width="30%" class="bg-white/10 px-2">$<?= prettynum($user_class->totaltax) ?></td>
-                    <th width="10%">???:</th>
+                    <th width="10%" class="bg-white/5 px-2">???:</th>
                     <td width="30%" class="bg-white/10 px-2"><?= prettynum($user_class->crimefailed) ?></td>
                 </tr>
             </table>
