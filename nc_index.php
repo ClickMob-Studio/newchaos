@@ -177,6 +177,7 @@ include 'nc_header.php';
         </div>
 
     </div>
+
     <div class="w-full border border-white/10 bg-black/40 border-6 rounded-lg p-4 mt-4 text-white">
         <h1 class="text-lg font-medium">EXP Calculator</h1>
         <div class="d-flex">
@@ -193,4 +194,6 @@ include 'nc_header.php';
             </div>
         </div>
     </div>
-    <?php include "footer.php"; ?>
+</div>
+
+<?php include "footer.php"; ?>
