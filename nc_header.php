@@ -611,23 +611,27 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
         </header>
 
         <?php if (!$user_class->is_ads_disabled): ?>
-            <div class="w-full flex flex-row gap-x-2 text-white border border-white/10 bg-black/40 border-6 rounded-lg p-4">
-                <?php
-                $now = time();
+            <div class="max-w-7xl mx-auto">
 
-                $db->query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > ? ORDER BY RAND() LIMIT 1");
-                $db->execute([$now]);
-                $advertisement = $db->fetch_row(true);
-                if (!empty($advertisement)) {
-                    $ads_user = read_user_for_advertisement($advertisement["poster"], $advertisement["displaymins"] * 60);
+                <div
+                    class="w-full flex flex-row gap-x-2 text-white border border-white/10 bg-black/40 border-6 rounded-lg p-2">
+                    <?php
+                    $now = time();
 
-                    $avatar = $ads_user->avatar ?: "/images/no-avatar.png";
-                    $formattedname = formatName($ads_user->id);
+                    $db->query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > ? ORDER BY RAND() LIMIT 1");
+                    $db->execute([$now]);
+                    $advertisement = $db->fetch_row(true);
+                    if (!empty($advertisement)) {
+                        $ads_user = read_user_for_advertisement($advertisement["poster"], $advertisement["displaymins"] * 60);
 
-                    echo "<span>" . $formattedname . "</span>";
-                    echo "<span>" . $advertisement['message'] . "</span>";
-                }
-                ?>
+                        $avatar = $ads_user->avatar ?: "/images/no-avatar.png";
+                        $formattedname = formatName($ads_user->id);
+
+                        echo "<span>" . $formattedname . "</span>";
+                        echo "<span>" . $advertisement['message'] . "</span>";
+                    }
+                    ?>
+                </div>
             </div>
         <?php endif; ?>
 
