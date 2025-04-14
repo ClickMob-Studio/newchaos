@@ -185,7 +185,7 @@ include 'nc_header.php';
             <div class="flex flex-col p-2" style="border-right:thin solid #333;">
                 What level are you aiming for?
                 <input type="text" oninput="calcEXP();" id="levelcalc" size="8"
-                    class="bg-white/10 border min-w-md max-w-md border-gray rounded-lg" />
+                    class="bg-white/10 border min-w-md max-w-md border-gray rounded-lg mt-1" />
             </div>
             <div class="p-2">
                 <span id="levelrtn">
