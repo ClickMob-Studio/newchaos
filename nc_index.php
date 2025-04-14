@@ -159,23 +159,6 @@ include 'nc_header.php';
                 </tr>
             </table>
 
-            <div class="content-head text-white mt-4">
-                <h1 class="text-lg text-white font-medium">EXP Calculator</h1>
-                <div class="d-flex">
-                    <div class="flex p-2" style="border-right:thin solid #333;">
-                        What level are you aiming for?
-                        <input type="text" oninput="calcEXP();" id="levelcalc" size="8"
-                            class="bg-white/10 border border-gray rounded-lg" />
-                    </div>
-                    <div class="flex flex-col p-2">
-                        <span id="levelrtn">
-                            You need <?= prettynum(experience($user_class->level + 1) - $user_class->exp); ?>
-                            EXP to get to level <?= prettynum($user_class->level + 1); ?>.
-                        </span>
-                    </div>
-                </div>
-            </div>
-
             <div class="text-center mt-4">
                 <div class="d-flex flex-wrap justify-content-center">
                     <a href="achievements.php"
@@ -189,6 +172,23 @@ include 'nc_header.php';
                         Log]</a>
                     <a href="muglog.php" class="p-2 text-white/80 hover:text-white bg-secondary m-2">[Mug Log]</a>
                     <a href="spylog.php" class="p-2 text-white/80 hover:text-white bg-secondary m-2">[Spy Log]</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full border border-white/10 bg-black/40 border-6 rounded-lg p-4 mt-4 text-white">
+            <h1 class="text-lg font-medium">EXP Calculator</h1>
+            <div class="d-flex">
+                <div class="flex p-2" style="border-right:thin solid #333;">
+                    What level are you aiming for?
+                    <input type="text" oninput="calcEXP();" id="levelcalc" size="8"
+                        class="bg-white/10 border border-gray rounded-lg" />
+                </div>
+                <div class="flex flex-col p-2">
+                    <span id="levelrtn">
+                        You need <?= prettynum(experience($user_class->level + 1) - $user_class->exp); ?>
+                        EXP to get to level <?= prettynum($user_class->level + 1); ?>.
+                    </span>
                 </div>
             </div>
         </div>
