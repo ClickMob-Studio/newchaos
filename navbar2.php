@@ -244,7 +244,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
     </div>
 
     <!-- Mobile Bar -->
-    <div class="bg-black/40 md:hidden border-b border-black/10 pt-1 pb-2">
+    <div class="bg-black/50 md:hidden border-b border-black/10 pt-1 pb-2">
         <div class="mx-auto max-w-7xl px-0">
             <div class="justify-around flex h-12 items-center gap-x-4 overflow-scroll text-white whitespace-nowrap px-2"
                 style="scrollbar-width: none;">
@@ -301,7 +301,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
     </div>
 
     <!-- Secondary bar -->
-    <div class="bg-black/40">
+    <div class="bg-black/50">
         <div class="mx-auto max-w-7xl px-2 md:px-6 lg:px-8 py-4 md:py-0">
             <div class="relative flex flex-col gap-y-2 md:gap-y-0 md:flex-row md:h-14 items-center justify-between">
                 <!-- Character Currencies, eg. Cash, Bank, Points & Gold -->
