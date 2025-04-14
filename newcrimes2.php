@@ -47,6 +47,7 @@ if (empty($crimes)) {
         <h2 class="text-xl text-white">Serial Crimes</h2>
         <div class="mt-4 mb-2">
           <span class="text-white font-medium">Select Crime</span>
+
           <div class="border-2 border-white/10 rounded-lg mt-1">
             <select class="w-full text-white bg-black/40 text-sm rounded-lg p-2.5 block"
               style="border-right: 12px solid transparent !important;">
@@ -54,12 +55,47 @@ if (empty($crimes)) {
             </select>
           </div>
         </div>
+
         <div class="mt-4 mb-2">
           <span class="text-white font-medium">Multiplier</span>
 
+          <div class="flex flex-row pt-1 gap-x-1 select-none">
+            <div
+              class="py-1 w-50 bg-black/40 text-center items-center my-auto text-sm text-white border-2 border-white/50 rounded-lg">
+              5
+            </div>
+            <div
+              class="py-1 w-50 bg-black/40 text-center items-center my-auto text-sm text-white/80 border-2 border-white/10 rounded-lg">
+              10
+            </div>
+            <div
+              class="py-1 w-50 bg-black/40 text-center items-center my-auto text-sm text-white/80 border-2 border-white/10 rounded-lg">
+              25
+            </div>
+            <div
+              class="py-1 w-50 bg-black/40 text-center items-center my-auto text-sm text-white/80 border-2 border-white/10 rounded-lg">
+              50
+            </div>
+            <div
+              class="py-1 w-50 bg-black/40 text-center items-center my-auto text-sm text-white/80 border-2 border-white/10 rounded-lg">
+              100
+            </div>
+            <div
+              class="py-1 w-50 bg-black/40 text-center items-center my-auto text-sm text-white/80 border-2 border-white/10 rounded-lg">
+              500
+            </div>
+            <div
+              class="py-1 w-50 bg-black/40 text-center items-center my-auto text-sm text-white/80 border-2 border-white/10 rounded-lg">
+              1k
+            </div>
+            <div
+              class="py-1 w-50 bg-black/40 text-center items-center my-auto text-sm text-white/80 border-2 border-white/10 rounded-lg">
+              5k
+            </div>
+          </div>
         </div>
       </div>
-      
+
       <div class="w-full border border-white/10 bg-black/40 border-6 rounded-lg p-4"></div>
 </div>
 
