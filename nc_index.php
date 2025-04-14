@@ -161,11 +161,12 @@ include 'nc_header.php';
             <div class="content-head">
                 <h1>EXP Calculator</h1>
                 <div class="d-flex">
-                    <div class="flex-fill p-2" style="border-right:thin solid #333;">
-                        What level are you aiming for? <input type="text" oninput="calcEXP();" id="levelcalc"
-                            size="8" />
+                    <div class="flex p-2" style="border-right:thin solid #333;">
+                        What level are you aiming for?
+                        <input type="text" oninput="calcEXP();" id="levelcalc" size="8"
+                            class="bg-white/10 border border-gray rounded-lg" />
                     </div>
-                    <div class="flex-fill p-2">
+                    <div class="flex flex-col p-2">
                         <span id="levelrtn">
                             You need <?= prettynum(experience($user_class->level + 1) - $user_class->exp); ?>
                             EXP to get to level <?= prettynum($user_class->level + 1); ?>.
@@ -176,13 +177,17 @@ include 'nc_header.php';
 
             <div class="text-center mt-4">
                 <div class="d-flex flex-wrap justify-content-center">
-                    <a href="achievements.php" class="p-2 text-white bg-secondary m-2">[Achievements]</a>
-                    <a href="translog.php" class="p-2 text-white bg-secondary m-2">[Transfer Logs]</a>
-                    <a href="attackv2_logs.php" class="p-2 text-white bg-secondary m-2">[Attack Log NEW]</a>
-                    <a href="attacklog.php" class="p-2 text-white bg-secondary m-2">[Attack Log]</a>
-                    <a href="defenselog.php" class="p-2 text-white bg-secondary m-2">[Defense Log]</a>
-                    <a href="muglog.php" class="p-2 text-white bg-secondary m-2">[Mug Log]</a>
-                    <a href="spylog.php" class="p-2 text-white bg-secondary m-2">[Spy Log]</a>
+                    <a href="achievements.php"
+                        class="p-2 text-white/80 hover:text-white bg-secondary m-2">[Achievements]</a>
+                    <a href="translog.php" class="p-2 text-white/80 hover:text-white bg-secondary m-2">[Transfer
+                        Logs]</a>
+                    <a href="attackv2_logs.php" class="p-2 text-white/80 hover:text-white bg-secondary m-2">[Attack Log
+                        NEW]</a>
+                    <a href="attacklog.php" class="p-2 text-white/80 hover:text-white bg-secondary m-2">[Attack Log]</a>
+                    <a href="defenselog.php" class="p-2 text-white/80 hover:text-white bg-secondary m-2">[Defense
+                        Log]</a>
+                    <a href="muglog.php" class="p-2 text-white/80 hover:text-white bg-secondary m-2">[Mug Log]</a>
+                    <a href="spylog.php" class="p-2 text-white/80 hover:text-white bg-secondary m-2">[Spy Log]</a>
                 </div>
             </div>
         </div>
