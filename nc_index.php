@@ -158,7 +158,7 @@ include 'nc_header.php';
                     <td width="30%"><?= prettynum($user_class->crimefailed) ?></td>
                 </tr>
             </table>
-            <div class="content-head">
+            <div class="content-head text-white">
                 <h1>EXP Calculator</h1>
                 <div class="d-flex">
                     <div class="flex p-2" style="border-right:thin solid #333;">
