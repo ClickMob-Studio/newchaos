@@ -32,41 +32,41 @@ include 'nc_header.php';
         <div class="table-container">
             <table id="newtables" class="w-full text-white">
                 <tr>
-                    <th width="10%">Name:</th>
+                    <th width="10%" class="bg-white/5 px-2">Name:</th>
                     <td width="30%" class="bg-white/10 px-2">
                         <a href="profiles.php?id=<?= $user_class->id ?>"><?= $user_class->formattedname ?></a>
                     </td>
-                    <th width="10%">HP:</th>
+                    <th width="10%" class="bg-white/5 px-2">HP:</th>
                     <td width="30%" class="bg-white/10 px-2"><?= prettynum($user_class->formattedhp) ?></td>
                 </tr>
                 <tr>
-                    <th width="10%">Level:</th>
+                    <th width="10%" class="bg-white/5 px-2">Level:</th>
                     <td width="30%" class="bg-white/10 px-2"><?= $user_class->level ?></td>
-                    <th width="10%">Energy:</th>
+                    <th width="10%" class="bg-white/5 px-2">Energy:</th>
                     <td width="30%" class="bg-white/10 px-2"><?= prettynum($user_class->formattedenergy) ?></td>
                 </tr>
                 <tr>
-                    <th width="10%">Money:</th>
+                    <th width="10%" class="bg-white/5 px-2">Money:</th>
                     <td width="30%" class="bg-white/10 px-2">$<?= prettynum($user_class->money) ?></td>
-                    <th width="10%">Awake:</th>
+                    <th width="10%" class="bg-white/5 px-2">Awake:</th>
                     <td width="30%" class="bg-white/10 px-2"><?= prettynum($user_class->formattedawake) ?></td>
                 </tr>
                 <tr>
-                    <th width="10%">Bank:</th>
+                    <th width="10%" class="bg-white/5 px-2">Bank:</th>
                     <td width="30%" class="bg-white/10 px-2">$<?= prettynum($user_class->bank) ?></td>
-                    <th width="10%">Nerve:</th>
+                    <th width="10%" class="bg-white/5 px-2">Nerve:</th>
                     <td width="30%" class="bg-white/10 px-2"><?= prettynum($user_class->formattednerve) ?></td>
                 </tr>
                 <tr>
-                    <th width="10%">EXP:</th>
+                    <th width="10%" class="bg-white/5 px-2">EXP:</th>
                     <td width="30%" class="bg-white/10 px-2"><?= prettynum($user_class->formattedexp) ?></td>
-                    <th width="10%">Work EXP:</th>
+                    <th width="10%" class="bg-white/5 px-2">Work EXP:</th>
                     <td width="30%" class="bg-white/10 px-2"><?= prettynum($user_class->workexp) ?></td>
                 </tr>
                 <tr>
-                    <th width="10%">RM Days:</th>
+                    <th width="10%" class="bg-white/5 px-2">RM Days:</th>
                     <td width="30%" class="bg-white/10 px-2"><?= prettynum($user_class->rmdays) ?></td>
-                    <th width="10%">Activity Points:</th>
+                    <th width="10%" class="bg-white/5 px-2">Activity Points:</th>
                     <td width="30%" class="bg-white/10 px-2"><a href="spendactivity.php">Activity Points Store
                             [<?= prettynum($user_class->apoints) ?> Activity Points]</td>
                 </tr>
@@ -75,23 +75,23 @@ include 'nc_header.php';
             <h1>Stat Information</h1>
             <table id="newtables" class="w-full text-white">
                 <tr>
-                    <th width="15%">Strength:</th>
+                    <th width="15%" class="bg-white/5 px-2">Strength:</th>
                     <td class="bg-white/10 px-2"><?= prettynum($user_class->strength) ?></td>
                     <td class="bg-white/10 px-2">[Ranked: <?= getRank("$user_class->id", "strength") ?>]</td>
-                    <th width="15%">Defense:</th>
+                    <th width="15%" class="bg-white/5 px-2">Defense:</th>
                     <td class="bg-white/10 px-2"><?= prettynum($user_class->defense) ?></td>
                     <td class="bg-white/10 px-2">[Ranked: <?= getRank("$user_class->id", "defense") ?>]</td>
                 </tr>
                 <tr>
-                    <th width="15%">Speed:</th>
+                    <th width="15%" class="bg-white/5 px-2">Speed:</th>
                     <td class="bg-white/10 px-2"><?= prettynum($user_class->speed) ?></td>
                     <td class="bg-white/10 px-2">[Ranked: <?= getRank("$user_class->id", "speed") ?>]</td>
-                    <th width="15%">Agility:</th>
+                    <th width="15%" class="bg-white/5 px-2">Agility:</th>
                     <td class="bg-white/10 px-2"><?= prettynum($user_class->agility) ?></td>
                     <td class="bg-white/10 px-2">[Ranked: <?= getRank("$user_class->id", "agility") ?>]</td>
                 </tr>
                 <tr>
-                    <th width="15%">Total:</th>
+                    <th width="15%" class="bg-white/5 px-2">Total:</th>
                     <td class="bg-white/10 px-2"><?= prettynum($user_class->totalattrib) ?></td>
                     <td class="bg-white/10 px-2">[Ranked: <?= getRank("$user_class->id", "total") ?>]</td>
                 </tr>
@@ -100,35 +100,35 @@ include 'nc_header.php';
             <h1>Modded Stats Information</h1>
             <table id="newtables" class="w-full text-white">
                 <tr>
-                    <th width="15%">Modded Strength:</th>
+                    <th width="15%" class="bg-white/5 px-2">Modded Strength:</th>
                     <td width="25%" class="bg-white/10 px-2"><?= prettynum($user_class->moddedstrength) ?></td>
-                    <th width="15%">Modded Defense:</th>
+                    <th width="15%" class="bg-white/5 px-2">Modded Defense:</th>
                     <td width="25%" class="bg-white/10 px-2"><?= prettynum($user_class->moddeddefense) ?></td>
                 </tr>
                 <tr>
-                    <th width="15%">Modded Speed:</th>
+                    <th width="15%" class="bg-white/5 px-2">Modded Speed:</th>
                     <td width="25%" class="bg-white/10 px-2"><?= prettynum($user_class->moddedspeed) ?></td>
-                    <th width="15%">Modded Agility:</th>
+                    <th width="15%" class="bg-white/5 px-2">Modded Agility:</th>
                     <td width="25%" class="bg-white/10 px-2"><?= prettynum($user_class->moddedagility) ?></td>
                 </tr>
-                <th width="15%">Modded Total:</th>
+                <th width="15%" class="bg-white/5 px-2">Modded Total:</th>
                 <td width="25%" class="bg-white/10 px-2"><?= prettynum($user_class->moddedtotalattrib) ?></td>
-                <th width="15%"></th>
+                <th width="15%" class="bg-white/5 px-2"></th>
                 <td width="25%" class="bg-white/10 px-2"></td>
             </table>
 
             <h1>Battle Statistics</h1>
             <table id="newtables" class="w-full text-white">
                 <tr>
-                    <th width="10%">Won:</th>
+                    <th width="10%" class="bg-white/5 px-2">Won:</th>
                     <td width="30%" class="bg-white/10 px-2"><?= prettynum($user_class->battlewon) ?></td>
-                    <th width="10%">Lost:</th>
+                    <th width="10%" class="bg-white/5 px-2">Lost:</th>
                     <td width="30%" class="bg-white/10 px-2"><?= prettynum($user_class->battlelost) ?></td>
                 </tr>
                 <tr>
-                    <th width="10%">Total:</th>
+                    <th width="10%" class="bg-white/5 px-2">Total:</th>
                     <td width="30%" class="bg-white/10 px-2"><?= prettynum($user_class->battletotal) ?></td>
-                    <th width="10%">Money Gain:</th>
+                    <th width="10%" class="bg-white/5 px-2">Money Gain:</th>
                     <td width="30%" class="bg-white/10 px-2">$<?= prettynum($user_class->battlemoney) ?></td>
                 </tr>
             </table>
