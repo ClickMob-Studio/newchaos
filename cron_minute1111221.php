@@ -233,13 +233,7 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
     mysql_query($update_query);
 
 
-    // Your existing initialization code should be here
-
-
-    /// Your existing initialization code should be here
-
-    // Your existing initialization code should be here
-// New simulated battle logic
+    // New simulated battle logic
     $boss_hp = $raid['boss_hp'];  // Make sure you have this value from the database
     $boss_name = $raid['boss_name'];  // Make sure you have this value from the database
     $battle_log = "";
@@ -249,7 +243,6 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
     $participants_query = "SELECT rp.*, u.hp, u.strength, u.eqweapon, i.itemname FROM raid_participants rp JOIN grpgusers u ON rp.user_id = u.id LEFT JOIN items i ON u.eqweapon = i.id WHERE rp.raid_id = " . $raid['id'];
     $participants_result = mysql_query($participants_query);
 
-
     $participants = [];
     $total_strength = 0;
 
@@ -258,12 +251,14 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
         $total_strength += $participant['strength'];
     }
 
-    $tempItemUse = getItemTempUse($raid['summoned_by']);
-    if ($tempItemUse && $tempItemUse['raid_pass'] > 0) {
+    if ($raid['used_booster']) {
+        $battle_log .= 'A raid booster was used, boosting the earnings, and chance of finding items.\n';
+    }
+
+    if ($raid['used_pass']) {
         $raid_successful = 1;
         $boss_hp = 0;
-
-        removeItemTempUse($raid['summoned_by'], 'raid_pass', 1);
+        $battle_log .= 'A raid pass was used and the raid was successful.\n';
     }
 
     /// Turn-based battle simulation
@@ -378,18 +373,15 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
             $money_won = rand($total_min_money, $total_max_money);
             $raidpoints_won = rand($total_min_raidpoints, $total_max_raidpoints);  // New
 
-            $raidBoosterInUse = false;
-            if ($tempItemUse && $tempItemUse['raid_booster'] > 0) {
-                $points_won = $points_won + (($points_won / 100) * 50);
-                $money_won = $money_won + (($money_won / 100) * 50);
-                $raidpoints_won = $raidpoints_won + (($raidpoints_won / 100) * 50);
+            if ($raid['used_booster']) {
+                $points_won = $points_won + ($points_won / 2);
+                $money_won = $money_won + ($money_won / 2);
+                $raidpoints_won = $raidpoints_won + ($raidpoints_won / 2);
 
                 $points_won = ceil($points_won);
                 $money_won = ceil($money_won);
                 $raidpoints_won = ceil($raidpoints_won);
-
-                $raidBoosterInUse = true;
-                removeItemTempUse($raid['summoned_by'], 'raid_booster', 1);
+                // removeItemTempUse($raid['summoned_by'], 'raid_booster', 1);
             }
 
             // First, determine if the user has rmdays greater than 0
@@ -419,7 +411,7 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
                 foreach ($loot_table as $loot) {
                     $random_chance = rand(0, 100); // Generate a number between 0 and 100
 
-                    if (isset($raidBoosterInUse) && $raidBoosterInUse) {
+                    if ($raid['used_booster']) {
                         $random_chance = rand(0, 80);
                     }
 

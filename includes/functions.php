@@ -2214,9 +2214,7 @@ function addItemTempUse($user_class, $field, $qty = 1)
 
 function removeItemTempUse($userId, $field, $qty = 1)
 {
-    $itemTempUse = getItemTempUse($userId);
-
-    mysql_query("UPDATE item_temp_use SET {$field} = {$field} - {$qty} WHERE user_id = " . $userId);
+    mysql_query("UPDATE item_temp_use SET {$field} = {$field} - {$qty} WHERE {$field} > 0 user_id = " . $userId);
 }
 
 function removeFromInventory($userId, $item, $qty = 1)
