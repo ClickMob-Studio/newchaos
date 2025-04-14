@@ -618,13 +618,11 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                 $db->query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > ? ORDER BY RAND() LIMIT 1");
                 $db->execute([$now]);
                 $advertisement = $db->fetch_row(true);
-
-
                 if (!empty($advertisement)) {
                     $ads_user = read_user_for_advertisement($advertisement["poster"], $advertisement["displaymins"] * 60);
 
                     $avatar = $ads_user->avatar ?: "/images/no-avatar.png";
-                    $formattedname = formatName($ads_user['id']);
+                    $formattedname = formatName($ads_user->id);
 
                     echo "<span>" . $formattedname . "</span>";
                 }
