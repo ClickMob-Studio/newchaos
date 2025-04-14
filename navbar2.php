@@ -246,7 +246,8 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
     <!-- Mobile Bar -->
     <div class="bg-black/40 md:hidden border-b border-black/10 pt-1 pb-2">
         <div class="mx-auto max-w-7xl px-0">
-            <div class="flex h-12 items-center gap-x-4 overflow-scroll text-white whitespace-nowrap px-2">
+            <div class="flex h-12 items-center gap-x-4 overflow-scroll text-white whitespace-nowrap px-2"
+                style="scrollbar-width: none;">
                 <div class="flex flex-col items-center justify-center">
                     <img src="assets/images/svg/Home.svg" class="size-4">
                     <a href="">Home</a>
