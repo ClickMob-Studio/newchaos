@@ -118,7 +118,7 @@ if (empty($crimes)) {
 
         <div class="mt-4">
           <button type="submit"
-            class="uppercase bg-[#790000] w-full rounded-lg h-8 text-white font-medium tracking-wide">start
+            class="uppercase bg-[#790000] hover:cursor-pointer hover:bg-[#971b1b] w-full rounded-lg h-8 text-white font-medium tracking-wide">start
             crimes</button>
         </div>
       </div>
