@@ -381,7 +381,6 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
                 $points_won = ceil($points_won);
                 $money_won = ceil($money_won);
                 $raidpoints_won = ceil($raidpoints_won);
-                // removeItemTempUse($raid['summoned_by'], 'raid_booster', 1);
             }
 
             // First, determine if the user has rmdays greater than 0
