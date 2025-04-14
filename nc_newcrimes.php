@@ -205,5 +205,5 @@ if (isset($_GET['ner'])) {
 
 
 <?php
-include 'footer.php';
+include 'nc_footer.php';
 ?>

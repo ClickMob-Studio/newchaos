@@ -1,10 +1,4 @@
-</div>
-            </main>
-        </div>
-    </div>
-    </div>
-
-<footer class="text-center">
+<footer class="text-center text-white">
     &copy; ChaosCity | &nbsp;&nbsp; <a href="gamerules.php">Game Rules</a>
 </footer>
 </body>

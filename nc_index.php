@@ -197,4 +197,4 @@ include 'nc_header.php';
     </div>
 </div>
 
-<?php include "footer.php"; ?>
+<?php include "nc_footer.php"; ?>
