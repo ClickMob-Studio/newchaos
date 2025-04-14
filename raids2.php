@@ -256,7 +256,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['use_speedup'], $_POST
     $end_raid_query = "UPDATE active_raids SET summoned_at = DATE_SUB(NOW(), INTERVAL 15 MINUTE) WHERE id = $raid_id";
     mysql_query($end_raid_query);
 
-    header("Location: raids.php");
+    header("Location: raids2.php");
     exit;
 }
 
@@ -393,7 +393,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
         echo "<script>alert('$tokencost raid token(s) have been spent to summon the boss.');</script>";
 
         // Redirect to raids.php to refresh the page
-        header('Location: raids.php');
+        header('Location: raids2.php');
         exit;
     }
 }
@@ -504,7 +504,7 @@ foreach ($active_raids as $raid) {
         echo "<button class='btn btn-success' disabled>Joined</button>";
 
         if ($item_data['total_quantity'] > 0) {
-            echo "<form action='raids.php' method='post'>";
+            echo "<form action='raids2.php' method='post'>";
             echo "<input type='hidden' name='use_speedup' value='1'>";
             echo "<input type='hidden' name='raid_id' value='" . $raid['id'] . "'>";
             echo "<button type='submit'>Use Raid Speedups (" . $item_data['total_quantity'] . " left)</button>";
@@ -512,7 +512,7 @@ foreach ($active_raids as $raid) {
         }
     } else {
         if ($canJoin) {
-            echo "<form action='raids.php' method='post' style='display:inline;'>";
+            echo "<form action='raids2.php' method='post' style='display:inline;'>";
             echo "<input type='hidden' name='join_raid_id' value='" . $raid['id'] . "'>";
             echo "<button type='submit' class='btn btn-primary'>Join Raid</button>";
             echo "</form>";
