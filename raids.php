@@ -723,11 +723,13 @@ echo "</div>"; // Close active-raids-grid
                 echo "<p><strong>Level:</strong> " . $boss['level'] . "</p>";
 
                 if ($boss['id'] == 21) {
-                    echo "<p><strong>1 x Dracula Blood Bag to Summon:</strong></p>";
+                    echo "<p><strong>1 x Dracula Blood Bag to summon:</strong></p>";
                 } else if ($boss['id'] == 24) {
-                    echo "<p><strong>1 x Rare Egg Basket to Summon:</strong></p>";
+                    echo "<p><strong>1 x Rare Egg Basket to summon:</strong></p>";
+                } else if ($boss['id'] == 25) {
+                    echo "<p><strong>1 x Egg Key (Part 1), 1 x Egg Key (Part 2), and 100 tokens to summon:</strong></p>";
                 } else {
-                    echo "<p><strong>Token Cost to Summon:</strong> $tokencost</p>";
+                    echo "<p><strong>Token cost to summon:</strong> $tokencost</p>";
                 }
 
                 if ($pet && isset($pet['id']) && $pet['level'] >= $boss['level']) {
