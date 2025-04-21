@@ -1025,6 +1025,7 @@ if (time() < 1746439200) {
 $db->query("SELECT * FROM `referrals` WHERE `credited` = 0");
 $db->execute();
 $referrals = $db->fetch_row();
+error_log("[REF] Amount of referrals: " . count($referrals));
 foreach ($referrals as $line) {
     error_log("[REF] Referrer: " . $line['referrer'] . " Referred: " . $line['referred'] . " ID: " . $line['id']);
     $referred_class = new User($line['referred']);
