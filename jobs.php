@@ -135,7 +135,7 @@ include 'header.php';
                             <th rowspan="2">Apply</th>
                         </tr>
                         <tr>
-                            <th>Level</th>
+                            <th colspan="2">Level</th>
                             <th>Cash</th>
                             <th>Points</th>
                         </tr>
