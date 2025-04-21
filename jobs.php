@@ -130,12 +130,12 @@ include 'header.php';
                     <thead>
                         <tr>
                             <th rowspan="2">Job</th>
-                            <th colspan="2">Requirements</th>
+                            <th>Requirements</th>
                             <th colspan="2">Hourly Payment</th>
                             <th rowspan="2">Apply</th>
                         </tr>
                         <tr>
-                            <th rowspan="2">Level</th>
+                            <th>Level</th>
                             <th>Cash</th>
                             <th>Points</th>
                         </tr>
