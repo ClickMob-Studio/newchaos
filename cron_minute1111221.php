@@ -508,6 +508,18 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
                 }
             }
 
+            // Check if they have token and this raid is Miss Yolk or Don Egghopper
+            if ($raid['boss_id'] == 23) {
+                $missYolkToken = Check_Item(349, $participant['user_id']);
+                if ($missYolkToken == 0) {
+                    Give_Item(349, $participant['user_id'], 10);
+                }
+            } else if ($raid['boss_id'] == 24) {
+                $donToken = Check_Item(350, $participant['user_id']);
+                if ($donToken == 0) {
+                    Give_Item(350, $participant['user_id'], 10);
+                }
+            }
 
 
             // Here, you can send or display $event_message as needed

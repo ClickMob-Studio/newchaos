@@ -317,6 +317,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
             echo "<script>alert('You need a Rare Egg Basket to raid Don Egghopper.');</script>";
             return;  // Exit early so the rest of the code doesn't run
         }
+    } else if ($boss_id == 25) {
+        $totalKeys1 = check_items(349, $user_class->id);
+        $totalKeys2 = check_items(350, $user_class->id);
+        if (!$totalKeys1 || !$totalKeys2) {
+            echo "<script>alert('You need the two keys to raid the Egg Lab.');</script>";
+            return;  // Exit early so the rest of the code doesn't run
+        }
     } else {
         if ($user_tokens < $tokencost) {
             echo "<script>alert('You do not have enough raid tokens to summon this boss. Required: $tokencost raid token(s).');</script>";
@@ -388,6 +395,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
             Take_Item(285, $user_class->id, 1);
         } else if ($boss_id == 24) {
             Take_Item(344, $user_class->id, 1);
+        } else if ($boss_id == 25) {
+            Take_Item(349, $user_class->id, 1);
+            Take_Item(350, $user_class->id, 1);
         }
 
         echo "<script>alert('$tokencost raid token(s) have been spent to summon the boss.');</script>";
