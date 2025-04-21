@@ -52,10 +52,13 @@ if ($user_class->gang != 0) {
         $qty = floor($qty);
         security($qty);
         $howmany = Check_Item($_POST['armoury'], $user_class->id);
-        $result2 = mysql_query("SELECT * FROM items WHERE id = {$_POST['armoury']}");
-        $worked = mysql_fetch_array($result2);
         if ($howmany < $qty)
             diefun("You don't have enough of those.");
+
+        $result2 = mysql_query("SELECT * FROM items WHERE id = {$_POST['armoury']} AND shareable = 1");
+        $worked = mysql_fetch_array($result2);
+        if (empty($worked))
+            diefun("You can't donate that item.");
 
         AddToArmory($_POST['armoury'], $user_class->gang, $qty);
         Take_Item($_POST['armoury'], $user_class->id, $qty);
