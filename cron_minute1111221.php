@@ -1026,11 +1026,8 @@ $db->query("SELECT * FROM referrals WHERE credited = '0'");
 $db->execute();
 $referrals = $db->fetch_row(true);
 foreach ($referrals as $line) {
-    $db->query("SELECT * FROM grpgusers WHERE id = ?");
-    $db->execute([$line['referred']]);
-    $referred = $db->fetch_row(true);
-
-    if ($referred['level'] < 10) {
+    $referred_class = new User($line['referred']);
+    if ($referred_class->level < 10) {
         continue;
     }
 
@@ -1046,9 +1043,7 @@ foreach ($referrals as $line) {
     $db->query("UPDATE referrals SET credited = 1, viewed = 1 WHERE referred = ?");
     $db->execute([$line['id']]);
 
-    $referred_class = new User($line['referred']);
     Send_Event($line['referrer'], "You have been credited $addCredits Credits & $addPoints Points for referring [-_USERID_-]. Keep up the good work!", $line['referred']);
     Send_Event(1, 'USER ID: ' . $line['referred'] . ' referral for ' . $referred_class->formattedname . ' payed out');
     Send_Event(2, 'USER ID: ' . $line['referred'] . ' referral for ' . $referred_class->formattedname . ' payed out');
-
 }
