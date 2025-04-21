@@ -35,7 +35,7 @@ include 'header.php';
             $db->query("UPDATE referrals SET credited = 1, viewed = 1 WHERE referred = ?");
             $db->execute([$user_class->id]);
 
-            Send_Event($line['referrer'], "You have been credited 50 Credits & 100 Points for referring [-_USERID_-]. Keep up the good work!", $line['referred']);
+            Send_Event($line['referrer'], "You have been credited $addCredits Credits & $addPoints Points for referring [-_USERID_-]. Keep up the good work!", $line['referred']);
             Send_Event(1, 'USER ID: ' . $line['referred'] . ' referral for ' . $user_class->formattedname . ' payed out');
             Send_Event(2, 'USER ID: ' . $line['referred'] . ' referral for ' . $user_class->formattedname . ' payed out');
 
