@@ -1026,13 +1026,14 @@ $db->query("SELECT * FROM referrals WHERE credited = '0'");
 $db->execute();
 $referrals = $db->fetch_row(true);
 foreach ($referrals as $line) {
+    error_log("[REF] Referrer: " . $line['referrer'] . " Referred: " . $line['referred'] . " ID: " . $line['id']);
     $referred_class = new User($line['referred']);
     if ($referred_class->level < 10) {
+        error_log("[REF] User {$line['referred']} is below level 10, skipping referral credit.");
         continue;
     }
 
     bloodbath('referrals', $line['referrer']);
-
     $db->query("UPDATE grpgusers SET credits = credits + ?, points = points + ?, referrals = referrals + 1, refcomp = refcomp + 1, refcount = refcount + 1 WHERE referred = ?");
     $db->execute([
         $addCredits,
@@ -1046,4 +1047,6 @@ foreach ($referrals as $line) {
     Send_Event($line['referrer'], "You have been credited $addCredits Credits & $addPoints Points for referring [-_USERID_-]. Keep up the good work!", $line['referred']);
     Send_Event(1, 'USER ID: ' . $line['referred'] . ' referral for ' . $referred_class->formattedname . ' payed out');
     Send_Event(2, 'USER ID: ' . $line['referred'] . ' referral for ' . $referred_class->formattedname . ' payed out');
+
+    error_log("[REF] User {$line['referrer']} credited $addCredits credits and $addPoints points for referral of user {$line['referred']}.");
 }
