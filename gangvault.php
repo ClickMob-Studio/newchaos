@@ -188,6 +188,9 @@ $result = mysql_query("SELECT * FROM inventory WHERE userid = {$user_class->id} 
 while ($rank = mysql_fetch_array($result)) {
     $result2 = mysql_query("SELECT * FROM items WHERE id='" . $rank['itemid'] . "' and shareable = 1");
     $worked = mysql_fetch_array($result2);
+    
+    if (empty($worked)) continue;
+
     echo "<option value='{$rank['itemid']}'>{$worked['itemname']} [x{$rank['quantity']}]</option>";
 }
 echo '</select>';
