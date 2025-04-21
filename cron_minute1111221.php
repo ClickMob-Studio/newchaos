@@ -893,42 +893,42 @@ foreach ($rows as $r) {
 }
 
 
-// $addCredits = 50;
-// $addPoints = 100;
-// if (time() < 1746439200) {
-//     $addCredits = 100;
-//     $addPoints = 200;
-// }
+$addCredits = 50;
+$addPoints = 100;
+if (time() < 1746439200) {
+    $addCredits = 100;
+    $addPoints = 200;
+}
 
-// $db->query("SELECT * FROM `referrals` WHERE `credited` = 0");
-// $db->execute();
-// $referrals = $db->fetch_row();
-// error_log("[REF] Amount of referrals: " . count($referrals));
-// foreach ($referrals as $line) {
-//     error_log("[REF] Referrer: " . $line['referrer'] . " Referred: " . $line['referred'] . " ID: " . $line['id']);
-//     $referred_class = new User($line['referred']);
-//     if ($referred_class->level < 10) {
-//         error_log("[REF] User {$line['referred']} is below level 10, skipping referral credit.");
-//         continue;
-//     }
+$db->query("SELECT * FROM `referrals` WHERE `credited` = 0");
+$db->execute();
+$referrals = $db->fetch_row();
+error_log("[REF] Amount of referrals: " . count($referrals));
+foreach ($referrals as $line) {
+    error_log("[REF] Referrer: " . $line['referrer'] . " Referred: " . $line['referred'] . " ID: " . $line['id']);
+    $referred_class = new User($line['referred']);
+    if ($referred_class->level < 10) {
+        error_log("[REF] User {$line['referred']} is below level 10, skipping referral credit.");
+        continue;
+    }
 
-//     bloodbath('referrals', $line['referrer']);
-//     $db->query("UPDATE grpgusers SET credits = credits + ?, points = points + ?, referrals = referrals + 1, refcomp = refcomp + 1, refcount = refcount + 1 WHERE id = ?");
-//     $db->execute([
-//         $addCredits,
-//         $addPoints,
-//         $line['referrer'],
-//     ]);
+    bloodbath('referrals', $line['referrer']);
+    $db->query("UPDATE grpgusers SET credits = credits + ?, points = points + ?, referrals = referrals + 1, refcomp = refcomp + 1, refcount = refcount + 1 WHERE id = ?");
+    $db->execute([
+        $addCredits,
+        $addPoints,
+        $line['referrer'],
+    ]);
 
-//     $db->query("UPDATE referrals SET credited = 1, viewed = 1 WHERE referred = ?");
-//     $db->execute([$line['referred']]);
+    $db->query("UPDATE referrals SET credited = 1, viewed = 1 WHERE referred = ?");
+    $db->execute([$line['referred']]);
 
-//     Send_Event($line['referrer'], "You have been credited $addCredits Credits & $addPoints Points for referring [-_USERID_-]. Keep up the good work!", $line['referred']);
-//     Send_Event(1, 'USER ID: ' . $line['referred'] . ' referral for ' . $referred_class->formattedname . ' payed out');
-//     Send_Event(2, 'USER ID: ' . $line['referred'] . ' referral for ' . $referred_class->formattedname . ' payed out');
+    Send_Event($line['referrer'], "You have been credited $addCredits Credits & $addPoints Points for referring [-_USERID_-]. Keep up the good work!", $line['referred']);
+    Send_Event(1059, 'USER ID: ' . $line['referred'] . ' referral for ' . $referred_class->formattedname . ' payed out');
+    Send_Event(1034, 'USER ID: ' . $line['referred'] . ' referral for ' . $referred_class->formattedname . ' payed out');
 
-//     error_log("[REF] User {$line['referrer']} credited $addCredits credits and $addPoints points for referral of user {$line['referred']}.");
-// }
+    error_log("[REF] User {$line['referrer']} credited $addCredits credits and $addPoints points for referral of user {$line['referred']}.");
+}
 
 // Fetch the latest Bloodbath results where rewards haven't been distributed yet and winners column has data
 $query = "SELECT * FROM bloodbath WHERE is_paid = 0 AND winners != '' AND endtime < " . time() . " ORDER BY endtime DESC LIMIT 1";
