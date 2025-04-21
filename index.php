@@ -13,34 +13,6 @@ include 'header.php';
         Send_Event2($user_class->id, "Is the latest thug on the streets.", $user_class->id);
         Send_Event($user_class->id, "<div class='text-white'>Welcome To Chaos City!<br>To get you started we are giving you:</div><div class='fw-bold text-white'>&bull; 3 VIP Days<br>&bull; $100,000 Cash<br>&bull; 1,250 Points</div>", $user_class->id);
     }
-    if ($user_class->level >= 10) {
-        $line = mysql_fetch_array(mysql_query("SELECT * FROM referrals WHERE referred = " . $user_class->id . " AND credited = '0'"));
-        if (mysql_num_rows($line)) {
-            bloodbath('referrals', $line['referrer']);
-
-            $addCredits = 50;
-            $addPoints = 100;
-            if (time() < 1746439200) {
-                $addCredits = 100;
-                $addPoints = 200;
-            }
-
-            $db->query("UPDATE grpgusers SET credits = credits + ?, points = points + ?, referrals = referrals + 1, refcomp = refcomp + 1, refcount = refcount + 1 WHERE referred = ?");
-            $db->execute([
-                $addCredits,
-                $addPoints,
-                $user_class->id
-            ]);
-
-            $db->query("UPDATE referrals SET credited = 1, viewed = 1 WHERE referred = ?");
-            $db->execute([$user_class->id]);
-
-            Send_Event($line['referrer'], "You have been credited $addCredits Credits & $addPoints Points for referring [-_USERID_-]. Keep up the good work!", $line['referred']);
-            Send_Event(1, 'USER ID: ' . $line['referred'] . ' referral for ' . $user_class->formattedname . ' payed out');
-            Send_Event(2, 'USER ID: ' . $line['referred'] . ' referral for ' . $user_class->formattedname . ' payed out');
-
-        }
-    }
 
     ?>
     <h1>General Information</h1>
