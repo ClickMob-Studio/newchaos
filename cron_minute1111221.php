@@ -913,11 +913,11 @@ foreach ($referrals as $line) {
     }
 
     bloodbath('referrals', $line['referrer']);
-    $db->query("UPDATE grpgusers SET credits = credits + ?, points = points + ?, referrals = referrals + 1, refcomp = refcomp + 1, refcount = refcount + 1 WHERE referred = ?");
+    $db->query("UPDATE grpgusers SET credits = credits + ?, points = points + ?, referrals = referrals + 1, refcomp = refcomp + 1, refcount = refcount + 1 WHERE id = ?");
     $db->execute([
         $addCredits,
         $addPoints,
-        $line['id'],
+        $line['referrer'],
     ]);
 
     $db->query("UPDATE referrals SET credited = 1, viewed = 1 WHERE referred = ?");
