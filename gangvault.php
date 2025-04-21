@@ -56,6 +56,7 @@ if ($user_class->gang != 0) {
         $worked = mysql_fetch_array($result2);
         if ($howmany < $qty)
             diefun("You don't have enough of those.");
+
         AddToArmory($_POST['armoury'], $user_class->gang, $qty);
         Take_Item($_POST['armoury'], $user_class->id, $qty);
         echo Message("You have donated [x$qty] " . $worked['itemname'] . " to your gang.");
@@ -185,7 +186,7 @@ echo '<select class="form-select" name="armoury">';
 echo '<option value=""></option>';
 $result = mysql_query("SELECT * FROM inventory WHERE userid = {$user_class->id} ORDER BY quantity DESC");
 while ($rank = mysql_fetch_array($result)) {
-    $result2 = mysql_query("SELECT * FROM items WHERE id='" . $rank['itemid'] . "'");
+    $result2 = mysql_query("SELECT * FROM items WHERE id='" . $rank['itemid'] . "' and shareable = 1");
     $worked = mysql_fetch_array($result2);
     echo "<option value='{$rank['itemid']}'>{$worked['itemname']} [x{$rank['quantity']}]</option>";
 }
