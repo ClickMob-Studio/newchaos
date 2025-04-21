@@ -5,21 +5,23 @@ if (session_status() == PHP_SESSION_NONE) {
 include 'header.php';
 ?>
 <style>
-    .card{
- background: none;
+    .card {
+        background: none;
     }
-    .table{
-        color:#fff;
+
+    .table {
+        color: #fff;
     }
-    .btn-primary{
+
+    .btn-primary {
         margin: 10px;
         padding: 10px;
         width: auto;
         border: solid var(--colorHighlight) 1px !important;
         text-transform: uppercase;
-    background: #000000c4;
+        background: #000000c4;
     }
- </style>
+</style>
 <h1 class="text-center mt-4">Jobs</h1>
 <div class="container">
     <p class="d-none d-sm-block d-md-none">Scroll to see the rest of the information</p>
@@ -76,17 +78,13 @@ include 'header.php';
                     $user_class->id
                 ));
             }
-            if (isset($_GET['action']) AND $_GET['action'] == "quit") {
+            if (isset($_GET['action']) and $_GET['action'] == "quit") {
                 $user_class->job = 0;
                 $db->query("UPDATE grpgusers SET job = ? WHERE id = ?");
                 $db->execute(array(
                     $user_class->job,
                     $user_class->id
                 ));
-//                $db->query("UPDATE jobinfo SET dailyClockins = 0 WHERE userid = ?");
-//                $db->execute(array(
-//                    $user_class->id
-//                ));
             }
             if (isset($_GET['take'])) {
                 $db->query("SELECT * FROM jobs WHERE id = ?");
@@ -96,8 +94,8 @@ include 'header.php';
                 if (!$db->num_rows())
                     diefun("This job is not available.");
                 $row = $db->fetch_row(true);
-                if (($row['level'] > $user_class->level) || ($row['total'] > $user_class->total) || ($row['prestige'] > $user_class->prestige))
-                    diefun("You don't have the needed skills or level to take this job.<br />");
+                if (($row['level'] > $user_class->level) || ($row['prestige'] > $user_class->prestige))
+                    diefun("You don't have the needed level to take on this job.<br />");
                 $user_class->job = $_GET['take'];
                 $db->query("UPDATE grpgusers SET job = ? WHERE id = ?");
                 $db->execute(array(
@@ -116,13 +114,13 @@ include 'header.php';
                 ));
                 $row = $db->fetch_row(true);
                 echo '<div class="p-4 rounded text-center">';
-                    echo 'You are currently a ' . $row['name'] . '<br />';
-                    echo 'You make <span class="text-success">' . prettynum($row['money'] * (1 + ($jobinfo['addedPercent'] / 100)), 1) . '</span> & ' . prettynum($row['points']) . ' Points Per Hour<br />';
-                    echo '<br />';
-                    echo 'You last clocked in <span class="text-danger">', ($jobinfo['lastClockin'] == 0) ? 'never' : date('h:i:s a', $jobinfo['lastClockin']), '</span>.<br />';
-                    echo 'You clocked in <span class="text-danger">' . $user_class->dailyClockins . '</span> time', ($user_class->dailyClockins == 1) ? '' : 's', ' today.<br />';
-                    echo '<br />';
-                    echo '<a href="jobs.php?clockin" class="btn btn-primary">Clockin</a>';
+                echo 'You are currently a ' . $row['name'] . '<br />';
+                echo 'You make <span class="text-success">' . prettynum($row['money'] * (1 + ($jobinfo['addedPercent'] / 100)), 1) . '</span> & ' . prettynum($row['points']) . ' Points Per Hour<br />';
+                echo '<br />';
+                echo 'You last clocked in <span class="text-danger">', ($jobinfo['lastClockin'] == 0) ? 'never' : date('h:i:s a', $jobinfo['lastClockin']), '</span>.<br />';
+                echo 'You clocked in <span class="text-danger">' . $user_class->dailyClockins . '</span> time', ($user_class->dailyClockins == 1) ? '' : 's', ' today.<br />';
+                echo '<br />';
+                echo '<a href="jobs.php?clockin" class="btn btn-primary">Clockin</a>';
                 echo '</div>';
             }
             ?>
@@ -138,7 +136,6 @@ include 'header.php';
                         </tr>
                         <tr>
                             <th>Level</th>
-                            <th>Total Stats</th>
                             <th>Cash</th>
                             <th>Points</th>
                         </tr>
@@ -150,12 +147,11 @@ include 'header.php';
                         $rows = $db->fetch_row();
                         foreach ($rows as $row) {
                             echo '<tr>';
-                                echo '<td>' . $row['name'] . '</td>';
-                                echo '<td>' . prettynum($row['level']) . '</td>';
-                                echo '<td>' . prettynum($row['total']) . '</td>';
-                                echo '<td>' . prettynum($row['money'], 1) . '</td>';
-                                echo '<td>' . prettynum($row['points']) . '</td>';
-                                echo '<td>', ($row['id'] > $user_class->job) ? '<a href="jobs.php?take=' . $row['id'] . '" class="btn btn-primary">Take Job</a>' : '', '</td>';
+                            echo '<td>' . $row['name'] . '</td>';
+                            echo '<td>' . prettynum($row['level']) . '</td>';
+                            echo '<td>' . prettynum($row['money'], 1) . '</td>';
+                            echo '<td>' . prettynum($row['points']) . '</td>';
+                            echo '<td>', ($row['id'] > $user_class->job) ? '<a href="jobs.php?take=' . $row['id'] . '" class="btn btn-primary">Take Job</a>' : '', '</td>';
                             echo '</tr>';
                         }
                         ?>
