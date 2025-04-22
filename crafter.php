@@ -35,7 +35,7 @@ function handleTrade($tradeId) {
     global $user_class; // Ensure that $user_class is accessible in this scope
     $userId = $user_class->id; // Fetch the user ID from the user_class object
 
- // Fetch trade details
+    // Fetch trade details
     $tradeQuery = "SELECT * FROM trades WHERE id = $tradeId";
     $tradeResult = mysql_query($tradeQuery);
     if (!$tradeResult || mysql_num_rows($tradeResult) == 0) {
@@ -43,18 +43,8 @@ function handleTrade($tradeId) {
     }    
     $trade = mysql_fetch_assoc($tradeResult);
 
-    // Check for quantity capped crafting - Sofa
-    if ($tradeId == 28) {
-        if (Check_Item(271, $user_class->id) > 5) {
-            return 'You can only have a maximum of 5 Sofa\'s in your inventory.';
-        }
-    }
-
-    // Check for quantity capped crafting - Fireplace
-    if ($tradeId == 29) {
-        if (Check_Item(272, $user_class->id) > 5) {
-            return 'You can only have a maximum of 5 Fireplaces\'s in your inventory.';
-        }
+    if ($trade['inventory_limit'] > 0 && Check_item($trade['itemreward1'], $user_class->id) >= $trade['inventory_limit']) {
+        return 'You can only have a maximum of ' . $trade['inventory_limit'] . ' of this item in your inventory.';
     }
 
     // List to hold items that the user lacks
