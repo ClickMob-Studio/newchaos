@@ -159,7 +159,7 @@ function plane_popup($text, $id)
 }
 function item_popup($text, $id, $color = '#fff')
 {
-    return "<a class='item-popup' style='color:" . $color . "' href='javascript:;' onclick=\"javascript:window.open( 'description.php?id=" . $id . "', '60', 'left = 20, top = 20, width = 400, height = 440, toolbar = 0, resizable = 0, scrollbars=0, location=0, menubar=0'  );\">" . $text . "</a>";
+    return "<a class='item-popup' style='color:" . $color . "' href='javascript:;' onclick=\"javascript:window.open( 'description.php?id=" . $id . "', '60', 'left = 20, top = 20, width = 400, height = 530, toolbar = 0, resizable = 0, scrollbars=0, location=0, menubar=0'  );\">" . $text . "</a>";
 }
 function gifts_popup($text, $id)
 {
