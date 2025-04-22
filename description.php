@@ -204,13 +204,31 @@ $worked = mysql_fetch_array($result);
             </tr>
             <tr>
                 <td class='textm' valign='top'>Speed Bonus: </td>
-                <td class='textr'>
-                    <?php echo $worked['speed'] ?>%<br>				</td>
+                <td class='textr'><?php echo $worked['speed'] ?>%</td>
             </tr>
             <tr>
                 <td class='textm' valign='top'>Required Level: </td>
-                <td class='textr'>
-                    <?php echo $worked['level'] ?><br>				</td>
+                <td class='textr'><?php echo $worked['level'] ?></td>
+            </tr>
+        </table>
+
+        </br>
+
+        <table width='100%' cellpadding='4' cellspacing='0'>
+            <tr>
+                <td colspan='4' class='style2'>Shareability</td>
+            </tr>
+            <tr>
+                <td class='textm' valign='top'>Gang vault: </td>
+                <td class='textr'><?php echo ($worked['shareable'] ? 'Yes' : 'No') ?></td>
+            </tr>
+            <tr>
+                <td class='textm' valign='top'>Tradeable on Market: </td>
+                <td class='textr'>Yes</td>
+            </tr>
+            <tr>
+                <td class='textm' valign='top'>Sendable: </td>
+                <td class='textr'>Yes</td>
             </tr>
         </table>
 
