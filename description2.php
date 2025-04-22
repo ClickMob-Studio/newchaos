@@ -212,9 +212,11 @@ $worked = mysql_fetch_array($result);
                 <td class='textr'>
                     <?php echo $worked['level'] ?><br>				</td>
             </tr>
-            <tr>
-                <td colspan='4' class='style2'></td>
-            </tr>
+        </table>
+
+        </br>
+
+        <table width='100%' cellpadding='4' cellspacing='0'>
             <tr>
                 <td class='textm' valign='top'>Gang vault: </td>
                 <td class='textr'>
