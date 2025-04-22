@@ -223,7 +223,16 @@ $worked = mysql_fetch_array($result);
             <tr>
                 <td class='textm' valign='top'>Gang vault: </td>
                 <td class='textr'>
-                    <?php echo ($worked['shareable'] ? 'Yes' : 'No') ?><br>				</td>
+                    <?php echo ($worked['shareable'] ? 'Yes' : 'No') ?><br>
+                </td>
+            </tr>
+            <tr>
+                <td class='textm' valign='top'>Tradeable on Market: </td>
+                <td class='textr'>Yes<br></td>
+            </tr>
+            <tr>
+                <td class='textm' valign='top'>Sendable: </td>
+                <td class='textr'>Yes<br></td>
             </tr>
         </table>
 
