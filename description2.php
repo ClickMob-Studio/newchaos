@@ -218,6 +218,9 @@ $worked = mysql_fetch_array($result);
 
         <table width='100%' cellpadding='4' cellspacing='0'>
             <tr>
+                <td colspan='4' class='style2'>Shareability</td>
+            </tr>
+            <tr>
                 <td class='textm' valign='top'>Gang vault: </td>
                 <td class='textr'>
                     <?php echo ($worked['shareable'] ? 'Yes' : 'No') ?><br>				</td>
