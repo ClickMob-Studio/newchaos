@@ -168,7 +168,7 @@ include 'nc_header.php';
     <button class="bg-white/10 w-3 h-3 rounded-full" onClick="goto(7)"></button>
 </div>
 
-<div class="max-w-7xl mx-auto flex flex-col gap-y-4">
+<div class="max-w-7xl mx-auto flex flex-col gap-y-4 px-2 md:px-6 lg:px-8">
     <div class="w-full border border-white/10 bg-black/40 border-6 rounded-lg p-4">
 
         <?php
