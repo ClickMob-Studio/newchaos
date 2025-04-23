@@ -613,7 +613,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
         </header>
 
         <?php if (!$user_class->is_ads_disabled): ?>
-            <div class="max-w-7xl mx-auto my-4 px-2 md:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto mt-2 mb-4 px-2 md:px-6 lg:px-8">
 
                 <div class="w-full flex flex-row gap-x-2 text-white bg-black/40 rounded-lg p-2 px-4 items-center">
                     <?php
