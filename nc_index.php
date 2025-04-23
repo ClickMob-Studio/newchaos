@@ -177,7 +177,7 @@ if ($user_class->firstlogin1 == 0) {
 </div>
 
 <div class="max-w-7xl mx-auto flex flex-col gap-y-4 px-2 md:px-6 lg:px-8">
-    <h1 class="pl-4 text-white text-2xl">Message Board</h1>
+    <h1 class="pl-4 py-2 text-white text-2xl">Message Board</h1>
 </div>
 
 <div class="max-w-7xl mx-auto flex flex-col gap-y-4 px-2 md:px-6 lg:px-8">
