@@ -181,7 +181,7 @@ if ($user_class->firstlogin1 == 0) {
 </div>
 
 <div class="max-w-7xl mx-auto flex flex-col gap-y-4 px-2 md:px-6 lg:px-8">
-    <div class="w-full border border-white/10 bg-black/40 border-6 rounded-lg p-4">
+    <div class="w-full border border-white/10 bg-black/40 border-4 rounded-lg p-4">
 
     </div>
 </div>
