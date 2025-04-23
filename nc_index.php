@@ -195,6 +195,15 @@ var_dump($forums);
                     <span class="text-[#BBBBBB]">Stay up to date and comment on game news.</span>
                 </div>
             </div>
+            <div class="flex h-[64px] items-center">
+                <div class="px-6 py-2">
+                    <img src="css/images/svgs/Megaphone.svg" height="28" width="28" />
+                </div>
+                <div>
+                    <h2 class="text-white text-xl">News</h2>
+                    <span class="text-[#BBBBBB]">Stay up to date and comment on game news.</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
