@@ -188,7 +188,7 @@ var_dump($forums);
         <div class="flex flex-col">
             <div class="flex">
                 <div>
-                    <img src="css/images/icons/News.png" />
+                    <img src="css/images/icons/Megaphone.png" />
                 </div>
                 <div>
                     <h2 class="text-white text-xl">News</h2>
