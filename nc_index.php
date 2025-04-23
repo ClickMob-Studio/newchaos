@@ -191,8 +191,8 @@ var_dump($forums);
                     <img src="css/images/svgs/Megaphone.svg" class="h-8 w-8 px-4" />
                 </div>
                 <div>
-                    <h2 class="text-white text-xl">News</h2>
-                    <span>Stay up to date and comment on game news.</span>
+                    <h2 class="text-white text-2xl">News</h2>
+                    <span class="tet-[#BBBBBB]">Stay up to date and comment on game news.</span>
                 </div>
             </div>
         </div>
