@@ -192,7 +192,7 @@ var_dump($forums);
                 </div>
                 <div>
                     <h2 class="text-white text-2xl">News</h2>
-                    <span class="tet-[#BBBBBB]">Stay up to date and comment on game news.</span>
+                    <span class="text-[#BBBBBB]">Stay up to date and comment on game news.</span>
                 </div>
             </div>
         </div>
