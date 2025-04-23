@@ -3848,7 +3848,7 @@ function read_user_for_advertisement($uid, $ttl = 60)
 function getForums()
 {
     global $db, $redis;
-
+    $redis->delete("forums");
     if ($redis->exists("forums")) {
         return json_decode($redis->get("forums"), true);
     }
@@ -3886,7 +3886,7 @@ function getOwnThreads($fid, $uid, $page = 1)
 function getPermissions($fid, $gid)
 {
     global $db, $redis;
-    $redis->delete("forumpermissions_" . $fid . "_" . $gid);
+
     if ($redis->exists("forumpermissions_" . $fid . "_" . $gid)) {
         return json_decode($redis->get("forumpermissions_" . $fid . "_" . $gid), true);
     }
