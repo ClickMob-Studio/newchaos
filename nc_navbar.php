@@ -234,7 +234,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
 </nav>
 
 <!-- Quick Navigation -->
-<div class="max-w-7xl mx-auto mt-2 py-2 select-none hidden md:flex px-2 md:px-6 lg:px-8">
+<div class="max-w-7xl mx-auto py-2 select-none hidden md:flex px-2 md:px-6 lg:px-8">
     <div class="px-4 py-2 bg-black/40 rounded-lg flex gap-x-4 text-sm">
         <span class="text-white pr-4 border-r-1 border-gray-400">QUICK NAV</span>
         <div class=" flex gap-x-2">
