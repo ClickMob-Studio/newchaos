@@ -188,7 +188,7 @@ var_dump($forums);
         <div class="flex flex-col">
             <div class="flex h-[64px] items-center">
                 <div>
-                    <embed src="css/images/svgs/Megaphone.svg" class="h-8 w-8 px-4" />
+                    <img src="css/images/svgs/Megaphone.svg" class="h-8 w-8 px-4" />
                 </div>
                 <div>
                     <h2 class="text-white text-xl">News</h2>
