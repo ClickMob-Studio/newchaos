@@ -58,7 +58,7 @@ if ($canonlyviewownthreads) {
 ?>
 
 <div class="max-w-7xl mx-auto flex gap-y-4 px-2 md:px-6 lg:px-8 items-center justify-between pt-2 pb-4">
-    <div class="flex gap-x-2">
+    <div class="flex items-center gap-x-2">
         <h1 class="pl-4 text-white text-2xl"><?= $forum['name'] ?></h1>
         <span class="text-lg text-gray-300"> <em>-</em> </span>
         <h3 class="text-lg text-gray-400"><?= $forum['description'] ?></h3>
