@@ -1,3 +1,7 @@
+<?php
+include 'header.php';
+?>
+
 <style>
     .user-logs {
         margin-top: 20px;
@@ -59,13 +63,7 @@
         border-radius: 8px;
     }
 </style>
-<?php
-include 'header.php';
-// if($user_class->admin < 1){
 
-// exit;
-// }
-?>
 <div class='box_top'>Maze</div>
 <div class='box_middle'>
     <div class='pad'>
@@ -569,43 +567,43 @@ include 'footer.php';
         document.querySelector("#searchFeedback").style.display = "none"; // Hide feedback section
         document.querySelector(".spinner").style.display = "block"; // Show loading spinner
 
-        
-            var formData = new FormData();
-            formData.append('direction', chosenDirection);
 
-            fetch('process_maze_event.php', {
-                method: 'POST',
-                body: formData,
+        var formData = new FormData();
+        formData.append('direction', chosenDirection);
+
+        fetch('process_maze_event.php', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.querySelector(".spinner").style.display = "none";
+
+                if (data.error) {
+                    $('#searchResult').show();
+                    document.querySelector("#searchResult").textContent = data.error;
+                    document.querySelector("#remainingTurns").textContent = "";
+                } else {
+                    // Display the new results
+                    $('#searchResult').show();
+                    document.querySelector("#searchResult").innerHTML = "You walked " + (data.direction || "unknown") + ".<br>" + data.description;
+                    document.querySelector("#remainingTurns").textContent = (data.turnsLeft || "unknown");
+                }
+
+                if (data.hospitalTime > 0) {
+                    $('#med-pack-holder').show();
+                } else {
+                    $('#med-pack-holder').hide();
+                }
+
+                document.querySelector("#searchFeedback").style.display = "block";
             })
-                .then(response => response.json())
-                .then(data => {
-                    document.querySelector(".spinner").style.display = "none";
-
-                    if (data.error) {
-                        $('#searchResult').show();
-                        document.querySelector("#searchResult").textContent = data.error;
-                        document.querySelector("#remainingTurns").textContent = "";
-                    } else {
-                        // Display the new results
-                        $('#searchResult').show();
-                        document.querySelector("#searchResult").innerHTML = "You walked " + (data.direction || "unknown") + ".<br>" + data.description;
-                        document.querySelector("#remainingTurns").textContent = (data.turnsLeft || "unknown");
-                    }
-
-                    if (data.hospitalTime > 0) {
-                        $('#med-pack-holder').show();
-                    } else {
-                        $('#med-pack-holder').hide();
-                    }
-
-                    document.querySelector("#searchFeedback").style.display = "block";
-                })
-                .finally(() => {
-                    setTimeout(() => {
-                        canClick = true; // Re-enable clicks after a delay
-                        toggleDirectionButtons(false); // Re-enable direction buttons
-                    }, 250);
-                });
+            .finally(() => {
+                setTimeout(() => {
+                    canClick = true; // Re-enable clicks after a delay
+                    toggleDirectionButtons(false); // Re-enable direction buttons
+                }, 250);
+            });
     }
 
     function toggleDirectionButtons(disable) {
