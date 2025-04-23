@@ -611,11 +611,32 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             </div>
         </header>
 
+        <!-- Quick Navigation -->
+        <div class="max-w-7xl mx-auto mt-2 py-2 select-none hidden sm:flex">
+            <div class="px-4 py-2 bg-black/40 rounded-lg flex gap-x-4">
+                <div class="flex gap-x-2 items-center">
+                    <span class="text-md text-white">QUICK NAV</span>
+                    <img src="assets/images/icons/QuickNav Expanded.png" class="h-[14px] w-[14px]" />
+                </div>
+                <a href="#" class="text-white"> HOME </a>
+                <a href="#" class="text-gray-400 hover:text-gray-300"> STORE </a>
+                <a href="#" class="text-gray-400 hover:text-gray-300"> CRIMES </a>
+                <a href="#" class="text-gray-400 hover:text-gray-300"> JAIL </a>
+                <a href="#" class="text-gray-400 hover:text-gray-300"> HOSPITAL </a>
+                <a href="#" class="text-gray-400 hover:text-gray-300"> GYM </a>
+                <a href="#" class="text-gray-400 hover:text-gray-300"> BANK </a>
+                <a href="#" class="text-gray-400 hover:text-gray-300"> ESTATE </a>
+                <a href="#" class="text-gray-400 hover:text-gray-300"> DRUGS </a>
+                <a href="#" class="text-gray-400 hover:text-gray-300"> GANG </a>
+                <a href="#" class="text-gray-400 hover:text-gray-300"> CRAFTING </a>
+                <a href="#" class="text-gray-400 hover:text-gray-300"> QUESTS </a>
+            </div>
+        </div>
+
         <?php if (!$user_class->is_ads_disabled): ?>
             <div class="max-w-7xl mx-auto my-4">
 
-                <div
-                    class="w-full flex flex-row gap-x-2 text-white border border-white/10 bg-black/40 border-6 rounded-lg p-2 px-4 items-center">
+                <div class="w-full flex flex-row gap-x-2 text-white bg-black/40 rounded-lg p-2 px-4 items-center">
                     <?php
                     $now = time();
 
