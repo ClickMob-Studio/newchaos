@@ -3848,7 +3848,7 @@ function read_user_for_advertisement($uid, $ttl = 60)
 function getForums()
 {
     global $db, $redis;
-    $redis->delete("forums");
+
     if ($redis->exists("forums")) {
         return json_decode($redis->get("forums"), true);
     }
