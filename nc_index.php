@@ -35,7 +35,7 @@ include 'nc_header.php';
                 class="relative w-[250px] h-[225px] rounded-xl from-[#000D37] to-[#FFC800] bg-gradient-to-br opacity-100">
                 <!-- Card Image Background -->
                 <div
-                    class="absolute rounded-xl w-full h-full bg-[url(/assets/images/common/battlepass.png)] bg-center bg-origin-content bg-no-repeat bg-cover opacity-20">
+                    class="absolute rounded-xl w-full h-full bg-[url(/css/images/2025/battlepass.png)] bg-center bg-origin-content bg-no-repeat bg-cover opacity-20">
                 </div>
 
                 <!-- Card Content -->
@@ -52,7 +52,7 @@ include 'nc_header.php';
                 class="relative w-[250px] h-[225px] rounded-xl from-[#000D37] to-[#FF0037] bg-gradient-to-br opacity-100">
                 <!-- Card Image Background -->
                 <div
-                    class="absolute rounded-xl w-full h-full bg-[url(/assets/images/common/raids.png)] bg-center bg-origin-content bg-no-repeat bg-cover opacity-20">
+                    class="absolute rounded-xl w-full h-full bg-[url(/css/images/2025/raids.png)] bg-center bg-origin-content bg-no-repeat bg-cover opacity-20">
                 </div>
 
                 <!-- Card Content -->
@@ -71,7 +71,7 @@ include 'nc_header.php';
                 class="relative w-[250px] h-[225px] rounded-xl from-[#030004] to-[#7F2D9F] bg-gradient-to-br opacity-100">
                 <!-- Card Image Background -->
                 <div
-                    class="absolute rounded-xl w-full h-full bg-[url(/assets/images/common/backalley.png)] bg-center bg-origin-content bg-no-repeat bg-cover opacity-20">
+                    class="absolute rounded-xl w-full h-full bg-[url(/css/images/2025/backalley.png)] bg-center bg-origin-content bg-no-repeat bg-cover opacity-20">
                 </div>
 
                 <!-- Card Content -->
@@ -90,7 +90,7 @@ include 'nc_header.php';
                 class="relative w-[250px] h-[225px] rounded-xl from-[#000D37] to-[#0DFF00] bg-gradient-to-br opacity-100">
                 <!-- Card Image Background -->
                 <div
-                    class="absolute rounded-xl w-full h-full bg-[url(/assets/images/common/city.png)] bg-center bg-origin-content bg-no-repeat bg-cover opacity-20">
+                    class="absolute rounded-xl w-full h-full bg-[url(/css/images/2025/city.png)] bg-center bg-origin-content bg-no-repeat bg-cover opacity-20">
                 </div>
 
                 <!-- Card Content -->
@@ -109,7 +109,7 @@ include 'nc_header.php';
                 class="relative w-[250px] h-[225px] rounded-xl from-[#170000] to-[#007BD3] bg-gradient-to-br opacity-100">
                 <!-- Card Image Background -->
                 <div
-                    class="absolute rounded-xl w-full h-full bg-[url(/assets/images/common/missions.png)] bg-center bg-origin-content bg-no-repeat bg-cover opacity-20">
+                    class="absolute rounded-xl w-full h-full bg-[url(/css/images/2025/missions.png)] bg-center bg-origin-content bg-no-repeat bg-cover opacity-20">
                 </div>
 
                 <!-- Card Content -->
@@ -126,7 +126,7 @@ include 'nc_header.php';
                 class="relative w-[250px] h-[225px] rounded-xl from-[#020002] to-[#9E00D3] bg-gradient-to-br opacity-100">
                 <!-- Card Image Background -->
                 <div
-                    class="absolute rounded-xl w-full h-full bg-[url(/assets/images/common/drugs.png)] bg-center bg-origin-content bg-no-repeat bg-cover opacity-20">
+                    class="absolute rounded-xl w-full h-full bg-[url(/css/images/2025/drugs.png)] bg-center bg-origin-content bg-no-repeat bg-cover opacity-20">
                 </div>
 
                 <!-- Card Content -->
@@ -146,7 +146,7 @@ include 'nc_header.php';
                 class="relative w-[250px] h-[225px] rounded-xl from-[#020002] to-[#FF4E51] bg-gradient-to-br opacity-100">
                 <!-- Card Image Background -->
                 <div
-                    class="absolute rounded-xl w-full h-full bg-[url(/assets/images/common/crimes.png)] bg-center bg-origin-content bg-no-repeat bg-cover opacity-20">
+                    class="absolute rounded-xl w-full h-full bg-[url(/css/images/2025/crimes.png)] bg-center bg-origin-content bg-no-repeat bg-cover opacity-20">
                 </div>
 
                 <!-- Card Content -->
@@ -165,7 +165,7 @@ include 'nc_header.php';
                 class="relative w-[250px] h-[225px] rounded-xl from-[#020002] to-[#4EFFF0] bg-gradient-to-br opacity-100">
                 <!-- Card Image Background -->
                 <div
-                    class="absolute rounded-xl w-full h-full bg-[url(/assets/images/common/crimes.png)] bg-center bg-origin-content bg-no-repeat bg-cover opacity-20">
+                    class="absolute rounded-xl w-full h-full bg-[url(/css/images/2025/crimes.png)] bg-center bg-origin-content bg-no-repeat bg-cover opacity-20">
                 </div>
 
                 <!-- Card Content -->
