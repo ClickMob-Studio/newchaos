@@ -3849,9 +3849,8 @@ function getForums()
 {
     global $db, $redis;
 
-    $redis->delete("forums");
     if ($redis->exists("forums")) {
-        return json_decode($redis->get("forums"));
+        return json_decode($redis->get("forums"), true);
     }
 
     $db->query("SELECT * FROM forums ORDER BY disporder ASC");
@@ -3887,9 +3886,9 @@ function getOwnThreads($fid, $uid, $page = 1)
 function getPermissions($fid, $gid)
 {
     global $db, $redis;
-
+    $redis->delete("forumpermissions_" . $fid . "_" . $gid);
     if ($redis->exists("forumpermissions_" . $fid . "_" . $gid)) {
-        return json_decode($redis->get("forumpermissions_" . $fid . "_" . $gid));
+        return json_decode($redis->get("forumpermissions_" . $fid . "_" . $gid), true);
     }
 
     $db->query("SELECT * FROM forumpermissions WHERE fid = ? AND gid = ?");
