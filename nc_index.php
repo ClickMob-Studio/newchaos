@@ -179,7 +179,7 @@ include 'nc_header.php';
     </div>
 </div>
 
-<div class="nav left-0 right-0 flex justify-center items-center gap-x-2 mb-4">
+<div class="nav left-0 right-0 flex justify-center items-center gap-x-2 mb-4" id="slider-controls">
     <button class="bg-white/50 w-3 h-3 rounded-full" onClick="goto(0)"></button>
     <button class="bg-white/10 w-3 h-3 rounded-full" onClick="goto(1)"></button>
     <button class="bg-white/10 w-3 h-3 rounded-full" onClick="goto(2)"></button>
