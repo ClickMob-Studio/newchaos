@@ -177,17 +177,17 @@ include 'nc_header.php';
         </div>
 
     </div>
+</div>
 
-    <div class="nav absolute left-0 right-0 flex justify-center items-center gap-x-2" id="slider-controls">
-        <button class="bg-white/50 w-3 h-3 rounded-full" onClick="goto(0)"></button>
-        <button class="bg-white/10 w-3 h-3 rounded-full" onClick="goto(1)"></button>
-        <button class="bg-white/10 w-3 h-3 rounded-full" onClick="goto(2)"></button>
-        <button class="bg-white/10 w-3 h-3 rounded-full" onClick="goto(3)"></button>
-        <button class="bg-white/10 w-3 h-3 rounded-full" onClick="goto(4)"></button>
-        <button class="bg-white/10 w-3 h-3 rounded-full" onClick="goto(5)"></button>
-        <button class="bg-white/10 w-3 h-3 rounded-full" onClick="goto(6)"></button>
-        <button class="bg-white/10 w-3 h-3 rounded-full" onClick="goto(7)"></button>
-    </div>
+<div class="nav absolute left-0 right-0 flex justify-center items-center gap-x-2" id="slider-controls">
+    <button class="bg-white/50 w-3 h-3 rounded-full" onClick="goto(0)"></button>
+    <button class="bg-white/10 w-3 h-3 rounded-full" onClick="goto(1)"></button>
+    <button class="bg-white/10 w-3 h-3 rounded-full" onClick="goto(2)"></button>
+    <button class="bg-white/10 w-3 h-3 rounded-full" onClick="goto(3)"></button>
+    <button class="bg-white/10 w-3 h-3 rounded-full" onClick="goto(4)"></button>
+    <button class="bg-white/10 w-3 h-3 rounded-full" onClick="goto(5)"></button>
+    <button class="bg-white/10 w-3 h-3 rounded-full" onClick="goto(6)"></button>
+    <button class="bg-white/10 w-3 h-3 rounded-full" onClick="goto(7)"></button>
 </div>
 
 <div class="max-w-7xl mx-auto flex flex-col gap-y-4">
