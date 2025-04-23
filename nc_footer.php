@@ -1,21 +1,21 @@
-<footer class="text-center text-white">
+<footer class="text-center text-white mt-4">
     &copy; ChaosCity | &nbsp;&nbsp; <a href="gamerules.php">Game Rules</a>
 </footer>
 </body>
-</html>
 
+</html>
 <script>
-function calcEXP(){
-	$.post("ajax_expcalc.php", {level : $("#levelcalc").val()}, function(d){
-		$("#levelrtn").html(d);
-	});
-}
+    function calcEXP() {
+        $.post("ajax_expcalc.php", { level: $("#levelcalc").val() }, function (d) {
+            $("#levelrtn").html(d);
+        });
+    }
 </script>
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         let requestInProcess = false;
-        $('.ajax-link').click(function(e) {
+        $('.ajax-link').click(function (e) {
             e.preventDefault();
 
             let clicked = $(this);
@@ -61,15 +61,15 @@ function calcEXP(){
     });
 </script>
 <?php if ($user_class->box_hunt_count < 3): ?>
-    <?php $boxHuntChance = mt_rand(1,100); ?>
+    <?php $boxHuntChance = mt_rand(1, 100); ?>
     <?php if (false && $boxHuntChance < 10): ?>
         <script type="text/javascript">
-            $(document).ready(function() {
-                var xBoxPosi = Math.floor(Math.random()*1000);
-                var yBoxPosi = Math.floor(Math.random()*1000);
+            $(document).ready(function () {
+                var xBoxPosi = Math.floor(Math.random() * 1000);
+                var yBoxPosi = Math.floor(Math.random() * 1000);
 
                 $(".box_middle").append(
-                    '<a href="claim_mystery_box.php?token=<?php echo $user_class->macro_token ?>"ß><img alt="Click Me!" src="https://chaoscity.co.uk/css/images/NewGameImages/mission-pass.png" height="100" style="position:absolute; top:'+xBoxPosi+'px; left:'+yBoxPosi+'px;" /></a>'
+                    '<a href="claim_mystery_box.php?token=<?php echo $user_class->macro_token ?>"ß><img alt="Click Me!" src="https://chaoscity.co.uk/css/images/NewGameImages/mission-pass.png" height="100" style="position:absolute; top:' + xBoxPosi + 'px; left:' + yBoxPosi + 'px;" /></a>'
                 );
             });
         </script>
