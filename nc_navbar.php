@@ -410,6 +410,8 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
             <a href="nc_gang.php" class="text-gray-400 hover:text-gray-300"> GANG </a>
             <a href="nc_crafting.php" class="text-gray-400 hover:text-gray-300"> CRAFTING </a>
             <a href="nc_missions.php" class="text-gray-400 hover:text-gray-300"> MISSIONS </a>
+            <a href="nc_backalley.php" class="text-gray-400 hover:text-gray-300"> BACKALLEY </a>
+            <a href="nc_maze.php" class="text-gray-400 hover:text-gray-300"> MAZE </a>
         </div>
     </div>
 </div>
