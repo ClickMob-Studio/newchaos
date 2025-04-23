@@ -47,10 +47,10 @@ if (!$canview || (!$canviewthreads && !$canonlyviewownthreads)) {
     exit;
 }
 
-$threads = null;
-if ($canviewthreads) {
+$threads = [];
+if ($canonlyviewownthreads) {
     $threads = getThreads($fid, $page);
-} elseif ($canonlyviewownthreads) {
+} else {
     $threads = getOwnThreads($fid, $user_class->id, $page);
 }
 ?>
