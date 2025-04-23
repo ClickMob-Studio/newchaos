@@ -186,6 +186,28 @@ var_dump($forums);
 <div class="max-w-7xl mx-auto flex flex-col gap-y-4 px-2 md:px-6 lg:px-8">
     <div class="w-full border border-white/10 bg-black/40 border-4 rounded-lg">
         <div class="flex flex-col">
+            <?php
+
+            for ($i = 0; $i < count($forums); $i++) {
+                $forum = $forums[$i];
+                $forum_id = $forum['id'];
+                $forum_name = $forum['name'];
+                $forum_desc = $forum['description'];
+                $forum_icon = $forum['icon'];
+                $forum_link = "forums.php?fid=$forum_id";
+
+                echo '<div class="flex h-[64px] items-center' . ($i % 1 == 1 ? 'bg-white/2' : '') . '">
+                        <div class="px-6 py-2">
+                            <img src="' . $forum_icon . '" height="28" width="28" />
+                        </div>
+                        <a href="' . $forum_link . '">
+                            <h2 class="text-white text-xl">' . $forum_name . '</h2>
+                            <span class="text-[#BBBBBB]">' . $forum_description . '</span>
+                        </a>
+                    </div>';
+            }
+
+            ?>
             <div class="flex h-[64px] items-center">
                 <div class="px-6 py-2">
                     <img src="css/images/svgs/Megaphone.svg" height="28" width="28" />
@@ -195,7 +217,7 @@ var_dump($forums);
                     <span class="text-[#BBBBBB]">Stay up to date and comment on game news.</span>
                 </div>
             </div>
-            <div class="flex h-[64px] items-center bg-white/1">
+            <div class="flex h-[64px] items-center bg-white/2">
                 <div class="px-6 py-2">
                     <img src="css/images/svgs/Megaphone.svg" height="28" width="28" />
                 </div>
