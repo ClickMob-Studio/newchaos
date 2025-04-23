@@ -196,7 +196,7 @@ var_dump($forums);
                 $forum_icon = $forum['icon'];
                 $forum_link = "forums.php?fid=$forum_id";
 
-                echo '<div class="flex h-[64px] items-center' . ($i % 2 == 1 ? 'bg-white/2' : '') . '">
+                echo '<div class="flex h-[64px] items-center ' . ($i % 2 == 1 ? 'bg-white/2' : '') . '">
                         <div class="px-6 py-2">
                             <img src="' . $forum_icon . '" height="28" width="28" />
                         </div>
