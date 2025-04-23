@@ -33,8 +33,6 @@ if (isset($_GET['page'])) {
     }
 }
 
-echo '<p class="text-2xl text-white">' . $user_class->usergroup . '</p>';
-
 $permissions = getPermissions($fid, $user_class->usergroup);
 if (!$permissions) {
     header('Location: /index.php');
@@ -55,6 +53,8 @@ if ($canonlyviewownthreads) {
 } else {
     $threads = getOwnThreads($fid, $user_class->id, $page);
 }
+
+var_dump($threads);
 ?>
 
 <div class="max-w-7xl mx-auto flex gap-y-4 px-2 md:px-6 lg:px-8 items-center gap-x-2 pt-2 pb-4">
