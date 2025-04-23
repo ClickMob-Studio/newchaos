@@ -40,7 +40,7 @@ $threads = getThreads($fid, $page);
 <div class="max-w-7xl mx-auto flex gap-y-4 px-2 md:px-6 lg:px-8 items-center gap-x-2">
     <h1 class="pl-4 pt-2 pb-4 text-white text-2xl"><?= $forum['name'] ?></h1>
     <span class="text-gray-300"> <em>-</em> </span>
-    <h3 clas="text-lg"><?= $forum['description'] ?></h3>
+    <h3 class="text-lg text-gray-300"><?= $forum['description'] ?></h3>
 </div>
 
 <div class="max-w-7xl mx-auto flex flex-col gap-y-4 px-2 md:px-6 lg:px-8">
