@@ -382,6 +382,7 @@ include 'nc_header.php';
     </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
 <script>
     var slider = tns({
         container: '.my-slider',
