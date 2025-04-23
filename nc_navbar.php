@@ -399,7 +399,7 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
     <div class="px-4 py-2 bg-black/40 rounded-lg flex gap-x-4">
         <div class="flex gap-x-2 items-center cursor-pointer" x-on:click="qnOpen = !qnOpen">
             <span class="text-md text-white">QUICK NAV</span>
-            <img src="assets/images/icons/QuickNav Expanded.png" class="h-[14px] w-[14px]" :class="qnOpen ? 'rotate-180'
+            <img src="assets/images/icons/QuickNav Expanded.png" class="h-[14px] w-[14px]" :class="qnOpen ? 'transform-[rotate(180deg)]'
                 : ''" />
         </div>
         <div class=" flex gap-x-2" x-show="qnOpen" x-transition>
