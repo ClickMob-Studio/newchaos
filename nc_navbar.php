@@ -396,21 +396,20 @@ $navPage = str_replace('/', '', $_SERVER['REQUEST_URI']);
 
 <!-- Quick Navigation -->
 <div class="max-w-7xl mx-auto mt-2 py-2 select-none hidden sm:flex px-2 md:px-6 lg:px-8">
-    <div class="px-4 py-2 bg-black/40 rounded-lg flex gap-x-4">
-        <span class="text-md text-white pr-4 border-r-1 border-gray-400">QUICK NAV</span>
+    <div class="px-4 py-2 bg-black/40 rounded-lg flex gap-x-4 text-sm">
+        <span class="text-white pr-4 border-r-1 border-gray-400">QUICK NAV</span>
         <div class=" flex gap-x-2">
-            <a href="#" class="text-white"> HOME </a>
-            <a href="#" class="text-gray-400 hover:text-gray-300"> STORE </a>
-            <a href="#" class="text-gray-400 hover:text-gray-300"> CRIMES </a>
-            <a href="#" class="text-gray-400 hover:text-gray-300"> JAIL </a>
-            <a href="#" class="text-gray-400 hover:text-gray-300"> HOSPITAL </a>
-            <a href="#" class="text-gray-400 hover:text-gray-300"> GYM </a>
-            <a href="#" class="text-gray-400 hover:text-gray-300"> BANK </a>
-            <a href="#" class="text-gray-400 hover:text-gray-300"> ESTATE </a>
-            <a href="#" class="text-gray-400 hover:text-gray-300"> DRUGS </a>
-            <a href="#" class="text-gray-400 hover:text-gray-300"> GANG </a>
-            <a href="#" class="text-gray-400 hover:text-gray-300"> CRAFTING </a>
-            <a href="#" class="text-gray-400 hover:text-gray-300"> QUESTS </a>
+            <a href="nc_index.php" class="text-white"> HOME </a>
+            <a href="nc_stores.php" class="text-gray-400 hover:text-gray-300"> STORE </a>
+            <a href="nc_crimes.php" class="text-gray-400 hover:text-gray-300"> CRIMES </a>
+            <a href="nc_jail.php" class="text-gray-400 hover:text-gray-300"> JAIL </a>
+            <a href="nc_hospital.php" class="text-gray-400 hover:text-gray-300"> HOSPITAL </a>
+            <a href="nc_gym.php" class="text-gray-400 hover:text-gray-300"> GYM </a>
+            <a href="nc_bank.php" class="text-gray-400 hover:text-gray-300"> BANK </a>
+            <a href="nc_estate.php" class="text-gray-400 hover:text-gray-300"> ESTATE </a>
+            <a href="nc_gang.php" class="text-gray-400 hover:text-gray-300"> GANG </a>
+            <a href="nc_crafting.php" class="text-gray-400 hover:text-gray-300"> CRAFTING </a>
+            <a href="nc_missions.php" class="text-gray-400 hover:text-gray-300"> MISSIONS </a>
         </div>
     </div>
 </div>
