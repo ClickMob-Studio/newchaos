@@ -78,4 +78,4 @@ $response = array(
     'state' => $state,
     'html' => $html
 );
-print(json_encode(Message($response)));
+print (json_encode(Message($response)));

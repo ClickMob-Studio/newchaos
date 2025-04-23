@@ -647,10 +647,8 @@ function check_for_easter_egg($fullResponse, $user_class, $goldRushEnabled = 0)
     global $db, $redis;
 
 
-    $egg = did_find_easter_egg($user_class);
-    if (!$egg && $goldRushEnabled) {
-        $egg = did_find_easter_egg($user_class);
-    }
+    $chances = $goldRushEnabled ? 2 : 1;
+    $egg = did_find_easter_egg($user_class, $chances);
 
     if ($egg > 0) {
         $item = $redis->get('item_' . $egg);
@@ -670,13 +668,10 @@ function check_for_easter_egg($fullResponse, $user_class, $goldRushEnabled = 0)
     return $fullResponse;
 }
 
-function did_find_easter_egg($user_class)
+function did_find_easter_egg($user_class, $chances = 1)
 {
-    // if ($user_class->admin < 1) {
-    //     return 0;
-    // }
-
-    $probability = mt_rand(1, 400);
+    $max = 400 / $chances;
+    $probability = mt_rand(1, $max);
     if ($probability <= 1) {
         // Ultra rare egg 0,5% chance
         Give_Item(338, $user_class->id);
