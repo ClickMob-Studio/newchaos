@@ -49,9 +49,9 @@ if (!$canview || (!$canviewthreads && !$canonlyviewownthreads)) {
 
 $threads = [];
 if ($canonlyviewownthreads) {
-    $threads = getThreads($fid, $page);
-} else {
     $threads = getOwnThreads($fid, $user_class->id, $page);
+} else {
+    $threads = getThreads($fid, $page);
 }
 
 var_dump($threads);
