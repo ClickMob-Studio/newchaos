@@ -3866,8 +3866,9 @@ function getThreads($fid, $page = 1)
 {
     global $db;
 
-    $db->query("SELECT * FROM threads WHERE fid = ? ORDER BY createdat DESC LIMIT ?, 20");
-    $db->execute([$fid, ($page - 1) * 20]);
+    $offset = ($page - 1) * 20;
+    $db->query("SELECT * FROM threads WHERE fid = ? ORDER BY createdat DESC LIMIT $offset, 20");
+    $db->execute([$fid]);
 
     return $db->fetch_row();
 }
