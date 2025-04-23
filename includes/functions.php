@@ -3872,3 +3872,30 @@ function getThreads($fid, $page = 1)
 
     return $db->fetch_row();
 }
+
+function getOwnThreads($fid, $uid, $page = 1)
+{
+    global $db;
+
+    $offset = ($page - 1) * 20;
+    $db->query("SELECT * FROM threads WHERE fid = ? AND uid = ? ORDER BY createdat DESC LIMIT $offset, 20");
+    $db->execute([$fid, $uid]);
+
+    return $db->fetch_row();
+}
+
+function getPermissions($fid, $gid)
+{
+    global $db, $redis;
+
+    if ($redis->exists("forumpermissions_" . $fid . "_" . $gid)) {
+        return json_decode($redis->get("forumpermissions_" . $fid . "_" . $gid));
+    }
+
+    $db->query("SELECT * FROM forumpermissions WHERE fid = ? AND gid = ?");
+    $db->execute([$fid, $gid]);
+    $permissions = $db->fetch_row(true);
+
+    $redis->setEx("forumpermissions_" . $fid . "_" . $gid, 3600, json_encode($permissions));
+    return $permissions;
+}

@@ -33,8 +33,26 @@ if (isset($_GET['page'])) {
     }
 }
 
-$threads = getThreads($fid, $page);
+$permissions = getPermissions($fid, $user_class->usergroup);
+if (!$permissions) {
+    header('Location: /index.php');
+    exit;
+}
 
+$canview = $permissions['canview'] == 1;
+$canviewthreads = $permissions['canviewthreads'] == 1;
+$canonlyviewownthreads = $permissions['canonlyviewownthreads'] == 1;
+if (!$canview || (!$canviewthreads && !$canonlyviewownthreads)) {
+    header('Location: /index.php');
+    exit;
+}
+
+$threads = null;
+if ($canviewthreads) {
+    $threads = getThreads($fid, $page);
+} elseif ($canonlyviewownthreads) {
+    $threads = getOwnThreads($fid, $user_class->id, $page);
+}
 ?>
 
 <div class="max-w-7xl mx-auto flex gap-y-4 px-2 md:px-6 lg:px-8 items-center gap-x-2 pt-2 pb-4">
@@ -46,7 +64,9 @@ $threads = getThreads($fid, $page);
 <div class="max-w-7xl mx-auto flex flex-col gap-y-4 px-2 md:px-6 lg:px-8">
     <div class="w-full border border-white/10 bg-black/40 border-4 rounded-lg">
         <?php
-
+        if (empty($threads)) {
+            echo "There are currently no threads here.";
+        }
         ?>
     </div>
 </div>
