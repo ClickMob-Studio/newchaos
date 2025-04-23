@@ -39,9 +39,9 @@ if (empty($permissions)) {
     exit;
 }
 
-$canview = (int) $permissions['canview'] == 1;
-$canviewthreads = (int) $permissions['canviewthreads'] == 1;
-$canonlyviewownthreads = (int) $permissions['canonlyviewownthreads'] == 1;
+$canview = (int) $permissions->canview == 1;
+$canviewthreads = (int) $permissions->canviewthreads == 1;
+$canonlyviewownthreads = (int) $permissions->canonlyviewownthreads == 1;
 if (!$canview || (!$canviewthreads && !$canonlyviewownthreads)) {
     header('Location: /index.php');
     exit;
