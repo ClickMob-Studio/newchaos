@@ -11,8 +11,6 @@ if ($user_class->firstlogin1 == 0) {
 }
 
 $forums = getForums();
-
-var_dump($forums);
 ?>
 
 <!-- Carousel -->
