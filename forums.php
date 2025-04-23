@@ -47,20 +47,27 @@ if (!$canview || (!$canviewthreads && !$canonlyviewownthreads)) {
     exit;
 }
 
+$canpostthreads = (int) $permissions['canpostthreads'] == 1;
+
 $threads = [];
 if ($canonlyviewownthreads) {
     $threads = getOwnThreads($fid, $user_class->id, $page);
 } else {
     $threads = getThreads($fid, $page);
 }
-
-var_dump($threads);
 ?>
 
-<div class="max-w-7xl mx-auto flex gap-y-4 px-2 md:px-6 lg:px-8 items-center gap-x-2 pt-2 pb-4">
-    <h1 class="pl-4 text-white text-2xl"><?= $forum['name'] ?></h1>
-    <span class="text-lg text-gray-300"> <em>-</em> </span>
-    <h3 class="text-lg text-gray-400"><?= $forum['description'] ?></h3>
+<div class="max-w-7xl mx-auto flex gap-y-4 px-2 md:px-6 lg:px-8 items-center justify-between pt-2 pb-4">
+    <div class="flex gap-x-2">
+        <h1 class="pl-4 text-white text-2xl"><?= $forum['name'] ?></h1>
+        <span class="text-lg text-gray-300"> <em>-</em> </span>
+        <h3 class="text-lg text-gray-400"><?= $forum['description'] ?></h3>
+    </div>
+    <?php
+    if ($canpostthreads) {
+        echo '<a href="/forums/newthread.php?fid=' . $fid . '" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">New Thread</a>';
+    }
+    ?>
 </div>
 
 <div class="max-w-7xl mx-auto flex flex-col gap-y-4 px-2 md:px-6 lg:px-8">
