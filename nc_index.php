@@ -187,8 +187,8 @@ var_dump($forums);
     <div class="w-full border border-white/10 bg-black/40 border-4 rounded-lg">
         <div class="flex flex-col">
             <div class="flex h-[64px] items-center">
-                <div class="px-8">
-                    <img src="css/images/svgs/Megaphone.svg" height="32" width="32" />
+                <div class="px-6 py-2">
+                    <img src="css/images/svgs/Megaphone.svg" height="28" width="28" />
                 </div>
                 <div>
                     <h2 class="text-white text-2xl">News</h2>
