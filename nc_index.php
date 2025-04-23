@@ -10,6 +10,9 @@ if ($user_class->firstlogin1 == 0) {
     Send_Event($user_class->id, "<div class='text-white'>Welcome To Chaos City!<br>To get you started we are giving you:</div><div class='fw-bold text-white'>&bull; 3 VIP Days<br>&bull; $100,000 Cash<br>&bull; 1,250 Points</div>", $user_class->id);
 }
 
+$forums = getForums();
+
+var_dump($forums);
 ?>
 
 <!-- Carousel -->

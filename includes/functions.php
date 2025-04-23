@@ -3844,3 +3844,19 @@ function read_user_for_advertisement($uid, $ttl = 60)
 
     return $user;
 }
+
+function getForums()
+{
+    global $db, $redis;
+
+    if ($redis->exists("forums")) {
+        return json_decode($redis->get("forums"));
+    }
+
+    $db->query("SELECT * FROM forums ORDER BY disporder ASC");
+    $db->execute();
+    $forums = $db->fetch_row();
+    $redis->set("forums", json_encode($forums));
+
+    return $forums;
+}
