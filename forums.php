@@ -25,13 +25,27 @@ if (!$forum) {
     exit;
 }
 
+$page = 1;
+if (isset($_GET['page'])) {
+    $page = intval($_GET['page']);
+    if ($page < 1) {
+        $page = 1;
+    }
+}
+
+$threads = getThreads($fid, $page);
+
 ?>
 
 <div class="max-w-7xl mx-auto flex flex-col gap-y-4 px-2 md:px-6 lg:px-8">
-    <h1 class="pl-4 pt-2 pb-4 text-white text-2xl"><?= $forum['name'] ?></h1>
+    <h1 class="pl-4 pt-2 pb-4 text-white text-2xl"><?= $forum['name'] ?></h1><span> <em>-</em> </span>
+    <h3><?= $forum['description'] ?></h3>
 </div>
 
 <div class="max-w-7xl mx-auto flex flex-col gap-y-4 px-2 md:px-6 lg:px-8">
     <div class="w-full border border-white/10 bg-black/40 border-4 rounded-lg">
+        <?php
+
+        ?>
     </div>
 </div>
