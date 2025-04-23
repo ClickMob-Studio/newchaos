@@ -409,6 +409,7 @@ include 'nc_header.php';
     });
 
     slider.events.on('indexChanged', function (info) {
+        console.log("[DEBUG] Reached indexChanged event with index: " + info.displayIndex);
         updateSliderControls(info.displayIndex - 1);
     });
 
