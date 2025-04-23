@@ -3849,6 +3849,7 @@ function getForums()
 {
     global $db, $redis;
 
+    $redis->delete("forums");
     if ($redis->exists("forums")) {
         return json_decode($redis->get("forums"));
     }
@@ -3856,7 +3857,7 @@ function getForums()
     $db->query("SELECT * FROM forums ORDER BY disporder ASC");
     $db->execute();
     $forums = $db->fetch_row();
-    $redis->set("forums", json_encode($forums));
+    $redis->setEx("forums", 3600, json_encode($forums));
 
     return $forums;
 }
