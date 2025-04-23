@@ -202,7 +202,7 @@ var_dump($forums);
                         </div>
                         <a href="' . $forum_link . '">
                             <h2 class="text-white text-xl">' . $forum_name . '</h2>
-                            <span class="text-[#BBBBBB]">' . $forum_description . '</span>
+                            <span class="text-[#BBBBBB]">' . $forum_desc . '</span>
                         </a>
                     </div>';
             }
