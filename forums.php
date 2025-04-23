@@ -34,14 +34,14 @@ if (isset($_GET['page'])) {
 }
 
 $permissions = getPermissions($fid, $user_class->usergroup);
-if (!$permissions) {
+if (empty($permissions)) {
     header('Location: /index.php');
     exit;
 }
 
-$canview = $permissions['canview'] == 1;
-$canviewthreads = $permissions['canviewthreads'] == 1;
-$canonlyviewownthreads = $permissions['canonlyviewownthreads'] == 1;
+$canview = (int) $permissions['canview'] == 1;
+$canviewthreads = (int) $permissions['canviewthreads'] == 1;
+$canonlyviewownthreads = (int) $permissions['canonlyviewownthreads'] == 1;
 if (!$canview || (!$canviewthreads && !$canonlyviewownthreads)) {
     header('Location: /index.php');
     exit;
