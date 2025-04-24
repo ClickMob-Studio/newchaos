@@ -181,8 +181,8 @@ if (!$canpostthreads) {
         display: inline-block;
         background-image: url('css/images/svgs/Happy.svg');
         background-size: contain;
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
     }
 </style>
 
