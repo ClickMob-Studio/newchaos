@@ -266,7 +266,7 @@ if (!$canpostthreads) {
             'fixed', 'left-0', 'right-0', 'bottom-0',
             'md:absolute', 'md:top-[2rem]', 'md:left-0', 'md:w-80',
             'md:rounded-xl', 'transition-all',
-            'opacity-0', 'pointer-events-none',
+            'opacity-0', 'pointer-events-none', 'hidden'
         );
         emojiFormatter.appendChild(picker);
     } else {
@@ -309,6 +309,7 @@ if (!$canpostthreads) {
     };
 
     requestAnimationFrame(() => {
+        picker.classList.remove('hidden');
         picker.classList.add('opacity-0', 'pointer-events-none', 'translate-y-full');
     });
 </script>
