@@ -194,6 +194,11 @@ if (!$canpostthreads) {
 </form>
 
 <script>
+    Quill.register('modules/emoji', window.Emoji);
+    Quill.register('modules/emoji-toolbar', window.EmojiToolbar);
+    Quill.register('modules/emoji-textarea', window.EmojiTextarea);
+    Quill.register('modules/emoji-shortname', window.EmojiShortname);
+
     const toolbarOptions = {
         container: [
             [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
