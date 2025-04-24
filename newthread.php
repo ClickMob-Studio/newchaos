@@ -70,6 +70,7 @@ if (!$canpostthreads) {
     .ql-editor.ql-blank {
         background-color:
             color-mix(in oklab, var(--color-black) 40%, transparent);
+        border-radius: 0px 0px 8px 8px;
     }
 </style>
 
