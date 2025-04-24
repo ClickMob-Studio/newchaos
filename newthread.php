@@ -176,7 +176,8 @@ if (!$canpostthreads) {
 
             <div class="px-4 py-2">
                 <input type="text" id="subject" name="subject" placeholder="Subject"
-                    class="text-white bg-black/40 border border-white/10 rounded-lg px-4 py-1 w-full" required>
+                    class="text-white bg-black/40 border border-white/10 rounded-lg px-4 py-1 w-full" maxlength="120"
+                    minlength="10" required>
             </div>
 
             <div class="px-4 py-2 rounded-lg text-white">
