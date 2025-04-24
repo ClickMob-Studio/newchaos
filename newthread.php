@@ -243,14 +243,20 @@ if (!$canpostthreads) {
         },
     });
 
+    let lastQuillRange = null;
+    quill.on('selection-change', function (range) {
+        if (range) {
+            lastQuillRange = range;
+        }
+    });
+
     const isMobile = window.innerWidth < 768;
     const pickerOptions = {
         previewPosition: isMobile ? 'none' : 'bottom',
         onEmojiSelect: function (emoji, pointerEvent) {
-            const range = quill.getSelection();
-            if (range) {
-                quill.insertText(range.index, emoji.native);
-                quill.setSelection(range.index + emoji.native.length);
+            if (lastQuillRange) {
+                quill.insertText(lastQuillRange.index, emoji.native);
+                quill.setSelection(lastQuillRange.index + emoji.native.length);
             }
 
             toggleEmojiPicker();
