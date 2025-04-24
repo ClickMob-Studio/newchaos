@@ -53,6 +53,19 @@ if (!$canpostthreads) {
     .ql-toolbar .ql-picker {
         color: #fff;
     }
+
+    .ql-toolbar.ql-snow {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-sizing: border-box;
+        font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+        padding: 6px;
+        border-radius: 8px 8px 0px 0px;
+    }
+
+    .ql-container.ql-snow {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0px 0px 8px 8px;
+    }
 </style>
 
 <form method="POST">
