@@ -219,6 +219,10 @@ if (!$canpostthreads) {
         handlers: {
             'emoji': function () {
                 console.log('Emoji button clicked!');
+                const picker = document.querySelector('em-emoji-picker');
+                if (picker) {
+                    picker.classList.toggle('hidden');
+                }
             }
         }
     };
@@ -238,8 +242,13 @@ if (!$canpostthreads) {
     const picker = new EmojiMart.Picker(pickerOptions)
 
     // Find last .ql-formats element and append Picker inside it
-    const formatter = document.querySelector('.ql-formats:last-of-type');
+    const emojiFormatter = document.querySelector('.ql-formats:last-of-type');
+
     if (formatter) {
+        picker.classList.add('hidden');
+        picker.style.position = 'absolute';
+        picker.style.zIndex = '1000';
+        picker.style.top = '15px';
         formatter.appendChild(picker);
     } else {
         console.error('No .ql-formats element found!');
