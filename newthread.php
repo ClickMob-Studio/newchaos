@@ -266,6 +266,7 @@ if (!$canpostthreads) {
             'fixed', 'left-0', 'right-0', 'bottom-0',
             'md:absolute', 'md:top-[2rem]', 'md:left-0', 'md:w-80',
             'md:rounded-xl', 'transition-all',
+            'opacity-0', 'pointer-events-none',
         );
         emojiFormatter.appendChild(picker);
     } else {
