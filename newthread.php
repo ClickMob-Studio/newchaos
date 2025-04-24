@@ -254,9 +254,11 @@ if (!$canpostthreads) {
     const pickerOptions = {
         previewPosition: isMobile ? 'none' : 'bottom',
         onEmojiSelect: function (emoji, pointerEvent) {
-            if (lastQuillRange) {
-                quill.insertText(lastQuillRange.index, emoji.native);
-                quill.setSelection(lastQuillRange.index + emoji.native.length);
+            const range = quill.getSelection() || lastQuillRange;
+
+            if (range) {
+                quill.insertText(range.index, emoji.native);
+                quill.setSelection(range.index + emoji.native.length);
             }
 
             toggleEmojiPicker();
