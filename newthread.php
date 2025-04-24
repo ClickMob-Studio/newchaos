@@ -266,7 +266,7 @@ if (!$canpostthreads) {
             'z-[1000]', 'overflow-y-auto',
             'duration-300', 'ease-in-out',
             'fixed', 'left-0', 'right-0', 'bottom-0', 'h-[60vh]',
-            'md:absolute', 'md:top-[2rem]', 'md:left-0', 'md:w-80', 'md:rounded-xl', 'md:h-20vh',
+            'md:absolute', 'md:top-[2rem]', 'md:left-0', 'md:w-80', 'md:rounded-xl', 'md:h-fit',
             'transition-all',
             'opacity-0', 'pointer-events-none', 'hidden'
         );
