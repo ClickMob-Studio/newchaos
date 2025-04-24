@@ -193,23 +193,21 @@ if (!$canpostthreads) {
     </div>
 </form>
 
-<script type="module">
-    import Quill from "https://esm.sh/quill@2.0.3"
-    import * as Emoji from "https://esm.sh/quill-emoji";
-
-    Quill.register("modules/emoji", Emoji);
-
-    const toolbarOptions = [
-        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-        ['bold', 'italic', 'underline', 'strike'],
-        ['code-block'],
-        [{ 'header': 1 }, { 'header': 2 }],
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        [{ 'color': [] }, { 'background': [] }],
-        ['clean'],
-        ['link', 'image', 'video'],
-        ['emoji']
-    ];
+<script>
+    const toolbarOptions = {
+        container: [
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            ['code-block'],
+            [{ 'header': 1 }, { 'header': 2 }],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'color': [] }, { 'background': [] }],
+            ['clean'],
+            ['link', 'image', 'video'],
+            ['emoji']
+        ],
+        handlers: { 'emoji': function () { } }
+    };
     const quill = new Quill('#editor', {
         theme: 'snow',
         modules: {
