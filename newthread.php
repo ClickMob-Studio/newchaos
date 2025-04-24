@@ -263,7 +263,7 @@ if (!$canpostthreads) {
             'absolute', 'z-[1000]', 'top-[2rem]', 'left-0',
             'hidden', // start hidden
             'w-80', 'md:w-96', 'max-w-full',
-            'md:rounded-xl', 'bg-white', 'shadow-lg',
+            'md:rounded-xl',
             'md:top-[2rem]', 'md:left-0',
 
             // Mobile fallback: full screen bottom sheet style
