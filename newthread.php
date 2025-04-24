@@ -227,12 +227,9 @@ if (!$canpostthreads) {
         ],
         handlers: {
             'emoji': function () {
-                console.log('Emoji button clicked!');
                 const picker = document.querySelector('em-emoji-picker');
                 if (picker) {
-
                     picker.classList.toggle('hidden');
-                    picker.classList.toggle('transition-all');
                     picker.classList.toggle('duration-300');
                     picker.classList.toggle('ease-in-out');
                     picker.classList.toggle('translate-y-0');
@@ -272,7 +269,7 @@ if (!$canpostthreads) {
             'absolute', 'z-[1000]', 'top-[2rem]', 'left-0',
             'hidden', // start hidden
             'w-80', 'md:w-96', 'max-w-full',
-            'md:rounded-xl',
+            'md:rounded-xl', "transition-all",
             'md:top-[2rem]', 'md:left-0',
 
             // Mobile fallback: full screen bottom sheet style
