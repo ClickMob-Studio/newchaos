@@ -185,7 +185,7 @@ if (!$canpostthreads) {
 
             <div class="px-4 py-2">
                 <button type="submit"
-                    class="bg-[#242424] hover:bg-[#060606] border-white-50 text-white py-1 px-4 rounded text-md">Post
+                    class="bg-[#242424] hover:bg-[#060606] cursor-pointer border border-white-50 text-white py-1 px-4 rounded text-md">Post
                     thread</button>
             </div>
         </div>
