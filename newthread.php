@@ -194,6 +194,10 @@ if (!$canpostthreads) {
 </form>
 
 <script>
+    import * as Emoji from "https://esm.sh/quill-emoji";
+
+    Quill.register("modules/emoji", Emoji);
+
     const toolbarOptions = [
         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
         ['bold', 'italic', 'underline', 'strike'],
