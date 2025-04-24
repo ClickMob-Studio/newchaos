@@ -265,12 +265,10 @@ if (!$canpostthreads) {
         picker.classList.add(
             'z-[1000]', 'overflow-y-auto',
             'duration-300', 'ease-in-out',
+            'fixed', 'left-0', 'right-0', 'bottom-0', 'h-[60vh]',
+            'md:absolute', 'md:top-[2rem]', 'md:left-0', 'md:w-80', 'md:rounded-xl', 'md:h-auto',
             'transition-all',
-            // Initial hidden state
-            'opacity-0', 'pointer-events-none', 'hidden',
-            // Layout behavior
-            isMobile ? 'fixed' : 'md:absolute',
-            isMobile ? 'bottom-0 left-0 right-0' : 'md:top-[2rem] md:left-0 md:h-auto md:rounded-xl'
+            'opacity-0', 'pointer-events-none', 'hidden'
         );
         emojiFormatter.appendChild(picker);
     } else {
