@@ -184,6 +184,12 @@ if (!$canpostthreads) {
         width: 18px;
         height: 18px;
     }
+
+    @media (max-width: 768px) {
+        div#preview {
+            display: none !important;
+        }
+    }
 </style>
 
 <form method="POST">
@@ -308,18 +314,6 @@ if (!$canpostthreads) {
         }
     };
 
-
-    const hideEmojiPreviewOnMobile = () => {
-        const preview = picker.shadowRoot?.querySelector('div#preview');
-        if (preview) {
-            preview.classList.add('md:flex');
-            preview.classList.add('hidden');
-        }
-    };
-
-    // Run after picker is mounted (and optionally on each toggle)
-    picker.addEventListener('toggle', hideEmojiPreviewOnMobile);
-    requestAnimationFrame(hideEmojiPreviewOnMobile);
     requestAnimationFrame(() => {
         picker.classList.remove('hidden');
         picker.classList.add('opacity-0', 'pointer-events-none', 'translate-y-full');
