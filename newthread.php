@@ -227,6 +227,7 @@ if (!$canpostthreads) {
         ],
         handlers: {
             'emoji': function () {
+                requestAnimationFrame();
                 const picker = document.querySelector('em-emoji-picker');
                 if (picker) {
                     toggleEmojiPicker();
@@ -297,6 +298,11 @@ if (!$canpostthreads) {
             picker.classList.add('opacity-100', 'translate-y-0');
         }
     };
+
+    picker.classList.add('transition-none');
+    requestAnimationFrame(() => {
+        picker.classList.remove('transition-none');
+    });
 </script>
 
 <?php include "nc_footer.php"; ?>
