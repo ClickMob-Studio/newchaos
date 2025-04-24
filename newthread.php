@@ -232,8 +232,11 @@ if (!$canpostthreads) {
                 if (picker) {
 
                     picker.classList.toggle('hidden');
+                    picker.classList.toggle('transition-all');
+                    picker.classList.toggle('duration-300');
+                    picker.classList.toggle('ease-in-out');
+                    picker.classList.toggle('translate-y-0');
                     picker.classList.toggle('translate-y-full');
-                    picker.classList.toggle('transition-all duration-300 ease-in-out translate-y-0');
                 } else {
                     console.error('Emoji picker not found!');
                 }
