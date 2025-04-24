@@ -194,6 +194,7 @@ if (!$canpostthreads) {
 </form>
 
 <script type="module">
+    import Quill from "https://esm.sh/quill@2.0.3"
     import * as Emoji from "https://esm.sh/quill-emoji";
 
     Quill.register("modules/emoji", Emoji);
