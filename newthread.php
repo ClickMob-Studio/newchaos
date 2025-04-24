@@ -308,15 +308,22 @@ if (!$canpostthreads) {
         }
     };
 
+
+    const hideEmojiPreviewOnMobile = () => {
+        const preview = picker.shadowRoot?.querySelector('div#preview');
+        if (preview) {
+            preview.classList.add('md:flex');
+            preview.classList.add('hidden');
+        }
+    };
+
+    // Run after picker is mounted (and optionally on each toggle)
+    picker.addEventListener('toggle', hideEmojiPreviewOnMobile);
+    requestAnimationFrame(hideEmojiPreviewOnMobile);
     requestAnimationFrame(() => {
         picker.classList.remove('hidden');
         picker.classList.add('opacity-0', 'pointer-events-none', 'translate-y-full');
     });
-
-    // Hide emoji preview on mobile
-    const preview = document.querySelector('em-emoji-picker #preview');
-    preview.classList.remove('flex');
-    preview.classList.add('hidden md:flex');
 </script>
 
 <?php include "nc_footer.php"; ?>
