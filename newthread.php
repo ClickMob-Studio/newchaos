@@ -75,8 +75,8 @@ if (!$canpostthreads) {
     }
 
     .ql-picker-options {
-        background: black;
-        border-color: rgba(255, 255, 255, 0.1);
+        background: black !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
         border-radius: 8px;
     }
 </style>
