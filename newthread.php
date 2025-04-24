@@ -268,7 +268,7 @@ if (!$canpostthreads) {
             'md:top-[2rem]', 'md:left-0',
             'fixed', 'bottom-0', 'left-0', 'right-0', 'md:absolute',
             'md:bottom-auto', 'md:right-auto', 'h-[60vh]', 'md:h-auto',
-            'overflow-y-auto', 'p-4', 'bg-white', 'shadow-lg'
+            'overflow-y-auto'
         );
         emojiFormatter.appendChild(picker);
     } else {
