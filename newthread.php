@@ -209,6 +209,7 @@ if (!$canpostthreads) {
         theme: 'snow',
         modules: {
             toolbar: toolbarOptions,
+            "emoji": true,
             "emoji-toolbar": true,
             "emoji-textarea": true,
             "emoji-shortname": true,
