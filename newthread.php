@@ -66,6 +66,11 @@ if (!$canpostthreads) {
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 0px 0px 8px 8px;
     }
+
+    .ql-editor.ql-blank {
+        background-color:
+            color-mix(in oklab, var(--color-black) 40%, transparent);
+    }
 </style>
 
 <form method="POST">
