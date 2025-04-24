@@ -39,6 +39,22 @@ if (!$canpostthreads) {
 
 ?>
 
+<form method="POST">
+    <div class="max-w-7xl mx-auto flex flex-col gap-y-4 px-2 md:px-6 lg:px-8">
+        <div class="w-full border border-white/10 bg-black/40 border-4 rounded-lg">
+            <h2 class="text-white text-xl">Post new thread in <?= $forum['name'] ?></h2>
 
+            <input type="text" id="subject" name="subject" placeholder="Subject" required>
+
+            <div id="editor"></div>
+        </div>
+    </div>
+</form>
+
+<script>
+    const quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+</script>
 
 <?php include "nc_footer.php"; ?>
