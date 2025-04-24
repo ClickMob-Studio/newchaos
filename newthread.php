@@ -288,11 +288,21 @@ if (!$canpostthreads) {
         const isVisible = picker.classList.contains('opacity-100');
 
         if (isVisible) {
-            // Hide for all screen sizes
+            // HIDE
             picker.classList.remove('opacity-100', 'translate-y-0');
             picker.classList.add('opacity-0', 'pointer-events-none', 'translate-y-full');
+
+            // Wait for transition to finish, then hide from layout
+            setTimeout(() => {
+                picker.classList.add('hidden');
+            }, 300); // matches duration-300
         } else {
-            // Show for all screen sizes
+            // SHOW
+            picker.classList.remove('hidden'); // make it enter layout again
+
+            // Force reflow to restart animation (optional)
+            void picker.offsetWidth;
+
             picker.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-full');
             picker.classList.add('opacity-100', 'translate-y-0');
         }
