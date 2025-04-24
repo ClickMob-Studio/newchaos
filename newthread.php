@@ -231,7 +231,7 @@ if (!$canpostthreads) {
 
     const pickerOptions = {
         onEmojiSelect: function (data) {
-            console.log(data.PointerEvent);
+            console.log(data);
         }
     }
     const picker = new EmojiMart.Picker(pickerOptions)
