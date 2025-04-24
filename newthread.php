@@ -83,7 +83,7 @@ if (!$canpostthreads) {
     .ql-picker-item:hover,
     .ql-picker-item.ql-selected,
     .ql-snow.ql-toolbar button:hover {
-        color: red;
+        color: red !important;
     }
 </style>
 
