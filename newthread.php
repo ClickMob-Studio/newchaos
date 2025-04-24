@@ -244,6 +244,7 @@ if (!$canpostthreads) {
     // Find last .ql-formats element and append Picker inside it
     const emojiFormatter = document.querySelector('.ql-formats:last-of-type');
     if (emojiFormatter) {
+        emojiFormatter.classList.add('relative');
         picker.classList.add('hidden');
         picker.style.position = 'absolute';
         picker.style.zIndex = '1000';
