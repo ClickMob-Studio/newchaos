@@ -263,11 +263,9 @@ if (!$canpostthreads) {
         picker.classList.add(
             'z-[1000]', 'overflow-y-auto',
             'duration-300', 'ease-in-out',
-            'fixed', 'left-0', 'right-0', 'bottom-0', 'h-[60vh]',
+            'fixed', 'left-0', 'right-0', 'bottom-0',
             'md:absolute', 'md:top-[2rem]', 'md:left-0', 'md:w-80', 'md:h-auto',
-            'md:rounded-xl',
-            'bg-white', 'shadow-lg', 'p-4',
-            'transition-all',
+            'md:rounded-xl', 'transition-all',
         );
         emojiFormatter.appendChild(picker);
     } else {
