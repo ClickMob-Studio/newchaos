@@ -231,7 +231,7 @@ if (!$canpostthreads) {
 
     const pickerOptions = {
         onEmojiSelect: function (emoji, pointerEvent) {
-            console.log(data);
+            console.log(emoji);
             console.log(pointerEvent);
         }
     }
