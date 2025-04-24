@@ -184,7 +184,7 @@ if (!$canpostthreads) {
                 <div id="editor"></div>
             </div>
 
-            <div class="px-4 py-2">
+            <div class="px-4 py-2 mb-2">
                 <button type="submit"
                     class="bg-black/40 hover:bg-black/80 cursor-pointer border border-white/10 text-white py-1 px-4 rounded text-md">Post
                     thread</button>
