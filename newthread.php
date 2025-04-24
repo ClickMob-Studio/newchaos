@@ -237,7 +237,13 @@ if (!$canpostthreads) {
     }
     const picker = new EmojiMart.Picker(pickerOptions)
 
-    document.body.appendChild(picker)
+    // Find last .ql-formats element and append Picker inside it
+    const formatter = document.querySelector('.ql-formats:last-of-type');
+    if (formatter) {
+        formatter.appendChild(picker);
+    } else {
+        console.error('No .ql-formats element found!');
+    }
 </script>
 
 <?php include "nc_footer.php"; ?>
