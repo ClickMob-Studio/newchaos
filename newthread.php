@@ -243,13 +243,12 @@ if (!$canpostthreads) {
 
     // Find last .ql-formats element and append Picker inside it
     const emojiFormatter = document.querySelector('.ql-formats:last-of-type');
-
     if (emojiFormatter) {
         picker.classList.add('hidden');
         picker.style.position = 'absolute';
         picker.style.zIndex = '1000';
         picker.style.top = '15px';
-        formatter.appendChild(picker);
+        emojiFormatter.appendChild(picker);
     } else {
         console.error('No .ql-formats element found!');
     }
