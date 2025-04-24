@@ -273,7 +273,10 @@ if (!$canpostthreads) {
 
             // Desktop overrides
             'md:absolute', 'md:top-[2rem]', 'md:left-0', 'md:w-80', 'md:h-auto',
-            'md:translate-y-0', 'md:opacity-0', 'md:pointer-events-none', 'md:rounded-xl'
+            'md:translate-y-0', 'md:opacity-0', 'md:pointer-events-none', 'md:rounded-xl',
+
+            // No initial transition
+            'transition-none',
         );
         emojiFormatter.appendChild(picker);
     } else {
