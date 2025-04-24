@@ -179,7 +179,7 @@ if (!$canpostthreads) {
     .ql-emoji::before {
         content: '';
         display: inline-block;
-        background-image: url('css/images/2025/svgs/Happy.svg');
+        background-image: url('css/images/svgs/Happy.svg');
         background-size: contain;
         width: 20px;
         height: 20px;
