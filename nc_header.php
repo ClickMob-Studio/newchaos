@@ -589,8 +589,9 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/tiny-slider.css">
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@windmillcode/quill-emoji@2.0.3000/quill-emoji.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/@windmillcode/quill-emoji@2.0.3000/quill-emoji.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/quill-emoji@0.1.7/dist/quill-emoji.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/quill-emoji@0.1.7/dist/quill-emoji.js"></script>
 
     <!-- OLD -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
