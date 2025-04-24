@@ -235,8 +235,12 @@ if (!$canpostthreads) {
 
     const pickerOptions = {
         onEmojiSelect: function (emoji, pointerEvent) {
-            console.log(emoji);
-            console.log(pointerEvent);
+            const range = quill.getSelection();
+            if (range) {
+
+                quill.insertText(range.index, emoji.native);
+                quill.setSelection(range.index + emoji.native.length);
+            }
         }
     }
     const picker = new EmojiMart.Picker(pickerOptions)
@@ -248,7 +252,7 @@ if (!$canpostthreads) {
         picker.classList.add('hidden');
         picker.style.position = 'absolute';
         picker.style.zIndex = '1000';
-        picker.style.top = '15px';
+        picker.style.top = '25px';
         emojiFormatter.appendChild(picker);
     } else {
         console.error('No .ql-formats element found!');
