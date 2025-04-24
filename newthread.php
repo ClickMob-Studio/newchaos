@@ -39,6 +39,22 @@ if (!$canpostthreads) {
 
 ?>
 
+<style>
+    .ql-toolbar .ql-stroke {
+        fill: none;
+        stroke: #fff;
+    }
+
+    .ql-toolbar .ql-fill {
+        fill: #fff;
+        stroke: none;
+    }
+
+    .ql-toolbar .ql-picker {
+        color: #fff;
+    }
+</style>
+
 <form method="POST">
     <div class="max-w-7xl mx-auto flex flex-col gap-y-4 px-2 md:px-6 lg:px-8">
         <div class="w-full border border-white/10 bg-black/40 border-4 rounded-lg">
