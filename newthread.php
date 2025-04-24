@@ -79,6 +79,10 @@ if (!$canpostthreads) {
         border-color: rgba(255, 255, 255, 0.1) !important;
         border-radius: 8px;
     }
+
+    .ql-picker-options {
+        color: red;
+    }
 </style>
 
 <form method="POST">
