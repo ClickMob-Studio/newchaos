@@ -80,7 +80,11 @@ if (!$canpostthreads) {
         border-radius: 8px;
     }
 
-    .ql-picker-options {
+    .ql-picker-item.ql-selected {
+        color: red;
+    }
+
+    .ql-snow.ql-toolbar .ql-picker-item:hover {
         color: red;
     }
 </style>
