@@ -184,12 +184,6 @@ if (!$canpostthreads) {
         width: 18px;
         height: 18px;
     }
-
-    @media (max-width: 768px) {
-        div#preview {
-            display: none !important;
-        }
-    }
 </style>
 
 <form method="POST">
@@ -318,6 +312,31 @@ if (!$canpostthreads) {
         picker.classList.remove('hidden');
         picker.classList.add('opacity-0', 'pointer-events-none', 'translate-y-full');
     });
+
+
+    const injectMobilePreviewHider = () => {
+        const style = document.createElement('style');
+        style.textContent = `
+        @media (max-width: 768px) {
+            div#preview {
+                display: none !important;
+            }
+        }
+    `;
+
+        const shadowRoot = picker.shadowRoot;
+        if (shadowRoot) {
+            // Check if the style is already injected to avoid duplicates
+            if (!shadowRoot.querySelector('#hide-preview-style')) {
+                style.id = 'hide-preview-style'; // Unique identifier for the style
+                shadowRoot.appendChild(style);  // Add the style tag into the shadow DOM
+            }
+        }
+    };
+
+    // Run this after picker is initialized
+    picker.addEventListener('toggle', injectMobilePreviewHider);
+    requestAnimationFrame(injectMobilePreviewHider); 
 </script>
 
 <?php include "nc_footer.php"; ?>
