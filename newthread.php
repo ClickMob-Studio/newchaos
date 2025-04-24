@@ -229,7 +229,11 @@ if (!$canpostthreads) {
         },
     });
 
-    const pickerOptions = { onEmojiSelect: console.log }
+    const pickerOptions = {
+        onEmojiSelect: function (data) {
+            console.log(data.PointerEvent);
+        }
+    }
     const picker = new EmojiMart.Picker(pickerOptions)
 
     document.body.appendChild(picker)
