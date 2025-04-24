@@ -166,7 +166,7 @@ if (!$canpostthreads) {
         fill: red !important;
     }
 
-    #textarea-emoji .tab-toolbar {
+    #tab-toolbar {
         background-color: #080808;
 
     }
