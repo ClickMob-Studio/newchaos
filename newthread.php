@@ -255,8 +255,11 @@ if (!$canpostthreads) {
                 quill.setSelection(range.index + emoji.native.length);
             }
 
-            picker.classList.delete('transition-all duration-300 ease-in-out translate-y-0');
-            picker.classList.add('translate-y-full');
+            picker.classList.toggle('hidden');
+            picker.classList.toggle('duration-300');
+            picker.classList.toggle('ease-in-out');
+            picker.classList.toggle('translate-y-0');
+            picker.classList.toggle('translate-y-full');
         }
     }
     const picker = new EmojiMart.Picker(pickerOptions)
