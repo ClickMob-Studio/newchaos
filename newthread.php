@@ -237,10 +237,11 @@ if (!$canpostthreads) {
         onEmojiSelect: function (emoji, pointerEvent) {
             const range = quill.getSelection();
             if (range) {
-
                 quill.insertText(range.index, emoji.native);
                 quill.setSelection(range.index + emoji.native.length);
             }
+
+            picker.classList.add('hidden');
         }
     }
     const picker = new EmojiMart.Picker(pickerOptions)
@@ -257,6 +258,16 @@ if (!$canpostthreads) {
     } else {
         console.error('No .ql-formats element found!');
     }
+
+    document.addEventListener('click', function (event) {
+        // If the picker is hidden, do nothing
+        if (picker.classList.contains('hidden')) return;
+
+        const isClickInsidePicker = picker.contains(event.target);
+        const isClickOnEmojiButton = emojiFormatter.contains(event.target);
+        if (!isClickInsidePicker && !isClickOnEmojiButton) {
+            picker.classList.add('hidden');
+        }
 </script>
 
 <?php include "nc_footer.php"; ?>
