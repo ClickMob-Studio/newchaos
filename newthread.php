@@ -261,19 +261,16 @@ if (!$canpostthreads) {
     if (emojiFormatter) {
         emojiFormatter.classList.add('relative');
         picker.classList.add(
-            // Shared styles
-            'z-[1000]', 'bg-white', 'shadow-lg', 'p-4', 'overflow-y-auto',
-            'transition-all', 'duration-300', 'ease-in-out',
+            // Shared
+            'z-[1000]', 'w-80', 'md:w-96', 'max-w-full', 'bg-white', 'shadow-lg',
+            'transition-all', 'duration-300', 'ease-in-out', 'opacity-0', 'pointer-events-none',
+            'translate-y-full',
 
-            // Visibility control (JS toggles these)
-            'opacity-0', 'pointer-events-none', 'translate-y-full',
+            // Mobile (default)
+            'fixed', 'bottom-0', 'left-0', 'right-0', 'h-[60vh]', 'overflow-y-auto', 'p-4',
 
-            // Mobile styles
-            'fixed', 'left-0', 'right-0', 'bottom-0', 'h-[60vh]',
-
-            // Desktop overrides
-            'md:absolute', 'md:top-[2rem]', 'md:left-0', 'md:w-80', 'md:h-auto',
-            'md:translate-y-0', 'md:opacity-0', 'md:pointer-events-none', 'md:rounded-xl'
+            // Desktop override
+            'md:absolute', 'md:top-[2.5rem]', 'md:left-0', 'md:rounded-xl', 'md:h-auto'
         );
         emojiFormatter.appendChild(picker);
     } else {
