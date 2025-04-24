@@ -58,10 +58,12 @@ if (!$canpostthreads) {
 <form method="POST">
     <div class="max-w-7xl mx-auto flex flex-col gap-y-4 px-2 md:px-6 lg:px-8">
         <div class="w-full border border-white/10 bg-black/40 border-4 rounded-lg">
-            <h2 class="text-white text-xl px-2 py-2">Post new thread in <?= $forum['name'] ?></h2>
+            <h2 class="text-white text-xl px-4 py-2">Post new thread in <?= $forum['name'] ?></h2>
 
-            <input type="text" id="subject" name="subject" placeholder="Subject" required>
-            <div class="px-2 rounded-lg text-white">
+            <input type="text" id="subject" name="subject" placeholder="Subject"
+                class="text-white bg-black/40 border border-white/10 rounded-lg px-4 py-2 w-full" required>
+
+            <div class="px-4 py-2 rounded-lg text-white">
                 <div id="editor"></div>
             </div>
         </div>
