@@ -194,8 +194,14 @@ if (!$canpostthreads) {
 </form>
 
 <script>
+
     const quill = new Quill('#editor', {
-        theme: 'snow'
+        theme: 'snow',
+        modules: {
+            "emoji-toolbar": true,
+            "emoji-textarea": true,
+            "emoji-shortname": true,
+        },
     });
 </script>
 
