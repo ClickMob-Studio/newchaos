@@ -62,6 +62,11 @@ if (!$canpostthreads) {
         border-radius: 8px 8px 0px 0px;
     }
 
+    .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
+        border-color: rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+    }
+
     .ql-container.ql-snow {
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 0px 0px 8px 8px;
