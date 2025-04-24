@@ -204,7 +204,6 @@ if (!$canpostthreads) {
 </form>
 
 <script>
-
     const toolbarOptions = {
         container: [
             [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
@@ -217,16 +216,23 @@ if (!$canpostthreads) {
             ['link', 'image', 'video'],
             ['emoji']
         ],
-        handlers: { 'emoji': function () { } }
+        handlers: {
+            'emoji': function () {
+                console.log('Emoji button clicked!');
+            }
+        }
     };
     const quill = new Quill('#editor', {
         theme: 'snow',
         modules: {
             toolbar: toolbarOptions,
-            "emoji-toolbar": true,
-            "emoji-shortname": true,
         },
     });
+
+    const pickerOptions = { onEmojiSelect: console.log }
+    const picker = new EmojiMart.Picker(pickerOptions)
+
+    document.body.appendChild(picker)
 </script>
 
 <?php include "nc_footer.php"; ?>
