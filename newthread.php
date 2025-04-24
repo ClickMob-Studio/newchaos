@@ -259,10 +259,18 @@ if (!$canpostthreads) {
     const emojiFormatter = document.querySelector('.ql-formats:nth-of-type(2)');
     if (emojiFormatter) {
         emojiFormatter.classList.add('relative');
-        picker.classList.add('hidden');
-        picker.style.position = 'absolute';
-        picker.style.zIndex = '1000';
-        picker.style.top = '25px';
+        picker.classList.add(
+            'absolute', 'z-[1000]', 'top-[2rem]', 'left-0',
+            'hidden', // start hidden
+            'w-80', 'md:w-96', 'max-w-full',
+            'md:rounded-xl', 'bg-white', 'shadow-lg',
+            'md:top-[2rem]', 'md:left-0',
+
+            // Mobile fallback: full screen bottom sheet style
+            'fixed', 'bottom-0', 'left-0', 'right-0', 'md:absolute',
+            'md:bottom-auto', 'md:right-auto', 'md:top-[2rem]',
+            'h-[60vh]', 'md:h-auto', 'overflow-y-auto', 'p-4'
+        );
         emojiFormatter.appendChild(picker);
     } else {
         console.error('No .ql-formats element found!');
