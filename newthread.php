@@ -73,6 +73,12 @@ if (!$canpostthreads) {
         border-radius: 0px 0px 8px 8px;
         min-height: 200px;
     }
+
+    .ql-picker-options {
+        background: black;
+        border-color: rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+    }
 </style>
 
 <form method="POST">
@@ -92,8 +98,7 @@ if (!$canpostthreads) {
             </div>
 
             <div class="px-4 py-2">
-                <button type="submit"
-                    class="bg-black-500 hover:bg-black-600 text-white font-bold py-2 px-4 rounded">Post thread</button>
+                <button type="submit" class="bg-black text-white font-bold py-2 px-4 rounded">Post thread</button>
             </div>
         </div>
     </div>
