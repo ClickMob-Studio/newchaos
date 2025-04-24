@@ -271,6 +271,7 @@ if (!$canpostthreads) {
             'w-80', 'md:w-96', 'max-w-full',
             'md:rounded-xl', "transition-all",
             'md:top-[2rem]', 'md:left-0',
+            'translate-y-full',
 
             // Mobile fallback: full screen bottom sheet style
             'fixed', 'bottom-0', 'left-0', 'right-0', 'md:absolute',
