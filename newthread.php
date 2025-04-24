@@ -312,6 +312,11 @@ if (!$canpostthreads) {
         picker.classList.remove('hidden');
         picker.classList.add('opacity-0', 'pointer-events-none', 'translate-y-full');
     });
+
+    // Hide emoji preview on mobile
+    const preview = document.querySelector('em-emoji-picker #preview');
+    preview.classList.remove('flex');
+    preview.classList.add('hidden md:flex');
 </script>
 
 <?php include "nc_footer.php"; ?>
