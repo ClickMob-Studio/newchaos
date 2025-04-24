@@ -104,3 +104,5 @@ if ($canonlyviewownthreads) {
         <?php endif; ?>
     </div>
 </div>
+
+<?php include "nc_footer.php"; ?>
