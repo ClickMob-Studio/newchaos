@@ -194,22 +194,17 @@ if (!$canpostthreads) {
 </form>
 
 <script>
-    const toolbarOptions = {
-        container: [
-            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            ['code-block'],
-            [{ 'header': 1 }, { 'header': 2 }],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            [{ 'color': [] }, { 'background': [] }],
-            ['clean'],
-            ['link', 'image', 'video'],
-            ['emoji']
-        ],
-        handlers: {
-            'emoji': function () { }
-        }
-    }
+    const toolbarOptions = [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        ['code-block'],
+        [{ 'header': 1 }, { 'header': 2 }],
+        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        [{ 'color': [] }, { 'background': [] }],
+        ['clean'],
+        ['link', 'image', 'video'],
+        ['emoji']
+    ];
     const quill = new Quill('#editor', {
         theme: 'snow',
         modules: {
