@@ -262,7 +262,7 @@ if (!$canpostthreads) {
         emojiFormatter.classList.add('relative');
         picker.classList.add(
             // Shared styles
-            'z-[1000]', 'bg-white', 'shadow-lg', 'p-4', 'overflow-y-auto',
+            'z-[1000]', 'overflow-y-auto',
             'transition-all', 'duration-300', 'ease-in-out',
 
             // Visibility control (JS toggles these)
