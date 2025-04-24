@@ -274,7 +274,7 @@ if (!$canpostthreads) {
 
     document.addEventListener('click', function (event) {
         // If the picker is hidden, do nothing
-        if (picker.classList.contains('hidden')) return;
+        if (picker.classList.contains('opacity-0')) return;
 
         const isClickInsidePicker = picker.contains(event.target);
         const isClickOnEmojiButton = emojiFormatter.contains(event.target);
@@ -296,6 +296,7 @@ if (!$canpostthreads) {
             picker.classList.add('opacity-100', 'translate-y-0');
         }
     };
+
     requestAnimationFrame(() => {
         picker.classList.add('opacity-0', 'pointer-events-none', 'translate-y-full');
     });
