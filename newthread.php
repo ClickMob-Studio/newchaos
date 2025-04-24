@@ -61,8 +61,9 @@ if (!$canpostthreads) {
             <h2 class="text-white text-xl px-2 py-2">Post new thread in <?= $forum['name'] ?></h2>
 
             <input type="text" id="subject" name="subject" placeholder="Subject" required>
-
-            <div id="editor" class="px-2 rounded-lg text-white"></div>
+            <div class="px-2 rounded-lg text-white">
+                <div id="editor"></div>
+            </div>
         </div>
     </div>
 </form>
