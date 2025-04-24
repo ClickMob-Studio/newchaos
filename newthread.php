@@ -230,13 +230,10 @@ if (!$canpostthreads) {
                 console.log('Emoji button clicked!');
                 const picker = document.querySelector('em-emoji-picker');
                 if (picker) {
-                    if (picker.classList.contains('hidden')) {
-                        picker.classList.remove('hidden translate-y-full');
-                        picker.classList.add('transition-all duration-300 ease-in-out translate-y-0');
-                    } else {
-                        picker.classList.add('hidden translate-y-full');
-                        picker.classList.remove('transition-all duration-300 ease-in-out translate-y-0');
-                    }
+
+                    picker.classList.toggle('hidden');
+                    picker.classList.toggle('translate-y-full');
+                    picker.classList.toggle('transition-all duration-300 ease-in-out translate-y-0');
                 } else {
                     console.error('Emoji picker not found!');
                 }
