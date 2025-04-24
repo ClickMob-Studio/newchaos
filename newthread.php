@@ -184,8 +184,7 @@ if (!$canpostthreads) {
             </div>
 
             <div class="px-4 py-2">
-                <button type="submit"
-                    class="bg-[#242424] border-white/50 text-white font-medium px-4 rounded text-md">Post
+                <button type="submit" class="bg-[#242424] border-white/50 text-white py-1 px-4 rounded text-md">Post
                     thread</button>
             </div>
         </div>
