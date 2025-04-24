@@ -267,7 +267,7 @@ if (!$canpostthreads) {
             'duration-300', 'ease-in-out',
             'fixed', 'left-0', 'right-0', 'bottom-0', 'h-[60vh]',
             'md:absolute', 'md:top-[2rem]', 'md:left-0', 'md:w-80', 'md:rounded-xl', 'md:h-auto',
-            'transition-all',
+            'md:min-h-24', 'transition-all',
             'opacity-0', 'pointer-events-none', 'hidden'
         );
         emojiFormatter.appendChild(picker);
