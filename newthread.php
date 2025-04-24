@@ -229,11 +229,7 @@ if (!$canpostthreads) {
             'emoji': function () {
                 const picker = document.querySelector('em-emoji-picker');
                 if (picker) {
-                    picker.classList.toggle('hidden');
-                    picker.classList.toggle('duration-300');
-                    picker.classList.toggle('ease-in-out');
-                    picker.classList.toggle('translate-y-0');
-                    picker.classList.toggle('translate-y-full');
+                    toggleEmojiPicker();
                 } else {
                     console.error('Emoji picker not found!');
                 }
@@ -255,11 +251,7 @@ if (!$canpostthreads) {
                 quill.setSelection(range.index + emoji.native.length);
             }
 
-            picker.classList.toggle('hidden');
-            picker.classList.toggle('duration-300');
-            picker.classList.toggle('ease-in-out');
-            picker.classList.toggle('translate-y-0');
-            picker.classList.toggle('translate-y-full');
+            toggleEmojiPicker();
         }
     }
     const picker = new EmojiMart.Picker(pickerOptions)
@@ -270,16 +262,13 @@ if (!$canpostthreads) {
         emojiFormatter.classList.add('relative');
         picker.classList.add(
             'absolute', 'z-[1000]', 'top-[2rem]', 'left-0',
-            'hidden', // start hidden
             'w-80', 'md:w-96', 'max-w-full',
-            'md:rounded-xl', "transition-all",
+            'md:rounded-xl', 'transition-all', 'duration-300', 'ease-in-out',
+            'opacity-0', 'pointer-events-none', 'translate-y-full',
             'md:top-[2rem]', 'md:left-0',
-            'translate-y-full',
-
-            // Mobile fallback: full screen bottom sheet style
             'fixed', 'bottom-0', 'left-0', 'right-0', 'md:absolute',
-            'md:bottom-auto', 'md:right-auto', 'md:top-[2rem]',
-            'h-[60vh]', 'md:h-auto', 'overflow-y-auto', 'p-4'
+            'md:bottom-auto', 'md:right-auto', 'h-[60vh]', 'md:h-auto',
+            'overflow-y-auto', 'p-4', 'bg-white', 'shadow-lg'
         );
         emojiFormatter.appendChild(picker);
     } else {
@@ -293,9 +282,21 @@ if (!$canpostthreads) {
         const isClickInsidePicker = picker.contains(event.target);
         const isClickOnEmojiButton = emojiFormatter.contains(event.target);
         if (!isClickInsidePicker && !isClickOnEmojiButton) {
-            picker.classList.add('hidden');
+            toggleEmojiPicker();
         }
     });
+
+    const toggleEmojiPicker = () => {
+        const isVisible = picker.classList.contains('opacity-100');
+
+        if (isVisible) {
+            picker.classList.remove('opacity-100', 'translate-y-0');
+            picker.classList.add('opacity-0', 'pointer-events-none', 'translate-y-full');
+        } else {
+            picker.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-full');
+            picker.classList.add('opacity-100', 'translate-y-0');
+        }
+    };
 </script>
 
 <?php include "nc_footer.php"; ?>
