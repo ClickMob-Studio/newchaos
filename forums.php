@@ -77,5 +77,30 @@ if ($canonlyviewownthreads) {
             echo "There are currently no threads here.";
         }
         ?>
+
+        <?php if (!empty($threads)): ?>
+            <table class="w-full text-left text-sm text-gray-400">
+                <thead class="text-xs uppercase bg-gray-700 text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Thread</th>
+                        <th scope="col" class="px-6 py-3">Author</th>
+                        <th scope="col" class="px-6 py-3">Replies</th>
+                        <th scope="col" class="px-6 py-3">Last Post</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($threads as $thread): ?>
+                        <tr class="border-b border-gray-700 hover:bg-gray-600">
+                            <td class="px-6 py-4"><a href="/forums/thread.php?tid=<?= $thread['id'] ?>"
+                                    class="text-blue-500 hover:underline"><?= htmlspecialchars($thread['subject']) ?></a></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($thread['uid']) ?></td>
+                            <td class="px-6 py-4"><?= $thread['replycount'] ?></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($thread['lastpostsubject']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+
+        <?php endif; ?>
     </div>
 </div>
