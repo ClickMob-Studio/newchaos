@@ -268,6 +268,7 @@ if (!$canpostthreads) {
         if (!isClickInsidePicker && !isClickOnEmojiButton) {
             picker.classList.add('hidden');
         }
+    });
 </script>
 
 <?php include "nc_footer.php"; ?>
