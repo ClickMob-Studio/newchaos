@@ -194,35 +194,37 @@ if (!$canpostthreads) {
 </form>
 
 <script>
-    Quill.register('modules/emoji', window.Emoji);
-    Quill.register('modules/emoji-toolbar', window.EmojiToolbar);
-    Quill.register('modules/emoji-textarea', window.EmojiTextarea);
-    Quill.register('modules/emoji-shortname', window.EmojiShortname);
+    window.onload = () => {
+        Quill.register('modules/emoji', window.Emoji);
+        Quill.register('modules/emoji-toolbar', window.EmojiToolbar);
+        Quill.register('modules/emoji-textarea', window.EmojiTextarea);
+        Quill.register('modules/emoji-shortname', window.EmojiShortname);
 
-    const toolbarOptions = {
-        container: [
-            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            ['code-block'],
-            [{ 'header': 1 }, { 'header': 2 }],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            [{ 'color': [] }, { 'background': [] }],
-            ['clean'],
-            ['link', 'image', 'video'],
-            ['emoji']
-        ],
-        handlers: { 'emoji': function () { } }
+        const toolbarOptions = {
+            container: [
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                ['bold', 'italic', 'underline', 'strike'],
+                ['code-block'],
+                [{ 'header': 1 }, { 'header': 2 }],
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                [{ 'color': [] }, { 'background': [] }],
+                ['clean'],
+                ['link', 'image', 'video'],
+                ['emoji']
+            ],
+            handlers: { 'emoji': function () { } }
+        };
+        const quill = new Quill('#editor', {
+            theme: 'snow',
+            modules: {
+                toolbar: toolbarOptions,
+                "emoji": true,
+                "emoji-toolbar": true,
+                "emoji-textarea": true,
+                "emoji-shortname": true,
+            },
+        });
     };
-    const quill = new Quill('#editor', {
-        theme: 'snow',
-        modules: {
-            toolbar: toolbarOptions,
-            "emoji": true,
-            "emoji-toolbar": true,
-            "emoji-textarea": true,
-            "emoji-shortname": true,
-        },
-    });
 </script>
 
 <?php include "nc_footer.php"; ?>
