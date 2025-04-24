@@ -230,7 +230,15 @@ if (!$canpostthreads) {
                 console.log('Emoji button clicked!');
                 const picker = document.querySelector('em-emoji-picker');
                 if (picker) {
-                    picker.classList.toggle('hidden');
+                    if (picker.classList.contains('hidden')) {
+                        picker.classList.remove('hidden translate-y-full');
+                        picker.classList.add('transition-all duration-300 ease-in-out translate-y-0');
+                    } else {
+                        picker.classList.add('hidden translate-y-full');
+                        picker.classList.remove('transition-all duration-300 ease-in-out translate-y-0');
+                    }
+                } else {
+                    console.error('Emoji picker not found!');
                 }
             }
         }
@@ -250,7 +258,8 @@ if (!$canpostthreads) {
                 quill.setSelection(range.index + emoji.native.length);
             }
 
-            picker.classList.add('hidden');
+            picker.classList.delete('transition-all duration-300 ease-in-out translate-y-0');
+            picker.classList.add('translate-y-full');
         }
     }
     const picker = new EmojiMart.Picker(pickerOptions)
