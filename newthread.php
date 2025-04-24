@@ -261,22 +261,13 @@ if (!$canpostthreads) {
     if (emojiFormatter) {
         emojiFormatter.classList.add('relative');
         picker.classList.add(
-            // Shared styles
             'z-[1000]', 'overflow-y-auto',
             'duration-300', 'ease-in-out',
-
-            // Visibility control (JS toggles these)
-            'opacity-0', 'pointer-events-none', 'translate-y-full',
-
-            // Mobile styles
             'fixed', 'left-0', 'right-0', 'bottom-0', 'h-[60vh]',
-
-            // Desktop overrides
             'md:absolute', 'md:top-[2rem]', 'md:left-0', 'md:w-80', 'md:h-auto',
-            'md:translate-y-0', 'md:opacity-0', 'md:pointer-events-none', 'md:rounded-xl',
-
-            // No initial transition
-            'transition-none',
+            'md:rounded-xl',
+            'bg-white', 'shadow-lg', 'p-4',
+            'transition-all',
         );
         emojiFormatter.appendChild(picker);
     } else {
@@ -298,17 +289,17 @@ if (!$canpostthreads) {
         const isVisible = picker.classList.contains('opacity-100');
 
         if (isVisible) {
+            // Hide for all screen sizes
             picker.classList.remove('opacity-100', 'translate-y-0');
             picker.classList.add('opacity-0', 'pointer-events-none', 'translate-y-full');
         } else {
+            // Show for all screen sizes
             picker.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-full');
             picker.classList.add('opacity-100', 'translate-y-0');
         }
     };
-
     requestAnimationFrame(() => {
-        picker.classList.remove('transition-none');
-        picker.classList.ad('transition-all');
+        picker.classList.add('opacity-0', 'pointer-events-none', 'translate-y-full');
     });
 </script>
 
