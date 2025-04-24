@@ -175,6 +175,15 @@ if (!$canpostthreads) {
         background-color: #181818;
         scrollbar-color: rgba(255, 255, 255, 0.2) #181818;
     }
+
+    .ql-emoji::before {
+        content: '';
+        display: inline-block;
+        background-image: url('css/images/2025/svgs/Happy.svg');
+        background-size: contain;
+        width: 20px;
+        height: 20px;
+    }
 </style>
 
 <form method="POST">
