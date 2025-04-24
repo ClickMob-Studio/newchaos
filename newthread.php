@@ -165,6 +165,16 @@ if (!$canpostthreads) {
     .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill {
         fill: red !important;
     }
+
+    #textarea-emoji .tab-toolbar {
+        background-color: #080808;
+
+    }
+
+    #tab-panel {
+        background-color: #181818;
+        scrollbar-color: rgba(255, 255, 255, 0.2) #181818;
+    }
 </style>
 
 <form method="POST">
