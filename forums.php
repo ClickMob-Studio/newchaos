@@ -65,7 +65,7 @@ if ($canonlyviewownthreads) {
     </div>
     <?php
     if ($canpostthreads) {
-        echo '<a href="/forums/newthread.php?fid=' . $fid . '" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">New Thread</a>';
+        echo '<a href="/newthread.php?fid=' . $fid . '" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">New Thread</a>';
     }
     ?>
 </div>
@@ -91,7 +91,7 @@ if ($canonlyviewownthreads) {
                 <tbody>
                     <?php foreach ($threads as $thread): ?>
                         <tr class="border-b border-gray-700 hover:bg-gray-600">
-                            <td class="px-6 py-4"><a href="/forums/thread.php?tid=<?= $thread['id'] ?>"
+                            <td class="px-6 py-4"><a href="/thread.php?tid=<?= $thread['id'] ?>"
                                     class="text-blue-500 hover:underline"><?= htmlspecialchars($thread['subject']) ?></a></td>
                             <td class="px-6 py-4"><?= htmlspecialchars($thread['uid']) ?></td>
                             <td class="px-6 py-4"><?= $thread['replycount'] ?></td>
