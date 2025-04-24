@@ -207,6 +207,7 @@ if (!$canpostthreads) {
     const toolbarOptions = {
         container: [
             [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            ['emoji']
             ['bold', 'italic', 'underline', 'strike'],
             ['code-block'],
             [{ 'header': 1 }, { 'header': 2 }],
@@ -214,7 +215,6 @@ if (!$canpostthreads) {
             [{ 'color': [] }, { 'background': [] }],
             ['clean'],
             ['link', 'image', 'video'],
-            ['emoji']
         ],
         handlers: {
             'emoji': function () {
@@ -241,8 +241,8 @@ if (!$canpostthreads) {
     }
     const picker = new EmojiMart.Picker(pickerOptions)
 
-    // Find last .ql-formats element and append Picker inside it
-    const emojiFormatter = document.querySelector('.ql-formats:last-of-type');
+    // Find second .ql-formats element and append Picker inside it
+    const emojiFormatter = document.querySelector('.ql-formats:nth-of-type(2)');
     if (emojiFormatter) {
         emojiFormatter.classList.add('relative');
         picker.classList.add('hidden');
