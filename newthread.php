@@ -224,7 +224,6 @@ if (!$canpostthreads) {
         modules: {
             toolbar: toolbarOptions,
             "emoji-toolbar": true,
-            "emoji-textarea": true,
             "emoji-shortname": true,
         },
     });
