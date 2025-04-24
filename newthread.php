@@ -263,7 +263,7 @@ if (!$canpostthreads) {
         picker.classList.add(
             // Shared styles
             'z-[1000]', 'overflow-y-auto',
-            'transition-all', 'duration-300', 'ease-in-out',
+            'duration-300', 'ease-in-out',
 
             // Visibility control (JS toggles these)
             'opacity-0', 'pointer-events-none', 'translate-y-full',
@@ -306,9 +306,9 @@ if (!$canpostthreads) {
         }
     };
 
-    picker.classList.add('transition-none');
     requestAnimationFrame(() => {
         picker.classList.remove('transition-none');
+        picker.classList.ad('transition-all');
     });
 </script>
 
