@@ -203,8 +203,8 @@ if (!$canpostthreads) {
             [{ 'list': 'ordered' }, { 'list': 'bullet' }],
             [{ 'color': [] }, { 'background': [] }],
             ['clean'],
-            ['link', 'image', 'video']
-            ['emoji'],
+            ['link', 'image', 'video'],
+            ['emoji']
         ],
         handlers: {
             'emoji': function () { }
