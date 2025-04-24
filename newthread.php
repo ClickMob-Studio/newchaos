@@ -227,7 +227,6 @@ if (!$canpostthreads) {
         ],
         handlers: {
             'emoji': function () {
-                requestAnimationFrame();
                 const picker = document.querySelector('em-emoji-picker');
                 if (picker) {
                     toggleEmojiPicker();
