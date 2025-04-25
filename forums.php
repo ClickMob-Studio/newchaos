@@ -93,7 +93,7 @@ if ($canonlyviewownthreads) {
                 </thead>
                 <tbody>
                     <?php foreach ($threads as $thread): ?>
-                        <tr class="border-b border-gray-700 hover:bg-gray-600">
+                        <tr>
                             <?php $author = new User($thread['uid']); ?>
                             <td class="px-6 py-4 flex items-center w-3/10">
                                 <img class="size-6 md:size-8 rounded-full mr-6" src="<?php echo $author->avatar ?>" alt="" />
