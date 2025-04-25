@@ -82,32 +82,28 @@ if ($canonlyviewownthreads) {
             <table class="w-full text-left text-sm text-gray-400 border-collapse">
                 <thead class="text-xs uppercase bg-black text-gray-400">
                     <tr>
-                        <th scope="col" class="px-6 py-3 w-3/10 rounded-tl-md">Author</th>
+                        <th scope="col" class="px-6 py-3 w-4/10 rounded-tl-md">Author</th>
 
-                        <th scope="col" class="px-6 py-3 w-3/10">Thread</th>
+                        <th scope="col" class="px-6 py-3 w-4/10">Thread</th>
 
-                        <th scope="col" class="px-6 py-3 w-1/10">Replies</th>
-
-                        <th scope="col" class="px-6 py-3 w-3/10 rounded-tr-md">Last Post</th>
+                        <th scope="col" class="px-6 py-3 w-2/10">Replies</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($threads as $thread): ?>
                         <tr>
                             <?php $author = new User($thread['uid']); ?>
-                            <td class="px-6 py-4 flex items-center w-3/10">
+                            <td class="px-6 py-4 flex items-center w-4/10">
                                 <img class="size-6 md:size-8 rounded-full mr-6" src="<?php echo $author->avatar ?>" alt="" />
                                 <?= $author->formattedname ?>
                             </td>
 
-                            <td class="px-6 py-4 w-3/10">
+                            <td class="px-6 py-4 w-4/10">
                                 <a href="/thread.php?tid=<?= $thread['id'] ?>"
                                     class="text-white hover:underline"><?= htmlspecialchars($thread['subject']) ?></a>
                             </td>
 
-                            <td class="px-6 py-4 w-1/10"><?= $thread['replies'] ?></td>
-
-                            <td class="px-6 py-4 w-3/10"><?= htmlspecialchars($thread['lastpostsubject']) ?></td>
+                            <td class="px-6 py-4 w-2/10"><?= $thread['replies'] ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
