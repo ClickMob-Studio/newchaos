@@ -84,7 +84,7 @@ if ($canonlyviewownthreads) {
                     <tr>
                         <th scope="col" class="px-6 py-3">Author</th>
                         <th scope="col" class="px-6 py-3">Thread</th>
-                        <th scope="col" class="px-6 py-3">Replies</th>
+                        <th scope="col" class="px-6 py-3 w-12 whitespace-nowrap">Replies</th>
                         <th scope="col" class="px-6 py-3">Last Post</th>
                     </tr>
                 </thead>
@@ -100,7 +100,7 @@ if ($canonlyviewownthreads) {
 
                             <td class="px-6 py-4"><a href="/thread.php?tid=<?= $thread['id'] ?>"
                                     class="text-blue-500 hover:underline"><?= htmlspecialchars($thread['subject']) ?></a></td>
-                            <td class="px-6 py-4"><?= $thread['replycount'] ?></td>
+                            <td class="px-6 py-4 w-12 whitespace-nowrap text-center"><?= $thread['replies'] ?></td>
                             <td class="px-6 py-4"><?= htmlspecialchars($thread['lastpostsubject']) ?></td>
                         </tr>
                     <?php endforeach; ?>
