@@ -90,7 +90,7 @@ if ($canonlyviewownthreads) {
                 </thead>
                 <tbody>
                     <?php foreach ($threads as $thread): ?>
-                        <tr class="border-b border-gray-700 hover:bg-gray-600">
+                        <tr class="grid grid-cols-10 border-b border-gray-700 hover:bg-gray-600">
                             <!-- Fetch username by doing $author = new User($thread['uid']); -->
                             <?php $author = new User($thread['uid']); ?>
                             <td class="px-6 py-4 flex items-center">
