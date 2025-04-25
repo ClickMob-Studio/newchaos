@@ -79,33 +79,44 @@ if ($canonlyviewownthreads) {
         ?>
 
         <?php if (!empty($threads)): ?>
-            <table class="w-full text-left text-sm text-gray-400 table-auto">
-                <thead class="text-xs uppercase bg-black text-gray-400 rounded-t-md">
-                    <tr class="rounded-tl-md rounded-tr-md">
-                        <th scope="col" colspan="2" class="px-6 py-3 rounded-tl-md">Author</th>
-                        <th scope="col" colspan="4" class="px-6 py-3">Thread</th>
-                        <th scope="col" colspan="1" class="px-6 py-3">Replies</th>
-                        <th scope="col" colspan="3" class="px-6 py-3 rounded-tr-md">Last Post</th>
+            <table class="w-full text-left text-sm text-gray-400 border-collapse">
+                <thead class="text-xs uppercase bg-black text-gray-400">
+                    <tr>
+                        <!-- Author takes up 3 columns -->
+                        <th scope="col" class="px-6 py-3 rounded-tl-md" colspan="3">Author</th>
+
+                        <!-- Thread takes up 3 columns -->
+                        <th scope="col" class="px-6 py-3" colspan="3">Thread</th>
+
+                        <!-- Replies takes up 1 column -->
+                        <th scope="col" class="px-6 py-3">Replies</th>
+
+                        <!-- Last Post takes up 3 columns -->
+                        <th scope="col" class="px-6 py-3 rounded-tr-md" colspan="3">Last Post</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($threads as $thread): ?>
                         <tr class="border-b border-gray-700 hover:bg-gray-600">
-                            <!-- Fetch username by doing $author = new User($thread['uid']); -->
                             <?php $author = new User($thread['uid']); ?>
-                            <td class="px-6 py-4 flex items-center">
+                            <td class="px-6 py-4 flex items-center" colspan="3">
                                 <img class="size-6 md:size-8 rounded-full mr-6" src="<?php echo $author->avatar ?>" alt="" />
                                 <?= $author->formattedname ?>
                             </td>
 
-                            <td class="px-6 py-4"><a href="/thread.php?tid=<?= $thread['id'] ?>"
-                                    class="text-blue-500 hover:underline"><?= htmlspecialchars($thread['subject']) ?></a></td>
-                            <td class="px-6 py-4 w-12 whitespace-nowrap text-center"><?= $thread['replies'] ?></td>
-                            <td class="px-6 py-4"><?= htmlspecialchars($thread['lastpostsubject']) ?></td>
+                            <td class="px-6 py-4" colspan="3">
+                                <a href="/thread.php?tid=<?= $thread['id'] ?>"
+                                    class="text-blue-500 hover:underline"><?= htmlspecialchars($thread['subject']) ?></a>
+                            </td>
+
+                            <td class="px-6 py-4"><?= $thread['replycount'] ?></td>
+
+                            <td class="px-6 py-4" colspan="3"><?= htmlspecialchars($thread['lastpostsubject']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
+
 
         <?php endif; ?>
     </div>
