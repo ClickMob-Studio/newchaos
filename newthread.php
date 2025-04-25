@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('Subject and content are required');
     }
 
-    if (count($subject) < 10 || count($subject) > 120) {
+    if (strlen($subject) < 10 || strlen($subject) > 120) {
         die('Subject must be between 10 and 120 characters');
     }
 
