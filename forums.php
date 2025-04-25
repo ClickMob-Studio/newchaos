@@ -79,7 +79,7 @@ if ($canonlyviewownthreads) {
         ?>
 
         <?php if (!empty($threads)): ?>
-            <table class="w-full text-left text-sm text-gray-400">
+            <table class="w-full text-left text-sm text-gray-400 table-auto">
                 <thead class="text-xs uppercase bg-gray-700 text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3 w-auto max-w-xs">Author</th>
