@@ -80,28 +80,28 @@ if ($canonlyviewownthreads) {
 
         <?php if (!empty($threads)): ?>
             <table class="w-full text-left text-sm text-gray-400 table-auto">
-                <thead class="text-xs uppercase bg-black text-gray-400 rounded-t-md overflow-hidden">
-                    <tr class="grid grid-cols-10 rounded-tl-md rounded-tr-md overflow-hidden">
-                        <th scope="col" class="px-6 py-3 col-span-2 rounded-tl-md">Author</th>
-                        <th scope="col" class="px-6 py-3 col-span-4">Thread</th>
-                        <th scope="col" class="px-6 py-3 col-span-1">Replies</th>
-                        <th scope="col" class="px-6 py-3 col-span-3 rounded-tr-md">Last Post</th>
+                <thead class="text-xs uppercase bg-black text-gray-400 rounded-t-md">
+                    <tr class="rounded-tl-md rounded-tr-md">
+                        <th scope="col" colspan="2" class="px-6 py-3 rounded-tl-md">Author</th>
+                        <th scope="col" colspan="4" class="px-6 py-3">Thread</th>
+                        <th scope="col" colspan="1" class="px-6 py-3">Replies</th>
+                        <th scope="col" colspan="3" class="px-6 py-3 rounded-tr-md">Last Post</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($threads as $thread): ?>
-                        <tr class="grid grid-cols-10 border-b border-gray-700 hover:bg-gray-600">
+                        <tr class="border-b border-gray-700 hover:bg-gray-600">
                             <!-- Fetch username by doing $author = new User($thread['uid']); -->
                             <?php $author = new User($thread['uid']); ?>
-                            <td class="px-6 py-4 flex items-center col-span-2">
+                            <td class="px-6 py-4 flex items-center">
                                 <img class="size-6 md:size-8 rounded-full mr-6" src="<?php echo $author->avatar ?>" alt="" />
                                 <?= $author->formattedname ?>
                             </td>
 
-                            <td class="px-6 py-4 col-span-4"><a href="/thread.php?tid=<?= $thread['id'] ?>"
+                            <td class="px-6 py-4"><a href="/thread.php?tid=<?= $thread['id'] ?>"
                                     class="text-blue-500 hover:underline"><?= htmlspecialchars($thread['subject']) ?></a></td>
-                            <td class="px-6 py-4 w-12 whitespace-nowrap text-center col-span-1"><?= $thread['replies'] ?></td>
-                            <td class="px-6 py-4 col-span-3"><?= htmlspecialchars($thread['lastpostsubject']) ?></td>
+                            <td class="px-6 py-4 w-12 whitespace-nowrap text-center"><?= $thread['replies'] ?></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($thread['lastpostsubject']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
