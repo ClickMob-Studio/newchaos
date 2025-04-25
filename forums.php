@@ -81,7 +81,7 @@ if ($canonlyviewownthreads) {
         <?php if (!empty($threads)): ?>
             <table class="w-full text-left text-sm text-gray-400 table-auto">
                 <thead class="text-xs uppercase bg-black text-gray-400 rounded-t-md overflow-hidden">
-                    <tr class="grid grid-cols-10">
+                    <tr class="grid grid-cols-10 rounded-tl-md rounded-tr-md">
                         <th scope="col" class="px-6 py-3 col-span-2">Author</th>
                         <th scope="col" class="px-6 py-3 col-span-4">Thread</th>
                         <th scope="col" class="px-6 py-3 col-span-1">Replies</th>
