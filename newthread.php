@@ -196,6 +196,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         fill: red !important;
     }
 
+    .ql-snow .ql-editor blockquote+blockquote {
+        margin-top: -5px;
+    }
+
     .ql-fill.ql-stroke {
         stroke: white;
     }
