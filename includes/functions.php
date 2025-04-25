@@ -3910,7 +3910,7 @@ function insertThread($fid, $uid, $subject, $content)
     $db->execute([$fid, $uid, $subject, $now, 0]);
     $threadId = $db->insert_id();
 
-    $db->query("INSERT INTO posts (tid, fid, uid, subject, message, createdat) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $db->query("INSERT INTO posts (tid, fid, uid, subject, message, createdat) VALUES (?, ?, ?, ?, ?, ?)");
     $db->execute([$threadId, $fid, $uid, $subject, $content, $now]);
     $postId = $db->insert_id();
 
