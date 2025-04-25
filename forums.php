@@ -82,10 +82,10 @@ if ($canonlyviewownthreads) {
             <table class="w-full text-left text-sm text-gray-400 table-auto">
                 <thead class="text-xs uppercase bg-gray-700 text-gray-400">
                     <tr>
-                        <th scope="col" class="px-6 py-3 w-auto max-w-xs">Author</th>
-                        <th scope="col" class="px-6 py-3">Thread</th>
-                        <th scope="col" class="px-6 py-3 w-12 whitespace-nowrap">Replies</th>
-                        <th scope="col" class="px-6 py-3">Last Post</th>
+                        <th scope="col" class="px-6 py-3 col-span-3">Author</th>
+                        <th scope="col" class="px-6 py-3 col-span-3">Thread</th>
+                        <th scope="col" class="px-6 py-3 col-span-1">Replies</th>
+                        <th scope="col" class="px-6 py-3 col-span-3">Last Post</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -93,7 +93,7 @@ if ($canonlyviewownthreads) {
                         <tr class="border-b border-gray-700 hover:bg-gray-600">
                             <!-- Fetch username by doing $author = new User($thread['uid']); -->
                             <?php $author = new User($thread['uid']); ?>
-                            <td class="px-6 py-4 flex items-center w-auto max-w-xs">
+                            <td class="px-6 py-4 flex items-center">
                                 <img class="size-6 md:size-8 rounded-full mr-6" src="<?php echo $author->avatar ?>" alt="" />
                                 <?= $author->formattedname ?>
                             </td>
