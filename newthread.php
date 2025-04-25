@@ -2,8 +2,10 @@
 
 session_start();
 
-$csrf_token = bin2hex(openssl_random_pseudo_bytes(32));
-$_SESSION['csrf'] = $csrf_token;
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    $csrf_token = bin2hex(openssl_random_pseudo_bytes(32));
+    $_SESSION['csrf'] = $csrf_token;
+}
 
 include 'nc_header.php';
 
