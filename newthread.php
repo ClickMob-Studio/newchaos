@@ -60,8 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('Subject must be between 10 and 120 characters');
     }
 
-
-
     // Insert thread into database (pseudo code)
     insertThread($fid, $user_class->id, $subject, $content);
 
