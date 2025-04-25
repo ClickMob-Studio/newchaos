@@ -3908,11 +3908,11 @@ function insertThread($fid, $uid, $subject, $content)
     $db->startTrans();
     $db->query("INSERT INTO threads (fid, uid, subject, createdat, firstpost) VALUES (?, ?, ?, ?, ?)");
     $db->execute([$fid, $uid, $subject, $now, 0]);
-    $threadId = $db->lastInsertId();
+    $threadId = $db->insert_id();
 
     $db->query("INSERT INTO posts (tid, fid, uid, subject, message, createdat) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     $db->execute([$threadId, $fid, $uid, $subject, $content, $now]);
-    $postId = $db->lastInsertId();
+    $postId = $db->insert_id();
 
     $db->query("UPDATE threads SET firstpost = ?, lastpost = ? WHERE id = ?");
     $db->execute([$postId, $postId, $threadId]);
