@@ -102,7 +102,7 @@ if ($canonlyviewownthreads) {
 
                             <td class="px-6 py-4 w-3/10">
                                 <a href="/thread.php?tid=<?= $thread['id'] ?>"
-                                    class="text-blue-500 hover:underline"><?= htmlspecialchars($thread['subject']) ?></a>
+                                    class="text-white hover:underline"><?= htmlspecialchars($thread['subject']) ?></a>
                             </td>
 
                             <td class="px-6 py-4 w-1/10"><?= $thread['replies'] ?></td>
