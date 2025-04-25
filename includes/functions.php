@@ -3898,3 +3898,24 @@ function getPermissions($fid, $gid)
     $redis->setEx("forumpermissions_" . $fid . "_" . $gid, 3600, json_encode($permissions));
     return $permissions;
 }
+
+function insertThread($fid, $uid, $subject, $content)
+{
+    global $db;
+
+    $now = time();
+
+    $db->startTrans();
+    $db->query("INSERT INTO threads (fid, uid, subject, createdat, firstpost) VALUES (?, ?, ?, ?, ?)");
+    $db->execute([$fid, $uid, $subject, $now, 0]);
+    $threadId = $db->lastInsertId();
+
+    $db->query("INSERT INTO posts (tid, fid, uid, subject, message, createdat, ipaddress, longipaddress) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $db->execute([$threadId, $fid, $uid, $subject, $content, $now, $_SERVER['REMOTE_ADDR'], gethostbyaddr($_SERVER['REMOTE_ADDR'])]);
+    $postId = $db->lastInsertId();
+
+    $db->query("UPDATE threads SET firstpost = ?, lastpost = ? WHERE id = ?");
+    $db->execute([$postId, $postId, $threadId]);
+
+    $db->endTrans();
+}

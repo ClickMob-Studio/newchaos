@@ -2,6 +2,9 @@
 
 session_start();
 
+$csrf_token = bin2hex(openssl_random_pseudo_bytes(32));
+$_SESSION['csrf'] = $csrf_token;
+
 include 'nc_header.php';
 
 if (!isset($_GET['fid'])) {
@@ -33,6 +36,33 @@ if (empty($permissions)) {
 
 $canpostthreads = (int) $permissions['canpostthreads'] == 1;
 if (!$canpostthreads) {
+    header('Location: /forums.php?fid=' . $fid);
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $subject = $_POST['subject'];
+    $content = $_POST['content'];
+
+    // Validate CSRF token
+    if (!hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
+        die('Invalid CSRF token');
+    }
+
+    // Validate input
+    if (empty($subject) || empty($content)) {
+        die('Subject and content are required');
+    }
+
+    if (count($subject) < 10 || count($subject) > 120) {
+        die('Subject must be between 10 and 120 characters');
+    }
+
+
+
+    // Insert thread into database (pseudo code)
+    insertThread($fid, $user_class->id, $subject, $content);
+
     header('Location: /forums.php?fid=' . $fid);
     exit;
 }
@@ -186,8 +216,9 @@ if (!$canpostthreads) {
     }
 </style>
 
-<form method="POST">
+<form method="POST" onsubmit="return postThread();">
     <input type="hidden" name="fid" value="<?= $fid ?>">
+    <input type="hidden" name="csrf" value="<?= $csrf_token ?>">
 
     <div class="max-w-7xl mx-auto flex flex-col gap-y-4 px-2 md:px-6 lg:px-8">
         <div class="w-full border border-white/10 bg-black/40 border-4 rounded-lg">
@@ -202,6 +233,8 @@ if (!$canpostthreads) {
             <div class="px-4 py-2 rounded-lg text-white">
                 <div id="editor"></div>
             </div>
+
+            <input type="hidden" name="content" id="quill-content">
 
             <div class="px-4 py-2 mb-2">
                 <button type="submit"
@@ -255,7 +288,6 @@ if (!$canpostthreads) {
         previewPosition: isMobile ? 'none' : 'bottom',
         onEmojiSelect: function (emoji, pointerEvent) {
             const range = quill.getSelection() || lastQuillRange;
-
             if (range) {
                 quill.insertText(range.index, emoji.native);
                 quill.setSelection(range.index + emoji.native.length);
@@ -322,6 +354,16 @@ if (!$canpostthreads) {
         picker.classList.remove('hidden');
         picker.classList.add('opacity-0', 'pointer-events-none', 'translate-y-full');
     });
+
+    function postThread() {
+        // Get Delta format
+        var delta = quill.getContents();
+
+        // Store stringified Delta into hidden input
+        document.getElementById('quill-content').value = JSON.stringify(delta);
+
+        return true;
+    }
 </script>
 
 <?php include "nc_footer.php"; ?>
