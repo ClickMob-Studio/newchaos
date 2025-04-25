@@ -82,7 +82,7 @@ if ($canonlyviewownthreads) {
             <table class="w-full text-left text-sm text-gray-400">
                 <thead class="text-xs uppercase bg-gray-700 text-gray-400">
                     <tr>
-                        <th scope="col" class="px-6 py-3 w-auto">Author</th>
+                        <th scope="col" class="px-6 py-3 w-auto max-w-xs">Author</th>
                         <th scope="col" class="px-6 py-3">Thread</th>
                         <th scope="col" class="px-6 py-3 w-12 whitespace-nowrap">Replies</th>
                         <th scope="col" class="px-6 py-3">Last Post</th>
