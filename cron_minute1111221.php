@@ -903,12 +903,9 @@ if (time() < 1746439200) {
 $db->query("SELECT * FROM `referrals` WHERE `credited` = 0");
 $db->execute();
 $referrals = $db->fetch_row();
-error_log("[REF] Amount of referrals: " . count($referrals));
 foreach ($referrals as $line) {
-    error_log("[REF] Referrer: " . $line['referrer'] . " Referred: " . $line['referred'] . " ID: " . $line['id']);
     $referred_class = new User($line['referred']);
     if ($referred_class->level < 10) {
-        error_log("[REF] User {$line['referred']} is below level 10, skipping referral credit.");
         continue;
     }
 
@@ -926,8 +923,6 @@ foreach ($referrals as $line) {
     Send_Event($line['referrer'], "You have been credited $addCredits Credits & $addPoints Points for referring [-_USERID_-]. Keep up the good work!", $line['referred']);
     Send_Event(1059, 'USER ID: ' . $line['referred'] . ' referral for ' . $referred_class->formattedname . ' payed out');
     Send_Event(1034, 'USER ID: ' . $line['referred'] . ' referral for ' . $referred_class->formattedname . ' payed out');
-
-    error_log("[REF] User {$line['referrer']} credited $addCredits credits and $addPoints points for referral of user {$line['referred']}.");
 }
 
 // Fetch the latest Bloodbath results where rewards haven't been distributed yet and winners column has data
