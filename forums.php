@@ -82,42 +82,36 @@ if ($canonlyviewownthreads) {
             <table class="w-full text-left text-sm text-gray-400 border-collapse">
                 <thead class="text-xs uppercase bg-black text-gray-400">
                     <tr>
-                        <!-- Author takes up 3 columns -->
-                        <th scope="col" class="px-6 py-3 rounded-tl-md" colspan="3">Author</th>
+                        <th scope="col" class="px-6 py-3 w-3/10 rounded-tl-md">Author</th>
 
-                        <!-- Thread takes up 3 columns -->
-                        <th scope="col" class="px-6 py-3" colspan="3">Thread</th>
+                        <th scope="col" class="px-6 py-3 w-3/10">Thread</th>
 
-                        <!-- Replies takes up 1 column -->
-                        <th scope="col" class="px-6 py-3">Replies</th>
+                        <th scope="col" class="px-6 py-3 w-1/10">Replies</th>
 
-                        <!-- Last Post takes up 3 columns -->
-                        <th scope="col" class="px-6 py-3 rounded-tr-md" colspan="3">Last Post</th>
+                        <th scope="col" class="px-6 py-3 w-3/10 rounded-tr-md">Last Post</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($threads as $thread): ?>
                         <tr class="border-b border-gray-700 hover:bg-gray-600">
                             <?php $author = new User($thread['uid']); ?>
-                            <td class="px-6 py-4 flex items-center" colspan="3">
+                            <td class="px-6 py-4 flex items-center w-3/10">
                                 <img class="size-6 md:size-8 rounded-full mr-6" src="<?php echo $author->avatar ?>" alt="" />
                                 <?= $author->formattedname ?>
                             </td>
 
-                            <td class="px-6 py-4" colspan="3">
+                            <td class="px-6 py-4 w-3/10">
                                 <a href="/thread.php?tid=<?= $thread['id'] ?>"
                                     class="text-blue-500 hover:underline"><?= htmlspecialchars($thread['subject']) ?></a>
                             </td>
 
-                            <td class="px-6 py-4"><?= $thread['replycount'] ?></td>
+                            <td class="px-6 py-4 w-1/10"><?= $thread['replies'] ?></td>
 
-                            <td class="px-6 py-4" colspan="3"><?= htmlspecialchars($thread['lastpostsubject']) ?></td>
+                            <td class="px-6 py-4 w-3/10"><?= htmlspecialchars($thread['lastpostsubject']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
-
-
         <?php endif; ?>
     </div>
 </div>
