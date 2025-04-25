@@ -196,6 +196,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         fill: red !important;
     }
 
+    .ql-fill .ql-stroke {
+        stroke: white;
+    }
+
     #tab-toolbar {
         background-color: #080808;
 
