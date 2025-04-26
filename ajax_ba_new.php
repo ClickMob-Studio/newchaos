@@ -644,47 +644,49 @@ if ($userBaStats['gold_rush_credits'] > 0) {
 
 function check_for_easter_egg($fullResponse, $user_class, $goldRushEnabled = 0)
 {
-    global $db, $redis;
+    return $fullResponse; // Disabled for now
+
+    // global $db, $redis;
 
 
-    $chances = $goldRushEnabled ? 2 : 1;
-    $egg = did_find_easter_egg($user_class, $chances);
+    // $chances = $goldRushEnabled ? 2 : 1;
+    // $egg = did_find_easter_egg($user_class, $chances);
 
-    if ($egg > 0) {
-        $item = $redis->get('item_' . $egg);
-        if (!$item) {
-            $db->query("SELECT * FROM items WHERE id = " . $egg);
-            $db->execute();
-            $item = $db->fetch_row(true);
-            $redis->setEx("item_" . $egg, 3600, json_encode($item));
-        } else {
-            $item = json_decode($item, true);
-        }
+    // if ($egg > 0) {
+    //     $item = $redis->get('item_' . $egg);
+    //     if (!$item) {
+    //         $db->query("SELECT * FROM items WHERE id = " . $egg);
+    //         $db->execute();
+    //         $item = $db->fetch_row(true);
+    //         $redis->setEx("item_" . $egg, 3600, json_encode($item));
+    //     } else {
+    //         $item = json_decode($item, true);
+    //     }
 
-        $fullResponse .= '<br /><br />';
-        $fullResponse .= '<span style="font-weight: bold; color: green;">You also found 1x ' . item_popup($item['itemname'], $egg, '#ff00b1') . '!</span>';
-    }
+    //     $fullResponse .= '<br /><br />';
+    //     $fullResponse .= '<span style="font-weight: bold; color: green;">You also found 1x ' . item_popup($item['itemname'], $egg, '#ff00b1') . '!</span>';
+    // }
 
-    return $fullResponse;
+    // return $fullResponse;
 }
 
-function did_find_easter_egg($user_class, $chances = 1)
-{
-    $max = 400 / $chances;
-    $probability = mt_rand(1, $max);
-    if ($probability <= 1) {
-        // Ultra rare egg 0,5% chance
-        Give_Item(338, $user_class->id);
-        return 338;
-    } else if ($probability <= 3) {
-        // Rare egg 1% chance
-        Give_Item(337, $user_class->id);
-        return 337;
-    } else if ($probability <= 14) {
-        // Common egg 2,5% chance
-        Give_Item(336, $user_class->id);
-        return 336;
-    }
+// function did_find_easter_egg($user_class, $chances = 1)
+// {
+// $max = 400 / $chances;
+// $probability = mt_rand(1, $max);
+// if ($probability <= 1) {
+//     // Ultra rare egg 0,5% chance
+//     Give_Item(338, $user_class->id);
+//     return 338;
+// } else if ($probability <= 3) {
+//     // Rare egg 1% chance
+//     Give_Item(337, $user_class->id);
+//     return 337;
+// } else if ($probability <= 14) {
+//     // Common egg 2,5% chance
+//     Give_Item(336, $user_class->id);
+//     return 336;
+// }
 
-    return 0;
-}
+// return 0;
+// }

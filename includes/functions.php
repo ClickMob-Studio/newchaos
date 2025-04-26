@@ -318,137 +318,97 @@ function CheckCourse($id)
     $rtn = $db->fetch_single();
     return ($rtn > 0) ? $rtn : 0;
 }
-function AddToArmory($itemid, $gangid, $quantity = "1")
+
+function AddToArmory($itemid, $gangid, $quantity = 1)
 {
     global $db;
-    $db->query("SELECT quantity FROM gangarmory WHERE gangid = ? AND itemid = ?");
+    $db->query("
+        INSERT INTO gangarmory (itemid, gangid, quantity)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)
+    ");
     $db->execute(array(
+        $itemid,
         $gangid,
-        $itemid
+        $quantity
     ));
-    $amnt = $db->fetch_single();
-    if (!$amnt) {
-        $db->query("INSERT INTO gangarmory (itemid, gangid, quantity) VALUES (?, ?, ?)");
-        $db->execute(array(
-            $itemid,
-            $gangid,
-            $quantity
-        ));
-    } else {
-        $amnt += $quantity;
-        $db->query("UPDATE gangarmory SET quantity = ? WHERE gangid = ? AND itemid = ?");
-        $db->execute(array(
-            $amnt,
-            $gangid,
-            $itemid
-        ));
-    }
 }
-function TakeFromArmory($itemid, $gangid, $quantity = "1")
+
+function TakeFromArmory($itemid, $gangid, $quantity = 1)
 {
     global $db;
-    $db->query("SELECT quantity FROM gangarmory WHERE gangid = ? AND itemid = ?");
+    $db->query("
+        UPDATE gangarmory
+        SET quantity = GREATEST(quantity - ?, 0)
+        WHERE gangid = ? AND itemid = ? AND quantity >= ?
+    ");
     $db->execute(array(
+        $quantity,
         $gangid,
-        $itemid
+        $itemid,
+        $quantity
     ));
-    $amnt = $db->fetch_single();
-    if ($amnt) {
-        $amnt -= $quantity;
-        if ($amnt > 0) {
-            $db->query("UPDATE gangarmory SET quantity = ? WHERE gangid = ? AND itemid = ?");
-            $db->execute(array(
-                $amnt,
-                $gangid,
-                $itemid
-            ));
-        } else {
-            $db->query("DELETE FROM gangarmory WHERE gangid = ? AND itemid = ?");
-            $db->execute(array(
-                $gangid,
-                $itemid
-            ));
-        }
+
+    // If the quantity is reduced to 0, delete the row
+    if ($db->affected_rows() > 0) {
+        $db->query("DELETE FROM gangarmory WHERE gangid = ? AND itemid = ? AND quantity = 0");
+        $db->execute(array($gangid, $itemid));
     }
 }
+
 function Give_Item($itemid, $userid, $quantity = "1")
 {
     global $db;
-    $db->query("SELECT quantity FROM inventory WHERE userid = ? AND itemid = ?");
-    $db->execute(array(
+    $db->query("
+        INSERT INTO inventory (itemid, userid, quantity)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)
+    ");
+    $db->execute([
+        $itemid,
         $userid,
-        $itemid
-    ));
-    $amnt = $db->fetch_single();
-    if (!$amnt) {
-        $db->query("INSERT INTO inventory (itemid, userid, quantity) VALUES (?, ?, ?)");
-        $db->execute(array(
-            $itemid,
-            $userid,
-            $quantity
-        ));
-    } else {
-        $amnt += $quantity;
-        $db->query("UPDATE inventory SET quantity = ? WHERE userid = ? AND itemid = ?");
-        $db->execute(array(
-            $amnt,
-            $userid,
-            $itemid
-        ));
-    }
+        $quantity
+    ]);
 }
+
 function Loan_Item($gang, $itemid, $userid, $quantity = 1)
 {
     global $db;
-    $db->query("SELECT * FROM gang_loans WHERE idto = ? and item = ?");
+    $db->query("
+        INSERT INTO gang_loans (idto, gang, item, quantity)
+        VALUES (?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)
+    ");
     $db->execute(array(
         $userid,
-        $itemid
+        $gang,
+        $itemid,
+        $quantity
     ));
-    if (!$db->num_rows()) {
-        $db->query("INSERT INTO gang_loans VALUES ('', ?, ?, ?, ?)");
-        $db->execute(array(
-            $userid,
-            $gang,
-            $itemid,
-            $quantity
-        ));
-    } else {
-        $row = $db->fetch_row(true);
-        $quantity += $row['quantity'];
-        $db->query("UPDATE gang_loans SET quantity = ? WHERE idto = ? AND item = ?");
-        $db->execute(array(
-            $quantity,
-            $userid,
-            $itemid
-        ));
-    }
 }
+
 function Take_Item($itemid, $userid, $quantity = 1)
 {
     global $db;
-    $db->query("SELECT quantity FROM inventory WHERE userid = ? AND itemid = ?");
+    $db->query("
+        UPDATE inventory 
+        SET quantity = GREATEST(quantity - ?, 0)
+        WHERE userid = ? AND itemid = ?
+        AND quantity >= ?
+    ");
+
     $db->execute(array(
+        $quantity,
         $userid,
-        $itemid
+        $itemid,
+        $quantity
     ));
-    $amnt = $db->fetch_single();
-    if ($amnt) {
-        $amnt -= $quantity;
-        if ($amnt > 0) {
-            $db->query("UPDATE inventory SET quantity = ? WHERE userid = ? AND itemid = ?");
-            $db->execute(array(
-                $amnt,
-                $userid,
-                $itemid
-            ));
-        } else {
-            $db->query("DELETE FROM inventory WHERE userid = ? AND itemid = ?");
-            $db->execute(array(
-                $userid,
-                $itemid
-            ));
-        }
+
+    // If quantity is 0, delete the row
+    if ($db->affected_rows() > 0) {
+        // Check if quantity reached zero and delete row
+        $db->query("DELETE FROM inventory WHERE userid = ? AND itemid = ? AND quantity = 0");
+        $db->execute(array($userid, $itemid));
     }
 }
 

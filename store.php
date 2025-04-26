@@ -801,6 +801,9 @@ include 'header.php';
             }
 
             if ($_GET['buy'] === 'lep') {
+                echo diefun("We are working on the next limited pack. Please check back later.");
+                exit;
+
                 if ($user_class->credits < $limitedPack['gold_cost']) {
                     echo diefun("You don't have enough credits. You can buy some at the upgrade store.");
                 }
@@ -863,86 +866,6 @@ include 'header.php';
                     echo Message("You spent 300 GOLD for Battle Pass Premium");
                 } else {
                     echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
-                }
-            }
-
-            if ($_GET['buy'] == "easterbasket") {
-                if ($user_class->credits >= 25) {
-                    $current = $user_class->credits;
-                    $newcredit = $user_class->credits -= 25;
-                    $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (" . $user_class->id . ", '1 x Rare Egg Basket', " . $current . ", " . $newcredit . ")");
-                    $db->execute();
-                    $db->query("UPDATE grpgusers SET credits = credits - 25 WHERE id = ?");
-                    $db->execute([$user_class->id]);
-
-                    Give_Item(344, $user_class->id, 1);
-
-                    Send_Event(1, $user_class->formattedname . " bought 1 x Rare Egg Basket");
-                    Send_Event(2, $user_class->formattedname . " bought 1 x Rare Egg Basket");
-
-                    echo Message("You spent 25 credits for 1 x Rare Egg Basket.");
-                } else {
-                    echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-                }
-            }
-
-            if ($_GET['buy'] == "easterbead") {
-                if ($user_class->credits >= 50) {
-                    $current = $user_class->credits;
-                    $newcredit = $user_class->credits -= 50;
-                    $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (" . $user_class->id . ", '1 x Easter Bead', " . $current . ", " . $newcredit . ")");
-                    $db->execute();
-                    $db->query("UPDATE grpgusers SET credits = credits - 50 WHERE id = ?");
-                    $db->execute([$user_class->id]);
-
-                    Give_Item(345, $user_class->id, 1);
-
-                    Send_Event(1, $user_class->formattedname . " bought 1 x Easter Bead");
-                    Send_Event(2, $user_class->formattedname . " bought 1 x Easter Bead");
-
-                    echo Message("You spent 50 credits for 1 x Easter Bead.");
-                } else {
-                    echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-                }
-            }
-
-            if ($_GET['buy'] == "mazeboost") {
-                if ($user_class->credits >= 500) {
-                    $current = $user_class->credits;
-                    $newcredit = $user_class->credits -= 500;
-                    $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (" . $user_class->id . ", '1 x Maze Boost', " . $current . ", " . $newcredit . ")");
-                    $db->execute();
-                    $db->query("UPDATE grpgusers SET credits = credits - 500 WHERE id = ?");
-                    $db->execute([$user_class->id]);
-
-                    Give_Item(346, $user_class->id, 1);
-
-                    Send_Event(1, $user_class->formattedname . " bought 1 x Maze Boost");
-                    Send_Event(2, $user_class->formattedname . " bought 1 x Maze Boost");
-
-                    echo Message("You spent 500 credits for 1 x Maze Boost.");
-                } else {
-                    echo Message("You don't have enough credits. You can buy some at the upgrade store.");
-                }
-            }
-
-            if ($_GET['buy'] == "grt-chest") {
-                if ($user_class->credits >= 50) {
-                    $current = $user_class->credits;
-                    $newcredit = $user_class->credits -= 50;
-                    $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (" . $user_class->id . ", '1 x Gold Rush Token Chest', " . $current . ", " . $newcredit . ")");
-                    $db->execute();
-                    $db->query("UPDATE grpgusers SET credits = credits - 50 WHERE id = ?");
-                    $db->execute([$user_class->id]);
-
-                    Give_Item(283, $user_class->id, 1);
-
-                    Send_Event(1, $user_class->formattedname . " bought 1 x Gold Rush Token Chest");
-                    Send_Event(2, $user_class->formattedname . " bought 1 x Gold Rush Token Chest");
-
-                    echo Message("You spent 50 credits for 1 x Gold Rush Token Chest.");
-                } else {
-                    echo Message("You don't have enough credits. You can buy some at the upgrade store.");
                 }
             }
         }
@@ -1063,7 +986,7 @@ include 'header.php';
 
 
 <br><br>
-<?php if ($limitedPack['available'] > $limitedPack['times_purchased']): ?>
+<?php if (false): // ($limitedPack['available'] > $limitedPack['times_purchased']): ?>
     <div class="floaty" style="margin:3px;">
         <h4 class="section-title">Limited Edition Packs</h4>
         <hr>
@@ -1295,53 +1218,6 @@ include 'header.php';
 
 
     </div>
-</div>
-
-<br>
-<div class="floaty" style="margin: 3px;">
-    <h4>EASTER LIMITEDS</h4>
-    <hr>
-    <div class="vip-packages"
-        style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
-
-        <!-- Rare Egg Basket -->
-        <div class="vip-package">
-            <h4 style="color: brown;">1 x <?= item_popup('Rare Egg Basket', 344, 'brown'); ?></h4>
-            <img src="/css/images/2025/rare_easter_basket.png" height="100" alt="Rare Egg Basket">
-
-            <h4>Purchase now for only<br><a href="store.php?buy=easterbasket"><button class="gold-button">25 <img
-                            src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
-        </div>
-
-        <!-- Easter Bead -->
-        <div class="vip-package">
-            <h4 style="color: brown;">1 x <?= item_popup('Easter Bead', 345, 'brown'); ?></h4>
-            <img src="/css/images/2025/easter_bead.png" height="100" alt="Easter Bead">
-
-            <h4>Purchase now for only<br><a href="store.php?buy=easterbead"><button class="gold-button">50 <img
-                            src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
-        </div>
-
-        <!-- Maze Boost -->
-        <div class="vip-package">
-            <h4 style="color: brown;">1 x <?= item_popup('Maze Boost', 346, 'brown'); ?></h4>
-            <img src="/css/images/2025/maze_boost.png" height="100" alt="Maze Boost">
-
-            <h4>Purchase now for only<br><a href="store.php?buy=mazeboost"><button class="gold-button">500 <img
-                            src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
-        </div>
-
-        <!-- Gold Rush Token Chest -->
-        <div class="vip-package">
-            <h4 style="color: brown;">1 x <?= item_popup('Gold Rush Token Chest', 283, 'brown'); ?></h4>
-            <img src="/css/images/NewGameImages/grt-chest.png" height="100" alt="Maze Boost">
-
-            <h4>Purchase now for only<br><a href="store.php?buy=grt-chest"><button class="gold-button">50 <img
-                            src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
-        </div>
-
-    </div>
-    <br>
 </div>
 
 <br />
