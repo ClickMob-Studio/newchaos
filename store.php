@@ -985,8 +985,8 @@ include 'header.php';
 </div>
 
 
-<br><br>
 <?php if (false): // ($limitedPack['available'] > $limitedPack['times_purchased']): ?>
+    <br><br>
     <div class="floaty" style="margin:3px;">
         <h4 class="section-title">Limited Edition Packs</h4>
         <hr>
