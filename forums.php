@@ -65,7 +65,7 @@ if ($canonlyviewownthreads) {
     </div>
     <?php
     if ($canpostthreads) {
-        echo '<a href="/newthread.php?fid=' . $fid . '" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">New Thread</a>';
+        echo '<a href="/newthread.php?fid=' . $fid . '"class="bg-black/40 hover:bg-black/80 cursor-pointer border border-white/10 text-white py-1 px-4 rounded text-md">New thread</a>';
     }
     ?>
 </div>
