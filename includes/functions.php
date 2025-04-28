@@ -3821,6 +3821,16 @@ function getForums()
     return $forums;
 }
 
+function getThread($tid)
+{
+    global $db;
+
+    $db->query("SELECT * FROM threads WHERE id = ? LIMIT 1");
+    $db->execute([$tid]);
+
+    return $db->fetch_row(true);
+}
+
 function getThreads($fid, $page = 1)
 {
     global $db;
@@ -3878,4 +3888,15 @@ function insertThread($fid, $uid, $subject, $content)
     $db->execute([$postId, $postId, $threadId]);
 
     $db->endTrans();
+}
+
+function getPosts($tid, $page = 1)
+{
+    global $db;
+
+    $offset = ($page - 1) * 20;
+    $db->query("SELECT * FROM posts WHERE tid = ? ORDER BY createdat ASC LIMIT $offset, 20");
+    $db->execute([$tid]);
+
+    return $db->fetch_row();
 }
