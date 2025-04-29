@@ -1,7 +1,7 @@
 <?php
 #chdir("/var/www/html");
 
-if($_GET['key'] != 'cron94'){
+if ($_GET['key'] != 'cron94') {
     die();
 }
 
@@ -33,13 +33,15 @@ $otds = array(
     ),
 );
 foreach ($otds as $otd) {
-    $sql  = $otd[0];
+    $sql = $otd[0];
     $type = $otd[1];
-    $pts  = $otd[2];
+    $pts = $otd[2];
     $db->query("SELECT userid, $sql FROM ofthes WHERE $sql > 0 ORDER BY $sql DESC LIMIT 1");
     $db->execute();
     if ($db->num_rows()) {
         $row = $db->fetch_row(true);
+        echo $row['userid'];
+        var_dump($row);
         $db->startTrans();
         $db->query("UPDATE grpgusers SET points = points + $pts WHERE id = ?");
         $db->execute(array(
@@ -112,45 +114,45 @@ $result3 = mysql_query("SELECT * FROM grpgusers ORDER BY id ASC");
 while ($line = mysql_fetch_array($result3)) {
     $person_class = new User($line['id']);
     // Calculate the base interest rate based on remaining membership days
-if ($person_class->rmdays >= 1) {
-    $interest = 0.04;  // 4% interest rate if membership days are 1 or more
-} else {
-    $interest = 0.02;  // 2% interest rate otherwise
-}
-
-// Adjust interest rate based on donations
-$addmul = $ptsadd = 0;
-if ($person_class->donations >= 50) {
-    $addmul = 0.02;
-    $ptsadd = 75;
-}
-if ($person_class->donations >= 100) {
-    $addmul = 0.03;
-    $ptsadd = 120;
-}
-if ($person_class->donations >= 200) {
-    $addmul = 0.05;
-    $ptsadd = 150;
-}
-
-// Increase the interest rate by the adjustments from donations
-$interest += $addmul;
-
-// Apply bank boost if it's set and greater than zero
-
-
-// Calculate the effective interest amount based on the user's bank balance
-if ($person_class->bank >= 15000000) {
-    $interest = ceil(15000000 * $interest);
-    if ($person_class->bankboost > 0) {
-        $interest += ($interest * ($person_class->bankboost / 10));
+    if ($person_class->rmdays >= 1) {
+        $interest = 0.04;  // 4% interest rate if membership days are 1 or more
+    } else {
+        $interest = 0.02;  // 2% interest rate otherwise
     }
-} else {
-    $interest = ceil($person_class->bank * $interest);  // Interest based on the actual bank balance
-    if ($person_class->bankboost > 0) {
-        $interest += ($interest * ($person_class->bankboost / 10));  // Adjusting the interest rate by bankboost
+
+    // Adjust interest rate based on donations
+    $addmul = $ptsadd = 0;
+    if ($person_class->donations >= 50) {
+        $addmul = 0.02;
+        $ptsadd = 75;
     }
-}
+    if ($person_class->donations >= 100) {
+        $addmul = 0.03;
+        $ptsadd = 120;
+    }
+    if ($person_class->donations >= 200) {
+        $addmul = 0.05;
+        $ptsadd = 150;
+    }
+
+    // Increase the interest rate by the adjustments from donations
+    $interest += $addmul;
+
+    // Apply bank boost if it's set and greater than zero
+
+
+    // Calculate the effective interest amount based on the user's bank balance
+    if ($person_class->bank >= 15000000) {
+        $interest = ceil(15000000 * $interest);
+        if ($person_class->bankboost > 0) {
+            $interest += ($interest * ($person_class->bankboost / 10));
+        }
+    } else {
+        $interest = ceil($person_class->bank * $interest);  // Interest based on the actual bank balance
+        if ($person_class->bankboost > 0) {
+            $interest += ($interest * ($person_class->bankboost / 10));  // Adjusting the interest rate by bankboost
+        }
+    }
     $newmoney = round($line['bank'] + $interest);
 
     mysql_query("UPDATE grpgusers SET bank = $newmoney, points = points + $ptsadd WHERE id = {$line['id']}");
@@ -244,7 +246,7 @@ $db->execute();
 $db->query("SELECT * FROM rentedProperties WHERE days = 0");
 $db->execute();
 $rows = $db->fetch_row();
-foreach($rows as $row){
+foreach ($rows as $row) {
     $db->query("INSERT INTO ownedProperties VALUES ('', ?, ?)");
     $db->execute(array(
         $row['owner'],

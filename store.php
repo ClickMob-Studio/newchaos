@@ -960,7 +960,7 @@ include 'header.php';
                 <input type="hidden" name="currency_code" value="USD">
 
                 <!-- Add custom fields if needed -->
-                <input type="hidden" name="custom" value="<?php echo $user_class->id; ?>">
+                <input type="hidden" name="custom" value="<?= $user_class->id; ?>">
 
                 <!-- Specify the return URL after a successful donation -->
                 <input type="hidden" name="return" value="https://chaoscity.co.uk/store.php?type=success">
