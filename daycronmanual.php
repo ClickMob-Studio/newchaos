@@ -66,9 +66,6 @@ $db->query("UPDATE grpgusers SET points = points + 10000 WHERE id = ?");
 $db->execute(array(
     $row['id']
 ));
-echo "<br /><br />";
-echo $row['id'];
-var_dump($row);
 $db->query("INSERT INTO otdwinners (`userid`, `type`, `howmany`, `timestamp`) VALUES (?, ?, ?, ?)");
 $db->execute(array(
     $row['id'],
@@ -81,21 +78,20 @@ Send_Event($row['id'], "You won Leveller Of The Day [+10000 Points]");
 $db->query("SELECT id, tamt FROM grpgusers WHERE `tamt` > 0 ORDER BY `tamt` DESC LIMIT 1");
 $db->execute();
 $row = $db->fetch_row(true);
-$db->query("UPDATE grpgusers SET points = points + 10000 WHERE id = ?");
-$db->execute(array(
-    $row['id']
-));
-echo "<br /><br />";
-echo "<br /><br />";
-var_dump($row);
-$db->query("INSERT INTO otdwinners (`userid`, `type`, `howmany`, `timestamp`) VALUES (?, ?, ?, ?)");
-$db->execute(array(
-    $row['id'],
-    "Most Mugged Today",
-    $row['tamt'],
-    time()
-));
-Send_Event($row['id'], "You won Most Money Mugged Today [+10000 Points]");
+if ($row) {
+    $db->query("UPDATE grpgusers SET points = points + 10000 WHERE id = ?");
+    $db->execute(array(
+        $row['id']
+    ));
+    $db->query("INSERT INTO otdwinners (`userid`, `type`, `howmany`, `timestamp`) VALUES (?, ?, ?, ?)");
+    $db->execute(array(
+        $row['id'],
+        "Most Mugged Today",
+        $row['tamt'],
+        time()
+    ));
+    Send_Event($row['id'], "You won Most Money Mugged Today [+10000 Points]");
+}
 
 mysql_query("UPDATE `grpgusers` SET `tamt` = '0', `todayskills` = '0', `todaysexp` = '0', `boxes_opened` = '1', `crimeauto` = '0', `csmuggling` = '6', `prayer` = '1', `searchdowntown` = '100', `dailytrains` = '0', `dailymugs` = '0', `spins` = '20', `gameevents` = '0', `voted1`='0', `dailyClockins` = '0', `doors`='5', `rtsmuggling`='7', `slots_left1`='100', `psmuggling2`='5', `roulette`='1', `luckydip`='1', `luckydip2`='1',`chase` = '1'") or die(mysql_error());
 
