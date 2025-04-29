@@ -40,8 +40,6 @@ foreach ($otds as $otd) {
     $db->execute();
     if ($db->num_rows()) {
         $row = $db->fetch_row(true);
-        echo $row['userid'];
-        var_dump($row);
         $db->startTrans();
         $db->query("UPDATE grpgusers SET points = points + $pts WHERE id = ?");
         $db->execute(array(
@@ -68,6 +66,9 @@ $db->query("UPDATE grpgusers SET points = points + 10000 WHERE id = ?");
 $db->execute(array(
     $row['id']
 ));
+echo "<br /><br />";
+echo $row['id'];
+var_dump($row);
 $db->query("INSERT INTO otdwinners (`userid`, `type`, `howmany`, `timestamp`) VALUES (?, ?, ?, ?)");
 $db->execute(array(
     $row['id'],
