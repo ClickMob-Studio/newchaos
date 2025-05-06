@@ -621,28 +621,28 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
         </header>
 
         <?php if (!$user_class->is_ads_disabled): ?>
-            <div class="max-w-7xl mx-auto mt-2 mb-4 px-2 md:px-6 lg:px-8">
+            <?php
+            $now = time();
+            $db->query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > ? ORDER BY RAND() LIMIT 1");
+            $db->execute([$now]);
+            $advertisement = $db->fetch_row(true);
+            ?>
 
-                <div class="w-full flex flex-row gap-x-2 text-white bg-black/40 rounded-lg p-2 px-4 items-center">
-                    <?php
-                    $now = time();
+            <?php if (!empty($advertisement)): ?>
+                <?php $ads_user = read_user_for_advertisement($advertisement["poster"], $advertisement["displaymins"] * 60);
+                $avatar = $ads_user->avatar ?: "/images/no-avatar.png";
+                $formattedname = formatName($ads_user->id);
+                ?>
 
-                    $db->query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > ? ORDER BY RAND() LIMIT 1");
-                    $db->execute([$now]);
-                    $advertisement = $db->fetch_row(true);
-                    if (!empty($advertisement)) {
-                        $ads_user = read_user_for_advertisement($advertisement["poster"], $advertisement["displaymins"] * 60);
+                <div class="max-w-7xl mx-auto mt-2 mb-4 px-2 md:px-6 lg:px-8">
 
-                        $avatar = $ads_user->avatar ?: "/images/no-avatar.png";
-                        $formattedname = formatName($ads_user->id);
-
-                        echo '<img src="assets/images/svg/Ad.svg" class="size-6 mr-2" alt="Advertisement">';
-                        echo '<span class="flex items-center pr-2">' . $formattedname . '</span>';
-                        echo '<span class="flex items-center">' . $advertisement['message'] . '</span>';
-                    }
-                    ?>
+                    <div class="w-full flex flex-row gap-x-2 text-white bg-black/40 rounded-lg p-2 px-4 items-center">
+                        <img src="assets/images/svg/Ad.svg" class="size-6 mr-2" alt="Advertisement">';
+                        <span class="flex items-center pr-2"><?= $formattedname ?></span>
+                        <span class="flex items-center"><?= $advertisement['message'] ?></span>
+                    </div>
                 </div>
-            </div>
+            <?php endif; ?>
         <?php endif; ?>
 
         <div class="ajax-message-holder" style="min-height: 60px; display: none;"></div>
