@@ -1117,9 +1117,9 @@ include 'header.php';
                                 <li>1 x <?= item_popup('Double EXP Pill', 10) ?></li>
                                 <li>10 x <?= item_popup('Gold Rush Token Chest', 283) ?></li>
                             </ul>
-                            <em>If you already have the maximum amount of a limited item, you instead receive additional 100.000
+                            <em style="margin-bottom:4px">If you already have the maximum amount of a limited item, you instead
+                                receive additional 100.000
                                 points per item.</em>
-                            <br />
                         <?php endif; ?>
 
                         <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img>
