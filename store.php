@@ -868,6 +868,28 @@ include 'header.php';
                     echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
                 }
             }
+
+            if ($_GET['buy'] == "5buildingpass") {
+                if ($user_class->credits >= 50) {
+                    $current = $user_class->credits;
+                    $newcredit = $user_class->credits -= 50;
+                    $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (" . $user_class->id . ", '5 x Building Pass', " . $current . ", " . $newcredit . ")");
+                    $db->execute();
+                    $db->query("UPDATE grpgusers SET credits = credits - 50 WHERE id = ?");
+                    $db->execute(array(
+                        $user_class->id
+                    ));
+
+                    Give_Item(356, $user_class->id, 5);
+
+                    Send_Event(1059, $user_class->formattedname . " bought 5 x Building Pass");
+                    Send_Event(1034, $user_class->formattedname . " bought 5 x Building Pass");
+
+                    echo Message("You spent 50 credits for 5 x Building Pass.");
+                } else {
+                    echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+                }
+            }
         }
         $donperc = ($user_class->donations / $donmax) * 100;
         $donperc = $donperc >= 100 ? 100 : $donperc;
@@ -1389,6 +1411,15 @@ include 'header.php';
     <hr>
     <div class="items-upgrades"
         style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
+        <!-- Mission Pass -->
+        <div class="vip-package">
+            <h4 style="color: brown;">5 x Building PAss</h4>
+            <img src="/css/images/2025/building_pass.png" height="100" alt="Building Pass">
+
+            <h4>Purchase now for only<br><a href="store.php?buy=5buildingpass"><button class="gold-button">50 <img
+                            src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+        </div>
+
         <!-- Mission Pass -->
         <div class="vip-package">
             <h4 style="color: brown;">1 x Mission Pass</h4>
