@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 include 'nc_header.php';
 
-if (!isset($_GET['´tid'])) {
+if (!isset($_GET['tid'])) {
     echo "REACHED UNO";
     // header('Location: /index.php');
     // exit;
