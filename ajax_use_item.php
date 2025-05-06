@@ -690,7 +690,7 @@ if (isset($_GET['use'])) {
                 Give_Item(283, $user_class->id, 10);
 
                 $response['success'] = true;
-                $response['message'] = "You open your Cleaner's Supply Crate and inside find " + prettynum($points) + " points, $1,000,000,000, ";
+                $response['message'] = "You open your Cleaner's Supply Crate and inside find " . prettynum($points) . " points, $1,000,000,000, ";
 
                 if ($bells < 5) {
                     $response['message'] = $response['message'] . "1 x Polished Brass Butler Bell, ";
