@@ -693,14 +693,14 @@ if (isset($_GET['use'])) {
                 $response['message'] = "You open your Cleaner's Supply Crate and inside find " + prettynum($points) + " points, $1,000,000,000, ";
 
                 if ($bells < 5) {
-                    $response['message'] .= "1 x Polished Brass Butler Bell, ";
+                    $response['message'] = $response['message'] . "1 x Polished Brass Butler Bell, ";
                 }
 
                 if ($armchairs < 5) {
-                    $response['message'] .= "1 x Immaculate Leather Armchair, ";
+                    $response['message'] = $response['message'] . "1 x Immaculate Leather Armchair, ";
                 }
 
-                $response['message'] .= "5 x Mission Pass, 2 x Ghost Vacuum, 1 x Double EXP Pill, and 10 x Gold Rush Token Chest!";
+                $response['message'] = $response['message'] . "5 x Mission Pass, 2 x Ghost Vacuum, 1 x Double EXP Pill, and 10 x Gold Rush Token Chest!";
                 break;
             case 333: # Nerve Tonic
                 $nr = give_nerve(100);
