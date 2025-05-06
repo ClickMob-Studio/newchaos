@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $recipient = isset($_POST['recipient']) ? trim($_POST['recipient']) : '';
     $quantity_to_send = isset($_POST['quantity']) ? (int) $_POST['quantity'] : 1;
 
+    $item = Get_Item($item_id);
     if ($item_id > 0 && !empty($recipient) && $quantity_to_send > 0) {
         $sender_id = $_SESSION['id'];
         if (!$sender_id) {
@@ -19,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        $item = Get_Item($item_id);
         if (!$item) {
             $response['success'] = false;
             $response['message'] = "Error: Item not found.";
@@ -67,11 +67,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $db->bind(':item_id', $item_id);
         $item_quantity = $db->fetch_single();
 
-        // Fetch the item name for the event message
-        $db->query("SELECT itemname FROM items WHERE id = :item_id");
-        $db->bind(':item_id', $item_id);
-        $item_name = $db->fetch_single();
-
         if ($item_quantity && $item_quantity >= $quantity_to_send) {
             $db->startTrans();
             try {
@@ -113,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // Send the event notification
                 $u = new User($_SESSION['id']);
-                Send_Event($recipient_id, $u->formattedname . ' sent you ' . $quantity_to_send . ' x ' . htmlspecialchars($item_name));
+                Send_Event($recipient_id, $u->formattedname . ' sent you ' . $quantity_to_send . ' x ' . htmlspecialchars($item['itemname']));
 
                 $response['success'] = true;
                 $response['message'] = "Item(s) sent successfully!";
