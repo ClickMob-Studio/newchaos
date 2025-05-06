@@ -324,6 +324,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
             echo "<script>alert('You need the two keys to raid the Egg Lab.');</script>";
             return;  // Exit early so the rest of the code doesn't run
         }
+    } else if ($boss_id == 26) {
+        $buildingPass = check_items(356, $user_class->id);
+        if (!$buildingPass) {
+            echo "<script>alert('You need a building pass to challenge The Janitor');</script>";
+            return;  // Exit early so the rest of the code doesn't run
+        }
     } else {
         if ($user_tokens < $tokencost) {
             echo "<script>alert('You do not have enough raid tokens to summon this boss. Required: $tokencost raid token(s).');</script>";
