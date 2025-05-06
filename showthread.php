@@ -22,7 +22,7 @@ if (!$thread) {
     // exit;
 }
 
-$permissions = getPermissions($fid, $user_class->usergroup);
+$permissions = getPermissions($thread['fid'], $user_class->usergroup);
 if (empty($permissions)) {
     echo "REACHED TRES";
     // header('Location: /index.php');
