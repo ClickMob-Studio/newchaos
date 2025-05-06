@@ -35,7 +35,7 @@ include 'header.php';
         }
 
 
-        $db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 13");
+        $db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 14");
         $db->execute();
         $limitedPack = $db->fetch_row();
         $limitedPack = $limitedPack[0];
@@ -985,7 +985,7 @@ include 'header.php';
 </div>
 
 
-<?php if (false): // ($limitedPack['available'] > $limitedPack['times_purchased']): ?>
+<?php if ($limitedPack['available'] > $limitedPack['times_purchased']): ?>
     <br><br>
     <div class="floaty" style="margin:3px;">
         <h4 class="section-title">Limited Edition Packs</h4>
@@ -1102,6 +1102,23 @@ include 'header.php';
                                 <li>2 x <?= item_popup('Balls of Steel', 334) ?></li>
                                 <li>1 x <?= item_popup('Ghost Vacuum', 284) ?></li>
                             </ul>
+                        <?php endif; ?>
+
+                        <?php if ($limitedPack['id'] == 14): ?>
+                            <p>Pack Contains:</p>
+                            <ul>
+                                <li>1,000,000 Points</li>
+                                <li>$1,000,000,000</li>
+                                <li>50 x <?= item_popup('Building Pass', 356) ?></li>
+                                <li>1 x <?= item_popup('Polished Brass Butler Bell (Max. 5 per user)', 352) ?></li>
+                                <li>1 x <?= item_popup('Immaculate Leather Armchair (Max. 5 per user)', 353) ?></li>
+                                <li>5 x <?= item_popup('Mission Pass', 277) ?></li>
+                                <li>2 x <?= item_popup('Ghost Vacuum', 284) ?></li>
+                                <li>1 x <?= item_popup('Double EXP Pill', 10) ?></li>
+                                <li>10 x <?= item_popup('Gold Rush Token Chest', 283) ?></li>
+                            </ul>
+                            <em>If you already have the maximum amount of a limited item, you instead receive additional 100.000
+                                points per item.</em>
                         <?php endif; ?>
 
                         <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img>

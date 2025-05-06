@@ -663,6 +663,35 @@ if (isset($_GET['use'])) {
                 $response['success'] = true;
                 $response['message'] = "You open your Golden Chest and inside find 1,250,000 points, $1,250,000,000, 1 x Protein Bar, 1 x Gym Super Pill, 1 x Double Gym Injection, 1 x Hitman Statue, 10 x Gold Rush Token Chest, 10 x Mission Passes, 5 x Toffee Apple, 1 Ghost Vacuum & 5 x Perfume!";
                 break;
+            case 351: # Cleaner's Supply Crate
+                $points = 1000000;
+
+                $bells = Check_Item(352, $user_class->id);
+                if ($bells < 5) {
+                    Give_Item(352, $user_class->id, 1);
+                } else {
+                    $points += 100000;
+                }
+
+                $armchairs = Check_Item(353, $user_class->id);
+                if ($armchairs < 5) {
+                    Give_Item(353, $user_class->id, 1);
+                } else {
+                    $points += 100000;
+                }
+
+                $db->query("UPDATE grpgusers SET points = points + ?, money = money + 1000000000 WHERE id = " . $user_class->id);
+                $db->execute([$points]);
+
+                Give_Item(356, $user_class->id, 50);
+                Give_Item(277, $user_class->id, 5);
+                Give_Item(284, $user_class->id, 2);
+                Give_Item(10, $user_class->id, 1);
+                Give_Item(283, $user_class->id, 10);
+
+                $response['success'] = true;
+                $response['message'] = "You open your Cleaner's Supply Crate and inside find " + prettynum($points) + " points, $1,000,000,000, " + ($bells < 5 ? "1 x Polished Brass Butler Bell, " : "") + ($armchairs < 5 ? "1 x Immaculate Leather Armchair, " : "") + "5 x Mission Pass, 2 x Ghost Vacuum, 1 x Double EXP Pill, and 10 x Gold Rush Token Chest!";
+                break;
             case 333: # Nerve Tonic
                 $nr = give_nerve(100);
                 if ($nr == 0) {
