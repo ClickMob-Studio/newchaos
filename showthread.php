@@ -10,23 +10,20 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 include 'nc_header.php';
 
 if (!isset($_GET['tid'])) {
-    echo "REACHED UNO";
-    // header('Location: /index.php');
-    // exit;
+    header('Location: /index.php');
+    exit;
 }
 $tid = intval($_GET['tid']);
 $thread = getThread($tid);
 if (!$thread) {
-    echo "REACHED DDS";
-    // header('Location: /index.php');
-    // exit;
+    header('Location: /index.php');
+    exit;
 }
 
 $permissions = getPermissions($thread['fid'], $user_class->usergroup);
 if (empty($permissions)) {
-    echo "REACHED TRES";
-    // header('Location: /index.php');
-    // exit;
+    header('Location: /index.php');
+    exit;
 }
 
 $canviewthreads = (int) $permissions['canviewthreads'] == 1;
