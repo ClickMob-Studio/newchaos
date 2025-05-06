@@ -1119,6 +1119,7 @@ include 'header.php';
                             </ul>
                             <em>If you already have the maximum amount of a limited item, you instead receive additional 100.000
                                 points per item.</em>
+                            <br />
                         <?php endif; ?>
 
                         <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img>
