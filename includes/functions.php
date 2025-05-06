@@ -2621,8 +2621,8 @@ function getBpCategoryPrizes($bpCategory)
 
     $now = new \DateTime();
 
-    $db->query("SELECT * FROM bp_category_prizes WHERE bp_category_id = " . $bpCategory['id']);
-    $db->execute();
+    $db->query("SELECT * FROM bp_category_prizes WHERE bp_category_id = ? ORDER BY cost ASC");
+    $db->execute([$bpCategory['id']]);
     $r = $db->fetch_row();
 
     // Index them on ID for easier use later
