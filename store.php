@@ -801,9 +801,6 @@ include 'header.php';
             }
 
             if ($_GET['buy'] === 'lep') {
-                echo diefun("We are working on the next limited pack. Please check back later.");
-                exit;
-
                 if ($user_class->credits < $limitedPack['gold_cost']) {
                     echo diefun("You don't have enough credits. You can buy some at the upgrade store.");
                 }
