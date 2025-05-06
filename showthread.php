@@ -10,27 +10,31 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 include 'nc_header.php';
 
 if (!isset($_GET['´tid'])) {
-    header('Location: /index.php');
-    exit;
+    echo "REACHED UNO";
+    // header('Location: /index.php');
+    // exit;
 }
 $tid = intval($_GET['tid']);
 $thread = getThread($tid);
 if (!$thread) {
-    header('Location: /index.php');
-    exit;
+    echo "REACHED DDS";
+    // header('Location: /index.php');
+    // exit;
 }
 
 $permissions = getPermissions($fid, $user_class->usergroup);
 if (empty($permissions)) {
-    header('Location: /index.php');
-    exit;
+    echo "REACHED TRES";
+    // header('Location: /index.php');
+    // exit;
 }
 
 $canviewthreads = (int) $permissions['canviewthreads'] == 1;
 $canonlyviewownthreads = (int) $permissions['canonlyviewownthreads'] == 1;
 if ((!$canviewthreads && !$canonlyviewownthreads) || ($canonlyviewownthreads && $thread['uid'] != $user_class->id)) {
-    header('Location: /index.php');
-    exit;
+    echo "REACHED CUATRO";
+    // header('Location: /index.php');
+    // exit;
 }
 
 ?>
