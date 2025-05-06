@@ -400,6 +400,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
         } else if ($boss_id == 25) {
             Take_Item(349, $user_class->id, 1);
             Take_Item(350, $user_class->id, 1);
+        } else if ($boss_id == 26) {
+            Take_Item(356, $user_class->id, 1);
         }
 
         echo "<script>alert('$tokencost raid token(s) have been spent to summon the boss.');</script>";
@@ -730,6 +732,8 @@ echo "</div>"; // Close active-raids-grid
                     echo "<p><strong>1 x Rare Egg Basket to summon:</strong></p>";
                 } else if ($boss['id'] == 25) {
                     echo "<p><strong>1 x Egg Key (Part 1), 1 x Egg Key (Part 2), and 100 tokens to summon:</strong></p>";
+                } else if ($boss['id'] == 26) {
+                    echo "<p><strong>1 Building Pass to summon</strong></p>";
                 } else {
                     echo "<p><strong>Token cost to summon:</strong> $tokencost</p>";
                 }
