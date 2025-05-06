@@ -264,6 +264,16 @@ function Check_Item($itemid, $userid)
     $rtn = $db->fetch_single();
     return ($rtn > 0) ? $rtn : 0;
 }
+
+function Get_Item($itemid)
+{
+    global $db;
+
+    $db->query("SELECT * FROM items WHERE id = ?");
+    $db->execute([$itemid]);
+    return $db->fetch_row(true);
+}
+
 function Check_Loan($itemid, $userid)
 {
     global $db;
