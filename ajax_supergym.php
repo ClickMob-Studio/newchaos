@@ -44,6 +44,12 @@ $now = time();
 $db->query("SELECT * FROM scheduledevents WHERE type = 'gym' AND `start` <= ? AND `end` >= ? LIMIT 1");
 $db->execute([$now, $now]);
 $scheduledevent = $db->fetch_row(true);
+
+if ($user_class->admin > 0) {
+    echo "NOW: " . $now . " - START: " . $scheduledevent['start'] . " - END: " . $scheduledevent['end'] . "<br>";
+}
+
+
 if ($scheduledevent && $user_class->admin > 0) {
     var_dump($now);
     $gymBonus = (float) $scheduledevent['multiplier'];
