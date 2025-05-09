@@ -41,7 +41,7 @@ $mega_train_multiplier = (isset($_POST['mega_train']) && $_POST['mega_train'] ==
 $gymBonus = 0;
 
 $now = time();
-$db->query("SELECT * FROM scheduledevents WHERE type = 'gym' AND start <= ? AND end >= ? LIMIT 1");
+$db->query("SELECT * FROM scheduledevents WHERE type = 'gym' AND `start` <= ? AND `end` >= ? LIMIT 1");
 $db->execute([$now, $now]);
 
 $scheduledevent = $db->fetch_row(true);
