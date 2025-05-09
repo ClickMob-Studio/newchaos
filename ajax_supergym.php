@@ -46,6 +46,8 @@ $db->execute([$now, $now]);
 
 $scheduledevent = $db->fetch_row(true);
 if ($scheduledevent && $user_class->admin == 1) {
+    echo "<h1>SCHEDULED EVENT! " . $scheduledevent['multiplier'] . "</h1>";
+    exit;
     $gymBonus = $scheduledevent['multiplier'];
 }
 
@@ -169,7 +171,7 @@ if (isset($_POST['what']) and $_POST['what'] == 'trainrefill') {
         }
 
         if ($gymBonus > 0) {
-            $add = $add * 2;
+            $add = $add * $gymBonus;
         }
 
         $add = ceil($add);
