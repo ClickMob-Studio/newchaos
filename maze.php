@@ -615,7 +615,7 @@ include 'footer.php';
 
                 if (data.jailTime > 0) {
                     $('#jail-bail').show();
-                    $('#jail-cost').text = data.jailCost;
+                    $('#jail-cost').textContent = data.jailCost;
                 } else {
                     $('#jail-bail').hide();
                 }
