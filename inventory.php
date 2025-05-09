@@ -526,7 +526,7 @@ src="${itemImage}" alt="${itemName}">
                 console.warn(`Element with id "qty-${itemId}" not found`);
             }
             const button = document.querySelector(`.use-btn[data-item-id="${itemId}"]`);
-            button.dataset.quantity = newQuantity;
+            button.dataset.itemQuantity = newQuantity;
         }
     </script>
 </div>
