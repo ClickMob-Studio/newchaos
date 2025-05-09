@@ -206,8 +206,15 @@ if (isset($_POST['direction'])) {
         $response['hospitalTime'] = 0;
     }
 
+    if (isset($jailTime) && $jailTime > 0) {
+        $response['jailTime'] = $jailTime;
+        $response['jailCost'] = ceil($jailTime / 60);
+    } else {
+        $response['jailTime'] = 0;
+        $response['jailCost'] = 0;
+    }
+
 }
-//file_put_contents("response_log.txt", print_r($response, true));
 
 // Return the response
 echo json_encode($response);

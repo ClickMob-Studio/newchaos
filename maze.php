@@ -263,9 +263,18 @@ include 'header.php';
 <br />
 ';
 
+        $jailBailHtml = '
+<br /><br />
+<center>
+    <div id="jail-bail">
+        You are in jail, <a class="ajax-link" href="ajax_jail_new.php?action=bail">Click here</a> to bail yourself out for <span id="jail-cost"></span> points.
+    </div>
+</center> 
+<br />
+';
+
         // Display the compass buttons
         echo '
-
     <div class="contenthead floaty" style="width: 100%;">
 
         <div class="contenthead floaty" style="width: 88%;"> 
@@ -594,6 +603,13 @@ include 'footer.php';
                     $('#med-pack-holder').show();
                 } else {
                     $('#med-pack-holder').hide();
+                }
+
+                if (data.jailTime > 0) {
+                    $('#jail-bail').show();
+                    $('#jail-cost').textContent = data.jailCost + " points";
+                } else {
+                    $('#jail-bail').hide();
                 }
 
                 document.querySelector("#searchFeedback").style.display = "block";

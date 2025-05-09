@@ -7,8 +7,7 @@ $user_class = new SlimUser($_SESSION['id']);
 //
 // FETCH JAIL USERS
 //
-
-if (isset($_GET['action'])  && $_GET['action'] == 'fetch_users') {
+if (isset($_GET['action']) && $_GET['action'] == 'fetch_users') {
     $ignore = array($user_class->id);
     $ignore = implode(',', $ignore);
 
@@ -49,7 +48,7 @@ if (isset($_GET['action'])  && $_GET['action'] == 'fetch_users') {
 //
 // BUST BOTS
 //
-if (isset($_GET['jailbreak'])  && $_GET['jailbreak'] == 'bot') {
+if (isset($_GET['jailbreak']) && $_GET['jailbreak'] == 'bot') {
     $error = false;
     $expEarned = mt_rand(1, 10);
 
@@ -68,7 +67,7 @@ if (isset($_GET['jailbreak'])  && $_GET['jailbreak'] == 'bot') {
         $exp = $expEarned + $user_class->exp;
         $crimesucceeded = 1 + $user_class->crimesucceeded;
 
-        $db->query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ".$exp.", busts = busts + 1, jail_bot_credits = jail_bot_credits - 1 WHERE id = ".$user_class->id);
+        $db->query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  " . $exp . ", busts = busts + 1, jail_bot_credits = jail_bot_credits - 1 WHERE id = " . $user_class->id);
         $db->execute();
 
         $user_class->jail_bot_credits = $user_class->jail_bot_credits - 1;
@@ -117,12 +116,35 @@ if (isset($_GET['jailbreak'])  && $_GET['jailbreak'] == 'bot') {
         echo json_encode(array(
             'success' => true,
             'jail_bot_credits' => $user_class->jail_bot_credits,
-            'message' => "Success! You receive ".$expEarned." exp "
+            'message' => "Success! You receive " . $expEarned . " exp "
         ));
     } else {
         echo json_encode(array(
             'success' => false,
             'error' => $error
         ));
+    }
+}
+
+if (isset($_GET['action']) && $_GET['action'] == 'bail') {
+    if ($user_class->jail < 1) {
+        echo json_encode(array(
+            'success' => false,
+            'error' => 'You are currently not in jail'
+        ));
+    } else {
+        $cost = ceil($user_class->jail / 60);
+        if ($user_class->points < $cost) {
+            echo json_encode(array(
+                'success' => false,
+                'error' => 'You do not have enough points'
+            ));
+        } else {
+            echo json_encode(array(
+                'success' => true,
+                'message' => 'You have bailed you self out of jail for ' . $cost . ' points',
+            ));
+            mysql_query("UPDATE grpgusers SET jail = 0, points = points - " . $cost . " WHERE id = " . $user_class->id);
+        }
     }
 }
