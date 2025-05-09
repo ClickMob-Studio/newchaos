@@ -46,7 +46,7 @@ $db->execute([$now, $now]);
 $scheduledevent = $db->fetch_row();
 if ($scheduledevent && $user_class->admin > 0) {
     var_dump($scheduledevent);
-    $gymBonus = $scheduledevent['multiplier'];
+    $gymBonus = (float) $scheduledevent['multiplier'];
 }
 
 // Fetch the Player's Gang Upgrades
