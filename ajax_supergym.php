@@ -37,13 +37,16 @@ if (isset($_POST['multiplier']) && (int) $_POST['multiplier'] && (int) $_POST['m
 
 $mega_train_multiplier = (isset($_POST['mega_train']) && $_POST['mega_train'] === 'yes') ? 10 : 1;
 
+
 $gymBonus = 0;
-$result = mysql_query("SELECT time FROM gamebonus WHERE ID = 2 LIMIT 1");
-if ($result) {
-    $gymbonus = mysql_fetch_assoc($result);
-    if ($gymbonus && $gymbonus['time'] > 0) {
-        $gymBonus = 2;
-    }
+
+$now = time();
+$db->query("SELECT * FROM scheduledevents WHERE type = 'gym' AND start <= ? AND end >= ? LIMIT 1");
+$db->execute([$now, $now]);
+
+$scheduledevent = $db->fetch_row(true);
+if ($scheduledevent && $user_class->admin == 1) {
+    $gymBonus = $scheduledevent['multiplier'];
 }
 
 // Fetch the Player's Gang Upgrades
