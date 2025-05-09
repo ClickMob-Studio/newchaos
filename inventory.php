@@ -490,7 +490,6 @@ src="${itemImage}" alt="${itemName}">
                 dataType: 'json',
                 success: function (response) {
                     showMessage(response.message, response.success);
-                    console.log(response);
                     updateItemQuantity(response.itemid, response.quantity);
                     $("#useMultiModal").hide();
                 },
@@ -530,13 +529,18 @@ src="${itemImage}" alt="${itemName}">
                 console.warn(`Element with id "qty-${itemId}" not found`);
             }
 
-            const button = document.querySelector(`.use-btn[data-item-id="${itemId}"]`);
-            if (button) {
-                button.dataset.itemQuantity = newQuantity;
+            const useBtn = document.querySelector(`.use-btn[data-item-id="${itemId}"]`);
+            if (useBtn) {
+                useBtn.dataset.itemQuantity = newQuantity;
             }
-            const multiButton = document.querySelector(`.use-btn-multi[data-item-id="${itemId}"]`);
-            if (multiButton) {
-                multiButton.dataset.itemQuantity = newQuantity;
+            const multiBtn = document.querySelector(`.use-btn-multi[data-item-id="${itemId}"]`);
+            if (multiBtn) {
+                multiBtn.dataset.itemQuantity = newQuantity;
+            }
+
+            const sendBtn = document.querySelector(`.send-btn[data-item-id="${itemId}"]`);
+            if (sendBtn) {
+                sendBtn.dataset.itemQuantity = newQuantity;
             }
         }
     </script>
