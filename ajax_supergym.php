@@ -46,6 +46,7 @@ $db->execute([$now, $now]);
 $scheduledevent = $db->fetch_row();
 if ($user_class->admin > 0) {
     var_dump($scheduledevent);
+    echo "<br>" . $now;
 }
 if ($scheduledevent && $user_class->admin > 0) {
     $gymBonus = $scheduledevent['multiplier'];
