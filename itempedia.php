@@ -63,7 +63,7 @@ echo "
     <div id='consumables' class='item-section' style='display:none;'>
         <h2>Consumables</h2>
         <div class='row'>";
-$db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE speed = 0 AND offense = 0 AND defense = 0 AND buyable = 1 AND (drugstime > 0 OR heal > 0) ORDER BY id ASC");
+$db->query("SELECT *, (SELECT SUM(quantity) FROM inventory WHERE itemid = i.id) AS qty FROM items i WHERE consumable = 1 OR (drugstime > 0 OR heal > 0) ORDER BY id ASC");
 $db->execute();
 $rows = $db->fetch_row();
 echo displayItem($rows);
@@ -93,7 +93,8 @@ echo "
     </div>
 </div> <!-- Close container -->
 ";
-function displayItem($rows, $type = null) {
+function displayItem($rows, $type = null)
+{
     $rtn = "";
     foreach ($rows as $row) {
         $boost = "";
@@ -130,19 +131,19 @@ function displayItem($rows, $type = null) {
 }
 ?>
 <script>
-function showSection(sectionId) {
-    // Hide all sections
-    var sections = document.querySelectorAll('.item-section');
-    sections.forEach(function(sec) {
-        sec.style.display = 'none';
-    });
+    function showSection(sectionId) {
+        // Hide all sections
+        var sections = document.querySelectorAll('.item-section');
+        sections.forEach(function (sec) {
+            sec.style.display = 'none';
+        });
 
-    // Show the selected section
-    document.getElementById(sectionId).style.display = 'block';
-}
-document.addEventListener('DOMContentLoaded', function() {
-    showSection('weapons'); // Show weapons by default
-});
+        // Show the selected section
+        document.getElementById(sectionId).style.display = 'block';
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        showSection('weapons'); // Show weapons by default
+    });
 </script>
 <?php
 include 'footer.php';
