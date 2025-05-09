@@ -267,7 +267,7 @@ include 'header.php';
 <br /><br />
 <center>
     <div id="jail-bail">
-        You are in jail, <a class="ajax-link" href="ajax_jail_new.php?action=bail">Click here</a> to bail yourself out for <span id="jail-cost"></span> points.
+        You are in jail, <a class="ajax-link" href="ajax_jail_new.php?action=bail" style="font-weight:bold">Click here</a> to bail yourself out for <span id="jail-cost"></span> points.
     </div>
 </center> 
 <br />
