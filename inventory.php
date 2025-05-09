@@ -219,7 +219,7 @@ if ($user_class->gang > 0) {
             echo '<img class="card-img-top" style="max-width: 120px; max-height: 120px; margin: auto;" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '">';
             echo '<div class="card-body d-flex flex-column">';
             echo '<h6 class="card-title text-white">' . item_popup($itemName, $item['id']) . '</h6>';
-            echo 'x <span id="' . $item['id'] . '-qty">' . $item['quantity'] . '</span>';
+            echo '<div style="display:inline">x <span id="' . $item['id'] . '-qty">' . $item['quantity'] . '</span></div>';
 
             if ($showEquipButton) {
                 $buttonHtml .= '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $dataType . '" data-id="' . intval($item['itemid']) . '" data-name="' . htmlspecialchars($itemName) . '" data-img="' . htmlspecialchars($itemImage) . '" data-loan-id="' . $item['loanid'] . '">Equip</button>';
