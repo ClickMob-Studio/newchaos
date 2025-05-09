@@ -38,7 +38,7 @@ if (isset($_POST['multiplier']) && (int) $_POST['multiplier'] && (int) $_POST['m
 $mega_train_multiplier = (isset($_POST['mega_train']) && $_POST['mega_train'] === 'yes') ? 10 : 1;
 
 
-$gymBonus = 0;
+$gymBonus = 0.0;
 
 $now = time();
 $db->query("SELECT * FROM scheduledevents WHERE type = 'gym' AND `start` <= ? AND `end` >= ? LIMIT 1");
