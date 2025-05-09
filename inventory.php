@@ -519,15 +519,24 @@ src="${itemImage}" alt="${itemName}">
         function updateItemQuantity(itemId, subtractQuantity) {
             const currentQuantity = parseInt($("#qty-" + itemId).text());
             const newQuantity = currentQuantity - subtractQuantity;
-            console.log(`Current Quantity: ${currentQuantity}, Subtract Quantity: ${subtractQuantity}, New Quantity: ${newQuantity}`);
+
+            console.log(`(ID: ${itemId}) Current Quantity: ${currentQuantity}, Subtract Quantity: ${subtractQuantity}, New Quantity: ${newQuantity}`);
+
             const qtyElement = document.querySelector(`#qty-${itemId}`);
             if (qtyElement) {
                 qtyElement.textContent = newQuantity;
             } else {
                 console.warn(`Element with id "qty-${itemId}" not found`);
             }
+
             const button = document.querySelector(`.use-btn[data-item-id="${itemId}"]`);
-            button.dataset.itemQuantity = newQuantity;
+            if (button) {
+                button.dataset.itemQuantity = newQuantity;
+            }
+            const multiButton = document.querySelector(`.use-btn-multi[data-item-id="${itemId}"]`);
+            if (multiButton) {
+                multiButton.dataset.itemQuantity = newQuantity;
+            }
         }
     </script>
 </div>
