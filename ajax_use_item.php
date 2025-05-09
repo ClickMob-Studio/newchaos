@@ -2,7 +2,7 @@
 include 'ajax_header.php'; // Use AJAX compatible header
 error_reporting(0);
 ini_set('display_errors', 0);
-$response = array("success" => false, "message" => "", "quantity" => 0, "itemid" => 0);
+$response = array("success" => false, "message" => "", "quantity" => 1, "itemid" => 0);
 $user_class = new User($_SESSION['id']); // Assuming session contains the user ID
 function add_rm_days($days, $money, $points)
 {
@@ -33,7 +33,6 @@ if (isset($_GET['use'])) {
     $howmany = check_items($id);
 
     $response['itemid'] = $id;
-    $response['quantity'] = 1;
 
     if ($howmany) {
         $failed = false;
