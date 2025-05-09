@@ -33,7 +33,7 @@ if (isset($_GET['use'])) {
     $howmany = check_items($id);
 
     $response['itemid'] = $id;
-    $response['quantity'] = $howmany;
+    $response['quantity'] = 1;
 
     if ($howmany) {
         $failed = false;
