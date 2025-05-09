@@ -1,20 +1,24 @@
 <?php
 include 'ajax_header.php';
 
-$response = array("success" => false, "message" => "");
+$response = array("success" => false, "message" => "", "itemid" => 0, "quantity" => 0);
 $user_class = new User($_SESSION['id']); // Ensure $_SESSION['id'] is set
 
 // Verify request method and necessary POST variables
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['quantity'])) {
-    $item_id = (int)$_POST['item_id'];
-    $quantity = (int)$_POST['quantity'];
+    $item_id = (int) $_POST['item_id'];
+    $quantity = (int) $_POST['quantity'];
+
+    $reponse['itemid'] = $item_id;
+    $response['quantity'] = $quantity;
+
     $howmany = check_items($item_id);
 
     // Check if user has enough items
     if ($howmany && $howmany >= $quantity) {
         switch ($item_id) {
             case 251: // Raid Pass
-                addItemTempUse($user_class, 'raid_pass', $quantity );
+                addItemTempUse($user_class, 'raid_pass', $quantity);
                 Take_Item($item_id, $user_class->id, $quantity);
                 $response['success'] = true;
                 $response['message'] = "You have used your raid pass.";
@@ -79,11 +83,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['qu
 
                 // Construct response message
                 $message = "You opened $quantity mystery box(es) and found:";
-                if ($total_points > 0) $message .= " $total_points Points,";
-                if ($total_raidtokens > 0) $message .= " $total_raidtokens Raid Tokens,";
-                if ($total_cash > 0) $message .= " $$total_cash,";
-                if ($raid_boosters > 0) $message .= " $raid_boosters Raid Booster(s),";
-                if ($police_badges > 0) $message .= " $police_badges Police Badge(s),";
+                if ($total_points > 0)
+                    $message .= " $total_points Points,";
+                if ($total_raidtokens > 0)
+                    $message .= " $total_raidtokens Raid Tokens,";
+                if ($total_cash > 0)
+                    $message .= " $$total_cash,";
+                if ($raid_boosters > 0)
+                    $message .= " $raid_boosters Raid Booster(s),";
+                if ($police_badges > 0)
+                    $message .= " $police_badges Police Badge(s),";
 
                 $response['message'] = rtrim($message, ',');
                 $response['success'] = true;
@@ -108,14 +117,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['qu
                 $response['success'] = true;
                 $response['message'] = "You have added " . (60 * $quantity) . " minutes to your Police Pass.";
                 break;
-                case 252:
-                    // Add temporary use for 'raid_booster'
-                    addItemTempUse($user_class, 'raid_booster', $quantity );
-                    Take_Item($item_id, $user_class->id, $quantity);
-                    $response['success'] = true;
+            case 252:
+                // Add temporary use for 'raid_booster'
+                addItemTempUse($user_class, 'raid_booster', $quantity);
+                Take_Item($item_id, $user_class->id, $quantity);
+                $response['success'] = true;
 
-                    $response['message'] = ("You have used ".$quantity." x raid boosters. All payouts in your next raid will be boosted.");
-                    break;
+                $response['message'] = ("You have used " . $quantity . " x raid boosters. All payouts in your next raid will be boosted.");
+                break;
 
             case 256: // Nerve Vial
                 $newTime = time() + (1800 * $quantity);
@@ -129,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['qu
                 Give_Item(253, $user_class->id, $amount);
                 Take_Item($item_id, $user_class->id, $quantity);
                 $response["success"] = true;
-                $response["message"] = ("You open ".$quantity."x Gold Rush Token Chests and find ".$amount." x Gold Rush Tokens inside.");
+                $response["message"] = ("You open " . $quantity . "x Gold Rush Token Chests and find " . $amount . " x Gold Rush Tokens inside.");
                 break;
             case 288:
                 $expRand = ceil($user_class->maxexp / mt_rand(10000, 30000));
