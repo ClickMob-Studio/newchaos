@@ -19,15 +19,8 @@ if ($user_class->hospital > 0) {
     die("You can't train at the gym if you are in the hospital.");
 }
 
-// 131,177,612,684 - 131,176,273,222 =  1,339,462
-// 131,178,282,415 - 131,178,952,146 = 669731
-
 $modifier = 1.0;
 $multiplier = 1;
-if ($user_class->admin > 0) {
-    $multiplier = 2.0;
-}
-
 
 if (isset($_POST['multiplier']) && (int) $_POST['multiplier'] && (int) $_POST['multiplier'] == 10) {
     $tempItemUse = getItemTempUse($user_class->id);
