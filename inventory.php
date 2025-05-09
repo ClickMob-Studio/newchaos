@@ -518,10 +518,10 @@ src="${itemImage}" alt="${itemName}">
         function updateItemQuantity(itemId, subtractQuantity) {
             const currentQuantity = parseInt($("#" + itemId + "-qty").text());
             const newQuantity = currentQuantity - subtractQuantity;
-            $("#" + itemId + "-qty").text(newQuantity);
+            document.querySelector('#' + itemId + '-qty').textContent = newQuantity;
 
             const button = document.querySelector(`.use-btn[data-item-id="${itemId}"]`);
-            button.dataset.itemQuantity = newQuantity;
+            button.dataset.quantity = newQuantity;
         }
     </script>
 </div>
