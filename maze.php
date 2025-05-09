@@ -282,7 +282,8 @@ include 'header.php';
     Below is the potential items you can find when searching, Displaying all different rarity types</p>
     <br>
     <span style="text-align:center"><a href="jail.php">Jail</a> | <a href="hospital.php">Hospital</a></span>
-    ' . $medPackHtml . '
+    ' . $medPackHtml . $jailBailHtml . '
+
     </div>
     
      <div class="contenthead floaty" style="text-align: center; padding: 20px; margin-bottom: 20px; border-radius: 8px; width: 88%;">
@@ -547,6 +548,13 @@ include 'footer.php';
         $('#med-pack-holder').show();
     <?php else: ?>
         $('#med-pack-holder').hide();
+    <?php endif; ?>
+
+    <?php if ($user_class->jail > 0): ?>
+        $('#jail-bail').show();
+        $('#jail-cost').text("<?php echo ceil($user_class->jail / 60); ?>");
+    <?php else: ?>
+        $('#jail-bail').hide();
     <?php endif; ?>
 
     function updateLogs() {
