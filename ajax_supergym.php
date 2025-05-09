@@ -44,7 +44,7 @@ $now = time();
 $db->query("SELECT * FROM scheduledevents WHERE type = 'gym' AND `start` <= ? AND `end` >= ? LIMIT 1");
 $db->execute([$now, $now]);
 
-$scheduledevent = $db->fetch_row(true);
+$scheduledevent = $db->fetch_row();
 if ($scheduledevent && $user_class->admin == 1) {
     echo "<h1>SCHEDULED EVENT! " . $scheduledevent['multiplier'] . "</h1>";
     exit;
