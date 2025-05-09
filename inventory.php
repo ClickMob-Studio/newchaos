@@ -219,7 +219,7 @@ if ($user_class->gang > 0) {
             echo '<img class="card-img-top" style="max-width: 120px; max-height: 120px; margin: auto;" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '">';
             echo '<div class="card-body d-flex flex-column">';
             echo '<h6 class="card-title text-white">' . item_popup($itemName, $item['id']) . '</h6>';
-            echo 'x ' . $item['quantity'];
+            echo 'x <span id="' . $item['id'] . '-qty">' . $item['quantity'] . '</span>';
 
             if ($showEquipButton) {
                 $buttonHtml .= '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $dataType . '" data-id="' . intval($item['itemid']) . '" data-name="' . htmlspecialchars($itemName) . '" data-img="' . htmlspecialchars($itemImage) . '" data-loan-id="' . $item['loanid'] . '">Equip</button>';
@@ -454,9 +454,7 @@ src="${itemImage}" alt="${itemName}">
                 success: function (response) {
                     if (response.success) {
                         showMessage(response.message, true); // Show success message
-                        // Optional: Update UI to reflect the changes, e.g., reduce item quantity, update HP display, etc.
-                        updateHP(response.newHP); // Example for updating HP display
-                        updateHospitalTime(response.newHospitalTime); // Example for updating hospital time
+                        updateItemQuantity(response.itemid, response.quantity);
                     } else {
                         showMessage(response.message || "An unknown error occurred.", false); // Show error from response
                     }
@@ -516,6 +514,15 @@ src="${itemImage}" alt="${itemName}">
                 }
             });
         });
+
+        function updateItemQuantity(itemId, subtractQuantity) {
+            const currentQuantity = parseInt($("#" + itemId + "-qty").text());
+            const newQuantity = currentQuantity - subtractQuantity;
+            $("#" + itemId + "-qty").text(newQuantity);
+
+            const button = document.querySelector(`.use-btn[data-item-id="${itemId}"]`);
+            button.dataset.itemQuantity = newQuantity;
+        }
     </script>
 </div>
 <style>

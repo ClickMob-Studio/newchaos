@@ -616,7 +616,6 @@ include 'footer.php';
                 if (data.jailTime > 0) {
                     $('#jail-bail').show();
                     document.querySelector('#jail-cost').textContent = data.jailCost;
-                    console.log("Jail cost:", data.jailCost); // Debugging console log
                 } else {
                     $('#jail-bail').hide();
                 }
