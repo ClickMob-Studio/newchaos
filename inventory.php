@@ -518,6 +518,7 @@ src="${itemImage}" alt="${itemName}">
         function updateItemQuantity(itemId, subtractQuantity) {
             const currentQuantity = parseInt($("#qty-" + itemId).text());
             const newQuantity = currentQuantity - subtractQuantity;
+            console.log(`Current Quantity: ${currentQuantity}, Subtract Quantity: ${subtractQuantity}, New Quantity: ${newQuantity}`);
             const qtyElement = document.querySelector(`#qty-${itemId}`);
             if (qtyElement) {
                 qtyElement.textContent = newQuantity;
