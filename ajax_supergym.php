@@ -45,7 +45,6 @@ $db->query("SELECT * FROM scheduledevents WHERE type = 'gym' AND `start` <= ? AN
 $db->execute([$now, $now]);
 $scheduledevent = $db->fetch_row(true);
 if ($scheduledevent) {
-    var_dump($now);
     $gymBonus = (float) $scheduledevent['multiplier'];
 }
 
