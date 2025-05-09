@@ -18,9 +18,14 @@ if (isset($_POST['amnt']))
 if ($user_class->hospital > 0) {
     die("You can't train at the gym if you are in the hospital.");
 }
-$modifier = 1.0;
 
+
+$modifier = 1.0;
 $multiplier = 1;
+if ($user_class->admin > 0) {
+    $modifier = 2.0;
+}
+
 if (isset($_POST['multiplier']) && (int) $_POST['multiplier'] && (int) $_POST['multiplier'] == 10) {
     $tempItemUse = getItemTempUse($user_class->id);
     if ($tempItemUse['gym_10_multiplier_time'] > time()) {
