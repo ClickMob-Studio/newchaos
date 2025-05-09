@@ -490,6 +490,7 @@ src="${itemImage}" alt="${itemName}">
                 dataType: 'json',
                 success: function (response) {
                     showMessage(response.message, response.success);
+                    console.log(response);
                     updateItemQuantity(response.itemid, response.quantity);
                     $("#useMultiModal").hide();
                 },
