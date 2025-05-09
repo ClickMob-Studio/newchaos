@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['item_id'], $_POST['qu
     $item_id = (int) $_POST['item_id'];
     $quantity = (int) $_POST['quantity'];
 
-    $reponse['itemid'] = $item_id;
+    $response['itemid'] = $item_id;
     $response['quantity'] = $quantity;
 
     $howmany = check_items($item_id);
