@@ -232,15 +232,15 @@ $event = getScheduledEvent();
                 }
             </style>
 
+            <? if ($user_class->admin > 0 && !empty($event)): ?>
+                <div class='dcPanel p-3' style="text-align:center;">Event is on-going, all types of training is multiplied
+                    by <?= $event['multiplier'] ?>!
+                </div>
+            <? endif; ?>
+
             <div class="contenthead floaty">
                 <span
                     style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"></span>
-
-                <? if ($user_class->admin > 0 && !empty($event)): ?>
-                    <div class='dcPanel p-3' style="text-align:center;">Event is on-going, all types of training is multiplied
-                        by <?= $event['multiplier'] ?>!
-                    </div>
-                <? endif; ?>
 
                 <span class='notice' style="display:none;"></span>
 
