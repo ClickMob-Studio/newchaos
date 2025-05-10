@@ -80,13 +80,14 @@ $event = getScheduledEvent();
                 </div>
             </div>
 
+            <? if (!empty($event)): ?>
+                <div class='dcPanel p-3 mb-4' style="text-align:center;background-color:#3d00008a">Event is on-going, all types
+                    of training is multiplied
+                    by <?= $event['multiplier'] ?>!
+                </div>
+            <? endif; ?>
+
             <?php
-            if ($user_class->admin > 0 && !empty($event)) {
-                echo "<div class='dcPanel p-3 mb-4' style='text-align:center;background-color:#3d00008a'>Event is on-going, all types
-                of training is multiplied
-                by " . $event['multiplier'] . "!
-                </div>";
-            }
 
             $tempItemUse = getItemTempUse($user_class->id);
             if ($tempItemUse['gym_10_multiplier_time'] > time()) {
