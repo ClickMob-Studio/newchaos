@@ -1,5 +1,9 @@
 <?php
 include 'header.php';
+
+
+$event = getScheduledEvent();
+
 ?>
 <div class='box_top'>Speed Gym</div>
 <div class='box_middle'>

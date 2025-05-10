@@ -3908,3 +3908,31 @@ function getPosts($tid, $page = 1)
 
     return $db->fetch_row();
 }
+
+function getScheduledEvent($type = 'gym')
+{
+    global $db, $redis;
+
+    $now = time();
+    if ($redis->exists("scheduled_event_" . $type)) {
+        $event = json_decode($redis->get("scheduled_event_" . $type), true);
+        if ($event['start'] <= $now && $event['end'] >= $now) {
+            return $event;
+        }
+
+        $redis->delete("scheduled_event_" . $type);
+    } else {
+        $db->query("SELECT * FROM scheduled_events WHERE type = ? AND start <= ? AND end >= ? LIMIT 1");
+        $db->execute([$type, $now, $now]);
+        $event = $db->fetch_row(true);
+        if ($event) {
+            $timetolive = $event['end'] - $now;
+            if ($timetolive > 0) {
+                $redis->setEx("scheduled_event_" . $type, $timetolive, json_encode($event));
+                return $event;
+            }
+        }
+    }
+
+    return null;
+}
