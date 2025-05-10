@@ -72,8 +72,8 @@ $event = getScheduledEvent();
                 document.body.onmouseup = function () { finish(); };
             </script>
 
-            <div class="hidden-alert" style="display:flex;min-height:60px;flex-direction:row;">
-                <div class="alert alert-info" style="display: none;">
+            <div style="display:flex;min-height:60px;flex-direction:row;">
+                <div class="alert alert-info hidden-alert" style="display: none;">
                     <p>
                     <div id="noti"></div>
                     </p>
