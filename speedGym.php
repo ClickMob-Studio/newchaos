@@ -81,6 +81,13 @@ $event = getScheduledEvent();
             </div>
 
             <?php
+            if ($user_class->admin > 0 && !empty($event)) {
+                echo "<div class='dcPanel p-3 mb-4' style='text-align:center;background-color:#3d00008a'>Event is on-going, all types
+                of training is multiplied
+                by " . $event['multiplier'] . "!
+                </div>";
+            }
+
             $tempItemUse = getItemTempUse($user_class->id);
             if ($tempItemUse['gym_10_multiplier_time'] > time()) {
                 $tenXSection = "
@@ -95,16 +102,7 @@ $event = getScheduledEvent();
                 $tenXSection = "";
             }
 
-            echo "<br />";
-
-            if ($user_class->admin > 0 && !empty($event)) {
-                echo "<div class='dcPanel p-3 mb-4' style='text-align:center;background-color:#3d00008a'>Event is on-going, all types
-                of training is multiplied
-                by " . $event['multiplier'] . "!
-                </div>";
-            }
-
-            echo "
+            echo "<br />
 <div class='contenthead floaty'>
 <span style='margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;'>
     <table id='newtables' class='altcolors' style='width:100%;'>
