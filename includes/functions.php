@@ -3922,7 +3922,7 @@ function getScheduledEvent($type = 'gym')
 
         $redis->delete("scheduled_event_" . $type);
     } else {
-        $db->query("SELECT * FROM scheduled_events WHERE type = ? AND start <= ? AND end >= ? LIMIT 1");
+        $db->query("SELECT * FROM scheduledevents WHERE type = ? AND start <= ? AND end >= ? LIMIT 1");
         $db->execute([$type, $now, $now]);
         $event = $db->fetch_row(true);
         if ($event) {
