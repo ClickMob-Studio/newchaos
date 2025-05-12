@@ -1,44 +1,44 @@
 <?php
 $smiarr = array(
-	':smile:' => array('smile.gif'),
-	':nerd:' => array('nerd.gif'),
-	':blowkiss:' => array('kiss.gif', 23, 26),
-	':bigkiss:' => array('bigkiss.jpg', 32, 32),
-	':sad:' => array('frown.gif', 20, 24),
-	':grin:' => array('teeth.gif'),
-	':shock:' => array('surprise.gif'),
-	':scared:' => array('scared.gif', 42, 34),
-	':tongue:' => array('tongue.gif'),
+    ':smile:' => array('smile.gif'),
+    ':nerd:' => array('nerd.gif'),
+    ':blowkiss:' => array('kiss.gif', 23, 26),
+    ':bigkiss:' => array('bigkiss.jpg', 32, 32),
+    ':sad:' => array('frown.gif', 20, 24),
+    ':grin:' => array('teeth.gif'),
+    ':shock:' => array('surprise.gif'),
+    ':scared:' => array('scared.gif', 42, 34),
+    ':tongue:' => array('tongue.gif'),
     ':yay:' => array('anime.gif'),
-	':wave:' => array('wave.gif', 26, 18),
-	':haha:' => array('haha.gif', 28, 20),
-	':lol:' => array('lol.gif', 30, 20),
-	':zzz:' => array('sleepy.gif', 20, 20),
-	':star:' => array('star.gif'),
-	':angry:' => array('angry.gif'),
-	':evil:' => array('evil.gif', 37, 31),
-	':angel:' => array('angel.gif', 27, 26),
-	':confused:' => array('confused.gif', 32, 20),
-	':eek:' => array('neutral.gif'),
-	':cool:' => array('cool.gif', 20, 20),
-	':shifty:' => array('shifty.gif'),
-	':huh:' => array('boggle.gif'),
-	':love:' => array('heart.gif', 28, 26),
-	':wink:' => array('wink.gif', 20, 24),
-	':P' => array('tongue.gif'),
-	':)' => array('smile.gif'),
-	':(' => array('frown.gif'),
-	':-)' => array('smile.gif'),
-	':-(' => array('frown.gif'),
-	';)' => array('wink.gif'),
-	':D' => array('teeth.gif'),
-	':bash:' => array('bash.gif', 31, 26),
-	':hmm:' => array('hmm.gif', 20, 29),
-	':facepalm:' => array('facepalm.gif', 28, 24),
-	':alcoholic:' => array('alcoholic.gif', 40, 20),
-	':cry:' => array('cry.gif', 31, 22),
-	':needdrugs:' => array('needdrugs.gif', 41, 46),
-	':popcorn:' => array('popcorn.gif', 37, 28),
+    ':wave:' => array('wave.gif', 26, 18),
+    ':haha:' => array('haha.gif', 28, 20),
+    ':lol:' => array('lol.gif', 30, 20),
+    ':zzz:' => array('sleepy.gif', 20, 20),
+    ':star:' => array('star.gif'),
+    ':angry:' => array('angry.gif'),
+    ':evil:' => array('evil.gif', 37, 31),
+    ':angel:' => array('angel.gif', 27, 26),
+    ':confused:' => array('confused.gif', 32, 20),
+    ':eek:' => array('neutral.gif'),
+    ':cool:' => array('cool.gif', 20, 20),
+    ':shifty:' => array('shifty.gif'),
+    ':huh:' => array('boggle.gif'),
+    ':love:' => array('heart.gif', 28, 26),
+    ':wink:' => array('wink.gif', 20, 24),
+    ':P' => array('tongue.gif'),
+    ':)' => array('smile.gif'),
+    ':(' => array('frown.gif'),
+    ':-)' => array('smile.gif'),
+    ':-(' => array('frown.gif'),
+    ';)' => array('wink.gif'),
+    ':D' => array('teeth.gif'),
+    ':bash:' => array('bash.gif', 31, 26),
+    ':hmm:' => array('hmm.gif', 20, 29),
+    ':facepalm:' => array('facepalm.gif', 28, 24),
+    ':alcoholic:' => array('alcoholic.gif', 40, 20),
+    ':cry:' => array('cry.gif', 31, 22),
+    ':needdrugs:' => array('needdrugs.gif', 41, 46),
+    ':popcorn:' => array('popcorn.gif', 37, 28),
     ':evilgirl:' => array('evilgirl.gif', 46, 28),
     ':coffeescreen:' => array('coffeescreen.gif', 43, 36),
     ':puke:' => array('puke.gif', 20, 20),
@@ -55,8 +55,9 @@ $smiarr = array(
     ':faceslap:' => array('face-slap.gif', 78, 32),
     ':whip:' => array('whipping.gif', 96, 71),
     ':buttkisser:' => array('butt-kisser.gif', 64, 57),
-    );
-function BBCodeParse($str) {
+);
+function BBCodeParse($str)
+{
     global $user_class, $smiarr;
     $str = str_replace("[url]http://www.", "[url]http://", $str);
     $str = str_replace("[url]http://www2.", "[url]http://", $str);
@@ -78,7 +79,7 @@ function BBCodeParse($str) {
         '#\[colo[u]{0,1}r=(.*?)\](.*?)\[/colo[u]{0,1}r\]#is',
         '#\[url=((?:ftp|https?)://.*?)\](.*?)\[/url\]#i',
         '#\[url\]((?:ftp|https?)://.*?)\[/url\]#i',
-        '#\[img\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp))\[/img\]#i',
+        '#\[img\](https?://.*?\.(?:jpg|jpeg|gif|png|bmp|webp))\[/img\]#i',
         '#\[youtube\](.*?)\[/youtube\]#is',
         '#\[mp3\](.*?)\[/mp3\]#is',
         '#\[size=(.*?)\](.*?)\[/size\]#is',
@@ -105,41 +106,42 @@ function BBCodeParse($str) {
         ' ',
         //$user_class->formattedname
     );
-	$smiley_search = $smiley_replace = array();
-	foreach($smiarr as $index => $img){
-		$smiley_search[] = $index;
-		if(empty($img[1]))
-			$img[1] = $img[2] = 19;
-		$smiley_replace[] = '<img src="smileys/' . $img[0] . '" width="' . $img[1] . '" height="' . $img[2] . '" border="0" style="vertical-align: bottom;" alt="" />';
-	}
-   $str = preg_replace($format_search, $format_replace, $str);
+    $smiley_search = $smiley_replace = array();
+    foreach ($smiarr as $index => $img) {
+        $smiley_search[] = $index;
+        if (empty($img[1]))
+            $img[1] = $img[2] = 19;
+        $smiley_replace[] = '<img src="smileys/' . $img[0] . '" width="' . $img[1] . '" height="' . $img[2] . '" border="0" style="vertical-align: bottom;" alt="" />';
+    }
+    $str = preg_replace($format_search, $format_replace, $str);
 
-$str = preg_replace_callback("/\[user\](.*)\[\/user\]/", function($matches) {
-    return displayInfo($matches[1]);
-}, $str);
+    $str = preg_replace_callback("/\[user\](.*)\[\/user\]/", function ($matches) {
+        return displayInfo($matches[1]);
+    }, $str);
 
-$str = preg_replace_callback("/\[user2\](.*)\[\/user2\]/", function($matches) {
-    return displayInfo2($matches[1]);
-}, $str);
+    $str = preg_replace_callback("/\[user2\](.*)\[\/user2\]/", function ($matches) {
+        return displayInfo2($matches[1]);
+    }, $str);
 
-$str = preg_replace_callback("/\[quote=([0-9]*?)\]/", function($matches) {
-    return quote1($matches[1]);
-}, $str);
+    $str = preg_replace_callback("/\[quote=([0-9]*?)\]/", function ($matches) {
+        return quote1($matches[1]);
+    }, $str);
 
-$str = preg_replace_callback("/\[\/quote\]/", function($matches) {
-    return quote2();
-}, $str);
+    $str = preg_replace_callback("/\[\/quote\]/", function ($matches) {
+        return quote2();
+    }, $str);
 
-$str = preg_replace_callback("/\[tag\]([0-9]+)\[\/tag\]/", function($m) {
-            return formatName($m[1], 1);
-        }, $str);
+    $str = preg_replace_callback("/\[tag\]([0-9]+)\[\/tag\]/", function ($m) {
+        return formatName($m[1], 1);
+    }, $str);
     $str = str_replace($smiley_search, $smiley_replace, $str);
-	$str = ($user_class->music) ? $str : str_replace('autoplay=true', '', $str);
-	$str = ($user_class->music) ? $str : str_replace('autoplay=1', '', $str);
+    $str = ($user_class->music) ? $str : str_replace('autoplay=true', '', $str);
+    $str = ($user_class->music) ? $str : str_replace('autoplay=1', '', $str);
     $str = nl2br($str);
     return $str;
 }
-function MP3Parse($str2) {
+function MP3Parse($str2)
+{
     include("dbcon.php");
     $result = mysql_query("SELECT * FROM `grpgusers` WHERE `id` = '" . $_SESSION['id'] . "'");
     $worked = mysql_fetch_array($result);
@@ -152,10 +154,12 @@ function MP3Parse($str2) {
     $str2 = preg_replace($search, $replace, $str2);
     return $str2;
 }
-function quote1($id) {
-    return"<table id='newtables' style='margin:0 auto;padding:0;width:90%;'><tr><th>".formatName($id)." wrote:</th></tr><tr><td>";
+function quote1($id)
+{
+    return "<table id='newtables' style='margin:0 auto;padding:0;width:90%;'><tr><th>" . formatName($id) . " wrote:</th></tr><tr><td>";
 }
-function quote2() {
-    return"</td></tr></table>";
+function quote2()
+{
+    return "</td></tr></table>";
 }
 ?>
