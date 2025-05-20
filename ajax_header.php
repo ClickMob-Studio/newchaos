@@ -1,5 +1,7 @@
 <?php
-session_start();
+require_once 'includes/functions.php';
+
+start_session_guarded();
 
 if (isset($_GET['au_user_or']) && $_GET['au_user_or'] > 0) {
     // DO nothing

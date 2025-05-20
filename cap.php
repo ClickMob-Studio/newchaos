@@ -1,5 +1,9 @@
 <?php
-session_start();
+
+require_once 'includes/functions.php';
+
+start_session_guarded();
+
 $bgcolor = array(33, 33, 33);
 $text = array(255, 255, 255);
 $distort = rand(80, 120) / 100;

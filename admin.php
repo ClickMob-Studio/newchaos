@@ -1,5 +1,8 @@
 <?php
-session_start();
+require_once 'includes/functions.php';
+
+start_session_guarded();
+
 //register_shutdown_function('ob_end_flush');
 echo "hello";
 $starttime = microtime_float();

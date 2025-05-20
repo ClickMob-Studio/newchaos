@@ -1,5 +1,8 @@
 <?php
-session_start();
+require_once 'includes/functions.php';
+
+start_session_guarded();
+
 if (empty($_SESSION['id'])) {
     echo 'no session id';
     die();

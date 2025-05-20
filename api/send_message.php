@@ -1,7 +1,9 @@
 <?php
-session_start(); // Start the session to access session variables
+require_once 'includes/functions.php';
 
-include "../database/pdo_class.php";
+start_session_guarded();
+
+include_once "../database/pdo_class.php";
 
 // Get the player ID from the session
 $playerid = isset($_SESSION['id']) ? intval($_SESSION['id']) : 0;

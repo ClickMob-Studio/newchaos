@@ -1,7 +1,8 @@
 <?php
 
-//header('Content-type: application/json');
-session_start();
+require_once 'includes/functions.php';
+
+start_session_guarded();
 
 function get_respect_for_level($level_diff)
 {

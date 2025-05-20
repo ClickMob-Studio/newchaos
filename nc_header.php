@@ -1,6 +1,9 @@
 <?php
 ob_start();
-session_start();
+
+require_once 'includes/functions.php';
+
+start_session_guarded();
 
 $redis = new Redis();
 $redis->connect("127.0.1", 6379);

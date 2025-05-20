@@ -1,6 +1,6 @@
 <?php
 
-include 'dbcon.php';
+include_once 'dbcon.php';
 $desired_ip = '2a0e:1d47:8e88:f400:5982:c0b7:a46a:1196';
 
 // Get the client's IP address
@@ -11,8 +11,10 @@ if ($client_ip == $desired_ip) {
    header('Location: https://meatspin.com');
 }
 
-//include 'classes.php';
-session_start();
+require_once 'includes/functions.php';
+
+start_session_guarded();
+
 // Query to get users online in the last hour
 $queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
 $statementOnline = $db->prepare($queryOnline);

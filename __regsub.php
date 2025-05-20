@@ -1,5 +1,9 @@
 <?php
-session_start();
+
+require_once 'includes/functions.php';
+
+start_session_guarded();
+
 mysql_select_db('aa', mysql_connect('localhost', 'aa_user', 'GmUq38&SVccVSpt'));
 $password = $_POST['pass'];
 $conpass = $_POST['conpass'];
@@ -7,7 +11,7 @@ $username = $_POST['username'];
 $email = $_POST['email'];
 $gender = $_POST['gender'];
 $cap = $_POST['cap'];
-if($cap != $_SESSION['cap'])
+if ($cap != $_SESSION['cap'])
     die("Invalid Captcha.");
 $_SESSION['cap'] = '';
 if (strlen($password) < 6)
@@ -61,7 +65,8 @@ $msgtext = nl2br($msgtext);
 $msgtext = addslashes($msgtext);
 $result = mysql_query("INSERT INTO `pms` (id,`to`, `from`, timesent, subject, msgtext) VALUES ('', $newid, 1, unix_timestamp(), '$subject', '$msgtext')");
 header("Location: index.php");
-function error() {
+function error()
+{
     header("Location: register.php");
 }
 ?>

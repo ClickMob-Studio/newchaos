@@ -1,7 +1,8 @@
 <?php
 
-//header('Content-type: application/json');
-session_start();
+require_once 'includes/functions.php';
+
+start_session_guarded();
 
 include "classes.php";
 include "database/pdo_class.php";

@@ -4,9 +4,11 @@ header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
 
-session_start();
+require_once 'includes/functions.php';
 
-require 'database/pdo_class.php';
+start_session_guarded();
+
+require_once 'database/pdo_class.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
 $username = $data['username'];
