@@ -1,5 +1,5 @@
 <?php
-include"header.php";
+include "header.php";
 $fpid = abs((int) $_GET['fpid']);
 $check = mysql_fetch_array(mysql_query("SELECT * FROM forumpostrates WHERE userid=$user_class->id AND fpid=$fpid"));
 if (!$check) {
