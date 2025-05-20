@@ -1,31 +1,21 @@
 <?php
 
 include_once 'dbcon.php';
-$desired_ip = '2a0e:1d47:8e88:f400:5982:c0b7:a46a:1196';
-
-// Get the client's IP address
-$client_ip = $_SERVER['REMOTE_ADDR'];
-
-// Check if the client's IP matches the desired IP
-if ($client_ip == $desired_ip) {
-   header('Location: https://meatspin.com');
-}
-
+include_once 'database/pdo_class.php';
 require_once 'includes/functions.php';
 
 start_session_guarded();
 
 // Query to get users online in the last hour
-$queryOnline = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC";
-$statementOnline = $db->prepare($queryOnline);
-$statementOnline->execute();
-$usersOnline = $statementOnline->rowCount();
+$db->query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
+$db->execute();
+$usersOnline = (int) ($db->num_rows()) ?? 0;
 
 // Query to get users online in the last 24 hours
-$queryOnline24 = "SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 86400 ORDER BY lastactive DESC";
-$statementOnline24 = $db->prepare($queryOnline24);
-$statementOnline24->execute();
-$users24 = $statementOnline24->rowCount();
+$db->query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 86400 ORDER BY lastactive DESC");
+$db->execute();
+$users24 = (int) ($db->num_rows()) ?? 0;
+
 $string = "1234567890";
 $length = 4;
 $rand = substr(str_shuffle($string), 0, $length);

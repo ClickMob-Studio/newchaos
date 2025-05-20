@@ -1,9 +1,12 @@
 <?php
 header("Content-Type: text/html; charset=utf-8");
+
 include_once "includes/functions.php";
+
 if (!isset($_SESSION['id'])) {
     error_reporting(0);
 }
+
 class User_Stats
 {
     function User_Stats($wutever)
@@ -220,90 +223,66 @@ class OwnedBusiness
 
     public function deposit($amount)
     {
-        global $db, $user_class;  // Make sure $user_class is global
+        global $db, $user_class;
 
-        // Update user's money
         $newUserMoney = $user_class->money - $amount;
-        mysql_query("UPDATE grpgusers SET money = '$newUserMoney' WHERE id = '{$_SESSION['id']}'");
-
-        // Check for errors
-        if (mysql_error()) {
-            die("Error while updating user's money: " . mysql_error());
-        }
+        $db->query("UPDATE grpgusers SET money = ? WHERE id = ?");
+        $db->execute([$newUserMoney, $_SESSION['id']]);
 
         // Update business vault
         $newVaultValue = $this->vault + $amount;
-        mysql_query("UPDATE OwnedBusinesses SET vault = '$newVaultValue' WHERE ownership_id = '{$this->ownership_id}'");
 
-        // Check for errors
-        if (mysql_error()) {
-            die("Error while updating business vault: " . mysql_error());
-        }
-
-        // Log transaction
-        // TODO: Add your logging mechanism here
+        $db->query("UPDATE OwnedBusinesses SET vault = ? WHERE ownership_id = ?");
+        $db->execute([$newVaultValue, $this->ownership_id]);
     }
 
     public function withdraw($amount)
     {
-        global $db, $user_class;  // Make sure $user_class is global
+        global $db, $user_class;
 
-        // Update user's money
         $newUserMoney = $user_class->money + $amount;
-        mysql_query("UPDATE grpgusers SET money = '$newUserMoney' WHERE id = '{$_SESSION['id']}'");
+        $db->query("UPDATE grpgusers SET money = ? WHERE id = ?");
+        $db->execute([$newUserMoney, $_SESSION['id']]);
 
-        // Check for errors
-        if (mysql_error()) {
-            die("Error while updating user's money: " . mysql_error());
-        }
 
-        // Update business vault
         $newVaultValue = $this->vault - $amount;
-        mysql_query("UPDATE OwnedBusinesses SET vault = '$newVaultValue' WHERE ownership_id = '{$this->ownership_id}'");
-
-        // Check for errors
-        if (mysql_error()) {
-            die("Error while updating business vault: " . mysql_error());
-        }
-
-        // Log transaction
-        // TODO: Add your logging mechanism here
+        $db->query("UPDATE OwnedBusinesses SET vault = ? WHERE ownership_id = ?");
+        $db->execute([$newVaultValue, $this->ownership_id]);
     }
 }
 
 
 class User
 {
-    function User($id)
+    function __construct($id)
     {
         global $db;
 
         $db->query("SELECT grpg.*,grpg.tag AS ptag,g.ghouse,g.name AS gangname,g.leader,g.tag,g.description,ci.name AS cityname,h.name AS housename,h.awake AS houseawake,
-                    co.name AS countryname, gh.awake AS gangawake, r.title AS ranktitle, r.color as rankcolor, b.days AS bandays,
-		    g.tColor1, g.tColor2, g.tColor3, g.formattedTag, h.id AS houseid
-                FROM grpgusers grpg
-                LEFT JOIN gangs g ON g.id = grpg.gang
-                JOIN cities ci ON ci.id = grpg.city
-                LEFT JOIN houses h ON h.id = grpg.house
-                JOIN countries co ON co.id = grpg.country
-                LEFT JOIN ranks r ON r.id = grpg.grank
-                LEFT JOIN ghouses gh ON gh.id = g.ghouse
-                LEFT JOIN bans b ON b.id = grpg.id
-                WHERE grpg.id = ?");
-        $db->execute(array(
-            $id
-        ));
+        co.name AS countryname, gh.awake AS gangawake, r.title AS ranktitle, r.color as rankcolor, b.days AS bandays,
+        g.tColor1, g.tColor2, g.tColor3, g.formattedTag, h.id AS houseid
+            FROM grpgusers grpg
+            LEFT JOIN gangs g ON g.id = grpg.gang
+            JOIN cities ci ON ci.id = grpg.city
+            LEFT JOIN houses h ON h.id = grpg.house
+            JOIN countries co ON co.id = grpg.country
+            LEFT JOIN ranks r ON r.id = grpg.grank
+            LEFT JOIN ghouses gh ON gh.id = g.ghouse
+            LEFT JOIN bans b ON b.id = grpg.id
+            WHERE grpg.id = ?");
+        $db->execute([$id]);
         $worked = $db->fetch_row(true);
 
-        if (empty($worked))
-            return;
-        foreach ($worked as $title => $value)
+        if (empty($worked)) {
+            throw new Exception("User with id({$id}) not found");
+        }
+
+        foreach ($worked as $title => $value) {
             $this->$title = $value;
+        }
 
         $db->query("SELECT * FROM pets WHERE userid = ? AND leash = 1");
-        $db->execute(array(
-            $id
-        ));
+        $db->execute([$id]);
         if ($db->num_rows()) {
             $pet = $db->fetch_row(true);
         } else {
@@ -312,42 +291,28 @@ class User
             $pet['spe'] = 0;
         }
         $db->query("SELECT days FROM bans WHERE id = ?");
-        $db->execute(array(
-            $id
-        ));
+        $db->execute([$id]);
         if ($db->num_rows()) {
             $db->query("SELECT * FROM bans WHERE id = ? AND type = ?");
-            $db->execute(array(
-                $id,
-                'perm'
-            ));
+            $db->execute([$id, 'perm']);
             $permban = $db->num_rows();
             $workedban = $db->fetch_row(true);
-            $db->execute(array(
-                $id,
-                'freeze'
-            ));
+            $db->execute([$id, 'freeze']);
             $freezeban = $db->num_rows();
             $workedban2 = $db->fetch_row(true);
-            $db->execute(array(
-                $id,
-                'mail'
-            ));
+            $db->execute([$id, 'mail']);
             $mailban = $db->num_rows();
             $workedban3 = $db->fetch_row(true);
-            $db->execute(array(
-                $id,
-                'forum'
-            ));
+            $db->execute([$id, 'forum']);
             $forumban = $db->num_rows();
             $workedban4 = $db->fetch_row(true);
         }
         $db->query("SELECT i.*, c.image overrideimage, c.name overridename FROM items i LEFT JOIN customitems c ON i.id = c.itemid AND c.userid = ? WHERE id = ?");
         if ($worked['eqweapon']) {
-            $db->execute(array(
+            $db->execute([
                 $id,
                 $worked['eqweapon']
-            ));
+            ]);
             $worked6 = $db->fetch_row(true);
             $this->eqweapon = $worked6['id'];
             $this->weaponoffense = $worked6['offense'];
@@ -1239,51 +1204,80 @@ class User
 
     function addPoints($id, $points)
     {
-        mysql_query("UPDATE grpgusers SET points = points +  " . $points . " WHERE id = " . $id);
+        global $db;
+
+        $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
+        $db->execute([$points, $id]);
     }
 }
 class GangRank
 {
     function GangRank($rank, $notmyranks = 0)
     {
-        global $user_class;
+        global $user_class, $db;
         $gang_class = (isset($GLOBALS['gang_class'])) ? $GLOBALS['gang_class'] : new Gang($user_class->gang);
-        $field = mysql_fetch_array(mysql_query("SELECT * FROM ranks WHERE id = '$rank'"));
-        if (empty($field))
-            $field = mysql_fetch_array(mysql_query("SELECT * FROM ranks WHERE id = 6"));
+
+        $db->query("SELECT * FROM ranks WHERE id = ?");
+        $db->execute([$rank]);
+        $field = $db->fetch_row(true);
+        if (empty($field)) {
+            $db->query("SELECT * FROM ranks WHERE id = 6");
+            $db->execute();
+            $field = $db->fetch_row(true);
+        }
+
         foreach ($field as $title => $value)
-            if ($notmyranks)
+            if ($notmyranks) {
                 $this->$title = $value;
-            else
+            } else {
                 $this->$title = ($user_class->leader == $user_class->id) ? 1 : $value;
+            }
     }
 }
 class crewRank
 {
     function crewRank($rank, $notmyranks = 0)
     {
-        global $user_class;
+        global $user_class, $db;
         $crew_class = (isset($GLOBALS['crew_class'])) ? $GLOBALS['crew_class'] : new crew($user_class->crew);
-        $field = mysql_fetch_array(mysql_query("SELECT * FROM crewranks WHERE id = '$rank'"));
-        if (empty($field))
-            $field = mysql_fetch_array(mysql_query("SELECT * FROM crewranks WHERE id = 6"));
-        foreach ($field as $title => $value)
-            if ($notmyranks)
+
+        $db->query("SELECT * FROM crewranks WHERE id = ?");
+        $db->execute([$rank]);
+        $field = $db->fetch_row(true);
+
+        if (empty($field)) {
+            $db->query("SELECT * FROM crewranks WHERE id = 6");
+            $db->execute();
+            $field = $db->fetch_row(true);
+        }
+
+        foreach ($field as $title => $value) {
+            if ($notmyranks) {
                 $this->$title = $value;
-            else
+            } else {
                 $this->$title = ($crew_class->leader == $user_class->id) ? 1 : $value;
+            }
+        }
     }
 }
 class Pet
 {
     function __construct($userid)
     {
-        $q = mysql_query("SELECT * FROM pets WHERE userid = $userid");
-        $row = mysql_fetch_array($q);
-        if (empty($row))
-            return false;
-        foreach ($row as $key => $value)
+        global $db;
+
+        $db->query("SELECT * FROM pets WHERE userid = ?");
+        $db->execute([$userid]);
+        $row = $db->fetch_row(true);
+
+        if (empty($row)) {
+            throw new Exception("No pet found for user ID: $userid");
+        }
+
+        foreach ($row as $key => $value) {
             $this->$key = $value;
+        }
+
         $this->strength = $row['str'];
         $this->defense = $row['def'];
         $this->speed = $row['spe'];
@@ -1298,15 +1292,13 @@ class Pet
         $this->maxnerve = 4 + $this->level;
         $this->nervepercent = floor(($this->nerve / $this->maxnerve) * 100);
         $this->formattednerve = prettynum($this->nerve) . " / " . prettynum($this->maxnerve) . " [" . $this->nervepercent . "%]";
-        $y = mysql_query("SELECT name, awake FROM pethouses WHERE id = $this->house");
-        $house = mysql_fetch_array($y);
-        if (empty($house)) {
-            $this->housename = 'Homeless';
-            $this->houseawake = 100;
-        } else {
-            $this->housename = $house['name'];
-            $this->houseawake = $house['awake'];
-        }
+
+        $db->query("SELECT name, awake FROM pethouses WHERE id = ?");
+        $db->execute([$this->house]);
+        $house = $db->fetch_row(true);
+        $this->housename = $house['name'] ?? 'Homeless';
+        $this->houseawake = $house['awake'] ?? 100;
+
         $this->maxawake = $this->houseawake;
         $this->awakepercent = floor(($this->awake / $this->maxawake) * 100);
         $this->formattedawake = prettynum($this->awake) . " / " . prettynum($this->maxawake) . " [" . $this->awakepercent . "%]";
@@ -1318,7 +1310,15 @@ class Pet
             $this->maxexp = experience($this->level + 1);
             $newhp = ($this->level + 1) * 50;
             Send_Event($userid, "Your pet has just gained a level.");
-            mysql_query("UPDATE pets SET level = level + 1, hp = $newhp, energy = " . $this->maxenergy . " + 1, nerve = " . $this->maxnerve . " + 1, exp = $this->exp WHERE userid = $userid");
+
+            $db->query("UPDATE pets SET level = level +1, hp = ?, energy = ? + 1, nerve = ? + 1, exp = ? WHERE userid = ?");
+            $db->execute([
+                $newhp,
+                $this->maxenergy,
+                $this->maxnerve,
+                $this->exp,
+                $userid
+            ]);
         }
     }
     function formatName()

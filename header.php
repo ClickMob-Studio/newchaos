@@ -1,6 +1,13 @@
 <?php
 ob_start();
 
+// TODO(Mathais): Remove before releasing to production
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ERROR | E_PARSE | E_NOTICE);
+
+include_once 'includes/functions.php';
+
 start_session_guarded();
 
 $redis = new Redis();
@@ -47,9 +54,7 @@ function logPageView()
 // Get the name of the current script and the full request URI to check for specific query parameters
 $current_page = basename($_SERVER['PHP_SELF']); // Gets the name of the current script
 $current_uri = $_SERVER['REQUEST_URI']; // Gets the full request URI
-// function security($h){
 
-// }
 register_shutdown_function('ob_end_flush');
 $starttime = microtime_float();
 
@@ -66,9 +71,7 @@ if (empty($ignoreslashes)) {
     foreach ($_GET as $k => $v) {
         $_GET[$k] = addslashes($v);
     }
-
 }
-
 
 if (!isset($_SESSION['id'])) {
     include('home.php');
@@ -97,13 +100,6 @@ if (isset($_GET['action']) && $_GET['action'] == "logout") {
 $uid = $_SESSION['id'];
 $user_class = new User($uid);
 $_SESSION['username'] = $user_class->username;
-if ($user_class->id == 18) {
-    // Call the function to log the page view
-    logPageView();
-}
-if ($uid == 1) {
-    $user_class->admin = 1;
-}
 
 // Define a function to check and log request frequency
 
@@ -400,8 +396,11 @@ function callback($buffer)
 
     $hospital = "[" . $hosCount . "]";
     $hospital = ($hosCount > 0) ? "<span style='color:red;'>$hospital</span>" : $hospital;
-    $j = mysql_query("SELECT `id` FROM grpgusers WHERE jail > 0");
-    $jail = mysql_num_rows($j);
+
+    $db->query("SELECT count(id) FROM grpgusers WHERE jail > 0");
+    $db->execute();
+    $jail = $db->fetch_single();
+
     $petJailDisplay = "[" . $pJailCount . "]";
     $petJailDisplay = $pJailCount > 0 ? "<span style='color:red;'>$petJailDisplay</span>" : $petJailDisplay;
     $phos = "[" . $pHosCount . "]";
@@ -581,18 +580,11 @@ if ($user_class->globalchat > 0) {
 } else {
     $globalchat = '';
 }
-$gang_raid_query = "
-SELECT 
-    ar.raid_type, ar.summoned_by, g.gang 
-FROM 
-    active_raids ar                        
-    LEFT JOIN grpgusers g ON ar.summoned_by = g.id 
-WHERE 
-    g.gang = " . $user_class->gang . " AND
-    ar.completed = 0 AND
-    ar.raid_type = 'Gang'
-";
-$gang_raid_count = mysql_num_rows(mysql_query($gang_raid_query));
+
+$db->query("SELECT ar.raid_type, ar.summoned_by, g.gang FROM active_raids ar LEFT JOIN grpgusers g ON ar.summoned_by = g.id WHERE g.gang = ? AND ar.completed = 0 AND ar.raid_type = 'Gang'");
+$db->execute([$user_class->gang]);
+$gang_raid_count = $db->num_rows();
+
 $counts = array(
     'event' => $ev,
     'mail' => '<!_-mail-_!>',
@@ -606,22 +598,24 @@ $counts = array(
 
 $usersOnline = $redis->get('usersOnline');
 if (empty($usersOnline) || !$usersOnline) {
-    $queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
-    $usersOnline = mysql_num_rows($queryOnline);
+    $db->query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
+    $db->execute();
+    $queryOnline = $db->num_rows();
     $redis->setEx("usersOnline", 60, $usersOnline);
 }
 
 $activeRaidsCount = $redis->get("activeRaidsCount");
 if (empty($activeRaidsCount) || !$activeRaidsCount) {
-    $activeRaidsQuery = "SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE completed = 0"; // Replace 'end_time' with the actual column name that represents when the raid ends
-    $activeRaidsResult = mysql_query($activeRaidsQuery);
-    $activeRaidsData = mysql_fetch_assoc($activeRaidsResult);
+    $db->query("SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE completed = 0");
+    $db->execute();
+    $activeRaidsData = $db->fetch_row(true);
     $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
     $redis->setEx("activeRaidsCount", 10, $activeRaidsCount);
 }
 
-$nogame2 = mysql_query("SELECT * FROM numbergame WHERE userid=$user_class->id");
-$no2 = mysql_num_rows($nogame2);
+$db->query("SELECT * FROM numbergame WHERE userid = ?");
+$db->execute([$user_class->id]);
+$no2 = $db->num_rows();
 
 echo '<script src="js/java.js?12" type="text/javascript"></script>';
 ?><!doctype html>
@@ -639,8 +633,10 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
     <?php } else { ?>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
     <?php }
-    $q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");
-    $hosp = mysql_num_rows($q);
+
+    $db->query("SELECT count(id) FROM grpgusers WHERE hospital > 0");
+    $db->execute();
+    $hosp = $db->fetch_single();
     ?>
 
     <?php if ($ev > 0) {
@@ -943,8 +939,10 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
         if (!empty($usermission)) {
             $show = true;
-            // $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
-            $miss = mysql_fetch_array(mysql_query("SELECT * FROM mission WHERE id={$usermission['mid']}"));
+
+            $db->query("SELECT * FROM mission WHERE id = ?");
+            $db->execute([$usermission['mid']]);
+            $miss = $db->fetch_row(true);
             $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>" . shorthandNumber($usermission['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>";
             $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>" . shorthandNumber($usermission['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>";
             $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>" . shorthandNumber($usermission['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>";
@@ -1286,9 +1284,12 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                         <div class="flex-grow-1 text-center">
                                             <ul
                                                 class="list-unstyled d-flex flex-row align-items-center justify-content-left">
-                                                <?php $now = time();
-                                                $result = mysql_query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > $now ORDER BY RAND() LIMIT 1");
-                                                if (!mysql_num_rows($result)) {
+                                                <?php
+                                                $now = time();
+
+                                                $db->query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > ? ORDER BY RAND() LIMIT 1");
+                                                $db->execute([$now]);
+                                                if (!$db->num_rows()) {
                                                     $_messages = [
                                                         'Invite your friends to play and receive <strong class="text-warning">50 Gold</strong> for every friend that plays. Hurry and start inviting now!',
                                                         'For every friend you successfully refer, you\'ll earn <strong class="text-warning">50 Gold</strong>. Spread the word and let\'s play together!',
@@ -1303,8 +1304,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                                     <?php endif; ?>
                                                     <?php
                                                 } else {
-
-                                                    $row = mysql_fetch_array($result);
+                                                    $row = $db->fetch_row(true);
                                                     $user_ads = new User($row['poster']);
                                                     $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
                                                     ?>
@@ -1488,8 +1488,9 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                 <ul class="list-unstyled d-flex flex-row align-items-center justify-content-center">
                                     <?php
                                     $now = time();
-                                    $result = mysql_query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > $now ORDER BY RAND() LIMIT 1");
-                                    if (!mysql_num_rows($result)) {
+                                    $db->query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > ? ORDER BY RAND() LIMIT 1");
+                                    $db->execute([$now]);
+                                    if (!$db->num_rows()) {
                                         $_messages = [
                                             'Invite your friends to play and receive <strong class="text-warning">50 Gold</strong> for every friend that plays. Hurry and start inviting now!',
                                             'For every friend you successfully refer, you\'ll earn <strong class="text-warning">50 Gold</strong>. Spread the word and let\'s play together!',
@@ -1502,7 +1503,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                         </li>
                                         <?php
                                     } else {
-                                        $row = mysql_fetch_array($result);
+                                        $row = $db->fetch_row(true);
                                         $user_ads = new User($row['poster']);
                                         $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
                                         ?>
