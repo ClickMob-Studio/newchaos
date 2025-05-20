@@ -28,62 +28,99 @@ class User_Stats
 }
 class Gang
 {
-    function Gang($id)
+    public int $id;
+    public string $formattedname;
+    public string $nobanner;
+    public array $memberids = [];
+    public int $members = 0;
+    public string $Color1;
+    public string $Color2;
+    public string $Color3;
+    public string $crimeend;
+    public int|string $house;
+    public string $housename = "None";
+    public int $houseawake = 0;
+    public int $housecost;
+    public float $tax;
+    public int $maxexp;
+    public int $exppercent;
+    public string $formattedexp;
+    public int $level;
+    public int $exp;
+
+    public function __construct(int $id)
     {
         global $db;
+
+        // Fetch gang details
         $db->query("SELECT * FROM gangs WHERE id = ?");
-        $db->execute(array(
-            $id
-        ));
+        $db->execute([$id]);
         $row = $db->fetch_row(true);
-        if (empty($row))
+
+        if (empty($row)) {
             return;
-        foreach ($row as $title => $value)
+        }
+
+        // Populate properties from the row
+        foreach ($row as $title => $value) {
             $this->$title = $value;
+        }
+
+        $this->id = $id;
+
+        // Fetch gang members
         $db->query("SELECT id FROM grpgusers WHERE gang = ?");
-        $db->execute(array(
-            $id
-        ));
-        $members = $db->fetch_row();
+        $db->execute([$id]);
+        $members = $db->fetch_row(); // multiple rows
         $this->members = count($members);
         $this->memberids = $members;
-        //  style='border:1px solid #000000;'
-        if ($row['banner'] != "")
-            $this->formattedname = "<a href='viewgang.php?id=" . $row['id'] . "'><img src='" . $row['banner'] . "' height='75' width='250' /></a>";
-        else
-            $this->formattedname = "<a href='viewgang.php?id=" . $row['id'] . "'>" . $row['name'] . "</a>";
-        $this->nobanner = "<a href='viewgang.php?id=" . $row['id'] . "'>" . $row['name'] . "</a>";
+
+        // Formatted name with or without banner
+        if (!empty($row['banner'])) {
+            $this->formattedname = "<a href='viewgang.php?id={$row['id']}'><img src='{$row['banner']}' height='75' width='250' /></a>";
+        } else {
+            $this->formattedname = "<a href='viewgang.php?id={$row['id']}'>{$row['name']}</a>";
+        }
+
+        $this->nobanner = "<a href='viewgang.php?id={$row['id']}'>{$row['name']}</a>";
+
+        // House info
         $this->Color1 = $row["tColor1"];
         $this->Color2 = $row["tColor2"];
         $this->Color3 = $row["tColor3"];
         $this->crimeend = $row['ending'];
         $this->house = $row['ghouse'];
+
         $db->query("SELECT * FROM ghouses WHERE id = ?");
-        $db->execute(array(
-            $this->house
-        ));
+        $db->execute([$this->house]);
         $ganghouse = $db->fetch_row(true);
-        $this->housename = $ganghouse['name'];
-        $this->housename = ($this->housename == "") ? "None" : $this->housename;
-        $this->houseawake = $ganghouse['awake'];
-        $this->houseawake = ($this->houseawake == "") ? "0" : $this->houseawake;
-        $this->housecost = $ganghouse['cost'];
+
+        if (!empty($ganghouse)) {
+            $this->housename = $ganghouse['name'] ?? "None";
+            $this->houseawake = $ganghouse['awake'] ?? 0;
+            $this->housecost = $ganghouse['cost'] ?? 0;
+        }
+
         $this->tax = $row['tax'];
+
+        // Handle experience and leveling
         $this->maxexp = GangExperience($this->level + 1);
         $this->exppercent = ($this->exp == 0) ? 0 : floor(($this->exp / $this->maxexp) * 100);
-        $this->formattedexp = prettynum($this->exp) . " / " . prettynum($this->maxexp) . " [" . $this->exppercent . "%]";
+        $this->formattedexp = prettynum($this->exp) . " / " . prettynum($this->maxexp) . " [{$this->exppercent}%]";
+
+        // Level up if needed
         if ($this->exp >= $this->maxexp && $this->exp > 0) {
             $this->level += 1;
             $this->exp -= $this->maxexp;
+
             $db->query("UPDATE gangs SET level = ?, exp = ? WHERE id = ?");
-            $db->execute(array(
-                $this->level,
-                $this->exp,
-                $this->id
-            ));
+            $db->execute([$this->level, $this->exp, $this->id]);
+
             Gang_Event($this->id, "Your gang has just gained a level!");
-            foreach ($members as $member)
+
+            foreach ($members as $member) {
                 Send_Event($member['id'], "Your gang has just gained a level!");
+            }
         }
     }
 }
