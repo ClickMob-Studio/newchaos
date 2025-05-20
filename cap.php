@@ -1,6 +1,6 @@
 <?php
 session_start();
-$bgcolor = array(33,33,33);
+$bgcolor = array(33, 33, 33);
 $text = array(255, 255, 255);
 $distort = rand(80, 120) / 100;
 $distort2 = rand(80, 120) / 100;
@@ -28,20 +28,30 @@ $color[1] = $green;
 $color[2] = $blue;
 for ($i = 0; $i <= 2; $i++) {
     $points = array(
-        0 => array(10, $f_x - 10),
-        1 => array(5, $f_y - 5),
-        2 => array(10, $f_x - 10),
-        3 => array(5, $f_y - 5),
-        4 => array(10, $f_x - 10),
-        5 => array(5, $f_y - 5),
-        6 => array(10, $f_x - 10),
-        7 => array(5, $f_y - 5),
-        8 => array(10, $f_x - 10),
-        9 => array(5, $f_y - 5),
+        10,
+        $f_x - 10,
+        5,
+        $f_y - 5,
+        10,
+        $f_x - 10,
+        5,
+        $f_y - 5,
+        10,
+        $f_x - 10,
+        5,
+        $f_y - 5,
+        10,
+        $f_x - 10,
+        5,
+        $f_y - 5,
+        10,
+        $f_x - 10,
+        5,
+        $f_y - 5,
     );
-    imagefilledpolygon($first, $points, 5, $red);
+    imagefilledpolygon($first, $points, $red);
 }
-imagestring($first, 4, rand(0, $f_x/3), rand(0,$f_y/2.5), $_SESSION['cap'], $twhite);
+imagestring($first, 4, rand(0, (int) ($f_x / 3)), rand(0, (int) ($f_y / 2.5)), $_SESSION['cap'], $twhite);
 imagecopyresized($second, $first, 0, 0, 0, 0, $s_x, $s_y, $f_x, $f_y);
 imagedestroy($first);
 $red = imagecolorallocate($second, 255, 0, 0);

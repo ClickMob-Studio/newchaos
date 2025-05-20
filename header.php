@@ -56,15 +56,15 @@ include 'database/pdo_class.php';
 include "classes.php";
 include "codeparser.php";
 include "pdo.php";
+
 if (empty($ignoreslashes)) {
-    if (get_magic_quotes_gpc() == 0) {
-        foreach ($_POST as $k => $v) {
-            $_POST[$k] = addslashes($v);
-        }
-        foreach ($_GET as $k => $v) {
-            $_GET[$k] = addslashes($v);
-        }
+    foreach ($_POST as $k => $v) {
+        $_POST[$k] = addslashes($v);
     }
+    foreach ($_GET as $k => $v) {
+        $_GET[$k] = addslashes($v);
+    }
+
 }
 
 
@@ -72,21 +72,21 @@ if (!isset($_SESSION['id'])) {
     include('home.php');
     die();
 }
-$l = mysql_query("SELECT sessionid FROM `sessions` WHERE userid = " . $_SESSION['id']);
-if (mysql_num_rows($l) < 1) {
+
+$db->query("SELECT sessionid FROM `sessions` WHERE userid = ?");
+$db->execute(array(
+    $_SESSION['id']
+));
+if ($db->num_rows() < 1) {
     session_destroy();
     header('Location:index.php');
 }
-$g = mysql_fetch_assoc($l);
+$g = $db->fetch_row(true);
 if ($g['sessionid'] != $_SESSION['token']) {
     session_destroy();
     header('Location:index.php');
 }
 
-// $db->query("SELECT * FROM sessions WHERE userid = ?");
-// $db->execute(array(
-//     $_SESSION['id']
-// ));
 if (isset($_GET['action']) && $_GET['action'] == "logout") {
     session_destroy();
     header("Location: index.php");
@@ -165,7 +165,11 @@ if ($user_class->gang == 0 && $user_class->cur_gangcrime != 0) {
 
 if (empty($user_class->macro_token)) {
     $newMacroToken = generateMacroToken(10);
-    mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken . "' WHERE id = " . $user_class->id);
+    $db->query("UPDATE grpgusers SET macro_token = ? WHERE id = ?");
+    $db->execute(array(
+        $newMacroToken,
+        $user_class->id
+    ));
 }
 $_SESSION['lastpageload'] = time();
 if ($user_class->lastpayment < time() - 86400) {
@@ -185,7 +189,13 @@ if (isset($_GET['spend'])) {
         if ($user_class->awakepercent != 100 && $user_class->points >= $cost) {
             $user_class->points -= $cost;
             $user_class->directawake = $user_class->directmaxawake;
-            mysql_query("UPDATE grpgusers SET awake = $user_class->directmaxawake, points = points - $cost WHERE id = $user_class->id");
+
+            $db->query("UPDATE grpgusers SET awake = ?, points = points - ? WHERE id = ?");
+            $db->execute(array(
+                $user_class->directmaxawake,
+                $cost,
+                $user_class->id
+            ));
         }
         ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: https://chaoscity.co.uk/');
     }
@@ -291,13 +301,20 @@ if ($uid != 0) {
     set_last_active_ip($user_class->id, $IP);
 }
 
-$q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");
-$hosp = mysql_num_rows($q);
-$e = mysql_query("SELECT viewed FROM events WHERE `to` = $user_class->id AND viewed = 1");
-$ev = mysql_num_rows($e);
-$q = mysql_query("SELECT `id` FROM grpgusers WHERE jail > 0");
-$ja = mysql_num_rows($q);
+// Hospital count
+$db->query("SELECT count(id) FROM grpgusers WHERE hospital > 0");
+$db->execute();
+$hosp = $db->fetch_single();
 
+// Event count
+$db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
+$db->execute(array($user_class->id));
+$ev = $db->fetch_single();
+
+// Jail count
+$db->query("SELECT COUNT(id) FROM grpgusers WHERE jail > 0");
+$db->execute();
+$ja = $db->fetch_single();
 
 function callback($buffer)
 {

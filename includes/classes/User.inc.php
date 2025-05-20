@@ -37,7 +37,6 @@ class User extends BaseObject
     public $virus_infected_time = '';
     public $dog_tags = 0;
 
-
     public function __construct($id)
     {
         if (!$id) {
@@ -88,19 +87,20 @@ class User extends BaseObject
         }
         return (int) $tags;
     }
-    public static function GetCrimeRewardMultiplier(){
+    public static function GetCrimeRewardMultiplier()
+    {
         return true;
     }
     public function IsInfected()
     {
-        if(Utility::IsEventRunning('virus') !== true) {
+        if (Utility::IsEventRunning('virus') !== true) {
             return false;
         }
         if ($this->IsAdmin()) {
             $this->virus_infected_time = date('Y-m-d H:i:s');
             return true;
         }
-        $select = DBi::$conn->query('SELECT '.self::$idField.', virus_infected_time FROM '.self::$dataTable.' WHERE id = '.$this->id);
+        $select = DBi::$conn->query('SELECT ' . self::$idField . ', virus_infected_time FROM ' . self::$dataTable . ' WHERE id = ' . $this->id);
         $row = mysqli_fetch_assoc($select);
         if ($row === false || $row['virus_infected_time'] === null) {
             return false;
@@ -112,7 +112,7 @@ class User extends BaseObject
     }
     public static function GetStaffRank($id)
     {
-        $select = DBi::$conn->query('SELECT '.self::$idField.', staff_rank FROM '.self::$dataTable.' WHERE '.self::$idField.' = '.$id);
+        $select = DBi::$conn->query('SELECT ' . self::$idField . ', staff_rank FROM ' . self::$dataTable . ' WHERE ' . self::$idField . ' = ' . $id);
         $row = mysqli_fetch_assoc($select);
         return $row !== false ? (int) $row['staff_rank'] : 0;
     }
@@ -194,7 +194,8 @@ class User extends BaseObject
                          else
                            changeName' . $sUsername->uid . '' . SpecialUsername::$internalCount . '();
 
-                        </script>'; else:
+                        </script>';
+                else:
                     $codes = $sUsername->GetMediumFiName();
                 endif;
             } elseif ($detail == 'Low') {
@@ -214,7 +215,8 @@ class User extends BaseObject
                          else
                            changeName' . $sUsername->uid . '' . SpecialUsername::$internalCount . '();
 
-                        </script>'; else:
+                        </script>';
+                else:
                     $codes = $sUsername->GetLowFiName();
                 endif;
             }
@@ -222,65 +224,66 @@ class User extends BaseObject
 
         return $codes;
     }
-    public function getRankName(){
-        if($this->level <= 40){
+    public function getRankName()
+    {
+        if ($this->level <= 40) {
             return "Officer Cadet";
-        }elseif($this->level <= 70){
+        } elseif ($this->level <= 70) {
             return "Second Lieutenant";
-        }elseif ($this->level <= 90){
+        } elseif ($this->level <= 90) {
             return "Lieutenant";
-        }elseif($this->level <=120){
+        } elseif ($this->level <= 120) {
             return "Captain";
-        }elseif ($this->level <= 170){
+        } elseif ($this->level <= 170) {
             return "Major";
-        }elseif ($this->level <= 200){
+        } elseif ($this->level <= 200) {
             return "Lieutenant Colonel";
-        }elseif($this->level <= 220){
+        } elseif ($this->level <= 220) {
             return "Colonel";
-        }elseif ($this->level <= 230){
+        } elseif ($this->level <= 230) {
             return "Brigadier";
-        }elseif($this->level < 240){
+        } elseif ($this->level < 240) {
             return "Major General";
-        }else{
+        } else {
             return "Field Marshal";
         }
     }
     public function UpdateLevel()
     {
 
-        if($this->securityLevel < 5 && $this->level >= MAX_LVL){
+        if ($this->securityLevel < 5 && $this->level >= MAX_LVL) {
             return false;
         }
 
         $level = $this->level + 1;
-        $umission = DBi::$conn->query("SELECT * FROM `user_missions` WHERE `user` = ".$this->id);
-				if(($att = mysqli_fetch_assoc($umission)) == true) {
-					$t1 = $att['task_one_amount'] += 1;
-						$t2 = $att['task_two_amount'] += 1;
-						$t3 = $att['task_three_amount'] += 1;
-						$t4 = $att['task_four_amount'] += 1;
-						$t5 = $att['task_five_amount'] += 1;
-						$t6 = $att['task_six_amount'] += 1;
-						$t7 = $att['task_seven_amount'] += 1;
-						$t8 = $att['task_eight_amount'] += 1;
+        $umission = DBi::$conn->query("SELECT * FROM `user_missions` WHERE `user` = " . $this->id);
+        if (($att = mysqli_fetch_assoc($umission)) == true) {
+            $t1 = $att['task_one_amount'] += 1;
+            $t2 = $att['task_two_amount'] += 1;
+            $t3 = $att['task_three_amount'] += 1;
+            $t4 = $att['task_four_amount'] += 1;
+            $t5 = $att['task_five_amount'] += 1;
+            $t6 = $att['task_six_amount'] += 1;
+            $t7 = $att['task_seven_amount'] += 1;
+            $t8 = $att['task_eight_amount'] += 1;
 
-						if($att['task_one'] == 'Level')
-							DBi::$conn->query("UPDATE `user_missions` SET `task_one_amount` = {$t1} WHERE `user` = ".$this->id);
-						else if($att['task_two'] == 'Levels')
-							DBi::$conn->query("UPDATE `user_missions` SET `task_two_amount` = {$t2} WHERE `user` = ".$this->id);
-						else if($att['task_three'] == 'Levels')
-							DBi::$conn->query("UPDATE `user_missions` SET `task_three_amount` = {$t3} WHERE `user` = ".$this->id);
-						else if($att['task_four'] == 'Levels')
-							DBi::$conn->query("UPDATE `user_missions` SET `task_four_amount` = {$t4} WHERE `user` = ".$this->id);
-						else if($att['task_five'] == 'Levels')
-							DBi::$conn->query("UPDATE `user_missions` SET `task_five_amount` = {$t5} WHERE `user` = ".$this->id);
-						else if($att['task_six'] == 'Levels')
-							DBi::$conn->query("UPDATE `user_missions` SET `task_six_amount` = {$t6} WHERE `user` = ".$this->id);
-						else if($att['task_seven'] == 'Levels')
-							DBi::$conn->query("UPDATE `user_missions` SET `task_seven_amount` = {$t7} WHERE `user` = ".$this->id);
-						else if($att['task_eight'] == 'Levels')
-							DBi::$conn->query("UPDATE `user_missions` SET `task_eight_amount` = {$t8} WHERE `user` = ".$this->id);
-				}
+            if ($att['task_one'] == 'Level')
+                DBi::$conn->query("UPDATE `user_missions` SET `task_one_amount` = {$t1} WHERE `user` = " . $this->id);
+            else if ($att['task_two'] == 'Levels')
+                DBi::$conn->query("UPDATE `user_missions` SET `task_two_amount` = {$t2} WHERE `user` = " . $this->id);
+            else if ($att['task_three'] == 'Levels')
+                DBi::$conn->query("UPDATE `user_missions` SET `task_three_amount` = {$t3} WHERE `user` = " . $this->id);
+            else if ($att['task_four'] == 'Levels')
+                DBi::$conn->query("UPDATE `user_missions` SET `task_four_amount` = {$t4} WHERE `user` = " . $this->id);
+            else if ($att['task_five'] == 'Levels')
+                DBi::$conn->query("UPDATE `user_missions` SET `task_five_amount` = {$t5} WHERE `user` = " . $this->id);
+            else if ($att['task_six'] == 'Levels')
+                DBi::$conn->query("UPDATE `user_missions` SET `task_six_amount` = {$t6} WHERE `user` = " . $this->id);
+            else if ($att['task_seven'] == 'Levels')
+                DBi::$conn->query("UPDATE `user_missions` SET `task_seven_amount` = {$t7} WHERE `user` = " . $this->id);
+            else if ($att['task_eight'] == 'Levels')
+                DBi::$conn->query("UPDATE `user_missions` SET `task_eight_amount` = {$t8} WHERE `user` = " . $this->id);
+        }
         $level1 = $this->level;
         while ($this->exp > User::GetNeededXPForLevel($this->level)) {
             $this->RemoveFromAttribute('exp', User::GetNeededXPForLevel($this->level));
@@ -537,7 +540,7 @@ class User extends BaseObject
         $result = DBi::$conn->query('SELECT `id`,`gang`,`level`,`city`,`username`,`rmdays`, `admin`, `mods`, `image_name`, `securityLevel`,`avatar`,`lastactive`, virus_infected_time FROM `grpgusers` WHERE `id`="' . $this->id . '"');
         $user = mysqli_fetch_array($result);
         $user['virus_is_infected'] = false;
-        if(Utility::IsEventRunning('virus')=== true) {
+        if (Utility::IsEventRunning('virus') === true) {
             if ($this->IsAdmin()) {
                 $user['virus_is_infected'] = true;
             } elseif ($user['virus_infected_time'] !== null) {
@@ -605,7 +608,7 @@ class User extends BaseObject
             $class = 'topAdmin';
             $title[] = 'Admin';
         }
-        if ($user['admin'] == 3){
+        if ($user['admin'] == 3) {
             $class = 'supermoderator';
             $title[] = 'Mod';
         }
@@ -724,7 +727,7 @@ class User extends BaseObject
     {
         $admins = [];
         $sql = 'select id from ' . self::$dataTable . ' where admin>0';
-        $query =DBi::$conn->query($sql);
+        $query = DBi::$conn->query($sql);
         while ($row = mysqli_fetch_array($query)) {
             $admins[] = UserFactory::getInstance()->getUser($row['id']);
         }
@@ -775,16 +778,17 @@ class User extends BaseObject
         return self::GetAllByFieldLimited1(self::GetDataTableFields(), self::GetDataTable(), 'level` DESC, `exp` DESC, `id', 'ASC', 50);
     }
 
-    public static function GetAllByUserFieldLimited($field = 'id',  $order = 'ASC', $limit = 50)
+    public static function GetAllByUserFieldLimited($field = 'id', $order = 'ASC', $limit = 50)
     {
-        return self::GetAllByFieldLimited1(self::GetDataTableFields(), self::GetDataTable(), $field,$order, $limit);
+        return self::GetAllByFieldLimited1(self::GetDataTableFields(), self::GetDataTable(), $field, $order, $limit);
     }
 
-    public static function isUserValid($id){
+    public static function isUserValid($id)
+    {
         $query = DBi::$conn->query("SELECT `id` FROM `grpgusers` WHERE `id` = '$id'");
-        if(mysqli_num_rows($query) > 0){
+        if (mysqli_num_rows($query) > 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -806,7 +810,7 @@ class User extends BaseObject
             $time = time();
         }
         DBi::$conn->query('INSERT INTO `warns` (`uid`, `reason`, `time`) VALUES (\'' . $uid . '\', \'' . $reason . '\', \'' . $time . '\')');
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             return false;
         }
 
@@ -826,7 +830,7 @@ class User extends BaseObject
 
     public static function sCountAllInJail()
     {
-        $res = DBi::$conn->query('SELECT count(`id`) as total FROM `grpgusers` WHERE `jail` > '.time());
+        $res = DBi::$conn->query('SELECT count(`id`) as total FROM `grpgusers` WHERE `jail` > ' . time());
         if (mysqli_num_rows($res) == 0) {
             return 0;
         }
@@ -838,55 +842,65 @@ class User extends BaseObject
 
 
 
-    function Gang_Item($itemid, $userid, $quantity="1"){
+    function Gang_Item($itemid, $userid, $quantity = "1")
+    {
         $resultaq = DBi::$conn->query("SELECT * FROM `gangarmory` WHERE `gangid`='$userid' AND `itemid`='$itemid'");
         $worked = mysqli_fetch_array($resultaq);
         $itemexist = mysqli_num_rows($resultaq);
-        if($itemexist == 0){
-            $resultal = DBi::$conn->query("INSERT INTO `gangarmory` (`itemid`, `gangid`, `quantity`)"."VALUES ('$itemid', '$userid', '$quantity')");
+        if ($itemexist == 0) {
+            $resultal = DBi::$conn->query("INSERT INTO `gangarmory` (`itemid`, `gangid`, `quantity`)" . "VALUES ('$itemid', '$userid', '$quantity')");
         } else {
             $quantity = $quantity + $worked['quantity'];
-            $resultap = DBi::$conn->query("UPDATE `gangarmory` SET `quantity` = '".$quantity."' WHERE `gangid`='$userid' AND `itemid`='$itemid'");
-        }}
+            $resultap = DBi::$conn->query("UPDATE `gangarmory` SET `quantity` = '" . $quantity . "' WHERE `gangid`='$userid' AND `itemid`='$itemid'");
+        }
+    }
 
-    function Gang_tItem($itemid, $userid, $quantity="1"){
+    function Gang_tItem($itemid, $userid, $quantity = "1")
+    {
         $resultbc = DBi::$conn->query("SELECT * FROM `gangarmory` WHERE `gangid`='$userid' AND `itemid`='$itemid'");
         $worked = mysqli_fetch_array($resultbc);
         $itemexist = mysqli_num_rows($resultbc);
-        if($itemexist != 0){
+        if ($itemexist != 0) {
             $quantity = $worked['quantity'] - $quantity;
-            if($quantity > 0){
-                $resultbd = DBi::$conn->query("UPDATE `gangarmory` SET `quantity` = '".$quantity."' WHERE `gangid`='$userid' AND `itemid`='$itemid'");
+            if ($quantity > 0) {
+                $resultbd = DBi::$conn->query("UPDATE `gangarmory` SET `quantity` = '" . $quantity . "' WHERE `gangid`='$userid' AND `itemid`='$itemid'");
             } else {
                 $resultbg = DBi::$conn->query("DELETE FROM `gangarmory` WHERE `gangid`='$userid' AND `itemid`='$itemid'");
-            }}}
+            }
+        }
+    }
 
 
 
-//// gang loan
+    //// gang loan
 
-    function Gang_loan($itemid, $userid , $gangid, $quantity="1"){
+    function Gang_loan($itemid, $userid, $gangid, $quantity = "1")
+    {
         $resultaq = DBi::$conn->query("SELECT * FROM `inventory3` WHERE `userid`='$userid' AND `itemid`='$itemid' AND `gangid`='$gangid'");
         $worked = mysqli_fetch_array($resultaq);
         $itemexist = mysqli_num_rows($resultaq);
-        if($itemexist == 0){
-            $resultal = DBi::$conn->query("INSERT INTO `inventory3` (`itemid`, `userid`, `quantity`,`gangid`)"."VALUES ('$itemid', '$userid', '$quantity','$gangid')");
+        if ($itemexist == 0) {
+            $resultal = DBi::$conn->query("INSERT INTO `inventory3` (`itemid`, `userid`, `quantity`,`gangid`)" . "VALUES ('$itemid', '$userid', '$quantity','$gangid')");
         } else {
             $quantity = $quantity + $worked['quantity'];
-            $resultap = DBi::$conn->query("UPDATE `inventory3` SET `quantity` = '".$quantity."' WHERE `userid`='$userid' AND `itemid`='$itemid' AND `gangid`='$gangid'");
-        }}
+            $resultap = DBi::$conn->query("UPDATE `inventory3` SET `quantity` = '" . $quantity . "' WHERE `userid`='$userid' AND `itemid`='$itemid' AND `gangid`='$gangid'");
+        }
+    }
 
-    function Take_loan($itemid, $userid,$gangid, $quantity="1"){
+    function Take_loan($itemid, $userid, $gangid, $quantity = "1")
+    {
         $resultbc = DBi::$conn->query("SELECT * FROM `inventory3` WHERE `userid`='$userid' AND `itemid`='$itemid' AND `gangid`='$gangid'");
         $worked = mysqli_fetch_array($resultbc);
         $itemexist = mysqli_num_rows($resultbc);
-        if($itemexist != 0){
+        if ($itemexist != 0) {
             $quantity = $worked['quantity'] - $quantity;
-            if($quantity > 0){
-                $resultbd = DBi::$conn->query("UPDATE `inventory3` SET `quantity` = '".$quantity."' WHERE `userid`='$userid' AND `itemid`='$itemid'AND `gangid`='$gangid'");
+            if ($quantity > 0) {
+                $resultbd = DBi::$conn->query("UPDATE `inventory3` SET `quantity` = '" . $quantity . "' WHERE `userid`='$userid' AND `itemid`='$itemid'AND `gangid`='$gangid'");
             } else {
                 $resultbg = DBi::$conn->query("DELETE FROM `inventory3` WHERE `userid`='$userid' AND `itemid`='$itemid' AND `gangid`='$gangid'");
-            }}}
+            }
+        }
+    }
 
     public static function get_user_prop($className, $property)
     {
@@ -916,85 +930,85 @@ class User extends BaseObject
     }
 
     public static function Find(User $user, $searchInput, $order = [])
-{
-    // Initialize WHERE clause and objects array
-    $whereClause = '';
-    $objs = [];
+    {
+        // Initialize WHERE clause and objects array
+        $whereClause = '';
+        $objs = [];
 
-    // Build WHERE clause based on search inputs
-    if (!empty($searchInput)) {
-        $whereClause = ' WHERE ';
-        
-        if ($searchInput['exclude'] == '1') {
-            $whereClause .= ' `gang` != ' . $user->gang . ' AND ';
+        // Build WHERE clause based on search inputs
+        if (!empty($searchInput)) {
+            $whereClause = ' WHERE ';
+
+            if ($searchInput['exclude'] == '1') {
+                $whereClause .= ' `gang` != ' . $user->gang . ' AND ';
+            }
+
+            if ($searchInput['gang'] != 0) {
+                $whereClause .= ' `gang` = \'' . $searchInput['gang'] . '\' AND ';
+            } elseif ($searchInput['gang'] == -1) {
+                $whereClause .= ' `gang` = 0 AND ';
+            }
+
+            if ($searchInput['money'] != '' && $searchInput['money'] > 0) {
+                $whereClause .= ' `money` >= \'' . $searchInput['money'] . '\' AND ';
+            }
+
+            if ($searchInput['level'] != '' && $searchInput['level'] > 0) {
+                $whereClause .= ' `level` >= \'' . $searchInput['level'] . '\' AND ';
+            }
+
+            if ($searchInput['level2'] != '' && $searchInput['level2'] < 1000) {
+                $whereClause .= ' `level` <= \'' . $searchInput['level2'] . '\' AND ';
+            }
+
+            if ($searchInput['online'] == '1') {
+                $whereClause .= ' `lastactive` > ' . (time() - 900) . ' AND ';
+            } elseif ($searchInput['online'] == '0') {
+                $whereClause .= ' `lastactive` < ' . (time() - 900) . ' AND ';
+            }
+
+            if ($searchInput['prisonS'] != 0) {
+                $whereClause .= ' `city` = \'' . $searchInput['prisonS'] . '\' AND ';
+            }
+
+            if ($searchInput['username'] != '') {
+                $whereClause .= ' `username` LIKE "%' . $searchInput['username'] . '%" AND ';
+            }
         }
-        
-        if ($searchInput['gang'] != 0) {
-            $whereClause .= ' `gang` = \'' . $searchInput['gang'] . '\' AND ';
-        } elseif ($searchInput['gang'] == -1) {
-            $whereClause .= ' `gang` = 0 AND ';
+
+        // Remove the trailing 'AND' from WHERE clause
+        $whereClause = rtrim($whereClause, 'AND ');
+
+        // Build the complete query
+        $query = 'SELECT `id`, `money`, `username`, `level`, `lastactive` FROM `grpgusers` ' . $whereClause;
+
+        // Add additional conditions based on attack input
+        if ($searchInput['attack'] == '0') {
+            $query .= ($whereClause == '') ? ' WHERE ' : ' AND ';
+            $query .= ' (`gang`=29 OR `jail` >= \'' . time() . '\' OR hospital > \'' . time() . '\' or gprot>\'' . time() . '\') ';
+        } elseif ($searchInput['attack'] == '1') {
+            $query .= ($whereClause == '') ? ' WHERE ' : ' AND ';
+            $query .= ' jail <= \'' . time() . '\' AND hospital <= \'' . time() . '\' AND gprot<=\'' . time() . '\' AND (`gang`<>29)';
         }
 
-        if ($searchInput['money'] != '' && $searchInput['money'] > 0) {
-            $whereClause .= ' `money` >= \'' . $searchInput['money'] . '\' AND ';
+        // Add ORDER BY clause
+        if (!empty($order['by'])) {
+            $query .= ' ORDER BY ' . $order['by'] . ' ' . $order['sort'];
+        } else {
+            $query .= ' ORDER BY `money` DESC';
         }
 
-        if ($searchInput['level'] != '' && $searchInput['level'] > 0) {
-            $whereClause .= ' `level` >= \'' . $searchInput['level'] . '\' AND ';
+        // Execute the query and fetch results
+        $res = DBi::$conn->query($query);
+        if (mysqli_num_rows($res) == 0) {
+            return $objs;
+        }
+        while ($obj = mysqli_fetch_object($res)) {
+            $objs[] = $obj;
         }
 
-        if ($searchInput['level2'] != '' && $searchInput['level2'] < 1000) {
-            $whereClause .= ' `level` <= \'' . $searchInput['level2'] . '\' AND ';
-        }
-
-        if ($searchInput['online'] == '1') {
-            $whereClause .= ' `lastactive` > ' . (time() - 900) . ' AND ';
-        } elseif ($searchInput['online'] == '0') {
-            $whereClause .= ' `lastactive` < ' . (time() - 900) . ' AND ';
-        }
-
-        if ($searchInput['prisonS'] != 0) {
-            $whereClause .= ' `city` = \'' . $searchInput['prisonS'] . '\' AND ';
-        }
-
-        if ($searchInput['username'] != '') {
-            $whereClause .= ' `username` LIKE "%' . $searchInput['username'] . '%" AND ';
-        }
-    }
-
-    // Remove the trailing 'AND' from WHERE clause
-    $whereClause = rtrim($whereClause, 'AND ');
-
-    // Build the complete query
-    $query = 'SELECT `id`, `money`, `username`, `level`, `lastactive` FROM `grpgusers` ' . $whereClause;
-
-    // Add additional conditions based on attack input
-    if ($searchInput['attack'] == '0') {
-        $query .= ($whereClause == '') ? ' WHERE ' : ' AND ';
-        $query .= ' (`gang`=29 OR `jail` >= \'' . time() . '\' OR hospital > \'' . time() . '\' or gprot>\'' . time() . '\') ';
-    } elseif ($searchInput['attack'] == '1') {
-        $query .= ($whereClause == '') ? ' WHERE ' : ' AND ';
-        $query .= ' jail <= \'' . time() . '\' AND hospital <= \'' . time() . '\' AND gprot<=\'' . time() . '\' AND (`gang`<>29)';
-    }
-
-    // Add ORDER BY clause
-    if (!empty($order['by'])) {
-        $query .= ' ORDER BY ' . $order['by'] . ' ' . $order['sort'];
-    } else {
-        $query .= ' ORDER BY `money` DESC';
-    }
-
-    // Execute the query and fetch results
-    $res = DBi::$conn->query($query);
-    if (mysqli_num_rows($res) == 0) {
         return $objs;
     }
-    while ($obj = mysqli_fetch_object($res)) {
-        $objs[] = $obj;
-    }
-
-    return $objs;
-}
 
     public static function FindById($uid)
     {
@@ -1102,7 +1116,7 @@ class User extends BaseObject
     {
         $query = 'UPDATE `grpgusers` SET `validC`=' . $code . ' WHERE `id`=' . $uid;
         DBi::$conn->query($query);
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             throw new SoftException(USER_CONFIRMATION_ERROR);
         }
 
@@ -1381,7 +1395,7 @@ class User extends BaseObject
         }
         $query = 'UPDATE `grpgusers` SET `bank`=(`bank`-' . $amount . ') WHERE `id`=\'' . $uid . '\' AND `bank`>=\'' . $amount . '\'';
         DBi::$conn->query($query);
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             return false;
         }
 
@@ -1437,7 +1451,7 @@ class User extends BaseObject
         } else {
             DBi::$conn->query('DELETE FROM `coins` WHERE `userid`=\'' . $userid . '\' AND `companyid`=\'' . $stock . '\'');
         }
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             return false;
         }
 
@@ -1467,7 +1481,7 @@ class User extends BaseObject
         } else {
             DBi::$conn->query('DELETE FROM `shares` WHERE `userid`=\'' . $userid . '\' AND `companyid`=\'' . $stock . '\'');
         }
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             return false;
         }
 
@@ -1517,7 +1531,7 @@ class User extends BaseObject
         } else {
             return false;
         }
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             return false;
         }
 
@@ -1575,7 +1589,7 @@ class User extends BaseObject
         } else {
             return false;
         }
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             return false;
         }
 
@@ -1760,183 +1774,194 @@ class User extends BaseObject
 
         return $maxHp;
     }
-    public function GetEnergyDrink(){
-        $query= DBi::$conn->query("SELECT energy_drink FROM temp_items_use WHERE userid = '".$this->id."'");
-        if(mysqli_num_rows($query) > 0){
+    public function GetEnergyDrink()
+    {
+        $query = DBi::$conn->query("SELECT energy_drink FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if (mysqli_num_rows($query) > 0) {
             $row = mysqli_fetch_array($query);
             return $row['energy_drink'];
-        }else{
+        } else {
             return 0;
         }
     }
-    public function GetEnergyDrinkTime(){
-        $query= DBi::$conn->query("SELECT energy_drink_time FROM temp_items_use WHERE userid = '".$this->id."'");
-        if($query == true) {
+    public function GetEnergyDrinkTime()
+    {
+        $query = DBi::$conn->query("SELECT energy_drink_time FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if ($query == true) {
             if (mysqli_num_rows($query) > 0) {
                 $row = mysqli_fetch_array($query);
                 return $row['energy_drink_time'];
             } else {
                 return 0;
             }
-        }else{
+        } else {
             return 0;
         }
     }
-    public function GetNerveDrink(){
-        $query= DBi::$conn->query("SELECT nerve_drink FROM temp_items_use WHERE userid = '".$this->id."'");
-        if(mysqli_num_rows($query) > 0){
+    public function GetNerveDrink()
+    {
+        $query = DBi::$conn->query("SELECT nerve_drink FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if (mysqli_num_rows($query) > 0) {
             $row = mysqli_fetch_array($query);
             return $row['nerve_drink'];
-        }else{
+        } else {
             return 0;
         }
     }
-    public function GetNerveDrinkTime(){
-        $query= DBi::$conn->query("SELECT nerve_drink_time FROM temp_items_use WHERE userid = '".$this->id."'");
-        if($query == true) {
+    public function GetNerveDrinkTime()
+    {
+        $query = DBi::$conn->query("SELECT nerve_drink_time FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if ($query == true) {
             if (mysqli_num_rows($query) > 0) {
                 $row = mysqli_fetch_array($query);
                 return $row['nerve_drink_time'];
             } else {
                 return 0;
             }
-        }else{
+        } else {
             return 0;
         }
     }
 
-    public function GetAwakeDrink(){
-        $query= DBi::$conn->query("SELECT awake_drink FROM temp_items_use WHERE userid = '".$this->id."'");
-        if(mysqli_num_rows($query) > 0){
+    public function GetAwakeDrink()
+    {
+        $query = DBi::$conn->query("SELECT awake_drink FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if (mysqli_num_rows($query) > 0) {
             $row = mysqli_fetch_array($query);
             return $row['awake_drink'];
-        }else{
+        } else {
             return 0;
         }
     }
-    public function GetAwakeDrinkTime(){
-        $query= DBi::$conn->query("SELECT awake_drink_time FROM temp_items_use WHERE userid = '".$this->id."'");
-        if($query == true) {
+    public function GetAwakeDrinkTime()
+    {
+        $query = DBi::$conn->query("SELECT awake_drink_time FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if ($query == true) {
             if (mysqli_num_rows($query) > 0) {
                 $row = mysqli_fetch_array($query);
                 return $row['awake_drink_time'];
             } else {
                 return 0;
             }
-        }else{
+        } else {
             return 0;
         }
     }
 
     public function GetChristmasGift()
     {
-        $query= DBi::$conn->query("SELECT christmas_gift FROM temp_items_use WHERE userid = '".$this->id."'");
-        if(mysqli_num_rows($query) > 0){
+        $query = DBi::$conn->query("SELECT christmas_gift FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if (mysqli_num_rows($query) > 0) {
             $row = mysqli_fetch_array($query);
             return $row['christmas_gift'];
-        }else{
+        } else {
             return 0;
         }
     }
-    public function GetChristmasGiftTime(){
-        $query= DBi::$conn->query("SELECT christmas_gift_time FROM temp_items_use WHERE userid = '".$this->id."'");
-        if($query == true) {
+    public function GetChristmasGiftTime()
+    {
+        $query = DBi::$conn->query("SELECT christmas_gift_time FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if ($query == true) {
             if (mysqli_num_rows($query) > 0) {
                 $row = mysqli_fetch_array($query);
                 return $row['christmas_gift_time'];
             } else {
                 return 0;
             }
-        }else{
+        } else {
             return 0;
         }
     }
 
-    public function GetChristmasCrackerTime(){
-        $query= DBi::$conn->query("SELECT christmas_cracker_time FROM temp_items_use WHERE userid = '".$this->id."'");
-        if($query == true) {
+    public function GetChristmasCrackerTime()
+    {
+        $query = DBi::$conn->query("SELECT christmas_cracker_time FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if ($query == true) {
             if (mysqli_num_rows($query) > 0) {
                 $row = mysqli_fetch_array($query);
                 return $row['christmas_cracker_time'];
             } else {
                 return 0;
             }
-        }else{
+        } else {
             return 0;
         }
     }
 
     public function GetCosmoCocktailCount()
     {
-        $query= DBi::$conn->query("SELECT cosmo_cocktail_count FROM temp_items_use WHERE userid = '".$this->id."'");
-        if(mysqli_num_rows($query) > 0){
+        $query = DBi::$conn->query("SELECT cosmo_cocktail_count FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if (mysqli_num_rows($query) > 0) {
             $row = mysqli_fetch_array($query);
             return $row['cosmo_cocktail_count'];
-        }else{
+        } else {
             return 0;
         }
     }
 
-    public function GetGymProteinBarTime(){
-        $query= DBi::$conn->query("SELECT protein_bar_time FROM temp_items_use WHERE userid = '".$this->id."'");
-        if($query == true) {
+    public function GetGymProteinBarTime()
+    {
+        $query = DBi::$conn->query("SELECT protein_bar_time FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if ($query == true) {
             if (mysqli_num_rows($query) > 0) {
                 $row = mysqli_fetch_array($query);
                 return $row['protein_bar_time'];
             } else {
                 return 0;
             }
-        }else{
+        } else {
             return 0;
         }
     }
 
-    public function GetGymGreensPillTime(){
-        $query= DBi::$conn->query("SELECT greens_pill_time FROM temp_items_use WHERE userid = '".$this->id."'");
-        if($query == true) {
+    public function GetGymGreensPillTime()
+    {
+        $query = DBi::$conn->query("SELECT greens_pill_time FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if ($query == true) {
             if (mysqli_num_rows($query) > 0) {
                 $row = mysqli_fetch_array($query);
                 return $row['greens_pill_time'];
             } else {
                 return 0;
             }
-        }else{
+        } else {
             return 0;
         }
     }
 
-    public function GetGymSuperPillTime(){
-        $query= DBi::$conn->query("SELECT super_pill_time FROM temp_items_use WHERE userid = '".$this->id."'");
-        if($query == true) {
+    public function GetGymSuperPillTime()
+    {
+        $query = DBi::$conn->query("SELECT super_pill_time FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if ($query == true) {
             if (mysqli_num_rows($query) > 0) {
                 $row = mysqli_fetch_array($query);
                 return $row['super_pill_time'];
             } else {
                 return 0;
             }
-        }else{
+        } else {
             return 0;
         }
     }
 
     public function GetLovePotionsCount()
     {
-        $query= DBi::$conn->query("SELECT love_potions FROM temp_items_use WHERE userid = '".$this->id."'");
-        if(mysqli_num_rows($query) > 0){
+        $query = DBi::$conn->query("SELECT love_potions FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if (mysqli_num_rows($query) > 0) {
             $row = mysqli_fetch_array($query);
             return $row['love_potions'];
-        }else{
+        } else {
             return 0;
         }
     }
 
     public function GetDailyLovePotionsCount()
     {
-        $query= DBi::$conn->query("SELECT daily_love_potions FROM temp_items_use WHERE userid = '".$this->id."'");
-        if(mysqli_num_rows($query) > 0){
+        $query = DBi::$conn->query("SELECT daily_love_potions FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if (mysqli_num_rows($query) > 0) {
             $row = mysqli_fetch_array($query);
             return $row['daily_love_potions'];
-        }else{
+        } else {
             return 0;
         }
     }
@@ -1944,18 +1969,18 @@ class User extends BaseObject
     public function GetPerfumeCount()
     {
         // Test
-        $query= DBi::$conn->query("SELECT perfume_count FROM temp_items_use WHERE userid = '".$this->id."'");
-        if(mysqli_num_rows($query) > 0){
+        $query = DBi::$conn->query("SELECT perfume_count FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if (mysqli_num_rows($query) > 0) {
             $row = mysqli_fetch_array($query);
             return $row['perfume_count'];
-        }else{
+        } else {
             return 0;
         }
     }
 
     public function GetLovePotionTime()
     {
-        $query= DBi::$conn->query("SELECT love_potions_time FROM temp_items_use WHERE userid = '".$this->id."'");
+        $query = DBi::$conn->query("SELECT love_potions_time FROM temp_items_use WHERE userid = '" . $this->id . "'");
         if ($query == true) {
             if (mysqli_num_rows($query) > 0) {
                 $row = mysqli_fetch_array($query);
@@ -1970,7 +1995,7 @@ class User extends BaseObject
 
     public function GetCureVialTime()
     {
-        $query= DBi::$conn->query("SELECT cure_vial_time FROM temp_items_use WHERE userid = '".$this->id."'");
+        $query = DBi::$conn->query("SELECT cure_vial_time FROM temp_items_use WHERE userid = '" . $this->id . "'");
         if ($query == true) {
             if (mysqli_num_rows($query) > 0) {
                 $row = mysqli_fetch_array($query);
@@ -1985,7 +2010,7 @@ class User extends BaseObject
 
     public function GetPoliceBadgeTime()
     {
-        $query= DBi::$conn->query("SELECT police_badge_time FROM temp_items_use WHERE userid = '".$this->id."'");
+        $query = DBi::$conn->query("SELECT police_badge_time FROM temp_items_use WHERE userid = '" . $this->id . "'");
         if ($query == true) {
             if (mysqli_num_rows($query) > 0) {
                 $row = mysqli_fetch_array($query);
@@ -2000,7 +2025,7 @@ class User extends BaseObject
 
     public function GetFungalVialTime()
     {
-        $query= DBi::$conn->query("SELECT fungal_vial_time FROM temp_items_use WHERE userid = '".$this->id."'");
+        $query = DBi::$conn->query("SELECT fungal_vial_time FROM temp_items_use WHERE userid = '" . $this->id . "'");
         if ($query == true) {
             if (mysqli_num_rows($query) > 0) {
                 $row = mysqli_fetch_array($query);
@@ -2015,33 +2040,33 @@ class User extends BaseObject
 
     public function GetTrainingDummyTokensCount()
     {
-        $query= DBi::$conn->query("SELECT training_dummy_tokens FROM temp_items_use WHERE userid = '".$this->id."'");
-        if(mysqli_num_rows($query) > 0){
+        $query = DBi::$conn->query("SELECT training_dummy_tokens FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if (mysqli_num_rows($query) > 0) {
             $row = mysqli_fetch_array($query);
             return $row['training_dummy_tokens'];
-        }else{
+        } else {
             return 0;
         }
     }
 
     public function GetChocolateBunnyCount()
     {
-        $query= DBi::$conn->query("SELECT chocolate_bunny_count FROM temp_items_use WHERE userid = '".$this->id."'");
-        if(mysqli_num_rows($query) > 0){
+        $query = DBi::$conn->query("SELECT chocolate_bunny_count FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if (mysqli_num_rows($query) > 0) {
             $row = mysqli_fetch_array($query);
             return $row['chocolate_bunny_count'];
-        }else{
+        } else {
             return 0;
         }
     }
 
     public function GetBossTokensCount()
     {
-        $query= DBi::$conn->query("SELECT boss_token_count FROM temp_items_use WHERE userid = '".$this->id."'");
-        if(mysqli_num_rows($query) > 0){
+        $query = DBi::$conn->query("SELECT boss_token_count FROM temp_items_use WHERE userid = '" . $this->id . "'");
+        if (mysqli_num_rows($query) > 0) {
             $row = mysqli_fetch_array($query);
             return $row['boss_token_count'];
-        }else{
+        } else {
             return 0;
         }
     }
@@ -2054,14 +2079,14 @@ class User extends BaseObject
         } elseif ($this->HasLoanedCell()) {
             $awake = $this->GetLoanedCell()->awake;
         }
-        if($this->awake_time > time()){
-            $awake =  $awake * 2;
+        if ($this->awake_time > time()) {
+            $awake = $awake * 2;
         }
-        if($this->GetGang()->house){
-        $s = DBi::$conn->query("SELECT * FROM ganghouse WHERE id = ".$this->GetGang()->house);
-        $r = mysqli_fetch_assoc($s);
-        $per = ($awake /100) * 2;
-        $awake = $awake + $per;
+        if ($this->GetGang()->house) {
+            $s = DBi::$conn->query("SELECT * FROM ganghouse WHERE id = " . $this->GetGang()->house);
+            $r = mysqli_fetch_assoc($s);
+            $per = ($awake / 100) * 2;
+            $awake = $awake + $per;
         }
 
         if (!$includeBonusAwake) {
@@ -2076,7 +2101,7 @@ class User extends BaseObject
             $bonusAwake *= $this->GetExpMultiplier();
             $awake += $bonusAwake;
         }
-        if($this->GetAwakeDrinkTime() > time()){
+        if ($this->GetAwakeDrinkTime() > time()) {
             //20% awake bonus
             $awake = $awake + ($awake / 100) * 10;
         }
@@ -2142,23 +2167,25 @@ class User extends BaseObject
             return 1;
         }
     }
-    public function SeasonPass(){
-        $query = DBi::$conn->query("SELECT * FROM seasonpass WHERE userid = '".$this->id."' AND SeasonPass_own > 0");
-        if(mysqli_num_rows($query) > 0){
+    public function SeasonPass()
+    {
+        $query = DBi::$conn->query("SELECT * FROM seasonpass WHERE userid = '" . $this->id . "' AND SeasonPass_own > 0");
+        if (mysqli_num_rows($query) > 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    public function SeasonTier(){
-        $query = DBi::$conn->query("SELECT SeasonPass_tier FROM seasonpass WHERE userid = '".$this->id."'")->fetch_object();
+    public function SeasonTier()
+    {
+        $query = DBi::$conn->query("SELECT SeasonPass_tier FROM seasonpass WHERE userid = '" . $this->id . "'")->fetch_object();
         return $query->SeasonPass_tier;
 
     }
     public function GetMaxNerve()
     {
         $nervadjust = 0;
-        if($this->GetSkill(7)){
+        if ($this->GetSkill(7)) {
             $nervadjust = 25 * $this->GetSkill(7)->level;
         }
         $maxNerve = ($this->level + 4) + $nervadjust;
@@ -2174,12 +2201,12 @@ class User extends BaseObject
                 }
             }
         }
-        if($this->energy_time > time()){
+        if ($this->energy_time > time()) {
             $maxNerve = $maxNerve * 2;
         }
-        if($this->GetNerveDrinkTime() > time()){
+        if ($this->GetNerveDrinkTime() > time()) {
             //max nerve + 20%
-         $maxNerve = $maxNerve + ($maxNerve / 100) * 10;
+            $maxNerve = $maxNerve + ($maxNerve / 100) * 10;
         }
 
         if ($maxNerve > 400) {
@@ -2204,7 +2231,7 @@ class User extends BaseObject
                 }
             }
         }
-        if($this->GetEnergyDrinkTime() > time()){
+        if ($this->GetEnergyDrinkTime() > time()) {
             //20% nerve bonus
             $maxEnergy = $maxEnergy + ($maxEnergy / 100) * 10;
         }
@@ -2302,13 +2329,13 @@ class User extends BaseObject
         $bankuser = new User($userId);
 
         $defaultMaxBank = MAX_BANK_INTEREST;
-        if (UserBooks::UserHasStudied($userId, 41)){
+        if (UserBooks::UserHasStudied($userId, 41)) {
             $defaultMaxBank = 6000000;
         }
-        if (UserBooks::UserHasStudied($userId, 42)){
+        if (UserBooks::UserHasStudied($userId, 42)) {
             $defaultMaxBank = 15000000;
         }
-        if (UserBooks::UserHasStudied($userId, 43)){
+        if (UserBooks::UserHasStudied($userId, 43)) {
             $defaultMaxBank = 30000000;
         }
 
@@ -2319,19 +2346,19 @@ class User extends BaseObject
     {
         $bankuser = new User($userId);
         $bonus = 0;
-        if($bankuser->securityLevel > 0){
+        if ($bankuser->securityLevel > 0) {
             $bonus = 200000000 * $bankuser->securityLevel;
         }
         $skill = self::sGetSkill($userId, SK_CORRUPT_WARDEN_ID);
 
         $defaultMaxBank = DEFAULT_MAX_BANK;
-        if (UserBooks::UserHasStudied($userId, 34)){
+        if (UserBooks::UserHasStudied($userId, 34)) {
             // 250%
             $defaultMaxBank = $defaultMaxBank + (($defaultMaxBank / 100) * 250);
-        } else if (UserBooks::UserHasStudied($userId, 33)){
+        } else if (UserBooks::UserHasStudied($userId, 33)) {
             // 150%
             $defaultMaxBank = $defaultMaxBank + (($defaultMaxBank / 100) * 150);
-        } else if (UserBooks::UserHasStudied($userId, 32)){
+        } else if (UserBooks::UserHasStudied($userId, 32)) {
             // 50%
             $defaultMaxBank = $defaultMaxBank + (($defaultMaxBank / 100) * 50);
         }
@@ -2345,7 +2372,7 @@ class User extends BaseObject
         if ($res == null) {
             parent::AddRecords(['user_id' => $userId, 'skill_id' => $skillId, 'level' => 0], 'user_skills');
         }
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             return null;
         }
 
@@ -2379,7 +2406,7 @@ class User extends BaseObject
         if ($res == null) {
             parent::AddRecords(['user_id' => $this->id, 'skill_id' => $skillId, 'level' => 0], 'user_skills');
         }
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             return null;
         }
 
@@ -2394,7 +2421,7 @@ class User extends BaseObject
         $userSkill = $this->GetSkill($skill->id);
         DBi::$conn->query('UPDATE `user_skills` SET `activated` = 1, `activationsToday` = `activationsToday`+1
 		WHERE `user_id`=' . $this->id . ' AND `skill_id`=' . $skill->id . ' AND `activated`=0 LIMIT 1');
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             throw new SoftException(USER_ERROR_ACTIVATING_SKILL);
         }
 
@@ -2430,7 +2457,7 @@ class User extends BaseObject
             throw new FailedResult(USER_NOT_ENOUGH_POINTS_RAISE_SEC_SKILL);
         }
         DBi::$conn->query('UPDATE `user_skills` SET `level` = `level` + 1 WHERE `user_id`=' . $this->id . ' AND `skill_id`=' . $skill->id . ' AND `level` < ' . $skill->maxLvl . ' LIMIT 1');
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             throw new SoftException(USER_ERROR_INCREASING_SKILL);
         }
 
@@ -2555,7 +2582,7 @@ class User extends BaseObject
     public function DesactivateSkill(stdClass $skill) // user skill
     {
         DBi::$conn->query('UPDATE `user_skills` SET `activated` = 0	WHERE `user_id`=' . $this->id . ' AND `skill_id`=' . $skill->skill_id . ' AND `activated`=1 LIMIT 1');
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             throw new SoftException(USER_ERROR_DISACTIVATING_SKILL);
         }
 
@@ -2630,7 +2657,7 @@ class User extends BaseObject
         }
         $this->CheckPrisons($targetUser);
 
-        if($this->gprot > time()){
+        if ($this->gprot > time()) {
             $this->RemoveFromAttribute('gprot', 600);
         }
         if ($targetUser->IsInHospital()) {
@@ -2641,20 +2668,18 @@ class User extends BaseObject
             throw new FailedResult(USER_NOT_MUG_INMATE_SHOWERS);
         } elseif ($this->level > 2 && $targetUser->level < 2 && ((time() - $targetUser->lastactive) < 432000)) {
             throw new FailedResult(USER_NOT_MUG_HIGHER_LEVEL);
-        }  elseif($targetUser->IsProtectedByGuards()) {
-        throw new FailedResult(ATK_CANT_PROTECTED_BY_GUARD);
-    } elseif($targetUser->signuptime > (time() - 259200)){
-           // throw new FailedResult("You can not mug a user who is less then 3 days old ");
+        } elseif ($targetUser->IsProtectedByGuards()) {
+            throw new FailedResult(ATK_CANT_PROTECTED_BY_GUARD);
+        } elseif ($targetUser->signuptime > (time() - 259200)) {
+            // throw new FailedResult("You can not mug a user who is less then 3 days old ");
         }
 
-        if ($this->GetModdedSpeed() > $targetUser->GetModdedSpeed())
-        {
+        if ($this->GetModdedSpeed() > $targetUser->GetModdedSpeed()) {
             //calculate exp won
-            if($targetUser->level > 500){
+            if ($targetUser->level > 500) {
                 $targetUser->level = 500;
             }
-            if($this->level > 500)
-            {
+            if ($this->level > 500) {
                 $levels = 500;
             }
             $expwon = ($targetUser->level - $levels) * 7;
@@ -2663,15 +2688,15 @@ class User extends BaseObject
             if ($expwon < 0) {
                 $expwon = 0;
             }
-$xpbp = 250;
-                BattlePass::addExp($this->id, 250);
-                $this->addActivityPoint();
+            $xpbp = 250;
+            BattlePass::addExp($this->id, 250);
+            $this->addActivityPoint();
 
             $newexp = (int) floor($expwon);
             if ($newexp > MUG_MAX_XP) {
                 $newexp = MUG_MAX_XP;
             }
-            if($this->securityLevel > 0){
+            if ($this->securityLevel > 0) {
                 $pwrc = $this->securityLevel * 0.1;
                 $newexp = $newexp * $pwrc;
             }
@@ -2699,8 +2724,8 @@ $xpbp = 250;
             $newmuggeramount = $mugamount;
             $newmuggedamount = $mugamount;
             $gangmoney = 0;
-            
-            if($this->level > 349 || $this->securityLevel == 1){
+
+            if ($this->level > 349 || $this->securityLevel == 1) {
                 $black = DBi::$conn->query('SELECT * FROM prestige2 WHERE userid = ' . $this->id);
                 if (mysqli_num_rows($black)) {
                     DBi::$conn->query('UPDATE prestige2 SET mugs = mugs + 1 WHERE userid = ' . $this->id . ' AND mugs < 100');
@@ -2708,7 +2733,7 @@ $xpbp = 250;
                     DBi::$conn->query('INSERT INTO prestige2 (userid, mugs) VALUES(' . $this->id . ', 1)');
                 }
             }
-            if($this->level > 449 || $this->securityLevel == 2){
+            if ($this->level > 449 || $this->securityLevel == 2) {
                 $black = DBi::$conn->query('SELECT * FROM prestige3 WHERE userid = ' . $this->id);
                 if (mysqli_num_rows($black)) {
                     DBi::$conn->query('UPDATE prestige3 SET mugs = mugs + 1 WHERE userid = ' . $this->id . ' AND mugs < 2001');
@@ -2718,7 +2743,7 @@ $xpbp = 250;
             }
             if (!$targetUser->RemoveFromAttribute('money', $newmuggedamount)) {
 
-                    BattlePass::addExp($targetUser->id, 20);
+                BattlePass::addExp($targetUser->id, 20);
                 $targetUser->addActivityPoint();
 
                 $this->RemoveFromAttribute('nerve', 10);
@@ -2729,7 +2754,7 @@ $xpbp = 250;
 
             } elseif (!$this->RemoveFromAttribute('nerve', 10)) {
                 MugLog::Add($this, $targetUser, 'Canceled');
-                   throw new FailedResult(USER_MUG_OUT_OF_NERVE);
+                throw new FailedResult(USER_MUG_OUT_OF_NERVE);
             }
 
             if ($this->IsInAGang()) {
@@ -2746,7 +2771,7 @@ $xpbp = 250;
             if ($mugamount > 0) {
                 HatePoints::AddPoint($this, HatePoints::TASK_MUG);
             }
-             if ($this->securityLevel == 2 && $this->level > 249) {
+            if ($this->securityLevel == 2 && $this->level > 249) {
                 $black = DBi::$conn->query('SELECT * FROM prestige_tasks WHERE userid = ' . $this->id);
                 if (mysqli_num_rows($black)) {
                     DBi::$conn->query('UPDATE prestige_tasks SET mugs = mugs + 1 WHERE userid = ' . $this->id);
@@ -2780,16 +2805,16 @@ $xpbp = 250;
         }
 
         //speed exp
-            $spdExp = ($this->GetModdedSpeed() / $targetUser->GetModdedSpeed()) * 175;
+        $spdExp = ($this->GetModdedSpeed() / $targetUser->GetModdedSpeed()) * 175;
 
         // Computing stat exp
-            $statExp = ($this->GetModdedAttributeSum() / $targetUser->GetModdedAttributeSum()) * 125;
+        $statExp = ($this->GetModdedAttributeSum() / $targetUser->GetModdedAttributeSum()) * 125;
 
         // Computing total exp
-            //$expwon = $spdExp + $statExp;
+        //$expwon = $spdExp + $statExp;
 
         $expwon = ($targetUser->level - $this->level) * 7;
-        if($expwon < 0){
+        if ($expwon < 0) {
             $expwon = $expwon * -1;
         }
         // Failure
@@ -2817,7 +2842,7 @@ $xpbp = 250;
         }
         $user3 = SUserFactory::getInstance()->getUser($targetUser->id);
         if ($user3->DontWantFailMugExp()) {
-           // $newexp = 0;
+            // $newexp = 0;
         } else {
             $targetUser->AddToAttribute('exp', $newexp);
         }
@@ -2902,7 +2927,7 @@ $xpbp = 250;
                 $this->moddedspeed = $this->moddedspeed - ($this->moddedspeed / 10);
             }
         }
-        if($weapon) {
+        if ($weapon) {
             if ($this->CheckForLinked($weapon->id)) {
                 $get = DBi::$conn->query("SELECT `id` FROM items WHERE linked = " . $weapon->id);
                 $gets = mysqli_fetch_assoc($get);
@@ -3014,7 +3039,7 @@ $xpbp = 250;
                 $this->moddedstrength = $this->moddedstrength - ($this->moddedstrength / 10);
             }
         }
-        if($weapon) {
+        if ($weapon) {
             if ($this->CheckForLinked($weapon->id)) {
                 $get = DBi::$conn->query("SELECT `id` FROM items WHERE linked = " . $weapon->id);
                 $gets = mysqli_fetch_assoc($get);
@@ -3067,7 +3092,8 @@ $xpbp = 250;
 
         return false;
     }
-    public static function GetTheirArmor($userid, $type){
+    public static function GetTheirArmor($userid, $type)
+    {
         $query = "select * from user_equipped join items on user_equipped.item_id = items.id WHERE user_equipped.user_id = $userid  AND items.armortype = '$type'";
         $result = DBi::$conn->query($query);
         $row = mysqli_fetch_object($result);
@@ -3201,7 +3227,7 @@ $xpbp = 250;
                 $this->moddeddefense = $this->moddeddefense - ($this->moddeddefense / 10);
             }
         }
-        if($weapon) {
+        if ($weapon) {
             if ($this->CheckForLinked($weapon->id)) {
                 $get = DBi::$conn->query("SELECT `id` FROM items WHERE linked = " . $weapon->id);
                 $gets = mysqli_fetch_assoc($get);
@@ -3225,7 +3251,7 @@ $xpbp = 250;
 
     public function GetExpBonus()
     {
-        if($this->securityLevel > 0){
+        if ($this->securityLevel > 0) {
             return $this->securityLevel * 20;
         }
         if ($this->albuns_exp_time > time()) {
@@ -3297,7 +3323,7 @@ $xpbp = 250;
             throw new SoftException(USER_CANT_BAN_ADMIN);
         }
         DBi::$conn->query('INSERT INTO `bans` (`id`,`reason`, `time`) VALUES (\'' . $this->id . '\',\'' . $reason . '\',\'' . time() . '\')');
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             throw new SoftException(USER_CANT_BANNED);
         }
 
@@ -3331,7 +3357,7 @@ $xpbp = 250;
             throw new SoftException('User isn\'t banned.');
         }
         DBi::$conn->query('DELETE FROM `bans` WHERE `id`=\'' . $this->id . '\'');
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             throw new SoftException(USER_CANT_UNBANNED);
         }
 
@@ -3578,7 +3604,7 @@ $xpbp = 250;
         }
         User::SNotify($res['invitedby'], sprintf(INVITATION_REJECTED, $this->username, ($reason == '' ? "Soldier didn't give a reason" : $reason)), COM_INVITATION_REJECTED);
         DBi::$conn->query('DELETE FROM `ganginvites` WHERE `User`=\'' . $this->id . '\' AND `gangid`=\'' . $gang->id . '\'');
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             throw new FailedResult(USER_GANG_INVITATION_CANT_DELETED);
         }
 
@@ -3586,8 +3612,8 @@ $xpbp = 250;
     }
 
     /*
-    ** User shares management
-    */
+     ** User shares management
+     */
 
     public static function GetFromUsername($username)
     {
@@ -3609,10 +3635,11 @@ $xpbp = 250;
     {
         return parent::sDelete('joingang', ['id' => $this->id, 'gangid' => $gid]);
     }
-    public function returnAllToGang(){
+    public function returnAllToGang()
+    {
         $borr = DBi::$conn->query("SELECT * FROM inventory WHERE borrowed > 1 AND userid ");
 
-        if(mysqli_num_rows($borr) > 0) {
+        if (mysqli_num_rows($borr) > 0) {
             while ($worked = mysqli_fetch_array($borr)) {
                 if (
                     $this->eqweapon == $_GET['id'] &&
@@ -3636,14 +3663,15 @@ $xpbp = 250;
                 );
                 $works = DBi::$conn->query("SELECT * FROM items WHERE id = {$worked['itemid']}");
                 $worked2 = mysqli_fetch_array($works);
-            Logs::SAddVaultLog(
-                $this->gang,
-                $this->id, $worked2['itemname'] . '|@|' . $this->formattedname,
-                time(),
-                'Recovered',
-                $this->id
-            );
-        }
+                Logs::SAddVaultLog(
+                    $this->gang,
+                    $this->id,
+                    $worked2['itemname'] . '|@|' . $this->formattedname,
+                    time(),
+                    'Recovered',
+                    $this->id
+                );
+            }
         }
     }
     public function LeaveGang()
@@ -3669,8 +3697,8 @@ $xpbp = 250;
     }
 
     /*
-    ** User land management
-    */
+     ** User land management
+     */
 
     /*
      * Remove borrowed user_equipped
@@ -3847,7 +3875,7 @@ $xpbp = 250;
             return false;
         }
         DBi::$conn->query($query);
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             return false;
         }
 
@@ -3967,8 +3995,8 @@ $xpbp = 250;
     }
 
     /*
-    ** User items management
-    */
+     ** User items management
+     */
 
     public function CreateGang($name, $tag)
     {
@@ -4151,9 +4179,9 @@ $xpbp = 250;
     {
         $max = $this->GetMaxAwake();
         if ($this->awake < $max) {
-            $awake = ($max/100);
+            $awake = ($max / 100);
             if ($this->rmdays > 0) {
-                $awake = ($max/100) * 5;
+                $awake = ($max / 100) * 5;
             }
 
             if ($this->caffeinetaken > time()) {
@@ -4269,7 +4297,7 @@ $xpbp = 250;
             ActionLogs::Log($this->id, 'Refill', 'Refill Nerve'); //Log the action
             DailyTasks::recordUserTaskAction(DailyTasks::REFILL_NERVE, $this, 1);
             return $this->SetAttribute('nerve', $this->GetMaxNerve());
-            }
+        }
 
         return false;
     }
@@ -4342,7 +4370,7 @@ $xpbp = 250;
             //original poster wins
             $user_points->AddToAttribute('money', $newmoney);
 
-                BattlePass::addExp($user_points->id, 100);
+            BattlePass::addExp($user_points->id, 100);
 
             $moneyafter1 = $user_points->money;
             $moneyafter2 = $this->money;
@@ -4354,7 +4382,7 @@ $xpbp = 250;
         //the person who accepted the bid won
         $this->AddToAttribute('money', $newmoney);
 
-            BattlePass::addExp($this->id, 100);
+        BattlePass::addExp($this->id, 100);
 
         $moneyafter1 = $user_points->money;
         $moneyafter2 = $this->money;
@@ -4369,7 +4397,7 @@ $xpbp = 250;
     {
         if ($amount < 10) {
             throw new SoftException(GAME15050_NOT_VALID_POINTS);
-        } elseif ($amount > (MAX_POINTS/2)) {
+        } elseif ($amount > (MAX_POINTS / 2)) {
             throw new SoftException(GAME15050_NOT_VALID_POINTS);
         } elseif (Game::Get5050PBetsCountByOwner($this->id) >= GAME5050_BETS_LIMIT) {
             throw new SoftException(sprintf(GAME5050_BET_IS_LIMITED, GAME5050_BETS_LIMIT));
@@ -4382,7 +4410,7 @@ $xpbp = 250;
 
         $admin = UserFactory::getInstance()->getUser(2);
         UserAds::Add($admin, $this->username . ' added a 5050 Points Game!', false, true);
-        
+
         throw new SuccessResult(sprintf(GAME15050_ADDED_POINTS, $_POST['amount']));
     }
 
@@ -4439,7 +4467,7 @@ $xpbp = 250;
             } catch (Exception $e) {
             }
 
-                BattlePass::addExp($user_points->id, 100);
+            BattlePass::addExp($user_points->id, 100);
 
             $moneyafter1 = $user_points->points;
             $moneyafter2 = $this->points;
@@ -4457,7 +4485,7 @@ $xpbp = 250;
             $this->Notify(sprintf(MAXPOINTS_USER_NOTIFY_1, MAX_POINTS, MAX_POINTS), COM_ERROR);
         }
 
-            BattlePass::addExp($this->id, 100);
+        BattlePass::addExp($this->id, 100);
 
         $moneyafter1 = $user_points->points;
         $moneyafter2 = $this->points;
@@ -4555,10 +4583,10 @@ $xpbp = 250;
         }
         $amount = number_format($amount, 0, '.', '');
         $newamount = round($amount * 0.995);
-        DBi::$conn->query("UPDATE grpgusers SET bank = bank + ".$newamount.", money = money - $amount WHERE id = {$this->id}");
+        DBi::$conn->query("UPDATE grpgusers SET bank = bank + " . $newamount . ", money = money - $amount WHERE id = {$this->id}");
 
         //if (!$this->RemoveFromAttribute('money', $amount)) {
-          //  throw new ConcurrencyException(BANK_DEPOSITE_FAILED_1, true);
+        //  throw new ConcurrencyException(BANK_DEPOSITE_FAILED_1, true);
         //}
         //$this->AddToAttribute('bank', (round($amount * 0.995)));
 
@@ -4636,10 +4664,10 @@ $xpbp = 250;
     public function PlantLand($city, $amount)
     {
         $newamont = DBi::$conn->query('SELECT sum(amount) as total FROM growing where userid = ' . $this->id);
-        if(mysqli_num_rows($newamont) > 0) {
+        if (mysqli_num_rows($newamont) > 0) {
             $fe = mysqli_fetch_assoc($newamont);
             $am = ($amount + $fe['total']);
-            if($am > 7000) {
+            if ($am > 7000) {
                 throw new SoftException('You can only plant on 7000 acres at a time.');
 
             }
@@ -4691,7 +4719,7 @@ $xpbp = 250;
         } else {
             return false;
         }
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             return false;
         }
 
@@ -4839,7 +4867,7 @@ $xpbp = 250;
     {
         DBi::$conn->query('DELETE FROM `freezes` WHERE `id`=\'' . $this->id . '\'');
 
-        return DBi::$conn -> affected_rows;
+        return DBi::$conn->affected_rows;
     }
 
     public function IsEquippedWeapon($item, $weaponNo = 1)
@@ -5046,24 +5074,26 @@ $xpbp = 250;
 
         parent::sUpdate($this->GetDataTable(), ['hospital' => $newHospital], ['id' => $this->id]);
     }
-    public function CheckForLinked($item){
+    public function CheckForLinked($item)
+    {
         $item = (int) $item;
         $check = DBi::$conn->query("SELECT * FROM items WHERE linked = $item");
 
-        if(mysqli_num_rows($check)){
+        if (mysqli_num_rows($check)) {
             $fetch = mysqli_fetch_assoc($check);
             $checkinv = Inventory::getItemQuantity($this->id, $fetch['id']);
-            if($checkinv > 0){
+            if ($checkinv > 0) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
-        }else{
+        } else {
             return false;
         }
     }
-    public function checkUsageLimit($item_id) {
-        $query = DBi::$conn->query("SELECT usage_limit FROM `item_usage` WHERE user_id = ".$this->id." AND item_id =$item_id");
+    public function checkUsageLimit($item_id)
+    {
+        $query = DBi::$conn->query("SELECT usage_limit FROM `item_usage` WHERE user_id = " . $this->id . " AND item_id =$item_id");
         $row = mysqli_fetch_assoc($query);
         if ($row) {
             $current_usage = $row['usage_limit'];
@@ -5077,20 +5107,22 @@ $xpbp = 250;
         }
     }
 
-    public function removeUsage($item_id){
+    public function removeUsage($item_id)
+    {
         $item_id = (int) $item_id;
         $item = new Item($item_id);
-        $query = DBi::$conn->query("SELECT usage_limit FROM `item_usage` WHERE user_id = ".$this->id." AND item_id =$item_id");
+        $query = DBi::$conn->query("SELECT usage_limit FROM `item_usage` WHERE user_id = " . $this->id . " AND item_id =$item_id");
         $check = mysqli_fetch_assoc($query);
-        if($check['usage_limit'] > 1){
-        DBi::$conn->query("UPDATE item_usage SET usage_limit = usage_limit -1 WHERE user_id = ".$this->id." AND item_id = $item_id LIMIT 1");
-        }else{
-            DBi::$conn->query("DELETE FROM item_usage WHERE user_id = ".$this->id." AND item_id = $item_id AND usage_limit = 1 LIMIT 1 ");
+        if ($check['usage_limit'] > 1) {
+            DBi::$conn->query("UPDATE item_usage SET usage_limit = usage_limit -1 WHERE user_id = " . $this->id . " AND item_id = $item_id LIMIT 1");
+        } else {
+            DBi::$conn->query("DELETE FROM item_usage WHERE user_id = " . $this->id . " AND item_id = $item_id AND usage_limit = 1 LIMIT 1 ");
             $this->RemoveItems($item, 1);
         }
     }
 
-    public function HitItemUageLimit($item_id){
+    public function HitItemUageLimit($item_id)
+    {
 
     }
 
@@ -5247,7 +5279,7 @@ $xpbp = 250;
 
         $query = 'UPDATE poker_stats SET winpot=winpot-' . $amount . ' where user_id=' . $this->id . ' AND `winpot` >= ' . $amount;
         $res = DBi::$conn->query($query);
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             throw new FailedResult(POKER_MONEY_NOT_ENOUGH);
         }
         $this->AddToAttribute('bank', $amount);
@@ -5416,19 +5448,19 @@ $xpbp = 250;
         $user = UserFactory::getInstance()->getUser($id);
         $bit = $user->generateResetBitCode();
         $user->SetAttribute('resetbit', $bit);
-# Instantiate the client.
+        # Instantiate the client.
         $mg = Mailgun::create('64558ff4cedecd2010e00792a7f023a8-8845d1b1-4629ea6b');
 
-// Now, compose and send your message.
+        // Now, compose and send your message.
 // $mg->messages()->send($domain, $params);
         $url = 'https://generalforces.com/forgot_reset.php?token=' . $bit . '&id=' . $id;
         $mg->messages()->send('generalforces.com', [
-            'from'    => 'General Forces <support@generalforces.com>',
-            'to'      => $user->email,
+            'from' => 'General Forces <support@generalforces.com>',
+            'to' => $user->email,
             'subject' => 'Password Rest!',
-            'text'    => 'You have requested a password reset from GeneralForces, if this was not you please ignore this .',
-            'template'    => 'reset-password',
-            'h:X-Mailgun-Variables'    => '{"url": "'.$url.'"}'
+            'text' => 'You have requested a password reset from GeneralForces, if this was not you please ignore this .',
+            'template' => 'reset-password',
+            'h:X-Mailgun-Variables' => '{"url": "' . $url . '"}'
 
         ]);
     }
@@ -5470,38 +5502,179 @@ $xpbp = 250;
     protected static function GetDataTableFields()
     {
         return [
-            self::$idField, 'username', 'password', 'exp',
-            'money', 'bank', 'whichbank', 'hp',
-            'energy', 'nerve', 'workexp', 'strength',
-            'defense', 'speed', 'battlewon', 'battlelost',
-            'battlemoney', 'crimesucceeded', 'crimefailed', 'crimemoney',
-            'points', 'rmdays', 'signuptime', 'lastactive',
-            'awake', 'email', 'jail', 'hospital',
-            'hwho', 'hwhen', 'hhow', 'house',
-            'gang', 'quote', 'avatar', 'city',
-            'admin', 'searchdowntown', 'job', 'cpaearned',
-            'awake', 'email', 'jail', 'hospital',
-            'hwho', 'hwhen', 'hhow', 'house',
-            'gang', 'quote', 'avatar', 'city',
-            'admin', 'searchdowntown', 'job', 'cpaearned',
-            'ip', 'hookers', 'cocaine', 'genericsteroids',
-            'nodoze', 'eqweapon', 'eqarmor', 'eqarmorhead', 'eqarmorchest', 'eqarmorlegs', 'eqarmorboots', 'eqarmorgloves', 'potseeds',
-            'marijuana', 'style', 'profile', 'first_ip',
-            'numLogins', 'realmoney', 'level', 'working',
-            'capt', 'loginname', 'protection', 'hwhoID',
-            'forum', 'pms', 'shouts', 'shoutTime',
-            'jobmoney', 'mods', 'id_rank', 'slots',
-            'validC', 'dicegame', 'numbersearch', 'eqweaponloan',
-            'eqarmorloan', 'eqarmorheadloan', 'eqarmorchestloan', 'eqarmorlegsloan', 'eqarmorbootsloan', 'eqarmorglovesloan', 'lottery', 'gprot', 'numbergprot', 'soldpoints',
-            'resetStatus', 'securityPoints', 'securityLevel',
-            'rate', 'bonusstrength', 'bonusdefense', 'bonusspeed', 'cocktailsteroid', 'gangcrimemoney',
-            'pointshop', 'itemshop', 'rpshop', 'loanhouse', 'jointattack', 'tutorial',
-            'eqnweapon', 'eqnarmor', 'eqnweaponloan', 'playerautostart', 'eqnarmorloan', 'musiclevel', 'caffeine', 'caffeinetaken',
-            'eqspeed', 'eqspeedloan', 'eqnspeed', 'eqnspeedloan', 'asEqquipedAnSpeedItem', 'theme', 'contest_permit',
-            'albuns_exp_bonus', 'albuns_exp_time', 'gangentrance', 'expfailatck', 'invert', 'jobtime', 'lastCaptcha',
-            'resetBit', 'lastreadannouncements','credits','image_name','image_temp','name_credits','virus_infected_time', 'virus_infected_points', 'attackexp','android-token',
-            'int_time', 'care_time', 'santa', 'awake_time', 'energy_time', 'npcbeat', 'tutorial_step', 'npcbeat2', 'chocolate','care_packages','freepack','chatview', 'heist',
-            'apple_time','lolly_time', 'candy_time', 'gym_level', 'gym_exp', 'is_automated_user', 'view_preference', 'missions_pref', 'drone_crates','SkillReset'
+            self::$idField,
+            'username',
+            'password',
+            'exp',
+            'money',
+            'bank',
+            'whichbank',
+            'hp',
+            'energy',
+            'nerve',
+            'workexp',
+            'strength',
+            'defense',
+            'speed',
+            'battlewon',
+            'battlelost',
+            'battlemoney',
+            'crimesucceeded',
+            'crimefailed',
+            'crimemoney',
+            'points',
+            'rmdays',
+            'signuptime',
+            'lastactive',
+            'awake',
+            'email',
+            'jail',
+            'hospital',
+            'hwho',
+            'hwhen',
+            'hhow',
+            'house',
+            'gang',
+            'quote',
+            'avatar',
+            'city',
+            'admin',
+            'searchdowntown',
+            'job',
+            'cpaearned',
+            'awake',
+            'email',
+            'jail',
+            'hospital',
+            'hwho',
+            'hwhen',
+            'hhow',
+            'house',
+            'gang',
+            'quote',
+            'avatar',
+            'city',
+            'admin',
+            'searchdowntown',
+            'job',
+            'cpaearned',
+            'ip',
+            'hookers',
+            'cocaine',
+            'genericsteroids',
+            'nodoze',
+            'eqweapon',
+            'eqarmor',
+            'eqarmorhead',
+            'eqarmorchest',
+            'eqarmorlegs',
+            'eqarmorboots',
+            'eqarmorgloves',
+            'potseeds',
+            'marijuana',
+            'style',
+            'profile',
+            'first_ip',
+            'numLogins',
+            'realmoney',
+            'level',
+            'working',
+            'capt',
+            'loginname',
+            'protection',
+            'hwhoID',
+            'forum',
+            'pms',
+            'shouts',
+            'shoutTime',
+            'jobmoney',
+            'mods',
+            'id_rank',
+            'slots',
+            'validC',
+            'dicegame',
+            'numbersearch',
+            'eqweaponloan',
+            'eqarmorloan',
+            'eqarmorheadloan',
+            'eqarmorchestloan',
+            'eqarmorlegsloan',
+            'eqarmorbootsloan',
+            'eqarmorglovesloan',
+            'lottery',
+            'gprot',
+            'numbergprot',
+            'soldpoints',
+            'resetStatus',
+            'securityPoints',
+            'securityLevel',
+            'rate',
+            'bonusstrength',
+            'bonusdefense',
+            'bonusspeed',
+            'cocktailsteroid',
+            'gangcrimemoney',
+            'pointshop',
+            'itemshop',
+            'rpshop',
+            'loanhouse',
+            'jointattack',
+            'tutorial',
+            'eqnweapon',
+            'eqnarmor',
+            'eqnweaponloan',
+            'playerautostart',
+            'eqnarmorloan',
+            'musiclevel',
+            'caffeine',
+            'caffeinetaken',
+            'eqspeed',
+            'eqspeedloan',
+            'eqnspeed',
+            'eqnspeedloan',
+            'asEqquipedAnSpeedItem',
+            'theme',
+            'contest_permit',
+            'albuns_exp_bonus',
+            'albuns_exp_time',
+            'gangentrance',
+            'expfailatck',
+            'invert',
+            'jobtime',
+            'lastCaptcha',
+            'resetBit',
+            'lastreadannouncements',
+            'credits',
+            'image_name',
+            'image_temp',
+            'name_credits',
+            'virus_infected_time',
+            'virus_infected_points',
+            'attackexp',
+            'android-token',
+            'int_time',
+            'care_time',
+            'santa',
+            'awake_time',
+            'energy_time',
+            'npcbeat',
+            'tutorial_step',
+            'npcbeat2',
+            'chocolate',
+            'care_packages',
+            'freepack',
+            'chatview',
+            'heist',
+            'apple_time',
+            'lolly_time',
+            'candy_time',
+            'gym_level',
+            'gym_exp',
+            'is_automated_user',
+            'view_preference',
+            'missions_pref',
+            'drone_crates',
+            'SkillReset'
         ];
     }
 
@@ -5515,7 +5688,8 @@ $xpbp = 250;
         $this->exppercent = ($this->exp == 0) ? 0 : floor((($this->exp) / ($this->maxexp)) * 100);
         $this->formattedexp = number_format($this->exp) . ' / ' . number_format($this->maxexp) . ' [' . $this->exppercent . '%]';
     }
-    public function formattedexp(){
+    public function formattedexp()
+    {
         $this->formattedexp = number_format($this->exp) . ' / ' . number_format($this->maxexp) . ' [' . $this->exppercent . '%]';
     }
     private function RemoveFromGang()
@@ -5546,7 +5720,7 @@ $xpbp = 250;
     }
     public function HasItem(int $id): bool
     {
-        $result = DBi::$conn->query('SELECT quantity FROM inventory WHERE userid = '.$this->id.' AND itemid = '.$id);
+        $result = DBi::$conn->query('SELECT quantity FROM inventory WHERE userid = ' . $this->id . ' AND itemid = ' . $id);
         if (!mysqli_num_rows($result)) {
             return false;
         }
@@ -5591,24 +5765,24 @@ $xpbp = 250;
     }
     public function HasItems(array $ids, bool $all = true): bool
     {
-        if(empty($ids)) {
+        if (empty($ids)) {
             return false;
         }
         $idCount = count($ids);
-        $result = DBi::$conn->query('SELECT itemid, quantity FROM inventory WHERE userid = '.$this->id.' AND quantity > 0 AND itemid IN ('.implode(', ', $ids).')');
-        if(!mysqli_num_rows($result)) {
+        $result = DBi::$conn->query('SELECT itemid, quantity FROM inventory WHERE userid = ' . $this->id . ' AND quantity > 0 AND itemid IN (' . implode(', ', $ids) . ')');
+        if (!mysqli_num_rows($result)) {
             return false;
         }
         $items = [];
         while ($row = mysqli_fetch_assoc($result)) {
             $items[] = $row['itemid'];
         }
-        if($all === true) {
+        if ($all === true) {
             $keys = array_intersect($ids, $items);
             if (count($keys) === $idCount) {
                 return true;
             }
-        } elseif(in_array($items, $ids, ustrue)) {
+        } elseif (in_array($items, $ids, ustrue)) {
             return true;
         }
 
@@ -5975,7 +6149,7 @@ $xpbp = 250;
 
     public function randGiveNewYearItem()
     {
-        $chance = mt_rand(1,5);
+        $chance = mt_rand(1, 5);
 
         if ($chance === 1) {
             $items = array(
@@ -5992,7 +6166,7 @@ $xpbp = 250;
                 $type = 'napkin';
             } else if ($itemName === 'NEW_YEAR_PAPER_CUP_NAME') {
                 $type = 'cup';
-            }  else if ($itemName === 'NEW_YEAR_PAPER_PLATE_NAME') {
+            } else if ($itemName === 'NEW_YEAR_PAPER_PLATE_NAME') {
                 $type = 'plate';
             }
 
@@ -6195,7 +6369,7 @@ $xpbp = 250;
 
         return false;
     }
-    
+
     public function getActiveGangTerritoryZoneBattle()
     {
         $queryBuilder = BaseObject::createQueryBuilder();
@@ -6238,11 +6412,11 @@ $xpbp = 250;
 
         return $backAlleyBotUserLevels;
     }
-    
+
     public function getLastBackAlleyBotLevelBeaten()
     {
         $lastBackAlleyBotLevel = 0;
-        
+
         foreach ($this->getBackAlleyBotUserLevels() as $backAlleyBotUserLevel) {
             if ($backAlleyBotUserLevel->is_fight_today_complete && $backAlleyBotUserLevel->getBackAlleyBot()->level > $lastBackAlleyBotLevel) {
                 $lastBackAlleyBotLevel = $backAlleyBotUserLevel->getBackAlleyBot()->level;
