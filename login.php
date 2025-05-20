@@ -1,6 +1,9 @@
 <?php
-session_start();
-require 'dbcon.php'; // Ensure database connection is critical
+require_once 'includes/functions.php';
+
+start_session_guarded();
+
+require_once 'dbcon.php';
 
 // IP address determination using standard if-else
 if (!empty($_SERVER['HTTP_CLIENT_IP'])) {

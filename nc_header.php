@@ -1,6 +1,9 @@
 <?php
 ob_start();
-session_start();
+
+require_once 'includes/functions.php';
+
+start_session_guarded();
 
 $redis = new Redis();
 $redis->connect("127.0.1", 6379);
@@ -51,11 +54,11 @@ $current_uri = $_SERVER['REQUEST_URI']; // Gets the full request URI
 
 register_shutdown_function('ob_end_flush');
 
-include 'dbcon.php';
-include 'database/pdo_class.php';
-include "classes.php";
-include "codeparser.php";
-include "pdo.php";
+include_once 'dbcon.php';
+include_once 'database/pdo_class.php';
+include_once "classes.php";
+include_once "codeparser.php";
+include_once "pdo.php";
 
 
 if (!isset($_SESSION['id'])) {

@@ -1,7 +1,7 @@
 <?php
-include "../database/pdo_class.php";
-include "../classes.php";
-include "../codeparser.php";
+include_once "../database/pdo_class.php";
+include_once "../classes.php";
+include_once "../codeparser.php";
 include_once "includes/functions.php";
 
 error_reporting(E_ALL);

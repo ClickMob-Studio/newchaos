@@ -1,6 +1,8 @@
 <?php
 
-session_start();
+require_once 'includes/functions.php';
+
+start_session_guarded();
 
 function error($msg)
 {
@@ -18,9 +20,9 @@ function success($msg)
     );
 }
 
-include "SlimUser.php";
-include "classes.php";
-include "database/pdo_class.php";
+include_once "SlimUser.php";
+include_once "classes.php";
+include_once "database/pdo_class.php";
 
 function ofthes_wrapper($id, $toadd)
 {

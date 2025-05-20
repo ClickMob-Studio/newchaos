@@ -1,8 +1,7 @@
 <?php
-include "classes.php";
-include "codeparser.php";
-include "database/pdo_class.php";
-#include "includes/functions.php";
+include_once "classes.php";
+include_once "codeparser.php";
+include_once "database/pdo_class.php";
 
 mysql_select_db('ml2', mysql_connect('localhost', 'aa_user', 'GmUq38&SVccVSpt'));
 

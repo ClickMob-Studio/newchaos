@@ -8,9 +8,9 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include 'dbcon.php';
-include 'classes.php';
-include 'database/pdo_class.php';
+include_once 'dbcon.php';
+include_once 'classes.php';
+include_once 'database/pdo_class.php';
 print "working";
 
 $activeMissionsQuery = "SELECT agm.id AS mission_id, agm.gangid, agm.time, agm.end_time, agm.kills, agm.busts, agm.crimes, agm.mugs, agm.backalleys 

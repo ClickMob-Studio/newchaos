@@ -1,14 +1,16 @@
 <?php
 ob_start(); // Start output buffering
 
-include 'dbcon.php';
-include 'database/pdo_class.php';
+include_once 'dbcon.php';
+include_once 'database/pdo_class.php';
 
 require_once(__DIR__ . '/vendor/autoload.php');
 
 use \Mailjet\Resources;
 
-session_start();
+require_once 'includes/functions.php';
+
+start_session_guarded();
 
 $desired_ip = '142.116.133.64';
 $client_ip = $_SERVER['REMOTE_ADDR'];
@@ -116,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'])) {
     // $mailer->addAddress($email);
     // $mailer->Subject = 'Chaos City - Password Reset';
     // $mailer->Body = "<h3>Dear $username, You have requested a new password reset at <a href='http://chaoscity.co.uk'>Chaos City</a>.<br><a href='https://chaoscity.co.uk/forgot.php?action=reset&token=$token&userid=$userid'>Click Here</a> to reset your password</h3>";
-    
+
     // $mailer->SMTPDebug = 3;
     // $mailer->Debugoutput = "html";
 

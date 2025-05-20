@@ -1,7 +1,8 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+require_once 'includes/functions.php';
+
+start_session_guarded();
+
 include 'header.php';
 ?>
 <style>

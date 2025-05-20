@@ -1,9 +1,11 @@
 <?php
-require "ajax_header.php";  // Assuming this sets up your environment
+require "ajax_header.php";
+
 $user_class = new User($_SESSION['id']);
-if($user_class->admin <1 ){
+if ($user_class->admin < 1) {
     die();
 }
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if all required fields are present
     if (!isset($_POST['userid'], $_POST['itemid'], $_POST['quantity'])) {
@@ -23,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Assuming $db is your database connection
     $db->query("UPDATE inventory SET quantity = ? WHERE itemid = ? AND userid = ?");
     $result = $db->execute(array($quantity, $itemid, $userid));
-    
+
     if ($result) {
         echo 'Item updated successfully.';
     } else {

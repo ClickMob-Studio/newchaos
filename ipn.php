@@ -91,8 +91,8 @@ if (strcmp($res, "VERIFIED") == 0) {
 	$receiver_email = $_POST['receiver_email'];
 	$payer_email = $_POST['payer_email'];
 
-	include "dbcon.php";
-	include "classes.php";
+	include_once "dbcon.php";
+	include_once "classes.php";
 
 	// check whether the payment_status is Completed
 	$isPaymentCompleted = false;

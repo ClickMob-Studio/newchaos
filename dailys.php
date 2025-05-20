@@ -1,8 +1,8 @@
 <?php
-include("dbcon.php");
-include("gradient.class.php");
-include("colourgradient.class.php");
-include("classes.php");
+include_once("dbcon.php");
+include_once("gradient.class.php");
+include_once("colourgradient.class.php");
+include_once("classes.php");
 $users = mysql_query("SELECT * FROM `grpgusers` WHERE `ip` = '" . $_SERVER['REMOTE_ADDR'] . "' LIMIT 1");
 $users = mysql_fetch_array($users);
 $linkeduser = $users['username'];

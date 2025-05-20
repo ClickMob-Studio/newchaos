@@ -1,11 +1,12 @@
 <?php
 
-
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-//header('Content-type: application/json');
-session_start();
+
+require_once 'includes/functions.php';
+
+start_session_guarded();
 
 $redis = new Redis();
 $redis->connect("127.0.1", 6379);
@@ -48,8 +49,8 @@ function success($msg, $goldRushCredits = 0, $medPackCount = 0, $userBaStats = n
     return $response;
 }
 
-include "classes.php";
-include "database/pdo_class.php";
+include_once "classes.php";
+include_once "database/pdo_class.php";
 
 $user_class = new User($_SESSION['id']);
 set_last_active($user_class->id);

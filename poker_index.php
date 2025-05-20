@@ -7,7 +7,9 @@ $pagename = isset($_GET['pagename']) ? $_GET['pagename'] : 'index';
 if ($pagename != "poker") {
     require_once 'header.php';
 } else {
-    session_start();
+    require_once 'includes/functions.php';
+
+    start_session_guarded();
 }
 
 

@@ -1,7 +1,9 @@
 <?php
 
+require_once 'includes/functions.php';
 
-session_start();
+start_session_guarded();
+
 include 'header.php';
 
 if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {

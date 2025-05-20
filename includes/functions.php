@@ -3936,3 +3936,11 @@ function getScheduledEvent($type = 'gym')
 
     return null;
 }
+
+// Function to start a session if it is not already started
+function start_session_guarded(): void
+{
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+}

@@ -1,7 +1,7 @@
 <?php
-include "dbcon.php";
-include "classes.php";
-include "database/pdo_class.php";
+include_once "dbcon.php";
+include_once "classes.php";
+include_once "database/pdo_class.php";
 file_put_contents('ipn_log/' . time() . '.txt', file_get_contents('php://input'));
 // Function to get the current microtime
 function microtime_float()

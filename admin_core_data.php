@@ -1,8 +1,8 @@
 <?php
-include "dbcon.php";
-include "classes.php";
-include "codeparser.php";
-include "database/pdo_class.php";
+include_once "dbcon.php";
+include_once "classes.php";
+include_once "codeparser.php";
+include_once "database/pdo_class.php";
 
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");

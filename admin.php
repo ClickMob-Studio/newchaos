@@ -1,11 +1,14 @@
 <?php
-session_start();
+require_once 'includes/functions.php';
+
+start_session_guarded();
+
 //register_shutdown_function('ob_end_flush');
 echo "hello";
 $starttime = microtime_float();
-include 'dbcon.php';
-include 'database/pdo_class.php';
-include "classes.php";
+include_once 'dbcon.php';
+include_once 'database/pdo_class.php';
+include_once "classes.php";
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);

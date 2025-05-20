@@ -1,6 +1,6 @@
 <?php
 include 'header.php';
-echo '<link rel="stylesheet" href="css/bars-1to10.css?'.uniqid().'">';
+echo '<link rel="stylesheet" href="css/bars-1to10.css?' . uniqid() . '">';
 
 if ($user_class->id != 174 && $user_class->id != 1 && $user_class->id != 135) {
     header('location: index.php');
@@ -113,7 +113,7 @@ if ($_GET['test'] == '1111') {
 
     $dsn = 'mysql:host=localhost;dbname=aa;charset=utf8';
     try {
-        $_db = new PDO($dsn,'aa_user', 'ovShOg&iLtat');
+        $_db = new PDO($dsn, 'aa_user', 'ovShOg&iLtat');
     } catch (PDOException $e) {
         exit('<p><strong>CONSTRUCT ERROR</strong></p>' . $e->getMessage());
     }
@@ -176,7 +176,8 @@ if ($_GET['test'] == 'm') {
         print_r($city);
         $m->set('citynames.1', $city, false, 60);
     }
-};
+}
+;
 
 if ($_GET['test'] == 'otd') {
 
@@ -252,17 +253,17 @@ if ($_GET['test'] == 'bbpay') {
             2500
         ),
         'crimes' => array(
-        10000,
+            10000,
             5000,
             2500
         ),
         'referrals' => array(
-           10000,
+            10000,
             5000,
             2500
         ),
         'attackswon' => array(
-           10000,
+            10000,
             5000,
             2500
         ),
@@ -277,7 +278,7 @@ if ($_GET['test'] == 'bbpay') {
             2500
         ),
         'defendlost' => array(
-             10000,
+            10000,
             5000,
             2500
         ),
@@ -366,7 +367,7 @@ if ($_GET['test'] == 'bust') {
     $db->execute();
     $rows = $db->fetch_row();
 
-    $rowJailed = array_map(function($a) {
+    $rowJailed = array_map(function ($a) {
         return $a['id'];
     }, $rows);
 
@@ -405,7 +406,7 @@ if ($_GET['test'] == 'jail') {
     $db->execute();
     $rows = $db->fetch_row();
 
-    $rowJailed = array_map(function($a) {
+    $rowJailed = array_map(function ($a) {
         return $a['id'];
     }, $rows);
 
@@ -421,7 +422,7 @@ if ($_GET['test'] == 'jail') {
         print_pre($cells);
         $cells = array_values($cells);
         $cells_count = count($cells);
-        for ($i=0; $i < $cells_count; $i++) {
+        for ($i = 0; $i < $cells_count; $i++) {
             if (!in_array($cells[$i]['id'], $rowJailed))
                 unset($cells[$i]);
 
@@ -459,40 +460,40 @@ if ($_GET['test'] == 'jail') {
 
     echo '<table style="width:75%;table-layout:fixed;text-align:center;margin:0 auto;">';
     echo '<tr style="height:80px;">';
-        echo '<td class="cells" id="cell_0">Empty Cell</td>';
-        echo '<td class="cells" id="cell_1">Empty Cell</td>';
-        echo '<td class="cells" id="cell_2">Empty Cell</td>';
+    echo '<td class="cells" id="cell_0">Empty Cell</td>';
+    echo '<td class="cells" id="cell_1">Empty Cell</td>';
+    echo '<td class="cells" id="cell_2">Empty Cell</td>';
     echo '</tr>';
     echo '<tr style="height:80px;">';
-        echo '<td class="cells" id="cell_3">Empty Cell</td>';
-        echo '<td class="cells" id="cell_4">Empty Cell</td>';
-        echo '<td class="cells" id="cell_5">Empty Cell</td>';
+    echo '<td class="cells" id="cell_3">Empty Cell</td>';
+    echo '<td class="cells" id="cell_4">Empty Cell</td>';
+    echo '<td class="cells" id="cell_5">Empty Cell</td>';
     echo '</tr>';
     echo '<tr style="height:80px;">';
-        echo '<td class="cells" id="cell_6">Empty Cell</td>';
-        echo '<td class="cells" id="cell_7">Empty Cell</td>';
-        echo '<td class="cells" id="cell_8">Empty Cell</td>';
+    echo '<td class="cells" id="cell_6">Empty Cell</td>';
+    echo '<td class="cells" id="cell_7">Empty Cell</td>';
+    echo '<td class="cells" id="cell_8">Empty Cell</td>';
     echo '</tr>';
     echo '<tr style="height:80px;">';
     echo '<td class="cells" id="cell_9">Empty Cell</td>';
     echo '<td class="cells" id="cell_10">Empty Cell</td>';
     echo '<td class="cells" id="cell_11">Empty Cell</td>';
-echo '</tr>';
-echo '</table>';
-?>
+    echo '</tr>';
+    echo '</table>';
+    ?>
 
-<script>
-    //clear_cells()
-    var data = <?php echo json_encode($cells); ?>;
-    let jailers = data;
-    console.log(jailers);
-    for (jailer in jailers) {
-        $("#cell_" + jailers[jailer]["cell"]).html(jailers[jailer]["username"])
-        $("#cell_" + jailers[jailer]["cell"]).attr("data-id" , jailers[jailer]["id"]);
-    }
-</script>
-<?
-echo "test";
+    <script>
+        //clear_cells()
+        var data = <?php echo json_encode($cells); ?>;
+        let jailers = data;
+        console.log(jailers);
+        for (jailer in jailers) {
+            $("#cell_" + jailers[jailer]["cell"]).html(jailers[jailer]["username"])
+            $("#cell_" + jailers[jailer]["cell"]).attr("data-id", jailers[jailer]["id"]);
+        }
+    </script>
+    <?
+    echo "test";
 }
 
 if ($_GET['test'] == 'email') {
@@ -556,18 +557,18 @@ if ($_GET['test'] == 'poll') {
     print $end;
     print_r($choices);
 
-        echo '<div class="floaty headerpoll">
+    echo '<div class="floaty headerpoll">
         <h3>TrueMMO Poll</h3>
         <p>' . $title . '</p>
         <form id="poll">
             <input type="hidden" id="pollid" value="' . $pollId . '">
             <div class="radiobuttons" style="display: inline-grid;">';
 
-            foreach($choices as $key => $value) {
-                echo '<label><input type="radio" name="radioq" id="'.$key.'">' . $value . '</label>';
-            }
+    foreach ($choices as $key => $value) {
+        echo '<label><input type="radio" name="radioq" id="' . $key . '">' . $value . '</label>';
+    }
 
-        echo '
+    echo '
         </div>
         <div class="clear"></div>
         <button id="pollSubmit">Submit</button>
@@ -593,7 +594,10 @@ if ($user_class->id == 150 && $_GET['test'] == 'bj') {
     /**clear all session variables if user plays again**/
     if (isset($_GET['again'])) {
     }
-    session_start();
+
+    require_once 'includes/functions.php';
+    start_session_guarded();
+
     if (!isset($_GET['hit']) && !isset($_GET['stand'])) {
         /**initial deal**/
         $userHand[0] = $game->dealCard();
@@ -624,50 +628,49 @@ if ($user_class->id == 150 && $_GET['test'] == 'bj') {
     ?>
 
     <html>
+
     <head>
-    <style type="text/css">
-        body {
-            margin:0px;
-        }
-    </style>
+        <style type="text/css">
+            body {
+                margin: 0px;
+            }
+        </style>
     </head>
+
     <body>
         <h2 style='text-align:center;'>Blackjack</h2>
-    <div align='center' style="background-color:beige; padding:5px; width:300px; margin:auto;">
-        <div style="text-decoration:underline; font-weight:bold;">Your Hand is:</div><br/>
-        <?php
-        // Show cards
-        for ($i = 0; $i < sizeof($_SESSION['userHand']); $i++) {
-            echo $game->translateCard($_SESSION['userHand'][$i]) . "<br />";
-        }
-        echo "<div style='text-decoration:underline; font-weight:bold;'><br /><br />Your opponents visible cards: </div><br />";
-        if ($gameOver == 0)
-        {
-            for ($j = 1; $j < sizeof($_SESSION['dealerHand']); $j++) {
-                echo $game->translateCard($_SESSION['dealerHand'][$j]) . "<br />";
+        <div align='center' style="background-color:beige; padding:5px; width:300px; margin:auto;">
+            <div style="text-decoration:underline; font-weight:bold;">Your Hand is:</div><br />
+            <?php
+            // Show cards
+            for ($i = 0; $i < sizeof($_SESSION['userHand']); $i++) {
+                echo $game->translateCard($_SESSION['userHand'][$i]) . "<br />";
             }
-        }
-        else
-        {
-            for ($j = 0; $j < sizeof($_SESSION['dealerHand']); $j++) {
-                echo $game->translateCard($_SESSION['dealerHand'][$j]) . "<br />";
+            echo "<div style='text-decoration:underline; font-weight:bold;'><br /><br />Your opponents visible cards: </div><br />";
+            if ($gameOver == 0) {
+                for ($j = 1; $j < sizeof($_SESSION['dealerHand']); $j++) {
+                    echo $game->translateCard($_SESSION['dealerHand'][$j]) . "<br />";
+                }
+            } else {
+                for ($j = 0; $j < sizeof($_SESSION['dealerHand']); $j++) {
+                    echo $game->translateCard($_SESSION['dealerHand'][$j]) . "<br />";
+                }
             }
-        }
 
-        echo "<br /><br />";
-        /**game is not over; reload screen like normal**/
-        if ($gameOver == 0){
-            echo '<form style=\'text-align:center\' action=\'dev.php\' method=\'get\'>
+            echo "<br /><br />";
+            /**game is not over; reload screen like normal**/
+            if ($gameOver == 0) {
+                echo '<form style=\'text-align:center\' action=\'dev.php\' method=\'get\'>
                           <input type=\'submit\' name=\'hit\' value=\'hit\'/><br />
                           <input type=\'submit\' name=\'stand\' value=\'stand\'/></form>';
-        } /**Victory conditions are met; print final screen**/
-        else{
-          echo 'Your final score was: ' . $_SESSION['uHandValue'] . '<br /> Your opponents final score was: '.$_SESSION['dHandValue'].'
+            } /**Victory conditions are met; print final screen**/ else {
+                echo 'Your final score was: ' . $_SESSION['uHandValue'] . '<br /> Your opponents final score was: ' . $_SESSION['dHandValue'] . '
                 <form style=\'text-align:center\' action=\'dev.php\' method=\'get\'>
                 <input type=\'submit\' name=\'again\' value=\'Play Again\'/></form>';
-        } ?>
-    </div>
+            } ?>
+        </div>
     </body>
+
     </html>
 
     <?php
@@ -716,7 +719,8 @@ echo "</pre>";
 
 exit();
 
-function bloodbath_winners($array) {
+function bloodbath_winners($array)
+{
     $winners = array();
     $level = 0;
     $referrals = 0;
@@ -729,7 +733,7 @@ function bloodbath_winners($array) {
     $mugs = 0;
     $donator = 0;
     $crimes = 0.00;
-    foreach($array as $key => $value) {
+    foreach ($array as $key => $value) {
 
         if ($value['level'] > $level) {
             $level = $value['level'];
@@ -746,11 +750,13 @@ function bloodbath_winners($array) {
         // $maxKey = $value['level'] > $maxKey ? $key : $maxKey;
     }
     print_r($winners);
-};
+}
+;
 
 bloodbath_winners($bloodbath);
 
-function print_pre($p) {
+function print_pre($p)
+{
     echo "<pre>";
     print_r($p);
     echo "</pre>";

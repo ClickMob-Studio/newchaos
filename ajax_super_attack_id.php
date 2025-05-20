@@ -1,10 +1,11 @@
 <?php
 
-//header('Content-type: application/json');
-session_start();
+require_once 'includes/functions.php';
 
-include "classes.php";
-include "database/pdo_class.php";
+start_session_guarded();
+
+include_once "classes.php";
+include_once "database/pdo_class.php";
 
 function error($msg)
 {

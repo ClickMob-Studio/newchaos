@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
-//include "../classes.php";
-include "../database/pdo_class.php";
+
+include_once "../database/pdo_class.php";
 
 echo $_SERVER['REQUEST_METHOD'];
 exit();

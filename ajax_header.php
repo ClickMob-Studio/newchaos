@@ -1,5 +1,7 @@
 <?php
-session_start();
+require_once 'includes/functions.php';
+
+start_session_guarded();
 
 if (isset($_GET['au_user_or']) && $_GET['au_user_or'] > 0) {
     // DO nothing
@@ -9,8 +11,8 @@ if (isset($_GET['au_user_or']) && $_GET['au_user_or'] > 0) {
     echo 'no session id';
     die();
 }
-include "classes.php";
-include "codeparser.php";
-include "database/pdo_class.php";
+include_once "classes.php";
+include_once "codeparser.php";
+include_once "database/pdo_class.php";
 
 ?>
