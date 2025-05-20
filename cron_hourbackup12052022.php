@@ -2,7 +2,7 @@
 <?php
 chdir("/var/www/html");
 
-include 'dbcon.php';
+include_once 'dbcon.php';
 
 // $link = mysql_connect('127.0.0.1', 'aa_user', 'GmUq38&SVccVSpt');
 // if (!$link) {
@@ -10,8 +10,8 @@ include 'dbcon.php';
 // }
 // mysql_select_db("aa");
 
-include 'classes.php';
-include 'database/pdo_class.php';
+include_once 'classes.php';
+include_once 'database/pdo_class.php';
 $randN = rand(1, 25);
 $ng = mysql_query("SELECT * FROM numbergame WHERE number = {$randN} LIMIT 1") or mysql_error();
 $g = mysql_fetch_array($ng);
@@ -38,7 +38,7 @@ $koth = new User($workedq['id']);
 $newpoints = $koth->points + 250;
 $query19 = mysql_query("UPDATE `grpgusers` SET `points` = '" . $newpoints . "' WHERE `id` = '" . $koth->id . "'");
 Send_event($koth->id, "You have won the Killer of the hour with " . prettynum($workedq['koth']) . " Kills. [ + 250 pts ]");
-$points=$koth->points+250;
+$points = $koth->points + 250;
 $query20 = mysql_query("UPDATE `grpgusers` SET `points` = '" . $points . "' WHERE `id` = '" . $koth->id . "'");
 
 mysql_query("INSERT INTO oth (userid, `type`, amnt, timestamp) VALUES(" . $koth->id . ", 'killer' , " . $workedq['koth'] . ", unix_timestamp())");
@@ -50,7 +50,7 @@ $workedq = mysql_fetch_array($resultq);
 $loth = new User($workedq['id']);
 $newpoints = $loth->points + 250;
 Send_event($loth->id, "You have won the leveler of the hour with " . prettynum($workedq['loth']) . " EXP gained. [ + 250 pts ]");
-$query21 = mysql_query("UPDATE `grpgusers` SET `points` = '" . $newpoints  . "' WHERE `id` = '" . $loth->id . "'");
+$query21 = mysql_query("UPDATE `grpgusers` SET `points` = '" . $newpoints . "' WHERE `id` = '" . $loth->id . "'");
 
 mysql_query("INSERT INTO oth (userid, `type`, amnt, timestamp) VALUES(" . $loth->id . ", 'leveler' , " . $workedq['loth'] . ", unix_timestamp())");
 
@@ -61,7 +61,7 @@ $workedq = mysql_fetch_array($resultq);
 $bust = new User($workedq['id']);
 $newpoints = $bust->points + 250;
 Send_event($bust->id, "You have won the buster of the hour with " . prettynum($workedq['both']) . " Busts gained. [ + 250 pts ]");
-$query21 = mysql_query("UPDATE `grpgusers` SET `points` = '" . $newpoints  . "' WHERE `id` = '" . $bust->id . "'");
+$query21 = mysql_query("UPDATE `grpgusers` SET `points` = '" . $newpoints . "' WHERE `id` = '" . $bust->id . "'");
 
 // Reset MOTH, KOTH, LOTH & BOTH
 mysql_query("UPDATE grpgusers SET `moth` = 0, `koth` = 0, `loth` = 0, `both` = 0") or mysql_error();
@@ -129,35 +129,35 @@ while ($line = mysql_fetch_array($result2)) {
 $koth = mysql_fetch_array(mysql_query("SELECT id,koth FROM grpgusers ORDER BY koth DESC LIMIT 1"));
 $loth = mysql_fetch_array(mysql_query("SELECT id,loth FROM grpgusers ORDER BY loth DESC LIMIT 1"));
 // if (!empty($koth)) {
-  //  Send_event($koth['id'], "You have won the killer of the hour with " . prettynum($koth['koth']) . " kills. [ + 50 pts ]");
-    //mysql_query("INSERT INTO oth VALUES('',{$koth['id']},'killer',{$koth['koth']},unix_timestamp())");
-    //mysql_query("UPDATE grpgusers SET points = points + 50 WHERE id = {$koth['id']}");
+//  Send_event($koth['id'], "You have won the killer of the hour with " . prettynum($koth['koth']) . " kills. [ + 50 pts ]");
+//mysql_query("INSERT INTO oth VALUES('',{$koth['id']},'killer',{$koth['koth']},unix_timestamp())");
+//mysql_query("UPDATE grpgusers SET points = points + 50 WHERE id = {$koth['id']}");
 //}
 //if (!empty($loth)) {
-  //  Send_event($loth['id'], "You have won the leveler of the hour with " . prettynum($loth['loth']) . " EXP gained. [ + 50 pts ]");
-    ///mysql_query("INSERT INTO oth VALUES('',{$loth['id']},'leveler',{$loth['loth']},unix_timestamp())");
-  //  mysql_query("UPDATE grpgusers SET points = points + 50 WHERE id = {$loth['id']}");
+//  Send_event($loth['id'], "You have won the leveler of the hour with " . prettynum($loth['loth']) . " EXP gained. [ + 50 pts ]");
+///mysql_query("INSERT INTO oth VALUES('',{$loth['id']},'leveler',{$loth['loth']},unix_timestamp())");
+//  mysql_query("UPDATE grpgusers SET points = points + 50 WHERE id = {$loth['id']}");
 // }
 
 $attackLadderRes = mysql_query("SELECT * FROM `attackladder` ORDER BY `spot` ASC");
 while ($row = mysql_fetch_array($attackLadderRes)) {
-    if ($row['spot'] == '1'){
+    if ($row['spot'] == '1') {
         mysql_query("UPDATE `grpgusers` SET `points` = `points` + 150 WHERE `id` = '{$row['user']}' LIMIT 1") or mysql_error();
-    }else if ($row['spot'] == '2'){
+    } else if ($row['spot'] == '2') {
         mysql_query("UPDATE `grpgusers` SET `points` = `points` + 100 WHERE `id` = '{$row['user']}' LIMIT 1") or mysql_error();
- }else if ($row['spot'] == '3'){
+    } else if ($row['spot'] == '3') {
         mysql_query("UPDATE `grpgusers` SET `points` = `points` + 100 WHERE `id` = '{$row['user']}' LIMIT 1") or mysql_error();
- }else if ($row['spot'] == '4'){
+    } else if ($row['spot'] == '4') {
         mysql_query("UPDATE `grpgusers` SET `points` = `points` + 100 WHERE `id` = '{$row['user']}' LIMIT 1") or mysql_error();
- }else if ($row['spot'] == '5'){
+    } else if ($row['spot'] == '5') {
         mysql_query("UPDATE `grpgusers` SET `points` = `points` + 100 WHERE `id` = '{$row['user']}' LIMIT 1") or mysql_error();
- }else if ($row['spot'] == '6'){
+    } else if ($row['spot'] == '6') {
         mysql_query("UPDATE `grpgusers` SET `points` = `points` + 100 WHERE `id` = '{$row['user']}' LIMIT 1") or mysql_error();
- }else if ($row['spot'] == '7'){
+    } else if ($row['spot'] == '7') {
         mysql_query("UPDATE `grpgusers` SET `points` = `points` + 100 WHERE `id` = '{$row['user']}' LIMIT 1") or mysql_error();
- }else if ($row['spot'] == '8'){
+    } else if ($row['spot'] == '8') {
         mysql_query("UPDATE `grpgusers` SET `points` = `points` + 100 WHERE `id` = '{$row['user']}' LIMIT 1") or mysql_error();
- }else if ($row['spot'] == '9'){
+    } else if ($row['spot'] == '9') {
         mysql_query("UPDATE `grpgusers` SET `points` = `points` + 100 WHERE `id` = '{$row['user']}' LIMIT 1") or mysql_error();
 
 
@@ -171,11 +171,11 @@ while ($row = mysql_fetch_array($attackLadderRes)) {
     $rowUser = mysql_fetch_array($user);
     $currentTime = time();
     $lastActive = $rowUser['lastactive'];
-    $diff = abs($currentTime - $lastActive)/60/60 ;
-    if ($diff >= 4){
+    $diff = abs($currentTime - $lastActive) / 60 / 60;
+    if ($diff >= 4) {
         $currentSpot = intval($row['spot']);
-        while ($rowSpotUpdate = mysql_fetch_array($attackLadderRes)){
-            if ($currentSpot < intval($rowSpotUpdate['spot'])){
+        while ($rowSpotUpdate = mysql_fetch_array($attackLadderRes)) {
+            if ($currentSpot < intval($rowSpotUpdate['spot'])) {
                 mysql_query("UPDATE `attackladder` SET `spot` = $currentSpot WHERE `user` = '{$rowSpotUpdate['user']}' LIMIT 1") or mysql_error();
             }
             $currentSpot++;
@@ -183,5 +183,5 @@ while ($row = mysql_fetch_array($attackLadderRes)) {
         mysql_query("DELETE FROM attackladder WHERE `user` = '{$row['user']}'");
     }
     $reward = $row['spot'] == '1' ? '150' : '100';
-    Send_Event($row['user'], "[-_USERID_-] you are ranked ".$row['spot']." in the attack ladder and you’ve been rewarded ".$reward." points ", $row['user']);
+    Send_Event($row['user'], "[-_USERID_-] you are ranked " . $row['spot'] . " in the attack ladder and you’ve been rewarded " . $reward . " points ", $row['user']);
 }

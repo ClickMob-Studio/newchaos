@@ -81,8 +81,8 @@ function success($msg)
     return $response;
 }
 
-include "classes.php";
-include "database/pdo_class.php";
+include_once "classes.php";
+include_once "database/pdo_class.php";
 
 $user_class = new User($_SESSION['id']);
 session_write_close();

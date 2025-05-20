@@ -1,6 +1,6 @@
 <?php
-include "classes.php";
-include "database/pdo_class.php";
+include_once "classes.php";
+include_once "database/pdo_class.php";
 
 $db->query("SELECT id, jail FROM grpgusers WHERE jail > 0");
 $db->execute();

@@ -1,6 +1,5 @@
 <?php
-include "../database/pdo_class.php";
-
+include_once "../database/pdo_class.php";
 include_once "../includes/functions.php";
 include_once "../codeparser.php";
 

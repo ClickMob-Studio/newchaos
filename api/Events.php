@@ -13,9 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit();
 }
 
-include "../database/pdo_class.php";
-include "../classes.php";
-include "../codeparser.php";
+include_once "../database/pdo_class.php";
+include_once "../classes.php";
+include_once "../codeparser.php";
 
 header('Content-Type: application/json');
 

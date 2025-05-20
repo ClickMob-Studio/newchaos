@@ -6,9 +6,9 @@ error_reporting(E_ALL);
 
 // (PHP_SAPI !== 'cli' || isset($_SERVER['HTTP_USER_AGENT'])) && die('');
 // chdir("/var/www/s2.themafialife.co.uk");
-include 'dbcon.php';
-include 'classes.php';
-include 'database/pdo_class.php';
+include_once 'dbcon.php';
+include_once 'classes.php';
+include_once 'database/pdo_class.php';
 print "working";
 
 
@@ -44,7 +44,7 @@ while ($line = mysql_fetch_assoc($result)) {
          energy = LEAST(energy + ($updates_user->maxenergy * $mul),$updates_user->maxenergy),
          nerve = LEAST(nerve + ($updates_user->maxnerve * $mul),$updates_user->maxnerve),
          hp = LEAST(hp + ($updates_user->maxhp * .25),$updates_user->maxhp)
-         WHERE `id` = $updates_user->id", $conn)or die(mysql_error());
+         WHERE `id` = $updates_user->id", $conn) or die(mysql_error());
     }
 }
 
@@ -56,7 +56,8 @@ while ($line = mysql_fetch_assoc($result)) {
 
 
 
-function getItemName($item_id) {
+function getItemName($item_id)
+{
     $query = "SELECT itemname FROM items WHERE id = " . $item_id; // Using the provided table and column names
     $result = mysql_query($query);
     $item = mysql_fetch_assoc($result);
@@ -78,9 +79,9 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
     $participants_stats_row = mysql_fetch_assoc($participants_stats_result);
     $total_stats = $participants_stats_row['total_stats'];
 
-// Determine the raid's success chance
-$success_chance = min($total_stats / $raid['stat_limit'], 0.9) * 100;  // Multiply by 100 to make it a percentage
-$random_chance = rand(0, 100);  //
+    // Determine the raid's success chance
+    $success_chance = min($total_stats / $raid['stat_limit'], 0.9) * 100;  // Multiply by 100 to make it a percentage
+    $random_chance = rand(0, 100);  //
     // Determine if the raid was successful
     $raid_successful = ($random_chance <= $success_chance);
 
@@ -89,77 +90,77 @@ $random_chance = rand(0, 100);  //
     mysql_query($update_query);
 
 
- // Your existing initialization code should be here
+    // Your existing initialization code should be here
 
 
-/// Your existing initialization code should be here
+    /// Your existing initialization code should be here
 
-// Your existing initialization code should be here
+    // Your existing initialization code should be here
 // New simulated battle logic
-$boss_hp = $raid['boss_hp'];  // Make sure you have this value from the database
-$boss_name = $raid['boss_name'];  // Make sure you have this value from the database
-$battle_log = "";
-$found_items_log = []; // This will store logs about found items
+    $boss_hp = $raid['boss_hp'];  // Make sure you have this value from the database
+    $boss_name = $raid['boss_name'];  // Make sure you have this value from the database
+    $battle_log = "";
+    $found_items_log = []; // This will store logs about found items
 
-// Fetch the participants of this raid along with their equipped weapons and strength
-$participants_query = "SELECT rp.*, u.hp, u.strength, u.eqweapon, i.itemname FROM raid_participants rp JOIN grpgusers u ON rp.user_id = u.id LEFT JOIN items i ON u.eqweapon = i.id WHERE rp.raid_id = " . $raid['id'];
-$participants_result = mysql_query($participants_query);
+    // Fetch the participants of this raid along with their equipped weapons and strength
+    $participants_query = "SELECT rp.*, u.hp, u.strength, u.eqweapon, i.itemname FROM raid_participants rp JOIN grpgusers u ON rp.user_id = u.id LEFT JOIN items i ON u.eqweapon = i.id WHERE rp.raid_id = " . $raid['id'];
+    $participants_result = mysql_query($participants_query);
 
 
-$participants = [];
-$total_strength = 0;
+    $participants = [];
+    $total_strength = 0;
 
-while ($participant = mysql_fetch_assoc($participants_result)) {
-    $participants[] = $participant;
-    $total_strength += $participant['strength'];
-}
-
-/// Turn-based battle simulation
-while ($boss_hp > 0) {
-    foreach ($participants as $key => &$participant) {
-        // HP is ignored in this version
-        $user_hp = 100000000;
-
-        // Determine weapon
-        $weapon = $participant['itemname'] ? $participant['itemname'] : "fists";
-        
-        // Player's turn
-        $strength_percentage = ($participant['strength'] / $total_strength);
-        $base_damage = 100 * $strength_percentage;
-        $damage_variation = $base_damage * 0.2;  // 20% variation
-        $damage_to_boss = round(rand($base_damage - $damage_variation, $base_damage + $damage_variation));
-        
-        $boss_hp -= $damage_to_boss;
-        
-        $formatted_name = formatName($participant['user_id']);
-        $battle_log .= "$formatted_name dealt $damage_to_boss damage to the boss with $weapon.\n";
-
-        // Boss's turn
-        $damage_to_user = rand(5, 15);
-        $user_hp -= $damage_to_user;
-
-        // The following line can be uncommented if you want to keep track of the HP for some other reason
-        // $participant['hp'] = $user_hp;  
-
-        $battle_log .= "$boss_name hit $formatted_name for $damage_to_user damage.\n";
+    while ($participant = mysql_fetch_assoc($participants_result)) {
+        $participants[] = $participant;
+        $total_strength += $participant['strength'];
     }
-}
 
-// Add this right after the simulated battle loop ends
-if ($raid_successful) {
-    $battle_log .= "The raid was successful!\n";
-} else {
-    if ($boss_hp > 0 && empty($participants)) {
-        $battle_log .= "The boss has won.\n";
+    /// Turn-based battle simulation
+    while ($boss_hp > 0) {
+        foreach ($participants as $key => &$participant) {
+            // HP is ignored in this version
+            $user_hp = 100000000;
+
+            // Determine weapon
+            $weapon = $participant['itemname'] ? $participant['itemname'] : "fists";
+
+            // Player's turn
+            $strength_percentage = ($participant['strength'] / $total_strength);
+            $base_damage = 100 * $strength_percentage;
+            $damage_variation = $base_damage * 0.2;  // 20% variation
+            $damage_to_boss = round(rand($base_damage - $damage_variation, $base_damage + $damage_variation));
+
+            $boss_hp -= $damage_to_boss;
+
+            $formatted_name = formatName($participant['user_id']);
+            $battle_log .= "$formatted_name dealt $damage_to_boss damage to the boss with $weapon.\n";
+
+            // Boss's turn
+            $damage_to_user = rand(5, 15);
+            $user_hp -= $damage_to_user;
+
+            // The following line can be uncommented if you want to keep track of the HP for some other reason
+            // $participant['hp'] = $user_hp;  
+
+            $battle_log .= "$boss_name hit $formatted_name for $damage_to_user damage.\n";
+        }
+    }
+
+    // Add this right after the simulated battle loop ends
+    if ($raid_successful) {
+        $battle_log .= "The raid was successful!\n";
     } else {
-        $battle_log .= "The raid failed. You were defeated by the boss.\n";
+        if ($boss_hp > 0 && empty($participants)) {
+            $battle_log .= "The boss has won.\n";
+        } else {
+            $battle_log .= "The raid failed. You were defeated by the boss.\n";
+        }
     }
-}
 
-// Append the found items log to the battle log
+    // Append the found items log to the battle log
 //$battle_log .= "\nItems Found During the Raid:\n" . $found_items_log;
 
-// Insert battle log into raid_battle_logs table
+    // Insert battle log into raid_battle_logs table
 
     $participants_query = "SELECT * FROM raid_participants WHERE raid_id = " . $raid['id'];
     $participants_result = mysql_query($participants_query);
@@ -184,20 +185,20 @@ if ($raid_successful) {
     // For each participant of the raid
     foreach ($participants as $participant) {
         echo "Debug: Processing participant with ID: " . $participant['user_id'] . "\n";  // Debug line
-        $formatted_name = formatName($participant['user_id']); 
+        $formatted_name = formatName($participant['user_id']);
         echo "Debug: formatted_name = $formatted_name\n";
-    
+
         // Initialize formatted_name here.
-        
-    
+
+
         if ($raid_successful) {
 
             $total_min_points = 0;
             $total_max_points = 0;
             $total_min_money = 0;
             $total_max_money = 0;
-  $total_min_raidpoints = 0;  // New
-        $total_max_raidpoints = 0;  // New
+            $total_min_raidpoints = 0;  // New
+            $total_max_raidpoints = 0;  // New
 
 
             foreach ($loot_table as $loot) {
@@ -205,47 +206,47 @@ if ($raid_successful) {
                 $total_max_points += $loot['max_points'];
                 $total_min_money += $loot['min_money'];
                 $total_max_money += $loot['max_money'];
- $total_min_raidpoints += $loot['min_raidpoints'];  // New
-            $total_max_raidpoints += $loot['max_raidpoints'];  // New
+                $total_min_raidpoints += $loot['min_raidpoints'];  // New
+                $total_max_raidpoints += $loot['max_raidpoints'];  // New
             }
 
             $points_won = rand($total_min_points, $total_max_points);
             $money_won = rand($total_min_money, $total_max_money);
-        $raidpoints_won = rand($total_min_raidpoints, $total_max_raidpoints);  // New
+            $raidpoints_won = rand($total_min_raidpoints, $total_max_raidpoints);  // New
 
             // Update the user's points, money, and raid points in the database
-        $update_query = "UPDATE grpgusers SET points = points + $points_won, money = money + $money_won, raidpoints = raidpoints + $raidpoints_won WHERE id = " . $participant['user_id'];  // Modified
-        mysql_query($update_query);
+            $update_query = "UPDATE grpgusers SET points = points + $points_won, money = money + $money_won, raidpoints = raidpoints + $raidpoints_won WHERE id = " . $participant['user_id'];  // Modified
+            mysql_query($update_query);
 
             $event_message = "Your raid against " . $raid['boss_name'] . " has ended. You won $points_won points and $money_won money.";
 
             // Determine items from the loot table
-$items_won = []; // Store the names of items won
-foreach ($loot_table as $loot) {
-    $random_chance = rand(0, 100); // Generate a number between 0 and 100
+            $items_won = []; // Store the names of items won
+            foreach ($loot_table as $loot) {
+                $random_chance = rand(0, 100); // Generate a number between 0 and 100
 
-    if ($random_chance <= ($loot['drop_rate'] * 100)) {
-        echo "Debug: random_chance = $random_chance, drop_rate = " . ($loot['drop_rate'] * 100) . "\n";  // Debug line
-           
-        // The user has won this item!
-        $itemName = getItemName($loot['item_id']);
-        $items_won[] = $itemName;
+                if ($random_chance <= ($loot['drop_rate'] * 100)) {
+                    echo "Debug: random_chance = $random_chance, drop_rate = " . ($loot['drop_rate'] * 100) . "\n";  // Debug line
 
-        // Add to the found items log
-        $found_items_log[] = "$formatted_name found a $itemName.\n"; // Note the "\n" here
-        echo "Debug: Added to found_items_log for $formatted_name\n";  // Debug line
-                    
-        
-        // Insert or update the item in the participant's inventory
-        $query = "INSERT INTO inventory (userid, itemid, quantity) VALUES (" . $participant['user_id'] . ", " . $loot['item_id'] . ", 1) ON DUPLICATE KEY UPDATE quantity = quantity + 1";
+                    // The user has won this item!
+                    $itemName = getItemName($loot['item_id']);
+                    $items_won[] = $itemName;
 
-        if (!mysql_query($query)) {
-            echo "MySQL Error: " . mysql_error();  // This will print any error that MySQL returns
-        }
-        $items_won_global = array_merge($items_won_global, $items_won);  // Merge the items won for this participant into the global list
-    }
-   // var_dump($participant);
-}
+                    // Add to the found items log
+                    $found_items_log[] = "$formatted_name found a $itemName.\n"; // Note the "\n" here
+                    echo "Debug: Added to found_items_log for $formatted_name\n";  // Debug line
+
+
+                    // Insert or update the item in the participant's inventory
+                    $query = "INSERT INTO inventory (userid, itemid, quantity) VALUES (" . $participant['user_id'] . ", " . $loot['item_id'] . ", 1) ON DUPLICATE KEY UPDATE quantity = quantity + 1";
+
+                    if (!mysql_query($query)) {
+                        echo "MySQL Error: " . mysql_error();  // This will print any error that MySQL returns
+                    }
+                    $items_won_global = array_merge($items_won_global, $items_won);  // Merge the items won for this participant into the global list
+                }
+                // var_dump($participant);
+            }
             $bullet = "&bull;";
             // Fetch the number of participants for the raid
             $participant_count_query = "SELECT COUNT(*) as participant_count FROM raid_participants WHERE raid_id = " . $raid['id'];
@@ -255,9 +256,9 @@ foreach ($loot_table as $loot) {
 
             // Get raid leader's name
             $raid_leader_name = formatName($raid['summoned_by']);
-  // Update raidwins and raidsjoined
-        $update_stats_query = "UPDATE grpgusers SET raidwins = raidwins + 1 WHERE id = " . $participant['user_id'];
-        mysql_query($update_stats_query);
+            // Update raidwins and raidsjoined
+            $update_stats_query = "UPDATE grpgusers SET raidwins = raidwins + 1 WHERE id = " . $participant['user_id'];
+            mysql_query($update_stats_query);
 
 
 
@@ -266,7 +267,7 @@ foreach ($loot_table as $loot) {
 
             $event_message .= "<br>&bull; You won $points_won points.";
             $event_message .= "<br>&bull; You won $money_won money.";
-$event_message .= "<br>&bull; You won $raidpoints_won raid points.";  // New
+            $event_message .= "<br>&bull; You won $raidpoints_won raid points.";  // New
 
             // If there are items won, append that to the event message
             if (!empty($items_won)) {
@@ -275,7 +276,7 @@ $event_message .= "<br>&bull; You won $raidpoints_won raid points.";  // New
                 $event_message .= "<br>&bull; You failed to find any items this raid!";
             }
 
- // Add a link to view the battle log
+            // Add a link to view the battle log
             $event_message .= "<br><a href='view_battle_log.php?raid_id=" . $raid['id'] . "'>View Battle Log</a>";
 
 
@@ -283,15 +284,15 @@ $event_message .= "<br>&bull; You won $raidpoints_won raid points.";  // New
 
         } else {
             // Raid failed
-  // Update raidwins and raidsjoined
-        $update_stats_query = "UPDATE grpgusers SET raidlosses = raidlosses + 1 WHERE id = " . $participant['user_id'];
-        mysql_query($update_stats_query);
+            // Update raidwins and raidsjoined
+            $update_stats_query = "UPDATE grpgusers SET raidlosses = raidlosses + 1 WHERE id = " . $participant['user_id'];
+            mysql_query($update_stats_query);
             $event_message = "Your Raid, led by " . formatName($raid['summoned_by']) . " with " . count($participants) . " participants, against " . $raid['boss_name'] . " has failed!";
-          
- // Add a link to view the battle log
+
+            // Add a link to view the battle log
             $event_message .= "<br><a href='view_battle_log.php?raid_id=" . $raid['id'] . "'>View Battle Log</a>";
 
-  send_event($participant['user_id'], $event_message);
+            send_event($participant['user_id'], $event_message);
         }
     }
 
@@ -301,8 +302,8 @@ $event_message .= "<br>&bull; You won $raidpoints_won raid points.";  // New
     $battle_log .= "\nItems Found During the Raid:\n" . implode("", $found_items_log);
     $insert_battle_log_query = "INSERT INTO raid_battle_logs (raid_id, battle_log) VALUES (" . $raid['id'] . ", '" . mysql_real_escape_string($battle_log) . "')";
     mysql_query($insert_battle_log_query);
-    
-    $found_items_log = []; 
+
+    $found_items_log = [];
 
 }
 
@@ -386,7 +387,7 @@ if (time() <= 1703577599) {
     $db->query("SELECT id FROM grpgusers WHERE epoints >= 1000");
     $db->execute();
     $_rows = $db->fetch_row();
-    foreach($_rows as $_row) {
+    foreach ($_rows as $_row) {
         Give_Item(198, $_row['id'], 1);
 
         Send_event($_row['id'], "You have been awarded a Snowball! Throw these at other players!");
@@ -407,7 +408,7 @@ if ($user_class->id >= 999) {
     $db->query("SELECT id FROM grpgusers WHERE epoints >= 1000");
     $db->execute();
     $_rows = $db->fetch_row();
-    foreach($_rows as $_row) {
+    foreach ($_rows as $_row) {
         Give_Item(198, $_row['id'], 1);
         Send_event($_row['id'], "You have been awarded a Snowball! Throw these at other players!");
         $db->query("UPDATE grpgusers SET epoints = 0 WHERE id = ?");
@@ -434,7 +435,7 @@ while ($auction = mysql_fetch_assoc($expiredAuctions)) {
     // Fetch item name
     $itemNameQuery = "SELECT itemname FROM items WHERE id = $itemId";
     $itemNameResult = mysql_query($itemNameQuery, $conn);
-    if($itemNameRow = mysql_fetch_assoc($itemNameResult)) {
+    if ($itemNameRow = mysql_fetch_assoc($itemNameResult)) {
         $itemName = $itemNameRow['itemname'];
     } else {
         $itemName = "Unknown Item";
@@ -504,9 +505,9 @@ $db->execute();
 $rows = $db->fetch_row();
 $db->query("UPDATE missions INNER JOIN mission h ON mid = h.id SET completed = 'failed' WHERE completed = 'no' AND timestamp + time < unix_timestamp()");
 $db->execute();
-foreach($rows as $row) {
+foreach ($rows as $row) {
     Send_event($www['userid'], "You failed your mission!");
-    switch($www['mid']) {
+    switch ($www['mid']) {
         case 1:
             $mname = "Starter Mission";
             break;
@@ -543,7 +544,7 @@ if (rand(1, 20) == 7 and $db->fetch_single() == 0) {
     $db->query("SELECT id FROM grpgusers WHERE id >= 334 AND id <= 353 ORDER BY RAND() LIMIT $rand");
     $db->execute();
     $rows = $db->fetch_row();
-    foreach($rows as $row) {
+    foreach ($rows as $row) {
         $db->query("INSERT INTO hitlist VALUES ('', ?, '', ?, 0)");
         $db->execute(array(
             $row['id'],
@@ -558,7 +559,7 @@ if (!empty($bbinfo)) {
     $db->query("SELECT * FROM bbusers");
     $db->execute();
     $rows = $db->fetch_row();
-    foreach($rows as $row) {
+    foreach ($rows as $row) {
         $info[] = $row;
     }
     $db->query("UPDATE bloodbath SET winners = ? WHERE id = ?");
@@ -574,7 +575,7 @@ if (!empty($bbinfo)) {
 $db->query("SELECT * FROM gangwars WHERE timeending < unix_timestamp() AND accepted = 1");
 $db->execute();
 $rows = $db->fetch_row();
-foreach($rows as $r) {
+foreach ($rows as $r) {
     if ($r['gang1score'] > $r['gang2score']) {
         $winninggang = $r['gang1'];
         $losinggang = $r['gang2'];
@@ -618,7 +619,7 @@ foreach($rows as $r) {
     ));
 }
 // Fetch the latest Bloodbath results where rewards haven't been distributed yet and winners column has data
-$query = "SELECT * FROM bloodbath WHERE is_paid = 0 AND winners != '' AND endtime < ".time()." ORDER BY endtime DESC LIMIT 1";
+$query = "SELECT * FROM bloodbath WHERE is_paid = 0 AND winners != '' AND endtime < " . time() . " ORDER BY endtime DESC LIMIT 1";
 $result = mysql_query($query);
 $latest_bloodbath = mysql_fetch_assoc($result);
 
@@ -626,18 +627,18 @@ if ($latest_bloodbath) {
 
 
 
-$winners_data = unserialize($latest_bloodbath['winners']);
+    $winners_data = unserialize($latest_bloodbath['winners']);
 
-// Transform the data
-$transformed_data = [];
-foreach ($winners_data as $user_data) {
-    $userid = $user_data['userid'];
-    foreach ($user_data as $key => $value) {
-        if ($key !== 'userid') {
-            $transformed_data[$key][$userid] = $value;
+    // Transform the data
+    $transformed_data = [];
+    foreach ($winners_data as $user_data) {
+        $userid = $user_data['userid'];
+        foreach ($user_data as $key => $value) {
+            if ($key !== 'userid') {
+                $transformed_data[$key][$userid] = $value;
+            }
         }
     }
-}
     $points_distribution = [
         1 => 20000,
         2 => 10000,
@@ -656,18 +657,18 @@ foreach ($winners_data as $user_data) {
                 // Award points to the user
                 $update_query = "UPDATE grpgusers SET points = points + " . $points_distribution[$position] . " WHERE id = " . $user_id;
                 mysql_query($update_query);
-                
+
                 // Send an event to the user
                 $event_message = "You have won the " . $category . " category and placed " . $position . " and won " . $points_distribution[$position] . " Points.";
                 send_event($user_id, $event_message);
-                
+
                 // Print out the winners for each category for verification
                 echo "Category: " . $category . "<br>";
                 echo "Position: " . $position . "<br>";
                 echo "Username: " . formatName($user_id) . "<br>";
                 echo "Points Awarded: " . $points_distribution[$position] . "<br>";
                 echo "------------------------<br>";
-                
+
                 $position++;
             }
         }
@@ -677,26 +678,26 @@ foreach ($winners_data as $user_data) {
     $update_is_paid_query = "UPDATE bloodbath SET is_paid = 1 WHERE id = " . $latest_bloodbath['id'];
     mysql_query($update_is_paid_query);
 
-$db->query("SELECT * FROM bloodbath WHERE endtime < unix_timestamp() AND winners = ''");
-$db->execute();
-$bbinfo = $db->fetch_row(true);
-if (!empty($bbinfo)) {
-    $db->query("SELECT * FROM bbusers");
+    $db->query("SELECT * FROM bloodbath WHERE endtime < unix_timestamp() AND winners = ''");
     $db->execute();
-    $rows = $db->fetch_row();
-    foreach($rows as $row) {
-        $info[] = $row;
+    $bbinfo = $db->fetch_row(true);
+    if (!empty($bbinfo)) {
+        $db->query("SELECT * FROM bbusers");
+        $db->execute();
+        $rows = $db->fetch_row();
+        foreach ($rows as $row) {
+            $info[] = $row;
+        }
+        $db->query("UPDATE bloodbath SET winners = ? WHERE id = ?");
+        $db->execute(array(
+            serialize($info),
+            $bbinfo['id']
+        ));
+        $db->query("INSERT INTO bloodbath VALUES ('', unix_timestamp() + (86400 * 7), '')");
+        $db->execute();
+        $db->query("TRUNCATE TABLE bbusers");
+        $db->execute();
     }
-    $db->query("UPDATE bloodbath SET winners = ? WHERE id = ?");
-    $db->execute(array(
-        serialize($info),
-        $bbinfo['id']
-    ));
-    $db->query("INSERT INTO bloodbath VALUES ('', unix_timestamp() + (86400 * 7), '')");
-    $db->execute();
-    $db->query("TRUNCATE TABLE bbusers");
-    $db->execute();
-}
 
 
 }

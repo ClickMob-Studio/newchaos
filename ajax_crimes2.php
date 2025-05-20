@@ -30,8 +30,8 @@ if (isset($data['user_id'])) {
     $_SESSION['id'] = $data['user_id'];
 }
 
-include "classes.php";
-include "database/pdo_class.php";
+include_once "classes.php";
+include_once "database/pdo_class.php";
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);

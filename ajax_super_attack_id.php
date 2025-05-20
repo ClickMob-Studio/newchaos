@@ -4,8 +4,8 @@ require_once 'includes/functions.php';
 
 start_session_guarded();
 
-include "classes.php";
-include "database/pdo_class.php";
+include_once "classes.php";
+include_once "database/pdo_class.php";
 
 function error($msg)
 {

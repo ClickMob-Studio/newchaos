@@ -3,9 +3,9 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
-include "../database/pdo_class.php";
-include "../classes.php";
-include "../codeparser.php";
+include_once "../database/pdo_class.php";
+include_once "../classes.php";
+include_once "../codeparser.php";
 
 header('Content-Type: application/json');
 

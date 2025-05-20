@@ -1,8 +1,8 @@
 <?php
 
 require 'dbcon.php'; // Ensure database connection is critical
-include "classes.php";
-include "database/pdo_class.php";
+include_once "classes.php";
+include_once "database/pdo_class.php";
 
 //Send_Event(2, var_dump($_GET), 2);
 
@@ -55,7 +55,7 @@ if (!isset($userId) || !isset($scriptCallback)) {
     exit;
 }
 
-$user = new User((int)$userId);
+$user = new User((int) $userId);
 if (!$user) {
     echo 'Something went wrong!';
     exit;
@@ -73,5 +73,6 @@ mysql_query("INSERT INTO votes (userid, site) VALUES (" . $user->id . ", '" . $s
 mysql_query("UPDATE grpgusers SET votetokens = votetokens + 100 WHERE id = " . $user->id);
 
 $response = ['success' => true];
-echo json_encode($response); exit;
+echo json_encode($response);
+exit;
 exit;
