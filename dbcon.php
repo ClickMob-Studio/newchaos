@@ -1,15 +1,19 @@
 <?php
-//require "shim.php";
-date_default_timezone_set('UTC');
-$conn = mysql_connect("localhost", "chaoscit_user", '3lrKBlrfMGl2ic14');
-$db = mysql_select_db("chaoscit_game");
-mysql_query("SET NAMES 'utf8mb4'");
-
 
 $db_host = 'localhost';
 $db_name = 'chaoscit_game';
 $db_user = 'chaoscit_user';
 $db_pass = '3lrKBlrfMGl2ic14';
+
+$db = new mysqli($db_host, $db_user, $db_pass, $db_name);
+if ($db->connect_error) {
+    die("Connection failed: " . $db->connect_error);
+}
+if (!$db->set_charset("utf8mb4")) {
+    die("Error loading character set utf8mb4: " . $db->error);
+}
+
+date_default_timezone_set('UTC');
 
 try {
     $db = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_pass);

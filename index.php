@@ -13,7 +13,6 @@ include 'header.php';
         Send_Event2($user_class->id, "Is the latest thug on the streets.", $user_class->id);
         Send_Event($user_class->id, "<div class='text-white'>Welcome To Chaos City!<br>To get you started we are giving you:</div><div class='fw-bold text-white'>&bull; 3 VIP Days<br>&bull; $100,000 Cash<br>&bull; 1,250 Points</div>", $user_class->id);
     }
-
     ?>
     <h1>General Information</h1>
     <div class="table-container">
