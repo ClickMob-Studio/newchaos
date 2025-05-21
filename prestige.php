@@ -410,16 +410,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $daysTillReset = 31 - $elapsedDays;
             }
         }
-
-        if ($canReset) {
-            echo "<br/><div>
-            You can <a href='prestige.php?action=reset'>click here</a> to reset your prestige, this can only be done once every 7 days for VIPs and 31 days for non-VIPs.
-            </div><br/>";
-        } else {
-            echo "<br/><div>
-            You can reset your prestige in " . $daysTillReset . " days.
-            </div><br/>";
-        }
         ?>
 
         <br />
