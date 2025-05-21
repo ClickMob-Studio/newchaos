@@ -116,25 +116,20 @@ if (isset($_GET['claim_queen']) && $_GET['claim_queen'] == 'claimnow') {
     }
 }
 
-$city_query = mysql_query("SELECT owned_points FROM cities WHERE id = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
-$city_query = mysql_fetch_assoc($city_query);
+$db->query("SELECT owned_points FROM cities WHERE id = ? LIMIT 1");
+$db->execute([$current_city]);
+$city_query = $db->fetch_row(true);
+
 
 // PHP to fetch king's information including avatar
-$king_query = mysql_query("SELECT id, username, avatar FROM grpgusers WHERE king = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
-if ($king_query) {
-    $king_result = mysql_fetch_assoc($king_query);
-} else {
-    $king_result = null;
-}
+$db->query("SELECT id, username, avatar FROM grpgusers WHERE king = ? LIMIT 1");
+$db->execute([$current_city]);
+$king_result = $db->fetch_row(true);
 
 // PHP to fetch queen's information including avatar
-$queen_query = mysql_query("SELECT id, username, avatar FROM grpgusers WHERE queen = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
-if ($queen_query) {
-    $queen_result = mysql_fetch_assoc($queen_query);
-} else {
-    $queen_result = null;
-}
-
+$db->query("SELECT id, username, avatar FROM grpgusers WHERE queen = ? LIMIT 1");
+$db->execute([$current_city]);
+$queen_result = $db->fetch_row(true);
 
 $admin_ids = array_map(function ($a) {
     return $a['id'];
