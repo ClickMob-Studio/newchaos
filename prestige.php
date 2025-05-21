@@ -182,6 +182,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'reset') {
     }
 
     resetUserPrestigeSkills($user_class->id);
+    $userPrestigeSkills = getUserPrestigeSkills($user_class);
     echo Message("You have successfully reset your prestige.");
 }
 
