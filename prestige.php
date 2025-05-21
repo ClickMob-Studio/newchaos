@@ -88,7 +88,7 @@ $prestigeLevelRequired = 1000;
 if ($user_class->prestige > 0) {
     $prestigeLevelRequired = $prestigeLevelRequired + (200 * $user_class->prestige);
 
-    if($user_class->prestige >= 5 ){
+    if ($user_class->prestige >= 5) {
         $prestigeLevelRequired = 1000 + (200 * $user_class->prestige) + (500 * ($user_class->prestige - 4));
     }
 }
@@ -164,11 +164,26 @@ $prestigeBoosts['crime_cash_boost_level'] = '+2% Crime Cash Boost';
 $prestigeBoosts['mission_point_boost_level'] = '+2% Mission Point Boost';
 $prestigeBoosts['mission_exp_boost_level'] = '+2% Mission EXP Boost';
 $prestigeBoosts['ba_point_boost_level'] = '+1 Backalley Level';
-if($user_class->prestige > 4){
+if ($user_class->prestige > 4) {
     $prestigeBoosts['research_cash_boost_level'] = '-2% Research Cost';
 }
-//$prestigeBoosts['hourly_searches_boost_level'] = '+10 Hourly Searches';
 
+if (isset($_GET['action']) && $_GET['action'] === 'reset') {
+    if ($userPrestigeSkills['last_reset'] !== null) {
+        $now = time();
+        $elapsedTime = $now - strtotime($userPrestigeSkills['last_reset']);
+
+        $elapsedDays = floor($elapsedTime / (60 * 60 * 24));
+        if ($user_class->rmdays > 0 && $elapsedDays < 7) {
+            diefun('You can only reset your prestige once every 7 days for VIPs and 31 days for non-VIPs.');
+        } else if ($user_class->rmdays <= 0 && $elapsedDays < 31) {
+            diefun('You can only reset your prestige once every 31 days for non-VIPs.');
+        }
+    }
+
+    resetUserPrestigeSkills($user_class->id);
+    echo Message("You have successfully reset your prestige.");
+}
 
 if (isset($_GET['action']) && $_GET['action'] === 'add_unlock' && isset($_GET['unlock_type'])) {
     $unlockType = $_GET['unlock_type'];
@@ -210,17 +225,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'add_boost' && isset($_GET['bo
     $db->execute();
 
     echo Message("You have successfully increased the level of " . $prestigeBoosts[$boostType]);
-}
-
-if (isset($_GET['action']) && $_GET['action'] === 'reset_spends') {
-    if ($userPrestigeSkills['reset_points'] < 1) {
-        diefun('You do not have any resets available. You are only aloud to reset once per prestige.');
-    }
-
-    $db->query('DELETE FROM user_prestige_skills WHERE user_id = ' . $user_class->id);
-    $db->execute();
-
-    echo Message("You have successfully reset your prestige spends.");
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -322,18 +326,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class='box_middle'>
     <div class='pad'>
         <p>
-            Welcome to Account Prestiges! By increasing your prestige, you allow your level to be reset, as well as pay a forfeit, and in return you receive special bonuses. The first prestige allows you to prestige
+            Welcome to Account Prestiges! By increasing your prestige, you allow your level to be reset, as well as pay
+            a forfeit, and in return you receive special bonuses. The first prestige allows you to prestige
             at level 1000, and they increase by 200 thereon. Once you hit prestige 5, it then increases by 700.
         </p>
 
         <h2>Prestige Unlocks</h2>
-        <p>You currently have <?php echo $userPrestigeSkills['prestige_unlocks_available'] ?> prestige unlocks available.</p>
+        <p>You currently have <?php echo $userPrestigeSkills['prestige_unlocks_available'] ?> prestige unlocks
+            available.</p>
+
         <hr />
         <div class="row">
             <?php foreach ($prestigeUnlocks as $key => $prestigeUnlock): ?>
                 <?php
                 $divClass = 'bg-danger';
-                $button = '<a href="prestige.php?action=add_unlock&unlock_type=' . $key .'"><button>Unlock</button></a>';
+                $button = '<a href="prestige.php?action=add_unlock&unlock_type=' . $key . '"><button>Unlock</button></a>';
                 if ($userPrestigeSkills[$key] > 0) {
                     $divClass = 'bg-success';
                     $button = '';
@@ -359,34 +366,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <br />
         <h2>Prestige Boosts</h2>
-        <p>You currently have <?php echo $userPrestigeSkills['prestige_boosts_available'] ?> prestige boosts available.</p>
+        <p>You currently have <?php echo $userPrestigeSkills['prestige_boosts_available'] ?> prestige boosts available.
+        </p>
         <hr />
         <div class="table-container">
             <table class="new_table" id="newtables" style="width:100%;">
                 <thead>
-                <tr>
-                    <th>Boost</th>
-                    <th>Level</th>
-                    <th>&nbsp;</th>
-                </tr>
+                    <tr>
+                        <th>Boost</th>
+                        <th>Level</th>
+                        <th>&nbsp;</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($prestigeBoosts as $key => $name): ?>
-                    <tr>
-                        <td><?php echo $name ?></td>
-                        <td><?php echo $userPrestigeSkills[$key] ?>/15</td>
-                        <td><a href="prestige.php?action=add_boost&boost_type=<?php echo $key ?>"><button>Add</button></a></td>
-                    </tr>
-                <?php endforeach; ?>
+                    <?php foreach ($prestigeBoosts as $key => $name): ?>
+                        <tr>
+                            <td><?php echo $name ?></td>
+                            <td><?php echo $userPrestigeSkills[$key] ?>/15</td>
+                            <td><a
+                                    href="prestige.php?action=add_boost&boost_type=<?php echo $key ?>"><button>Add</button></a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
 
-        <?php if ($userPrestigeSkills['reset_points'] > 0): ?>
-            <br />
-            <h2>Reset Prestige Spend</h2>
-            <p>If you are unhappy with the bvoosts & unlocks you have picked you can reset your prestige spends, this is only available once per prestige.</p>
-            <a href="prestige.php?action=reset_spends">RESET PRESTIGE SPEND</a>
+        <?php
+        $canReset = true;
+        $daysTillReset = 0;
+        if (isset($userPrestigeSkills['last_reset'])) {
+            $now = time();
+
+            // last_reset is a TIMESTAMP in MySQL, we compare it to the current time to get elapsed time
+            $elapsedTime = $now - strtotime($userPrestigeSkills['last_reset']);
+            $elapsedDays = floor($elapsedTime / (60 * 60 * 24));
+
+            if ($user_class->rmdays > 0 && $elapsedDays < 7) {
+                $canReset = false;
+                $daysTillReset = 7 - $elapsedDays;
+            } else if ($user_class->rmdays <= 0 && $elapsedDays < 31) {
+                $canReset = false;
+                $daysTillReset = 31 - $elapsedDays;
+            }
+        }
+        ?>
+
+        <br />
+        <h2>Reset Prestige Spend</h2>
+        <?php if ($canReset): ?>
+            <p>If you are unhappy with the boosts & unlocks you have picked you can reset your prestige spends, this is
+                only available once per 7 days for VIPs and 31 days for non-VIPs.</p>
+        <?php else: ?>
+            <p>You have recently reset your prestige, you can reset again in <?= $daysTillReset ?> days.</p>
+        <?php endif; ?>
+        <?php if ($canReset): ?>
+            <a href="prestige.php?action=reset">RESET PRESTIGE</a>
         <?php endif; ?>
     </div>
 </div>
@@ -474,7 +509,7 @@ echo '<div style="text-align:center; margin-bottom:20px;">';
                         for ($i = 1; $i <= 5; $i++) {
                             echo '<td class="text-center">';
                             echo '<img src="images/skullpres_' . $i . '.png?v=4" class="img-fluid" style="max-width: 80px; height: auto;">';
-                            echo '<br><p style="color:#fff">Prestige ' . $i.'</p>';
+                            echo '<br><p style="color:#fff">Prestige ' . $i . '</p>';
                             echo '</td>';
                         }
                         ?>
@@ -606,14 +641,14 @@ echo '</center>';
 ?>
 
 <script>
-    $(".stat_input").change(function(e) {
+    $(".stat_input").change(function (e) {
         console.log($(this));
         var sum = 0;
-        $('.stat_input').each(function() {
+        $('.stat_input').each(function () {
             sum += Number($(this).val());
         });
         console.log(sum);
-        sum = String(sum).replace(/(.)(?=(\d{3})+$)/g,'$1,')
+        sum = String(sum).replace(/(.)(?=(\d{3})+$)/g, '$1,')
         $("#stat_total").html(sum);
     });
 </script>

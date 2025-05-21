@@ -2579,6 +2579,15 @@ function addUserPrestigeSkill($user_class, $field, $qty = 1)
     $db->execute();
 }
 
+function resetUserPrestigeSkills($id)
+{
+    global $db;
+
+    // TODO(Mathias): This is such a bad way to do this, we should improve this later.
+    $db->query("UPDATE user_prestige_skills SET energy_boost_level = 0, crime_cash_boost_level = 0, mission_point_boost_level = 0, mission_exp_boost_level = 0, ba_point_boost_level = 0, hourly_searches_boost_level = 0, ba_raidtokens_unlock = 0, speed_attack_unlock = 0, super_mugs_unlock = 0, super_busts_unlock = 0, ba_gold_rush_unlock = 0, crime_cash_unlock = 0, throne_points_unlock = 0, travel_cost_unlock = 0, ba_cash_unlock = 0, training_dummy_cash_unlock = 0, crime_exp_unlock = 0, unlock_points_spent = 0, boosts_spent = 0, reset_points = 0, research_cash_unlock = 0, research_cash_boost_level = 0, last_reset = NOW() WHERE user_id = ?");
+    $db->execute([$id]);
+}
+
 function getBpCategory($overrideId = null)
 {
     global $db;
