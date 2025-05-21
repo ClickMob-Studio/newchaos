@@ -1,6 +1,6 @@
 <?php
 
-require_once 'includes/cache.php';
+require_once __DIR__ . '/cache.php';
 
 function howlongtil($futureTimestamp)
 {
