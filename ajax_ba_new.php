@@ -5,11 +5,9 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
 require_once 'includes/functions.php';
+require_once 'includes/cache.php';
 
 start_session_guarded();
-
-$redis = new Redis();
-$redis->connect("127.0.1", 6379);
 
 $data = json_decode(file_get_contents("php://input"), true);
 

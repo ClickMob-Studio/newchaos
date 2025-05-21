@@ -1,4 +1,7 @@
 <?php
+
+require_once 'includes/cache.php';
+
 include 'header.php';
 ?>
 <!-- Add a div for displaying the success message -->
@@ -128,7 +131,7 @@ include 'header.php';
       $result = mysql_query("SELECT COUNT(*) FROM `grpgusers` WHERE `hospital` != '0'");
       $r = mysql_fetch_row($result);
       $numrows = $r[0];
-      $redis->setEx("hosCount", 15, $numrows);
+      $cache->setEx("hosCount", 15, $numrows);
 
       $rowsperpage = 30;
       $totalpages = ceil($numrows / $rowsperpage);

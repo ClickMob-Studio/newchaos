@@ -14,7 +14,6 @@ if (isset($_GET['debug'])) {
 }
 
 // Required configuration and settings
-require_once 'config.inc.php';
 require 'tables.php';
 require 'settings.php';
 

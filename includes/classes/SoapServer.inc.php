@@ -1,6 +1,5 @@
 <?php
 
-include_once '../config.inc.php';
 require_once 'nusoap/lib/nusoap.php';
 $server = new soap_server();
 $server->register('query');
@@ -24,7 +23,7 @@ function query($key, $code)
         $array[] = $res;
     }
 
-    return  json_encode($array);
+    return json_encode($array);
 }
 $server->register('object');
 function object($key, $name, $code)

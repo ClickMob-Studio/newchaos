@@ -1,11 +1,13 @@
 <?php
+
+require_once 'includes/cache.php';
+
 include 'header.php';
 
 $db->query("UPDATE grpgusers SET crimes = 'newcrimes', lastactive = unix_timestamp() WHERE id = ?");
 $db->execute(array(
     $user_class->id
 ));
-error_reporting(0);
 
 $db->query("SELECT `name`, mission.crimes as crimestarget, missions.crimes as crimesdone FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE `userid` = ? AND `completed` = \"no\" LIMIT 1");
 $db->execute(array(
@@ -15,12 +17,12 @@ $activeMission = $db->fetch_row()[0];
 
 $tempItemUse = getItemTempUse($user_class->id);
 
-$crimes = $redis->get("all_crimes");
+$crimes = $cache->get("all_crimes");
 if (empty($crimes)) {
     $db->query("SELECT * FROM crimes ORDER BY nerve DESC");
     $db->execute();
     $crimes = $db->fetch_row();
-    $redis->setEx("all_crimes", 7200, json_encode($crimes)); // Cache for 2 hours
+    $cache->setEx("all_crimes", 7200, json_encode($crimes)); // Cache for 2 hours
 } else {
     $crimes = json_decode($crimes, true);
 }

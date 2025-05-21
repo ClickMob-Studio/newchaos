@@ -1,13 +1,11 @@
 <?php
 
+require_once 'config.php';
+
 class database
 {
     protected $last_query;
     protected $conn;
-    private $host = "localhost";
-    private $user = "chaoscit_user";
-    private $pass = '3lrKBlrfMGl2ic14';
-    private $name = "chaoscit_game";
     private $db;
     private $stmt;
     var $num_queries = 0;
@@ -24,14 +22,14 @@ class database
         mb_internal_encoding('UTF-8');
         mb_regex_encoding('UTF-8');
         mysqli_report(MYSQLI_REPORT_STRICT);
-        $dsn = 'mysql:host=' . $this->host . '; dbname=' . $this->name . '; charset=utf8';
+        $dsn = 'mysql:host=' . Config::db()->host . '; dbname=' . Config::db()->database . '; charset=utf8';
         $options = array(
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
         );
         try {
-            $this->db = new PDO($dsn, $this->user, $this->pass, $options);
+            $this->db = new PDO($dsn, Config::db()->username, Config::db()->password, $options);
         } catch (PDOException $e) {
             exit('<p><strong>CONSTRUCT ERROR</strong></p>' . $e->getMessage());
         }

@@ -1,4 +1,5 @@
 <?php
+require_once 'includes/cache.php';
 require_once 'includes/functions.php';
 
 start_session_guarded();
@@ -17,138 +18,12 @@ $profile_class = new User($_GET['id']);
 
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
 
-$halloweenUserList = getHalloweenUserList($user_class->id);
-
 $tempItemUse = getItemTempUse($user_class->id);
-
-if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 'trickortreatdeniedandcancelled') {
-    if (in_array($profile_class->id, $halloweenUserList['user_id_list'])) {
-        diefun('You can only trick or treat once per hour.');
-    }
-
-    if ($user_class->jail || $user_class->hospital) {
-        diefun('You can\'t trick or treat whilst your in the hospital or jail.');
-    }
-
-    $halloweenUserList['user_id_list'][] = $profile_class->id;
-    $newHalloweenUserList = join(',', $halloweenUserList['user_id_list']);
-
-    $db->query("UPDATE halloween_user_list SET listed_user_ids = ? WHERE user_id = ?");
-    $db->execute(array(
-        $newHalloweenUserList,
-        $user_class->id
-    ));
-
-    if ($tempItemUse['trick_or_treat_pass_time'] > time()) {
-        $score = mt_rand(226, 1000);
-    } else {
-        $score = mt_rand(1, 1000);
-    }
-
-    if ($score <= 225) {
-        // Failure
-        $db->query("UPDATE grpgusers SET jail = 300 WHERE id = ?");
-        $db->execute(array(
-            $user_class->id
-        ));
-
-        diefun('It\'s a trick! You\'ll need to spend the next 5 minutes in jail.');
-    } else {
-        // Success
-
-        if ($score <= 230) {
-            Give_Item(255, $user_class->id, 1);
-
-            addToHalloweenPayoutLogs('Crime Booster');
-
-            diefun('It\'s a treat! You found 1 x Crime Booster');
-        } else if ($score <= 250) {
-            Give_Item(253, $user_class->id, 1);
-
-            addToHalloweenPayoutLogs('Gold Rush Token');
-
-            diefun('It\'s a treat! You found 1 x Gold Rush Token');
-        } else if ($score <= 255) {
-            Give_Item(256, $user_class->id, 1);
-
-            addToHalloweenPayoutLogs('Nerve Vial');
-
-            diefun('It\'s a treat! You found 1 x Nerve Vial');
-        } else if ($score <= 256) {
-            Give_Item(284, $user_class->id, 1);
-
-            addToHalloweenPayoutLogs('Ghost Vacuum');
-
-            diefun('It\'s a treat! You found 1 x Ghost Vacuum');
-        } else if ($score <= 300) {
-            Give_Item(251, $user_class->id, 1);
-
-            addToHalloweenPayoutLogs('Raid Pass');
-
-            diefun('It\'s a treat! You found 1 x Raid Pass');
-        } else if ($score <= 350) {
-            Give_Item(289, $user_class->id, 1);
-
-            addToHalloweenPayoutLogs('Draculas Loot Crate');
-
-            diefun('It\'s a treat! You found 1 x Draculas Loot Crate');
-        } else if ($score <= 420) {
-            Give_Item(285, $user_class->id, 1);
-
-            addToHalloweenPayoutLogs('Dracula Blood Bag');
-
-            diefun('It\'s a treat! You found 1 x Dracula Blood Bag');
-        } else if ($score <= 425) {
-            Give_Item(10, $user_class->id, 1);
-
-            addToHalloweenPayoutLogs('Double EXP');
-
-            diefun('It\'s a treat! You found 1 x Double EXP');
-        } else if ($score <= 450) {
-            Give_Item(290, $user_class->id, 1);
-
-            addToHalloweenPayoutLogs('Toffee Apple');
-
-            diefun('It\'s a treat! You found 1 x Toffee Apple');
-        } else if ($score <= 475) {
-            Give_Item(292, $user_class->id, 1);
-
-            addToHalloweenPayoutLogs('Trick or Treat Pass');
-
-            diefun('It\'s a treat! You found 1 x Trick or Treat Pass');
-        } else if ($score <= 500) {
-            Give_Item(288, $user_class->id, 1);
-
-            addToHalloweenPayoutLogs('Cotton Candy');
-
-            diefun('It\'s a treat! You found 1 x Cotton Candy');
-        } else if ($score <= 1000) {
-            addToUserCompLeaderboard($user_class->id, 'vampire_teeth', 1);
-
-            addToHalloweenPayoutLogs('vampire_teeth');
-
-            diefun('It\'s a treat! You found 1 x Vampire Teeth');
-        }
-    }
-
-    exit;
-}
 ?>
 <div class='box_top'><?php echo $profile_class->formattedname; ?>'s Profile</div>
 <div class='box_middle'>
     <div class='pad'>
-
-        <?php if (isset($halloweenUserList) && !in_array($profile_class->id, $halloweenUserList['user_id_list'])): ?>
-            <!--							        <div class="alert alert-danger" style="background: #ff6218;">-->
-            <!--							            <center>-->
-            <!--							            <p style="color: ffffff;">Mobster, do you have the guts to try a trick and treat?</p>-->
-            <!--                                        <a href="profiles.php?id=--><?php //echo $profile_class->id ?><!--&caction=trickortreat" class="dcSecondaryButton">Trick or Treat</a>-->
-            <!--                                        </center>-->
-            <!--                                    </div>-->
-        <?php endif; ?>
         <?php
-
-
 
         if (empty($profile_class->id) || $profile_class->id <= 0)
             diefun("This player doesn't exist.");
@@ -1120,7 +995,7 @@ $(document).ready(function() {
                                             Active:</div>
                                         <div class="text-center p-2">
                                             <?php
-                                            $lastactive = $redis->get("lastactive_" . $profile_class->id);
+                                            $lastactive = $cache->get("lastactive_" . $profile_class->id);
                                             if (!empty($lastactive)) {
                                                 echo ($lastactive != 0 ? lastactive($lastactive) : 'Never');
                                             } else {
