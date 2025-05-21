@@ -599,7 +599,7 @@ if (empty($usersOnline) || !$usersOnline) {
     $db->query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
     $db->execute();
     $queryOnline = $db->num_rows();
-    $cache->setEx("usersOnline", 60, $usersOnline);
+    $cache->setEx("usersOnline", 60, $queryOnline);
 }
 
 $activeRaidsCount = $cache->get("activeRaidsCount");
