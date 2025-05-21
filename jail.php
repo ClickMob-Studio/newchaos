@@ -1,4 +1,7 @@
 <?php
+
+require_once 'includes/cache.php';
+
 include 'header.php';
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Pragma: no-cache");
@@ -315,7 +318,7 @@ if ($user_class->jail > 0) {
             $_SESSION['tokens'] = $token;
 
             $jailCount = mysql_num_rows($result);
-            $redis->setEx("jailCount", 15, $jailCount);
+            $cache->setEx("jailCount", 15, $jailCount);
 
             if ($jailCount || ($user_class->jail_bot_credits > 0 && $user_class->is_jail_bots_active)) {
                 if ($jailCount > 0) {

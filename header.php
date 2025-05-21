@@ -1,17 +1,15 @@
 <?php
-ob_start();
-
 // TODO(Mathais): Remove before releasing to production
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ERROR | E_PARSE | E_NOTICE);
 
+ob_start();
+
+require_once 'includes/cache.php';
 include_once 'includes/functions.php';
 
 start_session_guarded();
-
-$redis = new Redis();
-$redis->connect("127.0.1", 6379);
 
 header('Content-Type: text/html; charset=utf-8');
 function getUserIP()
@@ -316,77 +314,77 @@ $ja = $db->fetch_single();
 
 function callback($buffer)
 {
-    global $user_class, $db, $redis;
+    global $user_class, $db, $cache;
 
-    $hosCount = $redis->get("hosCount");
+    $hosCount = $cache->get("hosCount");
     if (!$hosCount) {
         $db->query("SELECT count(id) FROM grpgusers WHERE hospital <> 0");
         $db->execute();
         $hosCount = $db->fetch_single();
-        $redis->setEx("hosCount", 15, $hosCount);
+        $cache->setEx("hosCount", 15, $hosCount);
     }
 
-    $pHosCount = $redis->get("pHosCount");
+    $pHosCount = $cache->get("pHosCount");
     if (!$pHosCount) {
         $db->query("SELECT count(id) FROM pets WHERE hospital <> 0");
         $db->execute();
         $pHosCount = $db->fetch_single();
-        $redis->setEx("pHosCount", 15, $pHosCount);
+        $cache->setEx("pHosCount", 15, $pHosCount);
     }
 
     $db->query("SELECT count(viewed) FROM pms WHERE `to` = ? AND viewed = 1");
     $db->execute(array($user_class->id));
     $mailCount = $db->fetch_single();
 
-    $jailCount = $redis->get("jailCount");
+    $jailCount = $cache->get("jailCount");
     if (!$jailCount) {
         $db->query("SELECT count(id) FROM grpgusers WHERE jail <> 0");
         $db->execute();
         $jailCount = $db->fetch_single();
-        $redis->setEx("jailCount", 1, $jailCount);
+        $cache->setEx("jailCount", 1, $jailCount);
     }
 
-    $pJailCount = $redis->get("pJailCount");
+    $pJailCount = $cache->get("pJailCount");
     if (!$pJailCount) {
         $db->query("SELECT count(id) FROM pets WHERE jail <> 0");
         $db->execute();
         $pJailCount = $db->fetch_single();
-        $redis->setEx("pJailCount", 5, $pJailCount);
+        $cache->setEx("pJailCount", 5, $pJailCount);
     }
 
-    $toset = $redis->get("clockin_" . $user_class->id);
+    $toset = $cache->get("clockin_" . $user_class->id);
     if (!$toset) {
         $db->query("SELECT lastClockin, dailyClockins FROM jobinfo WHERE userid = ?");
         $db->execute([$user_class->id]);
         $jinfo = $db->fetch_row(true);
         $toset = ($jinfo['dailyClockins'] < 8 && $jinfo['lastClockin'] < time() - 3600) ? 1 : 0;
-        $redis->setEx("clockin_" . $user_class->id, 60, $toset);
+        $cache->setEx("clockin_" . $user_class->id, 60, $toset);
     }
 
-    $eveCount = $redis->get("eveCount_" . $user_class->id);
+    $eveCount = $cache->get("eveCount_" . $user_class->id);
     if (!$eveCount) {
         $db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
         $db->execute(array(
             $user_class->id
         ));
         $eveCount = $db->fetch_single();
-        $redis->setEx("eveCount_" . $user_class->id, 3, $eveCount);
+        $cache->setEx("eveCount_" . $user_class->id, 3, $eveCount);
     }
 
-    $hitCount = $redis->get("hitCount");
+    $hitCount = $cache->get("hitCount");
     if (!$hitCount) {
         $db->query("SELECT count(id) FROM hitlist");
         $db->execute();
         $hitCount = $db->fetch_single();
-        $redis->setEx("hitCount", 5, $hitCount);
+        $cache->setEx("hitCount", 5, $hitCount);
     }
 
-    $votes = $redis->get("votes_" . $user_class->id);
+    $votes = $cache->get("votes_" . $user_class->id);
     if (!$votes) {
         $db->query("SELECT count(*) FROM votes WHERE userid = ?");
         $db->execute([$user_class->id]);
         $votes = ($db->fetch_single() == 0) ? 'notify' : 'null';
-        $redis->setEx("votes_" . $user_class->id, 60, $votes);
+        $cache->setEx("votes_" . $user_class->id, 60, $votes);
     }
 
     if (!$user_class->admin && !$user_class->gm) {
@@ -596,21 +594,21 @@ $counts = array(
     'gang_raid_count' => $gang_raid_count,
 );
 
-$usersOnline = $redis->get('usersOnline');
+$usersOnline = $cache->get('usersOnline');
 if (empty($usersOnline) || !$usersOnline) {
     $db->query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
     $db->execute();
     $queryOnline = $db->num_rows();
-    $redis->setEx("usersOnline", 60, $usersOnline);
+    $cache->setEx("usersOnline", 60, $usersOnline);
 }
 
-$activeRaidsCount = $redis->get("activeRaidsCount");
+$activeRaidsCount = $cache->get("activeRaidsCount");
 if (empty($activeRaidsCount) || !$activeRaidsCount) {
     $db->query("SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE completed = 0");
     $db->execute();
     $activeRaidsData = $db->fetch_row(true);
     $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
-    $redis->setEx("activeRaidsCount", 10, $activeRaidsCount);
+    $cache->setEx("activeRaidsCount", 10, $activeRaidsCount);
 }
 
 $db->query("SELECT * FROM numbergame WHERE userid = ?");
@@ -924,14 +922,14 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             return number_format($number); // Return the original number if it's less than 1000
         }
 
-        $usermission = $redis->get("userMission_" . $user_class->id);
+        $usermission = $cache->get("userMission_" . $user_class->id);
         if (empty($usermission) || !$usermission) {
             $query = $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no'");
             $db->execute([$user_class->id]);
             $usermission = $db->fetch_row(true);
 
             if (!empty($usermission)) {
-                $redis->setEx("userMission_" . $user_class->id, 5, json_encode($usermission));
+                $cache->setEx("userMission_" . $user_class->id, 5, json_encode($usermission));
             }
         } else {
             $usermission = json_decode($usermission, true);

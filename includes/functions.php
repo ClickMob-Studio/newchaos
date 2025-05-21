@@ -1,7 +1,6 @@
 <?php
 
-$redis = new Redis();
-$redis->connect("127.0.1", 6379);
+require_once 'includes/cache.php';
 
 function howlongtil($futureTimestamp)
 {
@@ -235,11 +234,12 @@ function Relationship_Req($player, $type, $from)
 function addBrowser($userid, $name)
 {
     global $db;
-    $db->query("REPLACE INTO forum_browsers (userid, name) VALUES (?, ?)");
-    $db->execute(array(
-        $userid,
-        $name
-    ));
+    $db->query("
+        INSERT INTO forum_browsers (userid, name)
+        VALUES (?, ?)
+        ON DUPLICATE KEY UPDATE name = VALUES(name)
+    ");
+    $db->execute([$userid, $name]);
 }
 function getRank($userid, $stat)
 {
@@ -424,14 +424,14 @@ function Take_Item($itemid, $userid, $quantity = 1)
 
 function Item_Name($itemId)
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    $item = $redis->get('item_' . $itemId);
+    $item = $cache->get('item_' . $itemId);
     if (!$item) {
         $db->query("SELECT * FROM items WHERE id = ?");
         $db->execute([$itemId]);
         $item = $db->fetch_row(true);
-        $redis->setEx("item_" . $itemId, 3600, json_encode($item));
+        $cache->setEx("item_" . $itemId, 3600, json_encode($item));
         return $item['itemname'];
     } else {
         $item = json_decode($item, true);
@@ -441,14 +441,14 @@ function Item_Name($itemId)
 
 function Item_Image($itemId)
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    $item = $redis->get('item_' . $itemId);
+    $item = $cache->get('item_' . $itemId);
     if (!$item) {
         $db->query("SELECT * FROM items WHERE id = ?");
         $db->execute([$itemId]);
         $item = $db->fetch_row(true);
-        $redis->setEx("item_" . $itemId, 3600, json_encode($item));
+        $cache->setEx("item_" . $itemId, 3600, json_encode($item));
         return $item['image'];
     } else {
         $item = json_decode($item, true);
@@ -1290,7 +1290,7 @@ function genBars()
 function gangContest($adds)
 {
     global $user_class, $db;
-    $adding = "";
+    $adding = [];
     foreach ($adds as $att => $perk)
         $adding[] = "$att = $att + $perk, total_$att = total_$att + $perk";
     $db->query("UPDATE gangcontest SET " . implode(",", $adding) . " WHERE userid = ?");
@@ -1761,7 +1761,7 @@ function ofthes($userid, &$toadd)
 }
 function check_items($itemid, $userid = null)
 {
-    global $db, $user_class, $redis;
+    global $db, $user_class;
     if (empty($userid))
         $userid = $user_class->id;
     $db->query("SELECT quantity FROM inventory WHERE userid = ? AND itemid = ?");
@@ -2838,51 +2838,6 @@ function addToUserOperations($user_class, $field, $qty = 1)
     }
 }
 
-function getHalloweenUserList($userId)
-{
-    global $db;
-
-    $now = new \DateTime();
-
-    $db->query("SELECT * FROM halloween_user_list WHERE user_id = " . $userId . " AND month_year = '" . $now->format('d-m-Y-H') . "' LIMIT 1");
-    $db->execute();
-
-    $r = $db->fetch_row(true);
-    if (isset($r['id'])) {
-        $userIdList = explode(',', $r['listed_user_ids']);
-        $r['user_id_list'] = $userIdList;
-
-        return $r;
-    } else {
-        $db->query("INSERT INTO halloween_user_list (user_id, month_year) VALUES (" . $userId . ", '" . $now->format('d-m-Y-H') . "')");
-        $db->execute();
-        $r = getHalloweenUserList($userId);
-
-        return $r;
-    }
-
-    return $db->fetch_row(true);
-}
-
-function addToHalloweenPayoutLogs($item)
-{
-    global $db;
-
-    $now = new \DateTime();
-
-    $db->query("SELECT * FROM new_halloween_payout_logs WHERE find_date = ? AND item = ? LIMIT 1");
-    $db->execute(array($now->format('d-m'), $item));
-
-    $r = $db->fetch_row(true);
-    if (isset($r['id'])) {
-        $db->query("UPDATE `new_halloween_payout_logs` SET `count` = `count` + 1 WHERE `id` = " . $r['id']);
-        $db->execute();
-    } else {
-        $db->query("INSERT INTO new_halloween_payout_logs (find_date, item, count) VALUES ('" . $now->format('d-m') . "', '" . $item . "', 1)");
-        $db->execute();
-    }
-}
-
 function getCurrentQuestSeasonForUser($userId)
 {
     global $db;
@@ -3763,27 +3718,27 @@ function pretty_format_number($value)
     return $value;
 }
 
-// Requires db and redis to be globally available
+// Requires db and cache to be globally available
 function set_last_active($uid)
 {
-    global $db, $redis;
+    global $db, $cache;
 
     $current = time();
-    $lastactive = $redis->get('lastactive_' . $uid);
+    $lastactive = $cache->get('lastactive_' . $uid);
     if (empty($lastactive) || ($current - $lastactive) > 5) {
-        $redis->setEx('lastactive_' . $uid, 10, $current);
+        $cache->setEx('lastactive_' . $uid, 10, $current);
         perform_query("UPDATE `grpgusers` SET `lastactive` = ? WHERE id = ?", [$current, $uid]);
     }
 }
 
 function set_last_active_ip($uid, $ip)
 {
-    global $db, $redis;
+    global $db, $cache;
 
     $current = time();
-    $lastactive = $redis->get('lastactive_' . $uid);
+    $lastactive = $cache->get('lastactive_' . $uid);
     if (!$lastactive || ($current - $lastactive) >= 10) {
-        $redis->setEx('lastactive_' . $uid, 10, $current);
+        $cache->setEx('lastactive_' . $uid, 10, $current);
         perform_query("UPDATE `grpgusers` SET `lastactive` = ?, ip = ? WHERE id = ?", [$current, $ip, $uid]);
     }
 }
@@ -3798,33 +3753,33 @@ function perform_query($query, $params = [])
 
 function read_user_for_advertisement($uid, $ttl = 60)
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    if ($redis->exists("adv_user_" . $uid)) {
-        return json_decode($redis->get("adv_user_" . $uid));
+    if ($cache->exists("adv_user_" . $uid)) {
+        return json_decode($cache->get("adv_user_" . $uid));
     }
 
     $db->query("SELECT * FROM grpgusers WHERE id = ?");
     $db->execute([$uid]);
     $user = $db->fetch_row(true);
 
-    $redis->setEx("adv_user_" . $uid, $ttl, json_encode($user));
+    $cache->setEx("adv_user_" . $uid, $ttl, json_encode($user));
 
     return $user;
 }
 
 function getForums()
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    if ($redis->exists("forums")) {
-        return json_decode($redis->get("forums"), true);
+    if ($cache->exists("forums")) {
+        return json_decode($cache->get("forums"), true);
     }
 
     $db->query("SELECT * FROM forums ORDER BY disporder ASC");
     $db->execute();
     $forums = $db->fetch_row();
-    $redis->setEx("forums", 3600, json_encode($forums));
+    $cache->setEx("forums", 3600, json_encode($forums));
 
     return $forums;
 }
@@ -3863,17 +3818,17 @@ function getOwnThreads($fid, $uid, $page = 1)
 
 function getPermissions($fid, $gid)
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    if ($redis->exists("forumpermissions_" . $fid . "_" . $gid)) {
-        return json_decode($redis->get("forumpermissions_" . $fid . "_" . $gid), true);
+    if ($cache->exists("forumpermissions_" . $fid . "_" . $gid)) {
+        return json_decode($cache->get("forumpermissions_" . $fid . "_" . $gid), true);
     }
 
     $db->query("SELECT * FROM forumpermissions WHERE fid = ? AND gid = ?");
     $db->execute([$fid, $gid]);
     $permissions = $db->fetch_row(true);
 
-    $redis->setEx("forumpermissions_" . $fid . "_" . $gid, 3600, json_encode($permissions));
+    $cache->setEx("forumpermissions_" . $fid . "_" . $gid, 3600, json_encode($permissions));
     return $permissions;
 }
 
@@ -3911,16 +3866,16 @@ function getPosts($tid, $page = 1)
 
 function getScheduledEvent($type = 'gym')
 {
-    global $db, $redis;
+    global $db, $cache;
 
     $now = time();
-    if ($redis->exists("scheduled_event_" . $type)) {
-        $event = json_decode($redis->get("scheduled_event_" . $type), true);
+    if ($cache->exists("scheduled_event_" . $type)) {
+        $event = json_decode($cache->get("scheduled_event_" . $type), true);
         if ($event['start'] <= $now && $event['end'] >= $now) {
             return $event;
         }
 
-        $redis->delete("scheduled_event_" . $type);
+        $cache->delete("scheduled_event_" . $type);
     } else {
         $db->query("SELECT * FROM scheduledevents WHERE type = ? AND start <= ? AND end >= ? LIMIT 1");
         $db->execute([$type, $now, $now]);
@@ -3928,7 +3883,7 @@ function getScheduledEvent($type = 'gym')
         if ($event) {
             $timetolive = $event['end'] - $now;
             if ($timetolive > 0) {
-                $redis->setEx("scheduled_event_" . $type, $timetolive, json_encode($event));
+                $cache->setEx("scheduled_event_" . $type, $timetolive, json_encode($event));
                 return $event;
             }
         }

@@ -1,12 +1,10 @@
 <?php
 ob_start();
 
+require_once 'includes/cache.php';
 require_once 'includes/functions.php';
 
 start_session_guarded();
-
-$redis = new Redis();
-$redis->connect("127.0.1", 6379);
 
 header('Content-Type: text/html; charset=utf-8');
 function getUserIP()

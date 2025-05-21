@@ -1,11 +1,8 @@
 <?php
 
-$db_host = 'localhost';
-$db_name = 'chaoscit_game';
-$db_user = 'chaoscit_user';
-$db_pass = '3lrKBlrfMGl2ic14';
+require_once 'config.php';
 
-$db = new mysqli($db_host, $db_user, $db_pass, $db_name);
+$db = new mysqli(Config::db()->host, Config::db()->username, Config::db()->password, Config::db()->database);
 if ($db->connect_error) {
     die("Connection failed: " . $db->connect_error);
 }
@@ -16,7 +13,7 @@ if (!$db->set_charset("utf8mb4")) {
 date_default_timezone_set('UTC');
 
 try {
-    $db = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
+    $db = new PDO("mysql:host=" . Config::db()->host . ";dbname=" . Config::db()->database, Config::db()->username, Config::db()->password);
     // Set PDO to throw exceptions on error
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     // Set default fetch mode to associative array
@@ -28,7 +25,7 @@ try {
 
 try {
     // Create a PDO instance
-    $pdo = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
+    $pdo = new PDO("mysql:host=" . Config::db()->host . ";dbname=" . Config::db()->database, Config::db()->username, Config::db()->password);
 
     // Set PDO to throw exceptions on error
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
