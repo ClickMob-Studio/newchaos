@@ -181,11 +181,11 @@ if (isset($_GET['action']) && $_GET['action'] === 'reset') {
         } else if ($user_class->points < 10000) {
             diefun('You do not have enough points to reset your prestige.');
         }
-    }
 
-    $db->query('UPDATE grpgusers SET points = points - 10000 WHERE id = ?');
-    $db->execute([$user_class->id]);
-    $user_class->points = $user_class->points - 10000;
+        $db->query('UPDATE grpgusers SET points = points - 10000 WHERE id = ?');
+        $db->execute([$user_class->id]);
+        $user_class->points = $user_class->points - 10000;
+    }
 
     resetUserPrestigeSkills($user_class->id);
     $userPrestigeSkills = getUserPrestigeSkills($user_class);
