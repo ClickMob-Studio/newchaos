@@ -178,8 +178,14 @@ if (isset($_GET['action']) && $_GET['action'] === 'reset') {
             diefun('You can only reset your prestige once every 7 days for VIPs and 31 days for non-VIPs.');
         } else if ($user_class->rmdays <= 0 && $elapsedDays < 31) {
             diefun('You can only reset your prestige once every 31 days for non-VIPs.');
+        } else if ($user_class->points < 10000) {
+            diefun('You do not have enough points to reset your prestige.');
         }
     }
+
+    $db->query('UPDATE grpgusers SET points = points - 10000 WHERE id = ?');
+    $db->execute([$user_class->id]);
+    $user_class->points = $user_class->points - 10000;
 
     resetUserPrestigeSkills($user_class->id);
     $userPrestigeSkills = getUserPrestigeSkills($user_class);
@@ -309,7 +315,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $db->query("UPDATE grpgusers SET prestige = prestige + 1, level = 1, exp = 0, bank = bank - " . $bankCashRequired . ", points = points - " . $pointsRequired . ", strength = " . $newStrength . ", defense = " . $newDefense . ", speed = " . $newSpeed . ", agility = " . $newAgility . "  WHERE id = ?");
         $db->execute([$user_class->id]);
 
-        $db->query("UPDATE user_prestige_skills SET reset_points = reset_points + 1  WHERE user_id = ?");
+        $db->query("UPDATE user_prestige_skills SET reset_points = reset_points + 1, last_reset = NULL WHERE user_id = ?");
         $db->execute([$user_class->id]);
         // Assuming the prestige level is updated in the object, you might need to refresh it or adjust the object property accordingly
         echo Message("Congratulations! You have prestiged to level " . ($user_class->prestige + 1) . ".");
@@ -421,6 +427,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php else: ?>
             <p>You have recently reset your prestige, you can reset again in <?= $daysTillReset ?> days.</p>
         <?php endif; ?>
+
+        <?php if ($canReset && $userPrestigeSkills['last_reset'] != null): ?>
+            <p>Resetting prestige will cost 10,000 points.</p>
+        <?php elseif ($canReset && $userPrestigeSkills['last_reset'] == null): ?>
+            <p>Your next prestige reset is free.</p>
+        <?php endif; ?>
+
         <?php if ($canReset): ?>
             <a href="prestige.php?action=reset">RESET PRESTIGE</a>
         <?php endif; ?>
