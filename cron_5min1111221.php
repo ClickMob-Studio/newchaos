@@ -1,37 +1,16 @@
 <?php
 
-(PHP_SAPI !== 'cli' || isset($_SERVER['HTTP_USER_AGENT'])) && die('');
-$link = mysql_connect('127.0.0.1', 'chaoscity_co', '3lrKBlrfMGl2ic14');
-if (!$link) {
-    die('Could not connect: ' . mysql_error());
-}
-mysql_select_db("game");
-
-mysql_query("UPDATE pets
-SET
-nerve = LEAST(
-    LEVEL +4,
-    CEIL((nerve +((LEVEL +4) * .2)))
-),
-hp = LEAST(
-    LEVEL * 50,
-    CEIL((hp +((LEVEL * 50) * .25)))
-),
-energy = LEAST(
-    LEVEL +9,
-    CEIL((energy +((LEVEL +9) * .2)))
-),
-awake = LEAST(
-    CEIL(awake +(maxawake * .2)),
-    maxawake
-)", $link) or mysql_error();
-
-$result = mysql_query("SELECT `id` FROM `grpgusers` WHERE `is_jail_bot` = 1");
-while ($line = mysql_fetch_array($result)) {
-    mysql_query("UPDATE `grpgusers` SET `jail` = 300 WHERE `id` = " . $line['id']);
-
-    Send_Event(2, "Jail Bots Ran");
+if ($_GET['key'] != 'cron94') {
+    die();
 }
 
-print "worked";
-mysql_close($link);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+include 'dbcon.php';
+include 'database/pdo_class.php';
+
+// Dethrone kings and queens who have been inactive for more than 24 hours
+$db->query("UPDATE grpgusers SET king = 0, queen = 0 WHERE king != 0 OR queen != 0 AND lastactive < (UNIX_TIMESTAMP() - 86400);");
+$db->execute();
