@@ -29,17 +29,8 @@ session_write_close();
 
 $response = array();
 
-if (!isset($_GET['alv'])) {
-    echo json_encode(error('Something went wrong.'));
-    exit;
-}
-if ($_GET['alv'] !== 'yes') {
-    echo json_encode(error('Something went wrong.'));
-    exit;
-}
-
 $levelLimit = (int) $_GET['level_limit'];
-if (!$levelLimit) {
+if (!isset($_GET['alv']) || $_GET['alv'] !== 'yes' || !$levelLimit) {
     echo json_encode(error('Something went wrong.'));
     exit;
 }
