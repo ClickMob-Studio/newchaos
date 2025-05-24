@@ -2973,8 +2973,6 @@ function getQuestSeasonUser($userId, $questSeasonId)
 
         return $r;
     }
-
-    return $db->fetch_row(true);
 }
 
 function getQuestSeasonMissionUser($userId, $questSeasonId)
@@ -3941,6 +3939,94 @@ function getScheduledEvent($type = 'gym')
                 return $event;
             }
         }
+    }
+
+    return null;
+}
+
+// Function to start a session if it is not already started
+function start_session_guarded(): void
+{
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+}
+
+function get_user_mission($uid)
+{
+    global $cache, $db;
+
+    $usermission = $cache->get("userMission_" . $uid);
+    if (empty($usermission) || !$usermission) {
+        $query = $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no'");
+        $db->execute([$uid]);
+        $usermission = $db->fetch_row(true);
+
+        if (!empty($usermission)) {
+            $cache->setEx("userMission_" . $uid, 5, json_encode($usermission));
+        }
+    } else {
+        $usermission = json_decode($usermission, true);
+    }
+
+    return $usermission;
+}
+
+function get_mission($id)
+{
+    global $db, $cache;
+
+    $mission = $cache->get("mission_" . $id);
+    if (!empty($mission) && $mission) {
+        return json_decode($mission, true);
+    }
+
+    $db->query("SELECT * FROM mission WHERE id = ?");
+    $db->execute([$id]);
+    $mission = $db->fetch_row(true);
+    if (!empty($mission)) {
+        $cache->setEx("mission_" . $id, 3600, json_encode($mission));
+        return $mission;
+    }
+
+    return null;
+}
+
+function get_current_operation($uid)
+{
+    global $cache, $db;
+
+    $currentUserOperation = $cache->get("currentUserOperation_" . $uid);
+    if (empty($currentUserOperation) || !$currentUserOperation) {
+        $db->query("SELECT * FROM `user_operations` WHERE `user_id` = ? AND (`is_complete` = 0 OR `is_complete` IS NULL) AND (`is_skipped` = 0 OR `is_skipped` IS NULL) ORDER BY `id` DESC LIMIT 1");
+        $db->execute(array($uid));
+        $currentUserOperation = $db->fetch_row(true);
+
+        if (!empty($currentUserOperation)) {
+            $cache->setEx("currentUserOperation_" . $uid, 5, json_encode($currentUserOperation));
+        }
+    } else {
+        $currentUserOperation = json_decode($currentUserOperation, true);
+    }
+
+    return $currentUserOperation;
+}
+
+function get_operation($id)
+{
+    global $db, $cache;
+
+    $operation = $cache->get("operation_" . $id);
+    if (!empty($operation) && $operation) {
+        return json_decode($operation, true);
+    }
+
+    $db->query("SELECT * FROM operations WHERE id = ?");
+    $db->execute([$id]);
+    $operation = $db->fetch_row(true);
+    if (!empty($operation)) {
+        $cache->setEx("operation_" . $id, 3600, json_encode($operation));
+        return $operation;
     }
 
     return null;
