@@ -950,8 +950,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             $praids = ($operation['raids'] > $currentUserOperation['raids']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['raids']) . "/" . shorthandNumber($operation['raids']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['raids']) . "/" . shorthandNumber($operation['raids']) . "</font>";
         }
 
-        error_log("User {$user_class->id} has operation: " . print_r($currentUserOperation, true));
-
         ?>
         <style>
             .daily-jobs .card-header {

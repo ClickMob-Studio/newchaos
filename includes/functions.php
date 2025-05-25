@@ -604,9 +604,11 @@ function crimeleft($ts)
 {
     return howlongtil($ts);
 }
+
 function howlongago($ts, $stop = 'none')
 {
     $ts = time() - $ts;
+
     if ($ts < 1)
         return " NOW";
     elseif ($ts == 1)
@@ -615,22 +617,26 @@ function howlongago($ts, $stop = 'none')
         return $ts . "s";
     elseif ($ts < 120)
         return "1m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60)
+    elseif ($ts < 3600)
         return floor($ts / 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60 * 2)
-        return "1h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60 * 24)
-        return floor($ts / (60 * 60)) . "h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60 * 24 * 2)
-        return "1d " . floor($ts / (60 * 60) % 24) . "h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < (60 * 60 * 24 * 7) or $stop == 'days')
-        return floor($ts / (60 * 60 * 24)) . "d " . floor($ts / (60 * 60) % 24) . "h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60 * 24 * 30.5)
-        return floor($ts / (60 * 60 * 24 * 7)) . " weeks ago";
-    elseif ($ts < 60 * 60 * 24 * 365)
-        return floor($ts / (60 * 60 * 24 * 30.5)) . " months ago";
+    elseif ($ts < 7200)
+        return "1h " . floor((floor($ts / 60)) % 60) . "m " . ($ts % 60) . "s";
+    elseif ($ts < 86400)
+        return floor($ts / 3600) . "h " . floor((floor($ts / 60)) % 60) . "m " . ($ts % 60) . "s";
+    elseif ($ts < 172800)
+        return "1d " . floor((floor($ts / 3600)) % 24) . "h " . floor((floor($ts / 60)) % 60) . "m " . ($ts % 60) . "s";
+    elseif ($ts < 604800 || $stop === 'days')
+        return
+            floor($ts / 86400) . "d " .
+            floor((floor($ts / 3600)) % 24) . "h " .
+            floor((floor($ts / 60)) % 60) . "m " .
+            floor($ts % 60) . "s";
+    elseif ($ts < 2628000) // ~30.5 days
+        return floor($ts / 604800) . " weeks ago";
+    elseif ($ts < 31536000)
+        return floor($ts / 2628000) . " months ago";
     else
-        return floor($ts / (60 * 60 * 24 * 365)) . " years ago";
+        return floor($ts / 31536000) . " years ago";
 }
 
 function howlongleft($ts)
@@ -3896,7 +3902,7 @@ function getScheduledEvent($type = 'gym')
         }
     }
 
-    return null;
+    return;
 }
 
 // Function to start a session if it is not already started
