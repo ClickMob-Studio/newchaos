@@ -1683,12 +1683,12 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         }
 
                         // Bust Pill
-                        if ($user_class->bustpill > 0) {
+                        if ($user_class->bustpill > $now) {
                             $messages[] = '<div class="event-countdown" data-end="' . $user_class->bustpill . '">Police Badge: <span class="countdown-text">' . secondsToTime($user_class->bustpill - time()) . '</span></div>';
                         }
 
                         // Out of Jail
-                        if ($user_class->outofjail > 0) {
+                        if ($user_class->outofjail > $now) {
                             $messages[] = '<div class="event-countdown" data-end="' . $user_class->outofjail . '">Jail Card: <span class="countdown-text">' . secondsToTime($user_class->outofjail - time()) . '</span></div>';
                         }
 
