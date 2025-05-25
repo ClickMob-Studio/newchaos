@@ -547,6 +547,11 @@ function raidLeash(value,pets) {
 }
 </script>';
         foreach ($pets as $row) {
+            $db->query("SELECT * FROM petshop WHERE id = ?");
+            $db->execute([$row['petid']]);
+            $pet = $db->fetch_row(true);
+
+
             $petinfo = new Pet($user_class->id);
             ?>
 
