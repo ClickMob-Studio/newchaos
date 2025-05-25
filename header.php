@@ -791,7 +791,13 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                 </a>
 
             </div>
-            <div class="d-flex justify-content-end align-items-center">
+            <div class="d-flex justify-content-end align-items-center" style="gap: 4px;">
+                <div class="mx-2">
+                    <a href="store.php#VIP">
+                        <?= ($user_class->rmdays > 0 ? $user_class->rmdays . ' VIP days' : 'Not VIP') ?>
+                    </a>
+                </div>
+
                 <a href="#" data-bs-toggle="modal" data-bs-target="#timeModal">
                     <i class="fa-solid fa-clock"></i>
                 </a>
