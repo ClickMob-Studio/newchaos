@@ -142,9 +142,38 @@ function car_popup($text, $id)
 }
 function secondsToTime($seconds)
 {
-    $dtF = new DateTime("@0");
+    $dtF = new DateTime('@0');
     $dtT = new DateTime("@$seconds");
-    return $dtF->diff($dtT)->format('%h hours, %i minutes and %s seconds');
+    $interval = $dtF->diff($dtT);
+
+    $totalDays = (int) $interval->format('%a');
+    $weeks = floor($totalDays / 7);
+    $days = $totalDays % 7;
+
+    $hours = (int) $interval->format('%h');
+    $minutes = (int) $interval->format('%i');
+    $seconds = (int) $interval->format('%s');
+
+    $parts = [];
+
+    if ($weeks > 0) {
+        $parts[] = $weeks . ' week' . ($weeks !== 1 ? 's' : '');
+    }
+    if ($days > 0) {
+        $parts[] = $days . ' day' . ($days !== 1 ? 's' : '');
+    }
+    if ($hours > 0) {
+        $parts[] = $hours . ' hour' . ($hours !== 1 ? 's' : '');
+    }
+    if ($minutes > 0) {
+        $parts[] = $minutes . ' minute' . ($minutes !== 1 ? 's' : '');
+    }
+    if ($seconds > 0 || empty($parts)) {
+        $parts[] = $seconds . ' second' . ($seconds !== 1 ? 's' : '');
+    }
+
+    $last = array_pop($parts);
+    return empty($parts) ? $last : implode(', ', $parts) . ', ' . $last;
 }
 function daysToTime($seconds)
 {
@@ -3887,20 +3916,83 @@ function getScheduledEvent($type = 'gym')
         }
 
         $cache->delete("scheduled_event_" . $type);
-    } else {
-        $db->query("SELECT * FROM scheduledevents WHERE type = ? AND start <= ? AND end >= ? LIMIT 1");
-        $db->execute([$type, $now, $now]);
-        $event = $db->fetch_row(true);
-        if ($event) {
-            $timetolive = $event['end'] - $now;
-            if ($timetolive > 0) {
-                $cache->setEx("scheduled_event_" . $type, $timetolive, json_encode($event));
-                return $event;
-            }
+    }
+
+    $db->query("SELECT * FROM scheduledevents WHERE type = ? AND start <= ? AND end >= ? LIMIT 1");
+    $db->execute([$type, $now, $now]);
+    $event = $db->fetch_row(true);
+    if ($event) {
+        $timetolive = $event['end'] - $now;
+        if ($timetolive > 0) {
+            $cache->setEx("scheduled_event_" . $type, $timetolive, json_encode($event));
+            return $event;
         }
     }
 
-    return;
+    return null;
+}
+
+function getAllScheduledEvents()
+{
+    global $db, $cache;
+
+    $cache->del("all_scheduled_events");
+
+    $now = time();
+    if ($cache->exists("all_scheduled_events")) {
+        $events = json_decode($cache->get("all_scheduled_events"), true);
+        return $events;
+    }
+
+    $db->query("SELECT * FROM scheduledevents WHERE start <= ? AND end >= ?");
+    $db->execute([$now, $now]);
+    $events = $db->fetch_row();
+    if ($events) {
+        $cache->setEx("all_scheduled_events", 900, json_encode($events));
+        return $events;
+    }
+
+    return null;
+}
+
+function getEventsMessage()
+{
+    $events = getAllScheduledEvents();
+    if (empty($events)) {
+        return null;
+    }
+
+    $now = time();
+    $message = "";
+    foreach ($events as $event) {
+        error_log("Processing event: " . json_encode($event));
+        $timeleft = secondsToTime($event['end'] - $now);
+        $message .= "<div class='event-countdown' data-end='{$event['end']}'>" . _eventMessageByType($event['type'], $event['multiplier'], $timeleft) . "</div>";
+    }
+
+    return $message;
+}
+
+function _eventMessageByType($type, $multiplier, $timeleft)
+{
+    switch ($type) {
+        case 'gym':
+            return "Gym event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'crime_exp':
+            return "Crime EXP event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'crime_money':
+            return "Crime money event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'raid':
+            return "Raid event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'mission_exp':
+            return "Mission EXP event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'mission_money':
+            return "Mission money event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'backalley':
+            return "Backalley event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        default:
+            return "";
+    }
 }
 
 // Function to start a session if it is not already started
