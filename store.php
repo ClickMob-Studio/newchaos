@@ -4,19 +4,25 @@ include 'header.php';
 <div class='box_top'>Upgrade Store</div>
 <div class='box_middle'>
     <div class='pad'>
-        <?php $result = mysql_query("SELECT * FROM `rmstore` WHERE `limiteditems1` != '9999'");
-        while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
-            $limiteditems1 = $limiteditems1 + $line['limiteditems1'];
-        }
-        $result = mysql_query("SELECT * FROM `rmstore` WHERE `limiteditems2` != '9999'");
-        while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
-            $limiteditems2 = $limiteditems2 + $line['limiteditems2'];
-        }
-        $result = mysql_query("SELECT * FROM `rmstore` WHERE `limiteditems3` != '9999'");
-        while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
-            $limiteditems3 = $limiteditems3 + $line['limiteditems3'];
-        }
+        <?php
+        $limiteditems1 = "";
+        $limiteditems2 = "";
+        $limiteditems3 = "";
 
+        $db->query("SELECT * FROM `rmstore` WHERE `limiteditems1` != '9999' OR `limiteditems2` != '9999' OR `limiteditems3` != '9999'");
+        $db->execute();
+        $result = $db->fetch_row();
+        foreach ($result as $row) {
+            if ($row['limiteditems1'] != '9999') {
+                $limiteditems1 += $row['limiteditems1'];
+            }
+            if ($row['limiteditems2'] != '9999') {
+                $limiteditems2 += $row['limiteditems2'];
+            }
+            if ($row['limiteditems3'] != '9999') {
+                $limiteditems3 += $row['limiteditems3'];
+            }
+        }
 
         // Set a session variable for excluded users
         if ($user_class->id == 1 || $user_class->id == 2) {
@@ -888,9 +894,6 @@ include 'header.php';
                 }
             }
         }
-        $donperc = ($user_class->donations / $donmax) * 100;
-        $donperc = $donperc >= 100 ? 100 : $donperc;
-
 
         echo '<div class="flexcont" style="align-items:stretch;">';
         echo '<div class="flexele floaty" style="margin:3px;">';
@@ -1326,7 +1329,7 @@ include 'header.php';
 
 <br>
 <div class="floaty" style="margin: 3px;">
-    <h4>VIP PACKAGES</h4>
+    <h4 id="VIP">VIP PACKAGES</h4>
     <hr>
     <div class="vip-packages"
         style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
@@ -1358,8 +1361,11 @@ include 'header.php';
                             src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
 
+
     </div>
-    <br>
+    <div class="text-center my-4">
+        <?= ($user_class->rmdays > 0 ? "You have " . prettynum($user_class->rmdays) . " days of VIP remaining" : 'You are currently not a VIP member.') ?>
+    </div>
 </div>
 
 <br /><br />

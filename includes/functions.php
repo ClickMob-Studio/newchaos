@@ -2679,19 +2679,17 @@ function getBpCategoryUser($bpCategory, $user_class)
 {
     global $db;
 
-    $db->query("SELECT * FROM bp_category_user WHERE user_id = " . $user_class->id . " AND bp_category_id = " . $bpCategory['id'] . " LIMIT 1");
-    $db->execute();
-    $r = $db->fetch_row();
-
-    if (isset($r[0]['id'])) {
-        return $r[0];
-    } else {
-        $db->query("INSERT INTO bp_category_user (bp_category_id, user_id) VALUES (" . $bpCategory['id'] . ", " . $user_class->id . ")");
-        $db->execute();
-        $r = getBpCategoryUser($bpCategory['id'], $user_class);
-
+    $db->query("SELECT * FROM bp_category_user WHERE user_id = ? AND bp_category_id = ? LIMIT 1");
+    $db->execute([$user_class->id, $bpCategory['id']]);
+    $r = $db->fetch_row(true);
+    if (isset($r['id'])) {
         return $r;
     }
+
+    $db->query("INSERT INTO bp_category_user (bp_category_id, user_id) VALUES (?, ?)");
+    $db->execute([$bpCategory['id'], $user_class->id]);
+    return getBpCategoryUser($bpCategory['id'], $user_class);
+
 }
 
 function addToBpCategoryUser($bpCategory, $user_class, $field, $qty = 1)

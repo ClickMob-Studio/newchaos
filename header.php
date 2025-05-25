@@ -1381,10 +1381,13 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                     <div class="p-3 dcPanel dcAvatarPanel d-none d-md-block">
                         <div class="row mb-3">
                             <div class="col-7 dcUserName">
-
                                 <span class="dcHeaderUsername">
                                     <?= $user_class->formattedname; ?>
                                 </span>
+                                <div class="mt-1" style="font-size: 1.2rem">
+                                    <a
+                                        href="store.php#VIP"><?= ($user_class->rmdays > 0 ? $user_class->rmdays . ' VIP days' : 'Not VIP') ?></a>
+                                </div>
                             </div>
                             <div class="col-3 text-center new_avarta">
                                 Level <?= $user_class->level; ?>
