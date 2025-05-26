@@ -2152,9 +2152,6 @@ function generateMacroToken($length = 10)
 function macroTokenCheck($user_class)
 {
     if (!isset($_GET['token'])) {
-        //        Send_Event(1, 'ID ' . $user_class-> id . ' MUGGING: NO TOKEN PROVIDED', 1);
-//        Send_Event(2, 'ID ' . $user_class-> id . ' MUGGING: NO TOKEN PROVIDED', 2);
-
         echo "
             <div class='alert alert-danger'>
                 <p>1 Something went wrong, an Admin has been informed.
@@ -2165,9 +2162,6 @@ function macroTokenCheck($user_class)
 
     $token = $_GET['token'];
     if (empty($token)) {
-        //        Send_Event(1, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token, 1);
-//        Send_Event(2, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token, 2);
-
         echo "
             <div class='alert alert-danger'>
                 <p>2 Something went wrong, an Admin has been informed.
@@ -2177,10 +2171,6 @@ function macroTokenCheck($user_class)
     }
 
     if ($user_class->macro_token != $token) {
-        //        Send_Event(1, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token . ' - ' . $user_class->macro_token, 1);
-//        Send_Event(2, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token . ' - ' . $user_class->macro_token, 2);
-
-
         echo
             "
             <div class='alert alert-danger'>
@@ -2191,8 +2181,7 @@ function macroTokenCheck($user_class)
     }
 
     $newMacroToken = generateMacroToken();
-    mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken . "' WHERE id = " . $user_class->id);
-
+    perform_query("UPDATE grpgusers SET macro_token = ? WHERE id = ?", [$newMacroToken, $user_class->id]);
     return $newMacroToken;
 }
 
@@ -3978,7 +3967,6 @@ function getEventsMessage()
     $now = time();
     $message = "";
     foreach ($events as $event) {
-        error_log("Processing event: " . json_encode($event));
         $timeleft = secondsToTime($event['end'] - $now);
         $message .= "<div class='event-countdown' data-end='{$event['end']}'>" . _eventMessageByType($event['type'], $event['multiplier'], $timeleft) . "</div>";
     }

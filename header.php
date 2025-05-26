@@ -1790,20 +1790,16 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         }
 
                         // Jail
-                        if ($user_class->jail > $now) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $user_class->jail . '">Jail: <span class="countdown-text">' . secondsToTime($user_class->jail - time()) . '</span></div>';
+                        if ($user_class->jail > 0) {
+                            $messages[] = '<div class="event-countdown" data-end="' . time() + $user_class->jail . '">Jail: <span class="countdown-text">' . secondsToTime($user_class->jail) . '</span></div>';
                         }
 
                         // Additional messages based on your previous code snippets
                         if ($user_class->hospital > 0) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $user_class->hospital . '">You are currently in hospital for: <span class="countdown-text">' . secondsToTime($user_class->hospital - time()) . '</span></div>';
+                            $messages[] = '<div class="event-countdown" data-end="' . time() + $user_class->hospital . '">You are currently in hospital for: <span class="countdown-text">' . secondsToTime($user_class->hospital) . '</span></div>';
                         }
 
-                        if ($user_class->jail > 0) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $user_class->jail . '">You are currently in jail for: <span class="countdown-text">' . secondsToTime($user_class->jail - time()) . '</span></div>';
-                        }
-
-                        if ($user_class->nightvision > 0) {
+                        if ($user_class->nightvision > $now) {
                             $messages[] = '<div class="event-countdown" data-end="' . $user_class->nightvision . '">You currently have: <span class="countdown-text">' . secondsToTime($user_class->nightvision - time()) . '</span> of Night Vision left.</div>';
                         }
 

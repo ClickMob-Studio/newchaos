@@ -7,7 +7,7 @@ start_session_guarded();
 include 'header.php';
 
 if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
-    mysql_query('UPDATE `grpgusers` SET `captcha_timestamp` = 0 WHERE `id` = ' . $user_class->id);
+    perform_query("UPDATE `grpgusers` SET `captcha_timestamp` = 0 WHERE `id` = ?", [$user_class->id]);
     header('Location: backalley_new.php');
 }
 
@@ -17,7 +17,6 @@ if (checkCaptchaRequired($user_class)) {
 }
 
 $userBaStats = getUserBaStats($user_class);
-
 $medPackOneCount = 0;
 $medPackTwoCount = check_items(14, $user_class->id);
 $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
@@ -66,15 +65,16 @@ $medPackTotalCount = $medPackOneCount + $medPackTwoCount;
                     <tbody>
                         <tr>
                             <td><span
-                                    class="ba-stats-searches"><?php echo number_format($userBaStats['turns'], 0) ?></span>
-                            </td>
-                            <td><span class="ba-stats-wins"><?php echo number_format($userBaStats['wins'], 0) ?></span>
+                                    class="ba-stats-searches"><?php echo number_format($userBaStats['turns'] ?? 0, 0) ?></span>
                             </td>
                             <td><span
-                                    class="ba-stats-losses"><?php echo number_format($userBaStats['losses'], 0) ?></span>
+                                    class="ba-stats-wins"><?php echo number_format($userBaStats['wins'] ?? 0, 0) ?></span>
                             </td>
                             <td><span
-                                    class="ba-stats-win-p"><?php echo number_format(($userBaStats['wins'] / $userBaStats['turns'] * 100), 0) ?>%</span>
+                                    class="ba-stats-losses"><?php echo number_format($userBaStats['losses'] ?? 0, 0) ?></span>
+                            </td>
+                            <td><span
+                                    class="ba-stats-win-p"><?php echo number_format(($userBaStats['wins'] ?? 0 / $userBaStats['turns'] ?? 0 * 100), 0) ?>%</span>
                             </td>
                         </tr>
                         <tr>

@@ -189,7 +189,7 @@ if ($user_class->gang > 0) {
         }
     }
 
-    function renderCategory($categoryName, $items, $loaned)
+    function renderCategory($categoryName, $items, $loaned = false)
     {
         global $restrictedSendItems, $multiUseItems, $restrictedUseItems, $loan;
 

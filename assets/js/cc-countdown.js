@@ -28,7 +28,7 @@ function updateCountdowns() {
 
         countdownEl.textContent = remaining > 0
             ? formatDuration(remaining)
-            : "0 seconds, event has ended";
+            : "0 seconds";
     });
 }
 
