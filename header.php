@@ -1212,7 +1212,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                 <div class="col-12 col-lg-8 mt-3 mt-lg-0">
                     <div class="dcPanel h-100">
                         <div class="text-center">
-                            <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <div style="display:flex;justify-content:space-between;">
                                 <div class="col-6 col-md-4" style="justify-items: center;">
                                     <div class="p-1 dcPanel dcAvatarPanel"
                                         style="width: 150;margin-top: 10px;margin-left: 6px">
@@ -1304,7 +1304,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                 </div>
 
                                 <div class="dcBannerButtonsContainer2 d-none d-md-block col-4 col-lg-4">
-                                    <a href="vote.php" class="dcSecondaryButton my-2 mt-4">Vote for <i
+                                    <a href="vote.php" class="dcSecondaryButton my-2 mt-3">Vote for <i
                                             class="far fa-gem"></i></a>
 
                                     <a href="refer.php" class="dcSecondaryButton my-2">Refer for <i
@@ -1605,8 +1605,8 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
                         }
 
-                        if ($user_class->nightvision > 0) {
-                            echo '<span style="color:red;">Your currently have ' . $user_class->nightvision . ' minutes of Night Vision left.</span><br />';
+                        if ($user_class->nightvision > $now) {
+                            echo '<span style="color:red;">You currently have ' . $user_class->nightvision . ' minutes of Night Vision left.</span><br />';
                         }
 
                         if ($user_class->fbi > 0) {

@@ -1,72 +1,76 @@
 <?php
 include "header.php";
 ?>
-    <div class='box_top'>Raid Missions</div>
-    <div class='box_middle'>
+<div class='box_top'>Raid Missions</div>
+<div class='box_middle'>
     <div class='pad'>
-<?php
-if (isset($_GET['reset_mission']) && (int)$_GET['reset_mission']) {
-    $q = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid={$user_class->id} AND completed='no' ORDER BY timestamp DESC LIMIT 1"));
-    if ($q) {
-        diefun('You already have an active mission.');
-    }
+        <?php
 
-    $tempItemUse = getItemTempUse($user_class->id);
-    if ($tempItemUse['mission_passes'] < 1) {
-        diefun('You do not have any mission passes available to reset this mission.');
-    }
+        $now = time();
 
-    $resetMissionId = (int)$_GET['reset_mission'];
-    $now = time();
+        if (isset($_GET['reset_mission']) && (int) $_GET['reset_mission']) {
+            $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no' ORDER BY timestamp DESC LIMIT 1");
+            $db->execute([$user_class->id]);
+            if ($db->num_rows() > 0) {
+                diefun('You already have an active mission.');
+            }
 
-    $r = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid={$user_class->id} AND mid={$resetMissionId} ORDER BY timestamp DESC LIMIT 1"));
+            $tempItemUse = getItemTempUse($user_class->id);
+            if ($tempItemUse['mission_passes'] < 1) {
+                diefun('You do not have any mission passes available to reset this mission.');
+            }
 
-    mysql_query("UPDATE missions SET completed = 'no', timestamp = " . $now . ", crimes = 0, mugs = 0, kills = 0, busts = 0, backalleys = 0, crimes_paid = 0, busts_paid = 0, kills_paid = 0, mugs_paid = 0 WHERE id = " . $r['id']);
+            $resetMissionId = (int) $_GET['reset_mission'];
 
-    removeItemTempUse($user_class->id, 'mission_passes', 1);
+            $db->query("SELECT * FROM missions WHERE userid = ? AND mid = ? ORDER BY timestamp DESC LIMIT 1");
+            $db->execute([$user_class->id, $resetMissionId]);
+            $r = $db->fetch_row(true);
 
-    diefun('You have successfully reset your mission. <a href="ba_missions.php">Go Back</a>');
-}
+            $db->query("UPDATE missions SET completed = 'no', timestamp = ?, crimes = 0, mugs = 0, kills = 0, busts = 0, backalleys = 0, raids = 0, crimes_paid = 0, busts_paid = 0, kills_paid = 0, mugs_paid = 0 WHERE id = ?");
+            $db->execute([$now, $r['id']]);
 
-if (isset($_GET['do'])) {
-    $do = abs(intval($_GET['do']));
+            removeItemTempUse($user_class->id, 'mission_passes', 1);
 
-    $mm = mysql_fetch_array(mysql_query("SELECT * FROM mission WHERE id={$do}"));
-    $r = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid={$user_class->id} AND mid={$do} ORDER BY timestamp DESC LIMIT 1"));
-    $q = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid={$user_class->id} AND completed='no' ORDER BY timestamp DESC LIMIT 1"));
-    $now = time();
-    if ($q)
-        $msgg = "You are currently doing a mission!";
-    else if ($r && $r['completed'] != "no") {
-        $currenttime = time();
-        if ($mm['between'] + $r['timestamp'] > $currenttime) {
-            $msgg = "You have to wait " . secondsToTime(($mm['between'] + $r['timestamp']) - $currenttime) . " until you can start another mission!";
-        } else {
-            $msgg = "You have successfully started a mission!";
-
-            //'userid', 'crimes', 'mugs', 'kills', 'busts', 'timestamp', 'mid', 'completed', 'partner'
-
-            mysql_query("INSERT INTO missions (`userid`, `timestamp`, `mid`) VALUES({$user_class->id}, {$now}, {$do})");
-            mysql_query("INSERT INTO missionlog (`id`, `text`, `timestamp`) VALUES('[x] started a {$mm['name']},$user_class->id', unix_timestamp())");
-
-            // mysql_query("INSERT INTO missions VALUES(NULL,{$user_class->id},'','','','',unix_timestamp(),{$do},'no','')"));
-            // mysql_query("INSERT INTO missionlog VALUES(NULL,'[x] started a {$mm['name']},$user_class->id',unix_timestamp())"));
+            diefun('You have successfully reset your mission. <a href="ba_missions.php">Go Back</a>');
         }
-    } else if  ($r['completed'] == "no")
-        $msgg = "You are currently doing a mission!";
-    else {
-        $msgg = "You have successfully started a mission!";
-        mysql_query("INSERT INTO missions (`userid`,`timestamp`, `mid`) VALUES({$user_class->id}, {$now}, {$do})");
-        mysql_query("INSERT INTO missionlog (`id`, `text`, `timestamp`) VALUES('[x] started a {$mm['name']},$user_class->id', unix_timestamp())");
-        // mysql_query("INSERT INTO missions VALUES(NULL,{$user_class->id},'','','','',unix_timestamp(),{$do},'no','')");
-        // mysql_query("INSERT INTO missionlog VALUES(NULL,'[x] started a {$mm['name']},$user_class->id',unix_timestamp())");
-    }
-}
-$q2 = mysql_query("SELECT * FROM mission WHERE category = 7 ORDER BY id ASC ");
-$msgg = (isset($msgg)) ? $msgg : "";
-if(!empty($msgg))
-    print "<div class='floaty1'>".$msgg."</div>";
-print "
+
+        if (isset($_GET['do'])) {
+            $do = abs(intval($_GET['do']));
+
+            $mm = get_mission($do);
+            $q = get_user_mission($user_class->id);
+
+            $db->query("SELECT * FROM missions WHERE userid = ? AND mid = ? ORDER BY timestamp DESC LIMIT 1");
+            $db->execute([$user_class->id, $do]);
+            $r = $db->fetch_row(true);
+
+            if ($q || $r['completed'] == "no") {
+                $msgg = "You are currently doing a mission!";
+            } else if ($r && $r['completed'] != "no") {
+                $currenttime = $now;
+                if ($mm['between'] + $r['timestamp'] > $currenttime) {
+                    $msgg = "You have to wait " . secondsToTime(($mm['between'] + $r['timestamp']) - $currenttime) . " until you can start another mission!";
+                } else {
+                    $msgg = "You have successfully started a mission!";
+                    perform_query("INSERT INTO missions (`userid`, `timestamp`, `mid`) VALUES(?, ?, ?)", [$user_class->id, $now, $do]);
+                    perform_query("INSERT INTO missionlog (`text`, `timestamp`) VALUES (?, unix_timestamp())", ['[x] started a ' . $mm['name'] . ',' . $user_class->id]);
+                }
+            } else {
+                $msgg = "You have successfully started a mission!";
+
+                perform_query("INSERT INTO `missions` (`userid`, `timestamp`, `mid`) VALUES(?, ?, ?)", [$user_class->id, $now, $do]);
+                perform_query("INSERT INTO `missionlog` (`text`, `timestamp`) VALUES(?, unix_timestamp())", ['[x] started a ' . $mm['name'] . ',' . $user_class->id]);
+            }
+        }
+
+        $db->query("SELECT * FROM mission WHERE category = 7 ORDER BY id ASC");
+        $db->execute();
+        $q2 = $db->fetch_row();
+
+        $msgg = (isset($msgg)) ? $msgg : "";
+        if (!empty($msgg))
+            print "<div class='floaty1'>" . $msgg . "</div>";
+        print "
 <div class='contenthead floaty'>
     <h4>Mission Categories</h4>
     <div><a href='/missions.php' class='link-red'>Mission Sets</a> &nbsp;&nbsp;&nbsp; <a href='/killmissions.php' class='link-red'>Kill Missions</a> &nbsp;&nbsp;&nbsp; <a href='/bustmissions.php' class='link-red'>Bust Missions</a> &nbsp;&nbsp;&nbsp; <a href='/crimemissions.php' class='link-red'>Crime Missions</a> &nbsp;&nbsp;&nbsp; <a href='/mug_missions.php' class='link-red'>Mug Missions</a> &nbsp;&nbsp;&nbsp; <a href='/ba_missions.php' class='link-red'>BA Missions</a> <a href='/raid_missions.php' class='link-red'>Raid Missions</a></div>
@@ -74,40 +78,39 @@ print "
 
 <hr>
 ";
-?>
-    <style>
-        .floaty1{
-            display: block;
-            width: 97%;
-            margin: 0 auto;
-            margin-right: 10px;
-            color: #000;
-            /* width: 72%; */
-            text-align: center;
-            background-color: #fff;
-            border-radius: 10px !important;
-            box-shadow: 0px 2px 10px rgba(93, 93, 93, 1);
-            padding: 5px 5px 4px;
-            margin-bottom: 10px;
-        }
-    </style>
-<?php
-echo "
+        ?>
+        <style>
+            .floaty1 {
+                display: block;
+                width: 97%;
+                margin: 0 auto;
+                margin-right: 10px;
+                color: #000;
+                /* width: 72%; */
+                text-align: center;
+                background-color: #fff;
+                border-radius: 10px !important;
+                box-shadow: 0px 2px 10px rgba(93, 93, 93, 1);
+                padding: 5px 5px 4px;
+                margin-bottom: 10px;
+            }
+        </style>
+        <?php
+        echo "
 <div class=\"hundred centered\">";
-$check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
-if (mysql_fetch_array($check)) {
-    $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
-    $miss = mysql_fetch_array(mysql_query("SELECT * FROM mission WHERE id={$usermission['mid']}"));
-    $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>{$usermission['kills']}/{$miss['kills']}</font>" : "<font color='green'>{$miss['kills']}/{$miss['kills']}</font>";
-    $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>{$usermission['crimes']}/{$miss['crimes']}</font>" : "<font color='green'>{$miss['crimes']}/{$miss['crimes']}</font>";
-    $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>{$usermission['mugs']}/{$miss['mugs']}</font>" : "<font color='green'>{$miss['mugs']}/{$miss['mugs']}</font>";
-    $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>{$usermission['busts']}/{$miss['busts']}</font>" : "<font color='green'>{$miss['busts']}/{$miss['busts']}</font>";
-    $backalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>{$usermission['backalleys']}/{$miss['backalleys']}</font>" : "<font color='green'>{$miss['backalleys']}/{$miss['backalleys']}</font>";
-    $raids = ($miss['raids'] > $usermission['raids']) ? "<font color='red'>{$usermission['raids']}/{$miss['raids']}</font>" : "<font color='green'>{$miss['raids']}/{$miss['raids']}</font>";
-    $currenttime = time();
-    $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
-    echo "<span class='floaty1'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />";
-    print "<div class=\"doingMission\">
+        $usermission = get_user_mission($user_class->id);
+        if (!empty($usermission)) {
+            $miss = get_mission($usermission['mid']);
+            $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>" . shorthandNumber($usermission['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>";
+            $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>" . shorthandNumber($usermission['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>";
+            $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>" . shorthandNumber($usermission['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>";
+            $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>" . shorthandNumber($usermission['busts']) . "/" . shorthandNumber($miss['busts']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['busts']) . "/" . shorthandNumber($miss['busts']) . "</font>";
+            $backalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>" . shorthandNumber($usermission['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>";
+            $raids = ($miss['raids'] > $usermission['raids']) ? "<font color='red'>" . shorthandNumber($usermission['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>";
+            $timeleft = ($miss['time'] + $usermission['timestamp']) - $now;
+
+            echo "<span class='floaty1'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />";
+            print "<div class=\"doingMission\">
 
 <table id='newtables' class='altcolors' style='margin:auto;'>
    <tr>
@@ -161,25 +164,26 @@ if (mysql_fetch_array($check)) {
 
 
 </div>";
-} else {
-    $currenttime = time();
-    while ($v = mysql_fetch_array($q2)) {
-
-        $r = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid={$user_class->id} AND mid={$v['id']} ORDER BY timestamp DESC LIMIT 1"));
-        if ($v['between'] + $r['timestamp'] > $currenttime) {
-            $button = "Available in " . secondsToTime(($v['between'] + $r['timestamp']) - $currenttime);
-            $tempItemUse = getItemTempUse($user_class->id);
-            if ($tempItemUse['mission_passes'] > 0) {
-                $secondButton = '
+        } else {
+            $currenttime = $now;
+            foreach ($q2 as $v) {
+                $db->query("SELECT * FROM missions WHERE userid = ? AND mid = ? ORDER BY timestamp DESC LIMIT 1");
+                $db->execute([$user_class->id, $v['id']]);
+                $r = $db->fetch_row(true);
+                if ($v['between'] + $r['timestamp'] > $currenttime) {
+                    $button = "Available in " . secondsToTime(($v['between'] + $r['timestamp']) - $currenttime);
+                    $tempItemUse = getItemTempUse($user_class->id);
+                    if ($tempItemUse['mission_passes'] > 0) {
+                        $secondButton = '
                 <br /><br />
                 <a href="?reset_mission=' . $v['id'] . '" style="color:#ff6218;">Reset Mission (Resetting a mission will start it instantly)</a>
                 ';
-            }
-        } else {
-            $button = "<input TYPE='button' value='Do Mission' onclick=window.location.href='?do={$v['id']}'>";
-        }
+                    }
+                } else {
+                    $button = "<input TYPE='button' value='Do Mission' onclick=window.location.href='?do={$v['id']}'>";
+                }
 
-        print "
+                print "
         <div class='myTable' style='margin-top: 20px;'>
     <table width='100%' style='background-color: #292929; border-collapse: collapse;'>
         <thead>
@@ -203,9 +207,10 @@ if (mysql_fetch_array($check)) {
 
         </table>
         <br />";
-    }
-}
-print "<div class='clear'></div></div></div><div class='container'>
+            }
+
+        }
+        print "<div class='clear'></div></div></div><div class='container'>
 
 <table>
 <br>
@@ -214,11 +219,16 @@ print "<div class='clear'></div></div></div><div class='container'>
   <tr>
 <div class=\"doingMission\" style=\"margin-top:20px;\">
 <table style='width:95%'>";
-$ml = mysql_query("SELECT * FROM missionlog ORDER BY timestamp DESC LIMIT 25");
-while ($mm = mysql_fetch_array($ml)) {
-    $text = explode(',', $mm['text']);
-    print "<tr><td>&bull;&nbsp;&nbsp;" . str_replace('[x]', formatName($text[1]), $text[0]) . "</td><td>" . date('m/d/y g:i a', $mm['timestamp']) . "</td></tr>\n<tr><td><br /></td></tr>\n";
-}
-print "</table></div></div>";
-include "footer.php";
-?>
+        $db->query("SELECT * FROM missionlog ORDER BY timestamp DESC LIMIT 25");
+        $db->execute();
+        $ml = $db->fetch_row();
+
+        foreach ($ml as $mm) {
+            $text = explode(',', $mm['text']);
+            print "<tr><td>&bull;&nbsp;&nbsp;" . str_replace('[x]', formatName($text[1]), $text[0]) . "</td><td>" . date('m/d/y g:i a', $mm['timestamp']) . "</td></tr>\n<tr><td><br /></td></tr>\n";
+        }
+
+        print "</table></div></div>";
+
+        include "footer.php";
+        ?>

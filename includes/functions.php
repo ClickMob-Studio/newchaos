@@ -2095,17 +2095,6 @@ function calctime($seconds = 0)
     return isset($thetime) ? implode(' ', $thetime) . ($interval->invert ? ' ago' : '') : NULL;
 }
 
-function Get_Item_name($id)
-{
-    $id = intval($id);
-    $query = mysql_query("SELECT * FROM items WHERE `id` = " . $id);
-    if (mysql_num_rows($query)) {
-        $result = mysql_fetch_assoc($query);
-        return $result['itemname'];
-    } else {
-        return 'Unknown Item';
-    }
-}
 function updateGangActiveMission($field, $value)
 {
     global $db, $user_class;
@@ -2221,24 +2210,7 @@ function addItemTempUse($user_class, $field, $qty = 1)
 
 function removeItemTempUse($userId, $field, $qty = 1)
 {
-    mysql_query("UPDATE item_temp_use SET {$field} = {$field} - {$qty} WHERE {$field} > 0 AND user_id = " . $userId);
-}
-
-function removeFromInventory($userId, $item, $qty = 1)
-{
-    $item = intval($item);
-    $check = mysql_query("SELECT * FROM inventory WHERE itemid = $item AND userid = $userId");
-    if (mysql_num_rows($check) < 0) {
-        return false;
-    }
-    $ch = mysql_fetch_array($check);
-    if ($ch['quantity'] > $qty) {
-        mysql_query("UPDATE inventory SET quantity = quantity - $qty WHERE itemid = $item AND userid = $userId");
-        return true;
-    } else {
-        mysql_query("DELETE FROM inventory WHERE itemid = $item AND userid = $userId");
-        return true;
-    }
+    perform_query("UPDATE item_temp_use SET `$field` = `$field` - ? WHERE `$field` > 0 AND user_id = ?", [$qty, $userId]);
 }
 
 function getUserBaStats($user_class)
