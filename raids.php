@@ -851,24 +851,13 @@ echo "</div>"; // Close active-raids-grid
         margin-bottom: 20px;
     }
 
-    p {
-        color: white;
-        font-size: 16px;
-        margin-bottom: 30px;
-    }
-
     .boss-card {
-
         color: white;
-        /* Light text */
         padding: 20px;
         border-radius: 10px;
-        /* Rounded corners */
         box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
-        /* Subtle shadow at the top */
         padding: 15px 5px 10px;
         text-align: center;
-
     }
 
     .boss-rewards {
