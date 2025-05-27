@@ -143,27 +143,32 @@ $credits = $db->fetch_row();
 </div>
 <div>
     <h1>Stats</h1>
-    <?php
-    $sql = "SELECT
-    (SELECT COUNT(*) FROM `5050log` WHERE `better` = " . $user_class->id . " OR `userid` = " . $user_class->id . ") AS total_games,
-    (SELECT COUNT(*) FROM `5050log` WHERE `winner` = " . $user_class->id . ") AS games_won";
-    $result = mysql_query($sql);
-
-    $res = mysql_fetch_assoc($result);
-    $totalGames = $res['total_games'];
-    $gamesWon = $res['games_won'];
-
-    if ($totalGames > 0) {
-        $winningPercentage = ($gamesWon / $totalGames) * 100;
-    } else {
-        $winningPercentage = 0;
-    }
-    echo "Your winning percentage is: " . number_format($winningPercentage, 2) . "%";
-    echo "<br>";
-    echo "You have played a total of " . number_format($totalGames) . " games";
+    <?php 
+     
+$user_id = (int)$user_class->id; 
 
 
-    ?>
+
+// Use your $db object
+$db->query("SELECT(SELECT COUNT(*) FROM `5050log` WHERE `better` = :uid OR `userid` = :uid) AS total_games,
+        (SELECT COUNT(*) FROM `5050log` WHERE `winner` = :uid) AS games_won");                 
+$db->bind(':uid', $user_id);       
+$db->execute();                    
+$res = $db->fetch_row();           
+
+$totalGames = $res['total_games'];
+$gamesWon = $res['games_won'];
+
+if ($totalGames > 0) {
+    $winningPercentage = ($gamesWon / $totalGames) * 100;
+} else {
+    $winningPercentage = 0;
+}
+
+echo "Your winning percentage is: " . number_format($winningPercentage, 2) . "%<br>";
+echo "You have played a total of " . number_format($totalGames) . " games";
+?>
+ 
 
     <?php
     require_once __DIR__ . '/footer.php';

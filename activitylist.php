@@ -3,15 +3,26 @@ include("header.php");
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 if (isset($_POST['resetref'])) {
-    $result = mysql_query("UPDATE `grpgusers` SET `killcomp` = '0'");
-    echo Message("The kill counts have been reset.");
+    $result = $db->query("UPDATE `grpgusers` SET `killcomp` = '0'");
+    if ($result) {
+        echo Message("The kill counts have been reset.");
+    } else {
+        echo "Error: " . $db->error;
+    }
 }
+
 if (isset($_POST['resetexp'])) {
-    $result = mysql_query("UPDATE `grpgusers` SET `expcount` = '0'");
-    echo Message("The exp counts have been reset.");
+    $result = $db->query("UPDATE `grpgusers` SET `expcount` = '0'");
+    if ($result) {
+        echo Message("The exp counts have been reset.");
+    } else {
+        echo "Error: " . $db->error;
+    }
 }
 ?>
+
 <tr>
     <td class="contentspacer"></td>
 </tr>
@@ -68,15 +79,20 @@ if (isset($_POST['resetexp'])) {
                 </tr>
 
                 <?php
-                $result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `dailytime` DESC LIMIT 25");
-                $rank = 0;
-                while ($line = mysql_fetch_array($result)) {
-                    $rank++;
-                    $user_name = new User($line['id']);
+                $db->query("SELECT * FROM `grpgusers` ORDER BY `dailytime` DESC LIMIT 25");
+                $db->execute();
+               // $rank = 0;
+                
+                foreach ( $db->fetch_row() as $index => $line ) {
+
+                   $user_name = new User($line['id']);
                     $minutes = ($line['dailytime'] > 0) ? $line['dailytime'] : 0;
                     $activeStr = calctime($minutes * 60);
-                    echo '<tr><td width="10%">' . $rank . '.</td><td width="55%">' . $user_name->formattedname . '</td><td width="35%">' . $activeStr . '</td></tr>';
+                    echo '<tr><td width="10%">' . $index+1 . '.</td><td width="55%">' . $user_name->formattedname . '</td><td width="35%">' . $activeStr . '</td></tr>';
+               
+
                 }
+
                 ?>
 
 
