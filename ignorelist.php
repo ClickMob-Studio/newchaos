@@ -6,12 +6,18 @@ $contact_class = new User($worked1234['blocked']);
 if ($_GET['remove'] != "") {
     if ($worked1234['blocker'] == $user_class->id) {
         echo Message("You have removed " . $contact_class->formattedname . " from your ignore list.");
-        $result = mysql_query("DELETE FROM `ignorelist` WHERE `id` = '" . $_GET['remove'] . "'");
+        perform_query("DELETE FROM `ignorelist` WHERE `id` = ?", [$_GET['remove']]);
     }
 }
 ?>
-<tr><td class="contentspacer"></td></tr><tr><div class="contenthead">Ignore List</div></tr>
-<tr><td class="contentcontent">
+<tr>
+    <td class="contentspacer"></td>
+</tr>
+<tr>
+    <div class="contenthead">Ignore List</div>
+</tr>
+<tr>
+    <td class="contentcontent">
         <table width="100%">
             <tr>
                 <td width='8%'><b>#ID</b></td>

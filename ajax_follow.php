@@ -1,8 +1,11 @@
 <?php
 include "header.php";
-$ftid = abs((int) $_GET['ftid']);
-$check = mysql_fetch_array(mysql_query("SELECT * FROM forumfollows WHERE userid = $user_class->id AND ftid=$ftid"));
-if (!$check) {
-    mysql_query("INSERT INTO forumfollows VALUES('',$user_class->id,$ftid)");
+
+$ftid = filter_input(INPUT_GET, 'ftid', FILTER_VALIDATE_INT);
+$db->query("SELECT * FROM forumfollows WHERE userid = ? AND ftid = ?");
+$db->execute([$user_class->id, $ftid]);
+if ($db->num_rows() == 0) {
+    perform_query("INSERT INTO forumfollows (userid, ftid) VALUES (?, ?)", [$user_class->id, $ftid]);
 }
+
 ?>

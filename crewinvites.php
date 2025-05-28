@@ -11,17 +11,20 @@ if (isset($_GET['accept'])) {
     $checkuser = mysql_query("SELECT playerid FROM crewinvites WHERE playerid = $user_class->id AND crewid = {$_GET['accept']}");
     $username_exist = mysql_num_rows($checkuser);
     if ($username_exist != 0) {
-        $result = mysql_query("DELETE FROM crewinvites WHERE playerid = $user_class->id");
-        $result = mysql_query("DELETE FROM crewapps WHERE applicant = $user_class->id");
-        $newsql = mysql_query("UPDATE grpgusers SET crew = $crew_class->id WHERE id = $user_class->id");
+
+        perform_query("DELETE FROM crewinvites WHERE playerid = ?", [$user_class->id]);
+        perform_query("DELETE FROM crewapps WHERE applicant = ?", [$user_class->id]);
+        perform_query("UPDATE grpgusers SET crew = ? WHERE id = ?", [$crew_class->id, $user_class->id]);
+
         echo Message("You have joined $crew_class->formattedname.");
         crew_Event($crew_class->id, "[-_USERID_-] has joined the crew.", $user_class->id);
-        mysql_query("DELETE FROM crewcontest WHERE userid = $user_class->id");
-        mysql_query("INSERT INTO crewcontest (userid,crewid) VALUES ($user_class->id,$crew_class->id)");
+
+        perform_query("DELETE FROM crewcontest WHERE userid = ?", [$user_class->id]);
+        perform_query("INSERT INTO crewcontest (userid, crewid) VALUES (?, ?)", [$user_class->id, $crew_class->id]);
     }
 }
 if (isset($_GET['decline'])) {
-    $result = mysql_query("DELETE FROM crewinvites WHERE playerid = $user_class->id AND crewid = {$_GET['decline']}");
+    perform_query("DELETE FROM crewinvites WHERE playerid = ? AND crewid = ?", [$user_class->id, $_GET['decline']]);
     $invite_crew = new crew($_GET['decline']);
     echo Message("You have declined the invitation to $invite_crew->formattedname.");
 }

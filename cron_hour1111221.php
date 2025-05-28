@@ -124,15 +124,15 @@ $ladderRewards = [150, 100, 100, 100, 100, 100, 100, 100, 100, 100];
 $attackLadderRes = mysql_query("SELECT * FROM `attackladder` ORDER BY `spot` ASC");
 while ($row = mysql_fetch_array($attackLadderRes)) {
     if ((time() - $row['last_attack']) > 14400) {
-        mysql_query("DELETE FROM attackladder WHERE `user` = '{$row['user']}'");
+        perform_query("DELETE FROM attackladder WHERE `user` = ?", [$row['user']]);
         Send_Event($row['user'], "[-_USERID_-] You were removed from the Attack Ladder due to inactivity.", $row['user']);
     } else {
-        mysql_query("UPDATE `grpgusers` SET `points` = `points` + " . $ladderRewards[$row['spot'] - 1] . " WHERE `id` = '{$row['user']}' LIMIT 1") or mysql_error();
+        perform_query("UPDATE `grpgusers` SET `points` = `points` + ? WHERE `id` = ? LIMIT 1", [$ladderRewards[$row['spot'] - 1], $row['user']]);
         Send_Event($row['user'], "[-_USERID_-] you are ranked " . ordinal($row['spot']) . " in the attack ladder and you've been rewarded " . $ladderRewards[$row['spot'] - 1] . " points ", $row['user']);
     }
 }
 
-mysql_query("SET @counter := 0; UPDATE `attackladder` SET `attackladder`.`spot` = (@counter := @counter + 1) ORDER BY `attackladder`.`spot` ASC");
+perform_query("SET @counter := 0; UPDATE `attackladder` SET `attackladder`.`spot` = (@counter := @counter + 1) ORDER BY `attackladder`.`spot` ASC");
 
 
 // King & Queen

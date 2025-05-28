@@ -20,99 +20,107 @@ print '
 if (!empty($_GET['givecredit'])) {
     $line = mysql_fetch_array(mysql_query("SELECT * FROM referrals WHERE id = '{$_GET['givecredit']}' AND credited = '0'"));
     bloodbath('referrals', $line['referrer']);
-    mysql_query("UPDATE grpgusers SET credits = credits + 50, points = points + 100, referrals = referrals + 1, refcomp = refcomp + 1, refcount = refcount + 1 WHERE id = {$line['referrer']}");
-    mysql_query("UPDATE referrals SET credited = 1 WHERE id = {$_GET['givecredit']}");
-    mysql_query("UPDATE referrals SET viewed = 1 WHERE id = {$_GET['givecredit']}");
+
+    perform_query("UPDATE grpgusers SET credits = credits + 50, points = points + 100, referrals = referrals + 1, refcomp = refcompt + 1, refcount = refcount + 1 WHERE id = ?", [$line['referrer']]);
+    perform_query("UPDATE referrals SET credited = 1 WHERE id = ?", [$_GET['givecredit']]);
+    perform_query("UPDATE referrals SET viewed = 1 WHERE id = ?", [$_GET['givecredit']]);
+
     Send_Event($line['referrer'], "You have been credited 50 Credits & 100 Points for referring [-_USERID_-]. Keep up the good work!", $line['referred']);
     echo Message("You have accepted the referral.");
 }
 if (!empty($_GET['denycredit'])) {
     $line = mysql_fetch_array(mysql_query("SELECT * FROM referrals WHERE id = {$_GET['denycredit']}"));
-    mysql_query("DELETE FROM referrals WHERE id = {$_GET['denycredit']}");
+
+    perform_query("DELETE FROM referrals WHERE id = ?", [$_GET['denycredit']]);
+
     Send_Event($line['referrer'], "Unfortunately you have recieved no points for referring [-_USERID_-].", $line['referred']);
-    mysql_query("UPDATE referrals SET viewed = 1 WHERE id = {$_GET['denycredit']}");
+
+    perform_query("UPDATE referrals SET credited = 1 WHERE id = ?", [$_GET['denycredit']]);
+
     echo Message("You have denied the referral.");
 }
 if (isset($_GET['deletejob'])) {
-    mysql_query("DELETE FROM jobs WHERE id = {$_GET['deletejob']}");
+    perform_query("DELETE FROM jobs WHERE id = ?", [$_GET['deletejob']]);
+
     echo Message("You have deleted a job.");
     mrefresh("control.php?page=jobs");
     include 'footer.php';
     die();
 }
 if (isset($_POST['addjobdb'])) {
-    mysql_query("INSERT INTO jobs (name, money, strength, defense, speed, level) VALUES ('{$_POST['name']}',{$_POST['money']},{$_POST['strength']},{$_POST['defense']},{$_POST['speed']},{$_POST['level']})");
+    perform_query("INSERT INTO jobs (name, money, strength, defense, speed, level) VALUES (?, ?, ?, ?, ?, ?)", [$_POST['name'], $_POST['money'], $_POST['strength'], $_POST['defense'], $_POST['speed'], $_POST['level']]);
     echo Message("You have added a job to the database.");
 }
 if (isset($_POST['editjobdb'])) {
-    mysql_query("UPDATE jobs SET name = '{$_POST['name']}', money = {$_POST['money']}, strength = {$_POST['strength']}, defense = {$_POST['defense']}, speed = {$_POST['speed']}, level = {$_POST['level']} WHERE id = {$_POST['id']}");
+    perform_query("UPDATE jobs SET name = ?, money = ?, strength = ?, defense = ?, speed = ?, level = ? WHERE id = ?", [$_POST['name'], $_POST['money'], $_POST['strength'], $_POST['defense'], $_POST['speed'], $_POST['level'], $_POST['id']]);
     echo Message("You have edited a job.");
 }
 if (isset($_GET['deletehouse'])) {
-    mysql_query("DELETE FROM houses WHERE id = {$_GET['deletehouse']}");
+    perform_query("DELETE FROM houses WHERE id = ?", [$_GET['deletehouse']]);
     echo Message("You have deleted a house.");
     mrefresh("control.php?page=houses");
     include 'footer.php';
     die();
 }
 if (isset($_POST['addhousedb'])) {
-    mysql_query("INSERT INTO houses (name, awake, cost) VALUES ('{$_POST['name']}',{$_POST['awake']},{$_POST['cost']})");
+    perform_query("INSERT INTO houses (name, awake, cost) VALUES (?, ?, ?)", [$_POST['name'], $_POST['awake'], $_POST['cost']]);
     echo Message("You have added a house to the database.");
 }
 if (isset($_POST['edithousedb'])) {
-    mysql_query("UPDATE houses SET name = '{$_POST['name']}', awake = {$_POST['awake']}, cost = {$_POST['cost']}");
+    perform_query("UPDATE houses SET name = ?, awake = ?, cost = ? WHERE id = ?", [$_POST['name'], $_POST['awake'], $_POST['cost'], $_POST['id']]);
     echo Message("You have edited a house.");
 }
 if (isset($_GET['deletecity'])) {
-    mysql_query("DELETE FROM cities WHERE id = {$_GET['deletecity']}");
+    perform_query("DELETE FROM cities WHERE id = ?", [$_GET['deletecity']]);
     echo Message("You have deleted a city.");
     mrefresh("control.php?page=cities");
     include 'footer.php';
     die();
 }
 if (isset($_POST['addcitydb'])) {
-    mysql_query("INSERT INTO cities (name, levelreq, landleft, landprice, description, price) VALUES ('{$_POST['name']}',{$_POST['levelreq']},{$_POST['landleft']},{$_POST['landprice']},'{$_POST['description']}',{$_POST['price']})");
+    perform_query("INSERT INTO cities (name, levelreq, landleft, landprice, description, price) VALUES (?, ?, ?, ?, ?, ?)", [$_POST['name'], $_POST['levelreq'], $_POST['landleft'], $_POST['landprice'], $_POST['description'], $_POST['price']]);
     echo Message("You have added a city.");
 }
 if (isset($_POST['editcitydb'])) {
-    mysql_query("UPDATE cities SET name = '{$_POST['name']}', levelreq = {$_POST['levelreq']}, landleft = {$_POST['landleft']}, landprice = {$_POST['landprice']}, description='{$_POST['description']}', price = {$_POST['price']} WHERE id = {$_POST['id']}");
+    perform_query("UPDATE cities SET name = ?, levelreq = ?, landleft = ?, landprice = ?, description = ?, price = ? WHERE id = ?", [$_POST['name'], $_POST['levelreq'], $_POST['landleft'], $_POST['landprice'], $_POST['description'], $_POST['price'], $_POST['id']]);
     echo Message("You have edited a city.");
 }
 if (isset($_GET['deletecrime'])) {
-    mysql_query("DELETE FROM crimes WHERE id = {$_GET['deletecrime']}");
+    perform_query("DELETE FROM crimes WHERE id = ?", [$_GET['deletecrime']]);
     echo Message("You have deleted a crime.");
     mrefresh("control.php?page=crimes");
     include 'footer.php';
     die();
 }
 if (isset($_POST['addcrimedb'])) {
-    mysql_query("INSERT INTO crimes (name, nerve, stext, ftext, ctext) VALUES ('{$_POST['name']}',{$_POST['nerve']},'{$_POST['stext']}','{$_POST['ftext']}','{$_POST['ctext']}')");
+    perform_query("INSERT INTO crimes (name, nerve, stext, ftext, ctext) VALUES (?, ?, ?, ?, ?)", [$_POST['name'], $_POST['nerve'], $_POST['stext'], $_POST['ftext'], $_POST['ctext']]);
     echo Message("You have added a crime.");
 }
 if (isset($_POST['editcrimedb'])) {
-    mysql_query("UPDATE crimes SET name = '{$_POST['name']}', nerve = {$_POST['nerve']}, stext='{$_POST['stext']}', ftext='{$_POST['ftext']}', ctext='{$_POST['ctext']}' WHERE id = {$_POST['id']}");
+    perform_query("UPDATE crimes SET name = ?, nerve = ?, stext = ?, ftext = ?, ctext = ? WHERE id = ?", [$_POST['name'], $_POST['nerve'], $_POST['stext'], $_POST['ftext'], $_POST['ctext'], $_POST['id']]);
     echo Message("You have edited a crime.");
 }
 if (isset($_GET['deletegcrime'])) {
-    $result = mysql_query("DELETE FROM gangcrime WHERE id = {$_GET['deletegcrime']}");
+    perform_query("DELETE FROM gangcrime WHERE id = ?", [$_GET['deletegcrime']]);
     echo Message("You have deleted a gang crime.");
     mrefresh("control.php?page=gcrimes");
     include 'footer.php';
     die();
 }
 if (isset($_POST['addgcrimedb'])) {
-    mysql_query("INSERT INTO gangcrime (name, duration, reward, members) VALUES ('{$_POST['name']}',{$_POST['duration']},{$_POST['reward']},{$_POST['members']})");
+    perform_query("INSERT INTO gangcrime (name, duration, reward, members) VALUES (?, ?, ?, ?)", [$_POST['name'], $_POST['duration'], $_POST['reward'], $_POST['members']]);
     echo Message("You have added a gang crime.");
 }
 if (isset($_POST['editgcrimedb'])) {
-    mysql_query("UPDATE gangcrime SET name = '{$_POST['name']}', duration = {$_POST['duration']}, reward = {$_POST['reward']}, members = {$_POST['members']} WHERE id = {$_POST['id']}");
+    perform_query("UPDATE gangcrime SET name = ?, duration = ?, reward = ?, members = ? WHERE id = ?", [$_POST['name'], $_POST['duration'], $_POST['reward'], $_POST['members'], $_POST['id']]);
     echo Message("You have edited a gang crime.");
 }
-if (isset($_POST['additemdb']))
-    mysql_query("INSERT INTO items (rmdays,money,points,itemname,description,cost,image,offense,defense,speed,heal,buyable,level) VALUES ({$_POST['points']},{$_POST['money']},{$_POST['rmdays']},'{$_POST['itemname']}','{$_POST['description']}',{$_POST['cost']},'{$_POST['image']}',{$_POST['offense']},{$_POST['defense']},{$_POST['speed']},{$_POST['heal']},{$_POST['buyable']},{$_POST['level']})");
+if (isset($_POST['additemdb'])) {
+    perform_query("INSERT INTO items (rmdays, money, points, itemname, description, cost, image, offense, defense, speed, heal, buyable, level) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$_POST['rmdays'], $_POST['money'], $_POST['points'], $_POST['itemname'], $_POST['description'], $_POST['cost'], $_POST['image'], $_POST['offense'], $_POST['defense'], $_POST['speed'], $_POST['heal'], $_POST['buyable'], $_POST['level']]);
+}
 if (isset($_GET['takealluser'])) {
     $oldamount = Check_Item($_GET['takeallitem'], $_GET['takealluser']);
-    mysql_query("DELETE FROM inventory WHERE userid = {$_GET['takealluser']} AND itemid = {$_GET['takeallitem']}");
+    perform_query("DELETE FROM inventory WHERE userid = ? AND itemid = ?", [$_GET['takealluser'], $_GET['takeallitem']]);
     echo Message("That user had {$oldamount} of those, now they are all gone.");
 }
 if (isset($_POST['giveitem'])) {
@@ -152,7 +160,22 @@ if (isset($_POST['viewedititem'])) {
     ";
 }
 if (isset($_POST['edititemdb'])) {
-    mysql_query("UPDATE items SET itemname = '{$_POST['itemname']}', description = '{$_POST['description']}', cost = {$_POST['cost']}, image = '{$_POST['image']}', offense = {$_POST['offense']}, defense = {$_POST['defense']}, speed = {$_POST['speed']}, heal = {$_POST['heal']}, buyable = {$_POST['buyable']}, level = {$_POST['level']}, rmdays = {$_POST['rmdays']}, money = {$_POST['money']}, points = {$_POST['points']}");
+    perform_query("UPDATE items SET itemname = ?, description = ?, cost = ?, image = ?, offense = ?, defense = ?, speed = ?, heal = ?, buyable = ?, level = ?, rmdays = ?, money = ?, points = ? WHERE id = ?", [
+        $_POST['itemname'],
+        $_POST['description'],
+        $_POST['cost'],
+        $_POST['image'],
+        $_POST['offense'],
+        $_POST['defense'],
+        $_POST['speed'],
+        $_POST['heal'],
+        $_POST['buyable'],
+        $_POST['level'],
+        $_POST['rmdays'],
+        $_POST['money'],
+        $_POST['points'],
+        $_POST['itemid']
+    ]);
     echo Message("You have edited an item.");
 }
 if (isset($_POST['listitems'])) {
@@ -165,30 +188,30 @@ if (isset($_POST['listitems'])) {
     echo Message($_POST['username'] . "'s Items<br>$out");
 }
 if (isset($_POST['changemessage'])) {
-    mysql_query("UPDATE serverconfig SET messagefromadmin = '" . addslashes($_POST['message']) . "'");
+    perform_query("UPDATE serverconfig SET messagefromadmin = ?", [addslashes($_POST['message'])]);
     echo Message("You have changed the marquee text.");
 }
 if (isset($_POST['changeadmin'])) {
-    mysql_query("UPDATE serverconfig SET admin = '" . addslashes($_POST['message']) . "'");
+    perform_query("UPDATE serverconfig SET admin = ?", [addslashes($_POST['message'])]);
     echo Message("You have changed the admin notification.");
 }
 if (isset($_POST['changeserverdown'])) {
-    mysql_query("UPDATE serverconfig SET serverdown = '" . addslashes($_POST['message']) . "'");
+    perform_query("UPDATE serverconfig SET serverdown = ?", [addslashes($_POST['message'])]);
     echo Message("You have changed the server down text.");
 }
 if (isset($_POST['activate1'])) {
-    mysql_query("UPDATE serverconfig SET polled1 = 'active'");
-    mysql_query("UPDATE grpgusers SET polled1 = 0");
+    perform_query("UPDATE serverconfig SET polled1 = 'active'");
+    perform_query("UPDATE grpgusers SET polled1 = 0");
     echo Message("You have activated the poll.");
 }
 if (isset($_POST['unactivate1'])) {
-    mysql_query("UPDATE serverconfig SET polled1 = 'unactive'");
-    mysql_query("UPDATE grpgusers SET polled1 = 1");
+    perform_query("UPDATE serverconfig SET polled1 = 'unactive'");
+    perform_query("UPDATE grpgusers SET polled1 = 1");
     echo Message("You have un-activated the poll.");
 }
 if (isset($_POST['resetpoll1'])) {
-    mysql_query("UPDATE grpgusers SET polled1 = 0");
-    mysql_query("UPDATE poll1 SET votes = '0'");
+    perform_query("UPDATE grpgusers SET polled1 = 0");
+    perform_query("UPDATE poll1 SET votes = '0'");
     echo Message("You have reset the poll.");
 }
 if (isset($_POST['giveitem'])) {
@@ -196,7 +219,8 @@ if (isset($_POST['giveitem'])) {
     Give_Item($_POST['itemnumber'], Get_ID($_POST['username']), $_POST['itemquantity']);
     $newamount = Check_Item($_POST['itemnumber'], Get_ID($_POST['username']));
     echo Message("That user had {$oldamount} of those, and now has {$newamount} of them.");
-}    genHead("Control Panel");
+}
+genHead("Control Panel");
 print "Welcome to the control panel. Here you can do just about anything, from giving players items they have paid for with real money, to adding, changing, or deleting jobs, cities, items, etc. </td></tr>";
 if (empty($_GET['page'])) {
     genHead("Activate Poll");
@@ -301,31 +325,31 @@ if (empty($_GET['page'])) {
     }
     if ($_GET['page'] == "referrals") {
         genHead("Manage Referrals");
-		$db->query("SELECT * FROM referrals WHERE credited = 0 AND referrer > 0 ORDER BY `when` DESC");
-		$db->execute();
-		$rows = $db->fetch_row();
-		echo'<table id="newtables" style="width:100%;">';
-			echo'<tr>';
-				echo'<th>Username</th>';
-				echo'<th>Level</th>';
-				echo'<th>Referref By</th>';
-				echo'<th>Last Active</th>';
-				echo'<th>Time</th>';
-                echo '<th>IP</th>';
-				echo'<th>Actions</th>';
-			echo'</tr>';
-		foreach($rows as $row){
-			$them = new User($row['referred']);
-			echo'<tr>';
-				echo'<td>' . $them->formattedname . '</td>';
-				echo'<td>' . $them->level . '</td>';
-				echo'<td>' . formatName($row['referrer']) . '</td>';
-				echo'<td>' . $them->formattedlastactive . '</td>';
-				echo'<td>' . date("d F Y, g:ia", $row['when']) . '</td>';
-                echo '<td>'. $them->ip.'</td>';
-				echo'<td><a href="control.php?page=referrals&givecredit=' . $row['id'] . '">Credit</a> | <a href="control.php?page=referrals&denycredit=' . $row['id'] . '">Deny</a></td>';
-			echo'</tr>';
-		}
+        $db->query("SELECT * FROM referrals WHERE credited = 0 AND referrer > 0 ORDER BY `when` DESC");
+        $db->execute();
+        $rows = $db->fetch_row();
+        echo '<table id="newtables" style="width:100%;">';
+        echo '<tr>';
+        echo '<th>Username</th>';
+        echo '<th>Level</th>';
+        echo '<th>Referref By</th>';
+        echo '<th>Last Active</th>';
+        echo '<th>Time</th>';
+        echo '<th>IP</th>';
+        echo '<th>Actions</th>';
+        echo '</tr>';
+        foreach ($rows as $row) {
+            $them = new User($row['referred']);
+            echo '<tr>';
+            echo '<td>' . $them->formattedname . '</td>';
+            echo '<td>' . $them->level . '</td>';
+            echo '<td>' . formatName($row['referrer']) . '</td>';
+            echo '<td>' . $them->formattedlastactive . '</td>';
+            echo '<td>' . date("d F Y, g:ia", $row['when']) . '</td>';
+            echo '<td>' . $them->ip . '</td>';
+            echo '<td><a href="control.php?page=referrals&givecredit=' . $row['id'] . '">Credit</a> | <a href="control.php?page=referrals&denycredit=' . $row['id'] . '">Deny</a></td>';
+            echo '</tr>';
+        }
         print '</td></tr>';
     }
     if ($_GET['page'] == "crimes") {
@@ -544,14 +568,16 @@ if (empty($_GET['page'])) {
                     include("footer.php");
                     die();
                 }
-                mysql_query("UPDATE grpgusers SET gangleader = '0' WHERE id = '{$gang_class->leader}'");
-                mysql_query("UPDATE grpgusers SET gang = '0' WHERE gang = '{$gang_class->id}'");
-                mysql_query("DELETE FROM gangs WHERE id = '{$gang_class->id}'");
-                mysql_query("DELETE FROM gangarmory WHERE gangid = '{$gang_class->id}'");
-                mysql_query("DELETE FROM gangmail WHERE gangid = '{$gang_class->id}'");
-                mysql_query("DELETE FROM ranks WHERE gang = '{$gang_class->id}'");
-                mysql_query("DELETE FROM ganginvites WHERE gangid = '{$gang_class->id}'");
-                mysql_query("DELETE FROM gang_loans WHERE gang = '{$gang_class->id}'");
+
+                perform_query("UPDATE grpgusers SET gangleader = '0' WHERE id = ?", [$gang_class->leader]);
+                perform_query("UPDATE grpgusers SET gang = '0' WHERE gang = ?", [$gang_class->id]);
+                perform_query("DELETE FROM gangs WHERE id = ?", [$gang_class->id]);
+                perform_query("DELETE FROM gangarmory WHERE gangid = ?", [$gang_class->id]);
+                perform_query("DELETE FROM gangmail WHERE gangid = ?", [$gang_class->id]);
+                perform_query("DELETE FROM ranks WHERE gang = ?", [$gang_class->id]);
+                perform_query("DELETE FROM ganginvites WHERE gangid = ?", [$gang_class->id]);
+                perform_query("DELETE FROM gang_loans WHERE gang = ?", [$gang_class->id]);
+
                 $resultw = mysql_query("SELECT * FROM grpgusers WHERE gang = '{$user_class->gang}'");
                 while ($line = mysql_fetch_array($resultw)) {
                     $gang_user = new User($line['id']);

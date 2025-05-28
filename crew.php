@@ -13,7 +13,7 @@ if (isset($_POST['notes'])) {
 }
 if (isset($_GET['remove'])) {
     security($_GET['remove'], 'num');
-    mysql_query("DELETE FROM crewtargetlist WHERE crewid = $user_class->crew AND id = {$_GET['remove']}");
+    perform_query("DELETE FROM crewtargetlist WHERE crewid = ? AND id = ?", [$user_class->crew, $_GET['remove']]);
 }
 
 $csrf = md5(uniqid(rand(), TRUE));

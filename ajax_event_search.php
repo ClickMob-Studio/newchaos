@@ -19,12 +19,14 @@ if (isset($_POST['search']) && $_POST['search'] != '') {
     $searchString = '%' . $_POST['search'] . '%';
     $offset = intval($_POST['offset']);
     $rowsperpage = intval($_POST['rowsPerPage']);
-    $res = mysql_query("SELECT * from `events` WHERE `to` = $uid AND `text` like '$searchString' ORDER BY `timesent` DESC LIMIT $offset, $rowsperpage");
-    $row = mysql_fetch_array($res);
+
+    $db->query("SELECT * FROM `events` WHERE `to` = ? AND `text` LIKE ? ORDER BY `timesent` DESC LIMIT $offset, $rowsperpage");
+    $db->execute([$uid, $searchString]);
+    $res = $db->fetch_row();
     if ($res) {
         $head = '<tr><th><b>Description</b></th><th><b>Recieved</b></th></tr>';
         array_push($resultArray, $head);
-        while ($row = mysql_fetch_array($res)) {
+        foreach ($res as $row) {
             $text = str_replace('[-_USERID_-]', formatName($row['extra']), $row['text']);
             $div = "<tr><td width='67%'>" . $text . "</td><td width='31%'>" . date("d F Y, g:ia", $row['timesent']) . "</td><td width='2%'><a href='events.php?delete={$row['id']}'><span class='delete'>&nbsp;X&nbsp;</span></a></td></tr>";
             array_push($resultArray, $div);
@@ -34,11 +36,13 @@ if (isset($_POST['search']) && $_POST['search'] != '') {
 } else {
     $offset = intval($_POST['offset']);
     $rowsperpage = intval($_POST['rowsPerPage']);
-    $res = mysql_query("SELECT * from `events` WHERE `to` = $uid ORDER BY `timesent` DESC LIMIT $offset, $rowsperpage");
+    $db->query("SELECT * from `events` WHERE `to` = ? ORDER BY `timesent` DESC LIMIT $offset, $rowsperpage");
+    $db->execute([$uid]);
+    $res = $db->fetch_row();
     if ($res) {
         $head = '<tr><th><b>Description</b></th><th><b>Recieved</b></th></tr>';
         array_push($resultArray, $head);
-        while ($row = mysql_fetch_array($res)) {
+        foreach ($res as $row) {
             $text = str_replace('[-_USERID_-]', formatName($row['extra']), $row['text']);
             $div = "<tr><td width='67%'>" . $text . "</td><td width='31%'>" . date("d F Y, g:ia", $row['timesent']) . "</td><td width='2%'><a href='events.php?delete={$row['id']}'><span class='delete'>&nbsp;X&nbsp;</span></a></td></tr>";
             array_push($resultArray, $div);

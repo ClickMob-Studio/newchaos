@@ -2,34 +2,34 @@
 
 require "header.php";
 
-// if($user_class->id == 24) {
-//     exit();
-// }
 if ($_GET['action'] == 'ban') {
-    $db->query("UPDATE `grpgusers` SET `ffban` = 1 WHERE `id` = " . $user_class->id);
-    $db->execute();
+    $db->query("UPDATE `grpgusers` SET `ffban` = 1 WHERE `id` = ?");
+    $db->execute([$user_class->id]);
+
     echo Message('You have banned yourself from 5050 for 1 day');
+
     require "footer.php";
+
     exit;
 }
-$db->query("SELECT ffban FROM grpgusers WHERE ffban > 0 AND  id = " . $user_class->id);
+
+$db->query("SELECT * FROM fiftyfifty");
 $db->execute();
-if ($db->num_rows() > 0) {
-    //echo Message('You have been banned from 5050 for 1 day');
-    //require "footer.php";
-    //exit;
+$all = $db->fetch_row();
+
+$cash = [];
+$points = [];
+$credits = [];
+
+foreach ($all as $bet) {
+    if ($bet['currency'] == 'cash') {
+        $cash[] = $bet;
+    } elseif ($bet['currency'] == 'points') {
+        $points[] = $bet;
+    } elseif ($bet['currency'] == 'credits') {
+        $credits[] = $bet;
+    }
 }
-
-
-$db->query("SELECT * FROM fiftyfifty WHERE currency = 'cash'");
-$db->execute();
-$cash = $db->fetch_row();
-$db->query("SELECT * FROM fiftyfifty WHERE currency = 'points'");
-$db->execute();
-$points = $db->fetch_row();
-$db->query("SELECT * FROM fiftyfifty WHERE currency = 'credits'");
-$db->execute();
-$credits = $db->fetch_row();
 ?>
 <script type="text/javascript" src="js/5050.js?v=<?php echo time(); ?>"></script>
 <h1>50/50</h1>
@@ -144,15 +144,15 @@ $credits = $db->fetch_row();
 <div>
     <h1>Stats</h1>
     <?php
-    $sql = "SELECT
-    (SELECT COUNT(*) FROM `5050log` WHERE `better` = " . $user_class->id . " OR `userid` = " . $user_class->id . ") AS total_games,
-    (SELECT COUNT(*) FROM `5050log` WHERE `winner` = " . $user_class->id . ") AS games_won";
-    $result = mysql_query($sql);
 
-    $res = mysql_fetch_assoc($result);
+    $db->query("SELECT
+        (SELECT COUNT(*) FROM `5050log` WHERE `better` = :userid OR `userid` = :userid) AS total_games,
+        (SELECT COUNT(*) FROM `5050log` WHERE `winner` = :userid) AS games_won");
+    $db->execute(['userid' => $user_class->id]);
+    $res = $db->fetch_row();
+
     $totalGames = $res['total_games'];
     $gamesWon = $res['games_won'];
-
     if ($totalGames > 0) {
         $winningPercentage = ($gamesWon / $totalGames) * 100;
     } else {
@@ -162,8 +162,8 @@ $credits = $db->fetch_row();
     echo "<br>";
     echo "You have played a total of " . number_format($totalGames) . " games";
 
-
     ?>
 
     <?php
     require_once __DIR__ . '/footer.php';
+    ?>

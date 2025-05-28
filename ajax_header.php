@@ -14,5 +14,6 @@ if (isset($_GET['au_user_or']) && $_GET['au_user_or'] > 0) {
 include_once "classes.php";
 include_once "codeparser.php";
 include_once "database/pdo_class.php";
+include_once "dbcon.php";
 
 ?>
