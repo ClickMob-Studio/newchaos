@@ -1,15 +1,13 @@
 <?php
-    // accept_challenge.php
-    require 'header.php';  // assuming header.php sets up your database connection and session
+require 'header.php';
 
-    $uid = $_SESSION['uid'];
-    $sql = "SELECT * FROM rps_challenges WHERE challenged=$uid AND state='issued'";
-    
-    // Execute the statement
-    $result = mysql_query($sql, $conn);
+$uid = $_SESSION['uid'];
 
-    // Fetch values
-    while ($row = mysql_fetch_assoc($result)) {
-        echo "You have been challenged by user id " . $row['challenger'] . ". <a href='accept_challenge_action.php?id=" . $row['id'] . "'>Accept</a>";
-    }
+$db->query("SELECT * FROM rps_challenges WHERE challenged= ? AND state = 'issues'");
+$db->execute($uid);
+$result = $db->fetch_row();
+
+foreach ($result as $row) {
+    echo "You have been challenged by user id " . $row['challenger'] . ". <a href='accept_challenge_action.php?id=" . $row['id'] . "'>Accept</a>";
+}
 ?>
