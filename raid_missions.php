@@ -208,7 +208,6 @@ include "header.php";
         </table>
         <br />";
             }
-
         }
         print "<div class='clear'></div></div></div><div class='container'>
 

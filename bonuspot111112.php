@@ -23,9 +23,9 @@ if (isset($_POST['deposit'])) {
             )
         );
 
-        mysql_query("UPDATE grpgusers SET money = $user_class->money - $amount WHERE id = $user_class->id");
-        mysql_query("UPDATE gamebonus SET Current = Current + $amount - Target WHERE id = 1");
-        mysql_query("UPDATE gamebonus SET Time = Time + Timetoadd WHERE id = 1");
+        perform_query("UPDATE grpgusers SET money = ? WHERE id = ?", [$user_class->money - $amount, $user_class->id]);
+        perform_query("UPDATE gamebonus SET Current = Current + ? - Target WHERE id = 1", [$amount]);
+        perform_query("UPDATE gamebonus SET Time = Time + Timetoadd WHERE id = 1");
 
         // Insert new record into ads table
         $message = "Has Donated $" . prettynum($amount) . " to the Server Pot";
@@ -55,8 +55,8 @@ if (isset($_POST['deposit'])) {
             )
         );
 
-        mysql_query("UPDATE grpgusers SET money = $user_class->money - $amount WHERE id = $user_class->id");
-        mysql_query("UPDATE gamebonus SET Current = Current + $amount WHERE id = 1");
+        perform_query("UPDATE grpgusers SET money = ? WHERE id = ?", [$user_class->money - $amount, $user_class->id]);
+        perform_query("UPDATE gamebonus SET Current = Current + ? WHERE id = 1", [$amount]);
 
         // Insert new record into ads table
         $message = "Has Donated $" . prettynum($amount) . " to the Server Pot";
@@ -146,4 +146,3 @@ echo '</div>';
 
 include 'footer.php';
 ?>
-

@@ -8,9 +8,9 @@ include 'header.php';
             <h3 class="mb-0">Points Den</h3>
         </div>
         <style>
-        .list-group-item{
-            background-color: #8e8e8e21;
-        }
+            .list-group-item {
+                background-color: #8e8e8e21;
+            }
         </style>
         <div class="card-body" style="background-color: #8e8e8e21; color:white">
             <?php
@@ -56,7 +56,7 @@ include 'header.php';
                             echo Message("Your energy is already full up!");
                         } else {
                             $newpoints = $user_class->points - 10;
-                            $result = mysql_query("UPDATE `grpgusers` SET `energy` = '" . $user_class->maxenergy . "', `points`='" . $newpoints . "' WHERE `id`='" . $_SESSION['id'] . "'");
+                            perform_query("UPDATE `grpgusers` SET `energy` = ?, `points` = ? WHERE `id` = ?", [$user_class->maxenergy, $newpoints, $_SESSION['id']]);
                             echo Message("You spent 10 points and refilled your energy.");
                         }
                     } else {
@@ -71,7 +71,7 @@ include 'header.php';
                             $newpoints = $user_class->points - 10;
                             $newnerve = ($user_class->maxnerve > 100) ? $user_class->nerve + 100 : $user_class->maxnerve;
                             $newnerve = ($newnerve > $user_class->maxnerve) ? $user_class->maxnerve : $newnerve;
-                            $result = mysql_query("UPDATE `grpgusers` SET `nerve` = '" . $newnerve . "', `points`='" . $newpoints . "' WHERE `id`='" . $_SESSION['id'] . "'");
+                            perform_query("UPDATE `grpgusers` SET `nerve` = ?, `points` = ? WHERE `id` = ?", [$newnerve, $newpoints, $_SESSION['id']]);
                             echo Message("You spent 10 points and refilled your nerve.");
                         }
                     } else {
@@ -88,7 +88,7 @@ include 'header.php';
                             $newenergy = $user_class->energyboost + 1;
                             $user_class->energyboost = $newenergy;
 
-                            $result = mysql_query("UPDATE `grpgusers` SET `energyboost` = '" . $newenergy . "', `points`='" . $newpoints . "' WHERE `id`='" . $_SESSION['id'] . "'");
+                            perform_query("UPDATE `grpgusers` SET `energyboost` = ?, `points` = ? WHERE `id` = ?", [$newenergy, $newpoints, $_SESSION['id']]);
                             echo Message("You spent {$cost['energy']} points and received +1 to your energy.");
                         }
                     } else {
@@ -105,7 +105,7 @@ include 'header.php';
                             $newenergy = $user_class->nerveboost + 1;
                             $user_class->nerveboost = $newenergy;
 
-                            $result = mysql_query("UPDATE `grpgusers` SET `nerveboost` = '" . $newenergy . "', `points`='" . $newpoints . "' WHERE `id`='" . $_SESSION['id'] . "'");
+                            perform_query("UPDATE `grpgusers` SET `nerveboost` = ?, `points` = ? WHERE `id` = ?", [$newenergy, $newpoints, $_SESSION['id']]);
                             echo Message("You spent {$cost['nerve']} points and received +1 to your nerve.");
                         }
                     } else {
@@ -123,7 +123,7 @@ include 'header.php';
                             $user_class->bankboost = $newbankboost;
                             $user_class->points = $newpoints;
 
-                            $result = mysql_query("UPDATE `grpgusers` SET `bankboost` = '" . $newbankboost . "', `points`='" . $newpoints . "' WHERE `id`='" . $_SESSION['id'] . "'");
+                            perform_query("UPDATE `grpgusers` SET `bankboost` = ?, `points` = ? WHERE `id` = ?", [$newbankboost, $newpoints, $_SESSION['id']]);
                             echo Message("You spent {$cost['bankboost']} points and received +10% Bank Interest Bonus.");
                         }
                     } else {
@@ -141,7 +141,7 @@ include 'header.php';
                             $user_class->crimeexpboost = $newcrimeexpboost;
                             $user_class->points = $newpoints;
 
-                            $result = mysql_query("UPDATE `grpgusers` SET `crimeexpboost` = '" . $newcrimeexpboost . "', `points`='" . $newpoints . "' WHERE `id`='" . $_SESSION['id'] . "'");
+                            perform_query("UPDATE `grpgusers` SET `crimeexpboost` = ?, `points` = ? WHERE `id` = ?", [$newcrimeexpboost, $newpoints, $_SESSION['id']]);
                             $bonus = ($user_class->crimeexpboost > 1) ? "3.33%" : "20%";
                             echo Message("You spent {$cost['crimeexpboost']} points and received +{$bonus} Crime EXP Bonus.");
                         }
@@ -162,7 +162,7 @@ include 'header.php';
                         $newawake = floor($user_class->directawake + $awake_to_digits);
                         $newawake = ($newawake > $user_class->directmaxawake) ? $user_class->directmaxawake : $newawake;
                         $newpoints = $user_class->points - $points_to_use;
-                        $result = mysql_query("UPDATE `grpgusers` SET `awake` = '" . $newawake . "', `points`='" . $newpoints . "' WHERE `id`='" . $user_class->id . "'");
+                        perform_query("UPDATE `grpgusers` SET `awake` = ?, `points` = ? WHERE `id` = ?", [$newawake, $newpoints, $user_class->id]);
                         echo Message("You have refilled your awake by " . $points_to_use . "%.");
                     }
                 }
@@ -173,7 +173,7 @@ include 'header.php';
                         if ($user_class->hospital == 0) {
                             echo Message("You're not in the hospital.");
                         } else {
-                            $result = mysql_query("UPDATE `grpgusers` SET `hospital` = '0' AND `hp` = '" . $user_class->puremaxhp . "' WHERE `id`='" . $_SESSION['id'] . "'");
+                            perform_query("UPDATE `grpgusers` SET `hospital` = '0' AND `hp` = ? WHERE `id` = ?", [$user_class->puremaxhp, $_SESSION['id']]);
                             echo Message("You used your corruption powers to get out of hospital.");
                         }
                     }
@@ -184,7 +184,7 @@ include 'header.php';
                         if ($user_class->jail == 0) {
                             echo Message("You're not in prison.");
                         } else {
-                            $result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='" . $_SESSION['id'] . "'");
+                            perform_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id` = ?", [$_SESSION['id']]);
                             echo Message("You used your corruption powers to get out of prison.");
                         }
                     }
@@ -195,7 +195,7 @@ include 'header.php';
                         if ($user_class->energy == $user_class->maxenergy) {
                             echo Message("Your energy is already full.");
                         } else {
-                            $result = mysql_query("UPDATE `grpgusers` SET `energy` = '$user_class->maxenergy' WHERE `id`='" . $_SESSION['id'] . "'");
+                            perform_query("UPDATE `grpgusers` SET `energy` = ? WHERE `id` = ?", [$user_class->maxenergy, $_SESSION['id']]);
                             echo Message("You used your corruption powers to refill your energy.");
                         }
                     }
@@ -206,8 +206,8 @@ include 'header.php';
                         if ($user_class->nerve == $user_class->maxnerve) {
                             echo Message("Your nerve is already full.");
                         } else {
-                            $result = mysql_query("UPDATE `grpgusers` SET `nerve` = '$user_class->maxnerve' WHERE `id`='" . $_SESSION['id'] . "'");
-                            echo Message("You used your corruption powers to refill your energy.");
+                            perform_query("UPDATE `grpgusers` SET `nerve` = ? WHERE `id` = ?", [$user_class->maxnerve, $_SESSION['id']]);
+                            echo Message("You used your corruption powers to refill your nerve.");
                         }
                     }
                 }
@@ -217,7 +217,7 @@ include 'header.php';
                         if ($user_class->awake == $user_class->maxawake) {
                             echo Message("Your awake is already full.");
                         } else {
-                            $result = mysql_query("UPDATE `grpgusers` SET `awake` = '$user_class->maxawake' WHERE `id`='" . $_SESSION['id'] . "'");
+                            perform_query("UPDATE `grpgusers` SET `awake` = ? WHERE `id` = ?", [$user_class->maxawake, $_SESSION['id']]);
                             echo Message("You used your corruption powers to refill your awake.");
                         }
                     }
@@ -227,15 +227,15 @@ include 'header.php';
                     if ($user_class->admin == 1) {
                         $newpoints = $user_class->points - 1;
                         $newmoney = $user_class->money + 1000;
-                        $result = mysql_query("UPDATE `grpgusers` SET `points` = '$newpoints', `money` = '$newmoney' WHERE `id`='" . $_SESSION['id'] . "'");
+                        perform_query("UPDATE `grpgusers` SET `points` = ?, `money` = ? WHERE `id` = ?", [$newpoints, $newmoney, $_SESSION['id']]);
                         echo Message("You used your corruption powers to get some quick cash.");
                     }
                 }
             }
             ?>
 
-            <table class="table table-striped table-hover mt-4"  style="background-color: #8e8e8e21;">
-                <thead class="thead-dark"  style="background-color: #8e8e8e21; color:white;">
+            <table class="table table-striped table-hover mt-4" style="background-color: #8e8e8e21;">
+                <thead class="thead-dark" style="background-color: #8e8e8e21; color:white;">
                     <tr>
                         <th>Upgrade</th>
                         <th>Costs</th>
@@ -243,7 +243,7 @@ include 'header.php';
                         <th>Buy</th>
                     </tr>
                 </thead>
-                <tbody  style="background-color: #8e8e8e21; color:white;">
+                <tbody style="background-color: #8e8e8e21; color:white;">
                     <tr style="color:white;">
                         <td>Energy + 1</td>
                         <td style="color:white;"><?php echo $cost['energy'] . ' points'; ?></td>
@@ -284,7 +284,7 @@ include 'header.php';
                     </tr>
                 </tbody>
             </table>
-    
+
         </div>
     </div>
 
@@ -294,15 +294,20 @@ include 'header.php';
                 <div class="card-header bg-info text-white">
                     <h4>Points + Nerve Upgrades</h4>
                 </div>
-                <div class="card-body"  style="background-color: #8e8e8e21;">
+                <div class="card-body" style="background-color: #8e8e8e21;">
                     <p>Total of 100 Upgrades - Maximum Boost of +100 Nerve & Energy</p>
                     <ul class="list-group">
-                        <li class="list-group-item">Level 1-19 Cost: 500 Points Per level or  10,000 Points in total</li>
-                        <li class="list-group-item">Level 20-39 Cost: 1,000 Points Per level or  20,000 Points in total</li>
-                        <li class="list-group-item">Level 40-59 Cost: 2,000 Points Per level or  40,000 Points in total</li>
-                        <li class="list-group-item">Level 60-79 Cost: 4,000 Points Per level or  80,000 Points in total</li>
-                        <li class="list-group-item">Level 80-100 Cost: 8,000 Points Per level or  160,000 Points in total</li>
-                        <li class="list-group-item">Level 101-250 Cost: 10,000 Points Per level or  1,500,000 Points in total</li>
+                        <li class="list-group-item">Level 1-19 Cost: 500 Points Per level or 10,000 Points in total</li>
+                        <li class="list-group-item">Level 20-39 Cost: 1,000 Points Per level or 20,000 Points in total
+                        </li>
+                        <li class="list-group-item">Level 40-59 Cost: 2,000 Points Per level or 40,000 Points in total
+                        </li>
+                        <li class="list-group-item">Level 60-79 Cost: 4,000 Points Per level or 80,000 Points in total
+                        </li>
+                        <li class="list-group-item">Level 80-100 Cost: 8,000 Points Per level or 160,000 Points in total
+                        </li>
+                        <li class="list-group-item">Level 101-250 Cost: 10,000 Points Per level or 1,500,000 Points in
+                            total</li>
                     </ul>
                     <p class="mt-3">Cost to Max Level 250 - 1,810,000 Points</p>
                 </div>
@@ -314,11 +319,12 @@ include 'header.php';
                 <div class="card-header bg-warning text-white">
                     <h4>Bank Income Upgrade</h4>
                 </div>
-                <div class="card-body"  style="background-color: #8e8e8e21;">
+                <div class="card-body" style="background-color: #8e8e8e21;">
                     <p>Total of 10 Upgrades - Maximum Boost of +100%</p>
                     <ul class="list-group">
                         <li class="list-group-item">Each upgrade costs 20K Points and grants +10% Bank Daily Income</li>
-                        <li class="list-group-item">Level 10 will take your 600k Daily interest up to 1.2 Million per day!</li>
+                        <li class="list-group-item">Level 10 will take your 600k Daily interest up to 1.2 Million per
+                            day!</li>
                     </ul>
                 </div>
             </div>

@@ -72,9 +72,7 @@ if ($_GET['test'] == 'interest') {
     else
         $interest = ceil($line['bank'] * $multiply);
     $newmoney = round($line['bank'] + $interest);
-    // mysql_query("UPDATE grpgusers SET bank = $newmoney, points = points + $ptsadd WHERE id = {$line['id']}");
     echo "You have earned " . prettynum($interest, 1) . " for your bank";
-    // Send_Event($line['id'], "You have earned " . prettynum($interest, 1) . " for your bank", $line['id']);
     exit();
 }
 
@@ -95,18 +93,11 @@ if ($_GET['test'] == 'ladder') {
     $attackLadderRes = mysql_query("SELECT * FROM `attackladder` ORDER BY `spot` ASC");
     while ($row = mysql_fetch_array($attackLadderRes)) {
         if ((time() - $row['last_attack']) > 14400) {
-            // mysql_query("DELETE FROM attackladder WHERE `user` = '{$row['user']}'");
-            // Send_Event($row['user'], "[-_USERID_-] You were removed from the Attack Ladder due to inactivity.", $row['user']);
             echo "remove " . $row['user'] . " " . $row['last_attack'] . " " . time() . "<br>";
         } else {
-            // mysql_query("UPDATE `grpgusers` SET `points` = `points` + " . $ladderRewards[$row['spot'] - 1] . " WHERE `id` = '{$row['user']}' LIMIT 1") or mysql_error();
-            // Send_Event($row['user'], "[-_USERID_-] you are ranked ".$row['spot']." in the attack ladder and you've been rewarded ".$ladderRewards[$row['spot'] - 1]." points ", $row['user']);
             echo "award " . $row['user'] . " " . ordinal($row['spot']) . "<br>";
         }
     }
-
-    //mysql_query("SET @counter := 0; UPDATE `attackladder` SET `attackladder`.`spot` = (@counter := @counter + 1) ORDER BY `attackladder`.`spot` ASC");
-
 }
 
 if ($_GET['test'] == '1111') {

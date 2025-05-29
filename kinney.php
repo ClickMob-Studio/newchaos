@@ -1,6 +1,6 @@
 <?php
 include 'ajax_header.php';
-echo'
+echo '
 <style>
 *{
 	background:#333;
@@ -12,13 +12,13 @@ echo'
 $db->query("SELECT * FROM pms WHERE `to` IN (21, 43) AND `from` IN (21, 43)");
 $db->execute();
 $rows = $db->fetch_row();
-foreach($rows as $r){
+foreach ($rows as $r) {
 	echo '<hr />';
 	echo formatName($r['from']);
 	echo '<br /><br />';
 	echo BBCodeParse(strip_tags($r['msgtext']));
 	echo '<hr />';
-	
+
 }
 /*
 $db->query("SELECT ip, id FROM grpgusers");
@@ -138,20 +138,20 @@ function gradient($from_color, $to_color, $graduations = 10) {
 	return $RetVal;
 }
 function nameGen_mike($gndays, $donatordays, $uninfo, $username) {
-    $uninfo = explode("|", $uninfo);
-    $out = explode("~", $uninfo[4]);
-    if ($gndays > 0) {
-        $gnparts = $uninfo[0];
+	$uninfo = explode("|", $uninfo);
+	$out = explode("~", $uninfo[4]);
+	if ($gndays > 0) {
+		$gnparts = $uninfo[0];
 		$glowparts = $uninfo[6];
 		$glows = explode(",", $out[1]);
-        $gn = explode("~", $uninfo[1]);
+		$gn = explode("~", $uninfo[1]);
 		switch($gnparts){
 			case 3:
-                $half = (int) ((strlen($username) / 2));
-                $left = substr($username, 0, $half);
-                $right = substr($username, $half);
-                for ($i = 0; $i < 3; $i++)
-                    $gn[$i] = empty($gn[$i]) ? "000000" : $gn[$i];
+				$half = (int) ((strlen($username) / 2));
+				$left = substr($username, 0, $half);
+				$right = substr($username, $half);
+				for ($i = 0; $i < 3; $i++)
+					$gn[$i] = empty($gn[$i]) ? "000000" : $gn[$i];
 				$gnarray = array_merge(gradient($gn[0], $gn[1], strlen($left)), gradient($gn[1], $gn[2], strlen($right)));
 				break;
 			case 2:
@@ -164,11 +164,11 @@ function nameGen_mike($gndays, $donatordays, $uninfo, $username) {
 		}
 		switch($glowparts){
 			case 3:
-                $half = (int) ((strlen($username) / 2));
-                $left = substr($username, 0, $half);
-                $right = substr($username, $half);
-                for ($i = 0; $i < 3; $i++)
-                    $glows[$i] = empty($glows[$i]) ? "000000" : $glows[$i];
+				$half = (int) ((strlen($username) / 2));
+				$left = substr($username, 0, $half);
+				$right = substr($username, $half);
+				for ($i = 0; $i < 3; $i++)
+					$glows[$i] = empty($glows[$i]) ? "000000" : $glows[$i];
 				$glowsarray = array_merge(gradient($glows[0], $glows[1], strlen($left)), gradient($glows[1], $glows[2], strlen($right)));
 				break;
 			case 2:
@@ -184,29 +184,29 @@ function nameGen_mike($gndays, $donatordays, $uninfo, $username) {
 		for($i = 0; $i < $len; $i++){
 			$un .= '<span style="color:' . $gnarray[$i] . ';text-shadow: 0 0 ' . $out[0] . 'px ' . $glowsarray[$i] . ';">' . $username[$i] . '</span>';
 		}
-        $bold = "font-weight:{$uninfo[2]};";
-        $italic = ($uninfo[3] == 'yes') ? "font-style:italic;" : "";
-        $spacing = ($uninfo[5] != 'normal') ? "letter-spacing:{$uninfo[5]}px;" : "";
-        $title = "UN: {$gndays}, RY: {$donatordays}";
-        return "<span title=\"{$title}\" style=\"{$bold}{$italic}{$spacing}\">" . $un . "</span>";
-    } else if ($donatordays > 0) {
-        $days = "RY: {$donatordays}";
-        return "<span class=\"rm\" title=\"$days\">$username</span>";
-    } else
-        return "<span class=\"user\">$username</span>";
+		$bold = "font-weight:{$uninfo[2]};";
+		$italic = ($uninfo[3] == 'yes') ? "font-style:italic;" : "";
+		$spacing = ($uninfo[5] != 'normal') ? "letter-spacing:{$uninfo[5]}px;" : "";
+		$title = "UN: {$gndays}, RY: {$donatordays}";
+		return "<span title=\"{$title}\" style=\"{$bold}{$italic}{$spacing}\">" . $un . "</span>";
+	} else if ($donatordays > 0) {
+		$days = "RY: {$donatordays}";
+		return "<span class=\"rm\" title=\"$days\">$username</span>";
+	} else
+		return "<span class=\"user\">$username</span>";
 }
 /*
 for($i = 1; $i < 119; $i++)
 	$totexp += experience($i);
 print $totexp;
 for($i = 0; $i < 756; $i++){
-	mysql_query("UPDATE grpgusers SET rating = rating - 1 WHERE id = 2");
+	perform_query("UPDATE grpgusers SET rating = rating - 1 WHERE id = 2");
 	Send_Event(2, "You have been rated <font color=red><b>Down</b></font> by " . $user_class->formattedname . ". Rate them back now!", 9);
 }
 /*
 $rand = rand(1, 500);
 for($i = 0; $i < 12500; $i++){
-    Send_Event(864, $user_class->formattedname . " sent you 1 point!");
+	Send_Event(864, $user_class->formattedname . " sent you 1 point!");
 }
 $db->query("UPDATE grpgusers SET points = points + 12500 WHERE id = 864");
 $db->execute();
@@ -215,14 +215,14 @@ print $rand;
 $db->query("SELECT id FROM grpgusers");
 $db->execute();
 $rows = $db->fetch_row();
-    $db->query("INSERT INTO ofthes (userid) VALUES (?)");
+	$db->query("INSERT INTO ofthes (userid) VALUES (?)");
 foreach($rows as $row){
-    $db->execute(array(
-        $row['id']
-    ));
+	$db->execute(array(
+		$row['id']
+	));
 }
 /*
-    $ids[] = $row['id'];
+	$ids[] = $row['id'];
 $db->query("SELECT MAX(id) FROM grpgusers");
 $db->execute();
 $max = $db->fetch_single();
@@ -235,10 +235,10 @@ $db->execute();
 $rows = $db->fetch_row();
 $db->query("UPDATE grpgusers SET points = points + 1000 WHERE id = ?");
 foreach($rows as $row){
-    Send_event($row['id'], "You have been awarded 1,000 points in compensation for today's events.");
-    $db->execute(array(
-        $row['id']
-    ));
+	Send_event($row['id'], "You have been awarded 1,000 points in compensation for today's events.");
+	$db->execute(array(
+		$row['id']
+	));
 }*/
 
 include "footer.php";

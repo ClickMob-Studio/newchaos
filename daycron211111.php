@@ -1,7 +1,7 @@
 #! /usr/bin/php
 <?php
 
-if($_GET['key'] != 'cron94'){
+if ($_GET['key'] != 'cron94') {
     die();
 }
 chdir("/var/www/html");
@@ -34,9 +34,9 @@ $otds = array(
     ),
 );
 foreach ($otds as $otd) {
-    $sql  = $otd[0];
+    $sql = $otd[0];
     $type = $otd[1];
-    $pts  = $otd[2];
+    $pts = $otd[2];
     $db->query("SELECT userid, $sql FROM ofthes WHERE $sql > 0 ORDER BY $sql DESC LIMIT 1");
     $db->execute();
     if ($db->num_rows()) {
@@ -89,20 +89,21 @@ $db->execute(array(
     time()
 ));
 Send_Event($row['id'], "You won Most Money Mugged Today [+2500 Points]");
-mysql_query("UPDATE grpgusers SET ffban = ffban - 1 WHERE ffban > 0");
-mysql_query("UPDATE `grpgusers` SET `tamt` = '0', `todayskills` = '0', `todaysexp` = '0', `boxes_opened` = '1', `crimeauto` = '0', `csmuggling` = '6', `prayer` = '1', `searchdowntown` = '100', `dailytrains` = '0', `dailymugs` = '0', `spins` = '20', `gameevents` = '0', `voted1`='0', `dailyClockins` = '0', `doors`='3', `slots_left1`='100', `psmuggling2`='5', `roulette`='1', `luckydip`='1', `luckydip2`='1',`chase` = '1'") or die(mysql_error());
+
+perform_query("UPDATE grpgusers SET ffban = ffban - 1 WHERE ffban > 0");
+perform_query("UPDATE `grpgusers` SET `tamt` = '0', `todayskills` = '0', `todaysexp` = '0', `boxes_opened` = '1', `crimeauto` = '0', `csmuggling` = '6', `prayer` = '1', `searchdowntown` = '100', `dailytrains` = '0', `dailymugs` = '0', `spins` = '20', `gameevents` = '0', `voted1`='0', `dailyClockins` = '0', `doors`='3', `slots_left1`='100', `psmuggling2`='5', `roulette`='1', `luckydip`='1', `luckydip2`='1',`chase` = '1'");
 
 $db->query("UPDATE ofthes SET baotd = 0, botd = 0, motd = 0, kotd = 0");
 $db->execute();
-mysql_query("UPDATE jobInfo SET addedPercent = 0 WHERE dailyClockins < 5");
-mysql_query("UPDATE jobInfo SET addedPercent = addedPercent + 5 WHERE dailyClockins >= 5 AND addedPercent < 50");
-mysql_query("UPDATE jobInfo SET dailyClockins = 0");
-mysql_query("UPDATE grpgusers SET apban = apban - 1 WHERE apban > 0");
-mysql_query("UPDATE grpgusers SET relationshipdays = relationshipdays + 1 WHERE relationship > 0");
+perform_query("UPDATE jobInfo SET addedPercent = 0 WHERE dailyClockins < 5");
+perform_query("UPDATE jobInfo SET addedPercent = addedPercent + 5 WHERE dailyClockins >= 5 AND addedPercent < 50");
+perform_query("UPDATE jobInfo SET dailyClockins = 0");
+perform_query("UPDATE grpgusers SET apban = apban - 1 WHERE apban > 0");
+perform_query("UPDATE grpgusers SET relationshipdays = relationshipdays + 1 WHERE relationship > 0");
 
-mysql_query("DELETE FROM votes WHERE 1");
-mysql_query("DELETE FROM dond WHERE 1");
-mysql_query("UPDATE grpgusers SET rmdays = GREATEST(rmdays-1,0)");
+perform_query("DELETE FROM votes WHERE 1");
+perform_query("DELETE FROM dond WHERE 1");
+perform_query("UPDATE grpgusers SET rmdays = GREATEST(rmdays-1,0)");
 $users = mysql_query("SELECT * FROM grpgusers WHERE ip = {$_SERVER['REMOTE_ADDR']} LIMIT 1");
 $users = mysql_fetch_array($users);
 $linkeduser = $users['username'];
@@ -133,18 +134,19 @@ while ($line = mysql_fetch_array($result3)) {
     else
         $interest = ceil($line['bank'] * $multiply);
     $newmoney = round($line['bank'] + $interest);
-    mysql_query("UPDATE grpgusers SET bank = $newmoney, points = points + $ptsadd WHERE id = {$line['id']}");
+    perform_query("UPDATE grpgusers SET bank = ?, points = points + ? WHERE id = ?", [$newmoney, $ptsadd, $line['id']]);
     Send_Event($line['id'], "You have earned " . prettynum($interest, 1) . " for your bank", $line['id']);
 }
-$result = mysql_query("DELETE FROM rating");
+
+perform_query("DELETE FROM rating");
 $result3 = mysql_query("SELECT * FROM bans");
 while ($line = mysql_fetch_array($result3)) {
     $newbandays = $line['days'] - 1;
-    if ($line['days'] > 1)
-        mysql_query("UPDATE bans SET days= $newbandays WHERE banid = {$line['banid']}");
-    else if ($line['days'] == 1) {
-        mysql_query("UPDATE grpgusers SET `ban/freeze` = 0 WHERE id = {$line['id']}");
-        mysql_query("DELETE FROM bans WHERE banid = {$line['banid']}");
+    if ($line['days'] > 1) {
+        perform_query("UPDATE bans SET days = ? WHERE banid = ?", [$newbandays, $line['banid']]);
+    } else if ($line['days'] == 1) {
+        perform_query("UPDATE grpgusers SET `ban/freeze` = 0 WHERE id = ?", [$line['id']]);
+        perform_query("DELETE FROM bans WHERE banid = ?", [$line['banid']]);
     }
 }
 
@@ -162,13 +164,14 @@ if ($numlotto > 0) {
     // $amountlotto = $numlotto * 250000;
     $cashlottery_class = new User($worked['userid']);
     $newbank = $cashlottery_class->bank + $amountlotto;
-    $result = mysql_query("UPDATE grpgusers SET bank = $newbank WHERE id = {$worked['userid']}");
-    mysql_query("INSERT INTO mlottowinners VALUES ('', {$worked['userid']}, $amountlotto)");
+    perform_query("UPDATE grpgusers SET bank = ? WHERE id = ?", [$newbank, $worked['userid']]);
+    perform_query("INSERT INTO mlottowinners VALUES ('', ?, ?)", [$worked['userid'], $amountlotto]);
     Send_Event($cashlottery_class->id, "Congratulations! You have won " . prettynum($amountlotto, 1) . " on the lottery!", $cashlottery_class->id);
-    mysql_query("DELETE FROM `cashlottery`");
-    mysql_query("UPDATE gameevents SET cashlottery = '<li>There were " . prettynum($numlotto) . " lottery tickets bought yesterday.</li><li>The jackpot was " . prettynum($amountlotto, 1) . ".</li><li>The winner was [-_USER_-].</li>', cashlotteryid = $cashlottery_class->id");
-} else
-    mysql_query("UPDATE gameevents SET cashlottery = '<li>There were $numlotto lottery tickets bought yesterday.</li>'");
+    perform_query("DELETE FROM `cashlottery`");
+    perform_query("UPDATE gameevents SET cashlottery = '<li>There were " . prettynum($numlotto) . " lottery tickets bought yesterday.</li><li>The jackpot was " . prettynum($amountlotto, 1) . ".</li><li>The winner was [-_USER_-].</li>', cashlotteryid = ?", [$cashlottery_class->id]);
+} else {
+    perform_query("UPDATE gameevents SET cashlottery = '<li>There were $numlotto lottery tickets bought yesterday.</li>'");
+}
 
 $tickCost = 50;
 $db->query("SELECT SUM(tickets) FROM `ptslottery`");
@@ -187,44 +190,34 @@ if ($numlotto > 0) {
     // $amountlotto = round($amountlotto);
     $cashlottery_class = new User($worked['userid']);
     $newpoints = $cashlottery_class->points + $amountlotto;
-    $result = mysql_query("UPDATE grpgusers SET points = $newpoints WHERE id = {$worked['userid']}");
-    mysql_query("INSERT INTO plottowinners VALUES ('', {$worked['userid']}, $amountlotto)");
+    perform_query("UPDATE grpgusers SET points = ? WHERE id = ?", [$newpoints, $worked['userid']]);
+    perform_query("INSERT INTO plottowinners VALUES ('', ?, ?)", [$worked['userid'], $amountlotto]);
     Send_Event($cashlottery_class->id, "Congratulations! You have won " . prettynum($amountlotto) . " points on the lottery!", $cashlottery_class->id);
-    mysql_query("DELETE FROM ptslottery");
-    mysql_query("UPDATE gameevents SET ptslottery = '<li>There were " . prettynum($numlotto) . " lottery tickets bought yesterday.</li><li>The jackpot was " . prettynum($amountlotto) . " points.</li><li>The winner was [-_USER_-].</li>', `ptslotteryid` = $cashlottery_class->id");
-} else
-    mysql_query("UPDATE gameevents SET ptslottery = '<li>There were " . $numlotto . " lottery tickets bought yesterday.</li>'");
-mysql_query("UPDATE grpgusers SET boxes_opened = 1, csmuggling = 6, psmuggling = 6, prayer = 1, searchdowntown = 100,spins = 20, todayskills = 0,voted1 = 0, doors = 3, slots_left1 = 100, roulette = 1, luckydip = 1, csmuggling = 6, chase = 1");
-mysql_query("UPDATE grpgusers SET gndays = gndays - 1 WHERE gndays > 0");
-mysql_query("UPDATE grpgusers SET blocked = blocked - 1 WHERE blocked > 0");
-mysql_query("UPDATE grpgusers SET actionpoints = 25 WHERE actionpoints < 25 ");
+    perform_query("DELETE FROM ptslottery");
+    perform_query("UPDATE gameevents SET ptslottery = '<li>There were " . prettynum($numlotto) . " lottery tickets bought yesterday.</li><li>The jackpot was " . prettynum($amountlotto) . " points.</li><li>The winner was [-_USER_-].</li>', `ptslotteryid` = ?", [$cashlottery_class->id]);
+} else {
+    perform_query("UPDATE gameevents SET ptslottery = '<li>There were " . $numlotto . " lottery tickets bought yesterday.</li>'");
+}
+
+perform_query("UPDATE grpgusers SET boxes_opened = 1, csmuggling = 6, psmuggling = 6, prayer = 1, searchdowntown = 100,spins = 20, todayskills = 0,voted1 = 0, doors = 3, slots_left1 = 100, roulette = 1, luckydip = 1, csmuggling = 6, chase = 1");
+perform_query("UPDATE grpgusers SET gndays = gndays - 1 WHERE gndays > 0");
+perform_query("UPDATE grpgusers SET blocked = blocked - 1 WHERE blocked > 0");
+perform_query("UPDATE grpgusers SET actionpoints = 25 WHERE actionpoints < 25 ");
 
 $result2 = mysql_query("SELECT * FROM grpgusers ORDER BY id ASC");
 while ($line = mysql_fetch_array($result2)) {
     $newrmupgrade = $line['rmdupgrade'] - 1;
     if ($line['rmupgrade'] >= 1)
-        $result = mysql_query("UPDATE grpgusers SET rmupgrade = $newrmupgrade WHERE id = {$line['id']}");
+        perform_query("UPDATE grpgusers SET rmupgrade = ? WHERE id = ?", [$newrmupgrade, $line['id']]);
 }
-// $files = array(
-//     'actlog'
-// );
-// foreach ($files as $name) {
-//     $file = "/usr/share/nginx/logs/{$name}.txt";
-//     $current = file_get_contents($file);
-//     $month = date('m', time());
-//     $day = date('d', time());
-//     $hour = date('G', time()) - 1;
-//     $file = "/usr/share/nginx/logs/{$name}/" . $month . "_" . $day . "_" . $hour . "{$name}.txt";
-//     file_put_contents($file, $current);
-//     file_put_contents("/usr/share/nginx/logs/{$name}.txt", '');
-// }
+
 $db->startTrans();
 $db->query("UPDATE rentedProperties SET days = days - 1");
 $db->execute();
 $db->query("SELECT * FROM rentedProperties WHERE days = 0");
 $db->execute();
 $rows = $db->fetch_row();
-foreach($rows as $row){
+foreach ($rows as $row) {
     $db->query("INSERT INTO ownedProperties VALUES ('', ?, ?)");
     $db->execute(array(
         $row['owner'],

@@ -149,7 +149,7 @@ if ($user_class->gang == 0 && $user_class->cur_gangcrime != 0) {
 
 if (empty($user_class->macro_token)) {
     $newMacroToken = generateMacroToken(10);
-    mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken . "' WHERE id = " . $user_class->id);
+    perform_query("UPDATE grpgusers SET macro_token = ? WHERE id = ?", [$newMacroToken, $user_class->id]);
 }
 
 if ($user_class->lastpayment < time() - 86400) {
@@ -169,7 +169,7 @@ if (isset($_GET['spend'])) {
         if ($user_class->awakepercent != 100 && $user_class->points >= $cost) {
             $user_class->points -= $cost;
             $user_class->directawake = $user_class->directmaxawake;
-            mysql_query("UPDATE grpgusers SET awake = $user_class->directmaxawake, points = points - $cost WHERE id = $user_class->id");
+            perform_query("UPDATE grpgusers SET awake = ?, points = points - ? WHERE id = ?", [$user_class->directmaxawake, $cost, $user_class->id]);
         }
         ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: https://chaoscity.co.uk/');
     }

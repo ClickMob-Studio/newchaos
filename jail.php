@@ -88,7 +88,7 @@ if ($jailbreak != "") {
                 $exp = $exp + $user_class->exp;
                 $crimesucceeded = 1 + $user_class->crimesucceeded;
 
-                perform_query("UPDATE `grpgusers` SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp = ?, busts = busts + 1, jail_bot_credits = jail_bot_credits - 1 WHERE id = ?", [$exp, $user_class->id]);
+                perform_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ?, busts = busts + 1, jail_bot_credits = jail_bot_credits - 1 WHERE id = ?", [$exp, $user_class->id]);
                 $user_class->jail_bot_credits = $user_class->jail_bot_credits - 1;
                 mission('b');
                 newmissions('busts');

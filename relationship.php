@@ -31,7 +31,7 @@ include("header.php");
         if (isset($_POST['end'])) {
             echo Message("You have ended your relationship.");
             Send_Event($user_class->relplayer, "[-_USERID_-] has ended your relationship.", $user_class->id);
-            $end = mysql_query("UPDATE `grpgusers` SET `relationship` = '0', `shared_bank` = '0', `relationshipdays` = '0', relationshipended = " . time() . ", `relplayer` = '0' WHERE `id` = '" . $user_class->id . "' OR `id` = '" . $user_class->relplayer . "'");
+            perform_query("UPDATE `grpgusers` SET `relationship` = '0', `shared_bank` = '0', `relationshipdays` = '0', relationshipended = " . time() . ", `relplayer` = '0' WHERE `id` = ? OR `id` = ?", [$user_class->id, $user_class->relplayer]);
         }
         if ($_GET['action'] == "new") {
             if ($_GET['player'] == $user_class->id) {

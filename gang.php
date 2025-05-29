@@ -3,30 +3,34 @@ include 'header.php';
 ?>
 
 <div class='box_top'>Gang</div>
-						<div class='box_middle'>
-							<div class='pad'>
-                                <?php
-if ($user_class->gang == 0) {
-    echo Message("You aren't in a gang.");
-    include 'footer.php';
-    die();
-}
-$gang_class = new Gang($user_class->gang);
-if (isset($_POST['notes'])) {
-    $notes = strip_tags($_POST['notes']);
-    security($_POST['userid'], 'num');
-    mysql_query("INSERT INTO gangtargetlist VALUES ('',$user_class->gang,{$_POST['userid']},'{$notes}')");
-}
-if (isset($_GET['remove'])) {
-    security($_GET['remove'], 'num');
-    mysql_query("DELETE FROM gangtargetlist WHERE gangid = $user_class->gang AND id = {$_GET['remove']}");
-}
+<div class='box_middle'>
+    <div class='pad'>
+        <?php
+        if ($user_class->gang == 0) {
+            echo Message("You aren't in a gang.");
+            include 'footer.php';
+            die();
+        }
+        $gang_class = new Gang($user_class->gang);
+        if (isset($_POST['notes'])) {
+            $notes = strip_tags($_POST['notes']);
+            security($_POST['userid'], 'num');
+            perform_query("INSERT INTO gangtargetlist (gangid, userid, notes) VALUES (?, ?, ?)", [$user_class->gang, $_POST['userid'], $notes]);
+        }
+        if (isset($_GET['remove'])) {
+            security($_GET['remove'], 'num');
+            perform_query("DELETE FROM gangtargetlist WHERE gangid = ? AND id = ?", [$user_class->gang, $_GET['remove']]);
+        }
 
-$csrf = md5(uniqid(rand(), TRUE));
-$_SESSION['csrf'] = $csrf;
-$targetlist = mysql_query("SELECT t.*,hospital FROM gangtargetlist t JOIN grpgusers g ON userid = g.id WHERE gangid = $user_class->gang");
-if(mysql_num_rows($targetlist)){
-print "
+        $csrf = md5(uniqid(rand(), TRUE));
+        $_SESSION['csrf'] = $csrf;
+
+        $db->query("SELECT t.*, hospital FROM gangtargetlist t JOIN grpgusers g ON userid = g.id WHERE gangid = ?");
+        $db->execute([$user_class->gang]);
+
+        $targetlist = $db->fetch_row();
+        if (count($targetlist)) {
+            print "
 <table style='width:87%;table-layout:fixed;' id='newtables'>
     <tr>
         <th>Target</th>
@@ -34,9 +38,8 @@ print "
         <th>Links</th>
         <th style='width:5%;'>Hos</th>
     </tr>";
-
-while ($target = mysql_fetch_array($targetlist)) {
-    print "
+            foreach ($targetlist as $target) {
+                print "
     <tr>
         <td>" . formatName($target['userid']) . "</td>
         <td><div class='noedit{$target['id']}' onClick='ganghitlistEdit({$target['id']});'>{$target['notes']}</div>
@@ -45,9 +48,9 @@ while ($target = mysql_fetch_array($targetlist)) {
         <td>{$target['hospital']} Mins</td>
     </tr>
     ";
-}
-}
-print "</table>
+            }
+        }
+        print "</table>
 <form method='post'>
     <table id='newtables' style='width:40%;'>
         <tr>
@@ -64,8 +67,8 @@ print "</table>
     </table>
 </form>
 ";
-if($gang_class->description){
-    echo "
+        if ($gang_class->description) {
+            echo "
 <table id='newtables' style='width:100%;'>
     <tr>
         <th>Gang Private Page</th>
@@ -74,7 +77,7 @@ if($gang_class->description){
         <td>" . BBCodeParse(strip_tags($gang_class->description)) . "</td>
     </tr>
 </table>";
-}
-include("gangheaders.php");
-include 'footer.php';
-?>
+        }
+        include("gangheaders.php");
+        include 'footer.php';
+        ?>

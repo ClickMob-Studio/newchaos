@@ -119,7 +119,7 @@ if (strcmp($res, "VERIFIED") == 0) {
 			$payment_amount = $payment_amount * 2;
 		}
 		mysql_query("INSERT INTO payment_tracker (userid, amount, txn) VALUES($userid, '" . $payment_amount . "', '" . $txn_id . "')");
-		mysql_query("UPDATE grpgusers SET credits = credits + $payment_amount WHERE `id` = $userid");
+		perform_query("UPDATE grpgusers SET credits = credits + ? WHERE `id` = ?", [$payment_amount, $userid]);
 		Send_Event($userid, "Your $payment_amount Credit(s) have just been credited. PayPal Transaction ID: " . $txn_id . ".", $userid);
 		Send_Event(1, "$payment_amount Dolla Donation for $payment_amount credits. by $userid. PayPal Transaction ID: " . $txn_id . ".", 1);
 		bloodbath('donator', $buyer->id, $payment_amount);
