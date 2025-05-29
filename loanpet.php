@@ -11,7 +11,7 @@ if (isset($_POST['userid'])) {
     $theirpet = new Pet($them->id);
     if ($theirpet->maxhp != 0)
         diefun("They already own a pet.");
-    mysql_query("UPDATE pets SET userid = {$them->id}, loaned = $user_class->id WHERE userid = $user_class->id");
+    perform_query("UPDATE pets SET userid = ?, loaned = ? WHERE userid = ?", [$them->id, $user_class->id, $user_class->id]);
     Send_Event($them->id, formatName($user_class->id) . " lent you their pet!");
     diefun("You have loaned out your pet to " . formatName($them->id) . "!");
 }
@@ -20,7 +20,7 @@ if (isset($_POST['userid'])) {
 <br />
 <br />
 <form method='post'>
-    Enter their user id: 
+    Enter their user id:
     <input type='text' name='userid' size='5' value='0' />
     <input type='submit' value='Loan My Pet' />
 </form>

@@ -23,13 +23,15 @@ if ($user_class->crew == 0) {
         $exist = mysql_num_rows($check);
         $error .= ($exist > 0) ? "<div>The crew tag you chose is already taken.</div>" : "";
         if ($error == "") { // if there are no errors, make the crew
-            $result = mysql_query("INSERT INTO `crews` (name, tag, leader)" . "VALUES ('" . $crewname . "', '" . $crewtag . "', '" . $user_class->id . "')");
+            perform_query("INSERT INTO `crews` (name, tag, leader) VALUES (?, ?, ?)", [$crewname, $crewtag, $user_class->id]);
             $newmoney = $user_class->money - 500000; //deduct the cost of the money
             $result = mysql_query("SELECT * FROM `crews` WHERE `leader` = '" . $user_class->id . "'");
             $worked = mysql_fetch_array($result);
             $crewid = $worked['id'];
-            $result = mysql_query("UPDATE `grpgusers` SET `crew` = '$crewid', `money` = '" . $newmoney . "', `crewleader` = '1', `crank` = '1' WHERE `id`='" . $_SESSION['id'] . "'");
-            $result = mysql_query("DELETE FROM `crewinvites` WHERE `playerid`='" . $user_class->id . "'");
+
+            perform_query("UPDATE `grpgusers` SET `crew` = ?, `money` = ?, `crewleader` = '1', `crank` = '1' WHERE `id` = ?", [$crewid, $newmoney, $_SESSION['id']]);
+            perform_query("DELETE FROM `crewinvites` WHERE `playerid` = ?", [$user_class->id]);
+
             echo Message("You have successfully created a crew!");
         } else {
             echo Message($error);
@@ -37,31 +39,36 @@ if ($user_class->crew == 0) {
     }
     ?>
 
-    
-<div class="contenthead floaty">
-<span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"><h4>Create Crew</h4></span>
-<hr>
-<table id="newtables" style="width:100%;">
-	
-	
-    <tr>
-            <form method='post'>
-                Well, it looks like you haven't join or created a crew yet.<br><br>
-                To create a crew it costs $500,000. If you don't have enough, or would like to join someone elses crew, check out the <a href="crew_list.php">crew List</a> for other crews to join.<br><br>
-                <table width='100%'>
-                    <tr>
-                        <td width='15%'>crew Name:</td>
-                        <td width='35%'><input type='text' name='name' value='' maxlength='20' size='16'></td>
-                        <td width='15%'>crew Tag</td>
-                        <td width='35%'><input type='text' name='tag' value='' maxlength='3' size='4'></td>
-                    </tr>
-                    <tr>
-                        <td colspan='4' align='center'><input type='submit' name='create' value='Create'></td>
-                    </tr>
-                </table>
-            </form>
-        </td></tr>
-    <?php
+
+    <div class="contenthead floaty">
+        <span
+            style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;">
+            <h4>Create Crew</h4>
+        </span>
+        <hr>
+        <table id="newtables" style="width:100%;">
+
+
+            <tr>
+                <form method='post'>
+                    Well, it looks like you haven't join or created a crew yet.<br><br>
+                    To create a crew it costs $500,000. If you don't have enough, or would like to join someone elses crew,
+                    check out the <a href="crew_list.php">crew List</a> for other crews to join.<br><br>
+                    <table width='100%'>
+                        <tr>
+                            <td width='15%'>crew Name:</td>
+                            <td width='35%'><input type='text' name='name' value='' maxlength='20' size='16'></td>
+                            <td width='15%'>crew Tag</td>
+                            <td width='35%'><input type='text' name='tag' value='' maxlength='3' size='4'></td>
+                        </tr>
+                        <tr>
+                            <td colspan='4' align='center'><input type='submit' name='create' value='Create'></td>
+                        </tr>
+                    </table>
+                </form>
+                </td>
+            </tr>
+            <?php
 }
 include 'footer.php';
 ?>

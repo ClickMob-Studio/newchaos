@@ -2,7 +2,7 @@
 $loop = array(
     'level' => array(
         10000,
-       6000,
+        6000,
         4000
     ),
     'crimes' => array(
@@ -23,7 +23,7 @@ $loop = array(
     'attacks lost' => array(
         4000,
         2000,
-       1000
+        1000
     ),
     'defend won' => array(
         4000,
@@ -31,12 +31,12 @@ $loop = array(
         1000
     ),
     'defend lost' => array(
-         4000,
+        4000,
         2000,
         1000
     ),
     'busts' => array(
-         4000,
+        4000,
         2000,
         1000
     )
@@ -60,7 +60,7 @@ if (isset($_GET['reward'])) {
     Send_event($id, "You placed $placing in the $type bloodbath with " . prettynum($num) . " $type. <span style='color:green'>[+" . prettynum($reward) . " points]</span>");
     Send_event(146, "$username placed $placing in the $type bloodbath with " . prettynum($num) . " $type. <span style='color:green'>[+" . prettynum($reward) . " points]</span>");
     Send_event(1, "$username placed $placing in the $type bloodbath with " . prettynum($num) . " $type. <span style='color:green'>[+" . prettynum($reward) . " points]</span>");
-    mysql_query("UPDATE grpgusers SET points = points + $reward WHERE id = $id");
+    perform_query("UPDATE grpgusers SET points = points + ? WHERE id = ?", [$reward, $id]);
     header("location: haxx.php");
     die();
 }
@@ -82,10 +82,11 @@ foreach ($attribs as $att) {
 ";
     for ($i = 0; $i < 3; $i++)
         print "<tr><td>" . ($i + 1) . "</td><td>" . formatName($array[$i]['userid']) . "</td><td>" . prettynum($array[$i][str_replace(' ', '', $att)]) . " $att</td><td>" . prettynum($loop[$att][$i]) . "</td><td><a href='?id={$array[$i]['userid']}&reward={$loop[$att][$i]}&type=" . str_replace(' ', '', $att) . "&num={$array[$i][str_replace(' ', '', $att)]}&placing=" . ($i + 1) . "'>[Reward Them]</a></td></tr>";
-    print"</table>";
+    print "</table>";
 }
 include 'footer.php';
-function array_orderby() {
+function array_orderby()
+{
     $args = func_get_args();
     $data = array_shift($args);
     foreach ($args as $n => $field) {
@@ -100,4 +101,4 @@ function array_orderby() {
     call_user_func_array('array_multisort', $args);
     return array_pop($args);
 }
-?> 
+?>

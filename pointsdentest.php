@@ -33,8 +33,8 @@ include 'header.php';
 
                 if (array_key_exists('submit', $_POST) && ($user_class->admin)) {
                     $text = "[{$_POST['type']}] {$_POST['update']}";
-                    mysql_query("INSERT INTO game_updates (update_text) VALUES ('$text')");
-                    mysql_query("UPDATE grpgusers SET new_updates = new_updates + 1 WHERE id <> $user_class->id");
+                    perform_query("INSERT INTO game_updates (update_text) VALUES (?)", [$text]);
+                    perform_query("UPDATE grpgusers SET new_updates = new_updates + 1 WHERE id <> ?", [$user_class->id]);
                     Message("Update posted");
                     if ($user_class->id == 9) {
                         set_last_active($user_class->id);
@@ -42,7 +42,7 @@ include 'header.php';
                 }
 
                 if ($user_class->game_updates)
-                    mysql_query("UPDATE grpgusers SET new_updates = 0 WHERE id = $user_class->id");
+                    perform_query("UPDATE grpgusers SET new_updates = 0 WHERE id = ?", [$user_class->id]);
 
                 if ($user_class->admin) {
                     ?>

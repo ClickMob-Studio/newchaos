@@ -23,8 +23,8 @@ if (!in_array($page, $validPages)) {
 }
 
 if (isset($_POST) && isset($_POST['code'])) {
-    if ((int)$_POST['code'] == (int)$user_class->captcha) {
-        mysql_query("UPDATE `grpgusers` SET `captcha_timestamp` = " . time() . " WHERE `id` = " . $user_class->id);
+    if ((int) $_POST['code'] == (int) $user_class->captcha) {
+        perform_query("UPDATE `grpgusers` SET `captcha_timestamp` = ? WHERE `id` = ?", [time(), $user_class->id]);
 
         if ($page === 'backalley') {
             header('Location: backalley_new.php');
@@ -52,7 +52,7 @@ if (isset($_POST) && isset($_POST['code'])) {
 }
 
 $code = rand(1000, 99999);
-mysql_query('UPDATE `grpgusers` SET `captcha` = "' . $code . '" WHERE `id` = ' . $user_class->id);
+perform_query('UPDATE `grpgusers` SET `captcha` = ? WHERE `id` = ?', [$code, $user_class->id]);
 
 
 ?>
@@ -66,7 +66,7 @@ mysql_query('UPDATE `grpgusers` SET `captcha` = "' . $code . '" WHERE `id` = ' .
             <form method="POST" action="captcha.php?token=<?php echo $newToken ?>&page=<?php echo $page ?>">
                 <input type="text" name="code" class="form-control" />
                 <?php if (isset($_GET['pid'])): ?>
-                    <input type="hidden" name="pid" value="<?php echo (int)$_GET['pid'] ?>" />
+                    <input type="hidden" name="pid" value="<?php echo (int) $_GET['pid'] ?>" />
                 <?php endif; ?>
                 <input type="submit" value="Submit" />
             </form>
@@ -78,8 +78,8 @@ mysql_query('UPDATE `grpgusers` SET `captcha` = "' . $code . '" WHERE `id` = ' .
 <script type="text/javascript">
     let clickCount = 0;
 
-    document.addEventListener("DOMContentLoaded",function(){
-        document.body.addEventListener('click', function(evt) {
+    document.addEventListener("DOMContentLoaded", function () {
+        document.body.addEventListener('click', function (evt) {
             clickCount = clickCount + 1;
             if (clickCount > 20) {
                 var request = $.ajax({
@@ -125,5 +125,3 @@ mysql_query('UPDATE `grpgusers` SET `captcha` = "' . $code . '" WHERE `id` = ' .
 <?php
 include 'footer.php';
 ?>
-
-

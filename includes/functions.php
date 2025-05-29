@@ -624,7 +624,7 @@ function howlongago($ts, $stop = 'none')
     elseif ($ts < 60 * 60 * 24 * 2)
         return "1d " . floor($ts / (60 * 60) % 24) . "h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
     elseif ($ts < (60 * 60 * 24 * 7) or $stop == 'days')
-        return floor($ts / (60 * 60 * 24)) . "d " . floor($ts / (60 * 60) % 24) . "h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
+        return floor($ts / (60 * 60 * 24)) . "d " . floor(floor($ts / (60 * 60)) % 24) . "h " . floor(floor(($ts / 60)) % 60) . "m " . ($ts % 60) . "s";
     elseif ($ts < 60 * 60 * 24 * 30.5)
         return floor($ts / (60 * 60 * 24 * 7)) . " weeks ago";
     elseif ($ts < 60 * 60 * 24 * 365)
@@ -2196,10 +2196,10 @@ function removeFromInventory($userId, $item, $qty = 1)
     }
     $ch = mysql_fetch_array($check);
     if ($ch['quantity'] > $qty) {
-        mysql_query("UPDATE inventory SET quantity = quantity - $qty WHERE itemid = $item AND userid = $userId");
+        perform_query("UPDATE inventory SET quantity = quantity - ? WHERE itemid = ? AND userid = ?", [$qty, $item, $userId]);
         return true;
     } else {
-        mysql_query("DELETE FROM inventory WHERE itemid = $item AND userid = $userId");
+        perform_query("DELETE FROM inventory WHERE itemid = ? AND userid = ?", [$item, $userId]);
         return true;
     }
 }

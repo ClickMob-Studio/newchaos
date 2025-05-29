@@ -6,7 +6,7 @@ $user_balance = $user_class->money;
 $notification = "";
 
 if (isset($_POST['bet_amount']) && isset($_POST['bet_side'])) {
-    $bet_amount = (float)$_POST['bet_amount']; // assuming bet is in decimal
+    $bet_amount = (float) $_POST['bet_amount']; // assuming bet is in decimal
     $user_bet = $_POST['bet_side']; // 'heads' or 'tails'
 
     // Check if the user has enough money
@@ -32,13 +32,13 @@ if (isset($_POST['bet_amount']) && isset($_POST['bet_side'])) {
         }
 
         // Update user's balance
-        mysql_query("UPDATE grpgusers SET money = $user_balance WHERE id = $user_id");
+        perform_query("UPDATE grpgusers SET money = ? WHERE id = ?", [$user_balance, $user_id]);
 
         // Insert the bet into the user's history
-        mysql_query("INSERT INTO user_bets (user_id, bet_amount, bet_side, result) VALUES ($user_id, $bet_amount, '$user_bet', '$result')");
+        perform_query("INSERT INTO user_bets (user_id, bet_amount, bet_side, result) VALUES (?, ?, ?, ?)", [$user_id, $bet_amount, $user_bet, $result]);
 
         // Insert the bet into the global history
-        mysql_query("INSERT INTO global_bets (user_id, bet_amount, bet_side, result) VALUES ($user_id, $bet_amount, '$user_bet', '$result')");
+        perform_query("INSERT INTO global_bets (user_id, bet_amount, bet_side, result) VALUES (?, ?, ?, ?)", [$user_id, $bet_amount, $user_bet, $result]);
     }
 }
 
@@ -62,7 +62,7 @@ if ($notification != "") {
 <h3>Your Last 10 Bets:</h3>
 <?php
 $query = mysql_query("SELECT * FROM user_bets WHERE user_id = $user_id ORDER BY timestamp DESC LIMIT 10");
-while($row = mysql_fetch_assoc($query)) {
+while ($row = mysql_fetch_assoc($query)) {
     echo "You bet " . $row['bet_amount'] . " on " . $row['bet_side'] . " and you " . $row['result'] . "<br>";
 }
 ?>
@@ -70,7 +70,7 @@ while($row = mysql_fetch_assoc($query)) {
 <h3>Last 10 Global Bets:</h3>
 <?php
 $query = mysql_query("SELECT * FROM global_bets ORDER BY timestamp DESC LIMIT 10");
-while($row = mysql_fetch_assoc($query)) {
+while ($row = mysql_fetch_assoc($query)) {
     echo formatName($row['user_id']) . " bet " . $row['bet_amount'] . " on " . $row['bet_side'] . " and " . $row['result'] . "<br>";
 }
 ?>

@@ -16,29 +16,37 @@ if ($user_class->spins != 0) {
                     echo Message("You don't have enough money to spin!");
                 else {
                     $newmoney = $user_class->money - 1000;
-                    $result = mysql_query("UPDATE `grpgusers` SET `spins` = spins-1, `money` = '" . $newmoney . "' WHERE `id`='" . $user_class->id . "'");
+                    perform_query("UPDATE `grpgusers` SET `spins` = spins-1, `money` = ? WHERE `id` = ?", [$newmoney, $user_class->id]);
                     $roulette = rand(1, 10);
                     $random = rand(2000, 6000);
                     if ($roulette == $guess) {
                         $newmoney = $user_class->money + $random;
-                        $result = mysql_query("UPDATE `grpgusers` SET  `money` = '" . $newmoney . "' WHERE `id`='" . $user_class->id . "'");
+                        perform_query("UPDATE `grpgusers` SET  `money` = ? WHERE `id` = ?", [$newmoney, $user_class->id]);
                         echo Message("Your Prediction: $guess&nbsp;&nbsp;Outcome: $roulette<br />Congratulations, you have won $" . prettynum($random) . "!");
                     } else
                         echo Message("Your Prediction: $guess&nbsp;&nbsp;Outcome: $roulette<br />Sorry, you didn't win anything.");
                 }
             }
             ?>
-<h3>Roulette</h3>
-	<hr>
-            <tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Roulette </td></tr>
-            <tr><td class="contentcontent">
-                    Feeling lucky at roulette? It only costs $1,000 a spin and you have <?php echo $user_class->spins; ?> spins left today! All you have to do is predict the number that will be chosen at random!
+            <h3>Roulette</h3>
+            <hr>
+            <tr>
+                <td class="contentspacer"></td>
+            </tr>
+            <tr>
+                <td class="contenthead">Roulette </td>
+            </tr>
+            <tr>
+                <td class="contentcontent">
+                    Feeling lucky at roulette? It only costs $1,000 a spin and you have <?php echo $user_class->spins; ?> spins left
+                    today! All you have to do is predict the number that will be chosen at random!
                     <br><br>
                     <form method='post'>
                         Predict Number (1 - 10):&nbsp;<input type='text' name='guess' size='10' maxlength='2'><br />
                         <input type='submit' name='submit' value='Predict'>
                     </form>
-                </td></tr>
+                </td>
+            </tr>
             <?php
         } else
             echo Message("You can't play Roulette if your in prison!");

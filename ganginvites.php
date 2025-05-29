@@ -11,17 +11,17 @@ if (isset($_GET['accept'])) {
     $checkuser = mysql_query("SELECT playerid FROM ganginvites WHERE playerid = $user_class->id AND gangid = {$_GET['accept']}");
     $username_exist = mysql_num_rows($checkuser);
     if ($username_exist != 0) {
-        $result = mysql_query("DELETE FROM ganginvites WHERE playerid = $user_class->id");
-        $result = mysql_query("DELETE FROM gangapps WHERE applicant = $user_class->id");
-        $newsql = mysql_query("UPDATE grpgusers SET gang = $gang_class->id WHERE id = $user_class->id");
+        perform_query("DELETE FROM ganginvites WHERE playerid = ?", $user_class->id);
+        perform_query("DELETE FROM gangapps WHERE applicant = ?", $user_class->id);
+        perform_query("UPDATE grpgusers SET gang = ? WHERE id = ?", [$gang_class->id, $user_class->id]);
         echo Message("You have joined $gang_class->formattedname.");
         Gang_Event($gang_class->id, "[-_USERID_-] has joined the gang.", $user_class->id);
-        mysql_query("DELETE FROM gangcontest WHERE userid = $user_class->id");
-        mysql_query("INSERT INTO gangcontest (userid,gangid) VALUES ($user_class->id,$gang_class->id)");
+        perform_query("DELETE FROM gangcontest WHERE userid = ?", $user_class->id);
+        perform_query("INSERT INTO gangcontest (userid,gangid) VALUES (?,?)", [$user_class->id, $gang_class->id]);
     }
 }
 if (isset($_GET['decline'])) {
-    $result = mysql_query("DELETE FROM ganginvites WHERE playerid = $user_class->id AND gangid = {$_GET['decline']}");
+    perform_query("DELETE FROM ganginvites WHERE playerid = ? AND gangid = ?", [$user_class->id, $_GET['decline']]);
     $invite_gang = new Gang($_GET['decline']);
     echo Message("You have declined the invitation to $invite_gang->formattedname.");
 }

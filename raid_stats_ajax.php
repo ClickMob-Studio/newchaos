@@ -15,7 +15,7 @@ if (isset($_POST['stat_to_upgrade'])) {
     if (isset($_POST['tier_upgrade'])) {
         // Upgrade the tier
         if ($user_class->raidtokens >= 10) {
-            mysql_query("UPDATE grpgusers SET raidtokens = raidtokens - 10, {$stat_to_upgrade}_tier = {$stat_to_upgrade}_tier + 1, $stat_to_upgrade = 0 WHERE id = {$user_class->id}");
+            perform_query("UPDATE grpgusers SET raidtokens = raidtokens - 10, {$stat_to_upgrade}_tier = {$stat_to_upgrade}_tier + 1, $stat_to_upgrade = 0 WHERE id = ?", [$user_class->id]);
             $response['success'] = true;
             $response['message'] = 'Tier upgraded successfully!';
         } else {
@@ -36,7 +36,7 @@ if (isset($_POST['stat_to_upgrade'])) {
         }
 
         if ($availablePoints >= $totalCost) {
-            mysql_query("UPDATE grpgusers SET raidpoints = raidpoints - $totalCost, $stat_to_upgrade = $currentLevel WHERE id = {$user_class->id}");
+            perform_query("UPDATE grpgusers SET raidpoints = raidpoints - ?, $stat_to_upgrade = ? WHERE id = ?", [$totalCost, $currentLevel, $user_class->id]);
             $response['success'] = true;
             $response['message'] = 'Stat upgraded successfully!';
         } else {

@@ -28,13 +28,12 @@ if ($user_class->gang != 0 && $atwar > 0 && time() >= $query['timeending']) {
 
     $newvault = $winner_gang->moneyvault + ($query['bet'] * 2);
 
-    $result = mysql_query("UPDATE `gangs` SET `moneyvault` = '" . $newvault . "' WHERE `id` = '" . $winner . "' LIMIT 1");
+    perform_query("UPDATE `gangs` SET `moneyvault` = ? WHERE `id` = ?", [$newvault, $winner]);
 
     Send_Event($winner_gang->leader, "Your gang war has ended and you won! You finished with the total score of " . $yourscore . " and [-_GANGID_-] finished with the total score of " . $theirscore . ". You have been granted the bet of $" . prettynum($query['bet'] * 2) . ".", $theirgang);
-
     Send_Event($loser_gang->leader, "Your gang war has ended and unfortunately you lost. You finished with the total score of " . $theirscore . " and [-_GANGID_-] finished with the total score of " . $yourscore . ".", $yourgang);
 
-    $result = mysql_query("DELETE FROM `gangwars` WHERE (`gang1` = '" . $user_class->gang . "' OR `gang2` = '" . $user_class->gang . "') AND `accepted` = '1' LIMIT 1");
+    perform_query("DELETE FROM `gangwars` WHERE (`gang1` = ? OR `gang2` = ?) AND `accepted` = '1' LIMIT 1", [$user_class->gang, $user_class->gang]);
 
     if ($user_class->gang == $winner_gang->id) {
         echo Message("You have won the gang war! Check your events for more details.");

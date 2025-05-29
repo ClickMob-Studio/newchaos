@@ -6,7 +6,7 @@ if (isset($_GET['buy'])) {
     if ($worked['id'] != "") {
         if ($user_class->money >= $worked['cost']) {
             $newmoney = $user_class->money - $worked['cost'];
-            $newsql = mysql_query("UPDATE `grpgusers` SET `money` = '" . $newmoney . "' WHERE `id`= '" . $user_class->id . "'");
+            perform_query("UPDATE `grpgusers` SET `money` = ? WHERE `id`= ?", [$newmoney, $user_class->id]);
             Give_Item($_GET['buy'], $user_class->id);//give the user their item they bought
             echo Message("You have purchased a " . $worked['itemname'] . ".");
         } else {
@@ -30,7 +30,7 @@ while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
 		";
         $howmanyitems = $howmanyitems + 1;
         if ($howmanyitems == 4) {
-            $weapons.= "</tr><tr height='15'></tr><tr>";
+            $weapons .= "</tr><tr height='15'></tr><tr>";
             $howmanyitems = 0;
         }
     }
@@ -39,8 +39,14 @@ if ($weapons != "") {
     if ($armour != "") {
         if ($shoes != "") {
             ?>
-            <tr><td class="contentspacer"></td></tr><tr><div class="contenthead">Prestige Store</div></tr>
-            <tr><td class="contentcontent">
+            <tr>
+                <td class="contentspacer"></td>
+            </tr>
+            <tr>
+                <div class="contenthead">Prestige Store</div>
+            </tr>
+            <tr>
+                <td class="contentcontent">
                     <table width='100%'>
                         <tr>
                             <?php echo $weapons; ?>
@@ -52,10 +58,11 @@ if ($weapons != "") {
                             <?php echo $shoes; ?>
                         </tr>
                     </table>
-                </td></tr>
+                </td>
+            </tr>
             <?php
         }
     }
 }
 include 'footer.php'
-?>
+    ?>

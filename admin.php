@@ -75,7 +75,7 @@ if (isset($_GET['spend'])) {
         if ($user_class->points >= 10 && $user_class->energy < $user_class->maxenergy) {
             $user_class->points -= 10;
             $user_class->energy = $user_class->maxenergy;
-            mysql_query("UPDATE grpgusers SET energy = $user_class->maxenergy, points = points - 10 WHERE id = $user_class->id");
+            perform_query("UPDATE grpgusers SET energy = ?, points = points - 10 WHERE id = ?", [$user_class->maxenergy, $user_class->id]);
         }
         ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: http://meanstreetsmafia.com/');
     }
@@ -84,7 +84,7 @@ if (isset($_GET['spend'])) {
         if ($user_class->awakepercent != 100 && $user_class->points >= $cost) {
             $user_class->points -= $cost;
             $user_class->directawake = $user_class->directmaxawake;
-            mysql_query("UPDATE grpgusers SET awake = $user_class->directmaxawake, points = points - $cost WHERE id = $user_class->id");
+            perform_query("UPDATE grpgusers SET awake = ?, points = points - ? WHERE id = ?", [$user_class->directmaxawake, $cost, $user_class->id]);
         }
         ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: http://meanstreetsmafia.com/');
     }
@@ -94,7 +94,7 @@ if (isset($_GET['spend'])) {
             $user_class->nerve += ($user_class->maxnerve > 100) ? 100 : $user_class->maxnerve;
             if ($user_class->nerve > $user_class->maxnerve)
                 $user_class->nerve = $user_class->maxnerve;
-            mysql_query("UPDATE grpgusers SET nerve = $user_class->nerve, points = points - 10 WHERE id = $user_class->id");
+            perform_query("UPDATE grpgusers SET nerve = ?, points = points - 10 WHERE id = ?", [$user_class->nerve, $user_class->id]);
         } elseif ($user_class->refillNerve == 1 && $user_class->points >= 10 && $user_class->nerve < $user_class->maxnerve) {
             $cost = ($user_class->maxnerve - $user_class->nerve) / 10;
             $cost = (ceil($cost) == $cost) ? ceil($cost) : ceil($cost) - 1;
@@ -105,7 +105,7 @@ if (isset($_GET['spend'])) {
                 $user_class->nerve = $user_class->maxnerve;
             $user_class->points -= $cost;
             if ($user_class->points >= $cost) {
-                mysql_query("UPDATE grpgusers SET nerve = $user_class->nerve, points = $user_class->points WHERE id = $user_class->id");
+                perform_query("UPDATE grpgusers SET nerve = ?, points = ? WHERE id = ?", [$user_class->nerve, $user_class->points, $user_class->id]);
             }
         }
         if (isset($_GET['crime']))

@@ -56,7 +56,10 @@ if ($randout == 1) {
 	echo '<br /><h3><font color=red><b>FAILED!</b></font></h3><br />';
 	echo $ftext;
 	$hosp = 300;
-	$result = mysql_query("UPDATE `grpgusers` SET `hwho` = '{$attuser}', `hhow` = 'backalley', `hwhen` = '" . date(g . ":" . i . ":" . sa, time()) . "', `hospital` = '" . $hosp . "' WHERE `id` = '" . $user_class->id . "'");
+
+	$hwhen = date("g:i:sa", time());
+	perform_query("UPDATE `grpgusers` SET `hwho` = ?, `hhow` = 'backalley', `hwhen` = ?, `hospital` = ? WHERE id = ?", [$attuser, $hwhen, $hosp, $user_class->id]);
+
 	echo "</center></td></tr>";
 	include 'footer.php';
 	die();
@@ -85,8 +88,8 @@ if ($randout == 1) {
 		} else {
 			$rtext = " <font color='darkgreen'>You made off with " . prettynum($expgain) . " exp and $" . prettynum($randnum14);
 		}
-		mysql_query("UPDATE `grpgusers` SET `exp` = `exp` + {$expgain}, `money` = `money` + {$randnum14}, `points` = `points` + {$points} WHERE `id` = {$user_class->id}");
 
+		perform_query("UPDATE `grpgusers` SET `exp` = `exp` + ?, `money` = `money` + ?, `points` = `points` + ? WHERE `id` = ?", [$expgain, $randnum14, $points, $user_class->id]);
 	} else if ($randfind < 80) {
 		// found money only
 		$randnum13 = rand(5, 25);
@@ -100,7 +103,8 @@ if ($randout == 1) {
 		} else {
 			$rtext = " <font color='darkgreen'>You made off with " . prettynum($expgain) . " exp and $" . prettynum($randnum14);
 		}
-		mysql_query("UPDATE `grpgusers` SET `exp` = `exp` + {$expgain}, `money` = `money` + {$randnum14} WHERE `id` = {$user_class->id}");
+
+		perform_query("UPDATE `grpgusers` SET `exp` = `exp` + ?, `money` = `money` + ? WHERE `id` = ?", [$expgain, $randnum14, $user_class->id]);
 	} else {
 		// found points only
 		$points = rand(5, 15);
@@ -109,14 +113,19 @@ if ($randout == 1) {
 		} else {
 			$rtext = " <font color='darkgreen'>You made off with " . prettynum($expgain) . " exp and " . prettynum($points) . " points";
 		}
-		mysql_query("UPDATE `grpgusers` SET `exp` = `exp` + {$expgain}, `points` = `points` + {$points} WHERE `id` = {$user_class->id}");
+
+		perform_query("UPDATE `grpgusers` SET `exp` = `exp` + ?, `points` = `points` + ? WHERE `id` = ?", [$expgain, $points, $user_class->id]);
 	}
 	$rtext .= "!</font>";
-	mysql_query("UPDATE `grpgusers` SET `energy` = `energy` - {$energyneeded}, `backalleywins` = `backalleywins` + 1 WHERE `id` = {$user_class->id}");
+
+	perform_query("UPDATE `grpgusers` SET `energy` = `energy` - ?, `backalleywins` = `backalleywins` + 1 WHERE `id` = ?", [$energyneeded, $user_class->id]);
+
 	$toadd = array('baotd' => 1);
 	ofthes($user_class->id, $toadd);
+
 	echo $rtext;
 }
+
 echo "<br /><br /><form method='POST' action='backalley.php?use=yes'>
 			<input type='submit' name='CheckOut' value='Check the alley again' style='background: #000000;color: #FFFFFF;'/>
 		</form></td></tr>";

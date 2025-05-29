@@ -245,16 +245,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['use_speedup'], $_POST
     }
     $fetch = mysql_fetch_assoc($check);
     if ($fetch['quantity'] == 1) {
-        mysql_query("DELETE FROM inventory WHERE `id` = " . $fetch['id']);
+        perform_query("DELETE FROM inventory WHERE `id` = ?", [$fetch['id']]);
     } else {
-        $reduce_item_query = "UPDATE inventory SET quantity = quantity - 1  WHERE `id` = " . $fetch['id'];
-        mysql_query($reduce_item_query);
+        perform_query("UPDATE inventory SET quantity = quantity - 1  WHERE `id` = ?", [$fetch['id']]);
     }
 
 
     // Set the summoned_at column in the active_raids table to the current timestamp
-    $end_raid_query = "UPDATE active_raids SET summoned_at = DATE_SUB(NOW(), INTERVAL 15 MINUTE) WHERE id = $raid_id";
-    mysql_query($end_raid_query);
+    perform_query("UPDATE active_raids SET summoned_at = DATE_SUB(NOW(), INTERVAL 15 MINUTE) WHERE id = ?", [$raid_id]);
 
     header("Location: raids.php");
     exit;
@@ -368,9 +366,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
         $used_pass = (int) $tempItemUse['raid_pass'] > 0 ? 1 : 0;
         removeItemTempUse($user_class->id, 'raid_pass', 1);
 
-        $difficulty = mysql_real_escape_string($_POST['difficulty']);
-        $query = "INSERT INTO active_raids (boss_id, summoned_by, difficulty, raid_type, used_booster, used_pass) VALUES ($boss_id, $user_id, '$difficulty', '$raid_type', $used_booster, $used_pass)";
-        mysql_query($query);
+        $difficulty = filter_input(INPUT_POST, 'difficulty', FILTER_SANITIZE_STRING);
+        perform_query("INSERT INTO active_raids (boss_id, summoned_by, difficulty, raid_type, used_booster, used_pass) VALUES (?, ?, ?, ?, ?, ?)", [
+            $boss_id,
+            $user_id,
+            $difficulty,
+            $raid_type,
+            $used_booster,
+            $used_pass
+        ]);
 
         // Get the ID of the raid that was just inserted
         $raid_id = mysql_insert_id();
@@ -383,15 +387,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
             $leashed_pet_id = 0;
         }
 
-        // mysql_query("INSERT INTO `globalchat` (`id`, `playerid`, `timesent`, `body`) VALUES (NULL, '0', ".time().", 'A new raid has been started')");
-        // sendDiscordWebhook($username." has summoned a new boss", "New Boss Summoned");
-        // Insert the user into the raid_participants table
-        $insert_participant_query = "INSERT INTO raid_participants (raid_id, user_id, leashed_pet_id) VALUES ($raid_id, $user_id, $leashed_pet_id)";
-        mysql_query($insert_participant_query);
+        perform_query("INSERT INTO raid_participants (raid_id, user_id, leashed_pet_id) VALUES (?, ?, ?)", [
+            $raid_id,
+            $user_id,
+            $leashed_pet_id
+        ]);
 
         // Deduct the correct number of raid tokens from the user's account
-        $deduct_token_query = "UPDATE grpgusers SET raidtokens = raidtokens - $tokencost, raidshosted = raidshosted + 1, raidcomp = raidcomp + $tokencost,  raidsjoined = raidsjoined + 1 WHERE id = $user_id";
-        mysql_query($deduct_token_query);
+        perform_query("UPDATE grpgusers SET raidtokens = raidtokens - ?, raidshosted = raidshosted + 1, raidcomp = raidcomp + ?, raidsjoined = raidsjoined + 1 WHERE id = ?", [
+            $tokencost,
+            $tokencost,
+            $user_id
+        ]);
 
         if ($boss_id == 21) {
             Take_Item(285, $user_class->id, 1);
