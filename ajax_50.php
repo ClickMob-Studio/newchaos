@@ -183,39 +183,36 @@ if (isset($_POST['action']) && $_POST['action'] == 'takecashbet') {
     $id = intval($_POST['id']);
     $db->query("SELECT * FROM fiftyfifty WHERE id = ?");
     $db->execute(array($id));
-    if ($db->num_rows() < 1) {
+    $fet = $db->fetch_row(true);
 
+    if (empty($fet)) {
         $text = "That bet does not appear to be valid";
-        json_encode(array(
-            'text' => $text,
-        ));
+        echo json_encode(['text' => $text]);
         exit;
     }
-    $fet = $db->fetch_row(true);
+
     if ($user_class->money < $fet['amnt']) {
         $text = "You do not have enough money to take this bet";
-        echo json_encode(array(
-            'text' => $text,
-        ));
+        echo json_encode(['text' => $text]);
         exit;
     }
+
     if ($user_class->id == $fet['userid']) {
         $text = "You cannot take your own bets";
-        echo json_encode(array(
-            'text' => $text,
-        ));
+        echo json_encode(['text' => $text]);
         exit;
     }
+
     $rand = mt_rand(1, 2);
     if ($rand == 1) {
         $amnt = $fet['amnt'] * 2;
 
         $text = "You have lost the bet for $" . number_format($fet['amnt']);
         $user_class->money -= $fet['amnt'];
-        echo json_encode(array(
+        echo json_encode([
             'text' => $text,
             'money' => '$' . number_format($user_class->money)
-        ));
+        ]);
         $db->query("UPDATE grpgusers SET money = money - " . $fet['amnt'] . " WHERE id = " . $user_class->id);
         $db->execute();
         $db->query("UPDATE grpgusers SET money = money + " . $amnt . " WHERE id = " . $fet['userid']);
@@ -249,14 +246,15 @@ if (isset($_POST['action']) && $_POST['action'] == 'removecashbet') {
     $id = intval($_POST['id']);
     $db->query("SELECT * FROM fiftyfifty WHERE id = ?");
     $db->execute(array($id));
-    if ($db->num_rows() < 1) {
+    $fet = $db->fetch_row(true);
+    if (empty($fet)) {
         $text = "That bet does not appear to be valid";
         echo json_encode(array(
             'text' => $text,
         ));
         exit;
     }
-    $fet = $db->fetch_row(true);
+
     if ($user_class->id != $fet['userid']) {
         $text = "You cannot delete someone elses bet";
         echo json_encode(array(
@@ -312,15 +310,14 @@ if (isset($_POST['action']) && $_POST['action'] == 'takepointbet') {
     $id = intval($_POST['id']);
     $db->query("SELECT * FROM fiftyfifty WHERE id = ?");
     $db->execute(array($id));
-    if ($db->num_rows() < 1) {
-
+    $fet = $db->fetch_row(true);
+    if (empty($fet)) {
         $text = "That bet does not appear to be valid";
         echo json_encode(array(
             'text' => $text,
         ));
         exit;
     }
-    $fet = $db->fetch_row(true);
     if ($user_class->points < $fet['amnt']) {
         $text = "You do not have enough points to take this bet";
         echo json_encode(array(
@@ -377,14 +374,14 @@ if (isset($_POST['action']) && $_POST['action'] == 'takecreditbet') {
     $id = intval($_POST['id']);
     $db->query("SELECT * FROM fiftyfifty WHERE id = ?");
     $db->execute(array($id));
-    if ($db->num_rows() < 1) {
+    $fet = $db->fetch_row(true);
+    if (empty($fet)) {
         $text = "That bet does not appear to be valid";
         echo json_encode(array(
             'text' => $text,
         ));
         exit;
     }
-    $fet = $db->fetch_row(true);
     if ($user_class->credits < $fet['amnt']) {
         $text = "You do not have enough cedits to take this bet";
         echo json_encode(array(

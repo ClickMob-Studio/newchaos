@@ -75,4 +75,3 @@ mysql_query("UPDATE grpgusers SET votetokens = votetokens + 100 WHERE id = " . $
 $response = ['success' => true];
 echo json_encode($response);
 exit;
-exit;

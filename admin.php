@@ -540,10 +540,6 @@ if ($user_class->admin == 1 || $user_class->gm == 1)
 </div>
 <div id='adbar' style='word-wrap:break-word;margin:0;border-bottom:none;'>
     <?php
-    $db->query("SELECT * FROM ganginvites WHERE playerid = ?");
-    $db->execute(array(
-        $user_class->id
-    ));
     $time = time();
     $array = array();
     if ($user_class->aprotection > $time) {
@@ -565,7 +561,8 @@ if ($user_class->admin == 1 || $user_class->gm == 1)
         echo '<br />';
     }
 
-
+    $db->query("SELECT COUNT(*) FROM ganginvites WHERE playerid = ?");
+    $db->execute([$user_class->id]);
 
     if ($db->num_rows())
         print "<a href='ganginvites.php'><span style='color:red;'>You have gang invites!</span></a><br />";

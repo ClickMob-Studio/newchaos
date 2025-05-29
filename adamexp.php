@@ -2,92 +2,92 @@
 require "header.php";
 ?>
 <div class='box_top'>Upgrade Store Sale</div>
-						<div class='box_middle'>
-							<div class='pad'>
-                                <?php
-if($user_class->admin != 1){
-    exit;
-}
+<div class='box_middle'>
+    <div class='pad'>
+        <?php
+        if ($user_class->admin != 1) {
+            exit;
+        }
 
-$monthStartDate = new \DateTime('first day of this month');
-$monthEndDate = new \DateTime('last day of this month');
-$sql = "SELECT SUM(paymentamount) AS totalSpent FROM ipn WHERE date >= " . $monthStartDate->getTimestamp() . " AND date <= " . $monthEndDate->getTimestamp();
-$resultMonthDonations = mysql_query($sql);
-$rowMonthDonations = mysql_fetch_assoc($resultMonthDonations);
-$monthDonations = $rowMonthDonations["totalSpent"];
+        $monthStartDate = new \DateTime('first day of this month');
+        $monthEndDate = new \DateTime('last day of this month');
 
+        $db->query("SELECT SUM(paymentamount) AS totalSpent FROM ipn WHERE date >= ? AND date <= ?");
+        $db->execute([$monthStartDate->getTimestamp(), $monthEndDate->getTimestamp()]);
+        $rowMonthDonations = $db->fetch_row(true);
+        $monthDonations = $rowMonthDonations["totalSpent"];
+        ?>
+        <h1>Total Income</h1>
+        <?php
 
-?>
-<h1>Total Income</h1>
-<?php
+        $db->query("SELECT user_id, SUM(paymentamount) AS totalSpent FROM ipn GROUP BY payeremail ORDER BY totalSpent DESC LIMIT 1");
+        $db->execute();
+        $rowBiggestDonor = $db->fetch_row(true);
+        // Check if there are any rows
+        if (!empty($rowBiggestDonor)) {
+            $biggestDonor = $rowBiggestDonor["user_id"];
+            $highestAmount = $rowBiggestDonor["totalSpent"];
+        } else {
+            $biggestDonor = "No data";
+            $highestAmount = 0;
+        }
 
-$sql = "SELECT user_id, SUM(paymentamount) AS totalSpent FROM ipn GROUP BY payeremail ORDER BY totalSpent DESC LIMIT 1";
-$resultBiggestDonor = mysql_query($sql);
+        // Fetch data from the database
+        $db->query("SELECT * FROM ipn ORDER BY `id` DESC");
+        $db->execute();
+        $rows = $db->fetch_row();
 
-// Check if there are any rows
-if (mysql_num_rows($resultBiggestDonor) > 0) {
-    $rowBiggestDonor = mysql_fetch_assoc($resultBiggestDonor);
-    $biggestDonor = $rowBiggestDonor["user_id"];
-    $highestAmount = $rowBiggestDonor["totalSpent"];
-} else {
-    $biggestDonor = "No data";
-    $highestAmount = 0;
-}
+        // Check if there are any rows
+        if (!empty($rows)) {
+            // Initialize variables for total income and fees
+            $totalIncome = 0;
+            $totalFees = 0;
 
-// Fetch data from the database
-$sql = "SELECT * FROM ipn ORDER BY `id` ASC";
-$result = mysql_query($sql);
+            // Output table header
+            echo "<table border='1'><tr><th>ID</th><th>Date</th><th>Credits Bought</th><th>Payment Amount</th><th>Transaction ID</th><th>Payer Email</th><th>User</th></tr>";
 
-// Check if there are any rows
-if (mysql_num_rows($result) > 0) {
-    // Initialize variables for total income and fees
-    $totalIncome = 0;
-    $totalFees = 0;
+            // Output data from rows
+            foreach ($rows as $row) {
+                echo "<tr><td>" . $row["id"] . "</td><td>" . date('Y-m-d H:i:s', $row["date"]) . "</td><td>" . $row["creditsbought"] . "</td><td>$" . $row["paymentamount"] . "</td><td>" . $row["txnid"] . "</td><td>" . $row["payeremail"] . "</td><td>" . formatName($row["user_id"]) . "</td></tr>";
 
-    // Output table header
-    echo "<table border='1'><tr><th>ID</th><th>Date</th><th>Credits Bought</th><th>Payment Amount</th><th>Transaction ID</th><th>Payer Email</th><th>User</th></tr>";
+                // Update total income and fees
+                $totalIncome += $row["paymentamount"];
+                $totalFees += $row["fees"];  // Make sure to replace "fees" with the actual column name for fees in your table
+            }
 
-    // Output data from rows
-    while($row = mysql_fetch_assoc($result)) {
-        echo "<tr><td>" . $row["id"]. "</td><td>" . date('Y-m-d H:i:s',$row["date"]). "</td><td>" . $row["creditsbought"]. "</td><td>$" . $row["paymentamount"]. "</td><td>" . $row["txnid"]. "</td><td>" . $row["payeremail"]. "</td><td>" . formatName($row["user_id"]). "</td></tr>";
+            // Output table footer with totals
+            echo "<tr><td colspan='6'>Total Income</td><td>$" . $totalIncome . "</td><td colspan='7'></td></tr></table>";
+            echo "<table><tr><td colspan='8'></td><td>Biggest Donor</td><td>" . formatName($biggestDonor) . "</td><td>Amount Spent</td><td>$" . number_format($highestAmount, 0) . "</td></tr></table>";
+            echo "<table><tr><td colspan='8'></td><td>Month Donations</td><td colspan='2'>Amount Spent</td><td>$" . number_format($monthDonations, 0) . "</td></tr></table>";
 
-        // Update total income and fees
-        $totalIncome += $row["paymentamount"];
-        $totalFees += $row["fees"];  // Make sure to replace "fees" with the actual column name for fees in your table
-    }
+        } else {
+            echo "0 results";
+        }
 
-    // Output table footer with totals
-    echo "<tr><td colspan='6'>Total Income</td><td>$".$totalIncome."</td><td colspan='7'></td></tr></table>";
-    echo "<table><tr><td colspan='8'></td><td>Biggest Donor</td><td>".formatName($biggestDonor)."</td><td>Amount Spent</td><td>$".number_format($highestAmount, 0)."</td></tr></table>";
-    echo "<table><tr><td colspan='8'></td><td>Month Donations</td><td colspan='2'>Amount Spent</td><td>$".number_format($monthDonations, 0)."</td></tr></table>";
+        // Fetch month by month total income
+        $db->query("SELECT DATE_FORMAT(FROM_UNIXTIME(date), '%Y-%m') AS month, SUM(paymentamount) AS totalIncome 
+                    FROM ipn 
+                    GROUP BY month 
+                    ORDER BY month DESC");
+        $db->execute();
+        $rows = $db->fetch_row();
 
-} else {
-    echo "0 results";
-}
+        // Check if there are any rows
+        if (!empty($rows)) {
+            // Output table header
+            echo "<br /><hr /><br /><h1>Month by Month Total Income</h1>";
+            echo "<table border='1'><tr><th>Month</th><th>Total Income</th></tr>";
 
-// Fetch month by month total income
-$sql = "SELECT DATE_FORMAT(FROM_UNIXTIME(date), '%Y-%m') AS month, SUM(paymentamount) AS totalIncome 
-                FROM ipn 
-                GROUP BY month 
-                ORDER BY month DESC";
-$resultMonthlyIncome = mysql_query($sql);
+            // Output data from rows
+            foreach ($rows as $row) {
+                echo "<tr><td>" . $row["month"] . "</td><td>$" . number_format($row["totalIncome"], 2) . "</td></tr>";
+            }
 
-// Check if there are any rows
-if (mysql_num_rows($resultMonthlyIncome) > 0) {
-    // Output table header
-    echo "<br /><hr /><br /><h1>Month by Month Total Income</h1>";
-    echo "<table border='1'><tr><th>Month</th><th>Total Income</th></tr>";
+            // Output table footer
+            echo "</table>";
+        } else {
+            echo "No monthly income data available.";
+        }
 
-    // Output data from rows
-    while($row = mysql_fetch_assoc($resultMonthlyIncome)) {
-        echo "<tr><td>" . $row["month"]. "</td><td>$" . number_format($row["totalIncome"], 2). "</td></tr>";
-    }
-
-    // Output table footer
-    echo "</table>";
-} else {
-    echo "No monthly income data available.";
-}
-
-require "footer.php";
+        require "footer.php";
 

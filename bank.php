@@ -293,7 +293,6 @@ include 'header.php';
 
                 if ($amount > 0) {
                     $which = ($_POST['type'] == 'money') ? "mwith" : "pwith";
-                    //  mysql_query("INSERT INTO bank_log VALUES('', $user_class->id, $amount, '$which', " . $user_class->{$type[1]} . ", unix_timestamp())");
                 }
             }
         }

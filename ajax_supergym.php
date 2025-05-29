@@ -6,7 +6,7 @@ if (isset($_GET['au_user_or'])) {
 }
 
 include "ajax_header.php";
-mysql_select_db('chaoscit_game', mysql_connect('localhost', 'chaoscit_user', '3lrKBlrfMGl2ic14'));
+
 if (isset($_GET['au_user_or']) && (int) $_GET['au_user_or']) {
     $user_class = new User($_GET['au_user_or']);
 } else {
@@ -49,10 +49,10 @@ if ($scheduledevent) {
 }
 
 // Fetch the Player's Gang Upgrades
-$result = mysql_query("SELECT upgrade1, upgrade2, upgrade3, upgrade4, upgrade5, upgrade6 from `gangs` WHERE `id` = '" . $user_class->gang . "'");
-if ($result) {
-    $gang_upgrades = mysql_fetch_assoc($result);
-
+$db->query("SELECT upgrade1, upgrade2, upgrade3, upgrade4, upgrade5, upgrade6 FROM gangs WHERE id = ? LIMIT 1");
+$db->execute([$user_class->gang]);
+$gang_upgrades = $db->fetch_row(true);
+if ($gang_upgrades) {
     // Check the Training Stat and Apply the Corresponding Bonus
     switch ($stat) {
         case 'strength':
@@ -108,19 +108,9 @@ if ($gang_class->upgrade6 >= 1) {
 }
 
 // Assuming this comes after initializing $modifier and validating $_POST['stat']
-if ($user_class->gang) { // Check if the user is in a gang
-    $result = mysql_query("SELECT upgrade6 FROM `gangs` WHERE `id` = '" . mysql_real_escape_string($user_class->gang) . "'");
-    if ($result) {
-        $gang_upgrades = mysql_fetch_assoc($result);
-        if ($gang_upgrades && $gang_upgrades['upgrade6'] >= 1) {
-            $modifier *= (1 + (0.05 * $gang_upgrades['upgrade6'])); // Apply the bonus correctly
-        }
-    }
+if ($gang_upgrades && $gang_upgrades['upgrade6'] >= 1) {
+    $modifier *= (1 + (0.05 * $gang_upgrades['upgrade6'])); // Apply the bonus correctly
 }
-
-// if ($user_class->prestige > 0) {
-//     $modifier *= (.15 * $user_class->prestige_gym) + 1;
-// }
 
 $user_class->directawake = ($user_class->directawake < 0) ? 0 : $user_class->directawake;
 if (isset($_POST['what']) and $_POST['what'] == 'trainrefill') {

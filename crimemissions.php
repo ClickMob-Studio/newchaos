@@ -56,21 +56,15 @@ include "header.php";
                     $msgg = "You have successfully started a mission!";
 
                     //'userid', 'crimes', 'mugs', 'kills', 'busts', 'timestamp', 'mid', 'completed', 'partner'
-        
-                    mysql_query("INSERT INTO missions (`userid`, `timestamp`, `mid`) VALUES({$user_class->id}, {$now}, {$do})");
-                    mysql_query("INSERT INTO missionlog (`id`, `text`, `timestamp`) VALUES('[x] started a {$mm['name']},$user_class->id', unix_timestamp())");
-
-                    // mysql_query("INSERT INTO missions VALUES(NULL,{$user_class->id},'','','','',unix_timestamp(),{$do},'no','')"));
-                    // mysql_query("INSERT INTO missionlog VALUES(NULL,'[x] started a {$mm['name']},$user_class->id',unix_timestamp())"));
+                    perform_query("INSERT INTO missions (`userid`, `timestamp`, `mid`) VALUES(?, ?, ?)", [$user_class->id, $now, $do]);
+                    perform_query("INSERT INTO missionlog (`id`, `text`, `timestamp`) VALUES(?, ?, ?)", ["[x] started a {$mm['name']},$user_class->id", $now]);
                 }
             } else if ($r['completed'] == "no")
                 $msgg = "You are currently doing a mission!";
             else {
                 $msgg = "You have successfully started a mission!";
-                mysql_query("INSERT INTO missions (`userid`,`timestamp`, `mid`) VALUES({$user_class->id}, {$now}, {$do})");
-                mysql_query("INSERT INTO missionlog (`id`, `text`, `timestamp`) VALUES('[x] started a {$mm['name']},$user_class->id', unix_timestamp())");
-                // mysql_query("INSERT INTO missions VALUES(NULL,{$user_class->id},'','','','',unix_timestamp(),{$do},'no','')");
-                // mysql_query("INSERT INTO missionlog VALUES(NULL,'[x] started a {$mm['name']},$user_class->id',unix_timestamp())");
+                perform_query("INSERT INTO missions (`userid`,`timestamp`, `mid`) VALUES(?, ?, ?)", [$user_class->id, $now, $do]);
+                perform_query("INSERT INTO missionlog (`id`, `text`, `timestamp`) VALUES(?, ?, ?)", ["[x] started a {$mm['name']},$user_class->id", $now]);
             }
         }
         $q2 = mysql_query("SELECT * FROM mission WHERE category = 2 ORDER BY id ASC ");
