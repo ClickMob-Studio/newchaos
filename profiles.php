@@ -2721,7 +2721,7 @@ $" . prettynum($worked2['cost']) . "<br>
                     if ($message != "") {
                         echo Message($message);
                     } else {
-                        $result = mysql_query("UPDATE grpgusers SET avatar='" . $avatar . "', quote='" . $quote . "', gender='" . $gender . "', username='" . $username . "', signature='" . $signature . "', music = '" . $music . "', volume = '" . $volume . "', email = '" . $email . "' WHERE id='$profile_class->id'");
+                        perform_query("UPDATE grpgusers SET avatar = ?, quote = ?, gender = ?, username = ?, signature = ?, music = ?, volume = ?, email = ? WHERE id = ?", [$avatar, $quote, $gender, $username, $signature, $music, $volume, $email, $profile_class->id]);
                         echo Message('You have edited this players prefrences.');
                     }
                 }

@@ -10,31 +10,13 @@ if (isset($_GET['spend']) && $_GET['spend'] == "energy") {
             echo Message("Your energy is already full up!");
         } else {
             $newpoints = $user_class->points - 10;
-            $result = mysql_query("UPDATE `grpgusers` SET `energy` = '" . $user_class->maxenergy . "', `points`='" . $newpoints . "' WHERE `id`='" . $_SESSION['id'] . "'");
+            perform_query("UPDATE `grpgusers` SET `energy` = ?, `points` = ? WHERE `id` = ?", [$user_class->maxenergy, $newpoints, $_SESSION['id']]);
             echo Message("You spent 10 points and refilled your energy.");
         }
     } else {
         echo Message("You don't have enough points to do that.");
     }
 }
-//if ($_GET['spend'] == "nerve") {
-//
-//    if ($user_class->points >= 10) {
-//        if ($user_class->nerve == $user_class->maxnerve) {
-//            echo Message("Your nerve is already full up!");
-//        } else {
-//            $newpoints = $user_class->points - 10;
-//            $newnerve = ($user_class->maxnerve > 100) ? $user_class->nerve + 100 : $user_class->maxnerve;
-//            $newnerve = ($newnerve > $user_class->maxnerve) ? $user_class->maxnerve : $newnerve;
-//            $result = mysql_query("UPDATE `grpgusers` SET `nerve` = '" . $newnerve . "', `points`='" . $newpoints . "' WHERE `id`='" . $_SESSION['id'] . "'");
-//            echo Message("You spent 10 points and refilled your nerve.");
-//        }
-//    } else {
-//        echo Message("You don't have enough points to do that.");
-//    }
-//}
-
-
 
 if (isset($_GET['spend']) && $_GET['spend'] == "bail") {
     if ($user_class->points >= 10) {
@@ -44,7 +26,7 @@ if (isset($_GET['spend']) && $_GET['spend'] == "bail") {
             $newpoints = $user_class->points - 10;
             $newjail = 0;
             $newnerve = ($newnerve > $user_class->maxnerve) ? $user_class->maxnerve : $newnerve;
-            $result = mysql_query("UPDATE `grpgusers` SET `jail` = '" . $newjail . "', `points`='" . $newpoints . "' WHERE `id`='" . $_SESSION['id'] . "'");
+            perform_query("UPDATE `grpgusers` SET `jail` = ?, `points` = ? WHERE `id` = ?", [$newjail, $newpoints, $_SESSION['id']]);
             echo Message("You spent 10 points and bailed yourself from jail.");
         }
     } else {
@@ -54,7 +36,7 @@ if (isset($_GET['spend']) && $_GET['spend'] == "bail") {
 
 
 
-if (isset($_GET['spend']) &&  $_GET['spend'] == "awake") {
+if (isset($_GET['spend']) && $_GET['spend'] == "awake") {
     if ($user_class->awakepercent == 100) {
         echo Message("Your awake is already full up!");
     } else if ($user_class->points == 0) {
@@ -66,7 +48,7 @@ if (isset($_GET['spend']) &&  $_GET['spend'] == "awake") {
         $newawake = floor($user_class->directawake + $awake_to_digits);
         $newawake = ($newawake > $user_class->directmaxawake) ? $user_class->directmaxawake : $newawake;
         $newpoints = $user_class->points - $points_to_use;
-        $result = mysql_query("UPDATE `grpgusers` SET `awake` = '" . $newawake . "', `points`='" . $newpoints . "' WHERE `id`='" . $user_class->id . "'");
+        perform_query("UPDATE `grpgusers` SET `awake` = ?, `points` = ? WHERE `id` = ?", [$newawake, $newpoints, $user_class->id]);
         echo Message("You have refilled your awake by " . $points_to_use . "%.");
     }
 }
@@ -76,7 +58,7 @@ if (isset($_GET['admin']) && $_GET['admin'] == "hosp") {
         if ($user_class->hospital == 0) {
             echo Message("You're not in the hospital.");
         } else {
-            $result = mysql_query("UPDATE `grpgusers` SET `hospital` = '0' AND `hp` = '" . $user_class->puremaxhp . "' WHERE `id`='" . $_SESSION['id'] . "'");
+            perform_query("UPDATE `grpgusers` SET `hospital` = '0', `hp` = ? WHERE `id` = ?", [$user_class->puremaxhp, $_SESSION['id']]);
             echo Message("You used your corruption powers to get out of hospital.");
         }
     }
@@ -86,17 +68,17 @@ if (isset($_GET['admin']) && $_GET['admin'] == "prison") {
         if ($user_class->jail == 0) {
             echo Message("You're not in prison.");
         } else {
-            $result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='" . $_SESSION['id'] . "'");
+            perform_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id` = ?", [$_SESSION['id']]);
             echo Message("You used your corruption powers to get out of prison.");
         }
     }
 }
-if (isset($_GET['admin']) &&  $_GET['admin'] == "energy") {
+if (isset($_GET['admin']) && $_GET['admin'] == "energy") {
     if ($user_class->admin == 1) {
         if ($user_class->energy == $user_class->maxenergy) {
             echo Message("Your energy is already full.");
         } else {
-            $result = mysql_query("UPDATE `grpgusers` SET `energy` = '$user_class->maxenergy' WHERE `id`='" . $_SESSION['id'] . "'");
+            perform_query("UPDATE `grpgusers` SET `energy` = ? WHERE `id` = ?", [$user_class->maxenergy, $_SESSION['id']]);
             echo Message("You used your corruption powers to refill your energy.");
         }
     }
@@ -106,8 +88,8 @@ if (isset($_GET['admin']) && $_GET['admin'] == "nerve") {
         if ($user_class->nerve == $user_class->maxnerve) {
             echo Message("Your nerve is already full.");
         } else {
-            $result = mysql_query("UPDATE `grpgusers` SET `nerve` = '$user_class->maxnerve' WHERE `id`='" . $_SESSION['id'] . "'");
-            echo Message("You used your corruption powers to refill your energy.");
+            perform_query("UPDATE `grpgusers` SET `nerve` = ? WHERE `id` = ?", [$user_class->maxnerve, $_SESSION['id']]);
+            echo Message("You used your corruption powers to refill your nerve.");
         }
     }
 }
@@ -116,7 +98,7 @@ if (isset($_GET['admin']) && $_GET['admin'] == "awake") {
         if ($user_class->awake == $user_class->maxawake) {
             echo Message("Your awake is already full.");
         } else {
-            $result = mysql_query("UPDATE `grpgusers` SET `awake` = '$user_class->maxawake' WHERE `id`='" . $_SESSION['id'] . "'");
+            perform_query("UPDATE `grpgusers` SET `awake` = ? WHERE `id` = ?", [$user_class->maxawake, $_SESSION['id']]);
             echo Message("You used your corruption powers to refill your awake.");
         }
     }
@@ -125,13 +107,19 @@ if (isset($_GET['admin']) && $_GET['admin'] == "money") {
     if ($user_class->admin == 1) {
         $newpoints = $user_class->points - 1;
         $newmoney = $user_class->money + 1000;
-        $result = mysql_query("UPDATE `grpgusers` SET `points` = '$newpoints', `money` = '$newmoney' WHERE `id`='" . $_SESSION['id'] . "'");
+        perform_query("UPDATE `grpgusers` SET `points` = ?, `money` = ? WHERE `id` = ?", [$newpoints, $newmoney, $_SESSION['id']]);
         echo Message("You used your corruption powers to get some quick cash.");
     }
 }
 ?>
-<tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Point Shop</td></tr>
-<tr><td class="contentcontent">
+<tr>
+    <td class="contentspacer"></td>
+</tr>
+<tr>
+    <td class="contenthead">Point Shop</td>
+</tr>
+<tr>
+    <td class="contentcontent">
         <?php if ($user_class->admin == 1) { ?>
             Welcome to the Admin Point Shop, here you can refill your energy etc for corruption purposes.<br /><br />
             <a href='spendpoints.php?admin=energy'>Refill Energy</a><br />
@@ -146,7 +134,8 @@ if (isset($_GET['admin']) && $_GET['admin'] == "money") {
             <a href='spendpoints.php?spend=awake'>Refill Awake</a> - 1 points [per 1%]<br />
             <a href='spendpoints.php?spend=nerve'>Refill Nerve</a> - 10 Points [100 nerve max]<br />
         <?php } ?>
-    </td></tr>
+    </td>
+</tr>
 <?php
 include 'footer.php';
 ?>

@@ -9,8 +9,8 @@ if (isset($_GET['buy'])) {
         if ($check == 0) {
             if ($user_class->money >= $worked['cost']) {
                 $newmoney = $user_class->money - $worked['cost'];
-                $newsql = mysql_query("UPDATE `grpgusers` SET `money` = '" . $newmoney . "' WHERE `id`= '" . $user_class->id . "'");
-                $result = mysql_query("INSERT INTO `hangar` VALUES('$user_class->id', '" . $_GET['buy'] . "')");
+                perform_query("UPDATE `grpgusers` SET `money` = ? WHERE `id`= ?", [$newmoney, $user_class->id]);
+                perform_query("INSERT INTO `hangar` VALUES(?, ?)", [$user_class->id, $_GET['buy']]);
                 echo Message("You have purchased a " . $worked['name'] . ".");
             } else {
                 echo Message("You do not have enough money to buy a " . $worked['name'] . ".");
@@ -37,29 +37,41 @@ while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
 		";
         $howmanyitems = $howmanyitems + 1;
         if ($howmanyitems == 4) {
-            $cars.= "</tr><tr height='15'></tr><tr>";
+            $cars .= "</tr><tr height='15'></tr><tr>";
             $howmanyitems = 0;
         }
     }
 }
 ?>
-<tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Airplane Shop</td></tr>
-<tr><td class="contentcontent">
+<tr>
+    <td class="contentspacer"></td>
+</tr>
+<tr>
+    <td class="contenthead">Airplane Shop</td>
+</tr>
+<tr>
+    <td class="contentcontent">
         <?php
         if ($user_class->level >= "500") {
             ?>
-    <center><font size="1px"><font color=white>WARNING! You have not got your pilot License Yet, You must go and do lessons to earn it, You can do lessons here --> <a href="flightschool.php">Flight School</a></b></font></font></font></center>
-    <?php
-}
-?>
-Welcome to the Airplane Shop! Take your pick from any of the airplanes we have in the shop.<br /><br />
-<?php
-echo "
+            <center>
+                <font size="1px">
+                    <font color=white>WARNING! You have not got your pilot License Yet, You must go and do lessons to earn
+                        it, You can do lessons here --> <a href="flightschool.php">Flight School</a></b></font>
+                </font>
+                </font>
+            </center>
+            <?php
+        }
+        ?>
+        Welcome to the Airplane Shop! Take your pick from any of the airplanes we have in the shop.<br /><br />
+        <?php
+        echo "
 <table width='100%'>
 				<tr>
 				" . $cars . "
 				</tr>
 			</table>
 </td></tr>";
-include 'footer.php'
-?>
+        include 'footer.php'
+            ?>

@@ -14,8 +14,8 @@ $worked = mysql_fetch_array($result);
 
 if (isset($_POST['submit'])) {
     if ($_POST['poll1'] != "") {
-        $result = mysql_query("UPDATE `grpgusers` SET `gangpoll` = '1' WHERE `id` = '" . $user_class->id . "'");
-        $result = mysql_query("UPDATE `gangpolls` SET `votes` = votes+1 AND `yes` = yes+1 WHERE `gangid`='" . $gang_class->id . "'");
+        perform_query("UPDATE `grpgusers` SET `gangpoll` = '1' WHERE `id` = ?", [$user_class->id]);
+        perform_query("UPDATE `gangpolls` SET `votes` = votes+1 AND `yes` = yes+1 WHERE `gangid`=?", [$gang_class->id]);
         echo Message("You have successfully voted for your gangs poll!<br /><br /><a href='index.php'>Home</a>");
         include 'footer.php';
         die();
@@ -23,8 +23,8 @@ if (isset($_POST['submit'])) {
         echo Message("You didn't choose an answer.");
     }
     if ($_POST['poll2'] != "") {
-        $result = mysql_query("UPDATE `grpgusers` SET `gangpoll` = '1' WHERE `id` = '" . $user_class->id . "'");
-        $result = mysql_query("UPDATE `gangpolls` SET `votes` = votes+1 AND `no` = no+1 WHERE `gangid`='" . $gang_class->id . "'");
+        perform_query("UPDATE `grpgusers` SET `gangpoll` = '1' WHERE `id` = ?", [$user_class->id]);
+        perform_query("UPDATE `gangpolls` SET `votes` = votes+1 AND `no` = no+1 WHERE `gangid`=?", [$gang_class->id]);
         echo Message("You have successfully voted for your gangs poll!<br /><br /><a href='index.php'>Home</a>");
         include 'footer.php';
         die();
@@ -33,8 +33,14 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
-<tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Gang Polls</td></tr>
-<tr><td class="contentcontent">
+<tr>
+    <td class="contentspacer"></td>
+</tr>
+<tr>
+    <td class="contenthead">Gang Polls</td>
+</tr>
+<tr>
+    <td class="contentcontent">
         <table width="100%">
             <form method="post">
                 <?php
@@ -48,7 +54,8 @@ if (isset($_POST['submit'])) {
 </tr>';
                     ?>
                     <br />
-                    <tr><td>
+                    <tr>
+                        <td>
                             <input type="submit" name="submit" value="Submit Poll" />
                         </td>
                     </tr>
@@ -57,7 +64,8 @@ if (isset($_POST['submit'])) {
                 ?>
             </form>
         </table>
-</tr></td>
+</tr>
+</td>
 <?php
 include 'footer.php';
 ?>

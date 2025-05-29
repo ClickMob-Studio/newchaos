@@ -106,7 +106,7 @@ perform_query("UPDATE grpgusers SET relationshipdays = relationshipdays + 1 WHER
 
 perform_query("DELETE FROM votes WHERE 1");
 perform_query("DELETE FROM dond WHERE 1");
-mysql_query("UPDATE grpgusers SET rmdays = GREATEST(rmdays-1,0)");
+perform_query("UPDATE grpgusers SET rmdays = GREATEST(rmdays-1,0)");
 $users = mysql_query("SELECT * FROM grpgusers WHERE ip = {$_SERVER['REMOTE_ADDR']} LIMIT 1");
 $users = mysql_fetch_array($users);
 $linkeduser = $users['username'];
@@ -156,7 +156,7 @@ while ($line = mysql_fetch_array($result3)) {
     }
     $newmoney = round($line['bank'] + $interest);
 
-    mysql_query("UPDATE grpgusers SET bank = $newmoney, points = points + $ptsadd WHERE id = {$line['id']}");
+    perform_query("UPDATE grpgusers SET bank = ?, points = points + ? WHERE id = ?", [$newmoney, $ptsadd, $line['id']]);
     Send_Event($line['id'], "You have earned " . prettynum($interest, 1) . " for your bank", $line['id']);
 }
 perform_query("DELETE FROM rating");

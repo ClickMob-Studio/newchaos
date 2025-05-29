@@ -582,11 +582,11 @@ if (empty($_GET['page'])) {
                 while ($line = mysql_fetch_array($resultw)) {
                     $gang_user = new User($line['id']);
                     if ($gang_user->weploaned == 1)
-                        $resultwep = mysql_query("UPDATE grpgusers SET eqweapon = 0, weploaned = 0 WHERE id = {$line['id']}");
+                        perform_query("UPDATE grpgusers SET eqweapon = 0, weploaned = 0 WHERE id = ?", [$line['id']]);
                     if ($gang_user->armorloaned == 1)
-                        $resultwep = mysql_query("UPDATE grpgusers SET eqarmor = 0, armloaned = 0 WHERE id = {$line['id']}");
+                        perform_query("UPDATE grpgusers SET eqarmor = 0, armloaned = 0 WHERE id = ?", [$line['id']]);
                     if ($gang_user->shoesloaned == 1)
-                        $resultwep = mysql_query("UPDATE grpgusers SET eqshoes = 0, shoeloaned = 0 WHERE id = {$line['id']}");
+                        perform_query("UPDATE grpgusers SET eqshoes = 0, shoeloaned = 0 WHERE id = ?", [$line['id']]);
                 }
                 echo Message("Your gang has been permanently deleted.");
             }

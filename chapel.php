@@ -15,8 +15,8 @@ include 'header.php';
 			$get2 = mysql_query("SELECT * FROM rel_requests WHERE reqid = {$_GET['accept']}");
 			$get = mysql_fetch_array($get2);
 			Send_Event($get['from'], "[-_USERID_-] has accepted your relationship request.", $user_class->id);
-			$res1 = mysql_query("UPDATE grpgusers SET relationship = {$get['status']}, relplayer = {$get['from']} WHERE id = $user_class->id");
-			$res2 = mysql_query("UPDATE grpgusers SET relationship = {$get['status']}, relplayer = $user_class->id WHERE id = {$get['from']}");
+			perform_query("UPDATE grpgusers SET relationship = ?, relplayer = ? WHERE id = ?", [$get['status'], $get['from'], $user_class->id]);
+			perform_query("UPDATE grpgusers SET relationship = ?, relplayer = ? WHERE id = ?", [$get['status'], $user_class->id, $get['from']]);
 			perform_query("DELETE FROM rel_requests WHERE player IN (?, ?) OR `from` IN (?, ?)", [$user_class->id, $get['from'], $user_class->id, $get['from']]);
 		}
 		if (isset($_GET['decline'])) {

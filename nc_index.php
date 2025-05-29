@@ -7,7 +7,7 @@ start_session_guarded();
 include 'nc_header.php';
 
 if ($user_class->firstlogin1 == 0) {
-    $stmt = mysql_query("UPDATE grpgusers SET firstlogin1 = 1 WHERE id = " . $user_class->id);
+    perform_query("UPDATE grpgusers SET firstlogin1 = 1 WHERE id = ?", [$user_class->id]);
     Send_Event2($user_class->id, "Is the latest thug on the streets.", $user_class->id);
     Send_Event($user_class->id, "<div class='text-white'>Welcome To Chaos City!<br>To get you started we are giving you:</div><div class='fw-bold text-white'>&bull; 3 VIP Days<br>&bull; $100,000 Cash<br>&bull; 1,250 Points</div>", $user_class->id);
 }

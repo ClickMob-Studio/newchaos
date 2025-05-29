@@ -30,7 +30,7 @@ putenv("TZ=Europe/London");
 $result2 = mysql_query("SELECT * FROM `grpgusers` WHERE `id`='" . $user_class->id . "'");
 $worked2 = mysql_fetch_array($result2);
 $total = $worked2['strength'] + $worked2['defense'] + $worked2['speed'];
-$result = mysql_query("UPDATE `grpgusers` SET `total`='" . $total . "' WHERE `id`='" . $user_class->id . "'");
+perform_query("UPDATE `grpgusers` SET `total` = ? WHERE `id`= ?", [$total, $user_class->id]);
 //End of Update Total Stats
 //Check for Bans
 $user_class = new User($_SESSION['id']);
@@ -57,7 +57,7 @@ if ($worked['serverdown'] != "" && $user_class->admin == 1) {
     die("<h1><font color='red'>SERVER DOWN<br><br>" . $worked['serverdown'] . "</font></h1>");
 }
 $time = date(F . " " . d . ", " . Y . " " . g . ":" . i . ":" . sa, time());
-$result = mysql_query("UPDATE `grpgusers` SET `lastactive` = '" . time() . "', `ip` = '" . $_SERVER['REMOTE_ADDR'] . "' WHERE `id`='" . $_SESSION['id'] . "'");
+perform_query("UPDATE `grpgusers` SET `lastactive` = ?, `ip` = ? WHERE `id`= ?", [time(), $_SERVER['REMOTE_ADDR'], $_SESSION['id']]);
 function callback($buffer)
 {
     $user_class = new User($_SESSION['id']);

@@ -72,9 +72,7 @@ if ($_GET['test'] == 'interest') {
     else
         $interest = ceil($line['bank'] * $multiply);
     $newmoney = round($line['bank'] + $interest);
-    // mysql_query("UPDATE grpgusers SET bank = $newmoney, points = points + $ptsadd WHERE id = {$line['id']}");
     echo "You have earned " . prettynum($interest, 1) . " for your bank";
-    // Send_Event($line['id'], "You have earned " . prettynum($interest, 1) . " for your bank", $line['id']);
     exit();
 }
 

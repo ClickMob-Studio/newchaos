@@ -25,7 +25,7 @@ include 'header.php';
 
                $newhosp = 0;
                $time = time();
-               $result = mysql_query("UPDATE `grpgusers` SET `bank`='" . $newcredit . "', `hp`='" . $puremaxhp . "', `hospital`='" . $newhosp . "' WHERE `id`='" . $_SESSION['id'] . "'");
+               perform_query("UPDATE `grpgusers` SET `bank`= ?, `hp` = ?, `hospital` = ? WHERE `id` = ?", [$newcredit, $puremaxhp, $newhosp, $_SESSION['id']]);
                echo Message("You spent $$cost and brought yourself out of the hospital.");
             } else {
                echo Message("You are not in the hospital!");

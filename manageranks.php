@@ -41,7 +41,7 @@ include 'header.php';
                     $_POST['title'] = strip_tags($_POST['title']);
                     $_POST['title'] = str_replace('"', '', $_POST['title']);
                     $_POST['title'] = addslashes($_POST['title']);
-                    $result = mysql_query("UPDATE ranks SET gangwars = '{$_POST['gangwars']}', ganggrad = '{$_POST['ganggrad']}', upgrade = '{$_POST['upgrade']}', title = '{$_POST['title']}', members = '{$_POST['members']}', crime = '{$_POST['crime']}', vault = '{$_POST['vault']}', ranks = '{$_POST['ranks']}', massmail = '{$_POST['massmail']}', applications = '{$_POST['applications']}', appearance = '{$_POST['appearance']}', invite = '{$_POST['invite']}', houses = '{$_POST['houses']}', gforum = '{$_POST['gforum']}', polls = '{$_POST['polls']}', color = '#{$_POST['color']}' WHERE id = {$_POST['id']}");
+                    perform_query("UPDATE ranks SET gangwars = ?, ganggrad = ?, upgrade = ?, title = ?, members = ?, crime = ?, vault = ?, ranks = ?, massmail = ?, applications = ?, appearance = ?, invite = ?, houses = ?, gforum = ?, polls = ?, color = ? WHERE id = ?", [$_POST['gangwars'], $_POST['ganggrad'], $_POST['upgrade'], $_POST['title'], $_POST['members'], $_POST['crime'], $_POST['vault'], $_POST['ranks'], $_POST['massmail'], $_POST['applications'], $_POST['appearance'], $_POST['invite'], $_POST['houses'], $_POST['gforum'], $_POST['polls'], '#' . $_POST['color'], $_POST['id']]);
                     echo Message("The rank {$_POST['title']} has been updated.");
                 } else
                     echo Message("Your rank title can only be 20 characters long.");
@@ -51,7 +51,7 @@ include 'header.php';
             if (!empty($_POST['title']))
                 if (strlen($_POST['title']) < 21) {
                     $_POST['title'] = addslashes(str_replace('"', '', strip_tags($_POST['title'])));
-                    mysql_query("INSERT INTO ranks (gang, title, members, crime, vault, ranks, massmail, applications, appearance, invite, houses, upgrade, gforum, polls, gangwars, ganggrad, color) VALUES ($user_class->gang, '{$_POST['title']}', '{$_POST['members']}', '{$_POST['crime']}', '{$_POST['vault']}', '{$_POST['ranks']}', '{$_POST['massmail']}', '{$_POST['applications']}', '{$_POST['appearance']}', '{$_POST['invite']}', '{$_POST['houses']}', '{$_POST['upgrade']}', '{$_POST['gforum']}', '{$_POST['polls']}', '{$_POST['gangwars']}', '{$_POST['ganggrad']}', '#{$_POST['color']}')");
+                    perform_query("INSERT INTO ranks (gang, title, members, crime, vault, ranks, massmail, applications, appearance, invite, houses, upgrade, gforum, polls, gangwars, ganggrad, color) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$user_class->gang, $_POST['title'], $_POST['members'], $_POST['crime'], $_POST['vault'], $_POST['ranks'], $_POST['massmail'], $_POST['applications'], $_POST['appearance'], $_POST['invite'], $_POST['houses'], $_POST['upgrade'], $_POST['gforum'], $_POST['polls'], $_POST['gangwars'], $_POST['ganggrad'], '#' . $_POST['color']]);
                     echo Message("The rank {$_POST['title']} has been created.");
                 } else
                     echo Message("Your rank title can only be 20 characters long.");

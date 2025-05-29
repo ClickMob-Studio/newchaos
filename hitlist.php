@@ -156,7 +156,7 @@ include("header.php");
                     $theirhp = 0;
                 if ($theirhp <= 0) {
                     $winner = $user_class->id;
-                    $result = mysql_query("UPDATE grpgusers SET hwho = $user_class->id, hhow = 'wasattacked', hwhen = '" . date(g . ":" . i . ":" . sa, time()) . "', hospital = 300 WHERE id = $attack_person->id");
+                    perform_query("UPDATE grpgusers SET hwho = ?, hhow = 'wasattacked', hwhen = ?, hospital = 300 WHERE id = ?", [$user_class->id, date(g . ":" . i . ":" . sa, time()), $attack_person->id]);
                     $theirhp = 0;
                     $newmoney = $user_class->bank + $worked['bounty'];
                     mission('k');

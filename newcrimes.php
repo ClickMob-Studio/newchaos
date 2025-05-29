@@ -89,7 +89,7 @@ if (isset($_GET['ner'])) {
                 $user_class->nerref,
                 $user_class->id
             ));
-            mysql_query("UPDATE grpgusers SET nerref = $user_class->nerref WHERE id = $user_class->id");
+            perform_query("UPDATE grpgusers SET nerref = ? WHERE id = ?", [$user_class->nerref, $user_class->id]);
             break;
         case 2:
             if ($user_class->nerref == 0)

@@ -36,13 +36,13 @@ if (checkCaptchaRequired($user_class)) {
 }
 
 if ($user_class->jail_bot_credits < 1) {
-    mysql_query("UPDATE `grpgusers` SET `is_jail_bots_active` = 0 WHERE `id` = " . $user_class->id);
+    perform_query("UPDATE `grpgusers` SET `is_jail_bots_active` = 0 WHERE `id` = ?", [$user_class->id]);
     $user_class->is_jail_bots_active = 0;
 }
 
 if (isset($_GET['action']) && $_GET['action'] === 'start_bot_process') {
     if ($user_class->jail_bot_credits > 0) {
-        mysql_query("UPDATE `grpgusers` SET `is_jail_bots_active` = 1 WHERE `id` = " . $user_class->id);
+        perform_query("UPDATE `grpgusers` SET `is_jail_bots_active` = 1 WHERE `id` = ?", [$user_class->id]);
         $user_class->is_jail_bots_active = 1;
     } else {
         echo Message("You have used all your jail bot credits.");
@@ -89,7 +89,7 @@ if ($jailbreak != "") {
                 $exp = $exp + $user_class->exp;
                 $crimesucceeded = 1 + $user_class->crimesucceeded;
 
-                mysql_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  " . $exp . ", busts = busts + 1, jail_bot_credits = jail_bot_credits - 1 WHERE id = " . $user_class->id);
+                perform_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ?, busts = busts + 1, jail_bot_credits = jail_bot_credits - 1 WHERE id = ?", [$exp, $user_class->id]);
                 $user_class->jail_bot_credits = $user_class->jail_bot_credits - 1;
                 mission('b');
                 newmissions('busts');
@@ -150,9 +150,9 @@ if ($jailbreak != "") {
                         //$money = $money + $user_class->money;
                         $nerve = $user_class->nerve - $nerve;
                         if ($user_class->gang != 0) {
-                            mysql_query("UPDATE gangs SET dailyBusts = dailyBusts + 1 WHERE id = " . $user_class->gang);
+                            perform_query("UPDATE gangs SET dailyBusts = dailyBusts + 1 WHERE id = ?", [$user_class->gang]);
                         }
-                        mysql_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  " . $exp . ", busts = busts + 1, points = points + 3, nerve = nerve - 10 WHERE id = " . $user_class->id);
+                        perform_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ?, busts = busts + 1, points = points + 3, nerve = nerve - 10 WHERE id = ?", [$exp, $user_class->id]);
                         mission('b');
                         newmissions('busts');
                         gangContest(array(
@@ -167,7 +167,7 @@ if ($jailbreak != "") {
                         if (isset($questSeasonMission['requirements']->busts)) {
                             updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'busts', 1);
                         }
-                        $result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='" . $jailed_person['id'] . "'");
+                        perform_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`=?", [$jailed_person['id']]);
                         //send even to that person
                         Send_Event($jailed_person['id'], "You have been busted out of Jail by [-_USERID_-].", $user_class->id);
 
@@ -193,12 +193,12 @@ if ($jailbreak != "") {
                         $crimefailed = 1 + $user_class->crimefailed;
                         $jail = 10800;
                         $nerve = $user_class->nerve - $nerve;
-                        $result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, caught = caught + 1, jail = 600, nerve = nerve - 10 WHERE id =" . $user_class->id);
+                        perform_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, caught = caught + 1, jail = 600, nerve = nerve - 10 WHERE id = ?", [$user_class->id]);
                     } else {
                         $_SESSION['message'] = "You failed.";
                         $crimefailed = 1 + $user_class->crimefailed;
                         $nerve = $user_class->nerve - $nerve;
-                        $result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - 10 WHERE id = '" . $_SESSION['id'] . "'");
+                        perform_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - 10 WHERE id = ?", [$_SESSION['id']]);
                     }
                 } else {
                     echo Message("You don't have enough nerve for that crime.");
@@ -219,7 +219,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'bail') {
             $_SESSION['message'] = 'You do not have enough points';
         } else {
             $_SESSION['message'] = 'You have bailed you self out of jail for ' . $cost . ' points';
-            mysql_query("UPDATE grpgusers SET jail = 0, points = points - " . $cost . " WHERE id = " . $user_class->id);
+            perform_query("UPDATE grpgusers SET jail = 0, points = points - ? WHERE id = ?", [$cost, $user_class->id]);
         }
     }
 }

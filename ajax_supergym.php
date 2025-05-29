@@ -189,7 +189,7 @@ if (isset($_POST['what']) and $_POST['what'] == 'trainrefill') {
         }
 
         // Update the database with the new stats and points
-        mysql_query("UPDATE grpgusers SET $stat = '" . $user_class->{$stat} . "', dailytrains = $user_class->dailytrains, points = $user_class->points, energy = $user_class->maxenergy WHERE id = $user_class->id");
+        perform_query("UPDATE grpgusers SET $stat = ?, dailytrains = ?, points = ?, energy = ? WHERE id = ?", [$user_class->{$stat}, $user_class->dailytrains, $user_class->points, $user_class->maxenergy, $user_class->id]);
 
         // Visual representation of energy used is adjusted for the x10 mode but does not affect awake reduction
         $displayed_energy_used = $_POST['amnt']; // Actual energy used for the calculation
@@ -208,7 +208,7 @@ if (isset($_POST['what']) and $_POST['what'] == 'train') {
         $user_class->energypercent = floor(($user_class->energy / $user_class->maxenergy) * 100);
         $user_class->formattedenergy = $user_class->energy . " / " . $user_class->maxenergy . " [" . $user_class->energypercent . "%]";
         $user_class->awakepercent = floor(($user_class->directawake / $user_class->directmaxawake) * 100);
-        mysql_query("UPDATE grpgusers SET $stat = '" . $user_class->{$stat} . "', dailytrains = $user_class->dailytrains, awake = $user_class->directawake, energy = $user_class->energy WHERE id = $user_class->id");
+        perform_query("UPDATE grpgusers SET $stat = ?, dailytrains = ?, awake = ?, energy = ? WHERE id = ?", [$user_class->{$stat}, $user_class->dailytrains, $user_class->directawake, $user_class->energy, $user_class->id]);
 
         $bpCategory = getBpCategory();
         if ($bpCategory) {
@@ -243,7 +243,7 @@ if (isset($_POST['what']) and $_POST['what'] == 'refill') {
             $user_class->points -= 10;
             $user_class->energypercent = floor(($user_class->energy / $user_class->maxenergy) * 100);
             $user_class->formattedenergy = $user_class->energy . " / " . $user_class->maxenergy . " [" . $user_class->energypercent . "%]";
-            mysql_query("UPDATE grpgusers SET energy = $user_class->maxenergy, points = points - 10 WHERE id = $user_class->id");
+            perform_query("UPDATE grpgusers SET energy = ?, points = points - 10 WHERE id = ?", [$user_class->maxenergy, $user_class->id]);
             print ("You have refilled your energy for 10 points.|" . number_format($user_class->points) . "|" . genBars());
             print "|$user_class->energy";
             die();
@@ -258,7 +258,7 @@ if (isset($_POST['what']) and $_POST['what'] == 'refill') {
             $user_class->directawake = $user_class->directmaxawake;
             $user_class->points -= $ptstouse;
             $user_class->awakepercent = 100;
-            mysql_query("UPDATE grpgusers SET awake = $user_class->directawake, points = points - $ptstouse WHERE id = $user_class->id");
+            perform_query("UPDATE grpgusers SET awake = ?, points = points - ? WHERE id = ?", [$user_class->directawake, $ptstouse, $user_class->id]);
             print ("You have refilled your awake for $ptstouse points.|" . number_format($user_class->points) . "|" . genBars());
             print "|$user_class->energy";
             die();
@@ -279,7 +279,7 @@ if (isset($_POST['what']) and $_POST['what'] == 'refill') {
             $user_class->awakepercent = 100;
             $user_class->energypercent = floor(($user_class->energy / $user_class->maxenergy) * 100);
             $user_class->formattedenergy = $user_class->energy . " / " . $user_class->maxenergy . " [" . $user_class->energypercent . "%]";
-            mysql_query("UPDATE grpgusers SET energy = $user_class->maxenergy, awake = $user_class->directawake, points = points - $ptstouse WHERE id = $user_class->id");
+            perform_query("UPDATE grpgusers SET energy = ?, awake = ?, points = points - ? WHERE id = ?", [$user_class->maxenergy, $user_class->directawake, $ptstouse, $user_class->id]);
             print ("You have refilled your energy/awake for $ptstouse points.|" . number_format($user_class->points) . "|" . genBars());
             print "|$user_class->energy";
             die();

@@ -290,10 +290,10 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
                 // Check if the attacked person is king and the winner is male
                 if ($row['king'] == $user_class->city) {
                     // Dethrone the current king
-                    mysql_query("UPDATE `grpgusers` SET `king` = 0, `queen` = 0 WHERE `id` = '" . mysql_real_escape_string($attack_person->id) . "'");
+                    perform_query("UPDATE `grpgusers` SET `king` = 0, `queen` = 0 WHERE `id` = ?", [$attack_person->id]);
 
                     // Crown the new king
-                    mysql_query("UPDATE `grpgusers` SET `king` = '" . mysql_real_escape_string($user_class->city) . "', `queen` = 0 WHERE `id` = '" . mysql_real_escape_string($winner->id) . "'");
+                    perform_query("UPDATE `grpgusers` SET `king` = ?, `queen` = 0 WHERE `id` = ?", [$user_class->city, $winner->id]);
 
                     // Send event notifications
                     Send_Event($attack_person->id, "You have been defeated and lost your status as Boss of " . $cityname . ".");
@@ -303,10 +303,10 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
                 // Check if the attacked person is queen and the winner is female
                 if ($row['queen'] == $user_class->city) {
                     // Dethrone the current queen
-                    mysql_query("UPDATE `grpgusers` SET `queen` = 0, `king` = 0 WHERE `id` = '" . mysql_real_escape_string($attack_person->id) . "'");
+                    perform_query("UPDATE `grpgusers` SET `queen` = 0, `king` = 0 WHERE `id` = ?", [$attack_person->id]);
 
                     // Crown the new queen
-                    mysql_query("UPDATE `grpgusers` SET `queen` = '" . mysql_real_escape_string($user_class->city) . "', `king` = 0 WHERE `id` = '" . mysql_real_escape_string($winner->id) . "'");
+                    perform_query("UPDATE `grpgusers` SET `queen` = ?, `king` = 0 WHERE `id` = ?", [$user_class->city, $winner->id]);
 
                     // Send event notifications
                     Send_Event($attack_person->id, "You have been defeated and lost your status as Under Boss of " . $cityname . ".");
@@ -318,41 +318,7 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
 
             $city = mysql_real_escape_string($user_class->city);
 
-            // Check if there's a king in the city for males
-//if ($user_class->gender === 'Male') {
-            //  $check_king_query = "SELECT id FROM `grpgusers` WHERE `king` = '$city'";
-            //$king_result = mysql_query($check_king_query);
-        
-            // if (!$king_result) {
-            //  die('Error in executing the query: ' . mysql_error());
-            // }
-        
-            //if (mysql_num_rows($king_result) == 0) {
-            // Set the winner as king of the city
-            //  $set_king_query = "UPDATE `grpgusers` SET `king` = '$city' WHERE `id` = '" . $user_class->id . "'";
-            // mysql_query($set_king_query);
-            // Send_Event($winner, "Congratulations! As there was no King of " . $user_class->city . ", you have been declared the new King after your victory.");
-            //}
-//}
-        
-            // Check if there's a queen in the city for females
-//if ($user_class->gender === 'Female') {
-            // $check_queen_query = "SELECT id FROM `grpgusers` WHERE `queen` = '$city'";
-            //   $queen_result = mysql_query($check_queen_query);
-        
-            // if (!$queen_result) {
-            //die('Error in executing the query: ' . mysql_error());
-            // }
-        
-            //if (mysql_num_rows($queen_result) == 0) {
-            // Set the winner as queen of the city
-            //$set_queen_query = "UPDATE `grpgusers` SET `queen` = '$city' WHERE `id` = '".mysql_real_escape_string($user_class->id)."'";
-            // mysql_query($set_queen_query);
-            //  Send_Event($user_class->id, "Congratulations! As there was no Queen of " . $user_class->city . ", you have been declared the new Queen after your victory.");
-            //}
-//}
-        
-            //if ($user_class->id == 174) {
+
             $spots = range(1, 10);
 
             $db->query("SELECT * FROM attackladder");
@@ -610,7 +576,7 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
 
 
 
-        mysql_query("UPDATE `grpgusers` SET `energy` = `energy` - {$energyneeded}, `last_attack_time` = " . time() . " WHERE `id` = {$user_class->id}");
+        perform_query("UPDATE `grpgusers` SET `energy` = `energy` - ?, `last_attack_time` = ? WHERE `id` = ?", [$energyneeded, time(), $user_class->id]);
 
         echo "</td></tr>";
 
