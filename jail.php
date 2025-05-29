@@ -51,7 +51,6 @@ if ($jailbreak != "") {
         echo Message("There has been a issue");
     }
     if ($_GET['token'] != $_SESSION['tokens']) {
-
         $mes = "Something has gone wrong";
         $error = true;
     } else {
@@ -133,7 +132,6 @@ if ($jailbreak != "") {
                 $error = true;
             }
             $chance = rand(1, (100 * 1 - ($user_class->speed / 25)));
-            //$money = 785;
             $nerve = 10;
             $exp = 2500;
 
@@ -149,7 +147,8 @@ if ($jailbreak != "") {
                         if ($user_class->gang != 0) {
                             mysql_query("UPDATE gangs SET dailyBusts = dailyBusts + 1 WHERE id = " . $user_class->gang);
                         }
-                        mysql_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  " . $exp . ", busts = busts + 1, points = points + 3, nerve = nerve - 10 WHERE id = " . $user_class->id);
+
+                        perform_query("UPDATE `grpgusers` SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp = ?, busts = busts + 1, points = points + 3, nerve = nerve - 10 WHERE id = ?", [$exp, $user_class->id]);
                         mission('b');
                         newmissions('busts');
                         gangContest(array(
@@ -164,8 +163,8 @@ if ($jailbreak != "") {
                         if (isset($questSeasonMission['requirements']->busts)) {
                             updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'busts', 1);
                         }
-                        $result = mysql_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id`='" . $jailed_person['id'] . "'");
-                        //send even to that person
+
+                        perform_query("UPDATE `grpguser` SET `jail` = '0' WHERE `id` = ?", [$jailed_person['id']]);
                         Send_Event($jailed_person['id'], "You have been busted out of Jail by [-_USERID_-].", $user_class->id);
 
                         addToGangCompLeaderboard($user_class->gang, 'busts_complete', 1);
@@ -195,7 +194,7 @@ if ($jailbreak != "") {
                         $_SESSION['message'] = "You failed.";
                         $crimefailed = 1 + $user_class->crimefailed;
                         $nerve = $user_class->nerve - $nerve;
-                        $result = mysql_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - 10 WHERE id = '" . $_SESSION['id'] . "'");
+                        perform_query("UPDATE grpgusers SET crimefailed = crimefailed + 1, nerve = nerve - 10 WHERE id = ?", [$user_class->id]);
                     }
                 } else {
                     echo Message("You don't have enough nerve for that crime.");
@@ -300,7 +299,8 @@ if ($user_class->jail > 0) {
             $ignore = array($user_class->id);
             $ignore = implode(',', $ignore);
 
-            $result = mysql_query("SELECT `id`, `jail`, `lastactive` FROM `grpgusers` WHERE jail > 0 ORDER BY RAND() LIMIT 4");
+            perform_query("SELECT `id`, `jail`, `lastactive` FROM `grpgusers` WHERE jail > 0 ORDER BY RAND() LIMIT 4");
+            $result = $db->fetch_row();
             function generateRandomString($length = 10)
             {
                 $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -314,12 +314,11 @@ if ($user_class->jail > 0) {
             $token = generateRandomString(10);
             $_SESSION['tokens'] = $token;
 
-            $jailCount = mysql_num_rows($result);
-            $redis->setEx("jailCount", 15, $jailCount);
+            $jailCount = count($result);
 
             if ($jailCount || ($user_class->jail_bot_credits > 0 && $user_class->is_jail_bots_active)) {
                 if ($jailCount > 0) {
-                    while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
+                    foreach ($result as $line) {
                         $secondsago = time() - $line['lastactive'];
                         $formattedName = formatName($line['id']);
 
