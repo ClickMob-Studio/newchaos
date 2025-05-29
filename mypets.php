@@ -307,44 +307,87 @@ include 'includepet.php';
 <div class='box_middle'>
     <div class='pad'>
         <?php
-        $_GET['pet'] = isset($_GET['pet']) && ctype_digit($_GET['pet']) ? $_GET['pet'] : null;
-        $q = mysql_query("SELECT userid FROM petmarket WHERE userid = $user_class->id");
-        if (mysql_num_rows($q))
+        $petId = filter_input(INPUT_GET, 'pet', FILTER_VALIDATE_INT);
+
+        $db->query("SELECT userid FROM petmarket WHERE userid = ?");
+        $db->execute([$user_class->id]);
+        if ($db->fetch_single()) {
             diefun("Your pet is on the market");
-        $q = mysql_query("SELECT petid FROM pets WHERE userid = $user_class->id");
-        if (!mysql_num_rows($q))
+        }
+
+        $db->query("SELECT * FROM pets WHERE userid = ? ORDER BY petid ASC");
+        $db->execute([$user_class->id]);
+        $pets = $db->fetch_row();
+
+        if (empty($pets)) {
             header('location: petshop.php');
-        if (isset($_GET['name']) && $_GET['name'] == 'change' && !empty($_GET['pet'])) {
-            $q = mysql_query("SELECT pname FROM pets WHERE userid = $user_class->id AND petid = {$_GET['pet']}");
-            if (!mysql_num_rows($q))
+        }
+
+        if (isset($_GET['name']) && $_GET['name'] == 'change' && !empty($petId)) {
+            $pet = null;
+            foreach ($pets as $p) {
+                if ($p['petid'] == $petId) {
+                    $pet = $p;
+                    break;
+                }
+            }
+
+            if ($pet === null) {
                 diefun("Either that pet doesn't exist, or it's not yours");
-            $name = mysql_result($q, 0, 0);
+            }
+
             if (array_key_exists('name', $_POST)) {
                 $_POST['name'] = isset($_POST['name']) ? trim($_POST['name']) : null;
-                if (empty($_POST['name']))
+
+                if (empty($_POST['name'])) {
                     diefun("You didn't enter a valid name");
-                if (strlen($_POST['name']) < 3)
+                }
+
+                if (strlen($_POST['name']) < 3) {
                     diefun("Your pet's name must be at least 3 characters");
-                if (strlen($_POST['name']) > 10)
+                }
+
+                if (strlen($_POST['name']) > 10) {
                     diefun("Your pet's name can be no longer than 10 characters");
-                perform_query("UPDATE pets SET pname = ? WHERE userid = ? AND petid = ?", [$_POST['name'], $user_class->id, $_GET['pet']]);
+                }
+
+                $db->query("UPDATE pets SET pname = ? WHERE userid = ? AND petid = ?");
+                $db->execute([$_POST['name'], $user_class->id, $petId]);
+
                 echo Message("You've changed your pet's name");
             } elseif (array_key_exists('cn', $_POST)) {
-                if (strlen($_POST['startcolor']) != 6)
+                if (strlen($_POST['startcolor']) != 6) {
                     diefun("Error.");
-                if (strlen($_POST['endcolor']) != 6)
+                }
+
+                if (strlen($_POST['endcolor']) != 6) {
                     diefun("Error.");
+                }
+
                 $colors[] = $_POST['startcolor'];
                 $colors[] = $_POST['endcolor'];
-                perform_query("UPDATE pets SET coloredname = ? WHERE userid = ? AND petid = ?", [implode("|", $colors), $user_class->id, $_GET['pet']]);
+
+                $db->query("UPDATE pets SET coloredname = ? WHERE userid = ? AND petid = ?");
+                $db->execute([implode("|", $colors), $user_class->id, $petId]);
+
                 echo Message("You've changed your pet's gradient name.");
             } elseif (array_key_exists('buycolor', $_POST)) {
-                if ($user_class->credits < 3)
+                if ($user_class->credits < 3) {
                     diefun("You do not have enough credits.");
+                }
+
                 $colors[] = "FF0000";
                 $colors[] = "FF0000";
-                perform_query("UPDATE pets SET coloredname = ? WHERE userid = ? AND petid = ?", [implode("|", $colors), $user_class->id, $_GET['pet']]);
-                perform_query("UPDATE grpgusers SET credits = credits - 3 WHERE id = ?", [$user_class->id]);
+
+                perform_query(
+                    "UPDATE pets SET coloredname = ? WHERE userid = ? AND petid = ?",
+                    [implode("|", $colors), $user_class->id, $petId]
+                );
+                perform_query(
+                    "UPDATE grpgusers SET credits = credits - 3 WHERE id = ?",
+                    [$user_class->id]
+                );
+
                 echo Message("You've added a colored name to your pet.");
             } else {
                 $petinfo = new Pet($user_class->id);
@@ -384,21 +427,23 @@ include 'includepet.php';
         }
         if (array_key_exists('avi', $_POST)) {
             $avi = $_POST['avi'];
-            if (!getimagesize($avi) && $avi != '')
+            if (!getimagesize($avi) && $avi != '') {
                 diefun("Invalid image detected.");
+            }
+
             if ($avi == '') {
                 $db->query("SELECT picture FROM petshop ps JOIN pets p ON ps.id = p.petid WHERE userid = ?");
-                $db->execute(array(
-                    $user_class->id
-                ));
+                $db->execute([$user_class->id]);
                 $avi = $db->fetch_single();
             }
+
             $db->query("UPDATE pets SET avi = ? WHERE userid = ?");
-            $db->execute(array(
+            $db->execute([
                 $avi,
                 $user_class->id
-            ));
-            perform_query("UPDATE pets SET avi = ? WHERE userid = ? AND petid = ?", [implode("|", $colors), $user_class->id, $_GET['pet']]);
+            ]);
+            perform_query("UPDATE pets SET avi = ? WHERE userid = ? AND petid = ?", [$avi, $user_class->id, $petId]);
+
             echo Message("You've changed your pet's avatar.");
         } elseif (isset($_GET['avi'])) {
             $petinfo = new Pet($user_class->id);
@@ -409,13 +454,17 @@ include 'includepet.php';
         }
         $_GET['use'] = isset($_GET['use']) && ctype_digit($_GET['use']) ? $_GET['use'] : null;
         if (!empty($_GET['use'])) {
-            $q = mysql_query("SELECT itemname FROM items WHERE id = {$_GET['use']}");
-            if (!mysql_num_rows($q))
+
+            $item = Item_Name($_GET['use']);
+            if (!isset($item)) {
                 diefun("That item doesn't exist");
-            $item = mysql_result($q, 0, 0);
-            $q = mysql_query("SELECT quantity FROM inventory WHERE userid = $user_class->id AND itemid = {$_GET['use']}");
-            if (!mysql_num_rows($q))
+            }
+
+            $quantity = Check_Item($_GET['use'], $user_class->id);
+            if ($quantity == 0) {
                 diefun("You don't own that item");
+            }
+
             switch ($_GET['use']) {
                 case 14:
                     perform_query("UPDATE grpgusers SET awake = ? WHERE id = ?", [$user_class->maxawake, $user_class->id]);
@@ -427,24 +476,33 @@ include 'includepet.php';
                     break;
             }
         }
+
         if (isset($_GET['leash']) && !empty($_GET['pet'])) {
             $_GET['leash'] = isset($_GET['leash']) && in_array($_GET['leash'], array(
                 0,
                 1
             )) ? $_GET['leash'] : 0;
-            $q = mysql_query("SELECT * FROM pets WHERE userid = $user_class->id AND petid = {$_GET['pet']}");
-            if (!mysql_num_rows($q))
+
+            $db->query("SELECT * FROM pets WHERE userid = ? AND petid = ?");
+            $db->execute([$user_class->id, $_GET['pet']]);
+            $row = $db->fetch_row(true);
+            if (empty($row)) {
                 diefun("Either that pet doesn't exist or it's not yours");
-            $row = mysql_fetch_array($q);
-            if ($row['leash'] == 1 && $_GET['leash'] == 1)
+            }
+
+            if ($row['leash'] == 1 && $_GET['leash'] == 1) {
                 diefun("This pet is already leashed.");
-            if ($row['leash'] == 0 && $_GET['leash'] == 0)
+            }
+
+            if ($row['leash'] == 0 && $_GET['leash'] == 0) {
                 diefun("This pet is already unleashed.");
+            }
+
             perform_query("UPDATE pets SET leash = ? WHERE userid = ? AND petid = ?", [$_GET['leash'], $user_class->id, $_GET['pet']]);
-            $opts = array(
+            $opts = [
                 0 => 'unleashed',
                 1 => 'leashed'
-            );
+            ];
             echo Message("You've {$opts[$_GET['leash']]} your pet");
         }
 
@@ -453,19 +511,28 @@ include 'includepet.php';
                 0,
                 1
             )) ? $_GET['raid_leash'] : 0;
-            $q = mysql_query("SELECT * FROM pets WHERE userid = $user_class->id AND petid = {$_GET['pet']}");
-            if (!mysql_num_rows($q))
+
+            $db->query("SELECT * FROM pets WHERE userid = ? AND petid = ?");
+            $db->execute([$user_class->id, $_GET['pet']]);
+            $row = $db->fetch_row(true);
+            if (empty($row)) {
                 diefun("Either that pet doesn't exist or it's not yours");
-            $row = mysql_fetch_array($q);
-            if ($row['raid_leash'] == 1 && $_GET['raid_leash'] == 1)
+            }
+
+            if ($row['raid_leash'] == 1 && $_GET['raid_leash'] == 1) {
                 diefun("This pet is already joining you in raids.");
-            if ($row['raid_leash'] == 0 && $_GET['raid_leash'] == 0)
+            }
+
+            if ($row['raid_leash'] == 0 && $_GET['raid_leash'] == 0) {
                 diefun("This pet is already not joining you in raids.");
+            }
+
             perform_query("UPDATE pets SET raid_leash = ? WHERE userid = ? AND petid = ?", [$_GET['raid_leash'], $user_class->id, $_GET['pet']]);
-            $opts = array(
+            $opts = [
                 0 => 'unleashed for raids',
                 1 => 'leashed for raids'
-            );
+            ];
+
             echo Message("You've {$opts[$_GET['leash']]} your pet");
         }
         print '<script type="text/javascript">
@@ -479,10 +546,12 @@ function raidLeash(value,pets) {
 		window.location="mypets.php?raid_leash="+value+"&pet="+pets;
 }
 </script>';
-        $q = mysql_query("SELECT * FROM pets WHERE userid = $user_class->id ORDER BY petid ASC");
-        while ($row = mysql_fetch_array($q)) {
-            $y = mysql_query("SELECT * FROM petshop WHERE id = {$row['petid']}");
-            $pet = mysql_fetch_array($y);
+        foreach ($pets as $row) {
+            $db->query("SELECT * FROM petshop WHERE id = ?");
+            $db->execute([$row['petid']]);
+            $pet = $db->fetch_row(true);
+
+
             $petinfo = new Pet($user_class->id);
             ?>
 

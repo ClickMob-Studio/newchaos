@@ -52,8 +52,7 @@ if (isset($_POST) && isset($_POST['code'])) {
 }
 
 $code = rand(1000, 99999);
-perform_query('UPDATE `grpgusers` SET `captcha` = ? WHERE `id` = ?', [$code, $user_class->id]);
-
+perform_query("UPDATE `grpgusers` SET `captcha` = ? WHERE `id` = ?", [$code, $user_class->id]);
 
 ?>
 

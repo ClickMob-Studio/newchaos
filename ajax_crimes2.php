@@ -225,12 +225,10 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $exp *= 2;
         $money *= 1;
         $chance = 100;
-    } else {
-        if ($bonus_row['Time'] > 0) {
-            $exp *= 2;
-            $money *= 1;
-            $chance = 100;
-        }
+    } else if (isset($bonus_row['TIME']) && $bonus_row['Time'] > 0) {
+        $exp *= 2;
+        $money *= 1;
+        $chance = 100;
     }
 
     if (time() < 1673827199) {
@@ -310,13 +308,8 @@ if (isset($_POST['id']) || isset($input['id'])) {
             'error' => 'refresh'
         ));
 
-        //$logger->info("", $debug);
         die();
     }
-
-    //    if ($user_class->nerve < $nerve && !$prepaid) {
-//        refill('n');
-//    }
 
     if ($user_class->nerve >= $nerve || $prepaid) {
         if ($prepaid) {
@@ -365,8 +358,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
             } else {
                 $which = "crimes1";
             }
-            // $db->query("INSERT INTO crime_log (userid, nerve, exp) VALUES (?, ?, ?)");
-            // $db->execute(array($user_class->id, $nerve, $exp));
+
             newmissions($which, $crime_multiplier);
             updateGangActiveMission('crimes', $crime_multiplier);
 
@@ -450,12 +442,11 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
             }
             addToRelCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
-            //addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
 
             $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
             $db->execute();
             $activityContest = $db->fetch_row(true);
-            if ($activityContest['type'] == 'crimes') {
+            if (isset($activityContest['type']) && $activityContest['type'] == 'crimes') {
                 addToUserCompLeaderboard($user_class->id, 'activity_complete', $crime_multiplier);
                 addToRelCompLeaderboard($user_class->id, 'activity_complete', $crime_multiplier);
             }

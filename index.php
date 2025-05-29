@@ -53,8 +53,10 @@ include 'header.php';
                 <td width="30%"><?= prettynum($user_class->workexp) ?></td>
             </tr>
             <tr>
-                <th width="10%">RM Days:</th>
-                <td width="30%"><?= prettynum($user_class->rmdays) ?></td>
+                <th width="10%">VIP Days:</th>
+                <td width="30%">
+                    <?= ($user_class->rmdays > 0 ? prettynum($user_class->rmdays) . ' remaining' : '<a href="store.php#VIP">Buy VIP Days</a>') ?>
+                </td>
                 <th width="10%">Activity Points:</th>
                 <td width="30%"><a href="spendactivity.php">Activity Points Store
                         [<?= prettynum($user_class->apoints) ?> Activity Points]</td>
