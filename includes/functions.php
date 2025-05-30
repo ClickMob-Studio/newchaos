@@ -143,9 +143,45 @@ function car_popup($text, $id)
 }
 function secondsToTime($seconds)
 {
-    $dtF = new DateTime("@0");
+    $dtF = new DateTime('@0');
     $dtT = new DateTime("@$seconds");
-    return $dtF->diff($dtT)->format('%h hours, %i minutes and %s seconds');
+    $interval = $dtF->diff($dtT);
+
+    $parts = [];
+
+    if ($interval->y > 0) {
+        $parts[] = $interval->y . ' year' . ($interval->y !== 1 ? 's' : '');
+    }
+
+    if ($interval->m > 0) {
+        $parts[] = $interval->m . ' month' . ($interval->m !== 1 ? 's' : '');
+    }
+
+    // Convert leftover days into weeks and days
+    $weeks = floor($interval->d / 7);
+    $days = $interval->d % 7;
+
+    if ($weeks > 0) {
+        $parts[] = $weeks . ' week' . ($weeks !== 1 ? 's' : '');
+    }
+
+    if ($days > 0) {
+        $parts[] = $days . ' day' . ($days !== 1 ? 's' : '');
+    }
+
+    if ($interval->h > 0) {
+        $parts[] = $interval->h . ' hour' . ($interval->h !== 1 ? 's' : '');
+    }
+
+    if ($interval->i > 0) {
+        $parts[] = $interval->i . ' minute' . ($interval->i !== 1 ? 's' : '');
+    }
+
+    if ($interval->s > 0 || empty($parts)) {
+        $parts[] = $interval->s . ' second' . ($interval->s !== 1 ? 's' : '');
+    }
+
+    return implode(', ', $parts);
 }
 function daysToTime($seconds)
 {
