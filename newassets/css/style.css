@@ -1,491 +1,486 @@
 :root {
-	--colorHighlight: #ff6218;
+  --colorHighlight: #ff6218;
 }
 
 @font-face {
-	font-family: 'Impact';
-	font-style: normal;
-	font-weight: 500;
-	font-display: swap;
-	src: url(/asset/css/fonts/impact.ttf) format('truetype');
+  font-family: "Impact";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(/asset/css/fonts/impact.ttf) format("truetype");
 }
 
 html,
 body {
-	height: 100%;
-	font-size: 10px;
+  height: 100%;
+  font-size: 10px;
 }
 
 body {
-	font: 1.4rem 'Montserrat', sans-serif;
-	color: #fff;
-	background: url(/asset/img/background.png) top center/cover no-repeat #21201c;
-	padding: 85px 0;
+  font: 1.4rem "Montserrat", sans-serif;
+  color: #fff;
+  background: url(/asset/img/background.png) top center/cover no-repeat #21201c;
+  padding: 85px 0;
 }
 
 a {
-	color: #fff;
+  color: #fff;
 }
 
 a:hover {
-	color: #888;
+  color: #888;
 }
 
 h1 {
-	font: 3.4rem 'Impact';
-	color: var(--colorHighlight);
-	text-shadow: 2px 2px 5px black;
+  font: 3.4rem "Impact";
+  color: var(--colorHighlight);
+  text-shadow: 2px 2px 5px black;
 }
 .box_top {
-	font: 3.4rem 'Impact';
-	color: var(--colorHighlight);
-	text-shadow: 2px 2px 5px black;
-	padding-top: 20px;
+  font: 3.4rem "Impact";
+  color: var(--colorHighlight);
+  text-shadow: 2px 2px 5px black;
+  padding-top: 20px;
 }
 table {
-	color: #fff;
+  color: #fff;
 }
 table {
-	text-align: center;
-	width: 100%;
+  text-align: center;
+  width: 100%;
 }
 .crimes-container {
-	text-align: center;
-	padding: 40px;
+  text-align: center;
+  padding: 40px;
 }
 .mainHeader {
-	background: #111;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	z-index: 99;
+  background: #111;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99;
 }
 
 .mainLogo {
-	width: auto;
-	height: 75px;
+  width: auto;
+  height: 75px;
 }
 
 .mainContent,
 .mainHeaderContent {
-	max-width: 1024px;
+  max-width: 1024px;
 }
 
 .dcNav a,
 .dcNav .navbar-toggler {
-	color: #fff;
-	font-size: 1.8rem;
-	border-bottom: solid 3px #0000;
-	transition: background 0.5s;
+  color: #fff;
+  font-size: 1.8rem;
+  border-bottom: solid 3px #0000;
+  transition: background 0.5s;
 }
 
 .dcTopNav a.active {
-	color: var(--colorHighlight);
-	border-bottom: solid 3px var(--colorHighlight);
+  color: var(--colorHighlight);
+  border-bottom: solid 3px var(--colorHighlight);
 }
 
 .dcTopNav a.hasNew {
-	color: var(--colorHighlight);
+  color: var(--colorHighlight);
 }
 
 .dcNav a:hover {
-	background: #252525;
+  background: #252525;
 }
 
 .dcLeftNavContainer {
-	background: #1f1d1b;
+  background: #1f1d1b;
 }
 
 .dcLeftNav a {
-	color: #8e8e8e;
-	font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-	text-transform: uppercase;
-	border-right: solid 3px #0000;
+  color: #8e8e8e;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  text-transform: uppercase;
+  border-right: solid 3px #0000;
 }
 
 .dcLeftNav a.active {
-	border-right: solid 3px var(--colorHighlight);
-	color: #fff;
-	background: linear-gradient(75deg, #201f1c, #34312c);
+  border-right: solid 3px var(--colorHighlight);
+  color: #fff;
+  background: linear-gradient(75deg, #201f1c, #34312c);
 }
 
 .dcLeftNav a.hasNew {
-	color: #fff;
+  color: #fff;
 }
 
 .dcLeftNav ul.navbar-nav {
-	flex-direction: column;
+  flex-direction: column;
 }
 
 .dcPanel {
-	background: #8e8e8e21;
-	border-radius: 5px;
+  background: #8e8e8e21;
+  border-radius: 5px;
 }
 
 .dcAvatarPanel {
-	border: solid #6d6d6d 2px;
+  border: solid #6d6d6d 2px;
 }
 
 .dcHeaderUsername {
-	text-decoration: none;
-	color: #fff;
-	/* font-size: 2rem; */
+  text-decoration: none;
+  color: #fff;
+  /* font-size: 2rem; */
 }
 
 .dcStatsBars {
-	background: #585858;
-	border-radius: 3px;
-	width: 100%;
+  background: #585858;
+  border-radius: 3px;
+  width: 100%;
 }
 
 .dcStatsBars .progress-bar {
-	background: var(--colorHighlight);
-	border-radius: 3px;
+  background: var(--colorHighlight);
+  border-radius: 3px;
 }
 
 .dcStatsPanel {
-	font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 .dcBannerButtonsContainer {
-	padding: 10px 0 0 0;
-	background: url(/asset/img/man1.png) left -60px top 0px/330px no-repeat;
-	height: 100%;
-	display: flex;
-	/* justify-content: flex-end; */
-	align-items: flex-end;
-	flex-direction: column;
+  padding: 10px 0 0 0;
+  background: url(/asset/img/man1.png) left -60px top 0px/330px no-repeat;
+  height: 100%;
+  display: flex;
+  /* justify-content: flex-end; */
+  align-items: flex-end;
+  flex-direction: column;
 }
 
 .dcBannerButtonsContainerMain {
-	display: flex;
-	align-self: flex-end;
-	justify-content: flex-end;
+  display: flex;
+  align-self: flex-end;
+  justify-content: flex-end;
 }
 
 .dcBannerButtonsContainer2 {
-	display: flex;
-	flex-direction: column;
-	gap: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .headerSvg {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-right: 10px;
 }
 
 .headerSvgMain {
-
-		margin-left: -35%;
-		font-size: 10px;
+  margin-left: -35%;
+  font-size: 10px;
 }
 
 .mission .box_top {
-	padding: 0;
+  padding: 0;
 }
 
-
 .missionDiv {
-	display: flex;
-	flex-direction: row;
-	gap: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
 
 .missionDiv p {
-	font-weight: 600;
+  font-weight: 600;
 }
 
 .missionTo {
-	color: var(--colorHighlight);
+  color: var(--colorHighlight);
 }
 
 .heroTop2 {
-	gap: 2px;
+  gap: 2px;
 }
 
-
 button {
-	color: #fff;
-	background: var(--colorHighlight);
-	padding: 5px 15px;
-	margin: 5px;
-	transition: filter 0.5s, transform 0.5s;
-	border: none;
-	text-transform: uppercase;
-	border-radius: 3px;
-	text-decoration: none;
-	display: inline-block;
+  color: #fff;
+  background: var(--colorHighlight);
+  padding: 5px 15px;
+  margin: 5px;
+  transition: filter 0.5s, transform 0.5s;
+  border: none;
+  text-transform: uppercase;
+  border-radius: 3px;
+  text-decoration: none;
+  display: inline-block;
 }
 
 button:hover {
-	filter: brightness(0.8);
-	transform: scale(1.1);
-	color: #fff;
+  filter: brightness(0.8);
+  transform: scale(1.1);
+  color: #fff;
 }
 .dcPrimaryButton {
-	color: #fff;
-	background: var(--colorHighlight);
-	padding: 5px 15px;
-	margin: 5px;
-	transition: filter 0.5s, transform 0.5s;
-	border: none;
-	text-transform: uppercase;
-	border-radius: 3px;
-	text-decoration: none;
-	display: inline-block;
+  color: #fff;
+  background: var(--colorHighlight);
+  padding: 5px 15px;
+  margin: 5px;
+  transition: filter 0.5s, transform 0.5s;
+  border: none;
+  text-transform: uppercase;
+  border-radius: 3px;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .dcPrimaryButton:hover {
-	filter: brightness(0.8);
-	transform: scale(1.1);
-	color: #fff;
+  filter: brightness(0.8);
+  transform: scale(1.1);
+  color: #fff;
 }
 
 .dcPrimaryButton:disabled {
-	background: #ccc;
-	cursor: not-allowed;
+  background: #ccc;
+  cursor: not-allowed;
 }
 
 .dcPrimaryButton:disabled:hover {
-	transform: none;
-	filter: none;
+  transform: none;
+  filter: none;
 }
 
 .dcSecondaryButton {
-	color: var(--colorHighlight);
-	font: 1.4rem Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-	padding: 15px 0;
-	width: 130px;
-	margin: 0 15px;
-	text-transform: uppercase;
-	background: #000000c4;
-	display: inline-block;
-	text-decoration: none;
-	border: solid var(--colorHighlight) 1px;
-	transition: background 0.5s, transform 0.5s;
+  color: var(--colorHighlight);
+  font: 1.4rem Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  padding: 15px 0;
+  width: 130px;
+  margin: 0 15px;
+  text-transform: uppercase;
+  background: #000000c4;
+  display: inline-block;
+  text-decoration: none;
+  border: solid var(--colorHighlight) 1px;
+  transition: background 0.5s, transform 0.5s;
 }
 
 .dcSecondaryButton:hover {
-	background: #000;
-	color: var(--colorHighlight);
-	transform: scale(1.1);
+  background: #000;
+  color: var(--colorHighlight);
+  transform: scale(1.1);
 }
 
 .tooltip {
-	font-size: 1.4rem;
-	color: white;
-	background: black;
+  font-size: 1.4rem;
+  color: white;
+  background: black;
 }
 
 .btn {
-	font-size: 1.4rem;
+  font-size: 1.4rem;
 }
 
 .card {
-	background: #000a;
+  background: #000a;
 }
 
 .card-header {
-	font-size: 1.8rem;
+  font-size: 1.8rem;
 }
 
 th {
-	background: #111;
-	border: none;
-	text-align: center;
+  background: #111;
+  border: none;
+  text-align: center;
 }
 
 td {
-	border: none;
-	background-color: #292929;
-	border-collapse: collapse;
+  border: none;
+  background-color: #292929;
+  border-collapse: collapse;
 }
 
 hr.orange-line {
-	border: 1px solid #ff6218;
-	border-radius: 5px;
+  border: 1px solid #ff6218;
+  border-radius: 5px;
 }
 .town2 {
-	transition: filter 0.5s, transform 0.5s;
-	border: none;
-	text-transform: uppercase;
-	border-radius: 3px;
-	text-decoration: none;
-	display: inline-block;
+  transition: filter 0.5s, transform 0.5s;
+  border: none;
+  text-transform: uppercase;
+  border-radius: 3px;
+  text-decoration: none;
+  display: inline-block;
 }
 .town2:hover {
-	filter: brightness(0.8);
-	transform: scale(1.1);
-	color: #fff;
+  filter: brightness(0.8);
+  transform: scale(1.1);
+  color: #fff;
 }
 .center {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	width: 50%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 
 select,
 option,
 input,
 textarea {
-	outline: none;
-	padding: 3px 3px 3px 3px;
-	margin: 5px 1px 3px 0px;
-	border-radius: 5px;
-	border: 2px solid #ff6218;
-	position: relative;
-	background: #000;
-	display: inherit;
-	color: white;
+  outline: none;
+  padding: 3px 3px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border-radius: 5px;
+  border: 2px solid #ff6218;
+  position: relative;
+  background: #000;
+  display: inherit;
+  color: white;
 }
 
 select:focus,
 option:focus,
 input:focus,
 textarea:focus {
-	border-color: #712400;
+  border-color: #712400;
 }
 
 .weaponheader,
 .stattype {
-	background: #111;
-	border: none;
-	padding: 0.5rem 0.5rem;
+  background: #111;
+  border: none;
+  padding: 0.5rem 0.5rem;
 }
 
 .weapon2 {
-	margin-bottom: 10px;
-	margin-top: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .dcUserName {
-	/* This is in case someone has a really long username 
+  /* This is in case someone has a really long username 
        with wide letters e.g: WWWWWWWWWWWW
     */
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dcAvatarMobile {
-	width: 50px;
+  width: 50px;
 }
 
 /* Added Styles*/
 .voteMobile {
-    display: none;
+  display: none;
 }
 
 .table-container {
-    width: 100%;
-    overflow-x: auto;
-    padding-bottom: 10px;
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 10px;
 }
 
 .table-container .new_table thead th,
 .table-container .new_table tbody td {
-    padding: 1rem;
-    margin: 5px;
+  padding: 1rem;
+  margin: 5px;
 }
 
-.table-container .new_table tbody .dcAvatarMobile{
-    display: block !important;
+.table-container .new_table tbody .dcAvatarMobile {
+  display: block !important;
 }
 
-.table-container .new_table tbody .admin{
-    color: red;
+.table-container .new_table tbody .admin {
+  color: red;
 }
 
-.table-container .new_table tbody .not_admin{
-    color: greenyellow;
+.table-container .new_table tbody .not_admin {
+  color: greenyellow;
 }
 
-.table-container .new_table tbody .admin .ifAdmin{
-    color: blue;
+.table-container .new_table tbody .admin .ifAdmin {
+  color: blue;
 }
 
-.table-container .new_table tbody .not_admin .ifNotAdmin{
-    color: goldenrod;
+.table-container .new_table tbody .not_admin .ifNotAdmin {
+  color: goldenrod;
 }
 
-.table-container .new_table tbody .activeNow{
-    color: green;
+.table-container .new_table tbody .activeNow {
+  color: green;
 }
 
-.table-container .new_table tbody .notActive{
-    color: red;
+.table-container .new_table tbody .notActive {
+  color: red;
 }
 
-.table-container .new_table tbody .vip{
-    color: blue;
+.table-container .new_table tbody .vip {
+  color: blue;
 }
 
 .new_avarta {
-	display: flex;
-	gap: 5px;
-	align-items: center;
+  display: flex;
+  gap: 5px;
+  align-items: center;
 }
 
 .newTimeHolder {
-	display: flex;
-	flex-direction: row !important;
+  display: flex;
+  flex-direction: row !important;
 }
 
 .newText {
-	background-color: rgba(128, 128, 128, 0.4);
-	margin-top: 0;
+  background-color: rgba(128, 128, 128, 0.4);
+  margin-top: 0;
 }
 
-
-
 @media only screen and (max-width: 992px) {
-	.dcBannerButtonsContainer {
-		background: none;
-		padding-top: 0;
-        height: fit-content;
-        display: none;
-        justify-content: flex-start;
-	}
+  .dcBannerButtonsContainer {
+    background: none;
+    padding-top: 0;
+    height: fit-content;
+    display: none;
+    justify-content: flex-start;
+  }
 
-    .voteMobile {
-        display: flex;
-    }
+  .voteMobile {
+    display: flex;
+  }
 
-	.dcBannerButtonsContainer .dcSecondaryButton {
-		margin: 10px;
-		padding: 10px;
-		width: auto;
-        border: solid var(--colorHighlight) 1px !important;
-	}
+  .dcBannerButtonsContainer .dcSecondaryButton {
+    margin: 10px;
+    padding: 10px;
+    width: auto;
+    border: solid var(--colorHighlight) 1px !important;
+  }
 
-	.dcStatContainer-exp {
-		display: none;
-	}
+  .dcStatContainer-exp {
+    display: none;
+  }
 
-	.dcStatsPanel {
-		font-size: 1.4rem;
-	}
+  .dcStatsPanel {
+    font-size: 1.4rem;
+  }
 
-	.scrollNav {
-		overflow-y: auto;
-        max-height: 100vh;
-        -webkit-overflow-scrolling: touch;
-	}
+  .scrollNav {
+    overflow-y: auto;
+    max-height: 100vh;
+    -webkit-overflow-scrolling: touch;
+  }
 
-    .heroTop {
-        justify-content: space-between;
-    }
-	.align-items-center2 {
-		width: 100px;
-        margin-left: 30px;
-        margin-top: 5px;
-	}
+  .heroTop {
+    justify-content: space-between;
+  }
+  .align-items-center2 {
+    width: 100px;
+    margin-left: 30px;
+    margin-top: 5px;
+  }
 
-	.dcBannerButtonsContainer {
-		flex-direction: row;
-	}
+  .dcBannerButtonsContainer {
+    flex-direction: row;
+  }
 }

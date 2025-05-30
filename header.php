@@ -909,34 +909,36 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             return number_format($number); // Return the original number if it's less than 1000
         }
 
-        $usermission = $redis->get("userMission_" . $user_class->id);
-        if (empty($usermission) || !$usermission) {
-            $query = $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no'");
-            $db->execute([$user_class->id]);
-            $usermission = $db->fetch_row(true);
+        $currenttime = time();
 
-            if (!empty($usermission)) {
-                $redis->setEx("userMission_" . $user_class->id, 5, json_encode($usermission));
-            }
-        } else {
-            $usermission = json_decode($usermission, true);
+        $showmission = false;
+        $usermission = get_user_mission(($user_class->id));
+        $miss = get_mission($usermission['mid']);
+        if (!empty($usermission) && !empty($miss)) {
+            $showmission = true;
+            $mkills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>" . shorthandNumber($usermission['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>";
+            $mcrimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>" . shorthandNumber($usermission['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>";
+            $mmugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>" . shorthandNumber($usermission['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>";
+            $mbusts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>" . shorthandNumber($usermission['busts']) . "/" . shorthandNumber($miss['busts']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['busts']) . "/" . shorthandNumber($miss['busts']) . "</font>";
+            $mbackalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>" . shorthandNumber($usermission['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>";
+            $mraids = ($miss['raids'] > $usermission['raids']) ? "<font color='red'>" . shorthandNumber($usermission['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>";
         }
 
-        if (!empty($usermission)) {
-            $show = true;
-            // $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
-            $miss = mysql_fetch_array(mysql_query("SELECT * FROM mission WHERE id={$usermission['mid']}"));
-            $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>" . shorthandNumber($usermission['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>";
-            $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>" . shorthandNumber($usermission['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>";
-            $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>" . shorthandNumber($usermission['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>";
-            $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>" . shorthandNumber($usermission['busts']) . "/" . shorthandNumber($miss['busts']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['busts']) . "/" . shorthandNumber($miss['busts']) . "</font>";
-            $backalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>" . shorthandNumber($usermission['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>";
-            $raids = ($miss['raids'] > $usermission['raids']) ? "<font color='red'>" . shorthandNumber($usermission['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>";
-            $currenttime = time();
-            $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
-        } else {
-            $show = false;
+        $showoperation = false;
+        $currentUserOperation = get_current_operation($user_class->id);
+        $operation = get_operation($currentUserOperation['operations_id']);
+        if (!empty($currentUserOperation) && !empty($operation)) {
+            $showoperation = true;
+            $pkills = ($operation['kills'] > $currentUserOperation['kills']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['kills']) . "/" . shorthandNumber($operation['kills']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['kills']) . "/" . shorthandNumber($operation['kills']) . "</font>";
+            $pcrimes = ($operation['crimes'] > $currentUserOperation['crimes']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['crimes']) . "/" . shorthandNumber($operation['crimes']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['crimes']) . "/" . shorthandNumber($operation['crimes']) . "</font>";
+            $pmugs = ($operation['mugs'] > $currentUserOperation['mugs']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['mugs']) . "/" . shorthandNumber($operation['mugs']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['mugs']) . "/" . shorthandNumber($operation['mugs']) . "</font>";
+            $pbusts = ($operation['busts'] > $currentUserOperation['busts']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['busts']) . "/" . shorthandNumber($operation['busts']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['busts']) . "/" . shorthandNumber($operation['busts']) . "</font>";
+            $pbackalleys = ($operation['backalleys'] > $currentUserOperation['backalleys']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['backalleys']) . "/" . shorthandNumber($operation['backalleys']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['backalleys']) . "/" . shorthandNumber($operation['backalleys']) . "</font>";
+            $praids = ($operation['raids'] > $currentUserOperation['raids']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['raids']) . "/" . shorthandNumber($operation['raids']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['raids']) . "/" . shorthandNumber($operation['raids']) . "</font>";
         }
+
+        error_log("User {$user_class->id} has operation: " . print_r($currentUserOperation, true));
+
         ?>
         <style>
             .daily-jobs .card-header {
@@ -968,26 +970,45 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                 /* Adjust as necessary */
             }
         </style>
-        <?php if ($show == true): ?>
+        <?php if ($showmission || $showoperation): ?>
             <div class="daily-jobs d-md-none d-lg-none">
-                <div class="card">
-                    <div class="card-header d-flex" data-bs-toggle="collapse" data-bs-target="#dailyJobsContent"
-                        aria-expanded="false" aria-controls="dailyJobsContent">
-                        Mission<span class="ms-auto"><i class="fa-solid fa-angles-down"></i></span>
-                    </div>
-                    <div id="dailyJobsContent" class="collapse">
-                        <div class="card-body job-container d-flex">
-                            <div class="job-item">Kills: <?= $kills; ?></div>
-                            <div class="job-item">Crimes: <?= $crimes; ?></div>
-                            <div class="job-item">Busts: <?= $busts; ?></div>
-                            <div class="job-item">Mugs: <?= $mugs; ?></div>
-                            <div class="job-item">BA: <?= $backalleys; ?></div>
-                            <div class="job-item">Raids: <?= $raids; ?></div>
+                <?php if ($showmission): ?>
+                    <div class="card">
+                        <div class="card-header d-flex" data-bs-toggle="collapse" data-bs-target="#dailyJobsContent"
+                            aria-expanded="false" aria-controls="dailyJobsContent">
+                            Mission<span class="ms-auto"><i class="fa-solid fa-angles-down"></i></span>
+                        </div>
+                        <div id="dailyJobsContent" class="collapse">
+                            <div class="card-body job-container d-flex">
+                                <div class="job-item">Kills: <br /> <?= $mkills; ?></div>
+                                <div class="job-item">Crimes: <br /> <?= $mcrimes; ?></div>
+                                <div class="job-item">Busts: <br /> <?= $mbusts; ?></div>
+                                <div class="job-item">Mugs: <br /> <?= $mmugs; ?></div>
+                                <div class="job-item">BA: <br /> <?= $mbackalleys; ?></div>
+                                <div class="job-item">Raids: <br /> <?= $mraids; ?></div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                <?php endif; ?>
+                <?php if ($showoperation): ?>
+                    <div class="card">
+                        <div class="card-header d-flex" data-bs-toggle="collapse" data-bs-target="#dailyOpsContent"
+                            aria-expanded="false" aria-controls="dailyOpsContent">
+                            Operation<span class="ms-auto"><i class="fa-solid fa-angles-down"></i></span>
+                        </div>
+                        <div id="dailyOpsContent" class="collapse">
+                            <div class="card-body job-container d-flex">
+                                <div class="job-item">Kills: <br /> <?= $pkills; ?></div>
+                                <div class="job-item">Crimes: <br /> <?= $pcrimes; ?></div>
+                                <div class="job-item">Busts: <br /> <?= $pbusts; ?></div>
+                                <div class="job-item">Mugs: <br /> <?= $pmugs; ?></div>
+                                <div class="job-item">BA: <br /> <?= $pbackalleys; ?></div>
+                                <div class="job-item">Raids: <br /> <?= $praids; ?></div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
-
         <?php endif; ?>
         <div class="carousel-inner pl-1 pt-2">
             <div class="carousel-item active">
@@ -1107,8 +1128,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             </div>
         </div>
 
-
-
         <!-- Additional Information (Money, Points, Merits) -->
         <div class="row mt-3">
             <div class="col-3">
@@ -1155,88 +1174,42 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             <header class="row">
                 <div class="col-12 col-lg-8 mt-3 mt-lg-0">
                     <div class="dcPanel h-100">
-
-                        <div class="text-center dcBannerButtonsContainer">
-
-                            <div class="dcBannerButtonsContainerMain">
-                                <div class="col-12 col-lg-4">
-                                    <?php if ($user_class->admin > 0): ?>
-                                        <div class="p-1 dcPanel dcAvatarPanel" style="width: 140px;margin-left: -60px;">
-                                            <div class="todo-section">
-                                                <h1>To Do</h1>
-                                                <ul class="todo-list">
-                                                    <li class="todo-item">Maze</li>
-                                                    <li class="todo-item">Streets</li>
-                                                    <li class="todo-item">Number Game</li>
-                                                    <li class="todo-item">Lucky Dip</li>
-                                                    <li class="todo-item">The Doors</li>
-                                                    <li class="todo-item">Point Smuggling</li>
-                                                    <li class="todo-item">Raid Token Smuggling</li>
-                                                </ul>
-                                            </div>
-
-                                        </div>
-
-                                        <style>
-                                            .todo-section {
-
-                                                padding: 20px;
-                                                border-radius: 8px;
-                                            }
-
-
-                                            .todo-list {
-                                                list-style: none;
-                                                padding: 0;
-                                            }
-
-                                            .todo-list {
-                                                color: #fff;
-                                                margin-bottom: 5px;
-                                                border-radius: 4px;
-                                                font-size: 9px;
-                                                text-align: center;
-                                                transition: background-color 0.3s ease;
-                                            }
-
-                                            .todo-item:hover {
-                                                background-color: #505050;
-                                            }
-                                        </style>
-                                    <?php endif; ?>
-
-                                    <div class="p-1 dcPanel dcAvatarPanel" style="width: 140px;margin-left: -60px;">
+                        <div class="text-center">
+                            <div style="display:flex;justify-content:space-between;align-items:center;">
+                                <div class="col-6 col-md-4" style="justify-items: center;">
+                                    <div class="p-1 dcPanel dcAvatarPanel"
+                                        style="width: 150;margin-top: 10px;margin-left: 6px">
                                         <div class="row mb-3 mission">
                                             <h3 class='box_top'>Mission</h3>
                                         </div>
 
                                         <div class="row heroTop heroTop2">
-                                            <div class="col-12 col-lg-7 offset-lg-1 g-0 row realMission">
-                                                <?php if ($show == true): ?>
+                                            <div class="col-12 col-lg-7 offset-lg-1 row realMission">
+                                                <?php if ($showmission): ?>
                                                     <div class=" missionDiv">
                                                         <p class="missionTo">Kills:</p>
-                                                        <p style="font-size: 10px;"><?= $kills; ?></p>
+                                                        <p style="font-size: 10px;"><?= $mkills; ?></p>
                                                     </div>
                                                     <div class="missionDiv">
 
                                                         <p class="missionTo">Crimes:</p>
-                                                        <p style="font-size: 10px;"><?= $crimes; ?></p>
+                                                        <p style="font-size: 10px;"><?= $mcrimes; ?></p>
                                                     </div>
                                                     <div class=" missionDiv">
                                                         <p class="missionTo">Busts:</p>
-                                                        <p style="font-size: 10px;"><?= $busts; ?></p>
+                                                        <p style="font-size: 10px;"><?= $mbusts; ?></p>
                                                     </div>
                                                     <div class="missionDiv">
                                                         <p class="missionTo">Mugs:</p>
-                                                        <p style="font-size: 10px;"><?= $mugs; ?></p>
+                                                        <p style="font-size: 10px;"><?= $mmugs; ?></p>
                                                     </div>
                                                     <div class="missionDiv">
                                                         <p class="missionTo">BA:</p>
-                                                        <p style="font-size: 10px;"><?= $backalleys; ?></p>
+                                                        <p style="font-size: 10px;"><?= $mbackalleys; ?></p>
                                                     </div>
                                                     <div class="missionDiv">
                                                         <p class="missionTo">Raids:</p>
-                                                        <p style="font-size: 10px;"><?= $raids; ?></p>
+                                                        <p style="font-size: 10px;"><?= $mraids; ?></p>
                                                     </div>
                                                 <?php else: ?>
 
@@ -1248,28 +1221,93 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                     </div>
                                 </div>
 
-                                <div class="dcBannerButtonsContainer2">
-                                    <a href="vote.php" class="dcSecondaryButton my-3">Vote for <i
+                                <div class="col-6 col-md-4" style="justify-items: center;">
+                                    <div class="p-1 dcPanel dcAvatarPanel" style="width: 155px;margin-top: 10px">
+                                        <div class="row mb-3 mission">
+                                            <h3 class='box_top'>Operation</h3>
+                                        </div>
+
+                                        <div class="row heroTop heroTop2">
+                                            <div class="col-12 col-lg-7 offset-lg-1 row realMission">
+                                                <?php if ($showoperation): ?>
+                                                    <div class=" missionDiv">
+                                                        <p class="missionTo">Kills:</p>
+                                                        <p style="font-size: 10px;"><?= $pkills; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+
+                                                        <p class="missionTo">Crimes:</p>
+                                                        <p style="font-size: 10px;"><?= $pcrimes; ?></p>
+                                                    </div>
+                                                    <div class=" missionDiv">
+                                                        <p class="missionTo">Busts:</p>
+                                                        <p style="font-size: 10px;"><?= $pbusts; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">Mugs:</p>
+                                                        <p style="font-size: 10px;"><?= $pmugs; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">BA:</p>
+                                                        <p style="font-size: 10px;"><?= $pbackalleys; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">Raids:</p>
+                                                        <p style="font-size: 10px;"><?= $praids; ?></p>
+                                                    </div>
+                                                <?php else: ?>
+
+                                                    <a href="user_operations.php" class="dcSecondaryButton my-3">Start
+                                                        Operation</a>
+
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="dcBannerButtonsContainer2 d-none d-md-block col-4 col-lg-4">
+                                    <a href="vote.php" class="dcSecondaryButton my-2 mt-4">Vote for <i
                                             class="far fa-gem"></i></a>
 
-                                    <a href="refer.php" class="dcSecondaryButton my-3">Refer for <i
+                                    <a href="refer.php" class="dcSecondaryButton my-2">Refer for <i
                                             class="far fa-gem"></i></a>
-                                    <a href="store.php" class="dcSecondaryButton my-3">Upgrades <i
+                                    <a href="store.php" class="dcSecondaryButton my-2">Upgrades <i
                                             class="fas fa-level-up-alt"></i></a>
-                                    <a href="redeem_code.php" class="dcSecondaryButton my-3">Redeem <i
+                                    <a href="redeem_code.php" class="dcSecondaryButton my-2">Redeem <i
                                             class="fa-solid fa-gift"></i></a>
                                 </div>
                             </div>
-                            <div class="vertical-text-slider floaty dcPanel p-1"
-                                style="width: 62%;margin-top: 1px;height: 55px;">
-                                <div class="d-flex flex-column">
+
+                            <div class="d-md-none">
+                                <div style="display:flex">
+                                    <a href="vote.php" class="dcSecondaryButton my-3" style="margin: 0 5px">
+                                        Vote for <i class="far fa-gem"></i>
+                                    </a>
+                                    <a href="refer.php" class="dcSecondaryButton my-3" style="margin: 0 5px">
+                                        Refer for <i class="far fa-gem"></i>
+                                    </a>
+                                    <a href="store.php" class="dcSecondaryButton my-3" style="margin: 0 5px">
+                                        Upgrades <i class="fas fa-level-up-alt"></i>
+                                    </a>
+                                    <a href="redeem_code.php" class="dcSecondaryButton my-3" style="margin: 0 5px">
+                                        Redeem <i class="fa-solid fa-gift"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="vertical-text-slider floaty dcPanel p-1" style="margin:4px;min-height:40px;">
+                                <div class="d-flex flex-column align-items-center justify-content-center">
                                     <div class="d-flex align-items-center justify-content-center mb-0">
                                         <div class="flex-grow-1 text-center">
-                                            <ul
-                                                class="list-unstyled d-flex flex-row align-items-center justify-content-left">
-                                                <?php $now = time();
-                                                $result = mysql_query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > $now ORDER BY RAND() LIMIT 1");
-                                                if (!mysql_num_rows($result)) {
+                                            <ul class="list-unstyled d-flex flex-row align-items-center justify-content-left"
+                                                style="margin:0!important;">
+                                                <?php
+
+                                                $now = time();
+                                                $db->query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > ? ORDER BY RAND() LIMIT 1");
+                                                $db->execute([$now]);
+                                                if (!$db->num_rows()) {
                                                     $_messages = [
                                                         'Invite your friends to play and receive <strong class="text-warning">50 Gold</strong> for every friend that plays. Hurry and start inviting now!',
                                                         'For every friend you successfully refer, you\'ll earn <strong class="text-warning">50 Gold</strong>. Spread the word and let\'s play together!',
@@ -1314,7 +1352,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                                                     d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007.004-.002h.001" />
                                                             </svg>
                                                         </a>
-
 
                                                     </li>
                                                 <?php endif; ?>
