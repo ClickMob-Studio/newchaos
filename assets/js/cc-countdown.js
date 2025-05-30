@@ -2,14 +2,28 @@
 // Handles countdowns for events in the header
 
 function formatDuration(seconds) {
-    const w = Math.floor(seconds / (7 * 24 * 3600));
-    const d = Math.floor((seconds % (7 * 24 * 3600)) / (24 * 3600));
-    const h = Math.floor((seconds % (24 * 3600)) / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
-    const s = Math.floor(seconds % 60);
-
     const parts = [];
 
+    const y = Math.floor(seconds / (365 * 24 * 3600));
+    seconds %= 365 * 24 * 3600;
+
+    const mo = Math.floor(seconds / (30 * 24 * 3600));
+    seconds %= 30 * 24 * 3600;
+
+    const w = Math.floor(seconds / (7 * 24 * 3600));
+    seconds %= 7 * 24 * 3600;
+
+    const d = Math.floor(seconds / (24 * 3600));
+    seconds %= 24 * 3600;
+
+    const h = Math.floor(seconds / 3600);
+    seconds %= 3600;
+
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+
+    if (y > 0) parts.push(`${y} year${y !== 1 ? 's' : ''}`);
+    if (mo > 0) parts.push(`${mo} month${mo !== 1 ? 's' : ''}`);
     if (w > 0) parts.push(`${w} week${w !== 1 ? 's' : ''}`);
     if (d > 0) parts.push(`${d} day${d !== 1 ? 's' : ''}`);
     if (h > 0) parts.push(`${h} hour${h !== 1 ? 's' : ''}`);
