@@ -851,12 +851,6 @@ echo "</div>"; // Close active-raids-grid
         margin-bottom: 20px;
     }
 
-    p {
-        color: white;
-        font-size: 16px;
-        margin-bottom: 30px;
-    }
-
     .boss-card {
 
         color: white;

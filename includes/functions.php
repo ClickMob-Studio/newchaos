@@ -3945,3 +3945,144 @@ function getScheduledEvent($type = 'gym')
 
     return null;
 }
+function get_user_mission($uid)
+{
+    global $redis, $db;
+
+    $usermission = $redis->get("userMission_" . $uid);
+    if (empty($usermission) || !$usermission) {
+        $query = $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no'");
+        $db->execute([$uid]);
+        $usermission = $db->fetch_row(true);
+
+        if (!empty($usermission)) {
+            $redis->setEx("userMission_" . $uid, 5, json_encode($usermission));
+        }
+    } else {
+        $usermission = json_decode($usermission, true);
+    }
+
+    return $usermission;
+}
+
+function get_mission($id)
+{
+    global $db, $redis;
+
+    $mission = $redis->get("mission_" . $id);
+    if (!empty($mission) && $mission) {
+        return json_decode($mission, true);
+    }
+
+    $db->query("SELECT * FROM mission WHERE id = ?");
+    $db->execute([$id]);
+    $mission = $db->fetch_row(true);
+    if (!empty($mission)) {
+        $redis->setEx("mission_" . $id, 3600, json_encode($mission));
+        return $mission;
+    }
+
+    return null;
+}
+
+function get_current_operation($uid)
+{
+    global $redis, $db;
+
+    $currentUserOperation = $redis->get("currentUserOperation_" . $uid);
+    if (empty($currentUserOperation) || !$currentUserOperation) {
+        $db->query("SELECT * FROM `user_operations` WHERE `user_id` = ? AND (`is_complete` = 0 OR `is_complete` IS NULL) AND (`is_skipped` = 0 OR `is_skipped` IS NULL) ORDER BY `id` DESC LIMIT 1");
+        $db->execute(array($uid));
+        $currentUserOperation = $db->fetch_row(true);
+
+        if (!empty($currentUserOperation)) {
+            $redis->setEx("currentUserOperation_" . $uid, 5, json_encode($currentUserOperation));
+        }
+    } else {
+        $currentUserOperation = json_decode($currentUserOperation, true);
+    }
+
+    return $currentUserOperation;
+}
+
+function get_operation($id)
+{
+    global $db, $redis;
+
+    $operation = $redis->get("operation_" . $id);
+    if (!empty($operation) && $operation) {
+        return json_decode($operation, true);
+    }
+
+    $db->query("SELECT * FROM operations WHERE id = ?");
+    $db->execute([$id]);
+    $operation = $db->fetch_row(true);
+    if (!empty($operation)) {
+        $redis->setEx("operation_" . $id, 3600, json_encode($operation));
+        return $operation;
+    }
+
+    return null;
+}
+
+function getAllScheduledEvents()
+{
+    global $db, $redis;
+
+    $redis->del("all_scheduled_events");
+
+    $now = time();
+    if ($redis->exists("all_scheduled_events")) {
+        $events = json_decode($redis->get("all_scheduled_events"), true);
+        return $events;
+    }
+
+    $db->query("SELECT * FROM scheduledevents WHERE start <= ? AND end >= ?");
+    $db->execute([$now, $now]);
+    $events = $db->fetch_row();
+    if ($events) {
+        $redis->setEx("all_scheduled_events", 900, json_encode($events));
+        return $events;
+    }
+
+    return null;
+}
+
+function getEventsMessage()
+{
+    $events = getAllScheduledEvents();
+    if (empty($events)) {
+        return null;
+    }
+
+    $now = time();
+    $message = "";
+    foreach ($events as $event) {
+        $timeleft = secondsToTime($event['end'] - $now);
+        $message .= "<div class='event-countdown' data-end='{$event['end']}'>" . _eventMessageByType($event['type'], $event['multiplier'], $timeleft) . "</div>";
+    }
+
+    return $message;
+}
+
+function _eventMessageByType($type, $multiplier, $timeleft)
+{
+    switch ($type) {
+        case 'gym':
+            return "Gym event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'crime_exp':
+            return "Crime EXP event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'crime_money':
+            return "Crime money event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'raid':
+            return "Raid event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'mission_exp':
+            return "Mission EXP event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'mission_money':
+            return "Mission money event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'backalley':
+            return "Backalley event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        default:
+            return "";
+    }
+}

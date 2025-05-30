@@ -5,6 +5,8 @@ session_start();
 $redis = new Redis();
 $redis->connect("127.0.1", 6379);
 
+$now = time();
+
 header('Content-Type: text/html; charset=utf-8');
 function getUserIP()
 {
@@ -652,6 +654,8 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/java.js?v=12" type="text/javascript"></script>
 
+    <script src="/assets/js/cc-countdown.js"></script>
+
     <style>
         a {
             text-decoration: none;
@@ -778,7 +782,13 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                 </a>
 
             </div>
-            <div class="d-flex justify-content-end align-items-center">
+            <div class="d-flex justify-content-end align-items-center" style="gap: 4px;">
+                <div class="mx-2">
+                    <a href="store.php#VIP">
+                        <?= ($user_class->rmdays > 0 ? $user_class->rmdays . ' VIP days' : 'Not VIP') ?>
+                    </a>
+                </div>
+
                 <a href="#" data-bs-toggle="modal" data-bs-target="#timeModal">
                     <i class="fa-solid fa-clock"></i>
                 </a>
@@ -1153,90 +1163,60 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
         </div>
         <div class="col-12 col-lg-10">
             <header class="row">
+                <?php
+                $eventMessage = getEventsMessage();
+                $showEvents = false;
+                if (isset($eventMessage) && !empty($eventMessage)) {
+                    $showEvents = true;
+                }
+                ?>
+                <?php if ($showEvents): ?>
+                    <div style="padding-right: 24px;">
+                        <div class="dcPanel col-12 mb-3 p-3 mx-3 d-flex flex-column gap-3 text-center"
+                            style="background-color:#ff5d0033;">
+                            <?= $eventMessage; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
                 <div class="col-12 col-lg-8 mt-3 mt-lg-0">
                     <div class="dcPanel h-100">
-
-                        <div class="text-center dcBannerButtonsContainer">
-
-                            <div class="dcBannerButtonsContainerMain">
-                                <div class="col-12 col-lg-4">
-                                    <?php if ($user_class->admin > 0): ?>
-                                        <div class="p-1 dcPanel dcAvatarPanel" style="width: 140px;margin-left: -60px;">
-                                            <div class="todo-section">
-                                                <h1>To Do</h1>
-                                                <ul class="todo-list">
-                                                    <li class="todo-item">Maze</li>
-                                                    <li class="todo-item">Streets</li>
-                                                    <li class="todo-item">Number Game</li>
-                                                    <li class="todo-item">Lucky Dip</li>
-                                                    <li class="todo-item">The Doors</li>
-                                                    <li class="todo-item">Point Smuggling</li>
-                                                    <li class="todo-item">Raid Token Smuggling</li>
-                                                </ul>
-                                            </div>
-
-                                        </div>
-
-                                        <style>
-                                            .todo-section {
-
-                                                padding: 20px;
-                                                border-radius: 8px;
-                                            }
-
-
-                                            .todo-list {
-                                                list-style: none;
-                                                padding: 0;
-                                            }
-
-                                            .todo-list {
-                                                color: #fff;
-                                                margin-bottom: 5px;
-                                                border-radius: 4px;
-                                                font-size: 9px;
-                                                text-align: center;
-                                                transition: background-color 0.3s ease;
-                                            }
-
-                                            .todo-item:hover {
-                                                background-color: #505050;
-                                            }
-                                        </style>
-                                    <?php endif; ?>
-
-                                    <div class="p-1 dcPanel dcAvatarPanel" style="width: 140px;margin-left: -60px;">
+                        <div class="text-center">
+                            <div style="display:flex;justify-content:space-between;">
+                                <div class="col-6 col-md-4" style="justify-items: center;">
+                                    <div class="p-1 dcPanel dcAvatarPanel"
+                                        style="width: 150;margin-top: 10px;margin-left: 6px">
                                         <div class="row mb-3 mission">
                                             <h3 class='box_top'>Mission</h3>
                                         </div>
 
                                         <div class="row heroTop heroTop2">
-                                            <div class="col-12 col-lg-7 offset-lg-1 g-0 row realMission">
-                                                <?php if ($show == true): ?>
+                                            <div class="col-12 col-lg-7 offset-lg-1 row realMission">
+                                                <?php if ($showmission): ?>
                                                     <div class=" missionDiv">
                                                         <p class="missionTo">Kills:</p>
-                                                        <p style="font-size: 10px;"><?= $kills; ?></p>
+                                                        <p style="font-size: 10px;"><?= $mkills; ?></p>
                                                     </div>
                                                     <div class="missionDiv">
 
                                                         <p class="missionTo">Crimes:</p>
-                                                        <p style="font-size: 10px;"><?= $crimes; ?></p>
+                                                        <p style="font-size: 10px;"><?= $mcrimes; ?></p>
                                                     </div>
                                                     <div class=" missionDiv">
                                                         <p class="missionTo">Busts:</p>
-                                                        <p style="font-size: 10px;"><?= $busts; ?></p>
+                                                        <p style="font-size: 10px;"><?= $mbusts; ?></p>
                                                     </div>
                                                     <div class="missionDiv">
                                                         <p class="missionTo">Mugs:</p>
-                                                        <p style="font-size: 10px;"><?= $mugs; ?></p>
+                                                        <p style="font-size: 10px;"><?= $mmugs; ?></p>
                                                     </div>
                                                     <div class="missionDiv">
                                                         <p class="missionTo">BA:</p>
-                                                        <p style="font-size: 10px;"><?= $backalleys; ?></p>
+                                                        <p style="font-size: 10px;"><?= $mbackalleys; ?></p>
                                                     </div>
                                                     <div class="missionDiv">
                                                         <p class="missionTo">Raids:</p>
-                                                        <p style="font-size: 10px;"><?= $raids; ?></p>
+                                                        <p style="font-size: 10px;"><?= $mraids; ?></p>
                                                     </div>
                                                 <?php else: ?>
 
@@ -1248,28 +1228,92 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                     </div>
                                 </div>
 
-                                <div class="dcBannerButtonsContainer2">
-                                    <a href="vote.php" class="dcSecondaryButton my-3">Vote for <i
+                                <div class="col-6 col-md-4" style="justify-items: center;">
+                                    <div class="p-1 dcPanel dcAvatarPanel" style="width: 155px;margin-top: 10px">
+                                        <div class="row mb-3 mission">
+                                            <h3 class='box_top'>Operation</h3>
+                                        </div>
+
+                                        <div class="row heroTop heroTop2">
+                                            <div class="col-12 col-lg-7 offset-lg-1 row realMission">
+                                                <?php if ($showoperation): ?>
+                                                    <div class=" missionDiv">
+                                                        <p class="missionTo">Kills:</p>
+                                                        <p style="font-size: 10px;"><?= $pkills; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+
+                                                        <p class="missionTo">Crimes:</p>
+                                                        <p style="font-size: 10px;"><?= $pcrimes; ?></p>
+                                                    </div>
+                                                    <div class=" missionDiv">
+                                                        <p class="missionTo">Busts:</p>
+                                                        <p style="font-size: 10px;"><?= $pbusts; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">Mugs:</p>
+                                                        <p style="font-size: 10px;"><?= $pmugs; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">BA:</p>
+                                                        <p style="font-size: 10px;"><?= $pbackalleys; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">Raids:</p>
+                                                        <p style="font-size: 10px;"><?= $praids; ?></p>
+                                                    </div>
+                                                <?php else: ?>
+
+                                                    <a href="user_operations.php" class="dcSecondaryButton my-3">Start
+                                                        Operation</a>
+
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="dcBannerButtonsContainer2 d-none d-md-block col-4 col-lg-4">
+                                    <a href="vote.php" class="dcSecondaryButton my-2 mt-3">Vote for <i
                                             class="far fa-gem"></i></a>
 
-                                    <a href="refer.php" class="dcSecondaryButton my-3">Refer for <i
+                                    <a href="refer.php" class="dcSecondaryButton my-2">Refer for <i
                                             class="far fa-gem"></i></a>
-                                    <a href="store.php" class="dcSecondaryButton my-3">Upgrades <i
+                                    <a href="store.php" class="dcSecondaryButton my-2">Upgrades <i
                                             class="fas fa-level-up-alt"></i></a>
-                                    <a href="redeem_code.php" class="dcSecondaryButton my-3">Redeem <i
+                                    <a href="redeem_code.php" class="dcSecondaryButton my-2">Redeem <i
                                             class="fa-solid fa-gift"></i></a>
                                 </div>
                             </div>
-                            <div class="vertical-text-slider floaty dcPanel p-1"
-                                style="width: 62%;margin-top: 1px;height: 55px;">
-                                <div class="d-flex flex-column">
+
+                            <div class="d-md-none">
+                                <div style="display:flex">
+                                    <a href="vote.php" class="dcSecondaryButton my-3" style="margin: 0 5px">
+                                        Vote for <i class="far fa-gem"></i>
+                                    </a>
+                                    <a href="refer.php" class="dcSecondaryButton my-3" style="margin: 0 5px">
+                                        Refer for <i class="far fa-gem"></i>
+                                    </a>
+                                    <a href="store.php" class="dcSecondaryButton my-3" style="margin: 0 5px">
+                                        Upgrades <i class="fas fa-level-up-alt"></i>
+                                    </a>
+                                    <a href="redeem_code.php" class="dcSecondaryButton my-3" style="margin: 0 5px">
+                                        Redeem <i class="fa-solid fa-gift"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="vertical-text-slider floaty dcPanel p-1" style="margin:4px;min-height:40px;">
+                                <div class="d-flex flex-column align-items-center justify-content-center">
                                     <div class="d-flex align-items-center justify-content-center mb-0">
                                         <div class="flex-grow-1 text-center">
-                                            <ul
-                                                class="list-unstyled d-flex flex-row align-items-center justify-content-left">
-                                                <?php $now = time();
-                                                $result = mysql_query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > $now ORDER BY RAND() LIMIT 1");
-                                                if (!mysql_num_rows($result)) {
+                                            <ul class="list-unstyled d-flex flex-row align-items-center justify-content-left"
+                                                style="margin:0!important;">
+                                                <?php
+
+                                                $db->query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > ? ORDER BY RAND() LIMIT 1");
+                                                $db->execute([$now]);
+                                                if (!$db->num_rows()) {
                                                     $_messages = [
                                                         'Invite your friends to play and receive <strong class="text-warning">50 Gold</strong> for every friend that plays. Hurry and start inviting now!',
                                                         'For every friend you successfully refer, you\'ll earn <strong class="text-warning">50 Gold</strong>. Spread the word and let\'s play together!',
@@ -1315,7 +1359,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                                             </svg>
                                                         </a>
 
-
                                                     </li>
                                                 <?php endif; ?>
                                             </ul>
@@ -1323,10 +1366,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
-
                     </div>
                 </div>
 
@@ -1334,10 +1374,13 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                     <div class="p-3 dcPanel dcAvatarPanel d-none d-md-block">
                         <div class="row mb-3">
                             <div class="col-7 dcUserName">
-
                                 <span class="dcHeaderUsername">
                                     <?= $user_class->formattedname; ?>
                                 </span>
+                                <div class="mt-1" style="font-size: 1.2rem">
+                                    <a
+                                        href="store.php#VIP"><?= ($user_class->rmdays > 0 ? $user_class->rmdays . ' VIP days' : 'Not VIP') ?></a>
+                                </div>
                             </div>
                             <div class="col-3 text-center new_avarta">
                                 Level <?= $user_class->level; ?>
@@ -1468,9 +1511,10 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                             <div class="flex-grow-1 text-center">
                                 <ul class="list-unstyled d-flex flex-row align-items-center justify-content-center">
                                     <?php
-                                    $now = time();
-                                    $result = mysql_query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > $now ORDER BY RAND() LIMIT 1");
-                                    if (!mysql_num_rows($result)) {
+                                    $db->query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > ? ORDER BY RAND() LIMIT 1");
+                                    $db->execute([$now]);
+                                    $row = $db->fetch_row(true);
+                                    if (empty($row)) {
                                         $_messages = [
                                             'Invite your friends to play and receive <strong class="text-warning">50 Gold</strong> for every friend that plays. Hurry and start inviting now!',
                                             'For every friend you successfully refer, you\'ll earn <strong class="text-warning">50 Gold</strong>. Spread the word and let\'s play together!',
@@ -1483,7 +1527,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                         </li>
                                         <?php
                                     } else {
-                                        $row = mysql_fetch_array($result);
                                         $user_ads = new User($row['poster']);
                                         $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
                                         ?>
@@ -1525,13 +1568,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                             $array['Police Badge'] = ($rtn == 'NOW') ? '@None@' : $rtn;
                         }
 
-                        // if ($bonus_row['Time'] > 0) {
-                        
-                        //     $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
-//     echo '<div style="font-family:timesnewroman;font-size: 1.5em;color:red;text-align: center;margin-bottom: 20px;margin-top: -20px;"><font color=green>Server Wide Double EXP Active </font>  <font color=white>' . $_tt . '</font>
-//                                                 </div>';
-// }
-                        
                         if ($user_class->outofjail > 0) {
                             $rtn = ($user_class->outofjail);
                             $array['Jail Card'] = ($rtn == 'NOW') ? '@None@' : $rtn;
@@ -1539,12 +1575,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
                         if ($user_class->news > 0) {
                             $buffer = str_replace("<!_-news-_!>", "<div class='contenthead floaty'><span style='margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;'><h4 class='notify important'><a href='forum.php?id=1'>You have new game news [<span class='news-count'>$user_class->news</span>]</a></h4></span></div>", $buffer);
-
-                        } else {
-                            // if ($user_class->mjprotection > $time) {
-                            //     $rtn = howlongtil($user_class->mprotection);
-                            //     $array['Mug Protection'] = ($rtn == 'NOW') ? '@None@' : $rtn;
-                            // }
                         }
 
 
@@ -1561,19 +1591,8 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                             echo '<a href="home.php"><span style="color:red;">You are currently in FBI Jail for ' . $user_class->fbitime . ' minutes.</span></a><br />';
                         }
 
-                        //foreach ($array as $sub => $in) {
-//    echo '<span style="color:white;">&bull; ' . $sub . ' : <span style="color:red;">' . $in . '</span></span> &nbsp;';
-//}
-//if (!empty($array)) {
-//    echo '<br />';
-//}
-                        
                         echo '<br />';
 
-
-                        // COUNTDOWN TIMER
-// ADD 000 TO END OF UNIX TIMESTAMP
-                        
                         echo '<script>
     var countDownDate = new Date(1673827199000);
 
@@ -1596,8 +1615,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
     }, 1000);
     </script>';
 
-                        //$("#countdown").html(" Ends In " + days + "d " + hours + "h " + minutes + "m " + seconds + "s ");
-                        
+
                         echo '<div id="maincontent">';
                         if (time() < 1673827199) {
                             //echo '<div class="floaty" style="margin-top:-10px;font-family:Creepster;font-size:2em;text-decoration:underline;color:orange;">Double EXP ACTIVE on all Crimes!</div>';
@@ -1611,24 +1629,8 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             <span id="countdown">Ends In ' . countdown(1662965999) . '</span></div>';
                         }
 
-                        // $db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
-//     $db->execute();
-//     $bonus_row = $db->fetch_row(true);
-                        
-                        //     $debug['worked'] = $bonus_row;
-                        
-
-
-                        // if ($bonus_row['Time'] > 0) {
-                        
-                        //     $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
-//    $messages[] = 'Attackgfgdgdfgdfgsdfg: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
-                        
-                        // }
-                        
                         $time = time();
                         $messages = array();
-
 
                         // Attack Protection
                         if ($user_class->aprotection > $time) {
@@ -1662,40 +1664,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
                         }
 
-                        //$db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
-//$db->execute();
-//$activityContest = $db->fetch_row(true);
-                        
-                        //$messages[] = '<a href="ucl_contest.php"><font color=red>Activity Contest: Complete ' . ucfirst($activityContest['type']) . ' </font></a>';
-//$messages[] = '<a href="ucl_raids_contest.php"><font color=red>Raid Contest</font></a>';
-//$messages[] = '<a href="adventcalendar.php"><font color=red>Advent Calendar</font></a>';
-//$messages[] = '<a href="santasgrotto.php"><font color=red>Santas Grotto</font></a>';
-                        
-                        //if ($user_class->gang > 0) {
-//    $messages[] = '<a href="gang_doubleexp.php"><font color=red>Gang Challenge</font></a>';
-//}
-                        
-                        //$messages[] = '<a href="user_challenge.php"><font color=red>User Challenge</font></a>';
-//$messages[] = '<a href="user_comp_leaderboard.php"><font color=red>Halloween Challenge</font></a>';
-//$messages[] = '<a href="gang_doubleexp.php"><font color=red>Gang Challenge</font></a>';
-                        
-                        //$messages[] = '<a href="rel_challenge.php"><font color=red>Valentines Challenge</font></a>';
-//$messages[] = '<a href="rel_contest.php"><font color=red>Valentines Contest</font></a>';
-                        
-                        //if ($user_class->gang > 0) {
-//    $tempItemUse = getItemTempUse($user_class->id);
-//    $now = time();
-//    if ($tempItemUse['gang_double_exp_hours'] > 0 && $tempItemUse['gang_double_exp_time'] < $now) {
-//        $messages[] = '<a href="trigger_doublexp_hour.php" onclick="return confirm(\'Are you sure you want to trigger double EXP?\');"><font color=red>You have ' . $tempItemUse['gang_double_exp_hours'] . ' hours of double EXP! Click to run 1 hour of double exp.</font></a>';
-//    }
-//}
-                        
-                        // if ($user_class->cityturns > 29) {
-//     $messages[] = '<a href="maze.php">You Have Maze Searches Available</a>';
-// }
-// if ($user_class->id > 0) {
-//     $messages[] = '<a href="contest_raid.php"><font color=red>Raid Comp Active</font></a>';
-// }
                         $db->query("SELECT * FROM ganginvites WHERE playerid = ?");
                         $db->execute(array($user_class->id));
                         if ($db->num_rows() > 0) {
@@ -1706,114 +1674,99 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         // Bust Pill
                         if ($user_class->bustpill > 0) {
                             $rtn = $user_class->bustpill;
-                            $messages[] = 'Police Badge: ' . (($rtn == 'NOW') ? '@None@' : $rtn . 'm');
+                            $messages[] = '<div class="event-countdown" data-end="' . ($user_class->bustpill * 60) + $time . '">Police Badge: <span class="countdown-text">' . secondsToTime(60 * $user_class->bustpill) . '</span></div>';
                         }
 
                         // Out of Jail
                         if ($user_class->outofjail > 0) {
                             $rtn = ($user_class->outofjail);
-                            $messages[] = 'Jail Card: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . ($user_class->outofjail * 60) + $time . '">Jail Card: <span class="countdown-text">' . secondsToTime(time() - (60 * $user_class->outofjail)) . '</span></div>';
                         }
 
 
                         // Mug Protection
                         if ($user_class->mprotection > $time) {
                             $rtn = howlongtil($user_class->mprotection);
-                            $messages[] = 'Mug Protection: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $user_class->mprotection . '">Mug Protection: <span class="countdown-text">' . secondsToTime($user_class->mprotection - $time) . '</span></div>';
                         }
 
                         // Double EXP Pill
                         if ($user_class->exppill > $time) {
                             $rtn = howlongtil($user_class->exppill);
-                            $messages[] = 'Double EXP Pill: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $user_class->exppill . '">Double EXP Pill: <span class="countdown-text">' . secondsToTime($user_class->exppill - $time) . '</span></div>';
                         }
 
                         $tempItemUse = getItemTempUse($user_class->id);
                         // Crime Potion
                         if ($tempItemUse['crime_potion_time'] > $time) {
-                            $rtn = howlongtil($tempItemUse['crime_potion_time']);
-                            $messages[] = 'Crime Potion: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['crime_potion_time'] . '">Crime Potion: <span class="countdown-text">' . secondsToTime($tempItemUse['crime_potion_time'] - $time) . '</span></div>';
                         }
                         // Crime Booster
                         if ($tempItemUse['crime_booster_time'] > $time) {
-                            $rtn = howlongtil($tempItemUse['crime_booster_time']);
-                            $messages[] = 'Crime Booster: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['crime_booster_time'] . '">Crime Booster: <span class="countdown-text">' . secondsToTime($tempItemUse['crime_booster_time'] - $time) . '</span></div>';
                         }
                         // Nerve Vial
                         if ($tempItemUse['nerve_vial_time'] > $time) {
-                            $rtn = howlongtil($tempItemUse['nerve_vial_time']);
-                            $messages[] = 'Nerve Vial: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['nerve_vial_time'] . '">Nerve Vial: <span class="countdown-text">' . secondsToTime($tempItemUse['nerve_vial_time'] - $time) . '</span></div>';
                         }
                         // Gang Double EXP Time
                         if ($tempItemUse['gang_double_exp_time'] > $time) {
-                            $rtn = howlongtil($tempItemUse['gang_double_exp_time']);
-                            $messages[] = 'Gang Double EXP: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['gang_double_exp_time'] . '">Gang Double EXP: <span class="countdown-text">' . secondsToTime($tempItemUse['gang_double_exp_time'] - $time) . '</span></div>';
                         }
 
                         // 10x GYM
                         if ($tempItemUse['gym_10_multiplier_time'] > $time) {
-                            $rtn = howlongtil($tempItemUse['gym_10_multiplier_time']);
-                            $messages[] = '10x Gym: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['gym_10_multiplier_time'] . '">10x Gym: <span class="countdown-text">' . secondsToTime($tempItemUse['gym_10_multiplier_time'] - $time) . '</span></div>';
                         }
 
                         // 15x Crimes
                         if ($tempItemUse['crime_15_multiplier_time'] > $time) {
-                            $rtn = howlongtil($tempItemUse['crime_15_multiplier_time']);
-                            $messages[] = '15x Crimes: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['crime_15_multiplier_time'] . '">15x Crimes: <span class="countdown-text">' . secondsToTime($tempItemUse['crime_15_multiplier_time'] - $time) . '</span></div>';
                         }
 
                         // Super Crime
                         if ($tempItemUse['supercrime_time'] > $time) {
-                            $rtn = howlongtil($tempItemUse['supercrime_time']);
-                            $messages[] = 'Super Crime: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['supercrime_time'] . '">Super Crime: <span class="countdown-text">' . secondsToTime($tempItemUse['supercrime_time'] - $time) . '</span></div>';
                         }
 
                         // Protein Bar
                         if ($tempItemUse['gym_protein_bar_time'] > $time) {
-                            $rtn = howlongtil($tempItemUse['gym_protein_bar_time']);
-                            $messages[] = 'Protein Bar: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['gym_protein_bar_time'] . '">Protein Bar: <span class="countdown-text">' . secondsToTime($tempItemUse['gym_protein_bar_time'] - $time) . '</span></div>';
                         }
 
                         // Super Pills
                         if ($tempItemUse['gym_super_pills_time'] > $time) {
-                            $rtn = howlongtil($tempItemUse['gym_super_pills_time']);
-                            $messages[] = 'Gym Super Pills: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['gym_super_pills_time'] . '">Gym Super Pills: <span class="countdown-text">' . secondsToTime($tempItemUse['gym_super_pills_time'] - $time) . '</span></div>';
                         }
 
                         // Ghost Vacuum
                         if ($tempItemUse['ghost_vacuum_time'] > $time) {
-                            $rtn = howlongtil($tempItemUse['ghost_vacuum_time']);
-                            $messages[] = 'Ghost Vacuum: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['ghost_vacuum_time'] . '">Ghost Vacuum: <span class="countdown-text">' . secondsToTime($tempItemUse['ghost_vacuum_time'] - $time) . '</span></div>';
                         }
 
                         // Trick or Treat Pass
                         if ($tempItemUse['trick_or_treat_pass_time'] > $time) {
-                            $rtn = howlongtil($tempItemUse['trick_or_treat_pass_time']);
-                            $messages[] = 'Trick or Treat Pass: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['trick_or_treat_pass_time'] . '">Trick or Treat Pass: <span class="countdown-text">' . secondsToTime($tempItemUse['trick_or_treat_pass_time'] - $time) . '</span></div>';
                         }
 
                         // Double Gym
                         if ($tempItemUse['double_gym_time'] > $time) {
-                            $rtn = howlongtil($tempItemUse['double_gym_time']);
-                            $messages[] = 'Double Gym: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['double_gym_time'] . '">Double Gym: <span class="countdown-text">' . secondsToTime($tempItemUse['double_gym_time'] - $time) . '</span></div>';
                         }
 
                         // Love Potion
                         if ($tempItemUse['love_potions_time'] > $time) {
-                            $rtn = howlongtil($tempItemUse['love_potions_time']);
-                            $messages[] = 'Love Potion: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['love_potions_time'] . '">Love Potion: <span class="countdown-text">' . secondsToTime($tempItemUse['love_potions_time'] - $time) . '</span></div>';
                         }
 
                         // Easter Bead
                         if ($tempItemUse['easter_bead'] > $time) {
-                            $rtn = howlongtil($tempItemUse['easter_bead']);
-                            $messages[] = 'Easter Bead (Maze): ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['easter_bead'] . '">Easter Bead (Maze): <span class="countdown-text">' . secondsToTime($tempItemUse['easter_bead'] - $time) . '</span></div>';
                         }
 
                         // Maze Boost
                         if ($tempItemUse['maze_boost'] > $time) {
-                            $rtn = howlongtil($tempItemUse['maze_boost']);
-                            $messages[] = 'Maze Boost: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['maze_boost'] . '">Maze Boost: <span class="countdown-text">' . secondsToTime($tempItemUse['maze_boost'] - $time) . '</span></div>';
                         }
 
                         // Raid Pass
@@ -1828,29 +1781,28 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
                         // Jail
                         if ($user_class->jail > $time) {
-                            $rtn = howlongtil($user_class->jail);
-                            $messages[] = 'Jail: ' . (($rtn == 'NOW') ? '@None@' : $rtn);
+                            $messages[] = '<div class="event-countdown" data-end="' . $user_class->jail . '">Jail: <span class="countdown-text">' . secondsToTime($user_class->jail - $time) . '</span></div>';
                         }
 
                         // Additional messages based on your previous code snippets
                         if ($user_class->hospital > 0) {
-                            $messages[] = 'You are currently in hospital for ' . $user_class->hospital . ' seconds.';
+                            $messages[] = '<div class="event-countdown" data-end="' . ($user_class->hospital + $time) . '">Hospital: <span class="countdown-text">' . secondsToTime($user_class->hospital) . '</span></div>';
                         }
 
                         if ($user_class->jail > 0) {
-                            $messages[] = 'You are currently in jail for ' . $user_class->jail . ' seconds.';
+                            $messages[] = '<div class="event-countdown" data-end="' . ($user_class->jail + $time) . '">Jail: <span class="countdown-text">' . secondsToTime($user_class->jail) . '</span></div>';
                         }
 
                         if ($user_class->nightvision > 0) {
-                            $messages[] = 'Your currently have ' . $user_class->nightvision . ' minutes of Night Vision left.';
+                            $messages[] = '<div class="event-countdown" data-end="' . (($user_class->nightvision * 60) + $time) . '">Night Vision: <span class="countdown-text">' . secondsToTime($user_class->nightvision * 60) . '</span></div>';
                         }
 
                         if ($user_class->fbi > 0) {
-                            $messages[] = 'You are currently being watched over by the FBI for ' . $user_class->fbi . ' Minutes.';
+                            $messages[] = '<div class="event-countdown" data-end="' . (($user_class->fbi * 60) + $time) . '">FBI Watch: <span class="countdown-text">' . secondsToTime($user_class->fbi * 60) . '</span></div>';
                         }
 
                         if ($user_class->fbitime > 0) {
-                            $messages[] = 'You are currently in FBI Jail for ' . $user_class->fbitime . ' minutes.';
+                            $messages[] = '<div class="event-countdown" data-end="' . (($user_class->fbitime * 60) + $time) . '">FBI Jail: <span class="countdown-text">' . secondsToTime($user_class->fbitime * 60) . '</span></div>';
                         }
 
                         if ($user_class->gang > 0) {
@@ -2022,39 +1974,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
                         </script>
 
-                        <?php
-
-                        $width = ($user_class->epoints / 1000) * 100;
-
-
-
-
-                        if (time() <= 1703577599) {
-                            if (pathinfo($_SERVER['PHP_SELF'], PATHINFO_FILENAME) != 'valentines') {
-                                echo '<div class="container">';
-
-                                echo '<div class="progress">
-                    <div class="progress-bar-heart"><a href="home.php">Activity Reward (' . number_format($width, 1) . '%)</a></div>
-                </div>
-            </div>';
-                            }
-                        }
-
-                        if ($user_class->id == 0) {
-                            if (pathinfo($_SERVER['PHP_SELF'], PATHINFO_FILENAME) != 'valentines') {
-                                echo '<div class="container">';
-
-                                echo '<div class="progress">
-                    <div class="progress-bar-heart"><a href="activitycontest.php">Earn Rayzz by playing the game!! ' . number_format($width, 2) . '%</a></div>
-                </div>
-            </div>';
-                            }
-                        }
-
-                        ?>
-
-
-
                         <div class="modal fade" id="timeModal" tabindex="-1" aria-labelledby="timeModalLabel"
                             aria-hidden="true">
                             <div class="modal-dialog">
@@ -2086,31 +2005,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         });
                     </script>
                     <?php
-
-                    echo '<script>
-var countDownDate = new Date("Jan 30, 2024 23:59:00");
-
-var x = setInterval(function() {
-
-var now = new Date();
-var distance = countDownDate - now;
-
-var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-$(".progress-bar-heart").html("<a href=\'home.php\'>Activity Reward (' . number_format($width, 1) . '%)</a> 2x Speed Boost Active - " + hours + "h " + minutes + "m " + seconds + "s ");
-
-if (distance < 0) {
-            clearInterval(x);
-            $(".progress-bar-heart").html("<a href=\'home.php\'>Activity Reward (' . number_format($width, 1) . '%)</a>");
-}
-}, 1000);
-</script>';
-
-
-
 
                     function secondsToHumanReadable($seconds, $requiredParts = null)
                     {
