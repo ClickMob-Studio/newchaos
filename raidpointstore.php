@@ -108,7 +108,7 @@ if (isset($_POST['buy'])) {
                     $message = $qty . " x Raid Speed Up Token";
                     break;
                 case 'GRT':
-                    Give_Item(253, $user_class->id, $qty);
+                    Give_Item(253, $user_class->id, $qty * 5);
                     $message = $qty . " x Gold Rush Token";
                     break;
                 case 'RPA':
