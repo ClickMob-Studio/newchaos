@@ -1210,13 +1210,26 @@ class GangRank
 {
     function GangRank($rank, $notmyranks = 0)
     {
-        global $user_class;
+        global $db, $user_class, $gang_class;
 
-        $gang_class = (isset($GLOBALS['gang_class'])) ? $GLOBALS['gang_class'] : new Gang($user_class->gang);
-        $field = mysql_fetch_array(mysql_query("SELECT * FROM ranks WHERE id = '$rank'"));
-        if (empty($field)) {
-            $field = mysql_fetch_array(mysql_query("SELECT * FROM ranks WHERE id = 6"));
+        if (!isset($gang_class)) {
+            $gang_class = new Gang($user_class->gang);
         }
+
+        $db->query("SELECT * FROM ranks WHERE id = ?");
+        $db->execute([$rank]);
+        $field = $db->fetch_row(true);
+        if (empty($field)) {
+            $db->query("SELECT * FROM ranks WHERE id = 6");
+            $db->execute();
+            $field = $db->fetch_row(true);
+        }
+
+        if (empty($field)) {
+            $this->title = "Unknown";
+            return;
+        }
+
         foreach ($field as $title => $value) {
             if ($notmyranks) {
                 $this->$title = $value;
