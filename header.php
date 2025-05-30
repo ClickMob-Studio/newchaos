@@ -1,4 +1,7 @@
 <?php
+
+require_once 'functions.php';
+
 ob_start();
 session_start();
 
@@ -51,11 +54,13 @@ $current_uri = $_SERVER['REQUEST_URI']; // Gets the full request URI
 // }
 register_shutdown_function('ob_end_flush');
 $starttime = microtime_float();
+
 include 'dbcon.php';
 include 'database/pdo_class.php';
 include "classes.php";
 include "codeparser.php";
 include "pdo.php";
+
 if (empty($ignoreslashes)) {
     if (get_magic_quotes_gpc() == 0) {
         foreach ($_POST as $k => $v) {
