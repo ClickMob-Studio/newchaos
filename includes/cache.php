@@ -6,13 +6,14 @@ $cache = new Cache(Config::redis());
 
 class Cache
 {
-    private \Redis|null $redis;
-    private bool $enabled;
+    private $redis;
+    private $enabled;
 
-    public function __construct(RedisConfig $config)
+    public function __construct($config)
     {
         $this->enabled = true;
         $this->redis = new \Redis();
+
         try {
             $this->redis->connect($config->host, $config->port);
         } catch (\RedisException $e) {
@@ -20,25 +21,24 @@ class Cache
             $this->redis = null;
             error_log('Redis connection failed: ' . $e->getMessage());
         }
-
     }
 
-    public function get(string $key): mixed
+    public function get($key)
     {
         return $this->enabled ? $this->redis->get($key) : false;
     }
 
-    public function setEx(string $key, int $ttl, string $value): bool
+    public function setEx($key, $ttl, $value)
     {
         return $this->enabled ? $this->redis->setEx($key, $ttl, $value) : false;
     }
 
-    public function del(string $key): bool
+    public function del($key)
     {
         return $this->enabled ? $this->redis->del($key) : false;
     }
 
-    public function exists(string $key): bool
+    public function exists($key)
     {
         return $this->enabled ? $this->redis->exists($key) : false;
     }

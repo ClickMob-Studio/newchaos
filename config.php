@@ -2,10 +2,13 @@
 
 class Config
 {
-    private static ?DBConfig $db = null;
-    private static ?RedisConfig $redis = null;
+    private static $db = null;     // DBConfig|null
+    private static $redis = null;  // RedisConfig|null
 
-    public static function db(): DBConfig
+    /**
+     * @return DBConfig
+     */
+    public static function db()
     {
         if (self::$db === null) {
             self::$db = new DBConfig();
@@ -13,7 +16,10 @@ class Config
         return self::$db;
     }
 
-    public static function redis(): RedisConfig
+    /**
+     * @return RedisConfig
+     */
+    public static function redis()
     {
         if (self::$redis === null) {
             self::$redis = new RedisConfig();
@@ -24,8 +30,8 @@ class Config
 
 class RedisConfig
 {
-    public string $host;
-    public int $port;
+    public $host;
+    public $port;
 
     public function __construct()
     {
@@ -34,14 +40,13 @@ class RedisConfig
     }
 }
 
-
 class DBConfig
 {
-    public string $host;
-    public int $port;
-    public string $username;
-    public string $password;
-    public string $database;
+    public $host;
+    public $port;
+    public $username;
+    public $password;
+    public $database;
 
     public function __construct()
     {
