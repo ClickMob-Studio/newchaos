@@ -1206,34 +1206,23 @@ class User
     }
 }
 
-#[\AllowDynamicProperties]
 class GangRank
 {
-    function __construct($rank, $notmyranks = 0)
+    function GangRank($rank, $notmyranks = 0)
     {
-        global $db, $user_class;
-
-        $gang_class = isset($GLOBALS['gang_class']) ? $GLOBALS['gang_class'] : new Gang($user_class->gang);
-
-        $db->query("SELECT * FROM ranks WHERE id = ?");
-        $db->execute([$rank]);
-        $field = $db->fetch_row(true);
-
-        if (empty($field)) {
-            $db->query("SELECT * FROM ranks WHERE id = 6");
-            $db->execute();
-            $field = $db->fetch_row(true);
-        }
-
-        if (empty($field)) {
-            $this->title = "Unknown";
-        } else {
-            foreach ($field as $title => $value) {
-                $this->$title = $notmyranks ? $value : (($user_class->leader == $user_class->id) ? 1 : $value);
-            }
-        }
+        global $user_class;
+        $gang_class = (isset($GLOBALS['gang_class'])) ? $GLOBALS['gang_class'] : new Gang($user_class->gang);
+        $field = mysql_fetch_array(mysql_query("SELECT * FROM ranks WHERE id = '$rank'"));
+        if (empty($field))
+            $field = mysql_fetch_array(mysql_query("SELECT * FROM ranks WHERE id = 6"));
+        foreach ($field as $title => $value)
+            if ($notmyranks)
+                $this->$title = $value;
+            else
+                $this->$title = ($user_class->leader == $user_class->id) ? 1 : $value;
     }
 }
+
 class crewRank
 {
     function crewRank($rank, $notmyranks = 0)
