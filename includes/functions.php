@@ -1,7 +1,6 @@
 <?php
 
-$redis = new Redis();
-$redis->connect("127.0.1", 6379);
+require_once __DIR__ . '/cache.php';
 
 function howlongtil($futureTimestamp)
 {
@@ -424,14 +423,14 @@ function Take_Item($itemid, $userid, $quantity = 1)
 
 function Item_Name($itemId)
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    $item = $redis->get('item_' . $itemId);
+    $item = $cache->get('item_' . $itemId);
     if (!$item) {
         $db->query("SELECT * FROM items WHERE id = ?");
         $db->execute([$itemId]);
         $item = $db->fetch_row(true);
-        $redis->setEx("item_" . $itemId, 3600, json_encode($item));
+        $cache->setEx("item_" . $itemId, 3600, json_encode($item));
         return $item['itemname'];
     } else {
         $item = json_decode($item, true);
@@ -441,14 +440,14 @@ function Item_Name($itemId)
 
 function Item_Image($itemId)
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    $item = $redis->get('item_' . $itemId);
+    $item = $cache->get('item_' . $itemId);
     if (!$item) {
         $db->query("SELECT * FROM items WHERE id = ?");
         $db->execute([$itemId]);
         $item = $db->fetch_row(true);
-        $redis->setEx("item_" . $itemId, 3600, json_encode($item));
+        $cache->setEx("item_" . $itemId, 3600, json_encode($item));
         return $item['image'];
     } else {
         $item = json_decode($item, true);
@@ -1761,7 +1760,7 @@ function ofthes($userid, &$toadd)
 }
 function check_items($itemid, $userid = null)
 {
-    global $db, $user_class, $redis;
+    global $db, $user_class, $cache;
     if (empty($userid))
         $userid = $user_class->id;
     $db->query("SELECT quantity FROM inventory WHERE userid = ? AND itemid = ?");
@@ -3773,24 +3772,24 @@ function pretty_format_number($value)
 // Requires db and redis to be globally available
 function set_last_active($uid)
 {
-    global $db, $redis;
+    global $db, $cache;
 
     $current = time();
-    $lastactive = $redis->get('lastactive_' . $uid);
+    $lastactive = $cache->get('lastactive_' . $uid);
     if (empty($lastactive) || ($current - $lastactive) > 5) {
-        $redis->setEx('lastactive_' . $uid, 10, $current);
+        $cache->setEx('lastactive_' . $uid, 10, $current);
         perform_query("UPDATE `grpgusers` SET `lastactive` = ? WHERE id = ?", [$current, $uid]);
     }
 }
 
 function set_last_active_ip($uid, $ip)
 {
-    global $db, $redis;
+    global $db, $cache;
 
     $current = time();
-    $lastactive = $redis->get('lastactive_' . $uid);
+    $lastactive = $cache->get('lastactive_' . $uid);
     if (!$lastactive || ($current - $lastactive) >= 10) {
-        $redis->setEx('lastactive_' . $uid, 10, $current);
+        $cache->setEx('lastactive_' . $uid, 10, $current);
         perform_query("UPDATE `grpgusers` SET `lastactive` = ?, ip = ? WHERE id = ?", [$current, $ip, $uid]);
     }
 }
@@ -3805,33 +3804,33 @@ function perform_query($query, $params = [])
 
 function read_user_for_advertisement($uid, $ttl = 60)
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    if ($redis->exists("adv_user_" . $uid)) {
-        return json_decode($redis->get("adv_user_" . $uid));
+    if ($cache->exists("adv_user_" . $uid)) {
+        return json_decode($cache->get("adv_user_" . $uid));
     }
 
     $db->query("SELECT * FROM grpgusers WHERE id = ?");
     $db->execute([$uid]);
     $user = $db->fetch_row(true);
 
-    $redis->setEx("adv_user_" . $uid, $ttl, json_encode($user));
+    $cache->setEx("adv_user_" . $uid, $ttl, json_encode($user));
 
     return $user;
 }
 
 function getForums()
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    if ($redis->exists("forums")) {
-        return json_decode($redis->get("forums"), true);
+    if ($cache->exists("forums")) {
+        return json_decode($cache->get("forums"), true);
     }
 
     $db->query("SELECT * FROM forums ORDER BY disporder ASC");
     $db->execute();
     $forums = $db->fetch_row();
-    $redis->setEx("forums", 3600, json_encode($forums));
+    $cache->setEx("forums", 3600, json_encode($forums));
 
     return $forums;
 }
@@ -3870,17 +3869,17 @@ function getOwnThreads($fid, $uid, $page = 1)
 
 function getPermissions($fid, $gid)
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    if ($redis->exists("forumpermissions_" . $fid . "_" . $gid)) {
-        return json_decode($redis->get("forumpermissions_" . $fid . "_" . $gid), true);
+    if ($cache->exists("forumpermissions_" . $fid . "_" . $gid)) {
+        return json_decode($cache->get("forumpermissions_" . $fid . "_" . $gid), true);
     }
 
     $db->query("SELECT * FROM forumpermissions WHERE fid = ? AND gid = ?");
     $db->execute([$fid, $gid]);
     $permissions = $db->fetch_row(true);
 
-    $redis->setEx("forumpermissions_" . $fid . "_" . $gid, 3600, json_encode($permissions));
+    $cache->setEx("forumpermissions_" . $fid . "_" . $gid, 3600, json_encode($permissions));
     return $permissions;
 }
 
@@ -3918,30 +3917,92 @@ function getPosts($tid, $page = 1)
 
 function getScheduledEvent($type = 'gym')
 {
-    global $db, $redis;
+    global $db, $cache;
 
     $now = time();
-    if ($redis->exists("scheduled_event_" . $type)) {
-        $event = json_decode($redis->get("scheduled_event_" . $type), true);
+    if ($cache->exists("scheduled_event_" . $type)) {
+        $event = json_decode($cache->get("scheduled_event_" . $type), true);
         if ($event['start'] <= $now && $event['end'] >= $now) {
             return $event;
         }
 
-        $redis->delete("scheduled_event_" . $type);
-    } else {
-        $db->query("SELECT * FROM scheduledevents WHERE type = ? AND start <= ? AND end >= ? LIMIT 1");
-        $db->execute([$type, $now, $now]);
-        $event = $db->fetch_row(true);
-        if ($event) {
-            $timetolive = $event['end'] - $now;
-            if ($timetolive > 0) {
-                $redis->setEx("scheduled_event_" . $type, $timetolive, json_encode($event));
-                return $event;
-            }
+        $cache->delete("scheduled_event_" . $type);
+    }
+
+    $db->query("SELECT * FROM scheduledevents WHERE type = ? AND start <= ? AND end >= ? LIMIT 1");
+    $db->execute([$type, $now, $now]);
+    $event = $db->fetch_row(true);
+    if ($event) {
+        $timetolive = $event['end'] - $now;
+        if ($timetolive > 0) {
+            $cache->setEx("scheduled_event_" . $type, $timetolive, json_encode($event));
+            return $event;
         }
     }
 
     return null;
+}
+
+function getAllScheduledEvents()
+{
+    global $db, $cache;
+
+    $cache->del("all_scheduled_events");
+
+    $now = time();
+    if ($cache->exists("all_scheduled_events")) {
+        $events = json_decode($cache->get("all_scheduled_events"), true);
+        return $events;
+    }
+
+    $db->query("SELECT * FROM scheduledevents WHERE start <= ? AND end >= ?");
+    $db->execute([$now, $now]);
+    $events = $db->fetch_row();
+    if ($events) {
+        $cache->setEx("all_scheduled_events", 900, json_encode($events));
+        return $events;
+    }
+
+    return null;
+}
+
+function getEventsMessage()
+{
+    $events = getAllScheduledEvents();
+    if (empty($events)) {
+        return null;
+    }
+
+    $now = time();
+    $message = "";
+    foreach ($events as $event) {
+        $timeleft = secondsToTime($event['end'] - $now);
+        $message .= "<div class='event-countdown' data-end='{$event['end']}'>" . _eventMessageByType($event['type'], $event['multiplier'], $timeleft) . "</div>";
+    }
+
+    return $message;
+}
+
+function _eventMessageByType($type, $multiplier, $timeleft)
+{
+    switch ($type) {
+        case 'gym':
+            return "Gym event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'crime_exp':
+            return "Crime EXP event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'crime_money':
+            return "Crime money event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'raid':
+            return "Raid event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'mission_exp':
+            return "Mission EXP event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'mission_money':
+            return "Mission money event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'backalley':
+            return "Backalley event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        default:
+            return "";
+    }
 }
 
 // Function to start a session if it is not already started
@@ -3954,16 +4015,16 @@ function start_session_guarded()
 
 function get_user_mission($uid)
 {
-    global $redis, $db;
+    global $cache, $db;
 
-    $usermission = $redis->get("userMission_" . $uid);
+    $usermission = $cache->get("userMission_" . $uid);
     if (empty($usermission) || !$usermission) {
         $query = $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no'");
         $db->execute([$uid]);
         $usermission = $db->fetch_row(true);
 
         if (!empty($usermission)) {
-            $redis->setEx("userMission_" . $uid, 5, json_encode($usermission));
+            $cache->setEx("userMission_" . $uid, 5, json_encode($usermission));
         }
     } else {
         $usermission = json_decode($usermission, true);
@@ -3974,9 +4035,9 @@ function get_user_mission($uid)
 
 function get_mission($id)
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    $mission = $redis->get("mission_" . $id);
+    $mission = $cache->get("mission_" . $id);
     if (!empty($mission) && $mission) {
         return json_decode($mission, true);
     }
@@ -3985,7 +4046,7 @@ function get_mission($id)
     $db->execute([$id]);
     $mission = $db->fetch_row(true);
     if (!empty($mission)) {
-        $redis->setEx("mission_" . $id, 3600, json_encode($mission));
+        $cache->setEx("mission_" . $id, 3600, json_encode($mission));
         return $mission;
     }
 
@@ -3994,16 +4055,16 @@ function get_mission($id)
 
 function get_current_operation($uid)
 {
-    global $redis, $db;
+    global $cache, $db;
 
-    $currentUserOperation = $redis->get("currentUserOperation_" . $uid);
+    $currentUserOperation = $cache->get("currentUserOperation_" . $uid);
     if (empty($currentUserOperation) || !$currentUserOperation) {
         $db->query("SELECT * FROM `user_operations` WHERE `user_id` = ? AND (`is_complete` = 0 OR `is_complete` IS NULL) AND (`is_skipped` = 0 OR `is_skipped` IS NULL) ORDER BY `id` DESC LIMIT 1");
         $db->execute(array($uid));
         $currentUserOperation = $db->fetch_row(true);
 
         if (!empty($currentUserOperation)) {
-            $redis->setEx("currentUserOperation_" . $uid, 5, json_encode($currentUserOperation));
+            $cache->setEx("currentUserOperation_" . $uid, 5, json_encode($currentUserOperation));
         }
     } else {
         $currentUserOperation = json_decode($currentUserOperation, true);
@@ -4014,9 +4075,9 @@ function get_current_operation($uid)
 
 function get_operation($id)
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    $operation = $redis->get("operation_" . $id);
+    $operation = $cache->get("operation_" . $id);
     if (!empty($operation) && $operation) {
         return json_decode($operation, true);
     }
@@ -4025,7 +4086,7 @@ function get_operation($id)
     $db->execute([$id]);
     $operation = $db->fetch_row(true);
     if (!empty($operation)) {
-        $redis->setEx("operation_" . $id, 3600, json_encode($operation));
+        $cache->setEx("operation_" . $id, 3600, json_encode($operation));
         return $operation;
     }
 

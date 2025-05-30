@@ -1,47 +1,50 @@
 <?php
 
-class database {
+require_once __DIR__ . '/../includes/cache.php';
+
+class database
+{
     protected $last_query;
     protected $conn;
-    private $host = "localhost";
-    private $user = "chaoscit_user";
-    private $pass = '3lrKBlrfMGl2ic14';
-    private $name = "chaoscit_game";
     private $db;
     private $stmt;
     var $num_queries = 0;
     var $queries = "";
     static $inst = null;
-    static function getInstance() {
+    static function getInstance()
+    {
         if (self::$inst == null)
             self::$inst = new database();
         return self::$inst;
     }
-    private function __construct() {
+    private function __construct()
+    {
         mb_internal_encoding('UTF-8');
         mb_regex_encoding('UTF-8');
         mysqli_report(MYSQLI_REPORT_STRICT);
-        $dsn = 'mysql:host=' . $this->host . '; dbname=' . $this->name . '; charset=utf8';
+        $dsn = 'mysql:host=' . Config::db()->host . '; dbname=' . Config::db()->database . '; charset=utf8';
         $options = array(
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
         );
         try {
-            $this->db = new PDO($dsn, $this->user, $this->pass, $options);
+            $this->db = new PDO($dsn, Config::db()->username, Config::db()->password, $options);
         } catch (PDOException $e) {
             exit('<p><strong>CONSTRUCT ERROR</strong></p>' . $e->getMessage());
         }
         $this->query("SET collation_connection = 'utf8mb4_general_ci'");
         $this->execute();
     }
-    public function __destruct() {
+    public function __destruct()
+    {
         if (!$this->db)
             return null;
         $this->db = null;
         return null;
     }
-    public function query($query) {
+    public function query($query)
+    {
         $this->last_query = $query;
         $this->num_queries++;
         try {
@@ -52,7 +55,8 @@ class database {
             exit;
         }
     }
-    public function prepare($query) {
+    public function prepare($query)
+    {
         try {
             $this->db->prepare($query);
         } catch (PDOException $e) {
@@ -61,7 +65,8 @@ class database {
             exit;
         }
     }
-    public function bind($param, $value, $type = null) {
+    public function bind($param, $value, $type = null)
+    {
         if (is_null($type))
             switch (true) {
                 case is_int($value):
@@ -83,21 +88,23 @@ class database {
             exit('<p><strong>BIND ERROR</strong></p>' . $e->getMessage());
         }
     }
-    public function execute(array $binds = null) {
+    public function execute(array $binds = null)
+    {
         if (!isset($this->stmt))
             return false;
         try {
-            if (count($binds) > 0)
+            if (!empty($binds) && count($binds) > 0)
                 return $this->stmt->execute($binds);
             else
                 return $this->stmt->execute();
         } catch (PDOException $e) {
-            echo "<p><strong>EXECUTION ERROR</strong></p>" . $e->getMessage() . " " .$this->last_query;
+            echo "<p><strong>EXECUTION ERROR</strong></p>" . $e->getMessage() . " " . $this->last_query;
             error_log($e->getMessage() . ' - ' . $_SERVER['PHP_SELF'] . ' - ' . __FILE__, 0);
             exit;
         }
     }
-    public function fetch_row($shifted = false) {
+    public function fetch_row($shifted = false)
+    {
         if (!isset($this->stmt))
             return null;
         try {
@@ -110,7 +117,8 @@ class database {
             exit('<p><strong>FETCH ROW ERROR</strong></p>' . $e->getMessage());
         }
     }
-    public function fetch_single() {
+    public function fetch_single()
+    {
         if (!isset($this->stmt))
             return null;
         try {
@@ -120,7 +128,8 @@ class database {
             exit('<p><strong>FETCH SINGLE ERROR</strong></p>' . $e->getMessage());
         }
     }
-    public function fetch_object() {
+    public function fetch_object()
+    {
         if (!isset($this->stmt))
             return null;
         try {
@@ -130,38 +139,44 @@ class database {
             exit('<p><strong>FETCH OBJECT ERROR</strong></p>' . $e->getMessage());
         }
     }
-    public function affected_rows() {
+    public function affected_rows()
+    {
         try {
             return $this->stmt->rowCount();
         } catch (PDOException $e) {
             exit('<p><strong>AFFECTED ROWS ERROR</strong></p>' . $e->getMessage());
         }
     }
-    public function num_rows() {
+    public function num_rows()
+    {
         try {
             return $this->stmt->fetchColumn();
         } catch (PDOException $e) {
             exit('<p><strong>NUM ROWS ERROR</strong></p>' . $e->getMessage());
         }
     }
-    public function insert_id() {
+    public function insert_id()
+    {
         try {
             return $this->db->lastInsertId();
         } catch (PDOException $e) {
             exit('<p><strong>LAST INSERT ID ERROR</strong></p>' . $e->getMessage());
         }
     }
-    public function query_error() {
+    public function query_error()
+    {
         if (!isset($_SESSION['userid']))
             $_SESSION['userid'] = 0;
         if ($_SESSION['userid'] == 2)
             echo "<p><strong>QUERY ERROR:</strong> " . $this->error . "<br />Query was " . $this->last_query . "</p><br /><br />";
         exit("An error has been detected");
     }
-    public function escape($str) {
+    public function escape($str)
+    {
         return $str;
     }
-    public function tableExists($table) {
+    public function tableExists($table)
+    {
         try {
             $result = $this->db->query("SELECT 1 FROM `" . $table . "` LIMIT 1");
         } catch (Exception $e) {
@@ -169,22 +184,27 @@ class database {
         }
         return $result !== false;
     }
-    public function startTrans() {
+    public function startTrans()
+    {
         return $this->db->beginTransaction();
     }
-    public function endTrans() {
+    public function endTrans()
+    {
         return $this->db->commit();
     }
-    public function cancelTransaction() {
+    public function cancelTransaction()
+    {
         return $this->db->rollBack();
     }
-    public function error() {
+    public function error()
+    {
         echo "<pre>";
         var_dump($this->stmt->debugDumpParams());
         echo "</pre>";
     }
     // Helper function(s)
-    public function truncate(array $tables = null) {
+    public function truncate(array $tables = null)
+    {
         if (!count($tables))
             return false;
         $this->startTrans();

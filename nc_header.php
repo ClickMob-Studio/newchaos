@@ -2,8 +2,8 @@
 ob_start();
 session_start();
 
-$redis = new Redis();
-$redis->connect("127.0.1", 6379);
+require_once 'includes/cache.php';
+include_once 'includes/functions.php';
 
 header('Content-Type: text/html; charset=utf-8');
 function getUserIP()
@@ -545,12 +545,22 @@ $counts = array(
 );
 $queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
 
-$usersOnline = mysql_num_rows($queryOnline);
+$usersOnline = $cache->get('usersOnline');
+if (empty($usersOnline) || !$usersOnline) {
+    $db->query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
+    $db->execute();
+    $queryOnline = $db->num_rows();
+    $cache->setEx("usersOnline", 60, $queryOnline);
+}
 
-$activeRaidsQuery = "SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE completed = 0"; // Replace 'end_time' with the actual column name that represents when the raid ends
-$activeRaidsResult = mysql_query($activeRaidsQuery);
-$activeRaidsData = mysql_fetch_assoc($activeRaidsResult);
-$activeRaidsCount = $activeRaidsData['activeRaidsCount'];
+$activeRaidsCount = $cache->get("activeRaidsCount");
+if (empty($activeRaidsCount) || !$activeRaidsCount) {
+    $db->query("SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE completed = 0");
+    $db->execute();
+    $activeRaidsData = $db->fetch_row(true);
+    $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
+    $cache->setEx("activeRaidsCount", 10, $activeRaidsCount);
+}
 
 $nogame2 = mysql_query("SELECT * FROM numbergame WHERE userid=$user_class->id");
 $no2 = mysql_num_rows($nogame2);
