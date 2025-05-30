@@ -3954,16 +3954,16 @@ function start_session_guarded()
 
 function get_user_mission($uid)
 {
-    global $cache, $db;
+    global $redis, $db;
 
-    $usermission = $cache->get("userMission_" . $uid);
+    $usermission = $redis->get("userMission_" . $uid);
     if (empty($usermission) || !$usermission) {
         $query = $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no'");
         $db->execute([$uid]);
         $usermission = $db->fetch_row(true);
 
         if (!empty($usermission)) {
-            $cache->setEx("userMission_" . $uid, 5, json_encode($usermission));
+            $redis->setEx("userMission_" . $uid, 5, json_encode($usermission));
         }
     } else {
         $usermission = json_decode($usermission, true);
@@ -3974,9 +3974,9 @@ function get_user_mission($uid)
 
 function get_mission($id)
 {
-    global $db, $cache;
+    global $db, $redis;
 
-    $mission = $cache->get("mission_" . $id);
+    $mission = $redis->get("mission_" . $id);
     if (!empty($mission) && $mission) {
         return json_decode($mission, true);
     }
@@ -3985,7 +3985,7 @@ function get_mission($id)
     $db->execute([$id]);
     $mission = $db->fetch_row(true);
     if (!empty($mission)) {
-        $cache->setEx("mission_" . $id, 3600, json_encode($mission));
+        $redis->setEx("mission_" . $id, 3600, json_encode($mission));
         return $mission;
     }
 
@@ -3994,16 +3994,16 @@ function get_mission($id)
 
 function get_current_operation($uid)
 {
-    global $cache, $db;
+    global $redis, $db;
 
-    $currentUserOperation = $cache->get("currentUserOperation_" . $uid);
+    $currentUserOperation = $redis->get("currentUserOperation_" . $uid);
     if (empty($currentUserOperation) || !$currentUserOperation) {
         $db->query("SELECT * FROM `user_operations` WHERE `user_id` = ? AND (`is_complete` = 0 OR `is_complete` IS NULL) AND (`is_skipped` = 0 OR `is_skipped` IS NULL) ORDER BY `id` DESC LIMIT 1");
         $db->execute(array($uid));
         $currentUserOperation = $db->fetch_row(true);
 
         if (!empty($currentUserOperation)) {
-            $cache->setEx("currentUserOperation_" . $uid, 5, json_encode($currentUserOperation));
+            $redis->setEx("currentUserOperation_" . $uid, 5, json_encode($currentUserOperation));
         }
     } else {
         $currentUserOperation = json_decode($currentUserOperation, true);
@@ -4014,9 +4014,9 @@ function get_current_operation($uid)
 
 function get_operation($id)
 {
-    global $db, $cache;
+    global $db, $redis;
 
-    $operation = $cache->get("operation_" . $id);
+    $operation = $redis->get("operation_" . $id);
     if (!empty($operation) && $operation) {
         return json_decode($operation, true);
     }
@@ -4025,7 +4025,7 @@ function get_operation($id)
     $db->execute([$id]);
     $operation = $db->fetch_row(true);
     if (!empty($operation)) {
-        $cache->setEx("operation_" . $id, 3600, json_encode($operation));
+        $redis->setEx("operation_" . $id, 3600, json_encode($operation));
         return $operation;
     }
 
