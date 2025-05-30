@@ -1250,10 +1250,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                                         <p style="font-size: 10px;"><?= $pmugs; ?></p>
                                                     </div>
                                                     <div class="missionDiv">
-                                                        <p class="missionTo">BA:</p>
-                                                        <p style="font-size: 10px;"><?= $pbackalleys; ?></p>
-                                                    </div>
-                                                    <div class="missionDiv">
                                                         <p class="missionTo">Raids:</p>
                                                         <p style="font-size: 10px;"><?= $praids; ?></p>
                                                     </div>
