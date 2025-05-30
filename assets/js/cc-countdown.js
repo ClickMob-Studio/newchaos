@@ -4,23 +4,32 @@
 function formatDuration(seconds) {
     const parts = [];
 
-    const y = Math.floor(seconds / (365 * 24 * 3600));
-    seconds %= 365 * 24 * 3600;
+    const SECONDS_IN_YEAR = 365 * 24 * 3600;
+    const SECONDS_IN_MONTH = 30 * 24 * 3600;
+    const SECONDS_IN_WEEK = 7 * 24 * 3600;
+    const SECONDS_IN_DAY = 24 * 3600;
+    const SECONDS_IN_HOUR = 3600;
+    const SECONDS_IN_MINUTE = 60;
 
-    const mo = Math.floor(seconds / (30 * 24 * 3600));
-    seconds %= 30 * 24 * 3600;
+    const y = Math.floor(seconds / SECONDS_IN_YEAR);
+    seconds -= y * SECONDS_IN_YEAR;
 
-    const w = Math.floor(seconds / (7 * 24 * 3600));
-    seconds %= 7 * 24 * 3600;
+    const mo = Math.floor(seconds / SECONDS_IN_MONTH);
+    seconds -= mo * SECONDS_IN_MONTH;
 
-    const d = Math.floor(seconds / (24 * 3600));
-    seconds %= 24 * 3600;
+    const w = Math.floor(seconds / SECONDS_IN_WEEK);
+    seconds -= w * SECONDS_IN_WEEK;
 
-    const h = Math.floor(seconds / 3600);
-    seconds %= 3600;
+    const d = Math.floor(seconds / SECONDS_IN_DAY);
+    seconds -= d * SECONDS_IN_DAY;
 
-    const m = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
+    const h = Math.floor(seconds / SECONDS_IN_HOUR);
+    seconds -= h * SECONDS_IN_HOUR;
+
+    const m = Math.floor(seconds / SECONDS_IN_MINUTE);
+    seconds -= m * SECONDS_IN_MINUTE;
+
+    const s = seconds;
 
     if (y > 0) parts.push(`${y} year${y !== 1 ? 's' : ''}`);
     if (mo > 0) parts.push(`${mo} month${mo !== 1 ? 's' : ''}`);
