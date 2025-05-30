@@ -1313,7 +1313,8 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
                                                 $db->query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > ? ORDER BY RAND() LIMIT 1");
                                                 $db->execute([$now]);
-                                                if (!$db->num_rows()) {
+                                                $row = $db->fetch_row(true);
+                                                if (empty($row)) {
                                                     $_messages = [
                                                         'Invite your friends to play and receive <strong class="text-warning">50 Gold</strong> for every friend that plays. Hurry and start inviting now!',
                                                         'For every friend you successfully refer, you\'ll earn <strong class="text-warning">50 Gold</strong>. Spread the word and let\'s play together!',
@@ -1328,8 +1329,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                                     <?php endif; ?>
                                                     <?php
                                                 } else {
-
-                                                    $row = mysql_fetch_array($result);
                                                     $user_ads = new User($row['poster']);
                                                     $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
                                                     ?>
