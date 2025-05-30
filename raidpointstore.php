@@ -56,6 +56,10 @@ if (isset($_POST['buy'])) {
             $total_cost += $cost;
             $purchases[] = array($code, $qty, $cost, $item[1]);
 
+            if ($code == "LEET" && $qty > 1) {
+                diefun('You can only purchase the "Legendary Looter" Achievement once. <a href="raidpointstore.php">Go Back</a>');
+            }
+
             if ($code == "RST" && $qty > 5) {
                 diefun('You can only purchase a maximum of 5 Raid Statues at a time. <a href="raidpointstore.php">Go Back</a>');
             } else if ($code == "RST") {
