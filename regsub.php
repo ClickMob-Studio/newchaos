@@ -56,12 +56,18 @@ if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED
 $IP = filter_var($IP, FILTER_VALIDATE_IP);
 
 // Insert user into database
-$stmt = $pdo->prepare("INSERT INTO grpgusers (signupip, loginame, username, password, email, signuptime, gender, aprotection) VALUES (?,?, ?, ?, ?, UNIX_TIMESTAMP(), ?, ?)");
-$stmt->execute([$IP, $username, $username, $hashedPassword, $email, $gender, time() + 43200]);
+$stmt = $pdo->prepare("INSERT INTO grpgusers (ip, signupip, loginame, username, password, email, signuptime, gender, aprotection) VALUES (?, ?,?, ?, ?, ?, UNIX_TIMESTAMP(), ?, ?)");
+$stmt->execute([$IP, $IP, $username, $username, $hashedPassword, $email, $gender, time() + 43200]);
 $newid = $pdo->lastInsertId();
-mysql_query("INSERT INTO referrals (`when`, referrer, referred) VALUES (unix_timestamp(), {$_POST['referer']}, $newid)");
-mysql_query("INSERT INTO sessions VALUES($newid, '{$_COOKIE['PHPSESSID']}', 'emptyfornow')");
-mysql_query("INSERT INTO ofthes (userid)VALUES($newid)");
+
+$stmt = $pdo->prepare("INSERT INTO referrals (`when`, referrer, referred) VALUES (UNIX_TIMESTAMP(), ?, ?)");
+$stmt->execute([$_POST['referer'], $newid]);
+
+$stmt = $pdo->prepare("INSERT INTO sessions VALUES (?, ?, 'emptyfornow')");
+$stmt->execute([$newid, $_COOKIE['PHPSESSID']]);
+
+$stmt = $pdo->prepare("INSERT INTO ofthes (userid) VALUES (?)");
+$stmt->execute([$newid]);
 
 // Redirect upon successful registration
 $_SESSION['id'] = $pdo->lastInsertId();
@@ -91,11 +97,12 @@ session_regenerate_id();
 $newid = $_SESSION['id'];
 $parent = ($_POST['parent'] != 0) ? $_POST['parent'] : floor(time() / (uniqid(rand(1, 20), true) + uniqid(rand(1, 200))) - rand(100, 1000));
 $subject = "Welcome to Chaos City - <font color=ywllow>Please Read</font>";
-;
 $msgtext = strip_tags($msgtext);
 $msgtext = nl2br($msgtext);
 $msgtext = addslashes($msgtext);
-$result = mysql_query("INSERT INTO `pms` (id,`to`, `from`, timesent, `subject`, msgtext) VALUES ('', $newid, 2, unix_timestamp(), '$subject', '$msgtext')");
+
+$stmt = $pdo->prepare("INSERT INTO `pms` (id,`to`, `from`, timesent, `subject`, msgtext) VALUES ('', ?, 2, unix_timestamp(), ?, ?)");
+$stmt->execute([$newid, $subject, $msgtext]);
 
 header("Location: index.php");
 exit;

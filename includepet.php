@@ -1,13 +1,20 @@
 <?php
-$my_pet = new Pet($user_class->id);
-if($my_pet->onmarket != 0 && empty($showpet))
+
+$my_pet = null;
+try {
+    $my_pet = new Pet($user_class->id);
+} catch (Exception $e) {
+    diefun("You do not have a pet.");
+}
+
+if ($my_pet->onmarket != 0)
     diefun("Sorry, your pet is on the market.");
-if(!empty($showpet))
-    return;
+
 if (isset($_GET['pm'])) {
     $user_class->petMenu = ($user_class->petMenu == 'yes') ? 'no' : 'yes';
     mysql_query("UPDATE grpgusers SET petMenu = '$user_class->petMenu' WHERE id = $user_class->id");
 }
+
 if (isset($_GET['spend']) && $_GET['spend'] == 'pnerve') {
     if ($my_pet->nervepercent == 100)
         echo Message("Your pet's nerve is already full.");
@@ -21,6 +28,7 @@ if (isset($_GET['spend']) && $_GET['spend'] == 'pnerve') {
         $my_pet = new Pet($user_class->id);
     }
 }
+
 if (isset($_GET['spend']) && $_GET['spend'] == 'penergy') {
     if ($my_pet->energypercent == 100)
         echo Message("Your pet's energy is already full.");
@@ -33,6 +41,7 @@ if (isset($_GET['spend']) && $_GET['spend'] == 'penergy') {
         $my_pet = new Pet($user_class->id);
     }
 }
+
 if (isset($_GET['spend']) && $_GET['spend'] == 'pawake') {
     $cost = ceil(100 - $my_pet->awakepercent);
     if ($my_pet->awakepercent == 100)
