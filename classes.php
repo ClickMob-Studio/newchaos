@@ -1207,18 +1207,31 @@ class User
 }
 class GangRank
 {
-    function GangRank($rank, $notmyranks = 0)
+    function __construct($rank, $notmyranks = 0)
     {
-        global $user_class;
+        global $db, $user_class;
+        
         $gang_class = (isset($GLOBALS['gang_class'])) ? $GLOBALS['gang_class'] : new Gang($user_class->gang);
-        $field = mysql_fetch_array(mysql_query("SELECT * FROM ranks WHERE id = '$rank'"));
-        if (empty($field))
-            $field = mysql_fetch_array(mysql_query("SELECT * FROM ranks WHERE id = 6"));
-        foreach ($field as $title => $value)
-            if ($notmyranks)
-                $this->$title = $value;
-            else
-                $this->$title = ($user_class->leader == $user_class->id) ? 1 : $value;
+        
+        $db->query("SELECT * FROM ranks WHERE id = ?"):
+        $db->execute([$rank]);
+        $field = $db->fetch_row();
+    
+        if (empty($field)) {
+            $db->query("SELECT * FROM ranks WHERE id = 6"):
+            $db->execute();
+            $field = $db->fetch_row();
+        }
+
+        if (empty($field)) {
+            $this->$title = "Unknown";
+        } else {
+            foreach ($field as $title => $value)
+                if ($notmyranks)
+                    $this->$title = $value;
+                else
+                    $this->$title = ($user_class->leader == $user_class->id) ? 1 : $value;
+        }
     }
 }
 class crewRank
