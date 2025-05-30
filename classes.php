@@ -1205,32 +1205,32 @@ class User
         mysql_query("UPDATE grpgusers SET points = points +  " . $points . " WHERE id = " . $id);
     }
 }
+
+#[\AllowDynamicProperties]
 class GangRank
 {
     function __construct($rank, $notmyranks = 0)
     {
         global $db, $user_class;
-        
-        $gang_class = (isset($GLOBALS['gang_class'])) ? $GLOBALS['gang_class'] : new Gang($user_class->gang);
-        
-        $db->query("SELECT * FROM ranks WHERE id = ?"):
+
+        $gang_class = isset($GLOBALS['gang_class']) ? $GLOBALS['gang_class'] : new Gang($user_class->gang);
+
+        $db->query("SELECT * FROM ranks WHERE id = ?");
         $db->execute([$rank]);
-        $field = $db->fetch_row();
-    
+        $field = $db->fetch_row(true);
+
         if (empty($field)) {
-            $db->query("SELECT * FROM ranks WHERE id = 6"):
+            $db->query("SELECT * FROM ranks WHERE id = 6");
             $db->execute();
-            $field = $db->fetch_row();
+            $field = $db->fetch_row(true);
         }
 
         if (empty($field)) {
-            $this->$title = "Unknown";
+            $this->title = "Unknown";
         } else {
-            foreach ($field as $title => $value)
-                if ($notmyranks)
-                    $this->$title = $value;
-                else
-                    $this->$title = ($user_class->leader == $user_class->id) ? 1 : $value;
+            foreach ($field as $title => $value) {
+                $this->$title = $notmyranks ? $value : (($user_class->leader == $user_class->id) ? 1 : $value);
+            }
         }
     }
 }
