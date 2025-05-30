@@ -1,6 +1,6 @@
 <?php
 
-require_once 'functions.php';
+require_once 'includes/functions.php';
 
 ob_start();
 session_start();
