@@ -40,16 +40,6 @@ if (isset($_POST['buy'])) {
     foreach ($items as $item) {
         $code = $item[0];
 
-        if ($code == 'LEET') {
-            $db->query("SELECT COUNT(*) FROM user_badges WHERE user_id = ? AND badge_id = 3");
-            $db->execute(array($user_class->id));
-            $has_leet = $db->fetch_single();
-            if ($has_leet) {
-                diefun('You already have the "Legendary Looter" Achievement. <a href="raidpointstore.php">Go Back</a>');
-            }
-        }
-
-
         if (isset($_POST[$code]) && $_POST[$code] > 0) {
             $qty = (int) $_POST[$code];
             $cost = $item[2] * $qty;
@@ -58,6 +48,15 @@ if (isset($_POST['buy'])) {
 
             if ($code == "LEET" && $qty > 1) {
                 diefun('You can only purchase the "Legendary Looter" Achievement once. <a href="raidpointstore.php">Go Back</a>');
+            }
+
+            if ($code == "LEET") {
+                $db->query("SELECT COUNT(*) FROM user_badges WHERE user_id = ? AND badge_id = 3");
+                $db->execute(array($user_class->id));
+                $has_leet = $db->fetch_single();
+                if ($has_leet) {
+                    diefun('You already have the "Legendary Looter" Achievement. <a href="raidpointstore.php">Go Back</a>');
+                }
             }
 
             if ($code == "RST" && $qty > 5) {
