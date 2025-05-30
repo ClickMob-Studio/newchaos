@@ -18,12 +18,12 @@ if ($tempItemUse['ghost_vacuum_time'] > time()) {
   $db->execute();
 }
 
-$crimes = $redis->get("all_crimes");
+$crimes = $cache->get("all_crimes");
 if (empty($crimes)) {
   $db->query("SELECT * FROM crimes ORDER BY nerve DESC");
   $db->execute();
   $crimes = $db->fetch_row();
-  $redis->setEx("all_crimes", 7200, json_encode($crimes)); // Cache for 2 hours
+  $cache->setEx("all_crimes", 7200, json_encode($crimes)); // Cache for 2 hours
 } else {
   $crimes = json_decode($crimes, true);
 }

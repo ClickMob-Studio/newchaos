@@ -3,7 +3,6 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-
 include 'header.php';
 
 if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
@@ -1120,7 +1119,7 @@ $(document).ready(function() {
                                             Active:</div>
                                         <div class="text-center p-2">
                                             <?php
-                                            $lastactive = $redis->get("lastactive_" . $profile_class->id);
+                                            $lastactive = $cache->get("lastactive_" . $profile_class->id);
                                             if (!empty($lastactive)) {
                                                 echo ($lastactive != 0 ? lastactive($lastactive) : 'Never');
                                             } else {

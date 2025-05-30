@@ -1,14 +1,13 @@
 <?php
 
-
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 //header('Content-type: application/json');
 session_start();
 
-$redis = new Redis();
-$redis->connect("127.0.1", 6379);
+require_once "includes/functions.php";
+require_once "includes/cache.php";
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -646,19 +645,19 @@ function check_for_easter_egg($fullResponse, $user_class, $goldRushEnabled = 0)
 {
     return $fullResponse; // Disabled for now
 
-    // global $db, $redis;
+    // global $db, $cache;
 
 
     // $chances = $goldRushEnabled ? 2 : 1;
     // $egg = did_find_easter_egg($user_class, $chances);
 
     // if ($egg > 0) {
-    //     $item = $redis->get('item_' . $egg);
+    //     $item = $cache->get('item_' . $egg);
     //     if (!$item) {
     //         $db->query("SELECT * FROM items WHERE id = " . $egg);
     //         $db->execute();
     //         $item = $db->fetch_row(true);
-    //         $redis->setEx("item_" . $egg, 3600, json_encode($item));
+    //         $cache->setEx("item_" . $egg, 3600, json_encode($item));
     //     } else {
     //         $item = json_decode($item, true);
     //     }

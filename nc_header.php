@@ -2,8 +2,8 @@
 ob_start();
 session_start();
 
-$redis = new Redis();
-$redis->connect("127.0.1", 6379);
+require_once 'includes/cache.php';
+include_once 'includes/functions.php';
 
 header('Content-Type: text/html; charset=utf-8');
 function getUserIP()
@@ -547,21 +547,21 @@ $counts = array(
     'gang_raid_count' => $gang_raid_count,
 );
 
-$usersOnline = $redis->get('usersOnline');
+$usersOnline = $cache->get('usersOnline');
 if (empty($usersOnline) || !$usersOnline) {
     $db->query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
     $db->execute();
     $queryOnline = $db->num_rows();
-    $redis->setEx("usersOnline", 60, $queryOnline);
+    $cache->setEx("usersOnline", 60, $queryOnline);
 }
 
-$activeRaidsCount = $redis->get("activeRaidsCount");
+$activeRaidsCount = $cache->get("activeRaidsCount");
 if (empty($activeRaidsCount) || !$activeRaidsCount) {
     $db->query("SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE completed = 0");
     $db->execute();
     $activeRaidsData = $db->fetch_row(true);
     $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
-    $redis->setEx("activeRaidsCount", 10, $activeRaidsCount);
+    $cache->setEx("activeRaidsCount", 10, $activeRaidsCount);
 }
 
 $db->query("SELECT * FROM numbergame WHERE userid = ?");
