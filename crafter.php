@@ -5,33 +5,19 @@ include 'header.php'; // Make sure this file contains the database connection $c
 <link rel="stylesheet" href="asset/css/crafter.css">
 <?php
 // Function to retrieve item details from the database
-function getItemDetails($itemId) {
-    $query = "SELECT itemname, image FROM items WHERE id = $itemId";
-    $result = mysql_query($query);
-    if ($result && mysql_num_rows($result) > 0) {
-        return mysql_fetch_assoc($result);
-    }
-    return null;
-}
+function getItemDetails($itemId)
+{
+    global $db;
 
-// Function to get the user's quantity of a specific item
-function getUserItemQuantity($userId, $itemId) {
-    global $user_class; // Ensure that $user_class is accessible in this scope
+    $db->query("SELECT itemname, image FROM items WHERE id = ?");
+    $db->execute([$itemId]);
 
-    $query = "SELECT quantity FROM inventory WHERE userid = $userId AND itemid = $itemId";
-    $result = mysql_query($query);
-
-    if ($result && mysql_num_rows($result) > 0) {
-        $row = mysql_fetch_assoc($result);
-        return $row['quantity'];
-    } else {
-        // Return 0 if the item is not found in the user's inventory
-        return 0;
-    }
+    return $db->fetch_row(true);
 }
 
 // Function to handle the trade process
-function handleTrade($tradeId) {
+function handleTrade($tradeId)
+{
     global $user_class; // Ensure that $user_class is accessible in this scope
     $userId = $user_class->id; // Fetch the user ID from the user_class object
 
@@ -40,7 +26,7 @@ function handleTrade($tradeId) {
     $tradeResult = mysql_query($tradeQuery);
     if (!$tradeResult || mysql_num_rows($tradeResult) == 0) {
         return "Invalid trade.";
-    }    
+    }
     $trade = mysql_fetch_assoc($tradeResult);
 
     if ($trade['inventory_limit'] > 0 && Check_item($trade['itemreward1'], $user_class->id) >= $trade['inventory_limit']) {
@@ -53,7 +39,7 @@ function handleTrade($tradeId) {
     // Check if user has required items
     for ($i = 1; $i <= 6; $i++) {
         if (!empty($trade["item$i"]) && $trade["item{$i}quantity"] > 0) {
-            $userQuantity = getUserItemQuantity($userId, $trade["item$i"]);
+            $userQuantity = Check_Item($trade["item$i"], $userId);
             if ($userQuantity < $trade["item{$i}quantity"]) {
                 $itemName = getItemDetails($trade["item$i"])['itemname'];
                 $neededQuantity = $trade["item{$i}quantity"] - $userQuantity;
@@ -62,81 +48,26 @@ function handleTrade($tradeId) {
         }
     }
 
-   // If there are any lacking items, return the list as a string
+    // If there are any lacking items, return the list as a string
     if (!empty($lackingItems)) {
         return implode(", ", $lackingItems) . ".";
     }
-    // Begin transaction
-    mysql_query("START TRANSACTION");
-    $userId = mysql_real_escape_string($userId); // Assuming $conn is your MySQL connection
-    $timestampOneHourAhead = date('Y-m-d H:i:s', strtotime('+1 hour'));
-    
-    
-     // Deduct required items from user's inventory and remove if quantity becomes 0
+
+    // Deduct required items from user's inventory and remove if quantity becomes 0
     for ($i = 1; $i <= 6; $i++) {
         if (!empty($trade["item$i"])) {
-            // Deduct the item
-            if(removeFromInventory($user_class->id, $trade["item$i"] ,$trade["item{$i}quantity"]) == false){
-                echo Message('Something went wrong');
-            }
-            // $deductQuery = "UPDATE inventory SET quantity = quantity - {$trade["item{$i}quantity"]} WHERE userid = $userId AND itemid = {$trade["item$i"]}";
-            // $result = mysql_query($deductQuery);
-            // if (!$result) {
-            //     mysql_query("ROLLBACK");
-            //     return "Failed to deduct items.";
-            // }
-
-            // Check if quantity is now 0 and remove the item if it is
-            $checkQuantityQuery = "SELECT quantity FROM inventory WHERE userid = $userId AND itemid = {$trade["item$i"]}";
-            $checkResult = mysql_query($checkQuantityQuery);
-            if ($checkResult) {
-                $row = mysql_fetch_assoc($checkResult);
-                if ($row['quantity'] <= 0) {
-                    $deleteQuery = "DELETE FROM inventory WHERE userid = $userId AND itemid = {$trade["item$i"]}";
-                    $deleteResult = mysql_query($deleteQuery);
-                    if (!$deleteResult) {
-                        mysql_query("ROLLBACK");
-                        return "Failed to remove item with zero quantity.";
-                    }
-                }
-            }
-          
+            Take_Item($trade["item$i"], $user_class->id, $trade["item{$i}quantity"]);
         }
     }
-
 
     // Add reward items to user's inventory
     for ($i = 1; $i <= 6; $i++) {
         if (!empty($trade["itemreward$i"])) {
             $rewardItemId = $trade["itemreward$i"];
-
-            // Check if the user already has the reward item
-            $inventoryQuery = "SELECT quantity FROM inventory WHERE userid = $userId AND itemid = $rewardItemId";
-            $inventoryResult = mysql_query($inventoryQuery);
-
-            if ($inventoryResult && mysql_num_rows($inventoryResult) > 0) {
-                // User already has the item, update the quantity
-                $row = mysql_fetch_assoc($inventoryResult);
-                $newQuantity = $row['quantity'] + 1; // Assuming each trade adds one of the reward item
-                $updateQuery = "UPDATE inventory SET quantity = $newQuantity WHERE userid = $userId AND itemid = $rewardItemId";
-                $updateResult = mysql_query($updateQuery);
-                if (!$updateResult) {
-                    mysql_query("ROLLBACK");
-                    return "Failed to update reward item in inventory.";
-                }
-            } else {
-                // User does not have the item, insert a new row
-                $insertQuery = "INSERT INTO inventory (userid, itemid, quantity) VALUES ($userId, $rewardItemId, 1)";
-                $insertResult = mysql_query($insertQuery);
-                if (!$insertResult) {
-                    mysql_query("ROLLBACK");
-                    return "Failed to insert reward item into inventory.";
-                }
-            }
+            Give_Item($rewardItemId, $user_class->id, 1);
         }
     }
-    // Commit transaction
-    mysql_query("COMMIT");
+
     return "Trade successful!";
 }
 
@@ -148,12 +79,13 @@ if (isset($_POST['tradeId'])) {
 
 // Function to display the trade tile
 // Function to display the trade tile in a block format
-function displayTradeTile($trade) {
+function displayTradeTile($trade)
+{
     global $user_class;
     $user_id = $user_class->id;
 
     echo "<div class='trade-card " . $trade['trade_group_name'] . "-card'>";
-    
+
     // Display trade name
     echo "<h3>" . htmlspecialchars($trade['name']) . "</h3>";
 
@@ -165,7 +97,7 @@ function displayTradeTile($trade) {
         if (!empty($trade["item$i"]) && $trade["item{$i}quantity"] > 0) {
             $itemId = $trade["item$i"];
             $item = getItemDetails($itemId);
-            $userQuantity = getUserItemQuantity($user_id, $itemId);
+            $userQuantity = Check_Item($itemId, $user_id);
             if ($item) {
                 echo "<div class='trade-item'>";
                 echo "<img src='" . htmlspecialchars($item['image']) . "' alt='" . htmlspecialchars($item['itemname']) . "' style='width:50px; height:50px;'>"; // Control image size here
@@ -207,11 +139,16 @@ function displayTradeTile($trade) {
 
 
 // Fetch all the trades from the database
-$tradesQuery = "SELECT * FROM trades";
-if (isset($_GET['filter_results']) && in_array($_GET['filter_results'], array('Materials', 'Boosters', 'HI', 'Consumables'))) {
-    $tradesQuery .= " WHERE trade_group_name = '" . $_GET['filter_results'] . "'";
+if (isset($_GET['filter_results']) && in_array($_GET['filter_results'], haystack: array('Materials', 'Boosters', 'HI', 'Consumables'))) {
+    $db->query("SELECT * FROM trades WHERE trade_group_name = ?");
+    $db->execute([$_GET['filter_results']]);
+} else {
+    $db->query("SELECT * FROM trades");
+    $db->execute();
 }
-$tradesResult = mysql_query($tradesQuery);
+
+$tradesResult = $db->fetch_row();
+
 ?>
 
 
@@ -220,19 +157,27 @@ $tradesResult = mysql_query($tradesQuery);
     <div class="shopkeeper-section">
         <div class="shopkeeper-description">
             <h2>Welcome to the Crafting Station!</h2>
-            <p>Here at the crafting, you can exchange items you've collected on your adventures for rare and powerful goods. Our friendly shopkeeper has a keen eye for value and will offer you the best deals for your treasures. Take a look and see what wonders await!</p>
+            <p>Here at the crafting, you can exchange items you've collected on your adventures for rare and powerful
+                goods. Our friendly shopkeeper has a keen eye for value and will offer you the best deals for your
+                treasures. Take a look and see what wonders await!</p>
 
-            <p><strong>Filter:</strong> <a href="crafter.php">All</a> | <a href="crafter.php?filter_results=Materials">Materials</a> | <a href="crafter.php?filter_results=Boosters">Boosters</a> | <a href="crafter.php?filter_results=HI">Home Improvement</a> | <a href="crafter.php?filter_results=Consumables">Consumables</a></p>
+            <p><strong>Filter:</strong> <a href="crafter.php">All</a> | <a
+                    href="crafter.php?filter_results=Materials">Materials</a> | <a
+                    href="crafter.php?filter_results=Boosters">Boosters</a> | <a
+                    href="crafter.php?filter_results=HI">Home Improvement</a> | <a
+                    href="crafter.php?filter_results=Consumables">Consumables</a></p>
         </div>
     </div>
 </div>
 
-<?php 
+<?php
 $currentTimestamp = time(); // Current timestamp in seconds
 $cooldownQuery = "SELECT timestamp FROM crafter_cooldown WHERE user_id = $user_class->id";
-$cooldownResult = mysql_query($cooldownQuery);
-if ($cooldownRow = mysql_fetch_assoc($cooldownResult)) {
-    $cooldownTimestamp = strtotime($cooldownRow['timestamp']); // Convert timestamp from database to seconds
+$db->query("SELECT timestamp FROM crafter_cooldown WHERE user_id = ?");
+$db->execute([$user_class->id]);
+$cooldownResult = $db->fetch_single();
+if ($cooldownResult) {
+    $cooldownTimestamp = strtotime($cooldownResult); // Convert timestamp from database to seconds
     $remainingTime = $cooldownTimestamp - $currentTimestamp;
 
     if ($remainingTime > 0) {
@@ -286,15 +231,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 }
 
-if ($message) echo "<p class='trade-message'>$message</p>"; ?>
+if ($message)
+    echo "<p class='trade-message'>$message</p>"; ?>
 <div class="trade-container">
-  <?php if ($remainingTime > 0) {
-    ?>
-     <span style="width:100%" id="countdowns"></span> before you can trade
-     <?php
-  }?>
+    <?php if ($remainingTime > 0) {
+        ?>
+        <span style="width:100%" id="countdowns"></span> before you can trade
+        <?php
+    } ?>
     <?php
-    while ($trade = mysql_fetch_assoc($tradesResult)) {
+    foreach ($tradesResult as $trade) {
         displayTradeTile($trade);
     }
     ?>

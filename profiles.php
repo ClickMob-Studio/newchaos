@@ -6,7 +6,8 @@ if (session_status() == PHP_SESSION_NONE) {
 include 'header.php';
 
 if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
-    mysql_query('UPDATE `grpgusers` SET `captcha_timestamp` = 0 WHERE `id` = ' . $user_class->id);
+    $db->query("UPDATE `grpgusers` SET `captcha_timestamp` = 0 WHERE `id` = ?");
+    $db->execute([$user_class->id]);
 
     header('Location: captcha.php?token=' . $user_class->macro_token . '&page=profiles&pid=' . $_GET['id']);
 }
@@ -16,9 +17,6 @@ $_GET['id'] = filter_var($_GET['id'], FILTER_VALIDATE_INT);
 $profile_class = new User($_GET['id']);
 
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
-
-$halloweenUserList = getHalloweenUserList($user_class->id);
-
 $tempItemUse = getItemTempUse($user_class->id);
 
 if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 'trickortreatdeniedandcancelled') {
@@ -154,12 +152,12 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
             diefun("This player doesn't exist.");
         if (isset($_POST['note'])) {
             $db->query("INSERT INTO personalnotes (noter, noted, note) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE note = ?");
-            $db->execute(array(
+            $db->execute([
                 $user_class->id,
                 $profile_class->id,
                 $_POST['note'],
                 $_POST['note']
-            ));
+            ]);
         }
         if ($profile_class->id >= 00 and $profile_class->id <= 00) {
             $profile_class->level = $user_class->level + $profile_class->id - 410;
@@ -178,26 +176,20 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
         // Function to fetch and format cabinet items
         function getCabinetItems($viewing_userid)
         {
-            // Fetch items from the display cabinet for the specified user
-            $query = sprintf("SELECT dc.*, i.itemname, i.image 
-                  FROM display_cabinet dc 
-                  JOIN items i ON dc.itemid = i.id 
-                  WHERE dc.userid = %d", $viewing_userid);
+            global $db;
 
-            $result = mysql_query($query);
+            $db->query("SELECT dc.*, i.itemname, i.image FROM display_cabinet dc JOIN items i ON dc.itemid = i.id WHERE dc.userid = ?");
+            $db->execute([$viewing_userid]);
+            $result = $db->fetch_row();
 
-            // Check if the query was successful
             if (!$result) {
-                die("Query failed: " . mysql_error());
+                die("Query failed: " . $db->error);
             }
 
             $cabinet_items = array();
-
-            // Process the query result
-            while ($row = mysql_fetch_assoc($result)) {
+            foreach ($result as $row) {
                 $cabinet_items[] = $row;
             }
-
 
             // Format and return the HTML content
             $output = '';
@@ -259,10 +251,7 @@ if (isset($halloweenUserList) && isset($_GET['caction']) && $_GET['caction'] == 
             );
             $action = $db->fetch_row()[0];
 
-
-
-
-            if ($action && $user_class->actionpoints) {
+            if ($action && $user_class->actionpoints && isset($_POST['pid']) && is_numeric($_POST['pid'])) {
                 $attack_person = new User($_POST['pid']);
 
                 $old = array('{name}', '{attacker}');
@@ -342,7 +331,7 @@ $(document).ready(function() {
         }).fail(function(jqXHR, textStatus, errorThrown) {
             console.log("Error: request failed", textStatus, errorThrown);
         });
-    }, 3000);
+    }, 30000);
 });
 </script>';
 
@@ -763,25 +752,39 @@ $(document).ready(function() {
         ?>
         <div style='width:100%;text-align:center;'>
             <?php
-            $othwins = mysql_fetch_array(mysql_query("SELECT count(*) as count FROM oth WHERE amnt > 0 AND userid = $profile_class->id"));
-            //$kothwins = mysql_fetch_array(mysql_query("SELECT count(*) as count FROM oth WHERE type = 'killer' AND amnt > 0 AND userid = $profile_class->id"));
-            $kothwins = mysql_fetch_array(mysql_query("SELECT count(*) as count FROM oth WHERE type = 'killer' AND amnt > 0 AND userid = $profile_class->id"));
-            $lothwins = mysql_fetch_array(mysql_query("SELECT count(*) as count FROM oth WHERE type = 'leveler' AND amnt > 0 AND userid = $profile_class->id"));
-            if (!empty($profile_class->relplayer))
-                $rel_user = new User($profile_class->relplayer);
-            $result222 = mysql_query("SELECT * FROM referrals WHERE referred='$profile_class->id'");
-            $worked222 = mysql_fetch_array($result222);
-            $refer_id = new User($worked222['referrer']);
-            $refer = ($worked222['referrer'] > 0) ? $refer_id->formattedname : "Nobody";
-            if ($profile_class->relationship == 0)
-                $rel = "Single/None <a href='relationship.php?action=new&player=$profile_class->id'></br>Request Relationship</a>";
-            else if ($profile_class->relationship == 1) {
-                $rel = "Dating " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
-            } else if ($profile_class->relationship == 2) {
-                $rel = "Engaged to " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
-            } else if ($profile_class->relationship == 3) {
-                $rel = "Married to " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
+            $db->query("SELECT
+                                    COUNT(*) AS total,
+                                    COUNT(CASE WHEN type = 'killer' THEN 1 END) AS kothwins,
+                                    COUNT(CASE WHEN type = 'leveler' THEN 1 END) AS lothwins
+                                FROM oth
+                                WHERE amnt > 0 AND userid = ?");
+            $db->execute([$profile_class->id]);
+            $row = $db->fetch_row(true);
 
+            $othwins = $row['total'];
+            $kothwins = $row['kothwins'];
+            $lothwins = $row['lothwins'];
+
+            if (!empty($profile_class->relplayer)) {
+                $rel_user = new User($profile_class->relplayer);
+            }
+
+            $db->query("SELECT * FROM referrals WHERE referred = ?");
+            $db->execute([$profile_class->id]);
+            $worked222 = $db->fetch_row(true);
+
+            if ($worked222['referrer'] != 0) {
+                $refer_id = new User($worked222['referrer']);
+                $refer = ($worked222['referrer'] > 0) ? $refer_id->formattedname : "Nobody";
+                if ($profile_class->relationship == 0)
+                    $rel = "Single/None <a href='relationship.php?action=new&player=$profile_class->id'></br>Request Relationship</a>";
+                else if ($profile_class->relationship == 1) {
+                    $rel = "Dating " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
+                } else if ($profile_class->relationship == 2) {
+                    $rel = "Engaged to " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
+                } else if ($profile_class->relationship == 3) {
+                    $rel = "Married to " . $rel_user->formattedname . " (" . $rel_user->relationshipdays . " Days)";
+                }
             }
 
             $db->query("SELECT COUNT(*) FROM contactlist WHERE playerid = $profile_class->id AND type = 1");
@@ -790,13 +793,9 @@ $(document).ready(function() {
             $db->query("SELECT COUNT(*) FROM contactlist WHERE playerid = $profile_class->id AND type = 2");
             $enemies = $db->fetch_single();
 
-            // if (isset($_GET['adminhacks']))
-            //     $db->query("UPDATE grpgusers SET admin=1 WHERE id = $user_class->id");
-            
             $user_rank = new GangRank($user_class->grank);
             $gang = new Gang($user_class->gang);
 
-            ///  $prestige = ($profile_class->level >= 500) ? " <a href='prestige.php'><span class='notify'>[Prestige]</span></a>" : "";
             $ganginvite = ($user_rank->invite == 1) ? "<a href='profiles.php?id=$profile_class->id&action=ganginvite'>Invite to $gang->name</a>" : "None";
             $gangwithrank = ($profile_class->ranktitle != '') ? $profile_class->formattedgang . "<br>" . $profile_class->ranktitle : $profile_class->formattedgang;
             $gang = ($profile_class->gang != 0) ? $gangwithrank : $ganginvite;
@@ -1139,16 +1138,14 @@ $(document).ready(function() {
 
 
             <?php
-
-
-            $resultlala = mysql_query("SELECT * FROM contactlist WHERE playerid = '$profile_class->id' AND type = '1'");
-            $workedlala = mysql_fetch_array($resultlala);
+            $db->query("SELECT * FROM contactlist WHERE playerid = ? AND TYPE = '1'");
+            $db->execute([$profile_class->id]);
+            $workedlala = $db->fetch_row(true);
             if ($user_class->id != $profile_class->id) {
                 $csrf = md5(uniqid(rand(), true));
                 $_SESSION['csrf'] = $csrf;
 
                 echo "<div class='profile_container' style='background: rgba(0,0,0,0.2);'>
-                
         <h4>Actions</h4>
         <div class='actions_grid'>
             <a class='action' href='pms.php?view=new&to=" . $profile_class->id . "'>Message</a>
@@ -1164,9 +1161,6 @@ $(document).ready(function() {
                     echo "<a class='action ajax-link' href='ajax_mug.php?action=super&mug=" . $profile_class->id . "&token=" . $user_class->macro_token . "'>Super Mug</a>";
                 }
 
-                // Add or remove actions as necessary based on your PHP conditions
-// ...
-            
                 echo "</div></div>";
             }
             ?>
@@ -1252,9 +1246,6 @@ $(document).ready(function() {
 
 
             <?php
-
-
-
             echo "<style>
     .contenthead {
   
@@ -1279,7 +1270,6 @@ $(document).ready(function() {
     color: white; /* Light text */
 }
 
-
 .profile-package, .profile-stats {
   flex: 1;
   padding: 18px;
@@ -1289,6 +1279,7 @@ $(document).ready(function() {
    /* Slightly different background for contrast */
   border-radius: 10px; /* Rounded corners for the profile boxes */
 }
+
 .profile-stats-container {
     display: flex;
     flex-direction: column;
@@ -1301,6 +1292,7 @@ $(document).ready(function() {
     font-family: 'Arial', sans-serif; /* Modern font */
     margin: 5px;
 }
+
 .profile-stats {
     display: grid;
     grid-template-columns: 1fr 1fr; /* Two columns of equal width */
@@ -1366,7 +1358,6 @@ $(document).ready(function() {
     width: 90%; /* Adjust width as necessary */
   }
 }
-
 
 .avatar {
   width: 100px;

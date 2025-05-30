@@ -142,9 +142,38 @@ function car_popup($text, $id)
 }
 function secondsToTime($seconds)
 {
-    $dtF = new DateTime("@0");
+    $dtF = new DateTime('@0');
     $dtT = new DateTime("@$seconds");
-    return $dtF->diff($dtT)->format('%h hours, %i minutes and %s seconds');
+    $interval = $dtF->diff($dtT);
+
+    $totalDays = (int) $interval->format('%a');
+    $weeks = floor($totalDays / 7);
+    $days = $totalDays % 7;
+
+    $hours = (int) $interval->format('%h');
+    $minutes = (int) $interval->format('%i');
+    $seconds = (int) $interval->format('%s');
+
+    $parts = [];
+
+    if ($weeks > 0) {
+        $parts[] = $weeks . ' week' . ($weeks !== 1 ? 's' : '');
+    }
+    if ($days > 0) {
+        $parts[] = $days . ' day' . ($days !== 1 ? 's' : '');
+    }
+    if ($hours > 0) {
+        $parts[] = $hours . ' hour' . ($hours !== 1 ? 's' : '');
+    }
+    if ($minutes > 0) {
+        $parts[] = $minutes . ' minute' . ($minutes !== 1 ? 's' : '');
+    }
+    if ($seconds > 0 || empty($parts)) {
+        $parts[] = $seconds . ' second' . ($seconds !== 1 ? 's' : '');
+    }
+
+    $last = array_pop($parts);
+    return empty($parts) ? $last : implode(', ', $parts) . ', ' . $last;
 }
 function daysToTime($seconds)
 {
@@ -603,9 +632,11 @@ function crimeleft($ts)
 {
     return howlongtil($ts);
 }
+
 function howlongago($ts, $stop = 'none')
 {
     $ts = time() - $ts;
+
     if ($ts < 1)
         return " NOW";
     elseif ($ts == 1)
@@ -614,22 +645,26 @@ function howlongago($ts, $stop = 'none')
         return $ts . "s";
     elseif ($ts < 120)
         return "1m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60)
+    elseif ($ts < 3600)
         return floor($ts / 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60 * 2)
-        return "1h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60 * 24)
-        return floor($ts / (60 * 60)) . "h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60 * 24 * 2)
-        return "1d " . floor($ts / (60 * 60) % 24) . "h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < (60 * 60 * 24 * 7) or $stop == 'days')
-        return floor($ts / (60 * 60 * 24)) . "d " . floor($ts / (60 * 60) % 24) . "h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60 * 24 * 30.5)
-        return floor($ts / (60 * 60 * 24 * 7)) . " weeks ago";
-    elseif ($ts < 60 * 60 * 24 * 365)
-        return floor($ts / (60 * 60 * 24 * 30.5)) . " months ago";
+    elseif ($ts < 7200)
+        return "1h " . floor((floor($ts / 60)) % 60) . "m " . ($ts % 60) . "s";
+    elseif ($ts < 86400)
+        return floor($ts / 3600) . "h " . floor((floor($ts / 60)) % 60) . "m " . ($ts % 60) . "s";
+    elseif ($ts < 172800)
+        return "1d " . floor((floor($ts / 3600)) % 24) . "h " . floor((floor($ts / 60)) % 60) . "m " . ($ts % 60) . "s";
+    elseif ($ts < 604800 || $stop === 'days')
+        return
+            floor($ts / 86400) . "d " .
+            floor((floor($ts / 3600)) % 24) . "h " .
+            floor((floor($ts / 60)) % 60) . "m " .
+            floor($ts % 60) . "s";
+    elseif ($ts < 2628000) // ~30.5 days
+        return floor($ts / 604800) . " weeks ago";
+    elseif ($ts < 31536000)
+        return floor($ts / 2628000) . " months ago";
     else
-        return floor($ts / (60 * 60 * 24 * 365)) . " years ago";
+        return floor($ts / 31536000) . " years ago";
 }
 
 function howlongleft($ts)
@@ -1320,7 +1355,7 @@ function Take_Pet($petid, $userid)
         $petid
     ));
 }
-function Give_Pet($petid, $userid, $picture, $str = 10, $spe = 10, $def = 10, $name = "No Name")
+function Give_Pet($petid, $userid, $picture, $str = 10, $spe = 10, $def = 10, $name = null)
 {
     global $db;
     $db->query("SELECT petid FROM pets WHERE userid = ? AND petid = ?");
@@ -1329,8 +1364,21 @@ function Give_Pet($petid, $userid, $picture, $str = 10, $spe = 10, $def = 10, $n
         $petid
     ));
     $pet = $db->fetch_single();
-    if ($pet)
+    if ($pet) {
         return false;
+    }
+
+    if ($name == null) {
+        $db->query("SELECT name FROM petshop WHERE id = ?");
+        $db->execute([$petid]);
+        $pet = $db->fetch_row(true);
+        if (!$pet) {
+            $name = "No Name";
+        } else {
+            $name = $pet['name'];
+        }
+    }
+
     $db->query("INSERT INTO pets (petid, userid, str, spe, def, pname, avi) VALUES (?, ?, ?, ?, ?, ?, ?)");
     $db->execute(array(
         $petid,
@@ -2046,17 +2094,6 @@ function calctime($seconds = 0)
     return isset($thetime) ? implode(' ', $thetime) . ($interval->invert ? ' ago' : '') : NULL;
 }
 
-function Get_Item_name($id)
-{
-    $id = intval($id);
-    $query = mysql_query("SELECT * FROM items WHERE `id` = " . $id);
-    if (mysql_num_rows($query)) {
-        $result = mysql_fetch_assoc($query);
-        return $result['itemname'];
-    } else {
-        return 'Unknown Item';
-    }
-}
 function updateGangActiveMission($field, $value)
 {
     global $db, $user_class;
@@ -2103,9 +2140,6 @@ function generateMacroToken($length = 10)
 function macroTokenCheck($user_class)
 {
     if (!isset($_GET['token'])) {
-        //        Send_Event(1, 'ID ' . $user_class-> id . ' MUGGING: NO TOKEN PROVIDED', 1);
-//        Send_Event(2, 'ID ' . $user_class-> id . ' MUGGING: NO TOKEN PROVIDED', 2);
-
         echo "
             <div class='alert alert-danger'>
                 <p>1 Something went wrong, an Admin has been informed.
@@ -2116,9 +2150,6 @@ function macroTokenCheck($user_class)
 
     $token = $_GET['token'];
     if (empty($token)) {
-        //        Send_Event(1, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token, 1);
-//        Send_Event(2, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token, 2);
-
         echo "
             <div class='alert alert-danger'>
                 <p>2 Something went wrong, an Admin has been informed.
@@ -2128,10 +2159,6 @@ function macroTokenCheck($user_class)
     }
 
     if ($user_class->macro_token != $token) {
-        //        Send_Event(1, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token . ' - ' . $user_class->macro_token, 1);
-//        Send_Event(2, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token . ' - ' . $user_class->macro_token, 2);
-
-
         echo
             "
             <div class='alert alert-danger'>
@@ -2142,8 +2169,7 @@ function macroTokenCheck($user_class)
     }
 
     $newMacroToken = generateMacroToken();
-    mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken . "' WHERE id = " . $user_class->id);
-
+    perform_query("UPDATE grpgusers SET macro_token = ? WHERE id = ?", [$newMacroToken, $user_class->id]);
     return $newMacroToken;
 }
 
@@ -2183,24 +2209,7 @@ function addItemTempUse($user_class, $field, $qty = 1)
 
 function removeItemTempUse($userId, $field, $qty = 1)
 {
-    mysql_query("UPDATE item_temp_use SET {$field} = {$field} - {$qty} WHERE {$field} > 0 AND user_id = " . $userId);
-}
-
-function removeFromInventory($userId, $item, $qty = 1)
-{
-    $item = intval($item);
-    $check = mysql_query("SELECT * FROM inventory WHERE itemid = $item AND userid = $userId");
-    if (mysql_num_rows($check) < 0) {
-        return false;
-    }
-    $ch = mysql_fetch_array($check);
-    if ($ch['quantity'] > $qty) {
-        mysql_query("UPDATE inventory SET quantity = quantity - $qty WHERE itemid = $item AND userid = $userId");
-        return true;
-    } else {
-        mysql_query("DELETE FROM inventory WHERE itemid = $item AND userid = $userId");
-        return true;
-    }
+    perform_query("UPDATE item_temp_use SET `$field` = `$field` - ? WHERE `$field` > 0 AND user_id = ?", [$qty, $userId]);
 }
 
 function getUserBaStats($user_class)
@@ -2672,19 +2681,17 @@ function getBpCategoryUser($bpCategory, $user_class)
 {
     global $db;
 
-    $db->query("SELECT * FROM bp_category_user WHERE user_id = " . $user_class->id . " AND bp_category_id = " . $bpCategory['id'] . " LIMIT 1");
-    $db->execute();
-    $r = $db->fetch_row();
-
-    if (isset($r[0]['id'])) {
-        return $r[0];
-    } else {
-        $db->query("INSERT INTO bp_category_user (bp_category_id, user_id) VALUES (" . $bpCategory['id'] . ", " . $user_class->id . ")");
-        $db->execute();
-        $r = getBpCategoryUser($bpCategory['id'], $user_class);
-
+    $db->query("SELECT * FROM bp_category_user WHERE user_id = ? AND bp_category_id = ? LIMIT 1");
+    $db->execute([$user_class->id, $bpCategory['id']]);
+    $r = $db->fetch_row(true);
+    if (isset($r['id'])) {
         return $r;
     }
+
+    $db->query("INSERT INTO bp_category_user (bp_category_id, user_id) VALUES (?, ?)");
+    $db->execute([$bpCategory['id'], $user_class->id]);
+    return getBpCategoryUser($bpCategory['id'], $user_class);
+
 }
 
 function addToBpCategoryUser($bpCategory, $user_class, $field, $qty = 1)
