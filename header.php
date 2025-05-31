@@ -1555,24 +1555,9 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
 
                         $time = time();
-                        $array = array();
-
-
-                        if ($user_class->bustpill > 0) {
-                            $rtn = ($user_class->bustpill);
-                            $array['Police Badge'] = ($rtn == 'NOW') ? '@None@' : $rtn;
-                        }
-
-                        if ($user_class->outofjail > 0) {
-                            $rtn = ($user_class->outofjail);
-                            $array['Jail Card'] = ($rtn == 'NOW') ? '@None@' : $rtn;
-                        }
-
                         if ($user_class->news > 0) {
                             $buffer = str_replace("<!_-news-_!>", "<div class='contenthead floaty'><span style='margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;'><h4 class='notify important'><a href='forum.php?id=1'>You have new game news [<span class='news-count'>$user_class->news</span>]</a></h4></span></div>", $buffer);
                         }
-
-
 
                         if ($user_class->nightvision > 0) {
                             echo '<span style="color:red;">Your currently have ' . $user_class->nightvision . ' minutes of Night Vision left.</span><br />';
@@ -1668,8 +1653,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
                         // Bust Pill
                         if ($user_class->bustpill > 0) {
-                            $rtn = $user_class->bustpill;
-                            $messages[] = '<div class="event-countdown" data-end="' . ($user_class->bustpill * 60) + $time . '">Police Badge: <span class="countdown-text">' . secondsToTime(60 * $user_class->bustpill) . '</span></div>';
+                            $messages[] = '<div class="event-countdown" data-end="' . (($user_class->bustpill * 60) + $time) . '">Police Badge: <span class="countdown-text">' . secondsToTime(60 * $user_class->bustpill) . '</span></div>';
                         }
 
                         // Out of Jail
