@@ -1659,7 +1659,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         // Out of Jail
                         if ($user_class->outofjail > 0) {
                             $rtn = ($user_class->outofjail);
-                            $messages[] = '<div class="event-countdown" data-end="' . ($user_class->outofjail * 60) + $time . '">Jail Card: <span class="countdown-text">' . secondsToTime(time() - (60 * $user_class->outofjail)) . '</span></div>';
+                            $messages[] = '<div class="event-countdown" data-end="' . (($user_class->outofjail * 60) + $time) . '">Jail Card: <span class="countdown-text">' . secondsToTime(time() - (60 * $user_class->outofjail)) . '</span></div>';
                         }
 
 
