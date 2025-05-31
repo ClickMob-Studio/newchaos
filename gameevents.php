@@ -1,8 +1,9 @@
 <?php
 include 'header.php';
 
-$result = mysql_query("SELECT * FROM `gameevents`");
-$worked = mysql_fetch_array($result);
+$db->query("SELECT * FROM `gameevents` ORDER BY `id` DESC LIMIT 1");
+$db->execute();
+$worked = $db->fetch_row(true);
 
 $cash_lottery_class = new User($worked['cashlotteryid']);
 $cash_lottery = str_replace("[-_USER_-]", $cash_lottery_class->formattedname, $worked['cashlottery']);

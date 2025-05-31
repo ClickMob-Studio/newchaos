@@ -32,6 +32,7 @@ include 'header.php';
                     include("footer.php");
                     die();
                 }
+
                 perform_query("UPDATE `grpgusers` SET `gangleader` = '0' WHERE `id` = ?", [$gang_class->leader]);
                 perform_query("UPDATE `grpgusers` SET `gang` = '0', `grank` = '0' WHERE `gang` = ?", [$gang_class->id]);
                 perform_query("DELETE FROM `gangs` WHERE `id` = ?", [$gang_class->id]);
@@ -41,8 +42,10 @@ include 'header.php';
                 perform_query("DELETE FROM `ganginvites` WHERE `gangid` = ?", [$gang_class->id]);
                 perform_query("DELETE FROM `gang_loans` WHERE `gang` = ?", [$gang_class->id]);
 
-                $resultw = mysql_query("SELECT * FROM `grpgusers` WHERE `gang` = '" . $user_class->gang . "'");
-                while ($line = mysql_fetch_array($resultw)) {
+                $db->query("SELECT * FROM `grpgusers` WHERE `gang` = ?");
+                $db->execute([$user_class->gang]);
+                $result = $db->fetch_row();
+                foreach ($result as $line) {
                     $gang_user = new User($line['id']);
                     if ($gang_user->weploaned == 1) {
                         perform_query("UPDATE `grpgusers` SET `eqweapon` = '0', `weploaned` = '0' WHERE `id` = ?", [$line['id']]);
@@ -61,5 +64,6 @@ include 'header.php';
             include 'footer.php';
             die();
         }
+
         include("gangheaders.php");
         include 'footer.php';

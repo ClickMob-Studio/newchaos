@@ -37,12 +37,7 @@ $first = $_POST['first_name'];
 $last = $_POST['last_name'];
 $quantity = $_POST['quantity'];
 $userId = $_POST['custom'];
-//if($receiver_email != "ExcelledGaming@outlook.com")
-//  die();
 
-//$custom = explode(',', $_POST['custom']);
-//$boost = ($custom[0] == 1) ? true : false;
-//$userId = $custom[1];
 $boost = true;
 $result1000 = mysql_query("INSERT INTO `ipn` (`itemname`, `date`, `itemnumber`, `creditsbought`, `paymentstatus`, `paymentamount`, `currency`, `txnid`, `receiveremail`, `payeremail`, `first`, `last`, `quantity`, `user_id`)" . "VALUES ('" . $item_name . "', '$time',  '" . $item_number . "', '" . $creditsbought . "', '" . $payment_status . "', '" . $payment_amount . "', '" . $payment_currency . "', '" . $txn_id . "', '" . $receiver_email . "', '" . $payer_email . "', '" . $first . "', '" . $last . "', '" . $quantity . "', '" . $userId . "')");
 $result2 = mysql_query("SELECT * FROM `grpgusers` WHERE `id`='$userId'");

@@ -65,8 +65,11 @@ if (isset($_POST['submit'])) {
     </td>
 </tr>
 <?php
-$result = mysql_query("SELECT * from `ads` ORDER BY `when` DESC LIMIT 10");
-while ($row = mysql_fetch_array($result, mysql_ASSOC)) {
+
+$db->query("SELECT * FROM `ads` ORDER BY `when` DESC LIMIT 10");
+$db->execute();
+$result = $db->fetch_row();
+foreach ($result as $row) {
     $user_ads = new User($row['poster']);
     ?>
     <tr>

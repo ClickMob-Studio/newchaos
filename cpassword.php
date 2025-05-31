@@ -1,10 +1,12 @@
 <?php
 include 'header.php';
 if (isset($_POST['submit'])) {
-	$opassword = sha1(mysql_real_escape_string($_POST['oldpass']));
+	$oldpass = filter_input(INPUT_POST, 'oldpass', FILTER_SANITIZE_STRING);
+
+	$opassword = sha1($oldpass);
 	$opassword2 = fuzzehCrypt($opassword);
-	$password = $_POST['newpass'];
-	$password2 = $_POST['newpassagain'];
+	$password = filter_input(INPUT_POST, 'newpass', FILTER_SANITIZE_STRING);
+	$password2 = filter_input(INPUT_POST, 'newpassagain', FILTER_SANITIZE_STRING);
 	if ($opassword != $user_class->password && $opassword2 != $user_class->password)
 		$message .= "<div>You entered the wrong old password.</div>";
 	if (strlen($password) < 4 or strlen($username) > 20)
@@ -12,7 +14,7 @@ if (isset($_POST['submit'])) {
 	if ($password != $password2)
 		$message .= "<div>Your passwords don't match. Please try again.</div>";
 	if (!isset($message)) {
-		perform_query("UPDATE `grpgusers` SET password = ? WHERE id = ?", [fuzzehCrypt(sha1(mysql_real_escape_string($password))), $user_class->id]);
+		perform_query("UPDATE `grpgusers` SET password = ? WHERE id = ?", [fuzzehCrypt(sha1($password)), $user_class->id]);
 		echo Message('Your password has been changed.');
 	}
 }

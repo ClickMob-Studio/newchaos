@@ -296,11 +296,19 @@ function Check_Item($itemid, $userid)
 
 function Get_Item($itemid)
 {
-    global $db;
+    global $db, $cache;
+
+    if ($cache->exists('item_' . $itemid)) {
+        $item = $cache->get('item_' . $itemid);
+        return json_decode($item, true);
+    }
 
     $db->query("SELECT * FROM items WHERE id = ?");
     $db->execute([$itemid]);
-    return $db->fetch_row(true);
+    $item = $db->fetch_row(true);
+    $cache->setEx('item_' . $itemid, 3600, json_encode($item));
+
+    return $item;
 }
 
 function Check_Loan($itemid, $userid)
@@ -3982,7 +3990,7 @@ function get_user_mission($uid)
 
     $usermission = $cache->get("userMission_" . $uid);
     if (empty($usermission) || !$usermission) {
-        $query = $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no'");
+        $query = $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no' LIMIT 1");
         $db->execute([$uid]);
         $usermission = $db->fetch_row(true);
 
@@ -4009,11 +4017,31 @@ function get_mission($id)
     $db->execute([$id]);
     $mission = $db->fetch_row(true);
     if (!empty($mission)) {
-        $cache->setEx("mission_" . $id, 3600, json_encode($mission));
+        $cache->setEx("mission_" . $id, 7200, json_encode($mission));
         return $mission;
     }
 
     return null;
+}
+
+function get_missions_by_category($category)
+{
+    global $db, $cache;
+
+    $missions = $cache->get("missions_category_" . $category);
+    if (!empty($missions) && $missions) {
+        return json_decode($missions, true);
+    }
+
+    $db->query("SELECT * FROM mission WHERE category = ? ORDER BY id ASC");
+    $db->execute([$category]);
+    $missions = $db->fetch_row(true);
+    if (!empty($missions)) {
+        $cache->setEx("missions_category_" . $category, 7200, json_encode($missions));
+        return $missions;
+    }
+
+    return [];
 }
 
 function get_current_operation($uid)
@@ -4054,4 +4082,31 @@ function get_operation($id)
     }
 
     return null;
+}
+
+function get_user_count()
+{
+    global $db, $cache;
+
+    $userCount = $cache->get("user_count");
+    if ($userCount !== false) {
+        return $userCount;
+    }
+
+    $db->query("SELECT COUNT(*) FROM grpgusers");
+    $db->execute();
+    $userCount = $db->fetch_single();
+    if ($userCount) {
+        $cache->setEx("user_count", 36000, $userCount);
+        return $userCount;
+    }
+}
+
+function add_to_user_count()
+{
+    global $cache;
+
+    if ($cache->exists("user_count")) {
+        $cache->incr("user_count"); // atomic
+    }
 }

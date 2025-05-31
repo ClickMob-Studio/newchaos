@@ -39,7 +39,7 @@ include 'header.php';
             $body = nl2br($body);
             $body = addslashes($body);
 
-            $result = mysql_query("UPDATE `gftopics` SET `subject` = '$subject', `body` = '$body' WHERE `forumid` = '" . $_GET['id'] . "'");
+            perform_query("UPDATE `gftopics` SET `subject` = ?, `body` = ? WHERE `forumid` = ?", [$subject, $body, $_GET['id']]);
             echo Message("You have successfully edited this topic.");
         }
 
@@ -221,9 +221,9 @@ include 'header.php';
         <?php
         //Pages Stuff
 // find out how many rows are in the table
-        $result = mysql_query("SELECT COUNT(*) FROM `gfreplies` WHERE `topicid` = '" . $_GET['id'] . "'");
-        $r = mysql_fetch_row($result);
-        $numrows = $r[0];
+        $db->query("SELECT COUNT(*) FROM `gfreplies` WHERE `topicid` = ?");
+        $db->execute([$_GET['id']]);
+        $numrows = $db->fetch_single();
 
         // number of rows to show per page
         $rowsperpage = 10;
@@ -269,13 +269,10 @@ include 'header.php';
             <tr>
                 <td class="contentcontent">
                     <?php
-                    $result123 = mysql_query("SELECT * from `gfreplies` WHERE `topicid` = '" . $_GET['id'] . "' ORDER BY `timesent` ASC LIMIT $offset, $rowsperpage");
-                    while ($row = mysql_fetch_array($result123)) {
-
-
-
-
-
+                    $db->query("SELECT * from `gfreplies` WHERE `topicid` = ? ORDER BY `timesent` ASC LIMIT $offset, $rowsperpage");
+                    $db->execute([$_GET['id']]);
+                    $result123 = $db->fetch_row();
+                    foreach ($result123 as $row) {
                         $reply_class = new User($row['playerid']);
 
                         if ($reply_class->avatar != "") {
@@ -345,8 +342,10 @@ include 'header.php';
             </tr>
             <?php
         }
-        $result22 = mysql_query("SELECT * from `gftopics` WHERE `forumid` = '" . $_GET['id'] . "'");
-        $worked22 = mysql_fetch_array($result22);
+
+        $db->query("SELECT * FROM `gftopics` WHERE `forumid` = ? LIMIT 1");
+        $db->execute([$_GET['id']]);
+        $worked22 = $db->fetch_row(true);
         if ($worked22['locked'] != 1) {
             ?>
             <tr>
@@ -392,6 +391,7 @@ include 'header.php';
 
                     <?php
         }
+
         include("gangheaders.php");
         include("footer.php");
         ?>

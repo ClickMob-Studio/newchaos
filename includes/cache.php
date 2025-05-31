@@ -42,4 +42,14 @@ class Cache
     {
         return $this->enabled ? $this->redis->exists($key) : false;
     }
+
+    public function incr(string $key, int $value = 1): int
+    {
+        return $this->enabled ? $this->redis->incrBy($key, $value) : 0;
+    }
+
+    public function decr(string $key, int $value = 1): int
+    {
+        return $this->enabled ? $this->redis->decrBy($key, $value) : 0;
+    }
 }

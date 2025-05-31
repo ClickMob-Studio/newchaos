@@ -18,16 +18,15 @@ function getItemDetails($itemId)
 // Function to handle the trade process
 function handleTrade($tradeId)
 {
-    global $user_class; // Ensure that $user_class is accessible in this scope
-    $userId = $user_class->id; // Fetch the user ID from the user_class object
+    global $db, $user_class; // Ensure that $user_class is accessible in this scope
 
     // Fetch trade details
-    $tradeQuery = "SELECT * FROM trades WHERE id = $tradeId";
-    $tradeResult = mysql_query($tradeQuery);
-    if (!$tradeResult || mysql_num_rows($tradeResult) == 0) {
+    $db->query("SELECT * FROM trades WHERE id = ?");
+    $db->execute([$tradeId]);
+    $trade = $db->fetch_row(true);
+    if (!$trade || empty($trade)) {
         return "Invalid trade.";
     }
-    $trade = mysql_fetch_assoc($tradeResult);
 
     if ($trade['inventory_limit'] > 0 && Check_item($trade['itemreward1'], $user_class->id) >= $trade['inventory_limit']) {
         return 'You can only have a maximum of ' . $trade['inventory_limit'] . ' of this item in your inventory.';
@@ -39,7 +38,7 @@ function handleTrade($tradeId)
     // Check if user has required items
     for ($i = 1; $i <= 6; $i++) {
         if (!empty($trade["item$i"]) && $trade["item{$i}quantity"] > 0) {
-            $userQuantity = Check_Item($trade["item$i"], $userId);
+            $userQuantity = Check_Item($trade["item$i"], $user_class->id);
             if ($userQuantity < $trade["item{$i}quantity"]) {
                 $itemName = getItemDetails($trade["item$i"])['itemname'];
                 $neededQuantity = $trade["item{$i}quantity"] - $userQuantity;

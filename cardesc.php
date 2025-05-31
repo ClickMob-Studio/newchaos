@@ -13,8 +13,11 @@ function prettynum($num, $dollar = "0")
 	return $out;
 }
 
-$result = mysql_query("SELECT * FROM `carlot` WHERE `id` = '" . $_GET['id'] . "'");
-$worked = mysql_fetch_array($result);
+$id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+
+$db->query("SELECT * FROM `carlot` WHERE `id` = ?");
+$db->execute([$id]);
+$worked = $db->fetch_row(true);
 ?>
 <html>
 

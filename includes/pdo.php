@@ -30,7 +30,6 @@ class database
 	{
 		mb_internal_encoding('UTF-8');
 		mb_regex_encoding('UTF-8');
-		mysql_report(mysql_REPORT_STRICT);
 		$dsn = 'mysql:host=' . $this->host . '; dbname=' . $this->name . '; charset=utf8';
 		$options = array(
 			PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,

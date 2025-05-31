@@ -29,8 +29,11 @@ include 'header.php';
 		}
 
 		$leader = "<td width='15%'><b>Leader:</b></td><td width='35%'><select name='leader'>";
-		$gangs = mysql_query("SELECT * FROM `grpgusers` WHERE `gang` = '" . $gang_class->id . "' ORDER BY `gangleader` DESC");
-		while ($gi = mysql_fetch_array($gangs)) {
+
+		$db->query("SELECT * FROM `grpgusers` WHERE `gang` = ? ORDER BY `gangleader` DESC");
+		$db->execute([$gang_class->id]);
+		$gangs = $db->fetch_row();
+		foreach ($gangs as $gi) {
 			$leader .= "<option value='" . $gi['id'] . "'> " . $gi['username'] . " </option>";
 		}
 		$leader .= "</select></td>";
@@ -50,6 +53,7 @@ include 'header.php';
 				</table>
 			</td>
 		</tr>
+
 		<?php
 		include("gangheaders.php");
 		include 'footer.php';

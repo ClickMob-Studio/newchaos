@@ -12,16 +12,22 @@ include 'header.php';
 				die();
 			}
 			echo Message("You have accepted the relationship request.");
-			$get2 = mysql_query("SELECT * FROM rel_requests WHERE reqid = {$_GET['accept']}");
-			$get = mysql_fetch_array($get2);
+
+			$accept = filter_input(INPUT_GET, 'accept', FILTER_VALIDATE_INT);
+			$db->query("SELECT * FROM rel_requests WHERE reqid = ?");
+			$db->execute([$accept]);
+			$get = $db->fetch_row(true);
+
 			Send_Event($get['from'], "[-_USERID_-] has accepted your relationship request.", $user_class->id);
 			perform_query("UPDATE grpgusers SET relationship = ?, relplayer = ? WHERE id = ?", [$get['status'], $get['from'], $user_class->id]);
 			perform_query("UPDATE grpgusers SET relationship = ?, relplayer = ? WHERE id = ?", [$get['status'], $user_class->id, $get['from']]);
 			perform_query("DELETE FROM rel_requests WHERE player IN (?, ?) OR `from` IN (?, ?)", [$user_class->id, $get['from'], $user_class->id, $get['from']]);
 		}
 		if (isset($_GET['decline'])) {
-			$get2 = mysql_query("SELECT * FROM rel_requests WHERE reqid = {$_GET['decline']}");
-			$get = mysql_fetch_array($get2);
+			$db->query("SELECT * FROM rel_requests WHERE reqid = ?");
+			$db->execute([$_GET['decline']]);
+			$get = $db->fetch_row(true);
+
 			Send_Event($get['from'], "[-_USERID_-] has declined your relationship request.", $user_class->id);
 			echo Message("You have declined the request.");
 			perform_query("DELETE FROM rel_requests WHERE reqid = ? AND player = ?", [$_GET['decline'], $user_class->id]);
@@ -36,8 +42,11 @@ include 'header.php';
 			echo '<td>Decline</td>';
 			echo '<td>Time Sent</td>';
 			echo '</tr>';
-			$result = mysql_query("SELECT * FROM rel_requests WHERE player = $user_class->id");
-			while ($line = mysql_fetch_array($result)) {
+
+			$db->query("SELECT * FROM req_requests WHERE player = ?");
+			$db->execute([$user_class->id]);
+			$result = $db->fetch_row();
+			foreach ($result as $line) {
 				if ($line['status'] == 1)
 					$type = "Dating";
 				else if ($line['status'] == 2)

@@ -337,7 +337,9 @@ include 'header.php';
             }
 
         }
-        $bi = mysql_fetch_array(mysql_query("SELECT * FROM banksettings WHERE userid = $user_class->id"));
+        $db->query("SELECT * FROM banksettings WHERE userid = ?");
+        $db->execute([$user_class->id]);
+        $bi = $db->fetch_row(true);
         if (empty($bi)) {
             $bi['limit'] = 25;
             $bi['format'] = 'us';

@@ -64,7 +64,7 @@ include 'header.php';
             else if ($gang_class->pointsvault < $removeAmnt)
                 diefun("Uh-Oh it looks like you dont have enough to purchase a formatted gang tag you need 1,000 Points in your Gang Vault");
             else {
-                perform_query("update gangs set pointsvault = pointsvault - ?, formattedTag = 'Yes' where id = ?", [$removeAmnt, $gang_class->id]) or die(mysql_error());
+                perform_query("update gangs set pointsvault = pointsvault - ?, formattedTag = 'Yes' where id = ?", [$removeAmnt, $gang_class->id]);
                 diefun("You can now add a gradient to your Gang Tag, Its time to look cool!", "<input type='submit' onclick=location.href='?ganggrad' value='Back' />");
             }
         }

@@ -128,10 +128,9 @@ include 'header.php';
       </tr>
       <?php
 
-      $result = mysql_query("SELECT COUNT(*) FROM `grpgusers` WHERE `hospital` != '0'");
-      $r = mysql_fetch_row($result);
-      $numrows = $r[0];
-      $cache->setEx("hosCount", 15, $numrows);
+      $db->query("SELECT COUNT(*) FROM `grpgusers` WHERE `hospital` != '0'");
+      $db->execute();
+      $numrows = $db->fetch_single();
 
       $rowsperpage = 30;
       $totalpages = ceil($numrows / $rowsperpage);
@@ -148,10 +147,13 @@ include 'header.php';
       if ($currentpage < 1)
          $currentpage = 1;
       $offset = ($currentpage - 1) * $rowsperpage;
-      $result = mysql_query("SELECT * FROM `grpgusers` WHERE `hospital` != '0' ORDER BY `hospital` ASC LIMIT $offset, $rowsperpage");
-      $people = mysql_num_rows($result);
+
+      $db->query("SELECT * FROM `grpgusers` WHERE `hospital` != '0' ORDER BY `hospital` ASC LIMIT $offset, $rowsperpage");
+      $db->execute();
+      $result = $db->fetch_row();
+      $people = count($result);
       if ($people > 0) {
-         while ($line = mysql_fetch_array($result)) {
+         foreach ($result as $line) {
             $secondsago = time() - $line['lastactive'];
             $user_hospital = new User($line['id']);
             $hospital_class = formatName($line['hwho']);

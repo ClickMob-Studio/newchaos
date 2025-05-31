@@ -61,16 +61,23 @@ if ($notification != "") {
 
 <h3>Your Last 10 Bets:</h3>
 <?php
-$query = mysql_query("SELECT * FROM user_bets WHERE user_id = $user_id ORDER BY timestamp DESC LIMIT 10");
-while ($row = mysql_fetch_assoc($query)) {
+
+$db->query("SELECT * FROM user_bets WHERE user_id = ? ORDER BY timestamp DESC LIMIT 10");
+$db->execute([$user_id]);
+$result = $db->fetch_row();
+
+foreach ($result as $row) {
     echo "You bet " . $row['bet_amount'] . " on " . $row['bet_side'] . " and you " . $row['result'] . "<br>";
 }
 ?>
 
 <h3>Last 10 Global Bets:</h3>
 <?php
-$query = mysql_query("SELECT * FROM global_bets ORDER BY timestamp DESC LIMIT 10");
-while ($row = mysql_fetch_assoc($query)) {
+$db->query("SELECT * FROM global_bets ORDER BY timestamp DESC LIMIT 10");
+$db->execute();
+$result = $db->fetch_row();
+
+foreach ($result as $row) {
     echo formatName($row['user_id']) . " bet " . $row['bet_amount'] . " on " . $row['bet_side'] . " and " . $row['result'] . "<br>";
 }
 ?>

@@ -5,7 +5,7 @@ if ($_GET['pull'] == "lever") {
         echo Message("You don't have enough money to play slots.");
     } else {
         $newmoney = $user_class->money - 100;
-        $result = mysql_query("UPDATE `grpgusers` SET `money` = '" . $newmoney . "' WHERE `id`='" . $user_class->id . "'");
+        perform_query("UPDATE `grpgusers` SET `money` = ? WHERE `id` = ?", [$newmoney, $user_class->id]);
         $user_class = new User($_SESSION['id']);
         $slot[1] = "<img src='images/7.png'>";
         $slot[2] = "<img src='images/bar.png'>";
@@ -20,7 +20,7 @@ if ($_GET['pull'] == "lever") {
         echo "</td></tr>";
         if ($slot1 == $slot2 && $slot2 == $slot3) {
             $newmoney = $user_class->money + 1000;
-            $result = mysql_query("UPDATE `grpgusers` SET `money` = '" . $newmoney . "' WHERE `id`='" . $user_class->id . "'");
+            perform_query("UPDATE `grpgusers` SET `money` = ? WHERE `id` = ?", [$newmoney, $user_class->id]);
             $user_class = new User($_SESSION['id']);
             echo Message("Congratulations, you have won $1,000!");
         } else {
@@ -29,11 +29,18 @@ if ($_GET['pull'] == "lever") {
     }
 }
 ?>
-<tr><td class="contentspacer"></td></tr><tr><div class="contenthead">Slot Machine</div></tr>
-<tr><div class="contentcontent">
-    So, you fancy a try at the slot machine? Well, it just $100 a pull, so have at it.
-    <br><br><a href="slots.php?pull=lever">Pull Lever</a>
-</div></tr>
+<tr>
+    <td class="contentspacer"></td>
+</tr>
+<tr>
+    <div class="contenthead">Slot Machine</div>
+</tr>
+<tr>
+    <div class="contentcontent">
+        So, you fancy a try at the slot machine? Well, it just $100 a pull, so have at it.
+        <br><br><a href="slots.php?pull=lever">Pull Lever</a>
+    </div>
+</tr>
 <?php
 include 'footer.php';
 ?>

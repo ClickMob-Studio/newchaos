@@ -38,8 +38,11 @@ include 'header.php';
                 AddToArmory($user_class->eqshoes, $user_class->gang);
                 perform_query("UPDATE grpgusers SET eqshoes = 0, shoeloaned = 0 WHERE id = ?", [$user_class->id]);
             }
-            $result = mysql_query("SELECT * FROM gang_loans WHERE to = $user_class->id");
-            while ($line = mysql_fetch_array($result)) {
+
+            $db->query("SELECT * FROM gang_loans WHERE to = ?");
+            $db->execute([$user_class->id]);
+            $rows = $db->fetch_row();
+            foreach ($rows as $line) {
                 AddToArmory($line['item'], $user_class->gang);
                 perform_query("DELETE FROM gang_loans WHERE id = ?", [$line['id']]);
             }

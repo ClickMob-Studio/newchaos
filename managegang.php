@@ -33,7 +33,6 @@ include 'header.php';
             );
         }
 
-
         if (isset($_POST['dismiss'])) {
             $target = new User($_POST['id']);
             if ($target->gang != $user_class->gang)
