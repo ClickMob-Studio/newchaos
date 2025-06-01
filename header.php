@@ -1196,98 +1196,96 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                     </div>
                 <?php endif; ?>
 
-                <div class="col-12 col-lg-8 mt-3 mt-lg-0">
+                <div class="d-none d-md-block col-12 col-lg-8 mt-3 mt-lg-0">
                     <div class="dcPanel h-100">
                         <div class="text-center">
                             <div style="display:flex;justify-content:space-between;">
                                 <div class="col-6 col-md-4" style="justify-items: center;">
-                                    <div class="d-none d-md-flex">
-                                        <div class="p-1 dcPanel dcAvatarPanel"
-                                            style="width: 150;margin-top: 10px;margin-left: 6px">
-                                            <div class="row mb-3 mission">
-                                                <h3 class='box_top'>Mission</h3>
-                                            </div>
+                                    <div class="p-1 dcPanel dcAvatarPanel"
+                                        style="width: 150;margin-top: 10px;margin-left: 6px">
+                                        <div class="row mb-3 mission">
+                                            <h3 class='box_top'>Mission</h3>
+                                        </div>
 
-                                            <div class="row heroTop heroTop2">
-                                                <div class="col-12 col-lg-7 offset-lg-1 row realMission">
-                                                    <?php if ($showmission): ?>
-                                                        <div class=" missionDiv">
-                                                            <p class="missionTo">Kills:</p>
-                                                            <p style="font-size: 10px;"><?= $mkills; ?></p>
-                                                        </div>
-                                                        <div class="missionDiv">
+                                        <div class="row heroTop heroTop2">
+                                            <div class="col-12 col-lg-7 offset-lg-1 row realMission">
+                                                <?php if ($showmission): ?>
+                                                    <div class=" missionDiv">
+                                                        <p class="missionTo">Kills:</p>
+                                                        <p style="font-size: 10px;"><?= $mkills; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
 
-                                                            <p class="missionTo">Crimes:</p>
-                                                            <p style="font-size: 10px;"><?= $mcrimes; ?></p>
-                                                        </div>
-                                                        <div class=" missionDiv">
-                                                            <p class="missionTo">Busts:</p>
-                                                            <p style="font-size: 10px;"><?= $mbusts; ?></p>
-                                                        </div>
-                                                        <div class="missionDiv">
-                                                            <p class="missionTo">Mugs:</p>
-                                                            <p style="font-size: 10px;"><?= $mmugs; ?></p>
-                                                        </div>
-                                                        <div class="missionDiv">
-                                                            <p class="missionTo">BA:</p>
-                                                            <p style="font-size: 10px;"><?= $mbackalleys; ?></p>
-                                                        </div>
-                                                        <div class="missionDiv">
-                                                            <p class="missionTo">Raids:</p>
-                                                            <p style="font-size: 10px;"><?= $mraids; ?></p>
-                                                        </div>
-                                                    <?php else: ?>
+                                                        <p class="missionTo">Crimes:</p>
+                                                        <p style="font-size: 10px;"><?= $mcrimes; ?></p>
+                                                    </div>
+                                                    <div class=" missionDiv">
+                                                        <p class="missionTo">Busts:</p>
+                                                        <p style="font-size: 10px;"><?= $mbusts; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">Mugs:</p>
+                                                        <p style="font-size: 10px;"><?= $mmugs; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">BA:</p>
+                                                        <p style="font-size: 10px;"><?= $mbackalleys; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">Raids:</p>
+                                                        <p style="font-size: 10px;"><?= $mraids; ?></p>
+                                                    </div>
+                                                <?php else: ?>
 
-                                                        <a href="missions.php" class="dcSecondaryButton my-3">Start
-                                                            Mission</a>
+                                                    <a href="missions.php" class="dcSecondaryButton my-3">Start
+                                                        Mission</a>
 
-                                                    <?php endif; ?>
-                                                </div>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="col-6 col-md-4" style="justify-items: center;">
-                                        <div class="p-1 dcPanel dcAvatarPanel" style="width: 155px;margin-top: 10px">
-                                            <div class="row mb-3 mission">
-                                                <h3 class='box_top'>Operation</h3>
-                                            </div>
+                                <div class="col-6 col-md-4" style="justify-items: center;">
+                                    <div class="p-1 dcPanel dcAvatarPanel" style="width: 155px;margin-top: 10px">
+                                        <div class="row mb-3 mission">
+                                            <h3 class='box_top'>Operation</h3>
+                                        </div>
 
-                                            <div class="row heroTop heroTop2">
-                                                <div class="col-12 col-lg-7 offset-lg-1 row realMission">
-                                                    <?php if ($showoperation): ?>
-                                                        <div class=" missionDiv">
-                                                            <p class="missionTo">Kills:</p>
-                                                            <p style="font-size: 10px;"><?= $pkills; ?></p>
-                                                        </div>
-                                                        <div class="missionDiv">
+                                        <div class="row heroTop heroTop2">
+                                            <div class="col-12 col-lg-7 offset-lg-1 row realMission">
+                                                <?php if ($showoperation): ?>
+                                                    <div class=" missionDiv">
+                                                        <p class="missionTo">Kills:</p>
+                                                        <p style="font-size: 10px;"><?= $pkills; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
 
-                                                            <p class="missionTo">Crimes:</p>
-                                                            <p style="font-size: 10px;"><?= $pcrimes; ?></p>
-                                                        </div>
-                                                        <div class=" missionDiv">
-                                                            <p class="missionTo">Busts:</p>
-                                                            <p style="font-size: 10px;"><?= $pbusts; ?></p>
-                                                        </div>
-                                                        <div class="missionDiv">
-                                                            <p class="missionTo">Mugs:</p>
-                                                            <p style="font-size: 10px;"><?= $pmugs; ?></p>
-                                                        </div>
-                                                        <div class="missionDiv">
-                                                            <p class="missionTo">BA:</p>
-                                                            <p style="font-size: 10px;"><?= $pbackalleys; ?></p>
-                                                        </div>
-                                                        <div class="missionDiv">
-                                                            <p class="missionTo">Raids:</p>
-                                                            <p style="font-size: 10px;"><?= $praids; ?></p>
-                                                        </div>
-                                                    <?php else: ?>
+                                                        <p class="missionTo">Crimes:</p>
+                                                        <p style="font-size: 10px;"><?= $pcrimes; ?></p>
+                                                    </div>
+                                                    <div class=" missionDiv">
+                                                        <p class="missionTo">Busts:</p>
+                                                        <p style="font-size: 10px;"><?= $pbusts; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">Mugs:</p>
+                                                        <p style="font-size: 10px;"><?= $pmugs; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">BA:</p>
+                                                        <p style="font-size: 10px;"><?= $pbackalleys; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">Raids:</p>
+                                                        <p style="font-size: 10px;"><?= $praids; ?></p>
+                                                    </div>
+                                                <?php else: ?>
 
-                                                        <a href="user_operations.php" class="dcSecondaryButton my-3">Start
-                                                            Operation</a>
+                                                    <a href="user_operations.php" class="dcSecondaryButton my-3">Start
+                                                        Operation</a>
 
-                                                    <?php endif; ?>
-                                                </div>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
