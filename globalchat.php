@@ -296,7 +296,7 @@ TEXT;
 
             // Left cell for avatar and username
             echo '<td class="flexele" style="border-right:thin solid #333;text-align:center;width:150px;">';
-            echo '<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666" />';
+            echo '<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666;margin-bottom: 6px;" />';
             echo '<br />';
             if ($row['playerid'] > 0) {
                 echo $array['name'];

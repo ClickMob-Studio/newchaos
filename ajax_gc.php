@@ -53,7 +53,7 @@ if (isset($_POST['msg'])) {
         <tbody>
             <tr>
                 <td class="flexele" style="border-right:thin solid #333;text-align:center;width:150px;"><img
-                        style="width:150px; height:150px"
+                        style="width:150px; height:150px; margin-bottom: 6px;"
                         src="<?php echo $avatar; ?>"><br><?php echo $user_class->formattedname; ?></td>
                 <td class="flexele" style="padding:10px;">
                     <?php echo $msg; ?><br><br>NOW <br><br>
@@ -105,7 +105,7 @@ if (isset($_POST['msg'])) {
         echo '<hr style="border:0;border-top:thin solid #333;" />';
         echo '<div class="flexcont">';
         echo '<div class="flexele" style="border-right:thin solid #333;text-align:center;">';
-        echo '<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666" />';
+        echo '<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666;margin-bottom: 6px;" />';
         echo '<br />';
         echo $reply_class->formattedname;
         echo '</div>';

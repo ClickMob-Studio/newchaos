@@ -44,7 +44,8 @@ if (isset($_POST['msg'])) {
         <tr>
             <td width="20%" style='background:rgba(0,0,0,.25);border:thin solid #000;' align="center">
                 <?php echo "Now!"; ?><br /><br /><img src="<?php echo $avatar; ?>" height="150" width="150"
-                    style="border:1px solid #666666" /><br /><?php echo $user_class->formattedname; ?></td>
+                    style="border:1px solid #666666;margin-bottom: 6px;" /><br /><?php echo $user_class->formattedname; ?>
+            </td>
             <td width="80%" style='background:rgba(0,0,0,.25);padding:5px;border:thin solid #000;' valign="top"
                 id="chatdiv"><?php echo BBCodeParse($msg); ?></td>
         </tr>
@@ -91,7 +92,8 @@ if (isset($_POST['msg'])) {
             <tr>
                 <td width="20%" style='background:rgba(0,0,0,.25);border:thin solid #000;' align="center">
                     <?php echo "Now!"; ?><br /><br /><img src="<?php echo $avatar; ?>" height="150" width="150"
-                        style="border:1px solid #666666" /><br /><?php echo $reply_class->formattedname; ?></td>
+                        style="border:1px solid #666666;margin-bottom: 6px;" /><br /><?php echo $reply_class->formattedname; ?>
+                </td>
                 <td width="80%" style='background:rgba(0,0,0,.25);padding:5px;border:thin solid #000;' valign="top"
                     id="chatdiv"><?php echo BBCodeParse($row['body']); ?></td>
             </tr>
