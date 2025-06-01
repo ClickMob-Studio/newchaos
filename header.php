@@ -1842,9 +1842,9 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                             foreach ($messages as $index => $message) {
                                 $escapedMessage = addslashes($message);
                                 // For all but the first message, add a separator before the message
-                                if ($index > 0) {
-                                    $messagesHtml .= ' + \' <span style="margin: 0 10px;">&bull;</span> \' + ';
-                                }
+                                // if ($index > 0) {
+                                //     $messagesHtml .= ' + \' <span style="margin: 0 10px;">&bull;</span> \' + ';
+                                // }
                                 $messagesHtml .= '\'<span>' . $escapedMessage . '</span>\'';
                             }
                             if (!empty($messagesHtml)) {
