@@ -1771,16 +1771,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                             $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['maze_boost'] . '">[ Maze Boost: <span class="countdown-text">' . secondsToTime($tempItemUse['maze_boost'] - $time) . '</span> ]</li>';
                         }
 
-                        // Raid Pass
-                        if ($tempItemUse['raid_pass'] > 0) {
-                            $messages[] = '[ ' . $tempItemUse['raid_pass'] . 'x Raid Pass(es) Active ]';
-                        }
-
-                        // Raid Booster
-                        if ($tempItemUse['raid_booster'] > 0) {
-                            $messages[] = '[ ' . $tempItemUse['raid_booster'] . 'x Raid Booster(s) Active ]';
-                        }
-
                         // Jail
                         if ($user_class->jail > $time) {
                             $messages[] = '<li class="event-countdown" data-end="' . $user_class->jail . '">[ Jail: <span class="countdown-text">' . secondsToTime($user_class->jail - $time) . '</span> ]</li>';
@@ -1805,6 +1795,20 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
                         if ($user_class->fbitime > 0) {
                             $messages[] = '<li class="event-countdown" data-end="' . (($user_class->fbitime * 60) + $time) . '">[ FBI Jail: <span class="countdown-text">' . secondsToTime($user_class->fbitime * 60) . '</span> ]</li>';
+                        }
+
+                        if ($tempItemUse['raid_pass'] > 0 || $tempItemUse['raid_booster'] > 0) {
+                            $messages[] = '<br />';
+                        }
+
+                        // Raid Pass
+                        if ($tempItemUse['raid_pass'] > 0) {
+                            $messages[] = '[ ' . $tempItemUse['raid_pass'] . 'x Raid Pass(es) Active ]';
+                        }
+
+                        // Raid Booster
+                        if ($tempItemUse['raid_booster'] > 0) {
+                            $messages[] = '[ ' . $tempItemUse['raid_booster'] . 'x Raid Booster(s) Active ]';
                         }
 
                         if ($user_class->gang > 0) {
