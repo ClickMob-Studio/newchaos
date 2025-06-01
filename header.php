@@ -1943,7 +1943,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
 
                         <div class="dcPanel p-3" style="text-align:center" id="message-container">
-                            <ul id="messages" style="list-style-type: none;">
+                            <ul id="messages" style="list-style-type: none;display:flex;flex-wrap:wrap;">
 
                             </ul>
                         </div>
