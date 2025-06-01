@@ -1832,45 +1832,31 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                             }
                         }
 
-
-
-                        if (!empty($messages)) {
-                            echo '<script type="text/javascript">';
-                            echo 'document.addEventListener("DOMContentLoaded", function() {';
-                            // Initialize the messages HTML as an empty string
-                            $messagesHtml = '';
-                            foreach ($messages as $index => $message) {
-                                $escapedMessage = addslashes($message);
-                                // For all but the first message, add a separator before the message
-                                // if ($index > 0) {
-                                //     $messagesHtml .= ' + \' <span style="margin: 0 10px;">&bull;</span> \' + ';
-                                // }
-                                $messagesHtml .= '\'<span>' . $escapedMessage . '</span>\'';
-                            }
-                            if (!empty($messagesHtml)) {
-                                echo 'var messageContainer = document.getElementById("message-container");';
-                                echo 'var messagesElement = document.createElement("div");'; // Create a new div for messages
-                                echo 'messagesElement.innerHTML = ' . $messagesHtml . ';'; // Set the inner HTML of the div
-                                echo 'document.getElementById("messages").appendChild(messagesElement);'; // Append the div to the container
-                            }
-                            echo '});';
-                            echo '</script>';
-                        } else {
-                            // Hide the container if there are no messages
-                            echo '<script type="text/javascript">';
-                            echo 'document.addEventListener("DOMContentLoaded", function() {';
-                            echo 'var messageContainer = document.getElementById("message-container");';
-                            echo 'if (messageContainer) messageContainer.style.display = "none";';
-                            echo '});';
-                            echo '</script>';
-                        }
-
-
                         //if ($user_class->claimed == 0 && basename($_SERVER['PHP_SELF']) != 'store.php') {    // The original echo statement for the claim message should be commented out or removed
                         // echo '<div style="font-family:Creepster;font-size: 2.5em;color:red;text-align: center;margin-bottom: 20px;margin-top: -20px;"><a href="rmstore.php?buy=freebie">...</div>';
                         
                         // Insert the modal code here
                         ?>
+
+
+
+                        <?php if (!empty($messages)): ?>
+                            <script type="text/javascript">
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    var messagesHTML = <?php echo json_encode(implode('', $messages)); ?>;
+                                    var ul = document.getElementById("messages");
+                                    ul.innerHTML = messagesHTML;
+                                });
+                            </script>
+                        <?php else: ?>
+                            <script type="text/javascript">
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    var container = document.getElementById("message-container");
+                                    if (container) container.style.display = "none";
+                                });
+                            </script>
+                        <?php endif; ?>
+
                         <!-- The Modal -->
                         <!-- <div id="myModal" class="modal"> -->
                         <!-- Modal content -->
