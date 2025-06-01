@@ -1676,99 +1676,99 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
                         // Bust Pill
                         if ($user_class->bustpill > 0) {
-                            $messages[] = '<div class="event-countdown" data-end="' . (($user_class->bustpill * 60) + $time) . '">Police Badge: <span class="countdown-text">' . secondsToTime(60 * $user_class->bustpill) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . (($user_class->bustpill * 60) + $time) . '">Police Badge: <span class="countdown-text">' . secondsToTime(60 * $user_class->bustpill) . '</span></li>';
                         }
 
                         // Out of Jail
                         if ($user_class->outofjail > 0) {
                             $rtn = ($user_class->outofjail);
-                            $messages[] = '<div class="event-countdown" data-end="' . (($user_class->outofjail * 60) + $time) . '">Jail Card: <span class="countdown-text">' . secondsToTime(time() - (60 * $user_class->outofjail)) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . (($user_class->outofjail * 60) + $time) . '">Jail Card: <span class="countdown-text">' . secondsToTime(time() - (60 * $user_class->outofjail)) . '</span></li>';
                         }
 
 
                         // Mug Protection
                         if ($user_class->mprotection > $time) {
                             $rtn = howlongtil($user_class->mprotection);
-                            $messages[] = '<div class="event-countdown" data-end="' . $user_class->mprotection . '">Mug Protection: <span class="countdown-text">' . secondsToTime($user_class->mprotection - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $user_class->mprotection . '">Mug Protection: <span class="countdown-text">' . secondsToTime($user_class->mprotection - $time) . '</span></li>';
                         }
 
                         // Double EXP Pill
                         if ($user_class->exppill > $time) {
                             $rtn = howlongtil($user_class->exppill);
-                            $messages[] = '<div class="event-countdown" data-end="' . $user_class->exppill . '">Double EXP Pill: <span class="countdown-text">' . secondsToTime($user_class->exppill - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $user_class->exppill . '">Double EXP Pill: <span class="countdown-text">' . secondsToTime($user_class->exppill - $time) . '</span></li>';
                         }
 
                         $tempItemUse = getItemTempUse($user_class->id);
                         // Crime Potion
                         if ($tempItemUse['crime_potion_time'] > $time) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['crime_potion_time'] . '">Crime Potion: <span class="countdown-text">' . secondsToTime($tempItemUse['crime_potion_time'] - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['crime_potion_time'] . '">Crime Potion: <span class="countdown-text">' . secondsToTime($tempItemUse['crime_potion_time'] - $time) . '</span></li>';
                         }
                         // Crime Booster
                         if ($tempItemUse['crime_booster_time'] > $time) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['crime_booster_time'] . '">Crime Booster: <span class="countdown-text">' . secondsToTime($tempItemUse['crime_booster_time'] - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['crime_booster_time'] . '">Crime Booster: <span class="countdown-text">' . secondsToTime($tempItemUse['crime_booster_time'] - $time) . '</span></li>';
                         }
                         // Nerve Vial
                         if ($tempItemUse['nerve_vial_time'] > $time) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['nerve_vial_time'] . '">Nerve Vial: <span class="countdown-text">' . secondsToTime($tempItemUse['nerve_vial_time'] - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['nerve_vial_time'] . '">Nerve Vial: <span class="countdown-text">' . secondsToTime($tempItemUse['nerve_vial_time'] - $time) . '</span></li>';
                         }
                         // Gang Double EXP Time
                         if ($tempItemUse['gang_double_exp_time'] > $time) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['gang_double_exp_time'] . '">Gang Double EXP: <span class="countdown-text">' . secondsToTime($tempItemUse['gang_double_exp_time'] - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['gang_double_exp_time'] . '">Gang Double EXP: <span class="countdown-text">' . secondsToTime($tempItemUse['gang_double_exp_time'] - $time) . '</span></li>';
                         }
 
                         // 10x GYM
                         if ($tempItemUse['gym_10_multiplier_time'] > $time) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['gym_10_multiplier_time'] . '">10x Gym: <span class="countdown-text">' . secondsToTime($tempItemUse['gym_10_multiplier_time'] - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['gym_10_multiplier_time'] . '">10x Gym: <span class="countdown-text">' . secondsToTime($tempItemUse['gym_10_multiplier_time'] - $time) . '</span></li>';
                         }
 
                         // 15x Crimes
                         if ($tempItemUse['crime_15_multiplier_time'] > $time) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['crime_15_multiplier_time'] . '">15x Crimes: <span class="countdown-text">' . secondsToTime($tempItemUse['crime_15_multiplier_time'] - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['crime_15_multiplier_time'] . '">15x Crimes: <span class="countdown-text">' . secondsToTime($tempItemUse['crime_15_multiplier_time'] - $time) . '</span></li>';
                         }
 
                         // Super Crime
                         if ($tempItemUse['supercrime_time'] > $time) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['supercrime_time'] . '">Super Crime: <span class="countdown-text">' . secondsToTime($tempItemUse['supercrime_time'] - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['supercrime_time'] . '">Super Crime: <span class="countdown-text">' . secondsToTime($tempItemUse['supercrime_time'] - $time) . '</span></li>';
                         }
 
                         // Protein Bar
                         if ($tempItemUse['gym_protein_bar_time'] > $time) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['gym_protein_bar_time'] . '">Protein Bar: <span class="countdown-text">' . secondsToTime($tempItemUse['gym_protein_bar_time'] - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['gym_protein_bar_time'] . '">Protein Bar: <span class="countdown-text">' . secondsToTime($tempItemUse['gym_protein_bar_time'] - $time) . '</span></li>';
                         }
 
                         // Super Pills
                         if ($tempItemUse['gym_super_pills_time'] > $time) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['gym_super_pills_time'] . '">Gym Super Pills: <span class="countdown-text">' . secondsToTime($tempItemUse['gym_super_pills_time'] - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['gym_super_pills_time'] . '">Gym Super Pills: <span class="countdown-text">' . secondsToTime($tempItemUse['gym_super_pills_time'] - $time) . '</span></li>';
                         }
 
                         // Ghost Vacuum
                         if ($tempItemUse['ghost_vacuum_time'] > $time) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['ghost_vacuum_time'] . '">Ghost Vacuum: <span class="countdown-text">' . secondsToTime($tempItemUse['ghost_vacuum_time'] - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['ghost_vacuum_time'] . '">Ghost Vacuum: <span class="countdown-text">' . secondsToTime($tempItemUse['ghost_vacuum_time'] - $time) . '</span></li>';
                         }
 
                         // Trick or Treat Pass
                         if ($tempItemUse['trick_or_treat_pass_time'] > $time) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['trick_or_treat_pass_time'] . '">Trick or Treat Pass: <span class="countdown-text">' . secondsToTime($tempItemUse['trick_or_treat_pass_time'] - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['trick_or_treat_pass_time'] . '">Trick or Treat Pass: <span class="countdown-text">' . secondsToTime($tempItemUse['trick_or_treat_pass_time'] - $time) . '</span></li>';
                         }
 
                         // Double Gym
                         if ($tempItemUse['double_gym_time'] > $time) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['double_gym_time'] . '">Double Gym: <span class="countdown-text">' . secondsToTime($tempItemUse['double_gym_time'] - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['double_gym_time'] . '">Double Gym: <span class="countdown-text">' . secondsToTime($tempItemUse['double_gym_time'] - $time) . '</span></li>';
                         }
 
                         // Love Potion
                         if ($tempItemUse['love_potions_time'] > $time) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['love_potions_time'] . '">Love Potion: <span class="countdown-text">' . secondsToTime($tempItemUse['love_potions_time'] - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['love_potions_time'] . '">Love Potion: <span class="countdown-text">' . secondsToTime($tempItemUse['love_potions_time'] - $time) . '</span></li>';
                         }
 
                         // Easter Bead
                         if ($tempItemUse['easter_bead'] > $time) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['easter_bead'] . '">Easter Bead (Maze): <span class="countdown-text">' . secondsToTime($tempItemUse['easter_bead'] - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['easter_bead'] . '">Easter Bead (Maze): <span class="countdown-text">' . secondsToTime($tempItemUse['easter_bead'] - $time) . '</span></li>';
                         }
 
                         // Maze Boost
                         if ($tempItemUse['maze_boost'] > $time) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $tempItemUse['maze_boost'] . '">Maze Boost: <span class="countdown-text">' . secondsToTime($tempItemUse['maze_boost'] - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['maze_boost'] . '">Maze Boost: <span class="countdown-text">' . secondsToTime($tempItemUse['maze_boost'] - $time) . '</span></li>';
                         }
 
                         // Raid Pass
@@ -1783,28 +1783,28 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
                         // Jail
                         if ($user_class->jail > $time) {
-                            $messages[] = '<div class="event-countdown" data-end="' . $user_class->jail . '">Jail: <span class="countdown-text">' . secondsToTime($user_class->jail - $time) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $user_class->jail . '">Jail: <span class="countdown-text">' . secondsToTime($user_class->jail - $time) . '</span></li>';
                         }
 
                         // Additional messages based on your previous code snippets
                         if ($user_class->hospital > 0) {
-                            $messages[] = '<div class="event-countdown" data-end="' . ($user_class->hospital + $time) . '">Hospital: <span class="countdown-text">' . secondsToTime($user_class->hospital) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . ($user_class->hospital + $time) . '">Hospital: <span class="countdown-text">' . secondsToTime($user_class->hospital) . '</span></li>';
                         }
 
                         if ($user_class->jail > 0) {
-                            $messages[] = '<div class="event-countdown" data-end="' . ($user_class->jail + $time) . '">Jail: <span class="countdown-text">' . secondsToTime($user_class->jail) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . ($user_class->jail + $time) . '">Jail: <span class="countdown-text">' . secondsToTime($user_class->jail) . '</span></li>';
                         }
 
                         if ($user_class->nightvision > 0) {
-                            $messages[] = '<div class="event-countdown" data-end="' . (($user_class->nightvision * 60) + $time) . '">Night Vision: <span class="countdown-text">' . secondsToTime($user_class->nightvision * 60) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . (($user_class->nightvision * 60) + $time) . '">Night Vision: <span class="countdown-text">' . secondsToTime($user_class->nightvision * 60) . '</span></li>';
                         }
 
                         if ($user_class->fbi > 0) {
-                            $messages[] = '<div class="event-countdown" data-end="' . (($user_class->fbi * 60) + $time) . '">FBI Watch: <span class="countdown-text">' . secondsToTime($user_class->fbi * 60) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . (($user_class->fbi * 60) + $time) . '">FBI Watch: <span class="countdown-text">' . secondsToTime($user_class->fbi * 60) . '</span></li>';
                         }
 
                         if ($user_class->fbitime > 0) {
-                            $messages[] = '<div class="event-countdown" data-end="' . (($user_class->fbitime * 60) + $time) . '">FBI Jail: <span class="countdown-text">' . secondsToTime($user_class->fbitime * 60) . '</span></div>';
+                            $messages[] = '<li class="event-countdown" data-end="' . (($user_class->fbitime * 60) + $time) . '">FBI Jail: <span class="countdown-text">' . secondsToTime($user_class->fbitime * 60) . '</span></li>';
                         }
 
                         if ($user_class->gang > 0) {
