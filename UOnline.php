@@ -124,7 +124,7 @@ function generateFormattedName($id, $nogang = 0)
         $name .= "<a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</font></a>";
     }
     if ($row['prestige'] > 0) {
-        $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' />";
+        $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png' title='Prestige ({$row['prestige']})' width='36' />";
     }
 
     return $name;

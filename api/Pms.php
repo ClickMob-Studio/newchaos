@@ -123,12 +123,12 @@ function replaceUserIdWithUsername($db, $text, $userId)
             $db->execute(array($userId));
             $skull = $db->fetch_single();
             if ($skull !== false) {
-                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $skull . ".png' class='img-fluid' style='display: inline-block; vertical-align: middle;' title='Prestige ({$row['prestige']})' />";
+                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $skull . ".png' class='img-fluid' style='display: inline-block; vertical-align: middle;' title='Prestige ({$row['prestige']})' width='36' />";
             } else {
-                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' class='img-fluid' style='display: inline-block; vertical-align: middle;' title='Prestige ({$row['prestige']})' />";
+                $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' class='img-fluid' style='display: inline-block; vertical-align: middle;' title='Prestige ({$row['prestige']})' width='36' />";
             }
         } else {
-            $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' class='img-fluid' style='display: inline-block; vertical-align: middle;' title='Prestige ({$row['prestige']})' />";
+            $name .= " <img src='https://chaoscity.co.uk/images/skullpres_" . $row['prestige'] . ".png' class='img-fluid' style='display: inline-block; vertical-align: middle;' title='Prestige ({$row['prestige']})' width='36' />";
         }
     }
 
