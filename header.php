@@ -1798,7 +1798,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         }
 
                         if ($tempItemUse['raid_pass'] > 0 || $tempItemUse['raid_booster'] > 0) {
-                            $messages[] = '<br />';
+                            $messages[] = '<div>';
                         }
 
                         // Raid Pass
@@ -1809,6 +1809,10 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         // Raid Booster
                         if ($tempItemUse['raid_booster'] > 0) {
                             $messages[] = '<li>[ ' . $tempItemUse['raid_booster'] . 'x Raid Booster(s) Active ]</li>';
+                        }
+
+                        if ($tempItemUse['raid_pass'] > 0 || $tempItemUse['raid_booster'] > 0) {
+                            $messages[] = '</div>';
                         }
 
                         if ($user_class->gang > 0) {
