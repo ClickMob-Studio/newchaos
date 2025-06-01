@@ -1201,7 +1201,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         <div class="text-center">
                             <div style="display:flex;justify-content:space-between;">
                                 <div class="col-6 col-md-4" style="justify-items: center;">
-                                    <div class="d-md-none">
+                                    <div class="d-none d-md-flex">
                                         <div class="p-1 dcPanel dcAvatarPanel"
                                             style="width: 150;margin-top: 10px;margin-left: 6px">
                                             <div class="row mb-3 mission">
