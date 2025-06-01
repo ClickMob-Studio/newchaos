@@ -1803,12 +1803,12 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
                         // Raid Pass
                         if ($tempItemUse['raid_pass'] > 0) {
-                            $messages[] = '[ ' . $tempItemUse['raid_pass'] . 'x Raid Pass(es) Active ]';
+                            $messages[] = '<li>[ ' . $tempItemUse['raid_pass'] . 'x Raid Pass(es) Active ]</li>';
                         }
 
                         // Raid Booster
                         if ($tempItemUse['raid_booster'] > 0) {
-                            $messages[] = '[ ' . $tempItemUse['raid_booster'] . 'x Raid Booster(s) Active ]';
+                            $messages[] = '<li>[ ' . $tempItemUse['raid_booster'] . 'x Raid Booster(s) Active ]</li>';
                         }
 
                         if ($user_class->gang > 0) {
