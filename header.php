@@ -1797,10 +1797,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                             $messages[] = '<li class="event-countdown" data-end="' . (($user_class->fbitime * 60) + $time) . '">[ FBI Jail: <span class="countdown-text">' . secondsToTime($user_class->fbitime * 60) . '</span> ]</li>';
                         }
 
-                        if ($tempItemUse['raid_pass'] > 0 || $tempItemUse['raid_booster'] > 0) {
-                            $messages[] = '<div>';
-                        }
-
                         // Raid Pass
                         if ($tempItemUse['raid_pass'] > 0) {
                             $messages[] = '<li>[ ' . $tempItemUse['raid_pass'] . 'x Raid Pass(es) Active ]</li>';
@@ -1809,10 +1805,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         // Raid Booster
                         if ($tempItemUse['raid_booster'] > 0) {
                             $messages[] = '<li>[ ' . $tempItemUse['raid_booster'] . 'x Raid Booster(s) Active ]</li>';
-                        }
-
-                        if ($tempItemUse['raid_pass'] > 0 || $tempItemUse['raid_booster'] > 0) {
-                            $messages[] = '</div>';
                         }
 
                         if ($user_class->gang > 0) {
