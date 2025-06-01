@@ -31,12 +31,12 @@ function formatDuration(seconds) {
 
     const s = seconds;
 
-    if (y > 0) parts.push(`${y} y${y !== 1 ? 's' : ''}`);
-    if (mo > 0) parts.push(`${mo} mo${mo !== 1 ? 's' : ''}`);
-    if (w > 0) parts.push(`${w} w${w !== 1 ? 's' : ''}`);
-    if (d > 0) parts.push(`${d} d${d !== 1 ? 's' : ''}`);
-    if (h > 0) parts.push(`${h} h${h !== 1 ? 's' : ''}`);
-    if (m > 0) parts.push(`${m} m${m !== 1 ? 's' : ''}`);
+    if (y > 0) parts.push(`${y} y`);
+    if (mo > 0) parts.push(`${mo} mo`);
+    if (w > 0) parts.push(`${w} w`);
+    if (d > 0) parts.push(`${d} d`);
+    if (h > 0) parts.push(`${h} h`);
+    if (m > 0) parts.push(`${m} m`);
     if (s > 0 || parts.length === 0) parts.push(`${s} s`);
 
     return parts.join(', ');
