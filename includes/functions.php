@@ -150,11 +150,11 @@ function secondsToTime($seconds)
     $parts = [];
 
     if ($interval->y > 0) {
-        $parts[] = $interval->y . ' year' . ($interval->y !== 1 ? 's' : '');
+        $parts[] = $interval->y . ' y' . ($interval->y !== 1 ? 's' : '');
     }
 
     if ($interval->m > 0) {
-        $parts[] = $interval->m . ' month' . ($interval->m !== 1 ? 's' : '');
+        $parts[] = $interval->m . ' mo' . ($interval->m !== 1 ? 's' : '');
     }
 
     // Convert leftover days into weeks and days
@@ -162,23 +162,23 @@ function secondsToTime($seconds)
     $days = $interval->d % 7;
 
     if ($weeks > 0) {
-        $parts[] = $weeks . ' week' . ($weeks !== 1 ? 's' : '');
+        $parts[] = $weeks . ' w' . ($weeks !== 1 ? 's' : '');
     }
 
     if ($days > 0) {
-        $parts[] = $days . ' day' . ($days !== 1 ? 's' : '');
+        $parts[] = $days . ' d' . ($days !== 1 ? 's' : '');
     }
 
     if ($interval->h > 0) {
-        $parts[] = $interval->h . ' hour' . ($interval->h !== 1 ? 's' : '');
+        $parts[] = $interval->h . ' h' . ($interval->h !== 1 ? 's' : '');
     }
 
     if ($interval->i > 0) {
-        $parts[] = $interval->i . ' minute' . ($interval->i !== 1 ? 's' : '');
+        $parts[] = $interval->i . ' m' . ($interval->i !== 1 ? 's' : '');
     }
 
     if ($interval->s > 0 || empty($parts)) {
-        $parts[] = $interval->s . ' second' . ($interval->s !== 1 ? 's' : '');
+        $parts[] = $interval->s . ' s';
     }
 
     return implode(', ', $parts);
