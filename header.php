@@ -974,26 +974,45 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                 /* Adjust as necessary */
             }
         </style>
-        <?php if ($show == true): ?>
+        <?php if ($showmission || $showoperation): ?>
             <div class="daily-jobs d-md-none d-lg-none">
-                <div class="card">
-                    <div class="card-header d-flex" data-bs-toggle="collapse" data-bs-target="#dailyJobsContent"
-                        aria-expanded="false" aria-controls="dailyJobsContent">
-                        Mission<span class="ms-auto"><i class="fa-solid fa-angles-down"></i></span>
-                    </div>
-                    <div id="dailyJobsContent" class="collapse">
-                        <div class="card-body job-container d-flex">
-                            <div class="job-item">Kills: <?= $kills; ?></div>
-                            <div class="job-item">Crimes: <?= $crimes; ?></div>
-                            <div class="job-item">Busts: <?= $busts; ?></div>
-                            <div class="job-item">Mugs: <?= $mugs; ?></div>
-                            <div class="job-item">BA: <?= $backalleys; ?></div>
-                            <div class="job-item">Raids: <?= $raids; ?></div>
+                <?php if ($showmission): ?>
+                    <div class="card">
+                        <div class="card-header d-flex" data-bs-toggle="collapse" data-bs-target="#dailyJobsContent"
+                            aria-expanded="false" aria-controls="dailyJobsContent">
+                            Mission<span class="ms-auto"><i class="fa-solid fa-angles-down"></i></span>
+                        </div>
+                        <div id="dailyJobsContent" class="collapse">
+                            <div class="card-body job-container d-flex">
+                                <div class="job-item">Kills: <br /> <?= $mkills; ?></div>
+                                <div class="job-item">Crimes: <br /> <?= $mcrimes; ?></div>
+                                <div class="job-item">Busts: <br /> <?= $mbusts; ?></div>
+                                <div class="job-item">Mugs: <br /> <?= $mmugs; ?></div>
+                                <div class="job-item">BA: <br /> <?= $mbackalleys; ?></div>
+                                <div class="job-item">Raids: <br /> <?= $mraids; ?></div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                <?php endif; ?>
+                <?php if ($showoperation): ?>
+                    <div class="card">
+                        <div class="card-header d-flex" data-bs-toggle="collapse" data-bs-target="#dailyOpsContent"
+                            aria-expanded="false" aria-controls="dailyOpsContent">
+                            Operation<span class="ms-auto"><i class="fa-solid fa-angles-down"></i></span>
+                        </div>
+                        <div id="dailyOpsContent" class="collapse">
+                            <div class="card-body job-container d-flex">
+                                <div class="job-item">Kills: <br /> <?= $pkills; ?></div>
+                                <div class="job-item">Crimes: <br /> <?= $pcrimes; ?></div>
+                                <div class="job-item">Busts: <br /> <?= $pbusts; ?></div>
+                                <div class="job-item">Mugs: <br /> <?= $pmugs; ?></div>
+                                <div class="job-item">BA: <br /> <?= $pbackalleys; ?></div>
+                                <div class="job-item">Raids: <br /> <?= $praids; ?></div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
-
         <?php endif; ?>
         <div class="carousel-inner pl-1 pt-2">
             <div class="carousel-item active">
