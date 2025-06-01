@@ -931,6 +931,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             $mbackalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>" . shorthandNumber($usermission['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>";
             $mraids = ($miss['raids'] > $usermission['raids']) ? "<font color='red'>" . shorthandNumber($usermission['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>";
         }
+
         $showoperation = false;
         $currentUserOperation = get_current_operation($user_class->id);
         $operation = get_operation($currentUserOperation['operations_id']);
@@ -1014,6 +1015,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                 <?php endif; ?>
             </div>
         <?php endif; ?>
+
         <div class="carousel-inner pl-1 pt-2">
             <div class="carousel-item active">
                 <div class="d-flex" id="sortable-container">
@@ -1199,94 +1201,98 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         <div class="text-center">
                             <div style="display:flex;justify-content:space-between;">
                                 <div class="col-6 col-md-4" style="justify-items: center;">
-                                    <div class="p-1 dcPanel dcAvatarPanel"
-                                        style="width: 150;margin-top: 10px;margin-left: 6px">
-                                        <div class="row mb-3 mission">
-                                            <h3 class='box_top'>Mission</h3>
+                                    <div class="d-md-none">
+                                        <div class="p-1 dcPanel dcAvatarPanel"
+                                            style="width: 150;margin-top: 10px;margin-left: 6px">
+                                            <div class="row mb-3 mission">
+                                                <h3 class='box_top'>Mission</h3>
+                                            </div>
+
+                                            <div class="row heroTop heroTop2">
+                                                <div class="col-12 col-lg-7 offset-lg-1 row realMission">
+                                                    <?php if ($showmission): ?>
+                                                        <div class=" missionDiv">
+                                                            <p class="missionTo">Kills:</p>
+                                                            <p style="font-size: 10px;"><?= $mkills; ?></p>
+                                                        </div>
+                                                        <div class="missionDiv">
+
+                                                            <p class="missionTo">Crimes:</p>
+                                                            <p style="font-size: 10px;"><?= $mcrimes; ?></p>
+                                                        </div>
+                                                        <div class=" missionDiv">
+                                                            <p class="missionTo">Busts:</p>
+                                                            <p style="font-size: 10px;"><?= $mbusts; ?></p>
+                                                        </div>
+                                                        <div class="missionDiv">
+                                                            <p class="missionTo">Mugs:</p>
+                                                            <p style="font-size: 10px;"><?= $mmugs; ?></p>
+                                                        </div>
+                                                        <div class="missionDiv">
+                                                            <p class="missionTo">BA:</p>
+                                                            <p style="font-size: 10px;"><?= $mbackalleys; ?></p>
+                                                        </div>
+                                                        <div class="missionDiv">
+                                                            <p class="missionTo">Raids:</p>
+                                                            <p style="font-size: 10px;"><?= $mraids; ?></p>
+                                                        </div>
+                                                    <?php else: ?>
+
+                                                        <a href="missions.php" class="dcSecondaryButton my-3">Start
+                                                            Mission</a>
+
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
                                         </div>
+                                    </div>
 
-                                        <div class="row heroTop heroTop2">
-                                            <div class="col-12 col-lg-7 offset-lg-1 row realMission">
-                                                <?php if ($showmission): ?>
-                                                    <div class=" missionDiv">
-                                                        <p class="missionTo">Kills:</p>
-                                                        <p style="font-size: 10px;"><?= $mkills; ?></p>
-                                                    </div>
-                                                    <div class="missionDiv">
+                                    <div class="col-6 col-md-4" style="justify-items: center;">
+                                        <div class="p-1 dcPanel dcAvatarPanel" style="width: 155px;margin-top: 10px">
+                                            <div class="row mb-3 mission">
+                                                <h3 class='box_top'>Operation</h3>
+                                            </div>
 
-                                                        <p class="missionTo">Crimes:</p>
-                                                        <p style="font-size: 10px;"><?= $mcrimes; ?></p>
-                                                    </div>
-                                                    <div class=" missionDiv">
-                                                        <p class="missionTo">Busts:</p>
-                                                        <p style="font-size: 10px;"><?= $mbusts; ?></p>
-                                                    </div>
-                                                    <div class="missionDiv">
-                                                        <p class="missionTo">Mugs:</p>
-                                                        <p style="font-size: 10px;"><?= $mmugs; ?></p>
-                                                    </div>
-                                                    <div class="missionDiv">
-                                                        <p class="missionTo">BA:</p>
-                                                        <p style="font-size: 10px;"><?= $mbackalleys; ?></p>
-                                                    </div>
-                                                    <div class="missionDiv">
-                                                        <p class="missionTo">Raids:</p>
-                                                        <p style="font-size: 10px;"><?= $mraids; ?></p>
-                                                    </div>
-                                                <?php else: ?>
+                                            <div class="row heroTop heroTop2">
+                                                <div class="col-12 col-lg-7 offset-lg-1 row realMission">
+                                                    <?php if ($showoperation): ?>
+                                                        <div class=" missionDiv">
+                                                            <p class="missionTo">Kills:</p>
+                                                            <p style="font-size: 10px;"><?= $pkills; ?></p>
+                                                        </div>
+                                                        <div class="missionDiv">
 
-                                                    <a href="missions.php" class="dcSecondaryButton my-3">Start Mission</a>
+                                                            <p class="missionTo">Crimes:</p>
+                                                            <p style="font-size: 10px;"><?= $pcrimes; ?></p>
+                                                        </div>
+                                                        <div class=" missionDiv">
+                                                            <p class="missionTo">Busts:</p>
+                                                            <p style="font-size: 10px;"><?= $pbusts; ?></p>
+                                                        </div>
+                                                        <div class="missionDiv">
+                                                            <p class="missionTo">Mugs:</p>
+                                                            <p style="font-size: 10px;"><?= $pmugs; ?></p>
+                                                        </div>
+                                                        <div class="missionDiv">
+                                                            <p class="missionTo">BA:</p>
+                                                            <p style="font-size: 10px;"><?= $pbackalleys; ?></p>
+                                                        </div>
+                                                        <div class="missionDiv">
+                                                            <p class="missionTo">Raids:</p>
+                                                            <p style="font-size: 10px;"><?= $praids; ?></p>
+                                                        </div>
+                                                    <?php else: ?>
 
-                                                <?php endif; ?>
+                                                        <a href="user_operations.php" class="dcSecondaryButton my-3">Start
+                                                            Operation</a>
+
+                                                    <?php endif; ?>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-6 col-md-4" style="justify-items: center;">
-                                    <div class="p-1 dcPanel dcAvatarPanel" style="width: 155px;margin-top: 10px">
-                                        <div class="row mb-3 mission">
-                                            <h3 class='box_top'>Operation</h3>
-                                        </div>
-
-                                        <div class="row heroTop heroTop2">
-                                            <div class="col-12 col-lg-7 offset-lg-1 row realMission">
-                                                <?php if ($showoperation): ?>
-                                                    <div class=" missionDiv">
-                                                        <p class="missionTo">Kills:</p>
-                                                        <p style="font-size: 10px;"><?= $pkills; ?></p>
-                                                    </div>
-                                                    <div class="missionDiv">
-
-                                                        <p class="missionTo">Crimes:</p>
-                                                        <p style="font-size: 10px;"><?= $pcrimes; ?></p>
-                                                    </div>
-                                                    <div class=" missionDiv">
-                                                        <p class="missionTo">Busts:</p>
-                                                        <p style="font-size: 10px;"><?= $pbusts; ?></p>
-                                                    </div>
-                                                    <div class="missionDiv">
-                                                        <p class="missionTo">Mugs:</p>
-                                                        <p style="font-size: 10px;"><?= $pmugs; ?></p>
-                                                    </div>
-                                                    <div class="missionDiv">
-                                                        <p class="missionTo">BA:</p>
-                                                        <p style="font-size: 10px;"><?= $pbackalleys; ?></p>
-                                                    </div>
-                                                    <div class="missionDiv">
-                                                        <p class="missionTo">Raids:</p>
-                                                        <p style="font-size: 10px;"><?= $praids; ?></p>
-                                                    </div>
-                                                <?php else: ?>
-
-                                                    <a href="user_operations.php" class="dcSecondaryButton my-3">Start
-                                                        Operation</a>
-
-                                                <?php endif; ?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div class="dcBannerButtonsContainer2 d-none d-md-block col-4 col-lg-4">
                                     <a href="vote.php" class="dcSecondaryButton my-2 mt-3">Vote for <i
