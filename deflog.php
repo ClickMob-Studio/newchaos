@@ -12,8 +12,10 @@ include 'header.php';
                 echo Message('You have delete the defense log');
             }
             $start = isset($_GET['page']) ? ($_GET['page'] - 1) * 30 : 0;
-            $result = mysql_query("SELECT * from deflog WHERE gangid = $gang_class->id ORDER BY timestamp DESC LIMIT $start,30");
-            if (mysql_num_rows($result)) {
+            $db->query("SELECT * FROM deflog WHERE gangid = ? ORDER BY timestamp DESC LIMIT $start, 30");
+            $db->execute([$gang_class->id]);
+            $rows = $db->fetch_row();
+            if (!empty($rows)) {
                 ?>
                 <center><a href="?delete"><button class="ycbutton">Delete Defense Log</button></a></center>
                 <table id="newtables" style="width:100%;">
@@ -28,7 +30,7 @@ include 'header.php';
                     </tr>
                     <?php
 
-                    while ($row = mysql_fetch_array($result)) {
+                    foreach ($rows as $row) {
                         $attacker = new User($row['attacker']);
                         $defender = new User($row['defender']);
                         $winner = new User($row['winner']);
@@ -46,8 +48,10 @@ include 'header.php';
             </tr>";
                     }
                     echo "</table>";
-                    $count = mysql_fetch_array(mysql_query("SELECT count(*) AS count FROM deflog WHERE gangid = $gang_class->id"));
-                    $count = (($count['count'] / 30) > 30) ? 30 : ($count['count'] / 30);
+                    $db->query("SELECT COUNT(*) FROM deflog WHERE gangid = ?");
+                    $db->execute([$gang_class->id]);
+                    $count = $db->fetch_single();
+                    $count = (($count / 30) > 30) ? 30 : ($count / 30);
                     for ($i = 1; $i <= $count; $i++) {
                         if ($i == 1)
                             print "Pages: ";

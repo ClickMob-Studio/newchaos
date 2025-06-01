@@ -76,15 +76,19 @@ perform_query("UPDATE grpgusers SET new_updates = 0 WHERE id = ?", [$_SESSION['i
             <div class="card-body" style="background-color: #8e8e8e21;">
                 <div id="udiv">
                     <?php
-                    $result = mysql_query("SELECT DATE_FORMAT(update_posted, '%d/%m/%Y') AS posted FROM game_updates GROUP BY posted ORDER BY id DESC");
-                    while ($row = mysql_fetch_array($result)) {
+                    $db->query("SELECT DATE_FORMAT(update_posted, '%d/%m/%Y') AS posted FROM game_updates GROUP BY posted ORDER BY id DESC");
+                    $db->execute();
+                    $rows = $db->fetch_row();
+                    foreach ($rows as $row) {
                         ?>
                         <div class="mb-3">
                             <h5><strong><?php echo $row['posted']; ?></strong></h5>
                             <ul class="list-group">
                                 <?php
-                                $result2 = mysql_query("SELECT update_text FROM game_updates WHERE DATE_FORMAT(update_posted, '%d/%m/%Y') = '{$row['posted']}' ORDER BY id DESC");
-                                while ($row2 = mysql_fetch_array($result2)) {
+                                $db->query("SELECT update_text FROM game_updates WHERE DATE_FORMAT(update_posted, '%d/%m/%Y') = ? ORDER BY id DESC");
+                                $db->execute([$row['posted']]);
+                                $result2 = $db->fetch_row();
+                                foreach ($result2 as $row2) {
                                     ?>
                                     <li class="list-group-item" style="background-color: #8e8e8e21;">
                                         <?php

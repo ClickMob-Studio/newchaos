@@ -13,9 +13,8 @@ include 'header.php';
                 include 'footer.php';
                 die();
             }
+
             $gang_class = new Gang($user_class->gang);
-            $result = mysql_query("SELECT * from `gangs` WHERE `id` = '" . $user_class->gang . "'");
-            $worked = mysql_fetch_array($result);
 
             if ($_POST['size'] != "") {
                 if ($gang_class->moneyvault < 500000) {
@@ -46,13 +45,6 @@ include 'header.php';
                 echo '<meta http-equiv="refresh" content="0;url=gangupgrade.php">';
             }
 
-            // Fetch the upgrade levels from the gangs table
-            $result = mysql_query("SELECT * from `gangs` WHERE `id` = '" . $user_class->gang . "'");
-            // Debugging code to inspect the `$upgrades_data` array and check for database errors
-            if (!$result) {
-                die('Invalid query: ' . mysql_error());
-            }
-            $upgrades_data = mysql_fetch_assoc($result);
             // Define upgrade details and tooltips
             $upgrade_details = array(
                 'upgrade1' => array(

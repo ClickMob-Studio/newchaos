@@ -10,8 +10,10 @@ include 'header.php';
             include 'footer.php';
             die();
         }
-        $r = mysql_fetch_row(mysql_query("SELECT COUNT(*) FROM gftopics WHERE sectionid = $user_class->gang"));
-        $numrows = $r[0];
+
+        $db->query("SELECT COUNT(*) FROM gftopics WHERE sectionid = ?");
+        $db->execute([$user_class->gang]);
+        $numrows = $db->fetch_single();
         $rowsperpage = 40;
         $totalpages = ceil($numrows / $rowsperpage);
         $totalpages = ($totalpages <= 0) ? 1 : ceil($numrows / $rowsperpage);
@@ -81,10 +83,14 @@ include 'header.php';
                 <th>Views</th>
             </tr>
             <?php
-            $result = mysql_query("SELECT * FROM gftopics WHERE sectionid = $user_class->gang ORDER BY sticky DESC, lastreply DESC LIMIT $offset, $rowsperpage");
-            while ($line = mysql_fetch_array($result)) {
-                $resultnews2 = mysql_query("SELECT * FROM gfreplies WHERE sectionid = $user_class->gang AND topicid = {$line['forumid']}");
-                $replies = mysql_num_rows($resultnews2);
+
+            $db->query("SELECT * FROM gftopics WHERE sectionid = ? ORDER BY sticky DESC, lastreply DESC LIMIT $offset, $rowsperpage");
+            $db->execute([$user_class->gang]);
+            $result = $db->fetch_row();
+            foreach ($result as $line) {
+                $db->query("SELECT * FROM gfreplies WHERE sectionid = ? AND topicid = ?");
+                $db->execute([$user_class->gang, $line['forumid']]);
+                $replies = $db->fetch_row(true);
                 $forum_class = new User($line['playerid']);
                 echo "
     <tr>
@@ -125,31 +131,6 @@ include 'header.php';
                 margin: 5px 0 5px 0;
             }
         </style>";
-
-                /*
-                    Polls
-                */
-                //<button>Add Poll</button>
-                // if ($user_class->id == 150 || $user_class->id == 1) {
-                // echo '<tr>';
-                // echo '<td>Poll</td>';
-                // echo '<td>
-                
-                // <button id="addpoll">Add Poll</button>
-                // <div id="poll" style="display: none">
-                //     Title: <input type="text" id="poll_title" name="poll_title">
-                //     Choices:<br>
-                //     <div class="choices" style="display:inherit">
-                //         <input class="ic" type="text" name="poll_choice[]"/>
-                //         <input class="ic" type="text" name="poll_choice[]"/>
-                //     </div>
-                //     <button id="addchoice">Add Another</button>
-                //     <br>
-                //     Finish:
-                //     <input type="date" id="poll_finish" name="poll_finish" required value="' . date('Y-m-d', strtotime("+2 day")) . '";
-                // </div>
-                // </td>';
-                // echo '</tr>';
                 ?>
 
                 <tr>

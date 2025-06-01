@@ -5,22 +5,22 @@ include 'header.php';
 $tournamentId = isset($_GET['tournament_id']) ? intval($_GET['tournament_id']) : 0;
 
 // Fetch the participants and their current status in the tournament
-$participantsQuery = "
+$db->query("
     SELECT tp.*, u.username, IFNULL(opponent.username, 'Bye') AS opponent_username 
     FROM tournament_participants tp 
     JOIN grpgusers u ON tp.user_id = u.id 
     LEFT JOIN grpgusers opponent ON tp.opponent_id = opponent.id 
-    WHERE tp.tournament_id = $tournamentId 
+    WHERE tp.tournament_id = ? 
     ORDER BY tp.current_round, tp.id
-";
-$participantsResult = mysql_query($participantsQuery);
-
-if (!$participantsResult) {
-    die('Query Error: ' . mysql_error());
+");
+$db->execute([$tournamentId]);
+$rows = $db->fetch_row();
+if (empty($rows)) {
+    die("No participants found for this tournament.");
 }
 
 $participants = [];
-while ($row = mysql_fetch_assoc($participantsResult)) {
+foreach ($rows as $row) {
     $participants[$row['current_round']][] = $row;
 }
 
@@ -30,6 +30,7 @@ $totalRounds = count($participants);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>View Tournament</title>
@@ -103,6 +104,7 @@ $totalRounds = count($participants);
         }
     </style>
 </head>
+
 <body>
     <h1>Tournament Bracket</h1>
     <div class="tournament-bracket">
@@ -128,4 +130,5 @@ $totalRounds = count($participants);
         <?php endfor; ?>
     </div>
 </body>
+
 </html>

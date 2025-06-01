@@ -53,8 +53,10 @@ if ($user_class->gang != 0) {
         if ($howmany < $qty)
             diefun("You don't have enough of those.");
 
-        $result2 = mysql_query("SELECT * FROM items WHERE id = {$_POST['armoury']} AND shareable = 1");
-        $worked = mysql_fetch_array($result2);
+        $db->query("SELECT * FROM items WHERE id = ? AND shareable = 1");
+        $db->execute([$_POST['armoury']]);
+        $worked = $db->fetch_row(true);
+
         if (empty($worked))
             diefun("You can't donate that item.");
 
@@ -112,19 +114,14 @@ if ($user_class->gang != 0) {
         <h1>Gang Armoury</h1>
     </center>
     <?php
-    $result = mysql_query("
-SELECT a.quantity, i.id, i.itemname, i.offense, i.defense, i.speed, i.rare, i.type
-FROM gangarmory a
-JOIN items i ON a.itemid = i.id
-WHERE a.gangid = {$user_class->gang}
-ORDER BY a.quantity DESC
-");
-    $$items_by_category = ['weapon' => [], 'armor' => [], 'shoes' => [], 'rare' => [], 'booster' => [], 'gems' => [], 'consumable' => []];
+    $db->query("SELECT a.quantity, i.id, i.itemname, i.offense, i.defense, i.speed, i.rare, i.type FROM gangarmory a JOIN items i ON a.itemid = i.id WHERE a.gangid = ? ORDER BY a.quantity DESC");
+    $db->execute([$user_class->gang]);
+    $rows = $db->fetch_row();
 
-    while ($row = mysql_fetch_array($result)) {
+    $items_by_category = ['weapon' => [], 'armor' => [], 'shoes' => [], 'rare' => [], 'booster' => [], 'gems' => [], 'consumable' => []];
+    foreach ($rows as $row) {
         $type = 'consumable';
         $subtype = '';
-
 
         if ($row['type'] == 'booster') {
             $type = 'booster';
@@ -163,7 +160,6 @@ ORDER BY a.quantity DESC
             }
         }
 
-
         $items_by_category[$type][] = [
             'name' => $row['itemname'],
             'id' => $row['id'],
@@ -171,7 +167,6 @@ ORDER BY a.quantity DESC
             'subtype' => $subtype
         ];
     }
-
 
     echo '<div class="container mt-4">';
     echo '<div class="row row-cols-2 row-cols-md-2 row-cols-lg-3 g-4">';
@@ -196,16 +191,20 @@ ORDER BY a.quantity DESC
     echo '<form method="post">';
     echo '<select class="form-select" name="armoury">';
     echo '<option value=""></option>';
-    $result = mysql_query("SELECT * FROM inventory WHERE userid = {$user_class->id} ORDER BY quantity DESC");
-    while ($rank = mysql_fetch_array($result)) {
-        $result2 = mysql_query("SELECT * FROM items WHERE id='" . $rank['itemid'] . "' and shareable = 1");
-        $worked = mysql_fetch_array($result2);
 
-        if (empty($worked))
-            continue;
+    $db->query("SELECT * FROM inventory WHERE userid = ? ORDER BY quantity DESC");
+    $db->execute([$user_class->id]);
+    $rows = $db->fetch_row();
 
-        echo "<option value='{$rank['itemid']}'>{$worked['itemname']} [x{$rank['quantity']}]</option>";
+    foreach ($rows as $rank) {
+        $item = Get_Item($rank['itemid']);
+        if (empty($item) || $item['shareable'] == 0) {
+            continue; // Skip items that are not shareable
+        }
+
+        echo "<option value='{$rank['itemid']}'>{$item['itemname']} [x{$rank['quantity']}]</option>";
     }
+
     echo '</select>';
     echo '<div class="input-group mb-3">';
     echo '<input type="text"  placeholder="QTY" aria-label="Quantity" style="max-width:100%" name="qty" pattern="[0-9]*" title="Please enter whole numbers only" required>';

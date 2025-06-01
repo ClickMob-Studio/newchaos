@@ -7,10 +7,10 @@ if ($user_class->gang == 0) {
 
 $gang_class = new Gang($user_class->gang);
 include("gangheaders.php");
-$result = mysql_query("SELECT * from `gangs` WHERE `id` = '" . $user_class->gang . "'");
-$worked = mysql_fetch_array($result);
 
-
+$db->query("SELECT * FROM `gangs` WHERE `id` = ?");
+$db->execute([$user_class->gang]);
+$worked = $db->fetch_row(true);
 
 if (isset($_POST['submit'])) {
     if ($_POST['poll1'] != "") {
@@ -44,8 +44,11 @@ if (isset($_POST['submit'])) {
         <table width="100%">
             <form method="post">
                 <?php
-                $result = mysql_query("SELECT * FROM `gangpolls` WHERE `gangid`='" . $gang_class->id . "'");
-                while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
+
+                $db->query("SELECT * FROM `gangpolls` WHERE `gangid` = ?");
+                $db->execute([$gang_class->id]);
+                $polls = $db->fetch_row();
+                foreach ($polls as $line) {
                     echo '
 <tr><td>
 <u><b>Question:&nbsp;</b><i>' . $line['question'] . '</i></u><br /><br />

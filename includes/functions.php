@@ -3977,7 +3977,7 @@ function _eventMessageByType($type, $multiplier, $timeleft)
 }
 
 // Function to start a session if it is not already started
-function start_session_guarded(): void
+function start_session_guarded()
 {
     if (session_status() === PHP_SESSION_NONE) {
         session_start();

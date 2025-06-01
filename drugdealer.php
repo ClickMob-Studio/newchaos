@@ -1,8 +1,9 @@
 <?php
 include 'header.php';
 if (isset($_GET['buy'])) {
-    $resultnew = mysql_query("SELECT * from `items` WHERE `id` = '" . $_GET['buy'] . "' and `buyable` = '1'");
-    $worked = mysql_fetch_array($resultnew);
+    $db->query("SELECT * FROM items WHERE id = ? AND buyable = 1");
+    $db->execute([$_GET['buy']]);
+    $worked = $db->fetch_row();
     if ($worked['id'] != "") {
         if ($user_class->money >= $worked['cost']) {
             $newmoney = $user_class->money - $worked['cost'];
@@ -17,10 +18,11 @@ if (isset($_GET['buy'])) {
     }
 }
 
-$result = mysql_query("SELECT * FROM `items`");
+$db->query("SELECT * FROM items");
+$db->execute();
+$items = $db->fetch_row();
 $howmanyitems = 0;
-while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
-
+foreach ($items as $line) {
     if ($line['drugstime'] > 0 && $line['buyable'] == 1) {
         $drugs .= "
 
@@ -39,6 +41,7 @@ while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
         }
     }
 }
+
 if ($drugs != "") {
     ?>
     <tr>
