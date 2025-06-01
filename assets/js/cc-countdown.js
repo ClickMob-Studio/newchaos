@@ -37,7 +37,7 @@ function formatDuration(seconds) {
     if (d > 0) parts.push(`${d} d`);
     if (h > 0) parts.push(`${h} h`);
     if (m > 0) parts.push(`${m} m`);
-    if (s > 0 || parts.length === 0) parts.push(`${s} s`);
+    parts.push(`${s} s`);
 
     return parts.join(', ');
 }
@@ -51,7 +51,7 @@ function updateCountdowns() {
 
         countdownEl.textContent = remaining > 0
             ? formatDuration(remaining)
-            : "0 seconds";
+            : " - ended";
     });
 }
 
