@@ -18,7 +18,9 @@ print '
     <a href="control.php?page=gang">Gang Management</a><br />
 ';
 if (!empty($_GET['givecredit'])) {
-    $line = mysql_fetch_array(mysql_query("SELECT * FROM referrals WHERE id = '{$_GET['givecredit']}' AND credited = '0'"));
+    $db->query("SELECT * FROM referrals WHERE id = ? AND credited = 0 LIMIT 1");
+    $db->execute([$_GET['givecredit']]);
+    $line = $db->fetch_row(true);
     bloodbath('referrals', $line['referrer']);
 
     perform_query("UPDATE grpgusers SET credits = credits + 50, points = points + 100, referrals = referrals + 1, refcomp = refcompt + 1, refcount = refcount + 1 WHERE id = ?", [$line['referrer']]);
@@ -29,14 +31,13 @@ if (!empty($_GET['givecredit'])) {
     echo Message("You have accepted the referral.");
 }
 if (!empty($_GET['denycredit'])) {
-    $line = mysql_fetch_array(mysql_query("SELECT * FROM referrals WHERE id = {$_GET['denycredit']}"));
+    $db->query("SELECT * FROM referrals WHERE id = ? AND credited = 0 LIMIT 1");
+    $db->execute([$_GET['denycredit']]);
+    $line = $db->fetch_row(true);
 
     perform_query("DELETE FROM referrals WHERE id = ?", [$_GET['denycredit']]);
-
     Send_Event($line['referrer'], "Unfortunately you have recieved no points for referring [-_USERID_-].", $line['referred']);
-
     perform_query("UPDATE referrals SET credited = 1 WHERE id = ?", [$_GET['denycredit']]);
-
     echo Message("You have denied the referral.");
 }
 if (isset($_GET['deletejob'])) {
@@ -136,8 +137,7 @@ if (isset($_POST['takeitem'])) {
     echo Message("That user had {$oldamount} of those, and now has {$newamount} of them.");
 }
 if (isset($_POST['viewedititem'])) {
-    $result = mysql_query("SELECT * FROM items WHERE id='{$_POST['itemid']}'");
-    $worked = mysql_fetch_array($result);
+    $worked = Get_Item($_POST['itemid']);
     genHead("Edit Item");
     print "
         <form method='post'>
@@ -145,7 +145,7 @@ if (isset($_POST['viewedititem'])) {
             <input type='text' name='description' size='10' maxlength='75' value='{$worked['description']}'> [description]<br />
             <input type='text' name='cost' size='10' maxlength='75' value='{$worked['cost']}'> [cost]<br />
             <input type='text' name='image' size='10' maxlength='75' value='{$worked['image']}'> [image]<br />
-            <input type='text' name='offense' size='10' maxlength='75' value='{$worked['offence']}'> [offense]<br />
+            <input type='text' name='offense' size='10' maxlength='75' value='{$worked['offense']}'> [offense]<br />
             <input type='text' name='defense' size='10' maxlength='75' value='{$worked['defense']}'> [defense]<br />
             <input type='text' name='speed' size='10' maxlength='75' value='{$worked['speed']}'> [speed]<br />
             <input type='text' name='heal' size='10' maxlength='75'value='0' value='{$worked['heal']}'> [heal]<br />
@@ -180,9 +180,12 @@ if (isset($_POST['edititemdb'])) {
 }
 if (isset($_POST['listitems'])) {
     $oldamount = Check_Item($_POST['itemnumber'], Get_ID($_POST['username']));
-    $result = mysql_query("SELECT * FROM inventory WHERE userid = " . Get_ID($_POST['username']));
-    while ($line = mysql_fetch_array($result)) {
-        $worked2 = mysql_fetch_array(mysql_query("SELECT * FROM items WHERE id = {$line['itemid']}"));
+
+    $db->query("SELECT * FROM inventory WHERE userid = ?");
+    $db->execute([Get_ID($_POST['username'])]);
+    $rows = $db->fetch_row();
+    foreach ($rows as $line) {
+        $worked2 = Get_Item($line['itemid']);
         $out .= "<div>{$line['itemid']} " . item_popup($worked2['itemname'], $worked2['id']) . " ${$worked2['cost']} Quantity: {$line['quantity']} <a href='control.php?page=playeritems&takealluser=" . Get_ID($_POST['username']) . "&takeallitem={$line['itemid']}'>Take All</a></div>";
     }
     echo Message($_POST['username'] . "'s Items<br>$out");
@@ -236,14 +239,18 @@ if (empty($_GET['page'])) {
     </td></tr>
     ";
     genHead("Poll 1");
-    $result = mysql_query("SELECT * FROM poll1 ORDER BY optionid");
-    $work = mysql_fetch_array(mysql_query("SELECT SUM(votes) as total FROM poll1"));
-    $total = $work['total'];
+    $db->query("SELECT * FROM poll1 ORDER BY optionid");
+    $db->execute();
+    $rows = $db->fetch_row();
+
+    $db->query("SELECT SUM(votes) FROM poll1");
+    $db->execute();
+    $total = $db->fetch_row(true);
     print '
         <table width="100%">
             <tr><td><b>Option Name</b></td><td><b>Votes</b></td></tr>
     ';
-    while ($line = mysql_fetch_array($result)) {
+    foreach ($rows as $line) {
         $percent = ($total != 0) ? round(($line['votes'] / $total) * 100) : 0;
         $votes = "{$line['votes']}&nbsp;[{$percent}%]";
         echo "<tr><td width='70%'>{$line['optionname']}</td><td width='30%'>{$votes}</td></tr>";
