@@ -5,15 +5,6 @@ include 'header.php'; // Make sure this file contains the database connection $c
 <link rel="stylesheet" href="asset/css/crafter.css">
 <?php
 // Function to retrieve item details from the database
-function getItemDetails($itemId)
-{
-    global $db;
-
-    $db->query("SELECT itemname, image FROM items WHERE id = ?");
-    $db->execute([$itemId]);
-
-    return $db->fetch_row(true);
-}
 
 // Function to handle the trade process
 function handleTrade($tradeId)
@@ -40,7 +31,7 @@ function handleTrade($tradeId)
         if (!empty($trade["item$i"]) && $trade["item{$i}quantity"] > 0) {
             $userQuantity = Check_Item($trade["item$i"], $user_class->id);
             if ($userQuantity < $trade["item{$i}quantity"]) {
-                $itemName = getItemDetails($trade["item$i"])['itemname'];
+                $itemName = Item_Details($trade["item$i"])['itemname'];
                 $neededQuantity = $trade["item{$i}quantity"] - $userQuantity;
                 $lackingItems[] = "You need $neededQuantity more $itemName";
             }
@@ -95,7 +86,7 @@ function displayTradeTile($trade)
     for ($i = 1; $i <= 6; $i++) {
         if (!empty($trade["item$i"]) && $trade["item{$i}quantity"] > 0) {
             $itemId = $trade["item$i"];
-            $item = getItemDetails($itemId);
+            $item = Item_Details($itemId);
             $userQuantity = Check_Item($itemId, $user_id);
             if ($item) {
                 echo "<div class='trade-item'>";
@@ -117,7 +108,7 @@ function displayTradeTile($trade)
     echo "<div class='trade-rewards'>";
     for ($i = 1; $i <= 6; $i++) {
         if (!empty($trade["itemreward$i"])) {
-            $rewardItem = getItemDetails($trade["itemreward$i"]);
+            $rewardItem = Item_Details($trade["itemreward$i"]);
             if ($rewardItem) {
                 echo "<div class='reward-item'>";
                 echo "<img src='" . htmlspecialchars($rewardItem['image']) . "' alt='" . htmlspecialchars($rewardItem['itemname']) . "' style='width:50px; height:50px;'>"; // Control image size here
@@ -138,7 +129,7 @@ function displayTradeTile($trade)
 
 
 // Fetch all the trades from the database
-if (isset($_GET['filter_results']) && in_array($_GET['filter_results'], haystack: array('Materials', 'Boosters', 'HI', 'Consumables'))) {
+if (isset($_GET['filter_results']) && in_array($_GET['filter_results'], array('Materials', 'Boosters', 'HI', 'Consumables'))) {
     $db->query("SELECT * FROM trades WHERE trade_group_name = ?");
     $db->execute([$_GET['filter_results']]);
 } else {
@@ -149,8 +140,6 @@ if (isset($_GET['filter_results']) && in_array($_GET['filter_results'], haystack
 $tradesResult = $db->fetch_row();
 
 ?>
-
-
 
 <div class="contenthead floaty">
     <div class="shopkeeper-section">
@@ -233,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
 if ($message)
     echo "<p class='trade-message'>$message</p>"; ?>
 <div class="trade-container">
-    <?php if ($remainingTime > 0) {
+    <?php if (isset($remainingTime) && $remainingTime > 0) {
         ?>
         <span style="width:100%" id="countdowns"></span> before you can trade
         <?php

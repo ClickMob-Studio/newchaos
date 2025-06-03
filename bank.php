@@ -103,37 +103,39 @@ include 'header.php';
             }
         </style>
         <?php
-        $rel_user = new User($user_class->relplayer);
+        if (isset($user_class->relplayer) && $user_class->relplayer > 0) {
+            $rel_user = new User($user_class->relplayer);
 
-        if (isset($_POST['sdeposit'])) {
-            if ($_POST['sid'] == $rel_user->id) {
+            if (isset($_POST['sdeposit'])) {
+                if ($_POST['sid'] == $rel_user->id) {
 
-                $amount = $_POST['damount'];
+                    $amount = $_POST['damount'];
 
-                if ($amount > $rel_user->money) {
-                    echo "They do not have that much money on hand";
+                    if ($amount > $rel_user->money) {
+                        echo "You do not have that much money on hand";
+                    } else {
+                        $amount2 = round($amount - (($amount / 100) * 2));
+                        $amount3 = round($amount - (($amount / 100) * 98));
+                        $rel_user->bank += $amount2;
+                        $rel_user->money -= $amount;
+                        $notice = ("Money deposited with a 2% fee of $$amount3 taken.");
+                        perform_query("UPDATE grpgusers SET bank = ?, money = ? WHERE id = ?", [$rel_user->bank, $rel_user->money, $rel_user->id]);
+                        if ($amount > 0)
+                            perform_query("INSERT INTO bank_log VALUES('', ?, ?, 'mdep', ?, unix_timestamp())", [$rel_user->id, $amount, $rel_user->bank]);
+                        if ($rel_user->bank > $rel_user->banklog)
+                            perform_query("UPDATE grpgusers SET banklog = ? WHERE id = ?", [$rel_user->bank, $rel_user->id]);
+
+                        Send_Event($rel_user->id, $user_class->formattedname . " has deposited $" . number_format($amount) . " into your bank account.");
+                        Send_Event($user_class->id, "You have deposited $" . number_format($amount) . " into $rel_user->formattedname's bank account");
+
+                        echo $notice;
+                    }
                 } else {
-                    $amount2 = round($amount - (($amount / 100) * 2));
-                    $amount3 = round($amount - (($amount / 100) * 98));
-                    $rel_user->bank += $amount2;
-                    $rel_user->money -= $amount;
-                    $notice = ("Money deposited with a 2% fee of $$amount3 taken.");
-                    perform_query("UPDATE grpgusers SET bank = ?, money = ? WHERE id = ?", [$rel_user->bank, $rel_user->money, $rel_user->id]);
-                    if ($amount > 0)
-                        perform_query("INSERT INTO bank_log VALUES('', ?, ?, 'mdep', ?, unix_timestamp())", [$rel_user->id, $amount, $rel_user->bank]);
-                    if ($rel_user->bank > $rel_user->banklog)
-                        perform_query("UPDATE grpgusers SET banklog = ? WHERE id = ?", [$rel_user->bank, $rel_user->id]);
-
-                    Send_Event($rel_user->id, $user_class->formattedname . " has deposited $" . number_format($amount) . " into your bank account.");
-                    Send_Event($user_class->id, "You have deposited $" . number_format($amount) . " into $rel_user->formattedname's bank account");
-
-                    echo $notice;
+                    echo Message("You do not have access to this persons money!");
                 }
-            } else {
-                echo Message("You do not have access to this persons money!");
+                include 'footer.php';
+                die();
             }
-            include 'footer.php';
-            die();
         }
 
         if (isset($_GET['id']) && isset($_GET['action'])) {
@@ -329,14 +331,13 @@ include 'header.php';
             if ($user_class->bankboost > 0) {
                 $interest += ($interest * ($user_class->bankboost / 10));  // Adjusting the interest rate by bankboost
             }
-
         } else {
             $interest = ceil($user_class->bank * $interest);  // Interest based on the actual bank balance
             if ($user_class->bankboost > 0) {
                 $interest += ($interest * ($user_class->bankboost / 10));  // Adjusting the interest rate by bankboost
             }
-
         }
+
         $db->query("SELECT * FROM banksettings WHERE userid = ?");
         $db->execute([$user_class->id]);
         $bi = $db->fetch_row(true);
@@ -345,12 +346,12 @@ include 'header.php';
             $bi['format'] = 'us';
             $bi['show'] = 'all';
         }
-        echo Message($notice) . " <br /><br />
+        if (isset($notice)) {
+            echo Message($notice) . " <br /><br />
+                <div class='contenthead floaty'>
+                <br><br>";
+        }
 
-
-<div class='contenthead floaty'>
-    <br><br>
-    ";
         echo Message("You will be charged a 2% Deposit Fee for Cash");
         echo "
 </div>
@@ -366,12 +367,6 @@ include 'header.php';
         <tr>
             <th><h4>Daily Interest:</h4></th>
             <td><h4><font color=green>+$$interest</font></h4></td>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
-            <th><h4>Interest Rate:</h4></th>
-            <td><h4><font color=green>$rate</font></h4></td>
             <th></th>
             <td></td>
         </tr>

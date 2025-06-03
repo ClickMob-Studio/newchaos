@@ -163,14 +163,13 @@ include "header.php";
         } else {
             $currenttime = time();
             foreach ($missions as $v) {
-                $db->query("SELECT * FROM missions WHERE userid = ? AND mid = ? ORDER BY timestamp DESC LIMIT 1");
-                $db->execute([$user_class->id, $v['id']]);
-                $r = $db->fetch_row(true);
-
                 $secondButton = "";
                 $button = "";
 
-                if ($v['between'] + $r['timestamp'] > $currenttime) {
+                $db->query("SELECT * FROM missions WHERE userid = ? AND mid = ? ORDER BY timestamp DESC LIMIT 1");
+                $db->execute([$user_class->id, $v['id']]);
+                $r = $db->fetch_row(true);
+                if (isset($r) && ($v['between'] + $r['timestamp'] > $currenttime)) {
                     $button = "Available in " . secondsToTime(($v['between'] + $r['timestamp']) - $currenttime);
                     $tempItemUse = getItemTempUse($user_class->id);
                     if ($tempItemUse['mission_passes'] > 0) {

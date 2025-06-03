@@ -1,6 +1,11 @@
 <?php
 
+require_once __DIR__ . '/../dbcon.php';
+require_once __DIR__ . '/../database/pdo_class.php';
 require_once __DIR__ . '/cache.php';
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 function howlongtil($futureTimestamp)
 {
@@ -492,6 +497,24 @@ function Item_Image($itemId)
         return $item['image'];
     }
 }
+
+function Item_Details($itemId)
+{
+    global $db, $cache;
+
+    $item = $cache->get('item_' . $itemId);
+    if (!$item) {
+        $db->query("SELECT * FROM items WHERE id = ?");
+        $db->execute([$itemId]);
+        $item = $db->fetch_row(true);
+        $cache->setEx("item_" . $itemId, 3600, json_encode($item));
+        return $item;
+    } else {
+        $item = json_decode($item, true);
+        return $item;
+    }
+}
+
 function Take_Loan($itemid, $userid, $quantity = 1)
 {
     global $db;
@@ -853,7 +876,7 @@ function formatName($id, $nogang = 0)
     $db->execute(array($id));
     $row = $db->fetch_row(true);
 
-    if ($row['gang'] != 0 and $nogang != 1) {
+    if (isset($row['gang']) && $row['gang'] != 0 && $nogang != 1) {
         if ($id == 2) {
             if ($row['gndays'] > 0) {
                 $name .= "<a style='font-size:1.5em;' href='viewgang.php?id={$row['gang']}'";
@@ -872,17 +895,16 @@ function formatName($id, $nogang = 0)
     $db->query("SELECT days FROM bans WHERE id = ? AND type IN ('perm','freeze')");
     $db->execute(array($id));
     $bdays = $db->fetch_single();
-
     if ($bdays) {
         $title = "Banned";
         $whichfont = "#FFFFFF";
-    } else if ($row['admin'] == 1) {
+    } else if (isset($row['admin']) && $row['admin'] == 1) {
         $title = "Admin";
         $whichfont = "#FF1111";
-    } else if ($row['gm'] == 1) {
+    } else if (isset($row['gm']) && $row['gm'] == 1) {
         $title = "Chat Moderator";
         $whichfont = "#FFFFFF";
-    } else if ($row['rmdays'] >= 1) {
+    } else if (isset($row['rmdays']) && $row['rmdays'] >= 1) {
         $title = "VIP ({$row['rmdays']} VIP Days Left)";
         $whichfont = "#00BF03";
     } else {
@@ -896,17 +918,7 @@ function formatName($id, $nogang = 0)
         $name .= ($row['admin'] == 1 || $row['gm'] == 1) ? "<a title='" . $title . " [" . $row['username'] . "]' href='profiles.php?id=" . $id . "'>" : "<a title='" . $title . "' href='profiles.php?id=" . $id . "'>";
         $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='" . $row['username'] . "' />";
         $name .= ($row['admin'] == 1 || $row['gm'] == 1) ? "</a>" : "</a>";
-    } else if (false) { //$id >= 334 AND $id <= 353) {
-        $username = $row['username'];
-        $half = (int) ((strlen($username) / 2));
-        $left = substr($username, 0, $half);
-        $right = substr($username, $half);
-        $gradient = text_gradient('008800', '00CC00', 1, $left);
-        $gradient .= text_gradient('00CC00', '008800', 1, $right);
-        $name .= "<b><a title='BOT' href='profiles.php?id=" . $id . "'>";
-        $name .= $gradient;
-        $name .= "</b></a>";
-    } elseif ($row['gndays']) {
+    } elseif (isset($row['gndays'])) {
         // Check if gradient is generated
         $gradientText = generateGradientName($id);
         if (empty($gradientText)) {
@@ -939,15 +951,17 @@ function formatName($id, $nogang = 0)
         $name .= ($row['admin'] == 1 || $row['gm'] == 1) ? "</a></i></b>" : "</a></b>";
     } else if ($id == 146) {
         $name .= "<a title='$title' href='profiles.php?id=$id'>{$row['username']}</a>";
-    } else if ($row['admin'] == 1 || $row['gm'] == 1) {
+    } else if ((isset($row['admin']) && $row['admin'] == 1) || (isset($row['gm']) && $row['gm'] == 1)) {
         $name .= "<i><b><a title='$title' href='profiles.php?id=$id'><font color = '$whichfont'>{$row['username']}</a></font></b></i>";
-    } else if ($row['rmdays'] > 0) {
+    } else if (isset($row['rmdays']) && $row['rmdays'] > 0) {
         $name .= "<b><a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</a></font></b>";
-    } else {
+    } else if (isset($row['username'])) {
         $name .= "<a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</a></font>";
+    } else {
+        $name .= "<a title='$title' href='profiles.php?id=$id'>Unknown User</a>";
     }
 
-    if ($row['prestige'] > 0) {
+    if (isset($row['prestige']) && $row['prestige'] > 0) {
         if ($row['prestige'] >= 10) {
             $db->query("SELECT skull FROM prestige_skull WHERE `user_id` = ?");
             $db->execute(array($id));
@@ -2700,7 +2714,6 @@ function getBpCategoryUser($bpCategory, $user_class)
     $db->query("INSERT INTO bp_category_user (bp_category_id, user_id) VALUES (?, ?)");
     $db->execute([$bpCategory['id'], $user_class->id]);
     return getBpCategoryUser($bpCategory['id'], $user_class);
-
 }
 
 function addToBpCategoryUser($bpCategory, $user_class, $field, $qty = 1)
@@ -4035,7 +4048,7 @@ function get_missions_by_category($category)
 
     $db->query("SELECT * FROM mission WHERE category = ? ORDER BY id ASC");
     $db->execute([$category]);
-    $missions = $db->fetch_row(true);
+    $missions = $db->fetch_row();
     if (!empty($missions)) {
         $cache->setEx("missions_category_" . $category, 7200, json_encode($missions));
         return $missions;
@@ -4109,4 +4122,23 @@ function add_to_user_count()
     if ($cache->exists("user_count")) {
         $cache->incr("user_count"); // atomic
     }
+}
+
+function get_pet_crimes()
+{
+    global $db, $cache;
+
+    if ($cache->exists("pet_crimes")) {
+        return json_decode($cache->get("pet_crimes"), true);
+    }
+
+    $db->query("SELECT * FROM petcrimes ORDER BY nerve ASC");
+    $db->execute();
+    $petCrimes = $db->fetch_row();
+    if (!empty($petCrimes)) {
+        $cache->setEx("pet_crimes", 36000, json_encode($petCrimes));
+        return $petCrimes;
+    }
+
+    return [];
 }

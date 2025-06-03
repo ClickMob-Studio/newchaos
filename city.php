@@ -14,25 +14,7 @@ include 'header.php';
 </style>
 <h1>>Welcome to <!_-cityname-_!></h1>
 
-
-
 <?php
-$db->query("SELECT * FROM luckyboxes WHERE playerid = ?");
-$db->execute(array(
-    $user_class->id
-));
-$boxesrows = $db->num_rows();
-$db->query("SELECT id FROM grpgusers ORDER BY todayskills DESC LIMIT 1");
-$db->execute();
-$worked = $db->fetch_row(true);
-$hitman = new User($worked['id']);
-$db->query("SELECT id FROM `grpgusers` WHERE `admin` = 0 ORDER BY `todaysexp` DESC LIMIT 1");
-$db->execute();
-$worked2 = $db->fetch_row(true);
-$leveler = new User($worked2['id']);
-$db->query("SELECT COUNT(*) FROM fiftyfifty");
-$db->execute();
-$count5050 = $db->fetch_single();
 
 $db->query("SELECT id FROM `grpgusers` WHERE `admin` = 1");
 $db->execute();

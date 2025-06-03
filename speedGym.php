@@ -15,88 +15,86 @@ $event = getScheduledEvent();
             include 'footer.php';
             die();
         }
-        if ($printcaptcha != "") {
-            echo $printcaptcha;
-        } else {
-            ?>
-            <script>
-                var doingtrain = false, what = "";
-                function start(statName, multiplier) {
-                    console.log('***** ' + multiplier);
-                    what = statName;
-                    doingtrain = true;
-                    var isMegaTrain = $('#mega_train').is(':checked') ? 'yes' : 'no';
-                    var intervalId = setInterval(function () {
-                        if (doingtrain && what) {
-                            trainrefill(what, isMegaTrain, multiplier);
-                        } else {
-                            clearInterval(intervalId);
-                            intervalId = null;
-                        }
-                    }, 30);
-                }
 
-                function finish() {
-                    if (doingtrain) {
-                        location.reload();
+        ?>
+        <script>
+            var doingtrain = false, what = "";
+            function start(statName, multiplier) {
+                console.log('***** ' + multiplier);
+                what = statName;
+                doingtrain = true;
+                var isMegaTrain = $('#mega_train').is(':checked') ? 'yes' : 'no';
+                var intervalId = setInterval(function () {
+                    if (doingtrain && what) {
+                        trainrefill(what, isMegaTrain, multiplier);
+                    } else {
+                        clearInterval(intervalId);
+                        intervalId = null;
                     }
-                    what = "";
-                    doingtrain = false;
+                }, 30);
+            }
+
+            function finish() {
+                if (doingtrain) {
+                    location.reload();
                 }
+                what = "";
+                doingtrain = false;
+            }
 
-                function trainrefill(stat, isMegaTrain, multiplier) {
-                    $("#noti").html("<img src='images/ajax-loader.gif?' />");
-                    $.post("ajax_supergym.php", {
-                        amnt: <?php echo $user_class->maxenergy ?>,
-                        stat: stat,
-                        what: "trainrefill",
-                        mega_train: isMegaTrain, // Pass the mega train status to the server,
-                        multiplier: multiplier
-                    }, function (response) {
-                        var info = response.split("|");
-                        $(".hidden-alert").show();
-                        $("#noti").html(info[0]);
-                        $(".points").html(info[1]);
-                        $("#" + stat + "amnt").html(info[2]);
-                        if (info[3]) {
-                            $("#strength").val(info[3]);
-                            $("#defense").val(info[3]);
-                            $("#speed").val(info[3]);
-                            $("#agility").val(info[3]);
-                        }
-                    });
-                }
+            function trainrefill(stat, isMegaTrain, multiplier) {
+                $("#noti").html("<img src='images/ajax-loader.gif?' />");
+                $.post("ajax_supergym.php", {
+                    amnt: <?php echo $user_class->maxenergy ?>,
+                    stat: stat,
+                    what: "trainrefill",
+                    mega_train: isMegaTrain, // Pass the mega train status to the server,
+                    multiplier: multiplier
+                }, function (response) {
+                    var info = response.split("|");
+                    $(".hidden-alert").show();
+                    $("#noti").html(info[0]);
+                    $(".points").html(info[1]);
+                    $("#" + stat + "amnt").html(info[2]);
+                    if (info[3]) {
+                        $("#strength").val(info[3]);
+                        $("#defense").val(info[3]);
+                        $("#speed").val(info[3]);
+                        $("#agility").val(info[3]);
+                    }
+                });
+            }
 
-                document.onblur = function () { finish(); };
-                window.onblur = function () { finish(); };
-                document.body.onmouseup = function () { finish(); };
-            </script>
+            document.onblur = function () { finish(); };
+            window.onblur = function () { finish(); };
+            document.body.onmouseup = function () { finish(); };
+        </script>
 
-            <div style="display:flex;min-height:60px;flex-direction:row;">
-                <div class="alert alert-info hidden-alert" style="display: none;">
-                    <p>
-                    <div id="noti"></div>
-                    </p>
+        <div style="display:flex;min-height:60px;flex-direction:row;">
+            <div class="alert alert-info hidden-alert" style="display: none;">
+                <p>
+                <div id="noti"></div>
+                </p>
+            </div>
+        </div>
+
+        <? if (!empty($event)): ?>
+            <div class='dcPanel p-3 mb-4 event-countdown' data-end="<?= $event['end'] ?>"
+                style="text-align:center;background-color:#3d00008a">
+                <span>Event is on-going, all types of training is
+                    multiplied by <?= $event['multiplier'] ?>!</span>
+                <br />
+                <div style="margin-top:6px;color: #c8c8c8; font-weight: bold;">Event ends in
+                    <span class='countdown-text'><?= secondsToTime($event['end'] - time()) ?></span>.
                 </div>
             </div>
+        <? endif; ?>
 
-            <? if (!empty($event)): ?>
-                <div class='dcPanel p-3 mb-4 event-countdown' data-end="<?= $event['end'] ?>"
-                    style="text-align:center;background-color:#3d00008a">
-                    <span>Event is on-going, all types of training is
-                        multiplied by <?= $event['multiplier'] ?>!</span>
-                    <br />
-                    <div style="margin-top:6px;color: #c8c8c8; font-weight: bold;">Event ends in
-                        <span class='countdown-text'><?= secondsToTime($event['end'] - time()) ?></span>.
-                    </div>
-                </div>
-            <? endif; ?>
+        <?php
 
-            <?php
-
-            $tempItemUse = getItemTempUse($user_class->id);
-            if ($tempItemUse['gym_10_multiplier_time'] > time()) {
-                $tenXSection = "
+        $tempItemUse = getItemTempUse($user_class->id);
+        if ($tempItemUse['gym_10_multiplier_time'] > time()) {
+            $tenXSection = "
                 <tr>
                     <td><button onmousedown='start(\"strength\", 10);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"strength\", 10);'>10x Strength + Refills</button></td>
                     <td><button onmousedown='start(\"defense\", 10);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"defense\", 10);'>10x Defense + Refills</button></td>
@@ -104,11 +102,11 @@ $event = getScheduledEvent();
                     <td><button onmousedown='start(\"agility\", 10);' onmouseup='finish();' ontouchend='finish();' onmouseleave='finish();' ontouchstart='start(\"agility\", 10);'>10x Agility + Refills</button></td>
                 </tr>
             ";
-            } else {
-                $tenXSection = "";
-            }
+        } else {
+            $tenXSection = "";
+        }
 
-            echo "<br />
+        echo "<br />
 <div class='contenthead floaty'>
 <span style='margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;'>
     <table id='newtables' class='altcolors' style='width:100%;'>
@@ -135,7 +133,7 @@ $event = getScheduledEvent();
             <td colspan='4'><span style='color:red;font-weight:bold;'>Click and hold down the mouse on the stat + refills button.</span></td>
         </tr>
     </table></div>";
-        }
+
         ?>
         <h1>Daily Stats</h1>
         <p>Here you will find your historical gym stats, these update at rollover</p>

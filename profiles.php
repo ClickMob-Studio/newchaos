@@ -215,15 +215,16 @@ $(document).ready(function() {
         }
         if (isset($_GET['rate']) && $_GET['rate'] == "up") {
             if ($_GET['id'] != $user_class->id) {
-                $result = mysql_query("SELECT * FROM rating WHERE user = '$profile_class->id' AND rater = '$user_class->id'");
-                $worked = mysql_num_rows($result);
-                $result2 = mysql_query("SELECT * FROM grpgusers WHERE id = '$profile_class->id'");
-                $worked2 = mysql_fetch_array($result2);
+                $db->query("SELECT * FROM rating WHERE user = ? AND rater = ?");
+                $db->execute([$profile_class->id, $user_class->id]);
+                $worked = count($db->fetch_row());
+
+                $db->query("SELECT * FROM grpgusers WHERE id = ?");
+                $db->execute([$profile_class->id]);
+                $worked2 = $db->fetch_row(true);
                 if ($worked == 0) {
                     $rating = $worked2['rating'] + 1;
-                    $missionrates = $worked3['missionrates'] + 5;
                     perform_query("UPDATE grpgusers SET rating = ? WHERE id = ?", [$rating, $profile_class->id]);
-                    perform_query("UPDATE grpgusers SET missionrates = ? WHERE id = ?", [$missionrates + 1, $profile_class->id]);
                     perform_query("INSERT INTO rating (user, rater) VALUES (?, ?)", [$profile_class->id, $user_class->id]);
                     if ($user_class->id == 9 && $profile_class->id == 21) {
                         Send_Event(21, "You have been rated <span style='color:#00FF00;'><b>the hottest girlfriend</b></span> by " . $user_class->formattedname . ". Rate them back? <a href='profiles.php?id=$user_class->id&rate=up'><img src='images/up.png'></img></a> : <a href='profiles.php?id=$user_class->id&rate=down'><img src='images/down.png'></img></a>", 9);
@@ -239,10 +240,13 @@ $(document).ready(function() {
         }
         if (isset($_GET['rate']) && $_GET['rate'] == "down") {
             if ($_GET['id'] != $user_class->id) {
-                $result = mysql_query("SELECT * FROM rating WHERE user = '$profile_class->id' AND rater = '$user_class->id'");
-                $worked = mysql_num_rows($result);
-                $result2 = mysql_query("SELECT * FROM grpgusers WHERE id = '$profile_class->id'");
-                $worked2 = mysql_fetch_array($result2);
+                $db->query("SELECT * FROM rating WHERE user = ? AND rater = ?");
+                $db->execute([$profile_class->id, $user_class->id]);
+                $worked = count($db->fetch_row());
+
+                $db->query("SELECT * FROM grpgusers WHERE id = ?");
+                $db->execute([$profile_class->id]);
+                $worked2 = $db->fetch_row(true);
                 if ($worked == 0) {
                     $rating = $worked2['rating'] - 1;
                     perform_query("UPDATE grpgusers SET rating = ? WHERE id = ?", [$rating, $profile_class->id]);
@@ -256,13 +260,15 @@ $(document).ready(function() {
                 echo Message("You can't rate yourself!");
         }
         if (isset($_GET['contact']) && $_GET['contact'] == "ignore") {
-            $result = mysql_query("SELECT * FROM ignorelist WHERE blocker='$user_class->id' AND blocked = '$profile_class->id'");
-            $worked = mysql_fetch_array($result);
+            $db->query("SELECT * FROM ignorelist WHERE blocker = ? AND blocked = ?");
+            $db->execute([$user_class->id, $profile_class->id]);
+            $worked = $db->fetch_row(true);
             if ($profile_class->admin == 1 || $profile_class->gm == 1 || $profile_class->fm == 1) {
                 echo Message("You cant put a member of staff on your ignore list!");
                 include("footer.php");
                 die();
             }
+
             if ($profile_class->id == $worked['blocked']) {
                 perform_query("DELETE FROM ignorelist WHERE blocker = ? AND blocked = ?", [$user_class->id, $profile_class->id]);
                 echo Message("You have removed " . $profile_class->formattedname . " from your ignore list.");
@@ -276,16 +282,16 @@ $(document).ready(function() {
             }
         }
         if (isset($_GET['contact']) && $_GET['contact'] == "friend") {
-            $result3 = mysql_query("SELECT * FROM contactlist WHERE playerid='$user_class->id' AND contactid = '$profile_class->id'");
-            $worked3 = mysql_fetch_array($result3);
-            $result = mysql_query("SELECT * FROM contactlist WHERE playerid='$user_class->id' AND contactid = '$profile_class->id' AND type = '1'");
-            $worked = mysql_fetch_array($result);
+            $db->query("SELECT * FROM contactlist WHERE playerid = ? and contactid = ?");
+            $db->execute([$user_class->id, $profile_class->id]);
+            $worked = $db->fetch_row(true);
+
             if ($profile_class->id == $worked['contactid']) {
                 perform_query("DELETE FROM contactlist WHERE playerid = ? AND contactid = ?", [$user_class->id, $profile_class->id]);
                 echo Message("You have removed $profile_class->formattedname from your friends list.");
                 Send_Event($profile_class->id, formatName($user_class->id) . " has removed you from their friends list!", $point_user->id);
             } else {
-                if ($worked3['type'] == 2)
+                if ($worked['type'] == 2)
                     echo Message("" . $profile_class->formattedname . " is already your enemy!");
                 else {
                     perform_query("INSERT INTO contactlist (playerid, contactid, type) VALUES (?, ?, ?)", [$user_class->id, $profile_class->id, 1]);
@@ -295,15 +301,15 @@ $(document).ready(function() {
             }
         }
         if (isset($_GET['contact']) && $_GET['contact'] == "enemy") {
-            $result3 = mysql_query("SELECT * FROM contactlist WHERE playerid='$user_class->id' AND contactid = '$profile_class->id'");
-            $worked3 = mysql_fetch_array($result3);
-            $result = mysql_query("SELECT * FROM contactlist WHERE playerid='$user_class->id' AND contactid = '$profile_class->id' AND type = '2'");
-            $worked = mysql_fetch_array($result);
+            $db->query("SELECT * FROM contactlist WHERE playerid = ? and contactid = ?");
+            $db->execute([$user_class->id, $profile_class->id]);
+            $worked = $db->fetch_row(true);
+
             if ($profile_class->id == $worked['contactid']) {
                 perform_query("DELETE FROM contactlist WHERE playerid = ? AND contactid = ?", [$user_class->id, $profile_class->id]);
                 echo Message("You have removed " . $profile_class->formattedname . " from your enemy list.");
             } else {
-                if ($worked3['type'] == 1)
+                if ($worked['type'] == 1)
                     echo Message("$profile_class->formattedname is already your friend!");
                 else {
                     perform_query("INSERT INTO contactlist (playerid, contactid, type) VALUES (?, ?, ?)", [$user_class->id, $profile_class->id, 2]);
@@ -851,8 +857,9 @@ $(document).ready(function() {
                 $spouseDeposit = "<a href='bank.php?id=" . $profile_class->id . "&action=sdeposit'>[ Deposit ]</a>";
             }
             if ($user_class->nightvision > 1) {
-                $query = mysql_query("SELECT name FROM cities WHERE id = " . $profile_class->city);
-                $result = mysql_fetch_assoc($query);
+                $db->query("SELECT name FROM cities WHERE id = ?");
+                $db->execute([$profile_class->city]);
+                $result = $db->fetch_row(true);
                 $city = $result['name'];
             } else {
                 $city = $profile_class->cityname;
@@ -1404,16 +1411,18 @@ $(document).ready(function() {
 
             echo "</div></div>";
 
-            $q = mysql_query("SELECT * FROM wallcomments WHERE userid = " . $profile_class->id . " AND " . $profile_class->profilewall . " = 1");
-            $qcount = mysql_num_rows($q);
 
             if ($profile_class->profilewall == 1) {
+                $db->query("SELECT * FROM wallcomments WHERE userid = ? AND {$profile_class->profilewall} = 1");
+                $db->execute([$profile_class->id]);
+                $wallcomments = $db->fetch_row();
+
                 echo "<div class='profile_container' style='background: rgba(0,0,0,0.2);'>
         <h4>Profile Comments</h4>
         <div class='profile_comments_main padded' style='display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px;'>";
 
-                if ($qcount > 0) {
-                    while ($r = mysql_fetch_array($q)) {
+                if (!empty($wallcomments)) {
+                    foreach ($wallcomments as $r) {
                         $ismine = ($profile_class->id == $user_class->id || $user_class->admin == 1) ? "<a onclick='delMyWall(" . $r['id'] . ")' style='color:red;'>[x]</a> " : "";
                         echo "<div class='profile_comment' data-id='" . $r['id'] . "'>
                 <div class='profile_comment_user'>" . $ismine . formatName($r['posterid']) . "</div>
@@ -1422,9 +1431,8 @@ $(document).ready(function() {
                     }
                 } else {
                     echo "<div class='profile_comment'>
-            <div class='profile_comment_user'>System</div>
-            <div class='profile_comment_message'>No one has left a message yet - be the first to leave a comment.</div>
-        </div>";
+                        <div class='profile_comment_message'>No one has left a message yet - be the first to leave a comment.</div>
+                    </div>";
                 }
 
                 echo "</div>
@@ -1537,9 +1545,6 @@ $(document).ready(function() {
 
             // Equipped
             
-            $pinfo = new Pet($profile_class->id);
-            $petinfo = mysql_fetch_array(mysql_query("SELECT picture FROM petshop JOIN pets ON petshop.id = pets.petid WHERE userid = $profile_class->id AND leash = 1"));
-
             $slots = array(
                 array(
                     'slot' => 'eqweapon',
@@ -1586,6 +1591,7 @@ $(document).ready(function() {
                 $count++;
             }
 
+            $pinfo = new Pet($profile_class->id);
             if ($pinfo->id > 0) {
                 echo "<div class='col-4 col-md-3'>
             <div class='equip_item'>
@@ -1601,20 +1607,10 @@ $(document).ready(function() {
 
             echo "</div></div>";
 
-
-
-
-
             echo "<style>#total { flex-basis: 100%; }</style>";
 
-
-
-
-            // ADMIN/GM STUFF
-            
+            // ADMIN/GM STUFF            
             if ($user_class->admin == 1 || $user_class->st == 1) {
-                $result = mysql_query("SELECT * FROM grpgusers WHERE id='$profile_class->id'");
-                $worked = mysql_fetch_array($result);
                 ?>
                 <tr>
                     <td class="contentspacer"></td>
@@ -1624,7 +1620,7 @@ $(document).ready(function() {
                     <td class="contentcontent">
                         <table width='100%' class='responsive' align="center">
                             <?php
-                            if ($worked['admin'] == 0 && $worked['gm'] == 0 && $worked['fm'] == 0 && $worked['cm'] == 0 && $worked['eo'] == 0) {
+                            if ($profile_class->admin == 0 && $profile_class->gm == 0 && $profile_class->fm == 0 && $profile_class->cm == 0 && $profile_class->eo == 0) {
                                 ?>
                                 <tr>
                                     <form method="post">
@@ -1818,21 +1814,20 @@ $(document).ready(function() {
             <?php
             if ($user_class->admin == 1 || $user_class->gm == 1 || $user_class->fm == 1) {
                 if ($profile_class->admin != 1 || $user_class->id != $profile_class->id) {
-                    $type1 = "perm";
-                    $result1 = mysql_query("SELECT * FROM bans WHERE id='$profile_class->id' AND type='$type1'");
-                    $worked1 = mysql_fetch_array($result1);
-                    $type2 = "forum";
-                    $result2 = mysql_query("SELECT * FROM bans WHERE id='$profile_class->id' AND type='$type2'");
-                    $worked2 = mysql_fetch_array($result2);
-                    $type3 = "freeze";
-                    $result3 = mysql_query("SELECT * FROM bans WHERE id='$profile_class->id' AND type='$type3'");
-                    $worked3 = mysql_fetch_array($result3);
-                    $type4 = "mail";
-                    $result4 = mysql_query("SELECT * FROM bans WHERE id='$profile_class->id' AND type='$type4'");
-                    $worked4 = mysql_fetch_array($result4);
-                    $type7 = "quicka";
-                    $result7 = mysql_query("SELECT * FROM bans WHERE id='$profile_class->id' AND type='$type7'");
-                    $worked7 = mysql_fetch_array($result7);
+                    $db->query("SELECT * FROM bans WHERE userid = ?");
+                    $db->execute([$profile_class->id]);
+                    $bans = $db->fetch_row();
+
+                    $bans_by_type = [];
+                    foreach ($bans as $row) {
+                        $bans_by_type[$row['type']] = $row;
+                    }
+
+                    $worked1 = $bans_by_type['perm'] ?? null;
+                    $worked2 = $bans_by_type['forum'] ?? null;
+                    $worked3 = $bans_by_type['freeze'] ?? null;
+                    $worked4 = $bans_by_type['mail'] ?? null;
+                    $worked7 = $bans_by_type['quicka'] ?? null;
                     ?>
                     <tr>
                         <td class="contentspacer"></td>
@@ -2127,16 +2122,9 @@ $(document).ready(function() {
             ?>
             <?php
             if ($user_class->admin == 1 || $user_class->gm == 1 || $user_class->fm == 1) {
-                $query = "SELECT `notes` FROM `grpgusers` WHERE Id = $profile_class->id";
-                $result2 = mysql_query($query);
-                if (!$result2) {
-                    $message = 'Invalid query: ' . mysql_error() . "\n";
-                    $message .= 'Whole query: ' . $query;
-                    die($message);
-                }
-                while ($row = mysql_fetch_assoc($result2)) {
-                    $notes = $row['notes'];
-                }
+                $db->query("SELECT `notes` FROM grpgusers WHERE id = ?");
+                $db->execute([$profile_class->id]);
+                $notes = $db->fetch_row(true);
                 ?>
                 <tr>
                     <td class="contentspacer"></td>
@@ -2457,10 +2445,11 @@ $(document).ready(function() {
                 </div>
 
                 <?php
-                $result = mysql_query("SELECT * FROM inventory WHERE userid = '$profile_class->id' ORDER BY userid DESC");
-                while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
-                    $result2 = mysql_query("SELECT * FROM items WHERE id='" . $line['itemid'] . "'");
-                    $worked2 = mysql_fetch_array($result2);
+                $db->query("SELECT * FROM inventory WHERE userid = ?");
+                $db->execute([$profile_class->id]);
+                $items = $db->fetch_row();
+                foreach ($items as $line) {
+                    $worked2 = Item_Details($line['itemid']);
                     if ($worked2['offense'] > 0 && $worked2['rare'] == 0) {
                         $weapons .= "
 <td width='25%' align='center'>
@@ -2530,10 +2519,12 @@ $" . prettynum($worked2['cost']) . "<br>
                         }
                     }
                 }
-                $result = mysql_query("SELECT * FROM gang_loans WHERE to = '$profile_class->id' ORDER BY to DESC");
-                while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
-                    $result2 = mysql_query("SELECT * FROM items WHERE id='" . $line['item'] . "'");
-                    $worked2 = mysql_fetch_array($result2);
+
+                $db->query("SELECT * FROM gang_loans WHERE `idto` = ?");
+                $db->execute([$profile_class->id]);
+                $result = $db->fetch_row();
+                foreach ($result as $line) {
+                    $worked2 = Item_Details($line['itemid']);
                     if ($worked2['offense'] > 0 || $worked2['defense'] > 0 || $worked2['speed'] > 0) {
                         $loaned .= "
 <td width='25%' align='center'>
@@ -2901,13 +2892,13 @@ $" . prettynum($worked2['cost']) . "<br>
                 </script>
 
                 <?PHP
-                $db->query("SELECT blocker FROM ignorelist WHERE blocker = ? AND blocked = ? LIMIT 1");
+                $db->query("SELECT count(blocker) FROM ignorelist WHERE blocker = ? AND blocked = ? LIMIT 1");
                 $db->execute(array(
                     $id,
                     $user_class->id
                 ));
-                if ($db->num_rows('You cannot send gifts to this user because they have you on their ignore list.'))
-                    diefun();
+                if ($db->num_rows())
+                    diefun('You cannot send gifts to this user because they have you on their ignore list.');
 
 
             }

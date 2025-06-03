@@ -391,8 +391,9 @@ include 'includepet.php';
                 echo Message("You've added a colored name to your pet.");
             } else {
                 $petinfo = new Pet($user_class->id);
-                print "<form action='mypets.php?pet={$_GET['pet']}&amp;name=change' method='post'>
-			<strong>New Name:</strong> <input type='text' name='name' placeholder='$name' /><br />
+
+                print "<form action='mypets.php?pet={$petinfo->petid}&amp;name=change' method='post'>
+			<strong>New Name:</strong> <input type='text' name='name' placeholder='{$petinfo->pname}' /><br />
 			<input type='submit' name='submit' value='Change Pet Name' />
 		</form>";
                 if ($petinfo->coloredname != "FFFFFF|FFFFFF") {

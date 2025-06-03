@@ -45,11 +45,12 @@ include 'header.php';
                 echo '<meta http-equiv="refresh" content="0;url=gangupgrade.php">';
             }
 
+
             // Define upgrade details and tooltips
             $upgrade_details = array(
                 'upgrade1' => array(
                     'name' => 'Strength Upgrade',
-                    'benefit' => isset($upgrades_data['upgrade1']) ? 'You are currently getting ' . ($upgrades_data['upgrade1'] * 20) . '% Bonus to Strength during battles!' : 'Upgrade information not available'
+                    'benefit' => isset($gang_class['upgrade1']) ? 'You are currently getting ' . ($upgrades_data['upgrade1'] * 20) . '% Bonus to Strength during battles!' : 'Upgrade information not available'
                 ),
                 'upgrade2' => array(
                     'name' => 'Defense Upgrade',

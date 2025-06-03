@@ -1,13 +1,5 @@
 <?php
-include_once 'dbcon.php';
-function prettynum($num, $dollar = "0")
-{
-    $out = strrev((string) preg_replace('/(\d{3})(?=\d)(?!\d*\.)/', '$1,', strrev($num)));
-    if ($dollar && is_numeric($num)) {
-        $out = "$" . $out;
-    }
-    return $out;
-}
+include_once 'includes/functions.php';
 
 $worked = Get_Item(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT));
 ?>

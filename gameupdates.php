@@ -1,6 +1,5 @@
 <?php
 include 'header.php';
-perform_query("UPDATE grpgusers SET new_updates = 0 WHERE id = ?", [$_SESSION['id']]);
 ?>
 
 <div class="container mt-5">
@@ -76,28 +75,36 @@ perform_query("UPDATE grpgusers SET new_updates = 0 WHERE id = ?", [$_SESSION['i
             <div class="card-body" style="background-color: #8e8e8e21;">
                 <div id="udiv">
                     <?php
-                    $db->query("SELECT DATE_FORMAT(update_posted, '%d/%m/%Y') AS posted FROM game_updates GROUP BY posted ORDER BY id DESC");
+                    $db->query("SELECT DATE_FORMAT(update_posted, '%d/%m/%Y') AS posted, update_text FROM game_updates ORDER BY update_posted DESC;");
                     $db->execute();
                     $rows = $db->fetch_row();
+
+                    $grouped_rows = [];
                     foreach ($rows as $row) {
+                        $date = $row['posted'];
+                        if (!isset($grouped_rows[$date])) {
+                            $grouped_rows[$date] = [];
+                        }
+
+                        // Group updates by date
+                        $grouped_rows[$date][] = $row['update_text'];
+                    }
+
+                    foreach ($grouped_rows as $date => $updates) {
                         ?>
                         <div class="mb-3">
-                            <h5><strong><?php echo $row['posted']; ?></strong></h5>
+                            <h5><strong><?php echo $date; ?></strong></h5>
                             <ul class="list-group">
                                 <?php
-                                $db->query("SELECT update_text FROM game_updates WHERE DATE_FORMAT(update_posted, '%d/%m/%Y') = ? ORDER BY id DESC");
-                                $db->execute([$row['posted']]);
-                                $result2 = $db->fetch_row();
-                                foreach ($result2 as $row2) {
+                                foreach ($updates as $update) {
                                     ?>
                                     <li class="list-group-item" style="background-color: #8e8e8e21;">
                                         <?php
                                         echo $user_class->game_updates > 0 ? "<span class='badge bg-warning text-dark me-2'>New!</span>" : '';
-                                        echo str_replace($find, $repl, BBCodeParse(stripslashes($row2['update_text'])));
+                                        echo str_replace($find, $repl, BBCodeParse(stripslashes($update)));
                                         ?>
                                     </li>
                                     <?php
-                                    --$user_class->game_updates;
                                 }
                                 ?>
                             </ul>

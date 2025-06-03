@@ -52,4 +52,9 @@ class Cache
     {
         return $this->enabled ? $this->redis->decrBy($key, $value) : 0;
     }
+
+    public function flushAll(): bool
+    {
+        return $this->enabled ? $this->redis->flushAll() : false;
+    }
 }

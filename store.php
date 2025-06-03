@@ -842,33 +842,35 @@ include 'header.php';
 
             if ($_GET['buy'] == "bapre") {
                 $bpCategory = getBpCategory();
-                $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
+                if (!empty($bpCategory)) {
+                    $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
 
 
-                if ($bpCategoryUser['is_premium'] > 0) {
-                    echo diefun('You have already purchased premium for this months Battle Pass.');
-                    exit;
-                }
+                    if ($bpCategoryUser['is_premium'] > 0) {
+                        echo diefun('You have already purchased premium for this months Battle Pass.');
+                        exit;
+                    }
 
-                if ($user_class->credits >= 300) {
-                    $current = $user_class->credits;
-                    $newcredit = $user_class->credits -= 300;
-                    $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (" . $user_class->id . ", 'BA Premium', " . $current . ", " . $newcredit . ")");
-                    $db->execute();
-                    $db->query("UPDATE grpgusers SET credits = credits - 300 WHERE id = ?");
-                    $db->execute(array(
-                        $user_class->id
-                    ));
+                    if ($user_class->credits >= 300) {
+                        $current = $user_class->credits;
+                        $newcredit = $user_class->credits -= 300;
+                        $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (" . $user_class->id . ", 'BA Premium', " . $current . ", " . $newcredit . ")");
+                        $db->execute();
+                        $db->query("UPDATE grpgusers SET credits = credits - 300 WHERE id = ?");
+                        $db->execute(array(
+                            $user_class->id
+                        ));
 
-                    $db->query('UPDATE bp_category_user SET is_premium = 1 WHERE id = ' . $bpCategoryUser['id']);
-                    $db->execute();
+                        $db->query('UPDATE bp_category_user SET is_premium = 1 WHERE id = ' . $bpCategoryUser['id']);
+                        $db->execute();
 
-                    Send_Event(1, $user_class->formattedname . " bought BA Premium");
-                    Send_Event(2, $user_class->formattedname . " bought BA Premium");
+                        Send_Event(1, $user_class->formattedname . " bought BA Premium");
+                        Send_Event(2, $user_class->formattedname . " bought BA Premium");
 
-                    echo Message("You spent 300 GOLD for Battle Pass Premium");
-                } else {
-                    echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
+                        echo Message("You spent 300 GOLD for Battle Pass Premium");
+                    } else {
+                        echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
+                    }
                 }
             }
 
@@ -1497,10 +1499,12 @@ include 'header.php';
 
 <?php
 $bpCategory = getBpCategory();
-$bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
+if (!empty($bpCategory)) {
+    $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
+}
 ?>
 
-<?php if ($bpCategoryUser['is_premium'] < 1): ?>
+<?php if (isset($bpCategoryUser) && $bpCategoryUser['is_premium'] < 1): ?>
     <div class="floaty" style="margin:3px; text-align: center;">
         <h4>BATTLE PASS PREMIUM</h4>
         <hr>
