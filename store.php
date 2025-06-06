@@ -35,10 +35,9 @@ include 'header.php';
         }
 
 
-        $db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 14");
+        $db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 15 LIMIT 1");
         $db->execute();
-        $limitedPack = $db->fetch_row();
-        $limitedPack = $limitedPack[0];
+        $limitedPack = $db->fetch_row(true);
 
         $db->query("SELECT `itemname` FROM `items` WHERE id = " . $limitedPack['item_id']);
         $db->execute();
@@ -529,6 +528,28 @@ include 'header.php';
                     Send_Event(2, $user_class->formattedname . " bought 1 x Nerve Vial");
 
                     echo Message("You spent 50 credits for 1 x Nerve Vial.");
+                } else {
+                    echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+                }
+            }
+
+            if ($_GET['buy'] == "10raidpass") {
+                if ($user_class->credits >= 50) {
+                    $current = $user_class->credits;
+                    $newcredit = $user_class->credits -= 50;
+                    $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (" . $user_class->id . ", '10 x Raid Pass', " . $current . ", " . $newcredit . ")");
+                    $db->execute();
+                    $db->query("UPDATE grpgusers SET credits = credits - 50 WHERE id = ?");
+                    $db->execute(array(
+                        $user_class->id
+                    ));
+
+                    Give_Item(251, $user_class->id, 10);
+
+                    Send_Event(1034, $user_class->formattedname . " bought 10 x Raid Pass");
+                    Send_Event(1059, $user_class->formattedname . " bought 10 x Raid Pass");
+
+                    echo Message("You spent 50 credits for 10 x Raid Pass.");
                 } else {
                     echo Message("You don't have enough credits. You can buy some at the upgrade store.");
                 }
@@ -1469,6 +1490,14 @@ include 'header.php';
             <img src="/css/images/NewGameImages/nerve-vial.png" height="100" alt="Nerve Vial">
 
             <h4>Purchase now for only<br><a href="store.php?buy=1nervevial"><button class="gold-button">50 <img
+                            src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+        </div>
+
+        <div class="vip-package">
+            <h4 style="color: brown;">10 x Raid Passes</h4>
+            <img src="/css/images/NewGameImages/raid-pass.png" height="100" alt="Raid Pass">
+
+            <h4>Purchase now for only<br><a href="store.php?buy=10raidpass"><button class="gold-button">50 <img
                             src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
     </div>
