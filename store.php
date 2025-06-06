@@ -1429,15 +1429,6 @@ include 'header.php';
     <hr>
     <div class="items-upgrades"
         style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
-        <!-- Building Pass -->
-        <div class="vip-package">
-            <h4 style="color: brown;">5 x Building Pass</h4>
-            <img src="/css/images/2025/building_pass.png" height="100" alt="Building Pass">
-
-            <h4>Purchase now for only<br><a href="store.php?buy=5buildingpass"><button class="gold-button">50 <img
-                            src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
-        </div>
-
         <!-- Mission Pass -->
         <div class="vip-package">
             <h4 style="color: brown;">1 x Mission Pass</h4>
