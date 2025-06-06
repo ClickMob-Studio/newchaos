@@ -35,7 +35,7 @@ include 'header.php';
         }
 
 
-        $db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 15 LIMIT 1");
+        $db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 14 LIMIT 1");
         $db->execute();
         $limitedPack = $db->fetch_row(true);
 
@@ -1025,7 +1025,7 @@ include 'header.php';
 </div>
 
 
-<?php if ($limitedPack['available'] > $limitedPack['times_purchased']): ?>
+<?php if (false): // if ($limitedPack['available'] > $limitedPack['times_purchased']): ?>
     <br><br>
     <div class="floaty" style="margin:3px;">
         <h4 class="section-title">Limited Edition Packs</h4>
