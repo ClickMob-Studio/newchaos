@@ -35,7 +35,7 @@ include 'header.php';
         }
 
 
-        $db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 14 LIMIT 1");
+        $db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 15 LIMIT 1");
         $db->execute();
         $limitedPack = $db->fetch_row(true);
 
@@ -827,30 +827,26 @@ include 'header.php';
                 }
 
                 if ($limitedPack['times_purchased'] >= $limitedPack['available']) {
-                    echo diefun("This pack is no longer available. You can buy some at the upgrade store.");
+                    echo diefun("This pack is no longer available.");
                 }
 
                 if ($limitedStorePackPurchase['purchases'] >= $limitedPack['per_person_limit']) {
-                    echo diefun("You have purchased the max amount of packs. You can buy some at the upgrade store.");
+                    echo diefun("You have purchased the max amount of packs.");
                 }
 
                 $db->query("UPDATE grpgusers SET credits = credits - " . $limitedPack['gold_cost'] . " WHERE id = ?");
-                $db->execute(array(
-                    $user_class->id
-                ));
+                $db->execute([$user_class->id]);
 
                 $db->query("UPDATE limited_store_pack SET times_purchased = times_purchased + 1 WHERE id = ?");
-                $db->execute(array(
-                    $limitedPack['id']
-                ));
+                $db->execute([$limitedPack['id']]);
 
                 Give_Item($limitedPack['item_id'], $user_class->id, $limitedPack['item_quantity']);
                 addLimitedStorePackPurchase($user_class, $limitedPack['id']);
                 Send_Event($user_class->id, "You have been credited with your " . $limitedPack['name'] . ". You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
-                $db->execute(array());
+                $db->execute();
 
-                Send_Event(1, $user_class->formattedname . " bought " . $limitedPack['name']);
-                Send_Event(2, $user_class->formattedname . " bought " . $limitedPack['name']);
+                Send_Event(1034, $user_class->formattedname . " bought " . $limitedPack['name']);
+                Send_Event(1059, $user_class->formattedname . " bought " . $limitedPack['name']);
 
                 echo Message("You spent " . $limitedPack['gold_cost'] . " GOLD for a " . $limitedPack['name']);
             }
@@ -1160,6 +1156,22 @@ include 'header.php';
                             <em>If you already have the maximum amount of a limited item, you instead
                                 receive additional 100.000
                                 points per item.</em>
+                            <br /><br />
+                        <?php endif; ?>
+
+                        <?php if ($limitedPack['id'] == 15): ?>
+                            <p>Pack Contains:</p>
+                            <ul>
+                                <li>500,000 Points</li>
+                                <li>$260,000,000</li>
+                                <li>10 x <?= item_popup('Mission Pass', 277) ?></li>
+                                <li>5 x <?= item_popup('Ghost Vacuum', 284) ?></li>
+                                <li>5 x <?= item_popup('Double EXP Pill', 10) ?></li>
+                                <li>5 x <?= item_popup('Crime Boosters', 255) ?></li>
+                                <li>2 x <?= item_popup('Nerve Vial', 256) ?></li>
+                                <li>2 x <?= item_popup('Protein Bar', 279) ?></li>
+                            </ul>
+                            <em>Real value more than 1.000 gold!</em>
                             <br /><br />
                         <?php endif; ?>
 
