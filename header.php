@@ -1799,12 +1799,12 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
                         // Raid Pass
                         if ($tempItemUse['raid_pass'] > 0) {
-                            $messages[] = '<li>[ ' . $tempItemUse['raid_pass'] . 'x Raid Pass(es) Active ]</li>';
+                            $messages[] = '<li class="full-width-message">[ ' . $tempItemUse['raid_pass'] . 'x Raid Pass(es) Active ]</li>';
                         }
 
                         // Raid Booster
                         if ($tempItemUse['raid_booster'] > 0) {
-                            $messages[] = '<li>[ ' . $tempItemUse['raid_booster'] . 'x Raid Booster(s) Active ]</li>';
+                            $messages[] = '<li class="full-width-message">[ ' . $tempItemUse['raid_booster'] . 'x Raid Booster(s) Active ]</li>';
                         }
 
                         if ($user_class->gang > 0) {
@@ -1924,6 +1924,11 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
                             .floaty12 a:link {
                                 color: #000;
+                            }
+
+                            .full-width-message {
+                                flex-basis: 100%;
+                                text-align: center;
                             }
                         </style>
 
