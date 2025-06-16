@@ -1021,7 +1021,7 @@ include 'header.php';
 </div>
 
 
-<?php if (false): // if ($limitedPack['available'] > $limitedPack['times_purchased']): ?>
+<?php if ($limitedPack['available'] > $limitedPack['times_purchased']): ?>
     <br><br>
     <div class="floaty" style="margin:3px;">
         <h4 class="section-title">Limited Edition Packs</h4>
