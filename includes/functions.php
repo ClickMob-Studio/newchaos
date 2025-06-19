@@ -153,7 +153,7 @@ function secondsToTime($seconds)
         $parts[] = $interval->y . ' y';
     }
 
-    if ($interval->m > 0) {
+    if ($interval->y > 0 || $interval->m > 0) {
         $parts[] = $interval->m . ' mo';
     }
 
@@ -161,25 +161,23 @@ function secondsToTime($seconds)
     $weeks = floor($interval->d / 7);
     $days = $interval->d % 7;
 
-    if ($weeks > 0) {
+    if ($interval->y > 0 || $interval->m > 0 || $weeks > 0) {
         $parts[] = $weeks . ' w';
     }
 
-    if ($days > 0) {
+    if ($interval->y > 0 || $interval->m > 0 || $weeks > 0 || $days > 0) {
         $parts[] = $days . ' d';
     }
 
-    if ($interval->h > 0) {
+    if ($interval->y > 0 || $interval->m > 0 || $weeks > 0 || $days > 0 || $interval->h > 0) {
         $parts[] = $interval->h . ' h';
     }
 
-    if ($interval->i > 0) {
+    if ($interval->y > 0 || $interval->m > 0 || $weeks > 0 || $days > 0 || $interval->h > 0 || $interval->i > 0) {
         $parts[] = $interval->i . ' m';
     }
 
-    if ($interval->s > 0 || empty($parts)) {
-        $parts[] = $interval->s . ' s';
-    }
+    $parts[] = $interval->s . ' s';
 
     return implode(', ', $parts);
 }
