@@ -696,6 +696,11 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
     </header>
     <style>
+        .countdown-text {
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
         .carousel-item {
             display: flex;
             flex-wrap: nowrap;
