@@ -174,10 +174,10 @@ function secondsToTime($seconds)
     }
 
     if ($interval->y > 0 || $interval->m > 0 || $weeks > 0 || $days > 0 || $interval->h > 0 || $interval->i > 0) {
-        $parts[] = $interval->i . ' m';
+        $parts[] = str_pad($interval->i, 2, '0', STR_PAD_LEFT) . ' m';
     }
 
-    $parts[] = $interval->s . ' s';
+    $parts[] = str_pad($interval->s, 2, '0', STR_PAD_LEFT) . ' s';
 
     return implode(', ', $parts);
 }

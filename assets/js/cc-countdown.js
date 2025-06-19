@@ -36,8 +36,8 @@ function formatDuration(seconds) {
     if (y > 0 || mo > 0 || w > 0) parts.push(`${w} w`);
     if (y > 0 || mo > 0 || w > 0 || d > 0) parts.push(`${d} d`);
     if (y > 0 || mo > 0 || w > 0 || d > 0 || h > 0) parts.push(`${h} h`);
-    if (y > 0 || mo > 0 || w > 0 || d > 0 || h > 0 || m > 0) parts.push(`${m} m`);
-    parts.push(`${s} s`);
+    if (y > 0 || mo > 0 || w > 0 || d > 0 || h > 0 || m > 0) parts.push(`${m.toString().padStart(2, '0')} m`);
+    parts.push(`${s.toString().padStart(2, '0')} s`);
 
     return parts.join(', ');
 }
