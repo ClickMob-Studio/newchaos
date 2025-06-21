@@ -297,7 +297,7 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
 
                     // Send event notifications
                     Send_Event($attack_person->id, "You have been defeated and lost your status as Boss of " . $cityname . ".");
-                    Send_Event($winner, "Congratulations! You have defeated the Boss and now you are the new Boss of " . $cityname . ".");
+                    Send_Event($winner, "Congratulations! You have defeated the Boss of " . $cityname . ".");
                 }
 
                 // Check if the attacked person is queen and the winner is female
@@ -310,7 +310,7 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
 
                     // Send event notifications
                     Send_Event($attack_person->id, "You have been defeated and lost your status as Under Boss of " . $cityname . ".");
-                    Send_Event($winner, "Congratulations! You have defeated the Under Boss and now you are the new Under Boss of " . $cityname . ".");
+                    Send_Event($winner, "Congratulations! You have defeated the Under Boss of " . $cityname . ".");
                 }
             }
 
