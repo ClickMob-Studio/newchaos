@@ -20,8 +20,13 @@ $bpCategoryPrizes = getBpCategoryPrizes($bpCategory);
 $bpCategoryChallenges = getBpCategoryChallenges($bpCategory);
 $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
 
-$prizesClaimed = unserialize($bpCategoryUser['prize_ids_serialized']);
-$challengesClaimed = unserialize($bpCategoryUser['challenge_ids_serialized']);
+$prizesClaimed = !empty($bpCategoryUser['prize_ids_serialized'])
+    ? unserialize($bpCategoryUser['prize_ids_serialized'])
+    : [];
+
+$challengesClaimed = !empty($bpCategoryUser['challenge_ids_serialized'])
+    ? unserialize($bpCategoryUser['challenge_ids_serialized'])
+    : [];
 
 if (isset($_GET['claim_challenge']) && (int) $_GET['claim_challenge']) {
     $claimChallengeId = (int) $_GET['claim_challenge'];
