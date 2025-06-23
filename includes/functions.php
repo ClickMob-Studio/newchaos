@@ -4082,6 +4082,22 @@ function getAllScheduledEvents()
     return null;
 }
 
+function isIPBanned($ip)
+{
+    global $db, $redis;
+
+    if ($redis->exists('ipbans')) {
+        $bannedIps = json_decode($redis->get('ipbans'), true);
+    } else {
+        $db->query("SELECT ip FROM ipbans");
+        $db->execute();
+        $bannedIps = $db->fetch_row();
+        $redis->setEx('ipbans', 3600, json_encode($bannedIps));
+    }
+
+    return in_array($ip, $bannedIps);
+}
+
 function getEventsMessage()
 {
     $events = getAllScheduledEvents();

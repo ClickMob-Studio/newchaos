@@ -23,6 +23,7 @@ function getUserIP()
     return $ip;
 }
 
+
 // Function to log the page view
 function logPageView()
 {
@@ -69,6 +70,10 @@ if (empty($ignoreslashes)) {
     }
 }
 
+$ip = getUserIP();
+if (isIPBanned($ip)) {
+    die("You have been banned from this site. If you think this is a mistake, then you are mistaken. Please do not contact us about this, as we will not respond. If you are using a VPN, please disable it and try again.");
+}
 
 if (!isset($_SESSION['id'])) {
     include('home.php');
