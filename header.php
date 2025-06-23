@@ -90,10 +90,6 @@ if ($g['sessionid'] != $_SESSION['token']) {
     header('Location:index.php');
 }
 
-// $db->query("SELECT * FROM sessions WHERE userid = ?");
-// $db->execute(array(
-//     $_SESSION['id']
-// ));
 if (isset($_GET['action']) && $_GET['action'] == "logout") {
     session_destroy();
     header("Location: index.php");
@@ -101,6 +97,11 @@ if (isset($_GET['action']) && $_GET['action'] == "logout") {
 }
 $uid = $_SESSION['id'];
 $user_class = new User($uid);
+
+if ($user_class->admin == 1) {
+    echo "<div id='adminip'>Admin IP: " . $ip . "</div><br>";
+}
+
 $_SESSION['username'] = $user_class->username;
 if ($user_class->id == 18) {
     // Call the function to log the page view
