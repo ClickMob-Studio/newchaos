@@ -1,6 +1,6 @@
 <?php
 include "ajax_header.php";
-mysql_select_db('chaoscit_game', mysql_connect('localhost', 'chaoscit_user', '3lrKBlrfMGl2ic14'));
+
 $user_class = new User($_SESSION['id']);
 $pet_class = new Pet($_SESSION['id']);
 if (isset($_POST['amnt']))

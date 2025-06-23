@@ -47,8 +47,11 @@ $attacks = $db->fetch_row();
         </tr>
         <?php
         $start = isset($_GET['page']) ? ($_GET['page'] - 1) * 50 : 0;
-        $result = mysql_query("SELECT * from attacklog WHERE attacker = $user_class->id AND attackerHide = 0 ORDER BY timestamp DESC LIMIT $start,50");
-        while ($row = mysql_fetch_array($result)) {
+
+        $db->query("SELECT * FROM attacklog WHERE attacker = ? AND attackerHide = 0 ORDER BY timestamp DESC LIMIT $start, 50");
+        $db->execute([$user_class->id]);
+        $result = $db->fetch_row();
+        foreach ($result as $row) {
             $active = ($row['active'] == "1") ? "<span style='color:green;'>Online</span>" : "<span style='color:red;'>Offline</span>";
             $time = date("F d, Y g:ia", $row['timestamp']);
             echo "
@@ -62,8 +65,11 @@ $attacks = $db->fetch_row();
     ";
         }
         echo "</table>";
-        $count = mysql_fetch_array(mysql_query("SELECT count(*) AS count FROM attacklog WHERE attacker = $user_class->id AND attackerHide = 0"));
-        $count = (($count['count'] / 50) > 30) ? 30 : ($count['count'] / 50);
+
+        $db->query("SELECT COUNT(*) FROM attacklog WHERE attacker = ? AND attackerHide = 0");
+        $db->execute([$user_class->id]);
+        $count = $db->fetch_single();
+        $count = (($count / 50) > 30) ? 30 : ($count / 50);
         for ($i = 1; $i <= $count; $i++) {
             if ($i == 1)
                 print "Pages: ";

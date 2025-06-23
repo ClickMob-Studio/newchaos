@@ -8,39 +8,31 @@ if ($user_class->admin == 1) {
 }
 ?>
 
-
-
-
-<tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Staff Applications</td></tr>
-<tr><td class="contentcontent">
+<tr>
+    <td class="contentspacer"></td>
+</tr>
+<tr>
+    <td class="contenthead">Staff Applications</td>
+</tr>
+<tr>
+    <td class="contentcontent">
         <table width="100%">
-
-
-            <tr><td>
-
-                    <b>Submitted By</b></td>
-
+            <tr>
+                <td>
+                    <b>Submitted By</b>
+                </td>
                 <td><b>Time On</b></td>
-
                 <td><b>Past Exp</b></td>
-
                 <td><b>Why they should be chosen</b></td>
-
                 <td><b>Role Applied for</b></td>
-
 
             </tr>
 
-
-
             <?php
-            $result = mysql_query("SELECT * from `staffapps`");
-            while ($row = mysql_fetch_array($result, mysql_ASSOC)) {
-
-
-
-
-
+            $db->query("SELECT * FROM `staffapps`");
+            $db->execute();
+            $rows = $db->fetch_row();
+            foreach ($rows as $row) {
                 $app_user = new User($row['userid']);
 
                 echo " <tr>
@@ -53,16 +45,13 @@ if ($user_class->admin == 1) {
 				  	  <td>" . $row['better'] . "</td>
 
 				  	  <td>" . $row['staffrole'] . "</td>
-
-
 </tr>
 
                 <tr><td>&nbsp;</td></tr>
-
 ";
             }
 
-            $result = mysql_query("UPDATE `grpgusers` SET `viewedupdate` = '0' WHERE `id` = '" . $user_class->id . "'");
+            perform_query("UPDATE `grpgusers` SET `viewedupdate` = '0' WHERE `id` = ?", [$user_class->id]);
 
             include 'footer.php';
             ?>

@@ -9,7 +9,7 @@ if ($_GET['action'] == "shoot" && $_GET['n'] > 0 && $_GET['n'] < 5) {
                 $random2 = rand($_GET['n'], 5);
                 if ($random1 == $random2) { // Hospital
                     $hosp = 300;
-                    $result = mysql_query("UPDATE `grpgusers` SET hospital = '" . $hosp . "', `roulette` = '0', `hhow` = 'roulette' WHERE `id` = '" . $user_class->id . "'");
+                    perform_query("UPDATE `grpgusers` SET hospital = ?, `roulette` = '0', `hhow` = 'roulette' WHERE `id` = ?", [$hosp, $user_class->id]);
                     echo Message("The bullet was in your cylinder and you were sent to hospital for 5 minutes!");
                 } else { // Give Cash
                     if ($_GET['n'] == 1) {
@@ -22,7 +22,7 @@ if ($_GET['action'] == "shoot" && $_GET['n'] > 0 && $_GET['n'] < 5) {
                         $random3 = rand(0, 60000);
                     }
                     $newmoney = $user_class->money + $random3;
-                    $result = mysql_query("UPDATE `grpgusers` SET money = '" . $newmoney . "', `roulette` = '0' WHERE `id` = '" . $user_class->id . "'");
+                    perform_query("UPDATE `grpgusers` SET money = ?, `roulette` = '0' WHERE `id` = ?", [$newmoney, $user_class->id]);
                     echo Message("Success! You were granted $" . prettynum($random3) . " for your bravery!");
                 }
             } else {
@@ -47,12 +47,25 @@ if ($user_class->roulette == 1) {
     if ($user_class->hospital == 0) {
         if ($user_class->jail == 0) {
             ?>
-            <tr><td class="contentspacer"></td></tr><tr><td class="contenthead">The BOOM Chamber</td></tr>
-            <tr><td class="contentcontent">
-                    Welcome to The Boom Chamber! Its so easy to play, all you have to do is pick how many bullets you would like to play with! If you live you will be granted a prize. And remember, the more bullets, the higher the prize! However if your shot you will goto hospital for 5 minutes!<br /><br />
-                    <a href="thechamber.php?action=shoot&n=1">Use 1 Bullet</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="thechamber.php?action=shoot&n=2">Use 2 Bullets</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="thechamber.php?action=shoot&n=3">Use 3 Bullets</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="thechamber.php?action=shoot&n=4">Use 4 Bullets</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-                </td></tr>
-            </td></tr>
+            <tr>
+                <td class="contentspacer"></td>
+            </tr>
+            <tr>
+                <td class="contenthead">The BOOM Chamber</td>
+            </tr>
+            <tr>
+                <td class="contentcontent">
+                    Welcome to The Boom Chamber! Its so easy to play, all you have to do is pick how many bullets you would like to
+                    play with! If you live you will be granted a prize. And remember, the more bullets, the higher the prize!
+                    However if your shot you will goto hospital for 5 minutes!<br /><br />
+                    <a href="thechamber.php?action=shoot&n=1">Use 1 Bullet</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a
+                        href="thechamber.php?action=shoot&n=2">Use 2 Bullets</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a
+                        href="thechamber.php?action=shoot&n=3">Use 3 Bullets</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a
+                        href="thechamber.php?action=shoot&n=4">Use 4 Bullets</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                </td>
+            </tr>
+            </td>
+            </tr>
             <?php
             include 'footer.php';
             die();

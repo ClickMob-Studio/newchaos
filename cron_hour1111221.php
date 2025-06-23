@@ -5,19 +5,15 @@ if ($_GET['key'] != 'cron94') {
     die();
 }
 include_once 'dbcon.php';
-
-// $link = mysql_connect('127.0.0.1', 'aa_user', 'GmUq38&SVccVSpt');
-// if (!$link) {
-//     die('Could not connect: ' . mysql_error());
-// }
-// mysql_select_db("ml2");
-
 include_once 'classes.php';
 include_once 'database/pdo_class.php';
 
 $randN = mt_rand(1, 25);
-$ng = mysql_query("SELECT * FROM numbergame WHERE `userid` > 0 ORDER BY RAND() DESC LIMIT 1") or mysql_error();
-$g = mysql_fetch_array($ng);
+
+$db->query("SELECT * FROM numbergame WHERE `userid` > 0 ORDER BY RAND() DESC LIMIT 1");
+$db->execute();
+$g = $db->fetch_row(true);
+
 Send_Event($g['userid'], "Congratulations, You have won 1000 points in the number game!");
 
 perform_query("UPDATE `grpgusers` SET `points` = `points` + 1000 WHERE `id` = ?", [$g['userid']]);

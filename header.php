@@ -318,7 +318,7 @@ function callback($buffer)
     $now = time();
 
     $hosCount = $cache->get("hosCount");
-    if (!$hosCount) {
+    if (empty($hosCount)) {
         $db->query("SELECT count(id) FROM grpgusers WHERE hospital <> 0");
         $db->execute();
         $hosCount = $db->fetch_single();
@@ -326,7 +326,7 @@ function callback($buffer)
     }
 
     $pHosCount = $cache->get("pHosCount");
-    if (!$pHosCount) {
+    if (empty($pHosCount)) {
         $db->query("SELECT count(id) FROM pets WHERE hospital <> 0");
         $db->execute();
         $pHosCount = $db->fetch_single();
@@ -338,7 +338,7 @@ function callback($buffer)
     $mailCount = $db->fetch_single();
 
     $jailCount = $cache->get("jailCount");
-    if (!$jailCount) {
+    if (empty($jailCount)) {
         $db->query("SELECT count(id) FROM grpgusers WHERE jail <> 0");
         $db->execute();
         $jailCount = $db->fetch_single();
@@ -346,7 +346,7 @@ function callback($buffer)
     }
 
     $pJailCount = $cache->get("pJailCount");
-    if (!$pJailCount) {
+    if (empty($pJailCount)) {
         $db->query("SELECT count(id) FROM pets WHERE jail <> 0");
         $db->execute();
         $pJailCount = $db->fetch_single();
@@ -354,16 +354,18 @@ function callback($buffer)
     }
 
     $toset = $cache->get("clockin_" . $user_class->id);
-    if (!$toset) {
+    if (empty($toset)) {
         $db->query("SELECT lastClockin, dailyClockins FROM jobinfo WHERE userid = ?");
         $db->execute([$user_class->id]);
         $jinfo = $db->fetch_row(true);
-        $toset = ($jinfo['dailyClockins'] < 8 && $jinfo['lastClockin'] < $now - 3600) ? 1 : 0;
-        $cache->setEx("clockin_" . $user_class->id, 60, $toset);
+        if (!empty($jinfo)) {
+            $toset = ($jinfo['dailyClockins'] < 8 && $jinfo['lastClockin'] < $now - 3600) ? 1 : 0;
+            $cache->setEx("clockin_" . $user_class->id, 60, $toset);
+        }
     }
 
     $eveCount = $cache->get("eveCount_" . $user_class->id);
-    if (!$eveCount) {
+    if (empty($eveCount)) {
         $db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
         $db->execute(array(
             $user_class->id
@@ -373,7 +375,7 @@ function callback($buffer)
     }
 
     $hitCount = $cache->get("hitCount");
-    if (!$hitCount) {
+    if (empty($hitCount)) {
         $db->query("SELECT count(id) FROM hitlist");
         $db->execute();
         $hitCount = $db->fetch_single();
@@ -381,7 +383,7 @@ function callback($buffer)
     }
 
     $votes = $cache->get("votes_" . $user_class->id);
-    if (!$votes) {
+    if (empty($votes)) {
         $db->query("SELECT count(*) FROM votes WHERE userid = ?");
         $db->execute([$user_class->id]);
         $votes = ($db->fetch_single() == 0) ? 'notify' : 'null';
@@ -412,12 +414,21 @@ function callback($buffer)
     $buffer = str_replace("[:USERNAME:]", strip_tags($user_class->username), $buffer);
     $buffer = str_replace("[:EMAIL:]", strip_tags($user_class->email), $buffer);
     $buffer = str_replace("[:AVATAR:]", strip_tags($user_class->avatar), $buffer);
-    $buffer = str_replace("[:QUOTE:]", strip_tags($user_class->quote), $buffer);
+    if (isset($user_class->quote)) {
+        $buffer = str_replace("[:QUOTE:]", strip_tags($user_class->quote), $buffer);
+    }
     $buffer = str_replace("[:MUSIC:]", $user_class->promusic, $buffer);
     $buffer = str_replace("[:VOLUME:]", $user_class->volume, $buffer);
     $buffer = str_replace("[:GENDER:]", $user_class->gender, $buffer);
-    $buffer = str_replace("[:SIGNATURE:]", strip_tags($user_class->sig), $buffer);
-    $buffer = str_replace("[:NOTEPAD:]", strip_tags($user_class->notepad), $buffer);
+
+    if (isset($user_class->sig)) {
+        $buffer = str_replace("[:SIGNATURE:]", strip_tags($user_class->sig), $buffer);
+    }
+
+    if (isset($user_class->notepad)) {
+        $buffer = str_replace("[:NOTEPAD:]", strip_tags($user_class->notepad), $buffer);
+    }
+
     $buffer = str_replace("<!_-money-_!>", prettynum($user_class->money), $buffer);
     $buffer = str_replace("<!_-bank-_!>", prettynum($user_class->bank), $buffer);
     $buffer = str_replace("<!_-banked-_!>", number_format_short($user_class->bank), $buffer);
@@ -499,14 +510,14 @@ function callback($buffer)
     } else {
         $buffer = str_replace("<!_-events-_!>", prettynum($events), $buffer);
     }
-    if ($tickets > 0) {
+    if (isset($tickets) && $tickets > 0) {
         $buffer = str_replace("<!_-tickets-_!>", "<font color='red'><b>" . prettynum($tickets) . "</b></font>", $buffer);
-    } else {
+    } else if (isset($tickets)) {
         $buffer = str_replace("<!_-tickets-_!>", prettynum($tickets), $buffer);
     }
-    if ($referrals > 0) {
+    if (isset($referrals) && $referrals > 0) {
         $buffer = str_replace("<!_-referrals-_!>", "<font color='red'><b>" . prettynum($referrals) . "</b></font>", $buffer);
-    } else {
+    } else if (isset($referrals)) {
         $buffer = str_replace("<!_-referrals-_!>", prettynum($referrals), $buffer);
     }
     $buffer = str_replace("<!_-cityname-_!>", $user_class->mycityname, $buffer);
@@ -934,28 +945,32 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
         $showmission = false;
         $usermission = get_user_mission(($user_class->id));
-        $miss = get_mission($usermission['mid']);
-        if (!empty($usermission) && !empty($miss)) {
-            $showmission = true;
-            $mkills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>" . shorthandNumber($usermission['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>";
-            $mcrimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>" . shorthandNumber($usermission['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>";
-            $mmugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>" . shorthandNumber($usermission['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>";
-            $mbusts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>" . shorthandNumber($usermission['busts']) . "/" . shorthandNumber($miss['busts']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['busts']) . "/" . shorthandNumber($miss['busts']) . "</font>";
-            $mbackalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>" . shorthandNumber($usermission['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>";
-            $mraids = ($miss['raids'] > $usermission['raids']) ? "<font color='red'>" . shorthandNumber($usermission['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>";
+        if (!empty($usermission)) {
+            $miss = get_mission($usermission['mid']);
+            if (!empty($usermission) && !empty($miss)) {
+                $showmission = true;
+                $mkills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>" . shorthandNumber($usermission['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>";
+                $mcrimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>" . shorthandNumber($usermission['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>";
+                $mmugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>" . shorthandNumber($usermission['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>";
+                $mbusts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>" . shorthandNumber($usermission['busts']) . "/" . shorthandNumber($miss['busts']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['busts']) . "/" . shorthandNumber($miss['busts']) . "</font>";
+                $mbackalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>" . shorthandNumber($usermission['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>";
+                $mraids = ($miss['raids'] > $usermission['raids']) ? "<font color='red'>" . shorthandNumber($usermission['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>";
+            }
         }
 
         $showoperation = false;
         $currentUserOperation = get_current_operation($user_class->id);
-        $operation = get_operation($currentUserOperation['operations_id']);
-        if (!empty($currentUserOperation) && !empty($operation)) {
-            $showoperation = true;
-            $pkills = ($operation['kills'] > $currentUserOperation['kills']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['kills']) . "/" . shorthandNumber($operation['kills']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['kills']) . "/" . shorthandNumber($operation['kills']) . "</font>";
-            $pcrimes = ($operation['crimes'] > $currentUserOperation['crimes']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['crimes']) . "/" . shorthandNumber($operation['crimes']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['crimes']) . "/" . shorthandNumber($operation['crimes']) . "</font>";
-            $pmugs = ($operation['mugs'] > $currentUserOperation['mugs']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['mugs']) . "/" . shorthandNumber($operation['mugs']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['mugs']) . "/" . shorthandNumber($operation['mugs']) . "</font>";
-            $pbusts = ($operation['busts'] > $currentUserOperation['busts']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['busts']) . "/" . shorthandNumber($operation['busts']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['busts']) . "/" . shorthandNumber($operation['busts']) . "</font>";
-            $pbackalleys = ($operation['backalleys'] > $currentUserOperation['backalleys']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['backalleys']) . "/" . shorthandNumber($operation['backalleys']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['backalleys']) . "/" . shorthandNumber($operation['backalleys']) . "</font>";
-            $praids = ($operation['raids'] > $currentUserOperation['raids']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['raids']) . "/" . shorthandNumber($operation['raids']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['raids']) . "/" . shorthandNumber($operation['raids']) . "</font>";
+        if (!empty($currentUserOperation)) {
+            $operation = get_operation($currentUserOperation['operations_id']);
+            if (!empty($currentUserOperation) && !empty($operation)) {
+                $showoperation = true;
+                $pkills = ($operation['kills'] > $currentUserOperation['kills']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['kills']) . "/" . shorthandNumber($operation['kills']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['kills']) . "/" . shorthandNumber($operation['kills']) . "</font>";
+                $pcrimes = ($operation['crimes'] > $currentUserOperation['crimes']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['crimes']) . "/" . shorthandNumber($operation['crimes']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['crimes']) . "/" . shorthandNumber($operation['crimes']) . "</font>";
+                $pmugs = ($operation['mugs'] > $currentUserOperation['mugs']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['mugs']) . "/" . shorthandNumber($operation['mugs']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['mugs']) . "/" . shorthandNumber($operation['mugs']) . "</font>";
+                $pbusts = ($operation['busts'] > $currentUserOperation['busts']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['busts']) . "/" . shorthandNumber($operation['busts']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['busts']) . "/" . shorthandNumber($operation['busts']) . "</font>";
+                $pbackalleys = ($operation['backalleys'] > $currentUserOperation['backalleys']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['backalleys']) . "/" . shorthandNumber($operation['backalleys']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['backalleys']) . "/" . shorthandNumber($operation['backalleys']) . "</font>";
+                $praids = ($operation['raids'] > $currentUserOperation['raids']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['raids']) . "/" . shorthandNumber($operation['raids']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['raids']) . "/" . shorthandNumber($operation['raids']) . "</font>";
+            }
         }
 
         ?>
@@ -1600,11 +1615,10 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                             $array['Jail Card'] = ($rtn == 'NOW') ? '@None@' : $rtn;
                         }
 
-                        if ($user_class->news > 0) {
-                            $buffer = str_replace("<!_-news-_!>", "<div class='contenthead floaty'><span style='margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;'><h4 class='notify important'><a href='forum.php?id=1'>You have new game news [<span class='news-count'>$user_class->news</span>]</a></h4></span></div>", $buffer);
-
-                        }
-
+                        // if ($user_class->news > 0) {
+                        //     $buffer = str_replace("<!_-news-_!>", "<div class='contenthead floaty'><span style='margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;'><h4 class='notify important'><a href='forum.php?id=1'>You have new game news [<span class='news-count'>$user_class->news</span>]</a></h4></span></div>", $buffer);
+                        // }
+                        
                         if ($user_class->nightvision > $now) {
                             echo '<span style="color:red;">You currently have ' . $user_class->nightvision . ' minutes of Night Vision left.</span><br />';
                         }
@@ -1657,20 +1671,20 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         $db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
                         $db->execute();
                         $bonus_row = $db->fetch_row(true);
-                        if (isset($bonus_row))
+                        if (isset($bonus_row)) {
                             $debug['worked'] = $bonus_row;
 
-                        if ($bonus_row['Time'] > 0) {
-                            $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
-                            $messages[] = '<div class="event-countdown" data-end="' . $bonus_row['Time'] * 60 . '">Server Wide Double EXP: <span class="countdown-text">' . (($_tt == 'NOW') ? '@None@' : $_tt) . '</span></div>';
-
+                            if ($bonus_row['Time'] > 0) {
+                                $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
+                                $messages[] = '<div class="event-countdown" data-end="' . $bonus_row['Time'] * 60 . '">Server Wide Double EXP: <span class="countdown-text">' . (($_tt == 'NOW') ? '@None@' : $_tt) . '</span></div>';
+                            }
                         }
 
                         $db->query("SELECT * FROM gamebonus WHERE ID = 2 LIMIT 1");
                         $db->execute();
                         $gymbonus_row = $db->fetch_row(true);
 
-                        if ($gymbonus_row['Time'] > 0) {
+                        if (isset($gymbonus_row) && $gymbonus_row['Time'] > 0) {
                             $_tt = secondsToHumanReadable($gymbonus_row['Time'] * 60);
                             $messages[] = '<div class="event-countdown" data-end="' . $gymbonus_row['Time'] * 60 . '">Server Wide Double Gym Gains: <span class="countdown-text">' . (($_tt == 'NOW') ? '@None@' : $_tt) . '</span></div>';
 
@@ -2011,31 +2025,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         });
                     </script>
                     <?php
-
-                    echo '<script>
-var countDownDate = new Date("Jan 30, 2024 23:59:00");
-
-var x = setInterval(function() {
-
-var now = new Date();
-var distance = countDownDate - now;
-
-var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-$(".progress-bar-heart").html("<a href=\'home.php\'>Activity Reward (' . number_format($width, 1) . '%)</a> 2x Speed Boost Active - " + hours + "h " + minutes + "m " + seconds + "s ");
-
-if (distance < 0) {
-            clearInterval(x);
-            $(".progress-bar-heart").html("<a href=\'home.php\'>Activity Reward (' . number_format($width, 1) . '%)</a>");
-}
-}, 1000);
-</script>';
-
-
-
 
                     function secondsToHumanReadable($seconds, $requiredParts = null)
                     {

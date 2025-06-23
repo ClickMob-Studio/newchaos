@@ -74,18 +74,11 @@ include 'header.php';
                 $offset = ($currentpage - 1) * $rowsperpage;
                 if ($searchString == null) {
                     $res = mysql_query("SELECT * from `events` WHERE `to` = $user_class->id ORDER BY `timesent` DESC LIMIT $offset, $rowsperpage");
-
-                    // if (!$res = $m->get('events.' . $id . '.' . $offset . '.' . $rowsperpage)) {
-                    //     $res = mysql_query("SELECT * from `events` WHERE `to` = $user_class->id ORDER BY `timesent` DESC LIMIT $offset, $rowsperpage");
-                    //     $m->set('events.' . $id . '.' . $offset . '.' . $rowsperpage, $res, false, 120);
-                    // }
-                
                 } else {
                     $res = mysql_query("SELECT * from `events` WHERE `to` = $user_class->id AND `text` like '$searchString' ORDER BY `timesent` DESC LIMIT $offset, $rowsperpage");
                 }
                 while ($row = mysql_fetch_array($res)) {
                     $text = str_replace('[-_USERID_-]', formatName($row['extra']), $row['text']);
-                    //$text       = str_replace('[-_GANGID_-]', gangName($row['extra']), $text);
                     echo "<tr style='height: 30px; border-bottom: solid 1px;'><td width='67%'>" . $text . "</td><td width='31%'>" . date("d F Y, g:ia", $row['timesent']) . "</td><td width='2%'><a href='events.php?delete={$row['id']}'><span class='delete'>&nbsp;X&nbsp;</span></a></td></tr>";
                 }
                 ?>

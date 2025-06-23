@@ -61,18 +61,17 @@ if (!$user) {
     exit;
 }
 
-$query = "SELECT * FROM votes WHERE userid = " . $user->id . " AND site = '" . $scriptCallback . "'";
-$result = mysql_query($query);
-
-if (mysql_num_rows($result) > 0) {
+$db->query("SELECT * FROM votes WHERE userid = ? AND site = ?");
+$db->execute([$user->id, $scriptCallback]);
+$results = $db->fetch_row();
+if (count($results) > 0) {
     echo 'Something went wrong!';
     exit;
 }
 
-mysql_query("INSERT INTO votes (userid, site) VALUES (" . $user->id . ", '" . $scriptCallback . "')");
-mysql_query("UPDATE grpgusers SET votetokens = votetokens + 100 WHERE id = " . $user->id);
+perform_query("INSERT INTO votes (userid, site) VALUES (?, ?)", [$user->id, $scriptCallback]);
+perform_query("UPDATE grpgusers SET votetokens = votetokens + 100 WHERE id = ?", [$user->id]);
 
 $response = ['success' => true];
 echo json_encode($response);
-exit;
 exit;

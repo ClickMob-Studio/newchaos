@@ -72,6 +72,9 @@ $stmt->execute([$newid, $_COOKIE['PHPSESSID']]);
 $stmt = $pdo->prepare("INSERT INTO ofthes (userid) VALUES (?)");
 $stmt->execute([$newid]);
 
+// Add 1 to the total user count in cache
+add_to_user_count();
+
 // Redirect upon successful registration
 $_SESSION['id'] = $pdo->lastInsertId();
 $msgtext = "

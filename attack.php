@@ -29,8 +29,7 @@ include 'header.php';
             }
         }
         $_SESSION['csrf'] = md5(uniqid(rand(), true));
-        //}
-        
+
         $modifier = ($user_class->rmdays > 0) ? 0.2 : 0.25;
 
         $energyneeded = floor($user_class->maxenergy * $modifier);
@@ -278,15 +277,15 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
             $expwon = floor($expwon);
             $theirhp = 0;
 
-
-
-
             $db->query("SELECT `name` FROM cities WHERE `id` = " . $user_class->city);
             $db->execute();
             $cityn = $db->fetch_row(true);
             $cityname = $cityn['name'];
-            $result = mysql_query("SELECT `id`, `city`, `king`, `queen` FROM `grpgusers` WHERE `id` = '" . mysql_real_escape_string($attack_person->id) . "'");
-            if ($row = mysql_fetch_assoc($result)) {
+
+            $db->query("SELECT `id`, `city`, `king`, `queen` FROM `grpgusers` WHERE `id` = ?");
+            $db->execute([$attack_person->id]);
+            $row = $db->fetch_row(true);
+            if ($row) {
                 // Check if the attacked person is king and the winner is male
                 if ($row['king'] == $user_class->city) {
                     // Dethrone the current king
@@ -316,8 +315,7 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
 
 
 
-            $city = mysql_real_escape_string($user_class->city);
-
+            $city = $db->real_escape_string($user_class->city);
 
             $spots = range(1, 10);
 
@@ -597,6 +595,7 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
             }
             return $rtn[max(-100, min(100, $level_diff))];
         }
+
         function get_user_streak($userid)
         {
             global $db;
@@ -607,38 +606,40 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
             $user_streak = $db->fetch_row(true);
             return $user_streak['streak'];
         }
+
         function add_user_streak($userid)
         {
             global $db;
             $db->query("INSERT INTO user_kill_streaks (userid, streak) VALUES (?, 1) ON DUPLICATE KEY UPDATE streak = streak + 1");
             $db->execute([$userid]);
         }
+
         function kill_user_streak($userid)
         {
             global $db;
             $db->query("DELETE FROM user_kill_streaks WHERE userid = ?");
             $db->execute([$userid]);
         }
+
         function print_pre($print)
         {
             echo "<pre>";
             print_r($print);
             echo "<pre>";
         }
+
         function fetchGangUpgradeLevel($gangId)
         {
             if (!$gangId) {
-                // If no gang ID is provided, return 0
                 return 0;
             }
-            $query = sprintf("SELECT upgrade7 FROM gangs WHERE id = %d", mysql_real_escape_string($gangId));
-            $result = mysql_query($query);
-            if (!$result) {
-                die('Invalid query: ' . mysql_error());
-            }
-            if ($row = mysql_fetch_assoc($result)) {
-                return intval($row['upgrade7']);
-            } else {
-                return 0;
-            }
+
+            global $db;
+
+            $db->query("SELECT upgrade7 FROM gangs WHERE id = ?");
+            $db->execute([$gangId]);
+
+            $row = $db->fetch_row(true);
+            return $row ? (int) $row['upgrade7'] : 0;
         }
+

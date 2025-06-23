@@ -15,7 +15,7 @@ Product Code: $prodcode
 Pin: $pin
 Order Number: $orderno";
 
-    $result = mysql_query("INSERT INTO `pms` (`parent`, `to`, `from`, `timesent`, `subject`, `msgtext`) VALUES ('$parent', '1', '$from', '" . time() . "', 'DAO PAY Payment', '" . $msgtext . "')");
+    perform_query("INSERT INTO `pms` (`parent`, `to`, `from`, `timesent`, `subject`, `msgtext`) VALUES (?, '1', ?, ?, 'DAO PAY Payment', ?)", [$parent, $from, time(), $msgtext]);
 
     echo Message("Your payment has been completed. Your credits will be credited within 74 hours. Please be patient.<br /><br /><a href='home.php'>Go Home</a>");
 }

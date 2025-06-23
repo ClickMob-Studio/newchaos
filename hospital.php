@@ -10,13 +10,14 @@ include 'header.php';
 <div class='box_middle'>
    <div class='pad'>
       <?php
-      if ($_GET['buy'] == "hospital") {
+      if (isset($_GET['buy']) && $_GET['buy'] == "hospital") {
          $cost = $user_class->level * 300;
          echo Message("Are you sure you want to buy out of hospital for $cost? <br><a href='emergencyroom.php?buy=hospitalyes'>Continue</a><br /><a href='rmstore.php'>No thanks!</a>");
          include 'footer.php';
          die();
       }
-      if ($_GET['buy'] == "hospitalyes") {
+
+      if (isset($_GET['buy']) && $_GET['buy'] == "hospitalyes") {
          $cost = $user_class->level * 300;
          if ($user_class->bank > $cost) {
             if ($user_class->hospital) {
@@ -33,6 +34,7 @@ include 'header.php';
          } else
             echo Message("You don't have enough money in the bank. You need $$cost");
       }
+
       if ($user_class->hospital != "0" && ($user_class->hhow != "bombed" && $user_class->hhow != "abombed")) {
          $cost = $user_class->level * 300;
          echo "- <a href='hospital.php?buy=hospitalyes'><font color=red><b>Buy Out for $$cost<b></font></a></br></br>";
@@ -128,10 +130,9 @@ include 'header.php';
       </tr>
       <?php
 
-      $result = mysql_query("SELECT COUNT(*) FROM `grpgusers` WHERE `hospital` != '0'");
-      $r = mysql_fetch_row($result);
-      $numrows = $r[0];
-      $cache->setEx("hosCount", 15, $numrows);
+      $db->query("SELECT COUNT(*) FROM `grpgusers` WHERE `hospital` != '0'");
+      $db->execute();
+      $numrows = $db->fetch_single();
 
       $rowsperpage = 30;
       $totalpages = ceil($numrows / $rowsperpage);
@@ -148,10 +149,13 @@ include 'header.php';
       if ($currentpage < 1)
          $currentpage = 1;
       $offset = ($currentpage - 1) * $rowsperpage;
-      $result = mysql_query("SELECT * FROM `grpgusers` WHERE `hospital` != '0' ORDER BY `hospital` ASC LIMIT $offset, $rowsperpage");
-      $people = mysql_num_rows($result);
+
+      $db->query("SELECT * FROM `grpgusers` WHERE `hospital` != '0' ORDER BY `hospital` ASC LIMIT $offset, $rowsperpage");
+      $db->execute();
+      $result = $db->fetch_row();
+      $people = count($result);
       if ($people > 0) {
-         while ($line = mysql_fetch_array($result)) {
+         foreach ($result as $line) {
             $secondsago = time() - $line['lastactive'];
             $user_hospital = new User($line['id']);
             $hospital_class = formatName($line['hwho']);

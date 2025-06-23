@@ -62,11 +62,14 @@ include 'header.php'; ?>
         <th>Time Left</th>
         <th>Actions</th>
     </tr>';
-        $q = mysql_query("SELECT userid FROM pets WHERE jail > 0 ORDER BY jail DESC");
-        if (!mysql_num_rows($q))
+        $db->query("SELECT userid FROM pets WHERE jail > 0 ORDER BY jail DESC");
+        $db->execute();
+        $rows = $db->fetch_row();
+
+        if (empty($rows)) {
             echo "<tr><td colspan='4' class='center'>There are no pets in the pound</td></tr>";
-        else {
-            while ($row = mysql_fetch_array($q)) {
+        } else {
+            foreach ($rows as $row) {
                 $pet = new Pet($row['userid']);
                 $links = ($row['userid'] == $user_class->id) ? "[<a href='petjail.php?bail={$pet->userid}'>Bail Out (5 Points)</a>]" : "[<a href='petjail.php?jailbreak={$pet->userid}'>bust</a>]";
                 echo "

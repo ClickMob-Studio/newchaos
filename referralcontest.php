@@ -129,15 +129,15 @@ if (isset($_POST['resetexp'])) {
 					<td><b>Referrals</b></td>
 				</tr>
 				<?php
-				$result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `refcomp` DESC LIMIT 3");
+				$db->query("SELECT * FROM `grpgusers` ORDER BY `refcomp` DESC LIMIT 3");
+				$db->execute();
+				$rows = $db->fetch_row();
+
 				$rank = 0;
-				while ($line = mysql_fetch_array($result)) {
+				foreach ($rows as $line) {
 					$rank++;
 					$user_name = new User($line['id']);
 					echo '<tr><td width="10%">' . $rank . '.</td><td width="55%">' . $user_name->formattedname . '</td><td width="35%">' . prettynum($line['refcomp']) . '</td></tr>';
-
-
-
 				}
 				?>
 			</table>

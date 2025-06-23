@@ -12,9 +12,9 @@ function prettynum($num, $dollar = "0")
 	}
 	return $out;
 }
-
-$result = mysql_query("SELECT * FROM `planes` WHERE `id` = '" . $_GET['id'] . "'");
-$worked = mysql_fetch_array($result);
+$db->query("SELECT * FROM `planes` WHERE `id` = ?");
+$db->execute([$_GET['id']]);
+$worked = $db->fetch_row(true);
 ?>
 <html>
 

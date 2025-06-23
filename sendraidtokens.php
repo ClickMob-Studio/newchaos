@@ -23,9 +23,9 @@ if (isset($_POST['sendraidtokens2'])) {
         error("You can't send raidtokens to someone that doesn't exist.");
     if ($_POST['amount'] > 100)
         error("You can only send a maximum of 100 raidtokens.");
-    mysql_query("UPDATE grpgusers SET raidtokens = raidtokens - {$_POST['amount']} WHERE id = $user_class->id");
-    mysql_query("UPDATE grpgusers SET raidtokens = raidtokens + {$_POST['amount']} WHERE id = {$_POST['theirid']}");
-    mysql_query("INSERT INTO transferlog (toip, fromip, timestamp, `to`, `from`, raidtokens)VALUES('$money_person->ip', '$user_class->ip', unix_timestamp(), $money_person->id, $user_class->id, {$_POST['amount']}')");
+    perform_query("UPDATE grpgusers SET raidtokens = raidtokens - ? WHERE id = ?", [$_POST['amount'], $user_class->id]);
+    perform_query("UPDATE grpgusers SET raidtokens = raidtokens + ? WHERE id = ?", [$_POST['amount'], $_POST['theirid']]);
+    perform_query("INSERT INTO transferlog (toip, fromip, timestamp, `to`, `from`, raidtokens)VALUES(?, ?, ?, ?, ?, ?)", [$money_person->ip, $user_class->ip, time(), $money_person->id, $user_class->id, $_POST['amount']]);
     Send_Event($money_person->id, "[-_USERID_-] sent you " . prettynum($_POST['amount']) . " raidtokens.", $user_class->id);
     echo Message("You have successfully sent " . prettynum($_POST['amount']) . " raidtokens to " . $money_person->formattedname . ".");
 }
@@ -48,7 +48,8 @@ print '
 </div>
 ';
 include 'footer.php';
-function error($msg) {
+function error($msg)
+{
     echo Message($msg);
     include "footer.php";
     die();

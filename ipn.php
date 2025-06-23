@@ -49,17 +49,10 @@ if (DEBUG == true) {
 	curl_setopt($ch, CURLOPT_HEADER, 1);
 	curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
 }
-// CONFIG: Optional proxy configuration
-//curl_setopt($ch, CURLOPT_PROXY, $proxy);
-//curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);
-// Set TCP timeout to 30 seconds
+
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: Close'));
-// CONFIG: Please download 'cacert.pem' from "http://curl.haxx.se/docs/caextract.html" and set the directory path
-// of the certificate as shown below. Ensure the file is readable by the webserver.
-// This is mandatory for some environments.
-//$cert = __DIR__ . "./cacert.pem";
-//curl_setopt($ch, CURLOPT_CAINFO, $cert);
+
 $res = curl_exec($ch);
 if (curl_errno($ch) != 0) // cURL error
 {
@@ -102,10 +95,13 @@ if (strcmp($res, "VERIFIED") == 0) {
 	}
 	// check that txn_id has not been previously processed
 	$isUniqueTxnId = false;
-	$result = mysql_query("SELECT * FROM payment WHERE txn_id = '" . $txn_id . "'");
-	if (mysql_num_rows($result)) {
+
+	$db->query("SELECT COUNT(*) FROM payment WHERE txn_id = ?");
+	$db->execute([$txn_id]);
+	if ($db->num_rows()) {
 		$isUniqueTxnId = true;
 	}
+
 	// check that receiver_email is your PayPal email
 	// check that payment_amount/payment_currency are correct
 	if ($isPaymentCompleted) {
@@ -118,16 +114,15 @@ if (strcmp($res, "VERIFIED") == 0) {
 		if ($double == true) {
 			$payment_amount = $payment_amount * 2;
 		}
-		mysql_query("INSERT INTO payment_tracker (userid, amount, txn) VALUES($userid, '" . $payment_amount . "', '" . $txn_id . "')");
+
+		perform_query("INSERT INTO payment_tracker (userid, amount, txn) VALUES(?, ?, ?)", [$userid, $payment_amount, $txn_id]);
 		perform_query("UPDATE grpgusers SET credits = credits + ? WHERE `id` = ?", [$payment_amount, $userid]);
 		Send_Event($userid, "Your $payment_amount Credit(s) have just been credited. PayPal Transaction ID: " . $txn_id . ".", $userid);
 		Send_Event(1, "$payment_amount Dolla Donation for $payment_amount credits. by $userid. PayPal Transaction ID: " . $txn_id . ".", 1);
 		bloodbath('donator', $buyer->id, $payment_amount);
-
 	}
+
 	// process payment and mark item as paid.
-
-
 	if (DEBUG == true) {
 		error_log(date('[Y-m-d H:i e] ') . "Verified IPN: $req " . PHP_EOL, 3, LOG_FILE);
 	}

@@ -9,7 +9,6 @@ if (isset($_POST['submit'])) {
         $newmoney = $user_class->money - $cost;
         $time = time();
         perform_query("UPDATE `grpgusers` SET `money` = ? WHERE `id`= ?", [$newmoney, $user_class->id]);
-        // $result = mysql_query("INSERT INTO `ads` VALUES('" . $time . "', '$user_class->id', '" . $_POST['title'] . "', '" . $_POST['message'] . "')");
         perform_query("INSERT INTO `ads`(`poster`, `message`, `displaymins`) VALUES (?, ?, ?)", [$user_class->id, $_POST['message'], $_POST['displaymins']]);
         echo Message("You have posted a classified ad for $" . $cost);
     } else {
@@ -66,8 +65,11 @@ if (isset($_POST['submit'])) {
     </td>
 </tr>
 <?php
-$result = mysql_query("SELECT * from `ads` ORDER BY `when` DESC LIMIT 10");
-while ($row = mysql_fetch_array($result, mysql_ASSOC)) {
+
+$db->query("SELECT * FROM `ads` ORDER BY `when` DESC LIMIT 10");
+$db->execute();
+$result = $db->fetch_row();
+foreach ($result as $row) {
     $user_ads = new User($row['poster']);
     ?>
     <tr>

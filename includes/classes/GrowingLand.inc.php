@@ -49,7 +49,7 @@ final class GrowingLand extends BaseObject
     {
         $time = time();
         DBi::$conn->query('INSERT INTO `growing` (`userid`, `cityid`, `amount`, `croptype`, `cropamount`, `timeplanted`, `timedone`) VALUES (\'' . $userid . '\', \'' . $cityid . '\', \'' . $amount . '\', \'' . $croptype . '\', \'' . ($amount * 100) . '\', ' . $time . ', \'' . ($time + 604800) . '\')');
-        if (DBi::$conn -> affected_rows == 0) {
+        if (DBi::$conn->affected_rows == 0) {
             throw new SoftException(GROWING_LAND_ERR_PLANTING);
         }
 

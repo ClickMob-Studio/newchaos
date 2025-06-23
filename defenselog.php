@@ -21,8 +21,11 @@ if (isset($_GET['delete'])) {
         </tr>
         <?php
         $start = isset($_GET['page']) ? ($_GET['page'] - 1) * 50 : 0;
-        $result = mysql_query("SELECT * from attacklog WHERE defender = $user_class->id AND defenderHide = 0 ORDER BY timestamp DESC LIMIT $start,50");
-        while ($row = mysql_fetch_array($result)) {
+
+        $db->query("SELECT * FROM attacklog WHERE defender = ? AND defenderHide = 0 ORDER BY timestamp DESC LIMIT $start, 50");
+        $db->execute([$user_class->id]);
+        $rows = $db->fetch_row();
+        foreach ($rows as $row) {
             $active = ($row['active'] == "1") ? "<span style='color:green;'>Online</span>" : "<span style='color:red;'>Offline</span>";
             $time = date("F d, Y g:ia", $row['timestamp']);
             echo "
@@ -36,8 +39,11 @@ if (isset($_GET['delete'])) {
     ";
         }
         echo "</table>";
-        $count = mysql_fetch_array(mysql_query("SELECT count(*) AS count FROM attacklog WHERE defender = $user_class->id AND defenderHide = 0"));
-        $count = (($count['count'] / 50) > 30) ? 30 : ($count['count'] / 50);
+
+        $db->query("SELECT COUNT(*) FROM attacklog WHERE defender = ? AND defenderHide = 0");
+        $db->execute([$user_class->id]);
+        $count = $db->fetch_single();
+        $count = (($count / 50) > 30) ? 30 : ($count / 50);
         for ($i = 1; $i <= $count; $i++) {
             if ($i == 1)
                 print "Pages: ";

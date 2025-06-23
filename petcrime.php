@@ -9,20 +9,27 @@ include 'header.php';
         $jailtime = 5;
         $successchance = 92;
         $jailchance = 2;
-        $q = mysql_query("SELECT petid FROM pets WHERE userid = $user_class->id");
-        if (!mysql_num_rows($q))
+        $db->query("SELECT petid FROM pets WHERE userid = ?");
+        $db->execute([$user_class->id]);
+        $petid = $db->fetch_single();
+        if (!$petid) {
             diefun("You don't have a pet");
+        }
+
         $pet_class = new Pet($user_class->id);
-        if ($pet_class->jail)
+        if ($pet_class->jail) {
             diefun("Your pet can't do crimes whilst in the pound");
-        $q = mysql_query("SELECT id, pethex FROM grpgusers WHERE id = $user_class->id");
-        $hex = mysql_fetch_array($q);
+        }
+
         $_GET['id'] = isset($_GET['id']) && ctype_digit($_GET['id']) ? $_GET['id'] : null;
         if (!empty($_GET['id'])) {
-            $y = mysql_query("SELECT * FROM petcrimes WHERE id = {$_GET['id']}");
-            if (!mysql_num_rows($y))
+            $db->query("SELECT * FROM petcrimes WHERE id = ?");
+            $db->execute([$_GET['id']]);
+            $row = $db->fetch_row(true);
+            if (empty($row)) {
                 diefun("That pet crime doesn't exist");
-            $row = mysql_fetch_array($y);
+            }
+
             $chance = rand(1, 100);
             $money = (50 * $row['nerve']) + 15 * ($row['nerve'] - 1);
             $exp = (10 * $row['nerve']) + 2 * ($row['nerve'] - 1);
@@ -72,8 +79,8 @@ include 'header.php';
         <th width="25%">Nerve</th>
         <th width="25%">Action</th>
     </tr>';
-        $q = mysql_query("SELECT * FROM petcrimes ORDER BY nerve ASC");
-        while ($row = mysql_fetch_array($q))
+        $petcrimes = get_pet_crimes();
+        foreach ($petcrimes as $row) {
             echo "
             <tr>
                 <td>{$row['name']}</td>
@@ -81,6 +88,7 @@ include 'header.php';
                 <td>[<a href='petcrime.php?id={$row['id']}'>do</a>]</td>
             </tr>
         ";
+        }
         print "</table></center>
 </td></tr>";
 

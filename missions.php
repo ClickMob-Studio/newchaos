@@ -167,8 +167,8 @@ $currenttime = time();
             foreach ($q2 as $v) {
                 $db->query("SELECT * FROM missions WHERE userid = ? AND mid = ? ORDER BY timestamp DESC LIMIT 1");
                 $db->execute([$user_class->id, $v['id']]);
-                $r = $db->fetch_row();
-                if ($v['between'] + $r['timestamp'] > $currenttime) {
+                $r = $db->fetch_row(true);
+                if (isset($r) && ($v['between'] + $r['timestamp'] > $currenttime)) {
                     $button = "Available in " . secondsToTime(($v['between'] + $r['timestamp']) - $currenttime);
                 } else {
                     $button = "<input TYPE='button' value='Do Mission' onclick=window.location.href='?do={$v['id']}'>";

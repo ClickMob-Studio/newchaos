@@ -1,9 +1,9 @@
-<?php 
+<?php
 require "header.php";
 if (isset($_GET['ret'])) {
     $userid = $user_class->id;
     if (in_array($_GET['ret'], array('eqweapon', 'eqarmor', 'eqshoes'))) {
-        switch($_GET['ret']){
+        switch ($_GET['ret']) {
             case 'eqweapon':
                 $which = 'weploaned';
                 break;
@@ -20,16 +20,16 @@ if (isset($_GET['ret'])) {
             $user_class->gang
         ));
         $toret = $db->fetch_single();
-        if(empty($toret))
+        if (empty($toret))
             diefun("Error, item not found.");
         $db->query("UPDATE grpgusers SET {$_GET['ret']} = 0, $which = 0 WHERE id = ? AND gang = ?");
         $db->execute(array(
             $userid,
             $user_class->gang
         ));
-        $it = mysql_query("SELECT * FROM items WHERE `id` = ".$toret);
-        $tiem = mysql_fetch_assoc($it);
-        $itemname = $tiem['itemname'];
+
+        $item = Get_Item($toret);
+        $itemname = $item['itemname'];
         Send_Event($user_class->id, "You sent your gang their $itemname back.");
         Vault_Event($user_class->gang, "$itemname was given back from [-_USERID_-].", $user_class->id);
         AddToArmory($toret, $user_class->gang);
@@ -51,9 +51,9 @@ if (isset($_GET['ret'])) {
         Send_Event($user_class->id, "You sent your gang their $itemname back.");
         Vault_Event($user_class->gang, "$itemname was given back from [-_USERID_-].", $user_class->id);
         Take_Loan($_GET['ret'], $user_class->id);
-    
+
         echo Message("$itemname was given back to your gang.");
-        
+
         AddToArmory($row['itemid'], $user_class->gang);
 
     }

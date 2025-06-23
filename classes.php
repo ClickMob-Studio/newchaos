@@ -128,68 +128,6 @@ class Gang
     }
 }
 
-class crew
-{
-    function crew($id)
-    {
-        global $db;
-        $db->query("SELECT * FROM crews WHERE id = ?");
-        $db->execute(array(
-            $id
-        ));
-        $row = $db->fetch_row(true);
-        if (empty($row))
-            return;
-        foreach ($row as $title => $value)
-            $this->$title = $value;
-        $db->query("SELECT id FROM grpgusers WHERE crew = ?");
-        $db->execute(array(
-            $id
-        ));
-        $members = $db->fetch_row();
-        $this->members = count($members);
-        //  style='border:1px solid #000000;'
-        if ($row['banner'] != "")
-            $this->formattedname = "<a href='viewcrew.php?id=" . $row['id'] . "'><img src='" . $row['banner'] . "' height='75' width='250' /></a>";
-        else
-            $this->formattedname = "<a href='viewcrew.php?id=" . $row['id'] . "'>" . $row['name'] . "</a>";
-        $this->nobanner = "<a href='viewcrew.php?id=" . $row['id'] . "'>" . $row['name'] . "</a>";
-        $this->Color1 = $row["tColor1"];
-        $this->Color2 = $row["tColor2"];
-        $this->Color3 = $row["tColor3"];
-        $this->crimeend = $row['ending'];
-        $this->house = $row['ghouse'];
-        $db->query("SELECT * FROM ghouses WHERE id = ?");
-        $db->execute(array(
-            $this->house
-        ));
-        $crewhouse = $db->fetch_row(true);
-        $this->housename = $crewhouse['name'];
-        $this->housename = ($this->housename == "") ? "None" : $this->housename;
-        $this->houseawake = $crewhouse['awake'];
-        $this->houseawake = ($this->houseawake == "") ? "0" : $this->houseawake;
-        $this->housecost = $crewhouse['cost'];
-        $this->tax = $row['tax'];
-        $this->maxexp = gangExperience($this->level + 1);
-        $this->exppercent = ($this->exp == 0) ? 0 : floor(($this->exp / $this->maxexp) * 100);
-        $this->formattedexp = prettynum($this->exp) . " / " . prettynum($this->maxexp) . " [" . $this->exppercent . "%]";
-        if ($this->exp >= $this->maxexp && $this->exp > 0) {
-            $this->level += 1;
-            $this->exp -= $this->maxexp;
-            $db->query("UPDATE crews SET level = ?, exp = ? WHERE id = ?");
-            $db->execute(array(
-                $this->level,
-                $this->exp,
-                $this->id
-            ));
-            crew_Event($this->id, "Your crew has just gained a level!");
-            foreach ($members as $member)
-                Send_Event($member['id'], "Your crew has just gained a level!");
-        }
-    }
-}
-
-
 class OwnedBusiness
 {
     public $ownership_id;

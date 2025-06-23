@@ -30,10 +30,9 @@ include 'header.php';
                     if ($check > 0) {
                         if ((time() - $money_person->lastactive) < 86400 || $user_class->admin == 1) {
                             if ($_POST['amount'] <= 1000000000) {
-                                $result = mysql_query("UPDATE `grpgusers` SET `money` = `money` - '" . $_POST['amount'] . "' WHERE `id`='" . $_SESSION['id'] . "'");
-                                $result = mysql_query("UPDATE `grpgusers` SET `money` = `money` + '" . $_POST['amount'] . "' WHERE `id`='" . $_POST['theirid'] . "'");
-
-                                $result = mysql_query("INSERT INTO `transferlog` (`toip`, `fromip`, `timestamp`, `to`, `from`, `money`)" . "VALUES ('" . $money_person->ip . "', '" . $user_class->ip . "', '" . time() . "', '" . $money_person->id . "', '" . $user_class->id . "', '" . $_POST['amount'] . "')");
+                                perform_query("UPDATE `grpgusers` SET `money` = `money` - ? WHERE `id` = ?", [$_POST['amount'], $_SESSION['id']]);
+                                perform_query("UPDATE `grpgusers` SET `money` = `money` + ? WHERE `id` = ?", [$_POST['amount'], $_POST['theirid']]);
+                                perform_query("INSERT INTO `transferlog` (`toip`, `fromip`, `timestamp`, `to`, `from`, `money`)" . "VALUES (?, ?, ?, ?, ?, ?)", [$money_person->ip, $user_class->ip, time(), $money_person->id, $user_class->id, $_POST['amount']]);
                                 Send_Event($money_person->id, "[-_USERID_-] sent you $" . prettynum($_POST['amount']) . ".", $user_class->id);
                                 echo Message("You have successfully sent $" . prettynum($_POST['amount']) . " to " . $money_person->formattedname . ".");
                             } else {

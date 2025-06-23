@@ -30,40 +30,36 @@ $price = $worked['cost'] * .60;
 if ($_GET['confirm'] == "true") { //if they confirm they want to sell it
     $error = ($howmany == 0) ? "You don't have any of those." : $error;
 
-
-
     if (isset($error)) {
-
         echo Message($error);
-
         include 'footer.php';
-
         die();
     }
-
-
-
     $newmoney = $user_class->money + $price;
-
-    $result = mysql_query("UPDATE `grpgusers` SET `money` = '" . $newmoney . "' WHERE `id`='" . $_SESSION['id'] . "'");
-
+    perform_query("UPDATE `grpgusers` SET `money` = ? WHERE `id` = ?", array($newmoney, $_SESSION['id']));
     Take_Plane($_GET['id'], $user_class->id);
-
     echo Message("You have sold your " . $worked['name'] . " for $" . prettynum($price) . ".<br /><br /><a href='hangar.php'>Back to Hangar</a>");
 
     include 'footer.php';
-
     die();
 }
 ?>
 
-<tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Sell Airplane</td></tr>
+<tr>
+    <td class="contentspacer"></td>
+</tr>
+<tr>
+    <td class="contenthead">Sell Airplane</td>
+</tr>
 
-<tr><td class="contentcontent">
+<tr>
+    <td class="contentcontent">
 
-        <?php echo "Are you sure that you want to sell your " . $worked['name'] . " for $" . prettynum($price) . "?<br /><br /><a href='sellplane.php?id=" . $_GET['id'] . "&confirm=true'>Yes</a>"; ?>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="hangar.php">No</a>
+        <?php echo "Are you sure that you want to sell your " . $worked['name'] . " for $" . prettynum($price) . "?<br /><br /><a href='sellplane.php?id=" . $_GET['id'] . "&confirm=true'>Yes</a>"; ?>&nbsp;&nbsp;|&nbsp;&nbsp;<a
+            href="hangar.php">No</a>
 
-    </td></tr>
+    </td>
+</tr>
 
 <?php
 include 'footer.php';

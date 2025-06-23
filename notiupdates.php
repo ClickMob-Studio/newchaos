@@ -13,20 +13,6 @@ $events = ($numevents > 0) ? "<span class='notify'>" . number_format($numevents)
 
 $ignore = array($user_class->id);
 $ignore = implode(',', $ignore);
-// $checkjail = mysql_query("SELECT COUNT(id) as jailed FROM grpgusers WHERE jail > 0 AND id NOT IN ($ignore)");
-// $jailed = mysql_fetch_assoc($checkjail);
-
-
-// $debug = array(
-//     'id' => $user_class->id,
-//     'l' => $_POST['l'],
-//     'w' => $_POST['w'],
-// );
-
-// $logger = new Katzgrau\KLogger\Logger('/var/www/logs/fp', Psr\Log\LogLevel::INFO, array (
-//     'prefix' => $user_class->id . "-",
-// ));
-// $logger->info("", $debug);
 
 $db->query("SELECT count(id) FROM grpgusers WHERE jail <> 0");
 $db->execute();

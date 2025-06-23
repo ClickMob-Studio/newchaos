@@ -18,7 +18,9 @@ print '
     <a href="control.php?page=gang">Gang Management</a><br />
 ';
 if (!empty($_GET['givecredit'])) {
-    $line = mysql_fetch_array(mysql_query("SELECT * FROM referrals WHERE id = '{$_GET['givecredit']}' AND credited = '0'"));
+    $db->query("SELECT * FROM referrals WHERE id = ? AND credited = 0 LIMIT 1");
+    $db->execute([$_GET['givecredit']]);
+    $line = $db->fetch_row(true);
     bloodbath('referrals', $line['referrer']);
 
     perform_query("UPDATE grpgusers SET credits = credits + 50, points = points + 100, referrals = referrals + 1, refcomp = refcompt + 1, refcount = refcount + 1 WHERE id = ?", [$line['referrer']]);
@@ -29,14 +31,13 @@ if (!empty($_GET['givecredit'])) {
     echo Message("You have accepted the referral.");
 }
 if (!empty($_GET['denycredit'])) {
-    $line = mysql_fetch_array(mysql_query("SELECT * FROM referrals WHERE id = {$_GET['denycredit']}"));
+    $db->query("SELECT * FROM referrals WHERE id = ? AND credited = 0 LIMIT 1");
+    $db->execute([$_GET['denycredit']]);
+    $line = $db->fetch_row(true);
 
     perform_query("DELETE FROM referrals WHERE id = ?", [$_GET['denycredit']]);
-
     Send_Event($line['referrer'], "Unfortunately you have recieved no points for referring [-_USERID_-].", $line['referred']);
-
     perform_query("UPDATE referrals SET credited = 1 WHERE id = ?", [$_GET['denycredit']]);
-
     echo Message("You have denied the referral.");
 }
 if (isset($_GET['deletejob'])) {
@@ -136,8 +137,7 @@ if (isset($_POST['takeitem'])) {
     echo Message("That user had {$oldamount} of those, and now has {$newamount} of them.");
 }
 if (isset($_POST['viewedititem'])) {
-    $result = mysql_query("SELECT * FROM items WHERE id='{$_POST['itemid']}'");
-    $worked = mysql_fetch_array($result);
+    $worked = Get_Item($_POST['itemid']);
     genHead("Edit Item");
     print "
         <form method='post'>
@@ -145,7 +145,7 @@ if (isset($_POST['viewedititem'])) {
             <input type='text' name='description' size='10' maxlength='75' value='{$worked['description']}'> [description]<br />
             <input type='text' name='cost' size='10' maxlength='75' value='{$worked['cost']}'> [cost]<br />
             <input type='text' name='image' size='10' maxlength='75' value='{$worked['image']}'> [image]<br />
-            <input type='text' name='offense' size='10' maxlength='75' value='{$worked['offence']}'> [offense]<br />
+            <input type='text' name='offense' size='10' maxlength='75' value='{$worked['offense']}'> [offense]<br />
             <input type='text' name='defense' size='10' maxlength='75' value='{$worked['defense']}'> [defense]<br />
             <input type='text' name='speed' size='10' maxlength='75' value='{$worked['speed']}'> [speed]<br />
             <input type='text' name='heal' size='10' maxlength='75'value='0' value='{$worked['heal']}'> [heal]<br />
@@ -180,9 +180,12 @@ if (isset($_POST['edititemdb'])) {
 }
 if (isset($_POST['listitems'])) {
     $oldamount = Check_Item($_POST['itemnumber'], Get_ID($_POST['username']));
-    $result = mysql_query("SELECT * FROM inventory WHERE userid = " . Get_ID($_POST['username']));
-    while ($line = mysql_fetch_array($result)) {
-        $worked2 = mysql_fetch_array(mysql_query("SELECT * FROM items WHERE id = {$line['itemid']}"));
+
+    $db->query("SELECT * FROM inventory WHERE userid = ?");
+    $db->execute([Get_ID($_POST['username'])]);
+    $rows = $db->fetch_row();
+    foreach ($rows as $line) {
+        $worked2 = Get_Item($line['itemid']);
         $out .= "<div>{$line['itemid']} " . item_popup($worked2['itemname'], $worked2['id']) . " ${$worked2['cost']} Quantity: {$line['quantity']} <a href='control.php?page=playeritems&takealluser=" . Get_ID($_POST['username']) . "&takeallitem={$line['itemid']}'>Take All</a></div>";
     }
     echo Message($_POST['username'] . "'s Items<br>$out");
@@ -236,14 +239,18 @@ if (empty($_GET['page'])) {
     </td></tr>
     ";
     genHead("Poll 1");
-    $result = mysql_query("SELECT * FROM poll1 ORDER BY optionid");
-    $work = mysql_fetch_array(mysql_query("SELECT SUM(votes) as total FROM poll1"));
-    $total = $work['total'];
+    $db->query("SELECT * FROM poll1 ORDER BY optionid");
+    $db->execute();
+    $rows = $db->fetch_row();
+
+    $db->query("SELECT SUM(votes) FROM poll1");
+    $db->execute();
+    $total = $db->fetch_row(true);
     print '
         <table width="100%">
             <tr><td><b>Option Name</b></td><td><b>Votes</b></td></tr>
     ';
-    while ($line = mysql_fetch_array($result)) {
+    foreach ($rows as $line) {
         $percent = ($total != 0) ? round(($line['votes'] / $total) * 100) : 0;
         $votes = "{$line['votes']}&nbsp;[{$percent}%]";
         echo "<tr><td width='70%'>{$line['optionname']}</td><td width='30%'>{$votes}</td></tr>";
@@ -252,8 +259,10 @@ if (empty($_GET['page'])) {
             </td></tr>";
     genHead("Change Admin Notification");
     print "<form method='post'>";
-    $result = mysql_query("SELECT * from serverconfig");
-    $worked = mysql_fetch_array($result);
+
+    $db->query("SELECT * FROM serverconfig");
+    $db->execute();
+    $worked = $db->fetch_row(true);
     print "
             <textarea name='message' cols='53' rows='7'>{$worked['admin']}</textarea><br />
             <input type='submit' name='changeadmin' value='Change Admin Notification'>
@@ -262,8 +271,6 @@ if (empty($_GET['page'])) {
     ";
     genHead("Change Marquee Text");
     print "<form method='post'>";
-    $result = mysql_query("SELECT * from serverconfig");
-    $worked = mysql_fetch_array($result);
     print "
             <textarea name='message' cols='53' rows='7'>{$worked['messagefromadmin']}</textarea><br />
             <input type='submit' name='changemessage' value='Change Marquee Text'>
@@ -272,8 +279,6 @@ if (empty($_GET['page'])) {
     ";
     genHead("Change Server Down Text");
     print "<form method='post'>";
-    $result = mysql_query("SELECT * from serverconfig");
-    $worked = mysql_fetch_array($result);
     print "
             <textarea name='message' cols='53' rows='7'>{$worked['serverdown']}</textarea><br />
             <input type='submit' name='changeserverdown' value='Change Server Down Text'>
@@ -283,9 +288,12 @@ if (empty($_GET['page'])) {
 } else {
     if ($_GET['page'] == "playeritems") {
         genHead("List Of All Items");
-        $result = mysql_query("SELECT * FROM items ORDER BY id ASC");
-        while ($line = mysql_fetch_array($result))
+        $db->query("SELECT * FROM items ORDER BY id ASC");
+        $db->execute();
+        $rows = $db->fetch_row();
+        foreach ($rows as $line) {
             echo "<div>{$line['id']} " . item_popup($line['itemname'], $line['id']) . "&nbsp;&nbsp;$" . prettynum($line['cost']) . "</div>";
+        }
         print "</td></tr>";
         genHead("Add New Item To Database");
         print "
@@ -354,11 +362,15 @@ if (empty($_GET['page'])) {
     }
     if ($_GET['page'] == "crimes") {
         genHead("Crimes");
-        $result = mysql_query("SELECT * FROM crimes");
+
+        $db->query("SELECT * FROM crimes");
+        $db->execute();
+        $rows = $db->fetch_row();
         echo "<table width='100%'><tr><td><b>ID</b></td><td><b>Name</b></td><td><b>Nerve</b></td><td><b>Delete</b></td><tr>";
-        while ($line = mysql_fetch_array($result))
+        foreach ($rows as $line) {
             echo "<tr><td>{$line['id']}</td><td>{$line['name']}</td><td>{$line['nerve']}</td><td><a href='control.php?page=crimes&deletecrime={$line['id']}'>[Delete Crime]</a></td></tr>";
-        print "</table></td></tr>";
+        }
+        echo "</table></td></tr>";
         genHead("Add New Crime To Database");
         print "
             <form method='post'>
@@ -377,8 +389,9 @@ if (empty($_GET['page'])) {
                 <input type='submit' name='vieweditcrime' value='View/Edit Crime'></td></tr>
         ";
         if ($_POST['vieweditcrime']) {
-            $result = mysql_query("SELECT * FROM crimes WHERE id='{$_POST['crimeid']}'");
-            $worked = mysql_fetch_array($result);
+            $db->query("SELECT * FROM crimes WHERE id = ?");
+            $db->execute([$_POST['crimeid']]);
+            $worked = $db->fetch_row(true);
             genHead("Edit Crime");
             print "
                 <form method='post'>
@@ -395,11 +408,14 @@ if (empty($_GET['page'])) {
     }
     if ($_GET['page'] == "gcrimes") {
         genHead("Gang Crimes");
-        $result = mysql_query("SELECT * FROM gangcrime");
+        $db->query("SELECT * FROM gangcrime");
+        $db->execute();
+        $rows = $db->fetch_row();
         echo "<table width='100%'><tr><td><b>ID</b></td><td><b>Name</b></td><td><b>Duration</b></td><td><b>Reward</b></td><td><b>Members</b></td><td><b>Delete</b></td><tr>";
-        while ($line = mysql_fetch_array($result))
+        foreach ($rows as $line) {
             echo "<tr><td>{$line['id']}</td><td>{$line['name']}</td><td>{$line['duration']} hrs</td><td>${prettynum($line['reward'])}</td><td>{$line['members']}</td><td><a href='control.php?page=gcrimes&deletegcrime={$line['id']}'>[Delete Gang Crime]</a></td></tr>";
-        print "</table></td></tr>";
+        }
+        echo "</table></td></tr>";
         genHead("Add New Gang Crime To Database");
         print "
             <form method='post'>
@@ -417,8 +433,9 @@ if (empty($_GET['page'])) {
                 <input type='submit' name='vieweditgcrime' value='View/Edit Gang Crime'></td></tr>
         ";
         if ($_POST['vieweditgcrime']) {
-            $result = mysql_query("SELECT * FROM gangcrime WHERE id='{$_POST['gcrimeid']}'");
-            $worked = mysql_fetch_array($result);
+            $db->query("SELECT * FROM gangcrime WHERE id = ?");
+            $db->execute([$_POST['gcrimeid']]);
+            $worked = $db->fetch_row(true);
             genHead("Edit Gang Crime");
             print "
                 <form method='post'>
@@ -434,10 +451,13 @@ if (empty($_GET['page'])) {
     }
     if ($_GET['page'] == "cities") {
         genHead("Cities");
-        $result = mysql_query("SELECT * FROM cities");
+        $db->query("SELECT * FROM cities");
+        $db->execute();
+        $rows = $db->fetch_row();
         echo "<table width='100%'><tr><td><b>ID</b></td><td><b>Name</b></td><td><b>Level Req</b></td><td><b>Land Left</b></td><td><b>Land Price</b></td><td><b>Price</b></td><td><b>Delete</b></td></tr>";
-        while ($line = mysql_fetch_array($result))
+        foreach ($rows as $line) {
             echo "<tr><td>{$line['id']}</td><td>{$line['name']}</td><td>{$line['levelreq']}</td><td>" . prettynum($line['landleft']) . "</td><td>$" . prettynum($line['landprice']) . "</td><td>$" . prettynum($line['price']) . "</td><td><a href='control.php?page=cities&deletecity={$line['id']}'>[Delete City]</a></td></tr>";
+        }
         echo "</table></td></tr>";
         genHead("Add New City To Database");
         print "
@@ -458,8 +478,9 @@ if (empty($_GET['page'])) {
                 <input type='submit' name='vieweditcity' value='View/Edit City'></td></tr>
         ";
         if ($_POST['vieweditcity']) {
-            $result = mysql_query("SELECT * FROM cities WHERE id='{$_POST['cityid']}'");
-            $worked = mysql_fetch_array($result);
+            $db->query("SELECT * FROM cities WHERE id = ?");
+            $db->execute([$_POST['cityid']]);
+            $worked = $db->fetch_row(true);
             genHead("Edit City");
             print "
                 <form method='post'>
@@ -477,10 +498,13 @@ if (empty($_GET['page'])) {
     }
     if ($_GET['page'] == "jobs") {
         genHead("Jobs");
-        $result = mysql_query("SELECT * FROM jobs");
+        $db->query("SELECT * FROM jobs");
+        $db->execute();
+        $rows = $db->fetch_row();
         echo "<table width='100%'><tr><td><b>ID</b></td><td><b>Name</b></td><td><b>Money</b></td><td><b>Strength</b></td><td><b>Defense</b></td><td><b>Speed</b></td><td><b>Level</b></td><td><b>Delete</b></td><tr>";
-        while ($line = mysql_fetch_array($result))
+        foreach ($rows as $line) {
             echo "<tr><td>{$line['id']}.)</td><td>{$line['name']}</td><td>$" . prettynum($line['money']) . "</td><td>" . prettynum($line['strength']) . "</td><td>" . prettynum($line['defense']) . "</td><td>" . prettynum($line['speed']) . "</td><td>{$line['level']}</td><td><a href='control.php?page=jobs&deletejob={$line['id']}'>[Delete Job]</a></td></tr>";
+        }
         echo "</table></td></tr>";
         genHead("Add New Job To Database");
         print "
@@ -501,8 +525,9 @@ if (empty($_GET['page'])) {
                 <input type='submit' name='vieweditjob' value='View/Edit Job'></td></tr>
         ";
         if ($_POST['vieweditjob']) {
-            $result = mysql_query("SELECT * FROM jobs WHERE id='{$_POST['jobid']}'");
-            $worked = mysql_fetch_array($result);
+            $db->query("SELECT * FROM jobs WHERE id = ?");
+            $db->execute([$_POST['jobid']]);
+            $worked = $db->fetch_row(true);
             genHead("Edit Job");
             print "
                 <form method='post'>
@@ -521,10 +546,13 @@ if (empty($_GET['page'])) {
     }
     if ($_GET['page'] == "houses") {
         genHead("Houses");
-        $result = mysql_query("SELECT * FROM houses");
+        $db->query("SELECT * FROM houses");
+        $db->execute();
+        $rows = $db->fetch_row();
         echo "<table width='100%'><tr><td><b>ID</b></td><td><b>Name</b></td><td><b>Awake</b></td><td><b>Cost</b></td><td><b>Delete</b></td><tr>";
-        while ($line = mysql_fetch_array($result))
+        foreach ($rows as $line) {
             echo "<tr><td>{$line['id']}.)</td><td>{$line['name']}</td><td>" . prettynum($line['awake']) . "</td><td>$" . prettynum($line['cost']) . "</td><td><a href='control.php?page=jobs&deletehouse={$line['id']}'>[Delete House]</a></td></tr>";
+        }
         echo "</table></td></tr>";
         genHead("Add New House To Database");
         print "
@@ -542,8 +570,9 @@ if (empty($_GET['page'])) {
                 <input type='submit' name='viewedithouse' value='View/Edit House'></td></tr>
         ";
         if ($_POST['viewedithouse']) {
-            $result = mysql_query("SELECT * FROM houses WHERE id='{$_POST['houseid']}'");
-            $worked = mysql_fetch_array($result);
+            $db->query("SELECT * FROM houses WHERE id = ?");
+            $db->execute([$_POST['houseid']]);
+            $worked = $db->fetch_row(true);
             genHead("Edit House");
             print "
                 <form method='post'>
@@ -578,8 +607,10 @@ if (empty($_GET['page'])) {
                 perform_query("DELETE FROM ganginvites WHERE gangid = ?", [$gang_class->id]);
                 perform_query("DELETE FROM gang_loans WHERE gang = ?", [$gang_class->id]);
 
-                $resultw = mysql_query("SELECT * FROM grpgusers WHERE gang = '{$user_class->gang}'");
-                while ($line = mysql_fetch_array($resultw)) {
+                $db->query("SELECT * FROM grpgusers WHERE gang = ?");
+                $db->execute([$gang_class->id]);
+                $rows = $db->fetch_row();
+                foreach ($rows as $line) {
                     $gang_user = new User($line['id']);
                     if ($gang_user->weploaned == 1)
                         perform_query("UPDATE grpgusers SET eqweapon = 0, weploaned = 0 WHERE id = ?", [$line['id']]);
@@ -609,4 +640,3 @@ if (empty($_GET['page'])) {
     }
 }
 include 'footer.php';
-?>

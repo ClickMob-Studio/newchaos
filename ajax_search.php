@@ -1,30 +1,21 @@
 <?php
 include "ajax_header.php";
-mysql_select_db('chaoscit_game', mysql_connect('localhost', 'chaoscit_user', '3lrKBlrfMGl2ic14'));
-
-/*if (isset($_POST['term'])) {
-    $term = mysql_real_escape_string($_POST['term']);
-    $users = mysql_query("SELECT * FROM grpgusers WHERE username LIKE '%$term%'");
-    while ($user = mysql_fetch_array($users, MYSQL_ASSOC)) {
-        $return_arr[] =  $user['username'];
-    }
-
-    echo json_encode($return_arr);
-
-}*/
 
 if (isset($_GET['term'])) {
-
-    $term = mysql_real_escape_string($_GET['term']);
+    $term = filter_input(INPUT_GET, 'term', FILTER_SANITIZE_STRING);
 
     if (is_numeric($term)) {
-        $users = mysql_query("SELECT id,username FROM grpgusers WHERE id ='$term'");
+        $$db->query("SELECT id, username FROM grpgusers WHERE id = ?");
+        $db->execute([$term]);
     } else {
-        $users = mysql_query("SELECT id,username FROM grpgusers WHERE username LIKE '%$term%'");
+        $db->query("SELECT id, username FROM grpgusers WHERE username LIKE ?");
+        $db->execute(['%' . $term . '%']);
     }
 
+    $users = $db->fetch_row();
+
     $userData = array();
-    while ($user = mysql_fetch_array($users, MYSQL_ASSOC)) {
+    foreach ($users as $user) {
         $userData[] = array(
             "id" => $user['id'],
             "label" => $user['username'],
@@ -33,7 +24,6 @@ if (isset($_GET['term'])) {
     }
 
     echo json_encode($userData);
-
 }
 
 ?>

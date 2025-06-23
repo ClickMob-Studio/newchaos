@@ -1,18 +1,7 @@
 <?php
-include_once 'dbcon.php';
-function prettynum($num, $dollar = "0")
-{
-    // Basic send a number or string to this and it will add commas. If you want a dollar sign added to the
-// front and it is a number add a 1 for the 2nd variable.
-// Example prettynum(123452838,1)  will return $123,452,838 take out the ,1 and it looses the dollar sign.
-    $out = strrev((string) preg_replace('/(\d{3})(?=\d)(?!\d*\.)/', '$1,', strrev($num)));
-    if ($dollar && is_numeric($num)) {
-        $out = "$" . $out;
-    }
-    return $out;
-}
-$result = mysql_query("SELECT * FROM `items` WHERE `id` = '" . $_GET['id'] . "'");
-$worked = mysql_fetch_array($result);
+include_once 'includes/functions.php';
+
+$worked = Get_Item(filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT));
 ?>
 <html>
 

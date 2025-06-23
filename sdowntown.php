@@ -11,7 +11,7 @@ if ($_GET['buy'] == "buysearchesyes") {
     if ($user_class->turns > 9) {
         $newcredit = $user_class->turns - 10;
         $time = time();
-        $result = mysql_query("INSERT INTO `spentcredits` (timestamp, spender, spent, amount)" . "VALUES ('" . $time . "', '" . $user_class->id . "', '100 searches', '10')");
+        perform_query("INSERT INTO `spentcredits` (timestamp, spender, spent, amount)" . "VALUES (?, ?, '100 searches', '10')", [$time, $user_class->id]);
         perform_query("UPDATE `grpgusers` SET `searchdowntown` = searchdowntown + 100 WHERE `id` = ?", [$_SESSION['id']]);
         echo Message("You spent 10 Apples for 100 Searches.");
     } else {

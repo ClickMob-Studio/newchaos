@@ -3,8 +3,6 @@ include_once "classes.php";
 include_once "codeparser.php";
 include_once "database/pdo_class.php";
 
-mysql_select_db('ml2', mysql_connect('localhost', 'aa_user', 'GmUq38&SVccVSpt'));
-
 $db->query("SELECT id FROM grpgusers WHERE lastactive > unix_timestamp() - 3600 ORDER BY lastactive DESC");
 $db->execute();
 $rows = $db->fetch_row();
@@ -56,9 +54,9 @@ if ($_POST['page'] == 'online') {
     foreach ($store as $user) {
         if ($user_class->nightvision > 1) {
             //get city name
-            $query = mysql_query("SELECT name FROM cities WHERE id = " . $user['cityid']);
-            $result = mysql_fetch_assoc($query);
-            $city = $result['name'];
+            $db->query("SELECT name FROM cities WHERE id = ?");
+            $db->execute([$user['cityid']]);
+            $city = $db->fetch_single();
         } else {
             $city = $user['cityname'];
         }
