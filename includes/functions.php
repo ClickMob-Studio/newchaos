@@ -4087,11 +4087,14 @@ function isIPBanned($ip)
     global $db, $redis;
 
     if ($redis->exists('ipbans')) {
-        $bannedIps = json_decode($redis->get('ipbans'), true);
+        $bannedIps = json_decode($redis->get('ipbans'));
     } else {
         $db->query("SELECT ip FROM ipbans");
         $db->execute();
         $bannedIps = $db->fetch_row();
+        $bannedIps = array_map(function ($row) {
+            return $row['ip'];
+        }, $bannedIps);
         $redis->setEx('ipbans', 3600, json_encode($bannedIps));
     }
 
