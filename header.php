@@ -98,10 +98,6 @@ if (isset($_GET['action']) && $_GET['action'] == "logout") {
 $uid = $_SESSION['id'];
 $user_class = new User($uid);
 
-if ($user_class->admin == 1) {
-    echo "<div id='adminip'>Admin IP: " . $ip . "</div><br>";
-}
-
 $_SESSION['username'] = $user_class->username;
 if ($user_class->id == 18) {
     // Call the function to log the page view
