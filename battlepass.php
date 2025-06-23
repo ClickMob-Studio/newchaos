@@ -11,8 +11,8 @@ if (!$bpCategory) {
     exit;
 }
 $latestBpCategory = getBpCategory();
-if (isset($_GET['override_id']) && (int)$_GET['override_id'] > 0) {
-    $overrideId = (int)$_GET['override_id'];
+if (isset($_GET['override_id']) && (int) $_GET['override_id'] > 0) {
+    $overrideId = (int) $_GET['override_id'];
     $bpCategory = getBpCategory($overrideId);
 }
 
@@ -23,8 +23,8 @@ $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
 $prizesClaimed = unserialize($bpCategoryUser['prize_ids_serialized']);
 $challengesClaimed = unserialize($bpCategoryUser['challenge_ids_serialized']);
 
-if (isset($_GET['claim_challenge']) && (int)$_GET['claim_challenge']) {
-    $claimChallengeId = (int)$_GET['claim_challenge'];
+if (isset($_GET['claim_challenge']) && (int) $_GET['claim_challenge']) {
+    $claimChallengeId = (int) $_GET['claim_challenge'];
 
     if (!isset($bpCategoryChallenges[$claimChallengeId])) {
         diefun('Something went wrong, if this issue persists please message an Admin.');
@@ -54,8 +54,8 @@ if (isset($_GET['claim_challenge']) && (int)$_GET['claim_challenge']) {
     }
 }
 
-if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
-    $claimPrizeId = (int)$_GET['claim_prize'];
+if (isset($_GET['claim_prize']) && (int) $_GET['claim_prize']) {
+    $claimPrizeId = (int) $_GET['claim_prize'];
 
     if (!isset($bpCategoryPrizes[$claimPrizeId])) {
         diefun('Something went wrong, if this issue persists please message an Admin.');
@@ -82,7 +82,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
             $db->query("UPDATE grpgusers SET points = points + '" . $prize['amount'] . "' WHERE id = " . $bpCategoryUser['user_id']);
             $db->execute();
 
-            $resMes =  'You have successfully claimed your prize of ' . number_format($prize['amount'], 0) . ' points.';
+            $resMes = 'You have successfully claimed your prize of ' . number_format($prize['amount'], 0) . ' points.';
         }
 
         if ($prize['type'] === 'money') {
@@ -95,7 +95,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
         if ($prize['type'] === 'item') {
             Give_Item($prize['entity_id'], $user_class->id, $prize['amount']);
 
-            $resMes =  'You have successfully claimed your prize of ' . number_format($prize['amount']) . ' x ' . Item_Name($prize['entity_id']) . '.';
+            $resMes = 'You have successfully claimed your prize of ' . number_format($prize['amount']) . ' x ' . Item_Name($prize['entity_id']) . '.';
         }
 
         if ($prize['type'] === 'raid_tokens') {
@@ -125,22 +125,30 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
 
 ?>
 
-<div class='box_top'><h1>Battle Pass</h1></div>
+<div class='box_top'>
+    <h1>Battle Pass</h1>
+</div>
 <div class='box_middle'>
     <div class='pad'>
-        <p><center><strong>You currently have <?php echo number_format($bpCategoryUser['points'], 0) ?> Battle Pass points</strong></center></p>
+        <p>
+            <center><strong>You currently have <?php echo number_format($bpCategoryUser['points'], 0) ?> Battle Pass
+                    points</strong></center>
+        </p>
 
-        <p>Welcome to the Battle Pass! Here you can complete challenges to earn prizes. You'll see all your challenges & prizes below.</p>
+        <p>Welcome to the Battle Pass! Here you can complete challenges to earn prizes. You'll see all your challenges &
+            prizes below.</p>
         <p>Battle Pass points are earned by completing challenges and then can be used to claim prizes.</p>
         <p>
-            The Battle Pass resets & changes monthly. You have the option of just running the free Battle Pass, or you can update
+            The Battle Pass resets & changes monthly. You have the option of just running the free Battle Pass, or you
+            can update
             via the store to unlock the months Premium Battle Pass challenges & prizes too.
         </p>
 
         <?php if ($bpCategory['id'] > 1): ?>
-                <?php if ($bpCategoryUser['is_premium'] < 1): ?>
-                    <p style="color: red;"><strong>You have not yet purchased this months Premium Battle Pass, purchase now from the store to unlock more challenges and prizes.</strong></p>
-                <?php endif; ?>
+            <?php if ($bpCategoryUser['is_premium'] < 1): ?>
+                <p style="color: red;"><strong>You have not yet purchased this months Premium Battle Pass, purchase now from the
+                        store to unlock more challenges and prizes.</strong></p>
+            <?php endif; ?>
         <?php else: ?>
             <p><strong>This months Battle Pass is free and includes no premium options.</strong></p>
         <?php endif; ?>
@@ -177,9 +185,12 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                     <tr>
                         <td>
                             <br />
-                            Filter: <a href="#" class="filter-link" data-filter-type="all">All</a> | <a href="#" class="filter-link" data-filter-type="crimes">Crimes</a> |
-                            <a href="#" class="filter-link" data-filter-type="attacks">Attacks</a> | <a href="#" class="filter-link" data-filter-type="mugs">Mugs</a> |
-                            <a href="#" class="filter-link" data-filter-type="busts">Busts</a> | <a href="#" class="filter-link" data-filter-type="backalley">Backalley</a>
+                            Filter: <a href="#" class="filter-link" data-filter-type="all">All</a> | <a href="#"
+                                class="filter-link" data-filter-type="crimes">Crimes</a> |
+                            <a href="#" class="filter-link" data-filter-type="attacks">Attacks</a> | <a href="#"
+                                class="filter-link" data-filter-type="mugs">Mugs</a> |
+                            <a href="#" class="filter-link" data-filter-type="busts">Busts</a> | <a href="#"
+                                class="filter-link" data-filter-type="backalley">Backalley</a>
                             | <a href="#" class="filter-link" data-filter-type="incomplete">Incomplete</a>
                             <br /><br />
                         </td>
@@ -195,21 +206,23 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                 if ($bpCategoryChallenge['is_premium'] > 0) {
                                     $divClass = 'bg-info';
                                 }
-                                if (in_array($bpCategoryChallenge['id'], $challengesClaimed)) {
+                                if (!empty($challengesClaimed) && (in_array($bpCategoryChallenge['id'], $challengesClaimed))) {
                                     $isComplete = true;
                                     $divClass = 'bg-success';
                                 }
                                 ?>
 
                                 <div class="col-md-4">
-                                    <div class="card text-white <?php echo $divClass ?> mb-3 <?php echo $bpCategoryChallenge['type'] ?>-c-card">
+                                    <div
+                                        class="card text-white <?php echo $divClass ?> mb-3 <?php echo $bpCategoryChallenge['type'] ?>-c-card">
                                         <div class="card-header">
-                                            <?php echo number_format($bpCategoryChallenge['amount'], 0) ?> x <?php echo ucfirst($bpCategoryChallenge['type']) ?>
+                                            <?php echo number_format($bpCategoryChallenge['amount'], 0) ?> x
+                                            <?php echo ucfirst($bpCategoryChallenge['type']) ?>
                                         </div>
                                         <div class="card-body">
                                             <p class="card-text">
                                                 <?php echo number_format($bpCategoryUser[$bpCategoryChallenge['type']], 0) ?>/<?php echo number_format($bpCategoryChallenge['amount'], 0) ?><br />
-                                                Points:  <?php echo $bpCategoryChallenge['prize'] ?>
+                                                Points: <?php echo $bpCategoryChallenge['prize'] ?>
                                             </p>
                                         </div>
                                         <div class="card-footer">
@@ -266,7 +279,7 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
                                         </div>
                                         <div class="card-body">
                                             <p class="card-text">
-                                                Points Req:  <?php echo $bpCategoryPrize['cost'] ?>
+                                                Points Req: <?php echo $bpCategoryPrize['cost'] ?>
                                             </p>
                                         </div>
                                         <div class="card-footer">
@@ -304,8 +317,8 @@ if (isset($_GET['claim_prize']) && (int)$_GET['claim_prize']) {
 </div>
 
 <script type="text/javascript">
-    $('document').ready(function() {
-        $('.filter-link').click(function(e) {
+    $('document').ready(function () {
+        $('.filter-link').click(function (e) {
             e.preventDefault();
 
             var filterType = $(this).data('filter-type');
