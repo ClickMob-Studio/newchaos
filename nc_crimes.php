@@ -1,4 +1,6 @@
 <?php
+require_once 'includes/cache.php';
+
 include 'nc_header.php';
 
 error_reporting(0);
@@ -18,12 +20,12 @@ if ($tempItemUse['ghost_vacuum_time'] > time()) {
   $db->execute();
 }
 
-$crimes = $redis->get("all_crimes");
+$crimes = $cache->get("all_crimes");
 if (empty($crimes)) {
   $db->query("SELECT * FROM crimes ORDER BY nerve DESC");
   $db->execute();
   $crimes = $db->fetch_row();
-  $redis->setEx("all_crimes", 7200, json_encode($crimes)); // Cache for 2 hours
+  $cache->setEx("all_crimes", 7200, json_encode($crimes)); // Cache for 2 hours
 } else {
   $crimes = json_decode($crimes, true);
 }
@@ -160,7 +162,7 @@ if (isset($_GET['ner'])) {
         $user_class->nerref,
         $user_class->id
       ));
-      mysql_query("UPDATE grpgusers SET nerref = $user_class->nerref WHERE id = $user_class->id");
+      perform_query("UPDATE grpgusers SET nerref = ? WHERE id = ?", [$user_class->nerref, $user_class->id]);
       break;
     case 2:
       if ($user_class->nerref == 0)

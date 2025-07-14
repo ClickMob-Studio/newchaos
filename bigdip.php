@@ -8,8 +8,8 @@ if ($user_class->prestige < 3) {
 }
 
 
-echo'<h3>Big Dip</h3>';
-	echo'<hr>';
+echo '<h3>Big Dip</h3>';
+echo '<hr>';
 echo '<tr><td class="contentcontent">';
 if ($_GET['dip'] == 1) {
     if ($user_class->luckydip2 == 1) {
@@ -19,7 +19,7 @@ if ($_GET['dip'] == 1) {
                 echo "You dipped into the bag and pulled out $" . prettynum($randnum) . "!<br /><br />";
                 echo "<a href='bigdip.php'>Go Back</a>";
                 $newmoney = $user_class->money + $randnum - 1000000;
-                $result = mysql_query("UPDATE `grpgusers` SET `money` = '" . $newmoney . "', `luckydip2` = '0' WHERE `id`='" . $user_class->id . "'");
+                perform_query("UPDATE `grpgusers` SET `money` = ?, `luckydip2` = '0' WHERE `id`= ?", [$newmoney, $user_class->id]);
                 include("footer.php");
                 die();
             } else {

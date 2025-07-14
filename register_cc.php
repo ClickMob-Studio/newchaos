@@ -1,17 +1,12 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-// Include dbcon.php if not already included
+require_once 'includes/functions.php';
 
-include 'dbcon.php';
+start_session_guarded();
 
 
-// Include database/pdo_class.php if not already included
-
-include 'database/pdo_class.php';
-
-include 'classes.php';
+include_once 'dbcon.php';
+include_once 'database/pdo_class.php';
+include_once 'classes.php';
 
 
 $string = "1234567890";
@@ -25,6 +20,7 @@ $metadesc = 'Chaos City Text-Based Mafia Game - Free Online Multiplayer MMORPG';
 
 !DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="lang" content="english">
@@ -36,7 +32,7 @@ $metadesc = 'Chaos City Text-Based Mafia Game - Free Online Multiplayer MMORPG';
 
     <script src='js/reg.js' type='text/javascript'></script>
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
             window.validationStates = {
                 usernameValid: false,
                 emailValid: false,
@@ -46,7 +42,7 @@ $metadesc = 'Chaos City Text-Based Mafia Game - Free Online Multiplayer MMORPG';
 
             // Username sanitization
             var usernameField = $('[name="username"]');
-            usernameField.on('keyup', function() {
+            usernameField.on('keyup', function () {
                 var userName = $(this).val().replace(/\s/g, '');
                 $(this).val(userName);
             });
@@ -68,11 +64,11 @@ $metadesc = 'Chaos City Text-Based Mafia Game - Free Online Multiplayer MMORPG';
                         url: 'regCheck.php',
                         data: { username: username },
                         type: 'GET',
-                        success: function(response) {
+                        success: function (response) {
                             window.validationStates.usernameValid = (response.trim() === 'pass');
                             updateInputVisuals(usernameField, window.validationStates.usernameValid);
                         },
-                        error: function() {
+                        error: function () {
                             window.validationStates.usernameValid = false;
                             updateInputVisuals(usernameField, false);
                         }
@@ -112,13 +108,13 @@ $metadesc = 'Chaos City Text-Based Mafia Game - Free Online Multiplayer MMORPG';
             usernameField.on('blur', checkUsernameUnique);
 
             // Extend validateForm to include asynchronous check
-            window.validateForm = function() {
+            window.validateForm = function () {
                 // Trigger validations
                 checkUsernameUnique();
                 // ...include other validation checks...
 
                 // Delay form submission to wait for AJAX validation to complete
-                setTimeout(function() {
+                setTimeout(function () {
                     if (Object.values(window.validationStates).every(status => status)) {
                         // If all validations pass, submit the form
                         $('#regForm')[0].submit();
@@ -132,105 +128,115 @@ $metadesc = 'Chaos City Text-Based Mafia Game - Free Online Multiplayer MMORPG';
         });
     </script>
 </head>
+
 <body>
-<div id="outer" class="wrap">
-    <div id="top_bar" class="wrap">
-        <div style="float:left;color:#910503;margin-left:5px;">
-            <strong>Users Online: <?php echo $usersOnline; ?></strong> |
-            <strong>Users Online in last 24 hours: <?php echo $users24; ?></strong>
-        </div>
-        <a href="login.php">Homepage</a> <a href="register.php">Create an account</a>
-    </div>
-    <div id="main" class="row">
-        <div id="header" class="row">
-
-        </div>
-        <div id="content" class="row">
-            <div id="left_side">
-                <h2>Welcome to Chaos City!</h2>
-                Chaos City is a Massively Multiplayer Online Role Playing Game, MMORPG for short.<br /><br />
-                In this game, you play the role of a mobster who is leading a life of crime and deception.
-                Join gangs and team up with your friends to kick ass, or go your own way.
-                The choices are endless.<br /><br />
-                <strong>Contact us at <a style='color:#FFF;text-decoration:none;' href="mailto:support@chaoscityrpg.com">support@chaoscityrpg.com</a></strong><br /><br />
-
-                <!-- <strong style='color:red;'>Countdown To beta Launch (<small>11/11/2016</small>)</strong><br /> -->
-                <!-- <strong><span id="countdown" style="font-size:25px;"></span></strong><br /><br />-->
+    <div id="outer" class="wrap">
+        <div id="top_bar" class="wrap">
+            <div style="float:left;color:#910503;margin-left:5px;">
+                <strong>Users Online: <?php echo $usersOnline; ?></strong> |
+                <strong>Users Online in last 24 hours: <?php echo $users24; ?></strong>
             </div>
+            <a href="login.php">Homepage</a> <a href="register.php">Create an account</a>
+        </div>
+        <div id="main" class="row">
+            <div id="header" class="row">
 
-            <div id="right_side">
-                <div id="error_area">
-                    <?php
-                    if(isset($_SESSION['failmessage'])){
-                        echo '<div class="warning-msg">
-                        <i class="fa fa-warning"></i>
-                        '.$_SESSION['failmessage'].'
-                      </div>';
-                        unset($_SESSION['failmessage']);
-                    }
-                    ?>
+            </div>
+            <div id="content" class="row">
+                <div id="left_side">
+                    <h2>Welcome to Chaos City!</h2>
+                    Chaos City is a Massively Multiplayer Online Role Playing Game, MMORPG for short.<br /><br />
+                    In this game, you play the role of a mobster who is leading a life of crime and deception.
+                    Join gangs and team up with your friends to kick ass, or go your own way.
+                    The choices are endless.<br /><br />
+                    <strong>Contact us at <a style='color:#FFF;text-decoration:none;'
+                            href="mailto:support@chaoscityrpg.com">support@chaoscityrpg.com</a></strong><br /><br />
+
+                    <!-- <strong style='color:red;'>Countdown To beta Launch (<small>11/11/2016</small>)</strong><br /> -->
+                    <!-- <strong><span id="countdown" style="font-size:25px;"></span></strong><br /><br />-->
                 </div>
-                <div id="login_panel">
-                    <h3>:: Create An Account ::</h3>
 
-                    <form id="regForm" onsubmit="event.preventDefault(); if(validate()) this.submit();" method="post" action="regsub.php">
-
-
-                        <div class="form-group">
-                            <label for="username" class="form-label">Username:</label>
-                            <input class="login" type="text" id="username" onBlur="checkUsername(1);" name="username" />
-
-                        </div>
-
-                        <div class="form-group">
-                            <label for="email" class="form-label">Email:</label>
-                            <input type="email" id="email" name="email" onBlur="checkEmail();" class="login" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="pass" class="form-label">Password:</label>
-                            <input type="password" id="pass" name="pass" onBlur="checkPassword();" class="login" required>
-                        </div>
-
-                        <!-- Confirm Password -->
-                        <div class="form-group">
-                            <label for="conpass" class="form-label">Confirm Password:</label>
-                            <input type="password" id="conpass" name="conpass" onBlur="checkConfPassword();" class="login" required>
-                        </div>
-
-                        <!-- Gender -->
-                        <div class="form-group text-center">
-                            <label for="gender" class="form-label">Gender:</label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="genderMale" name="" value="Male" required>
-                                <label class="form-check-label" for="genderMale">Male</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="genderFemale" name="gender" value="Female" required>
-                                <label class="form-check-label" for="genderFemale">Female</label>
-                            </div>
-                        </div>
-
-                        <!-- Captcha -->
-                        <div class="form-group">
-                            <div class="text-center">
-                                <img src='cap.php' alt="Captcha" class="captcha-image mb-3"/>
-                            </div>
-                            <label for="cap" class="form-label">Captcha:</label>
-                            <input class="login" type="text" id="cap" name="cap" required>
-                        </div>
-
-                        <!-- Hidden Referrer Field -->
-                        <input type="hidden" name="referer" value="<?php echo isset($_GET['referer']) ? $_GET['referer'] : ''; ?>" />
-
-                        <!-- Submit Button -->
-
-                        <!-- Submit Button -->
-                        <div class="form-group">
-                            <button class="log_btn" type="submit">Register</button>
-                        </div>
+                <div id="right_side">
+                    <div id="error_area">
+                        <?php
+                        if (isset($_SESSION['failmessage'])) {
+                            echo '<div class="warning-msg">
+                        <i class="fa fa-warning"></i>
+                        ' . $_SESSION['failmessage'] . '
+                      </div>';
+                            unset($_SESSION['failmessage']);
+                        }
+                        ?>
                     </div>
-                </form>
+                    <div id="login_panel">
+                        <h3>:: Create An Account ::</h3>
+
+                        <form id="regForm" onsubmit="event.preventDefault(); if(validate()) this.submit();"
+                            method="post" action="regsub.php">
+
+
+                            <div class="form-group">
+                                <label for="username" class="form-label">Username:</label>
+                                <input class="login" type="text" id="username" onBlur="checkUsername(1);"
+                                    name="username" />
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email:</label>
+                                <input type="email" id="email" name="email" onBlur="checkEmail();" class="login"
+                                    required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="pass" class="form-label">Password:</label>
+                                <input type="password" id="pass" name="pass" onBlur="checkPassword();" class="login"
+                                    required>
+                            </div>
+
+                            <!-- Confirm Password -->
+                            <div class="form-group">
+                                <label for="conpass" class="form-label">Confirm Password:</label>
+                                <input type="password" id="conpass" name="conpass" onBlur="checkConfPassword();"
+                                    class="login" required>
+                            </div>
+
+                            <!-- Gender -->
+                            <div class="form-group text-center">
+                                <label for="gender" class="form-label">Gender:</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" id="genderMale" name="" value="Male"
+                                        required>
+                                    <label class="form-check-label" for="genderMale">Male</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" id="genderFemale" name="gender"
+                                        value="Female" required>
+                                    <label class="form-check-label" for="genderFemale">Female</label>
+                                </div>
+                            </div>
+
+                            <!-- Captcha -->
+                            <div class="form-group">
+                                <div class="text-center">
+                                    <img src='cap.php' alt="Captcha" class="captcha-image mb-3" />
+                                </div>
+                                <label for="cap" class="form-label">Captcha:</label>
+                                <input class="login" type="text" id="cap" name="cap" required>
+                            </div>
+
+                            <!-- Hidden Referrer Field -->
+                            <input type="hidden" name="referer"
+                                value="<?php echo isset($_GET['referer']) ? $_GET['referer'] : ''; ?>" />
+
+                            <!-- Submit Button -->
+
+                            <!-- Submit Button -->
+                            <div class="form-group">
+                                <button class="log_btn" type="submit">Register</button>
+                            </div>
+                    </div>
+                    </form>
 
 
                     <a style="color: #7f4144;" href="register.php">Create An Account</a>
@@ -245,9 +251,10 @@ $metadesc = 'Chaos City Text-Based Mafia Game - Free Online Multiplayer MMORPG';
     <div id="footer" class="row">
         <span>Chaos City</span><br />
         &copy; 2015+ . All Rights Reserved.<br />
-        <a href="">Privacy Policy.</a> <a href="">Terms of Services.</a> <a href="">Help Tutorial.</a> <a href="">Staff	</a>
+        <a href="">Privacy Policy.</a> <a href="">Terms of Services.</a> <a href="">Help Tutorial.</a> <a href="">Staff
+        </a>
     </div>
-</div>
+    </div>
 </body>
-</html>
 
+</html>

@@ -1,12 +1,9 @@
 <?php
-if($_GET['key'] != 'cron94'){
+if ($_GET['key'] != 'cron94') {
     die();
 }
 
-$dbHost     = 'localhost';
-$dbUsername = 'chaoscit_user';
-$dbPassword = '3lrKBlrfMGl2ic14';
-$dbName     = 'chaoscit_game';
+require_once 'config.php';
 
 // Backup directory
 $backupDir = '/home/chaoscit/backup';
@@ -30,11 +27,11 @@ $tempFileHandle = fopen($tempFile, 'w');
 
 // Write the command to get the structure only for the specified tables
 foreach ($structureOnlyTables as $table) {
-    fwrite($tempFileHandle, "mysqldump --opt -h $dbHost -u $dbUsername -p$dbPassword --no-data $dbName $table >> $backupFile\n");
+    fwrite($tempFileHandle, "mysqldump --opt -h " . Config::$db->host . " -u " . Config::$db->username . " -p" . Config::$db->password . " --no-data " . Config::$db->database . " $table >> $backupFile\n");
 }
 
 // Write the command to get the data for all tables except the specified ones
-fwrite($tempFileHandle, "mysqldump --opt -h $dbHost -u $dbUsername -p$dbPassword --ignore-table=$dbName." . implode(" --ignore-table=$dbName.", $structureOnlyTables) . " $dbName >> $backupFile\n");
+fwrite($tempFileHandle, "mysqldump --opt -h " . Config::$db->host . " -u " . Config::$db->username . " -p" . Config::$db->password . " --ignore-table=" . Config::$db->database . "." . implode(" --ignore-table=" . Config::$db->database . ".", $structureOnlyTables) . " " . Config::$db->database . " >> $backupFile\n");
 
 // Close the temporary file
 fclose($tempFileHandle);

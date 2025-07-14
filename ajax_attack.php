@@ -1,7 +1,8 @@
 <?php
 
-//header('Content-type: application/json');
-session_start();
+require_once 'includes/functions.php';
+
+start_session_guarded();
 
 function get_respect_for_level($level_diff)
 {
@@ -82,8 +83,8 @@ function success($msg)
     return $response;
 }
 
-include "classes.php";
-include "database/pdo_class.php";
+include_once "classes.php";
+include_once "database/pdo_class.php";
 
 $user_class = new User($_SESSION['id']);
 session_write_close();
@@ -347,13 +348,14 @@ if ($theirhp <= 0) {
             // Dethrone the current king
             $db->query("UPDATE `grpgusers` SET `king` = 0, `queen` = 0 WHERE `id` = ?");
             $db->execute([$attack_person->id]);
+
             // Crown the new king
             $db->query("UPDATE `grpgusers` SET `king` = ?, `queen` = 0 WHERE `id` = ?");
             $db->execute([$user_class->city, $winner->id]);
 
             // Send event notifications
             Send_Event($attack_person->id, "You have been defeated and lost your status as Boss of " . $cityname . ".");
-            Send_Event($winner, "Congratulations! You have defeated the Boss and now you are the new Boss of " . $cityname . ".");
+            Send_Event($winner, "Congratulations! You have defeated the Boss of " . $cityname . ".");
         }
 
         // Check if the attacked person is queen and the winner is female
@@ -368,13 +370,9 @@ if ($theirhp <= 0) {
 
             // Send event notifications
             Send_Event($attack_person->id, "You have been defeated and lost your status as Under Boss of " . $cityname . ".");
-            Send_Event($winner, "Congratulations! You have defeated the Under Boss and now you are the new Under Boss of " . $cityname . ".");
+            Send_Event($winner, "Congratulations! You have defeated the Under Boss of " . $cityname . ".");
         }
     }
-
-
-
-    $city = $user_class->city;
 
     $spots = range(1, 10);
 

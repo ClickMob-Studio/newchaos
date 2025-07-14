@@ -9,35 +9,32 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include 'dbcon.php';
-include 'classes.php';
-include 'database/pdo_class.php';
+include_once 'dbcon.php';
+include_once 'classes.php';
+include_once 'database/pdo_class.php';
+include_once 'includes/functions.php';
+
 print "working";
 
-$activeMissionsQuery = "SELECT agm.id AS mission_id, agm.gangid, agm.time, agm.end_time, agm.kills, agm.busts, agm.crimes, agm.mugs, agm.backalleys 
-        FROM active_gang_missions agm 
-        JOIN gang_missions gm ON agm.mission_id = gm.id 
-        WHERE agm.completed = 0";
-$activeMissionsResult = mysql_query($activeMissionsQuery);
-
-if ($activeMissionsResult) {
+$db->query("SELECT agm.id AS mission_id, agm.gangid, agm.time, agm.end_time, agm.kills, agm.busts, agm.crimes, agm.mugs, agm.backalleys FROM active_gang_missions agm JOIN gang_missions gm ON agm.mission_id = gm.id WHERE agm.completed = 0");
+$db->execute();
+$activeMissions = $db->fetch_row();
+if (!empty($activeMissions)) {
     $currentTime = time();
 
-    while ($mission = mysql_fetch_assoc($activeMissionsResult)) {
+    foreach ($activeMissions as $mission) {
         $missionId = $mission['mission_id'];
         $gangId = $mission['gangid'];
         $startTime = strtotime($mission['time']);
         $endTime = $mission['end_time'];
 
         // Fetch the target criteria from the gang_missions table
-        $missionDetailsQuery = "SELECT gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.backalleys AS target_backalleys, gm.reward 
-            FROM gang_missions gm 
-            WHERE gm.id = (SELECT mission_id FROM active_gang_missions WHERE id = $missionId) LIMIT 1";
-        $missionDetailsResult = mysql_query($missionDetailsQuery);
-        if (!$missionDetailsResult) {
+        $db->query("SELECT gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.backalleys AS target_backalleys, gm.reward FROM gang_missions gm WHERE gm.id = (SELECT mission_id FROM active_gang_missions WHERE id = ?) LIMIT 1");
+        $db->execute([$missionId]);
+        $missionDetails = $db->fetch_row(true);
+        if (empty($missionDetails)) {
             continue;  // Skip if details can't be fetched
         }
-        $missionDetails = mysql_fetch_assoc($missionDetailsResult);
 
         $allTargetsMet = true;
 
@@ -51,107 +48,112 @@ if ($activeMissionsResult) {
 
         if ($allTargetsMet) {
             // Update gang points and notify members about successful mission completion
-            $rewardQuery = "UPDATE gangs SET pointsvault = pointsvault + {$missionDetails['reward']} WHERE id = $gangId";
-            mysql_query($rewardQuery);
+            perform_query("UPDATE gangs SET pointsvault = pointsvault + ? WHERE id = ?", [$missionDetails['reward'], $gangId]);
 
             $successMessage = "Your gang has successfully completed the mission and earned a reward of " . number_format($missionDetails['reward'], 0) . " points.";
 
-            $gangMembersQuery = "SELECT id FROM grpgusers WHERE gang = $gangId";
-            $gangMembersResult = mysql_query($gangMembersQuery);
-            while ($member = mysql_fetch_assoc($gangMembersResult)) {
+            $db->query("SELECT id FROM grpgusers WHERE gang = ?");
+            $db->execute([$gangId]);
+            $gangMembersResult = $db->fetch_row();
+            foreach ($gangMembersResult as $member) {
                 $userId = $member['id'];
                 Send_event($userId, "Congratulations! " . $successMessage);
             }
 
             // Mark the mission as completed
-            $markCompletedQuery = "UPDATE active_gang_missions SET completed = 1 WHERE id = $missionId";
-            mysql_query($markCompletedQuery);
+            perform_query("UPDATE active_gang_missions SET completed = 1 WHERE id = ?", [$missionId]);
         } elseif ($currentTime > $endTime) {
             // Notify gang members about mission failure due to time running out
             $failureMessage = "Your gang missions was not completed in-time resulting in failure.";
 
-            $gangMembersQuery = "SELECT id FROM grpgusers WHERE gang = $gangId";
-            $gangMembersResult = mysql_query($gangMembersQuery);
-            while ($member = mysql_fetch_assoc($gangMembersResult)) {
+            $db->query("SELECT id FROM grpgusers WHERE gang = ?");
+            $db->execute([$gangId]);
+            $gangMembersResult = $db->fetch_row();
+            foreach ($gangMembersResult as $member) {
                 $userId = $member['id'];
                 Send_event($userId, $failureMessage);
             }
 
             // Mark the mission as completed
-            $markCompletedQuery = "UPDATE active_gang_missions SET completed = 1 WHERE id = $missionId";
-            mysql_query($markCompletedQuery);
+            perform_query("UPDATE active_gang_missions SET completed = 1 WHERE id = ?", [$missionId]);
         }
     }
 }
 
 
-mysql_query("UPDATE `grpgusers` SET `jail` = 120 WHERE `is_jail_bot` = 1");
+perform_query("UPDATE `grpgusers` SET `jail` = 120 WHERE `is_jail_bot` = 1");
 
-$result = mysql_query("SELECT * FROM `grpgusers`", $conn);
-while ($line = mysql_fetch_assoc($result)) {
+$db->query("SELECT * FROM grpgusers");
+$db->execute();
+$users = $db->fetch_row();
+foreach ($users as $line) {
     $updates_user = new User($line['id']);
-    $result = mysql_query("SELECT `id` FROM `grpgusers`", $conn) or die(mysql_error());
-    while ($line = mysql_fetch_assoc($result)) {
-        $updates_user = new User($line['id']);
-        if ($updates_user->rmdays > 0) {
-            if ($updates_user->donationmonth >= 200) {
-                $mul = .4;
-            } elseif ($updates_user->donationmonth >= 100) {
-                $mul = .35;
-            } elseif ($updates_user->donationmonth >= 50) {
-                $mul = .3;
-            } else {
-                $mul = .2;
-            }
+
+    if ($updates_user->rmdays > 0) {
+        if ($updates_user->donationmonth >= 200) {
+            $mul = .4;
+        } elseif ($updates_user->donationmonth >= 100) {
+            $mul = .35;
+        } elseif ($updates_user->donationmonth >= 50) {
+            $mul = .3;
         } else {
-            if ($updates_user->donationmonth >= 200) {
-                $mul = .35;
-            } elseif ($updates_user->donationmonth >= 100) {
-                $mul = .3;
-            } elseif ($updates_user->donationmonth >= 50) {
-                $mul = .25;
-            } else {
-                $mul = .15;
-            }
+            $mul = .2;
         }
-
-        // Correctly fetch and check the gang's upgrade9 level
-        if ($updates_user->gang > 0) {
-            $gangResult = mysql_query("SELECT upgrade9 FROM gangs WHERE id = " . intval($updates_user->gang), $conn);
-            if ($gangRow = mysql_fetch_assoc($gangResult)) {
-                $gangUpgradeLevel = intval($gangRow['upgrade9']);
-            } else {
-                $gangUpgradeLevel = 0; // Default to 0 if the gang or upgrade9 level is not found
-            }
+    } else {
+        if ($updates_user->donationmonth >= 200) {
+            $mul = .35;
+        } elseif ($updates_user->donationmonth >= 100) {
+            $mul = .3;
+        } elseif ($updates_user->donationmonth >= 50) {
+            $mul = .25;
         } else {
-            $gangUpgradeLevel = 0; // User is not in a gang
+            $mul = .15;
         }
-
-        // Calculate the bonus multiplier based on the gang's upgrade9 level
-        $bonusMultiplier = 1 + ($gangUpgradeLevel * 0.10); // 10% bonus per upgrade9 level
-
-        // Apply the bonus multiplier to the existing multiplier
-        $mul *= $bonusMultiplier;
-
-        // Now, perform the update with the adjusted multiplier
-        mysql_query("UPDATE grpgusers SET 
-    awake = LEAST(awake + ($updates_user->maxawake * $mul), $updates_user->maxawake),
-    energy = LEAST(energy + ($updates_user->maxenergy * $mul), $updates_user->maxenergy),
-    nerve = LEAST(nerve + ($updates_user->maxnerve * $mul), $updates_user->maxnerve),
-    hp = LEAST(hp + ($updates_user->maxhp * 0.25), $updates_user->maxhp)
-    WHERE id = " . intval($updates_user->id), $conn) or die(mysql_error());
     }
+
+    // Correctly fetch and check the gang's upgrade9 level
+    $gangUpgradeLevel = 0; // Default to 0 if the gang or upgrade9 level is not found
+    if ($updates_user->gang > 0) {
+        $db->query("SELECT upgrade9 FROM gangs WHERE id = ?");
+        $db->execute([$updates_user->gang]);
+        $row = $db->fetch_row(true);
+        if ($row) {
+            $gangUpgradeLevel = intval($row['upgrade9']);
+        }
+    }
+
+    // Calculate the bonus multiplier based on the gang's upgrade9 level
+    $bonusMultiplier = 1 + ($gangUpgradeLevel * 0.10); // 10% bonus per upgrade9 level
+
+    // Apply the bonus multiplier to the existing multiplier
+    $mul *= $bonusMultiplier;
+
+    // Now, perform the update with the adjusted multiplier
+    $db->query("UPDATE grpgusers SET 
+        awake = LEAST(awake + (:maxawake * :mul), :maxawake),
+        energy = LEAST(energy + (:maxenergy * :mul), :maxenergy),
+        nerve = LEAST(nerve + (:maxnerve * :mul), :maxnerve),
+        hp = LEAST(hp + (:maxhp_quarter), :maxhp)
+    WHERE id = :id");
+
+    $db->bind(':maxawake', $updates_user->maxawake);
+    $db->bind(':maxenergy', $updates_user->maxenergy);
+    $db->bind(':maxnerve', $updates_user->maxnerve);
+    $db->bind(':maxhp', $updates_user->maxhp);
+    $db->bind(':maxhp_quarter', $updates_user->maxhp * 0.25);
+    $db->bind(':mul', $mul);
+    $db->bind(':id', $updates_user->id, PDO::PARAM_INT);
+
+    $db->execute();
 }
 
 
 
 
 // Get the last giveaway time
-$result = mysql_query("SELECT `value` FROM `settings` WHERE `key` = 'last_giveaway_time'");
-if (!$result) {
-    die('Invalid query: ' . mysql_error());
-}
-$lastGiveawayRow = mysql_fetch_assoc($result);
+$db->query("SELECT `value` FROM `settings` WHERE `key` = 'last_giveaway_time'");
+$db->execute();
+$lastGiveawayRow = $db->fetch_row(true);
 
 // Check if there was a row returned
 if (!$lastGiveawayRow) {
@@ -163,11 +165,9 @@ $lastGiveawayTime = $lastGiveawayRow['value'];
 // Check if an hour has passed since the last giveaway
 if (strtotime($lastGiveawayTime) <= strtotime('-1 hour')) {
     // Select users who were online in the last hour
-    $onlineUsersResult = mysql_query("SELECT `id` FROM `grpgusers` WHERE `lastactive` > UNIX_TIMESTAMP() - 3600");
-    $onlineUsers = array();
-    while ($row = mysql_fetch_assoc($onlineUsersResult)) {
-        $onlineUsers[] = $row['id'];
-    }
+    $db->query("SELECT `id` FROM grpgusers WHERE `lastactive` > UNIX_TIMESTAMP() - 3600");
+    $db->execute();
+    $onlineUsers = $db->fetch_row();
 
     // Shuffle the array and pick the first 3 users if we have enough users
     if (count($onlineUsers) >= 3) {
@@ -175,52 +175,34 @@ if (strtotime($lastGiveawayTime) <= strtotime('-1 hour')) {
         $winners = array_slice($onlineUsers, 0, 3);
 
         // Reward the first user with points
-        mysql_query("UPDATE `grpgusers` SET `points` = `points` + 1000 WHERE `id` = " . $winners[0]);
+        perform_query("UPDATE `grpgusers` SET `points` = `points` + 1000 WHERE `id` = ?", [$winners[0]]);
         Send_event($winners[0], "You have been randomly selected this hour! You won 1,000 Points!");
 
         // Reward the second user with money
-        mysql_query("UPDATE `grpgusers` SET `money` = `money` + 500000 WHERE `id` = " . $winners[1]);
+        perform_query("UPDATE `grpgusers` SET `money` = `money` + 500000 WHERE `id` = ?", [$winners[1]]);
         Send_event($winners[1], "You have been randomly selected this hour! You won $500,000!");
 
-        // Reward the third user with credits
-        //mysql_query("UPDATE `grpgusers` SET `credits` = `credits` + 25 WHERE `id` = " . $winners[2]);
-        //        Send_event($winners[2], "You have been randomly selected this hour! You won 25 Gold!");
-
         // Reward the third user with Tokens
-        mysql_query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + 10 WHERE `id` = " . $winners[2]);
-        Send_event($winners[3], "You have been randomly selected this hour! You won 10 Raid Tokens!");
-
+        perform_query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + 10 WHERE `id` = ?", [$winners[2]]);
+        Send_event($winners[2], "You have been randomly selected this hour! You won 10 Raid Tokens!");
 
         // Update the last giveaway time in the settings
-        $updateQuery = "UPDATE `settings` SET `value` = DATE_ADD(NOW(), INTERVAL 5 HOUR) WHERE `key` = 'last_giveaway_time'";
-        $result = mysql_query($updateQuery);
-
-
+        perform_query("UPDATE `settings` SET `value` = DATE_ADD(NOW(), INTERVAL 5 HOUR) WHERE `key` = 'last_giveaway_time'");
     }
-
 }
 
-function getItemName($item_id)
-{
-    $query = "SELECT itemname FROM items WHERE id = " . $item_id; // Using the provided table and column names
-    $result = mysql_query($query);
-    $item = mysql_fetch_assoc($result);
-    return $item['itemname'];
-}
-
-
-$raids_query = "SELECT ar.*, b.name AS boss_name, b.stat_limit, b.hp AS boss_hp FROM active_raids ar JOIN bosses b ON ar.boss_id = b.id WHERE TIMESTAMPDIFF(SECOND, NOW(), DATE_ADD(ar.summoned_at, INTERVAL 15 MINUTE)) <= 0 AND ar.completed = 0";
-$raids_result = mysql_query($raids_query);
+$db->query("SELECT ar.*, b.name AS boss_name, b.stat_limit, b.hp AS boss_hp FROM active_raids ar JOIN bosses b ON ar.boss_id = b.id WHERE TIMESTAMPDIFF(SECOND, NOW(), DATE_ADD(ar.summoned_at, INTERVAL 15 MINUTE)) <= 0 AND ar.completed = 0");
+$db->execute();
+$raids = $db->fetch_row();
 
 $found_items_log = []; // Initialize this array only once at the top level.
-
-while ($raid = mysql_fetch_assoc($raids_result)) {
+foreach ($raids as $raid) {
     echo "Processing raid ID: " . $raid['id'] . "\n";
 
     // Calculate the total stats of all participants
-    $participants_stats_query = "SELECT SUM(u.total) as total_stats FROM raid_participants rp JOIN grpgusers u ON rp.user_id = u.id WHERE rp.raid_id = " . $raid['id'];
-    $participants_stats_result = mysql_query($participants_stats_query);
-    $participants_stats_row = mysql_fetch_assoc($participants_stats_result);
+    $db->query("SELECT SUM(u.total) as total_stats FROM raid_participants rp JOIN grpgusers u ON rp.user_id = u.id WHERE rp.raid_id = ?");
+    $db->execute([$raid['id']]);
+    $participants_stats_row = $db->fetch_row(true);
     $total_stats = $participants_stats_row['total_stats'];
 
     // Determine the raid's success chance
@@ -230,9 +212,7 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
     $raid_successful = ($random_chance <= $success_chance);
 
     // Mark this raid as completed
-    $update_query = "UPDATE active_raids SET completed = 1 WHERE id = " . $raid['id'];
-    mysql_query($update_query);
-
+    perform_query("UPDATE active_raids SET completed = 1 WHERE id = ?", [$raid['id']]);
 
     // New simulated battle logic
     $boss_hp = $raid['boss_hp'];  // Make sure you have this value from the database
@@ -241,13 +221,13 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
     $found_items_log = []; // This will store logs about found items
 
     // Fetch the participants of this raid along with their equipped weapons and strength
-    $participants_query = "SELECT rp.*, u.hp, u.strength, u.eqweapon, i.itemname FROM raid_participants rp JOIN grpgusers u ON rp.user_id = u.id LEFT JOIN items i ON u.eqweapon = i.id WHERE rp.raid_id = " . $raid['id'];
-    $participants_result = mysql_query($participants_query);
+    $db->query("SELECT rp.*, u.hp, u.strength, u.eqweapon, i.itemname FROM raid_participants rp JOIN grpgusers u ON rp.user_id = u.id LEFT JOIN items i ON u.eqweapon = i.id WHERE rp.raid_id = ?");
+    $db->execute([$raid['id']]);
+    $participants_result = $db->fetch_row();
 
     $participants = [];
     $total_strength = 0;
-
-    while ($participant = mysql_fetch_assoc($participants_result)) {
+    foreach ($participants_result as $participant) {
         $participants[] = $participant;
         $total_strength += $participant['strength'];
     }
@@ -309,20 +289,18 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
 
     // Insert battle log into raid_battle_logs table
 
-    $participants_query = "SELECT * FROM raid_participants WHERE raid_id = " . $raid['id'];
-    $participants_result = mysql_query($participants_query);
+    $db->query("SELECT * FROM raid_participants WHERE raid_id = ?");
+    $db->execute([$raid['id']]);
+    $raid_participants = $db->fetch_row();
     $participants = [];
-    while ($participant = mysql_fetch_assoc($participants_result)) {
+    foreach ($raid_participants as $participant) {
         $participants[] = $participant;
     }
 
     // Fetch the loot for this boss
-    $loot_query = "SELECT * FROM loot WHERE boss_id = " . $raid['boss_id'];
-    $loot_result = mysql_query($loot_query);
-    $loot_table = [];
-    while ($loot = mysql_fetch_assoc($loot_result)) {
-        $loot_table[] = $loot;
-    }
+    $db->query("SELECT * FROM loot WHERE boss_id = ?");
+    $db->execute([$raid['boss_id']]);
+    $loot_table = $db->fetch_row();
 
     echo "Loot Table: ";
     print_r($loot_table);
@@ -384,24 +362,17 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
             }
 
             // First, determine if the user has rmdays greater than 0
-            $query_check_rmdays = "SELECT rmdays FROM grpgusers WHERE id = " . $participant['user_id'];
-            $result_check_rmdays = mysql_query($query_check_rmdays);
-            $row_check_rmdays = mysql_fetch_assoc($result_check_rmdays);
+            $db->query("SELECT rmdays FROM grpgusers WHERE id = ?");
+            $db->execute([$participant['user_id']]);
+            $row_check_rmdays = $db->fetch_single();
 
-            if ($row_check_rmdays['rmdays'] > 0) {
-                // If rmdays > 0, update the user's bank account instead of money
-                //$rel_user = new User($participant['user_id']);
-                //mysql_query("INSERT INTO bank_log VALUES('', ".$participant['user_id'].", $money_won, 'mdep', $rel_user->bank, unix_timestamp())");
-                $update_query = "UPDATE grpgusers SET points = points + $points_won, bank = bank + $money_won, raidpoints = raidpoints + $raidpoints_won WHERE id = " . $participant['user_id'];
+            if ($row_check_rmdays > 0) {
+                perform_query("UPDATE grpgusers SET points = points + ?, bank = bank + ?, raidpoints = raidpoints + ? WHERE id = ?", [$points_won, $money_won, $raidpoints_won, $participant['user_id']]);
             } else {
-                // If rmdays <= 0, update the user's money directly
-                $update_query = "UPDATE grpgusers SET points = points + $points_won, money = money + $money_won, raidpoints = raidpoints + $raidpoints_won WHERE id = " . $participant['user_id'];
+                perform_query("UPDATE grpgusers SET points = points + ?, money = money + ?, raidpoints = raidpoints + ? WHERE id = ?", [$points_won, $money_won, $raidpoints_won, $participant['user_id']]);
             }
 
-            // Execute the update query
-            mysql_query($update_query);
-
-            $event_message = "Your raid against " . $raid['boss_name'] . " has ended. You won $points_won points and $" . ($row_check_rmdays['rmdays'] > 0 ? "in your bank " : "") . "$money_won money.";
+            $event_message = "Your raid against " . $raid['boss_name'] . " has ended. You won $points_won points and $" . ($row_check_rmdays > 0 ? "in your bank " : "") . "$money_won money.";
 
             // Determine items from the loot table
             $items_won = []; // Store the names of items won
@@ -419,7 +390,7 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
 
                     if ($random_chance <= ($loot['drop_rate'] * 100)) {
                         // Attempt to fetch the name of the item
-                        $itemName = getItemName($loot['item_id']);
+                        $itemName = Item_Name($loot['item_id']);
 
                         // Check if the item name is valid
                         if ($itemName === null || $itemName === "" || $itemName === "Unknown Item") {
@@ -434,13 +405,8 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
                         // Add to the found items log
                         $found_items_log[] = "$formatted_name found a $itemName.\n";
                         echo "Debug: Added to found_items_log for $formatted_name\n";
-                        $check_inv = mysql_query("SELECT * FROM inventory WHERE userid = " . $participant['user_id'] . " AND itemid = " . $loot['item_id']);
-                        if (mysql_num_rows($check_inv)) {
-                            mysql_query("UPDATE inventory SET quantity = quantity + 1 WHERE userid = " . $participant['user_id'] . " AND itemid = " . $loot['item_id']);
 
-                        } else {
-                            mysql_query("INSERT INTO inventory (userid, itemid, quantity) VALUES ('$participant[user_id]', '$loot[item_id]', '1')");
-                        }
+                        Give_Item($loot['item_id'], $participant['user_id'], 1);
 
                         $items_won_global = array_merge($items_won_global, $items_won);  // Merge the items won for this participant into the global list
                     }
@@ -452,7 +418,7 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
 
                         if ($random_chance <= ($loot['drop_rate'] * 100)) {
                             // Attempt to fetch the name of the item
-                            $itemName = getItemName($loot['item_id']);
+                            $itemName = Item_Name($loot['item_id']);
 
                             // Check if the item name is valid
                             if ($itemName === null || $itemName === "" || $itemName === "Unknown Item") {
@@ -464,13 +430,7 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
 
                             $pet_items_won[] = $itemName;
 
-                            $check_inv = mysql_query("SELECT * FROM inventory WHERE userid = " . $participant['user_id'] . " AND itemid = " . $loot['item_id']);
-                            if (mysql_num_rows($check_inv)) {
-                                mysql_query("UPDATE inventory SET quantity = quantity + 1 WHERE userid = " . $participant['user_id'] . " AND itemid = " . $loot['item_id']);
-
-                            } else {
-                                mysql_query("INSERT INTO inventory (userid, itemid, quantity) VALUES ('$participant[user_id]', '$loot[item_id]', '1')");
-                            }
+                            Give_Item($loot['item_id'], $participant['user_id'], 1);
                         }
                     }
 
@@ -478,16 +438,14 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
             }
             $bullet = "&bull;";
             // Fetch the number of participants for the raid
-            $participant_count_query = "SELECT COUNT(*) as participant_count FROM raid_participants WHERE raid_id = " . $raid['id'];
-            $participant_count_result = mysql_query($participant_count_query);
-            $participant_count_row = mysql_fetch_assoc($participant_count_result);
-            $participant_count = $participant_count_row['participant_count'];
+            $db->query("SELECT COUNT(*) as participant_count FROM raid_participants WHERE raid_id = ?");
+            $db->execute([$raid['id']]);
+            $participant_count = $db->fetch_single();
 
             // Get raid leader's name
             $raid_leader_name = formatName($raid['summoned_by']);
             // Update raidwins and raidsjoined
-            $update_stats_query = "UPDATE grpgusers SET raidwins = raidwins + 1, raidcomp = raidcomp + 1 WHERE id = " . $participant['user_id'];
-            mysql_query($update_stats_query);
+            perform_query("UPDATE grpgusers SET raidwins = raidwins + 1, raidsjoined = raidsjoined + 1 WHERE id = ?", [$participant['user_id']]);
 
             // Create the event message
             $event_message = "Your Raid, Led by " . $raid_leader_name . " with " . $participant_count . " participants, against " . $raid['boss_name'] . " has ended.";
@@ -524,7 +482,6 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
                 }
             }
 
-
             // Here, you can send or display $event_message as needed
             // Add a link to view the battle log
             $event_message .= "<br><a href='view_battle_log.php?raid_id=" . $raid['id'] . "'>View Battle Log</a>";
@@ -536,8 +493,8 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
         } else {
             // Raid failed
             // Update raidwins and raidsjoined
-            $update_stats_query = "UPDATE grpgusers SET raidlosses = raidlosses + 1 WHERE id = " . $participant['user_id'];
-            mysql_query($update_stats_query);
+            perform_query("UPDATE grpgusers SET raidlosses = raidlosses + 1 WHERE id = ?", [$participant['user_id']]);
+
             $event_message = "Your Raid, led by " . formatName($raid['summoned_by']) . " with " . count($participants) . " participants, against " . $raid['boss_name'] . " has failed!";
 
             // Add a link to view the battle log
@@ -547,15 +504,11 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
         }
     }
 
-
-
-
     $battle_log .= "\nItems Found During the Raid:\n" . implode("", $found_items_log);
-    $insert_battle_log_query = "INSERT INTO raid_battle_logs (raid_id, battle_log) VALUES (" . $raid['id'] . ", '" . mysql_real_escape_string($battle_log) . "')";
-    mysql_query($insert_battle_log_query);
+
+    perform_query("INSERT INTO raid_battle_logs (raid_id, battle_log) VALUES (?, ?)", [$raid['id'], $battle_log]);
 
     $found_items_log = [];
-
 }
 
 
@@ -571,8 +524,6 @@ $db->execute();
 $db->query("UPDATE grpgusers SET nerve = 1 WHERE nerve < 0");
 $db->execute();
 
-
-
 $db->query("UPDATE bans SET days = days - 1 WHERE type = 'gc'");
 $db->execute();
 $db->query("DELETE FROM bans WHERE days = 0");
@@ -582,8 +533,6 @@ $db->execute();
 
 $db->query("UPDATE grpgusers SET lastactive = unix_timestamp() WHERE id = 0 AND apban = 0");
 $db->execute();
-
-
 
 $db->query("UPDATE grpgusers SET dailytime = dailytime + 1 WHERE lastactive > unix_timestamp() - 61");
 $db->execute();
@@ -598,8 +547,7 @@ $db->execute();
 // Logic for Maze turns, take into consideration the maze boost
 $currentTime = time();
 
-$query = "
-    UPDATE grpgusers g
+$query = "UPDATE grpgusers g
     LEFT JOIN item_temp_use t ON g.id = t.user_id
     SET g.cityturns = g.cityturns + 
         CASE 
@@ -610,8 +558,7 @@ $query = "
     WHERE 
         (t.maze_boost IS NOT NULL AND t.maze_boost > :currentTime AND g.cityturns < 50)
         OR
-        ((t.maze_boost IS NULL OR t.maze_boost <= :currentTime) AND g.cityturns < 30)
-";
+        ((t.maze_boost IS NULL OR t.maze_boost <= :currentTime) AND g.cityturns < 30)";
 
 $db->query($query);
 $db->bind(":currentTime", $currentTime);
@@ -635,12 +582,6 @@ $db->execute();
 
 $db->query("UPDATE gamebonus SET Time = Time - 1 WHERE Time > 0");
 $db->execute();
-
-
-
-
-
-
 
 if (time() <= 1703577599) {
 
@@ -695,10 +636,10 @@ if ($user_class->id >= 999) {
 
 
 // Check expired auctions
-$expiredAuctionsQuery = "SELECT * FROM auction_house WHERE end_time <= UNIX_TIMESTAMP(NOW()) AND status = 'active'";
-$expiredAuctions = mysql_query($expiredAuctionsQuery, $conn);
-
-while ($auction = mysql_fetch_assoc($expiredAuctions)) {
+$db->query("SELECT * FROM auction_house WHERE end_time <= UNIX_TIMESTAMP(NOW()) AND status = 'active'");
+$db->execute();
+$expiredAuctions = $db->fetch_row();
+foreach ($expiredAuctions as $auction) {
     $highestBidderId = $auction['highest_bidder_id'];
     $sellerId = $auction['seller_id'];
     $itemId = $auction['item_id'];
@@ -706,51 +647,26 @@ while ($auction = mysql_fetch_assoc($expiredAuctions)) {
     $currentBid = $auction['current_bid'];
 
     // Fetch item name
-    $itemNameQuery = "SELECT itemname FROM items WHERE id = $itemId";
-    $itemNameResult = mysql_query($itemNameQuery, $conn);
-    if ($itemNameRow = mysql_fetch_assoc($itemNameResult)) {
-        $itemName = $itemNameRow['itemname'];
-    } else {
-        $itemName = "Unknown Item";
-    }
+    $itemName = Item_Name($itemId);
 
     // If there's a highest bidder, award them the item and notify them
     if (!empty($highestBidderId)) {
         // Transfer item to highest bidder's inventory
-        $checkInventoryQuery = "SELECT id FROM inventory WHERE userid = $highestBidderId AND itemid = $itemId";
-        $checkInventory = mysql_query($checkInventoryQuery, $conn);
-        if (mysql_num_rows($checkInventory) > 0) {
-            $inventoryId = mysql_fetch_assoc($checkInventory)['id'];
-            $updateInventoryQuery = "UPDATE inventory SET quantity = quantity + $quantity WHERE id = $inventoryId";
-            mysql_query($updateInventoryQuery, $conn);
-        } else {
-            $insertInventoryQuery = "INSERT INTO inventory (userid, itemid, quantity) VALUES ($highestBidderId, $itemId, $quantity)";
-            mysql_query($insertInventoryQuery, $conn);
-        }
+        Give_Item($itemId, $highestBidderId, $quantity);
 
         // Send event to seller and highest bidder
         Send_Event($sellerId, "Your auction for $quantity x $itemName has ended. {$highestBidderId} won with a bid of $currentBid.");
         Send_Event($highestBidderId, "You've won the auction for $quantity x $itemName with a bid of $currentBid.");
     } else {
         // If no highest bidder, return item to seller's inventory
-        $checkInventoryQuery = "SELECT id FROM inventory WHERE userid = $sellerId AND itemid = $itemId";
-        $checkInventory = mysql_query($checkInventoryQuery, $conn);
-        if (mysql_num_rows($checkInventory) > 0) {
-            $inventoryId = mysql_fetch_assoc($checkInventory)['id'];
-            $updateInventoryQuery = "UPDATE inventory SET quantity = quantity + $quantity WHERE id = $inventoryId";
-            mysql_query($updateInventoryQuery, $conn);
-        } else {
-            $insertInventoryQuery = "INSERT INTO inventory (userid, itemid, quantity) VALUES ($sellerId, $itemId, $quantity)";
-            mysql_query($insertInventoryQuery, $conn);
-        }
+        Give_Item($itemId, $sellerId, $quantity);
 
         // Send event to seller
         Send_Event($sellerId, "Your auction for $quantity x $itemName has ended without any bids. The item has been returned to your inventory.");
     }
 
     // Update the status column in the auction_house table to 'finished'
-    $updateStatusQuery = "UPDATE auction_house SET status = 'finished' WHERE auction_id = " . $auction['auction_id'];
-    mysql_query($updateStatusQuery, $conn);
+    perform_query("UPDATE auction_house SET status = 'finished' WHERE auction_id = ?", [$auction['auction_id']]);
 }
 
 
@@ -929,14 +845,10 @@ foreach ($referrals as $line) {
 }
 
 // Fetch the latest Bloodbath results where rewards haven't been distributed yet and winners column has data
-$query = "SELECT * FROM bloodbath WHERE is_paid = 0 AND winners != '' AND endtime < " . time() . " ORDER BY endtime DESC LIMIT 1";
-$result = mysql_query($query);
-$latest_bloodbath = mysql_fetch_assoc($result);
-
+$db->query("SELECT * FROM bloodbath WHERE is_paid = 0 AND winners != '' AND endtime < unix_timestamp() ORDER BY endtime DESC LIMIT 1");
+$db->execute();
+$latest_bloodbath = $db->fetch_row(true);
 if ($latest_bloodbath) {
-
-
-
     $winners_data = unserialize($latest_bloodbath['winners']);
 
     // Transform the data
@@ -954,7 +866,6 @@ if ($latest_bloodbath) {
         2 => 10000,
         3 => 5000
     ];
-
 
     foreach ($transformed_data as $category => $users) {
         arsort($users); // Sorting users by their value in descending order
@@ -975,8 +886,7 @@ if ($latest_bloodbath) {
                     }
 
                     // Award points to the user
-                    $update_query = "UPDATE grpgusers SET credits = credits + " . $awardedCredits . " WHERE `id` = " . $user_id;
-                    mysql_query($update_query);
+                    perform_query("UPDATE grpgusers SET credits = credits + ? WHERE id = ?", [$awardedCredits, $user_id]);
 
                     // Send an event to the user
                     $event_message = "You have won the " . $category . " category and placed " . $position . " and won " . $awardedCredits . " Credits.";
@@ -984,8 +894,7 @@ if ($latest_bloodbath) {
 
                 } else {
                     // Award points to the user
-                    $update_query = "UPDATE grpgusers SET points = points + " . $points_distribution[$position] . " WHERE `id` = " . $user_id;
-                    mysql_query($update_query);
+                    perform_query("UPDATE grpgusers SET points = points + ? WHERE id = ?", [$points_distribution[$position], $user_id]);
 
                     // Send an event to the user
                     $event_message = "You have won the " . $category . " category and placed " . $position . " and won " . $points_distribution[$position] . " Points.";
@@ -1006,8 +915,7 @@ if ($latest_bloodbath) {
     }
 
     // Update the bloodbath entry to indicate that the rewards have been distributed
-    $update_is_paid_query = "UPDATE bloodbath SET is_paid = 1 WHERE id = " . $latest_bloodbath['id'];
-    mysql_query($update_is_paid_query);
+    perform_query("UPDATE bloodbath SET is_paid = 1 WHERE id = ?", [$latest_bloodbath['id']]);
 
     $db->query("SELECT * FROM bloodbath WHERE endtime < unix_timestamp() AND winners = ''");
     $db->execute();
@@ -1033,21 +941,21 @@ if ($latest_bloodbath) {
 
 }
 
-$csrf = mdd5(uniqid(rand(), true));
+$csrf = md5(uniqid(rand(), true));
 $_SESSION['csrf'] = $csrf;
 
-$deleteDuplicatesQuery = "DELETE a FROM `attackladder` a
-    JOIN (SELECT MIN(id) as id, `user`, `spot`
-          FROM `attackladder`
-          GROUP BY `user`, `spot`
-          HAVING COUNT(*) > 1) as b
-    ON a.user = b.user AND a.spot = b.spot
-    WHERE a.id != b.id";
+perform_query("DELETE a FROM `attackladder` a
+    JOIN (
+        SELECT MIN(id) as id, `user`, `spot`
+        FROM `attackladder`
+        GROUP BY `user`, `spot`
+        HAVING COUNT(*) > 1
+    ) as b ON a.user = b.user AND a.spot = b.spot
+    WHERE a.id != b.id");
 
-$result = mysql_query($deleteDuplicatesQuery);
 
 if (!$result) {
-    echo "Error deleting duplicate rows: " . mysql_error();
+    echo "Error deleting duplicate rows!";
 } else {
     echo "Duplicate rows deleted successfully.";
 }

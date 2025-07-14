@@ -143,7 +143,7 @@ include 'header.php';
 
 
 
-        } elseif ($_POST['remove']) {
+        } elseif (isset($_POST['remove'])) {
             $id = security($_POST['remove']);
             $qty = security($_POST['qty']);
             $db->query("SELECT * FROM pointsmarket WHERE id = ?");
@@ -211,7 +211,7 @@ include 'header.php';
                 ));
                 $user_class->points += $qty;
             }
-        } elseif ($_POST['add']) {
+        } elseif (isset($_POST['add'])) {
             // Security checks for inputs
             $qty = security($_POST['qty']);
             $price = security($_POST['price']);

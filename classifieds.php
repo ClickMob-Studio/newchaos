@@ -3,14 +3,13 @@ include 'header.php';
 if (isset($_POST['submit'])) {
     $cost = round($_POST['displaymins'] / 15 * 250000, 0);
     $error = ($cost > $user_class->money) ? "You don't have enough money for that!" : $error;
- // $error = ($_POST['title'] == "") ? "You need to have a title!" : $error;
+    // $error = ($_POST['title'] == "") ? "You need to have a title!" : $error;
     $error = ($_POST['message'] == "") ? "You need to have a message!" : $error;
     if ($error == "") {
         $newmoney = $user_class->money - $cost;
         $time = time();
-        $newsql = mysql_query("UPDATE `grpgusers` SET `money` = '" . $newmoney . "' WHERE `id`= '" . $user_class->id . "'");
-        // $result = mysql_query("INSERT INTO `ads` VALUES('" . $time . "', '$user_class->id', '" . $_POST['title'] . "', '" . $_POST['message'] . "')");
-        $result = mysql_query("INSERT INTO `ads`(`poster`, `message`, `displaymins`) VALUES ($user_class->id, '" . $_POST['message'] . "', '" . $_POST['displaymins'] . "')");
+        perform_query("UPDATE `grpgusers` SET `money` = ? WHERE `id`= ?", [$newmoney, $user_class->id]);
+        perform_query("INSERT INTO `ads`(`poster`, `message`, `displaymins`) VALUES (?, ?, ?)", [$user_class->id, $_POST['message'], $_POST['displaymins']]);
         echo Message("You have posted a classified ad for $" . $cost);
     } else {
         echo Message($error);
@@ -22,11 +21,17 @@ if (isset($_POST['submit'])) {
         $('#cost').html('£' + Math.round($('input[name="displaymins"]').val() / 15 * 250000));
     }
 </script>
-<tr><td class="contenthead">Smart Ads</td></tr>
-<tr><td class="contentcontent">
-        Here you can post anything your heart desires. Cost is $250,000 for a 15 minute message, $1M for 60 minutes, and so on..
-    </td></tr>
-<tr><td class="contentcontent">
+<tr>
+    <td class="contenthead">Smart Ads</td>
+</tr>
+<tr>
+    <td class="contentcontent">
+        Here you can post anything your heart desires. Cost is $250,000 for a 15 minute message, $1M for 60 minutes, and
+        so on..
+    </td>
+</tr>
+<tr>
+    <td class="contentcontent">
         <form method='post'>
             <table width='100%'>
                 <!-- <tr>
@@ -38,13 +43,14 @@ if (isset($_POST['submit'])) {
                 <tr>
                     <td width='25%'>Message:</td>
                     <td width='25%'>
-                        <textarea name='message' cols='60' rows='4' ></textarea>
+                        <textarea name='message' cols='60' rows='4'></textarea>
                     </td>
                 </tr>
                 <tr>
                     <td width='25%'>Minutes:</td>
                     <td width='25%'>
-                        <input type='number' name='displaymins' min='3' value='15' onchange="calcCost();"> <span>Cost: <span class="text-yellow" id="cost">£250000</span></span>
+                        <input type='number' name='displaymins' min='3' value='15' onchange="calcCost();"> <span>Cost:
+                            <span class="text-yellow" id="cost">£250000</span></span>
                     </td>
 
                 </tr>
@@ -56,13 +62,18 @@ if (isset($_POST['submit'])) {
                 </tr>
             </table>
         </form>
-    </td></tr>
+    </td>
+</tr>
 <?php
-$result = mysql_query("SELECT * from `ads` ORDER BY `when` DESC LIMIT 10");
-while ($row = mysql_fetch_array($result, mysql_ASSOC)) {
-    $user_ads = New User($row['poster']);
+
+$db->query("SELECT * FROM `ads` ORDER BY `when` DESC LIMIT 10");
+$db->execute();
+$result = $db->fetch_row();
+foreach ($result as $row) {
+    $user_ads = new User($row['poster']);
     ?>
-    <tr><td class="contentcontent">
+    <tr>
+        <td class="contentcontent">
             <table width='100%'>
                 <tr>
                     <td width='15%'><b>Title</b>:</td>
@@ -74,7 +85,8 @@ while ($row = mysql_fetch_array($result, mysql_ASSOC)) {
                     <td width='100%' colspan='4'><?php echo $row['message'] ?></td>
                 </tr>
             </table>
-        </td></tr>
+        </td>
+    </tr>
     <?php
 }
 ?>

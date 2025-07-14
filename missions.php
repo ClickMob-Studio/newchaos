@@ -1,5 +1,7 @@
 <?php
 include "header.php";
+
+$currenttime = time();
 ?>
 <div class='box_top'>Missions</div>
 <div class='box_middle'>
@@ -7,60 +9,75 @@ include "header.php";
         <?php
         if (isset($_GET['do'])) {
             $do = abs(intval($_GET['do']));
-            $mission = mysql_query("SELECT * FROM mission WHERE id={$do}");
-            $mm = mysql_fetch_array($mission);
-
-            if (mysql_num_rows($mission) < 1) {
+            $mm = get_mission($do);
+            if (empty($mm)) {
                 header('location: missions.php');
                 exit();
             }
 
-            $r = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid={$user_class->id} AND mid={$do} ORDER BY timestamp DESC LIMIT 1"));
-            $q = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid={$user_class->id} AND completed='no' ORDER BY timestamp DESC LIMIT 1"));
-            $c = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid={$user_class->id} AND completed='cancel' ORDER BY id DESC LIMIT 1"));
-            $now = time();
-            $currenttime = time();
+            $db->query("SELECT * FROM missions WHERE userid = ? AND mid = ? ORDER BY timestamp DESC LIMIT 1");
+            $db->execute([$user_class->id, $do]);
+            $r = $db->fetch_row();
+
+            $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no' ORDER BY timestamp DESC LIMIT 1");
+            $db->execute([$user_class->id]);
+            $q = $db->fetch_row();
+
+            $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'cancel' ORDER BY id DESC LIMIT 1");
+            $db->execute([$user_class->id]);
+            $c = $db->fetch_row();
             if ($q)
                 $msgg = "You are currently doing a mission!";
             else if ($c && ($c['timestamp'] + 600) > $currenttime) {
                 $msgg = "You have to wait " . secondsToTime(($c['timestamp'] + 600) - $currenttime) . " until you can start another mission after canceling!";
             } else if ($r && $r['completed'] != "no") {
-                $currenttime = time();
-
                 if ($mm['between'] + $r['timestamp'] > $currenttime) {
                     $msgg = "You have to wait " . secondsToTime(($mm['between'] + $r['timestamp']) - $currenttime) . " until you can start another mission!";
                 } else {
                     $msgg = "You have successfully started a mission!";
 
-                    //'userid', 'crimes', 'mugs', 'kills', 'busts', 'timestamp', 'mid', 'completed', 'partner'
-        
-                    mysql_query("INSERT INTO missions (`userid`, `timestamp`, `mid`) VALUES({$user_class->id}, {$now}, {$do})");
-                    mysql_query("INSERT INTO missionlog (`id`, `text`, `timestamp`) VALUES('[x] started a {$mm['name']},$user_class->id', unix_timestamp())");
+                    $db->query("INSERT INTO missions (`userid`, `timestamp`, `mid`) VALUES(?, ?, ?)");
+                    $db->execute([$user_class->id, $currenttime, $do]);
 
-                    // mysql_query("INSERT INTO missions VALUES(NULL,{$user_class->id},'','','','',unix_timestamp(),{$do},'no','')"));
-                    // mysql_query("INSERT INTO missionlog VALUES(NULL,'[x] started a {$mm['name']},$user_class->id',unix_timestamp())"));
+                    $db->query("INSERT INTO missionlog (`text`, `timestamp`) VALUES('[x] started a ?, ?', unix_timestamp())");
+                    $db->execute([$mm['name'], $user_class->id]);
                 }
             } else if ($r['completed'] == "no")
                 $msgg = "You are currently doing a mission!";
             else {
                 $msgg = "You have successfully started a mission!";
-                mysql_query("INSERT INTO missions (`userid`,`timestamp`, `mid`) VALUES({$user_class->id}, {$now}, {$do})");
-                mysql_query("INSERT INTO missionlog (`id`, `text`, `timestamp`) VALUES('[x] started a {$mm['name']},$user_class->id', unix_timestamp())");
-                // mysql_query("INSERT INTO missions VALUES(NULL,{$user_class->id},'','','','',unix_timestamp(),{$do},'no','')");
-                // mysql_query("INSERT INTO missionlog VALUES(NULL,'[x] started a {$mm['name']},$user_class->id',unix_timestamp())");
+
+                $db->query("INSERT INTO missions (`userid`, `timestamp`, `mid`) VALUES(?, ?, ?)");
+                $db->execute([$user_class->id, $currenttime, $do]);
+
+                $db->query("INSERT INTO missionlog (`id`, `text`, `timestamp`) VALUES('[x] started a ?, ?', unix_timestamp())");
+                $db->execute([$mm['name'], $user_class->id]);
             }
         } else if (isset($_GET['cancel'])) {
-            $q = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid={$user_class->id} AND completed='no' ORDER BY timestamp DESC LIMIT 1"));
-            if ($q) {
-                $mission = mysql_query("SELECT * FROM mission WHERE id={$q['mid']}");
-                $mm = mysql_fetch_array($mission);
-                mysql_query("UPDATE missions SET completed='cancel' WHERE id = {$q['id']}");
+            $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no' ORDER BY timestamp DESC LIMIT 1");
+            $db->execute([$user_class->id]);
+            $q = $db->fetch_row();
+            if (!empty($q)) {
+                $mission = get_mission($q['mid']);
+                if (empty($mission)) {
+                    header('location: missions.php');
+                    exit();
+                }
+
+                $db->query("UPDATE missions SET completed = 'cancel' WHERE id = ?");
+                $db->execute([$q['id']]);
+
                 echo "You have canceled your current mission, you will be able to start another mission in 10 minutes";
-                $text = $user_class->id . " canceled a " . $mm['name'];
-                mysql_query("INSERT INTO missionlog (`text`, `timestamp`) VALUES('[x] canceled a {$mm['name']},$user_class->id', unix_timestamp())");
+
+                $db->query("INSERT INTO missionlog (`id`, `text`, `timestamp`) VALUES(?, ?, unix_timestamp())");
+                $db->execute([$user_class->id, "canceled a {$mm['name']}"]);
             }
         }
-        $q2 = mysql_query("SELECT * FROM mission WHERE category = 0 ORDER BY id ASC ");
+
+        $db->query("SELECT * FROM mission WHERE category = 0 ORDER BY id ASC");
+        $db->execute();
+        $q2 = $db->fetch_row();
+
         $msgg = (isset($msgg)) ? $msgg : "";
         if (!empty($msgg))
             print "<div class='floaty1'>" . $msgg . "</div>";
@@ -98,15 +115,16 @@ include "header.php";
 
 <div class=\"hundred centered\">";
 
-        $check = mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'");
-        if (mysql_fetch_array($check)) {
-            $usermission = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid=$user_class->id AND completed='no'"));
-            $miss = mysql_fetch_array(mysql_query("SELECT * FROM mission WHERE id={$usermission['mid']}"));
+        $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no'");
+        $db->execute([$user_class->id]);
+        $check = $db->fetch_row(true);
+        if (!empty($check)) {
+            $miss = get_mission($check['mid']);
             $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>{$usermission['kills']}/{$miss['kills']}</font>" : "<font color='green'>{$miss['kills']}/{$miss['kills']}</font>";
             $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>{$usermission['crimes']}/{$miss['crimes']}</font>" : "<font color='green'>{$miss['crimes']}/{$miss['crimes']}</font>";
-            $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>{$usermission['mugs']}/{$miss['mugs']}</font>" : "<font color='green'>{$miss['mugs']}/{$miss['mugs']}</font>";
-            $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>{$usermission['busts']}/{$miss['busts']}</font>" : "<font color='green'>{$miss['busts']}/{$miss['busts']}</font>";
-            $currenttime = time();
+            $mugs = ($miss['mugs'] > $check['mugs']) ? "<font color='red'>{$check['mugs']}/{$miss['mugs']}</font>" : "<font color='green'>{$miss['mugs']}/{$miss['mugs']}</font>";
+            $busts = ($miss['busts'] > $check['busts']) ? "<font color='red'>{$check['busts']}/{$miss['busts']}</font>" : "<font color='green'>{$miss['busts']}/{$miss['busts']}</font>";
+
             $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
             echo "<span class='floaty1'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />";
             print "<div class=\"doingMission\">
@@ -144,12 +162,11 @@ include "header.php";
     </table>
 </div>";
         } else {
-
-            $currenttime = time();
-            while ($v = mysql_fetch_array($q2)) {
-
-                $r = mysql_fetch_array(mysql_query("SELECT * FROM missions WHERE userid={$user_class->id} AND mid={$v['id']} ORDER BY timestamp DESC LIMIT 1"));
-                if ($v['between'] + $r['timestamp'] > $currenttime) {
+            foreach ($q2 as $v) {
+                $db->query("SELECT * FROM missions WHERE userid = ? AND mid = ? ORDER BY timestamp DESC LIMIT 1");
+                $db->execute([$user_class->id, $v['id']]);
+                $r = $db->fetch_row(true);
+                if (isset($r) && ($v['between'] + $r['timestamp'] > $currenttime)) {
                     $button = "Available in " . secondsToTime(($v['between'] + $r['timestamp']) - $currenttime);
                 } else {
                     $button = "<input TYPE='button' value='Do Mission' onclick=window.location.href='?do={$v['id']}'>";
@@ -187,8 +204,10 @@ include "header.php";
   <tr>
 <div class=\"doingMission\" style=\"margin-top:20px;\">
 <table style='width:95%'>";
-        $ml = mysql_query("SELECT * FROM missionlog ORDER BY timestamp DESC LIMIT 25");
-        while ($mm = mysql_fetch_array($ml)) {
+        $db->query("SELECT * FROM missionlog ORDER BY timestamp DESC LIMIT 25");
+        $db->execute();
+        $ml = $db->fetch_row(true);
+        foreach ($ml as $mm) {
             $text = explode(',', $mm['text']);
             print "<tr><td>&bull;&nbsp;&nbsp;" . str_replace('[x]', formatName($text[1]), $text[0]) . "</td><td>" . date('m/d/y g:i a', $mm['timestamp']) . "</td></tr>\n\n";
         }

@@ -142,16 +142,21 @@ function BBCodeParse($str)
 }
 function MP3Parse($str2)
 {
-    include("dbcon.php");
-    $result = mysql_query("SELECT * FROM `grpgusers` WHERE `id` = '" . $_SESSION['id'] . "'");
-    $worked = mysql_fetch_array($result);
+    include_once("dbcon.php");
+
+    $db->query("SELECT * FROM `grpgusers` WHERE `id` = ?");
+    $db->execute([$_SESSION['id']]);
+    $worked = $db->fetch_row(true);
+
     $search = array(
         '#\[mp3\]((?:ftp|https?)://.*?)\[/mp3\]#i'
     );
     $replace = array(
         '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="30" height="30" id="player"><param name="allowScriptAccess" value="sameDomain" /><param name="movie" value="http://mafia-warfare.com/player.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#111111" /><param name="FlashVars" value="mp3=$1&vol=' . $worked['volume'] . '" /><embed src="http://mafia-warfare.com/player.swf" quality="high" bgcolor="#111111" width="30" height="30" name="player" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" FlashVars="mp3=$1&vol=' . $worked['volume'] . '" /></object>'
     );
+
     $str2 = preg_replace($search, $replace, $str2);
+
     return $str2;
 }
 function quote1($id)

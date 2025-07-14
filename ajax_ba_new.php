@@ -1,14 +1,13 @@
 <?php
 
-
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-//header('Content-type: application/json');
-session_start();
 
-$redis = new Redis();
-$redis->connect("127.0.1", 6379);
+require_once 'includes/functions.php';
+require_once 'includes/cache.php';
+
+start_session_guarded();
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -48,8 +47,8 @@ function success($msg, $goldRushCredits = 0, $medPackCount = 0, $userBaStats = n
     return $response;
 }
 
-include "classes.php";
-include "database/pdo_class.php";
+include_once "classes.php";
+include_once "database/pdo_class.php";
 
 $user_class = new User($_SESSION['id']);
 set_last_active($user_class->id);
@@ -191,7 +190,7 @@ addToRelCompLeaderboard($user_class->id, 'ba_complete', 1);
 $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
 $db->execute();
 $activityContest = $db->fetch_row(true);
-if ($activityContest['type'] == 'backalley') {
+if (isset($activityContest['type']) && $activityContest['type'] == 'backalley') {
     addToUserCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
     addToRelCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
 }

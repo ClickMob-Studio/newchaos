@@ -1,14 +1,18 @@
 <?php
 include("header.php");
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 if (isset($_POST['resetref'])) {
-    $result = mysql_query("UPDATE `grpgusers` SET `killcomp` = '0'");
+    $db->query("UPDATE `grpgusers` SET `refcount` = '0'");
+    $db->execute();
     echo Message("The kill counts have been reset.");
 }
 if (isset($_POST['resetexp'])) {
-    $result = mysql_query("UPDATE `grpgusers` SET `expcount` = '0'");
+    $db->query("UPDATE `grpgusers` SET `expcount` = '0'");
+    $db->execute();
     echo Message("The exp counts have been reset.");
 }
 ?>
@@ -35,7 +39,8 @@ if (isset($_POST['resetexp'])) {
         - <font color=bronze>3rd Place</font> : 30 Day Gradient & RM Days + 5,000 Points.</br>
         </br>
 
-        Along with the top 3 killers recieving these prizes. All users will also receive a prize if they hit these Kill Thresholds </br>
+        Along with the top 3 killers recieving these prizes. All users will also receive a prize if they hit these Kill
+        Thresholds </br>
         </br>
 
         - <font color=bronze>100 Kills</font> : 5,000 Points</br>
@@ -57,20 +62,17 @@ if (isset($_POST['resetexp'])) {
             <center><b><u>Time Online</u></b></center><br />
             <table width="100%">
                 <tr>
-
-
-
-
-
                     <td><b>#</b></td>
                     <td><b>Username</b></td>
                     <td><b>Time online</b></td>
                 </tr>
 
                 <?php
-                $result = mysql_query("SELECT * FROM `grpgusers` ORDER BY `dailytime` DESC LIMIT 25");
+                $db->query("SELECT * FROM `grpgusers` ORDER BY `dailytime` DESC LIMIT 25");
+                $db->execute();
+                $result = $db->fetch_row();
                 $rank = 0;
-                while ($line = mysql_fetch_array($result)) {
+                foreach ($result as $line) {
                     $rank++;
                     $user_name = new User($line['id']);
                     $minutes = ($line['dailytime'] > 0) ? $line['dailytime'] : 0;
@@ -81,13 +83,12 @@ if (isset($_POST['resetexp'])) {
 
 
             </table>
-
-
     </tr>
 </table>
 
 </td>
 </tr>
+
 <?php
 include("footer.php");
 ?>

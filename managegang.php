@@ -18,7 +18,7 @@ include 'header.php';
             elseif (empty($_POST['rank']))
                 error("You didn't choose a rank!");
             else {
-                $result = mysql_query("UPDATE grpgusers SET grank = {$_POST['rank']} WHERE id = $target->id");
+                perform_query("UPDATE grpgusers SET grank = ? WHERE id = ?", [$_POST['rank'], $target->id]);
                 echo Message("You have changed $target->formattedname's rank.");
                 $gang_class = new Gang($user_class->gang);
             }
@@ -33,14 +33,13 @@ include 'header.php';
             );
         }
 
-
         if (isset($_POST['dismiss'])) {
             $target = new User($_POST['id']);
             if ($target->gang != $user_class->gang)
                 error("That player is not in your gang!");
             if ($_POST['id'] != $user_class->id)
                 if ($_POST['id'] != $gang_class->leader) {
-                    $result = mysql_query("UPDATE grpgusers SET gang = 0, gangwait = 1240, grank = 0, gangmail = 0 WHERE id = {$_POST['id']}");
+                    perform_query("UPDATE grpgusers SET gang = 0, gangwait = 1240, grank = 0, gangmail = 0 WHERE id = ?", [$_POST['id']]);
                     echo Message("You have kicked $target->formattedname out of the gang.");
                     Gang_Event($gang_class->id, "[-_USERID_-] has been kicked from the gang.", $target->id);
                 } else

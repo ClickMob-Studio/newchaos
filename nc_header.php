@@ -1,9 +1,10 @@
 <?php
 ob_start();
-session_start();
 
-$redis = new Redis();
-$redis->connect("127.0.1", 6379);
+require_once 'includes/cache.php';
+require_once 'includes/functions.php';
+
+start_session_guarded();
 
 header('Content-Type: text/html; charset=utf-8');
 function getUserIP()
@@ -51,24 +52,27 @@ $current_uri = $_SERVER['REQUEST_URI']; // Gets the full request URI
 
 register_shutdown_function('ob_end_flush');
 
-include 'dbcon.php';
-include 'database/pdo_class.php';
-include "classes.php";
-include "codeparser.php";
-include "pdo.php";
+include_once 'dbcon.php';
+include_once 'database/pdo_class.php';
+include_once "classes.php";
+include_once "codeparser.php";
+include_once "pdo.php";
 
 
 if (!isset($_SESSION['id'])) {
     include('home.php');
     die();
 }
-$l = mysql_query("SELECT sessionid FROM `sessions` WHERE userid = " . $_SESSION['id']);
-if (mysql_num_rows($l) < 1) {
+
+$db->query("SELECT sessionid FROM `sessions` WHERE userid = ?");
+$db->execute(array(
+    $_SESSION['id']
+));
+if ($db->num_rows() < 1) {
     session_destroy();
     header('Location:index.php');
 }
-
-$g = mysql_fetch_assoc($l);
+$g = $db->fetch_row(true);
 if ($g['sessionid'] != $_SESSION['token']) {
     session_destroy();
     header('Location:index.php');
@@ -82,9 +86,6 @@ if (isset($_GET['action']) && $_GET['action'] == "logout") {
 $uid = $_SESSION['id'];
 $user_class = new User($uid);
 $_SESSION['username'] = $user_class->username;
-if ($user_class->id == 18) {
-    logPageView();
-}
 
 // Define a function to check and log request frequency
 function logHighFrequencyRequests()
@@ -148,7 +149,7 @@ if ($user_class->gang == 0 && $user_class->cur_gangcrime != 0) {
 
 if (empty($user_class->macro_token)) {
     $newMacroToken = generateMacroToken(10);
-    mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken . "' WHERE id = " . $user_class->id);
+    perform_query("UPDATE grpgusers SET macro_token = ? WHERE id = ?", [$newMacroToken, $user_class->id]);
 }
 
 if ($user_class->lastpayment < time() - 86400) {
@@ -168,7 +169,7 @@ if (isset($_GET['spend'])) {
         if ($user_class->awakepercent != 100 && $user_class->points >= $cost) {
             $user_class->points -= $cost;
             $user_class->directawake = $user_class->directmaxawake;
-            mysql_query("UPDATE grpgusers SET awake = $user_class->directmaxawake, points = points - $cost WHERE id = $user_class->id");
+            perform_query("UPDATE grpgusers SET awake = ?, points = points - ? WHERE id = ?", [$user_class->directmaxawake, $cost, $user_class->id]);
         }
         ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: https://chaoscity.co.uk/');
     }
@@ -273,17 +274,24 @@ function getRealIpAddress()
 }
 
 $IP = getRealIpAddress();
-setcookie("mu", $user_class->id, time() + (10 * 365 * 24 * 60 * 60));
 if ($uid != 0) {
     set_last_active_ip($user_class->id, $IP);
 }
 
-$q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");
-$hosp = mysql_num_rows($q);
-$e = mysql_query("SELECT viewed FROM events WHERE `to` = $user_class->id AND viewed = 1");
-$ev = mysql_num_rows($e);
-$q = mysql_query("SELECT `id` FROM grpgusers WHERE jail > 0");
-$ja = mysql_num_rows($q);
+// Hospital count
+$db->query("SELECT count(id) FROM grpgusers WHERE hospital > 0");
+$db->execute();
+$hosp = $db->fetch_single();
+
+// Event count
+$db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
+$db->execute(array($user_class->id));
+$ev = $db->fetch_single();
+
+// Jail count
+$db->query("SELECT COUNT(id) FROM grpgusers WHERE jail > 0");
+$db->execute();
+$ja = $db->fetch_single();
 
 
 function callback($buffer)
@@ -340,8 +348,11 @@ function callback($buffer)
     }
     $hospital = "[" . $hosCount . "]";
     $hospital = ($hosCount > 0) ? "<span style='color:red;'>$hospital</span>" : $hospital;
-    $j = mysql_query("SELECT `id` FROM grpgusers WHERE jail > 0");
-    $jail = mysql_num_rows($j);
+
+    $db->query("SELECT count(id) FROM grpgusers WHERE jail > 0");
+    $db->execute();
+    $jail = $db->fetch_single();
+
     $petJailDisplay = "[" . $petJailCount . "]";
     $petJailDisplay = $petJailCount > 0 ? "<span style='color:red;'>$petJailDisplay</span>" : $petJailDisplay;
     $phos = "[" . $pHosCount . "]";
@@ -521,18 +532,11 @@ if ($user_class->globalchat > 0) {
 } else {
     $globalchat = '';
 }
-$gang_raid_query = "
-SELECT 
-    ar.raid_type, ar.summoned_by, g.gang 
-FROM 
-    active_raids ar                        
-    LEFT JOIN grpgusers g ON ar.summoned_by = g.id 
-WHERE 
-    g.gang = " . $user_class->gang . " AND
-    ar.completed = 0 AND
-    ar.raid_type = 'Gang'
-";
-$gang_raid_count = mysql_num_rows(mysql_query($gang_raid_query));
+
+$db->query("SELECT ar.raid_type, ar.summoned_by, g.gang FROM active_raids ar LEFT JOIN grpgusers g ON ar.summoned_by = g.id WHERE g.gang = ? AND ar.completed = 0 AND ar.raid_type = 'Gang'");
+$db->execute([$user_class->gang]);
+$gang_raid_count = $db->num_rows();
+
 $counts = array(
     'event' => $ev,
     'mail' => '<!_-mail-_!>',
@@ -543,17 +547,27 @@ $counts = array(
     'gchat' => $globalchat,
     'gang_raid_count' => $gang_raid_count,
 );
-$queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
 
-$usersOnline = mysql_num_rows($queryOnline);
+$usersOnline = $cache->get('usersOnline');
+if (empty($usersOnline) || !$usersOnline) {
+    $db->query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
+    $db->execute();
+    $queryOnline = $db->num_rows();
+    $cache->setEx("usersOnline", 60, $queryOnline);
+}
 
-$activeRaidsQuery = "SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE completed = 0"; // Replace 'end_time' with the actual column name that represents when the raid ends
-$activeRaidsResult = mysql_query($activeRaidsQuery);
-$activeRaidsData = mysql_fetch_assoc($activeRaidsResult);
-$activeRaidsCount = $activeRaidsData['activeRaidsCount'];
+$activeRaidsCount = $cache->get("activeRaidsCount");
+if (empty($activeRaidsCount) || !$activeRaidsCount) {
+    $db->query("SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE completed = 0");
+    $db->execute();
+    $activeRaidsData = $db->fetch_row(true);
+    $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
+    $cache->setEx("activeRaidsCount", 10, $activeRaidsCount);
+}
 
-$nogame2 = mysql_query("SELECT * FROM numbergame WHERE userid=$user_class->id");
-$no2 = mysql_num_rows($nogame2);
+$db->query("SELECT * FROM numbergame WHERE userid = ?");
+$db->execute([$user_class->id]);
+$no2 = $db->num_rows();
 
 echo '<script src="js/java.js?12" type="text/javascript"></script>';
 ?>
@@ -570,8 +584,9 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
     <?php } else { ?>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
     <?php }
-    $q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");
-    $hosp = mysql_num_rows($q);
+    $db->query("SELECT count(id) FROM grpgusers WHERE hospital > 0");
+    $db->execute();
+    $hosp = $db->fetch_single();
     ?>
 
     <?php if ($ev > 0) {

@@ -3,8 +3,10 @@
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-//header('Content-type: application/json');
-session_start();
+
+require_once 'includes/functions.php';
+
+start_session_guarded();
 
 function shorthandNumber($number)
 {
@@ -28,8 +30,8 @@ if (isset($data['user_id'])) {
     $_SESSION['id'] = $data['user_id'];
 }
 
-include "classes.php";
-include "database/pdo_class.php";
+include_once "classes.php";
+include_once "database/pdo_class.php";
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -223,12 +225,10 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $exp *= 2;
         $money *= 1;
         $chance = 100;
-    } else {
-        if ($bonus_row['Time'] > 0) {
-            $exp *= 2;
-            $money *= 1;
-            $chance = 100;
-        }
+    } else if (isset($bonus_row['TIME']) && $bonus_row['Time'] > 0) {
+        $exp *= 2;
+        $money *= 1;
+        $chance = 100;
     }
 
     if (time() < 1673827199) {
@@ -308,13 +308,8 @@ if (isset($_POST['id']) || isset($input['id'])) {
             'error' => 'refresh'
         ));
 
-        //$logger->info("", $debug);
         die();
     }
-
-    //    if ($user_class->nerve < $nerve && !$prepaid) {
-//        refill('n');
-//    }
 
     if ($user_class->nerve >= $nerve || $prepaid) {
         if ($prepaid) {
@@ -363,8 +358,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
             } else {
                 $which = "crimes1";
             }
-            // $db->query("INSERT INTO crime_log (userid, nerve, exp) VALUES (?, ?, ?)");
-            // $db->execute(array($user_class->id, $nerve, $exp));
+
             newmissions($which, $crime_multiplier);
             updateGangActiveMission('crimes', $crime_multiplier);
 
@@ -448,12 +442,11 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
             }
             addToRelCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
-            //addToUserCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
 
             $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
             $db->execute();
             $activityContest = $db->fetch_row(true);
-            if ($activityContest['type'] == 'crimes') {
+            if (isset($activityContest['type']) && $activityContest['type'] == 'crimes') {
                 addToUserCompLeaderboard($user_class->id, 'activity_complete', $crime_multiplier);
                 addToRelCompLeaderboard($user_class->id, 'activity_complete', $crime_multiplier);
             }

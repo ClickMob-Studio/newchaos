@@ -1,5 +1,5 @@
 <?php
-include"ajax_header.php";
+include "ajax_header.php";
 
 $userId = $_SESSION['id'];
 if (isset($_GET['page'])) {

@@ -7,15 +7,15 @@ if ($user_class->gang == 0) {
 
 $gang_class = new Gang($user_class->gang);
 include("gangheaders.php");
-$result = mysql_query("SELECT * from `gangs` WHERE `id` = '" . $user_class->gang . "'");
-$worked = mysql_fetch_array($result);
 
-
+$db->query("SELECT * FROM `gangs` WHERE `id` = ?");
+$db->execute([$user_class->gang]);
+$worked = $db->fetch_row(true);
 
 if (isset($_POST['submit'])) {
     if ($_POST['poll1'] != "") {
-        $result = mysql_query("UPDATE `grpgusers` SET `gangpoll` = '1' WHERE `id` = '" . $user_class->id . "'");
-        $result = mysql_query("UPDATE `gangpolls` SET `votes` = votes+1 AND `yes` = yes+1 WHERE `gangid`='" . $gang_class->id . "'");
+        perform_query("UPDATE `grpgusers` SET `gangpoll` = '1' WHERE `id` = ?", [$user_class->id]);
+        perform_query("UPDATE `gangpolls` SET `votes` = votes+1 AND `yes` = yes+1 WHERE `gangid`=?", [$gang_class->id]);
         echo Message("You have successfully voted for your gangs poll!<br /><br /><a href='index.php'>Home</a>");
         include 'footer.php';
         die();
@@ -23,8 +23,8 @@ if (isset($_POST['submit'])) {
         echo Message("You didn't choose an answer.");
     }
     if ($_POST['poll2'] != "") {
-        $result = mysql_query("UPDATE `grpgusers` SET `gangpoll` = '1' WHERE `id` = '" . $user_class->id . "'");
-        $result = mysql_query("UPDATE `gangpolls` SET `votes` = votes+1 AND `no` = no+1 WHERE `gangid`='" . $gang_class->id . "'");
+        perform_query("UPDATE `grpgusers` SET `gangpoll` = '1' WHERE `id` = ?", [$user_class->id]);
+        perform_query("UPDATE `gangpolls` SET `votes` = votes+1 AND `no` = no+1 WHERE `gangid`=?", [$gang_class->id]);
         echo Message("You have successfully voted for your gangs poll!<br /><br /><a href='index.php'>Home</a>");
         include 'footer.php';
         die();
@@ -33,13 +33,22 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
-<tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Gang Polls</td></tr>
-<tr><td class="contentcontent">
+<tr>
+    <td class="contentspacer"></td>
+</tr>
+<tr>
+    <td class="contenthead">Gang Polls</td>
+</tr>
+<tr>
+    <td class="contentcontent">
         <table width="100%">
             <form method="post">
                 <?php
-                $result = mysql_query("SELECT * FROM `gangpolls` WHERE `gangid`='" . $gang_class->id . "'");
-                while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
+
+                $db->query("SELECT * FROM `gangpolls` WHERE `gangid` = ?");
+                $db->execute([$gang_class->id]);
+                $polls = $db->fetch_row();
+                foreach ($polls as $line) {
                     echo '
 <tr><td>
 <u><b>Question:&nbsp;</b><i>' . $line['question'] . '</i></u><br /><br />
@@ -48,7 +57,8 @@ if (isset($_POST['submit'])) {
 </tr>';
                     ?>
                     <br />
-                    <tr><td>
+                    <tr>
+                        <td>
                             <input type="submit" name="submit" value="Submit Poll" />
                         </td>
                     </tr>
@@ -57,7 +67,8 @@ if (isset($_POST['submit'])) {
                 ?>
             </form>
         </table>
-</tr></td>
+</tr>
+</td>
 <?php
 include 'footer.php';
 ?>

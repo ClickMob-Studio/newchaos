@@ -1,7 +1,11 @@
 <?php
 
-$redis = new Redis();
-$redis->connect("127.0.1", 6379);
+require_once __DIR__ . '/../dbcon.php';
+require_once __DIR__ . '/../database/pdo_class.php';
+require_once __DIR__ . '/cache.php';
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 function howlongtil($futureTimestamp)
 {
@@ -146,7 +150,6 @@ function secondsToTime($seconds)
     $dtF = new DateTime('@0');
     $dtT = new DateTime("@$seconds");
     $interval = $dtF->diff($dtT);
-
     $parts = [];
 
     if ($interval->y > 0) {
@@ -269,11 +272,12 @@ function Relationship_Req($player, $type, $from)
 function addBrowser($userid, $name)
 {
     global $db;
-    $db->query("REPLACE INTO forum_browsers (userid, name) VALUES (?, ?)");
-    $db->execute(array(
-        $userid,
-        $name
-    ));
+    $db->query("
+        INSERT INTO forum_browsers (userid, name)
+        VALUES (?, ?)
+        ON DUPLICATE KEY UPDATE name = VALUES(name)
+    ");
+    $db->execute([$userid, $name]);
 }
 function getRank($userid, $stat)
 {
@@ -301,11 +305,19 @@ function Check_Item($itemid, $userid)
 
 function Get_Item($itemid)
 {
-    global $db;
+    global $db, $cache;
+
+    if ($cache->exists('item_' . $itemid)) {
+        $item = $cache->get('item_' . $itemid);
+        return json_decode($item, true);
+    }
 
     $db->query("SELECT * FROM items WHERE id = ?");
     $db->execute([$itemid]);
-    return $db->fetch_row(true);
+    $item = $db->fetch_row(true);
+    $cache->setEx('item_' . $itemid, 3600, json_encode($item));
+
+    return $item;
 }
 
 function Check_Loan($itemid, $userid)
@@ -458,14 +470,14 @@ function Take_Item($itemid, $userid, $quantity = 1)
 
 function Item_Name($itemId)
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    $item = $redis->get('item_' . $itemId);
+    $item = $cache->get('item_' . $itemId);
     if (!$item) {
         $db->query("SELECT * FROM items WHERE id = ?");
         $db->execute([$itemId]);
         $item = $db->fetch_row(true);
-        $redis->setEx("item_" . $itemId, 3600, json_encode($item));
+        $cache->setEx("item_" . $itemId, 3600, json_encode($item));
         return $item['itemname'];
     } else {
         $item = json_decode($item, true);
@@ -475,20 +487,38 @@ function Item_Name($itemId)
 
 function Item_Image($itemId)
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    $item = $redis->get('item_' . $itemId);
+    $item = $cache->get('item_' . $itemId);
     if (!$item) {
         $db->query("SELECT * FROM items WHERE id = ?");
         $db->execute([$itemId]);
         $item = $db->fetch_row(true);
-        $redis->setEx("item_" . $itemId, 3600, json_encode($item));
+        $cache->setEx("item_" . $itemId, 3600, json_encode($item));
         return $item['image'];
     } else {
         $item = json_decode($item, true);
         return $item['image'];
     }
 }
+
+function Item_Details($itemId)
+{
+    global $db, $cache;
+
+    $item = $cache->get('item_' . $itemId);
+    if (!$item) {
+        $db->query("SELECT * FROM items WHERE id = ?");
+        $db->execute([$itemId]);
+        $item = $db->fetch_row(true);
+        $cache->setEx("item_" . $itemId, 3600, json_encode($item));
+        return $item;
+    } else {
+        $item = json_decode($item, true);
+        return $item;
+    }
+}
+
 function Take_Loan($itemid, $userid, $quantity = 1)
 {
     global $db;
@@ -638,9 +668,11 @@ function crimeleft($ts)
 {
     return howlongtil($ts);
 }
+
 function howlongago($ts, $stop = 'none')
 {
     $ts = time() - $ts;
+
     if ($ts < 1)
         return " NOW";
     elseif ($ts == 1)
@@ -649,22 +681,26 @@ function howlongago($ts, $stop = 'none')
         return $ts . "s";
     elseif ($ts < 120)
         return "1m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60)
+    elseif ($ts < 3600)
         return floor($ts / 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60 * 2)
-        return "1h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60 * 24)
-        return floor($ts / (60 * 60)) . "h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60 * 24 * 2)
-        return "1d " . floor($ts / (60 * 60) % 24) . "h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < (60 * 60 * 24 * 7) or $stop == 'days')
-        return floor($ts / (60 * 60 * 24)) . "d " . floor($ts / (60 * 60) % 24) . "h " . floor(($ts / 60) % 60) . "m " . ($ts % 60) . "s";
-    elseif ($ts < 60 * 60 * 24 * 30.5)
-        return floor($ts / (60 * 60 * 24 * 7)) . " weeks ago";
-    elseif ($ts < 60 * 60 * 24 * 365)
-        return floor($ts / (60 * 60 * 24 * 30.5)) . " months ago";
+    elseif ($ts < 7200)
+        return "1h " . floor((floor($ts / 60)) % 60) . "m " . ($ts % 60) . "s";
+    elseif ($ts < 86400)
+        return floor($ts / 3600) . "h " . floor((floor($ts / 60)) % 60) . "m " . ($ts % 60) . "s";
+    elseif ($ts < 172800)
+        return "1d " . floor((floor($ts / 3600)) % 24) . "h " . floor((floor($ts / 60)) % 60) . "m " . ($ts % 60) . "s";
+    elseif ($ts < 604800 || $stop === 'days')
+        return
+            floor($ts / 86400) . "d " .
+            floor((floor($ts / 3600)) % 24) . "h " .
+            floor((floor($ts / 60)) % 60) . "m " .
+            floor($ts % 60) . "s";
+    elseif ($ts < 2628000) // ~30.5 days
+        return floor($ts / 604800) . " weeks ago";
+    elseif ($ts < 31536000)
+        return floor($ts / 2628000) . " months ago";
     else
-        return floor($ts / (60 * 60 * 24 * 365)) . " years ago";
+        return floor($ts / 31536000) . " years ago";
 }
 
 function howlongleft($ts)
@@ -844,7 +880,7 @@ function formatName($id, $nogang = 0)
     $db->execute(array($id));
     $row = $db->fetch_row(true);
 
-    if ($row['gang'] != 0 and $nogang != 1) {
+    if (isset($row['gang']) && $row['gang'] != 0 && $nogang != 1) {
         if ($id == 2) {
             if ($row['gndays'] > 0) {
                 $name .= "<a style='font-size:1.5em;' href='viewgang.php?id={$row['gang']}'";
@@ -863,17 +899,16 @@ function formatName($id, $nogang = 0)
     $db->query("SELECT days FROM bans WHERE id = ? AND type IN ('perm','freeze')");
     $db->execute(array($id));
     $bdays = $db->fetch_single();
-
     if ($bdays) {
         $title = "Banned";
         $whichfont = "#FFFFFF";
-    } else if ($row['admin'] == 1) {
+    } else if (isset($row['admin']) && $row['admin'] == 1) {
         $title = "Admin";
         $whichfont = "#FF1111";
-    } else if ($row['gm'] == 1) {
+    } else if (isset($row['gm']) && $row['gm'] == 1) {
         $title = "Chat Moderator";
         $whichfont = "#FFFFFF";
-    } else if ($row['rmdays'] >= 1) {
+    } else if (isset($row['rmdays']) && $row['rmdays'] >= 1) {
         $title = "VIP ({$row['rmdays']} VIP Days Left)";
         $whichfont = "#00BF03";
     } else {
@@ -887,17 +922,7 @@ function formatName($id, $nogang = 0)
         $name .= ($row['admin'] == 1 || $row['gm'] == 1) ? "<a title='" . $title . " [" . $row['username'] . "]' href='profiles.php?id=" . $id . "'>" : "<a title='" . $title . "' href='profiles.php?id=" . $id . "'>";
         $name .= "<img src='{$row['image_name']}' style='max-width:84px; max-height:50px;' title='" . $row['username'] . "' />";
         $name .= ($row['admin'] == 1 || $row['gm'] == 1) ? "</a>" : "</a>";
-    } else if (false) { //$id >= 334 AND $id <= 353) {
-        $username = $row['username'];
-        $half = (int) ((strlen($username) / 2));
-        $left = substr($username, 0, $half);
-        $right = substr($username, $half);
-        $gradient = text_gradient('008800', '00CC00', 1, $left);
-        $gradient .= text_gradient('00CC00', '008800', 1, $right);
-        $name .= "<b><a title='BOT' href='profiles.php?id=" . $id . "'>";
-        $name .= $gradient;
-        $name .= "</b></a>";
-    } elseif ($row['gndays']) {
+    } elseif (isset($row['gndays'])) {
         // Check if gradient is generated
         $gradientText = generateGradientName($id);
         if (empty($gradientText)) {
@@ -930,15 +955,17 @@ function formatName($id, $nogang = 0)
         $name .= ($row['admin'] == 1 || $row['gm'] == 1) ? "</a></i></b>" : "</a></b>";
     } else if ($id == 146) {
         $name .= "<a title='$title' href='profiles.php?id=$id'>{$row['username']}</a>";
-    } else if ($row['admin'] == 1 || $row['gm'] == 1) {
+    } else if ((isset($row['admin']) && $row['admin'] == 1) || (isset($row['gm']) && $row['gm'] == 1)) {
         $name .= "<i><b><a title='$title' href='profiles.php?id=$id'><font color = '$whichfont'>{$row['username']}</a></font></b></i>";
-    } else if ($row['rmdays'] > 0) {
+    } else if (isset($row['rmdays']) && $row['rmdays'] > 0) {
         $name .= "<b><a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</a></font></b>";
-    } else {
+    } else if (isset($row['username'])) {
         $name .= "<a title='$title' href='profiles.php?id=$id'><font color='$whichfont'>{$row['username']}</a></font>";
+    } else {
+        $name .= "<a title='$title' href='profiles.php?id=$id'>Unknown User</a>";
     }
 
-    if ($row['prestige'] > 0) {
+    if (isset($row['prestige']) && $row['prestige'] > 0) {
         if ($row['prestige'] >= 10) {
             $db->query("SELECT skull FROM prestige_skull WHERE `user_id` = ?");
             $db->execute(array($id));
@@ -1324,7 +1351,7 @@ function genBars()
 function gangContest($adds)
 {
     global $user_class, $db;
-    $adding = "";
+    $adding = [];
     foreach ($adds as $att => $perk)
         $adding[] = "$att = $att + $perk, total_$att = total_$att + $perk";
     $db->query("UPDATE gangcontest SET " . implode(",", $adding) . " WHERE userid = ?");
@@ -1355,7 +1382,7 @@ function Take_Pet($petid, $userid)
         $petid
     ));
 }
-function Give_Pet($petid, $userid, $picture, $str = 10, $spe = 10, $def = 10, $name = "No Name")
+function Give_Pet($petid, $userid, $picture, $str = 10, $spe = 10, $def = 10, $name = null)
 {
     global $db;
     $db->query("SELECT petid FROM pets WHERE userid = ? AND petid = ?");
@@ -1364,8 +1391,21 @@ function Give_Pet($petid, $userid, $picture, $str = 10, $spe = 10, $def = 10, $n
         $petid
     ));
     $pet = $db->fetch_single();
-    if ($pet)
+    if ($pet) {
         return false;
+    }
+
+    if ($name == null) {
+        $db->query("SELECT name FROM petshop WHERE id = ?");
+        $db->execute([$petid]);
+        $pet = $db->fetch_row(true);
+        if (!$pet) {
+            $name = "No Name";
+        } else {
+            $name = $pet['name'];
+        }
+    }
+
     $db->query("INSERT INTO pets (petid, userid, str, spe, def, pname, avi) VALUES (?, ?, ?, ?, ?, ?, ?)");
     $db->execute(array(
         $petid,
@@ -1795,7 +1835,7 @@ function ofthes($userid, &$toadd)
 }
 function check_items($itemid, $userid = null)
 {
-    global $db, $user_class, $redis;
+    global $db, $user_class;
     if (empty($userid))
         $userid = $user_class->id;
     $db->query("SELECT quantity FROM inventory WHERE userid = ? AND itemid = ?");
@@ -2081,17 +2121,6 @@ function calctime($seconds = 0)
     return isset($thetime) ? implode(' ', $thetime) . ($interval->invert ? ' ago' : '') : NULL;
 }
 
-function Get_Item_name($id)
-{
-    $id = intval($id);
-    $query = mysql_query("SELECT * FROM items WHERE `id` = " . $id);
-    if (mysql_num_rows($query)) {
-        $result = mysql_fetch_assoc($query);
-        return $result['itemname'];
-    } else {
-        return 'Unknown Item';
-    }
-}
 function updateGangActiveMission($field, $value)
 {
     global $db, $user_class;
@@ -2138,9 +2167,6 @@ function generateMacroToken($length = 10)
 function macroTokenCheck($user_class)
 {
     if (!isset($_GET['token'])) {
-        //        Send_Event(1, 'ID ' . $user_class-> id . ' MUGGING: NO TOKEN PROVIDED', 1);
-//        Send_Event(2, 'ID ' . $user_class-> id . ' MUGGING: NO TOKEN PROVIDED', 2);
-
         echo "
             <div class='alert alert-danger'>
                 <p>1 Something went wrong, an Admin has been informed.
@@ -2151,9 +2177,6 @@ function macroTokenCheck($user_class)
 
     $token = $_GET['token'];
     if (empty($token)) {
-        //        Send_Event(1, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token, 1);
-//        Send_Event(2, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token, 2);
-
         echo "
             <div class='alert alert-danger'>
                 <p>2 Something went wrong, an Admin has been informed.
@@ -2163,10 +2186,6 @@ function macroTokenCheck($user_class)
     }
 
     if ($user_class->macro_token != $token) {
-        //        Send_Event(1, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token . ' - ' . $user_class->macro_token, 1);
-//        Send_Event(2, 'ID ' . $user_class-> id . ' WRONG TOKEN PROVIDED ' . $token . ' - ' . $user_class->macro_token, 2);
-
-
         echo
             "
             <div class='alert alert-danger'>
@@ -2177,8 +2196,7 @@ function macroTokenCheck($user_class)
     }
 
     $newMacroToken = generateMacroToken();
-    mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken . "' WHERE id = " . $user_class->id);
-
+    perform_query("UPDATE grpgusers SET macro_token = ? WHERE id = ?", [$newMacroToken, $user_class->id]);
     return $newMacroToken;
 }
 
@@ -2218,24 +2236,7 @@ function addItemTempUse($user_class, $field, $qty = 1)
 
 function removeItemTempUse($userId, $field, $qty = 1)
 {
-    mysql_query("UPDATE item_temp_use SET {$field} = {$field} - {$qty} WHERE {$field} > 0 AND user_id = " . $userId);
-}
-
-function removeFromInventory($userId, $item, $qty = 1)
-{
-    $item = intval($item);
-    $check = mysql_query("SELECT * FROM inventory WHERE itemid = $item AND userid = $userId");
-    if (mysql_num_rows($check) < 0) {
-        return false;
-    }
-    $ch = mysql_fetch_array($check);
-    if ($ch['quantity'] > $qty) {
-        mysql_query("UPDATE inventory SET quantity = quantity - $qty WHERE itemid = $item AND userid = $userId");
-        return true;
-    } else {
-        mysql_query("DELETE FROM inventory WHERE itemid = $item AND userid = $userId");
-        return true;
-    }
+    perform_query("UPDATE item_temp_use SET `$field` = `$field` - ? WHERE `$field` > 0 AND user_id = ?", [$qty, $userId]);
 }
 
 function getUserBaStats($user_class)
@@ -2707,19 +2708,16 @@ function getBpCategoryUser($bpCategory, $user_class)
 {
     global $db;
 
-    $db->query("SELECT * FROM bp_category_user WHERE user_id = " . $user_class->id . " AND bp_category_id = " . $bpCategory['id'] . " LIMIT 1");
-    $db->execute();
-    $r = $db->fetch_row();
-
-    if (isset($r[0]['id'])) {
-        return $r[0];
-    } else {
-        $db->query("INSERT INTO bp_category_user (bp_category_id, user_id) VALUES (" . $bpCategory['id'] . ", " . $user_class->id . ")");
-        $db->execute();
-        $r = getBpCategoryUser($bpCategory['id'], $user_class);
-
+    $db->query("SELECT * FROM bp_category_user WHERE user_id = ? AND bp_category_id = ? LIMIT 1");
+    $db->execute([$user_class->id, $bpCategory['id']]);
+    $r = $db->fetch_row(true);
+    if (isset($r['id'])) {
         return $r;
     }
+
+    $db->query("INSERT INTO bp_category_user (bp_category_id, user_id) VALUES (?, ?)");
+    $db->execute([$bpCategory['id'], $user_class->id]);
+    return getBpCategoryUser($bpCategory['id'], $user_class);
 }
 
 function addToBpCategoryUser($bpCategory, $user_class, $field, $qty = 1)
@@ -2881,51 +2879,6 @@ function addToUserOperations($user_class, $field, $qty = 1)
     }
 }
 
-function getHalloweenUserList($userId)
-{
-    global $db;
-
-    $now = new \DateTime();
-
-    $db->query("SELECT * FROM halloween_user_list WHERE user_id = " . $userId . " AND month_year = '" . $now->format('d-m-Y-H') . "' LIMIT 1");
-    $db->execute();
-
-    $r = $db->fetch_row(true);
-    if (isset($r['id'])) {
-        $userIdList = explode(',', $r['listed_user_ids']);
-        $r['user_id_list'] = $userIdList;
-
-        return $r;
-    } else {
-        $db->query("INSERT INTO halloween_user_list (user_id, month_year) VALUES (" . $userId . ", '" . $now->format('d-m-Y-H') . "')");
-        $db->execute();
-        $r = getHalloweenUserList($userId);
-
-        return $r;
-    }
-
-    return $db->fetch_row(true);
-}
-
-function addToHalloweenPayoutLogs($item)
-{
-    global $db;
-
-    $now = new \DateTime();
-
-    $db->query("SELECT * FROM new_halloween_payout_logs WHERE find_date = ? AND item = ? LIMIT 1");
-    $db->execute(array($now->format('d-m'), $item));
-
-    $r = $db->fetch_row(true);
-    if (isset($r['id'])) {
-        $db->query("UPDATE `new_halloween_payout_logs` SET `count` = `count` + 1 WHERE `id` = " . $r['id']);
-        $db->execute();
-    } else {
-        $db->query("INSERT INTO new_halloween_payout_logs (find_date, item, count) VALUES ('" . $now->format('d-m') . "', '" . $item . "', 1)");
-        $db->execute();
-    }
-}
-
 function getCurrentQuestSeasonForUser($userId)
 {
     global $db;
@@ -3007,8 +2960,6 @@ function getQuestSeasonUser($userId, $questSeasonId)
 
         return $r;
     }
-
-    return $db->fetch_row(true);
 }
 
 function getQuestSeasonMissionUser($userId, $questSeasonId)
@@ -3808,27 +3759,27 @@ function pretty_format_number($value)
     return $value;
 }
 
-// Requires db and redis to be globally available
+// Requires db and cache to be globally available
 function set_last_active($uid)
 {
-    global $db, $redis;
+    global $db, $cache;
 
     $current = time();
-    $lastactive = $redis->get('lastactive_' . $uid);
+    $lastactive = $cache->get('lastactive_' . $uid);
     if (empty($lastactive) || ($current - $lastactive) > 5) {
-        $redis->setEx('lastactive_' . $uid, 10, $current);
+        $cache->setEx('lastactive_' . $uid, 10, $current);
         perform_query("UPDATE `grpgusers` SET `lastactive` = ? WHERE id = ?", [$current, $uid]);
     }
 }
 
 function set_last_active_ip($uid, $ip)
 {
-    global $db, $redis;
+    global $db, $cache;
 
     $current = time();
-    $lastactive = $redis->get('lastactive_' . $uid);
+    $lastactive = $cache->get('lastactive_' . $uid);
     if (!$lastactive || ($current - $lastactive) >= 10) {
-        $redis->setEx('lastactive_' . $uid, 10, $current);
+        $cache->setEx('lastactive_' . $uid, 10, $current);
         perform_query("UPDATE `grpgusers` SET `lastactive` = ?, ip = ? WHERE id = ?", [$current, $ip, $uid]);
     }
 }
@@ -3843,33 +3794,33 @@ function perform_query($query, $params = [])
 
 function read_user_for_advertisement($uid, $ttl = 60)
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    if ($redis->exists("adv_user_" . $uid)) {
-        return json_decode($redis->get("adv_user_" . $uid));
+    if ($cache->exists("adv_user_" . $uid)) {
+        return json_decode($cache->get("adv_user_" . $uid));
     }
 
     $db->query("SELECT * FROM grpgusers WHERE id = ?");
     $db->execute([$uid]);
     $user = $db->fetch_row(true);
 
-    $redis->setEx("adv_user_" . $uid, $ttl, json_encode($user));
+    $cache->setEx("adv_user_" . $uid, $ttl, json_encode($user));
 
     return $user;
 }
 
 function getForums()
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    if ($redis->exists("forums")) {
-        return json_decode($redis->get("forums"), true);
+    if ($cache->exists("forums")) {
+        return json_decode($cache->get("forums"), true);
     }
 
     $db->query("SELECT * FROM forums ORDER BY disporder ASC");
     $db->execute();
     $forums = $db->fetch_row();
-    $redis->setEx("forums", 3600, json_encode($forums));
+    $cache->setEx("forums", 3600, json_encode($forums));
 
     return $forums;
 }
@@ -3908,17 +3859,17 @@ function getOwnThreads($fid, $uid, $page = 1)
 
 function getPermissions($fid, $gid)
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    if ($redis->exists("forumpermissions_" . $fid . "_" . $gid)) {
-        return json_decode($redis->get("forumpermissions_" . $fid . "_" . $gid), true);
+    if ($cache->exists("forumpermissions_" . $fid . "_" . $gid)) {
+        return json_decode($cache->get("forumpermissions_" . $fid . "_" . $gid), true);
     }
 
     $db->query("SELECT * FROM forumpermissions WHERE fid = ? AND gid = ?");
     $db->execute([$fid, $gid]);
     $permissions = $db->fetch_row(true);
 
-    $redis->setEx("forumpermissions_" . $fid . "_" . $gid, 3600, json_encode($permissions));
+    $cache->setEx("forumpermissions_" . $fid . "_" . $gid, 3600, json_encode($permissions));
     return $permissions;
 }
 
@@ -3956,31 +3907,162 @@ function getPosts($tid, $page = 1)
 
 function getScheduledEvent($type = 'gym')
 {
-    global $db, $redis;
+    global $db, $cache;
 
     $now = time();
-    if ($redis->exists("scheduled_event_" . $type)) {
-        $event = json_decode($redis->get("scheduled_event_" . $type), true);
+    if ($cache->exists("scheduled_event_" . $type)) {
+        $event = json_decode($cache->get("scheduled_event_" . $type), true);
         if ($event['start'] <= $now && $event['end'] >= $now) {
             return $event;
         }
 
-        $redis->delete("scheduled_event_" . $type);
-    } else {
-        $db->query("SELECT * FROM scheduledevents WHERE type = ? AND start <= ? AND end >= ? LIMIT 1");
-        $db->execute([$type, $now, $now]);
-        $event = $db->fetch_row(true);
-        if ($event) {
-            $timetolive = $event['end'] - $now;
-            if ($timetolive > 0) {
-                $redis->setEx("scheduled_event_" . $type, $timetolive, json_encode($event));
-                return $event;
-            }
+        $cache->delete("scheduled_event_" . $type);
+    }
+
+    $db->query("SELECT * FROM scheduledevents WHERE type = ? AND start <= ? AND end >= ? LIMIT 1");
+    $db->execute([$type, $now, $now]);
+    $event = $db->fetch_row(true);
+    if ($event) {
+        $timetolive = $event['end'] - $now;
+        if ($timetolive > 0) {
+            $cache->setEx("scheduled_event_" . $type, $timetolive, json_encode($event));
+            return $event;
         }
     }
 
     return null;
 }
+
+function getAllScheduledEvents()
+{
+    global $db, $cache;
+
+    $cache->del("all_scheduled_events");
+
+    $now = time();
+    if ($cache->exists("all_scheduled_events")) {
+        $events = json_decode($cache->get("all_scheduled_events"), true);
+        return $events;
+    }
+
+    $db->query("SELECT * FROM scheduledevents WHERE start <= ? AND end >= ?");
+    $db->execute([$now, $now]);
+    $events = $db->fetch_row();
+    if ($events) {
+        $cache->setEx("all_scheduled_events", 900, json_encode($events));
+        return $events;
+    }
+
+    return null;
+}
+
+function getEventsMessage()
+{
+    $events = getAllScheduledEvents();
+    if (empty($events)) {
+        return null;
+    }
+
+    $now = time();
+    $message = "";
+    foreach ($events as $event) {
+        $timeleft = secondsToTime($event['end'] - $now);
+        $message .= "<div class='event-countdown' data-end='{$event['end']}'>" . _eventMessageByType($event['type'], $event['multiplier'], $timeleft) . "</div>";
+    }
+
+    return $message;
+}
+
+function _eventMessageByType($type, $multiplier, $timeleft)
+{
+    switch ($type) {
+        case 'gym':
+            return "Gym event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'crime_exp':
+            return "Crime EXP event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'crime_money':
+            return "Crime money event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'raid':
+            return "Raid event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'mission_exp':
+            return "Mission EXP event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'mission_money':
+            return "Mission money event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'backalley':
+            return "Backalley event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        default:
+            return "";
+    }
+}
+
+// Function to start a session if it is not already started
+function start_session_guarded()
+{
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+}
+
+function get_missions_by_category($category)
+{
+    global $db, $cache;
+
+    $missions = $cache->get("missions_category_" . $category);
+    if (!empty($missions) && $missions) {
+        return json_decode($missions, true);
+    }
+
+    $db->query("SELECT * FROM mission WHERE category = ? ORDER BY id ASC");
+    $db->execute([$category]);
+    $missions = $db->fetch_row();
+    if (!empty($missions)) {
+        $cache->setEx("missions_category_" . $category, 7200, json_encode($missions));
+        return $missions;
+    }
+
+    return [];
+}
+
+function get_current_operation($uid)
+{
+    global $cache, $db;
+
+    $currentUserOperation = $cache->get("currentUserOperation_" . $uid);
+    if (empty($currentUserOperation) || !$currentUserOperation) {
+        $db->query("SELECT * FROM `user_operations` WHERE `user_id` = ? AND (`is_complete` = 0 OR `is_complete` IS NULL) AND (`is_skipped` = 0 OR `is_skipped` IS NULL) ORDER BY `id` DESC LIMIT 1");
+        $db->execute(array($uid));
+        $currentUserOperation = $db->fetch_row(true);
+
+        if (!empty($currentUserOperation)) {
+            $cache->setEx("currentUserOperation_" . $uid, 5, json_encode($currentUserOperation));
+        }
+    } else {
+        $currentUserOperation = json_decode($currentUserOperation, true);
+    }
+
+    return $currentUserOperation;
+}
+
+function get_operation($id)
+{
+    global $db, $cache;
+
+    $operation = $cache->get("operation_" . $id);
+    if (!empty($operation) && $operation) {
+        return json_decode($operation, true);
+    }
+
+    $db->query("SELECT * FROM operations WHERE id = ?");
+    $db->execute([$id]);
+    $operation = $db->fetch_row(true);
+    if (!empty($operation)) {
+        $cache->setEx("operation_" . $id, 3600, json_encode($operation));
+        return $operation;
+    }
+
+    return null;
+}
+
 function get_user_mission($uid)
 {
     global $redis, $db;
@@ -4016,46 +4098,6 @@ function get_mission($id)
     if (!empty($mission)) {
         $redis->setEx("mission_" . $id, 3600, json_encode($mission));
         return $mission;
-    }
-
-    return null;
-}
-
-function get_current_operation($uid)
-{
-    global $redis, $db;
-
-    $currentUserOperation = $redis->get("currentUserOperation_" . $uid);
-    if (empty($currentUserOperation) || !$currentUserOperation) {
-        $db->query("SELECT * FROM `user_operations` WHERE `user_id` = ? AND (`is_complete` = 0 OR `is_complete` IS NULL) AND (`is_skipped` = 0 OR `is_skipped` IS NULL) ORDER BY `id` DESC LIMIT 1");
-        $db->execute(array($uid));
-        $currentUserOperation = $db->fetch_row(true);
-
-        if (!empty($currentUserOperation)) {
-            $redis->setEx("currentUserOperation_" . $uid, 5, json_encode($currentUserOperation));
-        }
-    } else {
-        $currentUserOperation = json_decode($currentUserOperation, true);
-    }
-
-    return $currentUserOperation;
-}
-
-function get_operation($id)
-{
-    global $db, $redis;
-
-    $operation = $redis->get("operation_" . $id);
-    if (!empty($operation) && $operation) {
-        return json_decode($operation, true);
-    }
-
-    $db->query("SELECT * FROM operations WHERE id = ?");
-    $db->execute([$id]);
-    $operation = $db->fetch_row(true);
-    if (!empty($operation)) {
-        $redis->setEx("operation_" . $id, 3600, json_encode($operation));
-        return $operation;
     }
 
     return null;
@@ -4140,4 +4182,50 @@ function _eventMessageByType($type, $multiplier, $timeleft)
         default:
             return "";
     }
+}
+
+function get_user_count()
+{
+    global $db, $cache;
+
+    $userCount = $cache->get("user_count");
+    if ($userCount !== false) {
+        return $userCount;
+    }
+
+    $db->query("SELECT COUNT(*) FROM grpgusers");
+    $db->execute();
+    $userCount = $db->fetch_single();
+    if ($userCount) {
+        $cache->setEx("user_count", 36000, $userCount);
+        return $userCount;
+    }
+}
+
+function add_to_user_count()
+{
+    global $cache;
+
+    if ($cache->exists("user_count")) {
+        $cache->incr("user_count"); // atomic
+    }
+}
+
+function get_pet_crimes()
+{
+    global $db, $cache;
+
+    if ($cache->exists("pet_crimes")) {
+        return json_decode($cache->get("pet_crimes"), true);
+    }
+
+    $db->query("SELECT * FROM petcrimes ORDER BY nerve ASC");
+    $db->execute();
+    $petCrimes = $db->fetch_row();
+    if (!empty($petCrimes)) {
+        $cache->setEx("pet_crimes", 36000, json_encode($petCrimes));
+        return $petCrimes;
+    }
+
+    return [];
 }

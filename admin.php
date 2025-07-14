@@ -1,21 +1,23 @@
 <?php
-session_start();
+require_once 'includes/functions.php';
+
+start_session_guarded();
+
 //register_shutdown_function('ob_end_flush');
 echo "hello";
 $starttime = microtime_float();
-include 'dbcon.php';
-include 'database/pdo_class.php';
-include "classes.php";
+include_once 'dbcon.php';
+include_once 'database/pdo_class.php';
+include_once "classes.php";
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 if (empty($ignoreslashes)) {
-    if (get_magic_quotes_gpc() == 0) {
-        foreach ($_POST as $k => $v)
-            $_POST[$k] = addslashes($v);
-        foreach ($_GET as $k => $v)
-            $_GET[$k] = addslashes($v);
-    }
+    foreach ($_POST as $k => $v)
+        $_POST[$k] = addslashes($v);
+    foreach ($_GET as $k => $v)
+        $_GET[$k] = addslashes($v);
+
 }
 
 if (!isset($_SESSION['id'])) {
@@ -73,7 +75,7 @@ if (isset($_GET['spend'])) {
         if ($user_class->points >= 10 && $user_class->energy < $user_class->maxenergy) {
             $user_class->points -= 10;
             $user_class->energy = $user_class->maxenergy;
-            mysql_query("UPDATE grpgusers SET energy = $user_class->maxenergy, points = points - 10 WHERE id = $user_class->id");
+            perform_query("UPDATE grpgusers SET energy = ?, points = points - 10 WHERE id = ?", [$user_class->maxenergy, $user_class->id]);
         }
         ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: http://meanstreetsmafia.com/');
     }
@@ -82,7 +84,7 @@ if (isset($_GET['spend'])) {
         if ($user_class->awakepercent != 100 && $user_class->points >= $cost) {
             $user_class->points -= $cost;
             $user_class->directawake = $user_class->directmaxawake;
-            mysql_query("UPDATE grpgusers SET awake = $user_class->directmaxawake, points = points - $cost WHERE id = $user_class->id");
+            perform_query("UPDATE grpgusers SET awake = ?, points = points - ? WHERE id = ?", [$user_class->directmaxawake, $cost, $user_class->id]);
         }
         ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: http://meanstreetsmafia.com/');
     }
@@ -92,7 +94,7 @@ if (isset($_GET['spend'])) {
             $user_class->nerve += ($user_class->maxnerve > 100) ? 100 : $user_class->maxnerve;
             if ($user_class->nerve > $user_class->maxnerve)
                 $user_class->nerve = $user_class->maxnerve;
-            mysql_query("UPDATE grpgusers SET nerve = $user_class->nerve, points = points - 10 WHERE id = $user_class->id");
+            perform_query("UPDATE grpgusers SET nerve = ?, points = points - 10 WHERE id = ?", [$user_class->nerve, $user_class->id]);
         } elseif ($user_class->refillNerve == 1 && $user_class->points >= 10 && $user_class->nerve < $user_class->maxnerve) {
             $cost = ($user_class->maxnerve - $user_class->nerve) / 10;
             $cost = (ceil($cost) == $cost) ? ceil($cost) : ceil($cost) - 1;
@@ -103,7 +105,7 @@ if (isset($_GET['spend'])) {
                 $user_class->nerve = $user_class->maxnerve;
             $user_class->points -= $cost;
             if ($user_class->points >= $cost) {
-                mysql_query("UPDATE grpgusers SET nerve = $user_class->nerve, points = $user_class->points WHERE id = $user_class->id");
+                perform_query("UPDATE grpgusers SET nerve = ?, points = ? WHERE id = ?", [$user_class->nerve, $user_class->points, $user_class->id]);
             }
         }
         if (isset($_GET['crime']))
@@ -538,10 +540,6 @@ if ($user_class->admin == 1 || $user_class->gm == 1)
 </div>
 <div id='adbar' style='word-wrap:break-word;margin:0;border-bottom:none;'>
     <?php
-    $db->query("SELECT * FROM ganginvites WHERE playerid = ?");
-    $db->execute(array(
-        $user_class->id
-    ));
     $time = time();
     $array = array();
     if ($user_class->aprotection > $time) {
@@ -563,7 +561,8 @@ if ($user_class->admin == 1 || $user_class->gm == 1)
         echo '<br />';
     }
 
-
+    $db->query("SELECT COUNT(*) FROM ganginvites WHERE playerid = ?");
+    $db->execute([$user_class->id]);
 
     if ($db->num_rows())
         print "<a href='ganginvites.php'><span style='color:red;'>You have gang invites!</span></a><br />";

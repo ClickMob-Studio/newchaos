@@ -29,8 +29,7 @@ include 'header.php';
             }
         }
         $_SESSION['csrf'] = md5(uniqid(rand(), true));
-        //}
-        
+
         $modifier = ($user_class->rmdays > 0) ? 0.2 : 0.25;
 
         $energyneeded = floor($user_class->maxenergy * $modifier);
@@ -278,81 +277,46 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
             $expwon = floor($expwon);
             $theirhp = 0;
 
-
-
-
             $db->query("SELECT `name` FROM cities WHERE `id` = " . $user_class->city);
             $db->execute();
             $cityn = $db->fetch_row(true);
             $cityname = $cityn['name'];
-            $result = mysql_query("SELECT `id`, `city`, `king`, `queen` FROM `grpgusers` WHERE `id` = '" . mysql_real_escape_string($attack_person->id) . "'");
-            if ($row = mysql_fetch_assoc($result)) {
+
+            $db->query("SELECT `id`, `city`, `king`, `queen` FROM `grpgusers` WHERE `id` = ?");
+            $db->execute([$attack_person->id]);
+            $row = $db->fetch_row(true);
+            if ($row) {
                 // Check if the attacked person is king and the winner is male
                 if ($row['king'] == $user_class->city) {
                     // Dethrone the current king
-                    mysql_query("UPDATE `grpgusers` SET `king` = 0, `queen` = 0 WHERE `id` = '" . mysql_real_escape_string($attack_person->id) . "'");
+                    perform_query("UPDATE `grpgusers` SET `king` = 0, `queen` = 0 WHERE `id` = ?", [$attack_person->id]);
 
                     // Crown the new king
-                    mysql_query("UPDATE `grpgusers` SET `king` = '" . mysql_real_escape_string($user_class->city) . "', `queen` = 0 WHERE `id` = '" . mysql_real_escape_string($winner->id) . "'");
+                    perform_query("UPDATE `grpgusers` SET `king` = ?, `queen` = 0 WHERE `id` = ?", [$user_class->city, $winner->id]);
 
                     // Send event notifications
                     Send_Event($attack_person->id, "You have been defeated and lost your status as Boss of " . $cityname . ".");
-                    Send_Event($winner, "Congratulations! You have defeated the Boss and now you are the new Boss of " . $cityname . ".");
+                    Send_Event($winner, "Congratulations! You have defeated the Boss of " . $cityname . ".");
                 }
 
                 // Check if the attacked person is queen and the winner is female
                 if ($row['queen'] == $user_class->city) {
                     // Dethrone the current queen
-                    mysql_query("UPDATE `grpgusers` SET `queen` = 0, `king` = 0 WHERE `id` = '" . mysql_real_escape_string($attack_person->id) . "'");
+                    perform_query("UPDATE `grpgusers` SET `queen` = 0, `king` = 0 WHERE `id` = ?", [$attack_person->id]);
 
                     // Crown the new queen
-                    mysql_query("UPDATE `grpgusers` SET `queen` = '" . mysql_real_escape_string($user_class->city) . "', `king` = 0 WHERE `id` = '" . mysql_real_escape_string($winner->id) . "'");
+                    perform_query("UPDATE `grpgusers` SET `queen` = ?, `king` = 0 WHERE `id` = ?", [$user_class->city, $winner->id]);
 
                     // Send event notifications
                     Send_Event($attack_person->id, "You have been defeated and lost your status as Under Boss of " . $cityname . ".");
-                    Send_Event($winner, "Congratulations! You have defeated the Under Boss and now you are the new Under Boss of " . $cityname . ".");
+                    Send_Event($winner, "Congratulations! You have defeated the Under Boss of " . $cityname . ".");
                 }
             }
 
 
 
-            $city = mysql_real_escape_string($user_class->city);
+            $city = $db->real_escape_string($user_class->city);
 
-            // Check if there's a king in the city for males
-//if ($user_class->gender === 'Male') {
-            //  $check_king_query = "SELECT id FROM `grpgusers` WHERE `king` = '$city'";
-            //$king_result = mysql_query($check_king_query);
-        
-            // if (!$king_result) {
-            //  die('Error in executing the query: ' . mysql_error());
-            // }
-        
-            //if (mysql_num_rows($king_result) == 0) {
-            // Set the winner as king of the city
-            //  $set_king_query = "UPDATE `grpgusers` SET `king` = '$city' WHERE `id` = '" . $user_class->id . "'";
-            // mysql_query($set_king_query);
-            // Send_Event($winner, "Congratulations! As there was no King of " . $user_class->city . ", you have been declared the new King after your victory.");
-            //}
-//}
-        
-            // Check if there's a queen in the city for females
-//if ($user_class->gender === 'Female') {
-            // $check_queen_query = "SELECT id FROM `grpgusers` WHERE `queen` = '$city'";
-            //   $queen_result = mysql_query($check_queen_query);
-        
-            // if (!$queen_result) {
-            //die('Error in executing the query: ' . mysql_error());
-            // }
-        
-            //if (mysql_num_rows($queen_result) == 0) {
-            // Set the winner as queen of the city
-            //$set_queen_query = "UPDATE `grpgusers` SET `queen` = '$city' WHERE `id` = '".mysql_real_escape_string($user_class->id)."'";
-            // mysql_query($set_queen_query);
-            //  Send_Event($user_class->id, "Congratulations! As there was no Queen of " . $user_class->city . ", you have been declared the new Queen after your victory.");
-            //}
-//}
-        
-            //if ($user_class->id == 174) {
             $spots = range(1, 10);
 
             $db->query("SELECT * FROM attackladder");
@@ -610,7 +574,7 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
 
 
 
-        mysql_query("UPDATE `grpgusers` SET `energy` = `energy` - {$energyneeded}, `last_attack_time` = " . time() . " WHERE `id` = {$user_class->id}");
+        perform_query("UPDATE `grpgusers` SET `energy` = `energy` - ?, `last_attack_time` = ? WHERE `id` = ?", [$energyneeded, time(), $user_class->id]);
 
         echo "</td></tr>";
 
@@ -631,6 +595,7 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
             }
             return $rtn[max(-100, min(100, $level_diff))];
         }
+
         function get_user_streak($userid)
         {
             global $db;
@@ -641,38 +606,40 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
             $user_streak = $db->fetch_row(true);
             return $user_streak['streak'];
         }
+
         function add_user_streak($userid)
         {
             global $db;
             $db->query("INSERT INTO user_kill_streaks (userid, streak) VALUES (?, 1) ON DUPLICATE KEY UPDATE streak = streak + 1");
             $db->execute([$userid]);
         }
+
         function kill_user_streak($userid)
         {
             global $db;
             $db->query("DELETE FROM user_kill_streaks WHERE userid = ?");
             $db->execute([$userid]);
         }
+
         function print_pre($print)
         {
             echo "<pre>";
             print_r($print);
             echo "<pre>";
         }
+
         function fetchGangUpgradeLevel($gangId)
         {
             if (!$gangId) {
-                // If no gang ID is provided, return 0
                 return 0;
             }
-            $query = sprintf("SELECT upgrade7 FROM gangs WHERE id = %d", mysql_real_escape_string($gangId));
-            $result = mysql_query($query);
-            if (!$result) {
-                die('Invalid query: ' . mysql_error());
-            }
-            if ($row = mysql_fetch_assoc($result)) {
-                return intval($row['upgrade7']);
-            } else {
-                return 0;
-            }
+
+            global $db;
+
+            $db->query("SELECT upgrade7 FROM gangs WHERE id = ?");
+            $db->execute([$gangId]);
+
+            $row = $db->fetch_row(true);
+            return $row ? (int) $row['upgrade7'] : 0;
         }
+

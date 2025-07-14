@@ -644,10 +644,7 @@ $backalleyBadges = getBackalleyBadges();
                 $claimedbadgesfinal,
                 $user_class->id
             ));
-
-            //mysql_query("UPDATE grpgusers set badges_claimed = badges WHERE id = " . $user_class->id);
         }
         ?>
     </div>
 </div>
-

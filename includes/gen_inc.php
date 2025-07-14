@@ -2,12 +2,9 @@
 
 define('BASE_DIR', dirname(__DIR__)); // Goes up one level from the current directory
 
+require_once 'includes/functions.php';
 
-
-// Start the session if not already started
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+start_session_guarded();
 
 // Include necessary files using the base directory
 require_once BASE_DIR . '/dbcon.php';
@@ -25,30 +22,36 @@ define('DB_STYLES', 'poker_styles');
 require_once BASE_DIR . '/includes/settings.php';
 /* THEME */
 $themeCFN = BASE_DIR . '/includes/Theme.class.php';
-$themeCF  = $themeCFN;
-if (!file_exists($themeCF)) $themeCF = 'includes/' . $themeCF;
-if (!file_exists($themeCF)) $themeCF = '../' . $themeCF;
-if (!file_exists($themeCF)) die("Theme not found");
+$themeCF = $themeCFN;
+if (!file_exists($themeCF))
+    $themeCF = 'includes/' . $themeCF;
+if (!file_exists($themeCF))
+    $themeCF = '../' . $themeCF;
+if (!file_exists($themeCF))
+    die("Theme not found");
 
 require_once $themeCF;
 
 /* THEME */
 $addonClassFileName = 'Addon.class.php';
-$addonClassFile     = $addonClassFileName;
-if (!file_exists($addonClassFile)) $addonClassFile = 'includes/' . $addonClassFile;
-if (!file_exists($addonClassFile)) $addonClassFile = '../' . $addonClassFile;
-if (!file_exists($addonClassFile)) die("Addon class not found");
+$addonClassFile = $addonClassFileName;
+if (!file_exists($addonClassFile))
+    $addonClassFile = 'includes/' . $addonClassFile;
+if (!file_exists($addonClassFile))
+    $addonClassFile = '../' . $addonClassFile;
+if (!file_exists($addonClassFile))
+    die("Addon class not found");
 
 
 require_once $addonClassFile;
 
-$addonDir      = str_replace($addonClassFileName, '', $addonClassFile) . 'addons';
+$addonDir = str_replace($addonClassFileName, '', $addonClassFile) . 'addons';
 $addonSettings = array();
-$addons        = new OPSAddon();
+$addons = new OPSAddon();
 require_once $addonDir . '/autoloader.php';
 
 echo $addons->get_hooks(array(), array(
-    'page'     => 'includes/gen_inc.php',
+    'page' => 'includes/gen_inc.php',
     'location' => 'start'
 ));
 
@@ -57,7 +60,7 @@ require_once 'language.php';
 
 // Retrieve player name and session ID
 $plyrname = isset($_SESSION['username']) ? addslashes($_SESSION['username']) : '';
-$SGUID    = isset($_SESSION['id']) ? addslashes($_SESSION['id']) : '';
+$SGUID = isset($_SESSION['id']) ? addslashes($_SESSION['id']) : '';
 
 $_SESSION['playername'] = $plyrname;
 $_SESSION['SGUID'] = $SGUID;
@@ -65,7 +68,7 @@ $_SESSION['SGUID'] = $SGUID;
 $valid = true;
 $ADMIN = isset($user_class) && $user_class->admin > 0;
 
-$gID   = '';
+$gID = '';
 $opsTheme->addVariable('is_admin', 0);
 $opsTheme->addVariable('is_logged', 0);
 
@@ -79,20 +82,20 @@ if ($plyrname != '' && $SGUID != '') {
         $pdo->query("INSERT INTO " . DB_STATS . " SET player = '{$plyrname}'");
     }
 
-    $gID    = isset($idr['gID']) ? $idr['gID'] : '';
-    $pID    = isset($idr['ID']) ? $idr['ID'] : '';
+    $gID = isset($idr['gID']) ? $idr['gID'] : '';
+    $pID = isset($idr['ID']) ? $idr['ID'] : '';
     $gameID = isset($idr['vID']) ? $idr['vID'] : '';
     $sitecurrency = MONEY_PREFIX;
 
     if ($plyrname != '') {
-        $time     = time();
-        $i        = 0;
+        $time = time();
+        $i = 0;
 
-        $getstats = $pdo->prepare("SELECT a.*, b.bank FROM ".DB_STATS." a, grpgusers b WHERE a.player = :plyrname AND a.player = b.username");
+        $getstats = $pdo->prepare("SELECT a.*, b.bank FROM " . DB_STATS . " a, grpgusers b WHERE a.player = :plyrname AND a.player = b.username");
         $getstats->execute(array(':plyrname' => $plyrname));
         $usestats = $getstats->fetch(PDO::FETCH_ASSOC);
         $current_chipcount = isset($usestats['bank']) ? $usestats['bank'] : 0;
-        $current_money     = money($current_chipcount);
+        $current_money = money($current_chipcount);
 
         echo $opsTheme->addVariable('current_chipcount', $current_chipcount);
         $opsTheme->addVariable('current_money', $current_money);
@@ -111,10 +114,10 @@ if ($ADMIN) {
     */
 }
 
-$time     = time();
-$tq       = $pdo->prepare("SELECT waitimer FROM " . DB_PLAYERS . " WHERE username = :plyrname");
+$time = time();
+$tq = $pdo->prepare("SELECT waitimer FROM " . DB_PLAYERS . " WHERE username = :plyrname");
 $tq->execute(array(':plyrname' => $plyrname));
-$tr       = $tq->fetch(PDO::FETCH_ASSOC);
+$tr = $tq->fetch(PDO::FETCH_ASSOC);
 $waitimer = isset($tr['waitimer']) ? $tr['waitimer'] : 0;
 
 /* Redirect to sitout if wait timer is greater than current time
@@ -132,7 +135,7 @@ $tableTypes = $addons->get_hooks(
         )
     ),
     array(
-        'page'     => 'general',
+        'page' => 'general',
         'location' => 'table_types'
     )
 );
@@ -145,7 +148,7 @@ $tournamentTypes = $addons->get_hooks(
         )
     ),
     array(
-        'page'     => 'general',
+        'page' => 'general',
         'location' => 'tournament_types'
     )
 );

@@ -1,11 +1,10 @@
 <?php
 include "ajax_header.php";
-mysql_select_db('aa', mysql_connect('localhost', 'aa_user', 'GmUq38&SVccVSpt'));
 
 $user_class = new User($_SESSION['id']);
 
-$pollId = mysql_real_escape_string($_POST['pollid']);
-$vote = mysql_real_escape_string($_POST['radioq']);
+$pollId = $db->real_escape_string($_POST['pollid']);
+$vote = $db->real_escape_string($_POST['radioq']);
 
 $db->query("SELECT * FROM voters WHERE `user_id` = ? AND `poll_id` = ?");
 $db->execute(
@@ -53,12 +52,12 @@ if (!$voted && (time() < $end)) {
 }
 
 $html = '<h3>Results</h3>';
-for($i= 0; $i<count($choices); $i++ ) {
-    $votePercent = round(($votes[$i]/$poll['voters'])*100);
-    $votePercent = !empty($votePercent)?$votePercent.'%':'0%';
-    $html .= '<p>'.$choices[$i].'</p>';
+for ($i = 0; $i < count($choices); $i++) {
+    $votePercent = round(($votes[$i] / $poll['voters']) * 100);
+    $votePercent = !empty($votePercent) ? $votePercent . '%' : '0%';
+    $html .= '<p>' . $choices[$i] . '</p>';
     $html .= '<div class="progress" style="margin: auto;max-width:80%">';
-    $html .= '<div class="poll-progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:'.$votePercent.'">'.$votePercent.'</div></div>';
+    $html .= '<div class="poll-progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:' . $votePercent . '">' . $votePercent . '</div></div>';
 }
 $html .= '</div>';
 print $html;

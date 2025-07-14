@@ -1,10 +1,8 @@
 <?php
-$db_host = 'localhost';
-$db_name = 'chaoscit_game';
-$db_user = 'chaoscit_user';
-$db_pass = '3lrKBlrfMGl2ic14';
 
-$conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+require_once 'config.php';
+
+$conn = new mysqli(Config::db()->host, Config::db()->username, Config::db()->password, Config::db()->database);
 
 // Check connection
 if ($conn->connect_error) {

@@ -72,7 +72,7 @@ if ($goldenTicketCount > 0) {
                     Take_Item(38, $user_class->id, 1); // Remove one Golden Ticket
                 }
 
-                $result = mysql_query("UPDATE grpgusers SET city = {$_GET['go']}, king = 0, queen = 0, money = $newmoney WHERE id = $user_class->id");
+                perform_query("UPDATE grpgusers SET city = ?, king = 0, queen = 0, money = ? WHERE id = ?", [$_GET['go'], $newmoney, $user_class->id]);
                 echo Message("You successfully paid " . prettynum($cost, 1) . (($goldenTicketCount && isset($_GET['ticket'])) ? ", and a Golden Ticket" : "") . " for a Plane ticket and got to your destination.");
             } else
                 echo Message($error);

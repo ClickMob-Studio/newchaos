@@ -1,22 +1,29 @@
 <?php
 include "ajax_header.php";
-mysql_select_db('chaoscit_game', mysql_connect('localhost', 'chaoscit_user', '3lrKBlrfMGl2ic14'));
+
 $user_class = new User($_SESSION['id']);
 $gangid = $user_class->gang;
-$q = mysql_query("SELECT * FROM gmusers WHERE userid = {$_SESSION['id']}");
-$r = mysql_fetch_array($q);
+
+$db->query("SELECT * FROM gmusers WHERE userid = ? LIMIT 1");
+$db->execute([$_SESSION['id']]);
+$r = $db->fetch_row(true);
+
 $typing = isset($r['typing']) ? $r['typing'] : 0;
-mysql_query("REPLACE INTO gmusers (userid, typing, lastseen, gang) VALUES ({$_SESSION['id']}, $typing, unix_timestamp(), {$r['gang']})");
-mysql_query("DELETE FROM gmusers WHERE lastseen < unix_timestamp()");
+
+perform_query("REPLACE INTO gmusers (userid, typing, lastseen, gang) VALUES (?, ?, unix_timestamp(), ?)", [$_SESSION['id'], $typing, $gangid]);
+perform_query("DELETE FROM gmusers WHERE lastseen < unix_timestamp()");
 if (isset($_POST['msg'])) {
     $avatar = $user_class->avatar;
     $msg = $_POST['msg'];
     $msg = strip_tags($msg);
     $msg = nl2br($msg);
     $msg = addslashes($msg);
-    mysql_query("UPDATE grpgusers SET gangmail = 1 WHERE gang = $gangid");
-    $result = mysql_query("INSERT INTO `gangmail` (`gangid`, `playerid`, `timesent`, `subject`, `body`) VALUES ('$gangid' ,'{$_SESSION['id']}', unix_timestamp(), 'whocares', '$msg')");
-    $newid = mysql_insert_id();
+
+    perform_query("UPDATE grpgusers SET gangmail = 1 WHERE gang = ?", [$gangid]);
+
+    $db->query("INSERT INTO `gangmail` (`gangid`, `playerid`, `timesent`, `subject`, `body`) VALUES (?, ?, unix_timestamp(), 'whocares', ?)");
+    $db->execute([$gangid, $_SESSION['id'], $msg]);
+    $newid = $db->lastInsertId();
     print gcTalking(1, $gangid) . "|-|-|" . $newid . "|-|-|";
     $quotetext = str_replace(array('\'', '"'), array('\\\'', '&quot;'), $msg);
     echo '<div class="floaty">';
@@ -34,13 +41,21 @@ if (isset($_POST['msg'])) {
     <?php
     echo '</div>';
 } elseif (isset($_GET['lastID'])) {
-    $result = mysql_query("UPDATE `grpgusers` SET `gangmail` = '0' WHERE `id` = '{$_SESSION['id']}'");
-    $result = mysql_query("SELECT * from `gangmail` WHERE `gangid` = '$user_class->gang' AND gmailid>{$_GET['lastID']} ORDER BY `timesent`");
-    $lastid = mysql_fetch_array(mysql_query("SELECT gmailid FROM gangmail WHERE gangid = $user_class->gang ORDER BY gmailid DESC"));
-    if ($lastid['gmailid'] == $_GET['lastID'])
+    perform_query("UPDATE `grpgusers` SET `gangmail` = '0' WHERE `id` = ?", [$_SESSION['id']]);
+
+    $db->query("SELECT * FROM gangmail WHERE gangid = ? AND gmailid > ? ORDER BY timesent");
+    $db->execute([$user_class->gang, $_GET['lastID']]);
+    $result = $db->fetch_row(true);
+
+    $db->query("SELECT gmailid FROM gangmail WHERE gangid = ? ORDER BY gmailid DESC LIMIT 1");
+    $db->execute([$user_class->gang]);
+    $lastid = $db->fetch_single();
+    if ($lastid == $_GET['lastID'])
         die(gcTalking(1, $gangid));
+
     print gcTalking(1, $gangid) . "|-|-|" . $lastid['gmailid'] . "|-|-|";
-    while ($row = mysql_fetch_array($result)) {
+
+    foreach ($result as $row) {
         $reply_class = new User($row['playerid']);
         $avatar = ($reply_class->avatar != "") ? $reply_class->avatar : "/images/no-avatar.png";
         $quotetext = str_replace(array('\'', '"'), array('\\\'', '&quot;'), $row['body']);

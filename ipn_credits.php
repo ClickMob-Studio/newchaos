@@ -1,7 +1,7 @@
 <?php
-include "dbcon.php";
-include "classes.php";
-include "database/pdo_class.php";
+include_once "dbcon.php";
+include_once "classes.php";
+include_once "database/pdo_class.php";
 file_put_contents('ipn_log/' . time() . '.txt', file_get_contents('php://input'));
 // Function to get the current microtime
 function microtime_float()
@@ -37,12 +37,7 @@ $first = $_POST['first_name'];
 $last = $_POST['last_name'];
 $quantity = $_POST['quantity'];
 $userId = $_POST['custom'];
-//if($receiver_email != "ExcelledGaming@outlook.com")
-//  die();
 
-//$custom = explode(',', $_POST['custom']);
-//$boost = ($custom[0] == 1) ? true : false;
-//$userId = $custom[1];
 $boost = true;
 $result1000 = mysql_query("INSERT INTO `ipn` (`itemname`, `date`, `itemnumber`, `creditsbought`, `paymentstatus`, `paymentamount`, `currency`, `txnid`, `receiveremail`, `payeremail`, `first`, `last`, `quantity`, `user_id`)" . "VALUES ('" . $item_name . "', '$time',  '" . $item_number . "', '" . $creditsbought . "', '" . $payment_status . "', '" . $payment_amount . "', '" . $payment_currency . "', '" . $txn_id . "', '" . $receiver_email . "', '" . $payer_email . "', '" . $first . "', '" . $last . "', '" . $quantity . "', '" . $userId . "')");
 $result2 = mysql_query("SELECT * FROM `grpgusers` WHERE `id`='$userId'");
@@ -55,26 +50,26 @@ if ($payment_status == "Completed") {
 
     if ($boost && $buyer->donate_token > 0) {
         $creditsbought = (floor($creditsbought * 10)) * 2;
-        mysql_query("UPDATE grpgusers SET donate_token = donate_token - 1 WHERE id = $buyer->id");
+        perform_query("UPDATE grpgusers SET donate_token = donate_token - 1 WHERE id = ?", [$buyer->id]);
     } else {
         $creditsbought = floor($creditsbought * 10);
     }
 
     $creditsbought = $creditsbought * 2;
 
-    $result = mysql_query("UPDATE `grpgusers` SET credits = credits + $creditsbought, christmasraffle = christmasraffle + $payment_amount, donationmonth = donationmonth + $creditsbought WHERE `id` = {$userId}");
+    perform_query("UPDATE `grpgusers` SET credits = credits + ?, christmasraffle = christmasraffle + ?, donationmonth = donationmonth + ? WHERE `id` = ?", [$creditsbought, $payment_amount, $creditsbought, $userId]);
     Send_Event($userId, "Your $creditsbought Credit(s) have just been credited. PayPal Transaction ID: " . $txn_id . ".", $userId);
     Send_Event(1059, "$payment_amount Dolla Donation for $creditsbought credits. by $userId. PayPal Transaction ID: " . $txn_id . ".", 1);
     Send_Event(1034, "$payment_amount Dolla Donation for $creditsbought credits. by $userId. PayPal Transaction ID: " . $txn_id . ".", 1);
 
-    mysql_query("UPDATE bbusers SET donator = donator + $payment_amount WHERE userid = $userId");
+    perform_query("UPDATE bbusers SET donator = donator + ? WHERE userid = ?", [$payment_amount, $userId]);
 
     $referr = mysql_fetch_array(mysql_query("SELECT referrer FROM referrals WHERE referred = $userId AND credited = 1"));
     if ($referr) {
         if ($referr['referrer'] > 0) {
             $referrer = $referr['referrer'];
             $bonus = $creditsbought * 0.10;
-            mysql_query("UPDATE `grpgusers` SET credits = credits + $bonus WHERE `id` = $referrer");
+            perform_query("UPDATE `grpgusers` SET credits = credits + ? WHERE `id` = ?", [$bonus, $referrer]);
             Send_Event($referrer, "You have been credited with $bonus credit(s) as your referral " . formatName($userId) . " has donated", $referrer);
         }
     }

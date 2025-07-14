@@ -1,10 +1,9 @@
 <?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+require_once 'includes/functions.php';
+
+start_session_guarded();
 
 include 'header.php';
-
 
 ?>
 <style>
@@ -15,25 +14,7 @@ include 'header.php';
 </style>
 <h1>>Welcome to <!_-cityname-_!></h1>
 
-
-
 <?php
-$db->query("SELECT * FROM luckyboxes WHERE playerid = ?");
-$db->execute(array(
-    $user_class->id
-));
-$boxesrows = $db->num_rows();
-$db->query("SELECT id FROM grpgusers ORDER BY todayskills DESC LIMIT 1");
-$db->execute();
-$worked = $db->fetch_row(true);
-$hitman = new User($worked['id']);
-$db->query("SELECT id FROM `grpgusers` WHERE `admin` = 0 ORDER BY `todaysexp` DESC LIMIT 1");
-$db->execute();
-$worked2 = $db->fetch_row(true);
-$leveler = new User($worked2['id']);
-$db->query("SELECT COUNT(*) FROM fiftyfifty");
-$db->execute();
-$count5050 = $db->fetch_single();
 
 $db->query("SELECT id FROM `grpgusers` WHERE `admin` = 1");
 $db->execute();
@@ -117,25 +98,20 @@ if (isset($_GET['claim_queen']) && $_GET['claim_queen'] == 'claimnow') {
     }
 }
 
-$city_query = mysql_query("SELECT owned_points FROM cities WHERE id = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
-$city_query = mysql_fetch_assoc($city_query);
+$db->query("SELECT owned_points FROM cities WHERE id = ? LIMIT 1");
+$db->execute([$current_city]);
+$city_query = $db->fetch_row(true);
+
 
 // PHP to fetch king's information including avatar
-$king_query = mysql_query("SELECT id, username, avatar FROM grpgusers WHERE king = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
-if ($king_query) {
-    $king_result = mysql_fetch_assoc($king_query);
-} else {
-    $king_result = null;
-}
+$db->query("SELECT id, username, avatar FROM grpgusers WHERE king = ? LIMIT 1");
+$db->execute([$current_city]);
+$king_result = $db->fetch_row(true);
 
 // PHP to fetch queen's information including avatar
-$queen_query = mysql_query("SELECT id, username, avatar FROM grpgusers WHERE queen = '" . mysql_real_escape_string($current_city) . "' LIMIT 1");
-if ($queen_query) {
-    $queen_result = mysql_fetch_assoc($queen_query);
-} else {
-    $queen_result = null;
-}
-
+$db->query("SELECT id, username, avatar FROM grpgusers WHERE queen = ? LIMIT 1");
+$db->execute([$current_city]);
+$queen_result = $db->fetch_row(true);
 
 $admin_ids = array_map(function ($a) {
     return $a['id'];

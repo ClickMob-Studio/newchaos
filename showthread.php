@@ -1,6 +1,8 @@
 <?php
 
-session_start();
+require_once 'includes/functions.php';
+
+start_session_guarded();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     $csrf_token = bin2hex(openssl_random_pseudo_bytes(32));

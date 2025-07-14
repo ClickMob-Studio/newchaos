@@ -36,9 +36,7 @@ if ($session_id) {
     session_id($session_id);
 }
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+start_session_guarded();
 
 try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {

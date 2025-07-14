@@ -1,13 +1,20 @@
 <?php
-$my_pet = new Pet($user_class->id);
-if($my_pet->onmarket != 0 && empty($showpet))
+
+$my_pet = null;
+try {
+    $my_pet = new Pet($user_class->id);
+} catch (Exception $e) {
+    diefun("You do not have a pet.");
+}
+
+if ($my_pet->onmarket != 0)
     diefun("Sorry, your pet is on the market.");
-if(!empty($showpet))
-    return;
+
 if (isset($_GET['pm'])) {
     $user_class->petMenu = ($user_class->petMenu == 'yes') ? 'no' : 'yes';
-    mysql_query("UPDATE grpgusers SET petMenu = '$user_class->petMenu' WHERE id = $user_class->id");
+    perform_query("UPDATE grpgusers SET petMenu = ? WHERE id = ?", [$user_class->petMenu, $user_class->id]);
 }
+
 if (isset($_GET['spend']) && $_GET['spend'] == 'pnerve') {
     if ($my_pet->nervepercent == 100)
         echo Message("Your pet's nerve is already full.");
@@ -15,24 +22,26 @@ if (isset($_GET['spend']) && $_GET['spend'] == 'pnerve') {
         echo Message("You need 10 points to refill your pet's nerve.");
     else {
         $refillamnt = (($my_pet->maxnerve - $my_pet->nerve) > 100) ? 100 : $my_pet->maxnerve - $my_pet->nerve;
-        mysql_query("UPDATE pets SET nerve = nerve + $refillamnt WHERE userid = $user_class->id");
-        mysql_query("UPDATE grpgusers SET points = points - 10 WHERE id = $user_class->id");
+        perform_query("UPDATE pets SET nerve = nerve + ? WHERE userid = ?", [$refillamnt, $user_class->id]);
+        perform_query("UPDATE grpgusers SET points = points - 10 WHERE id = ?", [$user_class->id]);
         echo Message("You have refilled your pet's nerve for 10 points!");
         $my_pet = new Pet($user_class->id);
     }
 }
+
 if (isset($_GET['spend']) && $_GET['spend'] == 'penergy') {
     if ($my_pet->energypercent == 100)
         echo Message("Your pet's energy is already full.");
     elseif ($user_class->points < 8)
         echo Message("You need 8 points to refill your pet's energy.");
     else {
-        mysql_query("UPDATE pets SET energy = energy + $my_pet->maxenergy WHERE userid = $user_class->id");
-        mysql_query("UPDATE grpgusers SET points = points - 8 WHERE id = $user_class->id");
+        perform_query("UPDATE pets SET energy = energy + ? WHERE userid = ?", [$my_pet->maxenergy, $user_class->id]);
+        perform_query("UPDATE grpgusers SET points = points - 8 WHERE id = ?", [$user_class->id]);
         echo Message("You have refilled your pet's energy for 8 points!");
         $my_pet = new Pet($user_class->id);
     }
 }
+
 if (isset($_GET['spend']) && $_GET['spend'] == 'pawake') {
     $cost = ceil(100 - $my_pet->awakepercent);
     if ($my_pet->awakepercent == 100)
@@ -40,8 +49,8 @@ if (isset($_GET['spend']) && $_GET['spend'] == 'pawake') {
     elseif ($user_class->points < $cost)
         echo Message("You need $cost points to refill your pet's awake.");
     else {
-        mysql_query("UPDATE pets SET awake = $my_pet->maxawake WHERE userid = $user_class->id");
-        mysql_query("UPDATE grpgusers SET points = points - $cost WHERE id = $user_class->id");
+        perform_query("UPDATE pets SET awake = ? WHERE userid = ?", [$my_pet->maxawake, $user_class->id]);
+        perform_query("UPDATE grpgusers SET points = points - ? WHERE id = ?", [$cost, $user_class->id]);
         echo Message("You have refilled your pet's awake for $cost points!");
         $my_pet = new Pet($user_class->id);
     }

@@ -4,71 +4,54 @@ include 'header.php';
 
 <h1 class="text-center mb-4">World Stats</h1>
 <style>
-	.card-body{
-		background: #8e8e8e21 !important;
-	}
-	</style>
+    .card-body {
+        background: #8e8e8e21 !important;
+    }
+</style>
 <div class="container">
     <?php
-    $result = mysql_query("SELECT * FROM `grpgusers` WHERE `rmdays`='0' AND admin <> 1");
-    $totalmobsters = mysql_num_rows($result);
-    $result2 = mysql_query("SELECT * FROM `grpgusers` WHERE `rmdays`!='0' AND admin <> 1");
-    $totalrm = mysql_num_rows($result2);
-    $totalall = $totalmobsters + $totalrm;
-    $result = mysql_query("SELECT * FROM `grpgusers` WHERE `money` != '0' AND admin <> 1");
-    $money = 0;
-    while($line = mysql_fetch_array($result)) {
-        $money = $money + $line['money'];
-    }
-    //Total Points Stuff
-    $result = mysql_query("SELECT * FROM `grpgusers` WHERE `points` != '0' AND admin <> 1");
-    $points = 0;
-    while($line = mysql_fetch_array($result)) {
-        $points = $points + $line['points'];
-    }
-    //Total Crimes Stuff
-    $result = mysql_query("SELECT * FROM `grpgusers` WHERE `crimesucceeded` != '0' AND admin <> 1");
-    $crimes = 0;
-    while($line = mysql_fetch_array($result)) {
-        $crimes = $crimes + $line['crimesucceeded'];
-    }
-    //Total Kills Stuff
-    $result = mysql_query("SELECT * FROM `grpgusers` WHERE `battlewon` != '0' AND admin <> 1");
-    $kills = 0;
-    while($line = mysql_fetch_array($result)) {
-        $kills = $kills + $line['battlewon'];
-    }
-    //Total Deaths Stuff
-    $result = mysql_query("SELECT * FROM `grpgusers` WHERE `battlelost` != '0' AND admin <> 1");
-    $deaths = 0;
-    while($line = mysql_fetch_array($result)) {
-        $deaths = $deaths + $line['battlelost'];
-    }
-    //Total Bank Stuff
-    $result = mysql_query("SELECT * FROM `grpgusers` WHERE `bank` != '0' AND admin <> 1");
-    $bank = 0;
-    while($line = mysql_fetch_array($result)) {
-        $bank = $bank + $line['bank'];
-    }
-    //Male Stuff
-    $result = mysql_query("SELECT * FROM `grpgusers` WHERE `gender` = 'Male' AND admin <> 1");
-    $male = mysql_num_rows($result);
-    $malepercent = round(($male / $totalall) * 100);
-    //Female Stuff
-    $result = mysql_query("SELECT * FROM `grpgusers` WHERE `gender` = 'Female' AND admin <> 1");
-    $female = mysql_num_rows($result);
-    $femalepercent = round(($female / $totalall) * 100);
-    //Gangs Stuff
-    $result = mysql_query("SELECT * FROM `gangs`");
-    $gangs = mysql_num_rows($result);
-    //Total Gang Money Stuff
-    $result = mysql_query("SELECT * FROM `gangs` WHERE `moneyvault` != '0'");
-    $gangmoney = 0;
-    while($line = mysql_fetch_array($result)) {
-        $gangmoney = $gangmoney + $line['moneyvault'];
-    }
+    $db->query("
+    SELECT
+        COUNT(*) AS totalall,
+        COUNT(CASE WHEN rmdays = '0' THEN 1 END) AS totalmobsters,
+        COUNT(CASE WHEN rmdays != '0' THEN 1 END) AS totalrm,
+        SUM(money) AS total_money,
+        SUM(points) AS total_points,
+        SUM(crimesucceeded) AS total_crimes,
+        SUM(battlewon) AS total_kills,
+        SUM(battlelost) AS total_deaths,
+        SUM(bank) AS total_bank,
+        COUNT(CASE WHEN gender = 'Male' THEN 1 END) AS total_male,
+        COUNT(CASE WHEN gender = 'Female' THEN 1 END) AS total_female
+    FROM grpgusers
+    WHERE admin <> 1
+");
+    $stats = $db->fetch_row(true);
+
+    $totalall = (int) $stats['totalall'];
+    $totalmobsters = (int) $stats['totalmobsters'];
+    $totalrm = (int) $stats['totalrm'];
+    $money = (int) $stats['total_money'];
+    $points = (int) $stats['total_points'];
+    $crimes = (int) $stats['total_crimes'];
+    $kills = (int) $stats['total_kills'];
+    $deaths = (int) $stats['total_deaths'];
+    $bank = (int) $stats['total_bank'];
+    $male = (int) $stats['total_male'];
+    $female = (int) $stats['total_female'];
+
+    $malepercent = $totalall > 0 ? round(($male / $totalall) * 100) : 0;
+    $femalepercent = $totalall > 0 ? round(($female / $totalall) * 100) : 0;
+
+    // Gangs Stuff
+    $db->query("SELECT COUNT(*) as total_gangs FROM gangs");
+    $gangs = (int) $db->fetch_row(true)['total_gangs'];
+
+    // Total money in gang vaults
+    $db->query("SELECT SUM(moneyvault) as total_gang_money FROM gangs WHERE moneyvault != 0");
+    $gangmoney = (int) $db->fetch_row(true)['total_gang_money'];
     ?>
-    
+
     <div class="row row-cols-1 row-cols-md-2 g-4">
         <div class="col">
             <div class="card">
@@ -84,8 +67,8 @@ include 'header.php';
                 <div class="card-header">Demographics</div>
                 <div class="card-body">
                     <h5 class="card-title">Gender Distribution</h5>
-                    <p class="card-text">Male: <?php echo prettynum($male)." [".$malepercent."%]"; ?></p>
-                    <p class="card-text">Female: <?php echo prettynum($female)." [".$femalepercent."%]"; ?></p>
+                    <p class="card-text">Male: <?php echo prettynum($male) . " [" . $malepercent . "%]"; ?></p>
+                    <p class="card-text">Female: <?php echo prettynum($female) . " [" . $femalepercent . "%]"; ?></p>
                 </div>
             </div>
         </div>

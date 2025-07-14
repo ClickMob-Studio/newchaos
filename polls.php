@@ -2,30 +2,36 @@
 require_once("header.php");
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-class Poll {
+class Poll
+{
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = Database::getInstance();
     }
 
-    private function back() {
-        echo '<a href="'.$_SERVER['PHP_SELF'].'">Back</a>';
+    private function back()
+    {
+        echo '<a href="' . $_SERVER['PHP_SELF'] . '">Back</a>';
         exit();
     }
 
-    private function fetchUser($userId) {
+    private function fetchUser($userId)
+    {
         $this->db->query("SELECT * FROM grpgusers WHERE id = ?");
         $this->db->bind(1, $userId);
         return $this->db->fetch_row(true);
     }
 
-    private function fetchPoll() {
+    private function fetchPoll()
+    {
         $this->db->query("SELECT * FROM `poll`");
         return $this->db->fetch_row(true);
     }
 
-    public function index() {
+    public function index()
+    {
         $user = $this->fetchUser($_SESSION['id']);
         $poll = $this->fetchPoll();
 
@@ -49,27 +55,50 @@ class Poll {
             <?php echo $ended ?>
 
             <table width="300px">
-                <tr><td><h1>Question:</h1> <?php echo $poll['question'] ?></td></tr>
+                <tr>
+                    <td>
+                        <h1>Question:</h1> <?php echo $poll['question'] ?>
+                    </td>
+                </tr>
                 <?php if ($poll['1']): ?>
-                    <tr><td><?php echo $poll['1'] ?></td><td> <?php echo $poll['1_r'] ?> </td><td> <a href="?x=vote&ID=1">[Vote]</a></td></tr>
+                    <tr>
+                        <td><?php echo $poll['1'] ?></td>
+                        <td> <?php echo $poll['1_r'] ?> </td>
+                        <td> <a href="?x=vote&ID=1">[Vote]</a></td>
+                    </tr>
                 <?php endif; ?>
                 <?php if ($poll['2']): ?>
-                    <tr><td><?php echo $poll['2'] ?></td><td> <?php echo $poll['2_r'] ?> </td><td> <a href="?x=vote&ID=2">[Vote]</a></td></tr>
+                    <tr>
+                        <td><?php echo $poll['2'] ?></td>
+                        <td> <?php echo $poll['2_r'] ?> </td>
+                        <td> <a href="?x=vote&ID=2">[Vote]</a></td>
+                    </tr>
                 <?php endif; ?>
                 <?php if ($poll['3']): ?>
-                    <tr><td><?php echo $poll['3'] ?></td><td> <?php echo $poll['3_r'] ?> </td><td> <a href="?x=vote&ID=3">[Vote]</a></td></tr>
+                    <tr>
+                        <td><?php echo $poll['3'] ?></td>
+                        <td> <?php echo $poll['3_r'] ?> </td>
+                        <td> <a href="?x=vote&ID=3">[Vote]</a></td>
+                    </tr>
                 <?php endif; ?>
                 <?php if ($poll['4']): ?>
-                    <tr><td><?php echo $poll['4'] ?></td><td> <?php echo $poll['4_r'] ?> </td><td> <a href="?x=vote&ID=4">[Vote]</a></td></tr>
+                    <tr>
+                        <td><?php echo $poll['4'] ?></td>
+                        <td> <?php echo $poll['4_r'] ?> </td>
+                        <td> <a href="?x=vote&ID=4">[Vote]</a></td>
+                    </tr>
                 <?php endif; ?>
 
-                <tr><td>Ends: <?php echo date('Y-m-d', $poll['end']); ?></td></tr>
+                <tr>
+                    <td>Ends: <?php echo date('Y-m-d', $poll['end']); ?></td>
+                </tr>
             </table>
             <?php
         }
     }
 
-    public function vote() {
+    public function vote()
+    {
         $poll = $this->fetchPoll();
         if (time() > $poll['end']) {
             echo 'Poll has ended!';
@@ -99,7 +128,8 @@ class Poll {
         $this->back();
     }
 
-    public function admin() {
+    public function admin()
+    {
         if (isset($_POST['submit'])) {
             $check = $this->fetchPoll();
             if (!empty($check['ID'])) {
@@ -156,15 +186,17 @@ $poll = new Poll();
 
 echo '<h1>Poll</h1>';
 
-switch($_GET['x']) {
-    case 'vote':
-        $poll->vote();
-        break;
-    case 'admin':
-        $poll->admin();
-        break;
-    default:
-        $poll->index();
-        break;
+if (isset($_GET['x'])) {
+    switch ($_GET['x']) {
+        case 'vote':
+            $poll->vote();
+            break;
+        case 'admin':
+            $poll->admin();
+            break;
+        default:
+            $poll->index();
+            break;
+    }
 }
 ?>

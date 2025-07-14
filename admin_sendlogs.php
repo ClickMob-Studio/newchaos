@@ -5,7 +5,9 @@ if ($user_class->admin < 1) {
     exit;
 }
 
-$query = mysql_query("SELECT * FROM `transferlog` ORDER BY `timestamp` DESC LIMIT 100");
+$db->query("SELECT * FROM `transferlog` ORDER BY `timestamp` DESC LIMIT 100");
+$db->execute();
+$rows = $db->fetch_row();
 ?>
 
 <h1>Send Logs</h1>
@@ -20,7 +22,7 @@ $query = mysql_query("SELECT * FROM `transferlog` ORDER BY `timestamp` DESC LIMI
             </tr>
         </thead>
         <tbody>
-            <?php while($res = mysql_fetch_array($query, MYSQL_ASSOC)): ?>
+            <?php foreach ($rows as $res): ?>
                 <tr>
                     <td>
                         <?php echo formatName($res['from']) ?><br />
@@ -48,9 +50,7 @@ $query = mysql_query("SELECT * FROM `transferlog` ORDER BY `timestamp` DESC LIMI
 
                     </td>
                 </tr>
-            <?php endwhile; ?>
-
-
+            <?php endforeach; ?>
         </tbody>
     </table>
 </div>

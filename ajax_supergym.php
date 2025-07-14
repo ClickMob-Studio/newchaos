@@ -6,7 +6,7 @@ if (isset($_GET['au_user_or'])) {
 }
 
 include "ajax_header.php";
-mysql_select_db('chaoscit_game', mysql_connect('localhost', 'chaoscit_user', '3lrKBlrfMGl2ic14'));
+
 if (isset($_GET['au_user_or']) && (int) $_GET['au_user_or']) {
     $user_class = new User($_GET['au_user_or']);
 } else {
@@ -49,10 +49,10 @@ if ($scheduledevent) {
 }
 
 // Fetch the Player's Gang Upgrades
-$result = mysql_query("SELECT upgrade1, upgrade2, upgrade3, upgrade4, upgrade5, upgrade6 from `gangs` WHERE `id` = '" . $user_class->gang . "'");
-if ($result) {
-    $gang_upgrades = mysql_fetch_assoc($result);
-
+$db->query("SELECT upgrade1, upgrade2, upgrade3, upgrade4, upgrade5, upgrade6 FROM gangs WHERE id = ? LIMIT 1");
+$db->execute([$user_class->gang]);
+$gang_upgrades = $db->fetch_row(true);
+if ($gang_upgrades) {
     // Check the Training Stat and Apply the Corresponding Bonus
     switch ($stat) {
         case 'strength':
@@ -108,19 +108,9 @@ if ($gang_class->upgrade6 >= 1) {
 }
 
 // Assuming this comes after initializing $modifier and validating $_POST['stat']
-if ($user_class->gang) { // Check if the user is in a gang
-    $result = mysql_query("SELECT upgrade6 FROM `gangs` WHERE `id` = '" . mysql_real_escape_string($user_class->gang) . "'");
-    if ($result) {
-        $gang_upgrades = mysql_fetch_assoc($result);
-        if ($gang_upgrades && $gang_upgrades['upgrade6'] >= 1) {
-            $modifier *= (1 + (0.05 * $gang_upgrades['upgrade6'])); // Apply the bonus correctly
-        }
-    }
+if ($gang_upgrades && $gang_upgrades['upgrade6'] >= 1) {
+    $modifier *= (1 + (0.05 * $gang_upgrades['upgrade6'])); // Apply the bonus correctly
 }
-
-// if ($user_class->prestige > 0) {
-//     $modifier *= (.15 * $user_class->prestige_gym) + 1;
-// }
 
 $user_class->directawake = ($user_class->directawake < 0) ? 0 : $user_class->directawake;
 if (isset($_POST['what']) and $_POST['what'] == 'trainrefill') {
@@ -189,7 +179,7 @@ if (isset($_POST['what']) and $_POST['what'] == 'trainrefill') {
         }
 
         // Update the database with the new stats and points
-        mysql_query("UPDATE grpgusers SET $stat = '" . $user_class->{$stat} . "', dailytrains = $user_class->dailytrains, points = $user_class->points, energy = $user_class->maxenergy WHERE id = $user_class->id");
+        perform_query("UPDATE grpgusers SET $stat = ?, dailytrains = ?, points = ?, energy = ? WHERE id = ?", [$user_class->{$stat}, $user_class->dailytrains, $user_class->points, $user_class->maxenergy, $user_class->id]);
 
         // Visual representation of energy used is adjusted for the x10 mode but does not affect awake reduction
         $displayed_energy_used = $_POST['amnt']; // Actual energy used for the calculation
@@ -208,7 +198,7 @@ if (isset($_POST['what']) and $_POST['what'] == 'train') {
         $user_class->energypercent = floor(($user_class->energy / $user_class->maxenergy) * 100);
         $user_class->formattedenergy = $user_class->energy . " / " . $user_class->maxenergy . " [" . $user_class->energypercent . "%]";
         $user_class->awakepercent = floor(($user_class->directawake / $user_class->directmaxawake) * 100);
-        mysql_query("UPDATE grpgusers SET $stat = '" . $user_class->{$stat} . "', dailytrains = $user_class->dailytrains, awake = $user_class->directawake, energy = $user_class->energy WHERE id = $user_class->id");
+        perform_query("UPDATE grpgusers SET $stat = ?, dailytrains = ?, awake = ?, energy = ? WHERE id = ?", [$user_class->{$stat}, $user_class->dailytrains, $user_class->directawake, $user_class->energy, $user_class->id]);
 
         $bpCategory = getBpCategory();
         if ($bpCategory) {
@@ -243,7 +233,7 @@ if (isset($_POST['what']) and $_POST['what'] == 'refill') {
             $user_class->points -= 10;
             $user_class->energypercent = floor(($user_class->energy / $user_class->maxenergy) * 100);
             $user_class->formattedenergy = $user_class->energy . " / " . $user_class->maxenergy . " [" . $user_class->energypercent . "%]";
-            mysql_query("UPDATE grpgusers SET energy = $user_class->maxenergy, points = points - 10 WHERE id = $user_class->id");
+            perform_query("UPDATE grpgusers SET energy = ?, points = points - 10 WHERE id = ?", [$user_class->maxenergy, $user_class->id]);
             print ("You have refilled your energy for 10 points.|" . number_format($user_class->points) . "|" . genBars());
             print "|$user_class->energy";
             die();
@@ -258,7 +248,7 @@ if (isset($_POST['what']) and $_POST['what'] == 'refill') {
             $user_class->directawake = $user_class->directmaxawake;
             $user_class->points -= $ptstouse;
             $user_class->awakepercent = 100;
-            mysql_query("UPDATE grpgusers SET awake = $user_class->directawake, points = points - $ptstouse WHERE id = $user_class->id");
+            perform_query("UPDATE grpgusers SET awake = ?, points = points - ? WHERE id = ?", [$user_class->directawake, $ptstouse, $user_class->id]);
             print ("You have refilled your awake for $ptstouse points.|" . number_format($user_class->points) . "|" . genBars());
             print "|$user_class->energy";
             die();
@@ -279,7 +269,7 @@ if (isset($_POST['what']) and $_POST['what'] == 'refill') {
             $user_class->awakepercent = 100;
             $user_class->energypercent = floor(($user_class->energy / $user_class->maxenergy) * 100);
             $user_class->formattedenergy = $user_class->energy . " / " . $user_class->maxenergy . " [" . $user_class->energypercent . "%]";
-            mysql_query("UPDATE grpgusers SET energy = $user_class->maxenergy, awake = $user_class->directawake, points = points - $ptstouse WHERE id = $user_class->id");
+            perform_query("UPDATE grpgusers SET energy = ?, awake = ?, points = points - ? WHERE id = ?", [$user_class->maxenergy, $user_class->directawake, $ptstouse, $user_class->id]);
             print ("You have refilled your energy/awake for $ptstouse points.|" . number_format($user_class->points) . "|" . genBars());
             print "|$user_class->energy";
             die();

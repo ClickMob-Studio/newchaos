@@ -17,7 +17,7 @@ if (isset($error)) {
         echo Message("You tried to slap Terminal but he evaded and sucker puched you straight in the face!.  Ouch I bet that hurt");
     } else {
         echo Message("You have slapped " . $attack_person->formattedname . " on the head! I bet that hurt.");
-        $result = mysql_query("UPDATE `grpgusers` SET `points` = points - 0 WHERE `id`='" . $user_class->id . "'");
+        perform_query("UPDATE `grpgusers` SET `points` = points - 0 WHERE `id` = ?", [$user_class->id]);
         Send_Event($attack_person->id, "" . $user_class->formattedname . " Has just bitch slapped you on the back of the head!");
     }
 }

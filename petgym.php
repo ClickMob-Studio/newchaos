@@ -1,22 +1,27 @@
 <?php
 include 'header.php';
 ?>
-	
-	<div class='box_top'>Pet Gym</div>
-						<div class='box_middle'>
-							<div class='pad'>
-								<?php
-$q = mysql_query("SELECT petid FROM pets WHERE userid = $user_class->id");
-if (!mysql_num_rows($q))
-    diefun("You don't have a pet");
-$pet_class = new Pet($user_class->id);
-if ($pet_class->leash == 1)
-    diefun("Your cannot train your pet whilst it is leashed!");
-print"<div class='includepet'>";
-    include 'includepet.php';
-print"</div>";
-$pet_class = $my_pet;
-print "
+
+<div class='box_top'>Pet Gym</div>
+<div class='box_middle'>
+    <div class='pad'>
+        <?php
+
+        $db->query("SELECT * FROM pets WHERE userid = ?");
+        $db->execute([$user_class->id]);
+        $my_pet = $db->fetch_row(true);
+        if (!$my_pet)
+            diefun("You don't have a pet");
+
+        $pet_class = new Pet($user_class->id);
+        if ($pet_class->leash == 1)
+            diefun("Your cannot train your pet whilst it is leashed!");
+
+        print "<div class='includepet'>";
+        include 'includepet.php';
+        print "</div>";
+        $pet_class = $my_pet;
+        print "
 <center>
     <span class='notice'>Your pet can currently train " . prettynum($pet_class->energy) . " times.</span><br /><br />
     <table width='100%' id='newtables'>
@@ -63,7 +68,7 @@ print "
     </table>
 </center>
 </td></tr>";
-print <<<TEXT
+        print <<<TEXT
     <script type="text/javascript">
         function trainrefill(stat) {
             $(".notice").html("<img src='images/ajax-loader.gif?' />");
@@ -109,4 +114,4 @@ print <<<TEXT
         }
     </script>
 TEXT;
-include 'footer.php';
+        include 'footer.php';

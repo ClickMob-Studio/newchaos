@@ -1,22 +1,22 @@
 <?php
 include 'header.php';
 ?>
-	
-	<div class='box_top'>Pet HOF</div>
-						<div class='box_middle'>
-							<div class='pad'>
-								<?php
-$valid        = array(
-    'level',
-    'str',
-    'def',
-    'spe',
-    'tot',
-	'attacksWon',
-	'attacksLost'
-);
-$_GET['view'] = isset($_GET['view']) && in_array($_GET['view'], $valid) ? strtolower($_GET['view']) : 'level';
-print'
+
+<div class='box_top'>Pet HOF</div>
+<div class='box_middle'>
+    <div class='pad'>
+        <?php
+        $valid = array(
+            'level',
+            'str',
+            'def',
+            'spe',
+            'tot',
+            'attacksWon',
+            'attacksLost'
+        );
+        $_GET['view'] = isset($_GET['view']) && in_array($_GET['view'], $valid) ? strtolower($_GET['view']) : 'level';
+        print '
     <form method="get">
         <select name="view" onchange="this.form.submit()">
             <option value="level">Select...</option>
@@ -42,16 +42,23 @@ print'
             <th width="30%">Pet Type</th>
         </tr>
 ';
-$extra = $_GET['view'] == 'level' ? ', exp DESC' : '';
-if($_GET['view'] == 'tot')
-	$_GET['view'] = "str+def+spe";
-$q     = mysql_query("SELECT * FROM pets p WHERE NOT EXISTS(SELECT * FROM bans b WHERE b.id = p.userid AND type IN ('perm','freeze')) ORDER BY {$_GET['view']} DESC $extra LIMIT 30");
-$cnt   = 0;
-while ($row = mysql_fetch_array($q)) {
-    $petinfo = new Pet($row['userid']);
-    $r       = mysql_query("SELECT name FROM petshop WHERE id = {$row['petid']}");
-    $type    = mysql_num_rows($r) ? mysql_result($r,0,0) : 'Unknown';
-    echo "
+        $extra = (isset($_GET['view']) && $_GET['view'] == 'level') ? ', exp DESC' : '';
+        if (isset($_GET['view']) && $_GET['view'] == 'tot') {
+            $_GET['view'] = "str+def+spe";
+        }
+
+        $db->query("SELECT * FROM pets p WHERE NOT EXISTS(SELECT * FROM bans b WHERE b.id = p.userid AND type IN ('perm','freeze')) ORDER BY {$_GET['view']} DESC $extra LIMIT 30");
+        $db->execute();
+        $rows = $db->fetch_row();
+        $cnt = 0;
+        foreach ($rows as $row) {
+            $petinfo = new Pet($row['userid']);
+
+            $db->query("SELECT name FROM petshop WHERE id = ?");
+            $db->execute([$row['petid']]);
+            $pi = $db->fetch_row(true);
+            $type = !empty($pi) ? $pi['name'] : 'Unknown';
+            echo "
         <tr>
             <td>" . ++$cnt . "</td>
             <td>" . formatName($row['userid']) . "</td>
@@ -60,7 +67,9 @@ while ($row = mysql_fetch_array($q)) {
             <td>$type</td>
         </tr>
     ";
-}
-?></table>
-</td></tr><?php
-require_once __DIR__ . '/footer.php';
+        }
+        ?>
+        </table>
+        </td>
+        </tr><?php
+        require_once __DIR__ . '/footer.php';

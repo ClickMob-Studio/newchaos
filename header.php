@@ -1,9 +1,17 @@
 <?php
-ob_start();
-session_start();
+// TODO(Mathais): Remove before releasing to production
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ERROR | E_PARSE | E_NOTICE);
 
-$redis = new Redis();
-$redis->connect("127.0.1", 6379);
+ob_start();
+
+require_once 'includes/cache.php';
+include_once 'includes/functions.php';
+
+start_session_guarded();
+
+$now = time();
 
 $now = time();
 
@@ -49,24 +57,22 @@ function logPageView()
 // Get the name of the current script and the full request URI to check for specific query parameters
 $current_page = basename($_SERVER['PHP_SELF']); // Gets the name of the current script
 $current_uri = $_SERVER['REQUEST_URI']; // Gets the full request URI
-// function security($h){
 
-// }
 register_shutdown_function('ob_end_flush');
 $starttime = microtime_float();
-include 'dbcon.php';
-include 'database/pdo_class.php';
-include "classes.php";
-include "codeparser.php";
-include "pdo.php";
+
+include_once 'dbcon.php';
+include_once 'database/pdo_class.php';
+include_once "classes.php";
+include_once "codeparser.php";
+include_once "pdo.php";
+
 if (empty($ignoreslashes)) {
-    if (get_magic_quotes_gpc() == 0) {
-        foreach ($_POST as $k => $v) {
-            $_POST[$k] = addslashes($v);
-        }
-        foreach ($_GET as $k => $v) {
-            $_GET[$k] = addslashes($v);
-        }
+    foreach ($_POST as $k => $v) {
+        $_POST[$k] = addslashes($v);
+    }
+    foreach ($_GET as $k => $v) {
+        $_GET[$k] = addslashes($v);
     }
 }
 
@@ -79,12 +85,16 @@ if (!isset($_SESSION['id'])) {
     include('home.php');
     die();
 }
-$l = mysql_query("SELECT sessionid FROM `sessions` WHERE userid = " . $_SESSION['id']);
-if (mysql_num_rows($l) < 1) {
+
+$db->query("SELECT sessionid FROM `sessions` WHERE userid = ?");
+$db->execute(array(
+    $_SESSION['id']
+));
+if ($db->num_rows() < 1) {
     session_destroy();
     header('Location:index.php');
 }
-$g = mysql_fetch_assoc($l);
+$g = $db->fetch_row(true);
 if ($g['sessionid'] != $_SESSION['token']) {
     session_destroy();
     header('Location:index.php');
@@ -99,13 +109,6 @@ $uid = $_SESSION['id'];
 $user_class = new User($uid);
 
 $_SESSION['username'] = $user_class->username;
-if ($user_class->id == 18) {
-    // Call the function to log the page view
-    logPageView();
-}
-if ($uid == 1) {
-    $user_class->admin = 1;
-}
 
 // Define a function to check and log request frequency
 
@@ -169,10 +172,14 @@ if ($user_class->gang == 0 && $user_class->cur_gangcrime != 0) {
 
 if (empty($user_class->macro_token)) {
     $newMacroToken = generateMacroToken(10);
-    mysql_query("UPDATE grpgusers SET macro_token = '" . $newMacroToken . "' WHERE id = " . $user_class->id);
+    $db->query("UPDATE grpgusers SET macro_token = ? WHERE id = ?");
+    $db->execute(array(
+        $newMacroToken,
+        $user_class->id
+    ));
 }
-$_SESSION['lastpageload'] = time();
-if ($user_class->lastpayment < time() - 86400) {
+$_SESSION['lastpageload'] = $now;
+if ($user_class->lastpayment < $now - 86400) {
     $db->query("UPDATE grpgusers SET points = points + 250, lastpayment = unix_timestamp() WHERE id = ?");
     $db->execute(array(
         $user_class->id
@@ -189,7 +196,13 @@ if (isset($_GET['spend'])) {
         if ($user_class->awakepercent != 100 && $user_class->points >= $cost) {
             $user_class->points -= $cost;
             $user_class->directawake = $user_class->directmaxawake;
-            mysql_query("UPDATE grpgusers SET awake = $user_class->directmaxawake, points = points - $cost WHERE id = $user_class->id");
+
+            $db->query("UPDATE grpgusers SET awake = ?, points = points - ? WHERE id = ?");
+            $db->execute(array(
+                $user_class->directmaxawake,
+                $cost,
+                $user_class->id
+            ));
         }
         ($_SERVER['HTTP_REFERER']) ? header('Location: ' . $_SERVER['HTTP_REFERER']) : header('Location: https://chaoscity.co.uk/');
     }
@@ -221,8 +234,6 @@ if ($user_class->outofjail > 0) {
     ));
 }
 
-
-
 if ($user_class->strength + $user_class->defense + $user_class->speed != $user_class->total) {
     $user_class->total = $user_class->strength + $user_class->defense + $user_class->speed;
     $db->query("UPDATE grpgusers SET total = ? WHERE id = ?");
@@ -231,6 +242,7 @@ if ($user_class->strength + $user_class->defense + $user_class->speed != $user_c
         $user_class->id
     ));
 }
+
 if ($user_class->gang != 0) {
     $db->query("SELECT total FROM grpgusers WHERE gang = ?");
     $db->execute([$user_class->gang]);
@@ -258,8 +270,6 @@ if (!empty($row)) {
     die('<meta http-equiv="refresh" content="0;url=home.php">');
 }
 
-
-$time = date("F d, Y g:i:sa", time());
 if (isset($_COOKIE['mu'])) {
     if ($_COOKIE['mu'] != $user_class->id) {
         $db->query("INSERT INTO multi (acc1, acc2, `time`) VALUES (?, ?, ?)");
@@ -267,7 +277,7 @@ if (isset($_COOKIE['mu'])) {
             array(
                 $user_class->id,
                 $_COOKIE['mu'],
-                time(),
+                $now,
             )
         );
     }
@@ -288,94 +298,105 @@ function getRealIpAddress()
     return $ip;
 }
 
-setcookie("mu", $user_class->id, time() + (10 * 365 * 24 * 60 * 60));
+setcookie("mu", $user_class->id, $now + (10 * 365 * 24 * 60 * 60));
 
 $IP = getRealIpAddress();
 if ($uid != 0) {
     set_last_active_ip($user_class->id, $IP);
 }
 
-$q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");
-$hosp = mysql_num_rows($q);
-$e = mysql_query("SELECT viewed FROM events WHERE `to` = $user_class->id AND viewed = 1");
-$ev = mysql_num_rows($e);
-$q = mysql_query("SELECT `id` FROM grpgusers WHERE jail > 0");
-$ja = mysql_num_rows($q);
+// Hospital count
+$db->query("SELECT count(id) FROM grpgusers WHERE hospital > 0");
+$db->execute();
+$hosp = $db->fetch_single();
 
+// Event count
+$db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
+$db->execute(array($user_class->id));
+$ev = $db->fetch_single();
+
+// Jail count
+$db->query("SELECT COUNT(id) FROM grpgusers WHERE jail > 0");
+$db->execute();
+$ja = $db->fetch_single();
 
 function callback($buffer)
 {
-    global $user_class, $db, $redis;
+    global $user_class, $db, $cache;
 
-    $hosCount = $redis->get("hosCount");
-    if (!$hosCount) {
+    $now = time();
+
+    $hosCount = $cache->get("hosCount");
+    if (empty($hosCount)) {
         $db->query("SELECT count(id) FROM grpgusers WHERE hospital <> 0");
         $db->execute();
         $hosCount = $db->fetch_single();
-        $redis->setEx("hosCount", 15, $hosCount);
+        $cache->setEx("hosCount", 15, $hosCount);
     }
 
-    $pHosCount = $redis->get("pHosCount");
-    if (!$pHosCount) {
+    $pHosCount = $cache->get("pHosCount");
+    if (empty($pHosCount)) {
         $db->query("SELECT count(id) FROM pets WHERE hospital <> 0");
         $db->execute();
         $pHosCount = $db->fetch_single();
-        $redis->setEx("pHosCount", 15, $pHosCount);
+        $cache->setEx("pHosCount", 15, $pHosCount);
     }
 
     $db->query("SELECT count(viewed) FROM pms WHERE `to` = ? AND viewed = 1");
     $db->execute(array($user_class->id));
     $mailCount = $db->fetch_single();
 
-    $jailCount = $redis->get("jailCount");
-    if (!$jailCount) {
+    $jailCount = $cache->get("jailCount");
+    if (empty($jailCount)) {
         $db->query("SELECT count(id) FROM grpgusers WHERE jail <> 0");
         $db->execute();
         $jailCount = $db->fetch_single();
-        $redis->setEx("jailCount", 1, $jailCount);
+        $cache->setEx("jailCount", 1, $jailCount);
     }
 
-    $pJailCount = $redis->get("pJailCount");
-    if (!$pJailCount) {
+    $pJailCount = $cache->get("pJailCount");
+    if (empty($pJailCount)) {
         $db->query("SELECT count(id) FROM pets WHERE jail <> 0");
         $db->execute();
         $pJailCount = $db->fetch_single();
-        $redis->setEx("pJailCount", 5, $pJailCount);
+        $cache->setEx("pJailCount", 5, $pJailCount);
     }
 
-    $toset = $redis->get("clockin_" . $user_class->id);
-    if (!$toset) {
+    $toset = $cache->get("clockin_" . $user_class->id);
+    if (empty($toset)) {
         $db->query("SELECT lastClockin, dailyClockins FROM jobinfo WHERE userid = ?");
         $db->execute([$user_class->id]);
         $jinfo = $db->fetch_row(true);
-        $toset = ($jinfo['dailyClockins'] < 8 && $jinfo['lastClockin'] < time() - 3600) ? 1 : 0;
-        $redis->setEx("clockin_" . $user_class->id, 60, $toset);
+        if (!empty($jinfo)) {
+            $toset = ($jinfo['dailyClockins'] < 8 && $jinfo['lastClockin'] < $now - 3600) ? 1 : 0;
+            $cache->setEx("clockin_" . $user_class->id, 60, $toset);
+        }
     }
 
-    $eveCount = $redis->get("eveCount_" . $user_class->id);
-    if (!$eveCount) {
+    $eveCount = $cache->get("eveCount_" . $user_class->id);
+    if (empty($eveCount)) {
         $db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
         $db->execute(array(
             $user_class->id
         ));
         $eveCount = $db->fetch_single();
-        $redis->setEx("eveCount_" . $user_class->id, 3, $eveCount);
+        $cache->setEx("eveCount_" . $user_class->id, 3, $eveCount);
     }
 
-    $hitCount = $redis->get("hitCount");
-    if (!$hitCount) {
+    $hitCount = $cache->get("hitCount");
+    if (empty($hitCount)) {
         $db->query("SELECT count(id) FROM hitlist");
         $db->execute();
         $hitCount = $db->fetch_single();
-        $redis->setEx("hitCount", 5, $hitCount);
+        $cache->setEx("hitCount", 5, $hitCount);
     }
 
-    $votes = $redis->get("votes_" . $user_class->id);
-    if (!$votes) {
+    $votes = $cache->get("votes_" . $user_class->id);
+    if (empty($votes)) {
         $db->query("SELECT count(*) FROM votes WHERE userid = ?");
         $db->execute([$user_class->id]);
         $votes = ($db->fetch_single() == 0) ? 'notify' : 'null';
-        $redis->setEx("votes_" . $user_class->id, 60, $votes);
+        $cache->setEx("votes_" . $user_class->id, 60, $votes);
     }
 
     if (!$user_class->admin && !$user_class->gm) {
@@ -385,8 +406,11 @@ function callback($buffer)
 
     $hospital = "[" . $hosCount . "]";
     $hospital = ($hosCount > 0) ? "<span style='color:red;'>$hospital</span>" : $hospital;
-    $j = mysql_query("SELECT `id` FROM grpgusers WHERE jail > 0");
-    $jail = mysql_num_rows($j);
+
+    $db->query("SELECT count(id) FROM grpgusers WHERE jail > 0");
+    $db->execute();
+    $jail = $db->fetch_single();
+
     $petJailDisplay = "[" . $pJailCount . "]";
     $petJailDisplay = $pJailCount > 0 ? "<span style='color:red;'>$petJailDisplay</span>" : $petJailDisplay;
     $phos = "[" . $pHosCount . "]";
@@ -399,12 +423,21 @@ function callback($buffer)
     $buffer = str_replace("[:USERNAME:]", strip_tags($user_class->username), $buffer);
     $buffer = str_replace("[:EMAIL:]", strip_tags($user_class->email), $buffer);
     $buffer = str_replace("[:AVATAR:]", strip_tags($user_class->avatar), $buffer);
-    $buffer = str_replace("[:QUOTE:]", strip_tags($user_class->quote), $buffer);
+    if (isset($user_class->quote)) {
+        $buffer = str_replace("[:QUOTE:]", strip_tags($user_class->quote), $buffer);
+    }
     $buffer = str_replace("[:MUSIC:]", $user_class->promusic, $buffer);
     $buffer = str_replace("[:VOLUME:]", $user_class->volume, $buffer);
     $buffer = str_replace("[:GENDER:]", $user_class->gender, $buffer);
-    $buffer = str_replace("[:SIGNATURE:]", strip_tags($user_class->sig), $buffer);
-    $buffer = str_replace("[:NOTEPAD:]", strip_tags($user_class->notepad), $buffer);
+
+    if (isset($user_class->sig)) {
+        $buffer = str_replace("[:SIGNATURE:]", strip_tags($user_class->sig), $buffer);
+    }
+
+    if (isset($user_class->notepad)) {
+        $buffer = str_replace("[:NOTEPAD:]", strip_tags($user_class->notepad), $buffer);
+    }
+
     $buffer = str_replace("<!_-money-_!>", prettynum($user_class->money), $buffer);
     $buffer = str_replace("<!_-bank-_!>", prettynum($user_class->bank), $buffer);
     $buffer = str_replace("<!_-banked-_!>", number_format_short($user_class->bank), $buffer);
@@ -486,14 +519,14 @@ function callback($buffer)
     } else {
         $buffer = str_replace("<!_-events-_!>", prettynum($events), $buffer);
     }
-    if ($tickets > 0) {
+    if (isset($tickets) && $tickets > 0) {
         $buffer = str_replace("<!_-tickets-_!>", "<font color='red'><b>" . prettynum($tickets) . "</b></font>", $buffer);
-    } else {
+    } else if (isset($tickets)) {
         $buffer = str_replace("<!_-tickets-_!>", prettynum($tickets), $buffer);
     }
-    if ($referrals > 0) {
+    if (isset($referrals) && $referrals > 0) {
         $buffer = str_replace("<!_-referrals-_!>", "<font color='red'><b>" . prettynum($referrals) . "</b></font>", $buffer);
-    } else {
+    } else if (isset($referrals)) {
         $buffer = str_replace("<!_-referrals-_!>", prettynum($referrals), $buffer);
     }
     $buffer = str_replace("<!_-cityname-_!>", $user_class->mycityname, $buffer);
@@ -556,28 +589,20 @@ $stats = array(
     ),
 );
 
+$gmailCount = '';
 if ($user_class->gangmail > 0) {
     $gmailCount = 'New';
-} else {
-    $gmailCount = '';
 }
+
+$globalchat = '';
 if ($user_class->globalchat > 0) {
     $globalchat = 'New';
-} else {
-    $globalchat = '';
 }
-$gang_raid_query = "
-SELECT 
-    ar.raid_type, ar.summoned_by, g.gang 
-FROM 
-    active_raids ar                        
-    LEFT JOIN grpgusers g ON ar.summoned_by = g.id 
-WHERE 
-    g.gang = " . $user_class->gang . " AND
-    ar.completed = 0 AND
-    ar.raid_type = 'Gang'
-";
-$gang_raid_count = mysql_num_rows(mysql_query($gang_raid_query));
+
+$db->query("SELECT ar.raid_type, ar.summoned_by, g.gang FROM active_raids ar LEFT JOIN grpgusers g ON ar.summoned_by = g.id WHERE g.gang = ? AND ar.completed = 0 AND ar.raid_type = 'Gang'");
+$db->execute([$user_class->gang]);
+$gang_raid_count = $db->num_rows();
+
 $counts = array(
     'event' => $ev,
     'mail' => '<!_-mail-_!>',
@@ -589,24 +614,26 @@ $counts = array(
     'gang_raid_count' => $gang_raid_count,
 );
 
-$usersOnline = $redis->get('usersOnline');
+$usersOnline = $cache->get('usersOnline');
 if (empty($usersOnline) || !$usersOnline) {
-    $queryOnline = mysql_query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
-    $usersOnline = mysql_num_rows($queryOnline);
-    $redis->setEx("usersOnline", 60, $usersOnline);
+    $db->query("SELECT id FROM grpgusers WHERE lastactive > UNIX_TIMESTAMP() - 3600 ORDER BY lastactive DESC");
+    $db->execute();
+    $queryOnline = $db->num_rows();
+    $cache->setEx("usersOnline", 60, $queryOnline);
 }
 
-$activeRaidsCount = $redis->get("activeRaidsCount");
+$activeRaidsCount = $cache->get("activeRaidsCount");
 if (empty($activeRaidsCount) || !$activeRaidsCount) {
-    $activeRaidsQuery = "SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE completed = 0"; // Replace 'end_time' with the actual column name that represents when the raid ends
-    $activeRaidsResult = mysql_query($activeRaidsQuery);
-    $activeRaidsData = mysql_fetch_assoc($activeRaidsResult);
+    $db->query("SELECT COUNT(*) AS activeRaidsCount FROM active_raids WHERE completed = 0");
+    $db->execute();
+    $activeRaidsData = $db->fetch_row(true);
     $activeRaidsCount = $activeRaidsData['activeRaidsCount'];
-    $redis->setEx("activeRaidsCount", 10, $activeRaidsCount);
+    $cache->setEx("activeRaidsCount", 10, $activeRaidsCount);
 }
 
-$nogame2 = mysql_query("SELECT * FROM numbergame WHERE userid=$user_class->id");
-$no2 = mysql_num_rows($nogame2);
+$db->query("SELECT * FROM numbergame WHERE userid = ?");
+$db->execute([$user_class->id]);
+$no2 = $db->num_rows();
 
 echo '<script src="js/java.js?12" type="text/javascript"></script>';
 ?><!doctype html>
@@ -624,8 +651,10 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
     <?php } else { ?>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
     <?php }
-    $q = mysql_query("SELECT `id` FROM grpgusers WHERE hospital > 0");
-    $hosp = mysql_num_rows($q);
+
+    $db->query("SELECT count(id) FROM grpgusers WHERE hospital > 0");
+    $db->execute();
+    $hosp = $db->fetch_single();
     ?>
 
     <?php if ($ev > 0) {
@@ -926,31 +955,38 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             return number_format($number); // Return the original number if it's less than 1000
         }
 
+
+        $currenttime = $now;
         $showmission = false;
         $usermission = get_user_mission(($user_class->id));
-        $miss = get_mission($usermission['mid']);
-        if (!empty($usermission) && !empty($miss)) {
-            $showmission = true;
-            $mkills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>" . shorthandNumber($usermission['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>";
-            $mcrimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>" . shorthandNumber($usermission['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>";
-            $mmugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>" . shorthandNumber($usermission['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>";
-            $mbusts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>" . shorthandNumber($usermission['busts']) . "/" . shorthandNumber($miss['busts']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['busts']) . "/" . shorthandNumber($miss['busts']) . "</font>";
-            $mbackalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>" . shorthandNumber($usermission['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>";
-            $mraids = ($miss['raids'] > $usermission['raids']) ? "<font color='red'>" . shorthandNumber($usermission['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>";
+        if (!empty($usermission)) {
+            $miss = get_mission($usermission['mid']);
+            if (!empty($usermission) && !empty($miss)) {
+                $showmission = true;
+                $mkills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>" . shorthandNumber($usermission['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>";
+                $mcrimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>" . shorthandNumber($usermission['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>";
+                $mmugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>" . shorthandNumber($usermission['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>";
+                $mbusts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>" . shorthandNumber($usermission['busts']) . "/" . shorthandNumber($miss['busts']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['busts']) . "/" . shorthandNumber($miss['busts']) . "</font>";
+                $mbackalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>" . shorthandNumber($usermission['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>";
+                $mraids = ($miss['raids'] > $usermission['raids']) ? "<font color='red'>" . shorthandNumber($usermission['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>";
+            }
         }
 
         $showoperation = false;
         $currentUserOperation = get_current_operation($user_class->id);
-        $operation = get_operation($currentUserOperation['operations_id']);
-        if (!empty($currentUserOperation) && !empty($operation)) {
-            $showoperation = true;
-            $pkills = ($operation['kills'] > $currentUserOperation['kills']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['kills']) . "/" . shorthandNumber($operation['kills']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['kills']) . "/" . shorthandNumber($operation['kills']) . "</font>";
-            $pcrimes = ($operation['crimes'] > $currentUserOperation['crimes']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['crimes']) . "/" . shorthandNumber($operation['crimes']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['crimes']) . "/" . shorthandNumber($operation['crimes']) . "</font>";
-            $pmugs = ($operation['mugs'] > $currentUserOperation['mugs']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['mugs']) . "/" . shorthandNumber($operation['mugs']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['mugs']) . "/" . shorthandNumber($operation['mugs']) . "</font>";
-            $pbusts = ($operation['busts'] > $currentUserOperation['busts']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['busts']) . "/" . shorthandNumber($operation['busts']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['busts']) . "/" . shorthandNumber($operation['busts']) . "</font>";
-            $pbackalleys = ($operation['backalleys'] > $currentUserOperation['backalleys']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['backalleys']) . "/" . shorthandNumber($operation['backalleys']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['backalleys']) . "/" . shorthandNumber($operation['backalleys']) . "</font>";
-            $praids = ($operation['raids'] > $currentUserOperation['raids']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['raids']) . "/" . shorthandNumber($operation['raids']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['raids']) . "/" . shorthandNumber($operation['raids']) . "</font>";
+        if (!empty($currentUserOperation)) {
+            $operation = get_operation($currentUserOperation['operations_id']);
+            if (!empty($currentUserOperation) && !empty($operation)) {
+                $showoperation = true;
+                $pkills = ($operation['kills'] > $currentUserOperation['kills']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['kills']) . "/" . shorthandNumber($operation['kills']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['kills']) . "/" . shorthandNumber($operation['kills']) . "</font>";
+                $pcrimes = ($operation['crimes'] > $currentUserOperation['crimes']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['crimes']) . "/" . shorthandNumber($operation['crimes']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['crimes']) . "/" . shorthandNumber($operation['crimes']) . "</font>";
+                $pmugs = ($operation['mugs'] > $currentUserOperation['mugs']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['mugs']) . "/" . shorthandNumber($operation['mugs']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['mugs']) . "/" . shorthandNumber($operation['mugs']) . "</font>";
+                $pbusts = ($operation['busts'] > $currentUserOperation['busts']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['busts']) . "/" . shorthandNumber($operation['busts']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['busts']) . "/" . shorthandNumber($operation['busts']) . "</font>";
+                $pbackalleys = ($operation['backalleys'] > $currentUserOperation['backalleys']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['backalleys']) . "/" . shorthandNumber($operation['backalleys']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['backalleys']) . "/" . shorthandNumber($operation['backalleys']) . "</font>";
+                $praids = ($operation['raids'] > $currentUserOperation['raids']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['raids']) . "/" . shorthandNumber($operation['raids']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['raids']) . "/" . shorthandNumber($operation['raids']) . "</font>";
+            }
         }
+
         ?>
         <style>
             .daily-jobs .card-header {
@@ -1141,8 +1177,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             </div>
         </div>
 
-
-
         <!-- Additional Information (Money, Points, Merits) -->
         <div class="row mt-3">
             <div class="col-3">
@@ -1185,8 +1219,10 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
         <div class="d-none d-lg-block col-2 dcLeftNavContainer p-0">
             <?php require 'leftnav.php'; ?>
         </div>
+
         <div class="col-12 col-lg-10">
             <header class="row">
+
                 <?php
                 $eventMessage = getEventsMessage();
                 $showEvents = false;
@@ -1243,10 +1279,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                                         <p style="font-size: 10px;"><?= $mraids; ?></p>
                                                     </div>
                                                 <?php else: ?>
-
-                                                    <a href="missions.php" class="dcSecondaryButton my-3">Start
-                                                        Mission</a>
-
+                                                    <a href="missions.php" class="dcSecondaryButton my-3">Start Mission</a>
                                                 <?php endif; ?>
                                             </div>
                                         </div>
@@ -1297,7 +1330,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                         </div>
                                     </div>
                                 </div>
-
 
                                 <div class="dcBannerButtonsContainer2 d-none d-md-block col-4 col-lg-4">
                                     <a href="vote.php" class="dcSecondaryButton my-2 mt-3">Vote for <i
@@ -1355,6 +1387,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                                     <?php endif; ?>
                                                     <?php
                                                 } else {
+                                                    $row = $db->fetch_row(true);
                                                     $user_ads = new User($row['poster']);
                                                     $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
                                                     ?>
@@ -1457,7 +1490,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                 </div>
 
                                 <div class='time col-4 d-none d-lg-block' style='text-align: left' ;>
-                                    <?php echo date('m/d h:i a', time()); ?>
+                                    <?php echo date('m/d h:i a', $now); ?>
                                 </div>
                             </div>
                             <div class="col-7 col-lg-12 g-0 row dcStatsPanel">
@@ -1552,6 +1585,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                         </li>
                                         <?php
                                     } else {
+                                        $row = $db->fetch_row(true);
                                         $user_ads = new User($row['poster']);
                                         $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
                                         ?>
@@ -1582,7 +1616,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                     <div class="dcPanel p-3">
 
                         <?php
-
 
                         $time = time();
                         if ($user_class->news > 0) {
@@ -1625,7 +1658,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
     }, 1000);
     </script>';
 
-
                         echo '<div id="maincontent">';
                         if (time() < 1673827199) {
                             //echo '<div class="floaty" style="margin-top:-10px;font-family:Creepster;font-size:2em;text-decoration:underline;color:orange;">Double EXP ACTIVE on all Crimes!</div>';
@@ -1643,7 +1675,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         $messages = array();
 
                         // Attack Protection
-                        if ($user_class->aprotection > $time) {
+                        if ($user_class->aprotection > $now) {
                             $rtn = howlongtil($user_class->aprotection);
                             $messages[] = '[ Attack Protection: ' . (($rtn == 'NOW') ? '@None@' : $rtn) . ' ]';
                         }
@@ -1651,27 +1683,22 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         $db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
                         $db->execute();
                         $bonus_row = $db->fetch_row(true);
-                        if (isset($bonus_row))
+                        if (isset($bonus_row)) {
                             $debug['worked'] = $bonus_row;
-
-
 
                         if ($bonus_row['Time'] > 0) {
 
                             $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
                             $messages[] = '[ Server Wide Double EXP: ' . (($_tt == 'NOW') ? '@None@' : $_tt) . ' ]';
-
                         }
 
                         $db->query("SELECT * FROM gamebonus WHERE ID = 2 LIMIT 1");
                         $db->execute();
                         $gymbonus_row = $db->fetch_row(true);
 
-                        if ($gymbonus_row['Time'] > 0) {
-
+                        if (isset($gymbonus_row) && $gymbonus_row['Time'] > 0) {
                             $_tt = secondsToHumanReadable($gymbonus_row['Time'] * 60);
                             $messages[] = '[ Server Wide Double Gym Gains: ' . (($_tt == 'NOW') ? '@None@' : $_tt) . ' ]';
-
                         }
 
                         $db->query("SELECT * FROM ganginvites WHERE playerid = ?");
@@ -1692,7 +1719,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                             $messages[] = '<li class="event-countdown" data-end="' . (($user_class->outofjail * 60) + $time) . '">[ Jail Card: <span class="countdown-text">' . secondsToTime(time() - (60 * $user_class->outofjail)) . '</span> ]</li>';
                         }
 
-
                         // Mug Protection
                         if ($user_class->mprotection > $time) {
                             $rtn = howlongtil($user_class->mprotection);
@@ -1700,7 +1726,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         }
 
                         // Double EXP Pill
-                        if ($user_class->exppill > $time) {
+                        if ($user_class->exppill > $now) {
                             $rtn = howlongtil($user_class->exppill);
                             $messages[] = '<li class="event-countdown" data-end="' . $user_class->exppill . '">[ Double EXP Pill: <span class="countdown-text">' . secondsToTime($user_class->exppill - $time) . '</span> ]</li>';
                         }
@@ -1710,14 +1736,17 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         if ($tempItemUse['crime_potion_time'] > $time) {
                             $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['crime_potion_time'] . '">[ Crime Potion: <span class="countdown-text">' . secondsToTime($tempItemUse['crime_potion_time'] - $time) . '</span> ]</li>';
                         }
+
                         // Crime Booster
                         if ($tempItemUse['crime_booster_time'] > $time) {
                             $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['crime_booster_time'] . '">[ Crime Booster: <span class="countdown-text">' . secondsToTime($tempItemUse['crime_booster_time'] - $time) . '</span> ]</li>';
                         }
+
                         // Nerve Vial
                         if ($tempItemUse['nerve_vial_time'] > $time) {
                             $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['nerve_vial_time'] . '">[ Nerve Vial: <span class="countdown-text">' . secondsToTime($tempItemUse['nerve_vial_time'] - $time) . '</span> ]</li>';
                         }
+
                         // Gang Double EXP Time
                         if ($tempItemUse['gang_double_exp_time'] > $time) {
                             $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['gang_double_exp_time'] . '">[ Gang Double EXP: <span class="countdown-text">' . secondsToTime($tempItemUse['gang_double_exp_time'] - $time) . '</span> ]</li>';
@@ -1984,7 +2013,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <?php echo date('m/d h:i a', time()); ?>
+                                        <?php echo date('m/d h:i a', $now); ?>
                                     </div>
                                 </div>
                             </div>

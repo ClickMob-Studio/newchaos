@@ -1,12 +1,23 @@
 <?php
 include 'header.php';
 ?>
-<tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Crew Hall Of Fame</div></tr>
-<tr><td class="contentcontent">
+<tr>
+    <td class="contentspacer"></td>
+</tr>
+<tr>
+    <td class="contenthead">Crew Hall Of Fame</div>
+</tr>
+<tr>
+    <td class="contentcontent">
         <table width="100%">
-            <tr><td align="center">
-                    <a href="ganghof.php?view=level">Crew Level</a>&nbsp; | &nbsp;<a href="ganghof.php?view=moneyvault">Vault Money</a>&nbsp; | &nbsp;<a href="ganghof.php?view=pointsvault">Vault Points</a>&nbsp; | &nbsp;<a href="ganghof.php?view=tmstats">Total Member Stats</a>
-                </td></tr>
+            <tr>
+                <td align="center">
+                    <a href="ganghof.php?view=level">Crew Level</a>&nbsp; | &nbsp;<a
+                        href="ganghof.php?view=moneyvault">Vault Money</a>&nbsp; | &nbsp;<a
+                        href="ganghof.php?view=pointsvault">Vault Points</a>&nbsp; | &nbsp;<a
+                        href="ganghof.php?view=tmstats">Total Member Stats</a>
+                </td>
+            </tr>
         </table>
         <br />
         <table width='100%'>
@@ -18,9 +29,12 @@ include 'header.php';
             </tr>
             <?php
             $view = ($_GET['view'] != "") ? $_GET['view'] : 'level';
-            $result = mysql_query("SELECT * FROM `gangs` ORDER BY `" . $view . "` DESC LIMIT 50");
+
+            $db->query("SELECT * FROM `gangs` ORDER BY $view DESC LIMIT 50");
+            $db->execute();
+            $rows = $db->fetch_row();
             $rank = 0;
-            while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
+            foreach ($rows as $line) {
                 $rank++;
                 $user_hall = new Gang($line['id']);
                 $leader_class = new User($user_hall->leader);
@@ -34,7 +48,8 @@ include 'header.php';
                 <?php
             }
             ?>
-    </td></tr>
+    </td>
+</tr>
 <?php
 include 'footer.php';
 ?>

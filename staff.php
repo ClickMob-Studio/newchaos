@@ -16,7 +16,7 @@ while ($line = mysql_fetch_array($result)) {
     } else if ($staff_class->eo == 1) {
         $newpoints = $staff_class->points + 30;
     }
-    $result2 = mysql_query("UPDATE `grpgusers` SET `points` = '" . $newpoints . "' WHERE `id` = '" . $line['id'] . "'");
+    perform_query("UPDATE `grpgusers` SET `points` = ? WHERE `id` = ?", [$newpoints, $line['id']]);
     Send_Event($line['id'], "You have been paid " . $newpoints . " points for doing a great job as a staff member.");
 }
 ?>

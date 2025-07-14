@@ -2,7 +2,8 @@
 include 'header.php';
 
 
-function generateStars($value) {
+function generateStars($value)
+{
     $totalStars = 10; // Total number of stars
     $filledStars = str_repeat("<span style='color:gold; font-size: 20px;'>&#9733;</span>", $value); // Gold filled stars
     $emptyStars = str_repeat("<span style='color:gray; font-size: 20px;'>&#9733;</span>", $totalStars - $value); // Gray empty stars
@@ -165,7 +166,7 @@ if ($user_class->level > "4") {
     if ($user_class->gang != 0 && $user_gang->leader == $user_class->id && $war == 0 && $_GET['id'] != $user_class->gang)
         print "<br /><a href='gangwar.php?gang={$_GET['id']}'>Invite to gang war</a><br /><br />";
 }
-    print "
+print "
 <table id='newtables' style='width:100%;'>
     <tr>
         <th>Rank</th>
@@ -176,15 +177,19 @@ if ($user_class->level > "4") {
         <th>Online</th>
     </tr>
 ";
-    $result = mysql_query("SELECT * FROM grpgusers WHERE gang = {$_GET['id']} ORDER BY level DESC");
-    $rank = 0;
-    while ($line = mysql_fetch_array($result)) {
-        $gang_member = new User($line['id']);
-        if ($gang_member->id == $gang_class->leader)
-            $gang_member->rank = "<b>" . $gang_member->rank . "</b>";
-        print "
+
+$db->query("SELECT * FROM grpgusers WHERE gang = ? ORDER BY level DESC");
+$db->execute([$_GET['id']]);
+$rows = $db->fetch_row();
+
+$rank = 0;
+foreach ($rows as $line) {
+    $gang_member = new User($line['id']);
+    if ($gang_member->id == $gang_class->leader)
+        $gang_member->rank = "<b>" . $gang_member->rank . "</b>";
+    print "
     <tr>
-        <td width='10%'>" . ( ++$rank) . "</td>
+        <td width='10%'>" . (++$rank) . "</td>
         <td width='30%'>$gang_member->formattedname</td>
         <td width='10%'>$gang_member->level</td>
         <td width='18%'>" . prettynum($gang_member->money, 1) . "</td>
@@ -192,7 +197,7 @@ if ($user_class->level > "4") {
         <td width='10%'>$gang_member->formattedonline</td>
     </tr>
 ";
-    }
-    print "</table></td></tr></div></div>";
+}
+print "</table></td></tr></div></div>";
 include 'footer.php';
 ?>

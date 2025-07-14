@@ -1,11 +1,11 @@
 <?php
-include"header.php";
+include "header.php";
 $postid = security($_GET['postid']);
 $db->query("SELECT playerid FROM freplies WHERE postid = ?");
 $db->execute(array(
 	$postid
 ));
-if($db->fetch_single() == $user_class->id)
+if ($db->fetch_single() == $user_class->id)
 	die();
 $db->query("SELECT id FROM forumreplyrates WHERE userid = ? AND postid = ?");
 $db->execute(array(

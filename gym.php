@@ -269,37 +269,34 @@ $event = getScheduledEvent();
                     </tr>
                     <tr>
                         <td align="center" style="padding-bottom: 10px;"><input id='strength' type='text' name='energy1'
-                                value="<?php echo $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"></td>
+                                value="<?= $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"></td>
                         <td align="center" style="padding-bottom: 10px;"><input id='defense' type='text' name='energy2'
-                                value="<?php echo $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"></td>
+                                value="<?= $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"></td>
                         <td align="center" style="padding-bottom: 10px;"><input id='speed' type='text' name='energy3'
-                                value="<?php echo $user_class->energy ?>" onKeyPress="return numbersonly(this, event)" />
+                                value="<?= $user_class->energy ?>" onKeyPress="return numbersonly(this, event)" />
                         </td>
                         <td align="center" style="padding-bottom: 10px;"><input id='agility' type='text' name='energy3'
-                                value="<?php echo $user_class->energy ?>" onKeyPress="return numbersonly(this, event)" />
+                                value="<?= $user_class->energy ?>" onKeyPress="return numbersonly(this, event)" />
                         </td>
                     </tr>
                     <tr>
-                        <td align="center" style="padding-bottom: 10px;"><span id='strengthamnt'><?php
-                        echo prettynum($user_class->strength);
-                        ?></span> [Ranked: <?php
-                        echo getRank("$user_class->id", "strength");
-                        ?>]</td>
-                        <td align="center" style="padding-bottom: 10px;"><span id='defenseamnt'><?php
-                        echo prettynum($user_class->defense);
-                        ?></span> [Ranked: <?php
-                        echo getRank("$user_class->id", "defense");
-                        ?>]</td>
-                        <td align="center" style="padding-bottom: 10px;"><span id='speedamnt'><?php
-                        echo prettynum($user_class->speed);
-                        ?></span> [Ranked: <?php
-                        echo getRank("$user_class->id", "speed");
-                        ?>]</td>
-                        <td align="center" style="padding-bottom: 10px;"><span id='agilityamnt'><?php
-                        echo prettynum($user_class->agility);
-                        ?></span> [Ranked: <?php
-                        echo getRank("$user_class->id", "agility");
-                        ?>]</td>
+                        <td align="center" style="padding-bottom: 10px;"><span id='strengthamnt'>
+                                <?= prettynum($user_class->strength) ?></span> [Ranked:
+                            <?= getRank("$user_class->id", "strength") ?>]
+                        </td>
+                        <td align="center" style="padding-bottom: 10px;"><span
+                                id='defenseamnt'><?= prettynum($user_class->defense) ?></span> [Ranked:
+                            <?= getRank("$user_class->id", "defense") ?>]
+                        </td>
+                        <td align="center" style="padding-bottom: 10px;"><span
+                                id='speedamnt'><?= prettynum($user_class->speed) ?></span> [Ranked:
+                            <?= getRank("$user_class->id", "speed") ?>]
+                        </td>
+                        <td align="center" style="padding-bottom: 10px;"><span
+                                id='agilityamnt'><?= prettynum($user_class->agility) ?></span> [Ranked:
+                            <?= getRank("$user_class->id", "agility") ?>]
+                        </td>
+                    </tr>
                     <tr>
                         <td align="center" style="padding-bottom: 10px;"><button
                                 onclick="train('strength');">Strength</button></td>

@@ -1,12 +1,13 @@
 <?php
 include 'header.php';
 if (isset($_GET['buy'])) {
-    $resultnew = mysql_query("SELECT * from `items` WHERE `id` = '" . $_GET['buy'] . "' and `buyable` = '1'");
-    $worked = mysql_fetch_array($resultnew);
+    $db->query("SELECT * FROM items WHERE id = ? AND buyable = 1");
+    $db->execute([$_GET['buy']]);
+    $worked = $db->fetch_row();
     if ($worked['id'] != "") {
         if ($user_class->money >= $worked['cost']) {
             $newmoney = $user_class->money - $worked['cost'];
-            $newsql = mysql_query("UPDATE `grpgusers` SET `money` = '" . $newmoney . "' WHERE `id`= '" . $user_class->id . "'");
+            perform_query("UPDATE `grpgusers` SET `money` = ? WHERE `id`= ?", [$newmoney, $user_class->id]);
             Give_Item($_GET['buy'], $user_class->id);//give the user their item they bought
             echo Message("You have purchased some " . $worked['itemname'] . ".");
         } else {
@@ -17,10 +18,11 @@ if (isset($_GET['buy'])) {
     }
 }
 
-$result = mysql_query("SELECT * FROM `items`");
+$db->query("SELECT * FROM items");
+$db->execute();
+$items = $db->fetch_row();
 $howmanyitems = 0;
-while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
-
+foreach ($items as $line) {
     if ($line['drugstime'] > 0 && $line['buyable'] == 1) {
         $drugs .= "
 
@@ -34,22 +36,30 @@ while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
 		";
         $howmanyitems = $howmanyitems + 1;
         if ($howmanyitems == 4) {
-            $drugs.= "</tr><tr height='15'></tr><tr>";
+            $drugs .= "</tr><tr height='15'></tr><tr>";
             $howmanyitems = 0;
         }
     }
 }
+
 if ($drugs != "") {
     ?>
-    <tr><td class="contentspacer"></td></tr><tr><td class="contenthead">Drug Dealer</td></tr>
-    <tr><td class="contentcontent">
+    <tr>
+        <td class="contentspacer"></td>
+    </tr>
+    <tr>
+        <td class="contenthead">Drug Dealer</td>
+    </tr>
+    <tr>
+        <td class="contentcontent">
             <table width='100%'>
                 <tr>
                     <?php echo $drugs; ?>
                 </tr>
             </table>
-        </td></tr>
+        </td>
+    </tr>
     <?php
 }
 include 'footer.php'
-?>
+    ?>

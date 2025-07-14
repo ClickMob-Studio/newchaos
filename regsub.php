@@ -1,10 +1,13 @@
 <?php
-session_start();
+require_once 'includes/functions.php';
 
-include "dbcon.php";
+start_session_guarded();
+
+include_once "dbcon.php";
 
 // Function to redirect on error with message
-function errorRedirect($errorMessage) {
+function errorRedirect($errorMessage)
+{
     $_SESSION['failmessage'] = $errorMessage;
     header("Location: home.php");
     exit;
@@ -56,12 +59,21 @@ if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED
 $IP = filter_var($IP, FILTER_VALIDATE_IP);
 
 // Insert user into database
-$stmt = $pdo->prepare("INSERT INTO grpgusers (signupip, loginame, username, password, email, signuptime, gender, aprotection) VALUES (?,?, ?, ?, ?, UNIX_TIMESTAMP(), ?, ?)");
-$stmt->execute([$IP, $username, $username, $hashedPassword, $email, $gender, time() + 43200]);
+$stmt = $pdo->prepare("INSERT INTO grpgusers (ip, signupip, loginame, username, password, email, signuptime, gender, aprotection) VALUES (?, ?,?, ?, ?, ?, UNIX_TIMESTAMP(), ?, ?)");
+$stmt->execute([$IP, $IP, $username, $username, $hashedPassword, $email, $gender, time() + 43200]);
 $newid = $pdo->lastInsertId();
-mysql_query("INSERT INTO referrals (`when`, referrer, referred) VALUES (unix_timestamp(), {$_POST['referer']}, $newid)");
-mysql_query("INSERT INTO sessions VALUES($newid, '{$_COOKIE['PHPSESSID']}', 'emptyfornow')");
-mysql_query("INSERT INTO ofthes (userid)VALUES($newid)");
+
+$stmt = $pdo->prepare("INSERT INTO referrals (`when`, referrer, referred) VALUES (UNIX_TIMESTAMP(), ?, ?)");
+$stmt->execute([$_POST['referer'], $newid]);
+
+$stmt = $pdo->prepare("INSERT INTO sessions VALUES (?, ?, 'emptyfornow')");
+$stmt->execute([$newid, $_COOKIE['PHPSESSID']]);
+
+$stmt = $pdo->prepare("INSERT INTO ofthes (userid) VALUES (?)");
+$stmt->execute([$newid]);
+
+// Add 1 to the total user count in cache
+add_to_user_count();
 
 // Redirect upon successful registration
 $_SESSION['id'] = $pdo->lastInsertId();
@@ -79,23 +91,24 @@ Thank you for choosing to play Chaos City.
 CC Staff.";
 session_regenerate_id();
 
-                    $bytes = openssl_random_pseudo_bytes(16);
-                    $randomKey = bin2hex($bytes);
-                    $queryInsertOrUpdate = "INSERT INTO sessions (userid, sessionid) VALUES (?, ?)
+$bytes = openssl_random_pseudo_bytes(16);
+$randomKey = bin2hex($bytes);
+$queryInsertOrUpdate = "INSERT INTO sessions (userid, sessionid) VALUES (?, ?)
                             ON DUPLICATE KEY UPDATE sessionid = VALUES(sessionid)";
 
-                    $statementInsertOrUpdate = $db->prepare($queryInsertOrUpdate);
+$statementInsertOrUpdate = $db->prepare($queryInsertOrUpdate);
 
-                    $statementInsertOrUpdate->execute([$_SESSION['id'], $randomKey]);
-                    $_SESSION['token'] = $randomKey;
+$statementInsertOrUpdate->execute([$_SESSION['id'], $randomKey]);
+$_SESSION['token'] = $randomKey;
 $newid = $_SESSION['id'];
 $parent = ($_POST['parent'] != 0) ? $_POST['parent'] : floor(time() / (uniqid(rand(1, 20), true) + uniqid(rand(1, 200))) - rand(100, 1000));
 $subject = "Welcome to Chaos City - <font color=ywllow>Please Read</font>";
-;
 $msgtext = strip_tags($msgtext);
 $msgtext = nl2br($msgtext);
 $msgtext = addslashes($msgtext);
-$result = mysql_query("INSERT INTO `pms` (id,`to`, `from`, timesent, `subject`, msgtext) VALUES ('', $newid, 2, unix_timestamp(), '$subject', '$msgtext')");
+
+$stmt = $pdo->prepare("INSERT INTO `pms` (id,`to`, `from`, timesent, `subject`, msgtext) VALUES ('', ?, 2, unix_timestamp(), ?, ?)");
+$stmt->execute([$newid, $subject, $msgtext]);
 
 header("Location: index.php");
 exit;

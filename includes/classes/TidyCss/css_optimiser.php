@@ -3,10 +3,6 @@ header('Content-Type:text/html; charset=utf-8');
 require 'class.csstidy.php';
 require 'lang.inc.php';
 
-if (isset($_REQUEST['css_text']) && get_magic_quotes_gpc()) {
-    $_REQUEST['css_text'] = stripslashes($_REQUEST['css_text']);
-}
-
 function rmdirr($dirname, $oc = 0)
 {
     // Sanity check

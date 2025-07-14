@@ -1,5 +1,7 @@
 <?php
-session_start();
+require_once 'includes/functions.php';
+
+start_session_guarded();
 
 // Debug mode setup
 if (isset($_GET['debug'])) {
@@ -12,19 +14,21 @@ if (isset($_GET['debug'])) {
 }
 
 // Required configuration and settings
-require_once 'config.inc.php';
 require 'tables.php';
 require 'settings.php';
 
 /* THEME */
 if (!isset($opsTheme)) {
     $themeCFN = 'Theme.class.php';
-    $themeCF  = $themeCFN;
+    $themeCF = $themeCFN;
 
     // Check various paths for the Theme class
-    if (!file_exists($themeCF)) $themeCF = 'includes/' . $themeCF;
-    if (!file_exists($themeCF)) $themeCF = '../' . $themeCF;
-    if (!file_exists($themeCF)) die("Theme class file not found.");
+    if (!file_exists($themeCF))
+        $themeCF = 'includes/' . $themeCF;
+    if (!file_exists($themeCF))
+        $themeCF = '../' . $themeCF;
+    if (!file_exists($themeCF))
+        die("Theme class file not found.");
 
     require($themeCF);
 }
@@ -33,25 +37,28 @@ if (!isset($opsTheme)) {
 
 if (!isset($addons)) {
     $addonClassFileName = 'Addon.class.php';
-    $addonClassFile     = $addonClassFileName;
+    $addonClassFile = $addonClassFileName;
 
     // Check various paths for the Addon class
-    if (!file_exists($addonClassFile)) $addonClassFile = 'includes/' . $addonClassFile;
-    if (!file_exists($addonClassFile)) $addonClassFile = '../' . $addonClassFile;
-    if (!file_exists($addonClassFile)) die("Addon class file not found.");
+    if (!file_exists($addonClassFile))
+        $addonClassFile = 'includes/' . $addonClassFile;
+    if (!file_exists($addonClassFile))
+        $addonClassFile = '../' . $addonClassFile;
+    if (!file_exists($addonClassFile))
+        die("Addon class file not found.");
 
     // Set the addons directory
     $addonDir = str_replace($addonClassFileName, '', $addonClassFile) . 'addons';
 
     require($addonClassFile);
     $addonSettings = array();
-    $addons        = new OPSAddon(); // Removed the namespace slash for PHP 5.6 compatibility
+    $addons = new OPSAddon(); // Removed the namespace slash for PHP 5.6 compatibility
     require($addonDir . '/autoloader.php');
 }
 
 // Execute addon hooks
 echo $addons->get_hooks(array(), array(
-    'page'     => 'includes/sec_inc.php',
+    'page' => 'includes/sec_inc.php',
     'location' => 'start'
 ));
 
@@ -59,15 +66,15 @@ require 'poker_inc.php';
 
 // Retrieve player details from session
 $plyrname = isset($_SESSION['username']) ? addslashes($_SESSION['username']) : '';
-$SGUID    = isset($_SESSION['id']) ? addslashes($_SESSION['id']) : '';
+$SGUID = isset($_SESSION['id']) ? addslashes($_SESSION['id']) : '';
 
 if ($plyrname == '' || $SGUID == '') {
     die("no player name or GUID set!");
 }
 
-$valid  = false;
+$valid = false;
 $gameID = '';
-$gID    = '';
+$gID = '';
 
 // Prepare and execute query to validate player
 $idq = $pdo->prepare("SELECT GUID, vID, gID, banned FROM " . DB_PLAYERS . " WHERE username = :plyrname AND GUID = :sguid");
@@ -76,9 +83,9 @@ $idr = $idq->fetch(PDO::FETCH_ASSOC);
 
 // Check if user is valid and not banned
 if ($idq->rowCount() == 1 && $idr['banned'] != 1) {
-    $valid  = true;
+    $valid = true;
     $gameID = $idr['vID'];
-    $gID    = $idr['gID'];
+    $gID = $idr['gID'];
 
     // Fetch user stats
     $getstats = $pdo->prepare("SELECT a.*, b.bank FROM " . DB_STATS . " a, grpgusers b WHERE a.player = :plyrname AND a.player = b.username");

@@ -1,11 +1,8 @@
 <?php
 
-require_once __DIR__ . '/config.inc.php';
-
 function jsonResponse(array $data)
 {
     die(json_encode($data));
-    return true;
 }
 
 $content = array_key_exists('content', $_POST) && is_string($_POST['content']) && $_POST['content'] !== '' ? strip_tags(trim($_POST['content'])) : null;

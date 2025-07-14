@@ -4,19 +4,25 @@ include 'header.php';
 <div class='box_top'>Upgrade Store</div>
 <div class='box_middle'>
     <div class='pad'>
-        <?php $result = mysql_query("SELECT * FROM `rmstore` WHERE `limiteditems1` != '9999'");
-        while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
-            $limiteditems1 = $limiteditems1 + $line['limiteditems1'];
-        }
-        $result = mysql_query("SELECT * FROM `rmstore` WHERE `limiteditems2` != '9999'");
-        while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
-            $limiteditems2 = $limiteditems2 + $line['limiteditems2'];
-        }
-        $result = mysql_query("SELECT * FROM `rmstore` WHERE `limiteditems3` != '9999'");
-        while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
-            $limiteditems3 = $limiteditems3 + $line['limiteditems3'];
-        }
+        <?php
+        $limiteditems1 = "";
+        $limiteditems2 = "";
+        $limiteditems3 = "";
 
+        $db->query("SELECT * FROM `rmstore` WHERE `limiteditems1` != '9999' OR `limiteditems2` != '9999' OR `limiteditems3` != '9999'");
+        $db->execute();
+        $result = $db->fetch_row();
+        foreach ($result as $row) {
+            if ($row['limiteditems1'] != '9999') {
+                $limiteditems1 += $row['limiteditems1'];
+            }
+            if ($row['limiteditems2'] != '9999') {
+                $limiteditems2 += $row['limiteditems2'];
+            }
+            if ($row['limiteditems3'] != '9999') {
+                $limiteditems3 += $row['limiteditems3'];
+            }
+        }
 
         // Set a session variable for excluded users
         if ($user_class->id == 1 || $user_class->id == 2) {
@@ -853,33 +859,35 @@ include 'header.php';
 
             if ($_GET['buy'] == "bapre") {
                 $bpCategory = getBpCategory();
-                $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
+                if (!empty($bpCategory)) {
+                    $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
 
 
-                if ($bpCategoryUser['is_premium'] > 0) {
-                    echo diefun('You have already purchased premium for this months Battle Pass.');
-                    exit;
-                }
+                    if ($bpCategoryUser['is_premium'] > 0) {
+                        echo diefun('You have already purchased premium for this months Battle Pass.');
+                        exit;
+                    }
 
-                if ($user_class->credits >= 300) {
-                    $current = $user_class->credits;
-                    $newcredit = $user_class->credits -= 300;
-                    $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (" . $user_class->id . ", 'BA Premium', " . $current . ", " . $newcredit . ")");
-                    $db->execute();
-                    $db->query("UPDATE grpgusers SET credits = credits - 300 WHERE id = ?");
-                    $db->execute(array(
-                        $user_class->id
-                    ));
+                    if ($user_class->credits >= 300) {
+                        $current = $user_class->credits;
+                        $newcredit = $user_class->credits -= 300;
+                        $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (" . $user_class->id . ", 'BA Premium', " . $current . ", " . $newcredit . ")");
+                        $db->execute();
+                        $db->query("UPDATE grpgusers SET credits = credits - 300 WHERE id = ?");
+                        $db->execute(array(
+                            $user_class->id
+                        ));
 
-                    $db->query('UPDATE bp_category_user SET is_premium = 1 WHERE id = ' . $bpCategoryUser['id']);
-                    $db->execute();
+                        $db->query('UPDATE bp_category_user SET is_premium = 1 WHERE id = ' . $bpCategoryUser['id']);
+                        $db->execute();
 
-                    Send_Event(1, $user_class->formattedname . " bought BA Premium");
-                    Send_Event(2, $user_class->formattedname . " bought BA Premium");
+                        Send_Event(1, $user_class->formattedname . " bought BA Premium");
+                        Send_Event(2, $user_class->formattedname . " bought BA Premium");
 
-                    echo Message("You spent 300 GOLD for Battle Pass Premium");
-                } else {
-                    echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
+                        echo Message("You spent 300 GOLD for Battle Pass Premium");
+                    } else {
+                        echo Message("You don't have enough GOLD. You can buy some at the Upgrade Store.");
+                    }
                 }
             }
 
@@ -905,9 +913,6 @@ include 'header.php';
                 }
             }
         }
-        $donperc = ($user_class->donations / $donmax) * 100;
-        $donperc = $donperc >= 100 ? 100 : $donperc;
-
 
         echo '<div class="flexcont" style="align-items:stretch;">';
         echo '<div class="flexele floaty" style="margin:3px;">';
@@ -1359,7 +1364,7 @@ include 'header.php';
 
 <br>
 <div class="floaty" style="margin: 3px;">
-    <h4>VIP PACKAGES</h4>
+    <h4 id="VIP">VIP PACKAGES</h4>
     <hr>
     <div class="vip-packages"
         style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
@@ -1391,8 +1396,11 @@ include 'header.php';
                             src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
 
+
     </div>
-    <br>
+    <div class="text-center my-4">
+        <?= ($user_class->rmdays > 0 ? "You have " . prettynum($user_class->rmdays) . " days of VIP remaining" : 'You are currently not a VIP member.') ?>
+    </div>
 </div>
 
 <br /><br />
@@ -1523,10 +1531,12 @@ include 'header.php';
 
 <?php
 $bpCategory = getBpCategory();
-$bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
+if (!empty($bpCategory)) {
+    $bpCategoryUser = getBpCategoryUser($bpCategory, $user_class);
+}
 ?>
 
-<?php if ($bpCategoryUser['is_premium'] < 1): ?>
+<?php if (isset($bpCategoryUser) && $bpCategoryUser['is_premium'] < 1): ?>
     <div class="floaty" style="margin:3px; text-align: center;">
         <h4>BATTLE PASS PREMIUM</h4>
         <hr>

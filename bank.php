@@ -2,133 +2,147 @@
 include 'header.php';
 ?>
 <div class='box_top'>Bank</div>
-						<div class='box_middle'>
-							<div class='pad'>
-<style>
-    
-.upgrade-package {
-    flex: 0 1 calc(50% - 20px); /* Keep as is, ensures two items per row */
-    padding: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    margin-bottom: 20px; /* Ensure there's space at the bottom */
-    border-radius: 10px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column; /* Keeps children stacked vertically */
-}
+<div class='box_middle'>
+    <div class='pad'>
+        <style>
+            .upgrade-package {
+                flex: 0 1 calc(50% - 20px);
+                /* Keep as is, ensures two items per row */
+                padding: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                margin-bottom: 20px;
+                /* Ensure there's space at the bottom */
+                border-radius: 10px;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                /* Keeps children stacked vertically */
+            }
 
-.div-form-wrapper {
-    display: flex;
-    justify-content: space-between; /* Adjusted for better spacing */
-    gap: 15px; /* This creates space between the flex items */
-}
+            .div-form-wrapper {
+                display: flex;
+                justify-content: space-between;
+                /* Adjusted for better spacing */
+                gap: 15px;
+                /* This creates space between the flex items */
+            }
 
-    /* Default styles for the bank containers */
-.bank-container {
-    width: 47%; /* Default width for desktop */
-    float: left;
-    margin: 0;
-}
+            /* Default styles for the bank containers */
+            .bank-container {
+                width: 47%;
+                /* Default width for desktop */
+                float: left;
+                margin: 0;
+            }
 
-/* Media query for mobile devices */
-@media only screen and (max-width: 767px) {
-    .bank-container {
-        width: 100%; /* Full width on mobile */
-        float: none; /* Clear the float */
-        margin: 20px 0; /* Add margin to separate sections on mobile */
-    }
-}
+            /* Media query for mobile devices */
+            @media only screen and (max-width: 767px) {
+                .bank-container {
+                    width: 100%;
+                    /* Full width on mobile */
+                    float: none;
+                    /* Clear the float */
+                    margin: 20px 0;
+                    /* Add margin to separate sections on mobile */
+                }
+            }
 
-/* General reset for table elements */
-table {
-    width: 100%;
-    text-align: left;
-    margin: auto;
-    border-collapse: collapse;
-}
+            /* General reset for table elements */
+            table {
+                width: 100%;
+                text-align: left;
+                margin: auto;
+                border-collapse: collapse;
+            }
 
-table td, table th {
-    border: 1px solid #444;
-    padding: 10px;
-}
+            table td,
+            table th {
+                border: 1px solid #444;
+                padding: 10px;
+            }
 
-/* Style the horizontal rule */
-hr {
-    border: 0;
-    border-bottom: thin solid #333;
-}
+            /* Style the horizontal rule */
+            hr {
+                border: 0;
+                border-bottom: thin solid #333;
+            }
 
-/* Style the forms */
-.bank-form {
-    display: flex;
-    justify-content: center; /* Center the form content */
-    align-items: center;
-    margin-top: 20px;
-}
+            /* Style the forms */
+            .bank-form {
+                display: flex;
+                justify-content: center;
+                /* Center the form content */
+                align-items: center;
+                margin-top: 20px;
+            }
 
-input[type="text"]{
-    padding: 10px;
-    margin: 5px;
-    border: 1px solid #444;
-    color: #FFF;
-    border-radius: 5px;
-    text-align: center; /* Center text inside inputs */
-}
+            input[type="text"] {
+                padding: 10px;
+                margin: 5px;
+                border: 1px solid #444;
+                color: #FFF;
+                border-radius: 5px;
+                text-align: center;
+                /* Center text inside inputs */
+            }
 
-input[type="submit"] {
-    cursor: pointer;
-    background-color: #333; /* Dark grey background */
-    color: #ccc; /* Light grey text */
-}
+            input[type="submit"] {
+                cursor: pointer;
+                background-color: #333;
+                /* Dark grey background */
+                color: #ccc;
+                /* Light grey text */
+            }
 
 
-/* Responsive design */
-@media (max-width: 600px) {
-    .bank-form {
-        flex-direction: column;
-    }
-}
+            /* Responsive design */
+            @media (max-width: 600px) {
+                .bank-form {
+                    flex-direction: column;
+                }
+            }
+        </style>
+        <?php
+        if (isset($user_class->relplayer) && $user_class->relplayer > 0) {
+            $rel_user = new User($user_class->relplayer);
 
-</style>
-<?php
-$rel_user = new User($user_class->relplayer);
+            if (isset($_POST['sdeposit'])) {
+                if ($_POST['sid'] == $rel_user->id) {
 
-if (isset($_POST['sdeposit'])) {
-    if ($_POST['sid'] == $rel_user->id) {
+                    $amount = $_POST['damount'];
 
-        $amount = $_POST['damount'];
+                    if ($amount > $rel_user->money) {
+                        echo "You do not have that much money on hand";
+                    } else {
+                        $amount2 = round($amount - (($amount / 100) * 2));
+                        $amount3 = round($amount - (($amount / 100) * 98));
+                        $rel_user->bank += $amount2;
+                        $rel_user->money -= $amount;
+                        $notice = ("Money deposited with a 2% fee of $$amount3 taken.");
+                        perform_query("UPDATE grpgusers SET bank = ?, money = ? WHERE id = ?", [$rel_user->bank, $rel_user->money, $rel_user->id]);
+                        if ($amount > 0)
+                            perform_query("INSERT INTO bank_log VALUES('', ?, ?, 'mdep', ?, unix_timestamp())", [$rel_user->id, $amount, $rel_user->bank]);
+                        if ($rel_user->bank > $rel_user->banklog)
+                            perform_query("UPDATE grpgusers SET banklog = ? WHERE id = ?", [$rel_user->bank, $rel_user->id]);
 
-        if ($amount > $rel_user->money) {
-            echo "They do not have that much money on hand";
-        } else {
-            $amount2 = round($amount - (($amount / 100) * 2));
-            $amount3 = round($amount - (($amount / 100) * 98));
-            $rel_user->bank += $amount2;
-            $rel_user->money -= $amount;
-            $notice = ("Money deposited with a 2% fee of $$amount3 taken.");
-            mysql_query("UPDATE grpgusers SET bank = $rel_user->bank, money = $rel_user->money WHERE id = $rel_user->id");
-            if ($amount > 0)
-                mysql_query("INSERT INTO bank_log VALUES('', $rel_user->id, $amount, 'mdep', $rel_user->bank, unix_timestamp())");
-            if ($rel_user->bank > $rel_user->banklog)
-                mysql_query("UPDATE grpgusers SET banklog = $rel_user->bank WHERE id = $rel_user->id");
+                        Send_Event($rel_user->id, $user_class->formattedname . " has deposited $" . number_format($amount) . " into your bank account.");
+                        Send_Event($user_class->id, "You have deposited $" . number_format($amount) . " into $rel_user->formattedname's bank account");
 
-            Send_Event($rel_user->id, $user_class->formattedname . " has deposited $" . number_format($amount) . " into your bank account.");
-            Send_Event($user_class->id, "You have deposited $" . number_format($amount) . " into $rel_user->formattedname's bank account");
-
-            echo $notice;
+                        echo $notice;
+                    }
+                } else {
+                    echo Message("You do not have access to this persons money!");
+                }
+                include 'footer.php';
+                die();
+            }
         }
-    } else {
-        echo Message("You do not have access to this persons money!");
-    }
-    include 'footer.php';
-    die();
-}
 
-if (isset($_GET['id']) && isset($_GET['action'])) {
-    if ($_GET['action'] == 'sdeposit') {
-        if ($_GET['id'] == $rel_user->id) {
+        if (isset($_GET['id']) && isset($_GET['action'])) {
+            if ($_GET['action'] == 'sdeposit') {
+                if ($_GET['id'] == $rel_user->id) {
 
-            echo "
+                    echo "
             <div class='floaty' style='width:50%;margin:0 auto;'>
             <h2>" . $rel_user->formattedname . "</h2><br>
             There will be a 2% Deposit Fee
@@ -148,202 +162,198 @@ if (isset($_GET['id']) && isset($_GET['action'])) {
                 <input type='hidden' name='type' value='money' />
             </form>
         </div>";
-        } else {
-            echo "You do not have access to this persons money!";
+                } else {
+                    echo "You do not have access to this persons money!";
+                }
+            }
+            include 'footer.php';
+            die();
         }
-    }
-    include 'footer.php';
-    die();
-}
 
-if (isset($_GET['h_deposit']) && $_GET['h_deposit'] === 'cash') {
-    $amount = $user_class->money;
-    $amount2 = round($amount - (($amount / 100) * 2));
-    $amount3 = round($amount - (($amount / 100) * 98));
-    $user_class->bank += $amount2;
-    $user_class->money -= $amount;
-    $notice = ("Money deposited with a 2% fee of $$amount3 taken.");
-    mysql_query("UPDATE grpgusers SET bank = $user_class->bank, money = $user_class->money WHERE id = $user_class->id");
-    if ($amount > 0)
-        mysql_query("INSERT INTO bank_log VALUES('', $user_class->id, $amount, 'mdep', $user_class->bank, unix_timestamp(), $user_class->money)");
-    if ($user_class->bank > $user_class->banklog)
-        mysql_query("UPDATE grpgusers SET banklog = $user_class->bank WHERE id = $user_class->id");
-
-}
-
-if ((isset($_GET['dep']) || isset($_POST['deposit']))) {
-    if (isset($_GET['dep']))
-        $_POST['type'] = 'money';
-    else
-        $_POST['damount'] = security($_POST['damount'], 'num');
-    $amount = (isset($_GET['dep'])) ? $user_class->money : $_POST['damount'];
-    $type = ($_POST['type'] == 'money') ? 'money' : 'points';
-    if ($amount > $user_class->$type)
-        $notice = ("You do not have that much $type.");
-    else {
-        if ($type == 'money') {
+        if (isset($_GET['h_deposit']) && $_GET['h_deposit'] === 'cash') {
+            $amount = $user_class->money;
             $amount2 = round($amount - (($amount / 100) * 2));
             $amount3 = round($amount - (($amount / 100) * 98));
             $user_class->bank += $amount2;
             $user_class->money -= $amount;
             $notice = ("Money deposited with a 2% fee of $$amount3 taken.");
-            mysql_query("UPDATE grpgusers SET bank = $user_class->bank, money = $user_class->money WHERE id = $user_class->id");
+            perform_query("UPDATE grpgusers SET bank = ?, money = ? WHERE id = ?", [$user_class->bank, $user_class->money, $user_class->id]);
             if ($amount > 0)
-                mysql_query("INSERT INTO bank_log VALUES('', $user_class->id, $amount, 'mdep', $user_class->bank, unix_timestamp(), $user_class->money)");
+                perform_query("INSERT INTO bank_log VALUES('', ?, ?, 'mdep', ?, unix_timestamp(), ?)", [$user_class->id, $amount, $user_class->bank, $user_class->money]);
             if ($user_class->bank > $user_class->banklog)
-                mysql_query("UPDATE grpgusers SET banklog = $user_class->bank WHERE id = $user_class->id");
+                perform_query("UPDATE grpgusers SET banklog = ? WHERE id = ?", [$user_class->bank, $user_class->id]);
+
+        }
+
+        if ((isset($_GET['dep']) || isset($_POST['deposit']))) {
+            if (isset($_GET['dep']))
+                $_POST['type'] = 'money';
+            else
+                $_POST['damount'] = security($_POST['damount'], 'num');
+            $amount = (isset($_GET['dep'])) ? $user_class->money : $_POST['damount'];
+            $type = ($_POST['type'] == 'money') ? 'money' : 'points';
+            if ($amount > $user_class->$type)
+                $notice = ("You do not have that much $type.");
+            else {
+                if ($type == 'money') {
+                    $amount2 = round($amount - (($amount / 100) * 2));
+                    $amount3 = round($amount - (($amount / 100) * 98));
+                    $user_class->bank += $amount2;
+                    $user_class->money -= $amount;
+                    $notice = ("Money deposited with a 2% fee of $$amount3 taken.");
+                    perform_query("UPDATE grpgusers SET bank = ?, money = ? WHERE id = ?", [$user_class->bank, $user_class->money, $user_class->id]);
+                    if ($amount > 0)
+                        perform_query("INSERT INTO bank_log VALUES('', ?, ?, 'mdep', ?, unix_timestamp(), ?)", [$user_class->id, $amount, $user_class->bank, $user_class->money]);
+                    if ($user_class->bank > $user_class->banklog)
+                        perform_query("UPDATE grpgusers SET banklog = ? WHERE id = ?", [$user_class->bank, $user_class->id]);
+                } else {
+                    $user_class->pbank += $amount;
+                    $user_class->points -= $amount;
+                    $notice = ("Points deposited.");
+                    perform_query("UPDATE grpgusers SET pbank = ?, points = ? WHERE id = ?", [$user_class->pbank, $user_class->points, $user_class->id]);
+                    if ($amount > 0)
+                        perform_query("INSERT INTO bank_log VALUES('', ?, ?, 'pdep', ?, unix_timestamp(), ?)", [$user_class->id, $amount, $user_class->pbank, $user_class->points]);
+                }
+            }
+        }
+
+        if ((isset($_GET['dep']) || isset($_POST['deposit_shared']))) {
+            if (isset($_GET['dep'])) {
+                $_POST['type'] = 'money';
+            } else {
+                $_POST['damount'] = security($_POST['damount'], 'num');
+                $amount = (isset($_GET['dep'])) ? $user_class->money : $_POST['damount'];
+            }
+            $amount = (isset($_GET['dep'])) ? $user_class->money : $_POST['damount'];
+            $type = ($_POST['type'] == 'money') ? 'money' : 'points';
+            if ($amount > $user_class->$type) {
+                $notice = ("You do not have that much $type.");
+            } else {
+                if ($_POST['type'] == 'money') {
+                    $amount2 = round($amount - (($amount / 100) * 2));
+                    $amount3 = round($amount - (($amount / 100) * 98));
+                    $user_class->shared_bank += $amount2;
+                    $user_class->money -= $amount;
+                    $notice = ("Money deposited with a 2% fee of $$amount3 taken.");
+                    perform_query("UPDATE grpgusers SET shared_bank = ?, money = ? WHERE id = ?", [$user_class->shared_bank, $user_class->money, $user_class->id]);
+                    perform_query("UPDATE grpgusers SET shared_bank = ? WHERE id = ?", [$user_class->shared_bank, $user_class->relplayer]);
+                    perform_query("UPDATE grpgusers SET sharedcontribution = sharedcontribution + ? WHERE id = ?", [$amount, $user_class->id]);
+
+                    if ($amount > 0) {
+                        Send_Event($user_class->relplayer, "" . $user_class->formattedname . " Has Deposited $amount Leaving you with a total of $" . $user_class->shared_bank . " in your shared account!");
+                    }
+                }
+            }
+        }
+
+        if (isset($_POST['withdraw'])) {
+            $amount = security($_POST['wamount'], 'num');
+            $type = ($_POST['type'] == 'money') ? array(
+                'money',
+                'bank'
+            ) : array(
+                'points',
+                'pbank'
+            );
+            if ($amount > $user_class->$type[1])
+                $notice = ("You do not have that much {$type[0]} in the bank.");
+            else {
+                $notice = (ucfirst($type[0]) . " withdrawn.");
+                $user_class->$type[1] -= $amount;
+                $user_class->$type[0] += $amount;
+                perform_query("UPDATE grpgusers SET {$type[1]} = ?, {$type[0]} = ? WHERE id = ?", [$user_class->{$type[1]}, $user_class->{$type[0]}, $user_class->id]);
+                if ($amount > 0) {
+                    $which = ($_POST['type'] == 'money') ? "mwith" : "pwith";
+                    $whichhand = ($which == "mwith") ? $user_class->money : $user_class->points;
+                    perform_query("INSERT INTO bank_log VALUES('', ?, ?, '$which', ?, unix_timestamp(), ?)", [$user_class->id, $amount, $user_class->{$type[1]}, $whichhand]);
+                }
+            }
+        }
+
+
+        if (isset($_POST['withdraw_shared'])) {
+            $amount = security($_POST['wamount'], 'num');
+            $type = ($_POST['type'] == 'money') ? array(
+                'money',
+                'shared_bank'
+            ) : array(
+                'points',
+                'pbank'
+            );
+            if ($amount > $user_class->$type[1])
+                $notice = ("You do not have that much {$type[0]} in the bank.");
+            else {
+                $notice = (ucfirst($type[0]) . " withdrawn.");
+                $user_class->$type[1] -= $amount;
+                $user_class->$type[0] += $amount;
+                perform_query("UPDATE grpgusers SET {$type[1]} = ?, {$type[0]} = ? WHERE id = ?", [$user_class->{$type[1]}, $user_class->{$type[0]}, $user_class->id]);
+                perform_query("UPDATE grpgusers SET sharedcontribution = sharedcontribution - ?, money = ? WHERE id = ?", [$amount, $user_class->money, $user_class->id]);
+
+                Send_Event($user_class->relplayer, "" . $user_class->formattedname . " Has withdrawn $amount Leaving you with a total of $" . $user_class->shared_bank . "!");
+
+                perform_query("UPDATE grpgusers SET {$type[1]} = ? WHERE id = ?", [$user_class->{$type[1]}, $user_class->relplayer]);
+
+                if ($amount > 0) {
+                    $which = ($_POST['type'] == 'money') ? "mwith" : "pwith";
+                }
+            }
+        }
+        // Calculate the base interest rate based on remaining membership days
+        if ($user_class->rmdays >= 1) {
+            $interest = 0.04;  // 4% interest rate if membership days are 1 or more
         } else {
-            $user_class->pbank += $amount;
-            $user_class->points -= $amount;
-            $notice = ("Points deposited.");
-            mysql_query("UPDATE grpgusers SET pbank = $user_class->pbank, points = $user_class->points WHERE id = $user_class->id");
-            if ($amount > 0)
-                mysql_query("INSERT INTO bank_log VALUES('', $user_class->id, $amount, 'pdep', $user_class->pbank, unix_timestamp(), $user_class->points)");
+            $interest = 0.02;  // 2% interest rate otherwise
         }
-    }
-}
 
-if ((isset($_GET['dep']) || isset($_POST['deposit_shared']))) {
-    if (isset($_GET['dep'])) {
-        $_POST['type'] = 'money';
-    } else {
-        $_POST['damount'] = security($_POST['damount'], 'num');
-        $amount = (isset($_GET['dep'])) ? $user_class->money : $_POST['damount'];
-    }
-    $amount = (isset($_GET['dep'])) ? $user_class->money : $_POST['damount'];
-    $type = ($_POST['type'] == 'money') ? 'money' : 'points';
-    if ($amount > $user_class->$type) {
-        $notice = ("You do not have that much $type.");
-    } else {
-        if ($_POST['type'] == 'money') {
-            $amount2 = round($amount - (($amount / 100) * 2));
-            $amount3 = round($amount - (($amount / 100) * 98));
-            $user_class->shared_bank += $amount2;
-            $user_class->money -= $amount;
-            $notice = ("Money deposited with a 2% fee of $$amount3 taken.");
-            mysql_query("UPDATE grpgusers SET shared_bank = $user_class->shared_bank, money = $user_class->money WHERE id = $user_class->id");
-            mysql_query("UPDATE grpgusers SET shared_bank = $user_class->shared_bank WHERE id = $user_class->relplayer");
-            mysql_query("UPDATE grpgusers SET sharedcontribution = $user_class->sharedcontribution + $amount WHERE id = $user_class->id");
+        // Adjust interest rate based on donations
+        $addmul = $ptsadd = 0;
+        if ($user_class->donations >= 50) {
+            $addmul = 0.02;
+            $ptsadd = 75;
+        }
+        if ($user_class->donations >= 100) {
+            $addmul = 0.03;
+            $ptsadd = 120;
+        }
+        if ($user_class->donations >= 200) {
+            $addmul = 0.05;
+            $ptsadd = 150;
+        }
 
-            if ($amount > 0) {
-                Send_Event($user_class->relplayer, "" . $user_class->formattedname . " Has Deposited $amount Leaving you with a total of $" . $user_class->shared_bank . " in your shared account!");
-                //mysql_query("INSERT INTO bank_log VALUES('', $user_class->id, $amount, 'mdep', $user_class->shared_bank, unix_timestamp())");
+        // Increase the interest rate by the adjustments from donations
+        $interest += $addmul;
+
+        // Apply bank boost if it's set and greater than zero
+        
+        // Calculate the effective interest amount based on the user's bank balance
+        if ($user_class->bank >= 15000000) {
+            $interest = ceil(15000000 * $interest);  // Interest capped at a bank amount of 30 million
+            if ($user_class->bankboost > 0) {
+                $interest += ($interest * ($user_class->bankboost / 10));  // Adjusting the interest rate by bankboost
             }
-            if ($user_class->shared_bank > $user_class->banklog) {
-                //mysql_query("UPDATE grpgusers SET banklog = $user_class->shared_bank WHERE id = $user_class->id");
+        } else {
+            $interest = ceil($user_class->bank * $interest);  // Interest based on the actual bank balance
+            if ($user_class->bankboost > 0) {
+                $interest += ($interest * ($user_class->bankboost / 10));  // Adjusting the interest rate by bankboost
             }
         }
-    }
-}
 
-if (isset($_POST['withdraw'])) {
-    $amount = security($_POST['wamount'], 'num');
-    $type = ($_POST['type'] == 'money') ? array(
-        'money',
-        'bank'
-    ) : array(
-        'points',
-        'pbank'
-    );
-    if ($amount > $user_class->$type[1])
-        $notice = ("You do not have that much {$type[0]} in the bank.");
-    else {
-        $notice = (ucfirst($type[0]) . " withdrawn.");
-        $user_class->$type[1] -= $amount;
-        $user_class->$type[0] += $amount;
-        mysql_query("UPDATE grpgusers SET {$type[1]} = " . $user_class->{$type[1]} . ", {$type[0]} = " . $user_class->{$type[0]} . " WHERE id = $user_class->id");
-        if ($amount > 0) {
-            $which = ($_POST['type'] == 'money') ? "mwith" : "pwith";
-            $whichhand = ($which == "mwith") ? $user_class->money : $user_class->points;
-            mysql_query("INSERT INTO bank_log VALUES('', $user_class->id, $amount, '$which', " . $user_class->{$type[1]} . ", unix_timestamp(), $whichhand)");
+        $db->query("SELECT * FROM banksettings WHERE userid = ?");
+        $db->execute([$user_class->id]);
+        $bi = $db->fetch_row(true);
+        if (empty($bi)) {
+            $bi['limit'] = 25;
+            $bi['format'] = 'us';
+            $bi['show'] = 'all';
         }
-    }
-}
-
-
-if (isset($_POST['withdraw_shared'])) {
-    $amount = security($_POST['wamount'], 'num');
-    $type = ($_POST['type'] == 'money') ? array(
-        'money',
-        'shared_bank'
-    ) : array(
-        'points',
-        'pbank'
-    );
-    if ($amount > $user_class->$type[1])
-        $notice = ("You do not have that much {$type[0]} in the bank.");
-    else {
-        $notice = (ucfirst($type[0]) . " withdrawn.");
-        $user_class->$type[1] -= $amount;
-        $user_class->$type[0] += $amount;
-        mysql_query("UPDATE grpgusers SET {$type[1]} = " . $user_class->{$type[1]} . ", {$type[0]} = " . $user_class->{$type[0]} . " WHERE id = $user_class->id");
-        mysql_query("UPDATE grpgusers SET sharedcontribution = $user_class->sharedcontribution - $amount, money = $user_class->money WHERE id = $user_class->id");
-
-        Send_Event($user_class->relplayer, "" . $user_class->formattedname . " Has withdrawn $amount Leaving you with a total of $" . $user_class->shared_bank . "!");
-
-        mysql_query("UPDATE grpgusers SET {$type[1]} = " . $user_class->{$type[1]} . " WHERE id = $user_class->relplayer");
-
-        if ($amount > 0) {
-            $which = ($_POST['type'] == 'money') ? "mwith" : "pwith";
-            //  mysql_query("INSERT INTO bank_log VALUES('', $user_class->id, $amount, '$which', " . $user_class->{$type[1]} . ", unix_timestamp())");
+        if (isset($notice)) {
+            echo Message($notice) . " <br /><br />
+                <div class='contenthead floaty'>
+                <br><br>";
         }
-    }
-}
-// Calculate the base interest rate based on remaining membership days
-if ($user_class->rmdays >= 1) {
-    $interest = 0.04;  // 4% interest rate if membership days are 1 or more
-} else {
-    $interest = 0.02;  // 2% interest rate otherwise
-}
 
-// Adjust interest rate based on donations
-$addmul = $ptsadd = 0;
-if ($user_class->donations >= 50) {
-    $addmul = 0.02;
-    $ptsadd = 75;
-}
-if ($user_class->donations >= 100) {
-    $addmul = 0.03;
-    $ptsadd = 120;
-}
-if ($user_class->donations >= 200) {
-    $addmul = 0.05;
-    $ptsadd = 150;
-}
-
-// Increase the interest rate by the adjustments from donations
-$interest += $addmul;
-
-// Apply bank boost if it's set and greater than zero
-
-// Calculate the effective interest amount based on the user's bank balance
-if ($user_class->bank >= 15000000) {
-    $interest = ceil(15000000 * $interest);  // Interest capped at a bank amount of 30 million
-    if ($user_class->bankboost > 0) {
-        $interest += ($interest * ($user_class->bankboost / 10));  // Adjusting the interest rate by bankboost
-    }
-    
-} else {
-    $interest = ceil($user_class->bank * $interest);  // Interest based on the actual bank balance
-    if ($user_class->bankboost > 0) {
-        $interest += ($interest * ($user_class->bankboost / 10));  // Adjusting the interest rate by bankboost
-    }
-    
-}
-$bi = mysql_fetch_array(mysql_query("SELECT * FROM banksettings WHERE userid = $user_class->id"));
-if (empty($bi)) {
-    $bi['limit'] = 25;
-    $bi['format'] = 'us';
-    $bi['show'] = 'all';
-}
-echo Message($notice) ." <br /><br />
-
-
-<div class='contenthead floaty'>
-    <br><br>
-    ";
-    echo Message("You will be charged a 2% Deposit Fee for Cash");
-    echo "
+        echo Message("You will be charged a 2% Deposit Fee for Cash");
+        echo "
 </div>
 <div class='container'>
     <hr />
@@ -357,12 +367,6 @@ echo Message($notice) ." <br /><br />
         <tr>
             <th><h4>Daily Interest:</h4></th>
             <td><h4><font color=green>+$$interest</font></h4></td>
-            <th></th>
-            <td></td>
-        </tr>
-        <tr>
-            <th><h4>Interest Rate:</h4></th>
-            <td><h4><font color=green>$rate</font></h4></td>
             <th></th>
             <td></td>
         </tr>
@@ -399,7 +403,7 @@ echo Message($notice) ." <br /><br />
 
 </div>";
 
-echo "<div style='clear:both;'></div>
+        echo "<div style='clear:both;'></div>
 <br />
 <br />
 Show <input type='text' value='" . (isset($bi['limit']) && $bi['limit'] !== '' ? $bi['limit'] : '5') . "' id='limit' size='3' maxlength='3' onkeyup='updateBankLog();' /> Transactions |
@@ -423,7 +427,7 @@ Show
     " . banklog($bi['limit'], $bi['show'], $bi['format']) . "
 </div>";
 
-print <<<TEXT
+        print <<<TEXT
 <script>
     function updateBankLog(){
         // Retrieve input values
@@ -442,4 +446,4 @@ print <<<TEXT
 </script>
 <br>
 TEXT;
-include 'footer.php';
+        include 'footer.php';
