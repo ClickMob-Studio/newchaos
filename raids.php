@@ -356,6 +356,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
 
         echo "<script>alert('$tokencost raid token(s) have been spent to summon the boss.');</script>";
 
+        if (!isset($_SESSION['raid_difficulty'])) {
+            $_SESSION['raid_difficulty'] = [];
+        }
+        $_SESSION['raid_difficulty'][$boss_id] = $difficulty;
+
+        if (!isset($_SESSION['raid_type'])) {
+            $_SESSION['raid_type'] = [];
+        }
+        $_SESSION['raid_type'][$boss_id] = $raid_type;
+
         // Redirect to raids.php to refresh the page
         header('Location: raids.php');
         exit;
@@ -631,8 +641,6 @@ echo "</div>"; // Close active-raids-grid
 
         echo "<h3><center>YOU CURRENTLY HAVE <font color=yellow>" . $user_stats['raidtokens'] . "</font> RAID TOKENS </center></h3>";
 
-
-
         ?>
 
         <h3>
@@ -710,19 +718,25 @@ echo "</div>"; // Close active-raids-grid
 
                 echo "<form action='raids.php' method='post' class='difficulty-form' onsubmit='return confirmSummon(" . $tokencost . ");'>";
 
+                // Grab previous difficulty selection for this boss from session
+                $previous_difficulty = isset($_SESSION['raid_difficulty'][$boss['id']]) ? $_SESSION['raid_difficulty'][$boss['id']] : 'Easy';
+
                 echo "<div class='form-group'><label>Select Difficulty: ";
                 echo "<select name='difficulty'>";
-                echo "<option value='Easy'>Easy</option>";
-                echo "<option value='Medium'>Medium</option>";
-                echo "<option value='Hard'>Hard</option>";
+                echo "<option value='Easy'" . ($previous_difficulty == 'Easy' ? ' selected' : '') . ">Easy</option>";
+                echo "<option value='Medium'" . ($previous_difficulty == 'Medium' ? ' selected' : '') . ">Medium</option>";
+                echo "<option value='Hard'" . ($previous_difficulty == 'Hard' ? ' selected' : '') . ">Hard</option>";
                 echo "</select></label></div>";
+
+                // Grab the previous raid type selection from session
+                $previous_raid_type = isset($_SESSION['raid_type'][$boss['id']]) ? $_SESSION['raid_type'][$boss['id']] : 'Public';
 
                 // New dropdown for Raid Type
                 echo "<div class='form-group'><label>Raid Type: ";
                 echo "<select name='raid_type'>";
-                echo "<option value='Public'>Public Raid</option>"; // Default option
-                echo "<option value='Private'>Private (Solo Raid)</option>";
-                echo "<option value='Gang'>Gang Only</option>";
+                echo "<option value='Public'" . ($previous_raid_type == 'Public' ? ' selected' : '') . ">Public Raid</option>"; // Default option
+                echo "<option value='Private'" . ($previous_raid_type == 'Private' ? ' selected' : '') . ">Private (Solo Raid)</option>";
+                echo "<option value='Gang'" . ($previous_raid_type == 'Gang' ? ' selected' : '') . ">Gang Only</option>";
                 echo "</select></label></div>";
 
                 echo "<input type='hidden' name='boss_id' value='" . $boss['id'] . "'>";

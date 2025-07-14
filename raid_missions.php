@@ -5,7 +5,6 @@ include "header.php";
 <div class='box_middle'>
     <div class='pad'>
         <?php
-
         $now = time();
 
         if (isset($_GET['reset_mission']) && (int) $_GET['reset_mission']) {
@@ -36,7 +35,6 @@ include "header.php";
 
         if (isset($_GET['do'])) {
             $do = abs(intval($_GET['do']));
-
             $mm = get_mission($do);
             $q = get_user_mission($user_class->id);
 
@@ -108,7 +106,6 @@ include "header.php";
             $backalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>" . shorthandNumber($usermission['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>";
             $raids = ($miss['raids'] > $usermission['raids']) ? "<font color='red'>" . shorthandNumber($usermission['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>";
             $timeleft = ($miss['time'] + $usermission['timestamp']) - $now;
-
             echo "<span class='floaty1'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />";
             print "<div class=\"doingMission\">
 
@@ -230,6 +227,6 @@ include "header.php";
         }
 
         print "</table></div></div>";
-
+      
         include "footer.php";
         ?>

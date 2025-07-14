@@ -776,6 +776,20 @@ if (isset($_GET['use'])) {
                 $response["message"] = "You hammer the golden egg open, and receive " . ($rewardCredits ? $rewardCredits . " gold, " : "") . number_format($rewardPoints, 0) . " points," . ($rewardToken ? "" : " and") . " $" . number_format($rewardMoney, 0) . "" . ($rewardToken ? " and 1 Gold Rush Token." : ".");
 
                 break;
+            case 358:
+                $db->query("UPDATE grpgusers SET points = points + 500000, money = money + 250000000 WHERE id = " . $user_class->id);
+                $db->execute();
+
+                Give_Item(277, $user_class->id, 10);
+                Give_Item(284, $user_class->id, 5);
+                Give_Item(10, $user_class->id, 5);
+                Give_Item(255, $user_class->id, 5);
+                Give_Item(256, $user_class->id, 2);
+                Give_Item(279, $user_class->id, 2);
+
+                $response['success'] = true;
+                $response['message'] = "You open your advancement chest and inside find 500,000 points, $250,000,000, 10 x Mission Pass, 5 x Double EXP Pill, 5 x Ghost Vacuum, 5 x Crime Booster, 2 x Nerve Vial and 2 x Protein Bar!";
+                break;
             default:
                 $failed = true;
                 $response['message'] = "Item not recognized or cannot be used.";

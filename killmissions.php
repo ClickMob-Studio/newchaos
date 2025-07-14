@@ -103,6 +103,7 @@ include "header.php";
 
 
         echo "<div class=\"hundred centered\">";
+
         $usermission = get_user_mission($user_class->id);
         if ($usermission) {
             $miss = get_mission($usermission['mid']);
@@ -156,7 +157,6 @@ include "header.php";
 
 </div>";
         } else {
-
             $currenttime = time();
             foreach ($missions as $v) {
                 $secondButton = "";

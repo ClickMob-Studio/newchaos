@@ -9,7 +9,6 @@ $currenttime = time();
         <?php
         if (isset($_GET['do'])) {
             $do = abs(intval($_GET['do']));
-
             $mm = get_mission($do);
             if (empty($mm)) {
                 header('location: missions.php');
@@ -120,7 +119,6 @@ $currenttime = time();
         $db->execute([$user_class->id]);
         $check = $db->fetch_row(true);
         if (!empty($check)) {
-
             $miss = get_mission($check['mid']);
             $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>{$usermission['kills']}/{$miss['kills']}</font>" : "<font color='green'>{$miss['kills']}/{$miss['kills']}</font>";
             $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>{$usermission['crimes']}/{$miss['crimes']}</font>" : "<font color='green'>{$miss['crimes']}/{$miss['crimes']}</font>";
@@ -206,7 +204,6 @@ $currenttime = time();
   <tr>
 <div class=\"doingMission\" style=\"margin-top:20px;\">
 <table style='width:95%'>";
-
         $db->query("SELECT * FROM missionlog ORDER BY timestamp DESC LIMIT 25");
         $db->execute();
         $ml = $db->fetch_row(true);

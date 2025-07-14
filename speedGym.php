@@ -78,14 +78,15 @@ $event = getScheduledEvent();
             </div>
         </div>
 
-        <? if (!empty($event)): ?>
-            <div class='dcPanel p-3 mb-4 event-countdown' data-end="<?= $event['end'] ?>"
-                style="text-align:center;background-color:#3d00008a">
-                <span>Event is on-going, all types of training is
-                    multiplied by <?= $event['multiplier'] ?>!</span>
-                <br />
-                <div style="margin-top:6px;color: #c8c8c8; font-weight: bold;">Event ends in
-                    <span class='countdown-text'><?= secondsToTime($event['end'] - time()) ?></span>.
+            <? if (!empty($event)): ?>
+                <div class='dcPanel p-3 mb-4 event-countdown' data-end="<?= $event['end'] ?>"
+                    style="text-align:center;background-color:#3d00008a">
+                    <span>Event is on-going, all types of training is
+                        multiplied by <?= $event['multiplier'] ?>!</span>
+                    <br />
+                    <div style="margin-top:6px;color: #c8c8c8; font-weight: bold;">Event ends in
+                        <span class='countdown-text'><?= secondsToTime($event['end'] - time()) ?></span>.
+                    </div>
                 </div>
             </div>
         <? endif; ?>

@@ -9,6 +9,7 @@ include "header.php";
             $db->query("SELECT COUNT(*) FROM missions WHERE userid = ? AND completed='no' ORDER BY timestamp DESC LIMIT 1");
             $db->execute([$user_class->id]);
             $q = $db->fetch_single();
+
             if ($q) {
                 diefun('You already have an active mission.');
             }
@@ -104,7 +105,6 @@ include "header.php";
         $usermission = get_user_mission($user_class->id);
         if ($usermission) {
             $miss = get_mission($usermission['mid']);
-
             $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>{$usermission['kills']}/{$miss['kills']}</font>" : "<font color='green'>{$miss['kills']}/{$miss['kills']}</font>";
             $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>{$usermission['crimes']}/{$miss['crimes']}</font>" : "<font color='green'>{$miss['crimes']}/{$miss['crimes']}</font>";
             $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>{$usermission['mugs']}/{$miss['mugs']}</font>" : "<font color='green'>{$miss['mugs']}/{$miss['mugs']}</font>";

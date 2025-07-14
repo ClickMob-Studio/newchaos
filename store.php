@@ -41,10 +41,9 @@ include 'header.php';
         }
 
 
-        $db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 14");
+        $db->query("SELECT * FROM `limited_store_pack` WHERE `id` = 15 LIMIT 1");
         $db->execute();
-        $limitedPack = $db->fetch_row();
-        $limitedPack = $limitedPack[0];
+        $limitedPack = $db->fetch_row(true);
 
         $db->query("SELECT `itemname` FROM `items` WHERE id = " . $limitedPack['item_id']);
         $db->execute();
@@ -540,6 +539,28 @@ include 'header.php';
                 }
             }
 
+            if ($_GET['buy'] == "10raidpass") {
+                if ($user_class->credits >= 50) {
+                    $current = $user_class->credits;
+                    $newcredit = $user_class->credits -= 50;
+                    $db->query("INSERT INTO pack_logs (userid, pack, credits_before, credits_now) VALUES (" . $user_class->id . ", '10 x Raid Pass', " . $current . ", " . $newcredit . ")");
+                    $db->execute();
+                    $db->query("UPDATE grpgusers SET credits = credits - 50 WHERE id = ?");
+                    $db->execute(array(
+                        $user_class->id
+                    ));
+
+                    Give_Item(251, $user_class->id, 10);
+
+                    Send_Event(1034, $user_class->formattedname . " bought 10 x Raid Pass");
+                    Send_Event(1059, $user_class->formattedname . " bought 10 x Raid Pass");
+
+                    echo Message("You spent 50 credits for 10 x Raid Pass.");
+                } else {
+                    echo Message("You don't have enough credits. You can buy some at the upgrade store.");
+                }
+            }
+
             if ($_GET['buy'] == "1doublegym") {
                 if ($user_class->credits >= 200) {
                     $current = $user_class->credits;
@@ -812,30 +833,26 @@ include 'header.php';
                 }
 
                 if ($limitedPack['times_purchased'] >= $limitedPack['available']) {
-                    echo diefun("This pack is no longer available. You can buy some at the upgrade store.");
+                    echo diefun("This pack is no longer available.");
                 }
 
                 if ($limitedStorePackPurchase['purchases'] >= $limitedPack['per_person_limit']) {
-                    echo diefun("You have purchased the max amount of packs. You can buy some at the upgrade store.");
+                    echo diefun("You have purchased the max amount of packs.");
                 }
 
                 $db->query("UPDATE grpgusers SET credits = credits - " . $limitedPack['gold_cost'] . " WHERE id = ?");
-                $db->execute(array(
-                    $user_class->id
-                ));
+                $db->execute([$user_class->id]);
 
                 $db->query("UPDATE limited_store_pack SET times_purchased = times_purchased + 1 WHERE id = ?");
-                $db->execute(array(
-                    $limitedPack['id']
-                ));
+                $db->execute([$limitedPack['id']]);
 
                 Give_Item($limitedPack['item_id'], $user_class->id, $limitedPack['item_quantity']);
                 addLimitedStorePackPurchase($user_class, $limitedPack['id']);
                 Send_Event($user_class->id, "You have been credited with your " . $limitedPack['name'] . ". You can find it <a href='inventory.php'><font color=red><b>[Here]</b></font></a>", $user_class->id);
-                $db->execute(array());
+                $db->execute();
 
-                Send_Event(1, $user_class->formattedname . " bought " . $limitedPack['name']);
-                Send_Event(2, $user_class->formattedname . " bought " . $limitedPack['name']);
+                Send_Event(1034, $user_class->formattedname . " bought " . $limitedPack['name']);
+                Send_Event(1059, $user_class->formattedname . " bought " . $limitedPack['name']);
 
                 echo Message("You spent " . $limitedPack['gold_cost'] . " GOLD for a " . $limitedPack['name']);
             }
@@ -1147,6 +1164,22 @@ include 'header.php';
                             <br /><br />
                         <?php endif; ?>
 
+                        <?php if ($limitedPack['id'] == 15): ?>
+                            <p>Pack Contains:</p>
+                            <ul>
+                                <li>500,000 Points</li>
+                                <li>$260,000,000</li>
+                                <li>10 x <?= item_popup('Mission Pass', 277) ?></li>
+                                <li>5 x <?= item_popup('Ghost Vacuum', 284) ?></li>
+                                <li>5 x <?= item_popup('Double EXP Pill', 10) ?></li>
+                                <li>5 x <?= item_popup('Crime Boosters', 255) ?></li>
+                                <li>2 x <?= item_popup('Nerve Vial', 256) ?></li>
+                                <li>2 x <?= item_popup('Protein Bar', 279) ?></li>
+                            </ul>
+                            <em>Real value more than 1.000 gold!</em>
+                            <br /><br />
+                        <?php endif; ?>
+
                         <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img>
                                 <?php echo $limitedPack['gold_cost'] ?></font>
                         </h4>
@@ -1416,15 +1449,6 @@ include 'header.php';
     <hr>
     <div class="items-upgrades"
         style="display: flex; justify-content: space-around; align-items: stretch; flex-wrap: wrap;">
-        <!-- Building Pass -->
-        <div class="vip-package">
-            <h4 style="color: brown;">5 x Building Pass</h4>
-            <img src="/css/images/2025/building_pass.png" height="100" alt="Building Pass">
-
-            <h4>Purchase now for only<br><a href="store.php?buy=5buildingpass"><button class="gold-button">50 <img
-                            src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
-        </div>
-
         <!-- Mission Pass -->
         <div class="vip-package">
             <h4 style="color: brown;">1 x Mission Pass</h4>
@@ -1477,6 +1501,14 @@ include 'header.php';
             <img src="/css/images/NewGameImages/nerve-vial.png" height="100" alt="Nerve Vial">
 
             <h4>Purchase now for only<br><a href="store.php?buy=1nervevial"><button class="gold-button">50 <img
+                            src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
+        </div>
+
+        <div class="vip-package">
+            <h4 style="color: brown;">10 x Raid Passes</h4>
+            <img src="/css/images/NewGameImages/raid-pass.png" height="100" alt="Raid Pass">
+
+            <h4>Purchase now for only<br><a href="store.php?buy=10raidpass"><button class="gold-button">50 <img
                             src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
     </div>

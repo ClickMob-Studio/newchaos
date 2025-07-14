@@ -338,7 +338,6 @@ foreach ($raids as $raid) {
             $total_min_raidpoints = 0;  // New
             $total_max_raidpoints = 0;  // New
 
-
             foreach ($loot_table as $loot) {
                 $total_min_points += $loot['min_points'];
                 $total_max_points += $loot['max_points'];
@@ -378,12 +377,15 @@ foreach ($raids as $raid) {
             // Determine items from the loot table
             $items_won = []; // Store the names of items won
             $pet_items_won = []; // Store the names of items won
+
+            $raid_boost_statues = Check_Item(357, $participant['user_id']);
+
             if (!empty($loot_table)) {
                 foreach ($loot_table as $loot) {
-                    $random_chance = rand(0, 100); // Generate a number between 0 and 100
+                    $random_chance = rand(0, 100 - $raid_boost_statues); // Generate a number between 0 and 100
 
                     if ($raid['used_booster']) {
-                        $random_chance = rand(0, 80);
+                        $random_chance = rand(0, 80 - $raid_boost_statues);
                     }
 
                     if ($random_chance <= ($loot['drop_rate'] * 100)) {

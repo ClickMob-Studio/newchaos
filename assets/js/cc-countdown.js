@@ -2,19 +2,42 @@
 // Handles countdowns for events in the header
 
 function formatDuration(seconds) {
-    const w = Math.floor(seconds / (7 * 24 * 3600));
-    const d = Math.floor((seconds % (7 * 24 * 3600)) / (24 * 3600));
-    const h = Math.floor((seconds % (24 * 3600)) / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
-    const s = Math.floor(seconds % 60);
-
     const parts = [];
 
-    if (w > 0) parts.push(`${w} week${w !== 1 ? 's' : ''}`);
-    if (d > 0) parts.push(`${d} day${d !== 1 ? 's' : ''}`);
-    if (h > 0) parts.push(`${h} hour${h !== 1 ? 's' : ''}`);
-    if (m > 0) parts.push(`${m} minute${m !== 1 ? 's' : ''}`);
-    if (s > 0 || parts.length === 0) parts.push(`${s} second${s !== 1 ? 's' : ''}`);
+    const SECONDS_IN_YEAR = 365 * 24 * 3600;
+    const SECONDS_IN_MONTH = 30 * 24 * 3600;
+    const SECONDS_IN_WEEK = 7 * 24 * 3600;
+    const SECONDS_IN_DAY = 24 * 3600;
+    const SECONDS_IN_HOUR = 3600;
+    const SECONDS_IN_MINUTE = 60;
+
+    const y = Math.floor(seconds / SECONDS_IN_YEAR);
+    seconds -= y * SECONDS_IN_YEAR;
+
+    const mo = Math.floor(seconds / SECONDS_IN_MONTH);
+    seconds -= mo * SECONDS_IN_MONTH;
+
+    const w = Math.floor(seconds / SECONDS_IN_WEEK);
+    seconds -= w * SECONDS_IN_WEEK;
+
+    const d = Math.floor(seconds / SECONDS_IN_DAY);
+    seconds -= d * SECONDS_IN_DAY;
+
+    const h = Math.floor(seconds / SECONDS_IN_HOUR);
+    seconds -= h * SECONDS_IN_HOUR;
+
+    const m = Math.floor(seconds / SECONDS_IN_MINUTE);
+    seconds -= m * SECONDS_IN_MINUTE;
+
+    const s = seconds;
+
+    if (y > 0) parts.push(`${y} y`);
+    if (y > 0 || mo > 0) parts.push(`${mo} mo`);
+    if (y > 0 || mo > 0 || w > 0) parts.push(`${w} w`);
+    if (y > 0 || mo > 0 || w > 0 || d > 0) parts.push(`${d} d`);
+    if (y > 0 || mo > 0 || w > 0 || d > 0 || h > 0) parts.push(`${h} h`);
+    if (y > 0 || mo > 0 || w > 0 || d > 0 || h > 0 || m > 0) parts.push(`${m.toString().padStart(2, '0')} m`);
+    parts.push(`${s.toString().padStart(2, '0')} s`);
 
     return parts.join(', ');
 }
@@ -28,7 +51,7 @@ function updateCountdowns() {
 
         countdownEl.textContent = remaining > 0
             ? formatDuration(remaining)
-            : "0 seconds";
+            : " - ended";
     });
 }
 

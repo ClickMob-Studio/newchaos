@@ -53,7 +53,8 @@ if (isset($_POST['msg'])) {
         <tbody>
             <tr>
                 <td class="text-center" style="width:150px;">
-                    <img src="<?php echo $avatar; ?>" class="img-fluid rounded-circle" style="width: 150px; height: 150px;">
+                    <img src="<?php echo $avatar; ?>" class="img-fluid rounded-circle"
+                        style="width: 150px; height: 150px; margin-bottom: 6px;">
                     <br><?php echo $user_class->formattedname; ?>
                 </td>
                 <td style="padding:10px;">

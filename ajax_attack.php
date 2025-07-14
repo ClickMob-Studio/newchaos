@@ -134,7 +134,6 @@ if (isset($_GET['thrones']) && $_GET['thrones'] == 'attack') {
 if ($user_class->id != 0) {
     $error = "";
     $error = ($user_class->energy < $energyneeded) ? "You need 25% energy if you want to attack someone." : $error;
-    //$error = ($user_class->energypercent <= 0) ? "You need 25% energy if you want to attack someone." : $error;
     $error = ($user_class->hppercent < 25) ? "You need to have over 25% HP to attack someone." : $error;
     $error = ($user_class->hospital > 0) ? "You can't attack someone if you are in hospital." : $error;
     $error = ($_GET['attack'] == "") ? "You didn't choose someone to attack." : $error;

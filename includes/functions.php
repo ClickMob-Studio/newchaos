@@ -150,35 +150,39 @@ function secondsToTime($seconds)
     $dtF = new DateTime('@0');
     $dtT = new DateTime("@$seconds");
     $interval = $dtF->diff($dtT);
-
-    $totalDays = (int) $interval->format('%a');
-    $weeks = floor($totalDays / 7);
-    $days = $totalDays % 7;
-
-    $hours = (int) $interval->format('%h');
-    $minutes = (int) $interval->format('%i');
-    $seconds = (int) $interval->format('%s');
-
     $parts = [];
 
-    if ($weeks > 0) {
-        $parts[] = $weeks . ' week' . ($weeks !== 1 ? 's' : '');
-    }
-    if ($days > 0) {
-        $parts[] = $days . ' day' . ($days !== 1 ? 's' : '');
-    }
-    if ($hours > 0) {
-        $parts[] = $hours . ' hour' . ($hours !== 1 ? 's' : '');
-    }
-    if ($minutes > 0) {
-        $parts[] = $minutes . ' minute' . ($minutes !== 1 ? 's' : '');
-    }
-    if ($seconds > 0 || empty($parts)) {
-        $parts[] = $seconds . ' second' . ($seconds !== 1 ? 's' : '');
+    if ($interval->y > 0) {
+        $parts[] = $interval->y . ' y';
     }
 
-    $last = array_pop($parts);
-    return empty($parts) ? $last : implode(', ', $parts) . ', ' . $last;
+    if ($interval->y > 0 || $interval->m > 0) {
+        $parts[] = $interval->m . ' mo';
+    }
+
+    // Convert leftover days into weeks and days
+    $weeks = floor($interval->d / 7);
+    $days = $interval->d % 7;
+
+    if ($interval->y > 0 || $interval->m > 0 || $weeks > 0) {
+        $parts[] = $weeks . ' w';
+    }
+
+    if ($interval->y > 0 || $interval->m > 0 || $weeks > 0 || $days > 0) {
+        $parts[] = $days . ' d';
+    }
+
+    if ($interval->y > 0 || $interval->m > 0 || $weeks > 0 || $days > 0 || $interval->h > 0) {
+        $parts[] = $interval->h . ' h';
+    }
+
+    if ($interval->y > 0 || $interval->m > 0 || $weeks > 0 || $days > 0 || $interval->h > 0 || $interval->i > 0) {
+        $parts[] = str_pad($interval->i, 2, '0', STR_PAD_LEFT) . ' m';
+    }
+
+    $parts[] = str_pad($interval->s, 2, '0', STR_PAD_LEFT) . ' s';
+
+    return implode(', ', $parts);
 }
 function daysToTime($seconds)
 {
@@ -968,12 +972,12 @@ function formatName($id, $nogang = 0)
             $skull = $db->fetch_single();
 
             if ($skull !== false) {
-                $name .= " <img src='images/skullpres_" . $skull . ".png?v=5' title='Prestige ({$row['prestige']})' height='24' width='24' />";
+                $name .= " <img src='images/skullpres_" . $skull . ".png?v=5' title='Prestige ({$row['prestige']})' height='36' width='36' />";
             } else {
-                $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png?v=5' title='Prestige ({$row['prestige']})'height='24' width='24' />";
+                $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png?v=5' title='Prestige ({$row['prestige']})' height='36' width='36' />";
             }
         } else {
-            $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png?v=5' title='Prestige ({$row['prestige']})' height='24' width='24' />";
+            $name .= " <img src='images/skullpres_" . $row['prestige'] . ".png?v=5' title='Prestige ({$row['prestige']})' height='36' width='36' />";
         }
     }
 
@@ -3031,6 +3035,8 @@ function getDisplayForQuestReq($req, $num, $progress)
         return 'Get Marco at the pharmacy to pay up' . $status;
     } else if ($req === 'follow_salvatore') {
         return 'Follow Salvatore' . $status;
+    } else if ($req === 'interrogate_phil') {
+        return 'Kidnap and interrogate Phil' . $status;
     } else if ($req === 'steal_books') {
         return 'Steal The Books' . $status;
     } else if ($req === 'attack_player') {
@@ -3997,46 +4003,6 @@ function start_session_guarded()
     }
 }
 
-function get_user_mission($uid)
-{
-    global $cache, $db;
-
-    $usermission = $cache->get("userMission_" . $uid);
-    if (empty($usermission) || !$usermission) {
-        $query = $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no' LIMIT 1");
-        $db->execute([$uid]);
-        $usermission = $db->fetch_row(true);
-
-        if (!empty($usermission)) {
-            $cache->setEx("userMission_" . $uid, 5, json_encode($usermission));
-        }
-    } else {
-        $usermission = json_decode($usermission, true);
-    }
-
-    return $usermission;
-}
-
-function get_mission($id)
-{
-    global $db, $cache;
-
-    $mission = $cache->get("mission_" . $id);
-    if (!empty($mission) && $mission) {
-        return json_decode($mission, true);
-    }
-
-    $db->query("SELECT * FROM mission WHERE id = ?");
-    $db->execute([$id]);
-    $mission = $db->fetch_row(true);
-    if (!empty($mission)) {
-        $cache->setEx("mission_" . $id, 7200, json_encode($mission));
-        return $mission;
-    }
-
-    return null;
-}
-
 function get_missions_by_category($category)
 {
     global $db, $cache;
@@ -4095,6 +4061,125 @@ function get_operation($id)
     }
 
     return null;
+}
+
+function get_user_mission($uid)
+{
+    global $redis, $db;
+
+    $usermission = $redis->get("userMission_" . $uid);
+    if (empty($usermission) || !$usermission) {
+        $query = $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no'");
+        $db->execute([$uid]);
+        $usermission = $db->fetch_row(true);
+
+        if (!empty($usermission)) {
+            $redis->setEx("userMission_" . $uid, 5, json_encode($usermission));
+        }
+    } else {
+        $usermission = json_decode($usermission, true);
+    }
+
+    return $usermission;
+}
+
+function get_mission($id)
+{
+    global $db, $redis;
+
+    $mission = $redis->get("mission_" . $id);
+    if (!empty($mission) && $mission) {
+        return json_decode($mission, true);
+    }
+
+    $db->query("SELECT * FROM mission WHERE id = ?");
+    $db->execute([$id]);
+    $mission = $db->fetch_row(true);
+    if (!empty($mission)) {
+        $redis->setEx("mission_" . $id, 3600, json_encode($mission));
+        return $mission;
+    }
+
+    return null;
+}
+
+function getAllScheduledEvents()
+{
+    global $db, $redis;
+
+    $now = time();
+    if ($redis->exists("all_scheduled_events")) {
+        $events = json_decode($redis->get("all_scheduled_events"), true);
+        return $events;
+    }
+
+    $db->query("SELECT * FROM scheduledevents WHERE start <= ? AND end >= ?");
+    $db->execute([$now, $now]);
+    $events = $db->fetch_row();
+    if ($events) {
+        $redis->setEx("all_scheduled_events", 900, json_encode($events));
+        return $events;
+    }
+
+    return null;
+}
+
+function isIPBanned($ip)
+{
+    global $db, $redis;
+
+    if ($redis->exists('ipbans')) {
+        $bannedIps = json_decode($redis->get('ipbans'));
+    } else {
+        $db->query("SELECT ip FROM ipbans");
+        $db->execute();
+        $bannedIps = $db->fetch_row();
+        $bannedIps = array_map(function ($row) {
+            return $row['ip'];
+        }, $bannedIps);
+        $redis->setEx('ipbans', 3600, json_encode($bannedIps));
+    }
+
+    return in_array($ip, $bannedIps);
+}
+
+function getEventsMessage()
+{
+    $events = getAllScheduledEvents();
+    if (empty($events)) {
+        return null;
+    }
+
+    $now = time();
+    $message = "";
+    foreach ($events as $event) {
+        $timeleft = secondsToTime($event['end'] - $now);
+        $message .= "<div class='event-countdown' data-end='{$event['end']}'>" . _eventMessageByType($event['type'], $event['multiplier'], $timeleft) . "</div>";
+    }
+
+    return $message;
+}
+
+function _eventMessageByType($type, $multiplier, $timeleft)
+{
+    switch ($type) {
+        case 'gym':
+            return "Gym event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'crime_exp':
+            return "Crime EXP event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'crime_money':
+            return "Crime money event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'raid':
+            return "Raid event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'mission_exp':
+            return "Mission EXP event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'mission_money':
+            return "Mission money event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        case 'backalley':
+            return "Backalley event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
+        default:
+            return "";
+    }
 }
 
 function get_user_count()

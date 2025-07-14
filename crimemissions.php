@@ -157,7 +157,6 @@ include "header.php";
 
 </div>";
         } else {
-
             $currenttime = time();
             foreach ($missions as $v) {
                 $secondButton = "";
