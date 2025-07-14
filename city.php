@@ -279,6 +279,10 @@ if (isset($currentQuestSeason['id'])) {
                     <a href='quest.php?mode=steal_books'>Steal The Books</a><br>
                 <?php endif; ?>
 
+                <?php if (isset($questSeasonMission['requirements']->interrogate_phil)): ?>
+                    <a href='quest.php?mode=interrogate_phil'>Interrogate Phil</a><br>
+                <?php endif; ?>
+
                 <a href='stores.php'>Item Stores</a><br>
                 <a href='pharmacy.php'>General Pharmacy</a><br>
                 <a href='raidpointstore.php'>Raid Point Store</a><br>
