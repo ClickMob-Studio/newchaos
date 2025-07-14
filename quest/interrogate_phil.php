@@ -117,7 +117,7 @@ $actions = array(
 
                     const responseDiv = document.createElement('div');
                     responseDiv.className = 'alert alert-danger';
-                    responseDiv.innerHTML = 'You have failed to intimidate Marco successfully.';
+                    responseDiv.innerHTML = 'You have failed to intimidate Phil successfully.';
                     successMsgSection.appendChild(responseDiv);
                     return;
                 }
