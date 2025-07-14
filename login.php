@@ -19,16 +19,14 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
     $password = sha1($_POST['password']); // Moving to password_hash() recommended
 
     try {
-        $query = "SELECT * FROM grpgusers WHERE loginame = ?";
-        $statement = $db->prepare($query);
-        $statement->execute([$username]);
-        $user = $statement->fetch();
-
-        if ($user) {
-            $banQuery = "SELECT * FROM bans WHERE id = ? AND (type = 'freeze' OR type = 'perm')";
-            $banStatement = $db->prepare($banQuery);
-            $banStatement->execute([$user['id']]);
-            $isBanned = $banStatement->rowCount() > 0;
+        $db->query("SELECT * FROM grpgusers WHERE loginame = ? LIMIT 1");
+        $db->execute([$username]);
+        $user = $db->fetch_row(true);
+        if (isset($user)) {
+            $db->query("SELECT * FROM bans WHERE id = ? AND (type = 'freeze' OR type = 'perm') LIMIT 1");
+            $db->execute([$user['id']]);
+            $ban = $db->fetch_row(true);
+            $isBanned = isset($ban);
 
             $stored_username = strtolower($user['loginame']);
             $given_username = strtolower($username);
@@ -41,12 +39,9 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
 
                     $bytes = openssl_random_pseudo_bytes(16);
                     $randomKey = bin2hex($bytes);
-                    $queryInsertOrUpdate = "INSERT INTO sessions (userid, sessionid) VALUES (?, ?)
-                            ON DUPLICATE KEY UPDATE sessionid = VALUES(sessionid)";
 
-                    $statementInsertOrUpdate = $db->prepare($queryInsertOrUpdate);
+                    perform_query("INSERT INTO sessions (userid, sessionid) VALUES (?, ?) ON DUPLICATE KEY UPDATE sessionid = VALUES(sessionid)", [$user['id'], $randomKey]);
 
-                    $statementInsertOrUpdate->execute([$user['id'], $randomKey]);
                     $_SESSION['token'] = $randomKey;
                     $_SESSION["id"] = $user['id'];
                     header('Location: index.php');
