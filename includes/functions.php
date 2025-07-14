@@ -4107,8 +4107,6 @@ function getAllScheduledEvents()
 {
     global $db, $redis;
 
-    $redis->del("all_scheduled_events");
-
     $now = time();
     if ($redis->exists("all_scheduled_events")) {
         $events = json_decode($redis->get("all_scheduled_events"), true);
