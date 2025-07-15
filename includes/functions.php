@@ -2953,7 +2953,7 @@ function getCurrentQuestSeasonForUser($userId)
         $questSeasonId = 1;
     }
 
-    if ($userId == 2) {
+    if ($userId == 1059) {
         $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " LIMIT 1");
     } else {
         $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " AND is_active > 0 LIMIT 1");
