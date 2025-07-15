@@ -1,13 +1,28 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
+error_reporting(E_ERROR | E_PARSE);
+
+// Polyfill for getallheaders for non-Apache or CGI environments
+if (!function_exists('getallheaders')) {
+    function getallheaders()
+    {
+        $headers = [];
+        foreach ($_SERVER as $name => $value) {
+            if (substr($name, 0, 5) == 'HTTP_') {
+                $header = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))));
+                $headers[$header] = $value;
+            }
+        }
+        return $headers;
+    }
+}
 
 $secret = 'zJE2vuHYVLhK5Uk2HlUdg4ZLCop2hzp3';
 
 $payload = file_get_contents('php://input');
-$headers = getallheaders();
-$signature = $headers['X-Hub-Signature'] ?? '';
+$headers = array_change_key_case(getallheaders(), CASE_LOWER);
+$signature = isset($headers['x-hub-signature']) ? $headers['x-hub-signature'] : '';
 
 $hash = 'sha1=' . hash_hmac('sha1', $payload, $secret);
 if (!hash_equals($hash, $signature)) {
@@ -15,17 +30,16 @@ if (!hash_equals($hash, $signature)) {
     exit('File not found.');
 }
 
-// Parse event type and branch (optional)
-$event = $headers['X-GitHub-Event'] ?? '';
+// Parse event type and branch (no null coalescing)
+$event = isset($headers['x-github-event']) ? $headers['x-github-event'] : '';
 $data = json_decode($payload, true);
-$branch = $data['ref'] ?? '';
+$branch = isset($data['ref']) ? $data['ref'] : '';
 if ($event !== 'push' || $branch !== 'refs/heads/main') {
     exit('File not found.');
 }
 
 /**
  * GIT DEPLOYMENT SCRIPT
- *
  */
 // The commands
 $commands = array(
@@ -47,9 +61,9 @@ foreach ($commands as $command) {
     $output .= "<span style=\"color: #6BE234;\">$</span> <span style=\"color: #729FCF;\">{$command}\n</span>";
     $output .= htmlentities(trim($tmp)) . "\n";
 }
+
 $outp = shell_exec('composer update');
 echo $outp;
-
 ?>
 <!DOCTYPE HTML>
 <html lang="en-US">
@@ -70,3 +84,5 @@ echo $outp;
 <?php echo $output; ?>
 </pre>
 </body>
+
+</html>
