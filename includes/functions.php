@@ -3087,7 +3087,7 @@ function getDisplayForQuestReq($req, $num, $progress)
     } else if ($req === 'interrogate_phil') {
         return 'Kidnap and interrogate Phil' . $status;
     } else if ($req === 'steal_books') {
-        return 'Steal The Books' . $status;
+        return 'Steal the books' . $status;
     } else if ($req === 'attack_player') {
         return 'Attack Player: ' . formatName($num) . $status;
     } else if ($req === 'whitecollar_fraud') {
