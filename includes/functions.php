@@ -3091,9 +3091,9 @@ function getDisplayForQuestReq($req, $num, $progress)
     } else if ($req === 'attack_player') {
         return 'Attack Player: ' . formatName($num) . $status;
     } else if ($req === 'whitecollar_fraud') {
-        return 'Whitecollar Fraud';
+        return 'Whitecollar Fraud' . $status;
     } else if ($req === 'mastermind_ops') {
-        return 'Mastermind Operations';
+        return 'Mastermind Operations' . $status;
     } else if ($req === 'crime_cash') {
         if (isset($progress[$req])) {
             return 'Cash from crimes: $' . number_format($progress[$req]) . '/$' . number_format($num) . $status;
