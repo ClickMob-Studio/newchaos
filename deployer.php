@@ -2,8 +2,25 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-if ($_GET['accept'] !== 'true') {
-    exit;
+
+$secret = 'zJE2vuHYVLhK5Uk2HlUdg4ZLCop2hzp3';
+
+$payload = file_get_contents('php://input');
+$headers = getallheaders();
+$signature = $headers['X-Hub-Signature'] ?? '';
+
+$hash = 'sha1=' . hash_hmac('sha1', $payload, $secret);
+if (!hash_equals($hash, $signature)) {
+    http_response_code(403);
+    exit('File not found.');
+}
+
+// Parse event type and branch (optional)
+$event = $headers['X-GitHub-Event'] ?? '';
+$data = json_decode($payload, true);
+$branch = $data['ref'] ?? '';
+if ($event !== 'push' || $branch !== 'refs/heads/main') {
+    exit('File not found.');
 }
 
 /**
@@ -22,29 +39,28 @@ $commands = array(
     'git submodule status',
     'php ./vendor/bin/doctrine-migrations migrate --no-interaction',
 );
+
 // Run the commands for output
 $output = '';
 foreach ($commands as $command) {
-    // Run it
     $tmp = exec($command);
-    // Output
     $output .= "<span style=\"color: #6BE234;\">$</span> <span style=\"color: #729FCF;\">{$command}\n</span>";
     $output .= htmlentities(trim($tmp)) . "\n";
 }
 $outp = shell_exec('composer update');
 echo $outp;
 
-
-// Make it pretty for manual user access (and why not?)
 ?>
 <!DOCTYPE HTML>
 <html lang="en-US">
+
 <head>
     <meta charset="UTF-8">
     <title>GIT DEPLOYMENT SCRIPT</title>
 </head>
+
 <body style="background-color: #000000; color: #FFFFFF; font-weight: bold; padding: 0 10px;">
-<pre>
+    <pre>
  ____________________________
 |                            |
 | Git Deployment Script v0.1 |
