@@ -3101,7 +3101,7 @@ function getDisplayForQuestReq($req, $num, $progress)
         return 'Cash from crimes: $0/$' . number_format($num) . $status;
     } else if ($req === 'backalley') {
         if (isset($progress[$req])) {
-            return 'Backalley Searches: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
+            return 'Backalley searches: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
         }
         return 'Backalley Searches: 0/' . number_format($num) . $status;
     } else if ($req === 'raids') {
@@ -3111,7 +3111,7 @@ function getDisplayForQuestReq($req, $num, $progress)
         return 'Raids: 0/' . number_format($num) . $status;
     } else if ($req === 'city_goons') {
         if (isset($progress[$req])) {
-            return 'City Goons: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
+            return 'City goons: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
         }
         return 'City Goons: 0/' . number_format($num) . $status;
     } else if ($req === 'busts') {
