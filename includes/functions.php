@@ -3090,6 +3090,8 @@ function getDisplayForQuestReq($req, $num, $progress)
         return 'Steal The Books' . $status;
     } else if ($req === 'attack_player') {
         return 'Attack Player: ' . formatName($num) . $status;
+    } else if ($req === 'whitecollar_fraud') {
+        return 'Whitecollar Fraud';
     } else if ($req === 'crime_cash') {
         if (isset($progress[$req])) {
             return 'Cash from crimes: $' . number_format($progress[$req]) . '/$' . number_format($num) . $status;
