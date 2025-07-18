@@ -3077,7 +3077,11 @@ function getQuestSeasonMission($userId, $questSeasonId)
 
 function getDisplayForQuestReq($req, $num, $progress)
 {
-    $progress = json_decode($progress, true);
+    if (is_string($progress)) {
+        $progress = json_decode($progress, true);
+    } else {
+        $progress = (array) $progress;
+    }
 
     if (isset($progress[$req]) && $progress[$req] >= $num) {
         $status = ' <span style="color: green;">(Complete)</span>';
