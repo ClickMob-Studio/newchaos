@@ -152,10 +152,10 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 log_error("PROGRESS VALUE: " . var_export($progressValue, true));
 
                 if ($requirementSet && $progressValue !== null && $progressValue < 10) {
+                    log_error('REACHED FULFILLMENT FOR COMPLETING PAPERTRAIL CRIME');
                     $exp = ceil($user_class->maxexp / 4);
                     updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'whitecollar_fraud', 1);
                     $crime_multiplier = 1;
-                    log_error('REACHED FULFILLMENT FOR COMPLETING PAPERTRAIL CRIME');
                     log_error('EXP: ' . $exp . ' - ' . 'Multiplier: ' . $crime_multiplier);
                 } else {
                     log_error('REACHED WE DIDNT FULFILL REQUIREMENT FOR PAPERTRAIL CRIME');
