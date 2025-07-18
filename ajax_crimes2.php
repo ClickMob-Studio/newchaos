@@ -132,43 +132,24 @@ if (isset($_POST['id']) || isset($input['id'])) {
     if ($id == 51 && $tempItemUse['ghost_vacuum_time'] > time()) {
         $exp = ceil($user_class->maxexp / 5000);
     } else if ($id == 52) {
-        try {
-            log_error('REACHED CRIMES ID 52');
-            $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
-            if (isset($currentQuestSeason['id'])) {
-                log_error('REACHED CURRENT QUEST SEASON ID SET TO ' . $currentQuestSeason['id']);
-                $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
-                $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
-                $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+        $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
+        if (isset($currentQuestSeason['id'])) {
+            $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+            $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
+            $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
-                log_error('DUMP: ' . print_r($questSeasonMissionUser, true));
-                log_error('DUMP: ' . print_r($questSeasonMission, true));
+            $progressValue = isset($progressObject->whitecollar_fraud) ? (int) $progressObject->whitecollar_fraud : null;
 
-                $requirementSet = isset($questSeasonMission['requirements']->whitecollar_fraud);
-                $progressObject = $questSeasonMissionUser['progress'];
-                $progressValue = isset($progressObject->whitecollar_fraud) ? (int) $progressObject->whitecollar_fraud : null;
-
-                log_error("REQ SET? " . ($requirementSet ? 'yes' : 'no'));
-                log_error("PROGRESS VALUE: " . var_export($progressValue, true));
-
-                if ($requirementSet && $progressValue !== null && $progressValue < 10) {
-                    log_error('REACHED FULFILLMENT FOR COMPLETING PAPERTRAIL CRIME');
-                    $exp = ceil($user_class->maxexp / 4);
-                    updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'whitecollar_fraud', 1);
-                    $crime_multiplier = 1;
-                    log_error('EXP: ' . $exp . ' - ' . 'Multiplier: ' . $crime_multiplier);
-                } else {
-                    log_error('REACHED WE DIDNT FULFILL REQUIREMENT FOR PAPERTRAIL CRIME');
-                    echo json_encode(array(
-                        'error' => 'cannot perform the crime at this time.'
-                    ));
-                    die();
-                }
+            if (isset($questSeasonMission['requirements']->whitecollar_fraud) && $questSeasonMissionUser['progress'] && $progressValue < 100) {
+                $exp = ceil($user_class->maxexp / 400);
+                updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'whitecollar_fraud', 1);
+                $crime_multiplier = 1;
+            } else {
+                echo json_encode(array(
+                    'error' => 'cannot perform the crime at this time.'
+                ));
+                die();
             }
-        } catch (Throwable $e) {
-            log_error('EXCEPTION: ' . $e->getMessage());
-            echo json_encode(['error' => 'internal error']);
-            exit;
         }
     } else {
         $exp = ((10 * $nerve) + 8 * ($nerve - 1)) * 1.0;
@@ -614,20 +595,3 @@ if (isset($_POST['id']) || isset($input['id'])) {
     }
 }
 $db = null;
-
-
-function log_error($message)
-{
-    $logPath = __DIR__ . "/ajax_crimes.log"; // Adjust path as needed
-
-    // Add timestamp and ensure newline
-    $entry = "[" . date('Y-m-d H:i:s') . "] " . $message . "\n";
-
-    // Create directory if it doesn't exist
-    if (!is_dir(dirname($logPath))) {
-        mkdir(dirname($logPath), 0755, true);
-    }
-
-    // Append to file
-    file_put_contents($logPath, $entry, FILE_APPEND);
-}
