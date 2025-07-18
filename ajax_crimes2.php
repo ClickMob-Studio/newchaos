@@ -138,8 +138,9 @@ if (isset($_POST['id']) || isset($input['id'])) {
             $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
             $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
-            $progressValue = isset($progressObject->whitecollar_fraud) ? (int) $progressObject->whitecollar_fraud : null;
+            $progressValue = isset($questSeasonMissionUser['progress']) ? (int) $questSeasonMissionUser['progress'] : null;
 
+            log_error("Progress: " . $progress);
             if (isset($questSeasonMission['requirements']->whitecollar_fraud) && $questSeasonMissionUser['progress'] && $progressValue < 100) {
                 $exp = ceil($user_class->maxexp / 25);
                 updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'whitecollar_fraud', 1);
@@ -595,3 +596,19 @@ if (isset($_POST['id']) || isset($input['id'])) {
     }
 }
 $db = null;
+
+function log_error($message)
+{
+    $logPath = __DIR__ . "ajax_crimes.log"; // Adjust path as needed
+
+    // Add timestamp and ensure newline
+    $entry = "[" . date('Y-m-d H:i:s') . "] " . $message . "\n";
+
+    // Create directory if it doesn't exist
+    if (!is_dir(dirname($logPath))) {
+        mkdir(dirname($logPath), 0755, true);
+    }
+
+    // Append to file
+    file_put_contents($logPath, $entry, FILE_APPEND);
+}
