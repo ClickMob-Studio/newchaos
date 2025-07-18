@@ -143,11 +143,15 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
                 log_error('DUMP: ' . print_r($questSeasonMissionUser, true));
                 log_error('DUMP: ' . print_r($questSeasonMission, true));
-                if (
-                    isset($questSeasonMission['requirements']->whitecollar_fraud) &&
-                    isset($questSeasonMissionUser['progress']->whitecollar_fraud) &&
-                    (int) $questSeasonMissionUser['progress']->whitecollar_fraud < 10
-                ) {
+
+                $requirementSet = isset($questSeasonMission['requirements']->whitecollar_fraud);
+                $progressObject = $questSeasonMissionUser['progress'];
+                $progressValue = isset($progressObject->whitecollar_fraud) ? (int) $progressObject->whitecollar_fraud : null;
+
+                log_error("REQ SET? " . ($requirementSet ? 'yes' : 'no'));
+                log_error("PROGRESS VALUE: " . var_export($progressValue, true));
+
+                if ($requirementSet && $progressValue !== null && $progressValue < 10) {
                     $exp = ceil($user_class->maxexp / 4);
                     updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'whitecollar_fraud', 1);
                     $crime_multiplier = 1;
