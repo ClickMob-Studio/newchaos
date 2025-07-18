@@ -41,7 +41,7 @@ if (isset($currentQuestSeason['id'])) {
     if ($user_class->admin) {
         print ("<b>Hey</b>");
     }
-    if (isset($questSeasonMission['requirements']->whitecollar_fraud) && (int) $questSeasonMissionUser['whitecollar_fraud'] < 10) {
+    if (!isset($questSeasonMission['requirements']->whitecollar_fraud) || (int) $questSeasonMissionUser['whitecollar_fraud'] >= 10) {
         if ($user_class->admin) {
             print ("<b>there</b>");
         }
