@@ -3145,7 +3145,7 @@ function updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $req, $va
         if (is_string($questSeasonMissionUser['progress'])) {
             $progress = json_decode($questSeasonMissionUser['progress'], true);
         } else {
-            $progress = $questSeasonMissionUser['progress'];
+            $progress = (array) $questSeasonMissionUser['progress'];
         }
 
         if (!is_array($progress)) {
