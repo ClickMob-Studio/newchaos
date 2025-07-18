@@ -3148,11 +3148,11 @@ function updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $req, $va
             $progress = $questSeasonMissionUser['progress'];
         }
 
-        foreach ($progress as $key => $r) {
-            if ($key === $req) {
-                $progress[$key] = $progress[$key] + $value;
-            }
+        if (!is_array($progress)) {
+            $progress = [];
         }
+
+        $progress[$req] = isset($progress[$req]) ? (int) $progress[$req] + $value : (int) $value;
         $questSeasonMissionUser['progress'] = $progress;
 
         $requirements = json_decode($questSeasonMission['requirements']);
