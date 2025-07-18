@@ -33,9 +33,9 @@ if (isset($data['user_id'])) {
 include "classes.php";
 include "database/pdo_class.php";
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
 if (isset($_GET['au_user_or']) && (int) $_GET['au_user_or']) {
     $user_class = new User((int) $_GET['au_user_or']);
