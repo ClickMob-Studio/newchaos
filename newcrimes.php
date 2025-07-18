@@ -322,7 +322,6 @@ if (isset($_GET['ner'])) {
             $('.stat-bar').eq(3).width(res.bars.awake.percent + '%')
             $('.expbar').width(res.bars.exp.percent + '%')
         });
-
     }
 
 
