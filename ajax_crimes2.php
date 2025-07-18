@@ -148,7 +148,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 $progressValue !== null &&
                 $progressValue < 100
             ) {
-                $exp = ceil($user_class->maxexp / 25);
+                $exp = ceil($user_class->maxexp / 200);
                 updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'whitecollar_fraud', 1);
                 $crime_multiplier = 1;
             } else {
