@@ -138,10 +138,16 @@ if (isset($_POST['id']) || isset($input['id'])) {
             $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
             $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
-            $progressValue = isset($questSeasonMissionUser['progress']) ? (int) $questSeasonMissionUser['progress'] : null;
+            $progressValue = isset($questSeasonMissionUser['progress']->whitecollar_fraud)
+                ? (int) $questSeasonMissionUser['progress']->whitecollar_fraud
+                : null;
 
             log_error("Progress: " . $progress);
-            if (isset($questSeasonMission['requirements']->whitecollar_fraud) && $questSeasonMissionUser['progress'] && $progressValue < 100) {
+            if (
+                isset($questSeasonMission['requirements']->whitecollar_fraud) &&
+                $progressValue !== null &&
+                $progressValue < 100
+            ) {
                 $exp = ceil($user_class->maxexp / 25);
                 updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'whitecollar_fraud', 1);
                 $crime_multiplier = 1;
