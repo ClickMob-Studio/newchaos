@@ -183,8 +183,6 @@ if (isset($_POST['direction'])) {
     //echo $description . "</p>";
 
 
-
-
     // Display remaining turns
     //echo "You have " . $user_class->cityturns . " turns left to search the streets.</p>";
 
@@ -214,6 +212,19 @@ if (isset($_POST['direction'])) {
         $response['jailCost'] = 0;
     }
 
+}
+
+if (!isset($response['jailTime']) && !isset($response['hospitalTime'])) {
+    $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
+    $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+    $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
+    $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+    if (
+        isset($questSeasonMission['requirements']->maze) &&
+        (int) $questSeasonMissionUser['progress']->maze < (int) $questSeasonMission['requirements']->maze
+    ) {
+        updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'maze', 1);
+    }
 }
 
 // Return the response
