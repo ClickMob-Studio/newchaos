@@ -37,11 +37,18 @@ if (isset($currentQuestSeason['id'])) {
     $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
     $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
     $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+
+    if ($user_class->admin) {
+        print ("<b>Hey</b>");
+    }
+    if (isset($questSeasonMission['requirements']->whitecollar_fraud) && (int) $questSeasonMissionUser['whitecollar_fraud'] < 10) {
+        if ($user_class->admin) {
+            print ("<b>there</b>");
+        }
+        $filter_ids[] = 52;
+    }
 }
 
-if (isset($questSeasonMission['requirements']->whitecollar_fraud)) {
-    $filter_ids[] = 52;
-}
 
 $crimes = array_filter($crimes, function ($item) use ($filter_ids) {
     return !in_array((int) $item['id'], $filter_ids);
