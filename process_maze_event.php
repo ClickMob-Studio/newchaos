@@ -214,7 +214,7 @@ if (isset($_POST['direction'])) {
 
 }
 
-if (!isset($response['jailTime']) && !isset($response['hospitalTime'])) {
+if ($response['jailTime'] == 0 && $response['hospitalTime'] == 0) {
     $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
     $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
     $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
