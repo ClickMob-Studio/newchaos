@@ -3093,7 +3093,7 @@ function getDisplayForQuestReq($req, $num, $progress)
     } else if ($req === 'whitecollar_fraud') {
         return 'Whitecollar fraud' . $status;
     } else if ($req === 'mastermind_ops') {
-        return 'Mastermind Operations' . $status;
+        return 'Mastermind operations' . $status;
     } else if ($req === 'crime_cash') {
         if (isset($progress[$req])) {
             return 'Cash from crimes: $' . number_format($progress[$req]) . '/$' . number_format($num) . $status;

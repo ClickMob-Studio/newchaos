@@ -25,11 +25,27 @@ if (empty($crimes)) {
     $crimes = json_decode($crimes, true);
 }
 
+$filter_ids = [];
+
+
 if ($tempItemUse['ghost_vacuum_time'] < time()) {
-    $crimes = array_filter($crimes, function ($item) {
-        return (int) $item['id'] != 51;
-    });
+    $filter_ids[] = 51;
 }
+
+$currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
+if (isset($currentQuestSeason['id'])) {
+    $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+    $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
+    $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+}
+
+if (isset($questSeasonMission['requirements']->whitecollar_fraud)) {
+    $filter_ids[] = 52;
+}
+
+$crimes = array_filter($crimes, function ($item) use ($filter_ids) {
+    return !in_array((int) $item['id'], $filter_ids);
+});
 
 $rows = $crimes;
 ?>
