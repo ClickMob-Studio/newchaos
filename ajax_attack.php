@@ -372,12 +372,8 @@ if ($theirhp <= 0) {
         }
     }
 
-
-
     $city = $user_class->city;
-
     $spots = range(1, 10);
-
     $db->query("SELECT * FROM attackladder");
     $db->execute();
     $attackLadder = $db->fetch_row();
@@ -455,6 +451,20 @@ if ($theirhp <= 0) {
         $moneywon,
         $user_class->id
     ));
+
+    $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
+    if (isset($currentQuestSeason['id'])) {
+        $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+        $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
+        $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+        if (
+            isset($questSeasonMission['requirements']->attacks) &&
+            (int) $questSeasonMissionUser['progress']->attacks < (int) $questSeasonMission['requirements']->attacks
+        ) {
+            updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'attacks', 1);
+        }
+    }
+
     $db->query("UPDATE grpgusers SET money = money - ?, hwho = ?, hhow = 'wasattacked', hwhen = ?, hospital = 120, battlelost = battlelost + 1, delay = delay + 10, battlemoney = battlemoney - ? WHERE id = ?");
     $db->execute(array(
         $moneywon,
