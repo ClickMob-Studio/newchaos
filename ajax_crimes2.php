@@ -132,33 +132,39 @@ if (isset($_POST['id']) || isset($input['id'])) {
     if ($id == 51 && $tempItemUse['ghost_vacuum_time'] > time()) {
         $exp = ceil($user_class->maxexp / 5000);
     } else if ($id == 52) {
-        log_error('REACHED CRIMES ID 52');
-        $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
-        if (isset($currentQuestSeason['id'])) {
-            log_error('REACHED CURRENT QUEST SEASON ID SET TO ' . $currentQuestSeason['id']);
-            $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
-            $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
-            $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+        try {
+            log_error('REACHED CRIMES ID 52');
+            $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
+            if (isset($currentQuestSeason['id'])) {
+                log_error('REACHED CURRENT QUEST SEASON ID SET TO ' . $currentQuestSeason['id']);
+                $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+                $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
+                $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
-            log_error('DUMP: ' . print_r($questSeasonMissionUser, true));
-            log_error('DUMP: ' . print_r($questSeasonMission, true));
-            if (
-                isset($questSeasonMission['requirements']->whitecollar_fraud) &&
-                isset($questSeasonMissionUser['progress']->whitecollar_fraud) &&
-                (int) $questSeasonMissionUser['progress']->whitecollar_fraud < 10
-            ) {
-                $exp = ceil($user_class->maxexp / 4);
-                updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'whitecollar_fraud', 1);
-                $crime_multiplier = 1;
-                log_error('REACHED FULFILLMENT FOR COMPLETING PAPERTRAIL CRIME');
-                log_error('EXP: ' . $exp . ' - ' . 'Multiplier: ' . $crime_multiplier);
-            } else {
-                log_error('REACHED WE DIDNT FULFILL REQUIREMENT FOR PAPERTRAIL CRIME');
-                echo json_encode(array(
-                    'error' => 'cannot perform the crime at this time.'
-                ));
-                die();
+                log_error('DUMP: ' . print_r($questSeasonMissionUser, true));
+                log_error('DUMP: ' . print_r($questSeasonMission, true));
+                if (
+                    isset($questSeasonMission['requirements']->whitecollar_fraud) &&
+                    isset($questSeasonMissionUser['progress']->whitecollar_fraud) &&
+                    (int) $questSeasonMissionUser['progress']->whitecollar_fraud < 10
+                ) {
+                    $exp = ceil($user_class->maxexp / 4);
+                    updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'whitecollar_fraud', 1);
+                    $crime_multiplier = 1;
+                    log_error('REACHED FULFILLMENT FOR COMPLETING PAPERTRAIL CRIME');
+                    log_error('EXP: ' . $exp . ' - ' . 'Multiplier: ' . $crime_multiplier);
+                } else {
+                    log_error('REACHED WE DIDNT FULFILL REQUIREMENT FOR PAPERTRAIL CRIME');
+                    echo json_encode(array(
+                        'error' => 'cannot perform the crime at this time.'
+                    ));
+                    die();
+                }
             }
+        } catch (Throwable $e) {
+            log_error('EXCEPTION: ' . $e->getMessage());
+            echo json_encode(['error' => 'internal error']);
+            exit;
         }
     } else {
         $exp = ((10 * $nerve) + 8 * ($nerve - 1)) * 1.0;
