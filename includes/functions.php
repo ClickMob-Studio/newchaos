@@ -3020,6 +3020,10 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
     $questSeasonMissionUser = $db->fetch_row(true);
 
     if ($questSeasonMissionUser && isset($questSeasonMissionUser['id'])) {
+        if (isset($questSeasonMissionUser['progress'])) {
+            $questSeasonMissionUser['progress'] = json_decode($questSeasonMissionUser['progress']);
+        }
+
         return $questSeasonMissionUser;
     }
 
@@ -3028,6 +3032,10 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
     $questSeasonMissionUser = $db->fetch_row(true);
 
     if ($questSeasonMissionUser && isset($questSeasonMissionUser['id'])) {
+        if (isset($questSeasonMissionUser['progress'])) {
+            $questSeasonMissionUser['progress'] = json_decode($questSeasonMissionUser['progress']);
+        }
+
         return $questSeasonMissionUser;
     }
 
@@ -3049,7 +3057,6 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
 
         return $r;
     }
-
 
     return null;
 }
