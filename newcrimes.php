@@ -38,10 +38,6 @@ if (isset($currentQuestSeason['id'])) {
     $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
     $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
-    if ($user_class->admin > 0) {
-        echo print_r($questSeasonMissionUser);
-    }
-
     if (!isset($questSeasonMission['requirements']->whitecollar_fraud) || (int) $questSeasonMissionUser['progress']->whitecollar_fraud >= 10) {
         $filter_ids[] = 52;
     }
