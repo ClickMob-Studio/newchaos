@@ -131,6 +131,24 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
     if ($id == 51 && $tempItemUse['ghost_vacuum_time'] > time()) {
         $exp = ceil($user_class->maxexp / 5000);
+    } else if ($id == 52) {
+        $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
+        if (isset($currentQuestSeason['id'])) {
+            $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+            $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
+            $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+
+            if (isset($questSeasonMission['requirements']->whitecollar_fraud) && (int) $questSeasonMissionUser['whitecollar_fraud'] < 10) {
+                $exp = ceil($user_class->maxexp / 4);
+                updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'whitecollar_fraud', 1);
+                $crime_multiplier = 1;
+            } else {
+                echo json_encode(array(
+                    'error' => 'cannot perform the crime at this time.'
+                ));
+                die();
+            }
+        }
     } else {
         $exp = ((10 * $nerve) + 8 * ($nerve - 1)) * 1.0;
     }
