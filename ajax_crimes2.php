@@ -141,7 +141,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
             $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
             log_error('DUMP: ' . print_r($questSeasonMissionUser, true));
-            log_error('DUMP: ' . print_r($questSeasonMissionUserUser, true));
+            log_error('DUMP: ' . print_r($questSeasonMission, true));
             if (
                 isset($questSeasonMission['requirements']->whitecollar_fraud) &&
                 isset($questSeasonMissionUser['progress']->whitecollar_fraud) &&
