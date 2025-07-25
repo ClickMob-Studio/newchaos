@@ -790,6 +790,20 @@ if (isset($_GET['use'])) {
                 $response['success'] = true;
                 $response['message'] = "You open your advancement chest and inside find 500,000 points, $250,000,000, 10 x Mission Pass, 5 x Double EXP Pill, 5 x Ghost Vacuum, 5 x Crime Booster, 2 x Nerve Vial and 2 x Protein Bar!";
                 break;
+            case 359:
+                $db->query("UPDATE grpgusers SET points = points + 1000000, money = money + 1000000000 WHERE id = " . $user_class->id);
+                $db->execute();
+
+                Give_Item(277, $user_class->id, 10);
+                Give_Item(10, $user_class->id, 5);
+                Give_Item(324, $user_class->id, 5);
+                Give_Item(322, $user_class->id, 5);
+                Give_Item(283, $user_class->id, 5);
+                Give_Item(285, $user_class->id, 50);
+
+                $response['success'] = true;
+                $response['message'] = "You open Kingpin's Hoard and find 1,000,000 points, $1,000,000,000, 10 x Mission Pass, 5 x Double EXP, 5 x Perfume, 5 x Love Potion, 5 x Gold Rush Token Chest and 50 x Dracula Blood Bag!";
+                break;
             default:
                 $failed = true;
                 $response['message'] = "Item not recognized or cannot be used.";
