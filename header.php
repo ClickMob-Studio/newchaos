@@ -1618,10 +1618,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         <?php
 
                         $time = time();
-                        if ($user_class->news > 0) {
-                            $buffer = str_replace("<!_-news-_!>", "<div class='contenthead floaty'><span style='margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;'><h4 class='notify important'><a href='forum.php?id=1'>You have new game news [<span class='news-count'>$user_class->news</span>]</a></h4></span></div>", $buffer);
-                        }
-
                         if ($user_class->nightvision > 0) {
                             echo '<span style="color:red;">Your currently have ' . $user_class->nightvision . ' minutes of Night Vision left.</span><br />';
                         }
