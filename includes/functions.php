@@ -4120,45 +4120,6 @@ function isIPBanned($ip)
     return in_array($ip, $bannedIps);
 }
 
-function getEventsMessage()
-{
-    $events = getAllScheduledEvents();
-    if (empty($events)) {
-        return null;
-    }
-
-    $now = time();
-    $message = "";
-    foreach ($events as $event) {
-        $timeleft = secondsToTime($event['end'] - $now);
-        $message .= "<div class='event-countdown' data-end='{$event['end']}'>" . _eventMessageByType($event['type'], $event['multiplier'], $timeleft) . "</div>";
-    }
-
-    return $message;
-}
-
-function _eventMessageByType($type, $multiplier, $timeleft)
-{
-    switch ($type) {
-        case 'gym':
-            return "Gym event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
-        case 'crime_exp':
-            return "Crime EXP event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
-        case 'crime_money':
-            return "Crime money event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
-        case 'raid':
-            return "Raid event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
-        case 'mission_exp':
-            return "Mission EXP event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
-        case 'mission_money':
-            return "Mission money event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
-        case 'backalley':
-            return "Backalley event is currently active with a multiplier of <span class='text-warning'>{$multiplier}x</span> for <span class='text-danger countdown-text'>{$timeleft}</span>";
-        default:
-            return "";
-    }
-}
-
 function get_user_count()
 {
     global $db, $cache;
