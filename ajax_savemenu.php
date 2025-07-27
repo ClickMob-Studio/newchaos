@@ -1,8 +1,8 @@
 <?php
 include "ajax_header.php";
 
-$method = filter_input(INPUT_POST, 'method', FILTER_SANITIZE_STRING);
-$data = filter_input(INPUT_POST, 'data', FILTER_SANITIZE_STRING);
+$method = htmlspecialchars($_POST['method'] ?? '', ENT_QUOTES, 'UTF-8');
+$data = htmlspecialchars($_POST['data'] ?? '', ENT_QUOTES, 'UTF-8');
 
 $order = explode(',', $data);
 $orderCount = count($order);

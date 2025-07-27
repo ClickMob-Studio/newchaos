@@ -1,12 +1,12 @@
 <?php
 include 'header.php';
 if (isset($_POST['submit'])) {
-	$oldpass = filter_input(INPUT_POST, 'oldpass', FILTER_SANITIZE_STRING);
+	$oldpass = htmlspecialchars($_POST['oldpass'] ?? '', ENT_QUOTES);
 
 	$opassword = sha1($oldpass);
 	$opassword2 = fuzzehCrypt($opassword);
-	$password = filter_input(INPUT_POST, 'newpass', FILTER_SANITIZE_STRING);
-	$password2 = filter_input(INPUT_POST, 'newpassagain', FILTER_SANITIZE_STRING);
+	$password = htmlspecialchars($_POST['newpass'] ?? '', ENT_QUOTES);
+	$password2 = htmlspecialchars($_POST['newpassagain'] ?? '', ENT_QUOTES);
 	if ($opassword != $user_class->password && $opassword2 != $user_class->password)
 		$message .= "<div>You entered the wrong old password.</div>";
 	if (strlen($password) < 4 or strlen($username) > 20)

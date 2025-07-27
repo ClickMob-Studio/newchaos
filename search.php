@@ -18,8 +18,8 @@ if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
 		<?php
 		if (!isset($_GET['reset'])) {
 			if (isset($_POST['newsearch'])) {
-				$params = filter_input(INPUT_COOKIE, 'searching', FILTER_SANITIZE_STRING);
-				$name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+				$params = htmlspecialchars($_COOKIE['searching'] ?? '', ENT_QUOTES);
+				$name = htmlspecialchars($_POST['name'] ?? '', ENT_QUOTES);
 				perform_query("INSERT INTO searches (userid, params, name) VALUES(?, ?, ?)", [$user_class->id, $params, $name]);
 			}
 			if (empty($_POST['actsearch']) && isset($_COOKIE['searching'])) {

@@ -300,7 +300,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
             return;
         }
 
-        $raid_type = isset($_POST['raid_type']) ? filter_input(INPUT_POST, 'raid_type', FILTER_SANITIZE_STRING) : 'Public';
+        $raid_type = htmlspecialchars($_POST['raid_type'] ?? 'Public', ENT_QUOTES, 'UTF-8');
 
         $tempItemUse = getItemTempUse($user_class->id);
 
@@ -310,7 +310,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['boss_id'], $_POST['di
         $used_pass = (int) $tempItemUse['raid_pass'] > 0 ? 1 : 0;
         removeItemTempUse($user_class->id, 'raid_pass', 1);
 
-        $difficulty = filter_input(INPUT_POST, 'difficulty', FILTER_SANITIZE_STRING);
+        $difficulty = htmlspecialchars($_POST['difficulty'] ?? '', ENT_QUOTES, 'UTF-8');
         perform_query("INSERT INTO active_raids (boss_id, summoned_by, difficulty, raid_type, used_booster, used_pass) VALUES (?, ?, ?, ?, ?, ?)", [
             $boss_id,
             $user_id,

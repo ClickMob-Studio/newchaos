@@ -14,12 +14,12 @@ function errorRedirect($errorMessage)
 }
 
 // Input validation and sanitization
-$username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+$username = htmlspecialchars($_POST['username'] ?? '', ENT_QUOTES, 'UTF-8');
 $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
-$password = $_POST['pass']; // Consider further validating and sanitizing
-$conpass = $_POST['conpass'];
-$gender = $_POST['gender']; // Ensure this is one of the expected values
-$cap = $_POST['cap'];
+$password = htmlspecialchars($_POST['pass'] ?? '', ENT_QUOTES, 'UTF-8');
+$conpass = htmlspecialchars($_POST['conpass'] ?? '', ENT_QUOTES, 'UTF-8');
+$gender = htmlspecialchars($_POST['gender'] ?? '', ENT_QUOTES, 'UTF-8'); // Ensure this is one of the expected values
+$cap = htmlspecialchars($_POST['cap'] ?? '', ENT_QUOTES, 'UTF-8');
 
 if ($cap != $_SESSION['cap']) {
     errorRedirect("Invalid Captcha.");

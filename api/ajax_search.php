@@ -120,7 +120,7 @@ try {
             $search['id'] = abs((int) $_POST['id']);
         }
         if (isset($_POST['name'])) {
-            $search['name'] = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
+            $search['name'] = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
         }
         if (isset($_POST['money'])) {
             $search['money'] = abs((int) $_POST['money']);
