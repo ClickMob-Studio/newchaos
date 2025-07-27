@@ -1682,8 +1682,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         if (isset($bonus_row)) {
                             $debug['worked'] = $bonus_row;
                         }
-                        if ($bonus_row['Time'] > 0) {
-
+                        if (isset($bonus_row['Time']) && $bonus_row['Time'] > 0) {
                             $_tt = secondsToHumanReadable($bonus_row['Time'] * 60);
                             $messages[] = '[ Server Wide Double EXP: ' . (($_tt == 'NOW') ? '@None@' : $_tt) . ' ]';
                         }
