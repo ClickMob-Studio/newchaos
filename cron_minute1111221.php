@@ -156,38 +156,36 @@ $db->execute();
 $lastGiveawayRow = $db->fetch_row(true);
 
 // Check if there was a row returned
-if (!$lastGiveawayRow) {
-    die('No settings entry for last_giveaway_time found.');
-}
+if (isset($lastGiveawayRow)) {
+    $lastGiveawayTime = $lastGiveawayRow['value'];
 
-$lastGiveawayTime = $lastGiveawayRow['value'];
+    // Check if an hour has passed since the last giveaway
+    if (strtotime($lastGiveawayTime) <= strtotime('-1 hour')) {
+        // Select users who were online in the last hour
+        $db->query("SELECT `id` FROM grpgusers WHERE `lastactive` > UNIX_TIMESTAMP() - 3600");
+        $db->execute();
+        $onlineUsers = $db->fetch_row();
 
-// Check if an hour has passed since the last giveaway
-if (strtotime($lastGiveawayTime) <= strtotime('-1 hour')) {
-    // Select users who were online in the last hour
-    $db->query("SELECT `id` FROM grpgusers WHERE `lastactive` > UNIX_TIMESTAMP() - 3600");
-    $db->execute();
-    $onlineUsers = $db->fetch_row();
+        // Shuffle the array and pick the first 3 users if we have enough users
+        if (count($onlineUsers) >= 3) {
+            shuffle($onlineUsers);
+            $winners = array_slice($onlineUsers, 0, 3);
 
-    // Shuffle the array and pick the first 3 users if we have enough users
-    if (count($onlineUsers) >= 3) {
-        shuffle($onlineUsers);
-        $winners = array_slice($onlineUsers, 0, 3);
+            // Reward the first user with points
+            perform_query("UPDATE `grpgusers` SET `points` = `points` + 1000 WHERE `id` = ?", [$winners[0]]);
+            Send_event($winners[0], "You have been randomly selected this hour! You won 1,000 Points!");
 
-        // Reward the first user with points
-        perform_query("UPDATE `grpgusers` SET `points` = `points` + 1000 WHERE `id` = ?", [$winners[0]]);
-        Send_event($winners[0], "You have been randomly selected this hour! You won 1,000 Points!");
+            // Reward the second user with money
+            perform_query("UPDATE `grpgusers` SET `money` = `money` + 500000 WHERE `id` = ?", [$winners[1]]);
+            Send_event($winners[1], "You have been randomly selected this hour! You won $500,000!");
 
-        // Reward the second user with money
-        perform_query("UPDATE `grpgusers` SET `money` = `money` + 500000 WHERE `id` = ?", [$winners[1]]);
-        Send_event($winners[1], "You have been randomly selected this hour! You won $500,000!");
+            // Reward the third user with Tokens
+            perform_query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + 10 WHERE `id` = ?", [$winners[2]]);
+            Send_event($winners[2], "You have been randomly selected this hour! You won 10 Raid Tokens!");
 
-        // Reward the third user with Tokens
-        perform_query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + 10 WHERE `id` = ?", [$winners[2]]);
-        Send_event($winners[2], "You have been randomly selected this hour! You won 10 Raid Tokens!");
-
-        // Update the last giveaway time in the settings
-        perform_query("UPDATE `settings` SET `value` = DATE_ADD(NOW(), INTERVAL 5 HOUR) WHERE `key` = 'last_giveaway_time'");
+            // Update the last giveaway time in the settings
+            perform_query("UPDATE `settings` SET `value` = DATE_ADD(NOW(), INTERVAL 5 HOUR) WHERE `key` = 'last_giveaway_time'");
+        }
     }
 }
 
