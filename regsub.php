@@ -63,8 +63,10 @@ $stmt = $pdo->prepare("INSERT INTO grpgusers (ip, signupip, loginame, username, 
 $stmt->execute([$IP, $IP, $username, $username, $hashedPassword, $email, $gender, time() + 43200]);
 $newid = $pdo->lastInsertId();
 
-$stmt = $pdo->prepare("INSERT INTO referrals (`when`, referrer, referred) VALUES (UNIX_TIMESTAMP(), ?, ?)");
-$stmt->execute([$_POST['referer'], $newid]);
+if (isset($_POST['referer'])) {
+    $stmt = $pdo->prepare("INSERT INTO referrals (`when`, referrer, referred) VALUES (UNIX_TIMESTAMP(), ?, ?)");
+    $stmt->execute([$_POST['referer'], $newid]);
+}
 
 $stmt = $pdo->prepare("INSERT INTO sessions VALUES (?, ?, 'emptyfornow')");
 $stmt->execute([$newid, $_COOKIE['PHPSESSID']]);
