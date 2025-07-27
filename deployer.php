@@ -46,7 +46,7 @@ $commands = array(
     'echo $PWD',
     'whoami',
     'git fetch',
-    'git reset --hard HEAD',
+    'git reset --hard origin/php8',
     'git status',
     'git submodule sync',
     'git submodule update',
