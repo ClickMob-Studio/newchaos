@@ -196,14 +196,32 @@ class User
     {
         global $db;
 
-        $db->query("SELECT grpg.*,grpg.tag AS ptag,g.ghouse,g.name AS gangname,g.leader,g.tag,g.description,ci.name AS cityname,h.name AS housename,h.awake AS houseawake,
-        co.name AS countryname, gh.awake AS gangawake, r.title AS ranktitle, r.color as rankcolor, b.days AS bandays,
-        g.tColor1, g.tColor2, g.tColor3, g.formattedTag, h.id AS houseid
+        $db->query("SELECT 
+                grpg.*,
+                grpg.tag AS ptag,
+                g.ghouse,
+                g.name AS gangname,
+                g.leader,
+                g.tag,
+                g.description,
+                ci.name AS cityname,
+                h.name AS housename,
+                h.awake AS houseawake,
+                co.name AS countryname,
+                gh.awake AS gangawake,
+                r.title AS ranktitle,
+                r.color AS rankcolor,
+                b.days AS bandays,
+                g.tColor1,
+                g.tColor2,
+                g.tColor3,
+                g.formattedTag,
+                h.id AS houseid
             FROM grpgusers grpg
             LEFT JOIN gangs g ON g.id = grpg.gang
-            JOIN cities ci ON ci.id = grpg.city
+            LEFT JOIN cities ci ON ci.id = grpg.city
             LEFT JOIN houses h ON h.id = grpg.house
-            JOIN countries co ON co.id = grpg.country
+            LEFT JOIN countries co ON co.id = grpg.country
             LEFT JOIN ranks r ON r.id = grpg.grank
             LEFT JOIN ghouses gh ON gh.id = g.ghouse
             LEFT JOIN bans b ON b.id = grpg.id
