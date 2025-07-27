@@ -78,11 +78,15 @@ if (isset($_POST['msg'])) {
     $db->query("SELECT id FROM globalchat ORDER BY id DESC");
     $db->execute();
     $lastid = $db->fetch_row(true);
-    if ($lastid['id'] == $_GET['lastID']) {
+    if (isset($_GET['lastID']) && isset($lastid['id']) && $lastid['id'] == $_GET['lastID']) {
         print gcTalking();
         die();
     }
-    print gcTalking() . "|-|-|" . $lastid['id'] . "|-|-|";
+
+    if (isset($lastid['id'])) {
+        print gcTalking() . "|-|-|" . $lastid['id'] . "|-|-|";
+    }
+
     foreach ($rows as $row) {
         $reply_class = new User($row['playerid']);
         $avatar = ($reply_class->avatar != "") ? $reply_class->avatar : "/images/no-avatar.png";
