@@ -279,6 +279,11 @@ if ($userBaStats['gold_rush_credits'] > 0) {
             $cashWon = $cashWon + ($cashWon / 100 * 10);
             $cashWon = ceil($cashWon);
         }
+
+        if (isset($user_boosts['ba_earnings'])) {
+            $cashWon = ceil($cashWon * $user_boosts['ba_earnings']);
+        }
+
         $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 3));
         if ($user_class->level < 100) {
             $expWon = round(($user_class->maxexp / 100) * mt_rand(1, 8));
@@ -318,6 +323,11 @@ if ($userBaStats['gold_rush_credits'] > 0) {
             $cashWon = $cashWon + ($cashWon / 100 * 10);
             $cashWon = ceil($cashWon);
         }
+
+        if (isset($user_boosts['ba_earnings'])) {
+            $cashWon = ceil($cashWon * $user_boosts['ba_earnings']);
+        }
+
         $baExpWon = mt_rand(5, 25);
 
         $itemIds = array();
@@ -427,10 +437,17 @@ if ($userBaStats['gold_rush_credits'] > 0) {
         exit;
     }
 } else {
-    $goldRushChance = mt_rand(1, 12500);
+    $max = 12500;
     if ($userPrestigeSkills['ba_gold_rush_unlock'] > 0) {
-        $goldRushChance = mt_rand(1, 9000);
+        $max = $max - 1250;
     }
+
+    $user_boosts = get_skill_boosts($user_class->skills);
+    if (isset($user_boosts['ba_gold_rush_chance'])) {
+        $max = $max - $user_boosts['ba_gold_rush_chance'];
+    }
+
+    $goldRushChance = mt_rand(1, $max);
     if ($goldRushChance == 2) {
         $db->query("UPDATE user_ba_stats SET gold_rush_credits = gold_rush_credits + 15 WHERE user_id = " . $user_class->id);
         $db->execute();
@@ -476,6 +493,11 @@ if ($userBaStats['gold_rush_credits'] > 0) {
             $cashWon = $cashWon + ($cashWon / 100 * 10);
             $cashWon = ceil($cashWon);
         }
+
+        if (isset($user_boosts['ba_earnings'])) {
+            $cashWon = ceil($cashWon * $user_boosts['ba_earnings']);
+        }
+
         $expWon = round(($user_class->maxexp / 1000) * mt_rand(1, 2));
         if ($user_class->level < 100) {
             $expWon = round(($user_class->maxexp / 100) * mt_rand(1, 4));
@@ -515,6 +537,11 @@ if ($userBaStats['gold_rush_credits'] > 0) {
             $cashWon = $cashWon + ($cashWon / 100 * 10);
             $cashWon = ceil($cashWon);
         }
+
+        if (isset($user_boosts['ba_earnings'])) {
+            $cashWon = ceil($cashWon * $user_boosts['ba_earnings']);
+        }
+
         $baExpWon = mt_rand(1, 15);
 
         $userItemDropLog = getUserItemDropLog($user_class->id);

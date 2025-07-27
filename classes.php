@@ -219,6 +219,11 @@ class User
             $this->$title = $value;
         }
 
+        $skill_ids = $worked['skill_ids'];
+        if (!empty($this->skill_ids)) {
+            $this->skills = array_map('intval', explode(',', $skill_ids));
+        }
+
         $db->query("SELECT * FROM pets WHERE userid = ? AND leash = 1");
         $db->execute([$id]);
         if ($db->num_rows()) {

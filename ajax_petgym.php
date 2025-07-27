@@ -32,6 +32,7 @@ if (isset($_POST['what']) and $_POST['what'] == 'trainrefill') {
     $ptsreq = 10 + ceil($ptsforawake);
     if ($ptsreq > $user_class->points)
         die("You do not have enough points to train.");
+
     if ($_POST['amnt'] <= $pet_class->energy && $_POST['amnt'] > 0) {
         $add = round($egy * ($pet_class->awake / 100 * 3.14 / 2) * 1.25 * $modifier);
 
@@ -39,7 +40,6 @@ if (isset($_POST['what']) and $_POST['what'] == 'trainrefill') {
             $resAddInc = $add / 100 * 5;
             $add = $add + $resAddInc;
         }
-
         $researchAddBoost = 0;
         if (isset($user_class->completeUserResearchTypesIndexedOnId[38])) {
             $researchAddBoost += 10;
@@ -53,6 +53,11 @@ if (isset($_POST['what']) and $_POST['what'] == 'trainrefill') {
         if ($researchAddBoost > 0) {
             $resAddInc = $add / 100 * $researchAddBoost;
             $add = $add + $resAddInc;
+        }
+
+        $user_boosts = get_skill_boosts($user_class->skills);
+        if (isset($user_boosts['pet_gym_boost']) && $user_boosts['pet_gym_boost'] > 0) {
+            $add = floor($add * $user_boosts['gym_boost']);
         }
 
         $pet_class->$stat += $add;

@@ -45,10 +45,6 @@ if (isset($_GET['au_user_or']) && (int) $_GET['au_user_or']) {
 
 session_write_close();
 
-// $logger = new Katzgrau\KLogger\Logger('/var/www/logs/speedcrimes', Psr\Log\LogLevel::INFO, array(
-//     'prefix' => $user_class->id . "-",
-// ));
-
 $tempItemUse = getItemTempUse($user_class->id);
 
 $crime_multiplier = 1;
@@ -59,18 +55,14 @@ if (isset($_POST['cm'])) {
     }
 }
 
-if ($crime_multiplier == 20) {
-    if ($tempItemUse['crime_15_multiplier_time'] < time()) {
-        echo json_encode(array(
-            'text' => "You do not have access to 20x crimes.",
-            //'error' => 'refresh'
-        ));
-        $debug['error'] = "15X CRIMES";
-        //$logger->info("", $debug);
-        die();
-
-    }
+if ($crime_multiplier == 20 && $tempItemUse['crime_15_multiplier_time'] < time()) {
+    echo json_encode(array(
+        'text' => "You do not have access to 20x crimes.",
+    ));
+    $debug['error'] = "15X CRIMES";
+    die();
 }
+
 
 $debug = array(
     'id' => $user_class->id,
@@ -177,12 +169,19 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $star_bonus_exp = $exp * $star_level * $bonus_exp_per_star_level;
     $exp += $star_bonus_exp;
 
+    $raw_money = $money;
+
+    $user_boosts = get_skill_boosts($user_class->skills);
+    if (isset($user_boosts['crime_earnings'])) {
+        $money = $raw_money * $user_boosts['crime_earnings'];
+    }
+
     // Check if equipped weapon is an easter booster
     if ($user_class->eqweapon == 335) {
         $exp += $raw_exp * 0.1; // 10% bonus for easter booster
     } else if ($user_class->eqweapon == 347) {
         $exp += $raw_exp * 0.15; // 15% bonus for super easter booster
-        $money += $money * 0.1; // 10% bonus for super easter booster
+        $money += $raw_money * 0.1; // 10% bonus for super easter booster
     }
 
     $crimeexpbonus = 0;
@@ -326,7 +325,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 $user_class->id
             ));
             $debug['response'] = "Failed Crime";
-            //$logger->info("", $debug);
+
             die($ftext . ".|" . number_format($user_class->points) . "|" . number_format($user_class->money) . "|" . number_format($user_class->level) . "|" . genBars());
         } elseif ($chance == 6) {
             $user_class->nerve -= $nerve;
@@ -336,15 +335,11 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 $user_class->id
             ));
             $debug['response'] = "Jail for 5 Minutes";
-            //$logger->info("", $debug);
             echo json_encode(array(
                 'text' => 'You were hauled off to jail for 5 minutes',
-                //'error' => 'refresh'
             ));
             die();
-            //die("$ftext. You were hauled off to jail for 5 minutes.|".number_format($user_class->points)."|".number_format($user_class->money)."|".number_format($user_class->level)."|".  genBars());
         } else {
-            //$mission_nerve = $nerve / $crime_multiplier;
             $debug['mission_nerve'] = $mission_nerve;
 
             if ($mission_nerve >= 50) {

@@ -6,8 +6,6 @@ include 'header.php';
 <div class='box_middle'>
     <div class='pad'>
         <?php
-        security($_GET['buy']);
-
         $db->query("SELECT * FROM pets WHERE loaned = ?");
         $db->execute([$user_class->id]);
         $rows = $db->fetch_row();

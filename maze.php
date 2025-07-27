@@ -486,11 +486,14 @@ include 'header.php';
         // Tab content for logs ordered by timestamp
         echo "<div id='Timestamp' class='tabcontent'>
       <div class='contenthead floaty'><h1>Everyones Logs</h1>";
-        $query = "SELECT * FROM user_logs ORDER BY timestamp DESC LIMIT 10";
-        $result = mysql_query($query);
+
+        $db->query("SELECT * FROM user_logs ORDER BY timestamp DESC LIMIT 10");
+        $db->execute();
+        $logs = $db->fetch_row();
+
         echo "<table id='newtables'>";
         echo "<tr><th>Timestamp</th><th>User</th><th>Description</th></tr>";
-        while ($log = mysql_fetch_assoc($result)) {
+        foreach ($logs as $log) {
             $username = formatName($log['user_id']);
             $timeAgo = howlongago($log['timestamp']);
             echo "<tr><td>{$timeAgo}</td><td>{$username}</td><td>{$log['description']}</td></tr>";
@@ -500,11 +503,14 @@ include 'header.php';
         // Tab content for logs ordered by user_id
         echo "<div id='UserID' class='tabcontent'>
       <div class='contenthead floaty'><h1>Your Maze Finds</h1>";
-        $query2 = "SELECT * FROM user_logs WHERE user_id = '{$user_class->id}' ORDER BY timestamp DESC LIMIT 10";
-        $result2 = mysql_query($query2);
+
+        $db->query("SELECT * FROM user_logs WHERE user_id = ? ORDER BY timestamp DESC LIMIT 10");
+        $db->execute([$user_class->id]);
+        $logs2 = $db->fetch_row();
+
         echo "<table id='usertables'>";
         echo "<tr><th>timestamp</th><th>User</th><th>Description</th></tr>";
-        while ($log = mysql_fetch_assoc($result2)) {
+        foreach ($logs2 as $log) {
             $username = formatName($log['user_id']);
             $timeAgo = howlongago($log['timestamp']);
             echo "<tr><td>{$timeAgo}</td><td>{$username}</td><td>{$log['description']}</td></tr>";
@@ -533,10 +539,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     </div>
 </div>
-
-<?php
-include 'footer.php';
-?>
 
 <script>
     $(document).ready(function () {
@@ -639,3 +641,7 @@ include 'footer.php';
     // Add your additional script here
     // You can paste your additional script below this line.
 </script>
+
+<?php
+include 'footer.php';
+?>

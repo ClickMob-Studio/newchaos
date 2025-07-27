@@ -10,10 +10,8 @@ $db->execute(array(
 ));
 
 $db->query("SELECT `name`, mission.crimes as crimestarget, missions.crimes as crimesdone FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE `userid` = ? AND `completed` = \"no\" LIMIT 1");
-$db->execute(array(
-    $user_class->id
-));
-$activeMission = $db->fetch_row()[0];
+$db->execute([$user_class->id]);
+$activeMission = $db->fetch_row(true);
 
 $tempItemUse = getItemTempUse($user_class->id);
 
@@ -212,9 +210,9 @@ if (isset($_GET['ner'])) {
                         </div>
                         <br />
 
-                        <button id="acrimebtn2" onblue="finish();" onmouseup="finish();" ontouchend="finish();"
-                            onmouseleave="finish();" onmousedown="start();" ontouchstart="start();"
-                            style="padding: 1em; margin-bottom:5px;">Do Crimes</button>
+                        <button type="button" id="acrimebtn2" onblue="finish(event);" onmouseup="finish(event);"
+                            ontouchend="finish(event);" onmouseleave="finish(event);" onmousedown="start();"
+                            ontouchstart="start();" style="padding: 1em; margin-bottom:5px;">Do Crimes</button>
 
                         <br />
                         <br><span style="color:red">Warning: Using the multiplier will increase points consumption
@@ -287,8 +285,6 @@ if (isset($_GET['ner'])) {
             if (res.error == 'refresh') {
                 finish();
             }
-            // console.log('debug *****');
-            // console.log(res.stats.mb_points);
 
             $('.money').html(res.stats.money)
             $(".level").html(res.stats.level)
@@ -430,12 +426,14 @@ if (isset($_GET['ner'])) {
     }
     document.addEventListener('orientationchange', finish);
 
-    function finish() {
-        if (doingcrime)
-            location.reload();
+    function finish(e) {
+        if (e) e.preventDefault();
+
+        $('#spinner').hide();
         id = 0;
         doingcrime = false;
     }
+
     $(document).ready(function () {
         doingcrime = false;
         id = 0;
