@@ -4042,16 +4042,16 @@ function get_operation($id)
 
 function get_user_mission($uid)
 {
-    global $redis, $db;
+    global $cache, $db;
 
-    $usermission = $redis->get("userMission_" . $uid);
+    $usermission = $cache->get("userMission_" . $uid);
     if (empty($usermission) || !$usermission) {
         $query = $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no'");
         $db->execute([$uid]);
         $usermission = $db->fetch_row(true);
 
         if (!empty($usermission)) {
-            $redis->setEx("userMission_" . $uid, 5, json_encode($usermission));
+            $cache->setEx("userMission_" . $uid, 5, json_encode($usermission));
         }
     } else {
         $usermission = json_decode($usermission, true);
@@ -4062,9 +4062,9 @@ function get_user_mission($uid)
 
 function get_mission($id)
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    $mission = $redis->get("mission_" . $id);
+    $mission = $cache->get("mission_" . $id);
     if (!empty($mission) && $mission) {
         return json_decode($mission, true);
     }
@@ -4073,7 +4073,7 @@ function get_mission($id)
     $db->execute([$id]);
     $mission = $db->fetch_row(true);
     if (!empty($mission)) {
-        $redis->setEx("mission_" . $id, 3600, json_encode($mission));
+        $cache->setEx("mission_" . $id, 3600, json_encode($mission));
         return $mission;
     }
 
@@ -4082,11 +4082,11 @@ function get_mission($id)
 
 function getAllScheduledEvents()
 {
-    global $db, $redis;
+    global $db, $cache;
 
     $now = time();
-    if ($redis->exists("all_scheduled_events")) {
-        $events = json_decode($redis->get("all_scheduled_events"), true);
+    if ($cache->exists("all_scheduled_events")) {
+        $events = json_decode($cache->get("all_scheduled_events"), true);
         return $events;
     }
 
@@ -4094,7 +4094,7 @@ function getAllScheduledEvents()
     $db->execute([$now, $now]);
     $events = $db->fetch_row();
     if ($events) {
-        $redis->setEx("all_scheduled_events", 900, json_encode($events));
+        $cache->setEx("all_scheduled_events", 900, json_encode($events));
         return $events;
     }
 
@@ -4103,10 +4103,10 @@ function getAllScheduledEvents()
 
 function isIPBanned($ip)
 {
-    global $db, $redis;
+    global $db, $cache;
 
-    if ($redis->exists('ipbans')) {
-        $bannedIps = json_decode($redis->get('ipbans'));
+    if ($cache->exists('ipbans')) {
+        $bannedIps = json_decode($cache->get('ipbans'));
     } else {
         $db->query("SELECT ip FROM ipbans");
         $db->execute();
@@ -4114,7 +4114,7 @@ function isIPBanned($ip)
         $bannedIps = array_map(function ($row) {
             return $row['ip'];
         }, $bannedIps);
-        $redis->setEx('ipbans', 3600, json_encode($bannedIps));
+        $cache->setEx('ipbans', 3600, json_encode($bannedIps));
     }
 
     return in_array($ip, $bannedIps);
