@@ -45,15 +45,22 @@ include 'header.php';
         $db->execute();
         $limitedPack = $db->fetch_row(true);
 
-        $db->query("SELECT `itemname` FROM `items` WHERE id = " . $limitedPack['item_id']);
-        $db->execute();
-        $itemName = $db->fetch_single();
+        if (isset($limitedPack)) {
 
-        $db->query("SELECT `image` FROM `items` WHERE id = " . $limitedPack['item_id']);
-        $db->execute();
-        $itemImage = $db->fetch_single();
+            $db->query("SELECT `itemname` FROM `items` WHERE id = " . $limitedPack['item_id']);
+            $db->execute();
+            $itemName = $db->fetch_single();
 
-        $limitedStorePackPurchase = getLimitedStorePackPurchase($user_class->id, $limitedPack['id']);
+            $db->query("SELECT `image` FROM `items` WHERE id = " . $limitedPack['item_id']);
+            $db->execute();
+            $itemImage = $db->fetch_single();
+
+            $limitedStorePackPurchase = getLimitedStorePackPurchase($user_class->id, $limitedPack['id']);
+        } else {
+            $itemName = 'No limited pack available!';
+            $itemImage = '';
+            $limitedStorePackPurchase = 0;
+        }
 
         if (isset($_GET['buy'])) {
             Send_Event(2, $_GET['buy'] . ' - ' . $user_class->credits, 2);
