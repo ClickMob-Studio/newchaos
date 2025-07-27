@@ -1,6 +1,7 @@
 <?php
 
-class SlimUser {
+class SlimUser
+{
     public $data;
     public $gang;
     public $id;
@@ -28,17 +29,17 @@ class SlimUser {
     public $maxexp;
     public $points;
     public $money;
+    public $skill_points;
+    public $skill_ids;
 
-    function __construct($id) {    
+    function __construct($id)
+    {
         global $db;
 
-       
         $db->query("SELECT * FROM grpgusers WHERE id = ? LIMIT 1");
-        
         $db->bind(1, $id);
-    
         $db->execute();
-        
+
         $this->data = $db->fetch_row(true);
 
         if ($this->data) {
@@ -56,18 +57,25 @@ class SlimUser {
             $this->admin = isset($this->data['admin']) ? $this->data['admin'] : null;
             $this->formattedname = formatName($this->id);
             $this->lastactive = isset($this->data['lastactive']) ? $this->data['lastactive'] : null;
-            $this->bustpill = isset($this->data['bustpill'])? $this->data['bustpill'] : null;
+            $this->bustpill = isset($this->data['bustpill']) ? $this->data['bustpill'] : null;
             $this->jail_bot_credits = isset($this->data['jail_bot_credits']) ? $this->data['jail_bot_credits'] : null;
-            $this->is_jail_bots_active = isset($this->data['is_jail_bots_active'])? $this->data['is_jail_bots_active'] : null;
+            $this->is_jail_bots_active = isset($this->data['is_jail_bots_active']) ? $this->data['is_jail_bots_active'] : null;
             $this->exp = isset($this->data['exp']) ? $this->data['exp'] : null;
-            $this->crimesucceeded = isset($this->data['crimesucceeded'])? $this->data['crimesucceeded'] : null;
+            $this->crimesucceeded = isset($this->data['crimesucceeded']) ? $this->data['crimesucceeded'] : null;
             $this->nerref = isset($this->data['nerref']) ? $this->data['nerref'] : null;
             $this->maxnerve = 4 + $this->level;
             $this->maxexp = experience($this->level + 1);
-            $this->points = isset($this->data['points'])? $this->data['points'] : null;
-            $this->money = isset($this->data['money'])? $this->data['money'] : null;
+            $this->points = isset($this->data['points']) ? $this->data['points'] : null;
+            $this->money = isset($this->data['money']) ? $this->data['money'] : null;
+            $this->skill_points = isset($this->data['skill_points']) ? $this->data['skill_points'] : 0;
+
+            if (isset($this->data['skill_ids'])) {
+                $this->skill_ids = array_map('intval', explode(',', $this->data['skill_ids']));
+            } else {
+                $this->skill_ids = [];
+            }
         } else {
-    
+
             $this->data = array();
             $this->gang = null;
             $this->id = null;

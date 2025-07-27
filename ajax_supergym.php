@@ -99,13 +99,6 @@ $modifier = max(((0.20 * $user_class->prestige) + 1.5), 1.5);
 if ($user_class->pack1 == 3) {
     $modifier *= 1.20;
 }
-// Check if the user has pack1 = 5 and apply the 25% bonus to mugged amount
-if ($gang_class->upgrade6 >= 1) {
-    $bonus = 1 + (0.05 * $gang_class->upgrade6); // Correctly calculates the total bonus multiplier
-
-    // Correctly applies the bonus multiplier to the modifier
-    $modifier *= $bonus;
-}
 
 // Assuming this comes after initializing $modifier and validating $_POST['stat']
 if ($gang_upgrades && $gang_upgrades['upgrade6'] >= 1) {
@@ -165,6 +158,11 @@ if (isset($_POST['what']) and $_POST['what'] == 'trainrefill') {
 
         if ($multiplier > 1) {
             $add = $add * $multiplier;
+        }
+
+        $user_boosts = get_skill_boosts($user_class->skills);
+        if (isset($user_boosts['gym_boost']) && $user_boosts['gym_boost'] > 0) {
+            $add = floor($add * $user_boosts['gym_boost']);
         }
 
         $user_class->$stat += $add;

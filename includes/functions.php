@@ -3933,29 +3933,6 @@ function getScheduledEvent($type = 'gym')
     return null;
 }
 
-function getAllScheduledEvents()
-{
-    global $db, $cache;
-
-    $cache->del("all_scheduled_events");
-
-    $now = time();
-    if ($cache->exists("all_scheduled_events")) {
-        $events = json_decode($cache->get("all_scheduled_events"), true);
-        return $events;
-    }
-
-    $db->query("SELECT * FROM scheduledevents WHERE start <= ? AND end >= ?");
-    $db->execute([$now, $now]);
-    $events = $db->fetch_row();
-    if ($events) {
-        $cache->setEx("all_scheduled_events", 900, json_encode($events));
-        return $events;
-    }
-
-    return null;
-}
-
 function getEventsMessage()
 {
     $events = getAllScheduledEvents();
@@ -4226,4 +4203,174 @@ function get_pet_crimes()
     }
 
     return [];
+}
+
+function get_skilltree_nodes($id)
+{
+    global $db, $cache;
+
+    $cacheKey = "skilltree_nodes_" . $id;
+
+    $cached = $cache->del($cacheKey);
+    $cached = $cache->get($cacheKey);
+    if (!empty($cached)) {
+        return json_decode($cached, true);
+    }
+
+    $db->query("SELECT * FROM skilltree_nodes WHERE treeid = ?");
+    $db->execute([$id]);
+    $rows = $db->fetch_row();
+    if (empty($rows)) {
+        return [];
+    }
+
+    $indexed = [];
+    foreach ($rows as $node) {
+        if (!isset($node['rewards'])) {
+            $indexed[$node['id']] = $node;
+            continue; // No rewards, just return the node as is
+        }
+
+        $node['rewards'] = json_decode($node['rewards'], true);
+        $indexed[$node['id']] = $node;
+    }
+
+    $cache->setEx($cacheKey, 3600, json_encode($indexed));
+    return $indexed;
+}
+
+function get_skilltree_from_skill($id)
+{
+    global $db;
+
+    $db->query("SELECT treeid FROM skilltree_nodes WHERE id = ?");
+    $db->execute([$id]);
+
+    $skillTreeId = $db->fetch_single();
+    if ($skillTreeId) {
+        return get_skilltree($skillTreeId);
+    }
+
+    return null;
+}
+
+function get_skilltree($id)
+{
+    global $db, $cache;
+
+    $cache->del("skilltree_" . $id); // Clear cache to ensure fresh data
+
+    $skillTree = $cache->get("skilltree_" . $id);
+    if (!empty($skillTree) && $skillTree) {
+        return json_decode($skillTree, true);
+    }
+
+    $db->query("SELECT * FROM skilltrees WHERE id = ?");
+    $db->execute([$id]);
+    $skillTree = $db->fetch_row(true);
+    if (!empty($skillTree)) {
+        $cache->setEx("skilltree_" . $id, 3600, json_encode($skillTree));
+        return $skillTree;
+    }
+
+    return null;
+}
+
+// We support multiple skill trees, but we only use one massive collective
+// skill tree for now. This function will claim the specialization for the user
+// by setting the specialization level to 1 and assigning the root node's ID
+// to the user's skill_ids field.
+function claim_specialization($id, $uid)
+{
+    global $db;
+
+    $skilltree = get_skilltree($id);
+    if (empty($skilltree)) {
+        return "Specialization could not be found!"; // Invalid skill tree
+    }
+
+    $db->query("SELECT * FROM skilltree_nodes WHERE treeid = ? AND parent IS NULL LIMIT 1");
+    $db->execute([$id]);
+    $rootNode = $db->fetch_row(true);
+    if (empty($rootNode)) {
+        return "Root node for specialization (" . $skilltree['id'] . ") does not exist!"; // No root node found
+    }
+
+    $db->query("UPDATE grpgusers SET specialization_level = 1, skill_points = 1, skill_ids = ? WHERE id = ?");
+    $db->execute([$rootNode['id'], $uid]);
+
+    return null;
+}
+
+function claim_skill($uid, $id)
+{
+    global $db;
+
+    $db->query("SELECT skill_points, skill_ids FROM grpgusers WHERE id = ?");
+    $db->execute([$uid]);
+    $user = $db->fetch_row(true);
+
+    if (empty($user)) {
+        return "User not found"; // User not found
+    }
+
+    $skillIds = array_map('intval', explode(',', $user['skill_ids']));
+    if (in_array($id, $skillIds)) {
+        return "User already has this skill"; // Skill already claimed
+    }
+
+    if ($user['skill_points'] <= 0) {
+        return "No skill points available"; // No skill points available
+    }
+
+    // Check if the skill exists and is valid
+    $db->query("SELECT * FROM skilltree_nodes WHERE id = ?");
+    $db->execute([$id]);
+    $skill = $db->fetch_row(true);
+    if (empty($skill)) {
+        return "Skill not found"; // Skill does not exist
+    }
+
+    // Check if the skill's parent is already claimed
+    if (isset($skill['parent']) && !in_array($skill['parent'], $skillIds)) {
+        return "User needs to claim parent to claim this skill"; // Parent skill not claimed
+    }
+    // Add the skill to the user's claimed skills
+    $skillIds[] = $id;
+    $newSkillIds = implode(',', $skillIds);
+    $db->query("UPDATE grpgusers SET skill_ids = ?, skill_points = skill_points - 1 WHERE id = ?");
+    $db->execute([$newSkillIds, $uid]);
+
+    return null; // Skill claimed successfully
+}
+
+function get_skill_boosts(array $userSkillIds)
+{
+    error_log("get_skill_boosts called with userSkillIds: " . implode(',', $userSkillIds));
+
+    $allSkills = get_skilltree_nodes(1);
+
+    $merged = [];
+    foreach ($userSkillIds as $skillId) {
+        if (!isset($allSkills[$skillId]['rewards']))
+            continue;
+
+        foreach ($allSkills[$skillId]['rewards'] as $key => $value) {
+            if (!isset($merged[$key])) {
+                $merged[$key] = in_array($key, ['ba_gold_rush_chance']) ? 0 : 1.0;
+            }
+
+            if (is_numeric($value)) {
+                if (in_array($key, ['ba_gold_rush_chance'])) {
+                    $merged[$key] += $value;
+                } elseif ($value > 1.0) {
+                    $merged[$key] += ($value - 1.0);
+                } else {
+                    $merged[$key] = max($merged[$key], $value);
+                }
+            }
+        }
+    }
+
+    return $merged;
 }

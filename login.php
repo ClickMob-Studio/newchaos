@@ -4,6 +4,7 @@ require_once 'includes/functions.php';
 start_session_guarded();
 
 require_once 'dbcon.php';
+require_once 'pdo.php';
 
 // IP address determination using standard if-else
 if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
@@ -44,6 +45,7 @@ if (!empty($_POST['username']) && !empty($_POST['password'])) {
 
                     $_SESSION['token'] = $randomKey;
                     $_SESSION["id"] = $user['id'];
+
                     header('Location: index.php');
                     exit;
                 }
