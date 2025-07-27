@@ -950,10 +950,3 @@ perform_query("DELETE a FROM `attackladder` a
         HAVING COUNT(*) > 1
     ) as b ON a.user = b.user AND a.spot = b.spot
     WHERE a.id != b.id");
-
-
-if (!$result) {
-    echo "Error deleting duplicate rows!";
-} else {
-    echo "Duplicate rows deleted successfully.";
-}
