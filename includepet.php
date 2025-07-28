@@ -4,6 +4,7 @@ $my_pet = null;
 try {
     $my_pet = new Pet($user_class->id);
 } catch (Exception $e) {
+    header("location: petshop.php");
     diefun("You do not have a pet.");
 }
 
