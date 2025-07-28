@@ -22,9 +22,9 @@ include 'header.php';
             }
 
             $text = "You have purchased a {$row['name']}. To move into this house, you have to visit the 'Your Properties' link in the mainmenu.";
-            if ($cost > ($user_class->money + $oldhouse) && $error != 1)
+            if ($cost > $user_class->money && $error != 1)
                 diefun("You don't have enough money to buy that house.");
-            $user_class->money += floor($oldhouse) - $cost;
+            $user_class->money -= $cost;
             $db->query("UPDATE grpgusers SET money = ?, awake = 0 WHERE id = ?");
             $db->execute(array(
                 $user_class->money,
