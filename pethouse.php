@@ -10,6 +10,7 @@ include 'header.php';
         $db->execute([$user_class->id]);
         $row = $db->fetch_row(true);
         if (empty($row)) {
+            header("location: petshop.php");
             diefun("You don't have a pet");
         }
 
