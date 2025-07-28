@@ -35,7 +35,7 @@ $egg_name_by_id = array(
 					));
 					Give_Item($item, $user_class->id, $qty);
 					echo Message("You have purchased a {$row['itemname']} [x$qty].");
-					$$user_class->money -= $cost;
+					$user_class->money -= $cost;
 				} else
 					echo Message("You do not have enough money to buy a {$row['itemname']}.");
 			} else
