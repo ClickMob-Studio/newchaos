@@ -64,7 +64,7 @@ class Gang
             $this->formattedname = '';
             $this->nobanner = '';
             $this->memberids = [];
-            $this->members = [];
+            $this->members = 0;
             $this->color1 = '';
             $this->color2 = '';
             $this->color3 = '';
