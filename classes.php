@@ -60,6 +60,20 @@ class Gang
         $row = $db->fetch_row(true);
 
         if (empty($row)) {
+            $this->id = -1;
+            $this->formattedname = '';
+            $this->nobanner = '';
+            $this->memberids = [];
+            $this->members = [];
+            $this->color1 = '';
+            $this->color2 = '';
+            $this->color3 = '';
+            $this->crimeend = null;
+            $this->exppercent = 0;
+            $this->formattedexp = '';
+            $this->level = -1;
+            $this->exp = -1;
+
             return;
         }
 
