@@ -199,7 +199,7 @@ $items = $db->fetch_row();
                 <tr>
                     <th>Item</th>
                     <th>Price</th>
-                    <th>&nbsp;``</th>
+                    <th>&nbsp;</th>
                 </tr>
                 <?php foreach ($yourRows as $yourRow): ?>
                     <?php
