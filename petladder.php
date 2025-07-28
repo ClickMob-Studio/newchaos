@@ -13,7 +13,8 @@ $expRows = $db->fetch_row();
 ?>
 
 <h1>Pet Ladder</h1>
-<p>Welcome to the Pet Ladder, here you can earn points by trying to be the best pet owner in CC! Prizes are paid and the ladder resets hourly.</p>
+<p>Welcome to the Pet Ladder, here you can earn points by trying to be the best pet owner in CC! Prizes are paid and the
+    ladder resets hourly.</p>
 
 <p><strong>Prizes:</strong></p>
 <ul>
@@ -75,7 +76,7 @@ $expRows = $db->fetch_row();
                     <?php $i = 1; ?>
                     <?php foreach ($trainingRows as $trainingRow): ?>
                         <?php
-                        $pet = $db->query("SELECT * FROM pets WHERE id = " . $trainingRow['pet_id'] . " LIMIT 1");
+                        $pet = $db->query("SELECT * FROM pets WHERE petid = " . $trainingRow['pet_id'] . " LIMIT 1");
                         $pet = $db->fetch_row(true);
                         ?>
 
