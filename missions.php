@@ -126,23 +126,41 @@ $currenttime = time();
             echo "<span class='floaty1'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />";
             print "<div class=\"doingMission\">
 
-<div><a href='?cancel' style='font-weight:800;color:red'>Cancel Current Mission</a></div>
+<table id='newtables' class='altcolors' style='margin:auto;'>
+   <tr>
+        <th><font color=red>Category</th>
+        <th><font color=red>Requirement</th>
+        <th><font color=red>Reward</th>
+        <th><font color=red>Progress</font></th>
+    </tr>
+<tr>
+        <td>Attacking</td>
+        <td>Kill User(s) from the Mobster List</td>
+        <td>{$miss['payKills']} points</td>
+        <td>{$kills}</td>
 
-<hr>
-<div class='myTable' style='margin-top: 20px;'>
-    <table width='100%' style='background-color: #292929; border-collapse: collapse;'>
-        <thead>
-            <tr style='background-color: #1c1c1c; color: #ffffff;'>
-                <th style='border: 1px solid #444444; padding: 8px;'>Name</th>
-                <th style='border: 1px solid #444444; padding: 8px;'>Requirements</th>
-                <th style='border: 1px solid #444444; padding: 8px;'>Rewards</th>
-                <th style='border: 1px solid #444444; padding: 8px;'>Action</th>
-            </tr>
-        </thead>
-        <tbody>";
-            print "
-        </tbody>
-    </table>
+    </tr>
+<tr>
+        <td>Crimes</td>
+        <td>Complete any crime(s) from the crime(s) page</td>
+        <td>{$miss['payCrimes']} points</td>
+        <td>{$crimes}</th>
+
+    </tr>
+<tr>
+        <td>Mugs</td>
+        <td>Mug User(s) from the Mobster List</td>
+        <td>{$miss['payMugs']} points</td>
+        <td>{$mugs}</td>
+
+    </tr>
+<tr>
+        <td>Bust</td>
+        <td>Bust User(s) from the Jail Page</td>
+        <td>{$miss['payBusts']} points</td>
+        <td>{$busts}</td>
+
+    </tr>
 </div>";
         } else {
             foreach ($missions as $v) {
