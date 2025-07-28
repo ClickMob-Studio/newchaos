@@ -114,9 +114,7 @@ include "header.php";
             $currenttime = time();
             $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
             echo "<span class='floaty1'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />";
-
             print "<div class=\"doingMission\">
-
 
 <table id='newtables' class='altcolors' style='margin:auto;'>
    <tr>
@@ -153,8 +151,6 @@ include "header.php";
         <td>{$busts}</td>
 
     </tr>
-
-
 </div>";
         } else {
             $currenttime = time();

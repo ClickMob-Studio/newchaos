@@ -75,9 +75,7 @@ $currenttime = time();
             }
         }
 
-        $db->query("SELECT * FROM mission WHERE category = 0 ORDER BY id ASC");
-        $db->execute();
-        $q2 = $db->fetch_row();
+        $missions = get_missions_by_category(0);
 
         $msgg = (isset($msgg)) ? $msgg : "";
         if (!empty($msgg))
@@ -116,15 +114,13 @@ $currenttime = time();
 
 <div class=\"hundred centered\">";
 
-        $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no'");
-        $db->execute([$user_class->id]);
-        $check = $db->fetch_row(true);
-        if (!empty($check)) {
-            $miss = get_mission($check['mid']);
+        $usermission = get_user_mission($user_class->id);
+        if ($usermission) {
+            $miss = get_mission($usermission['mid']);
             $kills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>{$usermission['kills']}/{$miss['kills']}</font>" : "<font color='green'>{$miss['kills']}/{$miss['kills']}</font>";
             $crimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>{$usermission['crimes']}/{$miss['crimes']}</font>" : "<font color='green'>{$miss['crimes']}/{$miss['crimes']}</font>";
-            $mugs = ($miss['mugs'] > $check['mugs']) ? "<font color='red'>{$check['mugs']}/{$miss['mugs']}</font>" : "<font color='green'>{$miss['mugs']}/{$miss['mugs']}</font>";
-            $busts = ($miss['busts'] > $check['busts']) ? "<font color='red'>{$check['busts']}/{$miss['busts']}</font>" : "<font color='green'>{$miss['busts']}/{$miss['busts']}</font>";
+            $mugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>{$usermission['mugs']}/{$miss['mugs']}</font>" : "<font color='green'>{$miss['mugs']}/{$miss['mugs']}</font>";
+            $busts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>{$usermission['busts']}/{$miss['busts']}</font>" : "<font color='green'>{$miss['busts']}/{$miss['busts']}</font>";
 
             $timeleft = ($miss['time'] + $usermission['timestamp']) - $currenttime;
             echo "<span class='floaty1'>You have " . secondsToTime($timeleft - 1) . " left to finish this mission!</span><br />";
@@ -144,26 +140,14 @@ $currenttime = time();
             </tr>
         </thead>
         <tbody>";
-
-            // Assuming $missions contains your missions data
-            foreach ($missions as $mission) {
-                $button = ($mission['isAvailable']) ? "<button type='button' onclick='window.location.href=\"?do={$mission['id']}\"' style='color: #000; background-color: #fff; padding: 5px 10px; border-radius: 5px;'>Do Mission</button>" : "Available in " . secondsToTime($mission['availableIn']);
-
-                print "
-        <tr style='color: #ffffff;'>
-            <td style='border: 1px solid #444444; padding: 8px;'>{$mission['name']}</td>
-            <td style='border: 1px solid #444444; padding: 8px;'>Kills: {$mission['kills']}<br>Crimes: {$mission['crimes']}<br>Mugs: {$mission['mugs']}<br>Busts: {$mission['busts']}</td>
-            <td style='border: 1px solid #444444; padding: 8px;'>Kills: {$mission['payKills']} Points<br>Crimes: {$mission['payCrimes']} Points<br>Mugs: {$mission['payMugs']} Points<br>Busts: {$mission['payBusts']} Points</td>
-            <td style='border: 1px solid #444444; padding: 8px;'>{$button}</td>
-        </tr>";
-            }
-
             print "
         </tbody>
     </table>
 </div>";
         } else {
-            foreach ($q2 as $v) {
+            foreach ($missions as $v) {
+                $secondButton = "";
+
                 $db->query("SELECT * FROM missions WHERE userid = ? AND mid = ? ORDER BY timestamp DESC LIMIT 1");
                 $db->execute([$user_class->id, $v['id']]);
                 $r = $db->fetch_row(true);
