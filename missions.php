@@ -207,7 +207,7 @@ $currenttime = time();
 <table style='width:95%'>";
         $db->query("SELECT * FROM missionlog ORDER BY timestamp DESC LIMIT 25");
         $db->execute();
-        $ml = $db->fetch_row(true);
+        $ml = $db->fetch_row();
         foreach ($ml as $mm) {
             $text = explode(',', $mm['text']);
             print "<tr><td>&bull;&nbsp;&nbsp;" . str_replace('[x]', formatName($text[1]), $text[0]) . "</td><td>" . date('m/d/y g:i a', $mm['timestamp']) . "</td></tr>\n\n";
