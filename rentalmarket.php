@@ -18,7 +18,7 @@ exit;
         <?php
         if (isset($_GET['remove'])) {
             $remove = security($_GET['remove']);
-            $db->query("SELECT * FROM rentalMarket WHERE id = ? AND owner = ?");
+            $db->query("SELECT * FROM rentalmarket WHERE id = ? AND owner = ?");
             $db->execute(array(
                 $remove,
                 $user_class->id
@@ -27,7 +27,7 @@ exit;
             if (empty($row))
                 diefun("Error, this cell was not found on the rental market.");
             $db->startTrans();
-            $db->query("DELETE FROM rentalMarket WHERE id = ? AND owner = ?");
+            $db->query("DELETE FROM rentalmarket WHERE id = ? AND owner = ?");
             $db->execute(array(
                 $remove,
                 $user_class->id
@@ -42,7 +42,7 @@ exit;
         }
         if (isset($_GET['rent'])) {
             $rent = security($_GET['rent']);
-            $db->query("SELECT * FROM rentalMarket WHERE id = ?");
+            $db->query("SELECT * FROM rentalmarket WHERE id = ?");
             $db->execute(array(
                 $rent
             ));
@@ -82,7 +82,7 @@ exit;
                 $row['houseid'],
                 $row['days']
             ));
-            $db->query("DELETE FROM rentalMarket WHERE id = ?");
+            $db->query("DELETE FROM rentalmarket WHERE id = ?");
             $db->execute(array(
                 $rent
             ));
@@ -98,7 +98,7 @@ exit;
         echo '<th>Rental Info</th>';
         echo '<th>Actions</th>';
         echo '</tr>';
-        $db->query("SELECT *, r.id as rid FROM rentalMarket r JOIN houses h ON r.houseid = h.id ORDER BY awake DESC");
+        $db->query("SELECT *, r.id as rid FROM rentalmarket r JOIN houses h ON r.houseid = h.id ORDER BY awake DESC");
         $db->execute();
         $rows = $db->fetch_row();
         foreach ($rows as $row) {

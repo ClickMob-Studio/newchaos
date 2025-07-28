@@ -11,7 +11,7 @@ $db->execute(array(
     $uid
 ));
 $backs = $db->fetch_row();
-$db->query("SELECT h.* FROM houses h JOIN rentalMarket r ON r.houseid = h.id WHERE owner = ?");
+$db->query("SELECT h.* FROM houses h JOIN rentalmarket r ON r.houseid = h.id WHERE owner = ?");
 $db->execute(array(
     $uid
 ));

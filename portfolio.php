@@ -216,7 +216,7 @@ include "header.php";
                 </td>
         </tr>";
         }
-        $db->query("SELECT *, r.id as rid FROM rentalMarket r JOIN houses h ON r.houseid = h.id WHERE owner = ? ORDER BY awake DESC");
+        $db->query("SELECT *, r.id as rid FROM rentalmarket r JOIN houses h ON r.houseid = h.id WHERE owner = ? ORDER BY awake DESC");
         $db->execute(array(
             $user_class->id
         ));
