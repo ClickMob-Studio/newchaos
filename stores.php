@@ -17,7 +17,7 @@ $egg_name_by_id = array(
 			$qty = security($_POST['qty']);
 			$item = security($_POST['item']);
 			if ($qty <= 0)
-				diefun();
+				diefun('You must buy at least one item.');
 			$db->query("SELECT * FROM items WHERE id = ? AND buyable = 1");
 			$db->execute(array(
 				$item

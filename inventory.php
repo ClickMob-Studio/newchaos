@@ -222,7 +222,7 @@ if ($user_class->gang > 0) {
             echo '<div style="display:inline">x <span id="qty-' . $item['id'] . '">' . $item['quantity'] . '</span></div>';
 
             if ($showEquipButton) {
-                $buttonHtml .= '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $dataType . '" data-id="' . intval($item['itemid']) . '" data-name="' . htmlspecialchars($itemName) . '" data-img="' . htmlspecialchars($itemImage) . '" data-loan-id="' . $item['loanid'] . '">Equip</button>';
+                $buttonHtml .= '<button class="btn btn-sm btn-primary equip-btn mt-2" data-type="' . $dataType . '" data-id="' . intval($item['itemid']) . '" data-name="' . htmlspecialchars($itemName) . '" data-img="' . htmlspecialchars($itemImage) . '" data-loan-id="' . ($item['loanid'] ?? '') . '">Equip</button>';
             }
 
             // Special buttons based on item ID
