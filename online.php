@@ -43,7 +43,7 @@ include 'header.php';
             <td><b><i>{$line['id']}</i></b></td>
             <td>" . formatName($line['id']) . "</td>
             <td>{$type}</td>
-            <td>{$gang->nobanner}</td>
+            <td>" . (isset($gang) ? $gang->nobanner : '') . "</td>
             <td>{$line['level']}</td>
             <td>" . getCityNameByID($line['city']) . "</td>
             <td>" . howlongago($line['lastactive']) . "</td>
