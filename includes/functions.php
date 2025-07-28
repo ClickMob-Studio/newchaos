@@ -1117,7 +1117,7 @@ function contribute_mission($update, $howmany = 1)
         $db->execute([$howmany, $user_class->id]);
     }
     if ($update == 'ba') {
-        $db->query("UPDATE missions SET backalleys = backalleys + 1 WHERE userid = $user_class->id AND completed = 'no'");
+        $db->query("UPDATE missions SET backalleys = backalleys + 1 WHERE userid = ? AND completed = 'no'");
         $db->execute([$user_class->id]);
 
         if (++$userMiss['backalleys'] == $miss['backalleys']) {
