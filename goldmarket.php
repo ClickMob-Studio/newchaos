@@ -235,7 +235,6 @@ include 'header.php';
             }
         }
         echo '<div class="contenthead floaty">';
-        echo '    <span style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"><h4>GOLD MARKET</h4></span>';
         echo '<h4>Create Order</h4>';
         echo '<div class="floaty" style="width:100%;">';
         echo '<form method="post">';
