@@ -28,10 +28,10 @@ $currenttime = time();
             $c = $db->fetch_row();
             if ($q)
                 $msgg = "You are currently doing a mission!";
-            else if ($c && ($c['timestamp'] + 600) > $currenttime) {
+            else if ($c && isset($c['timestamp']) && ($c['timestamp'] + 600) > $currenttime) {
                 $msgg = "You have to wait " . secondsToTime(($c['timestamp'] + 600) - $currenttime) . " until you can start another mission after canceling!";
-            } else if ($r && $r['completed'] != "no") {
-                if ($mm['between'] + $r['timestamp'] > $currenttime) {
+            } else if ($r && isset($r['completed']) && $r['completed'] != "no") {
+                if (isset($r['timestamp']) && (($mm['between'] + $r['timestamp']) > $currenttime)) {
                     $msgg = "You have to wait " . secondsToTime(($mm['between'] + $r['timestamp']) - $currenttime) . " until you can start another mission!";
                 } else {
                     $msgg = "You have successfully started a mission!";
@@ -39,8 +39,9 @@ $currenttime = time();
                     $db->query("INSERT INTO missions (`userid`, `timestamp`, `mid`) VALUES(?, ?, ?)");
                     $db->execute([$user_class->id, $currenttime, $do]);
 
-                    $db->query("INSERT INTO missionlog (`text`, `timestamp`) VALUES('[x] started a ?, ?', unix_timestamp())");
-                    $db->execute([$mm['name'], $user_class->id]);
+                    $msg = '[x] started a ' . $mm['name'] . ', ' . $user_class->id;
+                    $db->query("INSERT INTO missionlog (`text`, `timestamp`) VALUES(?, unix_timestamp())");
+                    $db->execute([$msg]);
                 }
             } else if ($r['completed'] == "no")
                 $msgg = "You are currently doing a mission!";
