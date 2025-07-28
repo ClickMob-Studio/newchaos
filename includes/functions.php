@@ -1066,6 +1066,100 @@ function raidMission($userId)
 
     return 1;
 }
+
+function contribute_mission($update, $howmany = 1)
+{
+    global $db, $user_class;
+    $prestigeUserSKills = getUserPrestigeSkills($user_class);
+    $pointsPayoutBoost = 0;
+    if ($prestigeUserSKills['mission_point_boost_level'] > 0) {
+        $pointsPayoutBoost = 2 * $prestigeUserSKills['mission_point_boost_level'];
+    }
+
+    $userMiss = get_user_mission($user_class->id);
+    if (empty($userMiss)) {
+        return 1;
+    }
+
+    $db->query("SELECT * FROM mission WHERE id = ?");
+    $db->execute(array(
+        $userMiss['mid']
+    ));
+    $miss = $db->fetch_row(true);
+    if ($update == 'k') {
+        $db->query("UPDATE missions SET kills = kills + 1 WHERE userid = ? AND completed = 'no'");
+        $db->execute(array(
+            $user_class->id
+        ));
+    }
+    if ($update == 'b') {
+        if ($prestigeUserSKills['super_busts_unlock'] > 0) {
+            $db->query("UPDATE missions SET busts = busts + 5 WHERE userid = ? AND completed = 'no'");
+            $userMiss['busts'] = $userMiss['busts'] + 5;
+        } else {
+            $db->query("UPDATE missions SET busts = busts + 1 WHERE userid = ? AND completed = 'no'");
+            $userMiss['busts'] = $userMiss['busts'] + 1;
+        }
+
+        $db->execute(array(
+            $user_class->id
+        ));
+    }
+    if ($update == 'c') {
+        $db->query("UPDATE missions SET crimes = crimes + ? WHERE userid = ? AND completed = 'no'");
+        $db->execute(array(
+            $howmany,
+            $user_class->id
+        ));
+    }
+    if ($update == 'm') {
+        $db->query("UPDATE missions SET mugs = mugs + ? WHERE userid = ? AND completed = 'no'");
+        $db->execute([$howmany, $user_class->id]);
+    }
+    if ($update == 'ba') {
+        $db->query("UPDATE missions SET backalleys = backalleys + 1 WHERE userid = $user_class->id AND completed = 'no'");
+        $db->execute([$user_class->id]);
+
+        if (++$userMiss['backalleys'] == $miss['backalleys']) {
+            $mPointsPayout = $miss['payBackalleys'];
+            if ($pointsPayoutBoost) {
+                $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
+            }
+
+            $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
+            $db->execute(array(
+                $mPointsPayout,
+                $user_class->id
+            ));
+            $db->query("INSERT INTO missionlog VALUES(NULL,'[x] successfully completed {$miss['name']} objective to get {$miss['backalleys']} backalleys,$user_class->id',unix_timestamp())");
+            $db->execute();
+            Send_event($user_class->id, "You have completed {$miss['name']} objective to get {$miss['backalleys']} backalleys.");
+        }
+    }
+
+    if ($update == 'ra') {
+        $db->query("UPDATE missions SET raids = raids + 1 WHERE userid = ? AND completed = 'no'");
+        $db->execute([$user_class->id]);
+        if (++$userMiss['raids'] == $miss['raids']) {
+            $mPointsPayout = $miss['payRaids'];
+            if ($pointsPayoutBoost) {
+                $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
+            }
+
+            $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
+            $db->execute(array(
+                $mPointsPayout,
+                $user_class->id
+            ));
+            $db->query("INSERT INTO missionlog VALUES(NULL,'[x] successfully completed {$miss['name']} objective to get {$miss['raids']} Raids,$user_class->id',unix_timestamp())");
+            $db->execute();
+            Send_event($user_class->id, "You have completed {$miss['name']} objective to get {$miss['raids']} raids.");
+        }
+    }
+
+    return 1;
+}
+
 function mission($update, $howmany = 1, $user_class = null, $db = null)
 {
     if ($db == null) {
@@ -1080,7 +1174,6 @@ function mission($update, $howmany = 1, $user_class = null, $db = null)
     if ($prestigeUserSKills['mission_point_boost_level'] > 0) {
         $pointsPayoutBoost = 2 * $prestigeUserSKills['mission_point_boost_level'];
     }
-
 
     $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no'");
     $db->execute(array(
@@ -1098,20 +1191,6 @@ function mission($update, $howmany = 1, $user_class = null, $db = null)
             $db->execute(array(
                 $user_class->id
             ));
-            // if (++$userMiss['kills'] == $miss['kills']) {
-            //     $mPointsPayout = $miss['payKills'];
-            //     if ($pointsPayoutBoost) {
-            //         $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
-            //     }
-            //     $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
-            //     $db->execute(array(
-            //         $mPointsPayout,
-            //         $user_class->id
-            //     ));
-            //     $db->query("INSERT INTO missionlog VALUES(NULL,'[x] successfully completed {$miss['name']} objective to get {$miss['kills']} kills,$user_class->id',unix_timestamp())");
-            //     $db->execute();
-            //     Send_event($user_class->id, "You have completed {$miss['name']} objective to get {$miss['kills']} kills.");
-            // }
         }
         if ($update == 'b') {
             if ($prestigeUserSKills['super_busts_unlock'] > 0) {
@@ -1125,21 +1204,6 @@ function mission($update, $howmany = 1, $user_class = null, $db = null)
             $db->execute(array(
                 $user_class->id
             ));
-            //            if (++$userMiss['busts'] >= $miss['busts']) {
-//                $mPointsPayout = $miss['payBusts'];
-//                if ($pointsPayoutBoost) {
-//                    $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
-//                }
-//
-//                $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
-//                $db->execute(array(
-//                    $mPointsPayout,
-//                    $user_class->id
-//                ));
-//                $db->query("INSERT INTO missionlog VALUES(NULL,'[x] successfully completed {$miss['name']} objective to get {$miss['busts']} busts,$user_class->id',unix_timestamp())");
-//                $db->execute();
-//                Send_event($user_class->id, "You have completed {$miss['name']} objective to get {$miss['busts']} busts.");
-//            }
         }
         if ($update == 'c') {
             $db->query("UPDATE missions SET crimes = crimes + ? WHERE userid = ? AND completed = 'no'");
@@ -1147,46 +1211,15 @@ function mission($update, $howmany = 1, $user_class = null, $db = null)
                 $howmany,
                 $user_class->id
             ));
-            // if (++$userMiss['crimes'] == $miss['crimes']) {
-            // if (($userMiss['crimes'] + $howmany) >= $miss['crimes']) {
-            //     $_SESSION['crime_lock'] = 1;
-            //     $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
-            //     $db->execute(array(
-            //         $miss['payCrimes'],
-            //         $user_class->id
-            //     ));
-            //     $db->query("INSERT INTO missionlog VALUES(NULL,'[x] successfully completed {$miss['name']} objective to get {$miss['crimes']} crimes,$user_class->id',unix_timestamp())");
-            //     $db->execute();
-            //     Send_event($user_class->id, "You have completed {$miss['name']} objective to get {$miss['crimes']} crimes.");
-            //     unset($_SESSION['crime_lock']);;
-            // }
         }
         if ($update == 'm') {
-            $db->query("UPDATE missions SET mugs = mugs + {$howmany} WHERE userid = $user_class->id AND completed = 'no'");
-            $db->execute(array(
-                $user_class->id
-            ));
-            //            if (++$userMiss['mugs'] == $miss['mugs']) {
-//                $mPointsPayout = $miss['payMugs'];
-//                if ($pointsPayoutBoost) {
-//                    $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
-//                }
-//
-//                $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
-//                $db->execute(array(
-//                    $mPointsPayout,
-//                    $user_class->id
-//                ));
-//                $db->query("INSERT INTO missionlog VALUES(NULL,'[x] successfully completed {$miss['name']} objective to get {$miss['mugs']} mugs,$user_class->id',unix_timestamp())");
-//                $db->execute();
-//                Send_event($user_class->id, "You have completed {$miss['name']} objective to get {$miss['mugs']} mugs.");
-//            }
+            $db->query("UPDATE missions SET mugs = mugs + ? WHERE userid = ? AND completed = 'no'");
+            $db->execute([$howmany, $user_class->id]);
         }
         if ($update == 'ba') {
             $db->query("UPDATE missions SET backalleys = backalleys + 1 WHERE userid = $user_class->id AND completed = 'no'");
-            $db->execute(array(
-                $user_class->id
-            ));
+            $db->execute([$user_class->id]);
+
             if (++$userMiss['backalleys'] == $miss['backalleys']) {
                 $mPointsPayout = $miss['payBackalleys'];
                 if ($pointsPayoutBoost) {
@@ -1205,10 +1238,8 @@ function mission($update, $howmany = 1, $user_class = null, $db = null)
         }
 
         if ($update == 'ra') {
-            $db->query("UPDATE missions SET raids = raids + 1 WHERE userid = $user_class->id AND completed = 'no'");
-            $db->execute(array(
-                $user_class->id
-            ));
+            $db->query("UPDATE missions SET raids = raids + 1 WHERE userid = ? AND completed = 'no'");
+            $db->execute([$user_class->id]);
             if (++$userMiss['raids'] == $miss['raids']) {
                 $mPointsPayout = $miss['payRaids'];
                 if ($pointsPayoutBoost) {
@@ -1225,27 +1256,8 @@ function mission($update, $howmany = 1, $user_class = null, $db = null)
                 Send_event($user_class->id, "You have completed {$miss['name']} objective to get {$miss['raids']} raids.");
             }
         }
-    } else {
-        return 1;
     }
-    // if ($userMiss['kills'] >= $miss['kills'] && $userMiss['crimes'] >= $miss['crimes'] && $userMiss['busts'] >= $miss['busts'] && $userMiss['mugs'] >= $miss['mugs']) {
-    //     $exp = 5 + (5 * $userMiss['mid']);
-    //     $levelhurts = floor($user_class->level / 10);
-    //     $exp = ($exp - $levelhurts < 3) ? 3 : $exp - $levelhurts;
-    //     $expgain = floor($user_class->maxexp * ($exp / 100));
-    //     $db->query("UPDATE grpgusers SET exp = exp + ? WHERE id = ?");
-    //     $db->execute(array(
-    //         $expgain,
-    //         $user_class->id
-    //     ));
-    //     Send_event($user_class->id, "You have completed the {$miss['name']}! [+ $expgain EXP]");
-    //     $db->query("UPDATE missions SET completed = 'successful' WHERE id = ?");
-    //     $db->execute(array(
-    //         $userMiss['id']
-    //     ));
-    //     $db->query("INSERT INTO missionlog VALUES (NULL,'[x] successfully completed their {$miss['name']}.,$user_class->id',unix_timestamp())");
-    //     $db->execute();
-    // }
+
     return 1;
 }
 function bloodbath($att, $id, $amnt = 1)

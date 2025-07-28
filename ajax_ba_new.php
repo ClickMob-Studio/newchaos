@@ -174,6 +174,8 @@ if ($user_class->hospital > 0) {
 $db->query("UPDATE grpgusers SET energy = energy - " . $energyneeded . " WHERE id = " . $user_class->id);
 $db->execute();
 
+contribute_mission('ba');
+
 $toadd = array('baotd' => 1);
 ofthes($user_class->id, $toadd);
 gangContest(['backalley' => 1]);
@@ -209,7 +211,7 @@ if (isset($currentQuestSeason['id'])) {
     $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
     if (isset($questSeasonMission['requirements']->backalley)) {
-        updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'backalleys', 1);
+        updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'backalley', 1);
     }
 }
 
