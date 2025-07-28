@@ -6,8 +6,7 @@ include 'header.php';
 <div class='box_middle'>
     <div class='pad'>
         <?php
-        $_SESSION['lastattack'] = ($_SESSION['lastattack'] == "") ? time() : $_SESSION['lastattack'];
-
+        $_SESSION['lastattack'] = $_SESSION['lastattack'] ?? time();
 
         $ref = $_SERVER['HTTP_REFERER'];
         $id = $_GET['attack'];
