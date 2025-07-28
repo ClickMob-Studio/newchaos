@@ -68,7 +68,7 @@ class Gang
             $this->color1 = '';
             $this->color2 = '';
             $this->color3 = '';
-            $this->crimeend = null;
+            $this->crimeend = '';
             $this->exppercent = 0;
             $this->formattedexp = '';
             $this->level = -1;
