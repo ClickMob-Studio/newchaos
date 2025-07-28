@@ -59,7 +59,7 @@ include "header.php";
                         perform_query("INSERT INTO missions (`userid`, `timestamp`, `mid`) VALUES(?, ?, ?)", [$user_class->id, $now, $do]);
                         perform_query("INSERT INTO missionlog (`text`, `timestamp`) VALUES(?, ?)", ["[x] started a {$mm['name']},$user_class->id", $now]);
                     }
-                } else if ($r['completed'] == "no")
+                } else if (isset($r['completed']) && $r['completed'] == "no")
                     $msgg = "You are currently doing a mission!";
                 else {
                     $msgg = "You have successfully started a mission!";
