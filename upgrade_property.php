@@ -28,7 +28,7 @@ $userid = $user_class->id; // Assuming $user_class contains user details
 echo "<div class='debug-info'>Debug Info: Property ID = $property_id, User ID = $userid</div>";
 
 // Fetch property details to confirm ownership
-$query = mysql_query("SELECT * FROM ownedProperties WHERE id = '" . mysql_real_escape_string($property_id) . "' AND userid = '" . mysql_real_escape_string($userid) . "'");
+$query = mysql_query("SELECT * FROM ownedproperties WHERE id = '" . mysql_real_escape_string($property_id) . "' AND userid = '" . mysql_real_escape_string($userid) . "'");
 $property = mysql_fetch_assoc($query);
 
 if (!$property) {
@@ -46,11 +46,11 @@ if (mysql_num_rows($query) == 0) {
     echo "<table class='upgrade-table'><tr><th>Upgrade Name</th><th>Cost</th><th>Duration</th><th>Effect</th><th>Action</th></tr>";
     while ($upgrade = mysql_fetch_assoc($query)) {
         echo "<tr>
-                <td>".htmlspecialchars($upgrade['upgrade_name'])."</td>
-                <td>".htmlspecialchars($upgrade['cost'])."</td>
-                <td>".htmlspecialchars($upgrade['duration'])."</td>
-                <td>".htmlspecialchars($upgrade['effect'])."</td>
-                <td class='action'><button class='button' onclick='upgradeProperty(".htmlspecialchars($upgrade['upgrade_id']).")'>Upgrade</button></td>
+                <td>" . htmlspecialchars($upgrade['upgrade_name']) . "</td>
+                <td>" . htmlspecialchars($upgrade['cost']) . "</td>
+                <td>" . htmlspecialchars($upgrade['duration']) . "</td>
+                <td>" . htmlspecialchars($upgrade['effect']) . "</td>
+                <td class='action'><button class='button' onclick='upgradeProperty(" . htmlspecialchars($upgrade['upgrade_id']) . ")'>Upgrade</button></td>
               </tr>";
     }
     echo "</table>";

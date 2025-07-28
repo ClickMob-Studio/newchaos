@@ -233,19 +233,19 @@ while ($line = mysql_fetch_array($result2)) {
 }
 
 $db->startTrans();
-$db->query("UPDATE rentedProperties SET days = days - 1");
+$db->query("UPDATE rentedproperties SET days = days - 1");
 $db->execute();
-$db->query("SELECT * FROM rentedProperties WHERE days = 0");
+$db->query("SELECT * FROM rentedproperties WHERE days = 0");
 $db->execute();
 $rows = $db->fetch_row();
 foreach ($rows as $row) {
-    $db->query("INSERT INTO ownedProperties VALUES ('', ?, ?)");
+    $db->query("INSERT INTO ownedproperties VALUES ('', ?, ?)");
     $db->execute(array(
         $row['owner'],
         $row['houseid']
     ));
 }
-$db->query("DELETE FROM rentedProperties WHERE days <= 0");
+$db->query("DELETE FROM rentedproperties WHERE days <= 0");
 $db->execute();
 $db->endTrans();
 
