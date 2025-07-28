@@ -163,6 +163,7 @@ $currenttime = time();
     </tr>
 </div>";
         } else {
+            $currenttime = time();
             foreach ($missions as $v) {
                 $secondButton = "";
 
@@ -171,6 +172,13 @@ $currenttime = time();
                 $r = $db->fetch_row(true);
                 if (isset($r) && ($v['between'] + $r['timestamp'] > $currenttime)) {
                     $button = "Available in " . secondsToTime(($v['between'] + $r['timestamp']) - $currenttime);
+                    $tempItemUse = getItemTempUse($user_class->id);
+                    if ($tempItemUse['mission_passes'] > 0) {
+                        $secondButton = '
+                <br /><br />
+                <a href="?reset_mission=' . $v['id'] . '" style="color:#ff6218;">Reset Mission (Resetting a mission will start it instantly)</a>
+                ';
+                    }
                 } else {
                     $button = "<input TYPE='button' value='Do Mission' onclick=window.location.href='?do={$v['id']}'>";
                 }
@@ -191,7 +199,10 @@ $currenttime = time();
                 <td class='mission-columns'>{$v['name']}</td>
                 <td class='mission-columns'>Kills: <span class='text-green'>{$v['kills']}<br /></span>Crimes: <span class='text-green'>{$v['crimes']}<br /></span>Mugs: <span class='text-green'>{$v['mugs']}<br /></span>Busts: <span class='text-green'>{$v['busts']}</span></td>
                 <td class='mission-columns'>Kills: <span class='text-green'>{$v['payKills']}</span> Points<br/>Crimes: <span class='text-green'>{$v['payCrimes']}</span> Points<br/>Mugs: <span class='text-green'>{$v['payMugs']}</span> Points<br/>Busts: <span class='text-green'>{$v['payBusts']}</span> Points<br/>EXP: <span class='text-green'>{$v['exp_level']}%</span> of max EXP<br/></td>
-                <td class='mission-columns'>{$button}</td>
+                <td class='mission-columns'>
+                    {$button}
+                    {$secondButton}
+                </td>
             </tr>
 
         </table>
