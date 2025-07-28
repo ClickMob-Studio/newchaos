@@ -76,8 +76,7 @@ $expRows = $db->fetch_row();
                     <?php $i = 1; ?>
                     <?php foreach ($trainingRows as $trainingRow): ?>
                         <?php
-                        echo print_r($trainingRow);
-                        $pet = $db->query("SELECT * FROM pets WHERE petid = " . $trainingRow['pet_id'] . " LIMIT 1");
+                        $pet = $db->query("SELECT * FROM pets WHERE id = " . $trainingRow['pet_id'] . " LIMIT 1");
                         $pet = $db->fetch_row(true);
                         ?>
 
