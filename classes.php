@@ -238,6 +238,7 @@ class User
             LEFT JOIN ranks r ON r.id = grpg.grank
             LEFT JOIN ghouses gh ON gh.id = g.ghouse
             LEFT JOIN bans b ON b.id = grpg.id
+            LEFT JOIN pets p ON p.userid = grpg.id
             WHERE grpg.id = ?");
         $db->execute([$id]);
         $worked = $db->fetch_row(true);
@@ -260,12 +261,15 @@ class User
         $db->query("SELECT * FROM pets WHERE userid = ? AND leash = 1");
         $db->execute([$id]);
         if ($db->num_rows()) {
-            $pet = $db->fetch_row(true);
+            $this->pet = $db->fetch_row(true);
+            $pet = $this->pet;
         } else {
+            $this->pet = null;
             $pet['str'] = 0;
             $pet['def'] = 0;
             $pet['spe'] = 0;
         }
+
         $db->query("SELECT days FROM bans WHERE id = ?");
         $db->execute([$id]);
         if ($db->num_rows()) {
