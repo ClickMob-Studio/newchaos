@@ -132,19 +132,19 @@ if (!isset($_SESSION['deal_ok'])) {
                     echo '<p>The banker has offered you $' . number_format($amount) . '</p>';
                     echo '<p><input type="button" value="Deal" onclick=\'document.location="lucky_boxes.php?deal"\' /> or <input type="button" value="No Deal" onclick=\'document.location="lucky_boxes.php?nodeal"\' class="x" /></p>';
                 }
-            } else if (($_GET['box'] > 0) && ($_SESSION['deal_mybox'] < 1) && ($_GET['box'] < 27)) {
+            } else if ((isset($_GET['box']) && $_GET['box'] > 0) && (isset($_SESSION['deal_mybox']) && $_SESSION['deal_mybox'] < 1) && (isset($_GET['box']) && $_GET['box'] < 27)) {
                 $_SESSION['deal_mybox'] = $_GET['box'];
                 echo '<p>You select box ' . $_GET['box'] . ' as your box - you can now select 5 other boxes before the banker makes an offer for your box</p>';
-            } else if (($_GET['box'] > 0) && ($_GET['box'] < 27) && ($_GET['box'] != $_SESSION['deal_mybox'])) {
+            } else if ((isset($_GET['box']) && $_GET['box'] > 0) && (isset($_GET['box']) && $_GET['box'] < 27) && (isset($_GET['box']) && $_GET['box'] != $_SESSION['deal_mybox'])) {
                 if (!in_array($_GET['box'], $_SESSION['deal_boxes'])) {
                     echo '<p>You open box ' . $_GET['box'] . ' and see $' . number_format($_SESSION['deal_box'][$_GET['box']]) . '</p>';
                     $_SESSION['deal_boxes'][] = $_GET['box'];
                     $_SESSION['deal_bank'] = true;
                 }
-            } else if ($_SESSION['deal_mybox'] < 1) {
+            } else if (isset($_SESSION['deal_mybox']) && $_SESSION['deal_mybox'] < 1) {
                 echo '<p>Start off by selecting the box that you will keep until the end.</p>';
             }
-            if (count($_SESSION['deal_boxes']) == 25) {
+            if (isset($_SESSION['deal_boxes']) && count($_SESSION['deal_boxes']) == 25) {
                 $mybox = $_SESSION['deal_box'][$_SESSION['deal_mybox']];
                 echo '<p>You open your box and get $' . number_format($mybox) . '!</p>';
                 $user_class->money += $mybox;
@@ -209,7 +209,7 @@ if (!isset($_SESSION['deal_ok'])) {
                 if (($amount > 0) && ($open)) {
                     $rtn .= '<tr style="background-color:#ddd;">';
                     $rtn .= '<td align="center" height="18" style="color:red;"><b class="text-black">$' . number_format($amount) . '</b>';
-                } else if ($num == $_SESSION['deal_mybox']) {
+                } else if (isset($_SESSION['deal_mybox']) && $num == $_SESSION['deal_mybox']) {
                     $rtn .= '<tr style="background-color:#296321;">';
                     $rtn .= '<td align="center" height="18"><b class="text-white">Your Box</b>';
                 } else {
