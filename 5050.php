@@ -2,7 +2,7 @@
 
 require "header.php";
 
-if ($_GET['action'] == 'ban') {
+if (isset($_GET['action']) && $_GET['action'] == 'ban') {
     $db->query("UPDATE `grpgusers` SET `ffban` = 1 WHERE `id` = ?");
     $db->execute([$user_class->id]);
 
@@ -151,8 +151,8 @@ foreach ($all as $bet) {
     $db->execute(['userid' => $user_class->id]);
     $res = $db->fetch_row();
 
-    $totalGames = $res['total_games'];
-    $gamesWon = $res['games_won'];
+    $totalGames = $res['total_games'] ?? 0;
+    $gamesWon = $res['games_won'] ?? 0;
     if ($totalGames > 0) {
         $winningPercentage = ($gamesWon / $totalGames) * 100;
     } else {
