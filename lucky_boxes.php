@@ -135,7 +135,12 @@ if (!isset($_SESSION['deal_ok'])) {
             } else if ((isset($_GET['box']) && $_GET['box'] > 0) && (isset($_SESSION['deal_mybox']) && $_SESSION['deal_mybox'] < 1) && (isset($_GET['box']) && $_GET['box'] < 27)) {
                 $_SESSION['deal_mybox'] = $_GET['box'];
                 echo '<p>You select box ' . $_GET['box'] . ' as your box - you can now select 5 other boxes before the banker makes an offer for your box</p>';
-            } else if ((isset($_GET['box']) && $_GET['box'] > 0) && (isset($_GET['box']) && $_GET['box'] < 27) && (isset($_GET['box']) && isset($_SESSION['deal_mybox']) && $_GET['box'] != $_SESSION['deal_mybox'])) {
+            } else if (
+                isset($_GET['box'], $_SESSION['deal_mybox']) &&
+                $_GET['box'] > 0 &&
+                $_GET['box'] < 27 &&
+                $_GET['box'] != $_SESSION['deal_mybox']
+            ) {
                 if (!in_array($_GET['box'], $_SESSION['deal_boxes'])) {
                     echo '<p>You open box ' . $_GET['box'] . ' and see $' . number_format($_SESSION['deal_box'][$_GET['box']]) . '</p>';
                     $_SESSION['deal_boxes'][] = $_GET['box'];
