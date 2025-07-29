@@ -1591,18 +1591,23 @@ $(document).ready(function() {
                 $count++;
             }
 
-            $pinfo = new Pet($profile_class->id);
-            if ($pinfo->id > 0) {
-                echo "<div class='col-4 col-md-3'>
-            <div class='equip_item'>
-                <div class='equip_item_img'>
+            try {
+
+                $pinfo = new Pet($profile_class->id);
+                if ($pinfo->id > 0) {
+                    echo "<div class='col-4 col-md-3'>
+                    <div class='equip_item'>
+                    <div class='equip_item_img'>
                     <img src='" . $pinfo->avi . "' width='100px' height='100px'>
-                </div>
-                <div class='equip_item_name'>" .
-                    $pinfo->formatName() .
-                    "</div>
-            </div>
-          </div>";
+                    </div>
+                    <div class='equip_item_name'>" .
+                        $pinfo->formatName() .
+                        "</div>
+                    </div>
+                    </div>";
+                }
+            } catch (Exception $e) {
+                echo "User has no pet";
             }
 
             echo "</div></div>";
