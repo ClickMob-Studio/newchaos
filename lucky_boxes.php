@@ -125,6 +125,7 @@ if (!isset($_SESSION['deal_ok'])) {
                     echo '<p><a href="city.php">back</a></p>';
                     $user_class->money += $amount;
                     perform_query("UPDATE grpgusers SET money = ? WHERE id = ?", [$user_class->money, $user_class->id]);
+                    die();
                 } else if (isset($_GET['nodeal'])) {
                     echo '<p>You have declined the banker\'s offer of $' . number_format($amount) . '. You can now continue playing.</p>';
                     $_SESSION['deal_bank'] = 0;
