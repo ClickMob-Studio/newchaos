@@ -132,27 +132,27 @@ at:left;
     </tr>
     <tr>
         <th>Pet Level:</th>
-        <td>$user_class->pet->level</td>
+        <td>" . $user_class->pet->level . "</td>
         <td></td>
         <th>Pet House:</th>
-        <td><a href='pethouse.php'>$user_class->pet->housename</a></td>
+        <td><a href='pethouse.php'>" . $user_class->pet->housename . "</a></td>
         <td></td>
     </tr>
     <tr>
         <th><a href='?spend=penergy' style='color:orange;'>Pet Energy:</a></th>
-        <td><div class='progress-barpets blue stripes' style='height:20px;width:100px;'><span style='width: $user_class->pet->energypercent%;height:20px;'></span></div></td>
-        <td>$user_class->pet->formattedenergy</td>
+        <td><div class='progress-barpets blue stripes' style='height:20px;width:100px;'><span style='width: " . $user_class->pet->energypercent . "%;height:20px;'></span></div></td>
+        <td>" . $user_class->pet->formattedenergy . "</td>
         <th><a href='?spend=pawake' style='color:orange;'>Pet Awake:</a></th>
-        <td><div class='progress-barpets blue stripes' style='height:20px;width:100px;'><span style='width: $user_class->pet->awakepercent%;height:20px;'></td>
-        <td>$user_class->pet->formattedawake</td>
+        <td><div class='progress-barpets blue stripes' style='height:20px;width:100px;'><span style='width: " . $user_class->pet->awakepercent . "%;height:20px;'></span></div></td>
+        <td>" . $user_class->pet->formattedawake . "</td>
     </tr>
     <tr>
         <th><a href='?spend=pnerve' style='color:orange;'>Pet Nerve:</a></th>
-        <td><div class='progress-barpets blue stripes' style='height:20px;width:100px;'><span style='width: $user_class->pet->nervepercent%;height:20px;'></td>
-        <td>$user_class->pet->formattednerve</td>
+        <td><div class='progress-barpets blue stripes' style='height:20px;width:100px;'><span style='width: " . $user_class->pet->nervepercent . "%;height:20px;'></span></div></td>
+        <td>" . $user_class->pet->formattednerve . "</td>
         <th>Pet EXP:</th>
-        <td><div class='progress-barpets blue stripes' style='height:20px;width:100px;'><span style='width: $user_class->pet->exppercent%;height:20px;'></td>
-        <td>$user_class->pet->formattedexp</td>
+        <td><div class='progress-barpets blue stripes' style='height:20px;width:100px;'><span style='width: " . $user_class->pet->exppercent . "%;height:20px;'></span></div></td>
+        <td>" . $user_class->pet->formattedexp . "</td>
     </tr>
 </table>
 ";
