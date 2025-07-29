@@ -43,7 +43,7 @@ include 'header.php';
 			echo '<td>Time Sent</td>';
 			echo '</tr>';
 
-			$db->query("SELECT * FROM req_requests WHERE player = ?");
+			$db->query("SELECT * FROM rel_requests WHERE player = ?");
 			$db->execute([$user_class->id]);
 			$result = $db->fetch_row();
 			foreach ($result as $line) {
