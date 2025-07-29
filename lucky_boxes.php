@@ -83,7 +83,7 @@ if (!isset($_SESSION['deal_ok'])) {
             21,
             24
         );
-        if (!$_SESSION['deal']) {
+        if (!isset($_SESSION['deal']) && !$_SESSION['deal']) {
             if (isset($_GET['play'])) {
                 if ($_SESSION['deal_ok']) {
                     if ($user_class->money >= 10000) {
