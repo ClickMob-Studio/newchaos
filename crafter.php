@@ -43,22 +43,32 @@ function handleTrade($tradeId)
         return implode(", ", $lackingItems) . ".";
     }
 
-    // Deduct required items from user's inventory and remove if quantity becomes 0
-    for ($i = 1; $i <= 6; $i++) {
-        if (!empty($trade["item$i"])) {
-            Take_Item($trade["item$i"], $user_class->id, $trade["item{$i}quantity"]);
-        }
-    }
+    $db->beginTransaction();
 
-    // Add reward items to user's inventory
-    for ($i = 1; $i <= 6; $i++) {
-        if (!empty($trade["itemreward$i"])) {
-            $rewardItemId = $trade["itemreward$i"];
-            Give_Item($rewardItemId, $user_class->id, 1);
-        }
-    }
+    try {
 
-    return "Trade successful!";
+        // Deduct required items from user's inventory and remove if quantity becomes 0
+        for ($i = 1; $i <= 6; $i++) {
+            if (!empty($trade["item$i"])) {
+                Take_Item($trade["item$i"], $user_class->id, $trade["item{$i}quantity"]);
+            }
+        }
+
+        // Add reward items to user's inventory
+        for ($i = 1; $i <= 6; $i++) {
+            if (!empty($trade["itemreward$i"])) {
+                $rewardItemId = $trade["itemreward$i"];
+                Give_Item($rewardItemId, $user_class->id, 1);
+            }
+        }
+
+        return "Trade successful!";
+    } catch (Exception $e) {
+        $db->rollback();
+        error_log("Trade failed for user {$user_class->id} with trade ID {$tradeId}: " . $e->getMessage());
+
+        return "Trade failed, try again";
+    }
 }
 
 // Check for trade submission
@@ -160,7 +170,6 @@ $tradesResult = $db->fetch_row();
 
 <?php
 $currentTimestamp = time(); // Current timestamp in seconds
-$cooldownQuery = "SELECT timestamp FROM crafter_cooldown WHERE user_id = $user_class->id";
 $db->query("SELECT timestamp FROM crafter_cooldown WHERE user_id = ?");
 $db->execute([$user_class->id]);
 $cooldownResult = $db->fetch_single();
