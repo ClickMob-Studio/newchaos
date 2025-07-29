@@ -291,10 +291,12 @@ $names = array(
             } else if (empty($_GET['id']) && empty($_GET['topic'])) {
                 $db->query("UPDATE grpgusers SET threadtime = unix_timestamp() WHERE id = ?");
                 $db->execute(array($user_class->id));
+
                 $db->query("SELECT days FROM bans WHERE id = ? AND type = 'forum'");
                 $db->execute(array($user_class->id));
                 if ($db->num_rows())
                     diefun("You've been banned from the forum. Time remaining: " . howlongtil($db->fetch_single() * 86400));
+
                 $forums = array();
                 $fnames = array(
                     array('News', 'Stay up to date and comment on game news.'),
@@ -309,6 +311,7 @@ $names = array(
                     array('Graphics', 'Forum section for all your graphical needs.'),
                     array('Staff Forum', 'Anything you need to talk about in private to another staff member.')
                 );
+
                 for ($i = 1; $i <= 11; $i++) {
                     $db->query("SELECT * FROM ftopics WHERE sectionid = ? ORDER BY timesent DESC LIMIT 1");
                     $db->execute(array($i));
@@ -322,7 +325,12 @@ $names = array(
                     $db->query("SELECT COUNT(postid) FROM freplies WHERE sectionid = ?");
                     $db->execute(array($i));
                     $forums[$i]['replies'] = $db->fetch_single();
-                    $forums[$i]['lastreply'] = ($forums[$i]['lastreply'] > $cnt['timesent']) ? $forums[$i]['lastreply'] : $cnt['timesent'];
+                    if (isset($cnt['timesent'])) {
+                        $forums[$i]['lastreply'] = ($forums[$i]['lastreply'] > $cnt['timesent']) ? $forums[$i]['lastreply'] : $cnt['timesent'];
+                    } else {
+                        $forums[$i]['lastreply'] = 0;
+                    }
+
                     $forums[$i]['lastpost'] = $forums[$i]['lastreply'] ? date('d F Y, g:ia', $forums[$i]['lastreply']) : 'None';
                     $forums[$i]['name'] = $fnames[$i - 1][0];
                     $forums[$i]['sub'] = $fnames[$i - 1][1];
@@ -386,10 +394,12 @@ $names = array(
                                 else
                                     $j = 10;
                                 for ($i = 1; $i <= $j; $i++) {
-                                    $db->query("SELECT avatar FROM grpgusers WHERE id = ?");
-                                    $db->execute(array($forums[$i]['topicinfo']['playerid']));
-                                    $avatar = $db->fetch_single();
-                                    $forums[$i]['topicinfo']['body'] = substr($forums[$i]['topicinfo']['body'], 0, 50);
+                                    if (isset($forums[$i]['topicinfo']['playerid'])) {
+                                        $db->query("SELECT avatar FROM grpgusers WHERE id = ?");
+                                        $db->execute(array($forums[$i]['topicinfo']['playerid']));
+                                        $avatar = $db->fetch_single();
+                                        $forums[$i]['topicinfo']['body'] = substr($forums[$i]['topicinfo']['body'], 0, 50);
+                                    }
                                     ?>
                                     <tr>
                                         <td><a href='forum.php?id=<?php echo $i; ?>'
