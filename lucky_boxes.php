@@ -83,7 +83,7 @@ if (!isset($_SESSION['deal_ok'])) {
             21,
             24
         );
-        if (!isset($_SESSION['deal']) || !$_SESSION['deal']) {
+        if (empty($_SESSION['deal'])) {
             if (isset($_GET['play'])) {
                 if ($_SESSION['deal_ok']) {
                     if ($user_class->money >= 10000) {
@@ -132,7 +132,12 @@ if (!isset($_SESSION['deal_ok'])) {
                     echo '<p>The banker has offered you $' . number_format($amount) . '</p>';
                     echo '<p><input type="button" value="Deal" onclick=\'document.location="lucky_boxes.php?deal"\' /> or <input type="button" value="No Deal" onclick=\'document.location="lucky_boxes.php?nodeal"\' class="x" /></p>';
                 }
-            } else if ((isset($_GET['box']) && $_GET['box'] > 0) && (isset($_SESSION['deal_mybox']) && $_SESSION['deal_mybox'] < 1) && (isset($_GET['box']) && $_GET['box'] < 27)) {
+            } else if (
+                isset($_GET['box']) &&
+                $_GET['box'] > 0 &&
+                $_GET['box'] < 27 &&
+                (!isset($_SESSION['deal_mybox']) || $_SESSION['deal_mybox'] < 1)
+            ) {
                 $_SESSION['deal_mybox'] = $_GET['box'];
                 echo '<p>You select box ' . $_GET['box'] . ' as your box - you can now select 5 other boxes before the banker makes an offer for your box</p>';
             } else if (
@@ -146,7 +151,7 @@ if (!isset($_SESSION['deal_ok'])) {
                     $_SESSION['deal_boxes'][] = $_GET['box'];
                     $_SESSION['deal_bank'] = true;
                 }
-            } else if (isset($_SESSION['deal_mybox']) && $_SESSION['deal_mybox'] < 1) {
+            } else if (!isset($_SESSION['deal_mybox']) || $_SESSION['deal_mybox'] < 1) {
                 echo '<p>Start off by selecting the box that you will keep until the end.</p>';
             }
             if (isset($_SESSION['deal_boxes']) && count($_SESSION['deal_boxes']) == 25) {
