@@ -1,9 +1,10 @@
 <?php
 include "header.php";
 if (!isset($_SESSION['deal_ok'])) {
-
-    $res = mysql_fetch_array(mysql_query("SELECT uid FROM dond WHERE uid = $user_class->id"));
-    if (!$res) {
+    $db->query("SELECT uid FROM dond WHERE uid = ?");
+    $db->execute([$user_class->id]);
+    $res = $db->fetch_row(true);
+    if (empty($res)) {
         $_SESSION['deal_ok'] = true;
         perform_query("INSERT INTO dond VALUES(?)", [$user_class->id]);
     } else
