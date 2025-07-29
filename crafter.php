@@ -43,7 +43,7 @@ function handleTrade($tradeId)
         return implode(", ", $lackingItems) . ".";
     }
 
-    $db->beginTransaction();
+    $db->startTrans();
 
     try {
 
@@ -62,9 +62,10 @@ function handleTrade($tradeId)
             }
         }
 
+        $db->endTrans();
         return "Trade successful!";
     } catch (Exception $e) {
-        $db->rollback();
+        $db->cancelTransaction();
         error_log("Trade failed for user {$user_class->id} with trade ID {$tradeId}: " . $e->getMessage());
 
         return "Trade failed, try again";
