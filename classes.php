@@ -261,8 +261,8 @@ class User
         $db->query("SELECT * FROM pets WHERE userid = ? AND leash = 1");
         $db->execute([$id]);
         if ($db->num_rows()) {
-            $this->pet = $db->fetch_row(true);
-            $pet = $this->pet;
+            $pet = $db->fetch_row(true);
+            $this->pet = new Pet($id);
         } else {
             $this->pet = null;
             $pet['str'] = 0;
@@ -1301,6 +1301,7 @@ class Pet
             ]);
         }
     }
+
     function formatName()
     {
         $colors = explode("|", $this->coloredname);
