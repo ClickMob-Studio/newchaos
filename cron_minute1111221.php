@@ -729,7 +729,7 @@ foreach ($rows as $row) {
             $mname = "Hardened Mission";
             break;
         default:
-            continue;
+            continue 2;
     }
     $db->query("INSERT INTO missionlog VALUES ('', ?, unix_timestamp())");
     $db->execute(array(
