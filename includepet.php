@@ -1,14 +1,10 @@
 <?php
-
-$my_pet = null;
-try {
-    $my_pet = new Pet($user_class->id);
-} catch (Exception $e) {
+if (!isset($user_class->pet)) {
     header("location: petshop.php");
     diefun("You do not have a pet.");
 }
 
-if ($my_pet->onmarket != 0)
+if ($user_class->pet->onmarket != 0)
     diefun("Sorry, your pet is on the market.");
 
 if (isset($_GET['pm'])) {
@@ -17,43 +13,43 @@ if (isset($_GET['pm'])) {
 }
 
 if (isset($_GET['spend']) && $_GET['spend'] == 'pnerve') {
-    if ($my_pet->nervepercent == 100)
+    if ($user_class->pet->nervepercent == 100)
         echo Message("Your pet's nerve is already full.");
     elseif ($user_class->points < 10)
         echo Message("You need 10 points to refill your pet's nerve.");
     else {
-        $refillamnt = (($my_pet->maxnerve - $my_pet->nerve) > 100) ? 100 : $my_pet->maxnerve - $my_pet->nerve;
+        $refillamnt = (($user_class->pet->maxnerve - $user_class->pet->nerve) > 100) ? 100 : $user_class->pet->maxnerve - $user_class->pet->nerve;
         perform_query("UPDATE pets SET nerve = nerve + ? WHERE userid = ?", [$refillamnt, $user_class->id]);
         perform_query("UPDATE grpgusers SET points = points - 10 WHERE id = ?", [$user_class->id]);
         echo Message("You have refilled your pet's nerve for 10 points!");
-        $my_pet = new Pet($user_class->id);
+        $user_class->pet = new Pet($user_class->id);
     }
 }
 
 if (isset($_GET['spend']) && $_GET['spend'] == 'penergy') {
-    if ($my_pet->energypercent == 100)
+    if ($user_class->pet->energypercent == 100)
         echo Message("Your pet's energy is already full.");
     elseif ($user_class->points < 8)
         echo Message("You need 8 points to refill your pet's energy.");
     else {
-        perform_query("UPDATE pets SET energy = energy + ? WHERE userid = ?", [$my_pet->maxenergy, $user_class->id]);
+        perform_query("UPDATE pets SET energy = energy + ? WHERE userid = ?", [$user_class->pet->maxenergy, $user_class->id]);
         perform_query("UPDATE grpgusers SET points = points - 8 WHERE id = ?", [$user_class->id]);
         echo Message("You have refilled your pet's energy for 8 points!");
-        $my_pet = new Pet($user_class->id);
+        $user_class->pet = new Pet($user_class->id);
     }
 }
 
 if (isset($_GET['spend']) && $_GET['spend'] == 'pawake') {
-    $cost = ceil(100 - $my_pet->awakepercent);
-    if ($my_pet->awakepercent == 100)
+    $cost = ceil(100 - $user_class->pet->awakepercent);
+    if ($user_class->pet->awakepercent == 100)
         echo Message("Your pet's awake is already full.");
     elseif ($user_class->points < $cost)
         echo Message("You need $cost points to refill your pet's awake.");
     else {
-        perform_query("UPDATE pets SET awake = ? WHERE userid = ?", [$my_pet->maxawake, $user_class->id]);
+        perform_query("UPDATE pets SET awake = ? WHERE userid = ?", [$user_class->pet->maxawake, $user_class->id]);
         perform_query("UPDATE grpgusers SET points = points - ? WHERE id = ?", [$cost, $user_class->id]);
         echo Message("You have refilled your pet's awake for $cost points!");
-        $my_pet = new Pet($user_class->id);
+        $user_class->pet = new Pet($user_class->id);
     }
 }
 echo "
@@ -136,27 +132,27 @@ at:left;
     </tr>
     <tr>
         <th>Pet Level:</th>
-        <td>$my_pet->level</td>
+        <td>$user_class->pet->level</td>
         <td></td>
         <th>Pet House:</th>
-        <td><a href='pethouse.php'>$my_pet->housename</a></td>
+        <td><a href='pethouse.php'>$user_class->pet->housename</a></td>
         <td></td>
     </tr>
     <tr>
         <th><a href='?spend=penergy' style='color:orange;'>Pet Energy:</a></th>
-        <td><div class='progress-barpets blue stripes' style='height:20px;width:100px;'><span style='width: $my_pet->energypercent%;height:20px;'></span></div></td>
-        <td>$my_pet->formattedenergy</td>
+        <td><div class='progress-barpets blue stripes' style='height:20px;width:100px;'><span style='width: $user_class->pet->energypercent%;height:20px;'></span></div></td>
+        <td>$user_class->pet->formattedenergy</td>
         <th><a href='?spend=pawake' style='color:orange;'>Pet Awake:</a></th>
-        <td><div class='progress-barpets blue stripes' style='height:20px;width:100px;'><span style='width: $my_pet->awakepercent%;height:20px;'></td>
-        <td>$my_pet->formattedawake</td>
+        <td><div class='progress-barpets blue stripes' style='height:20px;width:100px;'><span style='width: $user_class->pet->awakepercent%;height:20px;'></td>
+        <td>$user_class->pet->formattedawake</td>
     </tr>
     <tr>
         <th><a href='?spend=pnerve' style='color:orange;'>Pet Nerve:</a></th>
-        <td><div class='progress-barpets blue stripes' style='height:20px;width:100px;'><span style='width: $my_pet->nervepercent%;height:20px;'></td>
-        <td>$my_pet->formattednerve</td>
+        <td><div class='progress-barpets blue stripes' style='height:20px;width:100px;'><span style='width: $user_class->pet->nervepercent%;height:20px;'></td>
+        <td>$user_class->pet->formattednerve</td>
         <th>Pet EXP:</th>
-        <td><div class='progress-barpets blue stripes' style='height:20px;width:100px;'><span style='width: $my_pet->exppercent%;height:20px;'></td>
-        <td>$my_pet->formattedexp</td>
+        <td><div class='progress-barpets blue stripes' style='height:20px;width:100px;'><span style='width: $user_class->pet->exppercent%;height:20px;'></td>
+        <td>$user_class->pet->formattedexp</td>
     </tr>
 </table>
 ";
