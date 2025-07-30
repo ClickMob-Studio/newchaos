@@ -1,17 +1,14 @@
 <?php
 include 'header.php';
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
-
 $goldenTicketCount = Check_Item(38, $user_class->id);
-
 if ($goldenTicketCount > 0) {
-    if ($_GET['ticket']) {
+    if (isset($_GET['ticket'])) {
         echo '<div class="dcPanel p-3 mt-2" style="text-align:center">You are using a ' . item_popup('Golden Ticket', 38) . ' which enables you to travel for free. <b><a href="travel.php">Travel Normally</a></b></div>';
     } else {
         echo '<div class="dcPanel p-3 mt-2" style="text-align:center">You have a ' . item_popup('Golden Ticket', 38) . ' which enables you to travel for free. <b><a href="travel.php?ticket=1">Use Ticket</a></b></div>';
     }
 }
-
 ?>
 
 
@@ -24,15 +21,13 @@ if ($goldenTicketCount > 0) {
         if ($user_class->hospital > 0)
             diefun("You can't travel while in Hospital!");
 
-        // Fetch the user's nightvision level
-        $nightvision_query = mysql_query("SELECT nightvision FROM grpgusers WHERE id = {$user_class->id}");
-        $nightvision_row = mysql_fetch_assoc($nightvision_query);
-        $nightvision_level = $nightvision_row['nightvision'];
+        $nightvision_level = $user_class->nightvision;
 
         // Initialize discount
-        $mydiscount = mysql_fetch_array(mysql_query("SELECT discount FROM carlot c JOIN usercars ON carid = c.id WHERE userid = $user_class->id ORDER BY carid DESC LIMIT 1"));
-        $discount = 100;
-        $discount -= isset($mydiscount) ? $mydiscount[0] : 0;
+        $db->query("SELECT discount FROM carlot c JOIN usercars ON carid = c.id WHERE userid = ? ORDER BY carid DESC LIMIT 1");
+        $db->execute([$user_class->id]);
+        $mydiscount = $db->fetch_single();
+        $discount = 100 - (isset($mydiscount) ? $mydiscount : 0);
 
         // Apply nightvision discount if applicable
         if ($nightvision_level > 0 && ($goldenTicketCount <= 0 && !isset($_GET['ticket']))) {
@@ -44,8 +39,14 @@ if ($goldenTicketCount > 0) {
         if (isset($_GET['go'])) {
             security($_GET['go']);
             $error = ($_GET['go'] == $user_class->city) ? "You are already there." : $error;
-            $result = mysql_query("SELECT * FROM cities WHERE id = {$_GET['go']}");
-            $worked = mysql_fetch_array($result);
+
+            $db->query("SELECT * FROM cities WHERE id = ?");
+            $db->execute([$_GET['go']]);
+            $worked = $db->fetch_row(true);
+            if (empty($worked)) {
+                diefun("That city doesn't exist.");
+            }
+
             if ($worked['pres'] && !$user_class->prestige)
                 diefun("You do not have access to this city.");
             $cost = $worked['price'] * ($discount / 100);
@@ -102,21 +103,26 @@ if ($goldenTicketCount > 0) {
     <th class='small-column'>Under Boss</th>
     </tr>";
 
-        $result = mysql_query("SELECT * FROM cities WHERE country = $user_class->country AND id != 24 ORDER BY pres ASC, levelreq ASC");
+        $db->query("SELECT * FROM cities WHERE country = ? AND id != 24 ORDER BY pres ASC, levelreq ASC");
+        $db->execute([$user_class->country]);
+        $cities = $db->fetch_row();
 
-        while ($line = mysql_fetch_array($result)) {
-            $population1 = mysql_query("SELECT * FROM grpgusers WHERE city = {$line['id']}");
-            $population = mysql_num_rows($population1);
+        foreach ($cities as $line) {
+            $db->query("SELECT COUNT(*) FROM grpgusers WHERE city = ?");
+            $db->execute([$line['id']]);
+            $population = $db->num_rows();
 
             // Get King and Queen of the city
-            $kings_query = mysql_query("SELECT id, username FROM grpgusers WHERE  king = {$line['id']}");
-            $queens_query = mysql_query("SELECT id, username FROM grpgusers WHERE queen = {$line['id']}");
+            $db->query("SELECT id, username FROM grpgusers WHERE  king = ?");
+            $db->execute([$line['id']]);
+            $king = $db->fetch_row(true);
 
-            $king = mysql_fetch_assoc($kings_query);
-            $queen = mysql_fetch_assoc($queens_query);
+            $db->query('SELECT id, username FROM grpgusers WHERE queen = ?');
+            $db->execute([$line['id']]);
+            $queen = $db->fetch_row(true);
 
-            $king_status = $king ? " " . formatName($king['id']) : 'Vacant';
-            $queen_status = $queen ? " " . formatName($queen['id']) : 'Vacant';
+            $king_status = isset($king) ? " " . formatName($king['id']) : 'Vacant';
+            $queen_status = isset($queen) ? " " . formatName($queen['id']) : 'Vacant';
 
             $cost = $line['price'] * ($discount / 100);
             if ($userPrestigeSkills['travel_cost_unlock'] > 0) {
