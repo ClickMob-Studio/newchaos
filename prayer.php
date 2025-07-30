@@ -47,28 +47,31 @@ include 'header.php';
             perform_query("UPDATE grpgusers SET points = ?, prayer = ? WHERE id = ?", [$newiq, $newp, $user_class->id]);
             $user_class = new User($_SESSION['id']);
         }
-        if ($where == "1")
-            $whereone = "you smacked a random man's head. You gained ";
-        if ($where == "2")
-            $whereone = "suddenly, you started dancing randomly, your dancing was much better than usual,<br>it got the crowd going! You gained ";
-        if ($where == "3")
-            $whereone = "you went outside, a bird almost took a crap on your head,<br>but your dodging skills were awesome and dodged it, and gained ";
-        if ($where == "11")
-            $whereone = "you found a dead man lying on the floor,<br>you open the wallet from his left coat pocket. You found $";
-        if ($where == "12")
-            $whereone = "you saw Bill Gates driving, he crashed into some windows.<br>You found on the back of his car $";
-        if ($where == "13")
-            $whereone = "a big wad of cash landed in your head, you recieved $";
-        if ($where == "21")
-            $whereone = "an mysterious old man handed you a strange book.<br>It printed 'The Book of Knowledge'. You gained ";
-        if ($where == "22")
-            $whereone = "you saw your former teacher walk by.<br>You decided to have a chat with the teacher. You gained ";
-        if ($where == "23")
-            $whereone = "you found a dictionary on the floor.<br>You decided to read 5 random pages from it. You gained ";
+
+        if (isset($where)) {
+
+            if ($where == "1")
+                $whereone = "you smacked a random man's head. You gained ";
+            if ($where == "2")
+                $whereone = "suddenly, you started dancing randomly, your dancing was much better than usual,<br>it got the crowd going! You gained ";
+            if ($where == "3")
+                $whereone = "you went outside, a bird almost took a crap on your head,<br>but your dodging skills were awesome and dodged it, and gained ";
+            if ($where == "11")
+                $whereone = "you found a dead man lying on the floor,<br>you open the wallet from his left coat pocket. You found $";
+            if ($where == "12")
+                $whereone = "you saw Bill Gates driving, he crashed into some windows.<br>You found on the back of his car $";
+            if ($where == "13")
+                $whereone = "a big wad of cash landed in your head, you recieved $";
+            if ($where == "21")
+                $whereone = "an mysterious old man handed you a strange book.<br>It printed 'The Book of Knowledge'. You gained ";
+            if ($where == "22")
+                $whereone = "you saw your former teacher walk by.<br>You decided to have a chat with the teacher. You gained ";
+            if ($where == "23")
+                $whereone = "you found a dictionary on the floor.<br>You decided to read 5 random pages from it. You gained ";
+        }
         ?>
 
         <div class="contenthead floaty">
-
             <center>
                 <?php
                 if (isset($_POST['prayer']) && $_POST['prayer'] > "0") {
