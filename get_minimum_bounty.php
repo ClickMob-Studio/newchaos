@@ -1,12 +1,15 @@
 <?php
 include "ajax_header.php";
-mysql_select_db('ml2', mysql_connect('localhost', 'aa_user', 'GmUq38&SVccVSpt'));
+
+include_once "classes.php";
+include_once "database/pdo_class.php";
 
 $targetID = $_GET['targetID'];
 
 // Query the database to get the user details
-$user_query = mysql_query("SELECT * FROM `grpgusers` WHERE `id` = '$targetID'");
-$user_data = mysql_fetch_array($user_query);
+$db->query("SELECT * FROM `grpgusers` WHERE `id` = ?");
+$db->execute([$targetID]);
+$user_data = $db->fetch_row(true);
 
 // Calculate the minimum bounty based on the user's level
 $target_level = $user_data['level'];
