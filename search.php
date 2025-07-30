@@ -6,7 +6,8 @@ if (checkCaptchaRequired($user_class)) {
 }
 
 if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
-	mysql_query('UPDATE `grpgusers` SET `captcha_timestamp` = 0 WHERE `id` = ' . $user_class->id);
+	$db->query("UPDATE grpgusers SET captcha_timestamp = 0 WHERE id = ?");
+	$db->execute([$user_class->id]);
 
 	header('Location: captcha.php?token=' . $user_class->macro_token . '&page=search');
 }
@@ -26,7 +27,7 @@ if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
 				$search = unserialize($_COOKIE['searching']);
 				$_POST['id'] = 479995426;
 			}
-			if ($_POST['id'] != 479995426 && !empty($_POST['actsearch'])) {
+			if (isset($_POST['id']) && $_POST['id'] != 479995426 && !empty($_POST['actsearch'])) {
 				$search['id'] = abs((int) $_POST['id']);
 				$search['name'] = $_POST['Name'];
 				$search['money'] = abs((int) $_POST['money']);
@@ -39,8 +40,10 @@ if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
 				$search['gang'] = abs((int) $_POST['gang']);
 				$search['online'] = abs((int) $_POST['online']);
 			}
-			if (isset($_POST['loadsearch'])) {
-				$err = mysql_fetch_array(mysql_query("SELECT * FROM searches WHERE id = {$_POST['searchid']} AND userid = $user_class->id"));
+			if (isset($_POST['loadsearch']) && isset($_POST['searchid'])) {
+				$db->query("SELECT * FROM searches WHERE id = ? AND userid = ?");
+				$db->execute([$_POST['searchid'], $user_class->id]);
+				$err = $db->fetch_row(true);
 				if (isset($err))
 					$search = unserialize($err['params']);
 			}
@@ -94,11 +97,12 @@ if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
 							<td>
 								<select name='location'>
 									<option value='0'>Any</option>";
-		$query_string = "SELECT id,name FROM cities ORDER BY name ASC";
-		$result_id = mysql_query($query_string);
-		while ($row = mysql_fetch_row($result_id)) {
-			$select = ($search['location'] == $row[0]) ? ' selected' : '';
-			echo "<option value='$row[0]'$select>$row[1]</option>";
+
+		$db->query("SELECT id, name FROM cities ORDER BY name ASC");
+		$result = $db->fetch_row();
+		foreach ($result as $row) {
+			$select = ($search['location'] == $row['id']) ? ' selected' : '';
+			echo "<option value='{$row['id']}'$select>{$row['name']}</option>";
 		}
 		echo "
 								</select>
@@ -109,11 +113,11 @@ if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
 							<td>
 								<select name=gang>
 									<option value=0>Any</option>";
-		$query_string = "SELECT id,name FROM gangs ORDER BY name ASC";
-		$result_id = mysql_query($query_string);
-		while ($row = mysql_fetch_row($result_id)) {
-			$select = ($search['gang'] == $row[0]) ? ' selected' : '';
-			echo "<option value=$row[0]$select>$row[1]</option>";
+		$db->query("SELECT id, name FROM gangs ORDER BY name ASC");
+		$result = $db->fetch_row();
+		foreach ($result as $row) {
+			$select = ($search['gang'] == $row['id']) ? ' selected' : '';
+			echo "<option value='{$row['id']}'$select>{$row['name']}</option>";
 		}
 		$select = ($search['gang'] == 999999) ? ' selected' : '';
 		echo "
@@ -179,8 +183,10 @@ if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
 			<form method='post'>
 				Load Search: <select name='searchid'>
 					<?php
-					$searches = mysql_query("SELECT * FROM searches WHERE userid = {$user_class->id}");
-					while ($searchy = mysql_fetch_array($searches))
+					$db->query("SELECT * FROM searches WHERE userid = ?");
+					$db->execute([$user_class->id]);
+					$searches = $db->fetch_row();
+					foreach ($searches as $searchy)
 						echo "<option value='{$searchy['id']}'>{$searchy['name']}</option>";
 					?>
 				</select>
@@ -191,8 +197,10 @@ if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
 			<form method='post'>
 				Delete Search: <select name='searchid'>
 					<?php
-					$searches = mysql_query("SELECT * FROM searches WHERE userid = {$user_class->id}");
-					while ($searchy = mysql_fetch_array($searches))
+					$db->query("SELECT * FROM searches WHERE userid = ?");
+					$db->execute([$user_class->id]);
+					$searches = $db->fetch_row();
+					foreach ($searches as $searchy)
 						echo "<option value='{$searchy['id']}'>{$searchy['name']}</option>";
 					?>
 				</select>
@@ -262,14 +270,15 @@ if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
 			// Determine the limit based on user_class->rmdays
 			$limit = ($user_class->rmdays > 0) ? 20 : 10;
 
-			$query = mysql_query("SELECT * FROM `grpgusers` WHERE {$sql} ORDER BY rand() DESC LIMIT $limit");
-			if (mysql_num_rows($query) == 0) {
+			$db->query("SELECT * FROM `grpgusers` WHERE {$sql} ORDER BY rand() DESC LIMIT $limit");
+			$rows = $db->fetch_row();
+			if (empty($rows)) {
 				echo '<tr><th colspan="7">No-one matched your search.</th></tr>';
 				echo '</table>';
 			} else {
 				$csrf = md5(uniqid(rand(), TRUE));
 				$_SESSION['csrf'] = $csrf;
-				while ($line = mysql_fetch_array($query)) {
+				foreach ($rows as $line) {
 					$userfound = new User($line['id']);
 					echo "
         <tr>
