@@ -21,7 +21,7 @@ include "header.php";
             include 'footer.php';
             die();
         }
-        if ($_GET['open'] == x) {
+        if (isset($_GET['open']) && $_GET['open'] == 'x') {
             $chance = rand(1, 5);
             if ($chance == 1) {
                 $stole = rand(20, 150);
