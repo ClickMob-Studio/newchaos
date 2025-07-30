@@ -61,7 +61,10 @@ if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
 		$search['lastactive'] = $search['lastactive'] ?? '';
 		$search['lastactive2'] = $search['lastactive2'] ?? '';
 		$search['money'] = $search['money'] ?? '';
+		$search['attack'] = $search['attack'] ?? 0;
 		$search['location'] = $search['location'] ?? '0';
+		$search['gang'] = $search['gang'] ?? '0';
+		$search['online'] = $search['online'] ?? '0';
 
 		echo "
 <script>
