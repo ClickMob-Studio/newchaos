@@ -23,7 +23,7 @@ include 'header.php';
         $newp = $user_class->prayer - 1;
         $qweq = "You pray at the altar and ";
         $asda = "</tr></td><tr><td class='contentcontent'>";
-        if ($_POST['prayer'] == "1") {
+        if (isset($_POST['prayer']) && $_POST['prayer'] == "1") {
             $where = rand(1, 3);
             $amount = rand(5000, 25000);
             $reward = " exp";
@@ -31,7 +31,7 @@ include 'header.php';
             perform_query("UPDATE grpgusers SET exp = ?, prayer = ? WHERE id = ?", [$newexp, $newp, $user_class->id]);
             $user_class = new User($_SESSION['id']);
         }
-        if ($_POST['prayer'] == "2") {
+        if (isset($_POST['prayer']) && $_POST['prayer'] == "2") {
             $where = rand(11, 13);
             $amount = rand(100000, 2500000);
             $reward = " dollars";
@@ -39,7 +39,7 @@ include 'header.php';
             perform_query("UPDATE grpgusers SET money = ?, prayer = ? WHERE id = ?", [$newmoney, $newp, $user_class->id]);
             $user_class = new User($_SESSION['id']);
         }
-        if ($_POST['prayer'] == "3") {
+        if (isset($_POST['prayer']) && $_POST['prayer'] == "3") {
             $where = rand(21, 23);
             $amount = rand(1000, 3000);
             $reward = " points";
@@ -71,7 +71,7 @@ include 'header.php';
 
             <center>
                 <?php
-                if ($_POST['prayer'] > "0") {
+                if (isset($_POST['prayer']) && $_POST['prayer'] > "0") {
                     echo $qweq;
                     echo $whereone;
                     echo $amount;
