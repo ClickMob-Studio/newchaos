@@ -487,26 +487,6 @@ echo '       <th><center> Get An Additional <font color=yellow><b>+20% bonus</b>
 echo '    </tr>';
 echo '</table>';
 
-if ($can) {
-    echo '<br />';
-    echo '<br />';
-    echo '<form method="post">';
-    echo '    <table id="newtables" style="width: 100%; margin:auto; table-layout: fixed;">';
-    echo '        <colgroup>';
-    echo '            <col span="1" style="width: 15%;">';
-    echo '            <col span="1" style="width: 10%;">';
-    echo '            <col span="1" style="width: 10%;">';
-    echo '            <col span="1" style="width: 10%;">';
-    echo '        </colgroup>';
-    echo '        <tbody>';
-    echo '            <tr>';
-    echo '                <th colspan="4" style="min-height:30px"><input type="submit" value="Prestige!" /></th>';
-    echo '            </tr>';
-    echo '        </tbody>';
-    echo '    </table>';
-    echo '</form>';
-}
-
 // Calculate the remaining levels to reach 1000 and display it
 $levelsToGo = $prestigeLevelRequired - $user_class->level; // Remaining levels to reach 1000
 echo '<div style="text-align:center; margin-bottom:20px;">';
