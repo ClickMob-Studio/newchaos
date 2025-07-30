@@ -53,6 +53,16 @@ if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
 		}
 
 
+		$search = $search ?? [];
+		$search['id'] = $search['id'] ?? '';
+		$search['name'] = $search['name'] ?? '';
+		$search['level'] = $search['level'] ?? '';
+		$search['level2'] = $search['level2'] ?? '';
+		$search['lastactive'] = $search['lastactive'] ?? '';
+		$search['lastactive2'] = $search['lastactive2'] ?? '';
+		$search['money'] = $search['money'] ?? '';
+		$search['location'] = $search['location'] ?? '0';
+
 		echo "
 <script>
 	if(window.history.replaceState) {
