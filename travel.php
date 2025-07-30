@@ -38,7 +38,7 @@ if ($goldenTicketCount > 0) {
 
         if (isset($_GET['go'])) {
             security($_GET['go']);
-            $error = ($_GET['go'] == $user_class->city) ? "You are already there." : $error;
+            $error = ($_GET['go'] == $user_class->city) ? "You are already there." : null;
 
             $db->query("SELECT * FROM cities WHERE id = ?");
             $db->execute([$_GET['go']]);
