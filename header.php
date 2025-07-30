@@ -955,20 +955,21 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             return number_format($number); // Return the original number if it's less than 1000
         }
 
+        $metrics = ['kills', 'crimes', 'mugs', 'busts', 'backalleys', 'raids'];
 
         $currenttime = $now;
         $showmission = false;
         $usermission = get_user_mission(($user_class->id));
         if (!empty($usermission)) {
             $miss = get_mission($usermission['mid']);
-            if (!empty($usermission) && !empty($miss)) {
-                $showmission = true;
-                $mkills = ($miss['kills'] > $usermission['kills']) ? "<font color='red'>" . shorthandNumber($usermission['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['kills']) . "/" . shorthandNumber($miss['kills']) . "</font>";
-                $mcrimes = ($miss['crimes'] > $usermission['crimes']) ? "<font color='red'>" . shorthandNumber($usermission['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['crimes']) . "/" . shorthandNumber($miss['crimes']) . "</font>";
-                $mmugs = ($miss['mugs'] > $usermission['mugs']) ? "<font color='red'>" . shorthandNumber($usermission['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['mugs']) . "/" . shorthandNumber($miss['mugs']) . "</font>";
-                $mbusts = ($miss['busts'] > $usermission['busts']) ? "<font color='red'>" . shorthandNumber($usermission['busts']) . "/" . shorthandNumber($miss['busts']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['busts']) . "/" . shorthandNumber($miss['busts']) . "</font>";
-                $mbackalleys = ($miss['backalleys'] > $usermission['backalleys']) ? "<font color='red'>" . shorthandNumber($usermission['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['backalleys']) . "/" . shorthandNumber($miss['backalleys']) . "</font>";
-                $mraids = ($miss['raids'] > $usermission['raids']) ? "<font color='red'>" . shorthandNumber($usermission['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>" : "<font color='green'>" . shorthandNumber($miss['raids']) . "/" . shorthandNumber($miss['raids']) . "</font>";
+            if (!empty($miss)) {
+                foreach ($metrics as $metric) {
+                    $userVal = $usermission[$metric] ?? 0;
+                    $missVal = $miss[$metric] ?? 0;
+
+                    $color = ($missVal > $userVal) ? 'red' : 'green';
+                    ${'m' . $metric} = "<font color='$color'>" . shorthandNumber(($missVal > $userVal) ? $userVal : $missVal) . "/" . shorthandNumber($missVal) . "</font>";
+                }
             }
         }
 
@@ -978,12 +979,17 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             $operation = get_operation($currentUserOperation['operations_id']);
             if (!empty($currentUserOperation) && !empty($operation)) {
                 $showoperation = true;
-                $pkills = ($operation['kills'] > $currentUserOperation['kills']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['kills']) . "/" . shorthandNumber($operation['kills']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['kills']) . "/" . shorthandNumber($operation['kills']) . "</font>";
-                $pcrimes = ($operation['crimes'] > $currentUserOperation['crimes']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['crimes']) . "/" . shorthandNumber($operation['crimes']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['crimes']) . "/" . shorthandNumber($operation['crimes']) . "</font>";
-                $pmugs = ($operation['mugs'] > $currentUserOperation['mugs']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['mugs']) . "/" . shorthandNumber($operation['mugs']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['mugs']) . "/" . shorthandNumber($operation['mugs']) . "</font>";
-                $pbusts = ($operation['busts'] > $currentUserOperation['busts']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['busts']) . "/" . shorthandNumber($operation['busts']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['busts']) . "/" . shorthandNumber($operation['busts']) . "</font>";
-                $pbackalleys = ($operation['backalleys'] > $currentUserOperation['backalleys']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['backalleys']) . "/" . shorthandNumber($operation['backalleys']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['backalleys']) . "/" . shorthandNumber($operation['backalleys']) . "</font>";
-                $praids = ($operation['raids'] > $currentUserOperation['raids']) ? "<font color='red'>" . shorthandNumber($currentUserOperation['raids']) . "/" . shorthandNumber($operation['raids']) . "</font>" : "<font color='green'>" . shorthandNumber($operation['raids']) . "/" . shorthandNumber($operation['raids']) . "</font>";
+                if (!empty($currentUserOperation) && !empty($operation)) {
+                    $showoperation = true;
+                    foreach ($metrics as $metric) {
+                        $userVal = $currentUserOperation[$metric] ?? 0;
+                        $targetVal = $operation[$metric] ?? 0;
+
+                        $color = ($targetVal > $userVal) ? 'red' : 'green';
+                        ${'p' . $metric} = "<font color='$color'>" . shorthandNumber(($targetVal > $userVal) ? $userVal : $targetVal) . "/" . shorthandNumber($targetVal) . "</font>";
+                    }
+                }
+
             }
         }
 
