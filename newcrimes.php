@@ -279,14 +279,12 @@ if (isset($_GET['ner'])) {
         });
 
         request.fail(function (res) {
-            console.log(res);
             if (res.error == 'refresh') {
                 finish();
             }
         });
 
         request.done(function (res) {
-            console.log(res.debug.cost);
             if (res.error == 'refresh') {
                 finish();
             }
