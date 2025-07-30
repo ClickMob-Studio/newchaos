@@ -18,11 +18,7 @@ Send_Event($g['userid'], "Congratulations, You have won 1000 points in the numbe
 
 perform_query("UPDATE `grpgusers` SET `points` = `points` + 1000 WHERE `id` = ?", [$g['userid']]);
 perform_query("UPDATE `numbergame` SET `userid` = 0");
-
-perform_query("UPDATE `grpgusers` SET `hourbases` = `hourbases` + 1 WHERE `hourbases` >= '24'");
-
 perform_query("UPDATE `grpgusers` SET `claimed` = `claimed` - 1 WHERE `claimed` >= '1'");
-
 perform_query("UPDATE `grpgusers` SET `attackprotection` = `attackprotection` - 1 WHERE `attackprotection` >= '1'");
 perform_query("UPDATE `grpgusers` SET `mugprotection` = `mugprotection` - 1 WHERE `mugprotection` >= '1'");
 
