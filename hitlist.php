@@ -45,6 +45,7 @@ include("header.php");
             $db->query("SELECT * FROM hitlist WHERE id = ?");
             $db->execute([$_GET['remove']]);
             $result = $db->fetch_row(true);
+            $error = null;
             $error = (empty($result['id'])) ? "The hit you were looking for couldn't be found, sorry." : $error;
             $error = ($result['from'] != $user_class->id) ? "You don't own that hit, so you can't remove it." : $error;
             if (!empty($error))
