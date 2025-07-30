@@ -1441,7 +1441,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                 </div>
                             </div>
                             <div class="col-3 text-center new_avarta">
-                                Level <?= $user_class->level; ?>
+                                Level <span id="level"><?= $user_class->level; ?></span>
                                 <div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip"
                                     title="<?= $user_class->formattedexp; ?>">
                                     <div class="progress-bar exp-bar" role="progressbar"
@@ -1482,7 +1482,8 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                     </div>
                                     <div class="row my-1 g-0">
                                         <div class="col-2 d-flex align-items-center"><i
-                                                class="mx-auto fab fa-medium-m"></i></div>
+                                                class="mx-auto fab fa-medium-m"></i>
+                                        </div>
                                         <div class="col-10 d-flex align-items-center credits"><a href="store.php"
                                                 style="text-decoration: none;"><?= number_format($user_class->credits); ?>
                                                 credits</a></div>
