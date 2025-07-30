@@ -1,48 +1,13 @@
 <?php
 include 'header.php';
+
+$csrf = md5(uniqid(rand(), true));
+$_SESSION['csrf'] = $csrf;
 ?>
 
 <div class='box_top'>Attack Ladder</div>
 <div class='box_middle'>
     <div class='pad'>
-        <?php
-
-        $csrf = md5(uniqid(rand(), true));
-        $_SESSION['csrf'] = $csrf;
-
-        // Check if a specific spot is already taken
-        function checkSpotTaken($spot)
-        {
-            global $db;
-
-            $db->query("SELECT COUNT(*) FROM `attackladder` WHERE `spot` = ?");
-            $db->execute([$spot]);
-            $count = $db->fetch_single();
-            return $count > 0;
-        }
-
-        // Delete a user from a spot if their user ID matches the spot number
-        function deleteUserFromSpot($userId, $spot)
-        {
-            global $db;
-
-            $db->query("DELETE FROM `attackladder` WHERE `user` = ? AND `spot` = ?");
-            $db->execute([$userId, $spot]);
-        }
-
-        $userId = $user_class->id;
-        $desiredSpot = $spot; // Example desired spot
-        
-        if (!checkSpotTaken($desiredSpot)) {
-            $db->query("INSERT INTO `attackladder` (`user`, `spot`) VALUES (?, ?)");
-            $db->execute([$userId, $desiredSpot]);
-        } else {
-            echo 'Sorry this spot is already taken on the attack ladder';
-        }
-
-        deleteUserFromSpot($userId, $desiredSpot);
-
-        ?>
 
         <style>
             .info-box {
@@ -159,8 +124,6 @@ include 'header.php';
             }
         </style>
 
-
-
         <div class="info-box">
             <h2>Attack Ladder</h2>
             <ul class="info-list">
@@ -171,22 +134,23 @@ include 'header.php';
                 <li>After 4 hours of attack inactivity you will be kicked off the ladder.</li>
             </ul>
         </div>
+
         <div class="ladder-container">
             <?php
             $db->query("SELECT * FROM `attackladder` ORDER BY `spot` ASC");
             $db->execute();
-            $result = $db->fetch_row();
+            $rows = $db->fetch_row();
 
-            $csrf = md5(uniqid(rand(), true));
-            $_SESSION['csrf'] = $csrf;
-            $shown = array();
-            foreach ($result as $row):
+            $shown = [];
+            foreach ($rows as $row):
                 if (!isset($shown[$row['user']])) {
                     $shown[$row['user']] = 1;
 
                     $text = formatName($row['user']);
-                    $reward = $row['spot'] == '1' ? '150' : '100';
-                    $attack = ($user_class->id == $row['user']) ? '-' : "<a class='ladder-button' href='attack.php?attack=" . $row['user'] . "&csrf=" . $csrf . "'>Attack</a>";
+                    $reward = ($row['spot'] == 1) ? '150' : '100';
+                    $attack = ($user_class->id == $row['user'])
+                        ? '-'
+                        : "<a class='ladder-button' href='attack.php?attack={$row['user']}&csrf={$csrf}'>Attack</a>";
                     ?>
                     <div class="ladder-item">
                         <span><b><?= ordinal($row['spot']) ?></b></span>
@@ -199,4 +163,8 @@ include 'header.php';
             endforeach;
             ?>
         </div>
-        <?php require "footer.php"; ?>
+
+    </div>
+</div>
+
+<?php require "footer.php"; ?>
