@@ -262,8 +262,10 @@ if (isset($_GET['ner'])) {
     var refresh = 75;
 
     const element = document.querySelector('.mission-crime-counter');
-    const value = element.dataset.value;
-    var missionCrimesCount = parseInt(value, 10);
+    var missionCrimesCount = 0;
+    if (element) {
+        missionCrimesCount = parseInt(element.dataset.value, 10);
+    }
 
     var submitCrime = function (id, cm = 1) {
         $("#noti").show();
