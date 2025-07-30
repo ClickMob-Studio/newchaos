@@ -36,7 +36,7 @@ include("header.php");
             else {
                 $newmoney = $user_class->bank - $bounty;
                 perform_query("UPDATE grpgusers SET bank = ? WHERE id = ?", [$newmoney, $user_class->id]);
-                perform_query("INSERT INTO bank_log VALUES('', ?, ?, 'mwith', ?, unix_timestamp())", [$user_class->id, $bounty, $user_class->bank]);
+                perform_query("INSERT INTO bank_log VALUES(?, ?, 'mwith', ?, unix_timestamp())", [$user_class->id, $bounty, $user_class->bank]);
                 perform_query("INSERT INTO hitlist (target, reason, bounty, `from`) VALUES (?, ?, ?, ?)", [$target, $reason, $bounty, $user_class->id]);
                 echo Message("You have successfully made a hit.");
             }
