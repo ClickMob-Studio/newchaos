@@ -261,6 +261,9 @@ if (isset($_GET['ner'])) {
     var id = 0;
     var refresh = 75;
 
+    const element = document.querySelector('.mission-crime-counter');
+    const value = element.dataset.value;
+    var missionCrimesCount = parseInt(value, 10);
 
     var submitCrime = function (id, cm = 1) {
         $("#noti").show();
@@ -286,8 +289,10 @@ if (isset($_GET['ner'])) {
                 finish();
             }
 
+            missionCrimesCount += cm;
+            $('.mission-crime-counter').data('value', missionCrimesCount);
             $('.money').html(res.stats.money)
-            $(".level").html(res.stats.level)
+            $("#level").html(res.stats.level)
             $(".points").html(res.stats.points)
             $(".mb-points").html(res.stats.mb_points)
             $(".mb-money").html(res.stats.mb_money)
@@ -462,8 +467,6 @@ if (isset($_GET['ner'])) {
         headers: { 'Content-Type': 'application/json' }
     })
         .then(data => {
-            // Assuming 'data' is the response from your server with the structure:
-            // { "stats": { "points": "new points value", "money": "new money value" } }
             if (data.stats) {
                 updateHeaderStats(data.stats.points, data.stats.money);
             }

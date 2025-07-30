@@ -1203,7 +1203,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                 </div>
             </div>
             <div class="col-3">
-                <p class="text-center">Level: <?= $user_class->level; ?></p>
+                <p class="text-center">Level: <span id="level"><?= $user_class->level; ?></span></p>
                 <div class="progress">
                     <div class="progress-bar bg-success" role="progressbar"
                         style="background-color: #ff6218 !important; width: <?= $user_class->exppercent; ?>%"
@@ -1258,9 +1258,9 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                                         <p style="font-size: 10px;"><?= $mkills; ?></p>
                                                     </div>
                                                     <div class="missionDiv">
-
                                                         <p class="missionTo">Crimes:</p>
-                                                        <p style="font-size: 10px;"><?= $mcrimes; ?></p>
+                                                        <p style="font-size: 10px;" class="mission-crime-counter"
+                                                            data-value="<?= $usermission['crimes'] ?>"><?= $mcrimes; ?></p>
                                                     </div>
                                                     <div class=" missionDiv">
                                                         <p class="missionTo">Busts:</p>
