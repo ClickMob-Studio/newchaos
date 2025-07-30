@@ -19,8 +19,10 @@ include("header.php");
             $reason = addslashes($reason);
             $reasoncheck = str_replace(" ", "", $_POST['reason']);
             $target_person = new User($_POST['target']);
-            $check1 = mysql_query("SELECT * FROM `grpgusers` WHERE `id` = '" . $target . "'");
-            $check = mysql_num_rows($check1);
+
+            $db->query("SELECT COUNT(*) FROM `grpgusers` WHERE `id` = ?");
+            $db->execute([$target]);
+            $check = $db->fetch_single();
             $error = "";
             $error = ($check == 0) ? "That target doesn't exist." : $error;
             $error = ($bounty < 50000) ? "Your bounty has to be at least $50,000." : $error;
@@ -40,23 +42,25 @@ include("header.php");
             }
         }
         if (isset($_GET['remove'])) {
-            $result = mysql_query("SELECT * FROM hitlist WHERE id = {$_GET['remove']}");
-            $worked = mysql_fetch_array($result);
-            $error = (empty($worked['id'])) ? "The hit you were looking for couldn't be found, sorry." : $error;
-            $error = ($worked['from'] != $user_class->id) ? "You don't own that hit, so you can't remove it." : $error;
+            $db->query("SELECT * FROM hitlist WHERE id = ?");
+            $db->execute([$_GET['remove']]);
+            $result = $db->fetch_row(true);
+            $error = (empty($result['id'])) ? "The hit you were looking for couldn't be found, sorry." : $error;
+            $error = ($result['from'] != $user_class->id) ? "You don't own that hit, so you can't remove it." : $error;
             if (!empty($error))
                 echo Message($error);
             else {
-                $newmoney = $user_class->bank + $worked['bounty'];
+                $newmoney = $user_class->bank + $result['bounty'];
                 perform_query("UPDATE grpgusers SET bank = ? WHERE id = ?", [$newmoney, $user_class->id]);
-                perform_query("INSERT INTO bank_log VALUES('', ?, ?, 'mdep', ?, unix_timestamp())", [$user_class->id, $worked['bounty'], $user_class->bank]);
+                perform_query("INSERT INTO bank_log VALUES('', ?, ?, 'mdep', ?, unix_timestamp())", [$user_class->id, $result['bounty'], $user_class->bank]);
                 perform_query("DELETE FROM hitlist WHERE id = ?", [$_GET['remove']]);
                 echo Message("You have successfully removed that hit.");
             }
         }
         if (isset($_GET['hit'])) {
-            $result = mysql_query("SELECT * FROM hitlist WHERE id = '" . $_GET['hit'] . "'");
-            $worked = mysql_fetch_array($result);
+            $db->query("SELECT * FROM hitlist WHERE id = ?");
+            $db->execute([$_GET['hit']]);
+            $worked = $db->fetch_row(true);
             $attack_person = new User($worked['target']);
             if ($attack_person->id >= 9999999999 and $attack_person->id <= 1) {
                 $attack_person->level = $user_class->level + $attack_person->id - 339;
@@ -221,8 +225,10 @@ include("header.php");
                     <th>Online/Offline</th>
                 </tr>
         ";
-        $result = mysql_query("SELECT * FROM `hitlist`");
-        while ($line = mysql_fetch_array($result)) {
+
+        $db->query("SELECT * FROM hitlist");
+        $rows = $db->fetch_row();
+        foreach ($rows as $line) {
             $hitlist_class = new User($line['target']);
             $action = ($user_class->id == $line['from']) ? "<a href='hitlist.php?remove=" . $line['id'] . "'>Remove</a>" : "<a href='hitlist.php?hit=" . $line['id'] . "'><font color=green>Claim Bounty</font></a>";
             if (((time() - $hitlist_class->lastactive) < 900) && $user_class->id == $line['from']) {
