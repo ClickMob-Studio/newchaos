@@ -53,7 +53,7 @@ include("header.php");
             else {
                 $newmoney = $user_class->bank + $result['bounty'];
                 perform_query("UPDATE grpgusers SET bank = ? WHERE id = ?", [$newmoney, $user_class->id]);
-                perform_query("INSERT INTO bank_log VALUES('', ?, ?, 'mdep', ?, unix_timestamp())", [$user_class->id, $result['bounty'], $user_class->bank]);
+                perform_query("INSERT INTO bank_log (userid, amount, action, newbalance, timestamp, hand) VALUES(?, ?, 'mdep', ?, unix_timestamp(), ?)", [$user_class->id, $result['bounty'], $user_class->bank, $user_class->money]);
                 perform_query("DELETE FROM hitlist WHERE id = ?", [$_GET['remove']]);
                 echo Message("You have successfully removed that hit.");
             }
