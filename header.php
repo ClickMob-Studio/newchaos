@@ -1467,8 +1467,9 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                     <div class="row my-1 g-0">
                                         <div class="col-2 d-flex align-items-center"><i
                                                 class="mx-auto fas fa-dollar-sign"></i></div>
-                                        $<div class="col-10 d-flex align-items-center money">
-                                            <?= number_format($user_class->money); ?>
+                                        <div class="col-10 d-flex align-items-center">$<div class="money">
+                                                <?= number_format($user_class->money); ?>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row my-1 g-0">
