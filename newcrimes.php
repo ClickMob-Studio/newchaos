@@ -292,7 +292,7 @@ if (isset($_GET['ner'])) {
             missionCrimesCount += cm;
             $('.mission-crime-counter').data('value', missionCrimesCount);
             $('.money').html(res.stats.money)
-            $("#level").html(res.stats.level)
+            $(".level").html(res.stats.level)
             $(".points").html(res.stats.points)
             $(".mb-points").html(res.stats.mb_points)
             $(".mb-money").html(res.stats.mb_money)

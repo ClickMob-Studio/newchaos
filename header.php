@@ -1203,7 +1203,9 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                 </div>
             </div>
             <div class="col-3">
-                <p class="text-center">Level: <span id="level"><?= $user_class->level; ?></span></p>
+                <p class="text-center">Level:
+                <div class="level"><?= $user_class->level; ?></div>
+                </p>
                 <div class="progress">
                     <div class="progress-bar bg-success" role="progressbar"
                         style="background-color: #ff6218 !important; width: <?= $user_class->exppercent; ?>%"
@@ -1260,7 +1262,8 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                                     <div class="missionDiv">
                                                         <p class="missionTo">Crimes:</p>
                                                         <p style="font-size: 10px;" class="mission-crime-counter"
-                                                            data-value="<?= $usermission['crimes'] ?>"><?= $mcrimes; ?></p>
+                                                            data-value="<?= $usermission['crimes'] ?>"><?= $mcrimes; ?>
+                                                        </p>
                                                     </div>
                                                     <div class=" missionDiv">
                                                         <p class="missionTo">Busts:</p>
@@ -1279,7 +1282,8 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                                         <p style="font-size: 10px;"><?= $mraids; ?></p>
                                                     </div>
                                                 <?php else: ?>
-                                                    <a href="missions.php" class="dcSecondaryButton my-3">Start Mission</a>
+                                                    <a href="missions.php" class="dcSecondaryButton my-3">Start
+                                                        Mission</a>
                                                 <?php endif; ?>
                                             </div>
                                         </div>
@@ -1441,7 +1445,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                 </div>
                             </div>
                             <div class="col-3 text-center new_avarta">
-                                Level <span id="level"><?= $user_class->level; ?></span>
+                                Level <div class="level"><?= $user_class->level; ?></div>
                                 <div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip"
                                     title="<?= $user_class->formattedexp; ?>">
                                     <div class="progress-bar exp-bar" role="progressbar"
@@ -1461,8 +1465,9 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                     <div class="row my-1 g-0">
                                         <div class="col-2 d-flex align-items-center"><i
                                                 class="mx-auto fas fa-dollar-sign"></i></div>
-                                        <div class="col-10 d-flex align-items-center money">
-                                            $<?= number_format($user_class->money); ?></div>
+                                        $<div class="col-10 d-flex align-items-center money">
+                                            <?= number_format($user_class->money); ?>
+                                        </div>
                                     </div>
                                     <div class="row my-1 g-0">
 
