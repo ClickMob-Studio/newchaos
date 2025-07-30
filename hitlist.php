@@ -9,7 +9,7 @@ include("header.php");
         if (isset($_POST['newhit'])) {
 
             $ref = $_SERVER['HTTP_REFERER'];
-            $id = $_GET['target'];
+            $id = isset($_GET['target']) ? $_GET['target'] : -1;
 
 
             security($_POST['bounty'], 'num');
