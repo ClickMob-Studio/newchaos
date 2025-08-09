@@ -48,11 +48,7 @@ $pages->items_total = $db->fetch_single();
 		}
 
 		echo '</table>';
-
-		if ($pages->items_total >= 0) {
-			echo $pages->displayPages();
-		}
-
+		echo $pages->displayPages();
 		?>
 	</div>
 </div>
