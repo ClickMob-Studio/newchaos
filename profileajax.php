@@ -1,37 +1,22 @@
 <?php
-// Your database connection
-$link = mysql_connect('localhost', 'chaoscit_user', '3lrKBlrfMGl2ic14');
 
-
-if (!$link) {
-    die('Could not connect: ' . mysql_error());
-}
-$db_selected = mysql_select_db('chaoscit_game', $link);
-if (!$db_selected) {
-    die ('Can\'t use ml2 : ' . mysql_error());
-}
+include_once "classes.php";
+include_once "database/pdo_class.php";
 
 if (isset($_GET['user_id'])) {
     $user_id = $_GET['user_id'];
 
-      // Make sure user_id is an integer
+    // Make sure user_id is an integer
     if (filter_var($user_id, FILTER_VALIDATE_INT)) {
-        $query = sprintf("SELECT lastactive, money FROM grpgusers WHERE id = '%s'",
-                         mysql_real_escape_string($user_id));
-        $result = mysql_query($query);
-        if ($result) {
-            $row = mysql_fetch_assoc($result);
+        $db->query("SELECT lastactive, money FROM grpgusers WHERE id = ?");
+        $db->execute([$user_id]);
+        $row = $db->fetch_row(true);
+        if (isset($row)) {
             $lastactive = $row['lastactive'];
             $money = $row['money'];
 
-            // Format the last active time
             $formattedLastActive = howlongago($lastactive);
-
-           // Return both the formattedLastActive and money
             echo json_encode(['lastActive' => $formattedLastActive, 'money' => $money]);
-         } else {
-            // Log SQL error            error_log("SQL Error: " . mysql_error());
-            echo "Error: Could not execute SQL query. MySQL error: " . mysql_error();
         }
     } else {
         echo "Error: user_id is not an integer";
@@ -42,7 +27,7 @@ if (isset($_GET['user_id'])) {
 ?>
 
 <?php
-// Define the function howlongago here
+
 function howlongago($ts, $stop = 'none')
 {
     $ts = time() - $ts;
@@ -70,6 +55,5 @@ function howlongago($ts, $stop = 'none')
         return floor($ts / (60 * 60 * 24 * 30.5)) . " months ago";
     else
         return floor($ts / (60 * 60 * 24 * 365)) . " years ago";
-
 }
 ?>
