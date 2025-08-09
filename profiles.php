@@ -1815,7 +1815,7 @@ $(document).ready(function() {
             <?php
             if ($user_class->admin == 1 || $user_class->gm == 1 || $user_class->fm == 1) {
                 if ($profile_class->admin != 1 || $user_class->id != $profile_class->id) {
-                    $db->query("SELECT * FROM bans WHERE userid = ?");
+                    $db->query("SELECT * FROM bans WHERE id = ?");
                     $db->execute([$profile_class->id]);
                     $bans = $db->fetch_row();
 
