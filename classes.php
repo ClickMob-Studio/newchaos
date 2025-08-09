@@ -1193,7 +1193,7 @@ class User
 }
 class GangRank
 {
-    function GangRank($rank, $notmyranks = 0)
+    public function __construct($rank, $notmyranks = 0)
     {
         global $user_class, $db;
         $gang_class = (isset($GLOBALS['gang_class'])) ? $GLOBALS['gang_class'] : new Gang($user_class->gang);
