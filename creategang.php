@@ -42,10 +42,7 @@ include 'header.php';
                 if ($error == "") { // if there are no errors, make the gang
                     perform_query("INSERT INTO `gangs` (name, tag, leader) VALUES (?, ?, ?)", [$gangname, $gangtag, $user_class->id]);
                     $newmoney = $user_class->money - 500000; //deduct the cost of the money
-                    $db->query("SELECT * FROM `gangs` WHERE `leader` = ?");
-                    $db->execute([$user_class->id]);
-                    $worked = $db->fetch_row();
-                    $gangid = $worked['id'];
+                    $gangid = $db->insert_id();
                     perform_query("UPDATE `grpgusers` SET `gang` = ?, `money` = ?, `gangleader` = '1', `grank` = '1' WHERE `id` = ?", [$gangid, $newmoney, $user_class->id]);
                     perform_query("DELETE FROM `ganginvites` WHERE `playerid` = ?", [$user_class->id]);
                     echo Message("You have successfully created a gang!");
