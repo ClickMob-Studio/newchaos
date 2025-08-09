@@ -3,6 +3,10 @@
 include "classes.php";
 include "database/pdo_class.php";
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 $user_class = new User($_SESSION['id']);
 if (isset($_GET['user_id'])) {
     $user_class = new User($_GET['user_id']);
