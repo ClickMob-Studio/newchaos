@@ -1,7 +1,9 @@
 <?php
 include 'header.php';
 
+echo $user_class;
 ?>
+
 
 <div class="box_top">Create A Gang</div>
 <div class="box_middle">

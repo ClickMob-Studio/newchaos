@@ -13,10 +13,6 @@ start_session_guarded();
 
 $now = time();
 
-$now = time();
-
-$now = time();
-
 header('Content-Type: text/html; charset=utf-8');
 function getUserIP()
 {
