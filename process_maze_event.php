@@ -31,9 +31,7 @@ if (isset($_POST['direction'])) {
 
     $chosenDirection = $_POST['direction']; // Store the direction
 
-    $db->query("SELECT * FROM citygame");
-    $db->execute();
-    $events = $db->fetch_row();
+    $events = get_maze_options();
     if (empty($events)) {
         die(json_encode(['error' => 'Failed to find maze events, contact administrator.']));
     }
