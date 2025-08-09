@@ -248,24 +248,30 @@ include 'header.php';
 
         if (isset($_POST['withdraw'])) {
             $amount = security($_POST['wamount'], 'num');
-            $type = ($_POST['type'] == 'money') ? array(
-                'money',
-                'bank'
-            ) : array(
-                'points',
-                'pbank'
-            );
-            if ($amount > $user_class->$type[1])
-                $notice = ("You do not have that much {$type[0]} in the bank.");
-            else {
-                $notice = (ucfirst($type[0]) . " withdrawn.");
-                $user_class->$type[1] -= $amount;
-                $user_class->$type[0] += $amount;
-                perform_query("UPDATE grpgusers SET {$type[1]} = ?, {$type[0]} = ? WHERE id = ?", [$user_class->{$type[1]}, $user_class->{$type[0]}, $user_class->id]);
+            $type = ($_POST['type'] === 'money')
+                ? ['money', 'bank']
+                : ['points', 'pbank'];
+
+            if ($amount > (int) $user_class->{$type[1]}) {
+                $notice = "You do not have that much {$type[0]} in the bank.";
+            } else {
+                $notice = ucfirst($type[0]) . " withdrawn.";
+                $user_class->{$type[1]} -= $amount;
+                $user_class->{$type[0]} += $amount;
+
+                perform_query(
+                    "UPDATE grpgusers SET {$type[1]} = ?, {$type[0]} = ? WHERE id = ?",
+                    [$user_class->{$type[1]}, $user_class->{$type[0]}, $user_class->id]
+                );
+
                 if ($amount > 0) {
-                    $which = ($_POST['type'] == 'money') ? "mwith" : "pwith";
-                    $whichhand = ($which == "mwith") ? $user_class->money : $user_class->points;
-                    perform_query("INSERT INTO bank_log VALUES('', ?, ?, '$which', ?, unix_timestamp(), ?)", [$user_class->id, $amount, $user_class->{$type[1]}, $whichhand]);
+                    $which = ($_POST['type'] === 'money') ? "mwith" : "pwith";
+                    $whichhand = ($which === "mwith") ? $user_class->money : $user_class->points;
+
+                    perform_query(
+                        "INSERT INTO bank_log VALUES('', ?, ?, '$which', ?, unix_timestamp(), ?)",
+                        [$user_class->id, $amount, $user_class->{$type[1]}, $whichhand]
+                    );
                 }
             }
         }
