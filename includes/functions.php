@@ -4309,8 +4309,6 @@ function claim_skill($uid, $id)
 
 function get_skill_boosts(array $userSkillIds)
 {
-    error_log("get_skill_boosts called with userSkillIds: " . implode(',', $userSkillIds));
-
     $allSkills = get_skilltree_nodes(1);
 
     $merged = [];
