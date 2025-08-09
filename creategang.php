@@ -43,7 +43,11 @@ include 'header.php';
                     perform_query("INSERT INTO `gangs` (name, tag, leader) VALUES (?, ?, ?)", [$gangname, $gangtag, $user_class->id]);
                     $newmoney = $user_class->money - 500000; //deduct the cost of the money
                     $gangid = $db->insert_id();
-                    perform_query("UPDATE `grpgusers` SET `gang` = ?, `money` = ?, `gangleader` = '1', `grank` = '1' WHERE `id` = ?", [$gangid, $newmoney, $user_class->id]);
+
+                    perform_query("INSERT INTO `ranks` (gang, title, gangwars, ganggrad, color) VALUES (?, 'Member', 0, 0, '#FFFFFF')", [$gangid]);
+                    $gang_rank = $db->insert_id();
+
+                    perform_query("UPDATE `grpgusers` SET `gang` = ?, `money` = ?, `gangleader` = '1', `grank` = ? WHERE `id` = ?", [$gangid, $newmoney, $gang_rank, $user_class->id]);
                     perform_query("DELETE FROM `ganginvites` WHERE `playerid` = ?", [$user_class->id]);
                     echo Message("You have successfully created a gang!");
                 } else {
