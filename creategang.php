@@ -8,7 +8,7 @@ include 'header.php';
     <div class="pad">
         <?php
         if ($user_class->gang == 0) {
-            if ($_POST['create'] != "") { // if they are wanting to start a new gang
+            if (isset($_POST['create']) && $_POST['create'] != "") { // if they are wanting to start a new gang
                 $_POST['tag'] = str_replace('"', '', $_POST['tag']);
                 $_POST['name'] = str_replace('"', '', $_POST['name']);
 
