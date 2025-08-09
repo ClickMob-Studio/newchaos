@@ -19,7 +19,9 @@ $profile_class = new User($_GET['id']);
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
 $tempItemUse = getItemTempUse($user_class->id);
 ?>
-<div class='box_top'><?php echo $profile_class->formattedname; ?>'s Profile</div>
+<div class='box_top'>
+    <?php echo empty($profile_class->id) || $profile_class->id <= 0 ? 'Not found' : $profile_class->formattedname . "'s Profile"; ?>
+</div>
 <div class='box_middle'>
     <div class='pad'>
         <?php
