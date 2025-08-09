@@ -1202,7 +1202,7 @@ class GangRank
         $db->execute([$rank]);
         $field = $db->fetch_row(true);
         if (empty($field)) {
-            $db->query("SELECT * FROM ranks WHERE id = 6");
+            $db->query("SELECT * FROM ranks WHERE id = 1");
             $db->execute();
             $field = $db->fetch_row(true);
         }
