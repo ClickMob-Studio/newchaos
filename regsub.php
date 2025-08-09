@@ -62,7 +62,7 @@ if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED
 $IP = filter_var($IP, FILTER_VALIDATE_IP);
 
 // Insert user into database
-perform_query("INSERT INTO grpgusers (ip, signupip, loginame, username, password, email, signuptime, gender, aprotection) VALUES (?, ?, ?, ?, ?, ?, UNIX_TIMESTAMP(), ?, ?)", [$IP, $IP, $username, $username, $hashedPassword, $email, $gender, time() + 43200]);
+perform_query("INSERT INTO grpgusers (ip, signupip, loginame, username, password, email, signuptime, gender, aprotection, credits) VALUES (?, ?, ?, ?, ?, ?, UNIX_TIMESTAMP(), ?, ?, 1337)", [$IP, $IP, $username, $username, $hashedPassword, $email, $gender, time() + 43200]);
 $newid = $db->insert_id();
 if (isset($_POST['referer'])) {
     perform_query("INSERT INTO referrals (`when`, referrer, referred) VALUES (UNIX_TIMESTAMP(), ?, ?)", [$_POST['referer'], $newid]);
