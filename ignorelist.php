@@ -1,10 +1,12 @@
 <?php
 include 'header.php';
-$result1234 = mysql_query("SELECT * FROM `ignorelist` WHERE `id` = '" . $_GET['remove'] . "'");
-$worked1234 = mysql_fetch_array($result1234);
-$contact_class = new User($worked1234['blocked']);
-if ($_GET['remove'] != "") {
-    if ($worked1234['blocker'] == $user_class->id) {
+
+$db->query("SELECT * FROM `ignorelist` WHERE `id` = ? LIMIT 1");
+$db->execute([$_GET['remove']]);
+$result = $db->fetch_row(true);
+$contact_class = new User($result['blocked']);
+if (isset($_GET['remove']) && $_GET['remove'] != "" && !empty($result)) {
+    if ($result['blocker'] == $user_class->id) {
         echo Message("You have removed " . $contact_class->formattedname . " from your ignore list.");
         perform_query("DELETE FROM `ignorelist` WHERE `id` = ?", [$_GET['remove']]);
     }
@@ -25,8 +27,10 @@ if ($_GET['remove'] != "") {
                 <td width="15%"><b>Actions</b></td>
             </tr>
             <?php
-            $result = mysql_query("SELECT * FROM `ignorelist` WHERE `blocker` = '" . $user_class->id . "' ORDER BY `id` ASC");
-            while ($line = mysql_fetch_array($result, mysql_ASSOC)) {
+            $db->query("SELECT * FROM `ignorelist` WHERE `blocker` = ? ORDER BY `id` ASC");
+            $db->execute([$user_class->id]);
+            $results = $db->fetch_row();
+            foreach ($results as $line) {
                 $contact_class = new User($line['blocked']);
                 echo "<tr><td width='10%'>" . $contact_class->id . "</td><td>" . $contact_class->formattedname . "</td><td><a href='ignorelist.php?remove=" . $line['id'] . "'>Remove</a></td></tr>";
             }

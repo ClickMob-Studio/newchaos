@@ -107,12 +107,17 @@ perform_query("UPDATE grpgusers SET relationshipdays = relationshipdays + 1 WHER
 perform_query("DELETE FROM votes WHERE 1");
 perform_query("DELETE FROM dond WHERE 1");
 perform_query("UPDATE grpgusers SET rmdays = GREATEST(rmdays-1,0)");
-$users = mysql_query("SELECT * FROM grpgusers WHERE ip = {$_SERVER['REMOTE_ADDR']} LIMIT 1");
-$users = mysql_fetch_array($users);
-$linkeduser = $users['username'];
+
+$db->query("SELECT * FROM grpgusers WHERE ip = ? LIMIT 1");
+$db->execute([$_SERVER['REMOTE_ADDR']]);
+$user = $db->fetch_row(true);
+
+$linkeduser = $user['username'];
 send_event(1, "IP: {$_SERVER['REMOTE_ADDR']} Ran update-is-cancel-runner.php. This IP is linked to $linkeduser. Follow up.", 1);
-$result3 = mysql_query("SELECT * FROM grpgusers ORDER BY id ASC");
-while ($line = mysql_fetch_array($result3)) {
+
+$db->query("SELECT * FROM grpgusers ORDER BY id ASC");
+$allusers = $db->fetch_row();
+foreach ($allusers as $line) {
     $person_class = new User($line['id']);
     // Calculate the base interest rate based on remaining membership days
     if ($person_class->rmdays >= 1) {
@@ -139,9 +144,6 @@ while ($line = mysql_fetch_array($result3)) {
     // Increase the interest rate by the adjustments from donations
     $interest += $addmul;
 
-    // Apply bank boost if it's set and greater than zero
-
-
     // Calculate the effective interest amount based on the user's bank balance
     if ($person_class->bank >= 15000000) {
         $interest = ceil(15000000 * $interest);
@@ -160,8 +162,10 @@ while ($line = mysql_fetch_array($result3)) {
     Send_Event($line['id'], "You have earned " . prettynum($interest, 1) . " for your bank", $line['id']);
 }
 perform_query("DELETE FROM rating");
-$result3 = mysql_query("SELECT * FROM bans");
-while ($line = mysql_fetch_array($result3)) {
+
+$db->query("SELECT * FROM bans");
+$bans = $db->fetch_row();
+foreach ($bans as $line) {
     $newbandays = $line['days'] - 1;
     if ($line['days'] > 1)
         perform_query("UPDATE bans SET days= ? WHERE banid = ?", [$newbandays, $line['banid']]);
@@ -177,12 +181,12 @@ $db->execute();
 $numlotto = $db->fetch_single();
 $amountlotto = $numlotto * $tickCost;
 
-$checklotto = mysql_query("SELECT * FROM cashlottery");
-$numlotto = mysql_num_rows($checklotto);
+$db->query("SELECT * FROM cashlottery");
+$lottery = $db->fetch_row();
+$numlotto = count($lottery);
 if ($numlotto > 0) {
-    $result = mysql_query("SELECT * FROM cashlottery WHERE userid NOT IN (1, 174) ORDER BY RAND() LIMIT 1");
-    $worked = mysql_fetch_array($result);
-    // $amountlotto = $numlotto * 250000;
+    $worked = $lottery[array_rand($lottery)];
+
     $cashlottery_class = new User($worked['userid']);
     $newbank = $cashlottery_class->bank + $amountlotto;
     perform_query("UPDATE grpgusers SET bank = ? WHERE id = ?", [$newbank, $worked['userid']]);
@@ -200,15 +204,12 @@ $db->execute();
 $numlotto = $db->fetch_single();
 $amountlotto = round($numlotto * $tickCost);
 
-$checklotto = mysql_query("SELECT * FROM `ptslottery`");
-$numlotto = mysql_num_rows($checklotto);
+$db->query("SELECT * FROM ptslottery");
+$lottery = $db->fetch_row();
+$numlotto = count($lottery);
 if ($numlotto > 0) {
-    $result = mysql_query("SELECT * FROM ptslottery WHERE userid NOT IN (1, 174) ORDER BY RAND() LIMIT 1");
-    $worked = mysql_fetch_array($result);
-    $checklotto = mysql_query("SELECT * FROM ptslottery");
-    $numlotto = mysql_num_rows($checklotto);
-    // $amountlotto = $numlotto * 50;
-    // $amountlotto = round($amountlotto);
+    $worked = $lottery[array_rand($lottery)];
+
     $cashlottery_class = new User($worked['userid']);
     $newpoints = $cashlottery_class->points + $amountlotto;
     perform_query("UPDATE grpgusers SET points = ? WHERE id = ?", [$newpoints, $worked['userid']]);
@@ -225,8 +226,7 @@ perform_query("UPDATE grpgusers SET gndays = gndays - 1 WHERE gndays > 0");
 perform_query("UPDATE grpgusers SET blocked = blocked - 1 WHERE blocked > 0");
 perform_query("UPDATE grpgusers SET actionpoints = 25 WHERE actionpoints < 25 ");
 
-$result2 = mysql_query("SELECT * FROM grpgusers ORDER BY id ASC");
-while ($line = mysql_fetch_array($result2)) {
+foreach ($allusers as $line) {
     $newrmupgrade = $line['rmdupgrade'] - 1;
     if ($line['rmupgrade'] >= 1)
         perform_query("UPDATE grpgusers SET rmupgrade = ? WHERE id = ?", [$newrmupgrade, $line['id']]);

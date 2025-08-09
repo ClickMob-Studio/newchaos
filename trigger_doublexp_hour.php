@@ -26,9 +26,7 @@ if ($user_class->gang < 1) {
 
 $newTime = time() + 3600;
 addItemTempUse($user_class, 'gang_double_exp_time', $newTime);
-
-mysql_query('UPDATE item_temp_use SET gang_double_exp_hours = gang_double_exp_hours - 1 WHERE user_id = ' . $user_class->id);
-
+perform_query("UPDATE item_temp_use SET gang_double_exp_hours = gang_double_exp_hours - 1 WHERE user_id = ?", [$user_class->id]);
 
 echo Message("You have activated 1 hour of Gang Double EXP time!");
 

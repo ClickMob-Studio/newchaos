@@ -39,13 +39,15 @@ $quantity = $_POST['quantity'];
 $userId = $_POST['custom'];
 
 $boost = true;
-$result1000 = mysql_query("INSERT INTO `ipn` (`itemname`, `date`, `itemnumber`, `creditsbought`, `paymentstatus`, `paymentamount`, `currency`, `txnid`, `receiveremail`, `payeremail`, `first`, `last`, `quantity`, `user_id`)" . "VALUES ('" . $item_name . "', '$time',  '" . $item_number . "', '" . $creditsbought . "', '" . $payment_status . "', '" . $payment_amount . "', '" . $payment_currency . "', '" . $txn_id . "', '" . $receiver_email . "', '" . $payer_email . "', '" . $first . "', '" . $last . "', '" . $quantity . "', '" . $userId . "')");
-$result2 = mysql_query("SELECT * FROM `grpgusers` WHERE `id`='$userId'");
-$worked = mysql_fetch_array($result2);
+
+perform_query("INSERT INTO `ipn` (`itemname`, `date`, `itemnumber`, `creditsbought`, `paymentstatus`, `paymentamount`, `currency`, `txnid`, `receiveremail`, `payeremail`, `first`, `last`, `quantity`, `user_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$item_name, $time, $item_number, $creditsbought, $payment_status, $payment_amount, $payment_currency, $txn_id, $receiver_email, $payer_email, $first, $last, $quantity, $userId]);
+
+$db->query("SELECT * FROM `grpgusers` WHERE `id` = ?");
+$db->execute([$userId]);
+$results = $db->fetch_row(true);
 
 if ($payment_status == "Completed") {
-
-    $userrmdays = $worked['credits'] + $creditsbought;
+    $userrmdays = $results['credits'] + $creditsbought;
     $buyer = new User($userId);
 
     if ($boost && $buyer->donate_token > 0) {
@@ -64,15 +66,15 @@ if ($payment_status == "Completed") {
 
     perform_query("UPDATE bbusers SET donator = donator + ? WHERE userid = ?", [$payment_amount, $userId]);
 
-    $referr = mysql_fetch_array(mysql_query("SELECT referrer FROM referrals WHERE referred = $userId AND credited = 1"));
-    if ($referr) {
-        if ($referr['referrer'] > 0) {
-            $referrer = $referr['referrer'];
-            $bonus = $creditsbought * 0.10;
-            perform_query("UPDATE `grpgusers` SET credits = credits + ? WHERE `id` = ?", [$bonus, $referrer]);
-            Send_Event($referrer, "You have been credited with $bonus credit(s) as your referral " . formatName($userId) . " has donated", $referrer);
-        }
-    }
+    $db->query("SELECT referrer FROM referrals WHERE referred = ? AND credited = 1");
+    $db->execute([$userId]);
 
+    $referer = $db->fetch_row(true);
+    if (!empty($referer) && $referer['referrer'] > 0) {
+        $referrer = $referer['referrer'];
+        $bonus = $creditsbought * 0.10;
+        perform_query("UPDATE `grpgusers` SET credits = credits + ? WHERE `id` = ?", [$bonus, $referrer]);
+        Send_Event($referrer, "You have been credited with $bonus credit(s) as your referral " . formatName($userId) . " has donated", $referrer);
+    }
 }
 ?>

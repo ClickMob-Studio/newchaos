@@ -23,12 +23,6 @@ if ($goldenTicketCount > 0) {
 
         $nightvision_level = $user_class->nightvision;
 
-        // Initialize discount
-        $db->query("SELECT discount FROM carlot c JOIN usercars ON carid = c.id WHERE userid = ? ORDER BY carid DESC LIMIT 1");
-        $db->execute([$user_class->id]);
-        $mydiscount = $db->fetch_single();
-        $discount = 100 - (isset($mydiscount) ? $mydiscount : 0);
-
         // Apply nightvision discount if applicable
         if ($nightvision_level > 0 && ($goldenTicketCount <= 0 && !isset($_GET['ticket']))) {
             $discount -= 50; // additional 50% discount, subtract from 100%

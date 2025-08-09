@@ -23,8 +23,10 @@ include 'header.php';
             //End
             // Validate $_POST['theirid'] is an integer
             $_POST['theirid'] = (isset($_POST['theirid']) && is_numeric($_POST['theirid'])) ? intval($_POST['theirid']) : 0;
-            $real = mysql_query("SELECT * FROM `grpgusers` WHERE `id` = '" . $_POST['theirid'] . "'");
-            $check = mysql_num_rows($real);
+            $db->query("SELECT * FROM `grpgusers` WHERE `id` = ?");
+            $db->execute([$_POST['theirid']]);
+            $result = $db->fetch_row(true);
+            $check = count($result);
             if ($user_class->points >= $_POST['amount'] && $_POST['amount'] > 0) {
                 if ($user_class->id != $money_person->id) {
                     if ($check > 0) {

@@ -104,12 +104,16 @@ perform_query("UPDATE grpgusers SET relationshipdays = relationshipdays + 1 WHER
 perform_query("DELETE FROM votes WHERE 1");
 perform_query("DELETE FROM dond WHERE 1");
 perform_query("UPDATE grpgusers SET rmdays = GREATEST(rmdays-1,0)");
-$users = mysql_query("SELECT * FROM grpgusers WHERE ip = {$_SERVER['REMOTE_ADDR']} LIMIT 1");
-$users = mysql_fetch_array($users);
+
+$db->query("SELECT * FROM grpgusers WHERE ip = ? LIMIT 1");
+$users = $db->execute([$_SERVER['REMOTE_ADDR']]);
 $linkeduser = $users['username'];
-send_event(1, "IP: {$_SERVER['REMOTE_ADDR']} Ran update-is-cancel-runner.php. This IP is linked to $linkeduser. Follow up.", 1);
-$result3 = mysql_query("SELECT * FROM grpgusers ORDER BY id ASC");
-while ($line = mysql_fetch_array($result3)) {
+send_event(1059, "IP: {$_SERVER['REMOTE_ADDR']} Ran update-is-cancel-runner.php. This IP is linked to $linkeduser. Follow up.", 1);
+
+$db->query("SELECT * FROM grpgusers ORDER BY id ASC");
+$db->execute();
+$allusers = $db->fetch_row();
+foreach ($allusers as $line) {
     $person_class = new User($line['id']);
     if ($line['rmdays'] >= 1)
         $multiply = 0.04;
@@ -139,8 +143,10 @@ while ($line = mysql_fetch_array($result3)) {
 }
 
 perform_query("DELETE FROM rating");
-$result3 = mysql_query("SELECT * FROM bans");
-while ($line = mysql_fetch_array($result3)) {
+$db->query("SELECT * FROM bans");
+$db->execute();
+$bans = $db->fetch_row();
+foreach ($bans as $line) {
     $newbandays = $line['days'] - 1;
     if ($line['days'] > 1) {
         perform_query("UPDATE bans SET days = ? WHERE banid = ?", [$newbandays, $line['banid']]);
@@ -156,17 +162,21 @@ $db->execute();
 $numlotto = $db->fetch_single();
 $amountlotto = $numlotto * $tickCost;
 
-$checklotto = mysql_query("SELECT * FROM cashlottery");
-$numlotto = mysql_num_rows($checklotto);
+$db->query("SELECT * FROM cashlottery");
+$lottery = $db->fetch_row();
+$numlotto = count($lottery);
 if ($numlotto > 0) {
-    $result = mysql_query("SELECT * FROM cashlottery WHERE userid NOT IN (1, 174) ORDER BY RAND() LIMIT 1");
-    $worked = mysql_fetch_array($result);
-    // $amountlotto = $numlotto * 250000;
+    $db->query("SELECT * FROM cashlottery ORDER BY RAND() LIMIT 1");
+    $db->execute();
+    $worked = $db->fetch_row(true);
+
     $cashlottery_class = new User($worked['userid']);
     $newbank = $cashlottery_class->bank + $amountlotto;
     perform_query("UPDATE grpgusers SET bank = ? WHERE id = ?", [$newbank, $worked['userid']]);
     perform_query("INSERT INTO mlottowinners VALUES ('', ?, ?)", [$worked['userid'], $amountlotto]);
+
     Send_Event($cashlottery_class->id, "Congratulations! You have won " . prettynum($amountlotto, 1) . " on the lottery!", $cashlottery_class->id);
+
     perform_query("DELETE FROM `cashlottery`");
     perform_query("UPDATE gameevents SET cashlottery = '<li>There were " . prettynum($numlotto) . " lottery tickets bought yesterday.</li><li>The jackpot was " . prettynum($amountlotto, 1) . ".</li><li>The winner was [-_USER_-].</li>', cashlotteryid = ?", [$cashlottery_class->id]);
 } else {
@@ -179,22 +189,22 @@ $db->execute();
 $numlotto = $db->fetch_single();
 $amountlotto = round($numlotto * $tickCost);
 
-$checklotto = mysql_query("SELECT * FROM `ptslottery`");
-$numlotto = mysql_num_rows($checklotto);
+$db->query("SELECT * FROM `ptslottery`");
+$pointslottery = $db->fetch_row();
+$numlotto = count($pointslottery);
 if ($numlotto > 0) {
-    $result = mysql_query("SELECT * FROM ptslottery WHERE userid NOT IN (1, 174) ORDER BY RAND() LIMIT 1");
-    $worked = mysql_fetch_array($result);
-    $checklotto = mysql_query("SELECT * FROM ptslottery");
-    $numlotto = mysql_num_rows($checklotto);
-    // $amountlotto = $numlotto * 50;
-    // $amountlotto = round($amountlotto);
-    $cashlottery_class = new User($worked['userid']);
-    $newpoints = $cashlottery_class->points + $amountlotto;
-    perform_query("UPDATE grpgusers SET points = ? WHERE id = ?", [$newpoints, $worked['userid']]);
-    perform_query("INSERT INTO plottowinners VALUES ('', ?, ?)", [$worked['userid'], $amountlotto]);
-    Send_Event($cashlottery_class->id, "Congratulations! You have won " . prettynum($amountlotto) . " points on the lottery!", $cashlottery_class->id);
-    perform_query("DELETE FROM ptslottery");
-    perform_query("UPDATE gameevents SET ptslottery = '<li>There were " . prettynum($numlotto) . " lottery tickets bought yesterday.</li><li>The jackpot was " . prettynum($amountlotto) . " points.</li><li>The winner was [-_USER_-].</li>', `ptslotteryid` = ?", [$cashlottery_class->id]);
+    $db->query("SELECT * FROM ptslottery ORDER BY RAND() LIMIT 1");
+    $worked = $db->fetch_row(true);
+
+    if (!empty($worked)) {
+        $cashlottery_class = new User($worked['userid']);
+        $newpoints = $cashlottery_class->points + $amountlotto;
+        perform_query("UPDATE grpgusers SET points = ? WHERE id = ?", [$newpoints, $worked['userid']]);
+        perform_query("INSERT INTO plottowinners VALUES ('', ?, ?)", [$worked['userid'], $amountlotto]);
+        Send_Event($cashlottery_class->id, "Congratulations! You have won " . prettynum($amountlotto) . " points on the lottery!", $cashlottery_class->id);
+        perform_query("DELETE FROM ptslottery");
+        perform_query("UPDATE gameevents SET ptslottery = '<li>There were " . prettynum($numlotto) . " lottery tickets bought yesterday.</li><li>The jackpot was " . prettynum($amountlotto) . " points.</li><li>The winner was [-_USER_-].</li>', `ptslotteryid` = ?", [$cashlottery_class->id]);
+    }
 } else {
     perform_query("UPDATE gameevents SET ptslottery = '<li>There were " . $numlotto . " lottery tickets bought yesterday.</li>'");
 }
@@ -204,8 +214,7 @@ perform_query("UPDATE grpgusers SET gndays = gndays - 1 WHERE gndays > 0");
 perform_query("UPDATE grpgusers SET blocked = blocked - 1 WHERE blocked > 0");
 perform_query("UPDATE grpgusers SET actionpoints = 25 WHERE actionpoints < 25 ");
 
-$result2 = mysql_query("SELECT * FROM grpgusers ORDER BY id ASC");
-while ($line = mysql_fetch_array($result2)) {
+foreach ($allusers as $line) {
     $newrmupgrade = $line['rmdupgrade'] - 1;
     if ($line['rmupgrade'] >= 1)
         perform_query("UPDATE grpgusers SET rmupgrade = ? WHERE id = ?", [$newrmupgrade, $line['id']]);

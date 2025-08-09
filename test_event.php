@@ -50,9 +50,10 @@ include 'header.php';
                     }
                 </style>
                 <?php
-                $result = mysql_query("SELECT COUNT(*) FROM `events` WHERE `to` = $user_class->id");
-                $r = mysql_fetch_row($result);
-                $numrows = $r[0];
+                $db->query("SELECT COUNT(*) FROM events WHERE `to` = ?");
+                $db->execute([$user_class->id]);
+                $numrows = $db->fetch_single();
+
                 $rowsperpage = 30;
                 $totalpages = ceil($numrows / $rowsperpage);
                 $searchString = null;
@@ -73,11 +74,15 @@ include 'header.php';
                 }
                 $offset = ($currentpage - 1) * $rowsperpage;
                 if ($searchString == null) {
-                    $res = mysql_query("SELECT * from `events` WHERE `to` = $user_class->id ORDER BY `timesent` DESC LIMIT $offset, $rowsperpage");
+                    $db->query("SELECT * FROM events WHERE `to` = ? ORDER BY `timesent` DESC LIMIT $offset, $rowsperpage");
+                    $db->execute([$user_class->id]);
                 } else {
-                    $res = mysql_query("SELECT * from `events` WHERE `to` = $user_class->id AND `text` like '$searchString' ORDER BY `timesent` DESC LIMIT $offset, $rowsperpage");
+                    $db->query("SELECT * FROM events WHERE `to` = ? AND `text` LIKE ? ORDER BY `timesent` DESC LIMIT $offset, $rowsperpage");
+                    $db->execute([$user_class->id, $searchString]);
                 }
-                while ($row = mysql_fetch_array($res)) {
+
+                $results = $db->fetch_row();
+                foreach ($results as $row) {
                     $text = str_replace('[-_USERID_-]', formatName($row['extra']), $row['text']);
                     echo "<tr style='height: 30px; border-bottom: solid 1px;'><td width='67%'>" . $text . "</td><td width='31%'>" . date("d F Y, g:ia", $row['timesent']) . "</td><td width='2%'><a href='events.php?delete={$row['id']}'><span class='delete'>&nbsp;X&nbsp;</span></a></td></tr>";
                 }

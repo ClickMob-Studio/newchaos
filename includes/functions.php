@@ -342,17 +342,7 @@ function Check_Car($itemid, $userid)
     $rtn = $db->fetch_single();
     return ($rtn > 0) ? $rtn : 0;
 }
-function Check_Plane($itemid, $userid)
-{
-    global $db;
-    $db->query("SELECT COUNT(*) FROM hangar WHERE userid = ? AND planeid = ?");
-    $db->execute(array(
-        $userid,
-        $itemid
-    ));
-    $rtn = $db->fetch_single();
-    return ($rtn > 0) ? $rtn : 0;
-}
+
 function CheckGangWar($gang)
 {
     global $db;

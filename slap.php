@@ -1,13 +1,15 @@
 <?php
 include 'header.php';
-$result = mysql_query("SELECT * FROM `bans` WHERE `type`='mail' AND `id` = '" . $user_class->id . "'");
-$check = mysql_num_rows($result);
-$worked = mysql_fetch_array($result);
-if ($check > 0) {
-    echo Message('&nbsp;You have been mail banned for ' . prettynum($worked['days']) . ' days.');
+
+$db->query("SELECT * FROM `bans` WHERE `type` = 'mail' AND `id` = ?");
+$db->execute([$user_class->id]);
+$row = $db->fetch_row(true);
+if (!empty($row)) {
+    echo Message('&nbsp;You have been mail banned for ' . prettynum($row['days']) . ' days.');
     include 'footer.php';
     die();
 }
+
 $attack_person = new User($_GET['slap']);
 if (isset($error)) {
     echo Message($error);
