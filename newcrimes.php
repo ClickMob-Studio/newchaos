@@ -197,7 +197,7 @@ if (isset($_GET['ner'])) {
                                     if ($row['id'] == 51) {
                                         $additionalStyles = 'style="color: red; font-weight: bold;"';
                                     }
-                                    echo '<option ' . $additionalStyles . ' value="' . $row['id'] . '" data-stars="' . $star_level . '" data-crime-count="' . $crimeCount . '" ' . $disabled . ($hasEnoughNerve && !$selected ? 'selected' : '') . '>' . $row['name'] . ' | Cost: ' . $row['nerve'] . ' Nerve</option>';
+                                    echo '<option ' . $additionalStyles . ' value="' . $row['id'] . '" data-stars="' . $star_level . '" data-crime-count="' . $crimeCount . '" ' . $disabled . (empty($disabled) && !$selected ? 'selected' : '') . '>' . $row['name'] . ' | Cost: ' . $row['nerve'] . ' Nerve</option>';
 
                                     if ($hasEnoughNerve && !$selected) {
                                         $selected = true;
