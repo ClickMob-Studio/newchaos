@@ -31,7 +31,6 @@ include 'header.php';
                             $agility = (rand(1, 100) <= $chance) ? $spy_class->agility : "Your spy could not find their agility out.";
                             echo "<b>Your spy found out the following about " . $spy_class->formattedname . ":</b><br /><br /><b>Strength:</b>&nbsp;" . prettynum($strength) . "<br /><b>Defense:</b>&nbsp;" . prettynum($defense) . "<br /><b>Speed:</b>&nbsp;" . prettynum($speed) . "<br /><b>Agility:</b>&nbsp;" . prettynum($agility) . "<br /><b>Bank:</b>&nbsp;" . prettynum($bank, 1) . "<br /><b>Points:</b>&nbsp;" . prettynum($points) . "<br /><br /><a href='spylog.php'>View Spylog</a>";
                             $total = $user_class->money - $cost;
-                            $todaysspys = $user_class->todaysspys + 1;
                             bloodbath('spies', $user_class->id);
 
                             $db->query("UPDATE `grpgusers` SET `money` = ? WHERE `id` = ?");
