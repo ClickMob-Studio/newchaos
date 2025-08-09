@@ -202,6 +202,21 @@ if (isset($_POST['direction'])) {
 
 }
 
+if ($response['jailTime'] == 0 && $response['hospitalTime'] == 0) {
+    $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
+    if (isset($currentQuestSeason['id'])) {
+        $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+        $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
+        $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+        if (
+            isset($questSeasonMission['requirements']->maze) &&
+            (int) $questSeasonMissionUser['progress']->maze < (int) $questSeasonMission['requirements']->maze
+        ) {
+            updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'maze', 1);
+        }
+    }
+}
+
 // Return the response
 echo json_encode($response);
 ?>

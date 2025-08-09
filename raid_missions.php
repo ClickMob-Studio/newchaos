@@ -227,6 +227,6 @@ include "header.php";
         }
 
         print "</table></div></div>";
-      
+
         include "footer.php";
         ?>

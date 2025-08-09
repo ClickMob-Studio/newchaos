@@ -125,6 +125,33 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
     if ($id == 51 && $tempItemUse['ghost_vacuum_time'] > time()) {
         $exp = ceil($user_class->maxexp / 5000);
+    } else if ($id == 52) {
+        $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
+        if (isset($currentQuestSeason['id'])) {
+            $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+            $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
+            $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+
+            $progressValue = isset($questSeasonMissionUser['progress']->whitecollar_fraud)
+                ? (int) $questSeasonMissionUser['progress']->whitecollar_fraud
+                : null;
+
+            log_error("Progress: " . $progress);
+            if (
+                isset($questSeasonMission['requirements']->whitecollar_fraud) &&
+                $progressValue !== null &&
+                $progressValue < 100
+            ) {
+                $exp = ceil($user_class->maxexp / 200);
+                updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'whitecollar_fraud', 1);
+                $crime_multiplier = 1;
+            } else {
+                echo json_encode(array(
+                    'error' => 'cannot perform the crime at this time.'
+                ));
+                die();
+            }
+        }
     } else {
         $exp = ((10 * $nerve) + 8 * ($nerve - 1)) * 1.0;
     }
@@ -306,7 +333,6 @@ if (isset($_POST['id']) || isset($input['id'])) {
             'debug' => $debug,
             'error' => 'refresh'
         ));
-
         die();
     }
 
@@ -569,3 +595,19 @@ if (isset($_POST['id']) || isset($input['id'])) {
     }
 }
 $db = null;
+
+function log_error($message)
+{
+    $logPath = __DIR__ . "ajax_crimes.log"; // Adjust path as needed
+
+    // Add timestamp and ensure newline
+    $entry = "[" . date('Y-m-d H:i:s') . "] " . $message . "\n";
+
+    // Create directory if it doesn't exist
+    if (!is_dir(dirname($logPath))) {
+        mkdir(dirname($logPath), 0755, true);
+    }
+
+    // Append to file
+    file_put_contents($logPath, $entry, FILE_APPEND);
+}

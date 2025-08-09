@@ -148,8 +148,10 @@ function car_popup($text, $id)
 function secondsToTime($seconds)
 {
     $dtF = new DateTime('@0');
+    $dtF = new DateTime('@0');
     $dtT = new DateTime("@$seconds");
     $interval = $dtF->diff($dtT);
+
     $parts = [];
 
     if ($interval->y > 0) {
@@ -2908,7 +2910,7 @@ function getCurrentQuestSeasonForUser($userId)
         $questSeasonId = 1;
     }
 
-    if ($userId == 2) {
+    if ($userId == 1059) {
         $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " LIMIT 1");
     } else {
         $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " AND is_active > 0 LIMIT 1");
@@ -2973,6 +2975,10 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
     $questSeasonMissionUser = $db->fetch_row(true);
 
     if ($questSeasonMissionUser && isset($questSeasonMissionUser['id'])) {
+        if (isset($questSeasonMissionUser['progress'])) {
+            $questSeasonMissionUser['progress'] = json_decode($questSeasonMissionUser['progress']);
+        }
+
         return $questSeasonMissionUser;
     }
 
@@ -2981,6 +2987,10 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
     $questSeasonMissionUser = $db->fetch_row(true);
 
     if ($questSeasonMissionUser && isset($questSeasonMissionUser['id'])) {
+        if (isset($questSeasonMissionUser['progress'])) {
+            $questSeasonMissionUser['progress'] = json_decode($questSeasonMissionUser['progress']);
+        }
+
         return $questSeasonMissionUser;
     }
 
@@ -3003,7 +3013,6 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
         return $r;
     }
 
-
     return null;
 }
 
@@ -3023,7 +3032,11 @@ function getQuestSeasonMission($userId, $questSeasonId)
 
 function getDisplayForQuestReq($req, $num, $progress)
 {
-    $progress = json_decode($progress, true);
+    if (is_string($progress)) {
+        $progress = json_decode($progress, true);
+    } else {
+        $progress = (array) $progress;
+    }
 
     if (isset($progress[$req]) && $progress[$req] >= $num) {
         $status = ' <span style="color: green;">(Complete)</span>';
@@ -3040,9 +3053,16 @@ function getDisplayForQuestReq($req, $num, $progress)
     } else if ($req === 'interrogate_phil') {
         return 'Kidnap and interrogate Phil' . $status;
     } else if ($req === 'steal_books') {
-        return 'Steal The Books' . $status;
+        return 'Steal the books' . $status;
     } else if ($req === 'attack_player') {
         return 'Attack Player: ' . formatName($num) . $status;
+    } else if ($req === 'whitecollar_fraud') {
+    } else if ($req === 'attacks') {
+        return 'Attack: ' . number_format($progress[$req]) . '/' . $num . ' ' . $status;
+    } else if ($req === 'whitecollar_fraud') {
+        return 'Whitecollar fraud: ' . number_format($progress[$req]) . '/' . $num . ' ' . $status;
+    } else if ($req === 'mastermind_ops') {
+        return 'Mastermind operations' . $status;
     } else if ($req === 'crime_cash') {
         if (isset($progress[$req])) {
             return 'Cash from crimes: $' . number_format($progress[$req]) . '/$' . number_format($num) . $status;
@@ -3050,7 +3070,7 @@ function getDisplayForQuestReq($req, $num, $progress)
         return 'Cash from crimes: $0/$' . number_format($num) . $status;
     } else if ($req === 'backalley') {
         if (isset($progress[$req])) {
-            return 'Backalley Searches: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
+            return 'Backalley searches: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
         }
         return 'Backalley Searches: 0/' . number_format($num) . $status;
     } else if ($req === 'raids') {
@@ -3060,12 +3080,17 @@ function getDisplayForQuestReq($req, $num, $progress)
         return 'Raids: 0/' . number_format($num) . $status;
     } else if ($req === 'city_goons') {
         if (isset($progress[$req])) {
-            return 'City Goons: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
+            return 'City goons: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
         }
         return 'City Goons: 0/' . number_format($num) . $status;
     } else if ($req === 'busts') {
         if (isset($progress[$req])) {
             return 'Busts: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
+        }
+        return 'Busts: 0/' . number_format($num) . $status;
+    } else if ($req === 'maze') {
+        if (isset($progress[$req])) {
+            return 'Maze: ' . number_format($progress[$req]) . '/' . number_format($num) . $status;
         }
         return 'Busts: 0/' . number_format($num) . $status;
     } else {
@@ -3084,12 +3109,17 @@ function updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $req, $va
     if ($questSeasonMission) {
         $isComplete = false;
 
-        $progress = json_decode($questSeasonMissionUser['progress'], true);
-        foreach ($progress as $key => $r) {
-            if ($key === $req) {
-                $progress[$key] = $progress[$key] + $value;
-            }
+        if (is_string($questSeasonMissionUser['progress'])) {
+            $progress = json_decode($questSeasonMissionUser['progress'], true);
+        } else {
+            $progress = (array) $questSeasonMissionUser['progress'];
         }
+
+        if (!is_array($progress)) {
+            $progress = [];
+        }
+
+        $progress[$req] = isset($progress[$req]) ? (int) $progress[$req] + $value : (int) $value;
         $questSeasonMissionUser['progress'] = $progress;
 
         $requirements = json_decode($questSeasonMission['requirements']);

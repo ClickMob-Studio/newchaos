@@ -14,8 +14,8 @@ include 'database/pdo_class.php';
 // Dethrone kings and queens who have been inactive for more than 24 hours
 $db->query("SELECT id FROM grpgusers WHERE (king != 0 OR queen != 0) AND lastactive < (UNIX_TIMESTAMP() - 86400)");
 $db->execute();
-$inactiveUsers = $db->fetch_row();
-if (isset($inactiveUsers) && count($inactiveUsers) > 0) {
+$inactiveUsers = $db->fetch_row(true);
+if (count($inactiveUsers) > 0) {
     $db->query("UPDATE grpgusers SET king = 0, queen = 0 WHERE (king != 0 OR queen != 0) AND lastactive < (UNIX_TIMESTAMP() - 86400)");
     $db->execute();
     foreach ($inactiveUsers as $user) {
