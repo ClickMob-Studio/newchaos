@@ -3,6 +3,7 @@ require_once 'includes/functions.php';
 
 start_session_guarded();
 
+include_once "database/pdo_class.php";
 include_once "dbcon.php";
 
 // Function to redirect on error with message
