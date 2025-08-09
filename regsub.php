@@ -35,16 +35,18 @@ if (!$email) {
 }
 
 // Username uniqueness check
-$stmt = $pdo->prepare("SELECT id FROM grpgusers WHERE username = ?");
-$stmt->execute([$username]);
-if ($stmt->rowCount() > 0) {
+$db->query("SELECT COUNT(*) FROM grpgusers WHERE username = ?");
+$db->execute([$username]);
+$count = $db->fetch_single();
+if ($count > 0) {
     errorRedirect("Username already exists.");
 }
 
 // Email uniqueness check
-$stmt = $pdo->prepare("SELECT id FROM grpgusers WHERE email = ?");
-$stmt->execute([$email]);
-if ($stmt->rowCount() > 0) {
+$db->query("SELECT COUNT(*) FROM grpgusers WHERE email = ?");
+$db->execute([$email]);
+$count = $db->fetch_single();
+if ($count > 0) {
     errorRedirect("Email already in use.");
 }
 
@@ -60,20 +62,14 @@ if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && !empty($_SERVER['HTTP_X_FORWARDED
 $IP = filter_var($IP, FILTER_VALIDATE_IP);
 
 // Insert user into database
-$stmt = $pdo->prepare("INSERT INTO grpgusers (ip, signupip, loginame, username, password, email, signuptime, gender, aprotection) VALUES (?, ?,?, ?, ?, ?, UNIX_TIMESTAMP(), ?, ?)");
-$stmt->execute([$IP, $IP, $username, $username, $hashedPassword, $email, $gender, time() + 43200]);
-$newid = $pdo->lastInsertId();
-
+perform_query("INSERT INTO grpgusers (ip, signupip, loginame, username, password, email, signuptime, gender, aprotection) VALUES (?, ?, ?, ?, ?, ?, UNIX_TIMESTAMP(), ?, ?)", [$IP, $IP, $username, $username, $hashedPassword, $email, $gender, time() + 43200]);
+$newid = $db->insert_id();
 if (isset($_POST['referer'])) {
-    $stmt = $pdo->prepare("INSERT INTO referrals (`when`, referrer, referred) VALUES (UNIX_TIMESTAMP(), ?, ?)");
-    $stmt->execute([$_POST['referer'], $newid]);
+    perform_query("INSERT INTO referrals (`when`, referrer, referred) VALUES (UNIX_TIMESTAMP(), ?, ?)", [$_POST['referer'], $newid]);
 }
 
-$stmt = $pdo->prepare("INSERT INTO sessions VALUES (?, ?, 'emptyfornow')");
-$stmt->execute([$newid, $_COOKIE['PHPSESSID']]);
-
-$stmt = $pdo->prepare("INSERT INTO ofthes (userid) VALUES (?)");
-$stmt->execute([$newid]);
+perform_query("INSERT INTO sessions VALUES (?, ?, 'emptyfornow')", [$newid, $_COOKIE['PHPSESSID']]);
+perform_query("INSERT INTO ofthes (userid) VALUES (?)", [$newid]);
 
 // Add 1 to the total user count in cache
 add_to_user_count();
@@ -110,8 +106,7 @@ $msgtext = strip_tags($msgtext);
 $msgtext = nl2br($msgtext);
 $msgtext = addslashes($msgtext);
 
-$stmt = $pdo->prepare("INSERT INTO `pms` (id,`to`, `from`, timesent, `subject`, msgtext) VALUES ('', ?, 2, unix_timestamp(), ?, ?)");
-$stmt->execute([$newid, $subject, $msgtext]);
+perform_query("INSERT INTO `pms` (id, `to`, `from`, timesent, `subject`, msgtext) VALUES ('', ?, 2, unix_timestamp(), ?, ?)", [$newid, $subject, $msgtext]);
 
 header("Location: index.php");
 exit;
