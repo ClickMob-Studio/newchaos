@@ -126,11 +126,6 @@ try {
 
         payoutChristmasGift($user_class->id);
 
-        $robinfo = explode("|", $attack_person->robInfo);
-        if ($robinfo[0] == 1) {
-            $success = mt_rand(0, 2) != 0;
-        }
-
         if ($attack_person->fbi > 0) {
             $db->query("UPDATE grpgusers SET fbitime = ? WHERE id = ?");
             $db->execute(array(15, $user_class->id));
