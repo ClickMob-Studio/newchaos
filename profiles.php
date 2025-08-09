@@ -14,7 +14,6 @@ if (isset($_GET['forced_captcha']) && $_GET['forced_captcha'] == 'yes') {
 }
 
 $_GET['id'] = filter_var($_GET['id'], FILTER_VALIDATE_INT);
-
 $profile_class = new User($_GET['id']);
 
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
@@ -27,6 +26,7 @@ $tempItemUse = getItemTempUse($user_class->id);
 
         if (empty($profile_class->id) || $profile_class->id <= 0)
             diefun("This player doesn't exist.");
+
         if (isset($_POST['note'])) {
             $db->query("INSERT INTO personalnotes (noter, noted, note) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE note = ?");
             $db->execute([

@@ -244,7 +244,8 @@ class User
         $worked = $db->fetch_row(true);
 
         if (empty($worked)) {
-            throw new Exception("User with id({$id}) not found");
+            $this->id = 0;
+            return;
         }
 
         foreach ($worked as $title => $value) {
