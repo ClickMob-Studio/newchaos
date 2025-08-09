@@ -80,14 +80,13 @@ include 'header.php';
         if (isset($_POST['direction'])) {
             $chosenDirection = $_POST['direction']; // Store the direction
             // Fetch all events from the citygame table
-            $query = "SELECT * FROM citygame";
-            $result = mysql_query($query);
-            if (!$result) {
-                die('Invalid query: ' . mysql_error());
+            $results = get_maze_options();
+            if (empty($results)) {
+                die('Failed to fetch maze options!');
             }
             // Create a weighted array
             $weightedEvents = [];
-            while ($event = mysql_fetch_assoc($result)) {
+            foreach ($results as $event) {
                 for ($i = 0; $i < $event['probability']; $i++) {
                     $weightedEvents[] = $event;
                 }
@@ -106,8 +105,7 @@ include 'header.php';
                     $money = rand($event['min_value'], $event['max_value']);
                     $description = str_replace('[money_amount]', "<span style='color: green;'>$" . $money . "</span>", $event['description_template']);
                     // Add the money to the user's account
-                    $money_query = "UPDATE grpgusers SET money = money + $money WHERE id = " . $user_class->id;
-                    mysql_query($money_query);
+                    perform_query("UPDATE grpgusers SET money = money + ? WHERE id = ?", [$money, $user_class->id]);
                     break;
                 case 'credits':
                     $credits = rand($event['min_value'], $event['max_value']);
@@ -116,13 +114,10 @@ include 'header.php';
 
                     // Log the event in user_logs table with the custom description
                     $logDescription = "Has found " . $credits . " Credits whilst searching downtown.";
-                    $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'credits', '{$logDescription}', UNIX_TIMESTAMP())";
-                    mysql_query($log_query);
-
+                    perform_query("INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES (?, 'credits', ?, UNIX_TIMESTAMP())", [$user_class->id, $logDescription]);
 
                     // Add the credits to the user's account
-                    $credits_query = "UPDATE grpgusers SET credits = credits + $credits WHERE id = " . $user_class->id;
-                    mysql_query($credits_query);
+                    perform_query("UPDATE grpgusers SET credits = credits + ? WHERE id = ?", [$credits, $user_class->id]);
                     break;
 
 
@@ -131,8 +126,7 @@ include 'header.php';
         
                     if ($user_class->bank >= $packageCost) {
                         // Deduct money from bank
-                        $deductMoneyQuery = "UPDATE grpgusers SET bank = bank - $packageCost WHERE id = " . $user_class->id;
-                        mysql_query($deductMoneyQuery);
+                        perform_query("UPDATE grpgusers SET bank = bank - ? WHERE id = ?", [$packageCost, $user_class->id]);
 
                         // Randomly decide the outcome
                         $outcome = rand(1, 2); // 1 for Good Outcome, 2 for Trap Outcome
@@ -151,9 +145,7 @@ include 'header.php';
                     break;
 
                 case 'injuredStranger':
-                    // Deduct turns for helping
-                    $deductTurnsQuery = "UPDATE grpgusers SET cityturns = cityturns - 2 WHERE id = " . $user_class->id; // Deducting 2 turns as an example.
-                    mysql_query($deductTurnsQuery);
+                    perform_query("UPDATE grpgusers SET cityturns = cityturns - 2 WHERE id = ?", [$user_class->id]);
 
                     // Randomly decide the outcome
                     $outcome = rand(1, 2); // 1 for Grateful Stranger, 2 for Deceitful Stranger
@@ -165,8 +157,7 @@ include 'header.php';
                     } else {
                         // Deduct a random amount from player's money
                         $robAmount = rand(100, 500); // Random amount between 100 and 500 as an example.
-                        $robMoneyQuery = "UPDATE grpgusers SET money = money - $robAmount WHERE id = " . $user_class->id;
-                        mysql_query($robMoneyQuery);
+                        perform_query("UPDATE grpgusers SET money = money - ? WHERE id = ?", [$robAmount, $user_class->id]);
                         $description = "It was a trap! The injured stranger was a con artist, and you were robbed!";
                     }
                     break;
@@ -177,31 +168,26 @@ include 'header.php';
                     $description = str_replace('[raidtokens_amount]', "<span style='color: red; font-weight: bold;'>" . $raidtokens . " raid tokens</span>", $event['description_template']);
 
                     $logDescription = "Has found " . $raidtokens . " Raid Tokens whilst searching downtown.";
-                    $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'raidtokens', '{$logDescription}', UNIX_TIMESTAMP())";
-                    mysql_query($log_query);
+                    perform_query("INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES (?, 'raidtokens', ?, UNIX_TIMESTAMP())", [$user_class->id, $logDescription]);
 
                     // Add the raid tokens to the user's account
-                    $raidtokens_query = "UPDATE grpgusers SET raidtokens = raidtokens + $raidtokens WHERE id = " . $user_class->id;
-                    mysql_query($raidtokens_query);
+                    perform_query("UPDATE grpgusers SET raidtokens = raidtokens + ? WHERE id = ?", [$raidtokens, $user_class->id]);
                     break;
 
                 case 'points':
                     $points = rand($event['min_value'], $event['max_value']);
                     $description = str_replace('[points_amount]', $points, $event['description_template']);
                     // Add the points to the user's account
-                    $points_query = "UPDATE grpgusers SET points = points + $points WHERE id = " . $user_class->id;
-                    mysql_query($points_query);
+                    perform_query("UPDATE grpgusers SET points = points + ? WHERE id = ?", [$points, $user_class->id]);
                     break;
 
                 case 'jail':
                     $logDescription = "Has landed in some trouble. They are on the way to Jail!.";
-                    $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'jail', '{$logDescription}', UNIX_TIMESTAMP())";
-                    mysql_query($log_query);
+                    perform_query("INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES (?, 'jail', ?, UNIX_TIMESTAMP())", [$user_class->id, $logDescription]);
 
                     $jailTime = rand($event['min_value'], $event['max_value']);
                     $description = "<strong style='color:red;'>" . $event['description_template'] . "</strong>";
-                    $jail_query = "UPDATE grpgusers SET jail = jail + $jailTime WHERE id = " . $user_class->id;
-                    mysql_query($jail_query);
+                    perform_query("UPDATE grpgusers SET jail = jail + ? WHERE id = ?", [$jailTime, $user_class->id]);
 
                     echo json_encode(['redirect' => 'jail_page.php']);
                     exit;
@@ -209,43 +195,29 @@ include 'header.php';
                 case 'hospital':
                     $hospitalTime = rand($event['min_value'], $event['max_value']);
                     $description = "<strong style='color:red;'>" . $event['description_template'] . "</strong>";
-                    $hospital_query = "UPDATE grpgusers SET hospital = hospital + " . $hospitalTime . ", hhow = 'maze' WHERE id = " . $user_class->id;
-                    mysql_query($hospital_query);
+                    perform_query("UPDATE grpgusers SET hospital = hospital + ?, hhow = 'maze' WHERE id = ?", [$hospitalTime, $user_class->id]);
 
                     echo json_encode(['redirect' => 'hospital_page.php']);
                     exit;
 
 
                 case 'item':
-                    $item_query = "SELECT itemname FROM items WHERE id = " . $event['item_id'];
-                    $item_result = mysql_query($item_query);
-                    $item = mysql_fetch_assoc($item_result);
-
+                    $item = Get_Item($event['item_id']);
                     $description = str_replace('[item_name]', $item['itemname'], $event['description_template']);
 
                     // Log the event in user_logs table with the item name
                     $logDescription = "Has found a(n) " . $item['itemname'] . " whilst searching downtown.";
-                    $log_query = "INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES ('{$user_class->id}', 'item', '{$logDescription}', UNIX_TIMESTAMP())";
-                    mysql_query($log_query);
+                    perform_query("INSERT INTO user_logs (user_id, event_type, description, timestamp) VALUES (?, 'item', ?, UNIX_TIMESTAMP())", [$user_class->id, $logDescription]);
                     break;
-
-                    // Add the item to the user's inventory. This step will depend on how you handle inventory in your game
-                    break;
-
-                // Add more cases as needed
             }
 
             // Deduct a turn from the user's cityturns
-            $turns_query = "UPDATE grpgusers SET cityturns = cityturns - 1 WHERE id = " . $user_class->id;
-            mysql_query($turns_query);
+            perform_query("UPDATE grpgusers SET cityturns = cityturns - 1 WHERE id = ?", [$user_class->id]);
 
             // Display the description to the user
             echo "<p><strong>Search Result:</strong><br>";
             echo "You walked " . $chosenDirection . ".<br>"; // Display the chosen direction
             echo $description . "</p>";
-
-
-
 
             // Display remaining turns
             echo "<p>You have <strong>" . $user_class->cityturns . "</strong> turns left to search the streets.</p>";

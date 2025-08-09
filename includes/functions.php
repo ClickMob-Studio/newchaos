@@ -4365,3 +4365,19 @@ function get_skill_boosts(array $userSkillIds)
 
     return $merged;
 }
+
+function get_maze_options()
+{
+    global $db, $redis;
+
+    if ($redis->exists('maze_options')) {
+        return json_decode($redis->get('maze_options'), true);
+    }
+
+    $db->query("SELECT * FROM citygame");
+    $db->execute();
+    $options = $db->fetch_row();
+    $redis->setEx('maze_options', 3600, json_encode($options));
+
+    return $options;
+}
