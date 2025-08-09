@@ -14,6 +14,8 @@ include 'header.php';
 
                 $gangname = strip_tags($_POST['name']);
                 $gangtag = strip_tags($_POST['tag']);
+
+                $error = "";
                 $error .= ($user_class->money < 500000) ? "<div>You don't have enough money to start a gang. You need at least $500,000</div>" : $error;
                 $error .= ($user_class->gang != 0) ? "<div>You have to leave your gang to start a new gang.</div>" : "";
                 $error .= (strlen($gangname) < 3) ? "<div>Your gang's name has to be at least 3 characters long.</div>" : "";
