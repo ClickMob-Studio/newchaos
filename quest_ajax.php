@@ -18,6 +18,7 @@ session_write_close();
 
 if (!$user_class) {
     echo json_encode(array('success' => false));
+    exit;
 }
 
 $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
@@ -46,6 +47,7 @@ if (isset($currentQuestSeason['id'])) {
         updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $field, $value);
 
         echo json_encode(array('success' => true));
+        exit;
     }
 }
 
