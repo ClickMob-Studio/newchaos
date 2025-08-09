@@ -75,7 +75,7 @@ perform_query("INSERT INTO ofthes (userid) VALUES (?)", [$newid]);
 add_to_user_count();
 
 // Redirect upon successful registration
-$_SESSION['id'] = $pdo->lastInsertId();
+$_SESSION['id'] = $newid;
 $msgtext = "
 Welcome to [b][color=yellow]Chaos City![/color][/b]
 
