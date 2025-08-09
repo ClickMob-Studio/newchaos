@@ -7,9 +7,12 @@ ini_set('display_startup_errors', 1);
 ini_set('log_errors', 1);
 error_reporting(E_ALL);
 
-include "classes.php";
-include "database/pdo_class.php";
+error_log("REACHED BEFORE REQUIRES!");
 
+require_once __DIR__ . '/classes.php';
+require_once __DIR__ . '/database/pdo_class.php';
+
+error_log("REACHED AFTER REQUIRES!");
 
 if (!isset($_SESSION['id']) && !isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false]);
