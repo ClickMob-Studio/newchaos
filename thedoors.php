@@ -56,14 +56,14 @@ include "header.php";
                 include 'footer.php';
                 die();
             }
-        }
-        if ($chance == 5) {
-            $stole1 = rand(2, 7);
-            perform_query("UPDATE grpgusers SET raidtokens = raidtokens + ?, doors = doors - 1 WHERE id = ?", [$stole1, $user_class->id]);
-            echo Message("You opened the door and found " . prettynum($stole1) . " Raid Tokens.<br>
-	<a href='thedoors.php'>Back</a>");
-            include 'footer.php';
-            die();
+            if ($chance == 5) {
+                $stole1 = rand(2, 7);
+                perform_query("UPDATE grpgusers SET raidtokens = raidtokens + ?, doors = doors - 1 WHERE id = ?", [$stole1, $user_class->id]);
+                echo Message("You opened the door and found " . prettynum($stole1) . " Raid Tokens.<br>
+        <a href='thedoors.php'>Back</a>");
+                include 'footer.php';
+                die();
+            }
         }
 
         ?>
