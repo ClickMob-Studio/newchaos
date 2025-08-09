@@ -341,13 +341,11 @@ if (isset($_GET['ner'])) {
 
 
     $(document).ready(function () {
-        // This function updates the star rating when the selected crime changes
         $('#scrime').change(function () {
             var selectedOption = $(this).find('option:selected');
             var stars = selectedOption.data('stars');
             var starRatingHtml = '';
 
-            // Create the star rating based on the data-stars attribute
             for (var i = 1; i <= 5; i++) {
                 starRatingHtml += i <= stars ? '<span class="gold">&#9733;</span>' : '<span class="gray">&#9733;</span>';
             }
@@ -383,10 +381,7 @@ if (isset($_GET['ner'])) {
             $('.star-rating').html(starRatingHtml);
         });
 
-        // Trigger the change event on page load to display the initial star rating
         $('#scrime').change();
-
-        // Other JavaScript and jQuery code can follow here
     });
 
 
@@ -418,16 +413,9 @@ if (isset($_GET['ner'])) {
     }
 
     $(document).ready(function () {
-        // Set the cookie when the selection changes
-        $('#scrime').change(function () {
-            var selectedCrime = $(this).val();
-            setCookie("selectedCrime", selectedCrime, 30); // Change 30 to the number of days you want the cookie to last
-        });
-
-        // Get the selected option from the cookie and set it
-        var selectedCrime = getCookie("selectedCrime");
-        if (selectedCrime) {
-            $("#scrime").val(selectedCrime).change(); // Trigger change event after setting the value
+        const firstEnabled = $sel.find("option:not([disabled])").first();
+        if (firstEnabled.length) {
+            $sel.val(firstEnabled.val()).trigger("change");
         }
     });
 
