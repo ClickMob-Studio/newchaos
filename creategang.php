@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 
-echo $user_class;
+echo $user_class->id;
 ?>
 
 
