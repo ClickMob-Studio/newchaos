@@ -1187,24 +1187,23 @@ include 'header.php';
                             <br /><br />
                         <?php endif; ?>
 
-                        <<<<<<< HEAD=======<?php if ($limitedPack['id'] == 16): ?>
-                                <p>Pack Contains:</p>
-                                <ul>
-                                    <li>1,000,000 Points</li>
-                                    <li>$1,000,000,000</li>
-                                    <li>10 x <?= item_popup('Mission Pass', 277) ?></li>
-                                    <li>5 x <?= item_popup('Double EXP', 10) ?></li>
-                                    <li>5 x <?= item_popup('Perfume', 324) ?></li>
-                                    <li>5 x <?= item_popup('Love Potion', 322) ?></li>
-                                    <li>5 x <?= item_popup('Gold Rush Token Chest', 283) ?></li>
-                                    <li>50 x <?= item_popup('Dracula Blood Bag', 285) ?></li>
-                                </ul>
-                            <?php endif; ?>
+                        <?php if ($limitedPack['id'] == 16): ?>
+                            <p>Pack Contains:</p>
+                            <ul>
+                                <li>1,000,000 Points</li>
+                                <li>$1,000,000,000</li>
+                                <li>10 x <?= item_popup('Mission Pass', 277) ?></li>
+                                <li>5 x <?= item_popup('Double EXP', 10) ?></li>
+                                <li>5 x <?= item_popup('Perfume', 324) ?></li>
+                                <li>5 x <?= item_popup('Love Potion', 322) ?></li>
+                                <li>5 x <?= item_popup('Gold Rush Token Chest', 283) ?></li>
+                                <li>50 x <?= item_popup('Dracula Blood Bag', 285) ?></li>
+                            </ul>
+                        <?php endif; ?>
 
-                            >>>>>>> origin/main
-                            <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img>
-                                    <?php echo $limitedPack['gold_cost'] ?></font>
-                            </h4>
+                        <h4>Cost: <font color=red><img src="https://chaoscity.co.uk/goldbar.png"></img>
+                                <?php echo $limitedPack['gold_cost'] ?></font>
+                        </h4>
                     </td>
                 </tr>
                 <tr>

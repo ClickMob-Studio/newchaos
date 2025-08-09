@@ -1232,346 +1232,340 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
         <div class="col-12 col-lg-10">
             <header class="row">
-                <<<<<<< HEAD=======>>>>>>> origin/main
-                    <?php
-                    $eventMessage = getEventsMessage();
-                    $showEvents = false;
-                    if (isset($eventMessage) && !empty($eventMessage)) {
-                        $showEvents = true;
-                    }
-                    ?>
-                    <?php if ($showEvents): ?>
-                        <div style="padding-right: 24px;">
-                            <div class="dcPanel col-12 mb-3 p-3 mx-3 d-flex flex-column gap-3 text-center"
-                                style="background-color:#ff5d0033;">
-                                <?= $eventMessage; ?>
-                            </div>
+                <?php
+                $eventMessage = getEventsMessage();
+                $showEvents = false;
+                if (isset($eventMessage) && !empty($eventMessage)) {
+                    $showEvents = true;
+                }
+                ?>
+                <?php if ($showEvents): ?>
+                    <div style="padding-right: 24px;">
+                        <div class="dcPanel col-12 mb-3 p-3 mx-3 d-flex flex-column gap-3 text-center"
+                            style="background-color:#ff5d0033;">
+                            <?= $eventMessage; ?>
                         </div>
-                    <?php endif; ?>
+                    </div>
+                <?php endif; ?>
 
-                    <div class="d-none d-md-block col-12 col-lg-8 mt-3 mt-lg-0">
-                        <div class="dcPanel h-100">
-                            <div class="text-center">
-                                <div style="display:flex;justify-content:space-between;">
-                                    <div class="col-6 col-md-4" style="justify-items: center;">
-                                        <div class="p-1 dcPanel dcAvatarPanel"
-                                            style="width: 150;margin-top: 10px;margin-left: 6px">
-                                            <div class="row mb-3 mission">
-                                                <h3 class='box_top'>Mission</h3>
-                                            </div>
+                <div class="d-none d-md-block col-12 col-lg-8 mt-3 mt-lg-0">
+                    <div class="dcPanel h-100">
+                        <div class="text-center">
+                            <div style="display:flex;justify-content:space-between;">
+                                <div class="col-6 col-md-4" style="justify-items: center;">
+                                    <div class="p-1 dcPanel dcAvatarPanel"
+                                        style="width: 150;margin-top: 10px;margin-left: 6px">
+                                        <div class="row mb-3 mission">
+                                            <h3 class='box_top'>Mission</h3>
+                                        </div>
 
-                                            <div class="row heroTop heroTop2">
-                                                <div class="col-12 col-lg-7 offset-lg-1 row realMission">
-                                                    <?php if ($showmission): ?>
-                                                        <div class=" missionDiv">
-                                                            <p class="missionTo">Kills:</p>
-                                                            <p style="font-size: 10px;"><?= $mkills; ?></p>
-                                                        </div>
-                                                        <div class="missionDiv">
-                                                            <p class="missionTo">Crimes:</p>
-                                                            <p style="font-size: 10px;" class="mission-crime-counter"
-                                                                data-value="<?= $usermission['crimes'] ?>"><?= $mcrimes; ?>
-                                                            </p>
-                                                        </div>
-                                                        <div class=" missionDiv">
-                                                            <p class="missionTo">Busts:</p>
-                                                            <p style="font-size: 10px;"><?= $mbusts; ?></p>
-                                                        </div>
-                                                        <div class="missionDiv">
-                                                            <p class="missionTo">Mugs:</p>
-                                                            <p style="font-size: 10px;"><?= $mmugs; ?></p>
-                                                        </div>
-                                                        <div class="missionDiv">
-                                                            <p class="missionTo">BA:</p>
-                                                            <p style="font-size: 10px;"><?= $mbackalleys; ?></p>
-                                                        </div>
-                                                        <div class="missionDiv">
-                                                            <p class="missionTo">Raids:</p>
-                                                            <p style="font-size: 10px;"><?= $mraids; ?></p>
-                                                        </div>
-                                                    <?php else: ?>
-                                                        <a href="missions.php" class="dcSecondaryButton my-3">Start
-                                                            Mission</a>
-                                                    <?php endif; ?>
-                                                </div>
+                                        <div class="row heroTop heroTop2">
+                                            <div class="col-12 col-lg-7 offset-lg-1 row realMission">
+                                                <?php if ($showmission): ?>
+                                                    <div class=" missionDiv">
+                                                        <p class="missionTo">Kills:</p>
+                                                        <p style="font-size: 10px;"><?= $mkills; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">Crimes:</p>
+                                                        <p style="font-size: 10px;" class="mission-crime-counter"
+                                                            data-value="<?= $usermission['crimes'] ?>"><?= $mcrimes; ?>
+                                                        </p>
+                                                    </div>
+                                                    <div class=" missionDiv">
+                                                        <p class="missionTo">Busts:</p>
+                                                        <p style="font-size: 10px;"><?= $mbusts; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">Mugs:</p>
+                                                        <p style="font-size: 10px;"><?= $mmugs; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">BA:</p>
+                                                        <p style="font-size: 10px;"><?= $mbackalleys; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">Raids:</p>
+                                                        <p style="font-size: 10px;"><?= $mraids; ?></p>
+                                                    </div>
+                                                <?php else: ?>
+                                                    <a href="missions.php" class="dcSecondaryButton my-3">Start
+                                                        Mission</a>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="col-6 col-md-4" style="justify-items: center;">
-                                        <div class="p-1 dcPanel dcAvatarPanel" style="width: 155px;margin-top: 10px">
-                                            <div class="row mb-3 mission">
-                                                <h3 class='box_top'>Operation</h3>
-                                            </div>
+                                <div class="col-6 col-md-4" style="justify-items: center;">
+                                    <div class="p-1 dcPanel dcAvatarPanel" style="width: 155px;margin-top: 10px">
+                                        <div class="row mb-3 mission">
+                                            <h3 class='box_top'>Operation</h3>
+                                        </div>
 
-                                            <div class="row heroTop heroTop2">
-                                                <div class="col-12 col-lg-7 offset-lg-1 row realMission">
-                                                    <?php if ($showoperation): ?>
-                                                        <div class=" missionDiv">
-                                                            <p class="missionTo">Kills:</p>
-                                                            <p style="font-size: 10px;"><?= $pkills; ?></p>
-                                                        </div>
-                                                        <div class="missionDiv">
+                                        <div class="row heroTop heroTop2">
+                                            <div class="col-12 col-lg-7 offset-lg-1 row realMission">
+                                                <?php if ($showoperation): ?>
+                                                    <div class=" missionDiv">
+                                                        <p class="missionTo">Kills:</p>
+                                                        <p style="font-size: 10px;"><?= $pkills; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
 
-                                                            <p class="missionTo">Crimes:</p>
-                                                            <p style="font-size: 10px;"><?= $pcrimes; ?></p>
-                                                        </div>
-                                                        <div class=" missionDiv">
-                                                            <p class="missionTo">Busts:</p>
-                                                            <p style="font-size: 10px;"><?= $pbusts; ?></p>
-                                                        </div>
-                                                        <div class="missionDiv">
-                                                            <p class="missionTo">Mugs:</p>
-                                                            <p style="font-size: 10px;"><?= $pmugs; ?></p>
-                                                        </div>
-                                                        <div class="missionDiv">
-                                                            <p class="missionTo">BA:</p>
-                                                            <p style="font-size: 10px;"><?= $pbackalleys; ?></p>
-                                                        </div>
-                                                        <div class="missionDiv">
-                                                            <p class="missionTo">Raids:</p>
-                                                            <p style="font-size: 10px;"><?= $praids; ?></p>
-                                                        </div>
-                                                    <?php else: ?>
+                                                        <p class="missionTo">Crimes:</p>
+                                                        <p style="font-size: 10px;"><?= $pcrimes; ?></p>
+                                                    </div>
+                                                    <div class=" missionDiv">
+                                                        <p class="missionTo">Busts:</p>
+                                                        <p style="font-size: 10px;"><?= $pbusts; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">Mugs:</p>
+                                                        <p style="font-size: 10px;"><?= $pmugs; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">BA:</p>
+                                                        <p style="font-size: 10px;"><?= $pbackalleys; ?></p>
+                                                    </div>
+                                                    <div class="missionDiv">
+                                                        <p class="missionTo">Raids:</p>
+                                                        <p style="font-size: 10px;"><?= $praids; ?></p>
+                                                    </div>
+                                                <?php else: ?>
 
-                                                        <a href="user_operations.php" class="dcSecondaryButton my-3">Start
-                                                            Operation</a>
+                                                    <a href="user_operations.php" class="dcSecondaryButton my-3">Start
+                                                        Operation</a>
 
-                                                    <?php endif; ?>
-                                                </div>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="dcBannerButtonsContainer2 d-none d-md-block col-4 col-lg-4">
-                                        <a href="vote.php" class="dcSecondaryButton my-2 mt-3">Vote for <i
-                                                class="far fa-gem"></i></a>
-
-                                        <a href="refer.php" class="dcSecondaryButton my-2">Refer for <i
-                                                class="far fa-gem"></i></a>
-                                        <a href="store.php" class="dcSecondaryButton my-2">Upgrades <i
-                                                class="fas fa-level-up-alt"></i></a>
-                                        <a href="redeem_code.php" class="dcSecondaryButton my-2">Redeem <i
-                                                class="fa-solid fa-gift"></i></a>
-                                    </div>
                                 </div>
 
-                                <div class="d-md-none">
-                                    <div style="display:flex">
-                                        <a href="vote.php" class="dcSecondaryButton my-3" style="margin: 0 5px">
-                                            Vote for <i class="far fa-gem"></i>
-                                        </a>
-                                        <a href="refer.php" class="dcSecondaryButton my-3" style="margin: 0 5px">
-                                            Refer for <i class="far fa-gem"></i>
-                                        </a>
-                                        <a href="store.php" class="dcSecondaryButton my-3" style="margin: 0 5px">
-                                            Upgrades <i class="fas fa-level-up-alt"></i>
-                                        </a>
-                                        <a href="redeem_code.php" class="dcSecondaryButton my-3" style="margin: 0 5px">
-                                            Redeem <i class="fa-solid fa-gift"></i>
-                                        </a>
-                                    </div>
+                                <div class="dcBannerButtonsContainer2 d-none d-md-block col-4 col-lg-4">
+                                    <a href="vote.php" class="dcSecondaryButton my-2 mt-3">Vote for <i
+                                            class="far fa-gem"></i></a>
+
+                                    <a href="refer.php" class="dcSecondaryButton my-2">Refer for <i
+                                            class="far fa-gem"></i></a>
+                                    <a href="store.php" class="dcSecondaryButton my-2">Upgrades <i
+                                            class="fas fa-level-up-alt"></i></a>
+                                    <a href="redeem_code.php" class="dcSecondaryButton my-2">Redeem <i
+                                            class="fa-solid fa-gift"></i></a>
                                 </div>
+                            </div>
 
-                                <div class="vertical-text-slider floaty dcPanel p-1"
-                                    style="margin:4px;min-height:40px;">
-                                    <div class="d-flex flex-column align-items-center justify-content-center">
-                                        <div class="d-flex align-items-center justify-content-center mb-0">
-                                            <div class="flex-grow-1 text-center">
-                                                <ul class="list-unstyled d-flex flex-row align-items-center justify-content-left"
-                                                    style="margin:0!important;">
-                                                    <?php
+                            <div class="d-md-none">
+                                <div style="display:flex">
+                                    <a href="vote.php" class="dcSecondaryButton my-3" style="margin: 0 5px">
+                                        Vote for <i class="far fa-gem"></i>
+                                    </a>
+                                    <a href="refer.php" class="dcSecondaryButton my-3" style="margin: 0 5px">
+                                        Refer for <i class="far fa-gem"></i>
+                                    </a>
+                                    <a href="store.php" class="dcSecondaryButton my-3" style="margin: 0 5px">
+                                        Upgrades <i class="fas fa-level-up-alt"></i>
+                                    </a>
+                                    <a href="redeem_code.php" class="dcSecondaryButton my-3" style="margin: 0 5px">
+                                        Redeem <i class="fa-solid fa-gift"></i>
+                                    </a>
+                                </div>
+                            </div>
 
-                                                    $db->query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > ? ORDER BY RAND() LIMIT 1");
-                                                    $db->execute([$now]);
-                                                    $row = $db->fetch_row(true);
-                                                    if (empty($row)) {
-                                                        $_messages = [
-                                                            'Invite your friends to play and receive <strong class="text-warning">50 Gold</strong> for every friend that plays. Hurry and start inviting now!',
-                                                            'For every friend you successfully refer, you\'ll earn <strong class="text-warning">50 Gold</strong>. Spread the word and let\'s play together!',
-                                                            'Attention all players! Invite your friends to join in on the fun. <strong class="text-warning">50 Gold</strong> reward for every successful referral.'
-                                                        ];
-                                                        $ref_message = $_messages[array_rand($_messages)];
-                                                        ?>
-                                                        <?php if (!$user_class->is_ads_disabled): ?>
-                                                            <li class="headerSvg">
-                                                                <a href="refer.php"><?= $ref_message ?></a>
-                                                            </li>
-                                                        <?php endif; ?>
-                                                        <?php
-                                                    } else {
-                                                        $row = $db->fetch_row(true);
-                                                        $user_ads = new User($row['poster']);
-                                                        $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
-                                                        ?>
+                            <div class="vertical-text-slider floaty dcPanel p-1" style="margin:4px;min-height:40px;">
+                                <div class="d-flex flex-column align-items-center justify-content-center">
+                                    <div class="d-flex align-items-center justify-content-center mb-0">
+                                        <div class="flex-grow-1 text-center">
+                                            <ul class="list-unstyled d-flex flex-row align-items-center justify-content-left"
+                                                style="margin:0!important;">
+                                                <?php
 
-                                                        <li class="flex-grow-1">
-                                                            <?php if (!$user_class->is_ads_disabled): ?>
-                                                                <span><?= $user_ads->formattedname ?>:
-                                                                    <?php echo $row['message'] ?></span>
-                                                            <?php endif; ?>
-                                                        </li>
-                                                    <?php } ?> <?php if (!$user_class->is_ads_disabled): ?>
+                                                $db->query("SELECT * FROM ads WHERE `timestamp` + (`displaymins` * 60) > ? ORDER BY RAND() LIMIT 1");
+                                                $db->execute([$now]);
+                                                $row = $db->fetch_row(true);
+                                                if (empty($row)) {
+                                                    $_messages = [
+                                                        'Invite your friends to play and receive <strong class="text-warning">50 Gold</strong> for every friend that plays. Hurry and start inviting now!',
+                                                        'For every friend you successfully refer, you\'ll earn <strong class="text-warning">50 Gold</strong>. Spread the word and let\'s play together!',
+                                                        'Attention all players! Invite your friends to join in on the fun. <strong class="text-warning">50 Gold</strong> reward for every successful referral.'
+                                                    ];
+                                                    $ref_message = $_messages[array_rand($_messages)];
+                                                    ?>
+                                                    <?php if (!$user_class->is_ads_disabled): ?>
                                                         <li class="headerSvg">
-                                                            <a href="/shoutbox.php">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                                    height="24" fill="#ff6218" class="bi bi-megaphone-fill"
-                                                                    viewBox="0 0 16 16">
-                                                                    <path
-                                                                        d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0zm-1 .724c-2.067.95-4.539 1.481-7 1.656v6.237a25 25 0 0 1 1.088.085c2.053.204 4.038.668 5.912 1.56zm-8 7.841V4.934c-.68.027-1.399.043-2.008.053A2.02 2.02 0 0 0 0 7v2c0 1.106.896 1.996 1.994 2.009l.496.008a64 64 0 0 1 1.51.048m1.39 1.081q.428.032.85.078l.253 1.69a1 1 0 0 1-.983 1.187h-.548a1 1 0 0 1-.916-.599l-1.314-2.48a66 66 0 0 1 1.692.064q.491.026.966.06" />
-                                                                </svg>
-                                                            </a>
-
-                                                            <a href="#" onClick="reportAd(27); return false;">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                    height="16" fill="#ff6218" class="bi bi-flag-fill"
-                                                                    viewBox="0 0 16 16">
-                                                                    <path
-                                                                        d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007.004-.002h.001" />
-                                                                </svg>
-                                                            </a>
-
+                                                            <a href="refer.php"><?= $ref_message ?></a>
                                                         </li>
                                                     <?php endif; ?>
-                                                </ul>
-                                            </div>
+                                                    <?php
+                                                } else {
+                                                    $row = $db->fetch_row(true);
+                                                    $user_ads = new User($row['poster']);
+                                                    $user_ads->avatar = $user_ads->avatar ?: "/images/no-avatar.png";
+                                                    ?>
+
+                                                    <li class="flex-grow-1">
+                                                        <?php if (!$user_class->is_ads_disabled): ?>
+                                                            <span><?= $user_ads->formattedname ?>:
+                                                                <?php echo $row['message'] ?></span>
+                                                        <?php endif; ?>
+                                                    </li>
+                                                <?php } ?> <?php if (!$user_class->is_ads_disabled): ?>
+                                                    <li class="headerSvg">
+                                                        <a href="/shoutbox.php">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                                fill="#ff6218" class="bi bi-megaphone-fill"
+                                                                viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0zm-1 .724c-2.067.95-4.539 1.481-7 1.656v6.237a25 25 0 0 1 1.088.085c2.053.204 4.038.668 5.912 1.56zm-8 7.841V4.934c-.68.027-1.399.043-2.008.053A2.02 2.02 0 0 0 0 7v2c0 1.106.896 1.996 1.994 2.009l.496.008a64 64 0 0 1 1.51.048m1.39 1.081q.428.032.85.078l.253 1.69a1 1 0 0 1-.983 1.187h-.548a1 1 0 0 1-.916-.599l-1.314-2.48a66 66 0 0 1 1.692.064q.491.026.966.06" />
+                                                            </svg>
+                                                        </a>
+
+                                                        <a href="#" onClick="reportAd(27); return false;">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                                fill="#ff6218" class="bi bi-flag-fill" viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007.004-.002h.001" />
+                                                            </svg>
+                                                        </a>
+
+                                                    </li>
+                                                <?php endif; ?>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-12 col-lg-4">
-                        <div class="p-3 dcPanel dcAvatarPanel d-none d-md-block">
-                            <div class="row mb-3">
-                                <div class="col-7 dcUserName">
-                                    <span class="dcHeaderUsername">
-                                        <?= $user_class->formattedname; ?>
-                                    </span>
-                                    <div class="mt-1" style="font-size: 1.2rem">
-                                        <a
-                                            href="store.php#VIP"><?= ($user_class->rmdays > 0 ? $user_class->rmdays . ' VIP days' : 'Not VIP') ?></a>
-                                    </div>
-                                </div>
-                                <div class="col-3 text-center new_avarta">
-                                    <div>
-                                        Level <div class="level"><?= $user_class->level; ?></div>
-                                    </div>
-                                    <div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip"
-                                        title="<?= $user_class->formattedexp; ?>">
-                                        <div class="progress-bar exp-bar" role="progressbar"
-                                            style="width:<?= $user_class->exppercent; ?>%"></div>
-                                    </div>
-                                    <div class="d-none d-lg-block col-3">
-                                        <img style="width: 50px;" src="<?= $user_class->avatar; ?>" alt="">
-                                    </div>
+                <div class="col-12 col-lg-4">
+                    <div class="p-3 dcPanel dcAvatarPanel d-none d-md-block">
+                        <div class="row mb-3">
+                            <div class="col-7 dcUserName">
+                                <span class="dcHeaderUsername">
+                                    <?= $user_class->formattedname; ?>
+                                </span>
+                                <div class="mt-1" style="font-size: 1.2rem">
+                                    <a
+                                        href="store.php#VIP"><?= ($user_class->rmdays > 0 ? $user_class->rmdays . ' VIP days' : 'Not VIP') ?></a>
                                 </div>
                             </div>
-                            <div class="row heroTop">
-                                <div class="col-5 col-lg-12 row mb-0 mb-lg-3 newTimeHolder">
-                                    <!-- <div class="d-none d-lg-block col-4">
+                            <div class="col-3 text-center new_avarta">
+                                <div>
+                                    Level <div class="level"><?= $user_class->level; ?></div>
+                                </div>
+                                <div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip"
+                                    title="<?= $user_class->formattedexp; ?>">
+                                    <div class="progress-bar exp-bar" role="progressbar"
+                                        style="width:<?= $user_class->exppercent; ?>%"></div>
+                                </div>
+                                <div class="d-none d-lg-block col-3">
+                                    <img style="width: 50px;" src="<?= $user_class->avatar; ?>" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row heroTop">
+                            <div class="col-5 col-lg-12 row mb-0 mb-lg-3 newTimeHolder">
+                                <!-- <div class="d-none d-lg-block col-4">
                                 <img style="width: 50px;" src="https://chaoscity.co.uk/images/noavatar.png" alt="">
                             </div> -->
-                                    <div class="col-8 col-lg-7 offset-lg-1 g-0 row">
-                                        <div class="row my-1 g-0">
-                                            <div class="col-2 d-flex align-items-center"><i
-                                                    class="mx-auto fas fa-dollar-sign"></i></div>
-                                            <div class="col-10 d-flex align-items-center">$<div class="money">
-                                                    <?= number_format($user_class->money); ?>
-                                                </div>
+                                <div class="col-8 col-lg-7 offset-lg-1 g-0 row">
+                                    <div class="row my-1 g-0">
+                                        <div class="col-2 d-flex align-items-center"><i
+                                                class="mx-auto fas fa-dollar-sign"></i></div>
+                                        <div class="col-10 d-flex align-items-center">$<div class="money">
+                                                <?= number_format($user_class->money); ?>
                                             </div>
-                                        </div>
-                                        <div class="row my-1 g-0">
-
-                                            <div class="col-2 d-flex align-items-center"><i
-                                                    class="mx-auto fas fa-piggy-bank"></i></div>
-                                            <div class="col-10 d-flex align-items-center"><a
-                                                    href="bank.php?h_deposit=cash"
-                                                    style="text-decoration: none;">$<?= number_format($user_class->bank); ?>
-                                            </div>
-                                            </a>
-                                        </div>
-                                        <div class="row my-1 g-0">
-                                            <div class="col-2 d-flex align-items-center"><i
-                                                    class="mx-auto far fa-gem"></i>
-                                            </div>
-                                            <div class="col-10 d-flex align-items-center points">
-                                                <?= number_format($user_class->points); ?>
-                                            </div>
-                                        </div>
-                                        <div class="row my-1 g-0">
-                                            <div class="col-2 d-flex align-items-center"><i
-                                                    class="mx-auto fab fa-medium-m"></i>
-                                            </div>
-                                            <div class="col-10 d-flex align-items-center credits"><a href="store.php"
-                                                    style="text-decoration: none;"><?= number_format($user_class->credits); ?>
-                                                    credits</a></div>
                                         </div>
                                     </div>
+                                    <div class="row my-1 g-0">
 
-                                    <div class='time col-4 d-none d-lg-block' style='text-align: left' ;>
-                                        <?php echo date('m/d h:i a', $now); ?>
+                                        <div class="col-2 d-flex align-items-center"><i
+                                                class="mx-auto fas fa-piggy-bank"></i></div>
+                                        <div class="col-10 d-flex align-items-center"><a href="bank.php?h_deposit=cash"
+                                                style="text-decoration: none;">$<?= number_format($user_class->bank); ?>
+                                        </div>
+                                        </a>
+                                    </div>
+                                    <div class="row my-1 g-0">
+                                        <div class="col-2 d-flex align-items-center"><i class="mx-auto far fa-gem"></i>
+                                        </div>
+                                        <div class="col-10 d-flex align-items-center points">
+                                            <?= number_format($user_class->points); ?>
+                                        </div>
+                                    </div>
+                                    <div class="row my-1 g-0">
+                                        <div class="col-2 d-flex align-items-center"><i
+                                                class="mx-auto fab fa-medium-m"></i>
+                                        </div>
+                                        <div class="col-10 d-flex align-items-center credits"><a href="store.php"
+                                                style="text-decoration: none;"><?= number_format($user_class->credits); ?>
+                                                credits</a></div>
                                     </div>
                                 </div>
-                                <div class="col-7 col-lg-12 g-0 row dcStatsPanel">
-                                    <div class="row my-0 my-lg-1 dcStatContainer-health">
-                                        <div class="col-3 d-flex align-items-center">Health</div>
-                                        <div class="col-9 d-flex align-items-center align-items-center2">
-                                            <div class="progress dcStatsBars stat-bar" data-toggle="tooltip"
-                                                title="<?= $user_class->formattedhp; ?>">
-                                                <div class="progress-bar" role="progressbar stat-bar"
-                                                    style="width:<?= $user_class->hppercent; ?>%"></div>
-                                            </div>
+
+                                <div class='time col-4 d-none d-lg-block' style='text-align: left' ;>
+                                    <?php echo date('m/d h:i a', $now); ?>
+                                </div>
+                            </div>
+                            <div class="col-7 col-lg-12 g-0 row dcStatsPanel">
+                                <div class="row my-0 my-lg-1 dcStatContainer-health">
+                                    <div class="col-3 d-flex align-items-center">Health</div>
+                                    <div class="col-9 d-flex align-items-center align-items-center2">
+                                        <div class="progress dcStatsBars stat-bar" data-toggle="tooltip"
+                                            title="<?= $user_class->formattedhp; ?>">
+                                            <div class="progress-bar" role="progressbar stat-bar"
+                                                style="width:<?= $user_class->hppercent; ?>%"></div>
                                         </div>
                                     </div>
-                                    <div class="row my-0 my-lg-1 dcStatContainer-energy">
-                                        <div class="col-3 d-flex align-items-center"><a
-                                                href='?spend=refenergy'>Energy</a>
-                                        </div>
-                                        <div class="col-9 d-flex align-items-center align-items-center2">
-                                            <div class="progress dcStatsBars stat-bar" data-toggle="tooltip"
-                                                title="<?= $user_class->formattedenergy; ?>">
-                                                <div class="progress-bar" role="progressbar stat-bar"
-                                                    style="width:<?= $user_class->energypercent; ?>%"></div>
-                                            </div>
+                                </div>
+                                <div class="row my-0 my-lg-1 dcStatContainer-energy">
+                                    <div class="col-3 d-flex align-items-center"><a href='?spend=refenergy'>Energy</a>
+                                    </div>
+                                    <div class="col-9 d-flex align-items-center align-items-center2">
+                                        <div class="progress dcStatsBars stat-bar" data-toggle="tooltip"
+                                            title="<?= $user_class->formattedenergy; ?>">
+                                            <div class="progress-bar" role="progressbar stat-bar"
+                                                style="width:<?= $user_class->energypercent; ?>%"></div>
                                         </div>
                                     </div>
-                                    <div class="row my-0 my-lg-1 dcStatContainer-brave">
-                                        <div class="col-3 d-flex align-items-center"><a href='?spend=refnerve'>Nerve</a>
-                                        </div>
-                                        <div class="col-9 d-flex align-items-center align-items-center2">
-                                            <div class="progress dcStatsBars stat-bar" data-toggle="tooltip"
-                                                title="<?= $user_class->formattednerve; ?>">
-                                                <div class="progress-bar" role="progressbar stat-bar"
-                                                    style="width:<?= $user_class->nervepercent; ?>%"></div>
-                                            </div>
+                                </div>
+                                <div class="row my-0 my-lg-1 dcStatContainer-brave">
+                                    <div class="col-3 d-flex align-items-center"><a href='?spend=refnerve'>Nerve</a>
+                                    </div>
+                                    <div class="col-9 d-flex align-items-center align-items-center2">
+                                        <div class="progress dcStatsBars stat-bar" data-toggle="tooltip"
+                                            title="<?= $user_class->formattednerve; ?>">
+                                            <div class="progress-bar" role="progressbar stat-bar"
+                                                style="width:<?= $user_class->nervepercent; ?>%"></div>
                                         </div>
                                     </div>
-                                    <div class="row my-0 my-lg-1 dcStatContainer-will">
-                                        <div class="col-3 d-flex align-items-center">Awake</div>
-                                        <div class="col-9 d-flex align-items-center align-items-center2">
-                                            <div class="progress dcStatsBars stat-bar" data-toggle="tooltip"
-                                                title="<?= $user_class->formattedawake; ?>">
-                                                <div class="progress-bar" role="progressbar stat-bar"
-                                                    style="width:<?= $user_class->awakepercent; ?>%"></div>
-                                            </div>
+                                </div>
+                                <div class="row my-0 my-lg-1 dcStatContainer-will">
+                                    <div class="col-3 d-flex align-items-center">Awake</div>
+                                    <div class="col-9 d-flex align-items-center align-items-center2">
+                                        <div class="progress dcStatsBars stat-bar" data-toggle="tooltip"
+                                            title="<?= $user_class->formattedawake; ?>">
+                                            <div class="progress-bar" role="progressbar stat-bar"
+                                                style="width:<?= $user_class->awakepercent; ?>%"></div>
                                         </div>
                                     </div>
-                                    <div class="row my-0 my-lg-1 dcStatContainer-exp">
-                                        <div class="col-3 d-flex align-items-center">Exp.</div>
-                                        <div class="col-9 d-flex align-items-center align-items-center2">
-                                            <div class="progress dcStatsBars stat-bar" data-toggle="tooltip"
-                                                title="<?= $user_class->formattedexp; ?>">
-                                                <div class="progress-bar" role="progressbar stat-bar"
-                                                    style="width:<?= $user_class->exppercent; ?>%"></div>
-                                            </div>
+                                </div>
+                                <div class="row my-0 my-lg-1 dcStatContainer-exp">
+                                    <div class="col-3 d-flex align-items-center">Exp.</div>
+                                    <div class="col-9 d-flex align-items-center align-items-center2">
+                                        <div class="progress dcStatsBars stat-bar" data-toggle="tooltip"
+                                            title="<?= $user_class->formattedexp; ?>">
+                                            <div class="progress-bar" role="progressbar stat-bar"
+                                                style="width:<?= $user_class->exppercent; ?>%"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
             </header>
             <?php if (!$user_class->is_ads_disabled): ?>
