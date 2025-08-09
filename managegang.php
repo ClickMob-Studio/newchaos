@@ -60,8 +60,10 @@ include 'header.php';
         <th>Last Active</th>
     </tr>
 ";
-        $result = mysql_query("SELECT `id` FROM grpgusers WHERE gang = $user_class->gang ORDER BY level DESC");
-        while ($line = mysql_fetch_array($result)) {
+        $db->query("SELECT `id` FROM grpgusers WHERE gang = ? ORDER BY level DESC");
+        $db->execute([$user_class->gang]);
+        $rows = $db->fetch_row();
+        foreach ($rows as $line) {
             $gang_member = new User($line['id']);
             print "
         <tr>
@@ -70,10 +72,14 @@ include 'header.php';
                     <td width='10%'>
                         <select name='rank'>
     ";
-            $searchranks = mysql_query("SELECT * FROM ranks WHERE gang = $user_class->gang");
+            $db->query("SELECT * FROM ranks WHERE gang = ?");
+            $db->execute([$user_class->gang]);
+            $searchranks = $db->fetch_row();
             echo "<option value=''></option>";
-            while ($rank = mysql_fetch_array($searchranks))
+            foreach ($searchranks as $rank) {
                 echo "<option value='{$rank['id']}'", ($rank['id'] == $gang_member->grank) ? "selected" : "", ">{$rank['title']}</option>";
+            }
+
             echo "
                         </select>
                     </td>
