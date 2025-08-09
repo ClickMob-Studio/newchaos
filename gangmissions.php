@@ -1,20 +1,15 @@
 <?php
 include 'header.php';
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 
 if ($user_class->gang != 0) {
     $gang_class = new Gang($user_class->gang);
     $user_rank = new GangRank($user_class->grank);
 
-    $checkActiveMission = mysql_query("SELECT agm.kills AS current_kills, agm.busts AS current_busts, agm.crimes AS current_crimes, agm.mugs AS current_mugs, agm.backalleys AS current_backalleys, gm.name, gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.backalleys AS target_backalleys, gm.reward, gm.time AS 'mission_time', UNIX_TIMESTAMP() AS 'current_time', agm.end_time FROM active_gang_missions agm JOIN gang_missions gm ON agm.mission_id = gm.id WHERE agm.gangid = '{$user_class->gang}' AND agm.completed = 0 LIMIT 1");
+    $db->query("SELECT agm.kills AS current_kills, agm.busts AS current_busts, agm.crimes AS current_crimes, agm.mugs AS current_mugs, agm.backalleys AS current_backalleys, gm.name, gm.kills AS target_kills, gm.busts AS target_busts, gm.crimes AS target_crimes, gm.mugs AS target_mugs, gm.backalleys AS target_backalleys, gm.reward, gm.time AS 'mission_time', UNIX_TIMESTAMP() AS 'current_time', agm.end_time FROM active_gang_missions agm JOIN gang_missions gm ON agm.mission_id = gm.id WHERE agm.gangid = ? AND agm.completed = 0 LIMIT 1");
+    $db->execute([$user_class->gang]);
+    $activeMission = $db->fetch_row(true);
 
-    if (!$checkActiveMission) {
-        die('Invalid query: ' . mysql_error());
-    }
-
-    if ($activeMission = mysql_fetch_assoc($checkActiveMission)) {
+    if (isset($activeMission)) {
         $remainingTime = max($activeMission['end_time'] - $activeMission['current_time'], 0);
 
         echo "<h2>Current Mission Progress</h2>";
@@ -36,7 +31,7 @@ if ($user_class->gang != 0) {
                     <td>" . (($activeMission['target_crimes'] > 0) ? number_format($activeMission['current_crimes'], 0) : '0') . " / " . (number_format($activeMission['target_crimes'], 0) ?: '0') . "</td>
                     <td>" . (($activeMission['target_mugs'] > 0) ? number_format($activeMission['current_mugs'], 0) : '0') . " / " . (number_format($activeMission['target_mugs'], 0) ?: '0') . "</td>
                     <td>" . (($activeMission['target_backalleys'] > 0) ? number_format($activeMission['current_backalleys'], 0) : '0') . " / " . (number_format($activeMission['target_backalleys'], 0) ?: '0') . "</td>
-                    <td>".number_format($activeMission['reward'])." points</td>
+                    <td>" . number_format($activeMission['reward']) . " points</td>
                     <td><div id='countdown'>Loading...</div></td>
                 </tr>
               </table>";
@@ -62,13 +57,14 @@ if ($user_class->gang != 0) {
               </script>";
     } else {
         echo "<h2>Available Missions</h2>";
-        $missionsResult = mysql_query("SELECT * FROM gang_missions");
-
-        if (!$missionsResult) {
-            die('Invalid query: ' . mysql_error());
+        $db->query("SELECT * FROM gang_missions");
+        $db->execute();
+        $missionResult = $db->fetch_row();
+        if (!isset($missionResult)) {
+            die('Failed to find gang missions');
         }
 
-        if (mysql_num_rows($missionsResult) > 0) {
+        if (count($missionResult) > 0) {
             echo "<table border='1'>
                   <tr>
                     <th>Name</th>
@@ -82,8 +78,7 @@ if ($user_class->gang != 0) {
                     <th>Action</th>
                   </tr>";
 
-            while ($mission = mysql_fetch_assoc($missionsResult)) {
-
+            foreach ($missionResult as $mission) {
                 $db->query("SELECT * FROM active_gang_missions WHERE gangid = " . $user_class->gang . " AND mission_id = " . $mission['id'] . " ORDER BY time DESC LIMIT 1");
                 $db->execute();
                 $lastMission = $db->fetch_row(true);
@@ -120,39 +115,26 @@ if ($user_class->gang != 0) {
     }
 
     if (isset($_GET['acceptMission'])) {
-
-        $activeMissionCheckQuery = "SELECT 1 FROM active_gang_missions WHERE gangid = '{$user_class->gang}' AND completed = 0 LIMIT 1";
-        $activeMissionCheckResult = mysql_query($activeMissionCheckQuery);
-        if (!$activeMissionCheckResult) {
-            die('Invalid query: ' . mysql_error());
-        }
-
-        if (mysql_num_rows($activeMissionCheckResult) > 0) {
-
+        $db->query("SELECT 1 FROM active_gang_missions WHERE gangid = ? AND completed = 0 LIMIT 1");
+        $db->execute([$user_class->gang]);
+        $activeMission = $db->fetch_row(true);
+        if (isset($activeMission)) {
             echo Message("Your gang already has an active mission. Please complete it before starting a new one.");
         } else {
-
             $missionId = intval($_GET['acceptMission']);
-            $missionQuery = "SELECT time FROM gang_missions WHERE id = '{$missionId}' LIMIT 1";
-            $missionResult = mysql_query($missionQuery);
-            if (!$missionResult) {
-                die('Invalid query: ' . mysql_error());
+
+            $db->query("SELECT time FROM gang_missions WHERE id = ? LIMIT 1");
+            $db->execute([$missionId]);
+            $mission = $db->fetch_single();
+            if (!isset($result)) {
+                die('Failed to retrieve mission details for mission id: ' . $missionId);
             }
 
-            if ($mission = mysql_fetch_assoc($missionResult)) {
-                $duration = $mission['time'] * 3600;
-                $endTime = time() + $duration;
+            $duration = $mission['time'] * 3600;
+            $endTime = time() + $duration;
 
-
-                $insertMission = "INSERT INTO active_gang_missions (gangid, mission_id, kills, busts, crimes, mugs, completed, time, end_time) VALUES ('{$user_class->gang}', '{$missionId}', 0, 0, 0, 0, 0, UNIX_TIMESTAMP(), '{$endTime}')";
-                if (!mysql_query($insertMission)) {
-                    die('Failed to accept the mission. Error: ' . mysql_error());
-                } else {
-                    echo Message("Mission accepted successfully. Refresh to see progress.");
-                }
-            } else {
-                echo Message("Failed to retrieve mission details.");
-            }
+            perform_query("INSERT INTO active_gang_missions (gangid, mission_id, kills, busts, crimes, mugs, completed, time, end_time) VALUES (?, ?, 0, 0, 0, 0, 0, UNIX_TIMESTAMP(), ?)", [$user_class->gang, $missionId, $endTime]);
+            echo Message("Mission accepted successfully. Refresh to see progress.");
         }
     }
 } else {
@@ -161,10 +143,10 @@ if ($user_class->gang != 0) {
 
 ?>
 
-<br /><br /><hr />
+<br /><br />
+<hr />
 
 <?php
-
 include("gangheaders.php");
 include 'footer.php';
 ?>
