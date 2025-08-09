@@ -550,20 +550,12 @@ if ($theirhp <= 0) {
     $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
     $db->execute();
     $activityContest = $db->fetch_row(true);
-    if ($activityContest['type'] == 'attacks') {
+    if (!empty($activityContest) && isset($activityContest['type']) && $activityContest['type'] == 'attacks') {
         addToUserCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
         addToRelCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
     }
 
-    $count = count($rtn);
-    if ($count > 5) {
-        //echo $rtn[0] . $rtn[1] . '...<br />' . $rtn[$count - 3] . $rtn[$count - 2] . $rtn[$count - 1];
-    } else {
-        foreach ($rtn as $text) {
-            //echo $text;
-        }
-    }
-    $message = "You attacked " . $attack_person->formattedname . " and won! You gain " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . "." . $wartext;
+    $message = "You attacked " . $attack_person->formattedname . " and won! You gain " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".";
     if ($user_class->gang != 0) {
         $db->query("UPDATE gangs SET exp = exp + ?, bbattackwon = bbattackwon + 1, dailyKills = dailyKills + 1 WHERE id = ?");
         $db->execute(array(
@@ -628,15 +620,6 @@ if ($yourhp <= 0) {
     ));
     $db->query("UPDATE pets SET exp = exp + ($expwon) / 10 WHERE userid = $attack_person->id AND leash = 1");
     $db->execute();
-
-    $count = count($rtn);
-    if ($count > 5) {
-        //echo $rtn[0] . $rtn[1] . '...<br />' . $rtn[$count - 3] . $rtn[$count - 2] . $rtn[$count - 1];
-    } else {
-        foreach ($rtn as $text) {
-            //echo $text;
-        }
-    }
     $message = $attack_person->formattedname . " won the battle!";
     if ($attack_person->gang != 0) {
         $db->query("UPDATE gangs SET exp = exp + ? WHERE id = ?");
