@@ -1,7 +1,5 @@
 <?php
 include 'header.php';
-
-echo $user_class->id;
 ?>
 
 
@@ -48,7 +46,7 @@ echo $user_class->id;
                     $db->execute([$user_class->id]);
                     $worked = $db->fetch_row();
                     $gangid = $worked['id'];
-                    perform_query("UPDATE `grpgusers` SET `gang` = ?, `money` = ?, `gangleader` = '1', `grank` = '1' WHERE `id` = ?", [$gangid, $newmoney, $_SESSION['id']]);
+                    perform_query("UPDATE `grpgusers` SET `gang` = ?, `money` = ?, `gangleader` = '1', `grank` = '1' WHERE `id` = ?", [$gangid, $newmoney, $user_class->id]);
                     perform_query("DELETE FROM `ganginvites` WHERE `playerid` = ?", [$user_class->id]);
                     echo Message("You have successfully created a gang!");
                 } else {
