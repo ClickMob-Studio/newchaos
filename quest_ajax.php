@@ -14,19 +14,20 @@ require_once __DIR__ . '/database/pdo_class.php';
 
 error_log("REACHED AFTER REQUIRES!");
 
-if (!isset($_SESSION['id']) && !isset($_SESSION['user_id'])) {
-    echo json_encode(['success' => false]);
+$id = null;
+if (isset($_GET['user_id'])) {
+    $id = $_GET['user_id'];
+}
+if (isset($_POST['user_id'])) {
+    $id = $_POST['user_id'];
+}
+
+if (!isset($id)) {
+    echo json_encode(array('success' => false));
     exit;
 }
 
-$user_class = new User($_SESSION['id']);
-if (isset($_GET['user_id'])) {
-    $user_class = new User($_GET['user_id']);
-}
-if (isset($_POST['user_id'])) {
-    $user_class = new User($_POST['user_id']);
-}
-
+$user_class = new User($id);
 if (!$user_class) {
     echo json_encode(array('success' => false));
     exit;
