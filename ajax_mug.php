@@ -20,7 +20,6 @@ function success($msg)
     );
 }
 
-include_once "SlimUser.php";
 include_once "classes.php";
 include_once "database/pdo_class.php";
 
@@ -32,7 +31,6 @@ function ofthes_wrapper($id, $toadd)
 $active = time() - 604800;
 
 try {
-    $user_class = new SlimUser($_SESSION['id']);
     session_write_close();
 
     $response = array();
