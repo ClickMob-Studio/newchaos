@@ -20,6 +20,7 @@ function success($msg)
     );
 }
 
+include_once "SlimUser.php";
 include_once "classes.php";
 include_once "database/pdo_class.php";
 
