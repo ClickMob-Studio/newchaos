@@ -154,164 +154,156 @@ $event = getScheduledEvent();
                 padding: 6px;
             }
         </style>
+        <script type="text/javascript">
+            function trainrefill(stat) {
+                var isMegaTrainChecked = $('#mega_train').is(':checked') ? 'yes' : 'no';
+                $(".notice").css("display", "block"); // Display the notice
+                $(".notice").html("<img src='images/ajax-loader.gif?' />");
+                $.post("ajax_supergym.php", {
+                    'amnt': $('#' + stat).val(),
+                    'stat': stat,
+                    'what': 'trainrefill',
+                    'mega_train': isMegaTrainChecked  // Include the status of the "mega train" checkbox
+                }, function (callback) {
+                    var info = callback.split("|");
+                    $(".notice").html(info[0]);
+                    $(".points").html(info[1]);
+                    $("#" + stat + "amnt").html(info[2]);
+                    if (info[3]) {
+                        $("#strength").val(info[3]);
+                        $("#defense").val(info[3]);
+                        $("#speed").val(info[3]);
+                    }
+                });
+            }
+            function train(stat) {
+                var isMegaTrainChecked = $('#mega_train').is(':checked') ? 'yes' : 'no';
+                $(".notice").css("display", "block"); // Display the notice
+                $(".notice").html("<img src='images/ajax-loader.gif?' />");
+                $.post("ajax_supergym.php", {
+                    'amnt': $('#' + stat).val(),
+                    'stat': stat,
+                    'what': 'train',
+                    'mega_train': isMegaTrainChecked  // Correctly include the status of the "mega train" checkbox
+                }, function (callback) {
+                    var info = callback.split("|");
+                    $(".notice").html(info[0]);
+                    $("#" + stat + "amnt").html(info[1]);
+                    $(".genBars").html(info[2]);
+                    if (info[3]) {
+                        $("#strength").val(info[3]);
+                        $("#defense").val(info[3]);
+                        $("#speed").val(info[3]);
+                        $("#agility").val(info[3]);
+                    }
+                });
+            }
+            function refill(att) {
+                $(".notice").html("<img src='images/ajax-loader.gif?' />");
 
-        <?php
-        if ($printcaptcha != "") {
-            echo $printcaptcha;
-        } else {
-            ?>
-            <script type="text/javascript">
-                function trainrefill(stat) {
-                    var isMegaTrainChecked = $('#mega_train').is(':checked') ? 'yes' : 'no';
-                    $(".notice").css("display", "block"); // Display the notice
-                    $(".notice").html("<img src='images/ajax-loader.gif?' />");
-                    $.post("ajax_supergym.php", {
-                        'amnt': $('#' + stat).val(),
-                        'stat': stat,
-                        'what': 'trainrefill',
-                        'mega_train': isMegaTrainChecked  // Include the status of the "mega train" checkbox
-                    }, function (callback) {
-                        var info = callback.split("|");
-                        $(".notice").html(info[0]);
-                        $(".points").html(info[1]);
-                        $("#" + stat + "amnt").html(info[2]);
-                        if (info[3]) {
-                            $("#strength").val(info[3]);
-                            $("#defense").val(info[3]);
-                            $("#speed").val(info[3]);
-                        }
-                    });
-                }
-                function train(stat) {
-                    var isMegaTrainChecked = $('#mega_train').is(':checked') ? 'yes' : 'no';
-                    $(".notice").css("display", "block"); // Display the notice
-                    $(".notice").html("<img src='images/ajax-loader.gif?' />");
-                    $.post("ajax_supergym.php", {
-                        'amnt': $('#' + stat).val(),
-                        'stat': stat,
-                        'what': 'train',
-                        'mega_train': isMegaTrainChecked  // Correctly include the status of the "mega train" checkbox
-                    }, function (callback) {
-                        var info = callback.split("|");
-                        $(".notice").html(info[0]);
-                        $("#" + stat + "amnt").html(info[1]);
-                        $(".genBars").html(info[2]);
-                        if (info[3]) {
-                            $("#strength").val(info[3]);
-                            $("#defense").val(info[3]);
-                            $("#speed").val(info[3]);
-                            $("#agility").val(info[3]);
-                        }
-                    });
-                }
-                function refill(att) {
-                    $(".notice").html("<img src='images/ajax-loader.gif?' />");
+                $.post("ajax_supergym.php", { 'att': att, 'what': 'refill' }, function (callback) {
+                    var info = callback.split("|");
+                    $(".notice").html(info[0]);
+                    $(".points").html(info[1]);
+                    $(".genBars").html(info[2]);
+                    if (info[3]) {
+                        $("#strength").val(info[3]);
+                        $("#defense").val(info[3]);
+                        $("#speed").val(info[3]);
+                        $("#agility").val(info[3]);
+                    }
+                });
+            }
+        </script>
+        <br>
+        <style>
+            .refills {
+                background: #0e0e0e;
+                color: #FFF;
+                border: #303030 medium solid;
+                color: #FFF;
+                padding: 3px;
+            }
+        </style>
 
-                    $.post("ajax_supergym.php", { 'att': att, 'what': 'refill' }, function (callback) {
-                        var info = callback.split("|");
-                        $(".notice").html(info[0]);
-                        $(".points").html(info[1]);
-                        $(".genBars").html(info[2]);
-                        if (info[3]) {
-                            $("#strength").val(info[3]);
-                            $("#defense").val(info[3]);
-                            $("#speed").val(info[3]);
-                            $("#agility").val(info[3]);
-                        }
-                    });
-                }
-            </script>
-            <br>
-            <style>
-                .refills {
-                    background: #0e0e0e;
-                    color: #FFF;
-                    border: #303030 medium solid;
-                    color: #FFF;
-                    padding: 3px;
-                }
-            </style>
-
-            <? if (!empty($event)): ?>
-                <div class='dcPanel p-3 mb-4 event-countdown' data-end="<?= $event['end'] ?>"
-                    style="text-align:center;background-color:#3d00008a">
-                    <span>Event is on-going, all types of training is
-                        multiplied by <?= $event['multiplier'] ?>!</span>
-                    <br />
-                    <div style="margin-top:6px;color: #c8c8c8; font-weight: bold;">Event ends in
-                        <span class='countdown-text'><?= secondsToTime($event['end'] - time()) ?></span>.
-                    </div>
+        <? if (!empty($event)): ?>
+            <div class='dcPanel p-3 mb-4 event-countdown' data-end="<?= $event['end'] ?>"
+                style="text-align:center;background-color:#3d00008a">
+                <span>Event is on-going, all types of training is
+                    multiplied by <?= $event['multiplier'] ?>!</span>
+                <br />
+                <div style="margin-top:6px;color: #c8c8c8; font-weight: bold;">Event ends in
+                    <span class='countdown-text'><?= secondsToTime($event['end'] - time()) ?></span>.
                 </div>
-            <? endif; ?>
-
-            <div class="contenthead floaty">
-                <span
-                    style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"></span>
-
-                <span class='notice' style="display:none;"></span>
-
-                </table>
-
-                <table class="responsive" width="100%" align="center">
-                    <tr>
-                        <th align="center" style="padding-bottom: 10px;width:33%;"><b>
-                                <center>STRENGTH</center>
-                            </b></th>
-                        <th align="center" style="padding-bottom: 10px;width:33%;"><b>
-                                <center>DEFENSE</center>
-                            </b></th>
-                        <th align="center" style="padding-bottom: 10px;width:33%;"><b>
-                                <center>SPEED</center>
-                            </b></th>
-                        <th align="center" style="padding-bottom: 10px;width:33%;"><b>
-                                <center>AGILITY</center>
-                            </b></th>
-                    </tr>
-                    <tr>
-                        <td align="center" style="padding-bottom: 10px;"><input id='strength' type='text' name='energy1'
-                                value="<?= $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"></td>
-                        <td align="center" style="padding-bottom: 10px;"><input id='defense' type='text' name='energy2'
-                                value="<?= $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"></td>
-                        <td align="center" style="padding-bottom: 10px;"><input id='speed' type='text' name='energy3'
-                                value="<?= $user_class->energy ?>" onKeyPress="return numbersonly(this, event)" />
-                        </td>
-                        <td align="center" style="padding-bottom: 10px;"><input id='agility' type='text' name='energy3'
-                                value="<?= $user_class->energy ?>" onKeyPress="return numbersonly(this, event)" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center" style="padding-bottom: 10px;"><span id='strengthamnt'>
-                                <?= prettynum($user_class->strength) ?></span> [Ranked:
-                            <?= getRank("$user_class->id", "strength") ?>]
-                        </td>
-                        <td align="center" style="padding-bottom: 10px;"><span
-                                id='defenseamnt'><?= prettynum($user_class->defense) ?></span> [Ranked:
-                            <?= getRank("$user_class->id", "defense") ?>]
-                        </td>
-                        <td align="center" style="padding-bottom: 10px;"><span
-                                id='speedamnt'><?= prettynum($user_class->speed) ?></span> [Ranked:
-                            <?= getRank("$user_class->id", "speed") ?>]
-                        </td>
-                        <td align="center" style="padding-bottom: 10px;"><span
-                                id='agilityamnt'><?= prettynum($user_class->agility) ?></span> [Ranked:
-                            <?= getRank("$user_class->id", "agility") ?>]
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center" style="padding-bottom: 10px;"><button
-                                onclick="train('strength');">Strength</button></td>
-                        <td align="center" style="padding-bottom: 10px;"><button
-                                onclick="train('defense');">Defense</button></td>
-                        <td align="center" style="padding-bottom: 10px;"><button onclick="train('speed');">Speed</button>
-                        </td>
-                        <td align="center" style="padding-bottom: 10px;"><button
-                                onclick="train('agility');">Agility</button></td>
-                    </tr>
-                </table>
-
-
             </div>
-            <?php
-        }
+        <? endif; ?>
+
+        <div class="contenthead floaty">
+            <span
+                style="margin: 0; line-height: 27px; text-transform: uppercase; font-size: 20px; text-align: left; text-indent: 25px;"></span>
+
+            <span class='notice' style="display:none;"></span>
+
+            </table>
+
+            <table class="responsive" width="100%" align="center">
+                <tr>
+                    <th align="center" style="padding-bottom: 10px;width:33%;"><b>
+                            <center>STRENGTH</center>
+                        </b></th>
+                    <th align="center" style="padding-bottom: 10px;width:33%;"><b>
+                            <center>DEFENSE</center>
+                        </b></th>
+                    <th align="center" style="padding-bottom: 10px;width:33%;"><b>
+                            <center>SPEED</center>
+                        </b></th>
+                    <th align="center" style="padding-bottom: 10px;width:33%;"><b>
+                            <center>AGILITY</center>
+                        </b></th>
+                </tr>
+                <tr>
+                    <td align="center" style="padding-bottom: 10px;"><input id='strength' type='text' name='energy1'
+                            value="<?= $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"></td>
+                    <td align="center" style="padding-bottom: 10px;"><input id='defense' type='text' name='energy2'
+                            value="<?= $user_class->energy ?>" onKeyPress="return numbersonly(this, event)"></td>
+                    <td align="center" style="padding-bottom: 10px;"><input id='speed' type='text' name='energy3'
+                            value="<?= $user_class->energy ?>" onKeyPress="return numbersonly(this, event)" />
+                    </td>
+                    <td align="center" style="padding-bottom: 10px;"><input id='agility' type='text' name='energy3'
+                            value="<?= $user_class->energy ?>" onKeyPress="return numbersonly(this, event)" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" style="padding-bottom: 10px;"><span id='strengthamnt'>
+                            <?= prettynum($user_class->strength) ?></span> [Ranked:
+                        <?= getRank("$user_class->id", "strength") ?>]
+                    </td>
+                    <td align="center" style="padding-bottom: 10px;"><span
+                            id='defenseamnt'><?= prettynum($user_class->defense) ?></span> [Ranked:
+                        <?= getRank("$user_class->id", "defense") ?>]
+                    </td>
+                    <td align="center" style="padding-bottom: 10px;"><span
+                            id='speedamnt'><?= prettynum($user_class->speed) ?></span> [Ranked:
+                        <?= getRank("$user_class->id", "speed") ?>]
+                    </td>
+                    <td align="center" style="padding-bottom: 10px;"><span
+                            id='agilityamnt'><?= prettynum($user_class->agility) ?></span> [Ranked:
+                        <?= getRank("$user_class->id", "agility") ?>]
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center" style="padding-bottom: 10px;"><button
+                            onclick="train('strength');">Strength</button></td>
+                    <td align="center" style="padding-bottom: 10px;"><button
+                            onclick="train('defense');">Defense</button></td>
+                    <td align="center" style="padding-bottom: 10px;"><button onclick="train('speed');">Speed</button>
+                    </td>
+                    <td align="center" style="padding-bottom: 10px;"><button
+                            onclick="train('agility');">Agility</button></td>
+                </tr>
+            </table>
+
+        </div>
+        <?php
         include 'footer.php';
         ?>
