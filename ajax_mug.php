@@ -126,16 +126,16 @@ try {
 
         payoutChristmasGift($user_class->id);
 
-        if ($attack_person->fbi > 0) {
-            $db->query("UPDATE grpgusers SET fbitime = ? WHERE id = ?");
-            $db->execute(array(15, $user_class->id));
+        // if ($attack_person->fbi > 0) {
+        //     $db->query("UPDATE grpgusers SET fbitime = ? WHERE id = ?");
+        //     $db->execute(array(15, $user_class->id));
 
-            Send_Event($user_class->id, "You mugged a player being watched by the FBI! You landed yourself in Federal Jail for 15 minutes!");
-            Send_Event($attack_person->id, "You just got mugged and this player has landed themselves in FBI Jail!");
+        //     Send_Event($user_class->id, "You mugged a player being watched by the FBI! You landed yourself in Federal Jail for 15 minutes!");
+        //     Send_Event($attack_person->id, "You just got mugged and this player has landed themselves in FBI Jail!");
 
-            echo json_encode(error('The FBI are watching this player! You have been sent to FBI Jail!'));
-            exit;
-        }
+        //     echo json_encode(error('The FBI are watching this player! You have been sent to FBI Jail!'));
+        //     exit;
+        // }
 
         if ($success) {
             $divide = rand(7, 8);
