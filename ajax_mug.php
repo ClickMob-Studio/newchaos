@@ -32,6 +32,7 @@ function ofthes_wrapper($id, $toadd)
 $active = time() - 604800;
 
 try {
+    $user_class = new User($_SESSION['id']);
     session_write_close();
 
     $response = array();
