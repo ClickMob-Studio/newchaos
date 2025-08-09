@@ -104,7 +104,7 @@ class Gang
         $this->Color1 = $row["tColor1"];
         $this->Color2 = $row["tColor2"];
         $this->Color3 = $row["tColor3"];
-        $this->crimeend = $row['ending'];
+        $this->crimeend = $row['ending'] ?? '';
         $this->house = $row['ghouse'];
 
         $db->query("SELECT * FROM ghouses WHERE id = ?");

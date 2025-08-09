@@ -1,13 +1,10 @@
 <?php
 include 'header.php';
-
 ?>
 
 <div class='box_top'>Gang List</div>
 <div class='box_middle'>
 	<div class='pad'>
-
-
 		<div class="contenthead floaty">
 			<table id="newtables" style="width:100%;">
 				<td align="center" class="td"><b>Rank</b></td>
