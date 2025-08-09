@@ -27,12 +27,18 @@ if (!$user_class) {
     exit;
 }
 
+error_log("REACHED UNO!");
 try {
     $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
+    error_log("REACHED DOS!");
     if (isset($currentQuestSeason['id'])) {
+        error_log("REACHED TRES!");
         $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
+        error_log("REACHED QUATTRO!");
         $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
+        error_log("REACHED SINGO!");
         $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
+        error_log("REACHED SES!");
 
         $field = null;
         if (isset($_POST['field'])) {
@@ -50,18 +56,22 @@ try {
             $value = $_GET['value'];
         }
 
+        error_log("REACHED OCHO!");
         if (isset($questSeasonMission['requirements']->$field) && $field && $value) {
             updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $field, $value);
+            error_log("REACHED NUEVE!");
 
             echo json_encode(array('success' => true));
             exit;
         }
     }
 
+    error_log("REACHED DIEZ!");
     echo json_encode(array('success' => false));
     exit;
 } catch (Throwable $e) {
-    // Last-resort JSON error so the response is never empty
+    error_log("REACHED ONCE!");
+
     http_response_code(500);
     echo json_encode(['success' => false, 'error' => 'server_error']);
     exit;
