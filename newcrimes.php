@@ -154,6 +154,7 @@ if (isset($_GET['ner'])) {
                         <div class="selectors-container">
                             <select name="crime" id="scrime" style="padding: 1em; margin-right: 10px; width: 100%;">
                                 <?php
+                                $selected = false;
                                 foreach ($rows as $row) {
                                     $db->query("SELECT `count` FROM crimeranks WHERE userid = ? AND crimeid = ?");
                                     $db->execute(array($user_class->id, $row['id']));
@@ -196,8 +197,11 @@ if (isset($_GET['ner'])) {
                                     if ($row['id'] == 51) {
                                         $additionalStyles = 'style="color: red; font-weight: bold;"';
                                     }
-                                    echo '<option ' . $additionalStyles . ' value="' . $row['id'] . '" data-stars="' . $star_level . '" data-crime-count="' . $crimeCount . '" ' . $disabled . '>' . $row['name'] . ' | Cost: ' . $row['nerve'] . ' Nerve</option>';
+                                    echo '<option ' . $additionalStyles . ' value="' . $row['id'] . '" data-stars="' . $star_level . '" data-crime-count="' . $crimeCount . '" ' . $disabled . ($hasEnoughNerve && !$selected ? 'selected' : '') . '>' . $row['name'] . ' | Cost: ' . $row['nerve'] . ' Nerve</option>';
 
+                                    if ($hasEnoughNerve && !$selected) {
+                                        $selected = true;
+                                    }
                                 }
                                 ?>
                             </select>
@@ -205,8 +209,6 @@ if (isset($_GET['ner'])) {
                             <?php $rmOnly = ($user_class->rmdays <= 0) ? 'disabled' : ''; ?>
                             <select name="cm" id="cm" style="padding: 1em;">
                                 <option value="1">1X</option>
-                                <!-- <option value="2">2X</option> -->
-                                <!--<option value="4" --><?php // echo $rmOnly ?><!-->4X (VIP Only)</option>-->
                                 <option value="15" <?php echo $rmOnly ?>>15X (VIP Only)</option>
 
                                 <?php
