@@ -2,11 +2,11 @@
 include 'header.php';
 ?>
 <div class='box_top'>Raid Stats</div>
-						<div class='box_middle'>
-							<div class='pad'>
-<?php
+<div class='box_middle'>
+  <div class='pad'>
+    <?php
 
-echo "<style>
+    echo "<style>
 
 .mainContainer {
   max-width: 1200px;
@@ -42,87 +42,83 @@ echo "<style>
 }
 </style>";
 
-echo "<div class='mainContainer'>";
+    echo "<div class='mainContainer'>";
 
-if (isset($_GET['raid_id'])) {
-  $raid_id = intval($_GET['raid_id']);
-  
-  $active_raid_query = "SELECT boss_id FROM active_raids WHERE id = " . $raid_id;
-  $active_raid_result = mysql_query($active_raid_query);
-  if (!$active_raid_result || mysql_num_rows($active_raid_result) == 0) {
-    die('Invalid raid query or raid not found: ' . mysql_error());
-  }
-  $active_raid_info = mysql_fetch_assoc($active_raid_result);
-  $boss_id = $active_raid_info['boss_id'];
+    if (isset($_GET['raid_id'])) {
+      $raid_id = intval($_GET['raid_id']);
 
-  $boss_query = "SELECT * FROM bosses WHERE id = " . $boss_id;
-  $boss_result = mysql_query($boss_query);
-  if (!$boss_result) {
-    die('Invalid boss query: ' . mysql_error());
-  }
-  $boss_info = mysql_fetch_assoc($boss_result);
+      $db->query("SELECT boss_id FROM active_raids WHERE id = ?");
+      $db->execute([$raid_id]);
+      $boss_id = $db->fetch_single();
 
-  $query = "SELECT battle_log FROM raid_battle_logs WHERE raid_id = " . $raid_id;
-  $result = mysql_query($query);
-  if (!$result) {
-    die('Invalid query: ' . mysql_error());
-  }
+      if (!isset($boss_id)) {
+        die('Could not find this raid.');
+      }
 
-  $team_stats_query = "SELECT SUM(total) AS total_stats FROM grpgusers WHERE id IN (SELECT user_id FROM raid_participants WHERE raid_id = " . $raid_id . ")";
-  $team_stats_result = mysql_query($team_stats_query);
-  $team_stats_info = mysql_fetch_assoc($team_stats_result);
-  $total_stats = $team_stats_info['total_stats'];
+      $db->query("SELECT * FROM bosses WHERE id = ?");
+      $db->execute([$boss_id]);
+      $boss = $db->fetch_row(true);
+      if (empty($boss)) {
+        die("Could not find boss information.");
+      }
 
-  $participants_query = "SELECT user_id FROM raid_participants WHERE raid_id = " . $raid_id;
-  $participants_result = mysql_query($participants_query);
-  $participants = [];
-  while ($row = mysql_fetch_assoc($participants_result)) {
-    $participants[] = $row['user_id'];
-  }
+      $db->query("SELECT battle_log FROM raid_battle_logs WHERE raid_id = ?");
+      $db->execute([$raid_id]);
+      $battle_log = $db->fetch_row(true);
+      if (empty($battle_log)) {
+        die("Could not find battle log information.");
+      }
 
-  echo "<div class='layoutContainer'>";
+      $db->query("SELECT SUM(total) AS total_stats FROM grpgusers WHERE id IN (SELECT user_id FROM raid_participants WHERE raid_id = ?)");
+      $db->execute([$raid_id]);
+      $total_stats = $db->fetch_single();
 
-  // Team Stats
-  echo "<div class='teamStats'>";
-  echo "<h2>Team Stats</h2>";
-  echo "Total Stats: " . number_format($total_stats);
-  echo "<h3>Participants:</h3>";
+      $db->query("SELECT user_id FROM raid_participants WHERE raid_id = ?");
+      $db->execute([$raid_id]);
+      $participants = $db->fetch_row();
 
-  // Convert participant IDs to formatted names
-  $formatted_participants = array_map('formatName', $participants);
-  echo implode(', ', $formatted_participants);
+      echo "<div class='layoutContainer'>";
 
-  echo "</div>";	
-  // Boss Avatar and Boss Name
-  echo "<div class='bossAvatar'>";
-  $image_link = $boss_info['image_link'];
-  echo "<img src='{$image_link}' alt='Boss Avatar' style='width: 180px; height: 180px;'>";
-  
-  // Boss Name in dark red 3D design
-  $boss_name = $boss_info['name'];
-  echo "<div class='bossName'>{$boss_name}</div>";
+      // Team Stats
+      echo "<div class='teamStats'>";
+      echo "<h2>Team Stats</h2>";
+      echo "Total Stats: " . number_format($total_stats);
+      echo "<h3>Participants:</h3>";
 
-  echo "</div>";
+      // Convert participant IDs to formatted names
+      $formatted_participants = array_map('formatName', $participants);
+      echo implode(', ', $formatted_participants);
 
-  // Boss Stats
-  echo "<div class='bossStats'>";
-  echo "<h2>Boss Stats</h2>";
-  echo "Boss Name: " . $boss_info['name'];
-  echo "</div>";
+      echo "</div>";
+      // Boss Avatar and Boss Name
+      echo "<div class='bossAvatar'>";
+      $image_link = $boss['image_link'];
+      echo "<img src='{$image_link}' alt='Boss Avatar' style='width: 180px; height: 180px;'>";
 
-  echo "</div>";  // End of layoutContainer
+      // Boss Name in dark red 3D design
+      $boss_name = $boss['name'];
+      echo "<div class='bossName'>{$boss_name}</div>";
 
-  // Display battle log
-  if (mysql_num_rows($result) > 0) {
-    $row = mysql_fetch_assoc($result);
-    echo "<div class='raidLog'>" . nl2br($row['battle_log']) . "</div>";
-  } else {
-    echo "<h1>No battle log available for this raid.</h1>";
-  }
-} else {
-  echo "Invalid raid ID.";
-}
+      echo "</div>";
 
-echo "</div>";  // End of mainContainer
-require "footer.php";
-?>
+      // Boss Stats
+      echo "<div class='bossStats'>";
+      echo "<h2>Boss Stats</h2>";
+      echo "Boss Name: " . $boss['name'];
+      echo "</div>";
+
+      echo "</div>";  // End of layoutContainer
+    
+      // Display battle log
+      if (isset($battle_log)) {
+        echo "<div class='raidLog'>" . nl2br($battle_logs['battle_log']) . "</div>";
+      } else {
+        echo "<h1>No battle log available for this raid.</h1>";
+      }
+    } else {
+      echo "Invalid raid ID.";
+    }
+
+    echo "</div>";  // End of mainContainer
+    require "footer.php";
+    ?>
