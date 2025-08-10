@@ -9,9 +9,8 @@ include "header.php";
         $db->query("SELECT * FROM `grpgusers` WHERE `id` = ? LIMIT 1");
         $db->execute([$_SESSION['id']]);
         $ir = $db->fetch_row(true);
-        $_GET['ID'] = abs((int) $_GET['ID']);
-        $userid = $_SESSION['id'];
-        if ($ir['jailtime'] or $ir['hospital']) {
+
+        if ($ir['jail'] or $ir['hospital']) {
             die("<br />This page is unavailable while in hospital or jail.<br /><br /><hr width=80%> <a href='index.php'>Home</a><hr width=80%>");
         }
 
