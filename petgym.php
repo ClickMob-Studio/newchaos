@@ -19,7 +19,6 @@ include 'header.php';
         print "<div class='includepet'>";
         include 'includepet.php';
         print "</div>";
-        $pet_class = $my_pet;
         print "
 <center>
     <span class='notice'>Your pet can currently train " . prettynum($pet_class->energy) . " times.</span><br /><br />

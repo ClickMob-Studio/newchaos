@@ -312,7 +312,6 @@ include 'includepet.php';
         $db->query("SELECT * FROM pets WHERE userid = ? ORDER BY petid ASC");
         $db->execute([$user_class->id]);
         $pets = $db->fetch_row();
-
         if (empty($pets)) {
             header('location: petshop.php');
         }
