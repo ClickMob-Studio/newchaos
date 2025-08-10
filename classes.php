@@ -1252,7 +1252,7 @@ class Pet
         $row = $db->fetch_row(true);
 
         if (empty($row)) {
-            throw new Exception("No pet found for user ID: $userid");
+            return;
         }
 
         foreach ($row as $key => $value) {

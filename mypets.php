@@ -1,9 +1,5 @@
 <?php
 include 'header.php';
-
-global $user_class;
-$user_class = new User($_SESSION['id']);
-
 include 'includepet.php';
 ?>
 

@@ -7,15 +7,14 @@ include 'header.php';
     <div class='pad'>
         <?php
 
-        $db->query("SELECT * FROM pets WHERE userid = ?");
-        $db->execute([$user_class->id]);
-        $my_pet = $db->fetch_row(true);
-        if (!$my_pet)
-            diefun("You don't have a pet");
-
         $pet_class = new Pet($user_class->id);
-        if ($pet_class->leash == 1)
+        if (!isset($pet_class)) {
+            diefun("You don't have a pet");
+        }
+
+        if ($pet_class->leash == 1) {
             diefun("Your cannot train your pet whilst it is leashed!");
+        }
 
         print "<div class='includepet'>";
         include 'includepet.php';
