@@ -77,7 +77,7 @@ if (isset($_GET['attack']) && (int) $_GET['attack'] && (int) $_GET['attack'] > 0
     $totalUserStrength = $user_class->moddedstrength;
 
     $botStrength = $trainingDummyToUse['strength'] * $trainingDummyToUse['level'];
-    $botDefence = $trainingDummyToUse['defence'] * $trainingDummyToUse['level'];
+    $botDefense = $trainingDummyToUse['defense'] * $trainingDummyToUse['level'];
     $botSpeed = $trainingDummyToUse['speed'] * $trainingDummyToUse['level'];
     $bossHp = $trainingDummyToUse['health'] * $trainingDummyToUse['level'];
 
@@ -103,7 +103,7 @@ if (isset($_GET['attack']) && (int) $_GET['attack'] && (int) $_GET['attack'] > 0
         $totalUserHealth = $totalUserHealth - $damage;
 
         if ($totalUserHealth > 0) {
-            $damage = $totalUserStrength - $botDefence;
+            $damage = $totalUserStrength - $botDefense;
             $damage = ($damage < 1) ? 1 : $damage;
             $damage = rand(1, $damage);
             if ($damage == 1) {
