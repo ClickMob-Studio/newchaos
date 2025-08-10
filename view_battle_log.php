@@ -76,6 +76,7 @@ include 'header.php';
       $db->query("SELECT user_id FROM raid_participants WHERE raid_id = ?");
       $db->execute([$raid_id]);
       $participants = $db->fetch_row();
+      $ids = array_map('intval', array_column($participants, 'user_id'));
 
       echo "<div class='layoutContainer'>";
 
@@ -86,7 +87,7 @@ include 'header.php';
       echo "<h3>Participants:</h3>";
 
       // Convert participant IDs to formatted names
-      $formatted_participants = array_map('formatName', $participants);
+      $formatted_participants = array_map('formatName', $ids);
       echo implode(', ', $formatted_participants);
 
       echo "</div>";
