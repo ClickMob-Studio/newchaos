@@ -147,7 +147,7 @@ print "
                 <th>Gang Public Page</th>
             </tr>
             <tr>
-                <td>" . BBCodeParse(strip_tags($gang_class->publicpage)) . "</td>
+                <td>" . BBCodeParse(strip_tags($gang_class->publicpage ?? '')) . "</td>
             </tr>
             
          
