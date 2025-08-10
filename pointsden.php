@@ -168,67 +168,69 @@ include 'header.php';
                 }
 
                 //Admin Section
-                if ($_GET['admin'] == "hosp") {
-                    if ($user_class->admin == 1) {
-                        if ($user_class->hospital == 0) {
-                            echo Message("You're not in the hospital.");
-                        } else {
-                            perform_query("UPDATE `grpgusers` SET `hospital` = '0' AND `hp` = ? WHERE `id` = ?", [$user_class->puremaxhp, $_SESSION['id']]);
-                            echo Message("You used your corruption powers to get out of hospital.");
+                if (isset($_GET['admin'])) {
+                    if ($_GET['admin'] == "hosp") {
+                        if ($user_class->admin == 1) {
+                            if ($user_class->hospital == 0) {
+                                echo Message("You're not in the hospital.");
+                            } else {
+                                perform_query("UPDATE `grpgusers` SET `hospital` = '0' AND `hp` = ? WHERE `id` = ?", [$user_class->puremaxhp, $_SESSION['id']]);
+                                echo Message("You used your corruption powers to get out of hospital.");
+                            }
                         }
                     }
-                }
 
-                if ($_GET['admin'] == "prison") {
-                    if ($user_class->admin == 1) {
-                        if ($user_class->jail == 0) {
-                            echo Message("You're not in prison.");
-                        } else {
-                            perform_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id` = ?", [$_SESSION['id']]);
-                            echo Message("You used your corruption powers to get out of prison.");
+                    if ($_GET['admin'] == "prison") {
+                        if ($user_class->admin == 1) {
+                            if ($user_class->jail == 0) {
+                                echo Message("You're not in prison.");
+                            } else {
+                                perform_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id` = ?", [$_SESSION['id']]);
+                                echo Message("You used your corruption powers to get out of prison.");
+                            }
                         }
                     }
-                }
 
-                if ($_GET['admin'] == "energy") {
-                    if ($user_class->admin == 1) {
-                        if ($user_class->energy == $user_class->maxenergy) {
-                            echo Message("Your energy is already full.");
-                        } else {
-                            perform_query("UPDATE `grpgusers` SET `energy` = ? WHERE `id` = ?", [$user_class->maxenergy, $_SESSION['id']]);
-                            echo Message("You used your corruption powers to refill your energy.");
+                    if ($_GET['admin'] == "energy") {
+                        if ($user_class->admin == 1) {
+                            if ($user_class->energy == $user_class->maxenergy) {
+                                echo Message("Your energy is already full.");
+                            } else {
+                                perform_query("UPDATE `grpgusers` SET `energy` = ? WHERE `id` = ?", [$user_class->maxenergy, $_SESSION['id']]);
+                                echo Message("You used your corruption powers to refill your energy.");
+                            }
                         }
                     }
-                }
 
-                if ($_GET['admin'] == "nerve") {
-                    if ($user_class->admin == 1) {
-                        if ($user_class->nerve == $user_class->maxnerve) {
-                            echo Message("Your nerve is already full.");
-                        } else {
-                            perform_query("UPDATE `grpgusers` SET `nerve` = ? WHERE `id` = ?", [$user_class->maxnerve, $_SESSION['id']]);
-                            echo Message("You used your corruption powers to refill your nerve.");
+                    if ($_GET['admin'] == "nerve") {
+                        if ($user_class->admin == 1) {
+                            if ($user_class->nerve == $user_class->maxnerve) {
+                                echo Message("Your nerve is already full.");
+                            } else {
+                                perform_query("UPDATE `grpgusers` SET `nerve` = ? WHERE `id` = ?", [$user_class->maxnerve, $_SESSION['id']]);
+                                echo Message("You used your corruption powers to refill your nerve.");
+                            }
                         }
                     }
-                }
 
-                if ($_GET['admin'] == "awake") {
-                    if ($user_class->admin == 1) {
-                        if ($user_class->awake == $user_class->maxawake) {
-                            echo Message("Your awake is already full.");
-                        } else {
-                            perform_query("UPDATE `grpgusers` SET `awake` = ? WHERE `id` = ?", [$user_class->maxawake, $_SESSION['id']]);
-                            echo Message("You used your corruption powers to refill your awake.");
+                    if ($_GET['admin'] == "awake") {
+                        if ($user_class->admin == 1) {
+                            if ($user_class->awake == $user_class->maxawake) {
+                                echo Message("Your awake is already full.");
+                            } else {
+                                perform_query("UPDATE `grpgusers` SET `awake` = ? WHERE `id` = ?", [$user_class->maxawake, $_SESSION['id']]);
+                                echo Message("You used your corruption powers to refill your awake.");
+                            }
                         }
                     }
-                }
 
-                if ($_GET['admin'] == "money") {
-                    if ($user_class->admin == 1) {
-                        $newpoints = $user_class->points - 1;
-                        $newmoney = $user_class->money + 1000;
-                        perform_query("UPDATE `grpgusers` SET `points` = ?, `money` = ? WHERE `id` = ?", [$newpoints, $newmoney, $_SESSION['id']]);
-                        echo Message("You used your corruption powers to get some quick cash.");
+                    if ($_GET['admin'] == "money") {
+                        if ($user_class->admin == 1) {
+                            $newpoints = $user_class->points - 1;
+                            $newmoney = $user_class->money + 1000;
+                            perform_query("UPDATE `grpgusers` SET `points` = ?, `money` = ? WHERE `id` = ?", [$newpoints, $newmoney, $_SESSION['id']]);
+                            echo Message("You used your corruption powers to get some quick cash.");
+                        }
                     }
                 }
             }
