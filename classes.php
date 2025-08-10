@@ -259,7 +259,7 @@ class User
             $this->skills = [];
         }
 
-        $db->query("SELECT * FROM pets WHERE userid = ?);
+        $db->query("SELECT * FROM pets WHERE userid = ?");
         $db->execute([$id]);
         if ($db->num_rows()) {
             $pet = $db->fetch_row(true);
