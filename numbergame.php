@@ -38,7 +38,6 @@ include "header.php";
                     $u['username'] = "<a href='profiles.php?id={$u['id']}'>{$u['username']}</a>";
                 }
                 print "\n<tr align=center><td class=contentcontent>{$r['number']}</td><td class=contentcontent>{$u['username']}</td></tr>";
-                $current_row = 1 - $current_row;
             }
 
         } else {
