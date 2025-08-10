@@ -1,21 +1,19 @@
 <?php
 include 'header.php';
+
+global $user_class;
+$user_class = new User($_SESSION['id']);
+
 include 'includepet.php';
 ?>
 
 <style>
     .contenthead {
-
         color: white;
         border-radius: 10px;
         padding: 20px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         margin-bottom: 20px;
-        /* Adjust as necessary */
-    }
-
-    .floaty {
-        /* Your existing .floaty styles */
     }
 
     .profile_container {
