@@ -111,7 +111,7 @@ include 'header.php';
     
       // Display battle log
       if (isset($battle_log)) {
-        echo "<div class='raidLog'>" . nl2br($battle_logs['battle_log']) . "</div>";
+        echo "<div class='raidLog'>" . nl2br($battle_log['battle_log']) . "</div>";
       } else {
         echo "<h1>No battle log available for this raid.</h1>";
       }
