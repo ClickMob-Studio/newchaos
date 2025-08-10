@@ -5,11 +5,6 @@ $db->query("SELECT * FROM training_dummy");
 $db->execute();
 $trainingDummies = $db->fetch_row();
 
-$trainingDummiesIndexed = array();
-foreach ($trainingDummies as $trainingDummy) {
-    $trainingDummiesIndexed[$trainingDummy['id']] = $trainingDummy;
-}
-
 $db->query("SELECT * FROM training_dummy_user WHERE user_id = ?");
 $db->execute(array($user_class->id));
 $trainingDummyUsers = $db->fetch_row();
@@ -33,8 +28,8 @@ foreach ($trainingDummyUsers as $trainingDummyUser) {
     $trainingDummyUsersIndexed[$trainingDummyUser['training_dummy_id']] = $trainingDummyUser;
 }
 
-if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) {
-    $attack = (int)$_GET['attack'];
+if (isset($_GET['attack']) && (int) $_GET['attack'] && (int) $_GET['attack'] > 0) {
+    $attack = (int) $_GET['attack'];
 
     if ($user_class->hospital > 0) {
         diefun('You can\'t attack a training dummy when your in hospital. <a href="trainingdummies.php">Go Back</a>.');
@@ -48,8 +43,16 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
         diefun('You need full energy to perform a training dummy attack! <a href="trainingdummies.php">Go Back</a>.');
     }
 
+    $attackedDummy = null;
+    foreach ($trainingDummies as $trainingDummy) {
+        if ($trainingDummy['id'] == $attack) {
+            $attackedDummy = $trainingDummy;
+            break;
+        }
+    }
+
     if (!isset($trainingDummyUsersIndexed[$attack])) {
-        if (isset($trainingDummiesIndexed[$attack])) {
+        if (isset($attackedDummy)) {
             $db->query("INSERT INTO training_dummy_user (training_dummy_id, user_id, level, exp, is_fight_available) VALUES (?, ?, 1, 0, 1)");
             $db->execute(array($attack, $user_class->id));
 
@@ -60,7 +63,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
         }
     }
 
-    $trainingDummyToUse = $trainingDummiesIndexed[$attack];
+    $trainingDummyToUse = $attackedDummy;
     $trainingDummyUserToUse = $trainingDummyUsersIndexed[$attack];
 
     $nextFightTime = $trainingDummyUserToUse['last_fight_time'] + 7200;
@@ -123,7 +126,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
 
     if ($bossHp <= 0) {
         // Won Fight
-        $expBoost = mt_rand(2,5);
+        $expBoost = mt_rand(2, 5);
         if ($attack == 8) {
             $expBoost = $expBoost * 5;
         }
@@ -135,7 +138,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
         if ($tempItemUse['toffee_apples'] > 0) {
             $newExp = 101;
 
-            removeItemTempUse($user_class->id,'toffee_apples', 1);
+            removeItemTempUse($user_class->id, 'toffee_apples', 1);
         }
         if ($newExp > 100) {
             Give_Item($trainingDummyToUse['reward_item_id'], $user_class->id, 1);
@@ -145,10 +148,10 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
             $newExp = 0;
         }
         $expReward = $user_class->maxexp / 10000;
-        $expReward = $expReward * mt_rand(1,2);
+        $expReward = $expReward * mt_rand(1, 2);
         $expReward = ceil($expReward);
         if ($expReward < 10) {
-            $expReward = mt_rand(1,10);
+            $expReward = mt_rand(1, 10);
         }
 
         $cashReward = mt_rand(50000, 250000);
@@ -163,7 +166,7 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
 
         $pointsReward = 0;
         if ($attack == 8) {
-            $pointsReward = mt_rand(100,200);
+            $pointsReward = mt_rand(100, 200);
         }
 
         $db->query('UPDATE grpgusers SET energy = 0, money = money + ?, exp = exp + ?, points = points + ? WHERE id = ?');
@@ -185,9 +188,9 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
 
 
         if ($attack == 8) {
-            diefun('You have successfully beaten the training dummy and you have been rewarded ' . number_format($expReward, 0) . ' EXP, ' . number_format($pointsReward, 0) . ' points & $' . number_format($cashReward, 0) .'! <a href="trainingdummies.php">Go Back</a>.');
+            diefun('You have successfully beaten the training dummy and you have been rewarded ' . number_format($expReward, 0) . ' EXP, ' . number_format($pointsReward, 0) . ' points & $' . number_format($cashReward, 0) . '! <a href="trainingdummies.php">Go Back</a>.');
         } else {
-            diefun('You have successfully beaten the training dummy and you have been rewarded ' . number_format($expReward, 0) . ' EXP & $' . number_format($cashReward, 0) .'! <a href="trainingdummies.php">Go Back</a>.');
+            diefun('You have successfully beaten the training dummy and you have been rewarded ' . number_format($expReward, 0) . ' EXP & $' . number_format($cashReward, 0) . '! <a href="trainingdummies.php">Go Back</a>.');
         }
     } else {
         // Lost Fight
@@ -216,7 +219,8 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
     <div class='pad'>
         <p>Welcome to the City Goons! Here you will find some of the goons that have been lurking around Chaos City.</p>
         <p>
-            You can attack each City Goon every 2 hours and from every attack win you'll earn a EXP & cash prize. You'll also
+            You can attack each City Goon every 2 hours and from every attack win you'll earn a EXP & cash prize. You'll
+            also
             earn progress towards winning the reward item that the City Goon payouts.
         </p>
         <p>
@@ -256,7 +260,9 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
                         </td>
                         <td>
                             <div class="progress" style="margin-top: 10px;">
-                                <div class="progress-bar bg-success" role="progressbar" aria-label="Success example" title="<?php echo $progressWidth ?>%" style="width: <?php echo $progressWidth ?>%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar bg-success" role="progressbar" aria-label="Success example"
+                                    title="<?php echo $progressWidth ?>%" style="width: <?php echo $progressWidth ?>%"
+                                    aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
                                     <?php echo $progressWidth ?>%
                                 </div>
                             </div>
@@ -264,7 +270,8 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
                         <td style="text-align:center;">
                             <center>
                                 <div class="tiers text-center">
-                                    <img height="65px" width="65px" src="<?php echo Item_Image($trainingDummy['reward_item_id']) ?>" />
+                                    <img height="65px" width="65px"
+                                        src="<?php echo Item_Image($trainingDummy['reward_item_id']) ?>" />
                                 </div>
                             </center>
                         </td>
@@ -278,7 +285,8 @@ if (isset($_GET['attack']) && (int)$_GET['attack'] && (int)$_GET['attack'] > 0) 
                             <?php if ($nextFightTime > time()): ?>
                                 <?php echo howlongtil($nextFightTime) ?> Until Next Attack
                             <?php else: ?>
-                                <a href="trainingdummies.php?attack=<?php echo $trainingDummy['id'] ?>" class="btn btn-primary">Attack</a>
+                                <a href="trainingdummies.php?attack=<?php echo $trainingDummy['id'] ?>"
+                                    class="btn btn-primary">Attack</a>
                             <?php endif; ?>
                         </td>
                     </tr>
