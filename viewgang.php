@@ -148,13 +148,10 @@ print "
             </tr>
             <tr>
                 <td>" . BBCodeParse(strip_tags($gang_class->publicpage ?? '')) . "</td>
-            </tr>
-            
-         
+            </tr>         
         </table>
-
-
 ";
+
 if ($user_class->level > 4)
     if ($user_class->gang == 0)
         print "<br /><a href='apply.php?gang={$_GET['id']}'>Apply for gang</a><br /><br />";
@@ -166,6 +163,7 @@ if ($user_class->level > "4") {
     if ($user_class->gang != 0 && $user_gang->leader == $user_class->id && $war == 0 && $_GET['id'] != $user_class->gang)
         print "<br /><a href='gangwar.php?gang={$_GET['id']}'>Invite to gang war</a><br /><br />";
 }
+
 print "
 <table id='newtables' style='width:100%;'>
     <tr>
@@ -198,6 +196,8 @@ foreach ($rows as $line) {
     </tr>
 ";
 }
+
 print "</table></td></tr></div></div>";
+
 include 'footer.php';
 ?>

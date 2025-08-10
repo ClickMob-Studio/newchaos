@@ -9,6 +9,9 @@ if ($goldenTicketCount > 0) {
         echo '<div class="dcPanel p-3 mt-2" style="text-align:center">You have a ' . item_popup('Golden Ticket', 38) . ' which enables you to travel for free. <b><a href="travel.php?ticket=1">Use Ticket</a></b></div>';
     }
 }
+
+$discount = 100;
+
 ?>
 
 
@@ -118,7 +121,6 @@ if ($goldenTicketCount > 0) {
             $king_status = isset($king) ? " " . formatName($king['id']) : 'Vacant';
             $queen_status = isset($queen) ? " " . formatName($queen['id']) : 'Vacant';
 
-            $discount = 100;
             $cost = $line['price'] * ($discount / 100);
             if ($userPrestigeSkills['travel_cost_unlock'] > 0) {
                 $cost = $cost - ($cost / 100 * 20);
