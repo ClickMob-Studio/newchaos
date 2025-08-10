@@ -1395,15 +1395,15 @@ function Give_Pet($petid, $userid, $picture, $str = 10, $spe = 10, $def = 10, $n
         $petid
     ));
     $pet = $db->fetch_single();
-    if ($pet) {
+    if (isset($pet)) {
         return false;
     }
 
     if ($name == null) {
-        $db->query("SELECT name FROM petshop WHERE id = ?");
+        $db->query("SELECT `name` FROM petshop WHERE id = ?");
         $db->execute([$petid]);
-        $pet = $db->fetch_row(true);
-        if (!$pet) {
+        $pet = $db->fetch_single();
+        if (!isset($pet)) {
             $name = "No Name";
         } else {
             $name = $pet['name'];
@@ -1411,7 +1411,7 @@ function Give_Pet($petid, $userid, $picture, $str = 10, $spe = 10, $def = 10, $n
     }
 
     $db->query("INSERT INTO pets (petid, userid, str, spe, def, pname, avi) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $db->execute(array(
+    $db->execute([
         $petid,
         $userid,
         $str,
@@ -1419,7 +1419,7 @@ function Give_Pet($petid, $userid, $picture, $str = 10, $spe = 10, $def = 10, $n
         $def,
         $name,
         $picture
-    ));
+    ]);
 }
 function Check_Pet($petid, $userid)
 {

@@ -57,7 +57,7 @@ if (isset($workedq['id']) && $workedq['id']) {
 }
 
 //Buster Of the Hour
-$db->query("SELECT * FROM grpgusers WHERE admin = 0 AND both > 0 ORDER BY both DESC LIMIT 1");
+$db->query("SELECT * FROM grpgusers WHERE `admin` = 0 AND `both` > 0 ORDER BY `both` DESC LIMIT 1");
 $db->execute();
 $workedq = $db->fetch_row(true);
 if (isset($workedq['id']) && $workedq['id']) {

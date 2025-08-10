@@ -38,8 +38,10 @@ include 'header.php';
             }
 
             perform_query("UPDATE grpgusers SET money = money - ? WHERE id = ?", [$row['cost'], $user_class->id]);
-            Give_Pet($_GET['buy'], $user_class->id, $row['picture']);
-
+            $status = Give_Pet($_GET['buy'], $user_class->id, $row['picture']);
+            if (!$status) {
+                error_log("Failed to give pet {$_GET['buy']} to user {$user_class->id}");
+            }
             echo Message("You've purchased a {$row['name']} for " . prettynum($row['cost'], 1));
         }
 
