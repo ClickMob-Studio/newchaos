@@ -277,9 +277,12 @@ if (isset($_GET['attack']) && (int) $_GET['attack'] && (int) $_GET['attack'] > 0
                         </td>
                         <td width="20%">
                             <?php
-                            $trainingDummyUserToUse = $trainingDummyUsersIndexed[$trainingDummy['id']];
-
-                            $nextFightTime = $trainingDummyUserToUse['last_fight_time'] + 7200;
+                            if (!isset($trainingDummyUsersIndexed[$trainingDummy['id']])) {
+                                $nextFightTime = 0;
+                            } else {
+                                $trainingDummyUserToUse = $trainingDummyUsersIndexed[$trainingDummy['id']];
+                                $nextFightTime = $trainingDummyUserToUse['last_fight_time'] + 7200;
+                            }
                             ?>
 
                             <?php if ($nextFightTime > time()): ?>
