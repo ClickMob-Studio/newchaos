@@ -71,41 +71,7 @@ if (isset($workedq['id']) && $workedq['id']) {
 perform_query("UPDATE grpgusers SET `moth` = 0, `koth` = 0, `loth` = 0, `both` = 0");
 perform_query("UPDATE grpgusers SET `searchdowntown` = 20 WHERE `searchdowntown` = 0");
 
-//Bases
-$db->query("SELECT * FROM grpgusers WHERE missionsactive = 1 ORDER BY `id` ASC");
-$results = $db->fetch_row();
-foreach ($results as $line) {
-    if ($line['missionkills'] >= 35 && $line['missionmugs'] >= 10 && $line['missioncrimes'] >= 100 && $line['missionbusts'] >= 5) {
-        $newkills = 0;
-        $newmugs = 0;
-        $newcrimes = 0;
-        $newbusts = 0;
-        $newmission = 0;
-        Give_Item(114, $line['id']); //give the user their item they bought
-        perform_query("UPDATE `grpgusers` SET `missionkills`= ?, `missionmugs`= ?, `missionbusts`= ?, `missioncrimes`= ?, `missionsactive`= ? WHERE `id`= ?", [$newkills, $newmugs, $newbusts, $newcrimes, $newmission, $line['id']]);
-        Send_Event($line['id'], "You have Completed your mission! You Receive a Mini Mission Pack.", $line['id']);
-    } elseif ($line['missionkills'] < 35 && $line['missionmugs'] < 10 && $line['missioncrimes'] < 100 && $line['missionbusts'] < 5) {
-        $newkills = 0;
-        $newmugs = 0;
-        $newcrimes = 0;
-        $newbusts = 0;
-        $newmission = 0;
-        perform_query("UPDATE `grpgusers` SET `missionkills`= ?, `missionmugs`= ?, `missionbusts`= ?, `missioncrimes`= ?, `missionsactive`= ? WHERE `id`= ?", [$newkills, $newmugs, $newbusts, $newcrimes, $newmission, $line['id']]);
-        Send_Event($line['id'], "You have Failed your Mission this Hour! Try Again.", $line['id']);
-    } else {
-        $newkills = 0;
-        $newmugs = 0;
-        $newcrimes = 0;
-        $newbusts = 0;
-        $newmission = 0;
-        perform_query("UPDATE `grpgusers` SET `missionkills`= ?, `missionmugs`= ?, `missionbusts`= ?, `missioncrimes`= ?, `missionsactive`= ? WHERE `id`= ?", [$newkills, $newmugs, $newbusts, $newcrimes, $newmission, $line['id']]);
-    }
-}
-
-
-
 $ladderRewards = [150, 100, 100, 100, 100, 100, 100, 100, 100, 100];
-
 $db->query("SELECT * FROM attackladder ORDER BY `spot` ASC");
 $rows = $db->fetch_row();
 foreach ($rows as $row) {
