@@ -341,7 +341,7 @@ include 'header.php';
                         <div class="col-sm-10">
                             <input type="text" class="form-control custom-input" id="subject" name="subject"
                                 value="<?php echo (isset($_GET['reply']) ? 'RE: ' . $row['subject'] : ''); ?>"
-                                maxlength="75">
+                                maxlength="125">
                         </div>
                     </div>
                     <div class="row mb-3">
