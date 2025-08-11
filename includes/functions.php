@@ -2592,13 +2592,13 @@ function getUserPrestigeSkills($user_class)
 
     $db->query("SELECT * FROM user_prestige_skills WHERE user_id = " . $user_class->id . " LIMIT 1");
     $db->execute();
-    $r = $db->fetch_row();
+    $row = $db->fetch_row(true);
 
-    if (isset($r[0]['id'])) {
-        $r[0]['prestige_unlocks_available'] = ($user_class->prestige * 1) - $r[0]['unlock_points_spent'];
-        $r[0]['prestige_boosts_available'] = ($user_class->prestige * 5) - $r[0]['boosts_spent'];
+    if (isset($row['id'])) {
+        $row['prestige_unlocks_available'] = ($row['prestige'] * 1) - $row['unlock_points_spent'];
+        $row['prestige_boosts_available'] = ($row['prestige'] * 5) - $row['boosts_spent'];
 
-        return $r[0];
+        return $row;
     } else {
         $db->query("INSERT INTO user_prestige_skills (user_id) VALUES (" . $user_class->id . ")");
         $db->execute();
