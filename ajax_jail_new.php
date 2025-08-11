@@ -103,7 +103,7 @@ if (isset($_GET['jailbreak']) && $_GET['jailbreak'] == 'bot') {
         $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
         $db->execute();
         $activityContest = $db->fetch_row(true);
-        if ($activityContest['type'] == 'busts') {
+        if (isset($activityContest) && $activityContest['type'] == 'busts') {
             addToUserCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
             addToRelCompLeaderboard($user_class->id, 'activity_complete', $activityContest['type_value']);
         }

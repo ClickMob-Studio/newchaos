@@ -1,5 +1,6 @@
 <?php
 include 'header.php';
+
 $userPrestigeSkills = getUserPrestigeSkills($user_class);
 $goldenTicketCount = Check_Item(38, $user_class->id);
 if ($goldenTicketCount > 0) {
