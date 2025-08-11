@@ -8,7 +8,7 @@ include 'header.php';
         <?php
 
         echo '<tr><td class="contentcontent">';
-        if ($_GET['dip'] == 1) {
+        if (isset($_GET['dip']) && $_GET['dip'] == 1) {
             if ($user_class->luckydip == 1) {
                 if ($user_class->money >= 10000) {
                     $randnum = rand(0, 1000000);
