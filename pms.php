@@ -119,7 +119,9 @@ include 'header.php';
             $to_user = new User($to);
             $from = $user_class->id;
             $bomb = $_POST['bomb'];
-            $parent = ($_POST['parent'] != 0) ? $_POST['parent'] : floor(time() / (uniqid(rand(1, 20), true) + uniqid(rand(1, 200))) - rand(100, 1000));
+            $parent = $_POST['parent'] != 0
+                ? (int) $_POST['parent']
+                : (time() + rand(100, 999));
             $subject = str_replace(" ", "", $_POST['subject']);
             $subject = strip_tags($subject);
             if (empty($subject)) {
