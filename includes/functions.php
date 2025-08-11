@@ -2594,9 +2594,15 @@ function getUserPrestigeSkills($user_class)
     $db->execute();
     $row = $db->fetch_row(true);
 
+    if (get_class($user_class) === SlimUser::class) {
+        $user = new User($user_class->id);
+    } else {
+        $user = $user_class;
+    }
+
     if (isset($row['id'])) {
-        $row['prestige_unlocks_available'] = ($row['prestige'] * 1) - $row['unlock_points_spent'];
-        $row['prestige_boosts_available'] = ($row['prestige'] * 5) - $row['boosts_spent'];
+        $row['prestige_unlocks_available'] = ($user->prestige * 1) - $row['unlock_points_spent'];
+        $row['prestige_boosts_available'] = ($user->prestige * 5) - $row['boosts_spent'];
 
         return $row;
     } else {
