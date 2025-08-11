@@ -340,7 +340,8 @@ include 'header.php';
                         <label for="subject" class="col-sm-2 col-form-label"><b>Subject:</b></label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control custom-input" id="subject" name="subject"
-                                value="<?php echo (isset($_GET['reply']) ? $row['subject'] : ''); ?>" maxlength="75">
+                                value="<?php echo (isset($_GET['reply']) ? 'RE: ' . $row['subject'] : ''); ?>"
+                                maxlength="75">
                         </div>
                     </div>
                     <div class="row mb-3">
