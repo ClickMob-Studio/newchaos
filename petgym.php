@@ -8,7 +8,7 @@ include 'header.php';
         <?php
 
         $pet_class = new Pet($user_class->id);
-        if (!isset($pet_class)) {
+        if (!isset($pet_class) || !isset($pet_class->id)) {
             diefun("You don't have a pet");
         }
 

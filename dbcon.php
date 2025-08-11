@@ -1,8 +1,8 @@
 <?php
 
 require_once 'config.php';
-
-$db = new mysqli(Config::db()->host, Config::db()->username, Config::db()->password, Config::db()->database);
+$dbConfig = Config::db();
+$db = new mysqli($dbConfig->host, $dbConfig->username, $dbConfig->password, $dbConfig->database);
 if ($db->connect_error) {
     die("Connection failed: " . $db->connect_error);
 }
@@ -13,7 +13,7 @@ if (!$db->set_charset("utf8mb4")) {
 date_default_timezone_set('UTC');
 
 try {
-    $db = new PDO("mysql:host=" . Config::db()->host . ";dbname=" . Config::db()->database, Config::db()->username, Config::db()->password);
+    $db = new PDO("mysql:host=" . $dbConfig->host . ";dbname=" . $dbConfig->database, $dbConfig->username, $dbConfig->password);
     // Set PDO to throw exceptions on error
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     // Set default fetch mode to associative array
@@ -25,7 +25,7 @@ try {
 
 try {
     // Create a PDO instance
-    $pdo = new PDO("mysql:host=" . Config::db()->host . ";dbname=" . Config::db()->database, Config::db()->username, Config::db()->password);
+    $pdo = new PDO("mysql:host=" . $dbConfig->host . ";dbname=" . $dbConfig->database, $dbConfig->username, $dbConfig->password);
 
     // Set PDO to throw exceptions on error
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

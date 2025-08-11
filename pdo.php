@@ -2,7 +2,8 @@
 
 require_once 'config.php';
 
-$conn = new mysqli(Config::db()->host, Config::db()->username, Config::db()->password, Config::db()->database);
+$dbConfig = Config::db();
+$conn = new mysqli($dbConfig->host, $dbConfig->username, $dbConfig->password, $dbConfig->database);
 
 // Check connection
 if ($conn->connect_error) {

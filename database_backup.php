@@ -4,6 +4,8 @@ if ($_GET['key'] != 'cron94') {
 }
 
 require_once 'config.php';
+include_once 'dbcon.php';
+include_once 'database/pdo_class.php';
 
 // Backup directory
 $backupDir = '/home/chaoscit/backup';
@@ -25,13 +27,14 @@ $tempFile = tempnam(sys_get_temp_dir(), 'mysqldump');
 // Open the temporary file for writing
 $tempFileHandle = fopen($tempFile, 'w');
 
+$dbConfig = Config::db();
 // Write the command to get the structure only for the specified tables
 foreach ($structureOnlyTables as $table) {
-    fwrite($tempFileHandle, "mysqldump --opt -h " . Config::$db->host . " -u " . Config::$db->username . " -p" . Config::$db->password . " --no-data " . Config::$db->database . " $table >> $backupFile\n");
+    fwrite($tempFileHandle, "mysqldump --opt -h " . $dbConfig->host . " -u " . $dbConfig->username . " -p" . $dbConfig->password . " --no-data " . $dbConfig->database . " $table >> $backupFile\n");
 }
 
 // Write the command to get the data for all tables except the specified ones
-fwrite($tempFileHandle, "mysqldump --opt -h " . Config::$db->host . " -u " . Config::$db->username . " -p" . Config::$db->password . " --ignore-table=" . Config::$db->database . "." . implode(" --ignore-table=" . Config::$db->database . ".", $structureOnlyTables) . " " . Config::$db->database . " >> $backupFile\n");
+fwrite($tempFileHandle, "mysqldump --opt -h " . $dbConfig->host . " -u " . $dbConfig->username . " -p" . $dbConfig->password . " --ignore-table=" . $dbConfig->database . "." . implode(" --ignore-table=" . $dbConfig->database . ".", $structureOnlyTables) . " " . $dbConfig->database . " >> $backupFile\n");
 
 // Close the temporary file
 fclose($tempFileHandle);
