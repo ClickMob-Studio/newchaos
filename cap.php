@@ -55,6 +55,11 @@ for ($i = 0; $i <= 2; $i++) {
     );
     imagefilledpolygon($first, $points, $red);
 }
+
+if (!isset($_SESSION['cap'])) {
+    diefun("CAPTCHA not set");
+}
+
 imagestring($first, 4, rand(0, (int) ($f_x / 3)), rand(0, (int) ($f_y / 2.5)), $_SESSION['cap'], $twhite);
 imagecopyresized($second, $first, 0, 0, 0, 0, $s_x, $s_y, $f_x, $f_y);
 imagedestroy($first);
