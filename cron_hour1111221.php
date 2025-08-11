@@ -72,7 +72,7 @@ perform_query("UPDATE grpgusers SET `moth` = 0, `koth` = 0, `loth` = 0, `both` =
 perform_query("UPDATE grpgusers SET `searchdowntown` = 20 WHERE `searchdowntown` = 0");
 
 //Bases
-$db->query("SELECT * FROM grpgusers WHERE missionsactive == 1 ORDER BY `id` ASC");
+$db->query("SELECT * FROM grpgusers WHERE missionsactive = 1 ORDER BY `id` ASC");
 $results = $db->fetch_row();
 foreach ($results as $line) {
     if ($line['missionkills'] >= 35 && $line['missionmugs'] >= 10 && $line['missioncrimes'] >= 100 && $line['missionbusts'] >= 5) {
