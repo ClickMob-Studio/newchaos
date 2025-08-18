@@ -58,7 +58,7 @@ $currenttime = time();
         } else if (isset($_GET['cancel'])) {
             $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no' ORDER BY timestamp DESC LIMIT 1");
             $db->execute([$user_class->id]);
-            $q = $db->fetch_row();
+            $q = $db->fetch_row(true);
             if (!empty($q)) {
                 $mission = get_mission($q['mid']);
                 if (empty($mission)) {
