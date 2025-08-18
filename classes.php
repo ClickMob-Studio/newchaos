@@ -1311,7 +1311,17 @@ class Pet
         else
             return "<a href='petprofile.php?id=$this->userid'>" . $this->pname . "</a>";
     }
+
+    static function petName($userid, $coloredname, $pname)
+    {
+        $colors = explode("|", $coloredname);
+        if ($coloredname != "FFFFFF|FFFFFF")
+            return "<a href='petprofile.php?id=$userid'><b>" . text_gradient($colors[0], $colors[1], 1, $pname) . "</b></a>";
+        else
+            return "<a href='petprofile.php?id=$userid'>" . $pname . "</a>";
+    }
 }
+
 class formatGang
 {
     function __construct($id)
