@@ -9,7 +9,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include 'dbcon.php';
-include 'functions.php';
+include 'includes/functions.php';
 include 'database/pdo_class.php';
 
 $db->query("SELECT id FROM grpgusers WHERE (king != 0 OR queen != 0) AND lastactive < (UNIX_TIMESTAMP() - 86400)");
