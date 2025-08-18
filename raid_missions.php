@@ -158,9 +158,9 @@ include "header.php";
         <td>{$raids}</td>
 
     </tr>
-
-
 </div>";
+
+            echo "<div><a href='?cancel=yes' style='font-weight:800;color:red'>Cancel Current Mission</a></div><br />";
         } else {
             $currenttime = $now;
             foreach ($q2 as $v) {
