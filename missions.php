@@ -72,12 +72,11 @@ $currenttime = time();
                 echo "You have canceled your current mission, you will be able to start another mission in 10 minutes";
 
                 $db->query("INSERT INTO missionlog (`text`, `timestamp`) VALUES(?, unix_timestamp())");
-                $db->execute(["canceled a {$mm['name']},{$user_class->id}"]);
+                $db->execute(["canceled a {$mission['name']},{$user_class->id}"]);
             }
         }
 
         $missions = get_missions_by_category(0);
-
         $msgg = (isset($msgg)) ? $msgg : "";
         if (!empty($msgg))
             print "<div class='floaty1'>" . $msgg . "</div>";
