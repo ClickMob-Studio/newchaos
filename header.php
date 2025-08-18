@@ -965,6 +965,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
         if (!empty($usermission)) {
             $miss = get_mission($usermission['mid']);
             if (!empty($miss)) {
+                $showmission = true;
                 foreach ($metrics as $metric) {
                     $userVal = $usermission[$metric] ?? 0;
                     $missVal = $miss[$metric] ?? 0;
