@@ -166,7 +166,6 @@ include 'header.php';
                         $subject,
                         $msgtext
                     ));
-                    $db->execute(array($to));
 
                     echo Message("Message successfully sent to $to_user->formattedname.");
                 }
