@@ -162,9 +162,8 @@ $currenttime = time();
         <td>{$busts}</td>
 
     </tr>
-
-    <div><a href='?cancel' style='font-weight:800;color:red'>Cancel Current Mission</a></div>
-</div>";
+</div>
+<div><a href='?cancel' style='font-weight:800;color:red'>Cancel Current Mission</a></div>";
         } else {
             $currenttime = time();
             foreach ($missions as $v) {
