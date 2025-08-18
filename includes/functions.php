@@ -2206,41 +2206,79 @@ function macroTokenCheck($user_class)
 
 function getItemTempUse($userId)
 {
-    global $db;
+    global $db, $cache;
 
-    $db->query("SELECT * FROM item_temp_use WHERE user_id = " . $userId . " LIMIT 1");
+    $cacheKey = "item_temp_use:$userId";
+    $cached = $cache->get($cacheKey);
+    if ($cached !== false) {
+        return json_decode($cached, true);
+    }
+
+    $db->query("SELECT * FROM item_temp_use WHERE user_id = " . intval($userId) . " LIMIT 1");
     $db->execute();
     $r = $db->fetch_row();
 
     if (isset($r[0]['id'])) {
-        return $r[0];
+        $row = $r[0];
     } else {
-        $db->query("INSERT INTO item_temp_use (user_id) VALUES (" . $userId . ")");
+        $db->query("INSERT INTO item_temp_use (user_id) VALUES (" . intval($userId) . ")");
         $db->execute();
-        $r = getItemTempUse($userId);
-
-        return $r;
+        $row = getItemTempUse($userId);
     }
+
+    $cache->setEx($cacheKey, 360, json_encode($row));
+
+    return $row;
 }
 
 function addItemTempUse($user_class, $field, $qty = 1)
 {
-    global $db;
+    global $db, $cache;
 
     $itemTempUse = getItemTempUse($user_class->id);
+    $cacheKey = "item_temp_use:{$user_class->id}";
+    $qty = (int) $qty;
 
     if ($field == 'maze_boost' || $field == 'easter_bead' || $field == 'crime_potion_time' || $field == 'crime_booster_time' || $field == 'nerve_vial_time' || $field == 'gang_double_exp_time' || $field == 'gym_10_multiplier_time' || $field == 'crime_15_multiplier_time' || $field == 'gym_protein_bar_time' || $field == 'gym_super_pills_time' || $field == 'ghost_vacuum_time' || $field == 'trick_or_treat_pass_time' || $field == 'double_gym_time' || $field == 'love_potions_time') {
-        $db->query("UPDATE item_temp_use SET {$field} = {$qty} WHERE id = " . $itemTempUse['id']);
+        $db->query("UPDATE item_temp_use SET {$field} = {$qty} WHERE id = " . (int) $itemTempUse['id']);
         $db->execute();
+
+        $cache->hSet($cacheKey, $field, $qty);
     } else {
-        $db->query("UPDATE item_temp_use SET {$field} = {$field} + {$qty} WHERE id = " . $itemTempUse['id']);
+        $db->query("UPDATE item_temp_use SET {$field} = {$field} + {$qty} WHERE id = " . (int) $itemTempUse['id']);
         $db->execute();
+
+        try {
+            $cache->hIncrBy($cacheKey, $field, $qty);
+        } catch (Throwable $e) {
+            $cache->del($cacheKey);
+        }
     }
 }
 
 function removeItemTempUse($userId, $field, $qty = 1)
 {
-    perform_query("UPDATE item_temp_use SET `$field` = `$field` - ? WHERE `$field` > 0 AND user_id = ?", [$qty, $userId]);
+    global $cache;
+
+    $cacheKey = "item_temp_use:$userId";
+    $qty = (int) $qty;
+    $userId = (int) $userId;
+
+    perform_query(
+        "UPDATE item_temp_use 
+         SET `$field` = GREATEST(`$field` - ?, 0) 
+         WHERE user_id = ?",
+        [$qty, $userId]
+    );
+
+    try {
+        $newVal = $cache->hIncrBy($cacheKey, $field, -$qty);
+        if ($newVal < 0) {
+            $cache->hSet($cacheKey, $field, 0);
+        }
+    } catch (Throwable $e) {
+        $cache->del($cacheKey);
+    }
 }
 
 function getUserBaStats($user_class)

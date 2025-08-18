@@ -33,6 +33,16 @@ class Cache
         return $this->enabled ? $this->redis->setEx($key, $ttl, $value) : false;
     }
 
+    public function hSet(string $key, string $field, string $value): bool
+    {
+        return $this->enabled ? $this->redis->hSet($key, $field, $value) : false;
+    }
+
+    public function hIncrBy(string $key, string $field, int $value): int
+    {
+        return $this->enabled ? $this->redis->hIncrBy($key, $field, $value) : 0;
+    }
+
     public function del(string $key): bool
     {
         return $this->enabled ? $this->redis->del($key) : false;
