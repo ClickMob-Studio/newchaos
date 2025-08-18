@@ -73,10 +73,12 @@ include 'header.php';
                 <td><a href='pms.php?report={$row['id']}'>Report</a></td>
             </tr>
         </table>";
-                $db->query("UPDATE pms SET viewed = 2 WHERE id = ?");
+                $db->query("UPDATE pms SET viewed = 2 WHERE id = ? AND viewed <> 2");
                 $db->execute([$row['id']]);
-
-                decrease_pm_count($user_class->id);
+                $didUpdate = $db->affected_rows();
+                if ($didUpdate > 0) {
+                    decrease_pm_count($user_class->id);
+                }
 
                 print "<table id='newtables' style='width:100%;'>";
                 $db->query("SELECT * FROM pms WHERE id != ? AND `to` IN (?, ?) AND `from` IN (?, ?) AND `to` <> `from` ORDER BY timesent DESC LIMIT 10");

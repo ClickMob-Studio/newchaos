@@ -146,12 +146,13 @@ class database
 			exit('<p><strong>FETCH OBJECT ERROR</strong></p>' . $e->getMessage());
 		}
 	}
-	public function affected_rows()
+	public function affected_rows(): int
 	{
 		try {
-			return $this->stmt->rowCount();
+			return $this->stmt ? (int) $this->stmt->rowCount() : 0;
 		} catch (PDOException $e) {
-			exit('<p><strong>AFFECTED ROWS ERROR</strong></p>' . $e->getMessage());
+			error_log('AFFECTED ROWS ERROR: ' . $e->getMessage());
+			return 0;
 		}
 	}
 	public function num_rows()
