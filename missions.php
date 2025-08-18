@@ -39,11 +39,11 @@ $currenttime = time();
                     $db->query("INSERT INTO missions (`userid`, `timestamp`, `mid`) VALUES(?, ?, ?)");
                     $db->execute([$user_class->id, $currenttime, $do]);
 
-                    $msg = '[x] started a ' . $mm['name'] . ', ' . $user_class->id;
+                    $msg = '[x] started a ' . $mm['name'] . ',' . $user_class->id;
                     $db->query("INSERT INTO missionlog (`text`, `timestamp`) VALUES(?, unix_timestamp())");
                     $db->execute([$msg]);
                 }
-            } else if ($r['completed'] == "no")
+            } else if (isset($r['completed']) && $r['completed'] == "no")
                 $msgg = "You are currently doing a mission!";
             else {
                 $msgg = "You have successfully started a mission!";
@@ -51,8 +51,9 @@ $currenttime = time();
                 $db->query("INSERT INTO missions (`userid`, `timestamp`, `mid`) VALUES(?, ?, ?)");
                 $db->execute([$user_class->id, $currenttime, $do]);
 
-                $db->query("INSERT INTO missionlog (`id`, `text`, `timestamp`) VALUES('[x] started a ?, ?', unix_timestamp())");
-                $db->execute([$mm['name'], $user_class->id]);
+                $message = "[x] started a {$mm['name']},{$user_class->id}";
+                $db->query("INSERT INTO missionlog (`text`, `timestamp`) VALUES(?, unix_timestamp())");
+                $db->execute([$message]);
             }
         } else if (isset($_GET['cancel'])) {
             $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no' ORDER BY timestamp DESC LIMIT 1");
@@ -70,8 +71,8 @@ $currenttime = time();
 
                 echo "You have canceled your current mission, you will be able to start another mission in 10 minutes";
 
-                $db->query("INSERT INTO missionlog (`id`, `text`, `timestamp`) VALUES(?, ?, unix_timestamp())");
-                $db->execute([$user_class->id, "canceled a {$mm['name']}"]);
+                $db->query("INSERT INTO missionlog (`text`, `timestamp`) VALUES(?, unix_timestamp())");
+                $db->execute(["canceled a {$mm['name']},{$user_class->id}"]);
             }
         }
 
