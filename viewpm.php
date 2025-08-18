@@ -2,65 +2,61 @@
 include 'header.php';
 ?>
 <div class='box_top'>View Pm</div>
-						<div class='box_middle'>
-							<div class='pad'>
-                                <?php
-  $db->query("UPDATE grpgusers SET diamonds = 0 WHERE id = ?");
-$db->execute(array(
-    $user_class->id
-));
-$db->query("SELECT * FROM bans WHERE type = 'mail' AND id = ?");
-$db->execute(array(
-    $user_class->id
-));
-      
-$r = $db->fetch_row(true);
-if (!empty($r))
-    diefun('&nbsp;You have been mail banned for ' . prettynum($r['days']) . ' days.');
-$db->query("SELECT * FROM pms WHERE id = ?");
-$db->execute(array(
-    $_GET['id']
-));
+<div class='box_middle'>
+    <div class='pad'>
+        <?php
+        $db->query("SELECT * FROM bans WHERE type = 'mail' AND id = ?");
+        $db->execute(array(
+            $user_class->id
+        ));
+
+        $r = $db->fetch_row(true);
+        if (!empty($r))
+            diefun('&nbsp;You have been mail banned for ' . prettynum($r['days']) . ' days.');
+        $db->query("SELECT * FROM pms WHERE id = ?");
+        $db->execute(array(
+            $_GET['id']
+        ));
 
 
-$row = $db->fetch_row(true);
-if ($row['bomb'] == 1 && $row['bombed'] == 0) {
-    $user_class->hospital += 1200;
-    $db->query("UPDATE grpgusers SET hospital = ?, hhow = ?, hwho = ? WHERE id = ?");
-    $db->execute(array(
-        $user_class->hospital,
-        'mbomb',
-        $row['from'],
-        $user_class->id
-    ));
-    $db->query("UPDATE pms SET bombed = 1 WHERE id = ?");
-    $db->execute(array(
-        $row['id']
-    ));
-    echo Message("<span style='color:red;'>You have been hit by a mail bomb and have been sent to hospital for 20 minutes.</span>");
-} else if ($row['bomb'] == 2 && $row['bombed'] == 0) {
-    $user_class->hospital += 2400;
-    $db->query("UPDATE grpgusers SET hospital = ?, hhow = ?, hwho = ? WHERE id = ?");
-    $db->execute(array(
-        $user_class->hospital,
-        'mbomb',
-        $row['from'],
-        $user_class->id
-    ));
-    $db->query("UPDATE pms SET bombed = 1 WHERE id = ?");
-    $db->execute(array(
-        $row['id']
-    ));
-    echo Message("<span style='color:red;'>You have been hit by a mail bomb and have been sent to hospital for 40 minutes.</span>");
-}
-print mailHeader() . "
+        $row = $db->fetch_row(true);
+        if ($row['bomb'] == 1 && $row['bombed'] == 0) {
+            $user_class->hospital += 1200;
+            $db->query("UPDATE grpgusers SET hospital = ?, hhow = ?, hwho = ? WHERE id = ?");
+            $db->execute(array(
+                $user_class->hospital,
+                'mbomb',
+                $row['from'],
+                $user_class->id
+            ));
+            $db->query("UPDATE pms SET bombed = 1 WHERE id = ?");
+            $db->execute(array(
+                $row['id']
+            ));
+            echo Message("<span style='color:red;'>You have been hit by a mail bomb and have been sent to hospital for 20 minutes.</span>");
+        } else if ($row['bomb'] == 2 && $row['bombed'] == 0) {
+            $user_class->hospital += 2400;
+            $db->query("UPDATE grpgusers SET hospital = ?, hhow = ?, hwho = ? WHERE id = ?");
+            $db->execute(array(
+                $user_class->hospital,
+                'mbomb',
+                $row['from'],
+                $user_class->id
+            ));
+            $db->query("UPDATE pms SET bombed = 1 WHERE id = ?");
+            $db->execute(array(
+                $row['id']
+            ));
+            echo Message("<span style='color:red;'>You have been hit by a mail bomb and have been sent to hospital for 40 minutes.</span>");
+        }
+        print mailHeader() . "
         <table id='newtables' style='width:100%;table-layout:fixed;'>";
-if (!empty($_GET['id'])) {
-    if ($row['to'] == $user_class->id) {
-        $string = strip_tags($row['msgtext']);
-        $output = BBCodeParse($string);
-        $name = ($row['from'] == 0000) ? "<b><i>Auto Mail</i></b>" : formatName($row['from']);
-        echo "
+        if (!empty($_GET['id'])) {
+            if ($row['to'] == $user_class->id) {
+                $string = strip_tags($row['msgtext']);
+                $output = BBCodeParse($string);
+                $name = ($row['from'] == 0000) ? "<b><i>Auto Mail</i></b>" : formatName($row['from']);
+                echo "
             <tr>
                 <th>" . $name . "</th>
                 <th>{$row['subject']}</th>
@@ -77,43 +73,44 @@ if (!empty($_GET['id'])) {
                 <td><a href='pms.php?report={$row['id']}'>Report</a></td>
             </tr>
         </table>";
-        $db->query("UPDATE pms SET viewed = 2 WHERE id = ?");
-        $db->execute(array(
-            $row['id']
-        ));
-        print"<table id='newtables' style='width:100%;'>";
-        $db->query("SELECT * FROM pms WHERE id != ? AND `to` IN (?, ?) AND `from` IN (?, ?) AND `to` <> `from` ORDER BY timesent DESC LIMIT 10");
-        $db->execute(array(
-            $_GET['id'],
-            $user_class->id,
-            $row['from'],
-            $user_class->id,
-            $row['from']
-        ));
-        $rows = $db->fetch_row();
-        if(count($rows) > 0){
-            print"
+                $db->query("UPDATE pms SET viewed = 2 WHERE id = ?");
+                $db->execute([$row['id']]);
+
+                decrease_pm_count($user_class->id);
+
+                print "<table id='newtables' style='width:100%;'>";
+                $db->query("SELECT * FROM pms WHERE id != ? AND `to` IN (?, ?) AND `from` IN (?, ?) AND `to` <> `from` ORDER BY timesent DESC LIMIT 10");
+                $db->execute(array(
+                    $_GET['id'],
+                    $user_class->id,
+                    $row['from'],
+                    $user_class->id,
+                    $row['from']
+                ));
+                $rows = $db->fetch_row();
+                if (count($rows) > 0) {
+                    print "
                 <tr>
                     <th colspan='6' style='background:none;border:none;'><br /></th>
                 </tr>
                 <tr>
                     <th colspan='6'>Mail Log</th>
                 </tr>";
-            foreach($rows as $row)
-                echo"
+                    foreach ($rows as $row)
+                        echo "
                 <tr>
-                    <td style='width:20%;'>",($row['from'] == $user_class->id) ? $user_class->formattedname : $name,"</td>
-                    <td style='width:70%;'>".BBCodeParse(strip_tags($row['msgtext']))."</td>
+                    <td style='width:20%;'>", ($row['from'] == $user_class->id) ? $user_class->formattedname : $name, "</td>
+                    <td style='width:70%;'>" . BBCodeParse(strip_tags($row['msgtext'])) . "</td>
                 </tr>";
-                print"
+                    print "
                     </table>
                  </td>
             </tr>";
+                }
+            }
         }
-    }
-}
-?>
-  </table>
-<?php
-include 'footer.php';
-?>
+        ?>
+        </table>
+        <?php
+        include 'footer.php';
+        ?>

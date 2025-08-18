@@ -4425,3 +4425,38 @@ function get_maze_options()
 
     return $options;
 }
+
+function get_pm_count($uid)
+{
+    global $db, $cache;
+
+    $cacheKey = "pm_count_" . $uid;
+    if ($cache->exists($cacheKey)) {
+        return (int) $cache->get($cacheKey);
+    }
+
+    $db->query("SELECT count(*) FROM pms WHERE `to` = ? AND viewed = 1");
+    $db->execute([$uid]);
+    $count = (int) $db->fetch_row()[0];
+    $cache->setEx($cacheKey, 3600, $count);
+
+    return $count;
+}
+
+function increase_pm_count($uid)
+{
+    global $cache;
+
+    if ($cache->exists("pm_count_" . $uid)) {
+        $cache->incr("pm_count_" . $uid);
+    }
+}
+
+function decrease_pm_count($uid)
+{
+    global $cache;
+
+    if ($cache->exists("pm_count_" . $uid)) {
+        $cache->decr("pm_count_" . $uid);
+    }
+}

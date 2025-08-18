@@ -5,10 +5,6 @@ include 'header.php';
 <div class='box_middle'>
     <div class='pad'>
         <?php
-        $db->query("UPDATE grpgusers SET diamonds = 0 WHERE id = ?");
-        $db->execute(array(
-            $user_class->id
-        ));
         $db->query("SELECT * FROM bans WHERE type = 'mail' AND id = ?");
         $db->execute(array(
             $user_class->id
@@ -18,11 +14,9 @@ include 'header.php';
             diefun('&nbsp;You have been mail banned for ' . prettynum($row['days']) . ' days.');
         }
 
-
         if ($user_class->fbitime > 0) {
             diefun("You can't communicate if you're in FBI Jail!");
         }
-
 
         if (isset($_GET['delete'])) {
             security($_GET['delete']);
@@ -162,6 +156,9 @@ include 'header.php';
                         $msgtext,
                         $bomb
                     ));
+
+                    increase_pm_count($to);
+
                     $db->query("INSERT INTO maillog (`to`, `from`, timesent, subject, msgtext) VALUES (?, ?, unix_timestamp(), ?, ?)");
                     $db->execute(array(
                         $to,
@@ -169,7 +166,6 @@ include 'header.php';
                         $subject,
                         $msgtext
                     ));
-                    $db->query("UPDATE grpgusers SET diamonds = 1 WHERE id = ?");
                     $db->execute(array($to));
 
                     echo Message("Message successfully sent to $to_user->formattedname.");
@@ -310,9 +306,7 @@ include 'header.php';
                     background: #000;
                     color: white;
                     display: inherit;
-                    /* Maintains Bootstrap display settings */
                     width: 100%;
-                    /* Ensures full width */
                 }
             </style>
             <div class="container mt-3">

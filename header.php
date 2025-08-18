@@ -309,9 +309,15 @@ $db->execute();
 $hosp = $db->fetch_single();
 
 // Event count
-$db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
-$db->execute(array($user_class->id));
-$ev = $db->fetch_single();
+$ev = $cache->get("eveCount_" . $user_class->id);
+if (empty($ev)) {
+    $db->query("SELECT count(viewed) FROM events WHERE `to` = ? AND viewed = 1");
+    $db->execute(array(
+        $user_class->id
+    ));
+    $ev = $db->fetch_single();
+    $cache->setEx("eveCount_" . $user_class->id, 3, $ev);
+}
 
 // Jail count
 $db->query("SELECT COUNT(id) FROM grpgusers WHERE jail > 0");
@@ -340,9 +346,7 @@ function callback($buffer)
         $cache->setEx("pHosCount", 15, $pHosCount);
     }
 
-    $db->query("SELECT count(viewed) FROM pms WHERE `to` = ? AND viewed = 1");
-    $db->execute(array($user_class->id));
-    $mailCount = $db->fetch_single();
+    $mailCount = get_pm_count($user_class->id);
 
     $jailCount = $cache->get("jailCount");
     if (empty($jailCount)) {
