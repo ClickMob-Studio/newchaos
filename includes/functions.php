@@ -688,11 +688,11 @@ function howlongago($ts, $stop = 'none')
             floor((floor($ts / 60)) % 60) . "m " .
             floor($ts % 60) . "s";
     elseif ($ts < 2628000) // ~30.5 days
-        return floor($ts / 604800) . " weeks ago";
+        return floor($ts / 604800) . " weeks";
     elseif ($ts < 31536000)
-        return floor($ts / 2628000) . " months ago";
+        return floor($ts / 2628000) . " months";
     else
-        return floor($ts / 31536000) . " years ago";
+        return floor($ts / 31536000) . " years";
 }
 
 function howlongleft($ts)
