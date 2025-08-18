@@ -9,9 +9,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include 'dbcon.php';
+include 'functions.php';
 include 'database/pdo_class.php';
 
-// Dethrone kings and queens who have been inactive for more than 24 hours
 $db->query("SELECT id FROM grpgusers WHERE (king != 0 OR queen != 0) AND lastactive < (UNIX_TIMESTAMP() - 86400)");
 $db->execute();
 $inactiveUsers = $db->fetch_row(true);

@@ -57,7 +57,7 @@ if (!empty($activeMissions)) {
             $gangMembersResult = $db->fetch_row();
             foreach ($gangMembersResult as $member) {
                 $userId = $member['id'];
-                Send_event($userId, "Congratulations! " . $successMessage);
+                Send_Event($userId, "Congratulations! " . $successMessage);
             }
 
             // Mark the mission as completed
@@ -71,7 +71,7 @@ if (!empty($activeMissions)) {
             $gangMembersResult = $db->fetch_row();
             foreach ($gangMembersResult as $member) {
                 $userId = $member['id'];
-                Send_event($userId, $failureMessage);
+                Send_Event($userId, $failureMessage);
             }
 
             // Mark the mission as completed
@@ -172,16 +172,16 @@ if (isset($lastGiveawayRow)) {
             $winners = array_slice($onlineUsers, 0, 3);
 
             // Reward the first user with points
-            perform_query("UPDATE `grpgusers` SET `points` = `points` + 1000 WHERE `id` = ?", [$winners[0]]);
-            Send_event($winners[0], "You have been randomly selected this hour! You won 1,000 Points!");
+            perform_query("UPDATE `grpgusers` SET `points` = `points` + 1000 WHERE `id` = ?", [$winners[0]['id']]);
+            Send_Event($winners[0]['id'], "You have been randomly selected this hour! You won 1,000 Points!");
 
             // Reward the second user with money
-            perform_query("UPDATE `grpgusers` SET `money` = `money` + 500000 WHERE `id` = ?", [$winners[1]]);
-            Send_event($winners[1], "You have been randomly selected this hour! You won $500,000!");
+            perform_query("UPDATE `grpgusers` SET `money` = `money` + 500000 WHERE `id` = ?", [$winners[1]['id']]);
+            Send_Event($winners[1]['id'], "You have been randomly selected this hour! You won $500,000!");
 
             // Reward the third user with Tokens
-            perform_query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + 10 WHERE `id` = ?", [$winners[2]]);
-            Send_event($winners[2], "You have been randomly selected this hour! You won 10 Raid Tokens!");
+            perform_query("UPDATE `grpgusers` SET `raidtokens` = `raidtokens` + 10 WHERE `id` = ?", [$winners[2]['id']]);
+            Send_Event($winners[2]['id'], "You have been randomly selected this hour! You won 10 Raid Tokens!");
 
             // Update the last giveaway time in the settings
             perform_query("UPDATE `settings` SET `value` = DATE_ADD(NOW(), INTERVAL 5 HOUR) WHERE `key` = 'last_giveaway_time'");
@@ -512,11 +512,8 @@ foreach ($raids as $raid) {
 
 
 // RM Cities
-$rm_cities = [3, 6, 8, 10, 23];
-$rm_cities_sql = implode(',', $rm_cities);
 $default_city = 1;
-
-$db->query("UPDATE grpgusers SET city = $default_city WHERE city IN ('$rm_cities_sql') AND rmdays = 0");
+$db->query("UPDATE grpgusers SET city = $default_city WHERE city IN (3, 6, 8, 10, 23) AND rmdays = 0");
 $db->execute();
 
 $db->query("UPDATE grpgusers SET nerve = 1 WHERE nerve < 0");
@@ -602,12 +599,9 @@ if (time() <= 1703577599) {
     foreach ($_rows as $_row) {
         Give_Item(198, $_row['id'], 1);
 
-        Send_event($_row['id'], "You have been awarded a Snowball! Throw these at other players!");
+        Send_Event($_row['id'], "You have been awarded a Snowball! Throw these at other players!");
         $db->query("UPDATE grpgusers SET epoints = 0 WHERE id = ?");
         $db->execute(array(
-
-
-
             $_row['id']
         ));
 
@@ -622,7 +616,7 @@ if ($user_class->id >= 999) {
     $_rows = $db->fetch_row();
     foreach ($_rows as $_row) {
         Give_Item(198, $_row['id'], 1);
-        Send_event($_row['id'], "You have been awarded a Snowball! Throw these at other players!");
+        Send_Event($_row['id'], "You have been awarded a Snowball! Throw these at other players!");
         $db->query("UPDATE grpgusers SET epoints = 0 WHERE id = ?");
         $db->execute(array(
             $_row['id']
@@ -705,14 +699,15 @@ $db->execute();
 $db->query("UPDATE grpgusers SET nerref = 0, nerreftime = 0 WHERE nerreftime < unix_timestamp() - 86400");
 $db->execute();
 $db->query("UPDATE grpgusers SET ngyref = 0, ngyreftime = 0 WHERE ngyreftime < unix_timestamp() - 86400");
+$db->execute();
 $db->query("SELECT userid, mid FROM missions m JOIN mission h ON mid = h.id WHERE completed = 'no' AND timestamp + time < unix_timestamp()");
 $db->execute();
 $rows = $db->fetch_row();
 $db->query("UPDATE missions INNER JOIN mission h ON mid = h.id SET completed = 'failed' WHERE completed = 'no' AND timestamp + time < unix_timestamp()");
 $db->execute();
 foreach ($rows as $row) {
-    Send_event($www['userid'], "You failed your mission!");
-    switch ($www['mid']) {
+    Send_Event($row['userid'], "You failed your mission!");
+    switch ($row['mid']) {
         case 1:
             $mname = "Starter Mission";
             break;
@@ -733,7 +728,7 @@ foreach ($rows as $row) {
     }
     $db->query("INSERT INTO missionlog VALUES ('', ?, unix_timestamp())");
     $db->execute(array(
-        "[x] failed their $mname,{$www['userid']}"
+        "[x] failed their $mname,{$row['userid']}"
     ));
 }
 // srand(time()); // Not necessary for modern PHP versions as the random number generator is automatically seeded.
