@@ -164,7 +164,7 @@ $currenttime = time();
     </tr>
 </div>";
 
-            echo "<br /><div><a href='?cancel' style='font-weight:800;color:red'>Cancel Current Mission</a></div><br />";
+            echo "<br /><div><a href='?cancel=yes' style='font-weight:800;color:red'>Cancel Current Mission</a></div><br />";
         } else {
             $currenttime = time();
             foreach ($missions as $v) {
