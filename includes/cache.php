@@ -28,6 +28,11 @@ class Cache
         return $this->enabled ? $this->redis->get($key) : false;
     }
 
+    public function set(string $key, string $value): bool
+    {
+        return $this->enabled ? $this->redis->set($key, $value) : false;
+    }
+
     public function setEx(string $key, int $ttl, string $value): bool
     {
         return $this->enabled ? $this->redis->setEx($key, $ttl, $value) : false;

@@ -159,7 +159,7 @@ include 'header.php';
 
                     increase_pm_count($to);
 
-                    $db->query("INSERT INTO maillog (`to`, `from`, timesent, subject, msgtext) VALUES (?, ?, unix_timestamp(), ?, ?)");
+                    $db->query("INSERT INTO maillog (`to`, `from`, `timesent`, `subject`, `msgtext`) VALUES (?, ?, unix_timestamp(), ?, ?)");
                     $db->execute(array(
                         $to,
                         $from,
