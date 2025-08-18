@@ -189,7 +189,7 @@ if (isset($lastGiveawayRow)) {
     }
 }
 
-$db->query("SELECT ar.*, b.name AS boss_name, b.stat_limit, b.hp AS boss_hp FROM active_raids ar JOIN bosses b ON ar.boss_id = b.id WHERE TIMESTAMPDIFF(SECOND, NOW(), DATE_ADD(ar.summoned_at, INTERVAL 15 MINUTE)) <= 0 AND ar.completed = 0");
+$db->query("SELECT ar.*, b.name AS boss_name, b.stat_limit, b.hp AS boss_hp FROM active_raids ar JOIN bosses b ON ar.boss_id = b.id WHERE ar.summoned_at <= NOW() - INTERVAL 15 MINUTE AND ar.completed = 0");
 $db->execute();
 $raids = $db->fetch_row();
 
