@@ -4457,6 +4457,9 @@ function decrease_pm_count($uid)
     global $cache;
 
     if ($cache->exists("pm_count_" . $uid)) {
-        $cache->decr("pm_count_" . $uid);
+        $new = $cache->decr("pm_count_" . $uid);
+        if ($new < 0) {
+            $cache->set("pm_count_" . $uid, 0);
+        }
     }
 }
