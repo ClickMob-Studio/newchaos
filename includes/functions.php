@@ -1163,21 +1163,31 @@ function contribute_mission($update, $howmany = 1)
     return 1;
 }
 
-function bloodbath($att, $id, $amnt = 1)
+function bloodbath($att, $id, $amnt = 1, $user = null)
 {
     global $db, $user_class;
 
     $db->query("INSERT INTO bbusers (userid, $att) VALUES (?, ?) ON DUPLICATE KEY UPDATE $att = $att + VALUES($att)");
     $db->execute([$id, $amnt]);
 
-    $gangid = $user_class->gang;
+    if ($att == 'crimes') {
+        if ($user_class->gang) {
+            $gangId = $user_class->gang;
+        } else if (isset($user) && isset($user->gang)) {
+            $gangId = $user->gang;
+        } else {
+            $db->query("SELECT gang FROM grpgusers WHERE id = ?");
+            $db->execute([$id]);
+            $gangId = $db->fetch_single();
+        }
 
-    if ($att == 'crimes' && $gangid > 0) {
-        $db->query("UPDATE gangs SET dailyCrimes = dailyCrimes + ? WHERE id = ?");
-        $db->execute(array(
-            $amnt,
-            $gangid
-        ));
+        if (isset($gangId) && $gangId > 0) {
+            $db->query("UPDATE gangs SET dailyCrimes = dailyCrimes + ? WHERE id = ?");
+            $db->execute(array(
+                $amnt,
+                $gangId
+            ));
+        }
     }
 }
 function emotes()

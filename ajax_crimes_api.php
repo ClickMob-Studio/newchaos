@@ -289,7 +289,7 @@ try {
                 newmissions($which, $crime_multiplier);
                 contribute_mission('c', $crime_multiplier);
                 gangContest(array('crimes' => $crime_multiplier, 'exp' => $exp));
-                bloodbath('crimes', $user_class->id, $bbnerve / $user_class->level, $crime_multiplier);
+                bloodbath('crimes', $user_class->id, $bbnerve / $user_class->level, $user_class);
 
                 $userPrestigeSkills = getUserPrestigeSkills($user_class);
                 if ($userPrestigeSkills['crime_cash_unlock'] > 0) {
