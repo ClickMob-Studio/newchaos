@@ -4,6 +4,10 @@ require_once 'includes/cache.php';
 
 include 'header.php';
 
+if ($user_class->admin == 1) {
+    phpinfo();
+}
+
 $db->query("UPDATE grpgusers SET crimes = 'newcrimes', lastactive = unix_timestamp() WHERE id = ?");
 $db->execute(array(
     $user_class->id
