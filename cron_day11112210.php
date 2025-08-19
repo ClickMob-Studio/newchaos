@@ -1,6 +1,6 @@
 <?php
 
-if($_GET['key'] != 'cron94'){
+if ($_GET['key'] != 'cron94') {
   die();
 }
 include_once 'dbcon.php';
@@ -27,9 +27,9 @@ mysql_query("DELETE FROM votes WHERE 1");
 //$query = mysql_query("SELECT count(id) FROM lottery_winners WHERE `type`//='Money'") or die(mysql_error());
 //$get_count = mysql_result($query);
 //if ($get_count >= 30) {
-  //  $query = mysql_query("SELECT min(id) FROM lottery_winners WHERE `type`//='Money'") or die(mysql_error());
- //   $get = mysql_result($query);
-   // mysql_query("DELETE FROM lottery_winners WHERE id='$get'") or die//(mysql_error());
+//  $query = mysql_query("SELECT min(id) FROM lottery_winners WHERE `type`//='Money'") or die(mysql_error());
+//   $get = mysql_result($query);
+// mysql_query("DELETE FROM lottery_winners WHERE id='$get'") or die//(mysql_error());
 //}
 $clock = date("d M H:i:s");
 //mysql_query("INSERT INTO lottery_winners (userid, amount, `date`, `type`) //VALUES ('$lottery_user->id', '$amountlotto', '$clock', 'Money') ") or die//(mysql_error());
@@ -41,23 +41,23 @@ $clock = date("d M H:i:s");
 //$poffset = $poffset_row['offset'];
 //$presult = mysql_query(" SELECT * FROM `plottery` LIMIT $poffset, 1 ") or die//(mysql_error());
 //if (mysql_num_rows($presult)) {
- //   $worked = mysql_fetch_assoc($presult);
-   // $pwinner = $worked['userid'];
+//   $worked = mysql_fetch_assoc($presult);
+// $pwinner = $worked['userid'];
 //    $plottery_user = new User($worked['userid']);
-  //  $newpoints = $plottery_user->points + $amountplotto;
+//  $newpoints = $plottery_user->points + $amountplotto;
 //    $pointsss = Points;
-  //  Send_Event($plottery_user->id, "Congratulations, You won the points lottery of " . $amountplotto . $pointsss);
-   // CheckForAward($lottery_user->id, WIN_LOTTERY_POINTS, $player->pointlottery + 1);
-    //$result2 = mysql_query("UPDATE `grpgusers` SET `points` = '" . $newpoints . "', `point_lot_wins` = `point_lot_wins` + 1 WHERE `id` = '" . $plottery_user->id . "'") or die(mysql_error());
+//  Send_Event($plottery_user->id, "Congratulations, You won the points lottery of " . $amountplotto . $pointsss);
+// CheckForAward($lottery_user->id, WIN_LOTTERY_POINTS, $player->pointlottery + 1);
+//$result2 = mysql_query("UPDATE `grpgusers` SET `points` = '" . $newpoints . "', `point_lot_wins` = `point_lot_wins` + 1 WHERE `id` = '" . $plottery_user->id . "'") or die(mysql_error());
 //    $result2 = mysql_query("TRUNCATE TABLE `plottery`") or die(mysql_error());
 //}
 //Log Lottery
 //$query = mysql_query("SELECT count(id) FROM lottery_winners WHERE `type`='Points'") or die(mysql_error());
 //$get_count = mysql_result($query);
 //if ($get_count >= 30) {
-  //  $query = mysql_query("SELECT min(id) FROM lottery_winners WHERE `type`//='Points'") or die(mysql_error());
+//  $query = mysql_query("SELECT min(id) FROM lottery_winners WHERE `type`//='Points'") or die(mysql_error());
 //    $get = mysql_result($query);
-  //  mysql_query("DELETE FROM lottery_winners WHERE id='$get'") or die//(mysql_error());
+//  mysql_query("DELETE FROM lottery_winners WHERE id='$get'") or die//(mysql_error());
 //}
 $clock = date("d M H:i:s");
 //mysql_query("INSERT INTO lottery_winners (userid, amount, `date`, `type`) //VALUES ('$plottery_user->id', '$amountplotto', '$clock', 'Points') ") or //die(mysql_error());
@@ -71,27 +71,27 @@ $dailyRows = $db->fetch_row();
 
 $i = 1;
 foreach ($dailyRows as $row) {
-    $db->query("SELECT * FROM `grpgusers` WHERE `gang` = " . $row['gang_id']);
-    $db->execute();
-    $userRows = $db->fetch_row();
+  $db->query("SELECT * FROM `grpgusers` WHERE `gang` = " . $row['gang_id']);
+  $db->execute();
+  $userRows = $db->fetch_row();
 
-    foreach ($userRows as $uRow) {
-        if ($i == 1) {
-            $db->query("UPDATE `grpgusers` SET `points` = `points` + 25000 WHERE `id` = " . $uRow['id']);
-            $db->execute();
+  foreach ($userRows as $uRow) {
+    if ($i == 1) {
+      $db->query("UPDATE `grpgusers` SET `points` = `points` + 25000 WHERE `id` = " . $uRow['id']);
+      $db->execute();
 
-            Give_Item(163, $uRow['id'], 1);
-            Give_Item(42, $uRow['id'], 1);
+      Give_Item(163, $uRow['id'], 1);
+      Give_Item(42, $uRow['id'], 1);
 
-            Send_Event($uRow['id'], "Your gang won 1st place in the daily contest. You have been awarded 25,000 points, 1 Police Badge & 1 Mystery Box.");
-        } else {
-            Give_Item(42, $uRow['id'], 1);
+      Send_Event($uRow['id'], "Your gang won 1st place in the daily contest. You have been awarded 25,000 points, 1 Police Badge & 1 Mystery Box.");
+    } else {
+      Give_Item(42, $uRow['id'], 1);
 
-            Send_Event($uRow['id'], "Your gang won 2nd place in the daily contest. You have been awarded 1 Mystery Box.");
-        }
+      Send_Event($uRow['id'], "Your gang won 2nd place in the daily contest. You have been awarded 1 Mystery Box.");
     }
+  }
 
-    $i++;
+  $i++;
 }
 
 $db->query("UPDATE `gang_comp_leaderboard` SET `daily_missions_complete` = 0");
@@ -102,4 +102,18 @@ $db->execute();
 
 $db->query("UPDATE `user_santas_grotto` SET `todays_gifts_found` = 0");
 $db->execute();
+
+// Cleanup
+$time = time() - 14 * 24 * 60 * 60; // 14 days ago
+perform_query("DELETE FROM `attacklog` WHERE `timestamp` < ?", [$time]);
+perform_query("DELETE FROM `attlog` WHERE `timestamp` < ?", [$time]);
+perform_query("DELETE FROM `deflog` WHERE `timestamp` < ?", [$time]);
+perform_query("DELETE FROM `events` WHERE `timesent` < ?", [$time]);
+perform_query("DELETE FROM `muglog` WHERE `timestamp` < ?", [$time]);
+perform_query("DELETE FROM `user_logs` where `timestamp` < ?", [$time]);
+
+perform_query("DELETE FROM `active_raids` WHERE `summoned_at` < (NOW() - INTERVAL 14 DAY)");
+perform_query("DELETE FROM `raid_participants` WHERE `joined_at` < (NOW() - INTERVAL 14 DAY)");
+perform_query("DELETE FROM `raid_battle_logs` WHERE `timestamp` < (NOW() - INTERVAL 14 DAY)");
+
 ?>
