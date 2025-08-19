@@ -2,9 +2,7 @@
 
 include_once 'dbcon.php';
 include_once 'classes.php';
-include 'database/pdo_class.php';
-
-
+include_once 'database/pdo_class.php';
 
 /* Run every 5 minutes */
 if ($_GET['key'] === 'srunit') {
@@ -171,7 +169,7 @@ if ($_GET['key'] === 'srunit') {
                     $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . ", gtzb_count = gtzb_count + 1 WHERE id = " . $strengthDefendingUser->id);
                     $db->execute();
 
-                    Send_Event($strengthDefendingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning,0) . ' EXP.');
+                    Send_Event($strengthDefendingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning, 0) . ' EXP.');
                 }
                 if (isset($defenseDefendingUser) && $defenseDefendingUser) {
                     $expEarning = $defenseDefendingUser->maxexp / 100 * 0.5;
@@ -179,7 +177,7 @@ if ($_GET['key'] === 'srunit') {
                     $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . ", gtzb_count = gtzb_count + 1 WHERE id = " . $defenseDefendingUser->id);
                     $db->execute();
 
-                    Send_Event($defenseDefendingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning,0) . ' EXP.');
+                    Send_Event($defenseDefendingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning, 0) . ' EXP.');
                 }
                 if (isset($speedDefendingUser) && $speedDefendingUser) {
                     $expEarning = $speedDefendingUser->maxexp / 100 * 0.5;
@@ -187,7 +185,7 @@ if ($_GET['key'] === 'srunit') {
                     $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . ", gtzb_count = gtzb_count + 1 WHERE id = " . $speedDefendingUser->id);
                     $db->execute();
 
-                    Send_Event($speedDefendingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning,0) . ' EXP.');
+                    Send_Event($speedDefendingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning, 0) . ' EXP.');
                 }
 
                 // Attacking users go to hospital
@@ -197,7 +195,7 @@ if ($_GET['key'] === 'srunit') {
                     $db->query("UPDATE grpgusers SET hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $strengthAttackingUser->id);
                     $db->execute();
                 }
-                if ($gangTerritoryZoneBattle['defense_attacking_user_id'] > 0 &&  isset($defenseAttackingUser) && $defenseAttackingUser) {
+                if ($gangTerritoryZoneBattle['defense_attacking_user_id'] > 0 && isset($defenseAttackingUser) && $defenseAttackingUser) {
                     $db->query("UPDATE grpgusers SET hospital = " . $hosptime . ", hhow = '" . $hosphow . "' WHERE id = " . $defenseAttackingUser->id);
                     $db->execute();
                 }
@@ -222,7 +220,7 @@ if ($_GET['key'] === 'srunit') {
                     $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . ", gtzb_count = gtzb_count + 1 WHERE id = " . $strengthAttackingUser->id);
                     $db->execute();
 
-                    Send_Event($strengthAttackingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning,0) . ' EXP.');
+                    Send_Event($strengthAttackingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning, 0) . ' EXP.');
                 }
                 if (isset($defenseAttackingUser) && $defenseAttackingUser) {
                     $expEarning = $defenseAttackingUser->maxexp / 100 * 0.5;
@@ -230,7 +228,7 @@ if ($_GET['key'] === 'srunit') {
                     $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . ", gtzb_count = gtzb_count + 1 WHERE id = " . $defenseAttackingUser->id);
                     $db->execute();
 
-                    Send_Event($defenseAttackingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning,0) . ' EXP.');
+                    Send_Event($defenseAttackingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning, 0) . ' EXP.');
                 }
                 if (isset($speedAttackingUser) && $speedAttackingUser) {
                     $expEarning = $speedAttackingUser->maxexp / 100 * 0.5;
@@ -238,7 +236,7 @@ if ($_GET['key'] === 'srunit') {
                     $db->query("UPDATE grpgusers SET exp = exp + " . $expEarning . ", gtzb_count = gtzb_count + 1 WHERE id = " . $speedAttackingUser->id);
                     $db->execute();
 
-                    Send_Event($speedAttackingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning,0) . ' EXP.');
+                    Send_Event($speedAttackingUser->id, 'Congratulations, you won the protection racket battle and gained ' . number_format($expEarning, 0) . ' EXP.');
                 }
 
                 // Defending users go to hospital
