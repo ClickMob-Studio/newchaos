@@ -2612,11 +2612,17 @@ function getUserPrestigeSkills($user_class)
 
     $cacheKey = "userPrestigeSkills:{$user_class->id}";
 
+    // Try cache
     $cached = $cache->get($cacheKey);
     if ($cached !== null) {
-        return json_decode($cached, true);
+        $decoded = json_decode($cached, true);
+        if (is_array($decoded) && isset($decoded['id'])) {
+            return $decoded;
+        }
+        // fall through to DB if bad cache
     }
 
+    // Query DB
     $db->query("SELECT * FROM user_prestige_skills WHERE user_id = ? LIMIT 1");
     $db->execute([$user_class->id]);
     $row = $db->fetch_row(true);
@@ -2627,19 +2633,31 @@ function getUserPrestigeSkills($user_class)
         $user = $user_class;
     }
 
-    if (isset($row['id'])) {
-        $row['prestige_unlocks_available'] = ($user->prestige * 1) - $row['unlock_points_spent'];
-        $row['prestige_boosts_available'] = ($user->prestige * 5) - $row['boosts_spent'];
+    if ($row && isset($row['id'])) {
+        $row['prestige_unlocks_available'] = ($user->prestige * 1) - (int) $row['unlock_points_spent'];
+        $row['prestige_boosts_available'] = ($user->prestige * 5) - (int) $row['boosts_spent'];
 
         $cache->setEx($cacheKey, 360, json_encode($row));
-
         return $row;
-    } else {
-        $db->query("INSERT INTO user_prestige_skills (user_id) VALUES (?)");
-        $db->execute([$user_class->id]);
-
-        return getUserPrestigeSkills($user_class);
     }
+
+    // Ensure row exists (safe insert, ignoring duplicates)
+    $db->query("INSERT IGNORE INTO user_prestige_skills (user_id) VALUES (?)");
+    $db->execute([$user_class->id]);
+
+    // Re-query once (not infinite recursion)
+    $db->query("SELECT * FROM user_prestige_skills WHERE user_id = ? LIMIT 1");
+    $db->execute([$user_class->id]);
+    $row = $db->fetch_row(true);
+
+    if ($row && isset($row['id'])) {
+        $row['prestige_unlocks_available'] = ($user->prestige * 1) - (int) $row['unlock_points_spent'];
+        $row['prestige_boosts_available'] = ($user->prestige * 5) - (int) $row['boosts_spent'];
+        $cache->setEx($cacheKey, 360, json_encode($row));
+        return $row;
+    }
+
+    return null;
 }
 
 function addUserPrestigeSkill($user_class, $field, $qty = 1)
