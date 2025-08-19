@@ -590,7 +590,7 @@ $(document).ready(function() {
                         'freeze'
                     ))
                 )
-                    perform_query("UPDATE grpgusers SET ban/freeze = '0' WHERE id = ?", [$profile_class->id]);
+                    perform_query("UPDATE grpgusers SET `ban/freeze` = 0 WHERE id = ?", [$profile_class->id]);
                 StaffLog($user_class->id, "[-_USERID_-] has {$unbanarray[3]} [-_USERID2_-] from the {$unbanarray[2]}.", $profile_class->id);
                 echo Message("You have {$unbanarray[3]} this user from the {$unbanarray[2]}.");
             }
