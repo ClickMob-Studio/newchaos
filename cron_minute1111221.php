@@ -542,23 +542,21 @@ $db->execute();
 // Logic for Maze turns, take into consideration the maze boost
 $currentTime = time();
 
-$query = "UPDATE grpgusers g
-    LEFT JOIN item_temp_use t ON g.id = t.user_id
-    SET g.cityturns = g.cityturns + 
-        CASE 
-            WHEN t.maze_boost IS NOT NULL AND t.maze_boost > :currentTime AND g.cityturns < 50 THEN 2
-            WHEN (t.maze_boost IS NULL OR t.maze_boost <= :currentTime) AND g.cityturns < 30 THEN 1
-            ELSE 0
-        END
-    WHERE 
-        (t.maze_boost IS NOT NULL AND t.maze_boost > :currentTime AND g.cityturns < 50)
-        OR
-        ((t.maze_boost IS NULL OR t.maze_boost <= :currentTime) AND g.cityturns < 30)";
-
-$db->query($query);
-$db->bind(":currentTime", $currentTime);
+// +2 up to 50 for users with an active boost
+$db->query("UPDATE grpgusers AS g
+  JOIN item_temp_use AS t ON t.user_id = g.id
+  SET g.cityturns = LEAST(50, g.cityturns + 2)
+  WHERE t.maze_boost > :now AND g.cityturns < 50");
+$db->bind(':now', $currentTime);
 $db->execute();
 
+// +1 up to 30 for users without an active boost (or expired)
+$db->query("UPDATE grpgusers AS g
+  JOIN item_temp_use AS t ON t.user_id = g.id
+  SET g.cityturns = LEAST(30, g.cityturns + 1)
+  WHERE t.maze_boost <= :now AND g.cityturns < 30");
+$db->bind(':now', $currentTime);
+$db->execute();
 
 $db->query("UPDATE grpgusers SET outofjail = outofjail - 1 WHERE outofjail > 0");
 $db->execute();
