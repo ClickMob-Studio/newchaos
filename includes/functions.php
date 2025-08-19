@@ -2952,9 +2952,12 @@ function getCurrentQuestSeasonForUser($userId)
     global $db, $cache;
 
     $cacheKey = "questSeasonForUser:" . $userId;
-    $questSeason = $cache->get($cacheKey);
-    if ($questSeason !== null) {
-        return json_decode($questSeason, true);
+    $cached = $cache->get($cacheKey);
+    if ($cached !== null) {
+        $decoded = json_decode($cached, true);
+        if (is_array($decoded) && isset($decoded['id'])) {
+            return $decoded;
+        }
     }
 
     $db->query("SELECT * FROM quest_season_user WHERE user_id = ? AND (is_complete IS NULL OR is_complete = 0) ORDER BY quest_season_id DESC LIMIT 1");
@@ -2988,11 +2991,15 @@ function getCurrentQuestSeasonForUser($userId)
         $db->execute([$questSeasonId]);
     }
     $questSeason = $db->fetch_row(true);
+
+    if (!$questSeason) {
+        return [];
+    }
+
     $cache->setEx($cacheKey, 360, json_encode($questSeason));
 
     return $questSeason;
 }
-
 function getNextQuestSeason($userId, $isAdmin = 0)
 {
     global $db, $cache;
