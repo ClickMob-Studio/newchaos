@@ -169,7 +169,7 @@ You are currently at war with someone! Click <a href='viewwar.php'>here</a> to v
         <form method='post'>
             <tr>
                 <td width='10%'><b>Gang:</b></td>
-                <td><input type='text' name='id' size='6' value='{$_GET['gang']}' /> [ID]</td>
+                <td><input type='text' name='id' size='6' value='" . (isset($_GET['gang']) ? $_GET['gang'] : '') . "' /> [ID]</td>
             </tr>
             <tr>
                 <td width='10%'><b>Bet:</b></td>
