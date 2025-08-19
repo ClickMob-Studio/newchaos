@@ -520,7 +520,10 @@ src="${itemImage}" alt="${itemName}">
             const currentQuantity = parseInt($("#qty-" + itemId).text());
             const newQuantity = currentQuantity - subtractQuantity;
 
-            console.log(`(ID: ${itemId}) Current Quantity: ${currentQuantity}, Subtract Quantity: ${subtractQuantity}, New Quantity: ${newQuantity}`);
+            if (newQuantity < 0) {
+                $("#itemcard-" + itemId).remove();
+                return;
+            }
 
             const qtyElement = document.querySelector(`#qty-${itemId}`);
             if (qtyElement) {
