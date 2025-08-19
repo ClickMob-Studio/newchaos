@@ -3167,7 +3167,7 @@ function getQuestSeasonMission($userId, $questSeasonId)
     global $db, $cache;
 
     $questSeasonMissionUser = getQuestSeasonMissionUser($userId, $questSeasonId);
-    if (!$questSeasonMissionUser || !isset($questSeasonMissionUser['quest_season_mission_id'])) {
+    if (!$questSeasonMissionUser || empty($questSeasonMissionUser['quest_season_mission_id'])) {
         return null;
     }
 
@@ -3176,20 +3176,25 @@ function getQuestSeasonMission($userId, $questSeasonId)
 
     $cached = $cache->get($cacheKey);
     if ($cached !== null) {
-        return json_decode($cached, true);
+        $decoded = json_decode($cached, true);
+        if (is_array($decoded) && isset($decoded['id'])) {
+            return $decoded;
+        }
     }
 
     $db->query("SELECT * FROM quest_season_mission WHERE id = ? LIMIT 1");
     $db->execute([$missionId]);
     $questSeasonMission = $db->fetch_row(true);
 
-    if ($questSeasonMission) {
-        $questSeasonMission['requirements'] = json_decode($questSeasonMission['requirements'], true);
+    if ($questSeasonMission && isset($questSeasonMission['id'])) {
+        $questSeasonMission['requirements'] = json_decode($questSeasonMission['requirements'], true) ?: [];
         $cache->setEx($cacheKey, 86400, json_encode($questSeasonMission));
+        return $questSeasonMission;
     }
 
-    return $questSeasonMission;
+    return null;
 }
+
 
 function getDisplayForQuestReq($req, $num, $progress)
 {
