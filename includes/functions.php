@@ -1061,7 +1061,8 @@ function raidMission($userId)
 
 function contribute_mission($update, $howmany = 1)
 {
-    global $db, $user_class;
+    global $db, $user_class, $cache;
+
     $prestigeUserSKills = getUserPrestigeSkills($user_class);
     $pointsPayoutBoost = 0;
     if ($prestigeUserSKills['mission_point_boost_level'] > 0) {
@@ -1074,77 +1075,87 @@ function contribute_mission($update, $howmany = 1)
     }
 
     $db->query("SELECT * FROM mission WHERE id = ?");
-    $db->execute(array(
-        $userMiss['mid']
-    ));
+    $db->execute([$userMiss['mid']]);
     $miss = $db->fetch_row(true);
+
+    // ---- Inline cache update helper ----
+    $cacheKey = "userMission:{$user_class->id}";
+    $updateCache = function ($field, $increment = 1) use ($cache, $cacheKey, &$userMiss) {
+        $cached = $cache->get($cacheKey);
+        if ($cached !== null) {
+            $decoded = json_decode($cached, true);
+            if (is_array($decoded)) {
+                if (!isset($decoded[$field])) {
+                    $decoded[$field] = 0;
+                }
+                $decoded[$field] += $increment;
+                $cache->setEx($cacheKey, 300, json_encode($decoded));
+            }
+        }
+        // also keep local copy in sync
+        if (!isset($userMiss[$field])) {
+            $userMiss[$field] = 0;
+        }
+        $userMiss[$field] += $increment;
+    };
+    // ------------------------------------
+
     if ($update == 'k') {
         $db->query("UPDATE missions SET kills = kills + 1 WHERE userid = ? AND completed = 'no'");
-        $db->execute(array(
-            $user_class->id
-        ));
+        $db->execute([$user_class->id]);
+        $updateCache('kills', 1);
     }
     if ($update == 'b') {
         if ($prestigeUserSKills['super_busts_unlock'] > 0) {
             $db->query("UPDATE missions SET busts = busts + 5 WHERE userid = ? AND completed = 'no'");
-            $userMiss['busts'] = $userMiss['busts'] + 5;
+            $updateCache('busts', 5);
         } else {
             $db->query("UPDATE missions SET busts = busts + 1 WHERE userid = ? AND completed = 'no'");
-            $userMiss['busts'] = $userMiss['busts'] + 1;
+            $updateCache('busts', 1);
         }
-
-        $db->execute(array(
-            $user_class->id
-        ));
+        $db->execute([$user_class->id]);
     }
     if ($update == 'c') {
         $db->query("UPDATE missions SET crimes = crimes + ? WHERE userid = ? AND completed = 'no'");
-        $db->execute(array(
-            $howmany,
-            $user_class->id
-        ));
+        $db->execute([$howmany, $user_class->id]);
+        $updateCache('crimes', $howmany);
     }
     if ($update == 'm') {
         $db->query("UPDATE missions SET mugs = mugs + ? WHERE userid = ? AND completed = 'no'");
         $db->execute([$howmany, $user_class->id]);
+        $updateCache('mugs', $howmany);
     }
     if ($update == 'ba') {
         $db->query("UPDATE missions SET backalleys = backalleys + 1 WHERE userid = ? AND completed = 'no'");
         $db->execute([$user_class->id]);
+        $updateCache('backalleys', 1);
 
-        if (++$userMiss['backalleys'] == $miss['backalleys']) {
+        if ($userMiss['backalleys'] == $miss['backalleys']) {
             $mPointsPayout = $miss['payBackalleys'];
             if ($pointsPayoutBoost) {
-                $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
+                $mPointsPayout += ($mPointsPayout / 100 * $pointsPayoutBoost);
             }
-
             $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
-            $db->execute(array(
-                $mPointsPayout,
-                $user_class->id
-            ));
-            $db->query("INSERT INTO missionlog VALUES(NULL,'[x] successfully completed {$miss['name']} objective to get {$miss['backalleys']} backalleys,$user_class->id',unix_timestamp())");
-            $db->execute();
+            $db->execute([$mPointsPayout, $user_class->id]);
+            $db->query("INSERT INTO missionlog VALUES(NULL, ?, unix_timestamp())");
+            $db->execute(["[x] successfully completed {$miss['name']} objective to get {$miss['backalleys']} backalleys,$user_class->id"]);
             Send_event($user_class->id, "You have completed {$miss['name']} objective to get {$miss['backalleys']} backalleys.");
         }
     }
-
     if ($update == 'ra') {
         $db->query("UPDATE missions SET raids = raids + 1 WHERE userid = ? AND completed = 'no'");
         $db->execute([$user_class->id]);
-        if (++$userMiss['raids'] == $miss['raids']) {
+        $updateCache('raids', 1);
+
+        if ($userMiss['raids'] == $miss['raids']) {
             $mPointsPayout = $miss['payRaids'];
             if ($pointsPayoutBoost) {
-                $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
+                $mPointsPayout += ($mPointsPayout / 100 * $pointsPayoutBoost);
             }
-
             $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
-            $db->execute(array(
-                $mPointsPayout,
-                $user_class->id
-            ));
-            $db->query("INSERT INTO missionlog VALUES(NULL,'[x] successfully completed {$miss['name']} objective to get {$miss['raids']} Raids,$user_class->id',unix_timestamp())");
-            $db->execute();
+            $db->execute([$mPointsPayout, $user_class->id]);
+            $db->query("INSERT INTO missionlog VALUES(NULL, ?, unix_timestamp())");
+            $db->execute(["[x] successfully completed {$miss['name']} objective to get {$miss['raids']} raids,$user_class->id"]);
             Send_event($user_class->id, "You have completed {$miss['name']} objective to get {$miss['raids']} raids.");
         }
     }
@@ -1152,106 +1163,6 @@ function contribute_mission($update, $howmany = 1)
     return 1;
 }
 
-function mission($update, $howmany = 1, $user_class = null, $db = null)
-{
-    if ($db == null) {
-        global $db;
-    }
-    if ($user_class == null) {
-        global $user_class;
-    }
-
-    $prestigeUserSKills = getUserPrestigeSkills($user_class);
-    $pointsPayoutBoost = 0;
-    if ($prestigeUserSKills['mission_point_boost_level'] > 0) {
-        $pointsPayoutBoost = 2 * $prestigeUserSKills['mission_point_boost_level'];
-    }
-
-    $db->query("SELECT * FROM missions WHERE userid = ? AND completed = 'no'");
-    $db->execute(array(
-        $user_class->id
-    ));
-
-    if ($userMiss = $db->fetch_row(true)) {
-        $db->query("SELECT * FROM mission WHERE id = ?");
-        $db->execute(array(
-            $userMiss['mid']
-        ));
-        $miss = $db->fetch_row(true);
-        if ($update == 'k') {
-            $db->query("UPDATE missions SET kills = kills + 1 WHERE userid = ? AND completed = 'no'");
-            $db->execute(array(
-                $user_class->id
-            ));
-        }
-        if ($update == 'b') {
-            if ($prestigeUserSKills['super_busts_unlock'] > 0) {
-                $db->query("UPDATE missions SET busts = busts + 5 WHERE userid = ? AND completed = 'no'");
-                $userMiss['busts'] = $userMiss['busts'] + 5;
-            } else {
-                $db->query("UPDATE missions SET busts = busts + 1 WHERE userid = ? AND completed = 'no'");
-                $userMiss['busts'] = $userMiss['busts'] + 1;
-            }
-
-            $db->execute(array(
-                $user_class->id
-            ));
-        }
-        if ($update == 'c') {
-            $db->query("UPDATE missions SET crimes = crimes + ? WHERE userid = ? AND completed = 'no'");
-            $db->execute(array(
-                $howmany,
-                $user_class->id
-            ));
-        }
-        if ($update == 'm') {
-            $db->query("UPDATE missions SET mugs = mugs + ? WHERE userid = ? AND completed = 'no'");
-            $db->execute([$howmany, $user_class->id]);
-        }
-        if ($update == 'ba') {
-            $db->query("UPDATE missions SET backalleys = backalleys + 1 WHERE userid = $user_class->id AND completed = 'no'");
-            $db->execute([$user_class->id]);
-
-            if (++$userMiss['backalleys'] == $miss['backalleys']) {
-                $mPointsPayout = $miss['payBackalleys'];
-                if ($pointsPayoutBoost) {
-                    $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
-                }
-
-                $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
-                $db->execute(array(
-                    $mPointsPayout,
-                    $user_class->id
-                ));
-                $db->query("INSERT INTO missionlog VALUES(NULL,'[x] successfully completed {$miss['name']} objective to get {$miss['backalleys']} backalleys,$user_class->id',unix_timestamp())");
-                $db->execute();
-                Send_event($user_class->id, "You have completed {$miss['name']} objective to get {$miss['backalleys']} backalleys.");
-            }
-        }
-
-        if ($update == 'ra') {
-            $db->query("UPDATE missions SET raids = raids + 1 WHERE userid = ? AND completed = 'no'");
-            $db->execute([$user_class->id]);
-            if (++$userMiss['raids'] == $miss['raids']) {
-                $mPointsPayout = $miss['payRaids'];
-                if ($pointsPayoutBoost) {
-                    $mPointsPayout = $mPointsPayout + ($mPointsPayout / 100 * $pointsPayoutBoost);
-                }
-
-                $db->query("UPDATE grpgusers SET points = points + ? WHERE id = ?");
-                $db->execute(array(
-                    $mPointsPayout,
-                    $user_class->id
-                ));
-                $db->query("INSERT INTO missionlog VALUES(NULL,'[x] successfully completed {$miss['name']} objective to get {$miss['raids']} Raids,$user_class->id',unix_timestamp())");
-                $db->execute();
-                Send_event($user_class->id, "You have completed {$miss['name']} objective to get {$miss['raids']} raids.");
-            }
-        }
-    }
-
-    return 1;
-}
 function bloodbath($att, $id, $amnt = 1)
 {
     global $db, $user_class;

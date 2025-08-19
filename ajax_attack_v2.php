@@ -564,7 +564,7 @@ if ($theirhp <= 0) {
         ));
     }
 
-    mission('k');
+    contribute_mission('k');
     newmissions('kills');
     updateGangActiveMission('kills', 1);
     gangContest(array(

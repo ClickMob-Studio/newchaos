@@ -175,7 +175,7 @@ try {
                 $db->query("UPDATE grpgusers SET mugsucceeded = mugsucceeded + {$compQty}, moth = moth + {$compQty}, motd = motd + {$compQty} WHERE id = ?");
                 $db->execute(array($user_class->id));
 
-                mission('m', $compQty);
+                contribute_mission('m', $compQty);
                 newmissions('mugs', $compQty);
                 updateGangActiveMission('mugs', $compQty);
                 gangContest(array('mugs' => $compQty));
@@ -209,7 +209,7 @@ try {
                 $db->query("INSERT INTO muglog (mugger, mugged, amount, active, timestamp) VALUES (?, ?, ?, ?, unix_timestamp())");
                 $db->execute(array($user_class->id, $attack_person->id, $mugamount, $online));
 
-                mission('m', $compQty);
+                contribute_mission('m', $compQty);
                 newmissions('mugs', $compQty);
                 updateGangActiveMission('mugs', $compQty);
                 gangContest(array('mugs' => $compQty));

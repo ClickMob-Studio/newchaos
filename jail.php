@@ -90,7 +90,7 @@ if ($jailbreak != "") {
 
                 perform_query("UPDATE grpgusers SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp =  ?, busts = busts + 1, jail_bot_credits = jail_bot_credits - 1 WHERE id = ?", [$exp, $user_class->id]);
                 $user_class->jail_bot_credits = $user_class->jail_bot_credits - 1;
-                mission('b');
+                contribute_mission('b');
                 newmissions('busts');
                 gangContest(array(
                     'busts' => 1,
@@ -152,7 +152,7 @@ if ($jailbreak != "") {
                         }
 
                         perform_query("UPDATE `grpgusers` SET `both` = `both` + 1, `epoints` = `epoints` + `eventbusts`, `bustcomp` = `bustcomp` + 1, exp = ?, busts = busts + 1, points = points + 3, nerve = nerve - 10 WHERE id = ?", [$exp, $user_class->id]);
-                        mission('b');
+                        contribute_mission('b');
                         newmissions('busts');
                         gangContest(array(
                             'busts' => 1,

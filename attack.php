@@ -447,7 +447,7 @@ $attack_person->formattedname is using their $attack_person->weaponname.<br /><b
 
 
 
-            mission('k');
+            contribute_mission('k');
             newmissions('kills');
             updateGangActiveMission('kills', 1);
             gangContest(array(

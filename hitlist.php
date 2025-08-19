@@ -164,7 +164,7 @@ include("header.php");
                     perform_query("UPDATE grpgusers SET hwho = ?, hhow = 'wasattacked', hwhen = ?, hospital = 300 WHERE id = ?", [$user_class->id, date(g . ":" . i . ":" . sa, time()), $attack_person->id]);
                     $theirhp = 0;
                     $newmoney = $user_class->bank + $worked['bounty'];
-                    mission('k');
+                    contribute_mission('k');
                     perform_query("UPDATE grpgusers SET bank = ? WHERE id = ?", [$newmoney, $user_class->id]);
                     perform_query("INSERT INTO bank_log VALUES('', ?, ?, 'mdep', ?, unix_timestamp())", [$user_class->id, $worked['bounty'], $user_class->bank]);
                     Send_Event($attack_person->id, "[-_USERID_-] hit you via the hitlist! They gained $" . prettynum($worked['bounty']) . " for hitting you.", $user_class->id);

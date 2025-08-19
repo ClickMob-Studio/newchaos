@@ -287,7 +287,7 @@ try {
                     $which = "crimes1";
                 }
                 newmissions($which, $crime_multiplier);
-                mission('c', $crime_multiplier);
+                contribute_mission('c', $crime_multiplier);
                 gangContest(array('crimes' => $crime_multiplier, 'exp' => $exp));
                 bloodbath('crimes', $user_class->id, $bbnerve / $user_class->level, $crime_multiplier);
 
