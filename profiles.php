@@ -577,7 +577,7 @@ $(document).ready(function() {
                             'freeze'
                         ))
                     )
-                        perform_query("UPDATE grpgusers SET ban/freeze = 1 WHERE id = ?", [$profile_user->id]);
+                        perform_query("UPDATE grpgusers SET `ban/freeze` = 1 WHERE id = ?", [$profile_user->id]);
                     StaffLog($user_class->id, "[-_USERID_-] has {$banarray[1]} banned [-_USERID2_-] for " . prettynum($banarray[0]) . " days.", $profile_class->id);
                     echo Message("You have {$banarray[3]} $profile_class->formattedname from the {$banarray[2]} for {$banarray[0]} days.");
                 }
