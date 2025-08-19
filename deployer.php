@@ -55,10 +55,6 @@ $commands = array(
     'git fetch',
     'git reset --hard origin/php8',
     'git status',
-    'git submodule sync',
-    'git submodule update',
-    'git submodule status',
-    'php ./vendor/bin/doctrine-migrations migrate --no-interaction',
 );
 
 // Run the commands for output
