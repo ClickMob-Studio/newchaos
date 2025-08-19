@@ -202,7 +202,6 @@ if ($user_class->gang > 0) {
 
 updateGangActiveMission('backalleys', 1);
 addToUserOperations($user_class, 'backalleys', 1);
-payoutChristmasGift($user_class->id);
 
 $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
 if (isset($currentQuestSeason['id'])) {
@@ -210,7 +209,7 @@ if (isset($currentQuestSeason['id'])) {
     $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
     $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
-    if (isset($questSeasonMission['requirements']->backalley)) {
+    if (isset($questSeasonMission['requirements']['backalley'])) {
         updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'backalley', 1);
     }
 }
