@@ -3090,7 +3090,10 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
     $cacheKey = "questSeasonMissionUser:{$userId}:{$questSeasonId}";
     $cached = $cache->get($cacheKey);
     if ($cached !== null) {
-        return json_decode($cached, true);
+        $decoded = json_decode($cached, true);
+        if (is_array($decoded) && isset($decoded['id'])) {
+            return $decoded;
+        }
     }
 
     // Try to get active mission
@@ -3103,7 +3106,7 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
 
     if ($questSeasonMissionUser && isset($questSeasonMissionUser['id'])) {
         if (isset($questSeasonMissionUser['progress'])) {
-            $questSeasonMissionUser['progress'] = json_decode($questSeasonMissionUser['progress'], true);
+            $questSeasonMissionUser['progress'] = json_decode($questSeasonMissionUser['progress'], true) ?: [];
         }
         $cache->setEx($cacheKey, 120, json_encode($questSeasonMissionUser));
         return $questSeasonMissionUser;
@@ -3119,7 +3122,7 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
 
     if ($questSeasonMissionUser && isset($questSeasonMissionUser['id'])) {
         if (isset($questSeasonMissionUser['progress'])) {
-            $questSeasonMissionUser['progress'] = json_decode($questSeasonMissionUser['progress'], true);
+            $questSeasonMissionUser['progress'] = json_decode($questSeasonMissionUser['progress'], true) ?: [];
         }
         $cache->setEx($cacheKey, 120, json_encode($questSeasonMissionUser));
         return $questSeasonMissionUser;
@@ -3132,9 +3135,9 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
     $db->execute([$questSeasonId]);
     $questSeasonMission = $db->fetch_row(true);
 
-    if ($questSeasonMission) {
+    if ($questSeasonMission && isset($questSeasonMission['id'])) {
         $progress = [];
-        $questSeasonMission['requirements'] = json_decode($questSeasonMission['requirements'], true);
+        $questSeasonMission['requirements'] = json_decode($questSeasonMission['requirements'], true) ?: [];
         foreach ($questSeasonMission['requirements'] as $key => $req) {
             $progress[$key] = 0;
         }
@@ -3149,14 +3152,13 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
         $db->execute([$userId, $questSeasonId]);
         $r = $db->fetch_row(true);
         if ($r && isset($r['progress'])) {
-            $r['progress'] = json_decode($r['progress'], true);
+            $r['progress'] = json_decode($r['progress'], true) ?: [];
         }
 
-        if ($r) {
+        if ($r && isset($r['id'])) {
             $cache->setEx($cacheKey, 120, json_encode($r));
+            return $r;
         }
-
-        return $r;
     }
 
     return null;
