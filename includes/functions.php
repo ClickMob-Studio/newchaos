@@ -1256,30 +1256,11 @@ function bloodbath($att, $id, $amnt = 1)
 {
     global $db, $user_class;
 
-    $db->query("SELECT userid FROM bbusers WHERE userid = ?");
-    $db->execute(array(
-        $id
-    ));
-    $uid = $db->fetch_single();
-    if (!$uid) {
-        $db->query("INSERT INTO bbusers (userid) VALUES (?)");
-        $db->execute(array(
-            $id
-        ));
-    }
-    $db->query("UPDATE bbusers SET $att = $att + ? WHERE userid = ?");
-    $db->execute(array(
-        $amnt,
-        $id
-    ));
+    $db->query("INSERT INTO bbusers (userid, $att) VALUES (?, ?) ON DUPLICATE KEY UPDATE $att = $att + VALUES($att)");
+    $db->execute([$id, $amnt]);
 
-    $db->query("SELECT gang FROM grpgusers WHERE id = ?");
-    $db->execute(array(
-        $id
-    ));
-    $gangid = $db->fetch_single();
+    $gangid = $user_class->gang;
 
-    // HOOK TO UPDATE GANG dailyCrimes
     if ($att == 'crimes' && $gangid > 0) {
         $db->query("UPDATE gangs SET dailyCrimes = dailyCrimes + ? WHERE id = ?");
         $db->execute(array(
@@ -2036,6 +2017,7 @@ function newmissions($what, $howmany = 1)
         $user_class->id
     ));
 }
+
 function missioncheck(&$array, &$done, &$what, &$howmany)
 {
     global $db, $user_class;
@@ -2626,10 +2608,17 @@ function addLimitedStorePackPurchase($user_class, $limitedStorePackId)
 
 function getUserPrestigeSkills($user_class)
 {
-    global $db;
+    global $db, $cache;
 
-    $db->query("SELECT * FROM user_prestige_skills WHERE user_id = " . $user_class->id . " LIMIT 1");
-    $db->execute();
+    $cacheKey = "userPrestigeSkills:{$user_class->id}";
+
+    $cached = $cache->get($cacheKey);
+    if ($cached !== null) {
+        return json_decode($cached, true);
+    }
+
+    $db->query("SELECT * FROM user_prestige_skills WHERE user_id = ? LIMIT 1");
+    $db->execute([$user_class->id]);
     $row = $db->fetch_row(true);
 
     if (get_class($user_class) === SlimUser::class) {
@@ -2642,33 +2631,46 @@ function getUserPrestigeSkills($user_class)
         $row['prestige_unlocks_available'] = ($user->prestige * 1) - $row['unlock_points_spent'];
         $row['prestige_boosts_available'] = ($user->prestige * 5) - $row['boosts_spent'];
 
+        $cache->setEx($cacheKey, 360, json_encode($row));
+
         return $row;
     } else {
-        $db->query("INSERT INTO user_prestige_skills (user_id) VALUES (" . $user_class->id . ")");
-        $db->execute();
-        $r = getUserPrestigeSkills($user_class);
+        $db->query("INSERT INTO user_prestige_skills (user_id) VALUES (?)");
+        $db->execute([$user_class->id]);
 
-        return $r;
+        return getUserPrestigeSkills($user_class);
     }
 }
 
 function addUserPrestigeSkill($user_class, $field, $qty = 1)
 {
-    global $db;
+    global $db, $cache;
 
-    $data = getUserPrestigeSkills($user_class->id);
+    $data = getUserPrestigeSkills($user_class);
 
-    $db->query("UPDATE user_prestige_skills SET {$field} = {$field} + {$qty} WHERE id = " . $data['id']);
-    $db->execute();
+    $db->query("UPDATE user_prestige_skills SET {$field} = {$field} + ? WHERE id = ?");
+    $db->execute([$qty, $data['id']]);
+
+    $data[$field] += $qty;
+    if (get_class($user_class) === SlimUser::class) {
+        $user = new User($user_class->id);
+    } else {
+        $user = $user_class;
+    }
+    $data['prestige_unlocks_available'] = ($user->prestige * 1) - $data['unlock_points_spent'];
+    $data['prestige_boosts_available'] = ($user->prestige * 5) - $data['boosts_spent'];
+
+    $cache->setEx("userPrestigeSkills:{$user_class->id}", 300, json_encode($data));
 }
 
 function resetUserPrestigeSkills($id)
 {
-    global $db;
+    global $db, $cache;
 
-    // TODO(Mathias): This is such a bad way to do this, we should improve this later.
     $db->query("UPDATE user_prestige_skills SET energy_boost_level = 0, crime_cash_boost_level = 0, mission_point_boost_level = 0, mission_exp_boost_level = 0, ba_point_boost_level = 0, hourly_searches_boost_level = 0, ba_raidtokens_unlock = 0, speed_attack_unlock = 0, super_mugs_unlock = 0, super_busts_unlock = 0, ba_gold_rush_unlock = 0, crime_cash_unlock = 0, throne_points_unlock = 0, travel_cost_unlock = 0, ba_cash_unlock = 0, training_dummy_cash_unlock = 0, crime_exp_unlock = 0, unlock_points_spent = 0, boosts_spent = 0, reset_points = 0, research_cash_unlock = 0, research_cash_boost_level = 0, last_reset = NOW() WHERE user_id = ?");
     $db->execute([$id]);
+
+    $cache->del("userPrestigeSkills:{$id}");
 }
 
 function getBpCategory($overrideId = null)
@@ -2929,10 +2931,16 @@ function addToUserOperations($user_class, $field, $qty = 1)
 
 function getCurrentQuestSeasonForUser($userId)
 {
-    global $db;
+    global $db, $cache;
 
-    $db->query("SELECT * FROM quest_season_user WHERE user_id = " . $userId . " AND (is_complete IS NULL OR is_complete = 0) ORDER BY quest_season_id DESC LIMIT 1");
-    $db->execute();
+    $cacheKey = "questSeasonForUser:" . $userId;
+    $questSeason = $cache->get($cacheKey);
+    if ($questSeason !== null) {
+        return json_decode($questSeason, true);
+    }
+
+    $db->query("SELECT * FROM quest_season_user WHERE user_id = ? AND (is_complete IS NULL OR is_complete = 0) ORDER BY quest_season_id DESC LIMIT 1");
+    $db->execute([$userId]);
     $questSeasonUser = $db->fetch_row(true);
 
     $questSeasonId = null;
@@ -2941,8 +2949,8 @@ function getCurrentQuestSeasonForUser($userId)
     }
 
     if (!$questSeasonId) {
-        $db->query("SELECT * FROM quest_season_user WHERE user_id = " . $userId . " AND is_complete = 1 ORDER BY quest_season_id DESC LIMIT 1");
-        $db->execute();
+        $db->query("SELECT * FROM quest_season_user WHERE user_id = ? AND is_complete = 1 ORDER BY quest_season_id DESC LIMIT 1");
+        $db->execute([$userId]);
         $questSeasonUser = $db->fetch_row(true);
 
         if ($questSeasonUser && isset($questSeasonUser['id'])) {
@@ -2955,22 +2963,30 @@ function getCurrentQuestSeasonForUser($userId)
     }
 
     if ($userId == 1059) {
-        $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " LIMIT 1");
+        $db->query("SELECT * FROM quest_season WHERE id = ? LIMIT 1");
+        $db->execute([$questSeasonId]);
     } else {
-        $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " AND is_active > 0 LIMIT 1");
+        $db->query("SELECT * FROM quest_season WHERE id = ? AND is_active > 0 LIMIT 1");
+        $db->execute([$questSeasonId]);
     }
-    $db->execute();
     $questSeason = $db->fetch_row(true);
+    $cache->setEx($cacheKey, 360, json_encode($questSeason));
 
     return $questSeason;
 }
 
 function getNextQuestSeason($userId, $isAdmin = 0)
 {
-    global $db;
+    global $db, $cache;
 
-    $db->query("SELECT * FROM quest_season_user WHERE user_id = " . $userId . " AND is_complete = 1 ORDER BY quest_season_id DESC LIMIT 1");
-    $db->execute();
+    $cacheKey = "nextQuestSeason:{$userId}:{$isAdmin}";
+    $questSeason = $cache->get($cacheKey);
+    if ($questSeason !== null) {
+        return json_decode($questSeason, true);
+    }
+
+    $db->query("SELECT * FROM quest_season_user WHERE user_id = ? AND is_complete = 1 ORDER BY quest_season_id DESC LIMIT 1");
+    $db->execute([$userId]);
     $questSeasonUser = $db->fetch_row(true);
 
     if ($questSeasonUser && isset($questSeasonUser['id'])) {
@@ -2980,79 +2996,125 @@ function getNextQuestSeason($userId, $isAdmin = 0)
     }
 
     if ($isAdmin) {
-        $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " LIMIT 1");
+        $db->query("SELECT * FROM quest_season WHERE id = ? LIMIT 1");
     } else {
-        $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " AND is_active > 0 LIMIT 1");
+        $db->query("SELECT * FROM quest_season WHERE id = ? AND is_active > 0 LIMIT 1");
     }
-    $db->execute();
+    $db->execute([$questSeasonId]);
+
     $questSeason = $db->fetch_row(true);
+    $cache->setEx($cacheKey, 300, json_encode($questSeason));
 
     return $questSeason;
-
 }
 
 function getQuestSeasonUser($userId, $questSeasonId)
 {
-    global $db;
+    global $db, $cache;
 
-    $db->query("SELECT * FROM quest_season_user WHERE user_id = " . $userId . " AND quest_season_id = " . $questSeasonId . " LIMIT 1");
-    $db->execute();
+    $cacheKey = "questSeasonUser:{$userId}:{$questSeasonId}";
 
+    $cached = $cache->get($cacheKey);
+    if ($cached !== null) {
+        return json_decode($cached, true);
+    }
+
+    $db->query("SELECT * FROM quest_season_user WHERE user_id = ? AND quest_season_id = ? LIMIT 1");
+    $db->execute([$userId, $questSeasonId]);
     $r = $db->fetch_row(true);
-    if (isset($r['id'])) {
-        return $r;
-    } else {
-        $db->query("INSERT INTO quest_season_user (user_id, quest_season_id) VALUES (" . $userId . ", " . $questSeasonId . ")");
-        $db->execute();
-        $r = getQuestSeasonUser($userId, $questSeasonId);
 
+    if (isset($r['id'])) {
+        $cache->setEx($cacheKey, 300, json_encode($r));
         return $r;
     }
+
+    // Not found, insert new
+    $db->query("INSERT INTO quest_season_user (user_id, quest_season_id) VALUES (?, ?)");
+    $db->execute([$userId, $questSeasonId]);
+
+    $db->query("SELECT * FROM quest_season_user WHERE user_id = ? AND quest_season_id = ? LIMIT 1");
+    $db->execute([$userId, $questSeasonId]);
+    $r = $db->fetch_row(true);
+
+    if (isset($r['id'])) {
+        $cache->setEx($cacheKey, 300, json_encode($r));
+    }
+
+    return $r;
 }
 
 function getQuestSeasonMissionUser($userId, $questSeasonId)
 {
-    global $db;
+    global $db, $cache;
 
-    $db->query("SELECT * FROM quest_season_mission_user WHERE user_id = " . $userId . " AND quest_season_id = " . $questSeasonId . " AND (is_complete IS NULL OR is_complete = 0) ORDER BY id DESC LIMIT 1");
-    $db->execute();
+    $cacheKey = "questSeasonMissionUser:{$userId}:{$questSeasonId}";
+    $cached = $cache->get($cacheKey);
+    if ($cached !== null) {
+        return json_decode($cached, true);
+    }
+
+    // Try to get active mission
+    $db->query("SELECT * FROM quest_season_mission_user 
+                WHERE user_id = ? AND quest_season_id = ? 
+                AND (is_complete IS NULL OR is_complete = 0) 
+                ORDER BY id DESC LIMIT 1");
+    $db->execute([$userId, $questSeasonId]);
     $questSeasonMissionUser = $db->fetch_row(true);
 
     if ($questSeasonMissionUser && isset($questSeasonMissionUser['id'])) {
         if (isset($questSeasonMissionUser['progress'])) {
-            $questSeasonMissionUser['progress'] = json_decode($questSeasonMissionUser['progress']);
+            $questSeasonMissionUser['progress'] = json_decode($questSeasonMissionUser['progress'], true);
         }
-
+        $cache->setEx($cacheKey, 120, json_encode($questSeasonMissionUser));
         return $questSeasonMissionUser;
     }
 
-    $db->query("SELECT * FROM quest_season_mission_user WHERE user_id = " . $userId . " AND quest_season_id = " . $questSeasonId . " AND is_complete = 1 ORDER BY id DESC LIMIT 1");
-    $db->execute();
+    // Try last completed
+    $db->query("SELECT * FROM quest_season_mission_user 
+                WHERE user_id = ? AND quest_season_id = ? 
+                AND is_complete = 1 
+                ORDER BY id DESC LIMIT 1");
+    $db->execute([$userId, $questSeasonId]);
     $questSeasonMissionUser = $db->fetch_row(true);
 
     if ($questSeasonMissionUser && isset($questSeasonMissionUser['id'])) {
         if (isset($questSeasonMissionUser['progress'])) {
-            $questSeasonMissionUser['progress'] = json_decode($questSeasonMissionUser['progress']);
+            $questSeasonMissionUser['progress'] = json_decode($questSeasonMissionUser['progress'], true);
         }
-
+        $cache->setEx($cacheKey, 120, json_encode($questSeasonMissionUser));
         return $questSeasonMissionUser;
     }
 
-    $db->query("SELECT * FROM quest_season_mission WHERE quest_season_id = " . $questSeasonId . " ORDER BY id ASC LIMIT 1");
-    $db->execute();
+    // Otherwise: assign first mission for season
+    $db->query("SELECT * FROM quest_season_mission 
+                WHERE quest_season_id = ? 
+                ORDER BY id ASC LIMIT 1");
+    $db->execute([$questSeasonId]);
     $questSeasonMission = $db->fetch_row(true);
 
     if ($questSeasonMission) {
-        $progress = array();
-        $questSeasonMission['requirements'] = json_decode($questSeasonMission['requirements']);
+        $progress = [];
+        $questSeasonMission['requirements'] = json_decode($questSeasonMission['requirements'], true);
         foreach ($questSeasonMission['requirements'] as $key => $req) {
             $progress[$key] = 0;
         }
 
+        $db->query("INSERT INTO quest_season_mission_user (user_id, quest_season_id, quest_season_mission_id, progress) 
+                    VALUES (?, ?, ?, ?)");
+        $db->execute([$userId, $questSeasonId, $questSeasonMission['id'], json_encode($progress)]);
 
-        $db->query("INSERT INTO quest_season_mission_user (user_id, quest_season_id, quest_season_mission_id, progress) VALUES (?, ?, ?, ?)");
-        $db->execute(array($userId, $questSeasonId, $questSeasonMission['id'], json_encode($progress)));
-        $r = getQuestSeasonMission($userId, $questSeasonId);
+        $db->query("SELECT * FROM quest_season_mission_user 
+                    WHERE user_id = ? AND quest_season_id = ? 
+                    ORDER BY id DESC LIMIT 1");
+        $db->execute([$userId, $questSeasonId]);
+        $r = $db->fetch_row(true);
+        if ($r && isset($r['progress'])) {
+            $r['progress'] = json_decode($r['progress'], true);
+        }
+
+        if ($r) {
+            $cache->setEx($cacheKey, 120, json_encode($r));
+        }
 
         return $r;
     }
@@ -3062,14 +3124,29 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
 
 function getQuestSeasonMission($userId, $questSeasonId)
 {
-    global $db;
+    global $db, $cache;
 
     $questSeasonMissionUser = getQuestSeasonMissionUser($userId, $questSeasonId);
+    if (!$questSeasonMissionUser || !isset($questSeasonMissionUser['quest_season_mission_id'])) {
+        return null;
+    }
 
-    $db->query("SELECT * FROM quest_season_mission WHERE id = " . $questSeasonMissionUser['quest_season_mission_id'] . " LIMIT 1");
-    $db->execute();
+    $missionId = (int) $questSeasonMissionUser['quest_season_mission_id'];
+    $cacheKey = "questSeasonMission:{$missionId}";
+
+    $cached = $cache->get($cacheKey);
+    if ($cached !== null) {
+        return json_decode($cached, true);
+    }
+
+    $db->query("SELECT * FROM quest_season_mission WHERE id = ? LIMIT 1");
+    $db->execute([$missionId]);
     $questSeasonMission = $db->fetch_row(true);
-    $questSeasonMission['requirements'] = json_decode($questSeasonMission['requirements']);
+
+    if ($questSeasonMission) {
+        $questSeasonMission['requirements'] = json_decode($questSeasonMission['requirements'], true);
+        $cache->setEx($cacheKey, 86400, json_encode($questSeasonMission));
+    }
 
     return $questSeasonMission;
 }
@@ -3144,44 +3221,51 @@ function getDisplayForQuestReq($req, $num, $progress)
 
 function updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $req, $value)
 {
-    global $db;
+    global $db, $cache;
 
     $db->query("SELECT * FROM quest_season_mission WHERE id = ? LIMIT 1");
-    $db->execute(array($questSeasonMissionUser['quest_season_mission_id']));
+    $db->execute([$questSeasonMissionUser['quest_season_mission_id']]);
     $questSeasonMission = $db->fetch_row(true);
 
     if ($questSeasonMission) {
         $isComplete = false;
 
-        if (is_string($questSeasonMissionUser['progress'])) {
-            $progress = json_decode($questSeasonMissionUser['progress'], true);
-        } else {
-            $progress = (array) $questSeasonMissionUser['progress'];
-        }
+        $progress = is_string($questSeasonMissionUser['progress'])
+            ? json_decode($questSeasonMissionUser['progress'], true)
+            : (array) $questSeasonMissionUser['progress'];
 
         if (!is_array($progress)) {
             $progress = [];
         }
 
-        $progress[$req] = isset($progress[$req]) ? (int) $progress[$req] + $value : (int) $value;
+        $progress[$req] = ($progress[$req] ?? 0) + (int) $value;
         $questSeasonMissionUser['progress'] = $progress;
 
-        $requirements = json_decode($questSeasonMission['requirements']);
+        $requirements = json_decode($questSeasonMission['requirements'], true);
         foreach ($requirements as $key => $r) {
-            if ($progress[$key] >= $r) {
-                $isComplete = true;
-            } else {
+            if (($progress[$key] ?? 0) < $r) {
                 $isComplete = false;
                 break;
             }
+            $isComplete = true;
         }
 
         if ($isComplete && !$questSeasonMissionUser['is_complete']) {
-            Send_Event($questSeasonMissionUser['user_id'], 'You have completed the mission: ' . $questSeasonMission['name'] . '! <a href="quest.php">Click here to claim your reward</a>');
+            Send_Event(
+                $questSeasonMissionUser['user_id'],
+                'You have completed the mission: ' . $questSeasonMission['name'] . '! <a href="quest.php">Click here to claim your reward</a>'
+            );
         }
 
         $db->query("UPDATE quest_season_mission_user SET progress = ?, is_complete = ? WHERE id = ?");
-        $db->execute(array(json_encode($progress), $isComplete, $questSeasonMissionUser['id']));
+        $db->execute([json_encode($progress), $isComplete, $questSeasonMissionUser['id']]);
+
+        $questSeasonMissionUser['is_complete'] = (int) $isComplete;
+        $cache->setEx(
+            "questSeasonMissionUser:{$questSeasonMissionUser['user_id']}:{$questSeasonMissionUser['quest_season_id']}",
+            300,
+            json_encode($questSeasonMissionUser)
+        );
     }
 
     return $questSeasonMissionUser;
@@ -4462,4 +4546,99 @@ function decrease_pm_count($uid)
             $cache->set("pm_count_" . $uid, 0);
         }
     }
+}
+
+function get_crime_rank($userId, $crimeId)
+{
+    global $db, $cache;
+
+    $cacheKey = "crime_rank_{$userId}_{$crimeId}";
+    if ($cache->exists($cacheKey)) {
+        return (int) $cache->get($cacheKey);
+    }
+
+    $db->query("SELECT `count` FROM crimeranks WHERE userid = ? AND crimeid = ?");
+    $db->execute([$userId, $crimeId]);
+    $rank = (int) $db->fetch_single();
+    $cache->setEx($cacheKey, 3600, $rank);
+
+    return $rank;
+}
+
+function incrementCrimeRank($userId, $crimeId)
+{
+    global $db, $cache;
+
+    $current = get_crime_rank($userId, $crimeId);
+    $newCount = $current + 1;
+
+    $db->query("INSERT INTO crimeranks (userid, crimeid, `count`) VALUES (?, ?, 1) ON DUPLICATE KEY UPDATE `count` = `count` + 1");
+    $db->execute([$userId, $crimeId]);
+
+    $cache->set("crime_rank_{$userId}_{$crimeId}", $newCount);
+
+    return $newCount;
+}
+
+function get_game_bonus($id)
+{
+    global $db, $cache;
+
+    $cacheKey = "game_bonus_{$id}";
+    if ($cache->exists($cacheKey)) {
+        return json_decode($cache->get($cacheKey), true);
+    }
+
+    $db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
+    $db->execute();
+    $bonus_row = $db->fetch_row(true);
+    $cache->setEx($cacheKey, 3600, json_encode($bonus_row));
+
+    return $bonus_row;
+}
+
+function get_gang_crimeinfo($gid)
+{
+    global $db, $cache;
+
+    $cacheKey = "gang_crimeinfo_{$gid}";
+    if ($cache->exists($cacheKey)) {
+        return json_decode($cache->get($cacheKey), true);
+    }
+
+    $db->query("SELECT upgrade_crimecash, tax FROM gangs WHERE id = ?");
+    $db->execute([$gid]);
+    $crime_info = $db->fetch_row(true);
+    $cache->setEx($cacheKey, 3600, json_encode($crime_info));
+
+    return $crime_info;
+}
+
+function get_crimes()
+{
+    global $db, $cache;
+
+    $crimes = $cache->get("all_crimes");
+    if (empty($crimes)) {
+        $db->query("SELECT * FROM crimes ORDER BY nerve DESC");
+        $db->execute();
+        $crimes = $db->fetch_row();
+        $cache->setEx("all_crimes", 7200, json_encode($crimes)); // Cache for 2 hours
+    } else {
+        $crimes = json_decode($crimes, true);
+    }
+
+    return $crimes;
+}
+
+function get_crime($crimeId)
+{
+    $crimes = get_crimes();
+    foreach ($crimes as $crime) {
+        if ((int) $crime['id'] === (int) $crimeId) {
+            return $crime;
+        }
+    }
+
+    return null;
 }

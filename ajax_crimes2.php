@@ -23,7 +23,6 @@ function shorthandNumber($number)
     return number_format($number); // Return the original number if it's less than 1000
 }
 
-
 include_once "classes.php";
 include_once "database/pdo_class.php";
 
@@ -82,14 +81,9 @@ if ($user_class->jail || $user_class->hospital) {
     die();
 }
 
-$input = json_decode(file_get_contents('php://input'), true);
-
-if (isset($_POST['id']) || isset($input['id'])) {
-    $id = (isset($_POST['id'])) ? $_POST['id'] : $input['id'];
-
-    $db->query("SELECT `id`, `nerve`, `name` FROM crimes WHERE id = ? LIMIT 1");
-    $db->execute([$id]);
-    $row = $db->fetch_row(true);
+if (isset($_POST['id']) || isset($data['id'])) {
+    $id = (isset($_POST['id'])) ? $_POST['id'] : $data['id'];
+    $row = get_crime($id);
 
     $debug['crime'] = $id;
     $debug['nerve'] = $user_class->nerve;
@@ -150,19 +144,11 @@ if (isset($_POST['id']) || isset($input['id'])) {
     } else {
         $exp = ((10 * $nerve) + 8 * ($nerve - 1)) * 1.0;
     }
-    // Fetch the crime count and determine the star level
-    $db->query("SELECT `count` FROM crimeranks WHERE userid = ? AND crimeid = ?");
-    $db->execute(array($user_class->id, $row['id']));
-    $crimeRankResult = $db->fetch_row(true);
 
-    if ($crimeRankResult) {
-        $crimeCount = (int) $crimeRankResult['count'];
-    } else {
-        $crimeCount = 0;
-    }
+    // Fetch the crime count and determine the star level
+    $crimeCount = get_crime_rank($user_class->id, $row['id']);
 
     // Determine the star level based on the crime count
-
     if ($crimeCount >= 10000 && $crimeCount < 100000) {
         $star_level = 1;
     } elseif ($crimeCount >= 100000 && $crimeCount < 1000000) {
@@ -233,20 +219,13 @@ if (isset($_POST['id']) || isset($input['id'])) {
         $exp += round(($exp / 10));
     }
 
-
-    $db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
-    $db->execute();
-    $bonus_row = $db->fetch_row(true);
-
-    //$debug['worked'] = $bonus_row;
-
-    $tempItemUse = getItemTempUse($user_class->id);
+    $bonus_row = get_game_bonus(1);
     $aTime = time();
     if ($tempItemUse['gang_double_exp_time'] > $aTime) {
         $exp *= 2;
         $money *= 1;
         $chance = 100;
-    } else if (isset($bonus_row['TIME']) && $bonus_row['Time'] > 0) {
+    } else if (isset($bonus_row['time']) && $bonus_row['time'] > 0) {
         $exp *= 2;
         $money *= 1;
         $chance = 100;
@@ -297,17 +276,10 @@ if (isset($_POST['id']) || isset($input['id'])) {
             return 0;
         }
 
-        if ($user_class->id == 2) {
-            //Send_Event(2, $nerveneeded . ' - ' . $user_class->maxnerve . ' - ' . $cost, 2);
-        }
-
-        $tempItemUse = getItemTempUse($user_class->id);
         $now = time();
-
         if ($tempItemUse['nerve_vial_time'] > $now) {
             $extraCost = $cost / 2;
             $cost = ceil($cost - ($extraCost / 2));
-
         }
 
         $debug['cost'] = $cost;
@@ -436,14 +408,13 @@ if (isset($_POST['id']) || isset($input['id'])) {
 
             $gtax = 0;
             if ($user_class->gang != 0) {
-                $db->query("SELECT `tax` FROM `gangs` WHERE `id` = ?");
-                $db->execute(array($user_class->gang));
-                $gangTax = $db->fetch_row(true);
+                $gangCrimeInfo = get_gang_crimeinfo($user_class->gang);
+                $gangTax = $gangCrimeInfo['tax'] ?? 0;
 
                 // Check if 'tax' index exists and is greater than 0
-                if (isset($gangTax['tax']) && $gangTax['tax'] > 0) {
+                if ($gangTax > 0) {
                     // Use the retrieved tax value for calculation
-                    $gtax = $money * ($gangTax['tax'] / 100);
+                    $gtax = $money * ($gangTax / 100);
                     gangContest(array('tax' => $gtax));
                 }
             }
@@ -459,13 +430,13 @@ if (isset($_POST['id']) || isset($input['id'])) {
             }
             addToRelCompLeaderboard($user_class->id, 'crimes_complete', $crime_multiplier);
 
-            $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
-            $db->execute();
-            $activityContest = $db->fetch_row(true);
-            if (isset($activityContest['type']) && $activityContest['type'] == 'crimes') {
-                addToUserCompLeaderboard($user_class->id, 'activity_complete', $crime_multiplier);
-                addToRelCompLeaderboard($user_class->id, 'activity_complete', $crime_multiplier);
-            }
+            // $db->query("SELECT * FROM activity_contest WHERE id = 1 LIMIT 1");
+            // $db->execute();
+            // $activityContest = $db->fetch_row(true);
+            // if (isset($activityContest['type']) && $activityContest['type'] == 'crimes') {
+            //     addToUserCompLeaderboard($user_class->id, 'activity_complete', $crime_multiplier);
+            //     addToRelCompLeaderboard($user_class->id, 'activity_complete', $crime_multiplier);
+            // }
 
             addToGangCompLeaderboard($user_class->gang, 'crimes_complete', $crime_multiplier);
             $bpCategory = getBpCategory();
@@ -491,10 +462,8 @@ if (isset($_POST['id']) || isset($input['id'])) {
             }
 
             if ($user_class->gang > 0) {
-                $db->query("SELECT upgrade_crimecash FROM gangs WHERE id = " . $user_class->gang);
-                $db->execute();
-                $u = $db->fetch_row(true);
-                $percent = $u['upgrade_crimecash'] * 2;
+                $gangCrimeInfo = get_gang_crimeinfo($user_class->gang);
+                $percent = ($gangCrimeInfo['upgrade_crimecash'] ?? 0) * 2;
                 $money += round(($money * $percent) / 100);
             }
 
@@ -513,32 +482,20 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 $user_class->id
             ));
 
-            $db->query("UPDATE gangs SET moneyvault = moneyvault + ? WHERE id = ?");
-            $db->execute(array(
-                $gtax,
-                $user_class->gang
-            ));
-
-
-            // Check if the user has already performed this crime and a row exists in crimeranks
-            $db->query("SELECT id FROM crimeranks WHERE userid = ? AND crimeid = ?");
-            $db->execute(array($user_class->id, $id));
-            $crimeRank = $db->fetch_row(true);
-
-            if ($crimeRank) {
-                // A row exists, so update the count
-                $db->query("UPDATE crimeranks SET count = count + 1 WHERE id = ?");
-                $db->execute(array($crimeRank['id']));
-            } else {
-                // No row exists for this user and crimeid, so insert a new row
-                $db->query("INSERT INTO crimeranks (userid, crimeid, count) VALUES (?, ?, 1)");
-                $db->execute(array($user_class->id, $id));
+            if ($gtax > 0) {
+                $db->query("UPDATE gangs SET moneyvault = moneyvault + ? WHERE id = ?");
+                $db->execute(array(
+                    $gtax,
+                    $user_class->gang
+                ));
             }
+
+            incrementCrimeRank($user_class->id, $id);
+
             $db->query("SELECT `name`, mission.crimes as crimestarget, missions.crimes as crimesdone FROM missions LEFT JOIN mission ON missions.mid = mission.id WHERE `userid` = ? AND `completed` = \"no\" LIMIT 1");
-            $db->execute(array(
-                $user_class->id
-            ));
+            $db->execute([$user_class->id]);
             $activeMission = $db->fetch_row(true);
+
             $mt = "";
             if ($activeMission) {
                 $mt = "Active Mission: {$activeMission['name']} Crimes: {$activeMission['crimesdone']}/{$activeMission['crimestarget']}";
@@ -547,7 +504,6 @@ if (isset($_POST['id']) || isset($input['id'])) {
             $text = ($gtax > 0) ? "$stext. You received $exp exp and $$money.(Gang Tax: $$gtax)" : "$stext. You received $exp exp and $$money";
 
             $debug['response'] = "Success! $text";
-            //$logger->info("", $debug);
             echo json_encode(array(
                 'debug' => $debug,
                 'text' => $text,
