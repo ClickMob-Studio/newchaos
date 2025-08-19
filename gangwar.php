@@ -122,7 +122,7 @@ include 'header.php';
                     echo Message("Your gang is already at war with someone.");
             }
 
-            $db->query("SELECT COUNT(*) FROM gangwars WHERE accepted = 0 AND gang2 = ? ORDER BY timesent DESC");
+            $db->query("SELECT * FROM gangwars WHERE accepted = 0 AND gang2 = ? ORDER BY timesent DESC");
             $db->execute([$user_class->gang]);
             $results = $db->fetch_row();
             $war = CheckGangWar($user_class->gang);
