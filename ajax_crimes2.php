@@ -23,12 +23,6 @@ function shorthandNumber($number)
     return number_format($number); // Return the original number if it's less than 1000
 }
 
-$data = json_decode(file_get_contents("php://input"), true);
-
-if (isset($data['user_id'])) {
-    $_SESSION['user_id'] = $data['user_id'];
-    $_SESSION['id'] = $data['user_id'];
-}
 
 include_once "classes.php";
 include_once "database/pdo_class.php";
@@ -37,11 +31,13 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-if (isset($_GET['au_user_or']) && (int) $_GET['au_user_or']) {
-    $user_class = new User((int) $_GET['au_user_or']);
-} else {
-    $user_class = new User($_SESSION['id']);
+$data = json_decode(file_get_contents("php://input"), true);
+
+if (!isset($_SESSION['id'])) {
+    die();
 }
+
+$user_class = new User($_SESSION['id']);
 
 session_write_close();
 

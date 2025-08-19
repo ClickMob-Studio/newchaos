@@ -23,9 +23,10 @@ include 'header.php'; ?>
             die();
         }
         if (isset($_GET['user']) && $_GET['x'] == 1) {
-            $checkapps = mysql_query("SELECT * FROM gangapps WHERE gangid = $gang AND applicant = {$_GET['user']}");
-            $result = mysql_num_rows($checkapps);
-            if ($result > 0) {
+            $db->query("SELECT * FROM gangapps WHERE gangid = ? AND applicatn = ?");
+            $db->execute([$gang, $_GET['user']]);
+            $result = $db->fetch_row();
+            if (!empty($result)) {
                 $app_class = new User($_GET['user']);
                 $gangclass = new Gang($gang);
                 echo Message("You have accepted this application.");
@@ -44,6 +45,7 @@ include 'header.php'; ?>
             }
         }
         if (isset($_GET['user']) && $_GET['x'] == 0) {
+            $db->query("SELECT * FROM gangapps WHERE gangid = ? AND applicatn = ?");
             $checkapps = mysql_query("SELECT * FROM gangapps WHERE gangid = $gang AND applicant = {$_GET['user']}");
             $result = mysql_num_rows($checkapps);
             if ($result > 0) {
