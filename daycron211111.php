@@ -4,6 +4,7 @@
 if ($_GET['key'] != 'cron94') {
     die();
 }
+
 chdir("/var/www/html");
 
 (PHP_SAPI !== 'cli' || isset($_SERVER['HTTP_USER_AGENT'])) && die('');

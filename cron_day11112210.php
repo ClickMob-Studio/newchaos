@@ -48,4 +48,18 @@ $db->execute();
 
 $db->query("UPDATE `user_santas_grotto` SET `todays_gifts_found` = 0");
 $db->execute();
+
+// Cleanup
+$time = time() - 14 * 24 * 60 * 60; // 14 days ago
+perform_query("DELETE FROM `attacklog` WHERE `timestamp` < ?", [$time]);
+perform_query("DELETE FROM `attlog` WHERE `timestamp` < ?", [$time]);
+perform_query("DELETE FROM `deflog` WHERE `timestamp` < ?", [$time]);
+perform_query("DELETE FROM `events` WHERE `timesent` < ?", [$time]);
+perform_query("DELETE FROM `muglog` WHERE `timestamp` < ?", [$time]);
+perform_query("DELETE FROM `user_logs` where `timestamp` < ?", [$time]);
+
+perform_query("DELETE FROM `active_raids` WHERE `summoned_at` < (NOW() - INTERVAL 14 DAY)");
+perform_query("DELETE FROM `raid_participants` WHERE `joined_at` < (NOW() - INTERVAL 14 DAY)");
+perform_query("DELETE FROM `raid_battle_logs` WHERE `timestamp` < (NOW() - INTERVAL 14 DAY)");
+
 ?>
