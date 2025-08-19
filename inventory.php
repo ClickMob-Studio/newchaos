@@ -520,7 +520,7 @@ src="${itemImage}" alt="${itemName}">
             const currentQuantity = parseInt($("#qty-" + itemId).text());
             const newQuantity = currentQuantity - subtractQuantity;
 
-            if (newQuantity < 0) {
+            if (newQuantity <= 0) {
                 $("#itemcard-" + itemId).remove();
                 return;
             }
