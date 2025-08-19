@@ -214,7 +214,7 @@ if ($user_class->gang > 0) {
             $showEquipButton = in_array($itemType, array('weapon', 'armor', 'shoes', 'gloves')) || in_array($itemSubtype, array('weapon', 'armor', 'shoes', 'gloves'));
             $dataType = $itemSubtype ?: $itemType;
 
-            echo '<div class="col-6 col-md-4 col-lg-3 mb-3">';
+            echo '<div class="col-6 col-md-4 col-lg-3 mb-3" id="itemcard-' . $item['id'] . '">';
             echo '<div class="card shadow-sm h-100">';
             echo '<img class="card-img-top" style="max-width: 120px; max-height: 120px; margin: auto;" src="' . htmlspecialchars($itemImage) . '" alt="' . htmlspecialchars($itemName) . '">';
             echo '<div class="card-body d-flex flex-column">';
