@@ -1,15 +1,15 @@
 <?php
+// Turn off display but keep error_log useful
 ini_set('display_errors', 0);
-ini_set('display_startup_errors', 0);
-error_reporting(E_ERROR | E_PARSE);
+error_reporting(E_ALL);
 
-// Polyfill for getallheaders for non-Apache or CGI environments
+// Polyfill for getallheaders if needed
 if (!function_exists('getallheaders')) {
     function getallheaders()
     {
         $headers = [];
         foreach ($_SERVER as $name => $value) {
-            if (substr($name, 0, 5) == 'HTTP_') {
+            if (strpos($name, 'HTTP_') === 0) {
                 $header = str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))));
                 $headers[$header] = $value;
             }
@@ -19,29 +19,36 @@ if (!function_exists('getallheaders')) {
 }
 
 $secret = 'zJE2vuHYVLhK5Uk2HlUdg4ZLCop2hzp3';
-
 $payload = file_get_contents('php://input');
+
 $headers = array_change_key_case(getallheaders(), CASE_LOWER);
-$signature = isset($headers['x-hub-signature']) ? $headers['x-hub-signature'] : '';
+$sig256 = $headers['x-hub-signature-256'] ?? '';
+$sig1 = $headers['x-hub-signature'] ?? '';
 
-$hash = 'sha1=' . hash_hmac('sha1', $payload, $secret);
-if (!hash_equals($hash, $signature)) {
+// Build expected signatures
+$exp256 = 'sha256=' . hash_hmac('sha256', $payload, $secret);
+$exp1 = 'sha1=' . hash_hmac('sha1', $payload, $secret);
+
+// Validate (prefer sha256)
+$valid =
+    ($sig256 && hash_equals($exp256, $sig256)) ||
+    ($sig1 && hash_equals($exp1, $sig1));
+
+if (!$valid) {
+    // Minimal diagnostics to your error log (not to the client)
+    error_log('GitHub webhook signature mismatch. '
+        . 'X-Hub-Signature-256=' . ($sig256 ?: 'MISSING')
+        . ' expected=' . $exp256
+        . ' | X-Hub-Signature=' . ($sig1 ?: 'MISSING')
+        . ' expected=' . $exp1
+        . ' | delivery=' . ($headers['x-github-delivery'] ?? 'n/a'));
     http_response_code(403);
-    exit('File not found.');
-}
-
-// Parse event type and branch (no null coalescing)
-$event = isset($headers['x-github-event']) ? $headers['x-github-event'] : '';
-$data = json_decode($payload, true);
-$branch = isset($data['ref']) ? $data['ref'] : '';
-if ($event !== 'push' || $branch !== 'refs/heads/main') {
     exit('File not found.');
 }
 
 /**
  * GIT DEPLOYMENT SCRIPT
  */
-// The commands
 $commands = array(
     'echo $PWD',
     'whoami',
