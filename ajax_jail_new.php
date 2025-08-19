@@ -94,7 +94,7 @@ if (isset($_GET['jailbreak']) && $_GET['jailbreak'] == 'bot') {
             $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
             $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
         }
-        if (isset($questSeasonMission['requirements']->busts)) {
+        if (isset($questSeasonMission['requirements']['busts'])) {
             updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'busts', 1);
         }
 

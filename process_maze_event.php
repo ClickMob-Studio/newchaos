@@ -207,8 +207,8 @@ if ($response['jailTime'] == 0 && $response['hospitalTime'] == 0) {
         $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
         $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
         if (
-            isset($questSeasonMission['requirements']->maze) &&
-            (int) $questSeasonMissionUser['progress']->maze < (int) $questSeasonMission['requirements']->maze
+            isset($questSeasonMission['requirements']['maze']) &&
+            (int) $questSeasonMissionUser['progress']['maze'] < (int) $questSeasonMission['requirements']['maze']
         ) {
             updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'maze', 1);
         }

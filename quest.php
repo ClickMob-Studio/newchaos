@@ -144,23 +144,23 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
     exit;
 }
 
-if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail' && isset($questSeasonMission['requirements']->vinny_the_fish_delivery)):
+if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail' && isset($questSeasonMission['requirements']['vinny_the_fish_delivery'])):
     include 'quest/vinny_the_fish_delivery.php';
 endif;
 
-if (isset($_GET['mode']) && $_GET['mode'] === 'marocs_pharmacy' && isset($questSeasonMission['requirements']->pharmacy_protection)):
+if (isset($_GET['mode']) && $_GET['mode'] === 'marocs_pharmacy' && isset($questSeasonMission['requirements']['pharmacy_protection'])):
     include 'quest/pharmacy_protection.php';
 endif;
 
-if (isset($_GET['mode']) && $_GET['mode'] === 'follow_salvatore' && isset($questSeasonMission['requirements']->follow_salvatore)):
+if (isset($_GET['mode']) && $_GET['mode'] === 'follow_salvatore' && isset($questSeasonMission['requirements']['follow_salvatore'])):
     include 'quest/follow_salvatore.php';
 endif;
 
-if (isset($_GET['mode']) && $_GET['mode'] === 'steal_books' && isset($questSeasonMission['requirements']->steal_books)):
+if (isset($_GET['mode']) && $_GET['mode'] === 'steal_books' && isset($questSeasonMission['requirements']['steal_books'])):
     include 'quest/steal_books.php';
 endif;
 
-if (isset($_GET['mode']) && $_GET['mode'] === 'interrogate_phil' && isset($questSeasonMission['requirements']->interrogate_phil)):
+if (isset($_GET['mode']) && $_GET['mode'] === 'interrogate_phil' && isset($questSeasonMission['requirements']['interrogate_phil'])):
     include 'quest/interrogate_phil.php';
 endif;
 ?>

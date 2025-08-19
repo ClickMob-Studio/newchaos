@@ -239,23 +239,23 @@ if (isset($currentQuestSeason['id'])) {
                 <div class="col-12 text-center mb-2 section-header">
                     <strong>Economic Activities</strong>
                 </div>
-                <?php if (isset($questSeasonMission['requirements']->vinny_the_fish_delivery)): ?>
+                <?php if (isset($questSeasonMission['requirements']['vinny_the_fish_delivery'])): ?>
                     <a href='quest.php?mode=therustnail'>The Rusty Nail</a><br>
                 <?php endif; ?>
 
-                <?php if (isset($questSeasonMission['requirements']->pharmacy_protection)): ?>
+                <?php if (isset($questSeasonMission['requirements']['pharmacy_protection'])): ?>
                     <a href='quest.php?mode=marocs_pharmacy'>Marcos Pharmacy</a><br>
                 <?php endif; ?>
 
-                <?php if (isset($questSeasonMission['requirements']->follow_salvatore)): ?>
+                <?php if (isset($questSeasonMission['requirements']['follow_salvatore'])): ?>
                     <a href='quest.php?mode=follow_salvatore'>Follow Salvatore</a><br>
                 <?php endif; ?>
 
-                <?php if (isset($questSeasonMission['requirements']->steal_books)): ?>
+                <?php if (isset($questSeasonMission['requirements']['steal_books'])): ?>
                     <a href='quest.php?mode=steal_books'>Steal The Books</a><br>
                 <?php endif; ?>
 
-                <?php if (isset($questSeasonMission['requirements']->interrogate_phil)): ?>
+                <?php if (isset($questSeasonMission['requirements']['interrogate_phil'])): ?>
                     <a href='quest.php?mode=interrogate_phil'>Interrogate Phil</a><br>
                 <?php endif; ?>
 

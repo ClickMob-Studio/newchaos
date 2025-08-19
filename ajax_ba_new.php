@@ -209,7 +209,7 @@ if (isset($currentQuestSeason['id'])) {
     $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
     $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
-    if (isset($questSeasonMission['requirements']->backalley)) {
+    if (isset($questSeasonMission['requirements']['backalley'])) {
         updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'backalley', 1);
     }
 }

@@ -324,7 +324,7 @@ foreach ($raids as $raid) {
                 $questSeasonMissionUser = getQuestSeasonMissionUser($participant['user_id'], $currentQuestSeason['id']);
                 $questSeasonMission = getQuestSeasonMission($participant['user_id'], $currentQuestSeason['id']);
 
-                if (isset($questSeasonMission['requirements']->raids)) {
+                if (isset($questSeasonMission['requirements']['raids'])) {
                     updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'raids', 1);
                 }
             }

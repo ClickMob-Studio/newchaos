@@ -127,7 +127,7 @@ if (isset($_POST['id']) || isset($data['id'])) {
                 : null;
 
             if (
-                isset($questSeasonMission['requirements']->whitecollar_fraud) &&
+                isset($questSeasonMission['requirements']['whitecollar_fraud']) &&
                 $progressValue !== null &&
                 $progressValue < 100
             ) {
@@ -454,7 +454,7 @@ if (isset($_POST['id']) || isset($data['id'])) {
                 if (isset($questSeasonMissionUser['id'])) {
                     $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
-                    if (isset($questSeasonMission['requirements']->crime_cash) && $questSeasonMission['requirements']->crime_cash > 0) {
+                    if (isset($questSeasonMission['requirements']['crime_cash']) && $questSeasonMission['requirements']['crime_cash'] > 0) {
                         updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'crime_cash', $money);
                     }
 

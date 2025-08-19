@@ -3001,7 +3001,7 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
     $cacheKey = "questSeasonMissionUser:{$userId}:{$questSeasonId}";
     $cached = $cache->get($cacheKey);
     if ($cached !== null) {
-        $decoded = json_decode($cached);
+        $decoded = json_decode($cached, true);
         if (is_array($decoded) && isset($decoded['id'])) {
             return $decoded;
         }
@@ -3215,10 +3215,9 @@ function updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $req, $va
             );
         }
 
-        error_log("Updating row id = " . $questSeasonMissionUser['id']);
         $db->query("UPDATE quest_season_mission_user SET progress = ?, is_complete = ? WHERE id = ?");
         $db->execute([json_encode($progress), $isComplete, $questSeasonMissionUser['id']]);
-        error_log("Rows affected: " . $db->affected_rows());
+
         $questSeasonMissionUser['is_complete'] = (int) $isComplete;
         $cache->setEx(
             "questSeasonMissionUser:{$questSeasonMissionUser['user_id']}:{$questSeasonMissionUser['quest_season_id']}",

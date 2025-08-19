@@ -181,7 +181,7 @@ if (isset($_GET['attack']) && (int) $_GET['attack'] && (int) $_GET['attack'] > 0
             $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
             $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
-            if (isset($questSeasonMission['requirements']->city_goons)) {
+            if (isset($questSeasonMission['requirements']['city_goons'])) {
                 updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'city_goons', 1);
             }
         }

@@ -47,7 +47,7 @@ try {
             $value = $_GET['value'];
         }
 
-        if (isset($questSeasonMission['requirements']->$field) && $field && $value) {
+        if (isset($questSeasonMission['requirements'][$field]) && $field && $value) {
             updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $field, $value);
 
             echo json_encode(array('success' => true));

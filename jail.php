@@ -101,7 +101,7 @@ if ($jailbreak != "") {
                 ofthes($user_class->id, $toadd);
                 bloodbath('busts', $user_class->id);
                 addToUserOperations($user_class, 'busts', 1);
-                if (isset($questSeasonMission['requirements']->busts)) {
+                if (isset($questSeasonMission['requirements']['busts'])) {
                     updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'busts', 1);
                 }
             }
@@ -163,7 +163,7 @@ if ($jailbreak != "") {
                         bloodbath('busts', $user_class->id);
                         addToUserOperations($user_class, 'busts', 1);
                         updateGangActiveMission('busts', 1);
-                        if (isset($questSeasonMission['requirements']->busts)) {
+                        if (isset($questSeasonMission['requirements']['busts'])) {
                             updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'busts', 1);
                         }
 
