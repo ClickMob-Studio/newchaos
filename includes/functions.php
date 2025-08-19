@@ -3041,32 +3041,47 @@ function getQuestSeasonUser($userId, $questSeasonId)
 
     $cached = $cache->get($cacheKey);
     if ($cached !== null) {
-        return json_decode($cached, true);
+        $decoded = json_decode($cached, true);
+        if (is_array($decoded) && isset($decoded['id'])) {
+            return $decoded;
+        }
+        // fall through if cache is invalid/bad
     }
 
+    // Try select first
     $db->query("SELECT * FROM quest_season_user WHERE user_id = ? AND quest_season_id = ? LIMIT 1");
     $db->execute([$userId, $questSeasonId]);
     $r = $db->fetch_row(true);
 
-    if (isset($r['id'])) {
+    if ($r && isset($r['id'])) {
         $cache->setEx($cacheKey, 300, json_encode($r));
         return $r;
     }
 
-    // Not found, insert new
-    $db->query("INSERT INTO quest_season_user (user_id, quest_season_id) VALUES (?, ?)");
+    // Insert with ON DUPLICATE KEY to guarantee row exists
+    $db->query("INSERT INTO quest_season_user (user_id, quest_season_id) VALUES (?, ?) 
+                ON DUPLICATE KEY UPDATE quest_season_id = VALUES(quest_season_id)");
     $db->execute([$userId, $questSeasonId]);
 
+    // Re-select
     $db->query("SELECT * FROM quest_season_user WHERE user_id = ? AND quest_season_id = ? LIMIT 1");
     $db->execute([$userId, $questSeasonId]);
     $r = $db->fetch_row(true);
 
-    if (isset($r['id'])) {
+    if ($r && isset($r['id'])) {
         $cache->setEx($cacheKey, 300, json_encode($r));
+        return $r;
     }
 
-    return $r;
+    // Final safeguard: always return at least a minimal struct
+    return [
+        'id' => null,
+        'user_id' => $userId,
+        'quest_season_id' => $questSeasonId,
+        'is_complete' => 0,
+    ];
 }
+
 
 function getQuestSeasonMissionUser($userId, $questSeasonId)
 {
