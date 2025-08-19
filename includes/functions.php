@@ -3001,7 +3001,7 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
     $cacheKey = "questSeasonMissionUser:{$userId}:{$questSeasonId}";
     $cached = $cache->get($cacheKey);
     if ($cached !== null) {
-        $decoded = json_decode($cached, true);
+        $decoded = json_decode($cached);
         if (is_array($decoded) && isset($decoded['id'])) {
             return $decoded;
         }
