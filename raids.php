@@ -97,7 +97,9 @@ $db->query("SELECT * FROM bosses WHERE is_active > 0");
 $db->execute();
 $bosses = $db->fetch_row();
 
-$pet = $user_class->pet;
+$db->query("SELECT * FROM pets WHERE raid_leash = 1 AND userid = ? LIMIT 1");
+$db->execute([$user_class->id]);
+$pet = $db->fetch_row(true);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
     $raid_id = intval($_POST['join_raid_id']);
