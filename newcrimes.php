@@ -200,15 +200,15 @@ if (isset($_GET['ner'])) {
                                 <option value="1">1x</option>
                                 <option value="2">2x</option>
                                 <option value="4">4x</option>
-                                <option value="15" <?php echo $rmOnly ?>>15x (VIP Only)</option>
-                                <option value="20" <?php echo $rmOnly ?>>20x (VIP Only)</option>
-                                <option value="25" <?php echo $rmOnly ?>>25x (VIP Only)</option>
+                                <option value="15" <?php echo $rmOnly ?>>15x (VIP)</option>
+                                <option value="30" <?php echo $rmOnly ?>>30x (VIP)</option>
+                                <option value="50" <?php echo $rmOnly ?>>50x (VIP)</option>
 
                                 <?php
                                 $tempItemUse = getItemTempUse($user_class->id);
                                 if ($tempItemUse['crime_15_multiplier_time'] > time()):
                                     ?>
-                                    <option value="50">50x</option>
+                                    <option value="75">75x</option>
                                 <?php endif; ?>
                             </select>
                         </div>
@@ -401,7 +401,7 @@ if (isset($_GET['ner'])) {
 
                 }
             }
-        }, 100);
+        }, 70);
         document.addEventListener('mouseup', resetAction, { once: true });
         document.addEventListener('touchend', resetAction, { once: true });
 

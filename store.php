@@ -393,7 +393,7 @@ include 'header.php';
                 if ($user_class->credits >= 30) {
                     $itemTempUse = getItemTempUse($user_class->id);
                     if ($itemTempUse['crime_15_multiplier_time'] > time()) {
-                        echo Message("You already have 50x crime access activated");
+                        echo Message("You already have 75x crime access activated");
                     } else {
                         $current = $user_class->credits;
                         $newcredit = $user_class->credits -= 30;

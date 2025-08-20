@@ -50,18 +50,18 @@ $tempItemUse = getItemTempUse($user_class->id);
 
 $crime_multiplier = 1;
 if (isset($_POST['cm'])) {
-    $allowed = array(1, 2, 4, 10, 15, 20, 25, 50);
+    $allowed = array(1, 2, 4, 15, 30, 50, 75);
     if (in_array($_POST['cm'], $allowed)) {
         $crime_multiplier = $_POST['cm'];
     }
 }
 
-if ($crime_multiplier == 50) {
+if ($crime_multiplier == 75) {
     if ($tempItemUse['crime_15_multiplier_time'] < time()) {
         echo json_encode(array(
-            'text' => "You do not have access to 50x crimes.",
+            'text' => "You do not have access to 75x crimes.",
         ));
-        $debug['error'] = "50X CRIMES";
+        $debug['error'] = "75x CRIMES";
         die();
 
     }
@@ -554,7 +554,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
             $text = ($gtax > 0) ? "$stext. You received $exp exp and $$money.(Gang Tax: $$gtax)" : "$stext. You received $exp exp and $$money";
 
             $debug['response'] = "Success! $text";
-            //$logger->info("", $debug);
+
             echo json_encode(array(
                 'debug' => $debug,
                 'text' => $text,
