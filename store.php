@@ -389,11 +389,11 @@ include 'header.php';
                 }
             }
 
-            if ($_GET['buy'] == "qol15crimes") {
+            if ($_GET['buy'] == "qol50crimes") {
                 if ($user_class->credits >= 30) {
                     $itemTempUse = getItemTempUse($user_class->id);
                     if ($itemTempUse['crime_15_multiplier_time'] > time()) {
-                        echo Message("You already have 20x crime access activated");
+                        echo Message("You already have 50x crime access activated");
                     } else {
                         $current = $user_class->credits;
                         $newcredit = $user_class->credits -= 30;
@@ -1429,10 +1429,10 @@ include 'header.php';
 
         <!-- 15x Crimes -->
         <div class="vip-package">
-            <h4 style="color: brown;">30 mins of 20x Crimes</h4>
-            <p>Unlock 30 mins of the 20x Crimes, allowing you to complete crimes 20x quicker.</p>
+            <h4 style="color: brown;">30 mins of 50x Crimes</h4>
+            <p>Unlock 30 mins of 50x Crimes, allowing you to complete crimes 50x quicker.</p>
 
-            <h4>Purchase now for only<br><a href="store.php?buy=qol15crimes"><button class="gold-button">30 <img
+            <h4>Purchase now for only<br><a href="store.php?buy=qol50crimes"><button class="gold-button">35 <img
                             src="https://chaoscity.co.uk/goldbar.png" alt="Gold bar"></button></a></h4>
         </div>
 

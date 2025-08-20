@@ -3,7 +3,6 @@
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
-//header('Content-type: application/json');
 session_start();
 
 function shorthandNumber($number)
@@ -51,20 +50,18 @@ $tempItemUse = getItemTempUse($user_class->id);
 
 $crime_multiplier = 1;
 if (isset($_POST['cm'])) {
-    $allowed = array(1, 2, 4, 10, 15, 20, 30, 50);
+    $allowed = array(1, 2, 4, 10, 15, 20, 25, 50);
     if (in_array($_POST['cm'], $allowed)) {
         $crime_multiplier = $_POST['cm'];
     }
 }
 
-if ($crime_multiplier == 20) {
+if ($crime_multiplier == 50) {
     if ($tempItemUse['crime_15_multiplier_time'] < time()) {
         echo json_encode(array(
-            'text' => "You do not have access to 20x crimes.",
-            //'error' => 'refresh'
+            'text' => "You do not have access to 50x crimes.",
         ));
-        $debug['error'] = "15X CRIMES";
-        //$logger->info("", $debug);
+        $debug['error'] = "50X CRIMES";
         die();
 
     }
@@ -85,10 +82,8 @@ set_last_active($user_class->id);
 if ($user_class->jail || $user_class->hospital) {
     echo json_encode(array(
         'text' => "You are not able to do crimes at the moment.",
-        //'error' => 'refresh'
     ));
     $debug['error'] = "Jail OR Hospital";
-    //$logger->info("", $debug);
     die();
 }
 
