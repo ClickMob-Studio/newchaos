@@ -3050,7 +3050,6 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
             $progress[$key] = 0;
         }
 
-
         $db->query("INSERT INTO quest_season_mission_user (user_id, quest_season_id, quest_season_mission_id, progress) VALUES (?, ?, ?, ?)");
         $db->execute(array($userId, $questSeasonId, $questSeasonMission['id'], json_encode($progress)));
         $r = getQuestSeasonMission($userId, $questSeasonId);
