@@ -4622,6 +4622,6 @@ function invalidateQuestSeasonCache(int $userId, int $questSeasonId): void
     ];
 
     foreach ($keys as $key) {
-        $cache->delete($key);
+        $cache->del($key);
     }
 }
