@@ -21,6 +21,12 @@ include 'header.php';
         if (isset($_GET['delete'])) {
             security($_GET['delete']);
             $deletemsg = $_GET['delete'];
+            $db->query("SELECT * FROM pms WHERE id = ?");
+            $mail = $db->fetch_row(true);
+            if ((int) $mail['viewed'] == 1) {
+                decrease_pm_count($user_class->id);
+            }
+
             $db->query("DELETE FROM pms WHERE id = ? AND `to` = ? AND starred = 0");
             $db->execute(array(
                 $deletemsg,
