@@ -219,7 +219,7 @@ if (isset($_GET['ner'])) {
                                 $tempItemUse = getItemTempUse($user_class->id);
                                 if ($tempItemUse['crime_15_multiplier_time'] > time()):
                                     ?>
-                                    <option value="75x">75x</option>
+                                    <option value="75">75x</option>
                                 <?php endif; ?>
                             </select>
                         </div>
