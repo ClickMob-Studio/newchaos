@@ -1033,10 +1033,8 @@ function raidMission($userId)
         $miss = $db->fetch_row(true);
 
 
-        $db->query("UPDATE missions SET raids = raids + 1 WHERE userid = $user_class->id AND completed = 'no'");
-        $db->execute(array(
-            $user_class->id
-        ));
+        $db->query("UPDATE missions SET raids = raids + 1 WHERE userid = ? AND completed = 'no'");
+        $db->execute([$user_class->id]);
         if (++$userMiss['raids'] == $miss['raids']) {
             $mPointsPayout = $miss['payRaids'];
             if ($pointsPayoutBoost) {

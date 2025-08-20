@@ -289,11 +289,7 @@ foreach ($raids as $raid) {
 
     $db->query("SELECT * FROM raid_participants WHERE raid_id = ?");
     $db->execute([$raid['id']]);
-    $raid_participants = $db->fetch_row();
-    $participants = [];
-    foreach ($raid_participants as $participant) {
-        $participants[] = $participant;
-    }
+    $participants = $db->fetch_row();
 
     // Fetch the loot for this boss
     $db->query("SELECT * FROM loot WHERE boss_id = ?");

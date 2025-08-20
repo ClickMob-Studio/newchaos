@@ -473,8 +473,8 @@ if ($theirhp <= 0) {
         $moneywon,
         $attack_person->id
     ));
-    $db->query("UPDATE pets SET exp = exp + ($expwon) / 10 WHERE userid = $user_class->id AND leash = 1");
-    $db->execute();
+    $db->query("UPDATE pets SET exp = exp + ($expwon) / 10 WHERE userid = ? AND leash = 1");
+    $db->execute([$user_class->id]);
 
     // UserCompLeaderboard
     addToUserCompLeaderboard($user_class->id, 'attacks_complete', 1);
@@ -558,8 +558,8 @@ if ($yourhp <= 0) {
     $db->execute(array(
         $user_class->gang
     ));
-    $db->query("UPDATE pets SET exp = exp + ($expwon) / 10 WHERE userid = $attack_person->id AND leash = 1");
-    $db->execute();
+    $db->query("UPDATE pets SET exp = exp + ($expwon) / 10 WHERE userid = ? AND leash = 1");
+    $db->execute([$attack_person->id]);
     Send_Event($attack_person->id, "[-_USERID_-] attacked you and lost! You gained " . prettynum($expwon) . " exp and stole $" . prettynum($moneywon) . ".", $user_class->id);
     $count = count($rtn);
     if ($count > 5) {

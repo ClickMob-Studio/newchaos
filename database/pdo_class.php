@@ -41,9 +41,8 @@ class database
     public function __destruct()
     {
         if (!$this->db)
-            return null;
+            return;
         $this->db = null;
-        return null;
     }
     public function query($query)
     {

@@ -534,8 +534,8 @@ if ($theirhp <= 0) {
         $moneywon,
         $attack_person->id
     ));
-    $db->query("UPDATE pets SET exp = exp + ($expwon) / 10 WHERE userid = $user_class->id AND leash = 1");
-    $db->execute();
+    $db->query("UPDATE pets SET exp = exp + ($expwon) / 10 WHERE userid = ? AND leash = 1");
+    $db->execute([$user_class->id]);
 
     // UserCompLeaderboard
     addToUserCompLeaderboard($user_class->id, 'attacks_complete', 1);
@@ -618,8 +618,8 @@ if ($yourhp <= 0) {
     $db->execute(array(
         $user_class->gang
     ));
-    $db->query("UPDATE pets SET exp = exp + ($expwon) / 10 WHERE userid = $attack_person->id AND leash = 1");
-    $db->execute();
+    $db->query("UPDATE pets SET exp = exp + ($expwon) / 10 WHERE userid = ? AND leash = 1");
+    $db->execute([$attack_person->id]);
     $message = $attack_person->formattedname . " won the battle!";
     if ($attack_person->gang != 0) {
         $db->query("UPDATE gangs SET exp = exp + ? WHERE id = ?");

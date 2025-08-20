@@ -5,12 +5,12 @@ $db->execute(array(
 	$user_class->id
 ));
 $dond = ($db->fetch_single()) ? true : false;
-$db->query("SELECT SUM(tickets) FROM ptslottery WHERE userid = $user_class->id");
-$db->execute();
+$db->query("SELECT SUM(tickets) FROM ptslottery WHERE userid = ?");
+$db->execute([$user_class->id]);
 $ptscount = $db->fetch_single();
 $ptscount = ($ptscount > 0) ? $ptscount : 0;
-$db->query("SELECT SUM(tickets) FROM cashlottery WHERE userid = $user_class->id");
-$db->execute();
+$db->query("SELECT SUM(tickets) FROM cashlottery WHERE userid = ?");
+$db->execute([$user_class->id]);
 $cashcount = $db->fetch_single();
 $cashcount = ($cashcount > 0) ? $cashcount : 0;
 $db->query("SELECT count(*) FROM votes WHERE userid = ?");
