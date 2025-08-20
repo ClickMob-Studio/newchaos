@@ -4489,7 +4489,7 @@ function get_pm_count($uid)
 
     $db->query("SELECT count(*) FROM pms WHERE `to` = ? AND viewed = 1");
     $db->execute([$uid]);
-    $count = (int) $db->fetch_row()[0];
+    $count = (int) $db->fetch_single();
     $cache->setEx($cacheKey, 3600, $count);
 
     return $count;
