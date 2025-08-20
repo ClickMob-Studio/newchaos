@@ -130,7 +130,8 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
         $db->execute([$user_class->id, $currentQuestSeason['id'], $nextMission['id'], json_encode($progress)]);
     } else {
         // Mark the quest season as completed
-        $db->query('UPDATE quest_season_user SET is_complete = 1 WHERE user_id = ? AND quest_season_id = ?', array($user_class->id, $currentQuestSeason['id']));
+        $db->query('UPDATE quest_season_user SET is_complete = 1 WHERE user_id = ? AND quest_season_id = ?');
+        $db->execute([$user_class->id, $currentQuestSeason['id']]);
     }
 
     echo "
