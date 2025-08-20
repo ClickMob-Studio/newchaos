@@ -419,7 +419,7 @@ foreach ($active_raids as $raid) {
     $gang = $db->fetch_row(true);
     $summoner_name = formatName($raid['summoned_by']);
     $user_gang_id = $user_class->gang; // Assuming this is how you get the user's gang ID
-    $canJoin = true; // A flag to determine if the user can join the raid
+    $canJoin = true;
 
     // Check if the raid type is either Private or Gang and if the user is in the same gang
     $raidTypeColor = 'green'; // Default color
@@ -448,9 +448,9 @@ foreach ($active_raids as $raid) {
     // Output the raid card
     $db->query("SELECT * FROM raid_participants WHERE raid_id = ? AND user_id = ?");
     $db->execute([$raid['id'], $user_class->id]);
-    $participant_result = $db->fetch_row();
+    $participant_result = $db->fetch_row(true);
 
-    if ($participant_count >= $maxraiders && count($participant_result) > 0) {
+    if ($participant_count >= $maxraiders && !empty($participant_result)) {
         echo "<div class='raid-card' style='display: none;'>";
     } else {
         echo "<div class='raid-card'>";
