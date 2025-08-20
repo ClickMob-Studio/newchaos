@@ -5,7 +5,7 @@ if ($user_class->admin < 1) {
     exit;
 }
 
-if (isset($_POST['flush_cache'])) {
+if (isset($_GET['invalidate']) && $_GET['invalidate'] == 'cache') {
     if ($cache->flushAll()) {
         echo '<div class="dcPanel p-2 mb-4 d-flex align-items-center justify-content-center"><p>Cache flushed successfully.</p></div>';
     } else {
@@ -33,6 +33,7 @@ if (isset($_POST['flush_cache'])) {
     <li><a href="admin_attack_logs.php">Attack Logs</a></li>
     <li><a href="admin_item_check.php">Item Check</a></li>
     <li><a href="admin_mass_pm.php">Mass PM Users</a></li>
+    <li><a href="admin_panel.php?invalidate=cache">Invalidate Redis Cache</a></li>
 </ul>
 
 <br />
