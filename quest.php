@@ -112,6 +112,7 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
 
         $db->query('UPDATE quest_season_mission_user SET is_paid_out = 1 WHERE id = ?');
         $db->execute(array($questSeasonMissionUser['id']));
+        invalidateQuestSeasonCache($user_class->id, $currentQuestSeason['id']);
     }
 
 
@@ -128,10 +129,12 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
 
         $db->query('INSERT INTO quest_season_mission_user (user_id, quest_season_id, quest_season_mission_id, progress, is_complete) VALUES (?, ?, ?, ?, 0)');
         $db->execute([$user_class->id, $currentQuestSeason['id'], $nextMission['id'], json_encode($progress)]);
+        invalidateQuestSeasonCache($user_class->id, $currentQuestSeason['id']);
     } else {
         // Mark the quest season as completed
         $db->query('UPDATE quest_season_user SET is_complete = 1 WHERE user_id = ? AND quest_season_id = ?');
         $db->execute([$user_class->id, $currentQuestSeason['id']]);
+        invalidateQuestSeasonCache($user_class->id, $currentQuestSeason['id']);
     }
 
     echo "

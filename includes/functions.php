@@ -4610,3 +4610,18 @@ function get_crime($crimeId)
 
     return null;
 }
+
+function invalidateQuestSeasonCache(int $userId, int $questSeasonId): void
+{
+    global $cache;
+
+    $keys = [
+        "questSeasonForUser:{$userId}",
+        "questSeasonUser:{$userId}:{$questSeasonId}",
+        "questSeasonMissionUser:{$userId}:{$questSeasonId}",
+    ];
+
+    foreach ($keys as $key) {
+        $cache->delete($key);
+    }
+}
