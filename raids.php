@@ -140,12 +140,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
     }
 
     // Fetch the boss ID associated with the raid
-    $db->query("SELECT boss_id, maxraiders FROM active_raids WHERE id = ?");
+    $db->query("SELECT boss_id FROM active_raids WHERE id = ?");
     $db->execute([$raid_id]);
     $boss_values = $db->fetch_row(true);
 
     $boss_id = $boss_values['boss_id'];
-    $maxraiders = $boss_values['maxraiders'];
 
     $boss = null;
     foreach ($bosses as $b) {
@@ -156,8 +155,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
     }
 
     if ($boss != null) {
-        $tokencost = $boss_values['tokencost'];
+        $maxraiders = $boss['maxraiders'];
+        $tokencost = $boss['tokencost'];
     } else {
+        $maxraiders = 5;
         $tokencost = 0;
     }
 
