@@ -18,29 +18,29 @@ if (empty($missionUsers)) {
     die("No users that haven't been paid out");
 }
 
-foreach ($missionUsers as $u) {
-    $payouts = json_decode($mission['payouts'], true);
-    $payoutsToDisplay = 'You have received the following payouts:<br />';
-    $payoutsToDisplay .= '<ul>';
-    foreach ($payouts as $field => $value) {
-        if ($field === 'items') {
-            foreach ($value as $key => $item) {
-                Give_Item($item['id'], $user_class->id, $item['quantity']);
-                $payoutsToDisplay .= '<li>' . number_format($item['quantity'], 0) . ' x ' . Item_Name($item['id']) . '</li>';
-            }
-        } else {
-            if ($field === 'exp') {
-                $value = $user_class->maxexp / 100 * $value;
-            }
-            $payoutsToDisplay .= '<li>' . number_format($value, 0) . ' ' . ucwords($field) . '</li>';
-            $db->query('UPDATE grpgusers SET ' . $field . ' = ' . $field . ' + ? WHERE id = ?');
-            $db->execute(array($value, $user_class->id));
-        }
-    }
-    $payoutsToDisplay .= '</ul>';
-    $db->query('UPDATE quest_season_mission_user SET is_paid_out = 1 WHERE id = ?');
-    $db->execute(array($u['id']));
+// foreach ($missionUsers as $u) {
+//     $payouts = json_decode($mission['payouts'], true);
+//     $payoutsToDisplay = 'You have received the following payouts:<br />';
+//     $payoutsToDisplay .= '<ul>';
+//     foreach ($payouts as $field => $value) {
+//         if ($field === 'items') {
+//             foreach ($value as $key => $item) {
+//                 Give_Item($item['id'], $user_class->id, $item['quantity']);
+//                 $payoutsToDisplay .= '<li>' . number_format($item['quantity'], 0) . ' x ' . Item_Name($item['id']) . '</li>';
+//             }
+//         } else {
+//             if ($field === 'exp') {
+//                 $value = $user_class->maxexp / 100 * $value;
+//             }
+//             $payoutsToDisplay .= '<li>' . number_format($value, 0) . ' ' . ucwords($field) . '</li>';
+//             $db->query('UPDATE grpgusers SET ' . $field . ' = ' . $field . ' + ? WHERE id = ?');
+//             $db->execute(array($value, $user_class->id));
+//         }
+//     }
+//     $payoutsToDisplay .= '</ul>';
+//     $db->query('UPDATE quest_season_mission_user SET is_paid_out = 1 WHERE id = ?');
+//     $db->execute(array($u['id']));
 
-    Send_Event($u['user_id'], 'You have received your payouts for quest 17, sorry for the delay:<br />' . $payoutsToDisplay);
-}
+//     Send_Event($u['user_id'], 'You have received your payouts for quest 17, sorry for the delay:<br />' . $payoutsToDisplay);
+// }
 
