@@ -208,14 +208,18 @@ if (isset($_GET['ner'])) {
 
                             <?php $rmOnly = ($user_class->rmdays <= 0) ? 'disabled' : ''; ?>
                             <select name="cm" id="cm" style="padding: 1em;">
-                                <option value="1">1X</option>
-                                <option value="15" <?php echo $rmOnly ?>>15X (VIP Only)</option>
+                                <option value="1">1x</option>
+                                <option value="2">2x</option>
+                                <option value="4">4x</option>
+                                <option value="15" <?php echo $rmOnly ?>>15x (VIP)</option>
+                                <option value="30" <?php echo $rmOnly ?>>30x (VIP)</option>
+                                <option value="50" <?php echo $rmOnly ?>>50x (VIP)</option>
 
                                 <?php
                                 $tempItemUse = getItemTempUse($user_class->id);
                                 if ($tempItemUse['crime_15_multiplier_time'] > time()):
                                     ?>
-                                    <option value="20">20x</option>
+                                    <option value="75x">75x</option>
                                 <?php endif; ?>
                             </select>
                         </div>

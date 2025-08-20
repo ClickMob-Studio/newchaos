@@ -1771,7 +1771,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
 
                         // 15x Crimes
                         if ($tempItemUse['crime_15_multiplier_time'] > $time) {
-                            $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['crime_15_multiplier_time'] . '">[ 15x Crimes: <span class="countdown-text">' . secondsToTime($tempItemUse['crime_15_multiplier_time'] - $time) . '</span> ]</li>';
+                            $messages[] = '<li class="event-countdown" data-end="' . $tempItemUse['crime_15_multiplier_time'] . '">[ 75x Crimes: <span class="countdown-text">' . secondsToTime($tempItemUse['crime_15_multiplier_time'] - $time) . '</span> ]</li>';
                         }
 
                         // Super Crime

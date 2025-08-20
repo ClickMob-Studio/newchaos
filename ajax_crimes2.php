@@ -44,17 +44,17 @@ $tempItemUse = getItemTempUse($user_class->id);
 
 $crime_multiplier = 1;
 if (isset($_POST['cm'])) {
-    $allowed = array(1, 2, 4, 10, 15, 20, 30, 50);
+    $allowed = array(1, 2, 4, 15, 30, 50, 75);
     if (in_array($_POST['cm'], $allowed)) {
         $crime_multiplier = $_POST['cm'];
     }
 }
 
-if ($crime_multiplier == 20 && $tempItemUse['crime_15_multiplier_time'] < time()) {
+if ($crime_multiplier == 75 && $tempItemUse['crime_15_multiplier_time'] < time()) {
     echo json_encode(array(
-        'text' => "You do not have access to 20x crimes.",
+        'text' => "You do not have access to 75x crimes.",
     ));
-    $debug['error'] = "15X CRIMES";
+    $debug['error'] = "75X CRIMES";
     die();
 }
 
