@@ -450,7 +450,7 @@ foreach ($active_raids as $raid) {
     $db->execute([$raid['id'], $user_class->id]);
     $participant_result = $db->fetch_row(true);
 
-    if ($participant_count >= $maxraiders && !empty($participant_result)) {
+    if ($participant_count >= $maxraiders && empty($participant_result)) {
         echo "<div class='raid-card' style='display: none;'>";
     } else {
         echo "<div class='raid-card'>";
@@ -472,7 +472,6 @@ foreach ($active_raids as $raid) {
 
     // Check if the user has item 194 (Raid Speedups)
     $raid_speedup = Check_Item(194, $user_class->id);
-
     if ($participant_count > 0) {
         echo "<button class='btn btn-success' disabled>Joined</button>";
 
