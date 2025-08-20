@@ -140,13 +140,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['join_raid_id'])) {
     }
 
     // Fetch the boss ID associated with the raid
-    $db->query("SELECT boss_id, tokencost, maxraiders FROM active_raids WHERE id = ?");
+    $db->query("SELECT boss_id, maxraiders FROM active_raids WHERE id = ?");
     $db->execute([$raid_id]);
     $boss_values = $db->fetch_row(true);
 
     $boss_id = $boss_values['boss_id'];
-    $tokencost = $boss_values['tokencost'];
     $maxraiders = $boss_values['maxraiders'];
+
+    $boss = null;
+    foreach ($bosses as $b) {
+        if ($b['id'] == $boss_id) {
+            $boss = $b;
+            break;
+        }
+    }
+
+    if ($boss != null) {
+        $tokencost = $boss_values['tokencost'];
+    } else {
+        $tokencost = 0;
+    }
 
     // Count the current number of participants in the raid
     $db->query("SELECT COUNT(*) AS participant_count FROM raid_participants WHERE raid_id = ?");
@@ -715,8 +728,8 @@ echo "</div>"; // Close active-raids-grid
                 echo "</div>";
 
 
-                echo "<form action='raids.php' method='post' class='difficulty-form' onsubmit='return confirmSummon(" . $tokencost . ");'>";
 
+                echo "<form action='raids.php' method='post' class='difficulty-form' onsubmit='return confirmSummon(" . $tokencost . ");'>";
                 // Grab previous difficulty selection for this boss from session
                 $previous_difficulty = isset($_SESSION['raid_difficulty'][$boss['id']]) ? $_SESSION['raid_difficulty'][$boss['id']] : 'Easy';
 
