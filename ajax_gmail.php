@@ -23,7 +23,7 @@ if (isset($_POST['msg'])) {
 
     $db->query("INSERT INTO `gangmail` (`gangid`, `playerid`, `timesent`, `subject`, `body`) VALUES (?, ?, unix_timestamp(), 'whocares', ?)");
     $db->execute([$gangid, $_SESSION['id'], $msg]);
-    $newid = $db->lastInsertId();
+    $newid = $db->insert_id();
     print gcTalking(1, $gangid) . "|-|-|" . $newid . "|-|-|";
     $quotetext = str_replace(array('\'', '"'), array('\\\'', '&quot;'), $msg);
     echo '<div class="floaty">';
