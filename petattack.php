@@ -1,6 +1,8 @@
 <?php
 include 'header.php';
+
 $mypet = new Pet($user_class->id);
+$error = "";
 $error = ($mypet->energypercent < 25) ? "Your pet needs atleast 25% energy to attack." : $error;
 $error = ($mypet->hppercent < 25) ? "Your pet needs atleast 25% HP to attack someone." : $error;
 $error = ($mypet->jail > 0) ? "Your pet can't attack if they are in prison." : $error;
@@ -14,6 +16,7 @@ $error = ($theirpet->hospital > 0) ? "You can't attack a pet thats is in hospita
 $error = ($theirpet->jail > 0) ? "You can't attack a pet that is in the pound." : $error;
 $error = ($theirpet->hppercent < 25) ? "They Need Over 25% HP to be attacked." : $error;
 $error = ($attack_person->admin == 1) ? "You can't attack an admin" : $error;
+
 if (isset($error))
     diefun($error . "<br /><br /><a href='index.php'>Home</a>");
 $yourhp = $mypet->hp;
