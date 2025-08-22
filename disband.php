@@ -26,7 +26,7 @@ include 'header.php';
 </td>
 </tr>";
             if (isset($_GET['x']) && $_GET['x'] == "delete") {
-                $atawr = CheckGangWar($user_class->gang);
+                $atwar = CheckGangWar($user_class->gang);
                 if ($atwar == 1) {
                     echo Message("You can't delete your gang while your at war.");
                     include("footer.php");
