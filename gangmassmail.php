@@ -41,6 +41,8 @@ $db = database::getInstance();
                 $recipients = $db->fetch_row();
 
                 foreach ($recipients as $y) {
+                    increase_pm_count($y['id']);
+
                     $db->query("INSERT INTO pms (`to`, `from`, `timesent`, `subject`, `msgtext`, `reported`, `viewed`, `parent`, `bomb`, `bombed`, `check`, `starred`, `outboxhidden`) 
                                   VALUES (?, ?, unix_timestamp(), ?, ?, 0, 1, 0, 0, 0, 0, 0, 0)");
                     $db->execute(array($y['id'], $user_class->id, $subject, $message));
