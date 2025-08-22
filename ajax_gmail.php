@@ -53,7 +53,7 @@ if (isset($_POST['msg'])) {
     if ($lastid == $_GET['lastID'])
         die(gcTalking(1, $gangid));
 
-    print gcTalking(1, $gangid) . "|-|-|" . $lastid['gmailid'] . "|-|-|";
+    print gcTalking(1, $gangid) . "|-|-|" . $lastid . "|-|-|";
 
     foreach ($result as $row) {
         $reply_class = new User($row['playerid']);
