@@ -319,7 +319,7 @@ include 'header.php';
                     <div class="upgrade-container">
                         <form method="post">
                             <?php foreach ($upgrade_keys as $key):
-                                $current_star_level = intval($upgrades_data[$key]);
+                                $current_star_level = intval($gang_class->$key);
                                 $canUpgrade = $current_star_level < 10 && ($gang_class->pointsvault >= $costs[$current_star_level + 1]);
                                 ?>
                                 <div class="upgrade-package">
