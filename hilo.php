@@ -7,7 +7,7 @@ include "header.php";
     <div class='pad'>
         <?php
         $typecc = rand(1, 4);
-        $valuecc = rand(2, 14);
+        $valuecc = rand(2, 9);
         if (!$_SESSION['cardtypeb'])
             $_SESSION['cardtypeb'] = $typecc;
         if (!$_SESSION['cardvalueb'])
