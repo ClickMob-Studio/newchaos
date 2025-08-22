@@ -1,6 +1,10 @@
 <?php
 include 'header.php';
 
+if (!isset($_GET['attack'])) {
+    diefun("You didn't choose a pet to attack.<br /><br /><a href='index.php'>Home</a>");
+}
+
 $mypet = new Pet($user_class->id);
 $error = "";
 $error = !isset($mypet) ? "You don't have a pet." : $error;
