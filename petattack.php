@@ -10,15 +10,17 @@ $error = ($mypet->jail > 0) ? "Your pet can't attack if they are in prison." : $
 $error = ($mypet->hospital > 0) ? "Your pet can't attack someone if they are in the hospital." : $error;
 $error = ($_GET['attack'] == "") ? "You didn't choose a pet to attack." : $error;
 $error = ($_GET['attack'] == $user_class->id) ? "You can't attack your own pet." : $error;
+if (isset($error))
+    diefun($error . "<br /><br /><a href='index.php'>Home</a>");
 
 $attack_person = new User($_GET['attack']);
 $theirpet = new Pet($attack_person->id);
+$error = !isset($theirpet) ? "The pet you are trying to attack does not exist." : $error;
 $error = ($attack_person->city != $user_class->city) ? "You must be in the same city as the pet you're attacking!" : $error;
 $error = ($theirpet->hospital > 0) ? "You can't attack a pet thats is in hospital." : $error;
 $error = ($theirpet->jail > 0) ? "You can't attack a pet that is in the pound." : $error;
 $error = ($theirpet->hppercent < 25) ? "They Need Over 25% HP to be attacked." : $error;
 $error = ($attack_person->admin == 1) ? "You can't attack an admin" : $error;
-
 if (isset($error))
     diefun($error . "<br /><br /><a href='index.php'>Home</a>");
 
