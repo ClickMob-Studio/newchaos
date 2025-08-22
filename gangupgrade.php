@@ -50,26 +50,26 @@ include 'header.php';
             $upgrade_details = array(
                 'upgrade1' => array(
                     'name' => 'Strength Upgrade',
-                    'benefit' => isset($gang_class['upgrade1']) ? 'You are currently getting ' . ($gang_class->upgrade1 * 20) . '% Bonus to Strength during battles!' : 'Upgrade information not available'
+                    'benefit' => isset($gang_class->upgrade1) ? 'You are currently getting ' . ($gang_class->upgrade1 * 20) . '% Bonus to Strength during battles!' : 'Upgrade information not available'
                 ),
                 'upgrade2' => array(
                     'name' => 'Defense Upgrade',
-                    'benefit' => isset($gang_class['upgrade2']) ? 'You are currently getting ' . ($gang_class->upgrade2 * 20) . '% Bonus to Defense during battles!' : 'Upgrade information not available'
+                    'benefit' => isset($gang_class->upgrade2) ? 'You are currently getting ' . ($gang_class->upgrade2 * 20) . '% Bonus to Defense during battles!' : 'Upgrade information not available'
                 ),
 
                 'upgrade3' => array(
                     'name' => 'Speed Upgrade',
-                    'benefit' => isset($gang_class['upgrade3']) ? 'You are currently getting ' . ($gang_class->upgrade3 * 20) . '% Bonus to Speed during battles!' : 'Upgrade information not available'
+                    'benefit' => isset($gang_class->upgrade3) ? 'You are currently getting ' . ($gang_class->upgrade3 * 20) . '% Bonus to Speed during battles!' : 'Upgrade information not available'
                 ),
                 'upgrade4' => array(
                     'name' => 'Raid Drop Chance',
-                    'benefit' => isset($gang_class['upgrade4']) ? 'You are currently getting ' . ($gang_class->upgrade4 * 10) . '% Bonus to finding items in raids!' : 'Upgrade information not available'
+                    'benefit' => isset($gang_class->upgrade4) ? 'You are currently getting ' . ($gang_class->upgrade4 * 10) . '% Bonus to finding items in raids!' : 'Upgrade information not available'
                 ),
             );
 
             $upgrade_details['upgrade_agility'] = array(
                 'name' => 'Agility Upgrade',
-                'benefit' => isset($gang_class['upgrade_agility']) ? 'You are currently getting ' . ($gang_class->upgrade_agility * 20) . '% Bonus to Agility during battles!' : 'Upgrade information not available'
+                'benefit' => isset($gang_class->upgrade_agility) ? 'You are currently getting ' . ($gang_class->upgrade_agility * 20) . '% Bonus to Agility during battles!' : 'Upgrade information not available'
             );
 
             $tooltips = array(
