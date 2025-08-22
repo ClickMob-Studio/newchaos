@@ -25,7 +25,7 @@ include 'header.php';
 <a href='gang.php'>No thanks!</a>
 </td>
 </tr>";
-            if ($_GET['x'] == "delete") {
+            if (isset($_GET['x']) && $_GET['x'] == "delete") {
                 $atawr = CheckGangWar($user_class->gang);
                 if ($atwar == 1) {
                     echo Message("You can't delete your gang while your at war.");
