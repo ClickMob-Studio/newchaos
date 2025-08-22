@@ -14,7 +14,7 @@ include "header.php";
             $_SESSION['cardvalueb'] = 8;
         $cardtypeb = $_SESSION['cardtypeb'];
         $cardvalueb = $_SESSION['cardvalueb'];
-        if ($_POST['higher']) {
+        if (isset($_POST['higher']) && $_POST['higher']) {
             if ($cardvalueb == $valuecc)
                 $valuecc = rand(2, 14);
             if ($cardvalueb == $valuecc)
@@ -38,7 +38,7 @@ include "header.php";
             $cardtypeb = $typecc;
             $cardvalueb = $valuecc;
         }
-        if ($_POST['lower'] != "" && $_POST['higher'] == "") {
+        if (isset($_POST['lower']) && !isset($_POST['higher'])) {
             if ($user_class->money < 10000) {
                 diefun('You don\'t have enough money to play high low.');
 
