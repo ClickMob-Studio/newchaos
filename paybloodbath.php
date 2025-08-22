@@ -5,11 +5,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Fetch the latest Bloodbath results where rewards haven't been distributed yet and winners column has data
-$query = "SELECT * FROM bloodbath WHERE is_paid = 0 AND winners != '' ORDER BY endtime DESC LIMIT 1";
-$result = mysql_query($query);
-$latest_bloodbath = mysql_fetch_assoc($result);
-
-if (!$latest_bloodbath) {
+$db->query("SELECT * FROM bloodbath WHERE is_paid = 0 AND winners != '' ORDER BY endtime DESC LIMIT 1");
+$latest_bloodbath = $db->fetch_row(true);
+if (empty($latest_bloodbath)) {
     echo "No unpaid Bloodbath records found or the winners column is empty.";
     exit;
 }
@@ -44,30 +42,26 @@ if (isset($_POST['perform_payout']) && $_POST['perform_payout'] && $latest_blood
         $position = 1;
         foreach ($top_3_users as $user_id => $value) {
             if ($user_id && $value) {
-                // Award points to the user
-                $update_query = "UPDATE grpgusers SET points = points + " . $points_distribution[$position] . " WHERE id = " . $user_id;
-                mysql_query($update_query);
-                
+                perform_query("UPDATE grpgusers SET points = points + ? WHERE id = ?", [$points_distribution[$position], $user_id]);
+
                 // Send an event to the user
                 $event_message = "You have won the " . $category . " category and placed " . $position . " and won " . $points_distribution[$position] . " Points.";
                 send_event($user_id, $event_message);
-                
+
                 // Print out the winners for each category for verification
                 echo "Category: " . $category . "<br>";
                 echo "Position: " . $position . "<br>";
                 echo "Username: " . formatName($user_id) . "<br>";
                 echo "Points Awarded: " . $points_distribution[$position] . "<br>";
                 echo "------------------------<br>";
-                
+
                 $position++;
             }
         }
     }
 
     // Update the bloodbath entry to indicate that the rewards have been distributed
-    $update_is_paid_query = "UPDATE bloodbath SET is_paid = 1 WHERE id = " . $latest_bloodbath['id'];
-    mysql_query($update_is_paid_query);
-
+    perform_query("UPDATE bloodbath SET is_paid = 1 WHERE id = ?", [$latest_bloodbath['id']]);
 } else {
     echo "<h2>Current Winners:</h2>";
 

@@ -14,9 +14,8 @@ include 'header.php';
                 include 'footer.php';
                 die();
             }
+
             $gang_class = new Gang($user_class->gang);
-            $result = mysql_query("SELECT * from `gangs` WHERE `id` = '" . $user_class->gang . "'");
-            $worked = mysql_fetch_array($result);
 
             if ($_POST['size'] != "") {
                 if ($gang_class->moneyvault < 500000) {
@@ -47,44 +46,27 @@ include 'header.php';
                 echo '<meta http-equiv="refresh" content="0;url=gangupgrade.php">';
             }
 
-
-
-
-
-
-
-
-
-
-            // Fetch the upgrade levels from the gangs table
-            $result = mysql_query("SELECT * from `gangs` WHERE `id` = '" . $user_class->gang . "'");
-            // Debugging code to inspect the `$upgrades_data` array and check for database errors
-            if (!$result) {
-                die('Invalid query: ' . mysql_error());
-            }
-            $upgrades_data = mysql_fetch_assoc($result);
-
             // Define upgrade details and tooltips
             $upgrade_details = array(
                 'upgrade6' => array(
                     'name' => 'Training Upgrade',
-                    'benefit' => isset($upgrades_data['upgrade6']) ? 'You are currently getting ' . ($upgrades_data['upgrade6'] * 5) . '% Training Boost during training!' : 'Upgrade information not available'
+                    'benefit' => isset($gang_class->upgrade6) ? 'You are currently getting ' . ($gang_class->upgrade6 * 5) . '% Training Boost during training!' : 'Upgrade information not available'
                 ),
                 'upgrade7' => array(
                     'name' => 'Battle Upgrades',
-                    'benefit' => isset($upgrades_data['upgrade7']) ? 'You are currently getting a ' . ($upgrades_data['upgrade7'] * 10) . '% Attributes Boost During Battles!' : 'Upgrade information not available'
+                    'benefit' => isset($gang_class->upgrade7) ? 'You are currently getting a ' . ($gang_class->upgrade7 * 10) . '% Attributes Boost During Battles!' : 'Upgrade information not available'
                 ),
                 'upgrade8' => array(
                     'name' => 'Mugging Upgrades',
-                    'benefit' => isset($upgrades_data['upgrade8']) ? 'You are currently getting ' . ($upgrades_data['upgrade8'] * 20) . '% Bonus to Mugs When Mugging!' : 'Upgrade information not available'
+                    'benefit' => isset($gang_class->upgrade8) ? 'You are currently getting ' . ($gang_class->upgrade8 * 20) . '% Bonus to Mugs When Mugging!' : 'Upgrade information not available'
                 ),
                 'upgrade9' => array(
                     'name' => 'Faster Regeneration Bars',
-                    'benefit' => isset($upgrades_data['upgrade9']) ? 'You are currently getting ' . ($upgrades_data['upgrade9'] * 10) . '% Faster Regeneration Bars!!' : 'Upgrade information not available'
+                    'benefit' => isset($gang_class->upgrade9) ? 'You are currently getting ' . ($gang_class->upgrade9 * 10) . '% Faster Regeneration Bars!!' : 'Upgrade information not available'
                 ),
                 'upgrade_crimecash' => array(
                     'name' => 'Crime Cash',
-                    'benefit' => isset($upgrades_data['upgrade_crimecash']) ? 'You are currently getting ' . ($upgrades_data['upgrade_crimecash'] * 2) . '% Crime Cash Boost!!' : 'Upgrade information not available'
+                    'benefit' => isset($gang_class->upgrade_crimecash) ? 'You are currently getting ' . ($gang_class->upgrade_crimecash * 2) . '% Crime Cash Boost!!' : 'Upgrade information not available'
                 ),
             );
 
@@ -113,7 +95,7 @@ include 'header.php';
 
             foreach ($upgrade_keys as $key) {
                 if (isset($_POST[$key])) {
-                    $current_star_level = intval($upgrades_data[$key]);
+                    $current_star_level = intval($gang_class->$key);
 
                     // Check if upgrade is maxed out
                     if ($current_star_level >= 10) {
@@ -132,19 +114,14 @@ include 'header.php';
                     $newUpgradeLevel = $current_star_level + 1;
 
                     // Correctly update the gang's points vault in the database
-                    $points_update_query = "UPDATE `gangs` SET `pointsvault` = '$newPointsAmount' WHERE `id`='" . $user_class->gang . "'";
-                    mysql_query($points_update_query);
+                    perform_query("UPDATE gangs SET pointsvault = ? WHERE id = ?", [$newPointsAmount, $user_class->gang]);
 
                     // Update the gang's upgrade level
-                    $upgrade_query = "UPDATE `gangs` SET `$key` = '$newUpgradeLevel' WHERE `id`='" . $user_class->gang . "'";
-                    $result = mysql_query($upgrade_query);
+                    perform_query("UPDATE gangs SET $key = ? WHERE id = ?", [$newUpgradeLevel, $user_class->gang]);
 
-                    // If the query was successful, show a success message
-                    if ($result) {
-                        echo Message("Successfully upgraded {$upgrade_details[$key]['name']} to level $newUpgradeLevel!");
-                    } else {
-                        echo Message("There was an error upgrading {$upgrade_details[$key]['name']}. Please try again.");
-                    }
+
+                    echo Message("Successfully upgraded {$upgrade_details[$key]['name']} to level $newUpgradeLevel!");
+
                 }
             }
             ?>

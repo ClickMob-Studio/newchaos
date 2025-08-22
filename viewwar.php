@@ -9,8 +9,10 @@ include 'header.php';
         if ($user_class->gang != 0) {
             $gang_class = new Gang($user_class->gang);
             $wars = CheckGangWar($user_class->gang);
-            $war1 = mysql_query("SELECT * FROM gangwars WHERE (gang1 = $user_class->gang OR gang2 = $user_class->gang) AND accepted = 1");
-            $war = mysql_fetch_array($war1);
+
+            $db->query("SELECT * FROM gangwars WHERE (gang1 = ? OR gang2 = ?) AND accepted = 1");
+            $db->execute([$user_class->gang, $user_class->gang]);
+            $war = $db->fetch_row(true);
             ?>
             <center><a href="gangwarguide.php"><button class="ycbutton">Click here to view the Gang War guide.</button></a>
             </center>
@@ -31,9 +33,10 @@ include 'header.php';
                 }
                 $war_gang = new Gang($theirgang);
                 if ($_GET['surrender'] == "true" && $user_class->id == $gang_class->leader) {
-                    $result = mysql_query("SELECT * FROM gangwars WHERE (gang1 = $user_class->gang OR gang2 = $user_class->gang) AND accepted = 1 LIMIT 1");
-                    $atwar = mysql_num_rows($result);
-                    $query = mysql_fetch_array($result);
+                    $db->query("SELECT * FROM gangwars WHERE (gang1 = ? OR gang2 = ?) AND accepted = 1 LIMIT 1");
+                    $db->execute([$user_class->gang, $user_class->gang]);
+                    $query = $db->fetch_row(true);
+                    $atwar = count($query);
                     if ($user_class->gang != 0 && $atwar > 0) {
                         $winner_gang = new Gang($theirgang);
                         $loser_gang = new Gang($user_class->gang);

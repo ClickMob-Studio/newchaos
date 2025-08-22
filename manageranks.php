@@ -73,9 +73,13 @@ include 'header.php';
                     <select name='rank'>
                         <option value=''></option>
 ";
-        $searchranks = mysql_query("SELECT * FROM ranks WHERE gang = $user_class->gang");
-        while ($rank = mysql_fetch_array($searchranks))
+
+        $db->query("SELECT * FROM ranks WHERE gang = ?");
+        $db->execute([$user_class->gang]);
+        $ranks = $db->fetch_row();
+        foreach ($ranks as $rank) {
             echo "<option value='{$rank['id']}'>{$rank['title']}</option>";
+        }
         echo "
                     </select>
                 </td>
@@ -87,8 +91,9 @@ include 'header.php';
 ";
         if (isset($_POST['editrank'])) {
             if (isset($_POST['rank'])) {
-                $result = mysql_query("SELECT * FROM ranks WHERE gang = $user_class->gang AND id = {$_POST['rank']}");
-                $line = mysql_fetch_array($result);
+                $db->query("SELECT * FROM ranks WHERE gang = ? AND id = ?");
+                $db->execute([$user_class->gang, $_POST['rank']]);
+                $line = $db->fetch_row(true);
                 $rank_spec = new GangRank($line['id'], 1);
                 echo "
     <script type='text/javascript' data-cfasync='false' src='js/cp/jscolor.js'></script>

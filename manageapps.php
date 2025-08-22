@@ -45,10 +45,10 @@ include 'header.php'; ?>
             }
         }
         if (isset($_GET['user']) && $_GET['x'] == 0) {
-            $db->query("SELECT * FROM gangapps WHERE gangid = ? AND applicatn = ?");
-            $checkapps = mysql_query("SELECT * FROM gangapps WHERE gangid = $gang AND applicant = {$_GET['user']}");
-            $result = mysql_num_rows($checkapps);
-            if ($result > 0) {
+            $db->query("SELECT * FROM gangapps WHERE gangid = ? AND applicant = ?");
+            $db->execute([$gang, $_GET['user']]);
+            $result = $db->fetch_row(true);
+            if (!empty($result)) {
                 $app_class = new User($_GET['user']);
                 echo Message("You have declined this application.");
                 $event = "Your application to [-_GANGID_-] has been declined.";
@@ -57,8 +57,11 @@ include 'header.php'; ?>
                 perform_query("DELETE FROM gangapps WHERE applicant = ? AND gangid = ?", [$_GET['user'], $gang]);
             }
         }
-        $result23 = mysql_query("SELECT * FROM gangapps WHERE gangid = $gang ORDER BY date DESC");
-        if (mysql_num_rows($result23)) {
+
+        $db->query("SELECT * FROM gangapps WHERE gangid = ?");
+        $db->execute([$gang]);
+        $results = $db->fetch_row();
+        if (!empty($results)) {
             echo "
 <tr><td class='contentcontent'>
     <table id='newtables' style='width:100%;table-layout:fixed;'>
@@ -72,7 +75,7 @@ include 'header.php'; ?>
         </tr>
 ";
 
-            while ($line = mysql_fetch_array($result23)) {
+            foreach ($results as $line) {
                 $gang_app = new User($line['applicant']);
                 echo "
         <tr>
@@ -85,7 +88,9 @@ include 'header.php'; ?>
         } else {
             echo "No applications found";
         }
+
         print "</table>";
+
         include("gangheaders.php");
         include 'footer.php';
         ?>
