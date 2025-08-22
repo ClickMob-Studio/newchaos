@@ -50,26 +50,26 @@ include 'header.php';
             $upgrade_details = array(
                 'upgrade1' => array(
                     'name' => 'Strength Upgrade',
-                    'benefit' => isset($gang_class['upgrade1']) ? 'You are currently getting ' . ($upgrades_data['upgrade1'] * 20) . '% Bonus to Strength during battles!' : 'Upgrade information not available'
+                    'benefit' => isset($gang_class['upgrade1']) ? 'You are currently getting ' . ($gang_class->upgrade1 * 20) . '% Bonus to Strength during battles!' : 'Upgrade information not available'
                 ),
                 'upgrade2' => array(
                     'name' => 'Defense Upgrade',
-                    'benefit' => isset($upgrades_data['upgrade2']) ? 'You are currently getting ' . ($upgrades_data['upgrade2'] * 20) . '% Bonus to Defense during battles!' : 'Upgrade information not available'
+                    'benefit' => isset($gang_class['upgrade2']) ? 'You are currently getting ' . ($gang_class->upgrade2 * 20) . '% Bonus to Defense during battles!' : 'Upgrade information not available'
                 ),
 
                 'upgrade3' => array(
                     'name' => 'Speed Upgrade',
-                    'benefit' => isset($upgrades_data['upgrade3']) ? 'You are currently getting ' . ($upgrades_data['upgrade3'] * 20) . '% Bonus to Speed during battles!' : 'Upgrade information not available'
+                    'benefit' => isset($gang_class['upgrade3']) ? 'You are currently getting ' . ($gang_class->upgrade3 * 20) . '% Bonus to Speed during battles!' : 'Upgrade information not available'
                 ),
                 'upgrade4' => array(
                     'name' => 'Raid Drop Chance',
-                    'benefit' => isset($upgrades_data['upgrade3']) ? 'You are currently getting ' . ($upgrades_data['upgrade4'] * 10) . '% Bonus to finding items in raids!' : 'Upgrade information not available'
+                    'benefit' => isset($gang_class['upgrade4']) ? 'You are currently getting ' . ($gang_class->upgrade4 * 10) . '% Bonus to finding items in raids!' : 'Upgrade information not available'
                 ),
             );
 
             $upgrade_details['upgrade_agility'] = array(
                 'name' => 'Agility Upgrade',
-                'benefit' => isset($upgrades_data['upgrade_agility']) ? 'You are currently getting ' . ($upgrades_data['upgrade_agility'] * 20) . '% Bonus to Agility during battles!' : 'Upgrade information not available'
+                'benefit' => isset($gang_class['upgrade_agility']) ? 'You are currently getting ' . ($gang_class->upgrade_agility * 20) . '% Bonus to Agility during battles!' : 'Upgrade information not available'
             );
 
             $tooltips = array(
@@ -99,7 +99,7 @@ include 'header.php';
 
             foreach ($upgrade_keys as $key) {
                 if (isset($_POST[$key])) {
-                    $current_star_level = intval($upgrades_data[$key]);
+                    $current_star_level = intval($gang_class[$key]);
 
                     // Check if upgrade is maxed out
                     if ($current_star_level >= 10) {
@@ -312,7 +312,7 @@ include 'header.php';
                     <div class="upgrade-container">
                         <form method="post">
                             <?php foreach ($upgrade_keys as $key):
-                                $current_star_level = intval($upgrades_data[$key]);
+                                $current_star_level = intval($gang_class->$key);
                                 $canUpgrade = $current_star_level < 10 && ($gang_class->moneyvault >= $costs[$current_star_level + 1]);
                                 ?>
                                 <div class="upgrade-package">
