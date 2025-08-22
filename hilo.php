@@ -8,10 +8,6 @@ include "header.php";
         <?php
         $typecc = rand(1, 4);
         $valuecc = rand(2, 14);
-        if ($cardvalueb == $valuecc)
-            $valuecc = rand(2, 14);
-        if ($cardvalueb == $valuecc)
-            $valuecc = rand(2, 14);
         if (!$_SESSION['cardtypeb'])
             $_SESSION['cardtypeb'] = $typecc;
         if (!$_SESSION['cardvalueb'])
@@ -19,6 +15,10 @@ include "header.php";
         $cardtypeb = $_SESSION['cardtypeb'];
         $cardvalueb = $_SESSION['cardvalueb'];
         if ($_POST['higher']) {
+            if ($cardvalueb == $valuecc)
+                $valuecc = rand(2, 14);
+            if ($cardvalueb == $valuecc)
+                $valuecc = rand(2, 14);
             if ($user_class->money < 10000) {
                 diefun('You don\'t have enough money to play high low.');
 
