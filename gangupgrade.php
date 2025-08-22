@@ -16,7 +16,7 @@ include 'header.php';
 
             $gang_class = new Gang($user_class->gang);
 
-            if ($_POST['size'] != "") {
+            if (isset($_POST['size']) && $_POST['size'] != "") {
                 if ($gang_class->moneyvault < 500000) {
                     echo Message("You don't have enough money in your vault to upgrade.");
                     include 'footer.php';
@@ -33,7 +33,7 @@ include 'header.php';
                 echo '<meta http-equiv="refresh" content="0;url=gangupgrade.php">';
             }
 
-            if ($_POST['banner'] != "") {
+            if (isset($_POST['banner']) && $_POST['banner'] != "") {
                 if ($gang_class->moneyvault < 1000000) {
                     echo Message("You don't have enough money in your vault to upgrade.");
                     include 'footer.php';
