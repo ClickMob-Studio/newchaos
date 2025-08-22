@@ -45,7 +45,7 @@ if (isset($_POST['msg'])) {
 
     $db->query("SELECT * FROM gangmail WHERE gangid = ? AND gmailid > ? ORDER BY timesent");
     $db->execute([$user_class->gang, $_GET['lastID']]);
-    $result = $db->fetch_row(true);
+    $result = $db->fetch_row();
 
     $db->query("SELECT gmailid FROM gangmail WHERE gangid = ? ORDER BY gmailid DESC LIMIT 1");
     $db->execute([$user_class->gang]);
