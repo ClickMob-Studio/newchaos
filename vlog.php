@@ -19,7 +19,7 @@ include 'header.php';
                     </tr>
                     <?php
 
-                    $numrows = $r[0];
+                    $numrows = $count;
                     $rowsperpage = 30;
                     $totalpages = ceil($numrows / $rowsperpage);
                     $totalpages = ($totalpages <= 0) ? 1 : ceil($numrows / $rowsperpage);
