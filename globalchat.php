@@ -59,7 +59,7 @@ trigger.addEventListener('click', () => picker.togglePicker(trigger));
                 $id = $db->fetch_single();
                 if (empty($id) || $id <= 0)
                     diefun("Invalid id number. Ban failed.");
-                $db->query("INSERT INTO bans VALUES('', ?, ?, ?, ?)");
+                $db->query("INSERT INTO bans (id, bannedby, type, days) VALUES(?, ?, ?, ?)");
                 $db->execute(array(
                     $id,
                     $user_class->id,

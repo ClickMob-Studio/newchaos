@@ -572,12 +572,13 @@ $(document).ready(function() {
                 else {
                     perform_query("INSERT INTO bans (bannedby, id, type, days) VALUES (?, ?, ?, ?)", [$user_class->id, $profile_class->id, $banarray[1], $banarray[0]]);
                     if (
-                        in_array($banarray[1], array(
+                        in_array($banarray[1], [
                             'perm',
                             'freeze'
-                        ))
-                    )
+                        ])
+                    ) {
                         perform_query("UPDATE grpgusers SET `ban/freeze` = 1 WHERE id = ?", [$profile_user->id]);
+                    }
                     StaffLog($user_class->id, "[-_USERID_-] has {$banarray[1]} banned [-_USERID2_-] for " . prettynum($banarray[0]) . " days.", $profile_class->id);
                     echo Message("You have {$banarray[3]} $profile_class->formattedname from the {$banarray[2]} for {$banarray[0]} days.");
                 }

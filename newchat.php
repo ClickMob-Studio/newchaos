@@ -54,27 +54,27 @@ error_reporting(E_ALL);
             trigger.addEventListener('click', () => picker.togglePicker(trigger));
             </script>";
 
-            if(isset($_GET['gcban']) && $_GET['conf'] == $_SESSION['security']){
-                if($user_class->admin || $user_class->gm || $user_class->cm){
+            if (isset($_GET['gcban']) && $_GET['conf'] == $_SESSION['security']) {
+                if ($user_class->admin || $user_class->gm || $user_class->cm) {
                     $db->query("SELECT id FROM grpgusers WHERE id = ? AND admin = 0 AND gm = 0");
                     $db->execute(array(
                         $_GET['gcban']
                     ));
                     $id = $db->fetch_single();
-                    if(empty($id) || $id <= 0)
+                    if (empty($id) || $id <= 0)
                         diefun("Invalid id number. Ban failed.");
-                    $db->query("INSERT INTO bans VALUES('', ?, ?, ?, ?)");
+                    $db->query("INSERT INTO bans (id, bannedby, type, days) VALUES(?, ?, ?, ?)");
                     $db->execute(array(
                         $id,
                         $user_class->id,
                         'gc',
                         60
                     ));
-                    diefun(formatName($id). " has been banned for 60 minutes. If the user needs a more severe punishment, use a mail ban.");
+                    diefun(formatName($id) . " has been banned for 60 minutes. If the user needs a more severe punishment, use a mail ban.");
                 }
             }
-            if(isset($_GET['delgc'])){
-                if($user_class->admin || $user_class->gm || $user_class->cm){
+            if (isset($_GET['delgc'])) {
+                if ($user_class->admin || $user_class->gm || $user_class->cm) {
                     $db->query("DELETE FROM globalchat WHERE id = ?");
                     $db->execute(array(
                         $_GET['delgc']
@@ -86,9 +86,9 @@ error_reporting(E_ALL);
             $db->execute(array(
                 $user_class->id
             ));
-            if($mins = $db->fetch_single())
+            if ($mins = $db->fetch_single())
                 diefun("You are banned from global chat for $mins minutes.");
-            $_SESSION['security'] = rand(1000000000,2000000000);
+            $_SESSION['security'] = rand(1000000000, 2000000000);
             $db->query("SELECT id FROM globalchat ORDER BY id DESC");
             $db->execute();
             $lastid = $db->fetch_row(true);
@@ -138,12 +138,17 @@ error_reporting(E_ALL);
             ?>
             <div class="d-flex justify-content-center my-3">
                 <button id="trigger" class="btn btn-secondary me-2">Emoji</button>
-                <button id="semojis" class="btn btn-secondary <?php echo ($user_class->hideemojis) ? 'd-block' : 'd-none'; ?>">Show Emojis</button>
-                <button id="hemojis" class="btn btn-secondary <?php echo ($user_class->hideemojis) ? 'd-none' : 'd-block'; ?>">Hide Emojis</button>
+                <button id="semojis"
+                    class="btn btn-secondary <?php echo ($user_class->hideemojis) ? 'd-block' : 'd-none'; ?>">Show
+                    Emojis</button>
+                <button id="hemojis"
+                    class="btn btn-secondary <?php echo ($user_class->hideemojis) ? 'd-none' : 'd-block'; ?>">Hide
+                    Emojis</button>
             </div>
             <form name="message">
                 <div class="mb-3">
-                    <textarea class="form-control" name="msgtext" id="reply" rows="5" oninput="typing();" autofocus></textarea>
+                    <textarea class="form-control" name="msgtext" id="reply" rows="5" oninput="typing();"
+                        autofocus></textarea>
                 </div>
                 <button type="submit" name="submit" class="btn btn-primary" onclick="return sendGmail();">Post</button>
             </form>
@@ -186,7 +191,7 @@ foreach ($rows as $row) {
 
     $avatar = ($array['avatar'] != "") ? $array['avatar'] : "/images/no-avatar.png";
     $avatarSize = "100px"; // Set a consistent size for all avatars
-    $quotetext = str_replace(array('\'','"'),array('\\\'','&quot;'),$row['body']);
+    $quotetext = str_replace(array('\'', '"'), array('\\\'', '&quot;'), $row['body']);
 
     echo '<div class="card my-3" style="background-color: #292929; border: none; border-bottom: 1px solid #444;">';
     echo '<div class="card-body d-flex">';

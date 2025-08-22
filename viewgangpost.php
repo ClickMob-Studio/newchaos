@@ -17,17 +17,16 @@ include 'header.php';
 
         $user_rank = new GangRank($user_class->grank);
 
-        //Check Forum Banned
         $type = "forum";
-        $result = mysql_query("SELECT * FROM `bans` WHERE `type`='$type'");
-        $worked = mysql_fetch_array($result);
-        if ($worked['id'] == $user_class->id) {
+        $db->query("SELECT * FROM `bans` WHERE `type` = ? AND id = ?");
+        $db->execute([$type, $user_class->id]);
+        $worked = $db->fetch_row(true);
+        if (!empty($worked)) {
             echo Message('&nbsp;You have been forum banned for ' . prettynum($worked['days']) . ' days.');
             include 'footer.php';
             die();
         }
-        //End Check
-//Edit Topic
+
         if (isset($_POST['submit'])) {
 
             $_POST['subject'] = str_replace('"', '', $_POST['subject']);
@@ -47,8 +46,9 @@ include 'header.php';
         if (isset($_POST['reply'])) {
             $testbody = str_replace(" ", "", $_POST['body']);
             if ($testbody != "") {
-                $result = mysql_query("SELECT * from `gftopics` WHERE `forumid` = " . $_GET['id'] . "");
-                $worked = mysql_fetch_array($result);
+                $db->query("SELECT * FROM `gftopics` WHERE `forumid` = ?");
+                $db->execute([$_GET['id']]);
+                $worked = $db->fetch_row(true);
 
                 $sectionid = $worked['sectionid'];
                 $topicid = $_GET['id'];
@@ -80,8 +80,9 @@ include 'header.php';
 
             //Delete Topic
             if (isset($_POST['deletetopic'])) {
-                $rsection = mysql_query("SELECT * FROM `gftopics` WHERE `forumid` = '" . $_GET['id'] . "'");
-                $section = mysql_fetch_array($rsection);
+                $db->query("SELECT * FROM `gftopics` WHERE `forumid` = ?");
+                $db->execute([$_GET['id']]);
+                $section = $db->fetch_row(true);
                 echo Message("The topic you requested was deleted.<br /><br /><a href='gangforum.php?id=" . $section['sectionid'] . "'>Go Back</a>");
                 perform_query("DELETE FROM `gftopics` WHERE `forumid` = ?", [$_GET['id']]);
                 perform_query("DELETE FROM `gfreplies` WHERE `topicid` = ?", [$_GET['id']]);
@@ -114,8 +115,10 @@ include 'header.php';
             }
         }
 
-        $result = mysql_query("SELECT * from `gftopics` WHERE `forumid` = " . $_GET['id'] . "");
-        $worked = mysql_fetch_array($result);
+
+        $db->query("SELECT * FROM `gftopics` WHERE `forumid` = ?");
+        $db->execute([$_GET['id']]);
+        $worked = $db->fetch_row(true);
 
         $ticket_class = new User($worked['playerid']);
 
@@ -131,17 +134,10 @@ include 'header.php';
             die();
         }
 
-        //Add Views
-        $result = mysql_query("SELECT * from `gftopics` WHERE `forumid` = '" . $_GET['id'] . "'");
-        $worked = mysql_fetch_array($result);
         $views = $worked['views'] + 1;
         perform_query("UPDATE `gftopics` SET `views` = ? WHERE `forumid` = ?", [$views, $_GET['id']]);
-        //End Views
-        
-
 
         if ($user_class->gang != $worked['sectionid']) {
-
             echo Message('You are not allowed to be here.');
             include("footer.php");
             die();
@@ -256,9 +252,10 @@ include 'header.php';
 // the offset of the list, based on current page
         $offset = ($currentpage - 1) * $rowsperpage;
 
-        $resultrows = mysql_query("SELECT * from `gfreplies` WHERE `topicid` = '" . $_GET['id'] . "'");
-        $workedrows = mysql_num_rows($resultrows);
-        if ($workedrows > 0) {
+        $db->query("SELECT COUNT(*) FROM `gfreplies` WHERE `topicid` = ?");
+        $db->execute([$_GET['id']]);
+        $resultrows = $db->fetch_single();
+        if ($resultrows > 0) {
             ?>
             <tr>
                 <td class="contentspacer"></td>
@@ -271,8 +268,8 @@ include 'header.php';
                     <?php
                     $db->query("SELECT * from `gfreplies` WHERE `topicid` = ? ORDER BY `timesent` ASC LIMIT $offset, $rowsperpage");
                     $db->execute([$_GET['id']]);
-                    $result123 = $db->fetch_row();
-                    foreach ($result123 as $row) {
+                    $results = $db->fetch_row();
+                    foreach ($results as $row) {
                         $reply_class = new User($row['playerid']);
 
                         if ($reply_class->avatar != "") {
