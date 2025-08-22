@@ -3,12 +3,14 @@ include 'header.php';
 
 $mypet = new Pet($user_class->id);
 $error = "";
+$error = !isset($mypet) ? "You don't have a pet." : $error;
 $error = ($mypet->energypercent < 25) ? "Your pet needs atleast 25% energy to attack." : $error;
 $error = ($mypet->hppercent < 25) ? "Your pet needs atleast 25% HP to attack someone." : $error;
 $error = ($mypet->jail > 0) ? "Your pet can't attack if they are in prison." : $error;
 $error = ($mypet->hospital > 0) ? "Your pet can't attack someone if they are in the hospital." : $error;
 $error = ($_GET['attack'] == "") ? "You didn't choose a pet to attack." : $error;
 $error = ($_GET['attack'] == $user_class->id) ? "You can't attack your own pet." : $error;
+
 $attack_person = new User($_GET['attack']);
 $theirpet = new Pet($attack_person->id);
 $error = ($attack_person->city != $user_class->city) ? "You must be in the same city as the pet you're attacking!" : $error;
@@ -19,6 +21,7 @@ $error = ($attack_person->admin == 1) ? "You can't attack an admin" : $error;
 
 if (isset($error))
     diefun($error . "<br /><br /><a href='index.php'>Home</a>");
+
 $yourhp = $mypet->hp;
 $theirhp = $theirpet->hp;
 genHead("Pet Fight");
