@@ -607,7 +607,7 @@ $gang_raid_count = $db->num_rows();
 
 $counts = array(
     'event' => $ev,
-    'mail' => '<!_-mail-_!>',
+    'mail' => $mailCount,
     'hospital' => $hosp,
     'jail' => $ja,
     'gangmail' => $gmailCount,
