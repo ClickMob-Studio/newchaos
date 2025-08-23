@@ -329,7 +329,7 @@ include 'includepet.php';
                 diefun("Either that pet doesn't exist, or it's not yours");
             }
 
-            if (array_key_exists('name', $_POST)) {
+            if (isset($_POST['name'])) {
                 $_POST['name'] = isset($_POST['name']) ? trim($_POST['name']) : null;
 
                 if (empty($_POST['name'])) {
@@ -348,7 +348,7 @@ include 'includepet.php';
                 $db->execute([$_POST['name'], $user_class->id, $petId]);
 
                 echo Message("You've changed your pet's name");
-            } elseif (array_key_exists('cn', $_POST)) {
+            } elseif (isset($_POST['cn'])) {
                 if (strlen($_POST['startcolor']) != 6) {
                     diefun("Error.");
                 }
@@ -364,7 +364,7 @@ include 'includepet.php';
                 $db->execute([implode("|", $colors), $user_class->id, $petId]);
 
                 echo Message("You've changed your pet's gradient name.");
-            } elseif (array_key_exists('buycolor', $_POST)) {
+            } elseif (isset($_POST['buycolor'])) {
                 if ($user_class->credits < 3) {
                     diefun("You do not have enough credits.");
                 }
@@ -419,7 +419,7 @@ include 'includepet.php';
                 }
             }
         }
-        if (array_key_exists('avi', $_POST)) {
+        if (isset($_POST['avi'])) {
             $avi = $_POST['avi'];
             if (!getimagesize($avi) && $avi != '') {
                 diefun("Invalid image detected.");

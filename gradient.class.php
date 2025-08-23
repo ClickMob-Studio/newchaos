@@ -1,5 +1,6 @@
 <?php
-class Gradient implements ArrayAccess, SeekableIterator {
+class Gradient implements ArrayAccess, SeekableIterator
+{
     private $_items = array();
     private $_posIndex = array();
     private $_iSet = 0;
@@ -8,14 +9,16 @@ class Gradient implements ArrayAccess, SeekableIterator {
     private $_orderedItems;
     private $_getCache;
     private $_range = array(0, 100);
-    public function __construct($array = null) {
+    public function __construct($array = null)
+    {
         if ($array !== null) {
             foreach ($array as $k => $v)
                 $this[$k] = $v;
         }
         $this->_Flush();
     }
-    public function SetRange($min, $max) {
+    public function SetRange($min, $max)
+    {
         foreach ($this->_items as $k => $v) {
             unset($this->_posIndex[$v['pos']]);
             $this->_items[$k]['pos'] = self::_Rescale($v['pos'], $this->_range[0], $this->_range[1], $min, $max);
@@ -26,35 +29,43 @@ class Gradient implements ArrayAccess, SeekableIterator {
             $max
         );
     }
-    public function rewind() {
+    public function rewind()
+    {
         $this->_iGet = 0;
     }
-    public function current() {
+    public function current()
+    {
         if ($this->offsetExists($this->_iGet))
             return $this->offsetGet($this->_iGet);
         else
             return false;
     }
-    public function key() {
+    public function key()
+    {
         return $this->_iGet;
     }
-    public function next() {
+    public function next()
+    {
         $this->_iGet++;
         return $this->current();
     }
-    public function valid() {
+    public function valid()
+    {
         return $this->offsetExists($this->_iGet);
     }
-    public function seek($index) {
+    public function seek($index)
+    {
         $index = self::_Rescale($index, $this->_range[0], $this->_range[1], 0, 100);
         $this->_iGet = $index;
         if (!$this->valid())
             throw new OutOfBoundsException('Invalid seek position');
     }
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return $this->_count > 0 && $offset >= $this->_range[0] && $offset <= $this->_range[1];
     }
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         $val = null;
         if (isset($this->_posIndex[$offset]))
             $val = $this->_items[$this->_posIndex[$offset]]['val'];
@@ -78,7 +89,8 @@ class Gradient implements ArrayAccess, SeekableIterator {
         }
         return $val;
     }
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         if ($offset < 0 || $offset > 100)
             throw new OutOfBoundsException("Offset $offset is 
             outside of valid range: 0-100.");
@@ -99,7 +111,8 @@ class Gradient implements ArrayAccess, SeekableIterator {
             $this->_count++;
         }
     }
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         if (isset($this->_posIndex[$pos])) {
             $this->_Flush();
             unset($this->_items[$this->_posIndex[$pos]]);
@@ -107,23 +120,31 @@ class Gradient implements ArrayAccess, SeekableIterator {
             $this->_count--;
         }
     }
-    public function count() {
+    public function count()
+    {
         return $this->_count;
     }
-    private function _Flush() {
+    private function _Flush()
+    {
         $this->_orderedItems = null;
         $this->_getCache = array();
     }
-    private function _Order() {
+    private function _Order()
+    {
         if ($this->_orderedItems === null) {
-            $comparator = create_function('$a, $b', 'return $a["pos"] - $b["pos"];');
             $this->_orderedItems = array();
             foreach ($this->_items as $k => $v)
-                $this->_orderedItems[] = & $this->_items[$k];
-            usort($this->_orderedItems, $comparator);
+                $this->_orderedItems[] = &$this->_items[$k];
+            usort(
+                $this->_orderedItems,
+                function ($a, $b) {
+                    return $a['pos'] - $b['pos'];
+                }
+            );
         }
     }
-    protected static function _Rescale($n, $a, $b, $c, $d) {
+    protected static function _Rescale($n, $a, $b, $c, $d)
+    {
         return ($n - $a) / ($b - $a) * ($d - $c) + $c;
     }
 }

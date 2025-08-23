@@ -13,8 +13,11 @@ include 'header.php';
         if ($user_rank->ganggrad != 1)
             diefun("You do not have permission to be here.");
         $removeAmnt = 1000;
-        if (!array_key_exists('action', $_GET))
+
+        if (!isset($_GET['action'])) {
             $_GET['action'] = '';
+        }
+
         switch ($_GET['action']) {
             default:
                 index();

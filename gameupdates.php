@@ -31,7 +31,7 @@ include 'header.php';
             <div class="card-body" style="background-color: #8e8e8e21;">
                 <?php
 
-                if (array_key_exists('submit', $_POST) && ($user_class->admin)) {
+                if (isset($_POST['submit']) && ($user_class->admin)) {
                     $text = "[{$_POST['type']}] {$_POST['update']}";
                     perform_query("INSERT INTO game_updates (update_text) VALUES (?)", [$text]);
                     perform_query("UPDATE grpgusers SET new_updates = new_updates + 1 WHERE id <> ?", [$user_class->id]);
