@@ -113,15 +113,12 @@ include 'header.php';
                     $newPointsAmount = $gang_class->pointsvault - $costs[$current_star_level + 1];
                     $newUpgradeLevel = $current_star_level + 1;
 
-                    // Correctly update the gang's points vault in the database
                     perform_query("UPDATE gangs SET pointsvault = ? WHERE id = ?", [$newPointsAmount, $user_class->gang]);
-
-                    // Update the gang's upgrade level
                     perform_query("UPDATE gangs SET $key = ? WHERE id = ?", [$newUpgradeLevel, $user_class->gang]);
-
 
                     echo Message("Successfully upgraded {$upgrade_details[$key]['name']} to level $newUpgradeLevel!");
 
+                    $gang_class = new Gang($user_class->gang);
                 }
             }
             ?>
