@@ -122,6 +122,7 @@ include 'header.php';
 
                     echo Message("Successfully upgraded {$upgrade_details[$key]['name']} to level $newUpgradeLevel!");
 
+                    $gang_class = new Gang($user_class->gang);
                 }
             }
             ?>
@@ -306,7 +307,7 @@ include 'header.php';
                         <p>Enhance your gang's capabilities by upgrading your gangs upgrades with points</p>
                     </div>
                     <div class="upgrade-container">
-                        <form method="post">
+                        <form method="POST">
                             <?php foreach ($upgrade_keys as $key):
                                 $current_star_level = intval($gang_class->$key);
                                 $canUpgrade = $current_star_level < 10 && ($gang_class->moneyvault >= $costs[$current_star_level + 1]);
