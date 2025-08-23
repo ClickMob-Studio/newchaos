@@ -99,7 +99,7 @@ include 'header.php';
 
             foreach ($upgrade_keys as $key) {
                 if (isset($_POST[$key])) {
-                    $current_star_level = intval($gang_class[$key]);
+                    $current_star_level = intval($gang_class->$key);
 
                     // Check if upgrade is maxed out
                     if ($current_star_level >= 10) {
