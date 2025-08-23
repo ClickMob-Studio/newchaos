@@ -347,9 +347,6 @@ function callback($buffer)
     }
 
     $mailCount = get_pm_count($user_class->id);
-    if ($user_class->admin > 0) {
-        $mailCount = 100;
-    }
 
     $jailCount = $cache->get("jailCount");
     if (empty($jailCount)) {
