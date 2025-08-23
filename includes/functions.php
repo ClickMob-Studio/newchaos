@@ -2110,49 +2110,47 @@ function getItemTempUse($userId)
     global $db, $cache;
 
     $cacheKey = "item_temp_use:$userId";
-    $cached = $cache->get($cacheKey);
-    if ($cached !== false) {
+    if (($cached = $cache->get($cacheKey)) !== false) {
         return json_decode($cached, true);
     }
 
-    $db->query("SELECT * FROM item_temp_use WHERE user_id = " . intval($userId) . " LIMIT 1");
-    $db->execute();
-    $r = $db->fetch_row(true);
+    $db->query("SELECT * FROM item_temp_use WHERE user_id = ? LIMIT 1");
+    $db->execute([(int) $userId]);
+    $rows = $db->fetch_row();
 
-    if (!isset($r)) {
-        $db->query("INSERT INTO item_temp_use (user_id) VALUES (" . intval($userId) . ")");
-        $db->execute();
-        $r = getItemTempUse($userId);
+    if (!isset($rows[0]['id'])) {
+        $db->query("INSERT INTO item_temp_use (user_id) VALUES (?)");
+        $db->execute([(int) $userId]);
+        return getItemTempUse($userId);
     }
 
-    $cache->setEx($cacheKey, 360, json_encode($r));
-
-    return $r;
+    $row = $rows[0];
+    $cache->setEx($cacheKey, 360, json_encode($row));
+    return $row;
 }
 
 function addItemTempUse($user_class, $field, $qty = 1)
 {
     global $db, $cache;
 
-    $itemTempUse = getItemTempUse($user_class->id);
-    $cacheKey = "item_temp_use:{$user_class->id}";
+    $setFields = ['maze_boost', 'easter_bead', 'crime_potion_time', 'crime_booster_time', 'nerve_vial_time', 'gang_double_exp_time', 'gym_10_multiplier_time', 'crime_15_multiplier_time', 'gym_protein_bar_time', 'gym_super_pills_time', 'ghost_vacuum_time', 'trick_or_treat_pass_time', 'double_gym_time', 'love_potions_time'];
+    $incFields = ['…put your incrementable columns here…'];
+
+    $item = getItemTempUse($user_class->id);
+    $id = (int) $item['id'];
     $qty = (int) $qty;
 
-    if ($field == 'maze_boost' || $field == 'easter_bead' || $field == 'crime_potion_time' || $field == 'crime_booster_time' || $field == 'nerve_vial_time' || $field == 'gang_double_exp_time' || $field == 'gym_10_multiplier_time' || $field == 'crime_15_multiplier_time' || $field == 'gym_protein_bar_time' || $field == 'gym_super_pills_time' || $field == 'ghost_vacuum_time' || $field == 'trick_or_treat_pass_time' || $field == 'double_gym_time' || $field == 'love_potions_time') {
-        $db->query("UPDATE item_temp_use SET {$field} = {$qty} WHERE id = " . (int) $itemTempUse['id']);
-        $db->execute();
-
-        $cache->hSet($cacheKey, $field, $qty);
+    if (in_array($field, $setFields, true)) {
+        $db->query("UPDATE item_temp_use SET `$field` = ? WHERE id = ?");
+        $db->execute([$qty, $id]);
+    } elseif (in_array($field, $incFields, true)) {
+        $db->query("UPDATE item_temp_use SET `$field` = `$field` + ? WHERE id = ?");
+        $db->execute([$qty, $id]);
     } else {
-        $db->query("UPDATE item_temp_use SET {$field} = {$field} + {$qty} WHERE id = " . (int) $itemTempUse['id']);
-        $db->execute();
-
-        try {
-            $cache->hIncrBy($cacheKey, $field, $qty);
-        } catch (Throwable $e) {
-            $cache->del($cacheKey);
-        }
+        throw new InvalidArgumentException("Invalid field: $field");
     }
+
+    $cache->del("item_temp_use:{$user_class->id}");
 }
 
 function removeItemTempUse($userId, $field, $qty = 1)
