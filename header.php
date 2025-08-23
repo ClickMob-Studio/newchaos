@@ -346,8 +346,6 @@ function callback($buffer)
         $cache->setEx("pHosCount", 15, $pHosCount);
     }
 
-    $mailCount = get_pm_count($user_class->id);
-
     $jailCount = $cache->get("jailCount");
     if (empty($jailCount)) {
         $db->query("SELECT count(id) FROM grpgusers WHERE jail <> 0");
@@ -417,10 +415,9 @@ function callback($buffer)
     $petJailDisplay = $pJailCount > 0 ? "<span style='color:red;'>$petJailDisplay</span>" : $petJailDisplay;
     $phos = "[" . $pHosCount . "]";
     $phos = ($pHosCount > 0) ? "<span style='color:red;'>$phos</span>" : $phos;
-    $mail = $mailCount;
     $events = $eveCount;
     $hitlist = $hitCount;
-    $emcount = $mail + $events;
+    $emcount = $events;
     $emcount = ($emcount) ? "(" . $emcount . ") " : "";
     $buffer = str_replace("[:USERNAME:]", strip_tags($user_class->username), $buffer);
     $buffer = str_replace("[:EMAIL:]", strip_tags($user_class->email), $buffer);
@@ -477,12 +474,6 @@ function callback($buffer)
     } else {
         $buffer = str_replace("<!_-hitlist-_!>", "[" . prettynum($hitlist) . "]", $buffer);
     }
-    if ($mail > 0) {
-        $buffer = str_replace("<!_-mail-_!>", "<span class='notify'>" . prettynum($mail) . "</span>", $buffer);
-    } else {
-        $buffer = str_replace("<!_-mail-_!>", prettynum($mail), $buffer);
-    }
-
 
     if ($user_class->forumnoti > 0) {
         $buffer = str_replace("<!_-forum-_!>", "<span class='notify'>New</span>", $buffer);
@@ -605,6 +596,7 @@ $db->query("SELECT ar.raid_type, ar.summoned_by, g.gang FROM active_raids ar LEF
 $db->execute([$user_class->gang]);
 $gang_raid_count = $db->num_rows();
 
+$mailCount = get_pm_count($user_class->id);
 $counts = array(
     'event' => $ev,
     'mail' => $mailCount,
