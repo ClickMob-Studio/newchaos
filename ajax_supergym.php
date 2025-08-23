@@ -52,31 +52,9 @@ if ($scheduledevent) {
 $db->query("SELECT upgrade1, upgrade2, upgrade3, upgrade4, upgrade5, upgrade6 FROM gangs WHERE id = ? LIMIT 1");
 $db->execute([$user_class->gang]);
 $gang_upgrades = $db->fetch_row(true);
-if ($gang_upgrades) {
-    // Check the Training Stat and Apply the Corresponding Bonus
-    switch ($stat) {
-        case 'strength':
-            $upgrade_level = $gang_upgrades['upgrade1'];
-            break;
-        case 'defense':
-            $upgrade_level = $gang_upgrades['upgrade2'];
-            break;
-        case 'speed':
-            $upgrade_level = $gang_upgrades['upgrade3'];
-            break;
-        default:
-            $upgrade_level = 0;
-    }
-
-    // Apply the bonus to the modifier
-    if ($upgrade_level > 0) {
-        $bonus_percentage = 0.05 * $upgrade_level;  // 5% per level
-        $modifier *= (1 + $bonus_percentage);
-    }
-}
 
 if (
-    !isset($_POST['stat']) || in_array($_POST['stat'], array(
+    isset($_POST['stat']) && in_array($_POST['stat'], array(
         'strength',
         'defense',
         'speed',
@@ -85,12 +63,11 @@ if (
 ) {
     $stat = $_POST['stat'];
 } else {
-    die("Invalid stat. " . $_POST['stat']);
+    die("Invalid stat: " . $_POST['stat']);
 }
 
 $user_class->directawake -= (round(.75 * $_POST['amnt']));
 $modifier *= $mega_train_multiplier;  // Applying the multiplier to the modifier
-/*$user_class->directawake -= (round(.75 * $_POST['amnt']));*/
 $modifier *= 1.5;
 
 $modifier = max(((0.20 * $user_class->prestige) + 1.5), 1.5);
@@ -101,7 +78,7 @@ if ($user_class->pack1 == 3) {
 }
 
 // Assuming this comes after initializing $modifier and validating $_POST['stat']
-if ($gang_upgrades && $gang_upgrades['upgrade6'] >= 1) {
+if (isset($gang_upgrades) && $gang_upgrades['upgrade6'] >= 1) {
     $modifier *= (1 + (0.05 * $gang_upgrades['upgrade6'])); // Apply the bonus correctly
 }
 
