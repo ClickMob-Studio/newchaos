@@ -405,7 +405,6 @@ include 'header.php';
             if ($_GET['buy'] == "qol75crimes") {
                 if ($user_class->credits >= 30) {
                     $itemTempUse = getItemTempUse($user_class->id);
-                    print_r($itemTempUse);
                     if ($itemTempUse['crime_15_multiplier_time'] > time()) {
                         echo Message("You already have 75x crime access activated");
                     } else {
