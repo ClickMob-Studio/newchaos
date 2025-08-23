@@ -42,10 +42,6 @@ if (isset($_GET['au_user_or']) && (int) $_GET['au_user_or']) {
 
 session_write_close();
 
-// $logger = new Katzgrau\KLogger\Logger('/var/www/logs/speedcrimes', Psr\Log\LogLevel::INFO, array(
-//     'prefix' => $user_class->id . "-",
-// ));
-
 $tempItemUse = getItemTempUse($user_class->id);
 
 $crime_multiplier = 1;
@@ -125,7 +121,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $chance = rand(1, 250);
     $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
     if ($id == 51 && $tempItemUse['ghost_vacuum_time'] > time()) {
-        $exp = ceil($user_class->maxexp / 5000);
+        $exp = ceil($user_class->maxexp / 1000);
     } else if ($id == 52) {
         $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
         if (isset($currentQuestSeason['id'])) {
@@ -236,8 +232,6 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $db->query("SELECT * FROM gamebonus WHERE ID = 1 LIMIT 1");
     $db->execute();
     $bonus_row = $db->fetch_row(true);
-
-    //$debug['worked'] = $bonus_row;
 
     $tempItemUse = getItemTempUse($user_class->id);
     $aTime = time();
