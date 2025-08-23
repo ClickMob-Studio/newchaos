@@ -2117,19 +2117,17 @@ function getItemTempUse($userId)
 
     $db->query("SELECT * FROM item_temp_use WHERE user_id = " . intval($userId) . " LIMIT 1");
     $db->execute();
-    $r = $db->fetch_row();
+    $r = $db->fetch_row(true);
 
-    if (isset($r[0]['id'])) {
-        $row = $r[0];
-    } else {
+    if (!isset($r)) {
         $db->query("INSERT INTO item_temp_use (user_id) VALUES (" . intval($userId) . ")");
         $db->execute();
-        $row = getItemTempUse($userId);
+        $r = getItemTempUse($userId);
     }
 
-    $cache->setEx($cacheKey, 360, json_encode($row));
+    $cache->setEx($cacheKey, 360, json_encode($r));
 
-    return $row;
+    return $r;
 }
 
 function addItemTempUse($user_class, $field, $qty = 1)

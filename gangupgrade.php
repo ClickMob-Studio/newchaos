@@ -96,7 +96,6 @@ include 'header.php';
 
             // Add this after the banner upgrade check, but before the HTML rendering:
             $upgrade_keys = ['upgrade1', 'upgrade2', 'upgrade3', 'upgrade_agility', 'upgrade4'];
-
             foreach ($upgrade_keys as $key) {
                 if (isset($_POST[$key])) {
                     $current_star_level = intval($gang_class->$key);
