@@ -120,12 +120,8 @@ include 'header.php';
                     // Update the database
                     perform_query("UPDATE gangs SET `$key` = ?, moneyvault = ? WHERE id = ?", [$newUpgradeLevel, $newVaultAmount, $user_class->gang]);
 
-                    // If the query was successful, show a success message
-                    if ($result) {
-                        echo Message("Successfully upgraded {$upgrade_details[$key]['name']} to level $newUpgradeLevel!");
-                    } else {
-                        echo Message("There was an error upgrading {$upgrade_details[$key]['name']}. Please try again.");
-                    }
+                    echo Message("Successfully upgraded {$upgrade_details[$key]['name']} to level $newUpgradeLevel!");
+
                 }
             }
             ?>
