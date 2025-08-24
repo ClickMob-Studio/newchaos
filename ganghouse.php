@@ -50,11 +50,12 @@ include 'header.php';
                 $text = "You have purchased a " . $row['name'] . ".";
             }
 
+
             if ($row['id'] == $gang_class->ghouse)
                 diefun("You already have that gang house.");
-            elseif ($cost > ($gang_class->moneyvault + $subcost) && $error != 1)
+            elseif ($cost > ($gang_class->moneyvault + $subcost))
                 diefun("You don't have enough money in your vault to buy that gang house.");
-            elseif ($row['name'] == "" && $error != 1)
+            elseif ($row['name'] == "")
                 diefun("That's not a real house.");
             else {
                 $gang_class->moneyvault = floor(($gang_class->moneyvault + $subcost) - $cost);
