@@ -68,7 +68,7 @@ include "header.php";
             }
         }
 
-        $missions = get_missions_by_category(3);
+        $missions = get_missions_by_category(4);
         $msgg = (isset($msgg)) ? $msgg : "";
         if (!empty($msgg))
             print "<div class='floaty1'>" . $msgg . "</div>";
