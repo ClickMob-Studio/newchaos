@@ -8,12 +8,12 @@ include_once 'dbcon.php';
 include_once 'database/pdo_class.php';
 
 // Backup directory
-$backupDir = '/home/chaoscit/backup';
+$backupDir = '/home/flipverse/backup';
 // Number of days to keep backup files
 $fileRetentionDays = 7;
 
 // Set the timezone
-date_default_timezone_set('Your/Timezone');
+date_default_timezone_set('Europe/London');
 
 // Generate a filename for the backup file based on the current date and time
 $backupFile = $backupDir . '/db-backup-' . date("Y-m-d-H-i-s") . '.sql';
