@@ -529,9 +529,6 @@ function callback($buffer)
     $buffer = str_replace("<!_-entertain-_!>", $et, $buffer);
     $buffer = str_replace("<!_-emcount-_!>", $emcount, $buffer);
     return $buffer;
-
-
-
 }
 
 ob_start("callback");
