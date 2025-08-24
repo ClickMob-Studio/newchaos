@@ -29,7 +29,7 @@ if (isset($workedh['id']) && $workedh['id']) {
     $newpoints = $moth->points + 500;
     perform_query("UPDATE `grpgusers` SET `moth` = 0, `points` = ? WHERE `id` = ?", [$newpoints, $moth->id]);
     Send_Event($moth->id, "You are mugger of the hour with a total of " . prettynum($workedh['moth']) . " Mugs. [ + 500 pts ]");
-    perform_query("INSERT INTO `MOTH` (`userid`, `kills`, `time`) VALUES (?, ?, ?)", [$moth->id, $workedh['moth'], time()]);
+    perform_query("INSERT INTO `moth` (`userid`, `kills`, `time`) VALUES (?, ?, ?)", [$moth->id, $workedh['moth'], time()]);
 }
 
 //KOTH killer of the hour
