@@ -168,7 +168,7 @@ if ($jailbreak != "") {
                             updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'busts', 1);
                         }
 
-                        perform_query("UPDATE `grpguser` SET `jail` = '0' WHERE `id` = ?", [$jailed_person['id']]);
+                        perform_query("UPDATE `grpgusers` SET `jail` = '0' WHERE `id` = ?", [$jailed_person['id']]);
                         Send_Event($jailed_person['id'], "You have been busted out of Jail by [-_USERID_-].", $user_class->id);
 
                         addToGangCompLeaderboard($user_class->gang, 'busts_complete', 1);

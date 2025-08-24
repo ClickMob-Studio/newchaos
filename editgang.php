@@ -26,7 +26,12 @@ include 'header.php';
             if (!in_array($_POST['tax'], $validtax))
                 error("Tax Fraud Detected!");
             $tax = security($_POST['tax']);
-            $gangbanner = (getimagesize($_POST['banner']) !== false) ? $_POST['banner'] : "";
+            if (isset($_POST['banner']) && !empty($_POST['banner'])) {
+                $gangbanner = (getimagesize($_POST['banner']) !== false) ? $_POST['banner'] : "";
+            } else {
+                $gangbanner = "";
+            }
+
             $error = (strlen($gangname) < 3) ? "<div>Your gang's name has to be at least 3 characters long.</div>" : "";
             $error = (strlen($gangname) > 25) ? "<div>Your gang's name can only be a max of 25 characters long.</div>" : "";
             $error = (strlen($gangtag) < 1) ? "<div>Your gang's tag has to be at least 1 character long.</div>" : "";
