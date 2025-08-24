@@ -147,12 +147,14 @@ try {
                 $compQty = 1;
             }
 
-            if ($gang_class->upgrade8 >= 1) {
-                $mugamount = floor($mugamount * (1 + 0.10 * $gang_class->upgrade8));
-            }
+            if (isset($gang_class)) {
+                if ($gang_class->upgrade8 >= 1) {
+                    $mugamount = floor($mugamount * (1 + 0.10 * $gang_class->upgrade8));
+                }
 
-            if ($user_class->gang > 0 && $gang_class->upgrade8 > 0) {
-                $mugamount = floor($mugamount * (1 + 0.10 * $gang_class->upgrade8));
+                if ($user_class->gang > 0 && $gang_class->upgrade8 > 0) {
+                    $mugamount = floor($mugamount * (1 + 0.10 * $gang_class->upgrade8));
+                }
             }
 
             addToGangCompLeaderboard($user_class->gang, 'mugs_complete', $compQty);
