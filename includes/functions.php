@@ -2143,11 +2143,9 @@ function addItemTempUse($user_class, $field, $qty = 1)
     if (in_array($field, $setFields, true)) {
         $db->query("UPDATE item_temp_use SET `$field` = ? WHERE id = ?");
         $db->execute([$qty, $id]);
-    } elseif (in_array($field, $incFields, true)) {
+    } else {
         $db->query("UPDATE item_temp_use SET `$field` = `$field` + ? WHERE id = ?");
         $db->execute([$qty, $id]);
-    } else {
-        throw new InvalidArgumentException("Invalid field: $field");
     }
 
     $cache->del("item_temp_use:{$user_class->id}");
