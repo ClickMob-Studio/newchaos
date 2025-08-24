@@ -49,6 +49,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'start_bot_process') {
     }
 }
 
+$error = false;
 if ($jailbreak != "") {
     if (empty($_GET['token'])) {
         echo Message("There has been a issue");
