@@ -4168,3 +4168,86 @@ function _eventMessageByType($type, $multiplier, $timeleft)
             return "";
     }
 }
+
+function cleanOldDBEntries()
+{
+    global $db;
+
+    $total = 0;
+
+    $timestamp = time() - (31 * 24 * 60 * 60);
+
+    $db->startTrans();
+    try {
+        $db->query("DELETE FROM `active_raids` WHERE `summoned_at` < DATE_SUB(NOW(), INTERVAL 31 DAY)");
+        $db->execute();
+        $total += $db->affected_rows();
+
+        $db->query("DELETE FROM `raid_participants` WHERE `joined_at` < DATE_SUB(NOW(), INTERVAL 31 DAY)");
+        $db->execute();
+        $total += $db->affected_rows();
+
+        $db->query("DELETE FROM `raid_battle_logs` WHERE `timestamp` < DATE_SUB(NOW(), INTERVAL 31 DAY)");
+        $db->execute();
+        $total += $db->affected_rows();
+
+        $db->query("DELETE FROM `attacklog` WHERE `timestamp` < $timestamp");
+        $db->execute();
+        $total += $db->affected_rows();
+
+        $db->query("DELETE FROM `attlog` WHERE `timestamp` < $timestamp");
+        $db->execute();
+        $total += $db->affected_rows();
+
+        $db->query("DELETE FROM `deflog` WHERE `timestamp` < $timestamp");
+        $db->execute();
+        $total += $db->affected_rows();
+
+        $db->query("DELETE FROM `events` WHERE `timesent` < $timestamp");
+        $db->execute();
+        $total += $db->affected_rows();
+
+        $db->query("DELETE FROM `muglog` WHERE `timestamp` < $timestamp");
+        $db->execute();
+        $total += $db->affected_rows();
+
+        $db->query("DELETE FROM `user_logs` where `timestamp` < $timestamp");
+        $db->execute();
+        $total += $db->affected_rows();
+
+        $db->query("DELETE FROM `attack_v2` where `attack_time` < $timestamp");
+        $db->execute();
+        $total += $db->affected_rows();
+
+        $db->query("DELETE FROM `addptmarketlog` where `timestamp` < $timestamp");
+        $db->execute();
+        $total += $db->affected_rows();
+
+        $db->query("DELETE FROM `ads` where `timestamp` < $timestamp");
+        $db->execute();
+        $total += $db->affected_rows();
+
+        $db->query("DELETE FROM `bank_log` where `timestamp` < $timestamp");
+        $db->execute();
+        $total += $db->affected_rows();
+
+        $db->query("DELETE FROM `missionlog` where `timestamp` < $timestamp");
+        $db->execute();
+        $total += $db->affected_rows();
+
+        $db->query("DELETE FROM `oth` where `timestamp` < $timestamp");
+        $db->execute();
+        $total += $db->affected_rows();
+
+        $db->query("DELETE FROM `missions` where  `timestamp` < $timestamp AND `completed` = 'successful'");
+        $db->execute();
+        $total += $db->affected_rows();
+    } catch (Throwable $e) {
+        $db->cancelTransaction();
+        error_log($e);
+
+        return -1;
+    }
+
+    return $total;
+}
