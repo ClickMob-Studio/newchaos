@@ -10,6 +10,8 @@ if ($_GET['key'] != 'cron94') {
 include("dbcon.php");
 include("classes.php");
 include 'database/pdo_class.php';
+include 'includes/functions.php';
+
 $otds = array(
     array(
         'baotd',
@@ -296,6 +298,7 @@ $db->execute();
 $db->query("DELETE FROM `events` ORDER BY `timesent` ASC LIMIT 100000");
 $db->execute();
 
-Send_Event(1, "daycronmanual.php");
-Send_Event(2, "daycronmanual.php");
+$total = cleanOldDBEntries();
+Send_Event(1059, 'Daily DB Deleted ' . number_format($total) . ' Entries');
+Send_Event(1034, 'Daily DB Deleted ' . number_format($total) . ' Entries');
 ?>

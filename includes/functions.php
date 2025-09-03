@@ -4693,7 +4693,10 @@ function cleanOldDBEntries()
         $total += $db->affected_rows();
     } catch (Throwable $e) {
         $db->cancelTransaction();
+
+        error_log('=== DEBUG DB CLEANUP ===');
         error_log($e);
+        error_log('=== DEBUG DB CLEANUP ===');
 
         return -1;
     }
