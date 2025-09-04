@@ -330,7 +330,7 @@ if (isset($_GET['ner'])) {
             $('.stat-bar .progress-bar').eq(1).width(res.bars.energy.percent + '%');
             $('.stat-bar .progress-bar').eq(2).width(res.bars.nerve.percent + '%');
             $('.stat-bar .progress-bar').eq(3).width(res.bars.awake.percent + '%');
-            $('.expbar').width(res.bars.exp.percent + '%');
+            $('.stat-bar .progress-bar').eq(4).width(res.bars.exp.percent + '%');
 
             return res;
         }).catch(function (jqXHR) {
