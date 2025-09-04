@@ -8,7 +8,7 @@ require_once 'includes/functions.php';
 
 start_session_guarded();
 
-$canPerformAction = canPerformAction('crime', $_SESSION['id']);
+$canPerformAction = canPerformAction($_SESSION['id'], 'crime');
 if (!$canPerformAction) {
     echo json_encode(array(
         'error' => 'You are performing actions too quickly. Please wait a moment and try again.'

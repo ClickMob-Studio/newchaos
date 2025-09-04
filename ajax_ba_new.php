@@ -9,7 +9,7 @@ require_once 'includes/cache.php';
 
 start_session_guarded();
 
-$canPerformAction = canPerformAction('backalley', $_SESSION['id']);
+$canPerformAction = canPerformAction($_SESSION['id'], 'backalley');
 if (!$canPerformAction) {
     echo json_encode(array(
         'error' => 'You are performing actions too quickly. Please wait a moment and try again.'

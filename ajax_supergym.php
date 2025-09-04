@@ -3,7 +3,7 @@
 include "ajax_header.php";
 include_once "includes/functions.php";
 
-$canPerformAction = canPerformAction('crime', $_SESSION['id']);
+$canPerformAction = canPerformAction($_SESSION['id'], 'gym');
 if (!$canPerformAction) {
     echo json_encode(array(
         'error' => 'You are performing actions too quickly. Please wait a moment and try again.'
