@@ -4723,7 +4723,7 @@ function canPerformAction($uid, $action)
         }
     }
 
-    $cache->set($key, (string) $nowMs, ['px' => $minMs + 50]);
+    $cache->set($key, (string) ($nowMs - 5), ['px' => $minMs + 50]);
 
     return true;
 }
