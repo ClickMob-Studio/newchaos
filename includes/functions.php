@@ -4729,7 +4729,7 @@ function canPerformAction($uid, $action)
 }
 
 $msPerAction = [
-    "crime" => 70,
+    "crime" => 50,
     "gym" => 30,
     "backalley" => 300,
 ];

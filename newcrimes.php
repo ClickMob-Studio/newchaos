@@ -289,7 +289,7 @@ if (isset($_GET['ner'])) {
 
 <script>
     let doingcrime = false;
-    const TARGET_MS = 70;
+    const TARGET_MS = 50;
 
     const sleep = (ms) => new Promise(res => setTimeout(res, ms))
 
