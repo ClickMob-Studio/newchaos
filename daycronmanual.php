@@ -14,7 +14,7 @@ error_reporting(E_ALL);
 include("dbcon.php");
 include("classes.php");
 include 'database/pdo_class.php';
-include 'includes/functions.php';
+include_once 'includes/functions.php';
 
 $otds = array(
     array(
