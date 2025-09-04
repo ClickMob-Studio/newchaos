@@ -4704,21 +4704,25 @@ function cleanOldDBEntries()
     return $total;
 }
 
-function canPerformAction($uid, $action)
+function canPerformAction($action, $uid)
 {
-    global $cache;
+    global $cache, $msPerAction;
 
     $key = "last_action:$uid:$action";
     $nowMs = (int) (microtime(true) * 1000);
 
-    $minMs = ($msPerAction[$action] ?? 100) - 5;
+    $configured = $msPerAction[$action] ?? 100;
+    $minMs = max(0, $configured - 5);
 
     $lastMs = $cache->get($key);
-    if ($lastMs !== false && ($nowMs - (int) $lastMs) < $minMs) {
-        return false;
+    if ($lastMs !== false) {
+        $delta = $nowMs - (int) $lastMs;
+        if ($delta < $minMs) {
+            return false;
+        }
     }
 
-    $cache->set($key, (string) $nowMs, ['px' => $minMs + 200]);
+    $cache->set($key, (string) $nowMs, ['px' => $minMs + 50]);
 
     return true;
 }
