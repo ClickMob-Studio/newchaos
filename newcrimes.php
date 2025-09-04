@@ -327,9 +327,9 @@ if (isset($_GET['ner'])) {
             $('.after_title').eq(2).text(res.bars.awake.title + '%');
             $('.after_title').eq(4).text(res.bars.exp.title + '%');
 
-            $('.stat-bar').eq(1).width(res.bars.energy.percent + '%');
-            $('.stat-bar').eq(2).width(res.bars.nerve.percent + '%');
-            $('.stat-bar').eq(3).width(res.bars.awake.percent + '%');
+            $('.stat-bar.progress-bar').eq(1).width(res.bars.energy.percent + '%');
+            $('.stat-bar.progress-bar').eq(2).width(res.bars.nerve.percent + '%');
+            $('.stat-bar.progress-bar').eq(3).width(res.bars.awake.percent + '%');
             $('.expbar').width(res.bars.exp.percent + '%');
 
             return res;
