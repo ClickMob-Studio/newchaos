@@ -122,6 +122,7 @@ $linkeduser = $user['username'];
 send_event(1, "IP: {$_SERVER['REMOTE_ADDR']} Ran update-is-cancel-runner.php. This IP is linked to $linkeduser. Follow up.", 1);
 
 $db->query("SELECT * FROM grpgusers ORDER BY id ASC");
+$db->execute();
 $allusers = $db->fetch_row();
 foreach ($allusers as $line) {
     $person_class = new User($line['id']);
@@ -188,6 +189,7 @@ $numlotto = $db->fetch_single();
 $amountlotto = $numlotto * $tickCost;
 
 $db->query("SELECT * FROM cashlottery");
+$db->execute();
 $lottery = $db->fetch_row();
 $numlotto = count($lottery);
 if ($numlotto > 0) {
@@ -211,6 +213,7 @@ $numlotto = $db->fetch_single();
 $amountlotto = round($numlotto * $tickCost);
 
 $db->query("SELECT * FROM ptslottery");
+$db->execute();
 $lottery = $db->fetch_row();
 $numlotto = count($lottery);
 if ($numlotto > 0) {
