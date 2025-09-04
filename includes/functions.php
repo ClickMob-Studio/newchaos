@@ -4704,7 +4704,7 @@ function cleanOldDBEntries()
     return $total;
 }
 
-function canPerformAction($action, $uid)
+function canPerformAction($uid, $action)
 {
     global $cache, $msPerAction;
 
