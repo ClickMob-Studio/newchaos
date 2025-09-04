@@ -5,6 +5,10 @@ if ($_GET['key'] != 'cron94') {
     die();
 }
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 #(PHP_SAPI !== 'cli' || isset($_SERVER['HTTP_USER_AGENT'])) && die('Manual');
 
 include("dbcon.php");
