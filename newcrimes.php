@@ -410,7 +410,7 @@ if (isset($_GET['ner'])) {
 
                 }
             }
-        }, 100);
+        }, 70);
         document.addEventListener('mouseup', resetAction, { once: true });
         document.addEventListener('touchend', resetAction, { once: true });
 
