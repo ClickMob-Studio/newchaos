@@ -4712,7 +4712,7 @@ function canPerformAction($uid, $action)
     $nowMs = (int) (microtime(true) * 1000);
 
     $configured = $msPerAction[$action] ?? 100;
-    $grace = max(10, (int) round($configured * 0.2));
+    $grace = max(20, (int) round($configured * 0.2));
     $minMs = max(0, $configured - $grace);
 
     $lastMs = $cache->get($key);
