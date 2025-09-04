@@ -44,8 +44,8 @@ foreach ($otds as $otd) {
     $pts = $otd[2];
     $db->query("SELECT userid, $sql FROM ofthes WHERE $sql > 0 ORDER BY $sql DESC LIMIT 1");
     $db->execute();
-    if ($db->num_rows()) {
-        $row = $db->fetch_row(true);
+    $row = $db->fetch_row(true);
+    if ($row && !empty($row['userid'])) {
         $db->startTrans();
         $db->query("UPDATE grpgusers SET points = points + $pts WHERE id = ?");
         $db->execute(array(
