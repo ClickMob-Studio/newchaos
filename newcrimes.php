@@ -289,9 +289,6 @@ if (isset($_GET['ner'])) {
 
 <script>
     let doingcrime = false;
-    const TARGET_MS = 50;
-
-    const sleep = (ms) => new Promise(res => setTimeout(res, ms))
 
     var id = 0;
     const element = document.querySelector('.mission-crime-counter');
@@ -349,23 +346,7 @@ if (isset($_GET['ner'])) {
         const cm = $('#cm').val();
 
         while (doingcrime && id > 0) {
-            const t0 = performance.now();
-            try {
-                const res = await submitCrime(id, cm);
-
-                let retryMs = 0;
-                if (res && typeof res.retry_ms === 'number') {
-                    retryMs = Math.max(0, res.retry_ms);
-                }
-
-                const elapsed = performance.now() - t0;
-                const remaining = Math.max(0, TARGET_MS - elapsed, retryMs);
-                if (remaining > 0) await sleep(remaining);
-
-            } catch (err) {
-                const remaining = Math.max(0, (err && err.remaining_ms) || TARGET_MS);
-                await sleep(remaining);
-            }
+            const res = await submitCrime(id, cm);
         }
 
         $('#spinner').hide();
