@@ -288,60 +288,88 @@ if (isset($_GET['ner'])) {
 </table>
 
 <script>
-    var doingcrime = false;
-    var id = 0;
-    var refresh = 75;
+    let doingcrime = false;
+    const TARGET_MS = 70;
 
+    const sleep = (ms) => new Promise(res => setTimeout(res, ms))
+
+    var id = 0;
     const element = document.querySelector('.mission-crime-counter');
     var missionCrimesCount = 0;
     if (element) {
         missionCrimesCount = parseInt(element.dataset.value, 10);
     }
 
-    var submitCrime = function (id, cm = 1) {
+    function submitCrime(id, cm = 1) {
         $("#noti").show();
         $('#spinner').show();
 
-        var request = $.ajax({
+        return $.ajax({
             url: "ajax_crimes2.php",
             method: "POST",
-            data: { id: id, cm: cm },
+            data: { id, cm },
             dataType: "json"
-        });
-
-        request.fail(function (res) {
-            if (res.error == 'refresh') {
-                finish();
-            }
-        });
-
-        request.done(function (res) {
-            if (res.error == 'refresh') {
-                finish();
-            }
+        }).then(function (res) {
+            if (res.error === 'refresh') finish();
 
             missionCrimesCount += cm;
             $('.mission-crime-counter').data('value', missionCrimesCount);
-            $('.money').html(res.stats.money)
-            $(".level").html(res.stats.level)
-            $(".points").html(res.stats.points)
-            $(".mb-points").html(res.stats.mb_points)
-            $(".mb-money").html(res.stats.mb_money)
-            $(".response-text").html(res.text)
-            $("#missiontext").html(res.stats.mission)
+            $('.money').html(res.stats.money);
+            $(".level").html(res.stats.level);
+            $(".points").html(res.stats.points);
+            $(".mb-points").html(res.stats.mb_points);
+            $(".mb-money").html(res.stats.mb_money);
+            $(".response-text").html(res.text);
+            $("#missiontext").html(res.stats.mission);
 
-            $('.after_title').eq(0).text(res.bars.energy.title)
-            $('.after_title').eq(1).text(res.bars.nerve.title)
-            $('.after_title').eq(2).text(res.bars.awake.title + '%')
-            $('.after_title').eq(4).text(res.bars.exp.title + '%')
+            $('.after_title').eq(0).text(res.bars.energy.title);
+            $('.after_title').eq(1).text(res.bars.nerve.title);
+            $('.after_title').eq(2).text(res.bars.awake.title + '%');
+            $('.after_title').eq(4).text(res.bars.exp.title + '%');
 
-            $('.stat-bar').eq(1).width(res.bars.energy.percent + '%')
-            $('.stat-bar').eq(2).width(res.bars.nerve.percent + '%')
-            $('.stat-bar').eq(3).width(res.bars.awake.percent + '%')
-            $('.expbar').width(res.bars.exp.percent + '%')
+            $('.stat-bar').eq(1).width(res.bars.energy.percent + '%');
+            $('.stat-bar').eq(2).width(res.bars.nerve.percent + '%');
+            $('.stat-bar').eq(3).width(res.bars.awake.percent + '%');
+            $('.expbar').width(res.bars.exp.percent + '%');
+
+            return res;
+        }).catch(function (jqXHR) {
+            const res = jqXHR.responseJSON || {};
+            if (res.error === 'refresh') finish();
+
+            throw res;
         });
     }
 
+    async function crimeLoop() {
+        if (doingcrime) return;
+        doingcrime = true;
+
+        const id = $('#scrime').val();
+        const cm = $('#cm').val();
+
+        while (doingcrime && id > 0) {
+            const t0 = performance.now();
+            try {
+                const res = await submitCrime(id, cm);
+
+                let retryMs = 0;
+                if (res && typeof res.retry_ms === 'number') {
+                    retryMs = Math.max(0, res.retry_ms);
+                }
+
+                const elapsed = performance.now() - t0;
+                const remaining = Math.max(0, TARGET_MS - elapsed, retryMs);
+                if (remaining > 0) await sleep(remaining);
+
+            } catch (err) {
+                const remaining = Math.max(0, (err && err.remaining_ms) || TARGET_MS);
+                await sleep(remaining);
+            }
+        }
+
+        $('#spinner').hide();
+    }
 
 
     $(document).ready(function () {
@@ -381,7 +409,6 @@ if (isset($_GET['ner'])) {
             $('.pb-star-holder').prop('title', addCommas(actualCrimeCount) + '/' + addCommas(requiredCrimeCount));
             $('.pb-star-text').html(addCommas(actualCrimeCount) + '/' + addCommas(requiredCrimeCount) + ' (' + pbStarWidth.toFixed(2) + '%' + ')');
 
-            // Update the star rating container
             $('.star-rating').html(starRatingHtml);
         });
 
@@ -391,29 +418,7 @@ if (isset($_GET['ner'])) {
 
     function start() {
         if (doingcrime) return;
-
-        var id = $('#scrime').val();
-        var cm = $('#cm').val();
-        doingcrime = true;
-
-        var resetAction = function () {
-            doingcrime = false;
-            clearInterval(timerId);
-        };
-
-        var timerId = setInterval(function () {
-            if (doingcrime) {
-                if (id > 0) {
-                    submitCrime(id, cm);
-                } else {
-                    resetAction();
-
-                }
-            }
-        }, 70);
-        document.addEventListener('mouseup', resetAction, { once: true });
-        document.addEventListener('touchend', resetAction, { once: true });
-
+        crimeLoop();
     }
 
     document.onblur = function () {
@@ -429,10 +434,8 @@ if (isset($_GET['ner'])) {
 
     function finish(e) {
         if (e) e.preventDefault();
-
-        $('#spinner').hide();
-        id = 0;
         doingcrime = false;
+        $('#spinner').hide();
     }
 
     $(document).ready(function () {
