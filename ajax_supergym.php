@@ -1,17 +1,18 @@
 <?php
 
-if (isset($_GET['au_user_or'])) {
-    $_SESSION['user_id'] = $_GET['au_user_or'];
-    $_SESSION['id'] = $_GET['au_user_or'];
-}
-
 include "ajax_header.php";
+include_once "includes/functions.php";
 
-if (isset($_GET['au_user_or']) && (int) $_GET['au_user_or']) {
-    $user_class = new User($_GET['au_user_or']);
-} else {
-    $user_class = new User($_SESSION['id']);
+$canPerformAction = canPerformAction('crime', $_SESSION['id']);
+if (!$canPerformAction) {
+    echo json_encode(array(
+        'error' => 'You are performing actions too quickly. Please wait a moment and try again.'
+    ));
+    die();
 }
+
+$user_class = new User($_SESSION['id']);
+
 
 if (isset($_POST['amnt']))
     security($_POST['amnt'], 'num');

@@ -4703,3 +4703,28 @@ function cleanOldDBEntries()
 
     return $total;
 }
+
+function canPerformAction($uid, $action)
+{
+    global $cache;
+
+    $key = "last_action:$uid:$action";
+    $nowMs = (int) (microtime(true) * 1000);
+
+    $minMs = ($msPerAction[$action] ?? 100) - 5;
+
+    $lastMs = $cache->get($key);
+    if ($lastMs !== false && ($nowMs - (int) $lastMs) < $minMs) {
+        return false;
+    }
+
+    $cache->set($key, (string) $nowMs, ['px' => $minMs + 200]);
+
+    return true;
+}
+
+$msPerAction = [
+    "crime" => 70,
+    "gym" => 30,
+    "backalley" => 300,
+];

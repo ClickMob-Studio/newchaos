@@ -8,6 +8,14 @@ require_once 'includes/functions.php';
 
 start_session_guarded();
 
+$canPerformAction = canPerformAction('crime', $_SESSION['id']);
+if (!$canPerformAction) {
+    echo json_encode(array(
+        'error' => 'You are performing actions too quickly. Please wait a moment and try again.'
+    ));
+    die();
+}
+
 function shorthandNumber($number)
 {
     if ($number >= 1000000000) { // Check if the number is at least a billion

@@ -9,6 +9,14 @@ require_once 'includes/cache.php';
 
 start_session_guarded();
 
+$canPerformAction = canPerformAction('backalley', $_SESSION['id']);
+if (!$canPerformAction) {
+    echo json_encode(array(
+        'error' => 'You are performing actions too quickly. Please wait a moment and try again.'
+    ));
+    die();
+}
+
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (isset($data['user_id'])) {

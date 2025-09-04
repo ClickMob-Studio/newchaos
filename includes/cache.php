@@ -28,9 +28,9 @@ class Cache
         return $this->enabled ? $this->redis->get($key) : false;
     }
 
-    public function set(string $key, string $value): bool
+    public function set(string $key, string $value, array $options = []): bool
     {
-        return $this->enabled ? $this->redis->set($key, $value) : false;
+        return $this->enabled ? $this->redis->set($key, $value, $options) : false;
     }
 
     public function setEx(string $key, int $ttl, string $value): bool
