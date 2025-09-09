@@ -26,27 +26,34 @@ if (empty($crimes)) {
 }
 
 $filter_ids = [];
-
-
 if ($tempItemUse['ghost_vacuum_time'] < time()) {
     $filter_ids[] = 51;
 }
 
 $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
-if (isset($currentQuestSeason['id'])) {
+if (!empty($currentQuestSeason['id'])) {
     $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
     $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
     $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
-    if (
-        isset($questSeasonMission['requirements']->whitecollar_fraud) &&
-        (int) $questSeasonMissionUser['progress']->whitecollar_fraud >= (int) $questSeasonMission['requirements']->whitecollar_fraud
-    ) {
+
+    $requirements = $questSeasonMission['requirements'] ?? null;
+    $progressObj = $questSeasonMissionUser['progress'] ?? null;
+
+    $req = (is_object($requirements) && isset($requirements->whitecollar_fraud))
+        ? (int) $requirements->whitecollar_fraud
+        : null;
+
+    $prog = (is_object($progressObj) && isset($progressObj->whitecollar_fraud))
+        ? (int) $progressObj->whitecollar_fraud
+        : 0;
+
+    if ($req === null || $prog < $req) {
         $filter_ids[] = 52;
     }
 }
 
 $crimes = array_filter($crimes, function ($item) use ($filter_ids) {
-    return !in_array((int) $item['id'], $filter_ids);
+    return !in_array((int) $item['id'], $filter_ids, true);
 });
 
 $rows = $crimes;

@@ -133,9 +133,8 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 ? (int) $questSeasonMissionUser['progress']->whitecollar_fraud
                 : null;
 
-            log_error("Progress: " . $progress);
             if (
-                isset($questSeasonMission['requirements']->whitecollar_fraud) &&
+                isset($questSeasonMission['requirements']['whitecollar_fraud']) &&
                 $progressValue !== null &&
                 $progressValue < 100
             ) {

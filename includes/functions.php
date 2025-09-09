@@ -3007,8 +3007,6 @@ function getQuestSeasonUser($userId, $questSeasonId)
 
         return $r;
     }
-
-    return $db->fetch_row(true);
 }
 
 function getQuestSeasonMissionUser($userId, $questSeasonId)
@@ -3062,17 +3060,37 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
 
 function getQuestSeasonMission($userId, $questSeasonId)
 {
-    global $db;
+    global $db, $redis;
 
     $questSeasonMissionUser = getQuestSeasonMissionUser($userId, $questSeasonId);
+    if (!$questSeasonMissionUser || empty($questSeasonMissionUser['quest_season_mission_id'])) {
+        return null;
+    }
 
-    $db->query("SELECT * FROM quest_season_mission WHERE id = " . $questSeasonMissionUser['quest_season_mission_id'] . " LIMIT 1");
-    $db->execute();
+    $missionId = (int) $questSeasonMissionUser['quest_season_mission_id'];
+    $cacheKey = "questSeasonMission:{$missionId}";
+
+    $cached = $redis->get($cacheKey);
+    if ($cached !== null) {
+        $decoded = json_decode($cached, true);
+        if (is_array($decoded) && isset($decoded['id'])) {
+            return $decoded;
+        }
+    }
+
+    $db->query("SELECT * FROM quest_season_mission WHERE id = ? LIMIT 1");
+    $db->execute([$missionId]);
     $questSeasonMission = $db->fetch_row(true);
-    $questSeasonMission['requirements'] = json_decode($questSeasonMission['requirements']);
 
-    return $questSeasonMission;
+    if ($questSeasonMission && isset($questSeasonMission['id'])) {
+        $questSeasonMission['requirements'] = json_decode($questSeasonMission['requirements'], true) ?: [];
+        $redis->setEx($cacheKey, 86400, json_encode($questSeasonMission));
+        return $questSeasonMission;
+    }
+
+    return null;
 }
+
 
 function getDisplayForQuestReq($req, $num, $progress)
 {
