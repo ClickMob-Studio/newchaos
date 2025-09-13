@@ -121,7 +121,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
     $chance = rand(1, 250);
     $money = ((50 * $nerve) + 15 * ($nerve - 1)) * 1;
     if ($id == 51 && $tempItemUse['ghost_vacuum_time'] > time()) {
-        $exp = ceil($user_class->maxexp / 5000);
+        $exp = ceil($user_class->maxexp / 3500);
     } else if ($id == 52) {
         $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
         if (isset($currentQuestSeason['id'])) {
