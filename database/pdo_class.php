@@ -215,5 +215,10 @@ class database
         }
         $this->endTrans();
     }
+
+    public function real_escape_string($str)
+    {
+        return htmlspecialchars($str, ENT_QUOTES, 'UTF-8');
+    }
 }
 $db = database::getInstance();
