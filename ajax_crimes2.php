@@ -483,7 +483,7 @@ if (isset($_POST['id']) || isset($input['id'])) {
                 if (isset($questSeasonMissionUser['id'])) {
                     $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
-                    if (isset($questSeasonMission['requirements']->crime_cash) && $questSeasonMission['requirements']->crime_cash > 0) {
+                    if (isset($questSeasonMission['requirements']['crime_cash']) && $questSeasonMission['requirements']['crime_cash'] > 0) {
                         updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'crime_cash', $money);
                     }
 

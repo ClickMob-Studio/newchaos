@@ -112,6 +112,7 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
 
         $db->query('UPDATE quest_season_mission_user SET is_paid_out = 1 WHERE id = ?');
         $db->execute(array($questSeasonMissionUser['id']));
+        invalidateQuestSeasonCache($user_class->id, $currentQuestSeason['id']);
     }
 
 
@@ -119,7 +120,6 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
     $db->query('SELECT * FROM quest_season_mission WHERE quest_season_id = ? AND id > ? ORDER BY id ASC LIMIT 1');
     $db->execute(array($currentQuestSeason['id'], $currentMissionId));
     $nextMission = $db->fetch_row(true);
-
     if ($nextMission) {
         $progress = array();
         $nextMission['requirements'] = json_decode($nextMission['requirements']);
@@ -127,10 +127,14 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
             $progress[$key] = 0;
         }
 
-        $db->query('INSERT INTO quest_season_mission_user (user_id, quest_season_id, quest_season_mission_id, progress, is_complete) VALUES (?, ?, ?, ?, 0)', array($user_class->id, $currentQuestSeason['id'], $nextMission['id'], json_encode($progress)));
+        $db->query('INSERT INTO quest_season_mission_user (user_id, quest_season_id, quest_season_mission_id, progress, is_complete) VALUES (?, ?, ?, ?, 0)');
+        $db->execute([$user_class->id, $currentQuestSeason['id'], $nextMission['id'], json_encode($progress)]);
+        invalidateQuestSeasonCache($user_class->id, $currentQuestSeason['id']);
     } else {
         // Mark the quest season as completed
-        $db->query('UPDATE quest_season_user SET is_complete = 1 WHERE user_id = ? AND quest_season_id = ?', array($user_class->id, $currentQuestSeason['id']));
+        $db->query('UPDATE quest_season_user SET is_complete = 1 WHERE user_id = ? AND quest_season_id = ?');
+        $db->execute([$user_class->id, $currentQuestSeason['id']]);
+        invalidateQuestSeasonCache($user_class->id, $currentQuestSeason['id']);
     }
 
     echo "
@@ -144,23 +148,23 @@ if (isset($questSeasonMissionUser) && $questSeasonMissionUser && $questSeasonMis
     exit;
 }
 
-if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail' && isset($questSeasonMission['requirements']->vinny_the_fish_delivery)):
+if (isset($_GET['mode']) && $_GET['mode'] === 'therustnail' && isset($questSeasonMission['requirements']['vinny_the_fish_delivery'])):
     include 'quest/vinny_the_fish_delivery.php';
 endif;
 
-if (isset($_GET['mode']) && $_GET['mode'] === 'marocs_pharmacy' && isset($questSeasonMission['requirements']->pharmacy_protection)):
+if (isset($_GET['mode']) && $_GET['mode'] === 'marocs_pharmacy' && isset($questSeasonMission['requirements']['pharmacy_protection'])):
     include 'quest/pharmacy_protection.php';
 endif;
 
-if (isset($_GET['mode']) && $_GET['mode'] === 'follow_salvatore' && isset($questSeasonMission['requirements']->follow_salvatore)):
+if (isset($_GET['mode']) && $_GET['mode'] === 'follow_salvatore' && isset($questSeasonMission['requirements']['follow_salvatore'])):
     include 'quest/follow_salvatore.php';
 endif;
 
-if (isset($_GET['mode']) && $_GET['mode'] === 'steal_books' && isset($questSeasonMission['requirements']->steal_books)):
+if (isset($_GET['mode']) && $_GET['mode'] === 'steal_books' && isset($questSeasonMission['requirements']['steal_books'])):
     include 'quest/steal_books.php';
 endif;
 
-if (isset($_GET['mode']) && $_GET['mode'] === 'interrogate_phil' && isset($questSeasonMission['requirements']->interrogate_phil)):
+if (isset($_GET['mode']) && $_GET['mode'] === 'interrogate_phil' && isset($questSeasonMission['requirements']['interrogate_phil'])):
     include 'quest/interrogate_phil.php';
 endif;
 ?>

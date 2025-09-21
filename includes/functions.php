@@ -2928,10 +2928,19 @@ function addToHalloweenPayoutLogs($item)
 
 function getCurrentQuestSeasonForUser($userId)
 {
-    global $db;
+    global $db, $cache;
 
-    $db->query("SELECT * FROM quest_season_user WHERE user_id = " . $userId . " AND (is_complete IS NULL OR is_complete = 0) ORDER BY quest_season_id DESC LIMIT 1");
-    $db->execute();
+    $cacheKey = "questSeasonForUser:" . $userId;
+    $cached = $cache->get($cacheKey);
+    if ($cached !== null) {
+        $decoded = json_decode($cached, true);
+        if (is_array($decoded) && isset($decoded['id'])) {
+            return $decoded;
+        }
+    }
+
+    $db->query("SELECT * FROM quest_season_user WHERE user_id = ? AND (is_complete IS NULL OR is_complete = 0) ORDER BY quest_season_id DESC LIMIT 1");
+    $db->execute([$userId]);
     $questSeasonUser = $db->fetch_row(true);
 
     $questSeasonId = null;
@@ -2940,8 +2949,8 @@ function getCurrentQuestSeasonForUser($userId)
     }
 
     if (!$questSeasonId) {
-        $db->query("SELECT * FROM quest_season_user WHERE user_id = " . $userId . " AND is_complete = 1 ORDER BY quest_season_id DESC LIMIT 1");
-        $db->execute();
+        $db->query("SELECT * FROM quest_season_user WHERE user_id = ? AND is_complete = 1 ORDER BY quest_season_id DESC LIMIT 1");
+        $db->execute([$userId]);
         $questSeasonUser = $db->fetch_row(true);
 
         if ($questSeasonUser && isset($questSeasonUser['id'])) {
@@ -2954,22 +2963,35 @@ function getCurrentQuestSeasonForUser($userId)
     }
 
     if ($userId == 1059) {
-        $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " LIMIT 1");
+        $db->query("SELECT * FROM quest_season WHERE id = ? LIMIT 1");
+        $db->execute([$questSeasonId]);
     } else {
-        $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " AND is_active > 0 LIMIT 1");
+        $db->query("SELECT * FROM quest_season WHERE id = ? AND is_active > 0 LIMIT 1");
+        $db->execute([$questSeasonId]);
     }
-    $db->execute();
     $questSeason = $db->fetch_row(true);
+
+    if (!$questSeason) {
+        return [];
+    }
+
+    $cache->setEx($cacheKey, 360, json_encode($questSeason));
 
     return $questSeason;
 }
 
 function getNextQuestSeason($userId, $isAdmin = 0)
 {
-    global $db;
+    global $db, $cache;
 
-    $db->query("SELECT * FROM quest_season_user WHERE user_id = " . $userId . " AND is_complete = 1 ORDER BY quest_season_id DESC LIMIT 1");
-    $db->execute();
+    $cacheKey = "nextQuestSeason:{$userId}:{$isAdmin}";
+    $questSeason = $cache->get($cacheKey);
+    if ($questSeason !== null) {
+        return json_decode($questSeason, true);
+    }
+
+    $db->query("SELECT * FROM quest_season_user WHERE user_id = ? AND is_complete = 1 ORDER BY quest_season_id DESC LIMIT 1");
+    $db->execute([$userId]);
     $questSeasonUser = $db->fetch_row(true);
 
     if ($questSeasonUser && isset($questSeasonUser['id'])) {
@@ -2979,80 +3001,143 @@ function getNextQuestSeason($userId, $isAdmin = 0)
     }
 
     if ($isAdmin) {
-        $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " LIMIT 1");
+        $db->query("SELECT * FROM quest_season WHERE id = ? LIMIT 1");
     } else {
-        $db->query("SELECT * FROM quest_season WHERE id = " . $questSeasonId . " AND is_active > 0 LIMIT 1");
+        $db->query("SELECT * FROM quest_season WHERE id = ? AND is_active > 0 LIMIT 1");
     }
-    $db->execute();
+    $db->execute([$questSeasonId]);
+
     $questSeason = $db->fetch_row(true);
+    $cache->setEx($cacheKey, 300, json_encode($questSeason));
 
     return $questSeason;
-
 }
 
 function getQuestSeasonUser($userId, $questSeasonId)
 {
-    global $db;
+    global $db, $cache;
 
-    $db->query("SELECT * FROM quest_season_user WHERE user_id = " . $userId . " AND quest_season_id = " . $questSeasonId . " LIMIT 1");
-    $db->execute();
+    $cacheKey = "questSeasonUser:{$userId}:{$questSeasonId}";
 
+    $cached = $cache->get($cacheKey);
+    if ($cached !== null) {
+        $decoded = json_decode($cached, true);
+        if (is_array($decoded) && isset($decoded['id'])) {
+            return $decoded;
+        }
+        // fall through if cache is invalid/bad
+    }
+
+    // Try select first
+    $db->query("SELECT * FROM quest_season_user WHERE user_id = ? AND quest_season_id = ? LIMIT 1");
+    $db->execute([$userId, $questSeasonId]);
     $r = $db->fetch_row(true);
-    if (isset($r['id'])) {
-        return $r;
-    } else {
-        $db->query("INSERT INTO quest_season_user (user_id, quest_season_id) VALUES (" . $userId . ", " . $questSeasonId . ")");
-        $db->execute();
-        $r = getQuestSeasonUser($userId, $questSeasonId);
 
+    if ($r && isset($r['id'])) {
+        $cache->setEx($cacheKey, 300, json_encode($r));
         return $r;
     }
+
+    // Insert with ON DUPLICATE KEY to guarantee row exists
+    $db->query("INSERT INTO quest_season_user (user_id, quest_season_id) VALUES (?, ?) 
+                ON DUPLICATE KEY UPDATE quest_season_id = VALUES(quest_season_id)");
+    $db->execute([$userId, $questSeasonId]);
+
+    // Re-select
+    $db->query("SELECT * FROM quest_season_user WHERE user_id = ? AND quest_season_id = ? LIMIT 1");
+    $db->execute([$userId, $questSeasonId]);
+    $r = $db->fetch_row(true);
+
+    if ($r && isset($r['id'])) {
+        $cache->setEx($cacheKey, 300, json_encode($r));
+        return $r;
+    }
+
+    // Final safeguard: always return at least a minimal struct
+    return [
+        'id' => null,
+        'user_id' => $userId,
+        'quest_season_id' => $questSeasonId,
+        'is_complete' => 0,
+    ];
 }
 
 function getQuestSeasonMissionUser($userId, $questSeasonId)
 {
-    global $db;
+    global $db, $cache;
 
-    $db->query("SELECT * FROM quest_season_mission_user WHERE user_id = " . $userId . " AND quest_season_id = " . $questSeasonId . " AND (is_complete IS NULL OR is_complete = 0) ORDER BY id DESC LIMIT 1");
-    $db->execute();
+    $cacheKey = "questSeasonMissionUser:{$userId}:{$questSeasonId}";
+    $cached = $cache->get($cacheKey);
+    if ($cached !== null) {
+        $decoded = json_decode($cached, true);
+        if (is_array($decoded) && isset($decoded['id'])) {
+            return $decoded;
+        }
+    }
+
+    // Try to get active mission
+    $db->query("SELECT * FROM quest_season_mission_user 
+                WHERE user_id = ? AND quest_season_id = ? 
+                AND (is_complete IS NULL OR is_complete = 0) 
+                ORDER BY id DESC LIMIT 1");
+    $db->execute([$userId, $questSeasonId]);
     $questSeasonMissionUser = $db->fetch_row(true);
 
     if ($questSeasonMissionUser && isset($questSeasonMissionUser['id'])) {
         if (isset($questSeasonMissionUser['progress'])) {
-            $questSeasonMissionUser['progress'] = json_decode($questSeasonMissionUser['progress']);
+            $questSeasonMissionUser['progress'] = json_decode($questSeasonMissionUser['progress'], true) ?: [];
         }
-
+        $cache->setEx($cacheKey, 120, json_encode($questSeasonMissionUser));
         return $questSeasonMissionUser;
     }
 
-    $db->query("SELECT * FROM quest_season_mission_user WHERE user_id = " . $userId . " AND quest_season_id = " . $questSeasonId . " AND is_complete = 1 ORDER BY id DESC LIMIT 1");
-    $db->execute();
+    // Try last completed
+    $db->query("SELECT * FROM quest_season_mission_user 
+                WHERE user_id = ? AND quest_season_id = ? 
+                AND is_complete = 1 
+                ORDER BY id DESC LIMIT 1");
+    $db->execute([$userId, $questSeasonId]);
     $questSeasonMissionUser = $db->fetch_row(true);
 
     if ($questSeasonMissionUser && isset($questSeasonMissionUser['id'])) {
         if (isset($questSeasonMissionUser['progress'])) {
-            $questSeasonMissionUser['progress'] = json_decode($questSeasonMissionUser['progress']);
+            $questSeasonMissionUser['progress'] = json_decode($questSeasonMissionUser['progress'], true) ?: [];
         }
-
+        $cache->setEx($cacheKey, 120, json_encode($questSeasonMissionUser));
         return $questSeasonMissionUser;
     }
 
-    $db->query("SELECT * FROM quest_season_mission WHERE quest_season_id = " . $questSeasonId . " ORDER BY id ASC LIMIT 1");
-    $db->execute();
+    // Otherwise: assign first mission for season
+    $db->query("SELECT * FROM quest_season_mission 
+                WHERE quest_season_id = ? 
+                ORDER BY id ASC LIMIT 1");
+    $db->execute([$questSeasonId]);
     $questSeasonMission = $db->fetch_row(true);
 
-    if ($questSeasonMission) {
-        $progress = array();
-        $questSeasonMission['requirements'] = json_decode($questSeasonMission['requirements']);
+    if ($questSeasonMission && isset($questSeasonMission['id'])) {
+        $progress = [];
+        $questSeasonMission['requirements'] = json_decode($questSeasonMission['requirements'], true) ?: [];
         foreach ($questSeasonMission['requirements'] as $key => $req) {
             $progress[$key] = 0;
         }
 
-        $db->query("INSERT INTO quest_season_mission_user (user_id, quest_season_id, quest_season_mission_id, progress) VALUES (?, ?, ?, ?)");
-        $db->execute(array($userId, $questSeasonId, $questSeasonMission['id'], json_encode($progress)));
-        $r = getQuestSeasonMission($userId, $questSeasonId);
+        $db->query("INSERT INTO quest_season_mission_user (user_id, quest_season_id, quest_season_mission_id, progress) 
+                    VALUES (?, ?, ?, ?)");
+        $db->execute([$userId, $questSeasonId, $questSeasonMission['id'], json_encode($progress)]);
 
-        return $r;
+        $db->query("SELECT * FROM quest_season_mission_user 
+                    WHERE user_id = ? AND quest_season_id = ? 
+                    ORDER BY id DESC LIMIT 1");
+        $db->execute([$userId, $questSeasonId]);
+        $r = $db->fetch_row(true);
+        if ($r && isset($r['progress'])) {
+            $r['progress'] = json_decode($r['progress'], true) ?: [];
+        }
+
+        if ($r && isset($r['id'])) {
+            $cache->setEx($cacheKey, 120, json_encode($r));
+            return $r;
+        }
     }
 
     return null;
@@ -3060,7 +3145,7 @@ function getQuestSeasonMissionUser($userId, $questSeasonId)
 
 function getQuestSeasonMission($userId, $questSeasonId)
 {
-    global $db, $redis;
+    global $db, $cache;
 
     $questSeasonMissionUser = getQuestSeasonMissionUser($userId, $questSeasonId);
     if (!$questSeasonMissionUser || empty($questSeasonMissionUser['quest_season_mission_id'])) {
@@ -3070,7 +3155,7 @@ function getQuestSeasonMission($userId, $questSeasonId)
     $missionId = (int) $questSeasonMissionUser['quest_season_mission_id'];
     $cacheKey = "questSeasonMission:{$missionId}";
 
-    $cached = $redis->get($cacheKey);
+    $cached = $cache->get($cacheKey);
     if ($cached !== null) {
         $decoded = json_decode($cached, true);
         if (is_array($decoded) && isset($decoded['id'])) {
@@ -3084,13 +3169,12 @@ function getQuestSeasonMission($userId, $questSeasonId)
 
     if ($questSeasonMission && isset($questSeasonMission['id'])) {
         $questSeasonMission['requirements'] = json_decode($questSeasonMission['requirements'], true) ?: [];
-        $redis->setEx($cacheKey, 86400, json_encode($questSeasonMission));
+        $cache->setEx($cacheKey, 86400, json_encode($questSeasonMission));
         return $questSeasonMission;
     }
 
     return null;
 }
-
 
 function getDisplayForQuestReq($req, $num, $progress)
 {
@@ -3162,44 +3246,60 @@ function getDisplayForQuestReq($req, $num, $progress)
 
 function updateQuestSeasonMissionUserProgress($questSeasonMissionUser, $req, $value)
 {
-    global $db;
+    global $db, $cache;
 
     $db->query("SELECT * FROM quest_season_mission WHERE id = ? LIMIT 1");
-    $db->execute(array($questSeasonMissionUser['quest_season_mission_id']));
+    $db->execute([$questSeasonMissionUser['quest_season_mission_id']]);
     $questSeasonMission = $db->fetch_row(true);
 
     if ($questSeasonMission) {
         $isComplete = false;
 
-        if (is_string($questSeasonMissionUser['progress'])) {
-            $progress = json_decode($questSeasonMissionUser['progress'], true);
-        } else {
-            $progress = (array) $questSeasonMissionUser['progress'];
-        }
+        $progress = is_string($questSeasonMissionUser['progress'])
+            ? json_decode($questSeasonMissionUser['progress'], true)
+            : (array) $questSeasonMissionUser['progress'];
 
         if (!is_array($progress)) {
             $progress = [];
         }
 
-        $progress[$req] = isset($progress[$req]) ? (int) $progress[$req] + $value : (int) $value;
+        if (!isset($progress[$req])) {
+            $progress[$req] = 0;
+
+        }
+        $progress[$req] = $progress[$req] + (int) $value;
         $questSeasonMissionUser['progress'] = $progress;
 
-        $requirements = json_decode($questSeasonMission['requirements']);
+        $requirements = json_decode($questSeasonMission['requirements'], true);
         foreach ($requirements as $key => $r) {
-            if ($progress[$key] >= $r) {
-                $isComplete = true;
-            } else {
+            if (!isset($progress[$key])) {
                 $isComplete = false;
                 break;
             }
+
+            if ($progress[$key] < $r) {
+                $isComplete = false;
+                break;
+            }
+            $isComplete = true;
         }
 
         if ($isComplete && !$questSeasonMissionUser['is_complete']) {
-            Send_Event($questSeasonMissionUser['user_id'], 'You have completed the mission: ' . $questSeasonMission['name'] . '! <a href="quest.php">Click here to claim your reward</a>');
+            Send_Event(
+                $questSeasonMissionUser['user_id'],
+                'You have completed the mission: ' . $questSeasonMission['name'] . '! <a href="quest.php">Click here to claim your reward</a>'
+            );
         }
 
         $db->query("UPDATE quest_season_mission_user SET progress = ?, is_complete = ? WHERE id = ?");
-        $db->execute(array(json_encode($progress), $isComplete, $questSeasonMissionUser['id']));
+        $db->execute([json_encode($progress), $isComplete, $questSeasonMissionUser['id']]);
+
+        $questSeasonMissionUser['is_complete'] = (int) $isComplete;
+        $cache->setEx(
+            "questSeasonMissionUser:{$questSeasonMissionUser['user_id']}:{$questSeasonMissionUser['quest_season_id']}",
+            300,
+            json_encode($questSeasonMissionUser)
+        );
     }
 
     return $questSeasonMissionUser;

@@ -348,7 +348,7 @@ while ($raid = mysql_fetch_assoc($raids_result)) {
                 $questSeasonMissionUser = getQuestSeasonMissionUser($participant['user_id'], $currentQuestSeason['id']);
                 $questSeasonMission = getQuestSeasonMission($participant['user_id'], $currentQuestSeason['id']);
 
-                if (isset($questSeasonMission['requirements']->raids)) {
+                if (isset($questSeasonMission['requirements']['raids'])) {
                     updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'raids', 1);
                 }
             }

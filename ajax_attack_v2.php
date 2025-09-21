@@ -585,7 +585,7 @@ if ($theirhp <= 0) {
         $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
         $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
-        if (isset($questSeasonMission['requirements']->attack_player) && $questSeasonMission['requirements']->attack_player == $attack_person->id) {
+        if (isset($questSeasonMission['requirements']['attack_player']) && $questSeasonMission['requirements']['attack_player'] == $attack_person->id) {
             updateQuestSeasonMissionUserProgress($questSeasonMissionUser, 'attack_player', $attack_person->id);
         }
     }
