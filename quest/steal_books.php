@@ -9,8 +9,10 @@ if ($user_class->jail > 0 || $user_class->hospital > 0) {
 }
 ?>
 
-<h1>Steal The Books</h1><hr />
-<p>It's the dark of night and you've snuck into Salvatore's accountants office whilst it's closed. Be quick but be careful, you don't want to raise an alarm.</p>
+<h1>Steal The Books</h1>
+<hr />
+<p>It's the dark of night and you've snuck into Salvatore's accountants office whilst it's closed. Be quick but be
+    careful, you don't want to raise an alarm.</p>
 
 <?php
 if (isset($_GET['search'])) {
@@ -73,27 +75,27 @@ if (isset($_GET['search'])) {
     </tr>
     <tr>
         <td>
-            <a href="quest.php?mode=steal_books&search=desk" >Search the Desk</a>
+            <a href="quest.php?mode=steal_books&search=desk">Search the Desk</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="quest.?mode=steal_books&search=safe" >Search the Safe</a>
+            <a href="quest.php?mode=steal_books&search=safe">Search the Safe</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="quest.php?mode=steal_books&search=window" >Search the Window Ledge</a>
+            <a href="quest.php?mode=steal_books&search=window">Search the Window Ledge</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="quest.php?mode=steal_books&search=drawers" >Search the Drawers</a>
+            <a href="quest.php?mode=steal_books&search=drawers">Search the Drawers</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="quest.php?mode=steal_books&search=carpet" >Search under the carpet</a>
+            <a href="quest.php?mode=steal_books&search=carpet">Search under the carpet</a>
         </td>
     </tr>
 </table>
