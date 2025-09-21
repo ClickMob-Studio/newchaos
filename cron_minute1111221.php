@@ -16,8 +16,6 @@ include_once 'includes/functions.php';
 
 print "working";
 
-error_log("Cron job executed at " . date('Y-m-d H:i:s'));
-
 $db->query("SELECT agm.id AS mission_id, agm.gangid, agm.time, agm.end_time, agm.kills, agm.busts, agm.crimes, agm.mugs, agm.backalleys FROM active_gang_missions agm JOIN gang_missions gm ON agm.mission_id = gm.id WHERE agm.completed = 0");
 $db->execute();
 $activeMissions = $db->fetch_row();
@@ -81,8 +79,6 @@ if (!empty($activeMissions)) {
         }
     }
 }
-
-error_log("REACHED UNO");
 
 perform_query("UPDATE `grpgusers` SET `jail` = 120 WHERE `is_jail_bot` = 1");
 
@@ -150,8 +146,6 @@ foreach ($users as $line) {
     $db->execute();
 }
 
-error_log("REACHED DOS");
-
 // Get the last giveaway time
 $db->query("SELECT `value` FROM `settings` WHERE `key` = 'last_giveaway_time'");
 $db->execute();
@@ -190,8 +184,6 @@ if (isset($lastGiveawayRow)) {
         }
     }
 }
-
-error_log("REACHED TRES");
 
 $db->query("SELECT ar.*, b.name AS boss_name, b.stat_limit, b.hp AS boss_hp FROM active_raids ar JOIN bosses b ON ar.boss_id = b.id WHERE ar.summoned_at <= NOW() - INTERVAL 15 MINUTE AND ar.completed = 0");
 $db->execute();
@@ -509,8 +501,6 @@ foreach ($raids as $raid) {
     $found_items_log = [];
 }
 
-error_log("REACHED CUATRO");
-
 // RM Cities
 $default_city = 1;
 $db->query("UPDATE grpgusers SET city = $default_city WHERE city IN (3, 6, 8, 10, 23) AND rmdays = 0");
@@ -537,8 +527,6 @@ $db->query("UPDATE grpgusers SET gangwait = gangwait - 1 WHERE gangwait > 0");
 $db->execute();
 $db->query("UPDATE grpgusers SET bustpill = bustpill - 1 WHERE bustpill > 0");
 $db->execute();
-
-error_log("REACHED CINCO");
 
 // Logic for Maze turns, take into consideration the maze boost
 $currentTime = time();
@@ -577,8 +565,6 @@ $db->execute();
 $db->query("UPDATE gamebonus SET Time = Time - 1 WHERE Time > 0");
 $db->execute();
 
-error_log("REACHED SEIS");
-
 if (time() <= 1703577599) {
 
     $_add = 5;
@@ -609,8 +595,6 @@ if (time() <= 1703577599) {
     }
 }
 
-error_log("REACHED SIETE");
-
 if ($user_class->id >= 999) {
 
     $db->query("SELECT id FROM grpgusers WHERE epoints >= 1000");
@@ -625,8 +609,6 @@ if ($user_class->id >= 999) {
         ));
     }
 }
-
-error_log("REACHED OCTO");
 
 // Check expired auctions
 $db->query("SELECT * FROM auction_house WHERE end_time <= UNIX_TIMESTAMP(NOW()) AND status = 'active'");
@@ -661,8 +643,6 @@ foreach ($expiredAuctions as $auction) {
     // Update the status column in the auction_house table to 'finished'
     perform_query("UPDATE auction_house SET status = 'finished' WHERE auction_id = ?", [$auction['auction_id']]);
 }
-
-error_log("REACHED NUEVE");
 
 $db->query("UPDATE pets
 SET
@@ -738,8 +718,6 @@ $rand = rand(1, 16); // Randomly select how many users to affect, between 1 to 3
 $db->query("UPDATE grpgusers SET jail = 120 WHERE lastactive < unix_timestamp() - 86400 AND id >= 321 AND id <= 338 ORDER BY RAND() LIMIT $rand");
 $db->execute();
 
-error_log("REACHED DIEZ");
-
 $db->query("SELECT * FROM bloodbath WHERE endtime < unix_timestamp() AND winners = ''");
 $db->execute();
 $bbinfo = $db->fetch_row(true);
@@ -806,8 +784,6 @@ foreach ($rows as $r) {
         $r['warid']
     ));
 }
-
-error_log("REACHED ONCE");
 
 $addCredits = 50;
 $addPoints = 100;
@@ -934,11 +910,7 @@ if ($latest_bloodbath) {
         $db->query("TRUNCATE TABLE bbusers");
         $db->execute();
     }
-
-
 }
-
-error_log("REACHED DOCE");
 
 $csrf = md5(uniqid(rand(), true));
 $_SESSION['csrf'] = $csrf;
@@ -951,5 +923,3 @@ perform_query("DELETE a FROM `attackladder` a
         HAVING COUNT(*) > 1
     ) as b ON a.user = b.user AND a.spot = b.spot
     WHERE a.id != b.id");
-
-error_log("REACHED TRECE");
