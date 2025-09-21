@@ -8,6 +8,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+error_log("REACHED UNO");
+
 include_once 'dbcon.php';
 include_once 'classes.php';
 include 'database/pdo_class.php';
@@ -19,6 +21,8 @@ perform_query("UPDATE grpgusers SET ffban = 0");
 $db->query("SELECT * FROM `gang_comp_leaderboard` ORDER BY `daily_missions_complete` DESC LIMIT 2");
 $db->execute();
 $dailyRows = $db->fetch_row();
+
+error_log("REACHED DOS");
 
 $i = 1;
 foreach ($dailyRows as $row) {
@@ -45,6 +49,8 @@ foreach ($dailyRows as $row) {
   $i++;
 }
 
+error_log("REACHED TRES");
+
 $db->query("UPDATE `gang_comp_leaderboard` SET `daily_missions_complete` = 0");
 $db->execute();
 
@@ -66,5 +72,7 @@ perform_query("DELETE FROM `user_logs` where `timestamp` < ?", [$time]);
 perform_query("DELETE FROM `active_raids` WHERE `summoned_at` < (NOW() - INTERVAL 14 DAY)");
 perform_query("DELETE FROM `raid_participants` WHERE `joined_at` < (NOW() - INTERVAL 14 DAY)");
 perform_query("DELETE FROM `raid_battle_logs` WHERE `timestamp` < (NOW() - INTERVAL 14 DAY)");
+
+error_log("REACHED QUATRO");
 
 ?>
