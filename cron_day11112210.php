@@ -11,18 +11,33 @@ error_reporting(E_ALL);
 error_log("REACHED UNO");
 
 include_once 'dbcon.php';
+
+error_log("REACHED DOS");
+
 include_once 'classes.php';
-include 'database/pdo_class.php';
+
+error_log("REACHED TRES");
+
+include_once 'database/pdo_class.php';
+
+error_log("REACHED QUATRO");
 
 perform_query("UPDATE `grpgusers` SET `tamt` = `0`, `todayskills` = '0', `todaysexp` = '0', `boxes_opened` = '1', `crimeauto` = '0', `csmuggling` = '6', `prayer` = '1', `searchdowntown` = '100', `dailytrains` = '0', `dailymugs` = '0', `spins` = '20', `todayskills` = '0', `dailyClockins` = '0', `todaysexp` = '0',  `gameevents` = '0', `voted1`='0', `doors`='3', `slots_left1`='100', `roulette`='1', `luckydip`='1', `csmuggling` = '6', `chase` = '1'");
+
+error_log("REACHED CINCO");
+
 perform_query("DELETE FROM votes WHERE 1");
+
+error_log("REACHED SEIS");
+
 perform_query("UPDATE grpgusers SET ffban = 0");
+
+error_log("REACHED SIETE");
 
 $db->query("SELECT * FROM `gang_comp_leaderboard` ORDER BY `daily_missions_complete` DESC LIMIT 2");
 $db->execute();
 $dailyRows = $db->fetch_row();
 
-error_log("REACHED DOS");
 
 $i = 1;
 foreach ($dailyRows as $row) {
@@ -49,8 +64,6 @@ foreach ($dailyRows as $row) {
   $i++;
 }
 
-error_log("REACHED TRES");
-
 $db->query("UPDATE `gang_comp_leaderboard` SET `daily_missions_complete` = 0");
 $db->execute();
 
@@ -72,7 +85,5 @@ perform_query("DELETE FROM `user_logs` where `timestamp` < ?", [$time]);
 perform_query("DELETE FROM `active_raids` WHERE `summoned_at` < (NOW() - INTERVAL 14 DAY)");
 perform_query("DELETE FROM `raid_participants` WHERE `joined_at` < (NOW() - INTERVAL 14 DAY)");
 perform_query("DELETE FROM `raid_battle_logs` WHERE `timestamp` < (NOW() - INTERVAL 14 DAY)");
-
-error_log("REACHED QUATRO");
 
 ?>
