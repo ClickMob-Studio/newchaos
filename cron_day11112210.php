@@ -22,7 +22,7 @@ include_once 'database/pdo_class.php';
 
 error_log("REACHED QUATRO");
 
-perform_query("UPDATE `grpgusers` SET `tamt` = `0`, `todayskills` = '0', `todaysexp` = '0', `boxes_opened` = '1', `crimeauto` = '0', `csmuggling` = '6', `prayer` = '1', `searchdowntown` = '100', `dailytrains` = '0', `dailymugs` = '0', `spins` = '20', `todayskills` = '0', `dailyClockins` = '0', `todaysexp` = '0',  `gameevents` = '0', `voted1`='0', `doors`='3', `slots_left1`='100', `roulette`='1', `luckydip`='1', `csmuggling` = '6', `chase` = '1'");
+perform_query("UPDATE `grpgusers` SET `tamt` = '0', `todayskills` = '0', `todaysexp` = '0', `boxes_opened` = '1', `crimeauto` = '0', `csmuggling` = '6', `prayer` = '1', `searchdowntown` = '100', `dailytrains` = '0', `dailymugs` = '0', `spins` = '20', `todayskills` = '0', `dailyClockins` = '0', `todaysexp` = '0', `gameevents` = '0', `voted1`='0', `doors`='3', `slots_left1`='100', `roulette`='1', `luckydip`='1', `csmuggling` = '6', `chase` = '1'");
 
 error_log("REACHED CINCO");
 
