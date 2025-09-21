@@ -16,6 +16,8 @@ include_once 'includes/functions.php';
 
 print "working";
 
+error_log("Cron job executed at " . date('Y-m-d H:i:s') . "\n", 3, "/tmp/cron_debug.log");
+
 $db->query("SELECT agm.id AS mission_id, agm.gangid, agm.time, agm.end_time, agm.kills, agm.busts, agm.crimes, agm.mugs, agm.backalleys FROM active_gang_missions agm JOIN gang_missions gm ON agm.mission_id = gm.id WHERE agm.completed = 0");
 $db->execute();
 $activeMissions = $db->fetch_row();
