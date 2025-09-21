@@ -4372,3 +4372,18 @@ function cleanOldDBEntries()
 
     return $total;
 }
+
+function invalidateQuestSeasonCache(int $userId, int $questSeasonId): void
+{
+    global $redis;
+
+    $keys = [
+        "questSeasonForUser:{$userId}",
+        "questSeasonUser:{$userId}:{$questSeasonId}",
+        "questSeasonMissionUser:{$userId}:{$questSeasonId}",
+    ];
+
+    foreach ($keys as $key) {
+        $redis->del($key);
+    }
+}
