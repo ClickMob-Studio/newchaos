@@ -8,36 +8,17 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-error_log("REACHED UNO");
-
 include_once 'dbcon.php';
-
-error_log("REACHED DOS");
-
 include_once 'classes.php';
-
-error_log("REACHED TRES");
-
 include_once 'database/pdo_class.php';
 
-error_log("REACHED QUATRO");
-
 perform_query("UPDATE `grpgusers` SET `tamt` = '0', `todayskills` = '0', `todaysexp` = '0', `boxes_opened` = '1', `crimeauto` = '0', `csmuggling` = '6', `prayer` = '1', `searchdowntown` = '100', `dailytrains` = '0', `dailymugs` = '0', `spins` = '20', `todayskills` = '0', `dailyClockins` = '0', `todaysexp` = '0', `gameevents` = '0', `voted1`='0', `doors`='3', `slots_left1`='100', `roulette`='1', `luckydip`='1', `csmuggling` = '6', `chase` = '1'");
-
-error_log("REACHED CINCO");
-
 perform_query("DELETE FROM votes WHERE 1");
-
-error_log("REACHED SEIS");
-
 perform_query("UPDATE grpgusers SET ffban = 0");
-
-error_log("REACHED SIETE");
 
 $db->query("SELECT * FROM `gang_comp_leaderboard` ORDER BY `daily_missions_complete` DESC LIMIT 2");
 $db->execute();
 $dailyRows = $db->fetch_row();
-
 
 $i = 1;
 foreach ($dailyRows as $row) {
