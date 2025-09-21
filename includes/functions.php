@@ -4373,7 +4373,7 @@ function cleanOldDBEntries()
     return $total;
 }
 
-function invalidateQuestSeasonCache(int $userId, int $questSeasonId): void
+function invalidateQuestSeasonCache($userId, $questSeasonId)
 {
     global $redis;
 
