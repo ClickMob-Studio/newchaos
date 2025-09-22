@@ -29,10 +29,6 @@ include 'header.php';
         user-select: none;
     }
 
-    .emoji-picker[open] .emoji-summary {
-        background: #262626;
-    }
-
     .emoji-panel {
         margin-top: 8px;
         padding: 10px;
