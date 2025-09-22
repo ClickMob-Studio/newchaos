@@ -1460,7 +1460,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                 <!-- <div class="d-none d-lg-block col-4">
                                 <img style="width: 50px;" src="https://chaoscity.co.uk/images/noavatar.png" alt="">
                             </div> -->
-                                <div class="col-8 col-lg-7 ml-2 g-0 row">
+                                <div class="col-8 col-lg-7 g-0 row" style="margin-left:4px;">
                                     <div class="row my-1 g-0">
                                         <div class="col-2 d-flex align-items-center"><i
                                                 class="mx-auto fas fa-dollar-sign"></i></div>
