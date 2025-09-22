@@ -388,7 +388,8 @@ if (isset($currentQuestSeason['id'])) {
                         $db->execute([$user_class->id]);
                         $ofthes = $db->fetch_row(true);
 
-                        echo "<br />" . formatName($kotd['userid']) . "<br /><br />Killed: " . prettynum($kotd['kotd']) . " Mobsters.<br /><br />You Killed: " . prettynum($user_class->todayskills) . " Mobsters<br /><br />";
+                        $name = empty($kotd['userid']) ? 'Nobody' : formatName($kotd['userid']);
+                        echo "<br />" . $name . "<br /><br />Killed: " . prettynum($kotd['kotd']) . " Mobsters.<br /><br />You Killed: " . prettynum($user_class->todayskills) . " Mobsters<br /><br />";
                         ?>
                         <h3>Reward: 10,000 Points</h3>
                     </div>
@@ -409,7 +410,8 @@ if (isset($currentQuestSeason['id'])) {
                         $db->execute([$user_class->id]);
                         $grpgusers = $db->fetch_row(true);
 
-                        echo "<br />" . formatName($lotd['id']) . "<br /><br />Gained: " . prettynum($lotd['todaysexp']) . " EXP<br /><br />You: " . prettynum($grpgusers['todaysexp']) . " EXP<br /><br />";
+                        $name = empty($lotd['id']) ? 'Nobody' : formatName($lotd['id']);
+                        echo "<br />" . $name . "<br /><br />Gained: " . prettynum($lotd['todaysexp']) . " EXP<br /><br />You: " . prettynum($grpgusers['todaysexp']) . " EXP<br /><br />";
                         ?>
                         <h3>Reward: 10,000 Points</h3>
                     </div>
@@ -430,7 +432,8 @@ if (isset($currentQuestSeason['id'])) {
                         $db->execute([$user_class->id]);
                         $ofthes = $db->fetch_row(true);
 
-                        echo "<br />" . formatName($botd['userid']) . "<br /><br />Busted: " . prettynum($botd['botd']) . " Mobsters.<br /><br />You busted: " . prettynum($ofthes['botd']) . " Mobsters<br /><br />";
+                        $name = empty($botd['userid']) ? 'Nobody' : formatName($botd['userid']);
+                        echo "<br />" . $name . "<br /><br />Busted: " . prettynum($botd['botd']) . " Mobsters.<br /><br />You busted: " . prettynum($ofthes['botd']) . " Mobsters<br /><br />";
                         ?>
                         <h3>Reward: 10,000 Points</h3>
                     </div>
@@ -567,7 +570,11 @@ if (isset($currentQuestSeason['id'])) {
                         $db->execute([$user_class->id]);
                         $ofthes = $db->fetch_row(true);
 
-                        echo "<br />" . formatName($botd['userid']) . "<br /><br />Busted: " . prettynum($botd['botd']) . " Mobsters.<br /><br />You busted: " . prettynum($ofthes['botd']) . " Mobsters<br /><br />";
+                        if ($botd['botd'] == 0) {
+                            echo "Nobody<br /><br />";
+                        } else {
+                            echo "<br />" . formatName($botd['userid']) . "<br /><br />Busted: " . prettynum($botd['botd']) . " Mobsters.<br /><br />You busted: " . prettynum($ofthes['botd']) . " Mobsters<br /><br />";
+                        }
                         ?>
                         <h3>Reward: 10,000 Points</h3>
                     </div>
