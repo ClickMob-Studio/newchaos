@@ -194,6 +194,39 @@ include 'header.php';
         overflow: hidden;
         text-overflow: ellipsis;
     }
+
+    .bb-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 10px;
+    }
+
+    .bb-toolbar button {
+        font-family: system-ui, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 4px 8px;
+        border-radius: 6px;
+        border: 1px solid #444;
+        background: #1a1a1a;
+        color: #eee;
+        cursor: pointer;
+        transition: background 0.15s, transform 0.1s;
+    }
+
+    .bb-toolbar button:hover {
+        background: #333;
+    }
+
+    .bb-toolbar button:active {
+        transform: scale(0.95);
+    }
+
+    .bb-toolbar button:focus {
+        outline: 2px solid #ff6218;
+        outline-offset: 2px;
+    }
 </style>
 
 <div class='box_top'>Global chat</div>
@@ -351,35 +384,16 @@ TEXT;
             }
         </style>
 
-        <table style="margin-bottom: 10px;">
-            <tr>
-                <td class="flexcont">
-                    <span class="flexele forumhover" onclick="addBB('[b][/b]', 4);return false;">[b]</span>
-                </td>
-                <td class="flexcont">
-                    <span class="flexele forumhover" onclick="addBB('[u][/u]', 4);return false;">[u]</span>
-                </td>
-                <td class="flexcont">
-                    <span class="flexele forumhover" onclick="addBB('[i][/i]', 4);return false;">[i]</span>
-                </td>
-                <td class="flexcont">
-                    <span class="flexele forumhover" onclick="addBB('[s][/s]', 4);return false;">[s]</span>
-                </td>
-                <td class="flexcont">
-                    <span class="flexele forumhover" onclick="addBB('[url][/url]', 6);return false;">[url]</span>
-                </td>
-                <td class="flexcont">
-                    <span class="flexele forumhover" onclick="addBB('[img][/img]', 6);return false;">[img]</span>
-                </td>
-                <td class="flexcont">
-                    <span class="flexele forumhover" onclick="addBB('[tag][/tag]', 6);return false;">[tag]</span>
-                </td>
-                <td class="flexcont">
-                    <span class="flexele forumhover"
-                        onclick="addBB('[youtube][/youtube]', 10);return false;">[youtube]</span>
-                </td>
-            </tr>
-        </table>
+        <div class="bb-toolbar">
+            <button type="button" data-bb="[b][/b]" data-caret="4">B</button>
+            <button type="button" data-bb="[i][/i]" data-caret="4">I</button>
+            <button type="button" data-bb="[u][/u]" data-caret="4">U</button>
+            <button type="button" data-bb="[s][/s]" data-caret="4">S</button>
+            <button type="button" data-bb="[url][/url]" data-caret="6">URL</button>
+            <button type="button" data-bb="[img][/img]" data-caret="6">IMG</button>
+            <button type="button" data-bb="[tag][/tag]" data-caret="6">TAG</button>
+            <button type="button" data-bb="[youtube][/youtube]" data-caret="10">YT</button>
+        </div>
 
         <form name="message" id="chat-form" onsubmit="return sendGmail();">
             <div class="chat-input">
