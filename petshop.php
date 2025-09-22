@@ -22,7 +22,6 @@ include 'header.php';
                 diefun("You already own a pet");
             }
 
-
             $db->query("SELECT * FROM petshop WHERE id = ?");
             $db->execute([$_GET['buy']]);
             if (!$db->num_rows()) {

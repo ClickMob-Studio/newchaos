@@ -17,9 +17,7 @@ $db->execute();
 $missions = $db->fetch_row();
 
 foreach ($missions as $mission) {
-
     $user_class = new User($mission['userid']);
-
     $itemTempUse = getItemTempUse($user_class->id);
 
     $prestigeUserSKills = getUserPrestigeSkills($user_class);
@@ -107,15 +105,6 @@ foreach ($missions as $mission) {
     }
 
     if ($mission['cKills'] >= $mission['reqKills'] && $mission['cCrimes'] >= $mission['reqCrimes'] && $mission['cBusts'] >= $mission['reqBusts'] && $mission['cMugs'] >= $mission['reqMugs'] && $mission['cBackalleys'] >= $mission['reqBackalleys'] && $mission['cRaids'] >= $mission['reqRaids']) {
-
-        //        $exp = 5 + (5 * ($mission['mExpLevel'] + 2));
-//        $levelhurts = floor($user_class->level / 10);
-//        $exp = ($exp - $levelhurts < 3) ? 3 : $exp - $levelhurts;
-//
-//        if ($prestigeUserSKills['mission_exp_boost_level'] > 0) {
-//            $exp = $exp + ($exp / 100 * (2 * $prestigeUserSKills['mission_exp_boost_level']));
-//        }
-
         $expgain = round($user_class->maxexp / 100 * $mission['mExpLevel']);
         if ($prestigeUserSKills['mission_exp_boost_level'] > 0) {
             $expgain = $expgain + ($expgain / 100 * (2 * $prestigeUserSKills['mission_exp_boost_level']));
@@ -135,12 +124,11 @@ foreach ($missions as $mission) {
 
         if ($user_class->admin > 0) {
             Send_event($user_class->id, $mission['mExpLevel']);
-            $expgain = number_format_short($expgain);
-            Send_event($user_class->id, "You have completed the {$mission['name']}! [+ $expgain EXP]");
-        } else {
-            $expgain = number_format_short($expgain);
-            Send_event($user_class->id, "You have completed the {$mission['name']}! [+ $expgain EXP]");
         }
+
+        $expgain = number_format_short($expgain);
+        Send_event($user_class->id, "You have completed the {$mission['name']}! [+ $expgain EXP]");
+
 
         $db->query("UPDATE missions SET completed = 'successful' WHERE id = ?");
         $db->execute(array(

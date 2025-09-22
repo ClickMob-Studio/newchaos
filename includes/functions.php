@@ -1289,6 +1289,7 @@ function Take_Pet($petid, $userid)
 function Give_Pet($petid, $userid, $picture, $str = 10, $spe = 10, $def = 10, $name = null)
 {
     global $db;
+
     $db->query("SELECT petid FROM pets WHERE userid = ? AND petid = ?");
     $db->execute(array(
         $userid,
@@ -1296,6 +1297,7 @@ function Give_Pet($petid, $userid, $picture, $str = 10, $spe = 10, $def = 10, $n
     ));
     $pet = $db->fetch_single();
     if (isset($pet)) {
+        error_log("User $userid tried to get pet $petid but already has it. -> " . json_encode($pet));
         return false;
     }
 
@@ -1320,6 +1322,7 @@ function Give_Pet($petid, $userid, $picture, $str = 10, $spe = 10, $def = 10, $n
         $name,
         $picture
     ]);
+    return true;
 }
 function Check_Pet($petid, $userid)
 {
