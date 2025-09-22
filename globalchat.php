@@ -467,6 +467,72 @@ TEXT;
         include("footer.php");
         ?>
 
+        <script>
+            (() => {
+                // Resolve your target textarea: keep compatibility with your existing form
+                function getMessageField() {
+                    // Prefer #reply if it exists, fallback to document.message.msgtext
+                    const reply = document.getElementById('reply');
+                    if (reply) return reply;
+                    if (document.message && document.message.msgtext) return document.message.msgtext;
+                    return null;
+                }
+
+                // Insert text at caret position (works for inputs & textareas)
+                function insertAtCaret(el, text) {
+                    if (!el) return;
+                    el.focus();
+                    const start = el.selectionStart ?? el.value.length;
+                    const end = el.selectionEnd ?? el.value.length;
+                    const before = el.value.slice(0, start);
+                    const after = el.value.slice(end);
+                    el.value = before + text + after;
+                    // place caret after inserted text
+                    const pos = start + text.length;
+                    el.setSelectionRange?.(pos, pos);
+                    // optional: dispatch an input event if your app listens for it
+                    el.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+
+                // Click handler for emojis (event delegation)
+                document.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.emoji-btn[data-emoji]');
+                    if (!btn) return;
+
+                    const code = btn.getAttribute('data-emoji') || '';
+                    const field = getMessageField();
+                    if (!field) return;
+
+                    // space-padding like your original (" ' code ' ")
+                    const toInsert = (field.value && !/\s$/.test(field.value)) ? ' ' + code + ' ' : code + ' ';
+                    insertAtCaret(field, toInsert);
+                });
+
+                // Search filter
+                const search = document.getElementById('emoji-search');
+                const grid = document.querySelector('.emoji-grid');
+                if (search && grid) {
+                    search.addEventListener('input', () => {
+                        const q = search.value.trim().toLowerCase();
+                        grid.querySelectorAll('.emoji-btn').forEach(btn => {
+                            const code = (btn.getAttribute('data-emoji') || '').toLowerCase();
+                            // simple contains match over the code (e.g., ":smile:")
+                            btn.style.display = code.includes(q) ? '' : 'none';
+                        });
+                    });
+                }
+
+                // Keep summary aria-expanded in sync with <details> state
+                const picker = document.getElementById('emoji-picker');
+                const summary = picker?.querySelector('.emoji-summary');
+                if (picker && summary) {
+                    const sync = () => summary.setAttribute('aria-expanded', picker.open ? 'true' : 'false');
+                    picker.addEventListener('toggle', sync);
+                    sync();
+                }
+            })();
+        </script>
+
         <style>
             #newtables th {
 
