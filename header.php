@@ -1460,12 +1460,12 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                 <!-- <div class="d-none d-lg-block col-4">
                                 <img style="width: 50px;" src="https://chaoscity.co.uk/images/noavatar.png" alt="">
                             </div> -->
-                                <div class="col-8 col-lg-7 offset-lg-1 g-0 row">
+                                <div class="col-8 col-lg-7 ml-2 g-0 row">
                                     <div class="row my-1 g-0">
                                         <div class="col-2 d-flex align-items-center"><i
                                                 class="mx-auto fas fa-dollar-sign"></i></div>
                                         <div class="col-10 d-flex align-items-center">$<div class="money">
-                                                <?= number_format($user_class->money); ?>
+                                                <?= shorthandNumber($user_class->money); ?>
                                             </div>
                                         </div>
                                     </div>
@@ -1474,7 +1474,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                         <div class="col-2 d-flex align-items-center"><i
                                                 class="mx-auto fas fa-piggy-bank"></i></div>
                                         <div class="col-10 d-flex align-items-center"><a href="bank.php?h_deposit=cash"
-                                                style="text-decoration: none;">$<?= number_format($user_class->bank); ?>
+                                                style="text-decoration: none;">$<?= shorthandNumber($user_class->bank); ?>
                                         </div>
                                         </a>
                                     </div>
@@ -1482,7 +1482,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                         <div class="col-2 d-flex align-items-center"><i class="mx-auto far fa-gem"></i>
                                         </div>
                                         <div class="col-10 d-flex align-items-center points">
-                                            <?= number_format($user_class->points); ?>
+                                            <?= shorthandNumber($user_class->points); ?>
                                         </div>
                                     </div>
                                     <div class="row my-1 g-0">
@@ -1490,7 +1490,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                                 class="mx-auto fab fa-medium-m"></i>
                                         </div>
                                         <div class="col-10 d-flex align-items-center credits"><a href="store.php"
-                                                style="text-decoration: none;"><?= number_format($user_class->credits); ?>
+                                                style="text-decoration: none;"><?= shorthandNumber($user_class->credits); ?>
                                                 credits</a></div>
                                     </div>
                                 </div>
