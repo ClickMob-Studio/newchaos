@@ -1440,6 +1440,10 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                     <a
                                         href="store.php#VIP"><?= ($user_class->rmdays > 0 ? $user_class->rmdays . ' VIP days' : 'Not VIP') ?></a>
                                 </div>
+
+                                <div class='time d-none d-lg-block' style='text-align: left' ;>
+                                    <span style="font-size: 11px;"><?php echo date('m/d h:i a', $now); ?></span>
+                                </div>
                             </div>
                             <div class="col-3 text-center new_avarta">
                                 <div>
@@ -1457,9 +1461,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                         </div>
                         <div class="row heroTop">
                             <div class="col-5 col-lg-12 row mb-0 mb-lg-3 newTimeHolder">
-                                <!-- <div class="d-none d-lg-block col-4">
-                                <img style="width: 50px;" src="https://chaoscity.co.uk/images/noavatar.png" alt="">
-                            </div> -->
                                 <div class="col-8 col-lg-7 g-0 row" style="margin-left:4px;">
                                     <div class="row my-1 g-0">
                                         <div class="col-2 d-flex align-items-center"><i
@@ -1493,10 +1494,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                                 style="text-decoration: none;"><?= shorthandNumber($user_class->credits); ?>
                                                 credits</a></div>
                                     </div>
-                                </div>
-
-                                <div class='time col-4 d-none d-lg-block' style='text-align: left' ;>
-                                    <?php echo date('m/d h:i a', $now); ?>
                                 </div>
                             </div>
                             <div class="col-7 col-lg-12 g-0 row dcStatsPanel">
