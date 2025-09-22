@@ -36,23 +36,28 @@ h1 {
   color: var(--colorHighlight);
   text-shadow: 2px 2px 5px black;
 }
+
 .box_top {
   font: 3.4rem "Impact";
   color: var(--colorHighlight);
   text-shadow: 2px 2px 5px black;
   padding-top: 20px;
 }
+
 table {
   color: #fff;
 }
+
 table {
   text-align: center;
   width: 100%;
 }
+
 .crimes-container {
   text-align: center;
   padding: 40px;
 }
+
 .mainHeader {
   background: #111;
   position: fixed;
@@ -171,6 +176,7 @@ button:hover {
   transform: scale(1.1);
   color: #fff;
 }
+
 .dcPrimaryButton {
   color: #fff;
   background: var(--colorHighlight);
@@ -246,7 +252,6 @@ th {
 
 td {
   border: none;
-  background-color: #292929;
   border-collapse: collapse;
 }
 
@@ -254,6 +259,15 @@ hr.orange-line {
   border: 1px solid #ff6218;
   border-radius: 5px;
 }
+
+.flexcont:nth-of-type(even) {
+  background: #222020;
+}
+
+.flexcont:nth-of-type(odd) {
+  background: #262626;
+}
+
 .town2 {
   transition: filter 0.5s, transform 0.5s;
   border: none;
@@ -262,11 +276,13 @@ hr.orange-line {
   text-decoration: none;
   display: inline-block;
 }
+
 .town2:hover {
   filter: brightness(0.8);
   transform: scale(1.1);
   color: #fff;
 }
+
 .center {
   display: block;
   margin-left: auto;
@@ -407,6 +423,7 @@ textarea:focus {
   .heroTop {
     justify-content: space-between;
   }
+
   .align-items-center2 {
     width: 100px;
     margin-left: 30px;
