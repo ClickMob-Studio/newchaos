@@ -1445,16 +1445,15 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                     <span style="font-size: 12px;"><?php echo date('m/d h:i a', $now); ?></span>
                                 </div>
                             </div>
-                            <div class="col-7 text-center d-flex g-0">
+                            <div class="col-7 text-center d-flex row g-0">
                                 <div class="row my-0 my-lg-1">
-
                                     <div class="col-3 d-flex align-items-center">
                                         <div class="d-flex">Level <div class="level" style="margin-left: 4px;">
                                                 <?= $user_class->level; ?>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-9 d-flex align-items-center d-lg-none align-items-center2"
+                                    <div class="col-9 d-flex align-items-center align-items-center2 d-lg-none"
                                         data-toggle="tooltip" title="<?= $user_class->formattedexp; ?>">
                                         <div class="progress dcStatsBars stat-bar">
                                             <div class="progress-bar" role="progressbar"
