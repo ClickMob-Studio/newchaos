@@ -377,69 +377,63 @@ if (isset($currentQuestSeason['id'])) {
             <!-- Killer of the Day -->
             <div class="col-6 col-md-4 mb-4">
                 <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
-                    <?php if ($king_result): ?>
-                        <h4 class="text-center text-danger">Killer of the Day</h4>
-                        <div class="text-center">
-                            <?php
-                            $db->query("SELECT userid, kotd FROM ofthes WHERE userid NOT IN (?) ORDER BY kotd DESC LIMIT 1");
-                            $db->execute([$admin_ids]);
-                            $kotd = $db->fetch_row(true);
+                    <h4 class="text-center text-danger">Killer of the Day</h4>
+                    <div class="text-center">
+                        <?php
+                        $db->query("SELECT userid, kotd FROM ofthes WHERE userid NOT IN (?) ORDER BY kotd DESC LIMIT 1");
+                        $db->execute([$admin_ids]);
+                        $kotd = $db->fetch_row(true);
 
-                            $db->query("SELECT * FROM ofthes WHERE userid = ?");
-                            $db->execute([$user_class->id]);
-                            $ofthes = $db->fetch_row(true);
+                        $db->query("SELECT * FROM ofthes WHERE userid = ?");
+                        $db->execute([$user_class->id]);
+                        $ofthes = $db->fetch_row(true);
 
-                            echo "<br />" . formatName($kotd['userid']) . "<br /><br />Killed: " . prettynum($kotd['kotd']) . " Mobsters.<br /><br />You Killed: " . prettynum($user_class->todayskills) . " Mobsters<br /><br />";
-                            ?>
-                            <h3>Reward: 10,000 Points</h3>
-                        </div>
-                    <?php endif; ?>
+                        echo "<br />" . formatName($kotd['userid']) . "<br /><br />Killed: " . prettynum($kotd['kotd']) . " Mobsters.<br /><br />You Killed: " . prettynum($user_class->todayskills) . " Mobsters<br /><br />";
+                        ?>
+                        <h3>Reward: 10,000 Points</h3>
+                    </div>
                 </div>
             </div>
 
             <!-- Leveller of the Day -->
             <div class="col-6 col-md-4 mb-4">
                 <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
-                    <?php if ($king_result): ?>
-                        <h4 class="text-center text-danger">Leveller of the Day</h4>
-                        <div class="text-center">
-                            <?php
-                            $db->query("SELECT id, todaysexp FROM grpgusers WHERE `admin` != 1 ORDER BY todaysexp DESC LIMIT 1");
-                            $db->execute();
-                            $lotd = $db->fetch_row(true);
+                    <h4 class="text-center text-danger">Leveller of the Day</h4>
+                    <div class="text-center">
+                        <?php
+                        $db->query("SELECT id, todaysexp FROM grpgusers WHERE `admin` != 1 ORDER BY todaysexp DESC LIMIT 1");
+                        $db->execute();
+                        $lotd = $db->fetch_row(true);
 
-                            $db->query("SELECT * FROM grpgusers WHERE id = ?");
-                            $db->execute([$user_class->id]);
-                            $grpgusers = $db->fetch_row(true);
+                        $db->query("SELECT * FROM grpgusers WHERE id = ?");
+                        $db->execute([$user_class->id]);
+                        $grpgusers = $db->fetch_row(true);
 
-                            echo "<br />" . formatName($lotd['id']) . "<br /><br />Gained: " . prettynum($lotd['todaysexp']) . " EXP<br /><br />You: " . prettynum($grpgusers['todaysexp']) . " EXP<br /><br />";
-                            ?>
-                            <h3>Reward: 10,000 Points</h3>
-                        </div>
-                    <?php endif; ?>
+                        echo "<br />" . formatName($lotd['id']) . "<br /><br />Gained: " . prettynum($lotd['todaysexp']) . " EXP<br /><br />You: " . prettynum($grpgusers['todaysexp']) . " EXP<br /><br />";
+                        ?>
+                        <h3>Reward: 10,000 Points</h3>
+                    </div>
                 </div>
             </div>
 
             <!-- Buster of the Day -->
             <div class="col-12 col-md-4 mb-4">
                 <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
-                    <?php if ($king_result): ?>
-                        <h4 class="text-center text-danger">Buster of the Day</h4>
-                        <div class="text-center">
-                            <?php
-                            $db->query("SELECT userid, botd FROM ofthes WHERE userid NOT IN (?) ORDER BY botd DESC LIMIT 1");
-                            $db->execute([$admin_ids]);
-                            $botd = $db->fetch_row(true);
+                    <h4 class="text-center text-danger">Buster of the Day</h4>
+                    <div class="text-center">
+                        <?php
+                        $db->query("SELECT userid, botd FROM ofthes WHERE userid NOT IN (?) ORDER BY botd DESC LIMIT 1");
+                        $db->execute([$admin_ids]);
+                        $botd = $db->fetch_row(true);
 
-                            $db->query("SELECT * FROM ofthes WHERE userid = ?");
-                            $db->execute([$user_class->id]);
-                            $ofthes = $db->fetch_row(true);
+                        $db->query("SELECT * FROM ofthes WHERE userid = ?");
+                        $db->execute([$user_class->id]);
+                        $ofthes = $db->fetch_row(true);
 
-                            echo "<br />" . formatName($botd['userid']) . "<br /><br />Busted: " . prettynum($botd['botd']) . " Mobsters.<br /><br />You busted: " . prettynum($ofthes['botd']) . " Mobsters<br /><br />";
-                            ?>
-                            <h3>Reward: 10,000 Points</h3>
-                        </div>
-                    <?php endif; ?>
+                        echo "<br />" . formatName($botd['userid']) . "<br /><br />Busted: " . prettynum($botd['botd']) . " Mobsters.<br /><br />You busted: " . prettynum($ofthes['botd']) . " Mobsters<br /><br />";
+                        ?>
+                        <h3>Reward: 10,000 Points</h3>
+                    </div>
                 </div>
             </div>
         </div>
@@ -452,44 +446,40 @@ if (isset($currentQuestSeason['id'])) {
             <!-- Highest Killer in City -->
             <div class="col-6 col-md-4 mb-4">
                 <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
-                    <?php if ($king_result): ?>
-                        <h4 class="text-center" style="color: green;">Highest killer in <!_-cityname-_!> this hour</h4>
-                        <div class="text-center">
-                            <?php
-                            $db->query("SELECT id, koth FROM grpgusers WHERE `admin` != 1 ORDER BY koth DESC LIMIT 1");
-                            $db->execute();
-                            $koth = $db->fetch_row(true);
-                            if ($koth['koth'] == 0) {
-                                echo "Nobody<br /><br />";
-                            } else {
-                                echo "<br />" . formatName($koth['id']) . "<br /><br />Killed: " . prettynum($koth['koth']) . " Mobsters.<br /><br />You: " . prettynum($user_class->koth) . " Kills<br /><br />";
-                            }
-                            ?>
-                            <h3>Reward: 500 Points</h3>
-                        </div>
-                    <?php endif; ?>
+                    <h4 class="text-center" style="color: green;">Highest killer in <!_-cityname-_!> this hour</h4>
+                    <div class="text-center">
+                        <?php
+                        $db->query("SELECT id, koth FROM grpgusers WHERE `admin` != 1 ORDER BY koth DESC LIMIT 1");
+                        $db->execute();
+                        $koth = $db->fetch_row(true);
+                        if ($koth['koth'] == 0) {
+                            echo "Nobody<br /><br />";
+                        } else {
+                            echo "<br />" . formatName($koth['id']) . "<br /><br />Killed: " . prettynum($koth['koth']) . " Mobsters.<br /><br />You: " . prettynum($user_class->koth) . " Kills<br /><br />";
+                        }
+                        ?>
+                        <h3>Reward: 500 Points</h3>
+                    </div>
                 </div>
             </div>
 
             <!-- Highest Leveller This Hour -->
             <div class="col-6 col-md-4 mb-4">
                 <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
-                    <?php if ($king_result): ?>
-                        <h4 class="text-center" style="color: green;">Highest Leveller this hour</h4>
-                        <div class="text-center">
-                            <?php
-                            $db->query("SELECT id, loth FROM grpgusers WHERE `admin` = 0 ORDER BY loth DESC LIMIT 1");
-                            $db->execute();
-                            $loth = $db->fetch_row(true);
-                            if ($loth['loth'] == 0) {
-                                echo "Nobody<br /><br />";
-                            } else {
-                                echo "<br />" . formatName($loth['id']) . "<br /><br />Gained: " . prettynum($loth['loth']) . " EXP.<br /><br />You: " . prettynum($user_class->loth) . " EXP<br /><br />";
-                            }
-                            ?>
-                            <h3>Reward: 500 Points</h3>
-                        </div>
-                    <?php endif; ?>
+                    <h4 class="text-center" style="color: green;">Highest Leveller this hour</h4>
+                    <div class="text-center">
+                        <?php
+                        $db->query("SELECT id, loth FROM grpgusers WHERE `admin` = 0 ORDER BY loth DESC LIMIT 1");
+                        $db->execute();
+                        $loth = $db->fetch_row(true);
+                        if ($loth['loth'] == 0) {
+                            echo "Nobody<br /><br />";
+                        } else {
+                            echo "<br />" . formatName($loth['id']) . "<br /><br />Gained: " . prettynum($loth['loth']) . " EXP.<br /><br />You: " . prettynum($user_class->loth) . " EXP<br /><br />";
+                        }
+                        ?>
+                        <h3>Reward: 500 Points</h3>
+                    </div>
                 </div>
             </div>
 
@@ -497,22 +487,20 @@ if (isset($currentQuestSeason['id'])) {
             <!-- Adding offset to center this box on mobile -->
             <div class="col-6 col-md-4 mb-4">
                 <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
-                    <?php if ($king_result): ?>
-                        <h4 class="text-center" style="color: green;">Highest Buster of the hour</h4>
-                        <div class="text-center">
-                            <?php
-                            $db->query("SELECT id, `both` FROM grpgusers WHERE `admin` = 0 ORDER BY `both` DESC LIMIT 1");
-                            $db->execute();
-                            $both = $db->fetch_row(true);
-                            if ($both['both'] == 0) {
-                                echo "Nobody<br /><br />";
-                            } else {
-                                echo "<br />" . formatName($both['id']) . "<br /><br />Busted: " . prettynum($both['both']) . " Mobsters.<br /><br />You busted: " . prettynum($user_class->both) . " Mobsters<br /><br />";
-                            }
-                            ?>
-                            <h3>Reward: 500 Points</h3>
-                        </div>
-                    <?php endif; ?>
+                    <h4 class="text-center" style="color: green;">Highest Buster of the hour</h4>
+                    <div class="text-center">
+                        <?php
+                        $db->query("SELECT id, `both` FROM grpgusers WHERE `admin` = 0 ORDER BY `both` DESC LIMIT 1");
+                        $db->execute();
+                        $both = $db->fetch_row(true);
+                        if ($both['both'] == 0) {
+                            echo "Nobody<br /><br />";
+                        } else {
+                            echo "<br />" . formatName($both['id']) . "<br /><br />Busted: " . prettynum($both['both']) . " Mobsters.<br /><br />You busted: " . prettynum($user_class->both) . " Mobsters<br /><br />";
+                        }
+                        ?>
+                        <h3>Reward: 500 Points</h3>
+                    </div>
                 </div>
             </div>
         </div>
@@ -523,48 +511,44 @@ if (isset($currentQuestSeason['id'])) {
             <!-- Mugger of the Hour -->
             <div class="col-6 col-md-4 mb-4">
                 <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
-                    <?php if ($king_result): ?>
-                        <h4 class="text-center" style="color: orange;">Mugger of the Hour</h4>
-                        <div class="text-center">
-                            <?php
-                            $db->query("SELECT id, moth FROM grpgusers WHERE `admin` != 1 ORDER BY moth DESC LIMIT 1");
-                            $db->execute();
-                            $moth = $db->fetch_row(true);
-                            if ($moth['moth'] == 0) {
-                                echo "Nobody<br/><br/>";
-                            } else {
-                                echo "<br />" . formatName($moth['id']) . "<br /><br />Mugs: " . prettynum($moth['moth']) . "<br /><br />You: " . prettynum($user_class->moth) . " Mugs<br /><br />";
-                            }
-                            ?>
-                            <h3>Reward: 500 Points</h3>
-                        </div>
-                    <?php endif; ?>
+                    <h4 class="text-center" style="color: orange;">Mugger of the Hour</h4>
+                    <div class="text-center">
+                        <?php
+                        $db->query("SELECT id, moth FROM grpgusers WHERE `admin` != 1 ORDER BY moth DESC LIMIT 1");
+                        $db->execute();
+                        $moth = $db->fetch_row(true);
+                        if ($moth['moth'] == 0) {
+                            echo "Nobody<br/><br/>";
+                        } else {
+                            echo "<br />" . formatName($moth['id']) . "<br /><br />Mugs: " . prettynum($moth['moth']) . "<br /><br />You: " . prettynum($user_class->moth) . " Mugs<br /><br />";
+                        }
+                        ?>
+                        <h3>Reward: 500 Points</h3>
+                    </div>
                 </div>
             </div>
 
             <!-- Mugger of the Day -->
             <div class="col-6 col-md-4 mb-4">
                 <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
-                    <?php if ($king_result): ?>
-                        <h4 class="text-center" style="color: orange;">Mugger of the Day</h4>
-                        <div class="text-center">
-                            <?php
-                            $db->query("SELECT userid, motd FROM ofthes WHERE userid NOT IN (?) ORDER BY motd DESC LIMIT 1");
-                            $db->execute([$admin_ids]);
-                            $motd = $db->fetch_row(true);
+                    <h4 class="text-center" style="color: orange;">Mugger of the Day</h4>
+                    <div class="text-center">
+                        <?php
+                        $db->query("SELECT userid, motd FROM ofthes WHERE userid NOT IN (?) ORDER BY motd DESC LIMIT 1");
+                        $db->execute([$admin_ids]);
+                        $motd = $db->fetch_row(true);
 
-                            $db->query("SELECT userid, motd FROM ofthes WHERE userid = ?");
-                            $db->execute([$user_class->id]);
-                            $mymotd = $db->fetch_row(true);
-                            if ($motd['motd'] == 0) {
-                                echo "Nobody<br/><br/>";
-                            } else {
-                                echo "<br />" . formatName($motd['userid']) . "<br /><br />Mugs: " . prettynum($motd['motd']) . "<br /><br />You: " . prettynum($mymotd['motd']) . " Mugs<br /><br />";
-                            }
-                            ?>
-                            <h3>Reward: 10,000 Points</h3>
-                        </div>
-                    <?php endif; ?>
+                        $db->query("SELECT userid, motd FROM ofthes WHERE userid = ?");
+                        $db->execute([$user_class->id]);
+                        $mymotd = $db->fetch_row(true);
+                        if ($motd['motd'] == 0) {
+                            echo "Nobody<br/><br/>";
+                        } else {
+                            echo "<br />" . formatName($motd['userid']) . "<br /><br />Mugs: " . prettynum($motd['motd']) . "<br /><br />You: " . prettynum($mymotd['motd']) . " Mugs<br /><br />";
+                        }
+                        ?>
+                        <h3>Reward: 10,000 Points</h3>
+                    </div>
                 </div>
             </div>
 
@@ -572,31 +556,25 @@ if (isset($currentQuestSeason['id'])) {
             <!-- Adding offset to center this box on mobile -->
             <div class="col-6 col-md-4 mb-4">
                 <div class="vip-package p-3" style="box-shadow: 0 0 10px rgba(0,0,0,0.5);">
-                    <?php if ($king_result): ?>
-                        <h4 class="text-center" style="color: orange;">Buster of the Day</h4>
-                        <div class="text-center">
-                            <?php
-                            $db->query("SELECT userid, botd FROM ofthes WHERE userid NOT IN (?) ORDER BY botd DESC LIMIT 1");
-                            $db->execute([$admin_ids]);
-                            $botd = $db->fetch_row(true);
+                    <h4 class="text-center" style="color: orange;">Buster of the Day</h4>
+                    <div class="text-center">
+                        <?php
+                        $db->query("SELECT userid, botd FROM ofthes WHERE userid NOT IN (?) ORDER BY botd DESC LIMIT 1");
+                        $db->execute([$admin_ids]);
+                        $botd = $db->fetch_row(true);
 
-                            $db->query("SELECT * FROM ofthes WHERE userid = ?");
-                            $db->execute([$user_class->id]);
-                            $ofthes = $db->fetch_row(true);
+                        $db->query("SELECT * FROM ofthes WHERE userid = ?");
+                        $db->execute([$user_class->id]);
+                        $ofthes = $db->fetch_row(true);
 
-                            echo "<br />" . formatName($botd['userid']) . "<br /><br />Busted: " . prettynum($botd['botd']) . " Mobsters.<br /><br />You busted: " . prettynum($ofthes['botd']) . " Mobsters<br /><br />";
-                            ?>
-                            <h3>Reward: 10,000 Points</h3>
-                        </div>
-                    <?php endif; ?>
+                        echo "<br />" . formatName($botd['userid']) . "<br /><br />Busted: " . prettynum($botd['botd']) . " Mobsters.<br /><br />You busted: " . prettynum($ofthes['botd']) . " Mobsters<br /><br />";
+                        ?>
+                        <h3>Reward: 10,000 Points</h3>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-
-
 
     <?php
     include 'footer.php';
