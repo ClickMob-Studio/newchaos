@@ -238,12 +238,6 @@ include 'header.php';
 
 
         echo "
-    <script>
-    function addBB(text) {
-        var textarea = document.getElementById('reply');
-        textarea.value += text;
-    }
-    </script>
     <script type='module'>
     import { EmojiButton } from 'https://unpkg.com/@joeattardi/emoji-button@4.3.0/dist/index.js';
 
@@ -562,6 +556,77 @@ TEXT;
         ?>
 
         <script>
+            (function () {
+                function getField() {
+                    return document.getElementById('reply')
+                        || (document.message && document.message.msgtext)
+                        || null;
+                }
+
+                function addBB(tagSpec) {
+                    const field = getField();
+                    if (!field) return;
+
+                    let openTag = '', closeTag = '';
+                    if (Array.isArray(tagSpec)) {
+                        [openTag, closeTag] = tagSpec;
+                    } else {
+                        const m = String(tagSpec).match(/^(\[[^\]]+\])(\[\/[^\]]+\])$/);
+                        if (m) { openTag = m[1]; closeTag = m[2]; }
+                        else { openTag = String(tagSpec); closeTag = ''; }
+                    }
+
+                    field.focus();
+
+                    const value = field.value;
+                    const start = field.selectionStart ?? value.length;
+                    const end = field.selectionEnd ?? value.length;
+
+                    if (start !== end) {
+                        const before = value.slice(0, start);
+                        const selected = value.slice(start, end);
+                        const after = value.slice(end);
+
+                        const alreadyWrapped =
+                            value.slice(start - openTag.length, start) === openTag &&
+                            value.slice(end, end + closeTag.length) === closeTag;
+
+                        if (alreadyWrapped) {
+                            field.value = before.slice(0, -openTag.length) + selected + after.slice(closeTag.length);
+                            const newStart = start - openTag.length;
+                            const newEnd = newStart + selected.length;
+                            field.setSelectionRange(newStart, newEnd);
+                        } else {
+                            field.value = before + openTag + selected + closeTag + after;
+                            const newStart = start + openTag.length;
+                            const newEnd = newStart + selected.length;
+                            field.setSelectionRange(newStart, newEnd);
+                        }
+                    } else {
+                        const before = value.slice(0, start);
+                        const after = value.slice(start);
+                        field.value = before + openTag + closeTag + after;
+                        const caret = start + openTag.length;
+                        field.setSelectionRange(caret, caret);
+                    }
+
+                    field.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+
+                window.addBB = addBB;
+
+                document.addEventListener('click', (e) => {
+                    const btn = e.target.closest('.bb-toolbar button[data-open], .bb-toolbar button[data-bb]');
+                    if (!btn) return;
+
+                    if (btn.dataset.open) {
+                        addBB([btn.dataset.open, btn.dataset.close || '']);
+                    } else if (btn.dataset.bb) {
+                        addBB(btn.dataset.bb);
+                    }
+                });
+            })();
+
             document.addEventListener('click', e => {
                 const btn = e.target.closest('.bb-toolbar button');
                 if (!btn) return;
