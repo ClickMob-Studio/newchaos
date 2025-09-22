@@ -1343,43 +1343,46 @@ function genHead($text)
 {
     print '<tr><td class="contentspacer"></td></tr><tr><td class="contenthead">' . $text . '</td></tr><tr><td class="contentcontent">';
 }
-function gcTalking($which = 0, $gang = 0)
+function gcTalking(int $which = 0, int $gang = 0): string
 {
     global $db;
-    if ($which == 0) {
-        $db->query("SELECT * FROM gcusers");
+
+    // Select only the columns you need (avoid SELECT *)
+    if ($which === 0) {
+        $db->query("SELECT userid, typing FROM gcusers");
         $db->execute();
     } else {
-        $db->query("SELECT * FROM gmusers WHERE gang = ?");
-        $db->execute(array(
-            $gang
-        ));
+        // NOTE: Your original had 'gmusers' here — was that a typo?
+        $db->query("SELECT userid, typing FROM gcusers WHERE gang = ?");
+        $db->execute([$gang]);
     }
-    $rows = $db->fetch_row();
-    $ret = '<div class="flexcont" style="margin:2px; display: flex; flex-wrap: nowrap;">'; // Changed flex-wrap to nowrap
-    $count = count($rows);
-    $leftover = 4 - ($count % 4);
-    if ($count < 4)
-        $leftover = 0;
-    foreach ($rows as $row) {
-        if ($row['userid'] == 150)
-            continue;
-        $ret .= '<div class="flexele" style="margin:2px; flex-basis:22%;">';
-        $ret .= '<div class="floaty" style="margin:0;height:20px;line-height:20px;';
-        $ret .= ($row['typing']) ? 'background:rgba(0,255,0,.125);' : '';
-        $ret .= '" onclick="addsmiley(\' [tag]' . $row['userid'] . '[/tag] \');">';
-        $ret .= formatName($row['userid']);
-        $ret .= '</div>';
-        $ret .= '</div>';
-    }
-    for ($i = 0; $i < $leftover; $i++) {
-        $ret .= '<div class="flexele" style="margin:5px;flex-basis:22%;">';
-        $ret .= '</div>';
-    }
-    $ret .= '</div>';
-    return $ret;
-}
 
+    // Prefer a clear "fetch all rows" method; adjust to your DB wrapper
+    $rows = $db->fetch_row();  // if your wrapper is different, use the equivalent
+    if (!$rows)
+        $rows = [];
+
+    $out = '<div class="gcgrid" id="gcgrid">';
+
+    foreach ($rows as $row) {
+        $uid = (int) $row['userid'];
+        if ($uid === 150)
+            continue; // keep your skip
+
+        $isTyping = !empty($row['typing']); // normalize truthy
+
+        // If formatName() hits DB again, consider caching or joining names in the main query
+        $name = htmlspecialchars(formatName($uid), ENT_QUOTES, 'UTF-8');
+
+        // Use data-* for JS, avoid inline onclick
+        $out .= '<div class="gcitem' . ($isTyping ? ' is-typing' : '') . '" data-uid="' . $uid . '" data-tag="[tag]' . $uid . '[/tag]">';
+        $out .= '<span class="gcname">' . $name . '</span>';
+        $out .= '</div>';
+    }
+
+    $out .= '</div>';
+    return $out;
+}
 
 function give_nerve($amount)
 {

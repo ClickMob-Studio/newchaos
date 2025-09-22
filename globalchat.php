@@ -156,6 +156,39 @@ include 'header.php';
     .chat-input button:active {
         transform: scale(0.97);
     }
+
+    .gccontainer {
+        margin: 0;
+        padding: 10px;
+    }
+
+    .gcgrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 6px;
+    }
+
+    .gcitem {
+        min-height: 28px;
+        border-radius: 6px;
+        border: 1px solid #2a2a2a;
+        background: #0b0b0b;
+        display: flex;
+        align-items: center;
+        padding: 4px 8px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .gcitem.is-typing {
+        background: rgba(0, 255, 0, 0.12);
+    }
+
+    .gcname {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 </style>
 
 <div class='box_top'>Global chat</div>
@@ -297,10 +330,9 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 TEXT;
-        echo '
-    <div id="gccontainer" style="margin:0; padding:10px;">
-        ' . gcTalking() . '
-   </div>';
+
+        echo '<div id="gccontainer" class="gccontainer">', gcTalking(), '</div>';
+
         ?>
         <style>
             .flexele {
