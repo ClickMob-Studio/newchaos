@@ -101,6 +101,58 @@ include 'header.php';
         border: none;
         width: 100%;
     }
+
+
+
+    .chat-input {
+        display: flex;
+        align-items: flex-end;
+        gap: 0.5rem;
+        width: 100%;
+        padding: 0.5rem;
+        background: #111;
+        border-top: 1px solid #333;
+    }
+
+    .chat-input textarea {
+        flex: 1;
+        min-height: 3rem;
+        max-height: 12rem;
+        resize: vertical;
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+        line-height: 1.4;
+        border-radius: 8px;
+        border: 2px solid #ff6218;
+        background: #000;
+        color: #fff;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .chat-input textarea:focus {
+        border-color: #ff8445;
+        box-shadow: 0 0 0 2px rgba(255, 98, 24, 0.4);
+    }
+
+    .chat-input button {
+        padding: 0.75rem 1.25rem;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        background: linear-gradient(135deg, #ff6218, #ff8445);
+        color: #fff;
+        transition: background 0.2s, transform 0.1s;
+    }
+
+    .chat-input button:hover {
+        background: linear-gradient(135deg, #ff8445, #ffa063);
+    }
+
+    .chat-input button:active {
+        transform: scale(0.97);
+    }
 </style>
 
 <div class='box_top'>Global chat</div>
