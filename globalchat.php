@@ -180,6 +180,11 @@ include 'header.php';
         user-select: none;
     }
 
+    .gcitem a {
+        pointer-events: none;
+        color: inherit;
+    }
+
     .gcitem.is-typing {
         background: rgba(0, 255, 0, 0.12);
     }

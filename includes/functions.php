@@ -1372,11 +1372,9 @@ function gcTalking(int $which = 0, int $gang = 0): string
         $isTyping = !empty($row['typing']); // normalize truthy
 
         // If formatName() hits DB again, consider caching or joining names in the main query
-        $name = htmlspecialchars(formatName($uid), ENT_QUOTES, 'UTF-8');
-
-        // Use data-* for JS, avoid inline onclick
+        $nameHtml = formatName($uid); // returns HTML
         $out .= '<div class="gcitem' . ($isTyping ? ' is-typing' : '') . '" data-uid="' . $uid . '" data-tag="[tag]' . $uid . '[/tag]">';
-        $out .= '<span class="gcname">' . $name . '</span>';
+        $out .= '<span class="gcname">' . $nameHtml . '</span>';   // no htmlspecialchars
         $out .= '</div>';
     }
 
