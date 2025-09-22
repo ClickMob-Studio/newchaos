@@ -298,12 +298,15 @@ TEXT;
                 </td>
             </tr>
         </table>
-        <?php
-        echo '<table><form name="message">';
-        echo '<tr><td><textarea autofocus name="msgtext" id="reply" oninput="typing();" style="width:90%;height:125px;"></textarea><br /></td>';
-        echo '<td><input type="submit" name="submit" onclick="return sendGmail();" value="Post" /></td></tr>';
-        echo '</form></table>';
-        ?>
+
+        <form name="message" id="chat-form" onsubmit="return sendGmail();">
+            <div class="chat-input">
+                <textarea id="reply" name="msgtext" placeholder="Type your message…" oninput="typing();"
+                    autofocus></textarea>
+                <button type="submit">Post</button>
+            </div>
+        </form>
+
         <?php
         // echo '<div id="emojis" style="display:', ($user_class->hideemojis) ? 'none' : 'block', ';">';
         // emotes();
