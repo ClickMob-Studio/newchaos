@@ -563,45 +563,44 @@ TEXT;
                         || null;
                 }
 
-                function addBB(tagSpec) {
+                function addBB(tagA, tagB) {
                     const field = getField();
                     if (!field) return;
 
                     let openTag = '', closeTag = '';
-                    if (Array.isArray(tagSpec)) {
-                        [openTag, closeTag] = tagSpec;
+
+                    if (typeof tagB === 'string') {
+                        openTag = String(tagA ?? '');
+                        closeTag = String(tagB ?? '');
                     } else {
-                        const m = String(tagSpec).match(/^(\[[^\]]+\])(\[\/[^\]]+\])$/);
-                        if (m) { openTag = m[1]; closeTag = m[2]; }
-                        else { openTag = String(tagSpec); closeTag = ''; }
+                        const s = String(tagA ?? '');
+                        const m = s.match(/^(\[[^\]]+\])(\[\/[^\]]+\])$/);
+                        if (m) {
+                            openTag = m[1];
+                            closeTag = m[2];
+                        } else {
+                            openTag = s;
+                            closeTag = '';
+                        }
                     }
 
-                    field.focus();
+                    if (openTag == null) openTag = '';
+                    if (closeTag == null) closeTag = '';
 
-                    const value = field.value;
-                    const start = field.selectionStart ?? value.length;
-                    const end = field.selectionEnd ?? value.length;
+                    field.focus();
+                    const value = String(field.value ?? '');
+                    const start = (typeof field.selectionStart === 'number') ? field.selectionStart : value.length;
+                    const end = (typeof field.selectionEnd === 'number') ? field.selectionEnd : value.length;
 
                     if (start !== end) {
                         const before = value.slice(0, start);
                         const selected = value.slice(start, end);
                         const after = value.slice(end);
+                        field.value = before + openTag + selected + closeTag + after;
 
-                        const alreadyWrapped =
-                            value.slice(start - openTag.length, start) === openTag &&
-                            value.slice(end, end + closeTag.length) === closeTag;
-
-                        if (alreadyWrapped) {
-                            field.value = before.slice(0, -openTag.length) + selected + after.slice(closeTag.length);
-                            const newStart = start - openTag.length;
-                            const newEnd = newStart + selected.length;
-                            field.setSelectionRange(newStart, newEnd);
-                        } else {
-                            field.value = before + openTag + selected + closeTag + after;
-                            const newStart = start + openTag.length;
-                            const newEnd = newStart + selected.length;
-                            field.setSelectionRange(newStart, newEnd);
-                        }
+                        const newStart = start + openTag.length;
+                        const newEnd = newStart + selected.length;
+                        field.setSelectionRange(newStart, newEnd);
                     } else {
                         const before = value.slice(0, start);
                         const after = value.slice(start);
@@ -612,19 +611,6 @@ TEXT;
 
                     field.dispatchEvent(new Event('input', { bubbles: true }));
                 }
-
-                window.addBB = addBB;
-
-                document.addEventListener('click', (e) => {
-                    const btn = e.target.closest('.bb-toolbar button[data-open], .bb-toolbar button[data-bb]');
-                    if (!btn) return;
-
-                    if (btn.dataset.open) {
-                        addBB([btn.dataset.open, btn.dataset.close || '']);
-                    } else if (btn.dataset.bb) {
-                        addBB(btn.dataset.bb);
-                    }
-                });
             })();
 
             document.addEventListener('click', e => {
