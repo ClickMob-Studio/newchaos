@@ -437,7 +437,8 @@ if (isset($currentQuestSeason['id'])) {
 
                         $botd = empty($botd) ? 0 : prettynum($botd['botd']);
                         $name = empty($botd['userid']) ? 'Nobody' : formatName($botd['userid']);
-                        echo "<br />" . $name . "<br /><br />Busted: " . $botd . " Mobsters.<br /><br />You busted: " . prettynum($ofthes['botd']) . " Mobsters<br /><br />";
+                        $ownBotd = empty($ofthes['botd']) ? 0 : prettynum($ofthes['botd']);
+                        echo "<br />" . $name . "<br /><br />Busted: " . $botd . " Mobsters.<br /><br />You busted: " . $ownBotd . " Mobsters<br /><br />";
                         ?>
                         <h3>Reward: 10,000 Points</h3>
                     </div>
