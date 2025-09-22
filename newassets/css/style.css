@@ -307,11 +307,11 @@ td {
 }
 
 .flexcont:nth-of-type(even) {
-  background: #222020;
+  background: #212121;
 }
 
 .flexcont:nth-of-type(odd) {
-  background: #212121;
+  background: #262626;
 }
 
 hr.orange-line {
