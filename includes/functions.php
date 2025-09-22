@@ -1364,15 +1364,18 @@ function gcTalking(int $which = 0, int $gang = 0): string
 
     $out = '<div class="gcgrid" id="gcgrid">';
 
+    $seen = [];
     foreach ($rows as $row) {
         $uid = (int) $row['userid'];
-        if ($uid === 150)
-            continue; // keep your skip
 
-        $isTyping = !empty($row['typing']); // normalize truthy
+        if (isset($seen[$uid]))
+            continue;
 
-        // If formatName() hits DB again, consider caching or joining names in the main query
-        $nameHtml = formatName($uid); // returns HTML
+        $seen[$uid] = true;
+
+        $isTyping = !empty($row['typing']);
+
+        $nameHtml = formatName($uid);
         $out .= '<div class="gcitem' . ($isTyping ? ' is-typing' : '') . '" data-uid="' . $uid . '" data-tag="[tag]' . $uid . '[/tag]">';
         $out .= '<span class="gcname">' . $nameHtml . '</span>';   // no htmlspecialchars
         $out .= '</div>';
