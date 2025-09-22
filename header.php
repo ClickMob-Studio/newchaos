@@ -1447,7 +1447,8 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                             </div>
                             <div class="col-7 text-center new_avarta">
                                 <div class="col-3 d-flex align-items-center">
-                                    <span>Level <div class="level"><?= $user_class->level; ?></div></span>
+                                    <div class="d-flex">Level <div class="level"><?= $user_class->level; ?></div>
+                                    </div>
                                 </div>
                                 <div class="col-9 d-flex align-items-center d-lg-none align-items-center2"
                                     data-toggle="tooltip" title="<?= $user_class->formattedexp; ?>">
