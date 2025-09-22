@@ -177,6 +177,7 @@ include 'header.php';
         padding: 4px 8px;
         cursor: pointer;
         user-select: none;
+        background: rgba(0, 0, 0, 0.1);
     }
 
     .gcitem a {
