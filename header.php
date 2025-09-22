@@ -1449,10 +1449,12 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                 <div>
                                     <span>Level <div class="level"><?= $user_class->level; ?></div></span>
                                 </div>
-                                <div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip"
-                                    title="<?= $user_class->formattedexp; ?>">
-                                    <div class="progress-bar exp-bar" role="progressbar"
-                                        style="width:<?= $user_class->exppercent; ?>%"></div>
+                            </div>
+                            <div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip"
+                                title="<?= $user_class->formattedexp; ?>">
+                                <div class="progress-bar exp-bar" role="progressbar"
+                                    style="width:<?= $user_class->exppercent; ?>%"></div>
+                                <div class="col-2 text-center new_avarta">
                                 </div>
                                 <div class="d-none d-lg-block col-3">
                                     <img style="width: 50px;" src="<?= $user_class->avatar; ?>" alt="">
