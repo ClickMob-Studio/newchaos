@@ -203,9 +203,47 @@ TEXT;
         echo '</form></table>';
         ?>
         <?php
-        echo '<div id="emojis" style="display:', ($user_class->hideemojis) ? 'none' : 'block', ';">';
-        emotes();
-        echo '</div>';
+        // echo '<div id="emojis" style="display:', ($user_class->hideemojis) ? 'none' : 'block', ';">';
+        // emotes();
+        // echo '</div>';
+        
+
+        // NEW:
+        echo '<details id="emoji-picker" class="emoji-picker"', ($user_class->hideemojis ? '' : ' open'), '>';
+        echo '  <summary class="emoji-summary" aria-controls="emoji-panel" aria-expanded="false">😊 Emojis</summary>';
+        echo '  <div id="emoji-panel" class="emoji-panel">';
+        echo '    <div class="emoji-toolbar">';
+        echo '      <input type="search" id="emoji-search" class="emoji-search" placeholder="Search…" aria-label="Search emojis">';
+        echo '    </div>';
+        echo '    <div class="emoji-grid" role="listbox" aria-label="Emoji list">';
+
+        $innarr = [];
+        foreach ($smiarr as $index => $img) {
+            if (empty($img[1]))
+                $img[1] = $img[2] = 19;
+            if (isset($innarr[$img[0]]))
+                continue;
+
+            // basic escaping for safety
+            $file = htmlspecialchars($img[0], ENT_QUOTES, 'UTF-8');
+            $code = htmlspecialchars($index, ENT_QUOTES, 'UTF-8');
+            $w = (int) $img[1];
+            $h = (int) $img[2];
+
+            // button + img ensures accessible, focusable controls
+            echo '<button type="button" class="emoji-btn" data-emoji="', $code, '" title="', $code, '" aria-label="', $code, '" role="option">';
+            echo '  <span class="emoji-imgwrap" aria-hidden="true">';
+            echo '    <img loading="lazy" src="smileys/', $file, '" width="', $w, '" height="', $h, '" alt="">';
+            echo '  </span>';
+            echo '</button>';
+
+            $innarr[$img[0]] = 1;
+        }
+        echo '    </div>';
+        echo '  </div>';
+        echo '</details>';
+        // END NEW
+        
         echo '</table>';
 
         echo '<style>';
