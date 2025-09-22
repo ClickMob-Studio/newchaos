@@ -130,6 +130,8 @@ include 'header.php';
         background: #000;
         color: #fff;
         outline: none;
+
+        overflow: hidden;
     }
 
     .chat-input textarea:focus {
@@ -515,6 +517,12 @@ TEXT;
         ?>
 
         <script>
+            const reply = document.getElementById("reply");
+            reply.addEventListener("input", () => {
+                reply.style.height = "auto";        // reset
+                reply.style.height = reply.scrollHeight + "px"; // grow to fit
+            });
+
             (() => {
                 // Resolve your target textarea: keep compatibility with your existing form
                 function getMessageField() {
