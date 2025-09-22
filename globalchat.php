@@ -567,6 +567,12 @@ TEXT;
         ?>
 
         <script>
+            document.addEventListener('click', e => {
+                const btn = e.target.closest('.bb-toolbar button');
+                if (!btn) return;
+                addBB(btn.dataset.bb, parseInt(btn.dataset.caret, 10));
+            });
+
             const reply = document.getElementById("reply");
             reply.addEventListener("input", () => {
                 reply.style.height = "auto";        // reset
