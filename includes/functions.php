@@ -1263,12 +1263,14 @@ function gangContest($adds)
         $user_class->id
     ));
 }
+
 function diefun($msg)
 {
     echo Message($msg);
     include "footer.php";
     die();
 }
+
 function Take_Pet($petid, $userid)
 {
     global $db;
@@ -1286,6 +1288,7 @@ function Take_Pet($petid, $userid)
         $petid
     ));
 }
+
 function Give_Pet($petid, $userid, $picture, $str = 10, $spe = 10, $def = 10, $name = null)
 {
     global $db;
@@ -1324,6 +1327,7 @@ function Give_Pet($petid, $userid, $picture, $str = 10, $spe = 10, $def = 10, $n
     ]);
     return true;
 }
+
 function Check_Pet($petid, $userid)
 {
     global $db;

@@ -42,6 +42,8 @@ include 'header.php';
                 error_log("Failed to give pet {$_GET['buy']} to user {$user_class->id}");
             }
             echo Message("You've purchased a {$row['name']} for " . prettynum($row['cost'], 1));
+
+            echo "<script>window.location.href = 'mypets.php';</script>";
         }
 
         $db->query("SELECT id, name, cost, picture FROM petshop ORDER BY cost ASC, id ASC");
