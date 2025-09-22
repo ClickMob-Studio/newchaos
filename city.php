@@ -380,7 +380,7 @@ if (isset($currentQuestSeason['id'])) {
                     <h4 class="text-center text-danger">Killer of the Day</h4>
                     <div class="text-center">
                         <?php
-                        $db->query("SELECT userid, kotd FROM ofthes WHERE userid NOT IN (?) ORDER BY kotd DESC LIMIT 1");
+                        $db->query("SELECT userid, kotd FROM ofthes WHERE kotd > 0 AND userid NOT IN (?) ORDER BY kotd DESC LIMIT 1");
                         $db->execute([$admin_ids]);
                         $kotd = $db->fetch_row(true);
 
@@ -401,7 +401,7 @@ if (isset($currentQuestSeason['id'])) {
                     <h4 class="text-center text-danger">Leveller of the Day</h4>
                     <div class="text-center">
                         <?php
-                        $db->query("SELECT id, todaysexp FROM grpgusers WHERE `admin` != 1 ORDER BY todaysexp DESC LIMIT 1");
+                        $db->query("SELECT id, todaysexp FROM grpgusers WHERE todaysexp > 0 AND `admin` != 1 ORDER BY todaysexp DESC LIMIT 1");
                         $db->execute();
                         $lotd = $db->fetch_row(true);
 
@@ -422,7 +422,7 @@ if (isset($currentQuestSeason['id'])) {
                     <h4 class="text-center text-danger">Buster of the Day</h4>
                     <div class="text-center">
                         <?php
-                        $db->query("SELECT userid, botd FROM ofthes WHERE userid NOT IN (?) ORDER BY botd DESC LIMIT 1");
+                        $db->query("SELECT userid, botd FROM ofthes WHERE botd > 0 AND userid NOT IN (?) ORDER BY botd DESC LIMIT 1");
                         $db->execute([$admin_ids]);
                         $botd = $db->fetch_row(true);
 
@@ -449,7 +449,7 @@ if (isset($currentQuestSeason['id'])) {
                     <h4 class="text-center" style="color: green;">Highest killer in <!_-cityname-_!> this hour</h4>
                     <div class="text-center">
                         <?php
-                        $db->query("SELECT id, koth FROM grpgusers WHERE `admin` != 1 ORDER BY koth DESC LIMIT 1");
+                        $db->query("SELECT id, koth FROM grpgusers WHERE koth > 0 AND `admin` != 1 ORDER BY koth DESC LIMIT 1");
                         $db->execute();
                         $koth = $db->fetch_row(true);
                         if ($koth['koth'] == 0) {
@@ -469,7 +469,7 @@ if (isset($currentQuestSeason['id'])) {
                     <h4 class="text-center" style="color: green;">Highest Leveller this hour</h4>
                     <div class="text-center">
                         <?php
-                        $db->query("SELECT id, loth FROM grpgusers WHERE `admin` = 0 ORDER BY loth DESC LIMIT 1");
+                        $db->query("SELECT id, loth FROM grpgusers WHERE loth > 0 AND `admin` = 0 ORDER BY loth DESC LIMIT 1");
                         $db->execute();
                         $loth = $db->fetch_row(true);
                         if ($loth['loth'] == 0) {
@@ -490,7 +490,7 @@ if (isset($currentQuestSeason['id'])) {
                     <h4 class="text-center" style="color: green;">Highest Buster of the hour</h4>
                     <div class="text-center">
                         <?php
-                        $db->query("SELECT id, `both` FROM grpgusers WHERE `admin` = 0 ORDER BY `both` DESC LIMIT 1");
+                        $db->query("SELECT id, `both` FROM grpgusers WHERE `both` > 0 AND `admin` = 0 ORDER BY `both` DESC LIMIT 1");
                         $db->execute();
                         $both = $db->fetch_row(true);
                         if ($both['both'] == 0) {
@@ -514,7 +514,7 @@ if (isset($currentQuestSeason['id'])) {
                     <h4 class="text-center" style="color: orange;">Mugger of the Hour</h4>
                     <div class="text-center">
                         <?php
-                        $db->query("SELECT id, moth FROM grpgusers WHERE `admin` != 1 ORDER BY moth DESC LIMIT 1");
+                        $db->query("SELECT id, moth FROM grpgusers WHERE `moth` > 0 AND `admin` != 1 ORDER BY moth DESC LIMIT 1");
                         $db->execute();
                         $moth = $db->fetch_row(true);
                         if ($moth['moth'] == 0) {
@@ -534,7 +534,7 @@ if (isset($currentQuestSeason['id'])) {
                     <h4 class="text-center" style="color: orange;">Mugger of the Day</h4>
                     <div class="text-center">
                         <?php
-                        $db->query("SELECT userid, motd FROM ofthes WHERE userid NOT IN (?) ORDER BY motd DESC LIMIT 1");
+                        $db->query("SELECT userid, motd FROM ofthes WHERE motd > 0 AND userid NOT IN (?) ORDER BY motd DESC LIMIT 1");
                         $db->execute([$admin_ids]);
                         $motd = $db->fetch_row(true);
 
@@ -559,7 +559,7 @@ if (isset($currentQuestSeason['id'])) {
                     <h4 class="text-center" style="color: orange;">Buster of the Day</h4>
                     <div class="text-center">
                         <?php
-                        $db->query("SELECT userid, botd FROM ofthes WHERE userid NOT IN (?) ORDER BY botd DESC LIMIT 1");
+                        $db->query("SELECT userid, botd FROM ofthes WHERE botd > 0 AND userid NOT IN (?) ORDER BY botd DESC LIMIT 1");
                         $db->execute([$admin_ids]);
                         $botd = $db->fetch_row(true);
 
