@@ -1304,11 +1304,11 @@ function Give_Pet($petid, $userid, $picture, $str = 10, $spe = 10, $def = 10, $n
     if ($name == null) {
         $db->query("SELECT `name` FROM petshop WHERE id = ?");
         $db->execute([$petid]);
-        $pet = $db->fetch_single();
-        if (!isset($pet)) {
+        $petName = $db->fetch_single();
+        if (!isset($petName)) {
             $name = "No Name";
         } else {
-            $name = $pet['name'];
+            $name = $petName;
         }
     }
 
