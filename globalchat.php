@@ -198,21 +198,19 @@ include 'header.php';
     .bb-toolbar {
         display: flex;
         flex-wrap: wrap;
-        gap: 6px;
-        margin-bottom: 10px;
     }
 
     .bb-toolbar button {
         font-family: system-ui, sans-serif;
         font-size: 14px;
         font-weight: 600;
-        padding: 4px 8px;
         border-radius: 6px;
         border: 1px solid #444;
         background: #1a1a1a;
         color: #eee;
         cursor: pointer;
         transition: background 0.15s, transform 0.1s;
+        margin: 2px !important;
     }
 
     .bb-toolbar button:hover {
@@ -558,10 +556,7 @@ TEXT;
             echo '</table>';
         }
 
-
         print "</div>";
-
-
 
         include("footer.php");
         ?>
