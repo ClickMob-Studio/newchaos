@@ -53,7 +53,7 @@ include 'header.php';
 
     .emoji-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(var(--emoji-size), 1fr));
+        grid-template-columns: repeat(auto-fill, 44px);
         gap: var(--emoji-gap);
     }
 
