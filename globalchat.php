@@ -95,6 +95,11 @@ include 'header.php';
         object-fit: contain;
         image-rendering: -webkit-optimize-contrast;
     }
+
+    .emoji-picker {
+        background: transparent;
+        border: none;
+    }
 </style>
 
 <div class='box_top'>Global chat</div>
