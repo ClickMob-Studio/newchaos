@@ -61,8 +61,12 @@ $commands = array(
 $output = '';
 foreach ($commands as $command) {
     $tmp = shell_exec($command);
+    if ($tmp != null) {
+        $tmp = trim($tmp);
+    }
+
     $output .= "<span style=\"color: #6BE234;\">$</span> <span style=\"color: #729FCF;\">{$command}\n</span>";
-    $output .= htmlentities(trim($tmp)) . "\n";
+    $output .= htmlentities($tmp) . "\n";
 }
 
 $outp = shell_exec('composer update');
