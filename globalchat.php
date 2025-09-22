@@ -377,14 +377,14 @@ TEXT;
         </style>
 
         <div class="bb-toolbar">
-            <button type="button" data-bb="[b][/b]" data-caret="4">B</button>
-            <button type="button" data-bb="[i][/i]" data-caret="4">I</button>
-            <button type="button" data-bb="[u][/u]" data-caret="4">U</button>
-            <button type="button" data-bb="[s][/s]" data-caret="4">S</button>
-            <button type="button" data-bb="[url][/url]" data-caret="6">URL</button>
-            <button type="button" data-bb="[img][/img]" data-caret="6">IMG</button>
-            <button type="button" data-bb="[tag][/tag]" data-caret="6">TAG</button>
-            <button type="button" data-bb="[youtube][/youtube]" data-caret="10">YT</button>
+            <button type="button" data-open="[b]" data-close="[/b]">B</button>
+            <button type="button" data-open="[i]" data-close="[/i]">I</button>
+            <button type="button" data-open="[u]" data-close="[/u]">U</button>
+            <button type="button" data-open="[s]" data-close="[/s]">S</button>
+            <button type="button" data-open="[url]" data-close="[/url]">URL</button>
+            <button type="button" data-open="[img]" data-close="[/img]">IMG</button>
+            <button type="button" data-open="[tag]" data-close="[/tag]">TAG</button>
+            <button type="button" data-open="[youtube]" data-close="[/youtube]">YT</button>
         </div>
 
         <form name="message" id="chat-form" onsubmit="return sendGmail();">
