@@ -7,7 +7,7 @@ include 'header.php';
         --emoji-size: 36px;
         --emoji-gap: 6px;
         --emoji-radius: 10px;
-        --emoji-bg: #393939;
+        --emoji-bg: #262626;
         --emoji-bg-alt: #f6f7f9;
         --emoji-hover: #eef1f5;
         --emoji-border: #393939;
