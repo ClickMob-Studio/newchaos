@@ -1441,8 +1441,8 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                         href="store.php#VIP"><?= ($user_class->rmdays > 0 ? $user_class->rmdays . ' VIP days' : 'Not VIP') ?></a>
                                 </div>
 
-                                <div class='time d-none d-lg-block mt-3' style='text-align: left' ;>
-                                    <span style="font-size: 11px;"><?php echo date('m/d h:i a', $now); ?></span>
+                                <div class='time d-none d-lg-block mt-2' style='text-align: left' ;>
+                                    <span style="font-size: 12px;"><?php echo date('m/d h:i a', $now); ?></span>
                                 </div>
                             </div>
                             <div class="col-3 text-center new_avarta">
