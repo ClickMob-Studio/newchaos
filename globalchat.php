@@ -5,13 +5,12 @@ include 'header.php';
 <style>
     .emoji-picker {
         --emoji-size: 36px;
-        /* visual size of each tile */
         --emoji-gap: 6px;
         --emoji-radius: 10px;
         --emoji-bg: #fff;
         --emoji-bg-alt: #f6f7f9;
         --emoji-hover: #eef1f5;
-        --emoji-border: #e5e7eb;
+        --emoji-border: #393939;
         --emoji-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
         display: block;
         margin: 8px 0;
@@ -24,14 +23,14 @@ include 'header.php';
         gap: .4rem;
         padding: 6px 10px;
         background: var(--emoji-bg);
-        border: 1px solid var(--emoji-border);
+        border: 1px solid #393939;
         border-radius: 999px;
         box-shadow: var(--emoji-shadow);
         user-select: none;
     }
 
     .emoji-picker[open] .emoji-summary {
-        background: var(--emoji-bg-alt);
+        background: #262626;
     }
 
     .emoji-panel {
@@ -98,7 +97,6 @@ include 'header.php';
         width: 100%;
         height: 100%;
         object-fit: contain;
-        /* keep original aspect ratio */
         image-rendering: -webkit-optimize-contrast;
     }
 </style>
