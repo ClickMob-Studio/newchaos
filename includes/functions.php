@@ -1295,8 +1295,8 @@ function Give_Pet($petid, $userid, $picture, $str = 10, $spe = 10, $def = 10, $n
         $userid,
         $petid
     ));
-    $pet = $db->fetch_single();
-    if (isset($pet)) {
+    $pet = $db->fetch_row(true);
+    if (!empty($pet)) {
         error_log("User $userid tried to get pet $petid but already has it. -> " . json_encode($pet));
         return false;
     }
