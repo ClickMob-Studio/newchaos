@@ -1449,7 +1449,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                 <div class="col-3 d-flex align-items-center">
                                     <span>Level <div class="level"><?= $user_class->level; ?></div></span>
                                 </div>
-                                <div class="col-9 d-flex align-items-center d-lg-none progress dcStatsBars"
+                                <div class="col-9 d-flex align-items-center align-items-center2 progress dcStatsBars"
                                     data-toggle="tooltip" title="<?= $user_class->formattedexp; ?>">
                                     <div class="progress-bar exp-bar" role="progressbar"
                                         style="width:<?= $user_class->exppercent; ?>%"></div>
