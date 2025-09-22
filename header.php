@@ -1203,7 +1203,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
             <div class="col-3">
                 <div class="d-flex">
                     <p class="text-center">Level:</p>
-                    <div class="level"><?= $user_class->level; ?></div>
+                    <div class="level" style="margin-left:4px;"><?= $user_class->level; ?></div>
                 </div>
                 <div class="progress">
                     <div class="progress-bar bg-success" role="progressbar"
