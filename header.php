@@ -1447,7 +1447,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                             </div>
                             <div class="col-3 text-center new_avarta">
                                 <div>
-                                    Level <div class="level"><?= $user_class->level; ?></div>
+                                    <span>Level <div class="level"><?= $user_class->level; ?></div></span>
                                 </div>
                                 <div class="d-flex d-lg-none progress dcStatsBars" data-toggle="tooltip"
                                     title="<?= $user_class->formattedexp; ?>">
