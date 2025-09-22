@@ -1433,6 +1433,9 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                     <div class="p-3 dcPanel dcAvatarPanel d-none d-md-block">
                         <div class="row mb-3">
                             <div class="col-5 dcUserName">
+                                <div class="d-none d-lg-block col-3">
+                                    <img style="width: 50px;" src="<?= $user_class->avatar; ?>" alt="">
+                                </div>
                                 <span class="dcHeaderUsername">
                                     <?= $user_class->formattedname; ?>
                                 </span>
@@ -1445,7 +1448,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                     <span style="font-size: 12px;"><?php echo date('m/d h:i a', $now); ?></span>
                                 </div>
                             </div>
-                            <div class="col-7 text-center d-flex row g-0">
+                            <div class="col-7 text-center d-flex d-lg-none row g-0">
                                 <div class="row my-0 my-lg-1">
                                     <div class="col-3 d-flex align-items-center">
                                         <div class="d-flex">Level <div class="level" style="margin-left: 4px;">
@@ -1460,9 +1463,6 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                                 style="width:<?= $user_class->exppercent; ?>%"></div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="d-none d-lg-block col-3">
-                                    <img style="width: 50px;" src="<?= $user_class->avatar; ?>" alt="">
                                 </div>
                             </div>
                         </div>
