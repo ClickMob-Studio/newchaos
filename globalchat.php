@@ -172,7 +172,6 @@ include 'header.php';
         min-height: 28px;
         border-radius: 6px;
         border: 1px solid #2a2a2a;
-        background: #0b0b0b;
         display: flex;
         align-items: center;
         padding: 4px 8px;
