@@ -1432,10 +1432,10 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                 <div class="col-12 col-lg-4">
                     <div class="p-3 dcPanel dcAvatarPanel d-none d-md-block">
                         <div class="row mb-3">
+                            <div class="d-none d-lg-block col-3">
+                                <img style="width: 50px;" src="<?= $user_class->avatar; ?>" alt="">
+                            </div>
                             <div class="col-5 dcUserName">
-                                <div class="d-none d-lg-block col-3">
-                                    <img style="width: 50px;" src="<?= $user_class->avatar; ?>" alt="">
-                                </div>
                                 <span class="dcHeaderUsername">
                                     <?= $user_class->formattedname; ?>
                                 </span>
