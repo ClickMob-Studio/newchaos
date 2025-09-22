@@ -5,7 +5,7 @@ include 'header.php';
 <style>
     .emoji-picker {
         --emoji-size: 36px;
-        --emoji-gap: 6px;
+        --emoji-gap: 2px;
         --emoji-radius: 10px;
         --emoji-bg: #262626;
         --emoji-bg-alt: #f6f7f9;
@@ -13,7 +13,7 @@ include 'header.php';
         --emoji-border: #393939;
         --emoji-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
         display: block;
-        margin: 8px 0;
+        margin: 6px 0;
     }
 
     .emoji-summary {
@@ -120,14 +120,16 @@ include 'header.php';
         max-height: 12rem;
         resize: vertical;
         padding: 0.75rem 1rem;
-        font-size: 0.95rem;
-        line-height: 1.4;
+
+        font-size: 16px;
+        line-height: 1.5;
+        font-family: system-ui, sans-serif;
+
         border-radius: 8px;
         border: 2px solid #ff6218;
         background: #000;
         color: #fff;
         outline: none;
-        transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     .chat-input textarea:focus {
