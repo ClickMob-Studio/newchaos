@@ -388,8 +388,9 @@ if (isset($currentQuestSeason['id'])) {
                         $db->execute([$user_class->id]);
                         $ofthes = $db->fetch_row(true);
 
+                        $kotd = empty($kotd) ? 0 : prettynum($kotd['kotd']);
                         $name = empty($kotd['userid']) ? 'Nobody' : formatName($kotd['userid']);
-                        echo "<br />" . $name . "<br /><br />Killed: " . prettynum($kotd['kotd']) . " Mobsters.<br /><br />You Killed: " . prettynum($user_class->todayskills) . " Mobsters<br /><br />";
+                        echo "<br />" . $name . "<br /><br />Killed: " . $kotd . " Mobsters.<br /><br />You Killed: " . prettynum($user_class->todayskills) . " Mobsters<br /><br />";
                         ?>
                         <h3>Reward: 10,000 Points</h3>
                     </div>
@@ -410,8 +411,10 @@ if (isset($currentQuestSeason['id'])) {
                         $db->execute([$user_class->id]);
                         $grpgusers = $db->fetch_row(true);
 
+
+                        $exp = empty($lotd['todaysexp']) ? 0 : prettynum($lotd['todaysexp']);
                         $name = empty($lotd['id']) ? 'Nobody' : formatName($lotd['id']);
-                        echo "<br />" . $name . "<br /><br />Gained: " . prettynum($lotd['todaysexp']) . " EXP<br /><br />You: " . prettynum($grpgusers['todaysexp']) . " EXP<br /><br />";
+                        echo "<br />" . $name . "<br /><br />Gained: " . $exp . " EXP<br /><br />You: " . prettynum($grpgusers['todaysexp']) . " EXP<br /><br />";
                         ?>
                         <h3>Reward: 10,000 Points</h3>
                     </div>
@@ -432,8 +435,9 @@ if (isset($currentQuestSeason['id'])) {
                         $db->execute([$user_class->id]);
                         $ofthes = $db->fetch_row(true);
 
+                        $botd = empty($botd) ? 0 : prettynum($botd['botd']);
                         $name = empty($botd['userid']) ? 'Nobody' : formatName($botd['userid']);
-                        echo "<br />" . $name . "<br /><br />Busted: " . prettynum($botd['botd']) . " Mobsters.<br /><br />You busted: " . prettynum($ofthes['botd']) . " Mobsters<br /><br />";
+                        echo "<br />" . $name . "<br /><br />Busted: " . $botd . " Mobsters.<br /><br />You busted: " . prettynum($ofthes['botd']) . " Mobsters<br /><br />";
                         ?>
                         <h3>Reward: 10,000 Points</h3>
                     </div>
