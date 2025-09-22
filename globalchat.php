@@ -110,7 +110,6 @@ include 'header.php';
         gap: 0.5rem;
         width: 100%;
         padding: 0.5rem;
-        background: #111;
         border-top: 1px solid #333;
     }
 
