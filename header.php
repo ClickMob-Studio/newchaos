@@ -1451,7 +1451,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                 </div>
                                 <div class="col-9 d-flex align-items-center d-lg-none align-items-center2 progress dcStatsBars stat-bar"
                                     data-toggle="tooltip" title="<?= $user_class->formattedexp; ?>">
-                                    <div class="progress-bar exp-bar" role="progressbar"
+                                    <div class="progress-bar stat-bar" role="progressbar"
                                         style="width:<?= $user_class->exppercent; ?>%"></div>
                                 </div>
                                 <div class="d-none d-lg-block col-3">
