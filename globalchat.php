@@ -1,6 +1,108 @@
 <?php
 include 'header.php';
 ?>
+
+<style>
+    .emoji-picker {
+        --emoji-size: 36px;
+        /* visual size of each tile */
+        --emoji-gap: 6px;
+        --emoji-radius: 10px;
+        --emoji-bg: #fff;
+        --emoji-bg-alt: #f6f7f9;
+        --emoji-hover: #eef1f5;
+        --emoji-border: #e5e7eb;
+        --emoji-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        display: block;
+        margin: 8px 0;
+    }
+
+    .emoji-summary {
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: .4rem;
+        padding: 6px 10px;
+        background: var(--emoji-bg);
+        border: 1px solid var(--emoji-border);
+        border-radius: 999px;
+        box-shadow: var(--emoji-shadow);
+        user-select: none;
+    }
+
+    .emoji-picker[open] .emoji-summary {
+        background: var(--emoji-bg-alt);
+    }
+
+    .emoji-panel {
+        margin-top: 8px;
+        padding: 10px;
+        background: var(--emoji-bg);
+        border: 1px solid var(--emoji-border);
+        border-radius: 12px;
+        box-shadow: var(--emoji-shadow);
+    }
+
+    .emoji-toolbar {
+        display: flex;
+        margin-bottom: 8px;
+    }
+
+    .emoji-search {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid var(--emoji-border);
+        border-radius: 8px;
+        font: inherit;
+    }
+
+    .emoji-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(var(--emoji-size), 1fr));
+        gap: var(--emoji-gap);
+    }
+
+    .emoji-btn {
+        display: grid;
+        place-items: center;
+        width: var(--emoji-size);
+        height: var(--emoji-size);
+        border: 1px solid var(--emoji-border);
+        border-radius: var(--emoji-radius);
+        background: #fff;
+        padding: 0;
+        cursor: pointer;
+        transition: transform 80ms ease, background 80ms ease;
+    }
+
+    .emoji-btn:hover {
+        background: var(--emoji-hover);
+    }
+
+    .emoji-btn:active {
+        transform: scale(0.98);
+    }
+
+    .emoji-btn:focus {
+        outline: 2px solid #7aa2ff;
+        outline-offset: 2px;
+    }
+
+    .emoji-imgwrap {
+        width: 70%;
+        height: 70%;
+        display: block;
+    }
+
+    .emoji-btn img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        /* keep original aspect ratio */
+        image-rendering: -webkit-optimize-contrast;
+    }
+</style>
+
 <div class='box_top'>Global chat</div>
 <div class='box_middle'>
     <div class='pad'>
