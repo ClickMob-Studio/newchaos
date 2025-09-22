@@ -1445,7 +1445,7 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                     <span style="font-size: 12px;"><?php echo date('m/d h:i a', $now); ?></span>
                                 </div>
                             </div>
-                            <div class="col-7 text-center d-flex">
+                            <div class="col-7 text-center d-flex g-0">
                                 <div class="row my-0 my-lg-1">
 
                                     <div class="col-3 d-flex align-items-center">
