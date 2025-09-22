@@ -106,7 +106,6 @@ if (isset($_POST['msg'])) {
         echo 'Quote';
         echo '</div>';
         echo '</div>';
-        echo '<hr style="border:0;border-top:thin solid #333;" />';
         echo '<div class="flexcont">';
         echo '<div class="flexele" style="border-right:thin solid #333;text-align:center;">';
         echo '<img src="' . $avatar . '" height="150" width="150" style="border:1px solid #666666;margin-bottom: 6px;" />';

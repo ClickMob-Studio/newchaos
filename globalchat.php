@@ -197,7 +197,6 @@ TEXT;
             </tr>
         </table>
         <?php
-        echo '<hr style="border:0;border-top:thin solid #333;" />';
         echo '<table><form name="message">';
         echo '<tr><td><textarea autofocus name="msgtext" id="reply" oninput="typing();" style="width:90%;height:125px;"></textarea><br /></td>';
         echo '<td><input type="submit" name="submit" onclick="return sendGmail();" value="Post" /></td></tr>';
@@ -290,7 +289,6 @@ TEXT;
             $quotetext = str_replace(array('\'', '"'), array('\\\'', '&quot;'), $row['body']);
             echo '<div class="floaty">';
             echo '</div>';
-            echo '<hr style="border:0;border-top:thin solid #333;" />';
             echo '<table class="flexcont" style="width:100%;">';
             echo '<tr>';
 
