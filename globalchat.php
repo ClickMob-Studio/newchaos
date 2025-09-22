@@ -556,46 +556,27 @@ TEXT;
         ?>
 
         <script>
-            (function () {
+            (() => {
                 function getField() {
-                    return document.getElementById('reply')
+                    return document.getElementById("reply")
                         || (document.message && document.message.msgtext)
                         || null;
                 }
 
-                function addBB(tagA, tagB) {
+                function wrapSelection(openTag, closeTag) {
                     const field = getField();
                     if (!field) return;
 
-                    let openTag = '', closeTag = '';
-
-                    if (typeof tagB === 'string') {
-                        openTag = String(tagA ?? '');
-                        closeTag = String(tagB ?? '');
-                    } else {
-                        const s = String(tagA ?? '');
-                        const m = s.match(/^(\[[^\]]+\])(\[\/[^\]]+\])$/);
-                        if (m) {
-                            openTag = m[1];
-                            closeTag = m[2];
-                        } else {
-                            openTag = s;
-                            closeTag = '';
-                        }
-                    }
-
-                    if (openTag == null) openTag = '';
-                    if (closeTag == null) closeTag = '';
-
                     field.focus();
-                    const value = String(field.value ?? '');
-                    const start = (typeof field.selectionStart === 'number') ? field.selectionStart : value.length;
-                    const end = (typeof field.selectionEnd === 'number') ? field.selectionEnd : value.length;
+                    const value = field.value;
+                    const start = field.selectionStart ?? value.length;
+                    const end = field.selectionEnd ?? value.length;
 
                     if (start !== end) {
                         const before = value.slice(0, start);
                         const selected = value.slice(start, end);
                         const after = value.slice(end);
+
                         field.value = before + openTag + selected + closeTag + after;
 
                         const newStart = start + openTag.length;
@@ -605,12 +586,20 @@ TEXT;
                         const before = value.slice(0, start);
                         const after = value.slice(start);
                         field.value = before + openTag + closeTag + after;
+
                         const caret = start + openTag.length;
                         field.setSelectionRange(caret, caret);
                     }
 
-                    field.dispatchEvent(new Event('input', { bubbles: true }));
+                    field.dispatchEvent(new Event("input", { bubbles: true }));
                 }
+
+                document.addEventListener("click", (e) => {
+                    const btn = e.target.closest(".bb-toolbar button[data-open][data-close]");
+                    if (!btn) return;
+
+                    wrapSelection(btn.dataset.open, btn.dataset.close);
+                });
             })();
 
             document.addEventListener('click', e => {
