@@ -311,7 +311,7 @@ TEXT;
             }
         </style>
 
-        <table style="margin-bottom:-10px;">
+        <table style="margin-bottom: 10px;">
             <tr>
                 <td class="flexcont">
                     <span class="flexele forumhover" onclick="addBB('[b][/b]', 4);return false;">[b]</span>
@@ -337,16 +337,6 @@ TEXT;
                 <td class="flexcont">
                     <span class="flexele forumhover"
                         onclick="addBB('[youtube][/youtube]', 10);return false;">[youtube]</span>
-                </td>
-                <td class="flexcont">
-                    <span id="semojis" class="forumhover" onclick="return showemojis();"
-                        style="display:<?php echo ($user_class->hideemojis) ? 'block' : 'none'; ?>;flex:2;">Show
-                        Emojis</span>
-                </td>
-                <td class="flexcont">
-                    <span id="hemojis" class="forumhover" onclick="return hideemojis();"
-                        style="display:<?php echo ($user_class->hideemojis) ? 'none' : 'block'; ?>;flex:2;">Hide
-                        Emojis</span>
                 </td>
             </tr>
         </table>
