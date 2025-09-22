@@ -1201,9 +1201,10 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                 </div>
             </div>
             <div class="col-3">
-                <p class="text-center">Level:
-                <div class="level"><?= $user_class->level; ?></div>
-                </p>
+                <div class="d-flex">
+                    <p class="text-center">Level:</p>
+                    <div class="level"><?= $user_class->level; ?></div>
+                </div>
                 <div class="progress">
                     <div class="progress-bar bg-success" role="progressbar"
                         style="background-color: #ff6218 !important; width: <?= $user_class->exppercent; ?>%"
