@@ -1446,17 +1446,20 @@ echo '<script src="js/java.js?12" type="text/javascript"></script>';
                                 </div>
                             </div>
                             <div class="col-7 text-center d-flex">
-                                <div class="col-3 d-flex align-items-center">
-                                    <div class="d-flex">Level <div class="level" style="margin-left: 4px;">
-                                            <?= $user_class->level; ?>
+                                <div class="row">
+
+                                    <div class="col-3 d-flex align-items-center">
+                                        <div class="d-flex">Level <div class="level" style="margin-left: 4px;">
+                                                <?= $user_class->level; ?>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-9 d-flex align-items-center d-lg-none align-items-center2"
-                                    data-toggle="tooltip" title="<?= $user_class->formattedexp; ?>">
-                                    <div class="progress dcStatsBars stat-bar">
-                                        <div class="progress-bar" role="progressbar"
-                                            style="width:<?= $user_class->exppercent; ?>%"></div>
+                                    <div class="col-9 d-flex align-items-center d-lg-none align-items-center2"
+                                        data-toggle="tooltip" title="<?= $user_class->formattedexp; ?>">
+                                        <div class="progress dcStatsBars stat-bar">
+                                            <div class="progress-bar" role="progressbar"
+                                                style="width:<?= $user_class->exppercent; ?>%"></div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="d-none d-lg-block col-3">
