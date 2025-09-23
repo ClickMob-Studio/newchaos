@@ -1,1 +1,85 @@
-const _0x30772 = _0x5382; (function (_0x165fec, _0x1b4047) { const _0x409e69 = _0x5382, _0x2bc3a3 = _0x165fec(); while (!![]) { try { const _0x267a12 = -parseInt(_0x409e69(0x1a4)) / 0x1 + parseInt(_0x409e69(0x1ac)) / 0x2 + -parseInt(_0x409e69(0x1ad)) / 0x3 * (parseInt(_0x409e69(0x1a5)) / 0x4) + parseInt(_0x409e69(0x1b3)) / 0x5 * (-parseInt(_0x409e69(0x1bf)) / 0x6) + -parseInt(_0x409e69(0x19e)) / 0x7 * (-parseInt(_0x409e69(0x1a8)) / 0x8) + parseInt(_0x409e69(0x1a2)) / 0x9 * (-parseInt(_0x409e69(0x1bd)) / 0xa) + parseInt(_0x409e69(0x1ba)) / 0xb; if (_0x267a12 === _0x1b4047) break; else _0x2bc3a3['push'](_0x2bc3a3['shift']()); } catch (_0x76ad71) { _0x2bc3a3['push'](_0x2bc3a3['shift']()); } } }(_0xa856, 0x5527b)); if (window['__ccACInstalled']) return; window['__ccACInstalled'] = !![]; const ENDPOINT = _0x30772(0x1bc), PAGE_HINT = location[_0x30772(0x1b5)], batch = new Map(), FLUSH_MS = 0xbb8; function aTB(_0x199b42, _0x49fa4a = {}) { const _0xdbbbad = _0x30772, _0x116bf3 = batch[_0xdbbbad(0x19a)](_0x199b42) || { 'count': 0x0, 'last': null }; _0x116bf3[_0xdbbbad(0x1b4)] += 0x1, _0x116bf3[_0xdbbbad(0x1be)] = _0x49fa4a, batch[_0xdbbbad(0x19c)](_0x199b42, _0x116bf3); } async function fB() { const _0x6f866a = _0x30772; if (batch[_0x6f866a(0x19f)] === 0x0) return; const _0x17c790 = []; for (const [_0x2d7afb, { count: _0xa39f9c, last: _0x451665 }] of batch[_0x6f866a(0x1b7)]()) { _0x17c790[_0x6f866a(0x1ae)]({ 'reason': _0x2d7afb, 'count': _0xa39f9c, 'last': _0x451665, 'page_hint': PAGE_HINT }); } batch['clear'](); try { await fetch(ENDPOINT, { 'method': _0x6f866a(0x1b6), 'headers': { 'Content-Type': _0x6f866a(0x19d) }, 'body': JSON[_0x6f866a(0x198)]({ 'batch': _0x17c790 }), 'keepalive': !![] }); } catch (_0x5f1b4a) { } } setInterval(fB, FLUSH_MS), document[_0x30772(0x1a1)](_0x30772(0x199), () => { const _0x1a0519 = _0x30772; if (document[_0x1a0519(0x1b9)] === _0x1a0519(0x1a9)) fB(); }), window[_0x30772(0x1a1)](_0x30772(0x1aa), fB); let clickCount = 0x0; document[_0x30772(0x1a1)](_0x30772(0x19b), () => { const _0x48cd5d = _0x30772; clickCount++, clickCount > 0x12c && (aTB(_0x48cd5d(0x1a0), { 'count': clickCount }), clickCount = 0x0); }, { 'capture': !![] }), [_0x30772(0x1b1), 'click', _0x30772(0x1a6), _0x30772(0x1b2)][_0x30772(0x1ab)](_0xd3c0b3 => { const _0x20f657 = _0x30772; document[_0x20f657(0x1a1)](_0xd3c0b3, _0x12526a => { const _0x402430 = _0x20f657; if (_0x12526a[_0x402430(0x1b0)] === ![]) { aTB('click_not_trusted', { 'type': _0xd3c0b3 }); return; } _0xd3c0b3 === 'auxclick' && (typeof _0x12526a[_0x402430(0x1a7)] !== 'number' || _0x12526a[_0x402430(0x1a7)] > 0x2) && aTB(_0x402430(0x1af), { 'button': _0x12526a[_0x402430(0x1a7)] }); }, { 'capture': !![] }); }); let dtWO = ![]; function cDT() { const _0x313ce5 = _0x30772, _0x1c2676 = 0xa0, _0x3c4808 = window[_0x313ce5(0x1bb)] - window['innerWidth'], _0x217f8a = window[_0x313ce5(0x1a3)] - window['innerHeight']; return _0x3c4808 > _0x1c2676 || _0x217f8a > _0x1c2676; } function _0xa856() { const _0x6890c5 = ['dev_tools_is_open', 'visibilityState', '7028813dmCrAZ', 'outerWidth', '/ajax_autoclick_detection.php', '18170ZxsLZx', 'last', '46164iFAvKZ', 'stringify', 'visibilitychange', 'get', 'click', 'set', 'application/json', '287mfFVgi', 'size', 'click_count', 'addEventListener', '513fNMTUl', 'outerHeight', '386663TztTSe', '4640jkCqoa', 'auxclick', 'button', '123944VLhVWf', 'hidden', 'pagehide', 'forEach', '1139370gUQheI', '987apASPB', 'push', 'aux_click', 'isTrusted', 'pointerdown', 'contextmenu', '405OheieF', 'count', 'pathname', 'POST', 'entries']; _0xa856 = function () { return _0x6890c5; }; return _0xa856(); } function _0x5382(_0x56a312, _0x1c9fb9) { const _0xa8561b = _0xa856(); return _0x5382 = function (_0x538281, _0x4c40c9) { _0x538281 = _0x538281 - 0x198; let _0x3dc136 = _0xa8561b[_0x538281]; return _0x3dc136; }, _0x5382(_0x56a312, _0x1c9fb9); } setInterval(() => { const _0x548eff = _0x30772, _0x277e1a = cDT(); if (_0x277e1a && !dtWO) aTB(_0x548eff(0x1b8)); dtWO = _0x277e1a; }, 0x1388);
+if (window.__ccACInstalled) return;
+window.__ccACInstalled = true;
+
+const ENDPOINT = '/ajax_autoclick_detection.php';
+const PAGE_HINT = location.pathname;
+const batch = new Map();
+const FLUSH_MS = 3000;
+
+function aTB(reason, extra = {}) {
+    const cur = batch.get(reason) || { count: 0, last: null };
+    cur.count += 1;
+    cur.last = extra;
+    batch.set(reason, cur);
+}
+
+function flushWithBeacon() {
+    if (batch.size === 0) return;
+    const items = [];
+    for (const [reason, { count, last }] of batch.entries()) {
+        items.push({ reason, count, last, page_hint: PAGE_HINT });
+    }
+    batch.clear();
+    const blob = new Blob([JSON.stringify({ batch: items })], { type: 'application/json' });
+    navigator.sendBeacon(ENDPOINT, blob);
+}
+
+window.addEventListener('pagehide', flushWithBeacon);
+window.addEventListener('beforeunload', flushWithBeacon);
+
+async function fB() {
+    if (batch.size === 0) return;
+    const items = [];
+    for (const [reason, { count, last }] of batch.entries()) {
+        items.push({ reason, count, last, page_hint: PAGE_HINT });
+    }
+    batch.clear();
+    try {
+        await fetch(ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ batch: items }),
+            keepalive: true
+        });
+    } catch (_) { /* ignore */ }
+}
+
+setInterval(fB, FLUSH_MS);
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') fB();
+});
+window.addEventListener('pagehide', fB);
+
+let clickCount = 0;
+document.addEventListener('click', () => {
+    clickCount++;
+    if (clickCount > 300) {
+        aTB('click_count', { count: clickCount });
+        clickCount = 0;
+    }
+}, { capture: true });
+
+['pointerdown', 'click', 'auxclick', 'contextmenu'].forEach(type => {
+    document.addEventListener(type, evt => {
+        if (evt.isTrusted === false) {
+            aTB('click_not_trusted', { type });
+            return;
+        }
+        if (type === 'auxclick' && (typeof evt.button !== 'number' || evt.button > 2)) {
+            aTB('aux_click', { button: evt.button });
+        }
+    }, { capture: true });
+});
+
+let dtWO = false;
+function cDT() {
+    const threshold = 160;
+    const widthDiff = window.outerWidth - window.innerWidth;
+    const heightDiff = window.outerHeight - window.innerHeight;
+    return (widthDiff > threshold || heightDiff > threshold);
+}
+setInterval(() => {
+    const open = cDT();
+    if (open && !dtWO) aTB('dev_tools_is_open');
+    dtWO = open;
+}, 5000);
