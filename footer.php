@@ -67,3 +67,5 @@
         });
     });
 </script>
+
+<script src="assets/js/cc-ac.js"></script>

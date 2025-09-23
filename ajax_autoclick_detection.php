@@ -1,50 +1,67 @@
 <?php
 include "ajax_header.php";
 
-$userId = $_SESSION['id'];
-if (isset($_GET['page'])) {
-    $page = $_GET['page'];
-
-    $validPageChoices = array(
-        'jail',
-        'backalley',
-        'captcha'
-    );
-    if (!in_array($page, $validPageChoices)) {
-        echo json_encode(array('success' => false, 'message' => 'Invalid page'));
-        exit;
-    }
-} else {
-    echo json_encode(array('success' => false, 'message' => 'No page'));
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['success' => false, 'message' => 'Method not allowed']);
     exit;
 }
 
-if (isset($_GET['reason'])) {
-    $reason = $_GET['reason'];
-
-    $validReasonChoices = array(
-        'invalid_click',
-        'click_not_trusted',
-        'dev_tools_is_open',
-        'click_count',
-    );
-    if (!in_array($reason, $validReasonChoices)) {
-        echo json_encode(array('success' => false, 'message' => 'Invalid reason'));
-        exit;
-    }
-} else {
-    echo json_encode(array('success' => false, 'message' => 'No reason'));
+$input = json_decode(file_get_contents('php://input'), true) ?? [];
+$userId = $_SESSION['id'] ?? null;
+if (!$userId) {
+    http_response_code(401);
+    echo json_encode(['success' => false, 'message' => 'Unauthorized']);
     exit;
 }
 
+$validReasons = ['invalid_click', 'click_not_trusted', 'click_count', 'aux_click', 'dev_tools_is_open'];
+$now = time();
 
-$db->query("INSERT INTO autoclick_detection (userid, page, reason, timestamp) VALUES (?, ?, ?, ?)");
-$db->execute(array(
-    $userId,
-    $page,
-    $reason,
-    time()
-));
+$items = [];
 
-echo json_encode(array('success' => true, 'message' => 'Added'));
+if (isset($input['batch']) && is_array($input['batch'])) {
+    foreach ($input['batch'] as $it) {
+        $reason = $it['reason'] ?? null;
+        if (!in_array($reason, $validReasons, true))
+            continue;
+        $items[] = [
+            'reason' => $reason,
+            'page_hint' => $it['page_hint'] ?? null,
+            'count' => max(1, (int) ($it['count'] ?? 1)),
+            'last_meta' => isset($it['last']) ? json_encode($it['last']) : null,
+        ];
+    }
+} else {
+    $reason = $input['reason'] ?? null;
+    if (!in_array($reason, $validReasons, true)) {
+        echo json_encode(['success' => false, 'message' => 'Invalid reason']);
+        exit;
+    }
+
+    $items[] = [
+        'reason' => $reason,
+        'page_hint' => $input['page_hint'] ?? null,
+        'count' => max(1, (int) ($input['count'] ?? 1)),
+        'last_meta' => null,
+    ];
+}
+
+$ip = $_SERVER['REMOTE_ADDR'] ?? '';
+$ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
+$uri = $_SERVER['REQUEST_URI'] ?? '';
+$ref = $_SERVER['HTTP_REFERER'] ?? '';
+
+foreach ($items as $it) {
+    $db->query("INSERT INTO autoclick_detection 
+        (userid, reason, `page`, ip, user_agent, request_uri, referer, count, last_meta, timestamp) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $db->execute([$userId, $it['reason'], $it['page_hint'], $ip, $ua, $uri, $ref, $it['count'], $it['last_meta'], $now]);
+
+    if ($it['reason'] === 'click_not_trusted' || $it['reason'] === 'dev_tools_is_open') {
+        $_SESSION['force_captcha'] = true;
+    }
+}
+
+echo json_encode(['success' => true, 'message' => 'Logged']);
 exit;

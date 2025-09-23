@@ -2080,8 +2080,10 @@ function generateMacroToken($length = 10)
     return $randomString;
 }
 
-function macroTokenCheck($user_class)
+function macroTokenCheck($uid)
 {
+    global $db;
+
     if (!isset($_GET['token'])) {
         echo "
             <div class='alert alert-danger'>
@@ -2101,7 +2103,10 @@ function macroTokenCheck($user_class)
         exit;
     }
 
-    if ($user_class->macro_token != $token) {
+    $db->query("SELECT macro_token FROM grpgusers WHERE id = ? LIMIT 1");
+    $db->execute([$uid]);
+    $user_token = $db->fetch_single();
+    if ($user_token != $token) {
         echo
             "
             <div class='alert alert-danger'>
@@ -2112,7 +2117,7 @@ function macroTokenCheck($user_class)
     }
 
     $newMacroToken = generateMacroToken();
-    perform_query("UPDATE grpgusers SET macro_token = ? WHERE id = ?", [$newMacroToken, $user_class->id]);
+    perform_query("UPDATE grpgusers SET macro_token = ? WHERE id = ?", [$newMacroToken, $uid]);
     return $newMacroToken;
 }
 
@@ -4744,3 +4749,15 @@ $msPerAction = [
     "gym" => 30,
     "backalley" => 300,
 ];
+
+function checkAJAXCaptchaRequired($uid): bool
+{
+    if ($_SESSION['force_captcha']) {
+        $token = macroTokenCheck($uid);
+        header('Location: captcha.php?token=' . $token . '&page=' . urlencode($_SERVER['REQUEST_URI']));
+
+        return true;
+    }
+
+    return false;
+}

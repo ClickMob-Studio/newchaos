@@ -2,7 +2,7 @@
 
 include 'header.php';
 
-$newToken = macroTokenCheck($user_class);
+$newToken = macroTokenCheck($user_class->id);
 
 if (!isset($_GET['page'])) {
     diefun('Something went wrong.');

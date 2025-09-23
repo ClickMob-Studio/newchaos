@@ -7,7 +7,7 @@ include 'header.php';
 <div class="box_top"></div>
 <div class="box_middle">
     <?php
-    macroTokenCheck($user_class);
+    macroTokenCheck($user_class->id);
 
 
     if ($user_class->box_hunt_count < 3) {

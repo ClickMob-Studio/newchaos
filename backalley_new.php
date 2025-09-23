@@ -220,25 +220,11 @@ include 'footer.php';
         return false;
     }
 
-    // Check if developer tools are open when the page loads
-    // if (areDevToolsOpen()) {
-    //     var request = $.ajax({
-    //                     url: 'ajax_autoclick_detection.php?page=backalley&reason=dev_tools_is_open',
-    //                     method: "GET",
-    //                     dataType: "json"
-    //                 });
-    //                 request.done(function (res) {
-    //                     console.log(res);
-    //                 });
-    //     window.location.reload();
-    // }
-
     window.setTimeout(function () {
         window.location.reload();
     }, 5 * 60 * 1000); // Reload after 5 mins of being on the page
 
     let clickCount = 0;
-
     document.addEventListener("DOMContentLoaded", function () {
         document.body.addEventListener('click', function (evt) {
             clickCount = clickCount + 1;
@@ -246,28 +232,19 @@ include 'footer.php';
                 window.location.href = "/backalley_new.php?forced_captcha=yes";
             }
 
-            // Check for an actual mouse click (1, 2 & 3)
             if (evt.which > 3) {
                 var request = $.ajax({
                     url: 'ajax_autoclick_detection.php?page=backalley&reason=invalid_click',
                     method: "GET",
                     dataType: "json"
                 });
-                request.done(function (res) {
-                    console.log(res);
-                });
             }
 
-            if (evt.isTrusted) {
-
-            } else {
+            if (!evt.isTrusted) {
                 var request = $.ajax({
                     url: 'ajax_autoclick_detection.php?page=backalley&reason=click_not_trusted',
                     method: "GET",
                     dataType: "json"
-                });
-                request.done(function (res) {
-                    console.log(res);
                 });
             }
         }, true);

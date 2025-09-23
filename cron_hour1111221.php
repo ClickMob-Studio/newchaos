@@ -136,7 +136,7 @@ foreach ($queens as $line) {
         $twenty_percent = $owned_points - ($owned_points * 0.20);
 
         perform_query("UPDATE `grpgusers` SET `points` = `points` + ? WHERE `id` = ?", [$twenty_percent, $line['id']]);
-        Send_event($line['id'], "You earned " . $twenty_percent . " points for being the *Under Boss!");
+        Send_event($line['id'], "You earned " . $twenty_percent . " points for being the Under Boss!");
     }
 }
 
