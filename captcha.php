@@ -26,6 +26,8 @@ if (isset($_POST) && isset($_POST['code'])) {
     if ((int) $_POST['code'] == (int) $user_class->captcha) {
         perform_query("UPDATE `grpgusers` SET `captcha_timestamp` = ? WHERE `id` = ?", [time(), $user_class->id]);
 
+        unset($_SESSION['force_captcha']);
+
         if ($page === 'backalley') {
             header('Location: backalley_new.php');
         } else if ($page === 'jail') {
