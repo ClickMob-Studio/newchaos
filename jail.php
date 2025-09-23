@@ -484,29 +484,8 @@ if ($user_class->jail > 0) {
             });
         }, "json")
     }, 4000);
-
-    document.addEventListener("DOMContentLoaded", function () {
-        document.body.addEventListener('click', function (evt) {
-            if (evt.which > 3) {
-                var request = $.ajax({
-                    url: 'ajax_autoclick_detection.php?page=jail&reason=invalid_click',
-                    method: "GET",
-                    dataType: "json"
-                });
-            }
-
-            if (!evt.isTrusted) {
-                var request = $.ajax({
-                    url: 'ajax_autoclick_detection.php?page=jail&reason=click_not_trusted',
-                    method: "GET",
-                    dataType: "json"
-                });
-            }
-        }, true);
-    });
-
-
 </script>
+
 <?
 include 'footer.php';
 ?>

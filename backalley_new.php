@@ -186,87 +186,15 @@ include 'footer.php';
     }
 </style>
 <script type="text/javascript">
-
-    // Function to check if developer tools are open
-    function areDevToolsOpen() {
-        // Start with an arbitrary large value
-        let widthThreshold = window.outerWidth - window.innerWidth > 160;
-        let heightThreshold = window.outerHeight - window.innerHeight > 160;
-
-        // Check if the dimensions change when developer tools are opened
-        window.addEventListener('resize', function (event) {
-            // If the difference in dimensions is significant, consider developer tools open
-            let widthChanged = window.outerWidth - window.innerWidth > 160;
-            let heightChanged = window.outerHeight - window.innerHeight > 160;
-
-            if (widthChanged !== widthThreshold || heightChanged !== heightThreshold) {
-                var request = $.ajax({
-                    url: 'ajax_autoclick_detection.php?page=backalley&reason=dev_tools_is_open',
-                    method: "GET",
-                    dataType: "json"
-                });
-                request.done(function (res) {
-                    console.log(res);
-                });
-                window.location.reload();
-            }
-        });
-
-        // Check if dimensions are already at the threshold when the page loads
-        if (widthThreshold || heightThreshold) {
-            return true; // Consider developer tools open initially
-        }
-
-        return false;
-    }
-
     window.setTimeout(function () {
         window.location.reload();
     }, 5 * 60 * 1000); // Reload after 5 mins of being on the page
-
-    let clickCount = 0;
-    document.addEventListener("DOMContentLoaded", function () {
-        document.body.addEventListener('click', function (evt) {
-            clickCount = clickCount + 1;
-            if (clickCount > 600) {
-                window.location.href = "/backalley_new.php?forced_captcha=yes";
-            }
-
-            if (evt.which > 3) {
-                var request = $.ajax({
-                    url: 'ajax_autoclick_detection.php?page=backalley&reason=invalid_click',
-                    method: "GET",
-                    dataType: "json"
-                });
-            }
-
-            if (!evt.isTrusted) {
-                var request = $.ajax({
-                    url: 'ajax_autoclick_detection.php?page=backalley&reason=click_not_trusted',
-                    method: "GET",
-                    dataType: "json"
-                });
-            }
-        }, true);
-    });
 
     $(document).ready(function () {
         let requestInProcess = false;
         let preventClickTime = false;
 
         let lastClick;
-        // $("body").click(function (e) {
-        //     if (lastClick > 0) {
-        //         var clickDuration = ((new Date()).getTime() - lastClick)
-        //         if (clickDuration > 800) {
-        //             preventClickTime = false;
-        //         } else {
-        //             preventClickTime = true
-        //         }
-        //     }
-        //
-        //     lastClick = (new Date()).getTime();
-        // });
 
         <?php if ($userBaStats['zombie_rush_credits'] > 0): ?>
             $('.ba-btn').addClass('zombie-rush-mode');
