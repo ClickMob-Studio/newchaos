@@ -4,7 +4,7 @@ window.__ccACInstalled = true;
 const ENDPOINT = '/ajax_autoclick_detection.php';
 const PAGE_HINT = location.pathname;
 const batch = new Map();
-const FLUSH_MS = 6000;
+const FLUSH_MS = 3000;
 
 function aTB(reason, extra = {}) {
     const cur = batch.get(reason) || { count: 0, last: null };
@@ -37,11 +37,11 @@ document.addEventListener('visibilitychange', () => {
 window.addEventListener('pagehide', fB);
 
 let clickCount = 0;
-
 document.addEventListener('click', () => {
     clickCount++;
-    if (clickCount > 600) {
+    if (clickCount > 300) {
         aTB('click_count', { count: clickCount });
+        clickCount = 0;
     }
 }, { capture: true });
 
