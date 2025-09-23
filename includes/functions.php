@@ -4752,7 +4752,7 @@ $msPerAction = [
 
 function checkAJAXCaptchaRequired($uid): bool
 {
-    if ($_SESSION['force_captcha']) {
+    if (isset($_SESSION['force_captcha']) && $_SESSION['force_captcha'] === true) {
         $token = macroTokenCheck($uid);
         header('Location: captcha.php?token=' . $token . '&page=' . urlencode($_SERVER['REQUEST_URI']));
 
