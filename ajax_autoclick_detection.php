@@ -47,6 +47,12 @@ if (isset($input['batch']) && is_array($input['batch'])) {
     ];
 }
 
+if (empty($items)) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'message' => 'No valid items']);
+    exit;
+}
+
 $ip = $_SERVER['REMOTE_ADDR'] ?? '';
 $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
 $uri = $_SERVER['REQUEST_URI'] ?? '';
@@ -56,7 +62,14 @@ foreach ($items as $it) {
     $db->query("INSERT INTO autoclick_detection 
         (userid, reason, `page`, ip, user_agent, request_uri, referer, count, last_meta, timestamp) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $db->execute([$userId, $it['reason'], $it['page_hint'], $ip, $ua, $uri, $ref, $it['count'], $it['last_meta'], $now]);
+    $ok = $db->execute([$userId, $it['reason'], $it['page_hint'], $ip, $ua, $uri, $ref, $it['count'], $it['last_meta'], $now]);
+
+    if (!$ok) {
+        error_log('autoclick_detection insert failed');
+        http_response_code(500);
+        echo json_encode(['success' => false, 'message' => 'DB insert failed']);
+        exit;
+    }
 
     if ($it['reason'] === 'click_not_trusted' || $it['reason'] === 'dev_tools_is_open') {
         $_SESSION['force_captcha'] = true;

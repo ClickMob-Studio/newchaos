@@ -13,6 +13,20 @@ function aTB(reason, extra = {}) {
     batch.set(reason, cur);
 }
 
+function flushWithBeacon() {
+    if (batch.size === 0) return;
+    const items = [];
+    for (const [reason, { count, last }] of batch.entries()) {
+        items.push({ reason, count, last, page_hint: PAGE_HINT });
+    }
+    batch.clear();
+    const blob = new Blob([JSON.stringify({ batch: items })], { type: 'application/json' });
+    navigator.sendBeacon(ENDPOINT, blob);
+}
+
+window.addEventListener('pagehide', flushWithBeacon);
+window.addEventListener('beforeunload', flushWithBeacon);
+
 async function fB() {
     if (batch.size === 0) return;
     const items = [];
