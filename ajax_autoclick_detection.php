@@ -61,7 +61,7 @@ $ref = $_SERVER['HTTP_REFERER'] ?? '';
 foreach ($items as $it) {
     $db->query("INSERT INTO autoclick_detection 
         (userid, reason, `page`, ip, user_agent, request_uri, referer, count, last_meta) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $ok = $db->execute([$userId, $it['reason'], $it['page_hint'], $ip, $ua, $uri, $ref, $it['count'], $it['last_meta']]);
 
     if (!$ok) {
