@@ -68,18 +68,21 @@ $db->execute();
 $db->query("SELECT id, todaysexp FROM grpgusers WHERE `todaysexp` > 0 ORDER BY `todaysexp` DESC LIMIT 1");
 $db->execute();
 $row = $db->fetch_row(true);
-$db->query("UPDATE grpgusers SET points = points + 10000 WHERE id = ?");
-$db->execute(array(
-    $row['id']
-));
-$db->query("INSERT INTO otdwinners (`userid`, `type`, `howmany`, `timestamp`) VALUES (?, ?, ?, ?)");
-$db->execute(array(
-    $row['id'],
-    'Leveller OTD',
-    $row['todaysexp'],
-    time()
-));
-Send_Event($row['id'], "You won Leveller Of The Day [+10000 Points]");
+if (!empty($row)) {
+
+    $db->query("UPDATE grpgusers SET points = points + 10000 WHERE id = ?");
+    $db->execute(array(
+        $row['id']
+    ));
+    $db->query("INSERT INTO otdwinners (`userid`, `type`, `howmany`, `timestamp`) VALUES (?, ?, ?, ?)");
+    $db->execute(array(
+        $row['id'],
+        'Leveller OTD',
+        $row['todaysexp'],
+        time()
+    ));
+    Send_Event($row['id'], "You won Leveller Of The Day [+10000 Points]");
+}
 
 $db->query("SELECT id, tamt FROM grpgusers WHERE `tamt` > 0 ORDER BY `tamt` DESC LIMIT 1");
 $db->execute();
