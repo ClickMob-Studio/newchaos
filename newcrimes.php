@@ -36,8 +36,8 @@ if (!empty($currentQuestSeason['id'])) {
     $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
     $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
-    $requirements = $questSeasonMission['requirements'] != null ? $questSeasonMission['requirements'] : null;
-    $progressObj = $questSeasonMissionUser['progress'] != null ? $questSeasonMissionUser['progress'] : null;
+    $requirements = $questSeasonMission['requirements'] ?? null;
+    $progressObj = $questSeasonMissionUser['progress'] ?? null;
 
     $req = (is_object($requirements) && isset($requirements->whitecollar_fraud))
         ? (int) $requirements->whitecollar_fraud
