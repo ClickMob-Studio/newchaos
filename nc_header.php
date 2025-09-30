@@ -569,7 +569,6 @@ $db->query("SELECT * FROM numbergame WHERE userid = ?");
 $db->execute([$user_class->id]);
 $no2 = $db->num_rows();
 
-echo '<script src="js/java.js?12" type="text/javascript"></script>';
 ?>
 <!doctype html>
 <html lang="en">
