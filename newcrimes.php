@@ -49,7 +49,7 @@ if (!empty($currentQuestSeason['id'])) {
         ? (int) $progressObj['whitecollar_fraud']
         : 0;
 
-    if ($req === null || $prog < $req) {
+    if ($req === null || $prog >= $req) {
         echo "Reached here!";
         $filter_ids[] = 52;
     }
