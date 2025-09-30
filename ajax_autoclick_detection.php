@@ -70,10 +70,6 @@ foreach ($items as $it) {
         echo json_encode(['success' => false, 'message' => 'DB insert failed']);
         exit;
     }
-
-    if ($it['reason'] === 'click_not_trusted' || $it['reason'] === 'dev_tools_is_open') {
-        $_SESSION['force_captcha'] = true;
-    }
 }
 
 echo json_encode(['success' => true, 'message' => 'Logged']);

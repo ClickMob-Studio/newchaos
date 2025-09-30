@@ -10,11 +10,6 @@ if (empty($_SESSION['id'])) {
     die();
 }
 
-$captcha = checkAJAXCaptchaRequired($_SESSION['id']);
-if ($captcha) {
-    die();
-}
-
 include_once "classes.php";
 include_once "codeparser.php";
 include_once "database/pdo_class.php";
