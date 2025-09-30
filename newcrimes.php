@@ -30,8 +30,6 @@ if ($tempItemUse['ghost_vacuum_time'] < time()) {
     $filter_ids[] = 51;
 }
 
-$is_admin = $user_class->admin > 0;
-
 $currentQuestSeason = getCurrentQuestSeasonForUser($user_class->id);
 if (!empty($currentQuestSeason['id'])) {
     $questSeasonUser = getQuestSeasonUser($user_class->id, $currentQuestSeason['id']);
@@ -50,7 +48,6 @@ if (!empty($currentQuestSeason['id'])) {
         : 0;
 
     if ($req === null || $prog >= $req) {
-        echo "Reached here!";
         $filter_ids[] = 52;
     }
 }

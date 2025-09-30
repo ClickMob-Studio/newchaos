@@ -129,8 +129,8 @@ if (isset($_POST['id']) || isset($input['id'])) {
             $questSeasonMissionUser = getQuestSeasonMissionUser($user_class->id, $currentQuestSeason['id']);
             $questSeasonMission = getQuestSeasonMission($user_class->id, $currentQuestSeason['id']);
 
-            $progressValue = isset($questSeasonMissionUser['progress']->whitecollar_fraud)
-                ? (int) $questSeasonMissionUser['progress']->whitecollar_fraud
+            $progressValue = isset($questSeasonMissionUser['progress']['whitecollar_fraud'])
+                ? (int) $questSeasonMissionUser['progress']['whitecollar_fraud']
                 : null;
 
             if (
