@@ -1352,8 +1352,7 @@ function gcTalking(int $which = 0, int $gang = 0): string
         $db->query("SELECT userid, typing FROM gcusers");
         $db->execute();
     } else {
-        // NOTE: Your original had 'gmusers' here — was that a typo?
-        $db->query("SELECT userid, typing FROM gcusers WHERE gang = ?");
+        $db->query("SELECT userid, typing FROM gmusers WHERE gang = ?");
         $db->execute([$gang]);
     }
 
