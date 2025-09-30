@@ -215,13 +215,7 @@ function calcEXP() {
     });
 }
 
-// function startcrime() {
-//     var crime = $('#scrime').val();
-//     start(crime);
-// }
-
 $(document).ready(function () {
-
     $('.poll').on('submit', function (event) {
         event.preventDefault();
         var payload = $(this).serializeArray();
